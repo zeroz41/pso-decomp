@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleParam.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -6,7 +7,7 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-saddr get_bml_model(void *, s32);
+
 ParticleParam *particle_global_entry_table;
 ParticleParam *particle_area_entry_table;
 u8 *TParticleCtrl__regular_bml_resource;
@@ -16,7 +17,7 @@ void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a
 
 s32 TParticleCtrl::get_particle_model(s32 arg0) {
     if (arg0 < 3) {
-        return get_bml_model(TParticleCtrl__regular_bml_resource, arg0);
+        return (saddr)get_bml_model((BmlResource *)TParticleCtrl__regular_bml_resource, arg0);
     }
     return 0;
 }

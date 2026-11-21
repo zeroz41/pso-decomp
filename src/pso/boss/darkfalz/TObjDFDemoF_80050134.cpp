@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
 #include "pso/system/BmlResource.h"

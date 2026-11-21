@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
@@ -304,9 +305,9 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
         {
             s32 t = lbl_80485EB0[i];
             k = t;
-            self->fbc[0][i] = get_bml_model(h, t);
+            self->fbc[0][i] = (saddr)get_bml_model(h, t);
         }
-        self->fbc[1][i] = get_bml_texlist(h, k);
+        self->fbc[1][i] = (saddr)get_bml_texlist(h, k);
         self->fbc[2][i] = reinterpret_cast<saddr>(get_bml_motion(h, ((s32 *)lbl_804854D8)[i]));
     }
     self->f104 = (-0.5f);

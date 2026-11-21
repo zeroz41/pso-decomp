@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
@@ -58,16 +60,12 @@ void TAdRicoRing::sub_8001BED0(f32 value) {
 }
 
 void TAdRicoRingCtrl::load_static_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, 0);
-    }
-    TAdRicoRing__resource_bundle = resource;
+    TAdRicoRing__resource_bundle = new BmlResource(1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, NULL);
 }
 
 void TAdRicoRingCtrl::release_global_805D4A00() {
     if (TAdRicoRing__resource_bundle != NULL) {
-        free_bin_model_request(TAdRicoRing__resource_bundle, 1);
+        delete TAdRicoRing__resource_bundle;
         TAdRicoRing__resource_bundle = NULL;
     }
 }

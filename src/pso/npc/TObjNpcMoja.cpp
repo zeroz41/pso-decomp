@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -16,8 +17,8 @@
 #include "pso/system/MatrixStack.h"
 
 extern "C" {
-saddr get_bml_texlist(void *, s32);
-saddr get_bml_model(void *, s32);
+
+
 void init_collision_body_parts(void *, void *, s32);
 s32 rotate_matrix_y(s32, s32);
 extern u8 *lbl_805D50D8;
@@ -41,8 +42,8 @@ TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) 
     apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     apply_set_params(0, 1);
-    *(s32 *)((u8 *)this + 0x34) = get_bml_model(lbl_805D50D8, 0);
-    *(s32 *)((u8 *)this + 0x24) = get_bml_texlist(lbl_805D50D8, 0);
+    *(s32 *)((u8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)lbl_805D50D8, 0);
+    *(s32 *)((u8 *)this + 0x24) = (saddr)get_bml_texlist((BmlResource *)lbl_805D50D8, 0);
     init_motion(moja_action_table, (BmlMotionEntry *)*(saddr *)(lbl_805D50D8 + 0x430), *(s16 *)((u8 *)this + 0xB8));
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);

@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -428,7 +429,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
-u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern uaddr dolm_olm_combat_stat_id_pair;
 extern uaddr TObjEneDolmOlm__shared_handler_ids;
 extern uaddr TObjEneDolmOlm__registered_object_ids;
@@ -437,7 +437,6 @@ extern void *lbl_804E6774[4];
 extern s32 TObjEneDolmOlm__param_table[52];
 extern s32 lbl_804E68D0[22];
 void * TObjEneDolmOlm__create(void *arg0);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void mem_free(void*);
@@ -661,16 +660,10 @@ void TObjEneDolmOlm::load_shared_resources() {
     u8 *p;
     s32 i;
     if (is_split_screen() != 0) {
-        p = (u8 *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, lbl_804E67B8, 0, 0, 0);
-        }
+        p = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)lbl_804E67B8, 0, 0, NULL);
         TObjEneDolmOlm__resource_bundle = (uaddr) p;
     } else {
-        p = (u8 *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, lbl_804E6774, 0, 0, 0);
-        }
+        p = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)lbl_804E6774, 0, 0, NULL);
         TObjEneDolmOlm__resource_bundle = (uaddr) p;
     }
     p = (u8 *)new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
@@ -729,7 +722,7 @@ void TObjEneDolmOlm::free_shared_resources() {
         TObjEneDolmOlm__data_805D6A14 = 0U;
     }
     if ((u32) TObjEneDolmOlm__resource_bundle != 0U) {
-        free_bin_model_request((void*)TObjEneDolmOlm__resource_bundle, 1);
+        delete (BmlResource *)TObjEneDolmOlm__resource_bundle;
         TObjEneDolmOlm__resource_bundle = 0U;
     }
 }

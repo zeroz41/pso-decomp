@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"

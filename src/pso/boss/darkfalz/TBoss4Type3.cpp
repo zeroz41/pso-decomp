@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -786,7 +787,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, s32 *arg2) : TObjEnemy(parent) {
         self->a438[i] = ModelNodePositionCapture::create(boss4_type3_effect_desc_ptr_table[i], self->a444[i]);
     }
     set_motion_packed_rotation();
-    model = get_bml_model(self->archive, ((s32 *)lbl_80486FB0)[0]);
+    model = (saddr)get_bml_model(self->archive, ((s32 *)lbl_80486FB0)[0]);
     p = (saddr)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x51C) = p;
     ((SampledMotionPoints *)(*(saddr *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->archive, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);

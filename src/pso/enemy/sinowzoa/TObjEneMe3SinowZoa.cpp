@@ -1,3 +1,5 @@
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -125,7 +127,6 @@ void compose_motion_node_matrix(void *arg0);
 extern "C" {
 f64 atan2_float(f32, f32);
 s32 enemy_validate_retained_target(u8 *arg0);
-s32 free_bin_model_request(u32, s32);
 BOOL is_split_screen(void);
 }
 
@@ -221,9 +222,9 @@ void TObjEneMe3SinowZoa::load_resources() {
     lbl_80542FB0.y = TObjEneMe3SinowZoa__data_805DF31C;
     lbl_80542FB0.z = TObjEneMe3SinowZoa__data_805DF31C;
     if (is_split_screen()) {
-        TObjEneMe3SinowZoa__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me3_zoa_low_resource_descriptor);
+        TObjEneMe3SinowZoa__bml_resource = load_enemy_bml_resource(&bm_ene_me3_zoa_low_resource_descriptor);
     } else {
-        TObjEneMe3SinowZoa__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me3_shinowa_zoa_resource_descriptor);
+        TObjEneMe3SinowZoa__bml_resource = load_enemy_bml_resource(&bm_ene_me3_shinowa_zoa_resource_descriptor);
     }
     src = (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->m_c;
     count = src->nbTexture;
@@ -254,7 +255,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     lbl_80542FE4.x = TObjEneMe3SinowZoa__data_805DF31C;
     lbl_80542FE4.y = TObjEneMe3SinowZoa__data_805DF31C;
     lbl_80542FE4.z = TObjEneMe3SinowZoa__data_805DF31C;
-    model = TObjEneMe3SinowZoa__bml_resource->models->model;
+    model = (saddr)TObjEneMe3SinowZoa__bml_resource->models->model;
     node = (ModelNode *)find_model_node(model, 9);
     if (node->model != NULL) {
         TObjEneMe3SinowZoa__material_color_pointers[0] = node->model->plist + 1;
@@ -302,7 +303,7 @@ void TObjEneMe3SinowZoa::free_resources() {
         TObjEneMe3SinowZoa__alternate_texture_list.textures = NULL;
     }
     if (TObjEneMe3SinowZoa__bml_resource != 0) {
-        free_bin_model_request((uaddr)TObjEneMe3SinowZoa__bml_resource, 1);
+        delete TObjEneMe3SinowZoa__bml_resource;
         TObjEneMe3SinowZoa__bml_resource = NULL;
     }
 }
@@ -653,7 +654,7 @@ void TObjEneMe3SinowZoa::sub_8031A3D8() {
         this->m_3c8 = 1;
         return;
     }
-    texlist = TObjEneMe3SinowZoa__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3SinowZoa__bml_resource->models->m_c;
     initialize_enemy_state(0x45);
     this->m_3c8 = 0;
 }

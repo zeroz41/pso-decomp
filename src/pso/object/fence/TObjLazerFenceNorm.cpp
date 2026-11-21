@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
@@ -92,7 +94,7 @@ struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *chi
 struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *fC0; s32 fC4; void *fC8[4]; };
 
 AnimationMotion *get_bml_motion(BmlResource *, s32);
-Node_80192A3C *get_bml_model(BmlResource *, s32);
+
 struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; saddr fBC; saddr fC0; saddr fC4; saddr fC8[4]; };
 
 
@@ -108,9 +110,7 @@ struct TObjLazerFenceNorm_80192CCC {
     Motion_80192CCC *motion;
 };
 
-void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-void *load_resource_from_descriptor(void *, int, BmlResourceDescriptor *, int, int, int);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
@@ -127,18 +127,12 @@ void load_lazer_fence_norm_resources(void) {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        obj = (BmlResource *)::operator new(0x440);
-        if (obj != 0) {
-            obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, 0);
-        }
+        obj = new BmlResource(5, (BmlResourceDescriptor *)&lazer_fence_norm_episode2_resource_descriptor, 0, 0, NULL);
         lazer_fence_norm_bml_resource = obj;
         lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_lazer2_2.gvm");
         break;
     default:
-        obj = (BmlResource *)::operator new(0x440);
-        if (obj != 0) {
-            obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode1_resource_descriptor, 0, 0, 0);
-        }
+        obj = new BmlResource(5, (BmlResourceDescriptor *)&lazer_fence_norm_episode1_resource_descriptor, 0, 0, NULL);
         lazer_fence_norm_bml_resource = obj;
         lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_lazer2.gvm");
         break;
@@ -148,7 +142,7 @@ void load_lazer_fence_norm_resources(void) {
 
 void TObjLazerFenceNorm::free_resources() {
     if (lazer_fence_norm_bml_resource != NULL) {
-        free_bin_model_request(lazer_fence_norm_bml_resource, 1);
+        delete (BmlResource *)lazer_fence_norm_bml_resource;
         lazer_fence_norm_bml_resource = NULL;
     }
     if (lazer_fence_norm_texture_list != NULL) {
@@ -263,12 +257,12 @@ void TObjLazerFenceNorm::select_models() {
     Node_80192A3C *node;
     s32 j;
     if (this->set_params[2] % 2 == 0) {
-        this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 1);
-        arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 0);
+        this->m_bc = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 1);
+        arg0->fC0 = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
         this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 3);
-        arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 2);
+        this->m_bc = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 3);
+        arg0->fC0 = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
         this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {

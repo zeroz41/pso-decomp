@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
@@ -840,8 +841,8 @@ TObjEneEpsilonGuard *__dt__19TObjEneEpsilonGuardFv(TObjEneEpsilonGuard *guard, s
 
 void TObjEneEpsilonGuard::init_model_and_state() {
     init_position_vectors();
-    model = (void *)get_bml_model(lbl_805D6FA0, 2);
-    texlist = get_bml_texlist(lbl_805D6FA0, 0);
+    model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 2);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D6FA0, 0);
     init_model(TObjEneEpsilonGuard__model_desc, 1);
     set_field_d8((saddr)lbl_804F2024);
     set_field_dc((saddr)lbl_805D6FA0->motions);
@@ -857,7 +858,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     flags = 0;
     flags |= 0x10;
     vfunc_95();
-    effect_model = (void *)get_bml_model(lbl_805D6FA0, 3);
+    effect_model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 3);
     effect_motion = (NJS_MOTION *)get_bml_motion(lbl_805D6FA0, 3);
     effect_frame = 0.0f;
     effect_timer = 0;

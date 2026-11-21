@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 const char *bm_n_etw_i_body_motion_names[1] = { NULL };
@@ -20,17 +19,13 @@ void *TObjNpcFemaleTall__create(void *set_data) {
 
 void TObjNpcFemaleTall::destroy_instance() {
     if (TObjNpcFemaleTall__instance != NULL) {
-        free_bin_model_request(TObjNpcFemaleTall__instance, 1);
+        delete TObjNpcFemaleTall__instance;
         TObjNpcFemaleTall__instance = NULL;
     }
 }
 
 void TObjNpcFemaleTall::load_resource_instance() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &bm_n_etw_i_body_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_n_etw_i_body_resource_descriptor, 0, 0, NULL);
     TObjNpcFemaleTall__instance = resource;
 }
 
@@ -41,6 +36,6 @@ TObjNpcFemaleTall::TObjNpcFemaleTall(TObject *parent, void *set_data) : TUnk_804
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcFemaleTall__instance->models->model;
-    this->texlist = TObjNpcFemaleTall__instance->models->m_c;
+    this->texlist = (saddr)TObjNpcFemaleTall__instance->models->m_c;
     this->setup_common();
 }

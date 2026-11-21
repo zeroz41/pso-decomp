@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
@@ -200,8 +201,8 @@ void TOVS2Wall01::spawn_debris(s32 index) {
     params.pos[1] = m_300;
     params.pos[2] = m_304;
     params.pad_38[0] = position.y;
-    params.model = get_bml_model(TOVS2Wall01__bml_resource, index);
-    params.textures = get_bml_texlist(TOVS2Wall01__bml_resource, index);
+    params.model = (saddr)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
+    params.textures = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     new TObjChip(tl_05, &params);
 }
 
@@ -269,8 +270,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 int submit_cursor_candidate(void*, int);
 // ---- TOVS2Wall01_8017C7A4
-s32 load_resource_from_descriptor(int, int, void *, int, int, int);
-void free_bin_model_request(void*, int);
 #pragma defer_codegen on
 // The shared byte-swap entry operates on the first three packet words.
 void bswap_header__6TLobbyFv(WallHitPacket *packet);
@@ -309,9 +308,9 @@ s32 TOVS2Wall01::try_start_action(s32, s32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = TOVS2__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
+    model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
-    texlist = get_bml_texlist(TOVS2Wall01__bml_resource, index);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create(set_data);
@@ -329,19 +328,14 @@ TOVS2::~TOVS2() {
 void TOVS2Wall01::load_resources() {
   saddr temp_r3;
   saddr var_r0;
-  temp_r3 = (saddr)::operator new(0x440);
-  var_r0 = temp_r3;
-  if (var_r0 != 0)
-  {
-    var_r0 = load_resource_from_descriptor((int) temp_r3, 1, &bm_o_vs2_resource_descriptor, 0, 0, 0);
-  }
+  var_r0 = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
   TOVS2Wall01__bml_resource = (BmlResource *)var_r0;
-  TMotorcycle::add_entry(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOVS2Wall01__bml_resource, 5)),
+  TMotorcycle::add_entry(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 5)),
                         reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)var_r0, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if (TOVS2Wall01__bml_resource != NULL) {
-        free_bin_model_request(TOVS2Wall01__bml_resource, 1);
+        delete (BmlResource *)TOVS2Wall01__bml_resource;
         TOVS2Wall01__bml_resource = NULL;
     }
 }
@@ -418,8 +412,8 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     apply_object_set_data(set_data);
     calc_attach_pos();
     obj_setFlags30(this, 0x60000000);
-    model = (void *)get_bml_model(TOVS2Wall01__bml_resource, 6);
-    texlist = get_bml_texlist(TOVS2Wall01__bml_resource, 6);
+    model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 6);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);
     register_object_by_id();

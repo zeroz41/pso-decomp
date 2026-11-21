@@ -14,7 +14,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/system/BmlResourceLoad.h"
 
 #pragma readonly_strings on
 
@@ -59,17 +58,14 @@ TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TObjMapObject(pa
 TObjTreeLobby::~TObjTreeLobby() {}
 
 void TObjTreeLobby::load_resources() {
-    void *resource = ::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, 0);
-    }
+    void *resource = new BmlResource(5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, NULL);
     model_resource = (BmlResource *)resource;
     lobby_texlist = TLobby::get_lobby_texlist();
 }
 
 void TObjTreeLobby::free_resources() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }

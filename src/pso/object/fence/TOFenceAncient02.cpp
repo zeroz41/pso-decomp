@@ -7,7 +7,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 
 const char *bm_fd_obj_n_saku_6x2_model_names[2] = { "fd_obj_n_saku_6x2.gj", NULL };
 const char *bm_fd_obj_n_saku_6x2_motion_names[2] = { "fd_obj_n_saku_6x2.njm", NULL };
@@ -54,16 +53,13 @@ void TOFenceAncient02::unload_resources() {
         }
     }
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
 
 void TOFenceAncient02::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_saku_6x2_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_saku_6x2_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
     GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
     texlists = lists;

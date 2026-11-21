@@ -143,8 +143,6 @@ __declspec(section ".rodata") const char TObjCityDoor_Lobby__class_name[] ATTRIB
 }
 struct Obj_80181F10;
 
-extern "C" {
-}
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
 void render__18TObjCityDoor_LobbyFv(void* p);
@@ -158,7 +156,7 @@ void TLobby::free_map_resources() {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)city_common_texture_list);
         city_common_texture_list = NULL;
     }
-    free_bin_model_request(city_common_model_archive, 1);
+    delete (BmlResource *)city_common_model_archive;
     city_common_model_archive = NULL;
 }
 struct BmObjCityCommonResourceDescriptor {
@@ -168,10 +166,7 @@ struct BmObjCityCommonResourceDescriptor {
 extern BmObjCityCommonResourceDescriptor bm_obj_city_common_resource_descriptor;
 void load_city_common_resources(void);
 void load_city_common_resources(void) {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &bm_obj_city_common_resource_descriptor.archive, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_city_common_resource_descriptor.archive, 0, 0, NULL);
     city_common_model_archive = resource;
     city_common_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)city_common_texture_filename);
 }
@@ -743,7 +738,7 @@ void TObjCityDoor_Shop::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion((void *)(city_common_model_archive->models[11].model), (void *)(city_common_model_archive->motions[10].motion), this->m_b4);
+        draw_ginja_model_with_motion((void *)((saddr)city_common_model_archive->models[11].model), (void *)(city_common_model_archive->motions[10].motion), this->m_b4);
         pop_matrix();
     }
 }

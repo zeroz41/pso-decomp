@@ -5,6 +5,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/warp/TObjWarpLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -178,15 +179,12 @@ TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(par
 
 
 void TObjWarpLobby::release_static() {
-    free_bin_model_request(lobby_warp_bml_resource, 1);
+    delete (BmlResource *)lobby_warp_bml_resource;
     lobby_warp_bml_resource = NULL;
 }
 
 void TObjWarpLobby::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &warp_lobby_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&warp_lobby_resource_descriptor, 0, 0, NULL);
     lobby_warp_bml_resource = resource;
     lobby_warp_textures = (GinjaTextureList *)lobby_warp_bml_resource->models[0].m_c;
 }

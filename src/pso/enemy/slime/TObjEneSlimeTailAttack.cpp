@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -59,7 +61,6 @@ struct Obj_800E9BCC {
 extern "C" {
 s32 project_actor_to_ground(TObjChara *actor, Vec *position, Vec *normal);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void free_bin_model_request(void*, int);
 
 
 f32 atan2_float(f32 y, f32 x);
@@ -440,10 +441,8 @@ void TObjEneSlime__sub_800EB9F0(void* p, void* q);
 
 extern "C" {
 extern s32 __vt__12TObjEneSlime[];
-void free_bin_model_request(void*, int);
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
-void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 
 
 }
@@ -498,10 +497,7 @@ void TObjEneSlime::spawn_pair() {
     void *temp_r5;
     void *temp_r5_2;
 
-    temp_r4 = ::operator new(0x440);
-    if (temp_r4 != NULL) {
-        temp_r4 = load_resource_from_descriptor(temp_r4, 1, (s32 *)slime_pair_resource_descriptor, 0, 0, 0);
-    }
+    temp_r4 = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
     slime_bml_resource = temp_r4;
     temp_r5 = *(void **)((s8 *)temp_r4 + 0x42C);
     TObjEneSlime::spawn_child(0x28, *(s32 *)((s8 *)temp_r5 + 0x48), *(s32 *)((s8 *)temp_r5 + 0x4C), 10.0f, 0.0f);
@@ -511,7 +507,7 @@ void TObjEneSlime::spawn_pair() {
 
 void TObjEneSlime::free_instance() {
     if ((uaddr) slime_bml_resource != 0U) {
-        free_bin_model_request((void*)slime_bml_resource, 1);
+        delete (BmlResource *)slime_bml_resource;
         slime_bml_resource = 0U;
     }
 }
@@ -570,7 +566,7 @@ void TObjEneSlime::render() {
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
         post_translate_matrix((void *) ((u8 *)arg0 + 0x38));
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -760,7 +756,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
 
     s32 *variant = &actor->variant;
     s32 id = ((s32 *)lbl_804966DC)[*variant];
-    actor->texlist = get_bml_texlist(actor->model_archive, id);
+    actor->texlist = (saddr)get_bml_texlist(actor->model_archive, id);
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
     actor->collision_body_parts = (CollisionBody *)init_collision_body_parts(actor, lbl_80496370, 1);
@@ -1537,7 +1533,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
-    TObjFish::set_global_param(get_bml_texlist(self->model_archive, t));
+    TObjFish::set_global_param((saddr)get_bml_texlist(self->model_archive, t));
     draw_chunk_object((void *)(get_bml_model(self->model_archive, t)));
     ((int (*)(void))pop_matrix)();
     TObjPlayer::init_render_globals();
@@ -1700,7 +1696,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     this->owner = owner;
     BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
     u32 id = ((s32 *)lbl_804966F4)[this->owner->get_attack_target()];
-    texlist = get_bml_texlist(resource, id);
+    texlist = (saddr)get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
     action_table = (TObjMotionAction *)lbl_8049639C;
     set_field_d8((saddr)lbl_8049639C);

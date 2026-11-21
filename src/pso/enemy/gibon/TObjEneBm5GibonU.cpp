@@ -1,4 +1,5 @@
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/EnemyBmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -69,7 +70,6 @@ void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_sound_effect(void *, void *, s32, s32);
-BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *);
 extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
 extern const s32 lbl_8043BF40[];
@@ -2514,12 +2514,12 @@ void TObjEneBm5GibonU::sub_800D10A0() {
         m_464 = 1;
         m_468 = 1;
         model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
-        texlist = TObjEneBm5GibonU__model_archive->models[1].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].m_c;
     } else {
         m_464 = 0;
         m_468 = 0;
         model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
-        texlist = TObjEneBm5GibonU__model_archive->models[0].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].m_c;
     }
     m_4a0 = 0.4f + parameters[2];
     m_4a4 = 0.3f + parameters[3];
@@ -2561,7 +2561,6 @@ void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv();
 void vfunc_61__16TObjEneBm5GibonUFv(void);
 void vfunc_28__16TObjEneBm5GibonUFv(void);
-void free_bin_model_request(BmlResource *, int);
 void __dl__FPv(void);
 
 void TObjEneBm5GibonU::vfunc_88() {
@@ -2771,7 +2770,7 @@ void TObjEneBm5GibonU::init_child_node() {
 
 void TObjEneBm5GibonU::release_static_resource() {
     if (TObjEneBm5GibonU__model_archive != NULL) {
-        free_bin_model_request(TObjEneBm5GibonU__model_archive, 1);
+        delete TObjEneBm5GibonU__model_archive;
         TObjEneBm5GibonU__model_archive = NULL;
     }
 }

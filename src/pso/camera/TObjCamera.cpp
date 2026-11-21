@@ -1,4 +1,6 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
@@ -24,11 +26,9 @@
 #pragma readonly_strings on
 
 extern "C" {
-u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-void free_bin_model_request(void *, int);
 AnimationMotion *get_bml_motion(uaddr, int);
-saddr get_bml_model(uaddr, int);
-s32 get_bml_texlist(uaddr, int);
+
+
 }
 
 __declspec(section ".data") const char *fe_obj_cam_model_names[2] = { "fe_obj_cam840_841.gj", NULL };
@@ -132,13 +132,13 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
 void TObjCamera::render() {
     s32 i;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(model_resource, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         camera_slot_scan_index = 0;
         set_model_node_callback((saddr)TObjCamera::update_camera_slots);
-        draw_ginja_model_with_motion((void *)get_bml_model(model_resource, 0),
+        draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)model_resource, 0),
                                      get_bml_motion(model_resource, 0), animation_frame);
         set_model_node_callback(0);
         pop_matrix();
@@ -218,19 +218,14 @@ void *TObjCamera::create(void *set_data) {
 
 void TObjCamera::free_resources() {
     if (model_resource != 0) {
-        free_bin_model_request((void *)model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = 0;
     }
 }
 
 void TObjCamera::load_resources() {
-    void *resource;
     uaddr loaded;
     camera_slot_scan_index = 0;
-    resource = ::operator new(0x440);
-    loaded = (uaddr)resource;
-    if (loaded != 0) {
-        loaded = (uaddr)load_resource_from_descriptor(resource, 1, &fe_obj_cam_resource_descriptor, 0, 0, 0);
-    }
+    loaded = (u32)new BmlResource(1, &fe_obj_cam_resource_descriptor, 0, 0, NULL);
     model_resource = loaded;
 }

@@ -1,5 +1,6 @@
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/ParticleRadial.h"
 #include "types.h"
@@ -172,7 +173,6 @@ struct GenEntry_8008767C { s32 id; Gen_8008767C fn; };
 
 extern "C" {
 void set_particle_tint_color(u8 *arg0, void *arg1);
-void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void mem_free(void *p);
 extern uaddr TParticleCtrl__regular_bml_resource;
@@ -182,7 +182,6 @@ s32 mem_alloc(s32);
 // particle_global_entry_table: declared s32 above (part 1)
 u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
-void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
@@ -623,7 +622,7 @@ void TParticleCtrl::free_all() {
     mem_free(particle_area_entry_table);
     particle_area_entry_table = 0;
     if ((u32) TParticleCtrl__regular_bml_resource != 0U) {
-        free_bin_model_request((void*)TParticleCtrl__regular_bml_resource, 1);
+        delete (BmlResource *)TParticleCtrl__regular_bml_resource;
         TParticleCtrl__regular_bml_resource = 0U;
     }
     if ((u32) TParticleCtrl__texture_list != 0U) {
@@ -669,10 +668,7 @@ void load_particle_entry_resources(void) {
     }
     particle_area_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x2600));
     read_disc_file(name, particle_area_entry_table);
-    p = ::operator new(0x440);
-    if (p != 0) {
-        p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);
-    }
+    p = new BmlResource(1, (BmlResourceDescriptor *)particle_regular_bml_descriptor, 0, 0, NULL);
     TParticleCtrl__regular_bml_resource = (uaddr)p;
     TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)lbl_804394D4);
 }

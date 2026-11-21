@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -765,16 +766,13 @@ void *TObjLaboMapWarp::create(void *arg0) {
 }
 
 void TObjLaboMapWarp::load_static_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &bm_obj_warp_labo_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_warp_labo_resource_descriptor, 0, 0, NULL);
     TObjLaboMapWarp__resource_bundle = resource;
 }
 
 void TObjLaboMapWarp::release_static_resource() {
     if (TObjLaboMapWarp__resource_bundle != NULL) {
-        free_bin_model_request(TObjLaboMapWarp__resource_bundle, 1);
+        delete (BmlResource *)TObjLaboMapWarp__resource_bundle;
         TObjLaboMapWarp__resource_bundle = NULL;
     }
 }
@@ -821,18 +819,18 @@ void TObjLaboMapWarp::render() {
     s32 temp_r31;
 
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(TObjLaboMapWarp__resource_bundle, 1));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            draw_ginja_object((void *)get_bml_model(TObjLaboMapWarp__resource_bundle, 1));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), animation_frame);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), animation_frame);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();

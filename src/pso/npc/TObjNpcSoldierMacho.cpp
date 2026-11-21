@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
@@ -22,17 +21,13 @@ void *TObjNpcSoldierMacho__create(void *set_data) {
 
 void TObjNpcSoldierMacho::unload_static_data() {
     if (TObjNpcSoldierMacho__shared_model_resource != NULL) {
-        free_bin_model_request(TObjNpcSoldierMacho__shared_model_resource, 1);
+        delete TObjNpcSoldierMacho__shared_model_resource;
         TObjNpcSoldierMacho__shared_model_resource = NULL;
     }
 }
 
 void TObjNpcSoldierMacho::load_shared_resource() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &TObjNpcSoldierMacho__body_resource_desc, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &TObjNpcSoldierMacho__body_resource_desc, 0, 0, NULL);
     TObjNpcSoldierMacho__shared_model_resource = resource;
 }
 
@@ -43,6 +38,6 @@ TObjNpcSoldierMacho::TObjNpcSoldierMacho(TObject *parent, void *set_data) : TUnk
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcSoldierMacho__shared_model_resource->models->model;
-    this->texlist = TObjNpcSoldierMacho__shared_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcSoldierMacho__shared_model_resource->models->m_c;
     this->setup_common();
 }

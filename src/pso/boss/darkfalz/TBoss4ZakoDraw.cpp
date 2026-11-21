@@ -1,4 +1,5 @@
 #include "pso/boss/darkfalz/TBoss4ZakoTexture.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"

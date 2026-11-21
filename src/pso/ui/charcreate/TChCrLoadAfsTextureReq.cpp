@@ -1,6 +1,8 @@
 #include "pso/system/Adxf.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
@@ -13,8 +15,7 @@
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
-saddr get_bml_model(BmlResource *resource, s32 index);
-s32 free_bin_model_request(void *, int);
+
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
 const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
@@ -152,7 +153,7 @@ void TChCrLoadGmNjReq::update_model_load() {
     load_timer = timer;
     if (timer < 0) {
         if (loaded_bml != NULL) {
-            free_bin_model_request(loaded_bml, 1);
+            delete loaded_bml;
         } else {
             return;
         }
@@ -169,7 +170,7 @@ void TChCrLoadGmNjReq::update_model_load() {
         *model_out = bml_model;
         if (bml_model != 0U) {
             advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
-            free_bin_model_request(loaded_bml, 1);
+            delete loaded_bml;
             loaded_bml = NULL;
             sub_8028C8A8();
             *completion_flags &= ~completion_mask;

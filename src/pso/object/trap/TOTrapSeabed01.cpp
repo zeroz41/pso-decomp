@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -37,7 +38,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -93,7 +94,7 @@ s32 seabed01_ginja_mesh_index;
 TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOTrapSeabed01__bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, 0);
     current_motion = (NJS_MOTION *)get_bml_motion(TOTrapSeabed01__bml_resource, 0);
     play_speed = 1.0f;
     frame = 0.0f;
@@ -127,13 +128,10 @@ void TOTrapSeabed01::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 void TOTrapSeabed01::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &seabed_trap_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(5, &seabed_trap_resource_descriptor, 0, 0, NULL);
     TOTrapSeabed01__bml_resource = resource;
     TOTrapSeabed01__texture_file = (uaddr)load_gvm_texture_file((saddr)"obj_seabed_turigane.gvm");
-    TOTrapSeabed01__ginja_model = find_object_node((NJS_OBJECT *)get_bml_model(TOTrapSeabed01__bml_resource, 0), 5);
+    TOTrapSeabed01__ginja_model = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, 0), 5);
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;
     if (TOTrapSeabed01__texture_file != 0) {
@@ -148,7 +146,7 @@ void TOTrapSeabed01::free_static_resources() {
         TOTrapSeabed01__texture_file = 0;
     }
     if (TOTrapSeabed01__bml_resource != NULL) {
-        free_bin_model_request(TOTrapSeabed01__bml_resource, 1);
+        delete TOTrapSeabed01__bml_resource;
         TOTrapSeabed01__bml_resource = NULL;
     }
 }
@@ -389,7 +387,7 @@ void TOTrapSeabed01::play_sounds() {
     for (i = 0; i < 6; i++) {
         fragment = &seabed_trap_fragment_spawns[i];
         VecCopy((Vec *)params.chip.pos, &fragment->pos);
-        params.chip.model = get_bml_model(TOTrapSeabed01__bml_resource, fragment->model);
+        params.chip.model = (saddr)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, fragment->model);
         params.angle_y = fragment->angle_y;
         new TObjSuisoChip(this, &params);
         Vec v = *(Vec *)params.chip.pos;

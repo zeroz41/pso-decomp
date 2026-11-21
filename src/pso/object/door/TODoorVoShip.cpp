@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/object/door/TODoorVoShip.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -11,7 +12,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixStack.h"
@@ -117,16 +117,13 @@ void *TODoorVoShip::create(void *set_data) {
 
 void TODoorVoShip::free_static_data() {
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
 
 void TODoorVoShip::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &door_vo_ship_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &door_vo_ship_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
 }
 
@@ -138,14 +135,14 @@ TODoorVoShip::~TODoorVoShip() {
 TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = door_vo_ship_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(bml_resource, 1);
-    texlist = get_bml_texlist(bml_resource, 1);
+    model = (void *)get_bml_model((BmlResource *)bml_resource, 1);
+    texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 1);
     motion = get_bml_motion(bml_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
     shape_motion = get_bml_motion(bml_resource, 1);
-    light_model = (NJS_OBJECT *)get_bml_model(bml_resource, 0);
-    light_texlist = get_bml_texlist(bml_resource, 0);
+    light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)bml_resource, 0);
+    light_texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 0);
     init_collision_body_parts(this, door_vo_ship_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

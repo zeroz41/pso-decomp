@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_80087278.h"
@@ -797,7 +798,7 @@ void TBoss4Type2::spawn_afterimages() {
     z.unk_24 = 0.0f;
     z.lifetime = 10;
     for (i = 0; i < 2; i++) {
-        z.unk_10 = get_bml_texlist(((Obj_8005676C *)this)->archive, boss4_zanzo_bml_index_table[i]);
+        z.unk_10 = (saddr)get_bml_texlist(((Obj_8005676C *)this)->archive, boss4_zanzo_bml_index_table[i]);
         z.model = (void *)get_bml_model(((Obj_8005676C *)this)->archive, boss4_zanzo_bml_index_table[i]);
         z.motion = (void *)get_bml_motion(((Obj_8005676C *)this)->archive, ((Row_8005676C *)&TBoss4Type2__attack_pattern_table)[((Obj_8005676C *)this)->f3c8].c[i]);
         TBoss4Type2::create_zanzo(this, &z);

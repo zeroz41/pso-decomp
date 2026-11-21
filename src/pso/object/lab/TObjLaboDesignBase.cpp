@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -7,7 +8,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -35,8 +36,8 @@ void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
 void free_collision_body_parts(void *);
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
+
+
 s32 rotate_matrix_y(int, int);
 
 
@@ -206,11 +207,11 @@ void TObjLaboDesignBase::draw_node_tree(NJS_OBJECT *node) {
 }
 
 void TObjLaboDesignBase::render_model() {
-    TObjFish::set_global_param(get_bml_texlist(model_resource, 0));
+    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)model_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_node_tree((NJS_OBJECT *)get_bml_model(model_resource, 0));
+    draw_node_tree((NJS_OBJECT *)get_bml_model((BmlResource *)model_resource, 0));
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
@@ -277,7 +278,7 @@ void free_object_table(void) {
     s32 i;
     for (i = 5; i >= 0; i--) {
         if (labo_design_object_table[i] != 0) {
-            free_bin_model_request(labo_design_object_table[i], 1);
+            delete (BmlResource *)labo_design_object_table[i];
             labo_design_object_table[i] = NULL;
         }
     }
@@ -293,10 +294,7 @@ void load_labo_design_object_table(void) {
     e = lbl_804F2C08;
     if (e != NULL) {
         while (e->id != -1) {
-            resource = (BmlResource *)::operator new(0x440);
-            if (resource != NULL) {
-                resource = load_resource_from_descriptor(resource, 5, e->descriptor, 0, 0, 0);
-            }
+            resource = new BmlResource(5, (BmlResourceDescriptor *)e->descriptor, 0, 0, NULL);
             labo_design_object_table[e->id] = resource;
             e++;
         }

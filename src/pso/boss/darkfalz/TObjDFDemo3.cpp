@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"

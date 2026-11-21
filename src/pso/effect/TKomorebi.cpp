@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
@@ -28,14 +30,12 @@ struct Node_80192434 { u32 flags; void *model; u8 pad8[0x24]; Node_80192434 *chi
 struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fBC; Node_80192434 *fC0; s32 fC4; void *fC8[4]; };
 
 extern "C" {
-saddr get_bml_texlist(void *, int);
-saddr get_bml_model(void *, int);
+
+
 extern const char *komorebi_class_name;
 extern uaddr TKomorebi__resource_bundle;
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
 AnimationMotion *get_bml_motion(BmlResource *, s32);
-void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
@@ -82,8 +82,8 @@ TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
-    *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
-    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
+    *(s32 *)((s8 *)komorebi + 0x34) = (saddr)get_bml_model((BmlResource *)(void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
+    ((TKomorebi *)komorebi)->texlist = (saddr)get_bml_texlist((BmlResource *)(void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
 }
 #undef komorebi
 
@@ -94,16 +94,13 @@ void *TKomorebi__create(void *arg0) {
 
 void TKomorebi::free_static() {
     if ((u32) TKomorebi__resource_bundle != 0U) {
-        free_bin_model_request((void*)TKomorebi__resource_bundle, 1);
+        delete (BmlResource *)TKomorebi__resource_bundle;
         TKomorebi__resource_bundle = 0U;
     }
     komorebi_last_uv_update_frame = 0;
 }
 void TKomorebi::load_resources() {
-    u8 *p = (u8 *)::operator new(0x440);
-    if (p != 0) {
-        p = load_resource_from_descriptor(p, 1, &TKomorebi__resource_descriptor, 0, 0, 0);
-    }
+    u8 *p = (u8 *)new BmlResource(1, &TKomorebi__resource_descriptor, 0, 0, NULL);
     TKomorebi__resource_bundle = (uaddr)p;
     komorebi_last_uv_update_frame = 0;
 }
@@ -113,12 +110,12 @@ void TObjLazerFenceExtra::init_models() {
     Node_80192434 *node;
     s32 j;
     if (this->set_params[2] % 2 == 0) {
-        arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 1);
-        arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 0);
+        arg0->fBC = (Node_80192434 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 1);
+        arg0->fC0 = (Node_80192434 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
         this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 3);
-        arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 2);
+        arg0->fBC = (Node_80192434 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 3);
+        arg0->fC0 = (Node_80192434 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
         this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {

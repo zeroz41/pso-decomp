@@ -8,7 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/MatrixStack.h"
@@ -104,16 +104,13 @@ void TOSensorGeneral01::free_assets() {
         }
     }
     if (sensor_general_shared_bml_archive != NULL) {
-        free_bin_model_request(sensor_general_shared_bml_archive, 1);
+        delete sensor_general_shared_bml_archive;
         sensor_general_shared_bml_archive = NULL;
     }
 }
 
 void TOSensorGeneral01::load_assets() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &TOSensorGeneral01__resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &TOSensorGeneral01__resource_descriptor, 0, 0, NULL);
     sensor_general_shared_bml_archive = resource;
     TOSensorGeneral01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOSensorGeneral01__texture_lists));
     TOSensorGeneral01__texture_lists[1] = (GinjaTextureList *)sensor_general_shared_bml_archive->models[0].m_c;

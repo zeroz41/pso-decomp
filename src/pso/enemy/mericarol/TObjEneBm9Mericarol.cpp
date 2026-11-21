@@ -1,3 +1,4 @@
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -85,7 +86,6 @@ extern void *tl_04;
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
-void free_bin_model_request(void *, int);
 void TObjPlayer__sub_800F0928(void);
 }
 
@@ -161,9 +161,9 @@ extern "C" void TBoss4Type3__sub_802D1130(void) {
     s32 i;
 
     if (is_split_screen() != 0) {
-        lbl_805D6868 = (BmlResource *)load_enemy_bml_resource((u8 *)&lbl_804E1624);
+        lbl_805D6868 = load_enemy_bml_resource(&lbl_804E1624);
     } else {
-        lbl_805D6868 = (BmlResource *)load_enemy_bml_resource((u8 *)&lbl_804E15E8);
+        lbl_805D6868 = load_enemy_bml_resource(&lbl_804E15E8);
     }
     lbl_805D686C = 0;
     lbl_805D6870 = 0;
@@ -208,7 +208,7 @@ void TObjEneBm9Mericarol::free_shared_instances() {
     }
     fn_802D1C84();
     if (lbl_805D6868 != NULL) {
-        free_bin_model_request(lbl_805D6868, 1);
+        delete lbl_805D6868;
         lbl_805D6868 = NULL;
     }
 }
@@ -226,7 +226,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     }
     init_position_vectors();
     model = (void *)lbl_805D6868->models[0].model;
-    texlist = lbl_805D6868->models[0].m_c;
+    texlist = (saddr)lbl_805D6868->models[0].m_c;
     init_model(lbl_804E1564, 1);
     set_field_d8((saddr)lbl_804E1634);
     set_field_dc((saddr)lbl_805D6868->motions);

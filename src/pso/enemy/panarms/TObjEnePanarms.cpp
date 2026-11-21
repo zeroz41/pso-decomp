@@ -1,6 +1,7 @@
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -452,8 +453,8 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
         this->exchange_object_state(&objectState, 0);
     }
     m_380 = index;
-    texlist = get_bml_texlist(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
-    model = (void *)get_bml_model(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
+    model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, lbl_80495458, 1);
     set_field_d8((saddr)lbl_80495914[m_380]);

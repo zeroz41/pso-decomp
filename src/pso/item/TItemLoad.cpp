@@ -1,4 +1,5 @@
 #include "pso/render/GvmTextureArchive.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemLoad.h"
@@ -7,7 +8,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TUnk_8049C658.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/task/TMainTask.h"
@@ -102,10 +103,7 @@ void TItemLoad::init_resources() {
     s32 i;
     TItemLoad::alloc_work_buffer();
     TItemLoad::alloc_all_models();
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &item_bml_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(5, &item_bml_resource_descriptor, 0, 0, NULL);
     TItemLoad__bml_resource = resource;
     TItemLoad__completed_model_load_task_root = new TObject(NULL);
     TItemLoad__model_load_task_root = new TObject(NULL);
@@ -123,7 +121,7 @@ void TItemLoad::free_all() {
     mem_free(TItemLoad__model_slot_in_use);
     delete TItemLoad__model_load_task_root;
     delete TItemLoad__completed_model_load_task_root;
-    free_bin_model_request(TItemLoad__bml_resource, 1);
+    delete TItemLoad__bml_resource;
     item_load_resource_handle = 0;
     TItemLoad__bml_resource = NULL;
     TItemLoad__model_load_task_root = NULL;

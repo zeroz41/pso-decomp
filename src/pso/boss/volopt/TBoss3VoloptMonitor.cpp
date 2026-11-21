@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -237,7 +238,7 @@ void TBoss3VoloptMonitor::load_resources() {
     clear_texlist_names((NJS_TEXLIST *)&volopt_monitor_texture_table);
     TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", (saddr)volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
-        volopt_monitor_screen_meshes[i] = ((void **)get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i]))[1];
+        volopt_monitor_screen_meshes[i] = ((void **)(saddr)get_bml_model((BmlResource *)volopt_monitor_resources, volopt_monitor_models[2][i]))[1];
     }
     volopt_monitor_stats = (BossStats *)TLobby::register_boss(0x23);
     volopt_monitor_stats_b = TLobby::dispatch_shared_handler_b(0x23);

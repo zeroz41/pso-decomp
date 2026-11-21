@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TObjPlayer_80052374.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"

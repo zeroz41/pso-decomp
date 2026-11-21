@@ -1,3 +1,5 @@
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -63,7 +65,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/protocol_types.h"
 
@@ -420,7 +423,7 @@ struct Ent_8005E868 { s32 a; s32 b; s32 f8[]; };
 struct Seg_80063CDC { f32 x, y, z, w; };
 
 f32 newton_sqrtf(f32);
-saddr get_bml_model(BmlResource *resource, s32 index);
+
 s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out);
 s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0);
 void render_shadows__13TBoss5GryphonFv(void* p);
@@ -4907,11 +4910,11 @@ void TBoss5Gryphon::cleanup() {
         boss5_gryphon_texture_list = 0U;
     }
     if ((u32) boss5_gryphon_bml_resource != 0U) {
-        free_bin_model_request((void *)boss5_gryphon_bml_resource, 1);
+        delete (BmlResource *)boss5_gryphon_bml_resource;
         boss5_gryphon_bml_resource = 0U;
     }
     if ((uaddr) boss5_gryphon_body_bml_resource != 0U) {
-        free_bin_model_request((void *)boss5_gryphon_body_bml_resource, 1);
+        delete (BmlResource *)boss5_gryphon_body_bml_resource;
         boss5_gryphon_body_bml_resource = 0U;
     }
 }
@@ -4930,8 +4933,8 @@ void *TBoss5Gryphon::create(void *arg0) {
 void load_boss5_gryphon_resources(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
-        boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource((u8 *)boss5_gryphon_body_bml_desc);
-        boss5_gryphon_bml_resource = load_enemy_bml_resource((u8 *)boss5_gryphon_bml_desc);
+        boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_body_bml_desc);
+        boss5_gryphon_bml_resource = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_bml_desc);
         boss5_gryphon_texture_list = (saddr)load_gvm_texture_file((saddr)"modelparticle_gryphon.gvm");
         break;
     }

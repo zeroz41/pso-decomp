@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/EnemyBmlResource.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -719,7 +720,6 @@ saddr TObjEneRecobox__sub_803201D0(void);
 
 void *TObjEneRecobox__create(void *arg0);
 
-void free_bin_model_request(void*, int);
 
 
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
@@ -734,7 +734,6 @@ struct Sub_80320260 { u8 pad[0xC]; f32 f0C; };
 
 
 
-saddr load_enemy_bml_resource(u8 *arg0);
 
 Vec lbl_80543000;
 
@@ -756,9 +755,9 @@ void TObjEneRecobox::load_resources() {
     {
         u32 res;
         if (is_split_screen() != 0) {
-            res = load_enemy_bml_resource((u8 *)&lbl_804EC750);
+            res = (uaddr)load_enemy_bml_resource(&lbl_804EC750);
         } else {
-            res = load_enemy_bml_resource((u8 *)&lbl_804EC6F8);
+            res = (uaddr)load_enemy_bml_resource(&lbl_804EC6F8);
         }
         (*(u32 *)&TObjEneRecobox__static_instance) = res;
     }
@@ -789,7 +788,7 @@ void *TObjEneRecobox__create(void *arg0) {
 void TObjEneRecobox::release_static_instance() {
     TObjEneRecon::release_static_instance();
     if ((u32) (*(u32 *)&TObjEneRecobox__static_instance) != 0U) {
-        free_bin_model_request((void*)(*(uaddr *)&TObjEneRecobox__static_instance), 1);
+        delete (BmlResource *)(*(uaddr *)&TObjEneRecobox__static_instance);
         (*(u32 *)&TObjEneRecobox__static_instance) = 0U;
     }
 }
@@ -1228,17 +1227,17 @@ void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon) {
     const TObjChipParams chip0 = {
         {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
         {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {recon->position.y, 0.6f},
-        TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+        (saddr)TObjEneRecobox__static_instance->models[3].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
     };
     const TObjChipParams chip1 = {
         {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
-        TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+        (saddr)TObjEneRecobox__static_instance->models[4].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
     };
     const TObjChipParams chip2 = {
         {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
-        TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+        (saddr)TObjEneRecobox__static_instance->models[5].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
     };
     spawn_particle_effect_with_flags(&recon->position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&recon->position, 0x46, 0x40);

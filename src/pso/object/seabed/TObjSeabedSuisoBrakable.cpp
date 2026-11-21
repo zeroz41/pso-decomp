@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 // The seabed tanks' shared resources: the archive and texture loader, the
 // scrolled-texture and model-node tables TObjSeabedSuiso_CH and
@@ -21,7 +22,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixStack.h"
@@ -43,11 +43,13 @@ void TObjSeabedSuisoBrakable::free_static_resources() {
         texture_list = NULL;
     }
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
 
+#pragma push
+#pragma opt_propagation off
 void TObjSeabedSuisoBrakable::load_resources() {
     s32 i;
     void *loaded;
@@ -55,10 +57,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
 
     switch (get_current_floor_area()) {
     case AREA_SEABED_LOWER: {
-        loaded = ::operator new(0x440);
-        if (loaded != NULL) {
-            loaded = load_resource_from_descriptor(loaded, 1, &bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, 0);
-        }
+        loaded = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, NULL);
         bml_resource = static_cast<BmlResource *>(loaded);
         if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_seabed_suiso_2.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_2_texture_names;
@@ -70,10 +69,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
     }
     case AREA_SEABED_UPPER:
     default: {
-        loaded = ::operator new(0x440);
-        if (loaded != NULL) {
-            loaded = load_resource_from_descriptor(loaded, 1, &bm_obj_seabed_suiso_resource_descriptor, 0, 0, 0);
-        }
+        loaded = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_seabed_suiso_resource_descriptor, 0, 0, NULL);
         bml_resource = static_cast<BmlResource *>(loaded);
         if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_seabed_suiso.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_texture_names;
@@ -84,12 +80,12 @@ void TObjSeabedSuisoBrakable::load_resources() {
         break;
     }
     }
-    if ((model = (NJS_OBJECT *)get_bml_model(bml_resource, 12)) != NULL) {
+    if ((model = (NJS_OBJECT *)get_bml_model((BmlResource *)bml_resource, 12)) != NULL) {
         model12_nodes[0] = find_object_node(model, 1);
         model12_nodes[1] = find_object_node(model, 2);
         model12_nodes[2] = find_object_node(model, 4);
     }
-    if ((loaded = (NJS_OBJECT *)get_bml_model(bml_resource, 13)) != NULL) {
+    if ((loaded = (NJS_OBJECT *)get_bml_model((BmlResource *)bml_resource, 13)) != NULL) {
         model13_nodes[0] = find_object_node(static_cast<NJS_OBJECT *>(loaded), 1);
         model13_nodes[1] = find_object_node(static_cast<NJS_OBJECT *>(loaded), 2);
         model13_nodes[2] = find_object_node(static_cast<NJS_OBJECT *>(loaded), 3);
@@ -100,6 +96,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
         }
     }
 }
+#pragma pop
 
 s32 TObjSeabedSuisoBrakable::get_texture_entry(int index) {
     return texture_entries[index];

@@ -7,7 +7,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -77,16 +78,13 @@ void TOKeyAncient01::free_shared_resources() {
         }
     }
     if (TOKeyAncient01__shared_resource_object != NULL) {
-        free_bin_model_request(TOKeyAncient01__shared_resource_object, 1);
+        delete TOKeyAncient01__shared_resource_object;
         TOKeyAncient01__shared_resource_object = NULL;
     }
 }
 
 void TOKeyAncient01::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_switch_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_switch_resource_descriptor, 0, 0, NULL);
     TOKeyAncient01__shared_resource_object = resource;
     TOKeyAncient01__texture_lists = (GinjaTextureList **)mem_alloc(4 * sizeof(*TOKeyAncient01__texture_lists));
     TOKeyAncient01__texture_lists[0] = (GinjaTextureList *)TOKeyAncient01__shared_resource_object->models[0].m_c;

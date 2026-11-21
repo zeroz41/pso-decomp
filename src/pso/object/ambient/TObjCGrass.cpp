@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/object/ambient/TObjCGrass.h"
@@ -32,7 +34,6 @@ extern u8 identity_matrix[];
 BmlResource *TObjCGrass_bml_resource;
 extern s32 tl_06;
 
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
 const char *bm_ene_cgrass_model_names[2] = {"re1c_b_cgrass_base.nj", NULL};
 const char *bm_ene_cgrass_motion_names[2] = {"re1c_b_cgrass_base.njm", NULL};
@@ -106,7 +107,7 @@ void TObjCGrass::run_task() {
 
 void TObjCGrass::release_global_805D5130() {
     if (TObjCGrass_bml_resource != NULL) {
-        free_bin_model_request(TObjCGrass_bml_resource, 1);
+        delete (BmlResource *)TObjCGrass_bml_resource;
         TObjCGrass_bml_resource = NULL;
     }
 }
@@ -114,12 +115,9 @@ void TObjCGrass::release_global_805D5130() {
 void TObjCGrass::load_resources() {
     if (TObjEneDD::check_v2_mode() != 0) {
         TObjCGrass_bml_resource = (BmlResource *)load_enemy_bml_resource_named(
-            (saddr)&bm_ene_cgrass_resource_descriptor, (saddr)"bm_ene_cgrass_a.bml");
+            &bm_ene_cgrass_resource_descriptor, "bm_ene_cgrass_a.bml");
     } else {
-        BmlResource *archive = (BmlResource *)::operator new(0x440);
-        if (archive != NULL) {
-            archive = load_resource_from_descriptor(archive, 1, &bm_ene_cgrass_resource_descriptor, 0, 0, 0);
-        }
+        BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_ene_cgrass_resource_descriptor, 0, 0, NULL);
         TObjCGrass_bml_resource = archive;
     }
     NpcAnimationBinding binding = cgrass_anim_binding;

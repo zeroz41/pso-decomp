@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceLoad.h"
@@ -39,18 +40,15 @@ void TOGrassJungle::release_static_instance() {
         TOGrassJungle__grass_gvm_texture = NULL;
     }
     if (TOGrassJungle__bml_resource != NULL) {
-        free_bin_model_request(TOGrassJungle__bml_resource, 1);
+        delete (BmlResource *)TOGrassJungle__bml_resource;
         TOGrassJungle__bml_resource = NULL;
     }
 }
 void TOGrassJungle::load_resources() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 1, &ograss_jungle_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&ograss_jungle_resource_descriptor, 0, 0, NULL);
     TOGrassJungle__bml_resource = archive;
     TOGrassJungle__grass_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_grass_jungle.gvm");
-    TMotorcycle::add_entry(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOGrassJungle__bml_resource, 0)),
+    TMotorcycle::add_entry(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOGrassJungle__bml_resource, 0)),
                            TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }
 
@@ -66,7 +64,7 @@ void TOGrassJungle::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)get_bml_model(TOGrassJungle__bml_resource, this->m_90));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)TOGrassJungle__bml_resource, this->m_90));
         pop_matrix();
     }
 }

@@ -1,4 +1,5 @@
 #include "pso/boss/darkfalz/TBoss4ZakoTexture.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -6,7 +7,6 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 
 extern "C" {
-
 
 extern s32 TBoss4ZakoDraw__rotation_phase;
 

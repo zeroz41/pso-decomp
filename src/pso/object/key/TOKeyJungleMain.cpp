@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
@@ -12,7 +13,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -60,17 +60,14 @@ void *TOKeyJungleMain::create(void *set_data) {
 
 void TOKeyJungleMain::release_static_resource() {
     if (TOKeyJungleMain__static_model_resource != NULL) {
-        free_bin_model_request(TOKeyJungleMain__static_model_resource, 1);
+        delete TOKeyJungleMain__static_model_resource;
         TOKeyJungleMain__static_model_resource = NULL;
     }
 }
 
 void TOKeyJungleMain::load_static_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    BmlResource *resource = new BmlResource(5, &bm_obj_jungle_mkey_resource_descriptor, 0, 0, NULL);
 
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &bm_obj_jungle_mkey_resource_descriptor, 0, 0, 0);
-    }
     TOKeyJungleMain__static_model_resource = resource;
 }
 
@@ -91,22 +88,22 @@ void TOKeyJungleMain::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
         switch (is_on) {
         case 0:
-            TObjFish::set_global_param(get_bml_texlist(TOKeyJungleMain__static_model_resource, 1));
+            TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TOKeyJungleMain__static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            draw_ginja_object((void *)get_bml_model(TOKeyJungleMain__static_model_resource, 1));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)TOKeyJungleMain__static_model_resource, 1));
             pop_matrix();
             return;
         case 1:
-            TObjFish::set_global_param(get_bml_texlist(TOKeyJungleMain__static_model_resource, 1));
+            TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TOKeyJungleMain__static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            draw_ginja_model_with_motion((void *)get_bml_model(TOKeyJungleMain__static_model_resource, 1),
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TOKeyJungleMain__static_model_resource, 1),
                                          get_bml_motion(TOKeyJungleMain__static_model_resource, 1), switch_frame);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(TOKeyJungleMain__static_model_resource, 0),
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TOKeyJungleMain__static_model_resource, 0),
                                          get_bml_motion(TOKeyJungleMain__static_model_resource, 0), sw_naka_frame);
             TParticleCtrl::end_effect_render();
             pop_matrix();

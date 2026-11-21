@@ -1,4 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -132,7 +135,6 @@ extern "C" {
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
 void TObjPlayer__sub_800A8FB4(void *arg0_);
 
-void free_bin_model_request(void *, s32);
 extern saddr lbl_80500AF0[];
 extern saddr lbl_80500AF8[];
 Res_800AA82C *dubchik_resource;
@@ -140,9 +142,7 @@ NJS_TEXLIST *dubchik_texlist;
 NJS_TEXLIST *dubchik_variant_texlist;
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TObjPlayer__sub_800A4294(void);
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 Node_800AA82C *lbl_805D509C;
@@ -501,12 +501,9 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     u32 mdl;
     Node_800AA82C *n;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dubchik_resource = (Res_800AA82C *)load_enemy_bml_resource_named((saddr)&bm_ene_dubchik_resource_descriptor, (saddr)dubchik_bml_filename());
+        dubchik_resource = (Res_800AA82C *)load_enemy_bml_resource_named(&bm_ene_dubchik_resource_descriptor, (const char *)dubchik_bml_filename());
     } else {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &bm_ene_dubchik_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
         dubchik_resource = (Res_800AA82C *)p;
     }
     dubchik_texlist = *(NJS_TEXLIST **)((u8 *)dubchik_resource->mdl + 0x1C);
@@ -569,7 +566,7 @@ void TObjPlayer::free_effect_resources() {
         breakup_model_ptr = NULL;
     }
     if (dubchik_resource != NULL) {
-        free_bin_model_request(dubchik_resource, 1);
+        delete (BmlResource *)dubchik_resource;
         dubchik_resource = NULL;
     }
     dubchik_texlist = NULL;

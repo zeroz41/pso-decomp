@@ -1,5 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/BmlResource.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TUnk_804A7260.h"
@@ -310,12 +312,11 @@ struct Obj_8013DCCC : Base_8013DCCC {
 struct Ent_8013D91C { u16 id; s16 idx; u8 pad[8]; };
 
 extern "C" {
-u8 * free_bin_model_request(void *, s16);
+
 u8 * lock_on_cursor_bml_resource;
 s32 lock_on_cursor_model;
 s32 TLockOnCursor__target_cursor_model;
-saddr get_bml_model(void *, s32);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+
 }
 s32 main_cursor_model;
 void load_target_cursor_models(void);
@@ -456,26 +457,21 @@ TLockOnCursor::~TLockOnCursor() {
 }
 
 void load_target_cursor_models(void) {
-    saddr temp_r3;
     saddr var_r0;
     if ((void *) lock_on_cursor_bml_resource == NULL) {
-        temp_r3 = (saddr)::operator new(0x440);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &target_cursor_resource_descriptor, 0, 0, 0));
-        }
+        var_r0 = (saddr)new BmlResource(5, (BmlResourceDescriptor *)&target_cursor_resource_descriptor, 0, 0, NULL);
         lock_on_cursor_bml_resource = (unsigned char *) ((void *) var_r0);
         if ((u32) var_r0 != 0U) {
-            lock_on_cursor_model = get_bml_model((void *) var_r0, 0);
-            TLockOnCursor__target_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 0);
-            main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
+            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)(void *) var_r0, 0);
+            TLockOnCursor__target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
+            main_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
         }
     }
 }
 
 void TLockOnCursor::free_cursor_resources() {
     if ((void *) lock_on_cursor_bml_resource != NULL) {
-        free_bin_model_request(lock_on_cursor_bml_resource, 1);
+        delete (BmlResource *)lock_on_cursor_bml_resource;
         lock_on_cursor_bml_resource = NULL;
     }
     lock_on_cursor_model = 0;

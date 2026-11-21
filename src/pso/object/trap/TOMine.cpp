@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 struct game_command_header;
 
 #include "types.h"
@@ -215,12 +216,10 @@ struct VObj_801710E4 : VBase_801710E4 {
     virtual s32 m8(f32, f32);
 };
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u16 find_nearest_visible_player(void *, int, f32);
 void push_matrix();
 void post_translate_matrix(void *);
 void obj_setFlags30(void *, u32);
-void free_bin_model_request(void*, int);
 int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
@@ -296,18 +295,13 @@ TOMine::~TOMine() {}
 
 
 void TOMine::load_static_resource() {
-    saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &mine_resource_desc, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &mine_resource_desc, 0, 0, NULL);
     (*(saddr *)&lbl_805D5A50) = var_r0;
 }
 void TOMine::free_instance() {
     if (lbl_805D5A50 != NULL) {
-        free_bin_model_request(lbl_805D5A50, 1);
+        delete lbl_805D5A50;
         lbl_805D5A50 = NULL;
     }
 }
@@ -778,19 +772,19 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 4:
         case 5:
         case 19:
-            model = (void *)get_bml_model(lbl_805D5A50, 4);
-            texlist = get_bml_texlist(lbl_805D5A50, 4);
-            light_model = (NJS_OBJECT *)get_bml_model(lbl_805D5A50, 1);
-            light_textures = (GinjaTextureList *)get_bml_texlist(lbl_805D5A50, 1);
+            model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 4);
+            texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 4);
+            light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 1);
+            light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 1);
             break;
         case 15:
         case 16:
         case 17:
         case 18:
-            model = (void *)get_bml_model(lbl_805D5A50, 5);
-            texlist = get_bml_texlist(lbl_805D5A50, 5);
-            light_model = (NJS_OBJECT *)get_bml_model(lbl_805D5A50, 0);
-            light_textures = (GinjaTextureList *)get_bml_texlist(lbl_805D5A50, 0);
+            model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 5);
+            texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
+            light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 0);
+            light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
             break;
         }
         mode = 0;

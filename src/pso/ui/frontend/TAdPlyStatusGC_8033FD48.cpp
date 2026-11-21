@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/ui/frontend/TAdPlyStatusGC_8033FD48
@@ -292,9 +293,9 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
         {
             s32 t = lbl_804DF614[i];
             v = t;
-            self->parts[i].model = get_bml_model((BmlResource *)bml, t);
+            self->parts[i].model = (saddr)get_bml_model((BmlResource *)bml, t);
         }
-        self->parts[i].model_aux = get_bml_texlist((BmlResource *)bml, v);
+        self->parts[i].model_aux = (saddr)get_bml_texlist((BmlResource *)bml, v);
         self->parts[i].motion = (saddr)get_bml_motion((BmlResource *)bml, lbl_804EFB70[i]);
     }
     fn_8034009C(wait);

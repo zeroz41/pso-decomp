@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
@@ -65,7 +66,7 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 u8 is_current_floor_switch_set(s32 id);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
+
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
@@ -88,12 +89,12 @@ void TObjLazerFence4::init_models() {
     s32 i;
     s32 j;
     if (arg0->f8C % 2 == 0) {
-        arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 4);
-        arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 5);
+        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
+        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
         arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
-        arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 6);
-        arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 7);
+        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
+        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
         arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {

@@ -9,7 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
@@ -93,16 +94,13 @@ void *TORainbowCave01::create(void *set_data) {
 
 void TORainbowCave01::free_static_data() {
     if (TORainbowCave01__bml_resource != NULL) {
-        free_bin_model_request(TORainbowCave01__bml_resource, 1);
+        delete TORainbowCave01__bml_resource;
         TORainbowCave01__bml_resource = NULL;
     }
 }
 
 void TORainbowCave01::load_resource_instance() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &abeniji_fe_obj001_niji_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &abeniji_fe_obj001_niji_resource_descriptor, 0, 0, NULL);
     TORainbowCave01__bml_resource = resource;
 }
 
@@ -112,7 +110,7 @@ TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObjec
     m_name = TORainbowCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TORainbowCave01__bml_resource->models[0].model;
-    texlist = TORainbowCave01__bml_resource->models[0].m_c;
+    texlist = (saddr)TORainbowCave01__bml_resource->models[0].m_c;
     view_range = 400.0f;
     model_radius = 40000.0f;
     fade = 0.0f;

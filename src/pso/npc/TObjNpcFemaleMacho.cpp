@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 const char *bm_n_emw_i_body_motion_names[1] = { NULL };
@@ -20,17 +19,13 @@ void *TObjNpcFemaleMacho__create(void *set_data) {
 
 void TObjNpcFemaleMacho::close_dialog_window() {
     if (TObjNpcFemaleMacho__lobby_resource != NULL) {
-        free_bin_model_request(TObjNpcFemaleMacho__lobby_resource, 1);
+        delete TObjNpcFemaleMacho__lobby_resource;
         TObjNpcFemaleMacho__lobby_resource = NULL;
     }
 }
 
 void TObjNpcFemaleMacho::load_resources() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &bm_n_emw_i_body_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_n_emw_i_body_resource_descriptor, 0, 0, NULL);
     TObjNpcFemaleMacho__lobby_resource = resource;
 }
 
@@ -41,6 +36,6 @@ TObjNpcFemaleMacho::TObjNpcFemaleMacho(TObject *parent, void *set_data) : TUnk_8
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcFemaleMacho__lobby_resource->models->model;
-    this->texlist = TObjNpcFemaleMacho__lobby_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcFemaleMacho__lobby_resource->models->m_c;
     this->setup_common();
 }

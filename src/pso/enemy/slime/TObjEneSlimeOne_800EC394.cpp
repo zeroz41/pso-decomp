@@ -2,6 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/enemy/slime/SlimeAnimationState.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/render_util.h"
@@ -71,7 +72,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 7) {
-        TObjFish::set_global_param(get_bml_texlist(reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance()), slime_one_part_texture_index_table[owner->get_attack_target()]));
+        TObjFish::set_global_param((saddr)get_bml_texlist(reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance()), slime_one_part_texture_index_table[owner->get_attack_target()]));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);

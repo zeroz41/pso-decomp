@@ -9,7 +9,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -67,10 +66,7 @@ TODoorAncient04::~TODoorAncient04() {
 }
 
 void TODoorAncient04::load_resources() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 1, &bm_fe_obj_o_door04l_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(1, &bm_fe_obj_o_door04l_resource_descriptor, 0, 0, NULL);
     door_ancient04_archive = archive;
     GinjaTextureList **texlists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     door_ancient04_texlists = texlists;
@@ -87,7 +83,7 @@ void TODoorAncient04::free_resources() {
         }
     }
     if (door_ancient04_archive != NULL) {
-        free_bin_model_request(door_ancient04_archive, 1);
+        delete door_ancient04_archive;
         door_ancient04_archive = NULL;
     }
 }

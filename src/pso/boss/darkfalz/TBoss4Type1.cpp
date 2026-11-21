@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResource.h"
 #include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -740,7 +742,7 @@ void TBoss4Type1::draw_parts() {
             TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)arg0 + 0x3DC), this->hp_ratio);
             off = (i - 2) * 4 + 0x42C;
             ((ModelNodePositionCapture *)(*(saddr *)(arg0 + off)))->install();
-            a = get_bml_model(archive, lbl_80485EB0[i]);
+            a = (saddr)get_bml_model(archive, lbl_80485EB0[i]);
             draw_model_motion((void *)a, (void *)(get_bml_motion(archive, *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
             ((ModelNodePositionCapture *)(*(saddr *)(arg0 + off)))->clear();
             TBoss6PlotFalz::update_camera_target();

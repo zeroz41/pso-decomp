@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -261,10 +262,7 @@ s32 TObjEnePanarms::create(saddr setData) {
 }
 
 void TObjEnePanarms::load_and_spawn_npc() {
-    BmlResource *resource = static_cast<BmlResource *>(::operator new(0x440));
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &lbl_80494F10, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&lbl_80494F10, 0, 0, NULL);
     TObjEnePanarms__entry_params_resource = resource;
     if (resource != NULL) {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
@@ -277,7 +275,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
 
 void TObjEnePanarms::free_data() {
     if (TObjEnePanarms__entry_params_resource != NULL) {
-        free_bin_model_request((void*)TObjEnePanarms__entry_params_resource, 1);
+        delete TObjEnePanarms__entry_params_resource;
         TObjEnePanarms__entry_params_resource = NULL;
     }
 }
@@ -289,8 +287,8 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     add_flags_2e4(2);
     apply_set_data(setData);
     clear_lobby_object_state();
-    texlist = get_bml_texlist(TObjEnePanarms__entry_params_resource, 0);
-    model = (void *)get_bml_model(TObjEnePanarms__entry_params_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);
     set_field_d8((saddr)panarms_motion_param_table);

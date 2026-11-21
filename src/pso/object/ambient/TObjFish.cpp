@@ -1,4 +1,6 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/GinjaMaterial.h"
@@ -169,32 +171,32 @@ void TObjFish::render() {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
-                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 1));
+                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
+                    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 1));
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
-                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 2));
+                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
+                    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 2));
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
-                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 0));
+                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
+                    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 0));
                     break;
                 }
             } else {
                 set_motion_packed_rotation();
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
-                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
+                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
+                    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
-                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
+                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
+                    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
-                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
+                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
+                    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;
                 }
                 clear_motion_packed_rotation();
@@ -456,7 +458,7 @@ void *TObjFish__create(void *set_data) {
 
 void TObjFish::free_resource() {
     if (TObjFish__area_bml_resource != NULL) {
-        free_bin_model_request(TObjFish__area_bml_resource, 1);
+        delete (BmlResource *)TObjFish__area_bml_resource;
         TObjFish__area_bml_resource = NULL;
     }
 }
@@ -504,49 +506,29 @@ void TObjFish::load_area_resource() {
     switch (get_current_floor_area()) {
     case AREA_JUNGLE_NORTH:
         TObjFish__area_event_stage = 1;
-        p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1,
-                (BmlResourceDescriptor *)(base + 1 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 1 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT:
         TObjFish__area_event_stage = 2;
-        p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1,
-                (BmlResourceDescriptor *)(base + 2 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 2 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_SEABED_UPPER:
         TObjFish__area_event_stage = 3;
-        p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1,
-                (BmlResourceDescriptor *)(base + 3 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 3 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_SEABED_LOWER:
         TObjFish__area_event_stage = 4;
-        p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1,
-                (BmlResourceDescriptor *)(base + 4 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 4 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_LOBBY:
     default:
         TObjFish__area_event_stage = 0;
-        p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1,
-                (BmlResourceDescriptor *)(base + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)(base + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     }

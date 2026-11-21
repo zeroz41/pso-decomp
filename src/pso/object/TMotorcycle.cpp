@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/render_util.h"
@@ -74,7 +76,7 @@ void TMotorcycle::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
-            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, m_bc)));
+            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TMotorcycle__bml_resource, m_bc)));
             pop_matrix();
         }
         restore_draw_list_mask();
@@ -95,21 +97,18 @@ void TMotorcycle::free_statics() {
         TMotorcycle__texture_list = NULL;
     }
     if (TMotorcycle__bml_resource != NULL) {
-        free_bin_model_request(TMotorcycle__bml_resource, 1);
+        delete (BmlResource *)TMotorcycle__bml_resource;
         TMotorcycle__bml_resource = NULL;
     }
 }
 
 void TMotorcycle::load_resources() {
-    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
-    if (storage != NULL) {
-        storage = load_resource_from_descriptor(storage, 5, &motorcycle_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&motorcycle_resource_descriptor, 0, 0, NULL);
     TMotorcycle__bml_resource = storage;
     TMotorcycle__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"obj_motorcycle.GVM"));
-    TMotorcycle::add_entry(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, 0)),
+    TMotorcycle::add_entry(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TMotorcycle__bml_resource, 0)),
                            TMotorcycle__texture_list, 16.0f, 0.0f);
-    TMotorcycle::add_entry(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, 1)),
+    TMotorcycle::add_entry(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TMotorcycle__bml_resource, 1)),
                            TMotorcycle__texture_list, 16.0f, 0.0f);
 }
 

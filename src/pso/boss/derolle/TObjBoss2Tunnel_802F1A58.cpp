@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_803D853C.h"
@@ -70,7 +71,7 @@ s32 lbl_805D696C;
 s8 lbl_805D6970;
 extern "C" {
 AnimationMotion *get_bml_motion(void *, s32);
-saddr get_bml_model(void *, s32);
+
 u32 __ct__7TObjectFP7TObject(void *, void *);
 extern u8 *boss7_common_bml_resource;
 void __dl__7TObjectFPv(void *);
@@ -586,7 +587,7 @@ void TObjBoss7TunnelCol::run_task() {  }
 void TObjBoss7TunnelCol::render() {  }
 
 TUnk_804E4AD4::TUnk_804E4AD4(TObject *parent, s32 kind) : TObject(parent) {
-    model = get_bml_model(boss7_common_bml_resource, kind + 0x11);
+    model = (saddr)get_bml_model((BmlResource *)boss7_common_bml_resource, kind + 0x11);
     motion = get_bml_motion(boss7_common_bml_resource, kind);
     last_frame = (f32)motion->frameCount - 1.0f;
     frame = 0.0f;

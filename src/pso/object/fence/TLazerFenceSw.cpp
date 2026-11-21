@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "types.h"
@@ -32,7 +34,7 @@ struct GinjaTextureList;
 #include "pso/player/TObjPlayer_801542CC.h"
 
 
-extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); s32 get_bml_model(BmlResource *resource, s32 index); }
+extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); }
 extern s32 model_render_flags;
 
 extern const char *fe_obj_switch_laz_model_names[4];
@@ -68,13 +70,11 @@ extern "C" {
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
 
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 
 extern s32 game_difficulty_selection;
 extern "C" {
-s32 free_bin_model_request(void *, s32);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
 __declspec(section ".data") uaddr lazer_fence_sw_ginja_model_table[2];
@@ -249,7 +249,7 @@ void *TLazerFenceSw::create() {
 
 void free_lazer_fence_switch_resources(void) {
     if (lazer_fence_switch_bml_resource != NULL) {
-        free_bin_model_request(lazer_fence_switch_bml_resource, 1);
+        delete (BmlResource *)lazer_fence_switch_bml_resource;
         lazer_fence_switch_bml_resource = NULL;
     }
     TObjPlayer::free_if_valid((saddr)TLazerFenceSw__texture_list);
@@ -268,17 +268,11 @@ void TLazerFenceSw::load_resources() {
     lazer_fence_switch_bml_resource = NULL;
     area = get_current_floor_area();
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
-        obj = (BmlResource *)::operator new(0x440);
-        if (obj != NULL) {
-            obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
-        }
+        obj = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_switch_laz_j_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_j_gvm);
     } else {
-        obj = (BmlResource *)::operator new(0x440);
-        if (obj != NULL) {
-            obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &laser_fence_switch_resource_descriptor, 0, 0, 0);
-        }
+        obj = new BmlResource(5, (BmlResourceDescriptor *)&laser_fence_switch_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
             TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_a_gvm);
@@ -286,8 +280,8 @@ void TLazerFenceSw::load_resources() {
             TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
         }
     }
-    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model(lazer_fence_switch_bml_resource, 0);
-    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model(lazer_fence_switch_bml_resource, 1);
+    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
     lazer_fence_beam_motions[0] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 0);
     lazer_fence_beam_motions[1] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {

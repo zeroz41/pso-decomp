@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/text_80087278.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"

@@ -1,5 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
 
@@ -130,10 +132,6 @@ struct Door_8029B428 : VObj_8029B428 {
 BmlResource *TODoorJungleMain__bml_resource;
 
 GinjaTextureList *door_jungle_main_gvm_texture;
-extern "C" {
-
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-}
 
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
@@ -146,7 +144,6 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 
 extern s32 __vt__16TODoorJungleMain[];
 
-void *get_bml_model(BmlResource *, int);
 
 s32 rotate_matrix_y(int, int);
 int push_matrix();
@@ -177,8 +174,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 matrix_mult_vec(void *, void *, void *);
 
-
-void free_bin_model_request(void*, int);
 
 s32 release_texture_list(void*);
 
@@ -313,11 +308,11 @@ void TODoorJungleMain::render() {
         post_translate_matrix(self->xf);
         rotate_matrix_y(0, self->f60);
         if (self->flags & 1) {
-            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
         } else {
-            draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, 3));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3));
             for (i = 0; i < 3 - self->count; i++) {
-                draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, ids.v[i]));
+                draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, ids.v[i]));
             }
         }
         pop_matrix();
@@ -325,13 +320,8 @@ void TODoorJungleMain::render() {
 }
 
 void TODoorJungleMain::load_resources() {
-    saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
     TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
     door_jungle_main_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
 }
@@ -343,7 +333,7 @@ void TODoorJungleMain::free_static_resources() {
         door_jungle_main_gvm_texture = NULL;
     }
     if (TODoorJungleMain__bml_resource != NULL) {
-        free_bin_model_request(TODoorJungleMain__bml_resource, 1);
+        delete (BmlResource *)TODoorJungleMain__bml_resource;
         TODoorJungleMain__bml_resource = NULL;
     }
 }

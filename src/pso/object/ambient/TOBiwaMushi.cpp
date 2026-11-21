@@ -1,7 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/math/AngleLookup.h"
@@ -52,8 +52,8 @@ s32 TBoss6PlotFalz::is_phase_reached() {
 TOMekaFish00::TOMekaFish00(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(model_resource, 0);
-    texlist = get_bml_texlist(model_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)model_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
@@ -70,16 +70,13 @@ TOMekaFish00::TOMekaFish00(void *set_data) {
 TOMekaFish00::~TOMekaFish00() {}
 
 void TOMekaFish00::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_obj_meka_fish_0_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_obj_meka_fish_0_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
 }
 
 void TOMekaFish00::release_static_instance() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
@@ -91,8 +88,8 @@ void *TOMekaFish00::create(void *set_data) {
 TOMekaFish01::TOMekaFish01(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(model_resource, 0);
-    texlist = get_bml_texlist(model_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)model_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
@@ -109,16 +106,13 @@ TOMekaFish01::TOMekaFish01(void *set_data) {
 TOMekaFish01::~TOMekaFish01() {}
 
 void TOMekaFish01::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_obj_meka_fish_1_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_obj_meka_fish_1_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
 }
 
 void TOMekaFish01::free_static_data() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
@@ -130,8 +124,8 @@ void *TOMekaFish01::create(void *set_data) {
 TOBiwaMushi::TOBiwaMushi(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(model_resource, 0);
-    texlist = get_bml_texlist(model_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)model_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
@@ -148,16 +142,13 @@ TOBiwaMushi::TOBiwaMushi(void *set_data) {
 TOBiwaMushi::~TOBiwaMushi() {}
 
 void TOBiwaMushi::load_resource_instance() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_obj_jungle_biwamushi_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_obj_jungle_biwamushi_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
 }
 
 void TOBiwaMushi::free_shared_data() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }

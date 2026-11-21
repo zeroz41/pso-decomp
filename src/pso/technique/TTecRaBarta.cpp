@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
@@ -141,7 +142,7 @@ extern "C" {
 u16 get_entity_id(void *);
 
 void *get_bml_motion(void *, int);
-void *get_bml_model(void *, int);
+
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 
 void *mem_alloc(u32 size);
@@ -196,7 +197,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], (saddr)(get_bml_model(technique_effect_bml, mid)), (saddr)lbl_805D63B0, 0, 0, (f32)(1.0f));
+      attach_particle_model((u8 *)self->emitters[i], (saddr)(get_bml_model((BmlResource *)technique_effect_bml, mid)), (saddr)lbl_805D63B0, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -219,7 +220,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, id)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
+      attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, id)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
     }
   }
 }

@@ -1,6 +1,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/EnemyTargeting.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -47,7 +48,7 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
             actor->draw();
             return;
         }
@@ -132,7 +133,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthMotionBinding *e = &lbl_804E8760[motion] - 6;
         model = (void *)get_bml_model((BmlResource *)data, 1);
-        texture = get_bml_texlist((BmlResource *)data, 1);
+        texture = (saddr)get_bml_texlist((BmlResource *)data, 1);
         animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->motion);
         endFrame = animation->frameCount;
         speed = e->speed;
@@ -142,11 +143,11 @@ void DelDepthMotion::set_motion(s32 arg1) {
         DelDepthPairBinding *e = &lbl_804E8780[motion] - 10;
         DelDepthModelMotion *q;
         model = (void *)get_bml_model((BmlResource *)data, e->first.model);
-        texture = get_bml_texlist((BmlResource *)data, e->first.model);
+        texture = (saddr)get_bml_texlist((BmlResource *)data, e->first.model);
         animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->first.motion);
         q = &e->second;
         secondModel = (void *)get_bml_model((BmlResource *)data, q->model);
-        secondTexture = get_bml_texlist((BmlResource *)data, q->model);
+        secondTexture = (saddr)get_bml_texlist((BmlResource *)data, q->model);
         secondAnimation = (AnimationMotion *)get_bml_motion((BmlResource *)data, q->motion);
         endFrame = secondAnimation->frameCount;
         speed = e->speed;

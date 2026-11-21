@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -39,7 +40,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -140,7 +140,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
-    texlist = TOTrapAncient02__shared_resource->models->m_c;
+    texlist = (saddr)TOTrapAncient02__shared_resource->models->m_c;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;
@@ -176,12 +176,9 @@ void TOTrapAncient02::load_resources() {
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &records[1].descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[1].descriptor), 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
+        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0), 2)->model;
         lbl_805D5AE4 = 2;
         lbl_805D5ADC = 0;
         break;
@@ -194,20 +191,14 @@ void TOTrapAncient02::load_resources() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &records[2].descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[2].descriptor), 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
+        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0), 2)->model;
         lbl_805D5AE4 = 1;
         lbl_805D5ADC = 0;
         break;
     default:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &records[0].descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[0].descriptor), 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
         lbl_805D5AE0 = ((NJS_OBJECT *)resource->models->model)->child->child->model;
         lbl_805D5AE4 = 1;
@@ -218,7 +209,7 @@ void TOTrapAncient02::load_resources() {
 
 void TOTrapAncient02::destroy_instance() {
     if (TOTrapAncient02__shared_resource != NULL) {
-        free_bin_model_request(TOTrapAncient02__shared_resource, 1);
+        delete TOTrapAncient02__shared_resource;
         TOTrapAncient02__shared_resource = NULL;
     }
 }
@@ -504,7 +495,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
-    texlist = TOTrapAncient02__shared_resource->models->m_c;
+    texlist = (saddr)TOTrapAncient02__shared_resource->models->m_c;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;

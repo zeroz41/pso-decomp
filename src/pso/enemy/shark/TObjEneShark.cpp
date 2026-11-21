@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -550,15 +552,12 @@ void __destroy_arr(void *, void *, int, int);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 extern u8 __dt__15RenderFadeStateFv[];
 O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1);
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u8 bm_ene_bm1_shark_a_bml_filename[];
 extern uaddr TObjEneShark__resource_node;
 extern uaddr TObjEneShark__resource_buf;
 extern uaddr shark_resource_data;
 extern uaddr shark_resource_buffer;
 void vfunc_99__13TUnk_80493450Fv(void);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
 extern void *tl_04;
@@ -781,7 +780,7 @@ void TObjEneShark::free_resources() {
         TObjEneShark__attack_motion_3_trail = 0U;
     }
     if ((u32) shark_bml_resource != 0U) {
-        free_bin_model_request((void*)shark_bml_resource, 1);
+        delete (BmlResource *)shark_bml_resource;
         shark_bml_resource = 0U;
     }
 }
@@ -798,12 +797,9 @@ void TLobby::load_shark_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        G_B8 = (u8 *)load_enemy_bml_resource_named((saddr)bm_ene_bm1_shark_resource_descriptor, (saddr)bm_ene_bm1_shark_a_bml_filename);
+        G_B8 = (u8 *)load_enemy_bml_resource_named((BmlResourceDescriptor *)bm_ene_bm1_shark_resource_descriptor, (const char *)bm_ene_bm1_shark_a_bml_filename);
     } else {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, bm_ene_bm1_shark_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_bm1_shark_resource_descriptor, 0, 0, NULL);
         G_B8 = (u8 *)p;
     }
     p = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);

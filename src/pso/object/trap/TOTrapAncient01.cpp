@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -24,7 +25,8 @@
 #include "pso/render/model_render_state.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -80,8 +82,8 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     apply_object_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
-    model = (void *)get_bml_model(TOTrapAncient01__bml_resource, 3);
-    texlist = get_bml_texlist(TOTrapAncient01__bml_resource, 3);
+    model = (void *)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 3);
     mode = 0;
     range = 0.5f * scale.x + 30.0f;
     if (scale.y < 0.0f) {
@@ -128,18 +130,15 @@ TOTrapAncient01::~TOTrapAncient01() {
 }
 
 void TOTrapAncient01::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOTrapAncient01__bml_resource, 3)),
-                           reinterpret_cast<GinjaTextureList *>(get_bml_texlist(resource, 3)), 20.0f, 0.0f);
+    TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3)),
+                           reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
     if (TOTrapAncient01__bml_resource != NULL) {
-        free_bin_model_request(TOTrapAncient01__bml_resource, 1);
+        delete TOTrapAncient01__bml_resource;
         TOTrapAncient01__bml_resource = NULL;
     }
 }
@@ -352,17 +351,17 @@ void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
         {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        get_bml_model(TOTrapAncient01__bml_resource, 0), get_bml_texlist(TOTrapAncient01__bml_resource, 0), 22,
+        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
         {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        get_bml_model(TOTrapAncient01__bml_resource, 1), get_bml_texlist(TOTrapAncient01__bml_resource, 1), 22,
+        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
         {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        get_bml_model(TOTrapAncient01__bml_resource, 2), get_bml_texlist(TOTrapAncient01__bml_resource, 2), 22,
+        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);

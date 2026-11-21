@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -21,7 +22,6 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -97,9 +97,9 @@ void TObjWarpJungMain::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_object((void *)get_bml_model(TObjWarpJung__beam_bml_resource, 0));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)get_bml_model(TObjWarpJung__beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
+        draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -235,11 +235,11 @@ f32 TObjWarpJung::get_static_field4_as_float() {
 void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param((saddr)warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
-    draw_ginja_model_with_motion((void *)get_bml_model(TObjWarpJung__beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
+    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
 }
 
 void TObjWarpJung::render_warp(s32 model_index) {
-    draw_ginja_object((void *)get_bml_model(TObjWarpJung__beam_bml_resource, model_index));
+    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, model_index));
 }
 
 s32 TObjWarpJung__sub_801A0404(s32 arg0) {
@@ -276,7 +276,7 @@ s32 TObjWarpJung::update_warp_display() {
 
 void free_warp_jung_beam_resources(void) {
     s32 i;
-    free_bin_model_request(TObjWarpJung__beam_bml_resource, 1);
+    delete TObjWarpJung__beam_bml_resource;
     TObjWarpJung__beam_bml_resource = NULL;
     warp_jung_beam_motion = NULL;
     warp_jung_textures = NULL;
@@ -287,14 +287,11 @@ void free_warp_jung_beam_resources(void) {
 
 void load_warp_beam_resources(void) {
     NJS_OBJECT *root;
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &jungle_warp_beam_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(5, &jungle_warp_beam_resource_descriptor, 0, 0, NULL);
     TObjWarpJung__beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_textures = (GinjaTextureList *)get_bml_texlist(TObjWarpJung__beam_bml_resource, 0);
-    root = ((NJS_OBJECT *)get_bml_model(TObjWarpJung__beam_bml_resource, 1))->child;
+    warp_jung_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)TObjWarpJung__beam_bml_resource, 0);
+    root = ((NJS_OBJECT *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
     warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;
     warp_jung_beam_models[2] = (GinjaModel *)root->child->sibling->sibling->model;

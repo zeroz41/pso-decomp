@@ -1,5 +1,6 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"

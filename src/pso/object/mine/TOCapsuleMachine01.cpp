@@ -4,7 +4,8 @@
 #include "pso/object/mine/TOCapsuleMachine01.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixStack.h"
@@ -57,17 +58,14 @@ void TOCapsuleMachine01::reset_static_state() {
     TOCapsuleMachine01__last_update_frame_tick = 0;
     lbl_805D58C4 = 0;
     if (TOCapsuleMachine01__model_resource != NULL) {
-        free_bin_model_request(TOCapsuleMachine01__model_resource, 1);
+        delete TOCapsuleMachine01__model_resource;
         TOCapsuleMachine01__model_resource = NULL;
     }
 }
 
 void TOCapsuleMachine01::alloc_and_load_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_cap_moto_resource_descriptor, 0, 0, NULL);
     NJS_OBJECT *root;
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_cap_moto_resource_descriptor, 0, 0, 0);
-    }
     TOCapsuleMachine01__model_resource = resource;
     root = (NJS_OBJECT *)resource->models[0].model;
     capsule_machine_ginja_mesh_handle = root->child->sibling->child->sibling->model;
@@ -83,7 +81,7 @@ TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOCapsuleMachine01_class_name;
     apply_object_set_data(set_data);
     model = (void *)TOCapsuleMachine01__model_resource->models[0].model;
-    texlist = TOCapsuleMachine01__model_resource->models[0].m_c;
+    texlist = (saddr)TOCapsuleMachine01__model_resource->models[0].m_c;
     view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;

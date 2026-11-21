@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/TOBind.h"
 #include "pso/object/TOBind_801586B8.h"
@@ -64,16 +66,13 @@ void *TOBind::create(void *arg0) {
 
 void TOBind::free_static_model() {
     if (TOBind__static_model_resource != NULL) {
-        free_bin_model_request(TOBind__static_model_resource, 1);
+        delete (BmlResource *)TOBind__static_model_resource;
         TOBind__static_model_resource = NULL;
     }
 }
 
 void TOBind::load_static_resource() {
-    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
-    if (storage != NULL) {
-        storage = load_resource_from_descriptor(storage, 1, &bm_o_bind_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&bm_o_bind_resource_descriptor, 0, 0, NULL);
     TOBind__static_model_resource = storage;
 }
 
@@ -89,10 +88,10 @@ u8 *TOBind__ct(TOBind *bind, saddr arg1) {
     ((TOBind *)bind)->m_name = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
-    bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOBind__static_model_resource, 0));
-    bind->texlist = get_bml_texlist(TOBind__static_model_resource, 0);
-    bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOBind__static_model_resource, 1));
-    bind->animated_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TOBind__static_model_resource, 1));
+    bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 0));
+    bind->texlist = (saddr)get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
+    bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 1));
+    bind->animated_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
     bind->motion = get_bml_motion(TOBind__static_model_resource, 0);
     bind->motion_frame = 0.0f;
     bind->m_bc = static_cast<f32>(bind->motion->frameCount) - 1.0f;

@@ -1,11 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include <string.h>
 
-extern "C" void free_bin_model_request(void*, int);
 
 #include "types.h"
 
@@ -38,7 +38,7 @@ void TChCrLoadGmNjReq::run_task() {
 TChCrLoadGmNjReq::~TChCrLoadGmNjReq() {
     sub_8028C8A8();
     if (loaded_bml != nullptr) {
-        free_bin_model_request(loaded_bml, 1);
+        delete loaded_bml;
     }
 }
 }

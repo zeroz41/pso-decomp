@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/npc/TUnk_804A9F50.h"
@@ -31,15 +33,13 @@ struct Ow_80289710 { u8 pad[0x58]; Ls_80289710 *list; };
 struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
+
+
 extern void *lbl_805D4DD8;
-void free_bin_model_request(void*, int);
 
 void TObjNpcSoutokufu::close_dialog_window() {
     if ((u32) TObjNpcSoutokufu__shared_model_resource != 0U) {
-        free_bin_model_request((void*)TObjNpcSoutokufu__shared_model_resource, 1);
+        delete (BmlResource *)TObjNpcSoutokufu__shared_model_resource;
         TObjNpcSoutokufu__shared_model_resource = 0U;
     }
 }
@@ -47,11 +47,7 @@ void TObjNpcSoutokufu::close_dialog_window() {
 void TObjNpcSoutokufu::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_soutokufu_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &bm_npc_soutokufu_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TObjNpcSoutokufu__shared_model_resource) = var_r0;
 }
 
@@ -63,8 +59,8 @@ TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcSoutokufu__name;
     ((TObjNpcSoutokufu *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
-    ((TObjNpcSoutokufu *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
+    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
+    ((TObjNpcSoutokufu *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 
