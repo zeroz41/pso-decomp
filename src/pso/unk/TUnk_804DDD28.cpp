@@ -33,21 +33,21 @@ const char *player_motion_data_filename_ptr = "PlyMotionData.rlc";
 int player_action_provider_selector;
 
 extern "C" {
-void TLobby__sub_802A7BC8(void* p);
+void zero_pair_fields(void* p);
 extern uaddr snapshot_image_buffer;
-void TLobby__sub_802A7BD8(void);
-void fn_802A6070(void *p, s32 v);
-void fn_802A6078(void *p, s32 v);
+void free_snapshot_image_buffer(void);
+void set_slot_size(void *p, s32 v);
+void set_slot_offset(void *p, s32 v);
 extern s32 lbl_805D669C;
 void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
 saddr TItemDrop__sub_800F9448(saddr arg0, s32 arg1);
-void TLobby__sub_802A7848(void* p, s32 _w1);
-int TLobby__sub_802A7868(void* p);
+void set_motion_variant(void* p, s32 _w1);
+int matches_loaded_motion(void* p);
 int match_coordinate_pair(void*);
 
-void TLobby__sub_802A7848(void* p, s32 _w1) { ((TLobby *)p)->set_field_4(_w1); }
-int TLobby__sub_802A7868(void* p) { return match_coordinate_pair(p); }
+void set_motion_variant(void* p, s32 _w1) { ((TLobby *)p)->set_field_4(_w1); }
+int matches_loaded_motion(void* p) { return match_coordinate_pair(p); }
 
 void TLobby::set_photon_chair_flag(int a0) { player_action_provider_selector = a0; }
 struct _VBase802A78E4_802a78e4_802A7848 { char pad[8]; };
@@ -97,7 +97,7 @@ s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 arg2, s32 arg3) {
     if (slots == NULL) {
         return 0;
     }
-    TLobby__sub_802A7BC8(&sp8);
+    zero_pair_fields(&sp8);
     dst = (u8 *)this->get_state_table(arg2);
     for (i = 0; i < this->vfunc_75(); i++) {
         ((void (*)(s32, void *))set_slot_position__6TLobbyFii)(*slots, &sp8);
@@ -127,8 +127,8 @@ void TUnk_804DDD28::vfunc_14() {  }
 int TUnk_804DDD28::vfunc_75() { return 0; }
 s32 TLobby::get_param() { return *(s32 *)&this->m_name; }
 s32 TLobby::get_field_04() { return *(s32 *)&this->m_flags; }
-void TLobby__sub_802A7BC8(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
-void TLobby__sub_802A7BD8(void) {
+void zero_pair_fields(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
+void free_snapshot_image_buffer(void) {
     if ((u32) snapshot_image_buffer != 0U) {
         mem_free(((void*)snapshot_image_buffer));
         snapshot_image_buffer = 0U;
@@ -138,7 +138,7 @@ void TLobby__sub_802A7BD8(void) {
 extern s32 snapshot_buffer_size;
 s32 copy_if_space(void);
 s32 copy_if_space(void) {
-    if (shared_snapshot_capture->fn_802A5C3C() >= 0x258) {
+    if (shared_snapshot_capture->get_chunk_count() >= 0x258) {
         return 0;
     }
     memcpy((void *)snapshot_image_buffer, (const void *)shared_snapshot_capture->get_size(), snapshot_buffer_size);
@@ -171,8 +171,8 @@ void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1) {
     temp_r31 = ((RlcHeader *)(*(saddr *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
     temp_r31 = temp_r31 + arg0 * 8;
-    fn_802A6078((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());
-    fn_802A6070((void *)arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
+    set_slot_offset((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());
+    set_slot_size((void *)arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
 }
 void TLobby::send_type2_event(s32 arg0, s32 arg1, s32 arg2) {
     aram_dma_blocking__6TLobbyFllll(2, arg0, arg1, arg2, arg0);

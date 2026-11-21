@@ -16,8 +16,8 @@ public:
     virtual void render();
 
     static T_ATS_DrawCalendar *create();
-    void sub_802E11BC();
-    void sub_802E11C8();
+    void disable_calendar_draw();
+    void enable_calendar_draw();
 
     s32 visible;                // 0x1C: render() draws only while this is set
     T_ATS_DrawCalendarPos pos;  // 0x20: centre of the first text line

@@ -38,8 +38,8 @@ extern "C" {
 extern saddr tl_00;
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
-// only a third argument explains, though fn_80141CBC never reads r5 (TObjRoomId passes nothing there).
-void fn_80141CBC(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
+// only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
+void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
 extern s32 tl_05;
 extern s8 controller_input_state[];
 int check_flag_100__10TObjPlayerFPv(void *player);
@@ -293,7 +293,7 @@ TQuestThread *TObjQuestColALock::vfunc_16() {
 void TObjQuestColALock::update_room_id_check() {
     if (update_object_view_visibility(200.0f, 10.0f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * radius);
-        fn_80141CBC(&position, &debug_color_purple_half_alpha, bodies, 2.0f * bodies->radius);
+        debug_draw_uniform_scaled(&position, &debug_color_purple_half_alpha, bodies, 2.0f * bodies->radius);
     }
 }
 
@@ -607,7 +607,7 @@ TQuestThread *TObjQuestColALock2::vfunc_16() {
 void TObjQuestColALock2::update_room_id_check() {
     if (update_object_view_visibility(200.0f, 10.0f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * radius);
-        fn_80141CBC(&position, &debug_color_purple_half_alpha, bodies, 2.0f * bodies->radius);
+        debug_draw_uniform_scaled(&position, &debug_color_purple_half_alpha, bodies, 2.0f * bodies->radius);
     }
 }
 

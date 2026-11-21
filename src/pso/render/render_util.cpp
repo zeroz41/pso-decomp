@@ -206,7 +206,7 @@ u32 calc_pulse_flash_color(u8 r, u8 g, u8 b, s32 frame, s32 period, s32 start, s
 
 extern "C" {
 
-s32 TObjMapWarp__sub_80141C68(s32 self, s16 del) {
+s32 delete_object_if_delete_flag(s32 self, s16 del) {
     if (self != 0 && del > 0) {
         operator delete((void *)self);
     }
@@ -220,15 +220,15 @@ void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_colo
 void fn_80141CB4(void) {}
 void fn_80141CB8(void) {}
 
-void fn_80141CBC(const Vec *pos, const NJS_ARGB *color, f32 size) {
+void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) {
     Vec scale;
     scale.x = size;
     scale.y = size;
     scale.z = size;
-    fn_80141CF0(pos, &scale, color);
+    debug_draw_scaled(pos, &scale, color);
 }
 
-void fn_80141CF0(const Vec *pos, Vec *scale, const NJS_ARGB *color) {}
+void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color) {}
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
 
 f32 horizontal_distance_squared(const Vec *a, const Vec *b) {

@@ -12,8 +12,8 @@ public:
     TObjCMMainMenu(TObject *parent);
     virtual ~TObjCMMainMenu();
     void update_menu_reveal();
-    void sub_80297B18();
-    void sub_802979BC();
+    void draw_name_warning_and_icons();
+    void draw_character_name();
     virtual void run_task();
     virtual void render();
     void handle_creation_input();

@@ -89,11 +89,11 @@ static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::sub_802E2F20, &TAdTimeSetGC::reset_on_load_complete},
     {&TAdTimeSetGC::open_char_select, &TAdTimeSetGC::handle_confirm_menu},
     {&TAdTimeSetGC::close_and_next_cancel, &TAdTimeSetGC::update_load_state},
-    {&TAdTimeSetGC::sub_802E2D3C, &TAdTimeSetGC::update_load_countdown},
+    {&TAdTimeSetGC::arm_load_countdown, &TAdTimeSetGC::update_load_countdown},
     {&TAdTimeSetGC::close_scene, &TAdTimeSetGC::sub_802E2BD4},
-    {&TAdTimeSetGC::sub_802E2BC8, &TAdTimeSetGC::update_timer},
+    {&TAdTimeSetGC::arm_char_delete_timer, &TAdTimeSetGC::update_timer},
     {&TAdTimeSetGC::sub_802E2AD4, &TAdTimeSetGC::advance_when_load_done},
-    {&TAdTimeSetGC::sub_802E2A7C, &TAdTimeSetGC::update_char_timer},
+    {&TAdTimeSetGC::arm_guildcard_delete_timer, &TAdTimeSetGC::update_char_timer},
     {&TAdTimeSetGC::init_screen, &TAdTimeSetGC::sub_802E289C},
     {&TAdTimeSetGC::sub_802E2848, &TAdTimeSetGC::update_close_timer},
     {&TAdTimeSetGC::sub_802E2728, &TAdTimeSetGC::try_setup},
@@ -333,7 +333,7 @@ void TAdTimeSetGC::update_load_state() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2D3C() {
+void TAdTimeSetGC::arm_load_countdown() {
     unk_64 = 30;
 }
 
@@ -371,7 +371,7 @@ void TAdTimeSetGC::sub_802E2BD4() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2BC8() {
+void TAdTimeSetGC::arm_char_delete_timer() {
     unk_64 = 30;
 }
 
@@ -404,7 +404,7 @@ void TAdTimeSetGC::advance_when_load_done() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2A7C() {
+void TAdTimeSetGC::arm_guildcard_delete_timer() {
     unk_64 = 30;
 }
 
@@ -515,7 +515,7 @@ void TAdTimeSetGC::sub_802E2610() {
     create_backgrounds();
     close_and_dispatch(get_localized_text_entry(0x1C, 0xB), 1, 0, 0);
     if (calendar != NULL) {
-        calendar->sub_802E11C8();
+        calendar->enable_calendar_draw();
     }
 }
 
@@ -788,7 +788,7 @@ void TAdTimeSetGC::close_windows() {
         timer = 7;
     }
     if (calendar != NULL) {
-        calendar->sub_802E11BC();
+        calendar->disable_calendar_draw();
     }
 }
 
@@ -1066,10 +1066,10 @@ void T_ATS_DrawCalendar::render() {
 
 #pragma pool_data reset
 
-void T_ATS_DrawCalendar::sub_802E11C8() {
+void T_ATS_DrawCalendar::enable_calendar_draw() {
     visible = 1;
 }
 
-void T_ATS_DrawCalendar::sub_802E11BC() {
+void T_ATS_DrawCalendar::disable_calendar_draw() {
     visible = 0;
 }

@@ -677,8 +677,8 @@ void TObjCMMainMenu__sub_80298310(void) {  }
 void TObjCMMainMenu::render() {
     set_depth_buffer_settings_1();
     draw_footer_divider();
-    sub_80297B18();
-    sub_802979BC();
+    draw_name_warning_and_icons();
+    draw_character_name();
     ((TObject *)nodes)->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
@@ -798,7 +798,7 @@ void TObjCMMainMenu::draw_footer_divider() {
 }
 #pragma push
 #pragma fp_contract on
-void TObjCMMainMenu::sub_80297B18() {
+void TObjCMMainMenu::draw_name_warning_and_icons() {
     Menu_80297B18 *m = (Menu_80297B18 *)this;
     u32 color;
     s32 i;
@@ -863,7 +863,7 @@ void TObjCMMainMenu::sub_80297B18() {
     }
 }
 #pragma pop
-void TObjCMMainMenu::sub_802979BC() {
+void TObjCMMainMenu::draw_character_name() {
     char *name = character->name;
     if ((TObjCMMainMenu__data_805D659C == 0 ||
          (TObjCMMainMenu__data_805D659C == 1 && entries[selected_entry] != 7)) &&
@@ -1411,11 +1411,11 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
     }
     switch (self->state) {
     case 0:
-        ((TObjCMAssignMenu *)self)->sub_80296648();
+        ((TObjCMAssignMenu *)self)->draw_assign_sprites();
         break;
     case 1:
         if (self->owner->flags & 0x10) {
-            ((TObjCMAssignMenu *)self)->sub_80296648();
+            ((TObjCMAssignMenu *)self)->draw_assign_sprites();
         } else {
             ((TObjCMAssignMenu *)self)->draw_assign_icons();
         }
@@ -1469,7 +1469,7 @@ void TObjCMAssignMenu::render_assign_slots() {
     }
 }
 
-void TObjCMAssignMenu::sub_80296648() {
+void TObjCMAssignMenu::draw_assign_sprites() {
     Menu_80296648 *self = (Menu_80296648 *)this;
     s32 off;
     s32 idx;

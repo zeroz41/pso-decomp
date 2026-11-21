@@ -109,14 +109,14 @@ extern NJS_ARGB color_draw_saved_color;
 
 extern "C" {
 void restore_saved_depth_alpha_state(void);
-s32 TObjMapWarp__sub_80141C68(s32 self, s16 del);
+s32 delete_object_if_delete_flag(s32 self, s16 del);
 void TObjMapWarp__sub_80141CA4(void *self);
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color);
 void fn_80141CB4(void);
 void fn_80141CB8(void);
-void fn_80141CBC(const Vec *pos, const NJS_ARGB *color, f32 size);
-void fn_80141CF0(const Vec *pos, Vec *scale, const NJS_ARGB *color);
+void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size);
+void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color);
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 f32 horizontal_distance_squared(const Vec *a, const Vec *b);
 }

@@ -65,15 +65,15 @@ public:
     void sub_802E289C();
     void init_screen();
     void update_char_timer();
-    void sub_802E2A7C();
+    void arm_guildcard_delete_timer();
     void advance_when_load_done();
     void sub_802E2AD4();
     void update_timer();
-    void sub_802E2BC8();
+    void arm_char_delete_timer();
     void sub_802E2BD4();
     void close_scene();
     void update_load_countdown();
-    void sub_802E2D3C();
+    void arm_load_countdown();
     void update_load_state();
     void close_and_next_cancel();
     void handle_confirm_menu();

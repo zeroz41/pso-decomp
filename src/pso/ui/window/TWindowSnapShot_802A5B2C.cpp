@@ -59,7 +59,7 @@ u32 RlcHeader::read_be32(const s8 *bytes) {
     return value;
 }
 
-s32 RlcArchive::fn_802A5C3C() {
+s32 RlcArchive::get_chunk_count() {
     if (header == NULL) {
         set_mode(7);
         return -1;
@@ -67,10 +67,10 @@ s32 RlcArchive::fn_802A5C3C() {
     return header->get_chunk_count();
 }
 
-void RlcArchive::fn_802A5C7C() { directory = (RlcDirectoryEntry *)(buffer + header->get_directory_offset()); }
-void RlcArchive::fn_802A5CB8() { header = (RlcHeader *)buffer; }
+void RlcArchive::set_directory_pointer() { directory = (RlcDirectoryEntry *)(buffer + header->get_directory_offset()); }
+void RlcArchive::set_header_pointer() { header = (RlcHeader *)buffer; }
 
-void RlcArchive::fn_802A5CC4(saddr file) {
+void RlcArchive::store_capture_filename(saddr file) {
     if ((s32)strlen((const char *)file) > 0x1F) {
         strncpy(name, (const char *)file, 0x1F);
         name[0x1F] = 0;
@@ -96,7 +96,7 @@ s32 RlcArchive::alloc_buffer() {
 }
 s32 RlcArchive::open_stream(saddr file) {
     file_size = TGStream::read_whole_file((const char *)file, buffer);
-    if (fn_802A605C() == 0) {
+    if (has_resource_size() == 0) {
         set_mode(2);
         free_buffer();
         return 0;
@@ -105,7 +105,7 @@ s32 RlcArchive::open_stream(saddr file) {
 }
 s32 RlcArchive::init(saddr file) {
     file_size = TGStream::get_resource_file_size((const char *)file);
-    if (fn_802A605C() == 0) {
+    if (has_resource_size() == 0) {
         set_mode(1);
         return 0;
     }
@@ -140,15 +140,15 @@ s32 RlcArchive::start_capture(saddr file) {
     if (open_stream(file) == 0) {
         return 0;
     }
-    fn_802A5CB8();
-    fn_802A5C7C();
-    fn_802A5CC4(file);
+    set_header_pointer();
+    set_directory_pointer();
+    store_capture_filename(file);
     loaded = 1;
     return 1;
 }
 int TWindowSnapShot::get_width() { return 32; }
 void RlcArchive::set_mode(s32 v) { error = v; }
 s32 RlcArchive::get_buffer_size() { return file_size; }
-s32 RlcArchive::fn_802A605C() { return (u8)(file_size != 0); }
-void fn_802A6070(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
-void fn_802A6078(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
+s32 RlcArchive::has_resource_size() { return (u8)(file_size != 0); }
+void set_slot_size(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
+void set_slot_offset(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
