@@ -106,7 +106,6 @@ extern s32 quest_page_node_index;
 extern QuestDownloadTextNode *lbl_805D78A0;
 extern s32 lbl_805D78E8;
 extern saddr quest_text_cursor_pos;
-u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 s32 find_symbol_entry__22TQuestVmDownLoadServerFsP13Info_803F0138(const char *name, s16 len, Info_803F0138 *out);
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *req, uaddr owner, u32 type, u32 prio, uaddr src, uaddr dst, u32 len, void (*cb)(u8 *));

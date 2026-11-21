@@ -2027,9 +2027,9 @@ const u8 *TQuestVmDownLoadServer::find_keyword_entry(u16 *start, u16 *end) {
 // Converts the romaji at src (n characters left) to kana in out; *count gets the
 // number of characters written. Returns the number consumed, 0 when more input
 // is needed, -1/-2 on no match (behaviour inferred).
-s32 convert_romaji_to_kana(const u16 *src, s32 n, u16 *out, s32 *count) {
+s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
     const u8 *e;
-    const u16 *p;
+    u16 *p;
     u8 kind;
     s32 len;
     u8 c2;
@@ -2744,7 +2744,7 @@ s32 TQuestVmDownLoadServer__sub_803EF208(QuestDownloadRequest *msg) {
     }
     strncpy(buf, msg->name, msg->len);
     buf[msg->len] = 0;
-    p = get_cached_page__22TQuestVmDownLoadServerFl(find_name_index__22TQuestVmDownLoadServerFv(reinterpret_cast<const char *>(buf)));
+    p = TQuestVmDownLoadServer::get_cached_page(find_name_index__22TQuestVmDownLoadServerFv(reinterpret_cast<const char *>(buf)));
     for (end = p; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
     }
     for (; p < end; p += record_size(p)) {
@@ -2794,7 +2794,7 @@ s32 TQuestVmDownLoadServer__sub_803EF538(QuestDownloadRequest *msg) {
     }
     strncpy(buf, msg->name, msg->len);
     buf[msg->len] = 0;
-    page = get_cached_page__22TQuestVmDownLoadServerFl(find_name_index__22TQuestVmDownLoadServerFv(reinterpret_cast<const char *>(buf)));
+    page = TQuestVmDownLoadServer::get_cached_page(find_name_index__22TQuestVmDownLoadServerFv(reinterpret_cast<const char *>(buf)));
     for (end = page; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
     }
     for (p = page; p < end; p += (u16)(p[0] + (p[1] << 8))) {
@@ -3087,20 +3087,17 @@ s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 a1, u8 a2, void *dst) {
 }
 
 s32 TQuestVmDownLoadServer::find_symbol_entry(s16 len, Info_803F0138 *out) {
+    s32 id;
     u8 n;
     u8 *base;
     u8 *p;
-    s32 id;
     s32 c;
     if (len <= 2 && ((TQuestVmDownLoadServer *)((const char *)this))->is_char_allowed(len) != 0) {
         out->off = -1;
         return 0;
     }
     id = find_name_index__22TQuestVmDownLoadServerFv(reinterpret_cast<const char *>(this));
-    {
-        u8 *get_cached_page__22TQuestVmDownLoadServerFl(void);
-        base = get_cached_page__22TQuestVmDownLoadServerFl();
-    }
+    base = TQuestVmDownLoadServer::get_cached_page(id);
     p = base;
     while ((u16)(p[0] + (p[1] << 8)) != 0) {
         n = p[2];

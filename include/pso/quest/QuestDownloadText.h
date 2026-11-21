@@ -44,7 +44,7 @@ u16 TQuestVmDownLoadServer__sub_803EC69C(u16 code);
 u8 TQuestVmDownLoadServer__sub_803EC8D8(u16 code);
 s32 TQuestVmDownLoadServer__is_sjis_double_byte(u16 code);
 
-s32 convert_romaji_to_kana(const u16 *src, s32 count, u16 *out, s32 *written);
+s32 convert_romaji_to_kana(u16 *src, s32 count, u16 *out, s32 *written);
 void reset_entry_text_accumulator(void);
 void process_entry_text_range(s32 start, s32 end);
 u16 *get_entry_text(s32 start, s32 length);
