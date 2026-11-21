@@ -79,19 +79,13 @@ s32 rotate_matrix_x(int, s32);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;
-void set_inverse_alpha_blend(void);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 matrix_mult_vec(int, void *, void *);
-void begin_screen_draw(s32 arg0);
-void DVDConvertEntrynumToPath(f32 *q);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 }
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-void set_inverse_color_blend(void);
-void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
 
 

@@ -9,6 +9,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/system/MatrixStack.h"
 
 typedef struct Col_801E58D8 { f32 r, g, b, a; } Col_801E58D8;
 
@@ -37,22 +39,12 @@ typedef struct Self_801E58D8 {
 
 typedef struct Cam_801E58D8 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E58D8;
 
-extern "C" {
-void set_inverse_alpha_blend(void);
-}
-void set_inverse_color_blend(void);
-extern "C" {
-void transform_point_by_current_matrix(void *, void *);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_801E58D8 lbl_8058D4F8;
-void render__14TQuadSpriteSclFv(Self_801E58D8 *self);
 
 
 #pragma push
 #pragma fp_contract on
-void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
+extern "C" void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
     Quad_801E58D8 q;
     Vec out;
     Vec pos;
@@ -103,7 +95,7 @@ void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
             pos.y = n->pos.y + n->ofs.y;
             pos.z = n->pos.z + n->ofs.z;
             if ((s32)n->type != 1) {
-                transform_point_by_current_matrix(&pos, &out);
+                transform_point_by_current_matrix(&pos.x, &out);
                 out.y = -out.y;
             } else {
                 VecCopy((Vec *)&out, (const Vec *)&pos);
@@ -142,8 +134,6 @@ void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
     set_default_alpha_blend();
 }
 #pragma pop
-
-}
 TQuadSpriteScl::~TQuadSpriteScl() {
 
 }

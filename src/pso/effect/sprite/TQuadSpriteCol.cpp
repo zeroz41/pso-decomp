@@ -9,6 +9,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma readonly_strings on
 
@@ -37,17 +39,7 @@ typedef struct Self_801E4FF0 {
 
 typedef struct Cam_801E4FF0 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E4FF0;
 
-extern "C" {
-void set_inverse_alpha_blend(void);
-s32 matrix_mult_vec(int, void *, void *);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
-}
-void set_inverse_color_blend(void);
-void set_constant_material_color(u32 x);
 extern Cam_801E4FF0 lbl_8058D4F8;
-extern "C" {
 
 void TUnk_804C57F0::render() {  }
 
@@ -141,8 +133,6 @@ void TQuadSpriteCol::render() {
     set_default_alpha_blend();
 }
 #pragma pop
-
-}
 TQuadSpriteCol::~TQuadSpriteCol() {
 
 }
