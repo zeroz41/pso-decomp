@@ -30,6 +30,6 @@ LAYOUT_ASSERT(TOSensorGeneral01_size, sizeof(TOSensorGeneral01) == 0xF4);
 extern const char *TOSensorGeneral01__class_name;
 extern BmlResource *sensor_general_shared_bml_archive;
 // The red texture list, then the model's own (lit).
-extern s32 *TOSensorGeneral01__texture_lists;
+extern saddr *TOSensorGeneral01__texture_lists;
 
 #endif

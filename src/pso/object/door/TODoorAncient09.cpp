@@ -41,7 +41,7 @@ static CollisionBody door_ancient09_collision_body[1] = {
 };
 
 BmlResource *TODoorAncient09::bml_resource;
-s32 *TODoorAncient09::texture_lists;
+saddr *TODoorAncient09::texture_lists;
 
 TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_ancient09_class_name;
@@ -78,9 +78,9 @@ void TODoorAncient09::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &door_ancient09_resource_descriptor, 0, 0, 0);
     }
     bml_resource = resource;
-    texture_lists = (s32 *)mem_alloc(8);
+    texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
     texture_lists[0] = bml_resource->models[0].m_c;
-    texture_lists[1] = (s32)load_gvm_texture_file((saddr)"fs_obj_o_door05l_g.gvm");
+    texture_lists[1] = (saddr)load_gvm_texture_file((saddr)"fs_obj_o_door05l_g.gvm");
 }
 
 void TODoorAncient09::destroy() {

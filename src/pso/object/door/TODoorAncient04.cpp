@@ -43,7 +43,7 @@ CollisionBody door_ancient04_collision_body[1] = {
 const char *TODoorAncient04_name = "TODoorAncient04";
 
 static BmlResource *door_ancient04_archive;
-static s32 *door_ancient04_texlists;
+static saddr *door_ancient04_texlists;
 
 TODoorAncient04::TODoorAncient04(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = TODoorAncient04_name;
@@ -70,10 +70,10 @@ void TODoorAncient04::load_resources() {
         archive = load_resource_from_descriptor(archive, 1, &bm_fe_obj_o_door04l_resource_descriptor, 0, 0, 0);
     }
     door_ancient04_archive = archive;
-    s32 *texlists = (s32 *)mem_alloc(2 * sizeof(s32));
+    saddr *texlists = (saddr *)mem_alloc(2 * sizeof(saddr));
     door_ancient04_texlists = texlists;
     texlists[0] = door_ancient04_archive->models[0].m_c;
-    door_ancient04_texlists[1] = (s32)load_gvm_texture_file((saddr)"fe_obj_o_door04g.gvm");
+    door_ancient04_texlists[1] = (saddr)load_gvm_texture_file((saddr)"fe_obj_o_door04g.gvm");
 }
 
 void TODoorAncient04::free_resources() {

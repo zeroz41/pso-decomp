@@ -34,7 +34,7 @@ struct TODoorAncient09 : public TODoorBase {
     s32 m_e4;               // cleared by the constructor, never read here
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
+    static saddr *texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
 };
 
 LAYOUT_ASSERT(TODoorAncient09_size, sizeof(TODoorAncient09) == 0xE8);

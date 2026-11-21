@@ -36,7 +36,7 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
 
     static const char *class_name;
     static BmlResource *bml_resource;
-    static u32 texture_list;
+    static uaddr texture_list;
     static s32 texture_entries[5];       // the scrolled textures, by name
     static NJS_OBJECT *model12_nodes[3];
     static NJS_OBJECT *model13_nodes[3];

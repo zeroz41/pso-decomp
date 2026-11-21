@@ -27,7 +27,7 @@ static CollisionBody door_ancient05_collision_body[1] = {
 };
 
 BmlResource *TODoorAncient05::bml_resource;
-s32 *TODoorAncient05::texture_lists;
+saddr *TODoorAncient05::texture_lists;
 NJS_OBJECT *TODoorAncient05::model_nodes;
 
 void TODoorAncient05::render() {
@@ -106,9 +106,9 @@ void TODoorAncient05::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &door_ancient_567_resource_descriptor, 0, 0, 0);
     }
     bml_resource = resource;
-    texture_lists = (s32 *)mem_alloc(8);
+    texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
     texture_lists[0] = bml_resource->models[0].m_c;
-    texture_lists[1] = (s32)load_gvm_texture_file((saddr)"fs_obj_door07_m_01_g.gvm");
+    texture_lists[1] = (saddr)load_gvm_texture_file((saddr)"fs_obj_door07_m_01_g.gvm");
     model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
     if (bml_resource != NULL && model_nodes != NULL) {
         copy_model_node((u8 *)&model_nodes[0], (u8 *)bml_resource->models[0].model);

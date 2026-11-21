@@ -93,7 +93,7 @@ const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
 // TLanguage::load_container_fragment_textures. Both share one 8-aligned
 // .sbss block (0x805D58E8) that stays unclaimed until the bundle can be
 // defined here (see vfunc_79).
-extern u32 *ancient_container_fragment_texture_lists;
+extern uaddr *ancient_container_fragment_texture_lists;
 
 static const TObjChipParams fish_break_debris_desc = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
@@ -159,10 +159,10 @@ void TLanguage::load_container_fragment_textures() {
             p = load_resource_from_descriptor(p, 1, (BmlResourceDescriptor *)(tbl + 0x50), 0, 0, 0);
         }
         ancient_container_resource_bundle = (BmlResource *)p;
-        ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((saddr)"fs_obj_ex_box2.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((saddr)"fe_obj_ex_box2_hahen01.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((saddr)"fe_obj_ex_box2_hahen02.gvm");
+        ancient_container_fragment_texture_lists = (uaddr *)mem_alloc(3 * sizeof(uaddr));
+        ancient_container_fragment_texture_lists[0] = (uaddr)load_gvm_texture_file((saddr)"fs_obj_ex_box2.gvm");
+        ancient_container_fragment_texture_lists[1] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_ex_box2_hahen01.gvm");
+        ancient_container_fragment_texture_lists[2] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_ex_box2_hahen02.gvm");
     } else if (enable_v2_features == 1 &&
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = ::operator new(0x440);
@@ -170,20 +170,20 @@ void TLanguage::load_container_fragment_textures() {
             p = load_resource_from_descriptor(p, 1, (BmlResourceDescriptor *)(tbl + 0x30), 0, 0, 0);
         }
         ancient_container_resource_bundle = (BmlResource *)p;
-        ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((saddr)"fs_obj_o_vs2container_r.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_vs2cont_hahen1_r.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_vs2cont_hahen2_r.gvm");
+        ancient_container_fragment_texture_lists = (uaddr *)mem_alloc(3 * sizeof(uaddr));
+        ancient_container_fragment_texture_lists[0] = (uaddr)load_gvm_texture_file((saddr)"fs_obj_o_vs2container_r.gvm");
+        ancient_container_fragment_texture_lists[1] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_o_vs2cont_hahen1_r.gvm");
+        ancient_container_fragment_texture_lists[2] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_o_vs2cont_hahen2_r.gvm");
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, (BmlResourceDescriptor *)(tbl + 0x10), 0, 0, 0);
         }
         ancient_container_resource_bundle = (BmlResource *)p;
-        ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_container_r.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_container_hahen01r.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_container_hahen02r.gvm");
+        ancient_container_fragment_texture_lists = (uaddr *)mem_alloc(3 * sizeof(uaddr));
+        ancient_container_fragment_texture_lists[0] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_o_container_r.gvm");
+        ancient_container_fragment_texture_lists[1] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_o_container_hahen01r.gvm");
+        ancient_container_fragment_texture_lists[2] = (uaddr)load_gvm_texture_file((saddr)"fe_obj_o_container_hahen02r.gvm");
     }
 }
 
@@ -530,7 +530,7 @@ TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {
 
 
 BmlResource *ancient_container_resource_bundle;
-u32 *ancient_container_fragment_texture_lists;
+uaddr *ancient_container_fragment_texture_lists;
 extern const f32 lbl_805DB398 = 1.0f;
 extern const f32 lbl_805DB39C = 0.0f;
 extern const f32 lbl_805DB3A0 = 40.0f;

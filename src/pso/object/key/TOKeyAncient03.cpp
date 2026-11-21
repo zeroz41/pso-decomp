@@ -31,7 +31,7 @@ BmlResourceDescriptor bm_fs_obj_o_doorpanel_resource_descriptor = {
 const char *TOKeyAncient03__class_name = "TOKeyAncient03";
 BmlResource *TOKeyAncient03__model_archive;
 // The panel's own texture list while up, fs_obj_o_doorpanelg.gvm while down.
-s32 *TOKeyAncient03__texture_variants;
+saddr *TOKeyAncient03__texture_variants;
 
 void TOKeyAncient03::vfunc_25() {}
 
@@ -178,15 +178,15 @@ void TOKeyAncient03::cleanup_refs() {
 
 void TOKeyAncient03::load_resources() {
     BmlResource *resource = (BmlResource *)::operator new(0x440);
-    s32 *textures;
+    saddr *textures;
     if (resource != NULL) {
         resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, 0);
     }
     TOKeyAncient03__model_archive = resource;
-    textures = (s32 *)mem_alloc(8);
+    textures = (saddr *)mem_alloc(2 * sizeof(saddr));
     TOKeyAncient03__texture_variants = textures;
     textures[0] = TOKeyAncient03__model_archive->models[0].m_c;
-    TOKeyAncient03__texture_variants[1] = (s32)load_gvm_texture_file((saddr) "fs_obj_o_doorpanelg.gvm");
+    TOKeyAncient03__texture_variants[1] = (saddr)load_gvm_texture_file((saddr) "fs_obj_o_doorpanelg.gvm");
 }
 
 TOKeyAncient03::~TOKeyAncient03() {}

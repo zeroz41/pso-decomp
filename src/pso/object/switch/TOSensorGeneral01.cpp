@@ -22,7 +22,7 @@ BmlResourceDescriptor TOSensorGeneral01__resource_descriptor = {
 };
 const char *TOSensorGeneral01__class_name = "TOSensorGeneral01";
 BmlResource *sensor_general_shared_bml_archive;
-s32 *TOSensorGeneral01__texture_lists;
+saddr *TOSensorGeneral01__texture_lists;
 
 void TOSensorGeneral01::update_switch_off() {
     rotation_y = rotation_y + 0x147;
@@ -115,9 +115,9 @@ void TOSensorGeneral01::load_assets() {
         resource = load_resource_from_descriptor(resource, 1, &TOSensorGeneral01__resource_descriptor, 0, 0, 0);
     }
     sensor_general_shared_bml_archive = resource;
-    TOSensorGeneral01__texture_lists = (s32 *)mem_alloc(8);
+    TOSensorGeneral01__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
     TOSensorGeneral01__texture_lists[1] = sensor_general_shared_bml_archive->models[0].m_c;
-    TOSensorGeneral01__texture_lists[0] = (s32)load_gvm_texture_file((saddr) "fs_obj_sensor_r.gvm");
+    TOSensorGeneral01__texture_lists[0] = (saddr)load_gvm_texture_file((saddr) "fs_obj_sensor_r.gvm");
 }
 
 TOSensorGeneral01::~TOSensorGeneral01() {}

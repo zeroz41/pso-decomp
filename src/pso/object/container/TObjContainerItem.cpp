@@ -297,11 +297,11 @@ extern const char forest_box_texture_filename_a[];
 extern const char forest_box_texture_filename_n[];
 void play_container_break_sound(saddr arg0);
 BmlResource *lbl_805D5B78;
-s32 lbl_805D5B7C;
+saddr lbl_805D5B7C;
 TObjChipParams *lbl_805D5B80;
 TObjChipParams *lbl_805D5B84;
 BmlResource *container_breakup_model_archive;
-s32 lbl_805D5B8C;
+saddr lbl_805D5B8C;
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const void *);
@@ -363,7 +363,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &bm_obj_seabed_con_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = (s32)load_gvm_texture_file((saddr)seabed_container_texture_filename);
+        lbl_805D5B7C = (saddr)load_gvm_texture_file((saddr)seabed_container_texture_filename);
         lbl_805D5B80 = &forest_box_break_params[2];
         lbl_805D5B84 = &forest_box_break_params[3];
         node = (u32 *)find_object_node((NJS_OBJECT *)(get_bml_model(lbl_805D5B78, 1)), 2);
@@ -377,7 +377,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
+        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (saddr)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (saddr)load_gvm_texture_file((saddr)forest_box_texture_filename_n);
         lbl_805D5B80 = &forest_box_break_params[0];
         lbl_805D5B84 = &forest_box_break_params[1];
         break;
@@ -386,7 +386,7 @@ void load_forest_box_resources(void) {
 }
 
 void TLobby::free_char_select_resources() {
-    if ((u32) lbl_805D5B7C != 0U) {
+    if ((uaddr) lbl_805D5B7C != 0U) {
         release_texture_list((void*)lbl_805D5B7C);
         TAdSinglePlyChrSelectGC::safe_free(lbl_805D5B7C);
         lbl_805D5B7C = 0U;
@@ -411,7 +411,7 @@ void TLobby::load_console_resources() {
             p = load_resource_from_descriptor(p, 5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, 0);
         }
         container_breakup_model_archive = (BmlResource *)p;
-        lbl_805D5B8C = (u32)load_gvm_texture_file((saddr)"obj_seabed_con_rare.gvm");
+        lbl_805D5B8C = (uaddr)load_gvm_texture_file((saddr)"obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
@@ -420,13 +420,13 @@ void TLobby::load_console_resources() {
             p = load_resource_from_descriptor(p, 5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, 0);
         }
         container_breakup_model_archive = (BmlResource *)p;
-        lbl_805D5B8C = (u32)load_gvm_texture_file((saddr)"obj_abecon.gvm");
+        lbl_805D5B8C = (uaddr)load_gvm_texture_file((saddr)"obj_abecon.gvm");
         break;
     }
 }
 
 void TLobby::free_chr_select_slot() {
-    if ((u32) lbl_805D5B8C != 0U) {
+    if ((uaddr) lbl_805D5B8C != 0U) {
         release_texture_list((void*)lbl_805D5B8C);
         TAdSinglePlyChrSelectGC::safe_free(lbl_805D5B8C);
         lbl_805D5B8C = 0U;

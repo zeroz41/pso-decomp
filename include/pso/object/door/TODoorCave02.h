@@ -26,7 +26,7 @@ struct TODoorCave02 : public TODoorBase {
     NJS_ARGB light_color;
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] locked (red), [1] the bml's own
+    static saddr *texture_lists;  // [0] locked (red), [1] the bml's own
 };
 
 LAYOUT_ASSERT(TODoorCave02_size, sizeof(TODoorCave02) == 0xE4);

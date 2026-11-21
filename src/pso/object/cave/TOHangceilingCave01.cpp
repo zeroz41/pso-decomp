@@ -36,7 +36,7 @@ extern s32 game_difficulty_selection;
 extern TCameraCtrl *camera_ctrl_instance;
 
 BmlResource *TOHangceilingCave01__model_archive;
-s32 *turiten_singo_texture_lists;
+saddr *turiten_singo_texture_lists;
 s32 lbl_805D59D8;
 NJS_OBJECT *TOHangceilingCave01__model_root;
 s32 turiten_singo_key_model_index;
@@ -116,7 +116,7 @@ void load_turiten_singo_resources(void) {
             p = load_resource_from_descriptor(p, 5, &turiten_singo_resource_descriptor, 0, 0, 0);
         }
         TOHangceilingCave01__model_archive = (BmlResource *)p;
-        turiten_singo_texture_lists = (s32 *)mem_alloc(0xC);
+        turiten_singo_texture_lists = (saddr *)mem_alloc(3 * sizeof(saddr));
         turiten_singo_texture_lists[1] = 0;
         turiten_singo_texture_lists[0] = 0;
         turiten_singo_texture_lists[2] = get_bml_texlist(TOHangceilingCave01__model_archive, 0);
@@ -131,9 +131,9 @@ void load_turiten_singo_resources(void) {
             p = load_resource_from_descriptor(p, 5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, 0);
         }
         TOHangceilingCave01__model_archive = (BmlResource *)p;
-        turiten_singo_texture_lists = (s32 *)mem_alloc(0xC);
-        turiten_singo_texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_turiten_singo.gvm");
-        turiten_singo_texture_lists[1] = (s32)load_gvm_texture_file((saddr)"fs_obj_turiten_singo_r.gvm");
+        turiten_singo_texture_lists = (saddr *)mem_alloc(3 * sizeof(saddr));
+        turiten_singo_texture_lists[0] = (saddr)load_gvm_texture_file((saddr)"fs_obj_turiten_singo.gvm");
+        turiten_singo_texture_lists[1] = (saddr)load_gvm_texture_file((saddr)"fs_obj_turiten_singo_r.gvm");
         turiten_singo_texture_lists[2] = get_bml_texlist(TOHangceilingCave01__model_archive, 1);
         TOHangceilingCave01__model_root = (NJS_OBJECT *)get_bml_model(TOHangceilingCave01__model_archive, 2);
         turiten_singo_key_model_index = 1;

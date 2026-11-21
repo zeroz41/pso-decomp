@@ -22,7 +22,7 @@ struct TODoorAncient05 : public TODoorBase {
     static void load_resources();
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
+    static saddr *texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
     static NJS_OBJECT *model_nodes;  // three nodes copied out of the bml model
 };
 

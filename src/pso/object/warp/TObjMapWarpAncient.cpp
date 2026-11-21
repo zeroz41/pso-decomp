@@ -41,7 +41,7 @@ BmlResourceDescriptor bm_o_warp_ancient_resource_descriptor = {
 const char *TObjMapWarpAncient__class_name = "TObjMapWarpAncient";
 const char *TObjGoalWarpAncient__class_name = "TObjGoalWarpAncient";
 BmlResource *ancient_warp_shared_resource;
-s32 goal_warp_ancient_gvm_texture;
+saddr goal_warp_ancient_gvm_texture;
 
 extern "C" void *init__13TAdVIConfigGCFf(void *, void *, f32);
 
@@ -67,7 +67,7 @@ void TObjGoalWarpAncient::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_warp_ancient_resource_descriptor, 0, 0, 0);
     }
     ancient_warp_shared_resource = resource;
-    goal_warp_ancient_gvm_texture = (s32)load_gvm_texture_file((saddr)"de_obj2_swarp_beam_r.gvm");
+    goal_warp_ancient_gvm_texture = (saddr)load_gvm_texture_file((saddr)"de_obj2_swarp_beam_r.gvm");
 }
 
 void TObjMapWarpAncient::free_globals() {

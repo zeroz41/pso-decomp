@@ -38,7 +38,7 @@ const s32 key_machine01_switch_sounds[] = {
 };
 const char *TOKeyMachine01__class_name = "TOKeyMachine01";
 BmlResource *TOKeyMachine01__resource_bundle;
-s32 *TOKeyMachine01__texture_lists;
+saddr *TOKeyMachine01__texture_lists;
 
 void TOKeyMachine01::vfunc_25() {}
 
@@ -222,8 +222,8 @@ void TOKeyMachine01::load_assets() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_ki_doa_panel_resource_descriptor, 0, 0, 0);
     }
     TOKeyMachine01__resource_bundle = resource;
-    TOKeyMachine01__texture_lists = (s32 *)mem_alloc(8);
-    TOKeyMachine01__texture_lists[0] = (s32)load_gvm_texture_file((saddr) "fs_obj_ki_doa_panel_r.gvm");
+    TOKeyMachine01__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
+    TOKeyMachine01__texture_lists[0] = (saddr)load_gvm_texture_file((saddr) "fs_obj_ki_doa_panel_r.gvm");
     TOKeyMachine01__texture_lists[1] = TOKeyMachine01__resource_bundle->models[0].m_c;
 }
 

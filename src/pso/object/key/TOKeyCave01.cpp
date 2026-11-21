@@ -45,7 +45,7 @@ const s32 key_cave01_switch_sounds[] = {
 };
 const char *TOKeyCave01__class_name = "TOKeyCave01";
 BmlResource *TOKeyCave01__resource_bundle;
-s32 *TOKeyCave01__texture_lists;
+saddr *TOKeyCave01__texture_lists;
 s32 key_cave_render_state;
 
 void TOKeyCave01::vfunc_25() {}
@@ -236,8 +236,8 @@ void TOKeyCave01::load_resources() {
             resource = load_resource_from_descriptor(resource, 1, &fs_obj_key_jungle_resource_descriptor, 0, 0, 0);
         }
         TOKeyCave01__resource_bundle = resource;
-        TOKeyCave01__texture_lists = (s32 *)mem_alloc(8);
-        TOKeyCave01__texture_lists[0] = (s32)load_gvm_texture_file((saddr) "fs_obj_key_jungle_red.gvm");
+        TOKeyCave01__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
+        TOKeyCave01__texture_lists[0] = (saddr)load_gvm_texture_file((saddr) "fs_obj_key_jungle_red.gvm");
         TOKeyCave01__texture_lists[1] = TOKeyCave01__resource_bundle->models[0].m_c;
         key_cave_render_state = 1;
         return;
@@ -247,8 +247,8 @@ void TOKeyCave01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_do_doa_panel_resource_descriptor, 0, 0, 0);
     }
     TOKeyCave01__resource_bundle = resource;
-    TOKeyCave01__texture_lists = (s32 *)mem_alloc(8);
-    TOKeyCave01__texture_lists[0] = (s32)load_gvm_texture_file((saddr) "fs_obj_do_doa_panelr.gvm");
+    TOKeyCave01__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
+    TOKeyCave01__texture_lists[0] = (saddr)load_gvm_texture_file((saddr) "fs_obj_do_doa_panelr.gvm");
     TOKeyCave01__texture_lists[1] = TOKeyCave01__resource_bundle->models[0].m_c;
     key_cave_render_state = 0;
 }

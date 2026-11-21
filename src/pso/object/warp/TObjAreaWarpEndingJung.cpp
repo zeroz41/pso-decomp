@@ -380,7 +380,7 @@ s32 release_texture_list(void*);
 }
 
 BmlResource *forest_warp_bml_resource;
-u32 forest_warp_texture_list;
+uaddr forest_warp_texture_list;
 // Set by TLobby while a quest is in progress; TObjAreaWarp's ctor reads it.
 s32 lobby_quest_progress_flag;
 
@@ -442,12 +442,12 @@ void load_forest_warp_resources(void) {
         resource = load_resource_from_descriptor(resource, 5, &forest_warp_resource_descriptor, 0, 0, 0);
     }
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (u32)load_gvm_texture_file((saddr)"fs_obj_warp.gvm");
+    forest_warp_texture_list = (uaddr)load_gvm_texture_file((saddr)"fs_obj_warp.gvm");
 }
 
 
 void TObjWarpBase::free_globals() {
-    if ((u32) forest_warp_texture_list != 0U) {
+    if ((uaddr) forest_warp_texture_list != 0U) {
         release_texture_list((void*)forest_warp_texture_list);
         TAdSinglePlyChrSelectGC::safe_free(forest_warp_texture_list);
         forest_warp_texture_list = 0U;

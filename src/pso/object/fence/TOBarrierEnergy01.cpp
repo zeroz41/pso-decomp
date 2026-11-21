@@ -48,7 +48,7 @@ const char *TOBarrierEnergy01_name = "TOBarrierEnergy01";
 
 static BmlResource *barrier_energy_shared_bml_archive;
 // [0] closed, [1] open, [2] the frame model's texture list.
-static s32 *barrier_energy_texlists;
+static saddr *barrier_energy_texlists;
 static void *barrier_energy_model;
 
 TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBase(parent) {
@@ -79,8 +79,8 @@ void TOBarrierEnergy01::load_resources() {
     }
     barrier_energy_shared_bml_archive = archive;
     barrier_energy_model = (void *)get_bml_model(archive, 0);
-    barrier_energy_texlists = (s32 *)mem_alloc(3 * sizeof(s32));
-    barrier_energy_texlists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_laz_guard_r.gvm");
+    barrier_energy_texlists = (saddr *)mem_alloc(3 * sizeof(saddr));
+    barrier_energy_texlists[0] = (saddr)load_gvm_texture_file((saddr)"fs_obj_laz_guard_r.gvm");
     barrier_energy_texlists[1] = get_bml_texlist(barrier_energy_shared_bml_archive, 1);
     barrier_energy_texlists[2] = get_bml_texlist(barrier_energy_shared_bml_archive, 0);
 }

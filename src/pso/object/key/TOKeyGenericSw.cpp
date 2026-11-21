@@ -44,7 +44,7 @@ const char *TOKeyGenericSw__name = "TOKeyGenericSw";
 // The body and the light.
 BmlResource *TOKeyGenericSw__shared_resource_ptrs[2];
 // The body's texture list, the light's, then light_ao for the lit light.
-s32 *TOKeyGenericSw__texture_lists;
+saddr *TOKeyGenericSw__texture_lists;
 
 void TOKeyGenericSw::vfunc_25() {}
 
@@ -134,10 +134,10 @@ void TOKeyGenericSw::load_resources() {
             resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, 0);
         }
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
-        TOKeyGenericSw__texture_lists = (s32 *)mem_alloc(0xC);
+        TOKeyGenericSw__texture_lists = (saddr *)mem_alloc(3 * sizeof(saddr));
         TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
         TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
-        TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao_j.GVM");
+        TOKeyGenericSw__texture_lists[2] = (saddr)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao_j.GVM");
     } else {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
@@ -149,10 +149,10 @@ void TOKeyGenericSw::load_resources() {
             resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, 0);
         }
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
-        TOKeyGenericSw__texture_lists = (s32 *)mem_alloc(0xC);
+        TOKeyGenericSw__texture_lists = (saddr *)mem_alloc(3 * sizeof(saddr));
         TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
         TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
-        TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao.GVM");
+        TOKeyGenericSw__texture_lists[2] = (saddr)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao.GVM");
     }
 }
 

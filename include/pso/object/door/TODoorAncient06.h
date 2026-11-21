@@ -21,7 +21,7 @@ struct TODoorAncient06 : public TODoorBase {
     static void load_resources();
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] red (locked), [1] green (open)
+    static saddr *texture_lists;  // [0] red (locked), [1] green (open)
     static NJS_OBJECT *model_nodes;  // three nodes copied out of the bml model
 };
 

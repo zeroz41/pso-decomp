@@ -30,7 +30,7 @@ static CollisionBody door_vs2door01_collision_body[1] = {
 };
 
 BmlResource *TODoorVS2Door01::bml_resource;
-s32 *TODoorVS2Door01::texture_lists;
+saddr *TODoorVS2Door01::texture_lists;
 
 void TODoorVS2Door01::update_demo() {}
 
@@ -153,9 +153,9 @@ void TODoorVS2Door01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &door_vs2door01_resource_descriptor, 0, 0, 0);
     }
     bml_resource = resource;
-    texture_lists = (s32 *)mem_alloc(8);
+    texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
     texture_lists[1] = bml_resource->models[0].m_c;
-    texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_o_vs2door01lr.gvm");
+    texture_lists[0] = (saddr)load_gvm_texture_file((saddr)"fs_obj_o_vs2door01lr.gvm");
 }
 
 TODoorVS2Door01::~TODoorVS2Door01() {

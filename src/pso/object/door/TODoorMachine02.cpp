@@ -43,7 +43,7 @@ static CollisionBody door_machine02_collision_body[1] = {
 };
 
 BmlResource *TODoorMachine02::bml_resource;
-s32 *TODoorMachine02::texture_lists;
+saddr *TODoorMachine02::texture_lists;
 
 void TODoorMachine02::update_demo() {}
 
@@ -137,21 +137,21 @@ void TODoorMachine02::destroy() {
 
 void TODoorMachine02::load_resources() {
     BmlResource *resource;
-    texture_lists = (s32 *)mem_alloc(8);
+    texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 1, &door_machine02_a_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r_a.gvm");
+        texture_lists[0] = (saddr)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r_a.gvm");
     } else {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 1, &door_machine02_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r.gvm");
+        texture_lists[0] = (saddr)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r.gvm");
     }
     texture_lists[1] = bml_resource->models[0].m_c;
 }

@@ -38,7 +38,7 @@ struct TODoorCave01 : public TODoorBase {
     NJS_ARGB light_color;  // the unlit lights' tint
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
+    static saddr *texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
 };
 
 LAYOUT_ASSERT(TODoorCave01_size, sizeof(TODoorCave01) == 0xEC);

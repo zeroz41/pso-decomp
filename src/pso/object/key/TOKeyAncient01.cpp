@@ -26,7 +26,7 @@ CollisionBody key_ancient01_collision_body[] = {
 const char *TOKeyAncient01__class_name = "TOKeyAncient01";
 BmlResource *TOKeyAncient01__shared_resource_object;
 // The model's own texture list, then the b, g and p variants.
-s32 *TOKeyAncient01__texture_lists;
+saddr *TOKeyAncient01__texture_lists;
 
 void TOKeyAncient01::vfunc_25() {}
 
@@ -86,11 +86,11 @@ void TOKeyAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_switch_resource_descriptor, 0, 0, 0);
     }
     TOKeyAncient01__shared_resource_object = resource;
-    TOKeyAncient01__texture_lists = (s32 *)mem_alloc(0x10);
+    TOKeyAncient01__texture_lists = (saddr *)mem_alloc(4 * sizeof(saddr));
     TOKeyAncient01__texture_lists[0] = TOKeyAncient01__shared_resource_object->models[0].m_c;
-    TOKeyAncient01__texture_lists[1] = (s32)load_gvm_texture_file((saddr) "o_key_ancient01b.gvm");
-    TOKeyAncient01__texture_lists[2] = (s32)load_gvm_texture_file((saddr) "o_key_ancient01g.gvm");
-    TOKeyAncient01__texture_lists[3] = (s32)load_gvm_texture_file((saddr) "o_key_ancient01p.gvm");
+    TOKeyAncient01__texture_lists[1] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient01b.gvm");
+    TOKeyAncient01__texture_lists[2] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient01g.gvm");
+    TOKeyAncient01__texture_lists[3] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient01p.gvm");
 }
 
 TOKeyAncient01::~TOKeyAncient01() {

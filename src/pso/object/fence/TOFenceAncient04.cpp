@@ -27,7 +27,7 @@ CollisionBody fence_ancient04_collision_bodies[8] = {
 };
 const char *TOFenceAncient04::class_name = "TOFenceAncient04";
 BmlResource *TOFenceAncient04::model_resource;
-s32 *TOFenceAncient04::texlists;
+saddr *TOFenceAncient04::texlists;
 
 void TOFenceAncient04::update_demo() {}
 
@@ -75,12 +75,12 @@ void TOFenceAncient04::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_saku_6x4_resource_descriptor, 0, 0, 0);
     }
     model_resource = resource;
-    s32 *lists = (s32 *)mem_alloc(4 * sizeof(s32));
+    saddr *lists = (saddr *)mem_alloc(4 * sizeof(saddr));
     texlists = lists;
     lists[0] = model_resource->models[0].m_c;
-    texlists[1] = (s32)load_gvm_texture_file((saddr)texture_file_b);
-    texlists[2] = (s32)load_gvm_texture_file((saddr)texture_file_g);
-    texlists[3] = (s32)load_gvm_texture_file((saddr)texture_file_p);
+    texlists[1] = (saddr)load_gvm_texture_file((saddr)texture_file_b);
+    texlists[2] = (saddr)load_gvm_texture_file((saddr)texture_file_g);
+    texlists[3] = (saddr)load_gvm_texture_file((saddr)texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.

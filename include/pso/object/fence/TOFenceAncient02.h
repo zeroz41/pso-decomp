@@ -20,7 +20,7 @@ struct TOFenceAncient02 : public TOFenceBase {
 
     static const char *class_name;
     static BmlResource *model_resource;
-    static s32 *texlists;  // read_texture_variant's four texture lists
+    static saddr *texlists;  // read_texture_variant's four texture lists
     static const char texture_file_b[];
     static const char texture_file_g[];
     static const char texture_file_p[];
