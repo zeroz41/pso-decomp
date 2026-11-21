@@ -113,7 +113,7 @@ s32 TObjNpcNgcBase::create_variant_13(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358B70(s32 arg0) {
+s32 create_variant_12__14TObjNpcNgcBaseFl(s32 arg0) {
   s32 temp_r3;
   saddr player;
   int new_var;
@@ -138,7 +138,7 @@ s32 TObjNpcNgcBase__sub_80358B70(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358BF8(s32 arg0) {
+s32 create_variant_11__14TObjNpcNgcBaseFl(s32 arg0) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -161,7 +161,7 @@ s32 TObjNpcNgcBase__sub_80358BF8(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358C80(s32 arg0) {
+s32 create_variant_10__14TObjNpcNgcBaseFl(s32 arg0) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -184,7 +184,7 @@ s32 TObjNpcNgcBase__sub_80358C80(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358D08(s32 arg0) {
+s32 create_variant_9__14TObjNpcNgcBaseFl(s32 arg0) {
   s8 *new_var;
   s32 temp_r3;
   saddr player;
@@ -311,7 +311,7 @@ s32 TObjNpcNgcBase::create_variant_5(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358FB0(s32 arg0) {
+s32 create_variant_4__14TObjNpcNgcBaseFl(s32 arg0) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -334,7 +334,7 @@ s32 TObjNpcNgcBase__sub_80358FB0(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80359038(s32 arg0) {
+s32 create_variant_3__14TObjNpcNgcBaseFl(s32 arg0) {
   saddr player;
   saddr var_r0;
   s32 var_r30;
@@ -357,7 +357,7 @@ s32 TObjNpcNgcBase__sub_80359038(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_803590C0(s32 arg0) {
+s32 create_variant_2__14TObjNpcNgcBaseFl(s32 arg0) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -380,7 +380,7 @@ s32 TObjNpcNgcBase__sub_803590C0(s32 arg0) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80359148(s32 arg0) {
+s32 create_variant_1__14TObjNpcNgcBaseFl(s32 arg0) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
