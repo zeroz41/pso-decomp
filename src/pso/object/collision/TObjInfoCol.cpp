@@ -11,12 +11,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 check_flag_100__10TObjPlayerFPv();
-extern s32 local_client_id;
 const char *TObjInfoCol__class_name = "TObjInfoCol";
 
 void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
