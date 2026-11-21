@@ -131,10 +131,12 @@ void TObjLazerFenceExtra::init_models() {
         }
     }
 }
+}
 
 __declspec(section ".data") const char *bm_fe_obj_komo_model_names[2] = { (char *)"fe_obj_komo.gj", NULL };
 BmlResourceDescriptor TKomorebi__resource_descriptor = { (char *)"bm_fe_obj_komo.bml", bm_fe_obj_komo_model_names, bm_fe_obj_komo_motion_names, 1, 0 };
 __declspec(section ".sdata") const char *bm_fe_obj_komo_motion_names[1] = { NULL };
+extern "C" {
 
 const char *komorebi_class_name = "TKomorebi";
 uaddr TKomorebi__resource_bundle;

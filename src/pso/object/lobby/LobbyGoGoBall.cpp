@@ -166,12 +166,14 @@ void *lbl_804B8D80[5] = {
     (void *)0x50005, (void *)0x0, (void *)0x0, (void *)0xff00ff,
     (void *)0x0,
 };
+}
 void *lbl_804B8D94[3] = {
     (void *)0x43fa0000, (void *)0x41a00000, (void *)0x0,
 };
 void *lbl_804B8DA0[3] = {
     (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
 };
+extern "C" {
 // The lobby GVM texture lists TLanguage::load_lobby_textures loads.
 GinjaTextureList *lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
@@ -301,6 +303,7 @@ f32 atan2_float(f32, f32);
 #define vector_length ((f32 (*)(void*,f32))vector_length)
 #define xyz_distance ((f32 (*)(void*,void*))xyz_distance)
 void TWindowTimer__sub_8019A770() { TWindowCtrl::close_timer_window(); }
+}
 
 void add_gogo_ball_one_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 1;
@@ -309,6 +312,7 @@ void add_gogo_ball_one_point_score(s32 i) {
 void add_gogo_ball_three_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 3;
 }
+extern "C" {
 
 int TWindowTimer::set_timer_value(int a0, int a1) { gogo_ball_team_scores[a0] = a1; return (int)gogo_ball_team_scores; }
 

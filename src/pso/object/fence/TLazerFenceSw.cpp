@@ -80,10 +80,12 @@ void *__ct__18CameraDistanceFadeFv(void *self);
 __declspec(section ".data") uaddr lazer_fence_sw_ginja_model_table[2];
 __declspec(section ".data") uaddr lazer_fence_beam_motions[2];
 __declspec(section ".data") uaddr lazer_fence_beam_node_table[3];
+}
 
 __declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
 __declspec(section ".data") const char *fe_obj_switch_laz_motion_names[3] = { "fe_obj_switch_laz.njm", "fs_obj_switch_laz_moto.njm", NULL };
 BmlResourceDescriptor laser_fence_switch_resource_descriptor = { "fe_obj_switch_laz.bml", fe_obj_switch_laz_model_names, fe_obj_switch_laz_motion_names, 3, 2 };
+extern "C" {
 __declspec(section ".data") const char *fe_obj_switch_laz_j_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
 __declspec(section ".data") const char *fe_obj_switch_laz_j_motion_names[3] = { "fe_obj_switch_laz.njm", "fs_obj_switch_laz_moto.njm", NULL };
 BmlResourceDescriptor fe_obj_switch_laz_j_resource_descriptor = { "fe_obj_switch_laz_j.bml", fe_obj_switch_laz_j_model_names, fe_obj_switch_laz_j_motion_names, 3, 2 };

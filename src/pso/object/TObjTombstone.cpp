@@ -41,7 +41,6 @@ struct Off_800753DC { s16 x, y; };
 
 extern "C" {
 f32 xyz_distance(void *, void *);
-extern s32 TLobby__designated_client_id;
 
 
 s32 PPCSync();

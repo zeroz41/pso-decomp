@@ -672,12 +672,10 @@ void load_particle_entry_resources(void) {
     TParticleCtrl__regular_bml_resource = (uaddr)p;
     TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)lbl_804394D4);
 }
-extern "C" {
 
 __declspec(section ".rodata") extern char lbl_80439494[] = "particleentrya";
 __declspec(section ".rodata") extern char lbl_804394A4[] = "particleentrya0%d.dat";
 __declspec(section ".rodata") extern char lbl_804394BC[] = "particleentrya%d.dat";
 __declspec(section ".rodata") extern char lbl_804394D4[] = "tecregular.gvm";
-}
 
 s32 particle_pool_limit = 1;

@@ -111,7 +111,6 @@ struct TObjLazerFenceNorm_80192CCC {
 s32 release_texture_list(void*);
 }
 u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 
 void load_lazer_fence_norm_resources(void) {
     BmlResource *obj;
@@ -135,7 +134,6 @@ void load_lazer_fence_norm_resources(void) {
         lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_lazer2.gvm");
         break;
     }
-}
 }
 
 void TObjLazerFenceNorm::free_resources() {

@@ -167,7 +167,6 @@ void TObjDoorJung::render() {
     }
 }
 
-extern s32 switch_doors_force_closed;
 
 void TObjDoorJung::update_door_switch_state() {
     s32 ok = 1;

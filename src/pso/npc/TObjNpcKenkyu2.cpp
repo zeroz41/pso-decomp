@@ -68,10 +68,12 @@ void *TObjNpcHosa2__create(void *set_data) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
     return new TObjNpcHosa2(control, set_data);
 }
+}
 
 __declspec(section ".data") const char *bm_npc_kenkyu2_model_names[2] = { "kenkyu2_body.nj", NULL };
 BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor = { "bm_npc_kenkyu2.bml", bm_npc_kenkyu2_model_names, bm_npc_kenkyu2_motion_names, 1, 0 };
 __declspec(section ".sdata") const char *bm_npc_kenkyu2_motion_names[1] = { NULL };
+extern "C" {
 
 const char *TObjNpcKenkyu2__name = "TObjNpcKenkyu2";
 uaddr TObjNpcKenkyu2__shared_model_resource;

@@ -477,10 +477,12 @@ void *lbl_80488A8C[13] = {
     (void *)&CreationCamera::create, (void *)&TCameraCtrl__vt9, (void *)&TCameraCtrl__vt10, (void *)&TCameraCtrl__vt11,
     (void *)&TCameraCtrl__vt12,
 };
+}
 void *lbl_80488AC0[6] = {
     (void *)0x0, (void *)0x0, (void *)&TCameraCtrl__sub_8006AA90, (void *)&run_task__11TCameraCtrlFv,
     (void *)&render__11TCameraCtrlFv, (void *)&render_shadows__7TObjectFv,
 };
+extern "C" {
 
     extern int camera_split_screen_selector;
 LAYOUT_ASSERT(RecoveredGlobal_8006ABAC_lbl_8058D490_size, sizeof(RecoveredGlobal_8006ABAC_lbl_8058D490) == 0x30);
@@ -1514,6 +1516,7 @@ void TCameraCtrl::reset_viewport_scissor() {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
+}
 void end_view_override() {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800694A8, sp8) == 0x0);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800694A8, sp10) == 0x8);
@@ -1542,6 +1545,7 @@ void end_view_override() {
     stack.sp4C = 0.85f;
     ((CameraViewParams *)&stack.sp8)->apply();
 }
+extern "C" {
 #pragma pop
 
 void TCameraCtrl::init_default_view() {

@@ -105,7 +105,6 @@ extern "C" {
 s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 extern s32 lbl_805D5868;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(game_command_header *command);
 }

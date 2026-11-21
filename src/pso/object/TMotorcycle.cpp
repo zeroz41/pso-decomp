@@ -29,11 +29,8 @@ extern const char *fe_obj_baiku_motion_names[1];
 
 
 void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
-extern "C" {
 BmlResource *TMotorcycle__bml_resource;
 GinjaTextureList *TMotorcycle__texture_list;
-}
-extern "C" {
 extern const s32 lbl_80445DF4[];
 extern CollisionBody TMotorcycle__collision_parts[1];
 extern const char *motorcycle_class_name;
@@ -47,6 +44,7 @@ CollisionBody TMotorcycle__collision_parts[1] = {
 const s32 lbl_80445DF4[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
+extern "C" {
 
 extern saddr camera_ctrl_instance;
 
