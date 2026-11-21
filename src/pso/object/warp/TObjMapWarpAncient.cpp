@@ -71,7 +71,7 @@ void TObjGoalWarpAncient::load_resources() {
 }
 
 void TObjMapWarpAncient::free_globals() {
-    TObjPlayer::free_if_valid((s32)goal_warp_ancient_gvm_texture);
+    TObjPlayer::free_if_valid((saddr)goal_warp_ancient_gvm_texture);
     goal_warp_ancient_gvm_texture = NULL;
     if (ancient_warp_shared_resource != NULL) {
         free_bin_model_request(ancient_warp_shared_resource, 1);
@@ -123,13 +123,13 @@ void TObjMapWarpAncient::render() {
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
         if ((s32)set_params[1] >= 0) {
-            TObjFish::set_global_param((s32)beam_textures);
+            TObjFish::set_global_param((saddr)beam_textures);
             draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         }
-        TObjFish::set_global_param((s32)ksita_textures);
+        TObjFish::set_global_param((saddr)ksita_textures);
         draw_ginja_object(ksita_model);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param((s32)nsita_textures);
+        TObjFish::set_global_param((saddr)nsita_textures);
         draw_ginja_object(nsita_model);
         pop_matrix();
     }
@@ -202,12 +202,12 @@ void TObjGoalWarpAncient::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((s32)beam_textures);
+        TObjFish::set_global_param((saddr)beam_textures);
         draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
-        TObjFish::set_global_param((s32)naka_textures);
+        TObjFish::set_global_param((saddr)naka_textures);
         draw_ginja_model_with_motion(naka_model, naka_motion, naka_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param((s32)gawa_textures);
+        TObjFish::set_global_param((saddr)gawa_textures);
         draw_ginja_object(gawa_model);
         pop_matrix();
     }

@@ -56,7 +56,7 @@ void TODoorAncient07::render() {
 
 void TODoorAncient07::update_open() {
     if (door_flags & 1) {
-        texlist = (s32)texture_lists[1];
+        texlist = (saddr)texture_lists[1];
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
             object_state = 3;
             clear_player_status_flag(0, 8);
@@ -64,7 +64,7 @@ void TODoorAncient07::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = (s32)texture_lists[0];
+        texlist = (saddr)texture_lists[0];
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, &position, 0, 0);
     }
@@ -72,14 +72,14 @@ void TODoorAncient07::update_open() {
 
 void TODoorAncient07::update_closed() {
     if (door_flags & 1) {
-        texlist = (s32)texture_lists[1];
+        texlist = (saddr)texture_lists[1];
         if (is_any_player_within_radius_xz(4900.0f) == 1) {
             object_state = 1;
             set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, &position, 0, 0);
         }
     } else {
-        texlist = (s32)texture_lists[0];
+        texlist = (saddr)texture_lists[0];
     }
 }
 
@@ -93,8 +93,8 @@ void TODoorAncient07::destroy() {
         model_nodes = NULL;
     }
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[1]);
-        TObjPlayer::free_if_valid((s32)texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[1]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -135,7 +135,7 @@ TODoorAncient07::TODoorAncient07(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_ancient07_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (s32)texture_lists[0];
+    texlist = (saddr)texture_lists[0];
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;

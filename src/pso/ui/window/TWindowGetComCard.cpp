@@ -107,7 +107,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         break;
     case 4:
         if (TAdPlayerLoadGC::get_instance() == 0) {
-            TWindowSubComCard::start_player_data_load((s32)TWindowGetComCard__sub_8007B594());
+            TWindowSubComCard::start_player_data_load((saddr)TWindowGetComCard__sub_8007B594());
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;

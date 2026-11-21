@@ -126,7 +126,7 @@ s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
         copy_vec2((&pos), (void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = (s32)create_window_menu_default((s32)(&pos), 1);
+    w = (s32)create_window_menu_default((saddr)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);
@@ -145,7 +145,7 @@ s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind) {
         copy_vec2((&pos), (void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = (s32)create_window_menu_default((s32)(&pos), 1);
+    w = (s32)create_window_menu_default((saddr)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);
@@ -164,7 +164,7 @@ s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind) {
         copy_vec2((&pos), (void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = (s32)create_window_menu_default((s32)(&pos), 1);
+    w = (s32)create_window_menu_default((saddr)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);
@@ -176,7 +176,7 @@ s32 TAdChrSelASlotGC::open_confirm_message(s32 arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     NJS_POINT2 pos;
     s32 w;
-    w = (s32)TWindowMessageYesNo::create((void *)((saddr)arg0), (void *)(arg2), 0, 0);
+    w = (saddr)TWindowMessageYesNo::create((void *)((saddr)arg0), (void *)(arg2), 0, 0);
     switch (arg1) {
     case 0:
         copy_vec2((&pos), (void *)(*(s32 *)(arg0 + 0x20) == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
@@ -194,7 +194,7 @@ s32 TAdChrSelASlotGC::create_message_window(s32 arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     NJS_POINT2 pos;
     s32 w;
-    w = (s32)TWindowMessageYesNo::create((void *)((saddr)arg0), (void *)(arg2), 0, 0);
+    w = (saddr)TWindowMessageYesNo::create((void *)((saddr)arg0), (void *)(arg2), 0, 0);
     switch (arg1) {
     case 0:
         copy_vec2((&pos), (void *)(*(s32 *)(arg0 + 0x20) == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
@@ -210,7 +210,7 @@ s32 TAdChrSelASlotGC::create_message_window(s32 arg1, s32 arg2) {
 
 s32 TAdChrSelASlotGC::create_format_message_window(s32 arg0, s32 arg1, s32 arg2) {
     s32 w;
-    w = (s32)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg2), 0, 0);
+    w = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg2), 0, 0);
     memset(char_select_format_message_buffer, 0, 0x100);
     sprintf(char_select_format_message_buffer, (const char *)get_localized_text_entry(0x16, 0x1E), 0x2710);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)w, (saddr)char_select_format_message_buffer, (s32)arg1, 193.0f);
@@ -222,7 +222,7 @@ s32 TAdChrSelASlotGC::create_format_message_window(s32 arg0, s32 arg1, s32 arg2)
 #pragma fp_contract on
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, saddr arg2) {
     s32 temp_r31;
-    temp_r31 = (s32)TWindowMessageYesNo::create((void *)((saddr)arg0), (void *)((saddr)((void *)arg2)), 0, 0);
+    temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((saddr)arg0), (void *)((saddr)((void *)arg2)), 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x16, 0x1D)), (s32)arg1, 193.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     return temp_r31;
@@ -233,7 +233,7 @@ s32 TAdChrSelASlotGC::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
     saddr temp_r31;
 
     play_sound_effect(0x53F06, 0, 0, 0);
-    temp_r31 = (s32)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg2), 0, 0);
+    temp_r31 = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg2), 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x16, 0x1B)), (s32)arg1, 458.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     ((TWindowSubComCard *)temp_r31)->free_windows();
@@ -242,7 +242,7 @@ s32 TAdChrSelASlotGC::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
 
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1) {
     saddr temp_r31;
-    temp_r31 = (s32)TWindowMessageYesNo::create((void *)(arg0), (void *)((s32)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()))), 0, 0);
+    temp_r31 = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)((s32)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()))), 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x16, 0x1A)), (s32)arg1, 196.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     ((TWindowSubComCard *)temp_r31)->free_windows();
@@ -261,7 +261,7 @@ u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *ad_chr_sel_a_slot_gc, s32 k
         copy_vec2((&pos), (void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = (s32)create_window_menu_default((s32)(&pos), 1);
+    w = (s32)create_window_menu_default((saddr)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, text), 0x21, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);

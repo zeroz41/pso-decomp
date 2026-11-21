@@ -19,7 +19,7 @@ extern s32 local_client_id;
 
 s32 sync_state__10TObjPlayerFi(saddr arg0) {
     uaddr temp_r3;
-    temp_r3 = (u32)get_local_player();
+    temp_r3 = (uaddr)get_local_player();
     if (temp_r3 == 0U) {
         TPlyOnCreated::create((void *)((u16) local_client_id), (void *)fn_802C4748);
         return 0;
@@ -45,7 +45,7 @@ s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr arg0, u16 arg1) {
 
 s32 update_battle__10TObjPlayerFi(saddr arg0) {
     s32 r;
-    r = (s32)get_local_player();
+    r = (saddr)get_local_player();
     if (r == 0) {
         return 0;
     }

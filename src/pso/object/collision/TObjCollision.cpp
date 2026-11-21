@@ -32,7 +32,7 @@ TObjCollision::~TObjCollision() {
 #define arg0 ((u8 *)this)
 TObjCollision::TObjCollision(TObject *parent, void *arg2_) : TObjCollidable(parent) {
     s32 var_r0;
-    s32 arg2 = (s32)arg2_;
+    s32 arg2 = (saddr)arg2_;
     ((TObjCollision *)arg0)->m_name = lbl_805D2830;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));

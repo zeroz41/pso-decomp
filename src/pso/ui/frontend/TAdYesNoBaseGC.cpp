@@ -53,7 +53,7 @@ const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     saddr temp_r31;
-    temp_r31 = (s32)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
+    temp_r31 = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
     ((TWindowMessage *)temp_r31)->append_line((saddr)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }

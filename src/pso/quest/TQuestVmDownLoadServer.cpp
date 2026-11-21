@@ -301,7 +301,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
     if (TQuestVmDownLoadServer__download_window == 0) {
         static const Pos_801F8A40 window_size = {444.0f, 84.0f};
         Pos_801F8A40 pos = window_size;
-        TQuestVmDownLoadServer__download_window = (u32)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (s32)&pos, 1);
+        TQuestVmDownLoadServer__download_window = (uaddr)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&pos, 1);
         ((TWindowMessage *)TQuestVmDownLoadServer__download_window)->append_line(get_message_text(0x3E), 0x81);
         ((TWindowMessage *)TQuestVmDownLoadServer__download_window)->complete_reveal();
         TQuestVmDownLoadServer__total_download_bytes = 0;
@@ -943,7 +943,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
 void TQuestVmDownLoadServer::load_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->m_25c);
     lbl_805D49B4 = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (s32)&this->m_270, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_264)) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (saddr)&this->m_270, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_264)) == 0) {
         this->state = 0xA;
         show_status_message(get_message_text(0xC), 1);
         quest_download_in_progress = 1;
@@ -1012,7 +1012,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
 void TQuestVmDownLoadServer::write_quest_data_named() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->m_25c);
     lbl_805D49B4 = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (s32)&this->m_27d, (saddr)this->m_260, this->m_268) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (saddr)&this->m_27d, (saddr)this->m_260, this->m_268) == 0) {
         this->state = 0xD;
         show_status_message(get_message_text(0xC), 1);
         return;
@@ -1092,7 +1092,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
 void TQuestVmDownLoadServer::write_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->m_25c);
     lbl_805D49B4 = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (s32)quest_file_99_name, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_26C)) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (saddr)quest_file_99_name, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_26C)) == 0) {
         this->state = 0x10;
         show_status_message(get_message_text(0xC), 1);
         return;
@@ -1314,7 +1314,7 @@ void TMCFormatSequence::open_windows() {
     if (self->f34 == 0) {
         static const Pair_801F68FC window_size = {444.0f, 84.0f};
         Pair_801F68FC t = window_size;
-        self->f34 = (u32)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (s32)&t, 1);
+        self->f34 = (uaddr)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&t, 1);
         show_message(get_localized_text_entry(self->f2C, self->f30), 0);
     }
     if (self->f38 == 0) {

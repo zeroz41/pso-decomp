@@ -383,7 +383,7 @@ void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matri
 #pragma fp_contract on
 void TObjBoss2Tunnel::transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2) {
     push_matrix();
-    TCameraCtrl::concat_matrix(0, (u32)TCameraCtrl::get_view_matrix());
+    TCameraCtrl::concat_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
     matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);
     pop_matrix();
 }
@@ -1021,7 +1021,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         cmd.sound_id = 0x52B20;
         send_6xB2_play_sound(&cmd);
         if (memcard_check_snapshot(0, NULL) != 0) {
-            if (TAdSinglePlyChrSelectGC::load_player(1, (s32)TObjBoss2Tunnel__data_80438A08, (s32)frame->save_image, 0xF) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)TObjBoss2Tunnel__data_80438A08, (saddr)frame->save_image, 0xF) == 0) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
@@ -1239,7 +1239,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.data = boss2_tunnel_snapshot_buffer;
     build_save_file_image__15TAdPlayerLoadGCFPvPv(TObjBoss2Tunnel__snapshot_buffer, &c, boss2_tunnel_snapshot_buffer);
     TAdPlayerLoadGC__sub_801E14E4(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, (s32)TObjBoss2Tunnel__data_80438A08, (s32)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)TObjBoss2Tunnel__data_80438A08, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     lbl_805D49B4 = 1;

@@ -1348,7 +1348,7 @@ void fn_802CE510(TObjEneBm9Mericarol *owner) {
         if (surface_mask != 0) {
             fn_800D8830(owner, &owner->position);
         } else {
-            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (s32)owner, (u32)&owner->position, 0, 0);
+            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (saddr)owner, (uaddr)&owner->position, 0, 0);
         }
         if (owner->is_passing_frame(5.0f) != 0 || owner->is_passing_frame(15.0f) != 0 ||
             owner->is_passing_frame(25.0f) != 0) {

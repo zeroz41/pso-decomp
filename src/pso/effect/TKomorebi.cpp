@@ -115,11 +115,11 @@ void TObjLazerFenceExtra::init_models() {
     if (this->set_params[2] % 2 == 0) {
         arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 0);
-        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
         arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 3);
         arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 2);
-        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         arg0->fC8[j] = 0;

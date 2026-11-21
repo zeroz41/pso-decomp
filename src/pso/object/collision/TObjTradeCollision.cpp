@@ -42,7 +42,7 @@ TObjTradeCollision::~TObjTradeCollision() {
 extern void *tl_05;
 
 TObjTradeCollision::TObjTradeCollision(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TObjTradeCollision__name);
+    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TObjTradeCollision__name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)this + 0xAC) = (f32) this->scale.x;
     ((TObject *)(((u8 *)this)))->disallow_rendering();

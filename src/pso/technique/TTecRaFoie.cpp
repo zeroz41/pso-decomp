@@ -395,7 +395,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
         self->queue_destruction();
         return;
     }
-    self->source = (u32)find_entity_by_id(self->m_b4);
+    self->source = (uaddr)find_entity_by_id(self->m_b4);
     if (self->source == 0) {
         self->queue_destruction();
         return;
@@ -409,7 +409,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
         return;
     }
     chara = (TObjChara *)find_entity_by_id(self->m_targets.records[0].id);
-    if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
+    if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
         self->update_detonation(&chara->m_2fc);
     }
 }

@@ -81,7 +81,7 @@ void TChCrLoadAfs::start_download() {
     u32 buffer;
 
     if (try_begin_load() != 0) {
-        handle = (u32)TLobby::adxf_open_afs(source_20, source_24);
+        handle = (uaddr)TLobby::adxf_open_afs(source_20, source_24);
         load_handle = handle;
         if (handle == 0U) {
             load_state = 3;
@@ -243,7 +243,7 @@ void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
     u32 handle;
     u32 buf;
-    handle = (u32)TLobby::adxf_open_afs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
+    handle = (uaddr)TLobby::adxf_open_afs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
         m_20 = 0;

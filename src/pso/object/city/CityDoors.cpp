@@ -155,7 +155,7 @@ s32 push_matrix();
 void TLobby::free_map_resources() {
     if (city_common_texture_list != NULL) {
         release_texture_list(city_common_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)city_common_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)city_common_texture_list);
         city_common_texture_list = NULL;
     }
     free_bin_model_request(city_common_model_archive, 1);
@@ -417,7 +417,7 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void TObjCityDoor_Med::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_80181ff4 *)arg0)->m20() != 0) {
-        TObjFish::set_global_param((s32)city_common_texture_list);
+        TObjFish::set_global_param((saddr)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -512,7 +512,7 @@ void render__17TObjCityDoor_WarpFv(void* o);
 
 void TObjCityDoor_Warp::render() {
  if(((CityDoorProbe*)this)->visible()!=0) {
-  TObjFish::set_global_param((s32)city_common_texture_list);push_matrix();
+  TObjFish::set_global_param((saddr)city_common_texture_list);push_matrix();
   post_translate_matrix((u8*)this+0x38);rotate_matrix_y(0,F(this,s32,0x60));
   draw_ginja_model_with_motion(get_city_common_model(9), get_city_common_motion(8), F(this,f32,0xB4));
   draw_ginja_model_with_motion(get_city_common_model(10), get_city_common_motion(9), F(this,f32,0xB4));
@@ -644,7 +644,7 @@ void *dt__17TObjCityDoor_WarpFPvs(void *object, s16 arg1) {
 extern u8 city_door_warp_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Warp__name;
 void *TObjCityDoor_Warp__ct(void *o, void *parent, void *set) {
  init_city_door((u8*)o,(saddr)parent,(saddr)set,city_door_warp_params);
- FOLD_F(o,s32*,0x18)=__vt__17TObjCityDoor_Warp;FOLD_F(o,s32,0)=(s32)TObjCityDoor_Warp__name;
+ FOLD_F(o,s32*,0x18)=__vt__17TObjCityDoor_Warp;FOLD_F(o,s32,0)=(saddr)TObjCityDoor_Warp__name;
  FOLD_F(o,f32,0xB0)=(f32)(get_city_common_motion(8)->frameCount-1);
  return o;
 }
@@ -653,7 +653,7 @@ void TObjCityDoor_Guild::render() {
     u8 *arg0 = (u8 *)this;
 
     if (((VObj_8018257c_8018245C *)arg0)->m20() != 0) {
-        TObjFish::set_global_param((s32)city_common_texture_list);
+        TObjFish::set_global_param((saddr)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -731,7 +731,7 @@ void *dt__18TObjCityDoor_GuildFPvs(void *object, s16 arg1) {
 extern u8 TObjCityDoor_Guild__params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Guild__name;
 void *TObjCityDoor_Guild__ct(void *o, void *parent, void *set) {
  init_city_door((u8*)o,(saddr)parent,(saddr)set,TObjCityDoor_Guild__params);
- FOLD_F(o,s32*,0x18)=__vt__18TObjCityDoor_Guild;FOLD_F(o,s32,0)=(s32)TObjCityDoor_Guild__name;
+ FOLD_F(o,s32*,0x18)=__vt__18TObjCityDoor_Guild;FOLD_F(o,s32,0)=(saddr)TObjCityDoor_Guild__name;
  FOLD_F(o,f32,0xB0)=(f32)(get_city_common_motion(12)->frameCount-1);
  return o;
 }
@@ -739,7 +739,7 @@ void *TObjCityDoor_Guild__ct(void *o, void *parent, void *set) {
 void TObjCityDoor_Shop::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_8018274C_8018262C *)arg0)->m20() != 0) {
-        TObjFish::set_global_param((s32)city_common_texture_list);
+        TObjFish::set_global_param((saddr)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -795,7 +795,7 @@ u8 *TObjCityDoor_Shop__ct(u8 *city_door_shop, s32 arg1, s32 arg2) {
   new_var = &__vt__17TObjCityDoor_Shop.value;
   init_city_door(city_door_shop, arg1, arg2, (u8 *)&TObjCityDoor_Shop__params.value);
   *((s32 **) (((s8 *) city_door_shop) + 0x18)) = new_var;
-  *((s32 *) (((s8 *) city_door_shop) + 0)) = (s32) TObjCityDoor_Shop__name;
+  *((s32 *) (((s8 *) city_door_shop) + 0)) = (saddr) TObjCityDoor_Shop__name;
   new_var2 = 1;
   ((TObjCityDoor_Shop *)city_door_shop)->m_b0 = (f32)((s32)city_common_model_archive->motions[10].motion->frameCount - new_var2);
   return city_door_shop;
@@ -1061,12 +1061,12 @@ void run_task__7TObjectFv();
 const char *bm_obj_city_common_model_names[] = {city_door_asset_de_obj_bigbeam_gj, city_door_asset_de_obj_citybeam_gj, city_door_asset_de_obj_o_aircar02_light_gj, city_door_asset_de_obj_smallbeam_gj, city_door_asset_ds_obj_o_aircar01_light_gj, city_door_asset_ds_obj_o_aircar03_light_gj, city_door_asset_ds_obj_o_aircar04_light_gj, city_door_asset_ds_obj_o_aircar05_light_gj, city_door_asset_fd_obj_n_elv_bmerge4_gj, city_door_asset_fd_obj_n_tobira_shut_sita_gj, city_door_asset_fd_obj_n_tobira_shut_ue_gj, city_door_asset_fd_obj_shopdoor_01_gj, city_door_asset_fd_obj_warp_big_gj, city_door_asset_fd_obj_warp_small_gj, city_door_asset_fe_hntdoor_fusagi_gj, city_door_asset_fe_obj_o_aircar01_nj, city_door_asset_fe_obj_o_aircar02_nj, city_door_asset_fe_obj_o_aircar03_nj, city_door_asset_fe_obj_o_aircar04_nj, city_door_asset_fe_obj_o_aircar05_nj, city_door_asset_fe_obj_o_medical_door01l_gj, city_door_asset_hunter_door_gj, 0};
 const char *bm_obj_city_common_motion_names[] = {city_door_asset_aircar_path1_njm, city_door_asset_aircar_path2_njm, city_door_asset_aircar_path3_njm, city_door_asset_aircar_path4_njm, city_door_asset_aircar_path5_njm, city_door_asset_de_obj_bigbeam_njm, city_door_asset_de_obj_citybeam_njm, city_door_asset_de_obj_smallbeam_njm, city_door_asset_fd_obj_n_tobira_shut_sita_njm, city_door_asset_fd_obj_n_tobira_shut_ue_njm, city_door_asset_fd_obj_shopdoor_01_njm, city_door_asset_fe_obj_o_medical_door01l_njm, city_door_asset_hunter_door_njm, 0};
 BmObjCityCommonResourceDescriptor bm_obj_city_common_resource_descriptor = {{city_common_model_archive_filename, bm_obj_city_common_model_names, bm_obj_city_common_motion_names, 22, 13}, 0};
-s32 __vt__18TObjCityDoor_Lobby[] = {0, 0, (s32)__dt__18TObjCityDoor_LobbyFPvs, (s32)run_task__18TObjCityDoor_LobbyFv, (s32)render__18TObjCityDoor_LobbyFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__8TObjBaseFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)dispatch_lobby_action__18TObjCityDoor_LobbyFv};
-s32 __vt__16TObjCityDoor_Med[] = {0, 0, (s32)dt__16TObjCityDoor_MedFPvs, (s32)run_task__16TObjCityDoor_MedFv, (s32)render__16TObjCityDoor_MedFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__13TUnk_804B5BA8Fv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__13TUnk_804B5BA8Fv, (s32)city_door_play_open_sound__13TUnk_804B5BA8Fv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv};
-s32 __vt__17TObjCityDoor_Warp[] = {0, 0, (s32)dt__17TObjCityDoor_WarpFPvs, (s32)run_task__17TObjCityDoor_WarpFv, (s32)render__17TObjCityDoor_WarpFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__17TObjCityDoor_WarpFv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__17TObjCityDoor_WarpFv, (s32)city_door_play_open_sound__17TObjCityDoor_WarpFv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv};
-s32 __vt__18TObjCityDoor_Guild[] = {0, 0, (s32)dt__18TObjCityDoor_GuildFPvs, (s32)run_task__18TObjCityDoor_GuildFv, (s32)render__18TObjCityDoor_GuildFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__13TUnk_804B5BA8Fv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__13TUnk_804B5BA8Fv, (s32)city_door_play_open_sound__13TUnk_804B5BA8Fv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv};
-RecoveredGlobal_8018289C_lbl_804B5B4C __vt__17TObjCityDoor_Shop = {0, {0, (s32)dt__17TObjCityDoor_ShopFPvs, (s32)run_task__17TObjCityDoor_ShopFv, (s32)render__17TObjCityDoor_ShopFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__13TUnk_804B5BA8Fv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__13TUnk_804B5BA8Fv, (s32)city_door_play_open_sound__13TUnk_804B5BA8Fv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv}};
-s32 city_door_base_vtable[] = {0, 0, (s32)TObjPlayer__sub_80182D24, (s32)run_task__7TObjectFv, (s32)render__7TObjectFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__13TUnk_804B5BA8Fv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__13TUnk_804B5BA8Fv, (s32)city_door_play_open_sound__13TUnk_804B5BA8Fv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv, 0};
+s32 __vt__18TObjCityDoor_Lobby[] = {0, 0, (saddr)__dt__18TObjCityDoor_LobbyFPvs, (saddr)run_task__18TObjCityDoor_LobbyFv, (saddr)render__18TObjCityDoor_LobbyFv, (saddr)render_shadows__7TObjectFv, (saddr)vfunc_6__8TObjBaseFPsl, (saddr)apply_object_set_data__8TObjBaseFPv, (saddr)reset_motion_fields__8TObjBaseFv, (saddr)get_center__8TObjBaseFv, (saddr)update_object_view_visibility__8TObjBaseFff, (saddr)classify_actor_view_detail__8TObjBaseFfff, (saddr)get_name__8TObjBaseFv, (saddr)dispatch_lobby_action__18TObjCityDoor_LobbyFv};
+s32 __vt__16TObjCityDoor_Med[] = {0, 0, (saddr)dt__16TObjCityDoor_MedFPvs, (saddr)run_task__16TObjCityDoor_MedFv, (saddr)render__16TObjCityDoor_MedFv, (saddr)render_shadows__7TObjectFv, (saddr)vfunc_6__8TObjBaseFPsl, (saddr)apply_object_set_data__8TObjBaseFPv, (saddr)reset_motion_fields__14TObjCollidableFv, (saddr)get_center__8TObjBaseFv, (saddr)update_object_view_visibility__8TObjBaseFff, (saddr)classify_actor_view_detail__8TObjBaseFfff, (saddr)get_name__8TObjBaseFv, (saddr)interact__14TObjCollidableFl, (saddr)check_player_in_range__13TUnk_804B5BA8Flf, (saddr)begin_state_1__13TUnk_804B5BA8Fv, (saddr)city_door_tick_closing__13TUnk_804B5BA8Fv, (saddr)city_door_tick_opening__13TUnk_804B5BA8Fv, (saddr)check_ground_or_fall__13TUnk_804B5BA8Fv, (saddr)city_door_play_close_sound__13TUnk_804B5BA8Fv, (saddr)city_door_play_open_sound__13TUnk_804B5BA8Fv, (saddr)dispatch_state__13TUnk_804B5BA8Fv, (saddr)vfunc_22__13TUnk_804B5BA8Fv};
+s32 __vt__17TObjCityDoor_Warp[] = {0, 0, (saddr)dt__17TObjCityDoor_WarpFPvs, (saddr)run_task__17TObjCityDoor_WarpFv, (saddr)render__17TObjCityDoor_WarpFv, (saddr)render_shadows__7TObjectFv, (saddr)vfunc_6__8TObjBaseFPsl, (saddr)apply_object_set_data__8TObjBaseFPv, (saddr)reset_motion_fields__14TObjCollidableFv, (saddr)get_center__8TObjBaseFv, (saddr)update_object_view_visibility__8TObjBaseFff, (saddr)classify_actor_view_detail__8TObjBaseFfff, (saddr)get_name__8TObjBaseFv, (saddr)interact__14TObjCollidableFl, (saddr)check_player_in_range__13TUnk_804B5BA8Flf, (saddr)begin_state_1__13TUnk_804B5BA8Fv, (saddr)city_door_tick_closing__13TUnk_804B5BA8Fv, (saddr)city_door_tick_opening__17TObjCityDoor_WarpFv, (saddr)check_ground_or_fall__13TUnk_804B5BA8Fv, (saddr)city_door_play_close_sound__17TObjCityDoor_WarpFv, (saddr)city_door_play_open_sound__17TObjCityDoor_WarpFv, (saddr)dispatch_state__13TUnk_804B5BA8Fv, (saddr)vfunc_22__13TUnk_804B5BA8Fv};
+s32 __vt__18TObjCityDoor_Guild[] = {0, 0, (saddr)dt__18TObjCityDoor_GuildFPvs, (saddr)run_task__18TObjCityDoor_GuildFv, (saddr)render__18TObjCityDoor_GuildFv, (saddr)render_shadows__7TObjectFv, (saddr)vfunc_6__8TObjBaseFPsl, (saddr)apply_object_set_data__8TObjBaseFPv, (saddr)reset_motion_fields__14TObjCollidableFv, (saddr)get_center__8TObjBaseFv, (saddr)update_object_view_visibility__8TObjBaseFff, (saddr)classify_actor_view_detail__8TObjBaseFfff, (saddr)get_name__8TObjBaseFv, (saddr)interact__14TObjCollidableFl, (saddr)check_player_in_range__13TUnk_804B5BA8Flf, (saddr)begin_state_1__13TUnk_804B5BA8Fv, (saddr)city_door_tick_closing__13TUnk_804B5BA8Fv, (saddr)city_door_tick_opening__13TUnk_804B5BA8Fv, (saddr)check_ground_or_fall__13TUnk_804B5BA8Fv, (saddr)city_door_play_close_sound__13TUnk_804B5BA8Fv, (saddr)city_door_play_open_sound__13TUnk_804B5BA8Fv, (saddr)dispatch_state__13TUnk_804B5BA8Fv, (saddr)vfunc_22__13TUnk_804B5BA8Fv};
+RecoveredGlobal_8018289C_lbl_804B5B4C __vt__17TObjCityDoor_Shop = {0, {0, (saddr)dt__17TObjCityDoor_ShopFPvs, (saddr)run_task__17TObjCityDoor_ShopFv, (saddr)render__17TObjCityDoor_ShopFv, (saddr)render_shadows__7TObjectFv, (saddr)vfunc_6__8TObjBaseFPsl, (saddr)apply_object_set_data__8TObjBaseFPv, (saddr)reset_motion_fields__14TObjCollidableFv, (saddr)get_center__8TObjBaseFv, (saddr)update_object_view_visibility__8TObjBaseFff, (saddr)classify_actor_view_detail__8TObjBaseFfff, (saddr)get_name__8TObjBaseFv, (saddr)interact__14TObjCollidableFl, (saddr)check_player_in_range__13TUnk_804B5BA8Flf, (saddr)begin_state_1__13TUnk_804B5BA8Fv, (saddr)city_door_tick_closing__13TUnk_804B5BA8Fv, (saddr)city_door_tick_opening__13TUnk_804B5BA8Fv, (saddr)check_ground_or_fall__13TUnk_804B5BA8Fv, (saddr)city_door_play_close_sound__13TUnk_804B5BA8Fv, (saddr)city_door_play_open_sound__13TUnk_804B5BA8Fv, (saddr)dispatch_state__13TUnk_804B5BA8Fv, (saddr)vfunc_22__13TUnk_804B5BA8Fv}};
+s32 city_door_base_vtable[] = {0, 0, (saddr)TObjPlayer__sub_80182D24, (saddr)run_task__7TObjectFv, (saddr)render__7TObjectFv, (saddr)render_shadows__7TObjectFv, (saddr)vfunc_6__8TObjBaseFPsl, (saddr)apply_object_set_data__8TObjBaseFPv, (saddr)reset_motion_fields__14TObjCollidableFv, (saddr)get_center__8TObjBaseFv, (saddr)update_object_view_visibility__8TObjBaseFff, (saddr)classify_actor_view_detail__8TObjBaseFfff, (saddr)get_name__8TObjBaseFv, (saddr)interact__14TObjCollidableFl, (saddr)check_player_in_range__13TUnk_804B5BA8Flf, (saddr)begin_state_1__13TUnk_804B5BA8Fv, (saddr)city_door_tick_closing__13TUnk_804B5BA8Fv, (saddr)city_door_tick_opening__13TUnk_804B5BA8Fv, (saddr)check_ground_or_fall__13TUnk_804B5BA8Fv, (saddr)city_door_play_close_sound__13TUnk_804B5BA8Fv, (saddr)city_door_play_open_sound__13TUnk_804B5BA8Fv, (saddr)dispatch_state__13TUnk_804B5BA8Fv, (saddr)vfunc_22__13TUnk_804B5BA8Fv, 0};
 __declspec(section ".sdata") const char *TObjCityDoor_Shop__name = TObjCityDoor_Shop__class_name;
 __declspec(section ".sdata") const char *TObjCityDoor_Guild__name = TObjCityDoor_Guild__class_name;
 __declspec(section ".sdata") const char *TObjCityDoor_Warp__name = TObjCityDoor_Warp__class_name;

@@ -1452,7 +1452,7 @@ Vec *VecCopy(Vec* dst, const Vec* src) {
 
 #pragma pop
 void TObjChara::get_pos(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((s32 (*)(s32, s32, s32))VecCopy__FP3VecPC3Vec)(arg1, arg0 + 0x2FC, arg0);
 }
 
@@ -1698,7 +1698,7 @@ f32 TObjPlayer::calc_distance_to_client(saddr arg0, u16 arg1, uaddr arg2) {
         var_f31 = calc_xz_distance_sq(arg0, (u32)((u32) temp_r3), &stack.sp8);
         if (arg2 != 0U)
         {
-          VecCopy__FP3VecPC3Vec((s32)((void *) arg2), (s32)&stack.sp8);
+          VecCopy__FP3VecPC3Vec((saddr)((void *) arg2), (saddr)&stack.sp8);
         }
       }
     }
@@ -1881,9 +1881,9 @@ void move_with_wall_slide(u8 *arg0) {
   f32 xx;
   f32 zz;
   VecCopy__FP3VecPC3Vec((saddr)&self->prev, (saddr)&self->pos);
-  VecCopy__FP3VecPC3Vec((s32)&next, (s32)&self->cur);
+  VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
   vec3_add_to(&next, &self->vel);
-  VecCopy__FP3VecPC3Vec((s32)&dir, (s32)&self->vel);
+  VecCopy__FP3VecPC3Vec((saddr)&dir, (saddr)&self->vel);
   normalize_vector_xz((Vec *)(&dir));
   next.x = ((5.0f) * dir.x) + next.x;
   next.z = ((5.0f) * dir.z) + next.z;
@@ -1907,9 +1907,9 @@ void move_with_wall_slide(u8 *arg0) {
       self->vel.x = (-new_var) * len;
       self->vel.z = (-nrm.z) * len;
     }
-    VecCopy__FP3VecPC3Vec((s32)&next, (s32)&self->cur);
+    VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
     vec3_add_to(&next, &self->vel);
-    VecCopy__FP3VecPC3Vec((s32)&dir, (s32)&self->vel);
+    VecCopy__FP3VecPC3Vec((saddr)&dir, (saddr)&self->vel);
     normalize_vector_xz((Vec *)(&dir));
     next.x = ((5.0f) * dir.x) + next.x;
     next.z = ((5.0f) * dir.z) + next.z;
@@ -1918,7 +1918,7 @@ void move_with_wall_slide(u8 *arg0) {
       return;
     }
   }
-  VecCopy__FP3VecPC3Vec((s32)&next, (s32)&self->cur);
+  VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
   vec3_add_to(&next, &self->vel);
   next.y += (1e+01f);
   if ((csnVecterUnder(&next, 0xE0) == 0) && (project_actor_to_ground((saddr) self, (saddr)&next, 0) != 0))
@@ -2070,7 +2070,7 @@ s32 TObjChara::is_target_in_attack_range() {
                     }
                 }
             } else {
-                dist = calc_xz_distance_sq((s32)((s32)p), (u32)((u32)t), &out);
+                dist = calc_xz_distance_sq((s32)((saddr)p), (u32)((uaddr)t), &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
                 if (p->target->parts != NULL) {
                     prod = (p->target->parts->radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts->radius + ((TObjChara *)p)->get_attack_range());
@@ -2459,7 +2459,7 @@ void TObjChara::show_miss_popup(const float *pos) {
 
 void TObjChara::try_apply_damage(const Vec *pos, s32 arg2) {
     if ((this->obj_testFlags30(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(this)) == 0) && (pos != NULL) && ((s16) arg2 >= 0) && ((TObjPlayer::get_player_count() == 0) || ((u16) this->entity_id >= 0x1000U))) {
-        create_damage_font__19TObjEneEpsilonGuardFllll((u32)pos, -1, 0x14, (s16) arg2);
+        create_damage_font__19TObjEneEpsilonGuardFllll((uaddr)pos, -1, 0x14, (s16) arg2);
     }
 }
 
@@ -2545,16 +2545,16 @@ void TObjChara::trigger_switch_attack(const Vec *arg1) {
     if (this->obj_testFlags30(0x02000000) == 0) {
         switch (this->m_2e4) {
         case 1:
-            spawn_particle_effect_with_flags((s32)arg1, 0xF1, 0x40);
+            spawn_particle_effect_with_flags((saddr)arg1, 0xF1, 0x40);
             return;
         case 2:
-            spawn_particle_effect_with_flags((s32)arg1, 0xF2, 0x40);
+            spawn_particle_effect_with_flags((saddr)arg1, 0xF2, 0x40);
             return;
         case 4:
-            spawn_particle_effect_with_flags((s32)arg1, 0xE3, 0x40);
+            spawn_particle_effect_with_flags((saddr)arg1, 0xE3, 0x40);
             return;
         case 8:
-            spawn_particle_effect_with_flags((s32)arg1, 0x10D, 0x40);
+            spawn_particle_effect_with_flags((saddr)arg1, 0x10D, 0x40);
             break;
         }
     }
@@ -2858,7 +2858,7 @@ void TObjChara::clear_all_status_effects() {
 }
 
 void TObjChara::apply_action_hold_status(f32 farg0) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((void (*)(s32, s32, s32))TObjPlayer__sub_8001940C)(arg0, 4, 0x14);
     ((void (*)(s32, s32, s32))TObjPlayer__sub_800193FC)(arg0, 4, (s32) farg0);
     ((void (*)(void *, u32))obj_setFlags30)((void *) arg0, 0x4000U);
@@ -2876,7 +2876,7 @@ void TObjChara::vfunc_62() {  }
 
 void TObjChara::vfunc_63() {  }
 
-void TObjChara::reset_pose() { obj_clearFlags30((u32)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
+void TObjChara::reset_pose() { obj_clearFlags30((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
@@ -4411,7 +4411,7 @@ s32 is_entity_locally_controlled(s32 id) {
 
 void TObjChara::apply_switch_attack() {
     s32 particle_effect_with_flags;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(arg0 + 0x2FC, 0x1FD, 0x50);
     if (particle_effect_with_flags != 0) {
@@ -4422,7 +4422,7 @@ void TObjChara::apply_switch_attack() {
 void TObjChara::enemy_spawn_jellen_effect() {
     Stack_80010B44 stack;
     s32 oneshot_particle_emitter;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     stack.spC = 0;
     stack.sp8 = 0;
     stack.sp10 = -0x8000;
@@ -4444,7 +4444,7 @@ void TObjChara::trigger_switch_attack() {
 void TObjChara::enemy_spawn_zalure_effect() {
     Stack_80010A84 stack;
     s32 oneshot_particle_emitter;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     stack.spC = 0;
     stack.sp8 = 0;
     stack.sp10 = -0x8000;
@@ -4711,7 +4711,7 @@ void activate_switch_attacks__10TObjPlayerFii(saddr arg0, s32 arg1) {
 }
 
 s32 TObjPlayer::is_local_player() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (((u16 (*)(void*))get_entity_id)((void*)arg0) < 0x1000U) {
         return TObjPlayer::is_locally_controlled((void *)arg0);
     }

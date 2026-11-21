@@ -258,7 +258,7 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(saddr arg1, s32 arg2)
     this->m_64 = arg2;
     var_r31 = (saddr)::operator new(0x24);
     if (var_r31 != 0) {
-        var_r31 = (s32)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), (s32) this->m_20);
+        var_r31 = (saddr)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), (s32) this->m_20);
     }
     this->m_68 = var_r31;
 }

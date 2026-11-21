@@ -475,7 +475,7 @@ void TObjBoss2Tunnel::update_particles() {
     for (i = 0; i < 4; i++) {
         p = ((S_8003C108 *)this)->ptr[i];
         if (p == 0) {
-            r = (s32)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
+            r = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
             if (r != 0) {
                 ((TParticleCtrl *)r)->enable();
                 ((S_8003C108 *)this)->ptr[i] = r;
@@ -755,7 +755,7 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
     {
         Fog_8003B2EC *f = *lbl_805D4BEC;
         saved = f->c;
-        f->c = f[(s32)((TObjBoss2Tunnel *)o)->sub_8003C21C()].c;
+        f->c = f[(saddr)((TObjBoss2Tunnel *)o)->sub_8003C21C()].c;
     }
     TObjFish::set_global_param((saddr)lbl_805D4BEC);
     if (o->f24 == 0 || o->f24 == 1) {

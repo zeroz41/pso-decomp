@@ -28,7 +28,7 @@ u8 *TWindowSubStatusDisp__sub_80248BE8(saddr arg0, saddr arg1, s32 arg2) {
 }
 
 void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {
-    return TWindowSubStatusDisp__sub_80248BE8((s32)layout_position, (s32)position, local_client_id);
+    return TWindowSubStatusDisp__sub_80248BE8((saddr)layout_position, (saddr)position, local_client_id);
 }
 
 void TWindowCheckBox::render() {

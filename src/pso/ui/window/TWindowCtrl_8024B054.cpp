@@ -26,7 +26,7 @@ s32 TWindowCtrl::is_slot_visible(s32 arg0) {
 }
 
 s32 TWindowCtrl__sub_8024B098(void *self, Pmf_8024B098 pmf) {
-    Win_8024B098 *w = (Win_8024B098 *)TWindowCtrl::get_window((s32)self);
+    Win_8024B098 *w = (Win_8024B098 *)TWindowCtrl::get_window((saddr)self);
     if (w == NULL) {
         return 0;
     }

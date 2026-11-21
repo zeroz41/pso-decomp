@@ -121,8 +121,8 @@ void *TObjDFDemo3::create(void *arg0, void *arg1, void *arg2) {
 extern "C" {
 TObjDFDemo3::TObjDFDemo3(TObject *parent, void *arg2_, void *arg3_) : TObjBase(parent) {
     s32 cnt;
-    s32 arg2 = (s32)arg2_;
-    s32 arg3 = (s32)arg3_;
+    s32 arg2 = (saddr)arg2_;
+    s32 arg3 = (saddr)arg3_;
     *(s32 *)((s8 *)base + 0) = (saddr) TObjDFDemo3__name;
     VecCopy((Vec *)(base + 0xA0), (const Vec *)arg2);
     *(f32 *)((s8 *)base + 0xA4) = 0.0f;

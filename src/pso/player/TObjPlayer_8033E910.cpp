@@ -68,7 +68,7 @@ void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 char *get_shared_capture_texture_list(void);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
-void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param((s32)get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
+void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param((saddr)get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
 
     extern int model_render_flags;
 void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); TObjPlayer::set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }

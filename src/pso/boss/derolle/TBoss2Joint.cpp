@@ -412,7 +412,7 @@ s32 TBoss2Joint::init_params() {
     self->unk34 = 0;
     self->unk24 = 0;
     ((TObjEneDD *)self)->init_model((CollisionBody *)(prm->unk34), (s32)1);
-    ((TObjEneDD *)self)->reset_hp((u8 *)((s32)TLobby::register_boss(prm->unk0)), (u8 *)((s32)TLobby::dispatch_shared_handler_b(prm->unk8)), (u8 *)((s32)TLobby::register_object(prm->unk10)));
+    ((TObjEneDD *)self)->reset_hp((u8 *)((saddr)TLobby::register_boss(prm->unk0)), (u8 *)((saddr)TLobby::dispatch_shared_handler_b(prm->unk8)), (u8 *)((saddr)TLobby::register_object(prm->unk10)));
     self->hp32C = 0x4E20;
     self->hp2B8 = 0x4E20;
     ((TObjEneDD *)self)->set_state_flag_2();

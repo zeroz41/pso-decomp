@@ -110,7 +110,7 @@ void TWindowSnapShot::play_open_sound() {
 void render__15TWindowSnapShotFv(u8 *arg0) {
     Stack_802A7F00 stack;
     u8 *temp_r3;
-    temp_r3 = (u8 *)TWindowDD::draw_default_entry((s32)arg0);
+    temp_r3 = (u8 *)TWindowDD::draw_default_entry((saddr)arg0);
     ((TWindowBase *)arg0)->draw_window_frame(temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     if (!(((TWindowSnapShot *)arg0)->m_60 & 2)) {

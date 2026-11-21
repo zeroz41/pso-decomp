@@ -1561,7 +1561,7 @@ s32 TObjEneGibbles__sub_802D9A04(void *target) {
 
     for (i = 0; i < lbl_805D5868; i++) {
         pl = (VObj_802D9A04 *)TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && get_entity_id(pl) < 0x1000U) {
+        if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && get_entity_id(pl) < 0x1000U) {
             f32 dist = horizontal_distance_squared((saddr) ((u8 *) pl + 0x2FC), (void *) ((saddr) target + 0x38));
             if (dist <= ((AttackParams *)(*(void **)((s8 *)gibbles_combat_stat_entries + 4)))->get_damage_radius() * ((AttackParams *)(*(void **)((s8 *)gibbles_combat_stat_entries + 4)))->get_damage_radius()) {
                 Arg_802D9A04 tmp;
@@ -1603,7 +1603,7 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
         }
         for (i = 0; i < lbl_805D5868; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((u32)p) != 0 && get_entity_id(p) < 0x1000) {
+            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && get_entity_id(p) < 0x1000) {
                 d = horizontal_distance_squared((saddr)(p + 0x2FC), &v);
                 if (d <= ((AttackParams *)(*(void **)gibbles_combat_stat_entries))->get_damage_radius() * ((AttackParams *)(*(void **)gibbles_combat_stat_entries))->get_damage_radius()) {
                     a.x = 0;
@@ -2131,7 +2131,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((u32)p) != 0 && p != (u8 *)self) {
+            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != (u8 *)self) {
                 id = ((s32 (*)(void *))get_entity_id)(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_802DAD50(p)->f30 & 0x02000800)) {
                     VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));

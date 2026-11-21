@@ -124,7 +124,7 @@ void TOKeyAncient03::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param((s32)TOKeyAncient03__texture_variants[is_on]);
+        TObjFish::set_global_param((saddr)TOKeyAncient03__texture_variants[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -164,7 +164,7 @@ void *TOKeyAncient03::create(void *set_data) {
 
 void TOKeyAncient03::cleanup_refs() {
     if (TOKeyAncient03__texture_variants != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyAncient03__texture_variants[1]);
+        TObjPlayer::free_if_valid((saddr)TOKeyAncient03__texture_variants[1]);
         if (TOKeyAncient03__texture_variants != NULL) {
             mem_free(TOKeyAncient03__texture_variants);
             TOKeyAncient03__texture_variants = NULL;
@@ -195,7 +195,7 @@ TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyAncient03__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (s32)TOKeyAncient03__texture_variants[0];
+    texlist = (saddr)TOKeyAncient03__texture_variants[0];
     model = (void *)TOKeyAncient03__model_archive->models[0].model;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;

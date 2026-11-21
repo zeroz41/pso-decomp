@@ -35,7 +35,7 @@ void *TOGrassJungle__create(void *arg0) {
 void TOGrassJungle::release_static_instance() {
     if (TOGrassJungle__grass_gvm_texture != NULL) {
         release_texture_list(TOGrassJungle__grass_gvm_texture);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TOGrassJungle__grass_gvm_texture);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TOGrassJungle__grass_gvm_texture);
         TOGrassJungle__grass_gvm_texture = NULL;
     }
     if (TOGrassJungle__bml_resource != NULL) {
@@ -62,7 +62,7 @@ s32 push_matrix();
 
 void TOGrassJungle::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
-        TObjFish::set_global_param((s32)TOGrassJungle__grass_gvm_texture);
+        TObjFish::set_global_param((saddr)TOGrassJungle__grass_gvm_texture);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

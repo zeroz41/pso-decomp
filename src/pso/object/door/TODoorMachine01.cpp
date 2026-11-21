@@ -175,7 +175,7 @@ void TODoorMachine01::render() {
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             lit = (door_flags >> LIGHT_LIT_SHIFT) & 1;
-            TObjFish::set_global_param((s32)texture_lists[lit]);
+            TObjFish::set_global_param((saddr)texture_lists[lit]);
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model((saddr)node->model);
@@ -183,7 +183,7 @@ void TODoorMachine01::render() {
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 1)) & 1;
-            TObjFish::set_global_param((s32)texture_lists[lit]);
+            TObjFish::set_global_param((saddr)texture_lists[lit]);
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model((saddr)node->model);
@@ -191,19 +191,19 @@ void TODoorMachine01::render() {
             draw_switch_light(node, lit);
             node = node->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 2)) & 1;
-            TObjFish::set_global_param((s32)texture_lists[lit]);
+            TObjFish::set_global_param((saddr)texture_lists[lit]);
             draw_switch_light(node, lit);
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 3)) & 1;
-            TObjFish::set_global_param((s32)texture_lists[lit]);
+            TObjFish::set_global_param((saddr)texture_lists[lit]);
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model((saddr)node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
         } else {
-            TObjFish::set_global_param((s32)texture_lists[1]);
+            TObjFish::set_global_param((saddr)texture_lists[1]);
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
@@ -216,7 +216,7 @@ void *TODoorMachine01::create(void *set_data) {
 
 void TODoorMachine01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

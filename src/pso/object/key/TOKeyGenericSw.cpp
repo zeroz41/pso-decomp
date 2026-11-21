@@ -55,7 +55,7 @@ void TOKeyGenericSw::render() {
         return;
     }
     push_matrix();
-    texlist = (s32)TOKeyGenericSw__texture_lists[0];
+    texlist = (saddr)TOKeyGenericSw__texture_lists[0];
     model = (void *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -66,10 +66,10 @@ void TOKeyGenericSw::render() {
     push_matrix();
     switch (is_on) {
     case 0:
-        texlist = (s32)TOKeyGenericSw__texture_lists[1];
+        texlist = (saddr)TOKeyGenericSw__texture_lists[1];
         break;
     case 1:
-        texlist = (s32)TOKeyGenericSw__texture_lists[2];
+        texlist = (saddr)TOKeyGenericSw__texture_lists[2];
         break;
     }
     model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
@@ -105,7 +105,7 @@ void *TOKeyGenericSw::create(void *set_data) {
 
 void TOKeyGenericSw::free_shared_resources() {
     if (TOKeyGenericSw__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyGenericSw__texture_lists[2]);
+        TObjPlayer::free_if_valid((saddr)TOKeyGenericSw__texture_lists[2]);
         if (TOKeyGenericSw__texture_lists != NULL) {
             mem_free(TOKeyGenericSw__texture_lists);
             TOKeyGenericSw__texture_lists = NULL;
@@ -171,7 +171,7 @@ TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) 
     motion = TOKeyGenericSw__shared_resource_ptrs[1]->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;
-    texlist = (s32)TOKeyGenericSw__texture_lists[1];
+    texlist = (saddr)TOKeyGenericSw__texture_lists[1];
     init_collision_body_parts(this, key_generic_sw_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

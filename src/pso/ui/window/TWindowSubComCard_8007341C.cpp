@@ -158,7 +158,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
             n = fn_80071A9C(this, rec->data, arg1);
-            if (n >= TWindowSubStatusDisp::get_layout_id((s32)arg1)) {
+            if (n >= TWindowSubStatusDisp::get_layout_id((saddr)arg1)) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x52));
             } else if (n == 0) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));

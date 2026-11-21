@@ -961,7 +961,7 @@ void TObjEneDarkGunner::run_task() {
 }
 
 void TObjPlayer::apply_fall_damage_flag() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 var_r4;
     if (xz_distance_squared((Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x50)) > 100.0f) {
         var_r4 = 8;
@@ -1412,7 +1412,7 @@ void TObjEneDarkGunner::render() {
 void TObjPlayer__sub_800A1974(void *) {  }
 
 void TObjPlayer::render_shadow() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (this->obj_testFlags30(0x800) == 0) {
         if (is_flag_set_388_bit26() == 0) {
             TObjFish::set_global_param(lbl_805D5014);
@@ -1681,7 +1681,7 @@ void TObjPlayer::step_along_ground() {
 #pragma pop
 extern "C" {
 s32 TObjEneDarkGunner::update_action_hold_status() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
         TObjPlayer__sub_800A100C(arg0);
         return 1;
@@ -1690,7 +1690,7 @@ s32 TObjEneDarkGunner::update_action_hold_status() {
 }
 
 s32 TObjEneDarkGunner::update_movement_status() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (TObjChara::update_movement_status() != 0) {
         TObjPlayer__sub_800A100C(arg0);
         return 1;

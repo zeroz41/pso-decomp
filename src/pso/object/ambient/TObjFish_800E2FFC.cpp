@@ -33,7 +33,7 @@ void TObjFish::draw_callback_transform_to_view() {
     s32 id;
     while ((id = p->id) != -1) {
         if (id == TObjFish_draw_callback_state.counter) {
-            TCameraCtrl::transform_to_view((s32)p->data, (s32)q);
+            TCameraCtrl::transform_to_view((saddr)p->data, (saddr)q);
         }
         p++;
         q++;

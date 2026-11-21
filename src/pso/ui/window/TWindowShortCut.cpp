@@ -186,7 +186,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
 void render__15TWindowShortCutFv(u8 *arg0) {
     saddr temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
+    temp_r3 = TWindowDD::draw_default_entry((saddr)arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     ((TWindowSubStatusDisp *)((void *)((int) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));

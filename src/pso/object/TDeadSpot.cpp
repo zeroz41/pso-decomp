@@ -75,7 +75,7 @@ s32 rotate_matrix_x(int, int);
 #pragma push
 #pragma readonly_strings on
 extern "C" {
-s32 TDeadSpot__class_name = (s32)"TDeadSpot";
+s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
 }
 
 #pragma pop

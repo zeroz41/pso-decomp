@@ -201,8 +201,8 @@ void TShopEquipmentGearSequence::open_armor_list_window() {
 
 void TShopEquipmentGearSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, (void *)0x2a);
-    o->m_3a4 = (u32)enter_quest_list__26TShopEquipmentGearSequenceFv;
-    o->m_3a8 = (u32)open_gear_shop__26TShopEquipmentGearSequenceFv;
+    o->m_3a4 = (uaddr)enter_quest_list__26TShopEquipmentGearSequenceFv;
+    o->m_3a8 = (uaddr)open_gear_shop__26TShopEquipmentGearSequenceFv;
     reset_controller_input_state();
     set_field_20(5);
 }

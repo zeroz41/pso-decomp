@@ -68,7 +68,7 @@ void TObjEZBoneRotPlayer::run_task() {
 #define arg0 ((u8 *)this)
 TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) : TObjEZBoneRotBase(parent, root, (EZBoneRotDesc *)desc) {
     ((TObjEZBoneRotPlayer *)arg0)->m_name = TObjEZBoneRotPlayer__name;
-    *(s32 *)((s8 *)arg0 + 0x98) = (s32)parent;
+    *(s32 *)((s8 *)arg0 + 0x98) = (saddr)parent;
     *(s32 *)((s8 *)arg0 + 0x9C) = (s32) *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x98)) + 0x60);
 }
 #undef arg0

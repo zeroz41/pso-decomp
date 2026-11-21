@@ -128,7 +128,7 @@ void TObjCityMainWarpChallenge::render() {
     }
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
-        TObjFish::set_global_param((s32)city_common_texture_list);
+        TObjFish::set_global_param((saddr)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -213,7 +213,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
             ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
             for (i = 0; i < this->player_count; i++) {
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)this->player_list_window, (s32)this->player_names[i], i);
+                TWindowSubStatusDisp::dispatch_without_flags((saddr)this->player_list_window, (saddr)this->player_names[i], i);
             }
         }
         request_active_window_close();

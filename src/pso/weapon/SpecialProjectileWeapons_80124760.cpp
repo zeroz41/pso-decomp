@@ -125,7 +125,7 @@ s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
         }
         var_r31 = var_r0;
     }
-    var_r0 = (u32)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0);
+    var_r0 = (uaddr)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0);
     if (var_r0 != 0U) {
         ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
     }

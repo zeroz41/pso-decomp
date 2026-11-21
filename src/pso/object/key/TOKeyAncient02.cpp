@@ -60,7 +60,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model((saddr)object->model);
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param((s32)TOKeyAncient02__texture_lists[is_on]);
+        TObjFish::set_global_param((saddr)TOKeyAncient02__texture_lists[is_on]);
         TParticleCtrl::begin_effect_render();
         object = TOKeyAncient02__glass_model;
         push_matrix();
@@ -124,7 +124,7 @@ void *TOKeyAncient02::create(void *set_data) {
 
 void TOKeyAncient02::free_static() {
     if (TOKeyAncient02__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyAncient02__texture_lists[1]);
+        TObjPlayer::free_if_valid((saddr)TOKeyAncient02__texture_lists[1]);
         if (TOKeyAncient02__texture_lists != NULL) {
             mem_free(TOKeyAncient02__texture_lists);
             TOKeyAncient02__texture_lists = NULL;

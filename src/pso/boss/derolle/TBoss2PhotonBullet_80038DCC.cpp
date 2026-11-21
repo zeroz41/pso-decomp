@@ -115,7 +115,7 @@ void render_shadows__7TObjectFv(void);
 #define o ((S_80039288 *)this)
 TBoss2PhotonPad::TBoss2PhotonPad(TObject *parent, Vec *start, Vec *dir, s32 level) : TObject(parent) {
     o->f0 = TBoss2PhotonPad__name;
-    o->f1c = (s32)start;
+    o->f1c = (saddr)start;
     o->f2c = level;
     VecCopy((Vec *)o->v20, dir);
     rotate_xz_pair_by_angle((f32 *)o->v20, (f32 *)o->v28, (s32)(-(TBoss2PhotonPad__bullet_level_param_table[o->f2c].c / 2)));

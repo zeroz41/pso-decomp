@@ -22,7 +22,7 @@ void TWindowDD_WS_String::render() {
     f32 y;
     u8 *entry;
 
-    entry = (u8 *)TWindowDD::draw_default_entry((s32)this);
+    entry = (u8 *)TWindowDD::draw_default_entry((saddr)this);
     calc_inner_rect(entry);
     draw_entry_if_visible(entry);
     y = *(f32 *)((s8 *)entry + 0x14);

@@ -485,7 +485,7 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
                 s32 i;
                 void *e = TObject::operator new(0x64);
                 if (e != 0) {
-                    create_fire_explosion_effect(e, 40.0f, d, 0, (s32)tl_07);
+                    create_fire_explosion_effect(e, 40.0f, d, 0, (saddr)tl_07);
                 }
                 play_sound_effect(0x4003A348, &body->position, 0, 0);
                 for (i = 0; i < 4; i++) {

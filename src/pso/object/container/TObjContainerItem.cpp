@@ -378,7 +378,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
         forest_box_model_archive = bundle;
-        forest_box_textures = TLobby::is_online_ready() != 0 ? (GinjaTextureList *)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (GinjaTextureList *)load_gvm_texture_file((saddr)((s32)forest_box_texture_filename_n));
+        forest_box_textures = TLobby::is_online_ready() != 0 ? (GinjaTextureList *)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (GinjaTextureList *)load_gvm_texture_file((saddr)((saddr)forest_box_texture_filename_n));
         forest_box_debris_primary = &forest_box_break_params[0];
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;
@@ -389,7 +389,7 @@ void load_forest_box_resources(void) {
 void free_forest_box_resources() {
     if (forest_box_textures != NULL) {
         release_texture_list(forest_box_textures);
-        TAdSinglePlyChrSelectGC::safe_free((u32)forest_box_textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)forest_box_textures);
         forest_box_textures = NULL;
     }
     if ((uaddr) forest_box_model_archive != 0U) {
@@ -429,7 +429,7 @@ void load_container_breakup_resources() {
 void free_container_breakup_resources() {
     if (container_breakup_textures != NULL) {
         release_texture_list(container_breakup_textures);
-        TAdSinglePlyChrSelectGC::safe_free((u32)container_breakup_textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_breakup_textures);
         container_breakup_textures = NULL;
     }
     if ((uaddr) container_breakup_model_archive != 0U) {
@@ -634,7 +634,7 @@ void TObjContainerItem::vfunc_81() {
     if (forest_box_model_archive != 0) {
         switch (self->state) {
         case 0:
-            TObjFish::set_global_param((s32)forest_box_textures);
+            TObjFish::set_global_param((saddr)forest_box_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, self->rot);
@@ -656,12 +656,12 @@ void TObjContainerItem::vfunc_79() const {
         TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.pad_38[0] = self->y;
-        a.model = (s32)get_forest_box_model(2);
-        a.textures = (s32)forest_box_textures;
+        a.model = (saddr)get_forest_box_model(2);
+        a.textures = (saddr)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.pad_38[0] = self->y;
-        b.model = (s32)get_forest_box_model(0);
-        b.textures = (s32)forest_box_textures;
+        b.model = (saddr)get_forest_box_model(0);
+        b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -735,7 +735,7 @@ void TObjContainerEnemy::vfunc_81() {
     }
     switch (self->mode) {
     case 0:
-        TObjFish::set_global_param((s32)forest_box_textures);
+        TObjFish::set_global_param((saddr)forest_box_textures);
         push_matrix();
         post_translate_matrix(self->f38);
         rotate_matrix_y(0, self->f60);
@@ -781,12 +781,12 @@ void TObjContainerEnemy::vfunc_79() const {
         TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.pad_38[0] = self->y;
-        a.model = (s32)get_forest_box_model(2);
-        a.textures = (s32)forest_box_textures;
+        a.model = (saddr)get_forest_box_model(2);
+        a.textures = (saddr)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.pad_38[0] = self->y;
-        b.model = (s32)get_forest_box_model(0);
-        b.textures = (s32)forest_box_textures;
+        b.model = (saddr)get_forest_box_model(0);
+        b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -859,7 +859,7 @@ void TObjContainerNoItem::vfunc_81() {
         case 1:
             break;
         case 0:
-        TObjFish::set_global_param((s32)forest_box_textures);
+        TObjFish::set_global_param((saddr)forest_box_textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -890,12 +890,12 @@ void TObjContainerNoItem::vfunc_79() const {
         TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.pad_38[0] = self->y;
-        a.model = (s32)get_forest_box_model(2);
-        a.textures = (s32)forest_box_textures;
+        a.model = (saddr)get_forest_box_model(2);
+        a.textures = (saddr)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.pad_38[0] = self->y;
-        b.model = (s32)get_forest_box_model(0);
-        b.textures = (s32)forest_box_textures;
+        b.model = (saddr)get_forest_box_model(0);
+        b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -961,7 +961,7 @@ void TObjContainerBase::vfunc_81() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((s32)container_breakup_textures);
+            TObjFish::set_global_param((saddr)container_breakup_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, this->rotation_y);
@@ -988,8 +988,8 @@ void TObjContainerBase::vfunc_79() const {
     a.pos[1] = ya;
     a.pos[2] = za;
     a.pad_38[0] = ya;
-    a.model = (s32)get_container_breakup_model(0);
-    a.textures = (s32)container_breakup_textures;
+    a.model = (saddr)get_container_breakup_model(0);
+    a.textures = (saddr)container_breakup_textures;
     TObjChipParams b = container_break_small_debris_parameters;
     f32 zb;
     f32 yb;
@@ -1001,8 +1001,8 @@ void TObjContainerBase::vfunc_79() const {
     b.pos[1] = yb;
     b.pos[2] = zb;
     b.pad_38[0] = yb;
-    b.model = (s32)get_container_breakup_model(1);
-    b.textures = (s32)container_breakup_textures;
+    b.model = (saddr)get_container_breakup_model(1);
+    b.textures = (saddr)container_breakup_textures;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
     void *o = TObject::operator new(0x234);
@@ -1072,7 +1072,7 @@ void TObjContainerAbeEnemy::vfunc_81() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((s32)container_breakup_textures);
+            TObjFish::set_global_param((saddr)container_breakup_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, this->rotation_y);
@@ -1126,8 +1126,8 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         a.pos[1] = ya;
         a.pos[2] = za;
         a.pad_38[0] = ya;
-        a.model = (s32)get_container_breakup_model(0);
-        a.textures = (s32)container_breakup_textures;
+        a.model = (saddr)get_container_breakup_model(0);
+        a.textures = (saddr)container_breakup_textures;
         TObjChipParams b = lbl_80444EA8;
         f32 zb;
         f32 yb;
@@ -1139,8 +1139,8 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.pos[1] = yb;
         b.pos[2] = zb;
         b.pad_38[0] = yb;
-        b.model = (s32)get_container_breakup_model(1);
-        b.textures = (s32)container_breakup_textures;
+        b.model = (saddr)get_container_breakup_model(1);
+        b.textures = (saddr)container_breakup_textures;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
         void *o = TObject::operator new(0x234);

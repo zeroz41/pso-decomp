@@ -534,7 +534,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 0));
     this->texlist = get_bml_texlist(TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
-    this->set_field_d8((s32)((void *) (this->action_table)));
+    this->set_field_d8((saddr)((void *) (this->action_table)));
     this->motion_list = TContainerAncient01__bml_resource->motions;
     this->requested_action = 0;
     this->set_animation((this->requested_action));
@@ -844,7 +844,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     }
 }
 
-void TContainerAncient01::spawn_effect(void* p, void* a1, void* a2) { spawn_particle_effect(a1, (s32)a2); }
+void TContainerAncient01::spawn_effect(void* p, void* a1, void* a2) { spawn_particle_effect(a1, (saddr)a2); }
 }
 
 #pragma push

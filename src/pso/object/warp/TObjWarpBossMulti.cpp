@@ -277,11 +277,11 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)boss_warp_base_textures);
+        TObjFish::set_global_param((saddr)boss_warp_base_textures);
         draw_ginja_object(boss_warp_base_model);
         if (model != NULL) {
             TParticleCtrl::begin_effect_render();
-            TObjFish::set_global_param((s32)boss_warp_effect_textures);
+            TObjFish::set_global_param((saddr)boss_warp_effect_textures);
             draw_ginja_model_with_motion(model, motion, frame);
             TParticleCtrl::end_effect_render();
         }
@@ -356,7 +356,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        initialize_option_dialog(yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), ((s32)get_window_layout_position(i)), 368.0f);
+        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), ((s32)get_window_layout_position(i)), 368.0f);
       }
     }
       break;
@@ -372,7 +372,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        TWindowSubStatusDisp::dispatch_without_flags((saddr)player_list_window, (s32)player_names[i], (s32)i);
+        TWindowSubStatusDisp::dispatch_without_flags((saddr)player_list_window, (saddr)player_names[i], (s32)i);
       }
     }
     request_active_window_close();
@@ -892,10 +892,10 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)model_handle);
+        TObjFish::set_global_param((saddr)model_handle);
         draw_ginja_object(base_model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((s32)effect_textures);
+        TObjFish::set_global_param((saddr)effect_textures);
         switch (state) {
         case 0:
             draw_ginja_model_with_motion(confirmation_model, motion, frame);

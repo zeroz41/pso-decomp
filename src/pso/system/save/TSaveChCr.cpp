@@ -169,7 +169,7 @@ void TSaveChCr::set_message_by_index(s32 arg1) {
 }
 void TSaveChCr::open_message_window(u32 arg1) {
     if ((uaddr) this->owned_window == 0U) {
-        *(u32 *)&this->owned_window = (u32)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
+        *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((uaddr) this->owned_window != 0U) {
             if (arg1 != 0U) {
                 ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);

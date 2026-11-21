@@ -49,7 +49,7 @@ void *get_player_by_client_id(s32 i);
 
 void TWindowUserSort::render() {
     saddr temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry((s32)this);
+    temp_r3 = TWindowDD::draw_default_entry((saddr)this);
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(this, &entries, (int)temp_r3);
 }

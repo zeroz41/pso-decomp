@@ -200,7 +200,7 @@ s32 TPhotonGolla::spawn_concentrate(void *arg0) {
     packet.angle = angle;
     beam = (uaddr)TObject::operator new(0x10C);
     if (beam != 0) {
-        __ct__18TPhotonConcentrateFPUcll((u8 *)beam, (u8 *)&packet, (s32)self, (s32)self->owner_id);
+        __ct__18TPhotonConcentrateFPUcll((u8 *)beam, (u8 *)&packet, (saddr)self, (s32)self->owner_id);
     }
 }
 #undef self

@@ -217,7 +217,7 @@ void free_ancient_container_resources(void) {
     if (ancient_container_fragment_texture_lists != NULL) {
         var_r30 = 0;
         do {
-            TObjPlayer::free_if_valid((s32)ancient_container_fragment_texture_lists[var_r30]);
+            TObjPlayer::free_if_valid((saddr)ancient_container_fragment_texture_lists[var_r30]);
             var_r30 += 1;
         } while (var_r30 < 3);
         p = ancient_container_fragment_texture_lists;
@@ -318,8 +318,8 @@ void TUnk_804B08BC::vfunc_79() const {
     b.model = get_bml_model(ancient_container_resource_bundle, 2);
     b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
     if (check_value_equals((saddr)TOContainerAncientItemRare__name) != 0) {
-        a.textures = (s32)ancient_container_fragment_texture_lists[1];
-        b.textures = (s32)ancient_container_fragment_texture_lists[2];
+        a.textures = (saddr)ancient_container_fragment_texture_lists[1];
+        b.textures = (saddr)ancient_container_fragment_texture_lists[2];
     }
     new TObjChip(tl_05, &a);
     new TObjChip(tl_05, &b);
@@ -356,7 +356,7 @@ void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
 
 TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_804B08BC(set_data) {
     m_name = TOContainerAncientItemRare__name;
-    texlist = (s32)ancient_container_fragment_texture_lists[0];
+    texlist = (saddr)ancient_container_fragment_texture_lists[0];
 }
 
 TOContainerAncientItemRare::~TOContainerAncientItemRare() {
@@ -502,8 +502,8 @@ void TOContainerAncientEnemy::vfunc_79() const {
         b.model = get_bml_model(ancient_container_resource_bundle, 2);
         b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
         if (check_value_equals((saddr)lbl_805D2F10) != 0) {
-            a.textures = (s32)ancient_container_fragment_texture_lists[1];
-            b.textures = (s32)ancient_container_fragment_texture_lists[2];
+            a.textures = (saddr)ancient_container_fragment_texture_lists[1];
+            b.textures = (saddr)ancient_container_fragment_texture_lists[2];
         }
         spawn_particle_effect(&this->position, 0x45);
         spawn_particle_effect(&this->position, 0x46);
@@ -540,7 +540,7 @@ void *TOContainerAncientEnemyCommon__create(void *set_data) {
 
 TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
     m_name = lbl_805D2F10;
-    texlist = (s32) *ancient_container_fragment_texture_lists;
+    texlist = (saddr) *ancient_container_fragment_texture_lists;
 }
 
 TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {

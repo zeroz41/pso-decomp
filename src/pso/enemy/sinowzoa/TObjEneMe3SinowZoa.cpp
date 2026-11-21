@@ -666,7 +666,7 @@ void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *arg0) {
             TTecSifta::create((void *)arg0, arg0 + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18)));
             TTecDeband::create(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
         } else {
-            TTecZarua::create_instance((s32)arg0, (Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecZarua::create_instance((saddr)arg0, (Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
             create__9TTecJelinFllll(arg0, arg0 + 0x38, arg0 + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
         }
     } else {

@@ -817,7 +817,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
     f32 d;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (s32)TObjPlayer::get_player_data(i);
+        p = (saddr)TObjPlayer::get_player_data(i);
         if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0 && TObjPlayer::is_locally_controlled((void *)p) != 0) {
             d = xyz_distance((void *)(p + 0x38), pos);
             if (!(d >= range)) {

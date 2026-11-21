@@ -426,7 +426,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     apply_actor_gravity(this, 0, (0.0f));
-    t = (s32)TObjGrass__resource_bundle->motions;
+    t = (saddr)TObjGrass__resource_bundle->motions;
     *(saddr *)&motion_list = t;
     scale.y = (1.3f);
     variant = 0;
@@ -502,9 +502,9 @@ void TObjGrass::load_resources() {
         (NJS_MOTION *)TObjGrass__resource_bundle->motions[TObjGrass__grass_type_param_table[3].motion].motion, 0x3C, 0x3E);
     TObjGrass__bml_resource = (uaddr) mem_alloc(0xC);
     lbl_805D5140 = (saddr)TLobby::register_boss(0x4E);
-    ((s32 *) TObjGrass__bml_resource)[0] = (s32)TLobby::dispatch_shared_handler_b(0x51);
-    ((s32 *) TObjGrass__bml_resource)[2] = (s32)TLobby::dispatch_shared_handler_b(0x52);
-    ((s32 *) TObjGrass__bml_resource)[1] = (s32)TLobby::dispatch_shared_handler_b(0x53);
+    ((s32 *) TObjGrass__bml_resource)[0] = (saddr)TLobby::dispatch_shared_handler_b(0x51);
+    ((s32 *) TObjGrass__bml_resource)[2] = (saddr)TLobby::dispatch_shared_handler_b(0x52);
+    ((s32 *) TObjGrass__bml_resource)[1] = (saddr)TLobby::dispatch_shared_handler_b(0x53);
     grass_combat_stats_handle = (saddr)TLobby::register_object(0x4D);
     lbl_805D514C = (saddr)TLobby::dispatch_shared_handler_a(0x4D);
     {

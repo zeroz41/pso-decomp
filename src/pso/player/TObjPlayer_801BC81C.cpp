@@ -112,7 +112,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (this->obj_isState2_324() != 0) {
         ((TObjPlayer *)arg0)->clear_flag_400000();
     } else {

@@ -575,7 +575,7 @@ void TWindowOptionCtrl::open() {
 }
 
 void add_gray_text_entry(TWindowSubTradeMain *list, const char *text, s32 kind, s32 id) {
-    list->add_text_entry((s32)text, kind | 0x10, id, 0xFF909090);
+    list->add_text_entry((saddr)text, kind | 0x10, id, 0xFF909090);
 }
 
 s32 TWindowSubTradeMain::add_text_entry(saddr arg1, s32 arg2, s32 arg3, s32 arg4) {

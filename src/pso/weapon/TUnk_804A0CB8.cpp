@@ -51,7 +51,7 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
     uaddr temp_r30;
     void *temp_r5;
 
-    temp_r31 = TObjPlayer::create_shoot_model((u32)player, arg1, arg2, farg0);
+    temp_r31 = TObjPlayer::create_shoot_model((uaddr)player, arg1, arg2, farg0);
     temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, arg1, arg2, farg0);
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r5 = *(void **)((s8 *)player + 0x188);
@@ -72,7 +72,7 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
 long belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
   s32 temp_r4;
   u8 *temp_r6;
-  if (TObjPlayer::create_shoot_model((u32)arg0, arg1, arg2, farg0) != 0U)
+  if (TObjPlayer::create_shoot_model((uaddr)arg0, arg1, arg2, farg0) != 0U)
   {
     temp_r6 = (unsigned char *) (*((void **) (((s8 *) arg0) + 0x188)));
     if (temp_r6 != 0)

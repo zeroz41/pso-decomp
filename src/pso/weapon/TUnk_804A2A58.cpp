@@ -21,7 +21,7 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
     uaddr temp_r30;
     void *temp_r4;
 
-    temp_r31 = TObjPlayer::create_shoot_model((u32)player, arg1, arg2, farg0);
+    temp_r31 = TObjPlayer::create_shoot_model((uaddr)player, arg1, arg2, farg0);
     temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, arg1, arg2, farg0);
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r4 = *(void **)((s8 *)player + 0x188);

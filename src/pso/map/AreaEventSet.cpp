@@ -344,7 +344,7 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].variants[terrain].entries[entities].enemy_set_name, ".evt");
     n = get_resource_file_size((const char *)buf.data);
     if (n > 0) {
-        p = ((void *)HA2((s32)((*(void * *)&area_event_set_heap)), n));
+        p = ((void *)HA2((saddr)((*(void * *)&area_event_set_heap)), n));
         if (p != 0) {
             read_disc_file((const char *)buf.data, p);
             ((void * *)&lobby_slot_ptr_table)[floor] = p;

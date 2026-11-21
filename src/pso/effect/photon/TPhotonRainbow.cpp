@@ -61,7 +61,7 @@ extern u8 *photon_blast_shared_resource;
 u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, saddr arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)photon_rainbow + 0x18) = (s32 *)&__vt__14TPhotonRainbow;
-    *(s32 *)((s8 *)photon_rainbow + 0) = (s32) ((s32)TPhotonRainbow__name);
+    *(s32 *)((s8 *)photon_rainbow + 0) = (s32) ((saddr)TPhotonRainbow__name);
     if ((s32) ((TPhotonRainbow *)photon_rainbow)->m_a8 == 1) {
         ((TPhotonRainbow *)photon_rainbow)->m_90 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x6C);
         ((TPhotonRainbow *)photon_rainbow)->m_94 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x8C);

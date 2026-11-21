@@ -68,7 +68,7 @@ void TWindowCtrl::unsuppress_slot(s32 client) {
 }
 
 void call_window_method__11TWindowCtrlFPvi(void *self, Pmf_8024AF34 pmf) {
-    Win_8024AF34 *w = (Win_8024AF34 *)TWindowCtrl::get_window((s32)self);
+    Win_8024AF34 *w = (Win_8024AF34 *)TWindowCtrl::get_window((saddr)self);
     if (w != NULL) {
         (w->*pmf)();
     }

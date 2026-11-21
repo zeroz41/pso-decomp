@@ -2129,7 +2129,7 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
 }
 
 void TBoss8Dragon::play_effect_sound(s32 sound_id) {
-    play_sound_effect(sound_id, (s32)this + 0x634, 0, 0);
+    play_sound_effect(sound_id, (saddr)this + 0x634, 0, 0);
 }
 
 void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1) {

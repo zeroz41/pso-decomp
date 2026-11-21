@@ -192,7 +192,7 @@ void *lbl_804B77F0[18] = {
 };
 
 void draw_model__8TObjDoorFPv(Door_8018E358 *arg0) {
-    TObjFish::set_global_param((s32)TObjDoor__resource_param);
+    TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -209,7 +209,7 @@ void draw_model__8TObjDoorFPv(Door_8018E358 *arg0) {
 }
 
 void render__8TObjDoorFPv(Door_8018E40C *arg0) {
-    TObjFish::set_global_param((s32)TObjDoor__resource_param);
+    TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -235,7 +235,7 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
 }
 
 void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0) {
-    TObjFish::set_global_param((s32)TObjDoor__resource_param);
+    TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -252,7 +252,7 @@ void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0) {
 }
 
 s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
-    TObjFish::set_global_param((s32)TObjDoor__resource_param);
+    TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -286,7 +286,7 @@ void update_timer__8TObjDoorFPv(void *arg0) {
 }
 
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
-    TObjFish::set_global_param((s32)TObjDoor__resource_param);
+    TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -543,7 +543,7 @@ void *TObjDoor__create(void *arg0) {
     return o;
 }
 void TObjDoor::free_resources() {
-    TObjPlayer::free_if_valid((s32)TObjDoor__resource_param);
+    TObjPlayer::free_if_valid((saddr)TObjDoor__resource_param);
     TObjDoor__resource_param = NULL;
     if (door_resource_handle != NULL) {
         free_bin_model_request(door_resource_handle, 1);

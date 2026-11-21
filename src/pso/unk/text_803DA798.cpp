@@ -110,7 +110,7 @@ void TObjPlayer__sub_803DA7E0(void) {
 #pragma pop
 
 void TObjPlayer__sub_803DA808(void *buf, s32 arg1, void *arg2) {
-    move_data(buf, (const void *)arg1, (u32)arg2);
+    move_data(buf, (const void *)arg1, (uaddr)arg2);
     DCFlushRange(buf, arg2);
 }
 

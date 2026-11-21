@@ -70,7 +70,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[set_params[2]].red);
+        TObjFish::set_global_param((saddr)ancient_sensor_resource_pair_table[set_params[2]].red);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -78,7 +78,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->child;
         if ((f32)lamp_timer < 30.0f) {
-            TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
+            TObjFish::set_global_param((saddr)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
         }
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -86,7 +86,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->sibling;
         if ((f32)lamp_timer < 60.0f) {
-            TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
+            TObjFish::set_global_param((saddr)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
         }
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -94,7 +94,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->sibling;
         if ((f32)lamp_timer < 90.0f) {
-            TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
+            TObjFish::set_global_param((saddr)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
         }
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -138,9 +138,9 @@ void *TOSensorAncient01::create(void *set_data) {
 
 void TOSensorAncient01::destroy() {
     if (ancient_sensor_resource_pair_table != NULL) {
-        TObjPlayer::free_if_valid((s32)ancient_sensor_resource_pair_table[0].red);
-        TObjPlayer::free_if_valid((s32)ancient_sensor_resource_pair_table[1].plain);
-        TObjPlayer::free_if_valid((s32)ancient_sensor_resource_pair_table[1].red);
+        TObjPlayer::free_if_valid((saddr)ancient_sensor_resource_pair_table[0].red);
+        TObjPlayer::free_if_valid((saddr)ancient_sensor_resource_pair_table[1].plain);
+        TObjPlayer::free_if_valid((saddr)ancient_sensor_resource_pair_table[1].red);
         if (ancient_sensor_resource_pair_table != NULL) {
             mem_free(ancient_sensor_resource_pair_table);
             ancient_sensor_resource_pair_table = NULL;

@@ -157,7 +157,7 @@ void play_area_sound_effect(Vec *position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi((s32)position);
+    spawn_particles_at__12TBoss3VoloptFi((saddr)position);
 }
 
 void spawn_particles_at__12TBoss3VoloptFi(saddr arg0) {

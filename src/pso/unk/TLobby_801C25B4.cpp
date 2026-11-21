@@ -720,13 +720,13 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         TWindowCtrl::close_timer_window();
         TWindowCtrl::suppress_slot(local_client_id);
         *(s32 *)((s8 *)arg0 + 0x20) = 1;
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
         break;
     case 1:
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
@@ -737,7 +737,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         break;
     case 2:
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
@@ -747,7 +747,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         break;
     case 3:
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
@@ -772,7 +772,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             p = (void *)TWindowDuelResult__ct(p, local_client_id);
         }
         *(void **)((s8 *)arg0 + 0x54) = p;
-        q = (void *)(s32)get_local_player();
+        q = (void *)(saddr)get_local_player();
         if (q != NULL) {
             if (((TObjPlayer *)q)->check_player_flag1() == 0) {
                 TLobby::close_and_play_effect((u16)local_client_id, 1);
@@ -787,7 +787,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
             *(void **)((s8 *)arg0 + 0x54) = NULL;
             *(s32 *)((s8 *)arg0 + 0x20) = 6;
-            p = (void *)(s32)get_local_player();
+            p = (void *)(saddr)get_local_player();
             if (p != NULL && (*(s32 *)((s8 *)p + 0x30) & 0x800)) {
                 ((VObj_801C4214 *)p)->m62();
             }
@@ -797,7 +797,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         if (TLobby::check_team_balance((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
-            q = (void *)(s32)get_local_player();
+            q = (void *)(saddr)get_local_player();
             if (local_client_id == TLobby__designated_client_id && TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
                 if (*(void **)((s8 *)arg0 + 0x4C) == NULL) {
                     *(void **)((s8 *)arg0 + 0x4C) = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)lbl_80446FA4, 1);
@@ -850,7 +850,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x50)))->close();
             *(void **)((s8 *)arg0 + 0x50) = NULL;
         }
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
         }
@@ -878,7 +878,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
             *(void **)((s8 *)arg0 + 0x54) = NULL;
         }
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL) {
             obj_clear_flag30_20000(p);
         }
@@ -889,7 +889,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         break;
     }
     if (*(s32 *)((s8 *)arg0 + 0x20) == 6 || *(s32 *)((s8 *)arg0 + 0x20) == 8) {
-        p = (void *)(s32)get_local_player();
+        p = (void *)(saddr)get_local_player();
         if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (G28 & 0x400)) {
             if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
@@ -1583,7 +1583,7 @@ void TLobby::send_battle_mode_state() {
     Player_801C29F0 *p;
     s32 id;
     s32 on;
-    p = (Player_801C29F0 *)(s32)get_local_player();
+    p = (Player_801C29F0 *)(saddr)get_local_player();
     if (p != NULL) {
         id = TLobby::assign_player_id(this);
         build_6x7D_set_battle_mode_data(&m);

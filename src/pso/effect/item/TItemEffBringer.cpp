@@ -64,7 +64,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 
     f32 r;
     f32 n;
     s32 i;
-    __ct__10TItemShootFPvPC3VecPC3Vecf(self, arg1, (s32)src, arg3, farg0);
+    __ct__10TItemShootFPvPC3VecPC3Vecf(self, arg1, (saddr)src, arg3, farg0);
     self->vt = __vt__15TItemEffBringer;
     self->f0 = TItemEffBringer__class_name;
     push_matrix();

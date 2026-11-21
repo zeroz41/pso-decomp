@@ -1838,10 +1838,10 @@ void TNpcPlayer::run_task() {
                 } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(m_5c, 3, 0) != 0) {
                     request_chatter(4);
                 }
-                increment_partner_counter((s32)m_5c, 3);
+                increment_partner_counter((saddr)m_5c, 3);
                 change_ai_state(0);
             } else {
-                reset_partner_counter((s32)m_5c, 3);
+                reset_partner_counter((saddr)m_5c, 3);
                 update_condition_flags();
                 ((s32 (*)(void *))partner_observe_surroundings)(this);
                 decide_action();
@@ -2439,8 +2439,8 @@ void TNpcPlayer::init_state() {
 }
 
 void TNpcPlayer::update_condition_flags() {
-    ((s32 (*)(s32))partner_view_check_moved)((s32)m_74);
-    ((s32 (*)(s32))partner_view_update_conditions)((s32)m_74);
+    ((s32 (*)(s32))partner_view_check_moved)((saddr)m_74);
+    ((s32 (*)(s32))partner_view_update_conditions)((saddr)m_74);
     if (((TNpcPlayer *)m_74)->get_condition() & 2) {
         if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 0xA) == 0) {
             request_chatter(9);
@@ -2449,7 +2449,7 @@ void TNpcPlayer::update_condition_flags() {
     } else {
         ((s32 (*)(void *, s32))reset_partner_counter)(m_5c, 0xA);
     }
-    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((s32)m_74, 30.0f) != 0) {
+    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)m_74, 30.0f) != 0) {
         if (((TNpcPlayer *)m_74)->get_condition() & 8) {
             if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 9) == 0) {
                 request_chatter(0xC);
@@ -2750,7 +2750,7 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
             ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
             return 1;
         }
         break;
@@ -2761,7 +2761,7 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
             return 1;
         }
         break;
@@ -2770,7 +2770,7 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
             ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
             return 1;
         }
         break;
@@ -2936,7 +2936,7 @@ s32 refresh_npc_view_actor_lost(void *arg0) {
 void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
         if (((Unk_8014F844 *)this)->m_a8 != NULL) {
-            free_collision_body_parts((u32)((Unk_8014F844 *)this)->m_a8);
+            free_collision_body_parts((uaddr)((Unk_8014F844 *)this)->m_a8);
             ((TObject *)((Unk_8014F844 *)this)->m_a8)->queue_destruction();
             ((Unk_8014F844 *)this)->m_a8 = NULL;
         }
@@ -3523,7 +3523,7 @@ void TNpcPlayer::handle_action(s32 arg1) {
         player = m_78->m_94->find_inventory_item_id(3, 0);
         if (player != -1) {
             temp_r5 = m_78;
-            try_send_6x27_use_item((s32)temp_r5->m_94, player, temp_r5);
+            try_send_6x27_use_item((saddr)temp_r5->m_94, player, temp_r5);
             m_80 = m_80 | 0x10000;
         }
         break;
@@ -3531,7 +3531,7 @@ void TNpcPlayer::handle_action(s32 arg1) {
         temp_r3_2 = m_78->m_94->find_inventory_item_id(3, 1);
         if (temp_r3_2 != -1) {
             temp_r5_2 = m_78;
-            try_send_6x27_use_item((s32)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
+            try_send_6x27_use_item((saddr)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
             return;
         }
         break;
@@ -3539,7 +3539,7 @@ void TNpcPlayer::handle_action(s32 arg1) {
         temp_r3_3 = m_78->m_94->find_inventory_item_id(3, 6);
         if (temp_r3_3 != -1) {
             temp_r5_3 = m_78;
-            try_send_6x27_use_item((s32)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
+            try_send_6x27_use_item((saddr)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
         }
         break;
     }

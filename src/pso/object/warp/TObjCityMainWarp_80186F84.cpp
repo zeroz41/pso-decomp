@@ -35,7 +35,7 @@ void TObjCityMainWarp::update_state() {
         *(s16 *)((s8 *)this + 0xE0) = 1;
         *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) | 1);
         *(s32 *)((s8 *)this + 0xD0) = (s32) city_common_model_archive->models[0].model;
-        *(s32 *)((s8 *)this + 0xD4) = (s32) city_common_model_archive->motions[5].motion;
+        *(s32 *)((s8 *)this + 0xD4) = (saddr) city_common_model_archive->motions[5].motion;
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {

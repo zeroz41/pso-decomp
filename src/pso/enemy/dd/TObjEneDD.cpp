@@ -1327,7 +1327,7 @@ void TObjEneDD::initialize_enemy_state(s32 parameter) {
 
 void forward_split_screen_view_matrix() { TCameraCtrl::apply_split_screen_view_matrix(); }
 
-void forward_transform_to_view(const Vec *in, Vec *out) { transform_to_view__11TCameraCtrlFii((s32)in, (s32)out); }
+void forward_transform_to_view(const Vec *in, Vec *out) { transform_to_view__11TCameraCtrlFii((saddr)in, (saddr)out); }
 
 void TObjEneDD::reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats) {
     bind_enemy_combat_stats(base_stats, attack_stats, resistance_stats);

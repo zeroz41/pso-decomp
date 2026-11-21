@@ -254,7 +254,7 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
 
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
     saddr ctx;
-    ctx = TWindowDD::draw_default_entry((s32)arg0);
+    ctx = TWindowDD::draw_default_entry((saddr)arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
     ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64))))->forward_render((void *)(ctx));
     TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)ctx);

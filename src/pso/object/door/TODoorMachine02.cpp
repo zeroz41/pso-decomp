@@ -82,7 +82,7 @@ void TODoorMachine02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         unlocked = door_flags & 1;
-        TObjFish::set_global_param((s32)texture_lists[door_flags & 1]);
+        TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);
@@ -123,7 +123,7 @@ void *TODoorMachine02::create(void *set_data) {
 
 void TODoorMachine02::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

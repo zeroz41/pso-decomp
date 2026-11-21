@@ -934,7 +934,7 @@ void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue) {
             if (gigue->frame >= 10.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 gigue->state = 3;
-                TTecZarua::create_instance((s32)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
+                TTecZarua::create_instance((saddr)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
                 create__9TTecJelinFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
             }
             break;

@@ -41,7 +41,7 @@ void refresh_quest_list__6TLobbyFi(saddr arg0) {
 
     size = get_resource_file_size((const char *)arg0);
     if (size >= 0) {
-        temp_r3 = (s32)TQuestVmDownLoadServer::alloc(size);
+        temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(size);
         if (temp_r3 != 0) {
             read_disc_file((const char *)arg0, (void *)temp_r3);
             TLobby::rebuild_all(temp_r3);
@@ -362,7 +362,7 @@ void open_session__6TLobbyFi(saddr arg0) {
 
     size = get_resource_file_size((const char *)arg0);
     if (size >= 0) {
-        t = (TLobby__data_805D5EE0 = (s32)TQuestVmDownLoadServer::alloc(size));
+        t = (TLobby__data_805D5EE0 = (saddr)TQuestVmDownLoadServer::alloc(size));
         if (t != 0) {
             read_disc_file((const char *)arg0, (void *)t);
             populate_quest_floor_sets();

@@ -183,7 +183,7 @@ TBoss6RockChase::~TBoss6RockChase() {
 LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
 TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : TObjCollidable(parent) {
     TBoss6RockChase *boss6_rock_chase = this;
-    s32 arg1 = (s32)parent;
+    s32 arg1 = (saddr)parent;
     boss6_rock_chase->m_name = TBoss6RockChase__name;
     boss6_rock_chase->m_ac = arg1;
     boss6_rock_chase->m_b0 = arg3;
@@ -195,7 +195,7 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : T
     *(f32 *)((s8 *)boss6_rock_chase + 0xB8) = 0.0f;
     VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(arg2));
     boss6_rock_chase->m_c0 = get_bml_model(TBoss6Rock__sub_80353A0C(), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
-    boss6_rock_chase->m_c4 = (u32)TBoss6Rock__sub_80353A04();
+    boss6_rock_chase->m_c4 = (uaddr)TBoss6Rock__sub_80353A04();
 }
 #pragma pop
 

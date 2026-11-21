@@ -305,7 +305,7 @@ void TODoorJungleMain::render() {
     Ids_8029B428 ids = {{2, 1, 0}};
     s32 i;
     if (self->m8(self->fc0, self->fc4) == 1) {
-        TObjFish::set_global_param((s32)door_jungle_main_gvm_texture);
+        TObjFish::set_global_param((saddr)door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(self->xf);
         rotate_matrix_y(0, self->f60);
@@ -336,7 +336,7 @@ void TODoorJungleMain::load_resources() {
 void TODoorJungleMain::free_static_resources() {
     if (door_jungle_main_gvm_texture != NULL) {
         release_texture_list(door_jungle_main_gvm_texture);
-        TAdSinglePlyChrSelectGC::safe_free((u32)door_jungle_main_gvm_texture);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)door_jungle_main_gvm_texture);
         door_jungle_main_gvm_texture = NULL;
     }
     if (TODoorJungleMain__bml_resource != NULL) {

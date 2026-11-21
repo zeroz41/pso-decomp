@@ -182,7 +182,7 @@ void TObjContainerJung::vfunc_81() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((s32)jungle_container_textures);
+            TObjFish::set_global_param((saddr)jungle_container_textures);
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
@@ -235,7 +235,7 @@ void TObjContainerJung::vfunc_79() const {
         a.pos[2] = pz;
         a.pad_38[0] = py;
         a.model = (saddr) get_bml_model(jungle_container_archive, 1);
-        a.textures = (s32)jungle_container_textures;
+        a.textures = (saddr)jungle_container_textures;
         TObjChipParams b = container_jung_spawn_params;
         f32 qz;
         f32 qy;
@@ -248,7 +248,7 @@ void TObjContainerJung::vfunc_79() const {
         b.pos[2] = qz;
         b.pad_38[0] = qy;
         b.model = (saddr) get_bml_model(jungle_container_archive, 2);
-        b.textures = (s32)jungle_container_textures;
+        b.textures = (saddr)jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -326,7 +326,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param((s32)TObjContainerJungEx::get_textures(0));
+        TObjFish::set_global_param((saddr)TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -373,7 +373,7 @@ void TObjContainerJungEx::vfunc_79() const {
     a.pos[2] = pz;
     a.pad_38[0] = py;
     a.model = (saddr)TObjContainerJungEx::get_model(1);
-    a.textures = (s32)TObjContainerJungEx::get_textures(0);
+    a.textures = (saddr)TObjContainerJungEx::get_textures(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
     f32 qy;
@@ -386,7 +386,7 @@ void TObjContainerJungEx::vfunc_79() const {
     b.pos[2] = qz;
     b.pad_38[0] = qy;
     b.model = (saddr)TObjContainerJungEx::get_model(2);
-    b.textures = (s32)TObjContainerJungEx::get_textures(0);
+    b.textures = (saddr)TObjContainerJungEx::get_textures(0);
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
     void *o = TObject::operator new(0x234);
@@ -443,7 +443,7 @@ void TObjContainerJungEnemy::load_models() {
         this->large_fragment_model = TObjContainerJung::get_model_by_index(1);
         this->small_fragment_model = TObjContainerJung::get_model_by_index(2);
         this->light_model = TObjContainerJung::get_model_by_index(3);
-        this->texlist = (s32)TObjContainerJung::get_textures(0);
+        this->texlist = (saddr)TObjContainerJung::get_textures(0);
         return;
     default:
     case 1:
@@ -451,7 +451,7 @@ void TObjContainerJungEnemy::load_models() {
         this->large_fragment_model = TObjContainerJungEx::get_model(1);
         this->small_fragment_model = TObjContainerJungEx::get_model(2);
         this->light_model = TObjContainerJungEx::get_model(3);
-        this->texlist = (s32)TObjContainerJungEx::get_textures(0);
+        this->texlist = (saddr)TObjContainerJungEx::get_textures(0);
         return;
     }
 }
@@ -528,7 +528,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         a.pos[1] = ya;
         a.pos[2] = za;
         a.pad_38[0] = ya;
-        a.model = (s32)large_fragment_model;
+        a.model = (saddr)large_fragment_model;
         a.textures = texlist;
         TObjChipParams b = container_jung_enemy_spawn_params_b;
         f32 zb;
@@ -541,7 +541,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         b.pos[1] = yb;
         b.pos[2] = zb;
         b.pad_38[0] = yb;
-        b.model = (s32)small_fragment_model;
+        b.model = (saddr)small_fragment_model;
         b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);

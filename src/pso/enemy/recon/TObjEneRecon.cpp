@@ -1140,7 +1140,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             if (F(s32, 0x3C8) == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
                     p = (u8 *)TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((u32)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
+                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
                         d = horizontal_distance_squared(p + 0x2FC, arg0 + 0x40C);
                         if (d <= ((AttackParams *)(F(s32, 0x318)))->get_damage_radius() * ((AttackParams *)(F(s32, 0x318)))->get_damage_radius()) {
                             Pair_8031CF30 t;

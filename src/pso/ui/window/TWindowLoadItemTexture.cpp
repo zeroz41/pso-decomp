@@ -24,7 +24,7 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
     TWindowLoadItemTexture *window;
     saddr sprite;
 
-    window = new TWindowLoadItemTexture((u8 *)layout, table, (s32)id);
+    window = new TWindowLoadItemTexture((u8 *)layout, table, (saddr)id);
     fn_80262C2C(window);
     sprite = window->get_array_entry(0);
     *(f32 *)(sprite + 0x8) = 0.5f * window->m_38 - 32.0f - 4.0f;
@@ -70,7 +70,7 @@ extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
 void *TWindowLoadItemTexture::create(void *arg1) {
     void *o;
-    o = new TWindowLoadItemTexture((u8 *)this, (void *)lbl_8044F280, (s32)arg1);
+    o = new TWindowLoadItemTexture((u8 *)this, (void *)lbl_8044F280, (saddr)arg1);
     set_sprite_uv_bounds((void *)((TWindowLoadItemTexture *)o)->get_array_entry(0), 0.0f, 0.0f, 0.625f, 0.46875f);
     return o;
 }

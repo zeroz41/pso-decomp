@@ -194,8 +194,8 @@ void TShopItemTecSequence::open_item_list_window() {
 
 void TShopItemTecSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, (void *)0x2d);
-    o->m_3a4 = (u32)close__20TShopItemTecSequenceFPv;
-    o->m_3a8 = (u32)select_and_advance__20TShopItemTecSequenceFPv;
+    o->m_3a4 = (uaddr)close__20TShopItemTecSequenceFPv;
+    o->m_3a8 = (uaddr)select_and_advance__20TShopItemTecSequenceFPv;
     reset_controller_input_state();
     set_field_20(5);
 }

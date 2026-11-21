@@ -48,7 +48,7 @@ void TODoorCave02::update_demo() {}
 
 void TODoorCave02::update_open() {
     if (door_flags & 1) {
-        texlist = (s32)texture_lists[1];
+        texlist = (saddr)texture_lists[1];
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
             object_state = 3;
             clear_player_status_flag(0, 8);
@@ -56,7 +56,7 @@ void TODoorCave02::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = (s32)texture_lists[0];
+        texlist = (saddr)texture_lists[0];
         clear_player_status_flag(0, 8);
         play_sound_effect(0x42807, &position, 0, 0);
     }
@@ -114,11 +114,11 @@ void TODoorCave02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if ((s32)object_state == DOOR_CLOSED) {
-            TObjFish::set_global_param((s32)texture_lists[door_flags & 1]);
+            TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
             draw_light(((NJS_OBJECT *)model)->child);
             draw_light(((NJS_OBJECT *)model)->child->sibling);
         } else {
-            TObjFish::set_global_param((s32)texture_lists[1]);
+            TObjFish::set_global_param((saddr)texture_lists[1]);
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
@@ -130,7 +130,7 @@ void *TODoorCave02::create(void *set_data) {
 
 void TODoorCave02::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

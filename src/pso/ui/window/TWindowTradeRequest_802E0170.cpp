@@ -133,7 +133,7 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   }
   TWindowSubStatusDisp::get_message_10(0xD9);
   text_builder_append();
-  window_trade_request->m_20 = (s32)TWindowMessageYesNo::create((void *)((s32) window_trade_request), (void *)(local_client_id), 0, 0);
+  window_trade_request->m_20 = (saddr)TWindowMessageYesNo::create((void *)((saddr) window_trade_request), (void *)(local_client_id), 0, 0);
   window_layout_position = (u8 *) get_window_layout_position(0xB2);
   open_yes_no_prompt_with_text((TChCrTagPlBack *)window_trade_request->m_20, (saddr)(get_shared_text_buffer()), (saddr)window_layout_position, 260.0f);
   new_var2 = ((s8 *) window_trade_request) + 0x1C;

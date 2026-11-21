@@ -105,7 +105,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
 
 s32 TWindowSubTechnique::create_title_window() {
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, (s32)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
+  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
   TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
   set_depth__11TWindowBaseFf((int) titled_window_menu);
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
@@ -249,7 +249,7 @@ void TWindowSubTechnique::run_task() {
     case 2: {
         s32 r = ((TWindowSubTechnique *)self)->sub_80286AA8();
         if (r == 1 || TWindowSubTechnique::update_selection((s16 *)self->f20, (s32 *)self->f24, self->player) != 0) {
-            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             if (r != 0) {
                 ((TWindowSubComCardList *)(self->sel))->set_selected_index(0);
             }
@@ -265,7 +265,7 @@ void TWindowSubTechnique::run_task() {
     case 3:
         self->help = TWindowMessage::create((s32)(get_window_layout_position(0x14)), (const f32 *)technique_help_window_size, 1, (s32)self->player);
         TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2);
-        set_depth__11TWindowBaseFf((s32)self->help);
+        set_depth__11TWindowBaseFf((saddr)self->help);
         call_if_split_screen((uaddr)self->help, self->player);
         ((TWindowSubTradeMain *)(self->sel))->clear_trade_flag();
         ((TWindowSubTechnique *)(self->sel))->clear_flag70_bit80();
@@ -275,7 +275,7 @@ void TWindowSubTechnique::run_task() {
     case 4:
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (TWindowSubTechnique::update_selection((s16 *)self->f20, (s32 *)self->f24, self->player) != 0) {
-            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
         }
         update_selected_help((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (((TWindowMenu *)(self->sel))->is_cancelled() != 0) {

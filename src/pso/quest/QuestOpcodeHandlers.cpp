@@ -1354,13 +1354,13 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        update_entries__18TChallenge4PResultFii((s32)&item, (s32)2);
+        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)2);
         break;
     case 1:
-        update_entries__18TChallenge4PResultFii((s32)&item, (s32)0);
+        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)0);
         break;
     case 2:
-        update_entries__18TChallenge4PResultFii((s32)&item, (s32)1);
+        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)1);
         break;
     }
 }
@@ -1501,7 +1501,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
         item.data1[1] = qst_registers[i++];
         item.data1[2] = qst_registers[i++];
         item.data1[4] = qst_registers[i];
-        if (((TAdSinglePlyChrSelectGC *)card)->find_entry((s32)&item) != 0) {
+        if (((TAdSinglePlyChrSelectGC *)card)->find_entry((saddr)&item) != 0) {
             qst_registers[out] = 1;
         } else {
             qst_registers[out] = 0;
@@ -3736,7 +3736,7 @@ void qst_op_go_floor(s32 a, s32 b) {
         floor_transition_state.set_next_floor(qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
         mark_area_change_pending();
         TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
-        send_6x21_inter_level_warp((void *)r, (s32)((void *)floor_transition_state.get_next_floor()));
+        send_6x21_inter_level_warp((void *)r, (saddr)((void *)floor_transition_state.get_next_floor()));
     }
 }
 
@@ -4731,7 +4731,7 @@ void qst_op_pos_pipe(u8 arg0) {
     point.x = (f32)qst_registers[i++];
     point.y = (f32)qst_registers[i++];
     point.z = (f32)qst_registers[i++];
-    TTecLuker::create_for_player((int)((u16)qst_registers[i]), (s32)&point);
+    TTecLuker::create_for_player((int)((u16)qst_registers[i]), (saddr)&point);
 }
 
 void qst_op_create_pipe(void) {
@@ -5240,7 +5240,7 @@ void qst_op_npc_crt(void) {
     var_r3 = (s32 *)qst_args;
     var_r4 = qst_args[1];
     var_r3 = (s32 *)((u8 *)((s32 *) (u16) qst_args[0]));
-    TNpcPlayer::send_npc_create((s32)var_r3, (s32)var_r4);
+    TNpcPlayer::send_npc_create((saddr)var_r3, (s32)var_r4);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -5321,7 +5321,7 @@ void qst_op_disp_msg_qb(void) {
         ((TWindowBase *)qst_message_window_qb)->close();
         qst_message_window_qb = 0;
     }
-    qst_message_window_qb = (void *)(u32)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
+    qst_message_window_qb = (void *)(uaddr)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
     ((TWindowMessage *)qst_message_window_qb)->append_line(t, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
@@ -5917,7 +5917,7 @@ s32 stream_read_be32(void) {
     s32 sp8;
     s32 temp_r4;
 
-    memcpy(&sp8, (s32)(qst_code + qst_pc), 4);
+    memcpy(&sp8, (saddr)(qst_code + qst_pc), 4);
     temp_r4 = qst_pc;
     qst_pc = temp_r4 + 4;
     bswap_32__FPUl(&sp8, temp_r4);
@@ -5937,7 +5937,7 @@ u16 read_be_u16(void) {
     u16 sp8;
     s32 temp_r4;
 
-    memcpy(&sp8, (s32)(qst_code + qst_pc), 2);
+    memcpy(&sp8, (saddr)(qst_code + qst_pc), 2);
     temp_r4 = qst_pc;
     qst_pc = temp_r4 + 2;
     bswap_16__FPUs(&sp8, temp_r4);

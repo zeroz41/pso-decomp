@@ -157,7 +157,7 @@ void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3) 
         }
         TObjPlayer__sub_800FF1FC((f32 *)e4, (f32 *)(base + 0x20));
     }
-    ((TObjEZRopeBase *)arg0)->sub_800FF8CC((void *)SELF->a, (void *)SELF->b, (s32)SELF->c);
+    ((TObjEZRopeBase *)arg0)->sub_800FF8CC((void *)SELF->a, (void *)SELF->b, (saddr)SELF->c);
     return arg0;
 }
 

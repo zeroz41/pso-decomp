@@ -310,7 +310,7 @@ void load_forest_warp_resources(void) {
 void TObjWarpBase::free_globals() {
     if (forest_warp_texture_list != NULL) {
         release_texture_list(forest_warp_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)forest_warp_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)forest_warp_texture_list);
         forest_warp_texture_list = NULL;
     }
     free_bin_model_request(forest_warp_bml_resource, 1);
@@ -591,7 +591,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((s32)textures);
+        TObjFish::set_global_param((saddr)textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -778,7 +778,7 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
         temp_r3_2 = (saddr)::operator new(0x88);
         var_r0 = temp_r3_2;
         if (var_r0 != 0) {
-            var_r0 = (s32)((TAdVIConfigGC *)temp_r3_2)->init(&position, 20.0f);
+            var_r0 = (saddr)((TAdVIConfigGC *)temp_r3_2)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -879,7 +879,7 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
         temp_r3 = (saddr)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
+            var_r0 = (saddr)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -1002,7 +1002,7 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
         temp_r3 = (saddr)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
+            var_r0 = (saddr)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {

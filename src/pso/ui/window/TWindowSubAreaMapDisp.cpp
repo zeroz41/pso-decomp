@@ -151,7 +151,7 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
 void TWindowSubAreaMapDisp::render() {
     saddr temp_r3;
 
-    temp_r3 = TWindowDD::draw_default_entry((s32)this);
+    temp_r3 = TWindowDD::draw_default_entry((saddr)this);
     draw_window_frame((void *)temp_r3);
     ((TWindowSubStatusDisp *)((void *)(this->m_70)))->forward_render((void *)(temp_r3));
     if ((s32) this->m_6c != 0) {

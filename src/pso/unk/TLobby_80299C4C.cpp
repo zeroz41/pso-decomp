@@ -129,7 +129,7 @@ void TObjChallenge4PRetry::open_message_window() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
-    *(u32 *)((s8 *)this + 0x30) = (u32)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x39)), (const f32 *)message_window_position, 1);
+    *(u32 *)((s8 *)this + 0x30) = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x39)), (const f32 *)message_window_position, 1);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
         ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line(get_message_text(0x5E), 1);
     }

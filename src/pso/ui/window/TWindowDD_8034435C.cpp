@@ -46,7 +46,7 @@ s16 TWindowDD__sub_8034435C(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (((TWindowDD *)window_dd)->get_word_select_context()) {
             case 1:
@@ -133,7 +133,7 @@ s16 TWindowDD__sub_80344568(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (((TWindowDD *)window_dd)->get_word_select_context()) {
             case 1:
@@ -220,7 +220,7 @@ s16 TWindowDD__sub_80344774(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (((TWindowDD *)window_dd)->get_word_select_context()) {
             case 1:
@@ -484,7 +484,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((s32)window_dd, (void *)(&pos));
+        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -716,7 +716,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, 
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((s32)window_dd, (void *)(&pos));
+        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -943,7 +943,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((s32)window_dd, (void *)(&pos));
+        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -1109,7 +1109,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((s32)window_dd, (void *)(&pos));
+        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -1190,7 +1190,7 @@ s32 format_entry_text__9TWindowDDFPvPv(DD_803461CC *arg0, char *window_dd) {
         }
         break;
     case 6:
-        ((TWindowDD *)arg0)->format_type6_message((s32)window_dd, (void *)(&pos));
+        ((TWindowDD *)arg0)->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -1201,7 +1201,7 @@ s16 TWindowDD__sub_80346434(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (((TWindowDD *)window_dd)->get_word_select_context()) {
             case 1:

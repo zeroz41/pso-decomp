@@ -81,7 +81,7 @@ void init__17TBoss8DragonColliFPvPvPv(void *p, void *pos, void *angle) {
     rotate_matrix_y((void *)0, angle);
     matrix_mult_vec((void *)0, &((TBoss8DragonColli_C *)p)->unk_AC, &((TBoss8DragonColli_C *)p)->position);
     pop_matrix();
-    ((TBoss8DragonColli_C *)p)->rotation_y = (s32)angle;
+    ((TBoss8DragonColli_C *)p)->rotation_y = (saddr)angle;
     ((TBoss8DragonColli_C *)p)->refresh_collision_body_centers();
     set_all_flags__17TBoss8DragonColliFPv((TBoss8DragonColli_C *)p);
 }

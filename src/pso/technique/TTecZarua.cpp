@@ -59,7 +59,7 @@ void TTecZarua::calc_range() {
     s32 ret;
     struct { s32 v; } tmp;
 
-    ret = (s32)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    ret = (saddr)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
     tmp.v = ret;
     ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)tmp.v);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);

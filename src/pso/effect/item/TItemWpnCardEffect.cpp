@@ -317,7 +317,7 @@ void TUnk_804EDD20::render() {
   if ((!((this->m_80) <= var_f0)) && ((s32)this->all_parents_unqueued_for_destruction() != 0))
   {
     id = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x60)));
-    equipped_item = (s32 *) find_equipped_item((s32)id);
+    equipped_item = (s32 *) find_equipped_item((saddr)id);
     if (equipped_item != 0)
     {
       new_var = (s32 *) (*((s32 **) (((s8 *) equipped_item) + 0x188)));

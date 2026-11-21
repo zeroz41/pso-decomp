@@ -2941,16 +2941,16 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     lbl_805D4BBC = 0;
     lbl_805D4BC0 = 0;
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__base_params[i] = (s32)TLobby::register_boss(de_rol_le_base_param_ids[i]);
+        TBoss2DeRolLe__base_params[i] = (saddr)TLobby::register_boss(de_rol_le_base_param_ids[i]);
     }
     for (i = 0; i < 3; i++) {
-        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = (s32)TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]);
+        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = (saddr)TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__resistance_params[i] = (s32)TLobby::register_object(de_rol_le_resistance_param_ids[i]);
+        TBoss2DeRolLe__resistance_params[i] = (saddr)TLobby::register_object(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__data_805D4BA0[i] = (s32)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
+        TBoss2DeRolLe__data_805D4BA0[i] = (saddr)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
     }
     TBoss2DeRolLe__instance = 0;
     TBoss2Tentacle__sub_8003A0AC();
@@ -3140,7 +3140,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f6B0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x20);
     ((TBoss2DeRolLe *)self)->hpmax = ((TBoss2DeRolLe *)self)->hp = 0x4E20;
     self->f6B4 = 0;
-    self->f6B8 = new TBoss2LaserLight((TObject *)self->obj3D8, (u32)(u32)&self->f6BC);
+    self->f6B8 = new TBoss2LaserLight((TObject *)self->obj3D8, (u32)(uaddr)&self->f6BC);
     self->f6BC = 0.0f;
     self->f6C0 = 0.0f;
     self->f6C4 = 0.0f;
@@ -3831,14 +3831,14 @@ void pick_random_target__13TBoss2DeRolLeFi(saddr actor) {
         return;
     }
     if (n == 1) {
-        p = (s32)TObjPlayer::get_player_data(0);
+        p = (saddr)TObjPlayer::get_player_data(0);
         ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
         return;
     }
     j = (s32) floor_to_float((f32) n * ((TObjChara *)actor)->random_ratio());
     ((TObjEneDD_ST *)((void *)actor))->enemy_clear_target();
     for (i = 0; i < n; i++) {
-        p = (s32)TObjPlayer::get_player_data(j);
+        p = (saddr)TObjPlayer::get_player_data(j);
         if (((TObjBase *)p)->is_alive() != 0) {
             ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
             return;

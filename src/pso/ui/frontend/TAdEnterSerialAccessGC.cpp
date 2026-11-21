@@ -382,7 +382,7 @@ void create_draw_callback__22TAdEnterSerialAccessGCFv(void) {
 }
 
 s32 TAdEnterSerialAccessGC::open_message_window(void *arg0, void *arg1) {
-    saddr r = (s32)create_message_window_for_size((NJS_POINT2 *)&lbl_804764C8, (NJS_POINT2 *)&lbl_804764D0);
+    saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)&lbl_804764C8, (NJS_POINT2 *)&lbl_804764D0);
     ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
     return r;
 }

@@ -129,7 +129,7 @@ void TLazerFenceSw::draw_laser_beam() {
     for (i = 0; i < 3; i++) {
         set_ginja_model_texture_slot(reinterpret_cast<void *>((lazer_fence_beam_node_table[i])), self->fE8);
     }
-    TObjFish::set_global_param((s32)TLazerFenceSw__texture_list);
+    TObjFish::set_global_param((saddr)TLazerFenceSw__texture_list);
     if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {
         self->f114 = actor_frame_tick;
         scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model, 0, (s32)self->f110, 5, 1);
@@ -252,7 +252,7 @@ void free_lazer_fence_switch_resources(void) {
         free_bin_model_request(lazer_fence_switch_bml_resource, 1);
         lazer_fence_switch_bml_resource = NULL;
     }
-    TObjPlayer::free_if_valid((s32)TLazerFenceSw__texture_list);
+    TObjPlayer::free_if_valid((saddr)TLazerFenceSw__texture_list);
     TLazerFenceSw__texture_list = NULL;
 }
 }

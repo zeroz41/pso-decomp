@@ -254,7 +254,7 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec 
     u8 *temp_r5;
 
     *(s32 *)((s8 *)this + 0) = (saddr) TObjEneReconBomb__name;
-    m_334 = (u32)arg2;
+    m_334 = (uaddr)arg2;
     this->m_338 = get_entity_id(this->m_334);
     *(f32 *)((s8 *)this + 0x34C) = TObjEneRecon__sub_8031C2D4(this->m_334);
     this->m_350 = TObjEneRecon__sub_8031C2C8(this->m_334);

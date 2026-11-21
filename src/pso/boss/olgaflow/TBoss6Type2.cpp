@@ -536,7 +536,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, s32 *params) : TObjEnemy(parent) {
     init_motion_entries();
     m_764 = TObjFish__sub_800E3124((u8 *)boss6_type2_effect_desc_table, (saddr)&m_59c);
     build_tables__14TBoss6PlotFalzFPvPvi(&m_768, (void *)boss6_type2_plot_falz_entry_table, 2);
-    m_458 = (u32)TBoss6Type1::create_zanzo((void *)this, (void *)7, (void *)0xF);
+    m_458 = (uaddr)TBoss6Type1::create_zanzo((void *)this, (void *)7, (void *)0xF);
     m_478 = 0;
     m_47c = 0x11;
     TBoss6Type2__sub_802BE4E0((s32 *)&m_480, (s32 *)boss6_type2_zero_vec);

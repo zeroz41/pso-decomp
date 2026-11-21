@@ -729,7 +729,7 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
         {
         }
         n += buf->sync_records_size;
-        restore_switch_table((s32)(&buf->payload[n]), buf->switch_table_size);
+        restore_switch_table((saddr)(&buf->payload[n]), buf->switch_table_size);
         activate_triggered_floor_events();
       }
       ::operator delete((0, buf));
@@ -2866,7 +2866,7 @@ void TLobby__sub_801371B0(s32 arg0) {
     TLobby__data_805D5594 = 0x16;
 }
 
-void disable_window_flags__6TLobbyFPv(void* a0) { TWindowCtrl::set_window_flags_off(local_client_id, (s32)a0); }
+void disable_window_flags__6TLobbyFPv(void* a0) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)a0); }
 }
 
 extern "C" {
@@ -2887,7 +2887,7 @@ void open_ship_block_select_menu__6TLobbyFiPvPv(s32 arg0, Ent_8013703C *arg1, En
         ((void (*)(void *))queue_destruction__7TObjectFv)(TLobby__list_window);
         TLobby__list_window = 0;
     }
-    TLobby__list_window = TShopJudgmentItemWindow::open_default((s32)tbl);
+    TLobby__list_window = TShopJudgmentItemWindow::open_default((saddr)tbl);
     for (i = 0; i < arg0; i++) {
         ((TLobby *)TLobby__list_window)->add_status_disp_entry((saddr)arg1[i].name, (s32)i);
     }
@@ -2912,7 +2912,7 @@ void open_information_list__6TLobbyFiPv(s32 arg0, Ent_80136FA0 *arg1) {
         ((TObject *)old)->queue_destruction();
         TLobby__list_window = 0;
     }
-    TLobby__list_window = TShopJudgmentItemWindow::open_default((s32)w);
+    TLobby__list_window = TShopJudgmentItemWindow::open_default((saddr)w);
     for (i = 0; i < arg0; i++) {
         ((TLobby *)TLobby__list_window)->add_status_disp_entry((saddr)arg1[i].name, (s32)i);
     }
@@ -3307,7 +3307,7 @@ void open_download_list_window__6TLobbyFiPv(s32 arg0, Ent_80135E7C *arg1) {
         queue_destruction__7TObjectFv(TLobby__list_window);
         TLobby__list_window = 0;
     }
-    TLobby__list_window = TShopJudgmentItemWindow::open_default((s32)tbl);
+    TLobby__list_window = TShopJudgmentItemWindow::open_default((saddr)tbl);
     for (i = 0; i < arg0; i++) {
         e = &arg1[i];
         switch (e->kind) {
@@ -3392,11 +3392,11 @@ extern const char TLobby__data_805DB0B0[4];
 #define CONNECT_801399B8(res, s)                                                                   \
     if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
         res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
-                                     (s32)TLobby::init_serial_access(), get_access_key_input_buffer(), \
+                                     (saddr)TLobby::init_serial_access(), get_access_key_input_buffer(), \
                                      (saddr)s[0].host, s[0].port);                                     \
     } else {                                                                                        \
         res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
-                                     (s32)TLobby::init_serial_access(), get_access_key_input_buffer(), \
+                                     (saddr)TLobby::init_serial_access(), get_access_key_input_buffer(), \
                                      (saddr)s[1].host, s[1].port);                                     \
     }
 
@@ -3597,7 +3597,7 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
     if (var_r27 != NULL) {
         temp_r26 = TAdEnterPasswordGC__sub_8013ADE4();
         access_key_input_buffer = get_access_key_input_buffer();
-        var_r27 = (u8 *)(__ct__9TProtocolFP7TObjectUsiPcPcPc(var_r27, object, 0x36, current_language, (s32)TLobby::init_serial_access(), access_key_input_buffer, temp_r26));
+        var_r27 = (u8 *)(__ct__9TProtocolFP7TObjectUsiPcPcPc(var_r27, object, 0x36, current_language, (saddr)TLobby::init_serial_access(), access_key_input_buffer, temp_r26));
     }
     TLobby__protocol_instance = var_r27;
     *(s32 **)((s8 *)var_r27 + 0xBBD4) = (s32 *)&handle_regist_check__6TLobbyFi;

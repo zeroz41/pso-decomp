@@ -487,12 +487,12 @@ void TLanguage__sub_802A0204(void) {
 void TLobby::free_chr_select_slots() {
     if (lbl_805D6608 != NULL) {
         release_texture_list(lbl_805D6608);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D6608);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D6608);
         lbl_805D6608 = NULL;
     }
     if (lbl_805D6604 != NULL) {
         release_texture_list(lbl_805D6604);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D6604);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D6604);
         lbl_805D6604 = NULL;
     }
     if (door_labo_bml_resource != NULL) {
@@ -534,11 +534,11 @@ TODoorFourLightSeabed::~TODoorFourLightSeabed() {
 }
 
 s32 TODoorFourLightSeabed::vfunc_21() {
-    return (s32)lbl_805D6608;
+    return (saddr)lbl_805D6608;
 }
 
 s32 TODoorFourLightSeabed::vfunc_22() {
-    return (s32)lbl_805D6604;
+    return (saddr)lbl_805D6604;
 }
 
 void TLanguage__sub_8029FF0C(void) {
@@ -571,12 +571,12 @@ void TLanguage__sub_8029FF0C(void) {
 void TLobby::free_global_buffers() {
     if (TODoorFourLightSeabedU__texture_list != NULL) {
         release_texture_list(TODoorFourLightSeabedU__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorFourLightSeabedU__texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorFourLightSeabedU__texture_list);
         TODoorFourLightSeabedU__texture_list = NULL;
     }
     if (seabed_four_light_door_textures != NULL) {
         release_texture_list(seabed_four_light_door_textures);
-        TAdSinglePlyChrSelectGC::safe_free((u32)seabed_four_light_door_textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)seabed_four_light_door_textures);
         seabed_four_light_door_textures = NULL;
     }
     if (seabed_four_light_door_bml_resource != NULL) {
@@ -617,11 +617,11 @@ TODoorFourLightSeabedU::~TODoorFourLightSeabedU() {
 }
 
 s32 TODoorFourLightSeabedU::vfunc_21() {
-    return (s32)TODoorFourLightSeabedU__texture_list;
+    return (saddr)TODoorFourLightSeabedU__texture_list;
 }
 
 s32 TODoorFourLightSeabedU::vfunc_22() {
-    return (s32)seabed_four_light_door_textures;
+    return (saddr)seabed_four_light_door_textures;
 }
 
 void load_labo_door_resources(void) {
@@ -641,12 +641,12 @@ const Tbl_8029FAE4 door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}};
 void TAdSinglePlyChrSelectGC::free_all_resources() {
     if (labo_door_red_textures != NULL) {
         release_texture_list(labo_door_red_textures);
-        TAdSinglePlyChrSelectGC::safe_free((u32)labo_door_red_textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)labo_door_red_textures);
         labo_door_red_textures = NULL;
     }
     if (TODoorLabo__green_texture_list != NULL) {
         release_texture_list(TODoorLabo__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorLabo__green_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLabo__green_texture_list);
         TODoorLabo__green_texture_list = NULL;
     }
     if (TODoorLabo__bml_resource != NULL) {
@@ -686,11 +686,11 @@ TODoorLabo::~TODoorLabo() {
 }
 
 s32 TODoorLabo::vfunc_21() {
-    return (s32)labo_door_red_textures;
+    return (saddr)labo_door_red_textures;
 }
 
 s32 TODoorLabo::vfunc_22() {
-    return (s32)TODoorLabo__green_texture_list;
+    return (saddr)TODoorLabo__green_texture_list;
 }
 
 void TODoorLabo::init_model_by_type() {
@@ -717,12 +717,12 @@ void TODoorLabo::load_resources() {
 void TODoorLabo::free_resources() {
     if (TODoorLaboNormal__red_texture_list != NULL) {
         release_texture_list(TODoorLaboNormal__red_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorLaboNormal__red_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLaboNormal__red_texture_list);
         TODoorLaboNormal__red_texture_list = NULL;
     }
     if (TODoorLaboNormal__green_texture_list != NULL) {
         release_texture_list(TODoorLaboNormal__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorLaboNormal__green_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLaboNormal__green_texture_list);
         TODoorLaboNormal__green_texture_list = NULL;
     }
     if (TODoorLabo__model_archive != NULL) {
@@ -764,11 +764,11 @@ TODoorLaboNormal::~TODoorLaboNormal() {
 }
 
 s32 TODoorLaboNormal::vfunc_21() {
-    return (s32)TODoorLaboNormal__red_texture_list;
+    return (saddr)TODoorLaboNormal__red_texture_list;
 }
 
 s32 TODoorLaboNormal::vfunc_22() {
-    return (s32)TODoorLaboNormal__green_texture_list;
+    return (saddr)TODoorLaboNormal__green_texture_list;
 }
 
 void TODoorLaboNormal::init_field_d4() { this->m_d4 = get_bml_model(TODoorLabo__model_archive, 0); }

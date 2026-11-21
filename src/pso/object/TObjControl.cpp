@@ -543,7 +543,7 @@ s32 TObjEnemy::apply_by_index(s16 arg0) {
     if (arg0 > 0xB4F) {
         return 0;
     }
-    copy_header__6TLobbyFPv((s32)TLobby__data_805D6144 + (arg0 * 0xC));
+    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (arg0 * 0xC));
     return 1;
 }
 

@@ -175,7 +175,7 @@ s32 TObjDoorKey::draw_active_beam() {
         PPCSync();
         TObjDoorKey__data_805D5C04 = actor_frame_tick;
     }
-    TObjFish::set_global_param((s32)TObjDoorKey__texture_handle);
+    TObjFish::set_global_param((saddr)TObjDoorKey__texture_handle);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -197,7 +197,7 @@ s32 TObjDoorKey::draw_active_beam() {
 
 s32 TObjDoorKey::draw_inactive_badge() {
     Key_8018FCD8 *arg0 = (Key_8018FCD8 *)this;
-    TObjFish::set_global_param((s32)TObjDoorKey__texture_handle);
+    TObjFish::set_global_param((saddr)TObjDoorKey__texture_handle);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -311,7 +311,7 @@ void TObjDoorKey::free_key() {
         free_bin_model_request(door_key_resource_handle, 1);
         door_key_resource_handle = NULL;
     }
-    TObjPlayer::free_if_valid((s32)TObjDoorKey__texture_handle);
+    TObjPlayer::free_if_valid((saddr)TObjDoorKey__texture_handle);
     TObjDoorKey__texture_handle = NULL;
     TObjDoorKey__data_805D5C04 = 0;
 }

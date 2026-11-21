@@ -134,7 +134,7 @@ void TWindowSubEquip::run_task() {
             return;
         }
         void *selected_player;
-        if (((selected_player = get_player_by_client_id(this->m_28)) != 0U) && (TWindowSubItem::is_usable((s32)selected_player) != 0)) {
+        if (((selected_player = get_player_by_client_id(this->m_28)) != 0U) && (TWindowSubItem::is_usable((saddr)selected_player) != 0)) {
             apply_slot_selection();
             this->m_1c = 1U;
         }

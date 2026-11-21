@@ -222,7 +222,7 @@ saddr TWindowMakeTeam::create_menu() {
 saddr TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
-    r = (s32)create_window_menu_default((s32)lbl_8044F300, 3);
+    r = (s32)create_window_menu_default((saddr)lbl_8044F300, 3);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(0)), 6, 0);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(1)), 6, 1);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(2)), 6, 2);
@@ -236,7 +236,7 @@ saddr TWindowMakeTeam::create_status_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
     s32 m;
-    r = (s32)create_window_menu_default((s32)lbl_8044F308, 4);
+    r = (s32)create_window_menu_default((saddr)lbl_8044F308, 4);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(0), 6, 0);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(1), 6, 1);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(2), 6, 2);

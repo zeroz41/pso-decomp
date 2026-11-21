@@ -954,7 +954,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     return 0;
   }
-  if (TItemData::is_item_usable((s32)player, (u8 *)this) != 0)
+  if (TItemData::is_item_usable((saddr)player, (u8 *)this) != 0)
   {
     result |= 2;
   }

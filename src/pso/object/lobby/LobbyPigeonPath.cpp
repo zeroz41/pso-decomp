@@ -1259,8 +1259,8 @@ void TUnk_804E0898::vfunc_14() {
     LobbyPigeon *self = (LobbyPigeon *)this;
   if (TObjPlayer::check_demo_mode() == 1 &&
       TMainTask::get_render_pass() == 0)
-    draw_line_strip__10TObjPlayerFPviif((u8 *)(self), (s32)(self->model),
-                                        (s32)(self->path), (1.0f));
+    draw_line_strip__10TObjPlayerFPviif((u8 *)(self), (saddr)(self->model),
+                                        (saddr)(self->path), (1.0f));
   if (self->phase == 0 || lobby_pigeon_lobby_type == 0)
     return;
   TObjFish::set_global_param((s32)(lobby_pigeon_lobby_type));

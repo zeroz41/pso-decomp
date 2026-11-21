@@ -2268,24 +2268,24 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc) {
 s32 TAdMultiPlyChrSelectGC::create_confirm_window() {
     void *u1;
     int u2;
-    s32 r = (s32)TWindowMessageYesNo::create((void *)(u1), (void *)(u2), 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)r, (s32)(get_localized_text_entry(0x1F, 8)), (s32)lbl_80472898, 196.0f);
+    s32 r = (saddr)TWindowMessageYesNo::create((void *)(u1), (void *)(u2), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)r, (s32)(get_localized_text_entry(0x1F, 8)), (saddr)lbl_80472898, 196.0f);
     set_menu_selected_index((TWindowSubComCard *)r, 1);
     return r;
 }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBD64(saddr arg0) {
     s32 temp_r31;
-    temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *)arg0), (void *)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x1F, 9)), (s32)lbl_804728A0, 196.0f);
+    temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((void *)arg0), (void *)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x1F, 9)), (saddr)lbl_804728A0, 196.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     return temp_r31;
 }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(saddr arg0) {
     s32 temp_r31;
-    temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *)arg0), (void *)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x1F, 0xA)), (s32)lbl_804728A8, 209.0f);
+    temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((void *)arg0), (void *)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x1F, 0xA)), (saddr)lbl_804728A8, 209.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     return temp_r31;
 }

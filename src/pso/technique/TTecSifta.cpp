@@ -116,7 +116,7 @@ void TTecSifta::update_effect_params() {
 }
 
 void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
-    new TTecSifta(this, pos, arg2, (s32)level);
+    new TTecSifta(this, pos, arg2, (saddr)level);
 }
 
 void TTecSifta::create(void *owner, void *pos, void *level) {

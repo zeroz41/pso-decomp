@@ -167,7 +167,7 @@ void TOKeyCave01::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param((s32)TOKeyCave01__texture_lists[is_on]);
+        TObjFish::set_global_param((saddr)TOKeyCave01__texture_lists[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -214,7 +214,7 @@ void *TOKeyCave01::create(void *set_data) {
 
 void TOKeyCave01::free_objects() {
     if (TOKeyCave01__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyCave01__texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)TOKeyCave01__texture_lists[0]);
         if (TOKeyCave01__texture_lists != NULL) {
             mem_free(TOKeyCave01__texture_lists);
             TOKeyCave01__texture_lists = NULL;
@@ -259,7 +259,7 @@ TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
     m_name = TOKeyCave01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (s32)TOKeyCave01__texture_lists[0];
+    texlist = (saddr)TOKeyCave01__texture_lists[0];
     model = (void *)TOKeyCave01__resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 20.0f;

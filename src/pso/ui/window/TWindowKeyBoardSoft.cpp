@@ -892,7 +892,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 
 void TWindowKeyBoardSoft::render() {
     saddr ctx;
-    ctx = TWindowDD::draw_default_entry((s32)this);
+    ctx = TWindowDD::draw_default_entry((saddr)this);
     sub_8026227C((WindowDrawContext *)ctx);
     sub_80261DD8((WindowDrawContext *)ctx);
     sub_802616BC((WindowDrawContext *)ctx);

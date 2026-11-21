@@ -308,7 +308,7 @@ void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1) {
         ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
         *(u32 *)((s8 *)arg0 + 0x30) = 0U;
     }
-    *(u32 *)((s8 *)arg0 + 0x30) = (u32)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
+    *(u32 *)((s8 *)arg0 + 0x30) = (uaddr)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
         ((TWindowMessage *)(*(uaddr *)((s8 *)arg0 + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((saddr)arg0, (s32)arg1, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x24)))))), 3);
     }

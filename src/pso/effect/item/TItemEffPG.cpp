@@ -135,7 +135,7 @@ s32 TItemEffPG::vfunc_7() {
 }
 
 void TItemEffPG::create(void *parent, void *params, void *count) {
-    new TUnk_804F0C08((TObject *)parent, (S_8035016C *)params, (s32)count);
+    new TUnk_804F0C08((TObject *)parent, (S_8035016C *)params, (saddr)count);
 }
 
 TUnk_804F0C08::TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count) : TItemEffPG(parent, params) {

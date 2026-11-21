@@ -427,7 +427,7 @@ void TItemList::destroy_subobjects_recursive() {
 
 void TPlyItem::destroy_subobjects(int a1) { item_reduce_target_player = a1; inventory_walk_progress_count = 0; this->pad_1C4->destroy_subobjects_recursive(); this->pad_1C4->queue_destruction(); ((TObject *)(this->pad_1C8))->run_tasks(); ((TObject *)(this->pad_1C8))->run_tasks(); ((TObject *)(this->pad_1C8))->queue_destruction(); }
 
-void *TPlyItem::set_mode_and_refresh_object(void *item_data) { inventory_search_item_data = (s32)item_data; return find_matching_inventory_item_node(this->pad_1C4); }
+void *TPlyItem::set_mode_and_refresh_object(void *item_data) { inventory_search_item_data = (saddr)item_data; return find_matching_inventory_item_node(this->pad_1C4); }
 
 void TPlyItem::find_first_inventory_entry(int a1) { inventory_search_item_data = a1; this->pad_1C4->find_inventory_item_matching_data(); }
 
@@ -757,7 +757,7 @@ s32 fn_801D4270(s32 arg0) {
     s32 i;
     u8 *p;
     void *list = (void *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
-    if ((u32)list == 0) {
+    if ((uaddr)list == 0) {
         return 0;
     }
     p = (u8 *)((TObjPlayer *)list)->get_ptr_4();

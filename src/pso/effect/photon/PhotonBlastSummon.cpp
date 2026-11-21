@@ -398,7 +398,7 @@ extern void *tl_05;
 void TUnk_804C3248::update_if_active() {
     if (!(*(s32 *)&this->unk_154 & 1)) {
         TCameraCtrl::update();
-        TSceneSora::update((s32)this);
+        TSceneSora::update((saddr)this);
         ((s32 (*)(void *))update_all_default__8TFogCtrlFv)(this);
         TObjPlayer__sub_800D8A6C();
     }
@@ -408,7 +408,7 @@ void TUnk_804C3248::update_if_active() {
 }
 
 void TUnk_804C3248::enter_scene() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TUnk_804C3248 *)this)->setup_photon_blast_camera();
     reset_state__10TSceneSoraFv(arg0);
     ((s32 (*)(s32))apply_all_default__8TFogCtrlFv)(arg0);

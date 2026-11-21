@@ -69,7 +69,7 @@ TWindowSubComCardList::~TWindowSubComCardList() {
     delete_if_allocated((s32)m_8c, 1);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (s32)arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (saddr)arg1) {
     void *list;
     s32 n;
     #define window_menu ((u8 *)this)
@@ -95,7 +95,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (s3
     #undef window_menu
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (s32)arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)arg1) {
     void *list;
     s32 n;
     #define window_menu ((u8 *)this)

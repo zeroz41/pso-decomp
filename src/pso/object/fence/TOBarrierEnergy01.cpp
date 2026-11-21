@@ -57,7 +57,7 @@ TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBa
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(barrier_energy_shared_bml_archive, 1);
-    texlist = (s32)barrier_energy_texlists[0];
+    texlist = (saddr)barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;
@@ -89,7 +89,7 @@ void TOBarrierEnergy01::load_resources() {
 
 void TOBarrierEnergy01::free_resources() {
     if (barrier_energy_texlists != NULL) {
-        TObjPlayer::free_if_valid((s32)barrier_energy_texlists[0]);
+        TObjPlayer::free_if_valid((saddr)barrier_energy_texlists[0]);
         if (barrier_energy_texlists != NULL) {
             mem_free(barrier_energy_texlists);
             barrier_energy_texlists = NULL;
@@ -114,7 +114,7 @@ void TOBarrierEnergy01::render() {
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(model, motion, animation_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param((s32)barrier_energy_texlists[2]);
+        TObjFish::set_global_param((saddr)barrier_energy_texlists[2]);
         draw_ginja_object(barrier_energy_model);
         pop_matrix();
     }
@@ -126,7 +126,7 @@ void TOBarrierEnergy01::update_closed() {
     if (door_flags & DOOR_FLAG_UNLOCKED) {
         object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
-        texlist = (s32)barrier_energy_texlists[1];
+        texlist = (saddr)barrier_energy_texlists[1];
     }
 }
 
@@ -142,7 +142,7 @@ void TOBarrierEnergy01::update_open() {
     if (!(door_flags & DOOR_FLAG_UNLOCKED)) {
         object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
-        texlist = (s32)barrier_energy_texlists[0];
+        texlist = (saddr)barrier_energy_texlists[0];
     }
 }
 

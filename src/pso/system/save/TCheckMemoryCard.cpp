@@ -166,7 +166,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
     if (use_main_ctrl != 0) {
         menu_window = (TWindowMenu *)create_window_menu((saddr)check_memory_card_menu_pos, 2, 4);
     } else {
-        menu_window = (TWindowMenu *)create_window_menu_default((s32)check_memory_card_menu_pos, 2);
+        menu_window = (TWindowMenu *)create_window_menu_default((saddr)check_memory_card_menu_pos, 2);
     }
     if (message_window == NULL) {
         return;

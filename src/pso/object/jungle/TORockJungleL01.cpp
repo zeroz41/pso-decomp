@@ -114,7 +114,7 @@ saddr TORockJungleS01::get_model(s32 index) {
 // Every rock uses the floor's one texture list, whatever its model.
 s32 get_jungle_rock_texture_resource(s32 index) {
     if (TORockJungleS01__texture_resource != NULL) {
-        return (s32)TORockJungleS01__texture_resource;
+        return (saddr)TORockJungleS01__texture_resource;
     }
     return 0;
 }

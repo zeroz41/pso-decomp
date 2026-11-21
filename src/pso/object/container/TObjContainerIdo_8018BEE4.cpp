@@ -119,7 +119,7 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
             extern GinjaTextureList *container_ido_textures;
             GinjaTextureList *textures = container_ido_textures;
             if (textures != NULL) {
-                TObjFish::set_global_param((s32)textures);
+                TObjFish::set_global_param((saddr)textures);
             }
         }
         push_matrix();
@@ -280,7 +280,7 @@ void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void TObjContainerIdo::free_resources() {
     if (container_ido_textures != NULL) {
         release_texture_list(container_ido_textures);
-        TAdSinglePlyChrSelectGC::safe_free((u32)container_ido_textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_ido_textures);
         container_ido_textures = NULL;
     }
     if (container_ido_model_archive != NULL) {

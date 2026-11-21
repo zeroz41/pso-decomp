@@ -765,7 +765,7 @@ void TObjCity_Season_EasterEgg::render() {
 
     temp_r3 = (u8 *)((TUnk_804B5E48 *)arg0)->get_anim_frame();
     if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
-        TObjFish::set_global_param((s32)city_season_xmas_model_table[0]);
+        TObjFish::set_global_param((saddr)city_season_xmas_model_table[0]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -816,7 +816,7 @@ void TObjCity_Season_ValentineHeart::render() {
 
     temp_r3 = (u8 *)((TUnk_804B5E48 *)arg0)->get_anim_frame();
     if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
-        TObjFish::set_global_param((s32)city_season_xmas_model_table[1]);
+        TObjFish::set_global_param((saddr)city_season_xmas_model_table[1]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -871,7 +871,7 @@ void TObjCity_Season_XmasTree::render() {
 
     temp_r3 = ((u8 * (*)())get_anim_frame__13TUnk_804B5E48Fv)();
     if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
-        TObjFish::set_global_param((s32)city_season_xmas_model_table[2]);
+        TObjFish::set_global_param((saddr)city_season_xmas_model_table[2]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -908,7 +908,7 @@ void TObjCity_Season_XmasWreath::render() {
     BmlResource *resource;
     resource = city_season_easter_egg_model_table[2];
     if ((resource != NULL) && (this->update_object_view_visibility(400.0f, 20.0f) != 0)) {
-        TObjFish::set_global_param((s32)city_season_xmas_model_table[2]);
+        TObjFish::set_global_param((saddr)city_season_xmas_model_table[2]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         ((s32 (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
@@ -954,7 +954,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
     BmlResource *resource;
     resource = city_season_easter_egg_model_table[3];
     if ((resource != NULL) && (this->update_object_view_visibility(800.0f, 80.0f) != 0)) {
-        TObjFish::set_global_param((s32)city_season_xmas_model_table[3]);
+        TObjFish::set_global_param((saddr)city_season_xmas_model_table[3]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         ((s32 (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
@@ -1010,7 +1010,7 @@ void TObjCity_Season_21_21::render() {
     temp_r3 = (u8 *)(((u8 * (*)())get_anim_frame__13TUnk_804B5E48Fv)());
     if (temp_r3 != NULL) {
         if (this->update_object_view_visibility(800.0f, 60.0f) != 0) {
-            TObjFish::set_global_param((s32)city_season_xmas_model_table[4]);
+            TObjFish::set_global_param((saddr)city_season_xmas_model_table[4]);
             ((s32 (*)(void *, int, int))scroll_strip_uvs)((void *)lbl_805D5B34, 0, (int) ((s16) uv_scroll));
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
@@ -1066,7 +1066,7 @@ void TObjCity_Season_SonicAdv2::render() {
     Vec b;
     res = (Res_80183AF0 *)((TUnk_804B5E48 *)self)->get_anim_frame();
     if (res != NULL && self->m8(800.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((s32)city_season_xmas_model_table[5]);
+        TObjFish::set_global_param((saddr)city_season_xmas_model_table[5]);
         idx = ((TObjCity_Season_SonicAdv2 *)self)->sub_80183C38();
         ((void (*)())push_matrix)();
         ((void (*)(void *))post_translate_matrix)(&self->pos);
@@ -1131,7 +1131,7 @@ void TObjCity_Season_Board::run_task() {
 extern "C" {
 void TObjCity_Season_Board::render() {
     if ((lbl_805D5B38 != NULL) && (this->update_object_view_visibility(800.0f, 200.0f) != 0)) {
-        TObjFish::set_global_param((s32)lbl_805D5B44);
+        TObjFish::set_global_param((saddr)lbl_805D5B44);
         scroll_strip_uvs(lbl_805D5B48, (s16) this->uv_scroll, 0);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

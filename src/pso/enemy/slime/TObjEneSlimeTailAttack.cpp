@@ -827,11 +827,11 @@ s32 TObjEneSlimeOne::try_spawn_child(void *arg1) {
 }
 
 s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1) {
-    return (s32)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), arg0, (void *)arg1);
+    return (saddr)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), arg0, (void *)arg1);
 }
 
 s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
-    return (s32)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), arg0, (void *)arg1, (Vec *)arg2);
+    return (saddr)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), arg0, (void *)arg1, (Vec *)arg2);
 }
 
 #define ene_slime_one ((u8 *)this)

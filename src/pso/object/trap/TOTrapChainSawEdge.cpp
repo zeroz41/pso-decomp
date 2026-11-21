@@ -644,7 +644,7 @@ void TOTrapChainSawDamage::vfunc_16() {
     arg0->fF8 = (s32)arg0->f70;
     v = arg0->fF8;
     arg0->fF8 = v < 0 ? 0 : (v > 1 ? 1 : v);
-    arg0->fC8 = (s32)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
+    arg0->fC8 = (saddr)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
     arg0->fBC = (saddr)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
     arg0->f24 = (saddr)fn_802C9924(0);
     arg0->fB4 = (0.0f);
@@ -718,10 +718,10 @@ void TOTrapChainSawDamage::vfunc_27() {
 extern "C" {
 void TOTrapChainSawDamage::vfunc_28() {
     if (*(void **)((s8 *)this + 0x104) != NULL) {
-        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x104)))->set_damage((s32)(*(void **)((s8 *)this + 0xD4)));
+        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x104)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
     }
     if (*(void **)((s8 *)this + 0x108) != NULL) {
-        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x108)))->set_damage((s32)(*(void **)((s8 *)this + 0xD4)));
+        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x108)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
     }
 }
 }
@@ -758,12 +758,12 @@ void TOTrapChainSawKey::vfunc_16() {
     *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (s32) *(f32 *)((s8 *)((u8 *)this) + 0x70);
     x = *(s32 *)((s8 *)((u8 *)this) + 0xF8);
     *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (x < 0) ? 0 : ((x > 1) ? 1 : x);
-    *(s32 *)((s8 *)((u8 *)this) + 0xC8) = (s32)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]);
+    *(s32 *)((s8 *)((u8 *)this) + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]);
     *(s32 *)((s8 *)((u8 *)this) + 0xBC) = (saddr)TOTrapChainSawKey::get_motion((s32)(b.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]));
     *(saddr *)((s8 *)((u8 *)this) + 0x24) = (saddr)fn_802C9924(3);
     *(f32 *)((s8 *)((u8 *)this) + 0xB4) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0xB8) = (1.0f);
-    *(s32 *)((s8 *)((u8 *)this) + 0xFC) = (s32)TOTrapChainSawKey::get_model(2);
+    *(s32 *)((s8 *)((u8 *)this) + 0xFC) = (saddr)TOTrapChainSawKey::get_model(2);
     *(s32 *)((s8 *)((u8 *)this) + 0x100) = (saddr)TOTrapChainSawKey::get_motion(2);
     *(f32 *)((s8 *)((u8 *)this) + 0x104) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0x108) = (1.0f);
@@ -919,7 +919,7 @@ void TOTrapChainSawEdge::vfunc_16() {
     *(s32 *)((s8 *)this + 0xFC) = (s32) *(f32 *)((s8 *)this + 0x70);
     x = *(s32 *)((s8 *)this + 0xFC);
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
-    *(s32 *)((s8 *)this + 0xC8) = (s32)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
+    *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(saddr *)((s8 *)this + 0x24) = (saddr)fn_802C9924(0);
     *(f32 *)((s8 *)this + 0xB4) = (0.0f);

@@ -46,7 +46,7 @@ GinjaTextureList **TODoorAncient08::texture_lists;
 TODoorAncient08::TODoorAncient08(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_ancient08_class_name;
     apply_object_set_data(set_data);
-    texlist = (s32)texture_lists[0];
+    texlist = (saddr)texture_lists[0];
     model = (void *)bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
@@ -87,7 +87,7 @@ void TODoorAncient08::load_resources() {
 
 void TODoorAncient08::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[1]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -106,7 +106,7 @@ void *TODoorAncient08::create(void *set_data) {
 void TODoorAncient08::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
         object_state = 1;
-        texlist = (s32)texture_lists[0];
+        texlist = (saddr)texture_lists[0];
         set_indexed_flags(0, 8);
         is_open = 1;
         switch (get_current_floor_area()) {
@@ -133,7 +133,7 @@ void TODoorAncient08::update_closed() {
 
 void TODoorAncient08::update_open() {
     if (door_flags & 1) {
-        texlist = (s32)texture_lists[0];
+        texlist = (saddr)texture_lists[0];
         if (is_any_player_within_radius_xz(10000.0f) == 1) {
             return;
         }
@@ -161,7 +161,7 @@ void TODoorAncient08::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = (s32)texture_lists[1];
+        texlist = (saddr)texture_lists[1];
         clear_player_status_flag(0, 8);
         is_open = 0;
     }
@@ -234,7 +234,7 @@ void TODoorAncient08::draw_switch_lights() {
     }
     on[3] = set;
     push_matrix();
-    TObjFish::set_global_param((s32)texture_lists[1]);
+    TObjFish::set_global_param((saddr)texture_lists[1]);
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
     rotate_matrix_y(NULL, rotation_y);
@@ -243,9 +243,9 @@ void TODoorAncient08::draw_switch_lights() {
     TParticleCtrl::begin_effect_render();
     for (i = 0; i < 4; i++) {
         if (on[i] != 0) {
-            TObjFish::set_global_param((s32)texture_lists[0]);
+            TObjFish::set_global_param((saddr)texture_lists[0]);
         } else {
-            TObjFish::set_global_param((s32)texture_lists[1]);
+            TObjFish::set_global_param((saddr)texture_lists[1]);
         }
         push_matrix();
         pair = pairs[i];

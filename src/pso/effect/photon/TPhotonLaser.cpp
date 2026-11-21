@@ -121,7 +121,7 @@ TPhotonLaser::~TPhotonLaser() {
 
 TPhotonLaser::TPhotonLaser(PhotonLaserParams *p, TObject *parent, u16 arg3) : TObjChara(parent) {
     Laser_801AC36C *self = (Laser_801AC36C *)this;
-    self->f0 = ((s32)TPhotonLaser__name);
+    self->f0 = ((saddr)TPhotonLaser__name);
     VecCopy((Vec *)&self->f334, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f340), (const Vec *)((const Vec *)&p->pos))));
     self->f370 = arg3;
     VecCopy((Vec *)&self->f34C, (const Vec *)&p->dir);

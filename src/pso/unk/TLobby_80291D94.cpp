@@ -380,7 +380,7 @@ s32 TLobby__sub_80292270(s32 seed, s32 card) {
         return -2;
     }
     TAdSinglePlyChrSelectGC *record = (TAdSinglePlyChrSelectGC *)get_character_save_record((u16)card);
-    if ((u32)record != 0 && record->is_level_capped() != 0) {
+    if ((uaddr)record != 0 && record->is_level_capped() != 0) {
         *(s32 *)((s8 *)lbl_804DB1F0 + 0x14) = -3;
         return -3;
     }

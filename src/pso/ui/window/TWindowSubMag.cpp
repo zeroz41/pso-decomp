@@ -231,7 +231,7 @@ void TWindowSubMag::run_task() {
                 w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(9), self->client_id);
             }
             self->help = w;
-            TWindowSubEquip__sub_80263AF8((s32)self->parent, 5);
+            TWindowSubEquip__sub_80263AF8((saddr)self->parent, 5);
             set_depth__11TWindowBaseFf(self->help);
         }
         if (self->slotwin == NULL) {
@@ -380,7 +380,7 @@ void TWindowSubMag::run_task() {
             w = TWindowSubMagPhoton__ct(w, get_window_layout_position(0xA), self->mag_state, self->client_id);
         }
         self->photon = w;
-        TWindowSubEquip__sub_80263AF8((s32)self->parent, 3);
+        TWindowSubEquip__sub_80263AF8((saddr)self->parent, 3);
         set_depth__11TWindowBaseFf(self->photon);
         self->effect = ((TWindowSubMag *)self)->create();
         self->f1d = -1;
@@ -454,11 +454,11 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
         add_gray_text_entry((TWindowSubTradeMain *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (s32)TWindowSubStatusDisp::get_message_10(0x65), 6, 1);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (saddr)TWindowSubStatusDisp::get_message_10(0x65), 6, 1);
     }
     TItemData::deserialize_mag((void *)(menu->field_0x2c), (void *)mag);
     if (((MagStats *)mag)->get_photon_blast(0) != -1) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (s32)TWindowSubStatusDisp::get_message_10(0x64), 6, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (saddr)TWindowSubStatusDisp::get_message_10(0x64), 6, 0);
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }

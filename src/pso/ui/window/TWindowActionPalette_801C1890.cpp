@@ -145,7 +145,7 @@ void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i) {
 }
 
 s32 is_action_channel_active(s32 *arg0, s32 arg1) {
-    return TWindowActionPalette::is_channel_active_at((s32) arg0, *arg0, arg1);
+    return TWindowActionPalette::is_channel_active_at((saddr) arg0, *arg0, arg1);
 }
 
 void TWindowActionPalette::set_palette_entry(saddr arg0, s32 i, s32 arg2, s32 arg3, s32 arg4) {
@@ -177,7 +177,7 @@ u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
 }
 
 void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
-    TWindowActionPalette__sub_801C1D7C((s32)((s32) arg0), (s32)(*arg0), arg1);
+    TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
 }
 
 u16 TWindowActionPalette::get_slot_type(void *arg0, s32 i, s32 arg2) {

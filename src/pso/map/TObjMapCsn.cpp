@@ -131,7 +131,7 @@ saddr TObjMapCsn::create(saddr arg0) {
 
     map_csn = (saddr)TObject::operator new(0x254);
     if (map_csn != 0) {
-        map_csn = ((saddr)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_collision_controller()), (s32)arg0));
+        map_csn = ((saddr)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (saddr)(TObjMapCsn::get_collision_controller()), (s32)arg0));
     }
     return map_csn;
 }
