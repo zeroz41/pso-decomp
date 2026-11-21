@@ -69,10 +69,11 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
     return temp_r31;
 }
 
-long belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
+saddr belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
   s32 temp_r4;
   u8 *temp_r6;
-  if (TObjPlayer::create_shoot_model((uaddr)arg0, arg1, arg2, farg0) != 0U)
+  uaddr shot = TObjPlayer::create_shoot_model((uaddr)arg0, arg1, arg2, farg0);
+  if (shot != 0)
   {
     temp_r6 = (unsigned char *) (*((void **) (((s8 *) arg0) + 0x188)));
     if (temp_r6 != 0)
@@ -86,6 +87,7 @@ long belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
       }
     }
   }
+  return shot;
 }
 
 TUnk_804A0CB8::~TUnk_804A0CB8() {}

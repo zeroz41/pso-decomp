@@ -198,7 +198,7 @@ extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
 }
 void copy_fog_entry(u8 *arg0, u8 *arg1);
-s32 apply_fog_entry(void *arg0);
+void apply_fog_entry(void *arg0);
 void init_scene_fog_system(void);
 
 s32 area_fog_row_table[36] = {
@@ -663,7 +663,7 @@ s32 TFogCtrl::restore_fog(s32 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 apply_fog_entry(void *arg0) {
+void apply_fog_entry(void *arg0) {
     TFogCtrl_800FAE1C *self = (TFogCtrl_800FAE1C *)arg0;
     GXFogAdjTable_800FAE1C tbl;
     set_scene_fog_type(2);

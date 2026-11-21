@@ -292,7 +292,7 @@ void TOTrapChainSaw::vfunc_26() {  }
 
 void TOTrapChainSaw::vfunc_18(TObjPlayer *) {  }
 extern "C" {
-int TOTrapChainSawEdge::check_player_contact() {  }
+void TOTrapChainSawEdge::check_player_contact() {  }
 
 void TOTrapChainSaw::load_shared_resource() {
     BmlResource *p;
@@ -488,7 +488,7 @@ void TOTrapChainSaw::update_extension() {
     }
 }
 
-int TOTrapChainSaw::check_player_contact() {
+void TOTrapChainSaw::check_player_contact() {
     s32 i;
     TObjPlayer *p;
     s32 t;
@@ -818,7 +818,7 @@ void TOTrapChainSawKey::vfunc_25() {
     TParticleCtrl::end_effect_render();
 }
 
-int TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { TOTrapChainSaw::check_player_contact(); } }
+void TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { TOTrapChainSaw::check_player_contact(); } }
 
 void TOTrapChainSawKey::vfunc_27() {  }
 

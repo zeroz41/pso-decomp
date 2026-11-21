@@ -159,7 +159,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
     }
 }
 
-int TOAttackableCol::send_state_change(u16 state) {
+void TOAttackableCol::send_state_change(u16 state) {
     Obj_801575AC *self = (Obj_801575AC *)this;
     Msg_801575AC msg;
     s16 id;

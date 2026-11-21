@@ -152,7 +152,7 @@ void TPhotonGolla::sub_801AB688() { this->m_15c = 0.0f; *(float*)((char*)this + 
 #pragma fp_contract on
 #pragma opt_common_subs off
 #define self ((Golla_801AB6A0 *)arg0)
-s32 TPhotonGolla::spawn_concentrate(void *arg0) {
+void TPhotonGolla::spawn_concentrate(void *arg0) {
     Vec target;
     Vec local;
     Vec rotated;

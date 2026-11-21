@@ -8,7 +8,7 @@
 struct TObjCityDoor_Lobby : public TObjBase {
     virtual ~TObjCityDoor_Lobby();
     virtual void dispatch_lobby_action();
-    s32 build_door_collision_triangles();
+    void build_door_collision_triangles();
     void process_lobby_action_14();
     virtual void render();
     virtual void run_task();

@@ -317,7 +317,7 @@ void TObjWarpBoss::update() {
     }
 }
 
-s32 TObjWarpBoss::update_warp_dialogs() {
+void TObjWarpBoss::update_warp_dialogs() {
     void *player;
   s32 i;
   int j;

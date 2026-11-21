@@ -15,7 +15,7 @@ public:
 };
 
 u32 belra_cannon_create_extra_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0);
-long belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0);
+saddr belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0);
 TItem *create_belra_cannon(u8 *arg0);
 
 #endif

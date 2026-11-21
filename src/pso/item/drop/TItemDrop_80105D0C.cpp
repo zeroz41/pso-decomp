@@ -1023,7 +1023,7 @@ u8 *create_drop__9TItemDropFi(saddr parent) {
 s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)(TLobby__sub_801D6DDC(this)); }
 u8 TItemDrop__sub_80107B04(void *) { return 0; }
 s32 item_drop_rng_below(saddr arg0, u32 arg1) {
-    __cvt_fp2unsigned((f32) (((f32) arg1 * (f32) subtractive_rng_next((void *)arg0)) / lbl_805DAAD8));
+    return __cvt_fp2unsigned((f32) (((f32) arg1 * (f32) subtractive_rng_next((void *)arg0)) / lbl_805DAAD8));
 }
 
 }

@@ -25,7 +25,7 @@ public:
     s32 m_1c4;
     u8 unk_1C8[0x4];
 public:
-    static s32 spawn_concentrate(void *arg0);
+    static void spawn_concentrate(void *arg0);
     static void collect_hit_targets(void *arg0);
 };
 LAYOUT_ASSERT(TPhotonGolla_size, sizeof(TPhotonGolla) == 0x1CC);

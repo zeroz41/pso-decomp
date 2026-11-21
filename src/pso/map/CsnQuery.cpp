@@ -110,7 +110,7 @@ saddr wall_query_hit_result;
 extern "C" {
 s32 get_csn_group_flags(u8 arg0);
 void TObjPlayer__sub_80079108(void);
-s32 TObjPlayer__sub_80079118(const char *);
+void TObjPlayer__sub_80079118(const char *);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(saddr);
 }
@@ -148,7 +148,7 @@ void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color) {  }
 void TObjPlayer__sub_80079110(CsnHit *hit) {  }
 void TObjPlayer__sub_80079114(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
-s32 TObjPlayer__sub_80079118(const char *name) {  }
+void TObjPlayer__sub_80079118(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
 void TObjPlayer__sub_80079120(saddr _w0) {  }
 void TObjPlayer__sub_80079124(void * _w0, void * _w1) {  }

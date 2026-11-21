@@ -174,7 +174,7 @@ saddr get_bml_motion(saddr, s32);
 s32 rotate_matrix_y(s32, s32);
 s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
-s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
+void TObjDoaEx01::draw_object_tree(saddr arg1) {
     NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
     u32 flags = obj->evalflags;
     push_matrix();

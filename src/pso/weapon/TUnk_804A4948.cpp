@@ -274,7 +274,7 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
 }
 
 
-s32 TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
+void TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
     Self_8012A508 *self = (Self_8012A508 *)this;
     VObj_8012A508 *obj = (VObj_8012A508 *)arg1;
     u32 f;

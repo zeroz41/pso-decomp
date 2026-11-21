@@ -17,7 +17,7 @@ struct TContainerAncient01R : public TObjChara {
     void open_container();
     void check_open_trigger();
     void update_spawning();
-    s32 sub_8018A688();
+    void sub_8018A688();
     void reset_hp();
     virtual void vfunc_6(s16 *, s32);
     virtual s32 try_start_action(s32, s32);

@@ -12,7 +12,7 @@ s32 get_ginja_vertex_descriptor_type(u32 arg0, s32 arg1);
 void ginja_load_texture_slot(u32 arg0, u32);
 void ginja_set_alpha_compare(s32 ref);
 void ginja_set_vertex_format(u32 arg0, u32);
-s32 load_ginja_model_matrices(int arg0);
+void load_ginja_model_matrices(int arg0);
 extern "C" {
 void prepare_ginja_model(void);
 }

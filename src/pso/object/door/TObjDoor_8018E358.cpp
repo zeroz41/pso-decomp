@@ -84,13 +84,13 @@ void update_opening_glow__8TObjDoorFPv(u8 *arg0);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void render__8TObjDoorFPv(Door_8018E40C *arg0);
-s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
+void draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 
 AnimationMotion *get_bml_motion(BmlResource *, s32);
-s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
+void draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32);
@@ -250,7 +250,7 @@ void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0) {
     pop_matrix();
 }
 
-s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
+void draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
     TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
@@ -284,7 +284,7 @@ void update_timer__8TObjDoorFPv(void *arg0) {
     draw_locked__8TObjDoorFPv((Door_8018E74C *)(arg0));
 }
 
-s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
+void draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
     TObjFish::set_global_param((saddr)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);

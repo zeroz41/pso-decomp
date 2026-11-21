@@ -24,10 +24,10 @@ struct TObjGrass : public TObjEnemy {
     virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
-    s32 sub_800BE75C();
+    void sub_800BE75C();
     void sub_800BDD70();
     void sub_800BD4D8();
-    s32 sub_800BCE44();
+    void sub_800BCE44();
     void* m_374;
     u8 _pad378[0x8];
     void* m_380;
@@ -45,7 +45,7 @@ struct TObjGrass : public TObjEnemy {
     TUnk_80494968 *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     static void update_dying(void *arg0_);
     static void update_camera_vec_by_stage(NJS_OBJECT *);
-    s32 update();
+    void update();
     s32 update_web_attack();
     static void update_chase_target(void *arg0_);
     static void update_ai(void *arg0);

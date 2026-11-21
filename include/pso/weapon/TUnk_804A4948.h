@@ -8,7 +8,7 @@ class TUnk_804A4948 : public TItemWeapon {
 public:
     TUnk_804A4948(TObject *parent, u8 *item);
     virtual ~TUnk_804A4948();
-    s32 send_srank_stat_extra(uaddr, s32);
+    void send_srank_stat_extra(uaddr, s32);
     void send_srank_stat_extra_to_locks();
     virtual void emit_marker_effects();
     virtual void vfunc_57();

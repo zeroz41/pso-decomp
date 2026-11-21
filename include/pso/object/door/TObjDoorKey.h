@@ -14,8 +14,8 @@ struct TObjDoorKey : public TOKey {
     virtual void trigger_deactivate_sound();
     virtual void debug_draw_key_id();
     void render();
-    s32 draw_active_beam();
-    s32 draw_inactive_badge();
+    void draw_active_beam();
+    void draw_inactive_badge();
     void run_task();
     static void free_key();
     static void load_resources();

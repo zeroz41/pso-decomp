@@ -13,7 +13,7 @@ struct TOTrapChainSaw : public TObjMapObject {
     virtual void vfunc_14();
     virtual void decode_params();
     virtual void vfunc_16();
-    virtual int check_player_contact();
+    virtual void check_player_contact();
     virtual void vfunc_18(TObjPlayer *player);
     virtual s32 consume_counter(TObjPlayer *player);
     virtual void set_hit_cooldown_for_player(TObjPlayer *player);

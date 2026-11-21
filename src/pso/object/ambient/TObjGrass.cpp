@@ -931,7 +931,7 @@ void TObjGrass::run_move_action() {
     }
 }
 
-s32 TObjGrass::sub_800BE75C() {
+void TObjGrass::sub_800BE75C() {
     Grass_800BE75C *o = (Grass_800BE75C *)this;
     Vec v;
     f32 d;
@@ -1485,7 +1485,7 @@ void TObjGrass::run_miss_reaction() {
     this->actorFlags = (s32) (this->actorFlags & 0xFF9BFFFF);
 }
 
-s32 TObjGrass::update() {
+void TObjGrass::update() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r4;
 
@@ -1516,7 +1516,7 @@ void TObjGrass::run_hit_reaction() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
 }
 
-s32 TObjGrass::sub_800BCE44() {
+void TObjGrass::sub_800BCE44() {
     u8 *arg0 = (u8 *)this;
   u8 *temp_r3;
   ((TObjBase *)arg0)->obj_clearFlags30((u32)(0x04040000));

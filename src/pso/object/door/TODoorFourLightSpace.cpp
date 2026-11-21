@@ -150,7 +150,7 @@ void TODoorFourLightRuins::render() {
 }
 
 #define self ((Door_8028A28C *)arg0)
-s32 TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
+void TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
     s32 lit[4];
     u8 **a;
     u8 **b;
@@ -353,7 +353,7 @@ void TODoorFourLightSpace::render() {
     }
 }
 
-s32 TODoorFourLightSpace::draw_lights() {
+void TODoorFourLightSpace::draw_lights() {
     u8 *self = (u8 *)this;
     s32 flags[4];
     s32 i;

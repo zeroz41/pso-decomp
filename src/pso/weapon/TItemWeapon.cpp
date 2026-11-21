@@ -43,7 +43,7 @@ extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
 
-s32 TItemWeapon::draw_weapon_model() {
+void TItemWeapon::draw_weapon_model() {
     s32 var_r30;
     u8 *temp_r4;
     if ((void *) this->owner == NULL || (u32) *(u32 *)((s8 *)this + 0xF4) == 0U) {

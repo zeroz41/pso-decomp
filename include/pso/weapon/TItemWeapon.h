@@ -78,7 +78,7 @@ struct TItemWeapon : public TItemEquipBase {
     // wall in between, or NULL.
     u8 *trace_from_owner(u8 *point);
     void remap_extra_attack_type();
-    s32 draw_weapon_model();
+    void draw_weapon_model();
     void create_weapon_trail_effects();
     void apply_model_params();
     void spawn_light_task();

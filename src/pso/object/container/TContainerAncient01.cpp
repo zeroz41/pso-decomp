@@ -1060,7 +1060,7 @@ void TContainerAncient01R::update_spawning() {
   }
 }
 
-s32 TContainerAncient01R::sub_8018A688() {
+void TContainerAncient01R::sub_8018A688() {
     u32 period;
     f32 t;
     u32 rem;

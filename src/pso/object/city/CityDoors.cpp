@@ -201,7 +201,7 @@ void TObjCityDoor_Lobby::dispatch_lobby_action() {
 void vec3_add_to(Vec *, Vec *);
 extern Vec city_door_lobby_collision_vertices[];
 
-s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
+void TObjCityDoor_Lobby::build_door_collision_triangles() {
     Vec v[3];
     Vec sum;
     CsnFace *t1;

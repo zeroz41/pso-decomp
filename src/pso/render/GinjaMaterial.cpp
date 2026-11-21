@@ -630,7 +630,7 @@ void end_ginja_model_draw(void) {
 }
 #pragma pop
 
-s32 load_ginja_model_matrices(int arg0) {
+void load_ginja_model_matrices(int arg0) {
     f32 s[3][4];
     f32 t[3][4];
     f32 m[3][4];

@@ -16,7 +16,7 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     virtual void vfunc_18(TObjPlayer *player);
     virtual void vfunc_14();
     virtual void vfunc_25();
-    virtual int check_player_contact();
+    virtual void check_player_contact();
     virtual void vfunc_27();
     u32 m_f8;
     u32 m_fc;
