@@ -22,8 +22,8 @@ struct TAdChrSelASlotGC : public TObject {
     s32 get_plate_value_for_slot(s32 k);
     s32 open_confirm_message(s32 arg1, s32 arg2);
     s32 create_message_window(s32 arg1, s32 arg2);
-    static s32 create_format_message_window(s32 arg0, s32 arg1, s32 arg2);
-    static s32 open_yes_no_window(s32 arg0, s32 arg1, s32 arg2);
+    static s32 create_format_message_window(saddr arg0, s32 arg1, s32 arg2);
+    static s32 open_yes_no_window(saddr arg0, s32 arg1, s32 arg2);
     void sub_8030CBD0();
     void sub_8030CBD4();
     void update_load_state();

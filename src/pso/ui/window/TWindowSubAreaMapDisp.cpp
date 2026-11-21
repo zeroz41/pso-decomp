@@ -17,6 +17,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 
 #pragma readonly_strings on
 
@@ -68,7 +69,6 @@ void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
 s32 get_game_play_mode();
-s32 strncpy(int, int, void *);
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 extern s32 lbl_805D63F0;
@@ -181,7 +181,7 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     TWindowSubStatusDisp::destroy_status_display(this->m_70, 1);
 }
 LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
-TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59))) {
+TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 temp_r3;
     saddr temp_r3_2;
     saddr var_r0;
@@ -197,9 +197,9 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     } else {
         var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
-    temp_r3 = (s32)measure_string_len((const char *)((int)var_r30));
+    temp_r3 = (s32)measure_string_len((const char *)var_r30);
     this->m_74 = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((int)this->m_74, (int)var_r30, (void *)(temp_r3 + 1));
+    strncpy((char *)this->m_74, (const char *)var_r30, (u32)temp_r3 + 1);
     temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {

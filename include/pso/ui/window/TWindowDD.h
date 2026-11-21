@@ -126,7 +126,7 @@ struct TWindowDD : public TObject
     void append_prompt_newline(s32 *arg1);
     static s32 clamp_range_5FA_682(s16 arg0);
     static s32 clamp_range_2C9_552(s16 arg0);
-    static void show_message_by_count(char *buf, saddr *pos);
+    static void show_message_by_count(char *buf, s32 *pos);
     void maybe_scroll(void* a1);
     s32 count_chars_since_newline(s32 *len);
     static void append_char(s8 c, char *buf, s32 *pos);

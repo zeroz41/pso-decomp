@@ -64,7 +64,7 @@ struct W_80347B70 {
 };
 
 extern "C" {
-void append_word_select_token(s16, s32, void *);
+void append_word_select_token(s16, saddr, void *);
 void TWindowDD__sub_8034740C(M_80347758 *entry, saddr arg1, saddr arg2);
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, char *buf, s32 *pos);
 saddr TWindowDD__sub_80348D88(void *p);
@@ -794,7 +794,7 @@ extern "C" {
 
 s32 count_chars_since_newline__9TWindowDDFPl();
 
-void TWindowDD::show_message_by_count(char *buf, saddr *pos) {
+void TWindowDD::show_message_by_count(char *buf, s32 *pos) {
     if (count_chars_since_newline__9TWindowDDFPl() > 0xF) {
         TWindowDD::append_char(0xA, buf, pos);
         return;
@@ -830,7 +830,7 @@ void TWindowDD::append_char(s8 c, char *buf, s32 *pos) {
     }
 }
 
-void append_word_select_token(s16 arg0, s32 arg1, void *arg2) {
+void append_word_select_token(s16 arg0, saddr arg1, void *arg2) {
     TWindowDD::append_string((const char *)get_word_select_token_text(arg0), (char *)arg1, (s32 *)arg2);
 }
 

@@ -17,7 +17,7 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     f32 m_64;
     u8 unk_68[0x4];
     u32 m_6c;
-    u32 m_70;
+    uaddr m_70;
     uaddr m_74;
     void update_manual_scroll();
     virtual void render();
