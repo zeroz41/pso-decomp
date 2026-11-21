@@ -10,7 +10,7 @@ class TWindowBase;
 struct TWindowMenu;
 
 struct TShopArmorListWindow : public TShopWindowBase {
-    TShopArmorListWindow(saddr parent, s32, s32);
+    TShopArmorListWindow(saddr parent, saddr sequence, s32 player);
     virtual ~TShopArmorListWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
@@ -18,7 +18,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     u8 _pad1C[0x4];
     u32 m_20;
     uaddr m_24;
-    u32 m_28;
+    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowBase *item_list;   // 0x2C: create_item_list_window
     TWindowMenu *choice_menu;          // 0x30: create_window_menu / create_yes_no_window
     TWindowBase *help_window; // 0x34: a TWindowHelpItem

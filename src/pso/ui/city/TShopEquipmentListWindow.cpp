@@ -27,55 +27,6 @@
 
 #pragma readonly_strings on
 
-struct Base_8021B974 { char pad[0x18]; };
-
-struct VObj_8021B974 : Base_8021B974 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-};
-
-struct Base_8021B9AC_8021B974 { char pad[0x18]; };
-
-struct VObj_8021B9AC_8021B974 : Base_8021B9AC_8021B974 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-};
-
-struct Base_8021C040_8021B974 { char pad[0x18]; };
-
-struct VObj_8021C040_8021B974 : Base_8021C040_8021B974 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(int, int);
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual int  m8();
-};
-
-struct Base_8021C0D0_8021B974 { char pad[0x18]; };
-
-struct VObj_8021C0D0_8021B974 : Base_8021C0D0_8021B974 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(int, int);
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual int  m8();
-};
-
 struct Rec_8021C33C { u8 kind; u8 sub; u8 pad[0xe]; s32 price; };
 
 struct Win_8021C33C {
@@ -88,20 +39,10 @@ struct Win_8021C33C {
     Rec_8021C33C recs[16];
 };
 
-struct VBase_18_a93f07 { char pad[0x18]; };
-
-struct VObj_18_a93f07 : VBase_18_a93f07 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4(s32, s32);
-};
-
 struct Rec_8021C408 { s32 w[4]; s32 price; };
 
 struct Win_8021C408 {
-    VObj_18_a93f07 base;
+    u8 pad00[0x1C];
     u8 pad1c[0x24 - 0x1C];
     s32 player;
     u8 pad28[8];
@@ -113,43 +54,6 @@ struct Win_8021C408 {
     s32 count;
     u8 pad48[0x50 - 0x48];
     Rec_8021C408 recs[16];
-};
-
-struct VBase_18_b34251 { char pad[0x18]; };
-
-struct VObj_18_b34251 : VBase_18_b34251 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual s8 m31();
 };
 
 struct Rec_8021BC18 { s32 w[3]; s32 id; s32 price; };
@@ -173,7 +77,7 @@ struct Win_8021BC18 {
 struct Rec_8021BA1C { s32 w[5]; };
 
 struct Win_8021BA1C {
-    VObj_18_a93f07 base;
+    u8 pad00[0x1C];
     u8 pad1c[0x24 - 0x1C];
     saddr player;
     u8 pad28[4];
@@ -184,20 +88,10 @@ struct Win_8021BA1C {
     Rec_8021BA1C recs[16];
 };
 
-struct VBase_8021C160 { char pad[0x18]; };
-
-struct VObj_8021C160 : VBase_8021C160 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4(s32, s32);
-};
-
 struct Rec_8021C160 { s32 w[5]; };
 
-struct Win_8021C160 : VObj_8021C160 {
-    u8 pad1c[0x30 - 0x1C];
+struct Win_8021C160 {
+    u8 pad00[0x30];
     void *list;
     void *help;
     u8 pad38[0x48 - 0x38];
@@ -241,11 +135,11 @@ struct Win_8021C33C;
 int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_counts[a0]; }
 }
 
-TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;
     this->m_name = TShopEquipmentListWindow__class_name;
     this->m_24 = arg3;
-    this->m_28 = arg2;
+    this->sequence = (TShopWindowBase *)arg2;
     this->m_2c = 0;
     this->m_30 = 0;
     this->m_34 = 0;
@@ -372,7 +266,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
             ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }
     }
-    W->base.m4(0xB, 1);
+    ((TShopEquipmentListWindow *)p)->vfunc_6(0xB, 1);
 }
 }
 
@@ -426,19 +320,19 @@ void TShopEquipmentListWindow::handle_selection() {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:
-            w->m4(0xF, 1);
+            vfunc_6(0xF, 1);
             ((TShopWindowBase *)w)->set_field_20(5);
             break;
         case 1:
-            w->m4(0x19, 1);
+            vfunc_6(0x19, 1);
             ((TShopWindowBase *)w)->set_field_20(6);
             break;
         case 2:
-            w->m4(0x12, 1);
+            vfunc_6(0x12, 1);
             ((TShopWindowBase *)w)->set_field_20(7);
             break;
         case 3:
-            w->m4(0x11, 1);
+            vfunc_6(0x11, 1);
             ((TShopWindowBase *)w)->set_field_20(7);
             break;
         case 4:
@@ -449,18 +343,16 @@ void TShopEquipmentListWindow::handle_selection() {
 }
 
 void TShopEquipmentListWindow::handle_select() {
-    VObj_8021C0D0_8021B974 *o = (VObj_8021C0D0_8021B974 *)this;
-    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
-        o->m4(0xB, 1);
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+        vfunc_6(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
     }
 }
 
 void TShopEquipmentListWindow::handle_confirm() {
-    VObj_8021C040_8021B974 *o = (VObj_8021C040_8021B974 *)this;
-    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
-        o->m4(0xB, 1);
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+        vfunc_6(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
     }
@@ -495,13 +387,13 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             if (w->list != NULL) {
                 s32 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
                 Rec_8021BC18 it = w->recs[i];
-                VObj_18_b34251 *item;
+                TItem *item;
                 uaddr e;
                 it.id = advance_item_id_counter(local_client_id);
                 ((TItemData *)(&it))->set_stack_count(1);
                 try_buy_item(w->player, &it);
-                item = (VObj_18_b34251 *)find_item_by_id(it.id);
-                if (item != NULL && (e = (uaddr)((TObjPlayer *)w->player)->get_equipped_item(item->m31())) != 0) {
+                item = find_item_by_id(it.id);
+                if (item != NULL && (e = (uaddr)((TObjPlayer *)w->player)->get_equipped_item(item->get_attach_slot())) != 0) {
                     TObjPlayer::send_6x26_unequip_item((void *)(w->player), ((TItem *)e)->get_item_id());
                 }
                 send_6x25_equip_item(w->player, it.id, 0);
@@ -561,7 +453,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
         r = ((TWindowMenu *)w->win)->get_selected_value();
         if (r == 0 && w->list != NULL) {
             if (w->flag != 0) {
-                w->base.m4(0x18, 1);
+                ((TShopEquipmentListWindow *)w)->vfunc_6(0x18, 1);
                 ((TWindowBase *)w->win)->close();
                 w->win = (void *)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(w->player), 0, 0);
                 sc = ((TShopWindowBase *)w)->get_scale();
@@ -607,16 +499,16 @@ void TShopEquipmentListWindow::update_list(void *arg1) {
 }
 
 void TShopEquipmentListWindow::vfunc_6(s32 id, s32 flags) {
-    struct VObj_8021B9AC_8021B974 *o = (struct VObj_8021B9AC_8021B974 *)*(void **)((s8 *)this + 0x28);
-    if (o != NULL) {
-        o->m4();
+    TShopWindowBase *sequence = this->sequence;
+    if (sequence != NULL) {
+        sequence->vfunc_6(id, flags);
     }
 }
 
 void TShopEquipmentListWindow::display_message(const char *text, s32 flags) {
-    struct VObj_8021B974 *o = (struct VObj_8021B974 *)*(void **)((s8 *)this + 0x28);
-    if (o != NULL) {
-        o->m5();
+    TShopWindowBase *sequence = this->sequence;
+    if (sequence != NULL) {
+        sequence->display_message(text, flags);
     }
 }
 }
