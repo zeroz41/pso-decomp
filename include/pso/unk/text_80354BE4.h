@@ -4,16 +4,16 @@
 #include "types.h"
 
 extern "C" {
-void TObjPlayer__sub_80354BE4(s32 arg0);
-void TObjPlayer__sub_80354C2C(s32 arg0, s32 arg1);
+void run_palettex_callback(s32 arg0);
+void set_palettex_callback(s32 arg0, s32 arg1);
 u8 TObjPlayer__sub_80354C7C(s32 arg0);
 void TObjPlayer__sub_80354CCC(s32 arg0);
 void TObjPlayer__sub_80354D14(s32 arg0);
-s32 TObjPlayer__sub_80354D5C(s32 arg0);
+s32 is_palettex_activated(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
-void TObjPlayer__sub_80354DF4(s32 arg0);
-s32 TObjPlayer__sub_80354E3C(s32 arg0);
-void TObjPlayer__sub_80354E7C(void);
+void activate_palettex(s32 arg0);
+s32 is_local_client(s32 arg0);
+void reset_client_quest_slot_table(void);
 }
 
 #endif

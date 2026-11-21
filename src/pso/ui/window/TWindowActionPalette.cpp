@@ -56,7 +56,7 @@ s32 fn_8002AE08(void *p);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
-s32 TObjPlayer__sub_80354D5C(s32 arg0);
+s32 is_palettex_activated(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];
 saddr get_window_layout_position(s32);
@@ -199,7 +199,7 @@ void TWindowActionPalette::run_task() {
     } else {
         update_slot_sprites(0, 7, v);
     }
-    if (TObjPlayer__sub_80354D5C((u16)client_index) != 0 && ((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
+    if (is_palettex_activated((u16)client_index) != 0 && ((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
         v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 2);

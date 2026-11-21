@@ -325,7 +325,7 @@ TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
 void TObjEneMe3Shinowa::init_enemy() {
     Tbl_800E7884 *tbl = &(*(Tbl_800E7884 *)&TObjEneMe3ShinowaMirage__data_80500FC0);
     init_position_vectors();
-    sub_800E6F64();
+    select_gold_or_normal_variant();
     model = (void *)TObjEneMe3ShinowaMirage__data_805D5298->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
@@ -517,7 +517,7 @@ void TObjEneMe3Shinowa__sub_800E7268(TObjEneMe3Shinowa *shinowa) {
     shinowa->m_2cc = (s16) ((s16) shinowa->m_3dc / 2);
 }
 
-void TObjEneMe3ShinowaReal::sub_800E7250() {
+void TObjEneMe3ShinowaReal::consume_spawn_request() {
     m_3c4 &= 0xFFFFFFEF;
     m_2cc = (s16) m_3dc;
 }
@@ -580,18 +580,18 @@ void TObjEneMe3Shinowa::check_collisions() {
     check_enemy_body_collisions(this);
 }
 
-s32 TObjEneMe3Shinowa::sub_800E701C() {
+s32 TObjEneMe3Shinowa::is_mirage_enabled() {
     return parameters[0] < 1.0f;
 }
 
 s32 TObjEneMe3Shinowa::acquire_target(f32 range) { return select_and_apply_target(range); }
 
-s32 TObjEneMe3Shinowa::sub_800E6FE0() {
+s32 TObjEneMe3Shinowa::is_gold_enabled() {
     return parameters[1] >= 1.0f;
 }
 
-void TObjEneMe3Shinowa::sub_800E6F64() {
-    if (sub_800E6FE0() != 0) {
+void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
+    if (is_gold_enabled() != 0) {
         texlist = (saddr)&lbl_80500FEC;
         initialize_enemy_state(0x1b);
         m_3c0 = 1;
@@ -1132,11 +1132,11 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
         return;
     case 3:
         if (shinowa->m_404 == 3) {
-            if (shinowa->sub_800E6FE0() != 0) {
+            if (shinowa->is_gold_enabled() != 0) {
                 shinowa->transition_enemy_state(0xA);
-            } else if ((shinowa->m_3c4 & 0x20000) || (shinowa->sub_800E701C() == 0)) {
+            } else if ((shinowa->m_3c4 & 0x20000) || (shinowa->is_mirage_enabled() == 0)) {
                 shinowa->m_3c4 &= ~0x30000;
-                if ((TObjEneDD::check_v2_mode() != 0) && (shinowa->sub_800E701C() == 0)) {
+                if ((TObjEneDD::check_v2_mode() != 0) && (shinowa->is_mirage_enabled() == 0)) {
                     shinowa->transition_enemy_state(0x10);
                 } else {
                     shinowa->transition_enemy_state(4);
@@ -1536,7 +1536,7 @@ void TObjEneMe3Shinowa::render() {
         render_demo();
         return;
     }
-    sub_800E6FE0();
+    is_gold_enabled();
     if (m_3c4 & 2) {
         detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
@@ -1587,7 +1587,7 @@ void TObjEneMe3Shinowa::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E762C(this); sub_800E6F64(); } }
+void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E762C(this); select_gold_or_normal_variant(); } }
 #pragma push
 #pragma pool_data off
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
@@ -1598,18 +1598,18 @@ void TObjEneMe3Shinowa::render_demo() {
     u32 saved_texaddr[3];
     s32 i;
     if (get_target_info() != 0) {
-        if (sub_800E701C() != 0) {
+        if (is_mirage_enabled() != 0) {
             debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:ENABLE");
         } else {
             debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:DISABLE");
         }
-        if (sub_800E6FE0() != 0) {
+        if (is_gold_enabled() != 0) {
             debug_printf_at(pack_debug_text_position(0, 1), "TEX:GOLD");
         } else {
             debug_printf_at(pack_debug_text_position(0, 1), "TEX:NORMAL");
         }
     }
-    gold = sub_800E6FE0();
+    gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(texlist);
         TObjPlayer::toggle_particle_effect();
@@ -1702,7 +1702,7 @@ void TObjEneMe3ShinowaReal::run_hit_reaction() {
 
 void TObjEneMe3ShinowaReal::try_spawn_mirages() {
     if (m_3c4 & 0x10) {
-        sub_800E7250();
+        consume_spawn_request();
         spawn_mirages();
     }
 }
