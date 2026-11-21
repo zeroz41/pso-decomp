@@ -141,5 +141,5 @@ TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, saddr arg2, s32 arg3) : TObjCol
     this->m_f0 = (s32) *(s32 *)((s8 *)arg1 + 0x30);
     this->m_ec = (s32) *(s32 *)((s8 *)arg1 + 0x34);
     this->m_fc = find_entity_by_id(arg3, temp_f1);
-    this->m_f8 = (s32)create_particle_emitter(((u8 *)this) + 0xB8, 0x135);
+    this->m_f8 = (uaddr)create_particle_emitter(((u8 *)this) + 0xB8, 0x135);
 }

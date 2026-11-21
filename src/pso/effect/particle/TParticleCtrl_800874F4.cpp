@@ -174,7 +174,7 @@ struct Ctrl_8008767C {
     s32 model;
     s32 texlist;
     s32 motion;
-    u32 tex;
+    uaddr tex;
     f32 frame;
     Vec pos;
     Vec dir;
@@ -252,7 +252,7 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
         return;
     }
     if (((self->flags & 0x200) || (self->flags & 0x2000)) && self->tex == (uaddr)tl_07) {
-        self->tex = (u32)tl_particlemodel;
+        self->tex = (uaddr)tl_particlemodel;
     }
     def = self->def;
     if (def == NULL) {

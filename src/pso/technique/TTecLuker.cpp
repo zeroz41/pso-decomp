@@ -635,7 +635,7 @@ void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4) {
     VecCopy((Vec *)(arg0 + 8), (const Vec *)arg3);
     *(s32 *)((s8 *)arg0 + 4) = arg4;
     if (arg1 <= 4U) {
-        player = (u8 *)(((s32)get_player_by_client_id((s32)((u32) arg1))));
+        player = (u8 *)get_player_by_client_id((s32)((u32) arg1));
         if (player != NULL) {
             *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)player + 0x60);
         }
@@ -737,7 +737,7 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
 
 void create_quest_telepipe_for_client(u16 arg0) {
     u8 *player;
-    player = (u8 *)(((s32)get_player_by_client_id((s32)((u32) arg0))));
+    player = (u8 *)get_player_by_client_id((s32)((u32) arg0));
     if (player != NULL) {
         ((TTecLuker *)player)->create(player + 0x38, player + 0x2FC, NULL);
     }

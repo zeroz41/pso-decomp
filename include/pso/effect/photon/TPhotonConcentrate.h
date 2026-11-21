@@ -26,7 +26,7 @@ struct TPhotonConcentrate : public TObjCollidable {
     u32 m_ec;
     u32 m_f0;
     u8 _padF4[0x4];
-    u32 m_f8;
+    uaddr m_f8;
     u32 m_fc;
     u8 unk_100[0xC];
 };

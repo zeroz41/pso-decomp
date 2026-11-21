@@ -57,7 +57,7 @@ s32 TItemWeapon::draw_weapon_model() {
             var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
         }
         set_texlist((int) (this->texlist));
-        push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((saddr)((void *) ((s8)get_attach_joint()))));
+        push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s8)get_attach_joint()));
         if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);

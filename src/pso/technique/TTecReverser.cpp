@@ -40,7 +40,7 @@ struct Rev_8023A364 {
     s16 fe0;
 };
 
-struct List_8023A244 { u32 objs[16]; s32 vals[16]; s32 count; };
+struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
 void *find_entity_by_id(u16 id);
