@@ -26,6 +26,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
+#include <string.h>
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -180,7 +182,6 @@ struct Fuki_802523CC { u8 pad0[0x40]; f32 x; };
 struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 pad18[8]; f32 u; u8 pad24[4]; f32 uw; };
 struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 Ent_802511E4 * find_entity_by_id(u16);
-u32 get_player_by_client_id(u32);
 s32 play_sound_effect(int, int, int, int);
 s32 sub_80246948__11TWindowBaseFv(void *);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
@@ -208,8 +209,6 @@ s32 measure_message_text_width(int, f32);
 
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
-s32 strcmp(s32, s32);
-s32 strncpy(s32, s32, s32);
 f32 vec3_dot(void *, void *);
 void project_world_to_screen(s32, f32 *, f32 *);
 void rotate_vector_by_matrix(saddr, void *, void *);
@@ -614,7 +613,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
 #pragma pop
 extern "C" {
 void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
-    s32 temp_r3;
+    u32 len;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
     this->m_70 = 0;
@@ -624,11 +623,11 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
     this->m_76 = arg1;
     this->client_index = arg3;
     if (str != 0) {
-        temp_r3 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
-        *(s32 *)((s8 *)this + 0x78) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x78), str, temp_r3 + 1);
+        len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
+        this->name = (char *)mem_alloc(len + 1);
+        strncpy(this->name, (const char *)str, len + 1);
     } else {
-        *(s32 *)((s8 *)this + 0x78) = 0;
+        this->name = 0;
     }
     ((s32 (*)(void *, s16))set_color__13TUnk_804CF0B8FUs)(this, arg1);
     *(f32 *)((s8 *)this + 0x80) = 0.0f;
@@ -773,22 +772,22 @@ s32 TUnk_804CF0B8::clamp_position(void *arg1, f32 farg0) {
     s32 var_r31;
 
     var_r31 = 0;
-    temp_f1 = 20.0f + ((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_position_z();
+    temp_f1 = 20.0f + TWindowCtrlMain::get_position_z(this->client_index);
     if (*(f32 *)((s8 *)arg1 + 0) < temp_f1) {
         *(f32 *)((s8 *)arg1 + 0) = temp_f1;
         var_r31 = 1;
     }
-    temp_f1_2 = (((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_ctrl_field14() - 20.0f) - (this->frame_size[0] * farg0);
+    temp_f1_2 = (TWindowCtrlMain::get_ctrl_field14(this->client_index) - 20.0f) - (this->frame_size[0] * farg0);
     if (*(f32 *)((s8 *)arg1 + 0) > temp_f1_2) {
         *(f32 *)((s8 *)arg1 + 0) = temp_f1_2;
         var_r31 = 1;
     }
-    temp_f1_3 = 40.0f + ((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_field10();
+    temp_f1_3 = 40.0f + TWindowCtrlMain::get_field10(this->client_index);
     if (*(f32 *)((s8 *)arg1 + 4) < temp_f1_3) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_3;
         var_r31 = 1;
     }
-    temp_f1_4 = (((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_field_18() - 40.0f) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
+    temp_f1_4 = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
     if (*(f32 *)((s8 *)arg1 + 4) > temp_f1_4) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_4;
         var_r31 = 1;
@@ -802,7 +801,7 @@ extern "C" {
 void TUnk_804CF0B8::set_color(u16 arg1) {
     this->m_84 = 0xFFF8F8F8;
     TObjChara *chara;
-    if (((u32)arg1 < 0xCU) && ((chara = (TObjChara *)get_player_by_client_id((u32)arg1)) != 0) && (chara->obj_isState3_324() == 0)) {
+    if (((u32)arg1 < 0xCU) && ((chara = get_player_by_client_id((u32)arg1)) != 0) && (chara->obj_isState3_324() == 0)) {
         this->m_84 = (s32) TWindowFukidasi__balloon_color_table[(u16)arg1];
     }
 }
@@ -928,16 +927,16 @@ s32 TUnk_804CF0B8::is_speaker_far_or_offscreen() {
     } else {
         m = 0.0f;
     }
-    if (scr[0] < ((TWindowCtrlMain *)(((Fuki_80251380 *)arg0)->viewport))->get_position_z() - m) {
+    if (scr[0] < TWindowCtrlMain::get_position_z(((Fuki_80251380 *)arg0)->viewport) - m) {
         return 1;
     }
-    if (scr[1] < ((TWindowCtrlMain *)(((Fuki_80251380 *)arg0)->viewport))->get_field10() - m) {
+    if (scr[1] < TWindowCtrlMain::get_field10(((Fuki_80251380 *)arg0)->viewport) - m) {
         return 1;
     }
-    if (scr[0] > m + ((TWindowCtrlMain *)(((Fuki_80251380 *)arg0)->viewport))->get_ctrl_field14()) {
+    if (scr[0] > m + TWindowCtrlMain::get_ctrl_field14(((Fuki_80251380 *)arg0)->viewport)) {
         return 1;
     }
-    if (scr[1] > m + ((TWindowCtrlMain *)(((Fuki_80251380 *)arg0)->viewport))->get_field_18()) {
+    if (scr[1] > m + TWindowCtrlMain::get_field_18(((Fuki_80251380 *)arg0)->viewport)) {
         return 1;
     }
     Vec v = fukidasi_forward_vec;
@@ -980,7 +979,7 @@ s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
     if (e == NULL) {
         return 0;
     }
-    if (((u32 (*)(u16))get_player_by_client_id)(b->id) != 0 && (u32)TObjPlayer::get_battle_ctrl_flag(b->id) == 0) {
+    if (get_player_by_client_id(b->id) != 0 && (u32)TObjPlayer::get_battle_ctrl_flag(b->id) == 0) {
         return 0;
     }
     if (pos == NULL) {
@@ -1223,15 +1222,15 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
 #undef DRAW_802506E8
 extern "C" {
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
-    f32 x = ((TWindowCtrlMain *)b->viewport)->get_position_z();
-    f32 w = (((TWindowCtrlMain *)b->viewport)->get_ctrl_field14() - ((TWindowCtrlMain *)b->viewport)->get_position_z()) - b->anchor[0];
+    f32 x = TWindowCtrlMain::get_position_z(b->viewport);
+    f32 w = (TWindowCtrlMain::get_ctrl_field14(b->viewport) - TWindowCtrlMain::get_position_z(b->viewport)) - b->anchor[0];
     f32 y;
     f32 h;
     f32 t;
     t = 0.000030517578f * (f32) rand();
     out[0] = t * w + x;
-    y = ((TWindowCtrlMain *)b->viewport)->get_field10();
-    h = (((TWindowCtrlMain *)b->viewport)->get_field_18() - ((TWindowCtrlMain *)b->viewport)->get_field10()) - b->anchor[1];
+    y = TWindowCtrlMain::get_field10(b->viewport);
+    h = (TWindowCtrlMain::get_field_18(b->viewport) - TWindowCtrlMain::get_field10(b->viewport)) - b->anchor[1];
     t = 0.000030517578f * (f32) rand();
     out[1] = t * h + y;
     return (u32) __cntlzw((u32) TWindowFukidasi::draw_resolved_window((saddr)b, (saddr)out, (saddr)b->anchor, 4)) >> 5;
@@ -1335,7 +1334,7 @@ s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
     if ((u8) *(u8 *)((s8 *)this + 0x72) != 0) {
         return 0;
     }
-    return (u32) __cntlzw(strcmp(((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(0))->get_field_20(), arg1)) >> 5;
+    return (u32) __cntlzw(strcmp((const char *)((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(0))->get_field_20(), (const char *)arg1)) >> 5;
 }
 
 #pragma push

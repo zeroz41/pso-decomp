@@ -22,10 +22,10 @@ struct TWindowCtrlMain : public TObject {
     static void release_ptr(void **arg0);
     void init_fields();
     static f32 get_scale();
-    f32 get_field_18();
-    f32 get_ctrl_field14();
-    f32 get_field10();
-    f32 get_position_z();
+    static f32 get_field_18(s32 viewport_index);
+    static f32 get_ctrl_field14(s32 viewport_index);
+    static f32 get_field10(s32 viewport_index);
+    static f32 get_position_z(s32 viewport_index);
     static void set_field18(f32 value, s32 viewport_index);
     static void set_depth(f32 value, s32 viewport_index);
     static void update_fade_alphas();

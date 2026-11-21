@@ -767,23 +767,19 @@ void TWindowCtrlMain::set_field18(f32 value, s32 viewport_index) {
     get_window_control_state(viewport_index)->field18 = value;
 }
 
-f32 TWindowCtrlMain::get_position_z() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_position_z(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field0C;
 }
 
-f32 TWindowCtrlMain::get_field10() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_field10(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field10;
 }
 
-f32 TWindowCtrlMain::get_ctrl_field14() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_ctrl_field14(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field14;
 }
 
-f32 TWindowCtrlMain::get_field_18() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_field_18(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field18;
 }
 
