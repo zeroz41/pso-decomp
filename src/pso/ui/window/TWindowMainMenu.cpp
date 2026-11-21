@@ -42,8 +42,9 @@ struct TWindowSubMag;
 const char *lbl_805D3950 = "TWindowMainMenu";
 
 extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
+#include "pso/player/TObjPlayer_801AF2F0.h"
+
 extern "C" {
-s32 get_player_by_client_id(s32);
 struct Obj_80263D7C; struct Obj_80263DBC;
 }
 
@@ -55,7 +56,6 @@ struct E_80263DBC { s16 a; s32 b; };
 
 struct Obj_80263DBC { u8 pad[0x28]; E_80263DBC arr[4]; u8 pad2[0x50 - 0x48]; s16 f50; s16 f52; u8 pad3[0x5c - 0x54]; u32 f5c; };
 extern "C" {
-s32 init_parts__10TObjPlayerFv();
 s32 is_quest_active();
 s32 is_trade_range_bit_set(s32);
 extern s32 local_client_id;
@@ -161,11 +161,11 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
 }
 
 TWindowMainMenu::~TWindowMainMenu() {
-    uaddr player;
+    TObjPlayer *player;
     if (*(s32 *)((s8 *)this + 0x4C) & 1) {
-        player = (u32)get_player_by_client_id(*(u32 *)((s8 *)this + 0x54));
-        if (player != 0U) {
-            ((TObjPlayer *)player)->init_parts();
+        player = get_player_by_client_id(*(u32 *)((s8 *)this + 0x54));
+        if (player != 0) {
+            player->init_parts();
         }
     }
     close_child_window();
@@ -506,7 +506,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
     u8 *base;
     u8 *p;
     s32 area;
-    base = ((u8 *(*)(s32))get_player_by_client_id)(*(s32 *)((s8 *)((u8 *)this) + 0x54));
+    base = (u8 *)get_player_by_client_id(*(s32 *)((s8 *)((u8 *)this) + 0x54));
     if (base == NULL) {
         return 0;
     }
@@ -598,7 +598,7 @@ void TWindowMainMenu::sub_80263D7C() {
 }
 
 void TWindowMainMenu::open(s32 arg1) {
-    saddr player;
+    TObjPlayer *player;
     s32 temp_r4;
 
     player = get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54)));
@@ -609,11 +609,12 @@ void TWindowMainMenu::open(s32 arg1) {
         *(s16 *)((s8 *)this + 0x50) = 0;
         update_keyboard_card_state();
         populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)*(saddr *)((s8 *)this + 0x5C));
-        ((TObjPlayer *)player)->reset_equip_slots();
+        player->reset_equip_slots();
     }
 }
 
 void TWindowMainMenu::close_and_clear_flags() {
+    TObjPlayer *player;
     s32 temp_r4;
 
     temp_r4 = *(s32 *)((s8 *)this + 0x4C);
@@ -621,8 +622,9 @@ void TWindowMainMenu::close_and_clear_flags() {
     close_child_window();
     destroy_submenu();
     close();
-    if (get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54))) != 0U) {
-        init_parts__10TObjPlayerFv();
+    player = get_player_by_client_id(*(s32 *)((s8 *)this + 0x54));
+    if (player != 0) {
+        player->init_parts();
     }
 }
 
@@ -643,7 +645,7 @@ s32 TWindowMainMenu::close_active_submenu() {
 void TWindowMainMenu::try_open_battle_menu(s16 arg1) {
     s32 spC;
     s16 sp8;
-    saddr player;
+    TObjPlayer *player;
 
     sp8 = arg1;
     player = get_player_by_client_id(*(s32 *)((s8 *)this + 0x54));

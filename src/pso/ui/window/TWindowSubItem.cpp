@@ -150,7 +150,6 @@ s32 send_6x25_equip_item(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
 s32 __ct__7TObjectFP7TObject();
-s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
 s32 create_sub_item_list_window(saddr, const f32 *, s32);
 s32 get_array_entry__11TWindowBaseFi(void *, s16);
@@ -731,10 +730,12 @@ void TWindowSubItem::exec_item_command(saddr arg1, s32 arg2) {
 }
 
 void TWindowSubItem::close_windows(s32 arg1) {
-    if (get_player_by_client_id(this->m_24) != 0U) {
+    saddr player;
+
+    if ((player = get_player_by_client_id(this->m_24)) != 0U) {
         switch (arg1) {
         case 0:
-            close_sub_window__10TObjPlayerFv();
+            ((TObjPlayer *)player)->close_sub_window();
             this->m_1c = 0x16;
             return;
         case 1:

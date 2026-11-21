@@ -166,7 +166,6 @@ void TWindowSubTradeMain__sub_803323C8(void *);
 extern Ctrl_8033162C controller_input_state[];
 void TWindowCtrl__sub_8024ADF0(saddr arg0);
 void TWindowSubComCard__sub_8024AB98(saddr arg0);
-s32 end_camera_pan__10TObjPlayerFv();
 void TWindowCtrl__sub_8024ADAC(saddr arg0);
 void TWindowSubTradeMain__sub_802D2870(void);
 void fn_8024AB54(saddr arg0);
@@ -222,10 +221,12 @@ TWindowSubTradeMain::TWindowSubTradeMain(TObject *object, void *arg2) : TObject(
 }
 
 TWindowSubTradeMain::~TWindowSubTradeMain() {
+    Plr_803310BC *player;
+
     TLobby__sub_802D29E8((uaddr)this);
     TLobby::check_flags_and_proceed();
-    if (get_player_by_client_id(this->m_28) != 0U) {
-        end_camera_pan__10TObjPlayerFv();
+    if ((player = get_player_by_client_id(this->m_28)) != 0U) {
+        ((TObjPlayer *)player)->end_camera_pan();
     }
     if ((u32) this->m_50 != 0U) {
         ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction();

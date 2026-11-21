@@ -50,7 +50,7 @@ extern s32 local_client_id;
 u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, saddr arg2);
 s32 update_lockon_window();
 }
-void update_status_help_item(s32 arg0);
+void update_status_help_item(saddr arg0);
 
 struct PartyStatusWindowLayout {
     u32 cols;

@@ -6,6 +6,7 @@
 
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -34,8 +35,6 @@ void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 
 s16 obj_getS16_2BA(u8 *p);
-u8 *get_player_by_client_id();
-s32 get_width__19TWindowSimpleStatusFv();
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
@@ -48,7 +47,7 @@ saddr get_window_layout_position(s32);
 
 void update_lockon_window(u8 *arg0);
 }
-void update_status_help_item(s32 arg0);
+void update_status_help_item(saddr arg0);
 extern "C" {
 
 }
@@ -107,8 +106,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
     u8 *c;
     u8 *d;
     s32 v;
-    get_width__19TWindowSimpleStatusFv();
-    pl = get_player_by_client_id();
+    pl = (u8 *)get_player_by_client_id(((TWindowSimpleStatus *)window_sub_status_disp)->get_width());
     if (pl != NULL) {
         a = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(7);
         b = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(9);
