@@ -724,8 +724,8 @@ force_active:
   - TLobby__sub_803DDD2C
   - TLobby__sub_803DDD40
   - TLobby__sub_803DDD78
-  - TLobby__sub_80424DCC
-  - TLobby__sub_804251C0
+  - dhcp_begin_discover
+  - dhcp_get_option
   - TLobby__sub_80425D88
   - TLobby__sub_80426110
   - TLobby__sub_80426190
