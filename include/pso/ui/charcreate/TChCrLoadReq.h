@@ -45,6 +45,7 @@ public:
     s32 state;
     s32 timer;
     saddr calc_preview_last_index(s32 display_index, s32 region_index);
+    saddr calc_preview_offset(s32 display_index, s32 head, s32 region_index);
     virtual void run_task();
     void close_and_destroy();
     void try_advance_state();

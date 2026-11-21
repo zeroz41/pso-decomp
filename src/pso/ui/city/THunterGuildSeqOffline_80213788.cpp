@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
-#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -101,7 +101,7 @@ OnlineQuestInfo *TQuestListOnline__selected_quest_info;
 int TQuestListOnline__bin_download_complete;
 int TQuestListOnline__dat_download_complete;
 u32 TQuestListOnline__download_window;
-u32 TQuestListOnline__quest_info_window;
+TWindowMessage *TQuestListOnline__quest_info_window;
 void *TQuestListOnline__download_barrier_window;
 s32 quest_download_active;
 s32 quest_download_received_bytes;

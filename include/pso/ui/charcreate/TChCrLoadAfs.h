@@ -9,7 +9,7 @@ struct AdxfHandle;
 
 class TChCrLoadAfs : public TObject {
 public:
-    TChCrLoadAfs(TObject *arg1, void *arg2, void *arg3);
+    TChCrLoadAfs(TObject *parent, u32 archive, u32 entry);
     virtual ~TChCrLoadAfs();
     void release_load_slot();
     s32 try_begin_load();

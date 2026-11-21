@@ -90,7 +90,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
-    static void *calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3);
     static void init_entry_tables(void* _w0);
     static s32 is_active();
     void reset_creation_parts();

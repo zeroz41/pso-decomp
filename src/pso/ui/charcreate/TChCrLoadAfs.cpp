@@ -135,11 +135,11 @@ TChCrLoadAfs::~TChCrLoadAfs() {
 }
 
 const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
-TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(object) {
+TChCrLoadAfs::TChCrLoadAfs(TObject *object, u32 archive, u32 entry) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;
-    source_20 = (uaddr)arg2;
-    source_24 = (uaddr)arg3;
+    source_20 = archive;
+    source_24 = entry;
     buffer_address = 0;
     load_state = 0;
     state_30 = 0;
@@ -147,7 +147,7 @@ TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(ob
 }
 
 TChCrLoadAfs *TChCrLoadAfs::create(TObject *parent, u32 archive, u32 entry) {
-    return new TChCrLoadAfs(parent, (void *)archive, (void *)entry);
+    return new TChCrLoadAfs(parent, archive, entry);
 }
 
 s32 find_player_texture_name_ordinal(u8 *object) {
@@ -242,7 +242,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
 void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
     AdxfHandle *handle;
-    u32 buf;
+    uaddr buf;
     handle = ADXF_OpenAfs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {

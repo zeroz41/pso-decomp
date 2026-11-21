@@ -147,7 +147,7 @@ extern "C" f32 TLobby__sub_8028C50C(f32 x) {
 }
 void TChCrLoadGmNjReq::update_model_load() {
     s32 timer;
-    u32 bml_model;
+    NJS_OBJECT *bml_model;
     void *request;
     timer = load_timer - 1;
     load_timer = timer;
@@ -159,16 +159,16 @@ void TChCrLoadGmNjReq::update_model_load() {
         }
         request = ::operator new(0x440);
         if (request != NULL) {
-            request = init_bin_model_request(request, 6, (char **)model_ids, (u32 *)&model_ids[1], 0, 0, (s32)get_character_load_buffer(load_slot));
+            request = init_bin_model_request(request, 6, (char **)model_ids, (u32 *)&model_ids[1], 0, 0, (saddr)get_character_load_buffer(load_slot));
         }
         loaded_bml = (BmlResource *)request;
         if (request != NULL) {
             load_timer = 0x12C;
         }
     } else if (fn_8001ED90(loaded_bml) != 0) {
-        bml_model = (u32)get_bml_model(loaded_bml, 0);
+        bml_model = get_bml_model(loaded_bml, 0);
         *model_out = bml_model;
-        if (bml_model != 0U) {
+        if (bml_model != NULL) {
             advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
             delete loaded_bml;
             loaded_bml = NULL;

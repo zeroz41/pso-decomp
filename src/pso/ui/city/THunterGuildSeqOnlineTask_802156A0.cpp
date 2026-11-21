@@ -49,12 +49,9 @@ extern "C" {
 struct SectionIdFavoredGrindTable { s32 value; u8 remaining[0x24]; };
 extern SectionIdFavoredGrindTable section_id_favored_grind_table;
 extern s32 lbl_805D6238;
-extern G_802156E0 *item_appraisal_rules;
 u8 lookup_key_value__6TLobbyFc(s8 x);
 void shuffle_shop_pool_n_times(void *, s32);
 void push_shop_pool_entry(void *, u8);
-extern s32 item_appraisal_favored_weapon;
-extern s32 item_appraisal_score;
 void adjust_appraisal_special(Obj_8021599C *obj);
 void adjust_appraisal_percentages(Obj_80215720 *arg0);
 
