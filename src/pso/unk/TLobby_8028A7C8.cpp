@@ -8,9 +8,6 @@
 
 extern "C" {
 
-BmlResource *green_door_bml_resource;
-GinjaTextureList *green_door_texture_handle;
-
 void TLobby::free_shared_objects() {
     if (green_door_texture_handle != NULL) {
         release_texture_list(green_door_texture_handle);
