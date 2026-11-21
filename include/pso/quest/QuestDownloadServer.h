@@ -387,7 +387,7 @@ extern saddr quest_text_cursor_pos;
 u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 s32 find_symbol_entry__22TQuestVmDownLoadServerFsP13Info_803F0138(const char *name, s16 len, Info_803F0138 *out);
 void DCInvalidateRange(void *, u32);
-void ARQPostRequest(void *req, u32 owner, u32 type, u32 prio, u32 src, u32 dst, u32 len, void (*cb)(u8 *));
+void ARQPostRequest(void *req, uaddr owner, u32 type, u32 prio, uaddr src, uaddr dst, u32 len, void (*cb)(u8 *));
 u32 OSGetTick(void);
 u32 __OSBusClock : 0x800000F8;
 void OSReport(const char *, ...);

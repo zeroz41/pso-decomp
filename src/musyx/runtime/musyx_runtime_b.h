@@ -429,7 +429,7 @@ extern volatile u32 salDspInitIsDone;
 extern void (*userCallback)(void);
 extern volatile u32 salLogicIsWaiting;
 extern volatile u32 salLogicActive;
-void AIInitDMA(u32 addr, u32 length);
+void AIInitDMA(uaddr addr, u32 length);
 void AIRegisterDMACallback(void (*)(void));
 void salCallback(void);
 void dspInitCallback(void);

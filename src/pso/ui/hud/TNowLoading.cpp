@@ -33,7 +33,7 @@ extern "C" {
 extern f32 lbl_804FF5E8[];
 extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
-void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void *);
+void ARQPostRequest(void *, uaddr, u32, u32, uaddr, uaddr, u32, void *);
 const char *TNowLoading__class_name = "TNowLoading";
 void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);
