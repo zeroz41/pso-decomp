@@ -341,21 +341,21 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     }
     var_r30 = 0;
     if (*(s32 *)&this->unk_58 != reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index()) {
-        ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_30))->set_field_100(1);
+        ((TAdMultiPlyChrSelectGC *)this->m_30)->set_field_100(1);
         reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
         if (TAdSinglePlyChrSelectGC__sub_801FE4BC() != 0U) {
             reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
             load_tables();
-            ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_30))->set_field_100(2);
+            ((TAdMultiPlyChrSelectGC *)this->m_30)->set_field_100(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
                 var_r30 = 1;
-                ((TAdGuideTxtGC *)(*(saddr *)&this->m_34))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
-                ((TAdGuideTxtGC *)(*(saddr *)&this->m_34))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 6)));
+                this->m_34->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
+                this->m_34->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 6)));
             }
         }
         if (var_r30 == 0) {
-            ((TAdGuideTxtGC *)(*(saddr *)&this->m_34))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
-            ((TAdGuideTxtGC *)(*(saddr *)&this->m_34))->set_line(1, "");
+            this->m_34->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
+            this->m_34->set_line(1, "");
         }
         *(s32 *)&this->unk_58 = reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
     }
@@ -618,8 +618,8 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
         __ct__10TAdTitleGCFP7TObjectl(title, this, 0);
     }
     m_28 = reinterpret_cast<uaddr>(TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 0));
-    m_30 = reinterpret_cast<u32>(TAdMultiPlyChrSelectGC::get_or_create_player(this, 0, -1, 0));
-    m_34 = reinterpret_cast<u32>(new TAdGuideTxtGC(this));
+    m_30 = TAdMultiPlyChrSelectGC::get_or_create_player(this, 0, -1, 0);
+    m_34 = new TAdGuideTxtGC(this);
     m_2c = reinterpret_cast<uaddr>(new TAdSelectCurGC(this,
         reinterpret_cast<const NJS_POINT2 *>(single_chr_select_item_rect_table),
         reinterpret_cast<const NJS_POINT2 *>(&single_chr_select_cursor_size)));

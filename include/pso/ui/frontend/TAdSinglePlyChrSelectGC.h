@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
+class TAdGuideTxtGC;
+class TUnk_804E3008;
 
 struct TCheckMemoryCard;
 
@@ -18,8 +20,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     uaddr m_24;
     uaddr m_28;
     uaddr m_2c;
-    u32 m_30;
-    u32 m_34;
+    TUnk_804E3008 *m_30;
+    TAdGuideTxtGC *m_34;
     void init_item_entry();
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 arg0);
