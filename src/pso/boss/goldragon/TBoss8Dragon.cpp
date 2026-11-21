@@ -124,7 +124,6 @@ void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
 f32 atan2_float(f32 y, f32 x);
 void fill_value_array(saddr);
 void TBoss8Dragon__sub_802FB300(void);
-void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 u8 TBoss8Dragon__sub_802FABB4(void *arg0);
 void TBoss8Dragon__sub_802FBBC8(u8 *arg0, s32 *arg1);
@@ -1585,7 +1584,7 @@ void TBoss8Dragon::run_task() {
         if (((TObjEneDD *)arg0)->update_lobby_state() != 0) {
             *(s32 *)&this->m_3e0 = 0;
             if ((s32) *(s32 *)&this->m_3e0 != temp_r30) {
-                *(s32 *)&this->m_8a0 = 1;
+                this->m_8a0 = 1;
             }
         } else {
             *(s32 *)&this->m_3e0 = 1;
@@ -3990,90 +3989,90 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F7B4C(s32 a1) { TBoss8Dragon__sub_802F7808((u8 *)this, (u32)a1, 16); }
+void TBoss8Dragon::sub_802F7B4C(s32 event) { sub_802F7808(event, 16); }
 
-void TBoss8Dragon::action_17(s32 a1) { TBoss8Dragon__sub_802F7808((u8 *)this, (u32)a1, 17); }
+void TBoss8Dragon::action_17(s32 event) { sub_802F7808(event, 17); }
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
+void TBoss8Dragon::sub_802F7808(u32 event, s32 action) {
     s32 a;
-    switch (arg1) {
+    switch (event) {
     case 4:
-        VO->m94();
-        ((TBoss8Dragon *)arg0)->set_action_state();
-        ((TBoss8Dragon *)arg0)->reset_action();
-        F(s32, 0x3C0) |= 0x30;
-        F(s32, 0x3C0) &= ~7;
-        VO->m89();
-        VO->m92();
-        if (arg2 == 0x10) {
-            F(s32, 0x6D0) = 0;
+        this->clear_intangible();
+        this->set_action_state();
+        this->reset_action();
+        this->m_3c0 |= 0x30;
+        this->m_3c0 &= ~7;
+        this->set_invulnerable();
+        this->disable_body_collision();
+        if (action == 0x10) {
+            this->m_6d0 = 0;
         } else {
-            F(s32, 0x6D0)++;
+            this->m_6d0++;
         }
-        fill_value_array(F(s32, 0x680));
-        F(s32, 0x84C) = 0;
-        F(s32, 0x850) = 0;
-        F(f32, 0x864) = 0.0f;
-        F(f32, 0x868) = ((TBoss8Dragon *)arg0)->calc_step_value();
+        fill_value_array(this->attack_history);
+        this->m_84c = 0;
+        this->m_850 = 0;
+        this->m_864 = 0.0f;
+        this->m_868 = this->calc_step_value();
         break;
     case 2:
     case 11:
-        ((TBoss8Dragon *)arg0)->send_action_packet(0x1C);
+        this->send_action_packet(0x1C);
         break;
     case 9:
-        if (F(s32, 0x8A0) != 0) {
-            ((TBoss8Dragon *)arg0)->pick_next_action();
-            F(s32, 0x8A0) = 0;
-        } else if (F(s32, 0x84C) == 1) {
+        if (this->m_8a0 != 0) {
+            this->pick_next_action();
+            this->m_8a0 = 0;
+        } else if (this->m_84c == 1) {
             Vec v;
-            VecCopy__FP3VecPC3Vec(&v, arg0 + 0x38);
+            VecCopy__FP3VecPC3Vec(&v, &this->position);
             v.y = 0.0f;
             if (normalize_vector_xz((Vec *)&v) < 50.0f) {
-                ((TBoss8Dragon *)arg0)->pick_next_action();
+                this->pick_next_action();
             }
         }
         break;
     case 6:
-        a = (s32)(65536.0f * ((TObjChara *)arg0)->random_ratio());
-        F(f32, 0x38) = 350.0f * sin_table_lookup(a);
-        F(f32, 0x40) = 350.0f * cos_table_lookup(a);
-        ((TBoss8Dragon *)arg0)->copy_pos_to_field688();
+        a = (s32)(65536.0f * this->random_ratio());
+        this->position.x = 350.0f * sin_table_lookup(a);
+        this->position.z = 350.0f * cos_table_lookup(a);
+        this->copy_pos_to_field688();
         break;
     case 0:
-        switch (F(s32, 0x84C)) {
+        switch (this->m_84c) {
         case 0:
-            F(s32, 0x850)++;
-            if ((f32)F(s32, 0x850) >= 60.0f) {
-                F(s32, 0x850) = 0;
-                F(s32, 0x84C) = 1;
-                ((TBoss8Dragon *)arg0)->restore_target_pos();
-                F(s32, 0x60) = (s32)(RADIANS_TO_ANGLE * atan2_float(F(f32, 0x38), F(f32, 0x40))) + 0x8000;
-                F(f32, 0x3A0) = sin_table_lookup(F(s32, 0x60));
-                F(f32, 0x3A8) = cos_table_lookup(F(s32, 0x60));
+            this->m_850++;
+            if ((f32)this->m_850 >= 60.0f) {
+                this->m_850 = 0;
+                this->m_84c = 1;
+                this->restore_target_pos();
+                this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(this->position.x, this->position.z)) + 0x8000;
+                this->destination_direction.x = sin_table_lookup(this->rotation_y);
+                this->destination_direction.z = cos_table_lookup(this->rotation_y);
             }
             break;
         case 1:
-            F(f32, 0x864) += 0.1f;
-            if (F(f32, 0x864) > F(f32, 0x868)) {
-                F(f32, 0x864) = F(f32, 0x868);
+            this->m_864 += 0.1f;
+            if (this->m_864 > this->m_868) {
+                this->m_864 = this->m_868;
             }
-            F(f32, 0x38) = F(f32, 0x3A0) * F(f32, 0x864) + F(f32, 0x38);
-            F(f32, 0x40) = F(f32, 0x3A8) * F(f32, 0x864) + F(f32, 0x40);
-            ((void (*)(u8 *))TBoss8Dragon__sub_802FB300)(arg0);
-            F(s32, 0x850)++;
-            if (F(s32, 0x850) > 10) {
-                ((TBoss8Dragon *)arg0)->spawn_effect();
-                F(s32, 0x850) = 0;
+            this->position.x = this->destination_direction.x * this->m_864 + this->position.x;
+            this->position.z = this->destination_direction.z * this->m_864 + this->position.z;
+            ((void (*)(u8 *))TBoss8Dragon__sub_802FB300)((u8 *)this);
+            this->m_850++;
+            if (this->m_850 > 10) {
+                this->spawn_effect();
+                this->m_850 = 0;
             }
             break;
         }
-        spawn_trap__12TBoss8DragonFii((saddr)arg0, 0x4003AD11);
+        spawn_trap__12TBoss8DragonFii((saddr)this, 0x4003AD11);
         break;
     case 5:
-        VO->m90();
-        VO->m91();
+        this->clear_invulnerable();
+        this->enable_body_collision();
         break;
     }
 }

@@ -155,7 +155,7 @@ public:
     TParticleCtrl *m_894;
     TParticleCtrl *m_898;
     TParticleCtrl *m_89c;
-    u32 m_8a0;
+    s32 m_8a0;
     void set_random_param(u8 *arg1);
     void calc_params(void *arg1, saddr arg2);
     void calc_product_and_ratio(void *arg1, saddr arg2);
@@ -302,6 +302,7 @@ public:
     void sub_802F75C8(s32 event);
     void action_17(s32 event);
     void sub_802F7B4C(s32 event);
+    void sub_802F7808(u32 event, s32 action);
     void sub_802F7B70(s32 event);
     void state_roar(s32 event);
     void sub_802F8150(s32 event);
