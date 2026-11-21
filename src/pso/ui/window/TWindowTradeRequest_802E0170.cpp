@@ -23,7 +23,7 @@ void text_builder_reset(void);
 extern "C" {
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 void fn_8024AC64(saddr arg0);
-const char *lbl_805D3F70 = "TWindowTradeRequest";
+const char *TWindowTradeRequest__name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
 
 
@@ -75,7 +75,7 @@ TWindowTradeRequest::~TWindowTradeRequest() {
 }
 #pragma fp_contract on
 TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D3F70;
+    m_name = TWindowTradeRequest__name;
     TObjPlayer *player = get_player_by_client_id(static_cast<s8>(TLobby::get_trade_mode()));
     text_builder_reset();
     if (player != NULL) {
