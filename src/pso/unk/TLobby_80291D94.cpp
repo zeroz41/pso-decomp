@@ -14,6 +14,7 @@
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
@@ -483,16 +484,13 @@ struct Hdr_80292730 { u32 w[2]; };
 
 struct Info_80292730 { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
 
-struct CharData_80292730 { u8 pad0[0x370]; Info_80292730 info; u8 pad3C0[0x41C - 0x3C0]; };
 
 struct Entry_80292730 { s32 val; s32 id; };
 
 struct Tbl_80292730 { s32 f0; s32 f4; s32 f8; Entry_80292730 *entries; };
 
 extern "C" {
-void __dt__12TPlyCharDataFv(void *, int);
 void copy_player_visual_record(void *, void *);
-void __ct__12TPlyCharDataFv(void *);
 #define get_player_by_client_id ((Pl_80292730 * (*)(s32))get_player_by_client_id)
 Pl_80292730 *create_player_object(s32, s32, void *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
@@ -520,7 +518,6 @@ s32 TLobby::try_set_split_screen(s32 arg0) {
     return 1;
 }
 void TLobby::rebuild_players_for_stage(s32 arg0) {
-    CharData_80292730 cd;
     Info_80292730 info;
     Vec pos;
     Hdr_80292730 hdr;
@@ -557,16 +554,16 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
                 tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(0, arg0);
                 break;
             }
-            __ct__12TPlyCharDataFv(&cd);
-            copy_player_visual_record(&cd.info, &info);
-            TObjPlayer::begin_action_state(&cd);
-            send_command__10TNpcPlayerFlScllPSc(info.cls, tbl->f4, tbl->f8, tbl->f0, &cd);
-            p = create_player_object(i, map, &cd);
-            if (p == NULL) {
-                __dt__12TPlyCharDataFv(&cd, -1);
-                return;
+            {
+                TPlyCharData cd;
+                copy_player_visual_record(&cd.m_disp_part2, &info);
+                TObjPlayer::begin_action_state(&cd);
+                send_command__10TNpcPlayerFlScllPSc(info.cls, tbl->f4, tbl->f8, tbl->f0, &cd);
+                p = create_player_object(i, map, &cd);
+                if (p == NULL) {
+                    return;
+                }
             }
-            __dt__12TPlyCharDataFv(&cd, -1);
             ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&hdr);
             ((TObjBase *)p)->set_position_from(&pos);
             ((TObjBase *)p)->save_previous_position();

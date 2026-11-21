@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
 
@@ -16,15 +17,6 @@ struct Chr_80071BC0 {
     u8 pad32[0x34 - 0x32];
     u32 f34;
     u8 pad38[0x50 - 0x38];
-};
-
-class TPlyCharData {
-public:
-    TPlyCharData();
-    ~TPlyCharData();
-    u8 pad[0x370];
-    Chr_80071BC0 chr;
-    u8 pad3c0[0x420 - 0x3c0];
 };
 
 typedef ChallengeTechniqueLevel Pair_80071BC0;
@@ -46,7 +38,7 @@ struct Plr_80071BC0 : PBase_80071BC0 {
 extern "C" {
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *);
 extern u8 challenge_mode_state[];
-void copy_player_visual_record(Chr_80071BC0 *, void *);
+void copy_player_visual_record(void *, void *);
 Plr_80071BC0 *get_player_by_client_id(s32);
 Plr_80071BC0 *create_player_object(s32, s32, TPlyCharData *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(Plr_80071BC0 *, u8, s16);
@@ -109,7 +101,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record(&cd.chr, &chr);
+                copy_player_visual_record(&cd.m_disp_part2, &chr);
                 TObjPlayer::begin_action_state(&cd);
                 send_command__10TNpcPlayerFlScllPSc(chr.f31, t->item_count, (saddr)t->items, t->level, &cd);
                 if (i == local_client_id) {

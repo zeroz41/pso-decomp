@@ -97,8 +97,8 @@ void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
 TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     TUnk_801D8A4C sp8;
     ((TObjPlayer *)(&sp8))->init_inventory();
-    copy_player_visual_record(sp8.visual, &data->m_disp_data.m_disp_part2);
-    TLobby::copy_data(sp8.stats, &data->m_disp_data);
+    copy_player_visual_record(sp8.visual, &data->m_disp_part2);
+    TLobby::copy_data(sp8.stats, &data->m_stats);
     fn_801D40D4(data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
     return new TUnk_804C4540(tl_03, &sp8);
 }

@@ -155,7 +155,7 @@ int add_photon_blast_chain_charge(void*);
 
 s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
-        __dt__12TPlyCharDataFv(arg0 + 0xC, -1);
+        ((TPlyCharData *)(arg0 + 0xC))->~TPlyCharData();
         if (arg1 > 0) {
             ::operator delete((void *)arg0);
         }

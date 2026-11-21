@@ -123,7 +123,7 @@ s32 destroy_chardata_array__23TAdSinglePlyChrSelectGCFis(saddr arg0, s16 arg1) {
 
 s32 TAdSinglePlyChrSelectGC::free_chardata(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
-        __dt__12TPlyCharDataFv(arg0, -1);
+        ((TPlyCharData *)arg0)->~TPlyCharData();
         if (arg1 > 0) {
             ::operator delete((void *)arg0);
         }

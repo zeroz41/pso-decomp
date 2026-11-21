@@ -3248,7 +3248,7 @@ void remove_player__6TLobbyFUiii(uaddr arg0, s32 arg1, s32 arg2) {
 
 s32 __dt__18TPlyJoinLobbyEntryFv(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
-        __dt__12TPlyCharDataFv(arg0 + 0x20, -1);
+        ((TPlyJoinLobbyEntry *)arg0)->char_data.~TPlyCharData();
         if (arg1 > 0) {
             ::operator delete((void *)arg0);
         }
