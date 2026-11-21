@@ -9,7 +9,7 @@ struct WindowDrawContext;
 
 // A pair of texture coordinates; the same representation the layout code uses for Vec2 positions.
 typedef NJS_POINT2 WindowTexturePoint;
-typedef char WindowTexturePointSize[sizeof(WindowTexturePoint) == 8 ? 1 : -1];
+LAYOUT_ASSERT(WindowTexturePointSize, sizeof(WindowTexturePoint) == 8);
 
 extern "C" {
 extern WindowTexturePoint TWindowDD__data_805434E8[7][8];

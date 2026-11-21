@@ -6,8 +6,8 @@
 #include "pso/ui/window/TUnk_804CF0B8.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 
-typedef char WindowCtrlFlagsOffset[offsetof(TWindowCtrl, m_1c) == 0x1C ? 1 : -1];
-typedef char WindowCtrlChildOffset[offsetof(TWindowCtrl, m_3c) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(WindowCtrlFlagsOffset, offsetof(TWindowCtrl, m_1c) == 0x1C);
+LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, m_3c) == 0x3C);
 
 void TWindowCtrl__sub_8024C6CC(TWindowCtrl *window) {
     window->m_1c |= 0x40;

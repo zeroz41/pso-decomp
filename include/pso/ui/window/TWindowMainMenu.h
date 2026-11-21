@@ -88,9 +88,9 @@ struct TWindowMainMenu : public TObject {
     void update_description_text(s32 arg1);
 };
 
-typedef char MainMenuSlotStateSize[sizeof(MainMenuSlotState) == 8 ? 1 : -1];
-typedef char MainMenuClientIndexOffset[offsetof(TWindowMainMenu, client_index) == 0x54 ? 1 : -1];
-typedef char MainMenuSize[sizeof(TWindowMainMenu) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(MainMenuSlotStateSize, sizeof(MainMenuSlotState) == 8);
+LAYOUT_ASSERT(MainMenuClientIndexOffset, offsetof(TWindowMainMenu, client_index) == 0x54);
+LAYOUT_ASSERT(MainMenuSize, sizeof(TWindowMainMenu) == 0x60);
 
 int test_keyboard_card_flag4(void *p);
 
