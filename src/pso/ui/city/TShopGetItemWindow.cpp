@@ -39,40 +39,6 @@ TWindowMenuIconLine *create_item_list_window(s32, s32, u16);
 
 extern const char *TShopGetItemWindow__class_name;
 
-struct VBase_18_a93f07
-{
-  char pad[0x18];
-};
-struct VObj_18_a93f07 : VBase_18_a93f07 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4(s32, s32);
-};
-struct Stack_8021E5D8
-{
-  s32 sp8;
-  u8 pad_C[0x8];
-  s32 sp14;
-};
-struct RecoveredFields_8021E5D8_arg0
-{
-  u8 unknown_0[0x24];
-  saddr field_24;
-  saddr field_28;
-  uaddr field_2C;
-  u8 unknown_30[0x24];
-  s32 field_54;
-};
-struct Item_8021E870 { u8 kind; u8 data[0x13]; };
-struct Item_8021EA48 { u8 data[0x14]; };
-struct VBase_8021EA48 { char pad[0x18]; };
-typedef struct RecoveredFields_8021E5D8_arg0 RecoveredFields_8021E5D8_arg0;
-typedef struct Stack_8021E5D8 Stack_8021E5D8;
-typedef struct VBase_18_a93f07 VBase_18_a93f07;
-typedef struct VObj_18_a93f07 VObj_18_a93f07;
-#define PSO_VCALL_VObj_18_a93f07_m4(_self, _arg0, _arg1) (((VObj_18_a93f07 *)(_self))->m4((_arg0), (_arg1)))
 const char *TShopGetItemWindow__class_name = "TShopGetItemWindow";
 TShopGetItemWindow::TShopGetItemWindow(void *parent, void *owner, void *player) : TShopWindowBase((TObject *)parent) {
     m_name = TShopGetItemWindow__class_name;
