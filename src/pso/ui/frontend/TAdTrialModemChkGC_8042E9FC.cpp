@@ -7,6 +7,7 @@
 #include "pso/network/TLobby_80429598.h"
 #include <stdio.h>
 #include <string.h>
+#include "pso/network/ModemRuntime.h"
 
 // ntUtl library banner; TAdTrialModemChkGC__sub_8042EC14 publishes it in lbl_805D7CB4.
 // inferred: name from the string.
@@ -76,7 +77,6 @@ void get_isao_trial_params(const char **number, const char **domain, const char 
 }
 
 extern "C" {
-saddr fn_8042E8B8(void);
 
 #pragma push
 #pragma optimize_for_size off

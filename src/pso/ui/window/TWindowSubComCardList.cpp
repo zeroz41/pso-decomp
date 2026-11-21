@@ -22,6 +22,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -31,7 +32,6 @@ const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 
 extern "C" {
 extern const char *TWindowSubComCardList__class_name;
-extern s32 local_client_id;
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
 void __dl__7TObjectFPv(void *);

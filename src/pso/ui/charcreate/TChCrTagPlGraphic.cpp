@@ -41,7 +41,6 @@ struct TChCrTagPlGraphicLayout {
 };
 
 extern "C" {
-void restore_saved_depth_alpha_state(void);
 
 void TChCrTagPlGraphic::render() {
     set_depth_buffer_settings_1();
