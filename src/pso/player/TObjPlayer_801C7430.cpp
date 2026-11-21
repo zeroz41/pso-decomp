@@ -1438,8 +1438,8 @@ void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, s32 id);
 s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, s32);
 s32 construct_revival_particle_effect(void *, void *, s32);
-void TObjPlayer__sub_8024ABDC(s32 arg0);
-void TLobby__sub_8024AC20(s32 arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
+void TLobby__sub_8024AC20(saddr arg0);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void bswap_6x45_packet(void *p);

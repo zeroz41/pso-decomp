@@ -42,8 +42,8 @@ extern "C" {
 s32 init_parts__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 void fn_8024AADC(s32 arg0, s32 arg1);
-void TLobby__sub_8024AC20(s32 arg0);
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
+void TLobby__sub_8024AC20(saddr arg0);
+void TWindowReturnCity__sub_8024ACA8(saddr arg0);
 extern RecoveredGlobal_802E0224___vt__19TWindowTradeRequest __vt__19TWindowTradeRequest;
 extern s32 local_client_id;
 s32 *get_shared_text_buffer(void);
@@ -54,8 +54,8 @@ s32 text_builder_append();
 void text_builder_reset(void);
 extern "C" {
 s32 __ct__7TObjectFP7TObject();
-void TObjPlayer__sub_8024ABDC(s32 arg0);
-void fn_8024AC64(s32 arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
+void fn_8024AC64(saddr arg0);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
 const char *lbl_805D3F70 = "TWindowTradeRequest";
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *arg0);

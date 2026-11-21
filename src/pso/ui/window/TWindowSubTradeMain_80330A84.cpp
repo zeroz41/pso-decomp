@@ -166,11 +166,11 @@ s32 get_state__19TWindowSubTradeMainFv(void *, void *);
 void TWindowSubTradeMain__sub_803323C8(void *);
 extern Ctrl_8033162C controller_input_state[];
 void TWindowCtrl__sub_8024ADF0(saddr arg0);
-void TWindowSubComCard__sub_8024AB98(s32 arg0);
+void TWindowSubComCard__sub_8024AB98(saddr arg0);
 s32 end_camera_pan__10TObjPlayerFv();
 void TWindowCtrl__sub_8024ADAC(saddr arg0);
 void TWindowSubTradeMain__sub_802D2870(void);
-void fn_8024AB54(s32 arg0);
+void fn_8024AB54(saddr arg0);
 int fn_8027B288(void *p);
 void fn_8027B2A8(void *);
 }

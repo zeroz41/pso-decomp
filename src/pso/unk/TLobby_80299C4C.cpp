@@ -112,7 +112,7 @@ s32 TLobby__sub_80292F5C();
 s32 get_player_by_client_id(int);
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
-void TObjPlayer__sub_8024ABDC(s32 arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
 
 s32 TLobby::is_multi_ready() {
     if ((TLobby::get_challenge_mode_flag() != 0) || (TLobby__sub_80292F5C() <= 1)) {

@@ -155,8 +155,8 @@ void play_cue_stream_file(saddr name);
 void show_duel_result_window(saddr arg0, saddr arg1);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
-void end_player_keyboard_hold(s32 arg0);
-void begin_player_keyboard_hold(s32 arg0);
+void end_player_keyboard_hold(saddr arg0);
+void begin_player_keyboard_hold(saddr arg0);
 void request_active_window_close(void);
 s32 send_code_45_1__10TObjPlayerFl();
 }

@@ -48,7 +48,7 @@ void *create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
 void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);
 saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
-s32 end_player_keyboard_hold(s32);
+s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);

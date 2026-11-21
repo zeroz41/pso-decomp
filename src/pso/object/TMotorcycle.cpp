@@ -24,7 +24,7 @@ struct Moto_801951C8 { const char *x0; u8 pad4[0x30 - 4]; u32 flags; u8 pad34[0x
 extern "C" {
 saddr get_bml_model(void *, int);
 }
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
+void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);

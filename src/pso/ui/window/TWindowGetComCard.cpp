@@ -36,7 +36,7 @@ s32 reset_equip_slots__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
-void TObjPlayer__sub_8024ABDC(s32 arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern void *__vt__17TWindowGetComCard[];
 const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
@@ -51,7 +51,7 @@ extern Pad_80252CCC controller_input_state[];
 void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self);
 void TWindowFukidasi__sub_80252C38(void* p);
 int fn_80252CBC(void* p);
-void TLobby__sub_8024AC20(s32 arg0);
+void TLobby__sub_8024AC20(saddr arg0);
 s32 TWindowCtrl__sub_8024A314();
 s32 init_parts__10TObjPlayerFv();
 

@@ -272,7 +272,7 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *ar
     return object;
 }
 }
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
+void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 TObjChip::~TObjChip() {}
 
 extern "C" {

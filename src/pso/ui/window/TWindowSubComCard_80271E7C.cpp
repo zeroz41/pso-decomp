@@ -200,8 +200,8 @@ void window_request_show(void *arg0);
 s32 is_com_card_active();
 extern "C" {
 void TWindowSubComCard__sub_80249144(void *arg0);
-void fn_8024AB54(s32 arg0);
-void TWindowSubComCard__sub_8024AB98(s32 arg0);
+void fn_8024AB54(saddr arg0);
+void TWindowSubComCard__sub_8024AB98(saddr arg0);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 s32 open_menu__17TWindowSubComCardFv(void);

@@ -2178,7 +2178,7 @@ void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 u8 * __ct__7TObjectFP7TObject(void *, void *);
 void construct_actor_light_task(void *, Color_801B6964 *, Vec *, s32, s32, s32, f32);
-void TLobby__sub_8024AC20(s32);
+void TLobby__sub_8024AC20(saddr);
 void dispatch_to_child__11TWindowCtrlFPv(u16, s32);
 u32 TWindowReturnCity__ct(u32, saddr, u16);
 s32 get_battle_ctrl_default__6TLobbyFv();

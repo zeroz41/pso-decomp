@@ -25,7 +25,7 @@ struct Obj_80186DA0 {
 
 extern "C" {
 u8 is_current_floor_switch_set(s32 id);
-void end_player_keyboard_hold(s32 arg0);
+void end_player_keyboard_hold(saddr arg0);
 void obj_clear_flag30_20000(TObjBase *actor);
 void obj_set_flag_20000(TObjBase *actor);
 s32 send_code_45_1__10TObjPlayerFl();

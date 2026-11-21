@@ -357,11 +357,11 @@ void TLobby__sub_801B09A4(void);
 
 extern saddr tl_00;
 
-void end_player_keyboard_hold(s32 arg0);
+void end_player_keyboard_hold(saddr arg0);
 s32 send_code_45_1__10TObjPlayerFl();
 extern saddr local_client_id;
 
-void begin_player_keyboard_hold(s32 arg0);
+void begin_player_keyboard_hold(saddr arg0);
 extern saddr local_client_id;
 void request_active_window_close(void);
 s32 TLobby__sub_801C417C(void);
