@@ -145,9 +145,8 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     s32 result;
     u8 **destination;
     s32 copied;
-    s32 available;
+    u16 available;
     s16 requested;
-    u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
     if (actual_id != expected_id) {
         return -1;
     }
