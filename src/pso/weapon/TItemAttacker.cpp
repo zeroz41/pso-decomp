@@ -191,7 +191,7 @@ void TItemAttacker__sub_8010349C(uaddr arg0) {
 TItemAttacker::~TItemAttacker() {}
 void TItemAttacker::run_task() { if (*(int*)((char*)this + 0x34) != 0) { queue_destruction(); } }
 
-__declspec(section ".data") int item_nj_chunk_buffer_table[2];
+__declspec(section ".data") saddr item_nj_chunk_buffer_table[2];
 saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 
 void TItemBuff__ct(void) {
