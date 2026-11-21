@@ -201,7 +201,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayer
 #undef arg0
 #pragma pop
 
-TTecSifta::TTecSifta(void *owner, void *pos, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;

@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TKomorebi : public TObjBase {
-    TKomorebi(TObject *parent, s32 arg2);
+    TKomorebi(TObject *parent, saddr set_data);
     virtual ~TKomorebi();
     virtual void render();
     virtual void run_task();

@@ -16,7 +16,7 @@ struct TTecDeband : public TTecPlayerInfluence {
     int init_params();
     void update_effect_params();
     static void create(saddr arg0, saddr arg1, saddr arg2, s32 arg3);
-    static void create(void *owner, void *pos, saddr level);
+    static void create(void *owner, void *pos, s32 level);
     virtual void render();
     void play_state_sound();
 };

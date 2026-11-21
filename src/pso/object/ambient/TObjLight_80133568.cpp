@@ -76,7 +76,9 @@ int TAdSinglePlyChrSelectGC__sub_80133548(void);
 void __dt__7TObjectFv(void *, int);
 
     extern int light_type_id_table[];
+}
 TObjLightSceneLightState TObjLight__scene_light_state;
+extern "C" {
 void *TObjLight__data_80506370[3];
 Light_801347A4 TObjLight__data_8050637C[32];
 Light_801347A4 TObjLight__data_805068FC[8];

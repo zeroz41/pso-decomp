@@ -87,7 +87,9 @@ static Rec_803592B8 npc_seabed_resource_descriptor_list[] = {
 
 extern "C" {
 s32 __ct__11TObjControlFP7TObject(int, int);
+}
 RecoveredGlobal_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_805439A8;
+extern "C" {
 extern s32 tl_04;
 
 s32 TObjNpcNgcBase::create_variant_13(s32 arg0) {

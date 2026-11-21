@@ -196,7 +196,6 @@ s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 
 #define GT_TMAX (2.0f)       /* no hit yet */
 #define GT_EPS_NY (1e-5f)    /* skip walls (normal y) */
 #define GT_EPS_EDGE (-1e-4f) /* edge test tolerance */
-void vsub(void *, void *, void *);
 }
 s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg) {
   Vec *origin = origin_arg;
@@ -930,10 +929,12 @@ void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (E_800
 
 extern "C" {
 void __construct_array(void *, void *, s32, s32, s32);
+}
 u8 lbl_804FF9C0[0x380];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") s32 lbl_80500140[2];
 s32 csn_query_map_object[4];
+extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
     __construct_array(lbl_804FF9C0, (void *)TObjPlayer__sub_8007A7B8, 0, 0x1C, 0x20);

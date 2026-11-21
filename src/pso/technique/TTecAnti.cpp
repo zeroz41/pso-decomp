@@ -159,7 +159,7 @@ void TechniqueParams::copy(TechniqueParams *src) {
 }
 
 #define arg0 ((u8 *)this)
-TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
