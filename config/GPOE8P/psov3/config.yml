@@ -691,9 +691,9 @@ force_active:
   - append_message_char__FSc
   - begin_message_substitution
   - TLobby__sub_802232F8
-  - TLobby__sub_80223D48
-  - TLobby__sub_80223DD8
-  - TLobby__sub_80223E64
+  - TLobby__get_tool_pool_table_row
+  - TLobby__shop_stock_lacks_item_4fields
+  - TLobby__shop_stock_lacks_item_3fields
   - TLobby__sub_80224840
   - TLobby__sub_80225A08
   - TLobby__sub_80225C8C
@@ -6408,8 +6408,8 @@ force_active:
   - reset_download_graph__Fv
   - fn_80214058
   - fn_80214254
-  - fn_80223B98
-  - fn_80223C28
+  - get_shop_technique_pool_count
+  - get_shop_rare_tool_pool_count
   - fn_80235078
   - fn_8024450C
   - fn_80248324
