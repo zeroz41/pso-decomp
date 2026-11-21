@@ -23,7 +23,7 @@ public:
     virtual void run_task();
     virtual void render();
     void set_launch_midpoint(void *, void *, void *);
-    static s32 create(u16* launch);
+    static saddr create(u16* launch);
 
     f32 direction[3];
     f32 origin[3];

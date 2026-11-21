@@ -28,7 +28,7 @@ public:
     static void *generate_child_default(void *param, void *pos, void *parent);
     static s32 get_particle_model(s32 arg0);
     static int get_instance();
-    u32 validate_ctrl();
+    uaddr validate_ctrl();
     void destroy_particle();
     static void begin_effect_render();
     static void end_effect_render();

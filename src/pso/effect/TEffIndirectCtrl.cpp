@@ -209,7 +209,7 @@ void TEffIndirectCtrl::free_all() {
     } while (var_r28 < 8);
 }
 
-s32 get_indirect_source_id(u8 arg0) {
+saddr get_indirect_source_id(u8 arg0) {
     u8 var_r3;
     var_r3 = arg0;
     if (var_r3 >= 8U) {

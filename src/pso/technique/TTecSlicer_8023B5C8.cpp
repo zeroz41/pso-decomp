@@ -419,7 +419,7 @@ void TTecSlicer::update() {
 
 }
 
-s32 TTecSlicer::create(u16 *arg0) {
+saddr TTecSlicer::create(u16 *arg0) {
     saddr var_r31;
     u8 *player;
     var_r31 = 0;
