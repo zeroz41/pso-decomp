@@ -743,7 +743,7 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     ((TObjMotion *)arg0)->set_animation(F(arg0, s16, 0xB8));
     ((TObjMotion *)arg0)->set_field_b8(F(arg0, s16, 0xB8));
     init_collision_body_parts(arg0, &((Rec2C_800927DC *)beast_collision_body_table)[F(arg0, s32, 0x334)], 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(((u32 *)ene_beast_boss_id_buffer)[F(arg0, s32, 0x334)]), (u8 *)(((u32 *)TObjEneBeast__boss4_rock_handler_ids)[F(arg0, s32, 0x334)]), (u8 *)(((u32 *)boss4_rock_pool)[F(arg0, s32, 0x334)]));
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(((uaddr *)ene_beast_boss_id_buffer)[F(arg0, s32, 0x334)]), (u8 *)(((uaddr *)TObjEneBeast__boss4_rock_handler_ids)[F(arg0, s32, 0x334)]), (u8 *)(((uaddr *)boss4_rock_pool)[F(arg0, s32, 0x334)]));
     F(arg0, void *, 0x350) = &((Rec1C_800927DC *)beast_movement_params)[F(arg0, s32, 0x334)];
     F(arg0, s16, 0x33E) = F(arg0, s16, 0x32C);
     ((TObjEnemy *)arg0)->update_prev_position();

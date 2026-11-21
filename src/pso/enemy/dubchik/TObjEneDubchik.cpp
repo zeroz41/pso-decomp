@@ -216,9 +216,9 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
 
 struct Ids_800AA82C { s16 v[2]; };
-__declspec(section ".data") s32 lbl_805009A0[2];
-__declspec(section ".data") s32 lbl_805009A8[2];
-__declspec(section ".data") s32 lbl_805009B0[2];
+__declspec(section ".data") saddr lbl_805009A0[2];
+__declspec(section ".data") saddr lbl_805009A8[2];
+__declspec(section ".data") saddr lbl_805009B0[2];
 saddr lbl_805009B8[20];
 u8 lbl_80500A08[0x10];
 u8 lbl_80500A18[0x30];
@@ -437,7 +437,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     set_field_d8((saddr)action_table);
     init_collision_body_parts(this, dubchik_collision_body, 1);
     movementParameters = &dubchik_movement;
-    bind_enemy_combat_stats((u8 *)((s32 *)lbl_805009A0)[variant], (u8 *)lbl_805009A8[variant], (u8 *)lbl_805009B0[variant]);
+    bind_enemy_combat_stats((u8 *)((saddr *)lbl_805009A0)[variant], (u8 *)lbl_805009A8[variant], (u8 *)lbl_805009B0[variant]);
     sub_800A8B8C();
     requested_action = 5;
     set_animation(requested_action);
@@ -537,7 +537,7 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     t[1] = (saddr)p;
     ((SampledMotionPoints *)t[1])->sample_two_nodes((NJS_OBJECT *)get_bml_model((BmlResource *)dubchik_resource, 0), (NJS_MOTION *)get_bml_motion((BmlResource *)dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
-        ((s32 *)lbl_805009A0)[i] = (saddr)TLobby::register_boss(i + 0x1B);
+        ((saddr *)lbl_805009A0)[i] = (saddr)TLobby::register_boss(i + 0x1B);
         lbl_805009A8[i] = (saddr)TLobby::dispatch_shared_handler_b(i + 0x1B);
         lbl_805009B0[i] = (saddr)TLobby::register_object(i + 0x1B);
         lbl_805009B8[i] = (saddr)TLobby::dispatch_shared_handler_a(i + 0x1B);

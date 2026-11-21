@@ -973,7 +973,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjMotion *)self)->set_animation(self->fB8);
     ((TObjMotion *)self)->set_field_b8(self->fB8);
     init_collision_body_parts(self, lbl_80491608 + self->f334 * 0x2C, 1);
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(((s32 *)TObjEneShark__resource_node)[self->f334]), (u8 *)(((s32 *)TObjEneShark__resource_buf)[self->f334]), (u8 *)(((s32 *)shark_resource_data)[self->f334]));
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(((saddr *)TObjEneShark__resource_node)[self->f334]), (u8 *)(((saddr *)TObjEneShark__resource_buf)[self->f334]), (u8 *)(((saddr *)shark_resource_data)[self->f334]));
     self->f350 = lbl_804915B4 + self->f334 * 0x1C;
     self->f33E = self->f32C;
     ((TObjEnemy *)self)->update_prev_position();

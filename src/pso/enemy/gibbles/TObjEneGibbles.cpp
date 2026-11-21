@@ -1663,7 +1663,7 @@ void TObjEneGibbles::vfunc_60() {
         this->m_374 = (s32) (this->m_374 & 0xFFFFFF7F);
         break;
     }
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(0), (u8 *)(((s32 *) gibbles_combat_stat_entries)[this->m_37c]), (u8 *)(0));
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(0), (u8 *)(((saddr *)gibbles_combat_stat_entries)[this->m_37c]), (u8 *)(0));
     *(s32 *)((s8 *)(this->bodies) + 0x18) |= 1;
     this->actorFlags = (s32) (this->actorFlags & 0xF9FBFFFF);
     this->actorFlags = (s32) (this->actorFlags | 0x200000);
@@ -2565,7 +2565,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, saddr arg2) {
     ((TObjEneGibbles *)arg0)->m_37c = 0;
     *(s16 *)((s8 *)arg0 + 0x37E) = 0;
     ((TObjEneGibbles *)arg0)->movementParameters = (void *)lbl_804E2950;
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)gibbles_boss_stat_handle, (u8 *)(((s32 *)gibbles_combat_stat_entries)[((TObjEneGibbles *)arg0)->m_37c]), (u8 *)gibbles_combat_stats_handle);
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)gibbles_boss_stat_handle, (u8 *)(((saddr *)gibbles_combat_stat_entries)[((TObjEneGibbles *)arg0)->m_37c]), (u8 *)gibbles_combat_stats_handle);
     ((TObjEneGibbles *)arg0)->referenceHp = ((TObjEneGibbles *)arg0)->hp;
     ((TObjEneGibbles *)arg0)->update_position();
     ((TObjEneGibbles *)arg0)->update_shadow_height();

@@ -834,7 +834,7 @@ void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
     ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));
     ((TObjMotion *)arg0)->set_field_b8(*(s16 *)((s8 *)arg0 + 0xB8));
     init_collision_body_parts(arg0, dimedian_collision_body_table + *(s32 *)((s8 *)arg0 + 0x334) * 0x2C, 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)((*(s32 **)&dimedian_boss_object_buf)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(s32 **)&lbl_805D5074)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(s32 **)&TObjEneDimedian__boss_objects)[*(s32 *)((s8 *)arg0 + 0x334)]));
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)((*(saddr **)&dimedian_boss_object_buf)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(saddr **)&lbl_805D5074)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(saddr **)&TObjEneDimedian__boss_objects)[*(s32 *)((s8 *)arg0 + 0x334)]));
     *(u8 **)((s8 *)arg0 + 0x350) = dimedian_movement_params + *(s32 *)((s8 *)arg0 + 0x334) * 0x1C;
     *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
     ((TObjEnemy *)arg0)->update_prev_position();
