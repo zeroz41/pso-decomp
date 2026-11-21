@@ -217,8 +217,8 @@ TTecAnti::~TTecAnti() {
 
 }
 
-void TTecAnti::create(void *owner, void *pos, void *arg2, void *level) {
-    new TTecAnti(owner, pos, arg2, (saddr)level);
+void TTecAnti::create(void *source, void *origin, void *targets, s32 level) {
+    new TTecAnti(source, origin, targets, level);
 }
 
 void TTecAnti::vfunc_7(void *pl_arg) {

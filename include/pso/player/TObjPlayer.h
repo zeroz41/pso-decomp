@@ -972,7 +972,7 @@ struct TObjPlayer : public TObjChara {
     static void free_if_valid(saddr arg0);
     static void play_effect_if_v2(s32 arg0);
     static s32 get_level_tier(s32 arg0);
-    static void create_tec_jelin(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create_tec_jelin(void *source, void *origin, void *targets, s32 level);
     static s32 is_valid_and_active(uaddr arg0);
     s32 *gather_player_contacts(uaddr arg1, saddr _w2, s32 _w3);
     saddr collect_body_contacts(int target, void *_w2, void *arg3);
@@ -980,7 +980,7 @@ struct TObjPlayer : public TObjChara {
     void find_support_technique_contact_for_target(saddr arg1);
     void gather_contacts_for_self(s32 arg1);
     void*get_pos_ptr();
-    static void create_tec_zarua(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create_tec_zarua(void *source, void *origin, void *targets, s32 level);
     void add_status_line(u8 arg1, uaddr arg2, s32 arg3);
     static void clear_state_if_flag80(s32 arg0);
     static void setup_projection_texture(Vec *pos, SceneSectionAngles *angles, u32 flags);
@@ -1190,7 +1190,7 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     void clear_render_context();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
-    static void create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     TechniqueContactList *collect_technique_contacts(void *src);
     static void *create_child_object(void *arg0);
     static void destroy_instance();

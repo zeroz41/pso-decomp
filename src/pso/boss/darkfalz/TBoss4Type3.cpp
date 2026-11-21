@@ -1815,7 +1815,7 @@ void TBoss4Type3::update_light_magic() {
                 g.f0 = 1;
                 g.f4 = i;
                 g.f6 = 0;
-                TTecGrants::create((void *)arg0, (void *)sub, &g, (void *)r29);
+                TTecGrants::create(arg0, sub, &g, r29);
             }
         }
         start_pad_rumble_all(0xC0, 0xF);

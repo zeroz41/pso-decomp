@@ -980,7 +980,7 @@ void TObjEneDelDepth::update_attack_cast() {
         if ((s32) game_difficulty_selection == 3) {
             TTecMegid::create_ex((saddr)arg0, (saddr)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)(TObjEneDelDepth__tune_params->techniqueLevel));
         } else {
-            ((TTecBarta *)arg0)->create_ex((u8 *)&this->position, (void *)this->rotation_y, (void *)TObjEneDelDepth__tune_params->techniqueLevel);
+            TTecBarta::create_ex(arg0, &this->position, this->rotation_y, TObjEneDelDepth__tune_params->techniqueLevel);
         }
     }
     temp_r0_2 = this->timer - 1;

@@ -114,8 +114,8 @@ void TTecSifta::update_effect_params() {
     this->m_74 = (f32) (this->m_98 * this->m_a4);
 }
 
-void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
-    new TTecSifta(this, pos, arg2, (saddr)level);
+void TTecSifta::create_instance(void *source, void *origin, void *targets, s32 level) {
+    new TTecSifta(source, origin, targets, level);
 }
 
 void TTecSifta::create(void *owner, void *pos, void *level) {

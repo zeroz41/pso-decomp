@@ -72,8 +72,8 @@ void TTecGrants::vfunc_6(void *target_arg) {
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
-void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecGrants((saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
+void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
+    new TTecGrants((saddr)source, (saddr)origin, (saddr)targets, level);
 }
 
 void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {

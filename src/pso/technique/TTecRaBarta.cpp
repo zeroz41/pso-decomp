@@ -323,8 +323,8 @@ void TTecRaBarta::create(void *source, void *origin, void *pos, void *level) {
     new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, (saddr)level);
 }
 
-void TTecRaBarta::create(void *origin, void *level) {
-    new TTecRaBarta((saddr)this, (Vec *)origin, (saddr)level);
+void TTecRaBarta::create(void *source, void *origin, s32 level) {
+    new TTecRaBarta((saddr)source, (Vec *)origin, level);
 }
 
 TTecRaBarta::~TTecRaBarta() {

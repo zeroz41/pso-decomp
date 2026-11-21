@@ -77,8 +77,8 @@ struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 pow
 extern "C" {
 s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
 
-void TObjPlayer::create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecZonde((saddr)arg0, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
+    new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
 }
 void TTecZonde::vfunc_8(void *arg1_arg) {
     VObj_18_0c879f *arg1 = (VObj_18_0c879f *)arg1_arg;

@@ -15,8 +15,8 @@ struct TTecFoie : public TUnk_804CCC68 {
     void render();
     void create_particle_emitters();
     void init_projectile_params();
-    static void create_ex(void *arg0, void *arg1, void *arg2, void *arg3);
-    static void create(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create_ex(void *source, void *origin, void *aim, s32 level);
+    static void create(void *source, void *origin, s32 angle, s32 level);
     void **emitters; // the particle emitters of the band, queued for destruction with it
 };
 

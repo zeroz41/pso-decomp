@@ -228,12 +228,12 @@ void TTecFoie::vfunc_8(void *target_arg) {
     queue_destruction();
 }
 
-void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecFoie((saddr)arg0, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TTecFoie::create_ex(void *source, void *origin, void *aim, s32 level) {
+    new TTecFoie((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecFoie::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecFoie((saddr)arg0, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
+void TTecFoie::create(void *source, void *origin, s32 angle, s32 level) {
+    new TTecFoie((saddr)source, (Vec *)origin, angle, level);
 }
 TTecFoie::~TTecFoie() {
     for (u32 i = 0; i < TTecFoie__emitter_profile_table[band].count; ++i) {

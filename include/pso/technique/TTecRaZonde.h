@@ -12,7 +12,7 @@ struct TTecRaZonde : public TUnk_804CC148 {
     virtual void run_task();
     u32 m_ec;
     void calc_damage();
-    void create(void *arg1, void *arg2);
+    static void create(void *source, void *origin, s32 level);
     virtual void render();
     Vec bolt_points[8];  // the constructor's spiral; a bolt runs between each neighbouring pair
 };

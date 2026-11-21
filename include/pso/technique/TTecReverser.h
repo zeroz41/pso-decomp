@@ -13,7 +13,7 @@ struct TTecReverser : public TUnk_804CC148 {
     u32 m_ec;
     u16 m_f0;
     virtual void render();
-    static void create(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create(void *source, void *origin, void *targets, s32 level);
     s32 is_active();
     u8 unk_F2[0x56];
 };

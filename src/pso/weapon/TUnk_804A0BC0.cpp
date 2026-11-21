@@ -14,7 +14,7 @@ void TUnk_804A0BC0::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &pos) != 0) {
             player = owner;
-            TTecFoie::create(player, &pos, (void *)(*(saddr *)((s8 *)player + 0x60)), (void *)(((TItemWeapon *)this)->get_tp()));
+            TTecFoie::create(player, &pos, *(saddr *)((s8 *)player + 0x60), ((TItemWeapon *)this)->get_tp());
             roll_technique();
         }
     } else {

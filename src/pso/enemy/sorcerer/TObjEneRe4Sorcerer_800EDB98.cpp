@@ -105,6 +105,7 @@ void TObjEneRe4Sorcerer__sub_800EFE30(void);
 
 #include "pso/item/armor/TItemProShield.h"
 
+#include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"
 
 #include "pso/technique/TTecGrants.h"
@@ -209,8 +210,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(void *, void *, int, int);
 
 void __dl__7TObjectFPv(void *);
-
-s32 create_ex__11TTecGiBartaFPvPvPv(void *, void *, s32, s32);
 
 void __destroy_arr(void *, void *, u32, u32);
 
@@ -934,11 +933,11 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
             targets.records[0].id = get_entity_id(current_target);
             targets.records[0].flag = 0;
             if (TObjEneDD::check_v2_mode() != 0) {
-                TTecGrants::create(this, src, &targets, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
+                TTecGrants::create(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             } else if (TLobby::get_instance() == 1) {
                 TTecGiZonde::create(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             } else {
-                ((TTecRaFoie *)this)->create_ex(src, &targets, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
+                TTecRaFoie::create_ex(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             }
         } else if (TObjEneDD::check_v2_mode() != 0) {
             TTecMegid::create((saddr)this, (saddr)src, (saddr)&current_target->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
@@ -946,7 +945,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
             VecCopy(&v, &current_target->position);
             subtract_vector(&v, src);
             frame = TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]);
-            create_ex__11TTecGiBartaFPvPvPv(this, src, (s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.z)), frame);
+            TTecGiBarta::create_ex(this, src, (s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.z)), frame);
         }
         return 1;
     }

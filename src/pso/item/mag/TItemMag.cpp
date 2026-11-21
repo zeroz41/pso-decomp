@@ -864,7 +864,7 @@ void TItemMag::cast_support_technique(s32 technique) {
         targets.count = 1;
         targets.records[0].id = get_entity_id(owner);
         targets.records[0].flag = 0;
-        TTecReverser::create(owner, &owner->position, &targets, (void *)level);
+        TTecReverser::create(owner, &owner->position, &targets, level);
         break;
     }
     case 11:

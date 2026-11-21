@@ -12,7 +12,7 @@ void TUnk_804A3548::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(1, &sp8) != 0) {
             owner = this->owner;
-            TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)5);
+            TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), 5);
         }
     } else {
         ((TItemWeapon *)this)->update_active_game_effect();

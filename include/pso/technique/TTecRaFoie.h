@@ -20,7 +20,7 @@ struct TTecRaFoie : public TUnk_804CC148 {
     virtual void render();
     void update_detonation(void *arg1);
     void create(void *origin, void *pos, void *level);
-    void create_ex(void *origin, void *targets, void *level);
+    static void create_ex(void *source, void *origin, void *targets, s32 level);
 };
 
 LAYOUT_ASSERT(TTecRaFoie_size, sizeof(TTecRaFoie) == 0x14C);

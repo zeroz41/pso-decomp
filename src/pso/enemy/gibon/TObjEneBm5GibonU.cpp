@@ -867,13 +867,13 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                 } else {
                     switch (m_468) {
                     case 1:
-                        ((TTecGiBarta *)this)->create_ex(&p, (void *)rotation_y, (void *)(get_clamped_level()));
+                        TTecGiBarta::create_ex(this, &p, rotation_y, get_clamped_level());
                         break;
                     default:
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
-                            TTecFoie::create_ex((void *)this, &p, (void *)&current_target->body_center, (void *)(get_clamped_level()));
+                            TTecFoie::create_ex(this, &p, &current_target->body_center, get_clamped_level());
                         } else {
-                            TTecFoie::create((void *)this, &p, (void *)rotation_y, (void *)(get_clamped_level()));
+                            TTecFoie::create(this, &p, rotation_y, get_clamped_level());
                         }
                         break;
                     }

@@ -15,7 +15,7 @@ struct TTecSifta : public TTecPlayerInfluence {
     u8 _padE4[0x58];
     u32 m_13c;
     void update_effect_params();
-    void create_instance(void *arg1, void *arg2, void *arg3);
+    static void create_instance(void *source, void *origin, void *targets, s32 level);
     static void create(void *arg0, void *arg1, void *arg2);
     virtual void render();
 };

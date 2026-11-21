@@ -4157,7 +4157,7 @@ void handle_6x33_revive_player(void *arg0) {
                 t.target = m.target;
                 t.f6 = 0;
                 t.f8 = 10.0f;
-                TTecReverser::create((void *)p, (void *)(((TObjPlayer *)p)->get_position_ptr()), (void *)(&t), (void *)0x1D);
+                TTecReverser::create(p, ((TObjPlayer *)p)->get_position_ptr(), &t, 0x1D);
             }
         }
     }

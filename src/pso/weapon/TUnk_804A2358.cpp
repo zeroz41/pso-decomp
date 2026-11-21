@@ -19,7 +19,7 @@ void TUnk_804A2358::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &sp8) != 0) {
             owner = this->owner;
-            TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)(((TItemWeapon *)this)->get_tp() + 2));
+            TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
             roll_technique();
         }
     } else {

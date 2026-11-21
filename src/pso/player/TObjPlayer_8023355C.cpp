@@ -2,6 +2,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecJelin.h"
 
-void TObjPlayer::create_tec_jelin(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecJelin((saddr)arg0, (Vec *)arg1, (TargetCursorList *)arg2, (saddr)arg3);
+void TObjPlayer::create_tec_jelin(void *source, void *origin, void *targets, s32 level) {
+    new TTecJelin((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
 }

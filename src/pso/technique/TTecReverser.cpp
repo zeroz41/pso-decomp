@@ -156,8 +156,8 @@ TTecReverser::~TTecReverser() {
 
 }
 
-void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecReverser((saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
+void TTecReverser::create(void *source, void *origin, void *targets, s32 level) {
+    new TTecReverser((saddr)source, (saddr)origin, (saddr)targets, level);
 }
 
 void run_task__12TTecReverserFv(u8 *tec_reverser) {

@@ -31,8 +31,8 @@ struct TTecBarta : public TUnk_804CCC68 {
     void update_technique_by_state();
     void create_particle_emitters();
     void init_parameters();
-    void create(void *arg1, void *arg2, void *arg3);
-    void create_ex(void *arg1, void *arg2, void *arg3);
+    static void create(void *source, void *origin, void *aim, s32 level);
+    static void create_ex(void *source, void *origin, s32 angle, s32 level);
     virtual void run_task();
     virtual void render();
 };

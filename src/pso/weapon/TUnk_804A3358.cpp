@@ -35,7 +35,7 @@ void TUnk_804A3358::emit_marker_effects() {
                 rec.kind = 1;
                 rec.uid = ((TObjPlayer *)e)->get_uid();
                 rec.sub = get_captured_target_collider_index(e);
-                TObjPlayer::create_tec_zonde(owner, (void *)pos, &rec, (void *)3);
+                TObjPlayer::create_tec_zonde(owner, pos, &rec, 3);
             }
         }
     } else {

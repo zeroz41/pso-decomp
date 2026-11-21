@@ -1399,13 +1399,13 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
             } else {
                 switch (self->kind) {
                 case 1:
-                    ((TTecGiBarta *)self)->create_ex(&pos, (void *)self->rot_y, (void *)(((TObjEneMoja *)self)->calc_technique_level()));
+                    TTecGiBarta::create_ex(self, &pos, self->rot_y, ((TObjEneMoja *)self)->calc_technique_level());
                     break;
                 default:
                     if (ang2 < ((AttackParams *)(self->f318))->get_attack_angle() / 2 && self->target != NULL) {
-                        TTecFoie::create_ex((void *)self, &pos, &self->target->pos, (void *)(((TObjEneMoja *)self)->calc_technique_level()));
+                        TTecFoie::create_ex(self, &pos, &self->target->pos, ((TObjEneMoja *)self)->calc_technique_level());
                     } else {
-                        TTecFoie::create((void *)self, &pos, (void *)self->rot_y, (void *)(((TObjEneMoja *)self)->calc_technique_level()));
+                        TTecFoie::create(self, &pos, self->rot_y, ((TObjEneMoja *)self)->calc_technique_level());
                     }
                     break;
                 }

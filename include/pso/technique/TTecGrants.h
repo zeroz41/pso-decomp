@@ -14,7 +14,7 @@ struct TTecGrants : public TUnk_804CC148 {
     u8 _padF2[0x56];
     u32 m_148;
     virtual void render();
-    static void create(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create(void *source, void *origin, void *targets, s32 level);
     void init_parameters();
 };
 

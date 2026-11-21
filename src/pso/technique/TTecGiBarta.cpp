@@ -305,12 +305,12 @@ void TTecGiBarta::vfunc_8(void *target) {
     }
 }
 
-void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
-    new TTecGiBarta((saddr)this, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TTecGiBarta::create(void *source, void *origin, void *aim, s32 level) {
+    new TTecGiBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    new TTecGiBarta((saddr)this, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
+void TTecGiBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
+    new TTecGiBarta((saddr)source, (Vec *)origin, angle, level);
 }
 
 TTecGiBarta::~TTecGiBarta() {

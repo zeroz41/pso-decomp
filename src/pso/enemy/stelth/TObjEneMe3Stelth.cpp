@@ -2029,7 +2029,7 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
                     if (game_difficulty_selection == 3) {
                         ((TTecRaFoie *)stelth)->create(&out, (u8 *)&stelth->destination, (void *)TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
                     } else {
-                        TTecGiFoie::create(stelth, &out, (void *)TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
+                        TTecGiFoie::create(stelth, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
                     }
                 } else {
                     stelth->m_424 = 3;

@@ -215,12 +215,12 @@ void TTecBarta::init_parameters() {
   this->range = (f32) (*((f32 *) (((s8 *) arg0) + 0xD4)));
 }
 
-void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
-    new TTecBarta((saddr)this, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TTecBarta::create(void *source, void *origin, void *aim, s32 level) {
+    new TTecBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    new TTecBarta((saddr)this, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
+void TTecBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
+    new TTecBarta((saddr)source, (Vec *)origin, angle, level);
 }
 
 void TTecBarta::vfunc_8(void *target) {

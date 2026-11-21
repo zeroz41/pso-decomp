@@ -2101,7 +2101,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
                     if (game_difficulty_selection == 3) {
                         TTecRaBarta::create((void *)self, (void *)(&out), (void *)(&self->position), (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
                     } else {
-                        ((TTecGiBarta *)self)->create_ex(&out, (void *)self->rotation_y, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
+                        TTecGiBarta::create_ex(self, &out, self->rotation_y, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24));
                     }
                 } else if (self->m_3cc & 0x100000) {
                     self->m_434 = 4;

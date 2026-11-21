@@ -274,8 +274,8 @@ void TTecResta::create(void *owner, void *pos, void *level) {
     new TTecResta(owner, pos, (saddr)level);
 }
 
-void TTecResta::create(void *owner, void *pos, void *arg2, void *level) {
-    new TTecResta(owner, pos, arg2, (saddr)level);
+void TTecResta::create(void *source, void *origin, void *targets, s32 level) {
+    new TTecResta(source, origin, targets, level);
 }
 
 #pragma push
