@@ -23,7 +23,9 @@ public:
     void sub_802F23FC();
     void sub_802F273C();
     void update_dust_spawn();
-    void update_spawn_timer(saddr arg1, s32 arg2, s32 arg3);
+    // spawns table[spawn_index] each 800 units of scroll; at count it wraps to 0, or holds
+    // the last entry when hold_last is set
+    void update_spawn_timer(const s32 *table, s32 count, s32 hold_last);
     void double_scroll_speed();
     void advance_effect_timer();
     // Out-of-line helpers at the end of the tunnel file (0x802F2C90..0x802F2CC4),
@@ -31,6 +33,12 @@ public:
     void copy_position(const Vec *position);
     f32 sub_802F2CB4();
     f32 sub_802F2CBC();
+    // The tunnel's state flags (boss2_tunnel_state_flags): 0x1000 and 0x2000 pick the sway
+    // direction (update_phase_motion swings to -x on 0x1000), 0x8 is set by the kind-4 segment.
+    s32 check_both();
+    s32 is_phase_active();
+    static s32 sub_802F22F4();
+    static void sub_802F2278();
     // Size 0x94 (TObjBoss2Tunnel__sub_802F2C50's operator new).
     s32 phase;          // index into run_task's phase handlers
     PiecewiseCurve curve; // update_phase_motion's sideways sway

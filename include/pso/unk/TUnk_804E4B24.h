@@ -12,6 +12,12 @@ public:
     virtual ~TUnk_804E4B24();
     void update_collision();
     virtual void run_task();
+    s32 is_in_camera_range();
+    // TUnk_804E4B3C::render draws each segment in three passes: model_indices[0] on draw list 1,
+    // model_indices[1] (and [2] for a four-model segment) on draw list 2, then the last one as an effect.
+    void sub_802F1E54();
+    void sub_802F1DAC();
+    void draw_tunnel_segment();
     // A tunnel segment; TUnk_804E4B3C::spawn builds it under the controller's segment list.
     Vec position;      // x follows the controller's segment_x, z scrolls by its scroll_speed
     s32 rotation_x;    // rotate_matrix_yxz angles, zeroed by the constructor

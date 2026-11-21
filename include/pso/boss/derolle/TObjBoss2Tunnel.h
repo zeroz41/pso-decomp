@@ -108,8 +108,6 @@ struct TObjBoss2Tunnel : public TObject {
     void render(void* a1);
     static void set_flag_0x200();
     static void clear_flags_0x3000();
-    static s32 is_phase_active(s32 _w0);
-    static s32 check_both(s32 arg0);
     static void enable_and_trigger();
     static void reset_player_state();
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
