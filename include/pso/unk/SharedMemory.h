@@ -59,7 +59,7 @@ struct SharedMemory {
     u8 unk_7DAC[0x254];
 };
 
-typedef char SharedMemory_size[sizeof(SharedMemory) == 0x8000 ? 1 : -1];
+LAYOUT_ASSERT(SharedMemory_size, sizeof(SharedMemory) == 0x8000);
 
 // Header of a DOL executable.
 struct DolHeader {
@@ -75,7 +75,7 @@ struct DolHeader {
     u8 unk_0E4[0x1C];
 };
 
-typedef char DolHeader_size[sizeof(DolHeader) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(DolHeader_size, sizeof(DolHeader) == 0x100);
 
 // Argument of LaunchDol: the DOL to start, its loaded image, and the bytes after
 // this header to keep across the reset.

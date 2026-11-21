@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TBGLightningCtrl.h"
@@ -46,14 +47,12 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
-void __dl__7TObjectFPv(void *);
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
 void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
 u32 __cvt_fp2unsigned(f32);
-s32 rand();
 s32 release_texture_list(void*);
 void emit_particle_strip_vertices(void *, int);
 
@@ -66,7 +65,7 @@ __declspec(section ".rodata") extern const char TBGLightningCtrl__class_name_str
 const char *TBGLightningCtrl__name = TBGLightningCtrl__class_name_string;
 __declspec(section ".rodata") s32 lbl_8046FC8C[3] = { 1, 5, 0 };
 extern void *camera_ctrl_instance;
-int bg_lightning_texture_handle;
+saddr bg_lightning_texture_handle;
 
 void TBGLightningCtrl__sub_802A9A08(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
 
@@ -78,7 +77,7 @@ void TBGLightningCtrl::spawn_lightning_at_angle(s32 arg1) {
     stack.x = this->scale.x * sin_table_lookup(arg1);
     stack.y = this->scale.y;
     stack.z = this->scale.x * cos_table_lookup(arg1);
-    ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.x, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
+    ((s32 (*)(saddr, saddr, f32))create__12TBGLightningFiif)((saddr) this, (saddr) &stack.x, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
 }
 #pragma pop
 
@@ -107,16 +106,16 @@ void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;
 }
 
-u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
+u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)bg_lightning_ctrl, (void *)parent);
     *(s32 **)((s8 *)bg_lightning_ctrl + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
-    *(s32 *)((s8 *)bg_lightning_ctrl + 0) = (s32) TBGLightningCtrl__name;
+    *(saddr *)((s8 *)bg_lightning_ctrl + 0) = (saddr) TBGLightningCtrl__name;
     ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)arg2);
     ((TBGLightningCtrl *)bg_lightning_ctrl)->m_90 = 0;
     return bg_lightning_ctrl;
@@ -132,14 +131,14 @@ void *TBGLightningCtrl__create(void *arg0) {
 }
 
 void TBGLightningCtrl::destroy_instance() {
-    if ((u32) (*(u32 *)&bg_lightning_texture_handle) != 0U) {
-        release_texture_list((void*)(*(u32 *)&bg_lightning_texture_handle));
-        TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&bg_lightning_texture_handle));
-        (*(u32 *)&bg_lightning_texture_handle) = 0U;
+    if ((u32) (*(uaddr *)&bg_lightning_texture_handle) != 0U) {
+        release_texture_list((void*)(*(uaddr *)&bg_lightning_texture_handle));
+        TAdSinglePlyChrSelectGC::safe_free((*(uaddr *)&bg_lightning_texture_handle));
+        (*(uaddr *)&bg_lightning_texture_handle) = 0U;
     }
 }
 
-void load_bg_lightning(void) { bg_lightning_texture_handle = (int)load_gvm_texture_file((s32)lbl_8046FCA0); }
+void load_bg_lightning(void) { bg_lightning_texture_handle = (saddr)load_gvm_texture_file((saddr)lbl_8046FCA0); }
 
 __declspec(section ".rodata") extern unsigned char lbl_8046FCA0[] = "bg_lightning.gvm";
 
@@ -261,7 +260,7 @@ void run_task__12TBGLightningFv(void *arg0) {
     }
 }
 
-u8 *create__12TBGLightningFiif(s32 arg0, s32 arg1, f32 farg0) {
+u8 *create__12TBGLightningFiif(saddr arg0, s32 arg1, f32 farg0) {
     u8 *bg_lightning;
     u8 *var_r0;
     bg_lightning = (u8 *)(TObject::operator new(0x30));
@@ -281,7 +280,7 @@ u8 *__ct__12TBGLightningFv(u8 *object, void *arg1, s32 arg2, f32 farg0) {
 
     __ct__7TObjectFP7TObject(object, arg1);
     *(void **)((s8 *)object + 0x18) = (void *) __vt__12TBGLightning;
-    *(s32 *)((s8 *)object + 0) = (s32) TBGLightning__name;
+    *(saddr *)((s8 *)object + 0) = (saddr) TBGLightning__name;
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;
     temp_r5 = (s8) ((2.0f) * temp_f1);

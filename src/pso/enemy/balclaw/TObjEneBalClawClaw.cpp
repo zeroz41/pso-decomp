@@ -43,7 +43,7 @@ extern s32 model_render_flags;
 void TObjPlayer__sub_800A04F0(void *);
 void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw);
 s32 check_path_obstructed(void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjEneBalClawClaw__sub_80091200(TObjEneBalClawClaw *claw);
 TObjChara *find_active_entity_by_id(u16);
 void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw);
@@ -108,7 +108,7 @@ void TObjEneBalClawClaw::sub_80091A38() {
     this->m_name = balclaw_claw_class_name;
     this->motion_list = lbl_805D4F20->motions;
     this->action_table = balclaw_claw_model_node_desc;
-    this->set_field_d8((s32)this->action_table);
+    this->set_field_d8((saddr)this->action_table);
     init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
     this->variant = 0;
     this->movementParameters = &lbl_8048F100;
@@ -194,7 +194,7 @@ void TObjEneBalClawClaw::run_task() {
         lift = m_3b4;
         body = bodies;
         body->offset.y = lift + m_3bc;
-        submit_cursor_candidate(this, -1, (int)body, lift, center_y);
+        submit_cursor_candidate(this, -1, (saddr)body, lift, center_y);
         minimap_render_dot((u8 *)&position, -0x5DB4, 1, 0);
         return;
     }
@@ -339,7 +339,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
             reset_active_state(claw);
             break;
         }
-        play_persistent_sound(0x4003B235, (s32)claw, (u32)&claw->position, 0, 0);
+        play_persistent_sound(0x4003B235, (saddr)claw, (uaddr)&claw->position, 0, 0);
         Vec target_pos = *(Vec *)&((TObjChara *)claw->target)->m_2fc;
         update_enemy_wander_move(claw, &target_pos, 1, (EnemyMoveParams *)claw->movementParameters,
                                  ((EnemyMoveParams *)claw->movementParameters)->min_distance);
@@ -374,7 +374,7 @@ void TObjEneBalClawClaw__sub_80091200(TObjEneBalClawClaw *claw) {
         claw->m_310 *= 0.9f;
         apply_actor_gravity(claw, NULL, 0.0f);
         ((TObjPlayer *)claw)->update_collisions();
-        play_persistent_sound(0x4003B235, (s32)claw, (u32)&claw->position, 0, 0);
+        play_persistent_sound(0x4003B235, (saddr)claw, (uaddr)&claw->position, 0, 0);
         if (claw->action_flags != 8) {
             claw->actorFlags &= ~0x200;
             claw->m_388 &= ~1;
@@ -400,7 +400,7 @@ void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw) {
     case 1:
         claw->advance_animation();
         if (claw->fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a((s32)&claw->position, 0);
+            TObjPlayer::apply_effect_variant_a((saddr)&claw->position, 0);
             claw->send_entity_set_flags();
             claw->queue_destruction();
         }
@@ -529,7 +529,7 @@ void TObjEneBalClawClaw::render() {
         if (detail != 0) {
             shadow = 1;
             TObjFish::set_global_param(texlist);
-            select_actor_lighting((s32)this);
+            select_actor_lighting((saddr)this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;

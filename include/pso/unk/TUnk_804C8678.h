@@ -8,7 +8,7 @@ class TUnk_804C8678 : public TObject {
 public:
     u8 unk_1C[0x24 - 0x1C];
     QuestVmContext ctx;
-    s32 script;
+    saddr script;
     u8 unk_19C[4];
     s32 kind;
 
@@ -18,6 +18,6 @@ public:
     virtual ~TUnk_804C8678();
     virtual void run_task();
 };
-typedef char TUnk_804C8678_size[sizeof(TUnk_804C8678) == 0x1A4 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C8678_size, sizeof(TUnk_804C8678) == 0x1A4);
 
 #endif

@@ -142,7 +142,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static void *create(void *arg0);
 };
 
-typedef char TBoss7DeRolLeC_size[sizeof(TBoss7DeRolLeC) == 0x7D4 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
 // Light pool element (0x38 bytes): TObjPlayer__sub_802EE574 initialises 11 of them as a linked free list.
 struct Light_802EE574 {
@@ -196,14 +196,14 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EBE50(void *o, u32 k);
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
-void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1);
+void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 f32 TObjFish__sub_802ED3E4(u8 *arg0);
 void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1);
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 void TObjPlayer__sub_802E80A0(void);
 void render__14TBoss7DeRolLeCFv(u8 *unused);
 void TObjPlayer__sub_802E8274(void);
-void fn_802EC52C(s32 arg0, s32 arg1);
+void fn_802EC52C(s32 arg0, saddr arg1);
 void fn_802EC9A4(void *arg0, void *arg1);
 void fn_802EC9F0(TObjEneDD *arg0, void *arg1);
 void free_laser_light__15TBoss7LaserPtclFv(void *arg0);

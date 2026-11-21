@@ -57,7 +57,7 @@
 
 
 extern "C" {
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 // inferred: the BML resource load_resources reads through bm_ene_me1_mb_resource_descriptor
@@ -217,9 +217,9 @@ void TObjEneDD__sub_800BA5A4(void *, void *, void *);
 s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
-void TBoss3Volopt__sub_800D8D88(s32 arg0);
+void TBoss3Volopt__sub_800D8D88(saddr arg0);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 matrix_mult_vec(int, Vec *, Vec *);
 s32 rotate_vector_by_matrix(int, Vec *, Vec *);
 
@@ -276,9 +276,9 @@ const CanadinBehaviorParams canadin_behavior_params = { 3, 5.0f, 3.0f, 3.0f, 1 }
 const CanadinBehaviorParams canadin_projectile_param_block = { 3, 10.0f, 20.0f, 3.0f, 1 };
 const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
 const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
-s32 lbl_80500930[3];
-s32 lbl_8050093C[3];
-s32 lbl_80500948[3];
+saddr lbl_80500930[3];
+saddr lbl_8050093C[3];
+saddr lbl_80500948[3];
 TObjEneMe1CanadinParams *lbl_80500954[3];
 Vec lbl_80500960;
 
@@ -303,14 +303,14 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_80500960.y = 0.0f;
     lbl_80500960.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        bm_ene_me1_mb_resource = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_me1_mb_resource_descriptor, (s32)"bm_ene_me1_mb_a.bml");
+        bm_ene_me1_mb_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_me1_mb_resource_descriptor, (saddr)"bm_ene_me1_mb_a.bml");
     } else {
         bm_ene_me1_mb_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_mb_resource_descriptor);
     }
     for (i = 0; i < 3; i++) {
-        lbl_80500930[i] = (s32)TLobby::register_boss(lbl_8043A180[i]);
-        lbl_8050093C[i] = (s32)TLobby::dispatch_shared_handler_b(lbl_8043A18C[i]);
-        lbl_80500948[i] = (s32)TLobby::register_object(lbl_8043A198[i]);
+        lbl_80500930[i] = (saddr)TLobby::register_boss(lbl_8043A180[i]);
+        lbl_8050093C[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043A18C[i]);
+        lbl_80500948[i] = (saddr)TLobby::register_object(lbl_8043A198[i]);
         lbl_80500954[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(lbl_8043A1A4[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
@@ -388,8 +388,8 @@ void TObjEneMe1Canadin::setup_enemy() {
     init_position_vectors();
     this->vfunc_106();
     init_model(&lbl_8048FECC, 1);
-    set_field_d8((s32)lbl_8048FF30);
-    set_field_dc((s32)bm_ene_me1_mb_resource->motions);
+    set_field_d8((saddr)lbl_8048FF30);
+    set_field_dc((saddr)bm_ene_me1_mb_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -440,7 +440,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     m_4C0 = 0;
     m_4C4 = 0;
     copy_pos();
-    set_part_position__9TObjEneDDFPvPvi(this, (s32)bodies, 0);
+    set_part_position__9TObjEneDDFPvPvi(this, (saddr)bodies, 0);
     mode = 0;
     dispatch_action(mode, 4);
     if (m_3C0 != NULL) {
@@ -821,7 +821,7 @@ TObjChara *TObjEneMe1Canadin::fn_8009E300() {
     return NULL;
 }
 
-void TObjEneMe1Canadin::vfunc_117(u32) {  }
+void TObjEneMe1Canadin::vfunc_117(uaddr) {  }
 
 int TObjEneMe1Canadin::vfunc_116(TObjChara *) { return 1; }
 
@@ -857,7 +857,7 @@ void TObjEneMe1Canadin::set_flag3c8_bit40() { m_3C8 |= 0x40; }
 void TObjEneMe1Canadin::fn_8009E1D4(Vec *pos) {
     CanadinBehaviorParams params = canadin_behavior_params;
     params.m_4 = m_468->m_4;
-    TObjEneDD::setup(this, (s32)pos, (s32)&params);
+    TObjEneDD::setup(this, (saddr)pos, (saddr)&params);
 }
 
 void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
@@ -959,7 +959,7 @@ void TObjEneMe1Canadin::fn_8009DE90(s32 arg1) {
         self->m_3FC = 4;
         self->m_4B8 = 1;
         self->fade.start_fade_in();
-        TBoss3Volopt__sub_800D8D88((s32)&self->position);
+        TBoss3Volopt__sub_800D8D88((saddr)&self->position);
         return;
     case 3:
         if (self->fade.advance_toward_max() != 0) {
@@ -1758,7 +1758,7 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 arg1) {
         } else {
             self->m_410 = 0xFF000000;
         }
-        play_persistent_sound(0x4003B71D, (s32)self, (u32)&self->m_2fc, 0, 0);
+        play_persistent_sound(0x4003B71D, (saddr)self, (uaddr)&self->m_2fc, 0, 0);
         self->vfunc_89();
         break;
     }
@@ -1778,7 +1778,7 @@ void TObjEneMe1Canadin::fn_8009C178(s32 arg1) {
         self->actorFlags |= 0x800;
         if (self->m_3C4 == 1) {
             self->m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(self->m_4C8);
-            self->m_3C0->vfunc_117((u32)self);
+            self->m_3C0->vfunc_117((uaddr)self);
         } else {
             self->send_entity_set_flags();
         }
@@ -1850,9 +1850,9 @@ void TObjEneMe1Canadin::vfunc_112(s32 arg1) {
     case 4:
         if (m_3C4 == 1) {
             m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(m_4C8);
-            m_3C0->vfunc_117((u32)this);
+            m_3C0->vfunc_117((uaddr)this);
         }
-        TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FE0, 0, (s32)(texlist), (s32)&m_2fc, (s32)(rotation_y));
+        TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FE0, 0, (s32)(texlist), (saddr)&m_2fc, (s32)(rotation_y));
         m_3C8 |= 0x400000;
         VecCopy(&pos, (const Vec *)&m_2fc);
         temp_f1 = pos.y;
@@ -1990,7 +1990,7 @@ void TObjEneMe1Canadin::render() {
                 TObjEneMe1Canadin__render_point_cursor = m_414;
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
-                set_chunk_model_node_callback((s32)&fn_8009BD00);
+                set_chunk_model_node_callback((saddr)&fn_8009BD00);
                 if (var_r30 == 1) {
                     draw();
                 } else {
@@ -2003,7 +2003,7 @@ void TObjEneMe1Canadin::render() {
                 TObjEneMe1Canadin__render_point_cursor = m_414;
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
-                set_chunk_model_node_callback((s32)&fn_8009BD00);
+                set_chunk_model_node_callback((saddr)&fn_8009BD00);
                 this->draw_with_alt_model(m_410);
                 set_chunk_model_node_callback(NULL);
             }
@@ -2114,8 +2114,8 @@ void TObjEneMe1CanadinLeader::vfunc_105() {
 }
 
 void TObjEneMe1CanadinLeader::vfunc_107() {
-    s32 id;
-    s32 sub;
+    saddr id;
+    saddr sub;
     s32 angle;
     s32 n;
     s32 i;
@@ -2163,7 +2163,7 @@ s32 TObjEneMe1CanadinLeader::vfunc_108() {
     return 0;
 }
 
-void TObjEneMe1CanadinLeader::vfunc_117(u32 id) {
+void TObjEneMe1CanadinLeader::vfunc_117(uaddr id) {
     TObjEneMe1Canadin *member = (TObjEneMe1Canadin *)id;
     s32 i;
     for (i = 0; i < m_4D0; i++) {
@@ -2378,7 +2378,7 @@ void TObjEneMe1CanadinLeader::vfunc_112(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FDC, 0, (s32)texlist, (s32)&m_2fc, (s32)rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FDC, 0, (s32)texlist, (saddr)&m_2fc, (s32)rotation_y);
         for (i = 0; i < m_4D0; i++) {
             m_4D4[i]->set_flag3c8_bit20();
         }

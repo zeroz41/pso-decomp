@@ -36,6 +36,6 @@ public:
     u32 recipients[4];
     u16 holds[4];
 };
-typedef char TUnk_804C349C_size[sizeof(TUnk_804C349C) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C349C_size, sizeof(TUnk_804C349C) == 0x98);
 
 #endif

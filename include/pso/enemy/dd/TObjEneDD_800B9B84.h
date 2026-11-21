@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 }
 
 // --- C functions defined in TObjEneDD_800B9B84.cpp ---
 extern "C" {
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 }
 // --- end of C functions
 

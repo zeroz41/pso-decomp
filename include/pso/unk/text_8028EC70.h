@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 arg1_);
+void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr arg1_);
 s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_);
 }
 

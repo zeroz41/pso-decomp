@@ -1,8 +1,6 @@
+#include <string.h>
 #include "pso/network/NetworkInfoCodec.h"
 extern "C" {
-u32 strlen(const char *);
-int strncmp(const char *, const char *, unsigned long);
-char *strncpy(char *, const char *, unsigned long);
 int atoi(const char *);
 }
 char network_info_file_header[19] = "GAMECUBE_NETINFO\r\n";
@@ -335,7 +333,7 @@ s32 decode_network_info_payload(u8 *src, u8 *arg1, u32 arg2, NetworkInfoConfig *
     u32 i;
     s32 r;
     bind_network_info_cipher_pool((u32 *)&network_info_cipher_workspace, 1);
-    key = allocate_network_info_cipher_key((s32)src);
+    key = allocate_network_info_cipher_key((saddr)src);
     for (i = 0; i < arg2; i += 0x10) {
         if (decrypt_network_info_cipher_blocks(key, (u8 *)(arg1 + i), 0x10, (u8 *)(arg1 + i)) != 0) {
             return -1;
@@ -438,7 +436,7 @@ s32 decrypt_network_info_cipher_blocks(u32 *key, u8 *src, s32 len, u8 *dst) {
 #pragma scheduling off
 #pragma peephole off
 #pragma optimization_level 2
-u32 *allocate_network_info_cipher_key(s32 src) {
+u32 *allocate_network_info_cipher_key(saddr src) {
     s32 i;
     u32 *b;
     u32 mask;

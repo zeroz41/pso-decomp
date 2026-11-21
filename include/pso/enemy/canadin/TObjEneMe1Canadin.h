@@ -51,7 +51,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual void update_if_ready();
     virtual void render_canadin_model_with_debug_type();
     virtual int vfunc_116(TObjChara *);
-    virtual void vfunc_117(u32);
+    virtual void vfunc_117(uaddr);
     void vfunc_63();
     void vfunc_62();
     void vfunc_61();
@@ -163,7 +163,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void update_fade_sequence();
 };
 
-typedef char TObjEneMe1Canadin_size[sizeof(TObjEneMe1Canadin) == 0x4CC ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Canadin_size, sizeof(TObjEneMe1Canadin) == 0x4CC);
 
 extern "C" {
 void fn_8009BD00(void);

@@ -58,7 +58,7 @@ typedef struct GinjaCounts_803DB734 {
 } GinjaCounts_803DB734;
 
 extern "C" {
-s32 Dolphin_GXSetVtxDesc(int, void *);
+s32 GXSetVtxDesc(int, void *);
 s32 GXClearVtxDesc();
 void GXSetZMode(u8, s32, s32);
 void GXSetZCompLoc(s32);
@@ -66,7 +66,7 @@ void GXSetBlendMode(s32, s32, s32, s32);
 extern u32 ginja_draw_flags;
 extern u32 model_render_flags;
 void queue_model_draw_matrix(s32, s32);
-extern s32 current_matrix;
+extern saddr current_matrix;
 extern S_803DB560 ginja_material_cache;
 void GXSetAlphaCompare(s32 comp0, s32 ref0, s32 op, s32 comp1, s32 ref1);
 extern s32 ginja_texcoord_ids[];
@@ -144,7 +144,7 @@ s32 queue_model_draw_current_matrix(s32 model) {
 }
 #pragma pop
 
-void draw_ginja_model(s32 model) {
+void draw_ginja_model(saddr model) {
     load_ginja_model_matrices(0);
     prepare_ginja_model();
     draw_ginja_model_lists((GinjaModel *)model);
@@ -169,10 +169,10 @@ u32 update_ginja_cached_parameter(s32 i, u32 v) {
 
 void set_ginja_indexed_vtx_desc(s32 arg0) {
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, (void *) (get_ginja_vertex_descriptor_type(arg0, 1)));
-    Dolphin_GXSetVtxDesc(0xA, (void *) (get_ginja_vertex_descriptor_type(arg0, 2)));
-    Dolphin_GXSetVtxDesc(0xB, (void *) (get_ginja_vertex_descriptor_type(arg0, 3)));
-    Dolphin_GXSetVtxDesc(0xD, (void *) (get_ginja_vertex_descriptor_type(arg0, 5)));
+    GXSetVtxDesc(9, (void *) (get_ginja_vertex_descriptor_type(arg0, 1)));
+    GXSetVtxDesc(0xA, (void *) (get_ginja_vertex_descriptor_type(arg0, 2)));
+    GXSetVtxDesc(0xB, (void *) (get_ginja_vertex_descriptor_type(arg0, 3)));
+    GXSetVtxDesc(0xD, (void *) (get_ginja_vertex_descriptor_type(arg0, 5)));
 }
 
 void set_ginja_channel_ctrl(s32 channel,s32 flags) {
@@ -710,7 +710,7 @@ void set_ginja_post_tev_stage_count(s32 x) {
 }
 #pragma pop
 
-void set_ginja_draw_end_callback(s32 arg0) {
+void set_ginja_draw_end_callback(saddr arg0) {
     ginja_draw_end_callback = (RecoveredCallback_d26337a2813d)arg0;
 }
 

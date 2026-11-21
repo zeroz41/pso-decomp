@@ -53,7 +53,6 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect(const void *pos, s32 id);
 s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
-s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 int get_item_field_6__10TObjPlayerFPv(void *p);
@@ -69,11 +68,10 @@ TItemEffShield::~TItemEffShield() {}
 extern "C" {
 
 s32 __ct__14TItemEffShieldFP7TObjectsl(u32, s32, u16, u32);
-u32 __nw__7TObjectFUl(s32);
 
 void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 arg2) {
-    u32 obj;
-    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = __nw__7TObjectFUl(0x48)) != 0U)) {
+    uaddr obj;
+    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = (uaddr)TObject::operator new(0x48)) != 0U)) {
         __ct__14TItemEffShieldFP7TObjectsl(obj, arg0, arg1, arg2);
     }
 }
@@ -81,7 +79,7 @@ void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 arg2) {
 }
 
 TItemEffShield::TItemEffShield(TObject *arg1, s16 arg2, s32 arg3) : TObject(arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) TItemEffShield__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TItemEffShield__class_name;
     *(s32 *)((s8 *)this + 0x34) = arg3;
     *(s16 *)((s8 *)this + 0x44) = arg2;
     *(s32 *)((s8 *)this + 0x38) = 0;
@@ -175,7 +173,7 @@ void TUnk_8049F148::run_task() {
         if (temp_r3_2 != (s32) this->m_20) {
             this->m_20 = temp_r3_2;
             if ((is_current_area_item_enabled() != 0) && (temp_r3_2 == player->get_floor())) {
-                *(u32 *)&this->unk_1C = (u32)create_particle_emitter(sp8, 0x101);
+                *(u32 *)&this->unk_1C = (uaddr)create_particle_emitter(sp8, 0x101);
             } else {
                 *(u32 *)&this->unk_1C = 0U;
             }
@@ -216,7 +214,7 @@ struct TItemData8_8010a060 { s8 a; s8 b; u8 c; s8 pad[21]; };
 extern "C" {
 void TUnk_8049F130::run_task() {
     struct TItemData8_8010a060 sp8;
-    s32 player;
+    saddr player;
 
     if ((u32) this->m_2c != get_item_system_generation()) {
         queue_destruction();
@@ -227,8 +225,8 @@ void TUnk_8049F130::run_task() {
         sp8.a = 1;
         sp8.b = 2;
         sp8.c = *(u8 *)((s8 *)this + 0x2A);
-        if ((count_nearby_players_with_shield__10TObjPlayerFUsPUc(this->m_28, &sp8.a) > 0) && ((s32) this->m_20 != -1)) {
-            player = (s32)get_player_by_client_id(this->m_28);
+        if ((((s16)TObjPlayer::count_nearby_players_with_shield(this->m_28, (u8 *)&sp8.a)) > 0) && ((s32) this->m_20 != -1)) {
+            player = (saddr)get_player_by_client_id(this->m_28);
             if (player != 0) {
                 if (is_item_area_enabled(((TObjPlayer *)player)->get_area()) == 1) {
                     if ((s32) *(s32 *)&this->unk_24 == 0) {
@@ -246,4 +244,4 @@ void TUnk_8049F130::run_task() {
 }
 
 NJS_OBJECT *TItem::get_item_model() { return item_model; }
-s32 TObjBase::get_texlist() { return texlist; }
+saddr TObjBase::get_texlist() { return texlist; }

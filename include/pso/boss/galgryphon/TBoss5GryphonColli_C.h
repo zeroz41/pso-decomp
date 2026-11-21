@@ -11,6 +11,6 @@ public:
     virtual void render();
     Vec base_position;  // the ctor's position
 };
-typedef char TBoss5GryphonColli_C_size[sizeof(TBoss5GryphonColli_C) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss5GryphonColli_C_size, sizeof(TBoss5GryphonColli_C) == 0xB8);
 
 #endif

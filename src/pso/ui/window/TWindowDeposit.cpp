@@ -32,7 +32,7 @@ WindowDescriptor window_deposit_layout = {
 
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
 #pragma push
 #pragma readonly_strings on
@@ -44,7 +44,7 @@ void TWindowDeposit::render_status(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
 }
 
-void render__14TWindowDepositFv(s32 arg0) {
+void render__14TWindowDepositFv(saddr arg0) {
     s32 ctx;
     ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64));
     ((TWindowDeposit *)arg0)->render_status(ctx);
@@ -62,13 +62,13 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   u32 spC;
   s32 sp8;
   f32 temp_f31;
-  s32 str;
+  saddr str;
   u32 temp_r3_2;
   u8 *temp_r31;
   u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, s32, u8 *);
   __ct__11TWindowBaseFPUcsPUc((void *) arg0, (u8 *) &window_deposit_layout, arg1, (u8 *) get_window_layout_position(0x29));
   *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
-  *((s32 *) (((s8 *) arg0) + 0)) = (s32) TWindowDeposit__name;
+  *((s32 *) (((s8 *) arg0) + 0)) = (saddr) TWindowDeposit__name;
   str = get_message_text(2);
   temp_r3_2 = calc_text_width((char *)str);
   spC = temp_r3_2;

@@ -6,7 +6,7 @@
 #include "MSL_C/ctype.h"
 #include "limits.h"
 
-extern unsigned long __double_max[];
+extern unsigned int __double_max[];
 #define DBL_MAX (*(double*)__double_max)
 #define HUGE_VALF_ (*(float*)__float_huge)
 extern double copysign(double, double);

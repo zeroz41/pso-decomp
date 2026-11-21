@@ -24,14 +24,14 @@
 
 #define __signbitd(x) ((int)(__HI(x) & 0x80000000))
 
-extern unsigned long __float_nan[];
-extern unsigned long __float_huge[];
-extern unsigned long __float_max[];
-extern unsigned long __float_epsilon[];
+extern unsigned int __float_nan[];
+extern unsigned int __float_huge[];
+extern unsigned int __float_max[];
+extern unsigned int __float_epsilon[];
 
 inline int __fpclassifyf(float __value)
 {
-	unsigned long integer = *(unsigned long*)&__value;
+	unsigned int integer = *(unsigned int*)&__value;
 
 	switch (integer & 0x7f800000) {
 	case 0x7f800000:

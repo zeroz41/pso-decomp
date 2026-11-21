@@ -6,7 +6,7 @@ f32* salMalloc(s32 bytes) {
     return (f32 *)salHooks.malloc(bytes);
 }
 
-void salFree(s32 arg0) {
+void salFree(saddr arg0) {
     salHooks.free((void *)arg0);
 }
 

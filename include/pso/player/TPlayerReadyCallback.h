@@ -10,5 +10,5 @@ public:
     u16 player_id;
     void (*callback)(TObjPlayer*);
 };
-typedef char ReadyCallback_size[sizeof(TPlayerReadyCallback) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(ReadyCallback_size, sizeof(TPlayerReadyCallback) == 0x24);
 #endif

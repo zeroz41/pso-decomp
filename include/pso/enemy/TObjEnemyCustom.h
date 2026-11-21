@@ -59,7 +59,7 @@ struct TObjEnemyCustom : public TObjEnemy {
     void dispatch_state();
 };
 
-typedef char TObjEnemyCustom_size[sizeof(TObjEnemyCustom) == 0x38C ? 1 : -1];
+LAYOUT_ASSERT(TObjEnemyCustom_size, sizeof(TObjEnemyCustom) == 0x38C);
 
 // Ninja node helpers (NJD_EVAL_HIDE on NULL-terminated node lists).
 void hide_model_nodes(NJS_OBJECT **nodes);

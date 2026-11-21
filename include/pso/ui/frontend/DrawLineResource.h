@@ -22,7 +22,7 @@ void load_draw_line_task_resource();
 // Relocated AdDrawLineTask.prs root; one group per controller.
 extern DrawLineGroup *draw_line_task_data;
 
-typedef char DrawLineKeySize[sizeof(DrawLineKey) == 8 ? 1 : -1];
-typedef char DrawLineGroupSize[sizeof(DrawLineGroup) == 12 ? 1 : -1];
+LAYOUT_ASSERT(DrawLineKeySize, sizeof(DrawLineKey) == 8);
+LAYOUT_ASSERT(DrawLineGroupSize, sizeof(DrawLineGroup) == 12);
 
 #endif

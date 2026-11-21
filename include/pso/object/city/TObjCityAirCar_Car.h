@@ -19,6 +19,6 @@ public:
     s32 m_a4;
     TParticleCtrl *unk_A8;  // light effect spawned by run_task, queued for destruction by the dtor
 };
-typedef char TObjCityAirCar_Car_size[sizeof(TObjCityAirCar_Car) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TObjCityAirCar_Car_size, sizeof(TObjCityAirCar_Car) == 0xAC);
 
 #endif

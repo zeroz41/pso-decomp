@@ -5,7 +5,7 @@
 
 extern "C" {
 void *TCameraCtrl__vt7(void);
-void target_player0__11TCameraCtrlFi(s32 arg0);
+void target_player0__11TCameraCtrlFi(saddr arg0);
 }
 
 #endif

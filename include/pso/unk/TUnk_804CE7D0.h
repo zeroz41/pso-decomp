@@ -15,6 +15,6 @@ public:
     TWindowSubComCardList *preset_list;  // the 12 symbol chat presets (inferred)
     TWindowChatSymbol *chat_symbol;  // the symbol chat editor it opens (inferred)
 };
-typedef char TUnk_804CE7D0_size[sizeof(TUnk_804CE7D0) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CE7D0_size, sizeof(TUnk_804CE7D0) == 0x24);
 
 #endif

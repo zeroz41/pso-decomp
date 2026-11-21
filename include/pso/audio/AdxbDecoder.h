@@ -50,7 +50,7 @@ struct AdxbDecoder {
     u8 *m_80;
     s32 m_84;
     void (*read)(s32, s32 *, s32 *, s32 *);
-    s32 readArg;
+    saddr readArg;
     void (*done)(s32, s32, s32);
     s32 doneArg;
     s32 m_98;
@@ -62,7 +62,7 @@ struct AdxbDecoder {
     u32 m_AC;
     u8 pad_B0[0x8];
 };
-typedef char AdxbDecoder_size_check[sizeof(AdxbDecoder) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);
 
 // SPSD header fields read by the SPSD decoder.
 struct SpsdHeader {

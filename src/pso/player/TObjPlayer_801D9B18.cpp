@@ -44,16 +44,16 @@ void TObjPlayer::copy_all_technique_entries(void *arg1) {
 void get_effective_technique_level__10TObjPlayerFPvs(u8 *self, s16 idx) {
     u8 v = *(self + idx + 0x70);
     u8 c = TObjPlayer__sub_801C010C(self, idx);
-    TObjPlayer::clamp_to_max((s32)self, v, c);
+    TObjPlayer::clamp_to_max((saddr)self, v, c);
 }
 void TObjPlayer__sub_801D9C34(u8 *self, s16 idx, void *arg2) {
     u8 c = TObjPlayer__sub_801C010C(self, idx);
-    *(self + idx + 0x70) = ((u8 (*)(s32, void *, u8))clamp_to_max__10TObjPlayerFlUcUc)((s32)self, arg2, c);
+    *(self + idx + 0x70) = ((u8 (*)(s32, void *, u8))clamp_to_max__10TObjPlayerFlUcUc)((saddr)self, arg2, c);
 }
 
 // ---- pso/player/TObjPlayer_801D9C88
-int set_slot_type_state__10TObjPlayerFllss(void*, void*, void*, void*);
+int set_slot_type_state__10TObjPlayerFllss(void*, s32, void*, void*);
 
-void TObjPlayer::reset_slots() { this->m_id = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, (void*)i, (void*)65535, (void*)0); } } }
+void TObjPlayer::reset_slots() { this->m_id = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, i, (void*)65535, (void*)0); } } }
 
 }

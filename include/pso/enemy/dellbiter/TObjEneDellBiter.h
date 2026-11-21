@@ -139,6 +139,6 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     static void load_resources();
 };
 
-typedef char TObjEneDellBiter_size[sizeof(TObjEneDellBiter) == 0x4E4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDellBiter_size, sizeof(TObjEneDellBiter) == 0x4E4);
 
 #endif

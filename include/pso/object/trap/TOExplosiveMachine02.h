@@ -8,7 +8,7 @@ struct TOExplosiveMachine02 : public TOExplosiveMachine {
     virtual ~TOExplosiveMachine02();
 };
 
-typedef char TOExplosiveMachine02_size[sizeof(TOExplosiveMachine02) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TOExplosiveMachine02_size, sizeof(TOExplosiveMachine02) == 0xAC);
 
 extern "C" void *TOExplosiveMachine02__create(void *set_data);
 

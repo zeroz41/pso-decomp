@@ -10,6 +10,8 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include <stdio.h>
+#include <string.h>
 #pragma defer_codegen off
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -18,11 +20,8 @@
 struct ControllerInputStateResultWin { s32 value; u8 remaining[0x1AC]; };
 extern "C" {
 char* get_message_text(s32);
-int sprintf(char*, const char*, ...);
-int strncmp(const char*, const char*, unsigned long);
-char* strncat(char*, const char*, unsigned long);
 s32 has_window_task_root();
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;
 extern TObject* tl_07;
@@ -138,12 +137,12 @@ void TObjResultWin::run_task() {
     }
 }
 void TObjResultWin::create_window() {
-    m_window = (u32)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x41)), (const f32 *)challenge_result_window_extent, 1);
+    m_window = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x41)), (const f32 *)challenge_result_window_extent, 1);
     if ((u32) m_window != 0U) {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);
         }
-        ((TWindowMessage *)m_window)->append_line((int)m_text, (int)0);
+        ((TWindowMessage *)m_window)->append_line((saddr)m_text, (int)0);
         ((TWindowBase *)m_window)->set_depth(36999.0f);
     }
 }

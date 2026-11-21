@@ -19,7 +19,7 @@ int fn_8035AF18(PhotonChairSeat *seat) {
     TPlyPhotonChair *chair;
 
     FOREACH_NODE(TObject, tl_05->m_down, node) {
-        if (((TUnk_804B6C24 *)node)->check_value_equals((s32)TPlyPhotonChair__class_name) != 0
+        if (((TUnk_804B6C24 *)node)->check_value_equals((saddr)TPlyPhotonChair__class_name) != 0
             && seat->owner_id == ((TPlyPhotonChair *)node)->sub_8035B530()
             && TPlyPhotonChair__sub_8035B520(node) != 0) {
             return 0;

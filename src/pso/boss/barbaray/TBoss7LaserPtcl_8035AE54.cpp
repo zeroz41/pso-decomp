@@ -9,7 +9,7 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 extern s32 __vt__13TUnk_804F1C88[];
 }
 
-u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *object, s32 arg1, s32 arg2) {
+u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *object, saddr arg1, saddr arg2) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = __vt__13TUnk_804F1C88;
     *(f32 *)((s8 *)object + 0x34) = 0.0f;

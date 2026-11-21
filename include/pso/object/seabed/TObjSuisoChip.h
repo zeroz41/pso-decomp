@@ -24,5 +24,5 @@ public:
     s32 pad_248;
 };
 
-typedef char TObjSuisoChip_size[sizeof(TObjSuisoChip) == 0x24C ? 1 : -1];
+LAYOUT_ASSERT(TObjSuisoChip_size, sizeof(TObjSuisoChip) == 0x24C);
 #endif

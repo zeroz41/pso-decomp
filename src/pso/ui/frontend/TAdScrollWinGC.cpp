@@ -50,7 +50,7 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2,
     ad_scroll_win_gc->m_4c = 0;
     ad_scroll_win_gc->m_50 = 0;
     base = ad_scroll_win_gc->get_scroll_delay_for_mode();
-    ad_scroll_win_gc->m_40 = (s32)create_message_log_window((s32)pos, (s32)size, 0);
+    ad_scroll_win_gc->m_40 = (saddr)create_message_log_window((saddr)pos, (saddr)size, 0);
     switch (ad_scroll_win_gc->m_44) {
     case 0:
     case 1:

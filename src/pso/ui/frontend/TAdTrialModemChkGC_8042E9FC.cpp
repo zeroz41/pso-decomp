@@ -76,7 +76,7 @@ void get_isao_trial_params(const char **number, const char **domain, const char 
 }
 
 extern "C" {
-s32 fn_8042E8B8(void);
+saddr fn_8042E8B8(void);
 
 #pragma push
 #pragma optimize_for_size off

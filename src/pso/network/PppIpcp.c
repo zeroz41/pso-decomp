@@ -55,7 +55,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
-            update_connection_state((int)self);
+            update_connection_state(self);
             *(s16 *)(self + 8) = 0;
             *(s16 *)(p + 8) = 0;
             return -1;
@@ -102,7 +102,7 @@ after:
         }
         break;
     }
-    update_connection_state((int)self);
+    update_connection_state(self);
     *(s16 *)(p + 8) = 0;
     *(s16 *)(self + 8) = 0;
     return -1;
@@ -282,7 +282,7 @@ void free_field_98_and_clear(void *self) {
     config->net_list = 0;
 }
 
-void TLobby__sub_803FF468(s32 arg0) {
+void TLobby__sub_803FF468(saddr arg0) {
     lobby_timer_stop((void *)(arg0 + 0x10));
 }
 
@@ -389,11 +389,11 @@ extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 first_803FA664(Sub_803FF858 *s) {
-    u32 t;
-    u32 v = 0;
+inline uaddr first_803FA664(Sub_803FF858 *s) {
+    uaddr t;
+    uaddr v = 0;
     t = v;
-    t = ((u32)init_net_buffer_entry((u16)(0)));
+    t = ((uaddr)init_net_buffer_entry((u16)(0)));
     if (t == 0) {
         return v;
     }
@@ -401,14 +401,14 @@ inline u32 first_803FA664(Sub_803FF858 *s) {
     v = t;
     return v;
 }
-inline s32 read_803FA664(u32 *p) {
+inline s32 read_803FA664(uaddr *p) {
     if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, u32 arg2) {
-    u32 cur;
+s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, uaddr arg2) {
+    uaddr cur;
     s16 err;
     s16 a;
     s16 b;
@@ -720,12 +720,12 @@ inline s32 optnum_80400270(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_80400270(u32 *self, void *opt, s32 mask) {
+void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask) {
     s16 new_var;
     s16 i;
     s32 m;
     if (*self == 0) {
-        *self = (u32)init_net_buffer_entry(0);
+        *self = (uaddr)init_net_buffer_entry(0);
         if (*self == 0) {
             return;
         }

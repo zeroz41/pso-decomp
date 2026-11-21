@@ -30,7 +30,7 @@ u8 ppp_option_word_buf[4];
 #define PCO_RD8(p) (ppp_buffer_read((p), ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0])
 
 void NetStoreCurrentThread(s32 *thread) {
-    *thread = (s32)OSGetCurrentThread();
+    *thread = (saddr)OSGetCurrentThread();
 }
 
 void net_sleep_ms(s32 ms) {
@@ -83,7 +83,7 @@ void NetYieldThread(void) {
     OSYieldThread();
 }
 
-void resume_thread(s32 thread) {
+void resume_thread(saddr thread) {
     OSResumeThread((OSThread*)thread);
 }
 
@@ -93,13 +93,13 @@ void NetSuspendCurrentThread(void) {
 
 /* Cancels the thread unless it already terminated. */
 void cancel_thread_if_running(void *thread) {
-    s32 handle = (s32)thread;
+    saddr handle = (saddr)thread;
     if (OSIsThreadTerminated((OSThread*)thread) == 0) {
         OSCancelThread((OSThread*)handle);
     }
 }
 
-void NetResumeThread(u32 thread) {
+void NetResumeThread(uaddr thread) {
     OSResumeThread((OSThread*)thread);
 }
 
@@ -148,7 +148,7 @@ s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key) {
 #pragma push
 #pragma opt_propagation off
 void *run_current_thread_callback(void *unused) {
-    u32 key = (u32)OSGetCurrentThread();
+    uaddr key = (uaddr)OSGetCurrentThread();
     NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *base = lobby_thread_pool_base;
@@ -280,7 +280,7 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     u8 *sub;
     u8 *blk;
 
-    *(u32 *)(base + 0x0) = (u32)"IPv6cp";
+    *(u32 *)(base + 0x0) = (uaddr)"IPv6cp";
     *(u16 *)(base + 0x4) = 0x8057;
     *(s16 *)(base + 0x6) = 0xFE;
     base[0x8] = 4;
@@ -321,7 +321,7 @@ s32 clear_flag_bit4(s32 unused, u8 *opts) {
     return 0;
 }
 
-s32 NetIPv6CPSetInterfaceIdentifier(u8 *state, s32 ident) {
+s32 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr ident) {
     typedef struct Fields_arg0 { u8 pad_0[4]; s16 field_4; u8 pad_6[2]; s32 field_8; s32 field_C; } Fields_arg0;
     s32 sp18;
     s32 sp14;
@@ -362,7 +362,7 @@ void TLobby__sub_803FA280(void) {
 
 }
 
-void NetIPv6CPCancelTimer(s32 entry_addr) {
+void NetIPv6CPCancelTimer(saddr entry_addr) {
     lobby_timer_stop((void *)(entry_addr + 0x10));
 }
 
@@ -424,7 +424,7 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
     u8 *bits;
     u8 *p;
     s32 cnt;
-    u32 m;
+    uaddr m;
     s16 r;
     u32 bit;
     s32 f;
@@ -461,17 +461,17 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
 typedef struct Sub_803FA664 { u8 pad0[0x1C]; s16 h1C; } Sub_803FA664;
 typedef struct Obj_803FA664 { u8 pad0; u8 b1; u8 pad2[9]; u8 bB; u8 padC[0x24]; Sub_803FA664 *p30; } Obj_803FA664;
 
-void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask);
+void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask);
 #pragma push
 #pragma opt_lifetimes off
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 first_803FA664(Sub_803FA664 *s) {
-    u32 t;
-    u32 v = 0;
+inline uaddr first_803FA664(Sub_803FA664 *s) {
+    uaddr t;
+    uaddr v = 0;
     t = v;
-    t = (u32)init_net_buffer_entry(0);
+    t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
         return v;
     }
@@ -480,18 +480,18 @@ inline u32 first_803FA664(Sub_803FA664 *s) {
     return v;
 }
 
-inline s32 read_803FA664(u32 *p) {
+inline s32 read_803FA664(uaddr *p) {
     if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
     return (s16)ppp_option_byte_buf[0];
 }
 
-s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, u32 expected) {
+s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, uaddr expected) {
     s16 err;
     s16 a;
     s16 b;
-    u32 cur;
+    uaddr cur;
 
     err = 0;
     if (msg->id != obj->b1) {
@@ -707,14 +707,14 @@ inline s32 optnum_803FACD8(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask)
+void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask)
 {
   s16 new_var;
   s16 i;
   s32 m;
   if ((*self) == 0)
   {
-    *self = (u32) init_net_buffer_entry(0);
+    *self = (uaddr) init_net_buffer_entry(0);
     if ((*self) == 0)
     {
       return;

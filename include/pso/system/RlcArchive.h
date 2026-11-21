@@ -24,8 +24,8 @@ struct RlcHeader {
     u32 read_be32(const s8 *bytes);
 };
 
-typedef char RlcDirectoryEntry_size[sizeof(RlcDirectoryEntry) == 8 ? 1 : -1];
-typedef char RlcHeader_size[sizeof(RlcHeader) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(RlcDirectoryEntry_size, sizeof(RlcDirectoryEntry) == 8);
+LAYOUT_ASSERT(RlcHeader_size, sizeof(RlcHeader) == 0x20);
 
 // An RLC archive read whole from a disc file (name inferred from its RlcHeader/RlcDirectoryEntry reads and
 // TGStream::read_whole_file); TWindowSnapShot keeps one in shared_snapshot_capture. Its vtable
@@ -47,22 +47,22 @@ public:
     s32 fn_802A5C3C();
     void fn_802A5C7C();
     void fn_802A5CB8();
-    void fn_802A5CC4(s32 file);
+    void fn_802A5CC4(saddr file);
     void free_buffer();
     s32 alloc_buffer();
-    s32 open_stream(s32 file);
-    s32 init(s32 file);
+    s32 open_stream(saddr file);
+    s32 init(saddr file);
     void reset();
     void update_both();
-    s32 start_capture(s32 file);
+    s32 start_capture(saddr file);
     void set_mode(s32 v);
     s32 get_buffer_size();
     s32 fn_802A605C();
-    s32 get_size();
-    s32 get_field_8();
+    saddr get_size();
+    saddr get_field_8();
 };
 
-typedef char RlcArchive_size[sizeof(RlcArchive) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(RlcArchive_size, sizeof(RlcArchive) == 0x40);
 
 extern RlcArchive *shared_snapshot_capture;
 

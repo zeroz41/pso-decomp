@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void bswap__9TRecvPortFv(s32 arg0);
+void bswap__9TRecvPortFv(saddr arg0);
 }
 
 // --- C functions defined in TRecvPort.cpp ---
 extern "C" {
-void bswap__9TRecvPortFv(s32 arg0);
+void bswap__9TRecvPortFv(saddr arg0);
 }
 // --- end of C functions
 

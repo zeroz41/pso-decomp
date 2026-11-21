@@ -8,7 +8,7 @@ extern void *TAdScrollWinGC__chat_log_heap;
 extern u32 chat_last_line_buffer;
 void fn_8026AC50(void) {
     s32 i;
-    u32 v;
+    uaddr v;
     for (i = 29; i >= 0; i--) {
         v = chat_log_lines[i];
         if (v != 0) {

@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include <string.h>
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/TPlyPhotonChair.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
@@ -40,14 +41,13 @@ extern "C" {
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
 s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6);
 s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5);
-void fn_800FCCC8(s32 arg0, s32 arg1);
+void fn_800FCCC8(saddr arg0, s32 arg1);
 s32 fn_800FCCF4(void* p);
 s32 *get_shared_text_buffer(void);
 void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
-s32 __nw__7TObjectFUl(s32);
 
-void fn_800FCCC8(s32 arg0, s32 arg1) {
+void fn_800FCCC8(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 0xD), (s32)0xFFFF1FFF);
 }
 s32 fn_800FCCF4(void* p) { return *(s32*)((char*)p + 0x874); }
@@ -212,9 +212,9 @@ s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(arg5);
-    var_r31 = __nw__7TObjectFUl(0x58);
+    var_r31 = (saddr)TObject::operator new(0x58);
     if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (s32)(get_shared_text_buffer()), arg6);
+        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (saddr)(get_shared_text_buffer()), arg6);
     }
     return var_r31;
 }
@@ -228,15 +228,15 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(arg5);
-    var_r31 = __nw__7TObjectFUl(0x58);
+    var_r31 = (saddr)TObject::operator new(0x58);
     if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (s32)(get_shared_text_buffer()), 0xFFFF);
+        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (saddr)(get_shared_text_buffer()), 0xFFFF);
     }
     return var_r31;
 }
 
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4) {
-    create_font_small_task((s32)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)arg3, (s32)arg4, 0xFFFF);
+    create_font_small_task((s32)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)arg3, (saddr)arg4, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -244,21 +244,21 @@ s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 ar
 
     text_builder_reset();
     text_builder_append_int(arg3);
-    var_r31 = __nw__7TObjectFUl(0x58);
+    var_r31 = (saddr)TObject::operator new(0x58);
     if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (s32)get_shared_text_buffer(), 0xFFFF);
+        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (saddr)get_shared_text_buffer(), 0xFFFF);
     }
     return var_r31;
 }
 
-s32 TOCtrlDubchik::create_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TOCtrlDubchik::create_font(s32 arg0, s32 arg1, s32 arg2, saddr arg3) {
     s32 var_r31;
 
     text_builder_reset();
     text_builder_append((u8 *)arg3);
-    var_r31 = __nw__7TObjectFUl(0x58);
+    var_r31 = (saddr)TObject::operator new(0x58);
     if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (s32)get_shared_text_buffer(), 0xFFFF);
+        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (saddr)get_shared_text_buffer(), 0xFFFF);
     }
     return var_r31;
 }
@@ -292,7 +292,6 @@ s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
 u16 get_entity_id();
 void find_leader_section_id(struct Out_800FD614 *out, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
-char *strncpy(char *, const char *, u32);
 }
 u32 calc_small_font_text_width(const char *s);
 extern u8 __vt__14TFontSmallTask[];

@@ -41,7 +41,7 @@ PppFrame *ppp_rx_frame_ptr;
 u8 ppp_input_byte;
 u8 lobby_ppp_read_buf[4];
 s32 lbl_805D7ACC;
-s32 lobby_timer_list_head;
+saddr lobby_timer_list_head;
 
 #include <stddef.h>
 
@@ -621,7 +621,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         (*(s16 *)((s8 *)G + 0x136))++;
-        chap_input((void *)(G + 0xA0), (s32)arg0);
+        chap_input((void *)(G + 0xA0), (saddr)arg0);
         return;
     case 0x8021:
         if (G[0] != 3) {
@@ -702,7 +702,7 @@ void TLobby__sub_803F9FAC(u8 *ctx);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;
-  s32 z;
+  saddr z;
   u8 *new_var;
   u8 *q;
   z = 0;
@@ -744,10 +744,10 @@ s32 TLobby__sub_804062A0(s16 arg0) {
     }
 }
 
-s32 TLobby__sub_804048E8(void *, s32 *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
+s32 TLobby__sub_804048E8(void *, saddr *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
 s32 ppp_output_frame(PppFrame *);
-s32 TLobby__sub_80406328(s32 self, s16 type) {
-    s32 sv = self;
+s32 TLobby__sub_80406328(saddr self, s16 type) {
+    saddr sv = self;
     void *me = (void *)self;
     s32 ty = type;
     u8 *G;
@@ -1066,7 +1066,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
         e = pkt->fragments + count - 1;
         while (count != 0) {
             u8 kind = e->buffer.kind;
-            u32 *w = &e->buffer.value;
+            uaddr *w = &e->buffer.value;
             s16 len;
             e--;
             count--;
@@ -1087,7 +1087,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
                 ent = ent + k;
                 seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
                 {
-                    u32 t = (u32)ent->buf;
+                    uaddr t = (uaddr)ent->buf;
                     t = (word & 0xffff) + t;
                     t = seg + t;
                     ptr = (u8 *)t;
@@ -1122,7 +1122,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
     } else {
         e = pkt->fragments;
         for (i = 1; i < count; e++, i++) {
-            u32 *w = &e[1].buffer.value;
+            uaddr *w = &e[1].buffer.value;
             s16 len;
             switch (e[1].buffer.kind) {
             case 1:
@@ -1140,7 +1140,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
                 ent = network_buffer_pool_state.ents;
                 ent = ent + k;
                 {
-                    u32 t = (u32)ent->buf;
+                    uaddr t = (uaddr)ent->buf;
                     seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
                     t = (word & 0xffff) + t;
                     t = seg + t;
@@ -1200,7 +1200,7 @@ void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
 
 u8 *netbuf_ref_data(void *self)
 {
-    u32 w;
+    uaddr w;
     s16 k;
     s16 j;
     u8 *rec;
@@ -1262,7 +1262,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        u32 t;
+        uaddr t;
         if (network_buffer_pool_state.count < id) {
             return;
         }
@@ -1289,7 +1289,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        u32 t;
+        uaddr t;
         if (network_buffer_pool_state.count < id) {
             return;
         }
@@ -1310,11 +1310,11 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         NetBufferPoolEntry *ents;
         u32 hi;
         u8 *ent;
-        u32 t;
+        uaddr t;
         s16 id2;
         u32 raw;
         u8 *rec;
-        u32 t2;
+        uaddr t2;
         if (cnt < id) {
             return;
         }
@@ -1343,7 +1343,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        u32 t;
+        uaddr t;
         if (network_buffer_pool_state.count < id) {
             return;
         }
@@ -1370,7 +1370,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        u32 t;
+        uaddr t;
         if (network_buffer_pool_state.count < id) {
             return;
         }

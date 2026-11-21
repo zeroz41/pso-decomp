@@ -18,5 +18,5 @@ public:
     f32 raisedHeight;  // the y it rises to
     f32 riseSpeed;     // y step per frame while rising
 };
-typedef char TObjHashiBase_size[sizeof(TObjHashiBase) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TObjHashiBase_size, sizeof(TObjHashiBase) == 0xD4);
 #endif

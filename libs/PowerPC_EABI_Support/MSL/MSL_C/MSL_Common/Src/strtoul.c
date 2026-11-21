@@ -342,9 +342,9 @@ int atoi(const char* str) {
 extern double __dec2num(const decimal* d);
 extern float __float_huge[];
 extern float __float_nan[];
-extern unsigned long __double_huge[];
-extern unsigned long __extended_min[];
-extern unsigned long __extended_max[];
+extern unsigned int __double_huge[];
+extern unsigned int __extended_min[];
+extern unsigned int __extended_max[];
 #define HUGE_VALF (*__float_huge)
 #define NAN (*__float_nan)
 #define HUGE_VAL (*(double*)__double_huge)

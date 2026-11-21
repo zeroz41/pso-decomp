@@ -106,28 +106,28 @@ E_80079580 *wall_query_scene_buffer;
 s32 csn_query_hit_count;
 f32 csn_query_nearest_hit_t;
 s32 *csn_query_hit_buffer;
-s32 wall_query_hit_result;
+saddr wall_query_hit_result;
 extern "C" {
 s32 get_csn_group_flags(u8 arg0);
 void TObjPlayer__sub_80079108(void);
 s32 TObjPlayer__sub_80079118(const char *);
 void TObjPlayer__sub_8007911C(void);
-void TObjPlayer__sub_80079120(s32);
+void TObjPlayer__sub_80079120(saddr);
 }
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
 extern s32 lbl_80500140[];
 extern "C" {
-void TObjPlayer__sub_80079120(s32 _w0);
+void TObjPlayer__sub_80079120(saddr _w0);
 extern CsnGroup *csn_query_groups[];
-s32 *csnVecterUnder(s32 arg0, s32 arg1);
+s32 *csnVecterUnder(saddr arg0, s32 arg1);
 void TObjPlayer__sub_80079124(void *, void *);
 CsnGroup *TObjPlayer__sub_80079DE0(void *, void *);
 f32 vec_squared_length(Vec *);
 s32 intersect_wall_triangle_one_sided(void *, void *, void *, E_80079580 *, u32, s32);
 s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r);
 void TObjPlayer__sub_80079124(void * _w0, void * _w1);
-s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **list);
-s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, int arg2, Node_800797DC **list);
+s32 query_segment_wall_meshes(void *arg0, void *arg1, uaddr arg2, Node_8007970C **list);
+s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, saddr arg2, Node_800797DC **list);
 f32 vec3_dot(void *, void *);
 void vec3_cross(void *, void *, void *);
 extern Vec scratch_vec;
@@ -150,7 +150,7 @@ void TObjPlayer__sub_80079114(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 s32 TObjPlayer__sub_80079118(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
-void TObjPlayer__sub_80079120(s32 _w0) {  }
+void TObjPlayer__sub_80079120(saddr _w0) {  }
 void TObjPlayer__sub_80079124(void * _w0, void * _w1) {  }
 
 #pragma push
@@ -383,7 +383,7 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
 #undef GT_EPS_EDGE
 extern s32 csn_query_map_object[];
 void *query_prepared_wall_polygons(void *self);
-s32 query_wall_segment(void *arg0, void *arg1, void *arg2, s32 arg3);
+s32 query_wall_segment(void *arg0, void *arg1, void *arg2, saddr arg3);
 s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);
 #pragma pop
 
@@ -424,7 +424,7 @@ s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r) {
         end.x = q->origin.x + off->x;
         end.y = q->origin.y + off->y;
         end.z = q->origin.z + off->z;
-        if (query_wall_segment(&q->origin, &end, q->flags, (s32)hit) != 0) {
+        if (query_wall_segment(&q->origin, &end, q->flags, (saddr)hit) != 0) {
             f32 dz = end.z - hit->pos.z;
             f32 dx = end.x - hit->pos.x;
             d = fabs_float(dx * hit->normal.x + dz * hit->normal.z);
@@ -439,7 +439,7 @@ s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r) {
 }
 #pragma pop
 
-s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **list) {
+s32 query_segment_wall_meshes(void *arg0, void *arg1, uaddr arg2, Node_8007970C **list) {
     u8 dir[12];
     Mesh_8007970C *mesh;
     s32 i;
@@ -465,7 +465,7 @@ s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **
     return csn_query_hit_buffer[0];
 }
 
-s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, int arg2, Node_800797DC **list) {
+s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, saddr arg2, Node_800797DC **list) {
     u8 dir[12];
     Mesh_800797DC *mesh;
     s32 i;
@@ -505,7 +505,7 @@ s32 intersect_wall_triangle_one_sided(void *arg0, void *arg1, void *arg2, E_8007
     f32 denom;
     f32 t;
 
-    if ((FACE->flags & (u32)arg2) == 0) {
+    if ((FACE->flags & (uaddr)arg2) == 0) {
         return 0;
     }
     n.x = FACE->n.x;
@@ -777,8 +777,8 @@ void TObjPlayer::copy_wall_polygon(u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
     this->m_flags = (u16) *(u16 *)((s8 *)arg1 + 4);
     this->m_id = (u16) *(u16 *)((s8 *)arg1 + 6);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((s32) arg1 + 8);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_down) = *(const ByteBlock_C *)((s32) arg1 + 0x14);
+    *(ByteBlock_C *)((saddr) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((saddr) arg1 + 8);
+    *(ByteBlock_C *)((saddr) (u8 *)&this->m_down) = *(const ByteBlock_C *)((saddr) arg1 + 0x14);
     *(f32 *)&this->m_20 = (f32) *(f32 *)((s8 *)arg1 + 0x20);
 }
 
@@ -868,7 +868,7 @@ CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
     CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    TObjPlayer__sub_80079120((s32)origin);
+    TObjPlayer__sub_80079120((saddr)origin);
     hit = (CsnHit *)lbl_80500140;
     if (*cached_groups == NULL) {
         if (refill_csn_candidate_cache(origin, cached_groups, mask) == NULL) {
@@ -890,13 +890,13 @@ done:
     TObjPlayer__sub_80079118("csnVectorUnder(Use Buffer)");
     return hit;
 }
-s32 *csnVecterUnder(s32 origin, s32 mask) {
+s32 *csnVecterUnder(saddr origin, s32 mask) {
     s32 *var_r31;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
     TObjPlayer__sub_80079120(origin);
     var_r31 = ((s32 *)&lbl_80500140);
-    if (((u32)select_ground_query_groups((const Vec *)origin, mask)) == 0U) {
+    if (((uaddr)select_ground_query_groups((const Vec *)origin, mask)) == 0U) {
         var_r31 = 0;
     } else if (evaluate_ground_triangles((Vec *)origin, mask, csn_query_groups) == 0) {
         var_r31 = 0;
@@ -937,7 +937,7 @@ s32 csn_query_map_object[4];
 
 void __sinit_CsnQuery_cpp(void) {
     __construct_array(lbl_804FF9C0, (void *)TObjPlayer__sub_8007A7B8, 0, 0x1C, 0x20);
-    TObjMapCsn::init_and_return((s32)lbl_80500140);
+    TObjMapCsn::init_and_return((saddr)lbl_80500140);
     ((TObjMapCsn *)csn_query_map_object)->init();
 }
 
@@ -953,8 +953,8 @@ extern TMapCsnCtrl *map_csn_ctrl_instance;
 TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
     return map_csn_ctrl_instance;
 }
-void*TObjMapCsn::init() { TObjMapCsn::init_and_return((s32)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
-s32 TObjMapCsn::init_and_return(s32 arg0) {
+void*TObjMapCsn::init() { TObjMapCsn::init_and_return((saddr)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
+saddr TObjMapCsn::init_and_return(saddr arg0) {
     fn_8007A7A0((u8 *)arg0);
     return arg0;
 }
@@ -966,7 +966,7 @@ void fn_8007A7A0(u8 *arg0) {
 }
 
 
-s32 TObjPlayer__sub_8007A7B8(s32 arg0) {
+s32 TObjPlayer__sub_8007A7B8(saddr arg0) {
     ((TObjPlayer *)arg0)->clear_velocity_vectors();
     return arg0;
 }

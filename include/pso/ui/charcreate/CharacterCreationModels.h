@@ -16,8 +16,8 @@ extern CreationModelPart creation_head_model_parts[5];
 extern u32 creation_models_ready;
 extern u32 chara_select_hair_node_a;
 extern u32 chara_select_hair_node_b;
-extern u32 chara_select_head_node;
-extern s32 chara_select_preview_resource;
+extern uaddr chara_select_head_node;
+extern saddr chara_select_preview_resource;
 }
 extern CharacterAppearanceFields *creation_player_character;
 

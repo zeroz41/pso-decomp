@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_8006EBC4(s32 arg0);
+s32 fn_8006EBC4(saddr arg0);
 }
 
 #endif

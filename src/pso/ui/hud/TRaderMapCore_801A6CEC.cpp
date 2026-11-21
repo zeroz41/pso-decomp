@@ -19,5 +19,5 @@ s32 pack_flags__13TRaderMapCoreFii(s32 arg1, s32 arg2) {
 }
 
 s32 test_flags_04_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->flags_04 & pack_flags__13TRaderMapCoreFii((s32)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->flags_04 & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }

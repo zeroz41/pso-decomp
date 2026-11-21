@@ -11,7 +11,7 @@ extern "C" {
 s32 has_window_task_root();
 void __ct__7TObjectFP7TObject(void *);
 
-extern s32 TObjCHTimeWin__timer_value;
+extern saddr TObjCHTimeWin__timer_value;
 extern s32 __vt__13TObjCHTimeWin[];
 const char *TObjCHTimeWin__class_name = "TObjCHTimeWin";
 

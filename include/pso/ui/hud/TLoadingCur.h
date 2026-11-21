@@ -25,7 +25,7 @@ struct TLoadingCur : public TObject {
     u8 unk_58[0x4];
 };
 
-typedef char TLoadingCur_size[sizeof(TLoadingCur) == 0x5C ? 1 : -1];
+LAYOUT_ASSERT(TLoadingCur_size, sizeof(TLoadingCur) == 0x5C);
 
 extern "C" {
 void *__dt__11TLoadingCurFv(void *arg0, s16 arg1);

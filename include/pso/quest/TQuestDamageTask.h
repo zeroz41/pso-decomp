@@ -17,6 +17,6 @@ public:
     u8 pad_22[0x2];
 };
 
-typedef char TQuestDamageTask_size[sizeof(TQuestDamageTask) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TQuestDamageTask_size, sizeof(TQuestDamageTask) == 0x24);
 
 #endif

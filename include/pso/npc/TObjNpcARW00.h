@@ -12,7 +12,7 @@ struct TObjNpcARW00 : public TUnk_804A8640 {
     static void load_resources();
 };
 
-typedef char TObjNpcARW00_size[sizeof(TObjNpcARW00) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcARW00_size, sizeof(TObjNpcARW00) == 0x3B8);
 
 extern "C" {
 void *__dt__12TObjNpcARW00Fv(void *arg0, s16 arg1);

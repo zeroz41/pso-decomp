@@ -9,7 +9,7 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     virtual ~TAdSnAkPassConfirmGC();
     virtual void vfunc_8();
     virtual void vfunc_9();
-    u32 m_48;
+    uaddr m_48;
     virtual void render();
     virtual void run_task();
     virtual void vfunc_6();
@@ -17,7 +17,7 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     virtual void vfunc_10();
 };
 
-typedef char TAdSnAkPassConfirmGC_size[sizeof(TAdSnAkPassConfirmGC) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TAdSnAkPassConfirmGC_size, sizeof(TAdSnAkPassConfirmGC) == 0x4C);
 
 extern "C" {
 }

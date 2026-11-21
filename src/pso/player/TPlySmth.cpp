@@ -10,7 +10,7 @@ extern "C" {
 int __ct__16TPlyGuildCardTagFv(void*);
 int construct_guild_card_tag_array(void*);
 
-void __as__8TPlySmthFRC8TPlySmth(s32 arg0, s32 arg1) {
+void __as__8TPlySmthFRC8TPlySmth(saddr arg0, saddr arg1) {
     *(ByteBlock_8 *)(arg0) = *(const ByteBlock_8 *)(arg1);
 }
 

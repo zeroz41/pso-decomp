@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 find_eligible_combination_recipe(s32 arg0, u8 *item);
+saddr find_eligible_combination_recipe(s32 arg0, u8 *item);
 
 #endif

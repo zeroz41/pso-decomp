@@ -19,7 +19,7 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     virtual void vfunc_112(s32);
     virtual void vfunc_113();
     virtual int vfunc_116(TObjChara *);
-    virtual void vfunc_117(u32);
+    virtual void vfunc_117(uaddr);
     s32 m_4CC;
     s32 m_4D0;
     TObjEneMe1Canadin *m_4D4[8];
@@ -29,8 +29,8 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     static TObjEneMe1Canadin *create_canadin(TObjEneMe1Canadin *leader, Vec *position, s32 id, s32 index);
 };
 
-typedef char TObjEneMe1CanadinLeader_size[sizeof(TObjEneMe1CanadinLeader) == 0x4F8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1CanadinLeader_size, sizeof(TObjEneMe1CanadinLeader) == 0x4F8);
 
-typedef char CanadinLeaderMembersOffset[offsetof(TObjEneMe1CanadinLeader, m_4D4) == 0x4D4 ? 1 : -1];
+LAYOUT_ASSERT(CanadinLeaderMembersOffset, offsetof(TObjEneMe1CanadinLeader, m_4D4) == 0x4D4);
 
 #endif

@@ -8,7 +8,7 @@ s32 bswap_32__FPUl();
 
 void bswap__18TPlyDispConfigSmthFv(s32 arg0) {
     s32 var_r31;
-    s32 temp_r30;
+    saddr temp_r30;
     s32 var_r29;
 
     bswap_32__FPUl();

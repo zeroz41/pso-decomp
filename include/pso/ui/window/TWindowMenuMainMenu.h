@@ -7,7 +7,7 @@
 struct WindowDrawContext;
 
 struct TWindowMenuMainMenu : public TWindowBase {
-    TWindowMenuMainMenu(s32 arg1, s16 arg2);
+    TWindowMenuMainMenu(saddr arg1, s16 arg2);
     virtual ~TWindowMenuMainMenu();
     void handle_navigation_input();
     void handle_confirm();
@@ -31,16 +31,16 @@ struct TWindowMenuMainMenu : public TWindowBase {
     u8 unk_68[0xDC];
 };
 
-typedef char TWindowMenuMainMenu_size[sizeof(TWindowMenuMainMenu) == 0x144 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenuMainMenu_size, sizeof(TWindowMenuMainMenu) == 0x144);
 
 extern "C" {
-void render__19TWindowMenuMainMenuFv(s32 arg0);
+void render__19TWindowMenuMainMenuFv(saddr arg0);
 void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *arg0);
 }
 
 // --- C functions defined in TWindowMenuMainMenu.cpp ---
 extern "C" {
-void render__19TWindowMenuMainMenuFv(s32 arg0);
+void render__19TWindowMenuMainMenuFv(saddr arg0);
 void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_menu);
 }
 // --- end of C functions

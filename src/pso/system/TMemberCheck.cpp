@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -8,7 +9,6 @@
 extern "C" {
 const char *member_check_name_ptr = "TMemberCheck";
 s32 TMemberCheck__previous_member_count;
-void* memset(void*, int, unsigned long);
 extern const char *member_check_name_ptr;
 extern s32 TMemberCheck__previous_member_count;
 }

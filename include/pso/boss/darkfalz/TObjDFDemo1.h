@@ -9,7 +9,7 @@ struct AnimationMotion;
 
 // One model of the scene: its model, texture list and motion.
 struct TObjDFDemo1Part {
-    s32 model;
+    saddr model;
     s32 texlist;
     AnimationMotion *motion;
 };
@@ -35,6 +35,6 @@ public:
     f32 scroll;  // 0..1, advanced by 1/45 a frame
     ModelNodeTables strips;
 };
-typedef char TObjDFDemo1_size[sizeof(TObjDFDemo1) == 0x130 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo1_size, sizeof(TObjDFDemo1) == 0x130);
 
 #endif

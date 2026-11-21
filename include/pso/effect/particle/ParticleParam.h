@@ -38,10 +38,10 @@ struct ParticleParam {
     u8 tail_89[0xF];
 };
 
-typedef char ParticleParamSize[sizeof(ParticleParam) == 0x98 ? 1 : -1];
-typedef char ParticleParamGeneratorOffset[offsetof(ParticleParam, generator_kind) == 0x10 ? 1 : -1];
-typedef char ParticleParamEmissionOffset[offsetof(ParticleParam, emission_frequency) == 0x40 ? 1 : -1];
-typedef char ParticleParamFlagsOffset[offsetof(ParticleParam, flags) == 0x88 ? 1 : -1];
+LAYOUT_ASSERT(ParticleParamSize, sizeof(ParticleParam) == 0x98);
+LAYOUT_ASSERT(ParticleParamGeneratorOffset, offsetof(ParticleParam, generator_kind) == 0x10);
+LAYOUT_ASSERT(ParticleParamEmissionOffset, offsetof(ParticleParam, emission_frequency) == 0x40);
+LAYOUT_ASSERT(ParticleParamFlagsOffset, offsetof(ParticleParam, flags) == 0x88);
 
 extern "C" {
 extern ParticleParam *particle_global_entry_table;

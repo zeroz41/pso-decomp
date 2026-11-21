@@ -85,12 +85,12 @@ void TNeedleShoot::vfunc_8() {  }
 #pragma push
 #pragma opt_common_subs off
 void TNeedleShoot::check_wall_hit() {
-    typedef char sp8_offset[(offsetof(Stack_802A4544, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802A4544, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802A4544, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_802A4544, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_802A4544, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_802A4544, sp1C) == 0x14) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802A4544, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802A4544, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802A4544, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802A4544, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802A4544, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_802A4544, sp1C) == 0x14);
     Stack_802A4544 stack;
     u8 *temp_r3;
     stack.sp8 = this->prev_pos.x;
@@ -101,7 +101,7 @@ void TNeedleShoot::check_wall_hit() {
     stack.sp1C = this->pos.z;
     temp_r3 = (u8 *)(csnVector(&stack.sp8, &stack.sp14, 0x100));
     if (temp_r3 != NULL) {
-        VecCopy(&this->pos, (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+        VecCopy(&this->pos, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
         this->vfunc_6();
     }
 }

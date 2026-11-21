@@ -38,19 +38,19 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 unk_534;
 };
 
-typedef char TAdChrSelPlyPlateGC_size[sizeof(TAdChrSelPlyPlateGC) == 0x538 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 
 extern "C" {
 TAdChrSelPlyPlateGC *fn_802C6F20(TObject *parent, vec2f *pos);
-void TAdMultiPlyChrSelectGC__sub_802C50EC(s32 arg0);
-void TAdMultiPlyChrSelectGC__sub_802C522C(s32 arg0);
+void TAdMultiPlyChrSelectGC__sub_802C50EC(saddr arg0);
+void TAdMultiPlyChrSelectGC__sub_802C522C(saddr arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558(void);
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 void TAdMultiPlyChrSelectGC__sub_802C65C0(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32 arg0);
-int TAdMultiPlyChrSelectGC__sub_802C6920(void);
+saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
 u32 get_multiplayer_controller_active_index(int param_1);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);

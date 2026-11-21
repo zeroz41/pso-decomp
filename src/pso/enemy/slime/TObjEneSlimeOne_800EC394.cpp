@@ -38,12 +38,12 @@ s32 TObjEneSlimeOne::is_in_water_bomb_states() {
     return self->state == 11 || self->state == 12 || self->state == 13;
 }
 
-int TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
+saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
 
 int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(this), NULL, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, farg0);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
@@ -53,7 +53,7 @@ int TObjEneSlimeOne::is_timer_active() { return (this->actorFlags >> 4) & 0x1; }
 int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *arg1, f32 farg0) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(this), arg1, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), arg1, farg0);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
@@ -71,7 +71,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 7) {
-        TObjFish::set_global_param((s32)((GinjaTextureList *)(get_bml_texlist(reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance()), slime_one_part_texture_index_table[owner->get_attack_target()]))));
+        TObjFish::set_global_param(get_bml_texlist(reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance()), slime_one_part_texture_index_table[owner->get_attack_target()]));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -90,7 +90,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 9) {
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)texture_list)));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(texture_list));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -108,13 +108,13 @@ void SlimeAnimationState::draw(s32 deferred) {
         clear_chunk_render_flags();
         return;
     }
-    TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)texture_list)));
+    TObjFish::set_global_param(reinterpret_cast<saddr>(texture_list));
     set_motion_packed_rotation();
     if (deferred != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)second_texture_list)));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(second_texture_list));
         draw_model_motion(second_model, second_motion, frame);
         clear_chunk_render_flags();
         model_render_flags &= ~0x400000;
@@ -124,7 +124,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         draw_model_motion(model, motion, frame);
         set_cull_front();
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)second_texture_list)));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(second_texture_list));
         set_cull_back();
         draw_model_motion(second_model, second_motion, frame);
         set_cull_front();

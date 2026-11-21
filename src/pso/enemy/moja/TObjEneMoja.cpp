@@ -39,6 +39,7 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 spawn_particle_effect(s32, s32);
@@ -219,7 +220,7 @@ struct Moja_800AD3D8 {
     u8 pad2AC[0x2FC - 0x2AC];
     Vec pos;
     u8 pad308[0x318 - 0x308];
-    u32 f318;
+    uaddr f318;
     u8 pad31C[0x328 - 0x31C];
     s16 phase;
     u8 pad32A[0x338 - 0x32A];
@@ -273,7 +274,7 @@ s32 TObjPlayer__sub_800ACA0C(void *);
 
 s32 minimap_render_dot(void *, int, int, int, f32);
 
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 f32 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
 
@@ -294,7 +295,7 @@ extern s32 lbl_805D5868;
 s32 update__15RenderFadeStateFv(void *, s32, s32, s32);
 s32 restore_scene_lighting(s32, s32);
 s32 select_actor_lighting(void *);
-s32 translate_matrix(s32, f32, f32, f32);
+s32 translate_matrix(saddr, f32, f32, f32);
 
 s32 draw_chunk_object(s32);
 extern s32 saved_model_render_flags;
@@ -315,11 +316,9 @@ extern "C" {
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 
 extern s32 game_difficulty_selection;
-extern s32 tl_07;
 
 void *__ct__11TObjControlFP7TObject(void *, void *);
 }
-extern void *tl_04;
 
 // The Moja's models and motions, and the archive that holds them; the second
 // set is the one Ultimate loads.
@@ -422,7 +421,7 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     select_rare_variant();
     subtype = 1;
     action_table = lbl_804918C8;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     motion_list = lbl_805D50D8->motions;
     requested_action = 0;
     set_animation(requested_action);
@@ -661,7 +660,7 @@ void TObjEneMoja::render() {
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         if (TObjPlayer::check_demo_mode() == 1) {
-            draw_chunk_object((s32)model);
+            draw_chunk_object((saddr)model);
         } else {
             TObjPlayer::toggle_particle_effect();
             if (vis == 1) {
@@ -911,7 +910,7 @@ void TObjEneMoja::update_appearance_jump() {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                dist = horizontal_distance_squared((int)((u8 *)p + 0x2FC), &m_2fc);
+                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &m_2fc);
                 if (dist <= 2500.0f) {
                     Hit_800AE7F4 hit;
                     hit.a = 0;
@@ -926,7 +925,7 @@ void TObjEneMoja::update_appearance_jump() {
         }
         ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xCB);
         ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF0);
-        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)remap_sound_for_area(0x3AD03), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         break;
     case 2:
@@ -991,7 +990,7 @@ void TObjEneMoja::update_appearance_drop() {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                dist = horizontal_distance_squared((int)((u8 *)p + 0x2FC), &m_2fc);
+                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &m_2fc);
                 if (dist <= 2500.0f) {
                     Hit_800AE450 hit;
                     hit.a = 0;
@@ -1006,7 +1005,7 @@ void TObjEneMoja::update_appearance_drop() {
         }
         ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xCB);
         ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF0);
-        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)remap_sound_for_area(0x3AD03), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         break;
     case 2:
@@ -1053,7 +1052,7 @@ s32 TObjEneMoja::update_approach_state() {
     case 0:
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(0.0f) != 0) {
-            ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD0A), (u8 *)&this->position, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD0A), (u8 *)&this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (this->action_flags != 0x20U) {
@@ -1080,13 +1079,13 @@ s32 TObjEneMoja::update_approach_state() {
             if (*(f32 *)((s8 *)((this->movementParameters)) + 0) * *(f32 *)((s8 *)((this->movementParameters)) + 0) < enemy_pursue_point(arg0, *(s32 *)((s8 *)((this->movementParameters)) + 8), &v3, temp_r4, *(f32 *)((s8 *)temp_r4 + 8), 30.0f)) {
                 this->target = NULL;
             }
-            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)this->bodies + 0xC)) * (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)this->bodies + 0xC))
+            if (horizontal_distance_squared((saddr)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)this->bodies + 0xC)) * (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)this->bodies + 0xC))
                 || --(this->timer) < 0) {
                 this->attackSequence = 0;
             }
         }
         if (((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(19.0f)) != 0) {
-            ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x3A801), (u8 *)&this->position, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3A801), (u8 *)&this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
         }
         break;
@@ -1107,7 +1106,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     Vec d;
     if (this->mode > 1 && (t = this->target) != NULL &&
         this->m_318 != 0 && !(*(u32 *)((s8 *)t + 0x30) & 0x02000800)) {
-        dist = calc_xz_distance_sq((s32)this, (u32)t, (void *)&d);
+        dist = calc_xz_distance_sq((saddr)this, (uaddr)t, (void *)&d);
         angd = angle_difference_abs(this->rotation_y,
                                     (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
         c = *(u8 **)(this->target + 0xA4);
@@ -1117,7 +1116,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
             radius = 10.0f;
         }
         for (i = 0; i < 3; i++) {
-            this->m_318 = (u32)lbl_805D50CC[i + (this->variant) * 3];
+            this->m_318 = (uaddr)lbl_805D50CC[i + (this->variant) * 3];
             sq = (radius + ((AttackParams *)(this->m_318))->get_attack_range()) *
                  (radius + ((AttackParams *)(this->m_318))->get_attack_range());
             lim = ((AttackParams *)(this->m_318))->get_attack_angle();
@@ -1209,7 +1208,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
     case 1:
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame(9.0f) != 0) {
-            ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD04), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD04), arg0 + 0x38, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x300);
         }
         if (((TObjMotion *)arg0)->is_passing_frame(12.0f) != 0) {
@@ -1233,7 +1232,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
             }
         }
         if ((9.0f <= *(f32 *)(arg0 + 0xC0)) && (*(f32 *)(arg0 + 0xC0) <= 16.0f)) {
-            e = (s32)lbl_805D50DC->lookup(((TObjMotion *)self_800ADAAC)->frame);
+            e = (saddr)lbl_805D50DC->lookup(((TObjMotion *)self_800ADAAC)->frame);
             if (e != 0) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -1265,7 +1264,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
     case 2:
         ((TObjMotion *)arg0)->advance_animation();
         if ((((TObjMotion *)arg0)->is_passing_frame(0.0f) != 0) && (*(s32 *)(arg0 + 0x388) == 1)) {
-            ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD0A), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD0A), arg0 + 0x38, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (*(u32 *)(arg0 + 0xB4) != 0x20U) {
@@ -1366,9 +1365,9 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                 switch (self->kind) {
                 case 1:
                     if (ang2 < ((AttackParams *)(self->f318))->get_attack_angle() / 2 && self->target != NULL) {
-                        TTecMegid::create((s32)self, (s32)&pos, (s32)&self->target->pos, (s32)(((TObjEneMoja *)self)->calc_technique_level()));
+                        TTecMegid::create((saddr)self, (saddr)&pos, (saddr)&self->target->pos, (s32)(((TObjEneMoja *)self)->calc_technique_level()));
                     } else {
-                        TTecMegid::create_ex((s32)self, (s32)&pos, self->rot_y, (s32)(((TObjEneMoja *)self)->calc_technique_level()));
+                        TTecMegid::create_ex((saddr)self, (saddr)&pos, self->rot_y, (s32)(((TObjEneMoja *)self)->calc_technique_level()));
                     }
                     ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) 0x4002A60B, &pos, 0, 0);
                     break;
@@ -1432,7 +1431,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                 ang.y = 0;
                 ang.z = -(s32) (10430.38043493439 * atan2_float(dir.x, dir.y));
                 spawn_directional_particle(&pos, &ang, 0xCC);
-                ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(self))->remap_sound_for_area(0x3E405), &pos, 0, 0);
+                play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x3E405), &pos, 0, 0);
             }
         }
         if (self->anim_state != 4) {
@@ -1488,7 +1487,7 @@ void TObjEneMoja::update_attack_jump() {
                 phase = 2;
             }
             ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF3);
-            ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)remap_sound_for_area(0x3A802), &position, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x3A802), &position, 0, 0);
         }
         break;
     case 1:
@@ -1502,7 +1501,7 @@ void TObjEneMoja::update_attack_jump() {
                     break;
                 }
                 if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                    d = horizontal_distance_squared((s32)(p + 0x2FC), &m_2fc);
+                    d = horizontal_distance_squared((saddr)(p + 0x2FC), &m_2fc);
                     if (d <= ((AttackParams *)(m_318))->get_damage_radius() * ((AttackParams *)(m_318))->get_damage_radius()) {
                         Hit_800ACFE8 hit;
                         hit.a = 0;
@@ -1517,7 +1516,7 @@ void TObjEneMoja::update_attack_jump() {
             }
             ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xCB);
             ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF0);
-            ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)remap_sound_for_area(0x3AD03), &position, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x300);
         }
         break;
@@ -1597,7 +1596,7 @@ void TObjPlayer::update_ground_effect() {
 
     advance_animation();
     if (is_passing_frame(0.0f) != 0) {
-        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(this))->remap_sound_for_area(0x3A807), (void *) (((u8 *)this) + 0x38), 0, 0);
+        play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area(0x3A807), (void *) (((u8 *)this) + 0x38), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
     }
     this->m_310 = 0.0f;
@@ -1621,7 +1620,7 @@ void TObjEneMoja::vfunc_63() {
         this->requested_action = 7;
         temp_r6 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
-        spawn_particle_effect((s32)(arg0 + 0x2FC), 0xF1);
+        spawn_particle_effect((saddr)(arg0 + 0x2FC), 0xF1);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
         this->appearance = 0;
@@ -1647,7 +1646,7 @@ void TObjEneMoja::update_death_state() {
         vec3_add_to(&v, (u8 *)&this->position);
         play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD03), &v, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
-        spawn_particle_effect((s32) &v, 0xF0);
+        spawn_particle_effect((saddr) &v, 0xF0);
         spawn_dead_spot_scale15(&v, 0x14);
         ((TObjPlayer *)(&v))->spawn_effect_at_ground(0x32);
     }

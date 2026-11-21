@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A1478::emit_marker_effects() {
-    s32 item = (s32)this;
+    saddr item = (saddr)this;
     if ((get_item_index() < 4U) && (((TItemWeapon *)item)->get_attack_stage() == 0)) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)item, 1, 2);
     }

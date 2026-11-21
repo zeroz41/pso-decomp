@@ -61,7 +61,7 @@ struct PhotonSummonParams_801A9870 {
     u8 count;
     f32 level;
 };
-typedef char PhotonSummonParams_801A9870_size[sizeof(PhotonSummonParams_801A9870) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(PhotonSummonParams_801A9870_size, sizeof(PhotonSummonParams_801A9870) == 0x24);
 struct VBase_18_b27ba1 { char pad[0x18]; };
 struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual void m0();
@@ -96,7 +96,7 @@ void *find_entity_by_id(u16 id);
 s32 get_floor__10TObjPlayerFv(void *);
 s32 get_room__8TObjBaseFv(void *);
 void set_type__10TObjPlayerFs(void *, s16);
-s32 TObjPlayer__sub_801AA528(s32 arg0, s16 arg1);
+s32 TObjPlayer__sub_801AA528(saddr arg0, s16 arg1);
 void *TObjPlayer__sub_801AA66C(void *, void *);
 s16 TObjPlayer__sub_80313114(u8 *arg0);
 u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
@@ -360,14 +360,14 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
         }
     }
     if (flag != 0) {
-        TObjPlayer__sub_801AA528((s32)&b[3], -1);
-        TObjPlayer__sub_801AA528((s32)&b[2], -1);
-        TObjPlayer__sub_801AA528((s32)&b[1], -1);
-        TObjPlayer__sub_801AA528((s32)&b[0], -1);
-        TObjPlayer__sub_801AA528((s32)&a[3], -1);
-        TObjPlayer__sub_801AA528((s32)&a[2], -1);
-        TObjPlayer__sub_801AA528((s32)&a[1], -1);
-        TObjPlayer__sub_801AA528((s32)&a[0], -1);
+        TObjPlayer__sub_801AA528((saddr)&b[3], -1);
+        TObjPlayer__sub_801AA528((saddr)&b[2], -1);
+        TObjPlayer__sub_801AA528((saddr)&b[1], -1);
+        TObjPlayer__sub_801AA528((saddr)&b[0], -1);
+        TObjPlayer__sub_801AA528((saddr)&a[3], -1);
+        TObjPlayer__sub_801AA528((saddr)&a[2], -1);
+        TObjPlayer__sub_801AA528((saddr)&a[1], -1);
+        TObjPlayer__sub_801AA528((saddr)&a[0], -1);
         return;
     }
     if (is_photon_blast_presentation_admitted(get_entity_id((TObjBase *)self), b) != 0) {
@@ -383,14 +383,14 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
         delay = idx * 150 + 100;
         new TUnk_804C349C(get_entity_id((TObjBase *)self), (u8 *)b, counts.v, 0, delay);
     }
-    TObjPlayer__sub_801AA528((s32)&b[3], -1);
-    TObjPlayer__sub_801AA528((s32)&b[2], -1);
-    TObjPlayer__sub_801AA528((s32)&b[1], -1);
-    TObjPlayer__sub_801AA528((s32)&b[0], -1);
-    TObjPlayer__sub_801AA528((s32)&a[3], -1);
-    TObjPlayer__sub_801AA528((s32)&a[2], -1);
-    TObjPlayer__sub_801AA528((s32)&a[1], -1);
-    TObjPlayer__sub_801AA528((s32)&a[0], -1);
+    TObjPlayer__sub_801AA528((saddr)&b[3], -1);
+    TObjPlayer__sub_801AA528((saddr)&b[2], -1);
+    TObjPlayer__sub_801AA528((saddr)&b[1], -1);
+    TObjPlayer__sub_801AA528((saddr)&b[0], -1);
+    TObjPlayer__sub_801AA528((saddr)&a[3], -1);
+    TObjPlayer__sub_801AA528((saddr)&a[2], -1);
+    TObjPlayer__sub_801AA528((saddr)&a[1], -1);
+    TObjPlayer__sub_801AA528((saddr)&a[0], -1);
 }
 #undef GET_STAT
 #undef SET_TYPE
@@ -811,7 +811,7 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
         players += 0x18;
     }
     owner = get_player_by_client_id(owner_client_id);
-    apply_photon_blast_action_hold((s32)this, summon_count * 150 + 100, owner_client_id);
+    apply_photon_blast_action_hold((saddr)this, summon_count * 150 + 100, owner_client_id);
     if (this->animated != 0) {
         TLobby::send_neg30();
         TObjPlayer__sub_8024ABDC(local_client_id);
@@ -892,7 +892,7 @@ void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {
     if (player != NULL) {
         entry = (PhotonBlastEntry *)TObjPlayer::get_photon_blast_entry(kind);
         if (TObjPlayer::is_locally_controlled(player) != 0) {
-            TObjPlayer::play_effect_default((int)player, entry->effect_id);
+            TObjPlayer::play_effect_default((saddr)player, entry->effect_id);
         }
         spawn_particle_effect(&player->position, 0x13D);
         TCameraCtrl::set_shake_preset(0);
@@ -926,7 +926,7 @@ void *TObjPlayer::get_photon_blast_entry(int kind) {
 
 u8 *photon_blast_shared_resource;
 extern "C" {
-void free_bin_model_request(u32, int);
+void free_bin_model_request(uaddr, int);
 extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
 extern u8 *photon_blast_shared_resource;
 u8 *load_resource_from_descriptor(u8 *, int, void *, int, int, int);
@@ -935,7 +935,7 @@ void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
     TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != NULL) {
-        free_bin_model_request((u32)photon_blast_shared_resource, 1);
+        free_bin_model_request((uaddr)photon_blast_shared_resource, 1);
         photon_blast_shared_resource = NULL;
     }
     for (i = 0; i < 4; i++) {

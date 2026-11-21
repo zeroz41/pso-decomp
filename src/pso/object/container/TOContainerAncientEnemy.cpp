@@ -68,14 +68,14 @@ static __declspec(section ".rodata") const char ep2_box_fragment1_model[] ATTRIB
 static __declspec(section ".rodata") const char ep2_box_fragment2_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen02.gj";
 
 struct BmlResourceBlock_804B0068 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B0068_size[(sizeof(BmlResourceBlock_804B0068) == 0x20) ? 1 : -1];
-typedef char BmlResourceBlock_804B0068_descriptor_offset[(offsetof(BmlResourceBlock_804B0068, descriptor) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceBlock_804B0068_size, sizeof(BmlResourceBlock_804B0068) == 0x20);
+LAYOUT_ASSERT(BmlResourceBlock_804B0068_descriptor_offset, offsetof(BmlResourceBlock_804B0068, descriptor) == 0x10);
 struct BmlResourceBlock_804B0088 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B0088_size[(sizeof(BmlResourceBlock_804B0088) == 0x20) ? 1 : -1];
-typedef char BmlResourceBlock_804B0088_descriptor_offset[(offsetof(BmlResourceBlock_804B0088, descriptor) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceBlock_804B0088_size, sizeof(BmlResourceBlock_804B0088) == 0x20);
+LAYOUT_ASSERT(BmlResourceBlock_804B0088_descriptor_offset, offsetof(BmlResourceBlock_804B0088, descriptor) == 0x10);
 struct BmlResourceBlock_804B00A8 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B00A8_size[(sizeof(BmlResourceBlock_804B00A8) == 0x20) ? 1 : -1];
-typedef char BmlResourceBlock_804B00A8_descriptor_offset[(offsetof(BmlResourceBlock_804B00A8, descriptor) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceBlock_804B00A8_size, sizeof(BmlResourceBlock_804B00A8) == 0x20);
+LAYOUT_ASSERT(BmlResourceBlock_804B00A8_descriptor_offset, offsetof(BmlResourceBlock_804B00A8, descriptor) == 0x10);
 
 // The 6x67 packet receive_physical_attack sends (its fields are not named yet).
 extern const f32 lbl_805DB398;
@@ -181,9 +181,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(GinjaTextureList *));
-        ancient_container_fragment_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)fs_obj_ex_box2_texture);
-        ancient_container_fragment_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_ex_box2_hahen01_texture);
-        ancient_container_fragment_texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_ex_box2_hahen02_texture);
+        ancient_container_fragment_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)fs_obj_ex_box2_texture);
+        ancient_container_fragment_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_ex_box2_hahen01_texture);
+        ancient_container_fragment_texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_ex_box2_hahen02_texture);
     } else if (enable_v2_features == 1 &&
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = ::operator new(0x440);
@@ -192,9 +192,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(GinjaTextureList *));
-        ancient_container_fragment_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)fs_obj_o_vs2container_r_texture);
-        ancient_container_fragment_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_o_vs2cont_hahen1_r_texture);
-        ancient_container_fragment_texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_o_vs2cont_hahen2_r_texture);
+        ancient_container_fragment_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)fs_obj_o_vs2container_r_texture);
+        ancient_container_fragment_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_o_vs2cont_hahen1_r_texture);
+        ancient_container_fragment_texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_o_vs2cont_hahen2_r_texture);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -202,9 +202,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(GinjaTextureList *));
-        ancient_container_fragment_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_o_container_r_texture);
-        ancient_container_fragment_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_o_container_hahen01r_texture);
-        ancient_container_fragment_texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_o_container_hahen02r_texture);
+        ancient_container_fragment_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_o_container_r_texture);
+        ancient_container_fragment_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_o_container_hahen01r_texture);
+        ancient_container_fragment_texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_o_container_hahen02r_texture);
     }
 }
 
@@ -217,7 +217,7 @@ void free_ancient_container_resources(void) {
     if (ancient_container_fragment_texture_lists != NULL) {
         var_r30 = 0;
         do {
-            TObjPlayer::free_if_valid((s32)ancient_container_fragment_texture_lists[var_r30]);
+            TObjPlayer::free_if_valid((saddr)ancient_container_fragment_texture_lists[var_r30]);
             var_r30 += 1;
         } while (var_r30 < 3);
         p = ancient_container_fragment_texture_lists;
@@ -278,17 +278,17 @@ void TUnk_804B08BC::vfunc_81() {
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
-            draw_ginja_model((s32)obj->model);
+            draw_ginja_model((saddr)obj->model);
             child = obj->child;
             push_matrix();
             post_translate_matrix(child->pos);
-            draw_ginja_model((s32)child->model);
+            draw_ginja_model((saddr)child->model);
             pop_matrix();
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model((s32)sibling->model);
+            draw_ginja_model((saddr)sibling->model);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             pop_matrix();
@@ -317,9 +317,9 @@ void TUnk_804B08BC::vfunc_79() const {
     b.pad_38[0] = b.pos[1];
     b.model = get_bml_model(ancient_container_resource_bundle, 2);
     b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-    if (check_value_equals((s32)TOContainerAncientItemRare__name) != 0) {
-        a.textures = (s32)ancient_container_fragment_texture_lists[1];
-        b.textures = (s32)ancient_container_fragment_texture_lists[2];
+    if (check_value_equals((saddr)TOContainerAncientItemRare__name) != 0) {
+        a.textures = (saddr)ancient_container_fragment_texture_lists[1];
+        b.textures = (saddr)ancient_container_fragment_texture_lists[2];
     }
     new TObjChip(tl_05, &a);
     new TObjChip(tl_05, &b);
@@ -335,11 +335,11 @@ TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUn
 TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
 }
 
-s32 TOContainerAncientItemCommon::create() {
+saddr TOContainerAncientItemCommon::create() {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
-        return (s32)new TOContainerAncientItemCommon(this);
+        return (saddr)new TOContainerAncientItemCommon(this);
     }
-    return (s32)new TOContainerAncientItemCommon(this);
+    return (saddr)new TOContainerAncientItemCommon(this);
 }
 
 void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
@@ -356,7 +356,7 @@ void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
 
 TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_804B08BC(set_data) {
     m_name = TOContainerAncientItemRare__name;
-    texlist = (s32)ancient_container_fragment_texture_lists[0];
+    texlist = (saddr)ancient_container_fragment_texture_lists[0];
 }
 
 TOContainerAncientItemRare::~TOContainerAncientItemRare() {
@@ -440,17 +440,17 @@ void TOContainerAncientEnemy::vfunc_81() {
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
-            draw_ginja_model((s32)obj->model);
+            draw_ginja_model((saddr)obj->model);
             child = obj->child;
             push_matrix();
             post_translate_matrix(child->pos);
-            draw_ginja_model((s32)child->model);
+            draw_ginja_model((saddr)child->model);
             pop_matrix();
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model((s32)sibling->model);
+            draw_ginja_model((saddr)sibling->model);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             pop_matrix();
@@ -501,9 +501,9 @@ void TOContainerAncientEnemy::vfunc_79() const {
         b.pad_38[0] = this->position.y;
         b.model = get_bml_model(ancient_container_resource_bundle, 2);
         b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-        if (check_value_equals((s32)lbl_805D2F10) != 0) {
-            a.textures = (s32)ancient_container_fragment_texture_lists[1];
-            b.textures = (s32)ancient_container_fragment_texture_lists[2];
+        if (check_value_equals((saddr)lbl_805D2F10) != 0) {
+            a.textures = (saddr)ancient_container_fragment_texture_lists[1];
+            b.textures = (saddr)ancient_container_fragment_texture_lists[2];
         }
         spawn_particle_effect(&this->position, 0x45);
         spawn_particle_effect(&this->position, 0x46);
@@ -540,7 +540,7 @@ void *TOContainerAncientEnemyCommon__create(void *set_data) {
 
 TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
     m_name = lbl_805D2F10;
-    texlist = (s32) *ancient_container_fragment_texture_lists;
+    texlist = (saddr) *ancient_container_fragment_texture_lists;
 }
 
 TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {

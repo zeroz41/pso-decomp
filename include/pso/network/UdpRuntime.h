@@ -34,7 +34,7 @@ typedef struct send_buffs {
     short len;
     u8 *buff; /* 0x04 */
 } send_buffs;
-typedef char send_buffs_size_check[(sizeof(send_buffs) == 8) ? 1 : -1];
+LAYOUT_ASSERT(send_buffs_size_check, sizeof(send_buffs) == 8);
 
 /* A received datagram, as TLobby__sub_80421F10 hands it to the socket's receive callback: first with mode 0 (the
    callback sets buf, or returns nonzero to drop it), then with mode 1 once len bytes are copied to buf. */
@@ -46,11 +46,11 @@ typedef struct UdpDatagram {
     NetworkAddress dst;     /* 0x1C */
     u16 port;               /* 0x30: source port */
 } UdpDatagram;
-typedef char UdpDatagram_size_check[(sizeof(UdpDatagram) == 0x34) ? 1 : -1];
+LAYOUT_ASSERT(UdpDatagram_size_check, sizeof(UdpDatagram) == 0x34);
 
-typedef char UdpDatagram_socket_check[offsetof(UdpDatagram, socket) == 0 ? 1 : -1];
-typedef char UdpDatagram_length_check[offsetof(UdpDatagram, len) == 2 ? 1 : -1];
-typedef char UdpDatagram_buffer_check[offsetof(UdpDatagram, buf) == 4 ? 1 : -1];
+LAYOUT_ASSERT(UdpDatagram_socket_check, offsetof(UdpDatagram, socket) == 0);
+LAYOUT_ASSERT(UdpDatagram_length_check, offsetof(UdpDatagram, len) == 2);
+LAYOUT_ASSERT(UdpDatagram_buffer_check, offsetof(UdpDatagram, buf) == 4);
 
 typedef s32 (*NetUdpReceiveCallback)(s16 mode, UdpDatagram *datagram);
 

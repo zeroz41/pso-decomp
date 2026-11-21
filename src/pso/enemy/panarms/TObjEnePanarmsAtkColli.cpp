@@ -130,10 +130,10 @@ void fn_800E322C(void *p, void *t) {
     Obj_800E322C *target = (Obj_800E322C *)p;
     Vec sp = target->pos;
     s32 r;
-    u32 ent;
+    uaddr ent;
     VecCopy((Vec *)&target->pos, (const Vec *)t);
-    if ((r = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(target), NULL, target->f378)) != 0xFFFF) {
-        if ((ent = (u32)get_enemy_entity(r)) != 0 && ent != target->f10) {
+    if ((r = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(target), NULL, target->f378)) != 0xFFFF) {
+        if ((ent = (uaddr)get_enemy_entity(r)) != 0 && ent != target->f10) {
             ((TObjEnePanarmsAtkColli *)target)->sub_800E32C0((V_800E32C0 *)ent);
         }
     }
@@ -346,8 +346,8 @@ struct Obj_800E37E4 {
 };
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-int play_sound_effect(void *, void *, void *, void *);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+int play_sound_effect(s32, void *, void *, void *);
 
 void TObjEnePanarmsAtkColli::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -363,7 +363,7 @@ void TObjEnePanarmsAtkColli::run_task() {
         ((void (*)(void *))check_radius_collisions)(arg0);
         return;
     case 1:
-        play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BA2A)), (s32)arg0, (u32)&this->position, 0, 0);
+        play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BA2A)), (saddr)arg0, (uaddr)&this->position, 0, 0);
         ((void (*)(void *))sweep_segment_collisions)(arg0);
         return;
     }
@@ -389,7 +389,7 @@ TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, void *arg2, void
     self->name = TObjEnePanarmsAtkColli_class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     VecCopy((Vec *)&self->scale, (const Vec *)arg3);
-    self->type = (s32)arg4;
+    self->type = (saddr)arg4;
     self->f384 = 0;
     self->f388 = 0;
     ((TObjEnemy *)self)->set_param(0x15);
@@ -404,7 +404,7 @@ TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, void *arg2, void
     normalize_vector(&self->scale);
     switch (self->type) {
     case 0:
-        play_sound_effect((void *)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC2B), &self->pos, 0, 0);
+        play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC2B), &self->pos, 0, 0);
         self->f378 = (5.0f);
         self->f37C = (1.0416666f);
         self->f380 = 0xC;

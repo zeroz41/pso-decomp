@@ -80,7 +80,7 @@ void TBoss6Rock::load_resources() {
         resource = load_resource_from_descriptor(resource, 5, &boss6_rock_resource_descriptor, 0, 0, 0);
     }
     TBoss6Rock__data_805D6EF0 = resource;
-    TBoss6Rock__data_805D6EF4 = (GinjaTextureList *)load_gvm_texture_file((s32) "boss06_rock_dat.gvm");
+    TBoss6Rock__data_805D6EF4 = (GinjaTextureList *)load_gvm_texture_file((saddr) "boss06_rock_dat.gvm");
     if (TBoss6Rock__data_805D6EF0 == NULL || TBoss6Rock__data_805D6EF4 == NULL) {
         return;
     }
@@ -101,12 +101,12 @@ void TBoss6Rock::free_data() {
     }
     if (TBoss6Rock__data_805D6EF4 != NULL) {
         release_texture_list(TBoss6Rock__data_805D6EF4);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TBoss6Rock__data_805D6EF4);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TBoss6Rock__data_805D6EF4);
         TBoss6Rock__data_805D6EF4 = NULL;
     }
 }
 
-void TBoss6Rock::create_rock_pool(s32 owner) {
+void TBoss6Rock::create_rock_pool(saddr owner) {
     s32 i;
     if (TBoss6Rock__data_805D6EF0 == NULL || TBoss6Rock__data_805D6EF4 == NULL) {
         return;
@@ -173,8 +173,8 @@ void TBoss6Rock::run_task() {
     }
     if (m_e4 != NULL) {
         s32 model = get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id);
-        u64 pos = (s32)&position;
-        m_e4->set_target(m_c4 != 0, (Vec *)pos, &rotation_x, (s32)TBoss6Rock__data_805D6EF4, model,
+        u64 pos = (saddr)&position;
+        m_e4->set_target(m_c4 != 0, (Vec *)pos, &rotation_x, (saddr)TBoss6Rock__data_805D6EF4, model,
                          TBoss6Rock__data_80479258[m_b4].radius);
     }
 }
@@ -199,7 +199,7 @@ void TBoss6Rock::draw_model() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    TObjFish::set_global_param((s32)TBoss6Rock__data_805D6EF4);
+    TObjFish::set_global_param((saddr)TBoss6Rock__data_805D6EF4);
     draw_ginja_object((void *)get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id));
     pop_matrix();
 }
@@ -363,7 +363,7 @@ void TBoss6Rock::sub_80353F5C() {
         set.scale.z = e->width;
         set.scale.x = e->width;
         set.scale.y = e->height;
-        m_b0 = TObjMapCsn::create((s32)&set);
+        m_b0 = TObjMapCsn::create((saddr)&set);
     }
 }
 

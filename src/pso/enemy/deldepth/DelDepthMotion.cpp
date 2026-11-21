@@ -29,7 +29,7 @@ int TObjEneDelDepth::get_flag_bit4() { return (this->actorFlags >> 4) & 0x1; }
 int TObjEneDelDepth::find_nearest_enemy_with_flag(Vec *arg1, f32 farg0) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(this), arg1, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), arg1, farg0);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
@@ -47,7 +47,7 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((s32)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
             actor->draw();
             return;
         }
@@ -129,7 +129,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
             actor->set_field_b8((s16)id);
         }
     } else if (id < 0xA) {
-        s32 data = (s32)TObjEneDelDepth::get_data();
+        saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthMotionBinding *e = &lbl_804E8760[motion] - 6;
         model = (void *)get_bml_model((BmlResource *)data, 1);
         texture = get_bml_texlist((BmlResource *)data, 1);
@@ -138,7 +138,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         speed = e->speed;
         frame = lbl_805DF2EC;
     } else {
-        s32 data = (s32)TObjEneDelDepth::get_data();
+        saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthPairBinding *e = &lbl_804E8780[motion] - 10;
         DelDepthModelMotion *q;
         model = (void *)get_bml_model((BmlResource *)data, e->first.model);

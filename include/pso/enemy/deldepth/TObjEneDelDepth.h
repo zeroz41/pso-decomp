@@ -116,5 +116,5 @@ struct TObjEneDelDepth : public TObjEnemy {
     void start_move_toward_player();
 };
 
-typedef char TObjEneDelDepth_size[sizeof(TObjEneDelDepth) == 0x434 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDelDepth_size, sizeof(TObjEneDelDepth) == 0x434);
 #endif

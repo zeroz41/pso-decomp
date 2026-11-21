@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowMeseta : public TWindowBase {
-    TWindowMeseta(s32 parent, s32 client, s32 text);
+    TWindowMeseta(saddr parent, s32 client, s32 text);
     virtual ~TWindowMeseta();
     virtual void render();
     u8 _pad1C[0x8];
@@ -22,5 +22,5 @@ struct TWindowMeseta : public TWindowBase {
     u8 unk_70[0x4];
 };
 
-typedef char TWindowMeseta_size[sizeof(TWindowMeseta) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMeseta_size, sizeof(TWindowMeseta) == 0x74);
 #endif

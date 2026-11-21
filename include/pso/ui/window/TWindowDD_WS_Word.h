@@ -49,6 +49,6 @@ extern "C" {
 void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect);
 }
 
-typedef char TWindowDD_WS_Word_size[sizeof(TWindowDD_WS_Word) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowDD_WS_Word_size, sizeof(TWindowDD_WS_Word) == 0x90);
 
 #endif

@@ -26,7 +26,7 @@ void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
 u16 get_entity_id(void *);
 extern const char *TObjEneMorfosArm__name;
-u32 TObjEneMorfosArm__parent_morfos_instance;
+uaddr TObjEneMorfosArm__parent_morfos_instance;
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 
@@ -70,14 +70,14 @@ TObjEneMorfosArm::~TObjEneMorfosArm() {
 TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(parent) {
     u8 *resource;
     m_name = TObjEneMorfosArm__name;
-    m_fc = (u32)owner;
+    m_fc = (uaddr)owner;
     m_100 = get_entity_id((void *)m_fc);
     VecCopy(&position, (const Vec *)TObjEneMorfosArm__sub_803326B4((void *)m_fc));
     rotation_y = TObjEneMorfosArm__sub_803326BC((void *)m_fc);
     model = *(void **)(*(u8 **)(TObjEneMorfosArm__parent_morfos_instance + 0x42C) + 8);
     resource = *(u8 **)(TObjEneMorfosArm__parent_morfos_instance + 0x42C);
     texlist = *(s32 *)(resource + 0xC);
-    set_field_d8((s32)morfos_arm_motion_params);
+    set_field_d8((saddr)morfos_arm_motion_params);
     set_field_dc(*(s32 *)(TObjEneMorfosArm__parent_morfos_instance + 0x430));
     requested_action = 0;
     set_animation(requested_action);

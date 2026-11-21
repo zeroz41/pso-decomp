@@ -28,7 +28,7 @@ void TUnk_804A6BD0::emit_marker_effects() {
     angle[0] = 0x4000;
     angle[1] = owner->rotation_y;
     angle[2] = 0;
-    TObjPlayer::launch_weapon_casing((s32)tl_05, (u32)this, 3, (u32)&dir, (u32)angle);
+    TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&dir, (uaddr)angle);
     get_joint_position(2, &muzzle);
     spawn_particle_effect(&muzzle, 9);
 }

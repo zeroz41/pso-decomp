@@ -18,7 +18,7 @@ GinjaTextureList *TAdMcSelectMcGC__texture_list_ptr;
 
 void TAdMcSelectMcGC::draw_status_window() {
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)TAdMcSelectMcGC__texture_list_ptr);
+    TObjFish::set_global_param((saddr)TAdMcSelectMcGC__texture_list_ptr);
     set_draw_texture_and_color(0, (pad_120 << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(&quads[0].x0, 0.8f);
     TWindowSubStatusDisp::get_player();
@@ -116,7 +116,7 @@ void TAdMcSelectMcGC::release_selected_entry() {
 
 void TAdMcSelectMcGC::init_memorycard() {
     TAdMcSelectMcGC__texture_list_ptr = &mc_select_memorycard_texture_list;
-    load_streamed_prs_texture((s32)"f256_memorycard", (s32)&mc_select_memorycard_texture_list);
+    load_streamed_prs_texture((saddr)"f256_memorycard", (saddr)&mc_select_memorycard_texture_list);
 }
 
 s32 TAdMcSelectCursorGC::sub_8032AAC4() { return m_20; }

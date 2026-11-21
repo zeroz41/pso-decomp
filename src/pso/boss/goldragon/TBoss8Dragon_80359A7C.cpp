@@ -92,7 +92,7 @@ void TUnk_804F1A78::run_task() {
     if (temp_r30_2 == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((s32)(boss8_dragon + 0x38), (u8 *)(boss8_dragon + 0x634), 0.4f);
+    project_sound_origin_from_camera((saddr)(boss8_dragon + 0x38), (u8 *)(boss8_dragon + 0x634), 0.4f);
 }
 
 TUnk_804F1A78::~TUnk_804F1A78() {}

@@ -9,7 +9,7 @@
 extern "C" {
 extern struct Obj054_8024A054 *TWindowCtrl__active_window;
 extern u16 lbl_805D63FC;
-struct Obj054_8024A054 { char pad[0x38]; u32 field38; };
+struct Obj054_8024A054 { char pad[0x38]; uaddr field38; };
 
 s32 get_multiplayer_controller_active_index(s32);
 u32 get_player_by_client_id(s32);

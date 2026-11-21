@@ -39,8 +39,8 @@ struct TObjEnePanarms : public TObjEnemy {
     u8 unk_3D0[0xC];
     void* m_3dc;
     u8 unk_3E0[0x4];
-    u32 m_3e4; // the two TObjEnePanBARA halves (create_bara)
-    u32 m_3e8;
+    uaddr m_3e4; // the two TObjEnePanBARA halves (create_bara)
+    uaddr m_3e8;
     s32 attack_count; // bit 0 / bit 1 pick the next arm attack
     s32 spin_count;
     s32 max_hp; // the split starts at max_hp / 3
@@ -54,7 +54,7 @@ struct TObjEnePanarms : public TObjEnemy {
     static void spawn_npc_pair();
     static int do_action_2(void* p);
     static s32 create_bara(void *setData, s32 index);
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     void init(s16 action);
     int get_state_flag();
     void update_spin();

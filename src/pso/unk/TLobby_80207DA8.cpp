@@ -17,6 +17,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/system/byteswap.h"
+#include <string.h>
 
 
 extern char floor_map_name_acity00[];
@@ -271,14 +273,14 @@ __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss
 }
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
-s32 get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 arg0);
 extern "C" {
 void TLobby__sub_80207E44(void);
 
 void randomize_adventure_maps(void);
 
     extern int story_select_pending_state;
-void TLobby::reset_story_select() { TAdStorySelectGC::set_state((s32)((void*)0)); story_select_pending_state = -1; }
+void TLobby::reset_story_select() { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 temp_r3;
@@ -299,14 +301,14 @@ void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
-s32 get_floor_scene_table(s32 arg0) {
+saddr get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        return (s32)floor_scene_table[arg0].names;
+        return (saddr)floor_scene_table[arg0].names;
     }
-    return (s32)lbl_804C8FC0[arg0].names;
+    return (saddr)lbl_804C8FC0[arg0].names;
 }
 extern "C" {
 
@@ -319,7 +321,6 @@ struct R_80207F30 { s16 a; s16 b; u16 c; };
 
 extern "C" {
 s32 get_current_floor();
-void *memset(void *, int, unsigned long);
 int TLobby__sub_80207F30(R_80207F30 *arg0);
 }
 void bswap_enemy_set_row(void *arg0);
@@ -382,52 +383,52 @@ s32 run_floor_initialize_callbacks(s32 arg0) {
 
 s32 TLobby::update_key_machine() { get_current_floor_area(); return ((int (*)(void))run_floor_initialize_callbacks)(); }
 void bswap_enemy_set_row(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)arg0);
+    bswap_16((u16 *)arg0);
     bswap_enemy_set_row_fields((void *)((void *)((char *)arg0 + 4)));
 }
 
 void bswap_enemy_set_row_fields(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 2)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 4)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 12)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 8)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 10)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 16)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 20)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 24)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 28)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 32)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 36)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 40)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 44)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 48)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 52)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 56)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 60)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 62)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 4)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 12)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 10)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 36)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 40)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 44)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 48)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 52)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 56)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 60)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 62)));
 }
 
 void swap_object_row_endian(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)arg0);
+    bswap_16((u16 *)arg0);
     bswap_object_row_fields((void *)((void *)((char *)arg0 + 4)));
 }
 
 void bswap_object_row_fields(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 2)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 6)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 8)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 12)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 16)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 20)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 24)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 28)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 32)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 36)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 40)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 44)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 48)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 52)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 56)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 6)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 12)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 36)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 40)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 44)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 48)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 52)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 56)));
 }
 extern "C" {
 
@@ -460,14 +461,14 @@ s32 TLobby::get_drop_item_mode() {
     }
 }
 
-s32 load_relocatable_file(s32 arg0, s32 arg1);
+saddr load_relocatable_file(saddr arg0, saddr arg1);
 
 MapSetArea *TLobby__data_805D6068;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
 MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
 MapSetModule *forest_rel_module;
-u32 forest_rel_work_buffer;
+uaddr forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
     MapSetModule *temp_r3;
@@ -479,7 +480,7 @@ void TLobby::update_drop_item() {
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
-            temp_r3 = (MapSetModule *)load_relocatable_file((s32)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            temp_r3 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
                 temp_r0 = temp_r3->areas;
@@ -494,7 +495,7 @@ void TLobby__sub_802083C0(void);
 
 void TLobby__sub_802083C0(void) {
     if ((u32) forest_rel_work_buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)forest_rel_work_buffer));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)forest_rel_work_buffer));
         forest_rel_work_buffer = 0U;
         forest_rel_module = 0;
         forest_rel_set_data_table = 0;
@@ -528,12 +529,12 @@ void TLobby::load_item_data() {
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
-    temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x24B8);
+    temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x24B8);
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
-            temp_r3_2 = (MapSetModule *)load_relocatable_file((s32)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            temp_r3_2 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
                 temp_r0 = temp_r3_2->areas;
@@ -544,7 +545,7 @@ void TLobby::load_item_data() {
     }
 }
 
-s32 wave_event_stream_base;
+saddr wave_event_stream_base;
 s32 wave_event_stream_cursor;
 int wave_event_stop_requested;
 s32 wave_event_trigger_count;
@@ -646,15 +647,12 @@ void TLobby::invoke_command(u8 opcode) {
     wave_event_action_table[opcode].action();
 }
 
-extern "C" {
-s32 memcpy(s32 *, s32, s32);
-}
 
 s32 read_be_u32(void) {
     s32 sp8;
     s32 temp_r4;
 
-    memcpy(&sp8, wave_event_stream_base + wave_event_stream_cursor, 4);
+    memcpy(&sp8, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
     temp_r4 = wave_event_stream_cursor;
     wave_event_stream_cursor = temp_r4 + 4;
     bswap_32__FPUl(&sp8, temp_r4);

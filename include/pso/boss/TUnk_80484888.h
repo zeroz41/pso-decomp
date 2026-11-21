@@ -22,6 +22,6 @@ public:
     virtual void run_task();
 };
 
-typedef char TUnk_80484888_size[sizeof(TUnk_80484888) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80484888_size, sizeof(TUnk_80484888) == 0x48);
 
 #endif

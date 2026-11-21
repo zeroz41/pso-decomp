@@ -49,7 +49,7 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void init_timer_window_layout(TWindowTimer *self);
 void init_timer_window_layout_alt(TWindowTimer *self);
 
@@ -88,7 +88,7 @@ void TWindowTimer::ease_window_timer_position() {
 
 void TWindowTimer::update_chat_parts() {
     u8 *arg0 = (u8 *)this;
-    s32 window_layout_position;
+    saddr window_layout_position;
 
     if (this->flags & 1) {
         window_layout_position = get_window_layout_position(0xA9);
@@ -101,7 +101,7 @@ void TWindowTimer::update_chat_parts() {
 }
 
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
-    s32 array_entry;
+    saddr array_entry;
 
     array_entry = get_array_entry(0);
     text_builder_reset();
@@ -109,12 +109,12 @@ void TWindowTimer::draw(s32 arg1, s32 arg2) {
     append_padded_number(arg1, 3);
     text_builder_append((u8 *)"\tC7:\tC3");
     append_padded_number(arg2, 3);
-    set_text_entry_string((u8 *)array_entry, (u32)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((u8 *)array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)array_entry)->reset_float_field();
 }
 
 void TWindowTimer::set_time(u32 secs) {
-    s32 entry;
+    saddr entry;
     u32 hours;
     u32 mins;
     entry = get_array_entry(0);
@@ -132,31 +132,31 @@ void TWindowTimer::set_time(u32 secs) {
         text_builder_append((u8 *)"\"");
         append_padded_number((secs), 2);
     }
-    set_text_entry_string((u8 *)entry, (u32)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((u8 *)entry, (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)entry)->reset_float_field();
 }
 
-void TWindowTimer::draw_tab(s32 arg0, s32 arg1) {
+void TWindowTimer::draw_tab(s32 arg0, saddr arg1) {
     draw_window_tab((void *)arg1, (void *)(arg1 + 0x10), 3, -64.0f);
 }
 
 s32 TWindowTimer::create() {
     TWindowTimer *window_timer = new TWindowTimer();
     init_timer_window_layout(window_timer);
-    return (s32)window_timer;
+    return (saddr)window_timer;
 }
 
 s32 TWindowTimer::create_alt() {
     TWindowTimer *window_timer = new TWindowTimer();
     init_timer_window_layout_alt(window_timer);
-    return (s32)window_timer;
+    return (saddr)window_timer;
 }
 
 void TWindowTimer::render() {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    TWindowTimer::draw_tab((s32)this, temp_r3);
-    draw_visible_window_entries((void *)this, (void *)((s32)this + 0x24), (int)temp_r3);
+    TWindowTimer::draw_tab((saddr)this, temp_r3);
+    draw_visible_window_entries((void *)this, (void *)((saddr)this + 0x24), (int)temp_r3);
 }
 
 void TWindowTimer::run_task() {

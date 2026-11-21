@@ -48,7 +48,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     s32 variant;
     s32 get_attack_target();
     s32 is_in_water_bomb_states();
-    static int get_instance();
+    static saddr get_instance();
     int is_timer_active();
     int find_nearest_enemy_with_flag(Vec *arg1, f32 farg0);
     int check_player_field_7cc();
@@ -59,8 +59,8 @@ struct TObjEneSlimeOne : public TObjEnemy {
     s32 project_to_ground();
     void clear_child_flag();
     void set_target_flag_bit0();
-    static s32 create(s32 arg0, s32 arg1, s32 arg2);
-    static s32 create(s32 arg0, s32 arg1);
+    static saddr create(saddr owner, saddr set_data, saddr velocity);
+    static saddr create(saddr owner, saddr set_data);
     void set_state(s32 arg1);
     void update_trail_position();
     void sub_800E92D8();
@@ -95,9 +95,9 @@ struct TObjEneSlimeOne : public TObjEnemy {
     void init_state();
 };
 
-typedef char SlimeOneAnimationOffset[offsetof(TObjEneSlimeOne, animation) == 0x388 ? 1 : -1];
-typedef char SlimeOneEffectTimerOffset[offsetof(TObjEneSlimeOne, effect_timer) == 0x394 ? 1 : -1];
-typedef char SlimeOneAttackPositionOffset[offsetof(TObjEneSlimeOne, attack_position) == 0x3D0 ? 1 : -1];
-typedef char SlimeOneVariantOffset[offsetof(TObjEneSlimeOne, variant) == 0x3F4 ? 1 : -1];
-typedef char TObjEneSlimeOne_size[sizeof(TObjEneSlimeOne) == 0x3F8 ? 1 : -1];
+LAYOUT_ASSERT(SlimeOneAnimationOffset, offsetof(TObjEneSlimeOne, animation) == 0x388);
+LAYOUT_ASSERT(SlimeOneEffectTimerOffset, offsetof(TObjEneSlimeOne, effect_timer) == 0x394);
+LAYOUT_ASSERT(SlimeOneAttackPositionOffset, offsetof(TObjEneSlimeOne, attack_position) == 0x3D0);
+LAYOUT_ASSERT(SlimeOneVariantOffset, offsetof(TObjEneSlimeOne, variant) == 0x3F4);
+LAYOUT_ASSERT(TObjEneSlimeOne_size, sizeof(TObjEneSlimeOne) == 0x3F8);
 #endif

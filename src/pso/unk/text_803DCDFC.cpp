@@ -69,7 +69,7 @@ void GXSetDispCopySrc(u16, u16, u16, u16);
 void GXSetDispCopyDst(u16, u16);
 f32 GXGetYScaleFactor(u16, u16);
 u32 GXSetDispCopyYScale(f32);
-void Dolphin_GXSetCopyFilter(u8, void *, int, void *);
+void GXSetCopyFilter(u8, void *, int, void *);
 void *GXSetTlutRegionCallback(void *);
 void GXSetPixelFmt(int, int);
 void GXSetScissor(u32, u32, u32, u32);
@@ -192,7 +192,7 @@ void init_gx_display(void) {
     GXSetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
     GXSetDispCopyDst(rmode->fbWidth, rmode->xfbHeight);
     GXSetDispCopyYScale(GXGetYScaleFactor(rmode->efbHeight, rmode->xfbHeight));
-    Dolphin_GXSetCopyFilter(rmode->aa, rmode->sample_pattern, 1, rmode->vfilter);
+    GXSetCopyFilter(rmode->aa, rmode->sample_pattern, 1, rmode->vfilter);
     if (rmode->aa) {
         GXSetPixelFmt(2, 0);
     } else {
@@ -209,13 +209,13 @@ void init_gx_display(void) {
         addr += 0x2000;
     }
     GXSetTlutRegionCallback((void *)fn_803DD3C8);
-    GXCopyDisp((void *)(*(s32 *)&video_current_framebuffer), 1);
+    GXCopyDisp((void *)(*(saddr *)&video_current_framebuffer), 1);
 }
 #undef rmode
 extern "C" {
 
 void fn_803DD294(void) {
-    VISetNextFrameBuffer((void *) ((*(s32 *)&video_initial_display_framebuffer)));
+    VISetNextFrameBuffer((void *) ((*(saddr *)&video_initial_display_framebuffer)));
     (*(s32 *)&video_current_framebuffer) = (*(s32 *)&video_initial_draw_framebuffer);
     VIFlush();
     VIWaitForRetrace();

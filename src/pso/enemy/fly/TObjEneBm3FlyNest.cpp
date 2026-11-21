@@ -52,13 +52,13 @@ void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
+saddr load_enemy_bml_resource(u8 *arg0);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+s32 play_sound_effect(s32, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
@@ -99,7 +99,7 @@ Vec TObjEneBm3FlyNest__attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 lbl_80500B24[2];
 Ctl_800B47C4 lbl_80500B2C;
-extern s32 debug_chunk_object;
+extern saddr debug_chunk_object;
 u8 *lbl_805D50F8;
 u8 *lbl_805D50FC;
 u8 *lbl_805D5100;
@@ -194,7 +194,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             arc = (-120.0f) / (distance * distance);
             height = 30.0f;
         }
-        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (u32)origin, 0, 0);
+        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (saddr)this, (uaddr)origin, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     case 1:
@@ -203,7 +203,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             state = 2;
             velocity.y = 0.5f * distance;
         }
-        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (u32)origin, 0, 0);
+        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (saddr)this, (uaddr)origin, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     case 2:
@@ -222,7 +222,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         v += 0.5f * distance;
         offset.x = velocity.x * v;
         offset.z = velocity.z * v;
-        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (u32)target, 0, 0);
+        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (saddr)this, (uaddr)target, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     }
@@ -255,7 +255,7 @@ void TObjEneBm3FlyNest::load_resources() {
     lbl_805D5114 = NULL;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm3_fly_nest_resource_desc, (s32)("bm_ene_bm3_fly_a.bml"));
+        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm3_fly_nest_resource_desc, (saddr)("bm_ene_bm3_fly_a.bml"));
     } else {
         lbl_805D5108 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm3_fly_nest_resource_desc);
     }
@@ -300,8 +300,8 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     init_model(bm3_flynest_collider_params, 1);
     m_300 = 20.0f + position.y;
     vfunc_88();
-    set_field_d8((s32)bm3_flynest_hit_action_table);
-    set_field_dc((s32)lbl_805D5108->motions);
+    set_field_d8((saddr)bm3_flynest_hit_action_table);
+    set_field_dc((saddr)lbl_805D5108->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -487,7 +487,7 @@ s32 TObjEneBm3FlyNest::sub_800B3AC8() {
 void TObjEneBm3FlyNest::spawn_child() {
     Vec velocity = {0.0f, 3.0f, 0.0f};
     Vec pos;
-    s32 n;
+    saddr n;
     if (child_count <= 6) {
         n = (set_index + 1) + spawned_count;
         VecCopy(&pos, sub_800B2A54());
@@ -496,7 +496,7 @@ void TObjEneBm3FlyNest::spawn_child() {
             next_child_id++;
             spawned_count++;
             spawn_particle_effect(&unk_3c8[1], 0xC8);
-            play_sound_effect((void *)remap_sound_for_area(0x4003AB27), &position, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003AB27), &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
         }
     }
@@ -567,7 +567,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
                 unk_4d0 = 1;
                 unk_4c8 = 0;
                 spawn_particle_effect(&position, 0xF0);
-                play_sound_effect((void *)remap_sound_for_area(0x4003B72A), &position, 0, 0);
+                play_sound_effect(remap_sound_for_area(0x4003B72A), &position, 0, 0);
             }
             break;
         case 1:
@@ -733,7 +733,7 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
     case 0:
         advance_animation();
         if ((is_passing_frame(10.0f) != 0) || (is_passing_frame(28.0f) != 0)) {
-            play_sound_effect((void *)remap_sound_for_area(0x4003B72A), &position, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003B72A), &position, 0, 0);
         }
         if (is_passing_frame(9.0f) != 0) {
             spawn_particle_effect(&position, 0xF0);
@@ -819,7 +819,7 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
         vfunc_96();
         ((TBoss8Dragon *)this)->noop();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        play_sound_effect((void *)remap_sound_for_area(0x4003A829), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
         if (unk_3a8 != 0) {
             requested_action = 6;
             unk_4b0 = 0.0f;
@@ -888,7 +888,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.z = -8.0f;
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
-                spawn_dead_spot_scale15((s32)&v, 0x32);
+                spawn_dead_spot_scale15((saddr)&v, 0x32);
                 set_field_e4__10TObjPlayerFll(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {
@@ -905,7 +905,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 }
                 unk_4cc += 1;
                 if (unk_4cc >= 0x14) {
-                    play_sound_effect((void *)remap_sound_for_area(0x4003AD2B), &position, 0, 0);
+                    play_sound_effect(remap_sound_for_area(0x4003AD2B), &position, 0, 0);
                     unk_4cc = 0;
                 }
             }
@@ -979,7 +979,7 @@ void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     ++lbl_805D510C;
 }
 
-void TObjEneBm3FlyNest::handle_attachment_sample(s32 arg0) {
+void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
     Vec *pos;
     if (lbl_805D510C == bm3_fly_nest_attachment_sample_table[bm3_fly_nest_attachment_index]) {
         pos = lbl_805D5114;
@@ -1048,9 +1048,9 @@ void TObjEneBm3FlyNest::render() {
                 if (mode == 0) {
                     bm3_fly_nest_attachment_index = 0;
                     lbl_805D5114 = unk_3e0;
-                    set_chunk_model_node_callback((s32)((void *)TObjEneBm3FlyNest::handle_attachment_sample));
+                    set_chunk_model_node_callback((saddr)((void *)TObjEneBm3FlyNest::handle_attachment_sample));
                 } else {
-                    set_chunk_model_node_callback((s32)((void *)TObjEneBm3FlyNest::capture_attachment));
+                    set_chunk_model_node_callback((saddr)((void *)TObjEneBm3FlyNest::capture_attachment));
                 }
                 ((s32 (*)(int, int))rotate_matrix_y)(0, rotation_y);
                 TObjEneDD::clear_global_flag_400();

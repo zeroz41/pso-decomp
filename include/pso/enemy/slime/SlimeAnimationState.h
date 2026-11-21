@@ -46,6 +46,6 @@ struct SlimeAnimationState {
     f32 frame;
 };
 
-typedef char SlimeAnimationStateSize[sizeof(SlimeAnimationState) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(SlimeAnimationStateSize, sizeof(SlimeAnimationState) == 0x34);
 
 #endif

@@ -1,4 +1,6 @@
 #include "types.h"
+#include <stdlib.h>
+#include <string.h>
 #include "pso/unk/TLobby_8006F278.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -8,7 +10,7 @@
 
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
-typedef char RecoveredGlobal_8006F5B0_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006F5B0_lbl_8048C9D8_size, sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748);
 
 struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 
@@ -72,15 +74,13 @@ struct Table_8006F38C {
 };
 
 extern "C" {
-s32 TWindowSubStatusDisp__sub_8006F0D8(void *, int);
+saddr TWindowSubStatusDisp__sub_8006F0D8(void *, int);
 s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
-u32 get_character_save_record(int);
-s32 TLobby__sub_8006F5B0(s32 arg0);
-s32 strncpy(void *, void *, int);
+uaddr get_character_save_record(int);
+s32 TLobby__sub_8006F5B0(saddr arg0);
 LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
-s32 strncmp(void *, void *, int);
 void TLobby__sub_8006F48C(void);
 u32 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 TLobby__sub_8006F38C(s32 arg0);
@@ -107,7 +107,7 @@ s32 TLobby__sub_8006F38C(s32 arg0) {
     u32 *flags;
     s32 i;
     Entry_8006F38C *e;
-    u32 w;
+    uaddr w;
     lo = TWindowSubStatusDisp::calc_entry_offset(-1);
     hi = TWindowSubStatusDisp::calc_layout_hash(-1);
     if (get_character_save_record(0xFFFF) == 0) {
@@ -165,14 +165,14 @@ void TLobby__sub_8006F48C(void) {
     win->id = TLobby__sub_80071640(TBL_8006F48C.defaultId);
 }
 
-s32 TLobby__sub_8006F5B0(s32 arg0) {
+s32 TLobby__sub_8006F5B0(saddr arg0) {
     s32 temp_r30;
     s32 temp_r3;
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     s32 temp_r3_3;
     s32 valid_slot;
     s32 var_r28;
-    u32 character_save_record;
+    uaddr character_save_record;
     character_save_record = get_character_save_record(0xFFFF);
     temp_r3 = TWindowSubStatusDisp::get_layout_id(-1);
     if ((character_save_record == 0U) || ((s32) challenge_mode_state.value < 0) || ((s32) challenge_mode_state.value >= temp_r3)) {
@@ -190,7 +190,7 @@ s32 TLobby__sub_8006F5B0(s32 arg0) {
         goto block_12;
     }
     valid_slot = TLobby::get_valid_slot(temp_r3_3);
-    if (is_id_out_of_range__6TLobbyFi(valid_slot) != 0) {
+    if (TLobby::is_id_out_of_range(valid_slot) != 0) {
         *(s32 *)((s8 *)temp_r3_2 + temp_r30) = 0;
         return 0;
     }
@@ -255,8 +255,8 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     return ret;
 }
 void TLobby::set_name_string() {
-    s32 arg0 = (s32)this;
-    strncpy((void *)&lobby_name_string_buffer.value, (void *)arg0, 0x1F);
+    saddr arg0 = (saddr)this;
+    strncpy((char *)&lobby_name_string_buffer.value, (const char *)arg0, 0x1F);
     *(s8 *)((s8 *)&lobby_name_string_buffer.value + 0x1F) = 0;
 }
 
@@ -314,8 +314,8 @@ s32 TLobby::get_valid_slot(int id) {
     if (id == 0) {
         return 0;
     }
-    slot = decode_slot__6TLobbyFUi(id);
-    return is_id_out_of_range__6TLobbyFi(slot) ? 0 : slot;
+    slot = TLobby::decode_slot(id);
+    return TLobby::is_id_out_of_range(slot) ? 0 : slot;
 }
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);
@@ -363,7 +363,6 @@ s32 mix_seed__6TLobbyFUs(u16 arg0) {
     return (temp_r3 << 0x10) | (temp_r3 ^ arg0);
 }
 
-s32 rand();
 
 u16 TLobby__sub_8006FAE4(void) {
     f32 temp_f31;

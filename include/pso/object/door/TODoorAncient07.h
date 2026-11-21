@@ -30,5 +30,5 @@ struct TODoorAncient07 : public TODoorBase {
     static NJS_OBJECT *model_nodes;  // three nodes copied out of the bml model
 };
 
-typedef char TODoorAncient07_size[sizeof(TODoorAncient07) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TODoorAncient07_size, sizeof(TODoorAncient07) == 0xD4);
 #endif

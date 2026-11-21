@@ -37,6 +37,6 @@ struct TODoorVoShip : public TObjMapObject {
     static BmlResource *bml_resource;
 };
 
-typedef char TODoorVoShip_size[sizeof(TODoorVoShip) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TODoorVoShip_size, sizeof(TODoorVoShip) == 0xEC);
 
 #endif

@@ -21,5 +21,5 @@ public:
     Vec model_scale;
 };
 
-typedef char TORainbowCave01_size[sizeof(TORainbowCave01) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TORainbowCave01_size, sizeof(TORainbowCave01) == 0xE0);
 #endif

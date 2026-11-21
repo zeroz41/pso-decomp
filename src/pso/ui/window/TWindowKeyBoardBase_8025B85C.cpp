@@ -32,7 +32,7 @@ struct Kbd_8025C804 {
 extern "C" {
 s32 is_chat_shortcut_set(int);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
-s32 get_shared_text_buffer();
+saddr get_shared_text_buffer();
 
 int TWindowKeyBoardBase::is_alnum(u16 arg0) {
     if ((s32) arg0 < 0x30) {
@@ -470,7 +470,7 @@ void TWindowKeyBoardBase::vt19() {
     }
     temp_r4_2 = *(s32 *)((s8 *)this + 0xB4);
     if (!(temp_r4_2 & 0x80) && !(temp_r4_2 & 0x100) && !(temp_r4_2 & 0x200)) {
-        ((KeyboardTextBuffer *)(*(s32 *)((s8 *)this + 0x68)))->insert_char(0x20);
+        ((KeyboardTextBuffer *)(*(saddr *)((s8 *)this + 0x68)))->insert_char(0x20);
     }
 }
 
@@ -555,14 +555,14 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         return;
     }
     if (!(f & 1)) {
-        ((KeyboardTextBuffer *)(*(int *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
+        ((KeyboardTextBuffer *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
         return;
     }
     if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
         *(void **)((s8 *)((u8 *)this) + 0x68) = (void *)(((u8 *)this) + 0x84);
         *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 2;
     }
-    ((KeyboardTextBuffer *)(*(int *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
+    ((KeyboardTextBuffer *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
     if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
         sub_8025DBDC(0);
     }
@@ -571,7 +571,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
 void TWindowKeyBoardBase::init() {
     u8 *arg0 = (u8 *)this;
     ((KeyboardTextBuffer *)(arg0 + 0x84))->reset_state();
-    *(s32 *)((s8 *)arg0 + 0x68) = (s32)(arg0 + 0x6C);
+    *(s32 *)((s8 *)arg0 + 0x68) = (saddr)(arg0 + 0x6C);
     *(u16 *)((s8 *)arg0 + 0x60) = (u16) (*(u16 *)((s8 *)arg0 + 0x60) & ~0x86);
 }
 

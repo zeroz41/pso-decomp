@@ -50,7 +50,7 @@ struct WindowDrawContext
 // The one context every window draws through (name inferred; TWindowCtrlMain creates and frees it).
 extern WindowDrawContext *shared_window_draw_context;
 
-typedef char WindowDrawContext_depth_offset[offsetof(WindowDrawContext, depth) == 0x38 ? 1 : -1];
-typedef char WindowDrawContext_clip_y1_offset[offsetof(WindowDrawContext, clip_y1) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(WindowDrawContext_depth_offset, offsetof(WindowDrawContext, depth) == 0x38);
+LAYOUT_ASSERT(WindowDrawContext_clip_y1_offset, offsetof(WindowDrawContext, clip_y1) == 0x48);
 
 #endif

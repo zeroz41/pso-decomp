@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/render/render_util.h"
@@ -7,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 
 
@@ -23,7 +25,6 @@ void TItemEffectWeapon__sub_8036340C(void);
 void TItemEffectWeapon__sub_80363410(void);
 
 void decrement_timer__17TItemEffectWeaponFv(void *, s32);
-void* memcpy(void* destination, const void* source, size_t size);
 f32 xyz_distance(const f32 *a, const f32 *b);
 f32 normalize_vector(f32 *v);
 
@@ -147,12 +148,12 @@ void TItemEffectWeapon::render_trail() {
 
 
 TItemEffectWeapon::~TItemEffectWeapon() {
-    TItemEffectWeapon::release_trail_buffer((void*)*(s32 *)((s8 *)this + 0x1C));
+    TItemEffectWeapon::release_trail_buffer((void*)*(saddr *)((s8 *)this + 0x1C));
 }
 
-TItemEffectWeapon::TItemEffectWeapon(s32 arg1, s32 param) : TItemHeapObject((TObject*)arg1) {
+TItemEffectWeapon::TItemEffectWeapon(saddr arg1, s32 param) : TItemHeapObject((TObject*)arg1) {
     m_name = TItemEffectWeapon__class_name;
-    *(s32 *)((s8 *)this + 0x1C) = (s32)TItemEffectWeapon::allocate_trail_buffer();
+    *(saddr *)((s8 *)this + 0x1C) = (saddr)TItemEffectWeapon::allocate_trail_buffer();
     this->color = param;
     this->vertex_count = 0;
     this->field_28 = 0;

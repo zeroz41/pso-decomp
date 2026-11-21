@@ -22,6 +22,6 @@ struct TObjRainbowLobby : public TObjMapObject {
     static BmlResource *shared_model_resource;
 };
 
-typedef char TObjRainbowLobby_size[sizeof(TObjRainbowLobby) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TObjRainbowLobby_size, sizeof(TObjRainbowLobby) == 0xD0);
 
 #endif

@@ -26,7 +26,7 @@ struct TObjEneSlimeWaterBomb : public TObjEnemy {
     s32 elapsed_frames;
 };
 
-typedef char SlimeWaterBombMovementOffset[offsetof(TObjEneSlimeWaterBomb, movement) == 0x374 ? 1 : -1];
-typedef char SlimeWaterBombOwnerOffset[offsetof(TObjEneSlimeWaterBomb, owner) == 0x38C ? 1 : -1];
-typedef char TObjEneSlimeWaterBomb_size[sizeof(TObjEneSlimeWaterBomb) == 0x398 ? 1 : -1];
+LAYOUT_ASSERT(SlimeWaterBombMovementOffset, offsetof(TObjEneSlimeWaterBomb, movement) == 0x374);
+LAYOUT_ASSERT(SlimeWaterBombOwnerOffset, offsetof(TObjEneSlimeWaterBomb, owner) == 0x38C);
+LAYOUT_ASSERT(TObjEneSlimeWaterBomb_size, sizeof(TObjEneSlimeWaterBomb) == 0x398);
 #endif

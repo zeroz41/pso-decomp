@@ -40,5 +40,5 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     void handle_confirm_dialog();
 };
 
-typedef char TShopDeleteItemWindow_size[sizeof(TShopDeleteItemWindow) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TShopDeleteItemWindow_size, sizeof(TShopDeleteItemWindow) == 0x68);
 #endif

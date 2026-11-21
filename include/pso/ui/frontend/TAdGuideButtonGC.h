@@ -35,8 +35,8 @@ public:
     void setup_button(GuideButtonSpec *spec);
     void update_trail_quads();
 };
-typedef char TAdGuideButtonGC_size_check[sizeof(TAdGuideButtonGC)==0x1A8 ? 1 : -1];
-typedef char GuideButtonSpec_size_check[sizeof(GuideButtonSpec)==0x24 ? 1 : -1];
+LAYOUT_ASSERT(TAdGuideButtonGC_size_check, sizeof(TAdGuideButtonGC)==0x1A8);
+LAYOUT_ASSERT(GuideButtonSpec_size_check, sizeof(GuideButtonSpec)==0x24);
 
 extern "C" {
 void create_guide_button(TObject *parent, GuideButtonSpec *spec);

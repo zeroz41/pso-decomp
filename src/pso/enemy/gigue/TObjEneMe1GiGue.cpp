@@ -44,12 +44,13 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
-s32 ene_me1_gigue_boss_id;
-s32 lbl_805D682C;
-s32 lbl_805D6830;
+saddr ene_me1_gigue_boss_id;
+saddr lbl_805D682C;
+saddr lbl_805D6830;
 GiGueParameters *TObjEneMe1GiGue__param_table;
 BmlResource *TObjEneMe1GiGue__data_805D6838;
 TUnk_8048FA00 *TObjEneMe1GiGue__barrier_obj;
@@ -86,7 +87,7 @@ s16 get_entity_id(void *);
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, s32, s32);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -96,7 +97,7 @@ void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
-s32 find_active_entity_by_id(int);
+saddr find_active_entity_by_id(int);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 minimap_render_dot(void *, int, int, int);
 TObjEneMe1GiGue *TObjEneMe1GiGue__ct(TObjEneMe1GiGue *self, TObject *parent, void *set_data);
@@ -111,7 +112,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void free_collision_body_parts(void *);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 obj_setFlags30(void *, int);
@@ -323,7 +323,7 @@ TObjEneMe1GiGue *TObjEneMe1GiGue__ct(TObjEneMe1GiGue *self, TObject *parent, voi
     self->state36C = *(s16 *)((s8 *)set_data + 0x3E);
     self->load_params_from_table(self->variant);
     self->action_table = gigue_enemy_param_table;
-    self->set_field_d8((s32)self->action_table);
+    self->set_field_d8((saddr)self->action_table);
     init_collision_body_parts(self, lbl_804E1304, 2);
     self->bodies[1].flags &= ~1;
     self->movementParameters = &lbl_804E12E8;
@@ -383,7 +383,7 @@ TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16
         __dt__13TUnk_80494938Fv(&self->m_3fc, -1);
         __dt__15TObjEnemyCustomFv(self, 0);
         if (del > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -405,9 +405,9 @@ void TObjEneMe1GiGue::load_resources() {
         }
         TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
     }
-    ene_me1_gigue_boss_id = (s32)TLobby::register_boss(0x1A);
-    lbl_805D682C = (s32)TLobby::dispatch_shared_handler_b(0x1A);
-    lbl_805D6830 = (s32)TLobby::register_object(0x1A);
+    ene_me1_gigue_boss_id = (saddr)TLobby::register_boss(0x1A);
+    lbl_805D682C = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
+    lbl_805D6830 = (saddr)TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
     o = new TUnk_8048FA00(TObjEneMe1GiGue__data_805D6838->models->model);
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
@@ -564,7 +564,7 @@ void TObjEneMe1GiGue::render() {
         }
     }
     TObjFish::set_global_param(texlist);
-    select_actor_lighting((s32)this);
+    select_actor_lighting((saddr)this);
     TObjPlayer::toggle_particle_effect();
     ok = 1;
     push_matrix();
@@ -776,14 +776,14 @@ void TObjEneMe1GiGue__sub_802CC900(TObjEneMe1GiGue *gigue) {
             }
             break;
         case 2:
-            play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A81D)), (s32)gigue, (u32)&gigue->position, (s32)(0), (s32)(0));
+            play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A81D)), (saddr)gigue, (uaddr)&gigue->position, (s32)(0), (s32)(0));
             if (gigue->frame >= 20.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 if ((particle = (TParticleCtrl *)spawn_particle_effect(&gigue->m_39c, 0x203)) != NULL) {
                     GiGueShotAngles dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
-                TObjEneMe1GiGueMissile::create((s32)gigue, (s32)&gigue->m_39c, (s32)&((TObjChara *)gigue->target)->m_2fc, lbl_805D6840, (f32)lbl_805D6850);
+                TObjEneMe1GiGueMissile::create((saddr)gigue, (saddr)&gigue->m_39c, (saddr)&((TObjChara *)gigue->target)->m_2fc, lbl_805D6840, (f32)lbl_805D6850);
                 play_sound_effect(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A31E), &gigue->position, 0, 0);
                 gigue->state = 3;
             }
@@ -855,7 +855,7 @@ void TObjEneMe1GiGue__sub_802CC614(TObjEneMe1GiGue *gigue) {
             }
             break;
         case 2:
-            play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A820)), (s32)gigue, (u32)&gigue->position, (s32)(0), (s32)(0));
+            play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A820)), (saddr)gigue, (uaddr)&gigue->position, (s32)(0), (s32)(0));
             if (gigue->frame >= 10.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 n = gigue->m_3c0;
@@ -934,7 +934,7 @@ void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue) {
             if (gigue->frame >= 10.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 gigue->state = 3;
-                TTecZarua::create_instance((s32)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
+                TTecZarua::create_instance((saddr)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
                 create__9TTecJelinFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
             }
             break;
@@ -1035,7 +1035,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         if (this->m_3ec >= 50.0f) {
             this->state = 3;
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (s32)this, (u32)&this->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (saddr)this, (uaddr)&this->position, (s32)(0), (s32)(0));
         break;
     }
     case 3:
@@ -1061,7 +1061,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         if (this->m_3ec > 15.0f) {
             this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed * 2, (Vec *)&this->x_speed);
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (s32)this, (u32)&this->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (saddr)this, (uaddr)&this->position, (s32)(0), (s32)(0));
         project_actor_to_ground(this, &this->position, 0);
         break;
     case 4:
@@ -1091,7 +1091,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
                 spawn_particle_effect(&this->position, 0xF0);
             }
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (s32)this, (u32)&this->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (saddr)this, (uaddr)&this->position, (s32)(0), (s32)(0));
         this->check_object_collisions();
         check_enemy_body_collisions(this);
         this->update_enemy_collision_flags();
@@ -1111,7 +1111,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
 void TObjEneMe1GiGue::update_hit_reaction() {
     s16 action;
     s16 ref_hp;
-    s32 entity;
+    saddr entity;
     s32 retaliate;
     switch (state) {
     case 0:
@@ -1150,7 +1150,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
         m_378 = 1;
         ref_hp = referenceHp;
         if (ref_hp - hp > ref_hp / 4 && !(actorFlags & 2)) {
-            entity = (s32)find_entity_by_id(m_2d4);
+            entity = (saddr)find_entity_by_id(m_2d4);
             if (entity != 0) {
                 retaliate = 1;
                 if ((actorFlags & 0x01000000) && xz_distance_squared(&position, &((TObjBase *)entity)->position) > 400.0f) {
@@ -1176,7 +1176,7 @@ void TObjEneMe1GiGue::break_apart() {
     Vec pos;
     VecCopy(&pos, &position);
     pos.y += 40.0f + m_3ec;
-    TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe1GiGue__barrier_obj, 0, texlist, (s32)&pos, rotation_y);
+    TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1GiGue__barrier_obj, 0, texlist, (saddr)&pos, rotation_y);
     ((TObjPlayer *)this)->refresh_lobby_state();
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);
@@ -1301,7 +1301,7 @@ void TObjEneMe1GiGue__sub_802CB378(TObjEneMe1GiGue *gigue) {
                 spawn_particle_effect(&gigue->position, 0xF0);
             }
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A819)), (s32)gigue, (u32)&gigue->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A819)), (saddr)gigue, (uaddr)&gigue->position, (s32)(0), (s32)(0));
         ((TObjPlayer *)gigue)->update_collisions();
         break;
     case -1:

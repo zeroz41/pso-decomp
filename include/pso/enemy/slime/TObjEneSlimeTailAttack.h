@@ -16,7 +16,7 @@ struct SlimeTailPose {
 struct TObjEneSlimeTailAttack : public TObjEnemy {
     TObjEneSlimeTailAttack(TObject *parent, const Vec *position, s32 angle, TObjEneSlimeOne *owner);
     virtual ~TObjEneSlimeTailAttack();
-    static TObjEneSlimeTailAttack *create(s32, const Vec *, s32, TObjEneSlimeOne *);
+    static TObjEneSlimeTailAttack *create(saddr, const Vec *, s32, TObjEneSlimeOne *);
     void draw_blob_shadows();
     s32 sub_800E85BC();
     void draw_stretched_segment(void *, void *, f32);
@@ -33,9 +33,9 @@ struct TObjEneSlimeTailAttack : public TObjEnemy {
     SlimeTailPose pose;
 };
 
-typedef char SlimeTailOwnerOffset[offsetof(TObjEneSlimeTailAttack, owner) == 0x374 ? 1 : -1];
-typedef char SlimeTailPoseOffset[offsetof(TObjEneSlimeTailAttack, pose) == 0x390 ? 1 : -1];
-typedef char SlimeTailSize[sizeof(TObjEneSlimeTailAttack) == 0x3CC ? 1 : -1];
+LAYOUT_ASSERT(SlimeTailOwnerOffset, offsetof(TObjEneSlimeTailAttack, owner) == 0x374);
+LAYOUT_ASSERT(SlimeTailPoseOffset, offsetof(TObjEneSlimeTailAttack, pose) == 0x390);
+LAYOUT_ASSERT(SlimeTailSize, sizeof(TObjEneSlimeTailAttack) == 0x3CC);
 
 struct TObjEneSlimeWaterBomb;
 extern "C" {

@@ -7,8 +7,8 @@
 extern "C" {
 
 void *get_player_by_client_id(s32 i);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
-void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
+void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, saddr arg1);
 
 void TWindowSubEquip::update_displayed_item() {
     s32 temp_r3;
@@ -21,11 +21,11 @@ void TWindowSubEquip::update_displayed_item() {
 }
 
 void TWindowSubEquip::update() {
-    s32 player;
+    saddr player;
     s32 var_r3;
     s32 slot;
 
-    player = (s32)get_player_by_client_id(this->m_28);
+    player = (saddr)get_player_by_client_id(this->m_28);
     if (player != 0) {
         slot = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
         TItem *item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);

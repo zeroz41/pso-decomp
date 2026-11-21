@@ -15,7 +15,7 @@ struct TObjEnvSoundGlobal : public TObjBase {
     virtual void run_task();
 };
 
-typedef char TObjEnvSoundGlobal_size[sizeof(TObjEnvSoundGlobal) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(TObjEnvSoundGlobal_size, sizeof(TObjEnvSoundGlobal) == 0x9C);
 
 extern "C" {
 void *TObjEnvSoundEx__create(void *arg0);

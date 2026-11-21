@@ -105,7 +105,7 @@ s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 
-extern s32 debug_chunk_object;
+extern saddr debug_chunk_object;
 
 
 extern s32 saved_model_render_flags;
@@ -416,13 +416,12 @@ void __ct__15RenderFadeStateFv();
 
 void free_collision_body_parts(void *);
 
-void __dl__7TObjectFPv(void *);
 
 void TObjEneRecon__sub_8031F408(void *arg0, s32 arg1);
 
 void TObjEneRecon__sub_8031F600(void *arg0, s32 arg1);
 
-void dispatch_state__12TObjEneReconFiUii(s32 arg0, u32 arg1, s32 arg2);
+void dispatch_state__12TObjEneReconFiUii(saddr arg0, u32 arg1, s32 arg2);
 
 void run_task__14TObjEneRecoboxFv(u8 *arg0);
 
@@ -432,11 +431,11 @@ void __destroy_arr(void *, void *, int, int);
 
 void __construct_array(void *, void *, void *, int, int);
 
-s32 recobox_boss_register_id;
+saddr recobox_boss_register_id;
 
-s32 lbl_805D6B14;
+saddr lbl_805D6B14;
 
-s32 TObjEneRecobox__shared_object_handle;
+saddr TObjEneRecobox__shared_object_handle;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 
@@ -716,7 +715,7 @@ void *TObjEneRecobox__vtable[107] = {
 
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
-int TObjEneRecobox__sub_803201D0(void);
+saddr TObjEneRecobox__sub_803201D0(void);
 
 void *TObjEneRecobox__create(void *arg0);
 
@@ -735,7 +734,7 @@ struct Sub_80320260 { u8 pad[0xC]; f32 f0C; };
 
 
 
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource(u8 *arg0);
 
 Vec lbl_80543000;
 
@@ -763,15 +762,15 @@ void TObjEneRecobox::load_resources() {
         }
         (*(u32 *)&TObjEneRecobox__static_instance) = res;
     }
-    recobox_boss_register_id = (s32)TLobby::register_boss(0x41);
-    lbl_805D6B14 = (s32)TLobby::dispatch_shared_handler_b(0x41);
-    TObjEneRecobox__shared_object_handle = (s32)TLobby::register_object(0x41);
-    lbl_805D6B1C = (s32)TLobby::dispatch_shared_handler_a(0x41);
+    recobox_boss_register_id = (saddr)TLobby::register_boss(0x41);
+    lbl_805D6B14 = (saddr)TLobby::dispatch_shared_handler_b(0x41);
+    TObjEneRecobox__shared_object_handle = (saddr)TLobby::register_object(0x41);
+    lbl_805D6B1C = (saddr)TLobby::dispatch_shared_handler_a(0x41);
     TObjEneRecon::load_resources();
     {
         Sub_80320260 *sp = (Sub_80320260 *)lbl_804EC684;
         NpcAnimationBinding s = recobox_resource_binding_desc;
-        box = (Box_80320260 *)(*(u32 *)&TObjEneRecobox__static_instance);
+        box = (Box_80320260 *)(*(uaddr *)&TObjEneRecobox__static_instance);
         s.motions = reinterpret_cast<BmlMotionEntry *>(box->f430);
         NpcModelRegistry::register_animated_chunk((s16)0xD, reinterpret_cast<void *>(box->f42C->f18), reinterpret_cast<void *>(box->f42C->texlist), &s, (f32)(getf_80320260(sp)), 0.0f);
     }
@@ -782,7 +781,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 void *TObjEneRecobox__create(void *arg0) {
     void *o = TObject::operator new(0x4F4);
     if (o != NULL) {
-        o = TObjEneRecobox__ct((u8 *)o, (s32)tl_04, (u8 *)arg0);
+        o = TObjEneRecobox__ct((u8 *)o, (saddr)tl_04, (u8 *)arg0);
     }
     return o;
 }
@@ -790,12 +789,12 @@ void *TObjEneRecobox__create(void *arg0) {
 void TObjEneRecobox::release_static_instance() {
     TObjEneRecon::release_static_instance();
     if ((u32) (*(u32 *)&TObjEneRecobox__static_instance) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjEneRecobox__static_instance), 1);
+        free_bin_model_request((void*)(*(uaddr *)&TObjEneRecobox__static_instance), 1);
         (*(u32 *)&TObjEneRecobox__static_instance) = 0U;
     }
 }
 
-int TObjEneRecobox__sub_803201D0(void) {  return (*(int *)&TObjEneRecobox__static_instance); }
+saddr TObjEneRecobox__sub_803201D0(void) {  return (*(int *)&TObjEneRecobox__static_instance); }
 
 u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     u32 ret;
@@ -833,7 +832,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     ((TObjEneDD *)ene_recobox)->init_model((CollisionBody *)lbl_804EC684, (s32)1);
     ((TObjEneRecobox *)ene_recobox)->m_300 = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
     ((TObjEneRecobox *)ene_recobox)->vfunc_88();
-    ((TObjMotion *)ene_recobox)->set_field_d8((s32)TObjEneRecobox__animation_entries);
+    ((TObjMotion *)ene_recobox)->set_field_d8((saddr)TObjEneRecobox__animation_entries);
     ((TObjMotion *)ene_recobox)->set_field_dc(*(s32 *)((s8 *)TObjEneRecobox__static_instance + 0x430));
     ((TObjEneRecobox *)ene_recobox)->requested_action = 0;
     ((TObjMotion *)ene_recobox)->set_animation(((TObjEneRecobox *)ene_recobox)->requested_action);
@@ -892,7 +891,7 @@ Obj_8031FE14 *fn_8031FE14(Obj_8031FE14 *arg0, s16 arg1) {
         __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3C0, -1);
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -915,7 +914,7 @@ void TObjEneRecobox::run_task() {
     this->update_floor_probe();
 }
 
-void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 reason) {
+void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 reason) {
     switch (arg1) {
     case 0:
         ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(reason);
@@ -946,7 +945,7 @@ void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 reason) {
 
 void TObjEneRecobox::vfunc_28() {  }
 
-void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state((s16)((void*)6)); } }
+void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state(6); } }
 
 void TObjEneRecobox::vfunc_62() { clear_attack_receipts(); }
 

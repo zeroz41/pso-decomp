@@ -43,7 +43,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     static void update_drop(void *claw);
 };
 
-typedef char TObjEneBalClawClaw_size[sizeof(TObjEneBalClawClaw) == 0x428 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBalClawClaw_size, sizeof(TObjEneBalClawClaw) == 0x428);
 
 extern "C" {
 void sub_80091A38__18TObjEneBalClawClawFv(TObjEneBalClawClaw *claw);

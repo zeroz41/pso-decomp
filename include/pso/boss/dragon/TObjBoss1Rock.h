@@ -25,5 +25,5 @@ struct TObjBoss1Rock : public TObject {
     s32 m_model_index;   // entry of the dragon ground model table: 1, or 2 when kind is 0
 };
 
-typedef char TObjBoss1Rock_size[sizeof(TObjBoss1Rock) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss1Rock_size, sizeof(TObjBoss1Rock) == 0x54);
 #endif

@@ -55,9 +55,9 @@ void *TOFenceAncient04::create(void *set_data) {
 
 void TOFenceAncient04::unload_resources() {
     if (texlists != NULL) {
-        TObjPlayer::free_if_valid((s32)texlists[1]);
-        TObjPlayer::free_if_valid((s32)texlists[2]);
-        TObjPlayer::free_if_valid((s32)texlists[3]);
+        TObjPlayer::free_if_valid((saddr)texlists[1]);
+        TObjPlayer::free_if_valid((saddr)texlists[2]);
+        TObjPlayer::free_if_valid((saddr)texlists[3]);
         if (texlists != NULL) {
             mem_free(texlists);
             texlists = NULL;
@@ -78,9 +78,9 @@ void TOFenceAncient04::load_resources() {
     GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
     texlists = lists;
     lists[0] = (GinjaTextureList *)model_resource->models[0].m_c;
-    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_b);
-    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_g);
-    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_p);
+    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_b);
+    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_g);
+    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.
@@ -97,7 +97,7 @@ TOFenceAncient04::TOFenceAncient04(TObject *parent, void *set_data) : TOFenceBas
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
-    texlist = (s32)texlists[read_texture_variant()];
+    texlist = (saddr)texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     init_collision_body_parts(this, fence_ancient04_collision_bodies, 8);

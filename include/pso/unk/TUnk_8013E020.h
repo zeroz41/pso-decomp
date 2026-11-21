@@ -16,6 +16,6 @@ public:
     u16 b;
     s32 c;
 };
-typedef char TUnk_8013E020_size[sizeof(TUnk_8013E020) == 0x8 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8013E020_size, sizeof(TUnk_8013E020) == 0x8);
 
 #endif

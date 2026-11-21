@@ -11,5 +11,5 @@ struct TODoorLaboNormal : public TODoorFourLightBase {
     void init_field_d4();
 };
 
-typedef char TODoorLaboNormal_size[sizeof(TODoorLaboNormal) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TODoorLaboNormal_size, sizeof(TODoorLaboNormal) == 0xFC);
 #endif

@@ -23,7 +23,7 @@ void TAdSoniclogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSonic
 
 }
 
-s32 get_logo_texture_e_handle(void);
+saddr get_logo_texture_e_handle(void);
 
 void TAdSoniclogo::render() {
     render_logo_with_default(sonic_logo_object, 16, -1, -150.0f);

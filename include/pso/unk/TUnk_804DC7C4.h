@@ -22,6 +22,6 @@ public:
     Vec reflect_pos;
     Vec reflect_normal;
 };
-typedef char TUnk_804DC7C4_size[sizeof(TUnk_804DC7C4) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804DC7C4_size, sizeof(TUnk_804DC7C4) == 0x3C);
 
 #endif

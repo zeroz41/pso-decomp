@@ -57,7 +57,7 @@ public:
     s32 m_168;
 };
 
-typedef char TBoss7TentacleM50[offsetof(TBoss7Tentacle, m_50) == 0x50 ? 1 : -1];
-typedef char TBoss7TentacleM158[offsetof(TBoss7Tentacle, m_158) == 0x158 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7TentacleM50, offsetof(TBoss7Tentacle, m_50) == 0x50);
+LAYOUT_ASSERT(TBoss7TentacleM158, offsetof(TBoss7Tentacle, m_158) == 0x158);
 
 #endif

@@ -229,7 +229,7 @@ u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
-s32 TOTrapAncient01::check_trigger_flag(s32 arg0, s32 arg1) {
+s32 TOTrapAncient01::check_trigger_flag(saddr arg0, s32 arg1) {
     s32 var_r3;
 
     if (arg1 & 0x2000) {
@@ -242,7 +242,7 @@ s32 TOTrapAncient01::check_trigger_flag(s32 arg0, s32 arg1) {
     }
     return 1;
 }
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
     s32 idx = -1;
     s32 i;
     s32 ok;
@@ -273,7 +273,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
             e->src = (Vec *)src;
             e->x1a = a3;
             e->timer = 5;
-            idx = normalize_sound_request((u32)id, (s32)e->x1c, (s32)e->src, (s32)e->x1a, (s32)flags);
+            idx = normalize_sound_request((u32)id, (s32)e->x1c, (saddr)e->src, (s32)e->x1a, (s32)flags);
         }
         return idx;
     }
@@ -315,7 +315,7 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
         }
     }
     if (idx < 0) {
-        idx = play_packed_sound_once(id, (s32)src, a2, flags);
+        idx = play_packed_sound_once(id, (saddr)src, a2, flags);
     }
     if (idx >= 0) {
         if (src != NULL) {
@@ -343,7 +343,7 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
 }
 
 
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);
@@ -383,11 +383,11 @@ s32 check_sound_admission_range(const Vec *pos) {
 void update_sound_request_slots(void) {
     s32 i;
     s32 r;
-    u32 p;
+    uaddr p;
     SndEnt_8022675C *e;
     s16 *t;
     if (lbl_805D62B0 != 0) {
-        p = (u32)get_player_by_client_id((local_client_id));
+        p = (uaddr)get_player_by_client_id((local_client_id));
         if (p != 0U) {
             VecCopy((Vec *)lbl_80514C50, (const Vec *)(p + 0x38));
         } else if (camera_ctrl_instance != 0U) {

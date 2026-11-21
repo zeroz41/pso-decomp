@@ -112,6 +112,6 @@ void TUnk_804E70A8::reserved_53() {
     NJS_OBJECT *model = item_model;
     draw_weapon_model();
     item_model = second_model;
-    draw_weapon_at_joint((s32)this, 0x23);
+    draw_weapon_at_joint((saddr)this, 0x23);
     item_model = model;
 }

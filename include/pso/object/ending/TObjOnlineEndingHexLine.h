@@ -22,7 +22,7 @@ public:
     static void *create(void *arg0, void *arg1);
 };
 
-typedef char EndingHexLineSize[sizeof(TObjOnlineEndingHexLine) == 0xA0 ? 1 : -1];
-typedef char EndingHexProgressOffset[offsetof(TObjOnlineEndingHexLine, progress) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(EndingHexLineSize, sizeof(TObjOnlineEndingHexLine) == 0xA0);
+LAYOUT_ASSERT(EndingHexProgressOffset, offsetof(TObjOnlineEndingHexLine, progress) == 0x9C);
 
 #endif

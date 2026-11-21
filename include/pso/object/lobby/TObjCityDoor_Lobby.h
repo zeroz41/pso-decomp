@@ -21,10 +21,10 @@ struct TObjCityDoor_Lobby : public TObjBase {
     s32 m_250;
 };
 
-typedef char TObjCityDoorLobbyGroupOffset[offsetof(TObjCityDoor_Lobby, collision_group) == 0x90 ? 1 : -1];
-typedef char TObjCityDoorLobbyModelOffset[offsetof(TObjCityDoor_Lobby, collision_model) == 0xA8 ? 1 : -1];
-typedef char TObjCityDoorLobbyFacesOffset[offsetof(TObjCityDoor_Lobby, collision_faces) == 0xB8 ? 1 : -1];
-typedef char TObjCityDoorLobbyVerticesOffset[offsetof(TObjCityDoor_Lobby, collision_vertices) == 0x1D8 ? 1 : -1];
+LAYOUT_ASSERT(TObjCityDoorLobbyGroupOffset, offsetof(TObjCityDoor_Lobby, collision_group) == 0x90);
+LAYOUT_ASSERT(TObjCityDoorLobbyModelOffset, offsetof(TObjCityDoor_Lobby, collision_model) == 0xA8);
+LAYOUT_ASSERT(TObjCityDoorLobbyFacesOffset, offsetof(TObjCityDoor_Lobby, collision_faces) == 0xB8);
+LAYOUT_ASSERT(TObjCityDoorLobbyVerticesOffset, offsetof(TObjCityDoor_Lobby, collision_vertices) == 0x1D8);
 
-typedef char TObjCityDoor_Lobby_size[sizeof(TObjCityDoor_Lobby) == 0x254 ? 1 : -1];
+LAYOUT_ASSERT(TObjCityDoor_Lobby_size, sizeof(TObjCityDoor_Lobby) == 0x254);
 #endif

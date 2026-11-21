@@ -12,5 +12,5 @@ struct TObjNpcMoja : public TObjNpcBase {
     static void *create(void *arg0);
 };
 
-typedef char TObjNpcMoja_size[sizeof(TObjNpcMoja) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcMoja_size, sizeof(TObjNpcMoja) == 0x3B8);
 #endif

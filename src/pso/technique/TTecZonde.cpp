@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <stdlib.h>
 #include "pso/technique/TechniqueParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecAnti.h"
@@ -77,7 +78,7 @@ extern "C" {
 s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
 
 void TObjPlayer::create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecZonde((s32)arg0, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
+    new TTecZonde((saddr)arg0, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
 }
 void TTecZonde::vfunc_8(void *arg1_arg) {
     VObj_18_0c879f *arg1 = (VObj_18_0c879f *)arg1_arg;
@@ -124,7 +125,6 @@ void TTecZonde::render() {  }
 void *find_entity_by_id(u16 id);
 s32 play_sound_effect(s32, void *, s32, s32);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
-s32 rand();
 f32 vector_length(void *);
 void normalize_vector(void *);
 extern u8 *tl_07;
@@ -152,7 +152,7 @@ void TTecZonde::run_task() {
         return;
     }
     t = (Tgt_8023C79C *)find_entity_by_id(self->f134);
-    if (TTecLuker::is_parents_unqueued((u32)t) != 0) {
+    if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
             s->a[1] = 100.0f + t->y;
@@ -265,7 +265,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued((u32)t) != 0 && TObjPlayer::is_valid_and_active((u32)t) != 0) {
+    if (t != NULL && TTecLuker::is_parents_unqueued((uaddr)t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
         this->vfunc_8(t);
     }
     ((TObject *)self)->queue_destruction();
@@ -276,7 +276,7 @@ void TTecZonde::run_task() {
 TTecZonde::TTecZonde(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TUnk_804CCC68(arg1, (Vec *)arg2, 0, arg4) {
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0x130));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3838;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();
     copy_technique_target_list(arg0 + 0x130, arg3);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));

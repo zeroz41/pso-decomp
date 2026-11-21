@@ -59,8 +59,8 @@ void fn_80323134(Obj_80323134 *arg0) {
 #pragma opt_common_subs off
 
 void TBoss6GravBall::destroy_part(s32 arg1) {
-    s32 arg0 = (s32)this;
-    u32 temp_r3;
+    saddr arg0 = (saddr)this;
+    uaddr temp_r3;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xD4);
@@ -70,7 +70,7 @@ void TBoss6GravBall::destroy_part(s32 arg1) {
     }
 }
 
-void TBoss6GravBall__sub_80323214(s32 arg0, s32 arg1) {
+void TBoss6GravBall__sub_80323214(saddr arg0, s32 arg1) {
     s32 temp_r5;
     u8 *temp_r31;
     u8 *boss4_type2;
@@ -89,7 +89,7 @@ void TBoss6GravBall__sub_80323214(s32 arg0, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6GravBall::create_emitter(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r5;
     u8 *temp_r31;
     u8 *boss4_type2;
@@ -106,7 +106,7 @@ void TBoss6GravBall::create_emitter(s32 arg1) {
 #pragma pop
 
 void TBoss6GravBall::init_parts() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -171,7 +171,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
     s32 n;
     s32 i;
     PL_803233AC *pl;
-    s32 id;
+    saddr id;
     s32 flag;
     f32 d;
     n = TLobby::get_game_mode();
@@ -179,7 +179,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
         pl = (PL_803233AC *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (((TObjPlayer *)pl)->is_active() == 0) {
-            ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+            ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
         flag = 0;
@@ -188,7 +188,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
         v.y = 0.0f;
         d = vector_length(&v);
         if (d > 32.5f) {
-            ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+            ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
         if (d <= 1e+01f) {
@@ -217,7 +217,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     s32 n;
     s32 i;
     PL_80323544 *pl;
-    s32 id;
+    saddr id;
     s32 flag;
     f32 d;
     n = TLobby::get_game_mode();
@@ -225,7 +225,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
         pl = (PL_80323544 *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (((TObjPlayer *)pl)->is_active() == 0) {
-            ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+            ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
         flag = 1;
@@ -241,7 +241,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
         if (d > 1e+01f) {
             f32 s;
             if (*(u32 *)(self + 0xC0) & 1) {
-                ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+                ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
                 continue;
             }
             s = 3.0f * (*(f32 *)(self + 0xBC) * (1.0f - d / 225.0f));
@@ -361,7 +361,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     }
     *(s32 *)((s8 *)self + 0xB8) = (s32) (*(s32 *)((s8 *)self + 0xB8) + 1);
     *(s32 *)((s8 *)self + 0xB4) = (s32) (*(s32 *)((s8 *)self + 0xB4) + 1);
-    switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)self + 0xAC))))->get_state()) {
+    switch (((TBoss6GravBall *)((saddr) (*(saddr *)((s8 *)self + 0xAC))))->get_state()) {
     case 29:
     case 30:
     case 39:
@@ -413,7 +413,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
         }
         TBoss6GravBall__sub_80323544((arg0));
         play_persistent_sound(0x4003B51A, arg0, arg0 + 0xC8, 0, 0);
-        switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)arg0 + 0xAC))))->get_state()) {
+        switch (((TBoss6GravBall *)((saddr) (*(saddr *)((s8 *)arg0 + 0xAC))))->get_state()) {
         case 0x27:
             return;
         case 0x1D:
@@ -423,7 +423,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             ((TBoss6GravBall *)arg0)->destroy_part(0);
             ((TBoss6GravBall *)arg0)->destroy_part(1);
             ((TBoss6GravBall *)arg0)->destroy_part(2);
-            TBoss6GravBall__sub_80323214((s32)arg0, 4);
+            TBoss6GravBall__sub_80323214((saddr)arg0, 4);
             *(s32 *)((s8 *)arg0 + 0xB8) = 0;
             *(s32 *)((s8 *)arg0 + 0xB4) = 0;
             *(s32 *)((s8 *)arg0 + 0xB0) = 1;
@@ -459,7 +459,7 @@ TBoss6GravBall::~TBoss6GravBall() {
     init_parts();
     clear_player_grav_flags();
 }
-TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
+TBoss6GravBall::TBoss6GravBall(saddr arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;
     ((Obj_80323D20 *)this)->name = TBoss6GravBall__name;
     ((Obj_80323D20 *)this)->fAC = arg1;

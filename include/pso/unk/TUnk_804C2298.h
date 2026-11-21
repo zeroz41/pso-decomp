@@ -23,6 +23,6 @@ public:
     TObject *window;
     TObject *card;
 };
-typedef char TUnk_804C2298_size[sizeof(TUnk_804C2298) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C2298_size, sizeof(TUnk_804C2298) == 0x30);
 
 #endif

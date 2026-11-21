@@ -26,7 +26,7 @@ struct THunterGuildSeqOnline_Client : public TShopSequence {
     TWindowBase *choice_menu; // 0x3C: create_yes_no_window
 };
 
-typedef char THunterGuildSeqOnline_Client_size[sizeof(THunterGuildSeqOnline_Client) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(THunterGuildSeqOnline_Client_size, sizeof(THunterGuildSeqOnline_Client) == 0x40);
 
 struct THunterGuildSeqOnline_Server : public TShopSequence {
     THunterGuildSeqOnline_Server(TObject *parent, TObjPlayer *player);
@@ -43,7 +43,7 @@ struct THunterGuildSeqOnline_Server : public TShopSequence {
     s32 pad_40;
 };
 
-typedef char THunterGuildSeqOnline_Server_size[sizeof(THunterGuildSeqOnline_Server) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(THunterGuildSeqOnline_Server_size, sizeof(THunterGuildSeqOnline_Server) == 0x44);
 
 // The live counter of each side; set by its ctor, cleared by its dtor.
 extern THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;

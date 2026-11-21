@@ -27,7 +27,7 @@ BmlResourceDescriptor TObjDoaEx01__resource_descriptor = { "fs_obj_ex_doa01.bml"
 CollisionBody TObjDoaEx01__collision_body_parts = {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjDoaEx01__name = "TObjDoaEx01";
 
-s32 TObjDoaEx01__resource_bundle;
+saddr TObjDoaEx01__resource_bundle;
 u8 *TObjDoaEx01__alpha_model_node;
 u8 *TObjDoaEx01__alpha_model_sibling;
 
@@ -169,12 +169,12 @@ s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-s32 get_bml_motion(s32, s32);
+saddr get_bml_motion(saddr, s32);
 
 s32 rotate_matrix_y(s32, s32);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
-s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
+s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
     NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
     u32 flags = obj->evalflags;
     push_matrix();
@@ -202,22 +202,22 @@ s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
         }
     }
     if (obj->child != 0) {
-        draw_object_tree((s32)obj->child);
+        draw_object_tree((saddr)obj->child);
     }
     pop_matrix();
     if (obj->sibling != 0) {
-        draw_object_tree((s32)obj->sibling);
+        draw_object_tree((saddr)obj->sibling);
     }
 }
 
 void TObjDoaEx01::try_open() {
-    s32 bml_model;
+    saddr bml_model;
 
-    bml_model = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
+    bml_model = (saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 1);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 1);
-        TObjFish::set_global_param((s32)get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x38);
         rotate_matrix_y(0, this->rotation_y);
@@ -227,20 +227,20 @@ void TObjDoaEx01::try_open() {
 }
 void TObjDoaEx01::draw_model() {
     f32 temp_f31;
-    s32 temp_r31;
+    saddr temp_r31;
     s32 temp_r31_2;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 0);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 0);
-        temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
-        TObjFish::set_global_param((s32)get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0));
+        temp_r31 = (saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
+        TObjFish::set_global_param((saddr)get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
         rotate_matrix_y(0, (this->rotation_y));
         temp_f31 = this->animation_frame;
         if (temp_f31 > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
+            draw_ginja_model_with_motion((saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
         } else {
             this->draw_object_tree((temp_r31));
         }
@@ -276,8 +276,8 @@ TObjDoaEx01::~TObjDoaEx01() {
 
 extern void *tl_05;
 
-TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjDoaEx01__name;
+TObjDoaEx01::TObjDoaEx01(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
+    *(saddr *)((s8 *)this + 0) = (saddr) TObjDoaEx01__name;
     ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TObjDoaEx01__collision_body_parts, 1);
@@ -285,7 +285,7 @@ TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     ((TObjPlayer *)this)->register_object_by_id();
     this->animation_frame = 0.0f;
     this->animation_step = 0.5f;
-    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
+    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(saddr *)&TObjDoaEx01__resource_bundle), 0)) + 4);
     this->door_flags = 0x100001;
     *(f32 *)((s8 *)this + 0xD4) = 1.0f;
     this->m_d8 = 1.0f;
@@ -294,7 +294,7 @@ TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
 }
 
 void *TObjDoaEx01__create(void *arg0) {
-    void *o = (void *)new TObjDoaEx01((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TObjDoaEx01((saddr)tl_05, (saddr)arg0);
     return o;
 }
 
@@ -305,10 +305,10 @@ void TObjDoaEx01::free_resource() {
     }
 }
 void TObjDoaEx01::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     u8 *temp_r3_2;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjDoaEx01__resource_descriptor, 0, 0, 0));
@@ -316,6 +316,6 @@ void TObjDoaEx01::load_resources() {
     (*(u8 * *)&TObjDoaEx01__resource_bundle) = (unsigned char *) ((void *) var_r0);
     temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((void *) var_r0, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
     TObjDoaEx01__alpha_model_node = temp_r3_2;
-    TObjDoaEx01__alpha_model_sibling = (u8 *)*(s32 *)((s8 *)temp_r3_2 + 0x30);
+    TObjDoaEx01__alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
 }
 

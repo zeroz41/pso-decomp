@@ -68,6 +68,6 @@ extern NpcMovementParameters npc_movement_parameters;
 extern CollisionBody npc_base_collision_body_desc;
 }
 
-typedef char NpcBaseSize[(sizeof(TObjNpcBase) == 0x3B8) ? 1 : -1];
+LAYOUT_ASSERT(NpcBaseSize, sizeof(TObjNpcBase) == 0x3B8);
 
 #endif

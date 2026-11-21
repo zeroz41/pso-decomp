@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct Vec;
+
 struct TCameraCtrl : public TObject {
     virtual ~TCameraCtrl();
     void setup_default_view(void *);
@@ -88,7 +90,7 @@ struct TCameraCtrl : public TObject {
     static void set_split_viewport(s32 arg0, s32 arg1);
     static f32 get_fov();
     static f32 get_view_scale();
-    void copy_view_state(s32 src);
+    void copy_view_state(saddr src);
     static void restore_full_screen_view();
     static s32 get_camera_target_id(s32 arg0);
     static void apply_split_screen_view_matrix();
@@ -111,7 +113,7 @@ struct TCameraCtrl : public TObject {
     void cycle_spectate_target();
     static void update_active_player();
     static void update_battle_camera();
-    static void create(s32 arg0, s32 arg1, s32 arg2);
+    static void create(saddr arg0, s32 arg1, s32 arg2);
     void *destroy(s16 arg1);
     static void reset_to_local_player();
     static void set_override_position_and_angle(u8 *arg0, s16 arg1);
@@ -125,6 +127,12 @@ struct TCameraCtrl : public TObject {
     void copy_position_vectors(void *arg1, void *arg2);
     void update_single_screen();
     static int get_mode();
+    // The mode word at 0x1C of `p` (the main task).
+    static s32 get_mode(void *p);
+    // Transforms the vector at arg0 into view space, into arg1 (addresses as the symbol's ints).
+    static void transform_to_view(int arg0, int arg1);
+    static Vec get_target_position();
+    static void target_player0(int arg0);
     static s32 get_camera_no();
     static void set_mode(int a0);
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
@@ -132,7 +140,7 @@ struct TCameraCtrl : public TObject {
     static s32 translate_view_negated(f32 x, f32 y, f32 z);
     static void set_clamped_offsets(f32 farg0, f32 farg1);
     void update_projection_params();
-    static void concat_matrix(u32 arg0, u32 arg1);
+    static void concat_matrix(uaddr arg0, uaddr arg1);
     u8 unk_1C4[0x4];
     // Copy of pos_* taken whenever the position snaps.
     f32 look_x;
@@ -142,12 +150,12 @@ struct TCameraCtrl : public TObject {
     static void reset_view_state();
     static void reset();
     static void select_active_controller(s8 arg0);
-    static void calc_axes_from_angles(s32 arg0, s32 arg1, s32 arg2);
+    static void calc_axes_from_angles(saddr arg0, saddr arg1, saddr arg2);
     static int get_instance();
     static int get_camera_id();
     static void set_target_coords(int a0, int a1);
-    int reset_battle_camera();
-    u8 *init_conversation_camera(s32 arg1, s32 arg2, s32 arg3);
+    static void reset_battle_camera();
+    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr arg3);
     static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
@@ -155,7 +163,7 @@ struct TCameraCtrl : public TObject {
     static void set_target(int a0, int a1);
 };
 
-typedef char TCameraCtrl_size[sizeof(TCameraCtrl) == 0x1D4 ? 1 : -1];
+LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
 extern f32 camera_right[3];
 

@@ -83,12 +83,12 @@ s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
 }
 
 s32 TLobby__sub_80411604(int, int, void *);
-s32 NetIPv6SendRouterSolicitation(s32 arg0);
+s32 NetIPv6SendRouterSolicitation(saddr arg0);
 typedef struct Ipv6NdEvent {
     u8 *addr;
     s16 prefix_len;
 } Ipv6NdEvent;
-typedef char Ipv6NdEvent_size_check[sizeof(Ipv6NdEvent) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdEvent_size_check, sizeof(Ipv6NdEvent) == 8);
 void TLobby__sub_80411334(void) {
     s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *, s16); /* the definition takes the address as s32 */
     s32 NetIPv6SendRouterSolicitation(s16); /* declared here with an s16 1st argument; the definition takes s32 */
@@ -573,7 +573,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     rec.a = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
     rec.b = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
     rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
-    set_value_and_enable((NetBufferRef *)ref, (s32)&rec);
+    set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
     netbuf_copy_by_ref(self, ref, 0x1C);
     netbuf_ref_advance((NetBufferRef *)self, 0x1C);
     cur = *(u8 **)(ent + offsetof(Ipv6Iface, addrs));
@@ -586,7 +586,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         rec.a = *(s16 *)(cur + offsetof(Ipv6AddrNode, prefix_len));
         rec.b = *(s16 *)(cur + offsetof(Ipv6AddrNode, f18));
         rec.c = 0;
-        set_value_and_enable((NetBufferRef *)ref, (s32)&rec);
+        set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
         netbuf_copy_by_ref(self, ref, 0x1C);
         netbuf_ref_advance((NetBufferRef *)self, 0x1C);
         cur = *(u8 **)(cur + offsetof(Ipv6AddrNode, next));
@@ -595,7 +595,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         len -= 0x1C;
     }
     if ((s16)TLobby__sub_80409EB0(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle))) <= 6) {
-        TLobby__sub_80409E18(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle)), (s32)out);
+        TLobby__sub_80409E18(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle)), (saddr)out);
     }
     return i;
 }
@@ -939,7 +939,7 @@ release:
     return r;
 }
 
-s16 TLobby__sub_80412CA4(u8 *addr, s16 plen, s16 x, s16 idx, s32 y)
+s16 TLobby__sub_80412CA4(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
 {
     Ipv6State *g = &ipv6_address_routing_state;
     s16 *pn;
@@ -1073,7 +1073,7 @@ release:
     return ret;
 }
 
-s16 TLobby__sub_80413230(u8 *arg0, s32 arg1) {
+s16 TLobby__sub_80413230(u8 *arg0, saddr arg1) {
     if (TLobby__sub_80413264(arg0, (void *)arg1) != NULL) {
         return 1;
     }

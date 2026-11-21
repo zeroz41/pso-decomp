@@ -1,6 +1,7 @@
 #pragma readonly_strings on
 
 #include "types.h"
+#include <string.h>
 #include "pso/item/armor/TItemProUnit.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
@@ -18,7 +19,6 @@ extern "C" {
 // Defined in TItemData.cpp and text_801D9870.cpp, which have no headers yet.
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *levels, s16 technique);
-void *memset(void *dst, int value, unsigned long size);
 }
 
 const char *item_pro_unit_class_name = "TItemProUnit";

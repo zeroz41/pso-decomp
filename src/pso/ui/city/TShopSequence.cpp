@@ -29,7 +29,6 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
     create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 void *get_player_by_client_id(s32 i);
 s32 is_split_screen();
 int send_message__24TMessageWindowControllerFll(void*);
@@ -53,9 +52,9 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(s32 x, s32 y) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return (u32)message_window->create_message_window(x, y, (u16)get_entity_id((u32)player));
+            return (uaddr)message_window->create_message_window(x, y, (u16)get_entity_id((uaddr)player));
         }
-        return (u32)message_window->create_window(x, y);
+        return (uaddr)message_window->create_window(x, y);
     }
     return 0;
 }
@@ -86,7 +85,7 @@ void TShopSequence::vfunc_6(s32 id, s32 flags) {
 
 void TShopSequence::close_if_single_screen() {
     if ((TAdSinglePlyChrSelectGC::get_game_mode() != 0) && (is_split_screen() == 0)) {
-        load_character_from_card__23TAdSinglePlyChrSelectGCFi(0);
+        TAdSinglePlyChrSelectGC::load_character_from_card(0);
     }
 }
 void TShopSequence::close_window() {
@@ -104,7 +103,7 @@ void TShopSequence::close_window() {
                 var_r31 += 1;
             } while (var_r31 < 4);
         }
-        TObjPlayer::clear_lobby_flag((void *)(*(u32 *)((s8 *)this + 0x24)));
+        TObjPlayer::clear_lobby_flag((void *)(*(uaddr *)((s8 *)this + 0x24)));
     }
 }
 void TShopSequence::restore_player_state() {

@@ -140,7 +140,7 @@ GinjaTextureList *city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
 void *lbl_805D5B34;
 BmlResource *lbl_805D5B38;
-s32 lbl_805D5B3C;
+saddr lbl_805D5B3C;
 s32 lbl_805D5B40;
 GinjaTextureList *lbl_805D5B44;
 void *lbl_805D5B48;
@@ -211,7 +211,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     u8 *tmp;
     u8 *base;
     u8 *ent;
-    s32 ph;
+    saddr ph;
     s32 slot_offset;
     void *p;
 
@@ -253,7 +253,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
             tmp = (u8 *)::operator new(0x14);
-            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((s32)ent, 3);
+            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)ent, 3);
             lbl_805D5B34 = tmp;
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
@@ -262,7 +262,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
             tmp = (u8 *)::operator new(0x14);
-            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((s32)ent, 0);
+            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)ent, 0);
             lbl_805D5B34 = tmp;
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
@@ -299,7 +299,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     }
 
     tmp = (u8 *)::operator new(0x14);
-    if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((s32)(void *)lbl_805D5B3C, 2);
+    if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)(void *)lbl_805D5B3C, 2);
     lbl_805D5B48 = tmp;
     base = (u8 *)lbl_805D5B3C;
     base = *(u8 **)(base + 4);

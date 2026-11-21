@@ -22,7 +22,7 @@ void TWindowDD_WS_String::render() {
     f32 y;
     u8 *entry;
 
-    entry = (u8 *)TWindowDD::draw_default_entry((s32)this);
+    entry = (u8 *)TWindowDD::draw_default_entry((saddr)this);
     calc_inner_rect(entry);
     draw_entry_if_visible(entry);
     y = *(f32 *)((s8 *)entry + 0x14);
@@ -32,7 +32,7 @@ void TWindowDD_WS_String::render() {
 
 void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
     if (*(s32 *)((s8 *)entry + 0x30) >= 0) {
-        draw((s32)entry, pad_60, 0.0f);
+        draw((saddr)entry, pad_60, 0.0f);
     }
 }
 
@@ -49,7 +49,7 @@ extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *arg1) {
     copy_vec2(pad_30, pad_64);
-    pad_50 = (s32)arg1;
+    pad_50 = (saddr)arg1;
 }
 
 void TWindowDD_WS_String::update_position(s32 arg1) {
