@@ -3,6 +3,7 @@
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/player/TObjPlayer_801BF548.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -100,8 +101,6 @@ void TObjPlayer__sub_801BEDB0(void* p, u8 v);
 void TObjPlayer__sub_801BEDB8(void* p, u8 v);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 void TObjPlayer__sub_801BF47C(void* p);
-int set_mode__20TWindowActionPaletteFUc(void*);
-int set_slot__20TWindowActionPaletteFUc(void*);
 s32 try_add_item_count__10TObjPlayerFlllUc(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 
 int lbl_805D5D70;
@@ -322,8 +321,12 @@ void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1) {
     *arg0 |= 1 << arg1;
 }
 
-int TObjPlayer::update_action_palette() { return set_slot__20TWindowActionPaletteFUc((char*)this + 0x4); }
-int TObjPlayer::set_action_palette_mode() { return set_mode__20TWindowActionPaletteFUc((char*)this + 0x4); }
+void set_player_action_palette_slot(PlayerActionPaletteState *state, u8 slot) {
+    set_action_palette_tag_slot(&state->tag, slot);
+}
+void set_player_action_palette_mode(PlayerActionPaletteState *state, u8 mode) {
+    set_action_palette_tag_mode(&state->tag, mode);
+}
 void TObjPlayer::clear_flag0_bit1() { ((FlagWord *)this)->clear(2); }
 void TObjPlayer::set_flag_2() { ((FlagWord *)this)->set(2); }
 
@@ -384,8 +387,12 @@ void TObjPlayer__sub_801BF6C0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
 void TObjPlayer__sub_801BF6C8(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xc) = a; *(f32*)((char*)p + 0x10) = b; }
 void TObjPlayer__sub_801BF6D4(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 void TObjPlayer__sub_801BF6DC(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
-u8 TObjPlayer__sub_801BF6E4(void* p) { return ((TMainCursor *)((char*)p + 0x4))->get_enabled(); }
-u8 TObjPlayer::update_main_cursor() { return ((TMainCursor *)((char*)this + 0x4))->get_type(); }
+u8 get_player_action_palette_slot(const PlayerActionPaletteState *state) {
+    return get_action_palette_tag_slot(&state->tag);
+}
+u8 get_player_action_palette_mode(const PlayerActionPaletteState *state) {
+    return get_action_palette_tag_mode(&state->tag);
+}
 void*TObjPlayer::reset_sub_status_disp() { ((TWindowSubStatusDisp *)this)->clear_fields(); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
 s32 TObjPlayer::update_timer() {
     s32 temp_r0;

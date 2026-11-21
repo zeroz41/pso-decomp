@@ -361,8 +361,6 @@ struct TObjPlayer : public TObjChara {
     int emit_grass_footstep_particle(int a1);
     void emit_photon_blast_feedback_from_packet();
     int copy_vec_at_18();
-    int update_action_palette();
-    int set_action_palette_mode();
     void clear_flag0_bit1();
     void set_flag_2();
     s32 get_field_2d4();
@@ -613,7 +611,6 @@ struct TObjPlayer : public TObjChara {
     void set_inventory_state(u8 v);
     void set_field_374_state(u8 v);
     void set_field_374(u8 v);
-    u8 update_main_cursor();
     void*reset_sub_status_disp();
     s32 update_timer();
     void update_field8();
@@ -928,7 +925,7 @@ struct TObjPlayer : public TObjChara {
     s16 get_obj_id();
     void set_saved_attack_stage(s16 v);
     int is_flag32_clear();
-    int get_field_340(int _w1);
+    void set_action_palette_state_mode(u8 mode);
     static void clear_flag_128(void* p);
     static s32 decrement_timer(s32 *arg0);
     static void reset_particle_ctrl(s32 *arg0);

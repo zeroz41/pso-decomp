@@ -15,7 +15,6 @@ extern char **TWindowDD__data_805D6E28;
 extern Pair_80344980 *TWindowDD__data_805D6E40;
 extern Pair_80344980 *TWindowDD__data_805D6E44;
 extern u8 *TWindowDD__data_805D6E48;
-extern u8 *lbl_805D6E4C;
 s32 TWindowDD__sub_80346DB8(s32 arg0);
 s32 get_word_select_token_text(s16 arg0);
 }

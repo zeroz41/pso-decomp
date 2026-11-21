@@ -1,3 +1,4 @@
+#include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDD_80346A84.h"
 
@@ -58,7 +59,7 @@ s32 twindowdd_entry_count;
 s32 TWindowDD__data_805D6E40;
 s32 TWindowDD__data_805D6E44;
 s32 TWindowDD__data_805D6E48;
-s32 lbl_805D6E4C;
+u8 *lbl_805D6E4C;
 // inferred: the loaded ws_data_<lang>.bin archives ws_data_load keeps per language
 void *ws_data_jp;
 void *ws_data_us;
@@ -111,7 +112,7 @@ void ws_data_load(void) {
         TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_3 + 0x10);
         TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_3 + 0x18);
         TWindowDD__data_805D6E44 = *(s32 *)((s8 *)temp_r3_3 + 0x14);
-        lbl_805D6E4C = *(s32 *)((s8 *)temp_r3_3 + 0x20);
+        lbl_805D6E4C = *(u8 **)((s8 *)temp_r3_3 + 0x20);
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;

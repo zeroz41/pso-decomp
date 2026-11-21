@@ -2,19 +2,21 @@
 #define PSO_UI_WINDOW_TWINDOWDD_803488A8_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/WindowVertexBufferAbi.h"
+
+struct WindowDrawContext;
+
+// A pair of texture coordinates; the same representation the layout code uses for Vec2 positions.
+typedef NJS_POINT2 WindowTexturePoint;
+typedef char WindowTexturePointSize[sizeof(WindowTexturePoint) == 8 ? 1 : -1];
 
 extern "C" {
-void TWindowDD__sub_80348A2C(void *arg0, void *arg1);
-f32 TWindowDD__sub_80348AD4(f32 farg0, f32 farg1);
-s32 get_word_select_token_text(s16 arg0);
+extern WindowTexturePoint TWindowDD__data_805434E8[7][8];
+void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row);
+void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices);
+f32 TWindowDD__sub_80348AD4(f32 depth, f32 offset);
+s32 get_word_select_token_text(s16 id);
 }
-
-// --- C functions defined in TWindowDD_803488A8.cpp ---
-extern "C" {
-void TWindowDD__sub_80348A2C(void *arg0, void *arg1);
-f32 TWindowDD__sub_80348AD4(f32 farg0, f32 farg1);
-s32 get_word_select_token_text(s16 arg0);
-}
-// --- end of C functions
 
 #endif

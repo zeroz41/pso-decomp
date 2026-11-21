@@ -138,7 +138,6 @@ TUnk_804D1160::~TUnk_804D1160() {
 void TUnk_804D1160::run_task() {
     Self_80275A8C *self = (Self_80275A8C *)this;
     Ev_802758C8 ev;
-    void *p;
     switch (self->state) {
     case 0:
     case 1:
@@ -159,21 +158,17 @@ void TUnk_804D1160::run_task() {
         }
         break;
     case 3:
-        p = TObject::operator new(0x84);
-        if (p != NULL) {
-            p = TWindowSubCustomSelect__ct((TWindowSubCustomSelect *)((u8 *)p), this->m_20);
-        }
-        self->f2c = p;
+        self->f2c = new TWindowSubCustomSelect(m_20);
         TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1);
         set_depth__11TWindowBaseFf(self->f2c);
         self->state = 4;
     case 4:
-        ((TUnk_804D1160 *)self)->update_customize_help_text((Ev_802758C8 *)((TWindowSubCustomEquip *)self->f2c)->calc_equip_index());
+        ((TUnk_804D1160 *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
         if (fn_80275D90(self->f2c) != 0) {
             self->state = 1;
         }
         if (((TWindowSubCustomSelect *)(self->f2c))->is_active() != 0) {
-            Ev_802758C8 *e = (Ev_802758C8 *)((TWindowSubCustomEquip *)self->f2c)->calc_equip_index();
+            void *e = static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action();
             ((TWindowSubCustomEquip *)(this->m_28))->toggle_action_binding(e);
             self->state = 1;
         }

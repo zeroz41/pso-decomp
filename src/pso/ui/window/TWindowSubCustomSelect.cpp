@@ -62,7 +62,6 @@ s32 test_buttons_press_or_repeat(void *, int, int, int);
 void *get_player_by_client_id(s32 i);
 s32 get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
-extern s32 __vt__22TWindowSubCustomSelect[];
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
@@ -202,7 +201,8 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
 }
 #pragma pop
 
-void render__22TWindowSubCustomSelectFv(TWindowSubCustomSelect *window_sub_custom_select) {
+void TWindowSubCustomSelect::render() {
+    TWindowSubCustomSelect *window_sub_custom_select = this;
     s32 temp_r3;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)temp_r3);
@@ -260,52 +260,51 @@ const u32 custom_select_android_action_table[20] = {
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
-u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select, s32 arg1) {
+TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
+    : TWindowAddition((u8 *)&TWindowSubCustomSelect__window_settings,
+                      static_cast<s16>(client), (u8 *)get_window_layout_position(0x10)) {
     NJS_POINT2 pos;
     Big_80277AEC *p;
     Sub_80277AEC *q;
     Ent_80277AEC *e;
     void *o;
-    __ct__15TWindowAdditionFPUcsPUc(window_sub_custom_select, (u8 *)&TWindowSubCustomSelect__window_settings, (s16)arg1, (u8 *)get_window_layout_position(0x10));
-    *(s32 **)((s8 *)window_sub_custom_select + 0x18) = __vt__22TWindowSubCustomSelect;
-    ((TWindowSubCustomSelect *)window_sub_custom_select)->m_name = TWindowSubCustomSelect__class_name;
-    window_sub_custom_select->m_20 = arg1;
-    p = (Big_80277AEC *)get_player_by_client_id(window_sub_custom_select->m_20);
+    m_name = TWindowSubCustomSelect__class_name;
+    m_20 = client;
+    p = (Big_80277AEC *)get_player_by_client_id(m_20);
     if (p == NULL) {
-        return (u8 *)window_sub_custom_select;
+        return;
     }
     q = &p->sub;
     if (q == NULL) {
-        return (u8 *)window_sub_custom_select;
+        return;
     }
     if (q->flags & 0x10) {
-        *(u8 **)((s8 *)window_sub_custom_select + 0x78) = (u8 *)custom_select_android_action_table;
+        *(u8 **)((s8 *)this + 0x78) = (u8 *)custom_select_android_action_table;
     } else {
-        *(u8 **)((s8 *)window_sub_custom_select + 0x78) = (u8 *)custom_select_organic_action_table;
+        *(u8 **)((s8 *)this + 0x78) = (u8 *)custom_select_organic_action_table;
     }
-    window_sub_custom_select->m_73 = 0;
-    window_sub_custom_select->m_70 = 0;
-    window_sub_custom_select->m_71 = 0;
-    window_sub_custom_select->m_74 = 0;
-    e = *(Ent_80277AEC **)((s8 *)window_sub_custom_select + 0x78);
-    window_sub_custom_select->m_72 = 0;
+    this->m_73 = 0;
+    this->m_70 = 0;
+    this->m_71 = 0;
+    this->m_74 = 0;
+    e = *(Ent_80277AEC **)((s8 *)this + 0x78);
+    this->m_72 = 0;
     while (e->id != 8) {
         e++;
-        (window_sub_custom_select->m_72)++;
+        (this->m_72)++;
     }
     o = ::operator new(0x24);
     if (o != NULL) {
-        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x22), window_sub_custom_select->m_20);
+        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x22), m_20);
     }
-    *(void **)((s8 *)window_sub_custom_select + 0x7C) = o;
+    *(void **)((s8 *)this + 0x7C) = o;
     pos.x = 196.0f;
-    pos.y = 51.0f * (f32)(s8)window_sub_custom_select->m_72 + 18.0f;
+    pos.y = 51.0f * (f32)(s8)m_72 + 18.0f;
     o = ::operator new(0xC);
     if (o != NULL) {
         o = reset_selection__20TWindowSubStatusDispFv(o, &pos);
     }
-    *(void **)((s8 *)window_sub_custom_select + 0x80) = o;
-    return (u8 *)window_sub_custom_select;
+    *(void **)((s8 *)this + 0x80) = o;
 }
 #pragma pop
 

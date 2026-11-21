@@ -138,7 +138,7 @@ WindowDescriptor twindow_action_palette_layout = {
     {150.0f, 107.0f}, 50000.0f, &lbl_804CDE50, 0xB28,
 };
 
-TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
+TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
     u32 i;
 
     this->m_name = TWindowActionPalette__name;
@@ -156,8 +156,8 @@ TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindo
     this->state = 0;
     this->m_20 = slot;
     for (i = 0; i < 3; i++) {
-        ((TWindowActionPalette *)this->resources)->set_mode(0);
-        ((TWindowActionPalette *)this->resources)->set_slot(0);
+        set_action_palette_tag_mode(this->resources, 0);
+        set_action_palette_tag_slot(this->resources, 0);
     }
 }
 
@@ -310,9 +310,9 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
         }
         update_palette_item_count_label((TWindowHelpItem *)get_array_entry(lbl_805DCA18[idx]), help, mode, slot, m_20);
         cursor = &resources[idx];
-        if (mode != ((TMainCursor *)cursor)->get_type() || ((TMainCursor *)cursor)->get_enabled() != slot) {
-            ((TWindowActionPalette *)cursor)->set_mode(mode);
-            ((TWindowActionPalette *)cursor)->set_slot(slot);
+        if (mode != get_action_palette_tag_mode(cursor) || get_action_palette_tag_slot(cursor) != slot) {
+            set_action_palette_tag_mode(cursor, mode);
+            set_action_palette_tag_slot(cursor, slot);
             draw_action_palette_icon(help, mode, slot);
         }
     }
@@ -327,10 +327,10 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
             icon->color = 0xFF404040;
         }
         ((TWindowHelpItem *)get_array_entry(5))->set_flag0_bit2();
-        void *cur = &resources[idx];
-        if (mode != ((TMainCursor *)cur)->get_type() || ((TMainCursor *)cur)->get_enabled() != slot) {
-            ((TWindowActionPalette *)cur)->set_mode(mode);
-            ((TWindowActionPalette *)cur)->set_slot(slot);
+        ActionPaletteTag *cur = &resources[idx];
+        if (mode != get_action_palette_tag_mode(cur) || get_action_palette_tag_slot(cur) != slot) {
+            set_action_palette_tag_mode(cur, mode);
+            set_action_palette_tag_slot(cur, slot);
             draw_action_palette_icon(icon, mode, slot);
         }
     }

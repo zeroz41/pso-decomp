@@ -11,6 +11,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/PlayerAttackController.h"
@@ -211,7 +212,7 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
             ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
         }
         t = ((TObjPlayer *)obj)->get_action_palette_entry(arg2);
-        ((TObjPlayer *)obj)->get_field_340(2);
+        ((TObjPlayer *)obj)->set_action_palette_state_mode(2);
         ((TObjPlayer *)self)->set_attack_target((s16)(t));
         TWindowCtrl::dispatch_to_child((u16)((s32 (*)(void *))get_entity_id)(obj), arg2);
     }
@@ -460,7 +461,9 @@ int TObjPlayer__sub_801D345C(void* p) { return get_captured_target_entry((char*)
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TObjPlayer::get_field_340(int _w1) { return ((TObjPlayer *)((char*)this + 0x340))->set_action_palette_mode(); }
+void TObjPlayer::set_action_palette_state_mode(u8 mode) {
+    set_player_action_palette_mode(reinterpret_cast<PlayerActionPaletteState *>(&m_340), mode);
+}
 #pragma pop
 
 #pragma push

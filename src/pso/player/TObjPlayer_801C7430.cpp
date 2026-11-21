@@ -14,6 +14,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/PlayerAttackController.h"
@@ -1323,7 +1324,7 @@ short query_child_state2__10TObjPlayerFPv(void *arg0);
 void release_control_lock__10TObjPlayerFPv(void* p);
 void TObjPlayer__sub_801D0F70(void* p);
 int copy_position__10TObjPlayerFPv(void* p);
-int query_field_340__10TObjPlayerFPv(void* p);
+void update_player_action_palette(TObjPlayer *player, u8 slot);
 }
 int is_android_player(void* p);
 extern "C" {
@@ -4188,8 +4189,8 @@ void TObjPlayer::update_cursor(s32 parameter) {
 
     temp_r3 = this->m_424;
     if ((temp_r3 != 0U) && (canSetMenuCursorAction(temp_r3 + 0x520, this, 3, (u8) parameter) != 0)) {
-        ((TWindowActionPalette *)(this->m_424 + 0x520))->set_mode(3);
-        ((TWindowActionPalette *)(this->m_424 + 0x520))->set_slot((u8) parameter);
+        set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), 3);
+        set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), static_cast<u8>(parameter));
         TMainCursor__sub_8013DFC4((u8 *)(this->m_424 + 0x520));
     }
 }
@@ -4605,7 +4606,7 @@ void enter_attack_stage3__10TObjPlayerFPv(u8 *player) {
     *(s32 *)((s8 *)player + 0x33C) = 7;
     ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(player, (int) (((TObjPlayer *)player)->mode), 6);
     ((s32 (*)(void *, void *))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
-    ((s32 (*)(void *, void *))query_field_340__10TObjPlayerFPv)((void *) (player), (void *) (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
+    update_player_action_palette(reinterpret_cast<TObjPlayer *>(player), static_cast<u8>(TObjPlayer__sub_801D2F4C(reinterpret_cast<s16 *>(player + 0x7CC))));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 2, 2);
     ((TObjPlayer *)player)->setup_attack_stage();
     ((TObjPlayer *)player)->set_action_state(7, ((TObjPlayer *)player)->get_model_state());
@@ -4728,7 +4729,7 @@ void enter_attack_stage2__10TObjPlayerFPv(u8 *player) {
     *(s32 *)((s8 *)player + 0x33C) = 6;
     ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(player, (int) (((TObjPlayer *)player)->mode), 6);
     ((s32 (*)(void *, void *))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
-    ((s32 (*)(void *, void *))query_field_340__10TObjPlayerFPv)((void *) (player), (void *) (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
+    update_player_action_palette(reinterpret_cast<TObjPlayer *>(player), static_cast<u8>(TObjPlayer__sub_801D2F4C(reinterpret_cast<s16 *>(player + 0x7CC))));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 1, 1);
     ((TObjPlayer *)player)->setup_attack_stage();
     ((TObjPlayer *)player)->set_action_state(6, ((TObjPlayer *)player)->get_state());
@@ -6158,7 +6159,9 @@ void TObjPlayer::set_float_param(s16 arg1) {
     ((TObjPlayer *)(arg0 + 0x4AC))->set_field_3c((f32) (s32) arg1);
 }
 
-int query_field_340__10TObjPlayerFPv(void* p) { return ((TObjPlayer *)((char*)p + 0x340))->update_action_palette(); }
+void update_player_action_palette(TObjPlayer *player, u8 slot) {
+    set_player_action_palette_slot(reinterpret_cast<PlayerActionPaletteState *>(&player->m_340), slot);
+}
 }
 
 int is_android_player(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }

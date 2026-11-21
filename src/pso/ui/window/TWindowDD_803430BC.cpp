@@ -7,6 +7,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowDD_8034435C.h"
+#include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"

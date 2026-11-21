@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowCtrlPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -85,7 +86,6 @@ extern void *lbl_805D63F0;
 void TWindowCtrlMain__sub_8024CB7C();
 void TWindowCtrlMain__sub_8024CB8C();
 s32 TWindowMainMenu__sub_8024E3D4(void *);
-void spawn_action_palette_slot_light(void *window, s32 kind);
 int open_submenu__15TWindowSubEquipFll(void*);
 int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
@@ -140,12 +140,8 @@ struct Ctl_8024E2A8 {
     void *f38;
     void *f3c;
 };
-extern "C" {
-void *__ct__20TWindowActionPaletteFs(void *, s32);
-}
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent) {
-    void *p;
     m_name = TWindowCtrlPlayer__name;
     ((struct Ctl_8024E2A8 *)this)->f1c = 0;
     ((struct Ctl_8024E2A8 *)this)->f1e = 0;
@@ -165,11 +161,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
     ((struct Ctl_8024E2A8 *)this)->f2c = (void *)create_message_information_window((s32)(get_window_layout_position(0x20)), (s32)lbl_8044EC4C, (s32)(((struct Ctl_8024E2A8 *)this)->f24));
     ((struct Ctl_8024E2A8 *)this)->f30 = (void *)create_status_window(((struct Ctl_8024E2A8 *)this)->f24);
     ((TObject *)(((struct Ctl_8024E2A8 *)this)->f30))->suspend_update();
-    p = TObject::operator new(0x78);
-    if (p != 0) {
-        p = __ct__20TWindowActionPaletteFs(p, ((struct Ctl_8024E2A8 *)this)->f24);
-    }
-    ((struct Ctl_8024E2A8 *)this)->f34 = p;
+    ((struct Ctl_8024E2A8 *)this)->f34 = new TWindowActionPalette(((struct Ctl_8024E2A8 *)this)->f24);
     ((TObject *)(((struct Ctl_8024E2A8 *)this)->f34))->suspend_update();
 }
 
@@ -428,7 +420,7 @@ void TWindowCtrlMain::free_member() { void* m = *(void**)((char*)this + 0x28); i
 
 void TWindowCtrlMain::update_field28() { void* m = *(void**)((char*)this + 0x28); if (m) open_submenu__15TWindowSubEquipFll(m); }
 
-void TWindowCtrlMain::spawn_palette_slot_light(s32 kind) { void* m = *(void**)((char*)this + 0x34); if (m) spawn_action_palette_slot_light(m, kind); }
+void TWindowCtrlMain::spawn_palette_slot_light(s32 kind) { void* m = *(void**)((char*)this + 0x34); if (m) spawn_action_palette_slot_light(static_cast<TWindowActionPalette *>(m), kind); }
 
 void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) append_line__14TWindowMessageFii(m); }
 
