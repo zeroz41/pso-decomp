@@ -53,7 +53,7 @@ s32 rotate_matrix_z(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern saddr lobby_gvm_texture_handles[];
-extern s32 gogo_ball_bml_resource;
+extern saddr gogo_ball_bml_resource;
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
 struct Vec_80198E84;

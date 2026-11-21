@@ -36,7 +36,7 @@ u32 TObjBgmColCtrl__current_theme_id;
 void create_bgm_col_zones(void);
 extern "C" {
 u32 __ct__7TObjectFP7TObject(int, int);
-extern u32 TObjBgmColCtrl__instance;
+extern uaddr TObjBgmColCtrl__instance;
 extern s32 tl_05;
 s32 is_active__14TObjBgmColCtrlFv();
 }
