@@ -24,28 +24,10 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
-
-struct RecoveredFields_8003A6F4_arg0 {
- s32 field_0;
- u8 unknown_4[0x14];
- s32 *unk18;
- u8 unknown_1C[0x2C];
- f32 field_48;
- u8 unknown_4C[8];
- f32 field_54;
- u8 unknown_58[4];
- s32 field_5C;
- s32 field_60;
- u8 unknown_64[0x2C];
- f32 field_90;
- f32 field_94;
- f32 field_98;
- u8 unknown_9C[0xC];
- s32 field_A8;
- s32 field_AC;
- s32 field_B0;
- f32 field_B4;
-};
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/render/model_render_state.h"
 
 struct Color_8003A1B4
 {
@@ -62,87 +44,29 @@ const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.4
 const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
-struct Mdl_8003A1B4
-{
-  u8 pad[8];
-  saddr f8;
-  u8 padC[4];
-};
-
-struct Holder_8003A1B4
-{
-  u8 pad[0x42C];
-  Mdl_8003A1B4 *mdls;
-};
-
-struct Obj_8003A1B4
-{
-  u8 pad0[0x38];
-  u8 pos[0x44 - 0x38];
-  u8 f44[0x5C - 0x44];
-  s32 f5C;
-  s32 f60;
-  u8 pad64[0x9C - 0x64];
-  u8 f9C[0xA8 - 0x9C];
-  s32 fA8;
-  s32 fAC;
-  u8 padB0[4];
-  f32 fB4;
-};
-
-struct Junk_8003A314 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x10];
-    f32 f54;
-    u8 pad58[4];
-    s32 f5C;
-    s32 f60;
-    u8 pad64[0x2C];
-    Vec vel;
-    u8 pad9C[0xC];
-    s32 fA8;
-    s32 fAC;
-    s32 fB0;
-    f32 fB4;
-};
-
 extern "C" {
-s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
-s32 rotate_matrix_x(int, int);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
-s32 vec3_add_to(void *, void *);
-s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D4BE0;
-void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o);
+}
 
-typedef struct Color_8003A1B4 Color_8003A1B4;
-typedef struct Holder_8003A1B4 Holder_8003A1B4;
-typedef struct Mdl_8003A1B4 Mdl_8003A1B4;
-typedef struct Obj_8003A1B4 Obj_8003A1B4;
 void TObjBoss2CeilJunk::render() {
-    Obj_8003A1B4 *self = (Obj_8003A1B4 *)this;
   float new_var;
-  if (*(s32 *)&this->m_a8 == 2)
+  if (state == 2)
   {
     Vec s;
-    f32 t = TObjBoss2CeilJunk__radius_table[*(s32 *)&this->m_ac];
+    f32 t = TObjBoss2CeilJunk__radius_table[kind];
     new_var = (0.2f) * t;
     s.y = (1.0f);
     s.x = (s.z = new_var);
-    TObjEneDD::draw_oriented_shadow((const Vec *)self->f44, (const Vec *)self->f9C, 0, &s);
+    TObjEneDD::draw_oriented_shadow(&prev_position, &ground_normal, 0, &s);
   }
   saved_model_render_flags = model_render_flags;
-  if (self->fB4 < (1.0f))
+  if (alpha < 1.0f)
   {
     model_render_flags = saved_model_render_flags | 0x8820;
     {
       Color_8003A1B4 c = boss2_ceil_junk_render_color;
-      c.a = (-1.0f) + self->fB4;
+      c.a = -1.0f + alpha;
       set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
     }
     set_chunk_material_override_pair(0xFF00, 0x800);
@@ -150,16 +74,16 @@ void TObjBoss2CeilJunk::render() {
   }
   push_matrix();
   TObjFish::set_global_param((saddr)boss2_common_texture_list);
-  post_translate_matrix(self->pos);
+  post_translate_matrix(&position.x);
   rotate_matrix_y(0, this->rotation_y);
   rotate_matrix_x(0, this->rotation_x);
-  draw_ginja_object(boss2_common_resource->models[boss2_ceil_junk_model_index_table[*(s32 *)&this->m_ac]].model);
+  draw_ginja_object(boss2_common_resource->models[boss2_ceil_junk_model_index_table[kind]].model);
   pop_matrix();
   model_render_flags = saved_model_render_flags;
   set_chunk_material_override_pair(0xFF00, 0);
 }
 
-void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
+void TObjBoss2CeilJunk::run_task() {
     Vec p;
     Vec d;
     s32 id;
@@ -171,17 +95,17 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
     f32 bottom;
     f32 rad;
     f32 h;
-    switch (o->fA8) {
+    switch (state) {
     case 0:
-        o->vel.y += -0.3f;
-        if (o->vel.y < -10.0f) {
-            o->vel.y = -10.0f;
+        velocity.y += -0.3f;
+        if (velocity.y < -10.0f) {
+            velocity.y = -10.0f;
         }
-        o->pos.y += o->vel.y;
-        if (o->pos.y <= lbl_805D4BE0) {
-            o->fA8 = 1;
-            VecCopy((Vec *)&p, (const Vec *)&o->pos);
-            switch (o->fAC) {
+        position.y += velocity.y;
+        if (position.y <= lbl_805D4BE0) {
+            state = 1;
+            VecCopy(&p, &position);
+            switch (kind) {
             case 0:
             case 1:
             case 3:
@@ -198,30 +122,30 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
         }
         break;
     case 1:
-        o->pos.y -= (3.0f);
-        if (o->pos.y < (-5e+01f)) {
-            ((TObject *)o)->queue_destruction();
+        position.y -= (3.0f);
+        if (position.y < (-5e+01f)) {
+            queue_destruction();
         }
         break;
     case 2:
-        o->vel.y += -0.3f;
-        if (o->vel.y < -10.0f) {
-            o->vel.y = -10.0f;
+        velocity.y += -0.3f;
+        if (velocity.y < -10.0f) {
+            velocity.y = -10.0f;
         }
-        o->pos.y += o->vel.y;
-        if (o->pos.y - o->f54 < (3e+01f)) {
+        position.y += velocity.y;
+        if (position.y - home_position.y < (3e+01f)) {
             hit = 0;
             n = TLobby::get_game_mode();
-            top = o->pos.y - o->vel.y;
-            bottom = o->pos.y - ((f32 *)&TObjBoss2CeilJunk__height_offset_table)[o->fAC];
-            rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[o->fAC];
+            top = position.y - velocity.y;
+            bottom = position.y - TObjBoss2CeilJunk__height_offset_table[kind];
+            rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[kind];
             for (i = 0; i < n; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (((TObjEneDD *)pl)->is_valid_target() != 0) {
                     h = *(f32 *)((s8 *)pl + 0xD48) + *(f32 *)((s8 *)pl + 0x3C);
                     if (top > h && bottom < h) {
                         VecCopy((Vec *)&d, (const Vec *)(pl + 0x38));
-                        subtract_vector(&d, &o->pos);
+                        subtract_vector(&d, &position);
                         if (normalize_vector_xz((Vec *)(&d)) < rad) {
                             hit = 1;
                             forward_switch_phase_stats__13TBoss2DeRolLeFi((saddr)pl);
@@ -229,41 +153,40 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
                     }
                 }
             }
-            if (o->pos.y <= o->f54) {
-                o->pos.y = o->f54;
+            if (position.y <= home_position.y) {
+                position.y = home_position.y;
                 hit = 1;
-                TObjBoss2CeilJunk::create_particle(&o->pos, 0x160);
+                TObjBoss2CeilJunk::create_particle(&position, 0x160);
             }
             if (hit != 0) {
-                o->vel.y *= (-0.5f);
-                o->vel.x = (2.0f) * sin_table_lookup(o->f60);
-                o->vel.z = (2.0f) * cos_table_lookup(o->f60);
-                o->fA8 = 3;
-                play_sound_effect(0x4003A801, &o->pos, 0, 0);
+                velocity.y *= (-0.5f);
+                velocity.x = (2.0f) * sin_table_lookup(rotation_y);
+                velocity.z = (2.0f) * cos_table_lookup(rotation_y);
+                state = 3;
+                play_sound_effect(0x4003A801, &position, 0, 0);
                 TCameraCtrl::set_shake_preset(0);
             }
         }
         break;
     case 3:
-        o->vel.y += -0.3f;
-        if (o->vel.y < -10.0f) {
-            o->vel.y = -10.0f;
+        velocity.y += -0.3f;
+        if (velocity.y < -10.0f) {
+            velocity.y = -10.0f;
         }
-        o->f5C += 0x1323;
-        vec3_add_to(&o->pos, &o->vel);
-        o->fB0++;
-        if (o->fB0 >= 10) {
-            o->fB4 -= 0.04f;
-            if (o->fB4 <= 0.0f) {
-                o->fB4 = 0.0f;
-                ((TObject *)o)->queue_destruction();
+        rotation_x += 0x1323;
+        vec3_add_to(&position, &velocity);
+        fade_timer++;
+        if (fade_timer >= 10) {
+            alpha -= 0.04f;
+            if (alpha <= 0.0f) {
+                alpha = 0.0f;
+                queue_destruction();
             }
         }
         break;
     }
 }
 
-}
 TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 
 }
@@ -271,28 +194,26 @@ TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
-#define arg0 ((struct RecoveredFields_8003A6F4_arg0 *)this)
 TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TObjBase(parent) {
-    f32 temp_f1;
-    f32 temp_f2;
-    arg0->field_0 = (saddr)TObjBoss2CeilJunk__name;
-    VecCopy((Vec *)&arg0->unknown_1C[0x1C], position);
-    temp_f2 = (f32) rand();
-    temp_f1 = (3.0517578e-05f) * temp_f2;
-    arg0->field_AC = (s32) (*(const volatile f32 *)&lbl_805D85A0 * temp_f1);
-    if (spawn_effect__15TObjBoss2TunnelFlPvPv(&arg0->unknown_1C[0x1C], &arg0->unknown_1C[0x28], arg0->unknown_9C, temp_f1, temp_f2) == 0) {
-        arg0->field_A8 = 0;
+    f32 fraction;
+    f32 random;
+    m_name = TObjBoss2CeilJunk__name;
+    VecCopy(&this->position, position);
+    random = (f32) rand();
+    fraction = 3.0517578e-05f * random;
+    kind = (s32) (*(const volatile f32 *)&lbl_805D85A0 * fraction);
+    if (TObjBoss2Tunnel::spawn_effect((saddr)&this->position, &prev_position, &ground_normal) == 0) {
+        state = 0;
     } else {
-        arg0->field_A8 = 2;
-        arg0->field_54 = arg0->field_48 + *(f32 *)((s8 *)((u8 *)TObjBoss2CeilJunk__height_offset_table + (arg0->field_AC * 4)) + 0);
+        state = 2;
+        home_position.y = prev_position.y + TObjBoss2CeilJunk__height_offset_table[kind];
     }
-    arg0->field_60 = TObjPlayer::calc_random_scaled();
-    arg0->field_5C = (s32) ((4096.0f) * rand_signed_unit());
-    arg0->field_90 = (0.0f);
-    arg0->field_94 = (0.0f);
-    arg0->field_98 = (0.0f);
-    arg0->field_B0 = 0;
-    arg0->field_B4 = (1.0f);
+    rotation_y = TObjPlayer::calc_random_scaled();
+    rotation_x = (s32) (4096.0f * rand_signed_unit());
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.0f;
+    fade_timer = 0;
+    alpha = 1.0f;
 }
-#undef arg0
 #pragma pop

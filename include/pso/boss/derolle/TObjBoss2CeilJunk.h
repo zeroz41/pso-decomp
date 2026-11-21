@@ -5,27 +5,26 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
+// A piece of the ceiling that drops during the De Rol Le fight: it falls onto the ground
+// spawn_effect finds under it (hitting players on the way) and bounces and fades, or into
+// the water when there is none.
 struct TObjBoss2CeilJunk : public TObjBase {
     TObjBoss2CeilJunk(TObject *parent, const Vec *position);
     virtual ~TObjBoss2CeilJunk();
     virtual void run_task();
-    void* m_90;
-    u8 _pad94[0x8];
-    void* m_9c;
-    u8 _padA0[0x8];
-    u32 m_a8;
-    u32 m_ac;
-    u32 m_b0;
     virtual void render();
     static void *create(void *arg0);
     static void create_particle(const void *position, s32 particle_index);
-    u8 unk_B4[0x4];
+
+    // prev_position holds the ground point under it and home_position.y its resting height.
+    Vec velocity;
+    Vec ground_normal; // spawn_effect's surface normal, the shadow's orientation
+    s32 state;         // 0 falling into the water, 1 sinking, 2 falling onto ground, 3 bouncing away
+    s32 kind;          // index into the model, height and radius tables
+    s32 fade_timer;    // frames since the bounce; it fades out after 10
+    f32 alpha;
 };
 
 LAYOUT_ASSERT(TObjBoss2CeilJunk_size, sizeof(TObjBoss2CeilJunk) == 0xB8);
-
-extern "C" {
-void *__dt__17TObjBoss2CeilJunkFv(void *arg0, s16 arg1);
-}
 
 #endif
