@@ -31,7 +31,7 @@ u8 lobby_read_byte_buffer[1];
 u8 lcp_read_value_buffer[4];
 
 
-s32 wait_for_connection(PppFsm *c) {
+s16 wait_for_connection(PppFsm *c) {
     NetThreadState *g;
     u8 *sub;
     sub = c->sub;

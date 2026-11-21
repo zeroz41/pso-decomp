@@ -193,14 +193,13 @@ s32 lcp_connect(LcpConfig *cfg) {
     PppFsm *conn;
     LcpSide *auth_side;
     LcpSide *local_side;
-    s16 wait_for_connection(int);
 
     TLobby__sub_803F808C();
     conn = &ppp_proto_blocks.lcp;
     if (apply_lcp_config_to_sides(conn, cfg) != 0) {
         return -0x11;
     }
-    if (wait_for_connection((saddr) conn) != 0) {
+    if (wait_for_connection(conn) != 0) {
         return -0x11;
     }
     if (cfg->auth_mode == 4) {

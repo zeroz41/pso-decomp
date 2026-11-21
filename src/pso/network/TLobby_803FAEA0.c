@@ -376,7 +376,6 @@ s32 TLobby__sub_803FB7A4(void) {
     s32 ipv6cp_set_interface_identifiers(s32, void *, void *); /* declared here with other parameter types; the definition is s32 (s32, s32, s32) */
     s32 ipcp_configure_all_options(s32, s32, s32, s32, s32, s32, s32); /* declared here with an s32 1st argument; the definition takes s16 */
     s16 negotiate_ipcp_and_ipv6cp(void); /* declared s16 here; the definition returns s32 */
-    s16 wait_for_connection(PppFsm *); /* declared s16 here; the definition returns s32 */
     s16 map_state_to_mode_id(void); /* declared s16 here; the definition returns s32 */
     NetSession *g = &lbl_805BFF68;
     LobbyPkt_803FB7A4 pkt;
