@@ -46,7 +46,7 @@ WindowDescriptor quantity_window_layout = {
 extern "C" {
 u32 calc_text_width(void);
 saddr get_window_layout_position(s32);
-const char *lbl_805D39B0 = "TWindowQuantity";
+const char *TWindowQuantity__name = "TWindowQuantity";
 s32 draw_window_tab(s32, s32, s32, f32);
 
 void TWindowQuantity::set_position(s32 arg1) {
@@ -73,7 +73,7 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
     u8 *e0;
     s32 id;
     f32 n;
-    self->f0 = (saddr)lbl_805D39B0;
+    self->f0 = (saddr)TWindowQuantity__name;
     id = get_message_text(1);
     n = (f32)calc_text_width();
     self->f60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
