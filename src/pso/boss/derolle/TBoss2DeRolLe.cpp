@@ -452,8 +452,6 @@ struct Vec4_8002F258 { f32 x, y, z, w; };
 
 struct Light_8002F258 { u8 pad0[0x24]; Vec4_8002F258 col; };
 
-struct Ctx_8002F258 { u8 pad0[0x2C]; void *tex; };
-
 struct Me_8002F258 : VObj_18_3a6650 {
     u8 pad1C[0x24 - 0x1C];
     s32 f24;
@@ -482,8 +480,6 @@ s32 TObjLight__sub_801336DC(s32);
 
 s32 TObjLight__sub_8013379C(s32, void *);
 
-extern u8 derolle_segment_texture_slots[];
-
 extern Light_8002F258 TObjLight__scene_light_state;
 
 extern s32 lbl_805D5564;
@@ -511,8 +507,8 @@ Vec *derolle_capture_part_points;
 GC_Mtx *derolle_capture_tentacle_matrices;
 GC_Mtx *derolle_capture_node_matrices;
 TBoss2DeRolLe *TBoss2DeRolLe__instance;
-Ctx_8002F258 *derolle_texture_list_handle;
-void *lbl_805D4BCC;
+NJS_OBJECT *derolle_breakup_node;        // body node 0x4D; its children are swapped while broken up
+NJS_OBJECT *derolle_breakup_node_child;  // the node's own first child
 
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
@@ -521,39 +517,6 @@ extern "C" void enemy_set_target_id(void *self, u16 id);  // TObjEneDD.cpp
 extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-}
-
-namespace lifecycle_view {
-
-typedef struct Slot_80035D24 {
-    s32 kind;
-    s32 f04;
-    f32 f08[3];
-    s32 f14;
-    s32 f18;
-    s32 f1C;
-    f32 f20[3];
-    struct Slot_80035D24 *next;
-    s32 f30;
-    s32 f34;
-} Slot_80035D24;
-
-typedef struct Node_80035D24 {
-    u8 pad0[4];
-    struct { u8 pad[4]; s32 v; } *h;
-    u8 pad8[0x2C - 8];
-    struct Node_80035D24 *sub;
-    struct Node_80035D24 *next;
-} Node_80035D24;
-
-extern "C" {
-
-extern u8 *derolle_texture_list_handle;
-
-extern s32 lbl_805D4BCC;
-
-}
 
 }
 
@@ -569,11 +532,8 @@ u32 TBoss2DeRolLe__attack_params_table[3];
 NJS_ARGB derolle_capture_color;  // the body colour while it draws (derolle_begin_node_capture)
 Vec derolle_capture_origin;      // the node-local point derolle_capture_node_points places
 
-namespace lifecycle_view {
-
-extern "C" {
-
-Slot_80035D24 derolle_segment_texture_slots[11];
+// The hidden nodes that stand in for derolle_breakup_node's children while the body is broken up.
+NJS_OBJECT derolle_breakup_stub_nodes[11];
 
 void TBoss2DeRolLe::init_6x14(DeRolLeActionTargetPacket *packet) {
     packet->header.subcommand = 0x14;
@@ -626,10 +586,6 @@ TBoss2DeRolLe *TBoss2DeRolLe::get_instance() {
     return (TBoss2DeRolLe *)TBoss2DeRolLe__instance;
 }
 
-}
-
-}
-
 TUnk_80036250::TUnk_80036250() {
     init_float_block();
 }
@@ -668,8 +624,6 @@ void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 
     travelled = 0.0f;
     plan_motion_profile(this);
 }
-
-namespace lifecycle_view {
 
 extern "C" {
 
@@ -717,21 +671,21 @@ s32 advance_scalar_motion_profile(TUnk_80036250 *profile) {
     return profile->state;
 }
 
-void load_resources__13TBoss2DeRolLeFv(void) {
+void TBoss2DeRolLe::load_resources() {
     s32 k;
     s32 m2;
     s32 m3;
-    u8 *res;
+    BmlResource *res;
     s32 i;
-    Node_80035D24 *n;
-    Node_80035D24 *m;
-    Slot_80035D24 *p;
+    NJS_OBJECT *n;
+    NJS_OBJECT *m;
+    NJS_OBJECT *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = (u8 *)load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
+        res = (BmlResource *)load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
     } else {
-        res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
+        res = (BmlResource *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
     }
-    (*(u8 * *)&boss2_derolle_resource) = res;
+    boss2_derolle_resource = res;
     derolle_capture_node_index = 0;
     derolle_capture_position_index = 0;
     derolle_capture_flags = 0;
@@ -765,41 +719,42 @@ void load_resources__13TBoss2DeRolLeFv(void) {
         TObjBoss2Tunnel::adjust_to_ground(&derolle_mine_offsets[k], &TBoss2DeRolLe__mine_ground_targets[k]);
     }
     TBoss2Fin::init_effect_table();
-    res = (u8 *)boss2_derolle_resource;
-    n = *(Node_80035D24 **)(*(u8 **)(*(u8 **)(res + 0x42C) + 0x28) + 0x2C);
+    res = boss2_derolle_resource;
+    // The shell segments' material colour words (just past each chunk list's first 8 bytes).
+    n = res->models[2].model->child;
     for (i = 0; i < 10; i++) {
-        ((s32 *)derolle_segment_joint_node_offsets)[i] = n->h->v + 8;
-        boss2_derolle_segment_color_targets[i] = (u32 *)(n->sub->h->v + 8);
-        n = n->next;
+        derolle_segment_joint_node_offsets[i] = (u32)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+        boss2_derolle_segment_color_targets[i] = (u32 *)(((NJS_CNK_MODEL *)n->child->model)->polygon_list + 4);
+        n = n->sibling;
     }
-    boss2_derolle_primary_color_targets[0] = (u32 *)(n->h->v + 8);
-    m = n->next;
-    boss2_derolle_primary_color_targets[1] = (u32 *)(m->h->v + 8);
-    boss2_derolle_primary_color_targets[2] = (u32 *)(m->next->h->v + 8);
-    derolle_texture_list_handle = (u8 *)find_model_node(*(s32 *)(*(u8 **)(res + 0x42C) + 0x28), 0x4D);
-    lbl_805D4BCC = *(s32 *)(derolle_texture_list_handle + 0x2C);
+    boss2_derolle_primary_color_targets[0] = (u32 *)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+    m = n->sibling;
+    boss2_derolle_primary_color_targets[1] = (u32 *)(((NJS_CNK_MODEL *)m->model)->polygon_list + 4);
+    boss2_derolle_primary_color_targets[2] = (u32 *)(((NJS_CNK_MODEL *)m->sibling->model)->polygon_list + 4);
+    derolle_breakup_node = (NJS_OBJECT *)find_model_node((uaddr)res->models[2].model, 0x4D);
+    derolle_breakup_node_child = derolle_breakup_node->child;
     for (m2 = 0; m2 < 11; m2++) {
-        p = &derolle_segment_texture_slots[m2];
-        p->kind = 0xF;
-        p->f04 = 0;
-        p->f08[0] = 0.0f;
-        p->f08[1] = 0.0f;
-        p->f08[2] = 0.0f;
-        p->f14 = 0;
-        p->f18 = 0;
-        p->f1C = 0;
-        p->f20[0] = 0.0f;
-        p->f20[1] = 0.0f;
-        p->f20[2] = 0.0f;
-        p->next = 0;
-        p->f30 = 0;
+        p = &derolle_breakup_stub_nodes[m2];
+        p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE;
+        p->model = 0;
+        p->pos[0] = 0.0f;
+        p->pos[1] = 0.0f;
+        p->pos[2] = 0.0f;
+        p->ang[0] = 0;
+        p->ang[1] = 0;
+        p->ang[2] = 0;
+        p->scl[0] = 0.0f;
+        p->scl[1] = 0.0f;
+        p->scl[2] = 0.0f;
+        p->child = 0;
+        p->sibling = 0;
     }
     for (m3 = 0; m3 < 10; m3++) {
-        derolle_segment_texture_slots[m3].next = &derolle_segment_texture_slots[m3 + 1];
+        derolle_breakup_stub_nodes[m3].child = &derolle_breakup_stub_nodes[m3 + 1];
     }
-    p = &derolle_segment_texture_slots[10];
-    p->kind = 0x1F;
-    p->next = 0;
+    p = &derolle_breakup_stub_nodes[10];
+    p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE | NJD_EVAL_BREAK;
+    p->child = 0;
     TObjPlayer::create_breakup_model();
     TObjPlayer__sub_8002E7C8();
     TWindowCtrl::init_all_slots();
@@ -809,7 +764,7 @@ void *TBoss2DeRolLe::create(void *set_data) {
     return new TBoss2DeRolLe(tl_04, set_data);
 }
 
-void reset_parts__13TBoss2DeRolLeFv(void) {
+void TBoss2DeRolLe::reset_parts() {
     TObjPlayer::clear_target_ref();
     TObjPlayer__sub_8002EB88();
     TBoss2Fin::release_effect_table();
@@ -819,8 +774,6 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
         delete boss2_derolle_resource;
         boss2_derolle_resource = NULL;
     }
-}
-
 }
 
 }
@@ -4064,9 +4017,9 @@ void TBoss2DeRolLe::render() {
         ((TBoss2Joint *)e->joints[i])->apply_flash_color();
     }
     if (e->flags & 0x40) {
-        derolle_texture_list_handle->tex = derolle_segment_texture_slots;
+        derolle_breakup_node->child = derolle_breakup_stub_nodes;
     } else {
-        derolle_texture_list_handle->tex = lbl_805D4BCC;
+        derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
     TObjFish::set_global_param(e->f24);
