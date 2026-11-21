@@ -7,6 +7,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 
 const char *bm_obj_boss2_common_model_names[] = {
@@ -51,15 +52,13 @@ s32 lbl_805D4BE4;
 BmlResource *boss2_common_resource;
 GinjaTextureList *boss2_common_texture_list;
 __declspec(section ".sdata2") const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
-extern "C" {
-
-extern void *tl_05;
-
-void *TObjBoss2CeilJunk::create(void *arg0) {
-    return new TObjBoss2CeilJunk((TObject *)tl_05, (const Vec *)arg0);
+void *TObjBoss2CeilJunk::create(void *position) {
+    return new TObjBoss2CeilJunk(tl_05, (const Vec *)position);
 }
 
-    extern const float lbl_805D8258;
+// -10.0f, pooled in TObjPlayer_8002E784.cpp's .sdata2.
+extern const f32 lbl_805D8258;
+
 void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { lbl_805D4BE0 = lbl_805D8258; }
 void TLobby__sub_8003A874(void) {
     s32 i;
@@ -69,7 +68,6 @@ void TLobby__sub_8003A874(void) {
     release_texture_list(boss2_common_texture_list);
     delete boss2_common_resource;
     boss2_common_resource = 0;
-}
 }
 
 void load_boss2_common_resource(void) {
