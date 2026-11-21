@@ -423,7 +423,7 @@ int find_free_item_slot__15TWindowMainMenuFPv(Obj_802ADC04 *self) {
     return 8;
 }
 
-s32 count_active_items__15TWindowMainMenuFi(s32 arg0) {
+s32 count_active_items__15TWindowMainMenuFi(saddr arg0) {
     s32 counter;
     saddr ptr;
 
@@ -499,7 +499,7 @@ void TWindowMenuMainMenu::set_target_y(f32 farg0) {
 }
 
 void TWindowMenuMainMenu::update_scaled_position() {
-    set_target_y(16.0f * (f32)count_active_items__15TWindowMainMenuFi(reinterpret_cast<s32>(this)));
+    set_target_y(16.0f * (f32)count_active_items__15TWindowMainMenuFi((saddr)this));
 }
 
 void TWindowMainMenu::draw_entries_reversed(u8 *arg1) {

@@ -146,10 +146,10 @@ void TWindowSubMagPhoton::update_selection_input() {
     }
 }
 
-void TWindowSubMagPhoton::draw_cursor(int arg1) {
+void TWindowSubMagPhoton::draw_cursor(void *arg1) {
     u8 sp8[16];
     get_cursor_origin(sp8);
-    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, (void *)arg1, sp8, ((Win_8027C4C8 *)this)->f62);
+    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, sp8, ((Win_8027C4C8 *)this)->f62);
 }
 
 void render__19TWindowSubMagPhotonFv(saddr arg0) {
@@ -160,7 +160,7 @@ void render__19TWindowSubMagPhotonFv(saddr arg0) {
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
         reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TWindowSubMagPhoton *)arg0)->draw_cursor(temp_r3);
+    ((TWindowSubMagPhoton *)arg0)->draw_cursor((void *)temp_r3);
 }
 
 void TWindowSubMagPhoton::run_task() {

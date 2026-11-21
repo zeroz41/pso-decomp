@@ -77,7 +77,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
         measure_message_text_width_default(e);
         e->x = 233.0f - e->width;
     }
-    set_text_entry_string((u8 *)(get_array_entry(1)), (u32)team_name, 0x20);
+    set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)team_name, 0x20);
     e = (ResultEntry *)get_array_entry(3);
     text_builder_reset();
     hours = clear_seconds / 3600;

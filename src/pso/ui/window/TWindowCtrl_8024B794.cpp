@@ -3,10 +3,10 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 
 
-extern u32* TWindowCtrl__active_window;
+extern uaddr *TWindowCtrl__active_window;
 
 void TWindowCtrl::dispatch_to_child(s32 arg0, s32 kind) {
-    u32* p = TWindowCtrl__active_window;
+    uaddr *p = TWindowCtrl__active_window;
     if (p != 0 && p[arg0 + 18] != 0U) {
         ((TWindowCtrlMain *)p[arg0 + 18])->spawn_palette_slot_light(kind);
     }

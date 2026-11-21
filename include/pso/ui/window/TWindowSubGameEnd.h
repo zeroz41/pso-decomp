@@ -7,7 +7,7 @@
 struct TWindowSubGameEnd : public TObject {
     virtual ~TWindowSubGameEnd();
     u32 m_1c;
-    u32 m_20;
+    saddr m_20;
     u32 m_24;
     uaddr m_28;
     virtual void render();

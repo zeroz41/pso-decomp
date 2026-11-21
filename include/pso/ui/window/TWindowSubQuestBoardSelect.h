@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct TWindowSubStatusDisp;
+
 struct TWindowSubQuestBoardSelect : public TWindowBase {
     TWindowSubQuestBoardSelect();
     virtual ~TWindowSubQuestBoardSelect();
@@ -15,7 +17,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     u8 m_60;
     u8 m_61;
     u8 _pad62[0x2];
-    u32 m_64;
+    TWindowSubStatusDisp *m_64;
     void handle_cancel();
     void handle_decide();
     void select_next();

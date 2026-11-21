@@ -53,7 +53,7 @@ void draw_ginja_box_tree(u8 *arg0) {
             TParticleCtrl::begin_effect_render();
         }
         if (!(temp_r31 & 8)) {
-            draw_ginja_model((void *)((*(s32 *)((s8 *)var_r30 + 4))));
+            draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
         }
         if (!(temp_r31 & 0x10)) {
             temp_r3 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));

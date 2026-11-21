@@ -61,7 +61,7 @@ s32 *TWindowSubStatusDisp__sub_80071820(uaddr arg0) {
 }
 
 s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
-    W_80071868 *w = (W_80071868 *)((u32)get_character_save_record(id));
+    W_80071868 *w = (W_80071868 *)get_character_save_record(id);
     s32 idx;
     s32 v;
     if (w == 0) {
