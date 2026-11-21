@@ -369,7 +369,6 @@ s32 TLobby__sub_803FB6A0(void) {
 
 s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7BD8;
-    s16 ppp_begin_connect(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
     s32 configure_modem_options(s32, s32, s32, s32, s32);
     s16 lcp_connect(void *); /* declared s16 here; the definition is s32 (u8 *) */
     s16 pap_connect(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
@@ -396,7 +395,7 @@ s32 TLobby__sub_803FB7A4(void) {
     lobby_modem_connect_state = 2;
     get_time_ms(&lbl_805D7A94);
     lbl_805D7A84 = 1;
-    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, (saddr)g->modem.s48, g->flags & 4);
+    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.s48, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
             lbl_805D7A82 = 0xd;

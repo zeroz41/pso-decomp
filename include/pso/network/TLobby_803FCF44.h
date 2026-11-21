@@ -110,7 +110,7 @@ void TLobby__sub_803FE820(saddr arg0);
 s16 TLobby__sub_803FF304(u8 *lobby);
 void TLobby__sub_803FF468(saddr arg0);
 void TLobby__sub_803FD85C(void *arg0);
-s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 modem_name, s32 no_modem);
+s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem);
 s16 ppp_fsm_send_packet(void *self, u8 code, int reply_identifier, void *payload);
 s16 TLobby__sub_803FE658(u8 *arg0);
 void TLobby__sub_803FD958(u8 *arg0);

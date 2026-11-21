@@ -16,7 +16,7 @@
 #include "pso/network/TLobby_803FAEA0.h"
 
 extern PppProtoBlocks ppp_proto_blocks;
-s32 configure_and_open_network_transport();
+s16 configure_and_open_network_transport(int a, int b, int c, int d, int e, char *modem_name, int no_modem);
 
 s32 network_input_available(u8 *out) {
     if (TLobby__sub_803F811C((s16 *)out) != 0) {
@@ -229,8 +229,8 @@ typedef struct ConnectRecord {
 LAYOUT_ASSERT(ConnectRecord_size_check, sizeof(ConnectRecord) == 0x14);
 ConnectRecord ppp_connect_records[8];
 
-s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 modem_name, s32 no_modem) {
-    s32 transport_rc;
+s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem) {
+    s16 transport_rc;
     ppp_connect_records[0].active = 0;
     ppp_connect_records[1].active = 0;
     ppp_connect_records[2].active = 0;
@@ -244,13 +244,13 @@ s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     return transport_rc;
 }
 
-s32 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
+s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     s16 a;
     s16 b;
     s16 c;
     s16 d;
     s16 e;
-    void *modem_name;
+    char *modem_name;
     s16 no_modem;
 {
     s32 open_network_transport(void *);
