@@ -153,9 +153,7 @@ s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr arg0, s32 arg1);
 void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
 void update_selection__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
-s32 __nw__7TObjectFUl(s32);
 saddr get_kbd_ptr__14TWindowComCardFv(s32);
-s32 set_depth__11TWindowBaseFf(f32);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
 
@@ -1654,7 +1652,7 @@ saddr create__17TWindowSubComCardFv(void) {
 
     window_layout_position = get_window_layout_position(0x98);
     temp_r31 = (saddr)TWindowMessage::create((void *)window_layout_position, (saddr)com_card_message_size, 1);
-    set_depth__11TWindowBaseFf(50090.0f);
+    ((TWindowBase *)temp_r31)->set_depth(50090.0f);
     return temp_r31;
 }
 

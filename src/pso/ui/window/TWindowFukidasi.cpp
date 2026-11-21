@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -181,7 +183,6 @@ s32 get_array_entry__11TWindowBaseFi(void *, s32);
 s32 play_sound_effect(int, int, int, int);
 View_80252764 * get_draw_context__11TWindowBaseFPv(void *);
 saddr get_field_20__17TWindowSubComCardFv();
-s32 set_depth__11TWindowBaseFf(f32);
 s32 sub_80246948__11TWindowBaseFv(void *);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
@@ -205,7 +206,6 @@ void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
 void draw_visible_window_entries(void *, void *, View_80252764 *);
 s32 init_window_layout_entries(void *, void *, int);
-s32 reset_float_field__15TWindowHelpItemFv();
 s32 measure_message_text_width(int, f32);
 }
 
@@ -642,7 +642,7 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
 
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1) {
     ((TUnk_804CF0B8 *)arg0)->m_58 = 0.0f;
-    set_depth__11TWindowBaseFf(60000.0f);
+    ((TWindowBase *)arg0)->set_depth(60000.0f);
     if (sub_80246948__11TWindowBaseFv(arg0) != 0) {
         ((TUnk_804CF0B8 *)arg0)->m_2c = (s32) (((TUnk_804CF0B8 *)arg0)->m_2c | 1);
     }
@@ -1332,8 +1332,7 @@ s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
     if ((u8) *(u8 *)((s8 *)this + 0x72) != 0) {
         return 0;
     }
-    ((TWindowBase *)this)->get_array_entry(0);
-    return (u32) __cntlzw(strcmp((const char *)get_field_20__17TWindowSubComCardFv(), (const char *)arg1)) >> 5;
+    return (u32) __cntlzw(strcmp((const char *)((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(0))->get_field_20(), (const char *)arg1)) >> 5;
 }
 
 #pragma push
@@ -1387,8 +1386,7 @@ void complete_speech_balloon(u8 *arg0) {
     t = *(u8 *)(arg0 + 0x72);
     switch (t) {
     case 0:
-        ((TWindowBase *)arg0)->get_array_entry(0);
-        reset_float_field__15TWindowHelpItemFv();
+        ((TWindowHelpItem *)((TWindowBase *)arg0)->get_array_entry(0))->reset_float_field();
         break;
     case 1:
     case 2:

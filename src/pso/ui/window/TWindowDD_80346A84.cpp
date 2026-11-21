@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowDD_80346A84.h"
 
 extern "C" {
-s32 get_word_select_context__9TWindowDDFv();
 void *load_encrypted_archive_data(const char *);
 
 extern s32 TWindowDD__window_mode;
@@ -150,7 +149,7 @@ s32 TWindowDD__sub_80346DB8(s32 arg0) {
   saddr var_r3;
   var_r30 = arg0;
   var_r31 = 0;
-  switch (get_word_select_context__9TWindowDDFv())
+  switch (((TWindowDD *)arg0)->get_word_select_context())
   {
     case 0:
       var_r31 = 1;

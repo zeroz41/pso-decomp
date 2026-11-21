@@ -269,7 +269,6 @@ struct Entry_80341FFC {
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
 s32 init_window_layout_entries(void *, void *, int);
-s32 get_field_20__17TWindowSubComCardFv(void);
 
 void TWindowDD::set_mode_2() { this->m_64[0] = 2; }
 void TWindowDD::reset_cursor() { this->m_64[0] = 0; }
@@ -446,8 +445,7 @@ s32 TWindowDD__sub_8034217C(u8 *arg0) {
 s32 TWindowDD::get_cursor_index() { return this->m_64[2]; }
 s32 TWindowDD::update_if_field28_set() {
     if ((u32) this->m_24[1] != 0U) {
-        ((TWindowBase *)this)->get_array_entry(this->m_64[2]);
-        return get_field_20__17TWindowSubComCardFv();
+        return ((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(this->m_64[2]))->get_field_20();
     }
     return 0;
 }

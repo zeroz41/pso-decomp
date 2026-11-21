@@ -52,7 +52,6 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
-s32 set_flag70_bit100__21TWindowSubComCardListFv();
 s32 draw_text_gray__17TWindowSubComCardFllll(s32, const char *, s32, s32);
 }
 
@@ -461,7 +460,7 @@ saddr TWindowOptionCtrl::create_list_window() {
 
     unlock_music_flag(2);
     list = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
-    set_flag70_bit100__21TWindowSubComCardListFv();
+    ((TWindowSubComCardList *)list)->set_flag70_bit100();
     idx = 0;
     do {
         if (is_music_flag_unlocked_stub(idx) != 0) {

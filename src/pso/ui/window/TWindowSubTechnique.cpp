@@ -23,7 +23,6 @@ extern "C" {
 int get_selection__19TWindowSubTechniqueFPsPll(void*, void* a1);
 void *get_player_by_client_id(s32 i);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub);
-s32 set_depth__11TWindowBaseFf(int);
 }
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 extern "C" {
@@ -106,8 +105,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
 s32 TWindowSubTechnique::create_title_window() {
   saddr titled_window_menu;
   titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
-  TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
-  set_depth__11TWindowBaseFf((int) titled_window_menu);
+  ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1));
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
   return titled_window_menu;
@@ -171,8 +169,7 @@ s32 TWindowSubTechnique::open_menu() {
     saddr titled_window_menu;
 
     titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0);
-    set_depth__11TWindowBaseFf(titled_window_menu);
+    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
     TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
     TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
@@ -267,8 +264,7 @@ void TWindowSubTechnique::run_task() {
     }
     case 3:
         self->help = TWindowMessage::create(get_window_layout_position(0x14), (const f32 *)technique_help_window_size, 1, self->player);
-        TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2);
-        set_depth__11TWindowBaseFf((saddr)self->help);
+        ((TWindowBase *)self->help)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2));
         call_if_split_screen((uaddr)self->help, self->player);
         ((TWindowSubTradeMain *)(self->sel))->clear_trade_flag();
         ((TWindowSubTechnique *)(self->sel))->clear_flag70_bit80();

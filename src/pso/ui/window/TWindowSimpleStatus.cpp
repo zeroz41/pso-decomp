@@ -559,7 +559,6 @@ s32 draw_visible_window_entries(void *, void *, int);
 extern u8 __vt__19TWindowSimpleStatus[];
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
 saddr get_window_layout_position(s32);
-s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void render__19TWindowSimpleStatusFv(saddr arg0) {
     saddr ctx;
@@ -570,7 +569,7 @@ void render__19TWindowSimpleStatusFv(saddr arg0) {
 
 void TWindowSimpleStatus::run_task() {
     saddr arg0 = (saddr)this;
-    update_hp_tp_level__20TWindowSubStatusDispFv();
+    ((TWindowSubStatusDisp *)this)->update_hp_tp_level();
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));

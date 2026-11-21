@@ -80,7 +80,6 @@ struct Win_80266CF8 { u8 p0[0x72]; s16 f72; s16 f74; u8 p76[2]; s16 f78; };
 
 extern "C" {
 saddr get_array_entry__11TWindowBaseFi(void *, s16);
-s32 get_cursor_value__19TWindowMenuIconLineFv();
 
 void TShopArmorListWindow::clamp_selection_to_valid_entry() {
     Win_80266CF8 *w = (Win_80266CF8 *)this;
@@ -101,7 +100,7 @@ void TShopArmorListWindow::clamp_selection_to_valid_entry() {
 
 void TShopArmorListWindow::save_cursor_selection() {
     this->m_78 = (s16) this->m_74;
-    this->m_7c = get_cursor_value__19TWindowMenuIconLineFv();
+    this->m_7c = ((TWindowMenuIconLine *)this)->get_cursor_value();
 }
 void TWindowMenuIconLine::reset_list() {
     u32 i;
@@ -178,7 +177,6 @@ s32 is_player_input_active(s32 param_1);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
-void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x);

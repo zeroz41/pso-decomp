@@ -22,7 +22,6 @@ s32 *get_shared_text_buffer(void);
 char *fn_80076BC4(s32 *);
 saddr get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
-s32 save_cursor_selection__20TShopArmorListWindowFv();
 s32 handle_list_page_flip_input(s32);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
@@ -36,7 +35,7 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 temp_r0;
     s32 var_r30;
     s32 index;
-    save_cursor_selection__20TShopArmorListWindowFv();
+    ((TShopArmorListWindow *)this)->save_cursor_selection();
     reset_list();
     index = ((TWindowSubStatusDisp *)this->m_88)->get_type();
     var_r30 = 0;

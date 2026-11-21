@@ -57,16 +57,14 @@ TWindowSubEquip::TWindowSubEquip(saddr arg1, s32 arg2) : TObject((TObject *)((vo
     this->m_2c = arg1;
     this->m_28 = arg2;
     this->m_34 = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->m_28);
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0);
-    set_depth__11TWindowBaseFf(this->m_34);
+    ((TWindowBase *)this->m_34)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0));
     ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
     p = TObject::operator new(0xBC);
     if (p != 0) {
         p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->m_28);
     }
     *(void **)((s8 *)this + 0x30) = p;
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
-    set_depth__11TWindowBaseFf(this->m_30);
+    ((TWindowBase *)this->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2));
     this->m_38 = 0;
     this->m_20 = -1;
     this->m_24 = -1;

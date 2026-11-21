@@ -277,7 +277,6 @@ extern const f32 lbl_805DFB70, lbl_805DFC28;
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial);
 void free_buffers__9TWindowDDFv(void);
 s32 update_close_flag__9TWindowDDFPv(void *arg0);
-s32 get_current_child_index__9TWindowDDFv();
 
 
 
@@ -1005,7 +1004,7 @@ void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self,
 }
 
 s32 update_close_flag__9TWindowDDFPv(void *arg0) {
-    get_current_child_index__9TWindowDDFv();
+    ((TWindowDD *)arg0)->get_current_child_index();
     if (classify_id__9TWindowDDFs() != 7) {
         *(s32 *)((s8 *)arg0 + 0xB8) = 1;
         return 1;

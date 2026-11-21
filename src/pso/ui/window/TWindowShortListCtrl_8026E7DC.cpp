@@ -52,7 +52,6 @@ s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
-s32 set_flag70_bit10__21TWindowSubComCardListFv();
 }
 
 // The class name TObject::m_name points at.
@@ -332,7 +331,7 @@ void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
     void *window_menu;
 
     window_menu = (void *)create_window_menu(arg1, 0x13, client_id);
-    set_flag70_bit10__21TWindowSubComCardListFv();
+    ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->m_5c = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
     refresh_technique_rows((saddr)window_menu, (void *)arg2_arg);

@@ -81,7 +81,6 @@ s32 TWindowSubTradeMain__sub_802448E4(void *, void *);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 Plr_803310BC *get_player_by_client_id(s32);
-s32 set_depth__11TWindowBaseFf(s32);
 s32 create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
 s32 open_trade_equip_window__19TWindowSubTradeMainFv(Self_803310BC *arg0);
 s32 create_trade_window__19TWindowSubTradeMainFv(Self_80331178 *arg0);
@@ -737,8 +736,7 @@ saddr TWindowSubTradeMain::create_trade_window() {
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowSubTradeMain *)w)->refresh_item_list((void*)(TLobby__sub_802D299C()));
     ((TWindowSubTradeMain *)w)->close();
-    TWindowSubEquip__sub_80263AF8((u8 *)(((Self_80331178 *)this)->f2c), 0);
-    set_depth__11TWindowBaseFf(w);
+    ((TWindowBase *)w)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)(((Self_80331178 *)this)->f2c), 0));
     return w;
 }
 
@@ -754,8 +752,7 @@ saddr TWindowSubTradeMain::open_trade_equip_window() {
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowSubTradeMain *)w)->refresh_item_list((void*)(get_trade_window_state()));
     ((TWindowSubTradeMain *)w)->close();
-    TWindowSubEquip__sub_80263AF8((u8 *)(((Self_803310BC *)this)->f2c), 1);
-    set_depth__11TWindowBaseFf(w);
+    ((TWindowBase *)w)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)(((Self_803310BC *)this)->f2c), 1));
     return w;
 }
 
@@ -765,8 +762,7 @@ saddr TWindowSubTradeMain::create_list() {
     equip_kind_window = create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->m_28);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowSubTradeMain *)equip_kind_window)->refresh_item_list((void*)(TLobby__sub_802D298C()));
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
-    set_depth__11TWindowBaseFf(equip_kind_window);
+    ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2));
     return equip_kind_window;
 }
 

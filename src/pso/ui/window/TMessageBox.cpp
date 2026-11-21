@@ -4,10 +4,9 @@
 
 extern "C" {
 
-s32 bswap__13packet_headerFv();
 
 void bswap__11TMessageBoxFv(saddr arg0) {
-    bswap__13packet_headerFv();
+    ((packet_header *)arg0)->bswap();
     ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
 }
 

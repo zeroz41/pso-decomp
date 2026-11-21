@@ -118,8 +118,7 @@ struct Pad_80279FFC { u8 pad0[0x20]; u8 f20[0x30]; };
 extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
-s32 set_depth__11TWindowBaseFf(s32);
-s32 TWindowSubEquip__sub_80263AF8(s32, s32);
+f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 s32 align_menu_entry_positions(int);
 saddr get_window_layout_position(s32);
 saddr get_player_by_client_id(s32);
@@ -151,8 +150,6 @@ s32 send_6x25_equip_item(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
 s32 __ct__7TObjectFP7TObject();
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
 s32 create_sub_item_list_window(saddr, const f32 *, s32);
@@ -266,8 +263,7 @@ void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 arg1, s32 arg2) {
     window_sub_item->m_2c = arg1;
     window_sub_item->m_24 = arg2;
     window_sub_item->m_30 = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, window_sub_item->m_24);
-    TWindowSubEquip__sub_80263AF8(window_sub_item->m_2c, 0);
-    set_depth__11TWindowBaseFf(window_sub_item->m_30);
+    ((TWindowBase *)window_sub_item->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)window_sub_item->m_2c, 0));
     ((TWindowSubShortCutList *)(window_sub_item->m_30))->set_flag70_bit10();
     window_sub_item->m_40 = 0;
     window_sub_item->m_34 = 0;
@@ -316,8 +312,7 @@ void TWindowSubItem::run_task() {
                     w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), F(s32, 0x24));
                 }
                 F(u32, 0x40) = w;
-                TWindowSubEquip__sub_80263AF8(F(s32, 0x2C), 4);
-                set_depth__11TWindowBaseFf(F(u32, 0x40));
+                ((TWindowBase *)(F(u32, 0x40)))->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)(F(s32, 0x2C)), 4));
                 F(s32, 0x20) = -1;
             }
             ((TWindowSubItem *)LIST)->refresh();
@@ -563,8 +558,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     } else {
         add_item_purpose_actions((TWindowSubItem *)this, titled_window_menu, arg1);
     }
-    TWindowSubEquip__sub_80263AF8(this->m_2c, 1);
-    set_depth__11TWindowBaseFf(titled_window_menu);
+    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
@@ -576,8 +570,7 @@ s32 TWindowSubItem::create_menu_window() {
     titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->m_24);
     TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
     TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
-    TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
-    set_depth__11TWindowBaseFf(titled_window_menu);
+    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
@@ -592,8 +585,7 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
         storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(5), 1, maximum, 1, (s16) this->m_24);
     }
     ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
-    TWindowSubEquip__sub_80263AF8(this->m_2c, 3);
-    set_depth__11TWindowBaseFf(storage);
+    ((TWindowBase *)storage)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 3));
     ((TWindowInputNumber *)storage)->set_value(224.0f);
     ((TWindowSubItem *)storage)->set_flag60_bit10();
     return storage;
