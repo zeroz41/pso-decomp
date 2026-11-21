@@ -8,7 +8,7 @@
 struct TWindowMenu;
 
 struct TShopItemListWindow : public TShopWindowBase {
-    TShopItemListWindow(saddr parent, s32, s32);
+    TShopItemListWindow(saddr parent, saddr sequence, s32 player);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
@@ -20,7 +20,7 @@ struct TShopItemListWindow : public TShopWindowBase {
     uaddr m_24;
     // Child windows, closed by the destructor: names from the window each one holds.
     uaddr item_list;      // create_item_list_window
-    u32 m_2c;
+    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowMenu *confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
     uaddr quantity_input; // TWindowInputNumber
     uaddr help_window;    // TWindowHelpItem
