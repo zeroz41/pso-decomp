@@ -30,7 +30,6 @@
 s16 icmp_input(u8 *self, u32 d, u32 c)
 {
   s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt);
-  s32 TLobby__sub_8040F8A4(u32, void *, u32, u32, u32);
   NetPacketFragment *p;
   u8 stream[0xc];
   u8 hdr[8];
@@ -133,14 +132,14 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
         net = ((a & 0x80000000) == 0) ? (a & 0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (a & 0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (a & 0xFFFFFF00) : (0)));
         new_var = (u32 *) addr;
         mask = ((a & 0x80000000) == 0) ? (0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (0xFFFFFF00) : (0)));
-        TLobby__sub_8040F8A4(net, (void *) (*new_var), mask, 2, d);
+        TLobby__sub_8040F8A4(net, *new_var, mask, 2, d);
         break;
 
       case 1:
 
       case 3:
         NetMemcpy(addr, hdr + 4, 4);
-        TLobby__sub_8040F8A4(*((u32 *)(ip + 16)), (void *) (*((uaddr *) addr)), -1, 6, d);
+        TLobby__sub_8040F8A4(*((u32 *)(ip + 16)), *((u32 *) addr), -1, 6, d);
         break;
 
     }

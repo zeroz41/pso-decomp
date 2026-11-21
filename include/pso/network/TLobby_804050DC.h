@@ -118,6 +118,8 @@ Ipv4Route *AT_IP4_RouteSearch(u32, u32);             /* NetIpv4Route.c */
 s16 NetIPv4IsInterfaceUp(s16);                       /* NetIpv4Route.c */
 s16 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
 s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */
+/* Point the routes through old_gateway that cover dst/mask at new_gateway (an ICMP redirect). */
+s32 TLobby__sub_8040F8A4(u32 dst, u32 new_gateway, u32 mask, u32 flags, u32 old_gateway); /* NetIpv4Route.c */
 /* ARP (src/pso/network/NetArp.c). */
 s32 TLobby__sub_80407418(s16 id);
 s16 forward_net_op_5args(s16, s16, s16, s16, s16, s32, s16, s32);

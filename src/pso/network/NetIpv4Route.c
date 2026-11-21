@@ -428,7 +428,7 @@ Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
     return NULL;
 }
 
-extern s32 TLobby__sub_8040F8A4(uaddr a1, void *a2, uaddr a3, u32 a4, u32 a5)
+s32 TLobby__sub_8040F8A4(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
   u32 new_var;
@@ -436,7 +436,7 @@ extern s32 TLobby__sub_8040F8A4(uaddr a1, void *a2, uaddr a3, u32 a4, u32 a5)
   s16 i;
   s16 found = 0;
   Ipv4Route *e;
-  s16 NetIPv4AddRoute(void *, void *, void *, int, int, int); /* declared here with other parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
+  s16 NetIPv4AddRoute(u32, u32, u32, int, int, int); /* declared here with promoted parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
   for (i = 0, e = tbl->routes; i < tbl->nroutes; i++, e++)
   {
     if (!(e->flags & 1))
@@ -462,7 +462,7 @@ extern s32 TLobby__sub_8040F8A4(uaddr a1, void *a2, uaddr a3, u32 a4, u32 a5)
         continue;
       }
       e->flags = f | 0x20;
-      e->gateway = (uaddr) a2;
+      e->gateway = a2;
       return 0;
     }
     if (e->flags & 4)
@@ -474,13 +474,13 @@ extern s32 TLobby__sub_8040F8A4(uaddr a1, void *a2, uaddr a3, u32 a4, u32 a5)
       continue;
     }
     e->flags = f | 0x10;
-    e->gateway = (uaddr) a2;
+    e->gateway = a2;
     return 0;
   }
 
   if (found != 0)
   {
-    if (NetIPv4AddRoute((void *) a1, (void *) a3, a2, 1, 2, a4) != 0)
+    if (NetIPv4AddRoute(a1, a3, a2, 1, 2, a4) != 0)
     {
       return -1;
     }
