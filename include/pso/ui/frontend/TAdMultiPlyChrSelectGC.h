@@ -41,9 +41,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void set_status_value(s32 arg1);
     void handle_event(s32 arg1);
     void initialize_selection_state(s32 arg1);
-    static int get_instance();
     static TAdChrSelPlyPlateGC *get_card_instance();
-    static void set_select_mode(int a0, int a1);
     static void reset_slot_selection_table();
     static void split_slot_index(s32 arg0, s32 *arg1, s32 *arg2);
     static void init();
@@ -63,7 +61,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void set_cursor_index(s32 v);
     void set_field_100(s32 v);
     static void render(void *self);
-    static s32 create_confirm_window();
+    void *create_confirm_window(s32 slot);
     s32 create_choice_menu();
     void collect_player_slots();
     s32 get_state_result();

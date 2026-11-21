@@ -41,6 +41,8 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void set_cursor_fields(s32 field_4f4, s32 field_4f0);
     void init_slot_position(saddr position, s32 row, s32 column);
     void clear_slot_entries(s32 column);
+    int get_instance();
+    void set_select_mode(int mode);
 
     s32 unk_1c;
     s32 unk_20;
