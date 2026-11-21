@@ -881,7 +881,7 @@ u8 *csnVector(s32 *, void *, s32);
 
 
 
-void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
+void TBoss7LaserPtcl__handle_laser_barrage_state(u8 *arg0, u32 arg1);
 
 void TObjFish__spawn_photon_pad(void *arg0, int idx, int arg);
 
@@ -1243,7 +1243,7 @@ struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
 
 extern "C" {
 
-void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
+void TBoss7PhotonBullet__register_boss_slot_and_reload_stats(void *arg0, int arg1);
 
 s32 update_local_colliders_from_world(void *, void *);
 #define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
@@ -1276,7 +1276,7 @@ void run_load_callback_table(void *, int);
 
 Light_802EE574 boss7_derolle_light_pool[11];
 
-u8 *lbl_805D6918; // resource bundle loaded by TObjPlayer__sub_802EE574
+u8 *lbl_805D6918; // resource bundle loaded by TBoss7DeRolLeC__load_resources
 s32 boss7_derolle_c_motion_id;
 s32 lbl_805D6920;
 s32 lbl_805D6924;
@@ -1305,7 +1305,7 @@ void TBoss7DeRolLeC::apply_poison_status() {  }
 
 TBoss7DeRolLeC *TBoss7Joint::get_state() { return boss7_joint_state; }
 
-void TObjPlayer__sub_802EE574(void) {
+void TBoss7DeRolLeC__load_resources(void) {
     s32 i;
     u8 *p;
     p = (u8 *)new BmlResource(1, &bm_boss7_de_rol_le_c_resource_descriptor, 0, 0, NULL);
@@ -1758,7 +1758,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
     ((TBoss7Joint *)(&pb))->update_and_send_60();
 }
 
-void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
+void TBoss7PhotonBullet__register_boss_slot_and_reload_stats(void *arg0, int arg1) {
     s32 v;
     switch (arg1) {
     case 0:
@@ -1776,9 +1776,9 @@ void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
 }
 
 void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
-    TBoss7PhotonBullet__sub_802ED5A0(this, 2);
+    TBoss7PhotonBullet__register_boss_slot_and_reload_stats(this, 2);
     TObjEneDD::emit_effect(this, (saddr)position, (saddr)&lbl_80472D7C);
-    TBoss7PhotonBullet__sub_802ED5A0(this, unk_62C);
+    TBoss7PhotonBullet__register_boss_slot_and_reload_stats(this, unk_62C);
 }
 
 f32 TBoss7PhotonBullet::get_target_pos_y() {
@@ -2353,37 +2353,37 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         TObjFish__handle_debug_pad_input_state((Fish_802EB90C *)this, reason);
         return;
     case 0x3:
-        sub_802EB270(reason, 0, 1);
+        handle_position_travel_state(reason, 0, 1);
         return;
     case 0x4:
         TObjFish__handle_charge_state((u8 *)this, reason, 0, 2);
         return;
     case 0x5:
-        sub_802EB270(reason, 0, 3);
+        handle_position_travel_state(reason, 0, 3);
         return;
     case 0x6:
-        sub_802EB270(reason, 1, 2);
+        handle_position_travel_state(reason, 1, 2);
         return;
     case 0x8:
-        sub_802EB270(reason, 1, 0);
+        handle_position_travel_state(reason, 1, 0);
         return;
     case 0x9:
-        sub_802EB270(reason, 2, 3);
+        handle_position_travel_state(reason, 2, 3);
         return;
     case 0xA:
         TObjFish__handle_charge_state((u8 *)this, reason, 2, 0);
         return;
     case 0xB:
-        sub_802EB270(reason, 2, 1);
+        handle_position_travel_state(reason, 2, 1);
         return;
     case 0xC:
-        sub_802EB270(reason, 3, 0);
+        handle_position_travel_state(reason, 3, 0);
         return;
     case 0xD:
         TObjFish__handle_descent_state((u8 *)this, reason);
         return;
     case 0xE:
-        sub_802EB270(reason, 3, 2);
+        handle_position_travel_state(reason, 3, 2);
         return;
     case 0x11:
         TObjFish__handle_laser_sweep_state((u8 *)this, reason, 0);
@@ -2413,7 +2413,7 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         TObjFish__handle_particle_201_cue_state((u8 *)this, reason);
         return;
     case 0x18:
-        TBoss7LaserPtcl__sub_802E8FCC((u8 *)this, reason);
+        TBoss7LaserPtcl__handle_laser_barrage_state((u8 *)this, reason);
         return;
     case 0x19:
         TObjFish__sub_802E8EEC((u8 *)this, reason, 0);
@@ -2434,58 +2434,58 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
     case 0x29:
         temp_r6 = *(s32 *)((s8 *)this + 0x6C0);
         if (temp_r6 < 5) {
-            sub_802EB270(reason, temp_r6, temp_r6 + 5);
+            handle_position_travel_state(reason, temp_r6, temp_r6 + 5);
             return;
         }
-        sub_802EB270(reason, temp_r6, temp_r6 - 5);
+        handle_position_travel_state(reason, temp_r6, temp_r6 - 5);
         return;
     case 0x2A:
-        sub_802EB270(reason, 6, 7);
+        handle_position_travel_state(reason, 6, 7);
         return;
     case 0x2B:
-        sub_802EB270(reason, 7, 8);
+        handle_position_travel_state(reason, 7, 8);
         return;
     case 0x2C:
-        sub_802EB270(reason, 8, 5);
+        handle_position_travel_state(reason, 8, 5);
         return;
     case 0x2D:
-        sub_802EB270(reason, 5, 6);
+        handle_position_travel_state(reason, 5, 6);
         return;
     case 0x2E:
-        sub_802EB270(reason, 6, 5);
+        handle_position_travel_state(reason, 6, 5);
         return;
     case 0x2F:
-        sub_802EB270(reason, 5, 8);
+        handle_position_travel_state(reason, 5, 8);
         return;
     case 0x30:
-        sub_802EB270(reason, 8, 7);
+        handle_position_travel_state(reason, 8, 7);
         return;
     case 0x31:
-        sub_802EB270(reason, 7, 6);
+        handle_position_travel_state(reason, 7, 6);
         return;
     case 0x32:
-        sub_802EB270(reason, 6, 9);
+        handle_position_travel_state(reason, 6, 9);
         return;
     case 0x33:
-        sub_802EB270(reason, 9, 8);
+        handle_position_travel_state(reason, 9, 8);
         return;
     case 0x34:
-        sub_802EB270(reason, 8, 9);
+        handle_position_travel_state(reason, 8, 9);
         return;
     case 0x35:
-        sub_802EB270(reason, 9, 6);
+        handle_position_travel_state(reason, 9, 6);
         return;
     case 0x36:
-        sub_802EB270(reason, 5, 9);
+        handle_position_travel_state(reason, 5, 9);
         return;
     case 0x37:
-        sub_802EB270(reason, 9, 7);
+        handle_position_travel_state(reason, 9, 7);
         return;
     case 0x38:
-        sub_802EB270(reason, 7, 9);
+        handle_position_travel_state(reason, 7, 9);
         return;
     case 0x39:
-        sub_802EB270(reason, 9, 5);
+        handle_position_travel_state(reason, 9, 5);
         return;
     case 0x3A:
         TBoss7DeRolLeC__handle_crawfish_spawn_state((u8 *)this, reason, 0);
@@ -2730,7 +2730,7 @@ void TObjFish__handle_debug_pad_input_state(Fish_802EB90C *arg0, u32 arg1) {
 // 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TUnk_80036250 profile
 // per axis, unk_74C/unk_758/unk_750 the x/y/z direction signs, unk_744/unk_754/unk_748
 // the start position.
-void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
+void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_mode) {
     f32 d;
     f32 z_speed;
     f32 z_accel;
@@ -3804,7 +3804,7 @@ void TObjFish__handle_particle_201_cue_state(u8 *arg0, u32 arg1) {
     }
 }
 #pragma pop
-void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
+void TBoss7LaserPtcl__handle_laser_barrage_state(u8 *arg0, u32 arg1) {
     struct CopyStack_802E8FCC { u8 bytes[0x14]; };
     CopyStack_802E8FCC copy_storage_802E8FCC;
     struct { f32 v[3]; } sp8;

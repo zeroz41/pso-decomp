@@ -42,7 +42,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void emit_hit_effect(const Vec *position);
     s32 sub_802ECB10();
     void sub_802ECAA4();
-    void sub_802EB270(u32 event, s32 mode, s32 next_mode);
+    void handle_position_travel_state(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
     void sub_802E8234();
     void set_flag_800();
@@ -76,7 +76,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     ControllerInputContext *unk_624; // controller_input_state.controllers[1]
     s32 unk_628;                  // state flags (0x4, 0x8, 0x40, 0x80, 0x8000 tested)
     s32 unk_62C;
-    TUnk_80036250 motion_x;       // drives position.x (sub_802EB270)
+    TUnk_80036250 motion_x;       // drives position.x (handle_position_travel_state)
     TUnk_80036250 motion_y;       // drives position.y
     TUnk_80036250 motion_z;       // drives position.z
     TObject unk_690;              // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
@@ -85,8 +85,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s32 action_index;             // step in lbl_804E3C2C[difficulty][], advanced by advance_action_sequence
     s32 unk_6B8;
     s32 unk_6BC;
-    s32 unk_6C0;                  // index into lbl_80472D04 (sub_802EB270: from)
-    s32 unk_6C4;                  // index into lbl_80472D04 (sub_802EB270: to)
+    s32 unk_6C0;                  // index into lbl_80472D04 (handle_position_travel_state: from)
+    s32 unk_6C4;                  // index into lbl_80472D04 (handle_position_travel_state: to)
     s32 unk_6C8;
     s32 unk_6CC;
     s32 unk_6D0;
@@ -104,7 +104,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TObject *unk_71C;
     TObject *unk_720;
     s32 unk_724;
-    s32 unk_728;                  // state step (sub_802EB270: 1 = arrived)
+    s32 unk_728;                  // state step (handle_position_travel_state: 1 = arrived)
     s32 unk_72C;
     s32 unk_730;
     s32 unk_734;
@@ -150,7 +150,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
-// Light pool element (0x38 bytes): TObjPlayer__sub_802EE574 initialises 11 of them as a linked free list.
+// Light pool element (0x38 bytes): TBoss7DeRolLeC__load_resources initialises 11 of them as a linked free list.
 struct Light_802EE574 {
     s32 type;
     s32 f4;
@@ -173,7 +173,7 @@ extern "C" {
 extern Light_802EE574 boss7_derolle_light_pool[11];
 
 void TObjPlayer__sub_802ED984(void);
-void TObjPlayer__sub_802EE574(void);
+void TBoss7DeRolLeC__load_resources(void);
 }
 
 // Functions defined in TBoss7DeRolLeC.cpp.
@@ -184,9 +184,9 @@ void TBoss7DeRolLeC__sub_802EC994(void *p);
 }
 s32 TBoss7Joint_get_shell_max_hp(void);
 extern "C" {
-void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
+void TBoss7LaserPtcl__handle_laser_barrage_state(u8 *arg0, u32 arg1);
 void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
-void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
+void TBoss7PhotonBullet__register_boss_slot_and_reload_stats(void *arg0, int arg1);
 void TObjFish__handle_extend_tentacles_reason(void *o, u32 k);
 void TObjFish__handle_retract_tentacles_reason(void *o, u32 k);
 void TObjFish__handle_tentacle_volley_state(u8 *arg0, u32 arg1, s32 arg2);
