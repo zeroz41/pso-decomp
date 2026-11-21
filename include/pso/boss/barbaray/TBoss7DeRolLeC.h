@@ -27,9 +27,10 @@ struct TBoss7LaserPtcl;
 // Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
 struct TBoss7DeRolLeCParams {
     f32 unk_00;                   // the laser's attack power (sub_802E8FCC)
-    u8 pad_04[0x14];
+    f32 target_pos_y;             // TBoss7PhotonBullet::get_target_pos_y
+    u8 pad_08[0x10];
     s32 unk_18;
-    u8 pad_1C[0x4];
+    s32 shell_max_hp;             // TBoss7Joint_get_shell_max_hp
     s32 unk_20;
 };
 

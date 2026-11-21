@@ -44,6 +44,7 @@ struct NJS_OBJECT;
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/TUnk_804F1C88.h"
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
@@ -537,17 +538,6 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 
 #pragma pop
 
-struct Stack_802E8274 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-    f32 sp20;
-    f32 sp24;
-    f32 sp28;
-};
 
 struct RecoveredGlobal_802E80F4_lbl_8050BEC0 {
     s32 value;
@@ -559,9 +549,7 @@ struct RecoveredGlobal_802E80F4_lbl_8058D4C0 {
     u8 remaining[0xC];
 };
 extern "C" {
-s32 transform_point_by_current_matrix(void *, void *);
 
-s32 push_matrix();
 
 void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 
@@ -749,12 +737,9 @@ s32 update_local_colliders_from_world(void *, void *);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 #pragma pop
 
-s32 rotate_matrix_by_node_angles(void *, int);
 
 
-s32 scale_current_matrix(void *);
 
-s32 post_translate_matrix(void *);
 
 
 extern const char *TBoss7DeRolLeC__class_name;
@@ -777,14 +762,14 @@ u8 *lbl_805D6918; // resource bundle loaded by TObjPlayer__sub_802EE574
 s32 boss7_derolle_c_motion_id;
 s32 lbl_805D6920;
 s32 lbl_805D6924;
-saddr lbl_805D6928;
-saddr lbl_805D692C;
-saddr lbl_805D6930;
-saddr lbl_805D6934;
+Vec *lbl_805D6928;
+Vec *lbl_805D692C;
+GC_Mtx *lbl_805D6930;
+GC_Mtx *lbl_805D6934;
 TBoss7DeRolLeC *boss7_joint_state; // the destructor clears it when it holds this object
 u8 *lbl_805D693C;
 s32 *lbl_805D6940;
-saddr lbl_805D6944;
+Vec *lbl_805D6944;
 
 void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 
@@ -810,10 +795,10 @@ void TObjPlayer__sub_802EE574(void) {
     boss7_derolle_c_motion_id = 0;
     lbl_805D6920 = 0;
     lbl_805D6924 = 0;
-    lbl_805D6928 = 0;
-    lbl_805D692C = 0;
-    lbl_805D6930 = 0;
-    lbl_805D6934 = 0;
+    lbl_805D6928 = NULL;
+    lbl_805D692C = NULL;
+    lbl_805D6930 = NULL;
+    lbl_805D6934 = NULL;
     boss7_joint_state = NULL;
     run_load_callback_table(lbl_804E3C5C, 0x30);
     lbl_805D693C = (u8 *)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D6918 + 0x42C)) + 8), 0x4D);
@@ -1081,7 +1066,7 @@ void TBoss7DeRolLeC::run_task() {
             this->unk_6B8 = 1;
         }
     }
-    if ((this->unk_6AC != 0) && (*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x624)) + 8) & 0x10000)) {
+    if ((this->unk_6AC != 0) && (debug_pad->unknown_08 & 0x10000)) {
         switch (this->unk_6B8) {
         case 1:
             this->unk_6B8 = 0;
@@ -1140,10 +1125,10 @@ void TBoss7DeRolLeC::run_task() {
         set_motion_packed_rotation();
         push_matrix();
         set_matrix_identity(0);
-        post_translate_matrix(((u8 *)this) + 0x38);
-        post_translate_matrix(&this->unk_6EC);
-        rotate_matrix_by_node_angles(((u8 *)this) + 0x5C, 1);
-        scale_current_matrix(&lbl_804E3BF0);
+        post_translate_matrix(&position.x);
+        post_translate_matrix(&unk_6EC.x);
+        rotate_matrix_by_node_angles(&rotation_x, 1);
+        scale_current_matrix(&lbl_804E3BF0.x);
         this->sub_802E8234();
         unk_7AC->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
@@ -1274,11 +1259,11 @@ void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
 }
 
 f32 TBoss7PhotonBullet::get_target_pos_y() {
-    return *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 4);
+    return ((TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(0xF))->target_pos_y;
 }
 
 s32 TBoss7Joint_get_shell_max_hp(void) {
-    return *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 0x1C);
+    return ((TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(0xF))->shell_max_hp;
 }
 
 void TBoss7DeRolLeC::set_position_index(s32 index) {
@@ -1308,7 +1293,7 @@ f32 TBoss7DeRolLeC::sub_802ED3E4() {
     scale_matrix(NULL, 2.5f, 2.5f, 2.5f);
     bind_motion_context(current_motion, frame);
     compose_motion_node_matrix(model);
-    transform_point_by_current_matrix(&v, &v);
+    transform_point_by_current_matrix(&v.x, &v);
     pop_matrix();
     return v.y;
 }
@@ -1826,7 +1811,7 @@ void TBoss7DeRolLeC::play_persistent_sound_at(s32 id, Vec *pos) {
 }
 
 void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
-    s32 temp_r6;
+    s32 slot;
     switch (state) {
     case 0x0:
         sub_802EBE50(reason);
@@ -1917,12 +1902,12 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         return;
     case 0x28:
     case 0x29:
-        temp_r6 = *(s32 *)((s8 *)this + 0x6C0);
-        if (temp_r6 < 5) {
-            sub_802EB270(reason, temp_r6, temp_r6 + 5);
+        slot = position_slot;
+        if (slot < 5) {
+            sub_802EB270(reason, slot, slot + 5);
             return;
         }
-        sub_802EB270(reason, temp_r6, temp_r6 - 5);
+        sub_802EB270(reason, slot, slot - 5);
         return;
     case 0x2A:
         sub_802EB270(reason, 6, 7);
@@ -3887,53 +3872,46 @@ void TBoss7DeRolLeC::sub_802E83E8(u32 event) {
 #pragma pop
 
 void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E8274, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E8274, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802E8274, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802E8274, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802E8274, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_802E8274, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_802E8274, sp20) == 0x18);
-    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_802E8274, sp24) == 0x1C);
-    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_802E8274, sp28) == 0x20);
-    Stack_802E8274 stack;
+    Vec emitter_point;
+    Vec aim_point;
+    Vec body_point;
     if ((s32) boss7_derolle_c_motion_id == 0x5F) {
-        stack.sp20 = 0.0f;
-        stack.sp24 = 0.0f;
-        stack.sp28 = 0.0f;
-        transform_point_by_current_matrix((void *)&stack.sp20, (void *)lbl_805D6944);
+        emitter_point.x = 0.0f;
+        emitter_point.y = 0.0f;
+        emitter_point.z = 0.0f;
+        transform_point_by_current_matrix(&emitter_point.x, lbl_805D6944);
     }
     if ((s32) boss7_derolle_c_motion_id == 0x71) {
-        stack.sp14 = 0.0f;
-        stack.sp18 = 0.0f;
-        stack.sp1C = 0.0f;
-        transform_point_by_current_matrix((void *)&stack.sp14, (void *)(lbl_805D6944 + 0xC));
+        aim_point.x = 0.0f;
+        aim_point.y = 0.0f;
+        aim_point.z = 0.0f;
+        transform_point_by_current_matrix(&aim_point.x, lbl_805D6944 + 1);
     }
     if ((s32) boss7_derolle_c_motion_id == lbl_80472CB0[lbl_805D6920]) {
-        stack.sp8 = 0.0f;
-        stack.spC = 0.0f;
-        stack.sp10 = 0.0f;
-        transform_point_by_current_matrix((void *)&stack.sp8, (void *)lbl_805D6928);
+        body_point.x = 0.0f;
+        body_point.y = 0.0f;
+        body_point.z = 0.0f;
+        transform_point_by_current_matrix(&body_point.x, lbl_805D6928);
         lbl_805D6920 += 1;
-        lbl_805D6928 += 0xC;
+        lbl_805D6928++;
     }
     if ((s32) boss7_derolle_c_motion_id == 0x33) {
         push_matrix();
-        matrix_mult_vec_array(NULL, (const Vec *)lbl_804E3BFC, (Vec *)lbl_805D692C, 4);
+        matrix_mult_vec_array(NULL, (const Vec *)lbl_804E3BFC, lbl_805D692C, 4);
         pop_matrix();
-        subtract_vector((void *)(lbl_805D692C + 0xC), (void *)lbl_805D692C);
+        subtract_vector(lbl_805D692C + 1, lbl_805D692C);
     }
     if ((lbl_805D6924 & 0x80) && ((s32) boss7_derolle_c_motion_id >= 0x4D) && ((s32) boss7_derolle_c_motion_id <= 0x58)) {
         push_matrix();
-        get_current_matrix((void *)lbl_805D6934);
+        get_current_matrix(lbl_805D6934);
         pop_matrix();
-        lbl_805D6934 += 0x30;
+        lbl_805D6934++;
     }
     if (((s32) boss7_derolle_c_motion_id >= 0x1D) && ((s32) boss7_derolle_c_motion_id <= 0x20)) {
         push_matrix();
-        get_current_matrix((void *)lbl_805D6930);
+        get_current_matrix(lbl_805D6930);
         pop_matrix();
-        lbl_805D6930 += 0x30;
+        lbl_805D6930++;
     }
     boss7_derolle_c_motion_id += 1;
 }
@@ -3942,26 +3920,26 @@ void TBoss7DeRolLeC::sub_802E8234() {
     boss7_derolle_c_motion_id = 0;
     lbl_805D6924 = this->state_flags;
     lbl_805D6920 = 0;
-    lbl_805D6928 = (long) (((u8 *)this) + 0x3EC);
-    lbl_805D6930 = (saddr)this->tentacle_matrices;
-    lbl_805D6934 = (saddr)this->unk_6D4;
-    lbl_805D692C = (long) (((u8 *)this) + 0x4DC);
-    lbl_805D6944 = (long) (((u8 *)this) + 0x7B4);
+    lbl_805D6928 = unk_3EC;
+    lbl_805D6930 = tentacle_matrices;
+    lbl_805D6934 = unk_6D4;
+    lbl_805D692C = unk_4DC;
+    lbl_805D6944 = &unk_7B4;
 }
 
 void TBoss7DeRolLeC::render() {
-    s32 *var_r30;
-    s32 var_r29;
-    if (!((s32)main_task.get_task_flags() & 0x20) || !(*(f32 *)((s8 *)((u8 *)this) + 0x3C) < -35.0f)) {
-        var_r30 = (s32 *)(((u8 *)this) + 0x5F8);
-        var_r29 = 0;
+    TBoss7Joint **joint;
+    s32 i;
+    if (!((s32)main_task.get_task_flags() & 0x20) || !(position.y < -35.0f)) {
+        joint = joints;
+        i = 0;
         do {
-            if (((TBoss7Joint *)(*var_r30))->is_part_active() != 0U) {
-                hide_joint_polygons(var_r29);
+            if ((*joint)->is_part_active() != 0U) {
+                hide_joint_polygons(i);
             }
-            var_r29 += 1;
-            var_r30 = (s32 *)((u8 *)var_r30 + (4));
-        } while (var_r29 != 0xA);
+            i += 1;
+            joint++;
+        } while (i != 10);
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
