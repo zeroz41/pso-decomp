@@ -544,7 +544,7 @@ force_active:
   - TEnemyTaskList_name
   - TFogCtrl__data_805DA948
   - TFogCtrl__data_805DA94C
-  - TFogCtrl__sub_800FB400
+  - swap_fog_request_slots
   - TFogCtrl__sub_800FBA54
   - TFogCtrl__sub_800FBAAC
   - assign_subcommand_header
