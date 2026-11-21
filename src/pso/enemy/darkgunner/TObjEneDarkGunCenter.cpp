@@ -120,7 +120,7 @@ struct Gun_800A0B20 : VBase_800A0B20 {
 
 extern "C" {
 f32 atan2_float(f32, f32);
-void TObjPlayer__sub_800A0654(void *);
+void apply_fall_damage_to_targets(void *);
 s32 TObjPlayer__sub_800A06B4(void *);
 void fn_800A0798(Gun_800A0B20 *self);
 s32 fn_800A0884(Gun_800A0B20 *o);
@@ -429,7 +429,7 @@ void TObjEneDarkGunCenter::run_task() {
                 self->timer = 0x5a;
                 self->state = 1;
             } else {
-                TObjPlayer__sub_800A0654(self);
+                apply_fall_damage_to_targets(self);
             }
         }
         break;

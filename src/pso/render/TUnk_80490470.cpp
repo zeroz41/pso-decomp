@@ -130,11 +130,11 @@ struct Obj_800A06B4 { u8 pad[0x37c]; s32 count; u8 pad2[4]; u16 ids[1]; };
 struct Obj_800A0728 { u8 pad[0x374]; s32 mode; s32 timer; s32 count; u8 pad2[4]; u16 ids[1]; };
 
 extern "C" {
-void TObjPlayer__sub_800A0654(Obj_800A0654 *self);
+void apply_fall_damage_to_targets(Obj_800A0654 *self);
 s32 TObjPlayer__sub_800A06B4(Obj_800A06B4 *self);
 
 TUnk_80490470::TUnk_80490470() : MaterialColorFade(), phase(0.0f) {}
-void TObjPlayer__sub_800A0654(Obj_800A0654 *self) {
+void apply_fall_damage_to_targets(Obj_800A0654 *self) {
     s32 i;
     for (i = 0; i < self->count; i++) {
         void *e = get_enemy_entity(self->ids[i]);
