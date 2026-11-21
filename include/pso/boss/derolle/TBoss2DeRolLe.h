@@ -88,11 +88,19 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void sub_8002FD9C(u32 reason, s32 arg2);
     void sub_8002FCE4(u32 reason);
     void sub_8002F73C(u32 reason);
+    void reload_stats_for_phase(s32 kind);
+    void set_move_target_point(s32 index);
+    void update_angle();
+    void init_head_params();
     u8 pad_374[0x8];
     f32 unk_37C;                       // 20.0 (TBoss7DeRolLeC's twin field too)
     u8 pad_380[0xC];
     u16 unk_38C;
-    u8 pad_38E[0x32];
+    u8 pad_38E[0x6];
+    Vec move_target;                   // set_move_target_point's point
+    Vec move_dir;                      // towards move_target, normalized in xz
+    f32 move_distance;                 // xz distance to move_target
+    u8 pad_3B0[0x10];
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -183,14 +191,11 @@ void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
 void handle_death_state__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
 void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
 void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0);
 s32 play_sound(s32 id, Vec *position);
-void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 void render__13TBoss2DeRolLeFv(u8 *arg0);
 void render_body__13TBoss2DeRolLeFv(u8 *arg0);
 void send_6x13__13TBoss2DeRolLeFPv(void *p);
 void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 int spawn_trap__13TBoss2DeRolLeFPvii(void *p, int a1, int a2);
@@ -199,7 +204,6 @@ void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
 void swap_endian__13TBoss2DeRolLeFPv(void *p);
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 void update_and_send__13TBoss2DeRolLeFPv(void *p);
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 void update_particle_ctrls__13TBoss2DeRolLeFPv(TBoss2DeRolLe *self);
 void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);

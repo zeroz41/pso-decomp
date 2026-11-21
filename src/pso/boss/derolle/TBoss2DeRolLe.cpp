@@ -13,6 +13,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 #include "pso/system/vector.h"
+#include "pso/math/MatrixTransforms.h"
 
 #include "pso/network/protocol/protocol_types.h"
 
@@ -926,8 +927,6 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2);
 
 void TBoss2DeRolLe__sub_800338BC(void);
 
-s32 init_head_params__13TBoss2DeRolLeFPv(void *);
-
 void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
 
 void assign_slots_from_list(void *, saddr);
@@ -955,8 +954,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 s32 activate_camera_mode(int);
 
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
-
 void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 
 s32 vec3_add_to(int, void *);
@@ -980,8 +977,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 int play_sound(void* p, int a1);
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
 f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
 
@@ -1133,8 +1128,6 @@ f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
 
 s32 advance_scalar_motion_profile(void *);
 
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
-
 
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
@@ -1228,8 +1221,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
 f32 subtract_vector(void *, void *);
 
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
-
 s32 matrix_mult_vec(int, void *, void *);
 
 s32 set_matrix_identity(int);
@@ -1253,8 +1244,6 @@ extern saddr TBoss2DeRolLe__base_params[1];
 
 extern saddr TBoss2DeRolLe__resistance_params[1];
 
-void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
-
 void send_6x13__13TBoss2DeRolLeFPv(void *p);
 
 void TBoss2DeRolLe__sub_80036358(void *p);
@@ -1271,11 +1260,7 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 
-void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0);
-
 void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
-
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
@@ -2174,7 +2159,11 @@ namespace joint_state_view {
 
 extern "C" {
 
-void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
+}
+
+}
+
+void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
     s32 a;
     s32 i;
     s32 b;
@@ -2196,8 +2185,12 @@ void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
         b = 0;
         break;
     }
-    ((TObjEneDD *)self)->reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
+    reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
 }
+
+namespace joint_state_view {
+
+extern "C" {
 
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0) {
     if ((void *) TBoss2DeRolLe__instance != NULL) {
@@ -2210,16 +2203,16 @@ void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
     temp_r5 = *(u8 **)((s8 *)arg1 + 0xA4);
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 0x04000000);
-        reload_stats_for_phase__13TBoss2DeRolLeFPvi((void *)((void *)arg0), 1);
+        ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(1);
         ((VObj18 *)arg1)->m20(arg0, 1.0f);
-        reload_stats_for_phase__13TBoss2DeRolLeFPvi(arg0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x3C4))));
+        ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(((TBoss2DeRolLe *)arg0)->unk_3C4);
     }
 }
 
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    reload_stats_for_phase__13TBoss2DeRolLeFPvi(arg0, 2);
+    ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(2);
     TObjEneDD::emit_effect((void*)arg0, (saddr)arg1, (saddr)&derolle_effect_params);
-    ((void (*)(void *, void *))reload_stats_for_phase__13TBoss2DeRolLeFPvi)(arg0, *(void **)((s8 *)arg0 + 0x3C4));
+    ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(((TBoss2DeRolLe *)arg0)->unk_3C4);
 }
 
 f32 TBoss2DeRolLe__sub_80034CF8(void) {
@@ -2251,12 +2244,20 @@ extern "C" {
 #pragma push
 #pragma opt_common_subs off
 
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x394), (saddr)&TBoss2DeRolLe__position_point_table[arg1]);
-    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x3A0), (saddr)(arg0 + 0x394));
-    subtract_vector(arg0 + 0x3A0, arg0 + 0x38);
-    ((RecoveredFields_80034C2C_arg0 *)arg0)->field_3AC = normalize_vector_xz((Vec *)(arg0 + 0x3A0));
 }
+
+}
+
+void TBoss2DeRolLe::set_move_target_point(s32 index) {
+    VecCopy(&move_target, &TBoss2DeRolLe__position_point_table[index]);
+    VecCopy(&move_dir, &move_target);
+    subtract_vector(&move_dir, &position);
+    move_distance = normalize_vector_xz(&move_dir);
+}
+
+namespace joint_state_view {
+
+extern "C" {
 
 #pragma pop
 
@@ -2300,26 +2301,26 @@ void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
     pop_matrix();
 }
 
-void update_angle__13TBoss2DeRolLeFPv(void *arg0) {
-    if (*(f32 *)((s8 *)arg0 + 0x6A4) > 0.4f) {
-        *(f32 *)((s8 *)arg0 + 0x6A4) -= 0.4f;
+}
+
+}
+
+void TBoss2DeRolLe::update_angle() {
+    if (unk_6A4 > 0.4f) {
+        unk_6A4 -= 0.4f;
         return;
     }
-    if (*(f32 *)((s8 *)arg0 + 0x6A4) < -0.4f) {
-        *(f32 *)((s8 *)arg0 + 0x6A4) += 0.4f;
+    if (unk_6A4 < -0.4f) {
+        unk_6A4 += 0.4f;
         return;
     }
-    *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
+    unk_6A4 = 0.0f;
 }
 
-void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x65C) = 0;
-    ((TUnk_80036250 *)(arg0 + 0x664))->init_params(3.0f, fabs_float(-*(f32 *)((s8 *)arg0 + 0x38)), 0.08f);
-    ((TUnk_80036250 *)(arg0 + 0x684))->init_params(5.0f, fabs_float(500.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.08f);
-}
-
-}
-
+void TBoss2DeRolLe::init_head_params() {
+    unk_65C = 0;
+    unk_664.init_params(3.0f, fabs_float(-position.x), 0.08f);
+    unk_684.init_params(5.0f, fabs_float(500.0f - position.z), 0.08f);
 }
 
 #pragma push
@@ -3115,7 +3116,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
         if (o->f6E0 == 2) {
             o->fB8 = 1;
             ((void (*)(void *, void *))vec3_add_to)(&o->pos, p);
-            set_move_target_point__13TBoss2DeRolLeFPvi((u8 *)o, 0);
+            ((TBoss2DeRolLe *)o)->set_move_target_point(0);
             o->f6E0 = 3;
         }
         ((TObjMotion *)o)->advance_animation();
@@ -3400,7 +3401,7 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
             o->scaleZ = 1.0f;
             break;
         case 1:
-            init_head_params__13TBoss2DeRolLeFPv(o);
+            ((TBoss2DeRolLe *)o)->init_head_params();
             o->scaleZ = 1.0f;
             break;
         case 2:
@@ -3609,18 +3610,18 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                 break;
             case 4:
                 self->x = self->x + self->vx;
-                update_angle__13TBoss2DeRolLeFPv(self);
+                ((TBoss2DeRolLe *)self)->update_angle();
                 advance_scalar_motion_profile(self->mover);
                 self->z = self->vy - self->f69C;
                 break;
             case 5:
                 self->x = self->x + self->vx;
-                update_angle__13TBoss2DeRolLeFPv(self);
+                ((TBoss2DeRolLe *)self)->update_angle();
                 advance_scalar_motion_profile(self->mover);
                 self->z = self->vy - self->f69C;
                 break;
             case 6:
-                update_angle__13TBoss2DeRolLeFPv(self);
+                ((TBoss2DeRolLe *)self)->update_angle();
                 if (advance_scalar_motion_profile(self->mover) == 3) {
                     self->phase = 2;
                 }
@@ -3794,7 +3795,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
                 } else {
                     o->pos.z = o->f704 - o->f69C;
                 }
-                update_angle__13TBoss2DeRolLeFPv(o);
+                ((TBoss2DeRolLe *)o)->update_angle();
                 break;
             }
             break;
