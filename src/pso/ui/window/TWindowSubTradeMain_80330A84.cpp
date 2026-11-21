@@ -83,11 +83,11 @@ void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 Plr_803310BC *get_player_by_client_id(s32);
 s32 set_depth__11TWindowBaseFf(s32);
-s32 create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
+saddr create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
-s32 update_label_positions__17TWindowSubComCardFPvPv(u32, s32);
+void update_label_positions__17TWindowSubComCardFPvPv(void *, saddr);
 }
 
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -231,7 +231,7 @@ TWindowSubTradeMain::~TWindowSubTradeMain() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close();
         this->m_3c = 0U;
     }
-    if ((u32) dialog != 0U) {
+    if (dialog != NULL) {
         reinterpret_cast<TWindowSubComCard *>(dialog)->close();
         dialog = 0U;
     }
@@ -645,9 +645,9 @@ saddr TWindowSubTradeMain::build_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
   titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0xDA), 6, 3);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0xDB), 6, 0xA);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0xDC), 6, 0x11);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDD), 6, 0x14, (int) 0xFFEE946E);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   ((TWindowMenu *)titled_window_menu)->update_layout_height(282.0f);
@@ -659,8 +659,8 @@ saddr TWindowSubTradeMain::create_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
   titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0xDC), 6, 0x11);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0xE3), 6, 0x16);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   ((TWindowMenu *)titled_window_menu)->update_layout_height(282.0f);
@@ -672,8 +672,8 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
     TWindowMessageYesNo *window = static_cast<TWindowMessageYesNo *>(
         TWindowMessageYesNo::create(this, reinterpret_cast<void *>(m_28), NULL, NULL));
     open_yes_no_prompt(reinterpret_cast<TChCrTagPlBack *>(window),
-        reinterpret_cast<u32>(TWindowSubStatusDisp::get_message_10(0x20)),
-        reinterpret_cast<s32>(TWindowSubStatusDisp::get_message_10(0xE6)),
+        reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
+        reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE6)),
         get_window_layout_position(0x5F), 282.0f);
     set_menu_selected_index(reinterpret_cast<TWindowSubComCard *>(window), 1);
     return window;
@@ -688,14 +688,14 @@ TWindowMessageYesNo *update_from_lobby__19TWindowSubTradeMainFi(TWindowSubTradeM
 
 TWindowMessageYesNo *open_status_window__19TWindowSubTradeMainFi(TWindowSubTradeMain *window) {
     return open_option_dialog__19TWindowSubTradeMainFPvi(
-        window, reinterpret_cast<s32>(TWindowSubStatusDisp::get_message_10(0xF7)));
+        window, reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xF7)));
 }
 
-TWindowMessageYesNo *open_option_dialog_thunk__19TWindowSubTradeMainFPvPv(TWindowSubTradeMain *window, s32 message) {
+TWindowMessageYesNo *open_option_dialog_thunk__19TWindowSubTradeMainFPvPv(TWindowSubTradeMain *window, saddr message) {
     return open_option_dialog__19TWindowSubTradeMainFPvi(window, message);
 }
 
-TWindowMessageYesNo *open_option_dialog__19TWindowSubTradeMainFPvi(TWindowSubTradeMain *window, s32 message) {
+TWindowMessageYesNo *open_option_dialog__19TWindowSubTradeMainFPvi(TWindowSubTradeMain *window, saddr message) {
     TWindowMessageYesNo *dialog = static_cast<TWindowMessageYesNo *>(
         TWindowMessageYesNo::create(window, reinterpret_cast<void *>(window->m_28), NULL, NULL));
     initialize_option_dialog(dialog, message, get_window_layout_position(0x5F), 282.0f);
@@ -707,8 +707,8 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
     TWindowMessageYesNo *window = static_cast<TWindowMessageYesNo *>(
         TWindowMessageYesNo::create(this, reinterpret_cast<void *>(m_28), NULL, NULL));
     open_yes_no_prompt(reinterpret_cast<TChCrTagPlBack *>(window),
-        reinterpret_cast<u32>(TWindowSubStatusDisp::get_message_10(0x20)),
-        reinterpret_cast<s32>(TWindowSubStatusDisp::get_message_10(0xE4)),
+        reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
+        reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE4)),
         get_window_layout_position(0x5F), 282.0f);
     set_menu_selected_index(reinterpret_cast<TWindowSubComCard *>(window), 1);
     return window;
@@ -716,7 +716,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
 
 saddr TWindowSubTradeMain::create_trade_window() {
     Plr_80331178 *p;
-    s32 w;
+    saddr w;
     p = ((Plr_80331178 *)get_player_by_client_id((s8)TLobby::get_trade_mode()));
     if (p == NULL) {
         return 0;
@@ -794,8 +794,8 @@ void TWindowSubTradeMain::set_labels(s32 arg1) {
     if ((u32) this->m_34 != 0U) {
         TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_34, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x5E))));
     }
-    if ((u32) dialog != 0U) {
-        update_label_positions__17TWindowSubComCardFPvPv(reinterpret_cast<u32>(dialog), get_window_layout_position(arg1 + 0x5F));
+    if (dialog != NULL) {
+        update_label_positions__17TWindowSubComCardFPvPv(dialog, get_window_layout_position(arg1 + 0x5F));
     }
     if ((u32) this->m_3c != 0U) {
         if ((u32) this->m_44 != 0U) {
