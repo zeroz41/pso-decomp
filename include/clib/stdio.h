@@ -2,6 +2,7 @@
 #define _STDIO_H_
 
 #include "types.h"
+#include <stdarg.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,6 +10,7 @@ extern "C" {
 
 int sprintf(char *str, const char *format, ...);
 int printf(const char *format, ...);
+int vsprintf(char *str, const char *format, va_list arg);
 
 #ifdef __cplusplus
 }

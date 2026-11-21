@@ -123,7 +123,6 @@ void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
-int vsprintf(char *s, const char *fmt, va_list ap);
 
 void debug_printf_at(s32 arg0, const char *fmt, ...) {
     va_list ap;

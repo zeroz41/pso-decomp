@@ -1,7 +1,8 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803D31A4.h"
-#include "stdarg.h"
+#include <stdarg.h>
+#include <stdio.h>
 #include "pso/unk/TLobby.h"
 
 s32 lobby_callback_tables_refcount;
@@ -18,7 +19,6 @@ extern "C" {
 SvmMessageSlot lbl_805D765C;
 SvmTransitionSlot lbl_805D7664;
 SvmTransitionSlot lbl_805D766C;
-int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
 u32 worker_callback_slots[8];
 char svm_callback_message_buffer[0x100];

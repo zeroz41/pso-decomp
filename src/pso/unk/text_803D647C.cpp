@@ -1,9 +1,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/math/AngleLookup.h"
+#include <math.h>
 
-extern "C" {
-f64 ceil(f64);
 #pragma push
 #pragma scheduling off
 f32 TWindowSubStatusDisp::round_away_from_zero(f32 farg0) {
@@ -13,8 +12,6 @@ f32 TWindowSubStatusDisp::round_away_from_zero(f32 farg0) {
     return (f32) ceil((f64) farg0);
 }
 #pragma pop
-
-}
 
 asm f32 sin_table_lookup(s32 angle) {
 #include "orig_asm/pso/unk/text_803D647C/sin_table_lookup.inc"

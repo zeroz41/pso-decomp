@@ -1,13 +1,11 @@
 #include "types.h"
-#include "stdarg.h"
+#include <stdarg.h>
+#include <stdio.h>
 #include "pso/unk/TLobby.h"
 #include "pso/system/MiddlewareInterruptLock.h"
 
 typedef void (*RecoveredCallback_c88e8900640a)(s32, u8 *);
 
-extern "C" {
-int vsprintf(char *s, const char *fmt, va_list ap);
-}
 RecoveredCallback_c88e8900640a log_printf_callback;
 s32 lobby_log_callback_arg;
 u8 log_printf_buffer[0x100];
