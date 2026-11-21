@@ -276,23 +276,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
 
-typedef struct Part_8002EA64 {
-    Vec pos;
-    Vec vel;
-    s32 unk18;
-    s32 unk1C;
-    s32 unk20;
-    f32 unk24;
-    s32 unk28;
-} Part_8002EA64;
-
-typedef struct Obj_8002EA64 {
-    u8 pad0[0x18];
-    s32 *vtbl;
-    u8 pad1C[4];
-    Part_8002EA64 parts[19];
-} Obj_8002EA64;
-
 struct Motion_8002EFE8 { s32 f0; s32 anim; s32 f8; s32 fC; };
 
 struct Model_8002EFE8 { s32 f0; u32 frames; };
@@ -371,14 +354,7 @@ extern s32 saved_model_render_flags;
 
 extern s32 model_render_flags;
 
-struct VObj8002EB88_8002eb88_8002E784 {
-    char pad[0xC];
-    virtual void m0(int);
-};
-
 void TObjPlayer__sub_8002EB88(void);
-
-struct VObj8002EB88_8002eb88_8002E784;
 
 }
 
@@ -598,10 +574,6 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
-struct Obj_80034034;
-
-struct Obj_800341F0;
-
 struct Self_800310F8 {
     u8 pad0[0xB8];
     s16 fB8;
@@ -646,8 +618,6 @@ struct DR_800327C8 {
     f32 scaleX;
     f32 scaleZ;
 };
-
-struct Obj_80034258;
 
 struct VBase_18_8002F7C4 { char pad[0x18]; };
 
@@ -780,16 +750,6 @@ struct D_800320B4 {
     f32 vx;
     f32 ay;
 };
-
-typedef struct DeRolLe_800344A4 {
-    u8 pad0[0x3D8];
-    u8 unk3D8[0x540 - 0x3D8];
-    Vec pts[8];
-    u8 pad5A0[0x5E0 - 0x5A0];
-    void *joints[8];
-    u8 pad600[0x654 - 0x600];
-    s32 mode;
-} DeRolLe_800344A4;
 
 struct Vec3i_80033AA4 { s32 x, y, z; };
 
@@ -1030,32 +990,6 @@ s32 advance_scalar_motion_profile(void *);
 
 void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
 
-struct Obj_80034034 { u8 pad[0x326]; s16 f326; };
-
-struct Obj_800333F4 { u8 pad0[0xB8]; s16 f_B8; };
-
-struct Obj_8002F73C { u8 pad0[0xB8]; s16 fB8; u8 pad1[0x3C0 - 0xBA]; u32 f3C0; };
-
-struct Obj_8002FCE4 {
-    u8 pad0[0x5C];
-    s32 f5C;
-    u8 pad1[0xB8 - 0x60];
-    s16 fB8;
-    u8 pad2[0x3C0 - 0xBA];
-    u32 f3C0;
-    u8 pad3[0x6A4 - 0x3C4];
-    f32 f6A4;
-};
-
-typedef struct DeRolLe_8002FD9C {
-    u8 pad0[0xB8];
-    s16 state;
-    u8 padBA[0x3C0 - 0xBA];
-    s32 flags;
-    u8 pad3C4[0x654 - 0x3C4];
-    s32 mode;
-} DeRolLe_8002FD9C;
-
 struct Obj_80030720 {
     u8 pad0[0xB8];
     s16 fB8;
@@ -1070,64 +1004,6 @@ struct Obj_80030720 {
     saddr f644[3];
     u8 pad650[4];
     s32 f654;
-};
-
-struct Obj_80034034;
-
-struct VBase_800341F0 { char pad[0x18]; };
-
-struct V_800341F0 : VBase_800341F0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5();
-    virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15(); virtual void m16(); virtual void m17();
-    virtual void m18(); virtual void m19(); virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39(); virtual void m40(); virtual void m41();
-    virtual void m42(); virtual void m43(); virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53();
-    virtual void m54(); virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64(); virtual void m65();
-    virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75(); virtual void m76(); virtual void m77();
-    virtual void m78(); virtual void m79(); virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84(); virtual void m85(); virtual void m86(); virtual void m87(); virtual void m88(); virtual void m89();
-    virtual void m90(); virtual void m91(); virtual void m92(); virtual void m93();
-    virtual void m94();
-};
-
-struct Obj_800341F0 : V_800341F0 {
-    u8 pad1c[0x5e0 - 0x1c];
-    V_800341F0 *parts[10];
-};
-
-struct B_80034258 { u8 pad[0x18]; };
-
-struct V_80034258 : B_80034258 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24();
-    virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34();
-    virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44();
-    virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49();
-    virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54();
-    virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64();
-    virtual void m65(); virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69();
-    virtual void m70(); virtual void m71(); virtual void m72(); virtual void m73(); virtual void m74();
-    virtual void m75(); virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83(); virtual void m84();
-    virtual void m85(); virtual void m86(); virtual void m87(); virtual void m88(); virtual void m89();
-    virtual void m90(); virtual void m91(); virtual void m92(); virtual void m93();
-};
-
-struct Obj_80034258 : V_80034258 {
-    u8 pad2[0x5e0 - 0x1c];
-    V_80034258 *parts[10];
 };
 
 struct Rec_80030898 { f32 a; f32 b; f32 c; };
@@ -1217,8 +1093,6 @@ extern "C" {
 }
 
 extern int fold_flush_0;
-
-struct Obj_800341F0;
 
 struct Rol_80031AD4 {
     u8 pad0[0x38];
@@ -1416,143 +1290,6 @@ LAYOUT_ASSERT(RecoveredFields_80034C2C_arg0_3AC_offset, offsetof(RecoveredFields
 
 namespace lifecycle_view {
 
-struct VBase_18_bd2ad6
-{
-  char pad[0x18];
-};
-
-struct VObj_18_bd2ad6 : VBase_18_bd2ad6 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual s32 m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual s32 m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual s32 m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual s32 m103();
-};
-
-struct Self_80035420 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1C[0x5E0 - 0x1C];
-    void *a5E0[10];
-    s32 x608[4];
-    saddr x618;
-    saddr x61C;
-    void *a620[4];
-    void *a630[5];
-    void *a644[3];
-    void *x650;
-    u8 pad654[0x6B8 - 0x654];
-    void *x6B8;
-    u8 pad6BC[0x6C8 - 0x6BC];
-    void *x6C8;
-    void *x6CC;
-    void *x6D0;
-    u8 pad6D4[0x73C - 0x6D4];
-    void *x73C;
-    void *a740[6];
-};
-
-struct Seg_800363B4 { s8 n; u8 pad1[0xF]; void *model1; void *model2; };
-
 typedef struct Slot_80035D24 {
     s32 kind;
     s32 f04;
@@ -1728,10 +1465,6 @@ int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 
 extern u32 lbl_805D4BA4;
-
-typedef struct VBase_18_bd2ad6 VBase_18_bd2ad6;
-
-typedef struct VObj_18_bd2ad6 VObj_18_bd2ad6;
 
 }
 
