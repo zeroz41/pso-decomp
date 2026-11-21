@@ -304,7 +304,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     return 0;
 }
 
-s32 TLobby__sub_80426440(void) {
+s16 TLobby__sub_80426440(void) {
     return 0;
 }
 

@@ -400,8 +400,6 @@ inline void restart_timer(PppoeSlot *e, s16 retries, s32 timeout) {
 }
 
 void TLobby__sub_80427378(PppoeSlot *self) {
-    s16 write_empty_tlv_header(); /* declared without a parameter list; the definition is s16 (u8 **, PppoeSlot *) */
-    s16 TLobby__sub_80426440(); /* declared s16 here; the definition returns s32 */
     void *v = self;
     u16 a;
     u16 q;
@@ -430,7 +428,7 @@ void TLobby__sub_80427378(PppoeSlot *self) {
                     *(s16 *)(s + 0x824) = build_ethernet_frame_header(s + 0x23a, *(void **)(s + 0x20), s + 0x10, 0x8864, 0, *(u16 *)(s + 2), 6);
                     post_send_message(s + 0x23a, *(u16 *)(s + 0x824));
                     w = p;
-                    r = write_empty_tlv_header(&w, s);
+                    r = write_empty_tlv_header(&w, self);
                     if (r < 0) {
                         r = -1;
                     }
