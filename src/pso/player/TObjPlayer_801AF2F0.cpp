@@ -2132,9 +2132,9 @@ s32 get_battle_ctrl_default__6TLobbyFv();
 s32 get_party_yaw();
 u8 *get_party_position(void);
 s32 TNpcPlayer__sub_8034DE40();
-void TObjPlayer__sub_80354BE4(s32);
-s32 TObjPlayer__sub_80354D5C(s32);
-void TObjPlayer__sub_80354E7C(void);
+void finish_client_quest_thread(s32);
+s32 test_client_quest_slot_lock_flag(s32);
+void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 s32 validate_6xAE_set_animation_state(void *);
@@ -2505,7 +2505,7 @@ void TObjPlayer::sub_801BB950() {
     }
   }
   TFontSmallLobby__sub_801C013C(((u8 *)&this->technique_levels));
-  TObjPlayer__sub_80354E7C();
+  reset_client_quest_slot_table();
 }
 
 void TObjPlayer::init_class_flags(saddr arg1) {
@@ -5786,7 +5786,7 @@ s32 TObjPlayer::execute_palette_action(s32 arg1, void *arg2) {
         break;
     case 6:
         if (TObjPlayer::is_player_valid_target(get_entity_id(this)) != 0) {
-            TObjPlayer__sub_80354BE4(get_entity_id(this));
+            finish_client_quest_thread(get_entity_id(this));
         }
         break;
     default:
@@ -5812,9 +5812,9 @@ s32 TObjPlayer::handle_palette_button_input() {
             return 1;
         }
     } else if (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(0x400) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 2) != 0) {
-        if (TObjPlayer__sub_80354D5C(get_entity_id(arg0)) != 0 && ((TWindowActionPalette *)(arg0 + 0x500))->handle_input_forward() != 0) {
+        if (test_client_quest_slot_lock_flag(get_entity_id(arg0)) != 0 && ((TWindowActionPalette *)(arg0 + 0x500))->handle_input_forward() != 0) {
             if (TObjPlayer::is_player_valid_target(get_entity_id(arg0)) != 0) {
-                TObjPlayer__sub_80354BE4(get_entity_id(arg0));
+                finish_client_quest_thread(get_entity_id(arg0));
             }
         } else if (((TObjPlayer *)arg0)->execute_palette_action(2, 0) != 0) {
             TWindowCtrl::dispatch_to_child((u16)(get_entity_id(arg0)), 2);

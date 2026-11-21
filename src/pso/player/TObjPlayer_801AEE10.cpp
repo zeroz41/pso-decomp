@@ -9,8 +9,8 @@ s32 get_game_play_mode();
 s32 reset_volopt_state__10TObjPlayerFv(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
-s32 TObjPlayer__sub_80354C7C(s32);
-s32 TObjPlayer__sub_80354E3C();
+s32 test_client_quest_slot_bits01(s32);
+s32 is_client_quest_slot_local();
 
 s32 TObjPlayer::is_final_phase() {
     return (u8)((u8) (get_main_phase() == 0xF));
@@ -39,11 +39,11 @@ s32 TObjPlayer::is_single_screen() {
 s32 TObjPlayer::is_player_valid_target(s32 arg0) {
     saddr temp_r31;
 
-    if (TObjPlayer__sub_80354E3C() == 0) {
+    if (is_client_quest_slot_local() == 0) {
         return 0;
     }
     temp_r31 = (saddr)get_player_by_client_id((u16) arg0);
-    if ((TObjPlayer__sub_80354C7C(arg0) == 0) || (check_flag_100__10TObjPlayerFPv((void *)temp_r31) != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
+    if ((test_client_quest_slot_bits01(arg0) == 0) || (check_flag_100__10TObjPlayerFPv((void *)temp_r31) != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
         return 0;
     }
     return 1;

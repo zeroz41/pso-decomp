@@ -1439,7 +1439,7 @@ extern "C" {
 s32 find_first_valid_target_id__10TObjPlayerFv(void*);
 void TObjPlayer__sub_80312E98(void *, s32);
 s32 append_photon_blast_request(uaddr, s32, s32);
-s32 TObjPlayer__sub_80354D5C(s16);
+s32 test_client_quest_slot_lock_flag(s16);
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 int TBoss7LaserPtcl__sub_8035AF14(void*);
 int fn_8035AF18(void*);
@@ -5081,7 +5081,7 @@ s32 TObjPlayer__sub_801CEAC8(u8 *self) {
         r = 1;
     }
     if (TObjPlayer__sub_801B5AF8(self, 2) == 2 && ((TObjPlayer *)(self + 0x550))->check_action_usable(0x400) != 0 &&
-        TObjPlayer__sub_80354D5C(get_entity_id(self)) == 0) {
+        test_client_quest_slot_lock_flag(get_entity_id(self)) == 0) {
         r = 2;
     }
     if (TObjPlayer__sub_801B5AF8(self, 3) == 2 && ((TObjPlayer *)(self + 0x550))->check_action_usable(2) != 0) {
