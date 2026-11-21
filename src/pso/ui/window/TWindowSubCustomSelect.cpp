@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/Scroll_8026D790.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowActionPalette.h"
@@ -153,7 +154,7 @@ void TWindowSubCustomSelect::draw_cursor(u8 *window_sub_custom_equip) {
 
 #pragma push
 #pragma opt_loop_invariants off
-void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
+void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     u32 i;
     s32 p;
     Ent_802776D0 *e;
@@ -176,8 +177,8 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
         }
         fx = 58.0f * (f32)(i % 3);
         fy = 51.0f * (f32)(i / 3);
-        y = *(f32 *)((s8 *)ctx + 0x14) + fy;
-        if (47.0f + (8.0f + y) < *(f32 *)((s8 *)ctx + 0x40) || 8.0f + y > *(f32 *)((s8 *)ctx + 0x48)) {
+        y = ctx->inner_y + fy;
+        if (47.0f + (8.0f + y) < ctx->clip_y0 || 8.0f + y > ctx->clip_y1) {
             continue;
         }
         w1 = (u8 *)this->get_array_entry(1);
@@ -199,7 +200,7 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
         draw_visible_window_entries(
             this,
             reinterpret_cast<const WindowLayoutEntries *>(&*(u8 *)((s8 *)this + 0x24)),
-            reinterpret_cast<WindowDrawContext *>(ctx));
+            ctx);
     }
 }
 #pragma pop
@@ -209,7 +210,7 @@ void TWindowSubCustomSelect::render() {
     saddr temp_r3;
     temp_r3 = reinterpret_cast<saddr>(window_sub_custom_select->get_draw_context());
     ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)temp_r3);
-    window_sub_custom_select->draw_palette_cells(temp_r3);
+    window_sub_custom_select->draw_palette_cells(reinterpret_cast<WindowDrawContext *>(temp_r3));
     window_sub_custom_select->draw_cursor((u8 *)temp_r3);
     ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->m_7c)))->forward_render((void *)(temp_r3));
     draw_window_scrollbar(window_sub_custom_select->m_80, temp_r3, (u8 *)window_sub_custom_select + 0x68);

@@ -5905,7 +5905,7 @@ force_active:
   - draw_object_tree__14TOTrapSeabed01FPUc
   - draw_object_tree_recursive__FPv
   - draw_outline_quad__18TWindowEffectLightFl
-  - draw_palette_cells__22TWindowSubCustomSelectFi
+  - draw_palette_cells__22TWindowSubCustomSelectFP17WindowDrawContext
   - draw_photon_blast_fan
   - draw_quad__16TAdGuideButtonGCFi
   - draw_queued_models__FUl
