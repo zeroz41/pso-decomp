@@ -44,7 +44,6 @@ extern "C" {
 
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
-extern s32 TAdSelectGameModeGC__cached_mode_value;
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);

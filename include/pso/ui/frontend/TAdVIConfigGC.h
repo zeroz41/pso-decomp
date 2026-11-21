@@ -28,4 +28,7 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
 };
 
 LAYOUT_ASSERT(TAdVIConfigGC_size, sizeof(TAdVIConfigGC) == 0x4C);
+
+extern s32 logo_clear_flag;
+
 #endif

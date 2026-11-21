@@ -39,7 +39,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 get_active_card_slot();
     void set_active_card_slot(s32 slot);
     void set_cursor_fields(s32 field_4f4, s32 field_4f0);
-    void init_slot_position(s32 position, s32 row, s32 column);
+    void init_slot_position(saddr position, s32 row, s32 column);
     void clear_slot_entries(s32 column);
 
     s32 unk_1c;
@@ -80,6 +80,8 @@ void TAdMultiPlyChrSelectGC__sub_802C522C(TAdChrSelPlyPlateGC *plate);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558(void);
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 void TAdMultiPlyChrSelectGC__sub_802C65C0(s32 arg0);
+void TAdMultiPlyChrSelectGC__sub_802C6660(TAdChrSelPlyPlateGC *self);
+void TAdMultiPlyChrSelectGC__sub_802C5A44(TAdChrSelPlyPlateGC *self, const void *src, s32 col);
 s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32 arg0);
 saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
 u32 get_multiplayer_controller_active_index(int param_1);

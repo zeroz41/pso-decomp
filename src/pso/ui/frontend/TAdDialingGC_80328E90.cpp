@@ -8,16 +8,15 @@
 extern "C" {
 void TLobby__sub_802A5154(void);
 
-extern s32 TAdDialingGC__instance;
 
 void TAdDialingGC::close() {
     TLobby::free_dialing_gc();
     TLobby::free_dialog_global();
-    TAdDialingGC__instance = 0;
+    TAdDialingGC__instance = NULL;
 }
 
 void TAdDialingGC::open() {
-    TAdDialingGC__instance = 0;
+    TAdDialingGC__instance = NULL;
     TLobby__sub_802A0F70();
     TLobby__sub_802A5154();
 }

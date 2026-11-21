@@ -23,7 +23,6 @@ extern "C" {
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, uaddr, u32, u32, uaddr, uaddr, u32, void (*)(uaddr));
 void clear_aram_request_busy(uaddr);
-extern u8 ad_warning_arq_request[];
 u32 ad_warning_aram_base;
 u32 TAdWarningBaseGC__aram_capacity;
 s32 warning_aram_load_done_flag;

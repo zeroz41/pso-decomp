@@ -9,7 +9,6 @@ extern "C" {
 
 s32 sub_802E0CB0__13TUnk_804E3008Fv(void *, s32);
 
-extern const char *lbl_805D3F78;
 
 void TUnk_804E3008::sub_802E0F58(s32 arg1) {
     this->m_name = lbl_805D3F78;

@@ -16,4 +16,6 @@ struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
 
 LAYOUT_ASSERT(TAdPsoPassSaveGC_size, sizeof(TAdPsoPassSaveGC) == 0x48);
 
+extern s32 TAdPsoPassSaveGC__data_805D6E80;
+
 #endif

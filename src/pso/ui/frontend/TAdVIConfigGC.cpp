@@ -125,7 +125,6 @@ void TAdVIConfigGC::render() {
     vfunc_12();
 }
 
-extern s32 logo_clear_flag;
 
 void TAdVIConfigGC::set_field48_clear_global() {
     this->m_48 = 1;

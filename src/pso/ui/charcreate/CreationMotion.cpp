@@ -1,7 +1,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CreationMotion.h"
+#include "pso/ui/charcreate/CharacterCreationModels.h"
 
-extern CharacterAppearanceFields* creation_player_character;
 s32 creation_motion_group() {
     if(creation_player_character->classFlags&1)return 0;
     s32 group=1;

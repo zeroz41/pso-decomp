@@ -24,13 +24,13 @@ struct Pad_802C6AC8 { u8 pad[0x20]; u8 ctl[0x30]; };
 
 extern s32 multi_ply_chr_select_slot_table[][5];
 extern "C" {
-void copy_vec2__FPvPv(void *);
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
 s32 play_sound_effect(int, void *, int, int);
 void TAdMultiPlyChrSelectGC__sub_802C5F1C(TAdChrSelPlyPlateGC *);
 extern u8 controller_physical_port_bank[];
+}
 
 s32 multi_ply_chr_select_player_slot[4] = {
     0, 0, 0, 0,
@@ -357,7 +357,6 @@ s32 TAdMultiPlyChrSelectGC__sub_802C6558(void) {
     }
     return n;
 }
-}
 
 s32 TAdMultiPlyChrSelectGC::count_ready() {
     s32 var_r31;
@@ -633,10 +632,9 @@ void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {
     }
 }
 
-/* src is passed through untouched to copy_vec2 as its second argument. */
 void TAdMultiPlyChrSelectGC__sub_802C5A44(TAdChrSelPlyPlateGC *self, const void *src, s32 col) {
     if ((u32)self->unk_4dc[col] < 4) {
-        copy_vec2__FPvPv(&self->home[self->unk_4dc[col]][col]);
+        copy_vec2(&self->home[self->unk_4dc[col]][col], (void *)src);
         self->quad[self->unk_4dc[col]][col].x = self->home[self->unk_4dc[col]][col].x;
         self->quad[self->unk_4dc[col]][col].y = self->home[self->unk_4dc[col]][col].y;
         self->quad[self->unk_4dc[col]][col].z = self->home[self->unk_4dc[col]][col].x + self->pos.x;
@@ -657,8 +655,8 @@ void TAdChrSelPlyPlateGC::clear_slot_entries(s32 arg1) {
     unk_4dc[arg1] = 0;
 }
 
-void TAdChrSelPlyPlateGC::init_slot_position(saddr arg1, s32 arg2, s32 arg3) {
-    copy_vec2__FPvPv(&home[arg2][arg3]);
+void TAdChrSelPlyPlateGC::init_slot_position(saddr position, s32 arg2, s32 arg3) {
+    copy_vec2(&home[arg2][arg3], (void *)position);
     quad[arg2][arg3].x = home[arg2][arg3].x;
     quad[arg2][arg3].y = home[arg2][arg3].y;
     quad[arg2][arg3].x = home[arg2][arg3].x + pos.x;

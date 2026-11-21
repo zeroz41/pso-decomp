@@ -7,6 +7,7 @@
 struct TAdChrSelASlotGC;
 class TAdGuideTxtGC;
 struct TAdChrSelPlyPlateGC;
+struct TAdChrMoveEffectGC;
 
 class TUnk_804E3008;
 
@@ -87,11 +88,11 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void set_field_1c(s32 v);
     s32 get_mode();
     s32 is_state_closing();
-    static saddr get_global_state();
+    static TAdChrMoveEffectGC *get_global_state();
     static int get_select_flag();
     static int get_chr_select_state();
     s32 get_ready_state();
-    static u32 get_move_effect(saddr arg0);
+    static TAdChrMoveEffectGC *get_move_effect(saddr arg0);
     static TAdChrSelASlotGC *get_or_create_slot_window(TObject *parent, s32 mode);
     u8 unk_68[0x4];
     saddr m_6c;

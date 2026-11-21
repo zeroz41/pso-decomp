@@ -15,4 +15,6 @@ public:
     static void call_enable_camera(void* p);
 };
 
+extern s32 TAdSelectGameModeGC__cached_mode_value;
+
 #endif

@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
+#include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
@@ -165,7 +166,6 @@ u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
 }
 
-extern s32 TAdPsoPassSaveGC__data_805D6E80;
 
 s32 TAdPsoPassSaveGC__sub_8032B584(void) {
     return TAdPsoPassSaveGC__data_805D6E80;

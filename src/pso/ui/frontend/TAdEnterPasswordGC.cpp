@@ -37,12 +37,12 @@ struct Pw_8032B6A0
 
 typedef void (TAdEnterPasswordGC::*Pmf_8032B984)();
 
-extern "C" {
-extern TAdEnterBaseGC::Position password_screen_status_line_position[];
-extern s32 password_entry_dispatch_state;
 #pragma explicit_zero_data on
 TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
 #pragma explicit_zero_data off
+extern "C" {
+extern TAdEnterBaseGC::Position password_screen_status_line_position[];
+extern s32 password_entry_dispatch_state;
 extern u8 *password_entry_keyboard_control;
 void request_main_phase(s32 arg0);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);

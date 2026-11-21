@@ -46,4 +46,6 @@ struct TAdDialingGC : public TObject {
 
 LAYOUT_ASSERT(TAdDialingGC_size, sizeof(TAdDialingGC) == 0xA8);
 
+extern TAdDialingGC *TAdDialingGC__instance;
+
 #endif

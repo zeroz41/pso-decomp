@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 
 extern "C" {
 
@@ -22,8 +23,6 @@ s32 TAdChrSelPlyPlateGC::get_field_0x530() { return unk_530; }
 void TAdMultiPlyChrSelectGC::set_field_1c(s32 v) { this->m_1c = v; }
 s32 TAdMultiPlyChrSelectGC::get_mode() { return this->m_1c; }
 
-    extern int lbl_805D6E78;
-
 s32 TAdMultiPlyChrSelectGC::is_state_closing() {
     TAdMultiPlyChrSelectGC *self = this;
     switch (self->m_1c) {
@@ -37,7 +36,7 @@ s32 TAdMultiPlyChrSelectGC::is_state_closing() {
     return 0;
 }
 
-saddr TAdMultiPlyChrSelectGC::get_global_state() {  return lbl_805D6E78; }
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return lbl_805D6E78; }
 
     extern int lbl_805D384C;
 int TAdMultiPlyChrSelectGC::get_select_flag() {  return lbl_805D384C; }

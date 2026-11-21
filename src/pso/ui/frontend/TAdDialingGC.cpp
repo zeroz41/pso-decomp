@@ -35,7 +35,6 @@ TAdDialingGC *TAdDialingGC__instance;
 extern "C" {
 s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
-extern TAdDialingGC *TAdDialingGC__instance;
 s32 __ct__10TAdTitleGCFP7TObjectl(u32, void *, s32);
 s8 func_801A5E54__Fv();
 extern s32 TLobby__net_session_mode;
