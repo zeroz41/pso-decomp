@@ -801,21 +801,6 @@ void compose_motion_node_matrix(void *arg0);
 void compose_motion_node_matrix(void *arg0);
 namespace joint_state_view {
 
-struct VBase18 { char pad[0x18]; };
-
-struct VObj18 : VBase18 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(void *, f32);
-};
-
-struct RecoveredFields_80034C2C_arg0 {
-    u8 unknown_0[0x3AC];
-    f32 field_3AC;
-};
 
 
 
@@ -827,11 +812,8 @@ f32 TBoss2DeRolLe__sub_80034CEC(void);
 
 f32 TBoss2DeRolLe__sub_80034CF8(void);
 
-extern u8 *TBoss2DeRolLe__instance;
 
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
 
-void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
@@ -882,7 +864,6 @@ s32 TBoss2Joint_get_shell_max_hp(void);
 
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
-void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
@@ -890,7 +871,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-LAYOUT_ASSERT(RecoveredFields_80034C2C_arg0_3AC_offset, offsetof(RecoveredFields_80034C2C_arg0, field_3AC) == 0x3AC);
 
 }
 
@@ -949,7 +929,6 @@ s32 free_collision_body_parts(void *);
 
 s32 __dl__7TObjectFPv(void *);
 
-extern s32 TBoss2DeRolLe__instance;
 
 u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
 
@@ -1007,7 +986,6 @@ extern saddr lbl_805D4BBC;
 
 extern saddr lbl_805D4BC0;
 
-extern s32 TBoss2DeRolLe__instance;
 
 extern u8 *derolle_texture_list_handle;
 
@@ -1096,7 +1074,6 @@ u32 lbl_804FE31C[3];
 
 Slot_80035D24 derolle_segment_texture_slots[11];
 
-extern s32 TBoss2DeRolLe__instance;
 
 void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
 
@@ -1803,27 +1780,28 @@ namespace joint_state_view {
 
 extern "C" {
 
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0) {
-    if ((void *) TBoss2DeRolLe__instance != NULL) {
-        switch_phase_stats__13TBoss2DeRolLeFPvPv((u8 *)TBoss2DeRolLe__instance, (u8 *)arg0);
+// A ceiling junk piece that lands on a player (TObjBoss2CeilJunk) hits it through the boss.
+void TBoss2DeRolLe::forward_switch_phase_stats(TObjChara *victim) {
+    if (TBoss2DeRolLe__instance != NULL) {
+        TBoss2DeRolLe__instance->switch_phase_stats(victim);
     }
 }
 
-void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
-    u8 *temp_r5;
-    temp_r5 = *(u8 **)((s8 *)arg1 + 0xA4);
-    if (temp_r5 != NULL) {
-        *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 0x04000000);
-        ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(1);
-        ((VObj18 *)arg1)->m20(arg0, 1.0f);
-        ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(((TBoss2DeRolLe *)arg0)->unk_3C4);
+// Hits victim with the phase-1 attack stats, then restores the running phase's stats.
+void TBoss2DeRolLe::switch_phase_stats(TObjChara *victim) {
+    if (victim->bodies != NULL) {
+        victim->bodies->flags |= 0x04000000;
+        reload_stats_for_phase(1);
+        victim->receive_physical_attack(this, 1.0f);
+        reload_stats_for_phase(unk_3C4);
     }
 }
 
-void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(2);
-    TObjEneDD::emit_effect((void*)arg0, (saddr)arg1, (saddr)&derolle_effect_params);
-    ((TBoss2DeRolLe *)arg0)->reload_stats_for_phase(((TBoss2DeRolLe *)arg0)->unk_3C4);
+// A tentacle's strike (TBoss2Tentacle) emits its effect at pos with the phase-2 stats.
+void TBoss2DeRolLe::emit_effect_and_step(Vec *pos) {
+    reload_stats_for_phase(2);
+    TObjEneDD::emit_effect(this, (saddr)pos, (saddr)&derolle_effect_params);
+    reload_stats_for_phase(unk_3C4);
 }
 
 f32 TBoss2DeRolLe__sub_80034CF8(void) {

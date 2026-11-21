@@ -13,6 +13,7 @@
 #include "pso/unk/text_803E2D70.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
@@ -45,7 +46,6 @@ const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
 extern "C" {
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
 extern const f32 lbl_805D4BE0;
 }
 
@@ -148,7 +148,7 @@ void TObjBoss2CeilJunk::run_task() {
                         subtract_vector(&d, &position);
                         if (normalize_vector_xz(&d) < rad) {
                             hit = 1;
-                            forward_switch_phase_stats__13TBoss2DeRolLeFi((saddr)pl);
+                            TBoss2DeRolLe::forward_switch_phase_stats((TObjChara *)pl);
                         }
                     }
                 }

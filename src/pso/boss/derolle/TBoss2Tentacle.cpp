@@ -160,13 +160,13 @@ void TBoss2Tentacle::run_task() {
         case 1:
             reach += 8.0f;
             if (reach > len) {
-                void *boss;
+                TBoss2DeRolLe *boss;
                 reach = len;
                 timer = 0;
                 attack_phase = 2;
-                boss = (void *)TBoss2DeRolLe::get_instance();
+                boss = TBoss2DeRolLe::get_instance();
                 if (boss != NULL) {
-                    emit_effect_and_step__13TBoss2DeRolLeFPvPv(boss, &pos);
+                    boss->emit_effect_and_step(&pos);
                 }
                 play_sound_effect(0x4003A507, &pos, 0, 0);
             }
