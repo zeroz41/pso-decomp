@@ -290,7 +290,7 @@ void TShopEquipmentListWindow::vfunc_11() {
         ((TShopEquipmentListWindow *)arg0)->handle_confirm();
         return;
     case 7:
-        ((s32)((TShopEquipmentListWindow *)arg0)->get_list_item8());
+        ((TShopEquipmentListWindow *)arg0)->get_list_item8();
         return;
     case 8:
         ((TShopEquipmentListWindow *)arg0)->open_menu_window();
@@ -448,7 +448,7 @@ void TShopEquipmentListWindow::handle_selection() {
     }
 }
 
-s32 TShopEquipmentListWindow::handle_select() {
+void TShopEquipmentListWindow::handle_select() {
     VObj_8021C0D0_8021B974 *o = (VObj_8021C0D0_8021B974 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
@@ -457,7 +457,7 @@ s32 TShopEquipmentListWindow::handle_select() {
     }
 }
 
-s32 TShopEquipmentListWindow::handle_confirm() {
+void TShopEquipmentListWindow::handle_confirm() {
     VObj_8021C040_8021B974 *o = (VObj_8021C040_8021B974 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
@@ -466,9 +466,9 @@ s32 TShopEquipmentListWindow::handle_confirm() {
     }
 }
 
-int TShopEquipmentListWindow::get_list_item8() { set_field_20(8); }
+void TShopEquipmentListWindow::get_list_item8() { set_field_20(8); }
 
-s32 TShopEquipmentListWindow::open_menu_window() {
+void TShopEquipmentListWindow::open_menu_window() {
     f32 scale;
     u16 temp_r31;
 
@@ -576,7 +576,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 try_buy_item((void *)w->player, &c);
                 ((TShopEquipmentListWindow *)w)->update_list(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, (saddr)((void *)((TShopWindowBase *)w)->sub_8022397C()));
+                    TLobby::clear_slot_field_f10(i, ((TShopWindowBase *)w)->sub_8022397C());
                 }
                 ((TWindowBase *)w->win)->close();
                 w->win = NULL;

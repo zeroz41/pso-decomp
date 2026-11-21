@@ -42,12 +42,12 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     TWindowHelpItem *help_window;           // for the selected item
     void (*ok_callback)(TShopWindowBase *);      // (inferred) run by close_with_ok_callback
     void (*cancel_callback)(TShopWindowBase *);  // (inferred) run by close_with_cancel_callback
-    s32 close_with_cancel_callback();
-    s32 close_with_ok_callback();
-    s32 close();
+    void close_with_cancel_callback();
+    void close_with_ok_callback();
+    void close();
     void handle_deposit_confirm();
     void update_number_input();
-    s32 rebuild_item_list();
+    void rebuild_item_list();
 };
 
 LAYOUT_ASSERT(TShopKeepItemWindow_size, sizeof(TShopKeepItemWindow) == 0x39C);

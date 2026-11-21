@@ -31,10 +31,10 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     void update_list(void *arg1);
     void handle_equip_offer();
     void handle_buy_confirm();
-    s32 open_menu_window();
-    int get_list_item8();
-    s32 handle_confirm();
-    s32 handle_select();
+    void open_menu_window();
+    void get_list_item8();
+    void handle_confirm();
+    void handle_select();
     void handle_selection();
     s32 check_purchase_eligibility();
     static void create_buy_list_windows(void *p);

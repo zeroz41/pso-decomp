@@ -18,12 +18,12 @@ struct TShopItemTecSequence : public TShopSequence {
     TWindowBase *meseta_window;     // 0x2C: create_meseta_window
     TWindowMenu *choice_menu;       // 0x30: the buy/sell create_window_menu
     TObject *counter_camera;        // 0x34: set_service_counter_camera
-    s32 handle_select();
-    s32 close_if_done();
+    void handle_select();
+    void close_if_done();
     void open_sell_window();
     void open_item_list_window();
     void update_buy_sell_choice();
-    s32 open_greeting();
+    void open_greeting();
 };
 
 LAYOUT_ASSERT(TShopItemTecSequence_size, sizeof(TShopItemTecSequence) == 0x38);

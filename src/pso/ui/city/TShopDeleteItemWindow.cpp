@@ -185,7 +185,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
 #pragma push
 #pragma opt_common_subs off
 extern "C" {
-s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
+void TShopDeleteItemWindow::update_item_select(void *arg0) {
     TItemData item;
     s32 count;
     s32 base;
@@ -296,7 +296,7 @@ void TShopDeleteItemWindow::handle_confirm_dialog() {
     }
 }
 
-s32 TShopDeleteItemWindow::destroy() {
+void TShopDeleteItemWindow::destroy() {
     if (m_30 != NULL) {
         m_30->clear_decided();
     }

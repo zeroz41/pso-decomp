@@ -209,7 +209,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     }
 }
 
-s32 TShopGetItemWindow::handle_withdraw_list_input() {
+void TShopGetItemWindow::handle_withdraw_list_input() {
     s32 sel;
     s32 x;
     s32 count;
@@ -325,7 +325,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
     }
 }
 
-s32 TShopGetItemWindow::close() {
+void TShopGetItemWindow::close() {
     if (m_28 != NULL) {
         m_28->clear_decided();
     }

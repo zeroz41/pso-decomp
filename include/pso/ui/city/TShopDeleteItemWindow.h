@@ -34,8 +34,8 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     s32 m_5c;  // quantity
     s32 m_60;  // cursor
     TShopWindowBase *m_64;  // owner
-    s32 destroy();
-    static s32 update_item_select(void *arg0);
+    void destroy();
+    static void update_item_select(void *arg0);
     void handle_number_input();
     void handle_confirm_dialog();
 };

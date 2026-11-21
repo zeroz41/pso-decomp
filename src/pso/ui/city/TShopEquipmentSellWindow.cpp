@@ -263,7 +263,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     s32 i;
     s32 v;
     void *p;
-    u32 r;
+    void *r;
     n = ((TPlyItem *)(self->owner->inventory))->count_matching_items((int)ids);
     self->count = 0;
     for (i = 0; i < n; i++) {
@@ -320,16 +320,16 @@ void TShopEquipmentSellWindow::build_sell_list() {
     }
     if (self->qty_win == NULL) {
         self->qty_win = create_window_quantity(((TShopSequence *)self)->get_child_field1c());
-        r = (uaddr)((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[0].item);
-        if (r != 0) {
+        r = ((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[0].item);
+        if (r != NULL) {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());
         } else {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, 0);
         }
     } else if (self->list_win != NULL) {
         v = ((TWindowMenuIconLine *)self->list_win)->get_cursor_value();
-        r = (uaddr)((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[v].item);
-        if (r != 0) {
+        r = ((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[v].item);
+        if (r != NULL) {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());
         } else {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, 0);
@@ -404,7 +404,7 @@ void TShopEquipmentSellWindow::handle_selection() {
     }
 }
 
-s32 TShopEquipmentSellWindow::close() {
+void TShopEquipmentSellWindow::close() {
     if ((u32) this->m_38c != 0U) {
         ((TWindowMenuIconLine *)(*(void **)((s8 *)this + 0x38C)))->clear_decided();
     }
@@ -470,7 +470,7 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
     }
 }
 
-s32 TShopEquipmentSellWindow::update() {
+void TShopEquipmentSellWindow::update() {
     VObj_8021C8E0_8021C870 *o = (VObj_8021C8E0_8021C870 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xc, 1);

@@ -132,7 +132,7 @@ void TShopEquipmentSequence::vfunc_11() {
 
 extern "C" {
 
-s32 TShopEquipmentSequence::open_greeting() {
+void TShopEquipmentSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
@@ -193,7 +193,7 @@ void TShopEquipmentSequence::open_sell_window() {
     set_field_20(7);
 }
 
-s32 TShopEquipmentSequence::close_if_done() {
+void TShopEquipmentSequence::close_if_done() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
@@ -201,9 +201,9 @@ s32 TShopEquipmentSequence::close_if_done() {
     }
 }
 
-s32 TShopEquipmentSequence__sub_8021D65C(void) {  }
+void TShopEquipmentSequence__sub_8021D65C(void) {  }
 
-s32 TShopEquipmentSequence::handle_confirm() {
+void TShopEquipmentSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         vfunc_6(lbl_805D622C, 1);
         set_field_20(lbl_805D6230);

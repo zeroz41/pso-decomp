@@ -33,9 +33,9 @@ struct TShopGetItemWindow : public TShopWindowBase {
     TShopWindowBase *m_5c; // owning shop sequence (TCheckRoomSequence::open_get_item_window passes itself)
     void (*m_60)(TShopWindowBase *);  // called when the player leaves
     void (*m_64)(TShopWindowBase *);  // called when there is nothing to list
-    s32 close();
+    void close();
     void update_input_number();
-    s32 handle_withdraw_list_input();
+    void handle_withdraw_list_input();
     void rebuild_item_list();
     s16 get_cursor_index();
     void calc_item_count(s32 *arg1);

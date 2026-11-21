@@ -137,7 +137,7 @@ void TShopItemTecSequence::vfunc_11() {
     }
 }
 
-s32 TShopItemTecSequence::open_greeting() {
+void TShopItemTecSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
@@ -199,7 +199,7 @@ void TShopItemTecSequence::open_sell_window() {
     set_field_20(5);
 }
 
-s32 TShopItemTecSequence::close_if_done() {
+void TShopItemTecSequence::close_if_done() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
@@ -207,7 +207,7 @@ s32 TShopItemTecSequence::close_if_done() {
     }
 }
 
-s32 TShopItemTecSequence::handle_select() {
+void TShopItemTecSequence::handle_select() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         vfunc_6(lbl_805D6248, 1);
         set_field_20(lbl_805D624C);

@@ -164,7 +164,7 @@ TShopItemListWindow::TShopItemListWindow(saddr parent, s32 arg2, s32 arg3) : TSh
     this->m_4c = 0;
     this->m_54 = 0;
     ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
-    TLobby::set_6264_and_call_2244B0((int)((void *) (sub_8022397C())), sp8);
+    TLobby::set_6264_and_call_2244B0(sub_8022397C(), sp8);
 }
 
 TShopItemListWindow::~TShopItemListWindow() {
@@ -297,7 +297,7 @@ s32 TShopItemListWindow::check_purchase_eligibility() {
 }
 
 #define W ((Win_8021F798 *)p)
-s32 TShopItemListWindow::handle_tool_list_select(void *p) {
+void TShopItemListWindow::handle_tool_list_select(void *p) {
     s32 i;
     s32 n;
     TShopItemListWindow *window = (TShopItemListWindow *)p;
@@ -342,7 +342,7 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
 }
 #undef W
 
-s32 TShopItemListWindow::update() {
+void TShopItemListWindow::update() {
     VObj_8021F708_8021F134 *o = (VObj_8021F708_8021F134 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
@@ -351,7 +351,7 @@ s32 TShopItemListWindow::update() {
     }
 }
 
-s32 TShopItemListWindow::handle_confirm() {
+void TShopItemListWindow::handle_confirm() {
     VObj_8021F678_8021F134 *o = (VObj_8021F678_8021F134 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);

@@ -42,10 +42,10 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     uaddr m_3a0;
     u32 m_3a4;
     u32 m_3a8;
-    s32 update();
+    void update();
     void handle_sell_confirm();
     void handle_input_window_result();
-    s32 close();
+    void close();
     void handle_selection();
     void build_sell_list();
     static s32 get_item_data_value(uaddr arg0);

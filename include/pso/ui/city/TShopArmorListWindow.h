@@ -39,10 +39,10 @@ struct TShopArmorListWindow : public TShopWindowBase {
     u32 m_1f4;
     void update_selection(void *arg1);
     void handle_equip_offer();
-    s32 open_menu_window();
-    int advance_to_preparation_phase();
-    s32 update();
-    s32 handle_select();
+    void open_menu_window();
+    void advance_to_preparation_phase();
+    void update();
+    void handle_select();
     void handle_selection();
     s32 check_purchase_eligibility();
     static void refresh_item_list(void *p);

@@ -5,6 +5,7 @@
 
 #include "pso/player/TPlyItem.h"
 #include "types.h"
+#include <string.h>
 #include "pso/ui/city/TShopKeepItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -37,7 +38,6 @@ extern "C" {
 u32 get_entity_id(TObjPlayer *);
 TWindowMenu *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
 saddr get_window_layout_position(s32);
-void memset(void *, int, int);
 s32 delete_item(TObjPlayer *, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
@@ -108,7 +108,7 @@ void TShopKeepItemWindow::vfunc_11() {
     }
 }
 
-s32 TShopKeepItemWindow::rebuild_item_list() {
+void TShopKeepItemWindow::rebuild_item_list() {
     uaddr buf[30];
     s32 count;
     s32 i;
@@ -299,14 +299,14 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
     }
 }
 
-s32 TShopKeepItemWindow::close() {
+void TShopKeepItemWindow::close() {
     if (this->item_list_window != NULL) {
         this->item_list_window->clear_decided();
     }
     set_field_20(1);
 }
 
-s32 TShopKeepItemWindow::close_with_ok_callback() {
+void TShopKeepItemWindow::close_with_ok_callback() {
     void (*temp_r12)(TShopWindowBase *);
 
     temp_r12 = this->ok_callback;
@@ -317,7 +317,7 @@ s32 TShopKeepItemWindow::close_with_ok_callback() {
     queue_destruction();
 }
 
-s32 TShopKeepItemWindow::close_with_cancel_callback() {
+void TShopKeepItemWindow::close_with_cancel_callback() {
     void (*temp_r12)(TShopWindowBase *);
 
     temp_r12 = this->cancel_callback;

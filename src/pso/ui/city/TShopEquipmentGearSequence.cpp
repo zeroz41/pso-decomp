@@ -146,7 +146,7 @@ void TShopEquipmentGearSequence::vfunc_11() {
     }
 }
 
-s32 TShopEquipmentGearSequence::open_greeting() {
+void TShopEquipmentGearSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
