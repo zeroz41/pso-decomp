@@ -5742,8 +5742,8 @@ int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
-s32 fn_8002AE08(s32 client) {
-    return TWindowKeyBoardHard::test_card_flag_2(client) ? 0x20000 : 0x10000;
+s32 fn_8002AE08(s32 client_id) {
+    return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
 }

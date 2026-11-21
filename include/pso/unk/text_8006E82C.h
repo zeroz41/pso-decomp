@@ -3,13 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
-s32 fn_8006E82C(void *p);
-}
-
 // --- C functions defined in text_8006E82C.cpp ---
 extern "C" {
-s32 fn_8006E82C(void *p);
+s32 fn_8006E82C(s32 client_id);
 }
 // --- end of C functions
 
