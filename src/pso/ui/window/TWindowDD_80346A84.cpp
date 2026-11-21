@@ -143,7 +143,7 @@ void ws_data_load(void) {
     }
 }
 
-s32 TWindowDD__sub_80346DB8(s32 arg0) {
+s32 TWindowDD__sub_80346DB8(saddr arg0) {
   s32 var_r31;
   s32 var_r30;
   saddr var_r3;
