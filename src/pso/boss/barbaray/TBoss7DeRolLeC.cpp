@@ -1158,7 +1158,7 @@ void TBoss7DeRolLeC::run_task() {
         temp_r0_3 = this->unk_6B8;
         if (temp_r0_3 != 1) {
             if (temp_r0_3 == 2) {
-                if (sub_802ECB10() != 0) {
+                if (is_ready() != 0) {
                     this->sub_802ECAA4();
                 } else {
                     dispatch_action(this->mode, 2);
@@ -1206,7 +1206,7 @@ void TBoss7DeRolLeC::run_task() {
 void TObjPlayer__sub_802ED984(void) {  }
 
 void TBoss7DeRolLeC::update_or_dispatch() {
-    if (sub_802ECB10() != 0) {
+    if (is_ready() != 0) {
         sub_802ECAA4();
         return;
     }
@@ -1541,7 +1541,7 @@ void TBoss7DeRolLeC::sub_802ECE90(s32 joint, s32 shot_level) {
 #pragma push
 #pragma fp_contract on
 
-void TBoss7DeRolLeC::sub_802ECE28() {
+void TBoss7DeRolLeC::calc_offset_position() {
     VecCopy(&unk_70C, &unk_4DC[0]);
     unk_70C.x += 30.0f * unk_4DC[1].x;
     unk_70C.y += 30.0f * unk_4DC[1].y;
@@ -1617,7 +1617,7 @@ void TBoss7DeRolLeC::set_hooked_effect_target() {
     play_sound_at(0x3A312, &position);
 }
 
-s32 TBoss7DeRolLeC::sub_802ECB10() {
+s32 TBoss7DeRolLeC::is_ready() {
     s32 var_r4;
 
     var_r4 = 0;
@@ -1881,7 +1881,7 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802EBBC8(reason);
         return;
     case 0x2:
-        sub_802EB90C(reason);
+        handle_debug_pad_input(reason);
         return;
     case 0x3:
         sub_802EB270(reason, 0, 1);
@@ -2152,7 +2152,7 @@ void TBoss7DeRolLeC::sub_802EBBC8(u32 event) {
 }
 #pragma push
 #pragma opt_common_subs off
-void TBoss7DeRolLeC::sub_802EB90C(u32 event) {
+void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
     u32 b;
     switch (event) {
     case 4:
@@ -3390,7 +3390,7 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
                     unk_7A8->queue_destruction();
                 }
                 unk_7A8 = new TBoss7LaserPtcl(this, (TBoss7LaserPtclVector *)&unk_4DC[0], (TBoss7LaserPtclVector *)aim);
-                sub_802ECE28();
+                calc_offset_position();
                 turn_on_laser_light();
                 play_sound_at(0x39E0F, &unk_50C[0]);
                 return;
@@ -3403,7 +3403,7 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
             if (12.0f < frame && unk_7A8 != NULL) {
                 unk_7A8->destroy_particles();
             }
-            sub_802ECE28();
+            calc_offset_position();
             if (13.0f <= frame) {
                 frame = 13.0f;
                 unk_728 = 2;

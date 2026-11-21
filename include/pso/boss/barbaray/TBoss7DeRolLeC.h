@@ -47,7 +47,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static GinjaTextureList *get_archive_textures();
     static NJS_OBJECT *get_archive_model(s32 index);
     void emit_hit_effect(const Vec *position);
-    s32 sub_802ECB10();
+    s32 is_ready();                // name from the TBoss2DeRolLe twin
     void sub_802ECAA4();
     void sub_802EB270(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
@@ -104,7 +104,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802ECE90(s32 joint, s32 shot_level);
     void sub_802E95F8(u32 event, s32 position_index);
     void sub_802E9458(u32 event);
-    void sub_802ECE28();
+    void calc_offset_position();   // name from the TBoss2DeRolLe twin: unk_70C = 30 units along the head axis
     void sub_802E8FCC(u32 event);
     void handle_tentacle_attack_state(u32 event, s32 position_index);
     void sub_802E979C(u32 event, s32 position_index);
@@ -122,7 +122,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
     void try_spawn_pattern_crawfish(s32 variant, s32 index);
     void sub_802EBBC8(u32 event);
-    void sub_802EB90C(u32 event);
+    void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (unk_624)
     void sub_802EA4D8(u32 event);
     void sub_802EAAC8(u32 event, s32 position_index, s32 next_index);
     void sub_802E85E0(u32 event, s32 position_index);
