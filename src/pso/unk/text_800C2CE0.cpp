@@ -188,7 +188,7 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
         if (F(self, s32, 0x410) == 6) {
             t = ((TObjEneRe2Flower *)self)->find_target_in_range();
             if (t != NULL) {
-                void *m = (void *)new TObjEneRe2Flower_EffCurse3((saddr)self, (saddr)t);
+                void *m = (void *)new TObjEneRe2Flower_EffCurse3((TObject *)self, (TObjBase *)t);
                 F(self, u8 *, 0x390) = t;
                 F(self, s32, 0x414) = 1;
                 play_sound_effect(remap_sound_for_variant(self, 0x4003A50F), (u8 *)self + 0x38, 0, 0);

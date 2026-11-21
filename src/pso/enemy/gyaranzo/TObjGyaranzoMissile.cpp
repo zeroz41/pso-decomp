@@ -52,7 +52,7 @@ u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern f32 identity_matrix[12];
-extern saddr gyaranzo_bml_resource;
+extern BmlResource *gyaranzo_bml_resource;
 extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
@@ -106,7 +106,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 }
 
 void TObjGyaranzoMissile::render() {
-    TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)(void *)gyaranzo_bml_resource, 6));
+    TObjFish::set_global_param((saddr)get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_x(0, (int)this->rotation_x);
@@ -178,7 +178,7 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCol
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (saddr) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
-    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
+    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, *(const Vec **)arg2);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x = (s32) *(s32 *)((s8 *)arg2 + 4);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y = (s32) *(s32 *)((s8 *)arg2 + 8);

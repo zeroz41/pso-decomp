@@ -225,7 +225,7 @@ extern char lbl_8043BB20[];
 extern char lbl_8043BB38[];
 extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
-s32 TObjEneRe2Flower__sub_800C2E64(void *, void *);
+void TObjEneRe2Flower__sub_800C2E64(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 int TBoss8Dragon__sub_800BB7D4(void *, void *);
 }
@@ -464,7 +464,7 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
         fn_800C2AC4((u8 *)this, reason);
         return;
     case 6:
-        TObjEneRe2Flower__sub_800C2E64(this, (void *)reason);
+        TObjEneRe2Flower__sub_800C2E64(this, reason);
         return;
     case 7:
         handle_event(reason);
