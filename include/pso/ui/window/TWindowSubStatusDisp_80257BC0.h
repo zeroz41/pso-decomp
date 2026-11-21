@@ -6,7 +6,7 @@
 extern "C" {
 void TWindowSubStatusDisp__sub_80258A28(u8 *window_sub_status_disp, s32 arg1, s32 arg2);
 void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *window_sub_status_disp, s8 arg1, u32 src, s32 arg3);
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy);
+saddr replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy);
 void reset__20TWindowSubStatusDispFPv(void *arg0);
 void select_item_icon__20TWindowSubStatusDispFPviUcUci(void *arg0, s32 arg1, u8 arg2, u8 arg3, s32 arg4);
 void update_item_icon_colors__20TWindowSubStatusDispFPv(void *arg0, void *arg1);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TUnk_804CF930.h"
@@ -124,8 +125,6 @@ s32 text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
-
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *, saddr, saddr, s32, s32);
 
 extern s32 lbl_805DCF00;
 
@@ -476,7 +475,7 @@ void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *window_sub_status_disp
     *(s8 *)&row->category_icon = arg1;
     row->status_style = -1;
     row->category_style = -1;
-    row->label = (char *)replace_owned_string__20TWindowSubStatusDispFPviiii(row, src, (s32)row->label, 8, 1);
+    row->label = (char *)replace_owned_string__20TWindowSubStatusDispFPviiii(row, src, (saddr)row->label, 8, 1);
     row->style = -1;
     row->suffix_style = -1;
     row->item = arg3;
@@ -642,8 +641,6 @@ extern const f32 lbl_805DCF10;
 extern const f32 lbl_805DCF18;
 extern "C" {
 void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0);
-char *strncpy(char *, const char *, unsigned long);
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy);
 
 void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
     s32 item_data;
@@ -676,7 +673,7 @@ void TWindowSubStatusDisp::init_display(s32 src, s32 arg2) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x45);
 }
 
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy) {
+saddr replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy) {
     u16 *flags = (u16 *)arg0;
     s32 n;
     if (buf != 0 && (*flags & mask)) {
