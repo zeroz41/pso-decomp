@@ -13,7 +13,7 @@ public:
     virtual void run_task();
     virtual void render();
     virtual void vfunc_6(u32, s32);
-    void draw_selected_list_entry(s32);
+    void draw_selected_list_entry(saddr);
     void update_scroll_offset();
     void clamp_item_list_scroll();
     void center_list_selection();
@@ -29,7 +29,7 @@ public:
     void clear_decided();
     void reset_list();
     void add_list_entry(s32 arg1, s32 arg2, s32 arg3);
-    s32 get_cursor_value();
+    saddr get_cursor_value();
     void calc_content_extent();
     void disable_cancel();
     u16 state_flags;
@@ -42,6 +42,6 @@ public:
     void * status_display;
     Scroll_8026D790 *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
-typedef char TWindowMenuIconLine_size[sizeof(TWindowMenuIconLine) == 0x88 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);
 
 #endif

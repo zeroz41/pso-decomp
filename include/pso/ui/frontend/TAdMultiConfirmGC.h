@@ -11,7 +11,7 @@ struct TAdMultiConfirmGC : public TObject {
     u32 m_20;
     u8 _pad24[0x20];
     u32 m_44;
-    u32 m_48;
+    uaddr m_48;
     virtual void render();
     virtual void run_task();
     static int reset_cursor(void* p);
@@ -19,5 +19,5 @@ struct TAdMultiConfirmGC : public TObject {
     static int set_cursor_index_2(void* p);
 };
 
-typedef char TAdMultiConfirmGC_size[sizeof(TAdMultiConfirmGC) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TAdMultiConfirmGC_size, sizeof(TAdMultiConfirmGC) == 0x4C);
 #endif

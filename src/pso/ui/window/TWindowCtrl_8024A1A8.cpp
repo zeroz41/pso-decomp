@@ -61,7 +61,7 @@ s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 s32 TWindowCtrl__sub_8024B098(void *, void *);
 struct WindowCtrlMainCallbackDesc { s32 value; u8 remaining[0x8]; };
 extern WindowCtrlMainCallbackDesc window_ctrl_main_callback_desc;
-void TWindowCtrl__sub_8024A228(s32 arg0);
+void TWindowCtrl__sub_8024A228(saddr arg0);
 s32 call_window_method__11TWindowCtrlFPvi(void *, void *);
 struct WindowCtrlDefaultCallArgs { s32 value; u8 remaining[0x8]; };
 extern WindowCtrlDefaultCallArgs window_ctrl_default_call_args;
@@ -91,10 +91,10 @@ bool TWindowCtrl__sub_8024A1A8(void) {
 }
 
 void TWindowCtrl::call_window_method_with_default_vec(s32 client) {
-    s32 arg0 = client;
-    typedef char sp8_offset[(offsetof(Stack_8024A1CC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8024A1CC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8024A1CC, sp10) == 0x8) ? 1 : -1];
+    saddr arg0 = client;
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A1CC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A1CC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A1CC, sp10) == 0x8);
     Stack_8024A1CC stack;
     stack.sp8 = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 0);
     stack.spC = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 4);
@@ -108,10 +108,10 @@ void TWindowCtrl::set_field22() {
     }
 }
 
-void TWindowCtrl__sub_8024A228(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_8024A228, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8024A228, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8024A228, sp10) == 0x8) ? 1 : -1];
+void TWindowCtrl__sub_8024A228(saddr arg0) {
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A228, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A228, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A228, sp10) == 0x8);
     Stack_8024A228 stack;
     stack.sp8 = *(s32 *)((s8 *)&window_ctrl_main_callback_desc.value + 0);
     stack.spC = *(s32 *)((s8 *)&window_ctrl_main_callback_desc.value + 4);
@@ -128,7 +128,7 @@ bool TWindowCtrl::is_submit_cooldown_clear() {
 
 void TWindowCtrl::update_focused() {
     if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) != 0U)) {
-        ((TWindowChat *)(*(u32 *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
+        ((TWindowChat *)(*(uaddr *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
     }
 }
 
@@ -186,8 +186,8 @@ void TWindowCtrl::create_timer() {
 }
 
 void TWindowCtrl::set_timer_window_time() {
-    s32 secs = (s32)this;
-    u32 temp_r3;
+    s32 secs = (saddr)this;
+    uaddr temp_r3;
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x30);
         if (temp_r3 != 0U) {
@@ -252,7 +252,7 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
             *arg3 = 0;
             return;
         }
-        *arg3 = (s32)p;
+        *arg3 = (saddr)p;
         return;
     }
     *arg3 = 0;
@@ -348,7 +348,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
         }
         b = TObject::operator new(0x98);
         if (b != 0) {
-            b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (s32)local, (f32)f);
+            b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (saddr)local, (f32)f);
         }
         self->slots[i] = b;
     }
@@ -393,7 +393,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
         if (i < 12) {
             u16 slot = i;
             TOChatSensorCapture::capture_message(slot, v);
-            TWindowCtrl::open(slot, (s32)v, 0xCB);
+            TWindowCtrl::open(slot, (saddr)v, 0xCB);
         }
     }
 }

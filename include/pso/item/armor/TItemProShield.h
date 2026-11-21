@@ -78,5 +78,5 @@ struct TItemProShield : public TItemEquipBase {
     u32 shield_flags;
 };
 
-typedef char TItemProShield_size[sizeof(TItemProShield) == 0x1A0 ? 1 : -1];
+LAYOUT_ASSERT(TItemProShield_size, sizeof(TItemProShield) == 0x1A0);
 #endif

@@ -82,9 +82,9 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
 }
 
 void TWindowSoundBalance::apply_balance(void *window_key_board_soft) {
-    s32 temp;
+    saddr temp;
 
-    temp = reinterpret_cast<s32>(get_array_entry((s32)selection));
+    temp = reinterpret_cast<saddr>(get_array_entry((s32)selection));
     draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp, is_active());
 }
 
@@ -139,12 +139,12 @@ void TWindowSoundBalance::sub_8027095C() {
 void TWindowSoundBalance::handle_lr_input() {
     u8 *input;
     input = (u8 *)&controller_input_state.controllers[0];
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
             this->selection = (this->selection + 1);
         }
         if ((s8) this->selection < 0) {
@@ -164,7 +164,7 @@ void TWindowSoundBalance::render() {
     self->draw_window_frame(entry);
     draw_visible_window_entries(
         self,
-        reinterpret_cast<const WindowLayoutEntries *>((s32)&self->entry_list),
+        &self->entry_list,
         reinterpret_cast<WindowDrawContext *>(entry));
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
@@ -193,7 +193,7 @@ void TWindowSoundBalance::run_task() {
 TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma push
 #pragma fp_contract on
-TWindowSoundBalance::TWindowSoundBalance(s32 arg1) : TWindowBase((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1) {
+TWindowSoundBalance::TWindowSoundBalance(saddr arg1) : TWindowBase((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1) {
     u8 *e;
     SoundBalanceSettings *st;
 

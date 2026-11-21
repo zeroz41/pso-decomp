@@ -52,7 +52,7 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *child);
+void draw_ginja_object(saddr);
 void set_material_alpha_compare_reference(s32 reference);
 }
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
@@ -68,10 +68,10 @@ void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 char *get_shared_capture_texture_list(void);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
-void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param((s32)get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
+void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param((saddr)get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
 
     extern int model_render_flags;
-void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((s32)((void*)0)); set_ginja_post_texgen_count((s32)((void*)0)); TObjPlayer::set_global_effect_state((s32)((void*)0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
+void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); TObjPlayer::set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
 
 void setup_projection_tex_matrix__10TObjPlayerFv(void) {
     u8 sp10[0x30];
@@ -97,7 +97,7 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         (*(s32 *)&model_render_flags) |= 0x80000;
         set_ginja_post_tev_stage_count(1);
         set_ginja_post_texgen_count(1);
-        TObjPlayer::set_global_effect_state((s32)((void*)(1)));
+        TObjPlayer::set_global_effect_state((saddr)((1)));
     }
 }
 
@@ -106,11 +106,11 @@ void TObjPlayer::free_indexed_entry(s32 _w1) {
 
     temp_r0 = (this->m_20);
     if (temp_r0 < 0x10) {
-        ((TObjPlayer *)(*(s32 *)((s8 *)this + 0x1C) + (temp_r0 * 0x24)))->copy_node_record(_w1);
+        ((TObjPlayer *)(*(saddr *)((s8 *)this + 0x1C) + (temp_r0 * 0x24)))->copy_node_record(_w1);
     }
 }
-void TObjPlayer::copy_node_record(s32 arg1) {
-    s32 arg0 = (s32)this;
+void TObjPlayer::copy_node_record(saddr arg1) {
+    saddr arg0 = (saddr)this;
     *(ByteBlock_C *)(arg0) = *(const ByteBlock_C *)(arg1);
     *(ByteBlock_C *)(arg0 + 0xC) = *(const ByteBlock_C *)(arg1 + 0xC);
     *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
@@ -134,7 +134,7 @@ void TUnk_804EFA88::render() {
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
         TObjFish::set_global_param(this->entries[i].p18);
-        draw_ginja_object((void *)(this->entries[i].p1C));
+        draw_ginja_object((this->entries[i].p1C));
         pop_matrix();
         reset_indirect_tev(1);
         ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);

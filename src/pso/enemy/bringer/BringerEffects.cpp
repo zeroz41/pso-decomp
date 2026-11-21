@@ -26,7 +26,7 @@ extern "C" {
 s32 is_player_entity_id(u16);
 s32 is_vec_xz_cross_negative(void *, void *);
 s32 rotate_xz_pair_by_angle(void *, void *, s32);
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }
@@ -52,7 +52,7 @@ u32 bringer_effect_color_table[12];
 // `new TObjEneDf2Bringer_Eff_Rush(...)` that caller allocates its registers differently, so the
 // constructor stays a free function for now (parent, source, recipient, speed as in
 // TObjEneDellBiter_Eff_Rush's ctor).
-u8 *construct_bringer_rush_effect(u8 *rush, s32 parent, u8 *source, s32 recipient, f32 speed) {
+u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, u8 *source, saddr recipient, f32 speed) {
     TObjEneDf2Bringer_Eff_Rush *self = (TObjEneDf2Bringer_Eff_Rush *)rush;
     Vec displacement;
     __ct__7TObjectFP7TObject(self, (void *)parent);
@@ -285,7 +285,7 @@ void TUnk_8048FE08::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_powe
     direction.y = 0.0f;
     direction.z = cos_table_lookup(rotation_y);
     active = 1;
-    fill_value_array((s32)attack_history);
+    fill_value_array((saddr)attack_history);
     distance = 0.0f;
     sample_distance = 0.0f;
     power = attack_power;
@@ -338,7 +338,7 @@ void TUnk_8048FE08::run_task() {
     }
     attack.kind = lbl_8043A16C.kind;
     attack.power = power;
-    call_vt13_with_default((void *)&lbl_8043A164, &attack, (s32)attack_history);
+    call_vt13_with_default((void *)&lbl_8043A164, &attack, (saddr)attack_history);
     timer--;
     if (hit != 0 || timer < 0) {
         sub_8009A11C();

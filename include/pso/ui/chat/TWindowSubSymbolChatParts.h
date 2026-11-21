@@ -23,14 +23,14 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     u32 m_7c;
     u32 m_80;
     u8 _pad84[0x4];
-    u32 m_88;
+    uaddr m_88;
     u32 m_8c;
     void handle_cancel();
     void add_part();
     void handle_add();
 };
 
-typedef char TWindowSubSymbolChatParts_size[sizeof(TWindowSubSymbolChatParts) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubSymbolChatParts_size, sizeof(TWindowSubSymbolChatParts) == 0x90);
 
 extern "C" {
 void fn_80284C04(u8 *arg0);

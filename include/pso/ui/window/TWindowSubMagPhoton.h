@@ -22,5 +22,5 @@ struct TWindowSubMagPhoton : public TWindowBase {
     void get_cursor_origin(void *xy);
 };
 
-typedef char TWindowSubMagPhoton_size[sizeof(TWindowSubMagPhoton) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubMagPhoton_size, sizeof(TWindowSubMagPhoton) == 0x74);
 #endif

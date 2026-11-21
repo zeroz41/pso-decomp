@@ -43,7 +43,6 @@ void render__8TObjFishFv(TObjFish *fish);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
 BmlResource *TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
-void __dl__7TObjectFPv(void *);
 s32 TObjFish__area_event_stage;
 
 s32 TObjFish::update_state() {
@@ -433,10 +432,10 @@ void *__dt__8TObjFishFv(void *arg0, s16 arg1);
 void *__dt__8TObjFishFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__8TObjFish;
-        if (*(void **)((s8 *)arg0 + 0xA0) != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)(*(void **)((s8 *)arg0 + 0xA0))); ((TObjFish *)arg0)->m_a0 = 0; }
+        if (*(void **)((s8 *)arg0 + 0xA0) != NULL) { TAdSinglePlyChrSelectGC::safe_free((uaddr)(*(void **)((s8 *)arg0 + 0xA0))); ((TObjFish *)arg0)->m_a0 = 0; }
         __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -447,7 +446,7 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
     f32 var_f1;
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)fish + 0x18) = (s32 *)__vt__8TObjFish;
-    *(s32 *)((s8 *)fish + 0) = (s32) lbl_805D3D58;
+    *(saddr *)((s8 *)fish + 0) = (saddr) lbl_805D3D58;
     ((TObjFish *)fish)->m_a0 = 0;
     VecCopy((Vec *)(fish + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(fish + 0x5C, arg2 + 0x18);
@@ -481,7 +480,7 @@ u8 *TObjFish__create(u8 *arg0) {
     fish = (u8 *)(TObject::operator new(0xA4));
     var_r0 = fish;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(s32 *)&tl_05)), arg0));
+        var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(saddr *)&tl_05)), arg0));
     }
     return var_r0;
 }
@@ -506,8 +505,8 @@ struct TObjFishAreaResource {
     const char *motions[4];
     BmlResourceDescriptor descriptor;
 };
-typedef char TObjFishAreaResource_size[sizeof(TObjFishAreaResource) == 0x30 ? 1 : -1];
-typedef char TObjFishAreaResource_descriptor_offset[offsetof(TObjFishAreaResource, descriptor) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TObjFishAreaResource_size, sizeof(TObjFishAreaResource) == 0x30);
+LAYOUT_ASSERT(TObjFishAreaResource_descriptor_offset, offsetof(TObjFishAreaResource, descriptor) == 0x20);
 
 TObjFishAreaResource fish_resource_name_table[5] = {
     { { lbl_80465A48, lbl_80465A68, lbl_80465A88, NULL },

@@ -27,6 +27,6 @@ public:
     NJS_POINT2 name_pos[4];
     NJS_POINT2 level_pos[4];
 };
-typedef char TAdSubPlyItemGCExtent[sizeof(TAdSubPlyItemGC) == 0x48C ? 1 : -1];
+LAYOUT_ASSERT(TAdSubPlyItemGCExtent, sizeof(TAdSubPlyItemGC) == 0x48C);
 
 #endif

@@ -83,7 +83,7 @@ u32 TQuestVmDownLoadServer::aram_dma_read(void *h, void *dst, int size) {
     DCInvalidateRange(base + 0x40, 0x2000);
     (*(u32 *)&quest_download_aram_dma_pending) = 1;
     ARQPostRequest(base + 0x2040, quest_download_aram_owner, 1, quest_download_aram_priority, quest_download_aram_base + quest_download_aram_file.pos,
-                   (u32)(base + 0x40), len, TQuestVmDownLoadServer__sub_803F0BE8);
+                   (uaddr)(base + 0x40), len, TQuestVmDownLoadServer__sub_803F0BE8);
     start = OSGetTick();
     for (;;) {
         if ((*(u32 *)&quest_download_aram_dma_pending) == 0) {

@@ -17,6 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
@@ -43,19 +44,18 @@ void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
 void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
-s32 get_message_text(s32);
-s32 get_window_layout_position(s32);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-void TLobby__sub_8024AC20(s32 arg0);
+saddr get_message_text(s32);
+saddr get_window_layout_position(s32);
+void TLobby__sub_8024AC20(saddr arg0);
 s32 get_player_by_client_id(s32);
-extern s32 local_client_id;
-void TObjPlayer__sub_8024ABDC(s32 arg0);
+extern saddr local_client_id;
+void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 play_sound_effect(s32, s32, s32, s32);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 extern s8 controller_input_state[];
 s32 check_flag_100__10TObjPlayerFPv();
@@ -129,13 +129,13 @@ void TLobby__sub_800728FC(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 void TLobby::bswap_6x7C_packet() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)arg0)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     ((TLobby *)(arg0 + 8))->bswap_challenge_battle_records();
 }
 void TLobby::send_6x7C_packet() {
-    s32 cmd = (s32)this;
+    saddr cmd = (saddr)this;
     bswap_6x7C_packet();
     send_subcommand((u8 *)cmd);
 }
@@ -145,7 +145,7 @@ void TLobby::init_pkt_cmd_7C() {
 }
 
 s32 TLobby::bswap_challenge_battle_records() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     S_80072994 *s = (S_80072994 *)arg0;
     s32 i;
     bswap_16((u16 *)arg0);
@@ -223,16 +223,16 @@ void TObjChallengeRetry::open_loss_menu() {
     }
     this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(get_window_layout_position(0x3A), 3));
     if (this->menu != NULL) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(this->menu, (int)(get_message_text(0x5B)), 5, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(this->menu, (int)(get_message_text(0x5C)), 5, 1);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(this->menu, (int)(get_message_text(0x5D)), 5, 2);
+        TObjCityMainWarp::forward_trade_action_default(this->menu, (int)(get_message_text(0x5B)), 5, 0);
+        TObjCityMainWarp::forward_trade_action_default(this->menu, (int)(get_message_text(0x5C)), 5, 1);
+        TObjCityMainWarp::forward_trade_action_default(this->menu, (int)(get_message_text(0x5D)), 5, 2);
         this->menu->calc_window_size();
         this->menu->set_loss_flag();
         this->menu->set_selected_index(2);
     }
 }
 void TLobby::send_45_and_close_windows(void * _w0) {
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(local_client_id);
     if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
         TObjPlayer::send_code_45_1(player);
@@ -240,10 +240,10 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     TWindowCtrl::unsuppress_slot(local_client_id);
     TLobby__sub_8024AC20(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); play_player_default_effect__6TLobbyFv((s32)a0); }
-void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((s32)a0); }
+void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); play_player_default_effect__6TLobbyFv((saddr)a0); }
+void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((saddr)a0); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(local_client_id);
     if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
@@ -266,10 +266,10 @@ void TObjChallengeRetry::update_destroy_countdown() {
     }
 }
 void TObjChallengeRetry::handle_loss_sequence() {
-    play_player_default_effect__6TLobbyFv((s32)this);
+    ((TLobby *)this)->play_player_default_effect();
     switch (TLobby__sub_80070DA8()) {
     case 0:
-        play_cue_stream_file((s32)(s32 *)"lose.adx");
+        play_cue_stream_file((saddr)(s32 *)"lose.adx");
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
         sub_80072B70();
@@ -311,7 +311,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         }
         TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
         TLobby::send_45_and_close_windows(this);
-        play_player_default_effect__6TLobbyFv((s32)this);
+        ((TLobby *)this)->play_player_default_effect();
         this->m_24 = 1;
         this->state = 3;
         return;
@@ -363,7 +363,7 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r31 = 1;
       var_r30 = new_var;
       loop_6:
-      collidable = (u8 *) ((s32 (*)(u32))get_player_by_client_id)(var_r30);
+      collidable = (u8 *) ((saddr (*)(u32))get_player_by_client_id)(var_r30);
       if ((collidable != 0) && (((TObjCollidable *)collidable)->obj_testFlags30(0x02000000) != 0))
       {
         var_r31 = 0;
@@ -436,7 +436,7 @@ TObjChallengeRetry::~TObjChallengeRetry() {
 void *TObjChallengeRetry__ct(void *challenge_retry, void *parent) {
     __ct__7TObjectFP7TObject(challenge_retry, parent);
     *(s32 **)((s8 *)challenge_retry + 0x18) = __vt__18TObjChallengeRetry;
-    *(s32 *)((s8 *)challenge_retry + 0) = (s32) ((s32)TObjChallengeRetry__class_name);
+    *(s32 *)((s8 *)challenge_retry + 0) = (s32) ((saddr)TObjChallengeRetry__class_name);
     ((TObjChallengeRetry *)challenge_retry)->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(challenge_retry);
     ((TObjChallengeRetry *)challenge_retry)->m_24 = 0;
     ((TObjChallengeRetry *)challenge_retry)->menu = NULL;

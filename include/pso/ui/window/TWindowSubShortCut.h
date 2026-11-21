@@ -11,14 +11,14 @@ struct TWindowSubShortCut : public TObject {
     u8 m_1c;
     u8 unk_1D[0x1];
     u16 m_1e;
-    u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
-    u32 m_3c;
+    uaddr m_20;
+    uaddr m_24;
+    uaddr m_28;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
+    uaddr m_3c;
     void* m_40;
     s32 open_confirm_message();
     s32 open_confirm_prompt();
@@ -30,5 +30,5 @@ struct TWindowSubShortCut : public TObject {
     u8 unk_61[0x33];
 };
 
-typedef char TWindowSubShortCut_size[sizeof(TWindowSubShortCut) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubShortCut_size, sizeof(TWindowSubShortCut) == 0x94);
 #endif

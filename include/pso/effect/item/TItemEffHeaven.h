@@ -28,7 +28,7 @@ public:
     Vec position;
 };
 
-typedef char TItemEffHeavenSize[(sizeof(TItemEffHeaven) == 0x4C) ? 1 : -1];
+LAYOUT_ASSERT(TItemEffHeavenSize, sizeof(TItemEffHeaven) == 0x4C);
 
 void spawn_heaven_effect(TObject *parent, TObjPlayer *attacker, u16 target_id, s32 body_index);
 

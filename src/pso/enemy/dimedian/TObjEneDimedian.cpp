@@ -35,6 +35,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/effect/TUnk_80494968.h"
 #include "pso/unk/text_803D853C.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
@@ -121,13 +122,13 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern s32 dimedian_type3_object;
-extern s32 lbl_805D5088;
+extern saddr dimedian_type3_object;
+extern saddr lbl_805D5088;
 
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-extern s32 dimedian_resource_handles[];
+extern saddr dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
@@ -161,31 +162,31 @@ void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
 void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_98() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_97() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_96() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_95() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
         temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23B);
@@ -198,7 +199,7 @@ void TObjEneDimedian::vfunc_95() {
 }
 
 void TObjEneDimedian::vfunc_94() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 area;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
     fn_800D911C((Vec *)(arg0 + 0x2FC));
@@ -222,11 +223,11 @@ void TObjEneDimedian::vfunc_93() {
     }
     switch (this->requested_action) {
     case 3:
-        e = (s32)((SampledMotionPoints *)((void *)dimedian_type3_object))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)dimedian_type3_object))->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = (s32)((SampledMotionPoints *)((void *)lbl_805D5088))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)lbl_805D5088))->lookup(this->frame);
         idx = 1;
         break;
     default:
@@ -330,7 +331,7 @@ void TObjEneDimedian::render() {
         ((RenderFadeState *)(&self->fades[mode]))->update();
         fading = ((RenderFadeState *)(&self->fades[mode]))->updateFromCamera((const f32*)(self->cam));
     }
-    select_actor_lighting((s32)self);
+    select_actor_lighting((saddr)self);
     TObjFish::set_global_param(self->f24);
     push_matrix();
     post_translate_matrix(self->pos);
@@ -447,7 +448,7 @@ struct Act_800A8118 { s32 a; s32 idx; f32 c; s32 d; };
 struct Part_800A8118 { u8 pad[0xC]; f32 radius; u8 pad10[0x1C]; };
 
 extern "C" {
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern const u8 lbl_8043AAA4[26];
 
@@ -600,10 +601,10 @@ void *TObjEneDimedian::create(void *arg2_) {
     return new TObjEneDimedian(control, arg2_);
 }
 
-u32 dimedian_boss_object_buf;
-u32 lbl_805D5074;
-u32 TObjEneDimedian__boss_objects;
-u32 dimedian_buffer_ptr;
+uaddr dimedian_boss_object_buf;
+uaddr lbl_805D5074;
+uaddr TObjEneDimedian__boss_objects;
+uaddr dimedian_buffer_ptr;
 struct E_800A884C { u8 pad[8]; s32 x8; s32 xc; };
 
 struct G_800A884C { u8 pad[0x42c]; E_800A884C *tbl; };
@@ -635,7 +636,7 @@ void TObjEneDimedian::free_boss_objects() {
         delete (SampledMotionPoints *)dimedian_type3_object;
         dimedian_type3_object = 0U;
     }
-    if ((u32) dimedian_resource_ptr != 0U) {
+    if ((uaddr) dimedian_resource_ptr != 0U) {
         free_bin_model_request((void*)dimedian_resource_ptr, 1);
         dimedian_resource_ptr = 0U;
     }
@@ -651,7 +652,7 @@ void TLobby::load_dimedian_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((s32)dimedian_resource_descriptor, (s32)lbl_8043AAA4);
+        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((saddr)dimedian_resource_descriptor, (saddr)lbl_8043AAA4);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -676,18 +677,18 @@ void TLobby::load_dimedian_resources() {
     (*(s32 **)&lbl_805D5074) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&TObjEneDimedian__boss_objects) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&dimedian_buffer_ptr) = (s32 *)mem_alloc(0xC);
-    (*(s32 **)&dimedian_boss_object_buf)[0] = (s32)TLobby::register_boss(0x53);
-    (*(s32 **)&dimedian_boss_object_buf)[1] = (s32)TLobby::register_boss(0x54);
-    (*(s32 **)&dimedian_boss_object_buf)[2] = (s32)TLobby::register_boss(0x55);
-    (*(s32 **)&lbl_805D5074)[0] = (s32)TLobby::dispatch_shared_handler_b(0x5A);
-    (*(s32 **)&lbl_805D5074)[1] = (s32)TLobby::dispatch_shared_handler_b(0x5B);
-    (*(s32 **)&lbl_805D5074)[2] = (s32)TLobby::dispatch_shared_handler_b(0x5C);
-    (*(s32 **)&TObjEneDimedian__boss_objects)[0] = (s32)TLobby::register_object(0x52);
-    (*(s32 **)&TObjEneDimedian__boss_objects)[1] = (s32)TLobby::register_object(0x53);
-    (*(s32 **)&TObjEneDimedian__boss_objects)[2] = (s32)TLobby::register_object(0x54);
-    (*(s32 **)&dimedian_buffer_ptr)[0] = (s32)TLobby::dispatch_shared_handler_a(0x52);
-    (*(s32 **)&dimedian_buffer_ptr)[1] = (s32)TLobby::dispatch_shared_handler_a(0x53);
-    (*(s32 **)&dimedian_buffer_ptr)[2] = (s32)TLobby::dispatch_shared_handler_a(0x54);
+    (*(s32 **)&dimedian_boss_object_buf)[0] = (saddr)TLobby::register_boss(0x53);
+    (*(s32 **)&dimedian_boss_object_buf)[1] = (saddr)TLobby::register_boss(0x54);
+    (*(s32 **)&dimedian_boss_object_buf)[2] = (saddr)TLobby::register_boss(0x55);
+    (*(s32 **)&lbl_805D5074)[0] = (saddr)TLobby::dispatch_shared_handler_b(0x5A);
+    (*(s32 **)&lbl_805D5074)[1] = (saddr)TLobby::dispatch_shared_handler_b(0x5B);
+    (*(s32 **)&lbl_805D5074)[2] = (saddr)TLobby::dispatch_shared_handler_b(0x5C);
+    (*(s32 **)&TObjEneDimedian__boss_objects)[0] = (saddr)TLobby::register_object(0x52);
+    (*(s32 **)&TObjEneDimedian__boss_objects)[1] = (saddr)TLobby::register_object(0x53);
+    (*(s32 **)&TObjEneDimedian__boss_objects)[2] = (saddr)TLobby::register_object(0x54);
+    (*(s32 **)&dimedian_buffer_ptr)[0] = (saddr)TLobby::dispatch_shared_handler_a(0x52);
+    (*(s32 **)&dimedian_buffer_ptr)[1] = (saddr)TLobby::dispatch_shared_handler_a(0x53);
+    (*(s32 **)&dimedian_buffer_ptr)[2] = (saddr)TLobby::dispatch_shared_handler_a(0x54);
     {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
         NpcAnimationBinding anim = { reinterpret_cast<BmlMotionEntry *>(RES_800A8118->motions), reinterpret_cast<TObjMotionAction *>(dimedian_action_table), 0, 2, 12 };
@@ -706,14 +707,14 @@ extern "C" __declspec(section ".rodata") const u8 lbl_8043AAA4[26] = "bm_ene_df3
 }
 
 extern "C" {
-s32 dimedian_resource_handles[3];
+saddr dimedian_resource_handles[3];
 s32 dimedian_last_draw_tick[3];
 
 const char *TObjEneDimedian_name_ref = dimedian_class_name;
 
 G_800A884C *dimedian_resource_ptr;
-s32 dimedian_type3_object;
-s32 lbl_805D5088;
+saddr dimedian_type3_object;
+saddr lbl_805D5088;
 }
 
 #pragma defer_codegen on
@@ -739,13 +740,13 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     ((TObjEneDimedian *)arg0)->sub_800A7B54();
     ((TObjEneDimedian *)arg0)->load_dimedian_param_entry(*(s32 *)((s8 *)arg0 + 0x368));
     *(u8 **)((s8 *)arg0 + 0xD8) = dimedian_action_table;
-    ((TObjMotion *)arg0)->set_field_d8((s32)(*(u8 **)((s8 *)arg0 + 0xD8)));
+    ((TObjMotion *)arg0)->set_field_d8((saddr)(*(u8 **)((s8 *)arg0 + 0xD8)));
     *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x430);
     *(s16 *)((s8 *)arg0 + 0xB8) = 0;
     ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));
     ((TObjMotion *)arg0)->set_field_b8(*(s16 *)((s8 *)arg0 + 0xB8));
     init_collision_body_parts(arg0, dimedian_collision_body_table + *(s32 *)((s8 *)arg0 + 0x334) * 0x2C, 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)((*(s32 **)&dimedian_boss_object_buf)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(s32 **)&lbl_805D5074)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(s32 **)&TObjEneDimedian__boss_objects)[*(s32 *)((s8 *)arg0 + 0x334)]));
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)((*(saddr **)&dimedian_boss_object_buf)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(saddr **)&lbl_805D5074)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(saddr **)&TObjEneDimedian__boss_objects)[*(s32 *)((s8 *)arg0 + 0x334)]));
     *(u8 **)((s8 *)arg0 + 0x350) = dimedian_movement_params + *(s32 *)((s8 *)arg0 + 0x334) * 0x1C;
     *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
     ((TObjEnemy *)arg0)->update_prev_position();

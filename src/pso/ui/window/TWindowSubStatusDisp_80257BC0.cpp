@@ -36,7 +36,7 @@ struct Desc_80257D44 {
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 void mem_free(void *);
-s32 mem_alloc(s32);
+saddr mem_alloc(s32);
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u8 * init_layout_entry_copy__20TWindowSubStatusDispFPUc(u8 *arg0, u8 *arg1);
 void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
@@ -44,7 +44,6 @@ void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-void * init_part_direct__20TWindowSubStatusDispFPUcl(void *, void *, s32);
 void * init_part_scaled__20TWindowSubStatusDispFPvPvi(void *, void *, s32);
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
@@ -75,11 +74,11 @@ void TWindowBase::update_window_entry_list(const WindowLayoutEntries *entries) {
 }
 
 void WindowLayoutEntries::destroy_all_items() {
-    u32 address;
+    uaddr address;
     u32 remaining;
     remaining = count;
     if (remaining != 0) {
-        address = reinterpret_cast<u32>(items);
+        address = reinterpret_cast<uaddr>(items);
         address += (remaining - 1) * sizeof(*items);
         // Use a target address so the final decrement forms no out-of-bounds pointer.
         while (remaining-- != 0) {
@@ -177,7 +176,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 7:
                 o = ::operator new(0x38);
                 if (o != NULL) {
-                    o = init_part_direct__20TWindowSubStatusDispFPUcl(o, rec, client);
+                    o = ((TWindowSubStatusDisp *)o)->init_part_direct((u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x38 / 4;
@@ -193,7 +192,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 9:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = ((TWindowSubComCard *)o)->init_fields((int)rec, (int)client);
+                    o = ((TWindowSubComCard *)o)->init_fields((saddr)rec, (int)client);
                 }
                 *out = o;
                 rec += 1;

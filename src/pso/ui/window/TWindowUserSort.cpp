@@ -46,11 +46,10 @@ WindowDescriptor window_user_sort_settings = {
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s32 close_and_clear_flags__15TWindowMainMenuFv();
 
 void TWindowUserSort::render() {
-    s32 temp_r3;
-    temp_r3 = reinterpret_cast<s32>(draw_default_entry());
+    saddr temp_r3;
+    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(
         this,
@@ -63,7 +62,7 @@ void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); 
 TWindowUserSort::~TWindowUserSort() {}
 
 #define self ((u8 *)this)
-TWindowUserSort::TWindowUserSort(s32 arg1, s32 arg2) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
+TWindowUserSort::TWindowUserSort(saddr arg1, s32 arg2) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
     m_name = TWindowUserSort__name;
     ((TWindowUserSort *)self)->m_60 = arg2;
     ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(arg2);
@@ -85,7 +84,7 @@ void TWindowMainMenu1P::vfunc_7() {
 
 void TWindowMainMenu1P::vfunc_8() {
     if (*(s32 *)((s8 *)this + 0x4C) & 1) {
-        close_and_clear_flags__15TWindowMainMenuFv();
+        TWindowMainMenu::close_and_clear_flags();
     }
 }
 void TWindowMainMenu1P::vfunc_6() {
@@ -95,9 +94,9 @@ void TWindowMainMenu1P::vfunc_6() {
         player = (u8 *)(get_player_by_client_id(*(u32 *)((s8 *)arg0 + 0x54)));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                ((TWindowMainMenu *)arg0)->open((s32)main_menu_1p_android_entries);
+                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_android_entries);
             } else {
-                ((TWindowMainMenu *)arg0)->open((s32)main_menu_1p_entries);
+                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_entries);
             }
             ((TWindowMainMenu1P *)arg0)->create_char_select_slot();
             this->vfunc_7();

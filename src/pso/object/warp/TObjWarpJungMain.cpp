@@ -60,7 +60,7 @@ GinjaModel *warp_jung_beam_models[6];
 
 extern "C" {
 s32 PPCSync();
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
 
@@ -93,7 +93,7 @@ void TObjWarpJungMain::render() {
             }
             break;
         }
-        TObjFish::set_global_param((s32)warp_jung_textures);
+        TObjFish::set_global_param((saddr)warp_jung_textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -122,7 +122,7 @@ void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     s32 i;
     if (menu_window == 0) {
-        menu_window = (s32)create_window_menu((s32)(get_window_layout_position(0x32)), 3, client_id);
+        menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
@@ -232,7 +232,7 @@ f32 TObjWarpJung::get_static_field4_as_float() {
     return (f32)warp_jung_beam_motion->frameCount;
 }
 
-void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param((s32)warp_jung_textures); }
+void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param((saddr)warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
     draw_ginja_model_with_motion((void *)get_bml_model(TObjWarpJung__beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);

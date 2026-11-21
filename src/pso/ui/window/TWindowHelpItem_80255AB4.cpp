@@ -46,10 +46,10 @@ void TWindowHelpItem::update_cursor_selection() {
 }
 
 void TWindowHelpItem::render() {
-    s32 temp_r3;
+    saddr temp_r3;
     u8 temp_r3_2;
 
-    temp_r3 = reinterpret_cast<s32>(this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8)));
+    temp_r3 = reinterpret_cast<saddr>(this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8)));
     this->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(
         this,
@@ -80,7 +80,7 @@ void TWindowHelpItem::run_task() {
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     if (!(this->m_60 & 8)) {
-        toggle_help_window_on_button((u32)arg0, this->client_index);
+        toggle_help_window_on_button((uaddr)arg0, this->client_index);
     }
 }
 
@@ -105,11 +105,11 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)&window
     this->m_a8 = 1.0f;
     this->m_ac = 1.0f;
     this->dispatch_item_help();
-    call_if_split_screen((u32)this, this->client_index);
+    call_if_split_screen((uaddr)this, this->client_index);
 }
 
 s32 get_help_text_string(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x18)) + (arg0 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (arg0 * 4));
 }
 
 s32 TWindowHelpItem__sub_80255DDC(void* p) { return *(s32*)((char*)p + 0x1c); }

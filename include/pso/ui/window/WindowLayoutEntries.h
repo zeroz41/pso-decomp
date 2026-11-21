@@ -13,8 +13,8 @@ struct WindowLayoutEntries {
     void destroy_all_items();
 };
 
-typedef char WindowEntriesSize[sizeof(WindowLayoutEntries) == 8 ? 1 : -1];
-typedef char WindowEntriesItemsOffset[offsetof(WindowLayoutEntries, items) == 4 ? 1 : -1];
+LAYOUT_ASSERT(WindowEntriesSize, sizeof(WindowLayoutEntries) == 8);
+LAYOUT_ASSERT(WindowEntriesItemsOffset, offsetof(WindowLayoutEntries, items) == 4);
 
 extern "C" {
 void draw_visible_window_entries(const void *window, const WindowLayoutEntries *entries, WindowDrawContext *context);

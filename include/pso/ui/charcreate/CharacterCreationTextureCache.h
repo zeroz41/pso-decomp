@@ -26,14 +26,14 @@ struct CreationTextureCacheEntry {
     CreationTextureLoadSlot body_textures;
 };
 enum { CREATION_TEXTURE_CACHE_CAPACITY = 128 };
-typedef char CreationTextureLoadSlot_size[sizeof(CreationTextureLoadSlot) == 0x174 ? 1 : -1];
-typedef char CreationTextureLoadSlot_entries[offsetof(CreationTextureLoadSlot, entries) == 0x108 ? 1 : -1];
-typedef char CreationTextureLoadSlot_list[offsetof(CreationTextureLoadSlot, list) == 0x168 ? 1 : -1];
-typedef char CreationTextureLoadSlot_request[offsetof(CreationTextureLoadSlot, request) == 0x170 ? 1 : -1];
-typedef char CreationTextureCacheEntry_size[sizeof(CreationTextureCacheEntry) == 0x46C ? 1 : -1];
-typedef char CreationTextureCacheEntry_hair[offsetof(CreationTextureCacheEntry, hair_textures) == 0x10 ? 1 : -1];
-typedef char CreationTextureCacheEntry_head[offsetof(CreationTextureCacheEntry, head_textures) == 0x184 ? 1 : -1];
-typedef char CreationTextureCacheEntry_body[offsetof(CreationTextureCacheEntry, body_textures) == 0x2F8 ? 1 : -1];
+LAYOUT_ASSERT(CreationTextureLoadSlot_size, sizeof(CreationTextureLoadSlot) == 0x174);
+LAYOUT_ASSERT(CreationTextureLoadSlot_entries, offsetof(CreationTextureLoadSlot, entries) == 0x108);
+LAYOUT_ASSERT(CreationTextureLoadSlot_list, offsetof(CreationTextureLoadSlot, list) == 0x168);
+LAYOUT_ASSERT(CreationTextureLoadSlot_request, offsetof(CreationTextureLoadSlot, request) == 0x170);
+LAYOUT_ASSERT(CreationTextureCacheEntry_size, sizeof(CreationTextureCacheEntry) == 0x46C);
+LAYOUT_ASSERT(CreationTextureCacheEntry_hair, offsetof(CreationTextureCacheEntry, hair_textures) == 0x10);
+LAYOUT_ASSERT(CreationTextureCacheEntry_head, offsetof(CreationTextureCacheEntry, head_textures) == 0x184);
+LAYOUT_ASSERT(CreationTextureCacheEntry_body, offsetof(CreationTextureCacheEntry, body_textures) == 0x2F8);
 extern "C" {
 extern CreationHeadModelStates creation_head_shape_destination;
 extern CreationHeadModelStates creation_head_shape_samples[7];

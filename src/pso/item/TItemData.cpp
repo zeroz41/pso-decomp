@@ -1,5 +1,7 @@
 #include "pso/item/MagStats.h"
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
@@ -89,7 +91,6 @@ struct Parm_8010C320
 extern "C" {
 s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
-int get_item_field_6__10TObjPlayerFPv(void *);
 int is_quest_active(void);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
@@ -114,7 +115,6 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st);
 s32 is_usable__9TItemDataFPv(void *arg0);
 s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
-s32 memset(s8 *, s32, s32);
 }
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 #define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
@@ -158,7 +158,7 @@ extern const u8 lbl_805DAB68 = 0x40;
 void TItemData__sub_8010EE1C(void *arg0, s16 arg1);
 void TItemData__sub_8010EE30(s16 *arg0, s32 arg1);
 }
-s32 get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
+saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
 extern "C" {
 
 extern "C" {
@@ -198,7 +198,7 @@ s32 TItemData::get_type_nibble() {
 
 #pragma push
 #pragma opt_common_subs off
-void TItemData::apply_custom_shield_bonus(s32 player, TItemData *a, TItemData *b, EquipStats *stats, s32) {
+void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32) {
     if (data1.data_u8[0] == 1 && data1.data_u8[1] == 2) {
         u8 id = data1.data_u8[2];
         if (id >= 0x53 && id <= 0x82) {
@@ -549,7 +549,7 @@ u16 TItemData::get_packed_value() {
 #define serialize_mag__9TItemDataFPvPv ((s32 (*)(void *, s32 *))serialize_mag__9TItemDataFPvPv)
 u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
-void bswap__9TItemDataFv(s32 arg0);
+void bswap__9TItemDataFv(saddr arg0);
 
 s32 is_usable__9TItemDataFPv(void *arg0) {
     u8 temp_r0;
@@ -563,7 +563,7 @@ s32 is_usable__9TItemDataFPv(void *arg0) {
     return 0;
 }
 
-void bswap__9TItemDataFv(s32 arg0) {
+void bswap__9TItemDataFv(saddr arg0) {
     bswap_32((u32 *)(arg0 + 0x10));
     bswap_32((u32 *)(arg0 + 0xC));
 }
@@ -633,8 +633,7 @@ s32 get_item_icon_index(const u8 *q) {
 #undef serialize_mag__9TItemDataFPvPv
 
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
-s32 strncpy(s8 *, u32, s32);
-void TItemData__sub_8010CA08(TItemData *arg0, u32 arg1, u8 arg2);
+void TItemData__sub_8010CA08(TItemData *arg0, uaddr arg1, u8 arg2);
 s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
 int register_item_drop__10TObjPlayerFv(void*);
 
@@ -663,7 +662,7 @@ int TItemData::isValidGroundDrop() {
     } else return 0;
 }
 
-void TItemData__sub_8010CA08(TItemData *item_data, u32 arg1, u8 arg2) {
+void TItemData__sub_8010CA08(TItemData *item_data, uaddr arg1, u8 arg2) {
     s8 sp8[10];
     item_data->init();
     if ((arg1 != 0U) && (((arg2 >= 0x70U) && (arg2 <= 0x88U)) || ((arg2 >= 0xA5U) && (arg2 <= 0xA9U)))) {
@@ -672,7 +671,7 @@ void TItemData__sub_8010CA08(TItemData *item_data, u32 arg1, u8 arg2) {
         *(s8 *)((s8 *)item_data + 2) = 0;
         memset(sp8, 0, 0xA);
         sp8[0] = 0x41;
-        strncpy(&sp8[1], arg1, 8);
+        strncpy((char *)&sp8[1], (const char *)arg1, 8);
         item_data->pack_three_colors((u8 *)sp8);
     }
 }
@@ -818,17 +817,16 @@ extern "C" {
 void *get_armor_pmt_record(int type, int id);
 s32 get_item_star_count(s32);
 }
-int get_item_chunk_buffer(int a0);
+saddr get_item_chunk_buffer(int a0);
 extern "C" {
-s32 get_item_description_text(s32);
-int sprintf(char *, const char *, ...);
+saddr get_item_description_text(s32);
 }
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
 s32 TObjPlayer__sub_80117E50(u16);
 s32 get_technique_name(s32 arg0);
-s32 get_text_collection(s32 arg0);
+saddr get_text_collection(s32 arg0);
 void TItemData__clear_unidentified_flag(void *arg0);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 
@@ -956,7 +954,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     return 0;
   }
-  if (TItemData::is_item_usable((s32)player, (u8 *)this) != 0)
+  if (TItemData::is_item_usable((saddr)player, (u8 *)this) != 0)
   {
     result |= 2;
   }
@@ -1058,7 +1056,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       }
       case 10:
       {
-        void *it = (void *) get_item_field_6__10TObjPlayerFPv(player);
+        void *it = (void *) TObjPlayer::get_item_field_6(player);
         if (it != 0)
         {
           ((TItem *)it)->copy_to_item_data((TItemData *)buf);
@@ -1202,13 +1200,13 @@ void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst) {
 
 f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
-  s32 temp_r31;
+  saddr temp_r31;
   f32 var_f31;
-  s32 temp_r30;
-  s32 temp_r30_2;
-  s32 temp_r30_3;
-  s32 temp_r31_2;
-  s32 temp_r31_3;
+  saddr temp_r30;
+  saddr temp_r30_2;
+  saddr temp_r30_3;
+  saddr temp_r31_2;
+  saddr temp_r31_3;
   u8 temp_r0;
   u8 *temp_r3;
   temp_r0 = *((u8 *) (((s8 *) arg0) + 2));
@@ -1216,14 +1214,14 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
   switch ((s32) temp_r0)
   {
     case 26:
-      temp_r3 = (u8 *) get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r3 = (u8 *) TObjPlayer::get_item_field_6(arg1);
       if ((temp_r3 != 0) && (((TItem *)temp_r3)->get_item_group() == 0x1A))
     {
       var_f31 = 2.0f;
     }
       break;
     case 38:
-      temp_r31 = get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r31 = TObjPlayer::get_item_field_6(arg1);
       temp_r30 = ((TItemData *)arg1)->get_item_field_2();
       if (((((((u32) temp_r31) != 0U) && (((u32) temp_r30) != 0U)) && (((TItem *)temp_r31)->get_item_group() == 1)) && (((TItem *)temp_r31)->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
     {
@@ -1231,7 +1229,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     }
       break;
     case 36:
-      temp_r30_2 = get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r30_2 = TObjPlayer::get_item_field_6(arg1);
       temp_r31_2 = ((TItemData *)arg1)->get_item_field_2();
       if (((((((u32) temp_r30_2) != 0U) && (((u32) temp_r31_2) != 0U)) && (((TItem *)temp_r30_2)->get_item_group() == 2)) && (((TItem *)temp_r30_2)->get_item_index() == 5)) && (((TItem *)temp_r31_2)->get_item_index() == 0x26))
     {
@@ -1239,7 +1237,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     }
       break;
     case 37:
-      temp_r30_3 = get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r30_3 = TObjPlayer::get_item_field_6(arg1);
       temp_r31_3 = ((TItemData *)arg1)->get_item_field_2();
       if (((((((u32) temp_r30_3) != 0U) && (((u32) temp_r31_3) != 0U)) && (((TItem *)temp_r30_3)->get_item_group() == 6)) && (((TItem *)temp_r30_3)->get_item_index() == 6)) && (((TItem *)temp_r31_3)->get_item_index() == 0x27))
     {
@@ -1253,26 +1251,26 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
 f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     f32 v;
-    s32 b1;
-    s32 a1;
-    s32 a2;
-    s32 b2;
-    s32 a3;
-    s32 b3;
+    saddr b1;
+    saddr a1;
+    saddr a2;
+    saddr b2;
+    saddr a3;
+    saddr b3;
     s32 i;
     s32 found;
     s32 hit;
     s32 j;
     s32 hit2;
     s32 k;
-    s32 p;
+    saddr p;
     u8 c;
     v = 1.0f;
     switch (arg0[2]) {
     case 24:
         found = 0;
         for (i = 0; i != 12 && found != 1; i++) {
-            p = (s32)get_player_by_client_id(i);
+            p = (saddr)get_player_by_client_id(i);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1288,7 +1286,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 25:
         hit = 0;
         for (j = 0; j != 12 && hit != 1; j++) {
-            p = (s32)get_player_by_client_id(j);
+            p = (saddr)get_player_by_client_id(j);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1304,7 +1302,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 26:
         hit2 = 0;
         for (k = 0; k != 12 && hit2 != 1; k++) {
-            p = (s32)get_player_by_client_id(k);
+            p = (saddr)get_player_by_client_id(k);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1318,21 +1316,21 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
         }
         break;
     case 40:
-        a1 = get_item_field_6__10TObjPlayerFPv(arg1);
+        a1 = TObjPlayer::get_item_field_6(arg1);
         b1 = ((TItemData *)arg1)->test_flag3();
         if ((u32)a1 != 0 && (u32)b1 != 0 && ((TItem *)a1)->get_item_group() == 1 && ((TItem *)a1)->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
             v = 1.5f;
         }
         break;
     case 38:
-        a2 = get_item_field_6__10TObjPlayerFPv(arg1);
+        a2 = TObjPlayer::get_item_field_6(arg1);
         b2 = ((TItemData *)arg1)->test_flag3();
         if ((u32)a2 != 0 && (u32)b2 != 0 && ((TItem *)a2)->get_item_group() == 2 && ((TItem *)a2)->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
             v = 1.5f;
         }
         break;
     case 39:
-        a3 = get_item_field_6__10TObjPlayerFPv(arg1);
+        a3 = TObjPlayer::get_item_field_6(arg1);
         b3 = ((TItemData *)arg1)->test_flag3();
         if ((u32)a3 != 0 && (u32)b3 != 0 && ((TItem *)a3)->get_item_group() == 6 && ((TItem *)a3)->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
             v = 1.5f;
@@ -1350,12 +1348,12 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
 f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     u8 *arg0 = (u8 *)this;
   f32 var_f31;
-  s32 temp_r31;
-  s32 temp_r30;
-  s32 temp_r30_2;
-  s32 temp_r30_3;
-  s32 temp_r31_2;
-  s32 temp_r31_3;
+  saddr temp_r31;
+  saddr temp_r30;
+  saddr temp_r30_2;
+  saddr temp_r30_3;
+  saddr temp_r31_2;
+  saddr temp_r31_3;
   u8 temp_r0;
   u8 *item;
   temp_r0 = *((u8 *) (((s8 *) arg0) + 1));
@@ -1406,7 +1404,7 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
   return var_f31;
 }
 
-f32 TItemData::get_set_bonus_multiplier(s32 player) {
+f32 TItemData::get_set_bonus_multiplier(saddr player) {
     u8 *item = (u8 *)this;
     switch (item[0]) {
     case 0:
@@ -1423,9 +1421,9 @@ f32 TItemData::get_set_bonus_multiplier(s32 player) {
     return 1.0f;
 }
 
-void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void TItemData::apply_equip_effects(s32 arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5) {
 
-    if ((arg1 != 0) || (arg1 = (s32)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
+    if ((arg1 != 0) || (arg1 = (saddr)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
         get_set_bonus_multiplier(arg1);
         calc_clock_bonus__9TItemDataFPv(this, arg1);
         switch ((s32) (*(u8 *)((s8 *)this + 0))) {
@@ -1623,7 +1621,7 @@ void TItemData::init() {
     id = -1;
 }
 
-s32 TItemData::calc_buy_price() {
+saddr TItemData::calc_buy_price() {
     u8 temp_r0;
 
     if ((u8) *(u8 *)((s8 *)this + 0) == 0) {
@@ -1635,7 +1633,7 @@ s32 TItemData::calc_buy_price() {
             return get_item_description_text(0x1F4);
         }
     }
-    return (s32)lbl_805D2B10;
+    return (saddr)lbl_805D2B10;
 }
 }
 
@@ -1653,7 +1651,7 @@ s32 format_item_description(u8 *item) {
         } else {
             name = p->name;
             if (name == 0x1F4) {
-                return (s32)lbl_805D2B10;
+                return (saddr)lbl_805D2B10;
             }
             if (item[0] == 0) {
                 if (TItemData::is_rare_item(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
@@ -1665,7 +1663,7 @@ s32 format_item_description(u8 *item) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
                         sprintf(out, (char *)get_item_description_text(name), p->amount + TItemData::get_field6_bswap(item));
-                        return (s32)out;
+                        return (saddr)out;
                     }
                 } else {
                     format = (char *)get_item_description_text(name);
@@ -1677,9 +1675,9 @@ s32 format_item_description(u8 *item) {
         if (format != NULL) {
             sprintf(out, format, ((TItemData *)item)->get_packed_value());
         }
-    return (s32)out;
+    return (saddr)out;
     }
-    return (s32)lbl_805D2B10;
+    return (saddr)lbl_805D2B10;
 }
 
 void TItemData::format_item_name(char *buf) {

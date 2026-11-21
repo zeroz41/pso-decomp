@@ -23,7 +23,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowSubQuestBoardSelect_size[sizeof(TWindowSubQuestBoardSelect) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubQuestBoardSelect_size, sizeof(TWindowSubQuestBoardSelect) == 0x68);
 
 extern "C" {
 s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1);

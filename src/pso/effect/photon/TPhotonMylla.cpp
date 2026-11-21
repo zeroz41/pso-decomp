@@ -109,13 +109,13 @@ extern "C" {
 u16 get_entity_id(void *);
 void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern "C" {
 s32 rotate_matrix_y(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
@@ -133,7 +133,7 @@ void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *TPhotonYoulla__ct(TPhotonYoulla *arg0, u8 *arg1);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 const char *TPhotonMylla__class_name = "TPhotonMylla";
 
 static const YPkt_801AD970 photon_mylla_packet_template = { { 0.0f, 0.0f, 0.0f }, 0, 0, 0, 0, 0x4000000, 1.0f };
@@ -146,14 +146,14 @@ void TPhotonMylla::sub_801AD4A8() { *(float *)&this->m_184 = 0.0f; *(float*)((ch
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredFields_801AD5D8_arg0_B8_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_B8) == 0xB8 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_14C_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_14C) == 0x14C ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_150_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_150) == 0x150 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_17C_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_17C) == 0x17C ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_184_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_184) == 0x184 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_194_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_194) == 0x194 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_1A0_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_1A0) == 0x1A0 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_1A4_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_1A4) == 0x1A4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_B8_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_B8) == 0xB8);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_14C_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_14C) == 0x14C);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_150_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_150) == 0x150);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_17C_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_17C) == 0x17C);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_184_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_184) == 0x184);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_194_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_194) == 0x194);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_1A0_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_1A0) == 0x1A0);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_1A4_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_1A4) == 0x1A4);
 
 void TPhotonMylla::render() {
     Self_801AD4C0 *self = (Self_801AD4C0 *)this;
@@ -188,14 +188,14 @@ void TPhotonMylla::render() {
 
 void TPhotonMylla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AD5D8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AD5D8, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_801AD5D8, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_801AD5D8, sp18) == 0x10) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_801AD5D8, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_801AD5D8, sp24) == 0x1C) ? 1 : -1];
-    typedef char sp2C_offset[(offsetof(Stack_801AD5D8, sp2C) == 0x24) ? 1 : -1];
-    typedef char sp30_offset[(offsetof(Stack_801AD5D8, sp30) == 0x28) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AD5D8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AD5D8, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801AD5D8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801AD5D8, sp18) == 0x10);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_801AD5D8, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_801AD5D8, sp24) == 0x1C);
+    LAYOUT_ASSERT(sp2C_offset, offsetof(Stack_801AD5D8, sp2C) == 0x24);
+    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_801AD5D8, sp30) == 0x28);
     Stack_801AD5D8 stack;
     f32 temp_f1_2;
     u8 *entity;
@@ -212,7 +212,7 @@ void TPhotonMylla::run_task() {
         stack.sp30 += 30.0f;
         photon_magic_square = (u8 *)TObject::operator new(0xD0);
         if (photon_magic_square != NULL) {
-            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (s32)arg0, 5, (s32)&stack.sp2C, 0xAA, 0.5f);
+            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (saddr)arg0, 5, (saddr)&stack.sp2C, 0xAA, 0.5f);
         }
     }
     if ((100.0f == (f32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4) && ((s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8 == 1)) {
@@ -263,7 +263,7 @@ void TPhotonMylla::run_task() {
         }
     }
     if ((s32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A0 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (u32)(0U), 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, (u32)(0U), 0, 0);
     }
 }
 #pragma pop
@@ -294,7 +294,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     }
     F_801AD970(self, s32, 0x34) = photon_blast_shared_resource->res->fA8;
     F_801AD970(self, s32, 0x24) = photon_blast_shared_resource->res->fAC;
-    ((TObjMotion *)self)->set_field_d8((s32)photon_mylla_action_table);
+    ((TObjMotion *)self)->set_field_d8((saddr)photon_mylla_action_table);
     ((TObjMotion *)self)->set_field_dc(photon_blast_shared_resource->f430);
     F_801AD970(self, s16, 0xB8) = 1;
     ((TObjMotion *)self)->set_animation(F_801AD970(self, s16, 0xB8));
@@ -358,13 +358,13 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
         v.y += 30.0f;
         o = (u8 *)TObject::operator new(0xD0);
         if (o != NULL) {
-            TPhotonMagicSquare__ct((u8 *)o, (s32)self, 5, (s32)&v, 0xAA, 0.5f);
+            TPhotonMagicSquare__ct((u8 *)o, (saddr)self, 5, (saddr)&v, 0xAA, 0.5f);
         }
         ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(5);
-        play_cue_stream_file((s32)"maila2.adx");
+        play_cue_stream_file((saddr)"maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, F_801AD970(self, u16, 0x17C));
-        play_cue_stream_file((s32)"maila.adx");
+        play_cue_stream_file((saddr)"maila.adx");
     }
     return self;
 }

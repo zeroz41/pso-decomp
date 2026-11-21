@@ -11,7 +11,7 @@ struct TObjNpcMaleTall : public TUnk_804A9F50 {
     static void load_resource_instance();
 };
 
-typedef char TObjNpcMaleTall_size[sizeof(TObjNpcMaleTall) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcMaleTall_size, sizeof(TObjNpcMaleTall) == 0x3B8);
 
 class TObjControl;
 

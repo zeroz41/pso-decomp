@@ -9,7 +9,7 @@ struct TOWreckAncient04 : public TOWreckAncient {
     virtual ~TOWreckAncient04();
 };
 
-typedef char TOWreckAncient04_size[sizeof(TOWreckAncient04) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TOWreckAncient04_size, sizeof(TOWreckAncient04) == 0xB4);
 
 extern "C" {
 void *TOWreckAncient04__create(void *set_data);

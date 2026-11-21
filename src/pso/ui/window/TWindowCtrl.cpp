@@ -45,7 +45,7 @@ f32 cos_table_lookup(s32);
 void *get_player_by_client_id(s32 i);
 extern TWindowCtrl *TWindowCtrl__active_window;
 
-s32 TWindowCtrl__sub_8024B7D4(s32 n) {
+saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     s32 i;
     TWindowSimpleStatus *status;
     TObjPlayer *player;
@@ -63,7 +63,7 @@ s32 TWindowCtrl__sub_8024B7D4(s32 n) {
             if (player == NULL) {
                 return 0;
             }
-            return (s32)player->get_name();
+            return (saddr)player->get_name();
         }
     }
     return 0;
@@ -90,7 +90,7 @@ void TWindowCtrl::update_pulse_color() {
 }
 #pragma pop
 
-s32 TWindowCtrl__sub_8024B000(void *, s32);
+s32 TWindowCtrl__sub_8024B000(void *, saddr);
 s32 is_split_screen();
 s32 fn_8002AE08(s32);
 
@@ -99,10 +99,10 @@ extern s32 local_client_id;
 void TWindowCtrl__sub_8024B9C0(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
-            ((TWindowLockOn *)(*(u32 *)((s8 *)arg0 + 0x30)))->request_close();
+            ((TWindowLockOn *)(*(uaddr *)((s8 *)arg0 + 0x30)))->request_close();
             return;
         }
-        window_request_show((void *)(*(u32 *)((s8 *)arg0 + 0x30)));
+        window_request_show((void *)(*(uaddr *)((s8 *)arg0 + 0x30)));
     }
 }
 
@@ -119,7 +119,7 @@ void TWindowCtrl::update_trade_window() {
 extern u8 controller_input_state[];
 
 void TWindowCtrl::handle_controller() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
@@ -153,7 +153,7 @@ void *__nw__7TObjectFUl(s32);
 void TWindowCtrl::update_trade_request_window() {
     void *var_r0;
 
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((u32) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(*(void * *)&this->m_38)) != 0))) {
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((uaddr) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(*(void * *)&this->m_38)) != 0))) {
         if ((u32) this->m_40 != 0U) {
             ((TObject *)(this->m_40))->queue_destruction();
             this->m_40 = 0U;
@@ -170,9 +170,9 @@ void TWindowCtrl::update_trade_request_window() {
 u32 TWindowGetComCard__ct(int, void *);
 void TWindowCtrl::update_com_card_window() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 temp_r3_3;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
+    uaddr temp_r3_3;
     u32 temp_r3_4;
     u32 var_r0;
     temp_r3 = this->m_3c;
@@ -186,7 +186,7 @@ void TWindowCtrl::update_com_card_window() {
             this->m_3c = 0U;
         }
     } else if ((u32) this->m_3c == 0U) {
-        temp_r3_4 = (u32)__nw__7TObjectFUl(0x2C);
+        temp_r3_4 = (uaddr)__nw__7TObjectFUl(0x2C);
         var_r0 = temp_r3_4;
         if (var_r0 != 0U) {
             var_r0 = TWindowGetComCard__ct(temp_r3_4, arg0);
@@ -197,7 +197,7 @@ void TWindowCtrl::update_com_card_window() {
 
 s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
 }
-s32 chat_accept_submission(s32 arg0);
+s32 chat_accept_submission(saddr arg0);
 extern "C" {
 
 
@@ -221,7 +221,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         ((TWindowChat *)(this->m_38))->open_input();
-        if ((((TWindowChat *)(this->m_38))->is_mode_bit4() != 0) && (chat_accept_submission((s32)&this->m_94) != 0)) {
+        if ((((TWindowChat *)(this->m_38))->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
             TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(m_38));
         }
         if (((TWindowChat *)(this->m_38))->is_visible() != 0) {

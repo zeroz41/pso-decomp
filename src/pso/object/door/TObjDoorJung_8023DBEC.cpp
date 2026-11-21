@@ -1,10 +1,10 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaModel.h"
 #include "types.h"
+#include <string.h>
 #include "pso/render/GinjaTexture.h"
 
 extern "C" {
-s32 strcmp(const char *, const char *);
 
 s32 find_texture_entry_by_name(const GinjaTextureList *list, const char *name) {
     const GinjaTextureEntry *ents;

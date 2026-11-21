@@ -21,8 +21,8 @@ struct TWindowMessage : public TWindowAddition {
     void advance_reveal_cursor();
     void scroll_up_line(u8 *);
     int append_line(int text, int mode);
-    static u8 *create(s32 arg0, const f32 *size, u32 arg2, s32 arg3);
-    static u8 *create(const NJS_POINT2 *pos, const f32 *size, s32 rows);
+    static u8 *create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3);
+    static u8 *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
     u32 m_70;
     s32 m_74;
     u32 m_78;
@@ -35,7 +35,7 @@ struct TWindowMessage : public TWindowAddition {
     void update_line_timers();
 };
 
-typedef char TWindowMessage_size[sizeof(TWindowMessage) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 extern "C" u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);
 
 #endif

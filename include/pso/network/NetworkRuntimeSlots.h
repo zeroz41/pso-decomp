@@ -16,10 +16,10 @@ struct NetworkThreadSlot {
     u8 pad_324[4];
 };
 
-typedef char NetworkThreadSlot_size[(sizeof(NetworkThreadSlot) == 0x328) ? 1 : -1];
-typedef char NetworkThreadSlot_thread_offset[(offsetof(NetworkThreadSlot, thread) == 0x08) ? 1 : -1];
-typedef char NetworkThreadSlot_entry_offset[(offsetof(NetworkThreadSlot, entry) == 0x318) ? 1 : -1];
-typedef char NetworkThreadSlot_stack_offset[(offsetof(NetworkThreadSlot, stack) == 0x320) ? 1 : -1];
+LAYOUT_ASSERT(NetworkThreadSlot_size, sizeof(NetworkThreadSlot) == 0x328);
+LAYOUT_ASSERT(NetworkThreadSlot_thread_offset, offsetof(NetworkThreadSlot, thread) == 0x08);
+LAYOUT_ASSERT(NetworkThreadSlot_entry_offset, offsetof(NetworkThreadSlot, entry) == 0x318);
+LAYOUT_ASSERT(NetworkThreadSlot_stack_offset, offsetof(NetworkThreadSlot, stack) == 0x320);
 #include "dolphin/os/OSMutex.h"
 #include "dolphin/os/OSAlarm.h"
 
@@ -46,11 +46,11 @@ typedef struct NetworkMessageQueueSlot {
     OSMessage pending[32];
 } NetworkMessageQueueSlot;
 
-typedef char NetworkAlarmSlot_size[(sizeof(NetworkAlarmSlot) == 0x58) ? 1 : -1];
-typedef char NetworkMutexSlot_size[(sizeof(NetworkMutexSlot) == 0x20) ? 1 : -1];
-typedef char NetworkMessageQueueSlot_size[(sizeof(NetworkMessageQueueSlot) == 0x3A8) ? 1 : -1];
-typedef char NetworkMutexSlot_mutex_offset[(offsetof(NetworkMutexSlot, mutex) == 8) ? 1 : -1];
-typedef char NetworkMessageQueueSlot_queue_offset[(offsetof(NetworkMessageQueueSlot, queue) == 8) ? 1 : -1];
+LAYOUT_ASSERT(NetworkAlarmSlot_size, sizeof(NetworkAlarmSlot) == 0x58);
+LAYOUT_ASSERT(NetworkMutexSlot_size, sizeof(NetworkMutexSlot) == 0x20);
+LAYOUT_ASSERT(NetworkMessageQueueSlot_size, sizeof(NetworkMessageQueueSlot) == 0x3A8);
+LAYOUT_ASSERT(NetworkMutexSlot_mutex_offset, offsetof(NetworkMutexSlot, mutex) == 8);
+LAYOUT_ASSERT(NetworkMessageQueueSlot_queue_offset, offsetof(NetworkMessageQueueSlot, queue) == 8);
 #ifdef __cplusplus
 extern "C" {
 #endif

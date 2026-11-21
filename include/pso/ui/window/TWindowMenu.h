@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TWindowMenu : public TWindowAddition {
-    TWindowMenu(u32 rows, s32 client, s32 parent);
+    TWindowMenu(u32 rows, s32 client, saddr parent);
     virtual ~TWindowMenu();
     void *get_selected_entry();
     void calc_window_size();
@@ -15,7 +15,7 @@ struct TWindowMenu : public TWindowAddition {
     void set_loss_flag();
     int sub_80266BB8();
     s32 test_menu_flag(s32 buttons);
-    void render_selected_entry(s32);
+    void render_selected_entry(saddr);
     void draw_selected_bar(u8 *);
     void layout_entries();
     void update_scroll_value();
@@ -46,6 +46,6 @@ struct TWindowMenu : public TWindowAddition {
     s32 is_locked(s32 arg1);
 };
 
-typedef char TWindowMenu_size[sizeof(TWindowMenu) == 0x8C ? 1 : -1];
-typedef char TWindowMenu_layout_height_offset[offsetof(TWindowMenu, layout_height) == 0x7C ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);
+LAYOUT_ASSERT(TWindowMenu_layout_height_offset, offsetof(TWindowMenu, layout_height) == 0x7C);
 #endif

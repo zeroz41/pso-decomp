@@ -28,7 +28,7 @@ TUnk_804A2F78::TUnk_804A2F78(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-u8 *TObjPlayer::create_effect_state(s32 item) {
+u8 *TObjPlayer::create_effect_state(saddr item) {
     if (item != 0) {
         return (u8 *)new TUnk_804A2F78(tl_05, (u8 *)item);
     }

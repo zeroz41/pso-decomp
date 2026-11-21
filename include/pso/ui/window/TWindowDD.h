@@ -25,9 +25,9 @@ struct TWindowDD : public TObject
     u32 m_24[8];
     u32 m_44[8];
     u32 m_64[6];
-    u32 m_7c;
+    uaddr m_7c;
     u32 m_80;
-    u32 m_84;
+    uaddr m_84;
     u32 m_88;
     u32 m_8c;
     u32 m_90;
@@ -52,7 +52,7 @@ struct TWindowDD : public TObject
     void draw_transformed_primitive(s32 a1, u32 a2, s32 a3);
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2);
-    static s32 apply_both_choices(s32 arg0, s32 arg1);
+    static s32 apply_both_choices(s32 arg0, saddr arg1);
     void set_clamped_page(s32 arg1);
     void handle_input();
     void set_clamped_selection(s32 arg1);
@@ -87,17 +87,17 @@ struct TWindowDD : public TObject
     void update_layout();
     void update_transition();
     void update();
-    static s32 get_element_ptr(s32 arg0);
+    static saddr get_element_ptr(s32 arg0);
     virtual void render();
     void reset_selection();
     void update_selected_id();
     static void build_player_word_lists();
     static void free_buffers();
-    static void open(s32 arg0, s32 arg1);
+    static void open(saddr arg0, s32 arg1);
     static u8 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 arg0);
     static s32 get_player_battle_flag_state(u16 arg0);
-    void format_type6_message(s32 arg1, void *arg2);
+    void format_type6_message(saddr arg1, void *arg2);
     static s32 is_state_zero_unless_0x2C8(s32 arg0);
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
@@ -109,7 +109,7 @@ struct TWindowDD : public TObject
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* a1);
-    void update(s32 arg1);
+    void update(saddr arg1);
     static void set_default_coords(int a0, void* a1);
     static void init_layout(int a0, void* a1);
     static void set_default_positions(int a0, void* a1);
@@ -133,7 +133,7 @@ struct TWindowDD : public TObject
     static void append_string(const char *str, char *buf, s32 *pos);
     void copy_point_table(s32 idx);
     static s32 get_draw_count(void **arg0);
-    static s32 get_entry(s32 arg0);
+    static saddr get_entry(s32 arg0);
     int handle_word_select();
     static void send_chat_packet(void *data);
     void update_and_send_lobby();
@@ -150,8 +150,8 @@ struct TWindowDD : public TObject
 };
 
 #include <stddef.h>
-typedef char WindowListSize[sizeof(TWindowDDValueList) == 8 ? 1 : -1];
-typedef char WindowListCountOffset[offsetof(TWindowDDValueList, count) == 4 ? 1 : -1];
+LAYOUT_ASSERT(WindowListSize, sizeof(TWindowDDValueList) == 8);
+LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
 extern "C" {
 // TWindowBase::TWindowBase(u8 *, s16, u8 *), called by the constructors that are still written by hand.

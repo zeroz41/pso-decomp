@@ -2,7 +2,7 @@
 
 extern "C" {
 
-#define OSCachedToPhysical(caddr) ((u32)((u8 *)(caddr) - 0x80000000))
+#define OSCachedToPhysical(caddr) ((uaddr)((u8 *)(caddr) - 0x80000000))
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -131,7 +131,7 @@ u32 salInitDsp(u32 flags) {
 }
 
 
-void salCtrlDsp(s32 arg0) {
+void salCtrlDsp(saddr arg0) {
     u16 *temp_r31;
     salBuildCommandList((void *) (arg0), (int) (salGetStartDelay()));
     temp_r31 = dspCmdList;

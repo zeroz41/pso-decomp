@@ -20,7 +20,7 @@ extern const char *TObjTradeCollision__name;
 
 void TObjTradeCollision::render() {  }
 
-void run_task__18TObjTradeCollisionFv(s32 arg0) {
+void run_task__18TObjTradeCollisionFv(saddr arg0) {
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -41,15 +41,15 @@ TObjTradeCollision::~TObjTradeCollision() {
 
 extern void *tl_05;
 
-TObjTradeCollision::TObjTradeCollision(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TObjTradeCollision__name);
+TObjTradeCollision::TObjTradeCollision(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TObjTradeCollision__name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)this + 0xAC) = (f32) this->scale.x;
     ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 
 void *TObjTradeCollision__create(void *arg0) {
-    void *o = (void *)new TObjTradeCollision((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TObjTradeCollision((saddr)tl_05, (saddr)arg0);
     return o;
 }
 

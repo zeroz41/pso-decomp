@@ -29,10 +29,10 @@ const char *TWindowMessageQuest__name = "TWindowMessageQuest";
 static const Vec lbl_8044F464 = {384.0f, 80.0f, 0.0f};
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 
 void create_quest_message_window(void) {
-    create_quest_message_window_at((get_window_layout_position(0xAD)), (s32)&lbl_8044F464);
+    create_quest_message_window_at((get_window_layout_position(0xAD)), (saddr)&lbl_8044F464);
 }
 void TWindowMessageQuest::render() {
     Ctx_8026B148 *c;

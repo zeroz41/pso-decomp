@@ -12,12 +12,12 @@
 #include "pso/system/vector.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
-typedef char Param_802E5CB0_size[sizeof(Param_802E5CB0) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(Param_802E5CB0_size, sizeof(Param_802E5CB0) == 0x10);
 
 struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
 
 
-int multiplay_texture_f512_handle;
+saddr multiplay_texture_f512_handle;
 
 const char *TObjOnlineEndingHexMove__name = "TObjOnlineEndingHexMove";
 static const NJS_POINT2 lbl_80472C00[] = {{320.0f, 240.0f}};
@@ -200,14 +200,13 @@ void run_task__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *online_endin
 }
 
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 
 void *__dt__23TObjOnlineEndingHexLineFv(void *object, s16 arg1) {
     if (object != NULL) {
         *(void **)((s8 *)object + 0x18) = __vt__23TObjOnlineEndingHexLine;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;

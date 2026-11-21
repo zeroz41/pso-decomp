@@ -286,7 +286,7 @@ void TWindowDD::handle_scroll_input() {
     s32 var_r30;
     s32 var_r30_2;
     if (((TWindowDD_WS_Word *)this)->sub_80342268() != 0) {
-        if (apply_both_choices__9TWindowDDFll((u8 *)&this->m_44[7], 0x20) != 0) {
+        if (TWindowDD::apply_both_choices((saddr)(&this->m_44[7]), 0x20) != 0) {
             temp_r4 = *(s32 *)&this->m_64[1];
             if (temp_r4 < (s32) (*(s32 *)&this->m_64[4] - 1)) {
                 switch (((TWindowDD_WS_Word *)arg0)->can_scroll(1)) {
@@ -303,7 +303,7 @@ void TWindowDD::handle_scroll_input() {
                 *(s32 *)&this->m_64[2] = 0;
                 *(f32 *)((s8 *)arg0 + 0x88) = 0.0f;
             }
-        } else if (apply_both_choices__9TWindowDDFll((u8 *)&this->m_44[7], 0x10) != 0) {
+        } else if (TWindowDD::apply_both_choices((saddr)(void *)(&this->m_44[7]), 0x10) != 0) {
             if ((s32) *(s32 *)&this->m_64[1] > 0) {
                 switch (((TWindowDD_WS_Word *)arg0)->can_scroll(-1)) {
                 case 0:
@@ -435,7 +435,7 @@ s16 TWindowDD__sub_8034214C(u8 *arg0) {
 }
 
 int TWindowDD__sub_80342158(u8 *arg0) {
-    u32 temp_r4;
+    uaddr temp_r4;
     temp_r4 = *(u32 *)((s8 *)arg0 + 0x80);
     if (temp_r4 != 0U) {
         return *(s16 *)((s8 *)(temp_r4 + (*(s32 *)((s8 *)arg0 + 0x68) * 2)) + 0);
@@ -515,14 +515,14 @@ TWindowDD_WS_Word *TWindowDD__sub_803422F0(TWindowDD_WS_Word *self, s32 element_
     return self;
 }
 
-s32 TWindowDD__sub_80342384(s32 element_list, s32 rows) {
+saddr TWindowDD__sub_80342384(s32 element_list, s32 rows) {
     TWindowDD_WS_Word *window;
     TWindowDD__data_804EFC50.rows = rows;
     window = (TWindowDD_WS_Word *)TObject::operator new(sizeof(TWindowDD_WS_Word));
     if (window != NULL) {
         window = TWindowDD__sub_803422F0(window, element_list, rows);
     }
-    return (s32)window;
+    return (saddr)window;
 }
 
 

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 spawn_fire_explosion_at(u32 a0, s32 a1);
+s32 spawn_fire_explosion_at(uaddr a0, saddr a1);
 
 #endif

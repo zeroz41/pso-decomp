@@ -50,12 +50,12 @@ struct WindowDrawContext
 // The one context every window draws through (name inferred; TWindowCtrlMain creates and frees it).
 extern WindowDrawContext *shared_window_draw_context;
 
-typedef char TexturedQuad_size[sizeof(TexturedQuad) == 0x20 ? 1 : -1];
-typedef char TexturedQuad_uv_offset[offsetof(TexturedQuad, u0) == 0x10 ? 1 : -1];
-typedef char WindowDrawContext_size[sizeof(WindowDrawContext) == 0x4C ? 1 : -1];
-typedef char WindowDrawContext_inner_height_offset[offsetof(WindowDrawContext, inner_h) == 0x1C ? 1 : -1];
-typedef char WindowDrawContext_color_offset[offsetof(WindowDrawContext, color) == 0x34 ? 1 : -1];
-typedef char WindowDrawContext_depth_offset[offsetof(WindowDrawContext, depth) == 0x38 ? 1 : -1];
-typedef char WindowDrawContext_clip_y1_offset[offsetof(WindowDrawContext, clip_y1) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(TexturedQuad_size, sizeof(TexturedQuad) == 0x20);
+LAYOUT_ASSERT(TexturedQuad_uv_offset, offsetof(TexturedQuad, u0) == 0x10);
+LAYOUT_ASSERT(WindowDrawContext_size, sizeof(WindowDrawContext) == 0x4C);
+LAYOUT_ASSERT(WindowDrawContext_inner_height_offset, offsetof(WindowDrawContext, inner_h) == 0x1C);
+LAYOUT_ASSERT(WindowDrawContext_color_offset, offsetof(WindowDrawContext, color) == 0x34);
+LAYOUT_ASSERT(WindowDrawContext_depth_offset, offsetof(WindowDrawContext, depth) == 0x38);
+LAYOUT_ASSERT(WindowDrawContext_clip_y1_offset, offsetof(WindowDrawContext, clip_y1) == 0x48);
 
 #endif

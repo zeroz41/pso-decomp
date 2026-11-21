@@ -58,7 +58,7 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
         break;
     case 0xA0:
         spawn_particle_effect_with_flags(duel_start_countdown_effect_pos, 0x1F1, 0x48C0);
-        play_cue_stream_file((s32)"start.adx");
+        play_cue_stream_file((saddr)"start.adx");
         break;
     case 0xB4:
         queue_destruction();

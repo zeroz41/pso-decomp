@@ -28,12 +28,12 @@ s32 TLobby__sub_80407358();
 s32 TLobby__sub_8041509C();
 s16 TLobby__sub_80423064(s16 idx, s32 arg1);
 void TLobby__sub_80424CA8(void);
-s32 TLobby__sub_80424CF4(void *, void *, s32 timeout);
+s32 TLobby__sub_80424CF4(s32 session, s32 ip, s32 timeout);
 void TLobby__sub_801469B8(void* p);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 TLobby__sub_8040A3C0();
-s32 lobby_local_ip_addr;
+saddr lobby_local_ip_addr;
 s32 lobby_dns_server_addr;
 s32 lobby_dns_server_addr2;
 s32 lobby_connect_battle_flag;
@@ -43,7 +43,7 @@ s32 lbl_805D56F0;
 s32 lbl_805D56F4;
 s32 TLobby__connect_pending_flags;
 s32 TLobby__battle_flag;
-u32 lbl_805D5700;
+uaddr lbl_805D5700;
 s32 TLobby__net_session_mode;
 int lbl_805D5708;
 s32 lbl_805D570C;
@@ -149,9 +149,8 @@ s32 init_work(s32 arg0, u8 *arg1);
 s32 get_network_config_buffer_size(s32 mode);
 s8 func_801A5E54();
 extern "C" {
-s32 TLobby__sub_804219D0(s32, s32, s32);
-s32 net_add_ipv4_route(s32, s32, s32);
-void xfree__FPv(void*);
+s32 TLobby__sub_804219D0(saddr, saddr, saddr);
+s32 net_add_ipv4_route(saddr, saddr, saddr);
 int xmalloc__FUl(void);
 
     extern int lbl_805D56C8;
@@ -169,7 +168,7 @@ char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
 
-void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((s32)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
+void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((saddr)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
 
 s32 TLobby::poll_connect() {
     s32 var_r31;
@@ -362,7 +361,7 @@ s32 TLobby__sub_801466F4(u32 arg0) {
 
 int TLobby__sub_80146724(void) { return 3; }
 
-typedef char RecoveredGlobal_8014672C_lbl_8050C0A8_size[sizeof(RecoveredGlobal_8014672C_lbl_8050C0A8) == 0x6DC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8014672C_lbl_8050C0A8_size, sizeof(RecoveredGlobal_8014672C_lbl_8050C0A8) == 0x6DC);
 void TLobby__sub_8014672C(s32 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
 }
@@ -417,7 +416,7 @@ void TLobby::cleanup() {
         TLobby__connect_pending_flags &= 0xFFFFFFF7;
     }
     if ((u32) lbl_805D5700 != 0U) {
-        xfree__FPv((void*)lbl_805D5700);
+        xfree((void*)lbl_805D5700);
         lbl_805D5700 = 0U;
     }
 }
@@ -431,7 +430,7 @@ s32 TLobby__sub_80146908() {
     params.e = 0x1000;
     params.f = 0x3000;
     validate_and_store_net_params(&params);
-    lbl_805D5700 = (u32)xmalloc(size);
+    lbl_805D5700 = (uaddr)xmalloc(size);
     if (lbl_805D5700 != 0) {
         layout_net_params_buffer((u8 *)lbl_805D5700, size);
     }
@@ -454,7 +453,7 @@ void TLobby::flush_pending_flags() {
     TLobby::teardown_boss2();
     if (TLobby__sub_80145EE4() != 0) {
         if (TLobby__connect_pending_flags & 0x10) {
-            TLobby__sub_80424CF4((void *)((s16) lobby_net_session_id), (void *)lobby_local_ip_addr, 3);
+            TLobby__sub_80424CF4((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
             TLobby__connect_pending_flags &= 0xFFFFFFEF;
             TLobby__sub_80424CA8();
         }
@@ -548,7 +547,7 @@ char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
 
-void TLobby::set_ppp_password(s32 arg0) {
+void TLobby::set_ppp_password(saddr arg0) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();

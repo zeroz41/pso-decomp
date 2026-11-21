@@ -26,8 +26,8 @@ struct TShopItemTecSequence : public TShopSequence {
     s32 open_greeting();
 };
 
-typedef char TShopItemTecSequence_size[sizeof(TShopItemTecSequence) == 0x38 ? 1 : -1];
-typedef char TShopItemTecSequence_choice_menu_offset[offsetof(TShopItemTecSequence, choice_menu) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TShopItemTecSequence_size, sizeof(TShopItemTecSequence) == 0x38);
+LAYOUT_ASSERT(TShopItemTecSequence_choice_menu_offset, offsetof(TShopItemTecSequence, choice_menu) == 0x30);
 
 extern "C" {
 int TShopItemTecSequence__sub_8021FE6C(int a0);

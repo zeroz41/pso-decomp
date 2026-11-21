@@ -10,5 +10,5 @@ public:
     TObjPlayer*get_player();
     virtual void run_task();
 };
-typedef char TPlayerSoul_size[sizeof(TPlayerSoul) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TPlayerSoul_size, sizeof(TPlayerSoul) == 0x24);
 #endif

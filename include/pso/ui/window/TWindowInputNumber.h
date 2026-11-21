@@ -17,7 +17,7 @@ struct TWindowInputNumber : public TWindowBase {
     s32 minimum;
     s32 maximum;
     s32 value;
-    s32 unknown70;
+    saddr unknown70;
     f32 scaleX;
     f32 scaleY;
 
@@ -39,11 +39,11 @@ struct TWindowInputNumber : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowInputNumberSize[sizeof(TWindowInputNumber) == 0x7C ? 1 : -1];
-typedef char NumberFlagsOffset[offsetof(TWindowInputNumber, inputFlags) == 0x60 ? 1 : -1];
-typedef char NumberMinimumOffset[offsetof(TWindowInputNumber, minimum) == 0x64 ? 1 : -1];
-typedef char NumberMaximumOffset[offsetof(TWindowInputNumber, maximum) == 0x68 ? 1 : -1];
-typedef char NumberInitialOffset[offsetof(TWindowInputNumber, value) == 0x6C ? 1 : -1];
-typedef char NumberScaleOffset[offsetof(TWindowInputNumber, scaleX) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowInputNumberSize, sizeof(TWindowInputNumber) == 0x7C);
+LAYOUT_ASSERT(NumberFlagsOffset, offsetof(TWindowInputNumber, inputFlags) == 0x60);
+LAYOUT_ASSERT(NumberMinimumOffset, offsetof(TWindowInputNumber, minimum) == 0x64);
+LAYOUT_ASSERT(NumberMaximumOffset, offsetof(TWindowInputNumber, maximum) == 0x68);
+LAYOUT_ASSERT(NumberInitialOffset, offsetof(TWindowInputNumber, value) == 0x6C);
+LAYOUT_ASSERT(NumberScaleOffset, offsetof(TWindowInputNumber, scaleX) == 0x74);
 
 #endif

@@ -11,7 +11,7 @@ struct TObjPlayer;
 // until the caster stops charging or 180 frames pass.
 class TUnk_804CC948 : public TObject {
 public:
-    TUnk_804CC948(s32 actor, s32 parent);
+    TUnk_804CC948(saddr actor, saddr parent);
     virtual ~TUnk_804CC948();
     virtual void run_task();
 
@@ -20,6 +20,6 @@ public:
     s32 m_age;          // frames since created
     s32 m_sound_handle; // play_sound_effect's result, stopped by the dtor
 };
-typedef char TUnk_804CC948_size[sizeof(TUnk_804CC948) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC948_size, sizeof(TUnk_804CC948) == 0x34);
 
 #endif

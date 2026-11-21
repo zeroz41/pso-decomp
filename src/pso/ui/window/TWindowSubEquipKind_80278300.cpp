@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     u8 pad00[0x80];
-    s32 f80;
+    saddr f80;
     u8 pad84[0x88 - 0x84];
     s16 f88;
     s16 f8A;
@@ -46,7 +46,7 @@ void TWindowSubTradeMain::set_trade_state(s16 arg1) {
 #pragma fp_contract on
 void TWindowSubEquipKind::draw_tab_label(void *win) {
     NJS_POINT2 pos;
-    s32 msg;
+    saddr msg;
     s16 fl;
     u8 col;
 
@@ -66,7 +66,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
         pos.x += 80.0f;
         pos.y += 4.0f;
         set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);
-        msg = (s32)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
+        msg = (saddr)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
         pos.x -= 0.5f * (f32)calc_text_width();
         draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);
     }

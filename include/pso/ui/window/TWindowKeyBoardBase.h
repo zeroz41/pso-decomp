@@ -113,7 +113,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     int get_flag62_bit8();
 };
 
-typedef char TWindowKeyBoardBase_size[sizeof(TWindowKeyBoardBase) == 0xB8 ? 1 : -1];
-typedef char TWindowKeyBoardBase_input_mode_offset[offsetof(TWindowKeyBoardBase, m_input_mode) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TWindowKeyBoardBase_size, sizeof(TWindowKeyBoardBase) == 0xB8);
+LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBase, m_input_mode) == 0x64);
 
 #endif

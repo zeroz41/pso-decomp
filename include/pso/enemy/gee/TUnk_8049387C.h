@@ -8,7 +8,7 @@ public:
     virtual ~TUnk_8049387C();
     void run_task();
     virtual void vfunc_107();
-    virtual void vfunc_117(u32);
+    virtual void vfunc_117(uaddr);
     virtual void vfunc_106();
     virtual void vfunc_105();
     virtual s32 vfunc_108();

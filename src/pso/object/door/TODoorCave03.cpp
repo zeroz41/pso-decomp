@@ -53,7 +53,7 @@ void TODoorCave03::update_closing() {
     } else {
         position.y = y - 1.0f;
     }
-    play_persistent_sound(0x42807, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x42807, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TODoorCave03::update_open() {
@@ -75,7 +75,7 @@ void TODoorCave03::update_opening() {
     } else {
         position.y += 1.0f;
     }
-    play_persistent_sound(0x42807, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x42807, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TODoorCave03::update_closed() {
@@ -106,7 +106,7 @@ void TODoorCave03::render() {
         rotate_matrix_y(NULL, rotation_y);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x10;
@@ -117,10 +117,10 @@ void TODoorCave03::render() {
             node = ((NJS_OBJECT *)model)->child;
         }
         post_translate_matrix(node->pos);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         node = node->child;
         post_translate_matrix(node->pos);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();

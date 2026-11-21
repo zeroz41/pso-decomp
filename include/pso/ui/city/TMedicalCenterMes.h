@@ -19,6 +19,6 @@ public:
     static s32 get_slot_flag(int client);
     static void clear_slot_flags();
 };
-typedef char TMedicalCenterMes_size_check[sizeof(TMedicalCenterMes) == 0x234 ? 1 : -1];
+LAYOUT_ASSERT(TMedicalCenterMes_size_check, sizeof(TMedicalCenterMes) == 0x234);
 
 #endif

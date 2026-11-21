@@ -6,7 +6,7 @@ extern "C" {
 
 u32 get_enemy_entity();
 
-extern u32 boss8_dragon_leader_part;
+extern uaddr boss8_dragon_leader_part;
 
 bool TBoss8Dragon::has_enough_enemies() {
     s32 i;

@@ -51,7 +51,7 @@ struct Obj_801A0C38 { u8 pad[0x90]; void *parts[1]; };
 struct Luker_801A16D8 { u8 pad0[0x18]; void *f18; u8 pad1C[0x74]; void *wins[4]; };
 
 struct Luker_801A1768 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x18 - 4];
     void *f18;
     u8 pad1C[0x84 - 0x1C];
@@ -88,7 +88,7 @@ struct Luker_801A1260
 };
 
 extern "C" {
-s32 play_sound_effect(s32, u32, s16, s32);
+s32 play_sound_effect(s32, uaddr, s16, s32);
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
@@ -103,7 +103,7 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
-s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
+s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
@@ -121,7 +121,7 @@ void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i) {
 #pragma push
 #pragma opt_common_subs off
 void TObjLuker::show_part(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     u8 *temp_r3;
     temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
@@ -176,7 +176,7 @@ void TObjLuker::open_destination_windows() {
     for (i = 0; i < 4; i++) {
         if (self->wins[i] == 0 && target > 0) {
             if (is_split_screen() != 0) {
-                self->wins[i] = create_window_menu((s32)get_window_layout_position(0x33), 1, i);
+                self->wins[i] = create_window_menu((saddr)get_window_layout_position(0x33), 1, i);
             } else {
                 self->wins[i] = create_window_menu_default(get_window_layout_position(0x33), 1);
             }
@@ -258,12 +258,12 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
 #define DB4_801A10A0 ((void (*)(void *))close_windows__9TObjLukerFPv)
 #define PBC_801A10A0 ((u32 (*)(void *))get_player_by_client_id)
 
-s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0) {
-    u32 p;
+s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
+    uaddr p;
     s32 found;
     found = 0;
     if (is_split_screen() != 0) {
-        for (s32 i = 0; i < 4; i++) {
+        for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0((void *)i);
             if (p != 0U) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
@@ -276,7 +276,7 @@ s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0) {
                 }
             }
         }
-        for (s32 i = 0; i < 4; i++) {
+        for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0((void *)i);
             if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 1)) {
                 C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
@@ -410,7 +410,7 @@ void TObjLuker::run_task() {
             switch (this->m_b0) {
             case 0:
                 sp8 = 0;
-                if (is_player_in_range__9TObjLukerFv((s32)((s32) arg0), 10.0f) != 0) {
+                if (is_player_in_range__9TObjLukerFv((s32)((saddr) arg0), 10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
                         if (are_players_gathered_near((u8 *)&this->position, &sp8, 10.0f) != 0) {
@@ -431,7 +431,7 @@ void TObjLuker::run_task() {
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((int)p, (int)0xA);
-                            play_sound_effect(0x40022D1A, (u32)(arg0 + 0x38), 0, 0);
+                            play_sound_effect(0x40022D1A, (uaddr)(arg0 + 0x38), 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
                         *(s32 *)&this->m_b8 = 1;
@@ -478,7 +478,7 @@ TObjLuker::~TObjLuker() {
 #define self ((Luker_801A1768 *)this)
 TObjLuker::TObjLuker(TObject *parent, void *arg2) : TObjBase(parent) {
     s32 i;
-    self->f0 = ((s32)TObjLuker__name);
+    self->f0 = ((saddr)TObjLuker__name);
     ((TObjBase *)self)->apply_object_set_data(arg2);
     self->fB0 = 0;
     self->fAA = 0xFFFF;

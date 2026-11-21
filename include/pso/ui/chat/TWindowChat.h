@@ -57,9 +57,9 @@ void TWindowChat__sub_80247E50(TWindowChat *chat);
 }
 
 #include <stddef.h>
-typedef char ChatBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char ChatSize[(sizeof(TWindowChat)==0x3C)?1:-1];
-#define CHAT_OFFSET(field, offset) typedef char ChatOffset_##field[(offsetof(TWindowChat,field)==offset)?1:-1]
+LAYOUT_ASSERT(ChatBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(ChatSize, sizeof(TWindowChat)==0x3C);
+#define CHAT_OFFSET(field, offset) LAYOUT_ASSERT(ChatOffset_##field, offsetof(TWindowChat,field)==offset)
 CHAT_OFFSET(inputMode,0x1C); CHAT_OFFSET(flags,0x1E);
 CHAT_OFFSET(composer,0x20); CHAT_OFFSET(softKeyboard,0x24);
 CHAT_OFFSET(hardKeyboard,0x28); CHAT_OFFSET(auxiliaryWindow,0x2C);

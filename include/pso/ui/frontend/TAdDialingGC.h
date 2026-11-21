@@ -44,6 +44,6 @@ struct TAdDialingGC : public TObject {
     static void open();
 };
 
-typedef char TAdDialingGC_size[sizeof(TAdDialingGC) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(TAdDialingGC_size, sizeof(TAdDialingGC) == 0xA8);
 
 #endif

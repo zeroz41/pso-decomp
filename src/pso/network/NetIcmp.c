@@ -49,7 +49,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
   u32 mask;
   NetPacket *pkt = (NetPacket *)self;
   rec = &pkt->fragments[1];
-  set_value_and_enable((NetBufferRef *)stream, (s32) hdr);
+  set_value_and_enable((NetBufferRef *)stream, (saddr) hdr);
   netbuf_copy_by_ref(stream, &rec->buffer, 8);
   if (calc_ip_checksum((NetPacket *)self, 0) != 0)
   {
@@ -101,7 +101,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
 
     case 3:
       netbuf_ref_advance(&rec->buffer, 8);
-      set_value_and_enable((NetBufferRef *)stream, (s32) ip);
+      set_value_and_enable((NetBufferRef *)stream, (saddr) ip);
       netbuf_copy_by_ref(stream, &rec->buffer, 20);
       netbuf_ref_advance(&rec->buffer, (ip[0] & 0xf) << 2);
       switch (ip[9])
@@ -110,7 +110,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
         break;
 
       case 17:
-        set_value_and_enable((NetBufferRef *)stream, (s32) udp);
+        set_value_and_enable((NetBufferRef *)stream, (saddr) udp);
         netbuf_copy_by_ref(stream, &rec->buffer, 8);
         TLobby__sub_80420D38(*((u16 *) udp), hdr[1]);
         break;
@@ -121,7 +121,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
 
     case 5:
       netbuf_ref_advance(&rec->buffer, 8);
-      set_value_and_enable((NetBufferRef *)stream, (s32) ip);
+      set_value_and_enable((NetBufferRef *)stream, (saddr) ip);
       netbuf_copy_by_ref(stream, &rec->buffer, 20);
       switch (hdr[1])
     {
@@ -140,7 +140,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
 
       case 3:
         NetMemcpy(addr, hdr + 4, 4);
-        TLobby__sub_8040F8A4(*((u32 *)(ip + 16)), (void *) (*((u32 *) addr)), -1, 6, d);
+        TLobby__sub_8040F8A4(*((u32 *)(ip + 16)), (void *) (*((uaddr *) addr)), -1, 6, d);
         break;
 
     }
@@ -180,11 +180,11 @@ s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
   pkt->fragment_count = 0;
   pkt->total_bytes = x;
   pkt->fragments[pkt->fragment_count].length = x;
-  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) b);
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) b);
   pkt->fragment_count += 1;
   pkt->total_bytes += 8;
   pkt->fragments[pkt->fragment_count].length = 8;
-  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) p);
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) p);
   pkt->fragment_count += 1;
   *((u16 *)(p + 2)) = 0;
   *((u16 *)(p + 2)) = calc_ip_checksum(pkt, 1);
@@ -199,19 +199,19 @@ typedef struct Icmp4Header {
     u16 checksum;
     u8 rest[4];
 } Icmp4Header;
-typedef char Icmp4Header_size_check[sizeof(Icmp4Header) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Icmp4Header_size_check, sizeof(Icmp4Header) == 8);
 s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     NetBufferRef ref;
     Icmp4Header hdr;
 
     switch (type) {
     case 0:
-        set_value_and_enable((&ref), (s32)&hdr);
+        set_value_and_enable((&ref), (saddr)&hdr);
         netbuf_copy_by_ref(&ref, &pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         netbuf_ref_advance(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);
-        set_value_and_enable((&pkt->fragments[pkt->fragment_count].buffer), (s32)&hdr);
+        set_value_and_enable((&pkt->fragments[pkt->fragment_count].buffer), (saddr)&hdr);
         pkt->fragment_count++;
         break;
     default:

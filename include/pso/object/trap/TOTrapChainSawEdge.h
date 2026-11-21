@@ -15,7 +15,7 @@ struct TOTrapChainSawEdge : public TOTrapChainSaw {
     u8 unk_F8[0x10];
 };
 
-typedef char TOTrapChainSawEdge_size[sizeof(TOTrapChainSawEdge) == 0x108 ? 1 : -1];
+LAYOUT_ASSERT(TOTrapChainSawEdge_size, sizeof(TOTrapChainSawEdge) == 0x108);
 
 class TObjPlayer;
 struct TOTrapChainSawDamage;

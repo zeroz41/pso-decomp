@@ -24,7 +24,7 @@ struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
 struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern u32 matrix_stack_base;
-extern u32 current_matrix;
+extern uaddr current_matrix;
 extern "C" {
 f32 PSMTXConcat(int, int, int);
 extern u32 matrix_stack_limit;
@@ -45,15 +45,15 @@ void rotate_matrix_x(Matrix34* matrix, s32 angle) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
         PSMTXRotRad(&rotation, 'x', (f32)((9.587378008291125e-05) * (f64)angle));
-        PSMTXConcat((int)selected, (int)&rotation, (int)selected);
+        PSMTXConcat((saddr)selected, (saddr)&rotation, (saddr)selected);
     }
 }
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer::concat_matrix(u32 arg0, u32 arg1) {
-    u32 elements;
-    u32 var_r4;
+void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
+    uaddr elements;
+    uaddr var_r4;
     elements = arg0;
     var_r4 = arg1;
     if (elements == 0U) {
@@ -69,7 +69,7 @@ void TObjPlayer::concat_matrix(u32 arg0, u32 arg1) {
 #pragma push
 #pragma peephole off
 #pragma fp_contract on
-void TCameraCtrl::concat_matrix(u32 arg0, u32 arg1) {
+void TCameraCtrl::concat_matrix(uaddr arg0, uaddr arg1) {
     u32 var_r4;
     u32 elements;
     var_r4 = arg1;
@@ -92,7 +92,7 @@ asm f32 normalize_vector(Vec *v) {
 #pragma push
 #pragma scheduling off
 s32 push_matrix_from(void *src) {
-    u32 next = current_matrix + 0x30;
+    uaddr next = current_matrix + 0x30;
     if (next > matrix_stack_limit) {
         return 0;
     }
@@ -130,7 +130,7 @@ void TObjPlayer::concat_quaternion_rotation() {
     q.y = arg0[2];
     q.z = arg0[3];
     PSMTXQuat(sp18, &q);
-    PSMTXConcat(current_matrix, (int)sp18, current_matrix);
+    PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
 }
 
 void apply_quat_rotation(f32 farg0, f32 *arg0) {
@@ -141,7 +141,7 @@ void apply_quat_rotation(f32 farg0, f32 *arg0) {
     q.y = arg0[1];
     q.z = arg0[2];
     PSMTXQuat(sp18, &q);
-    PSMTXConcat(current_matrix, (int)sp18, current_matrix);
+    PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
 }
 
 // {0.0f, 0.0f}: rotate_vector_by_current_matrix pairs the first with z so the translation column drops out
@@ -242,14 +242,14 @@ s32 TObjPlayer::is_gvm_load_ok() {
 #pragma pop
 
 s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
-    s32 sp8;
+    saddr sp8;
     u32 j;
     s32 *temp_r4;
     s32 *temp_r4_2;
     s32 temp_r0;
     s32 temp_r3;
     s32 record_index;
-    s32 temp_r6;
+    saddr temp_r6;
     u8 *temp_r29;
     u8 *temp_r31;
     temp_r6 = *(s32 *)((s8 *)arg0 + 0);
@@ -272,7 +272,7 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
             temp_r4 = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
             *(s32 *)((s8 *)temp_r4 + 0x24) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x24) + 1);
             *(s32 *)((s8 *)sp8 + 0x14) = (s32) *(s32 *)((s8 *)temp_r29 + 0x14);
-            TObjPlayer__sub_803DAD24((int)sp8, (int)temp_r4);
+            TObjPlayer__sub_803DAD24((int)sp8, (saddr)temp_r4);
             goto block_7;
         }
         temp_r0 = record_array_ptr + (record_index * 0x18);

@@ -17,7 +17,7 @@ struct TUnk_801D8A4C {
     s16 pad_C0;
     f32 frame;                   // the motion frame the player starts at
 };
-typedef char TUnk_801D8A4C_size[sizeof(TUnk_801D8A4C) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_801D8A4C_size, sizeof(TUnk_801D8A4C) == 0xC8);
 
 class TUnk_804C4540 : public TObjPlayer {
 public:
@@ -29,6 +29,6 @@ public:
     int set_position_from(void *pos);
     void set_animation_default(s16 index);
 };
-typedef char TUnk_804C4540_size[sizeof(TUnk_804C4540) == 0xDB8 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C4540_size, sizeof(TUnk_804C4540) == 0xDB8);
 
 #endif

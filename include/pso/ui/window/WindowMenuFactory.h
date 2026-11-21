@@ -5,7 +5,7 @@
 
 struct TWindowMenu;
 extern "C" {
-TWindowMenu *create_window_menu(s32 position, s32 count, s32 client_id);
+TWindowMenu *create_window_menu(saddr position, s32 count, s32 client_id);
 void align_menu_entry_positions(TWindowMenu *menu);
 }
 

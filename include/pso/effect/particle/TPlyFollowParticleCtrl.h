@@ -19,7 +19,7 @@ struct TPlyFollowParticleCtrl : public TObjCollidable {
 
 extern const char *TPlyFollowParticleCtrl__class_name;
 
-typedef char TPlyFollowParticleCtrl_size[sizeof(TPlyFollowParticleCtrl) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TPlyFollowParticleCtrl_size, sizeof(TPlyFollowParticleCtrl) == 0xB0);
 
 extern "C" {
 void TPlyFollowParticleCtrl__sub_8030A694(void);

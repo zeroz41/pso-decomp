@@ -29,7 +29,7 @@ struct TMedicalCenterSequence : public TShopSequence {
     void show_fee_prompt();
 };
 
-typedef char TMedicalCenterSequence_size[sizeof(TMedicalCenterSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TMedicalCenterSequence_size, sizeof(TMedicalCenterSequence) == 0x38);
 
 extern "C" {
 void TMedicalCenterMes__sub_80216260(void);

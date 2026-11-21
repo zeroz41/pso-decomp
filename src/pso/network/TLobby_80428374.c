@@ -31,20 +31,20 @@ ModemSessionState lobby_net_session_state;
 s32 lobby_buffer_pool_state;
 s32 lbl_805D7C24;
 s32 lbl_805D7C20;
-s32 TLobby__buffer_pool_limit;
-u32 TLobby__buffer_pool_start;
-u32 lbl_805D7C14;
-u32 lbl_805D7C10;
+saddr TLobby__buffer_pool_limit;
+uaddr TLobby__buffer_pool_start;
+uaddr lbl_805D7C14;
+uaddr lbl_805D7C10;
 s32 lbl_805D7C0C;
 u32 lbl_805D7C08;
 u8 *lbl_805D7C04;
 u32 lobby_buffer_pool_alarm_handle;
 s32 lbl_805D7BFC;
-s32 lobby_buffer_pool_end;
-s32 lbl_805D7BF4;
-s32 lbl_805D7BF0;
-s32 lbl_805D7BEC;
-u32 lobby_buffer_pool_size;
+saddr lobby_buffer_pool_end;
+saddr lbl_805D7BF4;
+saddr lbl_805D7BF0;
+saddr lbl_805D7BEC;
+uaddr lobby_buffer_pool_size;
 u8 *lobby_second_buffer_pool_base;
 u8 *lobby_buffer_pool_base;
 s32 lobby_modem_reply_value;
@@ -65,7 +65,7 @@ void reset_boot_state(void) {
     TLobby__sub_803F77E0((s32 *)&lobby_net_session_state);
 }
 
-typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8042839C_lbl_805D0A40_size, sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60);
 s32 init_modem_session_config(void) {
     init_modem_buffer_config((void *)&lobby_net_session_state);
     return 0;
@@ -686,10 +686,10 @@ void cancel_alarm_b(void) {
 }
 
 s16 init_buffer_pool(void) {
-    lbl_805D7BEC = (s32)lobby_buffer_pool_base;
-    lbl_805D7BF0 = (s32)lobby_buffer_pool_base;
-    lbl_805D7BF4 = (s32)lobby_buffer_pool_base;
-    lobby_buffer_pool_end = (s32)(lobby_buffer_pool_base + lobby_buffer_pool_size);
+    lbl_805D7BEC = (saddr)lobby_buffer_pool_base;
+    lbl_805D7BF0 = (saddr)lobby_buffer_pool_base;
+    lbl_805D7BF4 = (saddr)lobby_buffer_pool_base;
+    lobby_buffer_pool_end = (saddr)(lobby_buffer_pool_base + lobby_buffer_pool_size);
     lbl_805D7BFC = lobby_buffer_pool_size;
     if (TLobby__sub_803F96AC(&lobby_buffer_pool_alarm_handle, lobby_buffer_pool_base, (void *)lobby_buffer_pool_size) < 0) {
         return -1;
@@ -703,10 +703,10 @@ void reset_buffer_pool(void) {
     lbl_805D7C24 = 0;
     lobby_buffer_pool_state = 0;
     if (lbl_805D7C04 != NULL) {
-        lbl_805D7C10 = (u32)lbl_805D7C04;
-        lbl_805D7C14 = (u32)lbl_805D7C04;
-        TLobby__buffer_pool_start = (u32)lbl_805D7C04;
-        TLobby__buffer_pool_limit = (s32)(lbl_805D7C04 + lbl_805D7C08);
+        lbl_805D7C10 = (uaddr)lbl_805D7C04;
+        lbl_805D7C14 = (uaddr)lbl_805D7C04;
+        TLobby__buffer_pool_start = (uaddr)lbl_805D7C04;
+        TLobby__buffer_pool_limit = (saddr)(lbl_805D7C04 + lbl_805D7C08);
         lbl_805D7C20 = lbl_805D7C08;
         return;
     }

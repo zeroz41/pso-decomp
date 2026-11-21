@@ -50,18 +50,18 @@ public:
     s32 open_tick;
 };
 
-typedef char WindowSortDepthOffset[offsetof(TWindowBase, sort_depth) == 0x1C ? 1 : -1];
-typedef char WindowClientOffset[offsetof(TWindowBase, client_index) == 0x20 ? 1 : -1];
-typedef char WindowClosingTickOffset[offsetof(TWindowBase, closing_tick) == 0x22 ? 1 : -1];
-typedef char WindowEntriesOffset[offsetof(TWindowBase, entry_list) == 0x24 ? 1 : -1];
-typedef char WindowFlagsOffset[offsetof(TWindowBase, window_flags) == 0x2C ? 1 : -1];
-typedef char WindowBaseSize[sizeof(TWindowBase) == 0x60 ? 1 : -1];
-typedef char WindowTargetPositionOffset[offsetof(TWindowBase, target_position) == 0x30 ? 1 : -1];
-typedef char WindowTargetSizeOffset[offsetof(TWindowBase, target_size) == 0x38 ? 1 : -1];
-typedef char WindowFramePositionOffset[offsetof(TWindowBase, frame_position) == 0x40 ? 1 : -1];
-typedef char WindowFrameSizeOffset[offsetof(TWindowBase, frame_size) == 0x48 ? 1 : -1];
-typedef char WindowTweenOffset[offsetof(TWindowBase, tween_ticks) == 0x50 ? 1 : -1];
-typedef char WindowDrawDepthOffset[offsetof(TWindowBase, draw_depth) == 0x54 ? 1 : -1];
-typedef char WindowOpenTickOffset[offsetof(TWindowBase, open_tick) == 0x5C ? 1 : -1];
+LAYOUT_ASSERT(WindowSortDepthOffset, offsetof(TWindowBase, sort_depth) == 0x1C);
+LAYOUT_ASSERT(WindowClientOffset, offsetof(TWindowBase, client_index) == 0x20);
+LAYOUT_ASSERT(WindowClosingTickOffset, offsetof(TWindowBase, closing_tick) == 0x22);
+LAYOUT_ASSERT(WindowEntriesOffset, offsetof(TWindowBase, entry_list) == 0x24);
+LAYOUT_ASSERT(WindowFlagsOffset, offsetof(TWindowBase, window_flags) == 0x2C);
+LAYOUT_ASSERT(WindowBaseSize, sizeof(TWindowBase) == 0x60);
+LAYOUT_ASSERT(WindowTargetPositionOffset, offsetof(TWindowBase, target_position) == 0x30);
+LAYOUT_ASSERT(WindowTargetSizeOffset, offsetof(TWindowBase, target_size) == 0x38);
+LAYOUT_ASSERT(WindowFramePositionOffset, offsetof(TWindowBase, frame_position) == 0x40);
+LAYOUT_ASSERT(WindowFrameSizeOffset, offsetof(TWindowBase, frame_size) == 0x48);
+LAYOUT_ASSERT(WindowTweenOffset, offsetof(TWindowBase, tween_ticks) == 0x50);
+LAYOUT_ASSERT(WindowDrawDepthOffset, offsetof(TWindowBase, draw_depth) == 0x54);
+LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 
 #endif

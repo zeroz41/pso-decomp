@@ -30,10 +30,10 @@ struct AttackParams {
     void add_atp_min(s32 amount);
 };
 
-typedef char AttackParamsRangeOffset[(offsetof(AttackParams, attack_range) == 0x8) ? 1 : -1];
-typedef char AttackParamsAngleOffset[(offsetof(AttackParams, attack_angle) == 0xC) ? 1 : -1];
-typedef char AttackParamsRadiusOffset[(offsetof(AttackParams, damage_radius) == 0x10) ? 1 : -1];
-typedef char AttackParamsSize[(sizeof(AttackParams) == 0x30) ? 1 : -1];
+LAYOUT_ASSERT(AttackParamsRangeOffset, offsetof(AttackParams, attack_range) == 0x8);
+LAYOUT_ASSERT(AttackParamsAngleOffset, offsetof(AttackParams, attack_angle) == 0xC);
+LAYOUT_ASSERT(AttackParamsRadiusOffset, offsetof(AttackParams, damage_radius) == 0x10);
+LAYOUT_ASSERT(AttackParamsSize, sizeof(AttackParams) == 0x30);
 
 // An actor's parameter block (TObjChara at 0x31C); an equipped item keeps
 // its own bonus in the same layout and adds it to it.

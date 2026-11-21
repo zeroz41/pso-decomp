@@ -23,10 +23,10 @@ const char *TWindowChoiceSetting__name = "TWindowChoiceSetting";
 #pragma fp_contract on
 void TWindowChoiceSetting::sub_80249078() {
     f32 target;
-    u32 steps;
+    uaddr steps;
 
     if (this->m_80 & 1) {
-        steps = reinterpret_cast<u32>(this->get_array_entry(this->get_field_74()));
+        steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_field_74()));
         target = *(f32 *)(steps + 0xC);
     } else {
         target = 0.0f;
@@ -72,9 +72,9 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
 
 int TWindowSubComCard__sub_80249220(void *p, void *_w1);
 
-s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2) {
+s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2) {
     TWindowSubComCard__sub_80249220((void *)arg1, (void *)arg2);
-    return (s32)new TWindowChoiceSetting((void *)arg0, arg2);
+    return (saddr)new TWindowChoiceSetting((void *)arg0, arg2);
 }
 
 int TWindowSubComCard__sub_80249220(void* p, void * _w1) { return fn_80268C5C(p); }
@@ -83,7 +83,7 @@ s32 draw_window_scrollbar(s32, s32, void *);
 }
 
 void TWindowChoiceSetting::render() {
-    s32 context = reinterpret_cast<s32>(get_draw_context());
+    saddr context = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)context);
     draw_visible_window_entries(
         this,
@@ -91,7 +91,7 @@ void TWindowChoiceSetting::render() {
         reinterpret_cast<WindowDrawContext *>(context));
     draw_setting(context);
     if (heading != 0) {
-        ((TWindowSubStatusDisp *)((s32)heading))->forward_render((void *)(context));
+        ((TWindowSubStatusDisp *)((saddr)heading))->forward_render((void *)(context));
     }
     if (*(u32 *)((u8 *)this + 0x7C) != 0U) {
         draw_window_scrollbar(*(u32 *)((u8 *)this + 0x7C), context, (u8 *)this + 0x68);
@@ -100,25 +100,25 @@ void TWindowChoiceSetting::render() {
 
 void TWindowChoiceSetting::run_task() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r3_2;
+    uaddr temp_r3_2;
     u8 *input;
     u8 *temp_r30_2;
     u8 *context;
     if ((((TUnk_804D0658 *)arg0)->is_selected() == 0) && (((TUnk_804D0658 *)arg0)->is_open() == 0)) {
         if (this->m_70 & 0x10) {
             input = (u8 *)&controller_input_state + 0x20;
-            if ((test_buttons_press_or_repeat((s32)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
             }
-            if ((test_buttons_press_or_repeat((s32)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_next_choice();
             }
         } else {
             temp_r30_2 = (u8 *)&controller_input_state + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_next_choice();
             }
         }

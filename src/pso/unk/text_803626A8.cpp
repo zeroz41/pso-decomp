@@ -109,18 +109,18 @@ void TObjEneEpsilonGuard::load_assets() {
         p = load_resource_from_descriptor(p, 1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, 0);
     }
     lbl_805D6FA0 = p;
-    p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 5)));
+    p = (u8 *)new TUnk_8048FA00((saddr)(get_bml_model(lbl_805D6FA0, 5)));
     lbl_805D6FA4 = p;
-    p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 6)));
+    p = (u8 *)new TUnk_8048FA00((saddr)(get_bml_model(lbl_805D6FA0, 6)));
     lbl_805D6FA8 = p;
-    lbl_805D6F80 = (s32)TLobby::register_boss(0x23);
-    lbl_805D6F84 = (s32)TLobby::dispatch_shared_handler_b(0x23);
-    lbl_805D6F88 = (s32)TLobby::register_object(0x23);
-    lbl_805D6F8C = (s32)TLobby::dispatch_shared_handler_a(0x23);
-    epsilon_guard_boss_stat_handle = (s32)TLobby::register_boss(0x24);
-    epsilon_guard_shared_handler_b = (s32)TLobby::dispatch_shared_handler_b(0x24);
-    epsilon_guard_registered_object_handle = (s32)TLobby::register_object(0x24);
-    TObjEneEpsilonGuard__movement_params = (s32)TLobby::dispatch_shared_handler_a(0x24);
+    lbl_805D6F80 = (saddr)TLobby::register_boss(0x23);
+    lbl_805D6F84 = (saddr)TLobby::dispatch_shared_handler_b(0x23);
+    lbl_805D6F88 = (saddr)TLobby::register_object(0x23);
+    lbl_805D6F8C = (saddr)TLobby::dispatch_shared_handler_a(0x23);
+    epsilon_guard_boss_stat_handle = (saddr)TLobby::register_boss(0x24);
+    epsilon_guard_shared_handler_b = (saddr)TLobby::dispatch_shared_handler_b(0x24);
+    epsilon_guard_registered_object_handle = (saddr)TLobby::register_object(0x24);
+    TObjEneEpsilonGuard__movement_params = (saddr)TLobby::dispatch_shared_handler_a(0x24);
     epsilon_guard_part_color_table[0] = get_bml_model(lbl_805D6FA0, 0)->child->leaf->v;
     epsilon_guard_part_color_table[1] = get_bml_model(lbl_805D6FA0, 0)->child->next->child->child->next->child->child->next->next->child->leaf->v;
     epsilon_guard_part_color_table[2] = get_bml_model(lbl_805D6FA0, 0)->child->next->child->child->next->child->child->next->next->next->child->leaf->v;
@@ -148,15 +148,15 @@ void TObjEneEpsilonGuard::free_shared_resources() {
         (*(V_8036274C * *)&lbl_805D6FA8) = NULL;
     }
     if ((*(u32 *)&lbl_805D6FA0) != 0) {
-        free_bin_model_request((void *)(*(u32 *)&lbl_805D6FA0), 1);
+        free_bin_model_request((void *)(*(uaddr *)&lbl_805D6FA0), 1);
         (*(u32 *)&lbl_805D6FA0) = 0;
     }
 }
 
-void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_803626A8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803626A8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803626A8, sp10) == 0x8) ? 1 : -1];
+void TObjEneEpsilonGuard::sub_803626A8(saddr arg1, s32 arg2) {
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803626A8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803626A8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803626A8, sp10) == 0x8);
     Stack_803626A8 stack = { 0, 0, 0 };
     push_matrix_from((void *)&identity_matrix);
     post_translate_matrix((void *) (((u8 *)this) + 0x38));

@@ -27,5 +27,5 @@ struct TObjMapWarpAncient : public TObjMapWarp {
     AnimationMotion *beam_motion;  // motion 1, de_obj1_swarp_beam_n.njm
 };
 
-typedef char TObjMapWarpAncient_size[sizeof(TObjMapWarpAncient) == 0x11C ? 1 : -1];
+LAYOUT_ASSERT(TObjMapWarpAncient_size, sizeof(TObjMapWarpAncient) == 0x11C);
 #endif

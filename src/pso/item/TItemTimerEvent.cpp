@@ -68,7 +68,6 @@ void fn_8011085C(u8 *arg0, s32 arg1);
 TItemLockCountCtrl * item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
 s32 is_item_area_enabled(s32 area);
-s32 set_flag_10000__10TObjPlayerFv();
 
 void TObjPlayer::clear_state_flags(s32 arg1) {
   s32 *new_var;
@@ -95,13 +94,14 @@ void TItemTimerEvent::clear_active() {
 }
 
 void TItemTimerEvent::notify_if_active(int arg0) {
-    if (get_player_by_client_id(arg0) != 0U) {
-        set_flag_10000__10TObjPlayerFv();
+    uaddr player;
+    if ((player = get_player_by_client_id(arg0)) != 0U) {
+        ((TObjPlayer *)player)->set_flag_10000();
     }
 }
 
 void TItemTimerEvent::check_battle_ctrl(int arg0) {
-    u32 player = get_player_by_client_id(arg0);
+    uaddr player = get_player_by_client_id(arg0);
     if (player != 0U) {
         fn_8011E1D4((TObjPlayer *)player);
     }
@@ -230,7 +230,7 @@ void TUnk_804A05C8::vfunc_6() {
 
     if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
                 if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjCollidable *)((void *)this->m_28))->obj_testFlags30(0x800) == 0)) {
-            particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(*(s32 *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
+            particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(*(saddr *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
             if (particle != 0) {
                 particle->set_owner_id(get_entity_id((TObjBase *)this->m_28));
             }

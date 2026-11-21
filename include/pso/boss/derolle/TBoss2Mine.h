@@ -66,6 +66,6 @@ struct TBoss2Mine : public TObjEneDD {
     f32 m_3e8;
     f32 m_3ec;
 };
-typedef char TBoss2Mine_size[sizeof(TBoss2Mine) == 0x3F0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss2Mine_size, sizeof(TBoss2Mine) == 0x3F0);
 
 #endif

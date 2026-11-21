@@ -20,9 +20,9 @@ extern s32 lbl_805D6238;
 
 s32 get_quest_list_text(s32 arg0, s32 arg1) {
     if ((s32 *) (*(s32 * *)&lbl_805D6258) != NULL) {
-        return *(s32 *)((s8 *)(*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(s32 * *)&lbl_805D6258) + 0) + (arg0 * 4)) + 0) + (arg1 * 4)) + 0);
+        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(saddr *)((s8 *)(*(s32 * *)&lbl_805D6258) + 0) + (arg0 * 4)) + 0) + (arg1 * 4)) + 0);
     }
-    return (s32)quest_and_shop_error_text;
+    return (saddr)quest_and_shop_error_text;
 }
 
 s32 get_guild_text(s32 arg0) {
@@ -32,7 +32,7 @@ s32 get_guild_text(s32 arg0) {
     new_var = guild_text_play_mode_table[get_game_play_mode()];
     return *((s32 *) (((s8 *) ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) (*(s32 * *)&lbl_805D6258)) + 0))) + (new_var * 4))) + 0))) + (arg0 * 4))) + 0));
   }
-  return (s32)quest_and_shop_error_text;
+  return (saddr)quest_and_shop_error_text;
 }
 
 s32 get_appraisal_text(s32 arg0) {
@@ -40,20 +40,20 @@ s32 get_appraisal_text(s32 arg0) {
   {
     return *((s32 *) (((s8 *) ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) (*(s32 * *)&lbl_805D6258)) + 0))) + (appraisal_text_group_table[lbl_805D6238] * 4))) + 0))) + (2 * (2 * arg0)))) + 0));
   }
-  return (s32)quest_and_shop_error_text;
+  return (saddr)quest_and_shop_error_text;
 }
 
 s32 get_shop_text(s32 arg0) {
     if ((s32 **) lbl_805D6258 != NULL) {
         return *(s32 *)((s8 *)(**lbl_805D6258) + (arg0 * 4));
     }
-    return (s32)quest_and_shop_error_text;
+    return (saddr)quest_and_shop_error_text;
 }
 
 extern "C" {
 void TLobby::free_singleton() {
-    if ((u32) lbl_805D6258 != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)lbl_805D6258));
+    if ((uaddr) lbl_805D6258 != 0U) {
+        TLobby::free_nodes_with_id((uaddr)((void*)lbl_805D6258));
         lbl_805D6258 = 0U;
     }
 }

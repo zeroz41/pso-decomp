@@ -17,6 +17,7 @@
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 
 
 #pragma push
@@ -55,7 +56,6 @@ struct KbSoft_8025D264 {
 };
 
 extern "C" {
-s32 strncpy(s32 *, u8 *, s32);
 void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
@@ -141,7 +141,6 @@ void fn_8025DE10(void *, void *);
 void draw_textured_quad_at_depth(void *, f32);
 s32 dispatch_request_0x27__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x26__19TWindowKeyBoardSoftFll(void *, s32 *);
-int strcmp(const char *, const char *);
 s32 dispatch_request_0x25__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x23__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x24__19TWindowKeyBoardSoftFll(void *, void *);
@@ -282,7 +281,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(s32 *arg1) {
         TWindowKeyBoardSoft__sub_803E6868(out, tmp);
         return;
     }
-    TWindowKeyBoardSoft::dispatch_request_0x28((s32)out, (s32)((s32 *)tmp));
+    TWindowKeyBoardSoft::dispatch_request_0x28((saddr)out, (saddr)((s32 *)tmp));
     if (strcmp(text, out) != 0) {
         self->sel++;
         self->count++;
@@ -370,7 +369,7 @@ void TWindowKeyBoardBase::insert_string(char *src) {
     q[1] = len;
     q[2] = self->kind;
     q += 3;
-    strncpy((s32 *)q, (u8 *)src, len);
+    strncpy((char *)q, (const char *)src, len);
     self->remain -= n;
     if (self->cursor > self->buf) {
         self->cursor += n;
@@ -400,13 +399,13 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     u8 *p;
     rec = *(Rec_8025D3CC **)(arg0 + 0xA0);
     idx = rec->len;
-    p = (u8 *)(idx + (s32)rec);
+    p = (u8 *)(idx + (saddr)rec);
     n = TWindowKeyBoardSoft::strnlen((s8 *)arg1, 0x100);
     p[3] = idx;
     p[4] = n;
     p[5] = 1;
     p += 6;
-    strncpy((s32 *)p, arg1, n);
+    strncpy((char *)p, (const char *)arg1, n);
     p += n;
     *p++ = 0;
     *(s32 *)(arg0 + 0xB0) = 0x94 - (p - *(u8 **)(arg0 + 0x9C));
@@ -424,7 +423,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     p[1] = n1;
     p[2] = self->kind;
     p += 3;
-    strncpy((s32 *)p, (u8 *)name, n1);
+    strncpy((char *)p, (const char *)name, n1);
     p += n1;
     n1 = (s8)n1;
     n2 = TWindowKeyBoardSoft::strnlen((s8 *)text, 0x100);
@@ -432,7 +431,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     p[1] = n2;
     p[2] = 1;
     p += 3;
-    strncpy((s32 *)p, (u8 *)text, n2);
+    strncpy((char *)p, (const char *)text, n2);
     p += n2;
     *p++ = 0;
     self->remain = 0x94 - (p - self->base);
@@ -460,7 +459,7 @@ void TWindowKeyBoardBase::set_kanji_mode() {
     s8 sp8[0x200];
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
-        dispatch_request_0x26__19TWindowKeyBoardSoftFll(sp8, (s32 *)(sp8 + 0x100));
+        TWindowKeyBoardSoft::dispatch_request_0x26((saddr)sp8, (saddr)(sp8 + 0x100));
         *(s32 *)((s8 *)this + 0xA8) = 0xF0;
         update_input(sp8);
     }
@@ -470,7 +469,7 @@ void TWindowKeyBoardBase::set_kana_mode() {
     s8 sp8[0x200];
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
-        dispatch_request_0x25__19TWindowKeyBoardSoftFll(sp8, (s32 *)(sp8 + 0x100));
+        TWindowKeyBoardSoft::dispatch_request_0x25((saddr)sp8, (saddr)(sp8 + 0x100));
         *(s32 *)((s8 *)this + 0xA8) = 0xF1;
         update_input(sp8);
     }
@@ -503,7 +502,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
             i++;
             if (i > count) {
                 self->buf = rec;
-                TWindowKeyBoardSoft::dispatch_request_0x23((s32)name, (s32)text);
+                TWindowKeyBoardSoft::dispatch_request_0x23((saddr)name, (saddr)text);
                 ((TWindowKeyBoardBase *)self)->sub_8025CF50(self->sel);
                 return;
             }
@@ -592,7 +591,7 @@ void TWindowKeyBoardBase::sub_8025D8C8() {
         TWindowKeyBoardSoft__sub_803E6868(name, text);
         i++;
         if (i > n) {
-            dispatch_request_0x22__19TWindowKeyBoardSoftFll(name, text);
+            TWindowKeyBoardSoft::dispatch_request_0x22((saddr)name, (saddr)text);
             ((TWindowKeyBoardBase *)self)->sub_8025CF50(self->sel);
             ((TWindowKeyBoardBase *)self)->append_text_entry((u8 *)text);
             return;
@@ -664,7 +663,7 @@ void TWindowKeyBoardBase::convert_input_text() {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x10);
         *(s32 *)((s8 *)this + 0xAC) = 1;
         *(s32 *)((s8 *)this + 0xA8) = 1;
-        strncpy((s32 *)sp8, *(u8 **)((s8 *)this + 0x9C), 0x100);
+        strncpy((char *)sp8, (const char *)(*(u8 **)((s8 *)this + 0x9C)), 0x100);
         sp108[0] = 0;
     } else {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFEF);
@@ -952,10 +951,10 @@ void TWindowKeyBoardBase::sub_8025E530(WindowDrawContext *box, f32 *cursor, u16 
 #pragma push
 #pragma opt_common_subs off
 void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8025E6DC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8025E6DC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8025E6DC, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8025E6DC, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8025E6DC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8025E6DC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8025E6DC, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8025E6DC, sp14) == 0xC);
     Stack_8025E6DC stack;
     s32 temp_r3_3;
     s32 temp_r3_4;
@@ -1018,14 +1017,14 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 u8 * get_window_layout_position(s32);
 }
 extern "C" {
-s32 Dolphin_ARAlloc(s32);
+s32 ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 
 void TWindowKeyBoardBase::render() {
-    s32 temp_r31;
+    saddr temp_r31;
 
     if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->m_62 & 2))) {
-        temp_r31 = reinterpret_cast<s32>(draw_default_entry());
+        temp_r31 = reinterpret_cast<saddr>(draw_default_entry());
         if (this->m_62 & 2) {
             draw_window_frame((void *)temp_r31);
         }
@@ -1060,7 +1059,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     *(s32 *)&((TWindowKeyBoardBase *)self)->m_ac = 0;
     if (temp_r31 == 0) {
         m_text2.init(0x24, 0);
-        *(s32 *)&((TWindowKeyBoardBase *)self)->m_9c = (s32)mem_alloc((u32)((void *)0x194));
+        *(s32 *)&((TWindowKeyBoardBase *)self)->m_9c = (saddr)mem_alloc((uaddr)((void *)0x194));
         *(s32 *)&((TWindowKeyBoardBase *)self)->m_b0 = 0x94;
     }
 }
@@ -1075,8 +1074,8 @@ void TLobby::load_ask_dictionary() {
     s32 aram;
     size = TGStream::get_resource_file_size((const char *)lbl_8044F098);
     aligned = (size + 0x1F) & ~0x1F;
-    aram = Dolphin_ARAlloc(aligned);
-    data = (s32)load_disc_file(lbl_8044F098);
+    aram = ARAlloc(aligned);
+    data = (saddr)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
     TAdSinglePlyChrSelectGC::safe_free(data);
     TQuestVmDownLoadServer__sub_803F0C04(aram, size, 3, 1, 0x2710);

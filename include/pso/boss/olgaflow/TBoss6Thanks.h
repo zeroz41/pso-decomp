@@ -22,7 +22,7 @@ struct TBoss6Thanks : public TObject {
     virtual void render();
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 check_ship_door();
-    static int dispatch_darkfalz_phase();
+    static void dispatch_darkfalz_phase();
     void update_particle_emitters();
     void destroy_effects();
     static int is_player_near(void *arg0);
@@ -30,11 +30,11 @@ struct TBoss6Thanks : public TObject {
     void advance_thanks_state();
     void mark_done();
     static void *create();
-    s32 is_ship_door_ready();
+    static s32 is_ship_door_ready();
     static s32 try_dispatch_darkfalz_phase();
     u8 unk_54[0x10];
 };
-typedef char TBoss6Thanks_size[sizeof(TBoss6Thanks) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Thanks_size, sizeof(TBoss6Thanks) == 0x64);
 
 // Story flag 0x9A test next to check_ship_door(); int return for the same reason.
 extern "C" s32 fn_8035CAE0(void);

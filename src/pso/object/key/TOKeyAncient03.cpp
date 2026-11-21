@@ -124,13 +124,13 @@ void TOKeyAncient03::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param((s32)TOKeyAncient03__texture_variants[is_on]);
+        TObjFish::set_global_param((saddr)TOKeyAncient03__texture_variants[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         if (is_on != 1) {
             flags = model_render_flags;
             saved_model_render_flags = flags;
@@ -141,12 +141,12 @@ void TOKeyAncient03::render() {
         push_matrix();
         post_translate_matrix(&scale.x);
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         pop_matrix();
@@ -164,7 +164,7 @@ void *TOKeyAncient03::create(void *set_data) {
 
 void TOKeyAncient03::cleanup_refs() {
     if (TOKeyAncient03__texture_variants != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyAncient03__texture_variants[1]);
+        TObjPlayer::free_if_valid((saddr)TOKeyAncient03__texture_variants[1]);
         if (TOKeyAncient03__texture_variants != NULL) {
             mem_free(TOKeyAncient03__texture_variants);
             TOKeyAncient03__texture_variants = NULL;
@@ -186,7 +186,7 @@ void TOKeyAncient03::load_resources() {
     textures = (GinjaTextureList **)mem_alloc(2 * sizeof(*textures));
     TOKeyAncient03__texture_variants = textures;
     textures[0] = (GinjaTextureList *)TOKeyAncient03__model_archive->models[0].m_c;
-    TOKeyAncient03__texture_variants[1] = (GinjaTextureList *)load_gvm_texture_file((s32) "fs_obj_o_doorpanelg.gvm");
+    TOKeyAncient03__texture_variants[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_doorpanelg.gvm");
 }
 
 TOKeyAncient03::~TOKeyAncient03() {}
@@ -195,7 +195,7 @@ TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyAncient03__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (s32)TOKeyAncient03__texture_variants[0];
+    texlist = (saddr)TOKeyAncient03__texture_variants[0];
     model = (void *)TOKeyAncient03__model_archive->models[0].model;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;

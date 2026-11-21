@@ -46,6 +46,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 
 #pragma readonly_strings on
@@ -60,7 +61,7 @@ extern "C" {
 s32 init_quest_script_context(s32, void *);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_window_layout_position(s32);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr arg1);
 void TQuestThread__sub_801F5D88(void);
 void __dt__16TObjItemOKWindowFv();
 void __dt__18TObjItemNameSelectFv();
@@ -155,16 +156,16 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         ((TWindowSubComCardList *)m_60)->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_60));
     }
-    m_5c = (void *)create_window_menu_default((s32)get_window_layout_position(0x56), 1);
+    m_5c = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
     if (m_5c != NULL) {
-        name = (s32)TObjItemNameSelect::get_selected_name();
+        name = (saddr)TObjItemNameSelect::get_selected_name();
         if (name != 0) {
             sprintf(m_text, TObjItemOKWindow__text_format, TObjItemOKWindow__sub_801F3268(), name);
         } else {
             sprintf(m_text, "%s", TObjItemOKWindow__sub_801F3268());
         }
         m_text[0x3F] = 0;
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_5c, (int)m_text, 0x81, 0);
+        TObjCityMainWarp::forward_trade_action_default(m_5c, (saddr)m_text, 0x81, 0);
     }
     ((TWindowSubComCardList *)m_5c)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_5c));
@@ -215,9 +216,9 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
 
     m_name = TObjItemNameSelect__class_name;
     item_name_selection_table = TLobby::get_instance() == 0 ? item_name_table_a : item_name_table_b;
-    m_1c = (void *)create_window_menu_default((s32)get_window_layout_position(0x58), 0x19);
+    m_1c = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x58), 0x19);
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_1c, get_text_collection(item_name_selection_table[i].text_id), 6, i);
+        TObjCityMainWarp::forward_trade_action_default(m_1c, get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
     ((TWindowSubComCardList *)m_1c)->set_scroll_target(216.0f, 144.0f);
     TWindowSubComCard__sub_80265500((u8 *)m_1c);
@@ -236,10 +237,10 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 }
 
 s32 TObjItemNameEntry::process_keyboard_input() {
-    s32 text;
+    saddr text;
 
     if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_confirmed() != 0) {
-        text = (s32)((TKeyBoardControl *)m_1c)->realloc_buffer();
+        text = (saddr)((TKeyBoardControl *)m_1c)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
             ((TKeyBoardControl *)m_1c)->clear_keyboard_flag60_bit1();
@@ -274,9 +275,9 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         ((TKeyBoardControl *)m_1c)->set_soft_position((u8 *)get_window_layout_position(0xC0));
         ((TKeyBoardControl *)m_1c)->set_hard_position((u8 *)fn_8026CB5C());
     }
-    m_20 = (void *)create_window_menu_default((s32)get_window_layout_position(0x56), 1);
+    m_20 = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
     if (m_20 != NULL) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_20, get_message_text(0x47), 0x81, 0);
+        TObjCityMainWarp::forward_trade_action_default(m_20, get_message_text(0x47), 0x81, 0);
     }
     ((TWindowSubComCardList *)m_20)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_20));
@@ -434,12 +435,12 @@ TQuestThreadBoard::TQuestThreadBoard(TObject *root, s32 label) : TObject(NULL) {
 }
 
 void QuestVmContext::copy(QuestVmContext *src) {
-    s32 tmp;
-    s32 to;
+    saddr tmp;
+    saddr to;
     u8 *from;
-    tmp = (s32)src->code;
+    tmp = (saddr)src->code;
     from = (u8 *)src + 0x30;
-    to = (s32)((u8 *)this + 0x30);
+    to = (saddr)((u8 *)this + 0x30);
     code = (u8 *)tmp;
     function_table = src->function_table;
     registers = src->registers;
@@ -454,10 +455,10 @@ void QuestVmContext::copy(QuestVmContext *src) {
     message_speaker = src->message_speaker;
     tmp = *(s32 *)((s8 *)src + 0x30);
     *(s32 *)((s8 *)this + 0x30) = tmp;
-    *(ByteBlock_20 *)(to + 4) = *(const ByteBlock_20 *)((s32)from + 4);
-    to = (s32)((u8 *)this + 0x50);
+    *(ByteBlock_20 *)(to + 4) = *(const ByteBlock_20 *)((saddr)from + 4);
+    to = (saddr)((u8 *)this + 0x50);
     from = (u8 *)src + 0x50;
-    *(ByteBlock_100 *)(to + 4) = *(const ByteBlock_100 *)((s32)from + 4);
+    *(ByteBlock_100 *)(to + 4) = *(const ByteBlock_100 *)((saddr)from + 4);
     unk154 = src->unk154;
     unk155 = src->unk155;
     unk156 = src->unk156;
@@ -476,7 +477,7 @@ void TQuestThread::destroy_all_in(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         TObject *cur = child;
         child = child->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((s32)TQuestThread__class_name) != 0) {
+        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TQuestThread__class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_all_in(cur);
@@ -769,7 +770,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(pa
         queue_destruction();
     } else {
         alloc_size = size + 0x400;
-        script = (s32)TQuestVmDownLoadServer::alloc(alloc_size);
+        script = (saddr)TQuestVmDownLoadServer::alloc(alloc_size);
         memcpy((void *)script, data, alloc_size);
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
@@ -784,14 +785,14 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
     script = 0;
     switch (this->kind) {
     case 0:
-        copy_name((s32)"QUEST");
+        copy_name("QUEST");
         size = get_resource_file_size((const char *)filename);
         if (size < 0) {
             queue_destruction();
         } else {
-            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
+            script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((const char *)filename, (void *)script);
-            copy_name((s32)"..");
+            copy_name("..");
             quest_mission_manager = this;
             init_quest_script_context(script, &ctx);
             new TQuestThread(this, 0);
@@ -803,7 +804,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
+            script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((const char *)filename, (void *)script);
             quest_area_manager = this;
             init_quest_script_context(script, &ctx);
@@ -817,14 +818,14 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
 
 TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
-    copy_name((s32)"QUEST");
+    copy_name("QUEST");
     size = get_resource_file_size((const char *)filename);
     if (size < 0) {
         queue_destruction();
     } else {
-        script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
+        script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
         read_disc_file((const char *)filename, (void *)script);
-        copy_name((s32)"..");
+        copy_name("..");
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
         kind = 0;
@@ -851,7 +852,7 @@ u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
 
 int TQuestListOnline::get_quest_size() { return quest_bin_decompressed_size; }
 
-int TQuestListOnline::get_quest_data() { return online_quest_bin_data; }
+saddr TQuestListOnline::get_quest_data() { return online_quest_bin_data; }
 
 char *get_offline_quest_filename() { return offline_quest_filename_buffer_a; }
 

@@ -29,7 +29,7 @@ struct TAdGuideTxtGC_802B19E8 {
 
 typedef struct TAdGuideTxtGC_802B1878 {
     u8 pad0[0x1C];
-    s32 txt[2];
+    saddr txt[2];
     u8 pad24[0x2C - 0x24];
     NJS_POINT2 pos[2];
     u32 alpha[2];
@@ -72,7 +72,7 @@ TAdGuideTxtGC_802B19E8 *__ct__13TAdGuideTxtGCFv(TAdGuideTxtGC_802B19E8 *o) {
     u32 i;
     __ct__7TObjectFP7TObject(o);
     o->vt18 = __vt__13TAdGuideTxtGC;
-    o->f0 = (s32)TAdGuideTxtGC__class_name;
+    o->f0 = (saddr)TAdGuideTxtGC__class_name;
     for (i = 0; i < 2; i++) {
         o->a[i] = (void *)"";
         o->b[i] = (void *)"";

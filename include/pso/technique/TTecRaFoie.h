@@ -12,8 +12,8 @@ struct TTecRaFoie : public TUnk_804CC148 {
     virtual void vfunc_6(void *);
     virtual ~TTecRaFoie();
     virtual void run_task();
-    TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level);
-    TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level);
+    TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level);
+    TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level);
     TargetCursorList m_targets;  // the targets the list constructor copies
     s32 m_148;              // 1: bursts where it was cast (the Vec constructor), 0: on its first target
     void calc_area_parameters();
@@ -23,5 +23,5 @@ struct TTecRaFoie : public TUnk_804CC148 {
     void create_ex(void *origin, void *targets, void *level);
 };
 
-typedef char TTecRaFoie_size[sizeof(TTecRaFoie) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecRaFoie_size, sizeof(TTecRaFoie) == 0x14C);
 #endif

@@ -21,18 +21,18 @@ typedef struct Entry_8024F094 {
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
 void measure_message_text_width_default(void *);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 
 extern const char *window_duel_result_class_name;
-s32 get_localized_text_entry(int, int);
+saddr get_localized_text_entry(int, int);
 void *get_player_by_client_id(s32 i);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
-s32 get_shared_text_buffer(s32);
+saddr get_shared_text_buffer(s32);
 s32 *TWindowDuelResult__sub_801C257C(void);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);
 }
-void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
+void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
 extern "C" {
 extern u8 lobby_rule_settings[];
@@ -129,7 +129,7 @@ void TWindowDuelResult::sub_8024EF40() {
     set_default_status(c, get_localized_text_entry(0x10, 5));
     pl = (u8 *)get_player_by_client_id(client_index);
     if (pl != 0) {
-        set_text_entry_string((u8 *)(get_array_entry(1)), (u32)(pl + 0x85C), 0x20);
+        set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)(pl + 0x85C), 0x20);
         vals[0] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x75C));
         vals[1] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x76C));
         vals[2] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x78C));
@@ -191,10 +191,10 @@ void TWindowDuelResult::sub_8024F094() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->rank + 6));
             }
-            set_text_entry_string((u8 *)c, (u32)(p + 0x85C), 0x20);
+            set_text_entry_string((u8 *)c, (uaddr)(p + 0x85C), 0x20);
             text_builder_reset();
             text_builder_append_int(e->value);
-            set_text_entry_string(d, (u32)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
+            set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
             measure_message_text_width_default(d);
             *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);
         }

@@ -25,7 +25,7 @@ struct Buf_803CD16C { u8 data[0x10C]; };
 
 
 struct Slot_803CD16C {
-    s8 used; s8 f1; s8 f2; u8 f3; u32 f4; s32 f8; s32 fc; s32 f10; u8 pad_14[4];
+    s8 used; s8 f1; s8 f2; u8 f3; uaddr f4; s32 f8; s32 fc; s32 f10; u8 pad_14[4];
     s32 f18; s32 f1c; s32 f20; u8 pad_24[8]; s32 f2c; s32 f30; u8 pad_34[0x138 - 0x34];
 };
 
@@ -33,13 +33,13 @@ struct LogHdr_803CD3A8 { u8 pad[0x2]; u16 seq; };
 
 
 struct Snd_803CC980 {
-    u8 f0; s8 state; s8 f2; u8 f3; u32 f4; SjRingBuffer *f8; int fc; u8 pad_10[0x14 - 0x10];
-    int f14; int f18; int f1c; int f20; s32 f24; s32 f28; int f2c; int f30;
+    u8 f0; s8 state; s8 f2; u8 f3; uaddr f4; SjRingBuffer *f8; int fc; u8 pad_10[0x14 - 0x10];
+    int f14; int f18; int f1c; int f20; saddr f24; s32 f28; int f2c; int f30;
 };
 
 struct Ent_803CC884 {
-    s8 used; s8 state; s8 f2; u8 f3; u32 f4; SjRingBuffer *f8; u8 pad_c[0x14 - 0xC];
-    s32 f14; u8 pad_18[0x20 - 0x18]; s32 f20; s32 f24; s32 f28; u8 pad_2c[0x138 - 0x2C];
+    s8 used; s8 state; s8 f2; u8 f3; uaddr f4; SjRingBuffer *f8; u8 pad_c[0x14 - 0xC];
+    s32 f14; u8 pad_18[0x20 - 0x18]; s32 f20; saddr f24; s32 f28; u8 pad_2c[0x138 - 0x2C];
 };
 
 struct Hdr_803CCE9C { u8 used; u8 f1; };
@@ -55,12 +55,10 @@ extern s32 lobby_afs_toc_entry_index;
 s32 lbl_805D75E8;
 u8 * lbl_805D75EC;
 u8 *lbl_805D75F0;
-u32 adxstm_open_fname_range__6TLobbyFPviiii(Buf_803CD16C *, s32, s32, s32, s32);
 extern u16 lbl_8057B7B0[16];
 extern LogEnt_803CD16C lbl_8057B7D0[];
 extern Slot_803CD16C adxf_file_handle_pool[];
 extern s32 adxf_log_write_index;
-Slot_803CD16C *adxf_open_afs__6TLobbyFii(s32 arg0, s32 arg1);
 u32 TLobby__sub_803C8CDC(u32, s32, s32);
 Slot_803CD16C *adxf_open__6TLobbyFUii(u32 arg0, s32 arg1);
 extern s32 lbl_805D75E4;
@@ -200,7 +198,7 @@ s32 adxf_tell(Snd_803CC980 *adxf) {
 
 inline s32 stop_803CC980(Snd_803CC980 *adxf) {
     s32 sp8;
-    hist_803CC294(5, 0, (s32)adxf, -1, -1);
+    hist_803CC294(5, 0, (saddr)adxf, -1, -1);
     if (adxf == NULL) {
         TLobby::notify_error("E9040822:'adxf' is NULL.(ADXF_Stop)");
         return -3;
@@ -229,14 +227,14 @@ inline s32 stop_803CC980(Snd_803CC980 *adxf) {
     }
     adxf->state = 1;
     TLobby::release_ref();
-    hist_803CC294(5, 1, (s32)adxf, -1, -1);
+    hist_803CC294(5, 1, (saddr)adxf, -1, -1);
     return adxf->f14;
 }
 
 // ADXF_Seek (named by its messages)
 s32 TLobby::adxf_seek(void *handle, int pos, int type) {
     Snd_803CC980 *adxf = (Snd_803CC980 *)handle;
-    hist_803CC294(6, 0, (s32)adxf, pos, type);
+    hist_803CC294(6, 0, (saddr)adxf, pos, type);
     if (adxf == NULL) {
         TLobby::notify_error("E9040825:'adxf' is NULL.(ADXF_Seek)");
         return -3;
@@ -259,7 +257,7 @@ s32 TLobby::adxf_seek(void *handle, int pos, int type) {
     } else if (adxf->f14 > adxf->fc) {
         adxf->f14 = adxf->fc;
     }
-    hist_803CC294(6, 1, (s32)adxf, pos, type);
+    hist_803CC294(6, 1, (saddr)adxf, pos, type);
     return adxf->f14;
 }
 
@@ -293,7 +291,7 @@ s32 TLobby::adxf_stop() {
     return stop_803CC980((Snd_803CC980 *)this);
 }
 
-s32 TLobby::read_checked_align(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby::read_checked_align(saddr arg0, s32 arg1, saddr arg2) {
     if (arg2 & 0x1F) {
         TLobby::notify_error("E0120401:'buf' isn't 32byte alignment.(ADXF_ReadNw)");
         return -3;
@@ -306,7 +304,7 @@ s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
     Snd_803CC980 *adxf = (Snd_803CC980 *)handle;
     SjRingBuffer *sj;
     s32 rqsct;
-    hist_803CC294(4, 0, (s32)adxf, nsct, (s32)buf);
+    hist_803CC294(4, 0, (saddr)adxf, nsct, (saddr)buf);
     if (adxf == NULL) {
         TLobby::notify_error("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
         return -3;
@@ -330,7 +328,7 @@ s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
     if (sj == NULL) {
         return -2;
     }
-    adxf->f24 = (s32)buf;
+    adxf->f24 = (saddr)buf;
     adxf->f28 = nsct << 11;
     TLobby::init_once();
     if (lbl_805D75E4 == 1) {
@@ -363,7 +361,7 @@ s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
     }
     adxf->f2 = 0;
     TLobby::release_ref();
-    hist_803CC294(4, 1, (s32)adxf, nsct, (s32)buf);
+    hist_803CC294(4, 1, (saddr)adxf, nsct, (saddr)buf);
     return rqsct;
 }
 
@@ -450,7 +448,7 @@ inline s32 open_803CD16C(Slot_803CD16C *s, s32 arg0, s32 arg1) {
         return -3;
     }
     s->f30 = b;
-    h = adxstm_open_fname_range__6TLobbyFPviiii(&buf, a, b, c, 0);
+    h = (uaddr)TLobby::adxstm_open_fname_range(&buf, a, b, c, 0);
     s->f4 = h;
     if (h == 0) {
         TLobby::notify_error("E0110902:can't open file.(ADXF_OpenAfs)");
@@ -483,7 +481,7 @@ void TLobby::close_adxf_handle() {
         e->type = 3;
         e->phase = 0;
         e->seq = seq;
-        e->a = (s32)this;
+        e->a = (saddr)this;
         e->b = -1;
         e->c = -1;
         adxf_log_write_index = i + 1;
@@ -504,7 +502,7 @@ void TLobby::close_adxf_handle() {
             e->type = 3;
             e->phase = 1;
             e->seq = ((LogHdr_803CCE9C *)&lbl_8057B7B0)->seq;
-            e->a = (s32)this;
+            e->a = (saddr)this;
             e->b = -1;
             e->c = -1;
             adxf_log_write_index = i + 1;
@@ -554,7 +552,7 @@ Slot_803CD16C *adxf_open_afs__6TLobbyFii(s32 arg0, s32 arg1) {
 }
 
 inline s32 open_803CD3A8(Slot_803CD16C *s, u32 name, s32 mode) {
-    u32 h;
+    uaddr h;
     s32 sz;
     if (name == 0) {
         TLobby::notify_error("E9081901:illigal parameter fname=null.(ADXF_Open)");
@@ -719,7 +717,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
         TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
         return -1;
     }
-    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii((u32)name, arg2);
+    lobby_adxf_open_file_handle = (Slot_803CD16C *)TLobby::adxf_open((uaddr)name, arg2);
     if (lobby_adxf_open_file_handle == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
         return -1;
@@ -732,7 +730,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
     strncpy(e->name, name, 0x100);
     e->f110 = arg2;
     e->fe = 0;
-    buf = (u8 *)((s32)(adxf_open_file_buffer + 0x20) & ~0x1F);
+    buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;
     lbl_805D75EC = buf;
     r = TLobby::adxf_read_nw32(lobby_adxf_open_file_handle, 1, buf);
@@ -763,7 +761,7 @@ s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinf
         TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPtNwEx)");
         return -1;
     }
-    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii((u32)fname, dir);
+    lobby_adxf_open_file_handle = (Slot_803CD16C *)TLobby::adxf_open((uaddr)fname, dir);
     if (lobby_adxf_open_file_handle == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPtNwEx)");
         return -1;
@@ -775,7 +773,7 @@ s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *pti
     if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
         return -3;
     }
-    if (adxf_open__6TLobbyFUii((u32)fname, dir) == NULL) {
+    if ((Slot_803CD16C *)TLobby::adxf_open((uaddr)fname, dir) == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPartition)");
         return -1;
     }

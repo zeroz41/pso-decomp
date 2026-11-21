@@ -9,7 +9,7 @@ struct TORockCaveBL03 : public TORockCaveBrakable {
     virtual ~TORockCaveBL03();
 };
 
-typedef char TORockCaveBL03_size[sizeof(TORockCaveBL03) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TORockCaveBL03_size, sizeof(TORockCaveBL03) == 0xBC);
 
 // The object factory entry (ObjectFactoryTables.cpp).
 extern "C" void *TORockCaveBL03__create(void *set_data);

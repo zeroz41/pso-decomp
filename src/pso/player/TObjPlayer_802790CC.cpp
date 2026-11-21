@@ -9,7 +9,7 @@ extern "C" {
 s32 init_status_entry__20TWindowSubStatusDispFPvcUii(void *, u8, s32, s32);
 
 
-void TObjPlayer::add_status_line(u8 arg1, u32 arg2, s32 arg3) {
+void TObjPlayer::add_status_line(u8 arg1, uaddr arg2, s32 arg3) {
     void *temp_r31;
 
     temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));
@@ -30,7 +30,7 @@ void TObjPlayer::add_status_line(u8 arg1, u32 arg2, s32 arg3) {
 #pragma cplusplus off
 void add_status_line__10TObjPlayerFUcUll(void* self, s32 a, void* b, void* c);
 void* get_player_by_client_id(s32 index);
-s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
+void *get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 void copy_to_item_data__5TItemFP9TItemData(void* p, void* out);
 s32 get_class_weapon_icon_index__FPvPUc(void* a, u8* self);
 #pragma pop
@@ -41,7 +41,7 @@ s32 get_class_weapon_icon_index__FPvPUc(void* a, u8* self);
 void build_equipment_list__15TWindowSubEquipFv(void* self) {
     u8 buf[0x18];
     void* q;
-    s32 i;
+    saddr i;
     s32 n;
     s32 a;
     u8* p;

@@ -27,7 +27,7 @@ const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
 
 extern "C" {
 
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 
 f32 lbl_805D6DC0;
 f32 lbl_805D6DC4;
@@ -198,7 +198,6 @@ void TWindowDD::set_scale(s32 arg1, s32 arg2) {
 extern "C" {
 
 void *dt__22TWindowDD_WS_ScrollBarFs(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 extern "C" void init__9TWindowDDFv();
 extern "C" void render_shadows__7TObjectFv();
@@ -223,7 +222,7 @@ void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804EFBE4;
         __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;

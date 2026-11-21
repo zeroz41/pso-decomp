@@ -22,6 +22,6 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowSubSymbolChatHelp_size[sizeof(TWindowSubSymbolChatHelp) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubSymbolChatHelp_size, sizeof(TWindowSubSymbolChatHelp) == 0x74);
 
 #endif

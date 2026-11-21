@@ -107,7 +107,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     ShortcutPreviewEntry *preview = (ShortcutPreviewEntry *)get_array_entry(10);
 
     kind = shortcut[0];
-    set_text_entry_string(shortcut_label, (u32)TWindowSubStatusDisp::get_message_10(0xC4), 0);
+    set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
     fn_80266BD0(index, &icon, &icon_detail, client_index);
     if (icon != 0x33) {
         SpriteOrigin *origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon);
@@ -119,30 +119,30 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
     SpriteOrigin *detail_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon_detail);
     set_sprite_uv_from_pixels(detail_icon, detail_origin->u, detail_origin->v);
-    set_text_entry_string(kind_label, (u32)TWindowSubStatusDisp::get_message_10(0xC5), 0);
-    set_text_entry_string(kind_name, (u32)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
+    set_text_entry_string(kind_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC5), 0);
+    set_text_entry_string(kind_name, (uaddr)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
     s32 kind_sprite = shortcut_kind_sprites[kind - 1];
     SpriteOrigin *kind_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(kind_sprite);
     set_sprite_uv_from_pixels(kind_icon, kind_origin->u, kind_origin->v);
 
     position.x = 211.0f;
     position.y = 380.0f;
-    set_text_entry_string(preview_label, (u32)TWindowSubStatusDisp::get_message_10(0x35), 0);
+    set_text_entry_string(preview_label, (uaddr)TWindowSubStatusDisp::get_message_10(0x35), 0);
 
     switch (kind) {
     case 0:
         break;
     case 1: {
         char *text = fn_80076BC4(shortcut + 1);
-        set_text_entry_string((u8 *)preview, (u32)text, 0);
+        set_text_entry_string((u8 *)preview, (uaddr)text, 0);
         measure_message_text_width(preview, 200.0f);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
         size.y = 3.0f + (20.0f + preview->height);
         position.x = TWindowSubStatusDisp::round_away_from_zero(position.x - 0.5f * size.x);
         position.y = TWindowSubStatusDisp::round_away_from_zero(position.y - 0.5f * size.y);
-        preview_window = (TWindowBase *)create_quest_message_window_at((s32)&position, (s32)&size);
-        dispatch_message_window_text(preview_window, (s32)text, 0x402);
+        preview_window = (TWindowBase *)create_quest_message_window_at((saddr)&position, (saddr)&size);
+        dispatch_message_window_text(preview_window, (saddr)text, 0x402);
         preview_window->set_depth(50060.0f);
         break;
     }
@@ -150,21 +150,21 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         s32 *buffer = get_shared_text_buffer();
         u16 player = (u16)local_client_id;
         TWindowDD::format_message(shortcut + 1, buffer, player);
-        set_text_entry_string((u8 *)preview, (u32)get_shared_text_buffer(), 0);
+        set_text_entry_string((u8 *)preview, (uaddr)get_shared_text_buffer(), 0);
         measure_message_text_width_default(preview);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
         size.y = 3.0f + (20.0f + preview->height);
         position.x = TWindowSubStatusDisp::round_away_from_zero(position.x - 0.5f * size.x);
         position.y = TWindowSubStatusDisp::round_away_from_zero(position.y - 0.5f * size.y);
-        preview_window = (TWindowBase *)create_quest_message_window_at((s32)&position, (s32)&size);
-        dispatch_message_window_text(preview_window, (s32)get_shared_text_buffer(), 2);
+        preview_window = (TWindowBase *)create_quest_message_window_at((saddr)&position, (saddr)&size);
+        dispatch_message_window_text(preview_window, (saddr)get_shared_text_buffer(), 2);
         preview_window->set_depth(50060.0f);
         break;
     }
     case 3: {
         u8 *preset = TWindowChat::open_symbol_chat(shortcut + 1);
-        set_text_entry_string((u8 *)preview, (u32)((TWindowSubSymbolChat *)preset)->get_symbol_chat_data(), 0);
+        set_text_entry_string((u8 *)preview, (uaddr)((TWindowSubSymbolChat *)preset)->get_symbol_chat_data(), 0);
         f32 height;
         f32 width;
         width = 203.0f;
@@ -173,9 +173,9 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.x -= 0.5f * width;
         size.y = height;
         position.y -= 0.5f * height;
-        TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol((s32)&position, (s32)&size);
+        TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol((saddr)&position, (saddr)&size);
         symbol_preview = symbol;
-        ((TWindowSubSymbolChatPartsSet *)symbol_preview)->set_selection((u32)preset);
+        ((TWindowSubSymbolChatPartsSet *)symbol_preview)->set_selection((uaddr)preset);
         symbol_preview->set_depth(50060.0f);
         break;
     }
@@ -185,14 +185,14 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
 
 void render__15TWindowShortCutFv(u8 *arg0) {
-    s32 temp_r3;
-    temp_r3 = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    saddr temp_r3;
+    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
         reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));
+    ((TWindowSubStatusDisp *)((void *)((saddr) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));
 }
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
@@ -208,12 +208,12 @@ TWindowShortCut::~TWindowShortCut() {
     }
     TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
 }
-TWindowShortCut::TWindowShortCut(s32 arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
-    s32 var_r31;
+TWindowShortCut::TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
+    saddr var_r31;
     m_name = TWindowShortCut__name;
-    var_r31 = (int)::operator new(0x24);
+    var_r31 = (saddr)::operator new(0x24);
     if (var_r31 != 0) {
-        var_r31 = (s32)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
+        var_r31 = (saddr)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
     }
     this->heading = var_r31;
     this->preview_window = NULL;

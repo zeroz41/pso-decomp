@@ -28,7 +28,7 @@ public:
     static s32 spawn_concentrate(void *arg0);
     static void collect_hit_targets(void *arg0);
 };
-typedef char TPhotonGolla_size[sizeof(TPhotonGolla) == 0x1CC ? 1 : -1];
+LAYOUT_ASSERT(TPhotonGolla_size, sizeof(TPhotonGolla) == 0x1CC);
 
 extern "C" {
 void *destroy__12TPhotonGollaFPvs(void *arg0, s16 arg1);

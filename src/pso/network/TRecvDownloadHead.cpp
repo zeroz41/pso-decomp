@@ -6,7 +6,7 @@
 extern "C" {
 
 
-void bswap__17TRecvDownloadHeadFv(s32 arg0) {
+void bswap__17TRecvDownloadHeadFv(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     bswap_32((u32 *)(arg0 + 0x38));
 }

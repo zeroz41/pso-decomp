@@ -20,9 +20,9 @@ struct TWindowHelpItem : public TWindowBase
     u8 m_60;
     u8 _pad61[0x3];
     PageIndicator *m_64;
-    u32 m_68;
+    uaddr m_68;
     u32 m_6c;
-    u32 m_70;
+    uaddr m_70;
     u8 _pad74[0x28];
     u32 m_9c;
     u32 m_a0;
@@ -34,7 +34,7 @@ struct TWindowHelpItem : public TWindowBase
     static void *operator new(unsigned long size) { return TObject::operator new(size); }
     TWindowHelpItem(void *position, u16 index);
     void set_flag0_bit2();
-    static void set_help_text(s32 arg0, s32 arg1);
+    static void set_help_text(saddr arg0, saddr arg1);
     static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
@@ -42,7 +42,7 @@ struct TWindowHelpItem : public TWindowBase
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
-    void set_displayed_item_colored(u32 arg1);
+    void set_displayed_item_colored(uaddr arg1);
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();
@@ -53,12 +53,12 @@ struct TWindowHelpItem : public TWindowBase
     void set_flag8_and_field20(s32 arg1);
     void set_compare_color(s32 arg1);
     void set_flag4_and_field1c(s32 arg1);
-    void set_help_text(u32 arg1);
+    void set_help_text(uaddr arg1);
     void reset_float_field();
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();
 };
 
-typedef char TWindowHelpItem_size_check[sizeof(TWindowHelpItem) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);
 #endif

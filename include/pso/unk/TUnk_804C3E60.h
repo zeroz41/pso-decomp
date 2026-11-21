@@ -11,7 +11,7 @@ public:
     s32 countdown;
     s32 gain_offset;
 };
-typedef char TUnk_804C3E60_size[sizeof(TUnk_804C3E60) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C3E60_size, sizeof(TUnk_804C3E60) == 0x24);
 
 extern "C" TUnk_804C3E60 *battle_music_gain_task;
 

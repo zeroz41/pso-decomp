@@ -10,6 +10,6 @@ typedef struct MD5Context {
     u8 buffer[64];              /* 0x18: the input block being filled */
 } MD5Context;
 
-typedef char MD5Context_size_check[sizeof(MD5Context) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(MD5Context_size_check, sizeof(MD5Context) == 0x58);
 
 #endif

@@ -10,7 +10,7 @@ void render__17TWindowChatSymbolFv(u8 *arg0);
 }
 int set_symbol_chat_face_sprite(void *arg0, u8 b);
 extern "C" {
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1);
+void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
 }
 
 // --- C functions defined in TWindowSubSymbolChatPartsSet_80247EFC.cpp ---

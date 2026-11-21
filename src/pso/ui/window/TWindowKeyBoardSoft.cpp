@@ -37,7 +37,7 @@ struct RecoveredFields_8026088C_arg0 {
     u8 unknown_0[0x60];
     s32 field_60;
     u8 unknown_64[0x8];
-    u32 field_6C;
+    uaddr field_6C;
 };
 
 extern "C" {
@@ -227,10 +227,10 @@ void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
 }
 #pragma pop
 
-typedef char RecoveredFields_8026088C_arg0_60_offset[offsetof(RecoveredFields_8026088C_arg0, field_60) == 0x60 ? 1 : -1];
-typedef char RecoveredFields_8026088C_arg0_6C_offset[offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_60_offset, offsetof(RecoveredFields_8026088C_arg0, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_6C_offset, offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C);
 void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + (arg1 * 0x50) + 0x20)), 0x400) != 0) {
         temp_r3 = ((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C;
         if (temp_r3 != 0U) {
@@ -331,7 +331,7 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
     s8 dy = 0;
     s32 input;
     if (kb->flags & 2) {
-        input = (s32)((u8 *)&controller_input_state + port * 0x50 + 0x20);
+        input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
         if (test_buttons_press_or_repeat(input, 0xF0, 6, 2) == 0) {
             return;
         }
@@ -348,7 +348,7 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
             dx++;
         }
     } else {
-        input = (s32)((u8 *)&controller_input_state + port * 0x50 + 0x20);
+        input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0xF0, 6, 2) == 0) {
             return;
         }
@@ -879,8 +879,8 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 #pragma pop
 
 void TWindowKeyBoardSoft::render() {
-    s32 ctx;
-    ctx = reinterpret_cast<s32>(draw_default_entry());
+    saddr ctx;
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
     sub_8026227C((WindowDrawContext *)ctx);
     sub_80261DD8((WindowDrawContext *)ctx);
     sub_802616BC((WindowDrawContext *)ctx);
@@ -914,7 +914,7 @@ void TWindowKeyBoardSoft::run_task() {
 #pragma pop
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 }
 
 TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}

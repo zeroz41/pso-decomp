@@ -14,7 +14,7 @@ extern void *boss8_dragon_leader_part;
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 extern "C" {
-s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(s32 arg0, u32 arg1, s32 arg2, s32 arg3, u8 *arg4) {
+s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(saddr arg0, uaddr arg1, s32 arg2, s32 arg3, u8 *arg4) {
     if ((arg3 < 0) || (arg3 > 5)) {
         return 0;
     }

@@ -96,7 +96,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void copy_position_vector();
 };
 
-typedef char TObjEneMe3Shinowa_m_3e8[offsetof(TObjEneMe3Shinowa, m_3e8) == 0x3E8 ? 1 : -1];
-typedef char TObjEneMe3Shinowa_size[sizeof(TObjEneMe3Shinowa) == 0x42C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, m_3e8) == 0x3E8);
+LAYOUT_ASSERT(TObjEneMe3Shinowa_size, sizeof(TObjEneMe3Shinowa) == 0x42C);
 
 #endif

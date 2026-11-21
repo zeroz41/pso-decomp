@@ -90,12 +90,12 @@ void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *temp_r3;
     temp_r31 = (u8 *)&quest_board_handlers + ((s8) this->m_61 * 0x24);
     temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(1));
-    set_text_entry_string((u8 *)temp_r3, (u32)temp_r31, 0);
+    set_text_entry_string((u8 *)temp_r3, (uaddr)temp_r31, 0);
     measure_message_text_width(temp_r3, 100000.0f);
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
 }
 
-extern s32 quest_mission_manager;
+extern saddr quest_mission_manager;
 
 s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1) {
     if (arg1 < 0) {
@@ -225,16 +225,16 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
     void *p;
     s8 d;
     if (this->is_shortcut_active() == 0 &&
-        (test_buttons_press_or_repeat((s32)(p = TBL_8027D6A0[0].f20), 0xC0, 6, 1) != 0 ||
-        test_buttons_press_or_repeat((s32)TBL_8027D6A0[4].f20, 0xC0, 6, 1) != 0)) {
+        (test_buttons_press_or_repeat((saddr)(p = TBL_8027D6A0[0].f20), 0xC0, 6, 1) != 0 ||
+        test_buttons_press_or_repeat((saddr)TBL_8027D6A0[4].f20, 0xC0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
         d = 0;
-        if (test_buttons_press_or_repeat((s32)p, 0x80, 6, 1) != 0 ||
-            test_buttons_press_or_repeat((s32)TBL_8027D6A0[4].f20, 0x80, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat((saddr)p, 0x80, 6, 1) != 0 ||
+            test_buttons_press_or_repeat((saddr)TBL_8027D6A0[4].f20, 0x80, 6, 1) != 0) {
             d = 1;
         }
-        if (test_buttons_press_or_repeat((s32)p, 0x40, 6, 1) != 0 ||
-            test_buttons_press_or_repeat((s32)TBL_8027D6A0[4].f20, 0x40, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat((saddr)p, 0x40, 6, 1) != 0 ||
+            test_buttons_press_or_repeat((saddr)TBL_8027D6A0[4].f20, 0x40, 6, 1) != 0) {
             d--;
         }
         if (d != 0) {
@@ -253,8 +253,8 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
 }
 
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
-    s32 ctx;
-    ctx = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    saddr ctx;
+    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
     ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64))))->forward_render((void *)(ctx));
     TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)ctx);
@@ -278,14 +278,14 @@ void TWindowSubQuestBoardSelect::run_task() {
     ((TWindowDD *)arg0)->initialize_subwindow();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         *(s32 *)&this->open_tick = 0x186A0;
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_64))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_64))->update_subwindow();
     }
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x64)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x64)), (s16)1);
 }
 
 u8 * get_window_layout_position(s32);
@@ -295,17 +295,17 @@ s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma fp_contract on
 TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 temp_f2;
-    s32 temp_r30;
-    s32 var_r30;
+    saddr temp_r30;
+    saddr var_r30;
     m_name = TWindowSubQuestBoardSelect__class_name;
-    var_r30 = (int)::operator new(0x24);
+    var_r30 = (saddr)::operator new(0x24);
     if (var_r30 != 0) {
-        var_r30 = (s32)((TWindowSubStatusDisp *)(TWindowSubStatusDisp *)var_r30)->construct_type1_heading((s32)((s32)TWindowSubStatusDisp::get_message_10(0x2B)), (s32)((s32) this->client_index));
+        var_r30 = (saddr)((TWindowSubStatusDisp *)var_r30)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     }
     *(s32 *)&this->m_64 = var_r30;
     *(s8 *)&this->m_60 = 0;
-    temp_r30 = reinterpret_cast<s32>(((TWindowBase *)this)->get_array_entry(0));
-    set_text_entry_string((u8 *)temp_r30, (u32)(TQuestThread::get_quest_name()), 0);
+    temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
+    set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();
     *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;

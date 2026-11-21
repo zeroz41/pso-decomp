@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *find_active_entity_by_id(void);
+void *find_active_entity_by_id(u16 id);
 }
 
 // --- C functions defined in TNpcPlayer_800D87A8.cpp ---
 extern "C" {
-void *find_active_entity_by_id(void);
+void *find_active_entity_by_id(u16 id);
 }
 // --- end of C functions
 

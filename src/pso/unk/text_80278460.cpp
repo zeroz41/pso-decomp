@@ -14,13 +14,13 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
     s16 i;
     u8 *item;
     u16 *e;
-    u32 t;
+    uaddr t;
     item = (u8 *)get_player_by_client_id(window->client_index);
     if (item != NULL) {
         for (i = 0; i < window->entry_capacity; i++) {
             e = static_cast<u16 *>(window->get_array_entry(i));
             if (e != NULL && ((TWindowSubStatusDisp *)e)->is_flag_4_set() != 0 && ((TWindowSubStatusDisp *)e)->is_flag80_set() == 0) {
-                if ((t = (u32)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
+                if ((t = (uaddr)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
                     *e |= 0x80;
                 }
             }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/render/ChunkVertexJob.h"
 #include "pso/render/ChunkPolygonList.h"
 #ifndef __MWERKS__
@@ -78,11 +79,11 @@ extern s32 model_render_flags,ginja_draw_flags;
 extern u32 chunk_blend_header_bits;
 extern u32 chunk_strip_dirty_flags;
 void GXSetAlphaCompare(int comp0, int ref0, int op, int comp1, int ref1);
-extern s32 chunk_vertex_cache_buffer;
+extern saddr chunk_vertex_cache_buffer;
 extern s32 lbl_805D77FC;
 extern s32 chunk_render_flags;
 void transform_chunk_object_tree(void *, void (*)(void *));
-extern s32 current_matrix;
+extern saddr current_matrix;
 s32 __cvt_fp2unsigned(f32);
 void rotate_matrix_by_node_angles(void *, int);
 void push_matrix(void);
@@ -92,7 +93,7 @@ extern u8 chunk_object_current_matrix[];
 void transform_point_by_current_matrix(u8 *, u8 *);
 void rotate_vector_by_current_matrix(u8 *, u8 *);
 void GXBegin(int, int, u16);
-void Dolphin_GXSetVtxDesc(int, int);
+void GXSetVtxDesc(int, int);
 void GXClearVtxDesc(void);
 void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
@@ -109,7 +110,6 @@ struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
 struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
-void* memmove(void*, const void*, unsigned long);
 }
 char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
 extern u32 lbl_805D77E4;
@@ -213,9 +213,9 @@ struct VtxOut_803E3390 {
     f32 nx, ny, nz;
     f32 pad[2];
 };
-typedef char ReorderedMatrix_803E3390_size[sizeof(ReorderedMatrix_803E3390) == 0x30 ? 1 : -1];
-typedef char VtxIn_803E3390_size[sizeof(VtxIn_803E3390) == 0x18 ? 1 : -1];
-typedef char VtxOut_803E3390_size[sizeof(VtxOut_803E3390) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(ReorderedMatrix_803E3390_size, sizeof(ReorderedMatrix_803E3390) == 0x30);
+LAYOUT_ASSERT(VtxIn_803E3390_size, sizeof(VtxIn_803E3390) == 0x18);
+LAYOUT_ASSERT(VtxOut_803E3390_size, sizeof(VtxOut_803E3390) == 0x20);
 
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.
 #ifdef __MWERKS__
@@ -240,7 +240,7 @@ struct WeightedChunkVertex {
     u16 index;
 };
 
-typedef char WeightedChunkVertex_size[sizeof(WeightedChunkVertex) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
 
 void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
     const WeightedChunkVertex *src = (const WeightedChunkVertex *)job->src;
@@ -424,9 +424,9 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
     TObjPlayer::clear_move_state_bits();
     GXSetVtxAttrFmt(0, 0xD, 1, 3, large ? 0xC : 8);
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(0xD, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -457,8 +457,8 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -474,7 +474,7 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
     } while (--count != 0);
 }
 }
-s32 dispatch_chunk_vertex_list(u32*, s32);
+s32 dispatch_chunk_vertex_list(u32*, saddr);
 #pragma pop
 
 #pragma push
@@ -560,11 +560,11 @@ void TObjPlayer::setup_tev_passclr() {
 #pragma peephole off
 void setup_chunk_tev_stages(void) {
     if ((u32) (model_render_flags & 0x80000) != 0) {
-        GXSetNumTevStages((int)((void *) ((u8)(lbl_805D77D8 + 1))));
-        GXSetNumTexGens((u8)((void *) ((u8)(lbl_805D77D9 + 1))));
+        GXSetNumTevStages((saddr)((u8)(lbl_805D77D8 + 1)));
+        GXSetNumTexGens((u8)((u8)(lbl_805D77D9 + 1)));
     } else {
-        GXSetNumTevStages((int)((void *) (1U)));
-        GXSetNumTexGens((u8)((void *) (1U)));
+        GXSetNumTevStages((saddr)(1U));
+        GXSetNumTexGens((u8)(1U));
     }
     GXSetTevOp(0, 0);
     GXSetTevOrder(0, 0, 0, 4);
@@ -711,7 +711,7 @@ extern u32 chunk_polygon_flags_or_mask;
 #pragma push
 #pragma bool off
 #pragma opt_propagation off
-void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
+void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
     struct CommandState {
         s16 wire;
         int header;
@@ -772,11 +772,11 @@ void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
                     set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    TObjPlayer::draw_strip_pos_normal(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else {
                     set_chunk_blend_depth_mode(state.header, 0);
                     TObjPlayer::setup_tev_passclr();
-                    draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    TObjPlayer::draw_strip_list_pos_nrm(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 }
                 break;
             case NJD_CS_UVN:
@@ -785,7 +785,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
                 if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    TObjPlayer::draw_triangle_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
@@ -808,7 +808,7 @@ void push_reordered_matrix_ps(void);
 void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, s32 matrix);
 }
 
-s32 dispatch_chunk_vertex_list(u32 *list, s32 buffer) {
+s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
     u32 info;
     u32 length;
     s32 total;
@@ -888,7 +888,7 @@ void TObjPlayer::end_chunk_draw() {
 
 s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
-    s32 cache;
+    saddr cache;
     s32 count = 0;
     if ((u32)chunk_render_flags & 4) return 0;
     chunk_has_vertex_colors = 0;
@@ -950,8 +950,8 @@ void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, 
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -996,8 +996,8 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u
     }
     TObjPlayer::clear_move_state_bits();
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -1052,4 +1052,4 @@ u32 chunk_blend_header_bits;
 u32 lbl_805D77F4;
 s32 chunk_render_flags;
 s32 lbl_805D77FC;
-s32 chunk_vertex_cache_buffer;
+saddr chunk_vertex_cache_buffer;

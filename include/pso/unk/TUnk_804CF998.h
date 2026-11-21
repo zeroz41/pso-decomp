@@ -19,7 +19,7 @@ public:
     virtual void render(WindowDrawContext *context);
 };
 
-typedef char TUnk_804CF998_size[sizeof(TUnk_804CF998) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF998_size, sizeof(TUnk_804CF998) == 0x18);
 
 extern "C" {
 // The constructors and destructor, called by the parts that are still written by hand.

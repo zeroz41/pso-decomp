@@ -7,12 +7,12 @@ TItemLockCountCtrl::~TItemLockCountCtrl() {
 }
 
 #include "types.h"
+#include <string.h>
 
 #pragma readonly_strings on
 
 extern "C" {
 
-s32 memset(s32, s32, s32);
 
 const char *lbl_805D2BF8 = "TItemLockCountCtrl";
 
@@ -23,10 +23,10 @@ TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 arg2, TItemLockCount
     temp_r31 = arg2 * 4;
     ((TItemLockCountCtrl *)arg0)->m_name = lbl_805D2BF8;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32)mem_alloc(temp_r31);
+    *(s32 *)((s8 *)arg0 + 0x20) = (saddr)mem_alloc(temp_r31);
     *(TItemLockCountCallback *)((s8 *)arg0 + 0x24) = arg3;
     *(TItemLockCountCallback *)((s8 *)arg0 + 0x28) = arg4;
-    memset(*(s32 *)((s8 *)arg0 + 0x20), 0, temp_r31);
+    memset(*(void **)((s8 *)arg0 + 0x20), 0, temp_r31);
 }
 #undef arg0
 

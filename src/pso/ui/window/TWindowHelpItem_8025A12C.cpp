@@ -13,6 +13,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/vector.h"
+#include <string.h>
 #pragma readonly_strings on
 
 typedef struct Item_8025A354 {
@@ -38,7 +39,6 @@ typedef struct Win_8025A354 {
 } Win_8025A354;
 
 extern "C" {
-s32 strncpy(s32, u32, s32);
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w);
 
 void *lbl_804CF9F8[6] = {
@@ -113,7 +113,7 @@ void TWindowHelpItem::set_flag4_and_field1c(s32 arg1) {
     reinterpret_cast<Item_8025A354 *>(this)->cur = arg1;
 }
 
-void TWindowHelpItem::set_help_text(u32 arg1) {
+void TWindowHelpItem::set_help_text(uaddr arg1) {
     s32 temp_r3;
 
     mem_free(reinterpret_cast<Item_8025A354 *>(this)->label);
@@ -121,7 +121,7 @@ void TWindowHelpItem::set_help_text(u32 arg1) {
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
         reinterpret_cast<Item_8025A354 *>(this)->label = static_cast<char *>(mem_alloc(temp_r3 + 1));
-        strncpy(reinterpret_cast<s32>(reinterpret_cast<Item_8025A354 *>(this)->label), arg1, temp_r3 + 1);
+        strncpy(reinterpret_cast<Item_8025A354 *>(this)->label, reinterpret_cast<const char *>(arg1), (u32)temp_r3 + 1);
     }
 }
 
@@ -175,7 +175,7 @@ void tick_display_timer__15TWindowHelpItemFPv(void *arg0) {
 void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = lbl_804CF9F8;
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 0x18)));
+        mem_free((void *)(*(saddr *)((s8 *)arg0 + 0x18)));
         __dt__13TUnk_804CF918Fv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);
@@ -184,7 +184,7 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, saddr arg1, s32 arg2) {
     __ct__13TUnk_804CF918Fl(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
     copy_vec2((arg0 + 8), (void *)(arg1 + 4));

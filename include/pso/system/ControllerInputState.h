@@ -27,8 +27,8 @@ struct ControllerInputState {
     ControllerInputContext keyboard;
 };
 
-typedef char ControllerInputContext_size[sizeof(ControllerInputContext) == 0x50 ? 1 : -1];
-typedef char ControllerInputState_size[sizeof(ControllerInputState) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(ControllerInputContext_size, sizeof(ControllerInputContext) == 0x50);
+LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 
 extern "C" {
 extern ControllerInputState controller_input_state;

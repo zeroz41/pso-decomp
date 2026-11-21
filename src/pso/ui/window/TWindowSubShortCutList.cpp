@@ -20,7 +20,7 @@ extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 s32 *get_shared_text_buffer(void);
 char *fn_80076BC4(s32 *);
-int get_chat_shortcut(s32 arg0);
+saddr get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
 
@@ -31,7 +31,7 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 temp_r0;
     s32 var_r30;
     s32 index;
-    save_cursor_selection__20TShopArmorListWindowFv();
+    ((TShopArmorListWindow *)this)->save_cursor_selection();
     reset_list();
     index = m_88->get_type();
     var_r30 = 0;
@@ -43,12 +43,12 @@ void TWindowSubShortCutList::refresh_entries() {
             draw_entry(index, 0x33, 0, index);
             break;
         case 1:
-            temp_r0 = (s32)fn_80076BC4(chat_shortcut + 1);
+            temp_r0 = (saddr)fn_80076BC4(chat_shortcut + 1);
             draw_entry(index, 0x12, temp_r0, index);
             break;
         case 2:
             TWindowDD::format_message(chat_shortcut + 1, (void *)get_shared_text_buffer(), (u16) local_client_id);
-            draw_entry(index, 0x10, (s32)get_shared_text_buffer(), index);
+            draw_entry(index, 0x10, (saddr)get_shared_text_buffer(), index);
             break;
         case 3:
             TWindowChat::open_symbol_chat(chat_shortcut + 1);
@@ -66,13 +66,13 @@ void TWindowSubShortCutList::refresh_entries() {
 
 void *TWindowSubShortCutList::create(void *arg1) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)lbl_8044FAA8, 4);
-    return new TWindowSubShortCutList((u8 *)this, (s32)arg1);
+    return new TWindowSubShortCutList((u8 *)this, (saddr)arg1);
 }
 
 void TWindowSubShortCutList::render() {
-    s32 context;
+    saddr context;
 
-    context = reinterpret_cast<s32>(get_draw_context());
+    context = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)context);
     draw_visible_window_entries(
         this,
@@ -105,7 +105,7 @@ TWindowSubShortCutList::TWindowSubShortCutList(u8 *parent, s32 index)
     m_name = TWindowSubShortCutList__class_name;
     row = index / 4;
     col = index % 4;
-    ensure_status_display((s32)(TWindowSubStatusDisp::get_message_10(0x2D)));
+    ensure_status_display((saddr)(TWindowSubStatusDisp::get_message_10(0x2D)));
     m_88 = new PageIndicator((s8)row, 5, local_client_id);
     set_flag70_bit10();
     refresh_entries();

@@ -62,7 +62,6 @@ void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4,
 void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
-u32 reset_counters__6TLobbyFv();
 
 struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
 extern RecoveredGlobal_lbl_80499988 lbl_80499988;
@@ -170,10 +169,10 @@ void TUnk_804999B8::run_task() {
 }
 #pragma pop
 
-void*TLobby::init_entry_fields(int a1, int a2, int a3) { ((int (*)(void))__ct__13TUnk_804999E8FP7TObject)(); *(int*)((char*)this + 0x18) = (int)((unsigned char *)__vt__13TUnk_804999A0); *(int*)((char*)this + 0x28) = a2; *(float*)((char*)this + 0x1c) = (0.0f); *(unsigned char*)((char*)this + 0x21) = 0; *(unsigned char*)((char*)this + 0x22) = 0; *(unsigned char*)((char*)this + 0x20) = 255; *(int*)((char*)this + 0x24) = a3; return this; }
+void*TLobby::init_entry_fields(int a1, int a2, int a3) { ((int (*)(void))__ct__13TUnk_804999E8FP7TObject)(); *(int*)((char*)this + 0x18) = (saddr)((unsigned char *)__vt__13TUnk_804999A0); *(int*)((char*)this + 0x28) = a2; *(float*)((char*)this + 0x1c) = (0.0f); *(unsigned char*)((char*)this + 0x21) = 0; *(unsigned char*)((char*)this + 0x22) = 0; *(unsigned char*)((char*)this + 0x20) = 255; *(int*)((char*)this + 0x24) = a3; return this; }
 
 TUnk_804999A0::~TUnk_804999A0() {
-    TWindowCtrlMain::set_value((s32)(*(void **)((s8 *)this + 0x24)), 0);
+    TWindowCtrlMain::set_value((saddr)(*(void **)((s8 *)this + 0x24)), 0);
 }
 
 void TUnk_804999A0::run_task() {
@@ -387,7 +386,7 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1) {
   s32 var_r5;
   s32 var_r6;
   u32 var_r30;
-  u32 var_r31;
+  uaddr var_r31;
   u32 var_r3;
   u32 phi_r30;
   s32 saved_reg_r30;
@@ -395,11 +394,11 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1) {
   var_r28 = arg0;
   var_r29 = arg1;
   var_r3 = 0x30U;
-  var_r31 = (int)::operator new(0x30);
+  var_r31 = (saddr)::operator new(0x30);
   phi_r30 = saved_reg_r30;
   if (var_r31 != 0U)
   {
-    var_r31 = reset_counters__6TLobbyFv();
+    var_r31 = (uaddr)((TLobby *)var_r31)->reset_counters();
   }
   if (var_r31 != 0U)
   {

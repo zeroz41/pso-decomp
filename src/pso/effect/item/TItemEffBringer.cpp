@@ -21,7 +21,7 @@ struct Bringer_8010834C {
     u8 pad30[0x38 - 0x30];
     Vec f38;
     u8 pad44[0x58 - 0x44];
-    s32 m_particles[10];
+    void *m_particles[10];
     s32 m_particle_count;
     Vec m_84;
 };
@@ -46,7 +46,7 @@ void TItemEffBringer::hook() {
 
 TItemEffBringer::~TItemEffBringer() {
     for (int i = 0; i != this->m_particle_count; i++) {
-        TParticleCtrl::release((void *)this->m_particles[i]);
+        TParticleCtrl::release(this->m_particles[i]);
     }
 }
 
@@ -64,7 +64,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 
     f32 r;
     f32 n;
     s32 i;
-    __ct__10TItemShootFPvPC3VecPC3Vecf(self, arg1, (s32)src, arg3, farg0);
+    __ct__10TItemShootFPvPC3VecPC3Vecf(self, arg1, (saddr)src, arg3, farg0);
     self->vt = __vt__15TItemEffBringer;
     self->f0 = TItemEffBringer__class_name;
     push_matrix();
@@ -92,7 +92,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 
 }
 #pragma pop
 
-void *TItemEffBringer::create(u32 arg0, s32 src, s32 arg2, f32 farg0) {
+void *TItemEffBringer::create(u32 arg0, saddr src, s32 arg2, f32 farg0) {
     if ((0.0f != farg0) && (arg0 != 0U)) {
         void *obj = TObject::operator new(0x90);
         if (obj != NULL) {

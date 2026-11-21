@@ -40,6 +40,6 @@ struct TODoorMachine01 : public TODoorBase {
     static GinjaTextureList **texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
 };
 
-typedef char TODoorMachine01_size[sizeof(TODoorMachine01) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TODoorMachine01_size, sizeof(TODoorMachine01) == 0xEC);
 
 #endif

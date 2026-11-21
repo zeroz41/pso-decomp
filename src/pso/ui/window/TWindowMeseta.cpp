@@ -34,10 +34,10 @@ void TWindowMeseta::draw_value(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
 }
 void TWindowMeseta::render() {
-    s32 ctx;
-    s32 arg0 = (s32)this;
+    saddr ctx;
+    saddr arg0 = (saddr)this;
 
-    ctx = reinterpret_cast<s32>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x6C)));
+    ctx = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x6C)));
     ((TWindowMeseta *)arg0)->draw_value(ctx);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
@@ -105,7 +105,7 @@ void TWindowMeseta::run_task() {
 
 TWindowMeseta::~TWindowMeseta() {}
 #define self ((Meseta_80269244 *)this)
-TWindowMeseta::TWindowMeseta(s32 arg1, s32 arg2, s32 str)
+TWindowMeseta::TWindowMeseta(saddr arg1, s32 arg2, s32 str)
     : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1) {
     Sub_80269244 *a;
     Sub_80269244 *b;

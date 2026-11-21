@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
+#include "pso/object/base/TObjChara.h"
 
 
 extern "C" {
@@ -219,7 +220,7 @@ int TObjPlayer__sub_801C2114(void);
 extern "C" {
 
 void TObjPlayer::update_input_and_draw() {
-    s32 ctl = (s32)this;
+    saddr ctl = (saddr)this;
     if (is_current_area_item_enabled() == 0) {
         ((TObjPlayer *)ctl)->set_action_provider_variant((int) (TObjPlayer__sub_801C2114()));
     }

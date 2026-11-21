@@ -19,5 +19,5 @@ struct TWindowSubShortCutList : public TWindowMenuIconLine {
     void draw_entry(s32 arg1, u8 arg2, s32 arg3, s32 arg4);
 };
 
-typedef char TWindowSubShortCutList_size[sizeof(TWindowSubShortCutList) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubShortCutList_size, sizeof(TWindowSubShortCutList) == 0x8C);
 #endif

@@ -73,5 +73,5 @@ struct TKeyBoardControl : public TObject {
     static void set_key_state(s32 arg0);
 };
 
-typedef char TKeyBoardControl_size[sizeof(TKeyBoardControl) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TKeyBoardControl_size, sizeof(TKeyBoardControl) == 0x2C);
 #endif

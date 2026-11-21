@@ -38,9 +38,9 @@ void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
 
-    temp_r3 = reinterpret_cast<s32>(arg0->get_draw_context());
+    temp_r3 = reinterpret_cast<saddr>(arg0->get_draw_context());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
@@ -68,10 +68,10 @@ TWindowSubComCardList::~TWindowSubComCardList() {
     delete_if_allocated(m_8c, 1);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (s32)arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (saddr)arg1) {
     s32 n;
     #define window_menu ((u8 *)this)
-    *(s32 *)(window_menu + 0) = ((s32)TWindowSubComCardList__class_name);
+    *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
     n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
     if (n <= 0) {
         n = 1;
@@ -89,10 +89,10 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (s3
     #undef window_menu
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (s32)arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)arg1) {
     s32 n;
     #define window_menu ((u8 *)this)
-    *(s32 *)(window_menu + 0) = ((s32)TWindowSubComCardList__class_name);
+    *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
     n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(arg2, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;

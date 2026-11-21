@@ -3,9 +3,9 @@
 
 #include "pso/network/protocol/protocol_types.h"
 
-typedef char SubcommandHeaderSizeCheck[sizeof(G_ClientIDHeader) == 4 ? 1 : -1];
+LAYOUT_ASSERT(SubcommandHeaderSizeCheck, sizeof(G_ClientIDHeader) == 4);
 #include <stddef.h>
-typedef char SubcommandClientOffsetCheck[offsetof(G_ClientIDHeader, client_id) == 2 ? 1 : -1];
+LAYOUT_ASSERT(SubcommandClientOffsetCheck, offsetof(G_ClientIDHeader, client_id) == 2);
 
 s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
 extern "C" {

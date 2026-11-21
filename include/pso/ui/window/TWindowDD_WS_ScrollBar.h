@@ -16,6 +16,6 @@ public:
 extern "C" {
 void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self);
 }
-typedef char TWindowDD_WS_ScrollBar_size[sizeof(TWindowDD_WS_ScrollBar) == 0x70 ? 1 : -1];
+LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_size, sizeof(TWindowDD_WS_ScrollBar) == 0x70);
 
 #endif

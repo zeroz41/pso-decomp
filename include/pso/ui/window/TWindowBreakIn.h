@@ -11,6 +11,6 @@ struct TWindowBreakIn : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowBreakIn_size[sizeof(TWindowBreakIn) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowBreakIn_size, sizeof(TWindowBreakIn) == 0x60);
 
 #endif

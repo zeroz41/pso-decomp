@@ -61,7 +61,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void end_render_forward();
     static void begin_render();
     void clear_fields();
-    static int get_download_server();
+    static saddr get_download_server();
     static u32 calc_text_width(char *s);
     static s32 is_alpha_char(u16 arg0);
     void pack_status_flags(u32 arg1);
@@ -75,8 +75,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s8 *copy_message_page_text();
     void*get_sub_disp_ptr();
     void set_selected_index(s16 arg1);
-    static void draw_status(s32 arg1, s32 arg2, s32 arg3);
-    static void dispatch_without_flags(s32 arg1, s32 arg2, s32 arg3);
+    static void draw_status(saddr arg1, s32 arg2, s32 arg3);
+    static void dispatch_without_flags(saddr arg1, s32 arg2, s32 arg3);
     int is_flag_4_set();
     void set_input_mode(u8 v);
     s16 get_item_type();
@@ -86,16 +86,16 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_all_values(s32 arg1);
     void set_animated_target(s32 arg1, f32 farg0);
     static void update_palette_sprite();
-    void set_string(u32 arg1);
-    void set_text(u32 arg1, s32 arg2, s32 arg3);
-    void set_text(u32 arg1, s32 arg2);
+    void set_string(uaddr arg1);
+    void set_text(uaddr arg1, s32 arg2, s32 arg3);
+    void set_text(uaddr arg1, s32 arg2);
     void clamp_scroll_offset();
     void add_list_entry(s32 arg1);
     void refresh_selected_entry(s32 arg1);
     void add_status_entry(s8 arg1, s32 arg2, s32 arg3);
-    void add_inventory_item(s32 arg1, s32 arg2, s32 arg3);
-    void add_item_info_entry(s32 arg1, s32 arg2, s32 arg3);
-    void add_ground_item(s32 arg1, s32 arg2);
+    void add_inventory_item(saddr arg1, s32 arg2, s32 arg3);
+    void add_item_info_entry(saddr arg1, s32 arg2, saddr arg3);
+    void add_ground_item(saddr arg1, s32 arg2);
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
@@ -112,9 +112,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 deleting_destructor(s32 arg0, s16 arg1);
     void forward_render(void *a1);
     int update_subwindow();
-    void fill_card_text_entries(s32 arg1);
-    static s32 query_status_field(void *arg0, s8 arg1);
-    static s32 get_flag_or_zero(void *arg0, s8 arg1);
+    void fill_card_text_entries(saddr arg1);
+    static saddr query_status_field(void *arg0, s8 arg1);
+    static saddr get_flag_or_zero(void *arg0, s8 arg1);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
     static void draw_bottom_bar();
@@ -122,10 +122,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void get_player();
     void set_entry_display_value(s32 arg1);
     s32 get_display_mode();
-    static void vt16();
-    static void vt15();
-    static void vt18();
-    static void vt14();
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 arg0);
     static s32 calc_layout_hash(s32 slot);
@@ -152,23 +148,24 @@ struct TWindowSubStatusDisp : public TWindowBase {
     u8 *init_part_direct(u8 *arg1, s32 arg2);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     s32 update_hp_entry();
-    static s32 destroy_status_display(s32 arg0, s16 arg1);
+    static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 arg1, s32 arg2);
     void update_entry_visibility();
-    void update_item_colors(s32 arg1);
+    void update_item_colors(saddr arg1);
     s32 update_hp_gauge();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 arg2);
     void update_item_icon_colors(void *item);
+    static s32 init_status_entry(void *, char, unsigned int, int);
 };
 
-typedef char TWindowSubStatusDisp_offset_page[(offsetof(TWindowSubStatusDisp, page) == 0x60) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_m_62[(offsetof(TWindowSubStatusDisp, m_62) == 0x62) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_m_68[(offsetof(TWindowSubStatusDisp, m_68) == 0x68) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_scale_x[(offsetof(TWindowSubStatusDisp, scale_x) == 0x6C) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_scale_y[(offsetof(TWindowSubStatusDisp, scale_y) == 0x70) ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_m_62, offsetof(TWindowSubStatusDisp, m_62) == 0x62);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_m_68, offsetof(TWindowSubStatusDisp, m_68) == 0x68);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_x, offsetof(TWindowSubStatusDisp, scale_x) == 0x6C);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp, scale_y) == 0x70);
 
-typedef char TWindowSubStatusDisp_size[sizeof(TWindowSubStatusDisp) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubStatusDisp_size, sizeof(TWindowSubStatusDisp) == 0x74);
 extern "C" s32 measure_string_len(const char *str);
 
 #endif

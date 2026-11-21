@@ -115,7 +115,7 @@ void TLobby__sub_803CD99C(void) {
             if (slot->phase == 1) {
                 src = slot->src;
                 src->vt->get(src, 1, 0x1800, &chunk);
-                size = parse_aix_header__6TLobbyFPviPv(chunk.data, chunk.len, &slot->aix);
+                size = TLobby::parse_aix_header(chunk.data, chunk.len, &slot->aix);
                 if (size == 0) {
                     src->vt->release(src, 1, &chunk);
                 } else {

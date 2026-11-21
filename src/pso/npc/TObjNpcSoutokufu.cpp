@@ -18,7 +18,7 @@ const char *bm_npc_soutokufu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_soutokufu_model_names[2] = { "soutokufu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_soutokufu_resource_descriptor = { "bm_npc_soutokufu.bml", bm_npc_soutokufu_model_names, bm_npc_soutokufu_motion_names, 1, 0 };
 const char *TObjNpcSoutokufu__name = "TObjNpcSoutokufu";
-u32 TObjNpcSoutokufu__shared_model_resource;
+uaddr TObjNpcSoutokufu__shared_model_resource;
 }
 
 
@@ -32,8 +32,8 @@ struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_texlist(int, int);
+saddr get_bml_model(int, int);
 extern void *lbl_805D4DD8;
 void free_bin_model_request(void*, int);
 
@@ -45,9 +45,9 @@ void TObjNpcSoutokufu::close_dialog_window() {
 }
 
 void TObjNpcSoutokufu::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_soutokufu_resource_descriptor, 0, 0, 0));
@@ -60,7 +60,7 @@ TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 
 
 TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcSoutokufu__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcSoutokufu__name;
     ((TObjNpcSoutokufu *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);

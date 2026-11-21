@@ -10,6 +10,6 @@ public:
     virtual void vfunc_6();
     virtual void run_task();
 };
-typedef char TUnk_80488B08_size[sizeof(TUnk_80488B08) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80488B08_size, sizeof(TUnk_80488B08) == 0x6C);
 
 #endif

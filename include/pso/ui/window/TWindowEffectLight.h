@@ -25,10 +25,10 @@ public:
     u32 player_id;
 };
 
-typedef char TWindowEffectLight_size[sizeof(TWindowEffectLight) == 0x2C ? 1 : -1];
-typedef char TWindowEffectLight_kind_offset[offsetof(TWindowEffectLight, effect_kind) == 0x24 ? 1 : -1];
-typedef char TWindowEffectLight_age_offset[offsetof(TWindowEffectLight, age) == 0x26 ? 1 : -1];
-typedef char TWindowEffectLight_player_offset[offsetof(TWindowEffectLight, player_id) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TWindowEffectLight_size, sizeof(TWindowEffectLight) == 0x2C);
+LAYOUT_ASSERT(TWindowEffectLight_kind_offset, offsetof(TWindowEffectLight, effect_kind) == 0x24);
+LAYOUT_ASSERT(TWindowEffectLight_age_offset, offsetof(TWindowEffectLight, age) == 0x26);
+LAYOUT_ASSERT(TWindowEffectLight_player_offset, offsetof(TWindowEffectLight, player_id) == 0x28);
 
 extern "C" {
 u8 *__ct__18TWindowEffectLightFPvsUl(u8 *self, void *arg1, s16 arg2, u32 id);

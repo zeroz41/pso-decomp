@@ -21,7 +21,7 @@ struct TAdFloorLoadPrtGC : public TObject {
     virtual void run_task();
 };
 
-typedef char TAdFloorLoadPrtGC_size[sizeof(TAdFloorLoadPrtGC) == 0x3A0 ? 1 : -1];
+LAYOUT_ASSERT(TAdFloorLoadPrtGC_size, sizeof(TAdFloorLoadPrtGC) == 0x3A0);
 
 extern const Vec floor_load_particle_positions[12];
 extern const ParticleAngles TAdFloorLoadPrtGC__emitter_angles[12];

@@ -7,7 +7,7 @@
 struct NJS_TEXNAME {
     void *filename;
     u32 attr;
-    u32 texaddr;
+    uaddr texaddr;
 };
 
 struct NJS_TEXLIST {
@@ -111,7 +111,7 @@ struct NJS_OBJECT {
     u8 pad_34[0x4];
 };
 
-typedef char NJS_OBJECT_size[sizeof(NJS_OBJECT) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(NJS_OBJECT_size, sizeof(NJS_OBJECT) == 0x38);
 
 // Ninja byte colour; on this big-endian target the bytes of the ARGB word are a, r, g, b.
 struct NJS_BGRA {

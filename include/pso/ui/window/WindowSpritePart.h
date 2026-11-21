@@ -1,6 +1,8 @@
 #ifndef PSO_UI_WINDOW_WINDOWSPRITEPART_H
 #define PSO_UI_WINDOW_WINDOWSPRITEPART_H
 
+#include "types.h"
+
 #include "pso/unk/TUnk_804CF918.h"
 #include <stddef.h>
 
@@ -20,8 +22,8 @@ public:
     s32 kind;
 };
 
-typedef char WindowSpritePartSize[sizeof(WindowSpritePart) == 0x38 ? 1 : -1];
-typedef char WindowSpritePartUvOffset[offsetof(WindowSpritePart, u0) == 0x1C ? 1 : -1];
-typedef char WindowSpritePartKindOffset[offsetof(WindowSpritePart, kind) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(WindowSpritePartSize, sizeof(WindowSpritePart) == 0x38);
+LAYOUT_ASSERT(WindowSpritePartUvOffset, offsetof(WindowSpritePart, u0) == 0x1C);
+LAYOUT_ASSERT(WindowSpritePartKindOffset, offsetof(WindowSpritePart, kind) == 0x34);
 
 #endif

@@ -10,19 +10,19 @@ class TWindowBase;
 struct TWindowMenu;
 
 struct TShopArmorListWindow : public TShopWindowBase {
-    TShopArmorListWindow(s32 parent, s32, s32);
+    TShopArmorListWindow(saddr parent, s32, s32);
     virtual ~TShopArmorListWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     u32 m_28;
     TWindowBase *item_list;   // 0x2C: create_item_list_window
     TWindowMenu *choice_menu;          // 0x30: create_window_menu / create_yes_no_window
     TWindowBase *help_window; // 0x34: a TWindowHelpItem
-    u32 m_38;
+    uaddr m_38;
     TWindowBase *cost_window; // 0x3C: create_cost_window
     u32 m_40;
     u8 _pad44[0x4];
@@ -53,7 +53,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     void save_and_close();
 };
 
-typedef char TShopArmorListWindow_size[sizeof(TShopArmorListWindow) == 0x1F8 ? 1 : -1];
-typedef char TShopArmorListWindow_choice_menu_offset[offsetof(TShopArmorListWindow, choice_menu) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TShopArmorListWindow_size, sizeof(TShopArmorListWindow) == 0x1F8);
+LAYOUT_ASSERT(TShopArmorListWindow_choice_menu_offset, offsetof(TShopArmorListWindow, choice_menu) == 0x30);
 
 #endif

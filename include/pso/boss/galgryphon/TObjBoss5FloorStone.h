@@ -11,8 +11,6 @@ public:
     virtual void render();
 public:
     static void *create();
-    static void render();
-    static void run_task();
     void render_impl(void* a1);
 };
 

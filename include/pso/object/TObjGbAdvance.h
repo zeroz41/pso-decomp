@@ -13,7 +13,7 @@ struct TObjGbAdvance : public TObjMesBase {
     virtual void render();
 };
 
-typedef char TObjGbAdvance_size[sizeof(TObjGbAdvance) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjGbAdvance_size, sizeof(TObjGbAdvance) == 0xBC);
 extern "C" void *TObjGbAdvance__create(void *placement);
 
 #endif

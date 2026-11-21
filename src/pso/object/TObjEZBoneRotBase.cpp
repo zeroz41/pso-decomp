@@ -68,8 +68,8 @@ void TObjEZBoneRotPlayer::run_task() {
 #define arg0 ((u8 *)this)
 TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) : TObjEZBoneRotBase(parent, root, (EZBoneRotDesc *)desc) {
     ((TObjEZBoneRotPlayer *)arg0)->m_name = TObjEZBoneRotPlayer__name;
-    *(s32 *)((s8 *)arg0 + 0x98) = (s32)parent;
-    *(s32 *)((s8 *)arg0 + 0x9C) = (s32) *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0x98)) + 0x60);
+    *(s32 *)((s8 *)arg0 + 0x98) = (saddr)parent;
+    *(s32 *)((s8 *)arg0 + 0x9C) = (s32) *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x98)) + 0x60);
 }
 #undef arg0
 void *TObjEZBoneRotPlayer::create(void *arg0, void *arg1, void *arg2) {
@@ -112,7 +112,7 @@ void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 
 void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 arg1) {
     *(s32 *)((s8 *)((u8 *)this) + 0x88) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x8C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0x10);
-    *(s32 *)((s8 *)((u8 *)this) + 0x90) = (s32) (((u8 *)this) + 0x24);
+    *(saddr *)((s8 *)((u8 *)this) + 0x90) = (saddr) (((u8 *)this) + 0x24);
     calc_bone_offsets_recursive((void *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)), arg1, (s32)((s32) ((f32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0) * *(f32 *)((s8 *)((u8 *)this) + 0x94))));
 }
 
@@ -152,7 +152,7 @@ block_4:
 void TObjEZBoneRotBase::sub_800FED0C() {
     *(s32 *)((s8 *)((u8 *)this) + 0x88) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x8C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0x10);
-    *(s32 *)((s8 *)((u8 *)this) + 0x90) = (s32) (((u8 *)this) + 0x24);
+    *(saddr *)((s8 *)((u8 *)this) + 0x90) = (saddr) (((u8 *)this) + 0x24);
     sub_800FEC40((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)));
 }
 

@@ -8,8 +8,6 @@
 
 #include "stdarg.h"
 // The game links the SDK's GXInitTexObj and GXSetVtxDesc under these names.
-#define GXInitTexObj Dolphin_GXInitTexObj
-#define GXSetVtxDesc Dolphin_GXSetVtxDesc
 #include <dolphin/gx.h>
 #undef GXInitTexObj
 #undef GXSetVtxDesc
@@ -120,8 +118,7 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 }
 
 extern "C" {
-void PSMTXMultVecArray(f32 (*m)[4], const Vec *src, Vec *dst, u32 count);
-extern s32 current_matrix;
+extern saddr current_matrix;
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
@@ -153,7 +150,7 @@ void render_debug_text(u32 enabled) {
     GC_Mtx ident;
     DebugTextRecord *r;
 
-    Dolphin_GXInitTexObj(&debug_font_texture_object, debug_font_texture_i4, 128, 128, GX_TF_I4, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    GXInitTexObj(&debug_font_texture_object, debug_font_texture_i4, 128, 128, GX_TF_I4, GX_CLAMP, GX_CLAMP, GX_FALSE);
     GXInitTexObjLOD(&debug_font_texture_object, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, GX_FALSE, GX_FALSE, GX_ANISO_1);
     GXLoadTexObj(&debug_font_texture_object, GX_TEXMAP0);
     PSMTXScale(texMtx, 1.0f / 128.0f, 1.0f / 128.0f, 1.0f);
@@ -173,9 +170,9 @@ void render_debug_text(u32 enabled) {
     GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
     if (enabled == 1) {
         GXClearVtxDesc();
-        Dolphin_GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
-        Dolphin_GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-        Dolphin_GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+        GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+        GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+        GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_S16, 1);
@@ -255,11 +252,11 @@ asm f32 vec3_dot(const Vec *a, const Vec *b) {
 #pragma push
 #pragma scheduling off
 
-void TObjPlayer::invert_matrix_in_place(u32 arg0) {
-    u32 var_r3;
+void TObjPlayer::invert_matrix_in_place(uaddr arg0) {
+    uaddr var_r3;
     var_r3 = arg0;
     if (var_r3 == 0U) {
-        var_r3 = (*(u32 *)&current_matrix);
+        var_r3 = (*(uaddr *)&current_matrix);
     }
     PSMTXInverse((MtxP)var_r3, (MtxP)var_r3);
 }
@@ -285,7 +282,7 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z) {
 }
 #pragma pop
 
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3) {
+void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3) {
     if (arg2 != 0) {
         rotate_matrix_y((void *)matrix, (s32)arg2);
     }
@@ -824,5 +821,5 @@ u8 debug_font_texture_i4[DEBUG_FONT_TEXTURE_BYTES] ATTRIBUTE_ALIGN(32) = {
 }
 
 GXTexObj debug_font_texture_object;
-typedef char DebugFontTextureObjectSize[sizeof(GXTexObj)==32 ? 1 : -1];
-typedef char DebugFontTextureFormat[(GX_TF_I4==0) ? 1 : -1];
+LAYOUT_ASSERT(DebugFontTextureObjectSize, sizeof(GXTexObj)==32);
+LAYOUT_ASSERT(DebugFontTextureFormat, GX_TF_I4==0);

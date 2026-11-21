@@ -15,7 +15,7 @@ struct TWindowChallengeResult : public TWindowBase {
     f32 scale_y;
 };
 
-typedef char ChallengeResultScaleOffset[offsetof(TWindowChallengeResult, scale_x) == 0x60 ? 1 : -1];
-typedef char TWindowChallengeResult_size[sizeof(TWindowChallengeResult) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(ChallengeResultScaleOffset, offsetof(TWindowChallengeResult, scale_x) == 0x60);
+LAYOUT_ASSERT(TWindowChallengeResult_size, sizeof(TWindowChallengeResult) == 0x68);
 
 #endif

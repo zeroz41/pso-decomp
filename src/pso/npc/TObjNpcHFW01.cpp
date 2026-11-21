@@ -14,8 +14,8 @@
 
 
 const char *TObjNpcHFW01__name = "TObjNpcHFW01";
-u32 TObjNpcHFW01__resource_node;
-u32 TObjNpcHFW01__texture_handle;
+uaddr TObjNpcHFW01__resource_node;
+uaddr TObjNpcHFW01__texture_handle;
 
 extern void *tl_04;
 extern "C" {
@@ -33,14 +33,14 @@ void TObjNpcHFW01::free_static_resources() {
         TObjNpcHFW01__texture_handle = 0U;
     }
     if ((u32) TObjNpcHFW01__resource_node != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TObjNpcHFW01__resource_node));
+        TLobby::free_nodes_with_id((uaddr)((void*)TObjNpcHFW01__resource_node));
         TObjNpcHFW01__resource_node = 0U;
     }
 }
 
 void TObjNpcHFW01::load_resources() {
-    TObjNpcHFW01__resource_node = (u32)create_named_object((s32)"npc_g01_data.rel");
-    TObjNpcHFW01__texture_handle = (u32)load_gvm_texture_file((s32)"n_g01_e_body.gvm");
+    TObjNpcHFW01__resource_node = (u32)create_named_object((saddr)"npc_g01_data.rel");
+    TObjNpcHFW01__texture_handle = (uaddr)load_gvm_texture_file((saddr)"n_g01_e_body.gvm");
 }
 
 }
@@ -48,7 +48,7 @@ TObjNpcHFW01::~TObjNpcHFW01() {}
 
 
 TObjNpcHFW01::TObjNpcHFW01(TObject *parent, void *arg2) : TUnk_804A92A8(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcHFW01__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHFW01__name;
     ((TObjNpcHFW01 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcHFW01__resource_node);

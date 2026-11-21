@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 #pragma readonly_strings on
 #pragma fp_contract on
 
@@ -16,7 +17,6 @@ struct Stack_8025B660 {
 
 extern "C" {
 u32 calc_text_width(u32);
-s32 strncpy(s32, u32, s32);
 
 void *window_label_value_part_vtable[6] = {
     0, 0,
@@ -26,28 +26,28 @@ void *window_label_value_part_vtable[6] = {
     0,
 };
 
-void TWindowSubStatusDisp::set_string(u32 arg1) {
+void TWindowSubStatusDisp::set_string(uaddr arg1) {
     s32 temp_r3;
 
-    mem_free((void *)(*(s32 *)((s8 *)this + 0x20)));
+    mem_free((void *)(*(saddr *)((s8 *)this + 0x20)));
     *(s32 *)((s8 *)this + 0x20) = 0;
     if (arg1 != 0U) {
         *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x20) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x20), arg1, temp_r3 + 1);
+        *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)arg1, (u32)temp_r3 + 1);
     }
 }
 
-void TWindowSubStatusDisp::set_text(u32 arg1, s32 arg2, s32 arg3) {
+void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2, s32 arg3) {
     s32 temp_r3;
 
-    mem_free((void *)(*(s32 *)((s8 *)this + 0x1C)));
+    mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     *(s32 *)((s8 *)this + 0x1C) = 0;
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x1C) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x1C), arg1, temp_r3 + 1);
+        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
     }
     *(s32 *)((s8 *)this + 0x18) = arg3;
     *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
@@ -55,16 +55,16 @@ void TWindowSubStatusDisp::set_text(u32 arg1, s32 arg2, s32 arg3) {
     set_string(arg2);
 }
 
-void TWindowSubStatusDisp::set_text(u32 arg1, s32 arg2) {
+void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
     s32 temp_r3;
     f64 tmp;
 
-    mem_free((void *)(*(s32 *)((s8 *)this + 0x1C)));
+    mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     *(s32 *)((s8 *)this + 0x1C) = 0;
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x1C) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x1C), arg1, temp_r3 + 1);
+        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
     }
     *(s32 *)((s8 *)this + 0x18) = arg2;
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x15);
@@ -92,8 +92,8 @@ void TWindowSubStatusDisp__sub_8025B760(void *p) {
 void *destroy_free_buffers__20TWindowSubStatusDispFPvs(void *window_sub_status_disp, s16 arg1) {
     if (window_sub_status_disp != NULL) {
         *(void ***)((s8 *)window_sub_status_disp + 4) = window_label_value_part_vtable;
-        mem_free((void *)(*(s32 *)((s8 *)window_sub_status_disp + 0x20)));
-        mem_free((void *)(*(s32 *)((s8 *)window_sub_status_disp + 0x1C)));
+        mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x20)));
+        mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x1C)));
         __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             ::operator delete(window_sub_status_disp);
@@ -102,7 +102,7 @@ void *destroy_free_buffers__20TWindowSubStatusDispFPvs(void *window_sub_status_d
     return window_sub_status_disp;
 }
 
-void*TWindowSubComCard::init_fields(int a1, int a2) { __ct__13TUnk_804CF998Fl(this, a2); *(int*)((char*)this + 0x4) = (int)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubComCard::init_fields(int a1, int a2) { __ct__13TUnk_804CF998Fl(this, a2); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubComCard::is_flag_4_set() { return *(u16*)((char*)this + 0x0) & 0x4; }
 

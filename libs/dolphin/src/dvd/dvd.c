@@ -4,14 +4,9 @@
 #define CancelCallback lbl_805D716C
 #define Canceling lbl_805D7168
 #define CategorizeError dvd_CategorizeError
-#define DVDCancelAsync Dolphin_DVDCancelAsync
-#define DVDLowRead Dolphin_DVDLowRead
-#define DVDLowSeek Dolphin_DVDLowSeek
-#define DVDReadAbsAsyncPrio Dolphin_DVDReadAbsAsyncPrio
 #define LastError lbl_805D7178
 #define LastState lbl_805D718C
 #define NumInternalRetry lbl_805D717C
-#define __DVDPrepareResetAsync Dolphin___DVDPrepareResetAsync
 #define cbForCancelSync dvd_cbForCancelSync
 #define cbForStateBusy dvd_cbForStateBusy
 #define cbForStateCheckID1 dvd_cbForStateCheckID1

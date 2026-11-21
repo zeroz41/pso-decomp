@@ -30,7 +30,7 @@ struct Win_802758C8 {
     u8 pad0[0x20];
     s32 player;
     u8 pad24[0x30 - 0x24];
-    s32 lobby;
+    saddr lobby;
     u16 kind;
     u16 id;
 };
@@ -106,10 +106,10 @@ void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     self->custom = p;
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0);
     set_depth__11TWindowBaseFf(self->custom);
-    self->list = TWindowMessage::create((s32)(get_window_layout_position(0x11)), (const f32 *)lbl_8044F718, 1, (s32)self->x20);
+    self->list = TWindowMessage::create((saddr)(get_window_layout_position(0x11)), (const f32 *)lbl_8044F718, 1, (s32)self->x20);
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2);
     set_depth__11TWindowBaseFf(self->list);
-    call_if_split_screen((u32)self->list, self->x20);
+    call_if_split_screen((uaddr)self->list, self->x20);
     self->x2c = 0;
     self->x34 = 0;
     self->x36 = 0;
@@ -244,5 +244,5 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
     case 7:
         break;
     }
-    ((TWindowMessage *)(self->lobby))->append_line((int)get_shared_text_buffer(), 0x82);
+    ((TWindowMessage *)(self->lobby))->append_line((saddr)get_shared_text_buffer(), 0x82);
 }

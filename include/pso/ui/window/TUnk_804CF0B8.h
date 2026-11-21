@@ -11,7 +11,7 @@ public:
     void draw_body(void *, u32, f32 *, f32);
     void draw_body_row(void *, void *, f32, f32, f32, f32);
     void draw_tail(void *, u32, f32 *, f32);
-    void sub_80251DF0(s16, s32, s16, f32);
+    void sub_80251DF0(s16, saddr, s16, f32);
     s32 clamp_position(void *, f32);
     void set_color(u16);
     void follow_anchor();
@@ -51,6 +51,6 @@ public:
     s32 m_84;
     u8 unk_88[0x10];
 };
-typedef char TUnk_804CF0B8_size[sizeof(TUnk_804CF0B8) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF0B8_size, sizeof(TUnk_804CF0B8) == 0x98);
 
 #endif

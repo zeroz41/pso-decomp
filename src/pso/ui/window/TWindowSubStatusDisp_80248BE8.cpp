@@ -21,19 +21,19 @@ s32 draw_window_scrollbar(s32, s32, void *);
 
 extern s32 local_client_id;
 
-u8 *TWindowSubStatusDisp__sub_80248BE8(s32 arg0, s32 arg1, s32 arg2) {
+u8 *TWindowSubStatusDisp__sub_80248BE8(saddr arg0, saddr arg1, s32 arg2) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)arg1, 0x5);
     return (u8 *)new TWindowCheckBox((u8 *)arg0, arg2);
 }
 
 void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {
-    return TWindowSubStatusDisp__sub_80248BE8((s32)layout_position, (s32)position, local_client_id);
+    return TWindowSubStatusDisp__sub_80248BE8((saddr)layout_position, (saddr)position, local_client_id);
 }
 
 void TWindowCheckBox::render() {
-    s32 temp_r3;
+    saddr temp_r3;
 
-    temp_r3 = reinterpret_cast<s32>(get_draw_context());
+    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(
         this,
@@ -41,7 +41,7 @@ void TWindowCheckBox::render() {
         reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(temp_r3);
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(*(u32 *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x84) != 0U) {
         draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), temp_r3, ((u8 *)this) + 0x68);
@@ -51,8 +51,8 @@ void TWindowCheckBox::render() {
 void TWindowCheckBox::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     u8 *input;
     u8 *temp_r29_2;
     u8 *context;
@@ -60,18 +60,18 @@ void TWindowCheckBox::run_task() {
     if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
             input = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((test_buttons_press_or_repeat((s32)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((test_buttons_press_or_repeat((s32)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         } else {
             temp_r29_2 = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         }

@@ -31,7 +31,7 @@ struct ResultEntry {
     s32 value;
 };
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
 struct ChallengeResultLayout {
@@ -73,7 +73,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     m_name = lbl_805D3898;
     for (i = 0; i < 3; i++) {
         e = (ResultEntry *)get_array_entry(i * 2);
-        set_text_entry_string((u8 *)e, (u32)lbl_804CE2AC[i], 0);
+        set_text_entry_string((u8 *)e, (uaddr)lbl_804CE2AC[i], 0);
         measure_message_text_width_default(e);
         e->x = 233.0f - e->width;
     }
@@ -93,7 +93,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
         text_builder_append((u8 *)":");
         append_padded_number(clear_seconds, 2);
     }
-    set_text_entry_string((u8 *)e, (u32)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((u8 *)e, (uaddr)(get_shared_text_buffer()), 0x20);
     e = (ResultEntry *)get_array_entry(5);
     e->value = death_count;
     draw_right_aligned_number(e);

@@ -20,7 +20,7 @@ asm f32 vector_length(const Vec *v) {
 
 #pragma push
 #pragma scheduling off
-void rotate_matrix_about_axis(u8 *arg0, s32 arg1, s32 arg2) {
+void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2) {
     u8 sp8[0x30];
     u8 *m;
     if (arg0 == 0) {
@@ -94,11 +94,11 @@ void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
 
 #pragma push
 #pragma scheduling off
-void rotate_vector_by_matrix(u32 arg0, const Vec *src, Vec *dst) {
-    u32 var_r3;
+void rotate_vector_by_matrix(uaddr arg0, const Vec *src, Vec *dst) {
+    uaddr var_r3;
     var_r3 = arg0;
     if (var_r3 == 0U) {
-        var_r3 = (*(u32 *)&current_matrix);
+        var_r3 = (*(uaddr *)&current_matrix);
     }
     PSMTXMultVecSR((MtxP)var_r3, src, dst);
 }

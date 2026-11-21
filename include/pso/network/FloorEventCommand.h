@@ -15,8 +15,8 @@ struct G_FloorEvent_6x67 {
     void send();
 };
 
-typedef char FloorEventCommandSize[sizeof(G_FloorEvent_6x67) == 0x10 ? 1 : -1];
-typedef char FloorEventSenderOffset[offsetof(G_FloorEvent_6x67, sender_client_id) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(FloorEventCommandSize, sizeof(G_FloorEvent_6x67) == 0x10);
+LAYOUT_ASSERT(FloorEventSenderOffset, offsetof(G_FloorEvent_6x67, sender_client_id) == 0xC);
 
 struct game_command_header;
 extern "C" void handle_6x67_trigger_set_event(game_command_header *command);

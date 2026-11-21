@@ -14,6 +14,6 @@ public:
 };
 
 // Factory
-u8 *create_twin_psychogun(s32 arg0);
+u8 *create_twin_psychogun(saddr arg0);
 
 #endif

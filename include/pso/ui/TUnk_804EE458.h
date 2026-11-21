@@ -23,6 +23,6 @@ public:
     NJS_ARGB color;
     s32 frame;
 };
-typedef char TUnk_804EE458_size[sizeof(TUnk_804EE458) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EE458_size, sizeof(TUnk_804EE458) == 0x3C);
 
 #endif

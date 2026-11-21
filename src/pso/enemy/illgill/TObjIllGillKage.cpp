@@ -9,18 +9,17 @@
 
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u16 get_entity_id(void *);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 
 void TObjIllGillKage::tick_persistent_sound() {
     s32 temp_r3;
-    play_persistent_sound(0x4003A357, (s32)this, (u32)(((u8 *)this) + 0x38), 0, 0);
+    play_persistent_sound(0x4003A357, (saddr)this, (uaddr)(((u8 *)this) + 0x38), 0, 0);
     temp_r3 = this->m_94;
     this->m_94 = (temp_r3 - 1);
     if (temp_r3 < 0) {
@@ -29,10 +28,10 @@ void TObjIllGillKage::tick_persistent_sound() {
 }
 
 void TObjIllGillKage::attack_target() {
-    s32 player;
+    saddr player;
 
     this->m_90 = 1;
-    player = (s32)get_player_by_client_id(this->m_98);
+    player = (saddr)get_player_by_client_id(this->m_98);
     if ((player != 0) && (TObjPlayer::is_locally_controlled((void *)player) != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
         TObjPlayer::play_effect(player, this->m_94, 3);
     }
@@ -59,14 +58,14 @@ void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = __vt__15TObjIllGillKage;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;
 }
 }
-TObjIllGillKage::TObjIllGillKage(s32 arg1, u32 arg2) : TObjBase((TObject *)arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjIllGillKage__class_name;
+TObjIllGillKage::TObjIllGillKage(saddr arg1, uaddr arg2) : TObjBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjIllGillKage__class_name;
     if (arg2 != 0U) {
         VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x38));
         this->m_98 = get_entity_id((void *)arg2);

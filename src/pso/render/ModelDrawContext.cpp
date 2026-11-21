@@ -40,7 +40,7 @@ s32 pop_matrix();
 s32 queue_model_draw_matrix(int, void *);
 }
 s32 model_node_callback;
-extern s32 current_matrix;
+extern saddr current_matrix;
 void draw_ginja_motion_node_tree(u8 *arg0);
 void flush_model_draw_queue(void);
 extern "C" {
@@ -58,7 +58,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 node_saved_matrix[];
 void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32));
-void set_model_node_callback(s32 arg0) {
+void set_model_node_callback(saddr arg0) {
     model_node_callback = arg0;
 }
 
@@ -119,7 +119,7 @@ void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src) {
 struct Mtx_803DC994;
 void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32)) {
     do {
-        u32 f = p->flags;
+        uaddr f = p->flags;
         if (f & 0x800) {
             get_current_matrix((node_saved_matrix));
         }

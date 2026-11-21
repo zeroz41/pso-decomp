@@ -43,5 +43,5 @@ struct TAdLdQuestPrtGC : public TObject {
     Tint tints[4];
 };
 
-typedef char TAdLdQuestPrtGC_size[sizeof(TAdLdQuestPrtGC) == 0x158 ? 1 : -1];
+LAYOUT_ASSERT(TAdLdQuestPrtGC_size, sizeof(TAdLdQuestPrtGC) == 0x158);
 #endif

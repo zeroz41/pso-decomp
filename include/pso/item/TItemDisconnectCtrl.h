@@ -16,7 +16,7 @@ public:
 };
 
 #include <stddef.h>
-typedef char TItemDisconnectCtrlSize[(sizeof(TItemDisconnectCtrl) == 0x1C) ? 1 : -1];
-typedef char TItemDisconnectCtrlNameOffset[(offsetof(TItemDisconnectCtrl, m_name) == 0) ? 1 : -1];
+LAYOUT_ASSERT(TItemDisconnectCtrlSize, sizeof(TItemDisconnectCtrl) == 0x1C);
+LAYOUT_ASSERT(TItemDisconnectCtrlNameOffset, offsetof(TItemDisconnectCtrl, m_name) == 0);
 
 #endif

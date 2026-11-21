@@ -365,7 +365,6 @@ struct VObj_8026CE78 : Base_8026CE78 {
 
 extern "C" {
 
-
 void TShopEquipmentSellWindow::set_entry_count(void *arg1, void *arg2) {
     s32 temp_r3;
     void *temp_r31;

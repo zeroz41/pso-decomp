@@ -28,6 +28,6 @@ public:
     f32 fade_distance;
 };
 
-typedef char CameraDistanceFadeSize[sizeof(CameraDistanceFade) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(CameraDistanceFadeSize, sizeof(CameraDistanceFade) == 0x20);
 
 #endif

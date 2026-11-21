@@ -50,10 +50,10 @@ struct TItemObject : public TItem {
     u8 skip_use_feedback;
 };
 
-typedef char ItemObjectPmtOffset[(offsetof(TItemObject, pmt) == 0xF8) ? 1 : -1];
-typedef char ItemObjectAmountOffset[(offsetof(TItemObject, encoded_amount) == 0xFC) ? 1 : -1];
-typedef char ItemObjectTechniqueOffset[(offsetof(TItemObject, technique) == 0x100) ? 1 : -1];
-typedef char ItemObjectSize[(sizeof(TItemObject) == 0x104) ? 1 : -1];
+LAYOUT_ASSERT(ItemObjectPmtOffset, offsetof(TItemObject, pmt) == 0xF8);
+LAYOUT_ASSERT(ItemObjectAmountOffset, offsetof(TItemObject, encoded_amount) == 0xFC);
+LAYOUT_ASSERT(ItemObjectTechniqueOffset, offsetof(TItemObject, technique) == 0x100);
+LAYOUT_ASSERT(ItemObjectSize, sizeof(TItemObject) == 0x104);
 
 // The action palette slot a usable tool goes to (0..12), -1 for none.
 s32 get_tool_palette_index(TItem *item);

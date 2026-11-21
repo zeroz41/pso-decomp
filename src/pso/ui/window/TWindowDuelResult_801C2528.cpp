@@ -14,7 +14,7 @@ extern "C" {
 TUnk_804C3E60 *duel_result_window;
 extern TObject *tl_00;
 
-void show_duel_result_window(s32 gain, s32 duration) {
+void show_duel_result_window(saddr gain, saddr duration) {
     if (duel_result_window != NULL) {
         duel_result_window->countdown = duration;
         duel_result_window->gain_offset = gain;

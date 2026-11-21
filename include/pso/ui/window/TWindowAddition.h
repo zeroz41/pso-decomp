@@ -17,9 +17,9 @@ public:
     f32 scroll_offset[2];
 };
 
-typedef char WindowAdditionSize[sizeof(TWindowAddition) == 0x70 ? 1 : -1];
-typedef char WindowContentScaleOffset[offsetof(TWindowAddition, content_scale) == 0x60 ? 1 : -1];
-typedef char WindowScrollOffset[offsetof(TWindowAddition, scroll_offset) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(WindowAdditionSize, sizeof(TWindowAddition) == 0x70);
+LAYOUT_ASSERT(WindowContentScaleOffset, offsetof(TWindowAddition, content_scale) == 0x60);
+LAYOUT_ASSERT(WindowScrollOffset, offsetof(TWindowAddition, scroll_offset) == 0x68);
 
 extern "C" {
 // TWindowAddition::TWindowAddition(u8 *, s16, u8 *), called by the constructors that are still written by hand.

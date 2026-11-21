@@ -20,9 +20,9 @@ struct PageIndicator {
     s8 get_type();
 };
 
-typedef char PageIndicator_size[sizeof(PageIndicator) == 0xC ? 1 : -1];
-typedef char PageIndicator_input_port[offsetof(PageIndicator, input_port) == 4 ? 1 : -1];
-typedef char PageIndicator_arrow_offset[offsetof(PageIndicator, arrow_offset) == 8 ? 1 : -1];
+LAYOUT_ASSERT(PageIndicator_size, sizeof(PageIndicator) == 0xC);
+LAYOUT_ASSERT(PageIndicator_input_port, offsetof(PageIndicator, input_port) == 4);
+LAYOUT_ASSERT(PageIndicator_arrow_offset, offsetof(PageIndicator, arrow_offset) == 8);
 
 extern "C" {
 void draw_list_page_indicator(PageIndicator *, WindowDrawContext *);

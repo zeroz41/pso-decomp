@@ -38,11 +38,11 @@ struct RecoveredFields_803F88E4_arg0
   u8 unknown_16[0x2];
   u8 *field_18;
 };
-typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8) ? (1) : (-1)];
-typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803F88E4_lbl_805AEEB0_size, (sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8);
+LAYOUT_ASSERT(RecoveredGlobal_803AA0C0_lbl_80556E88_size, sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100);
 /* A PPP control packet header (RFC 1661): code, identifier and length. */
 struct PppHeader { u8 code; u8 id; s16 len; };
-typedef char PppHeader_size_check[sizeof(PppHeader) == 4 ? 1 : -1];
+LAYOUT_ASSERT(PppHeader_size_check, sizeof(PppHeader) == 4);
 
 /* Maps PPP configure option types to the negotiation bitmap. */
 static inline u32 ppp_configure_option_bit(u32 bit) {
@@ -68,7 +68,7 @@ extern "C" {
 u8 *alloc_from_buffer(void *self, s16 arg1);
 s32 clear_socket_slot(s16 i);
 s32 configure_mode_by_type(void *self, s16 type);
-void chap_input(void *self, s32 arg1);
+void chap_input(void *self, saddr arg1);
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
 s16 get_checked_status_value(s16 arg0);
@@ -83,7 +83,7 @@ void init_net_state_c(void);
 s32 init_net_subsystem_block(void);
 s32 mark_ready(void *self);
 s32 mark_sub_ready(void *obj);
-s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4);
+s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4);
 void queue_command_81(void);
 s32 read_2_bytes(void *self, void *src);
 void reset_connection_slot(void *self);
@@ -92,14 +92,14 @@ void reset_lcp_options(void *self);
 void set_active(void *self);
 s32 set_active_flag(void *self);
 s32 set_flags_and_state(void *self);
-void update_connection_state(int arg0);
+void update_connection_state(void *arg0);
 void MD5Transform(u32 *state, u8 *block);
 u8 *write_network_u32_be(u8 *p, u32 v);
 extern u8 lbl_805D7AC0[2];
 extern u8 lbl_805D7AC4[1];
 extern s16 lbl_805D7A7A;
 extern s16 lbl_805D7A7E;
-extern s32 lobby_timer_list_head;
+extern saddr lobby_timer_list_head;
 extern s16 lbl_805D7A7C;
 extern s32 lbl_805D7A90;
 extern u8 lcp_read_value_buffer[4];

@@ -29,6 +29,6 @@ struct TShopEquipmentGearSequence : public TShopSequence {
     static void *create_instance(void *arg0);
 };
 
-typedef char TShopEquipmentGearSequence_size[sizeof(TShopEquipmentGearSequence) == 0x38 ? 1 : -1];
-typedef char TShopEquipmentGearSequence_choice_menu_offset[offsetof(TShopEquipmentGearSequence, choice_menu) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentGearSequence_size, sizeof(TShopEquipmentGearSequence) == 0x38);
+LAYOUT_ASSERT(TShopEquipmentGearSequence_choice_menu_offset, offsetof(TShopEquipmentGearSequence, choice_menu) == 0x2C);
 #endif

@@ -35,5 +35,5 @@ struct TWindowLockOn : public TWindowBase {
     void update_for_enemy(TObjChara *enemy);
 };
 
-typedef char TWindowLockOn_size[sizeof(TWindowLockOn) == 0x7C ? 1 : -1];
+LAYOUT_ASSERT(TWindowLockOn_size, sizeof(TWindowLockOn) == 0x7C);
 #endif

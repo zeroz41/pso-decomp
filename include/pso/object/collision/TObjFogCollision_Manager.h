@@ -16,6 +16,6 @@ public:
     s32 player;     // index into TObjFogCollisionPoison__instances and the fog viewports
     s32 cleared;    // 1 once the player's fog is restored
 };
-typedef char TObjFogCollision_Manager_size[sizeof(TObjFogCollision_Manager) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TObjFogCollision_Manager_size, sizeof(TObjFogCollision_Manager) == 0x30);
 
 #endif

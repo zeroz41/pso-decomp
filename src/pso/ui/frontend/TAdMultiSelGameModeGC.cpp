@@ -25,7 +25,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 TAdMultiSelGameModeGC__data_805D69F0;
+saddr TAdMultiSelGameModeGC__data_805D69F0;
 void fn_803000C8(void) {
     if (is_split_screen() != 0) {
         switch (TAdMultiSelGameModeGC__data_805D69F0) {
@@ -88,10 +88,9 @@ void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiSelGameModeGC[];
-extern s32 game_difficulty_selection;
-s32 lbl_805D69F4;
+extern saddr game_difficulty_selection;
+saddr lbl_805D69F4;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
-s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }
 
 typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
@@ -130,11 +129,11 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(void *self, s32 mode, u32 idx) 
     }
 }
 
-s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
+saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     Pos3_803001B4 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
-    s32 r;
+    saddr r;
     u32 i;
     counts[0] = 4;
     counts[1] = 3;
@@ -272,7 +271,7 @@ void TAdMultiSelGameModeGC::sub_80300648() {
 void TAdMultiSelGameModeGC::sub_80300764() { *(s32*)((char*)this + 0x1c) = 1; }
 
 void run_task__21TAdMultiSelGameModeGCFv(Self_80300770 *self) {
-    set_default_camera__21TAdMultiChgGameModeGCFv(self);
+    TAdMultiChgGameModeGC::set_default_camera();
     static Action_80300770 tbl[5] = {
         &TAdMultiSelGameModeGC::sub_80300764, &TAdMultiSelGameModeGC::sub_80300648,
         &TAdMultiSelGameModeGC::sub_803003A4, &TAdMultiSelGameModeGC::update_transition_state,

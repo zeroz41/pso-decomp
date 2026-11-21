@@ -17,7 +17,7 @@ struct S_80037264 {
 
 struct Obj_800372F0 {
     u8 pad0[0x1C];
-    s32 f1C;
+    saddr f1C;
     s32 state;
     u32 req;
     u8 pad28[0x38 - 0x28];

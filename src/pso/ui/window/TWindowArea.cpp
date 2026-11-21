@@ -50,17 +50,17 @@ s32 create_window_area(void) {
     u8 *temp_r31;
     object = new TWindowArea();
     fn_802449E0((u8 *)object);
-    fn_8024450C(reinterpret_cast<s32>(object));
+    fn_8024450C(reinterpret_cast<saddr>(object));
     temp_r31 = (u8 *)((TWindowRoom *)object)->get_title_entry();
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)temp_r31)->get_field_20()));
-    return reinterpret_cast<s32>(object);
+    return reinterpret_cast<saddr>(object);
 }
 #pragma pop
 
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 create_area_window(s32 arg0) {
+s32 create_area_window(saddr arg0) {
     TWindowArea *object;
     u8 *temp_r31;
     object = new TWindowArea();
@@ -68,7 +68,7 @@ s32 create_area_window(s32 arg0) {
     fn_802449E0((u8 *)object);
     temp_r31 = reinterpret_cast<u8 *>(object->get_title_entry());
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(arg0));
-    return reinterpret_cast<s32>(object);
+    return reinterpret_cast<saddr>(object);
 }
 #pragma pop
 }
@@ -77,7 +77,7 @@ extern "C" {
 void fn_8024450C(s32 arg0) {
     s32 var_r30;
     s32 var_r31;
-    s32 var_r3;
+    saddr var_r3;
     s32 var_r5;
     var_r30 = arg0;
     var_r31 = TObjNewFloorWin__sub_8007410C();
@@ -88,14 +88,14 @@ void fn_8024450C(s32 arg0) {
 }
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     text_builder_reset();
     text_builder_append((u8 *)(get_message_text(0x67)));
     append_text_space();
     append_padded_number((arg1), (2U));
     text_builder_append((u8 *)"/");
     append_padded_number((arg2), (2U));
-    ((TWindowSubStatusDisp *)arg0)->set_entry_display_value((int) (get_shared_text_buffer()));
+    ((TWindowSubStatusDisp *)arg0)->set_entry_display_value((saddr) (get_shared_text_buffer()));
     TWindowSubStatusDisp__count_ratio_value = arg1;
 }
 

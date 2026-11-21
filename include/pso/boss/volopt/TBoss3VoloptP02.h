@@ -133,6 +133,6 @@ public:
 extern BmlResource *lbl_805D4CE4;
 extern VoloptP02Params *volopt_p02_params;
 
-typedef char TBoss3VoloptP02_size[sizeof(TBoss3VoloptP02) == 0x510 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3VoloptP02_size, sizeof(TBoss3VoloptP02) == 0x510);
 
 #endif

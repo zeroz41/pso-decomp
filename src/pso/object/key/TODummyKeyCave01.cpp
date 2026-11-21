@@ -65,7 +65,6 @@ struct Obj_80165C84 {
 };
 
 extern "C" {
-s32 sub_80165940__16TODummyKeyCave01Fv(void *, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
@@ -89,7 +88,7 @@ TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *arg2) : TObjBase(paren
     *(f32 *)((s8 *)dummy_key_cave01 + 0xB0) = 0.0f;
     *(f32 *)((s8 *)dummy_key_cave01 + 0xAC) = 0.0f;
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_b8 = 1;
-    sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, 1.0f);
+    ((TODummyKeyCave01 *)dummy_key_cave01)->sub_80165940();
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_cc = 0;
 }
 #undef dummy_key_cave01
@@ -126,7 +125,7 @@ void TODummyKeyCave01::run_task() {
         }
     }
     if (this->m_9a == 1) {
-        this->texlist = (s32)this->on_textures;
+        this->texlist = (saddr)this->on_textures;
         f32 lo = (-0.7f);
         if (lo < self->fB0) {
             self->fB0 += (-0.023333333f);
@@ -138,7 +137,7 @@ void TODummyKeyCave01::run_task() {
             *(s32 *)&this->m_cc = *(s32 *)&this->m_cc + 0x333;
         }
     } else {
-        this->texlist = (s32)this->off_textures;
+        this->texlist = (saddr)this->off_textures;
         if (self->fB0 < (0.0f)) {
             self->fB0 = self->fB0 - (-0.023333333f);
             if ((0.0f) < self->fB0) {

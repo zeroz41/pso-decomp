@@ -13,6 +13,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
+#include <stdio.h>
+#include <string.h>
 
 struct RecoveredGlobal_800739BC_lbl_8048C9D8 {
     s32 value;
@@ -47,8 +49,6 @@ char *get_message_text(s32);
 s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
 void *get_window_layout_position(s32);
-int sprintf(char *, const char *, ...);
-char *strcat(char *, const char *);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
@@ -56,7 +56,7 @@ s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
 Slot_80073428 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 has_window_task_root();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
-typedef char RecoveredGlobal_800739BC_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800739BC_lbl_8048C9D8_size, sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748);
 
 #define CHAL ((Chal_80073738 *)&challenge_mode_state)
 
@@ -133,7 +133,7 @@ void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
         ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(0.75f, 0.75f);
     }
     TAdSinglePlyChrSelectGC::format_challenge_stage_times(arg0, arg1);
-    ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((int)challenge_progress_text_buffer, (int)0);
+    ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
 void TLobby::open_challenge_progress_window(void *arg1) {
@@ -158,7 +158,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
             n = fn_80071A9C(this, rec->data, arg1);
-            if (n >= TWindowSubStatusDisp::get_layout_id((s32)arg1)) {
+            if (n >= TWindowSubStatusDisp::get_layout_id((saddr)arg1)) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x52));
             } else if (n == 0) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));
@@ -169,7 +169,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, "\n");
         }
     }
-    ((TWindowMessage *)(CHAL->window))->append_line((int)challenge_progress_text_buffer, (int)0);
+    ((TWindowMessage *)(CHAL->window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
 void TLobby__sub_800738F4(void *lobby, s32 arg1) {
@@ -195,7 +195,7 @@ void TLobby__sub_800738F4(void *lobby, s32 arg1) {
         ((TLobby *)lobby)->open_challenge_progress_window((void *)1);
         break;
     default:
-        TLobby::open_challenge_window((s32)lobby, (s32)arg1);
+        TLobby::open_challenge_window((saddr)lobby, (s32)arg1);
         break;
     }
 }

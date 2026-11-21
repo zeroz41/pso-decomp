@@ -10,6 +10,6 @@ struct TWindowCtrlClipOut : public TObject {
     virtual void render();
 };
 
-typedef char TWindowCtrlClipOut_size[sizeof(TWindowCtrlClipOut) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrlClipOut_size, sizeof(TWindowCtrlClipOut) == 0x1C);
 
 #endif

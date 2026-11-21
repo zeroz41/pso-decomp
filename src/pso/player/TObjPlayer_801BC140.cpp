@@ -4,7 +4,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 
-void TObjPlayer::update_position(s32 arg1) {
+void TObjPlayer::update_position(saddr arg1) {
     set_position_from((void *)(arg1 + 8));
     ((TBoss4DarkFalz *)this)->TBoss4DarkFalz::save_position();
     calc_attach_pos();

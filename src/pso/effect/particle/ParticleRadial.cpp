@@ -16,6 +16,7 @@
 #include "pso/unk/text_80086B64.h"
 
 #include "types.h"
+#include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
@@ -75,7 +76,6 @@ extern "C" {
 f32 vec_squared_length(u8 *arg0);
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
-s32 rand(void);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix(f32);
@@ -381,7 +381,7 @@ TUnk_8048E7A8::~TUnk_8048E7A8() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5)
+TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, saddr arg3, u16 arg4, s16 arg5)
     : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg3) {
     struct Fields_arg0 { u8 pad_0[24]; s32 * field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26; f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44; u8 pad_48[20]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78; u8 pad_7C[25]; s8 field_95; };
     struct Fields_arg1 { u8 pad_0[24]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4]; f32 field_30; u8 pad_34[4]; f32 field_38; u8 pad_3C[12]; s32 field_48; s32 field_4C; u8 pad_50[56]; u8 field_88; };
@@ -402,7 +402,7 @@ TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5)
     ((Fields_arg0*)this)->field_2C = (f32) ((Fields_arg0*)this)->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
@@ -432,7 +432,7 @@ TUnk_8048E7A8::TUnk_8048E7A8(void *arg1, void *arg2, void *arg3)
     ((Fields_arg0*)((u8 *)this))->field_2C = (f32) ((Fields_arg0*)((u8 *)this))->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) temp_r0);
     }

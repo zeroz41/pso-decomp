@@ -11,6 +11,6 @@ public:
     void * m_f8;
     u8 unk_FC[0x8];
 };
-typedef char TUnk_80494E48_size[sizeof(TUnk_80494E48) == 0x104 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80494E48_size, sizeof(TUnk_80494E48) == 0x104);
 
 #endif

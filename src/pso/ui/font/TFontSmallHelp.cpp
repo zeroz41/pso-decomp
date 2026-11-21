@@ -60,7 +60,7 @@ void TFontSmallHelp::set_help_text(const char *text_source) {
 void TFontSmallHelp::render() {
     TObjPlayer *player;
     f32 fade;
-    u32 rgba;
+    uaddr rgba;
 
     player = get_player_by_client_id(player_id);
     if (player != NULL && ((TObjPlayer *)player)->is_body_collision_inactive() != 0) {
@@ -126,8 +126,8 @@ struct HelpTextPlayerState {
     u8 unresolved_858[0x558];
     u32 identity;
 };
-typedef char HelpTextPlayerPosition[offsetof(HelpTextPlayerState, position) == 0x84C ? 1 : -1];
-typedef char HelpTextPlayerIdentity[offsetof(HelpTextPlayerState, identity) == 0xDB0 ? 1 : -1];
+LAYOUT_ASSERT(HelpTextPlayerPosition, offsetof(HelpTextPlayerState, position) == 0x84C);
+LAYOUT_ASSERT(HelpTextPlayerIdentity, offsetof(HelpTextPlayerState, identity) == 0xDB0);
 
 void TFontSmallHelp::run_task() {
     HelpTextPlayerState *player = (HelpTextPlayerState *)get_player_by_client_id(player_id);
@@ -150,7 +150,7 @@ void TFontSmallHelp::run_task() {
 
 TFontSmallHelp::~TFontSmallHelp() {}
 
-TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, u32 text_id)
+TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr text_id)
     : TObject((TObject *)TWindowCtrlMain::get_instance()) {
     m_name = TFontSmallHelp__name;
     HelpTextPlayerState *owner = (HelpTextPlayerState *)get_player_by_client_id(player);

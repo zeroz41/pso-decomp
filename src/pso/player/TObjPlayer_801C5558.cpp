@@ -6,7 +6,7 @@ extern "C" {
 s32 clear_trap_counts();
 
 s8 TObjPlayer::calc_class_stat_boost_index(s8 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 temp_r4;
     s8 var_r3;
 
@@ -81,7 +81,7 @@ s8 TObjPlayer::calc_class_stat_boost_index(s8 arg1, s32 arg2) {
 }
 
 s32 TObjPlayer::consume_trap_count(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     *(s8 *)((s8 *)(arg0 + arg2) + 0) = *(u8 *)((s8 *)(arg0 + arg2) + 0) - arg1;
     if ((s8) *(u8 *)((s8 *)(arg0 + arg2) + 0) < 0) {
         *(s8 *)((s8 *)(arg0 + arg2) + 0) = 0;
@@ -99,7 +99,7 @@ s32 TObjPlayer::clamp_char_at(s32 arg1) {
     return (u8)(arg0[arg1]);
 }
 
-void TObjPlayer__sub_801C5780(s32 arg0, s8 arg1, s32 arg2) {
+void TObjPlayer__sub_801C5780(saddr arg0, s8 arg1, s32 arg2) {
     s8 var_r4;
     var_r4 = arg1;
     if ((var_r4 < 0) || (var_r4 > 0x14)) {
@@ -108,7 +108,7 @@ void TObjPlayer__sub_801C5780(s32 arg0, s8 arg1, s32 arg2) {
     *(s8 *)((s8 *)(arg0 + arg2) + 0) = var_r4;
 }
 
-s32 TObjPlayer::init_partial(s32 arg0) {
+s32 TObjPlayer::init_partial(saddr arg0) {
     clear_trap_counts();
     return arg0;
 }

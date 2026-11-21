@@ -25,7 +25,7 @@ struct VObj_18 : VBase_18 {
     virtual void m5();
     virtual void m6();
     virtual void m7();
-    virtual s32 m8();
+    virtual saddr m8();
 };
 
 #include "pso/system/NinjaTypes.h"
@@ -51,16 +51,16 @@ const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r31;
-    temp_r31 = (s32)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
-    ((TWindowMessage *)temp_r31)->append_line((int)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
+    saddr temp_r31;
+    temp_r31 = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
+    ((TWindowMessage *)temp_r31)->append_line((saddr)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }
 
 s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *arg0 = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
-    s32 r = (s32)init_shop_judgment_window(&pos);
+    saddr r = (saddr)init_shop_judgment_window(&pos);
     ((TWindowMenu *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);

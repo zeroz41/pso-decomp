@@ -84,5 +84,5 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void add_target_in_cone(TObjChara *target);
 };
 
-typedef char TObjEneMe1GiGue_size[sizeof(TObjEneMe1GiGue) == 0x458 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1GiGue_size, sizeof(TObjEneMe1GiGue) == 0x458);
 #endif

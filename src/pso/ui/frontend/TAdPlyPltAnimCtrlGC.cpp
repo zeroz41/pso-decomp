@@ -7,6 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
 struct O_80355148 { u8 pad[0x1c]; s32 state; };
@@ -18,16 +19,15 @@ const char *TAdPlyPltAnimCtrlGC__class_name = "TAdPlyPltAnimCtrlGC";
 
 extern "C" {
 s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self);
-u32 __nw__7TObjectFUl(s32);
 u32 plyplt_anim_ctrl_instance;
 
 TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC__instances[a0]; }
 
-u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
-    u32 ad_ply_plt_anim_ctrl_gc;
+u32 TAdPlyPltAnimCtrlGC::get_instance(saddr arg0) {
+    uaddr ad_ply_plt_anim_ctrl_gc;
 
     if ((u32) plyplt_anim_ctrl_instance == 0U) {
-        ad_ply_plt_anim_ctrl_gc = (u32)new TAdPlyPltAnimCtrlGC((TObject *)arg0);
+        ad_ply_plt_anim_ctrl_gc = (uaddr)new TAdPlyPltAnimCtrlGC((TObject *)arg0);
         plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
     }
     return plyplt_anim_ctrl_instance;

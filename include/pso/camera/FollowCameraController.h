@@ -20,12 +20,12 @@ struct FollowView {
     u8 unknown104[0x74];
     FollowVector position, target;
 };
-typedef char FollowActorPositionOffset[offsetof(FollowActor, position) == 0x38 ? 1 : -1];
-typedef char FollowControllerActorOffset[offsetof(FollowController, actor) == 0x1C ? 1 : -1];
-typedef char FollowControllerPositionOffset[offsetof(FollowController, position_offset) == 0xDC ? 1 : -1];
-typedef char FollowViewSplitOffset[offsetof(FollowView, split_positions) == 0xD4 ? 1 : -1];
-typedef char FollowViewPositionOffset[offsetof(FollowView, position) == 0x178 ? 1 : -1];
-typedef char FollowViewTargetOffset[offsetof(FollowView, target) == 0x184 ? 1 : -1];
+LAYOUT_ASSERT(FollowActorPositionOffset, offsetof(FollowActor, position) == 0x38);
+LAYOUT_ASSERT(FollowControllerActorOffset, offsetof(FollowController, actor) == 0x1C);
+LAYOUT_ASSERT(FollowControllerPositionOffset, offsetof(FollowController, position_offset) == 0xDC);
+LAYOUT_ASSERT(FollowViewSplitOffset, offsetof(FollowView, split_positions) == 0xD4);
+LAYOUT_ASSERT(FollowViewPositionOffset, offsetof(FollowView, position) == 0x178);
+LAYOUT_ASSERT(FollowViewTargetOffset, offsetof(FollowView, target) == 0x184);
 
 s32 conversation_camera_obstructed(FollowController *, s32 heading);
 #endif

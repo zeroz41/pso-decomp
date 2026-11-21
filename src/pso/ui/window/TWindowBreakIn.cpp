@@ -45,8 +45,8 @@ extern "C" {
 u8 * get_window_layout_position(s32);
 
 void TWindowBreakIn::render() {
-    s32 arg0 = (s32)this;
-    s32 tmp = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    s32 arg0 = (saddr)this;
+    saddr tmp = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),

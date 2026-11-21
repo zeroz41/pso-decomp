@@ -84,7 +84,7 @@ s32 get_photon_blast_name(s32 arg0);
 struct TWindowSubMag_8027B62C {
     u8 pad0[0x28];
     s32 field_0x28;
-    s32 field_0x2c;
+    saddr field_0x2c;
     s32 field_0x30;
 };
 extern "C" {
@@ -94,7 +94,7 @@ s32 calc_text_width();
 s32 text_builder_append();
 s32 set_depth__11TWindowBaseFf(void *);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
 s32 is_player_input_active(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
@@ -102,7 +102,7 @@ void *fn_802628C0(s32, const f32 *, s32);
 s32 call_if_split_screen(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
-void *TWindowSubMagPhoton__ct(void *, s32, s32, s32);
+void *TWindowSubMagPhoton__ct(void *, saddr, s32, s32);
 int TWindowSubMag__sub_8027C0E8(void* p);
 const char *TWindowSubMag__class_name = "TWindowSubMag";
 // Window positions (x, y): mag slot list, the two equip-kind lists, message window.
@@ -112,21 +112,21 @@ extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
 extern Pad_8027B888 controller_input_state[];
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
 }
 s32 get_help_text_string(s32 arg0);
 extern "C" {
-s32 create_equip_kind_window(s32, const f32 *, s32);
+s32 create_equip_kind_window(saddr, const f32 *, s32);
 s32 __ct__7TObjectFP7TObject();
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 }
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void append_text_space(void);
 void text_builder_reset(void);
 void window_request_show(void *arg0);
 void window_request_refresh(u8 *arg0);
-void toggle_help_window_on_button(u32 arg0, s32 arg1);
+void toggle_help_window_on_button(uaddr arg0, s32 arg1);
 
 extern "C" const char lbl_805DD648[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).
@@ -154,13 +154,13 @@ s32 TWindowSubMag::get_selected_blast() {
 }
 
 s32 get_photon_blast_name(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x20)) + (arg0 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x20)) + (arg0 * 4));
 }
 
 void *TWindowSubMag__ct(TWindowSubMag *window_sub_mag, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_mag + 0x18) = __vt__13TWindowSubMag;
-    *(s32 *)((s8 *)window_sub_mag + 0) = (s32) TWindowSubMag__class_name;
+    *(s32 *)((s8 *)window_sub_mag + 0) = (saddr) TWindowSubMag__class_name;
     window_sub_mag->parent = arg1;
     window_sub_mag->client_id = arg2;
     window_sub_mag->list = window_sub_mag->setup_list();
@@ -231,14 +231,14 @@ void TWindowSubMag::run_task() {
                 w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(9), self->client_id);
             }
             self->help = w;
-            TWindowSubEquip__sub_80263AF8((s32)self->parent, 5);
+            TWindowSubEquip__sub_80263AF8((saddr)self->parent, 5);
             set_depth__11TWindowBaseFf(self->help);
         }
         if (self->slotwin == NULL) {
             self->slotwin = fn_802628C0(get_window_layout_position(0xC), lbl_8044F9E8, self->client_id);
         }
         ((TWindowHelpItem *)(self->help))->sub_80255E24();
-        ((TWindowSubMag *)((s32)self->list))->init_and_setup((void*)2);
+        ((TWindowSubMag *)((saddr)self->list))->init_and_setup((void*)2);
         ((TWindowMenuIconLine *)(self->list))->clear_decided();
         ((TWindowSubMag *)(self->list))->start_scroll((188.0f));
         self->state = 2;
@@ -310,7 +310,7 @@ void TWindowSubMag::run_task() {
             test_controller_flag_4c_color(controller_input_state[4].sub, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 5;
-        } else if (TWindowSubItem::is_usable((s32)player) != 0) {
+        } else if (TWindowSubItem::is_usable((saddr)player) != 0) {
             self->slots = ((TWindowSubMag *)self)->count_slots();
             TWindowSubMag::feed_mag((void*)player, (void*)(((TWindowMenuIconLine *)self->list)->get_cursor_value()), (void*)(((TWindowMenuIconLine *)self->list2)->get_cursor_value()));
             self->state = 8;
@@ -321,7 +321,7 @@ void TWindowSubMag::run_task() {
         window_request_refresh((u8 *)self->help);
         ((TWindowSubMag *)(self->help))->set_flag60_bit8();
         ((TWindowHelpItem *)(self->help))->refresh_copied_items();
-        ((TWindowSubMag *)((s32)self->list))->init_and_setup((void*)2);
+        ((TWindowSubMag *)((saddr)self->list))->init_and_setup((void*)2);
         ((TWindowSubMag *)(self->slotwin))->set_mag_slot_state(((TWindowSubMag *)(self->help))->get_mag_state());
         if (((TItemData *)(self->help))->update_mag_status_gauges() != 0) {
             self->state = 9;
@@ -380,7 +380,7 @@ void TWindowSubMag::run_task() {
             w = TWindowSubMagPhoton__ct(w, get_window_layout_position(0xA), self->mag_state, self->client_id);
         }
         self->photon = w;
-        TWindowSubEquip__sub_80263AF8((s32)self->parent, 3);
+        TWindowSubEquip__sub_80263AF8((saddr)self->parent, 3);
         set_depth__11TWindowBaseFf(self->photon);
         self->effect = ((TWindowSubMag *)self)->create();
         self->f1d = -1;
@@ -407,12 +407,12 @@ void TWindowSubMag::run_task() {
 void TWindowSubMag::render() {  }
 
 s32 TWindowSubMag::setup_list() {
-    s32 equip_kind_window;
+    saddr equip_kind_window;
     s32 window_layout_position;
 
     window_layout_position = get_window_layout_position(7);
     equip_kind_window = create_equip_kind_window(window_layout_position, lbl_8044F9F0, this->client_id);
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((s32)TWindowSubStatusDisp::get_message_10(0x29));
+    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x29));
     TWindowSubEquip__sub_80263AF8(this->parent, 0);
     set_depth__11TWindowBaseFf((void *)equip_kind_window);
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
@@ -420,12 +420,12 @@ s32 TWindowSubMag::setup_list() {
     return equip_kind_window;
 }
 
-s32 TWindowSubMag::create_list() {
-    s32 equip_kind_window;
+saddr TWindowSubMag::create_list() {
+    saddr equip_kind_window;
 
     s32 window_layout_position = get_window_layout_position(0xD);
     equip_kind_window = create_equip_kind_window(window_layout_position, lbl_8044F9F8, this->client_id);
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((s32)TWindowSubStatusDisp::get_message_10(0x24));
+    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     TWindowSubEquip__sub_80263AF8(this->parent, 2);
     set_depth__11TWindowBaseFf((void *)equip_kind_window);
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
@@ -448,17 +448,17 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     u8 *item;
     ((MagStats *)mag)->init();
     item = (u8 *)find_item_by_id(id);
-    window = (void *)create_titled_window_menu(get_window_layout_position(8), 2, (s32)TWindowSubStatusDisp::get_message_10(0x1D), menu->field_0x28);
+    window = (void *)create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), menu->field_0x28);
     TWindowSubEquip__sub_80263AF8(menu->field_0x30, 1);
     set_depth__11TWindowBaseFf(window);
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
         add_gray_text_entry((TWindowSubTradeMain *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (s32)TWindowSubStatusDisp::get_message_10(0x65), 6, 1);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (saddr)TWindowSubStatusDisp::get_message_10(0x65), 6, 1);
     }
     TItemData::deserialize_mag((void *)(menu->field_0x2c), (void *)mag);
     if (((MagStats *)mag)->get_photon_blast(0) != -1) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (s32)TWindowSubStatusDisp::get_message_10(0x64), 6, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (saddr)TWindowSubStatusDisp::get_message_10(0x64), 6, 0);
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }
@@ -491,7 +491,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     s32 n;
     void *win;
     ((MagStats *)((s32 *)&item))->init();
-    TItemData::deserialize_mag((void *)(*(s32 *)&this->mag), (void *)((s32 *)&item));
+    TItemData::deserialize_mag((void *)(*(saddr *)&this->mag), (void *)((s32 *)&item));
     n = ((MagStats *)((s32 *)&item))->get_photon_blast(*(s8 *)&this->slots);
     if (n == -1) {
         return 0;
@@ -515,10 +515,10 @@ void *TWindowSubMag::create_learned_blast_toast() {
     pos.x -= (0.5f * n + 4.0f) * scale;
     size.x = 8.0f + n;
     size.y = 40.0f;
-    win = TWindowMessage::create((s32)&pos, &size.x, 1, *(s32 *)&this->client_id);
+    win = TWindowMessage::create((saddr)&pos, &size.x, 1, *(s32 *)&this->client_id);
     TWindowSubEquip__sub_80263AF8(*(s32 *)&this->parent, 6);
     set_depth__11TWindowBaseFf(win);
-    ((TWindowMessage *)win)->append_line((int)((s32 *)get_shared_text_buffer()), (int)2);
+    ((TWindowMessage *)win)->append_line((saddr)((s32 *)get_shared_text_buffer()), (int)2);
     ((TWindowAddition *)win)->set_position_xy(scale, scale);
     return win;
 }
@@ -571,7 +571,7 @@ void TWindowSubMag::update_mag_help() {
     if (temp_r3 != (s8) this->m_1d) {
         this->m_1d = (u8) temp_r3;
         if (temp_r3 == -1) {
-            ((TWindowMessage *)(this->message))->append_line((int)((s32 *)lbl_805DD648), (int)0x80);
+            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), (int)0x80);
             return;
         }
         ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(temp_r3 + 0x27)), (int)0x80);

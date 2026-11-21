@@ -30,7 +30,7 @@ public:
     static void *generate_child_default(void *param, void *pos, void *parent);
     static s32 get_particle_model(s32 arg0);
     static int get_instance();
-    u32 validate_ctrl();
+    uaddr validate_ctrl();
     void destroy_particle();
     static void begin_effect_render();
     static void end_effect_render();
@@ -42,8 +42,8 @@ public:
     static void setup_particle_draw(s32 arg0);
 public:
     static void *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
-    u8 *construct_particle_obj(s32 arg1, s32 arg2);
-    u8 *init_particle_obj(s32 arg1, s32 arg2);
+    u8 *construct_particle_obj(s32 arg1, saddr arg2);
+    u8 *init_particle_obj(s32 arg1, saddr arg2);
     void enable();
     void *initialize(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self);
     void attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);

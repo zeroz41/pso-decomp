@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOAttackableCol : public TObjChara {
-    TOAttackableCol(s32);
+    TOAttackableCol(saddr);
     virtual ~TOAttackableCol();
     virtual void vfunc_6(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
@@ -22,7 +22,7 @@ struct TOAttackableCol : public TObjChara {
     void init_params();
     int send_state_change(u16 state);
     int handle_6x91_update_state();
-    f32 apply_hit(s32 arg1);
+    f32 apply_hit(saddr arg1);
     void release();
     void check_door_trigger();
     virtual void run_task();
@@ -36,7 +36,7 @@ struct TOAttackableCol : public TObjChara {
     s32 m_34c;
 };
 
-typedef char TOAttackableCol_size[sizeof(TOAttackableCol) == 0x350 ? 1 : -1];
+LAYOUT_ASSERT(TOAttackableCol_size, sizeof(TOAttackableCol) == 0x350);
 extern "C" {
 void TOAttackableCol__sub_80157310(void *_w0);
 void TOAttackableCol__sub_80157C20(void *p, s32 v);

@@ -45,7 +45,7 @@ void TWindowMenuTeamStatus::vfunc_6(u32 count, s32 id) {
 }
 
 void *TLobby::create_object(void *arg0) {
-    return new TWindowMenuTeamStatus((s32)arg0);
+    return new TWindowMenuTeamStatus((saddr)arg0);
 }
 
 TWindowMenuTeamStatus::~TWindowMenuTeamStatus() {}

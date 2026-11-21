@@ -33,6 +33,6 @@ struct KeyboardTextBuffer {
     void reset_state();
 };
 
-typedef char KeyboardTextBuffer_size[sizeof(KeyboardTextBuffer) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(KeyboardTextBuffer_size, sizeof(KeyboardTextBuffer) == 0x18);
 
 #endif

@@ -327,7 +327,7 @@ s32 is_action_id_none(s16);
 
 s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0);
 s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0) {
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(arg0->header.client_id);
     if (player == 0) {
         return 0;

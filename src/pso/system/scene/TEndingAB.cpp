@@ -23,8 +23,8 @@ struct EndingWallTextureSet {
     EndingTextureName names[14];
     EndingTextureList list;
 };
-typedef char EndingTextureNameSize[sizeof(EndingTextureName) == 12 ? 1 : -1];
-typedef char EndingWallTextureSetSize[sizeof(EndingWallTextureSet) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(EndingTextureNameSize, sizeof(EndingTextureName) == 12);
+LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
 const char ending_texture_name_ed_512kabe_a[] = "ed_512kabe_A";
 const char ending_texture_name_ed_512kabe_b[] = "ed_512kabe_B";
@@ -264,13 +264,13 @@ void TEndingAB::set_fish_global_param() {
     switch (game_difficulty_selection) {
     case 0:
     case 1:
-        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
+        TObjFish::set_global_param((saddr)ending_ab_wall_texture_list);
         break;
     case 2:
-        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
+        TObjFish::set_global_param((saddr)ending_ab_wall_texture_list);
         break;
     case 3:
-        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
+        TObjFish::set_global_param((saddr)ending_ab_wall_texture_list);
         break;
     }
 }
@@ -281,7 +281,7 @@ void TEndingAB__sub_8008CCC0(TEndingAB *self) {}
 void TEndingAB::init_float_table() { *(float*)((char*)this + 0x2c) = 228.0f; *(float*)((char*)this + 0x30) = 0.0f; *(float*)((char*)this + 0x34) = 640.0f; *(float*)((char*)this + 0x38) = 480.0f; *(float*)((char*)this + 0x3c) = 0.1953125f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0x44) = 1.0f; *(float*)((char*)this + 0x48) = 0.9375f; *(float*)((char*)this + 0x4c) = 0.0f; *(float*)((char*)this + 0x50) = 0.0f; *(float*)((char*)this + 0x54) = 100.0f; *(float*)((char*)this + 0x58) = 480.0f; *(float*)((char*)this + 0x5c) = 0.0f; *(float*)((char*)this + 0x60) = 0.0f; *(float*)((char*)this + 0x64) = 0.1953125f; *(float*)((char*)this + 0x68) = 0.9375f; *(float*)((char*)this + 0x6c) = 228.0f; *(float*)((char*)this + 0x70) = 0.0f; *(float*)((char*)this + 0x74) = 640.0f; *(float*)((char*)this + 0x78) = 480.0f; *(float*)((char*)this + 0x7c) = 0.1953125f; *(float*)((char*)this + 0x80) = 0.0f; *(float*)((char*)this + 0x84) = 1.0f; *(float*)((char*)this + 0x88) = 0.9375f; *(float*)((char*)this + 0x8c) = 0.0f; *(float*)((char*)this + 0x90) = 0.0f; *(float*)((char*)this + 0x94) = 100.0f; *(float*)((char*)this + 0x98) = 480.0f; *(float*)((char*)this + 0x9c) = 0.0f; *(float*)((char*)this + 0xa0) = 0.0f; *(float*)((char*)this + 0xa4) = 0.1953125f; *(float*)((char*)this + 0xa8) = 0.9375f; *(float*)((char*)this + 0xac) = 316.0f; *(float*)((char*)this + 0xb0) = 32.0f; *(float*)((char*)this + 0xb4) = 616.0f; *(float*)((char*)this + 0xb8) = 332.0f; *(float*)((char*)this + 0xbc) = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; *(float*)((char*)this + 0xc4) = 1.0f; *(float*)((char*)this + 0xc8) = 1.0f; *(float*)((char*)this + 0xcc) = 316.0f; *(float*)((char*)this + 0xd0) = 148.0f; *(float*)((char*)this + 0xd4) = 616.0f; *(float*)((char*)this + 0xd8) = 448.0f; *(float*)((char*)this + 0xdc) = 0.0f; *(float*)((char*)this + 0xe0) = 0.0f; *(float*)((char*)this + 0xe4) = 1.0f; *(float*)((char*)this + 0xe8) = 1.0f; }
 
 void TEndingAB::render() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if ((s32) TEndingAB__fade_sequence_state != 0) {
         TEndingAB::set_fish_global_param();
         ((TEndingAB *)arg0)->draw_overlay();
@@ -300,7 +300,7 @@ void TEndingAB::run_task() { advance_fade_sequence(); }
 TEndingAB::~TEndingAB() {}
 }
 TEndingAB::TEndingAB(TObject *arg1) : TObject(arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) ending_ab_class_name;
+    *(s32 *)((s8 *)this + 0) = (saddr) ending_ab_class_name;
     *(s32 *)((s8 *)this + 0x1C) = -1;
     TEndingAB__fade_sequence_state = 0;
     *(s32 *)((s8 *)this + 0x20) = 0xFF;

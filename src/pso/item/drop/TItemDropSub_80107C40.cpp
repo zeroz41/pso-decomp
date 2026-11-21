@@ -5,7 +5,7 @@
 extern "C" {
 
 extern void *TItemDropSub__instance;
-extern s32 tl_05;
+extern saddr tl_05;
 
 void TItemDropSub::create_instance(s32 arg0) {
     if (TItemDropSub__instance == NULL) {

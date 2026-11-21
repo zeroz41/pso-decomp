@@ -43,7 +43,7 @@ struct TBoss2Joint : public TObjEneDD {
     u8 unk_3AC[0x10];
 };
 
-typedef char TBoss2Joint_size[sizeof(TBoss2Joint) == 0x3BC ? 1 : -1];
+LAYOUT_ASSERT(TBoss2Joint_size, sizeof(TBoss2Joint) == 0x3BC);
 
 extern "C" {
 void TBoss2Joint__sub_8003688C(u8 *arg0);

@@ -25,7 +25,7 @@ extern const char *TBoss5GryphonSnarl__name;
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 
 s32 free_bin_model_request(s32, s32);
@@ -53,7 +53,7 @@ void TBoss5GryphonSnarl::run_task() {
         instance = TBoss8Dragon::get_instance_count();
         scale = (f32)(30 - frame) / 30.0f;
         scale += 1.0f;
-        TBoss8Dragon__sub_8006402C(instance, (s32)&position, inner, scale);
+        TBoss8Dragon__sub_8006402C(instance, (saddr)&position, inner, scale);
         outer = 10.0f + inner;
         for (i = 0; i < 32; i++) {
             angle = (i << 16) / 32;
@@ -137,7 +137,7 @@ TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(pa
 void TBoss5GryphonSnarl__sub_80066E84(void) {  }
 
 extern s32 lbl_805D4DD8;
-extern u32 boss5_common_texture_list;
+extern uaddr boss5_common_texture_list;
 
 void TBoss5GryphonSnarl__sub_80066E88(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
@@ -148,7 +148,7 @@ void TBoss5GryphonSnarl__sub_80066E88(void) {
 }
 
 void TLobby__sub_80066EC0(void) {
-    if ((u32) boss5_common_texture_list != 0U) {
+    if (boss5_common_texture_list != 0U) {
         release_texture_list((void*)boss5_common_texture_list);
         TAdSinglePlyChrSelectGC::safe_free(boss5_common_texture_list);
         boss5_common_texture_list = 0U;

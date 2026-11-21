@@ -15,7 +15,7 @@ struct EffectTextureFile {
 static const EffectTextureFile effect_texture_file = {&shared_effect_texture_list, "effect_nt.gvm"};
 const char *TEffect__class_name = "TEffect";
 
-s32 effect_rel;
+saddr effect_rel;
 s32 particle_texture_id_table[54];
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step) {
@@ -97,7 +97,7 @@ void free_effect_resources() {
 
 void load_effect_resources() {
     s32 i;
-    effect_rel = create_named_object((s32)"EFFECT_NT.REL");
+    effect_rel = create_named_object((saddr)"EFFECT_NT.REL");
     bind_gvm_texture_list(effect_texture_file.filename, effect_texture_file.texlist);
     for (i = 0; i < 54; i++) {
         particle_texture_id_table[i] = shared_effect_texture_list.entries[i].texture->surface->id;

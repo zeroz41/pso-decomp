@@ -24,7 +24,7 @@ struct TObjLight : public TObjBase {
     virtual void run_task();
     void*init_light(int a1);
     void unregister_and_free();
-    static u32 alloc_light_slot();
+    static uaddr alloc_light_slot();
     void init_directional_light();
     static void free_shared_data();
     static void apply_distant_light();
@@ -41,10 +41,10 @@ struct TObjLight : public TObjBase {
     f32 m_f4;
     u8 unk_F8[0x4];
     f32 m_fc;
-    u8 *construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0);
+    u8 *construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0);
 };
 
-typedef char TObjLight_size[sizeof(TObjLight) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);
 
 extern "C" {
 u8 *TObjLight__create(u8 *arg0);

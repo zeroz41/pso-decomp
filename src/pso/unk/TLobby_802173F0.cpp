@@ -2,11 +2,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
-extern u32 story_quest_list_resource;
+extern uaddr story_quest_list_resource;
 
 void TLobby::free_global() {
     if ((u32) story_quest_list_resource != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)story_quest_list_resource));
+        TLobby::free_nodes_with_id((uaddr)((void*)story_quest_list_resource));
         story_quest_list_resource = 0U;
     }
 }

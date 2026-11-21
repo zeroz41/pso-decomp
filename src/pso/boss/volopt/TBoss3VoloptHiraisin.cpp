@@ -140,8 +140,8 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
 void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
-    TBoss3Volopt::create_breakup_mdl((s32)volopt_hiraisin_breakup_model, (s32)&volopt_hiraisin_breakup_params,
-                                     get_bml_texlist(volopt_hiraisin_resources, 0x10), (s32)&m_2fc, rotation_y);
+    TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
+                                     get_bml_texlist(volopt_hiraisin_resources, 0x10), (saddr)&m_2fc, rotation_y);
     ((TObjPlayer *)((Vec *)&m_2fc))->trigger_dell_biter_events();
     play_sound_effect(0x4001C112, &position, 0, 0);
     m_388 &= ~1;
@@ -230,7 +230,7 @@ void TBoss3VoloptHiraisin::render() {
         TObjFish::set_global_param(texlist);
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
-        select_actor_lighting((s32)this);
+        select_actor_lighting((saddr)this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
@@ -342,7 +342,7 @@ void TBoss3VoloptHiraisin::init_params() {
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
     action_table = volopt_hiraisin_motions;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
     movementParameters = &volopt_hiraisin_movement;

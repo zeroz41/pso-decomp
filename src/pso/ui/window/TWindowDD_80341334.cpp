@@ -35,7 +35,7 @@ void TWindowDD_WS_String::render() {
 
 void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
     if (*(s32 *)((s8 *)entry + 0x30) >= 0) {
-        draw((s32)entry, pad_60, 0.0f);
+        draw((saddr)entry, pad_60, 0.0f);
     }
 }
 
@@ -52,7 +52,7 @@ extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *arg1) {
     copy_vec2(target_position, pad_64);
-    tween_ticks = (s32)arg1;
+    tween_ticks = (saddr)arg1;
 }
 
 void TWindowDD_WS_String::update_position(s32 arg1) {

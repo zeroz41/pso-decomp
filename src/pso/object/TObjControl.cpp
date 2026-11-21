@@ -47,7 +47,7 @@ extern s32 registered_player_count;
 
 extern s32 lbl_805D5870;
 
-extern u32 TObjPlayer__data_8050D460[];
+extern uaddr TObjPlayer__data_8050D460[];
 
 u8 *get_enemy_entity(u16 arg0);
 
@@ -432,7 +432,7 @@ struct Plr_800F6BF0 : VBase_800F6BF0 {
     virtual void m12(s32);
 };
 
-f32 TObjPlayer__sub_800192C4(s32, s32);
+f32 TObjPlayer__sub_800192C4(saddr, s32);
 
 u16 obj_getArrU16_FC(void *, int);
 
@@ -543,7 +543,7 @@ s32 TObjEnemy::apply_by_index(s16 arg0) {
     if (arg0 > 0xB4F) {
         return 0;
     }
-    copy_header__6TLobbyFPv((s32)TLobby__data_805D6144 + (arg0 * 0xC));
+    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (arg0 * 0xC));
     return 1;
 }
 
@@ -656,9 +656,9 @@ block_14:
     *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
     this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
     *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
-    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((s32)this, 2)));
-    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((s32)this, 2)));
-    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((s32)this, 3)));
+    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
     return 1;
 }
 
@@ -672,7 +672,7 @@ TObjEnemy* TObjEnemy::groupRoot() {
 
 s32 TObjPlayer::is_action_available() {
     TObjEnemy*_w0 = (TObjEnemy*)this;
-    return ((s32)_w0->groupRoot()) ? 1 : 0;
+    return ((saddr)_w0->groupRoot()) ? 1 : 0;
 }
 
 s32 TUnk_80493450::countChildren() {
@@ -1017,7 +1017,7 @@ u8 *get_enemy_entity(u16 arg0) {
                 high = mid;
             }
         }
-        u32 e = TObjPlayer__data_8050D460[low];
+        uaddr e = TObjPlayer__data_8050D460[low];
         if (e != 0 && arg0 == get_entity_id((void *)e)) {
             return (u8 *)e;
         }

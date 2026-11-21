@@ -13,6 +13,7 @@
 #pragma readonly_strings on
 
 #include "pso/npc/TObjNpcMaleBase.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void init_collision_body_parts(void *, void *, s32);
@@ -45,7 +46,7 @@ TObjNpcLappy::TObjNpcLappy(TObject *parent, void *set_data) : TObjNpcBase(parent
     apply_set_params(0, 1);
     *(s32 *)((u8 *)this + 0x34) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 8);
     *(s32 *)((u8 *)this + 0x24) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 0xC);
-    init_motion(npc_lappy_animation_table, (BmlMotionEntry *)*(s32 *)(rappy_bml_resource + 0x430), *(s16 *)((u8 *)this + 0xB8));
+    init_motion(npc_lappy_animation_table, (BmlMotionEntry *)*(saddr *)(rappy_bml_resource + 0x430), *(s16 *)((u8 *)this + 0xB8));
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);
     init_collision_body_parts(this, lbl_804A9DA8, 1);

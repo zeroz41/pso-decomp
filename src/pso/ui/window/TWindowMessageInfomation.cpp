@@ -12,7 +12,7 @@ extern "C" {
 extern const char *TWindowMessageInfomation__name;
 
 void TWindowMessageInfomation::render() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s8 *tmp = reinterpret_cast<s8 *>(get_draw_context());
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),

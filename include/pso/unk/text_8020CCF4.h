@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 construct_enemy_from_set_row(u8 *row);
+saddr construct_enemy_from_set_row(u8 *row);
 
 #endif

@@ -22,7 +22,7 @@ void TLobby__sub_803CBE20(void) {
 }
 
 void TLobby__sub_803CBE40(u8 *arg0) {
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 0xC)))->apply_field();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 0xC)))->apply_field();
 }
 
 void TLobby__sub_803CBE64(u8 *arg0) {

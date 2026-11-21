@@ -31,7 +31,7 @@ void TUnk_804A0EA8::reserved_53() {
     draw_weapon_model();
     get_gun_point(&gun_point);
     item_model = (NJS_OBJECT *)model_data[0];
-    draw_weapon_at_joint((s32)this, 0x23);
+    draw_weapon_at_joint((saddr)this, 0x23);
     get_gun_point(&second_gun_point);
     item_model = model;
 }
@@ -43,7 +43,7 @@ TUnk_804A0EA8::TUnk_804A0EA8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-u8 *create_guld_milla(s32 item) {
+u8 *create_guld_milla(saddr item) {
     if (item != 0) {
         return (u8 *)new TUnk_804A0EA8(tl_05, (u8 *)item);
     }

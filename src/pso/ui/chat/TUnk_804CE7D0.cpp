@@ -40,13 +40,13 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     s32 i;
     u8 *temp_r30;
     u8 *symbol_chat_preset;
-    preset_list = (TWindowSubComCardList *)(u8 *)create_window_menu_default((s32)(&preset_list_pos), 0xC);
+    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default((saddr)(&preset_list_pos), 0xC);
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
         temp_r30 = (u8 *)(((TWindowSubSymbolChat *)symbol_chat_preset)->get_symbol_chat_data());
         if (is_symbol_chat_preset_in_use((u32 *)symbol_chat_preset) != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (s32) temp_r30, 0x66, i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (saddr) temp_r30, 0x66, i);
         } else {
             add_gray_text_entry((TWindowSubTradeMain *)preset_list, (const char *)temp_r30, 0x46, (s32)i);
         }
@@ -55,5 +55,5 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
-    chat_symbol = new TWindowChatSymbol((s32)&lbl_8044EAC8, (s32)&lbl_8044EAD0);
+    chat_symbol = new TWindowChatSymbol((saddr)&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
 }

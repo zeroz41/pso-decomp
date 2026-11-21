@@ -79,8 +79,8 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     s32 m_40c;
 };
 
-typedef char TObjEneRe4Bit_fade_offset[offsetof(TObjEneRe4Bit, fade) == 0x3DC ? 1 : -1];
-typedef char TObjEneRe4Bit_size[sizeof(TObjEneRe4Bit) == 0x410 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe4Bit_fade_offset, offsetof(TObjEneRe4Bit, fade) == 0x3DC);
+LAYOUT_ASSERT(TObjEneRe4Bit_size, sizeof(TObjEneRe4Bit) == 0x410);
 
 extern "C" {
 void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *arg0, s32 arg1);

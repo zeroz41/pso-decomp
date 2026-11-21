@@ -15,10 +15,10 @@ extern "C" {
 s32 TAdMultiPlyChrSelectGC::get_field_20() { return this->m_20; }
 
     extern int TAdMultiPlyChrSelectGC__instance;
-int TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPlyChrSelectGC__instance; }
+saddr TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPlyChrSelectGC__instance; }
 
     extern int plyplt_anim_ctrl_instance;
-int TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_instance; }
+saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_instance; }
 
     extern int menu_selection_cursor_texture_list;
 int TAdMultiPlyChrSelectGC::get_global_6700() {  return menu_selection_cursor_texture_list; }

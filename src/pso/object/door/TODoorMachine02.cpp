@@ -82,11 +82,11 @@ void TODoorMachine02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         unlocked = door_flags & 1;
-        TObjFish::set_global_param((s32)texture_lists[door_flags & 1]);
+        TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             if (unlocked != 1) {
                 u32 flags = model_render_flags;
                 saved_model_render_flags = flags;
@@ -96,12 +96,12 @@ void TODoorMachine02::render() {
             push_matrix();
             node = node->child;
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             pop_matrix();
             push_matrix();
             node = node->sibling;
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             pop_matrix();
             if (unlocked != 1) {
                 set_constant_material(&chunk_material_color_half_alpha_f32);
@@ -109,7 +109,7 @@ void TODoorMachine02::render() {
             }
             node = ((NJS_OBJECT *)model)->child->sibling;
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
         } else {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
@@ -123,7 +123,7 @@ void *TODoorMachine02::create(void *set_data) {
 
 void TODoorMachine02::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -144,14 +144,14 @@ void TODoorMachine02::load_resources() {
             resource = load_resource_from_descriptor(resource, 1, &door_machine02_a_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_ki_doa2_r_a.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r_a.gvm");
     } else {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 1, &door_machine02_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_ki_doa2_r.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r.gvm");
     }
     texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].m_c;
 }

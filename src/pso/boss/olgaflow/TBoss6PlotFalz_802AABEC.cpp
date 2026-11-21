@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 
-extern s32 TBoss6PlotFalz__instance;
+extern saddr TBoss6PlotFalz__instance;
 
 s32 TBoss6PlotFalz::is_flag_set() {
     return (u8)((u8) (TBoss6PlotFalz__instance != 0));
@@ -31,7 +31,7 @@ s32 TBoss6PlotFalz__sub_802AAC74(u8 *arg0) {
 }
 
 void TBoss6PlotFalz::sub_802AAC98() { *(s32*)((char*)this + 0x3c8) = 1; }
-u8 TBoss6PlotFalz::is_ending_or_split_screen() {
+s32 TBoss6PlotFalz::is_ending_or_split_screen() {
     s32 var_r31;
 
     var_r31 = 0;

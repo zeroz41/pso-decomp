@@ -24,5 +24,5 @@ struct TObjDoor : public TObjCollidable {
     static void load_resources();
     static void set_main_warp_id(int a0);
 };
-typedef char TObjDoor_size[sizeof(TObjDoor)==0xD4?1:-1];
+LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
 #endif

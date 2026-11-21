@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void GXFlush(void);
+void sub_803C0018(void);
 void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
 void TLobby__sub_803BFFC0(u8 *arg0);
@@ -17,7 +17,7 @@ void TLobby__sub_803C0B3C(u8 *lobby);
 
 // --- C functions defined in TLobby_803BFE50.cpp ---
 extern "C" {
-void GXFlush(void);
+void sub_803C0018(void);
 void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
 void TLobby__sub_803BFFC0(u8 *arg0);

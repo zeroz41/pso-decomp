@@ -70,10 +70,10 @@ u8 *TShopJudgmentItemWindow::open_default(s32 a) {
 #pragma push
 #pragma fp_contract on
 void TWindowShop::render() {
-    s32 context;
+    saddr context;
     s32 n;
     void *p;
-    context = reinterpret_cast<s32>(get_draw_context());
+    context = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)context);
     draw_visible_window_entries(
         this,

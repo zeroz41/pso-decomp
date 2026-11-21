@@ -36,7 +36,7 @@ s32 bank_has_free_row(s32 slot);
 extern "C" {
 u32 get_entity_id(TObjPlayer *);
 TWindowMenu *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void memset(void *, int, int);
 s32 delete_item(TObjPlayer *, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
@@ -109,7 +109,7 @@ void TShopKeepItemWindow::vfunc_11() {
 }
 
 s32 TShopKeepItemWindow::rebuild_item_list() {
-    u32 buf[30];
+    uaddr buf[30];
     s32 count;
     s32 i;
     s32 cur;
@@ -133,7 +133,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     if (this->item_list_window == NULL) {
         this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, get_entity_id(this->m_24));
         for (s32 j = 0; j < this->entry_count; j++) {
-            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((s32)this->entries[j].item, j);
+            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
         }
         this->item_list_window->calc_content_extent();
         cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
@@ -141,7 +141,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
         ((TShopArmorListWindow *)(this->item_list_window))->save_cursor_selection();
         this->item_list_window->reset_list();
         for (s32 j = 0; j < this->entry_count; j++) {
-            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((s32)this->entries[j].item, j);
+            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
         }
         ((TShopArmorListWindow *)(this->item_list_window))->clamp_selection_to_valid_entry();
         this->item_list_window->calc_content_extent();

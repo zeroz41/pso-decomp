@@ -102,7 +102,7 @@ S_80320358 *fn_80320358(S_80320358 *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-u8 *load_rel_module(u8 *arg0, s32 arg1) {
+u8 *load_rel_module(u8 *arg0, saddr arg1) {
     u8 *temp_r3;
     s32 size;
     u32 size2;

@@ -10,6 +10,6 @@ public:
     s32 pad_64; // rows below this index draw grey, the rest white
     s32 pad_68; // selected row
 };
-typedef char TUnk_804EFBAC_size[sizeof(TUnk_804EFBAC) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EFBAC_size, sizeof(TUnk_804EFBAC) == 0x6C);
 
 #endif

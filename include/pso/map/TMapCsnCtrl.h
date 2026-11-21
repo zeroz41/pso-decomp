@@ -16,12 +16,12 @@ public:
 
     CsnGroup *groups[0x200];
 };
-typedef char TMapCsnCtrlExtent[sizeof(TMapCsnCtrl) == 0x81C ? 1 : -1];
+LAYOUT_ASSERT(TMapCsnCtrlExtent, sizeof(TMapCsnCtrl) == 0x81C);
 
 // Defined by the map collision unit (TObjMapCsn.cpp), whose .sdata and .rodata it opens.
 extern const char *TMapCsnCtrl__class_name;
 
-typedef char TMapCsnCtrlGroupsOffset[offsetof(TMapCsnCtrl, groups) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TMapCsnCtrlGroupsOffset, offsetof(TMapCsnCtrl, groups) == 0x1C);
 
 struct TObjMapCsn;
 

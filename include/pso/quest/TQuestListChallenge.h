@@ -18,16 +18,16 @@ struct TQuestListChallenge : public TShopWindowBase {
     u8 unk_40[0x1C];
 };
 
-typedef char TQuestListChallenge_size[sizeof(TQuestListChallenge) == 0x5C ? 1 : -1];
+LAYOUT_ASSERT(TQuestListChallenge_size, sizeof(TQuestListChallenge) == 0x5C);
 
 extern "C" {
 void *TObjNpcKenkyu__create(void *arg0);
-u8 *TQuestListChallenge__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TQuestListChallenge__ct(u8 *arg0, saddr arg1, s32 arg2, s32 arg3);
 void TQuestListChallenge__vt9(TQuestListChallenge *arg0);
 void *__dt__19TQuestListChallengeFv(void *arg0, s16 arg1);
 void close_windows__19TQuestListChallengeFPv(void *arg0);
 void destroy__19TQuestListChallengeFv(void *arg0);
-s32 get_selected_quest_text__19TQuestListChallengeFv(void);
+saddr get_selected_quest_text__19TQuestListChallengeFv(void);
 void handle_confirm_select__19TQuestListChallengeFv(void *arg0);
 void invoke_callback_and_destroy__19TQuestListChallengeFv(void *arg0);
 void reset_globals2__19TQuestListChallengeFv(void);

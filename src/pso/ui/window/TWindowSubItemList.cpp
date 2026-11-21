@@ -30,7 +30,7 @@ s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 
-u8 *create_sub_item_list_window(s32 parent, s32 position, s32 client) {
+u8 *create_sub_item_list_window(saddr parent, saddr position, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)position, 0x24);
     return (u8 *)new TWindowSubItemList((u8 *)parent, client);
 }
@@ -40,8 +40,8 @@ u8 *create_sub_item_list_window(s32 parent, s32 position, s32 client) {
 #pragma push
 #pragma fp_contract on
 void TWindowSubItemList::render() {
-    s32 window_key_board_soft;
-    window_key_board_soft = reinterpret_cast<s32>(get_draw_context());
+    saddr window_key_board_soft;
+    window_key_board_soft = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)window_key_board_soft);
     draw_visible_window_entries(
         this,
@@ -50,10 +50,10 @@ void TWindowSubItemList::render() {
     draw_selected_list_entry(window_key_board_soft);
     sub_8027ACF8((u8 *)window_key_board_soft);
     draw_item_list_capacity(this, window_key_board_soft, this->m_8c, 0x1E);
-    if ((u32) this->status_display != 0U) {
+    if ((uaddr) this->status_display != 0U) {
         ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render((void *)(window_key_board_soft));
     }
-    if ((u32) this->scroll_bar != 0U) {
+    if ((uaddr) this->scroll_bar != 0U) {
         draw_window_scrollbar(this->scroll_bar, window_key_board_soft, (u8 *)&this->scroll_offset[0]);
     }
 }
@@ -65,7 +65,7 @@ TWindowSubItemList::~TWindowSubItemList() {}
 
 TWindowSubItemList::TWindowSubItemList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 0x24, client) {
     m_name = TWindowSubItemList__class_name;
-    ensure_status_display((s32)TWindowSubStatusDisp::get_message_10(0x24));
+    ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     create_menu_scroll_bar();
     ((TWindowSubItem *)this)->reset_selected();
     m_8c = 0;

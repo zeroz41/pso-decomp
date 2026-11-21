@@ -21,7 +21,7 @@ public:
     u8 unk_BC[0x4];
     s32 rot_y;  // render's rotate_matrix_y angle (inferred)
     u8 unk_C4[0x4];
-    s32 m_c8;
+    saddr m_c8;
     Vec *target;  // &parent->part_offsets[part_index]; run_task homes on it (inferred)
     TObject *m_d0;
     s16 parent_id;  // get_entity_id(parent)
@@ -32,6 +32,6 @@ public:
     f32 range;   // 30, or the distance to the csnLookAt hit less 5 (at least 10) (inferred)
     Vec pos;     // where it is drawn (render's post_translate_matrix)
 };
-typedef char TUnk_80491478_size[sizeof(TUnk_80491478) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80491478_size, sizeof(TUnk_80491478) == 0xFC);
 
 #endif

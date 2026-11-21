@@ -60,18 +60,18 @@ void TFontSmallLobby::set_section_index(s16 arg1) {
     *(s16 *)((s8 *)this + 4) = var_r4;
 }
 }
-void handle_6x39_set_photon_blast_ready_flag(s32 arg0);
-void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0);
+void handle_6x39_set_photon_blast_ready_flag(saddr arg0);
+void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr arg0);
 void reinit_photon_blast_gauge(u16 *arg0);
-void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0);
-void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0) {
+void handle_6x3A_clear_photon_blast_ready_flag(saddr arg0);
+void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr arg0) {
     struct { s16 a; u16 b; } sp8;
-    s32 player;
+    saddr player;
     ((TFontSmallLobby *)(&sp8))->init_pkt_cmd_3B();
     TFontSmallLobby__sub_801D6804(&sp8, (void *)arg0);
     bswap_g_client_id_header((&sp8));
     if (validate_6x3B_clear_temporary_photon_blast_state_flags(&sp8) != 0) {
-        player = (s32)get_player_by_client_id(sp8.b);
+        player = (saddr)get_player_by_client_id(sp8.b);
         if (player != 0) {
             ((TObjPlayer *)(player + 0x4AC))->clear_photon_blast_state();
             if (TObjPlayer::is_locally_controlled((void *)player) != 0) {
@@ -90,7 +90,7 @@ void reinit_photon_blast_gauge(u16 *arg0) {
     ((TFontSmallLobby *)(&sp8))->update_and_send();
 }
 
-void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0) {
+void handle_6x3A_clear_photon_blast_ready_flag(saddr arg0) {
     struct { s16 a; u16 b; } sp8;
     u8 *player;
     ((TFontSmallLobby *)(&sp8))->init_6x3A_packet();
@@ -114,16 +114,16 @@ void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0) {
     }
 }
 
-void handle_6x39_set_photon_blast_ready_flag(s32 arg0) {
+void handle_6x39_set_photon_blast_ready_flag(saddr arg0) {
     struct { s16 a; u16 b; } sp8;
     s32 temp_r31;
-    s32 player;
+    saddr player;
     s32 v;
     ((TFontSmallLobby *)(&sp8))->init_6x39_packet();
     ((TFontSmallLobby *)(&sp8))->handle_photon_blast_ready((void *)arg0);
     bswap_g_client_id_header((&sp8));
     if (validate_6x39_set_photon_blast_ready_flag(&sp8) != 0) {
-        player = (s32)get_player_by_client_id(sp8.b);
+        player = (saddr)get_player_by_client_id(sp8.b);
         if ((player != 0) && (is_current_area_item_enabled() != 0)) {
             temp_r31 = ((TObjPlayer *)player)->get_floor();
             v = get_current_floor();
@@ -149,7 +149,7 @@ extern "C" {
 void TFontSmallLobby__sub_801D698C(Subcommand6x38 *p);
 s32 validate_6x38_donate_to_photon_blast(void *);
 }
-void handle_6x38_donate_to_photon_blast(s32 arg0);
+void handle_6x38_donate_to_photon_blast(saddr arg0);
 
 s32 TFontSmallLobby::is_ready() {
     u8 *arg0 = (u8 *)this;
@@ -160,19 +160,19 @@ s32 TFontSmallLobby::is_ready() {
 }
 
 void TFontSmallLobby::reset_targets() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_index(0);
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_count(0);
     ((TFontSmallLobby *)arg0)->check_flag_at_40();
 }
-void handle_6x38_donate_to_photon_blast(s32 arg0) {
+void handle_6x38_donate_to_photon_blast(saddr arg0) {
     Cmd_801D61A0 cmd;
-    s32 player;
+    saddr player;
     TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&cmd);
     ((TFontSmallLobby *)(&cmd))->copy_packet_header_6x38((void *)arg0);
     ((TFontSmallLobby *)(&cmd))->bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
-        player = (s32)get_player_by_client_id(cmd.client);
+        player = (saddr)get_player_by_client_id(cmd.client);
         if ((player != 0) && (is_current_area_item_enabled() != 0)) {
             if (get_current_floor() == ((TObjPlayer *)player)->get_floor()) {
                 TObjPlayer::create_photon_blast_party_effects(cmd.client);
@@ -182,7 +182,7 @@ void handle_6x38_donate_to_photon_blast(s32 arg0) {
 }
 extern "C" {
 
-void draw_party_label__15TFontSmallLobbyFiUis(s32 arg0, u32 arg1, s16 arg2);
+void draw_party_label__15TFontSmallLobbyFiUis(saddr arg0, uaddr arg1, s16 arg2);
 s32 subtract_photon_blast_charge(PhotonBlastGauge *gauge, f32 amount);
 void TFontSmallLobby__sub_801D671C(void *a0, int a1);
 s32 create_party_effect__11TWindowCtrlFPvPv(s16, s16);
@@ -190,7 +190,7 @@ s16 get_entity_id(u32);
 
 struct Sp801D6230_801d6230 { s16 f0; s16 fA; s16 fC; };
 
-void draw_party_label__15TFontSmallLobbyFiUis(s32 font_small_lobby, u32 arg1, s16 arg2) {
+void draw_party_label__15TFontSmallLobbyFiUis(saddr font_small_lobby, uaddr arg1, s16 arg2) {
     Sp801D6230_801d6230 sp8;
 
     ((TFontSmallLobby *)font_small_lobby)->set_flag_40_bit5();
@@ -342,7 +342,7 @@ typedef struct Rec_801D6AB4 {
 } Rec_801D6AB4;
 
 extern "C" {
-f32 fn_801D6AB4(void *, s32, s32);
+f32 fn_801D6AB4(void *, saddr, s32);
 s32 accumulate_damage_stats(u8 *arg0, s32 arg1, s32 arg2);
 void clear_player_sub_object_slots(Obj_801D6A18 *p);
 s32 __construct_array(void *, void *, int, int, int);
@@ -351,7 +351,7 @@ void TFontSmallLobby__sub_801D671C(void* a0, int a1);
 void TFontSmallLobby__sub_801D677C(void* p);
 
 s32 TFontSmallLobby::construct_pb_controller() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     __construct_array((void *)(arg0 + 0x14), fn_80152EF8, 0, 4, 0xA);
     __ct__8FlagWordFv((void *)(arg0 + 0x40));
     ((TFontSmallLobby *)(arg0 + 0x4C))->init_reset_fields();
@@ -432,7 +432,7 @@ s32 accumulate_damage_stats(u8 *arg0v, s32 arg1, s32 arg2) {
 }
 
 #define arg0 ((Rec_801D6AB4 *)arg0v)
-f32 fn_801D6AB4(void *arg0v, s32 arg1, s32 arg2) {
+f32 fn_801D6AB4(void *arg0v, saddr arg1, s32 arg2) {
     f32 v;
     f32 k = (f32)arg2;
 
