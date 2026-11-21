@@ -12,11 +12,11 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     virtual void display_message(const char *text, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     u8 unk_28[0xC];
     s32 m_34;
     u8 unk_38[0x18];
-    u32 m_50;
+    uaddr m_50;
     u8 unk_54[0x1E];
     s16 m_72;
     u8 unk_74[0x2];
@@ -26,11 +26,11 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     u32 m_148;
     u8 _pad14C[0x4];
     u32 m_150;
-    u32 m_154;
-    u32 m_158;
-    u32 m_15c;
-    u32 m_160;
-    u32 m_164;
+    uaddr m_154;
+    uaddr m_158;
+    uaddr m_15c;
+    uaddr m_160;
+    uaddr m_164;
     s32 m_168;
     u32 m_16c;
     u32 m_170;
@@ -45,11 +45,11 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     static s32 build_item_list(void *arg0);
     void close();
     static u8 *open_default(s32 a);
-    void add_list_entry(s32 arg1, s32 arg2);
+    void add_list_entry(saddr arg1, s32 arg2);
     void handle_pay_confirm();
     void update_judge_confirm();
     void handle_judge_confirm();
 };
 
-typedef char TShopJudgmentItemWindow_size[sizeof(TShopJudgmentItemWindow) == 0x178 ? 1 : -1];
+LAYOUT_ASSERT(TShopJudgmentItemWindow_size, sizeof(TShopJudgmentItemWindow) == 0x178);
 #endif

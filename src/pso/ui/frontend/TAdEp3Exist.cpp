@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC_80327504.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/unk/text_8036F764.h"
+#include <string.h>
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 #include "pso/ui/TLevelSelect.h"
@@ -43,7 +44,7 @@ struct Ep3_8036F354 {
     u8 pad4[0x18 - 0x4];
     void *vt;
     u32 win1C;
-    u32 cur20;
+    uaddr cur20;
     s32 x24;
     s32 x28;
     s32 x2C;
@@ -60,8 +61,8 @@ struct Ep3_8036F10C : Base_8036F10C {
     virtual void m3();
     virtual u32 m4();
     u8 pad1C[0x20 - 0x1C];
-    s32 sel;
-    u32 win;
+    saddr sel;
+    uaddr win;
     s32 state;
     s32 prev;
     s32 next;
@@ -85,7 +86,7 @@ struct Prs_8036F5B0 {
 extern "C" {
 void TAdEp3Exist__sub_8036F574(u8 *arg0);
 u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 void __ct__7TObjectFP7TObject(void);
 
@@ -97,11 +98,10 @@ extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 int prs_read_control_bit(Obj_8036F4DC *arg0);
 void TAdEp3Exist__sub_8036F5A4(void* p);
-void *memmove(void *, const void *, u32);
 s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
 
-void TAdEp3Exist::draw_message_window(s32 arg1) {
-    s32 arg0 = (s32)this;
+void TAdEp3Exist::draw_message_window(saddr arg1) {
+    saddr arg0 = (saddr)this;
     ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
     TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
@@ -181,7 +181,7 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     u8 save[16];
     s32 res;
     void *p;
-    u32 r;
+    uaddr r;
     bool ok;
     bool go;
     __ct__7TObjectFP7TObject();
@@ -214,12 +214,12 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     }
     p = new TAdBackGC((TObject *)o);
     p = new TAdBackTxtGC((TObject *)o);
-    r = (u32)TObject::operator new(0x54);
+    r = (uaddr)TObject::operator new(0x54);
     if (r != 0) {
-        r = (u32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
+        r = (uaddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
     }
     o->win1C = r;
-    r = (u32)TObject::operator new(0x708);
+    r = (uaddr)TObject::operator new(0x708);
     if (r != 0) {
         r = __ct__14TAdSelectCurGCFv((void *)r, tl_clipout, (void *)lbl_8047B8A8, (void *)lbl_8047B8B0);
     }
@@ -241,9 +241,9 @@ int prs_read_control_bit(Obj_8036F4DC *arg0) {
     return t & 1;
 }
 
-s32 TAdEp3Exist::free_if_valid(s32 arg0, s16 arg1) {
+saddr TAdEp3Exist::free_if_valid(saddr arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
+        ::operator delete((void *)arg0);
     }
     return arg0;
 }

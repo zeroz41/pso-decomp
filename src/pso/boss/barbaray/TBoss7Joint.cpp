@@ -11,11 +11,11 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 
 extern "C" {
 extern const f32 lbl_805DE9F0;
-u32 __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_802E72DC(void *, void *, void *, int);
 
 int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
@@ -25,7 +25,7 @@ void TBoss7Joint::init_boss_stats() {
     this->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(0x10)), (u8 *)(TLobby::dispatch_shared_handler_b(0xF)), (u8 *)(TLobby::register_object(0x10)));
     this->hp = 0x4E20;
     this->hpmax = 0x4E20;
-    u32 p = __nw__7TObjectFUl(0x2C);
+    uaddr p = (uaddr)TObject::operator new(0x2C);
     if (p != 0U) {
         TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, index);
     }
@@ -93,7 +93,7 @@ void TBoss7Joint::vfunc_62() {
     temp_r4 = this->hp;
     temp_r31 = this->hpmax - temp_r4;
     if (this->is_part_active() != 0U) {
-        TObjFish__sub_802EC468((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
+        TObjFish__sub_802EC468((saddr)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_damage_and_set_effect__8TObjFishFl((int) (*(s32 *)((s8 *)((u8 *)this) + 0x10)), temp_r31, this->m_2d4);
     } else {
         shell_hp -= temp_r31;
@@ -103,7 +103,7 @@ void TBoss7Joint::vfunc_62() {
         }
     }
     this->hp = (s16) this->hpmax;
-    ((TBoss7DeRolLeC *)(*(s32 *)((s8 *)((u8 *)this) + 0x10)))->set_flag_800();
+    ((TBoss7DeRolLeC *)(*(saddr *)((s8 *)((u8 *)this) + 0x10)))->set_flag_800();
     clear_attack_receipts();
 }
 

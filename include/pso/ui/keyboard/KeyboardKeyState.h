@@ -51,7 +51,7 @@ struct KeyboardKeyState {
     void reset_state();
 };
 
-typedef char KeyboardKeyState_size[sizeof(KeyboardKeyState) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(KeyboardKeyState_size, sizeof(KeyboardKeyState) == 0xB0);
 extern KeyboardKeyState hardware_keyboard_state;
 
 #endif

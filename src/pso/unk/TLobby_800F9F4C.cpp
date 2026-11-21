@@ -8,7 +8,7 @@ s32 TLobby__sub_800F9FD0();
 }
 void process_async_file_reads(void);
 
-    extern int game_heap;
+    extern saddr game_heap;
 
 void TLobby::free_static_buffer(void* a0) { ((THeap *)game_heap)->heap_free(a0); }
 

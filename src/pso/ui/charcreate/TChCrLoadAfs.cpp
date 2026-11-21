@@ -9,6 +9,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/unk/TLobby.h"
+#include <string.h>
 
 int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
 
@@ -70,7 +71,6 @@ extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
-s32 strcmp(const char *, const char *);
 void set_texture_name(GinjaTextureEntry *, void *, s32, s32);
 s32 load_texture_list(GinjaTextureList *);
 }
@@ -81,14 +81,14 @@ void TChCrLoadAfs::start_download() {
     u32 buffer;
 
     if (try_begin_load() != 0) {
-        handle = (u32)TLobby::adxf_open_afs(source_20, source_24);
+        handle = (uaddr)TLobby::adxf_open_afs(source_20, source_24);
         load_handle = handle;
         if (handle == 0U) {
             load_state = 3;
             return;
         }
         count = adxf_get_fsize_sct((u8 *)load_handle);
-        buffer = (u32)TQuestVmDownLoadServer::alloc(count << 0xB);
+        buffer = (uaddr)TQuestVmDownLoadServer::alloc(count << 0xB);
         buffer_address = buffer;
         if (buffer == 0U) {
             load_state = 3;
@@ -138,8 +138,8 @@ const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;
-    source_20 = (u32)arg2;
-    source_24 = (u32)arg3;
+    source_20 = (uaddr)arg2;
+    source_24 = (uaddr)arg3;
     buffer_address = 0;
     load_state = 0;
     state_30 = 0;
@@ -243,13 +243,13 @@ void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
     u32 handle;
     u32 buf;
-    handle = (u32)TLobby::adxf_open_afs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
+    handle = (uaddr)TLobby::adxf_open_afs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
         m_20 = 0;
         m_24 = 0;
         n = adxf_get_fsize_sct((u8 *)load_handle);
-        buf = (u32)TQuestVmDownLoadServer::alloc(n << 11);
+        buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {
             TLobby::read_checked_align(load_handle, n, buffers[index]);

@@ -21,11 +21,11 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
     static void render(void *self);
     void init(void* a1);
     virtual void run_task();
-    static u32 get_instance(s32 arg0);
+    static u32 get_instance(saddr arg0);
     static TAdPlyPltAnimGC *get_table_value(int a0);
 };
 
-typedef char TAdPlyPltAnimCtrlGC_size[sizeof(TAdPlyPltAnimCtrlGC) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
 extern "C" {
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0);

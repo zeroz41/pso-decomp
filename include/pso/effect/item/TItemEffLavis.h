@@ -10,7 +10,7 @@ public:
     virtual void hook();
 };
 
-typedef char LavisEffectSize[(sizeof(TItemEffLavis) == 0x6C) ? 1 : -1];
+LAYOUT_ASSERT(LavisEffectSize, sizeof(TItemEffLavis) == 0x6C);
 extern "C" TItemEffLavis* create_lavis_shot(void* owner, const Vec* start,
                                           const Vec* endpoint, f32 life);
 #endif

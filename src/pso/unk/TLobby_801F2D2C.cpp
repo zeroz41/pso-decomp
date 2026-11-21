@@ -1,3 +1,4 @@
+#include <string.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -28,7 +29,6 @@ struct Hdr_801F3124 {
 
 extern "C" {
 int bswap_32__FPUl(void*);
-s32 memcpy(void *, void *, int);
 extern s32 lbl_805D5E94;
 extern s32 lbl_805D5E9C;
 extern u8 TLobby__data_805D5EA8;
@@ -39,7 +39,6 @@ struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
 int bswap_16__FPUs(void*);
-void *memset(void *, int, u32);
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
 int VecCopy__FP3VecPC3Vec(void*);
 
@@ -91,7 +90,7 @@ void TLobby::close_windows() {
 }
 }
 
-extern u32 quest_mission_manager;
+extern uaddr quest_mission_manager;
 
 quest_suspend_reason dispatch_quest_opcode(void) {
     s32 op;
@@ -174,7 +173,7 @@ void QuestVmContext::load_globals() {
     qst_statistic_arg2 = statistic_arg2;
 }
 
-typedef char QuestVmContext_size[sizeof(QuestVmContext) == 0x174 ? 1 : -1];
+LAYOUT_ASSERT(QuestVmContext_size, sizeof(QuestVmContext) == 0x174);
 
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     u32 n;
@@ -239,7 +238,7 @@ s32 TObjPlayer::test_action_80000() {
 s32 TObjPlayer::test_action_40000() {
     return test_action_mask(0x40000);
 }
-void TLobby__sub_801F3314(s32 arg0) {
+void TLobby__sub_801F3314(saddr arg0) {
     ((TObjPlayer *)arg0)->test_action_mask(0x10000);
 }
 s32 TObjPlayer::test_action_8000() {
@@ -296,7 +295,7 @@ int TLobby::copy_position() { return VecCopy__FP3VecPC3Vec(this); }
 #pragma fp_contract on
 void TLobby::bswap_entry_words(s32 arg0) {
     s32 var_r31;
-    s32 temp_r30;
+    saddr temp_r30;
     s32 var_r29;
     var_r29 = 0;
     var_r31 = 0;

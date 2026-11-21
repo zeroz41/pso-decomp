@@ -27,6 +27,6 @@ public:
     f32 max_radius;
     Vertex vertices[12];
 };
-typedef char TUnk_8048FE7C_size[sizeof(TUnk_8048FE7C) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8048FE7C_size, sizeof(TUnk_8048FE7C) == 0x100);
 
 #endif

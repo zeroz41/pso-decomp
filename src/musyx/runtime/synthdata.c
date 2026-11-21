@@ -452,7 +452,7 @@ s32 dataAddSampleReference(u16 sid) {
 done:
 
     if (sdir->ref_cnt == 0) {
-        sdir->addr = (void *)((u32)sdir->offset + (u32)dataSmpSDirs[i].base);
+        sdir->addr = (void *)((u32)sdir->offset + (uaddr)dataSmpSDirs[i].base);
         header = (Hdr_803ADA80 *)&sdir->header;
         hwSaveSample(&header, &sdir->addr);
     }
@@ -658,7 +658,7 @@ extern s32 *lbl_805D73EC;
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-u32 dataGetMacro(u16 mid) {
+uaddr dataGetMacro(u16 mid) {
     lbl_805D73E0 = (mid >> 6) & 0x3fff;
 
     if (dataMacMainTab[lbl_805D73E0].num != 0) {
@@ -696,7 +696,7 @@ s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
             if (dgs_result->ref_cnt != 0xFFFF) {
                 dgs_sheader = &dgs_result->header;
                 newsmp->key = dgs_sheader->info;
-                newsmp->addr = (u32)dgs_result->addr;
+                newsmp->addr = (uaddr)dgs_result->addr;
                 newsmp->offset = 0;
                 newsmp->loopStart = dgs_sheader->loopOffset;
                 newsmp->count = dgs_sheader->length & 0xffffff;
@@ -704,7 +704,7 @@ s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
                 newsmp->format = dgs_sheader->length >> 24;
 
                 if (dgs_result->extraData) {
-                    newsmp->coef = (u32)&(dataSmpSDirs[i].data)->id + dgs_result->extraData;
+                    newsmp->coef = (uaddr)&(dataSmpSDirs[i].data)->id + dgs_result->extraData;
                 }
                 return 0;
             }
@@ -720,7 +720,7 @@ s32 curvecmp(u8 *arg0, u8 *arg1) {
     return *(u16 *)((s8 *)arg0 + 4) - *(u16 *)((s8 *)arg1 + 4);
 }
 
-s32 dataGetCurve(s16 arg0) {
+saddr dataGetCurve(s16 arg0) {
     lbl_805D73F8.f4 = arg0;
     if ((lbl_805D7400 = sndBSearch(&lbl_805D73F8, dataCurveTab, dataCurveNum, 8, curvecmp)) != NULL) {
         return *lbl_805D7400;

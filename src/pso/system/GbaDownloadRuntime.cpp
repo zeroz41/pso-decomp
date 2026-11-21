@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+#include <dolphin/gba.h>
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
@@ -9,10 +12,11 @@
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/memory.h"
 
 extern "C" {
-u32 gba_download_data_buffer;
-u32 gba_download_graph;
+uaddr gba_download_data_buffer;
+uaddr gba_download_graph;
 u32 gba_download_data_size;
 s32 TLobby__data_805D6CCC;
 s32 gba_joyboot_send_buffer;
@@ -23,10 +27,6 @@ short lbl_805D6CDA;
 // The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 
-void xfree__FPv(void*);
-s32 xmalloc__FUl(s32);
-int GBAInit(void*);
-s32 GBAGetProcessStatus(s32, u8 *);
 u32 SIProbe(s32);
 
 
@@ -39,10 +39,10 @@ void TLobby::destroy_singleton() {
 }
 
 void TLobby::init_graph() {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     if ((u32) gba_download_graph == 0U) {
-        temp_r3 = (u32)TDLGraph::create();
+        temp_r3 = (uaddr)TDLGraph::create();
         gba_download_graph = temp_r3;
         if (temp_r3 != 0U) {
             ((TDLGraph *)temp_r3)->set_graph_param(2);
@@ -52,7 +52,7 @@ void TLobby::init_graph() {
 
 void TLobby::free_buffer() {
     if ((u32) gba_download_data_buffer != 0U) {
-        xfree__FPv((void*)gba_download_data_buffer);
+        xfree((void*)gba_download_data_buffer);
         gba_download_data_buffer = 0U;
     }
     gba_download_data_size = 0;
@@ -61,7 +61,7 @@ void TLobby::free_buffer() {
 void TLobby::alloc_buffer() {
     gba_download_data_buffer = 0;
     gba_download_data_size = 0;
-    gba_download_data_buffer = xmalloc__FUl(0x40000);
+    gba_download_data_buffer = (saddr)xmalloc(0x40000);
     gba_download_data_size = 0;
 }
 }
@@ -88,7 +88,7 @@ void gba_joyboot_transfer_callback(s32 arg0, s32 arg1) {
     }
 }
 
-void TLobby::send_data(s32 arg0) {
+void TLobby::send_data(saddr arg0) {
     u32 temp_r3;
 
     temp_r3 = get_resource_file_size((const char *)arg0);
@@ -121,7 +121,7 @@ void TLobby::update_alloc_size() {
     gba_download_data_size = 0U;
 }
 
-int TLobby__sub_8032C91C(void* p) { return GBAInit(p); }
+void TLobby__sub_8032C91C(void) { GBAInit(); }
 
 u8 TLobby::get_selected_slot() {
     u8 sp8;
@@ -147,10 +147,6 @@ struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 
 extern "C" {
-void *memmove(void *, const void *, u32);
-s32 rand();
-void *memset(void *, int, u32);
-s32 GBAJoyBootAsync(s32, s32, s32, u8 *, s32, u8 *, void (*)(s32, s32));
 
 
 #pragma push

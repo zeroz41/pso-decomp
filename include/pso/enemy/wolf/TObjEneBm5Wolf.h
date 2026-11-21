@@ -117,7 +117,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void apply_global_to_position();
     void update(void* a1);
     void apply_to_position(void* a1);
-    void set_field8_from_obj(s32 arg1);
+    void set_field8_from_obj(saddr arg1);
     s32 get_group_id();
     static TObjEneBm5Wolf *find_pack_leader(s32 id);
     void advance_pose_turn(s32 target);
@@ -135,28 +135,28 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void returning_state(s32 arg1);
 };
 
-typedef char WolfOffset_target[offsetof(TObjEneBm5Wolf, target) == 0x390 ? 1 : -1];
-typedef char WolfOffset_destination[offsetof(TObjEneBm5Wolf, destination) == 0x394 ? 1 : -1];
-typedef char WolfOffset_destinationDirection[offsetof(TObjEneBm5Wolf, destinationDirection) == 0x3A0 ? 1 : -1];
-typedef char WolfOffset_destinationDistance[offsetof(TObjEneBm5Wolf, destinationDistance) == 0x3AC ? 1 : -1];
-typedef char WolfOffset_m_3c0[offsetof(TObjEneBm5Wolf, m_3c0) == 0x3C0 ? 1 : -1];
-typedef char WolfOffset_m_3d8[offsetof(TObjEneBm5Wolf, m_3d8) == 0x3D8 ? 1 : -1];
-typedef char WolfOffset_turnOffset[offsetof(TObjEneBm5Wolf, turnOffset) == 0x3E4 ? 1 : -1];
-typedef char WolfOffset_groupAnchor[offsetof(TObjEneBm5Wolf, groupAnchor) == 0x3F4 ? 1 : -1];
-typedef char WolfOffset_desiredSpeed[offsetof(TObjEneBm5Wolf, desiredSpeed) == 0x400 ? 1 : -1];
-typedef char WolfOffset_currentSpeed[offsetof(TObjEneBm5Wolf, currentSpeed) == 0x404 ? 1 : -1];
-typedef char WolfOffset_roamingSubstate[offsetof(TObjEneBm5Wolf, roamingSubstate) == 0x41C ? 1 : -1];
-typedef char WolfOffset_roamingTimer[offsetof(TObjEneBm5Wolf, roamingTimer) == 0x420 ? 1 : -1];
-typedef char WolfOffset_randomPhase[offsetof(TObjEneBm5Wolf, randomPhase) == 0x424 ? 1 : -1];
-typedef char WolfOffset_stoppingDistance[offsetof(TObjEneBm5Wolf, stoppingDistance) == 0x434 ? 1 : -1];
-typedef char WolfOffset_nearTarget[offsetof(TObjEneBm5Wolf, nearTarget) == 0x468 ? 1 : -1];
+LAYOUT_ASSERT(WolfOffset_target, offsetof(TObjEneBm5Wolf, target) == 0x390);
+LAYOUT_ASSERT(WolfOffset_destination, offsetof(TObjEneBm5Wolf, destination) == 0x394);
+LAYOUT_ASSERT(WolfOffset_destinationDirection, offsetof(TObjEneBm5Wolf, destinationDirection) == 0x3A0);
+LAYOUT_ASSERT(WolfOffset_destinationDistance, offsetof(TObjEneBm5Wolf, destinationDistance) == 0x3AC);
+LAYOUT_ASSERT(WolfOffset_m_3c0, offsetof(TObjEneBm5Wolf, m_3c0) == 0x3C0);
+LAYOUT_ASSERT(WolfOffset_m_3d8, offsetof(TObjEneBm5Wolf, m_3d8) == 0x3D8);
+LAYOUT_ASSERT(WolfOffset_turnOffset, offsetof(TObjEneBm5Wolf, turnOffset) == 0x3E4);
+LAYOUT_ASSERT(WolfOffset_groupAnchor, offsetof(TObjEneBm5Wolf, groupAnchor) == 0x3F4);
+LAYOUT_ASSERT(WolfOffset_desiredSpeed, offsetof(TObjEneBm5Wolf, desiredSpeed) == 0x400);
+LAYOUT_ASSERT(WolfOffset_currentSpeed, offsetof(TObjEneBm5Wolf, currentSpeed) == 0x404);
+LAYOUT_ASSERT(WolfOffset_roamingSubstate, offsetof(TObjEneBm5Wolf, roamingSubstate) == 0x41C);
+LAYOUT_ASSERT(WolfOffset_roamingTimer, offsetof(TObjEneBm5Wolf, roamingTimer) == 0x420);
+LAYOUT_ASSERT(WolfOffset_randomPhase, offsetof(TObjEneBm5Wolf, randomPhase) == 0x424);
+LAYOUT_ASSERT(WolfOffset_stoppingDistance, offsetof(TObjEneBm5Wolf, stoppingDistance) == 0x434);
+LAYOUT_ASSERT(WolfOffset_nearTarget, offsetof(TObjEneBm5Wolf, nearTarget) == 0x468);
 
-typedef char TObjEneBm5Wolf_size[sizeof(TObjEneBm5Wolf) == 0x46C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 
 extern "C" {
 s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
 }
-s32 actor_rand_int(s32 actor, s32 arg1);
+s32 actor_rand_int(saddr actor, s32 arg1);
 extern "C" {
 void approach_target__14TObjEneBm5WolfFf(TObjEneBm5Wolf *wolf, f32 step);
 s32 calc_lunge_aim__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);

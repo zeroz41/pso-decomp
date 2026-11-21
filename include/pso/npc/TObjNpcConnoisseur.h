@@ -11,7 +11,7 @@ struct TObjNpcConnoisseur : public TUnk_804A9F50 {
     static void load_section_motion();
 };
 
-typedef char TObjNpcConnoisseur_size[sizeof(TObjNpcConnoisseur) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcConnoisseur_size, sizeof(TObjNpcConnoisseur) == 0x3B8);
 
 extern "C" {
 void *TObjNpcExpertBase__create(void *arg0);

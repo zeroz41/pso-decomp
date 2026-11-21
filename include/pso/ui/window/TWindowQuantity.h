@@ -18,17 +18,17 @@ struct TWindowQuantity : public TWindowBase {
     u8 unk_68[0x4];
 };
 
-typedef char TWindowQuantity_size[sizeof(TWindowQuantity) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 
 extern "C" {
 void *create_window_quantity(void *arg0);
-void render__15TWindowQuantityFv(s32 arg0);
+void render__15TWindowQuantityFv(saddr arg0);
 }
 
 // --- C functions defined in TWindowQuantity.cpp ---
 extern "C" {
 void *create_window_quantity(void *arg0);
-void render__15TWindowQuantityFv(s32 arg0);
+void render__15TWindowQuantityFv(saddr arg0);
 }
 // --- end of C functions
 

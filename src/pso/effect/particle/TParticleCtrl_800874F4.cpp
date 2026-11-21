@@ -3,6 +3,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/ParticleRadial.h"
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -160,7 +162,7 @@ struct Ctrl_8008767C {
     s32 model;
     s32 texlist;
     s32 motion;
-    u32 tex;
+    uaddr tex;
     f32 frame;
     Vec pos;
     Vec dir;
@@ -173,8 +175,8 @@ void set_particle_tint_color(u8 *arg0, void *arg1);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void mem_free(void *p);
-extern u32 TParticleCtrl__regular_bml_resource;
-extern u32 TParticleCtrl__texture_list;
+extern uaddr TParticleCtrl__regular_bml_resource;
+extern uaddr TParticleCtrl__texture_list;
 s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
@@ -182,11 +184,8 @@ u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, 
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
-int sprintf(char *, const char *, ...);
-char *strcpy(char *, const char *);
-void *memset(void *, int, u32);
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);
@@ -239,8 +238,8 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
         self->flags &= ~1;
         return;
     }
-    if (((self->flags & 0x200) || (self->flags & 0x2000)) && self->tex == (u32)tl_07) {
-        self->tex = (u32)tl_particlemodel;
+    if (((self->flags & 0x200) || (self->flags & 0x2000)) && self->tex == (uaddr)tl_07) {
+        self->tex = (uaddr)tl_particlemodel;
     }
     def = self->def;
     if (def == NULL) {
@@ -353,7 +352,6 @@ void clear_active_flag__13TParticleCtrlFv(void* p) { *(u16*)((char*)p + 0x2c) &=
 void TParticleCtrl::enable() { *(u16*)((char*)this + 0x2c) |= 0x1; }
 extern "C" {
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 void render__7TObjectFv(void);
 void render_shadows__7TObjectFv(void);
 void *__dt__13TParticleCtrlFv(void *self, s16 flag);
@@ -370,7 +368,7 @@ void *__dt__13TParticleCtrlFv(void *self, s16 flag) {
         *(void **)((u8 *)self + 0x18) = __vt__13TParticleCtrl;
         __dt__7TObjectFv(self, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -392,7 +390,7 @@ struct ParticleVec {
 };
 
 struct ParticleCtrlData {
-    s32 descriptor;
+    saddr descriptor;
     u8 pad04[0x14];
     void *vtable;
     f32 field1C;
@@ -442,7 +440,7 @@ extern void *tl_clipout;
                             direction_action, direction_source) do {           \
     __ct__7TObjectFP7TObject(particle, tl_07);                                 \
     particle->vtable = __vt__13TParticleCtrl;                                  \
-    particle->descriptor = (s32)TParticleCtrl__class_name_descriptor[0];                       \
+    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];                       \
     particle->field4C = 0;                                                     \
     particle->field50 = 0;                                                     \
     particle->field54 = 0;                                                     \
@@ -487,7 +485,7 @@ void *__ct__13TParticleCtrlFv(
 {
     __ct__7TObjectFP7TObject(particle, tl_07);
     particle->vtable = __vt__13TParticleCtrl;
-    particle->descriptor = (s32)TParticleCtrl__class_name_descriptor[0];
+    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];
     particle->field4C = 0;
     particle->field50 = 0;
     particle->field54 = 0;
@@ -540,7 +538,7 @@ void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
 {
     __ct__7TObjectFP7TObject(particle, tl_07);
     particle->vtable = __vt__13TParticleCtrl;
-    particle->descriptor = (s32)TParticleCtrl__class_name_descriptor[0];
+    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];
     particle->field4C = 0;
     particle->field50 = 0;
     particle->field54 = 0;
@@ -675,8 +673,8 @@ void load_particle_entry_resources(void) {
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);
     }
-    TParticleCtrl__regular_bml_resource = (u32)p;
-    TParticleCtrl__texture_list = (u32)load_gvm_texture_file((s32)lbl_804394D4);
+    TParticleCtrl__regular_bml_resource = (uaddr)p;
+    TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)lbl_804394D4);
 }
 extern "C" {
 

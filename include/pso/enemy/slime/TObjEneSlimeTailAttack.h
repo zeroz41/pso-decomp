@@ -29,7 +29,7 @@ void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void *__dt__15TObjEneSlimeOneFv(void *arg0, s16 arg1);
 void *__dt__21TObjEneSlimeWaterBombFv(void *arg0, s16 arg1);
 void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void fn_800E9238(s32 arg0);
+void fn_800E9238(saddr arg0);
 void initialize_slime_instance_state__15TObjEneSlimeOneFv(u8 *actor);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
 void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1);

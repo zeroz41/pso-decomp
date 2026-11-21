@@ -29,7 +29,7 @@ public:
 };
 
 struct TMainCursor : public TObject {
-    TMainCursor(TObject *parent, s32 target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
+    TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
     virtual ~TMainCursor();
     s32 bind_action_channels();
     void sub_8013E724(f32);
@@ -60,25 +60,25 @@ struct TMainCursor : public TObject {
     void init_slots();
     s32 find_by_pos(s16 arg1, s16 arg2);
     void set_cursor_pos(u16 arg1, s32 arg2);
-    static s32 get_action_cursor_priority(void *arg0, s32 arg1, s32 arg2);
-    static void set_cursor_color(s32 arg0, s32 arg1, s32 arg2);
-    static void set_display_flags(s32 arg0, s32 arg1, s32 arg2);
-    static void setup_flags(s32 arg0, s32 arg1, s32 arg2);
+    static s32 get_action_cursor_priority(void *arg0, saddr arg1, s32 arg2);
+    static void set_cursor_color(s32 arg0, saddr arg1, saddr arg2);
+    static void set_display_flags(s32 arg0, saddr arg1, saddr arg2);
+    static void setup_flags(s32 arg0, s32 arg1, saddr arg2);
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();
-    s32 get_state();
+    saddr get_state();
     void destroy_lock_on(s32 a1);
     void set_target(s32 a1);
     void set_target_index(s16 v);
     void update_cursor_pos();
     void*copy_from(void* a1);
     void set_sub_cursor_value(s32 a1);
-    s32 get_index();
+    saddr get_index();
     void reset_slot();
     void set_type(s32 v);
     static int get_cursor_state();
-    int check_field_24();
+    saddr check_field_24();
     u16 get_id();
     void*get_list();
     void update_target_sub();
@@ -127,7 +127,8 @@ struct TMainCursor : public TObject {
     static s32 find_action_slot(s32 arg0, void *arg1, s16 arg2, s32 arg3, s32 arg4);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
+    static s32 try_add_target_candidate(void *, void *, void *, void *);
 };
 
-typedef char TMainCursor_size[sizeof(TMainCursor) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);
 #endif

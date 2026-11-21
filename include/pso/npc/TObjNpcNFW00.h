@@ -11,7 +11,7 @@ struct TObjNpcNFW00 : public TUnk_804A8640 {
     static void load_assets();
 };
 
-typedef char TObjNpcNFW00_size[sizeof(TObjNpcNFW00) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcNFW00_size, sizeof(TObjNpcNFW00) == 0x3B8);
 
 class TObjControl;
 

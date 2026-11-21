@@ -21,16 +21,16 @@ public:
     f32 fade_out_ticks;
 };
 #include <stddef.h>
-typedef char TEndingCSize[sizeof(TEndingC) == 0x9C ? 1 : -1];
-typedef char TEndingC_phase_offset[offsetof(TEndingC, phase) == 0x1C ? 1 : -1];
-typedef char TEndingC_elapsed_ticks_offset[offsetof(TEndingC, elapsed_ticks) == 0x20 ? 1 : -1];
-typedef char TEndingC_cycle_index_offset[offsetof(TEndingC, cycle_index) == 0x24 ? 1 : -1];
-typedef char TEndingC_primary_opacity_offset[offsetof(TEndingC, primary_opacity) == 0x28 ? 1 : -1];
-typedef char TEndingC_secondary_opacity_offset[offsetof(TEndingC, secondary_opacity) == 0x2C ? 1 : -1];
-typedef char TEndingC_render_geometry_offset[offsetof(TEndingC, render_geometry) == 0x30 ? 1 : -1];
-typedef char TEndingC_timing_rate_offset[offsetof(TEndingC, timing_rate) == 0x90 ? 1 : -1];
-typedef char TEndingC_fade_in_ticks_offset[offsetof(TEndingC, fade_in_ticks) == 0x94 ? 1 : -1];
-typedef char TEndingC_fade_out_ticks_offset[offsetof(TEndingC, fade_out_ticks) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TEndingCSize, sizeof(TEndingC) == 0x9C);
+LAYOUT_ASSERT(TEndingC_phase_offset, offsetof(TEndingC, phase) == 0x1C);
+LAYOUT_ASSERT(TEndingC_elapsed_ticks_offset, offsetof(TEndingC, elapsed_ticks) == 0x20);
+LAYOUT_ASSERT(TEndingC_cycle_index_offset, offsetof(TEndingC, cycle_index) == 0x24);
+LAYOUT_ASSERT(TEndingC_primary_opacity_offset, offsetof(TEndingC, primary_opacity) == 0x28);
+LAYOUT_ASSERT(TEndingC_secondary_opacity_offset, offsetof(TEndingC, secondary_opacity) == 0x2C);
+LAYOUT_ASSERT(TEndingC_render_geometry_offset, offsetof(TEndingC, render_geometry) == 0x30);
+LAYOUT_ASSERT(TEndingC_timing_rate_offset, offsetof(TEndingC, timing_rate) == 0x90);
+LAYOUT_ASSERT(TEndingC_fade_in_ticks_offset, offsetof(TEndingC, fade_in_ticks) == 0x94);
+LAYOUT_ASSERT(TEndingC_fade_out_ticks_offset, offsetof(TEndingC, fade_out_ticks) == 0x98);
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -61,7 +61,7 @@ s32 set_draw_texture_and_color(s32, s32, f32);
 }
 
 void TEndingC::render() {
-    TObjFish::set_global_param((s32)&TEndingC__wall_texture_list_entry);
+    TObjFish::set_global_param((saddr)&TEndingC__wall_texture_list_entry);
     begin_screen_draw(1);
     set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
     draw_textured_quad_at_depth((f32 *)(render_geometry + 0x0), 0.98f);
@@ -223,7 +223,7 @@ extern "C" {
 u8 *__ct__8TEndingCFv(u8 *object, u8 *arg1) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TEndingC;
-    *(s32 *)((s8 *)object + 0) = (s32) lbl_805D2960;
+    *(s32 *)((s8 *)object + 0) = (saddr) lbl_805D2960;
     *(s32 *)((s8 *)object + 0x20) = 0;
     *(s32 *)((s8 *)object + 0x1C) = 0;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
@@ -269,7 +269,7 @@ u8 *__ct__8TEndingCFv(u8 *object, u8 *arg1) {
 void release_lobby__8TEndingCFv(void);
 void release_texture_list(void*);
 
-u32 TEndingC__wall_texture_list;
+uaddr TEndingC__wall_texture_list;
 
 void release_lobby__8TEndingCFv(void) {
     if ((u32) TEndingC__wall_texture_list != 0U) {
@@ -280,7 +280,7 @@ void release_lobby__8TEndingCFv(void) {
 
     int bind_gvm_texture_list(const char *, NJS_TEXLIST *);
 }
-void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (int)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
+void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (saddr)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -305,7 +305,7 @@ void TObjEneBalClaw::clear_flag_in_state7() {
 }
 
 s32 TObjEneBalClaw::update_movement_status() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (TObjChara::update_movement_status() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;
@@ -314,7 +314,7 @@ s32 TObjEneBalClaw::update_movement_status() {
 }
 
 s32 TObjEneBalClaw::update_action_hold_status() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;

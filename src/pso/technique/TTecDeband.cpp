@@ -25,7 +25,7 @@ struct Target_8022F73C {
 
 struct Deband_8022F73C {
     u8 pad0[0x1C];
-    u32 source;
+    uaddr source;
     u8 pad1[0xA4 - 0x20];
     s16 level;
     u8 pad2[0xA8 - 0xA6];
@@ -69,14 +69,13 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
 struct Obj_8022F588 { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power; };
 
 extern "C" {
-s32 get_entity_id(int);
+saddr get_entity_id(int);
 extern const char *tec_deband_class_name_ptr;
 void *find_entity_by_id(u16 id);
 s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
 void copy_technique_target_list(void *, void *, s32);
-u32 __nw__7TObjectFUl(s32 a0 = 0);
 int spawn_support_tec_range_effect(void*);
 
 int TTecDeband::init_params() { return spawn_support_tec_range_effect(this); }
@@ -99,12 +98,12 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
         HitInfo_8022F588 c = h;
         player->m21(arg0->source, &c, 0, 0xA, -1);
         if (is_split_screen() == 0) {
-            TWindowCtrl::show_party_effect((void*)(get_entity_id((int)arg0->source)), (void*)(get_entity_id((int)player)), (void*)0xA);
+            TWindowCtrl::show_party_effect((void*)(get_entity_id((saddr)arg0->source)), (void*)(get_entity_id((saddr)player)), (void*)0xA);
         }
     }
 }
 
-void TTecDeband::create(s32 owner, s32 pos, s32 arg2, s32 level) {
+void TTecDeband::create(saddr owner, saddr pos, saddr arg2, s32 level) {
     new TTecDeband((void *)owner, (void *)pos, (void *)arg2, level);
 }
 void TTecDeband::create(void *owner, void *pos, s32 level) {
@@ -118,13 +117,13 @@ TTecDeband::~TTecDeband() {
 }
 
 void run_task__10TTecDebandFv(Deband_8022F73C *self) {
-    u32 target;
+    uaddr target;
     s32 i;
     if (self->proxy == 0) {
         ((TObject *)self)->queue_destruction();
         return;
     }
-    self->source = (u32)find_entity_by_id(self->source_id);
+    self->source = (uaddr)find_entity_by_id(self->source_id);
     if (self->source == 0) {
         ((TObject *)self)->queue_destruction();
         return;
@@ -136,7 +135,7 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
             ((TTecDeband *)self)->vfunc_7((void *)self->source);
             if (self->count != 0) {
                 for (i = 0; i < self->count; i++) {
-                    target = (u32)find_entity_by_id(self->targets[i].id);
+                    target = (uaddr)find_entity_by_id(self->targets[i].id);
                     if ((TTecLuker::is_parents_unqueued(target) != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
                         ((TTecDeband *)self)->vfunc_7((void *)target);
                     }
@@ -152,12 +151,12 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
 }
 
 #pragma opt_common_subs off
-TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, saddr level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 ((u8 *)this)
     u32 temp_r3_2;
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
-    s32 g = ((s32)tec_deband_class_name_ptr);
+    s32 g = ((saddr)tec_deband_class_name_ptr);
     *(s32 *)((s8 *)arg0 + 0) = g;
     *(s32 *)&((TTecDeband *)arg0)->m_13c = 1;
     copy_technique_target_list(arg0 + 0xE0, (void *) arg3, g);
@@ -178,12 +177,12 @@ TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlay
 }
 #pragma opt_common_subs reset
 
-TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(void *owner, void *pos, saddr level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;
     __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)tec_deband_class_name_ptr);
+    *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)tec_deband_class_name_ptr);
     arg0->m_13c = 0;
     arg0->update_effect_params();
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));

@@ -136,7 +136,7 @@ void TTecRaFoie::vfunc_8(void *) {
     }
     if (m_targets.count != 0) {
         chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-        if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
+        if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
             Vec point = *(Vec *)&chara->m_2fc;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
@@ -237,7 +237,7 @@ void TUnk_804CCB28::render() {
     post_translate_matrix(o->m28);
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
-    TObjFish::set_global_param((s32)lbl_805D63B0);
+    TObjFish::set_global_param((saddr)lbl_805D63B0);
     set_cull_back();
     set_draw_list_mask(3);
     get_bml_model(technique_effect_bml, 0xB);
@@ -254,13 +254,13 @@ void TUnk_804CCB28::render() {
 
 void TUnk_804CCB28::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80238388, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80238388, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80238388, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80238388, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_80238388, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_80238388, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80238388, sp20) == 0x18) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80238388, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80238388, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80238388, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80238388, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80238388, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80238388, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80238388, sp20) == 0x18);
     Stack_80238388 stack;
     f32 temp_f1;
     this->m_58 = (this->m_58 + 1);
@@ -318,13 +318,13 @@ extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
 extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0);
+u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 farg0);
 void copy_technique_target_list(void *, void *);
 }
 
-u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_802384E0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802384E0, spC) == 0x4) ? 1 : -1];
+u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, saddr arg4, f32 farg0) {
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802384E0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802384E0, spC) == 0x4);
     Stack_802384E0 stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
@@ -351,9 +351,9 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     return arg0;
 }
 
-u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_802385EC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802385EC, spC) == 0x4) ? 1 : -1];
+u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 farg0) {
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802385EC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802385EC, spC) == 0x4);
     Stack_802385EC stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg3);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
@@ -395,7 +395,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
         self->queue_destruction();
         return;
     }
-    self->source = (u32)find_entity_by_id(self->m_b4);
+    self->source = (uaddr)find_entity_by_id(self->m_b4);
     if (self->source == 0) {
         self->queue_destruction();
         return;
@@ -409,7 +409,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
         return;
     }
     chara = (TObjChara *)find_entity_by_id(self->m_targets.records[0].id);
-    if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
+    if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
         self->update_detonation(&chara->m_2fc);
     }
 }
@@ -462,11 +462,11 @@ void TTecRaFoie::update_detonation(void *pos) {
 }
 
 void TTecRaFoie::create(void *origin, void *pos, void *level) {
-    new TTecRaFoie((s32)this, (Vec *)origin, (Vec *)pos, (s32)level);
+    new TTecRaFoie((saddr)this, (Vec *)origin, (Vec *)pos, (saddr)level);
 }
 
 void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
-    new TTecRaFoie((s32)this, (Vec *)origin, (TargetCursorList *)targets, (s32)level);
+    new TTecRaFoie((saddr)this, (Vec *)origin, (TargetCursorList *)targets, (saddr)level);
 }
 
 TTecRaFoie::~TTecRaFoie() {
@@ -475,7 +475,7 @@ TTecRaFoie::~TTecRaFoie() {
 
 #pragma push
 #pragma opt_common_subs off
-TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     clear_target_cursor_list(&m_targets);
@@ -491,7 +491,7 @@ TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804C
 }
 #pragma pop
 
-TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     m_148 = 0;

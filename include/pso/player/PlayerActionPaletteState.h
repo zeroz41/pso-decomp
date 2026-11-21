@@ -9,7 +9,7 @@ struct PlayerActionPaletteState {
     ActionPaletteTag tag;
 };
 
-typedef char PlayerActionPaletteTagOffset[offsetof(PlayerActionPaletteState, tag) == 4 ? 1 : -1];
+LAYOUT_ASSERT(PlayerActionPaletteTagOffset, offsetof(PlayerActionPaletteState, tag) == 4);
 
 extern "C" {
 u8 get_player_action_palette_slot(const PlayerActionPaletteState *state);

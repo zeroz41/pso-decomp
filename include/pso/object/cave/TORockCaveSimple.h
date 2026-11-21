@@ -10,5 +10,5 @@ struct TORockCaveSimple : public TORockCave {
     virtual void render();
 };
 
-typedef char TORockCaveSimple_size[sizeof(TORockCaveSimple) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TORockCaveSimple_size, sizeof(TORockCaveSimple) == 0xB4);
 #endif

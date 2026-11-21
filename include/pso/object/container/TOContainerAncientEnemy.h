@@ -15,5 +15,5 @@ struct TOContainerAncientEnemy : public TUnk_804B6C24 {
     virtual f32 receive_physical_attack(void *, f32);
 };
 
-typedef char TOContainerAncientEnemy_size[sizeof(TOContainerAncientEnemy) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TOContainerAncientEnemy_size, sizeof(TOContainerAncientEnemy) == 0x368);
 #endif

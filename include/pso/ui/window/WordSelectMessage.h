@@ -10,7 +10,7 @@ struct WordSelectMessage {
     s16 ids[4];
 };
 
-typedef char WordSelectMessage_size[sizeof(WordSelectMessage) == 12 ? 1 : -1];
+LAYOUT_ASSERT(WordSelectMessage_size, sizeof(WordSelectMessage) == 12);
 
 // The dispatcher and language formatters share the 16-bit speaker entity ID.
 extern "C" {

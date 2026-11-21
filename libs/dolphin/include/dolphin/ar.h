@@ -11,21 +11,21 @@ typedef struct ARQRequest ARQRequest;
 
 typedef void (*ARCallback)(void);
 
-typedef void (*ARQCallback)(u32 ptrToRequest);
+typedef void (*ARQCallback)(uaddr ptrToRequest);
 
 struct ARQRequest {
 	ARQRequest* next;
-	u32 owner;
+	uaddr owner;
 	u32 type;
 	u32 priority;
-	u32 source;
-	u32 dest;
+	uaddr source;
+	uaddr dest;
 	u32 length;
 	ARQCallback callback;
 };
 
 void ARQInit();
-void ARQPostRequest(ARQRequest* task, u32 owner, u32 type, u32 priority, u32 source, u32 dest, u32 length, ARQCallback callback);
+void ARQPostRequest(ARQRequest* task, uaddr owner, u32 type, u32 priority, uaddr source, uaddr dest, u32 length, ARQCallback callback);
 
 ARQCallback ARRegisterDMACallback(ARQCallback callback);
 u32 ARGetDMAStatus();

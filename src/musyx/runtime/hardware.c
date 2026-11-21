@@ -33,7 +33,7 @@ void snd_handle_irq(void) {
     }
     streamCorrectLoops();
     hwIRQEnterCritical();
-    salCtrlDsp((s32)salAiGetDest());
+    salCtrlDsp((saddr)salAiGetDest());
     hwIRQLeaveCritical();
     hwIRQEnterCritical();
     salHandleAuxProcessing();
@@ -66,7 +66,7 @@ void snd_handle_irq(void) {
     hwIRQLeaveCritical();
 }
 
-s32 hwInit(u32 arg0, s32 arg1, s32 arg2, u32 arg3) {
+s32 hwInit(uaddr arg0, s32 arg1, s32 arg2, u32 arg3) {
     hwInitIrq();
     salFrame = 0;
     salAuxFrame = 0;
@@ -367,7 +367,7 @@ void hwExitStream(u8 i) {
     aramFreeStreamBuffer(i);
 }
 
-u32 hwGetStreamPlayBuffer(u8 i) {
+uaddr hwGetStreamPlayBuffer(u8 i) {
     return aramGetStreamBufferAddress(i, (u32 *)(0));
 }
 
@@ -379,7 +379,7 @@ u32 hwFrq2Pitch(u32 arg0) {
 }
 
 void hwInitSampleMem(void *self, void *p) {
-    aramInit((u32)p);
+    aramInit((uaddr)p);
 }
 
 void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1) {

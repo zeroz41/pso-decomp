@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_800FA2A0.h"
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
@@ -7,11 +8,10 @@
 extern "C" {
 
 s32 adxf_open__6TLobbyFUii(void *, int);
-s32 strncpy(void *, void *, int);
 
-s32 create_named_entry__6TLobbyFiiUiiPv(s32 name, s32 arg1, u32 arg2, void *src, void **arg4) {
+s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *src, void **arg4) {
     u8 *var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg4 != NULL) {
         *arg4 = NULL;
@@ -24,7 +24,7 @@ s32 create_named_entry__6TLobbyFiiUiiPv(s32 name, s32 arg1, u32 arg2, void *src,
     if (var_r31 != NULL) {
         var_r31 = (u8 *)link_into_list(var_r31);
     }
-    strncpy(var_r31 + 8, (void *)name, 0x20);
+    strncpy((char *)(var_r31 + 8), (const char *)name, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
     *(s32 *)((s8 *)var_r31 + 0x2C) = ((TLobby *)temp_r3)->adxf_get_fsize_byte();

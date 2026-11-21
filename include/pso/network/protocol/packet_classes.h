@@ -398,7 +398,7 @@ struct PsoCommandHandler {
     PsoCommandFn handle;
 };
 
-typedef char PsoCommandHandler_size[sizeof(PsoCommandHandler) == 8 ? 1 : -1];
+LAYOUT_ASSERT(PsoCommandHandler_size, sizeof(PsoCommandHandler) == 8);
 
 class TPsoDataBuf {
 public:

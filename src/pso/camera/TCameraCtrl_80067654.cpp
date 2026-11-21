@@ -63,6 +63,6 @@ TUnk_804887C8::~TUnk_804887C8() {
 
 TUnk_804887C8::TUnk_804887C8() : TUnk_80488A28() {
     this->m_38 = 5;
-    ((TUnk_80488A28 *)this)->set_target((u32)get_player_by_client_id(0U));
+    ((TUnk_80488A28 *)this)->set_target((uaddr)get_player_by_client_id(0U));
 }
 

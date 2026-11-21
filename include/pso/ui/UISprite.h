@@ -46,7 +46,7 @@ void fn_80291178(void);
 }
 
 #include <stddef.h>
-typedef char UISpriteTintSize[(sizeof(UISpriteTint) == 0x10) ? 1 : -1];
-typedef char UISpriteTintAlphaOffset[(offsetof(UISpriteTint, alpha) == 0) ? 1 : -1];
-typedef char UISpriteScaleSize[(sizeof(vec2f) == 8) ? 1 : -1];
+LAYOUT_ASSERT(UISpriteTintSize, sizeof(UISpriteTint) == 0x10);
+LAYOUT_ASSERT(UISpriteTintAlphaOffset, offsetof(UISpriteTint, alpha) == 0);
+LAYOUT_ASSERT(UISpriteScaleSize, sizeof(vec2f) == 8);
 #endif

@@ -66,9 +66,9 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1);
 #pragma scheduling off
 void bind_motion_blend_channels(NJS_MOTION_LINK *motion, f32 blend_factor) {
     select_motion_context(1);
-    bind_motion_channel_samplers((s32)motion->motion[1], motion->frame[1]);
+    bind_motion_channel_samplers((saddr)motion->motion[1], motion->frame[1]);
     select_motion_context(0);
-    bind_motion_channel_samplers((s32)motion->motion[0], motion->frame[0]);
+    bind_motion_channel_samplers((saddr)motion->motion[0], motion->frame[0]);
     motion_blend_factor = blend_factor;
 }
 #pragma pop
@@ -128,7 +128,7 @@ s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *r
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-typedef char RecoveredGlobal_803D77C0_lbl_8047E3C8_size[sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803D77C0_lbl_8047E3C8_size, sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10);
 
 #pragma push
 #pragma scheduling off
@@ -203,7 +203,7 @@ void select_motion_sampler(s32 *arg0, f32 farg0) {
     } else {
         *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)motion_angle_sampler_table + temp_r4);
     }
-    *(s32 *)((s8 *)current_motion_context + 0x2C) = (s32) motion_key_sampler_table[0];
+    *(saddr *)((s8 *)current_motion_context + 0x2C) = (saddr) motion_key_sampler_table[0];
 }
 #pragma pop
 
@@ -298,7 +298,7 @@ void find_motion_key_interval(void *keys, s32 stride, s32 count, f32 t, void *k0
 
 void bind_motion_context(NJS_MOTION *motion, f32 farg0) {
     select_motion_context(0);
-    bind_motion_channel_samplers((s32)motion, farg0);
+    bind_motion_channel_samplers((saddr)motion, farg0);
 }
 #pragma pop
 

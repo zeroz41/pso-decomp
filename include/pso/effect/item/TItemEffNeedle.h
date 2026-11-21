@@ -50,8 +50,8 @@ public:
     s32 rotation_offset[3];  // rotation, its y relative to the target's
 };
 
-typedef char TItemEffNeedleBaseSize[(sizeof(TItemEffNeedleBase) == 0x50) ? 1 : -1];
-typedef char TItemEffNeedleSize[(sizeof(TItemEffNeedle) == 0x64) ? 1 : -1];
+LAYOUT_ASSERT(TItemEffNeedleBaseSize, sizeof(TItemEffNeedleBase) == 0x50);
+LAYOUT_ASSERT(TItemEffNeedleSize, sizeof(TItemEffNeedle) == 0x64);
 
 // Weapon hit callbacks that leave needles.
 extern "C" {

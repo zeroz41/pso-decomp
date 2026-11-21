@@ -20,9 +20,9 @@ s32 TItemList__sub_801D5854(s32, s32);
 s32 copy_item_data__9TItemListFv(s32, s32);
 s32 create_node__9TItemListFPvPvPvSc(s32, s32, s32, s32);
 
-void insert_item_node__10TObjPlayerFiiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s32 temp_r31;
-    s32 temp_r30;
+void insert_item_node__10TObjPlayerFiiiii(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    saddr temp_r31;
+    saddr temp_r30;
 
     temp_r31 = TItemList__sub_801D5868((void*)arg0, (void*)(0));
     temp_r30 = TItemList__sub_801D5854(arg0, 0);
@@ -63,12 +63,12 @@ u8 *copy_drop_node(u8 *arg0, u8 *arg1) {
     temp_r5 = (arg0 + 4);
     temp_r4 = (arg1 + 4);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_14 *)((s32) temp_r5 + 4) = *(const ByteBlock_14 *)((s32) temp_r4 + 4);
+    *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4 + 4);
     return arg0;
 }
 
 void fn_801D371C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
-void start_placement_search(s32 list, s32 pos, s32 source) {
+void start_placement_search(saddr list, saddr pos, saddr source) {
     TItemList__sub_801D5838(((void *)((s32)TItemList__sub_801D5868((void*)list, (void*)(0)))));
     TItemList__sub_801D3B00((void *)list, (void *)source, (void *)pos, 0);
     TItemList__sub_801D5804((s32 *)list);

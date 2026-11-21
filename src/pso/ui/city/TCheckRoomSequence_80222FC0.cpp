@@ -9,7 +9,7 @@ extern "C" {
 s32 TLobby__sub_8022318C(Item_80222FF0 *, Item_80222FF0 *);
 void sort_shop_items(Item_80222FF0 *items, s32 n, s32 mode);
 
-s32 TCheckRoomSequence::get_item_def(u32 arg0) {
+s32 TCheckRoomSequence::get_item_def(uaddr arg0) {
     if (arg0 != 0U) {
         return TItemData::lookup_item_def((void *)arg0);
     }

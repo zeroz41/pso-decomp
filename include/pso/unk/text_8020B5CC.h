@@ -17,9 +17,9 @@ struct FloorSetFlagsPayload : FloorSetFlagsHeader {
     s16 flags[(0x4000 - sizeof(FloorSetFlagsHeader)) / sizeof(s16)];
 };
 
-typedef char FloorSetFlagsPayloadSize[sizeof(FloorSetFlagsPayload) == 0x4000 ? 1 : -1];
-typedef char FloorSetFlagsHeaderSize[sizeof(FloorSetFlagsHeader) == 0x10 ? 1 : -1];
-typedef char FloorSetFlagsEnemyOffset[offsetof(FloorSetFlagsHeader, enemy_offset) == 8 ? 1 : -1];
+LAYOUT_ASSERT(FloorSetFlagsPayloadSize, sizeof(FloorSetFlagsPayload) == 0x4000);
+LAYOUT_ASSERT(FloorSetFlagsHeaderSize, sizeof(FloorSetFlagsHeader) == 0x10);
+LAYOUT_ASSERT(FloorSetFlagsEnemyOffset, offsetof(FloorSetFlagsHeader, enemy_offset) == 8);
 
 extern "C" {
 void swap_floor_set_flags_header(FloorSetFlagsHeader *header);

@@ -33,7 +33,7 @@ TItemTimer::TItemTimer(TObject *arg1, s32 arg2, s32 arg3) : TObject(arg1) {
     if ((s32) ((TItemTimer *)item_timer)->m_1C < 1) {
         ((TItemTimer *)item_timer)->m_1C = 1;
     }
-    TItemTimer__sub_8011D598(item_timer + 0x20, (s32)arg1, arg2);
+    TItemTimer__sub_8011D598(item_timer + 0x20, (saddr)arg1, arg2);
     ((TObject *)(item_timer))->disallow_rendering();
 }
 #undef item_timer

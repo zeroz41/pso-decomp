@@ -31,7 +31,7 @@ TObjPlayerSet::~TObjPlayerSet() {
 #pragma opt_common_subs off
 #define player_set this
 TObjPlayerSet::TObjPlayerSet(TObject *parent, void *arg2) : TObjBase(parent) {
-    *(s32 *)((s8 *)player_set + 0) = (s32) TObjPlayer__player_set_class_name;
+    *(s32 *)((s8 *)player_set + 0) = (saddr) TObjPlayer__player_set_class_name;
     ((TObjPlayerSet *)(player_set))->apply_object_set_data(arg2);
     if (player_set->scale.x < 0.0f) {
         player_set->scale.x = 0.0f;

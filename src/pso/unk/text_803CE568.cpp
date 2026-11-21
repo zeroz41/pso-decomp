@@ -1,10 +1,12 @@
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/unk/text_803CE568.h"
 #include "pso/unk/TLobby.h"
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, const char *, s32);
 
-struct Ent_803CF958 { u32 a; char name[12]; };
+struct Ent_803CF958 { uaddr a; char name[12]; };
 
 struct CvFsDevVtbl {
     u8 pad0[8];
@@ -27,12 +29,8 @@ struct V_803CEF60 { void (*fn)(); };
 extern "C" {
 extern RecoveredCallback_4873a87e26d6 cvfs_completion_callback;
 extern s32 lbl_805D75FC;
-s32 strncmp(void *, void *, int);
-void *memcpy(void *, void *, u32);
-u32 strlen(void *);
 extern s8 fs_default_device_name[];
 extern Ent_803CF958 cvfs_entry_table[];
-void *memset(void *, s32, u32);
 s32 lbl_805D7600;
 u32 lbl_80581A30[75];
 // CVFS version banner: the first string of this file's pool (0x8047CF30).
@@ -41,8 +39,6 @@ s8 fs_default_device_name[12];
 Ent_803CF958 cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
 extern const char lbl_805E0DA4[6] = "%s:%s";
-char *strcpy(char *, const char *);
-int sprintf(char *, const char *, ...);
 
 inline void cvfs_split_path(char *dev, char *file, char *path) {
     s32 i;
@@ -87,7 +83,7 @@ inline void cvfs_split_path(char *dev, char *file, char *path) {
 
 // Copies the default device name into dev and returns dev (like strcpy).
 inline char *cvfs_get_default_device(char *dev) {
-    s32 len = strlen(fs_default_device_name);
+    s32 len = strlen((const char *)fs_default_device_name);
     if (fs_default_device_name[0] == '\0') {
         dev[0] = '\0';
     } else {
@@ -168,7 +164,7 @@ inline void cvfs_free_handle(CvFsHandle *h) {
     h->vtbl = NULL;
 }
 
-// cvFsInit: dead-stripped. SIGetTypeAsync below undoes it (it decrements the init count, which no
+// cvFsInit: dead-stripped. cvFsFinish below undoes it (it decrements the init count, which no
 // surviving code increments); this mirror of it is a reconstruction.
 void cvFsInit(void) {
     CvFsHandle *h;
@@ -707,7 +703,7 @@ inline CvFsDevIf *cvfs_add_device(char *name, CvFsDevIf *dev) {
     if (k == 32) {
         return NULL;
     }
-    cvfs_entry_table[k].a = (u32)dev;
+    cvfs_entry_table[k].a = (uaddr)dev;
     memcpy(cvfs_entry_table[k].name, name, strlen(name) + 1);
     return dev;
 }
@@ -747,7 +743,7 @@ void cvFsAddDev(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
 }
 
 
-void SIGetTypeAsync(void) {
+void cvFsFinish(void) {
     CvFsHandle *h;
     s32 i;
 

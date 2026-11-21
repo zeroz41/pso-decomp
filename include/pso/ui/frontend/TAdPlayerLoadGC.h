@@ -36,13 +36,13 @@ public:
     static void reset_load_state(void *arg0, void *arg1);
     static void poll_card_load(s32 arg0);
     s32 check_card_result_code();
-    static s32 probe_and_check_card(s32 chan);
+    static s32 probe_and_check_card(saddr chan);
     static void unmount_card_and_clear_flags(s32 n);
     static void load_banner_files();
     static s32 get_load_result(void * _w0);
     static s32 build_save_file_image(void *image, void *desc);
-    static s32 probe_card_slot(s32 chan);
-    static s32 find_card_file(s32 chan, const char *name);
+    static s32 probe_card_slot(saddr chan);
+    static s32 find_card_file(saddr chan, const char *name);
     static s32 check_memcard_status(s32 arg0);
     static s32 query_memcard_capacity(s32 arg0, s32 unused);
     static s32 delete_memcard_file(s32 chan, const char *name);
@@ -62,11 +62,12 @@ public:
     static s32 take_card_find_result(s32 arg0, s32 *arg1);
 public:
     static s32 request_card_find(s32 arg0, const char *arg1);
+    static s32 get_card_file_info(int, void *, void *);
 
     u32 state;
     int mode; // 0, 1 or 2, given by the creator; from state 12 on, mode 1 also watches slot B
 };
-typedef char TAdPlayerLoadGCExtent[sizeof(TAdPlayerLoadGC) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TAdPlayerLoadGCExtent, sizeof(TAdPlayerLoadGC) == 0x24);
 
 int get_player_load_state(void);
 void set_character_select_b_slot_state(int a0);

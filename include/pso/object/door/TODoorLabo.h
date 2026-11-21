@@ -13,7 +13,7 @@ struct TODoorLabo : public TODoorFourLightBase {
     static void load_resources();
 };
 
-typedef char TODoorLabo_size[sizeof(TODoorLabo) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TODoorLabo_size, sizeof(TODoorLabo) == 0xFC);
 
 extern "C" {
 void TLanguage__sub_8029FF0C(void);

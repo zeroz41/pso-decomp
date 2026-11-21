@@ -2,7 +2,6 @@
 
 #define DoMount CARDMount_DoMount
 #define DoUnmount CARDMount_DoUnmount
-#define EXIGetID Dolphin_EXIGetID
 #define IsCard CARDMount_IsCard
 #define LatencyTable lbl_804F4DE0
 #define SectorSizeTable lbl_804F4DC0

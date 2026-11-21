@@ -17,7 +17,7 @@ struct TObjFishNodeEntry {
 
 // One model of the Dark Falz death scene: its model, texture list and motion.
 struct TObjDFDemo5Part {
-    s32 model;
+    saddr model;
     s32 texlist;
     AnimationMotion *motion;
 };
@@ -44,7 +44,7 @@ struct TObjDFDemo5 : public TObjBase {
     Vec tail_position;
 };
 
-typedef char TObjDFDemo5_size[sizeof(TObjDFDemo5) == 0x118 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo5_size, sizeof(TObjDFDemo5) == 0x118);
 
 extern "C" {
 // Dark Falz's three body models (TBoss4Type3's table).

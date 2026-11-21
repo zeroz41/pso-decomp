@@ -15,7 +15,7 @@ struct TBoss5GryphonShockWave : public TObject {
     void* m_2c;
     u8 _pad30[0x8];
     u32 m_38;
-    u32 m_3c;
+    uaddr m_3c;
     void* m_40;
     u8 _pad44[0xC];
     void* m_50;
@@ -26,7 +26,7 @@ struct TBoss5GryphonShockWave : public TObject {
     u8 unk_64[0xC];
 };
 
-typedef char TBoss5GryphonShockWave_size[sizeof(TBoss5GryphonShockWave) == 0x70 ? 1 : -1];
+LAYOUT_ASSERT(TBoss5GryphonShockWave_size, sizeof(TBoss5GryphonShockWave) == 0x70);
 
 extern "C" {
 void TBoss8Dragon__sub_80066A4C(void);

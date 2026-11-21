@@ -8,9 +8,9 @@ extern "C" {
 s32 TWindowActionPalette__sub_801C1C68(s32, s32);
 
 s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 arg2, s32 arg3, s32 arg4) {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 var_r30;
-    s32 var_r29;
+    saddr var_r29;
     u32 temp_r3;
 
     if (arg1 != NULL) {

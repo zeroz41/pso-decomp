@@ -37,7 +37,7 @@ public:
     s32 required_count;  // set_params[2] + 1
 };
 
-typedef char TOSwitchItem_size[sizeof(TOSwitchItem) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TOSwitchItem_size, sizeof(TOSwitchItem) == 0xF8);
 
 extern const char *TOSwitchItem__class_name;
 

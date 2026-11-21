@@ -96,7 +96,7 @@ void TUnk_80488838::reset_behind_player() {
     }
 }
 
-void target_player0__11TCameraCtrlFi(s32 arg0) {
+void target_player0__11TCameraCtrlFi(saddr arg0) {
     Vec stack;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(0));
@@ -112,11 +112,11 @@ void TUnk_80488838::reset_state() {
     m_70 = 25.0f;
     m_2c = 0;
     m_34 = 0;
-    target_player0__11TCameraCtrlFi((s32)this);
+    TCameraCtrl::target_player0((saddr)this);
     reset_behind_player();
 }
 
-void TUnk_80488838::run_task() { target_player0__11TCameraCtrlFi((s32)this); this->update_orbit_camera(); }
+void TUnk_80488838::run_task() { TCameraCtrl::target_player0((saddr)this); this->update_orbit_camera(); }
 
 }
 

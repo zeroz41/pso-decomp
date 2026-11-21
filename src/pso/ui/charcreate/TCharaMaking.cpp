@@ -24,6 +24,8 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include <string.h>
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -121,12 +123,12 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *creation_player_character;
-u32 creation_main_menu_obj;
+uaddr creation_main_menu_obj;
 extern "C" {
 s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);
 
-extern u32 creation_main_menu_obj;
+extern uaddr creation_main_menu_obj;
 
 s32 TCharaMaking::query_state() {
     if ((u32) creation_main_menu_obj == 0U) {
@@ -174,7 +176,7 @@ static const s32 lbl_805DD930[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
+void TCharaMaking__draw_colored_hair(f32 farg0, saddr arg0, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
     struct Color { f32 a, r, g, b; } color;
     s32 temp_r3;
     s32 second;
@@ -355,7 +357,7 @@ s32 validate_player_visual_record(void *arg0) {
 
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
-void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)((void*)31)); }
+void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
 void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **temp_r3;
@@ -427,7 +429,6 @@ s32 TCharaMaking::get_display_index() {
     return ((CharacterAppearanceFields *)this)->classId;
 }
 
-unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
 }
 void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
@@ -441,8 +442,8 @@ void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *app
         entry = (u8 **)source->entries;
         for (; index < source->count; ++index, ++entry, ++slot) {
             name = ((TextureOutput *)this)->names[index];
-            strlen(*entry);
-            strncpy(name, *entry, 31);
+            strlen((const char *)(*entry));
+            strncpy((char *)name, (const char *)(*entry), 31);
             name[31] = 0;
             if (definition->counts[0] > 0) {
                 char *digit = (char *)&name[6];
@@ -507,13 +508,11 @@ extern "C" {
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;
 extern void *creation_player_character;
-s32 is_state_3__14TObjCMMainMenuFv(s32);
-s32 is_state_4__14TObjCMMainMenuFv(s32);
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
 
-extern s32 tl_03;
+extern saddr tl_03;
 extern s32 creation_dressing_room_mode_flag;
 
 void TCharaMaking::update_light_direction() {
@@ -524,10 +523,10 @@ void TCharaMaking::update_light_direction() {
     TObjLight__scene_light_state.z = temp_f31 * cos_table_lookup(m_20);
 }
 
-s32 TCharaMaking::update_main_menu(s32 arg0) {
-    s32 var_r3;
+s32 TCharaMaking::update_main_menu(saddr arg0) {
+    saddr var_r3;
 
-    if (is_state_3__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
+    if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_3() != 0) {
         fn_8028D8F4();
         var_r3 = 0;
         if ((s32) creation_dressing_room_mode_flag == 1) {
@@ -538,7 +537,7 @@ s32 TCharaMaking::update_main_menu(s32 arg0) {
         ((TObject *)arg0)->queue_destruction();
         return 1;
     }
-    if (is_state_4__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
+    if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_4() != 0) {
         ((TObject *)arg0)->queue_destruction();
         TChCrCharSelect::create((void *)tl_03);
         return 1;
@@ -548,7 +547,7 @@ s32 TCharaMaking::update_main_menu(s32 arg0) {
 
 void TCharaMaking::run_task() {
     if (!TAdSinglePlyChrSelectGC::is_active()) return;
-    if (TCharaMaking::update_main_menu((s32)this)) return;
+    if (TCharaMaking::update_main_menu((saddr)this)) return;
 }
 
 void *TCharaMaking::create(void *arg0, void *arg1) {
@@ -562,13 +561,13 @@ TCharaMaking::~TCharaMaking() {
 }
 
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
-    u32 motion;
+    uaddr motion;
     m_name = TCharaMaking__name;
-    motion = ((u32)TObject::operator new(0x10C));
+    motion = ((uaddr)TObject::operator new(0x10C));
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, this);
     }
-    creation_main_menu_obj = (s32)TObjCMMainMenu::create(this);
+    creation_main_menu_obj = (saddr)TObjCMMainMenu::create(this);
     m_1c = 0x1555;
     m_20 = 0x9000;
     update_light_direction();

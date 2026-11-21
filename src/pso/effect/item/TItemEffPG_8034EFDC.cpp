@@ -30,6 +30,7 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/technique/TTecSlicer.h"
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -121,10 +122,9 @@ u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
-u8 *create__10TTecSlicerFPUs(SlicerLaunchData_8012D9C8 *);
 s32 spawn_particle_effect(void *, s32);
 void *find_entity_by_id(s32);
-void draw_weapon_at_joint(s32, s8);
+void draw_weapon_at_joint(saddr, s8);
 }
 
 // Rappy's fan (TUnk_804F0908) and the TUnk_804F0810 weapon: its own TU, since its
@@ -163,7 +163,7 @@ void TUnk_804F0908::emit_marker_effects() {
     launch.spin = 0;
     get_joint_position(3, launch.first);
     get_joint_position(2, launch.second);
-    t = create__10TTecSlicerFPUs(&launch);
+    t = ((u8 *)TTecSlicer::create((u16*)&launch));
     if (t != NULL) {
         *(s32 *)((s8 *)t + 0x5C) += 0x4000;
         *(f32 *)((s8 *)t + 0x68) = 2.0f;
@@ -199,9 +199,9 @@ TUnk_804F0810::TUnk_804F0810(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804F0810::~TUnk_804F0810() {}
 
-void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)(-4551)), (s32)((void*)(0))); }
-void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)(1820)), (s32)((void*)(13653))); }
-void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)(-4551)), (saddr)((void*)(0))); }
+void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)(1820)), (saddr)((void*)(13653))); }
+void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
 
 void TUnk_804F0810::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {

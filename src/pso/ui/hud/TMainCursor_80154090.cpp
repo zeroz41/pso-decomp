@@ -48,8 +48,8 @@ void TMainCursor__sub_801540FC(E_801540FC *arr, s32 n) {
     }
 }
 
-void TMainCursor::update_pair() { TMainCursor__sub_801540D8((E_801540D8 *)*(void**)((char*)this + 0xa4), (s32)*(void**)((char*)this + 0xa8)); }
-void TMainCursor::update_cursor_pair() { TMainCursor__sub_801540FC((E_801540FC *)*(void**)((char*)this + 0xa4), (s32)*(void**)((char*)this + 0xa8)); }
+void TMainCursor::update_pair() { TMainCursor__sub_801540D8((E_801540D8 *)*(void**)((char*)this + 0xa4), (saddr)*(void**)((char*)this + 0xa8)); }
+void TMainCursor::update_cursor_pair() { TMainCursor__sub_801540FC((E_801540FC *)*(void**)((char*)this + 0xa4), (saddr)*(void**)((char*)this + 0xa8)); }
 
 s32 TMainCursor::test_button(s32 arg1, u16 arg2) {
     s32 temp_r5;
@@ -61,7 +61,7 @@ s32 TMainCursor::test_button(s32 arg1, u16 arg2) {
     return 0;
 }
 void TMainCursor::set_flag_bit(s32 arg1, u16 arg2) {
-    s32 temp_r5;
+    saddr temp_r5;
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
         temp_r5 = *(s32 *)((s8 *)this + 0x9C);
@@ -69,7 +69,7 @@ void TMainCursor::set_flag_bit(s32 arg1, u16 arg2) {
     }
 }
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2) {
-    s32 temp_r5;
+    saddr temp_r5;
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
         temp_r5 = *(s32 *)((s8 *)arg0 + 0x9C);

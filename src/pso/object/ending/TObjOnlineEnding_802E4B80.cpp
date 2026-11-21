@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <string.h>
 #include "pso/ui/window/TWindowChallengeResult.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -83,7 +84,7 @@ struct OnlineEndingPlayerPlacement {
     f32 scale;
 };
 
-typedef char OnlineEndingPlayerPlacementSize[sizeof(OnlineEndingPlayerPlacement) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(OnlineEndingPlayerPlacementSize, sizeof(OnlineEndingPlayerPlacement) == 0x14);
 
 OnlineEndingPlayerPlacement lbl_804E35F8[48] = {
     {{-18.8999996f, -8.0f, -9.0f}, 9466, 1.25f},
@@ -196,7 +197,6 @@ s32 restore_player_cameras();
 s32 *TLobby__sub_80070ACC();
 TWindowChallengeResult *TWindowChallengeResult__ct(TWindowChallengeResult *, const void *, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
-s32 __dl__7TObjectFPv(void *);
 
 void TObjOnlineEnding::create_result_window() {
     s32 temp_r31;
@@ -233,7 +233,7 @@ void TObjOnlineEnding::render() {
     push_matrix();
     post_translate_matrix(&lbl_804E3A38.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(reinterpret_cast<s32>(scene_textures));
+    TObjFish::set_global_param(reinterpret_cast<saddr>(scene_textures));
     draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
     for (i = 0; i < player_count; i++) {
@@ -258,7 +258,7 @@ void TObjOnlineEnding::render() {
             post_translate_matrix(&e->position->x);
             rotate_matrix_y(0, e->yaw);
             scale_matrix(0, e->scale, e->scale, e->scale);
-            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<s32>(e->motion), 0.0f, 1.0f);
+            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<saddr>(e->motion), 0.0f, 1.0f);
             pop_matrix();
         }
     }
@@ -306,19 +306,18 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
         restore_player_cameras();
         __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
 }
 
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
 void fn_802E6260();
-char *strncpy(char *, const char *, unsigned long);
 #pragma push
 #pragma opt_common_subs off
 void *TObjOnlineEnding__ct(void *arg0, void *parent) {
@@ -413,9 +412,9 @@ void TBoss4DarkFalz::free_global_instance() {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 
 void fn_802E52AC() {
-    s32 r;
+    saddr r;
     if (online_ending_resource == NULL) {
-        r = (int)::operator new(0x440);
+        r = (saddr)::operator new(0x440);
         if (r != 0) {
             r = load_resource_from_descriptor(r, 5, &onlineending_dat_resource_descriptor, 0, 0, 0);
         }

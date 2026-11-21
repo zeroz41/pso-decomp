@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_80120FC4.h"
@@ -94,15 +95,15 @@ struct Save_801039BC {
 
 extern "C" {
 void mem_free(void *p);
-u32 TLobby__floor_item_entry_pool;
+uaddr TLobby__floor_item_entry_pool;
 Ent_801037A0 **floor_item_row_table;
-s32 floor_item_counts_by_floor;
-s32 floor_item_free_id_stack;
+saddr floor_item_counts_by_floor;
+saddr floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
 s32 __construct_new_array(s32, s32 *, s32, s32, s32);
-s32 mem_alloc(s32);
+saddr mem_alloc(s32);
 extern s32 __ct__9FloorItemFv[];
     extern int lbl_805D5868;
 void TLobby__sub_801041BC(void *arg0);
@@ -120,9 +121,7 @@ void TLobby__sub_801036CC(void);
 void set_boss_buf_entry__6TLobbyFii(s32, u16);
 s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
-void *memcpy(void *, const void *, u32);
 void spawn_dropped_item_from_msg(void *, s32);
-s32 bswap_player_packet__6TLobbyFv();
 
 void TLobby__sub_801036CC(void) {
     s32 i;
@@ -140,7 +139,7 @@ void evict_lowest_key_floor_item(s32 n);
 void handle_6x63_destroy_floor_item(void *arg0) {
     struct VObj_80103748 *o;
 
-    bswap_player_packet__6TLobbyFv();
+    ((TLobby *)arg0)->bswap_player_packet();
     remove_item_condition((s32)(*(s32 *)((s8 *)arg0 + 8)), (s32)(*(s32 *)((s8 *)arg0 + 4)));
     o = (struct VObj_80103748 *)find_item_by_id(*(s32 *)((s8 *)arg0 + 4));
     if (o != NULL) {
@@ -486,9 +485,9 @@ TLobbyFloorItemEntry *TLobby::copy_floor_item_entry(TLobbyFloorItemEntry *dst, T
     return dst;
 }
 
-typedef char SyncItemHeaderPlayerIds[offsetof(G_SyncItemState_6x6D_Decompressed, next_item_id_per_player) == 0x20 ? 1 : -1];
-typedef char SyncItemHeaderFloorCounts[offsetof(G_SyncItemState_6x6D_Decompressed, floor_item_count_per_floor) == 0x50 ? 1 : -1];
-typedef char SyncItemHeaderSize[sizeof(G_SyncItemState_6x6D_Decompressed) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(SyncItemHeaderPlayerIds, offsetof(G_SyncItemState_6x6D_Decompressed, next_item_id_per_player) == 0x20);
+LAYOUT_ASSERT(SyncItemHeaderFloorCounts, offsetof(G_SyncItemState_6x6D_Decompressed, floor_item_count_per_floor) == 0x50);
+LAYOUT_ASSERT(SyncItemHeaderSize, sizeof(G_SyncItemState_6x6D_Decompressed) == 0x8C);
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
     for (s32 i = 0; i < 16; ++i) {
         bswap_16((&header->next_drop_number_per_floor[i]));

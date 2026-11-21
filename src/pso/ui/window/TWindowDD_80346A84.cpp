@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowDD_80346A84.h"
 
 extern "C" {
-s32 get_word_select_context__9TWindowDDFv();
 void *load_encrypted_archive_data(const char *);
 
 extern s32 TWindowDD__window_mode;
@@ -11,7 +10,7 @@ extern s32 TWindowDD__word_select_lists;
 extern s32 TWindowDD__ws_data_base;
 s32 window_dd_element_count;
 
-s32 TWindowDD::get_element_ptr(s32 arg0) {
+saddr TWindowDD::get_element_ptr(s32 arg0) {
     if (arg0 == -1) {
         return 0;
     }
@@ -145,13 +144,13 @@ void ws_data_load(void) {
     }
 }
 
-s32 TWindowDD__sub_80346DB8(s32 arg0) {
+s32 TWindowDD__sub_80346DB8(saddr arg0) {
   s32 var_r31;
   s32 var_r30;
-  s32 var_r3;
+  saddr var_r3;
   var_r30 = arg0;
   var_r31 = 0;
-  switch (get_word_select_context__9TWindowDDFv())
+  switch (((TWindowDD *)arg0)->get_word_select_context())
   {
     case 0:
       var_r31 = 1;
@@ -177,7 +176,7 @@ s32 TWindowDD__sub_80346DB8(s32 arg0) {
   }
   var_r3 = var_r30;
   var_r30 = 0;
-  if (TWindowDD__sub_80346F30((u8 *)((int) var_r3)) != 0)
+  if (TWindowDD__sub_80346F30((u8 *)((saddr) var_r3)) != 0)
   {
     var_r30 = 1;
   }

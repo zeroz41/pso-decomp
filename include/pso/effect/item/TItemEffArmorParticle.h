@@ -22,6 +22,6 @@ public:
     u32 item_generation;  // get_item_system_generation when it was made
 };
 
-typedef char TItemEffArmorParticle_size[(sizeof(TItemEffArmorParticle) == 0x2C) ? 1 : -1];
+LAYOUT_ASSERT(TItemEffArmorParticle_size, sizeof(TItemEffArmorParticle) == 0x2C);
 
 #endif

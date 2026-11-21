@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowDD_80346F48.h"
 #include "pso/ui/window/TWindowDD.h"
+#include <string.h>
 
 struct DD_80346FE4 {
     u8 pad[0x10];
@@ -16,7 +17,6 @@ struct DD_80346FE4 {
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-char *strncpy(char *, const char *, u32);
 extern s32 local_client_id;
 extern char **TWindowDD__player_name_buffers;
 extern DD_80346FE4 *TWindowDD__word_select_lists;
@@ -49,13 +49,13 @@ void TWindowDD::build_player_word_lists() {
     s16 *l1;
     s16 *l2;
     s16 *l3;
-    u32 p;
+    uaddr p;
     s16 v;
     n = 0;
     list = TWindowDD__word_select_lists->list0;
     list[n++] = 0x2c7;
     for (i = 0; i < 12; i++) {
-        p = (u32)get_player_by_client_id(i);
+        p = (uaddr)get_player_by_client_id(i);
         if (p != 0) {
             strncpy(TWindowDD__player_name_buffers[i], (char *)(p + 0x85c), 0x18);
             if (i != local_client_id) {

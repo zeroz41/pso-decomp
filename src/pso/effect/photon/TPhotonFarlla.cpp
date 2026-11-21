@@ -131,39 +131,38 @@ struct Stack_801AB018 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(int);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 #pragma push
 #pragma opt_common_subs off
 void TPhotonFarlla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AB018, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AB018, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_801AB018, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_801AB018, sp18) == 0x10) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_801AB018, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_801AB018, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AB018, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AB018, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801AB018, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801AB018, sp18) == 0x10);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_801AB018, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_801AB018, sp24) == 0x1C);
     Stack_801AB018 stack;
     f32 temp_f1;
-    s32 entity;
-    s32 temp_r3_3;
+    saddr entity;
+    saddr temp_r3_3;
     s32 temp_r3_4;
-    s32 temp_r3_5;
-    u32 photon_magic_square;
+    saddr temp_r3_5;
+    uaddr photon_magic_square;
     *(s32 *)&this->unk_1A4 = (s32) (*(s32 *)&this->unk_1A4 + 1);
     if (((s32) *(s32 *)&this->unk_1A4 == 0x32) && ((s32) this->m_1a0 == 0)) {
         this->m_1a0 = 1;
-        entity = (s32)find_entity_by_id(((s32) this->m_17c));
+        entity = (saddr)find_entity_by_id(((s32) this->m_17c));
         if (entity != 0) {
             VecCopy((Vec *)(&stack.sp20), (const Vec *)(entity + 0x38));
             stack.sp24 += 3e+01f;
         }
-        photon_magic_square = __nw__7TObjectFUl(0xD0);
+        photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 0, (s32)&stack.sp20, 0x78);
+            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 0, (saddr)&stack.sp20, 0x78);
         }
     }
     if (((s32) *(s32 *)&this->unk_1A4 == 0x64) && ((s16) this->requested_action == 1)) {
@@ -182,7 +181,7 @@ void TPhotonFarlla::run_task() {
         ((TPhotonFarlla *)arg0)->update_all_slots();
     }
     if (1.3e+02f == (f32) *(s32 *)&this->unk_1A4) {
-        temp_r3_3 = (s32)find_entity_by_id(((s32) this->m_17c));
+        temp_r3_3 = (saddr)find_entity_by_id(((s32) this->m_17c));
         if (temp_r3_3 != 0) {
             VecCopy((Vec *)(&stack.sp14), (const Vec *)(temp_r3_3 + 0x38));
         }
@@ -193,7 +192,7 @@ void TPhotonFarlla::run_task() {
     }
     temp_r3_4 = *(s32 *)&this->unk_1A4;
     if ((133.0f == (f32) temp_r3_4) || (135.0f == (f32) temp_r3_4)) {
-        temp_r3_5 = (s32)find_entity_by_id(((s32) this->m_17c));
+        temp_r3_5 = (saddr)find_entity_by_id(((s32) this->m_17c));
         if (temp_r3_5 != 0) {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(temp_r3_5 + 0x38));
             stack.spC += 1e+01f;
@@ -207,12 +206,11 @@ void TPhotonFarlla::run_task() {
         }
     }
     if ((s32) this->m_1a0 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, 0, 0, 0);
     }
 }
 #pragma pop
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3564[];
 
@@ -225,7 +223,7 @@ void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
         free_collision_body_parts(photon_farlla);
         __dt__13TUnk_804C3248Fv(photon_farlla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(photon_farlla);
+            TObject::operator delete(photon_farlla);
         }
     }
     return photon_farlla;
@@ -288,7 +286,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     }
     *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x8);
     ((TPhotonFarlla *)arg0)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xC);
-    ((TObjMotion *)arg0)->set_field_d8((s32) photon_blast_farlla_params);
+    ((TObjMotion *)arg0)->set_field_d8((saddr) photon_blast_farlla_params);
     ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonFarlla *)arg0)->requested_action = 1;
     ((TObjMotion *)arg0)->set_animation(((TPhotonFarlla *)arg0)->requested_action);
@@ -303,13 +301,13 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 1);
         }
         break;
     default:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 0);
         }
@@ -331,15 +329,15 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
             pos.y += 3e+01f;
         }
-        p = (void *)__nw__7TObjectFUl(0xD0);
+        p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
-            construct_photon_magic_square_normal((u8 *)p, (s32)arg0, 0, (s32)&pos, 0x78);
+            construct_photon_magic_square_normal((u8 *)p, (saddr)arg0, 0, (saddr)&pos, 0x78);
         }
         ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(0);
-        play_cue_stream_file((s32)"farla2.adx");
+        play_cue_stream_file((saddr)"farla2.adx");
     } else {
         spawn_photon_blast_opening_effects(0, ((TPhotonFarlla *)arg0)->m_17c);
-        play_cue_stream_file((s32)"farla.adx");
+        play_cue_stream_file((saddr)"farla.adx");
     }
     return arg0;
 }
@@ -354,9 +352,9 @@ void TObjPlayer::destroy_buffers() {
 }
 
 void create_farlla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8), 0));

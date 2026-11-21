@@ -16,6 +16,6 @@ public:
     WeaponVector scale;  // canopy scale (scale_current_matrix)
 };
 
-extern "C" u8 *TObjPlayer__sub_8012F298(s32 item);
+extern "C" u8 *TObjPlayer__sub_8012F298(saddr item);
 
 #endif

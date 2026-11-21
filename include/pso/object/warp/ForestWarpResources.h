@@ -20,7 +20,7 @@ struct WarpStringScreenPosition {
     WarpScreenCoordinate y;
 };
 
-typedef char WarpStringScreenPosition_size[sizeof(WarpStringScreenPosition) == 8 ? 1 : -1];
+LAYOUT_ASSERT(WarpStringScreenPosition_size, sizeof(WarpStringScreenPosition) == 8);
 
 extern "C" {
 extern BmlResourceDescriptor forest_warp_resource_descriptor;

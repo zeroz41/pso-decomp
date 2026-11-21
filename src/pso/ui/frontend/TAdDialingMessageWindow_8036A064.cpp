@@ -18,7 +18,7 @@ void TUnk_804F3428::run_task() {
             *(u32 *)&this->unk_1C = (temp_r3 - 1);
             if ((u32) *(u32 *)&this->unk_1C == 0U) {
                 temp2_r3 = *(void * *)&this->m_20;
-                if ((u32) temp2_r3 != 0U) {
+                if ((uaddr) temp2_r3 != 0U) {
                     ((TAdDialingMessageWindow *)temp2_r3)->set_flag_and_notify();
                 }
             }

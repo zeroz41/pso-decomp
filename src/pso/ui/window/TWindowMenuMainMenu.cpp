@@ -16,8 +16,8 @@ extern "C" {
 s32 setup_content_frame__15TWindowMainMenuFPv();
 extern const char *TWindowMenuMainMenu__class_name;
 
-void render__19TWindowMenuMainMenuFv(s32 arg0) {
-    s32 frame;
+void render__19TWindowMenuMainMenuFv(saddr arg0) {
+    saddr frame;
     frame = setup_content_frame__15TWindowMainMenuFPv();
     ((TWindowMenuMainMenu *)arg0)->draw_frame((WindowDrawContext *)frame);
     ((TWindowMainMenu *)arg0)->draw_entries_reversed((u8 *)frame);
@@ -51,7 +51,7 @@ void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_men
 }
 
 TWindowMenuMainMenu::~TWindowMenuMainMenu() {}
-TWindowMenuMainMenu::TWindowMenuMainMenu(s32 arg1, s16 arg2) : TWindowBase((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1) {
+TWindowMenuMainMenu::TWindowMenuMainMenu(saddr arg1, s16 arg2) : TWindowBase((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1) {
     s32 i;
     u8 *p;
 

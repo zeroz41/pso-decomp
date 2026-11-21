@@ -77,7 +77,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : T
         parts[i].texture = get_bml_texlist(resource, model_id);
         parts[i].motion = get_bml_motion(resource, lbl_804EF9D8[i]);
     }
-    node_effect = (TObjFish *)TObjFish__sub_800E3124((u8 *)dead_effect_nodes(), (s32)effect_points);
+    node_effect = (TObjFish *)TObjFish__sub_800E3124((u8 *)dead_effect_nodes(), (saddr)effect_points);
     emitter = NULL;
     activate_camera_mode(5);
     set_scripted_camera_pose(&position, &position, dead_camera_angles());
@@ -131,7 +131,7 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
         break;
     }
     if (timer >= 0x89) {
-        play_persistent_sound(0x4003A424, (s32)this, 0, 0, 0);
+        play_persistent_sound(0x4003A424, (saddr)this, 0, 0, 0);
     }
     switch (timer) {
     case 0xE:

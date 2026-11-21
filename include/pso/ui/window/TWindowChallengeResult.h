@@ -11,7 +11,7 @@ struct TWindowChallengeResult : public TWindowBase {
     u8 unk_1C[0x4C];
 };
 
-typedef char TWindowChallengeResult_size[sizeof(TWindowChallengeResult) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TWindowChallengeResult_size, sizeof(TWindowChallengeResult) == 0x68);
 
 extern "C" {
 void *dt__22TWindowChallengeResultFPvs(void *arg0, s16 arg1);

@@ -37,7 +37,7 @@ extern "C" {
 extern RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli __vt__18TBoss5GryphonColli;
 extern const char *TBoss5GryphonColli__name;
 
-typedef char RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli_size[sizeof(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli_size, sizeof(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli) == 0x18);
 }
 
 struct E_8006633C { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
@@ -136,11 +136,11 @@ void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_ma
 void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
 void TBoss5GryphonColli_C::render() {  }
 
-u8 *TBoss5GryphonColli__ct(u8 *object, s32 arg1) {
+u8 *TBoss5GryphonColli__ct(u8 *object, saddr arg1) {
     Vec stack;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__18TBoss5GryphonColli.value;
-    *(s32 *)((s8 *)object + 0) = (s32) ((s32)TBoss5GryphonColli__name);
+    *(s32 *)((s8 *)object + 0) = (saddr) ((saddr)TBoss5GryphonColli__name);
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 3e+01f;

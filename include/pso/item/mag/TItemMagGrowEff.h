@@ -20,8 +20,8 @@ public:
     virtual void run_task();
 };
 
-typedef char TItemMagGrowEff_progress_ticks_offset[(offsetof(TItemMagGrowEff, progress_ticks) == 0x1C) ? 1 : -1];
-typedef char TItemMagGrowEff_effect_offset[(offsetof(TItemMagGrowEff, effect) == 0x20) ? 1 : -1];
-typedef char TItemMagGrowEff_mag_offset[(offsetof(TItemMagGrowEff, mag) == 0x24) ? 1 : -1];
+LAYOUT_ASSERT(TItemMagGrowEff_progress_ticks_offset, offsetof(TItemMagGrowEff, progress_ticks) == 0x1C);
+LAYOUT_ASSERT(TItemMagGrowEff_effect_offset, offsetof(TItemMagGrowEff, effect) == 0x20);
+LAYOUT_ASSERT(TItemMagGrowEff_mag_offset, offsetof(TItemMagGrowEff, mag) == 0x24);
 
 #endif

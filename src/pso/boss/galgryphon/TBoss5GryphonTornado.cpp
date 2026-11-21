@@ -53,7 +53,7 @@ struct Tornado_80355570 {
     f32 f38;
     f32 f3C;
     u8 pad40[0x4C - 0x40];
-    s32 f4C;
+    saddr f4C;
     void *p50;
     void *p54;
     void *p58;
@@ -67,7 +67,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
 s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void TBoss8Dragon__sub_800640A4(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 Res_80355570 *csnVecterUnder(Vec *, s32);
@@ -175,7 +175,7 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
 u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, u16 arg4) {
     __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
     *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
-    *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) TBoss5GryphonTornado__class_name;
+    *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (saddr) TBoss5GryphonTornado__class_name;
     VecCopy((Vec *)((u8 *)boss5_gryphon_tornado + 0x28), (const Vec *)arg3);
     boss5_gryphon_tornado->m_24 = arg4;
     boss5_gryphon_tornado->m_4c = arg2;
@@ -191,7 +191,7 @@ u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *ar
 }
 
 extern "C" {
-s32 spawn_gryphon_tornado(s32 parent, s32 gryphon, const Vec *pos_src, u16 kind) {
+saddr spawn_gryphon_tornado(saddr parent, saddr gryphon, const Vec *pos_src, u16 kind) {
     Vec pos;
     Res_80355570 *under;
     f32 y;
@@ -211,7 +211,7 @@ s32 spawn_gryphon_tornado(s32 parent, s32 gryphon, const Vec *pos_src, u16 kind)
     if (tornado != NULL) {
         tornado = (TBoss5GryphonTornado *)TBoss5GryphonTornado__ct(tornado, (u8 *)parent, gryphon, (u8 *)&pos, kind);
     }
-    return (s32)tornado;
+    return (saddr)tornado;
 }
 }
 

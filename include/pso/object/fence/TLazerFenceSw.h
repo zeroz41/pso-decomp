@@ -23,7 +23,7 @@ struct TLazerFenceSw : public TOKey {
     u8 unk_FC[0x1C];
 };
 
-typedef char TLazerFenceSw_size[sizeof(TLazerFenceSw) == 0x118 ? 1 : -1];
+LAYOUT_ASSERT(TLazerFenceSw_size, sizeof(TLazerFenceSw) == 0x118);
 
 // The texture lists TLazerFenceSw::load_resources picks from. The unit defines
 // them after that function, which reaches each with its own lis/addi while it

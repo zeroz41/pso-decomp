@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxStream.h"
 #include "pso/unk/TLobby.h"
@@ -25,7 +26,7 @@ struct S_803C8678 {
     s8 busy;
     s8 retry;
     Strm_803C8678 *strm;
-    u32 h;
+    uaddr h;
     s32 fC;
     s32 base;
     s32 size;
@@ -58,11 +59,10 @@ struct S_803C8A14 {
 struct PointerRecords_803C8610_var_r31 { u8 bytes[0x40]; };
 
 extern "C" {
-void TLobby__sub_803D3130(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3);
+void TLobby__sub_803D3130(void *arg0, s32 arg1, u8 *arg2, u8 *arg3);
 s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
-s32 memset(void *, int, int);
 }
 void update_active_stream_reads(void);
 
@@ -72,7 +72,7 @@ struct AdxStreamFile {
     s8 b2;
     u8 pad3;
     s32 arg;
-    u32 handle;
+    uaddr handle;
     s32 fC;
     s32 f10;
     s32 size;
@@ -103,11 +103,11 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
 void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
-void SIGetTypeAsync(void);
+void cvFsFinish(void);
 
 void TLobby::set_field_10_and_notify(s32 up) {
     *(s32 *)&this->m_up = up;
-    ((TLobby *)(this->m_prev))->cv_fs_seek((int)this->m_up, 0);
+    ((TLobby *)(this->m_prev))->cv_fs_seek((saddr)this->m_up, 0);
     ((TLobby *)(this->m_prev))->cv_fs_tell();
 }
 
@@ -197,7 +197,7 @@ void TLobby::update_stream_read() {
         r = ((TLobby *)(s->h))->cv_fs_get_stat();
         if (r == 1) {
             n = s->nread << 11;
-            TLobby__sub_803D3130((s32)&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
+            TLobby__sub_803D3130(&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
             st->vt->submit(st, 1, &a);
             st->vt->release(st, 0, &b);
             if (s->end == pos_803C8678(s) && s->cb != NULL) {
@@ -288,7 +288,7 @@ void TLobby__sub_803C89C4(u8 *arg0) {
 
 static inline s32 get_pos_803C8A14(S_803C8A14 *s) {
     if (s->fp != NULL) {
-        return ((TLobby *)((int)s->fp))->cv_fs_tell() - s->base;
+        return ((TLobby *)((saddr)s->fp))->cv_fs_tell() - s->base;
     }
     return 0;
 }
@@ -316,8 +316,8 @@ s32 TLobby::get_file_offset_relative() {
 }
 
 s32 TLobby::set_scroll_offset(s32 arg1) {
-    ((TLobby *)(*(s32 *)&this->m_prev))->cv_fs_seek((int) (*(s32 *)&this->m_up + arg1), 0);
-    return ((TLobby *)(*(s32 *)&this->m_prev))->cv_fs_tell() - *(s32 *)&this->m_up;
+    ((TLobby *)(*(saddr *)&this->m_prev))->cv_fs_seek((int) (*(s32 *)&this->m_up + arg1), 0);
+    return ((TLobby *)(*(saddr *)&this->m_prev))->cv_fs_tell() - *(s32 *)&this->m_up;
 }
 
 s32 TLobby__sub_803C8B2C(u8 *arg0) {
@@ -513,7 +513,7 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
 }
 
 void TLobby::si_get_type_async() {
-    SIGetTypeAsync();
+    cvFsFinish();
 }
 
 s32 TLobby::clear_buffer_a00() {

@@ -75,13 +75,13 @@ s32 rotate_matrix_x(int, int);
 #pragma push
 #pragma readonly_strings on
 extern "C" {
-s32 TDeadSpot__class_name = (s32)"TDeadSpot";
+s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
 }
 
 #pragma pop
 extern "C" {
 
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 
 extern s32 saved_model_render_flags;
 
@@ -336,7 +336,7 @@ void TUnk_804949F4::vfunc_6() {
 }
 
 void TUnk_804949F4::run_task() {
-    u32 tmp34 = ((TUnk_804949F4 *)this)->m_34;
+    uaddr tmp34 = ((TUnk_804949F4 *)this)->m_34;
     if ((tmp34 == 0U) || (((TObject *)tmp34)->all_parents_unqueued_for_destruction() == 0)) {
         ((TObject *)this)->queue_destruction();
         return;
@@ -368,7 +368,7 @@ void TUnk_804949D8::vfunc_6() {
     stack.x = temp_f1;
     stack.z = this->m_28 * cos_table_lookup(temp_r3);
     vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
-    TObjBoss2Tunnel::adjust_to_ground((s32)&stack.x, &stack.x);
+    TObjBoss2Tunnel::adjust_to_ground((saddr)&stack.x, &stack.x);
     ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
 }
 }

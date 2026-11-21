@@ -15,7 +15,6 @@ extern "C" s16 calc_base_hp_bonus__FUs();
 extern "C" {
 s32 get_entity_id(void *);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
-u8 get_item_index__5TItemFv();
 }
 
 TItem *create_material_item(u8 *item) {
@@ -30,7 +29,7 @@ TUnk_8049FBC0::TUnk_8049FBC0(TObject *parent, u8 *item) : TItemObject(parent, it
 TUnk_8049FBC0::~TUnk_8049FBC0() {}
 
 void TUnk_8049FBC0::apply_use_effect() {
-    switch (get_item_index__5TItemFv()) {
+    switch (((TItem *)this)->get_item_index()) {
     case 0:
         ((TObjPlayer *)(this->owner))->add_stat_and_item(2);
         break;

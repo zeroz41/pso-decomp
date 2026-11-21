@@ -13,8 +13,8 @@ struct WindowVertex {
     u32 color;
 };
 
-typedef char WindowVertexSize[sizeof(WindowVertex) == 24 ? 1 : -1];
-typedef char WindowVertexUVOffset[offsetof(WindowVertex, u) == 12 ? 1 : -1];
-typedef char WindowVertexColorOffset[offsetof(WindowVertex, color) == 20 ? 1 : -1];
+LAYOUT_ASSERT(WindowVertexSize, sizeof(WindowVertex) == 24);
+LAYOUT_ASSERT(WindowVertexUVOffset, offsetof(WindowVertex, u) == 12);
+LAYOUT_ASSERT(WindowVertexColorOffset, offsetof(WindowVertex, color) == 20);
 
 #endif

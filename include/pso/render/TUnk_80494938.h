@@ -22,7 +22,7 @@ public:
 // Unrecovered enclosing constructors call the native constructor by its ABI symbol.
 extern "C" void *__ct__13TUnk_80494938Fv(void *);
 
-typedef char FadeValueOffset[offsetof(TUnk_80494938, value) == 0x18 ? 1 : -1];
-typedef char FadeValueSize[sizeof(TUnk_80494938) == 0x1c ? 1 : -1];
+LAYOUT_ASSERT(FadeValueOffset, offsetof(TUnk_80494938, value) == 0x18);
+LAYOUT_ASSERT(FadeValueSize, sizeof(TUnk_80494938) == 0x1c);
 
 #endif

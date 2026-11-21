@@ -25,6 +25,6 @@ struct TObjParticleLobby : public TObjMapObject {
     static void load_resources();
 };
 
-typedef char TObjParticleLobby_size[sizeof(TObjParticleLobby) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TObjParticleLobby_size, sizeof(TObjParticleLobby) == 0xD8);
 
 #endif

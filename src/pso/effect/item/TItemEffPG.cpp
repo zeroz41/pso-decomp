@@ -82,7 +82,7 @@ TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(pare
     if (visual != NULL) {
         visual = TItemEffPG__visual_ct((u8 *)visual, (u8 *)this, (u8 *)params);
     }
-    m_d0 = (u32)visual;
+    m_d0 = (uaddr)visual;
 }
 
 TItemEffPG::~TItemEffPG() {}
@@ -111,7 +111,7 @@ void TItemEffPG::run_task() {
         check_hits();
         return;
     }
-    if ((u32) this->m_down == 0U) {
+    if ((uaddr) this->m_down == 0U) {
         queue_destruction();
         disallow_rendering();
         return;
@@ -135,7 +135,7 @@ s32 TItemEffPG::vfunc_7() {
 }
 
 void TItemEffPG::create(void *parent, void *params, void *count) {
-    new TUnk_804F0C08((TObject *)parent, (S_8035016C *)params, (s32)count);
+    new TUnk_804F0C08((TObject *)parent, (S_8035016C *)params, (saddr)count);
 }
 
 TUnk_804F0C08::TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count) : TItemEffPG(parent, params) {
@@ -175,7 +175,7 @@ u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
     *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
     ((TUnk_804F0BF0 *)arg0)->m_30 = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x34) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x38) = (s32)create_particle_emitter((arg0 + 0x5C), 0x83);
+    *(saddr *)((s8 *)arg0 + 0x38) = (saddr)create_particle_emitter((arg0 + 0x5C), 0x83);
     ((TUnk_804F0BF0 *)arg0)->m_58 = 0;
     return arg0;
 }
@@ -213,7 +213,7 @@ void TUnk_804F0BF0::run_task() {
             *(f32 *)((s8 *)arg0 + 0x28) = (f32) (temp_f1_3 - 0.06666667f);
         }
     }
-    play_persistent_sound(0x4001A343, (s32)arg0, (u32)(arg0 + 0x5C), 0, 0);
+    play_persistent_sound(0x4001A343, (saddr)arg0, (uaddr)(arg0 + 0x5C), 0, 0);
 }
 
 void TUnk_804F0BF0::render() {

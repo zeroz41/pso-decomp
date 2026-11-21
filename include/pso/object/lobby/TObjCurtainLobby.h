@@ -27,6 +27,6 @@ struct TObjCurtainLobby : public TObjMapObject {
     static u32 lobby_texlist;  // the lobby's shared texture list
 };
 
-typedef char TObjCurtainLobby_size[sizeof(TObjCurtainLobby) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TObjCurtainLobby_size, sizeof(TObjCurtainLobby) == 0xD0);
 
 #endif

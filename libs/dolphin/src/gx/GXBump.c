@@ -1,7 +1,5 @@
 
 
-#define GXSetIndTexCoordScale Dolphin_GXSetIndTexCoordScale
-#define GXSetIndTexOrder Dolphin_GXSetIndTexOrder
 
 #include <dolphin/gx.h>
 #include <dolphin/os.h>

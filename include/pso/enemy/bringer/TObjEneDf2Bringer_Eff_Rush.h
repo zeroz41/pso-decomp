@@ -16,6 +16,6 @@ public:
     f32 strength;
     s32 field_30;
 };
-typedef char TObjEneDf2Bringer_Eff_Rush_size[sizeof(TObjEneDf2Bringer_Eff_Rush) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDf2Bringer_Eff_Rush_size, sizeof(TObjEneDf2Bringer_Eff_Rush) == 0x34);
 
 #endif

@@ -11,7 +11,7 @@ struct DeadPlayerName {
 class TObjDeadListWin : public TObject {
 public:
     s32 m_phase;
-    u32 m_window_handle;
+    uaddr m_window_handle;
     s32 m_countdown;
     DeadPlayerName m_names[4];
 
@@ -24,12 +24,12 @@ public:
     static TObjDeadListWin* create(TObject* parent);
 };
 #include <stddef.h>
-typedef char DeadListBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char DeadListSize[(sizeof(TObjDeadListWin)==0x68)?1:-1];
-typedef char DeadListPhase[(offsetof(TObjDeadListWin,m_phase)==0x1C)?1:-1];
-typedef char DeadListHandle[(offsetof(TObjDeadListWin,m_window_handle)==0x20)?1:-1];
-typedef char DeadListCountdown[(offsetof(TObjDeadListWin,m_countdown)==0x24)?1:-1];
-typedef char DeadListNames[(offsetof(TObjDeadListWin,m_names)==0x28)?1:-1];
-typedef char DeadNameSize[(sizeof(DeadPlayerName)==0x10)?1:-1];
-typedef char DeadNameTerminator[(offsetof(DeadPlayerName,terminator)==15)?1:-1];
+LAYOUT_ASSERT(DeadListBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(DeadListSize, sizeof(TObjDeadListWin)==0x68);
+LAYOUT_ASSERT(DeadListPhase, offsetof(TObjDeadListWin,m_phase)==0x1C);
+LAYOUT_ASSERT(DeadListHandle, offsetof(TObjDeadListWin,m_window_handle)==0x20);
+LAYOUT_ASSERT(DeadListCountdown, offsetof(TObjDeadListWin,m_countdown)==0x24);
+LAYOUT_ASSERT(DeadListNames, offsetof(TObjDeadListWin,m_names)==0x28);
+LAYOUT_ASSERT(DeadNameSize, sizeof(DeadPlayerName)==0x10);
+LAYOUT_ASSERT(DeadNameTerminator, offsetof(DeadPlayerName,terminator)==15);
 #endif

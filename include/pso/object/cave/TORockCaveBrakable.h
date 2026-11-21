@@ -16,5 +16,5 @@ struct TORockCaveBrakable : public TORockCave {
     s32 m_b8;  // floor switch that breaks it (0-0xFF), -1 for none
 };
 
-typedef char TORockCaveBrakable_size[sizeof(TORockCaveBrakable) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TORockCaveBrakable_size, sizeof(TORockCaveBrakable) == 0xBC);
 #endif

@@ -41,7 +41,7 @@ void TLobby::send_6F_burst_done() {
         stack.sp8 = 0x6F;
         stack.sp9 = 0;
         stack.spA = 4;
-        ((packet_header *)((s32) &stack.sp8))->bswap();
+        ((packet_header *)((saddr) &stack.sp8))->bswap();
         ((TProtocol *)arg0)->send((u8 *)&stack.sp8, 4);
     }
 }
@@ -93,10 +93,10 @@ struct ChangeShipOrBlockPacket {
     C_ChangeShipOrBlock_A0_A1 payload;
 };
 
-typedef char CharacterSaveInfoPacket_size[sizeof(CharacterSaveInfoPacket) == 0xC ? 1 : -1];
-typedef char ChangeShipOrBlockPacket_size[sizeof(ChangeShipOrBlockPacket) == 0x1C ? 1 : -1];
-typedef char TProtocol_connected_offset[offsetof(TProtocol, m_connected) == 0x1910 ? 1 : -1];
-typedef char TProtocol_guildcard_offset[offsetof(TProtocol, m_guildcard_tag) == 0x1900 ? 1 : -1];
+LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);
+LAYOUT_ASSERT(ChangeShipOrBlockPacket_size, sizeof(ChangeShipOrBlockPacket) == 0x1C);
+LAYOUT_ASSERT(TProtocol_connected_offset, offsetof(TProtocol, m_connected) == 0x1910);
+LAYOUT_ASSERT(TProtocol_guildcard_offset, offsetof(TProtocol, m_guildcard_tag) == 0x1900);
 
 void TProtocol::send_character_save_info(int creation_timestamp, int event_counter) {
     CharacterSaveInfoPacket packet;
@@ -105,7 +105,7 @@ void TProtocol::send_character_save_info(int creation_timestamp, int event_count
     packet.header.size = sizeof(packet);
     packet.payload.creation_timestamp = creation_timestamp;
     packet.payload.event_counter = event_counter;
-    bswap_save_packet((s32)&packet);
+    bswap_save_packet((saddr)&packet);
     send((u8 *)&packet, sizeof(packet));
 }
 
@@ -124,7 +124,7 @@ void TProtocol::send_block_list_request() {
     ChangeShipOrBlockPacket packet;
     u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((s32)&packet);
+        construct_change_ship_block_packet((saddr)&packet);
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA1;
         packet.header.size = sizeof(packet);
@@ -138,7 +138,7 @@ void TProtocol::send_ship_list_request() {
     ChangeShipOrBlockPacket packet;
     u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((s32)&packet);
+        construct_change_ship_block_packet((saddr)&packet);
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA0;
         packet.header.size = sizeof(packet);
@@ -153,7 +153,7 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
         message.header.command = 0x81;
         message.header.flags = 0;
         message.header.size = 0x220;
-        bswap__12TChatMessageFv((s32)&message);
+        bswap__12TChatMessageFv((saddr)&message);
         send((u8 *)&message, 0x220);
     }
 }
@@ -213,7 +213,7 @@ void send_register_9c(u8 *protocol) {
     memset(&stack.sp8, 0, 0xA4);
     stack.sp8 = 0x9C;
     stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(protocol + 0x18F8));
+    __as__8TPlySmthFRC8TPlySmth((saddr)&stack.spC, (saddr)(protocol + 0x18F8));
     stack.sp14 = (s32) ((TProtocol *)protocol)->m_sub_version;
     stack.sp19 = (s8) *(s32 *)((s8 *)protocol + 0x1934);
     strncpy(stack.sp1C, (char *)(protocol + 0x3EDA), 0x30);
@@ -514,14 +514,14 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
                                List_801DC1E4 *blocked_senders, Text_801DC1E4 *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
-        copy_player_data__9TProtocolFPvPv(self->char_data, char_data);
+        TProtocol::copy_player_data(self->char_data, char_data);
         Join_801DC1E4 tmp;
         ((TProtocol *)(&tmp))->init_char_data();
         memset(&tmp, 0, sizeof(tmp));
         tmp.command = 0x98;
         tmp.flags = 3;
         tmp.size = sizeof(tmp);
-        copy_player_data__9TProtocolFPvPv(tmp.char_data, self->char_data);
+        TProtocol::copy_player_data(tmp.char_data, self->char_data);
         ((TLobby *)(tmp.challenge))->copy_player_record((u8 *)challenge);
         copy_choice_search_parameters(tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
@@ -535,7 +535,7 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
         encode_uploaded_player_inventory(tmp.char_data);
         bswap_player_record_upload((u8 *)&tmp);
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
-        destroy__9TProtocolFis((s32)&tmp, -1);
+        destroy__9TProtocolFis((saddr)&tmp, -1);
     }
 }
 
@@ -559,14 +559,14 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
                                List_801DC34C *blocked_senders, Text_801DC34C *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
-        copy_player_data__9TProtocolFPvPv(self->char_data, char_data);
+        TProtocol::copy_player_data(self->char_data, char_data);
         Join_801DC34C tmp;
         ((TProtocol *)(&tmp))->init_char_data();
         memset(&tmp, 0, sizeof(tmp));
         tmp.command = 0x61;
         tmp.flags = 3;
         tmp.size = sizeof(tmp);
-        copy_player_data__9TProtocolFPvPv(tmp.char_data, self->char_data);
+        TProtocol::copy_player_data(tmp.char_data, self->char_data);
         ((TLobby *)(tmp.challenge))->copy_player_record((u8 *)challenge);
         copy_choice_search_parameters(tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
@@ -580,7 +580,7 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
         encode_uploaded_player_inventory(tmp.char_data);
         bswap_player_record_upload((u8 *)&tmp);
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
-        destroy__9TProtocolFis((s32)&tmp, -1);
+        destroy__9TProtocolFis((saddr)&tmp, -1);
     }
 }
 }
@@ -1276,7 +1276,7 @@ void TProtocol::recv_error(packet &pkt) {
 	}
 };
 
-int TProtocol::handle_command(struct packet *pkt) {
+int TProtocol::handle_command(union packet *pkt) {
 	static const command_handler_entry handlers[] = {
 		{ 0x01, &TProtocol::recv_error },
 		{ 0x03, &TProtocol::recv_regist },
@@ -1362,7 +1362,7 @@ int TProtocol::handle_command(struct packet *pkt) {
 }
 
 void TProtocol::parse_packet() {
-	const int max_packet_size = sizeof(struct packet);
+	const int max_packet_size = sizeof(union packet);
 	while (!is_empty()) {
 		m_packet.bytes[m_packet_offset++] = next();
 		if (m_packet_offset == sizeof(packet_header)) {
@@ -1382,7 +1382,7 @@ void TProtocol::parse_packet() {
 			if (m_is_encrypted) {
 				m_recv_crypt.encrypt(&m_packet.pkt.data, m_packet_size-sizeof(packet_header));
 			}
-			struct packet *pkt = &m_packet;
+			union packet *pkt = &m_packet;
 			m_packet_size = 0;
 			m_packet_offset = 0;
 			if (m_handle_pings_only) {
@@ -1528,14 +1528,14 @@ void packet_header::bswap() {
     bswap_16(&size);
 }
 
-typedef char RecoveredFields_801DD33C_arg0_0_offset[offsetof(RecoveredFields_801DD33C_arg0, field_0) == 0x0 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg0_1_offset[offsetof(RecoveredFields_801DD33C_arg0, field_1) == 0x1 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg0_2_offset[offsetof(RecoveredFields_801DD33C_arg0, field_2) == 0x2 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg0_4_offset[offsetof(RecoveredFields_801DD33C_arg0, field_4) == 0x4 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_0_offset[offsetof(RecoveredFields_801DD33C_arg1, field_0) == 0x0 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_1_offset[offsetof(RecoveredFields_801DD33C_arg1, field_1) == 0x1 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_2_offset[offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_4_offset[offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_0_offset, offsetof(RecoveredFields_801DD33C_arg0, field_0) == 0x0);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_1_offset, offsetof(RecoveredFields_801DD33C_arg0, field_1) == 0x1);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_2_offset, offsetof(RecoveredFields_801DD33C_arg0, field_2) == 0x2);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_4_offset, offsetof(RecoveredFields_801DD33C_arg0, field_4) == 0x4);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_0_offset, offsetof(RecoveredFields_801DD33C_arg1, field_0) == 0x0);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_1_offset, offsetof(RecoveredFields_801DD33C_arg1, field_1) == 0x1);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_2_offset, offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_4_offset, offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4);
 
 void TProtocol::bswap_cmd_AB() {
 	((packet_header *)this)->bswap();

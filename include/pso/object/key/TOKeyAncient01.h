@@ -20,5 +20,5 @@ public:
     static void load_resources();
 };
 
-typedef char TOKeyAncient01_size[sizeof(TOKeyAncient01) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TOKeyAncient01_size, sizeof(TOKeyAncient01) == 0xE8);
 #endif

@@ -50,8 +50,8 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static f32 get_value();
     static s32 is_boss_active();
     void release_object();
-    static s32 get_target_pos_a(s32 arg0, s32 arg1);
-    static s32 get_target_pos_b(s32 arg0, s32 arg1);
+    static s32 get_target_pos_a(s32 arg0, saddr arg1);
+    static s32 get_target_pos_b(s32 arg0, saddr arg1);
     void spawn_type2();
     void spawn_type1();
     static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
@@ -67,7 +67,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void send_6xA3_action(s8 v);
     static void free_all();
     static void load_resources();
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     static s32 is_phase_reached();
     void reset_ending_state();
     void update_plot_timer();
@@ -80,7 +80,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void advance_intro_timer();
     void advance_if_ready();
     static void *create(void *arg0, void *arg1);
-    static u8 is_ending_or_split_screen();
+    s32 is_ending_or_split_screen();
     int is_ready();
     void finish_and_dispatch_next_phase();
     void check_action_7();

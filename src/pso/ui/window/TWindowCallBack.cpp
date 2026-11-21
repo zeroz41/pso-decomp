@@ -37,7 +37,7 @@ void build_6xA3_olga_flow_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 163; 
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x60) = v; }
 
 void TWindowCallBack::render() {
-    s32 r = TWindowDD::draw_default_entry((s32)this);
+    s32 r = TWindowDD::draw_default_entry((saddr)this);
     if (callback != NULL) {
         callback(this, r);
     }
@@ -47,7 +47,7 @@ void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwi
 
 TWindowCallBack::~TWindowCallBack() {}
 #define self ((u8 *)this)
-TWindowCallBack::TWindowCallBack(s32 arg1, u8 *arg2, s32 arg3) : TWindowBase((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1) {
+TWindowCallBack::TWindowCallBack(saddr arg1, u8 *arg2, s32 arg3) : TWindowBase((u8 *)((saddr) &window_callback_base_params), (s16)4, (u8 *)arg1) {
     m_name = lbl_805D3E58;
     copy_vec2((self + 0x38), arg2);
     ((TWindowBase *)self)->save_position();

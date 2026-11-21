@@ -121,7 +121,7 @@ void TUnk_80494E48::run_task() {
             spawn_particle_effect(obj->pos, 0xFB);
             spawn_particle_effect(obj->pos, 0xFC);
             if (is_split_screen() == 0 && local_client_id == arg0->owner) {
-                ((TObjEneNanoDrago *)att)->trigger_hit_camera_shake((u32)obj);
+                ((TObjEneNanoDrago *)att)->trigger_hit_camera_shake((uaddr)obj);
             }
             ((TObject *)arg0)->queue_destruction();
         }
@@ -188,7 +188,7 @@ Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec *pos, s16 id, s32
         ang[0] = 0;
         ang[1] = (s32)(10430.38043493439 * atan2_float(pp->x - pos->x, pp->z - pos->z)) + 0x4000;
         ang[2] = 0x4000 - (s32)(10430.38043493439 * atan2_float(pp->y - pos->y, vec_xz_distance((Vec *)pp, (Vec *)pos)));
-        self->ff8 = (s32)spawn_particle_effect_with_rotation(pos, ang, 0xf4, 2);
+        self->ff8 = (saddr)spawn_particle_effect_with_rotation(pos, ang, 0xf4, 2);
     }
     self->ff4 = lbl_805D5264;
     if (xz_distance_squared((Vec *)pp, (Vec *)pos) < 22500.0f) {

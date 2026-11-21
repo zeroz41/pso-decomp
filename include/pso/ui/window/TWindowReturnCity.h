@@ -6,16 +6,16 @@
 
 struct TWindowReturnCity : public TObject {
     virtual ~TWindowReturnCity();
-    u32 m_1c;
+    uaddr m_1c;
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     s32 query_battle_state();
     virtual void render();
     virtual void run_task();
     static void clear_flag_bit5();
 };
 
-typedef char TWindowReturnCity_size[sizeof(TWindowReturnCity) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TWindowReturnCity_size, sizeof(TWindowReturnCity) == 0x28);
 
 // Floor-resource release/load pair run from the lobby session load table.
 extern "C" {

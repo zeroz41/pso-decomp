@@ -68,7 +68,7 @@ struct Desc_80257D44 {
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 void mem_free(void *);
-s32 mem_alloc(s32);
+saddr mem_alloc(s32);
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u8 * init_layout_entry_copy__20TWindowSubStatusDispFPUc(u8 *arg0, u8 *arg1);
 void draw_visible_window_entries(void *self, List_80257BC0 *list, void *ctx);
@@ -78,7 +78,6 @@ void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-void * init_part_direct__20TWindowSubStatusDispFPUcl(void *, void *, s32);
 void * init_part_scaled__20TWindowSubStatusDispFPvPvi(void *, void *, s32);
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
@@ -210,7 +209,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 7:
                 o = ::operator new(0x38);
                 if (o != NULL) {
-                    o = init_part_direct__20TWindowSubStatusDispFPUcl(o, rec, arg2);
+                    o = ((TWindowSubStatusDisp *)o)->init_part_direct((u8 *)rec, arg2);
                 }
                 *out = o;
                 rec += 0x38 / 4;
@@ -226,7 +225,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 9:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = ((TWindowSubComCard *)o)->init_fields((int)rec, (int)arg2);
+                    o = ((TWindowSubComCard *)o)->init_fields((saddr)rec, (int)arg2);
                 }
                 *out = o;
                 rec += 1;

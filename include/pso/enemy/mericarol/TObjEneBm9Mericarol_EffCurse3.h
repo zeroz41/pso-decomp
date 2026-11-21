@@ -14,6 +14,6 @@ public:
     TObjBase *m_20;
     TParticleCtrl *m_24;
 };
-typedef char TObjEneBm9Mericarol_EffCurse3_size[sizeof(TObjEneBm9Mericarol_EffCurse3) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm9Mericarol_EffCurse3_size, sizeof(TObjEneBm9Mericarol_EffCurse3) == 0x28);
 
 #endif

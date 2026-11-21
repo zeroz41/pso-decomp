@@ -14,7 +14,6 @@ public:
     // The story list's cursor (story_select_cursor); TKeyBoardControl::dispatch_select_phase
     // switches on it after the ending.
     static int get_story_select();
-    static void render();
 };
 
 s32 request_story_select_state(s32 arg0);

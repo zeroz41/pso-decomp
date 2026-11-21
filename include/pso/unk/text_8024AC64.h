@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8024AC64(s32 arg0);
+void fn_8024AC64(saddr arg0);
 }
 
 // --- C functions defined in text_8024AC64.cpp ---
 extern "C" {
-void fn_8024AC64(s32 arg0);
+void fn_8024AC64(saddr arg0);
 }
 // --- end of C functions
 

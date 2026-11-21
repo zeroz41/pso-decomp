@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 destroy__9TProtocolFis(s32 arg0, s16 arg1);
+s32 destroy__9TProtocolFis(saddr arg0, s16 arg1);
 }
 
 #endif

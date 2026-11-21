@@ -126,9 +126,9 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
 TPhotonConcentrate::~TPhotonConcentrate() {
     if (*(void **)((s8 *)this + 0xF8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction(); this->m_f8 = 0; }
 }
-TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
+TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, saddr arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
     f32 temp_f1;
-    *(s32 *)((s8 *)this + 0) = (s32) TPhotonConcentrate__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TPhotonConcentrate__class_name;
     VecCopy((Vec *)(((u8 *)this) + 0xAC), (const Vec *)(VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)((const Vec *)arg1))));
     VecCopy((Vec *)(((u8 *)this) + 0xD0), (const Vec *)(arg1 + 0xC));
     VecCopy((Vec *)(((u8 *)this) + 0xC4), (const Vec *)(arg1 + 0x18));
@@ -141,5 +141,5 @@ TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjColli
     this->m_f0 = (s32) *(s32 *)((s8 *)arg1 + 0x30);
     this->m_ec = (s32) *(s32 *)((s8 *)arg1 + 0x34);
     this->m_fc = find_entity_by_id(arg3, temp_f1);
-    this->m_f8 = (s32)create_particle_emitter(((u8 *)this) + 0xB8, 0x135);
+    this->m_f8 = (uaddr)create_particle_emitter(((u8 *)this) + 0xB8, 0x135);
 }

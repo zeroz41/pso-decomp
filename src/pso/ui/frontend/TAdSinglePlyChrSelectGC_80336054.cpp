@@ -39,7 +39,7 @@ int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
 int TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
 
 extern s32 queue_destruction_and_cleanup__6TLobbyFv[];
-extern s32 tl_fade;
+extern saddr tl_fade;
 
 s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
     s32 *temp_r3;
@@ -235,7 +235,7 @@ struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 extern "C" {
 void request_main_phase(s32 arg0);
 extern s32 __vt__13TUnk_804EEF64[];
-u32 title_scene_instance;
+uaddr title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
@@ -245,7 +245,7 @@ void hide_title_layers_and_release(O_8033612C *arg0);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
 void __ct__7TObjectFP7TObject(void *);
-extern s32 tl_clipout;
+extern saddr tl_clipout;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 s32 run_load_callback_table(void *, int);
@@ -294,7 +294,7 @@ void TLobby::set_flag_and_clear_download() {
 }
 
 void TLobby__sub_803361FC(void) {  }
-void TLobby::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((s32)((void*)19)); }
+void TLobby::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((saddr)((void*)19)); }
 void TLobby::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
 void TLobby::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
 void TLobby::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
@@ -345,7 +345,7 @@ void TUnk_804EEF64::run_task() {
 void TUnk_804EEF64::sub_8033645C() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TObject *)((void*)(*(void**)((char*)this + 0x2c))))->queue_destruction(); *(int*)((char*)this + 0x2c) = 0; } }
 TUnk_804EEF64::~TUnk_804EEF64() {
     (*(s32 *)&title_scene_instance) = 0;
-    if ((u32) this->m_20 != 0U) {
+    if ((uaddr) this->m_20 != 0U) {
         ((TObject *)this->m_20)->queue_destruction();
     }
     sub_8033645C();
@@ -358,7 +358,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
 
     __ct__7TObjectFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804EEF64;
-    title_scene_instance = (u32)arg0;
+    title_scene_instance = (uaddr)arg0;
     this->m_30 = 0;
     *(s32 *)((s8 *)arg0 + 0x34) = 0;
     *(s32 *)((s8 *)arg0 + 0x2C) = 0;
@@ -378,7 +378,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
         p = ((TUnk_804EEF80 *)p)->construct(arg0);
     }
     *(void **)((s8 *)arg0 + 0x1C) = p;
-    p = (void *)new TUnk_804EE458((int)arg0);
+    p = (void *)new TUnk_804EE458((saddr)arg0);
     *(void **)((s8 *)arg0 + 0x24) = p;
     p = (void *)new TUnk_804EE470((TObject *)(void *)tl_clipout);
     this->m_20 = p;
@@ -386,7 +386,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     if (*(void **)((s8 *)arg0 + 0x24) != 0) {
         ((TObject *)(*(void **)((s8 *)arg0 + 0x24)))->suspend_update();
     }
-    TAdMultiChgGameModeGC::apply_bgm_col_ctrl((s32)"title.adx");
+    TAdMultiChgGameModeGC::apply_bgm_col_ctrl((saddr)"title.adx");
     {
         Cam_80336520 cam;
         cam.f8 = 320.0f;
@@ -402,9 +402,9 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     }
     {
         NJS_POINT3 v = {0.0f, 0.0f, -47.0f};
-        this->m_40 = (s32)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1);
-        *(s32 *)((s8 *)arg0 + 0x44) = (s32)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1);
-        this->m_48 = (s32)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1);
+        this->m_40 = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1);
+        *(s32 *)((s8 *)arg0 + 0x44) = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1);
+        this->m_48 = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1);
     }
     p = TObject::operator new(0x28);
     if (p != 0) {
@@ -429,7 +429,7 @@ void initialize_lobby_title_scene(void) {
     TLobby::update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;
-    load_streamed_prs_texture((s32)names.archive[current_language], (s32)&title_texture_list);
+    load_streamed_prs_texture((saddr)names.archive[current_language], (saddr)&title_texture_list);
     run_load_callback_table(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     TLobby::reset_counter();
     set_current_floor_area(0);

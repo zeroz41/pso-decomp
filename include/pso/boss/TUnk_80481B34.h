@@ -10,6 +10,6 @@ public:
     virtual void area_attack_receive_direct(void *, f32 *, void *);
     void *init_base();
 };
-typedef char TUnk_80481B34_size[sizeof(TUnk_80481B34) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80481B34_size, sizeof(TUnk_80481B34) == 0xB0);
 
 #endif

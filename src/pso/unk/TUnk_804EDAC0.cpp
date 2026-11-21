@@ -32,7 +32,7 @@ void TUnk_804EDAC0::sub_8032BC94(TObject *object) {
     }
 }
 
-extern "C" s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(s32 object) {
+extern "C" s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(saddr object) {
     if (TUnk_804EDAC0::instance != NULL) {
         if (TUnk_804EDAC0::instance->get_confirm_state() != 0) {
             return 0;

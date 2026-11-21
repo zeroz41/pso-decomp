@@ -18,6 +18,6 @@ public:
     u8 unk_34[0x4];
     f32 m_38;
 };
-typedef char TUnk_8048E5DC_size[sizeof(TUnk_8048E5DC) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8048E5DC_size, sizeof(TUnk_8048E5DC) == 0x3C);
 
 #endif

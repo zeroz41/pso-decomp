@@ -15,5 +15,5 @@ struct TObjPathObj : public TObjBase {
     f32 m_94;
 };
 
-typedef char TObjPathObj_size[sizeof(TObjPathObj) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjPathObj_size, sizeof(TObjPathObj) == 0x98);
 #endif

@@ -17,5 +17,5 @@ struct TObjFogCollision : public TObjBase {
     s32 check_collision(u16 arg1);
 };
 
-typedef char TObjFogCollision_size[sizeof(TObjFogCollision) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjFogCollision_size, sizeof(TObjFogCollision) == 0x98);
 #endif

@@ -35,7 +35,7 @@ void bswap__12TPlyJoinGameFv(Join_801E03B8 *self) {
 
 u8 *__ct__12TPlyJoinGameFRC12TPlyJoinGame(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(ByteBlock_80 *)((s32) arg0 + 4) = *(const ByteBlock_80 *)((s32) arg1 + 4);
+    *(ByteBlock_80 *)((saddr) arg0 + 4) = *(const ByteBlock_80 *)((saddr) arg1 + 4);
     copy_player_lobby_data_entry(arg0 + 0x84, arg1 + 0x84);
     copy_player_lobby_data_entry(arg0 + 0xA4, arg1 + 0xA4);
     copy_player_lobby_data_entry(arg0 + 0xC4, arg1 + 0xC4);

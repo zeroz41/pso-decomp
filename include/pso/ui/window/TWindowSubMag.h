@@ -16,15 +16,15 @@ struct TWindowSubMag : public TObject {
     u8 _pad22[0x2];
     u32 displayed_item;
     u32 client_id;
-    u32 mag;
+    uaddr mag;
     u32 parent;
-    u32 list;
-    u32 list2;
-    u32 card;
-    u32 help;
-    u32 slotwin;
-    u32 photon;
-    u32 message;
+    uaddr list;
+    uaddr list2;
+    uaddr card;
+    uaddr help;
+    uaddr slotwin;
+    uaddr photon;
+    uaddr message;
     void update_mag_help();
     void update_displayed_item();
     s32 count_slots();
@@ -32,17 +32,17 @@ struct TWindowSubMag : public TObject {
     void *create_learned_blast_toast();
     void *create();
     void *create_action_menu(s32 id);
-    s32 create_list();
+    saddr create_list();
     s32 setup_list();
     s32 get_selected_blast();
     void set_flag60_bit8();
     void clear_flag60_bit8();
     s32 get_mag_state();
-    void set_mag_slot_state(s32 arg1);
+    void set_mag_slot_state(saddr arg1);
     void init_and_setup(void* a1);
     void start_scroll(f32 farg0);
     static void feed_mag(void* p, void* a1, void* a2);
 };
 
-typedef char TWindowSubMag_size[sizeof(TWindowSubMag) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubMag_size, sizeof(TWindowSubMag) == 0x50);
 #endif

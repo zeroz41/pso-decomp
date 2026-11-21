@@ -63,7 +63,7 @@ const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 struct Mdl_8003A1B4
 {
   u8 pad[8];
-  s32 f8;
+  saddr f8;
   u8 padC[4];
 };
 
@@ -114,7 +114,7 @@ extern Holder_8003A1B4 *boss2_tunnel_instance;
 extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
+void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D4BE0;
@@ -224,7 +224,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
                         subtract_vector(&d, &o->pos);
                         if (normalize_vector_xz((Vec *)(&d)) < rad) {
                             hit = 1;
-                            forward_switch_phase_stats__13TBoss2DeRolLeFi((s32)pl);
+                            forward_switch_phase_stats__13TBoss2DeRolLeFi((saddr)pl);
                         }
                     }
                 }
@@ -275,7 +275,7 @@ extern const f32 lbl_805D85A0 = 6.0f;
 TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TObjBase(parent) {
     f32 temp_f1;
     f32 temp_f2;
-    arg0->field_0 = (s32)TObjBoss2CeilJunk__name;
+    arg0->field_0 = (saddr)TObjBoss2CeilJunk__name;
     VecCopy((Vec *)&arg0->unknown_1C[0x1C], position);
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;

@@ -37,7 +37,6 @@ void request_main_phase(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
-u32 __nw__7TObjectFUl(int);
 u32 __ct__13TAdVIConfigGCFP7TObject(void *, void *);
 u32 __ct__18TAdTrialModemChkGCFP7TObject(void *, void *);
 s32 TKeyBoardControl__sub_8000F92C();
@@ -97,7 +96,7 @@ void TLogo::init_logo_scene() {
     for (i = 0; i < 0x80; i++) {
     }
     init_menu_scene_lights(default_scene_light_config, 4);
-    p = __nw__7TObjectFUl(0x1D4);
+    p = (uaddr)TObject::operator new(0x1D4);
     if (p != 0) {
         TCameraCtrl__ct(p, tl_camera);
     }
@@ -117,7 +116,7 @@ void TLogo::init_logo_scene() {
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::create_quad_sprites();
     new TLogo(tl_01);
-    p = __nw__7TObjectFUl(0x1C);
+    p = (uaddr)TObject::operator new(0x1C);
     if (p != 0) {
         __ct__15TWindowCtrlMainFv(p);
     }
@@ -165,19 +164,19 @@ TLogo::TLogo(TObject *parent) : TObject(parent) {
 TLogo::~TLogo() {}
 
 void TLogo::run_task() {
-    u32 var_r0;
-    u32 var_r0_2;
-    u32 var_r0_3;
-    u32 var_r0_4;
-    u32 var_r0_5;
-    u32 var_r0_6;
-    u32 var_r0_7;
-    u32 var_r0_8;
+    uaddr var_r0;
+    uaddr var_r0_2;
+    uaddr var_r0_3;
+    uaddr var_r0_4;
+    uaddr var_r0_5;
+    uaddr var_r0_6;
+    uaddr var_r0_7;
+    uaddr var_r0_8;
     switch (state) {
     case 0:
         if (TLogo::check_progressive_ready() != 0) {
             if (((s32)TLogo__sub_8013F808()) != 0) {
-                var_r0 = __nw__7TObjectFUl(0x4C);
+                var_r0 = (uaddr)TObject::operator new(0x4C);
                 if (var_r0 != 0U) {
                     var_r0 = __ct__13TAdVIConfigGCFP7TObject((void *)var_r0, this);
                 }
@@ -185,7 +184,7 @@ void TLogo::run_task() {
                 state = 1U;
                 return;
             }
-            var_r0_2 = __nw__7TObjectFUl(0x20);
+            var_r0_2 = (uaddr)TObject::operator new(0x20);
             if (var_r0_2 != 0U) {
                 var_r0_2 = __ct__11TAdSEGAlogoFv((void *)var_r0_2, this);
             }
@@ -193,7 +192,7 @@ void TLogo::run_task() {
             state = 4U;
             return;
         }
-        var_r0_3 = __nw__7TObjectFUl(0x20);
+        var_r0_3 = (uaddr)TObject::operator new(0x20);
         if (var_r0_3 != 0U) {
             var_r0_3 = __ct__11TAdSEGAlogoFv((void *)var_r0_3, this);
         }
@@ -202,7 +201,7 @@ void TLogo::run_task() {
         return;
     case 1:
         if (((u32) vi_config != 0U) && (TLogo__sub_8013F800((void *)vi_config) != 0)) {
-            var_r0_4 = __nw__7TObjectFUl(0x20);
+            var_r0_4 = (uaddr)TObject::operator new(0x20);
             if (var_r0_4 != 0U) {
                 var_r0_4 = __ct__11TAdSEGAlogoFv((void *)var_r0_4, this);
             }
@@ -213,7 +212,7 @@ void TLogo::run_task() {
         break;
     case 2:
         if (TLobby__sub_80145DB4(1) == 0) {
-            var_r0_5 = __nw__7TObjectFUl(0x30);
+            var_r0_5 = (uaddr)TObject::operator new(0x30);
             if (var_r0_5 != 0U) {
                 var_r0_5 = __ct__18TAdTrialModemChkGCFP7TObject((void *)var_r0_5, this);
             }
@@ -221,7 +220,7 @@ void TLogo::run_task() {
             state = 3U;
             return;
         }
-        var_r0_6 = __nw__7TObjectFUl(0x20);
+        var_r0_6 = (uaddr)TObject::operator new(0x20);
         if (var_r0_6 != 0U) {
             var_r0_6 = __ct__11TAdSEGAlogoFv((void *)var_r0_6, this);
         }
@@ -232,7 +231,7 @@ void TLogo::run_task() {
         if (((s32)is_sega_logo_done((int)(sega_logo))) != 0) {
             ((TObject *)sega_logo)->queue_destruction();
             sega_logo = 0U;
-            var_r0_7 = __nw__7TObjectFUl(0x20);
+            var_r0_7 = (uaddr)TObject::operator new(0x20);
             if (var_r0_7 != 0U) {
                 var_r0_7 = __ct__12TAdSoniclogoFP7TObject((void *)var_r0_7, this);
             }
@@ -245,7 +244,7 @@ void TLogo::run_task() {
         if (((s32)is_logo_exit_requested((int)(sonic_logo))) != 0) {
             ((TObject *)sonic_logo)->queue_destruction();
             sonic_logo = 0U;
-            var_r0_8 = __nw__7TObjectFUl(0x20);
+            var_r0_8 = (uaddr)TObject::operator new(0x20);
             if (var_r0_8 != 0U) {
                 var_r0_8 = __ct__10TAdADXlogoFP7TObject((void *)var_r0_8, this);
             }

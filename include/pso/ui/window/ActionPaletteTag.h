@@ -6,9 +6,9 @@
 
 // Cursor and palette records share this four-byte tag prefix.
 typedef gc_tag ActionPaletteTag;
-typedef char ActionPaletteTagSize[sizeof(ActionPaletteTag) == 4 ? 1 : -1];
-typedef char ActionPaletteTagModeOffset[offsetof(ActionPaletteTag, tag0) == 0 ? 1 : -1];
-typedef char ActionPaletteTagSlotOffset[offsetof(ActionPaletteTag, tag1) == 1 ? 1 : -1];
+LAYOUT_ASSERT(ActionPaletteTagSize, sizeof(ActionPaletteTag) == 4);
+LAYOUT_ASSERT(ActionPaletteTagModeOffset, offsetof(ActionPaletteTag, tag0) == 0);
+LAYOUT_ASSERT(ActionPaletteTagSlotOffset, offsetof(ActionPaletteTag, tag1) == 1);
 
 extern "C" {
 u8 get_action_palette_tag_slot(const ActionPaletteTag *tag);

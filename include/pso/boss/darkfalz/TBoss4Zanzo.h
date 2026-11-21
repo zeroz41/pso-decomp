@@ -30,7 +30,7 @@ public:
     s32 age;  // frames since the ctor
 };
 
-typedef char TBoss4Zanzo_size[sizeof(TBoss4Zanzo) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);
 
 extern "C" {
 void sub_80056998__11TBoss4Type2Fv(u8 *arg0);

@@ -76,7 +76,7 @@ public:
     s32 drop_angle;
 };
 
-typedef char TBoss3VoloptCore_size[sizeof(TBoss3VoloptCore) == 0x3D4 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3VoloptCore_size, sizeof(TBoss3VoloptCore) == 0x3D4);
 
 extern s32 boss3_volopt_core_active_flag;
 

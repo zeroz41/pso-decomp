@@ -79,8 +79,8 @@ struct PppFsm {
     u8 *opts;                   /* 0x30: the protocol's own state */
 };
 
-typedef char PppFsmProtocol_size_check[sizeof(PppFsmProtocol) == 0x3C ? 1 : -1];
-typedef char PppFsmTimer_size_check[sizeof(PppFsmTimer) == 0x1C ? 1 : -1];
-typedef char PppFsm_size_check[sizeof(PppFsm) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(PppFsmProtocol_size_check, sizeof(PppFsmProtocol) == 0x3C);
+LAYOUT_ASSERT(PppFsmTimer_size_check, sizeof(PppFsmTimer) == 0x1C);
+LAYOUT_ASSERT(PppFsm_size_check, sizeof(PppFsm) == 0x34);
 
 #endif

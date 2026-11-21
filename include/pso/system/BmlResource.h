@@ -6,8 +6,8 @@
 struct BmlModelEntry {
     s32 m_0;
     s32 m_4;
-    s32 model;
-    s32 m_c;
+    saddr model;
+    saddr m_c;
 };
 
 struct AnimationMotion;
@@ -22,6 +22,6 @@ struct BmlResource {
     BmlMotionEntry *motions;
 };
 
-extern "C" s32 get_bml_model(BmlResource *resource, s32 index);
+extern "C" saddr get_bml_model(BmlResource *resource, s32 index);
 
 #endif

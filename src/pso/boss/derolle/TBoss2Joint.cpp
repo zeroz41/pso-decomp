@@ -209,7 +209,7 @@ extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern const f32 lbl_805D8258;
 s32 TBoss2Joint_get_shell_max_hp(void);
-void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
+void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1);
 s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
 
 // Fade source colour of sub_80036940 (only g, r, b are read).
@@ -350,7 +350,7 @@ void TBoss2Joint::vfunc_88() {
 }
 
 void TBoss2Joint::update_position_history() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
 }
@@ -369,7 +369,7 @@ void TBoss2Joint::vfunc_62() {
             ((VTbj_8003688C *)self)->m102();
         }
     } else {
-        spawn_offset_particle__13TBoss2DeRolLeFiff((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
+        spawn_offset_particle__13TBoss2DeRolLeFiff((saddr)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(*(s32 *)((s8 *)self + 0x10), temp_r31, ((TBoss2Joint *)self)->m_2d4);
     }
     ((TBoss2Joint *)self)->hp = (s16) ((TBoss2Joint *)self)->hpmax;
@@ -382,7 +382,7 @@ void TBoss2Joint::vfunc_28() {  }
 void TBoss2Joint::run_task() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 0) {
-        VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x390))));
+        VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((saddr) (*(saddr *)((s8 *)arg0 + 0x390))));
         this->vfunc_83();
         if (((VObj_18 *)(arg0))->m84() == 0) {
             this->dispatch_action(this->mode, 3);
@@ -412,7 +412,7 @@ s32 TBoss2Joint::init_params() {
     self->unk34 = 0;
     self->unk24 = 0;
     ((TObjEneDD *)self)->init_model((CollisionBody *)(prm->unk34), (s32)1);
-    ((TObjEneDD *)self)->reset_hp((u8 *)((s32)TLobby::register_boss(prm->unk0)), (u8 *)((s32)TLobby::dispatch_shared_handler_b(prm->unk8)), (u8 *)((s32)TLobby::register_object(prm->unk10)));
+    ((TObjEneDD *)self)->reset_hp((u8 *)((saddr)TLobby::register_boss(prm->unk0)), (u8 *)((saddr)TLobby::dispatch_shared_handler_b(prm->unk8)), (u8 *)((saddr)TLobby::register_object(prm->unk10)));
     self->hp32C = 0x4E20;
     self->hp2B8 = 0x4E20;
     ((TObjEneDD *)self)->set_state_flag_2();

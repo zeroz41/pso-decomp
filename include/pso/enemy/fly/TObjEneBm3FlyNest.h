@@ -50,7 +50,7 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     Vec *sub_800B2A54();
     s32 copy_target_state(s32 sound_id);
     static void capture_attachment(void * _w0);
-    static void handle_attachment_sample(s32);
+    static void handle_attachment_sample(saddr);
     static BmlResource *sub_800B4158();
     void remove_child(u8 *child);
     s32 has_free_attack_slot(u16 id);
@@ -92,10 +92,10 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     f32 unk_4d8;
 };
 
-typedef char TObjEneBm3FlyNest_size[sizeof(TObjEneBm3FlyNest) == 0x4DC ? 1 : -1];
-typedef char TObjEneBm3FlyNest_child_count_offset[offsetof(TObjEneBm3FlyNest, child_count) == 0x3B0 ? 1 : -1];
-typedef char TObjEneBm3FlyNest_fades_offset[offsetof(TObjEneBm3FlyNest, fades) == 0x440 ? 1 : -1];
-typedef char TObjEneBm3FlyNest_unk_4d8_offset[offsetof(TObjEneBm3FlyNest, unk_4d8) == 0x4D8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm3FlyNest_size, sizeof(TObjEneBm3FlyNest) == 0x4DC);
+LAYOUT_ASSERT(TObjEneBm3FlyNest_child_count_offset, offsetof(TObjEneBm3FlyNest, child_count) == 0x3B0);
+LAYOUT_ASSERT(TObjEneBm3FlyNest_fades_offset, offsetof(TObjEneBm3FlyNest, fades) == 0x440);
+LAYOUT_ASSERT(TObjEneBm3FlyNest_unk_4d8_offset, offsetof(TObjEneBm3FlyNest, unk_4d8) == 0x4D8);
 
 
 #endif

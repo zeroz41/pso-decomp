@@ -18,6 +18,7 @@
 #include "pso/unk/TUnk_8048E790.h"
 
 #include "types.h"
+#include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
@@ -150,7 +151,6 @@ struct ODesc_8008B060 {
 struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
-s32 rand(void);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
 void draw_ginja_object(void *child);
@@ -441,7 +441,7 @@ void TUnk_8048E790::render() {
                 }
                 TObjFish::set_global_param(this->unk_B4);
                 set_draw_list_mask(3);
-                if ((u32) this->motion != 0U) {
+                if ((uaddr) this->motion != 0U) {
                     draw_ginja_model_with_motion((void *)this->m_b0, (void *)this->motion, (f32)this->motion_frame);
                 } else {
                     draw_ginja_object((void *)this->m_b0);
@@ -470,7 +470,7 @@ void TUnk_8048E790::render() {
 TUnk_8048E790::~TUnk_8048E790() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s16 arg6)
+TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, saddr arg4, u16 arg5, s16 arg6)
     : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
     Obj_8008AC24 *o = (Obj_8008AC24 *)this;
     Desc_8008AC24 *d = (Desc_8008AC24 *)arg1;
@@ -495,7 +495,7 @@ TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (3.0517578e-05f * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = 1.0f / (f32)temp_r0;
     }
@@ -536,7 +536,7 @@ TUnk_8048E790::TUnk_8048E790(void *arg1, void *arg2, void *arg3, void *arg4)
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (3.0517578e-05f * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)((s32 *)&TParticleCtrl__data_80511F70) + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)((s32 *)&TParticleCtrl__data_80511F70) + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = 1.0f / (f32)temp_r0;
     }

@@ -51,30 +51,28 @@ struct StarLightFollowerView {
     void *vtbl;
     s32 f1c;
     s32 f20;
-    s32 f24;
+    saddr f24;
     s32 f28;
 };
 
-typedef char RecoilVisibleOffset[offsetof(RecoilWeaponView, projectileVisible) == 0x1F8 ? 1 : -1];
-typedef char RecoilSpinOffset[offsetof(RecoilWeaponView, projectileSpin) == 0x1FC ? 1 : -1];
-typedef char RecoilAngleOffset[offsetof(RecoilWeaponView, recoilAngle) == 0x200 ? 1 : -1];
-typedef char RecoilPhaseOffset[offsetof(RecoilWeaponView, recoilPhase) == 0x204 ? 1 : -1];
-typedef char RecoilWeaponExtent[sizeof(RecoilWeaponView) == 0x208 ? 1 : -1];
-typedef char WeaponStarLightParameterWordsExtent[sizeof(WeaponStarLightParameterWords) == 0x14 ? 1 : -1];
-typedef char StarLightFollowerExtent[sizeof(StarLightFollowerView) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(RecoilVisibleOffset, offsetof(RecoilWeaponView, projectileVisible) == 0x1F8);
+LAYOUT_ASSERT(RecoilSpinOffset, offsetof(RecoilWeaponView, projectileSpin) == 0x1FC);
+LAYOUT_ASSERT(RecoilAngleOffset, offsetof(RecoilWeaponView, recoilAngle) == 0x200);
+LAYOUT_ASSERT(RecoilPhaseOffset, offsetof(RecoilWeaponView, recoilPhase) == 0x204);
+LAYOUT_ASSERT(RecoilWeaponExtent, sizeof(RecoilWeaponView) == 0x208);
+LAYOUT_ASSERT(WeaponStarLightParameterWordsExtent, sizeof(WeaponStarLightParameterWords) == 0x14);
+LAYOUT_ASSERT(StarLightFollowerExtent, sizeof(StarLightFollowerView) == 0x2C);
 
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
-u8 *__nw__5TItemFUl(s32);
-void __dl__7TObjectFPv(void *);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 void TObjPlayer__sub_80364198(void);
 s32 push_matrix();
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
-void create_icon__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
+void create_icon__10TObjPlayerFiii(saddr arg0, s32 arg1, s32 arg2);
 }
 
 extern s32 tl_05;
@@ -104,19 +102,19 @@ void *__vt__13TUnk_804A2018[6] = {
 
 void TUnk_804A2018::run_task() {
     s32 sp8;
-    s32 item;
+    saddr item;
     if ((u32) this->m_28 != ((u32)get_item_system_generation())) {
         queue_destruction();
         return;
     }
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
-        item = ((s32)find_item_by_id(*(s32 *)&this->unk_1C));
+        item = ((saddr)find_item_by_id(*(s32 *)&this->unk_1C));
         if ((item != 0) && (((TItem *)item)->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(this->m_20, &sp8) != 0)) {
             if (((TItem *)item)->is_hidden() == 0) {
-                ((TEffStarLight2D *)*(u32 *)&this->unk_24)->copy_position((const Vec *)&sp8);
+                ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->copy_position((const Vec *)&sp8);
                 return;
             }
-            ((TEffStarLight2D *)*(u32 *)&this->unk_24)->queue_child_destruction();
+            ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->queue_child_destruction();
             return;
         }
     }
@@ -128,7 +126,7 @@ void *TObjPlayer__sub_8012417C(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TUnk_804A2018);
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -145,15 +143,15 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 a, s32 b) : TObject(parent) {
     p = find_item_by_id(((StarLightFollowerView *)this)->f1c);
     if (p != NULL && ((TItemWeapon *)p)->get_joint_position(((StarLightFollowerView *)this)->f20, &v) != 0) {
         WeaponStarLightParameterWords blk = weapon_star_light_parameters[0];
-        ((StarLightFollowerView *)this)->f24 = (s32)spawn_star_light_2d((s32)&v, (s32)&blk, (s32)((StarLightFollowerView *)this));
+        ((StarLightFollowerView *)this)->f24 = (saddr)spawn_star_light_2d((saddr)&v, (saddr)&blk, (saddr)((StarLightFollowerView *)this));
     }
 }
 
 
-void create_icon__10TObjPlayerFiii(s32 parent, s32 arg1, s32 arg2) {
+void create_icon__10TObjPlayerFiii(saddr parent, s32 arg1, s32 arg2) {
     void *temp_r3;
     if (parent != 0) {
-        temp_r3 = (void *)((u32)TObject::operator new(0x2C));
+        temp_r3 = (void *)((uaddr)TObject::operator new(0x2C));
         if (temp_r3 != (void *)0U) {
             __ct__13TUnk_804A2018FP7TObjectll((StarLightFollowerView *)(temp_r3), (void *)parent, (s32)arg1, (s32)arg2);
         }
@@ -166,7 +164,7 @@ void TUnk_804A204C::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &sp8) != 0) {
             temp_r31 = this->owner;
-            TTecMegid::create_ex((s32)temp_r31, (s32)(&sp8), (s32)(*(s32 *)((s8 *)temp_r31 + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
+            TTecMegid::create_ex((saddr)temp_r31, (saddr)(&sp8), (s32)(*(s32 *)((s8 *)temp_r31 + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
             this->roll_technique();
         }
     } else {
@@ -286,7 +284,7 @@ u8 *TObjPlayer__sub_80124708(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
+        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x208));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((Fn_80124694_3)TObjPlayer__sub_80124694)(temp_r3, tl_05, arg0));

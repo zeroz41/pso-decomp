@@ -29,8 +29,8 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u8 m_72;
     u8 m_73;
     u32 m_74;
-    u32 m_78;
-    u32 m_7c;
+    uaddr m_78;
+    uaddr m_7c;
     u32 m_80;
     void handle_cancel();
     void handle_decide();
@@ -43,8 +43,8 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     void *get_selected_action();
 };
 
-typedef char TWindowSubCustomSelect_size[sizeof(TWindowSubCustomSelect) == 0x84 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x84);
 
-typedef char TWindowSubCustomSelectFieldsOffset[offsetof(TWindowSubCustomSelect, m_70) == 0x70 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubCustomSelectFieldsOffset, offsetof(TWindowSubCustomSelect, m_70) == 0x70);
 
 #endif

@@ -5,7 +5,7 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecReverser : public TUnk_804CC148 {
-    TTecReverser(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    TTecReverser(saddr arg1, saddr arg2, saddr arg3, saddr arg4);
     virtual ~TTecReverser();
     void sub_8022BE64(u8 *, s32);
     virtual void vfunc_6(void *);
@@ -18,5 +18,5 @@ struct TTecReverser : public TUnk_804CC148 {
     u8 unk_F2[0x56];
 };
 
-typedef char TTecReverser_size[sizeof(TTecReverser) == 0x148 ? 1 : -1];
+LAYOUT_ASSERT(TTecReverser_size, sizeof(TTecReverser) == 0x148);
 #endif

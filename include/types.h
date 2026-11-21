@@ -13,6 +13,10 @@ typedef unsigned long long u64;
 typedef float f32;
 typedef double f64;
 
+/* An integer that holds an address: 32 bits on the console, a pointer's width in a port. */
+typedef u32 uaddr;
+typedef s32 saddr;
+
 typedef volatile u8 vu8;
 typedef volatile u16 vu16;
 typedef volatile u32 vu32;
@@ -56,7 +60,12 @@ typedef __SIZE_TYPE__ size_t;
 
 #define AT_ADDRESS(addr) : (addr)
 #define ATTRIBUTE_ALIGN(num) __attribute__((aligned(num)))
+/* An aligned parameter, which the console's compiler gives an aligned home in the frame. A port defines it empty. */
+#define ATTRIBUTE_ALIGN_PARAM(num) __attribute__((aligned(num)))
 #define DECL_WEAK __declspec(weak)
 #define __REGISTER register
+
+/* Checks the console's layout at compile time. A port, whose layouts differ, defines it empty. */
+#define LAYOUT_ASSERT(name, cond) typedef char name[(cond) ? 1 : -1]
 
 #endif

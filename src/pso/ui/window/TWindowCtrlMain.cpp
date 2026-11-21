@@ -124,7 +124,7 @@ extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 }
 void window_request_show(void *arg0);
 struct Ctl_8024E2A8 {
@@ -158,7 +158,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
     } else {
         ((struct Ctl_8024E2A8 *)this)->f28 = new TWindowMainMenu1P(this, ((struct Ctl_8024E2A8 *)this)->f24);
     }
-    ((struct Ctl_8024E2A8 *)this)->f2c = (void *)create_message_information_window((s32)(get_window_layout_position(0x20)), (s32)lbl_8044EC4C, (s32)(((struct Ctl_8024E2A8 *)this)->f24));
+    ((struct Ctl_8024E2A8 *)this)->f2c = (void *)create_message_information_window((s32)(get_window_layout_position(0x20)), (saddr)lbl_8044EC4C, (s32)(((struct Ctl_8024E2A8 *)this)->f24));
     ((struct Ctl_8024E2A8 *)this)->f30 = (void *)create_status_window(((struct Ctl_8024E2A8 *)this)->f24);
     ((TObject *)(((struct Ctl_8024E2A8 *)this)->f30))->suspend_update();
     ((struct Ctl_8024E2A8 *)this)->f34 = new TWindowActionPalette(((struct Ctl_8024E2A8 *)this)->f24);
@@ -182,8 +182,8 @@ void TWindowCtrlPlayer::render() {  }
 #pragma scheduling off
 void TWindowCtrlPlayer::sub_8024E0F0() {
     s16 temp_r3_3;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     switch (*(s16 *)&this->m_1e) {
     case 18:
         temp_r3 = this->m_30;
@@ -238,7 +238,7 @@ void TWindowCtrl::update_child_window_visibility() {
 #pragma fp_contract on
 void TWindowCtrl::update_target_info_window() {
     u8 *arg0 = (u8 *)this;
-    if ((*(void **)((s8 *)arg0 + 0x38) != NULL) && ((((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->all_parents_unqueued_for_destruction() == 0) || (((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x38)))->sub_80244994() == 0))) {
+    if ((*(void **)((s8 *)arg0 + 0x38) != NULL) && ((((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->all_parents_unqueued_for_destruction() == 0) || (((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x38)))->sub_80244994() == 0))) {
         *(u32 *)((s8 *)arg0 + 0x38) = 0U;
     }
     if ((TWindowCtrl__sub_8024C7E0(arg0) != 0) || (get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (TWindowCtrl__sub_8024C7C4(arg0) != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
@@ -261,7 +261,7 @@ void TWindowCtrl::update_target_info_window() {
 #pragma pop
 
 void TWindowCtrl::update_main_menu_request() {
-    u32 p;
+    uaddr p;
     s16 key;
     if (*(void **)((s8 *)this + 0x28) == NULL) {
         return;
@@ -348,7 +348,7 @@ void TWindowCtrl::update_short_list_request() {
                     *(void **)((s8 *)this + 0x3C) = NULL;
                 }
             } else if (*(void **)((s8 *)this + 0x3C) == NULL && is_enabled() == 0) {
-                if (test_previous_buttons_packed(btn = controller_input_state[idx].btn, fn_8002AE08((void *)(*(s32 *)&this->m_24))) != 0 &&
+                if (test_previous_buttons_packed(btn = controller_input_state[idx].btn, fn_8002AE08((void *)(*(saddr *)&this->m_24))) != 0 &&
                     TWindowShortListCtrl__check_controller_button(btn, 0x200) != 0) {
                     *(void **)((s8 *)this + 0x3C) = new TWindowShortListCtrl(this, *(s32 *)&this->m_24);
                 }
@@ -647,7 +647,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     ((TWindowCtrlMain *)(&poly))->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)lbl_805D63F0);
+    TObjFish::set_global_param((saddr)lbl_805D63F0);
     a = (s32)(255.0f * alpha) << 24;
     set_draw_texture_and_color(11, a | 0xFFFFFF);
 
@@ -726,7 +726,7 @@ TObject *get_viewport_window_root(s32 viewport_index) {
     return TWindowCtrlMain__viewport_states[0].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((s32)p); }
+TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((saddr)p); }
 
 void TWindowCtrlMain::set_value(s32 arg0, s32 arg1) {
     get_window_control_state(arg0)->field04 = arg1;
@@ -772,22 +772,22 @@ void TWindowCtrlMain::set_field18(f32 value, s32 viewport_index) {
 }
 
 f32 TWindowCtrlMain::get_position_z() {
-    s32 viewport_index = (s32)this;
+    s32 viewport_index = (saddr)this;
     return get_window_control_state(viewport_index)->field0C;
 }
 
 f32 TWindowCtrlMain::get_field10() {
-    s32 viewport_index = (s32)this;
+    s32 viewport_index = (saddr)this;
     return get_window_control_state(viewport_index)->field10;
 }
 
 f32 TWindowCtrlMain::get_ctrl_field14() {
-    s32 viewport_index = (s32)this;
+    s32 viewport_index = (saddr)this;
     return get_window_control_state(viewport_index)->field14;
 }
 
 f32 TWindowCtrlMain::get_field_18() {
-    s32 viewport_index = (s32)this;
+    s32 viewport_index = (saddr)this;
     return get_window_control_state(viewport_index)->field18;
 }
 

@@ -29,6 +29,6 @@ public:
     static void init_memorycard();
 };
 
-typedef char TAdMcSelectMcGC_size[sizeof(TAdMcSelectMcGC) == 0x134 ? 1 : -1];
+LAYOUT_ASSERT(TAdMcSelectMcGC_size, sizeof(TAdMcSelectMcGC) == 0x134);
 
 #endif

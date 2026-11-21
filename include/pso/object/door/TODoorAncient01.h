@@ -20,5 +20,5 @@ public:
     static void load_resources();
 };
 
-typedef char TODoorAncient01_size[sizeof(TODoorAncient01) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TODoorAncient01_size, sizeof(TODoorAncient01) == 0xD4);
 #endif

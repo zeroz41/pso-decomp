@@ -16,6 +16,6 @@ struct TOWreckAncient : public TObjCollidable {
     f32 view_radius;
 };
 
-typedef char TOWreckAncient_size[sizeof(TOWreckAncient) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TOWreckAncient_size, sizeof(TOWreckAncient) == 0xB4);
 
 #endif

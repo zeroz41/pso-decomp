@@ -23,7 +23,7 @@
 #include "pso/math/AngleLookup.h"
 
 extern "C" {
-extern u32 fog_ctrl_instance;
+extern uaddr fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 TFogCtrl__fog_instance_table[];
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -187,7 +187,7 @@ void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 extern s32 area_fog_row_table[];
 extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
-extern u32 fog_entry_array;
+extern uaddr fog_entry_array;
 extern s32 fog_update_flags;
 extern s32 actor_frame_tick;
 extern s32 *tl_02;
@@ -207,9 +207,9 @@ s32 area_fog_row_table[36] = {
 };
 s32 TFogCtrl__fog_instance_table[4];
 FogParam_800FBC5C fog_default_entry;
-u32 fog_entry_array;
+uaddr fog_entry_array;
 s32 fog_update_flags;
-u32 fog_ctrl_instance;
+uaddr fog_ctrl_instance;
 
 extern "C" {
 void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0);
@@ -229,7 +229,7 @@ void init_scene_fog_system(void) {
         fog_default_entry.f38[i] = 0;
     }
     fog_default_entry.f18[6] = FOG_MAX;
-    fog_entry_array = (u32)mem_alloc(0x2000);
+    fog_entry_array = (uaddr)mem_alloc(0x2000);
     for (i = 0; i < 0x80; i++) {
         copy_fog_entry((u8 *)&((FogParam_800FBC5C *)fog_entry_array)[i], (u8 *)&fog_default_entry);
     }
@@ -270,7 +270,7 @@ void create_area_fog_ctrl(void) {
             if (temp_r3 != NULL) {
                 var_r4 = (s32 *)tl_02;
                 var_r5 = var_r31;
-                ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3, (int)var_r4, (int)var_r5);
+                ((s32 (*)(saddr, saddr, int))__ct__8TFogCtrlFP7TObjectl)((saddr)temp_r3, (saddr)var_r4, (int)var_r5);
             }
             var_r31 += 1;
         } while (var_r31 != 4);
@@ -280,7 +280,7 @@ void create_area_fog_ctrl(void) {
         if (temp_r3_2 != NULL) {
             var_r4 = (s32 *)tl_02;
             var_r5 = 0;
-            ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3_2, (int)var_r4, 0);
+            ((s32 (*)(saddr, saddr, int))__ct__8TFogCtrlFP7TObjectl)((saddr)temp_r3_2, (saddr)var_r4, 0);
         }
     }
     TObjFogCollisionPoison::create();
@@ -401,7 +401,7 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
     update = 0;
     switch (arg0->mode) {
     case 0:
-        if (TFogCtrl::is_controller_animated((s32)arg0, arg0->selected) != 0) {
+        if (TFogCtrl::is_controller_animated((saddr)arg0, arg0->selected) != 0) {
             update = 1;
         }
         break;
@@ -491,10 +491,10 @@ void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
     self->arr[j] = t;
 }
 
-s32 TFogCtrl::is_controller_animated(s32 arg0, s32 arg1) {
+s32 TFogCtrl::is_controller_animated(saddr arg0, s32 arg1) {
   f32 temp_f31;
   f32 var_f31;
-  s32 temp_r3;
+  saddr temp_r3;
   u8 *temp_r31;
   temp_r3 = arg0 + (arg1 * 4);
   temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
@@ -717,7 +717,7 @@ void TFogCtrl::clear_active_flag() {
 void TFogCtrl::update_all() {
     s32 var_r29;
     s32 var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (is_split_screen() == 0) {
         var_r29 = 0;
@@ -739,7 +739,7 @@ void TFogCtrl::update_all() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TFogCtrl::clear_split_screen_fog() {
-    u32 temp_r3;
+    uaddr temp_r3;
     if (is_split_screen() == 1) {
         temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
         if (temp_r3 != 0U) {
@@ -753,7 +753,7 @@ void TFogCtrl::clear_split_screen_fog() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) + a0 * 64; }
+void*TFogCtrl::get_entry(int a0) {  return (char*)((*(saddr *)&fog_entry_array)) + a0 * 64; }
 #pragma pop
 
 #pragma push
@@ -762,7 +762,7 @@ void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) +
 #pragma dont_inline off
 void copy_fog_entry(u8 *arg0, u8 *arg1) {
     s32 var_r5;
-    s32 var_r7;
+    saddr var_r7;
     u8 *var_r6;
     var_r5 = *(s32 *)((s8 *)arg1 + 0);
     var_r6 = (u8 *)arg1 + 0x14;
@@ -775,10 +775,10 @@ void copy_fog_entry(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
     var_r5 = *(s32 *)((s8 *)arg1 + 0x14);
     *(s32 *)((s8 *)arg0 + 0x14) = var_r5;
-    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((s32) var_r6 + 4);
+    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((saddr) var_r6 + 4);
     var_r7 += 0x20;
     var_r6 += 0x20;
-    *(ByteBlock_8 *)((s32) arg0 + 0x38) = *(const ByteBlock_8 *)((s32) arg1 + 0x38);
+    *(ByteBlock_8 *)((saddr) arg0 + 0x38) = *(const ByteBlock_8 *)((saddr) arg1 + 0x38);
 }
 #pragma pop
 
@@ -798,7 +798,7 @@ s32 TFogCtrl::restore_fog_for_player(s32 arg1, s32 arg0) {
         arg1 = 0;
     }
     if ((arg1 >= 0) && (arg1 < 4)) {
-        s32 elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
+        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
         if ((u32) elem != 0U) {
             return ((TFogCtrl *)elem)->restore_fog(arg0);
         }
@@ -825,7 +825,7 @@ s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
 s32 TFogCtrl::update_all(s32 arg0) {
     s32 var_r29;
     s32 var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
     var_r29 = 0;
     var_r31 = 0;
     do {
@@ -854,7 +854,7 @@ s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
     s32 *var_r30 = TFogCtrl__fog_instance_table;
     s32 var_r31 = 0;
     do {
-        u32 v = (u32)var_r30[var_r31];
+        uaddr v = (u32)var_r30[var_r31];
         if (v != 0U) {
             ((TFogCtrl *)v)->select_fog(arg0, arg1);
         }
@@ -869,7 +869,7 @@ s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
     s32 *var_r30 = TFogCtrl__fog_instance_table;
     s32 var_r31 = 0;
     do {
-        u32 v = (u32)var_r30[var_r31];
+        uaddr v = (u32)var_r30[var_r31];
         if (v != 0U) {
             request_fog__8TFogCtrlFPvii((u8 *)v, arg0, arg1);
         }

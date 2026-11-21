@@ -38,8 +38,8 @@ struct TObjBoss2Tunnel : public TObject {
     void* m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
-    u32 m_30;
+    uaddr m_2c;
+    uaddr m_30;
     u32 m_34;
     u32 m_38;
     u8 _pad3C[0x8];
@@ -83,12 +83,12 @@ struct TObjBoss2Tunnel : public TObject {
     static void free_buffers();
     static void reset_state();
     static s32 decrement_packed_timer(u32 *arg0, s32 arg1);
-    static s32 spawn_effect(s32 arg0, void *arg1, void *arg2);
-    static s32 adjust_to_ground(s32 arg0, void *arg1);
+    static s32 spawn_effect(saddr arg0, void *arg1, void *arg2);
+    static s32 adjust_to_ground(saddr arg0, void *arg1);
     static s32 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
     s32 count_tree_nodes();
     static f32 calc_scaled_value(s32 arg0, f32 farg0);
-    static void transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2);
+    static void transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2);
     void render(void* a1);
     static void set_flag_0x200();
     static void clear_flags_0x3000();
@@ -101,7 +101,8 @@ struct TObjBoss2Tunnel : public TObject {
     void detach_children(void *arg);
     static void set_global_flag_100();
     static s32 is_active();
+    static void draw_projected_quads(void *, int);
 };
 
-typedef char TObjBoss2Tunnel_size[sizeof(TObjBoss2Tunnel) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);
 #endif

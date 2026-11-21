@@ -23,13 +23,13 @@ OBJECT_NAME(TUdpSocket)
 
 struct Q_80078110 { s32 len; s32 v; u8 pad[0xc]; };
 
-struct R_80078110 { s16 a; s32 b; };
+struct R_80078110 { s16 a; saddr b; };
 
 struct C_80078110 { s32 len; s8 a; s8 b; s8 c; u8 pad[8]; };
 
 struct Q_800781B8 { s32 len; s32 v; u8 pad[0xc]; };
 
-struct R_800781B8 { s16 a; s32 b; };
+struct R_800781B8 { s16 a; saddr b; };
 
 struct C_800781B8 { s32 len; s8 a; s8 b; s8 c; u8 pad[8]; };
 
@@ -75,7 +75,7 @@ short TUdpSocket::send(u8 *data, size_t size) {
     c.a = 0x78;
     c.b = 0;
     c.c = 0;
-    r.b = (s32)data;
+    r.b = (saddr)data;
     r.a = size;
     port = m_dst_port;
     bswap_16(&port);
@@ -97,7 +97,7 @@ short TUdpSocket::send(u8 *data) {
     c.a = 0x78;
     c.b = 0;
     c.c = 0;
-    r.b = (s32)data;
+    r.b = (saddr)data;
     r.a = strlen((const char *)data);
     port = m_dst_port;
     bswap_16(&port);

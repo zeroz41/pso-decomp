@@ -1,15 +1,12 @@
 #include "types.h"
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/system/byteswap.h"
+#include "pso/system/THeap.h"
 
 extern "C" {
 
-s32 heap_free__5THeapFPv(s32, s32);
-
-extern s32 obj_heap;
-
-void __dl__9TProtocolFPv(s32 arg0) {
-    heap_free__5THeapFPv(obj_heap, arg0);
+void __dl__9TProtocolFPv(saddr arg0) {
+    obj_heap->heap_free((void *)arg0);
 }
 
     extern int lobby_count_value;

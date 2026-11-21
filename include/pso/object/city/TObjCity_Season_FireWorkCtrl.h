@@ -14,5 +14,5 @@ struct TObjCity_Season_FireWorkCtrl : public TObjBase {
     s32 unk_90;
 };
 
-typedef char TObjCity_Season_FireWorkCtrl_size[sizeof(TObjCity_Season_FireWorkCtrl) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TObjCity_Season_FireWorkCtrl_size, sizeof(TObjCity_Season_FireWorkCtrl) == 0x94);
 #endif

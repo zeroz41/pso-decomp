@@ -3,11 +3,11 @@
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/network/protocol/protocol.h"
 
-typedef char LobbyExitSize[(sizeof(TRecvExit<true>) == 8) ? 1 : -1];
-typedef char GameExitSize[(sizeof(TRecvExit<false>) == 8) ? 1 : -1];
-typedef char GameExitClientOffset[(offsetof(TRecvExit<false>, client_id) == 4) ? 1 : -1];
-typedef char GameExitLeaderOffset[(offsetof(TRecvExit<false>, leader_id) == 5) ? 1 : -1];
-typedef char GameExitUdpOffset[(offsetof(TRecvExit<false>, disable_udp) == 6) ? 1 : -1];
+LAYOUT_ASSERT(LobbyExitSize, sizeof(TRecvExit<true>) == 8);
+LAYOUT_ASSERT(GameExitSize, sizeof(TRecvExit<false>) == 8);
+LAYOUT_ASSERT(GameExitClientOffset, offsetof(TRecvExit<false>, client_id) == 4);
+LAYOUT_ASSERT(GameExitLeaderOffset, offsetof(TRecvExit<false>, leader_id) == 5);
+LAYOUT_ASSERT(GameExitUdpOffset, offsetof(TRecvExit<false>, disable_udp) == 6);
 
 template<> void TRecvExit<false>::bswap() {
     header.bswap();
