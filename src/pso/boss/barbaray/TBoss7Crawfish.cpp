@@ -138,7 +138,7 @@ s32 TBoss7Crawfish::is_visible() {
 
 void TBoss7Crawfish::free_child() {
     if (effect != NULL) {
-        ((TObject *)effect)->queue_destruction();
+        effect->queue_destruction();
         effect = NULL;
     }
 }
