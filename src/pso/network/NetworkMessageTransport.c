@@ -380,7 +380,7 @@ s32 TLobby__sub_80426574(void) {
     return 0;
 }
 
-s32 TLobby__sub_80426660(u8 *out) {
+s16 TLobby__sub_80426660(u8 *out) {
     EthernetReceiveFilter *chan = &lobby_net_channel_table.filter;
     if (TLobby__sub_804262CC(chan) < 0) {
         return -1;

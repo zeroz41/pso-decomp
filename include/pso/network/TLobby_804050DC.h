@@ -62,7 +62,7 @@ s32 clear_table_entry_locked(s16 arg0);
 void init_net_block_18A0(void);
 s16 invoke_socket_callback(s16 i, s32 arg);
 s16 is_entry_flag10_set(s16 i);
-s32 is_slot_flag_0x20_set(s16 i);
+s16 is_slot_flag_0x20_set(s16 i);
 s16 is_slot_flag_0x40_set(s16 i);
 void process_expired_timers(void);
 s32 run_net_init_step(void);
@@ -135,6 +135,7 @@ s16 NetIPv6HandleIcmpMessage(struct NetPacket *pkt, u8 *src, u8 *dst, u8 hop_lim
 s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag);
 /* IPv6 input (src/pso/network/NetIpv6.c). */
 s16 ipv6_process_options(u8 *p, s16 n, u8 *self, s16 c, s16 d);
+s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx);
 #ifdef __cplusplus
 }
 #endif

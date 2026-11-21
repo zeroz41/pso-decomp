@@ -691,7 +691,7 @@ extern void TLobby__sub_8040B3B4(void) {
     }
 }
 
-extern s32 dns_parse_reply(DnsQuery *self);
+extern s16 dns_parse_reply(DnsQuery *self);
 inline DnsQuery *find_8040B4BC(DnsResolverState *base, UdpDatagram *req) {
     s16 count;
     s16 key;
@@ -894,7 +894,7 @@ extern s32 dns_expand_name(DnsQuery *self, u8 *p, s32 n, u8 *dst);
 extern s32 dns_parse_answer_record(DnsQuery *self, u8 *rr, s32 avail);
 #pragma push
 #pragma opt_propagation off
-s32 dns_parse_reply(DnsQuery *self)
+s16 dns_parse_reply(DnsQuery *self)
 {
   volatile u32 pad[2];
   s32 len;
@@ -1322,7 +1322,7 @@ void TLobby__sub_8040C178(DnsHost *self, s16 x)
 
 }
 
-extern s32 dns_remove_addr(DnsHost *self_m, DnsAddr *arg);
+extern s16 dns_remove_addr(DnsHost *self_m, DnsAddr *arg);
 extern DnsAddr *dns_alloc_addr(DnsHost *self)
 {
     s16 n;
@@ -1361,7 +1361,7 @@ extern DnsAddr *dns_alloc_addr(DnsHost *self)
     return best;
 }
 
-extern s32 dns_remove_addr(DnsHost *self_m, DnsAddr *arg) {
+extern s16 dns_remove_addr(DnsHost *self_m, DnsAddr *arg) {
 DnsResolverState *tbl;
 DnsAddr *node;
 DnsAddr *prev;

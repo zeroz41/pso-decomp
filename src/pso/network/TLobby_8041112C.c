@@ -1203,7 +1203,7 @@ extern s16 TLobby__sub_8041347C(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c) {
     return 0;
 }
 
-s32 TLobby__sub_804136AC(s16 i)
+s16 TLobby__sub_804136AC(s16 i)
 {
     return is_slot_flag_0x20_set(i);
 }
@@ -1826,7 +1826,7 @@ u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope) {
     return 0;
 }
 
-s32 NetIPv6IsLinkLocal(u8 *arg0) {
+s16 NetIPv6IsLinkLocal(u8 *arg0) {
     u8 temp_r3;
 
     if ((u8) *(u8 *)((s8 *)arg0 + 0) != 0xFE) {

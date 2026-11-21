@@ -151,7 +151,7 @@ void TLobby__sub_803FEF4C(u8 *self) {
     TLobby__sub_803FD694(sub);
 }
 
-s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
+s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
     if (disabled == 0) {
         side->want.vj_protocol = 0x2D;
         side->want.vj_slots = 0x10;
@@ -167,7 +167,7 @@ s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
     return 0;
 }
 
-s32 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[1] = 0;
         side->want.flags &= ~0x800;
@@ -178,7 +178,7 @@ s32 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[0] = 0;
         side->want.flags &= ~0x200;
@@ -189,7 +189,7 @@ s32 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[1] = 0;
         side->want.flags &= ~0x800;
@@ -200,7 +200,7 @@ s32 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[0] = 0;
         side->want.flags &= ~0x200;
@@ -211,7 +211,7 @@ s32 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
+s16 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.our_addr = 0;
         side->want.flags &= ~8;
@@ -222,7 +222,7 @@ s32 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_local_address(IpcpSide *side, s32 addr) {
+s16 ipcp_set_local_address(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.our_addr = 0;
         side->want.flags &= ~8;

@@ -24,7 +24,7 @@ s32 reset_stack_module(void) {
     udp_runtime_state.count = 0;
     return 0;
 }
-s32 init_ucb_entries(void) {
+s16 init_ucb_entries(void) {
     s16 i;
     UdpControlBlock *e;
 

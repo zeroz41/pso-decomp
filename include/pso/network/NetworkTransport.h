@@ -37,7 +37,7 @@ void init_net_buffer_desc(struct PppBuffers *bufs);
 void stop_network_thread(void);
 void queue_thread_main(void);
 s32 write_ring_buffer(u8* src, s32 len);
-s32 map_state_to_mode_id(void);
+s16 map_state_to_mode_id(void);
 s32 map_state_to_code(s32 address, s16 mode);
 s32 send_atx_command_mode(s32 mode);
 s32 get_net_params_and_size(NetTransportParams* out);

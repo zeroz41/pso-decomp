@@ -244,7 +244,7 @@ void NetMemcpy(void* destination, void* source, int size) {
     memcpy(destination, source, size);
 }
 
-s32 check_connection_status(void *connection) {
+s16 check_connection_status(void *connection) {
     u8 *conn = (u8 *)connection;
     typedef struct Fields_arg0 { u8 field_0; u8 pad_1[7]; s16 field_8; u8 pad_A[2]; u8 * field_C; } Fields_arg0;
     typedef struct Fields_temp_r31 { u8 field_0; } Fields_temp_r31;
@@ -314,14 +314,14 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     TLobby__sub_803FD694(sub);
 }
 
-s32 clear_flag_bit4(s32 unused, u8 *opts) {
+s16 clear_flag_bit4(s32 unused, u8 *opts) {
     *(s16 *)((s8 *)opts + 4) = (s16) (*(s16 *)((s8 *)opts + 4) & 0xFFFFFFFB);
     *(s16 *)((s8 *)opts + 0) = (s16) (*(s16 *)((s8 *)opts + 0) & 0xFFFFFFFB);
     *(s16 *)((s8 *)opts + 0x1C) = (s16) (*(s16 *)((s8 *)opts + 0x1C) & 0xFFFFFFFB);
     return 0;
 }
 
-s32 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr ident) {
+s16 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr ident) {
     typedef struct Fields_arg0 { u8 pad_0[4]; s16 field_4; u8 pad_6[2]; s32 field_8; s32 field_C; } Fields_arg0;
     s32 sp18;
     s32 sp14;

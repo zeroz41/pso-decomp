@@ -10,7 +10,7 @@ extern "C" {
 s32 TLobby__sub_80428358(void);
 s16 TLobby__sub_80428360(s32 unused);
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 code, u16 session, u16 len);
-s32 write_pppoe_ac_name_tag(u8 **cursor, u8 *slot);
+s16 write_pppoe_ac_name_tag(u8 **cursor, u8 *slot);
 s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 len);
 s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);

@@ -772,7 +772,7 @@ s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind) {
     return -1;
 }
 
-u8 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
+s32 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     u8 *base = p;
     u8 t;
     u8 len;

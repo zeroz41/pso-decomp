@@ -84,7 +84,7 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, s32 first_identifier, s32 seco
     u8 *state;
     u8 *fsm_state;
     s16 clear_flag_bit4(s32, u8 *);
-    s16 NetIPv6CPSetInterfaceIdentifier(u8 *, s32);
+    s16 NetIPv6CPSetInterfaceIdentifier(u8 *, saddr);
 
     fsm_state = (u8 *)&ppp_proto_blocks.ipv6cp;
     state = *(u8 **)((s8 *)fsm_state + 0x30);

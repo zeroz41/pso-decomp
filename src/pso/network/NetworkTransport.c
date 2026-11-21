@@ -399,7 +399,7 @@ void subtract_network_queue_timeout(s32 elapsed_ms) {
 }
 
 /* Maps lobby_map_state_code to a mode id (-1 for state 4). */
-s32 map_state_to_mode_id(void) {
+s16 map_state_to_mode_id(void) {
     switch ((*(u32 *)&lobby_map_state_code)) {
     case 3:
         return 0;

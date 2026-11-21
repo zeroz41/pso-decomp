@@ -120,7 +120,6 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
 #pragma opt_strength_reduction off
 s32 ipv6_input(u8 *ip, int len, s16 id) {
     s16 icmp6_send_error(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
-    s16 ipv6_forward(u8 *ip, u8 *packet, s16 len, s16 iface); /* the definition returns s32 */
     s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
     s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
     s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
@@ -345,11 +344,8 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
+extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
-  s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
-  s32 TLobby__sub_80415D0C(NetPacket *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
-  s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
   u8 loc[8];
   u8 out2[0x10];
   u8 out1[0x10];
@@ -368,7 +364,7 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   u8 state;
   u8 *dst;
   s32 adv;
-  s32 r21;
+  s16 r21;
   l = lim;
   tot = l - 0x28;
   new_var = &loc[6];
@@ -472,7 +468,7 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   NetMemcpy(out2, self + 0x18, 0x10);
   if ((NetIPv6IsMulticast(dst) == 0) && (TLobby__sub_804136AC(hit->iface) != 0))
   {
-    r21 = TLobby__sub_80415D0C(e, dst, out1, hit->iface);
+    r21 = TLobby__sub_80415D0C(e, dst, (NetIPv6SendParameters *)out1, hit->iface);
   }
   else
   {

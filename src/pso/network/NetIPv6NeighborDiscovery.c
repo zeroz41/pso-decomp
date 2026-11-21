@@ -234,7 +234,7 @@ done:
     return NetIPv6SendMulticastNeighborProbe(e);
 }
 
-s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(saddr addr, s16 arg1) {
+s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *addr, s16 arg1) {
     NetIPv6SendParameters params;
     s32 temp_r31;
     NetPacket *free_entry;
@@ -559,7 +559,7 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *arg0, u8 *arg1, u8 *address, s
     return NetIPv6ApplyNeighborAdvertisement(&sp18, lladdr, lladlen, (saddr)arg1, (saddr)address, arg3);
 }
 
-s32 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **out, s16 *outlen) {
+s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **out, s16 *outlen) {
     u8 *p;
     s16 sz;
 
@@ -1193,7 +1193,6 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
     Ipv6NdNeighbor *e;
     void *p6;
     void netbuf_copy_by_ref(void *, void *, int);
-    u16 calc_ipv6_pseudo_header_checksum(void *, void *, u8, void *, s16); /* declared here with other parameter types; the definition is u16 (const IPv6Address *, const IPv6Address *, u8, const NetPacket *, s16) */
     s16 TLobby__sub_804136AC(s16 pkt); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413934(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
     s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e); /* declared s16 here; the definition returns s32 */
@@ -1226,7 +1225,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
     if (NetIPv6IsMulticast(arg3->destination.bytes) != 0 || TLobby__sub_804136AC(arg4) == 0) {
         na.flags |= 0xFFBF;
         na.checksum = 0;
-        na.checksum = calc_ipv6_pseudo_header_checksum(arg3, arg3->destination.bytes, arg3->next_header, pkt, 1);
+        na.checksum = calc_ipv6_pseudo_header_checksum(&arg3->source, &arg3->destination, arg3->next_header, pkt, 1);
         p6 = NULL;
     } else {
         e = NetIPv6FindOrSelectNeighborCacheEntry(arg3->destination.bytes, 0, 0);
@@ -1235,7 +1234,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
         }
         na.flags |= 0x40;
         na.checksum = 0;
-        na.checksum = calc_ipv6_pseudo_header_checksum(arg3, arg3->destination.bytes, arg3->next_header, pkt, 1);
+        na.checksum = calc_ipv6_pseudo_header_checksum(&arg3->source, &arg3->destination, arg3->next_header, pkt, 1);
         switch (e->match) {
         case 1:
             break;

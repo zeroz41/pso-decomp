@@ -73,7 +73,7 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 #undef arg0
 
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
-s32 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1);
+s16 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1);
 s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2);
 s16 get_pppoe_session_id(s16 arg0);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
@@ -359,7 +359,7 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1) {
+s16 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1) {
 typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
     s16 sp12;
     s16 sp10;

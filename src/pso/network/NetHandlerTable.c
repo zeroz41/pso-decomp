@@ -388,7 +388,7 @@ s16 is_slot_flag_0x40_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s32 is_slot_flag_0x20_set(s16 i) {
+s16 is_slot_flag_0x20_set(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
