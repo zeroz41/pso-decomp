@@ -503,7 +503,7 @@ extern "C" {
 extern u8 is_target_in_attack_range__9TObjCharaFv[];
 }
 extern "C" {
-void vfunc_18__9TObjCharaFPUc();
+void update_actor_ground_y_at__9TObjCharaFP3Vec();
 }
 extern "C" {
 extern u8 update_actor_ground_y__9TObjCharaFv[];

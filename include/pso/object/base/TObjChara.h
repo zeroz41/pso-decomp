@@ -55,7 +55,7 @@ public:
     virtual s32 consume_timer_field(s32);
     virtual s32 get_actor_level_index();
     virtual u8 *update_actor_ground_y();
-    virtual u8 *vfunc_18(u8 *);
+    virtual u8 *update_actor_ground_y_at(Vec *pos);
     virtual s32 is_actor_cadence_frame(s32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);

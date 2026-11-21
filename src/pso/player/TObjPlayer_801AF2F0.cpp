@@ -4147,21 +4147,21 @@ void TObjPlayer::close_sub_window() {
 void handle_6x99(void) {  }
 
 u8 *TObjPlayer::update_actor_ground_y() {
-    return vfunc_18((u8 *)get_position_ptr());
+    return update_actor_ground_y_at((Vec *)get_position_ptr());
 }
 
-u8 *TObjPlayer::vfunc_18(u8 *arg1) {
+u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     Vec stack;
     f32 temp_f1;
     s32 temp_r31;
     u8 *temp_r3;
     u8 *temp_r6;
     u8 *arg0 = (u8 *)this;
-    stack.x = *(f32 *)((s8 *)arg1 + 0);
+    stack.x = pos->x;
     temp_r6 = (u8 *)(((TObjPlayer *)arg0)->m_2b0);
-    temp_f1 = *(f32 *)((s8 *)arg1 + 4);
+    temp_f1 = pos->y;
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
-    stack.z = *(f32 *)((s8 *)arg1 + 8);
+    stack.z = pos->z;
     temp_r3 = (u8 *)csnVectorUnder(&stack, (CsnGroup **)&this->m_120, 0x5F);
     if (temp_r3 == NULL) {
         return NULL;
@@ -4843,7 +4843,7 @@ saddr TObjPlayer::resolve_move_collision() {
     p.x = ((Obj_801B5EA4 *)this)->pos.x + ((Obj_801B5EA4 *)this)->vel.x;
     p.y = ((Obj_801B5EA4 *)this)->pos.y + ((Obj_801B5EA4 *)this)->vel.y;
     p.z = ((Obj_801B5EA4 *)this)->pos.z + ((Obj_801B5EA4 *)this)->vel.z;
-    if (this->vfunc_18((u8 *)&p) == 0U) {
+    if (this->update_actor_ground_y_at(&p) == 0U) {
         clear_velocity((u8 *)this);
         return 1;
     }

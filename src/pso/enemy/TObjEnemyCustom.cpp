@@ -48,7 +48,7 @@ struct TObjEnemyCustomVictim : public TObjCollidable {
     virtual s32 consume_timer_field(s32 frames);
     virtual s32 get_actor_level_index();
     virtual u8 *update_actor_ground_y();
-    virtual u8 *vfunc_18(u8 *);
+    virtual u8 *update_actor_ground_y_at(Vec *pos);
     virtual s32 is_actor_cadence_frame(s32 frame);
     virtual s32 select_melee_contact_body(TObject *attacker, f32 range);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, f32);

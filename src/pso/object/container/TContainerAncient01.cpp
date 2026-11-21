@@ -273,7 +273,7 @@ extern "C" void update_shock_clock__9TObjCharaFv();
 
 extern "C" void vfunc_43__9TObjCharaFv();
 
-extern "C" void vfunc_18__9TObjCharaFPUc();
+extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
 
 extern "C" void interact__14TObjCollidableFl();
 

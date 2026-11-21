@@ -470,7 +470,7 @@ extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 extern "C" void apply_slow_status__9TObjCharaFv();
 extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
-extern "C" void vfunc_18__9TObjCharaFPUc();
+extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
 extern "C" void interact__14TObjCollidableFl();
 extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 

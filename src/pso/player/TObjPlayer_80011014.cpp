@@ -788,7 +788,7 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags);
 s32 check_path_obstructed(u8 *arg0, Vec *arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 void enemy_turn_half_toward_dest(Obj_80018570 *self);
-u8 * vfunc_18__9TObjCharaFPUc(u8 *arg0, u8 *arg1);
+u8 * update_actor_ground_y_at__9TObjCharaFP3Vec(u8 *arg0, u8 *arg1);
 u8 * update_actor_ground_y__9TObjCharaFv(u8 *arg0);
 void* get_center__9TObjCharaFv(void* p);
 void reset_motion_fields__9TObjCharaFv(Obj_80018F64 *self);
@@ -1540,16 +1540,16 @@ u8 *TObjChara::update_actor_ground_y() {
     return (u8 *)hit;
 }
 
-u8 *TObjChara::vfunc_18(u8 *arg1) {
+u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
     Vec stack;
     f32 temp_f1;
     CsnHit *hit;
     u8 *temp_r6;
-    stack.x = *(f32 *)((s8 *)arg1 + 0);
+    stack.x = pos->x;
     temp_r6 = this->m_2b0;
-    temp_f1 = *(f32 *)((s8 *)arg1 + 4);
+    temp_f1 = pos->y;
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
-    stack.z = *(f32 *)((s8 *)arg1 + 8);
+    stack.z = pos->z;
     hit = csnVectorUnder(&stack, (CsnGroup **)&m_120, 0x15);
     if (hit == NULL) {
         return NULL;

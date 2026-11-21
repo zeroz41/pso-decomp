@@ -1252,7 +1252,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         shinowa->body_center.y += 20.0f;
         v *= shinowa->m_410;
         calc_wall_clamped_destination(shinowa, &dest, -shinowa->destination_direction.x, -shinowa->destination_direction.z, v);
-        if (shinowa->vfunc_18((u8 *)&dest) == 0) {
+        if (shinowa->update_actor_ground_y_at(&dest) == 0) {
             shinowa->m_410 *= 0.8f;
             VecCopy(&shinowa->position, &save_pos);
             VecCopy(&shinowa->body_center, &save_center);

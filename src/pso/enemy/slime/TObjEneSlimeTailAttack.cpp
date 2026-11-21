@@ -192,7 +192,7 @@ void run_idle_action__9TObjCharaFv();
 
 void vfunc_43__9TObjCharaFv();
 
-void vfunc_18__9TObjCharaFPUc();
+void update_actor_ground_y_at__9TObjCharaFP3Vec();
 
 void interact__14TObjCollidableFl();
 

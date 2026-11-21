@@ -555,7 +555,7 @@ extern "C" void deliver_attack_hits__9TObjCharaFf();
 extern "C" void vfunc_66__9TObjCharaFv();
 extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 extern "C" void vfunc_43__9TObjCharaFv();
-extern "C" void vfunc_18__9TObjCharaFPUc();
+extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
 extern "C" void interact__14TObjCollidableFl();
 extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 extern "C" void render__12TObjEneSharkFv();
@@ -701,7 +701,7 @@ void *lbl_8049168C[103] = {
     (void *)&render__12TObjEneSharkFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
+    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
     (void *)&refresh_target__13TUnk_80493450Fv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__13TUnk_80493450Fv,

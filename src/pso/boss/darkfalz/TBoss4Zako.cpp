@@ -1143,7 +1143,7 @@ void update_action_hold_status__9TObjCharaFv();
 void update_poison_status__9TObjCharaFv();
 void vfunc_43__9TObjCharaFv();
 void is_target_in_attack_range__9TObjCharaFv();
-void vfunc_18__9TObjCharaFPUc();
+void update_actor_ground_y_at__9TObjCharaFP3Vec();
 void update_actor_ground_y__9TObjCharaFv();
 void get_center__9TObjCharaFv();
 void reset_motion_fields__9TObjCharaFv();
@@ -1180,7 +1180,7 @@ saddr __vt__11TBoss4Bishi[83] = {
     (saddr)consume_timer_field__9TObjCharaFl,
     (saddr)get_actor_level_index__9TObjCharaFv,
     (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)vfunc_18__9TObjCharaFPUc,
+    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (saddr)is_actor_cadence_frame__9TObjCharaFl,
     (saddr)select_melee_contact_body__9TObjCharaFPvf,
     (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
@@ -1265,7 +1265,7 @@ saddr __vt__9TBoss4Uro[83] = {
     (saddr)consume_timer_field__9TObjCharaFl,
     (saddr)get_actor_level_index__9TObjCharaFv,
     (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)vfunc_18__9TObjCharaFPUc,
+    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (saddr)is_actor_cadence_frame__9TObjCharaFl,
     (saddr)select_melee_contact_body__9TObjCharaFPvf,
     (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
@@ -1350,7 +1350,7 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)consume_timer_field__9TObjCharaFl,
     (saddr)get_actor_level_index__9TObjCharaFv,
     (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)vfunc_18__9TObjCharaFPUc,
+    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (saddr)is_actor_cadence_frame__9TObjCharaFl,
     (saddr)select_melee_contact_body__9TObjCharaFPvf,
     (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,

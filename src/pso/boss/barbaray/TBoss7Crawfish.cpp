@@ -283,7 +283,7 @@ s32 TBoss7Crawfish::try_move_by_delta(const Vec *delta) {
     next.x = position.x + delta->x;
     next.y = position.y + delta->y;
     next.z = position.z + delta->z;
-    if (vfunc_18((u8 *)&next) != 0) {
+    if (update_actor_ground_y_at(&next) != 0) {
         if (is_within_x_limit() != 0) {
             moved = 1;
             position.x = next.x;

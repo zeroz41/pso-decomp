@@ -62,7 +62,7 @@ struct TObjPlayer : public TObjChara {
     void clear_state_flags(s32);
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual u8 *update_actor_ground_y();
-    virtual u8 *vfunc_18(u8 *);
+    virtual u8 *update_actor_ground_y_at(Vec *pos);
     virtual void recalc_stats();
     virtual s32 update_slow_status();
     virtual s32 update_attack_stat_status();
