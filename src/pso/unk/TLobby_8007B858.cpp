@@ -22,7 +22,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_802D79EC.h"
-#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_800F7744.h"
 #include "pso/unk/text_800C7FEC.h"
@@ -82,7 +82,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {(FloorResourceCallback)TLobby__sub_802D7A0C, TLobby::forward_npc_enemy},
-    {TObjEneRecon::alloc_if_valid_state, TObjEneRecon::destroy_instance},
+    {create_reflection_target, destroy_reflection_target},
     {TObjPlayer::init_render_target_singleton, TObjPlayer::free_singleton},
     {TScene::load_current_floor, TScene::free_scene_resources},
     {TSceneSora::load_sky_resources, TSceneSora__sub_80207430},

@@ -25,7 +25,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/reflection.h"
-#include "pso/enemy/recon/TObjEneRecon_8029E89C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
@@ -400,7 +399,7 @@ void TObjEneMe3SinowZoa::run_task() {
         this->render_minimap_dot();
     }
     if (this->m_3d0 & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
 }
 

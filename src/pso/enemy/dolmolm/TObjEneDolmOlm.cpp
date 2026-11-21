@@ -587,7 +587,6 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     self->f34 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].c;
     self->f24 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].d;
 }
-void restore_render_scissor(s32 arg0);
 int initialize_enemy_photon_effect(void *p);
 TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, saddr arg2) : TUnk_80493450((TObject *)arg1) {
     u32 col;
@@ -796,7 +795,7 @@ void TObjEneDolmOlm::run_task() {
   submit_cursor_candidate((void *) this, -1);
   if (((RecoveredFields_8030247C_arg0 *) ((u8 *)this))->field_3E4 & 0x4000)
   {
-    TObjEneRecon::set_active();
+    request_reflection_render();
   }
   ((RecoveredFields_8030247C_arg0 *) ((u8 *)this))->field_2B4 += 1.0f;
 }

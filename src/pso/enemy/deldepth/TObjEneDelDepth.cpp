@@ -201,7 +201,6 @@ TObjEneDelDepth::ActionPair deldepth_actions[] = {
 };
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-void restore_render_scissor(s32 arg0);
 
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -1194,7 +1193,7 @@ void TObjEneDelDepth::update_ground_check() {
         }
     }
     if (groundFlags & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
 }
 

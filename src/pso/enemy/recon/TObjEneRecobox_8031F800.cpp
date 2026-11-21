@@ -25,6 +25,7 @@
 #include "pso/enemy/recon/TObjEneRecobox.h"
 
 #include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -1326,7 +1327,7 @@ void TObjEneRecobox::update_floor_probe() {
         }
     }
     if (*(s32 *)((s8 *)arg0 + 0x3E0) & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
 }
 

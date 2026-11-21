@@ -1,7 +1,6 @@
 #include "pso/render/reflection.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/recon/TObjEneRecon_8029E89C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"

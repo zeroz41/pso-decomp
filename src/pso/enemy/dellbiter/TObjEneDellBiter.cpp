@@ -161,7 +161,6 @@ TObjMotionAction dell_biter_param_table[10] = {
 
 const char *TObjEneDellBiter__class_name = "TObjEneDellBiter";
 }
-void restore_render_scissor(s32 arg0);
 #pragma fp_contract on
 
 void TObjEneDellBiter::load_resources() {
@@ -322,7 +321,7 @@ void TObjEneDellBiter::run_task() {
     }
     this->update_particle_emitters();
     if (flags_3c4 & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
     this->set_effect_pos_above_self();
     submit_default_cursor_candidate();

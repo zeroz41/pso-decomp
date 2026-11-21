@@ -752,7 +752,6 @@ void update_movement_status__9TObjCharaFv();
 void update_object_view_visibility__8TObjBaseFff();
 void update_poison_status__9TObjCharaFv();
 }
-void restore_render_scissor(s32 arg0);
 void draw_chunk_model(void *arg0);
 
 extern saddr TObjEneMorfos__instance;
@@ -2164,7 +2163,7 @@ void TObjEneMorfos::update_ground_probe() {
         }
     }
     if (*(s32 *)((s8 *)arg0 + 0x3C4) & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
 }
 

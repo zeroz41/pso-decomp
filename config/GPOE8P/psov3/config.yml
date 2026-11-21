@@ -1364,7 +1364,7 @@ force_active:
   - TObjEneRecobox__vtable
   - TObjEneReconBomb__name
   - TObjEneRecon__ai_parameters
-  - TObjEneRecon__sub_8029EA4C
+  - set_reflection_scissor__FPvl
   - TObjEneSaver__class_name
   - TObjEneSaver__ct
   - TObjEneSaver__vtable

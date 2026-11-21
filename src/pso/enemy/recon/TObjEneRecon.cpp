@@ -19,7 +19,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/reflection.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/recon/TObjEneRecon_8029E89C.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/enemy/recon/TObjEneRecon_8031BE8C.h"
@@ -269,7 +268,7 @@ void TObjEneRecon::update_ground_probe() {
         }
     }
     if (*(s32 *)((s8 *)arg0 + 0x418) & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
 }
 

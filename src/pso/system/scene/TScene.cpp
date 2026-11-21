@@ -8,7 +8,7 @@
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/system/scene/TSceneMaterial.h"
 #include "pso/system/task/TMainTask.h"
@@ -1587,14 +1587,14 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             if (e->flags & 0x80) {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL) {
-                    TObjEneRecon::notify_scene(m->fF);
+                    play_reflection_particles(m->fF);
                 } else {
-                    TObjEneRecon::notify_scene(-1);
+                    play_reflection_particles(-1);
                 }
                 TObjFish::set_global_param((saddr)((void *)*(saddr *)((s8 *)TScene__data_805D5FCC + 0x14)));
                 set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
                 draw_ginja_object(node);
-                TObjEneRecon::update_particle_if_active();
+                reset_reflection_tev_stages();
             } else if (e->flags & 0x400) {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {

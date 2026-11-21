@@ -43,9 +43,6 @@ struct TObjEneRecon : public TObjEneDD_ST {
     u32 m_494;
     f32 get_field_4d4();
     f32 get_field_4d0();
-    static void destroy_instance();
-    static void alloc_if_valid_state();
-    static void set_active();
     static void *create_bomb(void *arg0, void *arg1, void *arg2);
     void render_shadows();
     static void advance_intro_stage(NJS_OBJECT *);
@@ -66,9 +63,6 @@ struct TObjEneRecon : public TObjEneDD_ST {
     u8 unk_4D4[0x4];
     s32 m_4d8;
     u8 unk_4DC[0x8];
-    static s32 render_player_marker(u16 arg0, s32 arg1);
-    static void update_particle_if_active();
-    static void notify_scene(s32 arg0);
     s32 calc_scaled_value();
     void handle_message(s32 arg1);
     void retarget();

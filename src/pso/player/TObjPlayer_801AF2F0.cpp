@@ -17,7 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
-#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowSubItem.h"
@@ -2218,7 +2218,6 @@ void reinit_photon_blast_gauge(u16 *arg0);
 s32 get_ply_level_table_row(s8 arg0, s32 arg1);
 s32 player_auxiliary_surfaces_enabled();
 void text_builder_reset(void);
-void restore_render_scissor(s32 arg0);
 s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
 s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet);
 s32 validate_6x31_use_medical_center(G_ClientIDHeader *packet);
@@ -2751,7 +2750,7 @@ void render__10TObjPlayerFv(u8 *arg0) {
         temp_f31 = (f32) temp_r3;
         if (TObjPlayer__data_805DC278 != temp_f31) {
             if (((s32)main_task.get_task_flags() & 0x20) && (is_central_control_area() != 0)) {
-                if (TObjEneRecon::render_player_marker(((TObjPlayer *)arg0)->entity_id, 1) != 0) {
+                if (push_player_reflection_matrix(((TObjPlayer *)arg0)->entity_id, 1) != 0) {
                     ((TObjPlayer *)arg0)->render_body_pass(temp_f31);
                     restore_render_scissor(1);
                 }
