@@ -20,6 +20,8 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/map/area/AreaScene.h"
 
 
 extern "C" {
@@ -27,7 +29,6 @@ s32 TKeyBoardControl__sub_8000F90C(int);
 s32 TCameraCtrl__ct(u32, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
-s32 run_load_callback_table(void *, int);
 s32 init_menu_scene_lights(void *, int);
 s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
@@ -47,23 +48,18 @@ void func_803DCDFC__Fv(void);
 
 const char *TLogo__class_name = "TLogo";
 
-extern "C" {
-void reset_view_state__11TCameraCtrlFv(); void reset__11TCameraCtrlFv(); void TCameraCtrl::init_default_view(); void TCameraCtrl::reset_default_view();
-void TAdSinglePlyChrSelectGC::free_global();
-void register_texture_f256_backtext(); void TAdSinglePlyChrSelectGC::free_singleton_805D65C0();
-void TWindowCtrlMain__sub_8024D838(); void TWindowCtrlMain::free_all_windows();
-void *logo_load_callback_table[18] = {
-    (void *)reset_view_state__11TCameraCtrlFv, (void *)reset__11TCameraCtrlFv,
-    (void *)TCameraCtrl::init_default_view, (void *)TCameraCtrl::reset_default_view,
-    (void *)TLobby::update_keyboard_menu, (void *)TLobby::free_keyboard_soft_resources,
-    (void *)register_texture_f256_ad_pic_2, (void *)TAdSinglePlyChrSelectGC::free_global,
-    (void *)register_texture_f256_backtext, (void *)TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
-    (void *)register_texture_logo_e, (void *)TLogo::free_held_object,
-    (void *)TLogo__sub_8001C364, (void *)TLogo__sub_8001C360,
-    (void *)TWindowCtrlMain__sub_8024D838, (void *)TWindowCtrlMain::free_all_windows,
-    (void *)load_adx_logo_texture, (void *)free_adx_logo_texture,
+// Load and release hooks run by run_load_callback_table / call_funcs_reverse.
+void (*logo_load_callback_table[18])(void) = {
+    TCameraCtrl::reset_view_state, TCameraCtrl::reset,
+    TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
+    TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
+    register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
+    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
+    register_texture_logo_e, TLogo::free_held_object,
+    TLogo__sub_8001C364, TLogo__sub_8001C360,
+    TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows,
+    load_adx_logo_texture, free_adx_logo_texture,
 };
-}
 }
 int is_logo_exit_requested(int);
 int is_sega_logo_done(int);

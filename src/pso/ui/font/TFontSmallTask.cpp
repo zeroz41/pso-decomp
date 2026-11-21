@@ -249,16 +249,16 @@ s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 ar
     return var_r31;
 }
 
-s32 TOCtrlDubchik::create_font(s32 arg0, s32 arg1, s32 arg2, saddr arg3) {
-    s32 var_r31;
+saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, saddr text) {
+    saddr task;
 
     text_builder_reset();
-    text_builder_append((u8 *)arg3);
-    var_r31 = (saddr)TObject::operator new(0x58);
-    if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (saddr)get_shared_text_buffer(), 0xFFFF);
+    text_builder_append((u8 *)text);
+    task = (saddr)TObject::operator new(0x58);
+    if (task != 0) {
+        task = ((saddr (*)(saddr, saddr, s32, s32, s32, saddr, s32))__ct__14TFontSmallTaskFv)(task, pos, color, life, 0, (saddr)get_shared_text_buffer(), 0xFFFF);
     }
-    return var_r31;
+    return task;
 }
 
 TFontSmallTask::~TFontSmallTask() {}

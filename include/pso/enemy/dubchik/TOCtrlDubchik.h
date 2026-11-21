@@ -36,7 +36,7 @@ struct TOCtrlDubchik : public TObjEnemy {
     static void *create(void *arg0);
     static void destroy_instance();
     static void load_shared_resource();
-    static s32 create_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static saddr create_font(saddr pos, s32 color, s32 life, saddr text);
 };
 
 LAYOUT_ASSERT(TOCtrlDubchik_size, sizeof(TOCtrlDubchik) == 0x3A0);
