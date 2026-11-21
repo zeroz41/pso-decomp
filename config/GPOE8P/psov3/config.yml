@@ -286,7 +286,7 @@ force_active:
   - enable_prompt__16TCheckMemoryCardFv
   - TBGLightningCtrl__ct
   - TBGLightningCtrl__name
-  - TBGLightningCtrl__sub_802A9A08
+  - bind_lightning_texture
   - TBGLightning__name
   - __ct__19TBoss1DragonColli_CFP7TObjectlP3Vecf
   - TBoss1DragonColli_sphere_chain_desc
