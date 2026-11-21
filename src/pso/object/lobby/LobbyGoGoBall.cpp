@@ -71,7 +71,7 @@ void __dl__7TObjectFPv(void*);
 extern void* language_lobby_texture_descriptor[];
 extern Pair_80198F14 gogo_ball_team_scores[];
 void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr);
-void TObjPlayer__sub_801994DC(s32,void*,void*,s32,void*,f32);
+void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);
 int TWindowTimer__sub_8019A770(void*);
 f32 xyz_distance(Vec*,void*);
 f32 vector_length(Vec*);
@@ -219,7 +219,7 @@ struct Ang_801994DC { s32 x, y, z; };
 extern "C" {
 s32 scale_current_matrix(void *);
 extern u32 blob_shadow_texture_list;
-void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
+void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 f32 fabs_float(f32);
 struct E54_801990B4 { u8 b[0x54]; };
 }
@@ -739,7 +739,7 @@ void draw_shadow_on_ground(u8 *arg0) {
         if (k >= 1.0f) {
             k = 1.0f;
         }
-        TObjPlayer__sub_801994DC((s32)arg0, (void *)&seg.a, (void *)&seg.b, 0, (void *)&scale, (f32)k);
+        TObjPlayer__sub_801994DC((saddr)arg0, (void *)&seg.a, (void *)&seg.b, 0, (void *)&scale, (f32)k);
         copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
     }
 }
@@ -752,7 +752,7 @@ void draw_shadow_on_ground(u8 *arg0) {
 #define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
 
-void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0) {
+void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0) {
     Ang_801994DC ang;
     Col_801994DC col;
     Fx_801994DC fx;
