@@ -43,7 +43,7 @@ extern s32 lbl_805D7540;
 s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
-void TLobby__sub_803C0758(u8 *arg0);
+void audio_stream_reinit_record(u8 *arg0);
 s32 TLobby__sub_803CBF50(void *);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
 
@@ -57,7 +57,7 @@ s32 dispatch_field4_event__6TLobbyFv(int);
 s32 notify_client__6TLobbyFv(int);
 
 extern "C" {
-s32 TLobby__sub_803C0010(u8 *arg0);
+s32 audio_stream_get_output_samples(u8 *arg0);
 }
 
 }
@@ -92,9 +92,9 @@ struct Strm_803CAB38 {
 
 s32 TLobby__sub_803BFE58(int);
 s32 TLobby__sub_803BFEE8(int);
-s32 TLobby__sub_803BFFC0(int);
-void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
-s32 TLobby__sub_803C07E8(int);
+s32 audio_stream_get_format(int);
+void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
+s32 audio_stream_get_state(int);
 s32 run_step_4430__6TLobbyFv(int, int);
 s32 TLobby__sub_803CBF0C(int, int);
 s32 TLobby__sub_803CBF30(int, int);
@@ -113,7 +113,7 @@ s32 lbl_805D7580;
 inline void prep_803CA8B4(Ent_803C9608 *self) {
     s32 n;
     s32 i;
-    if (TLobby__sub_803C07E8(self->f4) == 3) {
+    if (audio_stream_get_state(self->f4) == 3) {
         n = ((TLobby *)self->f4)->send_with_offset4();
         lbl_805D7580 = n;
         for (i = 0; i < n; i++) {
@@ -142,7 +142,7 @@ inline void dec_803CA8B4(Ent_803C9608 *self) {
     avail = TLobby::query_available_size((TLobby *)rna);
     size = TLobby__sub_803CBFF0(rna);
     if (avail >= self->f48 * 2 || size <= ((TLobby *)sjd)->notify_field_4_alt() ||
-        TLobby__sub_803C07E8(self->f4) == 3) {
+        audio_stream_get_state(self->f4) == 3) {
         if (self->f70 == 0) {
             if (self->f72 == 0) {
                 TLobby__sub_803CC030(rna, 1);
@@ -153,7 +153,7 @@ inline void dec_803CA8B4(Ent_803C9608 *self) {
         }
         self->f71 = 1;
     }
-    if (TLobby__sub_803C07E8(self->f4) == 3) {
+    if (audio_stream_get_state(self->f4) == 3) {
         nch = TLobby__sub_803C9740((u8 *)self);
         nbyte = self->f48 * nch * 2;
         for (i = 0; i < nch; i++) {
@@ -208,7 +208,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
     s32 n1;
     char buf[32];
 
-    if (TLobby__sub_803C07E8(t) == 2) {
+    if (audio_stream_get_state(t) == 2) {
         s32 v = ((TLobby *)t)->send_with_offset4();
         if (v > self->f3) {
             TLobby::format_number_pair(v, self->f3, buf, 0x10);
@@ -246,7 +246,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             ((TLobby *)t)->set_field_3c(e);
             ((TLobby *)t)->set_field_44(0);
             ((TLobby *)t)->set_field_40(0);
-            TLobby__sub_803BFFFC((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
+            audio_stream_set_notify_callback((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
             if (self->f8 != NULL) {
                 set_scroll_position__6TLobbyFl(self->f8, 0x7FFFFFFF);
@@ -254,7 +254,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
             ((TLobby *)t)->set_field_44(0);
             ((TLobby *)t)->set_field_40(0);
-            TLobby__sub_803BFFFC((u8 *)t, (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
+            audio_stream_set_notify_callback((u8 *)t, (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
         }
         k = ((TLobby *)t)->notify_field_4();
         n1 = ((TLobby *)t)->send_with_offset4();
@@ -286,7 +286,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
         if (self->f74 != NULL) {
             ((TLobby *)(self->f74))->set_packet_flags(k);
         }
-        if (TLobby__sub_803BFFC0(t) == 2) {
+        if (audio_stream_get_format(t) == 2) {
             s32 o = ((TLobby *)t)->get_offset_58();
             run_step_4430__6TLobbyFv(self->fc, o);
         }
@@ -393,11 +393,11 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
       ring->vt->m6(ring, 0, &b);
       ring->vt->m5(ring, 1, &d);
     }
-    o->fA4 += TLobby__sub_803C0010((u8 *)lobby);
+    o->fA4 += audio_stream_get_output_samples((u8 *)lobby);
     ((TLobby *)lobby)->reset_flag();
-    TLobby__sub_803C0758((u8 *)lobby);
+    audio_stream_reinit_record((u8 *)lobby);
     process_audio_stream_input(lobby);
-    if (TLobby__sub_803C07E8(lobby) != 2)
+    if (audio_stream_get_state(lobby) != 2)
     {
       o->active = 0;
       return;

@@ -7,12 +7,12 @@ extern "C" {
 void sub_803C0018(void);
 void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
-void TLobby__sub_803BFFC0(u8 *arg0);
-void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
-s32 TLobby__sub_803C0010(u8 *arg0);
-void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void TLobby__sub_803C0758(u8 *arg0);
-void TLobby__sub_803C0B3C(u8 *lobby);
+void audio_stream_get_format(u8 *arg0);
+void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
+s32 audio_stream_get_output_samples(u8 *arg0);
+void audio_stream_query_read_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
+void audio_stream_reinit_record(u8 *arg0);
+void decode_adxb_pcm_stream(u8 *lobby);
 }
 
 // --- C functions defined in TLobby_803BFE50.cpp ---
@@ -20,12 +20,12 @@ extern "C" {
 void sub_803C0018(void);
 void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
-void TLobby__sub_803BFFC0(u8 *arg0);
-void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
-s32 TLobby__sub_803C0010(u8 *arg0);
-void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void TLobby__sub_803C0758(u8 *arg0);
-void TLobby__sub_803C0B3C(u8 *lobby);
+void audio_stream_get_format(u8 *arg0);
+void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
+s32 audio_stream_get_output_samples(u8 *arg0);
+void audio_stream_query_read_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
+void audio_stream_reinit_record(u8 *arg0);
+void decode_adxb_pcm_stream(u8 *lobby);
 }
 // --- end of C functions
 
