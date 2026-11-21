@@ -51,11 +51,11 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void check_collisions();
     virtual void sub_8031A6A0();
     virtual s32 is_target_in_range();
-    virtual void vfunc_107();
+    virtual void select_next_attack_state();
     virtual void vfunc_108();
     virtual s32 try_run_effect_m6();
     virtual s32 try_run_effect_m7();
-    virtual void vfunc_111();
+    virtual void on_target_lost();
     virtual void vfunc_112();
     virtual void action(s32);
     virtual void action();

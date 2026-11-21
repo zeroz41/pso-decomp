@@ -39,11 +39,11 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     virtual void check_collisions();
     virtual void attack_and_unequip();
     virtual s32 check_target_in_range();
-    virtual void vfunc_107();
+    virtual void select_next_attack_state();
     virtual void vfunc_108();
     virtual s32 check_active_flag();
     virtual s32 check_flag();
-    virtual void vfunc_111();
+    virtual void on_target_lost();
     virtual void vfunc_112();
     virtual void vfunc_113(s32);
     virtual void setup_move();

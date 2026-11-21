@@ -7,8 +7,8 @@
 struct TObjEneMe3StelthReal : public TObjEneMe3Stelth {
     TObjEneMe3StelthReal(TObject *parent, void *set_data);
     virtual ~TObjEneMe3StelthReal();
-    virtual void vfunc_107();
-    virtual void vfunc_111();
+    virtual void select_next_attack_state();
+    virtual void on_target_lost();
     void init_common();
     void run_death_reaction();
     void run_hit_reaction();

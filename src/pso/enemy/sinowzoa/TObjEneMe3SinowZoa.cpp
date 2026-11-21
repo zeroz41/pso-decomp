@@ -591,7 +591,7 @@ s32 TObjEneMe3SinowZoa::is_target_in_range() {
     return var_r31;
 }
 
-void TObjEneMe3SinowZoa::vfunc_107() {  }
+void TObjEneMe3SinowZoa::select_next_attack_state() {  }
 
 s32 TObjEneMe3SinowZoa::try_run_effect_m6() {
     if (this->m_3cc & 4) {
@@ -609,7 +609,7 @@ s32 TObjEneMe3SinowZoa::try_run_effect_m7() {
     return 0;
 }
 
-void TObjEneMe3SinowZoa::vfunc_111() {  }
+void TObjEneMe3SinowZoa::on_target_lost() {  }
 
 void TObjEneMe3SinowZoa::vfunc_112() {  }
 
@@ -1058,7 +1058,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
         return;
     case 3:
         if (this->m_390 == NULL) {
-            this->vfunc_111();
+            this->on_target_lost();
             this->transition_enemy_state(0xD);
             return;
         }
@@ -1257,7 +1257,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 3:
         if (self->m_434 == 4) {
             self->m_3cc |= 0x80000;
-            self->vfunc_107();
+            self->select_next_attack_state();
         }
         return;
     case 0:
@@ -2197,7 +2197,7 @@ void TObjEneMe3SinowZoaReal::run_death_reaction() { TObjEneMe3SinowZoa::run_deat
 
 void TObjEneMe3SinowZoaReal::run_hit_reaction() { TObjEneMe3SinowZoa::run_hit_reaction(); }
 
-void TObjEneMe3SinowZoaReal::vfunc_107() {
+void TObjEneMe3SinowZoaReal::select_next_attack_state() {
     this->m_3fc = this->m_3fc + 1;
     if ((this->m_3fc >= 2) || (this->random_ratio() < lbl_805DF304)) {
         transition_enemy_state(9);
@@ -2206,7 +2206,7 @@ void TObjEneMe3SinowZoaReal::vfunc_107() {
     transition_enemy_state(6);
 }
 
-void TObjEneMe3SinowZoaReal::vfunc_111() {  }
+void TObjEneMe3SinowZoaReal::on_target_lost() {  }
 
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self) {
     if ((self->is_passing_frame(TObjEneMe3SinowZoa__data_805DF2FC) != 0) || (self->is_passing_frame(lbl_805DF300) != 0)) {

@@ -539,7 +539,7 @@ s32 TObjEneMe3Stelth::check_target_in_range() {
     }
     return (u8)var_r31;
 }
-void TObjEneMe3Stelth::vfunc_107() {  }
+void TObjEneMe3Stelth::select_next_attack_state() {  }
 s32 TObjEneMe3Stelth::check_active_flag() {
     if (m_3cc & 4) {
         m_404.set_flags_and_apply_damage_color();
@@ -554,7 +554,7 @@ s32 TObjEneMe3Stelth::check_flag() {
     }
     return 0;
 }
-void TObjEneMe3Stelth::vfunc_111() {  }
+void TObjEneMe3Stelth::on_target_lost() {  }
 void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); sub_800F5874(38); }
 void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
 void TObjEneMe3Stelth::vfunc_112() {  }
@@ -966,7 +966,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
         return;
     case 3:
         if (target == NULL) {
-            vfunc_111();
+            on_target_lost();
             transition_enemy_state(0xD);
             return;
         }
@@ -1148,7 +1148,7 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
         return;
     case 3:
         if (stelth->get_flag_b4() != 0) {
-            stelth->vfunc_107();
+            stelth->select_next_attack_state();
         }
     case 5:
         return;
@@ -2100,7 +2100,7 @@ TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, void *set_data) : TO
 TObjEneMe3StelthReal::~TObjEneMe3StelthReal() {}
 void TObjEneMe3StelthReal::run_death_reaction() { TObjEneMe3Stelth::run_death_reaction(); }
 void TObjEneMe3StelthReal::run_hit_reaction() { TObjEneMe3Stelth::run_hit_reaction(); }
-void TObjEneMe3StelthReal::vfunc_107() {
+void TObjEneMe3StelthReal::select_next_attack_state() {
     m_3ec = m_3ec + 1;
     if (m_3ec >= 2 || random_ratio() < 0.5f) {
         transition_enemy_state(9);
@@ -2108,7 +2108,7 @@ void TObjEneMe3StelthReal::vfunc_107() {
     }
     transition_enemy_state(6);
 }
-void TObjEneMe3StelthReal::vfunc_111() {  }
+void TObjEneMe3StelthReal::on_target_lost() {  }
 
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
     if (stelth->is_passing_frame(12.0f) != 0 || stelth->is_passing_frame(28.0f) != 0) {

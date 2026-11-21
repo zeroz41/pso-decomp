@@ -38,11 +38,11 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual void check_collisions();
     virtual void vfunc_105();
     virtual s32 can_hit_same_target();
-    virtual void vfunc_107();
+    virtual void select_next_attack_state();
     virtual void update_player_state_default();
     virtual s32 update_effect();
     virtual void dispatch_if_active();
-    virtual void vfunc_111();
+    virtual void on_target_lost();
     virtual void apply_effect_pair();
     virtual void action(s32);
     virtual void vfunc_114(s32);

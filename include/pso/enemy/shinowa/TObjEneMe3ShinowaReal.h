@@ -11,8 +11,8 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     virtual ~TObjEneMe3ShinowaReal();
     virtual void vfunc_114(s32);
     virtual void vfunc_116(s32);
-    virtual void vfunc_107();
-    virtual void vfunc_111();
+    virtual void select_next_attack_state();
+    virtual void on_target_lost();
     void sub_800E7250();
     void run_death_reaction();
     void run_hit_reaction();

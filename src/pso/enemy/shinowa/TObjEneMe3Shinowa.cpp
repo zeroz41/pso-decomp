@@ -512,7 +512,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     return ret;
 }
 
-void TObjEneMe3Shinowa::vfunc_107() {  }
+void TObjEneMe3Shinowa::select_next_attack_state() {  }
 
 void TObjEneMe3Shinowa__sub_800E7268(TObjEneMe3Shinowa *shinowa) {
     shinowa->m_3c4 |= 0x10;
@@ -543,7 +543,7 @@ void TObjEneMe3Shinowa::dispatch_if_active() {
     }
 }
 
-void TObjEneMe3Shinowa::vfunc_111() {  }
+void TObjEneMe3Shinowa::on_target_lost() {  }
 
 void TObjEneMe3Shinowa::apply_effect_pair() {
     s32 sp8[8];
@@ -887,7 +887,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
         return;
     case 3:
         if ((uaddr) m_390 == 0U) {
-            vfunc_111();
+            on_target_lost();
             transition_enemy_state(0xB);
         } else if (((s32 (*)(f32))check_in_range__23TObjEneMe3ShinowaMirageFPv)(m_414) != 0) {
             transition_enemy_state(6);
@@ -1063,7 +1063,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     case 3:
         if (shinowa->get_flag_b4() != 0) {
-            shinowa->vfunc_107();
+            shinowa->select_next_attack_state();
         }
         break;
     case 5:
@@ -1726,7 +1726,7 @@ TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) 
     return mirage;
 }
 
-void TObjEneMe3ShinowaReal::vfunc_107() {
+void TObjEneMe3ShinowaReal::select_next_attack_state() {
     m_3d8++;
     if (m_3d8 >= 2) {
         try_spawn_mirages();
@@ -1736,7 +1736,7 @@ void TObjEneMe3ShinowaReal::vfunc_107() {
     transition_enemy_state(4);
 }
 
-void TObjEneMe3ShinowaReal::vfunc_111() { try_spawn_mirages(); }
+void TObjEneMe3ShinowaReal::on_target_lost() { try_spawn_mirages(); }
 
 void TObjEneMe3ShinowaReal::spawn_mirages() {
     int i;
@@ -1956,7 +1956,7 @@ void TObjEneMe3ShinowaMirage::vfunc_105() {  }
 
 s32 TObjEneMe3ShinowaMirage::can_hit_same_target() { return 0; }
 
-void TObjEneMe3ShinowaMirage::vfunc_107() { transition_enemy_state(4); }
+void TObjEneMe3ShinowaMirage::select_next_attack_state() { transition_enemy_state(4); }
 
 void TObjEneMe3ShinowaMirage::update_player_state_default() {  }
 
