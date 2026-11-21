@@ -38,6 +38,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -60,7 +61,6 @@ struct Obj_800E9BCC {
 
 extern "C" {
 s32 project_actor_to_ground(TObjChara *actor, Vec *position, Vec *normal);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
 
 f32 atan2_float(f32 y, f32 x);
@@ -273,7 +273,6 @@ void is_target_in_attack_range__9TObjCharaFv();
 
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 s32 minimap_render_dot(void *, s32, s32, s32);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void receive_physical_attack__9TObjCharaFPvf();
 

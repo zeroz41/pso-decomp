@@ -35,6 +35,7 @@ void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 arg2, saddr ar
     }
 }
 
+}
 void play_area_variant_sound(Vec *position) {
     s32 area;
     area = get_current_floor_area();
@@ -106,6 +107,7 @@ void play_area_se_with_particle(Vec *position) {
     v.y += 30.0f;
     spawn_particle_effect(&v, 0xE6);
 }
+extern "C" {
 
 void TBoss3Volopt__sub_800D8D88(saddr arg0) {
     switch (get_current_floor_area()) {
@@ -133,6 +135,7 @@ void TBoss3Volopt__sub_800D8D88(saddr arg0) {
     spawn_particles_at__12TBoss3VoloptFi(arg0);
 }
 
+}
 void play_area_sound_effect(Vec *position) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
@@ -158,6 +161,7 @@ void play_area_sound_effect(Vec *position) {
     }
     spawn_particles_at__12TBoss3VoloptFi((saddr)position);
 }
+extern "C" {
 
 void spawn_particles_at__12TBoss3VoloptFi(saddr arg0) {
     Vec pos;
@@ -215,9 +219,11 @@ void TObjPlayer::spawn_effect_at_ground(s32 arg1) {
 // .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
+}
 void spawn_corner_dead_spot_scale2_5(s32 point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }
+extern "C" {
 
 void TObjPlayer::apply_effect_variant_a(saddr point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 7.5f);
@@ -228,9 +234,11 @@ void TObjPlayer::apply_effect_variant_b(s32 point, s32 delay) {
 }
 
 // Dead-stripped, see spawn_corner_dead_spot_scale2_5.
+}
 void spawn_corner_dead_spot_scale25(s32 point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 25.0f);
 }
+extern "C" {
 
 void TObjPlayer__sub_800D9290(s32 point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 2.5f);
