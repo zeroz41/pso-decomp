@@ -15,7 +15,6 @@ struct Item_80127BE0 { u16 a; s16 b; };
 struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
 
 extern "C" {
-s32 get_extended_state__10TObjPlayerFv(s32);
 Item_80127BE0 *get_captured_target_entry(s32, s32);
 void TUnk_804A3640::emit_marker_effects() {
     Item_80127BE0 *item;
@@ -36,16 +35,16 @@ void TUnk_804A3640::emit_marker_effects() {
         break;
     }
     if (get_joint_position(1, buf) != 0) {
-        ext = get_extended_state__10TObjPlayerFv(((Self_80127BE0 *)this)->fF0);
+        ext = (s32)((TObjPlayer *)(((Self_80127BE0 *)this)->fF0))->get_extended_state();
         if (ext != 0) {
             for (i = 0; i != get_captured_target_count((s32 *)ext); i++) {
                 item = get_captured_target_entry(ext, i);
                 if (item != NULL) {
-                    ((TObjPlayer *)(&tec))->construct_target_cursor_records();
+                    __ct__16TargetCursorListFv((&tec));
                     tec.kind = 1;
                     tec.a = item->a;
                     tec.b = item->b;
-                    ((TTecGiZonde *)(((Self_80127BE0 *)this)->fF0))->create((void *)buf, &tec, (void *)kind);
+                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->fF0, (Vec *)buf, &tec, kind);
                 }
             }
         }

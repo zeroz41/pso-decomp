@@ -89,16 +89,14 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-s32 notify_fish_obj__10TObjPlayerFPv(int);
 s32 queue_boss_effect__10TObjPlayerFPv(int);
+struct AnimationMotion *get_boss7_motion(s32 kind);
 s32 TObjPlayer__sub_802E80A0();
-void draw_effect__10TObjPlayerFv(void *);
 void rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 void post_translate_matrix(void *);
 
 extern Vec TBoss7Tentacle__segment_offsets[];
-extern s32 __vt__20TBoss7TentacleNeedle[];
 extern u32 TBoss7Tentacle__needle_offsets[];
 
 struct Ten_802F01D0 { u8 pad0[0x50]; Vec v[14]; };
@@ -128,7 +126,7 @@ void TObjPlayer__sub_802F0D30(void) {
     s32 i;
 
     src = (Node_802EFF24 *)queue_boss_effect__10TObjPlayerFPv(1);
-    notify_fish_obj__10TObjPlayerFPv(0x11);
+    get_boss7_motion(0x11);
     dst = lbl_80541528;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
@@ -155,7 +153,7 @@ void TObjPlayer__sub_802F0D2C(void) {  }
 TBoss7Tentacle::TBoss7Tentacle(TObject *object, s32 arg2, s32 arg3) : TObject(object) {
     m_name = TBoss7Tentacle__name;
     (*(s32 *)((s8 *)(this) + (0x1C))) = ((s32 (*)(s32))queue_boss_effect__10TObjPlayerFPv)(1);
-    (*(Anim_802F0BE8 * *)((s8 *)(this) + (0x20))) = ((Anim_802F0BE8 * (*)(s32))notify_fish_obj__10TObjPlayerFPv)(0x11);
+    (*(Anim_802F0BE8 * *)((s8 *)(this) + (0x20))) = (Anim_802F0BE8 *)get_boss7_motion(0x11);
     (*(s32 *)((s8 *)(this) + (0x130))) = arg2;
     (*(s32 *)((s8 *)(this) + (0x4C))) = arg3;
     (*(s32 *)((s8 *)(this) + (0x30))) = 0;
@@ -252,8 +250,8 @@ void TBoss7Tentacle::reset_state() { *(int*)((char*)this + 0x13c) = 0; *(int*)((
 
 void TBoss7Tentacle__sub_802F0918(void* p) { *(s32*)((char*)p + 0x13c) = 0; *(s32*)((char*)p + 0x140) = 16384; }
 
-u8 TBoss7Tentacle__sub_802F0904(u8 *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x30) == 4);
+s32 TBoss7Tentacle__sub_802F0904(u8 *arg0) {
+    return (s32) (*(s32 *)((s8 *)arg0 + 0x30) == 4);
 }
 
 void TBoss7Tentacle::advance_path_position() {
@@ -490,7 +488,7 @@ void render__14TBoss7TentacleFv(u8 *arg0) {
     s32 var_r5;
     u8 *temp_r7;
     u8 *temp_r8;
-    ((s32 (*)(void))draw_effect__10TObjPlayerFv)();
+    TObjPlayer::draw_effect();
     ((s32 (*)(void))push_matrix)();
     switch (*(s32 *)((s8 *)arg0 + 0x30)) {
     case 0:
@@ -538,9 +536,9 @@ extern "C" {
 
 void TObjPlayer__sub_802EFEC4(void) {
     lbl_805D6948 = queue_boss_effect__10TObjPlayerFPv(5);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = notify_fish_obj__10TObjPlayerFPv(0x13);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = notify_fish_obj__10TObjPlayerFPv(0x14);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = notify_fish_obj__10TObjPlayerFPv(0x12);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = (s32)get_boss7_motion(0x13);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = (s32)get_boss7_motion(0x14);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = (s32)get_boss7_motion(0x12);
 }
 
 void fn_802EFEA8(void) {
@@ -552,9 +550,8 @@ void fn_802EFEA8(void) {
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, Vec *pos) {
-    __ct__7TObjectFP7TObject((void *)self, parent);
-    *(s32 **)((s8 *)self + 0x18) = __vt__20TBoss7TentacleNeedle;
+#define self this
+TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(parent) {
     self->m_name = boss7_tentacle_needle_name_ptr;
     *(f32 *)((s8 *)self + 0x34) = 1e-05f;
     *(s32 *)((s8 *)self + 0x28) = 0;
@@ -579,8 +576,8 @@ u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, Vec *pos)
     }
     *(s32 *)((s8 *)self + 0x78) = boss7_tentacle_needle_target_state.value;
     *(f32 *)((s8 *)self + 0x74) = 0.0f;
-    return (u8 *)self;
 }
+#undef self
 #pragma pop
 
 TBoss7TentacleNeedle::~TBoss7TentacleNeedle() {
@@ -609,7 +606,7 @@ void TBoss7TentacleNeedle::run_task() {
 }
 
 void TBoss7TentacleNeedle::render() {
-    draw_effect__10TObjPlayerFv(this);
+    TObjPlayer::draw_effect();
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix((void *)((char *)this + 28));

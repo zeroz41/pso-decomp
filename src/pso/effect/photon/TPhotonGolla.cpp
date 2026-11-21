@@ -114,7 +114,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(int);
 
 s32 scroll_strip_uvs(void *, s16, int);
-s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 pop_matrix();
@@ -146,7 +145,6 @@ extern const Packet_801AB6A0 photon_golla_concentrate_packet = {
 extern u8 identity_matrix[];
 extern "C" {
 
-Target_801AB868 *get_battle_param__10TObjPlayerFi(s32);
 f32 vec_squared_length(u8 *arg0);
 f32 vec3_dot(void *, void *);
 u16 get_entity_id(void *);
@@ -220,7 +218,7 @@ void TPhotonGolla::collect_hit_targets(void *arg0) {
     ((TObjCollidable *)self)->mark_enemy_body_contacts();
     if (self->fa4->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            candidate = get_battle_param__10TObjPlayerFi(i);
+            candidate = (Target_801AB868 *)TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
                 if (self->f1a8 != NULL) {
                     Vec selected_delta = self->f1a8->pos;
@@ -300,7 +298,7 @@ void TPhotonGolla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

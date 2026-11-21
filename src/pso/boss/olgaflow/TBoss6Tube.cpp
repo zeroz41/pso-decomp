@@ -15,6 +15,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
@@ -36,7 +37,6 @@ void TBoss6Tube__sub_802B129C(u8 *arg0);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
-s32 query_teammate_state__9TObjEneDDFv(void);
 void draw_ginja_object(void);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
@@ -48,7 +48,7 @@ void TBoss6Tube::render() {
     f32 start;
     f32 y;
     s32 i;
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     mode = 0;
@@ -163,11 +163,10 @@ void TBoss6Tube::update_timer() {
     }
 }
 
-s32 query_teammate_state__9TObjEneDDFv();
 
 void TBoss6Tube::run_task() {
 
-    if ((TBoss6EmptyWarp__sub_802B1018() == 0) && (query_teammate_state__9TObjEneDDFv() == 0)) {
+    if ((TBoss6EmptyWarp__sub_802B1018() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
         switch (this->m_1c) {
         case 0:
             update_timer();
@@ -185,26 +184,18 @@ void TBoss6Tube::run_task() {
 
 }
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__10TBoss6Tube[];
-
-}
 TBoss6Tube::~TBoss6Tube() {
     TBoss6Tube::reset_state();
 }
 
-u8 *TBoss6Tube__ct(TBoss6Tube *boss6_tube, u8 *arg1) {
-    __ct__7TObjectFP7TObject(boss6_tube, arg1);
-    *(s32 **)((s8 *)boss6_tube + 0x18) = __vt__10TBoss6Tube;
-    boss6_tube->m_name = TBoss6Tube__name;
-    *(u8 **)((s8 *)boss6_tube + 0x2C) = arg1;
-    boss6_tube->m_24 = 0;
-    boss6_tube->m_28 = 0;
+TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
+    m_name = TBoss6Tube__name;
+    *(u8 **)((s8 *)this + 0x2C) = (u8 *)arg1;
+    m_24 = 0;
+    m_28 = 0;
     TBoss6Tube::reset_state();
-    boss6_tube->m_20 = 0;
-    boss6_tube->m_1c = 0;
-    return (u8 *)boss6_tube;
+    m_20 = 0;
+    m_1c = 0;
 }
 
 extern "C" {
@@ -217,11 +208,7 @@ s32 release_texture_list(void*);
 }
 
 void *TBoss6Tube::create(void *arg0) {
-    void *o = TObject::operator new(0x30);
-    if (o != NULL) {
-        o = TBoss6Tube__ct((TBoss6Tube *)((u8 *)o), (u8 *)arg0);
-    }
-    return o;
+    return new TBoss6Tube((TObject *)arg0);
 }
 
 void TBoss6Tube::free_resources() {

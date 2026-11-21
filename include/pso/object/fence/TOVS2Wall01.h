@@ -6,9 +6,10 @@
 #include "pso/render/RenderFadeState.h"
 
 struct TOVS2Wall01 : public TObjChara {
+    TOVS2Wall01(void *set_data);
     virtual ~TOVS2Wall01();
     virtual void vfunc_6(s16 *, s32);
-    u8 unk_334[0x4];
+    f32 view_range;
     f32 m_338;
     u32 m_33c;
     RenderFadeState m_340;
@@ -26,15 +27,16 @@ struct TOVS2Wall01 : public TObjChara {
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual s32 try_start_action(s32, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    void *create();
+    static void *create(void *set_data);
     static void release_model();
     static void load_resources();
-    void *destroy(s16 arg1);
-    void byteswap_hit_packet();
-    void update_and_send();
-    void*init();
+    void break_wall();
+    f32 take_hit(TObjBase *attacker);
+    s32 remaining_hits();
+    void set_remaining_hits(s32 count);
     void save_and_send_state(u16 arg1);
 };
 
+typedef char TOVS2Wall01FadeOffset[offsetof(TOVS2Wall01, m_340) == 0x340 ? 1 : -1];
 typedef char TOVS2Wall01_size[sizeof(TOVS2Wall01) == 0x360 ? 1 : -1];
 #endif

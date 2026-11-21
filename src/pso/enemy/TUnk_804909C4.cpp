@@ -66,7 +66,6 @@ struct Obj_800A3290 { u8 pad0[0xA4]; Sub_800A3290 *sub; };
 extern "C" {
 Obj_800A3290 *find_entity_by_id(s32);
 void check_enemy_body_collisions(void *arg0);
-VObj_18_4a35f9 *get_battle_param__10TObjPlayerFi(s32);
 s32 obj_is_hit_receivable();
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 s32 vec3_add_to(void *, void *);
@@ -99,7 +98,7 @@ s32 TUnk_804909C4::sub_800A3290(s32 id) {
     other->sub->flags |= 1;
     if (((Obj_800A3290 *)this)->sub->flags & 0x180000) {
         for (i = 0; i < 16; i++) {
-            p = get_battle_param__10TObjPlayerFi(i);
+            p = (VObj_18_4a35f9 *)TObjPlayer::get_battle_param(i);
             if (p == NULL) {
                 break;
             }

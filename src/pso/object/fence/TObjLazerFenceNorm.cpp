@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/GinjaMaterial.h"
@@ -15,6 +16,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+
+struct AnimationMotion;
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_lazer2_4m_model_names[9] = {
@@ -58,8 +61,8 @@ CollisionBody laser_fence_collision_body_parts[2][3] = {
     },
 };
 
-s32 lazer_fence_norm_texture_list;
-s32 lazer_fence_norm_bml_resource;
+GinjaTextureList *lazer_fence_norm_texture_list;
+BmlResource *lazer_fence_norm_bml_resource;
 
 struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
 extern "C" {
@@ -88,8 +91,8 @@ struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *chi
 
 struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *fC0; s32 fC4; void *fC8[4]; };
 
-s32 get_bml_motion(s32, s32);
-Node_80192A3C *get_bml_model(s32, s32);
+AnimationMotion *get_bml_motion(BmlResource *, s32);
+Node_80192A3C *get_bml_model(BmlResource *, s32);
 struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
 
 
@@ -113,7 +116,7 @@ u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
 
 void load_lazer_fence_norm_resources(void) {
-    void *obj;
+    BmlResource *obj;
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -124,34 +127,34 @@ void load_lazer_fence_norm_resources(void) {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        obj = ::operator new(0x440);
+        obj = (BmlResource *)::operator new(0x440);
         if (obj != 0) {
-            obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, 0);
+            obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, 0);
         }
-        lazer_fence_norm_bml_resource = (s32)obj;
-        lazer_fence_norm_texture_list = (s32)load_gvm_texture_file((s32)"fe_obj_lazer2_2.gvm");
+        lazer_fence_norm_bml_resource = obj;
+        lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"fe_obj_lazer2_2.gvm");
         break;
     default:
-        obj = ::operator new(0x440);
+        obj = (BmlResource *)::operator new(0x440);
         if (obj != 0) {
-            obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode1_resource_descriptor, 0, 0, 0);
+            obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode1_resource_descriptor, 0, 0, 0);
         }
-        lazer_fence_norm_bml_resource = (s32)obj;
-        lazer_fence_norm_texture_list = (s32)load_gvm_texture_file((s32)"fe_obj_lazer2.gvm");
+        lazer_fence_norm_bml_resource = obj;
+        lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"fe_obj_lazer2.gvm");
         break;
     }
 }
 }
 
 void TObjLazerFenceNorm::free_resources() {
-    if ((u32) lazer_fence_norm_bml_resource != 0U) {
-        free_bin_model_request((void*)lazer_fence_norm_bml_resource, 1);
-        lazer_fence_norm_bml_resource = 0U;
+    if (lazer_fence_norm_bml_resource != NULL) {
+        free_bin_model_request(lazer_fence_norm_bml_resource, 1);
+        lazer_fence_norm_bml_resource = NULL;
     }
-    if ((u32) lazer_fence_norm_texture_list != 0U) {
-        release_texture_list((void*)lazer_fence_norm_texture_list);
+    if (lazer_fence_norm_texture_list != NULL) {
+        release_texture_list(lazer_fence_norm_texture_list);
         TAdSinglePlyChrSelectGC::safe_free((u32)lazer_fence_norm_texture_list);
-        lazer_fence_norm_texture_list = 0;
+        lazer_fence_norm_texture_list = NULL;
     }
 }
 
@@ -241,7 +244,7 @@ void TObjLazerFenceNorm::draw_model() {
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((TObjDoorJung *)(((Obj_80192B5C *)this)->fC8[i]))->free_children((void *)(lbl_80445B7C[((Obj_80192B5C *)this)->fAC]));
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((((Obj_80192B5C *)this)->fC8[i])), (lbl_80445B7C[((Obj_80192B5C *)this)->fAC]));
     }
     TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();
@@ -262,11 +265,11 @@ void TObjLazerFenceNorm::select_models() {
     if (this->set_params[2] % 2 == 0) {
         this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 0);
-        this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
         this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 3);
         arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 2);
-        this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         arg0->fC8[j] = 0;
@@ -382,9 +385,9 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     Obj_80192554 *arg0 = (Obj_80192554 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((TObjDoorJung *)(arg0->fC8[i]))->free_children((void *)lbl_80445B7C[this->scale_level]);
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((arg0->fC8[i])), lbl_80445B7C[this->scale_level]);
     }
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(NULL, this->rotation_y);

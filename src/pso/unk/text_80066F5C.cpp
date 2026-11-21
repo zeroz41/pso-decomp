@@ -12,7 +12,6 @@ s32 rotate_matrix_by_node_angles(void *, int);
 int push_matrix(void);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-int draw_if_all_ready__10TObjPlayerFv(void*);
 
 void TObjPlayer::draw_shadowed_node_tree() {
     u8 *arg0 = (u8 *)this;
@@ -32,6 +31,6 @@ void TObjPlayer::draw_shadowed_node_tree() {
     }
 }
 
-void TObjBoss5FloorStone::render_impl(void* a1) { draw_if_all_ready__10TObjPlayerFv(this); TObjFish::set_global_param((s32)this); push_matrix(); ((TObjPlayer *)a1)->draw_shadowed_node_tree(); pop_matrix(); }
+void TObjBoss5FloorStone::render_impl(void* a1) { TObjPlayer::draw_if_all_ready(); TObjFish::set_global_param((s32)this); push_matrix(); ((TObjPlayer *)a1)->draw_shadowed_node_tree(); pop_matrix(); }
 
 }

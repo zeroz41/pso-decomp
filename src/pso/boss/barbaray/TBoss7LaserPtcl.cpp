@@ -53,11 +53,7 @@ struct Ptcl_8035AD68 {
 };
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__15TBoss7LaserPtcl[];
 const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
-
-u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 
 void reset_global_table(void);
 
@@ -89,20 +85,19 @@ void TUnk_804F1C88::run_task() {
 
 void TUnk_804F1C88::render() {  }
 
-u8 *TBoss7LaserPtcl__ct(u8 *boss7_laser_ptcl, u8 *arg1, u8 *arg2, u8 *arg3) {
-    __ct__7TObjectFP7TObject(boss7_laser_ptcl, arg1);
-    *(s32 **)((s8 *)boss7_laser_ptcl + 0x18) = __vt__15TBoss7LaserPtcl;
-    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->m_name = TBoss7LaserPtcl__class_name;
-    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->travel_distance = (f32) 8e+01f;
+#define boss7_laser_ptcl ((u8 *)this)
+TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *arg2, TBoss7LaserPtclVector *arg3) : TObject(parent) {
+    m_name = TBoss7LaserPtcl__class_name;
+    travel_distance = (f32) 8e+01f;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x54) = 0;
-    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->state = 0;
+    state = 0;
     VecCopy((Vec *)(boss7_laser_ptcl + 0x20), (const Vec *)arg2);
     VecCopy((Vec *)(boss7_laser_ptcl + 0x2C), (const Vec *)arg3);
-    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->update_position();
+    update_position();
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x44) = (s32)spawn_continuous_particle_effect_with_flags(arg2, 0x204, 0x40);
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x48) = (s32)spawn_continuous_particle_effect_with_flags(arg2, 0x205, 0x40);
-    return boss7_laser_ptcl;
 }
+#undef boss7_laser_ptcl
 
 TBoss7LaserPtcl::~TBoss7LaserPtcl() {
     this->destroy_particles();
@@ -195,8 +190,8 @@ void TBoss7LaserPtcl::init_laser() {
     this->state = 1;
 }
 
-u8 TBoss7LaserPtcl::is_state_2() {
-    return (u8) (this->state == 2);
+s32 TBoss7LaserPtcl::is_state_2() {
+    return (u8)((u8) (this->state == 2));
 }
 
 void TBoss7LaserPtcl::update_position() {

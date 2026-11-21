@@ -74,6 +74,7 @@
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/object/base/TObjChara.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -1183,7 +1184,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
     if (technique >= 0 && technique < 19 && level >= 0 && level <= 29) {
         TObjPlayer *owner = get_player_by_client_id(get_owner_client());
         if (owner != NULL) {
-            s16 hp = get_actor_hp__9TObjCharaFv(owner);
+            s16 hp = ((TObjChara *)owner)->get_actor_hp();
             s16 tp = get_actor_tp(owner);
             s32 slot;
             for (slot = 9; slot != 13; slot++) {
@@ -1339,7 +1340,7 @@ void TItem::remove_equip_stats(s32) {}
 void TItemEquipBase::refresh_owner_stats() {
     TObjPlayer *player = owner;
     if (player != NULL) {
-        s16 hp = get_actor_hp__9TObjCharaFv(player);
+        s16 hp = ((TObjChara *)player)->get_actor_hp();
         s16 tp = get_actor_tp(owner);
         remove_equip_stats(0);
         add_equip_stats(0);
@@ -1413,7 +1414,7 @@ void TItem::notify_owner(s32 sound) {
     }
 }
 
-void scroll_item_model_uvs(NJS_OBJECT *object, s16 du, s16 dv, u16 mesh) {
+void scroll_item_model_uvs(NJS_OBJECT *object, s32 du, s32 dv, u16 mesh) {
     scroll_ginja_mesh_uvs(object->model, du, dv, mesh, 1);
     PPCSync();
 }

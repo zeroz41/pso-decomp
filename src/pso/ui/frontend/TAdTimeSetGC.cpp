@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/system/ControllerInputState.h"
@@ -28,20 +30,14 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/vector.h"
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
 s32 get_memcard_free_files(s32 chan);
 s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32 chan, s32 arg1);
-s32 poll_load_status__15TAdPlayerLoadGCFl(s32 chan, const char *name);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *context, s32 mask);
-TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
-TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
 s32 align_menu_entry_positions(TWindowMenu *menu);
-void *__ct__9TAdBackGCFv(void *self, void *parent);
-void *__ct__12TAdBackTxtGCFv(void *self, void *parent);
 s32 load_system_file_blocking__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_character_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void);
@@ -49,7 +45,7 @@ s32 setup__23TAdSinglePlyChrSelectGCFi(s32 chan);
 s32 check_ready__23TAdSinglePlyChrSelectGCFv(void);
 s32 try_confirm_selection__23TAdSinglePlyChrSelectGCFv(void);
 s32 start_load__23TAdSinglePlyChrSelectGCFv(void);
-s32 load_player__23TAdSinglePlyChrSelectGCFv(void);
+s32 load_guild_card_save(void);
 s32 load_system_file(s32 arg0);
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
 void reset_save_header__23TAdSinglePlyChrSelectGCFv(void);
@@ -286,7 +282,7 @@ void TAdTimeSetGC::sub_802E2F68() {
 
 void TAdTimeSetGC::ensure_player_loaded() {
     if (!(load_status & 2)) {
-        load_player__23TAdSinglePlyChrSelectGCFv();
+        load_guild_card_save();
         change_state(4);
     }
 }
@@ -370,7 +366,7 @@ void TAdTimeSetGC::close_scene() {
 }
 
 void TAdTimeSetGC::sub_802E2BD4() {
-    if (poll_load_status__15TAdPlayerLoadGCFl(0, pso_character_card_filename) == 0) {
+    if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_character_card_filename)) == 0) {
         change_state(9);
     }
 }
@@ -403,7 +399,7 @@ void TAdTimeSetGC::sub_802E2AD4() {
 }
 
 void TAdTimeSetGC::advance_when_load_done() {
-    if (poll_load_status__15TAdPlayerLoadGCFl(0, pso_guildcard_card_filename) == 0) {
+    if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_guildcard_card_filename)) == 0) {
         change_state(0xB);
     }
 }
@@ -759,7 +755,7 @@ s32 TAdTimeSetGC::check_capacity() {
     s32 files = count_flags();
     s32 blocks = count_selected_flags();
     s32 free_files = get_memcard_free_files(0);
-    s32 free_blocks = query_memcard_capacity__15TAdPlayerLoadGCFl(0, 0);
+    s32 free_blocks = (s32)TAdPlayerLoadGC::query_memcard_capacity(0, 0);
 
     if (files > free_files || blocks > free_blocks) {
         return 0;
@@ -771,17 +767,11 @@ void TAdTimeSetGC::create_backgrounds() {
     void *object;
 
     if (back == NULL) {
-        object = TObject::operator new(0x24);
-        if (object != NULL) {
-            object = __ct__9TAdBackGCFv(object, this);
-        }
+        object = new TAdBackGC(this);
         back = (TAdBackGC *)object;
     }
     if (back_text == NULL) {
-        object = TObject::operator new(0x28);
-        if (object != NULL) {
-            object = __ct__12TAdBackTxtGCFv(object, this);
-        }
+        object = new TAdBackTxtGC(this);
         back_text = (TAdBackTxtGC *)object;
     }
 }
@@ -809,7 +799,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (message_window != NULL || menu_window != NULL) {
         return;
     }
-    message_window = update_window_mode_from_progress__6TLobbyFPv(time_set_message_pos, time_set_message_size);
+    message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)time_set_message_pos, (NJS_POINT2 *)time_set_message_size);
     if (message_window == NULL) {
         return;
     }
@@ -820,7 +810,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (sel == -1) {
         return;
     }
-    menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(time_set_menu_pos, 2);
+    menu_window = (TWindowMenu *)create_window_menu_default((s32)time_set_menu_pos, 2);
     if (message_window == NULL) {
         return;
     }
@@ -895,7 +885,7 @@ void TAdTimeSetGC::sub_802E18C8() {
 
 s32 TAdTimeSetGC::sub_802E1868() {
     if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
-        test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 4) != 0) {
+        test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;
     }
     return 0;
@@ -1031,7 +1021,7 @@ T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
     m_name = T_ATS_DrawCalendar__name;
     visible = 0;
     // The two-float copy at 0x80052EA0 is declared as a member of TWindowSubSymbolChatPartsSet.
-    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)time_set_calendar_pos);
+    copy_vec2(&pos, (void *)time_set_calendar_pos);
 }
 
 T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {
@@ -1051,7 +1041,7 @@ void T_ATS_DrawCalendar::render() {
         T_ATS_DrawCalendarPos p = pos;
         s = (char *)get_localized_text_entry(0x1C, 0xC);
         // The text drawing function at 0x80145778 is declared as a member of TAdSinglePlyChrSelectGC.
-        ((TAdSinglePlyChrSelectGC *)s)->render_status_disp(-(0.5f * (f32)calc_text_width(s) - p.x), p.y);
+        draw_menu_font_string_white((const char *)s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
         p.y += 30.0f;
         getDateStamp(&date);
         wd = date.weekday + 13;
@@ -1067,10 +1057,10 @@ void T_ATS_DrawCalendar::render() {
             w = -0.5f * (f32)TWindowSubStatusDisp__sub_80144E9C(s);
             break;
         }
-        ((TAdSinglePlyChrSelectGC *)s)->render_status_disp(p.x + w, p.y);
+        draw_menu_font_string_white((const char *)s, p.x + w, p.y);
         p.y += 22.0f;
         sprintf(buf, "%02d:%02d:%02d", date.hour, date.minute, date.second);
-        ((TAdSinglePlyChrSelectGC *)buf)->render_status_disp(-(0.5f * (f32)calc_text_width(buf) - p.x), p.y);
+        draw_menu_font_string_white((const char *)buf, -(0.5f * (f32)calc_text_width(buf) - p.x), p.y);
     }
 }
 

@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 extern "C" {
@@ -56,23 +57,20 @@ struct VObj_8035663C : VBase_8035663C {
 extern "C" {
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
 void set_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
-f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
 u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 f32 xyz_distance(void *, void *);
-s32 get_point__10TBoss6RockFllPf(s32, void *, void *);
+
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-s32 is_active__14TBoss6PlotFalzFv();
 }
 struct Pair_803561C4 { s32 a; f32 b; };
 struct VBase_18_ec708a { char pad[0x18]; };
@@ -116,7 +114,7 @@ void damage_players_in_radius(u8 *arg0) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((s32 (*)(void *))is_active__14TBoss6PlotFalzFv)(pl) != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
             subtract_vector(&v, arg0 + 0x20);
             v.y = 0.0f;
@@ -132,7 +130,7 @@ void damage_players_in_radius(u8 *arg0) {
 }
 
 void run_task__15TBoss6SwordShotFv(u8 *arg0) {
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         damage_players_in_radius(arg0);
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x30) > 7) {
@@ -181,7 +179,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     self->speed = farg0;
     self->f30 = 0;
-    v = *dispatch_shared_handler_a__6TLobbyFl(0x2B);
+    v = *(f32 *)TLobby::dispatch_shared_handler_a(0x2B);
     self->life = (s32)v;
     if (0.0f == v) {
         self->life = 0x14;
@@ -266,7 +264,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
-        if (is_active__14TBoss6PlotFalzFv() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&dir, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&dir, arg0 + 0x20);
             dir.y = 0.0f;
@@ -315,7 +313,7 @@ s32 TBoss6SwordWave::break_rocks_in_wave() {
     s32 hi;
     f32 dist;
     for (i = 0; i < 32; i++) {
-        if (get_point__10TBoss6RockFllPf(i, &pt, &scale) == 0) {
+        if (TBoss6Rock::get_point(i, &pt, &scale) == 0) {
             continue;
         }
         VecCopy((Vec *)&d, (const Vec *)&pt);
@@ -365,7 +363,7 @@ void TBoss6SwordWave::render() {  }
 void TBoss6SwordWave::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         break_rocks_in_wave();
         check_player_hits();
         if (*(f32 *)((s8 *)arg0 + 0x58) < 6.6666665f) {
@@ -400,7 +398,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     *(f32 *)((s8 *)arg0 + 0x50) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x54) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) 0.0f;
-    temp_f2 = *dispatch_shared_handler_a__6TLobbyFl(0x2C);
+    temp_f2 = *(f32 *)TLobby::dispatch_shared_handler_a(0x2C);
     *(s32 *)((s8 *)arg0 + 0x5C) = (s32) temp_f2;
     if (0.0f == temp_f2) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0x14;

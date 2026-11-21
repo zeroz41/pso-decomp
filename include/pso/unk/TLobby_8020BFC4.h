@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-int serialize_area_set_flags(void *p);
+struct FloorSetFlagsPayload;
+
+int serialize_area_set_flags(FloorSetFlagsPayload *buffer);
 
 #endif

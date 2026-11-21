@@ -4,6 +4,7 @@
 #include "pso/ui/charcreate/TChCrTagPlBack.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -47,7 +48,7 @@ void TChCrTagPlBack::draw_frame() {
     NJS_POINT2 base = lbl_80466758[0];
     NJS_POINT2 cur;
     for (; base.y <= 396.0f; base.y += 8.0f) {
-        ((TWindowSubSymbolChatPartsSet *)(&cur))->copy_vec2(&base);
+        copy_vec2((&cur), &base);
         draw_ui_sprite(0x81, &cur, -3.375f, a);
         cur.x += 32.0f;
         draw_ui_sprite_scaled(0x82, &cur, &scale, -3.375f, a);

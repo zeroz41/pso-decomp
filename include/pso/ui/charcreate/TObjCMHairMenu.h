@@ -14,7 +14,6 @@ public:
     virtual void render();
     virtual void run_task();
 public:
-    void draw_tri_fan_2d(s32 count, s32 flags, f32 scale);
     void *create();
 };
 

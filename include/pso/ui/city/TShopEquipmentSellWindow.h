@@ -9,7 +9,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     virtual ~TShopEquipmentSellWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6();
+    virtual void vfunc_6(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
     u32 m_24;
@@ -48,7 +48,6 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     int is_confirmed();
     s32 get_result();
     static void set_entry_count(void *arg1, void *arg2);
-    int get_item_count();
     void add_item(s32 arg1, s32 arg2, s32 arg3);
 };
 

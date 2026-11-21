@@ -1,9 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/QuestVm.h"
 #include "pso/system/data/FlagWord.h"
 #include "types.h"
+#include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_801F2D2C.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -40,10 +41,7 @@ extern struct Op_801F2E64 qst_opcode_table[];
 int bswap_16__FPUs(void*);
 void *memset(void *, int, u32);
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
-int test_action_mask__10TObjPlayerFl(void*, int);
 int VecCopy__FP3VecPC3Vec(void*);
-void queue_destruction__7TObjectFv(void *arg0);
-int set__8FlagWordFUl(void*, int);
 
 unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
 
@@ -71,23 +69,23 @@ void TLobby::close_windows() {
         qst_list_window = NULL;
     }
     if (qst_item_name_entry != NULL) {
-        queue_destruction__7TObjectFv(qst_item_name_entry);
+        ((TObject *)qst_item_name_entry)->queue_destruction();
         qst_item_name_entry = NULL;
     }
     if (qst_item_name_select != NULL) {
-        queue_destruction__7TObjectFv(qst_item_name_select);
+        ((TObject *)qst_item_name_select)->queue_destruction();
         qst_item_name_select = NULL;
     }
     if (qst_item_ok_window != NULL) {
-        queue_destruction__7TObjectFv(qst_item_ok_window);
+        ((TObject *)qst_item_ok_window)->queue_destruction();
         qst_item_ok_window = NULL;
     }
     if (qst_pack_select_window != NULL) {
-        queue_destruction__7TObjectFv(qst_pack_select_window);
+        ((TObject *)qst_pack_select_window)->queue_destruction();
         qst_pack_select_window = NULL;
     }
     if (qst_pack_select_help_window != NULL) {
-        queue_destruction__7TObjectFv(qst_pack_select_help_window);
+        ((TObject *)qst_pack_select_help_window)->queue_destruction();
         qst_pack_select_help_window = NULL;
     }
 }
@@ -235,32 +233,30 @@ void TLobby::free_luker_object() {
     }
 }
 
-void TLobby::set_flag_80000() {
-    s32 arg0 = (s32)this;
-    test_action_mask__10TObjPlayerFl((void*)arg0, 0x80000);
+s32 TObjPlayer::test_action_80000() {
+    return test_action_mask(0x80000);
 }
-void TLobby::set_flag_40000() {
-    test_action_mask__10TObjPlayerFl(this, 0x40000);
+s32 TObjPlayer::test_action_40000() {
+    return test_action_mask(0x40000);
 }
 void TLobby__sub_801F3314(s32 arg0) {
-    test_action_mask__10TObjPlayerFl((void*)arg0, 0x10000);
+    ((TObjPlayer *)arg0)->test_action_mask(0x10000);
 }
-void TLobby::set_flag_8000() {
-    s32 arg0 = (s32)this;
-    test_action_mask__10TObjPlayerFl((void*)arg0, 0x8000);
+s32 TObjPlayer::test_action_8000() {
+    return test_action_mask(0x8000);
 }
-int TLobby::check_flag_24576() { return test_action_mask__10TObjPlayerFl(this, 24576); }
-int TLobby__sub_801F3384(void* p) { return test_action_mask__10TObjPlayerFl(p, 1024); }
-int TLobby__sub_801F33A8(void* p) { return test_action_mask__10TObjPlayerFl(p, 512); }
-int TLobby__sub_801F33CC(void* p) { return test_action_mask__10TObjPlayerFl(p, 256); }
-int TLobby__sub_801F33F0(void* p) { return test_action_mask__10TObjPlayerFl(p, 224); }
-int TLobby::test_flag_16() { return test_action_mask__10TObjPlayerFl(this, 16); }
-int set_flag_4__6TLobbyFPv(void* p) { return test_action_mask__10TObjPlayerFl(p, 4); }
+int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }
+int TLobby__sub_801F3384(void* p) { return ((TObjPlayer *)p)->test_action_mask(1024); }
+int TLobby__sub_801F33A8(void* p) { return ((TObjPlayer *)p)->test_action_mask(512); }
+int TLobby__sub_801F33CC(void* p) { return ((TObjPlayer *)p)->test_action_mask(256); }
+int TLobby__sub_801F33F0(void* p) { return ((TObjPlayer *)p)->test_action_mask(224); }
+int TLobby::test_flag_16() { return ((TObjPlayer *)this)->test_action_mask(16); }
+s32 TObjPlayer::test_action_4() { return test_action_mask(4); }
 
-int TLobby__sub_801F345C(void* p) { return test_action_mask__10TObjPlayerFl(p, 2); }
+int TLobby__sub_801F345C(void* p) { return ((TObjPlayer *)p)->test_action_mask(2); }
 
-int fn_801F3480(void* p) { return ((TObjPlayer *)p)->has_item_flag_4096(); }
-int fn_801F34A0(void* p) { return ((TObjPlayer *)p)->check_technique_flag(); }
+void fn_801F3480(void* p) { ((TObjPlayer *)p)->clear_flag_4096(); }
+void fn_801F34A0(void* p) { ((TObjPlayer *)p)->set_flag_4096(); }
 s32 get_field_d4(void* p) { return *(s32*)((char*)p + 0xd4); }
 s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
 
@@ -281,8 +277,8 @@ void TLobby::bswap_4x32() { bswap_32__FPUl(this); bswap_32__FPUl((char*)this + 0
     extern unsigned char camera_capture_flags;
 void TLobby__sub_801F3568(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
-void TLobby::sync_quest_register_and_send() { bswap_header__6TLobbyFPv(this); send_subcommand((u8 *)this); }
-void bswap_header__6TLobbyFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
+void TLobby::sync_quest_register_and_send() { TLobby::bswap_header(this); send_subcommand((u8 *)this); }
+void TLobby::bswap_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
 void build_6x77_sync_quest_register(void* p) { *(u8*)((char*)p + 0x0) = 119; *(u8*)((char*)p + 0x1) = 3; }
 
     extern int warning_aram_load_done_flag;
@@ -314,7 +310,7 @@ void TLobby::bswap_entry_words(s32 arg0) {
 }
 #pragma pop
 
-int TLobby__sub_801F3694(void* p) { return set__8FlagWordFUl((char*)p + 0x10, 2); }
+void TLobby__sub_801F3694(void* p) { ((FlagWord *)((char*)p + 0x10))->set(2); }
 
     extern int lobby_online_ready_flag;
 void TLobby__sub_801F36BC(void) { lobby_online_ready_flag = 1; }
@@ -325,10 +321,8 @@ void TLobby::set_lobby_id(int a0) { current_lobby_id = a0; }
     extern int lbl_805D3614;
 void TLobby::set_global_805D3614(int a0) { lbl_805D3614 = a0; }
 
-    extern int lobby_quest_progress_flag;
 void TLobby__sub_801F36D8(void) { lobby_quest_progress_flag = 1; }
 
-    extern int quest_warp_enabled;
 void TLobby__sub_801F36E4(void) { quest_warp_enabled = 0; }
 
 int TLobby__sub_801F36F0(void) { return -1; }

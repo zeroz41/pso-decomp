@@ -29,6 +29,7 @@ void set_camera_capture_flags_bit2(void);
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 struct Stack_80082C30 {
     f32 sp8;
@@ -114,7 +115,6 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 extern "C" {
 extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern u8 controller_physical_port_bank[];
 }
 
@@ -163,7 +163,6 @@ extern s32 __vt__13TUnk_8048E5DC[];
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 init_render_target__10TObjPlayerFv();
 u8 camera_capture_overlay_alpha = 143;
 extern s32 __vt__13TUnk_8048E5F4[];
 extern s32 model_render_flags;
@@ -230,7 +229,6 @@ extern "C" {
 void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);
 void *get_player_by_client_id(s32 i);
-s32 is_inactive__10TObjPlayerFv();
 void reset_and_release_capture_texture(void);
 void reset_and_init_capture_texture(void);
 void clear_camera_flag(void);
@@ -516,7 +514,8 @@ s32 TObjPlayer::check_all_players_ready() {
     if (get_main_phase() == 0xF) {
         counter = 0;
         do {
-            if ((get_player_by_client_id(counter) != 0U) && (is_inactive__10TObjPlayerFv() == 0)) {
+            TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(counter);
+            if ((player != NULL) && (player->is_inactive() == 0)) {
                 flag = 0;
             }
             counter += 1;
@@ -827,7 +826,7 @@ void TObjPlayer::init_render_target_singleton() {
         temp_r3 = (int)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {
-            init_render_target__10TObjPlayerFv();
+            ((TObjPlayer *)temp_r3)->init_render_target();
         }
     }
 }
@@ -933,7 +932,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     switch (mode) {
     case 0:
         if (src != NULL) {
-            ((TWindowSubSymbolChatPartsSet *)(&v))->copy_vec2(src);
+            copy_vec2((&v), src);
             v.x -= 128.0f;
             v.y -= 96.0f;
         } else {
@@ -949,11 +948,11 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         a.y = 144.0f;
         b.x = 256.0f;
         b.y = 192.0f;
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             set_tev_swap_mode(0);
         }
         TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 1);
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             init_tev_swap();
         }
         TObjPlayer__sub_80082C30();
@@ -974,11 +973,11 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         a.y = 144.0f;
         b.x = 256.0f;
         b.y = 192.0f;
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             set_tev_swap_mode(0);
         }
         TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 0);
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             init_tev_swap();
         }
         TObjPlayer__sub_80082C30();

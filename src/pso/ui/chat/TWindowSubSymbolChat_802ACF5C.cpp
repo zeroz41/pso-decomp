@@ -3,9 +3,9 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
-void TWindowSubSymbolChat::update_display(s32 arg0) {
+void *create_callback_at_zero_vec2(void *callback) {
     s32 zero_vec2;
 
     zero_vec2 = (s32)get_zero_vec2();
-    TAdEnterSerialAccessGC::create_callback((void *)(get_zero_vec2()), (void *)zero_vec2, (void *)arg0);
+    return TAdEnterSerialAccessGC::create_callback((void *)(get_zero_vec2()), (void *)zero_vec2, callback);
 }

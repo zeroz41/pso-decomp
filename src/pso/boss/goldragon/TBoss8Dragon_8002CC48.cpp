@@ -120,7 +120,6 @@ extern s32 __vt__22TObjBoss1MokoHill_Solo[];
 
 void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
 
-extern s32 __vt__23TObjBoss1MokoHill_SoloM[];
 
 extern BmlResource *lbl_805D4B50;
 
@@ -171,9 +170,7 @@ f32 sin_table_lookup(s32);
 
 f32 cos_table_lookup(s32, f32);
 
-s32 update_scale__15TObjBoss2TunnelFv(void *, f32);
 
-u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 
 void update_dragon_trail_uvs(Obj_8002D4C0 *self);
 
@@ -223,7 +220,7 @@ f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1) {
         vector->x = temp_f2;
         vector->y = 1.0f;
         vector->z = vector->z * temp_f1_2;
-        update_scale__15TObjBoss2TunnelFv(vector, temp_f1_2);
+        normalize_vector_safe((Vec *)vector);
     }
     return var_f31;
 }
@@ -539,9 +536,8 @@ f32 get_velocity_scale_limit(void) {
     return 16.0f;
 }
 
-u8 *TObjBoss1MokoHill_SoloM__ct(u8 *boss1_moko_hill_solo_m, u8 *arg1, u8 *arg2, s32 arg3) {
-    __ct__7TObjectFP7TObject(boss1_moko_hill_solo_m, arg1);
-    *(s32 **)((s8 *)boss1_moko_hill_solo_m + 0x18) = __vt__23TObjBoss1MokoHill_SoloM;
+#define boss1_moko_hill_solo_m ((u8 *)this)
+TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, u8 *arg2, s32 arg3) : TObject(parent) {
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (s32) TObjBoss1MokoHill_SoloM__name;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x1C) = 0;
     (*(u8 * *)&dragon_trail_position_source) = arg2;
@@ -556,8 +552,8 @@ u8 *TObjBoss1MokoHill_SoloM__ct(u8 *boss1_moko_hill_solo_m, u8 *arg1, u8 *arg2, 
         *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x38) = 0;
     }
     ((TObjBoss1MokoHill_SoloM *)boss1_moko_hill_solo_m)->m_3c = 0;
-    return boss1_moko_hill_solo_m;
 }
+#undef boss1_moko_hill_solo_m
 
 TObjBoss1MokoHill_SoloM::~TObjBoss1MokoHill_SoloM() {
 

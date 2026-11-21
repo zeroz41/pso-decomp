@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyFactoryTables.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 
@@ -6,24 +7,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-struct QuestEnemyRow_8020C1F0 { u16 type; s16 flags; u8 reserved[8]; s16 room; u8 tail[58]; };
-
-struct QuestSavedEnemyRow_8020C1F0 { u16 id; s16 flags; s16 room; u16 unused; };
-
-struct QuestSavedEnemyFloor_8020C1F0 { s32 reserved; s32 count; u32 fields[3]; QuestSavedEnemyRow_8020C1F0 *rows; };
-
 typedef EnemyFactoryEntry Ent_8020BFE4;
 
 typedef ObjectFactoryEntry Ent_8020C030;
 
-struct Ent_8020C07C { u8 pad0[2]; s16 flags; u8 pad1[6]; s16 a; s16 b; u8 pad2[0x36]; };
-
 extern "C" {
-extern QuestSavedEnemyFloor_8020C1F0 TLobby__floor_enemy_group_table[];
-extern QuestEnemyRow_8020C1F0 *TLobby__data_805D6114;
-extern s32 TLobby__current_floor_enemy_set_count;
-extern Ent_8020C07C *TLobby__data_805D610C;
-extern s32 TLobby__current_floor_object_set_count;
 
 s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1) {
     Ent_8020BFE4 *base = enemy_factory_area_table[arg0];
@@ -49,10 +37,10 @@ s32 TLobby::find_floor_object_factory(s32 arg0, s16 *arg1) {
 
 void TLobby__sub_8020C07C(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
     if (pl == get_current_floor()) {
-        Ent_8020C07C *p = TLobby__data_805D610C;
+        FloorObjectSetRow *p = TLobby__data_805D610C;
         s32 i;
         for (i = 0; i < TLobby__current_floor_object_set_count; i++, p++) {
-            if (p->b == b && p->a == a) {
+            if (p->placement.room == b && p->placement.wave == a) {
                 p->flags &= mask;
                 p->flags |= set;
             }
@@ -66,18 +54,18 @@ s32 TLobby::count_quest_enemies_flag8() {
     s32 j;
     if (TLobby__data_805D6114 != NULL) {
         for (j = 0; j < TLobby__current_floor_enemy_set_count; j++) {
-            QuestEnemyRow_8020C1F0 *a = &TLobby__data_805D6114[j];
-            if (*(s16 *)&a->type != -1 && (a->flags & 8)) {
+            EnemySetRecord *a = &TLobby__data_805D6114[j];
+            if (a->type != -1 && (a->flags & 8)) {
                 n++;
             }
         }
     }
     for (i = 0; i < 0x12; i++) {
         if (i != get_current_floor()) {
-            QuestSavedEnemyFloor_8020C1F0 *t = &TLobby__floor_enemy_group_table[i];
-            QuestSavedEnemyRow_8020C1F0 *b = t->rows;
+            LobbyFloorRows *t = &TLobby__floor_enemy_group_table[i];
+            FloorSavedSetRow *b = t->enemy_rows;
             if (b != NULL) {
-                for (j = 0; j < t->count; j++) {
+                for (j = 0; j < t->enemy_count; j++) {
                     if (b->flags & 8) {
                         n++;
                     }
@@ -94,7 +82,7 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
     if (floor == get_current_floor()) {
         if (TLobby__data_805D6114 != NULL) {
             for (i = 0; i < TLobby__current_floor_enemy_set_count; i++) {
-                QuestEnemyRow_8020C1F0 *row = &TLobby__data_805D6114[i];
+                EnemySetRecord *row = &TLobby__data_805D6114[i];
                 if (room == row->room && !(row->flags & 8)) {
                     return 0;
                 }
@@ -102,10 +90,10 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
         }
         return 1;
     } else {
-        QuestSavedEnemyFloor_8020C1F0 *saved = &TLobby__floor_enemy_group_table[floor];
-        QuestSavedEnemyRow_8020C1F0 *row = saved->rows;
+        LobbyFloorRows *saved = &TLobby__floor_enemy_group_table[floor];
+        FloorSavedSetRow *row = saved->enemy_rows;
         if (row != NULL) {
-            for (i = 0; i < saved->count; i++, row++) {
+            for (i = 0; i < saved->enemy_count; i++, row++) {
                 if (row->room == room && !(row->flags & 8)) {
                     return 0;
                 }

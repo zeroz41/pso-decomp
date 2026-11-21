@@ -2,12 +2,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049F998.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
 
-extern "C" {
-s32 get_item_index__5TItemFv(void *);
-}
 void TUnk_8049F998::apply_use_effect() {
-    switch ((s32) (((u8 (*)())get_item_index__5TItemFv)())) {
+    switch ((s32) (this->get_item_index())) {
     case 0:
         owner->cure_poison_ailment();
         return;

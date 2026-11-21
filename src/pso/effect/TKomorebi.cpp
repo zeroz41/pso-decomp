@@ -1,3 +1,5 @@
+#include "pso/render/GinjaUvScroll.h"
+#include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
 #include "pso/effect/TKomorebi.h"
 #include "pso/render/GinjaMaterial.h"
@@ -13,6 +15,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 
+struct AnimationMotion;
+
 #pragma readonly_strings on
 
 extern const char *bm_fe_obj_komo_model_names[2];
@@ -26,16 +30,12 @@ struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fB
 extern "C" {
 s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__9TKomorebi[];
 extern const char *komorebi_class_name;
 extern u32 TKomorebi__resource_bundle;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
-s32 get_bml_motion(s32, s32);
-extern s32 lazer_fence_norm_bml_resource;
+AnimationMotion *get_bml_motion(BmlResource *, s32);
 void free_bin_model_request(void*, int);
-s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
@@ -50,7 +50,7 @@ void TKomorebi::render() {
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)this->model + 4), 0, (s32) this->scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(static_cast<NJS_OBJECT *>(this->model)->model, 0, (s32) this->scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
@@ -75,24 +75,21 @@ extern "C" {
 
 extern void *tl_05;
 
-u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(komorebi);
-    *(s32 **)((s8 *)komorebi + 0x18) = __vt__9TKomorebi;
+}
+#define komorebi ((u8 *)this)
+TKomorebi::TKomorebi(TObject *parent, s32 arg2) : TObjBase(parent) {
     *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
     *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
     ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    return komorebi;
 }
+#undef komorebi
 
+extern "C" {
 void *TKomorebi__create(void *arg0) {
-    void *o = TObject::operator new(0x90);
-    if (o != NULL) {
-        o = TKomorebi__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TKomorebi((TObject *)tl_05, (s32)arg0);
 }
 
 void TKomorebi::free_static() {
@@ -116,13 +113,13 @@ void TObjLazerFenceExtra::init_models() {
     Node_80192434 *node;
     s32 j;
     if (this->set_params[2] % 2 == 0) {
-        arg0->fBC = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 1);
-        arg0->fC0 = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 0);
-        this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 1);
+        arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 0);
+        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        arg0->fBC = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 3);
-        arg0->fC0 = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 2);
-        this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 3);
+        arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 2);
+        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         arg0->fC8[j] = 0;

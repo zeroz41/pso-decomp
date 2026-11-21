@@ -15,7 +15,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-extern s32 __vt__17TBoss6EffFlowSoul[];
 
 const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";
 
@@ -42,7 +41,7 @@ void TBoss6EffFlowSoul::run_task() {
     f32 remain;
     f32 k;
 
-    if (((TObjEneDD *)self)->query_teammate_state() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     if (self->player == 0xFFFF) {
@@ -85,24 +84,21 @@ TBoss6EffFlowSoul::~TBoss6EffFlowSoul() {
 }
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
 extern const char *TBoss6EffFlowSoul__name;
-u8 *TBoss6EffFlowSoul__ct(u8 *boss6_eff_flow_soul, u8 *arg1, u8 *arg2, s16 arg3, s32 arg4) {
+}
+
+TBoss6EffFlowSoul::TBoss6EffFlowSoul(TObject *arg1, Vec *arg2, s32 arg3, s32 arg4) : TObject(arg1) {
+    u8 *boss6_eff_flow_soul = (u8 *)this;
     u8 *particle_emitter;
-    __ct__7TObjectFP7TObject(boss6_eff_flow_soul, arg1);
-    *(s32 **)((s8 *)boss6_eff_flow_soul + 0x18) = __vt__17TBoss6EffFlowSoul;
-    *(s32 *)((s8 *)boss6_eff_flow_soul + 0) = (s32) TBoss6EffFlowSoul__name;
-    *(u8 **)((s8 *)boss6_eff_flow_soul + 0x1C) = arg1;
+    m_name = TBoss6EffFlowSoul__name;
+    *(u8 **)((s8 *)boss6_eff_flow_soul + 0x1C) = (u8 *)arg1;
     VecCopy((Vec *)(boss6_eff_flow_soul + 0x28), (const Vec *)arg2);
     *(s16 *)((s8 *)boss6_eff_flow_soul + 0x24) = arg3;
     *(s32 *)((s8 *)boss6_eff_flow_soul + 0x34) = arg4;
     particle_emitter = (u8 *)(create_particle_emitter((boss6_eff_flow_soul + 0x28), 0x225));
-    ((TBoss6EffFlowSoul *)boss6_eff_flow_soul)->m_20 = particle_emitter;
+    m_20 = particle_emitter;
     if (particle_emitter != NULL) {
-        ((TParticleCtrl *)(((TBoss6EffFlowSoul *)boss6_eff_flow_soul)->m_20))->set_flags(0x40);
+        ((TParticleCtrl *)m_20)->set_flags(0x40);
     }
     *(s32 *)((s8 *)boss6_eff_flow_soul + 0x38) = 0;
-    return boss6_eff_flow_soul;
-}
-
 }

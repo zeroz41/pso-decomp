@@ -42,7 +42,6 @@ struct Self_801AE744 {
 };
 
 extern "C" {
-s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -87,7 +86,7 @@ void TPhotonYoulla::render() {
         ((TObjMotion *)self)->draw();
         clear_motion_packed_rotation();
         set_material_alpha_compare_reference(0xBF);
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);

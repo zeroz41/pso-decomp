@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdWarningBaseGC : public TObject {
+    TAdWarningBaseGC(TObject *parent);
     virtual ~TAdWarningBaseGC();
     virtual int vfunc_6() = 0;
     virtual void vfunc_7() = 0;
@@ -24,7 +25,6 @@ struct TAdWarningBaseGC : public TObject {
 typedef char TAdWarningBaseGC_size[sizeof(TAdWarningBaseGC) == 0x30 ? 1 : -1];
 
 extern "C" {
-void *TAdWarningBaseGC__ct(TAdWarningBaseGC *arg0);
 void clear_aram_request_busy(void);
 }
 

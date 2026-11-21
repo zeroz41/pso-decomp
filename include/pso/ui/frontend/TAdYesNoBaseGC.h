@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdYesNoBaseGC : public TObject {
+    TAdYesNoBaseGC(TObject *parent);
     virtual ~TAdYesNoBaseGC();
     virtual void vfunc_6() = 0;
     virtual void vfunc_7() = 0;

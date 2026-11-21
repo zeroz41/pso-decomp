@@ -33,6 +33,7 @@ public:
     virtual void vfunc_59();
     virtual void vfunc_58();
     virtual void render();
+    void render_model_and_set_attach_points();
     virtual void run_task();
     virtual s32 update_movement_status();
     s16 reassemble_count;  // 0x38C: bumped each time it falls apart; at 5 it stays dead (inferred)

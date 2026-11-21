@@ -14,17 +14,16 @@ s32 test_flags_any(void *, s32);
 s32 is_on_current_floor__10TObjPlayerFi(void *);
 s32 run_action_state_phase__10TObjPlayerFisi(void *, s32, s32);
 
-s32 obj_isState2_324__9TObjCharaFv();
 extern const f32 TObjPlayer__data_805DC294;
 
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
-    if (obj_isState2_324__9TObjCharaFv() == 0) {
+    if (this->obj_isState2_324() == 0) {
         ((TObjPlayer *)arg0)->update_position_from_target();
         return;
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
-        ((TObjPlayer *)arg0)->sub_8011E204(4);
+        ((TObjPlayer *)arg0)->clear_state_flags(4);
         if (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) {
             run_action_state_phase__10TObjPlayerFisi(arg0, 0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
@@ -178,18 +177,15 @@ typedef struct Player_801BD0C0 {
 
 extern "C" {
 u16 get_entity_id(void *);
-void select_class_action_provider__10TObjPlayerFv(void *, s32);
 extern s32 TObjPlayer__shared_model_buffer;
-s32 get_handle_value__10TObjPlayerFv(void *);
-Anim_801BD0C0 *get_anim_entry__10TObjMotionFi(void *, s32);
 extern const f32 TObjPlayer__data_805DC278;
 
 void TObjPlayer::apply_motion_entry() {
     Player_801BD0C0 *self = (Player_801BD0C0 *)this;
     Anim_801BD0C0 *a;
-    ((TObjMotion *)self)->set_field_d8(self->ctrl->m5(((TObjPlayer *)self)->has_valid_handle(), get_handle_value__10TObjPlayerFv(self)));
+    ((TObjMotion *)self)->set_field_d8(self->ctrl->m5(((TObjPlayer *)self)->has_valid_handle(), (s32)((TObjPlayer *)self)->get_handle_value()));
     ((TObjMotion *)self)->set_action_motion(this->requested_action);
-    a = get_anim_entry__10TObjMotionFi(self, this->requested_action);
+    a = (Anim_801BD0C0 *)((TObjMotion *)self)->get_anim_entry(this->requested_action);
     this->play_speed = a->speed;
     this->play_mode = a->id;
     this->frame_count = self->motion->frames;
@@ -205,14 +201,14 @@ void TObjPlayer::apply_motion_entry() {
 
 void TObjPlayer::init_idle_animation() {
     Player_801BD1B4 *arg0 = (Player_801BD1B4 *)this;
-    ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), get_handle_value__10TObjPlayerFv(arg0)), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
+    ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), (s32)((TObjPlayer *)arg0)->get_handle_value()), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
 }
 
 void TObjPlayer::sub_801BD240() {
     P_801BD240 *arg0 = (P_801BD240 *)this;
     s32 t = get_entity_id(arg0) * 0xC00;
     arg0->fE0 = TObjPlayer__shared_model_buffer + t;
-    select_class_action_provider__10TObjPlayerFv(arg0, t);
+    ((TObjPlayer *)arg0)->select_class_action_provider();
     arg0->f380->m3(get_entity_id(arg0));
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->update_input_and_draw();

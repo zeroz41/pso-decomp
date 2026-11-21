@@ -34,12 +34,11 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void init_state();
     static void *create_callback(void *arg0, void *arg1, void *arg2);
     void set_active();
-    static void create_default_callback();
+    void *create_default_callback();
     static s32 show_message_window(void *arg0, void *arg1);
     static void clear_serial_buffer();
     static void store_serial_access_key(s32 arg0, s32 arg1, s32 arg2);
     static char *serial_to_hex_string(int arg0);
-    static int forward_input(void* p);
     void reset_input_state();
     static void draw_serial_chars(s32 arg0);
     static u32 create_keyboard_control(s32 arg0, s32 arg1);
@@ -62,6 +61,7 @@ void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *arg0, s16 arg1);
 void create_draw_callback__22TAdEnterSerialAccessGCFv(void);
 void init__22TAdEnterSerialAccessGCFv(void);
 }
+extern "C" void *create_callback_at_zero_vec2(void *callback);
 
 // --- C functions defined in TAdEnterSerialAccessGC.cpp ---
 extern "C" {

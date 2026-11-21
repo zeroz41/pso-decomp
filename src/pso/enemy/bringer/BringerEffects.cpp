@@ -236,7 +236,7 @@ TUnk_8048FE64::TUnk_8048FE64(TObject *parent, const Vec *from, const Vec *to) : 
     VecCopy(&position, &start);
     VecCopy(&delta, &end);
     subtract_vector(&delta, &start);
-    length = ((TObjBoss2Tunnel *)&delta)->update_scale();
+    length = normalize_vector_safe(&delta);
     frames = 0.0f;
 }
 
@@ -314,7 +314,7 @@ void TUnk_8048FE08::run_task() {
         VecCopy(&destination, &contact->contact->point);
         VecCopy(&offset, &position);
         subtract_vector(&offset, &destination);
-        step = ((TObjBoss2Tunnel *)&offset)->update_scale();
+        step = normalize_vector_safe(&offset);
         hit = 1;
     }
     f32 spacing = 16.0f;

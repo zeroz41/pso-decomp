@@ -30,7 +30,7 @@ void insert_item_node__10TObjPlayerFiiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3
         TItemList__sub_801D5838((void *)temp_r31);
         ((TObjPlayer *)temp_r30)->set_field4(arg4);
         copy_item_data__9TItemListFv(temp_r30, arg3);
-        create_node__9TItemListFPvPvPvSc(arg0, arg2, arg1, 0);
+        TItemList::create_node((void *)arg0, (void *)arg2, (void *)arg1, 0);
         TItemList__sub_801D5804((s32 *)arg0);
     }
 }

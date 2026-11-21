@@ -6,10 +6,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/ModelNodeTables.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 s32 get_bml_model(BmlResource *resource, s32 index);
-s32 alloc_tables__6TLobbyFll(s32, s32, s32);
 }
 
 void ModelNodeTables::destroy() {
@@ -48,7 +48,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
         t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->model), r->node);
         p = (int)::operator new(0x14);
         if (p != 0) {
-            p = alloc_tables__6TLobbyFll(p, t, r->count);
+            p = (s32)((TLobby *)p)->alloc_tables(t, r->count);
         }
         items[i] = (void *)p;
     }

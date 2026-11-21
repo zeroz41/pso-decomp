@@ -12,7 +12,7 @@ public:
     static void enable_camera();
     void free_sub_ctrls();
     virtual void render();
-    static int call_enable_camera(void* p);
+    static void call_enable_camera(void* p);
 };
 
 #endif

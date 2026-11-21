@@ -7,8 +7,5 @@
 void send_subcommand(void *cmd);
 // Sends a 6x subcommand to the leader (or runs it here offline).
 void send_subcommand_to_leader(void *cmd);
-extern "C" {
-void update_players__6TLobbyFv(s32 arg0);
-}
 
 #endif

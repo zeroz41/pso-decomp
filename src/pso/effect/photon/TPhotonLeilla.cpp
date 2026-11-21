@@ -63,7 +63,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u8 *__nw__7TObjectFUl(s32, f32);
 
 s32 scroll_strip_uvs(void *, s16, int);
-s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
@@ -97,7 +96,7 @@ void TPhotonLeilla::render() {
         ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
         ((TObjMotion *)self)->draw();
         clear_motion_packed_rotation();
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);

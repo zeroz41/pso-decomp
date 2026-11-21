@@ -22,8 +22,7 @@ s32 *TLobby__sub_800713C8(void);
 u32 TLobby__sub_80071640(u32 c);
 s32 TLobby__sub_80071654(s32 arg0);
 s32 add_entry__6TLobbyFiii(s32 src, s32 arg1, s32 arg2);
-u8 is_flag_set__6TLobbyFv(void);
-void set_split_screen_flag__6TLobbyFv(void);
+void set_challenge_mode_split_flag(void);
 }
 // --- end of C functions
 

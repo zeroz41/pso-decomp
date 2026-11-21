@@ -37,9 +37,7 @@ struct VObj_8032C594_8032C504 : Base_8032C594_8032C504 {
 };
 
 extern "C" {
-extern s32 __vt__17TAdExNetConfirmGC[];
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
-int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdExNetConfirmGC::render() {
     struct VObj_8032C504 *o = (struct VObj_8032C504 *)this;
@@ -54,7 +52,7 @@ void TAdExNetConfirmGC::vfunc_7() {
     get_localized_text_entry(0x22, 0);
 }
 
-int TAdExNetConfirmGC::vfunc_6() { return request_scene_change__21TAdMultiChgGameModeGCFv(this); }
+int TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 void TAdExNetConfirmGC::run_task() {
     struct VObj_8032C594_8032C504 *o = (struct VObj_8032C594_8032C504 *)this;
@@ -66,20 +64,17 @@ TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 
 }
 
-u8 *TAdExNetConfirmGC__ct(u8 *object) {
-    TAdWarningBaseGC__ct((TAdWarningBaseGC *)object);
-    *(s32 **)((s8 *)object + 0x18) = __vt__17TAdExNetConfirmGC;
-    ((TAdExNetConfirmGC *)object)->m_name = lbl_805D4200;
+TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent) {
+    m_name = lbl_805D4200;
     if ((TLobby__sub_80145DB4(1) != 0) || (TLobby__sub_80145DB4(4) != 0)) {
         if (TLobby__sub_80145A94() != 0) {
             TLobby::init_account_entries();
         } else {
             request_main_phase(0x13);
         }
-        ((TObject *)object)->queue_destruction();
+        queue_destruction();
         TAdMultiChgGameModeGC::set_game_mode();
-        return object;
+        return;
     }
-    return object;
 }
 

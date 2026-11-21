@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -8,6 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
 
 const char *ad_select_txt_sub_gc_class_name = "TAdSelectTxtSubGC";
 s32 status_disp_texture_handle;
@@ -48,7 +50,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__17TAdSelectTxtSubGC[];
 Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_802A37A0 *src);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 void TAdSelectTxtSubGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
@@ -89,7 +90,7 @@ Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_
     arg0->f0 = ad_select_txt_sub_gc_class_name;
     arg0->f7c = src->f0;
     arg0->f1c = src->f4;
-    ((TWindowSubSymbolChatPartsSet *)(&arg0->f64))->copy_vec2(src->v8);
+    copy_vec2((&arg0->f64), src->v8);
     arg0->f80 = src->f10;
     arg0->f84 = -1;
     arg0->f74 = 2.0f;
@@ -114,18 +115,9 @@ Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_
 int TObjNpcHosa__sub_802A39B0(void) {  return ad_select_text_texture_handle; }
 
 
-void * TObjNpcHosa__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcHosa__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcHosa__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcHosa(control, set_data);
 }
 
 }

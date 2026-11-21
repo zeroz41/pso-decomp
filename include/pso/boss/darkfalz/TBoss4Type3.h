@@ -15,6 +15,7 @@ struct TBoss4Type3CollisionState {
 };
 
 struct TBoss4Type3 : public TObjEnemy {
+    TBoss4Type3(TObject *parent, s32 *arg2);
     virtual ~TBoss4Type3();
     virtual void render();
     virtual void vfunc_62();
@@ -137,7 +138,7 @@ struct TBoss4Type3 : public TObjEnemy {
     static s32 create(s32 arg0);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
     static f32 compute_wave_offset(f32 farg0);
-    static u16 pick_random_target_player();
+    static s32 pick_random_target_player();
     static TObjDFHorming *create_horming(TObject *parent, const Vec *position, u16 target_id);
     void copy_positions_to_parts();
     void update_phase_timer();

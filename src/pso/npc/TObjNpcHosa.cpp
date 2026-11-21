@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/npc/TUnk_804A9F50.h"
@@ -27,10 +28,8 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
-extern s32 __vt__11TObjNpcHosa[];
 extern const char *TObjNpcHosa__name;
 void free_bin_model_request(void*, int);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 void TObjNpcHosa::destroy_static_instance() {
     if ((u32) TObjNpcHosa__static_model_resource != 0U) {
@@ -56,29 +55,17 @@ TObjNpcHosa::~TObjNpcHosa() {}
 
 extern void *tl_04;
 
-u8 *TObjNpcHosa__ct(u8 *player, s32 arg1, s32 arg2) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__11TObjNpcHosa;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHosa__name;
-    ((TObjNpcHosa *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
-    ((TObjNpcHosa *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcHosa__name;
+    ((TObjNpcHosa *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
+    ((TObjNpcHosa *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
+    ((TObjNpcBase *)this)->setup_common();
 }
 
-void * TObjNpcKenkyuW__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcKenkyuW__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcKenkyuW__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcKenkyuW(control, set_data);
 }
 

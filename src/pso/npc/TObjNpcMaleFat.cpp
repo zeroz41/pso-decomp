@@ -15,15 +15,9 @@ BmlResourceDescriptor bm_n_efm_i_body_resource_descriptor = { "bm_n_efm_i_body.b
 const char *TObjNpcMaleFat__name = "TObjNpcMaleFat";
 BmlResource *TObjNpcMaleFat__static_model_resource;
 
-s32 __vt__14TObjNpcMaleFat[];
-
 void *TObjNpcMaleFat__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcMaleFat));
-    if (npc != NULL) {
-        npc = TObjNpcMaleFat__ct((TObjNpcMaleFat *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcMaleFat(control, set_data);
 }
 
 void TObjNpcMaleFat::free_static_model() {
@@ -44,14 +38,11 @@ void TObjNpcMaleFat::load_static_resource() {
 
 TObjNpcMaleFat::~TObjNpcMaleFat() {}
 
-TObjNpcMaleFat *TObjNpcMaleFat__ct(TObjNpcMaleFat *npc, TObjControl *control, void *set_data) {
-    npc->construct_male_npc_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__14TObjNpcMaleFat;
-    npc->m_name = TObjNpcMaleFat__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcMaleFat__static_model_resource->models->model;
-    npc->texlist = TObjNpcMaleFat__static_model_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcMaleFat::TObjNpcMaleFat(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+    this->m_name = TObjNpcMaleFat__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcMaleFat__static_model_resource->models->model;
+    this->texlist = TObjNpcMaleFat__static_model_resource->models->m_c;
+    this->setup_common();
 }

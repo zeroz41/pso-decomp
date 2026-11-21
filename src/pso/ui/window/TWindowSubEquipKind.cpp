@@ -10,7 +10,6 @@ s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(void *, s32, void *);
-s32 forward_render__20TWindowSubStatusDispFv(void *, s32);
 
 u8 *create_equip_kind_window(s32 parent, s32 position, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)position, 0x1F);
@@ -30,7 +29,7 @@ void TWindowSubEquipKind::render() {
         draw_tab_label((void *)context);
     }
     if (status_display != NULL) {
-        forward_render__20TWindowSubStatusDispFv(status_display, context);
+        ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, (u8 *)&m_68);

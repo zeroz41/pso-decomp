@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 struct S_803DDD78 { s8 a, b; };
 
@@ -386,7 +387,7 @@ void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, co
         if (names) {
             s32 length = strlen((char*)record);
             if (length > 0) {
-                ((TLobby *)(texture->name))->move_data(record, length);
+                move_data((void *)((texture->name)), (const void *)(record), length);
             }
             record += 0x1C;
         }
@@ -546,9 +547,9 @@ void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out) {
     u32 v;
     pos = 0;
     src = base + *off;
-    ((TLobby *)(&magic))->move_data(src, 4);
+    move_data((void *)((&magic)), (const void *)(src), 4);
     TLobby::bswap_u32(&magic);
-    ((TLobby *)(&size))->move_data(src + 4, 4);
+    move_data((void *)((&size)), (const void *)(src + 4), 4);
     TLobby::bswap_u32(&size);
     src += 8;
     *off += 8;
@@ -595,7 +596,7 @@ void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out) {
     if (buf == NULL) {
         return NULL;
     }
-    ((TLobby *)buf)->move_data(src, size);
+    move_data((void *)(buf), (const void *)(src), size);
     DCFlushRange(buf, size);
     src += size;
     *off += size;
@@ -604,17 +605,17 @@ unknown:
     *out = 0x2A2A2A2A;
     return NULL;
 relocate:
-    ((TLobby *)(&magic))->move_data(src, 4);
+    move_data((void *)((&magic)), (const void *)(src), 4);
     TLobby::bswap_u32(&magic);
     *off += 4;
     magic = TLobby::bswap32_value(magic);
     if (magic == 0x504F4630) {
-        ((TLobby *)(&size))->move_data(src + 4, 4);
+        move_data((void *)((&size)), (const void *)(src + 4), 4);
         TLobby::bswap_u32(&size);
         src += 8;
         *off += 4;
         while (size != 0) {
-            ((TLobby *)(&b0))->move_data(src, 1);
+            move_data((void *)((&b0)), (const void *)(src), 1);
             src++;
             (*off)++;
             size--;
@@ -623,18 +624,18 @@ relocate:
                 v = b0 & 0x3F;
                 break;
             case 0x80:
-                ((TLobby *)(&b1))->move_data(src, 1);
+                move_data((void *)((&b1)), (const void *)(src), 1);
                 src++;
                 size--;
                 (*off)++;
                 v = ((b0 & 0x3F) << 8) | b1;
                 break;
             case 0xC0:
-                ((TLobby *)(&b1))->move_data(src, 1);
+                move_data((void *)((&b1)), (const void *)(src), 1);
                 size--;
-                ((TLobby *)(&b2))->move_data(src + 1, 1);
+                move_data((void *)((&b2)), (const void *)(src + 1), 1);
                 size--;
-                ((TLobby *)(&b3))->move_data(src + 2, 1);
+                move_data((void *)((&b3)), (const void *)(src + 2), 1);
                 src += 3;
                 size--;
                 *off += 3;

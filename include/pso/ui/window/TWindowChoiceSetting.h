@@ -13,11 +13,11 @@ struct TWindowChoiceSetting : public TUnk_804D0658 {
     u16 m_80;
     virtual void run_task();
     u8 unk_82[0x2];
-    static s32 apply_choice(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 };
 
 typedef char TWindowChoiceSetting_size[sizeof(TWindowChoiceSetting) == 0x84 ? 1 : -1];
 extern "C" {
+s32 test_buttons_press_or_repeat(s32 input, s32 buttons, s32 delay, s32 period);
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 void render__13TUnk_804D0658Fv(u8 *arg0);
 }

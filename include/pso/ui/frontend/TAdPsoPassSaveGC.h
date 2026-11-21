@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
+    TAdPsoPassSaveGC(TObject *parent);
     virtual ~TAdPsoPassSaveGC();
     virtual void render();
     virtual void run_task();
@@ -14,15 +15,5 @@ struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
 };
 
 typedef char TAdPsoPassSaveGC_size[sizeof(TAdPsoPassSaveGC) == 0x48 ? 1 : -1];
-
-extern "C" {
-void *TAdPsoPassSaveGC__ct(void *parent);
-}
-
-// --- C functions defined in TAdPsoPassSaveGC.cpp ---
-extern "C" {
-void *TAdPsoPassSaveGC__ct(void *parent);
-}
-// --- end of C functions
 
 #endif

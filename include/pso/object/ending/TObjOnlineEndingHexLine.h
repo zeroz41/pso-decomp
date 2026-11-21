@@ -1,7 +1,13 @@
 #ifndef PSO_OBJECT_ENDING_TOBJONLINEENDINGHEXLINE_H
 #define PSO_OBJECT_ENDING_TOBJONLINEENDINGHEXLINE_H
 #include "pso/system/task/TObject.h"
+#include <stddef.h>
 #include "types.h"
+
+struct EndingHexPoint {
+    s16 x;
+    s16 y;
+};
 
 class TObjOnlineEndingHexLine : public TObject {
 public:
@@ -9,8 +15,14 @@ public:
     virtual void render();
     virtual void run_task();
 public:
+    EndingHexPoint points[32];
+    f32 progress;
+
     void step_line();
     static void *create(void *arg0, void *arg1);
 };
+
+typedef char EndingHexLineSize[sizeof(TObjOnlineEndingHexLine) == 0xA0 ? 1 : -1];
+typedef char EndingHexProgressOffset[offsetof(TObjOnlineEndingHexLine, progress) == 0x9C ? 1 : -1];
 
 #endif

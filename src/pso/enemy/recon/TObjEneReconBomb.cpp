@@ -108,13 +108,10 @@ s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
 u32 recon_bomb_bml_resource;
-s32 calc_scaled_value__12TObjEneReconFv(int);
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
-s32 __ct__9TObjCharaFP7TObject();
 
-extern s32 __vt__16TObjEneReconBomb[];
 
 s32 fn_8031B618(Obj_8031B618 *arg0) {
     s32 var_r30 = 0;
@@ -251,31 +248,28 @@ extern "C" {
 
 extern const char *TObjEneReconBomb__name;
 
-u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s32 arg3) {
+TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec *arg3) : TObjChara(arg1) {
     f32 temp_f1;
     f32 temp_f31;
     u8 *temp_r5;
 
-    __ct__9TObjCharaFP7TObject();
-    *(s32 **)((s8 *)ene_recon_bomb + 0x18) = (s32 *) __vt__16TObjEneReconBomb;
-    *(s32 *)((s8 *)ene_recon_bomb + 0) = (s32) TObjEneReconBomb__name;
-    ene_recon_bomb->m_334 = arg2;
-    ene_recon_bomb->m_338 = get_entity_id(ene_recon_bomb->m_334);
-    *(f32 *)((s8 *)ene_recon_bomb + 0x34C) = TObjEneRecon__sub_8031C2D4(ene_recon_bomb->m_334);
-    ene_recon_bomb->m_350 = TObjEneRecon__sub_8031C2C8(ene_recon_bomb->m_334);
-    *(f32 *)((s8 *)ene_recon_bomb + 0x354) = TObjEneRecon__sub_8031C2BC(ene_recon_bomb->m_334);
-    ene_recon_bomb->m_358 = calc_scaled_value__12TObjEneReconFv(ene_recon_bomb->m_334);
-    temp_r5 = (unsigned char *) (ene_recon_bomb->m_up);
-    ene_recon_bomb->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
-    VecCopy__FP3VecPC3Vec((u8 *)ene_recon_bomb + 0x38, (void *)arg3, (int)temp_r5);
-    temp_f31 = sin_table_lookup(ene_recon_bomb->rotation_y);
-    temp_f1 = cos_table_lookup(ene_recon_bomb->rotation_y);
-    *(f32 *)((s8 *)ene_recon_bomb + 0x33C) = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f31);
-    *(f32 *)((s8 *)ene_recon_bomb + 0x340) = 0.0f;
-    ene_recon_bomb->m_344 = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f1);
-    ene_recon_bomb->m_360 = 0;
-    ene_recon_bomb->m_35c = 0;
-    return (u8 *)ene_recon_bomb;
+    *(s32 *)((s8 *)this + 0) = (s32) TObjEneReconBomb__name;
+    m_334 = (u32)arg2;
+    this->m_338 = get_entity_id(this->m_334);
+    *(f32 *)((s8 *)this + 0x34C) = TObjEneRecon__sub_8031C2D4(this->m_334);
+    this->m_350 = TObjEneRecon__sub_8031C2C8(this->m_334);
+    *(f32 *)((s8 *)this + 0x354) = TObjEneRecon__sub_8031C2BC(this->m_334);
+    this->m_358 = ((TObjEneRecon *)this->m_334)->calc_scaled_value();
+    temp_r5 = (unsigned char *) (this->m_up);
+    this->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
+    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)arg3, (int)temp_r5);
+    temp_f31 = sin_table_lookup(this->rotation_y);
+    temp_f1 = cos_table_lookup(this->rotation_y);
+    *(f32 *)((s8 *)this + 0x33C) = (f32) (*(f32 *)((s8 *)this + 0x354) * temp_f31);
+    *(f32 *)((s8 *)this + 0x340) = 0.0f;
+    this->m_344 = (f32) (*(f32 *)((s8 *)this + 0x354) * temp_f1);
+    this->m_360 = 0;
+    this->m_35c = 0;
 }
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
@@ -284,12 +278,7 @@ const char *TObjEneReconBomb__name = "TObjEneReconBomb";
 void TObjEneRecon__sub_8031BC38(void) {  }
 
 void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x364);
-    if (o != NULL) {
-        o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
-    }
-    return o;
+    return new TObjEneReconBomb((TObject *)arg0, (TObjEneRecon *)arg1, (const Vec *)arg2);
 }
 
 void TObjEneRecon__sub_8031BC94(void) { recon_bomb_bml_resource = TObjEneRecobox__sub_803201D0(); }

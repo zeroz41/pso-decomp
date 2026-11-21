@@ -33,7 +33,6 @@ struct Stack_8026A494 {
 extern "C" {
 s32 clamp_list_scroll_offset(int, void *, void *, f32);
 s32 find_entity_by_id();
-s32 obj_isState2_324__9TObjCharaFv();
 
 s32 TWindowMessageLog::get_active_photon_object() {
     s32 temp_r3;
@@ -43,7 +42,7 @@ s32 TWindowMessageLog::get_active_photon_object() {
     if (temp_r3 == 0) {
         return 0;
     }
-    if ((obj_isState2_324__9TObjCharaFv() == 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3) == 0)) {
+    if ((((TObjChara *)temp_r3)->obj_isState2_324() == 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3) == 0)) {
         return 0;
     }
     var_r3 = temp_r3 + 0x85C;
@@ -81,14 +80,13 @@ void TWindowMessageLog::update_scroll_position() {
     this->clamp_scroll_offset();
 }
 
-s32 update_fade__11TWindowBaseFv();
 
 void TWindowMessageLog::update_fade_offset() {
     f32 temp_f1;
     f32 temp_f31;
 
     temp_f31 = this->m_4c;
-    update_fade__11TWindowBaseFv();
+    update_fade();
     temp_f1 = this->m_4c - temp_f31;
     if (0.0f != temp_f1) {
         this->m_84 = (f32) (this->m_84 - temp_f1);
@@ -97,7 +95,6 @@ void TWindowMessageLog::update_fade_offset() {
     }
 }
 
-s32 clamp_scroll_offset__17TWindowMessageLogFv(f32);
 
 void TWindowMessageLog::update_scroll_animation() {
     f32 temp_f1;
@@ -109,7 +106,7 @@ void TWindowMessageLog::update_scroll_animation() {
         temp_f1_2 = this->m_6c;
         this->m_6c = (f32) (temp_f1_2 + this->m_94);
         this->m_94 *= 0.0f;
-        clamp_scroll_offset__17TWindowMessageLogFv(temp_f1_2);
+        clamp_scroll_offset();
     }
 }
 
@@ -117,7 +114,6 @@ void TWindowMessageLog::update_scroll_animation() {
 
 extern "C" {
 u8 *heap_alloc__5THeapFUl(s32, s32);
-s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 s32 strncpy(int, void *, int);
 extern s32 TAdScrollWinGC__chat_log_heap;
 extern u8 *chat_last_line_buffer;
@@ -192,15 +188,15 @@ void cache_last_chat_line(u32 text) {
     }
     if (text != 0U) {
         temp_r31 = chat_text_lacks_language_tag((const char *)(text));
-        size = measure_string_len__20TWindowSubStatusDispFv((void *)text) + 1;
+        size = (s32)measure_string_len((const char *)((void *)text)) + 1;
         if (temp_r31 != 0) {
             size += 2;
         }
-        var_r3 = heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, size);
+        var_r3 = (u8 *)((THeap *)TAdScrollWinGC__chat_log_heap)->heap_alloc(size);
         if (var_r3 == NULL) {
             do {
                 chat_log_remove_line(0);
-                var_r3 = heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, size);
+                var_r3 = (u8 *)((THeap *)TAdScrollWinGC__chat_log_heap)->heap_alloc(size);
             } while (var_r3 == NULL);
         }
         chat_last_line_buffer = var_r3;
@@ -277,19 +273,10 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
 }
 
 u8 *create_message_log_window(s32 arg0, s32 arg1, s32 arg2) {
-    u8 *window_message_log;
-    u8 *var_r0;
     TLobby__sub_80269DA4((void *)arg1, 0x1E);
-    window_message_log = (u8 *)(TObject::operator new(0x98));
-    var_r0 = window_message_log;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowMessageLog__ct((TWindowMessageLog *)window_message_log, arg0, arg2));
-    }
-    return var_r0;
+    return (u8 *)new TWindowMessageLog(arg0, arg2);
 }
 
-struct RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog_size[sizeof(RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog) == 0x18 ? 1 : -1];
 
 
 const char *TWindowMessageLog__name = "TWindowMessageLog";
@@ -299,17 +286,10 @@ struct Stack_8026ABA8 {
     f32 spC;
 };
 
-struct RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_scrollbar(int, int, void *);
-extern RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog __vt__17TWindowMessageLog;
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 s32 reset_selection__20TWindowSubStatusDispFv(int, void *);
 extern const char *TWindowMessageLog__name;
 void TWindowMessageLog::render() {
@@ -336,8 +316,8 @@ TWindowMessageLog::~TWindowMessageLog() {
     TWindowSubStatusDisp::destroy_allocation(*(s32 *)((s8 *)this + 0x90), 1);
     TWindowCtrl__sub_8026AD60();
 }
-typedef char RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog_size[sizeof(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog) == 0x18 ? 1 : -1];
-u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 arg2) {
+TWindowMessageLog::TWindowMessageLog(s32 arg1, s32 arg2) : TWindowMessage(arg1, 0x1E, arg2) {
+    #define window_message_log this
     typedef char sp8_offset[(offsetof(Stack_8026ABA8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8026ABA8, spC) == 0x4) ? 1 : -1];
     Stack_8026ABA8 stack;
@@ -345,8 +325,6 @@ u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 a
     f32 temp_f2;
     s32 temp_r3;
     s32 var_r0;
-    TWindowMessage__ct(((u8 *)window_message_log), (arg1), 0x1E, (arg2));
-    *(s32 **)((s8 *)window_message_log + 0x18) = &(*(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog *)&__vt__17TWindowMessageLog).value;
     *(s32 *)((s8 *)window_message_log + 0) = (s32) ((s32)TWindowMessageLog__name);
     TWindowCtrl__sub_8026AD78((s32)window_message_log);
     temp_f2 = window_message_log->m_38;
@@ -362,7 +340,7 @@ u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 a
     window_message_log->m_2c = (s32) (window_message_log->m_2c | 0x80);
     window_message_log->m_94 = (f32) 0.0f;
     window_message_log->load_chat_history();
-    return (u8 *)window_message_log;
+    #undef window_message_log
 }
 
 }

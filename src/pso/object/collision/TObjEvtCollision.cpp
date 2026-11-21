@@ -1,3 +1,5 @@
+#include "pso/network/FloorEventCommand.h"
+#include "pso/render/NinjaUtil.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjEvtCollision.h"
@@ -10,9 +12,6 @@
 
 #pragma readonly_strings on
 
-struct Pkt_80190CFC { u8 hdr[2]; u16 id; s32 player; s32 x10; s32 x14; };
-
-struct Obj_80190CFC { u8 pad0[0x1C]; u16 id; u8 pad1E[0x84 - 0x1E]; s32 x84; u8 pad88[0xAC - 0x88]; f32 radius; u8 padB0[4]; s32 timer; };
 
 extern "C" {
 const char *TObjEvtCollision__class_name = "TObjEvtCollision";
@@ -20,25 +19,23 @@ u8 *__ct__16TObjEvtCollisionFll(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
 void *get_player_by_client_id(s32 i);
-f32 xyz_distance_squared(s32, s32);
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
-    s32 arg0 = (s32)this;
     s32 i;
-    u32 player;
-    u32 temp_r3_2;
+    TObjPlayer *player;
+    TObjPlayer *local_player;
 
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i += 1) {
-            player = (u32)get_player_by_client_id(i);
-            if ((player != 0U) && (xyz_distance_squared(player + 0x38, arg0 + 0x38) < farg0)) {
+            player = static_cast<TObjPlayer *>(get_player_by_client_id(i));
+            if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
                 return 1;
             }
         }
         goto block_10;
     }
-    temp_r3_2 = (u32)get_player_by_client_id(local_client_id);
-    if ((temp_r3_2 != 0U) && (xyz_distance_squared(temp_r3_2 + 0x38, arg0 + 0x38) < farg0)) {
+    local_player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+    if ((local_player != NULL) && (xyz_distance_squared(&local_player->position, &position) < farg0)) {
         return 1;
     }
 block_10:
@@ -58,18 +55,17 @@ void *TObjEvtCollision__create(void *arg0) {
 void TObjEvtCollision::render() {  }
 
 void TObjEvtCollision::run_task() {
-    Obj_80190CFC *arg0 = (Obj_80190CFC *)this;
-    Pkt_80190CFC pkt;
-    if (--arg0->timer <= 0) {
-        if (is_any_player_in_range(arg0->radius * arg0->radius) == 1) {
-            ((TLobby *)(&pkt))->init_packet_67_04();
-            pkt.id = arg0->id;
-            pkt.player = get_current_floor();
-            pkt.x10 = arg0->x84;
-            pkt.x14 = local_client_id;
-            ((TLobby *)(&pkt))->byteswap_and_send();
-            ((TObjBase *)arg0)->set_event_source_flag(8);
-            ((TObject *)arg0)->queue_destruction();
+    G_FloorEvent_6x67 pkt;
+    if (--countdown <= 0) {
+        if (is_any_player_in_range(trigger_radius * trigger_radius) == 1) {
+            pkt.init();
+            pkt.header.client_id = entity_id;
+            pkt.floor = get_current_floor();
+            pkt.event_id = set_params[0];
+            pkt.sender_client_id = local_client_id;
+            pkt.send();
+            set_event_source_flag(8);
+            queue_destruction();
         }
     }
 }
@@ -82,9 +78,9 @@ TObjEvtCollision::~TObjEvtCollision() {
 TObjEvtCollision::TObjEvtCollision(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     this->m_name = TObjEvtCollision__class_name;
     ((TObjEvtCollision *)(this))->apply_object_set_data((void *)arg2);
-    *(f32 *)((s8 *)this + 0xAC) = (f32) this->scale.x;
+    trigger_radius = scale.x;
     this->m_b0 = (s32) this->set_params[0];
-    this->m_b4 = 3;
+    countdown = 3;
     this->disallow_rendering();
 }
 

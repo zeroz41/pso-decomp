@@ -24,6 +24,8 @@
 #define PSO_PROTOCOL_SUBCMD_6X_H
 
 #include "types.h"
+#include "pso/system/vector.h"
+#include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
 
 struct G_6x70_Base_DCNTE {
@@ -398,17 +400,35 @@ struct G_InterLevelWarp_6x21 {
 };
 
 struct G_InterLevelWarp_6x94 {
- struct G_UnusedHeader header;
- u16 floor;
+ G_ClientIDHeader header; // This command leaves the client ID word unused.
+ s16 floor;
  u8 unused[2];
 };
 
+typedef char G_InterLevelWarp_6x94_size[sizeof(G_InterLevelWarp_6x94) == 8 ? 1 : -1];
+typedef char G_InterLevelWarp_6x94_floor_offset[offsetof(G_InterLevelWarp_6x94, floor) == 4 ? 1 : -1];
+
 struct G_IntraMapWarp_6x55 {
- struct G_ClientIDHeader header;
+ G_ClientIDHeader header;
  u32 angle_y;
- struct VectorXYZF from_pos;
- struct VectorXYZF pos;
+ Vec from_pos;
+ Vec pos;
+
+ void init();
+ void bswap();
+ void send();
 };
+
+typedef char G_IntraMapWarp_6x55_size[sizeof(G_IntraMapWarp_6x55) == 0x20 ? 1 : -1];
+typedef char G_IntraMapWarp_6x55_position_offset[offsetof(G_IntraMapWarp_6x55, from_pos) == 0x8 ? 1 : -1];
+typedef char G_IntraMapWarp_6x55_destination_offset[offsetof(G_IntraMapWarp_6x55, pos) == 0x14 ? 1 : -1];
+
+struct game_command_header;
+extern "C" {
+void handle_6x94_inter_level_warp(game_command_header *command);
+void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw);
+void handle_6x55_intra_map_warp(game_command_header *command);
+}
 
 struct G_LegacyActivateSwitchByToken_6x04 {
  struct G_ParameterHeader header;
@@ -878,7 +898,12 @@ struct G_TriggerTrap_6x80 {
  struct G_ClientIDHeader header;
  u16 trap_number;
  u16 what;
+ void init();
+ void bswap();
+ void send();
 };
+
+typedef char TriggerTrapPacketSize[sizeof(G_TriggerTrap_6x80) == 8 ? 1 : -1];
 
 struct G_TurnOrMoveLobbyChair_6xAF_6xB0 {
  struct G_ClientIDHeader header;

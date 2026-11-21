@@ -1,4 +1,6 @@
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ObjectFactoryTables.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
 
@@ -32,30 +34,13 @@ typedef struct SpawnRecord_8020D36C {
     s16 integers[4];
 } SpawnRecord_8020D36C;
 
-struct Rec_8020D3F0 { u8 p0[0xC]; s16 key; u8 p1[2]; u8 a[0xC]; u8 b[0x28]; };
-
 struct Out_8020D474 { u8 data[0x18]; };
-
-struct Rec_8020D474 { s16 id; u8 pad[0x42]; };
 
 struct Ent_8020D4E8 { u8 d[0xC]; };
 
 struct Obj_8020D4E8 { u8 p0[0xD4]; Ent_8020D4E8 ents[13]; u8 p1[0x8]; Ent_8020D4E8 single; };
 
 typedef ObjectFactoryEntry Ent_8020D5AC;
-
-struct Rec_8020D5AC {
-    s16 id;
-    s16 flags;
-    s16 s4;
-    s16 s6;
-    u16 s8;
-    s16 sA;
-    s16 sC;
-    s16 sE;
-    u8 data[0x30];
-    void *obj;
-};
 
 extern "C" {
 s32 push_matrix_from(void *src);
@@ -64,27 +49,20 @@ s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-struct TLobbyFloorEnemyGroupTable { s32 value; u8 remaining[0x1AC]; };
-extern TLobbyFloorEnemyGroupTable TLobby__floor_enemy_group_table;
 extern s32 TLobby__data_805D60FC;
-extern s32 TLobby__data_805D610C;
-extern s32 TLobby__data_805D6114;
-extern s32 TLobby__data_805D611C;
-extern s32 TLobby__data_805D6120;
 void *find_scene_room_by_id(s32 room);
 void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count);
-void apply_room_transform_to_object_rows(Rec_8020D3F0 *arr, s32 n);
+void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
 s32 find_set_factory_index(void *, void *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_801C2614();
-u8 *call_area_set_factory(void *, void *);
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(s32 arg0, u8 *arg1, u8 *arg2);
-s32 resolve_set_row_factory_indices(void *arg0, int arg1, int arg2);
+s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
 extern Obj_8020D4E8 *camera_ctrl_instance;
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
-void spawn_decorations_in_range(void *arg0);
+void spawn_decorations_in_range(TSetManager *arg0);
 void apply_room_transform(s32 arg0, u8 *arg1, u8 *arg2) {
     push_matrix_from(&identity_matrix.value);
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg2 + 4)), (f32) (*(f32 *)((s8 *)arg2 + 8)), (f32) (*(f32 *)((s8 *)arg2 + 0xC)));
@@ -115,8 +93,8 @@ void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count) {
     }
 }
 
-void apply_room_transform_to_object_rows(Rec_8020D3F0 *arr, s32 n) {
-    Rec_8020D3F0 *p;
+void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
+    FloorObjectSetRow *p;
     void *sec;
     s16 key;
     s32 i;
@@ -124,29 +102,29 @@ void apply_room_transform_to_object_rows(Rec_8020D3F0 *arr, s32 n) {
     i = 0;
     for (; i < n; i++) {
         p = &arr[i];
-        if (key != p->key) {
-            sec = find_scene_room_by_id(p->key);
-            key = p->key;
+        if (key != p->placement.room) {
+            sec = find_scene_room_by_id(p->placement.room);
+            key = p->placement.room;
         }
         if (sec != NULL) {
-            apply_room_transform((s32)p->a, p->b, (u8 *)sec);
+            apply_room_transform((s32)&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
         }
     }
 }
 
-s32 resolve_set_row_factory_indices(void *arg0, int arg1, int arg2) {
+s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
     Out_8020D474 o;
-    Rec_8020D474 *p;
+    FloorObjectSetRow *p;
     s32 i;
     s32 r;
-    p = (Rec_8020D474 *)arg1;
-    for (i = 0; i < arg2; i++, p++) {
-        if (p->id != -1) {
+    p = rows;
+    for (i = 0; i < count; i++, p++) {
+        if (p->type != -1) {
             r = find_set_factory_index(p, &o);
             if (r >= 0) {
-                p->id = r;
+                p->type = r;
             } else {
-                p->id = -1;
+                p->type = -1;
             }
         }
     }
@@ -170,11 +148,11 @@ s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
     return 0;
 }
 
-void spawn_decorations_in_range(void *arg0) {
+void spawn_decorations_in_range(TSetManager *arg0) {
     Ent_8020D5AC *tbl;
-    Rec_8020D5AC *p;
+    FloorObjectSetRow *p;
     s32 i;
-    u8 *obj;
+    TObjBase *obj;
     tbl = floor_object_factory_tables[get_current_floor_area()];
     if (tbl == NULL) {
         return;
@@ -182,20 +160,20 @@ void spawn_decorations_in_range(void *arg0) {
     if (TObjPlayer::get_player_count() != 0 && is_quest_active() != 0 && TLobby__sub_801C2614() == 0) {
         return;
     }
-    p = (Rec_8020D5AC *)TLobby__data_805D611C;
+    p = floor_decoration_rows;
     for (i = 0; i < TLobby__data_805D6120; i++, p++) {
-        if (p->id != -1 && !(p->flags & 2) && !(p->flags & 8)
-            && is_within_camera_distance(arg0, p->data, tbl[p->id].creation_distance_squared) == 1) {
-            p->s8 = 0xFFFF;
-            p->s4 = -1;
+        if (p->type != -1 && !(p->flags & 2) && !(p->flags & 8)
+            && is_within_camera_distance(arg0, &p->placement.position, tbl[p->type].creation_distance_squared) == 1) {
+            p->placement.entity_id = 0xFFFF;
+            p->placement.object_type = -1;
             obj = call_area_set_factory(arg0, p);
             if (obj != NULL) {
-                p->obj = obj;
-                *(s16 *)((s8 *)obj + 0x28) = p->sC;
-                *(void **)((s8 *)obj + 0x80) = p;
+                p->object = obj;
+                obj->room = p->placement.room;
+                obj->set_entry = p;
                 p->flags |= 2;
             } else {
-                p->obj = NULL;
+                p->object = NULL;
                 p->flags |= 8;
             }
         }
@@ -209,27 +187,27 @@ void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this
 void TSetManager::apply_floor_set_rows() {
     u8 *arg0 = (u8 *)this;
     s32 current_floor;
-    u8 *temp_r30;
+    LobbyFloorRows *floor;
     current_floor = get_current_floor();
     TLobby__data_805D60FC = current_floor;
-    temp_r30 = (u8 *)&TLobby__floor_enemy_group_table.value + (current_floor * 0x18);
-    if (!(*(s32 *)((s8 *)temp_r30 + 8) & 2)) {
-        apply_room_transform_to_object_rows((Rec_8020D3F0 *)(TLobby__data_805D610C), (s32)((int) (*(s32 *)((s8 *)temp_r30 + 0))));
-        *(s32 *)((s8 *)temp_r30 + 8) = (s32) (*(s32 *)((s8 *)temp_r30 + 8) | 2);
+    floor = &TLobby__floor_enemy_group_table[current_floor];
+    if (!(floor->object_placement & 2)) {
+        apply_room_transform_to_object_rows(TLobby__data_805D610C, floor->object_count);
+        floor->object_placement |= 2U;
     }
-    if (!(*(s32 *)((s8 *)temp_r30 + 0xC) & 4)) {
-        apply_room_transform_to_enemy_rows((SpawnRecord_8020D36C *)(TLobby__data_805D6114), (s32)((int) (*(s32 *)((s8 *)temp_r30 + 4))));
-        *(s32 *)((s8 *)temp_r30 + 0xC) = (s32) (*(s32 *)((s8 *)temp_r30 + 0xC) | 4);
+    if (!(floor->enemy_placement & 4)) {
+        apply_room_transform_to_enemy_rows((SpawnRecord_8020D36C *)(TLobby__data_805D6114), floor->enemy_count);
+        floor->enemy_placement |= 4U;
     }
-    if (*(s32 *)((s8 *)temp_r30 + 8) & 2) {
-        TLobby::assign_objects_to_slots((u8 *)TLobby__data_805D610C, (s32)((int) (*(s32 *)((s8 *)temp_r30 + 0))));
+    if (floor->object_placement & 2) {
+        TLobby::assign_objects_to_slots((u8 *)TLobby__data_805D610C, floor->object_count);
     }
-    if (*(s32 *)((s8 *)temp_r30 + 0xC) & 4) {
-        TLobby::assign_display_objects((u8 *)TLobby__data_805D6114, (s32)((int) (*(s32 *)((s8 *)temp_r30 + 4))));
+    if (floor->enemy_placement & 4) {
+        TLobby::assign_display_objects((u8 *)TLobby__data_805D6114, floor->enemy_count);
     }
     if ((s32) TLobby__data_805D6120 > 0) {
-        apply_room_transform_to_object_rows((Rec_8020D3F0 *)(TLobby__data_805D611C), TLobby__data_805D6120);
-        resolve_set_row_factory_indices(arg0, TLobby__data_805D611C, TLobby__data_805D6120);
+        apply_room_transform_to_object_rows(floor_decoration_rows, TLobby__data_805D6120);
+        resolve_set_row_factory_indices(arg0, floor_decoration_rows, TLobby__data_805D6120);
     }
     *(s32 *)((s8 *)arg0 + 0x1C) = 1;
 }

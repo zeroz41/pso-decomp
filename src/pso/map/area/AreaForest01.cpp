@@ -32,6 +32,6 @@ s32 init_stage_forest_b(void) {
     } else {
         init_music_sequencer(0);
     }
-    TBoss4DarkFalz::dispatch_by_main_phase(0x14);
+    set_story_flag_or_send_quest_flag(0x14);
     return 1;
 }

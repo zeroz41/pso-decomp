@@ -65,7 +65,7 @@ struct TMainCursor : public TObject {
     static void set_display_flags(s32 arg0, s32 arg1, s32 arg2);
     static void setup_flags(s32 arg0, s32 arg1, s32 arg2);
     static void sort_list(s32 arg0, s32 arg1);
-    u8 is_channel_active();
+    s32 is_channel_active();
     int check_visible();
     u8 get_enabled();
     u8 get_type();
@@ -83,14 +83,14 @@ struct TMainCursor : public TObject {
     int check_field_24();
     u16 get_id();
     void*get_list();
-    int update_target_sub();
+    void update_target_sub();
     u16 get_render_flag();
     int test_flag_2_at_20();
     int init_render_flags();
     int update();
     int check_flag_1();
     u8 is_position_moved();
-    int check_flag_4();
+    void check_flag_4();
     u8 forward_13E338_at_60();
     u8 update_sub_60();
     void set_offset_y(s16 a1);

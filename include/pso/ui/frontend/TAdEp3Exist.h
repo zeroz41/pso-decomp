@@ -16,8 +16,8 @@ struct TAdEp3Exist : public TObject {
     u32 m_34;
     void draw_message_window(s32 arg1);
     virtual void render();
-    int request_game_mode_transition();
-    int request_scene_change();
+    void request_game_mode_transition();
+    void request_scene_change();
     void close_window();
     virtual void run_task();
     static s32 free_if_valid(s32 arg0, s16 arg1);

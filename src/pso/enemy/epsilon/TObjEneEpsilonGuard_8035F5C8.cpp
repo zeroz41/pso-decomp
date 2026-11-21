@@ -6,6 +6,7 @@
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -46,7 +47,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();
-s32 get_mode__11TCameraCtrlFPv(void *);
 void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 arg1);
 extern EpsilonBodySharedParams *lbl_805D6F8C;
 void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
@@ -72,7 +72,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 check_path_obstructed(void *, void *);
 void create_fire_explosion_effect(void *, f32, Vec *, s32, s32);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot);
-extern s32 tl_07;
 void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1);
 int TObjEneEpsilonGuard__sub_8035DD68(TObjEneEpsilonGuard *guard);
 void TObjEneEpsilonGuard__sub_8035FB44(TObjEneEpsilonBody *body);
@@ -143,7 +142,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     set_animation(requested_action);
     set_field_b8(requested_action);
     reset_hp(lbl_805D6F80, lbl_805D6F84, lbl_805D6F88);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &lbl_804F2250;
     m_37c = 10.0f;
     enemy_init_acquire_period(30);
@@ -486,7 +485,7 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
                 s32 i;
                 void *e = TObject::operator new(0x64);
                 if (e != 0) {
-                    create_fire_explosion_effect(e, 40.0f, d, 0, tl_07);
+                    create_fire_explosion_effect(e, 40.0f, d, 0, (s32)tl_07);
                 }
                 play_sound_effect(0x4003A348, &body->position, 0, 0);
                 for (i = 0; i < 4; i++) {
@@ -1012,7 +1011,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     r->update();
     if (r->updateFromCamera(&body->m_2fc) != 0) {
         r->set_flags_and_apply_damage_color();
-        if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+        if (!((s32)main_task.get_task_flags() & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -1021,13 +1020,13 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     } else if (body->fade.has_visible_opacity() != 0) {
         if (TObjEneMe3SinowZoa__sub_800D72A4(&body->fade) != 0) {
             body->fade.set_flags_and_apply_damage_color();
-            if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+            if (!((s32)main_task.get_task_flags() & 0x200)) {
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 return;
             }
-        } else if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+        } else if ((s32)main_task.get_task_flags() & 0x200) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -1083,7 +1082,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
 
 void TObjEneEpsilonBody::render_body_effect() {
     f32 temp_f1;
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+    if ((s32)main_task.get_task_flags() & 0x200) {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -1105,7 +1104,7 @@ void TObjEneEpsilonGuard::record_camera_angle_samples() {
     case 0x26:
     case 0x30:
     case 0x3A:
-        get_camera_ctrl__9TObjEneDDFv(&lbl_805439F0, epsilon_guard_camera_sample_read_ptr);
+        forward_transform_to_view(&lbl_805439F0, epsilon_guard_camera_sample_read_ptr);
         *epsilon_guard_angle_sample_write_ptr = (s32)(10430.38043493439 * atan2_float(
             epsilon_guard_camera_sample_read_ptr->x - epsilon_guard_camera_sample_end_ptr->x,
             epsilon_guard_camera_sample_read_ptr->z - epsilon_guard_camera_sample_end_ptr->z));
@@ -1375,7 +1374,7 @@ f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayloa
     } else if (payload.kind == 0x14) {
         return TObjChara::receive_direct_attack(attacker, payload, source, arg3, arg4);
     }
-    try_apply_damage((u32)&m_2fc, 0);
+    try_apply_damage((const Vec *)&m_2fc, 0);
     return 0.0f;
 }
 
@@ -1385,7 +1384,7 @@ f32 TObjEneEpsilonBody::receive_physical_attack(void *arg1_arg, f32 farg0) {
     if (!(temp_r5 & 2) && !(temp_r5 & 0x40)) {
         return TObjChara::receive_physical_attack(arg1_arg, farg0);
     }
-    try_apply_damage((u32)&m_2fc, 0);
+    try_apply_damage((const Vec *)&m_2fc, 0);
     return 0.0f;
 }
 f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
@@ -1415,7 +1414,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
             case 7:
             case 9:
             case 10:
-                try_apply_damage((u32)&m_2fc, 0);
+                try_apply_damage((const Vec *)&m_2fc, 0);
                 break;
             case 3:
             case 4:
@@ -1432,7 +1431,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
             return TObjChara::receive_weapon_special_attack(src, hit);
         }
     }
-    try_apply_damage((u32)&m_2fc, 0);
+    try_apply_damage((const Vec *)&m_2fc, 0);
     return 0.0f;
 }
 }

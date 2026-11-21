@@ -6,12 +6,11 @@
 
 class TObjBoss7RaftSplash : public TObject {
 public:
+    TObjBoss7RaftSplash(TObject *parent, u8 *arg2, u8 *arg3, s32 arg4);
     virtual ~TObjBoss7RaftSplash();
     virtual void run_task();
-};
 
-extern "C" {
-u8 *TObjBoss7RaftSplash__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
-}
+    u8 pad_1C[0x40 - 0x1C];
+};
 
 #endif

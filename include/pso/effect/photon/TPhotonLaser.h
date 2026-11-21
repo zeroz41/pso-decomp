@@ -4,7 +4,18 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+// What a photon blast passes to the laser it fires.
+struct PhotonLaserParams {
+    Vec pos;
+    u8 unk_0C[0xC];
+    Vec dir;
+    f32 unk_24;
+    f32 scale;
+    f32 unk_2C;
+};
+
 struct TPhotonLaser : public TObjChara {
+    TPhotonLaser(PhotonLaserParams *params, TObject *parent, u16 target_id);
     virtual ~TPhotonLaser();
     virtual void run_task();
     void* m_334;

@@ -21,6 +21,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/object/ambient/TObjFish.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -79,7 +80,6 @@ extern s32 lbl_805D63B0;
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-s32 set_global_param__8TObjFishFl();
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -174,12 +174,11 @@ void TUnk_8048E1A4::render() {
     VObj_80081EA4 *p;
     ok = 1;
     p = (VObj_80081EA4 *)find_active_entity_by_id(*(u16 *)((s8 *)arg0 + 0x358));
-    if (p != NULL && all_parents_unqueued_for_destruction__7TObjectFv() != 0) {
+    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0) {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        get_bml_texlist((s32)((void *)freeze_shell_bml_resource), 1);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param((s32)get_bml_texlist((s32)((void *)freeze_shell_bml_resource), 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

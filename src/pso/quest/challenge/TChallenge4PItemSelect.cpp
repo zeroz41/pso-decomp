@@ -22,6 +22,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -59,7 +60,6 @@ struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_803
 
 extern "C" {
 s32 get_localized_text_entry(s32, s32);
-s32 is_active__11TBoss4Type2Fv();
 
 s32 get_map_id__13TRaderMapCoreFv();
 u32 get_player_by_client_id(int);
@@ -108,7 +108,7 @@ TChallenge4PResult::~TChallenge4PResult() {
 }
 
 void TChallenge4PResult::run_task() {
-    if ((get_current_floor_area() != AREA_DARK_FALZ) || (is_active__11TBoss4Type2Fv() != 1)) {
+    if ((get_current_floor_area() != AREA_DARK_FALZ) || (TBoss4Type2::is_active() != 1)) {
         switch (state_1c) {
         case 0:
             update_input();
@@ -296,7 +296,7 @@ s32 update_challenge_result_player_locks() {
     if (active) {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
-            if (player && ((TLobby *)player)->check_player_flag1() == 0) {
+            if (player && ((TObjPlayer *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default((int)player, (int)(-1));
                 obj_set_flag_20000(player);
                 get_player_result__18TChallenge4PResultFPv(player, 0);
@@ -312,7 +312,7 @@ s32 update_challenge_result_player_locks() {
     } else {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
-            if (player && ((TLobby *)player)->check_player_flag1() != 0) {
+            if (player && ((TObjPlayer *)player)->check_player_flag1() != 0) {
                 TObjPlayer::send_code_45_1((s32)player);
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();

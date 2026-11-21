@@ -9,9 +9,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-s32 is_active__14TBoss6PlotFalzFv();
-extern s32 __vt__14TBoss6EffHyoui[];
 const char *lbl_805D44D8 = "TBoss6EffHyoui";
 f32 lbl_805D6FF8;
 s8 lbl_805D6FFC;
@@ -30,7 +27,7 @@ void TBoss6EffHyoui::run_task() {
     s32 player;
     if ((u32) this->m_1c != 0U) {
         player = (s32)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x20)));
-        if ((player != 0) && (is_active__14TBoss6PlotFalzFv() != 0)) {
+        if ((player != 0) && (((TObjPlayer *)player)->is_active() != 0)) {
             ((TParticleCtrl *)this->m_1c)->set_position((void *)(player + 0x38));
         }
     }
@@ -45,17 +42,17 @@ TBoss6EffHyoui::~TBoss6EffHyoui() {
 }
 const s32 lbl_8047AC70[2] = {550, 551};
 
-void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void *arg4) {
-    u8 *self = (u8 *)object;
+}
+
+TBoss6EffHyoui::TBoss6EffHyoui(TObject *arg1, void *arg2, void *arg3, void *arg4) : TObject(arg1) {
+    u8 *self = (u8 *)this;
     u8 *p;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)self + 0x18) = __vt__14TBoss6EffHyoui;
-    ((TBoss6EffHyoui *)self)->m_name = lbl_805D44D8;
+    m_name = lbl_805D44D8;
     *(u16 *)((s8 *)self + 0x20) = (u16)(u32)arg2;
     *(void **)((s8 *)self + 0x24) = arg4;
     *(void **)((s8 *)self + 0x1C) = NULL;
     p = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)self + 0x20));
-    if (p != NULL && is_active__14TBoss6PlotFalzFv() != 0) {
+    if (p != NULL && ((TObjPlayer *)p)->is_active() != 0) {
         if (lbl_805D6FFC == 0) {
             lbl_805D6FFC = 1;
             lbl_805D6FF8 = 0.2f;
@@ -66,16 +63,12 @@ void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void 
         }
     }
     *(s32 *)((s8 *)self + 0x28) = 0;
-    return object;
 }
 
+extern "C" {
+
 void *TBoss6EffHyoui::create(void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = TBoss6EffHyoui__ct(o, tl_02, this, arg1, arg2);
-    }
-    return o;
+    return new TBoss6EffHyoui((TObject *)tl_02, this, arg1, arg2);
 }
 
 }

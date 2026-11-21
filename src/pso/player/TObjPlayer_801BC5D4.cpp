@@ -19,7 +19,7 @@ void TObjPlayer::reset_state() {
     *(s32 *)&this->unk_548 = 0;
     ((TObjPlayer *)(arg0 + 0x340))->init_tag();
     *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
-    ((TObjPlayer *)arg0)->sub_8011E204(0x283);
+    ((TObjPlayer *)arg0)->clear_state_flags(0x283);
     this->m_3f4 = 0;
     *(s32 *)&this->unk_3F0 = 0;
     this->m_3ec = 0;

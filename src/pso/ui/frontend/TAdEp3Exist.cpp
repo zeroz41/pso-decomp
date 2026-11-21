@@ -1,13 +1,17 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEp3Exist.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC_80327504.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/unk/text_8036F764.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
@@ -83,25 +87,18 @@ void TAdEp3Exist__sub_8036F574(u8 *arg0);
 u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
-s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
-u8 *get_instance__23TAdSinglePlyChrSelectGCFv(void);
 void __ct__7TObjectFP7TObject(void);
-int reset_and_set_mode__21TAdMultiChgGameModeGCFv(void*);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
+
 u32 __ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__11TAdEp3Exist[];
 void *TAdEp3Exist__ct(Ep3_8036F354 *o);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-int TAdEp3Exist__sub_8036F0AC(void* p);
+void TAdEp3Exist__sub_8036F0AC(void* p);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 int prs_read_control_bit(Obj_8036F4DC *arg0);
 void TAdEp3Exist__sub_8036F5A4(void* p);
 void *memmove(void *, const void *, u32);
 s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
-int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
-int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEp3Exist::draw_message_window(s32 arg1) {
     s32 arg0 = (s32)this;
@@ -116,9 +113,9 @@ void TAdEp3Exist::render() {
     }
 }
 
-int TAdEp3Exist::request_game_mode_transition() { return request_transition__21TAdMultiChgGameModeGCFv(this); }
-int TAdEp3Exist::request_scene_change() { return request_scene_change__21TAdMultiChgGameModeGCFv(this); }
-int TAdEp3Exist__sub_8036F0AC(void* p) { return reset_and_set_mode__21TAdMultiChgGameModeGCFv(p); }
+void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::request_transition(); }
+void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdEp3Exist__sub_8036F0AC(void* p) { TAdMultiChgGameModeGC::reset_and_set_mode(); }
 void TAdEp3Exist::close_window() { if (this->m_1c != 0) { ((TAdScrollWinGC *)(this->m_1c))->close_window(); this->m_1c = 0; } }
 
 void TAdEp3Exist::run_task() {
@@ -142,7 +139,7 @@ void TAdEp3Exist::run_task() {
                 break;
             }
         } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
-                   test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
+                   test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
             o->state = 2;
             o->next = 5;
         }
@@ -197,7 +194,7 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     o->x28 = 0;
     o->x30 = 0;
     flag[0] = 0;
-    res = load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(flag, save);
+    res = ((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)save);
     ok = false;
     if (res != 0) {
         if (flag[0] != 0) {
@@ -206,23 +203,17 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     }
     go = false;
     if (ok) {
-        if ((s8)get_instance__23TAdSinglePlyChrSelectGCFv()[0x1152C] == 0) {
+        if ((s8)((u8 *)TAdSinglePlyChrSelectGC::get_instance())[0x1152C] == 0) {
             go = true;
         }
     }
     if (!go) {
-        ((int (*)(void))reset_and_set_mode__21TAdMultiChgGameModeGCFv)();
+        TAdMultiChgGameModeGC::reset_and_set_mode();
         ((TObject *)o)->queue_destruction();
         return o;
     }
-    p = TObject::operator new(0x24);
-    if (p != 0) {
-        __ct__9TAdBackGCFv(p, o);
-    }
-    p = TObject::operator new(0x28);
-    if (p != 0) {
-        __ct__12TAdBackTxtGCFv(p, o);
-    }
+    p = new TAdBackGC((TObject *)o);
+    p = new TAdBackTxtGC((TObject *)o);
     r = (u32)TObject::operator new(0x54);
     if (r != 0) {
         r = (u32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));

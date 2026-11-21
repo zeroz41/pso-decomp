@@ -2,6 +2,7 @@
 #define PSO_ENEMY_STELTH_TOBJENEME3STELTH_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 
@@ -102,10 +103,9 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     f32 m_440;
     TObject *m_444;
     TObject *m_448;
-    s32 try_spawn_ground_effect(s32 arg1);
+    s32 try_spawn_ground_effect(const Vec *origin);
     void play_hit_effect();
     void spawn_ground_effect_on_frame_23();
-    static void spawn_attack(s16 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0, f32 farg1);
     static void add_instance();
     void update_distance_state();
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
@@ -124,6 +124,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void handle_message(s32 arg1);
 };
 
+typedef char TObjEneMe3StelthFadeOffset[offsetof(TObjEneMe3Stelth, m_404) == 0x404 ? 1 : -1];
 typedef char TObjEneMe3Stelth_size[sizeof(TObjEneMe3Stelth) == 0x44C ? 1 : -1];
 
 extern "C" {

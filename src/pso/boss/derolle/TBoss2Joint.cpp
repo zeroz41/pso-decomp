@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/unk/TLobby.h"
 
 struct TBJ_8003688C { char pad[0x18]; };
 struct VTbj_8003688C : TBJ_8003688C {
@@ -206,12 +207,7 @@ typedef struct Param_80036EA8 {
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-s32 vfunc_94__9TObjEneDDFv(void *);
-s32 vfunc_93__9TObjEneDDFv(void *);
 extern const f32 lbl_805D8258;
-s32 register_object__6TLobbyFl(s32);
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-s32 register_boss__6TLobbyFl(s32);
 s32 TBoss2Joint_get_shell_max_hp(void);
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
 s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
@@ -317,15 +313,11 @@ void TBoss2Joint::init_joint_offset(s32 arg1) {
 }
 
 struct Ent_80036ACC { s32 a; s32 b; };
-void reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
 // Breaks the shell: marks it broken, reloads the stats and throws the 19
 // breakup pieces. Its slot passes a float that the shell does not use.
 s32 TBoss2Joint::vfunc_104(f32) {
     m_38c |= 1;
-    reload_stats_keep_hp_tp__9TObjEneDDFv(this,
-        register_boss__6TLobbyFl(((Ent_80036ACC *)&TBoss2Joint__param_table)->b),
-        dispatch_shared_handler_b__6TLobbyFl(((Ent_80036ACC *)lbl_80482A58)->b),
-        register_object__6TLobbyFl(((Ent_80036ACC *)lbl_80482A60)->b));
+    this->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(((Ent_80036ACC *)&TBoss2Joint__param_table)->b)), (u8 *)(TLobby::dispatch_shared_handler_b(((Ent_80036ACC *)lbl_80482A58)->b)), (u8 *)(TLobby::register_object(((Ent_80036ACC *)lbl_80482A60)->b)));
     hp = 0x4E20;
     hpmax = 0x4E20;
     new TUnk_804820A8(this, &position);
@@ -333,21 +325,21 @@ s32 TBoss2Joint::vfunc_104(f32) {
 
 void TBoss2Joint::vfunc_93() {
     if (*(s32 *)((s8 *)this->bodies + 0x18) & 6) {
-        vfunc_93__9TObjEneDDFv(this);
+        TObjEneDD::vfunc_93();
         return;
     }
-    vfunc_94__9TObjEneDDFv(this);
+    TObjEneDD::vfunc_94();
 }
 
 void TBoss2Joint::vfunc_88() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
     if (*(f32 *)((s8 *)arg0 + 0x3C) < (lbl_805D8258 - 50.0f)) {
-        vfunc_94__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->TObjEneDD::vfunc_94();
         temp_r3 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFF9);
     } else {
-        vfunc_93__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->TObjEneDD::vfunc_93();
         if (*(f32 *)((s8 *)arg0 + 0x3C) >= 30.0f) {
             this->vfunc_97();
         } else {
@@ -420,10 +412,10 @@ s32 TBoss2Joint::init_params() {
     self->unk34 = 0;
     self->unk24 = 0;
     ((TObjEneDD *)self)->init_model((CollisionBody *)(prm->unk34), (s32)1);
-    ((TObjEneDD *)self)->reset_hp((u8 *)(register_boss__6TLobbyFl(prm->unk0)), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(prm->unk8)), (u8 *)(register_object__6TLobbyFl(prm->unk10)));
+    ((TObjEneDD *)self)->reset_hp((u8 *)((s32)TLobby::register_boss(prm->unk0)), (u8 *)((s32)TLobby::dispatch_shared_handler_b(prm->unk8)), (u8 *)((s32)TLobby::register_object(prm->unk10)));
     self->hp32C = 0x4E20;
     self->hp2B8 = 0x4E20;
-    ((TObjEneDD *)self)->check_state_flag_2();
+    ((TObjEneDD *)self)->set_state_flag_2();
     self->unk350 = prm->unk18;
     self->unk33E = self->hp2B8;
     self->unk37C = 3.0f;

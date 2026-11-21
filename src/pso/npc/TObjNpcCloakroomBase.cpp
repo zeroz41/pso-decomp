@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TUnk_804A8640.h"
@@ -26,10 +27,8 @@ u32 TObjNpcCloakroomBase__static_instance;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern s32 __vt__20TObjNpcCloakroomBase[];
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_bin_model_request(void*, int);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 void TObjNpcCloakroomBase::play_voice() {
     s32 arg0 = (s32)this;
@@ -42,18 +41,9 @@ void TObjNpcCloakroomBase::play_voice() {
 
 extern void *tl_04;
 
-void *TObjNpcCloakroomBase::create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcCloakroomBase__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcCloakroomBase::create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcCloakroomBase(control, set_data);
 }
 
 void TObjNpcCloakroomBase::destroy_static_instance() {
@@ -78,33 +68,21 @@ void TObjNpcCloakroomBase::load_shared_resource() {
 TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 
 
-u8 *TObjNpcCloakroomBase__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TUnk_804A8640 *)arg0)->construct_female_base();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TObjNpcCloakroomBase;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjNpcCloakroomBase__name;
-    ((TObjNpcCloakroomBase *)(arg0))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 8);
-    ((TObjNpcCloakroomBase *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 0xC);
-    ((TObjNpcBase *)arg0)->setup_common();
-    return arg0;
+TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcCloakroomBase__name;
+    ((TObjNpcCloakroomBase *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 8);
+    ((TObjNpcCloakroomBase *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 0xC);
+    ((TObjNpcBase *)this)->setup_common();
 }
 
 f32 TObjNpcCloakroomBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
     return 0.0f;
 }
 
-void * TObjNpcConnoisseur__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcConnoisseur__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcConnoisseur__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcConnoisseur(control, set_data);
 }
 

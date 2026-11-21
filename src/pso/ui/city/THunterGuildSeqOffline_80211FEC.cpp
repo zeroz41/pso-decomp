@@ -6,11 +6,11 @@
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 
 
 struct Seq_80212304 {
@@ -52,7 +52,7 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if (player == 0) {
         return 0;
     }
-    temp_r3_3 = ((TBoss3Volopt *)player)->get_field_3e0();
+    temp_r3_3 = ((TObjPlayer *)player)->get_area();
     if ((temp_r3_3 != 0x12) && ((temp_r3_3 >= 0x12) || (temp_r3_3 != 0))) {
         return 0;
     }
@@ -79,7 +79,7 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     for (i = 0; i < 4; i++) {
         u32 q = (u32)get_player_by_client_id(i);
         if (q != 0) {
-            switch (((TBoss3Volopt *)q)->get_field_3e0()) {
+            switch (((TObjPlayer *)q)->get_area()) {
             case 0:
             case 0x12:
                 break;
@@ -135,7 +135,7 @@ void TMemberCheck::open_member_name_window() {
         ((TWindowBase *)self->win)->close();
         self->win = 0;
     }
-    self->win = TWindowSubStatusDisp::refresh_with_default_list((s32)(get_window_layout_position(0xBD)), (s32)member_name_window_pos);
+    self->win = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), (const void *)member_name_window_pos);
     if (self->win != 0) {
         ((TWindowSubTradeMain *)(self->win))->set_visible();
         ((TWindowSubTradeMain *)(self->win))->set_close_flag();

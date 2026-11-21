@@ -12,7 +12,6 @@
 struct E_80354E7C { u8 b[8]; };
 
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv();
 s32 __destroy_arr(void *, void *, int, int);
 void __register_global_object(void *, void *, void *);
 void __construct_array(void *, void *, void *, u32, u32);
@@ -62,10 +61,11 @@ void TObjPlayer__sub_80354DF4(s32 arg0) {
     }
 }
 s32 TObjPlayer__sub_80354E3C(s32 arg0) {
-    if (get_player_by_client_id((u16)arg0) == NULL) {
+    void *player = get_player_by_client_id((u16)arg0);
+    if (player == NULL) {
         return 0;
     }
-    if (is_locally_controlled__10TObjPlayerFPv() != 0) {
+    if (TObjPlayer::is_locally_controlled(player) != 0) {
         return 1;
     }
     return 0;

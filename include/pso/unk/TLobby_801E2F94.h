@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/render/Draw2D.h"
 
 struct ColorLineVertex {
     f32 x, y;

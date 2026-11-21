@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -22,18 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
-
-struct RecoveredGlobal_80230D9C_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80230D9C_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
+#include "pso/unk/TLobby_80226070.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -48,11 +38,7 @@ struct RecoveredFields_80230D9C_arg0
 #pragma fp_contract on
 
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
-void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 void normalize_vector(void *);
@@ -61,10 +47,6 @@ extern s32 tl_07;
 #pragma opt_common_subs off
 
 typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
-typedef struct RecoveredGlobal_80230D9C_lbl_804CC510 RecoveredGlobal_80230D9C_lbl_804CC510;
-typedef struct RecoveredGlobal_80230D9C_lbl_804CC55C RecoveredGlobal_80230D9C_lbl_804CC55C;
-typedef char RecoveredGlobal_80230D9C_lbl_804CC510_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 #pragma pop
 
@@ -133,7 +115,6 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
@@ -154,18 +135,18 @@ void TTecRaZonde::vfunc_8(void *) {
 
 void TTecRaZonde::calc_damage() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  TechniqueParams *new_var;
   new_var = calc_technique_parameters(8, (int) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)new_var);
   if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x20))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x22))) * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
+    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (tech_high_level_linear_power_table[8].base + (tech_high_level_linear_power_table[8].per_level * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
     return;
   }
   ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x40))));
+    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * lbl_804CC55C[8].pad_00);
   }
 }
 void TTecRaZonde::vfunc_6(void *arg1_arg) {
@@ -298,7 +279,7 @@ TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(sou
     case 0: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     }
@@ -309,21 +290,21 @@ TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(sou
     case 3: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
+            set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     }
     case 4: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
+            set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     }
     case 5: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }
@@ -342,7 +323,7 @@ void TTecResta::play_launch_sound() {
     case 1:
         h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 2:
@@ -353,7 +334,7 @@ void TTecResta::play_launch_sound() {
     case 5:
         h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }

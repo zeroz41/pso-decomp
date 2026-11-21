@@ -121,7 +121,6 @@ s32 is_player_entity_id(u16);
 void send_6x2F_change_player_hp(s32, u16, s32);
 const Pair_800C2E64 lbl_8043BA60[1] = {{16, 0}};
 void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
-s32 get_flag_b4__9TObjEneDDFv();
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 s32 fn_800C3A60(void *, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
@@ -139,7 +138,7 @@ void TObjEneDD::state_damaged(s32 arg1) {
         TObjPlayer::play_effect_if_v2(-0x200);
         break;
     case 3:
-        if (get_flag_b4__9TObjEneDDFv() != 0) {
+        if (this->get_flag_b4() != 0) {
             if (F(s32, 0x378) == 8) {
                 ((TObjEneDD *)arg0)->transition_enemy_state(F(s32, 0x378));
             } else if (F(s16, 0x32C) < F(s16, 0x2B8) / 4) {

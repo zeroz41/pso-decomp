@@ -1,3 +1,4 @@
+#include "pso/map/CsnGroundCandidates.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
@@ -179,7 +180,6 @@ extern "C" {
 u16 get_entity_id(s32);
 s32 get_type__10TObjPlayerFPv(void *p);
 f32 atan2_float(f32 y, f32 x);
-void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, int);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 u32 __nw__7TObjectFUl(int);
@@ -203,7 +203,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     f64 t;
     s32 ang;
     u32 var_r0;
-    ((TObjPlayer *)(((u8 *)this) + 0x84))->register_object();
+    initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     dx = *(f32 *)((s8 *)arg3 + 0) - *(f32 *)((s8 *)arg2 + 0);
     dz = *(f32 *)((s8 *)arg3 + 8) - *(f32 *)((s8 *)arg2 + 8);
@@ -275,7 +275,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
 // `angle` instead of towards a target point.
 TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffect() {
     u32 var_r0;
-    ((TObjPlayer *)(((u8 *)this) + 0x84))->register_object();
+    initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     this->position.x = pos->x;
     this->position.y = pos->y;

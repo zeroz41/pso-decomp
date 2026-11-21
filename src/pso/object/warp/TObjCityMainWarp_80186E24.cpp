@@ -2,24 +2,25 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/object/warp/TObjCityMainWarp_80186E24.h"
+#include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/unk/text_8024AD30.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 extern "C" {
 
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
-u32 find_local_player_in_range__16TObjCityMainWarpFf(f32);
 void request_active_window_close(void);
 s32 align_menu_entry_positions(u32);
-u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 get_window_layout_position(s32);
 extern s32 local_client_id;
 
-void update_challenge_warp_window(void *arg0) {
+void update_challenge_warp_window(TObjCityMainWarpChallenge *arg0) {
 
     switch (*(s16 *)((s8 *)arg0 + 0xE0)) {
     case 0:
@@ -27,18 +28,18 @@ void update_challenge_warp_window(void *arg0) {
         *(s32 *)((s8 *)arg0 + 0xD0) = 0;
         return;
     case 1:
-        if (find_local_player_in_range__16TObjCityMainWarpFf(*(f32 *)((s8 *)arg0 + 0xAC)) != 0U) {
+        if (find_local_city_warp_player(arg0, arg0->warp_range) != NULL) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) == 0U) {
-                *(u32 *)((s8 *)arg0 + 0xB0) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
+                *(u32 *)((s8 *)arg0 + 0xB0) = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
-                    ((TWindowSubTradeMain *)(*(u32 *)((s8 *)arg0 + 0xB0)))->add_text_entry(get_message_10__20TWindowSubStatusDispFl(0x40), 0, 0, -1);
+                    ((TWindowSubTradeMain *)(*(u32 *)((s8 *)arg0 + 0xB0)))->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)arg0 + 0xB0)))->set_flag_40();
                     ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0xB0)))->calc_window_size();
                     align_menu_entry_positions(*(u32 *)((s8 *)arg0 + 0xB0));
                 }
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
-                ((TWindowCtrl *)local_client_id)->suppress_slot();
+                TWindowCtrl::suppress_slot(local_client_id);
             }
         } else {
             if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
@@ -47,7 +48,7 @@ void update_challenge_warp_window(void *arg0) {
             }
             end_player_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
-            ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+            TWindowCtrl::unsuppress_slot(local_client_id);
         }
         if ((s32) *(s32 *)((s8 *)arg0 + 0x15C) == 0) {
             *(s16 *)((s8 *)arg0 + 0xDC) = 0;
@@ -60,7 +61,7 @@ void update_challenge_warp_window(void *arg0) {
         }
         end_player_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
-        ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+        TWindowCtrl::unsuppress_slot(local_client_id);
         break;
     }
 }

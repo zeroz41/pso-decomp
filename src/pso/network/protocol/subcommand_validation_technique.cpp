@@ -1,13 +1,11 @@
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_technique.h"
+#include "pso/player/TObjPlayer.h"
 
-extern "C" {
-s32 is_valid_technique_id__10TObjPlayerFs(s32);
-}
 
 s32 validate_technique_parameters(void *parameters) {
     s8 b3;
-    if (is_valid_technique_id__10TObjPlayerFs((s32) *(s8 *)((s8 *)parameters + 0)) == 0) {
+    if (TObjPlayer::is_valid_technique_id((s16)(*(s8 *)((s8 *)parameters + 0))) == 0) {
         return 0;
     }
     if (*(s8 *)((s8 *)parameters + 1) < 0) {

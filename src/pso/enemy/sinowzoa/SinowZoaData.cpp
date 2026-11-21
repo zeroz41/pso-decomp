@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -35,8 +36,8 @@ extern const char sinow_zoa_low_model[] = "lo_me3_y_me3.nj";
 extern const char sinow_zoa_low_bml[] = "bm_ene_me3_zoa_low.bml";
 extern const char sinow_zoa_class_name[] = "TObjEneMe3SinowZoa";
 extern const char sinow_zoa_real_class_name[] = "TObjEneMe3SinowZoaReal";
-extern const DelDepthAnimationBinding lbl_80475FA8 = {NULL, lbl_804E8880, 0x9000A, 13, 0};
-extern const DelDepthAnimationBinding lbl_80475FB8 = {NULL, lbl_804E8880, 0, 13, 0};
+extern const NpcAnimationBinding lbl_80475FA8 = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_804E8880), 9, 10, 13 };
+extern const NpcAnimationBinding lbl_80475FB8 = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_804E8880), 0, 0, 13 };
 extern const Vec lbl_80475FC8 = {0.0f, 0.0f, 0.0f};
 extern const char sinow_zoa_debug_stelth_enable[] = "STELTH:ENABLE";
 extern const char sinow_zoa_debug_stelth_disable[] = "STELTH:DISABLE";

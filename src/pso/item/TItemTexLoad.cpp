@@ -8,7 +8,6 @@
 extern "C" {
 void prs_decompress_alloc(void*, s32, s32);
 void load_gvm_texture_archive(s32, void*);
-u32 adxf_open_afs__6TLobbyFii(int, int);
 void *lookup_item_pmt_record(u8 *item);
 s32 adxf_get_stat(s32);
 void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
@@ -46,7 +45,7 @@ s32 TItemTexLoad::load_texture(s32 index) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;
-        m_archive_handle = adxf_open_afs__6TLobbyFii(0xB8, m_texture_index);
+        m_archive_handle = (u32)TLobby::adxf_open_afs(0xB8, m_texture_index);
         if (m_archive_handle == 0U) {
             unload_texture();
             return 0;

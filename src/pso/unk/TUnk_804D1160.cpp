@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -63,12 +64,10 @@ s32 *get_shared_text_buffer(void);
 s32 weapon_has_extra_attack();
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
-s32 validate_and_clear_slot__10TObjPlayerFv(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
 s32 set_depth__11TWindowBaseFf(void *);
-Ev_802758C8 *calc_equip_index__21TWindowSubCustomEquipFv(void *);
 }
 
 void text_builder_reset();
@@ -90,7 +89,6 @@ struct Equip_80275CB0 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *create__14TWindowMessageFlPCfUll(void *, const void *, s32, s32);
 void *get_window_layout_position(s32);
 extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
@@ -109,7 +107,7 @@ void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     self->custom = p;
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0);
     set_depth__11TWindowBaseFf(self->custom);
-    self->list = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x11), lbl_8044F718, 1, self->x20);
+    self->list = TWindowMessage::create((s32)(get_window_layout_position(0x11)), (const f32 *)lbl_8044F718, 1, (s32)self->x20);
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2);
     set_depth__11TWindowBaseFf(self->list);
     call_if_split_screen((u32)self->list, self->x20);
@@ -170,12 +168,12 @@ void TUnk_804D1160::run_task() {
         set_depth__11TWindowBaseFf(self->f2c);
         self->state = 4;
     case 4:
-        ((TUnk_804D1160 *)self)->update_customize_help_text(calc_equip_index__21TWindowSubCustomEquipFv(self->f2c));
+        ((TUnk_804D1160 *)self)->update_customize_help_text((Ev_802758C8 *)((TWindowSubCustomEquip *)self->f2c)->calc_equip_index());
         if (fn_80275D90(self->f2c) != 0) {
             self->state = 1;
         }
         if (((TWindowSubCustomSelect *)(self->f2c))->is_active() != 0) {
-            Ev_802758C8 *e = calc_equip_index__21TWindowSubCustomEquipFv(self->f2c);
+            Ev_802758C8 *e = (Ev_802758C8 *)((TWindowSubCustomEquip *)self->f2c)->calc_equip_index();
             ((TWindowSubCustomEquip *)(this->m_28))->toggle_action_binding(e);
             self->state = 1;
         }
@@ -217,7 +215,7 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
         text_builder_append();
         break;
     case 3:
-        if (validate_and_clear_slot__10TObjPlayerFv(pl + 0x428, ev->id) != 0) {
+        if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->id) != 0) {
             break;
         }
         get_technique_name(ev->id);

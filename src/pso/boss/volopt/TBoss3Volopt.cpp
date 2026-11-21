@@ -43,6 +43,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
 #include <stdlib.h>
+#include "pso/object/base/TObjChara.h"
+#include "pso/unk/TLobby_803DE778.h"
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -64,11 +66,9 @@ struct VoloptShutterNode {
 };
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(TObject *actor);
 f32 fabs_float(f32 x);
 f32 newton_sqrtf(f32 x);
 s32 get_current_floor(void);
-s16 get_actor_hp__9TObjCharaFv(u8 *p);
 s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
@@ -373,8 +373,8 @@ void VoloptPhase2Message::swap() {
     }
 }
 
-s32 TBoss3Volopt::get_field_3e0() {
-    return m_3e0;
+s32 TObjPlayer::get_area() {
+    return current_area;
 }
 
 void TBoss3Volopt::reset_photon_effect() {
@@ -393,7 +393,7 @@ TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
     next_action = 0;
     mode = 0;
     m_3bc = 0;
-    TBoss4DarkFalz::dispatch_by_main_phase(0x29);
+    set_story_flag_or_send_quest_flag(0x29);
     volopt_camera_focus = NULL;
     volopt_p01_tech = -1;
     clear_lobby_object_state();
@@ -567,7 +567,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
             for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
                 if (player != NULL && TObjRoomId__sub_801A1DB8(get_entity_id(player)) == 0 &&
-                    ((TBoss3Volopt *)player)->get_field_3e0() == 0xD) {
+                    ((TObjPlayer *)player)->get_area() == 0xD) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
             }
@@ -604,7 +604,7 @@ void TBoss3Volopt::select_phase1_attack() {
             }
             if (found != 0) {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
-                    moves = (s32)(2.0f * random_ratio__9TObjCharaFv(this)) + 2;
+                    moves = (s32)(2.0f * random_ratio()) + 2;
                     move_core.init();
                     move_core.id = entity_id;
                     move_core.action = 0;
@@ -647,8 +647,8 @@ void TBoss3Volopt::select_phase1_attack() {
                 attack.init();
                 attack.id = entity_id;
                 attack.count = max_targets < count ? max_targets : count;
-                attack.tech = 3.0f * random_ratio__9TObjCharaFv(this);
-                ((TLobby *)attack.order)->move_data(volopt_p01_order, 6);
+                attack.tech = 3.0f * random_ratio();
+                move_data((void *)(attack.order), (const void *)(volopt_p01_order), 6);
                 attack.send();
                 if (max_targets < 5) {
                     max_targets++;
@@ -668,7 +668,7 @@ void TBoss3Volopt::select_phase1_attack() {
             }
             if (found != 0) {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
-                    moves = (s32)(2.0f * random_ratio__9TObjCharaFv(this)) + 2;
+                    moves = (s32)(2.0f * random_ratio()) + 2;
                     move_core_v1.init();
                     move_core_v1.id = entity_id;
                     move_core_v1.action = 0;
@@ -711,7 +711,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 targets.init();
                 targets.id = entity_id;
                 targets.count = max_targets < count_v1 ? max_targets : count_v1;
-                ((TLobby *)targets.order)->move_data(volopt_p01_order, 6);
+                move_data((void *)(targets.order), (const void *)(volopt_p01_order), 6);
                 targets.send();
                 if (max_targets < 5) {
                     max_targets++;
@@ -775,7 +775,7 @@ void TBoss3Volopt::select_phase2_attack() {
             return;
         }
         {
-            f32 roll = total * random_ratio__9TObjCharaFv(this);
+            f32 roll = total * random_ratio();
             s32 i;
             attack_step = -1;
             for (i = 0; i < n; i++) {
@@ -850,7 +850,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 packet.init();
                 packet.id = entity_id;
                 packet.action = 7;
-                packet.param = 40.0f * random_ratio__9TObjCharaFv(this);
+                packet.param = 40.0f * random_ratio();
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
             }
@@ -920,7 +920,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 packet.init();
                 packet.id = entity_id;
                 packet.action = 7;
-                packet.param = 40.0f * random_ratio__9TObjCharaFv(this);
+                packet.param = 40.0f * random_ratio();
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
             }
@@ -1285,8 +1285,8 @@ s32 TBoss3Volopt::shuffle_p01_order() {
         return count;
     }
     for (i = 0; i < count * 5; i++) {
-        a = (s32)((f32)count * random_ratio__9TObjCharaFv(this));
-        b = (s32)((f32)count * random_ratio__9TObjCharaFv(this));
+        a = (s32)((f32)count * random_ratio());
+        b = (s32)((f32)count * random_ratio());
         if (a != b) {
             swap = volopt_p01_order[a];
             volopt_p01_order[a] = volopt_p01_order[b];
@@ -1423,7 +1423,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
 
 void handle_6x16_vol_opt_boss_actions(TBoss3VoloptTargetsPacket *packet) {
     packet->swap();
-    ((TLobby *)volopt_p01_order)->move_data(packet->order, 6);
+    move_data((void *)(volopt_p01_order), (const void *)(packet->order), 6);
     TBoss3Volopt::set_primary_p01s(packet->count);
     volopt_p01_tech = -1;
 }
@@ -1470,7 +1470,7 @@ void TBoss3Volopt::stop_rumble() {
 }
 
 void TBoss3Volopt::update_phase() {
-    TBoss4DarkFalz::dispatch_by_main_phase(0x2A);
+    set_story_flag_or_send_quest_flag(0x2A);
     if (get_main_phase() == 0xF) {
         TBoss3VoloptCtrl::dispatch_state(0);
         return;
@@ -1488,7 +1488,7 @@ void TBoss3Volopt::update_phase() {
 
 void handle_6x84_vol_opt_boss_actions(TBoss3VoloptAttackPacket *packet) {
     packet->swap();
-    ((TLobby *)volopt_p01_order)->move_data(packet->order, 6);
+    move_data((void *)(volopt_p01_order), (const void *)(packet->order), 6);
     volopt_p01_tech = packet->tech;
     TBoss3Volopt::set_primary_p01s(packet->count);
 }
@@ -1551,7 +1551,7 @@ u16 TBoss3Volopt::find_strongest_player() {
     for (i = 0; i < volopt_candidate_count; i++) {
         player = candidate_players[i];
         if (player != NULL) {
-            s16 hp = get_actor_hp__9TObjCharaFv((u8 *)player);
+            s16 hp = ((TObjChara *)player)->get_actor_hp();
             if (hp > best_hp) {
                 best_hp = hp;
                 best = player;

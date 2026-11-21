@@ -844,7 +844,6 @@ s32 TItemMag::apply_feed(MagStats *change) {
 }
 
 void TItemMag::cast_support_technique(s32 technique) {
-    TargetCursorList targets;
     s32 level = stats.iq / 40;
 
     if (owner == NULL) {
@@ -855,18 +854,19 @@ void TItemMag::cast_support_technique(s32 technique) {
         TTecSifta::create(owner, &owner->position, (void *)level);
         break;
     case 10:
-        TTecDeband::create((s32)owner, (s32)&owner->position, level);
+        TTecDeband::create(owner, &owner->position, level);
         break;
     case 15:
         TTecResta::create(owner, &owner->position, (void *)level);
         break;
-    case 17:
-        ((TObjPlayer *)&targets)->construct_target_cursor_records();
+    case 17: {
+        TargetCursorList targets;
         targets.count = 1;
         targets.records[0].id = get_entity_id(owner);
         targets.records[0].flag = 0;
         TTecReverser::create(owner, &owner->position, &targets, (void *)level);
         break;
+    }
     case 11:
         return;
     case 12:

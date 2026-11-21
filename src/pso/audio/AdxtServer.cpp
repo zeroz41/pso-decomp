@@ -6,6 +6,7 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
+#include "pso/audio/GcrnaStream.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };
@@ -37,33 +38,26 @@ struct Obj_803CB20C {
 };
 
 extern "C" {
-s32 dispatch_field4_event__6TLobbyFv(int);
-s32 send_with_offset4_alt__6TLobbyFv(int);
-s32 notify_client__6TLobbyFv(int);
-s32 set_field_44__6TLobbyFl(int, int);
-s32 set_field_40__6TLobbyFl(int, int);
-s32 set_field_3c__6TLobbyFl(int, int);
-s32 set_count__6TLobbyFl(int, int);
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0);
 
 extern s32 lbl_805D7540;
 s32 TLobby__sub_803CC030(int, int);
-s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(u8 *arg0);
 void TLobby__sub_803C0758(u8 *arg0);
 s32 TLobby__sub_803CBF50(void *);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
 
 s32 TLobby__sub_803C9740(u8 *arg0);
-s32 notify_field_4__6TLobbyFv(int);
-s32 send_packet_by_id__6TLobbyFv(int);
-s32 send_with_offset4__6TLobbyFv(int);
 s32 trigger_sub_task__6TLobbyFv(int);
+s32 set_field_44__6TLobbyFl(int, int);
+s32 set_field_40__6TLobbyFl(int, int);
+s32 set_field_3c__6TLobbyFl(int, int);
+s32 set_count__6TLobbyFl(int, int);
+s32 dispatch_field4_event__6TLobbyFv(int);
+s32 notify_client__6TLobbyFv(int);
 
 extern "C" {
 s32 TLobby__sub_803C0010(u8 *arg0);
-s32 send_packet_by_id_2__6TLobbyFv(int);
-s32 query_available_size__6TLobbyFv(int);
 }
 
 }
@@ -98,7 +92,6 @@ struct Strm_803CAB38 {
 
 s32 TLobby__sub_803BFE58(int);
 s32 TLobby__sub_803BFEE8(int);
-s32 notify_field_4_alt__6TLobbyFv(int);
 s32 TLobby__sub_803BFFC0(int);
 void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_803C07E8(int);
@@ -121,7 +114,7 @@ inline void prep_803CA8B4(Ent_803C9608 *self) {
     s32 n;
     s32 i;
     if (TLobby__sub_803C07E8(self->f4) == 3) {
-        n = send_with_offset4__6TLobbyFv(self->f4);
+        n = ((TLobby *)self->f4)->send_with_offset4();
         lbl_805D7580 = n;
         for (i = 0; i < n; i++) {
             lbl_805D757C = self->f18[i]->interface->get_available(self->f18[i], 1);
@@ -130,7 +123,7 @@ inline void prep_803CA8B4(Ent_803C9608 *self) {
             }
         }
         if (i == n) {
-            dispatch_packet__6TLobbyFv(self->fC, 0);
+            TLobby::dispatch_packet((GcrnaStream *)(self->fC), 0);
             self->stat = 4;
         }
     }
@@ -146,9 +139,9 @@ inline void dec_803CA8B4(Ent_803C9608 *self) {
     s32 nch;
     SjRingBuffer *sj;
     SjChunk ck;
-    avail = query_available_size__6TLobbyFv(rna);
+    avail = TLobby::query_available_size((TLobby *)rna);
     size = TLobby__sub_803CBFF0(rna);
-    if (avail >= self->f48 * 2 || size <= notify_field_4_alt__6TLobbyFv(sjd) ||
+    if (avail >= self->f48 * 2 || size <= ((TLobby *)sjd)->notify_field_4_alt() ||
         TLobby__sub_803C07E8(self->f4) == 3) {
         if (self->f70 == 0) {
             if (self->f72 == 0) {
@@ -173,8 +166,8 @@ inline void dec_803CA8B4(Ent_803C9608 *self) {
 }
 // Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
 inline void end_803CA8B4(Ent_803C9608 *self) {
-    lbl_805D7578 = query_available_size__6TLobbyFv(self->fC);
-    if (query_available_size__6TLobbyFv(self->fC) <= 0) {
+    lbl_805D7578 = TLobby::query_available_size((TLobby *)self->fC);
+    if (TLobby::query_available_size((TLobby *)self->fC) <= 0) {
         TLobby__sub_803CC030(self->fC, 0);
         self->stat = 5;
     }
@@ -216,14 +209,14 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
     char buf[32];
 
     if (TLobby__sub_803C07E8(t) == 2) {
-        s32 v = send_with_offset4__6TLobbyFv(t);
+        s32 v = ((TLobby *)t)->send_with_offset4();
         if (v > self->f3) {
             TLobby::format_number_pair(v, self->f3, buf, 0x10);
             TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
             stop_audio_stream(arg0);
             return;
         }
-        n1 = notify_field_4__6TLobbyFv(t);
+        n1 = ((TLobby *)t)->notify_field_4();
         k = TLobby__sub_803BFEE8(t);
         if (k > 0) {
             self->f48 = (n1 / self->f38) * 3;
@@ -231,7 +224,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             self->f48 = ((n1 / self->f38) * 3) / 2;
         }
         {
-            s32 a = notify_field_4_alt__6TLobbyFv(t) * 2;
+            s32 a = ((TLobby *)t)->notify_field_4_alt() * 2;
             self->f48 = a * ((self->f48 + a) / a);
         }
         ((TLobby *)t)->set_network_result(self->f48);
@@ -248,31 +241,31 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
                 ((TLobby *)(self->f8))->set_scroll_position(pages);
                 ((TLobby *)(self->f8))->set_coords((s32)((void *)TLobby__sub_803CB194), (s32)arg0);
             }
-            s32 e = dispatch_field4_event__6TLobbyFv(t);
+            s32 e = ((TLobby *)t)->dispatch_field4_event();
             self->f90 = e;
-            set_field_3c__6TLobbyFl(t, e);
-            set_field_44__6TLobbyFl(t, 0);
-            set_field_40__6TLobbyFl(t, 0);
+            ((TLobby *)t)->set_field_3c(e);
+            ((TLobby *)t)->set_field_44(0);
+            ((TLobby *)t)->set_field_40(0);
             TLobby__sub_803BFFFC((u8 *)t, (s32)adxt_trap_entry_update__6TLobbyFPv, (s32)arg0);
         } else {
             if (self->f8 != NULL) {
                 ((TLobby *)(self->f8))->set_scroll_position(0x7FFFFFFF);
             }
-            set_field_3c__6TLobbyFl(t, send_packet_by_id__6TLobbyFv(t));
-            set_field_44__6TLobbyFl(t, 0);
-            set_field_40__6TLobbyFl(t, 0);
+            ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
+            ((TLobby *)t)->set_field_44(0);
+            ((TLobby *)t)->set_field_40(0);
             TLobby__sub_803BFFFC((u8 *)t, (s32)TLobby__sub_803CAEB4, (s32)arg0);
         }
-        k = notify_field_4__6TLobbyFv(t);
-        n1 = send_with_offset4__6TLobbyFv(t);
-        s32 pid = send_packet_by_id__6TLobbyFv(t);
-        s32 p2 = send_packet_by_id_2__6TLobbyFv(t);
+        k = ((TLobby *)t)->notify_field_4();
+        n1 = ((TLobby *)t)->send_with_offset4();
+        s32 pid = ((TLobby *)t)->send_packet_by_id();
+        s32 p2 = ((TLobby *)t)->send_packet_by_id_2();
         TLobby__sub_803CBF30(self->fc, p2);
         TLobby__sub_803CBF90(self->fc, k);
         TLobby__sub_803CBFB0(self->fc, n1);
         TLobby__sub_803CBF0C(self->fc, pid);
         trigger_sub_task__6TLobbyFv(self->fc, self->f40);
-        if (send_with_offset4__6TLobbyFv(self->f4) == 1) {
+        if (((TLobby *)self->f4)->send_with_offset4() == 1) {
             if (self->f42 == -0x80) {
                 SBF50(self->fc, 0, 0);
             } else {
@@ -297,7 +290,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             s32 o = ((TLobby *)t)->get_offset_58();
             run_step_4430__6TLobbyFv(self->fc, o);
         }
-        dispatch_packet__6TLobbyFv(self->fc, 1);
+        TLobby::dispatch_packet((GcrnaStream *)(self->fc), 1);
         self->f1 = 2;
     }
 }
@@ -410,9 +403,9 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
       return;
     }
     ((TLobby *)lobby)->set_network_result(o->f48);
-    set_field_3c__6TLobbyFl(lobby, send_packet_by_id__6TLobbyFv(lobby));
-    set_field_44__6TLobbyFl(lobby, 0);
-    set_field_40__6TLobbyFl(lobby, 0);
+    ((TLobby *)lobby)->set_field_3c(((TLobby *)lobby)->send_packet_by_id());
+    ((TLobby *)lobby)->set_field_44(0);
+    ((TLobby *)lobby)->set_field_40(0);
   }
 }
 
@@ -422,9 +415,9 @@ void TLobby__sub_803CB194(u8 *arg0) {
     s32 temp_r3;
     u8 *lobby;
     lobby = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-    temp_r3 = send_with_offset4_alt__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 4)));
+    temp_r3 = ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_with_offset4_alt();
     if ((s8) *(u8 *)((s8 *)arg0 + 0x6C) == 0) {
-        set_field_3c__6TLobbyFl((int) (*(s32 *)((s8 *)arg0 + 4)), -1);
+        ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->set_field_3c(-1);
         ((TLobby *)(*(u8 **)((s8 *)arg0 + 8)))->set_scroll_position(0x7FFFFFFF);
         return;
     }
@@ -441,10 +434,10 @@ void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {
     id = arg0->f4;
     s = arg0->f14;
     c = notify_client__6TLobbyFv(id);
-    off = send_with_offset4_alt__6TLobbyFv(id);
+    off = ((TLobby *)id)->send_with_offset4_alt();
     total = dispatch_field4_event__6TLobbyFv(id);
     if (arg0->f8 == 0U && arg0->f6C == 0) {
-        set_field_3c__6TLobbyFl(arg0->f4, -1);
+        ((TLobby *)arg0->f4)->set_field_3c(-1);
         return;
     }
     s->vt->lock(s, 1, arg0->f50, &b);

@@ -4,7 +4,6 @@
 extern "C" {
 
 u32 get_enemy_entity();
-s32 set_state_22__12TBoss8DragonFv();
 
 extern u32 boss8_dragon_leader_part;
 
@@ -53,8 +52,9 @@ void TBoss8Dragon::update_all_parts() {
         var_r31 = 1;
         do {
             ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(var_r31);
-            if (get_enemy_entity() != 0U) {
-                set_state_22__12TBoss8DragonFv();
+            u32 enemy;
+            if ((enemy = get_enemy_entity()) != 0U) {
+                ((TBoss8Dragon *)enemy)->set_state_22();
             }
             var_r31 += 1;
         } while (var_r31 < 6);

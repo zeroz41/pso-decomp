@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -98,7 +99,7 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
         a.y += (14.0f);
         VecCopy((Vec *)&b, (const Vec *)(camera_ctrl_instance + 0x178));
         subtract_vector(&b, &a);
-        ((TObjBoss2Tunnel *)(&b))->update_scale();
+        normalize_vector_safe(&b);
         a.x = (2e+01f) * b.x + a.x;
         a.y = (2e+01f) * b.y + a.y;
         a.z = (2e+01f) * b.z + a.z;
@@ -139,13 +140,12 @@ void TObjPlayer__sub_800C4D44(void) {
     }
 }
 
-void pso_load_texture__6TLobbyFv(void *, void *);
 void set_texture_name(void *, void *, s32, s32);
 void TObjPlayer::create_render_texture() {
     ((TObjPlayer *)(&player_render_target))->set_render_rect((s32)(player_render_texture_buffer = mem_alloc(0x800)), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
     lbl_80500C30.p = &player_render_texture_name;
     lbl_80500C30.v = 1;
-    pso_load_texture__6TLobbyFv(&lbl_80500C30, &player_render_texture_name);
+    pso_load_texture((NJS_TEXLIST *)&lbl_80500C30);
 }
 }

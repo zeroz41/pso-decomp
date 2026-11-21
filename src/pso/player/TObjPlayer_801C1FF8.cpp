@@ -104,11 +104,11 @@ u8 get_record_byte_at(O_801C21C4 *self, s32 i) {
     return self->recs[i].v;
 }
 
-u8 TObjPlayer::get_slot_value_checked(s32 i) {
+s32 TObjPlayer::get_slot_value_checked(s32 i) {
     O_801C21D4 *self = (O_801C21D4 *)this;
     u8 v = self->arr[i];
     is_slot_within_limit__10TObjPlayerFllUc(self->id, i, v);
-    return v;
+    return (u8)(v);
 }
 
 void*TObjPlayer::get_ptr_4() { return (char*)this + 0x4; }

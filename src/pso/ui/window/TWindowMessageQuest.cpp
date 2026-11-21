@@ -31,8 +31,6 @@ extern "C" {
 s32 get_window_layout_position(int);
 Ctx_8026B148 *get_draw_context__11TWindowBaseFPv(void *);
 void draw_visible_window_entries(void *, void *, void *);
-extern s32 __vt__19TWindowMessageQuest[];
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 
 void create_quest_message_window(void) {
     create_quest_message_window_at((get_window_layout_position(0xAD)), (s32)&lbl_8044F464);
@@ -64,11 +62,7 @@ TWindowMessageQuest::~TWindowMessageQuest() {
 }
 
 
-u8 *TWindowMessageQuest__ct(u8 *arg0, s32 arg1) {
-    TWindowMessage__ct((arg0), (arg1), 1, (local_client_id));
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowMessageQuest;
-    *(s32 *)((s8 *)arg0 + 0) = (s32)TWindowMessageQuest__name;
-    *(s32 *)((s8 *)arg0 + 0x90) = 0;
-    return arg0;
+TWindowMessageQuest::TWindowMessageQuest(s32 arg1) : TWindowMessage(arg1, 1, local_client_id) {
+    this->m_name = TWindowMessageQuest__name;
+    *(s32 *)((s8 *)this + 0x90) = 0;
 }
-

@@ -1,5 +1,7 @@
 
 #include <stddef.h>
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -8,6 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -107,7 +110,6 @@ static s32 gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 f32 atan2_float(f32 y, f32 x);
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
@@ -133,7 +135,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void get_camera_ctrl__9TObjEneDDFv(s32, s32);
 u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 s32 pack_debug_text_position(s32, s32);
@@ -145,9 +146,6 @@ void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
-s32 register_object__6TLobbyFl(s32);
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-s32 register_boss__6TLobbyFl(s32);
 s32 load_enemy_bml_resource(u8 *arg0);
 s32 TObjPlayer__sub_800F0928(s32);
 extern s32 lbl_8043BCD8[];
@@ -172,9 +170,9 @@ void TObjEneMe1Gee::load_resources() {
     TObjEneMe1Gee::cache_result_805D6660();
     lbl_805D51B4 = (u8 *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
-        gee_boss_stat_handle_table[i] = register_boss__6TLobbyFl(lbl_8043BCD8[i]);
-        gee_shared_handler_b_table[i] = dispatch_shared_handler_b__6TLobbyFl(lbl_8043BCE4[i]);
-        gee_object_handle_table[i] = register_object__6TLobbyFl(lbl_8043BCF0[i]);
+        gee_boss_stat_handle_table[i] = (s32)TLobby::register_boss(lbl_8043BCD8[i]);
+        gee_shared_handler_b_table[i] = (s32)TLobby::dispatch_shared_handler_b(lbl_8043BCE4[i]);
+        gee_object_handle_table[i] = (s32)TLobby::register_object(lbl_8043BCF0[i]);
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
@@ -186,9 +184,9 @@ void TObjEneMe1Gee::load_resources() {
     gee_resource_bundle_ptr = t + 4;
     TObjPlayer__sub_800F0928(t);
     {
-        GeeAnimationBinding sp8 = {NULL, TObjEneMe1Gee__motion_parameters, 0, 4, 0};
-        sp8.motions = TObjEneMe1Gee__resource_bundle->motions;
-        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, (NJS_TEXLIST *)TObjEneMe1Gee__resource_bundle->models->m_c, &sp8, 8.0f, 15.0f);
+        NpcAnimationBinding sp8 = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
+        sp8.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
+        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->m_c), &sp8, 8.0f, 15.0f);
     }
 }
 
@@ -257,7 +255,7 @@ void TObjEneMe1Gee::init_state() {
     set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
     this->reset_hp((u8 *)gee_boss_stat_handle_table[this->m_3c4], (u8 *)gee_shared_handler_b_table[this->m_3c4], (u8 *)gee_object_handle_table[this->m_3c4]);
-    this->check_state_flag_1();
+    this->set_state_flag_1();
     this->movementParameters = &me1_gee_init_params;
     this->initialize_enemy_state(0x36);
     this->m_37c = 10.0f;
@@ -400,7 +398,7 @@ void TObjEneMe1Gee::vfunc_106() {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Gee::calc_position(Vec *out) {
-    s32 angle = TObjEneDD::get_random_scaled();
+    s32 angle = get_random_scaled();
     f32 radius = 30.0f * this->random_ratio() + 10.0f;
     out->x = radius * sin_table_lookup(angle);
     out->y = 0.0f;
@@ -837,7 +835,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
         this->m_47c = 1;
         fade.start_fade_in();
-        ((TBoss3Volopt *)&this->position)->play_area_sound_effect();
+        play_area_sound_effect(&this->position);
         return;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -1462,7 +1460,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
                     f32 t;
                     this->enemy_copy_target_destination();
                     this->update_velocity();
-                    t = 8192.0f * calc_elapsed_scaled__9TObjEneDDFv(this);
+                    t = 8192.0f * calc_elapsed_scaled();
                     if (t >= 0.0f) {
                         t += 12288.0f;
                     } else {
@@ -1770,12 +1768,12 @@ void TObjEneMe1Gee::advance_camera_ctrl_step() {
     case 4:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 0xC;
-        get_camera_ctrl__9TObjEneDDFv((s32)gee_camera_ctrl_vec, pos);
+        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, (Vec *)pos);
         break;
     case 7:
         temp_r4_2 = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = temp_r4_2 + 0xC;
-        get_camera_ctrl__9TObjEneDDFv((s32)gee_camera_ctrl_vec, temp_r4_2);
+        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, (Vec *)temp_r4_2);
         break;
     }
     TObjEneMe1Gee__render_node_index += 1;

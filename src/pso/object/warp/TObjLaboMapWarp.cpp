@@ -1,4 +1,11 @@
+#include "pso/system/BmlResource.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/object/city/CityTraffic.h"
 #include "types.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8006F278.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
@@ -68,44 +75,32 @@ s32 TObjCityMainWarp__enabled_destinations;
 
 s32 TObjCityMainWarp__visible_destination_mask;
 
-s32 TObjLaboMapWarp__resource_bundle;
+BmlResource *TObjLaboMapWarp__resource_bundle;
 
 struct Obj_80185664 { u8 pad[0x8C]; s32 dest; };
 
 struct Obj_80185824 { u8 pad[0xFC]; f32 fFC; };
 
-struct Info_80185BE8 { u32 f0; u32 n; };
-
-struct Anim_80185BE8 { u8 pad[0x3C]; Info_80185BE8 *info; };
-
-struct Root_80185BE8 { u8 pad[0x430]; Anim_80185BE8 *anim; };
-
 struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 
 extern "C" {
 
-s32 get_bml_motion(s32, s32);
 
-s32 get_bml_texlist(s32, s32);
 
-s32 get_bml_model(s32, s32);
 
-void free_bin_model_request(void*, int);
 
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 int is_quest_active(void);
 
 s32 get_localized_text_entry(s32, s32);
 
-void run_task__15TObjLaboMapWarpFv(u8 *arg0);
+void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp);
 
 
 void unlock_main_warp_destination(s32 id);
 
 void clear_enabled_main_warps(void);
 
-s32 get_floor_warp_bit__16TObjCityMainWarpFl();
 
 
 s32 align_menu_entry_positions(int);
@@ -113,7 +108,7 @@ s32 align_menu_entry_positions(int);
 
 s32 get_window_layout_position(s32);
 
-void * init__13TAdVIConfigGCFf(void *, void *, f32);
+void * init__13TAdVIConfigGCFPC3Vecf(void *, void *, f32);
 
 s32 get_game_play_mode();
 
@@ -123,11 +118,8 @@ s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 
-s32 set_global_param__8TObjFishFl(s32);
 
-s32 draw_ginja_object(s32);
 
-s32 draw_ginja_model_with_motion(s32, s32, f32);
 
 extern void request_active_window_close();
 
@@ -135,9 +127,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 
 extern s16 TLobby__data_805D5CE8;
 
-extern u8 *city_common_model_archive;
 
-extern s32 city_common_texture_list;
 
 
 }
@@ -155,9 +145,7 @@ extern s32 lbl_805D55C0;
 
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 
-s32 update_warp_flags_from_story__16TObjCityMainWarpFv();
 
-s32 init_visible_mask__16TObjCityMainWarpFv();
 
 }
 
@@ -212,20 +200,16 @@ void TObjCityMainWarp__sub_80186AB8(void);
 
 #pragma push
 #pragma fp_contract on
-s32 TObjCityMainWarp::find_local_player_in_range(f32 farg0) {
-    s32 arg0 = (s32)this;
-    s32 player;
-    s32 current_floor;
-    s32 temp_r3b;
-    player = (s32)get_player_by_client_id(local_client_id);
-    if (player != 0) {
-        current_floor = get_current_floor();
-        temp_r3b = ((TObjPlayer *)player)->get_floor();
-        if ((temp_r3b == current_floor) && (xz_distance_squared(arg0 + 0x38, player + 0x38) < (farg0 * farg0))) {
+TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        s32 current_floor = get_current_floor();
+        s32 player_floor = player->get_floor();
+        if ((player_floor == current_floor) && (xz_distance_squared((s32)&warp->position, (s32)&player->position) < (range * range))) {
             return player;
         }
     }
-    return 0;
+    return NULL;
 }
 #pragma pop
 
@@ -317,10 +301,10 @@ void update_main_warp_visible_mask(s32 arg0) {
         TObjCityMainWarp::update_unlock_flags();
         break;
     case 1:
-        init_visible_mask__16TObjCityMainWarpFv();
+        TObjCityMainWarp::init_visible_mask();
         break;
     case 2:
-        update_warp_flags_from_story__16TObjCityMainWarpFv();
+        TObjCityMainWarp::update_warp_flags_from_story();
         break;
     }
     for (i = 11; i < 15; i++) {
@@ -411,10 +395,10 @@ void TObjCityMainWarp::update_warp_flags_from_story() {
     }
 }
 
-void TObjCityMainWarp::clear_active_bit() {
+void TObjCityMainWarp::clear_active_bit(s32 floor) {
     s32 temp_r3;
 
-    temp_r3 = get_floor_warp_bit__16TObjCityMainWarpFl();
+    temp_r3 = TObjCityMainWarp::get_floor_warp_bit(floor);
     if (temp_r3 >= 0) {
         TObjCityMainWarp__enabled_destinations &= ~(1 << temp_r3);
     }
@@ -426,7 +410,7 @@ void unlock_main_warp_destination(s32 id) {
     if (TLobby::get_instance() == 0) {
         TObjCityMainWarp::set_active_bit(id);
         if (id == 8) {
-            TBoss4DarkFalz::dispatch_by_main_phase(0x30);
+            set_story_flag_or_send_quest_flag(0x30);
         }
     } else {
         switch (id) {
@@ -456,7 +440,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
     if (is_split_screen() == 1) {
         p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 25.0f);
+            p = init__13TAdVIConfigGCFPC3Vecf(p, &position, 25.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -575,7 +559,7 @@ s32 TObjCityMainWarp::vfunc_17() {
 
 s32 TObjCityMainWarp::vfunc_18(s32) { return vfunc_17(); }
 
-u8 TObjCityMainWarp::is_warp_enabled() {
+s32 TObjCityMainWarp::is_warp_enabled() {
     if ((get_game_play_mode() == 1) && (is_quest_active() == 0)) {
         return 0;
     }
@@ -583,7 +567,7 @@ u8 TObjCityMainWarp::is_warp_enabled() {
 }
 
 void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
-    f32 lim = (f32)(*(u32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x3C)) + 4) - 1);
+    f32 lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
 
     city_main_warp->m_c4 += 4.0f;
     if (city_main_warp->m_c4 >= lim) {
@@ -594,13 +578,13 @@ void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xC8));
+        draw_ginja_object((void *)city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C), this->m_c4);
+        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -649,7 +633,7 @@ void TObjCityAreaWarp::run_task() {
     Obj_80185BE8 *arg0 = (Obj_80185BE8 *)this;
     f32 lim;
     if (TObjEneDD::is_main_phase_15() != 0) {
-        lim = (f32)(((Root_80185BE8 *)city_common_model_archive)->anim->info->n - 1);
+        lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
         arg0->t += 4.0f;
         if (arg0->t >= lim) {
             arg0->t -= lim;
@@ -660,12 +644,12 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0x18), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x34), this->m_c4);
+        draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -675,7 +659,7 @@ void TObjCityAreaWarp::render() { if (TObjEneDD::is_main_phase_15() != 0) { do_w
 
 void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 
-void TObjCityAreaWarp::confirm_area_transfer(void *) {
+void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
     TLobby__data_805D5CE8 = 1;
 }
@@ -695,7 +679,7 @@ void *TObjCityMapWarp::create(void *arg0) {
 
 void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = (void *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = (TWindowMenu *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
         ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowSubComCardList *)playerPopups[client_id])->set_flag70_bit10();
@@ -720,7 +704,7 @@ int TObjCityMapWarp::is_field88_zero() { return *(u32*)((char*)this + 0x88) == 0
 
 void TObjCityMapWarp::run_task() {
     Obj_80185824 *arg0 = (Obj_80185824 *)this;
-    u32 n = *(u32 *)(*(u8 **)(*(u8 **)(city_common_model_archive + 0x430) + 0x3C) + 4);
+    u32 n = city_common_model_archive->motions[7].motion->frameCount;
     f32 lim = (n - 1);
     arg0->fFC += 4.0f;
     if (arg0->fFC >= lim) {
@@ -734,18 +718,18 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            draw_ginja_object(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xD8));
+            draw_ginja_object((void *)city_common_model_archive->models[13].model);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0x38), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x3C), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, *(f32 *)&this->unk_FC);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0x18), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x34), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, *(f32 *)&this->unk_FC);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
@@ -771,7 +755,7 @@ TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
     m_name = TObjLaboMapWarp__name;
     clamp_index();
     warp_range = 23.0f;
-    *(f32 *)((s8 *)this + 0xFC) = 0.0f;
+    animation_frame = 0.0f;
 }
 
 TObjLaboMapWarp::~TObjLaboMapWarp() {}
@@ -781,26 +765,23 @@ void *TObjLaboMapWarp::create(void *arg0) {
 }
 
 void TObjLaboMapWarp::load_static_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_warp_labo_resource_descriptor, 0, 0, 0));
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 5, &bm_obj_warp_labo_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TObjLaboMapWarp__resource_bundle) = var_r0;
+    TObjLaboMapWarp__resource_bundle = resource;
 }
 
 void TObjLaboMapWarp::release_static_resource() {
-    if ((u32) (*(u32 *)&TObjLaboMapWarp__resource_bundle) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjLaboMapWarp__resource_bundle), 1);
-        (*(u32 *)&TObjLaboMapWarp__resource_bundle) = 0U;
+    if (TObjLaboMapWarp__resource_bundle != NULL) {
+        free_bin_model_request(TObjLaboMapWarp__resource_bundle, 1);
+        TObjLaboMapWarp__resource_bundle = NULL;
     }
 }
 
 void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = (void *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = (TWindowMenu *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
         ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowSubComCardList *)playerPopups[client_id])->set_flag70_bit10();
@@ -821,39 +802,37 @@ void TObjLaboMapWarp::clamp_index() {
     this->set_params[2] = var_r0;
 }
 
-int TObjLaboMapWarp::is_field88_zero() { return *(u32*)((char*)this + 0x88) == 0; }
+int TObjLaboMapWarp::is_field88_zero() { return set_params[1] == 0; }
 
-void run_task__15TObjLaboMapWarpFv(u8 *map_warp) {
+void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp) {
     f32 lim;
-    lim = (f32)(u32)(*(s32 *)((s8 *)(get_bml_motion(TObjLaboMapWarp__resource_bundle, 0)) + 4) - 1);
-    *(f32 *)((s8 *)map_warp + 0xFC) += 4.0f;
-    if (*(f32 *)((s8 *)map_warp + 0xFC) >= lim) {
-        *(f32 *)((s8 *)map_warp + 0xFC) -= lim;
+    lim = (f32)(get_bml_motion(TObjLaboMapWarp__resource_bundle, 0)->frameCount - 1);
+    warp->animation_frame += 4.0f;
+    if (warp->animation_frame >= lim) {
+        warp->animation_frame -= lim;
     }
     if (TLobby::get_instance() == 0 && (get_game_play_mode() == 1 || get_game_play_mode() == 2)) {
         return;
     }
-    ((TObjMapWarp *)map_warp)->process_player_warps();
+    warp->process_player_warps();
 }
 
 void TObjLaboMapWarp::render() {
     s32 temp_r31;
 
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        get_bml_texlist(TObjLaboMapWarp__resource_bundle, 1);
-        ((s32 (*)(void))set_global_param__8TObjFishFl)();
+        TObjFish::set_global_param(get_bml_texlist(TObjLaboMapWarp__resource_bundle, 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            get_bml_model(TObjLaboMapWarp__resource_bundle, 1);
-            ((s32 (*)(void))draw_ginja_object)();
+            draw_ginja_object((void *)get_bml_model(TObjLaboMapWarp__resource_bundle, 1));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();

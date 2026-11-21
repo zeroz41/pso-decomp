@@ -7,6 +7,7 @@ class TUnk_804B5BA8 : public TObjCollidable {
 public:
     virtual ~TUnk_804B5BA8();
     virtual s32 check_player_in_range(s32, f32);
+    s32 is_any_city_player_in_range(const Vec *center, f32 range_squared);
     virtual void begin_state_1();
     virtual void city_door_tick_closing();
     virtual void city_door_tick_opening();

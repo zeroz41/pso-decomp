@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 
 // Built -inline off,deferred: the functions below are written last-to-first, which puts
 // __vt__19TObjGoalWarpAncient before __vt__18TObjMapWarpAncient in .data (the key function
@@ -41,24 +42,23 @@ BmlResourceDescriptor bm_o_warp_ancient_resource_descriptor = {
 const char *TObjMapWarpAncient__class_name = "TObjMapWarpAncient";
 const char *TObjGoalWarpAncient__class_name = "TObjGoalWarpAncient";
 BmlResource *ancient_warp_shared_resource;
-s32 goal_warp_ancient_gvm_texture;
+GinjaTextureList *goal_warp_ancient_gvm_texture;
 
-extern "C" void *init__13TAdVIConfigGCFf(void *, void *, f32);
 
-extern "C" s32 TObjGoalWarpAncient__sub_8017D2D4(s32 index) {
-    return get_bml_model(ancient_warp_shared_resource, index);
+extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
+    return (NJS_OBJECT *)get_bml_model(ancient_warp_shared_resource, index);
 }
 
 AnimationMotion *TObjGoalWarpAncient::register_warp(s32 index) {
     return get_bml_motion(ancient_warp_shared_resource, index);
 }
 
-s32 TObjGoalWarpAncient::get_instance() {
+GinjaTextureList *TObjGoalWarpAncient::get_goal_beam_textures() {
     return goal_warp_ancient_gvm_texture;
 }
 
-s32 TObjGoalWarpAncient::register_warp_object(s32 index) {
-    return get_bml_texlist(ancient_warp_shared_resource, index);
+GinjaTextureList *TObjGoalWarpAncient::get_archive_textures(s32 index) {
+    return (GinjaTextureList *)get_bml_texlist(ancient_warp_shared_resource, index);
 }
 
 void TObjGoalWarpAncient::load_resources() {
@@ -67,12 +67,12 @@ void TObjGoalWarpAncient::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_warp_ancient_resource_descriptor, 0, 0, 0);
     }
     ancient_warp_shared_resource = resource;
-    goal_warp_ancient_gvm_texture = (s32)load_gvm_texture_file((s32)"de_obj2_swarp_beam_r.gvm");
+    goal_warp_ancient_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((s32)"de_obj2_swarp_beam_r.gvm");
 }
 
 void TObjMapWarpAncient::free_globals() {
-    TObjPlayer::free_if_valid(goal_warp_ancient_gvm_texture);
-    goal_warp_ancient_gvm_texture = 0;
+    TObjPlayer::free_if_valid((s32)goal_warp_ancient_gvm_texture);
+    goal_warp_ancient_gvm_texture = NULL;
     if (ancient_warp_shared_resource != NULL) {
         free_bin_model_request(ancient_warp_shared_resource, 1);
         ancient_warp_shared_resource = NULL;
@@ -82,12 +82,12 @@ void TObjMapWarpAncient::free_globals() {
 TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
     m_name = TObjMapWarpAncient__class_name;
     beam_frame = 0.0f;
-    beam_model = TObjGoalWarpAncient__sub_8017D2D4(2);
-    ksita_model = TObjGoalWarpAncient__sub_8017D2D4(0);
-    nsita_model = TObjGoalWarpAncient__sub_8017D2D4(4);
-    beam_textures = TObjGoalWarpAncient::register_warp_object(2);
-    ksita_textures = TObjGoalWarpAncient::register_warp_object(0);
-    nsita_textures = TObjGoalWarpAncient::register_warp_object(4);
+    beam_model = get_ancient_warp_model(2);
+    ksita_model = get_ancient_warp_model(0);
+    nsita_model = get_ancient_warp_model(4);
+    beam_textures = TObjGoalWarpAncient::get_archive_textures(2);
+    ksita_textures = TObjGoalWarpAncient::get_archive_textures(0);
+    nsita_textures = TObjGoalWarpAncient::get_archive_textures(4);
     beam_motion = TObjGoalWarpAncient::register_warp(1);
 }
 
@@ -123,14 +123,14 @@ void TObjMapWarpAncient::render() {
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
         if ((s32)set_params[1] >= 0) {
-            TObjFish::set_global_param(beam_textures);
-            draw_ginja_model_with_motion((void *)beam_model, beam_motion, beam_frame);
+            TObjFish::set_global_param((s32)beam_textures);
+            draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         }
-        TObjFish::set_global_param(ksita_textures);
-        draw_ginja_object((void *)ksita_model);
+        TObjFish::set_global_param((s32)ksita_textures);
+        draw_ginja_object(ksita_model);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param(nsita_textures);
-        draw_ginja_object((void *)nsita_model);
+        TObjFish::set_global_param((s32)nsita_textures);
+        draw_ginja_object(nsita_model);
         pop_matrix();
     }
 }
@@ -143,16 +143,16 @@ TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObj
     m_name = TObjGoalWarpAncient__class_name;
     naka_frame = 0.0f;
     beam_frame = 0.0f;
-    beam_model = TObjGoalWarpAncient__sub_8017D2D4(1);
-    gawa_model = TObjGoalWarpAncient__sub_8017D2D4(3);
-    naka_model = TObjGoalWarpAncient__sub_8017D2D4(5);
+    beam_model = get_ancient_warp_model(1);
+    gawa_model = get_ancient_warp_model(3);
+    naka_model = get_ancient_warp_model(5);
     if ((s32)set_params[2] < 0) {
-        beam_textures = get_instance();
+        beam_textures = get_goal_beam_textures();
     } else {
-        beam_textures = register_warp_object(1);
+        beam_textures = get_archive_textures(1);
     }
-    gawa_textures = register_warp_object(3);
-    naka_textures = register_warp_object(5);
+    gawa_textures = get_archive_textures(3);
+    naka_textures = get_archive_textures(5);
     beam_motion = register_warp(0);
     naka_motion = register_warp(2);
     if (get_game_play_mode() == 1 && (s32)set_params[2] >= 0) {
@@ -161,7 +161,7 @@ TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObj
     if (is_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -187,10 +187,10 @@ void TObjGoalWarpAncient::debug_print_area_num() {
     TObjAreaWarp::debug_print_area_num();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if ((s32)set_params[2] < 0) {
-        beam_textures = get_instance();
+        beam_textures = get_goal_beam_textures();
         debug_printf_at(0x130022, "<- GOAL (POSITIVE: START)");
     } else {
-        beam_textures = register_warp_object(1);
+        beam_textures = get_archive_textures(1);
         debug_printf_at(0x130022, "<- START (NEGATIVE: GOAL)");
     }
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
@@ -202,13 +202,13 @@ void TObjGoalWarpAncient::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(beam_textures);
-        draw_ginja_model_with_motion((void *)beam_model, beam_motion, beam_frame);
-        TObjFish::set_global_param(naka_textures);
-        draw_ginja_model_with_motion((void *)naka_model, naka_motion, naka_frame);
+        TObjFish::set_global_param((s32)beam_textures);
+        draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
+        TObjFish::set_global_param((s32)naka_textures);
+        draw_ginja_model_with_motion(naka_model, naka_motion, naka_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param(gawa_textures);
-        draw_ginja_object((void *)gawa_model);
+        TObjFish::set_global_param((s32)gawa_textures);
+        draw_ginja_object(gawa_model);
         pop_matrix();
     }
 }

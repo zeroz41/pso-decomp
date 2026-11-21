@@ -2,6 +2,10 @@
 #include "pso/object/TObjTank.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/BmlResourceLoad.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -23,28 +27,19 @@ const char *TObjTank__class_name = "TObjTank";
 CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern "C" {
-s32 get_bml_model(s32, s32);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-s32 draw_ginja_object();
-u32 tank_bml_resource;
-u32 TObjTank__texture_list;
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+BmlResource *tank_bml_resource;
+GinjaTextureList *TObjTank__texture_list;
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 __vt__8TObjTank[];
-void free_bin_model_request(void*, int);
-s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 
 void TObjTank::render() {
-    void *p;
-    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
-        TObjFish::set_global_param((u32)p);
+    GinjaTextureList *textures;
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = TObjTank__texture_list)) {
+        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        get_bml_model((*(s32 *)&tank_bml_resource), 0);
-        draw_ginja_object();
+        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(tank_bml_resource, 0)));
         pop_matrix();
     }
 }
@@ -60,9 +55,8 @@ TObjTank::~TObjTank() {
 
 extern void *tl_05;
 
-u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
+#define arg0 ((u8 *)this)
+TObjTank::TObjTank(TObject *parent, s32 arg2) : TObjCollidable(parent) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
@@ -70,37 +64,30 @@ u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, &tobjtank_collision_body_parts, 1);
     ((TObjTank *)arg0)->actorFlags = (s32) (((TObjTank *)arg0)->actorFlags | 0x40000000);
     ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
 }
+#undef arg0
 
 void *TObjTank__create(void *arg0) {
-    void *o = TObject::operator new(0xAC);
-    if (o != NULL) {
-        o = TObjTank__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjTank((TObject *)tl_05, (s32)arg0);
 }
 
 void TObjTank::free_globals() {
-    if ((u32) TObjTank__texture_list != 0U) {
-        release_texture_list((void*)TObjTank__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TObjTank__texture_list);
-        TObjTank__texture_list = 0U;
+    if (TObjTank__texture_list != NULL) {
+        release_texture_list(TObjTank__texture_list);
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TObjTank__texture_list));
+        TObjTank__texture_list = NULL;
     }
-    if ((u32) tank_bml_resource != 0U) {
-        free_bin_model_request((void*)tank_bml_resource, 1);
-        tank_bml_resource = 0U;
+    if (tank_bml_resource != NULL) {
+        free_bin_model_request(tank_bml_resource, 1);
+        tank_bml_resource = NULL;
     }
 }
 void TObjTank::load_globals() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &fs_obj_tank_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 5, &fs_obj_tank_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&tank_bml_resource) = var_r0;
-    (*(u8 * *)&TObjTank__texture_list) = load_gvm_texture_file((s32)"fs_obj_tank.GVM");
+    tank_bml_resource = storage;
+    TObjTank__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((s32)"fs_obj_tank.GVM"));
 }
 

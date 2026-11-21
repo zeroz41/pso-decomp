@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -11,6 +12,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_80226070.h"
 
 #pragma readonly_strings on
 
@@ -48,10 +50,8 @@ struct VObj_802386F8 : VBase_802386F8 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 play_sound_effect(int, void *, int, int);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
-s32 calc_technique_parameters(s32, s16, s32);
 }
 
 void TTecZarua::calc_range() {
@@ -59,9 +59,9 @@ void TTecZarua::calc_range() {
     s32 ret;
     struct { s32 v; } tmp;
 
-    ret = calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    ret = (s32)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
     tmp.v = ret;
-    ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)tmp.v);
+    ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)tmp.v);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 
@@ -74,8 +74,8 @@ void TTecZarua::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xc, -1, self);
 }
 
-void TTecZarua::create_instance(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    new TTecZarua(arg0, (Vec *)arg1, (Vec *)arg2, arg3);
+void TTecZarua::create_instance(s32 source, Vec *pos, Vec *target, s32 level) {
+    new TTecZarua(source, pos, target, level);
 }
 void TTecZarua::render() {  }
 
@@ -106,7 +106,6 @@ TTecZarua::~TTecZarua() {
 
 TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (s32)pos, level) {
     s32 r;
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TTecZarua__name;
     has_targets = 1;
     copy_technique_target_list(&targets, list);
@@ -120,7 +119,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
     case 1:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
@@ -131,7 +130,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
     case 5:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }
@@ -142,7 +141,6 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
 
 TTecZarua::TTecZarua(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
     s32 r;
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TTecZarua__name;
     has_targets = 0;
     calc_range();
@@ -155,7 +153,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC1
     case 1:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
@@ -166,7 +164,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC1
     case 5:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }

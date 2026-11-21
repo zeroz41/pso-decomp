@@ -32,12 +32,10 @@
 // ---- pso/unk/text_80120908
 
 extern "C" {
-s32 get_attach_joint__14TItemEquipBaseFv(void *);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
 extern "C" {
-s32 set_model_fade_alpha__10TObjPlayerFf();
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
 extern s16 weapon_node_material_index;
@@ -73,8 +71,7 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
-            this->get_owner_alpha();
-            set_model_fade_alpha__10TObjPlayerFf();
+            TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
             if (this->has_no_defer_render() != 0) {
                 model_render_flags |= 0x8011;
                 set_color_blend_mode(1, 4, 5, 0);
@@ -126,7 +123,7 @@ s32 TItemWeapon::draw_weapon_model() {
 
 void draw_weapon_at_joint(s32 arg0, s8 arg1) {
     s8 temp_r31;
-    temp_r31 = get_attach_joint__14TItemEquipBaseFv((void *)arg0);
+    temp_r31 = (s32)((TItemEquipBase *)arg0)->get_attach_joint();
     ((TItemEquipBase *)arg0)->set_attach_joint(arg1);
     ((TItemWeapon *)arg0)->draw_weapon_model();
     ((TItemEquipBase *)arg0)->set_attach_joint(temp_r31);
@@ -186,11 +183,10 @@ struct Pl_80120C5C : PlB_80120C5C {
 struct T_80120C5C { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 extern "C" {
-u8 get_item_group__5TItemFv();
 extern T_80120C5C lbl_8043E828[];
 void TItemWeapon::request_equipped_model() {
     Pl_80120C5C *arg0 = (Pl_80120C5C *)this;
-    u8 v = get_item_group__5TItemFv();
+    u8 v = this->get_item_group();
     if (v >= 0xAA) {
         T_80120C5C t;
         t.a = lbl_8043E828[0].a;
@@ -323,7 +319,7 @@ void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
 void*TObjPlayer::get_extended_state() { return ((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
 f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
-void TObjPlayer::test_flag30_bit0x100000() { obj_testFlags30((u32)((void*)1048576)); }
+int TObjPlayer::test_flag30_bit0x100000() { return obj_testFlags30((u32)((void*)1048576)); }
 }
 void* get_model_joint_matrix(void* a0, int a1) {  return (char*)(*(int*)((char*)a0 + 0xdb4)) + a1 * 48; }
 void TObjPlayer::set_action_type(s16 v) { *(s16*)((char*)this + 0x0) = v; }

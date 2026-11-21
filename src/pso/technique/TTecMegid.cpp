@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/technique/TechniqueParams.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/technique/TTecMegid.h"
@@ -12,18 +13,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/system/MatrixStack.h"
-
-struct RecoveredGlobal_80235348_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80235348_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
+#include "pso/unk/TLobby_80226070.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -179,9 +169,6 @@ const char *TTecMegid__class_name = "TTecMegid";
 static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_80235348_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_80235348_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 u16 get_entity_id(void *);
@@ -196,7 +183,6 @@ void matrix_mult_vec(s32, Vec *, Vec *);
 }
 s32 pop_matrices(s32 arg0);
 extern "C" {
-void dispatch_technique_contact__13TUnk_804CCC68Fv(Obj_80235740 *, s32);
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 void *get_bml_model(s32, u32);
@@ -207,7 +193,6 @@ void **mem_alloc(u32, s32);
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 u32 __nw__7TObjectFUl(s32 a0 = 0);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecMegid::update_by_state() {
     u8 *arg0 = (u8 *)this;
@@ -217,7 +202,7 @@ void TTecMegid::update_by_state() {
     case 0:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
+            set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
@@ -227,29 +212,25 @@ void TTecMegid::update_by_state() {
     case 3:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
+            set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
+            set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
+            set_sound_pitch_request(handle, -0x100, 0);
         }
         break;
     }
 }
 
 typedef struct RecoveredFields_80235348_arg0 RecoveredFields_80235348_arg0;
-typedef struct RecoveredGlobal_80235348_lbl_804CC510 RecoveredGlobal_80235348_lbl_804CC510;
-typedef struct RecoveredGlobal_80235348_lbl_804CC55C RecoveredGlobal_80235348_lbl_804CC55C;
-typedef char RecoveredGlobal_80235348_lbl_804CC510_size[((sizeof(RecoveredGlobal_80235348_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80235348_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80235348_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 typedef struct Arg_802351B4 Arg_802351B4;
 typedef struct Data_802351B4 Data_802351B4;
@@ -304,19 +285,19 @@ void TTecMegid::spawn_particle_emitters() {
 
 void TTecMegid::init_parameters() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  TechniqueParams *new_var;
   new_var = calc_technique_parameters(0x12, (int) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x48))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x4A))) * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4));
+    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[18].base + (tech_high_level_linear_power_table[18].per_level * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4));
   }
   else
   {
     ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_F0 * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x90))));
+      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * lbl_804CC55C[18].pad_00);
     }
   }
   ((RecoveredFields_80235348_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_D0 + ((f32) ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) / 5) * 2)));
@@ -397,7 +378,7 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
     }
     ((TUnk_804CCC68 *)self)->move_technique_projectile();
     ((TUnk_804CCC68 *)self)->advance_lifetime_or_destroy();
-    dispatch_technique_contact__13TUnk_804CCC68Fv(self, 1);
+    ((TUnk_804CCC68 *)self)->dispatch_technique_contact(1);
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.

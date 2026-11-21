@@ -1,22 +1,33 @@
+#pragma defer_codegen on
+
 #include "types.h"
+
 #include "pso/camera/CameraPlayback.h"
+
 #include "pso/system/PadRumble.h"
+
 #include "pso/system/task/TObject.h"
+
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
+
 #include "pso/object/base/TObjMotion.h"
+
 #include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/boss/darkfalz/TObjDFDemoF_80050134.h"
+
 #include "pso/boss/volopt/TBoss3Volopt.h"
+
 #include "pso/boss/darkfalz/TBoss4Uro.h"
+
 #include "pso/camera/TCameraCtrl.h"
+
 #include "pso/system/SoundEffect.h"
-
 extern "C" {
-
 void __dl__7TObjectFPv(void *);
 
 typedef struct Data_80050194 Data_80050194;
+
 typedef struct Obj_80050194 Obj_80050194;
+
 typedef struct Obj_80050194
 {
   const char *f0;
@@ -29,6 +40,7 @@ typedef struct Obj_80050194
   s32 fac[3];
   f32 fb8;
 } Obj_80050194;
+
 typedef struct Data_80050194
 {
   s32 f0[3];
@@ -39,54 +51,57 @@ typedef struct Data_80050194
   u8 pad3c[0x48 - 0x3C];
   u8 vt[4];
 } Data_80050194;
+
 s32 get_bml_motion(s32, s32);
+
 s32 get_bml_texlist(BmlResource *resource, s32 index);
+
 s32 get_bml_model(BmlResource *resource, s32 index);
+
 void set_scripted_camera_pose(void *, void *, void *);
-void __ct__8TObjBaseFP7TObject(void *, void *);
+
 const char *TObjDFDemoF__name = "TObjDFDemoF";
+
 void vfunc_6__8TObjBaseFPsl();
+
 void get_name__8TObjBaseFv();
+
 void get_center__8TObjBaseFv();
+
 void apply_object_set_data__8TObjBaseFPv();
+
 void classify_actor_view_detail__8TObjBaseFfff();
-void render__11TObjDFDemoFFv();
-void run_task__11TObjDFDemoFFv();
+
 void render_shadows__7TObjectFv();
+
 void reset_motion_fields__8TObjBaseFv();
+
 void update_object_view_visibility__8TObjBaseFff();
 
 s32 TObjDFDemoF__bml_model_id_table[3] = {0x0, 0x10, 0x11};
-s32 lbl_80485834[3] = {-1, 0x26, 0x27};
-void *lbl_80485840[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
-void *lbl_8048584C[3] = {(void *) 0x0, (void *) 0x0, (void *) 0x0};
-CameraPlayback lbl_80485858 = {0, 5, 0, 0.0f, 0.5f};
-void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
-void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__8TObjBaseFPsl, &apply_object_set_data__8TObjBaseFPv, &reset_motion_fields__8TObjBaseFv, &get_center__8TObjBaseFv, &update_object_view_visibility__8TObjBaseFff, &classify_actor_view_detail__8TObjBaseFfff, &get_name__8TObjBaseFv, (void *) 0x0};
 
-void *__dt__11TObjDFDemoFFPvs(void *base, s16 arg1) {
-    if (base != NULL) {
-        *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__11TObjDFDemoF;
-        restore_player_cameras();
-        __dt__8TObjBaseFv(base, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
-        }
-    }
-    return base;
-}
+s32 lbl_80485834[3] = {-1, 0x26, 0x27};
+
+void *lbl_80485840[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
+
+void *lbl_8048584C[3] = {(void *) 0x0, (void *) 0x0, (void *) 0x0};
+
+CameraPlayback lbl_80485858 = {0, 5, 0, 0.0f, 0.5f};
+
+void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 
 #pragma opt_propagation off
+
 #pragma opt_common_subs off
-Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
+
+TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
+  Obj_80050194 *arg0 = (Obj_80050194 *)this;
   s32 k;
   s32 *ids2;
   s32 h;
   Obj_80050194 *new_var;
   s32 i;
-  __ct__8TObjBaseFP7TObject(arg0, parent);
   new_var = arg0;
-  new_var->vt = (void *) __vt__11TObjDFDemoF;
   new_var->f0 = TObjDFDemoF__name;
   h = TBoss4Uro::get_instance_count();
   for (i = 0; i < 3; i++)
@@ -115,7 +130,9 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   play_sound_effect(0x3A802, 0, 0, 0);
   start_pad_rumble_all(0x20, 0xF);
   arg0->f90 = 0;
-  return new_var;
 }
 
+TObjDFDemoF::~TObjDFDemoF() {
+    restore_player_cameras();
+}
 }

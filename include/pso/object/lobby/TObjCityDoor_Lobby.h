@@ -2,6 +2,7 @@
 #define PSO_OBJECT_LOBBY_TOBJCITYDOOR_LOBBY_H
 
 #include "types.h"
+#include "pso/map/CsnGeometry.h"
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCityDoor_Lobby : public TObjBase {
@@ -12,10 +13,18 @@ struct TObjCityDoor_Lobby : public TObjBase {
     virtual void render();
     virtual void run_task();
 
-    u8 unk_90[0x1C0];
+    CsnGroup collision_group;
+    CsnModel collision_model;
+    CsnFace collision_faces[8];
+    Vec collision_vertices[10];
 
     s32 m_250;
 };
+
+typedef char TObjCityDoorLobbyGroupOffset[offsetof(TObjCityDoor_Lobby, collision_group) == 0x90 ? 1 : -1];
+typedef char TObjCityDoorLobbyModelOffset[offsetof(TObjCityDoor_Lobby, collision_model) == 0xA8 ? 1 : -1];
+typedef char TObjCityDoorLobbyFacesOffset[offsetof(TObjCityDoor_Lobby, collision_faces) == 0xB8 ? 1 : -1];
+typedef char TObjCityDoorLobbyVerticesOffset[offsetof(TObjCityDoor_Lobby, collision_vertices) == 0x1D8 ? 1 : -1];
 
 typedef char TObjCityDoor_Lobby_size[sizeof(TObjCityDoor_Lobby) == 0x254 ? 1 : -1];
 #endif

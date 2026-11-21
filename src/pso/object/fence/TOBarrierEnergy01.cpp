@@ -48,14 +48,16 @@ const char *TOBarrierEnergy01_name = "TOBarrierEnergy01";
 
 static BmlResource *barrier_energy_shared_bml_archive;
 // [0] closed, [1] open, [2] the frame model's texture list.
-static s32 *barrier_energy_texlists;
+struct GinjaTextureList;
+
+static GinjaTextureList **barrier_energy_texlists;
 static void *barrier_energy_model;
 
 TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(barrier_energy_shared_bml_archive, 1);
-    texlist = barrier_energy_texlists[0];
+    texlist = (s32)barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;
@@ -79,15 +81,15 @@ void TOBarrierEnergy01::load_resources() {
     }
     barrier_energy_shared_bml_archive = archive;
     barrier_energy_model = (void *)get_bml_model(archive, 0);
-    barrier_energy_texlists = (s32 *)mem_alloc(3 * sizeof(s32));
-    barrier_energy_texlists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_laz_guard_r.gvm");
-    barrier_energy_texlists[1] = get_bml_texlist(barrier_energy_shared_bml_archive, 1);
-    barrier_energy_texlists[2] = get_bml_texlist(barrier_energy_shared_bml_archive, 0);
+    barrier_energy_texlists = (GinjaTextureList **)mem_alloc(3 * sizeof(*barrier_energy_texlists));
+    barrier_energy_texlists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_laz_guard_r.gvm");
+    barrier_energy_texlists[1] = (GinjaTextureList *)get_bml_texlist(barrier_energy_shared_bml_archive, 1);
+    barrier_energy_texlists[2] = (GinjaTextureList *)get_bml_texlist(barrier_energy_shared_bml_archive, 0);
 }
 
 void TOBarrierEnergy01::free_resources() {
     if (barrier_energy_texlists != NULL) {
-        TObjPlayer::free_if_valid(barrier_energy_texlists[0]);
+        TObjPlayer::free_if_valid((s32)barrier_energy_texlists[0]);
         if (barrier_energy_texlists != NULL) {
             mem_free(barrier_energy_texlists);
             barrier_energy_texlists = NULL;
@@ -112,7 +114,7 @@ void TOBarrierEnergy01::render() {
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(model, motion, animation_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param(barrier_energy_texlists[2]);
+        TObjFish::set_global_param((s32)barrier_energy_texlists[2]);
         draw_ginja_object(barrier_energy_model);
         pop_matrix();
     }
@@ -124,7 +126,7 @@ void TOBarrierEnergy01::update_closed() {
     if (door_flags & DOOR_FLAG_UNLOCKED) {
         object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
-        texlist = barrier_energy_texlists[1];
+        texlist = (s32)barrier_energy_texlists[1];
     }
 }
 
@@ -140,7 +142,7 @@ void TOBarrierEnergy01::update_open() {
     if (!(door_flags & DOOR_FLAG_UNLOCKED)) {
         object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
-        texlist = barrier_energy_texlists[0];
+        texlist = (s32)barrier_energy_texlists[0];
     }
 }
 
@@ -187,7 +189,7 @@ void TOBarrierEnergy01::play_ambient_loop_sound() {
 
 void TOBarrierEnergy01::update_demo() {}
 
-TOBarrierEnergy01 *TOBarrierEnergy01::init() {
-    TLobby__sub_80156BA8(this);
-    return this;
+void *init_collision_subcommand_header(void *packet) {
+    TLobby__sub_80156BA8(packet);
+    return packet;
 }

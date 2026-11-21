@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/TNpcPlayer.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_8024AC64.h"
 #include "pso/unk/text_8024ACA8.h"
 #include "pso/ui/window/TWindowReturnCity.h"
@@ -11,6 +13,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/system/task/TObject.h"
+#include "pso/npc/TNpcPlayer.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 struct Base_8026D208 { char pad[0x18]; };
 struct VObj_8026D208 : Base_8026D208 {
@@ -25,24 +29,15 @@ struct VObj_8026D208 : Base_8026D208 {
     virtual s32 m31();
 };
 
-struct RecoveredGlobal_8026D18C_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 extern "C" {
 void *get_player_by_client_id(s32);
 s32 get_floor_map_terrain(s32);
 void mark_area_change_pending(void);
 s32 prepare_hospital_return__10TObjPlayerFv();
-s32 set_area__6TLobbyFl(void *, int, int);
-s32 send_inter_level_warp_all__10TNpcPlayerFl();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
-s32 free_member__17TWindowSubComCardFv(int, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 __vt__17TWindowReturnCity[];
 #pragma push
 #pragma readonly_strings on
@@ -54,20 +49,17 @@ extern s32 tl_00;
 void TWindowReturnCity__sub_8026D4BC(void);
 void TWindowReturnCity__sub_8026D4C0(void);
 }
-extern RecoveredGlobal_8026D18C_lbl_80515BA0 lbl_80515BA0;
 extern s32 lbl_805D55C0;
 int TWindowReturnCity__client_scan_index;
 void return_to_city_after_defeat(void);
-typedef char RecoveredGlobal_8026D18C_lbl_80515BA0_size[sizeof(RecoveredGlobal_8026D18C_lbl_80515BA0) == 0x28 ? 1 : -1];
 void return_to_city_after_defeat(void) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
         if (((s32)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
             prepare_hospital_return__10TObjPlayerFv();
         }
-        set_area__6TLobbyFl(&lbl_80515BA0.value, 0, (int) (get_floor_map_terrain(0)));
+        floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();
-        ((TObjAreaWarpQuest *)(&lbl_80515BA0.value))->get_dest_area();
-        send_inter_level_warp_all__10TNpcPlayerFl();
+        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
         (*(s32 *)&TWindowReturnCity__client_scan_index) = 4;
     }
 }
@@ -140,14 +132,14 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 a
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (s32) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
-  temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *) window_return_city, window_return_city->m_24, 0, 0);
+  temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *) window_return_city), (void *)(window_return_city->m_24), 0, 0);
   window_return_city->m_1c = temp_r31;
   if (window_return_city)
   {
   }
   temp_r31 = get_window_layout_position(0x23);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_return_city->m_1c, (int) TWindowSubStatusDisp::get_message_10(0x43), (int) temp_r31, 206.0f);
-  free_member__17TWindowSubComCardFv(window_return_city->m_1c, 1);
+  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_return_city->m_1c, (s32)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
+  set_menu_selected_index((TWindowSubComCard *)window_return_city->m_1c, 1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();
   TWindowCtrl__sub_8026D4E8();

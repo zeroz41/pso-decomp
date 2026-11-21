@@ -10,6 +10,7 @@ public:
  s32 m_countdown;
  void* m_2c;
 
+    TDPBShower(TObject *parent, void *position);
     virtual ~TDPBShower();
     virtual void run_task();
 };

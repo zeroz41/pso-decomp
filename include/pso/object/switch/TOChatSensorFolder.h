@@ -6,17 +6,8 @@
 
 class TOChatSensorFolder : public TObject {
 public:
+    TOChatSensorFolder(TObject *parent);
     virtual ~TOChatSensorFolder();
 };
-
-extern "C" {
-void *TOChatSensorFolder__ct(void *chat_sensor_folder);
-}
-
-// --- C functions defined in TOChatSensor.cpp ---
-extern "C" {
-void *TOChatSensorFolder__ct(void *chat_sensor_folder);
-}
-// --- end of C functions
 
 #endif

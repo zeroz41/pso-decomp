@@ -40,7 +40,6 @@ f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1);
 
 extern "C" {
 void TBoss8Dragon__sub_8002D5F8(void);
-u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
 s32 get_state__12TBoss8DragonFv(void);
 }

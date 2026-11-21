@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -124,7 +126,6 @@ void restore_floor_telepipes(void);
 f32 vector_length(void *);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 get_entity_id(void *);
-s32 get_room__8TObjBaseFv(void *);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 extern s32 local_client_id;
@@ -141,7 +142,6 @@ s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
-s32 set_area__6TLobbyFl(s32 *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 camera_ctrl_instance;
 Hit_8023453C *csnVecterUnder(void *, s32);
@@ -153,7 +153,6 @@ void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
 void start_placement_search(s32 arg0, s32 arg1, s32 arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
-extern s32 lbl_80515BA0[];
 u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 extern "C" {
 s32 free_collision_body_parts(void *);
@@ -396,7 +395,7 @@ block_43:
         if (is_split_screen() != 0) {
             TWindowCtrl::init_all_slots2();
         }
-        set_area__6TLobbyFl(lbl_80515BA0, 0, get_floor_map_terrain(0));
+        floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
         mark_area_change_pending();
         return;
     case 4:
@@ -418,7 +417,7 @@ void TTecLuker::setup_telepipe_field() {
     if (traveller == (u16)get_entity_id((void *)source)) {
         s16 room;
         floor = get_current_floor();
-        room = get_room__8TObjBaseFv((void *)source);
+        room = (s32)((TObjBase *)source)->get_room();
         ((Write_802347B4)write_telepipe_record)((u8 *)source + 0x830, get_entity_id((void *)source), floor, (u8 *)&pipe_pos, room);
         ((TTecLuker *)((u8 *)source + 0x830))->send_telepipe_packet();
     }

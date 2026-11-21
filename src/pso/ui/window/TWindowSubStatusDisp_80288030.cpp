@@ -8,7 +8,6 @@
 extern "C" {
 s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
-u8 *get_card_data_ptr__17TWindowSubComCardFv(s32);
 void *TWindowSubComCard__sub_8027523C(void *p);
 s32 strcmp(void *, int);
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, s32 arg2, s8 arg3, s32 arg4);
@@ -36,10 +35,9 @@ NJS_TEXNAME f256_hyouji_texname[13] = { // inferred: the name array of f256_hyou
 NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 
 extern "C" {
-int update__20TWindowSubStatusDispFPv(void*);
 int TWindowSubStatusDisp__sub_802879B0(void*);
 
-int TWindowSubStatusDisp::forward_render() { return update__20TWindowSubStatusDispFPv(this); }
+void TWindowSubStatusDisp::forward_render(void *a1) { this->update(a1); }
 int TWindowSubStatusDisp::update_subwindow() { return TWindowSubStatusDisp__sub_802879B0(this); }
 s32 TWindowSubStatusDisp::destroy_status_display(s32 arg0, s16 arg1) {
     if (arg0 != 0) {
@@ -85,10 +83,10 @@ void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C((void *)arg1)));
     set_text_entry_string((u8 *)temp_r29, (u32)(get_shared_text_buffer()), 0x60);
-    if ((s8) *get_card_data_ptr__17TWindowSubComCardFv(arg1) != 0) {
+    if ((s8) *(u8 *)((TWindowSubComCard *)arg1)->get_card_data_ptr() != 0) {
         text_builder_reset();
         text_builder_append((u8 *)":");
-        text_builder_append((get_card_data_ptr__17TWindowSubComCardFv(arg1)));
+        text_builder_append(((u8 *)((TWindowSubComCard *)arg1)->get_card_data_ptr()));
         set_text_entry_string((u8 *)temp_r28, (u32)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r27)->clear_visible_flag();
         ((TWindowSubStatusDisp *)temp_r28)->clear_visible_flag();

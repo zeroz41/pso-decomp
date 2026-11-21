@@ -14,11 +14,6 @@ struct TWindowDDValueList {
     s32 count;
 };
 
-extern "C" {
-s16 TWindowDD_read_indexed_value(s32 entry_index, s32 value_index);
-s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index);
-}
-
 struct TWindowDD : public TObject
 {
     TWindowDD(TObject *parent, void *arg2);
@@ -69,7 +64,6 @@ struct TWindowDD : public TObject
     static s32 check_all_ready(s32 arg0);
     void update_com_card();
     int initialize_subwindow();
-    static void refresh_status_display();
     void set_mode_2();
     void reset_cursor();
     void handle_scroll_input();
@@ -123,7 +117,6 @@ struct TWindowDD : public TObject
     static void play_se();
     static void play_sound();
     int test_input_flag_4();
-    static void dispatch_state();
     s32 get_word_select_context();
     s32 get_mode_code();
     void set_state();
@@ -133,11 +126,11 @@ struct TWindowDD : public TObject
     void append_prompt_newline(s32 *arg1);
     static s32 clamp_range_5FA_682(s16 arg0);
     static s32 clamp_range_2C9_552(s16 arg0);
-    static void show_message_by_count(s32 arg0, s32 arg1);
+    static void show_message_by_count(char *buf, s32 *pos);
     void maybe_scroll(void* a1);
     s32 count_chars_since_newline(s32 *len);
-    static void append_char(s8 arg0, s32 arg1, s32 *arg2);
-    static void append_string(s32 arg0, s32 arg1, s32 *arg2);
+    static void append_char(s8 c, char *buf, s32 *pos);
+    static void append_string(const char *str, char *buf, s32 *pos);
     void copy_point_table(s32 idx);
     static s32 get_draw_count(void **arg0);
     static s32 get_entry(s32 arg0);
@@ -173,6 +166,8 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
 extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
 void update_draw__9TWindowDDFPv(void *p);
+void measure_message_text_width_default(void *entry);
+s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 arg3);
 }
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

@@ -2,9 +2,11 @@
 #define PSO_BOSS_DEROLLE_TOBJBOSS2CEILJUNK_H
 
 #include "types.h"
+#include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBoss2CeilJunk : public TObjBase {
+    TObjBoss2CeilJunk(TObject *parent, const Vec *position);
     virtual ~TObjBoss2CeilJunk();
     virtual void run_task();
     void* m_90;

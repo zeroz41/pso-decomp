@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecReverser.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/unk/TUnk_804CCC28.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -11,11 +12,9 @@
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
-
-struct RecoveredGlobal_8023A094_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
-typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
@@ -50,10 +49,7 @@ s32 get_entity_id(int);
 s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
-extern RecoveredGlobal_8023A094_lbl_804CC1CC technique_param_table;
-extern s32 __vt__12TTecReverser[];
 const char *lbl_805D3818 = "TTecReverser";
-u8 *TTecReverser__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 void *create_timed_particle_emitter(void *owner, s32 idx, s32 b, s32 c);
 extern s32 __vt__13TUnk_804CCC28[];
@@ -111,7 +107,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
     }
 }
 
-void TUnk_804CCC68::dispatch_technique_contact() {
+void TUnk_804CCC68::dispatch_technique_contact(s32) {
     u8 *var_r31;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
         queue_destruction();
@@ -140,13 +136,12 @@ void TUnk_804CCC68::dispatch_technique_contact() {
     }
 }
 
-u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+#define tec_reverser ((u8 *)this)
+TTecReverser::TTecReverser(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TUnk_804CC148(arg1, arg2, arg4) {
     u32 temp_r3;
-    __ct__13TUnk_804CC148Flll((void *)tec_reverser, (void *)arg1, (void *)arg2, (void *)arg4);
-    *(s32 **)((s8 *)tec_reverser + 0x18) = __vt__12TTecReverser;
-    ((TObjPlayer *)(tec_reverser + 0xEC))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
-    ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));
+    ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
@@ -154,19 +149,15 @@ u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (temp_r3 != 0U) {
         ((TTecReverser *)tec_reverser)->m_b4 = get_entity_id(temp_r3);
     }
-    return tec_reverser;
 }
+#undef tec_reverser
 
 TTecReverser::~TTecReverser() {
 
 }
 
 void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x148);
-    if (o != NULL) {
-        TTecReverser__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
-    }
+    new TTecReverser((s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
 }
 
 void run_task__12TTecReverserFv(u8 *tec_reverser) {

@@ -64,52 +64,7 @@ static CollisionBody trap_ancient01_collision_body[1] = {
 };
 const char *TOTrapAncient01__class_name = "TOTrapAncient01";
 
-struct VBase_801797D4 { char pad[0x18]; };
-
-struct VObj_801797D4 : VBase_801797D4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20(s32, f32);
-    virtual void m21(void *, void *, s32, s32, s32);
-    virtual void m22();
-    virtual void m23(void *, f32);
-};
-
-struct Ent_801797D4 { u8 pad[0xC]; f32 fC; };
-
-struct Pair_801797D4 { s32 a; s32 b; };
-
-struct Trap_801797D4 : VObj_801797D4 {
-    u8 pad1C[0xA4 - 0x1C];
-    Ent_801797D4 *fA4;
-    u8 padA8[0x2A8 - 0xA8];
-    s32 f2A8;
-    u8 pad2AC[0x344 - 0x2AC];
-    Pair_801797D4 f344;
-    u8 pad34C[0x354 - 0x34C];
-    f32 f354;
-};
-
 extern "C" {
-VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
 extern const char *lbl_805D3530;
 }
 
@@ -178,7 +133,8 @@ void TOTrapAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, 0);
     }
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), get_bml_texlist(resource, 3), 20.0f, 0.0f);
+    TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOTrapAncient01__bml_resource, 3)),
+                           reinterpret_cast<GinjaTextureList *>(get_bml_texlist(resource, 3)), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
@@ -284,7 +240,7 @@ void TOTrapAncient01::vfunc_81() {
         obj_clearFlags30(0x40000);
         spawn_particle_effect(&position, 0x8F);
         spawn_particle_effect(&position, 0x8F);
-        this->player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        this->player = find_nearest_visible_player(this, NULL, range);
         if (this->player != 0xFFFF) {
             player = get_player_by_client_id(this->player);
             target = (u8 *)player;
@@ -309,17 +265,17 @@ void TOTrapAncient01::vfunc_81() {
 
 void TOTrapAncient01::vfunc_82() {
     s32 i;
-    VObj_801797D4 *p;
-    this->calc_attach_pos();
-    ((Trap_801797D4 *)this)->f354 -= 1.0f;
-    if (((Trap_801797D4 *)this)->f354 < 0.0f) {
-        ((Trap_801797D4 *)this)->fA4->fC = 15.0f;
+    TObjChara *p;
+    calc_attach_pos();
+    damage_timer -= 1.0f;
+    if (damage_timer < 0.0f) {
+        bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
-        this->check_object_collisions();
+        check_object_collisions();
         for (i = 0; i < 16; i++) {
-            p = get_battle_param__10TObjPlayerFi(i);
-            if (p == 0) {
+            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+            if (p == NULL) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) == 0) {
@@ -328,17 +284,14 @@ void TOTrapAncient01::vfunc_82() {
             if (((TUnk_804B6C24 *)p)->check_value_equals((s32)lbl_805D3530) == 0) {
                 break;
             }
-            {
-            Pair_801797D4 v = ((Trap_801797D4 *)this)->f344;
-            p->m21(this, &v, 0, -1, -1);
-            }
-            if (((Trap_801797D4 *)this)->f344.a < 5) {
-                p->m23(((Trap_801797D4 *)this), 0.0f);
+            p->receive_direct_attack(this, payload, NULL, -1, -1);
+            if (payload.kind < 5) {
+                p->apply_knockback_from_attacker((u8 *)this, 0.0f);
             }
         }
-        ((Trap_801797D4 *)this)->m20(((Trap_801797D4 *)this)->f2A8, 1.0f);
+        receive_physical_attack(target, 1.0f);
     }
-    submit_cursor_candidate(((Trap_801797D4 *)this), -1);
+    submit_cursor_candidate(this, -1);
     switch (get_current_floor_area()) {
     case AREA_RUINS1:
     case AREA_RUINS2:
@@ -449,7 +402,7 @@ void TOTrapAncient01::release_trapped_player() {
         if (target != NULL) {
             player = get_player_by_client_id(get_entity_id((TObjBase *)target));
             if (player != NULL) {
-                if (((TLobby *)player)->check_player_flag1() != 0) {
+                if (player->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((s32)player);
                 }
                 obj_clear_flag30_20000(player);
@@ -458,7 +411,7 @@ void TOTrapAncient01::release_trapped_player() {
     } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
-            if (((TLobby *)player)->check_player_flag1() != 0) {
+            if (player->check_player_flag1() != 0) {
                 TObjPlayer::send_code_45_1((s32)player);
             }
             obj_clear_flag30_20000(player);

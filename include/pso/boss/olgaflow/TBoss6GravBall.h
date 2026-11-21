@@ -16,7 +16,7 @@ struct TBoss6GravBall : public TObjCollidable {
     u32 m_c0;
     u32 m_c4;
     Vec ball_position;
-    static void clear_player_grav_flags();
+    void clear_player_grav_flags();
     s32 clamp_to_ground();
     void update_state(void *);
     void update_charge_effects(void *);

@@ -45,18 +45,12 @@ const char *TWindowMakeTeam__sub_80264B38(Obj_80264B38 *o);
 const char *TWindowMakeTeam__sub_80264B24(Obj_80264B24 *o);
 void align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *, s32);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
-s32 update_selected_entry__17TWindowSubComCardFv(void *);
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 char *get_shared_text_buffer(void);
-s32 measure_string_len__20TWindowSubStatusDispFv(char *);
 char *strncpy(char *, const char *, u32);
-void *create_entry_menu_window__15TWindowMakeTeamFv(void *);
-void *create_status_menu_window__15TWindowMakeTeamFv(void *);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 extern s32 __vt__15TWindowMakeTeam[];
 s32 create_menu__15TWindowMakeTeamFv(struct TWMT *);
 s32 __ct__7TObjectFP7TObject();
@@ -129,7 +123,7 @@ void TWindowMakeTeam::run_task() {
             this->m_1d |= 2;
             this->m_1c = 11;
         } else if (((TUnk_804D0658 *)(self->menu))->is_open() != 0) {
-            ((TWindowMakeTeam *)self)->set_state(update_selected_entry__17TWindowSubComCardFv(self->menu));
+            ((TWindowMakeTeam *)self)->set_state(((TWindowSubComCard *)(self->menu))->update_selected_entry());
         }
         break;
     case 3: {
@@ -152,7 +146,7 @@ void TWindowMakeTeam::run_task() {
             mem_free(self->name);
             self->name = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
             TWindowSubComCard::mask_profanity_words(self->name, get_shared_text_buffer());
-            n = measure_string_len__20TWindowSubStatusDispFv(self->name);
+            n = (s32)measure_string_len((const char *)(self->name));
             strncpy(self->name, get_shared_text_buffer(), n);
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->name, 0);
             this->m_1c = 1;
@@ -177,14 +171,14 @@ void TWindowMakeTeam::run_task() {
             mem_free(self->comment);
             self->comment = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
             TWindowSubComCard::mask_profanity_words(self->comment, get_shared_text_buffer());
-            n = measure_string_len__20TWindowSubStatusDispFv(self->comment);
+            n = (s32)measure_string_len((const char *)(self->comment));
             strncpy(self->comment, get_shared_text_buffer(), n);
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->comment, 1);
             this->m_1c = 1;
         }
         break;
     case 7:
-        self->window = create_entry_menu_window__15TWindowMakeTeamFv(self);
+        self->window = (void *)((TWindowMakeTeam *)self)->create_entry_menu_window();
         this->m_1c = 8;
     case 8:
         if (((TWindowMenu *)(self->window))->is_cancelled() != 0) {
@@ -197,7 +191,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 9:
-        self->window = create_status_menu_window__15TWindowMakeTeamFv(self);
+        self->window = (void *)((TWindowMakeTeam *)self)->create_status_menu_window();
         this->m_1c = 10;
     case 10:
         if (((TWindowMenu *)(self->window))->is_cancelled() != 0) {
@@ -218,18 +212,18 @@ s32 TWindowMakeTeam::create_menu() {
     s32 information_counter_window;
 
     information_counter_window = create_information_counter_window(5);
-    ((TWindowSubComCard *)information_counter_window)->update_next_entry(get_message_10__20TWindowSubStatusDispFl(0x4D), 0, 0);
-    ((TWindowSubComCard *)information_counter_window)->update_next_entry(get_message_10__20TWindowSubStatusDispFl(0x4E), 0, 1);
-    ((TWindowSubComCard *)information_counter_window)->update_next_entry(get_message_10__20TWindowSubStatusDispFl(0x4F), 0, 2);
-    ((TWindowSubComCard *)information_counter_window)->update_next_entry(get_message_10__20TWindowSubStatusDispFl(0x50), 0, 3);
-    ((TWindowSubStatusDisp *)information_counter_window)->add_text_entry(get_message_10__20TWindowSubStatusDispFl(0x51), 4);
+    ((TWindowSubComCard *)information_counter_window)->update_next_entry((s32)TWindowSubStatusDisp::get_message_10(0x4D), 0, 0);
+    ((TWindowSubComCard *)information_counter_window)->update_next_entry((s32)TWindowSubStatusDisp::get_message_10(0x4E), 0, 1);
+    ((TWindowSubComCard *)information_counter_window)->update_next_entry((s32)TWindowSubStatusDisp::get_message_10(0x4F), 0, 2);
+    ((TWindowSubComCard *)information_counter_window)->update_next_entry((s32)TWindowSubStatusDisp::get_message_10(0x50), 0, 3);
+    ((TWindowSubStatusDisp *)information_counter_window)->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x51), 4);
     return information_counter_window;
 }
 
 s32 TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
     s32 r;
-    r = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044F300, 3);
+    r = (s32)create_window_menu_default((s32)lbl_8044F300, 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(0)), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(1)), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(2)), 6, 2);
@@ -243,7 +237,7 @@ s32 TWindowMakeTeam::create_status_menu_window() {
     u8 *arg0 = (u8 *)this;
     s32 r;
     s32 m;
-    r = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044F308, 4);
+    r = (s32)create_window_menu_default((s32)lbl_8044F308, 4);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(0), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(1), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(2), 6, 2);
@@ -307,11 +301,11 @@ const char *TWindowMakeTeam__sub_80264B24(Obj_80264B24 *o) {
     return lbl_805D395C;
 }
 
-u8 TWindowMakeTeam::is_enabled() {
+s32 TWindowMakeTeam::is_enabled() {
     if (get_mode__6TLobbyFv() == 1) {
-        return 0U;
+        return (u8)(0U);
     }
-    return this->m_1f;
+    return (u8)(this->m_1f);
 }
 
 s32 TWindowMakeTeam::draw_entry_0x110(s8 arg0) {

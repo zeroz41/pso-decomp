@@ -2,12 +2,15 @@
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/technique/TTecZonde.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecGiZonde.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_804CCC68.h"
+#include "pso/unk/TLobby_80226070.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -53,18 +56,6 @@ struct Chain_80231C58 {
     Target_80231C58 targets[1];
 };
 
-struct RecoveredGlobal_8023C558_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_8023C558_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
-
 struct RecoveredFields_8023C558_arg0
 {
   u8 unknown_0[0xC4];
@@ -76,32 +67,25 @@ struct RecoveredFields_8023C558_arg0
 };
 
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_8023C558_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_8023C558_lbl_804CC55C lbl_804CC55C;
 typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
-typedef struct RecoveredGlobal_8023C558_lbl_804CC510 RecoveredGlobal_8023C558_lbl_804CC510;
-typedef struct RecoveredGlobal_8023C558_lbl_804CC55C RecoveredGlobal_8023C558_lbl_804CC55C;
-typedef char RecoveredGlobal_8023C558_lbl_804CC510_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_8023C558_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 #pragma readonly_strings on
 
 const char *TTecGiZonde_name_ref = "TTecGiZonde";
 
 void TTecGiZonde::init_parameters() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  TechniqueParams *new_var;
   new_var = calc_technique_parameters(0x7, (int) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if ((((s16) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x1c))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x1e))) * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4));
+    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[7].base + (tech_high_level_linear_power_table[7].per_level * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4));
     return;
   }
   ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_F0 * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4)));
   if (TTecCtrl::is_technique_ready())
   {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x38))));
+    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * lbl_804CC55C[7].pad_00);
   }
 }
 
@@ -146,9 +130,7 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-s32 is_parents_unqueued__9TTecLukerFUl();
 s16 get_entity_id(void *);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
 f32 vector_length(Vec *);
@@ -156,7 +138,7 @@ void normalize_vector(Vec *);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 extern s32 tl_07;
 
-#define UNQ(e) ((s32 (*)(u32)) is_parents_unqueued__9TTecLukerFUl)(e)
+#define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
     Chain_80231C58 *self = (Chain_80231C58 *)this;
     Vec d;
@@ -343,8 +325,8 @@ s32 TTecGiZonde::find_chain_targets() {
     return 1;
 }
 
-void TTecGiZonde::create(void *arg1, void *arg2, void *arg3) {
-    new TTecGiZonde((s32)this, (Vec *)arg1, arg2, (s32)arg3);
+void TTecGiZonde::create(void *caster, Vec *pos, void *targets, s32 level) {
+    new TTecGiZonde((s32)caster, pos, targets, level);
 }
 
 TTecGiZonde::~TTecGiZonde() {}
@@ -354,7 +336,7 @@ void TTecGiZonde::deliver_chain_hits() {
     u32 actor;
     for (i = 0; i < ((GChain_80232598 *)this)->count; i++) {
         actor = (u32)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
-        if (is_parents_unqueued__9TTecLukerFUl() != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
+        if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
             this->vfunc_8((void *)actor);
         }
     }
@@ -378,14 +360,13 @@ void TTecGiZonde::run_task() {
 // The chain starts at `pos` with no facing (angle 0).
 TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
     s32 h;
-    ((TObjPlayer *)this->targetList)->construct_target_cursor_records();
     m_name = TTecGiZonde_name_ref;
     init_parameters();
-    copy_technique_target_list(this->targetList, targets);
+    copy_technique_target_list(&this->targetList, targets);
     switch (band) {
     case 0:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 1:
@@ -394,17 +375,17 @@ TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_
     case 2:
     case 3:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
+            set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     case 4:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
+            set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     case 5:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }

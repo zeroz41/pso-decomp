@@ -26,6 +26,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TPlyItem.h"
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
 struct Base_802205E4 { char pad[0x18]; };
@@ -187,7 +189,6 @@ extern "C" {
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 void *memset(void *, int, unsigned long);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-s32 get_item_record__23TShopJudgmentItemWindowFPv(int, int, int);
 void set_judgment_target_flag(void *arg0, void *arg1);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
@@ -284,7 +285,7 @@ s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
     s32 j;
     s32 k;
     memset(W->ents, 0, 0xF0);
-    n = ((TObjPlayer *)(*(s32 *)(W->player + 0xD00)))->apply_shop_judgment((int)items);
+    n = ((TPlyItem *)(*(s32 *)(W->player + 0xD00)))->apply_shop_judgment((int)items);
     W->count = 0;
     for (i = 0; i < n; i++) {
         it = items[i];
@@ -359,7 +360,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                 if (((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->copy_to_item_data((TItemData *)(arg0 + 0x3C)) != 0) {
                     *(s32 *)((s8 *)arg0 + 0x168) = ((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->is_at_tekker();
                     ((TItemData *)(arg0 + 0x28))->copy_from((TItemData *)(arg0 + 0x3C));
-                    update_all__6TLobbyFi((s32)(arg0 + 0x28));
+                    update_item_appraisal((s32)(arg0 + 0x28));
                     *(s32 *)((s8 *)arg0 + 0x14C) = 0x5F;
                     if (*(void **)((s8 *)arg0 + 0x154) != NULL) {
                         ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x154)))->close();
@@ -478,7 +479,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     ((TShopWindowBase *)arg0)->set_field_20(7);
                     return;
                 }
-                get_item_record__23TShopJudgmentItemWindowFPv((s32) (*(s32 *)((s8 *)arg0 + 0x24)), (s32) (*(s32 *)((s8 *)arg0 + 0x48)), 1);
+                delete_item((void *)(*(s32 *)((s8 *)arg0 + 0x24)), (s32)(*(s32 *)((s8 *)arg0 + 0x48)), 1);
                 *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x48);
                 ((TObjPlayer *)(*(s32 *)((s8 *)arg0 + 0x24)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag((arg0), ((u8 *)&this->unk_28));
@@ -547,7 +548,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 }
                 ((TWindowBase *)(F(0x158, void *)))->close();
                 F(0x158, void *) = NULL;
-                get_item_record__23TShopJudgmentItemWindowFPv(F(0x24, s32), F(0x48, s32), 1);
+                delete_item((void *)(F(0x24, s32)), (s32)(F(0x48, s32)), 1);
                 F(0x34, s32) = F(0x48, s32);
                 ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
@@ -565,7 +566,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             if (sel == 1) {
                 ((TWindowBase *)(F(0x158, void *)))->close();
                 F(0x158, void *) = NULL;
-                get_item_record__23TShopJudgmentItemWindowFPv(F(0x24, s32), F(0x48, s32), 1);
+                delete_item((void *)(F(0x24, s32)), (s32)(F(0x48, s32)), 1);
                 F(0x34, s32) = F(0x48, s32);
                 ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
@@ -579,7 +580,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
         if (F(0x158, void *) != NULL && ((TWindowMenu *)(F(0x158, void *)))->is_cancelled() != 0) {
             ((TWindowBase *)(F(0x158, void *)))->close();
             F(0x158, void *) = NULL;
-            get_item_record__23TShopJudgmentItemWindowFPv(F(0x24, s32), F(0x48, s32), 1);
+            delete_item((void *)(F(0x24, s32)), (s32)(F(0x48, s32)), 1);
             F(0x34, s32) = F(0x48, s32);
             ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
             set_judgment_target_flag(arg0, &this->unk_28);
@@ -691,7 +692,7 @@ void TShopJudgmentItemWindow::invoke_callback_174_and_destroy() {
     }
 }
 
-void TShopJudgmentItemWindow::vfunc_8() {
+void TShopJudgmentItemWindow::vfunc_8(s32 id, s32 flags) {
     struct VObj_8022061C_802205E4 *temp_r3;
 
     temp_r3 = (struct VObj_8022061C_802205E4 *)this->m_164;

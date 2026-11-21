@@ -1,4 +1,6 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
 
 #include "types.h"
@@ -58,7 +60,6 @@ struct Obj_802C0A74 {
 struct Entry_802C1660 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 struct Entry_802C1E34 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 struct Entry_802C2548 { s32 a; f32 b; f32 c; f32 d; s32 e; s32 f; };
-struct Q_802C2958 { s32 a; s32 b; s32 c; s32 d; };
 struct Entry_802C2C48 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 typedef Entry_802C0CAC Ent_802C0F3C;
 
@@ -88,7 +89,8 @@ u32 jungle_bird_bml_resource;
 u32 lobby_pigeon_texture_gvm;
 u32 lobby_kamome_model_resource;
 u32 lobby_kamome_texture_gvm_handle;
-u32 lobby_pigeon_bml_archive;
+struct BmlResource;
+BmlResource *lobby_pigeon_bml_archive;
 u32 lobby_pigeon_lobby_type;
 
 // TObjPathObj's class name.
@@ -104,11 +106,11 @@ extern const Entry_802C2C48 seabed_dolphin_path_profiles[5] = {
     {4, 0.2f, 0.6f, 0.1f, 182},
 };
 // The dolphin's one action (mode 1, motion 5 at 0.6 speed); inferred name: the action table of
-// seabed_dolphin_anim_binding, which load_seabed_dolphin hands to TLobby::spawn_npc_enemy.
+// seabed_dolphin_anim_binding, which load_seabed_dolphin hands to NpcModelRegistry::register_animated_chunk.
 TObjMotionAction seabed_dolphin_actions[1] = {
     {1, 0, 5, 0.6f, 0},
 };
-extern const Q_802C2958 seabed_dolphin_anim_binding[1] = {{0, (s32)seabed_dolphin_actions, 0, 0x10000}};
+extern const NpcAnimationBinding seabed_dolphin_anim_binding = { NULL, seabed_dolphin_actions, 0, 0, 1 };
 extern const Entry_802C2548 jungle_ebi_path_profiles[3] = {
     {1, 0.01f, 0.6f, 0.1f, 182, 5},
     {2, 0.01f, 0.6f, 0.1f, 182, 5},
@@ -586,9 +588,11 @@ void TObjPlayer::load_seabed_dolphin() {
     }
     (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive) = o;
     seabed_dolphin_texture_handle = (s32)load_gvm_texture_file((s32)("obj_seabed_dolphin.gvm"));
-    Q_802C2958 q = *(Q_802C2958 *)seabed_dolphin_anim_binding;
-    q.a = (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430;
-    TLobby::spawn_npc_enemy((s16)0x40, (s32)(((s32 (*)(void *, s32, s32, s32, s32, const void *))get_bml_model)((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive), 0, ((Q_802C2958 *)seabed_dolphin_anim_binding)->c, ((Q_802C2958 *)seabed_dolphin_anim_binding)->b, ((Q_802C2958 *)seabed_dolphin_anim_binding)->a, seabed_dolphin_anim_binding)), (NJS_TEXLIST *)seabed_dolphin_texture_handle, &q, (f32)((16.0f)), (f32)((1e+01f)));
+    NpcAnimationBinding binding = seabed_dolphin_anim_binding;
+    binding.motions = reinterpret_cast<BmlMotionEntry *>((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430);
+    NpcModelRegistry::register_animated_chunk(0x40,
+        reinterpret_cast<void *>(get_bml_model(reinterpret_cast<void *>(seabed_dolphin_bml_archive), 0)),
+        reinterpret_cast<void *>(seabed_dolphin_texture_handle), &binding, 16.0f, 10.0f);
 }
 #pragma pop
 
@@ -1170,8 +1174,8 @@ TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(pare
     s32 selector;
     select_lobby_pigeon_model();
     self->scale = (1.0f);
-    self->model = ((void*)get_bml_model((void *)(lobby_pigeon_bml_archive), (s32)(self->modelIndex)));
-    self->animation = ((void*)get_bml_motion((void *)(lobby_pigeon_bml_archive), 0));
+    self->model = ((void*)get_bml_model(lobby_pigeon_bml_archive, (s32)(self->modelIndex)));
+    self->animation = ((void*)get_bml_motion(lobby_pigeon_bml_archive, 0));
     selector = self->movementSelector;
     if (selector < 0) movement = 0;
     else {
@@ -1179,7 +1183,7 @@ TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(pare
         if (selector <= 2) movement = selector;
     }
     self->movement = movement;
-    self->path = ((void*)get_bml_motion((void *)(lobby_pigeon_bml_archive), (s32)(((PigeonMovement *)&lobby_pigeon_path_profiles)[self->movement].motion)));
+    self->path = ((void*)get_bml_motion(lobby_pigeon_bml_archive, (s32)(((PigeonMovement *)&lobby_pigeon_path_profiles)[self->movement].motion)));
     self->pathFrame = (0.0f);
     self->animationFrame = (0.0f);
     initialize_lobby_pigeon_path();
@@ -1400,13 +1404,13 @@ void TObjPlayer::load_lobby_pigeon_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, 0));
     }
-    lobby_pigeon_bml_archive = var_r0;
+    lobby_pigeon_bml_archive = (BmlResource *)var_r0;
     lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
 }
 
 void TObjPlayer::free_static_instance() {
-    if ((u32) lobby_pigeon_bml_archive != 0U) {
-        free_bin_model_request((void*)lobby_pigeon_bml_archive, 1);
-        lobby_pigeon_bml_archive = 0U;
+    if (lobby_pigeon_bml_archive != NULL) {
+        free_bin_model_request(lobby_pigeon_bml_archive, 1);
+        lobby_pigeon_bml_archive = NULL;
     }
 }

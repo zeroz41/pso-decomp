@@ -135,12 +135,11 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
     this->m_60 = (u8) (this->m_60 & 0xFFFFFFFB);
 }
 
-s32 is_shortcut_active__26TWindowSubQuestBoardSelectFv();
 
 void TWindowSubQuestBoardSelect::select_next() {
     u8 temp_r3;
 
-    if ((is_shortcut_active__26TWindowSubQuestBoardSelectFv() == 0) && (((s32 (*)(void *, u8))get_slot_flag__26TWindowSubQuestBoardSelectFic)(this, this->m_61) == 0)) {
+    if ((this->is_shortcut_active() == 0) && (((s32 (*)(void *, u8))get_slot_flag__26TWindowSubQuestBoardSelectFic)(this, this->m_61) == 0)) {
         do {
             this->m_61 = (this->m_61 + 1);
             temp_r3 = this->m_61;
@@ -203,43 +202,39 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
 }
 
 void play_sound_effect(s32, s32, s32, s32);
-s32 is_open__26TWindowSubQuestBoardSelectFv();
 
 void TWindowSubQuestBoardSelect::handle_cancel() {
-    if (is_open__26TWindowSubQuestBoardSelectFv() == 0) {
+    if (is_open() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 void TWindowSubQuestBoardSelect::handle_decide() {
-    if (is_shortcut_active__26TWindowSubQuestBoardSelectFv() == 0) {
+    if (this->is_shortcut_active() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 1);
     }
 }
 
-s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
-s32 forward_render__20TWindowSubStatusDispFv(int, int);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 
 #define TBL_8027D6A0 ((Ent_8027D6A0 *)&controller_input_state)
 s32 TWindowSubQuestBoardSelect::handle_page_input() {
     Win_8027D6A0 *self = (Win_8027D6A0 *)this;
     void *p;
     s8 d;
-    if (is_shortcut_active__26TWindowSubQuestBoardSelectFv() == 0 &&
-        (TWindowChoiceSetting::apply_choice((s32)(p = TBL_8027D6A0[0].f20), 0xC0, 6, 1) != 0 ||
-        TWindowChoiceSetting::apply_choice((s32)TBL_8027D6A0[4].f20, 0xC0, 6, 1) != 0)) {
+    if (this->is_shortcut_active() == 0 &&
+        (test_buttons_press_or_repeat((s32)(p = TBL_8027D6A0[0].f20), 0xC0, 6, 1) != 0 ||
+        test_buttons_press_or_repeat((s32)TBL_8027D6A0[4].f20, 0xC0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
         d = 0;
-        if (TWindowChoiceSetting::apply_choice((s32)p, 0x80, 6, 1) != 0 ||
-            TWindowChoiceSetting::apply_choice((s32)TBL_8027D6A0[4].f20, 0x80, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat((s32)p, 0x80, 6, 1) != 0 ||
+            test_buttons_press_or_repeat((s32)TBL_8027D6A0[4].f20, 0x80, 6, 1) != 0) {
             d = 1;
         }
-        if (TWindowChoiceSetting::apply_choice((s32)p, 0x40, 6, 1) != 0 ||
-            TWindowChoiceSetting::apply_choice((s32)TBL_8027D6A0[4].f20, 0x40, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat((s32)p, 0x40, 6, 1) != 0 ||
+            test_buttons_press_or_repeat((s32)TBL_8027D6A0[4].f20, 0x40, 6, 1) != 0) {
             d--;
         }
         if (d != 0) {
@@ -259,9 +254,9 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
 
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
     s32 ctx;
-    ctx = draw_default_entry__9TWindowDDFl();
+    ctx = TWindowDD::draw_default_entry((s32)arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
-    forward_render__20TWindowSubStatusDispFv((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64), ctx);
+    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64))))->forward_render((void *)(ctx));
     TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)ctx);
     draw_visible_window_entries(arg0, arg0 + 0x24, ctx);
 }
@@ -270,10 +265,10 @@ void TWindowSubQuestBoardSelect::run_task() {
     if (((TWindowSubQuestBoardSelect *)arg0)->is_open() == 0) {
         ((TWindowSubQuestBoardSelect *)arg0)->select_next();
         handle_page_input();
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             ((TWindowSubQuestBoardSelect *)arg0)->handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             ((TWindowSubQuestBoardSelect *)arg0)->handle_cancel();
         }
     }
@@ -291,8 +286,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
 }
 
 u8 * get_window_layout_position(s32);
-s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
-s32 get_message_10__20TWindowSubStatusDispFl(int);
 u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push
@@ -304,7 +297,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     m_name = TWindowSubQuestBoardSelect__class_name;
     var_r30 = (int)::operator new(0x24);
     if (var_r30 != 0) {
-        var_r30 = construct_type1_heading__20TWindowSubStatusDispFll(var_r30, get_message_10__20TWindowSubStatusDispFl(0x2B), (s32) this->m_20);
+        var_r30 = (s32)((TWindowSubStatusDisp *)(TWindowSubStatusDisp *)var_r30)->construct_type1_heading((s32)((s32)TWindowSubStatusDisp::get_message_10(0x2B)), (s32)((s32) this->m_20));
     }
     *(s32 *)&this->m_64 = var_r30;
     *(s8 *)&this->m_60 = 0;

@@ -22,16 +22,15 @@
 
 extern "C" {
 
-s32 sub_80246948__11TWindowBaseFv();
 
 void TWindowSubAreaMapDisp::update_visibility() {
     if ((s32) this->m_6c != 0) {
-        if (sub_80246948__11TWindowBaseFv() != 0) {
+        if (this->sub_80246948() != 0) {
             this->m_6c = 0;
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
-    } else if (!(this->m_2c & 2) && (sub_80246948__11TWindowBaseFv() == 0)) {
+    } else if (!(this->m_2c & 2) && (this->sub_80246948() == 0)) {
         this->m_6c = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();
@@ -63,21 +62,17 @@ extern "C" {
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
 s32 get_message_text(s32 arg0);
 u8 *get_floor_destination_name(s32);
-s32 measure_string_len__20TWindowSubStatusDispFv(int);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
 extern "C" {
 s32 get_window_layout_position(int);
-s32 construct_type1_heading__20TWindowSubStatusDispFll(int, int, int);
 s32 get_game_play_mode();
 s32 strncpy(int, int, void *);
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 extern s32 lbl_805D63F0;
 
-s32 draw_default_entry__9TWindowDDFl();
-s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 struct Rect_80271848 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
@@ -156,9 +151,9 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
 void TWindowSubAreaMapDisp::render() {
     s32 temp_r3;
 
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = TWindowDD::draw_default_entry((s32)this);
     draw_window_frame((void *)temp_r3);
-    forward_render__20TWindowSubStatusDispFv(this->m_70, temp_r3);
+    ((TWindowSubStatusDisp *)((void *)(this->m_70)))->forward_render((void *)(temp_r3));
     if ((s32) this->m_6c != 0) {
         ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, temp_r3);
         ((s32 (*)(void *, s32))fn_80271848)(this, temp_r3);
@@ -202,13 +197,13 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     } else {
         var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
-    temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
+    temp_r3 = (s32)measure_string_len((const char *)((int)var_r30));
     this->m_74 = (s32)mem_alloc((temp_r3 + 1));
     strncpy((int)this->m_74, (int)var_r30, (void *)(temp_r3 + 1));
     temp_r3_2 = (int)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, this->m_74, (int) ((s32) this->m_20));
+        var_r0 = (s32)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->m_20));
     }
     this->m_70 = var_r0;
     this->m_6c = 0;

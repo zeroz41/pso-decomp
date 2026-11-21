@@ -1,3 +1,5 @@
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/MapSetArchive.h"
 // Area event sets: the per-floor event records (".evt" files from gsl_set_event.gsl), their
 // byte swapping, sync records and the destroy-event spawn. One TU: its .rodata opens 8-aligned at
 // 0x8044BAC8 after TLobby_80207DA8's padded strings, its .sbss after that unit's 4-byte pad.
@@ -20,12 +22,12 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/byteswap.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 is_area_transfer_pending();
-s32 get_floor_map_selection(int, void *);
 }
 
 int set_event_destroy_id;
@@ -280,16 +282,8 @@ u8 *TLobby::alloc_heap_slot(s32 arg0, s32 arg1) {
 
 #pragma fp_contract on
 
-struct Ent_80208E8C { u8 pad[4]; void *data; u8 pad2[4]; };
-
-struct Terr_80208E8C { Ent_80208E8C *ents; s32 count; };
-
-struct Area_80208E8C { Terr_80208E8C *terrs; s32 count; };
-
 struct Buf_80208E8C { u8 data[0x20]; };
 
-// The area table TLobby_80207DA8 loads (TLobby__data_805D6068).
-extern Area_80208E8C *TLobby__data_805D6068;
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 extern "C" {
@@ -302,7 +296,6 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 extern "C" {
-void free_team_buffers__6TLobbyFv(void);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 
@@ -319,7 +312,7 @@ s32 TLobby::add_player(s32 arg0, s32 arg1, s32 arg2) {
     }
     temp_r3 = HA2(area_event_set_heap, arg2);
     if (temp_r3 != 0) {
-        ((TLobby *)temp_r3)->move_data((const void *)arg1, (u32)arg2);
+        move_data((void *)(temp_r3), (const void *)((const void *)arg1), (u32)arg2);
         *((s32 *)((s8 *)lobby_slot_ptr_table + temp_r29)) = temp_r3;
         bswap_floor_event_set(arg0);
         return 1;
@@ -327,7 +320,7 @@ s32 TLobby::add_player(s32 arg0, s32 arg1, s32 arg2) {
     return 0;
 }
 
-void free_team_buffers__6TLobbyFv(void) {
+void TLobby::free_team_buffers() {
     s32 i;
     for (i = 17; i >= 0; i--) {
         if ((u32)((s32 *)&lobby_slot_ptr_table)[i] != 0) {
@@ -342,13 +335,13 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     Buf_80208E8C buf;
     s32 n;
     void *p;
-    if (TLobby__data_805D6068[area].terrs == 0 || TLobby__data_805D6068[area].count - 1 < terrain) {
+    if (TLobby__data_805D6068[area].variants == 0 || TLobby__data_805D6068[area].count - 1 < terrain) {
         return 0;
     }
-    if (TLobby__data_805D6068[area].terrs[terrain].ents == 0 || TLobby__data_805D6068[area].terrs[terrain].count - 1 < entities) {
+    if (TLobby__data_805D6068[area].variants[terrain].entries == 0 || TLobby__data_805D6068[area].variants[terrain].count - 1 < entities) {
         return 0;
     }
-    replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].terrs[terrain].ents[entities].data, ".evt");
+    replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].variants[terrain].entries[entities].enemy_set_name, ".evt");
     n = get_resource_file_size((const char *)buf.data);
     if (n > 0) {
         p = ((void *)HA2((s32)((*(void * *)&area_event_set_heap)), n));
@@ -365,24 +358,18 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
 #undef area_event_set_heap
 #undef lobby_slot_ptr_table
 
-struct Stack_80208F7C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 extern "C" {
 
 s32 TLobby::load_all_floor_event_sets() {
-    Stack_80208F7C stack;
+    FloorMapSelection stack;
     s32 var_r31;
     var_r31 = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, &stack.sp8) == 1) && (stack.sp8 >= 0)) {
+    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        ((s32 (*)(int, int, int, int))load_area_event_set)(var_r31, stack.sp8, stack.spC, stack.sp10);
+        ((s32 (*)(int, int, int, int))load_area_event_set)(var_r31, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:
@@ -401,7 +388,7 @@ void open_gsl_archive(char *name);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 int __dt__5THeapFv(void*, void*);
 
-int TLobby::get_team_state(void* p) { return ((int (*)(void *))free_team_buffers__6TLobbyFv)(p); }
+void TLobby::get_team_state() { TLobby::free_team_buffers(); }
 
 #define area_event_set_heap (*(int *)&area_event_set_heap)
 

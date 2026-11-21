@@ -5,6 +5,7 @@
 #include "pso/effect/TUnk_804CCC68.h"
 
 struct TTecZonde : public TUnk_804CCC68 {
+    TTecZonde(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4);
     virtual ~TTecZonde();
     virtual void vfunc_8(void *);
     void init_parameters();

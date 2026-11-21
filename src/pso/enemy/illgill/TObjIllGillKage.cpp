@@ -14,7 +14,6 @@ u16 get_entity_id(void *);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
-s32 is_locally_controlled__10TObjPlayerFPv();
 void __dl__7TObjectFPv(void *);
 
 void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
@@ -34,7 +33,7 @@ void TObjIllGillKage::attack_target() {
 
     this->m_90 = 1;
     player = (s32)get_player_by_client_id(this->m_98);
-    if ((player != 0) && (is_locally_controlled__10TObjPlayerFPv() != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
+    if ((player != 0) && (TObjPlayer::is_locally_controlled((void *)player) != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
         TObjPlayer::play_effect(player, this->m_94, 3);
     }
 }

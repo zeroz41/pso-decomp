@@ -5,8 +5,6 @@
 #include <string.h>
 
 extern "C" {
-void notify_dvd_read__6TLobbyFv(void *);
-void enter_lock__6TLobbyFv(void *);
 
 const char *const volatile lsc_version_string = "\nLSC/GC Ver 2.07 Build:Jun 13 2002 19:00:24\n";
 s32 lsc_init_count;
@@ -15,7 +13,7 @@ LscStream lsc_slot_table[16];
 void lsc_shutdown(void) {
     u8 lock[8];
     s32 i;
-    ((void (*)(void *))enter_lock__6TLobbyFv)(lock);
+    lsc_interrupt_lock_enter(lock);
     if (--lsc_init_count == 0) {
         for (i = 0; i < 16; i++) {
             if ((s32)lsc_slot_table[i].in_use == 1) {
@@ -25,18 +23,18 @@ void lsc_shutdown(void) {
         memset(lsc_slot_table, 0, sizeof(lsc_slot_table));
         TLobby::set_callback(0, 0);
     }
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lock);
+    lsc_interrupt_lock_leave(lock);
 }
 
 void lsc_init(void) {
     u8 lock[8];
     lsc_version_string;
-    ((void (*)(void *))enter_lock__6TLobbyFv)(lock);
+    lsc_interrupt_lock_enter(lock);
     if (lsc_init_count == 0) {
         memset(lsc_slot_table, 0, sizeof(lsc_slot_table));
         TLobby::set_callback(0, 0);
     }
     lsc_init_count++;
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lock);
+    lsc_interrupt_lock_leave(lock);
 }
 }

@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLuker : public TObjBase {
+    TObjLuker(TObject *parent, void *arg2);
     virtual ~TObjLuker();
     u8 unk_90[0x10];
     u32 m_a0;

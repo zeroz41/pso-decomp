@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/enemy/panarms/TObjEnePanarms_800DCEB8.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -28,6 +30,8 @@
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
@@ -119,23 +123,21 @@ const char *bm7_s_paa_body_motion_names[32] = {
     walk_bm7_s_par_body_motion_filename, walkl_bm7_s_paa_body_motion_filename, walkr_bm7_s_paa_body_motion_filename,
     NULL,
 };
-void *lbl_80494F10[4] = {
-    (void *)bm7_s_paa_body_bml_filename, (void *)bm7_s_paa_body_model_names, (void *)bm7_s_paa_body_motion_names, (void *)0x3001f,
+BmlResourceDescriptor lbl_80494F10 = {
+    bm7_s_paa_body_bml_filename, bm7_s_paa_body_model_names, bm7_s_paa_body_motion_names, 3, 31,
 };
 /* The body's one collision sphere (init_collision_body_parts in the constructor). */
 CollisionBody panarms_collision_body[1] = {
     { { 0.0f, 15.000001f, 0.0f }, 12.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-PanarmsMotionParam panarms_motion_param_table[12] = {
-    { 0x10000, 0x17, 0.7f, 0 }, { 0x10000, 0x1d, 0.6f, 0 }, { 0x10000, 0x1e, 0.6f, 0 }, { 0x30000, 0x9, 0.6f, 0 },
-    { 0x30000, 0xc, 0.7f, 0 }, { 0x30000, 0xf, 0.7f, 0 }, { 0x30000, 0x5, 0.7f, 0 }, { 0x20000, 0x3, 0.9f, 0 },
-    { 0x30000, 0x4, 0.6f, 0 }, { 0x20000, 0x2, 0.8f, 0 }, { 0x30000, 0x8, 0.6f, 0 }, { 0x10000, 0x1a, 1.0f, 0 },
+TObjMotionAction panarms_motion_param_table[12] = {
+    { 1, 0, 0x17, 0.7f, 0 }, { 1, 0, 0x1d, 0.6f, 0 }, { 1, 0, 0x1e, 0.6f, 0 }, { 3, 0, 0x9, 0.6f, 0 },
+    { 3, 0, 0xc, 0.7f, 0 }, { 3, 0, 0xf, 0.7f, 0 }, { 3, 0, 0x5, 0.7f, 0 }, { 2, 0, 0x3, 0.9f, 0 },
+    { 3, 0, 0x4, 0.6f, 0 }, { 2, 0, 0x2, 0.8f, 0 }, { 3, 0, 0x8, 0.6f, 0 }, { 1, 0, 0x1a, 1.0f, 0 },
 };
 
-struct S_800DF634 { s32 a; PanarmsMotionParam *b; s32 c, d; };
-
-extern const S_800DF634 panarms_npc_spawn_descriptor[1] = {
-    { 0, panarms_motion_param_table, 0xb, 0xc0000 },
+extern const NpcAnimationBinding panarms_npc_spawn_descriptor = {
+    NULL, panarms_motion_param_table, 0, 11, 12,
 };
 extern const s32 lbl_8043CCF4[2] = { 0x10b, 0x10c };
 extern const s32 lbl_8043CCFC[2] = { 1, 2 };
@@ -166,7 +168,6 @@ TObjFishNodeEntry panarms_model_node_desc[6] = {
     { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
 };
 
-struct Obj_800DF634 { u8 pad0[0x42C]; u8 *f42C; s32 f430; };
 
 
 struct Sub_800DD690 { u8 b[0xC]; };
@@ -185,7 +186,6 @@ s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
-void set_field_b8__10TObjMotionFs(void *, int);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
 f32 vec3_add_to(void *, void *);
@@ -196,10 +196,7 @@ u16 find_nearest_visible_player(void *, f32 *, f32);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
-Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);
-s32 spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(s32, s32, s32, void *, s32, const void *, f32, f32);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
-s32 refresh_lobby_state__10TObjPlayerFv();
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
@@ -208,7 +205,6 @@ u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
 int TObjEnePanarms__sub_800DFBC4(void *p);
-void free_bin_model_request(void*, int);
 int post_translate_matrix(void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
@@ -217,7 +213,6 @@ s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec *);
-int check_demo_mode__10TObjPlayerFv(void*);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
@@ -266,15 +261,16 @@ s32 TObjEnePanarms::create(s32 setData) {
 }
 
 void TObjEnePanarms::load_and_spawn_npc() {
-    Obj_800DF634 *o = (Obj_800DF634 *) ::operator new(0x440);
-    if (o != NULL) {
-        o = load_resource_from_descriptor(o, 1, lbl_80494F10, 0, 0, 0);
+    BmlResource *resource = static_cast<BmlResource *>(::operator new(0x440));
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &lbl_80494F10, 0, 0, 0);
     }
-    TObjEnePanarms__entry_params_resource = (BmlResource *)o;
-    if (o != NULL) {
-        S_800DF634 sp = panarms_npc_spawn_descriptor[0];
-        sp.a = o->f430;
-        spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(0x23, *(s32 *)(o->f42C + 8), *(s32 *)(o->f42C + 0xC), &sp, panarms_npc_spawn_descriptor[0].a, panarms_npc_spawn_descriptor, 12.5f, 0.0f);
+    TObjEnePanarms__entry_params_resource = resource;
+    if (resource != NULL) {
+        NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
+        binding.motions = resource->motions;
+        NpcModelRegistry::register_animated_chunk(0x23, reinterpret_cast<void *>(resource->models[0].model),
+            reinterpret_cast<void *>(resource->models[0].m_c), &binding, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }
 }
@@ -736,7 +732,7 @@ void TObjEnePanarms::vfunc_61() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms::enter_idle() { *(s32 *)((s8 *)this + 0x3E0) = 1; *(s32 *)((s8 *)this + 0x3DC) = 1; }
 
-void TObjEnePanarms::try_activate() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { set_state((s32)((void*)((void*)1))); } }
+void TObjEnePanarms::try_activate() { if (TObjPlayer::check_demo_mode() == 0) { set_state((s32)((void*)((void*)1))); } }
 
 void TObjEnePanarms::enter_wait_hidden() {
     u8 *temp_r4;
@@ -827,7 +823,7 @@ void TObjEnePanarms::enter_move() {
     *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) |= 1;
     this->obj_clearFlags30(0x04040000);
     this->m_388 = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
-    set_field_b8__10TObjMotionFs(this, var_r30);
+    set_field_b8((s16)var_r30);
 }
 
 #pragma push
@@ -901,7 +897,7 @@ void TObjEnePanarms::enter_dead() {
     s16 st;
     Vec v;
     this->m_388 = 0xA4;
-    refresh_lobby_state__10TObjPlayerFv();
+    ((TObjPlayer *)this)->refresh_lobby_state();
     this->send_entity_set_flags();
     st = 5;
     if (find_nearest_visible_player(this, &v.x, 200.0f) != 0xFFFF) {
@@ -909,7 +905,7 @@ void TObjEnePanarms::enter_dead() {
             st = 4;
         }
     }
-    set_field_b8__10TObjMotionFs(this, st);
+    set_field_b8((s16)st);
     play_sound_effect(this->remap_sound_for_area(0x4003B836), (u8 *)this + 0x3AC, 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BB35), (u8 *)this + 0x3C4, 0, 0);
     if (*(s32 *)((s8 *)this + 0x3DC) != 0) {
@@ -945,7 +941,7 @@ void TObjEnePanarms::update_dead() {
     s32 temp_r0;
     this->m_388 = (this->m_388 - 1);
     // inferred name: twin of panarms_particle_frame_window in TObjEnePanBARA::sub_800E0950
-    static f32 panarms_dead_particle_frame_window = panarms_motion_param_table[4].unk_8;
+    static f32 panarms_dead_particle_frame_window = panarms_motion_param_table[4].speed;
     temp_f2 = this->frame;
     if ((temp_f2 >= 21.0f) && (temp_f2 < (21.0f + panarms_dead_particle_frame_window))) {
         VecCopy((Vec *)(&stack.sp14), (const Vec *)((u8 *)this + 0x2FC));

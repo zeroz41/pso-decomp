@@ -8,12 +8,12 @@
 // HHM/HRM/NFM/Male*/Soldier* NPCs.
 class TUnk_804A9F50 : public TObjNpcBase {
 public:
+    TUnk_804A9F50(TObject *parent);
     virtual ~TUnk_804A9F50();
     virtual void request_action(s32 action);
-    u8 *construct_male_npc_base();
 };
 
-// Idle and talk motions installed by construct_male_npc_base.
+// Idle and talk motions installed by the constructor.
 extern const TObjMotionAction male_npc_idle_animation_parameters[2];
 
 // The floor resource load/free callbacks of its shared data (TLobby_800F795C).

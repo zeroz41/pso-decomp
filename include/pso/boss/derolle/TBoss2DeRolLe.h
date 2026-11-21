@@ -5,6 +5,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
+    static TBoss2DeRolLe *get_instance();
     virtual ~TBoss2DeRolLe();
     void advance_phase_wrap();
     virtual void vfunc_62();
@@ -120,7 +121,6 @@ void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void fn_8002F5AC(u8 *arg0);
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
 void free_laser__13TBoss2DeRolLeFPv(void *arg0);
-s32 get_instance__13TBoss2DeRolLeFv(void);
 void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);

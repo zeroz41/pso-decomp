@@ -1,8 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
+#include "pso/object/door/TObjDoorJung.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TObjLiveCameraCtrl.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -24,7 +26,6 @@
 
 extern "C" {
 s32 TObjPlayer__sub_80084500();
-s32 free_children__12TObjDoorJungFPv(void *, u16);
 s32 TObjLiveMonitor__sub_8030C050(void* p);
 s32 draw_ginja_model(void *);
 s32 get_bml_model(s32, s32);
@@ -62,7 +63,6 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 int free_bin_model_request(void*, void*);
 extern void *tl_05;
-int update_single_screen__11TCameraCtrlFv(void*);
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
 void *get_player_by_client_id(s32 i);
@@ -335,7 +335,7 @@ int TBoss8Dragon__sub_8030B80C(void) {  return (local_client_id & 0xffff); }
 
 int call_null__12TBoss8DragonFv(void) { return get_global_part_count__12TBoss8DragonFl((void*)(0)); }
 
-void TObjLiveMonitor::update_camera() { void* m = *(void**)((char*)this + 0x50); if (m) update_single_screen__11TCameraCtrlFv(m); }
+void TObjLiveMonitor::update_camera() { void* m = *(void**)((char*)this + 0x50); if (m) ((TCameraCtrl *)m)->update_single_screen(); }
 
 void fn_8030B7B8(void) {  }
 
@@ -466,7 +466,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     default:
         return *(s32 *)((s8 *)this + 0x24);
     }
-    free_children__12TObjDoorJungFPv((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), var_r4);
+    set_ginja_model_texture_slot((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), static_cast<u16>(var_r4));
     push_matrix();
     ::draw_ginja_model((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
     return pop_matrix();
@@ -504,7 +504,7 @@ void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void 
 
 TObjLiveMonitorSmall::~TObjLiveMonitorSmall() {}
 
-void TObjLiveMonitorSmall::run_task() { sub_8030B370__15TObjLiveMonitorFv(this); }
+void TObjLiveMonitorSmall::run_task() { sub_8030B370(); }
 
 void TObjLiveMonitorSmall::render() { this->render_live_monitor_screen(); }
 

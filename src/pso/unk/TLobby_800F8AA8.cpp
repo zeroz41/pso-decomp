@@ -1,6 +1,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -918,7 +919,6 @@ void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
 
 #pragma push
 void release_texture_list(void *p);
-void *tmp_buf_use_req__6TLobbyFPCc(const char *);
 s32 load_gvm_texture_archive(void *, void *);
 
 void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (s32 *)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
@@ -949,7 +949,7 @@ void TLobby::release_menu_font() {
 }
 
 void TLobby::load_font_texture() {
-    void *file = tmp_buf_use_req__6TLobbyFPCc("FONT");
+    void *file = (void *)TLobby::tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
         prs_decompress_buffer((s32)lobby_font_texture_prs_data, (s32)file);
@@ -1042,7 +1042,7 @@ s32 TLobby::run_disk_error_check() {
     pd->pos[7] = (4.8e+02f);
     pd->ids[3] = -1;
     set_depth_buffer_settings_1();
-    ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 0x12, (-0.9f));
+    draw_polygon_2d((NJS_POINT2COL *)&d, 4, 0x12, (-0.9f));
     status = DVDGetDriveStatus();
     TCameraCtrl::restore_full_screen_view();
     if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0)) {

@@ -122,7 +122,6 @@ typedef struct Pl_8012A470
 
 extern "C" {
 
-s32 get_extended_state__10TObjPlayerFv(void *);
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32 *arg0);
@@ -307,7 +306,7 @@ void TUnk_804A4948::send_srank_stat_extra_to_locks() {
   u16 uid;
   s32 r;
   s32 v;
-  st = get_extended_state__10TObjPlayerFv(((Pl_8012A470 *)this)->f0);
+  st = (s32)((TObjPlayer *)(((Pl_8012A470 *)this)->f0))->get_extended_state();
   if (st != 0)
   {
     for (i = 0; i != get_captured_target_count((s32 *)((((((((((((st & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF)); i++)

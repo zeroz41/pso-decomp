@@ -5,6 +5,8 @@ struct TAdScrollWinGC;
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/window/TWindowOptionCtrl.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -12,8 +14,6 @@ struct TAdScrollWinGC;
 
 void clear_state(void);
 extern "C" {
-int get_instance__15TAdPlayerLoadGCFv(void*);
-s32 get_option_field_C__17TWindowOptionCtrlFv();
 
 void *TAdScrollWinGC__ct(TAdScrollWinGC *arg0, void *arg1, s32 arg2, s32 arg3);
 s32 strncpy(void *, s32, s32);
@@ -60,7 +60,7 @@ void TLobby::open_scroll_text_window(s32 arg0) {
     TLobby__data_805D5594 = 0x1A;
 }
 
-void TLobby::render() { { (void)(get_instance__15TAdPlayerLoadGCFv(this)); return; } }
+void TLobby::render() { { (void)(TAdPlayerLoadGC::get_instance()); return; } }
 
 struct E_80134B58 { u8 d[0x11C]; };
 struct In_80134B58 { u32 type; u8 rest[0x118]; };
@@ -114,7 +114,7 @@ extern s32 TLobby__net_session_mode;
 
 s32 TLobby::get_option_state() {
 
-    switch (get_option_field_C__17TWindowOptionCtrlFv()) {
+    switch (TWindowOptionCtrl::get_option_field_C()) {
     case 0:
         return TLobby__net_session_mode;
     case 1:

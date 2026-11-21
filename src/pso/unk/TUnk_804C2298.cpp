@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,12 +32,9 @@ void set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
 s32 pso_system_load_gc(void);
-void *update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(void *);
 void *TWindowOptionCtrl__ct(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
-void *__ct__9TAdBackGCFv(void *, void *);
 }
 
 extern void *tl_00;
@@ -93,7 +92,7 @@ void TUnk_804C2298::run_task() {
         } else {
             WindowPos a = {80.0f, 176.0f};
             WindowPos b = {479.0f, 207.0f};
-            this->window = (TObject *)update_window_mode_from_progress__6TLobbyFPv(&a, &b);
+            this->window = (TObject *)(void *)create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
             ((TWindowMessage *)(this->window))->append_line(get_message_text(0xC), 1);
             this->state = 7;
         }
@@ -139,14 +138,8 @@ TUnk_804C2298::TUnk_804C2298() : TObject((TObject *)tl_00) {
     void *o2;
     void *o3;
     void *o4;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        __ct__9TAdBackGCFv(o, this);
-    }
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, this);
-    }
+    o = new TAdBackGC(this);
+    o2 = new TAdBackTxtGC(this);
     o3 = TObject::operator new(0x138);
     if (o3 != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o3, this, 3);

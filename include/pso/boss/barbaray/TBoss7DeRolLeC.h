@@ -9,6 +9,7 @@
 #include "pso/system/ControllerInputState.h"
 #include <dolphin/mtx.h>
 
+struct AnimationMotion;
 struct TBoss7Joint;
 class TBoss7Tentacle;
 class TBoss7LaserLight;
@@ -210,6 +211,7 @@ void free_laser_light__15TBoss7LaserPtclFv(void *arg0);
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
 extern "C" {
+AnimationMotion *get_boss7_motion(s32 kind);
 void queue_boss_effect__10TObjPlayerFPv(void *a0);
 void release_laser_light__15TBoss7LaserPtclFPv(void *arg0);
 void set_swim_direction__8TObjFishFPv(void *arg0);

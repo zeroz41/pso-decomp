@@ -163,7 +163,7 @@ s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
-TLobby *alloc_record__6TLobbyFllll(s32 channels, u8 *buffer, s32 size, s32 total);
+
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);
 s32 TLobby::get_offset_58() {
@@ -173,40 +173,40 @@ s32 TLobby::get_offset_58() {
 void TLobby__sub_803BFE58(u8 *arg0) {
     ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_34();
 }
-void TLobby::dispatch_field4_event() {
+s32 TLobby::dispatch_field4_event() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field30();
+    return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field30();
 }
-void TLobby::send_with_offset4_alt() {
+s32 TLobby::send_with_offset4_alt() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_2c();
+    return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_2c();
 }
-void TLobby::notify_client() {
+s32 TLobby::notify_client() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_28();
+    return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_28();
 }
 void TLobby__sub_803BFEE8(u8 *arg0) {
     ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_slot();
 }
-void TLobby::send_packet_by_id() {
+s32 TLobby::send_packet_by_id() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3ABC((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    return TLobby__sub_803C3ABC((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
 }
-void TLobby::notify_field_4_alt() {
+s32 TLobby::notify_field_4_alt() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3AC4((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    return TLobby__sub_803C3AC4((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
 }
-void TLobby::send_packet_by_id_2() {
+s32 TLobby::send_packet_by_id_2() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_packet_flag_for_state();
+    return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_packet_flag_for_state();
 }
-void TLobby::send_with_offset4() {
+s32 TLobby::send_with_offset4() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3B38((int) (*(s32 *)((s8 *)arg0 + 4)));
+    return TLobby__sub_803C3B38((int) (*(s32 *)((s8 *)arg0 + 4)));
 }
-void TLobby::notify_field_4() {
+s32 TLobby::notify_field_4() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3B44((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    return TLobby__sub_803C3B44((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
 }
 void TLobby__sub_803BFFC0(u8 *arg0) {
     ((TLobby *)((int) (*(s32 *)((s8 *)arg0 + 4))))->get_field_a8();
@@ -472,7 +472,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
     st = &((AudioStreamInputState *)&lbl_80570AC0)[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->decoder = alloc_record__6TLobbyFllll(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    st->decoder = (TLobby *)TLobby::alloc_record(channels, (s32)buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
     if (st->decoder == NULL) {
         return NULL;
     }

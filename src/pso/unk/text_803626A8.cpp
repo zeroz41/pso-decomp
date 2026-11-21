@@ -1,4 +1,6 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/MatrixOps.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -41,7 +43,6 @@ struct Res_803627DC { u8 pad[0x42C]; Model_803627DC *f42c; s32 f430; };
 
 // The spawn record load_assets passes to TLobby::spawn_npc_enemy; b points at lbl_804F252C.
 struct Unk_804F252C { s32 unk_0; s32 unk_4; f32 unk_8; s32 unk_C; };
-struct Quad_803627DC { s32 a; Unk_804F252C *b; s32 c, d; };
 
 class V_8036274C {
 public:
@@ -55,10 +56,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 Node_803627DC *get_bml_model(void *, int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 s32 TObjPlayer__sub_800F0928(void *);
@@ -97,7 +94,7 @@ const char *TObjEneEpsilon__class_name = "TObjEneEpsilon";
 
 TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
     m_name = TObjEneEpsilon__class_name;
-    check_state_flag_4();
+    set_state_flag_4();
 }
 
 TObjEneEpsilon::~TObjEneEpsilon() {}
@@ -116,14 +113,14 @@ void TObjEneEpsilonGuard::load_assets() {
     lbl_805D6FA4 = p;
     p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 6)));
     lbl_805D6FA8 = p;
-    lbl_805D6F80 = register_boss__6TLobbyFl(0x23);
-    lbl_805D6F84 = dispatch_shared_handler_b__6TLobbyFl(0x23);
-    lbl_805D6F88 = register_object__6TLobbyFl(0x23);
-    lbl_805D6F8C = dispatch_shared_handler_a__6TLobbyFl(0x23);
-    epsilon_guard_boss_stat_handle = register_boss__6TLobbyFl(0x24);
-    epsilon_guard_shared_handler_b = dispatch_shared_handler_b__6TLobbyFl(0x24);
-    epsilon_guard_registered_object_handle = register_object__6TLobbyFl(0x24);
-    TObjEneEpsilonGuard__movement_params = dispatch_shared_handler_a__6TLobbyFl(0x24);
+    lbl_805D6F80 = (s32)TLobby::register_boss(0x23);
+    lbl_805D6F84 = (s32)TLobby::dispatch_shared_handler_b(0x23);
+    lbl_805D6F88 = (s32)TLobby::register_object(0x23);
+    lbl_805D6F8C = (s32)TLobby::dispatch_shared_handler_a(0x23);
+    epsilon_guard_boss_stat_handle = (s32)TLobby::register_boss(0x24);
+    epsilon_guard_shared_handler_b = (s32)TLobby::dispatch_shared_handler_b(0x24);
+    epsilon_guard_registered_object_handle = (s32)TLobby::register_object(0x24);
+    TObjEneEpsilonGuard__movement_params = (s32)TLobby::dispatch_shared_handler_a(0x24);
     epsilon_guard_part_color_table[0] = get_bml_model(lbl_805D6FA0, 0)->child->leaf->v;
     epsilon_guard_part_color_table[1] = get_bml_model(lbl_805D6FA0, 0)->child->next->child->child->next->child->child->next->next->child->leaf->v;
     epsilon_guard_part_color_table[2] = get_bml_model(lbl_805D6FA0, 0)->child->next->child->child->next->child->child->next->next->next->child->leaf->v;
@@ -135,9 +132,9 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_guard_part_color_table[7] = get_bml_model(lbl_805D6FA0, 4)->leaf->v;
     TObjPlayer__sub_800F0928(epsilon_guard_part_color_table);
     {
-        Quad_803627DC q = { 0, &lbl_804F252C, 0, 0x10000 };
-        q.a = ((Res_803627DC *)lbl_805D6FA0)->f430;
-        TLobby::spawn_npc_enemy((s16)0x4E, (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->f8), ((Res_803627DC *)lbl_805D6FA0)->f42c->texlist, &q, 5.0f, 15.0f);
+        NpcAnimationBinding q = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804F252C), 0, 0, 1 };
+        q.motions = reinterpret_cast<BmlMotionEntry *>(((Res_803627DC *)lbl_805D6FA0)->f430);
+        NpcModelRegistry::register_animated_chunk((s16)0x4E, reinterpret_cast<void *>((((Res_803627DC *)lbl_805D6FA0)->f42c->f8)), reinterpret_cast<void *>(((Res_803627DC *)lbl_805D6FA0)->f42c->texlist), &q, 5.0f, 15.0f);
     }
 }
 

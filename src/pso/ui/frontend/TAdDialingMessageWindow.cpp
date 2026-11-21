@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdDialingMessageWindow.h"
 #include "pso/ui/frontend/TAdDialingGC_80328B20.h"
@@ -31,7 +32,7 @@ void TAdDialingMessageWindow::render() {
     if (this->m_1c & 1) {
         TAdDialingGC__sub_80328B24(&lbl_8047A400, &lbl_8047A408);
         if ((u32) this->m_20 != 0U) {
-            ((TAdSinglePlyChrSelectGC *)(this->m_20))->render_status_disp(23.0f, 356.0f);
+            draw_menu_font_string_white((const char *)(this->m_20), 23.0f, 356.0f);
         }
     }
     if ((u32) this->m_28 != 0U) {

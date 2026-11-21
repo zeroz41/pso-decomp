@@ -48,7 +48,6 @@ struct Guild_8021317C : Base_8021317C {
 extern "C" {
 s32 get_window_layout_position(s32);
 s32 set_service_counter_camera(void *, int);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
@@ -64,7 +63,6 @@ void THunterGuildSeqOffline__sub_80213410(void* p);
 s32 THunterGuildSeqOffline__sub_80213458(void);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 int fn_80223480(void*);
-int restore_player_state__13TShopSequenceFv(void*);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
@@ -180,7 +178,7 @@ THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *play
     m_34 = 0;
     unk_38 = 0;
     THunterGuildSeqOffline__active_instance = this;
-    THunterGuildSeqOffline__instance_table[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
+    THunterGuildSeqOffline__instance_table[sub_8022397C()] = 1;
 }
 
 THunterGuildSeqOffline::~THunterGuildSeqOffline() {
@@ -197,7 +195,7 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
         ((TObject *)m_34)->queue_destruction();
         m_34 = 0;
     }
-    THunterGuildSeqOffline__instance_table[sub_8022397C__15TShopWindowBaseFv(this)] = 0;
+    THunterGuildSeqOffline__instance_table[sub_8022397C()] = 0;
     THunterGuildSeqOffline__active_instance = NULL;
 }
 
@@ -218,7 +216,7 @@ void THunterGuildSeqOffline::vfunc_11() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { restore_player_state__13TShopSequenceFv(this); fn_80223480(this); THunterGuildWarning::create_instance((s32)((void*)2)); set_field_20((s32)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((s32)((void*)2)); set_field_20((s32)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
     u8 *arg0 = (u8 *)this;

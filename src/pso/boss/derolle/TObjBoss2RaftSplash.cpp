@@ -33,25 +33,19 @@ void TObjBoss2RaftSplash::run_task() {
 }
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
 
-struct RecoveredGlobal_8003AFBC___vt__19TObjBoss2RaftSplash { s32 value; u8 remaining[0x14]; };
-
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8003AFBC___vt__19TObjBoss2RaftSplash __vt__19TObjBoss2RaftSplash;
 const char *lbl_805D2700 = "TObjBoss2RaftSplash";
-u8 *TObjBoss2RaftSplash__ct(u8 *object, u8 *parent, u8 *position, u8 *offset, s32 speed) {
-    __ct__7TObjectFP7TObject(object, parent);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss2RaftSplash.value;
+}
+#define object ((u8 *)this)
+TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed) : TObject(parent) {
     ((TObjBoss2RaftSplash *)object)->m_name = lbl_805D2700;
     *(f32 *)((s8 *)object + 0x20) = (f32) (boss2_tunnel_max_scroll_speed * (3.0f + rand_signed_unit()));
     *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
-    VecCopy((Vec *)(object + 0x28), (const Vec *)position);
-    VecCopy((Vec *)(object + 0x34), (const Vec *)offset);
-    *(s32 *)((s8 *)object + 0x24) = speed;
-    return object;
+    VecCopy((Vec *)(object + 0x28), position);
+    VecCopy((Vec *)(object + 0x34), offset);
+    *(f32 **)((s8 *)object + 0x24) = speed;
 }
-
-}
+#undef object
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805D85D8, before the pad that
 // ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel__sub_8003B1D8,
@@ -65,7 +59,7 @@ void TObjBoss2RaftSplash::spawn_splash(s32 position, s32 particle_index, s32 off
 
     particle = TObject::operator new(0x78);
     if (particle != NULL) {
-        particle = ((TParticleCtrl *)particle)->initialize_with_flags((const void *)position, (s32)(TParticleCtrl::get_particle_by_index(particle_index)), 1, 0, 0, 1, (u16)0x40);
+        particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
         ((TObject *)particle)->run_task();
@@ -78,7 +72,7 @@ void TObjBoss2Tunnel::create_particle_effect(const void *position, s32 particle_
 
     particle = TObject::operator new(0x78);
     if (particle != NULL) {
-        particle = ((TParticleCtrl *)particle)->initialize_with_flags(position, (s32)(TParticleCtrl::get_particle_by_index(particle_index)), 1, 0, 0, 1, (u16)0x40);
+        particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
         ((TObject *)particle)->run_task();

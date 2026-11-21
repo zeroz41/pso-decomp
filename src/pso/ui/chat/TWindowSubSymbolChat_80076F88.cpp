@@ -15,6 +15,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 struct E_80077480 { u8 pad[0x58]; };
 
@@ -45,10 +46,7 @@ struct Obj_800771E4 { u8 pad0[0x28]; Ent_800771E4 e[12]; };
 extern "C" {
 void TWindowSubSymbolChat__sub_800771B0(Obj_800771B0 *arg0, s32 arg1);
 s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1);
-u8 *get_message_10__20TWindowSubStatusDispFl(s32);
     extern int selected_symbol_chat_preset;
-s32 is_initialized__20TWindowSubSymbolChatFv();
-int get_instance__20TWindowSubSymbolChatFv(void*);
 s32 strncpy(void *, void *, int);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, u32, s16, s32);
@@ -165,7 +163,7 @@ void TWindowSubSymbolChat::add(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
     }
 }
 
-void TWindowSubSymbolChat::set_entry_bits(u16 v, s32 a, s32 idx, s32 b, s32 c) {
+void TWindowSubSymbolChat::set_entry_bits(s32 v, s32 a, s32 idx, s32 b, s32 c) {
     Obj_8007728C *self = (Obj_8007728C *)this;
     u16 *p = &self->h[idx];
     *p = v;
@@ -182,14 +180,14 @@ void TWindowSubSymbolChat::set_symbol_flags(s32 arg1, s32 arg2) {
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
-void TWindowSubSymbolChat::refresh_parts() { ((TWindowSubSymbolChat *)((Obj_80077098 *)get_instance__20TWindowSubSymbolChatFv(this)))->count_empty_slots(); }
+s32 TWindowSubSymbolChat::count_instance_empty_slots() { return ((TWindowSubSymbolChat *)((Obj_80077098 *)TWindowSubSymbolChat::get_instance()))->count_empty_slots(); }
 
-void TWindowSubSymbolChat::update_layout() { ((TWindowSubSymbolChat *)((Obj_800770D0 *)get_instance__20TWindowSubSymbolChatFv(this)))->count_used_slots(); }
+void TWindowSubSymbolChat::update_layout() { ((TWindowSubSymbolChat *)((Obj_800770D0 *)TWindowSubSymbolChat::get_instance()))->count_used_slots(); }
 
 void TWindowSubSymbolChat::update_symbol_chat_result() { selected_symbol_chat_preset = ((int)get_symbol_chat_preset((s32)this)); }
 
 void TWindowSubSymbolChat::update_selected_symbol() {
-    if (is_initialized__20TWindowSubSymbolChatFv() != 0) {
+    if (((TWindowSubSymbolChat *)this)->is_initialized() != 0) {
         TWindowSubSymbolChat::play_symbol_sound((s32)(((u32) *(u32 *)&this->m_1c >> 5U) & 0xF));
     }
 }
@@ -203,10 +201,10 @@ void TWindowSubSymbolChat::play_symbol_sound(s32 arg0) {
 u8 *TWindowSubSymbolChat::get_symbol_chat_data() {
     u8 *arg0 = (u8 *)this;
     if (is_symbol_chat_preset_in_use((u32 *)arg0) == 0) {
-        return get_message_10__20TWindowSubStatusDispFl(0xCC);
+        return (u8 *)(TWindowSubStatusDisp::get_message_10(0xCC));
     }
     if ((s8) *(u8 *)&this->m_flags == 0) {
-        return get_message_10__20TWindowSubStatusDispFl(0xCD);
+        return (u8 *)(TWindowSubStatusDisp::get_message_10(0xCD));
     }
     return (u8 *)&this->m_flags;
 }
@@ -267,7 +265,7 @@ void TWindowSubSymbolChat::load_symbol_chat_data() {
     struct Ent_80077544 *e;
     e = w->e;
     data = (s32)load_disc_file("symbolchat.dat");
-    ((TLobby *)e)->move_data((const void *)data, (u32)0x420);
+    move_data((void *)(e), (const void *)((const void *)data), (u32)0x420);
     TAdSinglePlyChrSelectGC::safe_free(data);
     for (i = 0; i < 6; i++) {
         ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();

@@ -91,18 +91,14 @@ s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *);
 int is_quest_active(void);
-s32 is_item_usable__9TItemDataFlPUc(void *, void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
-s32 update_player_field__9TItemDataFv(void *);
 }
 u8 get_technique_learn_limit(u8, u8);
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s16 *get_class_stat_entry__10TObjPlayerFPUc(void *);
 u8 get_cast_technique_level(void *, int);
-s32 is_invalid_slot__10TObjPlayerFUc();
 void *calc_technique_parameters(u8, u8, s32);
 s32 is_challenge_mode_active();
 extern s32 local_client_id;
@@ -111,7 +107,6 @@ void * lookup_item_pmt_record(u8 *item);
 s16 getS16_06__9TItemDataFPv(void *arg0);
 s16 get_bswap16_field8__9TItemDataFPv(void *arg0);
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
-void lookup_item_def__9TItemDataFPv(void *arg0);
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
 s16 get_field6_bswap__9TItemDataFPv(void *arg0);
 void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
@@ -119,13 +114,10 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st);
 s32 is_usable__9TItemDataFPv(void *arg0);
 s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
-void init__9TItemDataFv(TItemData_8010E344 *self);
 s32 memset(s8 *, s32, s32);
 }
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 #define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
-#define lookup_item_def__9TItemDataFPv ((s32 (*)(void *))lookup_item_def__9TItemDataFPv)
-#define is_usable__9TItemDataFPv ((s32 (*)())is_usable__9TItemDataFPv)
 
 struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
 
@@ -327,7 +319,7 @@ void TItemData::add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s
     Mag_8010D614 mag;
 
     ((MagStats *)&mag)->init();
-    deserialize_mag__9TItemDataFPvPv((Raw_8010D614 *)((u8 *)this), &mag);
+    TItemData::deserialize_mag((Raw_8010D614 *)((u8 *)this), &mag);
     if (st != NULL && st != NULL) {
         st->s0 += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
         st->sA += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
@@ -343,7 +335,7 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2
     parm = lookup_item_pmt_record(self);
     if (parm != NULL && st != NULL && res != NULL) {
     kind = parm->dfp;
-    amount = parm->evp + get_field6_bswap__9TItemDataFPv(self);
+    amount = parm->evp + TItemData::get_field6_bswap(self);
     switch (kind) {
     case 0:
         st->s0 += amount;
@@ -442,7 +434,7 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
     parm = lookup_item_pmt_record(self);
     if (parm != 0) {
         dfpBonus = getS16_06__9TItemDataFPv(self);
-        s16 evpBonus = get_bswap16_field8__9TItemDataFPv(self);
+        s16 evpBonus = TItemData::get_bswap16_field8(self);
         s32 dfp = (s32)(parm->dfp * mult + add);
         if (out != 0) {
             TItemData::add_stat_ptr(out, (s16)(parm->evp + evpBonus));
@@ -501,7 +493,7 @@ void TItemData::set_wrapped() {
         ((struct Item_8010C498 *)this)->b4 |= lbl_805DAB68;
         break;
     case 3:
-        if (lookup_item_def__9TItemDataFPv(this) == 0) {
+        if (TItemData::lookup_item_def(this) == 0) {
             ((struct Item_8010C498 *)this)->b3 |= lbl_805DAB68;
         }
         break;
@@ -518,7 +510,7 @@ u8 is_wrapped__9TItemDataFPv(Item_8010C52C *it) {
     case 1:
         return ((it->b4 & 0x40) - 0x40) == 0;
     case 3:
-        if (lookup_item_def__9TItemDataFPv(it) != 0) {
+        if (TItemData::lookup_item_def(it) != 0) {
             return 0;
         }
         return ((it->b3 & 0x40) - 0x40) == 0;
@@ -546,19 +538,15 @@ void TItemData::set_packed_value(u16 arg1) {
 }
 
 u16 TItemData::get_packed_value() {
-    if (is_usable__9TItemDataFPv() != 0) {
+    if (TItemData::is_usable(this) != 0) {
         return (u16) (((*(u8 *)((s8 *)this + 0xA) << 8) & 0x7F00) | *(u8 *)((s8 *)this + 0xB));
     }
     return 0U;
 }
 #undef lookup_item_pmt_record
 #undef getS16_06__9TItemDataFPv
-#undef lookup_item_def__9TItemDataFPv
-#undef is_usable__9TItemDataFPv
 
-#define is_custom_name_srank__9TItemDataFPv ((s32 (*)())is_custom_name_srank__9TItemDataFPv)
 #define serialize_mag__9TItemDataFPvPv ((s32 (*)(void *, s32 *))serialize_mag__9TItemDataFPvPv)
-#define init__9TItemDataFv ((s32 (*)())init__9TItemDataFv)
 u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
 void bswap__9TItemDataFv(s32 arg0);
@@ -566,7 +554,7 @@ void bswap__9TItemDataFv(s32 arg0);
 s32 is_usable__9TItemDataFPv(void *arg0) {
     u8 temp_r0;
 
-    if (is_custom_name_srank__9TItemDataFPv() == 0) {
+    if (TItemData::is_custom_name_srank(arg0) == 0) {
         temp_r0 = *(u8 *)((s8 *)arg0 + 0);
         if ((temp_r0 != 2) && (temp_r0 != 4) && (*(u8 *)((s8 *)arg0 + 0xA) & 0x80)) {
             return 1;
@@ -588,7 +576,7 @@ void TItemData::unpack_from_item(void *arg1) {
     u8 temp_r0;
 
     if (arg1 != NULL) {
-        init__9TItemDataFv();
+        init();
         *(u8 *)((s8 *)this + 0) = (u8) (((u32) *(u32 *)((s8 *)arg1 + 0x30) >> 0x18U) & 0xF);
         *(u8 *)((s8 *)this + 1) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x30) >> 0x10U);
         temp_r0 = *(u8 *)((s8 *)this + 0);
@@ -623,7 +611,7 @@ void TItemData::unpack_from_item(void *arg1) {
             return;
         case 2:
             ((MagStats *)(&sp8))->init();
-            serialize_mag__9TItemDataFPvPv(this, &sp8);
+            TItemData::serialize_mag(this, &sp8);
             break;
         }
     }
@@ -642,13 +630,9 @@ s32 get_item_icon_index(const u8 *q) {
     return 0;
 }
 
-#undef is_custom_name_srank__9TItemDataFPv
 #undef serialize_mag__9TItemDataFPvPv
-#undef init__9TItemDataFv
 
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
-#define lookup_item_def__9TItemDataFPv ((s32 (*)())lookup_item_def__9TItemDataFPv)
-#define init__9TItemDataFv ((s32 (*)())init__9TItemDataFv)
 s32 strncpy(s8 *, u32, s32);
 void TItemData__sub_8010CA08(TItemData *arg0, u32 arg1, u8 arg2);
 s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
@@ -681,7 +665,7 @@ int TItemData::isValidGroundDrop() {
 
 void TItemData__sub_8010CA08(TItemData *item_data, u32 arg1, u8 arg2) {
     s8 sp8[10];
-    init__9TItemDataFv();
+    item_data->init();
     if ((arg1 != 0U) && (((arg2 >= 0x70U) && (arg2 <= 0x88U)) || ((arg2 >= 0xA5U) && (arg2 <= 0xA9U)))) {
         *(s8 *)((s8 *)item_data + 0) = 0;
         *(u8 *)((s8 *)item_data + 1) = arg2;
@@ -778,7 +762,7 @@ int TItemData::register_drop() { return register_item_drop__10TObjPlayerFv(this)
 
 s32 TItemData::get_max_stack_size() {
     u8 *arg0 = (u8 *)this;
-    if (lookup_item_def__9TItemDataFPv() != 0) {
+    if (TItemData::lookup_item_def(this) != 0) {
         if (((u8) *(u8 *)((s8 *)arg0 + 0) == 3) && ((u8) *(u8 *)((s8 *)arg0 + 1) == 0x10)) {
             return 0x63;
         }
@@ -788,8 +772,6 @@ s32 TItemData::get_max_stack_size() {
 }
 
 #undef lookup_item_pmt_record
-#undef lookup_item_def__9TItemDataFPv
-#undef init__9TItemDataFv
 
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/item/TItemMenuCtrl.h"
@@ -801,7 +783,6 @@ s32 TItemData::get_max_stack_size() {
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
 #define add_armor_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_armor_stat_contribution__9TItemDataFPviiPv)
-#define is_wrapped__9TItemDataFPv ((s32 (*)())is_wrapped__9TItemDataFPv)
 #define add_shield_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_shield_stat_contribution__9TItemDataFPviiPv)
 #define apply_unit_stat_bonus__9TItemDataFPviiPvPvPv ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_unit_stat_bonus__9TItemDataFPviiPvPvPv)
 #define apply_bonuses ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_bonuses)
@@ -836,7 +817,6 @@ struct Item_8010E59C {
 extern "C" {
 void *get_armor_pmt_record(int type, int id);
 s32 get_item_star_count(s32);
-s32 is_rare_item__9TItemDataFPv(u8 *item);
 }
 int get_item_chunk_buffer(int a0);
 extern "C" {
@@ -849,7 +829,6 @@ extern "C" {
 s32 TObjPlayer__sub_80117E50(u16);
 s32 get_technique_name(s32 arg0);
 s32 get_text_collection(s32 arg0);
-s8 *get_item_by_slot_flag__10TObjPlayerFUc(u8);
 void TItemData__clear_unidentified_flag(void *arg0);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 
@@ -928,12 +907,12 @@ s32 TItemData::has_bonus_stats() {
                 return 1;
             }
         case 2:
-            if (getS16_06__9TItemDataFPv(item) > 0 || get_bswap16_field8__9TItemDataFPv(item) > 0) {
+            if (TItemData::getS16_06(item) > 0 || TItemData::get_bswap16_field8(item) > 0) {
                 return 1;
             }
             break;
         case 3:
-            if (((s16 (*)(void))get_field6_bswap__9TItemDataFPv)() > 0) {
+            if (TItemData::get_field6_bswap(item) > 0) {
                 return 1;
             }
             break;
@@ -977,11 +956,11 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     return 0;
   }
-  if (is_item_usable__9TItemDataFlPUc(player, this) != 0)
+  if (TItemData::is_item_usable((s32)player, (u8 *)this) != 0)
   {
     result |= 2;
   }
-  if (((s32 (*)(void *)) is_wrapped__9TItemDataFPv)(this) != 0)
+  if (TItemData::is_wrapped(this) != 0)
   {
     return result & mask;
   }
@@ -1065,7 +1044,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             result |= 0x10001;
           }
           cur = get_cast_technique_level(player + 0x428, (s16) ((u8 *)this)[4]);
-          if ((is_invalid_slot__10TObjPlayerFUc() == 0) && (((u8 *)this)[2] <= cur))
+          if ((TObjPlayer::is_invalid_slot(cur) == 0) && (((u8 *)this)[2] <= cur))
           {
             result |= 0x10001;
           }
@@ -1104,19 +1083,19 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
           switch (((u8 *)this)[2])
           {
             case 0:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[0 / 2] <= ((s16 *) quest)[0 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0 / 2] <= ((s16 *) quest)[0 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 1:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[2 / 2] <= ((s16 *) quest)[2 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[2 / 2] <= ((s16 *) quest)[2 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 2:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[4 / 2] <= ((s16 *) quest)[4 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4 / 2] <= ((s16 *) quest)[4 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1134,13 +1113,13 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             }
               break;
             case 5:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[8 / 2] <= ((s16 *) quest)[8 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[8 / 2] <= ((s16 *) quest)[8 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 6:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[0xC / 2] <= ((s16 *) quest)[0xC / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0xC / 2] <= ((s16 *) quest)[0xC / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1475,7 +1454,7 @@ void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 
     }
 }
 
-s32 is_rare_item__9TItemDataFPv(u8 *item) {
+s32 TItemData::is_rare_item(void *item) {
     return (u8) ((TItemData *)item)->get_base_rarity() >= 9 ? 1 : 0;
 }
 
@@ -1532,7 +1511,7 @@ s32 TItemData::calc_price() {
       price = 8;
     }
     else
-      if (is_rare_item__9TItemDataFPv(((u8 *)this)) != 0)
+      if (TItemData::is_rare_item(((u8 *)this)) != 0)
     {
       price = 0x50;
     }
@@ -1564,7 +1543,7 @@ s32 TItemData::calc_price() {
       break;
 
     case 1:
-      if (is_rare_item__9TItemDataFPv(((u8 *)this)) != 0)
+      if (TItemData::is_rare_item(((u8 *)this)) != 0)
     {
       price = 0x50;
     }
@@ -1575,8 +1554,8 @@ s32 TItemData::calc_price() {
       pmt = (Pmt_8010DF9C *) lookup_item_pmt_record(((u8 *)this));
       if ((0.0f != coef) && (pmt != 0))
       {
-        s32 a = getS16_06__9TItemDataFPv(this);
-        atp = (f32) (((pmt->dfp + pmt->evp) + a) + get_bswap16_field8__9TItemDataFPv(this));
+        s32 a = TItemData::getS16_06(this);
+        atp = (f32) (((pmt->dfp + pmt->evp) + a) + TItemData::get_bswap16_field8(this));
         {
           s32 dv = (s32) ((atp * atp) / coef);
           f32 sl = 70.0f * ((f32)(item->slots + 1));
@@ -1628,20 +1607,20 @@ s32 TItemData::calc_price() {
 }
 #pragma pop
 
-void init__9TItemDataFv(TItemData_8010E344 *self) {
+void TItemData::init() {
     s32 i;
-    self->data[0] = 0;
-    self->data[1] = 0;
-    self->data[2] = 0;
-    self->data[3] = 0;
-    self->data[4] = 0;
-    self->data[5] = 0;
-    self->data2 = 0;
+    data1.data_u8[0] = 0;
+    data1.data_u8[1] = 0;
+    data1.data_u8[2] = 0;
+    data1.data_u8[3] = 0;
+    data1.data_u8[4] = 0;
+    data1.data_u8[5] = 0;
+    data2.data_u32 = 0;
     for (i = 0; i < 3; i++) {
-        self->stats[i].a = 0;
-        self->stats[i].b = 0;
+        data1.data_u8_pair[3 + i][0] = 0;
+        data1.data_u8_pair[3 + i][1] = 0;
     }
-    self->id = -1;
+    id = -1;
 }
 
 s32 TItemData::calc_buy_price() {
@@ -1649,7 +1628,7 @@ s32 TItemData::calc_buy_price() {
 
     if ((u8) *(u8 *)((s8 *)this + 0) == 0) {
         temp_r0 = *(u8 *)((s8 *)this + 4);
-        if ((temp_r0 != 0) && (temp_r0 < 0x29U) && (((s32 (*)(void))is_rare_item__9TItemDataFPv)() == 0)) {
+        if ((temp_r0 != 0) && (temp_r0 < 0x29U) && (TItemData::is_rare_item(this) == 0)) {
             if (check_item_flags() == 1) {
                 return get_item_description_text(*(u8 *)((s8 *)this + 4) + 0x1CB);
             }
@@ -1669,7 +1648,7 @@ s32 format_item_description(u8 *item) {
     out = (char *)get_item_chunk_buffer(0);
     if (p != NULL && out != NULL) {
         format = NULL;
-        if (((s32 (*)(u8 *))is_wrapped__9TItemDataFPv)(item) != 0) {
+        if (TItemData::is_wrapped(item) != 0) {
             format = (char *)get_item_description_text(0x77);
         } else {
             name = p->name;
@@ -1677,7 +1656,7 @@ s32 format_item_description(u8 *item) {
                 return (s32)lbl_805D2B10;
             }
             if (item[0] == 0) {
-                if (is_rare_item__9TItemDataFPv(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
+                if (TItemData::is_rare_item(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
                     format = (char *)get_item_description_text(0x17E);
                 } else {
                     format = (char *)get_item_description_text(name);
@@ -1685,7 +1664,7 @@ s32 format_item_description(u8 *item) {
             } else if (item[0] == 1 && item[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
-                        sprintf(out, (char *)get_item_description_text(name), p->amount + get_field6_bswap__9TItemDataFPv(item));
+                        sprintf(out, (char *)get_item_description_text(name), p->amount + TItemData::get_field6_bswap(item));
                         return (s32)out;
                     }
                 } else {
@@ -1727,13 +1706,13 @@ void TItemData::format_item_name(char *buf) {
     } else {
         name = (char *)get_text_collection(0x1F4);
     }
-    if (((s32 (*)(void *))is_wrapped__9TItemDataFPv)(arg0) != 0) {
+    if (TItemData::is_wrapped(arg0) != 0) {
         sprintf(buf, "%s", get_text_collection(0x77));
         return;
     }
     t = item->type;
     if (t == 0) {
-        if (is_custom_name_srank__9TItemDataFPv(arg0) != 0) {
+        if (TItemData::is_custom_name_srank(arg0) != 0) {
             memset(tmp, 0, 10);
             ((TItemData *)arg0)->decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
@@ -1749,8 +1728,8 @@ void TItemData::format_item_name(char *buf) {
             }
             return;
         }
-        slot = get_item_by_slot_flag__10TObjPlayerFUc(item->flags);
-        if (is_rare_item__9TItemDataFPv(arg0) != 0) {
+        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(item->flags);
+        if (TItemData::is_rare_item(arg0) != 0) {
             if (check_item_flags() == 1) {
                 if (item->grind != 0) {
                     sprintf(buf, "%s +%d", name, item->grind);
@@ -1801,7 +1780,7 @@ void TItemData::format_item_name(char *buf) {
         pmt = (s32 *)lookup_item_pmt_record(arg0);
         if (pmt != NULL) {
             lim = *(s16 *)((u8 *)pmt + 0xC);
-            v = get_field6_bswap__9TItemDataFPv(arg0);
+            v = TItemData::get_field6_bswap(arg0);
             if (v < -lim) {
                 sign[0] = '-';
                 sign[1] = '-';
@@ -1874,7 +1853,7 @@ int TItemData::calc_display_grade() {
         break;
     case 1:
         if ((u8) *(u8 *)((s8 *)this + 1) == 3) {
-            temp_r3 = get_field6_bswap__9TItemDataFPv(this);
+            temp_r3 = TItemData::get_field6_bswap(this);
             if (temp_r3 < 0) {
                 base_rarity -= 1;
             } else if (temp_r3 > 0) {
@@ -1923,13 +1902,12 @@ void TItemData__clear_unidentified_flag(void *arg0) {
 
 s32 TItemData::check_item_flags() {
     if (((u8) *(u8 *)((s8 *)this + 0) == 0) && (*(u8 *)((s8 *)this + 4) & 0x80)) {
-        return is_wrapped__9TItemDataFPv() != 0 ? 1 : 0;
+        return TItemData::is_wrapped(this) != 0 ? 1 : 0;
     }
     return 1;
 }
 #undef calc_clock_bonus__9TItemDataFPv
 #undef add_armor_stat_contribution__9TItemDataFPviiPv
-#undef is_wrapped__9TItemDataFPv
 #undef add_shield_stat_contribution__9TItemDataFPviiPv
 #undef apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
 #undef apply_bonuses

@@ -6,6 +6,7 @@
 
 class TObjBoss7DustCtrl : public TObject {
 public:
+    TObjBoss7DustCtrl(TObject *parent);
     virtual ~TObjBoss7DustCtrl();
     virtual void run_task();
 public:
@@ -13,7 +14,6 @@ public:
 };
 
 extern "C" {
-void *TObjBoss7DustCtrl__ct(void *boss7_dust_ctrl, void *parent);
 s32 TObjBoss7DustCtrl__sub_802F125C(void);
 void TObjBoss7DustCtrl__sub_802F1450(void);
 }

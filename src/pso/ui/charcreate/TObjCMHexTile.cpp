@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -88,7 +89,7 @@ TObjCMHexTile::TObjCMHexTile(TObject *parent, void *pos) : TObject(parent) {
     this->m_44 = 0.033333335f * (0.000030517578f * (f32)rand()) + 0.008333334f;
     this->m_2c.x = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
     this->m_2c.y = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
-    ((TWindowSubSymbolChatPartsSet *)&this->pos)->copy_vec2(pos);
+    copy_vec2(&this->pos, pos);
     this->alpha = 0.0f;
     this->scale = 1.0f;
     this->frame = 0;

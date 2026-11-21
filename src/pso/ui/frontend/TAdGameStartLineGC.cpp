@@ -44,7 +44,6 @@ struct TAdGameStartLineGC_80320EF0 {
 
 extern "C" {
 void *__ct__7TObjectFP7TObject(void *, void *);
-void *get_instance__10TObjPlayerFv(void);
 extern void *__vt__18TAdGameStartLineGC[];
 TAdGameStartLineGC_80320EF0 *__ct__18TAdGameStartLineGCFv(TAdGameStartLineGC_80320EF0 *self, void *parent);
 
@@ -99,7 +98,7 @@ TAdGameStartLineGC_80320EF0 *__ct__18TAdGameStartLineGCFv(TAdGameStartLineGC_803
     self->counter = -1;
     self->sx = 3.0f;
     self->sy = 3.0f;
-    lbl_805D6C18 = get_instance__10TObjPlayerFv();
+    lbl_805D6C18 = (void *)TObjPlayer::get_instance();
     self->base[0].x0 = self->x;
     self->base[0].y0 = self->y;
     self->base[0].x1 = 384.0f + self->x;

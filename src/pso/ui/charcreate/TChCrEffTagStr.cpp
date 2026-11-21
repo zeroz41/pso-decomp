@@ -7,6 +7,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
+#include "pso/system/vector.h"
 
 struct Stack_8029AEDC {
     f32 sp8;
@@ -74,7 +75,7 @@ TChCrEffTagStr::~TChCrEffTagStr() {}
 TChCrEffTagStr::TChCrEffTagStr(TObject *object, void *arg2, void *arg3) : TObject(object) {
     m_name = TChCrEffTagStr__name;
     sprite_id = (s32)arg2;
-    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2(arg3);
+    copy_vec2(&pos, arg3);
     state = 0;
     fade = 0.0f;
 }

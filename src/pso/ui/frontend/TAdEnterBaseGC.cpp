@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
@@ -127,7 +129,6 @@ u32 strlen(const char *);
 void draw_window_frame__11TWindowBaseFPv();
 
 
-s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 
 int sprintf(char *, const char *, ...);
 
@@ -160,9 +161,7 @@ char serial_access_hex_string_buf[0x40];
 
 extern "C" {
 
-s32 __ct__9TAdBackGCFv(int, void *);
 
-s32 __ct__12TAdBackTxtGCFv(int, void *);
 
 u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
@@ -189,20 +188,12 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
 void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; *(int *)&this->unk_2C = 0; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
-    u32 temp_r3;
-    u32 temp_r3_2;
     u32 temp_r3_3;
     u32 temp_r3_4;
     u32 var_r0;
     u32 var_r0_2;
-    temp_r3 = __nw__7TObjectFUl(0x24);
-    if (temp_r3 != 0U) {
-        __ct__9TAdBackGCFv(temp_r3, this);
-    }
-    temp_r3_2 = __nw__7TObjectFUl(0x28);
-    if (temp_r3_2 != 0U) {
-        __ct__12TAdBackTxtGCFv(temp_r3_2, this);
-    }
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
     if ((s32) (*(s32 *)&TAdEnterBaseGC__entry_mode) == 3) {
         temp_r3_3 = __nw__7TObjectFUl(0x708);
         var_r0 = temp_r3_3;
@@ -232,7 +223,7 @@ void TAdEnterBaseGC::fn_8032B318(Position *position) {
     position->y = lbl_804771D8[1];
 }
 
-int TAdEnterSerialAccessGC::forward_input(void* p) { return ((int (*)(void *))validate_input__22TAdEnterSerialAccessGCFPviPv)(p); }
+int forward_validate_input(void *window, s32 mode, char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
 
 int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, char *arg2) {
     s32 i;
@@ -347,13 +338,13 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
 }
 
 s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    s32 r = update_window_mode_from_progress__6TLobbyFPv(lbl_80477178, lbl_80477180);
+    s32 r = (s32)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
     ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (s32)arg1), 1);
     return r;
 }
 
-void TAdEnterSerialAccessGC::create_default_callback() {
-    TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
+void *TAdEnterSerialAccessGC::create_default_callback() {
+    return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
 }
 
 u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
@@ -434,7 +425,7 @@ void draw_masked_password_field(s32 arg0) {
         }
         buf[len] = 0;
         len = calc_text_width("*");
-        ((TAdSinglePlyChrSelectGC *)buf)->render_status_disp(password_field_text_pos[0], password_field_text_pos[1]);
+        draw_menu_font_string_white((const char *)buf, password_field_text_pos[0], password_field_text_pos[1]);
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * ((TAdEnterSerialAccessGC *)password_entry_keyboard_control)->get_field20_state());
         p2.y = password_field_text_pos[1];

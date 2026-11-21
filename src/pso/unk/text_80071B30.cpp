@@ -3,6 +3,7 @@
 #include "pso/system/vector.h"
 
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
@@ -43,7 +44,6 @@ struct Plr_80071BC0 : PBase_80071BC0 {
 };
 
 extern "C" {
-s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *);
 extern u8 challenge_mode_state[];
 void copy_player_visual_record(Chr_80071BC0 *, void *);
@@ -62,7 +62,7 @@ s32 TLobby__sub_80071B30(s32 arg0, s32 arg1) {
         return 0;
     }
     list = TWindowSubStatusDisp__sub_8006F0D8(q + 1);
-    n = get_layout_id__20TWindowSubStatusDispFv(arg1);
+    n = TWindowSubStatusDisp::get_layout_id(arg1);
     for (i = 0; i < n; i++) {
         if (list[i] == 0) {
             break;

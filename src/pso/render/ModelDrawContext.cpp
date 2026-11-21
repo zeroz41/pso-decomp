@@ -4,6 +4,7 @@
 #include "pso/animation/MotionContext.h"
 #include "types.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/unk/text_803D96A8.h"
 
 typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
@@ -52,7 +53,6 @@ void apply_cached_blend_mode(s32 arg0);
 void init_render_context(C_803DCBF0 *arg0);
 extern RecoveredCallback_1268626c296b motion_node_draw_callback;
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table;
-s32 apply_quat_rotation__10TObjPlayerFf(void *, f32);
 s32 rotate_matrix_by_node_angles(void *, void *);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
@@ -139,7 +139,7 @@ void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32)) {
                 if (f & 0x1000) {
                     copy_rotation_to_current_matrix((struct Mtx_803DC994 *) (node_saved_matrix));
                 } else if (f & 0x400) {
-                    ((s32 (*)(f32, void *))apply_quat_rotation__10TObjPlayerFf)(p->f34, p->m14);
+                    apply_quat_rotation(p->f34, (f32 *)p->m14);
                 } else {
                     rotate_matrix_by_node_angles(p->m14, (void *) (f & 0x20));
                 }

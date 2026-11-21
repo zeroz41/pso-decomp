@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLuker.h"
@@ -91,14 +92,12 @@ Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
 void *create_window_menu(void *p, s32 a, s32 b);
-void *check_room_seq_4__16TAdChrSelASlotGCFl(void *p, s32 a);
+void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void align_menu_entry_positions(void *w);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
-extern u8 __vt__9TObjLuker[];
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern const char *TObjLuker__name;
-void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
@@ -108,9 +107,7 @@ s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
-s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
-extern s32 lbl_80515BA0[];
 extern s32 lbl_805D55C0;
 void *TObjLuker__create(void *arg0);
 
@@ -181,7 +178,7 @@ void TObjLuker::open_destination_windows() {
             if (is_split_screen() != 0) {
                 self->wins[i] = create_window_menu(get_window_layout_position(0x33), 1, i);
             } else {
-                self->wins[i] = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x33), 1);
+                self->wins[i] = create_window_menu_default(get_window_layout_position(0x33), 1);
             }
             if (self->wins[i] != 0) {
                 this->m_a0 = target;
@@ -327,7 +324,7 @@ void TObjLuker::transfer_to_town() {
   {
     return;
   }
-  set_area__6TLobbyFl(lbl_80515BA0, *((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
+  floor_transition_state.set_next_floor(*((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
   mark_area_change_pending();
   for (i = 0; i < 4; i++)
   {
@@ -347,7 +344,7 @@ void TObjLuker::transfer_to_town() {
       if (flag != 0)
       {
         ((TTecLuker *)(p + 0x848))->set_state(arg0->owner);
-        send_6x21_inter_level_warp((int) p, (void *) ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area());
+        send_6x21_inter_level_warp((int) p, (void *) floor_transition_state.get_next_floor());
         ((TObjMotion *)p)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
       }
     }
@@ -359,7 +356,7 @@ void TObjLuker::transfer_to_town() {
     {
       ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
     }
-    send_6x21_inter_level_warp((int) local, (void *) ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area());
+    send_6x21_inter_level_warp((int) local, (void *) floor_transition_state.get_next_floor());
   }
   if (is_split_screen() != 0)
   {
@@ -478,11 +475,9 @@ TObjLuker::~TObjLuker() {
     }
 }
 
-#define self ((Luker_801A1768 *)arg0)
-void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
+#define self ((Luker_801A1768 *)this)
+TObjLuker::TObjLuker(TObject *parent, void *arg2) : TObjBase(parent) {
     s32 i;
-    __ct__8TObjBaseFP7TObject(self, parent);
-    self->f18 = __vt__9TObjLuker;
     self->f0 = ((s32)TObjLuker__name);
     ((TObjBase *)self)->apply_object_set_data(arg2);
     self->fB0 = 0;
@@ -499,14 +494,9 @@ void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
     self->fAC = 0;
     self->fA0 = -1;
     self->fB8 = 0;
-    return self;
 }
 #undef self
 
 void *TObjLuker__create(void *arg0) {
-    void *o = TObject::operator new(0xBC);
-    if (o != NULL) {
-        o = TObjLuker__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjLuker((TObject *)tl_05, arg0);
 }

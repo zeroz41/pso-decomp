@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/system/vector.h"
 
 
 #pragma inline_depth(1)
@@ -51,7 +52,7 @@ void TWindowHelpItem::render() {
     s32 temp_r3;
     u8 temp_r3_2;
 
-    temp_r3 = this->setup_window_draw_context((s32)((u8 *)this + 0xA8));
+    temp_r3 = this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8));
     this->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(this, (u8 *)this + 0x24, temp_r3);
     temp_r3_2 = this->m_60;
@@ -91,7 +92,7 @@ TWindowHelpItem::~TWindowHelpItem() {
 TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)window_help_item_layout, (s16)idx, (u8 *)pos) {
     void *p;
     this->m_name = window_help_item_class_name;
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)this + 0x30))->copy_vec2(pos);
+    copy_vec2(((u8 *)this + 0x30), pos);
     this->save_position();
     this->m_60 = 0;
     p = ::operator new(0xc);

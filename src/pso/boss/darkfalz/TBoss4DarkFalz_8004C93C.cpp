@@ -157,7 +157,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     s32 i;
     TBoss4DarkFalz::freeze_all_players(this);
     TLobby::stop_audio_streams();
-    TBoss4DarkFalz::dispatch_by_main_phase(0x37);
+    set_story_flag_or_send_quest_flag(0x37);
     TBoss4Thanks::check_ready();
     if ((void *) (*(u8 * *)&TBoss4DarkFalz__type3_instance) != NULL) {
         TObjDFDemo5::create((void *)this, (void *)((*(u8 * *)&TBoss4DarkFalz__type3_instance) + 0x38), (void *)(*(s32 *)((s8 *)(*(u8 * *)&TBoss4DarkFalz__type3_instance) + 0x60)));
@@ -199,7 +199,7 @@ void TBoss4DarkFalz::update_demo_warp3() {
     temp_r0 = *(s32 *)((s8 *)this + 0x380) - 1;
     *(s32 *)((s8 *)this + 0x380) = temp_r0;
     if (temp_r0 <= 0) {
-        TBoss4DarkFalz::dispatch_by_main_phase((s32)((int) (0x36U)));
+        set_story_flag_or_send_quest_flag((s32)((int) (0x36U)));
         stack.sp8 = (u8 *)this;
         TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (&TBoss4DarkFalz__data_804FF1E8.value));
         stack.sp14 = 2;
@@ -303,7 +303,6 @@ extern RecoveredGlobal_lbl_80485448 lbl_80485448;
 void *create__11TBoss4Type2Fl(void *);
 void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 is_timer_expired__14TBoss4DarkFalzFv();
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }
 
@@ -333,7 +332,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
         flag = 1;
     }
     TBoss4DarkFalz::create_demo2((void *)arg0, &arg0->pos, (void *)arg0->f3a8, (void *)flag);
-    TBoss4DarkFalz::dispatch_by_main_phase(0x35);
+    set_story_flag_or_send_quest_flag(0x35);
     if ((u32)TBoss4DarkFalz__type2_instance != 0) {
         ((TBoss4DarkFalz *)TBoss4DarkFalz__type2_instance)->get_demo2_params(&arg0->f2d6, &this->m_2d4, arr);
         ((TObject *)TBoss4DarkFalz__type2_instance)->queue_destruction();
@@ -366,7 +365,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         a.d.a0 = o->f2c + 0x1FF;
         a.d.a6 = this->entity_id + 0x1FF;
         (*(void * *)&TBoss4DarkFalz__type2_instance) = create__11TBoss4Type2Fl(&a);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x34);
+        set_story_flag_or_send_quest_flag(0x34);
         ((TBoss4DarkFalz *)o)->change_state(8);
     }
 }
@@ -381,7 +380,7 @@ void TBoss4DarkFalz::start_demo1() {
     } else {
         TBoss4DarkFalz::create_demo1(arg0, &lbl_80485448.value, NULL);
     }
-    TBoss4DarkFalz::dispatch_by_main_phase(0x33U);
+    set_story_flag_or_send_quest_flag(0x33U);
     if ((void *) (*(u8 * *)&TBoss4DarkFalz__type1_instance) != NULL) {
         ((TObject *)(*(u8 * *)&TBoss4DarkFalz__type1_instance))->queue_destruction();
         (*(u8 * *)&TBoss4DarkFalz__type1_instance) = NULL;
@@ -442,7 +441,7 @@ void TBoss4DarkFalz::update_intro_demo() {
             ((TObject *)(this->m_394))->queue_destruction();
             this->m_394 = 0U;
         }
-        TBoss4DarkFalz::dispatch_by_main_phase(0x32);
+        set_story_flag_or_send_quest_flag(0x32);
         change_state(6);
         return;
     }
@@ -460,7 +459,7 @@ void TBoss4DarkFalz::spawn_trap() {
     play_persistent_sound(0x4003A30A, (s32)this, 0, -0x18, 2);
 }
 void TBoss4DarkFalz::check_timeout() {
-    if ((is_timer_expired__14TBoss4DarkFalzFv() != 0) || (TBoss4DarkFalz__sub_8004B07C((s32)this) != 0)) {
+    if ((TBoss4DarkFalz::is_timer_expired() != 0) || (TBoss4DarkFalz__sub_8004B07C((s32)this) != 0)) {
         send_action_packet(5);
     }
 }
@@ -494,7 +493,6 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
 }
 void set_dark_falz_music_request(s32 arg0);
 extern "C" {
-int check_demo_mode__10TObjPlayerFv(void*);
 int create__14TObjDFUsoTowerFPv(void);
 }
 void unlock_music_flag(s32 flag);
@@ -545,7 +543,7 @@ void TBoss4DarkFalz::check_players_near_center() {
     }
 }
 
-void TBoss4DarkFalz::update_leader_editor() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { change_state((s32)((void*)1)); } }
+void TBoss4DarkFalz::update_leader_editor() { if (TObjPlayer::check_demo_mode() == 0) { change_state((s32)((void*)1)); } }
 
 
 TBoss4DarkFalzState dark_falz_state_table[16] = {

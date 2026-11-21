@@ -11,7 +11,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 extern "C" {
-void init__9TItemDataFv(TItemData *item);
 extern s32 game_difficulty_selection;
 }
 
@@ -113,7 +112,7 @@ TEndingPicStage::TEndingPicStage(TObject *parent) : TObject(parent) {
     Vec position = ending_player_start_position;
     ending_player = TUnk_804C4540::create(get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
     ending_player->set_position_from(&position);
-    init__9TItemDataFv(&item);
+    ((TItemData *)(&item))->init();
     item.data1.data_u8[0] = 2;
     item.data1.data_u8[1] = 0;
 }

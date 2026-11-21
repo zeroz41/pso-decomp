@@ -3,6 +3,7 @@
 #include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
+#include "pso/math/MatrixTransforms.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -13,34 +14,11 @@
 
 #pragma readonly_strings on
 
-struct RecoveredFields_802FE0E4_arg0 {
-    u8 unknown_0[0x1C];
-    f32 field_1C;
-    f32 field_20;
-    f32 field_24;
-    f32 field_28;
-    f32 field_2C;
-    f32 field_30;
-    s32 field_34;
-    s32 field_38;
-    f32 field_3C;
-    f32 field_40;
-    s32 field_44;
-    u16 field_48;
-    u8 unknown_4A[0x2];
-    u8 * field_4C;
-    u8 * field_50;
-    u8 * field_54;
-};
-
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-f32 subtract_vector(void *, void *);
 // Three id tables; the constructor stores the one m_44 (1-3) selects at +0x54.
 static const s32 lbl_80474B68[3] = {548, 550, 553};
 static const s32 lbl_80474B74[3] = {538, 536, 553};
 static const s32 lbl_80474B80[3] = {522, 518, 521};
-extern s32 __vt__21TBoss8DragonEffBullet[];
 const char *TBoss8DragonEffBullet__name = "TBoss8DragonEffBullet";
 u8 *get_enemy_entity(u16 arg0);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
@@ -50,70 +28,69 @@ void TBoss8DragonEffBullet::render() {  }
 #pragma push
 #pragma fp_contract on
 void TBoss8DragonEffBullet::run_task() {
-    struct RecoveredFields_802FE0E4_arg0 *arg0 = (struct RecoveredFields_802FE0E4_arg0 *)this;
     f32 temp_f0;
     f32 temp_f1;
     f32 var_f2;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *temp_r3_3;
-    u8 *temp_r3_4;
-    switch (arg0->field_38) {
+    TParticleCtrl *temp_r3;
+    TParticleCtrl *temp_r3_2;
+    TParticleCtrl *temp_r3_3;
+    TParticleCtrl *temp_r3_4;
+    switch (m_38) {
     case 0:
         var_f2 = 25.0f;
-        arg0->field_3C += var_f2;
-        temp_f0 = arg0->field_3C;
-        temp_f1 = arg0->field_40;
+        m_3c += var_f2;
+        temp_f0 = m_3c;
+        temp_f1 = m_40;
         if (temp_f0 > temp_f1) {
-            arg0->field_34 = 0;
+            m_34 = 0;
             var_f2 = temp_f1 - (temp_f0 - var_f2);
-            arg0->field_38 = 1;
+            m_38 = 1;
         }
-        arg0->field_1C += arg0->field_28 * var_f2;
-        arg0->field_20 += arg0->field_2C * var_f2;
-        arg0->field_24 += arg0->field_30 * var_f2;
-        if ((u8 *) arg0->field_4C == NULL) {
-            arg0->field_4C = (u8 *)spawn_continuous_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)arg0->field_54 + 0), 0x40);
+        m_1c.x += m_28.x * var_f2;
+        m_1c.y += m_28.y * var_f2;
+        m_1c.z += m_28.z * var_f2;
+        if (m_4c == NULL) {
+            m_4c = spawn_continuous_particle_effect_with_flags(&m_1c, m_54[0], 0x40);
         }
-        if (((s32) arg0->field_44 == 3) && ((u8 *) arg0->field_50 == NULL)) {
-            arg0->field_50 = (u8 *)spawn_continuous_particle_effect_with_flags(&arg0->field_1C, 0x204, 0x40);
+        if ((m_44 == 3) && (m_50 == NULL)) {
+            m_50 = spawn_continuous_particle_effect_with_flags(&m_1c, 0x204, 0x40);
         }
-        temp_r3 = arg0->field_4C;
+        temp_r3 = m_4c;
         if (temp_r3 != NULL) {
-            ((TParticleCtrl *)temp_r3)->set_position(&arg0->field_1C);
+            temp_r3->set_position(&m_1c);
         }
-        temp_r3_2 = arg0->field_50;
+        temp_r3_2 = m_50;
         if (temp_r3_2 != NULL) {
-            ((TParticleCtrl *)temp_r3_2)->set_position(&arg0->field_1C);
+            temp_r3_2->set_position(&m_1c);
         }
         return;
     case 1:
-        arg0->field_34 += 1;
-        if ((s32) arg0->field_34 == 1) {
-            spawn_particle_effect_with_flags((void *)&arg0->field_1C, (s32)(*(u8 **)((s8 *)arg0->field_54 + 4)), 0x40);
-            temp_r3_3 = arg0->field_50;
+        m_34 += 1;
+        if (m_34 == 1) {
+            spawn_particle_effect_with_flags(&m_1c, m_54[1], 0x40);
+            temp_r3_3 = m_50;
             if (temp_r3_3 != NULL) {
-                ((TObject *)temp_r3_3)->queue_destruction();
-                arg0->field_50 = NULL;
+                temp_r3_3->queue_destruction();
+                m_50 = NULL;
             }
-            temp_r3_4 = arg0->field_4C;
+            temp_r3_4 = m_4c;
             if (temp_r3_4 != NULL) {
-                ((TObject *)temp_r3_4)->queue_destruction();
-                arg0->field_4C = NULL;
+                temp_r3_4->queue_destruction();
+                m_4c = NULL;
             }
-            play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
-            TBoss8Dragon__sub_802FB220(get_enemy_entity((u16)arg0->field_48), (int)&arg0->field_1C, arg0->field_44);
+            play_sound_effect(0x4003AD0C, &m_1c, 0, 0);
+            TBoss8Dragon__sub_802FB220(get_enemy_entity(m_48), (int)&m_1c, m_44);
         }
-        if ((s32) arg0->field_34 <= 2) {
-            spawn_particle_effect_with_flags((void *)&arg0->field_1C, (s32)(*(u8 **)((s8 *)arg0->field_54 + 8)), 0x40);
+        if (m_34 <= 2) {
+            spawn_particle_effect_with_flags(&m_1c, m_54[2], 0x40);
             return;
         }
-        arg0->field_38 = 2;
+        m_38 = 2;
         return;
     case 2:
-        arg0->field_34 += 1;
-        if ((s32) arg0->field_34 > 0x64) {
-            ((TObject *)arg0)->queue_destruction();
+        m_34 += 1;
+        if (m_34 > 0x64) {
+            queue_destruction();
         }
         break;
     }
@@ -122,37 +99,33 @@ void TBoss8DragonEffBullet::run_task() {
 
 }
 TBoss8DragonEffBullet::~TBoss8DragonEffBullet() {
-    if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
-    if (*(void **)((s8 *)this + 0x4C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x4C)))->queue_destruction(); this->m_4c = 0; }
+    if (m_50 != NULL) { m_50->queue_destruction(); m_50 = 0; }
+    if (m_4c != NULL) { m_4c->queue_destruction(); m_4c = 0; }
 }
 
-u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5) {
-    __ct__7TObjectFP7TObject((void *)boss8_dragon_eff_bullet, (void *)arg1);
-    *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x18) = __vt__21TBoss8DragonEffBullet;
-    *(s32 *)((s8 *)boss8_dragon_eff_bullet + 0) = (s32) TBoss8DragonEffBullet__name;
-    VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
-    VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
-    subtract_vector(boss8_dragon_eff_bullet + 0x28, boss8_dragon_eff_bullet + 0x1C);
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_40 = ((TObjBoss2Tunnel *)(boss8_dragon_eff_bullet + 0x28))->update_scale();
-    *(f32 *)((s8 *)boss8_dragon_eff_bullet + 0x3C) = 0.0f;
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_34 = 0;
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_38 = 0;
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_44 = arg4;
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_48 = arg5;
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_4c = 0;
-    ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_50 = 0;
-    play_sound_effect(0x4003B20B, boss8_dragon_eff_bullet + 0x1C, 0, 0);
-    switch (((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_44) {
+TBoss8DragonEffBullet::TBoss8DragonEffBullet(TObject *parent, Vec *from, Vec *to, s32 kind, u16 owner) : TObject(parent) {
+    m_name = TBoss8DragonEffBullet__name;
+    VecCopy(&m_1c, from);
+    VecCopy(&m_28, to);
+    subtract_vector(&m_28, &m_1c);
+    m_40 = normalize_vector_safe(&m_28);
+    m_3c = 0.0f;
+    m_34 = 0;
+    m_38 = 0;
+    m_44 = kind;
+    m_48 = owner;
+    m_4c = 0;
+    m_50 = 0;
+    play_sound_effect(0x4003B20B, &m_1c, 0, 0);
+    switch (m_44) {
     case 1:
-        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B68;
+        m_54 = lbl_80474B68;
         break;
     case 2:
-        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B74;
+        m_54 = lbl_80474B74;
         break;
     case 3:
-        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B80;
+        m_54 = lbl_80474B80;
         break;
     }
-    return boss8_dragon_eff_bullet;
 }
-

@@ -18,8 +18,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 #include "types.h"
+#include "pso/unk/text_800C7FEC.h"
 #include <string.h>
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
@@ -70,7 +72,6 @@ extern u8 lobby_rule_settings[];
 extern s32 TLobby__battle_team_table[];
 extern Ent_801C26A8 TLobby__duel_result_table[];
 s32 TLobby__sub_801C26A8(void);
-s32 update_battle_controller__10TObjPlayerFv();
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 void __ct__7TObjectFP7TObject(void *);
 s32 export_character_data__10TObjPlayerFPvPv(s32, s32);
@@ -80,7 +81,6 @@ extern u8 player_battle_ctrl_text_english[];
 void *TPlayerBattleCtrl__ct(void *arg0, s32 _w1);
 struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
 
-void clear_counter__6TLobbyFPv(void* a0);
 void build_6x7D_set_battle_mode_data(void *p);
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
@@ -148,7 +148,6 @@ extern u8 lobby_rule_settings[];
 extern s32 TLobby__battle_team_table[];
 extern s32 local_client_id;
 
-void clear_counter__6TLobbyFPv(void *a0);
 struct Lobby_801C484C;
 s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *);
 int sprintf(char *, const char *, ...);
@@ -197,7 +196,6 @@ s32 rand();
 void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
 s32 TLobby__sub_801C417C();
-s32 set_slot__23TAdSinglePlyChrSelectGCFi(u16);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 void init__6TLobbyFPv(void *arg0);
 void TLobby__sub_8020BB18(void);
@@ -358,7 +356,6 @@ void TLobby__sub_801B09A4(void);
 extern s32 tl_00;
 
 void end_player_keyboard_hold(s32 arg0);
-s32 send_code_45_1__10TObjPlayerFl();
 extern s32 local_client_id;
 
 void begin_player_keyboard_hold(s32 arg0);
@@ -374,7 +371,6 @@ void *__construct_new_array(void *, void *, void *, s32, s32);
 s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1);
 void init_char_data__10TObjPlayerFv(void);
 
-void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 extern Flags_801C3AF4 *controller_input_state[];
 extern s32 local_client_id;
@@ -414,11 +410,10 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 
 s32 record_local_battle_placement(void *);
 
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 u32 TWindowDuelResult__ct(void *, s32);
 s32 align_menu_entry_positions(void *);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
-void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
+void *create_window_menu_default(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
 
 extern s32 local_client_id;
@@ -458,7 +453,6 @@ void handle_6x7F_battle_scores(s32 arg0);
 int play_cue_stream_file(void*);
 void play_area_music(char *name);
 s32 TObjPlayer__sub_801AFFD0();
-s32 bswap_packet_header__6TLobbyFv();
 int show_duel_result_window(void*, void*);
 
 #define TBL_801C32B4 ((Ent_801C32B4 *)TLobby__duel_result_table)
@@ -508,7 +502,7 @@ void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1) {
     *(s32 *)((s8 *)player_battle_ctrl + 0x50) = 0;
     *(s32 *)((s8 *)player_battle_ctrl + 0x54) = 0;
     *(u8 **)((s8 *)player_battle_ctrl + 0x40) = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
-    temp_r3 = update_battle_controller__10TObjPlayerFv();
+    temp_r3 = (s32)get_local_player();
     if (temp_r3 != 0) {
         export_character_data__10TObjPlayerFPvPv(temp_r3, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
     }
@@ -585,7 +579,7 @@ void TLobby::update_battle_intro() {
     case 0:
         if (((Lobby_801C49B8 *)this)->window == NULL) {
             Pair_801C49B8 p = lbl_80446F94[0];
-            ((Lobby_801C49B8 *)this)->window = create__14TWindowMessageFPvll(get_window_layout_position(0x52), &p, 1);
+            ((Lobby_801C49B8 *)this)->window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x52)), (const f32 *)(&p), 1);
         }
         lbl_805D5DA4 = 0;
         ((Lobby_801C49B8 *)this)->state = 1;
@@ -726,15 +720,15 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         *(s32 *)((s8 *)arg0 + 0x2C) = 0x78;
         TWindowCtrl::close_timer_window();
-        ((TWindowCtrl *)local_client_id)->suppress_slot();
+        TWindowCtrl::suppress_slot(local_client_id);
         *(s32 *)((s8 *)arg0 + 0x20) = 1;
-        p = (void *)update_battle_controller__10TObjPlayerFv();
+        p = (void *)(s32)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
         break;
     case 1:
-        p = (void *)update_battle_controller__10TObjPlayerFv();
+        p = (void *)(s32)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
@@ -745,7 +739,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         break;
     case 2:
-        p = (void *)update_battle_controller__10TObjPlayerFv();
+        p = (void *)(s32)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
@@ -755,12 +749,12 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         break;
     case 3:
-        p = (void *)update_battle_controller__10TObjPlayerFv();
+        p = (void *)(s32)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
         if (((TLobby *)arg0)->check_timeout((*(s32 *)((s8 *)arg0 + 0x44))--) != 0 || *(s32 *)((s8 *)arg0 + 0x44) <= 0) {
-            clear_counter__6TLobbyFPv(arg0);
+            TLobby::clear_counter(arg0);
             calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)arg0);
             record_local_battle_placement(arg0);
             if (((u16 *)TLobby__duel_result_table)[0] == local_client_id) {
@@ -780,9 +774,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             p = (void *)TWindowDuelResult__ct(p, local_client_id);
         }
         *(void **)((s8 *)arg0 + 0x54) = p;
-        q = (void *)update_battle_controller__10TObjPlayerFv();
+        q = (void *)(s32)get_local_player();
         if (q != NULL) {
-            if (((TLobby *)q)->check_player_flag1() == 0) {
+            if (((TObjPlayer *)q)->check_player_flag1() == 0) {
                 TLobby::close_and_play_effect((u16)local_client_id, 1);
             }
             ((TObjPlayer *)q)->release_attached_resource();
@@ -795,7 +789,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
             *(void **)((s8 *)arg0 + 0x54) = NULL;
             *(s32 *)((s8 *)arg0 + 0x20) = 6;
-            p = (void *)update_battle_controller__10TObjPlayerFv();
+            p = (void *)(s32)get_local_player();
             if (p != NULL && (*(s32 *)((s8 *)p + 0x30) & 0x800)) {
                 ((VObj_801C4214 *)p)->m62();
             }
@@ -805,16 +799,16 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         if (check_team_balance__6TLobbyFPvi((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
-            q = (void *)update_battle_controller__10TObjPlayerFv();
-            if (local_client_id == TLobby__designated_client_id && has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+            q = (void *)(s32)get_local_player();
+            if (local_client_id == TLobby__designated_client_id && TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
                 if (*(void **)((s8 *)arg0 + 0x4C) == NULL) {
-                    *(void **)((s8 *)arg0 + 0x4C) = create__14TWindowMessageFPvll(get_window_layout_position(0x53), lbl_80446FA4, 1);
+                    *(void **)((s8 *)arg0 + 0x4C) = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)lbl_80446FA4, 1);
                     if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                         ((TWindowMessage *)(*(void **)((s8 *)arg0 + 0x4C)))->append_line(*(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0), 0x80);
                     }
                 }
                 if (*(void **)((s8 *)arg0 + 0x50) == NULL) {
-                    *(void **)((s8 *)arg0 + 0x50) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x54), 3);
+                    *(void **)((s8 *)arg0 + 0x50) = create_window_menu_default(get_window_layout_position(0x54), 3);
                     forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
                     forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
                     forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
@@ -841,10 +835,10 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
                         *(s32 *)((s8 *)arg0 + 0x20) = 7;
                     }
                 }
-                if (q != NULL && ((TLobby *)q)->check_player_flag1() == 0) {
+                if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() == 0) {
                     TLobby::close_and_play_effect((u16)local_client_id, 1);
                 }
-            } else if (q != NULL && ((TLobby *)q)->check_player_flag1() != 0) {
+            } else if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() != 0) {
                 TLobby::handle_battle_result((u16)local_client_id, 1);
             }
         }
@@ -858,8 +852,8 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x50)))->close();
             *(void **)((s8 *)arg0 + 0x50) = NULL;
         }
-        p = (void *)update_battle_controller__10TObjPlayerFv();
-        if (p != NULL && ((TLobby *)p)->check_player_flag1() != 0) {
+        p = (void *)(s32)get_local_player();
+        if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 8;
@@ -886,19 +880,19 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
             *(void **)((s8 *)arg0 + 0x54) = NULL;
         }
-        p = (void *)update_battle_controller__10TObjPlayerFv();
+        p = (void *)(s32)get_local_player();
         if (p != NULL) {
             obj_clear_flag30_20000(p);
         }
         TWindowCtrl::close_timer_window();
-        ((TWindowCtrl *)local_client_id)->suppress_slot();
+        TWindowCtrl::suppress_slot(local_client_id);
         break;
     case 9:
         break;
     }
     if (*(s32 *)((s8 *)arg0 + 0x20) == 6 || *(s32 *)((s8 *)arg0 + 0x20) == 8) {
-        p = (void *)update_battle_controller__10TObjPlayerFv();
-        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0 && (G28 & 0x400)) {
+        p = (void *)(s32)get_local_player();
+        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (G28 & 0x400)) {
             if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
                 *(void **)((s8 *)arg0 + 0x4C) = NULL;
@@ -942,18 +936,19 @@ void TLobby::close_and_play_effect(int arg0, s32 arg1) {
     if (arg1 != 0) {
         begin_player_keyboard_hold(local_client_id);
         request_active_window_close();
-        ((TWindowCtrl *)local_client_id)->suppress_slot();
+        TWindowCtrl::suppress_slot(local_client_id);
     }
 }
 
 void TLobby::handle_battle_result(int arg0, s32 arg1) {
-    if (get_player_by_client_id((u16)arg0) != 0U) {
-        send_code_45_1__10TObjPlayerFl();
+    s32 player;
+    if ((player = (s32)get_player_by_client_id((u16)arg0)) != 0U) {
+        TObjPlayer::send_code_45_1(player);
     }
     if (arg1 != 0) {
         end_player_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
-        ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+        TWindowCtrl::unsuppress_slot(local_client_id);
     }
 }
 
@@ -1021,7 +1016,7 @@ void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
         }
         set_section_id__6TLobbyFPvUc(lobby_rule_settings, 1);
     }
-    if (((u32 (*)(void))update_battle_controller__10TObjPlayerFv)() != 0U) {
+    if (((u32 (*)(void))get_local_player)() != 0U) {
         TLobby::apply_battle_rules_to_players();
     }
 }
@@ -1078,10 +1073,10 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self) {
         } else {
             idx = 4;
             s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-            set_slot__23TAdSinglePlyChrSelectGCFi(s > 0 ? s : 0);
+            TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
         }
         Pair_801C3AF4 p = lbl_80446FB4[0];
-        self->window = create__14TWindowMessageFPvll(get_window_layout_position(0xB3), &p, 1);
+        self->window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xB3)), (const f32 *)(&p), 1);
         if (self->window != NULL) {
             ((TWindowMessage *)(self->window))->append_line(self->msgs[idx], 0x80);
         }
@@ -1134,7 +1129,7 @@ void TLobby__sub_801C38E8(void *arg0) {
     u32 t;
     switch (*(s32 *)((u8 *)arg0 + 0x20)) {
     case 0:
-        t = update_battle_controller__10TObjPlayerFv();
+        t = (s32)get_local_player();
         if (t != 0) {
             TObjPlayer::play_effect_default(t, -1);
         }
@@ -1221,7 +1216,7 @@ void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt) {
 void handle_6x7E(void) {  }
 
 void handle_6x7F_battle_scores(s32 arg0) {
-    bswap_packet_header__6TLobbyFv();
+    bswap_client_id_header((G_ClientIDHeader *)arg0);
     memcpy(TLobby__duel_result_table, (void *)(arg0 + 4), 0x20);
     lbl_805D5DAC = 1;
 }
@@ -1350,7 +1345,7 @@ s32 record_local_battle_placement(void *arg0) {
         }
     }
     s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-    set_slot__23TAdSinglePlyChrSelectGCFi(s > 0 ? s : 0);
+    TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
@@ -1360,7 +1355,7 @@ s32 TLobby::assign_player_id(void *) {
     s32 temp_r3;
     s32 temp_r3_2;
 
-    temp_r3_2 = update_battle_controller__10TObjPlayerFv();
+    temp_r3_2 = (s32)get_local_player();
     if (temp_r3_2 == 0) {
         return 0;
     }
@@ -1404,7 +1399,7 @@ void TPlayerBattleCtrl::init_battle_round() {
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
   TLobby::apply_game_settings((s32)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
-  temp_r3 = update_battle_controller__10TObjPlayerFv();
+  temp_r3 = (s32)get_local_player();
   if (temp_r3 != 0)
   {
     obj_set_flag_20000();
@@ -1432,10 +1427,10 @@ void TLobby::start_duel_battle() {
     TObjEneRe4Sorcerer__sub_801E3F18();
     ((Lobby_801C2F40 *)this)->time = OSGetTime();
     TLobby::handle_battle_result((u16)local_client_id, 1);
-    if ((p = update_battle_controller__10TObjPlayerFv()) != 0) {
+    if ((p = (s32)get_local_player()) != 0) {
         obj_clear_flag30_20000((void *)p);
     }
-    clear_counter__6TLobbyFPv(this);
+    TLobby::clear_counter(this);
     area = get_current_floor_area();
     name = (area == AREA_BATTLE1) ? "duel1.adx" : "duel2.adx";
     new TUnk_804C3E88(this, name, 0x2D);
@@ -1455,7 +1450,7 @@ void init__6TLobbyFPv(void *arg0) {
 
     ((TLobby *)arg0)->set_flag_270();
     TLobby::close_and_play_effect((u16) local_client_id, 1);
-    temp_r3 = update_battle_controller__10TObjPlayerFv();
+    temp_r3 = (s32)get_local_player();
     if (temp_r3 != 0) {
         obj_set_flag_20000();
         ((ProtectionTimer *)(temp_r3 + 0x644))->set_frames(0xE10);
@@ -1504,7 +1499,7 @@ void send_6x7D_set_battle_mode_data(void *) {
 void TLobby::finish_chr_select_scene_init() {
     s32 temp_r3;
     TLobby::init_scene_objects();
-    temp_r3 = update_battle_controller__10TObjPlayerFv();
+    temp_r3 = (s32)get_local_player();
     if (temp_r3 != 0) {
         TObjPlayer__send_selected_spawn_position(temp_r3, battle_mode_data_table[(u16)get_entity_id((void *)temp_r3)]);
         reset_cameras_to_actor((void *)temp_r3, 0);
@@ -1566,7 +1561,7 @@ void TLobby::show_score_results() {
     Entry_801C2B04 *e;
     s32 i;
     VObj_801C2B04 *p;
-    clear_counter__6TLobbyFPv(this);
+    TLobby::clear_counter(this);
     calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)this);
     ((TWindowCtrl *)"SCORE")->init_all_default();
     for (i = 0; i < 4; i++) {
@@ -1590,7 +1585,7 @@ void TLobby::send_battle_mode_state() {
     Player_801C29F0 *p;
     s32 id;
     s32 on;
-    p = (Player_801C29F0 *)update_battle_controller__10TObjPlayerFv();
+    p = (Player_801C29F0 *)(s32)get_local_player();
     if (p != NULL) {
         id = TLobby::assign_player_id(this);
         build_6x7D_set_battle_mode_data(&m);
@@ -1619,7 +1614,7 @@ s32 TLobby::check_timeout(s32 timer) {
     return *(s32 *)((s8 *)this + 0x270) == 2;
 }
 
-void clear_counter__6TLobbyFPv(void* a0) { *(int*)((char*)a0 + 0x270) = 0; lbl_805D5DB0 = 0; }
+void TLobby::clear_counter(void* a0) { *(int*)((char*)a0 + 0x270) = 0; lbl_805D5DB0 = 0; }
 
 void TLobby::send_battle_mode_data(void * _w0) {
     struct S801C295C_801C25B4 sp8;

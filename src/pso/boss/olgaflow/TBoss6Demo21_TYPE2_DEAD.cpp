@@ -75,8 +75,6 @@ s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
-void *get_fish_count__8TObjFishFv(void);
-s32 create_zanzo__11TBoss6Type1FPvPvPv(void *, int, int);
 void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
@@ -395,7 +393,7 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
         v.z *= 60.0f;
     }
     vec3_add_to(arg0 + 0x58, &v);
-    void *count = get_fish_count__8TObjFishFv();
+    void *count = (void *)TObjFish::get_fish_count();
     *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model((BmlResource *)count, 4);
     *(s32 *)((s8 *)arg0 + 0x20) = get_bml_texlist((BmlResource *)count, 4);
     ((TBoss6Type1 *)arg0)->texlist = get_bml_motion(count, 7);
@@ -417,7 +415,7 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
     for (i = 0; i < 4; i++) {
         ((Fish_8033E688 *)arg0)->arr[i] = 0;
     }
-    ((TBoss6Type1 *)arg0)->motion_flags = create_zanzo__11TBoss6Type1FPvPvPv(arg0, 3, 0xF);
+    ((TBoss6Type1 *)arg0)->motion_flags = (s32)TBoss6Type1::create_zanzo(arg0, (void *)3, (void *)0xF);
     *(f32 *)((s8 *)arg0 + 0x4C) = (0.0f);
     *(s32 *)((s8 *)arg0 + 0x50) = 0;
     return arg0;

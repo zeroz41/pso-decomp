@@ -49,9 +49,8 @@ public:
     ~TUnk_8013F08C();
 };
 
-// A TargetCursorRecord (built by fn_8004438C) and a flag word. Built and destroyed by the
-// free functions init_sub__13TLockOnCursorFPv and TLockOnCursor__sub_8013EDC4: a real
-// constructor needs TargetCursorRecord's (0x8004438C) first, so both stay untyped here.
+// A TargetCursorRecord and a flag word. Built and destroyed by the
+// free functions init_sub__13TLockOnCursorFPv and TLockOnCursor__sub_8013EDC4, so both stay untyped here.
 // TargetCursorList.h is not included: its C declarations clash with the cursor units' own.
 struct TUnk_8013F054 {
     u8 unk_0[0x8];
@@ -70,7 +69,7 @@ class TUnk_8013EFB8 {
 public:
     gc_tag unk_0;
     u8 pad_4[0x3C];
-    u8 target_list[0x5C]; // a TargetCursorList, built by construct_target_cursor_records
+    u8 target_list[0x5C]; // a TargetCursorList, built by its constructor
     TUnk_8013F000 target_records;
 
     TUnk_8013EFB8();
@@ -136,11 +135,11 @@ struct TLockOnCursor : public TObject {
     static void free_cursor_resources();
     int render_part();
     void update_cursor_pos();
-    int set_flag_8_bit0();
-    int update_ring();
-    int is_bit1_set();
+    void set_flag_8_bit0();
+    void update_ring();
+    void is_bit1_set();
     int is_inactive();
-    int update_ring_sub();
+    void update_ring_sub();
     int test_flag_1_at_8();
     s32 get_target();
     s32 release_target();

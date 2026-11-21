@@ -23,7 +23,6 @@ extern "C" {
 
 s32 is_player_entity_id();
 s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
-f32 random_ratio__9TObjCharaFv();
 u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
@@ -36,7 +35,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
             entity = (s32)find_entity_by_id(this->owner_id);
-            if ((entity != 0) && (random_ratio__9TObjCharaFv() < 0.1f)) {
+            if ((entity != 0) && (((TObjChara *)entity)->random_ratio() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (u8 *)target);
             }
         }
@@ -73,7 +72,7 @@ void TObjEneRe7BeruraPunch::render() {
                 return;
             }
         }
-        ((TObjEneDD *)&this->position)->draw_oriented_shadow((s32)&this->ground_normal, 0, (u32)0);
+        TObjEneDD::draw_oriented_shadow(&position, &ground_normal, 0, NULL);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&this->position);
@@ -197,7 +196,6 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 extern const char *TObjEneRe7BeruraPunch__name;
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
@@ -243,7 +241,8 @@ void TObjEneRe7BeruraPunch::run_task() {
     Vec v;
     f32 s;
     f32 c;
-    if (find_entity_by_id(this->owner_id) == NULL || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    TObject *e;
+    if ((e = (TObject *)find_entity_by_id(this->owner_id)) == NULL || e->all_parents_unqueued_for_destruction() == 0) {
         queue_destruction();
         return;
     }

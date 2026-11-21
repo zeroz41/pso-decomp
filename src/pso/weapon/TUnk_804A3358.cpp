@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Rec_80127694 {
     s32 kind;
@@ -30,7 +31,7 @@ void TUnk_804A3358::emit_marker_effects() {
             st = owner->get_extended_state();
             if (get_captured_target_count((s32 *)st) != 0) {
                 void *e = get_captured_target_entry(st, 0);
-                ((TObjPlayer *)(&rec))->construct_target_cursor_records();
+                __ct__16TargetCursorListFv((&rec));
                 rec.kind = 1;
                 rec.uid = ((TObjPlayer *)e)->get_uid();
                 rec.sub = get_captured_target_collider_index(e);

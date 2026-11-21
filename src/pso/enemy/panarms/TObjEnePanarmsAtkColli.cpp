@@ -348,8 +348,6 @@ struct Obj_800E37E4 {
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 int play_sound_effect(void *, void *, void *, void *);
-extern s32 __vt__22TObjEnePanarmsAtkColli[];
-void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 
 void TObjEnePanarmsAtkColli::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -372,12 +370,7 @@ void TObjEnePanarmsAtkColli::run_task() {
 }
 
 void *TObjEnePanarmsAtkColli::create(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x390);
-    if (o != NULL) {
-        o = TObjEnePanarmsAtkColli__ct((Obj_800E37E4 *)(o), this, arg1, arg2, arg3);
-    }
-    return o;
+    return new TObjEnePanarmsAtkColli((TObject *)this, arg1, arg2, arg3);
 }
 
 }
@@ -388,13 +381,11 @@ TObjEnePanarmsAtkColli::~TObjEnePanarmsAtkColli() {
 typedef struct VBase_18_beae68 VBase_18_beae68;
 typedef struct VObj_18_beae68 VObj_18_beae68;
 
-#define self arg0
+#define self ((Obj_800E37E4 *)this)
 extern const f32 lbl_805DA5A8 = 10.0f;
 extern const f32 lbl_805DA5AC = 2.8f;
-void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *parent, void *arg2, void *arg3, void *arg4) {
+TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, void *arg2, void *arg3, void *arg4) : TObjEnemy(parent) {
     f32 scale;
-    __ct__9TObjEnemyFP7TObject(self, parent);
-    self->vt = __vt__22TObjEnePanarmsAtkColli;
     self->name = TObjEnePanarmsAtkColli_class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     VecCopy((Vec *)&self->scale, (const Vec *)arg3);
@@ -428,7 +419,6 @@ void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *parent, void *arg2, v
     }
     self->scale.x *= scale;
     self->scale.z *= scale;
-    return arg0;
 }
 #undef self
 

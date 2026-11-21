@@ -73,7 +73,6 @@ s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
 extern "C" {
 void inl_803C9608(void);
-s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
 }
 void stop_audio_stream(u8 *arg0);
 void update_active_stream_reads(void);
@@ -115,7 +114,6 @@ void TLobby__sub_803CBA38(void);
 void TLobby__sub_803CBB14(void);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
 void inl_803C9608(void);
-s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
 }
 // --- end of C functions
 

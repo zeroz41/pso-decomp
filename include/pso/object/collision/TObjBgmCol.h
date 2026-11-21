@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBgmCol : public TObjBase {
+    TObjBgmCol(TObject *parent, void *arg2);
     virtual ~TObjBgmCol();
     u32 m_90;
     u8 unk_94[0x4];

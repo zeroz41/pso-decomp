@@ -107,9 +107,6 @@ struct Junk_8003A314 {
 
 extern "C" {
 s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
-s32 __ct__8TObjBaseFP7TObject();
-extern s32 __vt__17TObjBoss2CeilJunk[];
-u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -118,7 +115,6 @@ extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
-s32 is_valid_target__9TObjEneDDFv(void *);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D4BE0;
@@ -138,7 +134,7 @@ void TObjBoss2CeilJunk::render() {
     new_var = (0.2f) * t;
     s.y = (1.0f);
     s.x = (s.z = new_var);
-    ((TObjEneDD *)(self->f44))->draw_oriented_shadow((s32)self->f9C, 0, (u32)&s);
+    TObjEneDD::draw_oriented_shadow((const Vec *)self->f44, (const Vec *)self->f9C, 0, &s);
   }
   saved_model_render_flags = model_render_flags;
   if (self->fB4 < (1.0f))
@@ -221,7 +217,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
             rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[o->fAC];
             for (i = 0; i < n; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
-                if (is_valid_target__9TObjEneDDFv(pl) != 0) {
+                if (((TObjEneDD *)pl)->is_valid_target() != 0) {
                     h = *(f32 *)((s8 *)pl + 0xD48) + *(f32 *)((s8 *)pl + 0x3C);
                     if (top > h && bottom < h) {
                         VecCopy((Vec *)&d, (const Vec *)(pl + 0x38));
@@ -275,13 +271,12 @@ TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
-u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2) {
+#define arg0 ((struct RecoveredFields_8003A6F4_arg0 *)this)
+TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TObjBase(parent) {
     f32 temp_f1;
     f32 temp_f2;
-    __ct__8TObjBaseFP7TObject();
-    arg0->unk18 = __vt__17TObjBoss2CeilJunk;
     arg0->field_0 = (s32)TObjBoss2CeilJunk__name;
-    VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);
+    VecCopy((Vec *)&arg0->unknown_1C[0x1C], position);
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;
     arg0->field_AC = (s32) (*(const volatile f32 *)&lbl_805D85A0 * temp_f1);
@@ -298,6 +293,6 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
     arg0->field_98 = (0.0f);
     arg0->field_B0 = 0;
     arg0->field_B4 = (1.0f);
-    return (unsigned char *) (arg0);
 }
+#undef arg0
 #pragma pop

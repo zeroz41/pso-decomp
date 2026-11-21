@@ -8,7 +8,6 @@
 
 #pragma readonly_strings on
 
-extern s32 __vt__14TObjNpcNgcBase[];
 TObjNpcNgcBase::~TObjNpcNgcBase() {}
 struct E_803594B4 { s32 a; s32 b; f32 c; };
 
@@ -19,16 +18,13 @@ s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 const char *TObjNpcNgcBase__name = "TObjNpcNgcBase";
 void fn_803594B4(O_803594B4 *self, s32 v, f32 f);
-u8 *TObjNpcNgcBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcNgcBase;
-    ((TObjNpcNgcBase *)player)->m_name = TObjNpcNgcBase__name;
-    ((TObjNpcNgcBase *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = get_bml_model((void *)arg3, 0);
-    ((TObjNpcNgcBase *)player)->texlist = get_bml_texlist((void *)arg3, 0);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, void *resource) : TUnk_804A9F50(parent) {
+    m_name = TObjNpcNgcBase__name;
+    apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model(resource, 0);
+    texlist = get_bml_texlist(resource, 0);
+    setup_common();
 }
 void fn_803594B4(O_803594B4 *self, s32 v, f32 f) {
     self->e[self->idx].a = 1;

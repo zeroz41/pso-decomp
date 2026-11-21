@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 struct Q_803D98E4 { f32 x, y, z, w; };
 
@@ -95,7 +96,7 @@ s32 push_matrix_from(void *src) {
     if (next > matrix_stack_limit) {
         return 0;
     }
-    ((TLobby *)next)->move_data((src == 0) ? (void *)current_matrix : src, 0x30);
+    move_data((void *)next, (const void *)((src == 0) ? (void *)current_matrix : (void *)src), 0x30);
     current_matrix = next;
     return 1;
 }
@@ -132,8 +133,7 @@ void TObjPlayer::concat_quaternion_rotation() {
     PSMTXConcat(current_matrix, (int)sp18, current_matrix);
 }
 
-void TObjPlayer::apply_quat_rotation(f32 farg0) {
-    f32 *arg0 = (f32 *)this;
+void apply_quat_rotation(f32 farg0, f32 *arg0) {
     u8 sp18[0x30];
     Q_803D993C q;
     q.w = farg0;
@@ -202,7 +202,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
         TObjPlayer__sub_803D9C60(&tag);
         switch (tag) {
         case 0x54525647:
-            lobby->move_data(p + 2, 8);
+            move_data(lobby, p + 2, 8);
             return p + 4;
         case 0x58494247: {
             u32 len;

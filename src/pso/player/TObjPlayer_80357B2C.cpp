@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -32,7 +34,6 @@ struct Strike_80357B2C {
 extern "C" {
 u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
-u8 get_item_type__5TItemFv();
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void *spawn_particle_effect(const void *pos, s32 id);
@@ -49,7 +50,6 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 
 }
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1);
-void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, s32 c);
 #pragma push
 #pragma fp_contract on
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
@@ -512,7 +512,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (weapon == NULL) {
         return;
     }
-    if (get_item_type__5TItemFv() != 0) {
+    if (((TItem *)weapon)->get_item_type() != 0) {
         return;
     }
     if (weapon->test_weapon_flags(0x400020) != 0U) {

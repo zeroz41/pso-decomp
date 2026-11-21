@@ -57,7 +57,7 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-s32 is_owner_alive__15TItemShootModelFv();
+s32 TItemShootModel::is_owner_alive();
 }
 
 
@@ -65,7 +65,7 @@ extern "C" {
 
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
-    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
         push_matrix();
         set_texlist((int)this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
@@ -95,7 +95,6 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
     return self;
 }
 
-u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 u32 __nw__7TObjectFUl(s32);
 }
 
@@ -109,7 +108,7 @@ u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
         if (var_r31 != 0U) {
             var_r31 = (u32)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
         }
-        temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(owner, arg1, arg2, farg0);
+        temp_r30 = (u32)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0);
         if ((var_r31 != 0U) && (temp_r30 != 0U)) {
             ((TItemShootParticle *)temp_r30)->spawn_slot_emitter(0x1BB, 0);
             ((TObject *)temp_r30)->set_parent((TObject *)var_r31);

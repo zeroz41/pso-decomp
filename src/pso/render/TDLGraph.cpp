@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/AngleLookup.h"
@@ -166,18 +167,18 @@ void TDLGraph::draw_progress_bar(const NJS_POINT2 &pos, const NJS_POINT2 &size) 
     p[1].x = p[2].x = 2.0f + (pos.x + size.x);
     p[0].y = p[1].y = pos.y - 2.0f;
     p[2].y = p[3].y = 2.0f + (pos.y + size.y);
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 2, -2.0f);
+    draw_polygon_2d(&poly, 4, 2, -2.0f);
 
     col[0].color = col[1].color = col[2].color = col[3].color = m_fill_color;
     p[0].x = p[3].x = pos.x;
     p[1].x = p[2].x = size.x * m_progress + pos.x;
     p[0].y = p[1].y = pos.y;
     p[2].y = p[3].y = size.y + pos.y;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 2, -1.0f);
+    draw_polygon_2d(&poly, 4, 2, -1.0f);
 
     col[0].color = col[1].color = col[2].color = col[3].color = m_empty_color;
     p[0].x = p[3].x = size.x + pos.x;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 2, -1.0f);
+    draw_polygon_2d(&poly, 4, 2, -1.0f);
 }
 
 // Draws the time left as minutes"seconds.tenths and counts it down; every 2.5 s it is

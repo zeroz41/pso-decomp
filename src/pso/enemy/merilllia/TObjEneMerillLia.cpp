@@ -1,4 +1,8 @@
+#include "pso/map/CsnGroundQuery.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
@@ -486,10 +490,8 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 void fn_800D88E4(void *pos);
 extern s32 actor_frame_tick;
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0);
@@ -693,7 +695,6 @@ void *lbl_80494728[103] = {
 #define lbl_80494728 ((s32 *)lbl_80494728)
 
 // The motion set TLobby::spawn_npc_enemy copies for each spawned part.
-struct NpcSpawnMotions { void *motions; void *actions; s32 initial_action; s32 counts; };
 
 // One 0x2C-byte record of the collision body table init_collision_body_parts reads.
 struct CollisionPartRecord { u8 pad_0[0xC]; f32 radius; u8 pad_10[0x1C]; };
@@ -826,11 +827,11 @@ void TObjEneMerillLia__sub_800D6D64(void) {
     ((void **)TObjEneMerillLia__rock_param_table)[1] = TLobby::dispatch_shared_handler_a(75);
     {
         s16 ids[2] = {44, 46};
-        NpcSpawnMotions motions = {0, lbl_80494570, 2, 0xC0000};
-        motions.motions = ((BmlResource *)TObjEneMerillLia__entry_params_resource)->motions;
+        NpcAnimationBinding motions = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80494570), 0, 2, 12 };
+        motions.motions = reinterpret_cast<BmlMotionEntry *>(((BmlResource *)TObjEneMerillLia__entry_params_resource)->motions);
         for (i = 0; i < 2; i++) {
-            TLobby::spawn_npc_enemy(ids[i], ((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].model,
-                (NJS_TEXLIST *)((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].m_c, &motions,
+            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].model),
+                reinterpret_cast<void *>(((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].m_c), &motions,
                 ((CollisionPartRecord *)lbl_804946A4)[i].radius, 0.0f);
         }
     }
@@ -1054,7 +1055,7 @@ void TObjEneMerillLia::beast_update_approach() {
     default:
         spawn_ground_effect__16TObjEneMerillLiaFPv(arg0);
         if (*(u32 *)&this->target != 0U) {
-            if (test_elt_flag__13TUnk_80493450Fll(arg0, 0, 0x300000) != 0) {
+            if (((TUnk_80493450 *)arg0)->test_elt_flag(0, 0x300000) != 0) {
                 if (this->m_38c++ < 60.0f) {
                     VecCopy((Vec *)&sp14, &this->home_position);
                 } else {
@@ -1504,7 +1505,7 @@ void TObjEneMerillLia::sub_800D5570() {
         this->phase = 1;
         this->requested_action = 1;
         ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
-        ((TBoss3Volopt *)(arg0->sub38))->play_area_sound_effect();
+        play_area_sound_effect((Vec *)(arg0->sub38));
         break;
     case 1:
         spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)arg0);
@@ -1742,7 +1743,7 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
     u8 *temp_r3;
     VecCopy((Vec *)&stack.sp8, (const Vec *)(motion + 0x38));
     stack.spC += 15.0f;
-    temp_r3 = (u8 *)(csnVectorUnder((s32)&stack.sp8, (u32 *)(motion + 0x120), 5));
+    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(motion + 0x120), 5));
     if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
             particle_effect = (s32)spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0x49);

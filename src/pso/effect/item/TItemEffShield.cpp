@@ -49,16 +49,14 @@ int get_item_system_generation(void);
 const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
-s32 get_field_3e0__12TBoss3VoloptFv();
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect(const void *pos, s32 id);
-s32 is_item_area_enabled();
+s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
 s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 int get_item_field_6__10TObjPlayerFPv(void *p);
-u8 get_item_group__5TItemFv();
 void play_sound_effect(s32, void *, s32, s32);
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 }
@@ -185,7 +183,7 @@ void TUnk_8049F148::run_task() {
         temp_r3_3 = get_item_field_6__10TObjPlayerFPv(player);
         if ((u32) *(u32 *)&this->unk_1C != 0U) {
             s32 var_r30 = 0;
-            if ((temp_r3_3 != 0U) && (get_item_group__5TItemFv() == 0x1A)) {
+            if ((temp_r3_3 != 0U) && (((TItem *)temp_r3_3)->get_item_group() == 0x1A)) {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {
@@ -232,8 +230,7 @@ void TUnk_8049F130::run_task() {
         if ((count_nearby_players_with_shield__10TObjPlayerFUsPUc(this->m_28, &sp8.a) > 0) && ((s32) this->m_20 != -1)) {
             player = (s32)get_player_by_client_id(this->m_28);
             if (player != 0) {
-                get_field_3e0__12TBoss3VoloptFv();
-                if (is_item_area_enabled() == 1) {
+                if (is_item_area_enabled(((TObjPlayer *)player)->get_area()) == 1) {
                     if ((s32) *(s32 *)&this->unk_24 == 0) {
                         create_timed_particle_emitter((void *)(player + 0x2FC), this->m_20, 0, 0xA);
                     } else {

@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBigTuitate : public TObjCollidable {
+    TObjBigTuitate(TObject *parent, void *arg2);
     virtual ~TObjBigTuitate();
     u32 m_c8;
     void render();
@@ -17,7 +18,6 @@ typedef char TObjBigTuitate_size[sizeof(TObjBigTuitate) == 0xCC ? 1 : -1];
 
 extern "C" {
 void *TObjBigTuitate__create(void *arg0);
-void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2);
 void *__dt__14TObjBigTuitateFv(void *arg0, s16 arg1);
 }
 

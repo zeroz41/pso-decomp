@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -41,6 +42,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -62,7 +64,6 @@ extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
 struct VObj_8024C820 {
     char pad[0x18];
@@ -116,12 +117,10 @@ s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
 s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
 s32 fn_8002AE08(void *p);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, int);
 u16 get_current_target_id__10TObjPlayerFv();
 s32 is_player_input_active(s32);
 int TWindowCtrl__sub_8024C7D4(void *p);
 extern Pad_8024DCE8 controller_input_state[];
-u32 is_action_active__10TObjPlayerFv(void *);
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
@@ -308,7 +307,7 @@ void TWindowCtrl::update_main_menu_request() {
         TWindowCtrl::update_focused();
         return;
     }
-    if (is_action_active__10TObjPlayerFv((void *) p) != 0) {
+    if ((u32)((TObjPlayer *)p)->is_action_active() != 0) {
         return;
     }
     if (key == 0x1F) {
@@ -357,7 +356,7 @@ void TWindowCtrl::update_short_list_request() {
                     *(void **)((s8 *)this + 0x3C) = NULL;
                 }
             } else if (*(void **)((s8 *)this + 0x3C) == NULL && is_enabled() == 0) {
-                if (is_on_current_screen__11TCameraCtrlFv(btn = controller_input_state[idx].btn, fn_8002AE08((void *)(*(s32 *)&this->m_24))) != 0 &&
+                if (test_previous_buttons_packed(btn = controller_input_state[idx].btn, fn_8002AE08((void *)(*(s32 *)&this->m_24))) != 0 &&
                     TWindowShortListCtrl__check_controller_button(btn, 0x200) != 0) {
                     *(void **)((s8 *)this + 0x3C) = new TWindowShortListCtrl(this, *(s32 *)&this->m_24);
                 }
@@ -581,7 +580,7 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
     poly.verts[3].x = 0.0f;
     poly.verts[3].y = 480.0f;
     poly.colors[3] = color;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 0x16, -10.0f);
+    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 0x16, -10.0f);
 }
 
 #pragma push
@@ -823,7 +822,7 @@ TWindowCtrlScreen::~TWindowCtrlScreen() {
 void TWindowCtrlScreen::render() {
     u16 viewport_index;
     if (is_window_display_enabled() != 0) {
-        viewport_index = get_nth_view_player_id__11TCameraCtrlFl(TCameraCtrl::get_camera_no());
+        viewport_index = (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TWindowCtrlMain__instance->render_nodes();

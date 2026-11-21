@@ -127,8 +127,6 @@ void vt6__9TBoss4UroFv(u8 *arg0);
 void vt2__11TBoss4BishiFv(u8 *arg0);
 void vt5__9TBoss4UroFv(u8 *arg0);
 
-s32 get_instance__14TBoss4DarkFalzFv();
-s32 get_position_ptr__10TObjPlayerFv(s32);
 
 void enter_state_3__11TBoss4BishiFPv(void* p);
 f32 vector_length(void *);
@@ -277,7 +275,6 @@ static const f32 one_third = 0.33333334f;
 
 struct O_8005D6B0 { u8 pad[0x374]; s32 f374; };
 
-f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 get_instance_count__9TBoss4UroFv();
 
 s32 init_collision_body_parts(void *, void *, int);
@@ -383,11 +380,11 @@ s32 TBoss4Zako__ct(s32 arg0, s32 parent, s32 arg2) {
     *(f32 *)((s8 *)THIS + 0x3B0) = 0.0f;
     *(s32 *)((s8 *)THIS + 0x3BC) = 65536.0f * ((TObjChara *)THIS)->random_ratio();
     *(s32 *)((s8 *)THIS + 0x3C0) = 2184.0f * ((TObjChara *)THIS)->random_ratio() + 1092.0f;
-    *(f32 *)((s8 *)THIS + 0x39C) = *dispatch_shared_handler_a__6TLobbyFl(0x35);
+    *(f32 *)((s8 *)THIS + 0x39C) = *(f32 *)TLobby::dispatch_shared_handler_a(0x35);
     if (*(f32 *)((s8 *)THIS + 0x39C) <= one_third || *(f32 *)((s8 *)THIS + 0x39C) > 5.833333f) {
         *(f32 *)((s8 *)THIS + 0x39C) = 0.5833333f;
     }
-    *(f32 *)((s8 *)THIS + 0x3A0) = *dispatch_shared_handler_a__6TLobbyFl(0x39);
+    *(f32 *)((s8 *)THIS + 0x3A0) = *(f32 *)TLobby::dispatch_shared_handler_a(0x39);
     if (*(f32 *)((s8 *)THIS + 0x3A0) <= one_third || *(f32 *)((s8 *)THIS + 0x3A0) > 10.208332f) {
         *(f32 *)((s8 *)THIS + 0x3A0) = 1.0208333f;
     }
@@ -725,10 +722,11 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
     if (arg0->f378 == 0) {
         return;
     }
-    if (((u32 (*)())get_instance__14TBoss4DarkFalzFv)() == 0) {
+    u32 falz = TBoss4DarkFalz::get_instance();
+    if (falz == 0) {
         return;
     }
-    VecCopy__FP3VecPC3Vec(&target, (void *)((s32 (*)())get_position_ptr__10TObjPlayerFv)());
+    VecCopy__FP3VecPC3Vec(&target, ((TObjPlayer *)falz)->get_position_ptr());
     VecCopy__FP3VecPC3Vec(&d, &arg0->pos);
     subtract_vector(&d, &target);
     d.y = 0.0f;

@@ -6,11 +6,12 @@
 
 class TAttackTrace : public TObject {
 public:
+    TAttackTrace(TObject *parent);
     virtual ~TAttackTrace();
 };
 
 extern "C" {
-void *TAttackTrace__ct(void *attack_trace);
+void *__ct__12TAttackTraceFP7TObject(void *attack_trace, TObject *parent);
 }
 
 #endif

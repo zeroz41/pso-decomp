@@ -57,7 +57,7 @@ void TBoss5GryphonLightningWing::apply_lightning_effect() {
 
     instance_count = TBoss8Dragon::get_instance_count();
     if (instance_count != 0) {
-        ((TBoss5GryphonLightningWing *)arg0)->get_wing_position((s32)&sp8);
+        ((TBoss5GryphonLightningWing *)arg0)->get_wing_position((Vec *)&sp8);
         TBoss8Dragon__sub_80063FB8(instance_count, &sp8, 10.0f);
     }
 }
@@ -79,7 +79,7 @@ void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_
     boss5_gryphon_lightning_wing->update_wing_segments();
     boss5_gryphon_lightning_wing->apply_lightning_effect();
     if ((s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) == (s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x98)) {
-        boss5_gryphon_lightning_wing->get_wing_position((s32)&stack.sp8);
+        boss5_gryphon_lightning_wing->get_wing_position((Vec *)&stack.sp8);
         play_sound_effect(0x40032516, &stack.sp8, 0, 0);
     }
     ((TBoss5GryphonLightning *)boss5_gryphon_lightning_wing)->spawn_gryphon_lightning();

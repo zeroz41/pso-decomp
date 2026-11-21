@@ -18,7 +18,6 @@ void *find_short_mail_by_id__6TLobbyFUl(u32 id);
 void *get_com_card_list__6TLobbyFv(void *p);
 s32 get_lobby_id__6TLobbyFv(void *p);
 int get_short_mail_ctrl__6TLobbyFv(void);
-int is_flag_set__6TLobbyFPv(void *p);
 void remove_entry_at__6TLobbyFl(s32 idx);
 void send_simple_mail__6TLobbyFlPv(s32 arg0, void *arg1);
 void try_close__6TLobbyFPv(void *p);

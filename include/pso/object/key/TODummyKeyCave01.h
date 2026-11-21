@@ -4,11 +4,14 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct GinjaTextureList;
+
 struct TODummyKeyCave01 : public TObjBase {
+    TODummyKeyCave01(TObject *parent, void *arg2);
     virtual ~TODummyKeyCave01();
     void sub_80165940();
-    u32 m_90;
-    u32 m_94;
+    GinjaTextureList *off_textures;
+    GinjaTextureList *on_textures;
     u16 m_98;
     u16 m_9a;
     void* m_9c;
@@ -33,7 +36,6 @@ struct TODummyKeyCave01 : public TObjBase {
 typedef char TODummyKeyCave01_size[sizeof(TODummyKeyCave01) == 0xD4 ? 1 : -1];
 
 extern "C" {
-u8 *TODummyKeyCave01__ct(u8 *arg0, s32 arg1, s32 arg2);
 void TODummyKeyCave01__sub_80165E88(void);
 void TODummyKeyCave01__sub_80165E8C(void);
 void *__dt__16TODummyKeyCave01Fv(void *arg0, s16 arg1);

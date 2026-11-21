@@ -18,16 +18,13 @@ u16 get_entity_id(void *);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 extern "C" {
-s32 sub_801A1DDC__10TObjPlayerFv(void *);
 s32 is_key_machine_ready__10TObjPlayerFv();
 void *get_player_by_client_id(s32);
-s32 has_active_camera_event__10TObjPlayerFv(void *);
 u8 *find_player_arrival_set(void *, s32);
 s32 TObjPlayer__sub_801BF954(void *, int);
 s32 TObjPlayer__sub_801BF95C(void *);
 s32 clear_movement_history(void *);
 s32 TObjPlayer__sub_801D8C3C(void *);
-u8 *get_lobby_entry_ptr__10TObjPlayerFv(void *);
 void *consume_telepipe_arrival(u16, void *);
 extern Ent_801BC194 TObjPlayer__arrival_override_table[];
 extern s32 local_client_id;
@@ -40,10 +37,10 @@ void TObjPlayer::place_on_area_entry() {
     u8 *other;
 
     if (get_main_phase() == 0xE && TObjPlayer::is_single_screen() == 0 &&
-        TObjPlayer::is_locally_controlled(arg0) != 0 && has_active_camera_event__10TObjPlayerFv(arg0) == 0 &&
+        TObjPlayer::is_locally_controlled(arg0) != 0 && ((TObjPlayer *)arg0)->has_active_camera_event() == 0 &&
         ((TObjPlayer *)arg0)->check_flag(0x100000) == 0 && is_key_machine_ready__10TObjPlayerFv() != 0) {
         ((TObjPlayer *)arg0)->set_state_flags(0x100000);
-        ((TObjBase *)arg0)->set_position_from(get_lobby_entry_ptr__10TObjPlayerFv(arg0));
+        ((TObjBase *)arg0)->set_position_from(((TObjPlayer *)arg0)->get_lobby_entry_ptr());
         this->rotation_y = TObjPlayer__sub_801D8C3C(arg0);
         TObjPlayer::play_effect_default((int)arg0, (int)0x1E);
         TObjPlayer::set_camera_mode(3);
@@ -76,7 +73,7 @@ void TObjPlayer::place_on_area_entry() {
     clear_movement_history((u8 *)&this->m_6ac);
     if (TObjPlayer::is_single_screen() != 0) {
         reset_cameras_to_actor(arg0, 0);
-    } else if (sub_801A1DDC__10TObjPlayerFv(arg0) != 0) {
+    } else if (((TObjPlayer *)arg0)->sub_801A1DDC() != 0) {
         if (TObjPlayer::is_locally_controlled(arg0) == 0 && (p = get_player_by_client_id(local_client_id)) != NULL) {
             reset_cameras_to_actor(p, 0);
         } else {
@@ -88,19 +85,18 @@ void TObjPlayer::place_on_area_entry() {
 
 extern "C" {
 
-s32 check_camera_mode__10TObjPlayerFv();
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void TObjPlayer__sub_801BEF30(void *p, void *q);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
-        if ((check_camera_mode__10TObjPlayerFv() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0xB) == 0)) {
+        if ((TObjPlayer::check_camera_mode() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0xB) == 0)) {
             return 0;
         }
         goto block_14;
     }
-    if ((TLobby::get_instance() == 1) && (check_camera_mode__10TObjPlayerFv() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0x5B) == 0)) {
+    if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0x5B) == 0)) {
         return 0;
     }
 block_14:

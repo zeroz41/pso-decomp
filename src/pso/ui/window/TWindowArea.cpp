@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/system/vector.h"
 
 // The functions are generated last to first.
 #pragma defer_codegen on
@@ -25,7 +26,6 @@ const char *TWindowArea__name = "TWindowArea";
 
 extern s32 TWindowSubStatusDisp__count_ratio_value;
 void sub_802443B4__15TWindowAdditionFv(void *, void *);
-u8 *get_title_entry__11TWindowRoomFv(s32);
 }
 
 extern "C" {
@@ -35,7 +35,7 @@ u8 *get_window_layout_position(s32);
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
     this->m_name = TWindowArea__name;
     u8 *position = get_window_layout_position(0x25);
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)this + 0x40))->copy_vec2(position);
+    copy_vec2(((u8 *)this + 0x40), position);
     this->tabParameter = 0.0f;
 }
 
@@ -51,7 +51,7 @@ s32 create_window_area(void) {
     object = (s32)new TWindowArea();
     fn_802449E0((u8 *)object);
     fn_8024450C(object);
-    temp_r31 = get_title_entry__11TWindowRoomFv(object);
+    temp_r31 = (u8 *)((TWindowRoom *)object)->get_title_entry();
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)temp_r31)->get_field_20()));
     return object;
 }

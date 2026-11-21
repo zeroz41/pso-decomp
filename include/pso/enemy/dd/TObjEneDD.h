@@ -18,7 +18,7 @@ struct TObjEneDD : public TObjEnemy {
     virtual s32 vfunc_83();
     virtual s32 vfunc_84();
     virtual void vfunc_85();
-    virtual u8 vfunc_86();
+    virtual s32 vfunc_86();
     virtual void dispatch_action(u32 state, s32 reason) = 0;
     virtual void vfunc_88();
     virtual void vfunc_89();
@@ -39,7 +39,7 @@ struct TObjEneDD : public TObjEnemy {
     // The table ends at slot 103 (the word after it is padding): dispatch_action's state handlers
     // start at slot 104 and each subclass declares its own (TObjEneDD_ST f32, TBoss2Mine s32, FlyNest init).
     int get_flag_b4();
-    static f32 calc_elapsed_scaled();
+    f32 calc_elapsed_scaled();
     void update_velocity();
     void turn_toward_target_direction(s32 max_step);
     void set_target_destination(const Vec *position);
@@ -48,47 +48,43 @@ struct TObjEneDD : public TObjEnemy {
     static s32 check_v2_mode();
     int get_target_state_a();
     int get_target_state_b();
-    int query_teammate_state();
+    static int query_teammate_state();
     int update_lobby_state();
-    static u8 is_phase_e();
+    static s32 is_phase_e();
     static s32 is_main_phase_15();
     static void clear_global_flag_400();
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
-    void draw_oriented_shadow(s32 arg1, s32 arg2, u32 arg3);
+    static void draw_oriented_shadow(const Vec *position, const Vec *normal, s32 angle, const Vec *scale);
     int update_primary_light();
     int update_secondary_light();
-    void reload_stats_keep_hp_tp();
+    void reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
-    int get_camera_ctrl();
-    int update_camera_sequence();
     void initialize_enemy_state(s32 parameter);
-    static s32 get_random_scaled();
+    s32 get_random_scaled();
     f32 rand_range(f32 farg0, f32 farg1);
-    int set_state_8();
-    int check_state_flag_4();
-    int check_state_flag_2();
-    int check_state_flag_1();
+    void set_state_8();
+    void set_state_flag_4();
+    void set_state_flag_2();
+    void set_state_flag_1();
     static void send_damage_message(s32 arg0, u8 *arg1);
     static void inflict_poison(s32 arg0, u8 *arg1);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void* p, int a1, int a2);
-    static void emit_enemy_effect(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
+    static void emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *arg3);
     static void setup(void* p, int a1, int a2);
     static void setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
-    void transform_relative_position(void* a1);
     s32 is_target_unobstructed(s32 arg1);
-    u8 is_valid_target();
+    s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();
     int has_move_failures(s32 arg1);
     void move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 farg2);
-    void move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
+    u8 *move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2);
     void move_clamped_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_slide_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_to_shot_position(f32 farg0, f32 farg1, f32 farg2);
-    static void set_squared_value(f32 farg0);
     static void collect_target_candidates(s32 arg0, f32 farg0);
     static void create_instance();
     static int get_enemy_count();
@@ -102,5 +98,12 @@ struct TObjEneDD : public TObjEnemy {
     void init_position_vectors();
     static void release_resource();
 };
+
+extern "C" {
+void forward_split_screen_view_matrix();
+void forward_transform_to_view(const Vec *in, Vec *out);
+s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
+u16 enemy_nearest_visible_enemy(void *self, f32 range);
+}
 
 #endif

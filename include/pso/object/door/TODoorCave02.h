@@ -5,6 +5,8 @@
 #include "pso/object/door/TODoorBase.h"
 #include "pso/system/NinjaTypes.h"
 
+struct GinjaTextureList;
+
 struct BmlResource;
 
 // The cave door with two lights on one floor switch; the lights pulse red
@@ -26,7 +28,7 @@ struct TODoorCave02 : public TODoorBase {
     NJS_ARGB light_color;
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] locked (red), [1] the bml's own
+    static GinjaTextureList **texture_lists;  // [0] locked (red), [1] the bml's own
 };
 
 typedef char TODoorCave02_size[sizeof(TODoorCave02) == 0xE4 ? 1 : -1];

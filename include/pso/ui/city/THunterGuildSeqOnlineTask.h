@@ -6,6 +6,7 @@
 
 class THunterGuildSeqOnlineTask : public TObject {
 public:
+    THunterGuildSeqOnlineTask(TObject *parent);
     virtual ~THunterGuildSeqOnlineTask();
     virtual void run_task();
 };

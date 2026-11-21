@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -42,7 +45,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjEneBalClawClaw__sub_80091200(TObjEneBalClawClaw *claw);
 TObjChara *find_active_entity_by_id(u16);
 void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw);
-s32 play_area_se_with_particle__12TBoss3VoloptFv(void *, s32);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 init_collision_body_parts(void *, void *, int);
 void *find_entity_by_id(u16 id);
@@ -479,7 +481,7 @@ void TObjEneBalClawClaw::action(void *p) {
         flags = claw->actorFlags | 0x04000000;
         claw->actorFlags = flags;
         claw->requested_action = 0;
-        play_area_se_with_particle__12TBoss3VoloptFv(&claw->position, flags);
+        play_area_se_with_particle(&claw->position);
         TObjPlayer__sub_800A0554(&claw->fade);
         claw->state = 1;
     case 1:
@@ -746,9 +748,9 @@ void TObjEneBalClawClaw::update_chase_state() {
 }
 
 void spawn_lobby_npc_enemy(void) {
-    BalClawSpawnParams binding = {lbl_805D4F20->motions, balclaw_claw_model_node_desc, 1, 7, 0};
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(lbl_805D4F20->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_model_node_desc), 0, 1, 7 };
     BmlModelEntry *models;
     models = lbl_805D4F20->models;
-    TLobby::spawn_npc_enemy(0x14, models[2].model, (NJS_TEXLIST *)models[2].m_c, &binding,
+    NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
 }

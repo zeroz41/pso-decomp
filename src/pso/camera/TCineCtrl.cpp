@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/camera/TCineCtrl.h"
 #include "pso/render/ModelDrawContext.h"
 
@@ -48,7 +49,7 @@ void TCineCtrl::render() {
         vl.pos[6] = 0.0f;
         vl.pos[7] = this->m_20;
         vl.col[3] = *(u32 *)((s8 *)arg0 + 0x24);
-        ((TObjCMHairMenu *)(&vl))->draw_tri_fan_2d(4U, 0x16, -10.0f);
+        draw_polygon_2d((NJS_POINT2COL *)&vl, 4U, 0x16, -10.0f);
         vl.pos[0] = 0.0f;
         vl.pos[1] = 480.0f - this->m_20;
         vl.col[0] = *(u32 *)((s8 *)arg0 + 0x24);
@@ -61,7 +62,7 @@ void TCineCtrl::render() {
         vl.pos[6] = 0.0f;
         vl.pos[7] = 480.0f;
         vl.col[3] = *(u32 *)((s8 *)arg0 + 0x24);
-        ((TObjCMHairMenu *)(&vl))->draw_tri_fan_2d(4U, 0x16, -10.0f);
+        draw_polygon_2d((NJS_POINT2COL *)&vl, 4U, 0x16, -10.0f);
         TCameraCtrl__sub_80068EF0();
     }
 }

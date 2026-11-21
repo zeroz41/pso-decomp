@@ -4,14 +4,14 @@
 #include "types.h"
 
 extern "C" {
-int TLobby__sub_8034C384(void *p);
-int TLobby__sub_8034C3A4(void *p);
+void TLobby__sub_8034C384(void *p);
+void TLobby__sub_8034C3A4(void *p);
 }
 
 // --- C functions defined in TWindowOptionCtrl_8034C384.cpp ---
 extern "C" {
-int TLobby__sub_8034C384(void *p);
-int TLobby__sub_8034C3A4(void *p);
+void TLobby__sub_8034C384(void *p);
+void TLobby__sub_8034C3A4(void *p);
 }
 // --- end of C functions
 

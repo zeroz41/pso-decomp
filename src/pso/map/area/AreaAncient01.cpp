@@ -32,6 +32,6 @@ s32 ship_scene_update(void) {
     } else {
         init_music_sequencer(3);
     }
-    TBoss4DarkFalz::dispatch_by_main_phase(0x30);
+    set_story_flag_or_send_quest_flag(0x30);
     return 1;
 }

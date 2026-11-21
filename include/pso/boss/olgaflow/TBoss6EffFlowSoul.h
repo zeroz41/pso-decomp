@@ -4,17 +4,17 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct Vec;
+
 class TBoss6EffFlowSoul : public TObject {
 public:
     u8 _pad1C[0x4];
  void* m_20;
+    u8 pad_24[0x18];
 public:
+    TBoss6EffFlowSoul(TObject *parent, Vec *pos, s32 player, s32 duration);
     virtual ~TBoss6EffFlowSoul();
     virtual void run_task();
 };
-
-extern "C" {
-u8 *TBoss6EffFlowSoul__ct(u8 *boss6_eff_flow_soul, u8 *arg1, u8 *arg2, s16 arg3, s32 arg4);
-}
 
 #endif

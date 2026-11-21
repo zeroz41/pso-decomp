@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/vector.h"
 
 typedef struct S_802C59EC {
     u8 pad0[0x444];
@@ -89,7 +90,7 @@ struct S_802C50EC {
 
 extern s32 multi_ply_chr_select_slot_table[][5];
 extern "C" {
-void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
+void copy_vec2__FPvPv(void *);
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
@@ -163,7 +164,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     lbl_805D67D0 = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC__select_mode = 0;
-    ((TWindowSubSymbolChatPartsSet *)&this->pos)->copy_vec2(pos);
+    copy_vec2(&this->pos, pos);
     unk_1c = -1;
     unk_4e8 = 0;
     TAdMultiPlyChrSelectGC__selected_slot = 0;
@@ -702,7 +703,7 @@ void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {
 /* src is passed through untouched to copy_vec2 as its second argument. */
 void TAdMultiPlyChrSelectGC__sub_802C5A44(S_802C50EC *self, const void *src, s32 col) {
     if ((u32)self->f4DC[col] < 4) {
-        copy_vec2__28TWindowSubSymbolChatPartsSetFPv(&self->home[self->f4DC[col]][col]);
+        copy_vec2__FPvPv(&self->home[self->f4DC[col]][col]);
         self->quad[self->f4DC[col]][col].x = self->home[self->f4DC[col]][col].x;
         self->quad[self->f4DC[col]][col].y = self->home[self->f4DC[col]][col].y;
         self->quad[self->f4DC[col]][col].z = self->home[self->f4DC[col]][col].x + self->ox;
@@ -726,7 +727,7 @@ void TAdMultiPlyChrSelectGC::clear_slot_entries(s32 arg1) {
 
 void TAdMultiPlyChrSelectGC::init_slot_position(s32 arg1, s32 arg2, s32 arg3) {
     S_802C5944 *arg0 = (S_802C5944 *)this;
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv(&arg0->v[arg2][arg3]);
+    copy_vec2__FPvPv(&arg0->v[arg2][arg3]);
     arg0->e[arg2][arg3].x = arg0->v[arg2][arg3].x;
     arg0->e[arg2][arg3].y = arg0->v[arg2][arg3].y;
     arg0->e[arg2][arg3].x = arg0->v[arg2][arg3].x + arg0->ox;

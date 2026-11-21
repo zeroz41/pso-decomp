@@ -1,6 +1,7 @@
 #ifndef PSO_ENEMY_MERICAROL_TOBJENEBM9MERICAROL_H
 #define PSO_ENEMY_MERICAROL_TOBJENEBM9MERICAROL_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
@@ -111,5 +112,6 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
 extern TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 
 typedef char TObjEneBm9MericarolParams_size[sizeof(TObjEneBm9MericarolParams) == 0x30 ? 1 : -1];
+typedef char TObjEneBm9MericarolFadeOffset[offsetof(TObjEneBm9Mericarol, m_46c) == 0x46C ? 1 : -1];
 typedef char TObjEneBm9Mericarol_size[sizeof(TObjEneBm9Mericarol) == 0x4B0 ? 1 : -1];
 #endif

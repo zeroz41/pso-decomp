@@ -168,13 +168,12 @@ void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
 
 extern "C" {
 
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
 s32 TTecLuker::is_parents_unqueued(u32 arg0) {
     if (arg0 == 0U) {
         return 0;
     }
-    if (all_parents_unqueued_for_destruction__7TObjectFv()) {
+    if (((TObject *)arg0)->all_parents_unqueued_for_destruction()) {
         return 1;
     }
     return 0;

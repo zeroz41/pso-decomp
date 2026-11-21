@@ -1,3 +1,5 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -20,6 +22,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaModel.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -29,6 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -44,13 +48,13 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 // The beam archive and what load_warp_beam_resources picks out of it.
 BmlResource *TObjWarpJung__beam_bml_resource;
 AnimationMotion *warp_jung_beam_motion;
-s32 warp_jung_model_handle;
+GinjaTextureList *warp_jung_textures;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
-void *warp_jung_beam_mesh_node;
+GinjaModel *warp_jung_beam_uv_model;
 s32 warp_jung_beam_entry_index; // texture entry "ts064_beam_aka"
 s32 warp_jung_beam_blue_tex_entry;               // texture entry "ts064_beam_ao"
 s32 warp_jung_nakalight_tex_entry;               // texture entry "ts032_warp_nakalight"
-void *warp_jung_beam_models[6];
+GinjaModel *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
 
 extern "C" {
@@ -61,7 +65,6 @@ s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 
 void * TObjWarpJung__create(void *arg0);
-void * init__13TAdVIConfigGCFf(void *, void *, f32);
 s32 get_game_play_mode(void);
 
 void TObjWarpJungMain::render() {
@@ -70,7 +73,7 @@ void TObjWarpJungMain::render() {
         if (actor_frame_tick != warp_jung_last_scroll_tick) {
             warp_jung_last_scroll_tick = actor_frame_tick;
             if (warp_jung_nakalight_tex_entry >= 0) {
-                scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, warp_jung_nakalight_tex_entry, 1);
+                scroll_ginja_mesh_uvs(warp_jung_beam_uv_model, 0, 5, warp_jung_nakalight_tex_entry, 1);
             }
             PPCSync();
         }
@@ -78,19 +81,19 @@ void TObjWarpJungMain::render() {
         case 0:
             if (warp_jung_beam_entry_index >= 0) {
                 for (i = 0; i < 6; i++) {
-                    ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_entry_index & 0xFFFF));
+                    set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_entry_index & 0xFFFF));
                 }
             }
             break;
         case 1:
             if (warp_jung_beam_blue_tex_entry >= 0) {
                 for (i = 0; i < 6; i++) {
-                    ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_blue_tex_entry & 0xFFFF));
+                    set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_blue_tex_entry & 0xFFFF));
                 }
             }
             break;
         }
-        TObjFish::set_global_param(warp_jung_model_handle);
+        TObjFish::set_global_param((s32)warp_jung_textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -111,7 +114,7 @@ s32 TObjWarpJungMain::vfunc_18(s32) {
     return 0;
 }
 
-void TObjWarpJungMain::confirm_area_transfer(void *player) { TObjAreaWarp::confirm_area_transfer(player); }
+void TObjWarpJungMain::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
 void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
 
@@ -154,7 +157,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -191,7 +194,7 @@ void TObjWarpJung::render() {
     }
 }
 
-void TObjWarpJung::confirm_area_transfer(void *player) { TObjAreaWarp::confirm_area_transfer(player); }
+void TObjWarpJung::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
 void TObjWarpJung::run_task() {
     beam_frame += 4.0f;
@@ -215,7 +218,7 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -229,7 +232,7 @@ f32 TObjWarpJung::get_static_field4_as_float() {
     return (f32)warp_jung_beam_motion->frameCount;
 }
 
-void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param(warp_jung_model_handle); }
+void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param((s32)warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
     draw_ginja_model_with_motion((void *)get_bml_model(TObjWarpJung__beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
@@ -245,14 +248,14 @@ s32 TObjWarpJung__sub_801A0404(s32 arg0) {
     case 0:
         if (warp_jung_beam_entry_index >= 0) {
             for (i = 0; i < 6; i++) {
-                ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_entry_index & 0xFFFF));
+                set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_entry_index & 0xFFFF));
             }
         }
         break;
     case 1:
         if (warp_jung_beam_blue_tex_entry >= 0) {
             for (i = 0; i < 6; i++) {
-                ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_blue_tex_entry & 0xFFFF));
+                set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_blue_tex_entry & 0xFFFF));
             }
         }
         break;
@@ -264,7 +267,7 @@ s32 TObjWarpJung::update_warp_display() {
     if (actor_frame_tick != warp_jung_last_scroll_tick) {
         warp_jung_last_scroll_tick = actor_frame_tick;
         if (warp_jung_nakalight_tex_entry >= 0) {
-            scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, warp_jung_nakalight_tex_entry, 1);
+            scroll_ginja_mesh_uvs(warp_jung_beam_uv_model, 0, 5, warp_jung_nakalight_tex_entry, 1);
             return 1;
         }
     }
@@ -276,7 +279,7 @@ void free_warp_jung_beam_resources(void) {
     free_bin_model_request(TObjWarpJung__beam_bml_resource, 1);
     TObjWarpJung__beam_bml_resource = NULL;
     warp_jung_beam_motion = NULL;
-    warp_jung_model_handle = 0;
+    warp_jung_textures = NULL;
     for (i = 0; i < 6; i++) {
         warp_jung_beam_models[i] = NULL;
     }
@@ -290,19 +293,19 @@ void load_warp_beam_resources(void) {
     }
     TObjWarpJung__beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_model_handle = get_bml_texlist(TObjWarpJung__beam_bml_resource, 0);
+    warp_jung_textures = (GinjaTextureList *)get_bml_texlist(TObjWarpJung__beam_bml_resource, 0);
     root = ((NJS_OBJECT *)get_bml_model(TObjWarpJung__beam_bml_resource, 1))->child;
-    warp_jung_beam_models[0] = root->child->model;
-    warp_jung_beam_models[1] = root->child->sibling->model;
-    warp_jung_beam_models[2] = root->child->sibling->sibling->model;
-    warp_jung_beam_models[3] = root->child->sibling->sibling->sibling->model;
-    warp_jung_beam_models[4] = root->child->sibling->sibling->sibling->sibling->model;
-    warp_jung_beam_models[5] = root->sibling->model;
-    warp_jung_beam_mesh_node = root->sibling->sibling->sibling->model;
+    warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
+    warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;
+    warp_jung_beam_models[2] = (GinjaModel *)root->child->sibling->sibling->model;
+    warp_jung_beam_models[3] = (GinjaModel *)root->child->sibling->sibling->sibling->model;
+    warp_jung_beam_models[4] = (GinjaModel *)root->child->sibling->sibling->sibling->sibling->model;
+    warp_jung_beam_models[5] = (GinjaModel *)root->sibling->model;
+    warp_jung_beam_uv_model = (GinjaModel *)root->sibling->sibling->sibling->model;
     warp_jung_last_scroll_tick = 0;
-    warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_aka");
-    warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_ao");
-    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts032_warp_nakalight");
+    warp_jung_beam_entry_index = find_texture_entry_by_name(warp_jung_textures, "ts064_beam_aka");
+    warp_jung_beam_blue_tex_entry = find_texture_entry_by_name(warp_jung_textures, "ts064_beam_ao");
+    warp_jung_nakalight_tex_entry = find_texture_entry_by_name(warp_jung_textures, "ts032_warp_nakalight");
 }
 
 void TObjWarpJungMain::debug_print_area_num() {}

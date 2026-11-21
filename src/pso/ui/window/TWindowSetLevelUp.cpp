@@ -87,7 +87,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (pl != NULL && ((TObjPlayer *)pl)->get_stats() != 0) {
             text_builder_append((u8 *)"LEVEL ");
             text_builder_append_int(pl->get_level() + 1);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 2;
         }
         break;
@@ -95,7 +95,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d3a > 0) {
             text_builder_append((u8 *)"HP +");
             text_builder_append_int(self->d3a);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 3;
             break;
         }
@@ -103,7 +103,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d3c > 0) {
             text_builder_append((u8 *)"TP +");
             text_builder_append_int(self->d3c);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 4;
             break;
         }
@@ -112,7 +112,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x83)));
             text_builder_append((u8 *)" +");
             text_builder_append_int(self->d24);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 5;
             break;
         }
@@ -121,7 +121,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x84)));
             text_builder_append((u8 *)" +");
             text_builder_append_int(self->d26);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 6;
             break;
         }
@@ -130,7 +130,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x85)));
             text_builder_append((u8 *)" +");
             text_builder_append_int(self->d28);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 7;
             break;
         }
@@ -139,7 +139,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x86)));
             text_builder_append((u8 *)" +");
             text_builder_append_int(self->d2a);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 8;
             break;
         }
@@ -148,7 +148,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x87)));
             text_builder_append((u8 *)" +");
             text_builder_append_int(self->d2c);
-            ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
+            TWindowCtrl::set_window_flags_off(self->client, (s32)get_shared_text_buffer());
             self->state = 9;
             break;
         }

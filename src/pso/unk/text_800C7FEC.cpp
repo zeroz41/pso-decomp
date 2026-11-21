@@ -42,7 +42,7 @@ void reset_camera_override() {
 }
 
 void handle_6x09_legacy_kill_enemy(G_LegacyKillEnemy_6x09 *cmd) {
-    ((TLobby *)cmd)->bswap_packet_header();
+    bswap_client_id_header((G_ClientIDHeader *)cmd);
     u16 id = cmd->header.entity_id;
     if (legacy_enemy_kill_received[id] == 0) {
         legacy_enemy_kill_received[id] = 1;
@@ -63,4 +63,4 @@ void clear_legacy_enemy_kill_flags() {
     }
 }
 
-void TLobby::bswap_packet_header() { ((G_ClientIDHeader *)this)->bswap(); }
+void bswap_client_id_header(G_ClientIDHeader *header) { header->bswap(); }

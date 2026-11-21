@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
@@ -72,7 +75,6 @@ extern "C" f32 atan2_float(f32 y, f32 x);
 extern "C" void check_enemy_body_collisions(void *arg0);
 
 extern "C" u32 get_player_by_client_id(s32);
-extern "C" s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);
 
 void move_with_wall_slide(u8 *arg0);
 
@@ -89,7 +91,6 @@ extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 extern "C" void project_actor_to_ground(void *, void *, s32);
 extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
-extern "C" s32 refresh_lobby_state__10TObjPlayerFv();
 
 #pragma push
 #pragma dont_inline off
@@ -122,18 +123,8 @@ extern "C" s32 select_actor_lighting(void *);
 extern "C" s32 draw_chunk_object(int);
 extern "C" s32 saved_model_render_flags;
 extern "C" s32 model_render_flags;
-struct NanoDragoAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown08;
-    u32 unknown0C;
-};
 
 extern "C" void obj_setFlags30(void *, u32);
-extern "C" s32 dispatch_shared_handler_a__6TLobbyFl(int);
-extern "C" s32 register_object__6TLobbyFl(int);
-extern "C" s32 dispatch_shared_handler_b__6TLobbyFl(int);
-extern "C" s32 register_boss__6TLobbyFl(int);
 extern "C" void free_bin_model_request(void*, int);
 extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 extern "C" s32 find_active_entity_by_id(int);
@@ -270,13 +261,13 @@ void TObjEneNanoDrago::load_resources() {
         resource = (u8 *)(load_resource_from_descriptor(storage, 1, (s32 *)&bm_ene_nanodrago_resource_descriptor, 0, 0, 0));
     }
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    nano_drago_base_params = register_boss__6TLobbyFl(0x1A);
-    nano_drago_attack_params = dispatch_shared_handler_b__6TLobbyFl(0x1A);
-    nano_drago_resistance_params = register_object__6TLobbyFl(0x1A);
-    lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
-    NanoDragoAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 1, 0xC0000 };
+    nano_drago_base_params = (s32)TLobby::register_boss(0x1A);
+    nano_drago_attack_params = (s32)TLobby::dispatch_shared_handler_b(0x1A);
+    nano_drago_resistance_params = (s32)TLobby::register_object(0x1A);
+    lbl_805D5254 = (s32)TLobby::dispatch_shared_handler_a(0x1A);
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)(15.0f), (f32)(0.0f));
+    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].m_c), &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((u32) nano_drago_entry_params_resource != 0U) {
@@ -941,7 +932,7 @@ void TObjEneNanoDrago::update_knockback_state() {
 void TObjEneNanoDrago::update_dying_state() {
     switch (state) {
     case 0:
-        refresh_lobby_state__10TObjPlayerFv();
+        ((TObjPlayer *)this)->refresh_lobby_state();
         send_entity_set_flags();
         timer = 0x1E;
         play_sound_effect(0x4003A825, &position, 0, 0);
@@ -1105,7 +1096,7 @@ void TObjEneNanoDrago::update_fade_in_state() {
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
-        play_area_sound_effect__12TBoss3VoloptFv(&m_2fc, flags);
+        play_area_sound_effect((Vec *)&m_2fc);
         ((TUnk_80494938 *)(&appearFade))->start_fade_in();
         state = 1;
     case 1:

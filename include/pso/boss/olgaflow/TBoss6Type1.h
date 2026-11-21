@@ -104,7 +104,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void decode_polar_position(u8 *arg1);
     static s32 request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3);
     void request_default_jittered_camera();
-    u8 is_timer_expired();
+    s32 is_timer_expired();
     void reset_fields_4e0();
     s32 is_field3F8_over_0x20();
     int is_field4b0_delta_reached();

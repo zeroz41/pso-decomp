@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TUnk_804F322C.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/unk/TLobby.h"
@@ -26,6 +27,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -104,8 +106,6 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 void vec3_add_to(void *, void *);
-s32 check_demo_mode__10TObjPlayerFv(void *);
-s32 query_teammate_state__9TObjEneDDFv();
 void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
@@ -116,12 +116,9 @@ s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);
 int TBoss6PlotFalz__sub_8036964C(void);
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
-u8 *dispatch_shared_handler_a__6TLobbyFl(int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 normalize_vector(void *);
-extern s32 __vt__13TUnk_804F322C[];
 const char *lbl_805D44B0 = "TBoss6MagMine";
-s32 TBoss6MagMine__ct(s32 arg0, s32 arg1, s32 arg2);
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 get_phase__8TObjFishFv();
@@ -132,7 +129,6 @@ void vt4__13TBoss6MagMineFv(void* p);
 void copy_pos__13TBoss6MagMineFi(s32 arg0);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 int post_translate_matrix(void*);
-s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 get_bml_motion(s32, s32);
@@ -225,7 +221,7 @@ void explode__13TBoss6MagMineFPv(Mine_80368C14 *o) {
     s32 i;
     for (i = 0; i < n; i++) {
         u8 *pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
             Vec v = o->pos;
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
@@ -246,7 +242,7 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)p)->is_active() != 0) {
+        if (((TObjPlayer *)p)->is_active() != 0) {
             ((void (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&d, &((P_80368CE4 *)p)->pos);
             subtract_vector(&d, &arg0->home);
             d.y = 0.0f;
@@ -349,13 +345,13 @@ public:
 void TUnk_804F322C::run_task() {
     TBoss6MagMine_80368FA0 *self = (TBoss6MagMine_80368FA0 *)this;
     s32 color;
-    if (check_demo_mode__10TObjPlayerFv(self) != 0) {
+    if (TObjPlayer::check_demo_mode() != 0) {
         return;
     }
     if (TBoss6PlotFalz::is_boss_active() == 0) {
         self->state = 4;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->prev, &self->pos);
@@ -411,21 +407,20 @@ extern s32 tl_04;
 
 #pragma push
 #pragma opt_common_subs off
-#define self ((u8 *)arg0)
-s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
+#define arg0 ((s32)this)
+#define self ((u8 *)this)
+TUnk_804F322C::TUnk_804F322C(TObject *parent, s32 arg2) : TObjEnemy(parent) {
     Key_80369228 key;
     u8 *d;
-    __ct__9TObjEnemyFP7TObject(self, (void*)parent);
-    *(s32 **)((s8 *)self + 0x18) = __vt__13TUnk_804F322C;
     ((TBoss3Volopt *)self)->m_name = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
     ((TObjChara *)self)->add_flags_2e4(8);
     ((TBoss3Volopt *)(self))->apply_set_data((void *)arg2);
-    if (((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)1) != 0) {
+    if (((TObjEnemy *)self)->exchange_object_state(&key, 1) != 0) {
         key.a = 0;
         key.c = 0;
-        ((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)0);
+        ((TObjEnemy *)self)->exchange_object_state(&key, 0);
     }
     *(s32 *)((s8 *)self + 0x374) = TObjFish::get_fish_count();
     ((TBoss3Volopt *)self)->texlist = 0;
@@ -439,7 +434,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     ((TBoss3Volopt *)self)->referenceHp = ((TBoss3Volopt *)self)->hp;
     ((TBoss3Volopt *)self)->reset_photon_effect();
     ((TObjEnemy *)self)->set_param(0);
-    d = dispatch_shared_handler_a__6TLobbyFl(0x2D);
+    d = (u8 *)TLobby::dispatch_shared_handler_a(0x2D);
     *(s32 *)((s8 *)self + 0x39C) = (s32) *(f32 *)((s8 *)d + 4);
     if ((f32) *(s32 *)((s8 *)self + 0x39C) <= 0.0f) {
         *(s32 *)((s8 *)self + 0x39C) = 0x14;
@@ -466,24 +461,13 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     if (*(u32 *)((s8 *)self + 0x3B0) != 0U) {
         ((TParticleCtrl *)(*(void **)((s8 *)self + 0x3B0)))->set_flags(0x40);
     }
-    return arg0;
 }
 #undef self
+#undef arg0
 #pragma pop
 
 s32 create__13TBoss6MagMineFi(s32 arg0) {
-    s32 var_r31;
-    s32 parent;
-
-    var_r31 = __nw__7TObjectFUl(0x3B4);
-    if (var_r31 != 0) {
-        parent = __nw__7TObjectFUl(0x20);
-        if (parent != 0) {
-            parent = __ct__11TObjControlFP7TObject(parent, tl_04);
-        }
-        var_r31 = TBoss6MagMine__ct(var_r31, parent, arg0);
-    }
-    return var_r31;
+    return (s32)new TUnk_804F322C(new TObjControl((TObject *)tl_04), arg0);
 }
 
 void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *arg0, void *arg1) {

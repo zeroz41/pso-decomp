@@ -1,3 +1,4 @@
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -45,7 +46,6 @@ struct Obj_8020C73C : ObjBase_8020C73C {
 
 extern "C" {
 s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);
-Set_8020C73C *resolve_matching_object__6TLobbyFv(s32);
 }
 s32 construct_enemy_from_set_row(u8 *row);
 extern u8 *TLobby__data_805D6144;
@@ -65,7 +65,7 @@ s32 TLobby::unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2) {
     if (local == 0) {
         return set_flags_on_matching_entries__6TLobbyFlssl(arg0, arg1, arg2, 1);
     }
-    set = resolve_matching_object__6TLobbyFv(arg0);
+    set = reinterpret_cast<Set_8020C73C *>(get_active_floor_enemy_rows(arg0));
     n = TLobby::get_object_type(arg0);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;

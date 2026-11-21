@@ -9,6 +9,8 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 #pragma readonly_strings on
 
@@ -35,12 +37,8 @@ void send_logout__6TLobbyFv(void);
 extern s32 tl_00;
 extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 __ct__7TObjectFP7TObject();
 s32 get_window_layout_position(s32);
-s32 free_member__17TWindowSubComCardFv(s32, s32);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 extern s32 __vt__17TWindowSubGameEnd[];
 extern const char *TWindowSubGameEnd__class_name;
 s32 setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
@@ -109,18 +107,18 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
     window_sub_game_end->m_24 = arg1;
     window_sub_game_end->m_20 = arg2;
     if (get_main_phase() == 0xF) {
-        var_r31 = get_message_10__20TWindowSubStatusDispFl(0x3B);
+        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3B);
         var_f31 = 469.0f;
     } else if (is_split_screen() != 0) {
-        var_r31 = get_message_10__20TWindowSubStatusDispFl(0x3C);
+        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3C);
         var_f31 = 312.0f;
     } else {
-        var_r31 = get_message_10__20TWindowSubStatusDispFl(0x3A);
+        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3A);
         var_f31 = 469.0f;
     }
-    window_sub_game_end->m_28 = create__19TWindowMessageYesNoFPvPvPvPv(window_sub_game_end, window_sub_game_end->m_20, 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_sub_game_end->m_28, var_r31, get_window_layout_position(0x17), var_f31);
-    free_member__17TWindowSubComCardFv(window_sub_game_end->m_28, 1);
+    window_sub_game_end->m_28 = (s32)TWindowMessageYesNo::create((void *)(window_sub_game_end), (void *)(window_sub_game_end->m_20), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)window_sub_game_end->m_28, (s32)var_r31, (s32)(get_window_layout_position(0x17)), var_f31);
+    set_menu_selected_index((TWindowSubComCard *)window_sub_game_end->m_28, 1);
     ((TWindowSubShortMail *)(window_sub_game_end->m_28))->notify_warp_flag70();
     window_sub_game_end->m_1c = 0;
     return window_sub_game_end;

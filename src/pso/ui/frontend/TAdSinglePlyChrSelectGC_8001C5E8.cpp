@@ -4,8 +4,8 @@
 
 u8 chr_select_state; // inferred: only read, by TAdSinglePlyChrSelectGC::get_chr_select_state
 
-u8 TAdSinglePlyChrSelectGC::get_chr_select_state() {
-    return chr_select_state;
+s32 TAdSinglePlyChrSelectGC::get_chr_select_state() {
+    return (u8)(chr_select_state);
 }
 
 s32 TAdSinglePlyChrSelectGC__sub_8001C5F0(void) {

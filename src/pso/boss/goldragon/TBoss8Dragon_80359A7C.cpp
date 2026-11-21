@@ -11,9 +11,7 @@
 
 
 extern "C" {
-s32 query_teammate_state__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-void release_grabbed_player__12TBoss8DragonFPv(TBoss8Dragon *arg0);
 extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 
@@ -46,7 +44,7 @@ void TUnk_804F1A78::run_task() {
             *(s32 *)((s8 *)boss8_dragon + 0x3E0) = 1;
         }
     }
-    temp_r30_2 = query_teammate_state__9TObjEneDDFv();
+    temp_r30_2 = TObjEneDD::query_teammate_state();
     this->update_attack_stat_status();
     this->update_defense_stat_status();
     if (temp_r30_2 == 0) {
@@ -59,7 +57,7 @@ void TUnk_804F1A78::run_task() {
         if ((s32) *(s32 *)((s8 *)boss8_dragon + 0x74C) != 0) {
             if ((s32) *(u16 *)((s8 *)boss8_dragon + 0x750) == (s32) local_client_id) {
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
-                    release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)(boss8_dragon));
+                    ((TBoss8Dragon *)boss8_dragon)->release_grabbed_player();
                 } else {
                     ((TBoss8Dragon *)boss8_dragon)->check_death();
                 }
@@ -67,7 +65,7 @@ void TUnk_804F1A78::run_task() {
                 this->dispatch_action(this->mode, 0);
             } else {
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
-                    release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)(boss8_dragon));
+                    ((TBoss8Dragon *)boss8_dragon)->release_grabbed_player();
                 }
                 this->dispatch_action(this->mode, 0);
             }

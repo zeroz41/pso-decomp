@@ -110,12 +110,9 @@ struct Tec_80236EE8 {
 
 extern "C" {
 u16 get_entity_id(void *);
-void __ct__7TEffectFv(void *);
 void init_collision_body_parts(void *, f32 *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
-extern s32 __vt__19TTecPlayerInfluence[];
 const char *lbl_805D37F0 = "TTecPlayerInfluence";
-Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level);
 void free_collision_body_parts(void *);
 
 List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
@@ -131,10 +128,10 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 
 void TTecPlayerInfluence::vfunc_7(void *) {  }
 
-Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level) {
+#define self ((Obj_80237310 *)this)
+TTecPlayerInfluence::TTecPlayerInfluence(void *owner_arg, void *pos, s32 level) : TEffect() {
+  Owner_80237310 *owner = (Owner_80237310 *)owner_arg;
   void *p;
-  __ct__7TEffectFv(self);
-  self->vt = __vt__19TTecPlayerInfluence;
   self->f0 = (s32)lbl_805D37F0;
   self->fa8 = 0xFFFF;
   VecCopy((Vec *)self->pos, (const Vec *)pos);
@@ -185,8 +182,8 @@ Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner,
   {
     self->fac = 0;
   }
-  return self;
 }
+#undef self
 
 TTecPlayerInfluence::~TTecPlayerInfluence() {
     if (*(void **)((s8 *)this + 0xDC) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0xDC)); }

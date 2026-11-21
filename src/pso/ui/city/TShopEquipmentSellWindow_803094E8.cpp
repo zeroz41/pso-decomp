@@ -7,9 +7,7 @@
 
 extern "C" {
 
-int fn_80269078(void*);
-
-int TShopEquipmentSellWindow::get_item_count() { return fn_80269078(this); }
+void TWindowCost::set_cost(s32 cost) { set_value(cost); }
 void TWindowCost::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 }

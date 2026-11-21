@@ -94,7 +94,6 @@ struct TRaderMapCore : public TObjBase {
     void update_pan_zoom_input();
     void update_target();
     static s32 pack_color_bits(s32 arg1, s32 arg2);
-    u8 has_flag();
     static void set_mode(int a0);
     void advance_scroll();
     static void create();
@@ -105,10 +104,10 @@ struct TRaderMapCore : public TObjBase {
     static void free_statics();
     static void load_frame_texture();
     void reset();
-    static void init_map_ptr();
+    static s32 init_map_ptr(s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();
-    static void apply_packed_flags(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 apply_packed_flags(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     void gather_player_markers();
     void draw_enemy_gate_markers();
     s32 get_map_id();

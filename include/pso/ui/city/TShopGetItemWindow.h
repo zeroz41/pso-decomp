@@ -2,30 +2,37 @@
 #define PSO_UI_CITY_TSHOPGETITEMWINDOW_H
 
 #include "types.h"
+#include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopWindowBase.h"
+
+struct TObjPlayer;
+struct TWindowMenu;
+class TWindowMenuIconLine;
+struct TWindowInputNumber;
+struct TWindowHelpItem;
 
 struct TShopGetItemWindow : public TShopWindowBase {
     TShopGetItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopGetItemWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6();
+    virtual void vfunc_6(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    void* m_38;
-    u8 _pad3C[0x10];
+    TObjPlayer *m_24;
+    TWindowMenuIconLine *m_28;
+    TWindowMenu *m_2c;
+    TWindowInputNumber *m_30;
+    TWindowHelpItem *m_34;
+    TItemData m_38;  // the selected item
     u8 m_4c;
-    u8 _pad4D[0x7];
-    u32 m_54;
-    u32 m_58;
+    u8 _pad4D[0x3];
+    s32 m_50;
+    s32 m_54;  // quantity
+    s32 m_58;  // cursor
     TShopWindowBase *m_5c; // owning shop sequence (TCheckRoomSequence::open_get_item_window passes itself)
-    u32 m_60;
-    u32 m_64;
+    void (*m_60)(TShopWindowBase *);  // called when the player leaves
+    void (*m_64)(TShopWindowBase *);  // called when there is nothing to list
     s32 close();
     void update_input_number();
     s32 handle_withdraw_list_input();

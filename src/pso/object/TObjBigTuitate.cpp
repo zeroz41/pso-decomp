@@ -6,6 +6,10 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/RenderFadeState_800D7BFC.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -55,15 +59,9 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
 s32 matrix_mult_vec(int, void *, void *);
-void push_matrix(void);
-void post_translate_matrix(void *);
-void set_global_param__8TObjFishFl(void);
-void draw_ginja_object(void);
-u32 TObjTuitate__bml_resource;
-u32 TObjBigTuitate__bml_resource;
+BmlResource *TObjTuitate__bml_resource;
+BmlResource *TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
@@ -85,14 +83,11 @@ CollisionBody big_tuitate_collision_body[1] = {
 };
 const char *TObjTuitate__class_name = "TObjTuitate";
 const char *TObjBigTuitate__name = "TObjBigTuitate";
-extern s32 __vt__14TObjBigTuitate[];
 
-void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 
 
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 extern void *tl_05;
 struct FadeBase_8019ADA0 { char pad[0x14]; };
@@ -127,42 +122,33 @@ struct Obj_8019ADA0 : ObjBase_8019ADA0 {
 #pragma dont_inline off
 
 
-extern s32 __vt__11TObjTuitate[];
 
 
 void load_tuitate_bml_resource(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0);
     }
-    TObjTuitate__bml_resource = var_r0;
+    TObjTuitate__bml_resource = storage;
 }
 
 void free_tuitate_bml_resource(void) {
-    if ((u32) TObjTuitate__bml_resource != 0U) {
-        free_bin_model_request((void*)TObjTuitate__bml_resource, 1);
-        TObjTuitate__bml_resource = 0U;
+    if (TObjTuitate__bml_resource != NULL) {
+        free_bin_model_request(TObjTuitate__bml_resource, 1);
+        TObjTuitate__bml_resource = NULL;
     }
 }
 
 void *TObjTuitate__create(void *arg0) {
-    void *o = TObject::operator new(0xCC);
-    if (o != NULL) {
-        o = TObjTuitate__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjTuitate((TObject *)tl_05, arg0);
 }
 
 #pragma push
 #pragma opt_common_subs off
-void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
+#define arg0 ((u8 *)this)
+TObjTuitate::TObjTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
     struct CopyStack_8019AF6C { u8 bytes[0x3C]; };
     CopyStack_8019AF6C copy_storage_8019AF6C;
-    __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTuitate__class_name;
     ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
@@ -175,8 +161,8 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x2C)) = 12.0f;
     *(s32 *)((s8 *)arg0 + 0xC8) = TObjMapCsn::create((s32)((void *) ((copy_storage_8019AF6C.bytes))));
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
-    return arg0;
 }
+#undef arg0
 #pragma pop
 
 TObjTuitate::~TObjTuitate() {
@@ -211,13 +197,11 @@ void TObjTuitate::render() {
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->begin();
     }
-    get_bml_texlist((*(s32 *)&TObjTuitate__bml_resource), 0);
-    set_global_param__8TObjFishFl();
+    TObjFish::set_global_param(get_bml_texlist(TObjTuitate__bml_resource, 0));
     push_matrix();
-    post_translate_matrix(arg0 + 0x38);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-    get_bml_model((*(s32 *)&TObjTuitate__bml_resource), 0);
-    draw_ginja_object();
+    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(TObjTuitate__bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->end();
@@ -226,38 +210,30 @@ void TObjTuitate::render() {
 }
 
 void load_bigtuitate_bml_resource(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_bigtutate_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 1, &fe_obj_bigtutate_resource_descriptor, 0, 0, 0);
     }
-    TObjBigTuitate__bml_resource = var_r0;
+    TObjBigTuitate__bml_resource = storage;
 }
 
 void TObjBigTuitate::free_instance() {
-    if ((u32) TObjBigTuitate__bml_resource != 0U) {
-        free_bin_model_request((void*)TObjBigTuitate__bml_resource, 1);
-        TObjBigTuitate__bml_resource = 0U;
+    if (TObjBigTuitate__bml_resource != NULL) {
+        free_bin_model_request(TObjBigTuitate__bml_resource, 1);
+        TObjBigTuitate__bml_resource = NULL;
     }
 }
 
 void *TObjBigTuitate__create(void *arg0) {
-    void *o = TObject::operator new(0xCC);
-    if (o != NULL) {
-        o = TObjBigTuitate__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjBigTuitate((TObject *)tl_05, arg0);
 }
 
 #pragma push
 #pragma opt_common_subs off
-void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
+#define arg0 ((u8 *)this)
+TObjBigTuitate::TObjBigTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
     struct CopyStack_8019ABE8 { u8 bytes[0x3C]; };
     CopyStack_8019ABE8 copy_storage_8019ABE8;
-    __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjBigTuitate__name;
     ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
@@ -270,8 +246,8 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x2C)) = 12.0f;
     *(s32 *)((s8 *)arg0 + 0xC8) = TObjMapCsn::create((s32)((void *) ((copy_storage_8019ABE8.bytes))));
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
-    return arg0;
 }
+#undef arg0
 #pragma pop
 
 TObjBigTuitate::~TObjBigTuitate() {
@@ -306,13 +282,11 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->begin();
     }
-    get_bml_texlist((*(s32 *)&TObjBigTuitate__bml_resource), 0);
-    set_global_param__8TObjFishFl();
+    TObjFish::set_global_param(get_bml_texlist(TObjBigTuitate__bml_resource, 0));
     push_matrix();
-    post_translate_matrix(arg0 + 0x38);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-    get_bml_model((*(s32 *)&TObjBigTuitate__bml_resource), 0);
-    draw_ginja_object();
+    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(TObjBigTuitate__bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->end();

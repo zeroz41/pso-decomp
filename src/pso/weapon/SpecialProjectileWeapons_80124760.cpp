@@ -66,10 +66,9 @@ u8 *__nw__5TItemFUl(s32);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 __nw__7TObjectFUl(s32);
-s32 is_owner_alive__15TItemShootModelFv();
+s32 TItemShootModel::is_owner_alive();
 
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
-u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
 typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
 }
@@ -89,7 +88,7 @@ void TUnk_804A2148::render() {
     u8 *temp_r31;
     u8 *temp_r3;
 
-    if (is_owner_alive__15TItemShootModelFv() != 0) {
+    if (TItemShootModel::is_owner_alive() != 0) {
         temp_r3 = (unsigned char *) (this->m_58);
         if ((temp_r3 != NULL) && ((u32) this->m_5C != 0U)) {
             temp_r31 = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)temp_r3 + 0x2C))) + 0x30));
@@ -127,7 +126,7 @@ s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
         }
         var_r31 = var_r0;
     }
-    var_r0 = spawn_shoot_particle__10TObjPlayerFUlllf(arg0, arg1, arg2, farg0);
+    var_r0 = (u32)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0);
     if (var_r0 != 0U) {
         ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
     }

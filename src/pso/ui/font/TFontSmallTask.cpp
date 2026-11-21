@@ -11,6 +11,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/player/TPlyPhotonChair.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
 
 struct TFontSmallTask_800FD4D4 {
@@ -76,7 +78,6 @@ f32 vec3_dot(Vec *, Vec *);
 void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
-f32 get_scale__15TWindowCtrlMainFv(s32);
 void begin_screen_draw(int);
 void set_draw_texture_and_color(int, u32);
 void build_small_font_glyph_quad(u8, Quad_800FCD40 *);
@@ -142,7 +143,8 @@ void TFontSmallTask::render() {
     x = screen[0] += offset_x;
     y = screen[1] += offset_y;
     {
-        f32 sc = get_scale__15TWindowCtrlMainFv(TCameraCtrl::get_camera_no());
+        TCameraCtrl::get_camera_no();
+        f32 sc = TWindowCtrlMain::get_scale();
         depth = -1.0f / (0.1495f + sc);
     }
     cursor = text;
@@ -288,9 +290,7 @@ void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
 u16 get_entity_id();
-s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 void find_leader_section_id(struct Out_800FD614 *out, s32 arg1);
-void *get_instance__15TWindowCtrlMainFv(void);
 void __ct__7TObjectFP7TObject(void *, void *);
 char *strncpy(char *, const char *, u32);
 }
@@ -302,7 +302,7 @@ void set_world_section_id(void* p, s32 v);
 #pragma fp_contract on
 
 TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
-    __ct__7TObjectFP7TObject(self, get_instance__15TWindowCtrlMainFv());
+    __ct__7TObjectFP7TObject(self, (void *)TWindowCtrlMain::get_instance());
     self->vt = __vt__14TFontSmallTask;
     self->f0 = TFontSmallTask__name;
     VecCopy((Vec *)&self->pos, (const Vec *)pos);
@@ -339,7 +339,7 @@ void find_leader_section_id(struct Out_800FD614 *out, s32 arg1) {
         p = (VObj_800FD614 *)TObjPlayer::get_player_data(i);
         if (p != NULL && arg1 == get_entity_id()) {
             out->a = p->m14();
-            out->b = get_actor_section_id__15TPlyPhotonChairFv(p);
+            out->b = (s32)((TPlyPhotonChair *)(p))->get_actor_section_id();
         }
     }
 }

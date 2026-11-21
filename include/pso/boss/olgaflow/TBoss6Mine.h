@@ -7,7 +7,7 @@
 
 // What TBoss6Type1's mine attack (TBoss6Type1__sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
 // set entry copied from the mag mine's (TBoss4DarkFalz__sub_8004B4F0) followed by the mine's own spawn data.
-// TBoss6Mine__ct reads 0x40-0x60 and passes the whole record to apply_set_data. Names inferred from those uses.
+// The TBoss6Mine constructor reads 0x40-0x60 and passes the whole record to apply_set_data. Names inferred from those uses.
 struct TBoss6MineSetData {
     s16 set_index; // TBoss6PlotFalz::get_next_point writes its set_index + counter here
     u8 pad_02[0x4];
@@ -24,6 +24,7 @@ struct TBoss6MineSetData {
 };
 
 struct TBoss6Mine : public TObjEnemy {
+    TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data);
     virtual ~TBoss6Mine();
     virtual void run_task();
     virtual void vfunc_63();
@@ -70,7 +71,6 @@ typedef char TBoss6MineSetData_size[sizeof(TBoss6MineSetData) == 0x64 ? 1 : -1];
 typedef char TBoss6Mine_size[sizeof(TBoss6Mine) == 0x3D0 ? 1 : -1];
 
 extern "C" {
-s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data);
 void *__dt__10TBoss6MineFv(void *arg0, s16 arg1);
 void explode_damage_players__10TBoss6MineFv(u8 *arg0);
 }

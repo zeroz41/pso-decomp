@@ -17,6 +17,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     s32 value;
@@ -62,10 +63,7 @@ typedef struct Light_80193FE8 {
 extern "C" {
 s32 is_split_screen(void);
 extern s32 tl_05;
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__9TObjLight[];
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
-Actor_80193FE8 *get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
 void register_actor_light(s32, void *);
@@ -140,7 +138,7 @@ void TObjLight::run_task() {
     if (0.0f != self->radius) {
         s32 i;
         for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-            Actor_80193FE8 *a = get_player_data__10TObjPlayerFi(i);
+            Actor_80193FE8 *a = (Actor_80193FE8 *)TObjPlayer::get_player_data(i);
             if (a != NULL && self->room == a->room) {
                 f32 d = horizontal_distance_squared(&a->pos, &self->pos);
                 f32 r2 = self->radius * self->radius;
@@ -196,9 +194,8 @@ TObjLight::~TObjLight() {
 
 
 typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
-u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
-    __ct__8TObjBaseFP7TObject(light);
-    *(s32 **)((s8 *)light + 0x18) = __vt__9TObjLight;
+TObjLight::TObjLight(TObject *parent, u8 *arg2) : TObjBase(parent) {
+    TObjLight *light = this;
     light->m_name = TObjLight__class_name;
     ((TObjLight *)(light))->apply_object_set_data(arg2);
     light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
@@ -217,19 +214,11 @@ u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     *(f32 *)((s8 *)light + 0xF8) = 0.0f;
     light->m_fc = 0.0f;
     light->disallow_rendering();
-    return (u8 *)light;
 }
 
 u8 *TObjLight__create(u8 *arg0) {
-    u8 *light;
-    u8 *var_r0;
     if (is_split_screen() != 0) {
         return NULL;
     }
-    light = (u8 *)(TObject::operator new(0x100));
-    var_r0 = light;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TObjLight__ct((TObjLight *)light, tl_05, arg0));
-    }
-    return var_r0;
+    return (u8 *)new TObjLight((TObject *)tl_05, arg0);
 }

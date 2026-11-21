@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
@@ -18,22 +19,11 @@ u32 TObjNpcHFW00__texture_handle;
 
 extern void *tl_04;
 extern "C" {
-extern s32 __vt__12TObjNpcHFW00[];
 void release_texture_list(void*);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
-void * TObjNpcHFW00__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcHFW00__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcHFW00__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcHFW00(control, set_data);
 }
 
 void TObjNpcHFW00::free_resources() {
@@ -57,15 +47,12 @@ void TObjNpcHFW00::load_resources() {
 TObjNpcHFW00::~TObjNpcHFW00() {}
 
 
-u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
-    ((TUnk_804A92A8 *)player)->fn_8014AAC4();
-    *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcHFW00;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHFW00__name;
-    ((TObjNpcHFW00 *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(*(s32 * *)&TObjNpcHFW00__shared_resource_obj);
-    ((TObjNpcHFW00 *)player)->texlist = (s32) (*(s32 *)&TObjNpcHFW00__texture_handle);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *arg2) : TUnk_804A92A8(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcHFW00__name;
+    ((TObjNpcHFW00 *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcHFW00__shared_resource_obj);
+    ((TObjNpcHFW00 *)this)->texlist = (s32) (*(s32 *)&TObjNpcHFW00__texture_handle);
+    ((TObjNpcBase *)this)->setup_common();
 }
 

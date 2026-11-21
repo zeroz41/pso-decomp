@@ -27,6 +27,7 @@
 #include "pso/ui/city/TCheckRoomSequence_8021E464.h"
 #include "pso/ui/city/TJudgmentSequence.h"
 #include "pso/ui/city/TJudgmentSequence_8021E4C4.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 // One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
 // callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence
@@ -69,7 +70,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 f32 normalize_vector(void *);
 s32 get_entity_id(s32);
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 poll_memcard_result(s32);
@@ -130,7 +130,7 @@ void TShopGenerator::run_task() {
     if (lbl_805D55C0 != 0) {
         return;
     }
-    if (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+    if (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
         return;
     }
     if (TAdPlayerLoadGC::get_instance() != 0) {

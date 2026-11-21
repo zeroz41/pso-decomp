@@ -26,6 +26,7 @@
 #include "pso/unk/text_80153A7C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -48,11 +49,8 @@ extern TObject *tl_05;
 
 extern "C" {
 
-u8 *__ct__16TObjFogCollisionFP7TObjectPv(u8 *fog_collision, void *parent, void *set);
 void *TObjFogCollision__create(void *set);
 
-extern s32 __vt__22TObjFogCollisionPoison[];
-extern s32 __vt__22TObjFogCollisionSwitch[];
 extern s32 local_client_id;
 s32 vfunc_13__16TObjFogCollisionFl();
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
@@ -207,18 +205,11 @@ void TObjFogCollision::draw_volume() {
 }
 
 void *TObjFogCollisionSwitch__create(void *set) {
-    void *o = TObject::operator new(0x98);
-    if (o != NULL) {
-        o = TObjFogCollisionSwitch__ct(o, tl_05, set);
-    }
-    return o;
+    return new TObjFogCollisionSwitch(tl_05, set);
 }
 
-void *TObjFogCollisionSwitch__ct(void *fog_collision_switch, void *parent, void *set) {
-    __ct__16TObjFogCollisionFP7TObjectPv((u8 *)fog_collision_switch, parent, set);
-    *(s32 **)((s8 *)fog_collision_switch + 0x18) = __vt__22TObjFogCollisionSwitch;
-    ((TObjFogCollisionSwitch *)fog_collision_switch)->m_name = TObjFogCollisionSwitch__name;
-    return fog_collision_switch;
+TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, void *set) : TObjFogCollision(parent, set) {
+    m_name = TObjFogCollisionSwitch__name;
 }
 
 
@@ -273,18 +264,13 @@ void TObjFogCollisionSwitch::vfunc_14() {
 }
 
 void *create__22TObjFogCollisionPoisonFPv(void *arg0) {
-    void *o = TObject::operator new(0x9C);
-    if (o != NULL) {
-        o = TObjFogCollisionPoison__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjFogCollisionPoison(tl_05, arg0);
 }
 
-void *TObjFogCollisionPoison__ct(void *parent, void *arg1, void *set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
     u16 i;
-    TObjFogCollisionSwitch__ct(parent, arg1, set);
-    *(s32 **)((s8 *)parent + 0x18) = __vt__22TObjFogCollisionPoison;
-    ((TObject *)parent)->m_name = TObjFogCollisionPoison__name;
+    TObject *parent = this;
+    m_name = TObjFogCollisionPoison__name;
     ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
@@ -293,7 +279,6 @@ void *TObjFogCollisionPoison__ct(void *parent, void *arg1, void *set) {
     } else {
         new TUnk_804AF7B0((TObject *)parent, local_client_id);
     }
-    return parent;
 }
 
 
@@ -344,7 +329,6 @@ TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
 s32 get_entity_id(s32);
-s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
@@ -389,7 +373,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     s32 p;
     s16 v;
     p = get_player_by_client_id(arg1);
-    if (is_valid_target__9TObjEneDDFv(p) != 0) {
+    if (((TObjEneDD *)p)->is_valid_target() != 0) {
         v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {
             v = 0;
@@ -398,11 +382,11 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     }
 }
 
-u8 TObjFogCollisionPoison::check_switch() {
+s32 TObjFogCollisionPoison::check_switch() {
     s32 switch_mode;
 
     switch_mode = get_switch_mode();
-    return (u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2]));
+    return (u8)((u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2])));
 }
 
 void TObjFogCollisionPoison::vfunc_14() {
@@ -505,7 +489,7 @@ void TObjFogCollision_Manager::run_task() {
     }
 }
 
-// Per-client poison ticker under a TObjFogCollisionPoison (TObjFogCollisionPoison__ct creates one
+// Per-client poison ticker under a TObjFogCollisionPoison (its constructor creates one
 // per client; callers pass the client as u16).
 TUnk_804AF7B0::TUnk_804AF7B0(TObject *parent, u16 client) : TObject(parent) {
     this->client = client;

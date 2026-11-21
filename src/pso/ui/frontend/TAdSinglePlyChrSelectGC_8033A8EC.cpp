@@ -7,6 +7,8 @@
 #pragma push
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
@@ -34,10 +36,10 @@ struct RecoveredGlobal_8033B264_lbl_804EF728 {
 
 
 
-// Window position and size setup passes to update_window_mode_from_progress
+// Window position and size setup passes to create_message_window_for_size
 static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
 static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
-// Window position init_warp and init_warps pass to check_room_seq_4
+// Window position init_warp and init_warps pass to create_window_menu_default
 static const f32 lbl_80477D58[2] = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
 static const Vec lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
@@ -59,18 +61,16 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 int request_queued_main_phase(void*);
 extern void *character_select_scene_resource_callbacks[];
-int check_room_seq_4__16TAdChrSelASlotGCFl(void*, void*);
+int create_window_menu_default(void*, void*);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
 u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
-s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
 extern char pso_guildcard_card_filename[];
 extern char pso_character_card_filename[];
 s32 start_memcard_read(s32, void *, u32, s32);
 s32 poll_memcard_result(s32);
 
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 void check_ready__23TAdSinglePlyChrSelectGCFv(void);
 
 s32 TKeyBoardControl__sub_8000F92C();
@@ -105,7 +105,6 @@ s32 init_and_register__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 s32 get_character_save_record(int);
 s32 memcpy(int, void *, int);
-s32 update_window_mode_from_progress__6TLobbyFPv(const f32 *, const f32 *);
 
 struct TAdSinglePlyChrSelectGC__sub_8033B9F8;
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
@@ -220,7 +219,7 @@ void TAdSinglePlyChrSelectGC::check_memcard_space() {
     case -1:
         break;
     default:
-        if (arg0->flag_count <= query_memcard_capacity__15TAdPlayerLoadGCFl(arg0->chr_select_state, 0)) {
+        if (arg0->flag_count <= (s32)TAdPlayerLoadGC::query_memcard_capacity(arg0->chr_select_state, 0)) {
             arg0->state = 7;
         } else {
             arg0->state = 0xA;
@@ -247,7 +246,7 @@ void TAdSinglePlyChrSelectGC::sub_8033ACF4() {
             switch (TAdPlayerLoadGC::get_load_result((void *)arg0->chr_select_state)) {
             case 0:
                 arg0->state = 6;
-                arg0->chr_select_state = get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
+                arg0->chr_select_state = (s8)TAdSinglePlyChrSelectGC::get_chr_select_state();
                 arg0->flag_count = TAdSinglePlyChrSelectGC__sub_8001C5F0();
                 check_ready__23TAdSinglePlyChrSelectGCFv();
                 break;
@@ -364,7 +363,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
             ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
             *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 2;
-            *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x38) = update_window_mode_from_progress__6TLobbyFPv(lbl_80477D48, lbl_80477D50);
+            *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x38) = (s32)create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
             lbl_805D6D90 |= 1;
             return;
         }
@@ -475,8 +474,8 @@ void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
         }
     }
 }
-void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
-void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)13))), (void*)6, (void*)0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
+void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = create_window_menu_default((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
+void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = create_window_menu_default((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)13))), (void*)6, (void*)0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
 
 typedef char RecoveredGlobal_8033B264_lbl_804EF728_size[sizeof(RecoveredGlobal_8033B264_lbl_804EF728) == 0x198 ? 1 : -1];
 
@@ -494,8 +493,6 @@ struct RecoveredGlobal_8033B9C4_lbl_80513910 {
 };
 
 extern "C" {
-s32 __ct__12TAdBackTxtGCFv(void *, void *);
-s32 __ct__9TAdBackGCFv(void *, void *);
 
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 extern char pso_system_card_filename[];
@@ -557,14 +554,8 @@ TUnk_804EF8C0::TUnk_804EF8C0() : TObject(tl_01) {
     state = 0;
     download_buffer = NULL;
     download_buffer_size = 0;
-    p = TObject::operator new(0x24);
-    if (p != NULL) {
-        __ct__9TAdBackGCFv(p, this);
-    }
-    p = TObject::operator new(0x28);
-    if (p != NULL) {
-        __ct__12TAdBackTxtGCFv(p, this);
-    }
+    p = new TAdBackGC(this);
+    p = new TAdBackTxtGC(this);
     alloc_download_buffer();
     clear_buffer();
     stop_pad_rumble();

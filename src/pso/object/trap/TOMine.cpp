@@ -1,3 +1,5 @@
+struct game_command_header;
+
 #include "types.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/system/vector.h"
@@ -27,7 +29,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/trap/TOMineIcon01.h"
@@ -40,10 +42,8 @@
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
-s32 fn_80171314(void *);
 }
 
 
@@ -99,46 +99,17 @@ s32 is_split_screen();
 extern s32 local_client_id;
 }
 void text_builder_reset(void);
-struct Pkt_8016F558 { u8 code, words; u16 object, sub, idx; };
 struct Obj_8016F64C { u8 pad0[0x2FC]; u8 sub[0x58]; s32 state; };
-struct VBase_8016F418 { u8 pad[0x18]; };
-struct VObj_8016F418 : VBase_8016F418 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84();
-};
-struct Pkt_8016F418 { u8 pad[4]; u16 id; u16 kind; };
 extern "C" {
-void TOMineTrap__sub_8017141C(void *);
-s16 TOMineTrap__sub_80171340(void *);
-u16 TOMineTrap__sub_80171358(void *);
+s16 TOMineTrap__sub_80171340(TOMineTrap *p);
+u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 extern s32 lbl_805D5868;
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-void handle_6x80_trigger_trap(Pkt_8016F418 *arg0);
+void handle_6x80_trigger_trap(game_command_header *command);
 }
 
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
-struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 extern "C" {
 s32 get_current_floor(void);
 extern u8 lobby_rule_settings[];
@@ -216,7 +187,6 @@ extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
 extern s32 TOMineIcon04__name;
-u8 *get_battle_param__10TObjPlayerFi(s32);
 extern s32 game_difficulty_selection;
 typedef struct VBase_18_33b813 VBase_18_33b813;
 typedef struct VObj_18_33b813 VObj_18_33b813;
@@ -255,14 +225,25 @@ int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
 void TOMineTrap__sub_80171368(f32 farg0);
-s16 TOMineTrap__sub_80171340(void* p);
+s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 int TOMineTrap__sub_80171350(void);
-u16 TOMineTrap__sub_80171358(void* p);
-void TOMineTrap__sub_8017141C(void* p);
+u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 // ---- functions, last address first (deferred codegen emits them in reverse)
-void TOMineTrap__sub_8017141C(void* p) { *(u8*)((char*)p + 0x0) = 128; *(u8*)((char*)p + 0x1) = 2; }
-void TOMineTrap::send_and_handle_60() { bswap_6x80_trigger_trap(); send_subcommand((u8 *)this); }
-void TOMineTrap::bswap_6x80_trigger_trap() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void G_TriggerTrap_6x80::init() {
+    header.subcommand = 0x80;
+    header.size = 2;
+}
+
+void G_TriggerTrap_6x80::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void G_TriggerTrap_6x80::bswap() {
+    header.bswap();
+    bswap_16(&trap_number);
+    bswap_16(&what);
+}
 }
 
 int TOMineTrap::calc_distance_accuracy_penalty(void *attacker, void *, void *, float) {
@@ -281,18 +262,18 @@ s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
 
 
 void TOMine::vfunc_84() {  }
-void TOMineTrap::set_trap_count(int a0) { mine_trap_count = a0; }
-void TOMineTrap::set_instance(int a0) { mine_trap_instance_id = a0; }
+int TOMineTrap::set_trap_count(int a0) { mine_trap_count = a0; return a0; }
+int TOMineTrap::set_instance(int a0) { mine_trap_instance_id = a0; return a0; }
 void TOMineTrap__sub_80171368(f32 farg0) {
     lbl_805D307C = farg0;
 }
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
-u16 TOMineTrap__sub_80171358(void* p) { return *(u16*)((char*)p + 0x37e); }
+u16 TOMineTrap__sub_80171358(TOMineTrap *p) { return p->m_37e; }
 int TOMineTrap__sub_80171350(void) {  return mine_trap_instance_id; }
 void TOMineTrap::sub_80171348(u16 v) { this->m_2d8 = v; }
-s16 TOMineTrap__sub_80171340(void* p) { return *(s16*)((char*)p + 0x326); }
+s16 TOMineTrap__sub_80171340(TOMineTrap *p) { return p->mode; }
 u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
-s32 fn_80171314(void *p) { return ((TObjPlayer *)p)->check_flag(0x10000); }
+s32 fn_80171314(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     m_name = TOMine__name;
     phase = 0;
@@ -351,7 +332,10 @@ void TOMine::render() {
     }
 }
 void TOMine::free_parts() { TObjFish::set_global_param(this->texlist); draw_ginja_object(this->model); }
-void TOMine::free_sub_objects() { TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x378))); draw_ginja_object(*(void**)((char*)this + 0x374)); }
+void TOMine::free_sub_objects() {
+    TObjFish::set_global_param((s32)light_textures);
+    draw_ginja_object(light_model);
+}
 void TOMine::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
@@ -417,7 +401,7 @@ void TOMine::detonate() {
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
-        obj = get_battle_param__10TObjPlayerFi(i);
+        obj = (u8 *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((u32)obj) != 0) {
             DirectAttackPayload pair = attack;
             f32 r = ((VObj_18_1da615 *)obj)->m21(this, &pair, 0, -1, -1);
@@ -796,8 +780,8 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 19:
             model = (void *)get_bml_model(lbl_805D5A50, 4);
             texlist = get_bml_texlist(lbl_805D5A50, 4);
-            m_374 = get_bml_model(lbl_805D5A50, 1);
-            m_378 = get_bml_texlist(lbl_805D5A50, 1);
+            light_model = (NJS_OBJECT *)get_bml_model(lbl_805D5A50, 1);
+            light_textures = (GinjaTextureList *)get_bml_texlist(lbl_805D5A50, 1);
             break;
         case 15:
         case 16:
@@ -805,8 +789,8 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 18:
             model = (void *)get_bml_model(lbl_805D5A50, 5);
             texlist = get_bml_texlist(lbl_805D5A50, 5);
-            m_374 = get_bml_model(lbl_805D5A50, 0);
-            m_378 = get_bml_texlist(lbl_805D5A50, 0);
+            light_model = (NJS_OBJECT *)get_bml_model(lbl_805D5A50, 0);
+            light_textures = (GinjaTextureList *)get_bml_texlist(lbl_805D5A50, 0);
             break;
         }
         mode = 0;
@@ -968,43 +952,42 @@ void TOMineTrap::set_triggered() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 s32 TOMineTrap::find_target_in_range() {
-    Trap_8016F704 *self = (Trap_8016F704 *)this;
-    u8 *p;
+    TObjChara *actor;
     s32 i;
     u16 id;
 
-    self->targetId = 0xFFFF;
-    self->target = 0;
-    if (self->delay > 0) {
-        self->delay--;
+    m_35c = 0xFFFF;
+    target = 0;
+    if (set_params[0] > 0) {
+        set_params[0]--;
         return 0;
     }
     for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p == 0 || p == (u8 *)self || ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0) {
+        actor = TObjPlayer::get_player_data(i);
+        if (actor == NULL || actor == this || actor->obj_testFlags30(0x800) != 0) {
             continue;
         }
-        id = get_entity_id(p);
+        id = get_entity_id(actor);
         if (id == 0xFFFF) {
             continue;
         }
-        if (id == ((TOMineTrap *)self)->get_trap_type() && TOMineTrap::get_trap_count() != 1 &&
+        if (id == get_trap_type() && TOMineTrap::get_trap_count() != 1 &&
             ((TLobby *)lobby_rule_settings)->get_rule_field_0() != 0) {
             continue;
         }
         if (id < 0x1000) {
-            if (((TObjPlayer *)p)->get_floor() != get_current_floor()) {
+            if (((TObjPlayer *)actor)->get_floor() != get_current_floor()) {
                 continue;
             }
-            if (horizontal_distance_squared(self->pos, p + 0x38) < self->range * self->range) {
-                self->targetId = id;
-                self->target = p;
+            if (horizontal_distance_squared(&position, &actor->position) < pad_34C * pad_34C) {
+                m_35c = id;
+                target = (u8 *)actor;
                 return 1;
             }
         } else if (id < 0x4000) {
-            if (horizontal_distance_squared(self->pos, p + 0x38) < self->range * self->range) {
-                self->targetId = id;
-                self->target = p;
+            if (horizontal_distance_squared(&position, &actor->position) < pad_34C * pad_34C) {
+                m_35c = id;
+                target = (u8 *)actor;
                 return 1;
             }
         }
@@ -1061,38 +1044,39 @@ f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
 void TOMineTrap::send_state_packet(u16 idx) {
     TOMineTrap *self = this;
     if (idx < 3) {
-        Pkt_8016F558 pkt;
-        TOMineTrap__sub_8017141C(&pkt);
-        pkt.object = self->entity_id;
-        pkt.sub = self->m_37e;
-        pkt.idx = idx;
-        ((TOMineTrap *)(&pkt))->send_and_handle_60();
+        G_TriggerTrap_6x80 packet;
+        packet.init();
+        packet.header.client_id = self->entity_id;
+        packet.trap_number = self->m_37e;
+        packet.what = idx;
+        packet.send();
     }
 }
-void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
-    VObj_8016F418 *p;
+void handle_6x80_trigger_trap(game_command_header *command) {
+    G_TriggerTrap_6x80 *packet = (G_TriggerTrap_6x80 *)command;
+    TOMineTrap *p;
     s32 i;
-    if (arg0 == NULL) {
+    if (packet == NULL) {
         return;
     }
-    ((TOMineTrap *)arg0)->bswap_6x80_trigger_trap();
+    packet->bswap();
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
-        p = (VObj_8016F418 *)TObjPlayer::get_player_data(i);
+        p = (TOMineTrap *)TObjPlayer::get_player_data(i);
         if (p == NULL) {
             continue;
         }
         if (((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) == 0) {
             continue;
         }
-        if (arg0->id != TOMineTrap__sub_80171358(p)) {
+        if (packet->trap_number != TOMineTrap__sub_80171358(p)) {
             continue;
         }
-        switch (arg0->kind) {
+        switch (packet->what) {
         case 0:
             switch (TOMineTrap__sub_80171340(p)) {
             case 0:
             case 1:
-                p->m84();
+                p->vfunc_86();
                 break;
             }
             break;
@@ -1101,7 +1085,7 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
             case 0:
             case 1:
             case 2:
-                ((TOMineTrap *)p)->set_triggered();
+                p->set_triggered();
                 break;
             }
             break;
@@ -1111,7 +1095,7 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
             case 1:
             case 2:
             case 3:
-                ((TOMineTrap *)p)->set_state();
+                p->set_state();
                 break;
             }
             break;
@@ -1190,13 +1174,13 @@ TOMineDisp::~TOMineDisp() {
 
 void TOMineDisp::run_task() {
     void *mine = this->m_up;
-    u8 *p;
+    TObjPlayer *player;
     switch (this->m_a4) {
     case 0:
-        p = (u8 *)get_player_by_client_id(this->m_a8);
-        if (p != NULL && is_locally_controlled__10TObjPlayerFPv() != 0 && fn_80171314(p) != 0) {
-            if (horizontal_distance_squared(((u8 *)this) + 0x38, p + 0x38) <= 40000.0f ||
-                ((TObjBase *)p)->get_room() == this->get_room()) {
+        player = get_player_by_client_id(this->m_a8);
+        if (player != NULL && TObjPlayer::is_locally_controlled(player) != 0 && fn_80171314(player) != 0) {
+            if (horizontal_distance_squared(&position, &player->position) <= 40000.0f ||
+                player->get_room() == this->get_room()) {
                 this->m_a4 = 2;
             }
         }
@@ -1253,7 +1237,7 @@ void TOMineTrapDisp::run_task() {
     void *d;
     s32 hit;
     s32 i;
-    u8 *pl;
+    TObjPlayer *pl;
 
     d = m_up;
     switch (m_a4) {
@@ -1261,12 +1245,12 @@ void TOMineTrapDisp::run_task() {
         hit = 0;
         if (TOMineTrap__sub_80171350() == 1) {
             for (i = 0; i < 4; i++) {
-                pl = (u8 *)get_player_by_client_id(i);
-                if (pl != 0 && is_locally_controlled__10TObjPlayerFPv() != 0) {
+                pl = get_player_by_client_id(i);
+                if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
                     if (fn_80171314(pl) != 0 ||
                         (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)get_entity_id(pl))) {
-                        if (!(horizontal_distance_squared(&position, pl + 0x38) <= 40000.0f)) {
-                            if ((s16)((TObjBase *)pl)->get_room() != (s16)this->get_room()) {
+                        if (!(horizontal_distance_squared(&position, &pl->position) <= 40000.0f)) {
+                            if ((s16)pl->get_room() != (s16)this->get_room()) {
                                 continue;
                             }
                         }

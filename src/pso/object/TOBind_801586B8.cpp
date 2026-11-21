@@ -3,6 +3,11 @@
 #include "pso/object/TOBind_801586B8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/animation/ActorAnimationState.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -25,33 +30,24 @@ CollisionBody bind_collision_body_parts[2] = {
 };
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u32 TOBind__static_model_resource;
-u8 *get_bml_motion(s32, s32);
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+BmlResource *TOBind__static_model_resource;
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
 const char *lbl_805D2EA8 = "TOBind";
 extern s32 tl_05;
-void free_bin_model_request(void*, int);
-s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 void TOBind::render() {
-    u8 *arg0 = (u8 *)this;
-    if (this->update_object_view_visibility(*(f32 *)&this->unk_D0, this->m_d4) != 0) {
+    if (this->update_object_view_visibility(draw_distance, this->m_d4) != 0) {
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->m_b0 != 1) {
-            TObjFish::set_global_param(this->m_c8);
+            TObjFish::set_global_param(reinterpret_cast<s32>(animated_textures));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)this->m_c4, (void *)this->m_cc, (f32)(*(f32 *)((s8 *)arg0 + 0xB8)));
+            draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
@@ -67,21 +63,18 @@ void *TOBind::create(void *arg0) {
 }
 
 void TOBind::free_static_model() {
-    if ((u32) TOBind__static_model_resource != 0U) {
-        free_bin_model_request((void*)TOBind__static_model_resource, 1);
-        TOBind__static_model_resource = 0U;
+    if (TOBind__static_model_resource != NULL) {
+        free_bin_model_request(TOBind__static_model_resource, 1);
+        TOBind__static_model_resource = NULL;
     }
 }
 
 void TOBind::load_static_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_bind_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 1, &bm_o_bind_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TOBind__static_model_resource) = var_r0;
+    TOBind__static_model_resource = storage;
 }
 
 }
@@ -96,14 +89,14 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     ((TOBind *)bind)->m_name = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
-    *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
-    bind->texlist = get_bml_texlist((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
-    bind->m_c4 = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
-    bind->m_c8 = get_bml_texlist((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
-    *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(s32 *)&TOBind__static_model_resource), 0);
-    *(f32 *)((s8 *)bind + 0xB8) = 0.0f;
-    bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - 1.0f);
-    *(f32 *)((s8 *)bind + 0xC0) = 1.0f;
+    bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOBind__static_model_resource, 0));
+    bind->texlist = get_bml_texlist(TOBind__static_model_resource, 0);
+    bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOBind__static_model_resource, 1));
+    bind->animated_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TOBind__static_model_resource, 1));
+    bind->motion = get_bml_motion(TOBind__static_model_resource, 0);
+    bind->motion_frame = 0.0f;
+    bind->m_bc = static_cast<f32>(bind->motion->frameCount) - 1.0f;
+    bind->motion_step = 1.0f;
     init_collision_body_parts(bind, bind_collision_body_parts, 2);
     ((TObjCollidable *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->register_object_by_id();
@@ -112,7 +105,7 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     if ((s32) bind->m_b4 < 0) {
         bind->m_b4 = 0;
     }
-    *(f32 *)((s8 *)bind + 0xD0) = 400.0f;
+    bind->draw_distance = 400.0f;
     bind->m_d4 = 40.0f;
     return (u8 *)bind;
 }

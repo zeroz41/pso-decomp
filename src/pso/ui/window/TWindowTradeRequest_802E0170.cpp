@@ -5,6 +5,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_802E0224___vt__19TWindowTradeRequest {
     s32 value;
@@ -39,7 +41,6 @@ struct RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest
 struct Obj_802E0174 { u8 pad[0x1C]; s32 state; void *card; };
 
 extern "C" {
-s32 init_parts__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 void fn_8024AADC(s32 arg0, s32 arg1);
 void TLobby__sub_8024AC20(s32 arg0);
@@ -48,9 +49,6 @@ extern RecoveredGlobal_802E0224___vt__19TWindowTradeRequest __vt__19TWindowTrade
 extern s32 local_client_id;
 s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
-char get_trade_mode__6TLobbyFv(void);
-s32 reset_equip_slots__10TObjPlayerFv();
 s32 text_builder_append();
 }
 void text_builder_reset(void);
@@ -58,7 +56,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 void fn_8024AC64(s32 arg0);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
 const char *lbl_805D3F70 = "TWindowTradeRequest";
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *arg0);
 void TWindowTradeRequest::render() {  }
@@ -98,14 +95,15 @@ void TWindowTradeRequest::run_task() {
     }
 }
 TWindowTradeRequest::~TWindowTradeRequest() {
+    void *player;
     if ((u32) this->m_20 != 0U) {
         ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x20)))->close();
         this->m_20 = 0U;
     }
     TWindowReturnCity__sub_8024ACA8((local_client_id));
     TLobby__sub_8024AC20((local_client_id));
-    if (get_player_by_client_id((local_client_id)) != 0U) {
-        init_parts__10TObjPlayerFv();
+    if ((player = (void *)get_player_by_client_id((local_client_id))) != 0U) {
+        ((TObjPlayer *)player)->init_parts();
     }
     if ((u32) this->m_1c == 2U) {
         fn_8024AADC((local_client_id), 0x1D);
@@ -117,6 +115,7 @@ typedef struct VObj_18_f23ffb VObj_18_f23ffb;
 #pragma fp_contract on
 #define PSO_VCALL_VObj_18_f23ffb_m10(_self) (((VObj_18_f23ffb *)(_self))->m10())
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
+    void *player_obj;
   u32 new_var;
   s32 player;
   s8 *new_var2;
@@ -124,7 +123,7 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   __ct__7TObjectFP7TObject();
   *((s32 **) (((s8 *) window_trade_request) + 0x18)) = &(*(RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest *)&__vt__19TWindowTradeRequest).value;
   *((s32 *) (((s8 *) window_trade_request) + 0)) = (s32) lbl_805D3F70;
-  player = ((s32)get_player_by_client_id(((u32) get_trade_mode__6TLobbyFv())));
+  player = ((s32)get_player_by_client_id(((u32) (char)TLobby::get_trade_mode())));
   text_builder_reset();
   new_var = (u32) player;
   if (new_var)
@@ -134,14 +133,14 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   }
   TWindowSubStatusDisp::get_message_10(0xD9);
   text_builder_append();
-  window_trade_request->m_20 = create__19TWindowMessageYesNoFPvPvPvPv((s32) window_trade_request, local_client_id, 0, 0);
+  window_trade_request->m_20 = (s32)TWindowMessageYesNo::create((void *)((s32) window_trade_request), (void *)(local_client_id), 0, 0);
   window_layout_position = (u8 *) get_window_layout_position(0xB2);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_trade_request->m_20, (int) get_shared_text_buffer(), (int) window_layout_position, 260.0f);
+  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_trade_request->m_20, (s32)(get_shared_text_buffer()), (s32)window_layout_position, 260.0f);
   new_var2 = ((s8 *) window_trade_request) + 0x1C;
   ((TWindowSubShortMail *)(window_trade_request->m_20))->notify_warp_flag70();
-  if (((s32)get_player_by_client_id(((u32) local_client_id))) != 0U)
+  if (((s32)(player_obj = (void *)get_player_by_client_id(((u32) local_client_id)))) != 0U)
   {
-    reset_equip_slots__10TObjPlayerFv();
+    ((TObjPlayer *)player_obj)->reset_equip_slots();
   }
   TObjPlayer__sub_8024ABDC(local_client_id);
   fn_8024AC64(local_client_id);

@@ -282,10 +282,8 @@ struct Card_8007B0D0 {
 };
 
 extern "C" {
-s32 init_card__17TWindowSubComCardFPv(s32 *, s32);
 s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n);
 s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n);
-int fill_guild_card_from_char__6TLobbyFl(void*, void*);
 int memset(void*, int, int);
 
 #pragma push
@@ -297,7 +295,7 @@ void TWindowSubComCard__sub_8007AF10(s32 arg0) {
     ((TWindowSubComCard *)(&sp8))->init_guild_card();
     temp = TWindowSubComCard::get_keyboard_mode();
     ((s32 (*)(Big *, s32))copy_struct__17TWindowSubComCardFPvPv)(&spC, temp);
-    init_card__17TWindowSubComCardFPv(&sp8, arg0);
+    ((TWindowSubComCard *)(&sp8))->init_card((void*)arg0);
 }
 #pragma pop
 
@@ -399,7 +397,7 @@ void TWindowSubComCard__sub_8007B26C(O_8007B26C *self) {
 
 int clear(void* p) { return memset(p, 0, 144); }
 
-void TWindowSubComCard::clear_and_init(void* a1) { clear(this); fill_guild_card_from_char__6TLobbyFl(this, a1); }
+void TWindowSubComCard::clear_and_init(void* a1) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((s32)a1); }
 s32 fn_8007B2E0(u8 *arg0, s32 id) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(TLobby::find_short_mail_by_id(id));

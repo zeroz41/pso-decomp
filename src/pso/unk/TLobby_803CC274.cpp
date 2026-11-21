@@ -3,10 +3,10 @@
 
 extern "C" {
 
-s32 DCInvalidateRange();
+void DCInvalidateRange(void *, u32);
 
-void TLobby::invalidate_cache() {
-    DCInvalidateRange();
+void TLobby::invalidate_cache(void *start, u32 length) {
+    DCInvalidateRange(start, length);
 }
 
 }

@@ -5,11 +5,10 @@
 
 extern u32* TWindowCtrl__active_window;
 
-void TWindowCtrl::dispatch_to_child(void *kind) {
-    s32 arg0 = (s32)this;
+void TWindowCtrl::dispatch_to_child(s32 arg0, s32 kind) {
     u32* p = TWindowCtrl__active_window;
     if (p != 0 && p[arg0 + 18] != 0U) {
-        ((TWindowCtrlMain *)p[arg0 + 18])->spawn_palette_slot_light((s32)kind);
+        ((TWindowCtrlMain *)p[arg0 + 18])->spawn_palette_slot_light(kind);
     }
 }
 

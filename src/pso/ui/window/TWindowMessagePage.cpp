@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 
 #pragma readonly_strings on
@@ -18,13 +19,8 @@ struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
 s32 TLobby__sub_80269DA4(void *, void *);
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
-extern s32 __vt__18TWindowMessagePage[];
 extern const char *TWindowMessagePage__name;
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 run_task__14TWindowMessageFv();
 s32 *get_shared_text_buffer(void);
-u32 copy_message_page_text__20TWindowSubStatusDispFv(u32);
 
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->m_94 != 0U) {
@@ -36,7 +32,7 @@ s32 TWindowMessagePage::is_ready() {
 void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
-        this->m_94 = copy_message_page_text__20TWindowSubStatusDispFv(this->m_94);
+        this->m_94 = (u32)((TWindowSubStatusDisp *)this->m_94)->copy_message_page_text();
         append_line((int)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
@@ -54,19 +50,12 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
 }
 
 u8 *TWindowMessagePage::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u8 *window_message_page;
-    u8 *var_r0;
     TLobby__sub_80269DA4((void *)arg1, (void *)arg2);
-    window_message_page = (u8 *)(TObject::operator new(0x98));
-    var_r0 = window_message_page;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowMessagePage__ct(window_message_page, arg0, arg2, arg3));
-    }
-    return var_r0;
+    return (u8 *)new TWindowMessagePage(arg0, arg2, arg3);
 }
 
-void TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
-    TWindowMessagePage::create(a, b, c, local_client_id);
+u8 *TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
+    return TWindowMessagePage::create(a, b, c, local_client_id);
 }
 
 void TWindowMessagePage::render() { { (void)(this->TWindowMessage::render()); return; } }
@@ -74,9 +63,9 @@ void TWindowMessagePage::render() { { (void)(this->TWindowMessage::render()); re
 void TWindowMessagePage::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r5;
-    run_task__14TWindowMessageFv();
+    TWindowMessage::run_task();
     temp_r5 = is_player_input_active((this->m_20)) * 0x50;
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
         if (((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) {
             update_message();
             return;
@@ -90,13 +79,9 @@ TWindowMessagePage::~TWindowMessagePage() {
 
 }
 
-u8 *TWindowMessagePage__ct(u8 *window_message_page, s32 arg1, s32 arg2, s32 arg3) {
-    TWindowMessage__ct((window_message_page), (arg1), (arg2), (arg3));
-    *(s32 **)((s8 *)window_message_page + 0x18) = __vt__18TWindowMessagePage;
-    *(s32 *)((s8 *)window_message_page + 0) = (s32) ((s32)TWindowMessagePage__name);
-    *(s32 *)((s8 *)window_message_page + 0x90) = 0;
-    ((TWindowMessagePage *)window_message_page)->m_20 = (s16) arg3;
-    ((TWindowMessagePage *)window_message_page)->m_94 = 0;
-    return window_message_page;
+TWindowMessagePage::TWindowMessagePage(s32 arg1, s32 arg2, s32 arg3) : TWindowMessage(arg1, arg2, arg3) {
+    this->m_name = TWindowMessagePage__name;
+    *(s32 *)((s8 *)this + 0x90) = 0;
+    this->m_20 = (s16) arg3;
+    this->m_94 = 0;
 }
-

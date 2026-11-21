@@ -2,25 +2,12 @@
 #define PSO_OBJECT_BASE_TOBJMOTION_H
 #include "pso/system/task/TObject.h"
 #include "pso/object/CursorAction.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/system/data/FlagWord.h"
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/NinjaTypes.h"
 struct BmlMotionEntry;
-
-// What apply_object_set_data reads: an object set entry from 4 bytes in, so
-// entity_id, room, position, rotation and params 1-6 sit as in the .dat entry.
-struct ObjectSetData {
-    u8 pad_0[0x4];
-    u16 entity_id;
-    u8 pad_6[0x2];
-    s16 room;
-    u8 pad_a[0x2];
-    Vec position;
-    s32 rotation[3];
-    Vec scale;
-    s32 set_params[3];
-};
 
 class TObjBase : public TObject {
 public:
@@ -120,7 +107,7 @@ public:
     // Gives it an entity id if it has none and enters it in the id-sorted
     // entity table (unregister_object_by_id takes it out).
     void register_object_by_id();
-    u16 unregister_object_by_id();
+    s32 unregister_object_by_id();
     void send_object_state_update(void *);
     // A player (client id, 0xFFFF for none) uses the action button on it.
     virtual void interact(s32 client);
@@ -200,6 +187,9 @@ public:
     void set_field_d8(s32);
     void set_field_dc(s32);
     void set_field_b8(s16);
+    void sub_8002AE64();
+    void sub_800A7798(f32);
+    void set_flags_B0(u32);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);
     void clear_motion_flags(s32 flags);

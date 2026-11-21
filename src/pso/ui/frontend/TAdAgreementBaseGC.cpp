@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -41,13 +43,7 @@ static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
 static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
-extern s32 __vt__18TAdAgreementBaseGC[];
-Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1);
 void *get_localized_text_entry(int, u32);
 void draw_window_frame__11TWindowBaseFPv();
 
@@ -97,7 +93,7 @@ void TAdAgreementBaseGC::update_state() {
                 *(s32 *)&this->m_24 = 4;
                 break;
             }
-        } else if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+        } else if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             *(s32 *)&this->m_1c = 2;
             *(s32 *)&this->m_24 = 5;
         }
@@ -136,10 +132,9 @@ TAdAgreementBaseGC::~TAdAgreementBaseGC() {
 }
 
 
-Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
+#define arg0 ((Obj_80329AA8 *)this)
+TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *arg1) : TObject(arg1) {
     void *p;
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    arg0->vt = ((s32 *)&__vt__18TAdAgreementBaseGC);
     arg0->f0 = lbl_805D41B8;
     arg0->f28 = 0;
     arg0->f1C = 0;
@@ -147,14 +142,8 @@ Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
     arg0->f34 = 0;
     arg0->f2C = 0;
     arg0->cur = 0;
-    p = TObject::operator new(0x24);
-    if (p != 0) {
-        __ct__9TAdBackGCFv(p, arg0);
-    }
-    p = TObject::operator new(0x28);
-    if (p != 0) {
-        __ct__12TAdBackTxtGCFv(p, arg0);
-    }
+    p = new TAdBackGC((TObject *)arg0);
+    p = new TAdBackTxtGC((TObject *)arg0);
     p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)agreement_item_rect_table, (void *)&lbl_804770A0);
@@ -164,8 +153,8 @@ Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
     ((TLevelSelect *)(arg0->cur))->add_item_rect((void *)&agreement_item_rect_table[1]);
     fn_80329BAC(arg0->cur);
     ((TLobby *)(arg0->cur))->set_ad_field(1);
-    return arg0;
 }
+#undef arg0
 
 void TAdAgreementBaseGC::vfunc_6() {  }
 void TAdAgreementBaseGC::vfunc_7() {  }

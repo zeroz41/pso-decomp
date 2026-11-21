@@ -20,17 +20,17 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_80226070.h"
 
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 is_owner_alive__15TItemShootModelFv();
 s32 push_matrix();
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
 void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
-    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
         push_matrix();
         set_texlist(*(u32 *)&this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
@@ -54,7 +54,6 @@ void *TUnk_804A69C0::init_shoot_model() {
     return this;
 }
 
-s32 update_technique_slot__10TTecRaFoieFl(int, int, int);
 s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
 s32 __nw__7TObjectFUl(int);
@@ -82,7 +81,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg
 void TUnk_804A69DC::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
-            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4001AA05, (int)&owner->position, 0, 0), 0x300, 0);
+            set_sound_pitch_request(play_sound_effect(0x4001AA05, (int)&owner->position, 0, 0), 0x300, 0);
             launch_shot((u8 *)&gun_point, 0, 0, 1);
         }
     }

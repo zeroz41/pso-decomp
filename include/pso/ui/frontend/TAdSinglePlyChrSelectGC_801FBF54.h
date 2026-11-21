@@ -91,7 +91,7 @@ u8 load_character_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_chr_select_slot__23TAdSinglePlyChrSelectGCFv(void);
-s32 load_player__23TAdSinglePlyChrSelectGCFv(void);
+s32 load_guild_card_save(void);
 u8 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_player_data__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_pso_system(void);

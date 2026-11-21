@@ -8,17 +8,11 @@ TAttackTrace::~TAttackTrace() {}
 
 extern "C" {
 
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__12TAttackTrace[];
 const char *lbl_805D2A90 = "TAttackTrace";
 
-void *TAttackTrace__ct(void *attack_trace) {
-    __ct__7TObjectFP7TObject(attack_trace);
-    *(s32 **)((s8 *)attack_trace + 0x18) = __vt__12TAttackTrace;
-    ((TAttackTrace *)attack_trace)->m_name = lbl_805D2A90;
-    *(u32 *)((s8 *)attack_trace + 0x1C) = 0;
-    return attack_trace;
 }
 
+TAttackTrace::TAttackTrace(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D2A90;
+    *(u32 *)((s8 *)this + 0x1C) = 0;
 }

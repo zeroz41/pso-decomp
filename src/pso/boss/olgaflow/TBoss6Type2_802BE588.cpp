@@ -89,7 +89,7 @@ typedef struct S_802BF6CC {
 } S_802BF6CC;
 
 extern "C" {
-s32 choose_random_motion__11TBoss6Type2Fv();
+s8 choose_random_motion__11TBoss6Type2Fv();
 int send_action_packet__11TBoss6Type2FSc(void*, void*);
 s32 TBoss6Type2__sub_802BB768(void *);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
@@ -102,8 +102,6 @@ s32 TBoss6Type2__sub_802BA944(void *);
 s32 TBoss6Type2__sub_802BA9E4(void *);
 void TBoss6Type2__sub_802BAD04(s32 arg0);
 s32 TBoss6Type2__sub_802BB7C0(void *);
-s32 get_phase__11TBoss6Type2Fv();
-u16 is_falz_ready__11TBoss6Type2Fv(void *);
 extern f32 lbl_805DE408;
 extern f32 lbl_805DE3FC;
 void TBoss6Type2__sub_802BBC74(TBoss6Type2 *boss);
@@ -219,7 +217,7 @@ void TBoss6Type2::init_attack_params() {
 
     this->state_duration = 0x4B;
     this->state_timer = 0x4B;
-    *(s32 *)&this->unk_504 = 0;
+    this->m_504 = 0;
     switch (this->m_374) {
     case 4:
         this->m_46c = 0;
@@ -242,8 +240,8 @@ void TBoss6Type2::init_attack_params() {
 void TBoss6Type2::update_zako_phase() {
     s32 temp_r0;
 
-    if (((s32) *(s32 *)&this->unk_504 == 0) && (this->turn_toward_target_position() == 0)) {
-        *(s32 *)&this->unk_504 = 1;
+    if (((s32) this->m_504 == 0) && (this->turn_toward_target_position() == 0)) {
+        this->m_504 = 1;
     }
     update_zako();
     temp_r0 = this->state_timer - 1;
@@ -289,8 +287,8 @@ void TBoss6Type2::send_state_action() {
 void TBoss6Type2::update_zako_spawn_timer() {
     s32 temp_r0;
 
-    if (((s32) *(s32 *)&this->unk_504 == 0) && (this->turn_toward_target_position() == 0)) {
-        *(s32 *)&this->unk_504 = 1;
+    if (((s32) this->m_504 == 0) && (this->turn_toward_target_position() == 0)) {
+        this->m_504 = 1;
     }
     update_zako();
     temp_r0 = this->state_timer - 1;
@@ -650,16 +648,16 @@ void TBoss6Type2::select_next_state() {
     u16 temp_r3;
 
     if ((s32) this->state_timer == 0) {
-        if (get_phase__11TBoss6Type2Fv() == 0xD) {
+        if (get_phase() == 0xD) {
             if (is_phase_complete() != 0) {
-                send_action_packet__11TBoss6Type2FSc(this, (void*)(0x1A));
+                this->send_action_packet((s8)0x1A);
                 return;
             }
             if (*(u16 *)((s8 *)this + 0x55C) == 0xFFFF) {
-                temp_r3 = is_falz_ready__11TBoss6Type2Fv(this);
+                temp_r3 = is_falz_ready();
                 if (temp_r3 != 0xFFFF) {
                     *(u16 *)((s8 *)this + 0x464) = temp_r3;
-                    send_action_packet__11TBoss6Type2FSc(this, (void*)(0x19));
+                    this->send_action_packet((s8)0x19);
                     return;
                 }
             }
@@ -667,11 +665,11 @@ void TBoss6Type2::select_next_state() {
         }
 block_7:
         if (TBoss6Type2__sub_802BA9E4(this) != 0) {
-            send_action_packet__11TBoss6Type2FSc(this, (void*)(0xD));
+            this->send_action_packet((s8)0xD);
             return;
         }
         if (TBoss6Type2__sub_802BA944(this) != 0) {
-            send_action_packet__11TBoss6Type2FSc(this, (void*)(0xE));
+            this->send_action_packet((s8)0xE);
             return;
         }
         update_attack_target();
@@ -715,7 +713,7 @@ void TBoss6Type2::sub_802BE6A0() {
 void TBoss6Type2::sub_802BE648() {
     if (state_timer == 0) {
         if ((s32) m_374 == 0x1D) {
-            send_action_packet__11TBoss6Type2FSc(this, (void *)choose_random_motion__11TBoss6Type2Fv());
+            this->send_action_packet(choose_random_motion__11TBoss6Type2Fv());
             return;
         }
         update_attack_target();
@@ -738,12 +736,12 @@ void TBoss6Type2::update_zako_timer() {
 
 void TBoss6Type2::select_action() {
     if (*(s32 *)((s8 *)this + 0x30) & 0x800) {
-        send_action_packet__11TBoss6Type2FSc(this, (void*)(0x23));
+        this->send_action_packet((s8)0x23);
         return;
     }
     if ((s32) *(s32 *)((s8 *)this + 0x418) != 0) {
-        send_action_packet__11TBoss6Type2FSc(this, (void*)(0x1B));
+        this->send_action_packet((s8)0x1B);
         return;
     }
-    send_action_packet__11TBoss6Type2FSc(this, (void*)(0));
+    this->send_action_packet((s8)0);
 }

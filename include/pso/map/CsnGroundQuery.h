@@ -17,4 +17,23 @@ struct CsnGroundHit {
     u32 flags;
     CsnGroundSurface *surface;
 };
+
+// Ground and segment queries share this record and its contact array.
+struct CsnContact {
+    Vec point;
+    Vec normal;
+    u32 flags;
+};
+
+struct CsnHit {
+    u32 hit_mask;
+    CsnContact *contact;
+};
+
+typedef char CsnContactSize[sizeof(CsnContact) == 0x1C ? 1 : -1];
+typedef char CsnHitSize[sizeof(CsnHit) == 8 ? 1 : -1];
+
+// A cached query uses caller-provided storage for up to 14 groups and a null terminator.
+struct CsnGroup;
+extern "C" CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask);
 #endif

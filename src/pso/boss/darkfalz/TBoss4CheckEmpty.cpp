@@ -7,11 +7,11 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 is_active__11TBoss4Type2Fv();
 s32 is_door_open_and_ready__12TBoss4ThanksFv();
 }
 void init_music_sequencer(s32 program);
@@ -19,7 +19,7 @@ const char *TBoss4CheckEmpty__name = "TBoss4CheckEmpty";
 void TBoss4CheckEmpty::render() {  }
 void TBoss4CheckEmpty::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (is_active__11TBoss4Type2Fv() != 0) {
+    if (TBoss4Type2::is_active() != 0) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }

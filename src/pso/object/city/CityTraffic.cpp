@@ -1,3 +1,8 @@
+#include "pso/system/BmlResource.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/unk/text_803E2F28.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -28,18 +33,15 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
+#include "pso/unk/TLobby_80226070.h"
 
 
-struct Rec16_80180D18 { s32 f0; s32 f4; s32 f8; s32 fc; };
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_z(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 draw_ginja_object();
-s32 draw_chunk_object(int, void *);
-extern void **city_common_texture_list;
 }
 
 struct Car_80180E70 {
@@ -71,7 +73,6 @@ struct Car_80181074 {
 };
 
 extern "C" {
-s32 update_technique_slot__10TTecRaFoieFl(s32, int, int);
 s32 vec3_add_to(void *, void *);
 }
 
@@ -111,25 +112,7 @@ typedef struct
   f32 w;
 } Quat_801817AC;
 
-typedef struct
-{
-  u32 pad0;
-  u32 count;
-} Motion_801817AC;
 
-typedef struct
-{
-  s32 pad0;
-  s32 pad4;
-  s32 f8;
-  s32 padC;
-} Ent_801817AC;
-
-typedef struct
-{
-  u8 pad[0x42C];
-  Ent_801817AC *entries;
-} Lob_801817AC;
 
 typedef struct
 {
@@ -142,22 +125,14 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
-s32 alloc_tables__6TLobbyFll(s32, s32, s32, Ent_801817AC *);
+s32 alloc_tables__6TLobbyFll(s32, s32, s32, BmlModelEntry *);
 void subtract_vector(Vec *, Vec *);
-Lob_801817AC * city_air_car_model_resource;
-void ** city_air_car_model_handle;
+BmlResource *city_air_car_model_resource;
+GinjaTextureList *city_air_car_model_handle;
 }
 
-struct E_801819CC { s32 a; s32 b; };
-
-struct O_801819CC { u8 pad[0x430]; E_801819CC *entries; };
-
-struct E_801819E4 { s32 a; s32 b; s32 c; s32 d; };
-
-struct O_801819E4 { u8 pad[0x42c]; E_801819E4 *entries; };
-
-O_801819CC *city_common_model_archive;
-void **city_common_texture_list;
+BmlResource *city_common_model_archive;
+GinjaTextureList *city_common_texture_list;
 
 #pragma defer_codegen on
 
@@ -168,11 +143,11 @@ f32 air_car_lane_spacing_table[5];
 f32 air_car_lane_speed_scale_table[5];
 void *air_car_buffer_pair_table[6];
 
-s32 get_city_common_model(s32 i) {
-    return (*(O_801819E4 * *)&city_common_model_archive)->entries[i].c;
+NJS_OBJECT *get_city_common_model(s32 i) {
+    return (NJS_OBJECT *)city_common_model_archive->models[i].model;
 }
-s32 get_city_common_motion(s32 i) {
-    return city_common_model_archive->entries[i].b;
+AnimationMotion *get_city_common_motion(s32 i) {
+    return city_common_model_archive->motions[i].motion;
 }
 
 void measure_traffic_path_lengths(void) {
@@ -184,16 +159,16 @@ void measure_traffic_path_lengths(void) {
   Vec a2;
   Vec b2;
   Quat_801817AC q2;
-  Motion_801817AC *m;
+  AnimationMotion *m;
   s32 i;
   s32 j;
   const s32 *new_var;
   s32 p;
   for (i = 0; i < 5; i++)
   {
-    m = (Motion_801817AC *) get_city_common_motion(city_traffic_path_motion_index_table[i]);
+    m = get_city_common_motion(city_traffic_path_motion_index_table[i]);
     f32 frame;
-    f32 end = (m->count - 1);
+    f32 end = (m->frameCount - 1);
     frame = 0.0f;
     f32 total = frame;
     bind_motion_context((NJS_MOTION *)m, frame);
@@ -203,7 +178,7 @@ void measure_traffic_path_lengths(void) {
       bind_motion_context((NJS_MOTION *)m, frame);
       sample_motion_node_transform((void *)(get_city_common_model(city_aircar_model_indices[i])), (void *)&cur, (void *)&a2, (void *)&b2, (void *)&q2);
       subtract_vector(&prev, &cur);
-      total += ((TObjBoss2Tunnel *)(&prev))->update_scale();
+      total += normalize_vector_safe(&prev);
       VecCopy((Vec *)&prev, (const Vec *)&cur);
     }
     air_car_lane_spacing_table[i] = total;
@@ -215,17 +190,17 @@ void measure_traffic_path_lengths(void) {
   {
     air_car_buffer_pair_table[i] = 0;
   }
-  city_air_car_model_resource = (Lob_801817AC *)get_season_model_resource(2);
+  city_air_car_model_resource = get_season_model_resource(2);
   if (city_air_car_model_resource != 0)
   {
-    city_air_car_model_handle = (void **)TLobby__sub_80184C2C(2);
+    city_air_car_model_handle = TLobby__sub_80184C2C(2);
     for (j = 0; j < 5; j++)
     {
       p = (int)::operator new(0x14);
       new_var = city_traffic_car_chunk_index_table;
       if (p != 0)
       {
-        p = alloc_tables__6TLobbyFll(p, city_air_car_model_resource->entries[new_var[j]].f8, 1, city_air_car_model_resource->entries);
+        p = alloc_tables__6TLobbyFll(p, city_air_car_model_resource->models[new_var[j]].model, 1, city_air_car_model_resource->models);
       }
       air_car_buffer_pair_table[j] = (void *)p;
     }
@@ -460,7 +435,7 @@ void TObjCityAirCar_Car::run_task() {
         if (((Car_80180E70 *)this)->model == 4) {
             play_persistent_sound(0x4004CB02, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
         } else if (((Car_80180E70 *)this)->model == 0) {
-            update_technique_slot__10TTecRaFoieFl(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
+            set_sound_pitch_request(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
         } else {
             play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
         }
@@ -495,8 +470,8 @@ void TObjCityAirCar_Car::run_task() {
 #pragma pop
 
 void TObjCityAirCar_Car::render() {
-    s32 temp_r31;
-    u8 *temp_r3;
+    u32 texture_index;
+    GinjaTextureEntry *texture_entries;
     if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
         push_matrix();
@@ -505,22 +480,20 @@ void TObjCityAirCar_Car::render() {
         if ((s32) this->m_9c != 0) {
             rotate_matrix_z(0, this->rotation_z);
         }
-        TObjFish::set_global_param((int)city_common_texture_list);
-        get_city_common_model((*(s32 *)((s8 *)((u8 *)city_aircar_model_indices + (this->m_9c * 4)) + 0)));
-        ((void (*)()) draw_chunk_object)();
+        TObjFish::set_global_param((s32)city_common_texture_list);
+        draw_chunk_object(get_city_common_model(city_aircar_model_indices[this->m_9c]));
         TParticleCtrl::begin_effect_render();
-        get_city_common_model((*(s32 *)((s8 *)((u8 *)city_air_car_model_index_table + (this->m_9c * 4)) + 0)));
-        draw_ginja_object();
-        if ((void *) city_air_car_model_resource != NULL) {
-            temp_r3 = (u8 *)(*(u8 **)((s8 *)city_air_car_model_handle + 0));
-            temp_r31 = *(s32 *)((s8 *)temp_r3 + 0x20);
+        draw_ginja_object(get_city_common_model(city_air_car_model_index_table[this->m_9c]));
+        if (city_air_car_model_resource != NULL) {
+            texture_entries = city_air_car_model_handle->entries;
+            texture_index = texture_entries[2].global_index;
             if ((s32) this->m_a4 >= 0x14) {
-                *(s32 *)((s8 *)temp_r3 + 0x20) = (s32) *(s32 *)((s8 *)temp_r3 + 8);
+                texture_entries[2].global_index = texture_entries[0].global_index;
             }
             TObjFish::set_global_param((int)city_air_car_model_handle);
             scroll_strip_uvs(air_car_buffer_pair_table[this->m_9c], *(s32 *)((s8 *)this + 0xA0), 0);
-            draw_chunk_object((*(Rec16_80180D18 **)((s8 *)city_air_car_model_resource + 0x42C))[((s32 *)city_traffic_car_chunk_index_table)[this->m_9c]].f8, (void *)city_air_car_model_resource);
-            *(s32 *)((s8 *)(*(u8 **)((s8 *)city_air_car_model_handle + 0)) + 0x20) = temp_r31;
+            draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[this->m_9c]].model);
+            city_air_car_model_handle->entries[2].global_index = texture_index;
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();

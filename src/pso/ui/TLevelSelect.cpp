@@ -7,6 +7,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -37,13 +39,10 @@ struct Poss_8013319C { NJS_POINT2 p[4]; };
 const char *level_select_class_name = "TLevelSelect";
 
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 s32 game_difficulty_selection;
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
@@ -88,7 +87,7 @@ void TLevelSelect::run_task() {
     case 0:
     default:
         if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank[0x20], 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state[0x160], 2) != 0) {
+            test_controller_flag_4c_color(&controller_input_state[0x160], 2) != 0) {
             ((TObject *)self)->queue_destruction();
             TAdMultiChgGameModeGC::set_game_mode_changed();
         }
@@ -110,12 +109,8 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
         ((TObject *)self)->queue_destruction();
         return self;
     }
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__9TAdBackGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x28)) != NULL) {
-        __ct__12TAdBackTxtGCFv(p, self);
-    }
+    new TAdBackGC((TObject *)self);
+    new TAdBackTxtGC((TObject *)self);
     if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }

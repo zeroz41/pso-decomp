@@ -103,17 +103,12 @@ void TargetCursorRecord::init_cursor_record() {
     value = 0.0f;
 }
 
-TargetCursorRecord *fn_8004438C(TargetCursorRecord *record) {
-    record->init_cursor_record();
-    return record;
+TargetCursorRecord::TargetCursorRecord() {
+    init_cursor_record();
 }
 
-int TObjPlayer::construct_target_cursor_records() {
-    TargetCursorList *list = (TargetCursorList *)this;
-
-    __construct_array(list->records, (void *)fn_8004438C, NULL, sizeof(TargetCursorRecord), 11);
-    clear_target_cursor_list(list);
-    return (int)list;
+TargetCursorList::TargetCursorList() {
+    clear_target_cursor_list(this);
 }
 
 void clear_target_cursor_list(TargetCursorList *list) {
@@ -121,7 +116,6 @@ void clear_target_cursor_list(TargetCursorList *list) {
 }
 
 TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TBoss3VoloptP01_class_name;
     apply_set_data(set_data);
     init_params();
@@ -133,7 +127,6 @@ TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, void *set_data) : TObjEnemyCus
 TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 angle_param) : TObjEnemyCustom(parent) {
     s32 angle;
 
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TBoss3VoloptP01_class_name;
     entity_id = id;
     *(s16 *)&set_index = angle_param;
@@ -819,7 +812,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         }
         targets.count = n;
         if (n > 0) {
-            ((TTecGiZonde *)this)->create(&pos, &targets, (void *)0x1D);
+            TTecGiZonde::create(this, &pos, &targets, 0x1D);
         }
         break;
     case 1:

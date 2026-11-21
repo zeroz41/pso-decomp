@@ -437,6 +437,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # stride shifts and leaves invariant hoisting to the backend. The frame-buffer
     # functions after it (flush_cache..flush_framebuffer, same TU) match under these too.
     "pso/system/movie/TMovie_80143988.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
+    # TObjChara's vtable sits ahead of the jump tables and its methods run in reverse
+    # slot order: deferred generation of the last-to-first source. The EXP/TP/HP labels
+    # are 4-byte string literals in .sdata2.
+    "pso/player/TObjPlayer_80011014.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/DrawLine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},
     # .rodata holds assign_photon_blast_palette_slot's id table ahead of the earlier
     # assign_default_photon_blast_palette_slots's: deferred generation of the last-to-first source.
@@ -515,7 +519,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/UISprite.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # -sdata 4: its 8-byte task list sits in .bss, not .sbss.
     "pso/technique/TTecZondeEff.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
-    # TBoss8DragonEffBullet__ct reaches each of its three .rodata particle tables with its own lis/addi: -pool off.
+    # The TBoss8DragonEffBullet constructor reaches each of its three .rodata particle tables with its own lis/addi: -pool off.
     "pso/boss/goldragon/TBoss8DragonEffBullet.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # run_task and get_target_position reach each .rodata object with its own lis/addi: -pool off.
     "pso/unk/TUnk_80488DA0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -575,7 +579,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # vtables come out StelthReal, then the dispatch_state jump table, then Stelth: written last to first, deferred.
     "pso/enemy/stelth/TObjEneMe3Stelth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/bringer/TObjEneDf2Bringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly")},
     "pso/enemy/gigue/TObjEneMe1GiGue.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/enemy/canadin/TObjEneMe1Canadin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/enemy/deldepth/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -787,7 +791,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/text_8028A820.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/trap/TOTrapSeabed01.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/object/trap/TOTrapAncient02.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on", "-str reuse,readonly", "-sdata 4")},
-    "pso/npc/TObjNpcMoja.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/npc/TObjNpcMoja.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # Deferred files: the constructor reads the vtable from the pooled .data base.
+    "pso/npc/TObjNpcLappy.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/npc/TObjNpcBringer.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/npc/TObjNpcNFM01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNFM00.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/system/movie/TMovie.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -970,7 +977,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str reuse,readonly: the class name 0x8044D8A4 sits in .rodata between the emitter bands and the offset vector.
     "pso/technique/TTecMegid.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/saver/SaverLifecycle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/enemy/darkgunner/DarkGunner.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/darkgunner/DarkGunner.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly")},
     "pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/illgill/TObjEneIllGill.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrMoveEffectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -1088,7 +1095,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/container/TObjContainerItem.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -str readonly: every string of the unit (archive file names, class names) sits in .rodata.
     # -sdata 4: its 8-byte effect tables sit in .bss and its small data is all 4-byte words.
-    "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # One deferred file for both container classes: the R vtable comes first and both constructors
+    # read their vtables from the pooled .data base.
+    "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     # -sdata 4: its 8-byte objects (chr_select_serial_seeds, lbl_80513918, the save message text position) sit in
     # .bss/.data, not .sbss/.sdata, and its small data is all 4-byte words or smaller.
     "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-sdata 4")},
@@ -1482,7 +1491,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowRoom.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdGameStartShadowGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonLightning.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # TAdSnAkPassConfirmGC__ct reaches each of its three .rodata window rects with its own lis/addi: -pool off.
+    # The TAdSnAkPassConfirmGC constructor reaches each of its three .rodata window rects with its own lis/addi: -pool off.
     "pso/ui/frontend/TAdSnAkPassConfirmGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/frontend/TAdGameStartLineGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrSelMovePlateGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

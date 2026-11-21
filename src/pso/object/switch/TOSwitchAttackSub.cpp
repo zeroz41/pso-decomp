@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_80177608.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/switch/TOSwitchAttack.h"
@@ -53,14 +52,11 @@ TOSwitchAttackSub::~TOSwitchAttackSub() {
 #pragma dont_inline off
 struct Parm_80177608 { s32 a; s32 b; s32 c; };
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__17TOSwitchAttackSub[];
 
-u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f32 farg0) {
+#define object ((u8 *)this)
+TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 arg2, s32 arg3, u32 arg4, f32 farg0) : TObject(parent) {
     Parm_80177608 p;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)(object + 0x18) = __vt__17TOSwitchAttackSub;
+    u8 *arg1 = (u8 *)parent;
     *(const char **)(object + 0) = TOSwitchAttackSub__name;
     ((TObject *)object)->disallow_rendering();
     *(s16 *)(object + 0x1C) = arg2;
@@ -85,16 +81,13 @@ u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f3
             }
         }
     }
-    return object;
 }
+#undef object
 
+extern "C" {
 
 void TOSwitchAttack::create_sub(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
-    void *object;
-    object = (void *)TObject::operator new(0x30);
-    if (object != (void *)0U) {
-        TOSwitchAttackSub__ct((u8 *)object, (u8 *)arg0, arg1, arg2, (u32)arg3, farg0);
-    }
+    new TOSwitchAttackSub((TObject *)arg0, arg1, arg2, (u32)arg3, farg0);
 }
 
 extern s32 game_difficulty_selection;

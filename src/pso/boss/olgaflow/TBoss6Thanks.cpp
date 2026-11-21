@@ -53,8 +53,6 @@ s32 post_translate_matrix(const void *);
 
 }
 
-struct RecoveredGlobal_8035D10C___vt__12TBoss6Thanks { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035D10C___vt__12TBoss6Thanks_size[sizeof(RecoveredGlobal_8035D10C___vt__12TBoss6Thanks) == 0x18 ? 1 : -1];
 
 struct O_8035CCAC { u8 pad[0x54]; s32 arr[4]; };
 
@@ -87,13 +85,10 @@ extern "C" {
 s32 get_bml_motion(void *, s32);
 s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8035D10C___vt__12TBoss6Thanks __vt__12TBoss6Thanks;
-u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
 int TBoss6Thanks__sub_8035CB40(void);
 void TBoss6Thanks__sub_8035CCAC(s32 arg0);
 f32 xyz_distance(const void *, const void *);
-int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
+int set_story_flag_or_send_quest_flag(void*);
 
 s32 fn_8035CAE0(void) {
     return get_story_flag(0x9A) != 0;
@@ -101,8 +96,8 @@ s32 fn_8035CAE0(void) {
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-int TBoss6Thanks__sub_8035CB40(void) { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(154)); }
-int TBoss6Thanks::dispatch_darkfalz_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(152)); }
+int TBoss6Thanks__sub_8035CB40(void) { return set_story_flag_or_send_quest_flag((void*)(154)); }
+int TBoss6Thanks::dispatch_darkfalz_phase() { return set_story_flag_or_send_quest_flag((void*)(152)); }
 
 void TBoss6Thanks::update_particle_emitters() {
     Obj_8035CB88 *o = (Obj_8035CB88 *)this;
@@ -153,7 +148,7 @@ int TBoss6Thanks::is_player_near(void *arg0) {
     r = 30.0f;
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 &&
+        if (p != NULL && ((TObjPlayer *)p)->is_active() != 0 &&
             xyz_distance(p + 0x38, &boss6_thanks_position) <= r) {
             return 1;
         }
@@ -256,10 +251,9 @@ TBoss6Thanks::~TBoss6Thanks() {
     ((TBoss6Thanks *)this)->destroy_effects();
 }
 
-u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
+TBoss6Thanks::TBoss6Thanks(TObject *arg1) : TObject(arg1) {
+    TBoss6Thanks *boss6_thanks = this;
     u8 *fish_count;
-    __ct__7TObjectFP7TObject(boss6_thanks, arg1);
-    *(s32 **)((s8 *)boss6_thanks + 0x18) = &__vt__12TBoss6Thanks.value;
     ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
     fish_count = (u8 *)(TObjFish::get_fish_count());
     *(s32 *)((s8 *)boss6_thanks + 0x38) = get_bml_model(fish_count, 7);
@@ -277,7 +271,6 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
     boss6_thanks->frame1 = 0.0f;
     boss6_thanks->opacity = 0.99f;
     boss6_thanks->m_34 = 0;
-    return (u8 *)boss6_thanks;
 }
 
 extern "C" {
@@ -285,11 +278,7 @@ extern "C" {
 extern void *tl_02;
 
 void *TBoss6Thanks::create() {
-    void *o = TObject::operator new(0x64);
-    if (o != NULL) {
-        o = TBoss6Thanks__ct((TBoss6Thanks *)((u8 *)o), (u8 *)tl_02);
-    }
-    return o;
+    return new TBoss6Thanks((TObject *)tl_02);
 }
 
 s32 TBoss6Thanks::is_ship_door_ready() {
@@ -322,7 +311,7 @@ s32 any_player_has_listed_equipment(void) {
     s32 i;
     for (i = 0; i < n; i++) {
         void *pl = (void *)TObjPlayer::get_player_data(i);
-        if (pl != NULL && ((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (pl != NULL && ((TObjPlayer *)pl)->is_active() != 0) {
             s32 j;
             for (j = 0; j < 10; j++) {
                 const u8 *e = listed_equipment_table[j];

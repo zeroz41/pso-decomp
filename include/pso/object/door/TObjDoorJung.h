@@ -12,9 +12,9 @@ struct TObjDoorJung : public TODoorBase {
     virtual void render();
     u8 unk_D4[0x4];
     static void free_buffers();
-    s32 find_entry_by_name(const char *name);
-    void free_children(void *arg1);
 };
+
+extern "C" void set_material_texture_slot_on_neighbours(TObject *node, void *slot);
 
 typedef char TObjDoorJung_size[sizeof(TObjDoorJung) == 0xD8 ? 1 : -1];
 #endif

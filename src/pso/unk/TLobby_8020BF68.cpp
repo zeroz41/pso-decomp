@@ -1,10 +1,5 @@
-#include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/unk/text_8020B5CC.h"
 
-extern "C" {
-
-int TLobby__sub_8020B47C(void*);
-
-int TLobby::sync_game_state() { return TLobby__sub_8020B47C(this); }
-
+extern "C" void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16) {
+    TLobby__sub_8020B47C(buffer);
 }

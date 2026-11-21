@@ -4733,17 +4733,12 @@ pso/object/collision/TObjRaderCol.cpp:
 	.sdata      start:0x805D3410 end:0x805D3420
 	.sdata2     start:0x805DBF08 end:0x805DBF10
 
-pso/object/ambient/TObjRain_801977D4.cpp:
-	.text       start:0x801977D4 end:0x80197998
-	.data       start:0x804B8978 end:0x804B89A8
-	.sdata2     start:0x805DBF10 end:0x805DBF18
-
 pso/object/ambient/TObjRain.cpp:
-	.text       start:0x80197998 end:0x80197CE8
+	.text       start:0x801977D4 end:0x80197CE8
 	.rodata     start:0x80445F68 end:0x80445F80
-	.data       start:0x804B89A8 end:0x804B89C0
+	.data       start:0x804B8978 end:0x804B89C0
 	.sdata      start:0x805D3420 end:0x805D3428
-	.sdata2     start:0x805DBF18 end:0x805DBF40
+	.sdata2     start:0x805DBF10 end:0x805DBF40
 
 pso/object/ambient/TObjRainCtrl_80197CE8.cpp:
 	.text       start:0x80197CE8 end:0x80197D28

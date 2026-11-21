@@ -10,8 +10,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-s32 retire_scrolled_lines__14TWindowMessageFv(f32);
-extern s32 __vt__20TWindowMessageScroll[];
 const char *TWindowMessageScroll__class_name = "TWindowMessageScroll";
 
 void TWindowMessageScroll::run_task() {
@@ -19,7 +17,7 @@ void TWindowMessageScroll::run_task() {
     f32 temp_f1;
     temp_f1 = this->m_6c;
     this->m_6c = (f32) (temp_f1 + *(f32 *)((s8 *)arg0 + 0x94));
-    retire_scrolled_lines__14TWindowMessageFv(temp_f1);
+    TWindowMessage::retire_scrolled_lines();
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
@@ -33,13 +31,9 @@ TWindowMessageScroll::~TWindowMessageScroll() {
 
 }
 
-u8 *TWindowMessageScroll__ct(u8 *window_message_scroll, s32 arg1, s32 *arg2) {
-    TWindowMessageQuest__ct((window_message_scroll), (arg1));
-    *(s32 **)((s8 *)window_message_scroll + 0x18) = __vt__20TWindowMessageScroll;
-    ((TWindowMessageScroll *)window_message_scroll)->m_name = TWindowMessageScroll__class_name;
-    *(f32 *)((s8 *)window_message_scroll + 0x94) = 0.0f;
-    ((TWindowMessageScroll *)window_message_scroll)->m_98 = arg2;
-    *((TWindowMessageScroll *)window_message_scroll)->m_98 = 0;
-    return window_message_scroll;
+TWindowMessageScroll::TWindowMessageScroll(s32 arg1, s32 *arg2) : TWindowMessageQuest(arg1) {
+    this->m_name = TWindowMessageScroll__class_name;
+    *(f32 *)((s8 *)this + 0x94) = 0.0f;
+    this->m_98 = arg2;
+    *this->m_98 = 0;
 }
-

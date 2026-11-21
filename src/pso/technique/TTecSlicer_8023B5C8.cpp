@@ -26,7 +26,6 @@
 
 
 extern "C" {
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 typedef struct { f32 r, g, b, a; } Col_8023B220;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -45,7 +44,7 @@ extern "C" {
 
 void TSlicerHistory::render() {
     u8 *arg0 = (u8 *)this;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x58))) == 0U) {
+    if ((s32)this->all_parents_unqueued_for_destruction() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x58))) == 0U) {
         return;
     }
     {
@@ -324,7 +323,6 @@ void __dl__7TObjectFPv(void *);
 void destroy_if_set__10TTecSlicerFv(u32);
 
 f32 *get_weapon_range_record(s32, s32);
-s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
@@ -436,7 +434,7 @@ s32 TTecSlicer::create(u16 *arg0) {
 
 void TTecSlicer::render() {
     u8 *arg0 = (u8 *)this;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 ||
+    if ((s32)this->all_parents_unqueued_for_destruction() == 0 ||
         ((VObj_18_8023B900 *)arg0)->m8(400.0f, 20.0f) == 0 ||
         find_equipped_item(this->weaponHandle) == 0U) {
         return;
@@ -548,7 +546,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     VecCopy((Vec *)((s32)self + 0x9C), (const Vec *)((s32)self + 0x38));
     VecCopy((Vec *)((s32)self + 0xA8), (const Vec *)((s32)self + 0x38));
     self->fbc = 0.0f;
-    ext = get_extended_state__10TObjPlayerFv(self->f10c);
+    ext = (s32)((TObjPlayer *)self->f10c)->get_extended_state();
     if (ext != 0) {
         if (get_captured_target_count(ext) == 0) {
             ((FlagWord *)((s32)self->fwd))->set(1);

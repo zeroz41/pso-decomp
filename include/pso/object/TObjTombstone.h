@@ -2,26 +2,27 @@
 #define PSO_OBJECT_TOBJTOMBSTONE_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/object/base/TObjMotion.h"
 
 // The challenge-mode drop chances of a tombstone (inferred: quest opcode
-// qst_op_set_cmode_grave_rates passes its registers to TObjTombstone__sub_80074E74,
+// qst_op_set_cmode_grave_rates passes its registers to set_tombstone_drop_rates,
 // which checks and stores them here). count[n]: chance of dropping n + 1 items;
 // kind[k]: chance the drops are entry k of the item templates.
 struct TObjTombstoneDropRates {
-    void copy_matrix(f32 *src);
+    void copy_matrix(const TObjTombstoneDropRates *src);
     f32 count[4];
     f32 kind[6];
 };
 
-extern "C" void TObjTombstone__sub_80074E74(f32 *w);
+extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates);
 
 // What TLobby::create_tombstone spawns a tombstone from (inferred layout:
 // three bytes copied to the record, then its position).
 struct TObjTombstoneSpot {
-    u8 unk_0;
-    u8 unk_1;
-    u8 unk_2;
+    s8 phase;
+    s8 layout;
+    s8 floor;
     u8 unk_3;
     Vec position;
 };
@@ -29,8 +30,8 @@ struct TObjTombstoneSpot {
 // What a tombstone is set up from (setup copies it whole; the copy is the
 // compiler's assignment operator, 0x80076390).
 struct TObjTombstoneRecord {
-    u8 unk_0;
-    u8 unk_1;
+    s8 phase;
+    s8 layout;
     u8 floor;  // compared with get_current_floor
     u8 unk_3;
     s16 unk_4;
@@ -38,13 +39,33 @@ struct TObjTombstoneRecord {
     u32 date;      // year-2000 << 28 | month << 24 | day << 16 | hour << 8 | minute
     s32 rt_index;  // passed to enemy_name_for_rt_index
     Vec position;
-    char unk_1C[0x14];
-    char unk_30[0x20];
+    char display_name[0x14];
+    char unit_name[0x20];
 };
 
+// The per-player Challenge bank stores the full grave record and the floor-only
+// spot consecutively. The other Challenge card fields are owned by their readers.
+struct ChallengeTombstonePlayerSlot {
+    s32 active;
+    u8 reserved_004[0x60];
+    TObjTombstoneRecord record;
+    TObjTombstoneSpot spot;
+    u8 reserved_0C4[0x40];
+};
+
+typedef char TombstoneSpotSize[sizeof(TObjTombstoneSpot) == 0x10 ? 1 : -1];
+typedef char TombstoneSpotPositionOffset[offsetof(TObjTombstoneSpot, position) == 4 ? 1 : -1];
+typedef char TombstoneRecordSize[sizeof(TObjTombstoneRecord) == 0x50 ? 1 : -1];
+typedef char TombstoneRecordPositionOffset[offsetof(TObjTombstoneRecord, position) == 0x10 ? 1 : -1];
+typedef char ChallengeTombstoneSlotSize[sizeof(ChallengeTombstonePlayerSlot) == 0x104 ? 1 : -1];
+typedef char ChallengeTombstoneRecordOffset[offsetof(ChallengeTombstonePlayerSlot, record) == 0x64 ? 1 : -1];
+typedef char ChallengeTombstoneSpotOffset[offsetof(ChallengeTombstonePlayerSlot, spot) == 0xB4 ? 1 : -1];
+
+void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source);
+
 struct TObjTombstone : public TObjCollidable {
-    TObjTombstone(TObject *parent, s32 client, TObjTombstoneSpot *spot);
-    TObjTombstone(TObject *parent, s32 client, TObjTombstoneRecord *src);
+    TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
+    TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRecord *src);
     virtual ~TObjTombstone();
     s32 client_id;  // the player it stands for (get_player_by_client_id)
     f32 m_b0;
@@ -68,7 +89,7 @@ struct TObjTombstone : public TObjCollidable {
     static void reset_matrix();
     s32 check_owner();
     s32 is_other_tombstone_closer();
-    static s32 project_to_screen(void *arg0, f32 *arg1, Vec *arg2);
+    static s32 project_to_screen(const TObjTombstone *tombstone, NJS_POINT2 *screen, const Vec *point);
     void update_fade_by_distance();
     void draw_name_labels();
     void update_render_flags();
@@ -78,10 +99,10 @@ struct TObjTombstone : public TObjCollidable {
     s32 is_player_nearby();
     void update_rise();
     virtual void run_task();
-    void setup(s32 client, TObjTombstoneRecord *src);
+    void setup(s32 client, const TObjTombstoneRecord *src);
     static void destroy();
     static void load_resources();
-    static void *create(void *arg0, void *arg1, void *arg2);
+    static TObjTombstone *create(TObject *parent, s32 client, const TObjTombstoneRecord *record);
 };
 
 typedef char TObjTombstone_size[sizeof(TObjTombstone) == 0x238 ? 1 : -1];

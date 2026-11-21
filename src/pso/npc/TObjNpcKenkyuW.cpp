@@ -71,9 +71,7 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
-extern s32 __vt__14TObjNpcKenkyuW[];
 s32 obj_is_hit_receivable(u8 *arg0);
-Vec *get_shoot_data__12TNeedleShootFv(void *);
 void vector_length(void *);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
@@ -104,16 +102,13 @@ void TObjNpcKenkyuW::load_resource_instance() {
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
 
 
-u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcKenkyuW;
-    ((TObject *)player)->m_name = TObjNpcKenkyuW__name;
-    ((TObjNpcKenkyuW *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
-    ((TObjNpcKenkyuW *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+    ((TObject *)this)->m_name = TObjNpcKenkyuW__name;
+    ((TObjNpcKenkyuW *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
+    ((TObjNpcKenkyuW *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
+    ((TObjNpcBase *)this)->setup_common();
 }
 
 void clear_technique_contacts__10TObjPlayerFv() {
@@ -141,7 +136,7 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
     VecCopy((Vec *)&a, (const Vec *)&self->pos);
     ((void (*)(void *))clear_technique_contacts__10TObjPlayerFv)(self);
     if (self->body == 0) return &L_802A3DE8;
-    sd = get_shoot_data__12TNeedleShootFv(self);
+    sd = (Vec *)((TNeedleShoot *)self)->get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;

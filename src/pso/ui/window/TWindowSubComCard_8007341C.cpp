@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_8007341C.h"
@@ -43,10 +44,8 @@ struct Chal_800738F4 { u8 pad[0x4C]; void *window; u8 rest[0x748 - 0x50]; };
 extern "C" {
 extern RecoveredGlobal_800739BC_lbl_8048C9D8 challenge_mode_state;
 char *get_message_text(s32);
-s32 get_layout_id__20TWindowSubStatusDispFv(void *);
 s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
-void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 int sprintf(char *, const char *, ...);
 char *strcat(char *, const char *);
@@ -55,7 +54,6 @@ char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
 Slot_80073428 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
-s32 get_slot_clamped__6TLobbyFv(s32);
 s32 has_window_task_root();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
 typedef char RecoveredGlobal_800739BC_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748 ? 1 : -1];
@@ -100,16 +98,16 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));
                 strcat(challenge_progress_text_buffer, "\n");
             } else {
-                if (get_slot_clamped__6TLobbyFv(slot->slot) == 0) {
+                if ((s32)TLobby::get_slot_clamped((u32)(slot->slot)) == 0) {
                     strcat(challenge_progress_text_buffer, "            ");
                 } else {
                     p = TWindowSubStatusDisp__sub_8006F0D8(data, kind);
                     sum = 0;
-                    n = ((s32 (*)(s32))get_layout_id__20TWindowSubStatusDispFv)(kind);
+                    n = TWindowSubStatusDisp::get_layout_id(kind);
                     for (j = 0; j < n; j++, p++) {
                         sum += TLobby::get_valid_slot(*p);
                     }
-                    sl = get_slot_clamped__6TLobbyFv(slot->slot);
+                    sl = (s32)TLobby::get_slot_clamped((u32)(slot->slot));
                     TQuestVmDownLoadServer::split_time_hms(sum, &h1, &m1, &s1);
                     sprintf(buf2, "%02d'%02d\"%02d %s", h1, m1, s1, challenge_grade_letter_table[sl]);
                     strcat(challenge_progress_text_buffer, buf2);
@@ -125,7 +123,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
 
 void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
     void *win;
-    win = create__14TWindowMessageFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
+    win = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3B)), (const f32 *)challenge_window_extent, 1);
     (*(Chal_8007369C *)&challenge_mode_state).window = win;
     if (win == NULL) {
         return;
@@ -144,7 +142,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
     Rec_80073738 *rec;
     s32 i;
     void *win;
-    win = create__14TWindowMessageFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
+    win = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3B)), (const f32 *)challenge_window_extent, 1);
     CHAL->window = win;
     if (win == NULL) {
         return;
@@ -160,7 +158,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
             n = fn_80071A9C(this, rec->data, arg1);
-            if (n >= get_layout_id__20TWindowSubStatusDispFv(arg1)) {
+            if (n >= TWindowSubStatusDisp::get_layout_id((s32)arg1)) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x52));
             } else if (n == 0) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));

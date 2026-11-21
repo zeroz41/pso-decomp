@@ -21,7 +21,7 @@ void *dt__16TObjCityDoor_MedFPvs(void *arg0, s16 arg1);
 void *dt__17TObjCityDoor_ShopFPvs(void *arg0, s16 arg1);
 void *dt__17TObjCityDoor_WarpFPvs(void *arg0, s16 arg1);
 void *dt__18TObjCityDoor_GuildFPvs(void *arg0, s16 arg1);
-int is_phase_e__9TObjEneDDFPv(void *p);
+int check_phase_e(void *p);
 }
 // --- end of C functions
 

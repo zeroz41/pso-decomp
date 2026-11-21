@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -48,7 +49,7 @@ TWindowCallBack::~TWindowCallBack() {}
 #define self ((u8 *)this)
 TWindowCallBack::TWindowCallBack(s32 arg1, u8 *arg2, s32 arg3) : TWindowBase((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1) {
     m_name = lbl_805D3E58;
-    ((TWindowSubSymbolChatPartsSet *)(self + 0x38))->copy_vec2(arg2);
+    copy_vec2((self + 0x38), arg2);
     ((TWindowBase *)self)->save_position();
     set_field_60__15TWindowCallBackFPvi(self, arg3);
 }

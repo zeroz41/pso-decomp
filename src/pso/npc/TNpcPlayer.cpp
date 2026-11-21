@@ -23,6 +23,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/technique/TTecReverser.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -38,123 +39,40 @@ struct Stack_8014F728 {
 
 struct Text_8014E250 { char text[0x36]; };
 
-struct Owner_8014E250 { u8 pad[0x94]; void *obj; };
 
-struct Npc_8014E250 {
-    u8 pad[0x24];
-    s32 state;
-    u8 pad28[0x5C - 0x28];
-    u8 timer[0x78 - 0x5C];
-    Owner_8014E250 *owner;
-    u8 pad7c[4];
-    u32 flags;
-};
 
-struct Actor_8014F140 {
-    u8 pad0[0x30];
-    u32 flags30;
-    u8 pad1[0x60 - 0x34];
-    s32 field_0x60;
-};
 
-struct Contact_8014F140 {
-    u8 pad0[0x18];
-    u32 flags18;
-};
 
-struct Probe_8014F140 {
-    u8 pad0[0x38];
-    u8 pos38[0x60 - 0x38];
-    s32 field_0x60;
-};
 
-struct View_8014F140 {
-    u8 pad0[0x8C];
-    u32 flags8c;
-    u8 pad1[0x94 - 0x90];
-    Probe_8014F140 *target94;
-    s32 field_0x98;
-    u8 pad2[0xA8 - 0x9C];
-    Probe_8014F140 *probe;
-    u8 pad3[0xD8 - 0xAC];
-    u8 hit_d8[0x104 - 0xD8];
-    s32 field_0x104;
-};
 
-struct Cand_8014F424 { u32 id; s32 idx; f32 dist; };
 
-struct View_8014F424 { s32 count; Cand_8014F424 c[10]; };
 
-struct Actor_8014F424 { u8 pad[0xA4]; u8 *cols; s32 ncols; };
 
-struct Col_8014F57C { u8 pad[0x18]; u32 flags; u8 pos[0x2C - 0x1C]; };
 
-struct Actor_8014F57C { u8 pad0[0x30]; u32 flags30; u8 pad1[0xA4 - 0x34]; Col_8014F57C *cols; s32 ncols; };
 
-struct View_8014F57C { s32 count; Cand_8014F424 c[10]; u8 pad[0x94 - 0x7C]; void *f94; };
 
-struct Ent_8014F28C { s32 a; s32 b; f32 key; };
 
-typedef struct Obj_8014EE98 { u8 pad[0x2FC]; Vec pos; } Obj_8014EE98;
 
-typedef struct Owner_8014EE98 { u8 pad[0x94]; Obj_8014EE98 *obj; } Owner_8014EE98;
 
-typedef struct Self_8014EE98 {
-    u8 pad[0x74];
-    Owner_8014EE98 *f74;
-    Owner_8014EE98 *f78;
-    u8 pad7C[0xDC - 0x7C];
-    u8 fDC[4];
-} Self_8014EE98;
+
 
 typedef struct Line_8014EE98 { Vec p; Vec d; } Line_8014EE98;
 
-struct Rec_8014F844 { s32 id; s32 f4; f32 dist; };
 
-struct Npc_8014F844 {
-    s32 f0;
-    Rec_8014F844 recs[10];
-    s32 f7C;
-    s32 f80;
-    s32 f84;
-    s16 f88;
-    u16 f8A;
-    s32 f8C;
-    s32 f90;
-    s32 f94;
-    s32 f98;
-    f32 f9C;
-    f32 fA0;
-    f32 fA4;
-    void *fA8;
-    f32 fAC;
-    f32 fB0;
-    f32 fB4;
-    f32 fB8;
-    f32 fBC;
-    s32 fC0;
-    s32 fC4;
-    u8 padC8[0x104 - 0xC8];
-    s32 f104;
-};
+
+
 
 struct Msg_80150DE8 { u8 hdr[2]; u16 type; f32 x; f32 z; };
 
-struct Npc_80150DE8 { u8 pad[0x78]; void *owner; u8 pad7c[0xAC - 0x7C]; f32 x; f32 y; f32 z; };
 
 struct Msg_80150E44 { u8 hdr[2]; u16 type; f32 x; f32 z; u32 flags; };
 
-struct Obj_80150E44 { u8 pad[0x30]; u32 flags; };
 
-struct Owner_80150E44 { u8 pad[0x94]; Obj_80150E44 *obj; };
 
-struct Npc_80150E44 { u8 pad[0x78]; Owner_80150E44 *owner; u8 pad7c[0xAC - 0x7C]; f32 x; f32 y; f32 z; };
 
-struct Tgt_80150050 { u8 pad[0x38]; Vec pos; };
 
-struct Mid_80150050 { u8 pad[0x94]; Tgt_80150050 *tgt; };
 
-struct Npc_80150050 { u8 pad0[0x74]; Mid_80150050 *mid; u8 pad78[0x34]; Vec pos; u8 pad_b8[0x18]; Vec dst; };
+
 
 struct Msg_80150A34 {
     u8 pad0[2];
@@ -165,219 +83,46 @@ struct Msg_80150A34 {
     s8 one;
     u8 sub[0x2C];
 };
+extern "C" {
 
-struct Owner_80150A34 { u8 pad[0x94]; u8 *actor; };
 
-struct Npc_80150A34 { u8 pad[0x74]; void *p74; Owner_80150A34 *p78; u8 pad7C[4]; u32 flags; };
 
-struct Npc_801518A4 {
-    u8 pad0[0x44];
-    f32 f44;
-    f32 f48;
-    u8 pad4C[0x58 - 0x4C];
-    f32 f58;
-    u8 a5C[0x74 - 0x5C];
-    void *p74;
-    u8 *p78;
-    u8 pad7C[4];
-    u32 flags;
-};
 
-struct Tgt_801518A4 { s32 a; s32 b; };
 
-struct Cand_80151708 { u32 id; s32 idx; f32 dist; };
 
-struct View_80151708 { s32 count; Cand_80151708 c[10]; };
 
-struct Pos_80151708 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
-struct Obj_80151708 { u8 pad[0x38]; f32 pos[0x300 / 4 - 0x38 / 4]; f32 f300; };
 
-struct Owner_80151708 { u8 pad[0x94]; Obj_80151708 *obj; };
 
-struct Npc_80151708 {
-    u8 pad0[0x4C];
-    f32 f4C;
-    u8 pad50[0x5C - 0x50];
-    u8 f5C[0x78 - 0x5C];
-    Owner_80151708 *f78;
-    u8 pad7C[4];
-    u32 f80;
-    u8 pad84[0xDC - 0x84];
-    f32 dst[3];
-};
 
-struct Tgt_801510F8 { s32 a; s32 b; };
 
-struct Obj_801510F8 { u8 pad[0x94]; u8 *obj; };
 
-struct Npc_801510F8 {
-    u8 pad0[0x34];
-    s32 f34;
-    u8 pad38[0x48 - 0x38];
-    f32 f48;
-    u8 pad4C[0x5C - 0x4C];
-    u8 counters[0x74 - 0x5C];
-    Obj_801510F8 *f74;
-    Obj_801510F8 *f78;
-    u8 pad7C[0x80 - 0x7C];
-    s32 f80;
-    s32 f84;
-    u8 pad88[0x92 - 0x88];
-    s16 f92;
-    u8 pad94[0xDC - 0x94];
-    u8 dst[0xC];
-};
 
-struct Own_80152168 { u8 pad[0x94]; u8 *obj; };
 
-struct Npc_80152168 {
-    const char *name;
-    u8 pad4[0x14];
-    s32 *vt;
-    s32 f1C;
-    s32 f20;
-    s32 f24;
-    u8 pad28[4];
-    s16 f2C;
-    u8 pad2E[2];
-    u8 f30[0x28];
-    f32 f58;
-    u8 f5C[0x74 - 0x5C];
-    void *f74;
-    Own_80152168 *f78;
-    s32 f7C;
-    s32 f80;
-    s32 f84;
-    f32 f88;
-    s8 f8C;
-    s8 f8D;
-    s16 f8E;
-    u8 pad90[0xAC - 0x90];
-    f32 fAC;
-    f32 fB0;
-    f32 fB4;
-    u8 padB8[0xC4 - 0xB8];
-    s32 fC4;
-    s32 fC8;
-    s32 fCC;
-    f32 fD0;
-    f32 fD4;
-    f32 fD8;
-    f32 fDC;
-    f32 fE0;
-    f32 fE4;
-};
 
-struct Own_80152330 { u8 pad[0x94]; u8 *obj; };
 
-struct Npc_80152330 {
-    const char *name;
-    u8 pad4[0x14];
-    s32 *vt;
-    s32 f1C;
-    s32 f20;
-    s32 f24;
-    u8 pad28[4];
-    s16 f2C;
-    u8 pad2E[2];
-    u8 f30[0x28];
-    f32 f58;
-    u8 f5C[0x74 - 0x5C];
-    void *f74;
-    Own_80152330 *f78;
-    s32 f7C;
-    s32 f80;
-    s32 f84;
-    f32 f88;
-    s8 f8C;
-    s8 f8D;
-    s16 f8E;
-    u8 pad90[0xAC - 0x90];
-    f32 fAC;
-    f32 fB0;
-    f32 fB4;
-    u8 padB8[0xC4 - 0xB8];
-    s32 fC4;
-    s32 fC8;
-    s32 fCC;
-    f32 fD0;
-    f32 fD4;
-    f32 fD8;
-    f32 fDC;
-    f32 fE0;
-    f32 fE4;
-};
 
 struct Obj_801528A8 { u8 pad[0x5c]; u8 arr[1]; };
 
-struct Actor_801501A0 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x2FC - 0x44];
-    Vec anchor;
-};
 
-struct View_801501A0 {
-    u8 pad0[0x94];
-    Actor_801501A0 *actor;
-    u8 pad98[4];
-    Vec v9c;
-};
 
-struct Self_801501A0 {
-    u8 pad0[0x78];
-    View_801501A0 *view;
-    u8 pad7c[4];
-    u32 flags;
-    u8 pad84[8];
-    s8 s8c;
-    s8 s8d;
-    u8 pad8e[2];
-    s16 s90;
-    u8 pad92[2];
-    Vec dir;
-    Vec wp;
-    u8 padac[0xD0 - 0xAC];
-    Vec target;
-    Vec dest;
-};
 
-struct Obj_80150B90;
 
-struct Owner_80150B90 { u8 pad[0x94]; Obj_80150B90 *obj; };
 
-struct Npc_80150B90 {
-    u8 pad0[0x34];
-    u32 f34;
-    u8 pad38[0x50 - 0x38];
-    s8 f50;
-    u8 pad51[2];
-    u8 f53;
-    u8 pad54[0x78 - 0x54];
-    Owner_80150B90 *f78;
-    u8 pad7C[4];
-    u32 f80;
-};
+
 
 struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
 
-typedef u8 Row28_804ABC90[0x28];
 
-struct Npc_801510F8;
 
-struct Npc_80151708;
 
-struct Npc_801518A4;
 
 struct Obj_80152F28 { u16 a; u16 b; };
 
 struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
-
-struct Line_8014E488 { Vec p; Vec d; };
 u32 npc_player_char_data_buffer;
 s32 TNpcPlayer__data_805D5864;
-extern "C" {
+
 
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
@@ -390,22 +135,21 @@ u8 * csnVector(s32, s32, s32);
 s32 find_active_entity_by_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 void TNpcPlayer__sub_8014DC3C(void *, s32);
-void deliver_partner_chatter(Npc_8014E250 *self);
-void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *out);
-s32 partner_route_around_wall(Self_8014EE98 *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
-s32 partner_probe_obstacles(View_8014F140 *view);
-s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Ent_8014F28C *a, s32 lo, s32 hi);
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(View_8014F424 *view, void *pos, s32 id, f32 range);
-s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 range);
+void deliver_partner_chatter(TNpcPlayer *self);
+void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
+s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
+s32 partner_probe_obstacles(Unk_8014F844 *view);
+s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi);
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, s32 id, f32 range);
+s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range);
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1);
-Npc_8014F844 * init_ai_state__10TNpcPlayerFPvi(Npc_8014F844 *self, s32 id);
+Unk_8014F844 * init_ai_state__10TNpcPlayerFPvi(Unk_8014F844 *self, s32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
-s32 needs_movement__10TNpcPlayerFPvPvi(u8 *arg0, void * _w1, int _w2);
-void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self);
-s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1);
-Npc_80152168 * TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
-Npc_80152330 * construct_partner__10TNpcPlayerFPviisPv(Npc_80152330 *self, s32 a, s32 b, s16 kind, void *parent);
+s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
+void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
+TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
+TNpcPlayer *construct_partner__10TNpcPlayerFPviisPv(TNpcPlayer *self, s32 a, s32 b, s16 kind, void *parent);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
 void reset_partner_counter(s32 arg0, s32 arg1);
 void increment_partner_counter(s32 arg0, s32 arg1);
@@ -427,23 +171,38 @@ void set_state__10TNpcPlayerFPvs(void* p, s16 v);
 void set_type__10TNpcPlayerFPvs(void* p, s16 v);
 void* fn_80152EF8(void* p);
 void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self);
-s32 check_switch__22TObjFogCollisionPoisonFv(s32);
 void TObjFogCollisionPoison__sub_80153520(s32 arg0);
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0);
-Actor_8014F424 * find_entity_by_id(s32);
+TObjCollidable * find_entity_by_id(s32);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 void * __ct__14TObjCollidableFP7TObject(void *, void *);
-s32 is_any_teammate_in_state__10TObjPlayerFv(void *self);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
-void update_players__6TLobbyFv(s32 arg0);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
-s32 is_active__12TTecReverserFv(void *);
+}
+s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
+s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 refresh_npc_view_actor_lost(void *arg0);
+s32 partner_view_update_hp_change(void *arg0);
+s32 partner_view_update_conditions(u8 *arg0);
+s32 partner_view_check_moved(u8 *arg0);
+void partner_observe_surroundings(TNpcPlayer *arg0);
+int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
+void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+s32 clamp_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+void bswap_6x45_packet(void* p);
+void bswap_6x44_packet(void* p);
+void bswap_6x43_packet(void* p);
+u8 get_6x47_cast_packet_size(u8 *arg0);
+void init_6x40_walk_packet(void* a0);
+int get_registered_object_count(void);
+const char *get_partner_custom_text(s32 kind, u16 player);
+extern "C" {
 void __register_global_object(void *obj, void *dtor, void *link);
 void __construct_array(void *, void *, int, int, int);
 s32 rand(void);
@@ -558,72 +317,71 @@ extern void *lbl_804AF100[35];
 extern void *lbl_804AF18C[35];
 extern void *lbl_804AF218[35];
 extern void *npc_player_template_table[35];
-struct Row_80152674 { u16 f0; u16 f2; u32 w[9]; };
-Row_80152674 TNpcPlayer__template_table[64] = {
-    {0x0, 0x4, {0x40, 0x42c80000, 0x41200000, 0x41500000, 0x41f00000, 0x41f00000, 0x42c80000, 0x90f00, 0x42480000}},
-    {0x1, 0xc, {0x8, 0x42c80000, 0x41200000, 0x41700000, 0x420c0000, 0x41c80000, 0x42c80000, 0x9195a, 0x42480000}},
-    {0x2, 0x14, {0x8, 0x42c80000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42c80000, 0x2091e50, 0x42480000}},
-    {0x3, 0x12, {0x4, 0x42f00000, 0x41200000, 0x41900000, 0x42200000, 0x41f00000, 0x42c80000, 0x93c28, 0x42480000}},
-    {0x4, 0xe, {0x40, 0x42c80000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42f00000, 0x91400, 0x42480000}},
-    {0x5, 0x18, {0x40, 0x42c80000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0x93c00, 0x42480000}},
-    {0x6, 0x19, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x42700000, 0x41f00000, 0x41f00000, 0x95028, 0x42480000}},
-    {0x7, 0xb, {0x40, 0x42c80000, 0x41200000, 0x41500000, 0x42200000, 0x41f00000, 0x42c80000, 0x91400, 0x42480000}},
-    {0x8, 0x11, {0x8, 0x42c80000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42c80000, 0x6091e46, 0x42480000}},
-    {0x9, 0x1b, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x93700, 0x42480000}},
-    {0xa, 0x12, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x93c00, 0x42480000}},
-    {0xb, 0x11, {0x10, 0x42a00000, 0x41200000, 0x41900000, 0x42700000, 0x41f00000, 0x41f00000, 0x4092d37, 0x42480000}},
-    {0xc, 0x23, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x2d00, 0x42480000}},
-    {0xd, 0xf, {0x4, 0x42c80000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42c80000, 0x93714, 0x42480000}},
-    {0xe, 0x22, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42c80000, 0x93200, 0x42480000}},
-    {0xf, 0xb, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42c80000, 0x92800, 0x42480000}},
-    {0x10, 0x9, {0x8, 0x42c80000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42a00000, 0x2090a50, 0x42480000}},
-    {0x11, 0x2a, {0x10, 0x43160000, 0x41200000, 0x41700000, 0x42340000, 0x41f00000, 0x42f00000, 0xb0b3246, 0x42480000}},
-    {0x12, 0x20, {0x4, 0x42c80000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42f00000, 0x909325a, 0x42480000}},
-    {0x13, 0x7, {0x4, 0x42c80000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0xb0a50, 0x42480000}},
-    {0x14, 0x17, {0x4, 0x43960000, 0x41200000, 0x41f00000, 0x42200000, 0x41c80000, 0x41c80000, 0x2001e28, 0x42480000}},
-    {0x15, 0x18, {0x40, 0x43480000, 0x41200000, 0x42a00000, 0x42700000, 0x42200000, 0x420c0000, 0x3200, 0x42480000}},
-    {0x16, 0x14, {0x88, 0x43960000, 0x41200000, 0x41f00000, 0x41f00000, 0x41a00000, 0x42700000, 0x400324b, 0x42340000}},
-    {0x17, 0xb, {0xc0, 0x43960000, 0x41200000, 0x42480000, 0x42480000, 0x41a00000, 0x42c80000, 0x90f00, 0x428c0000}},
-    {0x18, 0xc, {0x40, 0x43480000, 0x41200000, 0x42200000, 0x42200000, 0x41f00000, 0x42a00000, 0x92d00, 0x42700000}},
-    {0x19, 0x13, {0x40, 0x43480000, 0x41200000, 0x42200000, 0x42200000, 0x41f00000, 0x42a00000, 0x93700, 0x42700000}},
-    {0x1a, 0x11, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x4093200, 0x42480000}},
-    {0x1b, 0xd, {0x40, 0x42c80000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42a00000, 0x91e00, 0x42480000}},
-    {0x1c, 0x14, {0x10, 0x428c0000, 0x41200000, 0x41700000, 0x41a00000, 0x41f00000, 0x42480000, 0x93232, 0x42480000}},
-    {0x1d, 0xd, {0x40, 0x42c80000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42a00000, 0x91e00, 0x42480000}},
-    {0x1e, 0x18, {0x8, 0x42a00000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42700000, 0x609321e, 0x42480000}},
-    {0x1f, 0x1e, {0x88, 0x43960000, 0x41200000, 0x42200000, 0x42200000, 0x41a00000, 0x42c80000, 0x8092350, 0x42340000}},
-    {0x20, 0xa, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x93200, 0x42480000}},
-    {0x21, 0xf, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x93200, 0x42480000}},
-    {0x22, 0x2a, {0x4, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x93c1e, 0x42480000}},
-    {0x23, 0x21, {0x10, 0x42a00000, 0x41200000, 0x41900000, 0x428c0000, 0x41f00000, 0x41f00000, 0x6093c32, 0x42480000}},
-    {0x24, 0xb, {0x40, 0x42c80000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42480000, 0x96432, 0x42480000}},
-    {0x25, 0x1a, {0x40, 0x42c80000, 0x41200000, 0x41700000, 0x42200000, 0x41f00000, 0x42c80000, 0x93c00, 0x42480000}},
-    {0x26, 0x23, {0x40, 0x43480000, 0x41200000, 0x41700000, 0x42700000, 0x41f00000, 0x41f00000, 0x3c00, 0x42480000}},
-    {0x27, 0x1c, {0x4, 0x42f00000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42c80000, 0x7093c1e, 0x42480000}},
-    {0x28, 0x14, {0x8, 0x43480000, 0x41200000, 0x41900000, 0x42700000, 0x41f00000, 0x41f00000, 0x4093c1e, 0x42480000}},
-    {0x29, 0x1b, {0x4, 0x42a00000, 0x41200000, 0x41900000, 0x42700000, 0x41f00000, 0x41f00000, 0x4093c32, 0x42480000}},
-    {0x2a, 0x1d, {0x4, 0x42700000, 0x41200000, 0x41c80000, 0x42340000, 0x41f00000, 0x41f00000, 0x9096432, 0x42480000}},
-    {0x2b, 0x22, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0x93c00, 0x42480000}},
-    {0x2c, 0x9, {0x10, 0x42a00000, 0x41200000, 0x41900000, 0x42700000, 0x41f00000, 0x41f00000, 0x9096432, 0x42480000}},
-    {0x2d, 0x9, {0x84, 0x43960000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0x9321e, 0x42480000}},
-    {0x2e, 0x9, {0x40, 0x43480000, 0x41200000, 0x41700000, 0x42700000, 0x41f00000, 0x41f00000, 0x94600, 0x42480000}},
-    {0x2f, 0x9, {0x40, 0x42a00000, 0x41200000, 0x41900000, 0x42700000, 0x41f00000, 0x41f00000, 0x93200, 0x42480000}},
-    {0x30, 0x9, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0x93700, 0x42480000}},
-    {0x31, 0x9, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0x94600, 0x42480000}},
-    {0x32, 0x9, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x42480000, 0x41f00000, 0x42c80000, 0x94100, 0x42480000}},
-    {0x33, 0x9, {0xc0, 0x43480000, 0x41200000, 0x41a00000, 0x41a00000, 0x41f00000, 0x42a00000, 0x91900, 0x41f00000}},
-    {0x34, 0x9, {0xc0, 0x43480000, 0x41200000, 0x42200000, 0x42200000, 0x41f00000, 0x42a00000, 0x92300, 0x428c0000}},
-    {0x35, 0x9, {0x10, 0x43480000, 0x41200000, 0x41700000, 0x42700000, 0x41f00000, 0x41f00000, 0x4093c1e, 0x42480000}},
-    {0x36, 0x9, {0xc0, 0x43480000, 0x41200000, 0x42200000, 0x42200000, 0x41f00000, 0x42a00000, 0x93c00, 0x42480000}},
-    {0x37, 0x9, {0x88, 0x43160000, 0x41200000, 0x41c80000, 0x42340000, 0x41f00000, 0x42f00000, 0x6093250, 0x42480000}},
-    {0x38, 0x23, {0x88, 0x43960000, 0x41200000, 0x42200000, 0x42200000, 0x41a00000, 0x43160000, 0xc0c3c46, 0x42480000}},
-    {0x39, 0x9, {0x4, 0x42c80000, 0x41200000, 0x41c80000, 0x42340000, 0x41f00000, 0x42a00000, 0x93250, 0x42480000}},
-    {0x3a, 0x9, {0x40, 0x42f00000, 0x41200000, 0x41700000, 0x41f00000, 0x41f00000, 0x42c80000, 0x91e00, 0x42480000}},
-    {0x3b, 0x9, {0x4, 0x42700000, 0x41200000, 0x41c80000, 0x42340000, 0x41f00000, 0x42480000, 0x96432, 0x42480000}},
-    {0x3c, 0x9, {0x4, 0x42700000, 0x41200000, 0x41500000, 0x42340000, 0x41f00000, 0x42480000, 0x96432, 0x42480000}},
-    {0x3d, 0x9, {0x4, 0x42700000, 0x41200000, 0x41700000, 0x42340000, 0x41f00000, 0x41f00000, 0x96432, 0x42480000}},
-    {0x3e, 0x9, {0x4, 0x42700000, 0x41200000, 0x41c80000, 0x42340000, 0x41f00000, 0x41f00000, 0x9093250, 0x42480000}},
-    {0x3f, 0x9, {0x4, 0x42700000, 0x41200000, 0x41c80000, 0x42340000, 0x41f00000, 0x41f00000, 0x1091e32, 0x42480000}},
+TNpcPlayer::AiParams TNpcPlayer__template_table[64] = {
+    {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
+    {0x1, 0xc, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 35.0f, 25.0f, 100.0f, 0x0, 0x9, 0x19, 0x5a, 50.0f},
+    {0x2, 0x14, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 100.0f, 0x2, 0x9, 0x1e, 0x50, 50.0f},
+    {0x3, 0x12, TECHNIQUE_FLAGS_FOIE_GIFOIE, 120.0f, 10.0f, 18.0f, 40.0f, 30.0f, 100.0f, 0x0, 0x9, 0x3c, 0x28, 50.0f},
+    {0x4, 0xe, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 120.0f, 0x0, 0x9, 0x14, 0x0, 50.0f},
+    {0x5, 0x18, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0x3c, 0x0, 50.0f},
+    {0x6, 0x19, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 60.0f, 30.0f, 30.0f, 0x0, 0x9, 0x50, 0x28, 50.0f},
+    {0x7, 0xb, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 40.0f, 30.0f, 100.0f, 0x0, 0x9, 0x14, 0x0, 50.0f},
+    {0x8, 0x11, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 100.0f, 0x6, 0x9, 0x1e, 0x46, 50.0f},
+    {0x9, 0x1b, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x0, 0x9, 0x37, 0x0, 50.0f},
+    {0xa, 0x12, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x0, 0x9, 0x3c, 0x0, 50.0f},
+    {0xb, 0x11, TECHNIQUE_FLAGS_ZONDE_RAZONDE, 80.0f, 10.0f, 18.0f, 60.0f, 30.0f, 30.0f, 0x4, 0x9, 0x2d, 0x37, 50.0f},
+    {0xc, 0x23, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x0, 0x0, 0x2d, 0x0, 50.0f},
+    {0xd, 0xf, TECHNIQUE_FLAGS_FOIE_GIFOIE, 100.0f, 10.0f, 15.0f, 50.0f, 30.0f, 100.0f, 0x0, 0x9, 0x37, 0x14, 50.0f},
+    {0xe, 0x22, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 50.0f, 30.0f, 100.0f, 0x0, 0x9, 0x32, 0x0, 50.0f},
+    {0xf, 0xb, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 40.0f, 30.0f, 100.0f, 0x0, 0x9, 0x28, 0x0, 50.0f},
+    {0x10, 0x9, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 80.0f, 0x2, 0x9, 0xa, 0x50, 50.0f},
+    {0x11, 0x2a, TECHNIQUE_FLAGS_ZONDE_RAZONDE, 150.0f, 10.0f, 15.0f, 45.0f, 30.0f, 120.0f, 0xb, 0xb, 0x32, 0x46, 50.0f},
+    {0x12, 0x20, TECHNIQUE_FLAGS_FOIE_GIFOIE, 100.0f, 10.0f, 15.0f, 30.0f, 30.0f, 120.0f, 0x9, 0x9, 0x32, 0x5a, 50.0f},
+    {0x13, 0x7, TECHNIQUE_FLAGS_FOIE_GIFOIE, 100.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0xb, 0xa, 0x50, 50.0f},
+    {0x14, 0x17, TECHNIQUE_FLAGS_FOIE_GIFOIE, 300.0f, 10.0f, 30.0f, 40.0f, 25.0f, 25.0f, 0x2, 0x0, 0x1e, 0x28, 50.0f},
+    {0x15, 0x18, TECHNIQUE_FLAGS_NONE, 200.0f, 10.0f, 80.0f, 60.0f, 40.0f, 35.0f, 0x0, 0x0, 0x32, 0x0, 50.0f},
+    {0x16, 0x14, TECHNIQUE_FLAGS_BARTA_GIBARTA_NO_BACKOFF, 300.0f, 10.0f, 30.0f, 30.0f, 20.0f, 60.0f, 0x4, 0x0, 0x32, 0x4b, 45.0f},
+    {0x17, 0xb, TECHNIQUE_FLAGS_NONE_NO_BACKOFF, 300.0f, 10.0f, 50.0f, 50.0f, 20.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 70.0f},
+    {0x18, 0xc, TECHNIQUE_FLAGS_NONE, 200.0f, 10.0f, 40.0f, 40.0f, 30.0f, 80.0f, 0x0, 0x9, 0x2d, 0x0, 60.0f},
+    {0x19, 0x13, TECHNIQUE_FLAGS_NONE, 200.0f, 10.0f, 40.0f, 40.0f, 30.0f, 80.0f, 0x0, 0x9, 0x37, 0x0, 60.0f},
+    {0x1a, 0x11, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x4, 0x9, 0x32, 0x0, 50.0f},
+    {0x1b, 0xd, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 15.0f, 50.0f, 30.0f, 80.0f, 0x0, 0x9, 0x1e, 0x0, 50.0f},
+    {0x1c, 0x14, TECHNIQUE_FLAGS_ZONDE_RAZONDE, 70.0f, 10.0f, 15.0f, 20.0f, 30.0f, 50.0f, 0x0, 0x9, 0x32, 0x32, 50.0f},
+    {0x1d, 0xd, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 15.0f, 50.0f, 30.0f, 80.0f, 0x0, 0x9, 0x1e, 0x0, 50.0f},
+    {0x1e, 0x18, TECHNIQUE_FLAGS_BARTA_GIBARTA, 80.0f, 10.0f, 15.0f, 50.0f, 30.0f, 60.0f, 0x6, 0x9, 0x32, 0x1e, 50.0f},
+    {0x1f, 0x1e, TECHNIQUE_FLAGS_BARTA_GIBARTA_NO_BACKOFF, 300.0f, 10.0f, 40.0f, 40.0f, 20.0f, 100.0f, 0x8, 0x9, 0x23, 0x50, 45.0f},
+    {0x20, 0xa, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x0, 0x9, 0x32, 0x0, 50.0f},
+    {0x21, 0xf, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x0, 0x9, 0x32, 0x0, 50.0f},
+    {0x22, 0x2a, TECHNIQUE_FLAGS_FOIE_GIFOIE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x0, 0x9, 0x3c, 0x1e, 50.0f},
+    {0x23, 0x21, TECHNIQUE_FLAGS_ZONDE_RAZONDE, 80.0f, 10.0f, 18.0f, 70.0f, 30.0f, 30.0f, 0x6, 0x9, 0x3c, 0x32, 50.0f},
+    {0x24, 0xb, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 50.0f, 0x0, 0x9, 0x64, 0x32, 50.0f},
+    {0x25, 0x1a, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 100.0f, 0x0, 0x9, 0x3c, 0x0, 50.0f},
+    {0x26, 0x23, TECHNIQUE_FLAGS_NONE, 200.0f, 10.0f, 15.0f, 60.0f, 30.0f, 30.0f, 0x0, 0x0, 0x3c, 0x0, 50.0f},
+    {0x27, 0x1c, TECHNIQUE_FLAGS_FOIE_GIFOIE, 120.0f, 10.0f, 15.0f, 50.0f, 30.0f, 100.0f, 0x7, 0x9, 0x3c, 0x1e, 50.0f},
+    {0x28, 0x14, TECHNIQUE_FLAGS_BARTA_GIBARTA, 200.0f, 10.0f, 18.0f, 60.0f, 30.0f, 30.0f, 0x4, 0x9, 0x3c, 0x1e, 50.0f},
+    {0x29, 0x1b, TECHNIQUE_FLAGS_FOIE_GIFOIE, 80.0f, 10.0f, 18.0f, 60.0f, 30.0f, 30.0f, 0x4, 0x9, 0x3c, 0x32, 50.0f},
+    {0x2a, 0x1d, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x9, 0x9, 0x64, 0x32, 50.0f},
+    {0x2b, 0x22, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0x3c, 0x0, 50.0f},
+    {0x2c, 0x9, TECHNIQUE_FLAGS_ZONDE_RAZONDE, 80.0f, 10.0f, 18.0f, 60.0f, 30.0f, 30.0f, 0x9, 0x9, 0x64, 0x32, 50.0f},
+    {0x2d, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE_NO_BACKOFF, 300.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0x32, 0x1e, 50.0f},
+    {0x2e, 0x9, TECHNIQUE_FLAGS_NONE, 200.0f, 10.0f, 15.0f, 60.0f, 30.0f, 30.0f, 0x0, 0x9, 0x46, 0x0, 50.0f},
+    {0x2f, 0x9, TECHNIQUE_FLAGS_NONE, 80.0f, 10.0f, 18.0f, 60.0f, 30.0f, 30.0f, 0x0, 0x9, 0x32, 0x0, 50.0f},
+    {0x30, 0x9, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0x37, 0x0, 50.0f},
+    {0x31, 0x9, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0x46, 0x0, 50.0f},
+    {0x32, 0x9, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 50.0f, 30.0f, 100.0f, 0x0, 0x9, 0x41, 0x0, 50.0f},
+    {0x33, 0x9, TECHNIQUE_FLAGS_NONE_NO_BACKOFF, 200.0f, 10.0f, 20.0f, 20.0f, 30.0f, 80.0f, 0x0, 0x9, 0x19, 0x0, 30.0f},
+    {0x34, 0x9, TECHNIQUE_FLAGS_NONE_NO_BACKOFF, 200.0f, 10.0f, 40.0f, 40.0f, 30.0f, 80.0f, 0x0, 0x9, 0x23, 0x0, 70.0f},
+    {0x35, 0x9, TECHNIQUE_FLAGS_ZONDE_RAZONDE, 200.0f, 10.0f, 15.0f, 60.0f, 30.0f, 30.0f, 0x4, 0x9, 0x3c, 0x1e, 50.0f},
+    {0x36, 0x9, TECHNIQUE_FLAGS_NONE_NO_BACKOFF, 200.0f, 10.0f, 40.0f, 40.0f, 30.0f, 80.0f, 0x0, 0x9, 0x3c, 0x0, 50.0f},
+    {0x37, 0x9, TECHNIQUE_FLAGS_BARTA_GIBARTA_NO_BACKOFF, 150.0f, 10.0f, 25.0f, 45.0f, 30.0f, 120.0f, 0x6, 0x9, 0x32, 0x50, 50.0f},
+    {0x38, 0x23, TECHNIQUE_FLAGS_BARTA_GIBARTA_NO_BACKOFF, 300.0f, 10.0f, 40.0f, 40.0f, 20.0f, 150.0f, 0xc, 0xc, 0x3c, 0x46, 50.0f},
+    {0x39, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 100.0f, 10.0f, 25.0f, 45.0f, 30.0f, 80.0f, 0x0, 0x9, 0x32, 0x50, 50.0f},
+    {0x3a, 0x9, TECHNIQUE_FLAGS_NONE, 120.0f, 10.0f, 15.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0x1e, 0x0, 50.0f},
+    {0x3b, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 50.0f, 0x0, 0x9, 0x64, 0x32, 50.0f},
+    {0x3c, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 13.0f, 45.0f, 30.0f, 50.0f, 0x0, 0x9, 0x64, 0x32, 50.0f},
+    {0x3d, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 15.0f, 45.0f, 30.0f, 30.0f, 0x0, 0x9, 0x64, 0x32, 50.0f},
+    {0x3e, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x9, 0x9, 0x32, 0x50, 50.0f},
+    {0x3f, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x1, 0x9, 0x1e, 0x32, 50.0f},
 };
 void *lbl_804AC690[35] = {
     (void *)0x1000000, (void *)0x8, (void *)0x60000, (void *)0x0,
@@ -1587,73 +1345,14 @@ void *lbl_804AF630[64] = {
 };
 extern void *__vt__10TNpcPlayer[];
 
-struct Info_8014E7A0 {
-    u8 pad0[0xC];
-    f32 w;
-    f32 h;
-    s32 type;
-    u8 pad18[4];
-    Vec pos;
-};
 
-struct Target_8014E7A0 { u8 pad0[0x38]; Vec pos; u8 pad44[0x2FC - 0x44]; Vec wpos; };
 
-struct Owner_8014E7A0 { u8 pad0[0x94]; Target_8014E7A0 *obj; u8 pad98[0xD8 - 0x98]; u8 shape[0x104 - 0xD8]; s32 rot_y; };
 
-struct Self_8014E7A0 {
-    u8 pad0[0x74];
-    Owner_8014E7A0 *f74;
-    Owner_8014E7A0 *f78;
-    u8 pad7C[0x8C - 0x7C];
-    s8 level;
-    u8 pad8D[0xDC - 0x8D];
-    Vec pos;
-};
 
-extern "C" {
-void calc_box_escape_axis__10TNpcPlayerFv(void *, Vec *, Vec *, Vec *, Vec *, Vec *, Vec *, f32 *);
-s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec *out);
-}
 
-s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
-s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 refresh_npc_view_actor_lost(void *arg0);
-s32 partner_view_update_hp_change(void *arg0);
-s32 partner_view_update_conditions(u8 *arg0);
-s32 partner_view_check_moved(u8 *arg0);
-void partner_observe_surroundings(TNpcPlayer *arg0);
-int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
-s32 clamp_partner_counter(s32 arg0, s32 arg1, s16 arg2);
-void bswap_6x45_packet(void* p);
-void bswap_6x44_packet(void* p);
-void bswap_6x43_packet(void* p);
-u8 get_6x47_cast_packet_size(u8 *arg0);
-void init_6x40_walk_packet(void* a0);
-int get_registered_object_count(void);
-const char *get_partner_custom_text(s32 kind, u16 player);
-struct Obj_80150EC4 { u8 pad0[0x30]; u32 flags30; u8 pad34[0x38 - 0x34]; Vec pos; };
 
-struct Owner_80150EC4 { u8 pad[0x94]; Obj_80150EC4 *obj; };
 
-struct Npc_80150EC4 {
-    u8 pad0[0x24];
-    s32 f24;
-    u8 pad28[0x40 - 0x28];
-    f32 run_distance;
-    u8 pad44[0x5C - 0x44];
-    u8 counters[0x78 - 0x5C];
-    Owner_80150EC4 *owner;
-    u32 state;
-    u32 flags;
-    u8 pad84[0x92 - 0x84];
-    s16 action;
-    u8 pad94[0xAC - 0x94];
-    Vec pos;
-    u8 padB8[0xD0 - 0xB8];
-    Vec home;
-    Vec goal;
-};
+
 
 extern s32 lbl_805D6EA0;
 
@@ -1666,7 +1365,7 @@ void TUnk_804AF7B0::run_task() {
     s32 temp_r31;
 
     temp_r31 = (s32)m_up;
-    if (check_switch__22TObjFogCollisionPoisonFv(temp_r31) != 0) {
+    if (((TObjFogCollisionPoison *)temp_r31)->check_switch() != 0) {
         if (((TObjFogCollision *)temp_r31)->check_collision(client) != 0) {
             ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(client);
             damage_timer++;
@@ -1691,7 +1390,7 @@ void TUnk_804AF7B0::run_task() {
     }
 }
 
-u16 TNpcPlayer::get_action_flags() { return *(u16*)((char*)this + 0x678); }
+u16 TObjPlayer::get_npc_controller() { return npc_control.controller_client_id; }
 
 int get_registered_object_count(void) {  return registered_entity_count; }
 
@@ -1718,13 +1417,13 @@ void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = 0.0f; *(floa
 
 void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32__FPUl((char*)this + 0xc); }
 
-void TNpcPlayer::sync_from_lobby() { swap_endian(); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::sync_from_lobby() { swap_endian(); ((TLobby *)this)->update_players(); }
 
 void TNpcPlayer::reset_move_state() { *(float*)((char*)this + 0x8) = 0.0f; *(float*)((char*)this + 0x4) = 0.0f; *(unsigned char*)((char*)this + 0x0) = 66; *(unsigned char*)((char*)this + 0x1) = 3; }
 
 void TNpcPlayer::init_model() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); }
 
-void TNpcPlayer::reset_model() { init_model(); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::reset_model() { init_model(); ((TLobby *)this)->update_players(); }
 
 void TNpcPlayer__sub_80152D64(void* p) { *(u8*)((char*)p + 0x3) = 0; *(u8*)((char*)p + 0x2) = 0; *(u8*)((char*)p + 0x1) = 0; *(u8*)((char*)p + 0x0) = 0; }
 
@@ -1765,7 +1464,7 @@ void init_6x43_attack_packet(u8 *arg0) {
 
 void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); ((TLobby *)this)->update_players(); }
 
 void init_6x44_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -1776,7 +1475,7 @@ void init_6x44_attack_packet(u8 *arg0) {
 
 void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_players() { bswap_6x44_packet(this); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::update_players() { bswap_6x44_packet(this); ((TLobby *)this)->update_players(); }
 
 void init_6x45_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -1787,7 +1486,7 @@ void init_6x45_attack_packet(u8 *arg0) {
 
 void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
-void TNpcPlayer::update() { bswap_6x45_packet(this); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::update() { bswap_6x45_packet(this); ((TLobby *)this)->update_players(); }
 
 void TNpcPlayer__sub_80152A78(s16 *self) {
     s32 i;
@@ -1897,7 +1596,7 @@ u8 *TNpcPlayer::build_npc_player_record(s32 arg0) {
     } else {
         diff = 2;
     }
-    base = TNpcPlayer__template_table[arg0].f2;
+    base = TNpcPlayer__template_table[arg0].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1952,7 +1651,7 @@ u8 *load_npc_player_template(s32 index) {
     } else {
         diff = 2;
     }
-    base = TNpcPlayer__template_table[index].f2;
+    base = TNpcPlayer__template_table[index].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1981,170 +1680,179 @@ u8 *load_npc_player_template(s32 index) {
     return (u8 *)lbl_8050CFC4;
 }
 
-Npc_80152330 *construct_partner__10TNpcPlayerFPviisPv(Npc_80152330 *self, s32 a, s32 b, s16 kind, void *parent) {
+TNpcPlayer *construct_partner__10TNpcPlayerFPviisPv(TNpcPlayer *self, s32 a, s32 b, s16 kind, void *parent) {
     void *p;
 
     __ct__7TObjectFP7TObject(self, parent);
-    self->vt = ((s32 *)__vt__10TNpcPlayer);
-    ((TNpcPlayer *)(self->f5C))->init();
-    self->name = TNpcPlayer__name;
-    self->f24 = 0x19;
-    self->f1C = 0;
-    self->f20 = 0;
-    self->fAC = 0.0f;
-    self->fB0 = 0.0f;
-    self->fB4 = 0.0f;
-    self->fD0 = 0.0f;
-    self->fD4 = 0.0f;
-    self->fD8 = 0.0f;
-    self->fDC = 0.0f;
-    self->fE0 = 0.0f;
-    self->fE4 = 0.0f;
-    self->fC4 = 0;
-    self->fC8 = 0;
-    self->fCC = 0;
-    self->f2C = kind;
-    self->f80 = 0;
-    self->f7C = 0;
-    self->f88 = 0.0f;
-    self->f58 = 0.0f;
-    self->f8C = 0;
-    self->f8E = 0;
-    self->f8D = 0;
+    *(void ***)((u8 *)self + 0x18) = __vt__10TNpcPlayer;
+    ((TNpcPlayer *)self->m_5c)->init();
+    self->m_name = TNpcPlayer__name;
+    self->m_24 = 0x19;
+    self->m_1c = 0;
+    self->m_20 = 0;
+    self->m_ac.x = 0.0f;
+    self->m_ac.y = 0.0f;
+    self->m_ac.z = 0.0f;
+    self->m_d0.x = 0.0f;
+    self->m_d0.y = 0.0f;
+    self->m_d0.z = 0.0f;
+    self->m_dc.x = 0.0f;
+    self->m_dc.y = 0.0f;
+    self->m_dc.z = 0.0f;
+    self->m_c4 = 0;
+    self->m_c8 = 0;
+    self->m_cc = 0;
+    self->m_2c = kind;
+    self->m_80 = 0;
+    self->m_7c = 0;
+    self->m_88 = 0.0f;
+    self->m_58 = 0.0f;
+    self->m_8c = 0;
+    self->m_8e = 0;
+    self->m_8d = 0;
     p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, a);
     }
-    self->f74 = p;
+    self->m_74 = (Unk_8014F844 *)p;
     p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, b);
     }
-    self->f78 = (Own_80152330 *)p;
-    ((TNpcPlayer *)(self->f30))->copy((u8 *)&TNpcPlayer__template_table[self->f2C]);
-    if (self->f78 != 0 && self->f78->obj != 0) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->fDC, self->f78->obj + 0x38);
-        ((TNpcPlayer *)self)->init_equipment();
+    self->m_78 = (Unk_8014F844 *)p;
+    self->ai_params.copy(&TNpcPlayer__template_table[self->m_2c]);
+    if (self->m_78 != 0 && self->m_78->m_94 != 0) {
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_dc, &self->m_78->m_94->position);
+        self->init_equipment();
     }
-    self->f84 = 0;
+    self->m_84 = 0;
     return self;
 }
 
-void TNpcPlayer::copy(void* q) { *(u16*)((char*)this + 0x0) = *(u16*)((char*)q + 0x0); *(u16*)((char*)this + 0x2) = *(u16*)((char*)q + 0x2); *(u32*)((char*)this + 0x4) = *(u32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); *(f32*)((char*)this + 0x10) = *(f32*)((char*)q + 0x10); *(f32*)((char*)this + 0x14) = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); *(f32*)((char*)this + 0x1c) = *(f32*)((char*)q + 0x1c); *(u8*)((char*)this + 0x20) = *(u8*)((char*)q + 0x20); *(u8*)((char*)this + 0x21) = *(u8*)((char*)q + 0x21); *(u8*)((char*)this + 0x22) = *(u8*)((char*)q + 0x22); *(u8*)((char*)this + 0x23) = *(u8*)((char*)q + 0x23); *(f32*)((char*)this + 0x24) = *(f32*)((char*)q + 0x24); }
+void TNpcPlayer::AiParams::copy(AiParams *src) {
+    npc_id = src->npc_id;
+    base_level = src->base_level;
+    technique_flags = src->technique_flags;
+    enemy_lock_on_range = src->enemy_lock_on_range;
+    unknown_0C = src->unknown_0C;
+    max_distance_from_player = src->max_distance_from_player;
+    enemy_unlock_range = src->enemy_unlock_range;
+    block_range = src->block_range;
+    attack_range = src->attack_range;
+    attack_technique_level = src->attack_technique_level;
+    support_technique_level = src->support_technique_level;
+    attack_probability = src->attack_probability;
+    attack_technique_probability = src->attack_technique_probability;
+    unknown_24 = src->unknown_24;
+}
 
-Npc_80152168 *TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent) {
+TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent) {
     void *p;
 
     __ct__7TObjectFP7TObject(self, parent);
-    self->vt = ((s32 *)__vt__10TNpcPlayer);
-    ((TNpcPlayer *)(self->f5C))->init();
-    self->name = TNpcPlayer__name;
-    self->f24 = 0x19;
-    self->f1C = 0;
-    self->f20 = 0;
-    self->fAC = 0.0f;
-    self->fB0 = 0.0f;
-    self->fB4 = 0.0f;
-    self->fD0 = 0.0f;
-    self->fD4 = 0.0f;
-    self->fD8 = 0.0f;
-    self->fDC = 0.0f;
-    self->fE0 = 0.0f;
-    self->fE4 = 0.0f;
-    self->fC4 = 0;
-    self->fC8 = 0;
-    self->fCC = 0;
-    self->f2C = kind;
-    self->f80 = 0;
-    self->f7C = 0;
-    self->f88 = 0.0f;
-    self->f58 = 0.0f;
-    self->f8C = 0;
-    self->f8E = 0;
-    self->f8D = 0;
+    *(void ***)((u8 *)self + 0x18) = __vt__10TNpcPlayer;
+    ((TNpcPlayer *)self->m_5c)->init();
+    self->m_name = TNpcPlayer__name;
+    self->m_24 = 0x19;
+    self->m_1c = 0;
+    self->m_20 = 0;
+    self->m_ac.x = 0.0f;
+    self->m_ac.y = 0.0f;
+    self->m_ac.z = 0.0f;
+    self->m_d0.x = 0.0f;
+    self->m_d0.y = 0.0f;
+    self->m_d0.z = 0.0f;
+    self->m_dc.x = 0.0f;
+    self->m_dc.y = 0.0f;
+    self->m_dc.z = 0.0f;
+    self->m_c4 = 0;
+    self->m_c8 = 0;
+    self->m_cc = 0;
+    self->m_2c = kind;
+    self->m_80 = 0;
+    self->m_7c = 0;
+    self->m_88 = 0.0f;
+    self->m_58 = 0.0f;
+    self->m_8c = 0;
+    self->m_8e = 0;
+    self->m_8d = 0;
     p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, a);
     }
-    self->f74 = p;
+    self->m_74 = (Unk_8014F844 *)p;
     p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, b);
     }
-    self->f78 = (Own_80152168 *)p;
-    ((TNpcPlayer *)(self->f30))->copy((u8 *)&TNpcPlayer__template_table[self->f2C]);
-    if (self->f78 != 0 && self->f78->obj != 0) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->fDC, self->f78->obj + 0x38);
-        ((TNpcPlayer *)self)->init_equipment();
+    self->m_78 = (Unk_8014F844 *)p;
+    self->ai_params.copy(&TNpcPlayer__template_table[self->m_2c]);
+    if (self->m_78 != 0 && self->m_78->m_94 != 0) {
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_dc, &self->m_78->m_94->position);
+        self->init_equipment();
     }
-    self->f84 = arg4;
+    self->m_84 = arg4;
     return self;
 }
 
 TNpcPlayer::~TNpcPlayer() {
     u32 player;
-    u8 *npc_player;
-    u8 *temp_r3_2;
-    npc_player = (u8 *)(*(u8 **)((s8 *)this + 0x74));
-    if (npc_player != NULL) {
-        ((TNpcPlayer *)npc_player)->dt(1);
-        *(u8 **)((s8 *)this + 0x74) = NULL;
+    Unk_8014F844 *view;
+    Unk_8014F844 *partner;
+    view = m_74;
+    if (view != NULL) {
+        ((TNpcPlayer *)view)->dt(1);
+        m_74 = NULL;
     }
-    temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x78));
-    if (temp_r3_2 != NULL) {
-        player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv(temp_r3_2)));
+    partner = m_78;
+    if (partner != NULL) {
+        player = (u32)get_player_by_client_id(get_npc_type__10TNpcPlayerFPv(partner));
         if (player != 0U) {
-            TObjPlayer::send_item_pickup_request((s32) player);
+            TObjPlayer::send_item_pickup_request((s32)player);
         }
-        ((TNpcPlayer *)(*(u8 **)((s8 *)this + 0x78)))->dt(1);
-        *(u8 **)((s8 *)this + 0x78) = NULL;
+        ((TNpcPlayer *)m_78)->dt(1);
+        m_78 = NULL;
     }
 }
 
 void TNpcPlayer::run_task() {
-    u8 *arg0 = (u8 *)this;
-    u8 *owner;
-    owner = *(u8 **)((s8 *)arg0 + 0x74);
-    if (owner == NULL || (void *) *(u8 **)((s8 *)arg0 + 0x78) == NULL) {
+    Unk_8014F844 *owner;
+    owner = m_74;
+    if (owner == NULL || m_78 == NULL) {
         return;
     }
-    {
-        {
-        if (refresh_npc_view_actor_lost(owner) != 0) {
-            ((TObject *)arg0)->queue_destruction();
-            return;
-        }
-        if (refresh_npc_view_actor_lost((void *) (*(u8 **)((s8 *)arg0 + 0x78))) != 0) {
-            ((TObject *)arg0)->queue_destruction();
-            return;
-        }
-        if ((((TObjPlayer *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->is_inactive() != 0) && (((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) == NULL) || (((TNpcPlayer *)((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->get_action_flags() != 0xFFFF))) {
-            ((TNpcPlayer *)arg0)->init_state();
-            if (!(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94)) + 0x30) & 0x800)) {
-                if (*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)) + 0x30) & 0x800) {
-                    if (((s32 (*)(void *, int, int))clamp_partner_counter)(arg0 + 0x5C, 3, 0x400) != 0) {
-                        ((TNpcPlayer *)arg0)->request_chatter(5);
-                    } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(arg0 + 0x5C, 3, 0) != 0) {
-                        ((TNpcPlayer *)arg0)->request_chatter(4);
-                    }
-                    increment_partner_counter((s32)(arg0 + 0x5C), 3);
-                    ((TNpcPlayer *)arg0)->change_ai_state(0);
-                } else {
-                    reset_partner_counter((s32)(arg0 + 0x5C), 3);
-                    ((TNpcPlayer *)arg0)->update_condition_flags();
-                    ((s32 (*)(void *))partner_observe_surroundings)(arg0);
-                    ((TNpcPlayer *)arg0)->decide_action();
-                    ((TNpcPlayer *)arg0)->update_follow_target();
+    if (refresh_npc_view_actor_lost(owner) != 0) {
+        queue_destruction();
+        return;
+    }
+    if (refresh_npc_view_actor_lost(m_78) != 0) {
+        queue_destruction();
+        return;
+    }
+    if ((m_78->m_94->is_inactive() != 0) && ((m_78->m_94 == NULL) || (((TObjPlayer *)m_78->m_94)->get_npc_controller() != 0xFFFF))) {
+        init_state();
+        if (!(m_74->m_94->actorFlags & 0x800)) {
+            if (m_78->m_94->actorFlags & 0x800) {
+                if (((s32 (*)(void *, int, int))clamp_partner_counter)(m_5c, 3, 0x400) != 0) {
+                    request_chatter(5);
+                } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(m_5c, 3, 0) != 0) {
+                    request_chatter(4);
                 }
-                ((TNpcPlayer *)arg0)->deliver_partner_action();
+                increment_partner_counter((s32)m_5c, 3);
+                change_ai_state(0);
+            } else {
+                reset_partner_counter((s32)m_5c, 3);
+                update_condition_flags();
+                ((s32 (*)(void *))partner_observe_surroundings)(this);
+                decide_action();
+                update_follow_target();
             }
-        }
+            deliver_partner_action();
         }
     }
 }
 
 void TNpcPlayer::decide_action() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f0;
     f32 temp_f1;
     f32 temp_f2;
@@ -2157,23 +1865,23 @@ void TNpcPlayer::decide_action() {
         change_ai_state(1);
         return;
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x1C)) {
+    switch (m_1c) {
     case 0:
-        if (((TNpcPlayer *)(*(u8 **)((s8 *)arg0 + 0x78)))->get_action_state() & 2) {
-            *(s32 *)((s8 *)arg0 + 0x1C) = 1;
+        if (((TNpcPlayer *)m_78)->get_action_state() & 2) {
+            m_1c = 1;
             change_ai_state(0);
             return;
         }
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFEFF);
-        if (select_recovery_action__10TNpcPlayerFv((Npc_801510F8 *) (arg0), 1) != 0) {
-            temp_r3 = *(s32 *)((s8 *)arg0 + 0x80);
+        m_80 = m_80 & 0xFFFFFEFF;
+        if (select_recovery_action(1) != 0) {
+            temp_r3 = m_80;
             if (temp_r3 & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
                 return;
             }
-            *(s32 *)((s8 *)arg0 + 0x80) = (s32) (temp_r3 & 0xFFFFFDFF);
-            if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)) < 900.0f) {
+            m_80 = temp_r3 & 0xFFFFFDFF;
+            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < 900.0f) {
                 change_ai_state(8);
                 return;
             }
@@ -2183,37 +1891,37 @@ void TNpcPlayer::decide_action() {
         }
         calc_follow_goal();
         change_ai_state(1);
-        *(s16 *)((s8 *)arg0 + 0x8E) = 0;
+        m_8e = 0;
         return;
     case 1:
         var_f31 = 1.0f;
-        if (*(s32 *)((s8 *)arg0 + 0x80) & 0x8000) {
+        if (m_80 & 0x8000) {
             var_f31 = 2.0f;
         }
-        if ((((TObjPlayer *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->can_perform_physical_action() != 0) && (*(s16 *)((s8 *)arg0 + 0x8E) == 0)) {
+        if ((m_78->m_94->can_perform_physical_action() != 0) && (m_8e == 0)) {
             temp_f1 = fabs_float(10.0f * (3.0517578125e-05f * (f32) rand()));
-            temp_f0 = 0.1f * (f32) *(u8 *)((s8 *)arg0 + 0x52);
+            temp_f0 = 0.1f * (f32) ai_params.attack_probability;
             temp_f0 *= var_f31;
             if (temp_f1 < temp_f0) {
-                *(s16 *)((s8 *)arg0 + 0x8E) = 0;
+                m_8e = 0;
             } else {
-                *(s16 *)((s8 *)arg0 + 0x8E) = (s16) (10.0f * (temp_f1 - temp_f0));
+                m_8e = (s16) (10.0f * (temp_f1 - temp_f0));
             }
         }
-        *(s16 *)((s8 *)arg0 + 0x8E) = (s16) (*(s16 *)((s8 *)arg0 + 0x8E) - 1);
-        if (*(s16 *)((s8 *)arg0 + 0x8E) < 0) {
-            *(s16 *)((s8 *)arg0 + 0x8E) = 0;
+        m_8e = (s16) (m_8e - 1);
+        if (m_8e < 0) {
+            m_8e = 0;
         }
-        if ((check_return_to_leader() != 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x84) == 0)) {
-            if (select_recovery_action__10TNpcPlayerFv((Npc_801510F8 *) (arg0), 0) != 0) {
+        if ((check_return_to_leader() != 0) && (m_84 == 0)) {
+            if (select_recovery_action(0) != 0) {
                 request_chatter(0x13);
                 change_ai_state(8);
-                *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFF7F);
+                m_80 = m_80 & 0xFFFFFF7F;
             } else {
-                temp_r3_2 = *(s32 *)((s8 *)arg0 + 0x80);
+                temp_r3_2 = m_80;
                 if (temp_r3_2 & 0x80) {
-                    *(s32 *)((s8 *)arg0 + 0x80) = (s32) (temp_r3_2 & 0xFFFFFF7F);
-                    if (*(s16 *)((s8 *)arg0 + 0x8E) == 0) {
+                    m_80 = temp_r3_2 & 0xFFFFFF7F;
+                    if (m_8e == 0) {
                         change_ai_state(2);
                     }
                 } else {
@@ -2221,23 +1929,23 @@ void TNpcPlayer::decide_action() {
                     change_ai_state(1);
                 }
             }
-        } else if (select_recovery_action__10TNpcPlayerFv((Npc_801510F8 *) (arg0), 1) != 0) {
-            ((s32 (*)(void *, int))reset_partner_counter)(arg0 + 0x5C, 8);
-            temp_r3_3 = *(s32 *)((s8 *)arg0 + 0x80);
+        } else if (select_recovery_action(1) != 0) {
+            ((s32 (*)(void *, int))reset_partner_counter)((void *) (m_5c), 8);
+            temp_r3_3 = m_80;
             if (temp_r3_3 & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
             } else if (temp_r3_3 & 0x80) {
-                *(s32 *)((s8 *)arg0 + 0x80) = (s32) (temp_r3_3 & ~0x280);
-                if (*(s16 *)((s8 *)arg0 + 0x8E) == 0) {
+                m_80 = temp_r3_3 & ~0x280;
+                if (m_8e == 0) {
                     change_ai_state(2);
                 }
             } else {
-                *(s32 *)((s8 *)arg0 + 0x80) = (s32) (temp_r3_3 & 0xFFFFFDFF);
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)) < 900.0f) {
+                m_80 = temp_r3_3 & 0xFFFFFDFF;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < 900.0f) {
                     change_ai_state(8);
-                } else if ((s32) *(s32 *)((s8 *)arg0 + 0x84) != 0) {
-                    if (*(s16 *)((s8 *)arg0 + 0x8E) == 0) {
+                } else if (m_84 != 0) {
+                    if (m_8e == 0) {
                         change_ai_state(2);
                     }
                 } else {
@@ -2245,124 +1953,121 @@ void TNpcPlayer::decide_action() {
                     change_ai_state(1);
                 }
             }
-        } else if ((choose_attack_target() != 0) && (*(s16 *)((s8 *)arg0 + 0x8E) == 0)) {
-            if (*(s32 *)((s8 *)arg0 + 0x80) & 0x1000) {
+        } else if ((choose_attack_target() != 0) && (m_8e == 0)) {
+            if (m_80 & 0x1000) {
                 change_ai_state(2);
-                *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFEFFF);
+                m_80 = m_80 & 0xFFFFEFFF;
             } else {
                 change_ai_state(1);
             }
-            *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFEFFF);
+            m_80 = m_80 & 0xFFFFEFFF;
         } else {
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x84) != 0) {
+            if (m_84 != 0) {
                 calc_follow_goal();
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38));
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_dc, &m_78->m_94->position);
             }
             change_ai_state(1);
         }
-        if (!(((TNpcPlayer *)(*(u8 **)((s8 *)arg0 + 0x78)))->get_action_state() & 2)) {
-            *(s32 *)((s8 *)arg0 + 0x1C) = 0;
+        if (!(((TNpcPlayer *)m_78)->get_action_state() & 2)) {
+            m_1c = 0;
         }
         return;
     }
 }
 
 s32 TNpcPlayer::update_follow_target() {
-    u8 *arg0 = (u8 *)this;
     if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
-        ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(arg0);
+        ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(this);
         if (check_movement_progress() != 0) {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xAC, (u8 *)&this->_padD0);
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x7C) != 2U) {
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_ac, &m_d0);
+            if ((u32) m_7c != 2U) {
                 change_ai_state(1);
             }
         } else {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xAC, (void *) (*(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38));
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_ac, &m_78->m_94->position);
         }
         return 1;
     }
-    if ((*(s32 *)((s8 *)arg0 + 0x80) & 0x20) && ((u32) *(u32 *)((s8 *)arg0 + 0x7C) != 8U)) {
+    if ((m_80 & 0x20) && ((u32) m_7c != 8U)) {
         change_ai_state(0);
     }
     return 0;
 }
 
 s32 TNpcPlayer::check_return_to_leader() {
-    Npc_801518A4 *arg0 = (Npc_801518A4 *)this;
-    Tgt_801518A4 *t;
+    Unk_8014F844 *t;
     u8 *o;
     f32 r2;
 
-    t = ((Tgt_801518A4 * (*)(void *))TNpcPlayer__sub_80152A30)(arg0->p78);
-    r2 = arg0->f44 * arg0->f44;
-    if (((TNpcPlayer *)(arg0->p74))->get_action_state() & 2) {
-        arg0->flags &= ~0x100;
+    t = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
+    r2 = ai_params.enemy_unlock_range * ai_params.enemy_unlock_range;
+    if (((TNpcPlayer *)m_74)->get_action_state() & 2) {
+        m_80 &= ~0x100;
         return 0;
     }
-    if (((TNpcPlayer *)((s32)arg0->p78))->get_condition() & 8) {
-        arg0->flags |= 0x100;
+    if (((TNpcPlayer *)m_78)->get_condition() & 8) {
+        m_80 |= 0x100;
         return 1;
     }
-    if (arg0->f58 >= r2) {
-        arg0->flags |= 0x100;
-        if (t->a != 0) {
-            ((s32 (*)(void *, s32))increment_partner_counter)(arg0->a5C, 5);
-            if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(arg0->a5C, 5, 3) != 0) {
-                o = ((u8 * (*)(int))find_active_entity_by_id)((u16)t->b);
-                arg0->flags &= ~0x8000;
+    if (m_58 >= r2) {
+        m_80 |= 0x100;
+        if (t->m_0 != 0) {
+            ((s32 (*)(void *, s32))increment_partner_counter)(m_5c, 5);
+            if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c, 5, 3) != 0) {
+                o = ((u8 * (*)(int))find_active_entity_by_id)((u16)t->m_4[0].m_0);
+                m_80 &= ~0x8000;
                 if (o != 0) {
-                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, *(u8 **)(arg0->p78 + 0x94) + 0x38) < arg0->f48 * arg0->f48) {
-                        arg0->flags |= 0x8080;
+                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &m_78->m_94->position) < ai_params.block_range * ai_params.block_range) {
+                        m_80 |= 0x8080;
                     }
                 }
             }
         }
         return 1;
     }
-    if (arg0->flags & 0x100) {
+    if (m_80 & 0x100) {
         return 1;
     }
-    arg0->flags &= ~0x100;
+    m_80 &= ~0x100;
     return 0;
 }
 
 s32 TNpcPlayer::choose_attack_target() {
-    Npc_80151708 *self = (Npc_80151708 *)this;
     s32 i;
-    View_80151708 *view;
-    Pos_80151708 *tgt;
-    view = (View_80151708 *)((Tgt_801518A4 * (*)(void *))TNpcPlayer__sub_80152A30)(self->f78);
-    if (view->count >= 3) {
-        self->f80 |= 0x2000;
-        ((s32 (*)(void *, s32))increment_partner_counter)(self->f5C, 6);
-        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->f5C, 6, 100) != 0) {
-            if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 8) {
+    Unk_8014F844 *view;
+    TObjBase *tgt;
+    view = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
+    if (view->m_0 >= 3) {
+        m_80 |= 0x2000;
+        ((s32 (*)(void *, s32))increment_partner_counter)(m_5c, 6);
+        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c, 6, 100) != 0) {
+            if (((TNpcPlayer *)m_78)->get_condition() & 8) {
                 request_chatter(1);
             } else {
                 request_chatter(0);
             }
         }
     } else {
-        self->f80 &= ~0x2000;
+        m_80 &= ~0x2000;
     }
-    if (view->count != 0) {
-        for (i = 0; i < view->count; i++) {
-            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(self->f78, view->c[i].id) != 0) {
-                tgt = (Pos_80151708 *)((u8 * (*)(int))find_active_entity_by_id)((u16)view->c[0].id);
-                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(self->f78, view->c[i].id, view->c[i].idx);
-                self->dst[0] = tgt->x;
-                self->dst[1] = self->f78->obj->f300;
-                self->dst[2] = tgt->z;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(self->dst, self->f78->obj->pos) < (10.0f + self->f4C) * (10.0f + self->f4C)) {
-                    self->f80 |= 0x1000;
+    if (view->m_0 != 0) {
+        for (i = 0; i < view->m_0; i++) {
+            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(m_78, view->m_4[i].m_0) != 0) {
+                tgt = ((TObjBase * (*)(int))find_active_entity_by_id)((u16)view->m_4[0].m_0);
+                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(m_78, view->m_4[i].m_0, view->m_4[i].m_4);
+                m_dc.x = tgt->position.x;
+                m_dc.y = m_78->m_94->m_300;
+                m_dc.z = tgt->position.z;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
+                    m_80 |= 0x1000;
                 }
-                self->f80 &= ~0x40;
+                m_80 &= ~0x40;
                 return 1;
             }
         }
         request_chatter(8);
-        self->f80 |= 0x40;
+        m_80 |= 0x40;
     }
     return 0;
 }
@@ -2370,99 +2075,99 @@ s32 TNpcPlayer::choose_attack_target() {
 #pragma push
 #pragma fp_contract on
 s32 TNpcPlayer::calc_follow_goal() {
-    u8 *arg0 = (u8 *)this;
-    Vec stack;
+    Vec dir;
     f32 temp_f0;
     f32 temp_f1;
     f32 temp_f2;
-    u8 *temp_r4;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x84) != 0) {
-        if (*(s32 *)((s8 *)arg0 + 0x34) & 0x80) {
-            temp_f0 = *(f32 *)((s8 *)arg0 + 0x54);
-            if (*(f32 *)((s8 *)arg0 + 0x88) <= (temp_f0 * temp_f0)) {
-                temp_r4 = (u8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94));
-                stack.x = *(f32 *)((s8 *)arg0 + 0xDC) - *(f32 *)((s8 *)temp_r4 + 0x38);
-                temp_f2 = *(f32 *)((s8 *)arg0 + 0xE4);
-                temp_f1 = temp_f2 - *(f32 *)((s8 *)temp_r4 + 0x40);
-                stack.y = 0.0f;
-                stack.z = temp_f1;
-                if (0.0f != ((f32 (*)(void *, int, f32, f32))vector_length)((void *)&stack.x, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
-                    ((s32 (*)(void *))normalize_vector)(&stack.x);
+    TObjPlayer *temp_r4;
+    if (m_84 != 0) {
+        if (ai_params.technique_flags & 0x80) {
+            temp_f0 = ai_params.unknown_24;
+            if (m_88 <= (temp_f0 * temp_f0)) {
+                temp_r4 = m_78->m_94;
+                dir.x = m_dc.x - temp_r4->position.x;
+                temp_f2 = m_dc.z;
+                temp_f1 = temp_f2 - temp_r4->position.z;
+                dir.y = 0.0f;
+                dir.z = temp_f1;
+                if (0.0f != ((f32 (*)(void *, int, f32, f32))vector_length)(&dir, (int)temp_r4, temp_f1, temp_f2)) {
+                    ((s32 (*)(void *))normalize_vector)(&dir);
                 }
-                *(f32 *)((s8 *)arg0 + 0xDC) = (f32) -((*(f32 *)((s8 *)arg0 + 0x54) * stack.x) - *(f32 *)((s8 *)arg0 + 0xDC));
-                *(f32 *)((s8 *)arg0 + 0xE4) = (f32) -((*(f32 *)((s8 *)arg0 + 0x54) * stack.z) - *(f32 *)((s8 *)arg0 + 0xE4));
-                *(f32 *)((s8 *)arg0 + 0xE0) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)) + 0x300);
+                m_dc.x = -((ai_params.unknown_24 * dir.x) - m_dc.x);
+                m_dc.z = -((ai_params.unknown_24 * dir.z) - m_dc.z);
+                m_dc.y = m_78->m_94->m_300;
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_dc, &m_74->m_94->m_2fc);
             }
         } else {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_dc, &m_74->m_94->m_2fc);
         }
     } else {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_dc, &m_74->m_94->m_2fc);
     }
     return 1;
 }
 #pragma pop
 
-s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1) {
+s32 TNpcPlayer::select_recovery_action(s32 arg1) {
+    TNpcPlayer * self = this;
     u8 flags = 0;
-    Tgt_801510F8 *tgt;
+    Unk_8014F844 *tgt;
     u8 *ent;
-    if (((TNpcPlayer *)(self->f78))->get_action_state() & 4) {
+    if (((TNpcPlayer *)self->m_78)->get_action_state() & 4) {
         flags |= 1;
     }
-    if (arg1 != 0 && (((TNpcPlayer *)(self->f74))->get_action_state() & 4) && self->f84 == 0) {
+    if (arg1 != 0 && (((TNpcPlayer *)self->m_74)->get_action_state() & 4) && self->m_84 == 0) {
         flags |= 2;
     }
-    tgt = ((Tgt_801510F8 *)((Tgt_801518A4 * (*)(void *))TNpcPlayer__sub_80152A30)(self->f78));
-    if (arg1 != 0 && tgt->a != 0 && (flags & 2)) {
-        ((s32 (*)(void *, s32))increment_partner_counter)(self->counters, 5);
-        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->counters, 5, 0x1E) != 0) {
-            ent = ((u8 * (*)(int))find_active_entity_by_id)((u16)tgt->b);
-            self->f80 &= ~0x8000;
+    tgt = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self->m_78);
+    if (arg1 != 0 && tgt->m_0 != 0 && (flags & 2)) {
+        ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c, 5);
+        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c, 5, 0x1E) != 0) {
+            ent = ((u8 * (*)(int))find_active_entity_by_id)((u16)tgt->m_4[0].m_0);
+            self->m_80 &= ~0x8000;
             if (ent != NULL) {
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(ent + 0x38, self->f78->obj + 0x38) < self->f48 * self->f48) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(self->dst, ent + 0x38);
-                    self->f80 |= 0x8080;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(ent + 0x38, &self->m_78->m_94->position) < self->ai_params.block_range * self->ai_params.block_range) {
+                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_dc, ent + 0x38);
+                    self->m_80 |= 0x8080;
                     return 1;
                 }
             }
         }
     }
     if (flags == 3) {
-        self->f80 |= 0x200;
-        if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 2) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x20) {
-                    self->f92 = 2;
+        self->m_80 |= 0x200;
+        if (((TNpcPlayer *)self->m_78)->get_condition() & 2) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(2, 1) != 0) {
+                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
+                    self->m_92 = 2;
                     return 1;
                 }
-                if (!(self->f34 & 0x40)) {
-                    self->f92 = 2;
+                if (!(self->ai_params.technique_flags & 0x40)) {
+                    self->m_92 = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 8) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x20) {
-                    self->f92 = 0;
+        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 8) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(0, 1) != 0) {
+                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
+                    self->m_92 = 0;
                     return 1;
                 }
-                if (!(self->f34 & 0x40)) {
-                    self->f92 = 0;
+                if (!(self->ai_params.technique_flags & 0x40)) {
+                    self->m_92 = 0;
                     return 1;
                 }
             } else {
-                if (((s16 (*)(void *, int))get_partner_counter)(self->counters, 8) == 0) {
-                    ((TNpcPlayer *)self)->request_chatter(0x14);
+                if (((s16 (*)(void *, int))get_partner_counter)(self->m_5c, 8) == 0) {
+                    self->request_chatter(0x14);
                 }
-                ((s32 (*)(void *, s32))increment_partner_counter)(self->counters, 8);
-                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->counters, 8, 0x5DC);
+                ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c, 8);
+                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x10) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(1, 1) != 0) {
-                self->f92 = 1;
+        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
+                self->m_92 = 1;
                 return 1;
             }
         } else {
@@ -2470,68 +2175,68 @@ s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1) {
         }
     }
     if (flags == 2) {
-        if (((TNpcPlayer *)(self->f78))->get_action_state() & 2) {
+        if (((TNpcPlayer *)self->m_78)->get_action_state() & 2) {
             return 0;
         }
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(self->dst, self->f74->obj + 0x2FC);
-        self->f80 |= 0x20;
-        if (((TNpcPlayer *)((s32)self->f74))->get_condition() & 2) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(2, 0) != 0) {
-                if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x20) {
-                    self->f92 = 2;
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_dc, &self->m_74->m_94->m_2fc);
+        self->m_80 |= 0x20;
+        if (((TNpcPlayer *)self->m_74)->get_condition() & 2) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(2, 0) != 0) {
+                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
+                    self->m_92 = 2;
                     return 1;
                 }
-                if (!(self->f34 & 0x40)) {
-                    self->f92 = 2;
+                if (!(self->ai_params.technique_flags & 0x40)) {
+                    self->m_92 = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)((s32)self->f74))->get_condition() & 0x800) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(0, 0) != 0) {
-                if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x20) {
-                    self->f92 = 0;
+        } else if (((TNpcPlayer *)self->m_74)->get_condition() & 0x800) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(0, 0) != 0) {
+                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
+                    self->m_92 = 0;
                     return 1;
                 }
-                if (!(self->f34 & 0x40)) {
-                    self->f92 = 0;
+                if (!(self->ai_params.technique_flags & 0x40)) {
+                    self->m_92 = 0;
                     return 1;
                 }
             }
         }
     }
     if (flags == 1) {
-        self->f80 |= 0x200;
-        if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 2) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x20) {
-                    self->f92 = 2;
+        self->m_80 |= 0x200;
+        if (((TNpcPlayer *)self->m_78)->get_condition() & 2) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(2, 1) != 0) {
+                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
+                    self->m_92 = 2;
                     return 1;
                 }
-                if (!(self->f34 & 0x40)) {
-                    self->f92 = 2;
+                if (!(self->ai_params.technique_flags & 0x40)) {
+                    self->m_92 = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 8) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x20) {
-                    self->f92 = 0;
+        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 8) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(0, 1) != 0) {
+                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
+                    self->m_92 = 0;
                     return 1;
                 }
-                if (!(self->f34 & 0x40)) {
-                    self->f92 = 0;
+                if (!(self->ai_params.technique_flags & 0x40)) {
+                    self->m_92 = 0;
                     return 1;
                 }
             } else {
-                if (((s16 (*)(void *, int))get_partner_counter)(self->counters, 8) == 0) {
-                    ((TNpcPlayer *)self)->request_chatter(0x14);
+                if (((s16 (*)(void *, int))get_partner_counter)(self->m_5c, 8) == 0) {
+                    self->request_chatter(0x14);
                 }
-                ((s32 (*)(void *, s32))increment_partner_counter)(self->counters, 8);
-                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->counters, 8, 0x5DC);
+                ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c, 8);
+                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)((s32)self->f78))->get_condition() & 0x10) {
-            if (((TNpcPlayer *)(self->f78))->try_attack(1, 1) != 0) {
-                self->f92 = 1;
+        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
+            if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
+                self->m_92 = 1;
                 return 1;
             }
         }
@@ -2542,47 +2247,46 @@ s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TNpcPlayer::deliver_partner_action() {
-    Npc_80150EC4 *self = (Npc_80150EC4 *)this;
     Vec d;
     f32 len;
 
-    if ((self->flags & 4) && !(lbl_805D6EA0 & 2)) {
-        deliver_partner_chatter((Npc_8014E250 *)this);
+    if ((m_80 & 4) && !(lbl_805D6EA0 & 2)) {
+        deliver_partner_chatter(this);
     }
-    if (((TObjPlayer *)self->owner->obj)->test_action_mask(2) == 0) {
+    if (m_78->m_94->test_action_mask(2) == 0) {
         return;
     }
-    switch (self->state) {
+    switch (m_7c) {
     case 0:
-        VecCopy__FP3VecPC3Vec(&self->pos, VecCopy__FP3VecPC3Vec(&self->home, (int)&self->goal));
-        increment_partner_counter((s32)&self->counters, 4);
-        if ((s16)get_partner_counter((s32)&self->counters, 4) == 5401) {
-            self->flags &= ~4;
-            self->f24 = 25;
-            set_partner_counter((s32)&self->counters, 4, 0);
+        VecCopy__FP3VecPC3Vec(&m_ac, VecCopy__FP3VecPC3Vec(&m_d0, (int)&m_dc));
+        increment_partner_counter((s32)m_5c, 4);
+        if ((s16)get_partner_counter((s32)m_5c, 4) == 5401) {
+            m_80 &= ~4;
+            m_24 = 25;
+            set_partner_counter((s32)m_5c, 4, 0);
         }
-        if (clamp_partner_counter((s32)&self->counters, 4, 5400) != 0) {
+        if (clamp_partner_counter((s32)m_5c, 4, 5400) != 0) {
             request_chatter(11);
         }
         break;
     case 1:
-        d.x = self->pos.x - self->owner->obj->pos.x;
+        d.x = m_ac.x - m_78->m_94->position.x;
         d.y = 0.0f;
-        d.z = self->pos.z - self->owner->obj->pos.z;
+        d.z = m_ac.z - m_78->m_94->position.z;
         len = vector_length(&d);
         if (len <= 1.0f) {
             return;
         }
-        if (self->owner->obj->flags30 & 0x100000) {
+        if (m_78->m_94->actorFlags & 0x100000) {
             send_walk_request();
-        } else if (len <= self->run_distance) {
-            if (!(self->flags & 8)) {
+        } else if (len <= ai_params.max_distance_from_player) {
+            if (!(m_80 & 8)) {
                 send_walk_request();
             } else {
                 send_run_request();
             }
         } else {
-            self->flags |= 8;
+            m_80 |= 8;
             send_run_request();
         }
         break;
@@ -2592,33 +2296,32 @@ void TNpcPlayer::deliver_partner_action() {
     case 4:
         break;
     case 8:
-        dispatch_action(self->action);
+        dispatch_action(m_92);
         break;
     }
-    if (self->state != 2) {
-        reset_partner_counter((s32)&self->counters, 1);
-        reset_partner_counter((s32)&self->counters, 5);
-        self->flags &= ~0x8000;
+    if (m_7c != 2) {
+        reset_partner_counter((s32)m_5c, 1);
+        reset_partner_counter((s32)m_5c, 5);
+        m_80 &= ~0x8000;
     }
-    if (self->state != 1) {
-        self->flags &= ~8;
+    if (m_7c != 1) {
+        m_80 &= ~8;
     }
-    if (self->state != 0) {
-        reset_partner_counter((s32)&self->counters, 4);
+    if (m_7c != 0) {
+        reset_partner_counter((s32)m_5c, 4);
     }
 }
 #pragma pop
 
 void TNpcPlayer::send_walk_request() {
-    Npc_80150E44 *self = (Npc_80150E44 *)this;
     Msg_80150E44 m;
     init_6x40_walk_packet(&m);
-    if (self->owner != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(self->owner);
-        m.x = self->x;
-        m.z = self->z;
+    if (m_78 != 0) {
+        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
+        m.x = m_ac.x;
+        m.z = m_ac.z;
         m.flags = 0;
-        if (self->owner->obj->flags & 0x100000) {
+        if (m_78->m_94->actorFlags & 0x100000) {
             m.flags |= 8;
         }
         ((TNpcPlayer *)(&m))->sync_from_lobby();
@@ -2626,13 +2329,12 @@ void TNpcPlayer::send_walk_request() {
 }
 
 void TNpcPlayer::send_run_request() {
-    Npc_80150DE8 *self = (Npc_80150DE8 *)this;
     Msg_80150DE8 m;
     ((TNpcPlayer *)(&m))->reset_move_state();
-    if (self->owner != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(self->owner);
-        m.x = self->x;
-        m.z = self->z;
+    if (m_78 != 0) {
+        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
+        m.x = m_ac.x;
+        m.z = m_ac.z;
         ((TNpcPlayer *)(&m))->reset_model();
     }
 }
@@ -2646,14 +2348,14 @@ void TNpcPlayer::update_combat_action() {
     f32 diff;
     f32 mx;
 
-    if (((u32 (*)(void *))TNpcPlayer__sub_80152978)(((Npc_80150B90 *)this)->f78) == 0xFFFF) {
+    if (((u32 (*)(void *))TNpcPlayer__sub_80152978)(m_78) == 0xFFFF) {
         return;
     }
-    if (((TObjPlayer *)(((Npc_80150B90 *)this)->f78->obj))->can_perform_physical_action() == 0) {
+    if (m_78->m_94->can_perform_physical_action() == 0) {
         return;
     }
-    if (!(((Npc_80150B90 *)this)->f34 & 0x40) && !(((TNpcPlayer *)((s32)((Npc_80150B90 *)this)->f78))->get_condition() & 0x10)) {
-        fl = ((Npc_80150B90 *)this)->f34;
+    if (!(ai_params.technique_flags & 0x40) && !(((TNpcPlayer *)m_78)->get_condition() & 0x10)) {
+        fl = ai_params.technique_flags;
         if (fl & 4) {
             tier = 0;
         } else if (fl & 8) {
@@ -2663,32 +2365,32 @@ void TNpcPlayer::update_combat_action() {
         } else {
             tier = 0;
         }
-        if ((((Npc_80150B90 *)this)->f80 & 0x2000) && (((TNpcPlayer *)((s32)((Npc_80150B90 *)this)->f78))->get_condition() & 0x1000)) {
+        if ((m_80 & 0x2000) && (((TNpcPlayer *)m_78)->get_condition() & 0x1000)) {
             alt = 1;
         } else {
             alt = 0;
         }
         if (alt == 0) {
             if (fabs_float(10.0f * (3.0517578125e-05f * (f32)rand())) >
-                0.1f * (f32)((Npc_80150B90 *)this)->f53) {
-                ((TNpcPlayer *)((Npc_80150B90 *)this))->partner_request_physical_attack();
+                0.1f * (f32)ai_params.attack_technique_probability) {
+                partner_request_physical_attack();
                 return;
             }
         }
         id = npc_player_combat_action_table[tier][alt];
-        tec = calc_technique_parameters(id, ((Npc_80150B90 *)this)->f50, 0xFFFF);
-        diff = (f32)(get_actor_tp((u8 *)(((Npc_80150B90 *)this)->f78->obj)) - tec->f10);
-        mx = (f32)obj_getS16_2BA((u8 *)(((Npc_80150B90 *)this)->f78->obj));
+        tec = calc_technique_parameters(id, *(s8 *)&ai_params.attack_technique_level, 0xFFFF);
+        diff = (f32)(get_actor_tp((u8 *)m_78->m_94) - tec->f10);
+        mx = (f32)obj_getS16_2BA((u8 *)m_78->m_94);
         if (diff / mx <= 0.2f && 0.0f != mx) {
-            ((TNpcPlayer *)((Npc_80150B90 *)this))->request_chatter(3);
+            request_chatter(3);
         }
-        ((Npc_80150B90 *)this)->f80 &= ~0x2000;
-        if (TObjPlayer::try_camera_action((s32)(((Npc_80150B90 *)this)->f78->obj), (s32)id) != 0) {
-            TNpcPlayer__sub_8014DC3C(((Npc_80150B90 *)this), id);
+        m_80 &= ~0x2000;
+        if (TObjPlayer::try_camera_action((s32)m_78->m_94, (s32)id) != 0) {
+            TNpcPlayer__sub_8014DC3C(this, id);
             return;
         }
     }
-    ((TNpcPlayer *)((Npc_80150B90 *)this))->partner_request_physical_attack();
+    partner_request_physical_attack();
 }
 
 void TNpcPlayer::request_technique_cast(s32 kind) {
@@ -2696,69 +2398,67 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     u8 *actor;
 
     ((TNpcPlayer *)(&m))->init_cast_technique_cmd();
-    actor = ((Npc_80150A34 *)this)->p78->actor;
+    actor = (u8 *)m_78->m_94;
     if (kind == 15 || kind == 16) {
-        ((TNpcPlayer *)((Npc_80150A34 *)this))->request_chatter(0x16);
+        request_chatter(0x16);
     } else if (kind == 0 || kind == 3 || kind == 6) {
-        ((TNpcPlayer *)((Npc_80150A34 *)this))->request_chatter(0x17);
+        request_chatter(0x17);
     } else {
-        ((TNpcPlayer *)((Npc_80150A34 *)this))->request_chatter(2);
+        request_chatter(2);
     }
     if (TObjPlayer::try_camera_action((s32)actor, (s32)kind) != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(((Npc_80150A34 *)this)->p78);
+        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
         m.kind = kind;
         m.one = 1;
         if (kind == 15 || kind == 16) {
             if (kind == 15) {
-                ((Npc_80150A34 *)this)->flags |= 0x10000;
+                m_80 |= 0x10000;
             }
             m.e = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(((Npc_80150A34 *)this)->p74));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(m_74));
             set_state__10TNpcPlayerFPvs(m.sub, 0);
         } else {
             m.e = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((TNpcPlayer *)(((Npc_80150A34 *)this)->p78))->get_npc_state());
-            set_state__10TNpcPlayerFPvs(m.sub, TNpcPlayer__sub_801528DC(((Npc_80150A34 *)this)->p78));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((TNpcPlayer *)m_78)->get_npc_state());
+            set_state__10TNpcPlayerFPvs(m.sub, TNpcPlayer__sub_801528DC(m_78));
         }
         ((TNpcPlayer *)(&m))->finalize_and_send_packet();
     }
 }
 
 void TNpcPlayer::init_state() {
-
-    ((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x74)))->reset_fields_8c();
-    ((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->reset_fields_8c();
-    switch (*(s32 *)((s8 *)this + 0x28)) {
+    ((TNpcPlayer *)m_74)->reset_fields_8c();
+    ((TNpcPlayer *)m_78)->reset_fields_8c();
+    switch (m_28) {
     case 0:
         init_follow_target();
-        *(s32 *)((s8 *)this + 0x28) = 1;
+        m_28 = 1;
     case 1:
         return;
     }
 }
 
 void TNpcPlayer::update_condition_flags() {
-    u8 *arg0 = (u8 *)this;
-    ((s32 (*)(s32))partner_view_check_moved)(*(s32 *)((s8 *)arg0 + 0x74));
-    ((s32 (*)(s32))partner_view_update_conditions)(*(s32 *)((s8 *)arg0 + 0x74));
-    if (((TNpcPlayer *)(*(s32 *)((s8 *)arg0 + 0x74)))->get_condition() & 2) {
-        if (((s16 (*)(void *, int))get_partner_counter)(arg0 + 0x5C, 0xA) == 0) {
+    ((s32 (*)(s32))partner_view_check_moved)((s32)m_74);
+    ((s32 (*)(s32))partner_view_update_conditions)((s32)m_74);
+    if (((TNpcPlayer *)m_74)->get_condition() & 2) {
+        if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 0xA) == 0) {
             request_chatter(9);
         }
-        ((s32 (*)(void *, s32))increment_partner_counter)(arg0 + 0x5C, 0xA);
+        ((s32 (*)(void *, s32))increment_partner_counter)(m_5c, 0xA);
     } else {
-        ((s32 (*)(void *, s32))reset_partner_counter)(arg0 + 0x5C, 0xA);
+        ((s32 (*)(void *, s32))reset_partner_counter)(m_5c, 0xA);
     }
-    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)(*(s32 *)((s8 *)arg0 + 0x74), 30.0f) != 0) {
-        if (((TNpcPlayer *)(*(s32 *)((s8 *)arg0 + 0x74)))->get_condition() & 8) {
-            if (((s16 (*)(void *, int))get_partner_counter)(arg0 + 0x5C, 9) == 0) {
+    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((s32)m_74, 30.0f) != 0) {
+        if (((TNpcPlayer *)m_74)->get_condition() & 8) {
+            if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 9) == 0) {
                 request_chatter(0xC);
             }
-            ((s32 (*)(void *, s32))increment_partner_counter)(arg0 + 0x5C, 8);
-            ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(arg0 + 0x5C, 9, 0x2BC);
+            ((s32 (*)(void *, s32))increment_partner_counter)(m_5c, 8);
+            ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c, 9, 0x2BC);
             return;
         }
-        ((s32 (*)(void *, s32))reset_partner_counter)(arg0 + 0x5C, 9);
+        ((s32 (*)(void *, s32))reset_partner_counter)(m_5c, 9);
     }
 }
 
@@ -2767,31 +2467,31 @@ void TNpcPlayer::update_condition_flags() {
 void partner_observe_surroundings(TNpcPlayer *npc_player) {
     f32 temp_f3;
     s32 temp_r3_2;
-    s32 temp_r5;
-    u8 *temp_r3;
-    u8 *temp_r3_3;
-    temp_r5 = *(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x74)) + 0x94);
-    *(f32 *)((s8 *)npc_player + 0x58) = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *)(temp_r5 + 0x38), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x94) + 0x38), (int)temp_r5);
-    if ((s32) *(s32 *)((s8 *)npc_player + 0x84) != 0) {
-        ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)((void *) (*(u8 **)((s8 *)npc_player + 0x78)), (void *) (get_npc_type__10TNpcPlayerFPv((void *) (*(u8 **)((s8 *)npc_player + 0x74)))), (f32) (*(f32 *)((s8 *)npc_player + 0x38)));
+    TObjPlayer *temp_r5;
+    TObjPlayer *temp_r3;
+    Unk_8014F844 *temp_r3_3;
+    temp_r5 = npc_player->m_74->m_94;
+    npc_player->m_58 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&temp_r5->position, &npc_player->m_78->m_94->position, (int)temp_r5);
+    if (npc_player->m_84 != 0) {
+        ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, (void *)get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
     } else {
-        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((s32)((void *) (*(u8 **)((s8 *)npc_player + 0x78))), (f32) (*(f32 *)((s8 *)npc_player + 0x38)));
+        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((s32)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
     }
-    ((s32 (*)(s32))partner_view_update_conditions)((s32)((void *) (*(u8 **)((s8 *)npc_player + 0x78))));
-    temp_f3 = *(f32 *)((s8 *)npc_player + 0xDC);
-    temp_r3 = (u8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x94));
-    *(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x98) = (s32) (10430.38043493439 * atan2_float((int)temp_r3, (f32) (temp_f3 - *(f32 *)((s8 *)temp_r3 + 0x38)), (f32) (*(f32 *)((s8 *)npc_player + 0xE4) - *(f32 *)((s8 *)temp_r3 + 0x40)), (f32)temp_f3));
-    ((s32 (*)(void *))partner_probe_obstacles)((void *) (*(u8 **)((s8 *)npc_player + 0x78)));
-    if (partner_view_update_hp_change((void *) (*(u8 **)((s8 *)npc_player + 0x78))) != 0) {
-        if (((TNpcPlayer *)(*(u8 **)((s8 *)npc_player + 0x78)))->get_condition() & 0x40) {
+    ((s32 (*)(s32))partner_view_update_conditions)((s32)npc_player->m_78);
+    temp_f3 = npc_player->m_dc.x;
+    temp_r3 = npc_player->m_78->m_94;
+    npc_player->m_78->m_98 = (s32)(10430.38043493439 * atan2_float((int)temp_r3, temp_f3 - temp_r3->position.x, npc_player->m_dc.z - temp_r3->position.z, temp_f3));
+    ((s32 (*)(void *))partner_probe_obstacles)(npc_player->m_78);
+    if (partner_view_update_hp_change(npc_player->m_78) != 0) {
+        if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x40) {
             npc_player->request_chatter(0xE);
-        } else if (((TNpcPlayer *)(*(u8 **)((s8 *)npc_player + 0x78)))->get_condition() & 0x80) {
+        } else if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x80) {
             npc_player->request_chatter(0xF);
-        } else if (((TNpcPlayer *)(*(u8 **)((s8 *)npc_player + 0x78)))->get_condition() & 0x200) {
-            if ((u32) *(u32 *)((s8 *)npc_player + 0x7C) != 8U) {
-                temp_r3_2 = *(s32 *)((s8 *)npc_player + 0x80);
+        } else if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x200) {
+            if (npc_player->m_7c != 8U) {
+                temp_r3_2 = npc_player->m_80;
                 if (temp_r3_2 & 0x10000) {
-                    *(s32 *)((s8 *)npc_player + 0x80) = (s32) (temp_r3_2 & 0xFFFEFFFF);
+                    npc_player->m_80 = temp_r3_2 & 0xFFFEFFFF;
                 } else {
                     npc_player->request_chatter(0x11);
                 }
@@ -2800,196 +2500,195 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
             npc_player->request_chatter(0x10);
         }
     }
-    if (((s32)((s32 (*)(s32))partner_view_check_moved)((s32)((void *) (*(u8 **)((s8 *)npc_player + 0x78))))) == 0) {
-        if ((u32) *(u32 *)((s8 *)npc_player + 0x7C) == 1U) {
-            if (((TNpcPlayer *)(*(u8 **)((s8 *)npc_player + 0x78)))->get_action_state() & 0x80) {
-                *(u8 *)((s8 *)npc_player + 0x8C) = 0U;
-                *(u8 *)((s8 *)npc_player + 0x8D) = 0U;
+    if (((s32 (*)(s32))partner_view_check_moved)((s32)npc_player->m_78) == 0) {
+        if (npc_player->m_7c == 1U) {
+            if (((TNpcPlayer *)npc_player->m_78)->get_action_state() & 0x80) {
+                npc_player->m_8c = 0;
+                npc_player->m_8d = 0;
                 return;
             }
-            *(u8 *)((s8 *)npc_player + 0x8D) = (u8) (*(u8 *)((s8 *)npc_player + 0x8D) + 1);
-            if ((s8) *(u8 *)((s8 *)npc_player + 0x8D) > 0x1E) {
-                *(u8 *)((s8 *)npc_player + 0x8D) = 0x1EU;
+            npc_player->m_8d = (s8)(npc_player->m_8d + 1);
+            if (npc_player->m_8d > 0x1E) {
+                npc_player->m_8d = 0x1E;
             }
-            *(u8 *)((s8 *)npc_player + 0x8C) = (u8) (*(u8 *)((s8 *)npc_player + 0x8C) + 1);
+            npc_player->m_8c = (s8)(npc_player->m_8c + 1);
         }
     } else {
-        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)npc_player + 0x78));
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(temp_r3_3 + 0x9C, (void *) (*(u8 **)((s8 *)temp_r3_3 + 0x94) + 0x44));
-        *(u8 *)((s8 *)npc_player + 0x8C) = 0U;
-        *(u8 *)((s8 *)npc_player + 0x8D) = 0U;
+        temp_r3_3 = npc_player->m_78;
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&temp_r3_3->m_9c, &temp_r3_3->m_94->prev_position);
+        npc_player->m_8c = 0;
+        npc_player->m_8d = 0;
     }
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self) {
+void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
     Vec midpoint;
     Vec hit;
     Vec route;
     Vec dir;
     Vec normal;
-    Actor_801501A0 *actor;
+    TObjPlayer *actor;
     f32 len;
     f32 half;
     s32 clear;
 
-    actor = self->view->actor;
-    dir.x = self->dest.x - actor->anchor.x;
-    dir.y = self->dest.y - actor->anchor.y;
-    dir.z = self->dest.z - actor->anchor.z;
+    actor = self->m_78->m_94;
+    dir.x = self->m_dc.x - actor->m_2fc;
+    dir.y = self->m_dc.y - actor->m_300;
+    dir.z = self->m_dc.z - actor->m_304;
     len = ((f32 (*)(void *))vector_length)(&dir);
     if (0.0f != len) {
         ((s32 (*)(void *))normalize_vector)(&dir);
     }
-    actor = self->view->actor;
+    actor = self->m_78->m_94;
     half = len / 2.0f;
-    midpoint.x = half * dir.x + actor->anchor.x;
-    midpoint.y = half * dir.y + actor->anchor.y;
-    midpoint.z = half * dir.z + actor->anchor.z;
-    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->anchor, &self->dest, &hit, &normal) != 0) {
+    midpoint.x = half * dir.x + actor->m_2fc;
+    midpoint.y = half * dir.y + actor->m_300;
+    midpoint.z = half * dir.z + actor->m_304;
+    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, (Vec *)&actor->m_2fc, &self->m_dc, &hit, &normal) != 0) {
         Vec shortcut = {0.0f, 0.0f, 0.0f};
-        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->view->actor->anchor, &hit, &normal, &route, &shortcut);
-        if (!(self->flags & 1)) {
+        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, (Vec *)&self->m_78->m_94->m_2fc, &hit, &normal, &route, &shortcut);
+        if (!(self->m_80 & 1)) {
             if (clear != 0) {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->wp, &shortcut);
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_a0, &shortcut);
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->wp, &route);
-                self->wp.y = self->dest.y;
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_a0, &route);
+                self->m_a0.y = self->m_dc.y;
                 Vec clipped;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->dest, &self->wp, &clipped) != 0) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->wp, &clipped);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->m_dc, &self->m_a0, &clipped) != 0) {
+                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_a0, &clipped);
                 }
             }
-            self->dir.x = self->dest.x - self->wp.x;
-            self->dir.y = 0.0f;
-            self->dir.z = self->dest.z - self->wp.z;
-            if (0.0f != ((f32 (*)(void *))vector_length)(&self->dir)) {
-                ((s32 (*)(void *))normalize_vector)(&self->dir);
+            self->m_94.x = self->m_dc.x - self->m_a0.x;
+            self->m_94.y = 0.0f;
+            self->m_94.z = self->m_dc.z - self->m_a0.z;
+            if (0.0f != ((f32 (*)(void *))vector_length)(&self->m_94)) {
+                ((s32 (*)(void *))normalize_vector)(&self->m_94);
             }
-            self->flags |= 1;
+            self->m_80 |= 1;
         }
         if (clear != 0) {
-            self->s90 = 0;
-            if (self->flags & 2) {
+            self->m_90 = 0;
+            if (self->m_80 & 2) {
                 Vec d1;
-                actor = self->view->actor;
-                d1.x = self->target.x - actor->pos.x;
+                actor = self->m_78->m_94;
+                d1.x = self->m_d0.x - actor->position.x;
                 d1.y = 0.0f;
-                d1.z = self->target.z - actor->pos.z;
+                d1.z = self->m_d0.z - actor->position.z;
                 if (((f32 (*)(void *))vector_length)(&d1) <= 1.5f) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &shortcut);
-                    self->flags &= ~2;
+                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &shortcut);
+                    self->m_80 &= ~2;
                 }
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &shortcut);
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &shortcut);
             }
-        } else if (self->flags & 2) {
+        } else if (self->m_80 & 2) {
             Vec d2;
-            actor = self->view->actor;
-            d2.x = self->target.x - actor->pos.x;
+            actor = self->m_78->m_94;
+            d2.x = self->m_d0.x - actor->position.x;
             d2.y = 0.0f;
-            d2.z = self->target.z - actor->pos.z;
+            d2.z = self->m_d0.z - actor->position.z;
             if (((f32 (*)(void *))vector_length)(&d2) <= 5.0f) {
                 Vec clipped2;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->view->actor->anchor, &route, &clipped2) != 0) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &clipped2);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, (Vec *)&self->m_78->m_94->m_2fc, &route, &clipped2) != 0) {
+                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &clipped2);
                 } else {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &route);
+                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &route);
                 }
-                self->flags &= ~2;
-                self->s90 = 0;
+                self->m_80 &= ~2;
+                self->m_90 = 0;
             }
-            self->s90++;
-            if (self->s90 >= 100) {
-                self->s90 = 100;
+            self->m_90++;
+            if (self->m_90 >= 100) {
+                self->m_90 = 100;
             }
         } else {
             Vec d3;
-            self->s90 = 0;
-            actor = self->view->actor;
-            d3.x = self->target.x - actor->pos.x;
+            self->m_90 = 0;
+            actor = self->m_78->m_94;
+            d3.x = self->m_d0.x - actor->position.x;
             d3.y = 0.0f;
-            d3.z = self->target.z - actor->pos.z;
-            self->target.x = self->wp.x;
-            self->target.y = self->wp.y;
-            self->target.z = self->wp.z;
+            d3.z = self->m_d0.z - actor->position.z;
+            self->m_d0.x = self->m_a0.x;
+            self->m_d0.y = self->m_a0.y;
+            self->m_d0.z = self->m_a0.z;
             if (((f32 (*)(void *))vector_length)(&d3) < 1.0f) {
-                self->s90 = 0;
-                self->target.x = 40.0f * self->dir.x + self->wp.x;
-                self->target.y = 40.0f * self->dir.y + self->wp.y;
-                self->target.z = 40.0f * self->dir.z + self->wp.z;
-                self->flags |= 2;
-                self->flags &= ~1;
+                self->m_90 = 0;
+                self->m_d0.x = 40.0f * self->m_94.x + self->m_a0.x;
+                self->m_d0.y = 40.0f * self->m_94.y + self->m_a0.y;
+                self->m_d0.z = 40.0f * self->m_94.z + self->m_a0.z;
+                self->m_80 |= 2;
+                self->m_80 &= ~1;
             }
         }
         return;
     }
-    if (((TNpcPlayer *)(self->view))->get_action_state() & 0x20) {
-        if (route_around_object__10TNpcPlayerFv((Self_8014E7A0 *)(self), (Vec *)(&route)) != 0 && self->s8c < 30) {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &route);
+    if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x20) {
+        if (self->route_around_object((Vec *)(&route)) != 0 && self->m_8c < 30) {
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &route);
         } else {
-            if (self->s8d > 15) {
-                self->s8c = 0;
+            if (self->m_8d > 15) {
+                self->m_8c = 0;
             }
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &midpoint);
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &midpoint);
         }
-    } else if (((TNpcPlayer *)(self->view))->get_action_state() & 0x80) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &midpoint);
-    } else if (self->s8c >= 15 && self->s8c < 30) {
+    } else if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x80) {
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &midpoint);
+    } else if (self->m_8c >= 15 && self->m_8c < 30) {
         Vec d4;
         Vec detour;
-        View_801501A0 *view = self->view;
-        actor = view->actor;
-        d4.x = actor->pos.x - view->v9c.x;
-        d4.y = actor->pos.y - view->v9c.y;
-        d4.z = actor->pos.z - view->v9c.z;
-        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->pos, &self->dest, &d4, &detour);
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &detour);
+        Unk_8014F844 *view = self->m_78;
+        actor = view->m_94;
+        d4.x = actor->position.x - view->m_9c.x;
+        d4.y = actor->position.y - view->m_9c.y;
+        d4.z = actor->position.z - view->m_9c.z;
+        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->m_dc, &d4, &detour);
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &detour);
     } else {
-        if (self->s8d > 15) {
-            self->s8c = 0;
+        if (self->m_8d > 15) {
+            self->m_8c = 0;
         }
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &midpoint);
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &midpoint);
     }
-    self->flags &= ~1;
-    self->s90 = 0;
+    self->m_80 &= ~1;
+    self->m_90 = 0;
 }
 #pragma pop
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-s32 needs_movement__10TNpcPlayerFPvPvi(u8 *arg0, void * _w1, int _w2) {
+s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2) {
     f32 temp_f1;
     f32 var_f31;
-    if (*(s32 *)((s8 *)arg0 + 0x80) & 0x10) {
+    if (self->m_80 & 0x10) {
         return 1;
     }
-    var_f31 = 12.0f + *(f32 *)((s8 *)arg0 + 0x40);
+    var_f31 = 12.0f + self->ai_params.max_distance_from_player;
     if (var_f31 >= 40.0f) {
         var_f31 = 40.0f;
     }
-    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *)((void *) (arg0 + 0xDC)), (void *)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)), _w2);
-    *(f32 *)((s8 *)arg0 + 0x88) = temp_f1;
+    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->m_dc, &self->m_78->m_94->position, _w2);
+    self->m_88 = temp_f1;
     if (temp_f1 >= (var_f31 * var_f31)) {
         return 1;
     }
-    *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFEFF);
+    self->m_80 = self->m_80 & 0xFFFFFEFF;
     return 0;
 }
 #pragma pop
 
 void TNpcPlayer::init_follow_target() {
-    Npc_80150050 *arg0 = (Npc_80150050 *)this;
-    Tgt_80150050 *t = arg0->mid->tgt;
+    TObjPlayer *t = m_74->m_94;
     Vec off = {0.0f, 0.0f, 18.0f};
     if (t != NULL) {
-        arg0->dst.x = arg0->mid->tgt->pos.x + off.x;
-        arg0->dst.y = arg0->mid->tgt->pos.y + off.y;
-        arg0->dst.z = arg0->mid->tgt->pos.z + off.z;
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos, &arg0->mid->tgt->pos);
+        m_d0.x = m_74->m_94->position.x + off.x;
+        m_d0.y = m_74->m_94->position.y + off.y;
+        m_d0.z = m_74->m_94->position.z + off.z;
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&m_ac, &m_74->m_94->position);
     }
 }
 
@@ -2998,47 +2697,47 @@ void TNpcPlayer::render() {  }
 #pragma push
 #pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
-    u8 *arg0 = (u8 *)this;
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xAC, (u8 *)&this->_padD0) <= 100.0f) {
+    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_ac, &m_d0) <= 100.0f) {
         return 0;
     }
-    temp_r3 = *(s8 *)((s8 *)arg0 + 0x8C);
+    temp_r3 = m_8c;
     if (temp_r3 > 0x1E) {
-        *(u8 *)((s8 *)arg0 + 0x8C) = 0x1EU;
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x4000);
-        if (((s16 (*)(void *, int))get_partner_counter)(arg0 + 0x5C, 7) == 0) {
+        m_8c = 0x1EU;
+        m_80 = m_80 | 0x4000;
+        if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 7) == 0) {
             request_chatter(7);
         }
-        ((s32 (*)(void *, int))increment_partner_counter)(arg0 + 0x5C, 7);
-        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(arg0 + 0x5C, 7, 0x12C);
+        ((s32 (*)(void *, int))increment_partner_counter)(m_5c, 7);
+        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c, 7, 0x12C);
         return 0;
     }
-    if ((temp_r3 == 0) && (*(s32 *)((s8 *)arg0 + 0x80) & 0x4000)) {
-        ((s32 (*)(void *, int))reset_partner_counter)(arg0 + 0x5C, 7);
+    if ((temp_r3 == 0) && (m_80 & 0x4000)) {
+        ((s32 (*)(void *, int))reset_partner_counter)(m_5c, 7);
         request_chatter(0x18);
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFBFFF);
+        m_80 = m_80 & 0xFFFFBFFF;
     }
     return 1;
 }
 #pragma pop
 
 s32 partner_view_check_moved(u8 *arg0) {
-    Vec stack;
+    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+    Vec d;
     f32 temp_f1;
-    u8 *temp_r31;
-    u8 *temp_r3;
-    temp_r31 = (u8 *)(((TCameraCtrl *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_target_ptr());
-    temp_r3 = (u8 *)(((TObjPlayer *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_position_ptr());
+    f32 *temp_r31;
+    f32 *temp_r3;
+    temp_r31 = (f32 *)((TCameraCtrl *)view->m_94)->get_target_ptr();
+    temp_r3 = (f32 *)view->m_94->get_position_ptr();
     if ((temp_r31 == NULL) || (temp_r3 == NULL)) {
         return 0;
     }
-    stack.x = *(f32 *)((s8 *)temp_r3 + 0) - *(f32 *)((s8 *)temp_r31 + 0);
-    stack.y = *(f32 *)((s8 *)temp_r3 + 4) - *(f32 *)((s8 *)temp_r31 + 4);
-    temp_f1 = *(f32 *)((s8 *)temp_r3 + 8);
-    stack.z = temp_f1 - *(f32 *)((s8 *)temp_r31 + 8);
-    if (((f32 (*)(void *, f32))vector_length)(&stack.x, temp_f1) > 0.4f) {
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 1);
+    d.x = temp_r3[0] - temp_r31[0];
+    d.y = temp_r3[1] - temp_r31[1];
+    temp_f1 = temp_r3[2];
+    d.z = temp_f1 - temp_r31[2];
+    if (((f32 (*)(void *, f32))vector_length)(&d, temp_f1) > 0.4f) {
+        view->m_8c = view->m_8c | 1;
         return 1;
     }
     return 0;
@@ -3047,31 +2746,31 @@ s32 partner_view_check_moved(u8 *arg0) {
 s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
     switch (arg1) {
     case 0:
-        if ((arg2 != 0) && (((TObjPlayer *)(*(s32 *)((s8 *)this + 0x94)))->find_inventory_item_id(3, 0) != -1)) {
-            *(s32 *)((s8 *)this + 0x90) = (s32) (*(s32 *)((s8 *)this + 0x90) | 0x20);
+        if ((arg2 != 0) && (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 0) != -1)) {
+            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((s32)(*(s32 *)((s8 *)this + 0x94)), 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
             return 1;
         }
         break;
     case 1:
-        if (((TObjPlayer *)(*(s32 *)((s8 *)this + 0x94)))->find_inventory_item_id(3, 1) != -1) {
-            *(s32 *)((s8 *)this + 0x90) = (s32) (*(s32 *)((s8 *)this + 0x90) | 0x20);
+        if (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 1) != -1) {
+            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((s32)(*(s32 *)((s8 *)this + 0x94)), 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
             return 1;
         }
         break;
     case 3:
-        if (((TObjPlayer *)(*(s32 *)((s8 *)this + 0x94)))->find_inventory_item_id(3, 6) != -1) {
-            *(s32 *)((s8 *)this + 0x90) = (s32) (*(s32 *)((s8 *)this + 0x90) | 0x20);
+        if (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 6) != -1) {
+            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((s32)(*(s32 *)((s8 *)this + 0x94)), 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
             return 1;
         }
         break;
@@ -3080,25 +2779,28 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
 }
 
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0) {
-    if (((s32 (*)(void *, s32))scan_nearby_enemies__10TNpcPlayerFPvPvf)(arg0, *(s32 *)((s8 *)arg0 + 0x94) + 0x38) != 0) {
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 2);
+    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+    if (((s32 (*)(void *, void *))scan_nearby_enemies__10TNpcPlayerFPvPvf)(view, &view->m_94->position) != 0) {
+        view->m_8c = view->m_8c | 2;
         return 1;
     }
     return 0;
 }
 
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
-    s32 temp_r6;
+    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+    TObjPlayer *temp_r6;
 
-    temp_r6 = *(s32 *)((s8 *)arg0 + 0x94);
-    if (((s32 (*)(void *, s32, s32, s32))find_parts_in_range__10TNpcPlayerFPvPvif)(arg0, temp_r6 + 0x38, arg1, temp_r6) != 0) {
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 2);
+    temp_r6 = view->m_94;
+    if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &temp_r6->position, arg1, temp_r6) != 0) {
+        view->m_8c = view->m_8c | 2;
         return 1;
     }
     return 0;
 }
 
 s32 partner_view_update_conditions(u8 *arg0) {
+    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     f32 temp_f1;
     f32 temp_f2;
     f32 temp_f31;
@@ -3106,39 +2808,39 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 temp_r3;
     s32 var_r31;
     var_r31 = 0;
-    temp_f31 = (f32) ((TObjChara *)(*(u8 **)((s8 *)arg0 + 0x94)))->get_actor_hp();
-    temp_f1 = temp_f31 / (f32) ((TItemProShield *)(*(u8 **)((s8 *)arg0 + 0x94)))->get_field_2b8();
-    if (*(s32 *)((s8 *)arg0 + 0x8C) & 2) {
+    temp_f31 = (f32)((TObjChara *)view->m_94)->get_actor_hp();
+    temp_f1 = temp_f31 / (f32)((TItemProShield *)view->m_94)->get_field_2b8();
+    if (view->m_8c & 2) {
         if (temp_f1 <= 0.25f) {
             var_r31 = 1;
-            *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 8);
-            *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
+            view->m_90 = view->m_90 | 8;
+            view->m_8c = view->m_8c | 4;
         }
         if (temp_f1 <= 0.75f) {
             var_r31 = 1;
-            *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x1000);
+            view->m_90 = view->m_90 | 0x1000;
         }
     } else if (temp_f1 <= 0.75f) {
         var_r31 = 1;
-        *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 8);
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
+        view->m_90 = view->m_90 | 8;
+        view->m_8c = view->m_8c | 4;
     }
     if (temp_f1 <= 0.1f) {
         var_r31 = 1;
-        *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x800);
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
+        view->m_90 = view->m_90 | 0x800;
+        view->m_8c = view->m_8c | 4;
     }
-    temp_r3 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x94)) + 0x30);
+    temp_r3 = view->m_94->actorFlags;
     if ((temp_r3 & 1) || (temp_r3 & 2) || (temp_r3 & 0x10)) {
         var_r31 = 1;
-        *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 2);
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
+        view->m_90 = view->m_90 | 2;
+        view->m_8c = view->m_8c | 4;
     }
-    actor_tp = (f32) get_actor_tp(*(u8 **)((s8 *)arg0 + 0x94));
-    temp_f2 = (f32) obj_getS16_2BA(*(u8 **)((s8 *)arg0 + 0x94));
+    actor_tp = (f32)get_actor_tp((u8 *)view->m_94);
+    temp_f2 = (f32)obj_getS16_2BA((u8 *)view->m_94);
     if (((actor_tp / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
-        *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
-        *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x10);
+        view->m_8c = view->m_8c | 4;
+        view->m_90 = view->m_90 | 0x10;
     }
     return var_r31;
 }
@@ -3148,26 +2850,26 @@ s32 partner_view_update_hp_change(void *arg0) {
     s16 temp_r31;
     s16 temp_r3;
     s16 temp_r4;
-    temp_r31 = ((TObjChara *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_actor_hp();
-    temp_r3 = ((TItemProShield *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_field_2b8();
-    if (*(s16 *)((s8 *)arg0 + 0x88) <= 0) {
-        *(s16 *)((s8 *)arg0 + 0x88) = temp_r31;
+    temp_r31 = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_actor_hp();
+    temp_r3 = ((TItemProShield *)((Unk_8014F844 *)arg0)->m_94)->get_field_2b8();
+    if (((Unk_8014F844 *)arg0)->m_88 <= 0) {
+        ((Unk_8014F844 *)arg0)->m_88 = temp_r31;
         return 0;
     }
-    temp_r4 = *(s16 *)((s8 *)arg0 + 0x88);
+    temp_r4 = ((Unk_8014F844 *)arg0)->m_88;
     temp_r0 = (s16)(temp_r4 - temp_r31);
-    if (temp_r4 >= (temp_r31 - 1)) {
-        if ((f32) temp_r0 > (0.3f * (f32) temp_r3)) {
-            *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x40);
-        } else if ((f32) temp_r0 > (0.2f * (f32) temp_r3)) {
-            *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x80);
-        } else if ((f32) temp_r0 > (0.01f * (f32) temp_r3)) {
-            *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x100);
+    if (temp_r4 >= (s32)(temp_r31 - 1)) {
+        if ((f32)temp_r0 > (0.3f * (f32)temp_r3)) {
+            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x40;
+        } else if ((f32)temp_r0 > (0.2f * (f32)temp_r3)) {
+            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x80;
+        } else if ((f32)temp_r0 > (0.01f * (f32)temp_r3)) {
+            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x100;
         }
     } else {
-        *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x200);
+        ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x200;
     }
-    *(s16 *)((s8 *)arg0 + 0x88) = temp_r31;
+    ((Unk_8014F844 *)arg0)->m_88 = temp_r31;
     return temp_r0 ? 1 : 0;
 }
 
@@ -3179,63 +2881,64 @@ bool TNpcPlayer::is_hp_low(f32 hp, f32 max_hp) {
     return hp <= 0.2f * max_hp;
 }
 
-Npc_8014F844 *init_ai_state__10TNpcPlayerFPvi(Npc_8014F844 *self, s32 id) {
+Unk_8014F844 *init_ai_state__10TNpcPlayerFPvi(Unk_8014F844 *self, s32 id) {
     s32 i;
     void *p;
-    self->f94 = ((s32 (*)(u16))find_entity_by_id)(id);
-    self->f9C = 0.0f;
-    self->fA0 = 0.0f;
-    self->fA4 = 0.0f;
-    self->f8C = 0;
-    self->f90 = 0;
-    self->f8A = id;
-    self->f88 = -1;
-    self->f84 = 0;
-    self->f0 = 0;
+    self->m_94 = ((TObjPlayer *(*)(u16))find_entity_by_id)(id);
+    self->m_9c.x = 0.0f;
+    self->m_9c.y = 0.0f;
+    self->m_9c.z = 0.0f;
+    self->m_8c = 0;
+    self->m_90 = 0;
+    self->m_8a = id;
+    self->m_88 = -1;
+    self->m_84 = 0;
+    self->m_0 = 0;
     for (i = 0; i < 10; i++) {
-        self->recs[i].id = 0xFFFF;
-        self->recs[i].dist = 0.0f;
+        self->m_4[i].m_0 = 0xFFFF;
+        self->m_4[i].m_8 = 0.0f;
     }
-    self->f104 = 0;
-    self->fAC = 0.0f;
-    self->fB0 = 0.0f;
-    self->fB4 = 5.0f;
-    self->fB8 = 19.0f;
-    self->fBC = 5.0f;
-    self->fC0 = 0;
-    self->fC4 = 0x1103;
+    self->m_104 = 0;
+    self->m_ac.offset.x = 0.0f;
+    self->m_ac.offset.y = 0.0f;
+    self->m_ac.offset.z = 5.0f;
+    self->m_ac.radius = 19.0f;
+    self->m_ac.half_width = 5.0f;
+    self->m_ac.shape = 0;
+    self->m_ac.flags = 0x1103;
     p = TObject::operator new(0xAC);
     if (p != 0) {
         p = __ct__14TObjCollidableFP7TObject(p, tl_05);
     }
-    self->fA8 = p;
-    if (self->fA8 != 0) {
-        init_collision_body_parts(self->fA8, &self->fAC, 1);
+    self->m_a8 = (TObjCollidable *)p;
+    if (self->m_a8 != 0) {
+        init_collision_body_parts(self->m_a8, &self->m_ac, 1);
     }
-    self->f7C = 0xFFFF;
-    self->f80 = 0xFFFF;
+    self->m_7c = 0xFFFF;
+    self->m_80 = 0xFFFF;
     return self;
 }
 
 #pragma push
 #pragma fp_contract on
 s32 refresh_npc_view_actor_lost(void *arg0) {
-    u32 v;
-    *(u32 *)((s8 *)arg0 + 0x94) = (u32)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x8A));
-    v = *(u32 *)((s8 *)arg0 + 0x94);
-    if (v == 0U) {
+    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+    TObjPlayer *v;
+    view->m_94 = (TObjPlayer *)get_player_by_client_id(view->m_8a);
+    v = view->m_94;
+    if (v == NULL) {
         return 1;
     }
-    return (u32) __cntlzw(((TObject *)v)->all_parents_unqueued_for_destruction()) >> 5;
+    return (u32)__cntlzw(v->all_parents_unqueued_for_destruction()) >> 5;
 }
 #pragma pop
 
 void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
-        if ((u32) *(u32 *)((s8 *)this + 0xA8) != 0U) {
-            free_collision_body_parts(*(u32 *)((s8 *)this + 0xA8));
-            ((TObject *)((void *)(*(u32 *)((s8 *)this + 0xA8))))->queue_destruction();
-            *(u32 *)((s8 *)this + 0xA8) = 0U;
+        if (((Unk_8014F844 *)this)->m_a8 != NULL) {
+            free_collision_body_parts((u32)((Unk_8014F844 *)this)->m_a8);
+            ((TObject *)((Unk_8014F844 *)this)->m_a8)->queue_destruction();
+            ((Unk_8014F844 *)this)->m_a8 = NULL;
         }
         if (arg1 > 0) {
             ::operator delete(this);
@@ -3246,94 +2949,94 @@ void *TNpcPlayer::dt(s16 arg1) {
 
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1) {
     Stack_8014F728 stack;
-    u8 *temp_r3;
-    VecCopy__FP3VecPC3Vec((void *)((void *)&stack.sp8), (int)((void *) (find_active_entity_by_id((void *)arg1) + 0x2FC)));
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x94));
-    stack.spC = *(f32 *)((s8 *)temp_r3 + 0x300);
-    return ((s32)csnVector((s32)(temp_r3 + 0x2FC), (s32)(&stack.sp8), 0x2100)) == 0;
+    TObjPlayer *temp_r3;
+    VecCopy__FP3VecPC3Vec(&stack.sp8, (int)(find_active_entity_by_id((void *)arg1) + 0x2FC));
+    temp_r3 = ((Unk_8014F844 *)arg0)->m_94;
+    stack.spC = temp_r3->m_300;
+    return ((s32)csnVector((s32)&temp_r3->m_2fc, (s32)&stack.sp8, 0x2100)) == 0;
 }
 
-s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 range) {
+s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range) {
     f32 origin[3];
-    Actor_8014F57C *actor;
+    TObjCollidable *actor;
     s32 found;
     s32 i;
     s32 c;
     s32 j;
     f32 d;
     found = 0;
-    ((TObjBase *)(view->f94))->get_room();
+    ((TObjBase *)(view->m_94))->get_room();
     VecCopy__FP3VecPC3Vec(origin, (int)pos);
-    view->count = 0;
+    view->m_0 = 0;
     for (j = 0; j < 10; j++) {
-        view->c[j].id = 0xFFFF;
-        view->c[j].dist = 0.0f;
+        view->m_4[j].m_0 = 0xFFFF;
+        view->m_4[j].m_8 = 0.0f;
     }
     i = TLobby::get_game_mode();
     range = range * range;
     for (; i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-        actor = (Actor_8014F57C *)TObjPlayer::get_player_data(i);
-        if (is_active__12TTecReverserFv(actor) == 0 || !(actor->flags30 & 0x20000000)) {
+        actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
+        if (((TTecReverser *)actor)->is_active() == 0 || !(actor->actorFlags & 0x20000000)) {
             continue;
         }
-        for (c = 0; c < actor->ncols; c++) {
-            if (actor->cols == 0) {
+        for (c = 0; c < actor->body_count; c++) {
+            if (actor->bodies == 0) {
                 break;
             }
-            if (!(actor->cols[c].flags & 0x8000)) {
+            if (!(actor->bodies[c].flags & 0x8000)) {
                 continue;
             }
-            d = horizontal_distance_squared(origin, actor->cols[c].pos);
+            d = horizontal_distance_squared(origin, &actor->bodies[c].center);
             if (d < range) {
                 found = 1;
-                view->c[view->count].id = (u16)get_entity_id(actor);
-                view->c[view->count].dist = d;
-                view->c[view->count].idx = c;
-                if (view->count >= 9) {
+                view->m_4[view->m_0].m_0 = (u16)get_entity_id(actor);
+                view->m_4[view->m_0].m_8 = d;
+                view->m_4[view->m_0].m_4 = c;
+                if (view->m_0 >= 9) {
                     break;
                 }
-                view->count++;
+                view->m_0++;
             }
         }
     }
-    TNpcPlayer::quick_sort((s32)view, (s32)&view->c[0], 0, view->count - 1);
+    TNpcPlayer::quick_sort((s32)view, (s32)&view->m_4[0], 0, view->m_0 - 1);
     return found;
 }
 
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(View_8014F424 *view, void *pos, s32 id, f32 range) {
-    Actor_8014F424 *actor;
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, s32 id, f32 range) {
+    TObjCollidable *actor;
     s32 found;
     s32 i;
     f32 d;
     s32 j;
 
-    view->count = 0;
+    view->m_0 = 0;
     found = 0;
     for (j = 0; j < 10; j++) {
-        view->c[j].id = 0xFFFF;
-        view->c[j].dist = 0.0f;
+        view->m_4[j].m_0 = 0xFFFF;
+        view->m_4[j].m_8 = 0.0f;
     }
     actor = find_entity_by_id(id);
     if (((TObjBase *)actor)->is_alive() != 0) {
         range = range * range;
-        for (i = 0; i < actor->ncols; i++) {
-            if (actor->cols == 0) {
+        for (i = 0; i < actor->body_count; i++) {
+            if (actor->bodies == 0) {
                 break;
             }
-            d = horizontal_distance_squared(pos, actor->cols + i * 0x2C + 0x1C);
+            d = horizontal_distance_squared(pos, &actor->bodies[i].center);
             if (d < range) {
                 found = 1;
-                view->c[view->count].id = (u16)get_entity_id(actor);
-                view->c[view->count].dist = d;
-                view->c[view->count].idx = i;
-                if (view->count >= 9) {
+                view->m_4[view->m_0].m_0 = (u16)get_entity_id(actor);
+                view->m_4[view->m_0].m_8 = d;
+                view->m_4[view->m_0].m_4 = i;
+                if (view->m_0 >= 9) {
                     break;
                 }
-                view->count++;
+                view->m_0++;
             }
         }
     }
-    TNpcPlayer::quick_sort((s32)view, (s32)&view->c[0], 0, view->count - 1);
+    TNpcPlayer::quick_sort((s32)view, (s32)&view->m_4[0], 0, view->m_0 - 1);
     return found;
 }
 
@@ -3347,59 +3050,59 @@ void TNpcPlayer::quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Ent_8014F28C *a, s32 lo, s32 hi) {
-    Ent_8014F28C tmp;
+s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi) {
+    Unk_8014F844Entry tmp;
     f32 pivot;
     s32 i;
     s32 j;
 
     j = hi;
     i = lo - 1;
-    pivot = a[hi].key;
+    pivot = a[hi].m_8;
     for (;;) {
-        while (a[++i].key < pivot) {
+        while (a[++i].m_8 < pivot) {
         }
-        while (i < --j && pivot < a[j].key) {
+        while (i < --j && pivot < a[j].m_8) {
         }
         if (i >= j || i >= 10 || j >= 10) {
             break;
         }
-        ((s32 (*)(s32, Ent_8014F28C *, Ent_8014F28C *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
-        ((s32 (*)(s32, Ent_8014F28C *, Ent_8014F28C *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[j], &a[i]);
-        ((s32 (*)(s32, Ent_8014F28C *, Ent_8014F28C *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[j]);
+        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
+        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[j], &a[i]);
+        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[j]);
     }
-    ((s32 (*)(s32, Ent_8014F28C *, Ent_8014F28C *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
-    ((s32 (*)(s32, Ent_8014F28C *, Ent_8014F28C *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[hi], &a[i]);
-    ((s32 (*)(s32, Ent_8014F28C *, Ent_8014F28C *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[hi]);
+    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
+    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[hi], &a[i]);
+    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[hi]);
     return i;
 }
 
-s32 partner_probe_obstacles(View_8014F140 *view) {
+s32 partner_probe_obstacles(Unk_8014F844 *view) {
     s32 i;
-    Actor_8014F140 *actor;
-    Contact_8014F140 *contact;
-    Probe_8014F140 *probe;
-    probe = view->probe;
+    TObjCollidable *actor;
+    CollisionBody *contact;
+    TObjCollidable *probe;
+    probe = view->m_a8;
     if (probe == NULL) {
         return 0;
     }
-    VecCopy__FP3VecPC3Vec(probe->pos38, (int)(*(s32 *)((s8 *)view + 0x94) + 0x38));
-    view->probe->field_0x60 = view->field_0x98;
+    VecCopy__FP3VecPC3Vec(&probe->position, (int)&view->m_94->position);
+    view->m_a8->rotation_y = view->m_98;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
-        actor = (Actor_8014F140 *)TObjPlayer::get_player_data(i);
-        if ((actor != NULL) && !(actor->flags30 & 0x80000000)) {
-            contact = (Contact_8014F140 *)((TObjCollidable *)((u8 *)view->probe))->find_actor_body_contact((u8 *)actor, 10000.0f);
+        actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
+        if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
+            contact = (CollisionBody *)view->m_a8->find_actor_body_contact((u8 *)actor, 10000.0f);
             if (contact != NULL) {
-                if (actor->flags30 & 0x40000000) {
-                    if (!(contact->flags18 & 8) && !(contact->flags18 & 0x100) && !(contact->flags18 & 0x200)) {
-                        copy_collision_body((CollisionBody *)view->hit_d8, (const CollisionBody *)contact);
-                        view->field_0x104 = actor->field_0x60;
-                        view->flags8c |= 0x20;
+                if (actor->actorFlags & 0x40000000) {
+                    if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
+                        copy_collision_body(&view->m_d8, contact);
+                        view->m_104 = actor->rotation_y;
+                        view->m_8c |= 0x20;
                         return 1;
                     }
-                } else if (actor->flags30 & 0x20000000) {
-                    if (!(contact->flags18 & 8) && !(contact->flags18 & 0x100) && !(contact->flags18 & 0x200)) {
-                        view->flags8c |= 0x80;
+                } else if (actor->actorFlags & 0x20000000) {
+                    if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
+                        view->m_8c |= 0x80;
                         return 1;
                     }
                 }
@@ -3423,7 +3126,7 @@ s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-s32 partner_route_around_wall(Self_8014EE98 *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2) {
+s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2) {
     Line_8014EE98 line;
     Vec dir;
     Vec perp;
@@ -3446,13 +3149,13 @@ s32 partner_route_around_wall(Self_8014EE98 *self, Vec *from, Vec *to, Vec *d, V
         perp.x = -perp.x;
         perp.z = -perp.z;
     }
-    line.p.x = self->f78->obj->pos.x;
-    line.p.y = self->f78->obj->pos.y;
-    line.p.z = self->f78->obj->pos.z;
+    line.p.x = self->m_78->m_94->m_2fc;
+    line.p.y = self->m_78->m_94->m_300;
+    line.p.z = self->m_78->m_94->m_304;
     line.d.x = perp.x;
     line.d.y = 0.0f;
     line.d.z = perp.z;
-    project_point_onto_line(self->fDC, &line, &hit);
+    project_point_onto_line(&self->m_dc, &line, &hit);
     s = 1.5f * len;
     if (s <= 20.0f) {
         s = 20.0f;
@@ -3460,14 +3163,14 @@ s32 partner_route_around_wall(Self_8014EE98 *self, Vec *from, Vec *to, Vec *d, V
     out->x = perp.x * s + from->x;
     out->y = from->y;
     out->z = perp.z * s + from->z;
-    VecCopy__FP3VecPC3Vec(&tmp, (int)&self->f74->obj->pos);
+    VecCopy__FP3VecPC3Vec(&tmp, (int)&self->m_74->m_94->m_2fc);
     if (csnVector((s32)((s32)&tmp), (s32)((s32)&hit), 0x2100) != 0) {
         hit.x = 5.0f * perp.x + hit.x;
         hit.z = 5.0f * perp.z + hit.z;
         return 0;
     }
-    v.x = self->f74->obj->pos.x - hit.x;
-    v.z = self->f74->obj->pos.z - hit.z;
+    v.x = self->m_74->m_94->m_2fc - hit.x;
+    v.z = self->m_74->m_94->m_304 - hit.z;
     v.y = 0.0f;
     if (0.0f != vector_length(&v)) {
         normalize_vector(&v);
@@ -3481,7 +3184,7 @@ s32 partner_route_around_wall(Self_8014EE98 *self, Vec *from, Vec *to, Vec *d, V
 
 #pragma push
 #pragma fp_contract on
-void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *out) {
+void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out) {
     Vec dir;
     Vec save;
     Vec a;
@@ -3513,7 +3216,7 @@ void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *o
     } else {
         VecCopy__FP3VecPC3Vec(&dir, (int)&a);
     }
-    if ((s8)self[0x8C] >= 0x14) {
+    if (self->m_8c >= 0x14) {
         out->x = -((20.0f * dir.x) - from->x);
         out->y = from->y;
         out->z = -((20.0f * dir.z) - from->z);
@@ -3527,29 +3230,30 @@ void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *o
 
 #pragma push
 #pragma fp_contract on
-s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec *out) {
-    Info_8014E7A0 info;
+s32 TNpcPlayer::route_around_object(Vec *out) {
+    TNpcPlayer * self = this;
+    CollisionBody info;
     Vec perp;
     Vec to;
     Vec toSelf;
     f32 r;
-    copy_collision_body((CollisionBody *)&info, (const CollisionBody *)self->f78->shape);
-    if (info.type == 0 || info.type == 0 ||
-        (info.h <= 12.0f && info.type == 1 && info.h == info.w)) {
-        Target_8014E7A0 *t = self->f78->obj;
-        r = 20.0f + info.w;
-        to.x = t->pos.x - info.pos.x;
+    copy_collision_body(&info, &self->m_78->m_d8);
+    if (info.shape == 0 || info.shape == 0 ||
+        (info.half_width <= 12.0f && info.shape == 1 && info.half_width == info.radius)) {
+        TObjPlayer *t = self->m_78->m_94;
+        r = 20.0f + info.radius;
+        to.x = t->position.x - info.center.x;
         to.y = 0.0f;
-        to.z = t->pos.z - info.pos.z;
+        to.z = t->position.z - info.center.z;
         perp.x = to.z;
         perp.y = 0.0f;
         perp.z = -to.x;
         if (0.0f != vector_length(&perp)) {
             normalize_vector(&perp);
         }
-        toSelf.x = self->pos.x - info.pos.x;
+        toSelf.x = self->m_dc.x - info.center.x;
         toSelf.y = 0.0f;
-        toSelf.z = self->pos.z - info.pos.z;
+        toSelf.z = self->m_dc.z - info.center.z;
         if (0.0f != vector_length(&toSelf)) {
             normalize_vector(&toSelf);
         }
@@ -3566,13 +3270,13 @@ s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec *out) {
         if (0.0f != vector_length(&perp)) {
             normalize_vector(&perp);
         }
-        out->x = r * perp.x + info.pos.x;
-        out->y = r * perp.y + info.pos.y;
-        out->z = r * perp.z + info.pos.z;
-        if (self->level > 10) {
-            out->x = info.pos.x - r * perp.x;
-            out->y = info.pos.y - r * perp.y;
-            out->z = info.pos.z - r * perp.z;
+        out->x = r * perp.x + info.center.x;
+        out->y = r * perp.y + info.center.y;
+        out->z = r * perp.z + info.center.z;
+        if (self->m_8c > 10) {
+            out->x = info.center.x - r * perp.x;
+            out->y = info.center.y - r * perp.y;
+            out->z = info.center.z - r * perp.z;
         }
     } else {
         Vec a = {1.0f, 0.0f, 0.0f};
@@ -3587,47 +3291,47 @@ s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec *out) {
         Vec clip;
         Vec alt;
         f32 dist;
-        a.x *= info.w;
-        b.z *= info.h;
+        a.x *= info.radius;
+        b.z *= info.half_width;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, self->f78->rot_y + 0x4000);
+        rotate_matrix_y(0, self->m_78->m_104 + 0x4000);
         matrix_mult_vec(0, &a, &a);
         matrix_mult_vec(0, &b, &b);
         pop_matrices(1);
-        c0.x = info.pos.x + a.x;
-        c0.y = info.pos.y + a.y;
-        c0.z = info.pos.z + a.z;
-        c1.x = info.pos.x - a.x;
-        c1.y = info.pos.y - a.y;
-        c1.z = info.pos.z - a.z;
-        c2.x = info.pos.x + b.x;
-        c2.y = info.pos.y + b.y;
-        c2.z = info.pos.z + b.z;
-        c3.x = info.pos.x - b.x;
-        c3.y = info.pos.y - b.y;
-        c3.z = info.pos.z - b.z;
-        dir.x = self->f74->obj->pos.x - info.pos.x;
-        dir.y = self->f74->obj->pos.y - info.pos.y;
-        dir.z = self->f74->obj->pos.z - info.pos.z;
+        c0.x = info.center.x + a.x;
+        c0.y = info.center.y + a.y;
+        c0.z = info.center.z + a.z;
+        c1.x = info.center.x - a.x;
+        c1.y = info.center.y - a.y;
+        c1.z = info.center.z - a.z;
+        c2.x = info.center.x + b.x;
+        c2.y = info.center.y + b.y;
+        c2.z = info.center.z + b.z;
+        c3.x = info.center.x - b.x;
+        c3.y = info.center.y - b.y;
+        c3.z = info.center.z - b.z;
+        dir.x = self->m_74->m_94->position.x - info.center.x;
+        dir.y = self->m_74->m_94->position.y - info.center.y;
+        dir.z = self->m_74->m_94->position.z - info.center.z;
         if (0.0f != vector_length(&dir)) {
             normalize_vector(&dir);
         }
-        calc_box_escape_axis__10TNpcPlayerFv(self, &c0, &c1, &c2, &c3, &self->f78->obj->pos, &axis, &dist);
+        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->m_78->m_94->position, &axis, &dist);
         VecCopy__FP3VecPC3Vec(&esc, (int) &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
             esc.z = -esc.z;
         }
         r = dist;
-        out->x = r * esc.x + self->f78->obj->pos.x;
-        out->y = r * esc.y + self->f78->obj->wpos.y;
-        out->z = r * esc.z + self->f78->obj->pos.z;
-        if (partner_clip_path_point(self, &self->f78->obj->wpos.x, &out->x, &clip.x) != 0) {
+        out->x = r * esc.x + self->m_78->m_94->position.x;
+        out->y = r * esc.y + self->m_78->m_94->m_300;
+        out->z = r * esc.z + self->m_78->m_94->position.z;
+        if (partner_clip_path_point(self, &self->m_78->m_94->m_2fc, &out->x, &clip.x) != 0) {
             out->x = clip.x;
             out->y = clip.y;
             out->z = clip.z;
         }
-        if (self->level > 15) {
+        if (self->m_8c > 15) {
             alt.x = esc.z;
             alt.y = 0.0f;
             alt.z = esc.x;
@@ -3635,25 +3339,24 @@ s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec *out) {
                 alt.x = -alt.x;
                 alt.z = -alt.z;
             }
-            out->x = r * alt.x + self->f78->obj->pos.x;
-            out->y = self->f78->obj->wpos.y;
-            out->z = r * alt.z + self->f78->obj->pos.z;
+            out->x = r * alt.x + self->m_78->m_94->position.x;
+            out->y = self->m_78->m_94->m_300;
+            out->z = r * alt.z + self->m_78->m_94->position.z;
         }
     }
     return 1;
 }
 #pragma pop
 
-void calc_box_escape_axis__10TNpcPlayerFv(void *self, Vec *a, Vec *b, Vec *c,
-                                          Vec *d, Vec *pos, Vec *axis, f32 *reach) {
+void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, Vec *axis, f32 *reach) {
     Vec point1;
     Vec point2;
     Vec first;
     Vec second;
     Vec center1;
     Vec center2;
-    Line_8014E488 line1;
-    Line_8014E488 line2;
+    Line_8014EE98 line1;
+    Line_8014EE98 line2;
     f32 len1;
     f32 len2;
     f32 dist1;
@@ -3681,7 +3384,7 @@ void calc_box_escape_axis__10TNpcPlayerFv(void *self, Vec *a, Vec *b, Vec *c,
     line1.d.x = first.x;
     line1.d.y = first.y;
     line1.d.z = first.z;
-    dist1 = ((f32 (*)(Vec *, Line_8014E488 *, Vec *))project_point_onto_line)(pos, &line1, &point1);
+    dist1 = ((f32 (*)(Vec *, Line_8014EE98 *, Vec *))project_point_onto_line)(pos, &line1, &point1);
     center1.x = 0.5f * (a->x + b->x);
     center1.y = 0.5f * (a->y + b->y);
     center1.z = 0.5f * (a->z + b->z);
@@ -3695,7 +3398,7 @@ void calc_box_escape_axis__10TNpcPlayerFv(void *self, Vec *a, Vec *b, Vec *c,
     line2.d.x = second.x;
     line2.d.y = second.y;
     line2.d.z = second.z;
-    dist2 = ((f32 (*)(Vec *, Line_8014E488 *, Vec *))project_point_onto_line)(pos, &line2, &point2);
+    dist2 = ((f32 (*)(Vec *, Line_8014EE98 *, Vec *))project_point_onto_line)(pos, &line2, &point2);
     center2.x = 0.5f * (a->x + b->x);
     center2.y = 0.5f * (a->y + b->y);
     center2.z = 0.5f * (a->z + b->z);
@@ -3778,32 +3481,32 @@ void TNpcPlayer::request_chatter(u32 arg1) {
   }
 }
 
-void deliver_partner_chatter(Npc_8014E250 *self) {
+void deliver_partner_chatter(TNpcPlayer *self) {
     u16 id;
     char *text;
-    if (self->state >= 0x19) {
-        self->flags &= ~4;
-        self->state = 0x19;
+    if (self->m_24 >= 0x19) {
+        self->m_80 &= ~4;
+        self->m_24 = 0x19;
         return;
     }
-    if (is_any_teammate_in_state__10TObjPlayerFv(self) != 0) {
+    if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
-    id = get_entity_id(self->owner->obj);
+    id = get_entity_id(self->m_78->m_94);
     if (id != 0xFFFF) {
-        text = (char *)get_partner_custom_text(self->state, id);
+        text = (char *)get_partner_custom_text(self->m_24, id);
         if (text != 0) {
             TWindowCtrl::open((s32)id, (s32)text, 0x1B);
         } else {
-            text = npc_partner_dialogue_state[self->state].text;
+            text = npc_partner_dialogue_state[self->m_24].text;
             if (text[0] != 0) {
                 TWindowCtrl::open((s32)id, (s32)text, 0x1B);
             }
         }
     }
-    self->flags &= ~4;
-    if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->timer, 0, 0x190) != 0) {
-        self->state = 0x19;
+    self->m_80 &= ~4;
+    if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->m_5c, 0, 0x190) != 0) {
+        self->m_24 = 0x19;
     }
 }
 
@@ -3811,60 +3514,59 @@ void TNpcPlayer::handle_action(s32 arg1) {
     s32 player;
     s32 temp_r3_2;
     s32 temp_r3_3;
-    void *temp_r5;
-    void *temp_r5_2;
-    void *temp_r5_3;
+    Unk_8014F844 *temp_r5;
+    Unk_8014F844 *temp_r5_2;
+    Unk_8014F844 *temp_r5_3;
 
     switch (arg1) {
     case 0:
-        player = ((TObjPlayer *)(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0x78)) + 0x94)))->find_inventory_item_id(3, 0);
+        player = m_78->m_94->find_inventory_item_id(3, 0);
         if (player != -1) {
-            temp_r5 = *(void **)((s8 *)this + 0x78);
-            try_send_6x27_use_item(*(s32 *)((s8 *)temp_r5 + 0x94), player, temp_r5);
-            *(s32 *)((s8 *)this + 0x80) = (s32) (*(s32 *)((s8 *)this + 0x80) | 0x10000);
+            temp_r5 = m_78;
+            try_send_6x27_use_item((s32)temp_r5->m_94, player, temp_r5);
+            m_80 = m_80 | 0x10000;
         }
         break;
     case 1:
-        temp_r3_2 = ((TObjPlayer *)(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0x78)) + 0x94)))->find_inventory_item_id(3, 1);
+        temp_r3_2 = m_78->m_94->find_inventory_item_id(3, 1);
         if (temp_r3_2 != -1) {
-            temp_r5_2 = *(void **)((s8 *)this + 0x78);
-            try_send_6x27_use_item(*(s32 *)((s8 *)temp_r5_2 + 0x94), temp_r3_2, temp_r5_2);
+            temp_r5_2 = m_78;
+            try_send_6x27_use_item((s32)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
             return;
         }
         break;
     case 2:
-        temp_r3_3 = ((TObjPlayer *)(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0x78)) + 0x94)))->find_inventory_item_id(3, 6);
+        temp_r3_3 = m_78->m_94->find_inventory_item_id(3, 6);
         if (temp_r3_3 != -1) {
-            temp_r5_3 = *(void **)((s8 *)this + 0x78);
-            try_send_6x27_use_item(*(s32 *)((s8 *)temp_r5_3 + 0x94), temp_r3_3, temp_r5_3);
+            temp_r5_3 = m_78;
+            try_send_6x27_use_item((s32)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
         }
         break;
     }
 }
 
 void TNpcPlayer::change_ai_state(u32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(u32 *)((s8 *)arg0 + 0x7C) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFEFFF);
+    m_7c = arg1;
+    m_80 = m_80 & 0xFFFFEFFF;
     switch (arg1) {
     case 0:
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFCF);
-        VecCopy__FP3VecPC3Vec((void *)((void *) (arg0 + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
+        m_80 = m_80 & 0xFFFFFFCF;
+        VecCopy__FP3VecPC3Vec(&m_dc, (int)&m_78->m_94->m_2fc);
         return;
     case 1:
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFEF);
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x20);
+        m_80 = m_80 & 0xFFFFFFEF;
+        m_80 = m_80 | 0x20;
         return;
     case 2:
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFDF);
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x10);
+        m_80 = m_80 & 0xFFFFFFDF;
+        m_80 = m_80 | 0x10;
         return;
     case 8:
-        VecCopy__FP3VecPC3Vec((void *)((void *) (arg0 + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
+        VecCopy__FP3VecPC3Vec(&m_dc, (int)&m_78->m_94->m_2fc);
         return;
     case 16:
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFEF);
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x20);
+        m_80 = m_80 & 0xFFFFFFEF;
+        m_80 = m_80 | 0x20;
     default:
         return;
     }
@@ -3873,30 +3575,30 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
 void TNpcPlayer::dispatch_action(s32 arg1) {
     switch (arg1) {
     case 0:
-        if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
+        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
             handle_action(arg1);
         } else {
             request_technique_cast(0xF);
         }
-        if (*(s32 *)((s8 *)this + 0x80) & 0x200) {
-            request_chatter((u32)(0x13));
+        if (m_80 & 0x200) {
+            request_chatter(0x13);
         }
         return;
     case 1:
-        if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
+        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         break;
     case 2:
-        if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
+        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         request_technique_cast(0x10);
         return;
     case 3:
-        if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
+        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }

@@ -3,9 +3,8 @@
 
 extern "C" {
 
-int is_invalid_slot__10TObjPlayerFUc(void);
-int get_cast_technique_level(void*);
+u8 get_cast_technique_level(void*, s16);
 
-void TObjPlayer::validate_and_clear_slot() { get_cast_technique_level(this); is_invalid_slot__10TObjPlayerFUc(); }
+s32 TObjPlayer::validate_and_clear_slot(void *techs, s16 tech) { return is_invalid_slot(get_cast_technique_level(techs, tech)); }
 
 }

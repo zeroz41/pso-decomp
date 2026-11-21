@@ -5,6 +5,8 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecResta : public TTecPlayerInfluence {
+    TTecResta(void *owner, void *pos, void *arg3, s32 level);
+    TTecResta(void *owner, void *pos, s32 level);
     virtual ~TTecResta();
     virtual void vfunc_7(void *);
     virtual void run_task();
@@ -16,6 +18,7 @@ struct TTecResta : public TTecPlayerInfluence {
     static f32 calc_heal_amount(s32 arg0);
     void init_parameters();
     static void create(void *arg0, void *arg1, void *arg2);
+    static void create(void *owner, void *pos, void *list, void *level);
     virtual void render();
 };
 

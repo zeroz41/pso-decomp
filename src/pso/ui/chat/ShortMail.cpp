@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/item/TItemData.h"
@@ -60,10 +61,8 @@ typedef struct Hdr_8022525C
 
 extern unsigned char lbl_80513F70[];
 extern "C" {
-s32 strncpy(void *, void *, int);
 extern s32 lbl_805D6270;
 extern int lobby_short_mail_entry_count;
-void send_simple_mail__9TProtocolFR12TChatMessage(void *, void *);
 extern u8 *TLobby__protocol_instance;
 
 unsigned char lbl_80513F70[0x680];
@@ -79,12 +78,12 @@ void TLobby::send_simple_mail(s32 arg0, void *arg1) {
     if (TLobby__protocol_instance != 0) {
         mode = TWindowSubComCard::get_keyboard_mode();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], TLobby__protocol_instance + 0x1900);
-        strncpy(&t.b[0xC], (void *)(((void *)((TLobby *)mode)->get_com_card_list())), 0x17);
+        strncpy((char *)&t.b[0xC], (char *)(((void *)((TLobby *)mode)->get_com_card_list())), 0x17);
         *(s32 *)&t.b[0x1C] = arg0;
         t.b[0x23] = 0;
-        strncpy(&t.b[0x20], arg1, 0xAB);
+        strncpy((char *)&t.b[0x20], (char *)arg1, 0xAB);
         t.b[0xCB] = 0;
-        send_simple_mail__9TProtocolFR12TChatMessage(TLobby__protocol_instance, &t);
+        ((TProtocol *)TLobby__protocol_instance)->send_simple_mail(*(TChatMessage *)&t);
     }
 }
 
@@ -95,7 +94,7 @@ void TLobby__sub_802258C8(void) {
   var_r30 = (s32 *)&lbl_80513F70;
   do
   {
-    if (((s32)is_flag_set__6TLobbyFPv(var_r30)) != 0)
+    if (((s32)TLobby::is_flag_set(var_r30)) != 0)
     {
       TLobby__sub_80225C8C((void*)((int) var_r30));
     }
@@ -132,7 +131,7 @@ s32 TLobby::find_free_slot() {
   var_r31 = 0;
   var_r30 = (s32 *)&lbl_80513F70;
   loop_1:
-  if (is_flag_set__6TLobbyFPv(var_r30) == 0)
+  if (TLobby::is_flag_set(var_r30) == 0)
   {
     return var_r31;
   }
@@ -211,9 +210,9 @@ void TLobby::fill_list_entry(u8 *arg1) {
     lbl_805D6270 = temp_r7 + 1;
     *(s32 *)((s8 *)((u8 *)this) + 4) = temp_r7;
     *(s8 *)((s8 *)((u8 *)this) + 0xCC) = 0xB;
-    strncpy(((u8 *)this) + 8, arg1 + 0xC, 0x17);
+    strncpy((char *)(((u8 *)this) + 8), (char *)(arg1 + 0xC), 0x17);
     *(s8 *)((s8 *)((u8 *)this) + 0x1F) = 0;
-    strncpy(((u8 *)this) + 0x20, arg1 + 0x20, 0xAB);
+    strncpy((char *)(((u8 *)this) + 0x20), (char *)(arg1 + 0x20), 0xAB);
     *(s8 *)((s8 *)((u8 *)this) + 0xCB) = 0;
 }
 
@@ -221,7 +220,7 @@ void TLobby__sub_80225C44(void* p) { TLobby::clear_all_entries(p); }
 void TLobby__sub_80225C64(void* p) { TLobby::clear_all_entries(p); }
 void*TLobby::get_com_card_list() { return (char*)this + 0x8; }
 void TLobby__sub_80225C8C(void* p) { *(u8*)((char*)p + 0xcc) &= 0xfffffffd; }
-int is_flag_set__6TLobbyFPv(void* p) { return *(u8*)((char*)p + 0xcc) & 0x1; }
+int TLobby::is_flag_set(void* p) { return *(u8*)((char*)p + 0xcc) & 0x1; }
 s32 TLobby::get_lobby_id() { return *(s32*)((char*)this + 0x4); }
 
 int TLobby::get_short_mail_ctrl() {  return lobby_short_mail_entry_count; }

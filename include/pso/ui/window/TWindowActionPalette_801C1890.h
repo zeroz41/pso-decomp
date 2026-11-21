@@ -40,7 +40,7 @@ u16 get_lock_target_id(void *p);
 }
 void init_6x21_inter_level_warp_packet(u8 *arg0);
 extern "C" {
-void is_action_channel_active(s32 *arg0, s32 arg1);
+s32 is_action_channel_active(s32 *arg0, s32 arg1);
 s32 is_item_equipped(TItem *item);
 void set_photon_blast_kind(void *p, s16 v);
 int test_photon_blast_modifier(void *p);

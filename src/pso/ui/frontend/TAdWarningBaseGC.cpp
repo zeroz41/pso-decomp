@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -24,19 +26,14 @@ struct V_8032D214 : B_8032D214 {
 };
 
 extern "C" {
-s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
-void *__ct__9TAdBackGCFv(void *, void *);
 
     extern int aram_request_busy_flag;
 void clear_aram_request_busy(void) { aram_request_busy_flag = 0; }
 
-extern s32 __vt__16TAdWarningBaseGC[];
 
 void TAdWarningBaseGC::vfunc_9() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -45,7 +42,7 @@ void TAdWarningBaseGC::vfunc_9() {
 
 s32 TAdWarningBaseGC::sub_8032D214() {
     V_8032D214 *arg0 = (V_8032D214 *)this;
-    s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
+    s32 r = (s32)create_message_window_for_size((NJS_POINT2 *)lbl_80477334, (NJS_POINT2 *)lbl_8047733C);
     ((TWindowMessage *)r)->append_line((int)(arg0->m5()), (int)3);
     return r;
 }
@@ -66,9 +63,9 @@ void TAdWarningBaseGC::vfunc_8() {
         break;
     case 2:
         if (TWindowShortListCtrl__check_controller_button(a = controller_physical_port_bank + 0x20, 4) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(b = controller_input_state + 0x160, 4) != 0 ||
+            test_controller_flag_4c_color(b = controller_input_state + 0x160, 4) != 0 ||
             TWindowShortListCtrl__check_controller_button(a, 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(b, 2) != 0) {
+            test_controller_flag_4c_color(b, 2) != 0) {
             *(s32 *)&this->m_1c = 3;
             *(s32 *)&this->m_24 = 4;
         }
@@ -99,25 +96,16 @@ TAdWarningBaseGC::~TAdWarningBaseGC() {
 }
 
 
-void *TAdWarningBaseGC__ct(TAdWarningBaseGC *ad_warning_base_gc) {
+TAdWarningBaseGC::TAdWarningBaseGC(TObject *parent) : TObject(parent) {
     void *o;
     void *o2;
-    __ct__7TObjectFP7TObject(ad_warning_base_gc);
-    *(s32 **)((s8 *)ad_warning_base_gc + 0x18) = __vt__16TAdWarningBaseGC;
-    ad_warning_base_gc->m_name = lbl_805D4208;
-    ad_warning_base_gc->m_28 = 0;
-    ad_warning_base_gc->m_1c = 0;
-    ad_warning_base_gc->m_24 = 0;
-    ad_warning_base_gc->m_2c = 0;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        __ct__9TAdBackGCFv(o, ad_warning_base_gc);
-    }
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, ad_warning_base_gc);
-    }
-    return ad_warning_base_gc;
+    m_name = lbl_805D4208;
+    m_28 = 0;
+    m_1c = 0;
+    m_24 = 0;
+    m_2c = 0;
+    o = new TAdBackGC(this);
+    o2 = new TAdBackTxtGC(this);
 }
 
 }

@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
 extern "C" {
 
@@ -25,7 +26,6 @@ int TAdMultiPlyChrSelectGC::get_global_6700() {  return menu_selection_cursor_te
     extern int lbl_805D6668;
 int TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return lbl_805D6668; }
 
-TWindowBase *update_display__20TWindowSubSymbolChatFl(void (*callback)());
 
 }
 
@@ -113,5 +113,5 @@ TUnk_804E0B28::TUnk_804E0B28(TObject *parent, s32 client) : TObject(parent) {
     this->timer = 0;
     lbl_805D67E8 = this;
     this->statusWindow = new TWindowSubStatusDisp(this->client);
-    this->callback = update_display__20TWindowSubSymbolChatFl(update_transition_anim_if_active);
+    this->callback = (TWindowBase *)create_callback_at_zero_vec2((void *)update_transition_anim_if_active);
 }

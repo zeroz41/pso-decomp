@@ -13,15 +13,9 @@ BmlResourceDescriptor bm_n_emw_i_body_resource_descriptor = { "bm_n_emw_i_body.b
 const char *TObjNpcFemaleMacho__name = "TObjNpcFemaleMacho";
 BmlResource *TObjNpcFemaleMacho__lobby_resource;
 
-s32 __vt__18TObjNpcFemaleMacho[];
-
 void *TObjNpcFemaleMacho__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcFemaleMacho));
-    if (npc != NULL) {
-        npc = TObjNpcFemaleMacho__ct((TObjNpcFemaleMacho *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcFemaleMacho(control, set_data);
 }
 
 void TObjNpcFemaleMacho::close_dialog_window() {
@@ -42,14 +36,11 @@ void TObjNpcFemaleMacho::load_resources() {
 
 TObjNpcFemaleMacho::~TObjNpcFemaleMacho() {}
 
-TObjNpcFemaleMacho *TObjNpcFemaleMacho__ct(TObjNpcFemaleMacho *npc, TObjControl *control, void *set_data) {
-    npc->construct_female_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__18TObjNpcFemaleMacho;
-    npc->m_name = TObjNpcFemaleMacho__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcFemaleMacho__lobby_resource->models->model;
-    npc->texlist = TObjNpcFemaleMacho__lobby_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcFemaleMacho::TObjNpcFemaleMacho(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+    this->m_name = TObjNpcFemaleMacho__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcFemaleMacho__lobby_resource->models->model;
+    this->texlist = TObjNpcFemaleMacho__lobby_resource->models->m_c;
+    this->setup_common();
 }

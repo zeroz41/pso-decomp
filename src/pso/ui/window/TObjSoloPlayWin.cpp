@@ -15,7 +15,6 @@ extern "C" {
 u32 get_player_by_client_id(s32);
 s32 has_window_task_root();
 void* get_window_layout_position(s32);
-void* create__14TWindowMessageFPvll(void*, void*, s32);
 s32 get_message_text(s32 arg0);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
@@ -43,7 +42,7 @@ s32 TObjSoloPlayWin::can_start_win_timer() {
     return 0;
 }
 void TObjSoloPlayWin::open_result_window() {
-    m_result_window = create__14TWindowMessageFPvll(get_window_layout_position(0x3E), solo_play_result_window_extent, 1);
+    m_result_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3E)), (const f32 *)solo_play_result_window_extent, 1);
     if (m_result_window != 0) {
         ((TWindowBase *)m_result_window)->set_depth(70200.0f);
         ((TWindowMessage *)m_result_window)->append_line((int)(get_message_text(0x5F)), (int)2);

@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/item/TItemTimer.h"
 
 #pragma readonly_strings on
 
@@ -32,9 +33,6 @@ extern const char *TItemAttacker__name;
 void TItemAttacker__sub_8010349C(u32 arg0);
 }
 int get_item_chunk_buffer(int a0);
-extern "C" {
-u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-}
 void deliver_delayed_weapon_hit(u8 *arg0);
 extern "C" {
 s32 __nw__7TObjectFUl(int);
@@ -174,12 +172,8 @@ void TItemAttacker::copy_from(void *arg1) {
 }
 
 void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames) {
-    void *item_timer;
     if (object != NULL) {
-        item_timer = (void *)__nw__7TObjectFUl(0x28);
-        if (item_timer != NULL) {
-            TItemTimer__ct((u8 *)item_timer, (s32)object, (s32)expire, frames);
-        }
+        new TItemTimer(object, (s32)expire, frames);
     }
 }
 

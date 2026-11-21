@@ -33,7 +33,6 @@ s32 TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
 extern "C" { extern char TObjEneRe4Bit__class_name_string[]; }
 const char *lbl_805D2AE8 = TObjEneRe4Bit__class_name_string;
-f32 calc_elapsed_scaled__9TObjEneDDFv(TObjEneDD *self);
 extern BmlResource *sorcerer_bml_resource;
 extern s32 lbl_8043D2B0[];
 extern s32 lbl_8043D2B8[];
@@ -213,7 +212,7 @@ void TObjEneRe4Bit::update_homing_velocity() {
     VecCopy(&dir, m_3c0);
     dir.y = dir.y + m_3d8;
     subtract_vector(&dir, (Vec *)&m_2fc);
-    s = 0.01f * ((TObjBoss2Tunnel *)&dir)->update_scale();
+    s = 0.01f * normalize_vector_safe(&dir);
     m_3f8.x = 0.9f * (dir.x * s + m_3f8.x);
     m_3f8.y = 0.9f * (dir.y * s + m_3f8.y);
     m_3f8.z = 0.9f * (dir.z * s + m_3f8.z);
@@ -470,8 +469,8 @@ void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
         bit->m_408 = bit->m_408 + 1;
         VecCopy((Vec *)&bit->m_2fc, bit->m_3c0);
         bit->m_300 = bit->m_300 + bit->m_3d8;
-        bit->m_2fc = bit->m_2fc + calc_elapsed_scaled__9TObjEneDDFv(bit);
-        bit->m_304 = bit->m_304 + calc_elapsed_scaled__9TObjEneDDFv(bit);
+        bit->m_2fc = bit->m_2fc + ((TObjEneDD *)bit)->calc_elapsed_scaled();
+        bit->m_304 = bit->m_304 + ((TObjEneDD *)bit)->calc_elapsed_scaled();
         bit->vfunc_102();
         return;
     case 5:

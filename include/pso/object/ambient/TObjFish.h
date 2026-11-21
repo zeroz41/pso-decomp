@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include <stddef.h>
 
 // One fish of a school (0x44 bytes; init_fish_school allocates m_94 of them at m_a0).
 struct TObjFishEntry {
@@ -23,10 +24,10 @@ struct TObjFishEntry {
 struct TObjFish : public TObjBase {
     virtual ~TObjFish();
     s32 init_fish_school(void *, s32, s32);
-    u8 update_state();
+    s32 update_state();
     virtual void render();
     virtual void run_task();
-    u8 unk_90[0x2];
+    s16 m_90;
     s16 m_92;
     u32 m_94;              // fish count
     u32 m_98;              // frame counter
@@ -47,7 +48,6 @@ struct TObjFish : public TObjBase {
     void clear_render_callback();
     s32 is_entry_table_valid();
     static void init_state_1(void *arg0);
-    static void load_models();
     void update_attached_orientation();
     void destroy_child();
     static s32 set_global_param(s32 arg0);
@@ -65,5 +65,16 @@ struct TObjFish : public TObjBase {
     void update_wobble_angle();
 };
 
+typedef char TObjFishEntry_size[sizeof(TObjFishEntry) == 0x44 ? 1 : -1];
+typedef char TObjFishEntry_target_offset[offsetof(TObjFishEntry, target) == 0xC ? 1 : -1];
+typedef char TObjFishEntry_velocity_offset[offsetof(TObjFishEntry, velocity) == 0x18 ? 1 : -1];
+typedef char TObjFishEntry_yaw_offset[offsetof(TObjFishEntry, yaw) == 0x24 ? 1 : -1];
+typedef char TObjFishEntry_frame_offset[offsetof(TObjFishEntry, frame) == 0x28 ? 1 : -1];
+typedef char TObjFishEntry_angle_offset[offsetof(TObjFishEntry, angle) == 0x2C ? 1 : -1];
+typedef char TObjFishEntry_target_angle_offset[offsetof(TObjFishEntry, target_angle) == 0x2E ? 1 : -1];
+typedef char TObjFishEntry_anim_offset[offsetof(TObjFishEntry, anim) == 0x30 ? 1 : -1];
+typedef char TObjFishEntry_timer_offset[offsetof(TObjFishEntry, timer) == 0x32 ? 1 : -1];
+typedef char TObjFishEntry_seen_offset[offsetof(TObjFishEntry, seen) == 0x34 ? 1 : -1];
+typedef char TObjFishEntry_mode_offset[offsetof(TObjFishEntry, mode) == 0x38 ? 1 : -1];
 typedef char TObjFish_size[sizeof(TObjFish) == 0xA4 ? 1 : -1];
 #endif

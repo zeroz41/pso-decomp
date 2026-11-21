@@ -13,7 +13,6 @@ const char *TObjNpcARW00__name = "TObjNpcARW00";
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
-extern s32 __vt__12TObjNpcARW00[];
 u32 TObjNpcARW00__static_model;
 u32 TObjNpcARW00__gvm_texture_handle;
 void release_texture_list(void*);
@@ -39,16 +38,13 @@ void TObjNpcARW00::load_resources() {
 TObjNpcARW00::~TObjNpcARW00() {}
 
 
-u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TUnk_804A8640 *)arg0)->construct_female_base();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcARW00;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjNpcARW00__name;
-    ((TObjNpcARW00 *)(arg0))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(*(s32 * *)&TObjNpcARW00__static_model);
-    ((TObjNpcARW00 *)arg0)->texlist = (s32) (*(s32 *)&TObjNpcARW00__gvm_texture_handle);
-    ((TObjNpcBase *)arg0)->setup_common();
-    return arg0;
+TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcARW00__name;
+    ((TObjNpcARW00 *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcARW00__static_model);
+    ((TObjNpcARW00 *)this)->texlist = (s32) (*(s32 *)&TObjNpcARW00__gvm_texture_handle);
+    ((TObjNpcBase *)this)->setup_common();
 }
 
 void TObjNpcARW00::play_voice() {

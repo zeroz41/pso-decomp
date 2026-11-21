@@ -1,12 +1,12 @@
 #include "types.h"
-#include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/hud/TRaderMapCore_801A6CEC.h"
+#include "pso/system/ControllerInputState.h"
 
 extern "C" {
 
-s32 pack_flags__13TRaderMapCoreFii();
-
-u8 TCameraCtrl::is_on_current_screen() {
-    return (u8) ((*(s32 *)&this->unk_48 & pack_flags__13TRaderMapCoreFii()) != 0);
+s32 test_previous_buttons_packed(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->previous_buttons & pack_flags__13TRaderMapCoreFii((s32)pad, mask)) != 0;
 }
 
 }

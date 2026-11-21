@@ -31,7 +31,7 @@ void ignore_trade_proposal_event(void);
 extern "C" {
 void reset__6TLobbyFi(s32 arg0);
 void reset__6TLobbyFv(void);
-void send_modify_trade_proposal__6TLobbyFi(s32 arg0);
+void send_6xA6_modify_trade_proposal(s32 arg0);
 }
 void send_trade_busy_reply(s32 arg0);
 

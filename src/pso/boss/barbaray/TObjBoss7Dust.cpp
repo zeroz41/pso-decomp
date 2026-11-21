@@ -57,7 +57,6 @@ extern const f32 lbl_805DEC78;
 extern const f32 lbl_805DEC7C;
 extern const f32 lbl_805DEC80;
 s32 post_translate_matrix(int);
-extern s32 __vt__17TObjBoss7DustCtrl[];
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
 void fn_802F19C0(void);
 }
@@ -109,21 +108,11 @@ void TObjBoss7DustCtrl__sub_802F1450(void) {  }
 extern s32 tl_05;
 
 void TObjBoss7DustCtrl::create() {
-    void* obj = TObject::operator new(0x1C);
-    if (obj != 0) {
-        TObjBoss7DustCtrl__ct(obj, (void *)tl_05);
-    }
+    new TObjBoss7DustCtrl((TObject *)tl_05);
 }
 
-extern "C" {
-
-void *TObjBoss7DustCtrl__ct(void *boss7_dust_ctrl, void *parent) {
-    __ct__7TObjectFP7TObject(boss7_dust_ctrl, parent);
-    *(s32 **)((s8 *)boss7_dust_ctrl + 0x18) = __vt__17TObjBoss7DustCtrl;
-    ((TObjBoss7DustCtrl *)boss7_dust_ctrl)->m_name = TObjBoss7DustCtrl__name;
-    return boss7_dust_ctrl;
-}
-
+TObjBoss7DustCtrl::TObjBoss7DustCtrl(TObject *parent) : TObject(parent) {
+    m_name = TObjBoss7DustCtrl__name;
 }
 
 TObjBoss7DustCtrl::~TObjBoss7DustCtrl() {}

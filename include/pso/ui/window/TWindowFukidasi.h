@@ -15,7 +15,7 @@ struct TWindowFukidasi
     u8 _pad74[0x2];
     u16 m_76;
     u32 m_78;
-    static void draw_resolved_window(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 draw_resolved_window(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     void hide();
     int get_visible_flag();
     int is_bit10_set();
@@ -23,7 +23,7 @@ struct TWindowFukidasi
     void sync_display_pos();
     s32 approach(f32 farg0);
     void get_boundary_offset(s32 angle, f32 *out);
-    void find_balloon_overlap_for(s32 arg1);
+    void *find_balloon_overlap_for(s32 arg1);
     void rearm_balloon(s32 arg1);
 };
 

@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -31,7 +32,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/NinjaUtil.h"
@@ -137,7 +137,7 @@ void TOTrapSeabed01::load_resources() {
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;
     if (TOTrapSeabed01__texture_file != 0) {
-        seabed01_ginja_mesh_index = ((TObjDoorJung *)TOTrapSeabed01__texture_file)->find_entry_by_name("apk_o064_seaturigane03");
+        seabed01_ginja_mesh_index = find_texture_entry_by_name((const GinjaTextureList *)TOTrapSeabed01__texture_file, "apk_o064_seaturigane03");
     }
 }
 
@@ -341,7 +341,7 @@ void TOTrapSeabed01::check_hold_player() {
     TObjPlayer *held;
     f32 distance;
     target = NULL;
-    player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+    player = find_nearest_visible_player(this, NULL, range);
     if (player != 0xFFFF) {
         held = get_player_by_client_id(player);
         target = (u8 *)held;
@@ -384,7 +384,7 @@ void TOTrapSeabed01::play_sounds() {
     TObjChipSpawnParams params;
     SeabedTrapFragmentSpawn *fragment;
     s32 i;
-    copy_transform__8TObjChipFPvPv((u8 *)&params, (u8 *)&TOTrapSeabed01__transform_params);
+    TObjChip::copy_transform(&params, const_cast<TObjChipParams *>(&TOTrapSeabed01__transform_params));
     params.chip.textures = TOTrapSeabed01__texture_file;
     for (i = 0; i < 6; i++) {
         fragment = &seabed_trap_fragment_spawns[i];
@@ -418,7 +418,7 @@ void TOTrapSeabed01::sub_802C9D38() {
         if (target != NULL) {
             held = get_player_by_client_id(get_entity_id((TObjBase *)target));
             if (held != NULL) {
-                if (((TLobby *)held)->check_player_flag1() != 0) {
+                if (held->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((s32)held);
                 }
                 obj_clear_flag30_20000(held);
@@ -426,7 +426,7 @@ void TOTrapSeabed01::sub_802C9D38() {
         }
     } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
         held = get_player_by_client_id(local_client_id);
-        if (held != NULL && ((TLobby *)held)->check_player_flag1() != 0) {
+        if (held != NULL && held->check_player_flag1() != 0) {
             TObjPlayer::send_code_45_1((s32)held);
         }
     }

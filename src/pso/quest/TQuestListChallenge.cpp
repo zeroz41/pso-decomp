@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/TObjControl.h"
+#include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -108,7 +110,6 @@ extern "C" {
 s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
 void *create_yes_no_window(s32, u16, s32, s32);
-void *create__14TWindowMessageFlPCfUll(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
 void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
 s32 lbl_805D64A8;
@@ -148,8 +149,6 @@ void invoke_callback_and_destroy__19TQuestListChallengeFv(void *arg0);
 void reset_globals2__19TQuestListChallengeFv(void);
 void reset_globals__19TQuestListChallengeFv(void);
 s32 prepare_offline_quest_filenames(s32, s32);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 __dl__7TObjectFPv(void *);
 
 extern "C" {
@@ -291,7 +290,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
         p.a = lbl_80450AB4[0].a;
         p.b = lbl_80450AB4[0].b;
         id = (u16)get_entity_id(self->f24);
-        self->f40 = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x2E), &p, 1, id);
+        self->f40 = TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, (u16)id);
         text2 = SUB_80222C28(self->f50, self->entries[sel].f8);
         ((TWindowMessage *)(self->f40))->append_line(text2, 0x80);
         ((TWindowBase *)(self->f40))->set_depth(37000.0f);
@@ -343,15 +342,15 @@ void TQuestListChallenge__vt9(TQuestListChallenge *quest_list_challenge) {
 extern "C" void run_task__15TShopWindowBaseFv();
 extern "C" void render__7TObjectFv();
 extern "C" void render_shadows__7TObjectFv();
-extern "C" void vfunc_6__15TShopWindowBaseFv();
+extern "C" void vfunc_6__15TShopWindowBaseFll();
 extern "C" void display_message__15TShopWindowBaseFPCcl();
-extern "C" void vfunc_8__15TShopWindowBaseFv();
+extern "C" void vfunc_8__15TShopWindowBaseFll();
 extern "C" void display_guild_message__15TShopWindowBaseFll();
 extern "C" void vfunc_10__15TShopWindowBaseFv();
 void *__vt__19TQuestListChallenge[12] = {
     0, 0, (void *)&__dt__19TQuestListChallengeFv, (void *)&run_task__15TShopWindowBaseFv,
-    (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__15TShopWindowBaseFv,
-    (void *)&display_message__15TShopWindowBaseFPCcl, (void *)&vfunc_8__15TShopWindowBaseFv,
+    (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__15TShopWindowBaseFll,
+    (void *)&display_message__15TShopWindowBaseFPCcl, (void *)&vfunc_8__15TShopWindowBaseFll,
     (void *)&display_guild_message__15TShopWindowBaseFll, (void *)&vfunc_10__15TShopWindowBaseFv,
     (void *)&TQuestListChallenge__vt9,
 };
@@ -438,18 +437,9 @@ void reset_globals2__19TQuestListChallengeFv(void) {
 
 extern void *tl_04;
 
-void * TObjNpcKenkyu__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcKenkyu__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcKenkyu__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcKenkyu(control, set_data);
 }
 }
 

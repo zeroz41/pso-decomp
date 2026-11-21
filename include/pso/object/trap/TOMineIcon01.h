@@ -8,8 +8,6 @@ struct TOMineIcon01 : public TOMine {
     TOMineIcon01(TObject *parent, void *set_data);
     virtual ~TOMineIcon01();
     virtual void vfunc_84();
-    u32 m_374;
-    u32 m_378;
     void *create();
 };
 

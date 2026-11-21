@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl_8001B4A0.h"
@@ -66,7 +67,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
 }
 
-// inferred: the vertex list draw_tri_fan_2d reads (cf. VtxList_80077BC0)
+// inferred: the vertex list draw_polygon_2d reads (cf. VtxList_80077BC0)
 struct RicoRingFan { f32 *positions; u32 *colors; s32 n; s32 count; };
 
 // inferred: the quad draw_tri_fan_3d reads (cf. ZanzoQuad)
@@ -361,7 +362,7 @@ void TAdRicoRingCtrl::render() {
         for (i = 0; i < 4; i++) {
             rico_ring_fade_colors[i] = cnt;
         }
-        ((TObjCMHairMenu *)&args)->draw_tri_fan_2d(4, 6, -2.0f);
+        draw_polygon_2d((NJS_POINT2COL *)&args, 4, 6, -2.0f);
     }
 }
 #pragma pop

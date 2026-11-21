@@ -50,7 +50,6 @@ void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
 void render_projected_shadow_receiver(u8 *arg0, s32 arg1);
 s32 push_matrix();
-s32 end_effect_render__13TParticleCtrlFv(int);
 
 void TLobby::update_boss1_objects() { TBoss8Dragon::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
@@ -69,7 +68,7 @@ void render__14TObjBoss1FloorFv(void) {
         temp_r3 = model_render_flags;
         saved_model_render_flags = temp_r3;
         model_render_flags = temp_r3 | 0x400;
-        end_effect_render__13TParticleCtrlFv(temp_r3);
+        TParticleCtrl::end_effect_render();
         push_matrix();
         model_render_flags = 1;
         set_draw_list_mask(3);

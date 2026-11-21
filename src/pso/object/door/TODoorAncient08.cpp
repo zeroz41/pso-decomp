@@ -41,12 +41,12 @@ static CollisionBody door_ancient08_collision_body[1] = {
 };
 
 BmlResource *TODoorAncient08::bml_resource;
-s32 *TODoorAncient08::texture_lists;
+GinjaTextureList **TODoorAncient08::texture_lists;
 
 TODoorAncient08::TODoorAncient08(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_ancient08_class_name;
     apply_object_set_data(set_data);
-    texlist = texture_lists[0];
+    texlist = (s32)texture_lists[0];
     model = (void *)bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
@@ -80,14 +80,14 @@ void TODoorAncient08::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &door_ancient08_resource_descriptor, 0, 0, 0);
     }
     bml_resource = resource;
-    texture_lists = (s32 *)mem_alloc(8);
-    texture_lists[0] = bml_resource->models[0].m_c;
-    texture_lists[1] = (s32)load_gvm_texture_file((s32)"fs_obj_o_door06l_r.gvm");
+    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
+    texture_lists[0] = (GinjaTextureList *)bml_resource->models[0].m_c;
+    texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_o_door06l_r.gvm");
 }
 
 void TODoorAncient08::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[1]);
+        TObjPlayer::free_if_valid((s32)texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -106,7 +106,7 @@ void *TODoorAncient08::create(void *set_data) {
 void TODoorAncient08::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
         object_state = 1;
-        texlist = texture_lists[0];
+        texlist = (s32)texture_lists[0];
         set_indexed_flags(0, 8);
         is_open = 1;
         switch (get_current_floor_area()) {
@@ -133,7 +133,7 @@ void TODoorAncient08::update_closed() {
 
 void TODoorAncient08::update_open() {
     if (door_flags & 1) {
-        texlist = texture_lists[0];
+        texlist = (s32)texture_lists[0];
         if (is_any_player_within_radius_xz(10000.0f) == 1) {
             return;
         }
@@ -161,7 +161,7 @@ void TODoorAncient08::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = texture_lists[1];
+        texlist = (s32)texture_lists[1];
         clear_player_status_flag(0, 8);
         is_open = 0;
     }
@@ -234,7 +234,7 @@ void TODoorAncient08::draw_switch_lights() {
     }
     on[3] = set;
     push_matrix();
-    TObjFish::set_global_param(texture_lists[1]);
+    TObjFish::set_global_param((s32)texture_lists[1]);
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
     rotate_matrix_y(NULL, rotation_y);
@@ -243,9 +243,9 @@ void TODoorAncient08::draw_switch_lights() {
     TParticleCtrl::begin_effect_render();
     for (i = 0; i < 4; i++) {
         if (on[i] != 0) {
-            TObjFish::set_global_param(texture_lists[0]);
+            TObjFish::set_global_param((s32)texture_lists[0]);
         } else {
-            TObjFish::set_global_param(texture_lists[1]);
+            TObjFish::set_global_param((s32)texture_lists[1]);
         }
         push_matrix();
         pair = pairs[i];
@@ -365,10 +365,10 @@ void TODoorAncient08::door_ancient08_sync_state(void *src_arg) {
     obj = (Obj_8015FC40 *)set_entry;
     if (obj != NULL) {
         Pkt_8015FC40 pkt;
-        ((TOBarrierEnergy01 *)&pkt)->init();
+        init_collision_subcommand_header(&pkt);
         pkt.id = entity_id;
         pkt.state = st.a;
         pkt.kind = obj->kind;
-        update_and_send_60__6TLobbyFPv(&pkt);
+        TLobby::update_and_send_60(&pkt);
     }
 }

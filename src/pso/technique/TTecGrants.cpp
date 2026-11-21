@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -57,9 +58,7 @@ void run_task__10TTecGrantsFv(TTecGrants *arg0);
 s32 get_entity_id(int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
-extern s32 __vt__10TTecGrants[];
 extern s32 tec_grants_class_name;
-u8 *TTecGrants__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 void TTecGrants::render() {  }
 
@@ -74,11 +73,7 @@ void TTecGrants::vfunc_6(void *target_arg) {
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x14C);
-    if (o != NULL) {
-        TTecGrants__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
-    }
+    new TTecGrants((s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
 }
 
 void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
@@ -114,11 +109,10 @@ TTecGrants::~TTecGrants() {
 
 }
 
-u8 *TTecGrants__ct(u8 *tec_grants, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+#define tec_grants ((u8 *)this)
+TTecGrants::TTecGrants(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TUnk_804CC148(arg1, arg2, arg4) {
     u32 temp_r3;
-    __ct__13TUnk_804CC148Flll((void *)tec_grants, (void *)arg1, (void *)arg2, (void *)arg4);
-    *(s32 **)((s8 *)tec_grants + 0x18) = __vt__10TTecGrants;
-    ((TObjPlayer *)(tec_grants + 0xEC))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((tec_grants + 0xEC));
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
     ((TTecGrants *)tec_grants)->init_parameters();
     copy_technique_target_list(tec_grants + 0xEC, (void *)arg3);
@@ -127,6 +121,6 @@ u8 *TTecGrants__ct(u8 *tec_grants, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (temp_r3 != 0U) {
         ((TTecGrants *)tec_grants)->m_b4 = get_entity_id(temp_r3);
     }
-    return tec_grants;
 }
+#undef tec_grants
 

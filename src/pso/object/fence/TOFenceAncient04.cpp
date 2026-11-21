@@ -27,7 +27,7 @@ CollisionBody fence_ancient04_collision_bodies[8] = {
 };
 const char *TOFenceAncient04::class_name = "TOFenceAncient04";
 BmlResource *TOFenceAncient04::model_resource;
-s32 *TOFenceAncient04::texlists;
+GinjaTextureList **TOFenceAncient04::texlists;
 
 void TOFenceAncient04::update_demo() {}
 
@@ -55,9 +55,9 @@ void *TOFenceAncient04::create(void *set_data) {
 
 void TOFenceAncient04::unload_resources() {
     if (texlists != NULL) {
-        TObjPlayer::free_if_valid(texlists[1]);
-        TObjPlayer::free_if_valid(texlists[2]);
-        TObjPlayer::free_if_valid(texlists[3]);
+        TObjPlayer::free_if_valid((s32)texlists[1]);
+        TObjPlayer::free_if_valid((s32)texlists[2]);
+        TObjPlayer::free_if_valid((s32)texlists[3]);
         if (texlists != NULL) {
             mem_free(texlists);
             texlists = NULL;
@@ -75,12 +75,12 @@ void TOFenceAncient04::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_saku_6x4_resource_descriptor, 0, 0, 0);
     }
     model_resource = resource;
-    s32 *lists = (s32 *)mem_alloc(4 * sizeof(s32));
+    GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
     texlists = lists;
-    lists[0] = model_resource->models[0].m_c;
-    texlists[1] = (s32)load_gvm_texture_file((s32)texture_file_b);
-    texlists[2] = (s32)load_gvm_texture_file((s32)texture_file_g);
-    texlists[3] = (s32)load_gvm_texture_file((s32)texture_file_p);
+    lists[0] = (GinjaTextureList *)model_resource->models[0].m_c;
+    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_b);
+    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_g);
+    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.
@@ -97,7 +97,7 @@ TOFenceAncient04::TOFenceAncient04(TObject *parent, void *set_data) : TOFenceBas
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
-    texlist = texlists[read_texture_variant()];
+    texlist = (s32)texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     init_collision_body_parts(this, fence_ancient04_collision_bodies, 8);

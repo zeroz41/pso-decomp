@@ -1,13 +1,15 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowChallengeResult.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -17,6 +19,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
@@ -36,11 +39,9 @@ extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void reset_motion_fields__8TObjBaseFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
-struct Obj_802E4E44;
-struct Obj_802E4C70;
 void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1);
-void run_task__16TObjOnlineEndingFv(Obj_802E4E44 *arg0);
-void render__16TObjOnlineEndingFv(Obj_802E4C70 *arg0);
+void run_task__16TObjOnlineEndingFv(TObjOnlineEnding *arg0);
+void render__16TObjOnlineEndingFv(TObjOnlineEnding *arg0);
 __declspec(section ".data") const char *onlineending_dat_model_names[2] = {
     "ending_blue_oya.nj", NULL,
 };
@@ -76,88 +77,73 @@ const char *onlineending_dat_motion_names[26] = {
 BmlResourceDescriptor onlineending_dat_resource_descriptor = {
     "onlineending_dat.bml", onlineending_dat_model_names, onlineending_dat_motion_names, 1, 25,
 };
-void *lbl_804E35F8[240] = {
-    (void *)0xc1973333, (void *)0xc1000000, (void *)0xc1100000, (void *)0x24fa,
-    (void *)0x3fa00000, (void *)0x40bb3333, (void *)0xc1000000, (void *)0xc1100000,
-    (void *)0x0, (void *)0x3fa00000, (void *)0xc0bb3333, (void *)0xc1500000,
-    (void *)0xc1100000, (void *)0x717, (void *)0x3fa00000, (void *)0x419acccd,
-    (void *)0xc1500000, (void *)0xc1100000, (void *)0x2b12, (void *)0x3fa00000,
-    (void *)0xc1900000, (void *)0xc0c00000, (void *)0xc1200000, (void *)0x14b4f,
-    (void *)0x3fa00000, (void *)0x40d80000, (void *)0xc0c00000, (void *)0xc1200000,
-    (void *)0x8342, (void *)0x3fa00000, (void *)0xc0c99999, (void *)0xc1280000,
-    (void *)0xc1200000, (void *)0xffffef4c, (void *)0x3fa00000, (void *)0x419e6666,
-    (void *)0xc1300000, (void *)0xc1200000, (void *)0xffffccaa, (void *)0x3fa00000,
-    (void *)0xc1939999, (void *)0xc0d00000, (void *)0xc10fffe6, (void *)0x163e,
-    (void *)0x3f99999a, (void *)0x40c99999, (void *)0xc0d00000, (void *)0xc10fffe6,
-    (void *)0xffffe92f, (void *)0x3f99999a, (void *)0xc0bb3333, (void *)0xc1400000,
-    (void *)0xc0afffcc, (void *)0xca1, (void *)0x3f99999a, (void *)0x41819999,
-    (void *)0xc1580000, (void *)0xc0afffcc, (void *)0xfffff639, (void *)0x3f99999a,
-    (void *)0xc1900000, (void *)0xc0f00000, (void *)0xc1080000, (void *)0x303,
-    (void *)0x3fa00000, (void *)0x40bb3333, (void *)0xc0f00000, (void *)0xc1080000,
-    (void *)0xffffe063, (void *)0x3fa00000, (void *)0xc0d80000, (void *)0xc1600000,
-    (void *)0xc1280000, (void *)0xffffcc42, (void *)0x3fa00000, (void *)0x419acccd,
-    (void *)0xc1600000, (void *)0xc1280000, (void *)0x1bb4, (void *)0x3fa00000,
-    (void *)0xc19acccd, (void *)0xc0e00000, (void *)0xc1100000, (void *)0xffffd6d7,
-    (void *)0x3f800000, (void *)0x40d80000, (void *)0xc0d00000, (void *)0xc1100000,
-    (void *)0xfffffcbb, (void *)0x3f800000, (void *)0xc0900000, (void *)0xc1600000,
-    (void *)0xc1100000, (void *)0x2913, (void *)0x3f800000, (void *)0x41939999,
-    (void *)0xc1680000, (void *)0xc1100000, (void *)0xffffe984, (void *)0x3f800000,
-    (void *)0xc1939999, (void *)0xc0c00000, (void *)0xc1100000, (void *)0x1fc7,
-    (void *)0x3fa00000, (void *)0x40c99999, (void *)0xc0b00000, (void *)0xc1100000,
-    (void *)0x0, (void *)0x3fa00000, (void *)0xc0c99999, (void *)0xc1400000,
-    (void *)0xc1100000, (void *)0xffffe37b, (void *)0x3fa00000, (void *)0x419e6666,
-    (void *)0xc1380000, (void *)0xc1100000, (void *)0x54b, (void *)0x3fa00000,
-    (void *)0xc1939999, (void *)0xc0b00000, (void *)0xc1200000, (void *)0xffffcf1c,
-    (void *)0x3fa00000, (void *)0x40d80000, (void *)0xc0c00000, (void *)0xc1200000,
-    (void *)0xffffe5ed, (void *)0x3fa00000, (void *)0xc0d80000, (void *)0xc1400000,
-    (void *)0xc1200000, (void *)0x0, (void *)0x3fa00000, (void *)0x41939999,
-    (void *)0xc1480000, (void *)0xc1200000, (void *)0xffffd813, (void *)0x3fa00000,
-    (void *)0xc19e6666, (void *)0xc1000000, (void *)0xc1200000, (void *)0x1e8e,
-    (void *)0x3fa00000, (void *)0x40bb3333, (void *)0xc0f00000, (void *)0xc1200000,
-    (void *)0xfffff2f7, (void *)0x3fa00000, (void *)0xc0f4cccc, (void *)0xc18c0000,
-    (void *)0xc1200000, (void *)0x3488, (void *)0x3fa00000, (void *)0x41939999,
-    (void *)0xc1840000, (void *)0xc1200000, (void *)0xffff1208, (void *)0x3fa00000,
-    (void *)0xc1973333, (void *)0xc1080000, (void *)0xc1180000, (void *)0x3013,
-    (void *)0x3fa00000, (void *)0x40bb3333, (void *)0xc0d00000, (void *)0xc1180000,
-    (void *)0x14c7, (void *)0x3fa00000, (void *)0xc0bb3333, (void *)0xc1400000,
-    (void *)0xc1180000, (void *)0x138e, (void *)0x3fa00000, (void *)0x419acccd,
-    (void *)0xc1500000, (void *)0xc1180000, (void *)0xffffed43, (void *)0x3fa00000,
-    (void *)0xc18c9c21, (void *)0xc0800000, (void *)0xc0630da6, (void *)0x6d,
-    (void *)0x3fa00000, (void *)0x40b6df66, (void *)0xc0800000, (void *)0xc0630da6,
-    (void *)0xffffd4a0, (void *)0x3fa00000, (void *)0xc0c8f15a, (void *)0xc1480000,
-    (void *)0xc048c4ce, (void *)0x0, (void *)0x3fa00000, (void *)0x41865c5c,
-    (void *)0xc1480000, (void *)0xc048c4ce, (void *)0xffffe71d, (void *)0x3fa00000,
-    (void *)0xc19ee664, (void *)0xc0e00000, (void *)0xc16238fa, (void *)0xffff8aab,
-    (void *)0x3fa00000, (void *)0x40c99999, (void *)0xc0e00000, (void *)0xc16238fa,
-    (void *)0xffffddde, (void *)0x3fa00000, (void *)0xc0d3a8e0, (void *)0xc1480000,
-    (void *)0xc15a4b1f, (void *)0xffffd1c8, (void *)0x3fa00000, (void *)0x41a05878,
-    (void *)0xc1480000, (void *)0xc15a4b1f, (void *)0xffffb334, (void *)0x3fa00000,
-    (void *)0xc198c6f3, (void *)0xc075318c, (void *)0xc0fb0279, (void *)0x1c71,
-    (void *)0x3fa00000, (void *)0x40ba0de5, (void *)0xc075318c, (void *)0xc0fb0279,
-    (void *)0x555, (void *)0x3fa00000, (void *)0xc0ca1e2a, (void *)0xc144c54e,
-    (void *)0xc0ee567a, (void *)0xffffc9f5, (void *)0x3fa00000, (void *)0x4192ecab,
-    (void *)0xc144c54e, (void *)0xc0ee567a, (void *)0xffffde94, (void *)0x3fa00000,
+struct OnlineEndingPlayerPlacement {
+    Vec position;
+    s32 yaw;
+    f32 scale;
 };
-void *lbl_804E39B8[24] = {
-    (void *)0x0, (void *)0x1, (void *)0x2, (void *)0x3,
-    (void *)0x4, (void *)0x5, (void *)0x6, (void *)0x7,
-    (void *)0x8, (void *)0x9, (void *)0xa, (void *)0xb,
-    (void *)0xc, (void *)0xd, (void *)0xe, (void *)0xf,
-    (void *)0x10, (void *)0x11, (void *)0x12, (void *)0x13,
-    (void *)0x14, (void *)0x15, (void *)0x16, (void *)0x17,
+
+typedef char OnlineEndingPlayerPlacementSize[sizeof(OnlineEndingPlayerPlacement) == 0x14 ? 1 : -1];
+
+OnlineEndingPlayerPlacement lbl_804E35F8[48] = {
+    {{-18.8999996f, -8.0f, -9.0f}, 9466, 1.25f},
+    {{5.8499999f, -8.0f, -9.0f}, 0, 1.25f},
+    {{-5.8499999f, -13.0f, -9.0f}, 1815, 1.25f},
+    {{19.3500004f, -13.0f, -9.0f}, 11026, 1.25f},
+    {{-18.0f, -6.0f, -10.0f}, 84815, 1.25f},
+    {{6.75f, -6.0f, -10.0f}, 33602, 1.25f},
+    {{-6.29999971f, -10.5f, -10.0f}, -4276, 1.25f},
+    {{19.7999992f, -11.0f, -10.0f}, -13142, 1.25f},
+    {{-18.4499989f, -6.5f, -8.9999752f}, 5694, 1.20000005f},
+    {{6.29999971f, -6.5f, -8.9999752f}, -5841, 1.20000005f},
+    {{-5.8499999f, -12.0f, -5.4999752f}, 3233, 1.20000005f},
+    {{16.1999989f, -13.5f, -5.4999752f}, -2503, 1.20000005f},
+    {{-18.0f, -7.5f, -8.5f}, 771, 1.25f},
+    {{5.8499999f, -7.5f, -8.5f}, -8093, 1.25f},
+    {{-6.75f, -14.0f, -10.5f}, -13246, 1.25f},
+    {{19.3500004f, -14.0f, -10.5f}, 7092, 1.25f},
+    {{-19.3500004f, -7.0f, -9.0f}, -10537, 1.0f},
+    {{6.75f, -6.5f, -9.0f}, -837, 1.0f},
+    {{-4.5f, -14.0f, -9.0f}, 10515, 1.0f},
+    {{18.4499989f, -14.5f, -9.0f}, -5756, 1.0f},
+    {{-18.4499989f, -6.0f, -9.0f}, 8135, 1.25f},
+    {{6.29999971f, -5.5f, -9.0f}, 0, 1.25f},
+    {{-6.29999971f, -12.0f, -9.0f}, -7301, 1.25f},
+    {{19.7999992f, -11.5f, -9.0f}, 1355, 1.25f},
+    {{-18.4499989f, -5.5f, -10.0f}, -12516, 1.25f},
+    {{6.75f, -6.0f, -10.0f}, -6675, 1.25f},
+    {{-6.75f, -12.0f, -10.0f}, 0, 1.25f},
+    {{18.4499989f, -12.5f, -10.0f}, -10221, 1.25f},
+    {{-19.7999992f, -8.0f, -10.0f}, 7822, 1.25f},
+    {{5.8499999f, -7.5f, -10.0f}, -3337, 1.25f},
+    {{-7.64999962f, -17.5f, -10.0f}, 13448, 1.25f},
+    {{18.4499989f, -16.5f, -10.0f}, -60920, 1.25f},
+    {{-18.8999996f, -8.5f, -9.5f}, 12307, 1.25f},
+    {{5.8499999f, -6.5f, -9.5f}, 5319, 1.25f},
+    {{-5.8499999f, -12.0f, -9.5f}, 5006, 1.25f},
+    {{19.3500004f, -13.0f, -9.5f}, -4797, 1.25f},
+    {{-17.5762348f, -4.0f, -3.54770803f}, 109, 1.25f},
+    {{5.71477032f, -4.0f, -3.54770803f}, -11104, 1.25f},
+    {{-6.27946186f, -12.5f, -3.137012f}, 0, 1.25f},
+    {{16.7950974f, -12.5f, -3.137012f}, -6371, 1.25f},
+    {{-19.8624954f, -7.0f, -14.1389103f}, -30037, 1.25f},
+    {{6.29999971f, -7.0f, -14.1389103f}, -8738, 1.25f},
+    {{-6.61436462f, -12.5f, -13.6433401f}, -11832, 1.25f},
+    {{20.0431976f, -12.5f, -13.6433401f}, -19660, 1.25f},
+    {{-19.0971432f, -3.8311491f, -7.84405184f}, 7281, 1.25f},
+    {{5.81419611f, -3.8311491f, -7.84405184f}, 1365, 1.25f},
+    {{-6.31618214f, -12.2981701f, -7.44805622f}, -13835, 1.25f},
+    {{18.3655605f, -12.2981701f, -7.44805622f}, -8556, 1.25f},
 };
-void *lbl_804E3A18[4] = {
-    (void *)0x2, (void *)0x1, (void *)0x0, (void *)0x3,
+s32 lbl_804E39B8[24] = {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
 };
-void *lbl_804E3A28[4] = {
-    (void *)0x1, (void *)0x0, (void *)0x0, (void *)0x1,
-};
-void *lbl_804E3A38[3] = {
-    (void *)0x469c4000, (void *)0x0, (void *)0x0,
-};
-void *online_ending_quad_vertices[8] = {
-    (void *)0x43800000, (void *)0x0, (void *)0x43c00000, (void *)0x0,
-    (void *)0x43000000, (void *)0x0, (void *)0x44008000, (void *)0x0,
+s32 lbl_804E3A18[4] = {2, 1, 0, 3};
+s32 lbl_804E3A28[4] = {1, 0, 0, 1};
+Vec lbl_804E3A38 = {20000.0f, 0.0f, 0.0f};
+NJS_POINT2 online_ending_quad_vertices[4] = {
+    {256.0f, 0.0f}, {384.0f, 0.0f}, {128.0f, 0.0f}, {514.0f, 0.0f},
 };
 void *__vt__16TObjOnlineEnding[13] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__16TObjOnlineEndingFPvs, (void *)&run_task__16TObjOnlineEndingFv,
@@ -165,8 +151,6 @@ void *__vt__16TObjOnlineEnding[13] = {
     (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__8TObjBaseFv,
 };
-#define lbl_804E3A38 ((f32 *)lbl_804E3A38)
-#define online_ending_quad_vertices ((NJS_POINT2 *)online_ending_quad_vertices)
 #define __vt__16TObjOnlineEnding ((const s32 *)__vt__16TObjOnlineEnding)
 
 int TObjOnlineEnding::get_instance() {  return player_unique_pair_entry_count; }
@@ -174,20 +158,14 @@ int TObjOnlineEnding::get_instance() {  return player_unique_pair_entry_count; }
     extern unsigned char lbl_8050DAD0[];
 void*TObjOnlineEnding::get_attack_entry(int a0) {  return (char*)lbl_8050DAD0 + a0 * 8; }
 
-void TObjOnlineEnding::close_window() { if (*(unsigned int *)&this->m_154 != 0) { ((TWindowBase *)(*(void* *)&this->m_154))->close(); *(int *)&this->m_154 = 0; } }
-
+void TObjOnlineEnding::close_window() {
+    if (result_window != NULL) {
+        result_window->close();
+        result_window = NULL;
+    }
 }
 
-struct Ent_802E4E44 { s32 active; u16 id; u8 pad[0x28 - 6]; };
-
-struct Obj_802E4E44 {
-    u8 pad0[0xA4];
-    s32 state;
-    Ent_802E4E44 ent[4];
-    s32 count;
-    s32 timer;
-    f32 fade;
-};
+}
 
 struct Cam_802E4E44 {
     u8 pad0[0x14];
@@ -196,20 +174,6 @@ struct Cam_802E4E44 {
     Vec a;
     Vec b;
     u8 pad34[0x8];
-};
-
-struct Ent_802E4C70 { s32 active; u16 id; char name[0x12]; void *f18; s32 f1C; f32 f20; s32 f24; };
-
-struct Obj_802E4C70 {
-    u8 pad0[0x90];
-    s32 f90;
-    s32 f94;
-    s32 f98;
-    u8 pad9C[0xA8 - 0x9C];
-    Ent_802E4C70 ent[4];
-    s32 count;
-    u8 pad14C[4];
-    f32 f150;
 };
 
 extern "C" {
@@ -221,63 +185,59 @@ static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
 s32 push_matrix();
-s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 f32 online_ending_scene_scale = 0.88f;
 f32 online_ending_quad_y_offset = -24.0f;
 f32 online_ending_scene_z_offset;
-u32 lbl_805D68F4;
+BmlResource *online_ending_resource;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
-s32 TLobby__sub_80070ACC();
-s32 TWindowChallengeResult__ct(s32, s32, s32, s32);
+s32 *TLobby__sub_80070ACC();
+TWindowChallengeResult *TWindowChallengeResult__ct(TWindowChallengeResult *, const void *, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
 s32 __dl__7TObjectFPv(void *);
-s32 get_card_window_value__16TObjOnlineEndingFv();
-s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 
 void TObjOnlineEnding::create_result_window() {
     s32 temp_r31;
     s32 temp_r30_2;
     s32 temp_r30;
-    s32 var_r29;
+    TWindowChallengeResult *window;
 
-    this->m_154 = 0;
+    result_window = NULL;
     if (TLobby::is_flag_set() != 0) {
-        temp_r30 = get_layout_id__20TWindowSubStatusDispFv(-1) - 1;
+        temp_r30 = TWindowSubStatusDisp::get_layout_id(-1) - 1;
         {
         s32 t = TLobby::get_online_result_value();
         if (t == temp_r30) {
-            var_r29 = (s32)TObject::operator new(0x68);
-            if (var_r29 != 0) {
-                temp_r30_2 = get_card_window_value__16TObjOnlineEndingFv();
+            window = static_cast<TWindowChallengeResult *>(TObject::operator new(sizeof(TWindowChallengeResult)));
+            if (window != NULL) {
+                temp_r30_2 = TObjOnlineEnding::get_card_window_value();
                 temp_r31 = TWindowSubStatusDisp__sub_800718D0();
-                var_r29 = TWindowChallengeResult__ct(var_r29, TLobby__sub_80070ACC(), temp_r31, temp_r30_2);
+                window = TWindowChallengeResult__ct(window, TLobby__sub_80070ACC(), temp_r31, temp_r30_2);
             }
-            this->m_154 = var_r29;
+            result_window = window;
         }
         }
     }
 }
 
 void TObjOnlineEnding::render() {
-    Obj_802E4C70 *arg0 = (Obj_802E4C70 *)this;
     s32 i;
-    Ent_802E4C70 *e;
+    OnlineEndingPlayer *e;
     if (online_ending_scene_translation_initialized == 0) {
-        lbl_804E3A38[2] = (-100.0f) + online_ending_scene_z_offset;
+        lbl_804E3A38.z = (-100.0f) + online_ending_scene_z_offset;
         online_ending_scene_translation_initialized = 1;
     }
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    post_translate_matrix(lbl_804E3A38);
+    post_translate_matrix(&lbl_804E3A38.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(*(s32 *)&this->m_94);
-    draw_model_motion((void *)*(s32 *)&this->m_90, (void *)*(s32 *)&this->m_98, arg0->f150);
+    TObjFish::set_global_param(reinterpret_cast<s32>(scene_textures));
+    draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
-    for (i = 0; i < *(s32 *)&this->m_148; i++) {
-        e = &arg0->ent[i];
+    for (i = 0; i < player_count; i++) {
+        e = &players[i];
         if (e->active != 0) {
             if (online_ending_quad_vertices_initialized == 0) {
                 online_ending_quad_vertices[0].y = 63.0f + online_ending_quad_y_offset;
@@ -294,11 +254,11 @@ void TObjOnlineEnding::render() {
                 TAdSubPlyItemGC::render_status_line(v.x, v.y, 0.1f, name, -1);
             }
             push_matrix();
-            post_translate_matrix(lbl_804E3A38);
-            post_translate_matrix(e->f18);
-            rotate_matrix_y(0, e->f1C);
-            scale_matrix(0, e->f20, e->f20, e->f20);
-            TObjPlayer::draw_player_model_by_client(e->id, e->f24, 0.0f, 1.0f);
+            post_translate_matrix(&lbl_804E3A38.x);
+            post_translate_matrix(&e->position->x);
+            rotate_matrix_y(0, e->yaw);
+            scale_matrix(0, e->scale, e->scale, e->scale);
+            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<s32>(e->motion), 0.0f, 1.0f);
             pop_matrix();
         }
     }
@@ -306,16 +266,15 @@ void TObjOnlineEnding::render() {
 }
 
 void TObjOnlineEnding::run_task() {
-    Obj_802E4E44 *arg0 = (Obj_802E4E44 *)this;
     s32 i;
-    for (i = 0; i < arg0->count; i++) {
-        if (arg0->ent[i].active != 0 && get_player_by_client_id(arg0->ent[i].id) == 0) {
-            arg0->ent[i].active = 0;
+    for (i = 0; i < player_count; i++) {
+        if (players[i].active != 0 && get_player_by_client_id(players[i].id) == 0) {
+            players[i].active = 0;
         }
     }
-    switch (arg0->state) {
+    switch (scene_state) {
     case 0:
-        arg0->state = 1;
+        scene_state = 1;
         break;
     case 1: {
         activate_camera_mode(9);
@@ -326,15 +285,15 @@ void TObjOnlineEnding::run_task() {
         VecCopy((Vec *)&cam.b, (const Vec *)&t2);
         cam.f14 = 0x1999;
         set_active_camera_pose_from_params((u8 *)&cam);
-        arg0->state = 2;
+        scene_state = 2;
         break;
     }
     default:
-        if ((arg0->fade += 0.3f) >= 17.0f) {
-            arg0->fade = 17.0f;
+        if ((scene_frame += 0.3f) >= 17.0f) {
+            scene_frame = 17.0f;
         }
-        if (++arg0->timer >= 450) {
-            ((TObject *)arg0)->queue_destruction();
+        if (++elapsed_frames >= 450) {
+            queue_destruction();
         }
         break;
     }
@@ -353,27 +312,6 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
     return arg0;
 }
 
-struct TObject_802E4FFC;
-struct Tbl_802E4FFC { u8 pad[0xC]; s32 fC; f32 f10; };
-struct Ent_802E4FFC { s32 active; s16 id; char name[0x12]; Tbl_802E4FFC *f18; s32 f1C; f32 f20; s32 f24; };
-struct Obj_802E4FFC {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    u8 pad1C[0x90 - 0x1C];
-    s32 f90;
-    s32 f94;
-    s32 f98;
-    s32 f9C;
-    s32 fA0;
-    s32 fA4;
-    Ent_802E4FFC ent[4];
-    s32 count;
-    s32 f14C;
-    f32 f150;
-};
-
-s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 void __ct__8TObjBaseFP7TObject(void *, void *);
@@ -383,60 +321,59 @@ void fn_802E6260();
 char *strncpy(char *, const char *, unsigned long);
 #pragma push
 #pragma opt_common_subs off
-#define SELF ((Obj_802E4FFC *)arg0)
 void *TObjOnlineEnding__ct(void *arg0, void *parent) {
     s32 i;
     u8 *pl;
-    Ent_802E4FFC *e;
-    TObject_802E4FFC *obj;
+    OnlineEndingPlayer *e;
+    TObjOnlineEnding *self = static_cast<TObjOnlineEnding *>(arg0);
 
     __ct__8TObjBaseFP7TObject(arg0, parent);
-    SELF->vt = (void *)__vt__16TObjOnlineEnding;
-    SELF->f0 = TObjOnlineEnding__name;
-    SELF->fA0 = get_current_floor_area();
-    SELF->f9C = 0;
-    obj = (TObject_802E4FFC *)arg0;
-    switch (SELF->fA0) {
+    *reinterpret_cast<const s32 **>(reinterpret_cast<u8 *>(self) + 0x18) = __vt__16TObjOnlineEnding;
+    self->m_name = TObjOnlineEnding__name;
+    self->ending_area = get_current_floor_area();
+    self->ending_variant = 0;
+    TObject *object = self;
+    switch (self->ending_area) {
     case 14:
-        SELF->f9C = 0;
+        self->ending_variant = 0;
         break;
     case 31:
-        SELF->f9C = 1;
+        self->ending_variant = 1;
         break;
     default:
-        ((TObject *)obj)->queue_destruction();
+        object->queue_destruction();
         return arg0;
     }
-    SELF->f90 = get_bml_model((BmlResource *)lbl_805D68F4, 0);
-    SELF->f94 = get_bml_texlist((BmlResource *)lbl_805D68F4, 0);
-    SELF->f98 = get_bml_motion(lbl_805D68F4, 0x18);
-    SELF->count = 0;
+    self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(online_ending_resource, 0));
+    self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(online_ending_resource, 0));
+    self->scene_motion = get_bml_motion(online_ending_resource, 0x18);
+    self->player_count = 0;
     for (i = 0; i < 4; i++) {
-        SELF->ent[i].active = 0;
-        SELF->ent[i].name[0] = 0;
+        self->players[i].active = 0;
+        self->players[i].name[0] = 0;
     }
     for (i = 0; i < 4; i++) {
         pl = (u8 *)get_player_by_client_id(i);
-        if (pl != 0 && SELF->fA0 == ((TBoss3Volopt *)pl)->get_field_3e0()) {
+        if (pl != 0 && self->ending_area == ((TObjPlayer *)pl)->get_area()) {
             s32 c;
-            e = &SELF->ent[SELF->count];
+            e = &self->players[self->player_count];
             e->active = 1;
             e->id = i;
             strncpy(e->name, (char *)(pl + 0x85C), 0x10);
             c = *(s8 *)(pl + 0x88D);
             {
-                Tbl_802E4FFC *t = &((Tbl_802E4FFC *)lbl_804E35F8)[((s32 *)lbl_804E3A18)[SELF->count] + c * 4];
-                e->f18 = t;
-                e->f1C = t->fC;
-                e->f20 = t->f10;
+                OnlineEndingPlayerPlacement *placement = &lbl_804E35F8[lbl_804E3A18[self->player_count] + c * 4];
+                e->position = &placement->position;
+                e->yaw = placement->yaw;
+                e->scale = placement->scale;
             }
-            e->f24 = get_bml_motion(lbl_805D68F4, ((s32 *)lbl_804E39B8)[((s32 *)lbl_804E3A28)[SELF->count] + c * 2]);
-            SELF->count++;
+            e->motion = get_bml_motion(online_ending_resource, lbl_804E39B8[lbl_804E3A28[self->player_count] + c * 2]);
+            self->player_count++;
         }
     }
-    SELF->f150 = (-0.3f);
+    self->scene_frame = (-0.3f);
     restore_player_cameras();
-    switch (SELF->f9C) {
+    switch (self->ending_variant) {
     case 0:
         play_area_music((char *)"ENDING_LOOP.adx");
         break;
@@ -447,20 +384,19 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
     }
     fn_802E6260();
     fn_802E6218(arg0);
-    ((TObjOnlineEnding *)arg0)->create_result_window();
-    SELF->f14C = 0;
-    SELF->fA4 = 0;
+    self->create_result_window();
+    self->elapsed_frames = 0;
+    self->scene_state = 0;
     return arg0;
 }
 
 #pragma pop
-#undef SELF
 
 void free_bin_model_request(void*, int);
 void *TObjOnlineEnding__ct(void *, void *);
 
 void *TObjOnlineEnding::create(void *arg0) {
-    void *o = TObject::operator new(0x158);
+    void *o = TObject::operator new(sizeof(TObjOnlineEnding));
     if (o != NULL) {
         o = TObjOnlineEnding__ct(o, arg0);
     }
@@ -468,24 +404,23 @@ void *TObjOnlineEnding::create(void *arg0) {
 }
 
 void TBoss4DarkFalz::free_global_instance() {
-    if ((u32) lbl_805D68F4 != 0U) {
-        free_bin_model_request((void*)lbl_805D68F4, 1);
-        lbl_805D68F4 = 0U;
+    if (online_ending_resource != NULL) {
+        free_bin_model_request(online_ending_resource, 1);
+        online_ending_resource = NULL;
     }
 }
 
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
-extern u32 lbl_805D68F4;
 
 void fn_802E52AC() {
     s32 r;
-    if (lbl_805D68F4 == 0) {
+    if (online_ending_resource == NULL) {
         r = (int)::operator new(0x440);
         if (r != 0) {
             r = load_resource_from_descriptor(r, 5, &onlineending_dat_resource_descriptor, 0, 0, 0);
         }
-        lbl_805D68F4 = r;
-        if (lbl_805D68F4 == 0) {
+        online_ending_resource = reinterpret_cast<BmlResource *>(r);
+        if (online_ending_resource == NULL) {
             return;
         }
     }

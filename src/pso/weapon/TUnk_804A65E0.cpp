@@ -16,7 +16,6 @@ extern "C" {
 
 u8 *get_captured_target_entry(s32, s32);
 s32 get_captured_target_count();
-s32 get_extended_state__10TObjPlayerFv(int);
 
 void TUnk_804A65E0::emit_marker_effects() {
     s32 state;
@@ -26,7 +25,7 @@ void TUnk_804A65E0::emit_marker_effects() {
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(0, &cast_point);
-        state = get_extended_state__10TObjPlayerFv((int)owner);
+        state = (s32)((TObjPlayer *)owner)->get_extended_state();
         if (state != 0) {
             targets.count = get_captured_target_count();
             record = targets.records;
@@ -41,7 +40,7 @@ void TUnk_804A65E0::emit_marker_effects() {
                 i += 1;
             } while (i != 0xA);
             if (targets.count != 0) {
-                ((TTecGiZonde *)owner)->create(&cast_point, &targets, (void *)((TItemWeapon *)this)->get_tp());
+                TTecGiZonde::create(owner, (Vec *)&cast_point, &targets, ((TItemWeapon *)this)->get_tp());
             }
             roll_technique();
         }
@@ -60,7 +59,6 @@ void TUnk_804A65E0::vfunc_57() {
 TUnk_804A65E0::~TUnk_804A65E0() {}
 
 TUnk_804A65E0::TUnk_804A65E0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     effect_flags.set(32);
     set_weapon_flags(34);
     ((TObjPlayer *)this)->set_effect_state(5);

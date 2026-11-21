@@ -3,6 +3,8 @@
 #include "pso/network/TPlyStartGame.h"
 #include "pso/unk/text_801E051C.h"
 #include "pso/system/byteswap.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 typedef struct TPlyStartGame_801E0580 {
     u32 header;
@@ -11,22 +13,20 @@ typedef struct TPlyStartGame_801E0580 {
 } TPlyStartGame_801E0580;
 
 extern "C" {
-void bswap__13packet_headerFv(void *);
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self);
 void copy_game_list_entry(void *, const void *);
-int bswap__16TPlyGuildCardTagFv(void*);
 s32 copy_ply_meet_user_extension(void *, void *);
 
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self) {
     int i;
-    bswap__13packet_headerFv(self);
+    ((packet_header *)self)->bswap();
     for (i = 0; i < 4; i++) {
         bswap__13TPlyStartGameFPv(self->entries[i]);
     }
     bswap__21TPlyMeetUserExtensionFv((s32)self->extension);
 }
 
-void bswap__13TPlyStartGameFPv(void* p) { bswap__16TPlyGuildCardTagFv(p); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void bswap__13TPlyStartGameFPv(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
 
 u8 *__ct__13TPlyStartGameFRC13TPlyStartGame(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
@@ -58,14 +58,14 @@ template <> struct TMenuList<GameListEntry, 64, 1> {
 };
 
 void TMenuList<GameListEntry, 64, 1>::bswap() {
-    bswap__13packet_headerFv(this);
+    ((packet_header *)this)->bswap();
     bswap_game_list_entry(&head[0]);
     for (int i = 0; i < 64; i++) {
         bswap_game_list_entry(&entries[i]);
     }
 }
 
-int bswap_game_list_entry(void* p) { return bswap__16TPlyGuildCardTagFv(p); }
+void bswap_game_list_entry(void *p) { ((TPlyGuildCardTag *)p)->bswap(); }
 
 TMenuList<GameListEntry, 64, 1>::TMenuList(const TMenuList &o) {
     header = o.header;

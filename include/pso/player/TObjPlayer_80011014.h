@@ -6,6 +6,7 @@
 struct Vec;
 struct TObjEnemy;
 class TObjBase;
+class TObjChara;
 struct EnemyMoveParams;
 
 extern "C" {
@@ -25,7 +26,6 @@ extern "C" {
 void assign_slots_from_list(void *arg0, s32 arg1);
 f32 atan2_float(f32 y, f32 x);
 void attach_mine_trap__10TObjPlayerFiUi(s32 arg0, u32 arg1);
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 f32 calc_random_ratio__10TObjPlayerFv(void);
 f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 s32 check_can_act__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -42,7 +42,6 @@ s32 get_current_floor(void);
 int get_item_field_6__10TObjPlayerFPv(void *p);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 get_type__10TObjPlayerFPv(void *p);
-u8 is_locally_controlled__10TObjPlayerFPv(u8 *arg0);
 BOOL is_split_screen(void);
 void main(void);
 // The frame counter main advances once a frame.
@@ -57,11 +56,10 @@ void play_shock_feedback__10TObjPlayerFii(s32 arg0, s32 arg1);
 void show_meseta_label(s32 arg0, u32 arg1, s32 arg2, s32 arg3);
 void spawn_poison_effect__10TObjPlayerFii(s32 arg0, s32 arg1);
 void spawn_slow_effect__10TObjPlayerFii(s32 arg0, s32 arg1);
-void trigger_switch_attack__10TObjPlayerFPvi(void *arg0, s32 arg1);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 vfunc_37__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
-u16 find_nearest_visible_player(TObjEnemy *enemy, Vec *out, f32 radius);
+u16 find_nearest_visible_player(TObjChara *searcher, Vec *out, f32 radius);
 void calc_velocity_toward_destination(TObjEnemy *enemy, Vec from, Vec to, f32 speed);
 f32 update_enemy_wander_move(TObjEnemy *enemy, Vec *dest, s32 mode, EnemyMoveParams *params, f32 min_distance);
 s32 enemy_turn_toward_dest__9TObjEnemyFl(TObjEnemy *enemy, s32 turn_speed);

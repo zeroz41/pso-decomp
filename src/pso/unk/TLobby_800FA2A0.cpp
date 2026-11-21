@@ -2,12 +2,11 @@
 #include "pso/unk/TLobby_800FA2A0.h"
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_800FA848.h"
 
 extern "C" {
 
 s32 adxf_open__6TLobbyFUii(void *, int);
-u8 *alloc_from_heap__6TLobbyFPv(s32);
-u8 *link_into_list__6TLobbyFv();
 s32 strncpy(void *, void *, int);
 
 s32 create_named_entry__6TLobbyFiiUiiPv(s32 name, s32 arg1, u32 arg2, void *src, void **arg4) {
@@ -21,9 +20,9 @@ s32 create_named_entry__6TLobbyFiiUiiPv(s32 name, s32 arg1, u32 arg2, void *src,
     if (temp_r3 == 0) {
         return -2;
     }
-    var_r31 = alloc_from_heap__6TLobbyFPv(0x68);
+    var_r31 = (u8 *)TLobby::alloc_from_heap(0x68);
     if (var_r31 != NULL) {
-        var_r31 = link_into_list__6TLobbyFv();
+        var_r31 = (u8 *)link_into_list(var_r31);
     }
     strncpy(var_r31 + 8, (void *)name, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;

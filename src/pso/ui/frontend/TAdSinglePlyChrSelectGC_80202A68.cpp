@@ -109,7 +109,6 @@ void __construct_array(void *, void *, void *, int, int);
 void *TAdSinglePlyChrSelectGC__sub_802115C0(void *p);
 Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg0, Save_80202C68 *arg1);
 void copy_player_data__9TProtocolFPvPv();
-int copy_from__9TItemDataFP9TItemData(void*);
 
 s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x194AC);
@@ -170,11 +169,11 @@ void TAdSinglePlyChrSelectGC::clear_flags(s32 arg0) {
     }
 }
 
-u8 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
+s32 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
-        return (u8) ((*(s32 *)active_character_save_record & arg0) != 0);
+        return (u8)((u8) ((*(s32 *)active_character_save_record & arg0) != 0));
     }
-    return 0U;
+    return (u8)(0U);
 }
 
 void TAdSinglePlyChrSelectGC::set_state(int a0) { chr_select_scene_state = a0; }
@@ -272,7 +271,7 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
     return ((u8 *)this);
 }
 
-void*TAdSinglePlyChrSelectGC::copy_item_data(void* a1) { copy_from__9TItemDataFP9TItemData(this); *(short *)&this->m_down = *(short*)((char*)a1 + 0x14); *(short*)((char*)this + 0x16) = *(short*)((char*)a1 + 0x16); return this; }
+void*TAdSinglePlyChrSelectGC::copy_item_data(void* a1) { ((TItemData *)this)->copy_from((TItemData *)a1); *(short *)&this->m_down = *(short*)((char*)a1 + 0x14); *(short*)((char*)this + 0x16) = *(short*)((char*)a1 + 0x16); return this; }
 
 u8 *TAdSinglePlyChrSelectGC::construct_chardata_array() {
     __construct_array(((u8 *)this) + 4, (void *)TAdSinglePlyChrSelectGC__sub_80203158, (void *)TAdSinglePlyChrSelectGC::free_chardata, 0x39B4, 7);

@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -28,7 +29,6 @@ s32 __cvt_fp2unsigned(f32);
 void fn_8007FE78(Obj_8007FF28 *self, s32 arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2);
 extern const RecoveredGlobal_800800EC_lbl_80438D7C duel_number_uv_table = {0, {0x43, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
 void sub_8007FF28__17TDuelEffectNumberFl(Obj_8007FF28 *self, s32 arg1);
-f32 get_scale__15TWindowCtrlMainFv(s32);
 
 extern s32 lbl_805D63F0;
 
@@ -51,7 +51,8 @@ void TDuelEffectNumber::sub_8007FF28(s32 arg1) {
     f32 c;
 
     if (((Obj_8007FF28 *)this)->timer >= 5 && ((Obj_8007FF28 *)this)->timer < 20) {
-        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(TCameraCtrl::get_camera_no());
+        TCameraCtrl::get_camera_no();
+        scale = (-1.0f) / TWindowCtrlMain::get_scale();
         c = (0.5f);
         b = c * ((((Obj_8007FF28 *)this)->timer - 5) / (15.0f)) + (1.0f);
         fn_8007FE78((Obj_8007FF28 *)(((Obj_8007FF28 *)this)), arg1, ((Obj_8007FF28 *)this)->x1C, scale, b, ((Obj_8007FF28 *)this)->timer < 10 ? c : c - c * ((((Obj_8007FF28 *)this)->timer - 10) / (1e+01f)));
@@ -67,7 +68,8 @@ void TDuelEffectNumber::sub_8007FFF4(s32 arg1) {
     f32 b;
     f32 c;
 
-    scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(TCameraCtrl::get_camera_no());
+    TCameraCtrl::get_camera_no();
+    scale = (-1.0f) / TWindowCtrlMain::get_scale();
     if (((Obj_8007FF28 *)this)->timer < 5) {
         b = (2.0f) - ((f32) ((Obj_8007FF28 *)this)->timer / (5.0f));
         c = (0.5f);

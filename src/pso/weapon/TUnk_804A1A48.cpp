@@ -13,11 +13,8 @@ struct Sp8Type_80123524 { s32 a; s32 b; s32 c; s32 d; };
 
 extern "C" {
 
-s32 is_hidden__5TItemFv();
 s32 post_translate_matrix(Sp8Type_80123524 *);
 s32 draw_weapon_at_joint(void *, s32, void *);
-s32 warn_if_gauge_low__10TObjPlayerFv(s32);
-s32 set_model_fade_alpha__10TObjPlayerFf();
 s32 push_matrix();
 
 extern s32 model_render_flags;
@@ -30,7 +27,7 @@ void TUnk_804A1A48::reserved_53() {
     void *temp_r30;
     void *temp_r29;
 
-    if ((*(void **)&(*(s16 *)((u8 *)this + 0xF4)) != NULL) && (is_hidden__5TItemFv() == 0)) {
+    if ((*(void **)&(*(s16 *)((u8 *)this + 0xF4)) != NULL) && (((TItem *)this)->is_hidden() == 0)) {
         temp_r5 = *(void **)&(*(s16 *)((u8 *)this + 0xF4));
         temp_r31 = *(void **)((s8 *)temp_r5 + 0x2C);
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 8);
@@ -44,8 +41,7 @@ void TUnk_804A1A48::reserved_53() {
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFF7);
         TObjPlayer__sub_80364198();
         model_render_flags &= 0xFFFFFFEF;
-        this->get_owner_alpha();
-        set_model_fade_alpha__10TObjPlayerFf();
+        TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 1);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFFD);
         *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) + this->swing_angle);
@@ -64,7 +60,7 @@ void TUnk_804A1A48::reserved_53() {
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) | 2);
         temp_r3 = *(s32 *)((s8 *)temp_r29 + 0x18);
         *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (temp_r3 + this->swing_angle);
-        warn_if_gauge_low__10TObjPlayerFv(temp_r3);
+        TObjPlayer::warn_if_gauge_low();
         TObjPlayer__sub_8036414C();
     }
 }

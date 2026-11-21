@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
@@ -6,6 +7,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
+#include "pso/system/vector.h"
 
 struct O_802C4D5C { u8 pad[0x2a8]; f32 v[1]; };
 
@@ -79,7 +81,7 @@ void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2
     fan.p[3].x = fan.p[0].x + plate->plate_size.x;
     fan.p[3].y = fan.p[0].y;
     ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, 0.001f * (f32)depth + (-30.0f));
+    draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 7, 0.001f * (f32)depth + (-30.0f));
 }
 #pragma pop
 
@@ -103,10 +105,10 @@ void TAdPlyChrSelPlateGC::render() {
 }
 
 extern "C" {
-void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *, void *);
-bool TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
+void copy_vec2__FPvPv(void *, void *);
+s32 TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
     O_802C4D5C *self = (O_802C4D5C *)this;
-    return (self->v[i] >= 127.5f) ? true : false;
+    return (self->v[i] >= 127.5f) ? 1 : 0;
 }
 void TAdPlyChrSelPlateGC::reset_selection_slots() {
     S_802C4D88 *arg0 = (S_802C4D88 *)this;
@@ -123,11 +125,11 @@ void TAdPlyChrSelPlateGC::reset_selection_slots() {
     }
 }
 typedef void (*Fn1_802C4DD0)(void *);
-void TAdPlyChrSelPlateGC::push_plate_position() {
+void TAdPlyChrSelPlateGC::push_plate_position(void *pos) {
     S_802C4DD0 *arg0 = (S_802C4DD0 *)this;
     if (arg0->f224 < 0x20) {
-        ((Fn1_802C4DD0)copy_vec2__28TWindowSubSymbolChatPartsSetFPv)(&arg0->v11C[arg0->f224]);
-        ((TWindowSubSymbolChatPartsSet *)(&arg0->v1C[arg0->f224]))->copy_vec2(&arg0->v11C[0]);
+        copy_vec2(&arg0->v11C[arg0->f224], pos);
+        copy_vec2((&arg0->v1C[arg0->f224]), &arg0->v11C[0]);
         arg0->f224 = arg0->f224 + 1;
     }
 }
@@ -216,7 +218,7 @@ S_802C5040 *__ct__19TAdPlyChrSelPlateGCFv(S_802C5040 *arg0, s32 arg1, Arg_802C50
         arg0->c[i].b[2] = 0;
         arg0->c[i].b[3] = 0;
     }
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)arg0 + 0x21C))->copy_vec2(arg2);
+    copy_vec2(((u8 *)arg0 + 0x21C), arg2);
     ((TAdChrMoveEffectGC *)((u8 *)arg0 + 0x3A8))->copy4((u8 *)arg2 + 8);
     return arg0;
 }

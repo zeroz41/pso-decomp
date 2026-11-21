@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/TUnk_80499970.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TUnk_804F07C8.h"
@@ -62,7 +63,6 @@ void TTecLuker__sub_80234F48(void);
 void fn_80198E84(void);
 s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
-s32 THunterGuildSeqOnlineTask__ct(u32, s32);
 s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
@@ -161,10 +161,7 @@ void TLobby::create_tasks() {
         TWindowTimer__sub_80198D98();
     }
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
-        tmp = __nw__7TObjectFUl(0x1C);
-        if (tmp != 0U) {
-            THunterGuildSeqOnlineTask__ct(tmp, tl_01);
-        }
+        new THunterGuildSeqOnlineTask((TObject *)tl_01);
     }
     tmp = __nw__7TObjectFUl(0x24);
     if (tmp != 0U) {
@@ -209,7 +206,7 @@ s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
 s32 load_area_gsl();
 s32 close_gsl_archive();
-s32 update_key_machine__6TLobbyFv();
+
 
 s32 TLobby::check_disconnect_conditions() {
     apply_phase_keyboard_mode();
@@ -218,7 +215,7 @@ s32 TLobby::check_disconnect_conditions() {
         return 1;
     }
     load_area_gsl();
-    if (update_key_machine__6TLobbyFv() == 0) {
+    if (TLobby::update_key_machine() == 0) {
         close_gsl_archive();
         TLobby::reset_and_invoke();
         return 1;

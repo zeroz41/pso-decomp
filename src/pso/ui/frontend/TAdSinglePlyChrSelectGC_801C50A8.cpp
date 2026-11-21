@@ -7,6 +7,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_80226070.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 extern "C" {
     extern int duel_result_window;
@@ -58,10 +60,8 @@ struct Ply_801C51D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; f32 pos[3]; };
 struct Self_801C51D4 { u8 pad[0x1C]; s32 life; s32 timer; Ply_801C51D4 *owner; };
 
 extern "C" {
-s32 update_battle_controller__10TObjPlayerFv();
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
-void update_technique_slot__10TTecRaFoieFl(void *, s32, s32);
 void *play_sound_effect(s32, s32, s32, s32, f32);
 
 #pragma push
@@ -90,7 +90,7 @@ void TUnk_804C3F48::run_task() {
             f = newton_sqrtf(min) > 200.0f ? newton_sqrtf(min) : 200.0f;
             f -= 200.0f;
             min = 1.0f - 0.00076923077f * f;
-            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x23230, 0, 0, 0, f), 256.0f * min, 0);
+            set_sound_pitch_request((s32)play_sound_effect(0x23230, 0, 0, 0, f), (s32)(256.0f * min), 0);
             self->timer = (s32)(-53.0f * min) + 0x3C;
         }
     }
@@ -106,5 +106,5 @@ TUnk_804C3F48::~TUnk_804C3F48() {
 TUnk_804C3F48::TUnk_804C3F48(TObject *parent) : TObject(parent) {
     life = 0x3DE;
     timer = 0x1E;
-    owner = update_battle_controller__10TObjPlayerFv();
+    owner = (s32)get_local_player();
 }
