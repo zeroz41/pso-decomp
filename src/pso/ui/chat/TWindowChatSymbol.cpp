@@ -62,7 +62,6 @@ struct SymbolChatSpriteLayout {
     SpritePartLayoutRecord recs[25];
 };
 
-u8 * draw_default_entry__9TWindowDDFl();
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 arg2);
 s32 draw_visible_window_entries(void *, void *, void *, f32, f32, f32);
 s32 init_window_layout_entries(void *, void *, void *);
@@ -332,7 +331,7 @@ void render__17TWindowChatSymbolFv(u8 *window_chat_symbol) {
     f32 temp_f2;
     u8 *c_arg;
 
-    c_arg = draw_default_entry__9TWindowDDFl();
+    c_arg = (u8 *)TWindowDD::draw_default_entry((saddr)window_chat_symbol);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
         *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->m_5c / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);

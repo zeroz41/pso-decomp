@@ -117,7 +117,6 @@ extern Obj_80283850 symbol_chat_receive_buffer;
 s32 has_window_task_root();
 extern void *TWindowSubSymbolChat__instance;
 
-s32 play_symbol_sound__20TWindowSubSymbolChatFl();
 void mem_free(void *p);
 s32 TWindowSubSymbolChat__sub_80283944(int);
 s32 fn_80285A28(int, void *);
@@ -711,8 +710,7 @@ void TWindowSubSymbolChat::run_task() {
             return;
         }
         if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
-            ((TWindowMenu *)this->m_38)->get_selected_value();
-            play_symbol_sound__20TWindowSubSymbolChatFl();
+            play_symbol_sound(((TWindowMenu *)this->m_38)->get_selected_value());
             this->m_1c = 0x24U;
             return;
         }

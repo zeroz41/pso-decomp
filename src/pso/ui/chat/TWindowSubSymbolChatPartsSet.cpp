@@ -219,7 +219,6 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 draw_visible_window_entries(void *, void *, int, f32);
-u8 *draw_default_entry__9TWindowDDFl();
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
 
 s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int ctx) {
@@ -375,7 +374,7 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     f32 ctx;
     u8 *c_arg;
 
-    c_arg = draw_default_entry__9TWindowDDFl();
+    c_arg = (u8 *)TWindowDD::draw_default_entry((saddr)window_sub_symbol_chat_parts_set);
     ((TWindowSubSymbolChatPartsSet *)(&sp10))->copy_vec2(c_arg + 0x10);
     ((TWindowSubSymbolChatPartsSet *)(&sp8))->copy_vec2(c_arg + 0x28);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
