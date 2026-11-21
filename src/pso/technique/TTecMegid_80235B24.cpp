@@ -8,10 +8,9 @@
 #include "pso/unk/text_80235BDC.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
-
-s32 play_sound_effect(s32, void *, s32, s32);
 
 void TUnk_804CCA90::run_task() {
     u8 *arg0 = (u8 *)this;

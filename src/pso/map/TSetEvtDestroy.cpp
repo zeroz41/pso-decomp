@@ -29,9 +29,6 @@ void queue_destroy_event_descendants(TObject* root) {
 }
 
 extern "C" {
-
-s32 run_wave_event_actions();
-void TLobby__sub_80208884(void*);
 }
 void notify_partner_room_cleared(s32);
 
