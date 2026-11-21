@@ -542,7 +542,7 @@ s32 TWindowDD::get_current_child_index() {
 extern const f32 TWindowDD__data_805DFC10;
 
     extern unsigned char lbl_804EFCA8[];
-void*TWindowDD::get_entry(int a0, int a1) {  return (char*)lbl_804EFCA8 + a1 * 8; }
+void *TWindowDD::get_entry(void *a0, int a1) {  return (char*)lbl_804EFCA8 + a1 * 8; }
 
 void TWindowDD__sub_80347F48(u8 *arg0) {
     u8 *temp_r3;
@@ -603,11 +603,11 @@ void TWindowDD::set_default_coords(int a0, void* a1) { refresh_sub__9TWindowDDFP
     extern const float lbl_805DFB84;
     extern const float lbl_805DFB88;
     extern const float lbl_805DFB8C;
-void TWindowDD::init_layout(int a0, void* a1) { update__9TWindowDDFPvPv(); *(float*)((char*)a1 + 0x30) = lbl_805DFB80; *(float*)((char*)a1 + 0x40) = lbl_805DFB80; *(float*)((char*)a1 + 0x34) = lbl_805DFB84; *(float*)((char*)a1 + 0x44) = lbl_805DFB84; *(float*)((char*)a1 + 0x38) = lbl_805DFB88; *(float*)((char*)a1 + 0x48) = lbl_805DFB88; *(float*)((char*)a1 + 0x3c) = lbl_805DFB8C; *(float*)((char*)a1 + 0x4c) = lbl_805DFB8C; }
+void TWindowDD::init_layout(void *a0, void *a1) { update__9TWindowDDFPvPv(); *(float*)((char*)a1 + 0x30) = lbl_805DFB80; *(float*)((char*)a1 + 0x40) = lbl_805DFB80; *(float*)((char*)a1 + 0x34) = lbl_805DFB84; *(float*)((char*)a1 + 0x44) = lbl_805DFB84; *(float*)((char*)a1 + 0x38) = lbl_805DFB88; *(float*)((char*)a1 + 0x48) = lbl_805DFB88; *(float*)((char*)a1 + 0x3c) = lbl_805DFB8C; *(float*)((char*)a1 + 0x4c) = lbl_805DFB8C; }
 
         extern const float lbl_805DFB70;
         extern const float lbl_805DFB78;
-void TWindowDD::set_default_positions(int a0, void* a1) { update__9TWindowDDFl(); *(float*)((char*)a1 + 0x30) = TWindowDD__data_805DFB6C; *(float*)((char*)a1 + 0x40) = TWindowDD__data_805DFB6C; *(float*)((char*)a1 + 0x34) = lbl_805DFB70; *(float*)((char*)a1 + 0x44) = lbl_805DFB70; *(float*)((char*)a1 + 0x38) = TWindowDD__data_805DFB74; *(float*)((char*)a1 + 0x48) = TWindowDD__data_805DFB74; *(float*)((char*)a1 + 0x3c) = lbl_805DFB78; *(float*)((char*)a1 + 0x4c) = lbl_805DFB78; }
+void TWindowDD::set_default_positions(void *a0, void *a1) { update__9TWindowDDFl(); *(float*)((char*)a1 + 0x30) = TWindowDD__data_805DFB6C; *(float*)((char*)a1 + 0x40) = TWindowDD__data_805DFB6C; *(float*)((char*)a1 + 0x34) = lbl_805DFB70; *(float*)((char*)a1 + 0x44) = lbl_805DFB70; *(float*)((char*)a1 + 0x38) = TWindowDD__data_805DFB74; *(float*)((char*)a1 + 0x48) = TWindowDD__data_805DFB74; *(float*)((char*)a1 + 0x3c) = lbl_805DFB78; *(float*)((char*)a1 + 0x4c) = lbl_805DFB78; }
 
 void TWindowDD::spawn_window() { play_sound_effect((void*)344320, (void*)0, (void*)0, (void*)0); }
 void TWindowDD::play_se() { play_sound_effect((void*)339734, (void*)0, (void*)0, (void*)0); }

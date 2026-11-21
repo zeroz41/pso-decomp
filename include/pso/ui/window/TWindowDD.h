@@ -104,15 +104,15 @@ struct TWindowDD : public TObject
     u8 *init_last_child();
     s32 setup_entry(s16 arg1);
     s32 get_current_child_index();
-    static void*get_entry(int a0, int a1);
+    static void *get_entry(void *window, int index);
     void init_entry_field_64(s32 arg1);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* a1);
     void update(saddr arg1);
     static void set_default_coords(int a0, void* a1);
-    static void init_layout(int a0, void* a1);
-    static void set_default_positions(int a0, void* a1);
+    static void init_layout(void *window, void *child);
+    static void set_default_positions(void *window, void *child);
     static void spawn_window();
     static void play_se();
     static void play_sound();

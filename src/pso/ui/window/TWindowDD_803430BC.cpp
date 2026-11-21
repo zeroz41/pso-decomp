@@ -94,7 +94,7 @@ struct Obj_80343C64
   s16 f1C;
   u8 pad1E[2];
   s32 f20;
-  s32 a24[8];
+  saddr a24[8];
   s32 a44[8];
   s32 a64[6];
   s32 f7C;
@@ -182,7 +182,6 @@ void TWindowDD__sub_80342D14(u8 *arg0);
 void run_state__9TWindowDDFPv(u8 *arg0);
 s16 TWindowDD__sub_8034214C(u8 *arg0);
 void TWindowDD__sub_80347980(void *);
-s32 *get_entry__9TWindowDDFii(void *, s32);
 void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0);
 void TWindowDD__sub_80347CC8(void *, void *);
 void TWindowDD__sub_80347F48(u8 *arg0);
@@ -502,10 +501,10 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   self->f8C = -1;
   self->f90 = -1;
   {
-    s32 w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
+    saddr w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      TWindowDD::set_default_positions((int)self, (void*)w);
+      TWindowDD::set_default_positions(self, (void*)w);
       self->a24[0] = w;
     }
   }
@@ -513,7 +512,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   p = (u8 *) TWindowDD__sub_80342384(self->f8C, (s32) lbl_805DFB54);
   if (p != 0)
   {
-    TWindowDD::init_layout((int)self, (void*)p);
+    TWindowDD::init_layout(self, p);
     self->a24[1] = (saddr) p;
   }
   if (!lbl_805D6E68)
@@ -791,8 +790,8 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xB4) == 1 || *(s32 *)((s8 *)arg0 + 0xB4) == 2 || *(s32 *)((s8 *)arg0 + 0xB4) == 8 || *(s32 *)((s8 *)arg0 + 0xB4) == 0xF || *(s32 *)((s8 *)arg0 + 0xB4) == 0x11) {
         ((TWindowDD *)(arg0 + 0xC4))->reset_index();
     }
-    temp_r29 = (s32 *)TWindowDD::get_entry((int)arg0, *(s32 *)((s8 *)arg0 + 0xB0));
-    temp_r31 = (s32 *)TWindowDD::get_entry((int)arg0, *(s32 *)((s8 *)arg0 + 0xB4));
+    temp_r29 = (s32 *)TWindowDD::get_entry(arg0, *(s32 *)((s8 *)arg0 + 0xB0));
+    temp_r31 = (s32 *)TWindowDD::get_entry(arg0, *(s32 *)((s8 *)arg0 + 0xB4));
     temp_r3 = arg0 + *(s32 *)((s8 *)arg0 + 0x20) * 4;
     temp_r3 = *(u8 **)((s8 *)temp_r3 + 0x24);
     if (temp_r3 != NULL) {
@@ -891,8 +890,8 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
     u8 *w;
     u8 *child;
     s32 id;
-    prev = (s32 *)TWindowDD::get_entry((int)arg0, arg0->fB0);
-    entry = (s32 *)TWindowDD::get_entry((int)arg0, arg0->ids[arg0->depth]);
+    prev = (s32 *)TWindowDD::get_entry(arg0, arg0->fB0);
+    entry = (s32 *)TWindowDD::get_entry(arg0, arg0->ids[arg0->depth]);
     w = ((TWindowDD *)arg0)->init_last_child();
     if (w != NULL) {
         if (*entry & 1) {
@@ -950,8 +949,8 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
 void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0) {
     s32 *entry;
     void *child;
-    get_entry__9TWindowDDFii(arg0, arg0->fB0);
-    entry = get_entry__9TWindowDDFii(arg0, arg0->ids[arg0->depth]);
+    TWindowDD::get_entry(arg0, arg0->fB0);
+    entry = (s32 *)TWindowDD::get_entry(arg0, arg0->ids[arg0->depth]);
     TWindowDD__sub_80347980(arg0);
     if (*entry & 8) {
         ((TWindowDD *)arg0)->destroy_menu_entry(0);
