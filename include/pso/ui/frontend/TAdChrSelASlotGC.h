@@ -33,8 +33,8 @@ struct TAdChrSelASlotGC : public TObject {
     void check_load_state();
     void init_selection();
     void sub_8030CCE0();
-    void TAdChrSelASlotGC::populate_slot_entries();
-    void TAdChrSelASlotGC::push_plate_positions();
+    void populate_slot_entries();
+    void push_plate_positions();
     void update_window_78();
     void update_window_7c();
     void update_window_74();
@@ -45,7 +45,7 @@ struct TAdChrSelASlotGC : public TObject {
     void update_slot3();
     void update_slot2();
     void update_slot1();
-    void TAdChrSelASlotGC::reset_windows();
+    void reset_windows();
     void close_windows();
     void create_children(s32 arg1);
     void init(s32 arg1);
