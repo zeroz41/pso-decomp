@@ -103,6 +103,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802E9458(u32 event);
     void sub_802ECE28();
     void sub_802E8FCC(u32 event);
+    void handle_tentacle_attack_state(u32 event, s32 position_index);
+    void sub_802E979C(u32 event, s32 position_index);
     void sub_802E85E0(u32 event, s32 position_index);
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)

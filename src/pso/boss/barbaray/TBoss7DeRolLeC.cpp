@@ -732,49 +732,6 @@ struct Fish_802E8B50 {
     u8 f7B4[4];
 };
 
-struct Fish_802E9ADC {
-    u8 pad0[0x390];
-    u8 *target;
-    u8 pad394[0x628 - 0x394];
-    s32 flags;
-    u8 pad62C[0x6C0 - 0x62C];
-    s32 dir;
-    u8 pad6C4[0x6DC - 0x6C4];
-    saddr tent[4];
-    u8 pad6EC[0x728 - 0x6EC];
-    s32 phase;
-    s32 timer;
-    s32 idx;
-    s32 interval;
-    s32 arg;
-};
-
-struct Fish_802E979C {
-    u8 pad0[0x38];
-    f32 x38;
-    u8 pad3C[0x40 - 0x3C];
-    f32 y40;
-    u8 pad44[0x64 - 0x44];
-    s32 rot64;
-    u8 pad68[0x628 - 0x68];
-    u32 flags;
-    u8 pad62C[0x6C0 - 0x62C];
-    s32 dir;
-    u8 pad6C4[0x6DC - 0x6C4];
-    u8 *kids[4];
-    u8 pad6EC[0x6F0 - 0x6EC];
-    f32 depth;
-    u8 pad6F4[0x728 - 0x6F4];
-    s32 state;
-    s32 fired;
-    u8 pad730[0x73C - 0x730];
-    s32 angle;
-    u8 pad740[0x744 - 0x740];
-    f32 v744;
-    f32 v748;
-    f32 v74C;
-    f32 v750;
-};
 
 struct Fish_802E9DBC {
     u8 pad0[0x38];
@@ -885,9 +842,7 @@ void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o);
 void assign_slots_from_list(void *arg0, saddr arg1);
 
 
-void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2);
 
-void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir);
 
 
 void TObjBoss2Tunnel__sub_802F22C4(void);
@@ -2097,16 +2052,16 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         TObjFish__sub_802E9DBC((u8 *)this, reason, 2);
         return;
     case 0x13:
-        handle_tentacle_attack_state__8TObjFishFPvUii((Fish_802E9ADC *)this, reason, 0);
+        handle_tentacle_attack_state(reason, 0);
         return;
     case 0x14:
-        handle_tentacle_attack_state__8TObjFishFPvUii((Fish_802E9ADC *)this, reason, 2);
+        handle_tentacle_attack_state(reason, 2);
         return;
     case 0x15:
-        TObjFish__sub_802E979C((Fish_802E979C *)this, reason, 0);
+        sub_802E979C(reason, 0);
         return;
     case 0x16:
-        TObjFish__sub_802E979C((Fish_802E979C *)this, reason, 2);
+        sub_802E979C(reason, 2);
         return;
     case 0xF:
         sub_802E95F8(reason, 0);
@@ -3223,98 +3178,98 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
 #pragma pop
 #pragma pop
 #undef self
-void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2) {
+void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index) {
     s32 ang;
     Vec v;
     s32 ok;
     s32 i;
     s32 j;
-    switch (arg1) {
+    switch (event) {
     case 4:
-        ((TBoss7DeRolLeC *)(o))->sub_802ECBDC();
-        o->flags &= ~4;
-        o->flags &= ~0x100;
-        o->dir = arg2;
-        ((TBoss7DeRolLeC *)o)->set_swim_direction(o->dir);
-        if (o->dir == 0) {
-            ((TObjMotion *)o)->set_field_b8(9);
+        sub_802ECBDC();
+        unk_628 &= ~4;
+        unk_628 &= ~0x100;
+        unk_6C0 = position_index;
+        set_swim_direction(unk_6C0);
+        if (unk_6C0 == 0) {
+            set_field_b8(9);
         } else {
-            ((TObjMotion *)o)->set_field_b8(0xA);
+            set_field_b8(0xA);
         }
-        o->phase = 0;
-        o->timer = 0;
-        o->idx = 0;
-        o->interval = 0xB4;
-        o->arg = 0x78;
+        unk_728 = 0;
+        unk_72C = 0;
+        unk_730 = 0;
+        unk_734 = 0xB4;
+        unk_738 = 0x78;
         break;
     case 2:
-        if (o->phase == 3) {
-            if (o->dir == 0) {
-                ((TBoss7DeRolLeC *)o)->set_state_and_send(0x15);
+        if (unk_728 == 3) {
+            if (unk_6C0 == 0) {
+                set_state_and_send(0x15);
             } else {
-                ((TBoss7DeRolLeC *)o)->set_state_and_send(0x16);
+                set_state_and_send(0x16);
             }
         }
         break;
     case 9:
-        if (o->phase == 3) {
-            ((TBoss7DeRolLeC *)o)->advance_action_sequence();
+        if (unk_728 == 3) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->phase) {
+        advance_animation();
+        switch (unk_728) {
         case 0:
-            o->timer++;
-            if (o->timer > 0x28) {
-                o->phase = 1;
-                o->timer = 0;
-                o->idx = 0;
+            unk_72C++;
+            if (unk_72C > 0x28) {
+                unk_728 = 1;
+                unk_72C = 0;
+                unk_730 = 0;
             }
             break;
         case 1:
-            o->timer++;
-            if (o->timer >= o->interval) {
-                o->timer = 0;
-                if (((TObjEneDD_ST *)o)->enemy_has_live_target() != 0) {
-                    VecCopy__FP3VecPC3Vec((saddr)&v, o->target + 0x38);
+            unk_72C++;
+            if (unk_72C >= unk_734) {
+                unk_72C = 0;
+                if (enemy_has_live_target() != 0) {
+                    VecCopy(&v, &target->position);
                 } else {
-                    f32 r = 120.0f * ((TObjChara *)o)->random_ratio();
-                    ang = ((TObjEneDD *)o)->get_random_scaled();
+                    f32 r = 120.0f * random_ratio();
+                    ang = get_random_scaled();
                     v.x = r * sin_table_lookup(ang);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(ang);
                     TObjBoss2Tunnel::adjust_to_ground((saddr)&v, (void *)&v);
                 }
-                ((TBoss7Tentacle *)(o->tent[o->idx]))->start_attack_at_position((u8 *)&v, (s32)o->arg);
-                o->idx++;
-                if (o->idx >= 4) {
-                    o->timer = 0;
-                    o->phase = 2;
+                unk_6DC[unk_730]->start_attack_at_position((u8 *)&v, unk_738);
+                unk_730++;
+                if (unk_730 >= 4) {
+                    unk_72C = 0;
+                    unk_728 = 2;
                 }
             }
             break;
         case 2:
             ok = 1;
-            o->timer++;
+            unk_72C++;
             for (i = 0; i < 4; i++) {
-                if (((TBoss7Tentacle *)o->tent[i])->sub_802F0904() == 0) {
+                if (unk_6DC[i]->sub_802F0904() == 0) {
                     ok = 0;
                     break;
                 }
             }
-            if (ok != 0 || o->timer > 0x258) {
-                o->phase = 3;
+            if (ok != 0 || unk_72C > 0x258) {
+                unk_728 = 3;
             }
             break;
         }
         break;
     case 6:
-        ((TBoss7DeRolLeC *)o)->pick_random_target();
+        pick_random_target();
         break;
     case 5:
         for (j = 0; j < 4; j++) {
-            ((TBoss7Tentacle *)o->tent[j])->sub_802F0AF0();
+            unk_6DC[j]->sub_802F0AF0();
         }
         break;
     }
@@ -3323,83 +3278,83 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
 #pragma fp_contract on
 #pragma push
 #pragma opt_common_subs off
-void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
-    switch (k) {
+void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
+    switch (event) {
     case 4:
         for (s32 i = 0; i < 4; i++) {
-            ((TBoss7Tentacle *)o->kids[i])->sub_802F0AF0();
+            unk_6DC[i]->sub_802F0AF0();
         }
-        ((TBoss7DeRolLeC *)o)->sub_802ECBDC();
-        o->flags |= 4;
-        o->flags &= 0xFFFFFEFF;
-        o->dir = dir;
-        ((TBoss7DeRolLeC *)o)->set_swim_direction(o->dir);
-        if (o->dir == 0) {
-            o->v748 = -1.0f;
-            ((TObjMotion *)o)->set_field_b8(9);
+        sub_802ECBDC();
+        unk_628 |= 4;
+        unk_628 &= 0xFFFFFEFF;
+        unk_6C0 = position_index;
+        set_swim_direction(unk_6C0);
+        if (unk_6C0 == 0) {
+            unk_748 = -1.0f;
+            set_field_b8(9);
         } else {
-            o->v748 = 1.0f;
-            ((TObjMotion *)o)->set_field_b8(0xA);
+            unk_748 = 1.0f;
+            set_field_b8(0xA);
         }
-        o->state = 0;
-        o->fired = 0;
-        o->v744 = 0.0f;
-        o->v750 = -1.0f;
-        o->v74C = 0.0f;
-        o->angle = 0x500;
+        unk_728 = 0;
+        unk_72C = 0;
+        unk_744 = 0.0f;
+        unk_750 = -1.0f;
+        unk_74C = 0.0f;
+        unk_73C = 0x500;
         TObjBoss2Tunnel::clear_flags_0x3000();
-        o->flags &= 0xFFFFFDFF;
+        unk_628 &= 0xFFFFFDFF;
         break;
     case 2:
-        if (o->state == 2) {
-            ((TBoss7DeRolLeC *)o)->set_state_and_send(2);
+        if (unk_728 == 2) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->state == 2) {
-            ((TBoss7DeRolLeC *)o)->advance_action_sequence();
+        if (unk_728 == 2) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->state) {
+        advance_animation();
+        switch (unk_728) {
         case 0:
-            o->v74C += 0.2f;
-            o->y40 -= o->v74C;
-            o->v744 += 0.08f;
-            o->x38 += o->v744 * o->v748;
-            o->v750 += 0.1f;
-            o->depth -= o->v750;
-            o->angle += 256.0f;
-            if (o->angle >= 16384.0f) {
-                o->angle = 0x4000;
+            unk_74C += 0.2f;
+            position.z -= unk_74C;
+            unk_744 += 0.08f;
+            position.x += unk_744 * unk_748;
+            unk_750 += 0.1f;
+            unk_6EC.y -= unk_750;
+            unk_73C += 256.0f;
+            if (unk_73C >= 16384.0f) {
+                unk_73C = 0x4000;
             }
-            o->rot64 = o->angle * -o->v748;
-            if (o->fired == 0 && o->angle >= 0x2200) {
-                o->fired = 1;
-                ((TBoss7DeRolLeC *)o)->play_sound_at(0x39906, (Vec *)((u8 *)o + 0x50C));
+            rotation_z = unk_73C * -unk_748;
+            if (unk_72C == 0 && unk_73C >= 0x2200) {
+                unk_72C = 1;
+                play_sound_at(0x39906, &unk_50C[0]);
             }
-            if (o->depth < -137.0f) {
-                o->state = 1;
-                ((TBoss7DeRolLeC *)o)->set_position_index(o->dir);
-                o->depth = -137.0f;
-                ((TObjMotion *)o)->set_field_b8(1);
-                o->v750 = 0.0f;
-                o->flags &= ~4;
-                o->flags |= 0x100;
+            if (unk_6EC.y < -137.0f) {
+                unk_728 = 1;
+                set_position_index(unk_6C0);
+                unk_6EC.y = -137.0f;
+                set_field_b8(1);
+                unk_750 = 0.0f;
+                unk_628 &= ~4;
+                unk_628 |= 0x100;
             }
             break;
         case 1:
-            o->depth += 2.0f;
-            if (o->depth >= 0.0f) {
-                o->depth = 0.0f;
-                o->state = 2;
+            unk_6EC.y += 2.0f;
+            if (unk_6EC.y >= 0.0f) {
+                unk_6EC.y = 0.0f;
+                unk_728 = 2;
             }
             break;
         }
         break;
     case 5:
-        o->flags &= ~4;
+        unk_628 &= ~4;
         break;
     case 1: case 3: case 6: case 7: case 8:
         break;
