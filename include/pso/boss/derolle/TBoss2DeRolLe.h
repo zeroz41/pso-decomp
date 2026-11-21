@@ -125,12 +125,22 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     static void forward_switch_phase_stats(TObjChara *victim);
     void switch_phase_stats(TObjChara *victim);
     void emit_effect_and_step(Vec *pos);
+    // 6x13/6x14 senders and receivers (the TBoss7DeRolLeC twin's are G_BarbaRayBossActions_6xA9/6xAA members)
+    static void init_6x14(DeRolLeActionTargetPacket *packet);
+    static void update_and_send(DeRolLeActionTargetPacket *packet);
+    static void init_6x13(DeRolLeActionPacket *packet);
+    static void send_6x13(DeRolLeActionPacket *packet);
+    static void swap_6x13_fields(DeRolLeActionPacket *packet);
+    static void swap_endian(DeRolLeActionTargetPacket *packet);
+    void init_from_param(DeRolLeActionPacket *packet);
+    void set_params(DeRolLeActionTargetPacket *packet);
+    void reset_action_sequence();
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1]
     s32 unk_3D0;
-    s32 unk_3D4;
+    s32 action_index;                  // the action sequence step, sent in the 6x13/6x14 packets
     TObject part_group;                // parent of the tentacles, mines, fin and laser light
     s32 unk_3F4;
     Vec unk_3F8[20];
@@ -178,7 +188,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     TParticleCtrl *unk_73C;
     TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
     s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
-    static void reset_fields_3d0(void *p);
 };
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
@@ -186,8 +195,6 @@ extern "C" {
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
-void TBoss2DeRolLe__sub_80036358(void *p);
-void TBoss2DeRolLe__sub_800363A0(void *p);
 s32 TBoss2Joint_get_shell_max_hp(void);
 void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
@@ -196,16 +203,10 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 void fn_8002F5AC(u8 *arg0);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
-void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 s32 play_sound(s32 id, Vec *position);
 void render__13TBoss2DeRolLeFv(u8 *arg0);
 void render_body__13TBoss2DeRolLeFv(u8 *arg0);
-void send_6x13__13TBoss2DeRolLeFPv(void *p);
-void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos);
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
-void swap_endian__13TBoss2DeRolLeFPv(void *p);
-void update_and_send__13TBoss2DeRolLeFPv(void *p);
 }
 
 // lbl_804FE30C: layout known from its uses only.

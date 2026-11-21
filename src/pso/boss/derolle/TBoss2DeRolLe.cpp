@@ -18,6 +18,8 @@ struct NJS_OBJECT;
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/object/TObjControl.h"
 
 #include "pso/system/NinjaTypes.h"
 
@@ -523,15 +525,12 @@ s32 subtract_vector(void *, void *);
 }
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
+extern "C" void enemy_set_target_id(void *self, u16 id);  // TObjEneDD.cpp
 namespace behavior_view {
 
 extern "C" {
 
 int play_sound_effect(void*, int, int, int);
-
-s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
-
-u8 *get_enemy_entity(u16 arg0);
 
 }
 
@@ -574,10 +573,6 @@ extern u8 *derolle_texture_list_handle;
 
 extern s32 lbl_805D4BCC;
 
-int bswap_16__FPUs(void*);
-
-int bswap_32__FPUl(void*);
-
 }
 
 }
@@ -602,17 +597,38 @@ u32 lbl_804FE31C[3];
 
 Slot_80035D24 derolle_segment_texture_slots[11];
 
-void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
+void TBoss2DeRolLe::init_6x14(DeRolLeActionTargetPacket *packet) {
+    packet->header.subcommand = 0x14;
+    packet->header.size = 3;
+}
 
-void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
+void TBoss2DeRolLe::update_and_send(DeRolLeActionTargetPacket *packet) {
+    swap_endian(packet);
+    send_subcommand(packet);
+}
 
-void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)((char*)p + 0x1) = 2; }
+void TBoss2DeRolLe::init_6x13(DeRolLeActionPacket *packet) {
+    packet->header.subcommand = 0x13;
+    packet->header.size = 2;
+}
 
-void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
+void TBoss2DeRolLe::send_6x13(DeRolLeActionPacket *packet) {
+    swap_6x13_fields(packet);
+    send_subcommand(packet);
+}
 
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); }
+void TBoss2DeRolLe::swap_6x13_fields(DeRolLeActionPacket *packet) {
+    packet->header.bswap();
+    bswap_16((u16 *)&packet->state);
+    bswap_16((u16 *)&packet->sequence_index);
+}
 
-void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
+void TBoss2DeRolLe::swap_endian(DeRolLeActionTargetPacket *packet) {
+    packet->header.bswap();
+    bswap_16((u16 *)&packet->state);
+    bswap_16((u16 *)&packet->sequence_index);
+    bswap_32((u32 *)&packet->target_id);
+}
 
 void TBoss2DeRolLe::clear_harmful_statuses() {  }
 
@@ -891,7 +907,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     enemy_init_validate_period(30);
     unk_3C4 = 0;
     unk_3D0 = 0;
-    unk_3D4 = 0;
+    action_index = 0;
     for (i = 0; i < 20; i++) {
         unk_3F8[i].x = 0.0f;
         unk_3F8[i].y = 0.0f;
@@ -1005,7 +1021,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     } else {
         unk_3F4 = 0;
     }
-    reset_fields_3d0(this);
+    reset_action_sequence();
     if (!(state_flags & 0x8000)) {
         mode = 1;
         dispatch_action(mode, 4);
@@ -1246,19 +1262,19 @@ void TBoss2DeRolLe::set_state_and_send(s32 state) {
     DeRolLeActionPacket packet;
     dispatch_action(state, 6);
     if (state == 0x19 || (state - 0x14) <= 1U || state == 0x1B) {
-        TBoss2DeRolLe__sub_800363A0(&target_packet);
+        init_6x14(&target_packet);
         target_packet.header.client_id = entity_id;
         target_packet.state = state;
-        target_packet.sequence_index = unk_3D4;
+        target_packet.sequence_index = action_index;
         target_packet.target_id = target_id;
-        update_and_send__13TBoss2DeRolLeFPv(&target_packet);
+        update_and_send(&target_packet);
         return;
     }
-    TBoss2DeRolLe__sub_80036358(&packet);
+    init_6x13(&packet);
     packet.header.client_id = entity_id;
     packet.state = state;
-    packet.sequence_index = unk_3D4;
-    send_6x13__13TBoss2DeRolLeFPv(&packet);
+    packet.sequence_index = action_index;
+    send_6x13(&packet);
 }
 
 void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
@@ -1670,36 +1686,41 @@ namespace behavior_view {
 
 extern "C" {
 
-void handle_6x13_de_rol_le_boss_actions(void *arg0) {
-    void *x;
-    swap_6x13_fields__13TBoss2DeRolLeFPv(arg0);
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
-    if (x != NULL) {
-        init_from_param__13TBoss2DeRolLeFPvPv(x, arg0);
+void handle_6x13_de_rol_le_boss_actions(void *data) {
+    DeRolLeActionPacket *packet = (DeRolLeActionPacket *)data;
+    TBoss2DeRolLe *boss;
+    TBoss2DeRolLe::swap_6x13_fields(packet);
+    boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
+    if (boss != NULL) {
+        boss->init_from_param(packet);
     }
 }
 
-void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0) {
-    void *x;
-    swap_endian__13TBoss2DeRolLeFPv(arg0);
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
-    if (x != NULL) {
-        set_params__13TBoss2DeRolLeFPvPv(x, arg0);
+void handle_6x14_de_rol_le_boss_actions_with_target(void *data) {
+    DeRolLeActionTargetPacket *packet = (DeRolLeActionTargetPacket *)data;
+    TBoss2DeRolLe *boss;
+    TBoss2DeRolLe::swap_endian(packet);
+    boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
+    if (boss != NULL) {
+        boss->set_params(packet);
     }
 }
 
-void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    *(s32 *)((s8 *)arg0 + 0x3D4) = (s32) *(s16 *)((s8 *)arg1 + 6);
-    ((TObjEneDD *)arg0)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss2DeRolLe::init_from_param(DeRolLeActionPacket *packet) {
+    action_index = packet->sequence_index;
+    transition_enemy_state(packet->state);
 }
 
-void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    enemy_set_target_id(arg0, (u16) *(s32 *)((s8 *)arg1 + 8));
-    *(s32 *)((s8 *)arg0 + 0x3D4) = (s32) *(s16 *)((s8 *)arg1 + 6);
-    ((TObjEneDD *)arg0)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss2DeRolLe::set_params(DeRolLeActionTargetPacket *packet) {
+    enemy_set_target_id(this, packet->target_id);
+    action_index = packet->sequence_index;
+    transition_enemy_state(packet->state);
 }
 
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p) { *(s32*)((char*)p + 0x3d0) = 0; *(s32*)((char*)p + 0x3d4) = 0; }
+void TBoss2DeRolLe::reset_action_sequence() {
+    unk_3D0 = 0;
+    action_index = 0;
+}
 
 }
 
@@ -1710,11 +1731,11 @@ void TBoss2DeRolLe::advance_action_sequence() {
     s32 mode;
     do {
         retry = 0;
-        unk_3D4++;
+        action_index++;
         if (TObjEneDD::check_v2_mode() != 0) {
-            mode = derolle_action_sequence_table[unk_3D4];
+            mode = derolle_action_sequence_table[action_index];
         } else {
-            mode = derolle_action_mode_sequence_table[unk_3D4];
+            mode = derolle_action_mode_sequence_table[action_index];
         }
         switch (mode) {
         case 33:
@@ -1789,7 +1810,7 @@ void TBoss2DeRolLe::advance_action_sequence() {
             break;
         case 44:
             retry = 1;
-            unk_3D4 = 5;
+            action_index = 5;
             break;
         }
     } while (retry != 0);
