@@ -77,7 +77,6 @@ extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
-s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
 
 void TBoss7Joint::store_position() {
     struct VOff_802EE9A4_arg0_802EE9A4 *self = (struct VOff_802EE9A4_arg0_802EE9A4 *)this;
@@ -94,7 +93,7 @@ void TBoss7Joint::vfunc_62() {
     temp_r31 = this->hpmax - temp_r4;
     if (this->is_part_active() != 0U) {
         TObjFish__sub_802EC468((saddr)(((u8 *)this) + 0x38), 15.0f, 12.0f);
-        apply_damage_and_set_effect__8TObjFishFl((int) (*(s32 *)((s8 *)((u8 *)this) + 0x10)), temp_r31, this->m_2d4);
+        ((TBoss7DeRolLeC *)(*(saddr *)((s8 *)((u8 *)this) + 0x10)))->apply_damage_and_set_effect(temp_r31, this->m_2d4);
     } else {
         shell_hp -= temp_r31;
         if (shell_hp <= 0) {

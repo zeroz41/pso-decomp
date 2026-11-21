@@ -120,6 +120,9 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/player/TObjPlayer_803E4954.h"
 
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/system/task/TObject_80019A50.h"
 
@@ -478,12 +481,6 @@ s32 particle_pos_index_table[3] = {0, 5, 9};
 
 f32 lbl_804E3E48[3] = {32.0f, 30.0f, 30.0f};
 
-struct Obj_802E7888 {
-    u8 pad0[0x7B0];
-    uaddr f7B0;
-    Vec pos;
-    Vec v7C0;
-};
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 
@@ -505,7 +502,6 @@ typedef struct Obj_802E79B0 {
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-s32 vec3_add_to(int, void *);
 
 void fn_802E79B0(Obj_802E79B0 *arg0);
 }
@@ -653,17 +649,11 @@ LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8058D4C0_size, sizeof(RecoveredGlobal
 #pragma auto_inline off
 void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
 
-void release_laser_light__15TBoss7LaserPtclFPv(void *arg0);
 
-void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1);
 
-f32 TObjFish__sub_802ED3E4(u8 *arg0);
 
-void set_swim_direction__8TObjFishFPv(void *arg0);
 }
 void get_current_matrix(void *m);
-#define release_laser_light__15TBoss7LaserPtclFPv ((s32 (*)(void *, int))release_laser_light__15TBoss7LaserPtclFPv)
-#define set_swim_direction__8TObjFishFPv ((void (*)(void *, s32))set_swim_direction__8TObjFishFPv)
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
 struct Fish_802E95F8 { u8 pad[0x534]; Vec pts[16]; u8 pad2[0x728 - 0x534 - 16 * 12]; s32 idx; };
@@ -894,7 +884,6 @@ s32 activate_camera_mode(s32 arg0);
 CameraPlayback *get_scripted_camera_playback();
 
 
-int play_sound_effect(void*, void*, void*, void*);
 
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
@@ -926,7 +915,6 @@ f32 fabs_float(f32);
 s32 advance_scalar_motion_profile(void *);
 
 
-void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);
 
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 }
@@ -959,218 +947,8 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 
 void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1);
 
-struct Fish_802E8AD4 { u8 pad[0x628]; u32 flags; };
 
-struct Ply_802ECAA4 { u8 pad[0x326]; s16 state; };
 
-struct VBase_802ECBDC { char pad[0x18]; };
-
-struct VObj_802ECBDC : VBase_802ECBDC {
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void v60();
-    virtual void v61();
-    virtual void v62();
-    virtual void v63();
-    virtual void v64();
-    virtual void v65();
-    virtual void v66();
-    virtual void v67();
-    virtual void v68();
-    virtual void v69();
-    virtual void v70();
-    virtual void v71();
-    virtual void v72();
-    virtual void v73();
-    virtual void v74();
-    virtual void v75();
-    virtual void v76();
-    virtual void v77();
-    virtual void v78();
-    virtual void v79();
-    virtual void v80();
-    virtual void v81();
-    virtual void v82();
-    virtual void v83();
-    virtual void v84();
-    virtual void v85();
-    virtual void v86();
-    virtual void v87();
-    virtual void v88();
-    virtual void v89();
-    virtual void v90();
-    virtual void v91();
-    virtual void v92();
-    virtual void v93();
-    virtual void v94();
-};
-
-struct Fish_802ECBDC {
-    u8 pad0[0x5F8];
-    VObj_802ECBDC *kids[10];
-};
-
-struct VBase_802ECC44 { char pad[0x18]; };
-
-struct VObj_802ECC44 : VBase_802ECC44 {
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void v60();
-    virtual void v61();
-    virtual void v62();
-    virtual void v63();
-    virtual void v64();
-    virtual void v65();
-    virtual void v66();
-    virtual void v67();
-    virtual void v68();
-    virtual void v69();
-    virtual void v70();
-    virtual void v71();
-    virtual void v72();
-    virtual void v73();
-    virtual void v74();
-    virtual void v75();
-    virtual void v76();
-    virtual void v77();
-    virtual void v78();
-    virtual void v79();
-    virtual void v80();
-    virtual void v81();
-    virtual void v82();
-    virtual void v83();
-    virtual void v84();
-    virtual void v85();
-    virtual void v86();
-    virtual void v87();
-    virtual void v88();
-    virtual void v89();
-    virtual void v90();
-    virtual void v91();
-    virtual void v92();
-    virtual void v93();
-};
-
-struct Fish_802ECC44 {
-    u8 pad0[0x5F8];
-    VObj_802ECC44 *kids[10];
-};
 
 
 s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
@@ -1180,10 +958,8 @@ void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
 u8 *get_enemy_entity(u16 arg0);
 
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 #define TObjFish__sub_802E7B40 ((s32 (*)(void *))TObjFish__sub_802E7B40)
 #define TObjFish__sub_802E7B94 ((s32 (*)(void *))TObjFish__sub_802E7B94)
-void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k);
 
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 
@@ -1195,9 +971,7 @@ void fn_802EC9A4(void *arg0, void *arg1);
 
 void fn_802EC9F0(TObjEneDD *arg0, void *arg1);
 
-void TObjFish__sub_802ECBDC(Fish_802ECBDC *self);
 
-void TObjFish__sub_802ECC44(Fish_802ECC44 *self);
 
 
 s32 TObjFish__sub_802F18E8(void *);
@@ -1208,29 +982,16 @@ struct Boss_802E83E8 { u8 pad[0x728]; s32 timer; s32 count; u8 pad730[0x7CC - 0x
 
 }
 
-struct Fish_802ECBDC;
-
-struct Fish_802ECC44;
-
-struct Fish_802E8AD4;
 void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1);
 
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
 
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 
-#undef release_laser_light__15TBoss7LaserPtclFPv
-#undef set_swim_direction__8TObjFishFPv
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 struct Boss_802ECE90 { u8 pad[0x530]; Vec pads[16]; u8 pad5F0[0x690 - 0x5F0]; u8 nodes[0x6C0 - 0x690]; s32 mode; };
 
 void compose_motion_node_matrix(void *arg0);
-extern "C" {
-
-s32 scale_matrix(int, f32, f32, f32);
-}
-
-extern u8 identity_matrix[];
 
 s32 TBoss7Joint_get_shell_max_hp(void);
 
@@ -1500,13 +1261,13 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     if (unk_7AC != NULL) {
         unk_7AC->set_field_38(TObjPlayer__sub_802E8274);
     }
-    unk_7B0 = 0;
-    unk_7B4 = 0.0f;
-    unk_7B8 = 0.0f;
-    unk_7BC = 0.0f;
-    unk_7C0 = 0.0f;
-    unk_7C4 = 0.0f;
-    unk_7C8 = 0.0f;
+    unk_7B0 = NULL;
+    unk_7B4.x = 0.0f;
+    unk_7B4.y = 0.0f;
+    unk_7B4.z = 0.0f;
+    unk_7C0.x = 0.0f;
+    unk_7C0.y = 0.0f;
+    unk_7C0.z = 0.0f;
     unk_7CC = 0xFFFF;
     unk_7CE = 0xFFFF;
     unk_7D0 = 0xFFFF;
@@ -1552,7 +1313,7 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
     if (boss7_joint_state == this) {
         boss7_joint_state = NULL;
     }
-    ((TObjFish *)this)->destroy_child();
+    destroy_child();
 }
 
 void TBoss7DeRolLeC::run_task() {
@@ -1633,7 +1394,7 @@ void TBoss7DeRolLeC::run_task() {
     }
     this->sub_800BBA0C();
     this->vfunc_88();
-    ((TObjFish *)((u8 *)this))->sync_position_vectors();
+    sync_position_vectors();
     this->flee_if_disturbed();
     TParticleCtrl__sub_802EC550((PCtrl_802EC550 *)this);
     if (temp_r30 == 0) {
@@ -1673,31 +1434,29 @@ void TBoss7DeRolLeC::vfunc_28() {  }
 void TBoss7DeRolLeC::vfunc_63() {  }
 
 void TBoss7DeRolLeC::vfunc_62() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
-    temp_r4 = this->hpmax - this->hp;
-    if (*(s32 *)((s8 *)arg0 + 0x628) & 8) {
-        this->unk_6FC = this->unk_6FC - temp_r4;
-        TObjFish__sub_802EC468((int) (*(s32 *)&this->bodies + 0x1C), 2.0f, 8.0f);
-        TObjFish::set_effect_target_position(arg0, (void *)0x3B213, arg0 + 0x50C);
+    s32 damage;
+    damage = hpmax - hp;
+    if (unk_628 & 8) {
+        unk_6FC = unk_6FC - damage;
+        TObjFish__sub_802EC468((saddr)&bodies->center, 2.0f, 8.0f);
+        play_sound_at(0x3B213, &unk_50C[0]);
     } else {
-        this->unk_700 = this->unk_700 - temp_r4;
-        if (this->unk_700 < 0) {
-            this->unk_700 = 0;
-            ((TObjFish *)arg0)->set_hooked_effect_target();
+        unk_700 = unk_700 - damage;
+        if (unk_700 < 0) {
+            unk_700 = 0;
+            set_hooked_effect_target();
         }
     }
-    this->hp = (s16) this->hpmax;
-    ((TBoss7DeRolLeC *)arg0)->set_flag_800();
-    ((TObjEneDD *)arg0)->clear_attack_receipts();
+    hp = (s16)hpmax;
+    set_flag_800();
+    clear_attack_receipts();
 }
 
 void TBoss7DeRolLeC::vfunc_61() {  }
 
-void TObjFish::sync_position_vectors() {
-    s32 arg0 = (saddr)this;
-    VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
-    VecCopy__FP3VecPC3Vec(arg0 + 0x74, arg0 + 0x2FC);
+void TBoss7DeRolLeC::sync_position_vectors() {
+    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&center, (Vec *)&m_2fc);
 }
 #undef VecCopy__FP3VecPC3Vec
 #define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
@@ -1792,196 +1551,195 @@ s32 TBoss7Joint_get_shell_max_hp(void) {
     return *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 0x1C);
 }
 
-void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *)&lbl_80472D04[arg1]);
-    *(f32 *)((s8 *)arg0 + 0x6F0) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x64) = 0;
+void TBoss7DeRolLeC::set_position_index(s32 index) {
+    VecCopy(&position, &lbl_80472D04[index]);
+    unk_6EC.y = 0.0f;
+    rotation_z = 0;
 }
 
-void set_swim_direction__8TObjFishFPv(void *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x6C0) == 0) {
-        *(f32 *)((s8 *)arg0 + 0x38) = -100.0f;
-        *(s32 *)((s8 *)arg0 + 0x64) = 0x500;
+void TBoss7DeRolLeC::set_swim_direction(s32) {
+    if (unk_6C0 == 0) {
+        position.x = -100.0f;
+        rotation_z = 0x500;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x38) = 100.0f;
-        *(s32 *)((s8 *)arg0 + 0x64) = -0x500;
+        position.x = 100.0f;
+        rotation_z = -0x500;
     }
-    *(f32 *)((s8 *)arg0 + 0x40) = 10.0f;
-    *(f32 *)((s8 *)arg0 + 0x6F0) = 4.0f;
+    position.z = 10.0f;
+    unk_6EC.y = 4.0f;
 }
 
-f32 TObjFish__sub_802ED3E4(u8 *arg0) {
+f32 TBoss7DeRolLeC::sub_802ED3E4() {
     Vec v;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
-    scale_matrix(0, 2.5f, 2.5f, 2.5f);
-    bind_motion_context((NJS_MOTION *)*(saddr *)((s8 *)arg0 + 0xF8), *(f32 *)((s8 *)arg0 + 0xC0));
-    compose_motion_node_matrix((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
+    scale_matrix(NULL, 2.5f, 2.5f, 2.5f);
+    bind_motion_context(current_motion, frame);
+    compose_motion_node_matrix(model);
     transform_point_by_current_matrix(&v, &v);
     pop_matrix();
     return v.y;
 }
 
-void TObjFish::update_wobble_angle() {
-    if (*(f32 *)((s8 *)this + 0x6F0) > 0.4f) {
-        *(f32 *)((s8 *)this + 0x6F0) -= 0.4f;
-    } else if (*(f32 *)((s8 *)this + 0x6F0) < -0.4f) {
-        *(f32 *)((s8 *)this + 0x6F0) += 0.4f;
+void TBoss7DeRolLeC::update_wobble_angle() {
+    if (unk_6EC.y > 0.4f) {
+        unk_6EC.y -= 0.4f;
+    } else if (unk_6EC.y < -0.4f) {
+        unk_6EC.y += 0.4f;
     } else {
-        *(f32 *)((s8 *)this + 0x6F0) = 0.0f;
+        unk_6EC.y = 0.0f;
     }
 }
 
-s32 TObjFish::is_all_parts_done() {
-    u8 *arg0 = (u8 *)this;
-    advance_scalar_motion_profile(arg0 + 0x670);
-    advance_scalar_motion_profile(arg0 + 0x630);
-    advance_scalar_motion_profile(arg0 + 0x650);
-    if (((s32) *(s32 *)((s8 *)arg0 + 0x630) == 3) && ((s32) *(s32 *)((s8 *)arg0 + 0x650) == 3) && ((s32) *(s32 *)((s8 *)arg0 + 0x670) == 3)) {
+s32 TBoss7DeRolLeC::is_all_parts_done() {
+    advance_scalar_motion_profile(&motion_z);
+    advance_scalar_motion_profile(&motion_x);
+    advance_scalar_motion_profile(&motion_y);
+    if (motion_x.state == 3 && motion_y.state == 3 && motion_z.state == 3) {
         return 1;
     }
     return 0;
 }
 #pragma push
 #pragma opt_common_subs off
-u32 TObjFish::update_anim_state() {
-    u8 var_r3;
-    advance_scalar_motion_profile((void *) (((u8 *)this) + 0x670));
-    if (((s32)advance_scalar_motion_profile((void *) (((u8 *)this) + 0x650))) == 3) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x6CC) = 1;
+u32 TBoss7DeRolLeC::update_anim_state() {
+    u8 done;
+    advance_scalar_motion_profile(&motion_z);
+    if (advance_scalar_motion_profile(&motion_y) == 3) {
+        unk_6CC = 1;
     }
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x6C8)) {
+    switch (unk_6C8) {
     case 0:
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x688) > 380.0f) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6C8) = 1;
+        if (motion_z.travelled > 380.0f) {
+            unk_6C8 = 1;
         }
         break;
     case 1:
-        if (((s32)advance_scalar_motion_profile((void *) (((u8 *)this) + 0x630))) == 3) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6C8) = 2;
+        if (advance_scalar_motion_profile(&motion_x) == 3) {
+            unk_6C8 = 2;
         }
         break;
     }
-    *(f32 *)((s8 *)((u8 *)this) + 0xC8) += 0.1f;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0xC8) > 0.9f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0xC8) = 0.9f;
+    play_speed += 0.1f;
+    if (play_speed > 0.9f) {
+        play_speed = 0.9f;
     }
-    var_r3 = 0;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C8) == 2) && ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6CC) == 1)) {
-        var_r3 = 1;
+    done = 0;
+    if (unk_6C8 == 2 && unk_6CC == 1) {
+        done = 1;
     }
-    return var_r3;
+    return done;
 }
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-u32 TObjFish::update_phase_settling() {
-    u8 var_r3;
-    advance_scalar_motion_profile((void *) (((u8 *)this) + 0x630));
-    if (((s32)advance_scalar_motion_profile((void *) (((u8 *)this) + 0x650))) == 3) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x6CC) = 1;
+u32 TBoss7DeRolLeC::update_phase_settling() {
+    u8 done;
+    advance_scalar_motion_profile(&motion_x);
+    if (advance_scalar_motion_profile(&motion_y) == 3) {
+        unk_6CC = 1;
     }
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x6D0)) {
+    switch (unk_6D0) {
     case 0:
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x648) > 160.0f) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6D0) = 2;
+        if (motion_x.travelled > 160.0f) {
+            unk_6D0 = 2;
         }
         break;
     case 2:
-        *(f32 *)((s8 *)((u8 *)this) + 0xC8) = 0.3f;
-        *(s32 *)((s8 *)((u8 *)this) + 0x6D0) = 3;
+        play_speed = 0.3f;
+        unk_6D0 = 3;
         break;
     case 3:
-        if (((s32)advance_scalar_motion_profile((void *) (((u8 *)this) + 0x670))) == 3) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6D0) = 4;
+        if (advance_scalar_motion_profile(&motion_z) == 3) {
+            unk_6D0 = 4;
         }
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x688) > 200.0f) {
-            *(f32 *)((s8 *)((u8 *)this) + 0xC8) += 0.1f;
-            if (*(f32 *)((s8 *)((u8 *)this) + 0xC8) > 0.9f) {
-                *(f32 *)((s8 *)((u8 *)this) + 0xC8) = 0.9f;
+        if (motion_z.travelled > 200.0f) {
+            play_speed += 0.1f;
+            if (play_speed > 0.9f) {
+                play_speed = 0.9f;
             }
         }
         break;
     }
-    var_r3 = 0;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6D0) == 4) && ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6CC) == 1)) {
-        var_r3 = 1;
+    done = 0;
+    if (unk_6D0 == 4 && unk_6CC == 1) {
+        done = 1;
     }
-    return var_r3;
+    return done;
 }
 #pragma pop
 #pragma push
 #pragma fp_contract on
-u32 TObjFish::update_tail_anim_state() {
-    u8 var_r3;
-    advance_scalar_motion_profile(((u8 *)this) + 0x670);
-    if (((s32)advance_scalar_motion_profile(((u8 *)this) + 0x650)) == 3) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x6CC) = 1;
+u32 TBoss7DeRolLeC::update_tail_anim_state() {
+    u8 done;
+    advance_scalar_motion_profile(&motion_z);
+    if (advance_scalar_motion_profile(&motion_y) == 3) {
+        unk_6CC = 1;
     }
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x6C8)) {
+    switch (unk_6C8) {
     case 0:
-        *(f32 *)((s8 *)((u8 *)this) + 0xC8) = 0.3f;
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x688) > 100.0f) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6C8) = 1;
+        play_speed = 0.3f;
+        if (motion_z.travelled > 100.0f) {
+            unk_6C8 = 1;
         }
         break;
     case 1:
-        if (((s32)advance_scalar_motion_profile(((u8 *)this) + 0x630)) == 3) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6C8) = 2;
+        if (advance_scalar_motion_profile(&motion_x) == 3) {
+            unk_6C8 = 2;
         }
         break;
     }
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x688) > 100.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0xC8) = 0.9f;
+    if (motion_z.travelled > 100.0f) {
+        play_speed = 0.9f;
     }
-    var_r3 = 0;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C8) == 2) && ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6CC) == 1)) {
-        var_r3 = 1;
+    done = 0;
+    if (unk_6C8 == 2 && unk_6CC == 1) {
+        done = 1;
     }
-    return var_r3;
+    return done;
 }
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
-u32 TObjFish::update_phase_rising() {
-    f32 var_f2;
-    u8 var_r3;
-    advance_scalar_motion_profile(((u8 *)this) + 0x630);
-    if (advance_scalar_motion_profile(((u8 *)this) + 0x650) == 3) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x6CC) = 1;
+u32 TBoss7DeRolLeC::update_phase_rising() {
+    f32 speed;
+    u8 done;
+    advance_scalar_motion_profile(&motion_x);
+    if (advance_scalar_motion_profile(&motion_y) == 3) {
+        unk_6CC = 1;
     }
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x6D0)) {
+    switch (unk_6D0) {
     case 2:
         break;
     case 1:
-        var_f2 = *(f32 *)((s8 *)((u8 *)this) + 0x680) - 0.1f;
-        if (var_f2 < -4.0f) {
-            var_f2 = -4.0f;
+        speed = motion_z.speed - 0.1f;
+        if (speed < -4.0f) {
+            speed = -4.0f;
         }
-        *(f32 *)((s8 *)((u8 *)this) + 0x680) = var_f2;
-        *(f32 *)((s8 *)((u8 *)this) + 0x688) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x688) + var_f2);
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x648) > 30.0f) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6D0) = 3;
+        motion_z.speed = speed;
+        motion_z.travelled = motion_z.travelled + speed;
+        if (motion_x.travelled > 30.0f) {
+            unk_6D0 = 3;
         }
         break;
     case 3:
-        if (advance_scalar_motion_profile(((u8 *)this) + 0x670) == 3) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x6D0) = 4;
+        if (advance_scalar_motion_profile(&motion_z) == 3) {
+            unk_6D0 = 4;
         }
         break;
     }
-    *(f32 *)((s8 *)((u8 *)this) + 0xC8) += 0.1f;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0xC8) > 0.9f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0xC8) = 0.9f;
+    play_speed += 0.1f;
+    if (play_speed > 0.9f) {
+        play_speed = 0.9f;
     }
-    var_r3 = 0;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6D0) == 4) && ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6CC) == 1)) {
-        var_r3 = 1;
+    done = 0;
+    if (unk_6D0 == 4 && unk_6CC == 1) {
+        done = 1;
     }
-    return var_r3;
+    return done;
 }
 
 #pragma pop
@@ -1996,7 +1754,7 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg) {
         dir.x *= -1.0f;
     }
     new TBoss7PhotonPad((TObject *)((Boss_802ECE90 *)arg0)->nodes, &((Boss_802ECE90 *)arg0)->pads[idx], &dir, arg);
-    play_sound_effect((void *)0x39D11, &((Boss_802ECE90 *)arg0)->pads[idx], (void *)0, (void *)1);
+    play_sound_effect(0x39D11, &((Boss_802ECE90 *)arg0)->pads[idx], 0, 1);
 }
 
 #pragma push
@@ -2009,45 +1767,41 @@ void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x714) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4F0)) + *(f32 *)((s8 *)arg0 + 0x714));
 }
 #pragma pop
-void TBoss7LaserPtcl::free_laser_light() {
-    void *boss7_laser_light = *(void **)((s8 *)this + 0x708);
-    if ((uaddr) boss7_laser_light != 0U) {
-        ((TBoss7LaserLight *)boss7_laser_light)->turn_on();
+void TBoss7DeRolLeC::turn_on_laser_light() {
+    if (unk_708 != NULL) {
+        unk_708->turn_on();
     }
-    *(s32 *)((s8 *)this + 0x628) = (s32) (*(s32 *)((s8 *)this + 0x628) | 0x10);
+    unk_628 |= 0x10;
 }
 
-void release_laser_light__15TBoss7LaserPtclFPv(void *arg0) {
-    void *boss7_laser_light = *(void **)((s8 *)arg0 + 0x708);
-    if ((uaddr) boss7_laser_light != 0U) {
-        ((TBoss7LaserLight *)boss7_laser_light)->turn_off();
+void TBoss7DeRolLeC::turn_off_laser_light() {
+    if (unk_708 != NULL) {
+        unk_708->turn_off();
     }
-    *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFEF);
+    unk_628 &= ~0x10;
 }
 #undef VecCopy__FP3VecPC3Vec
-#define release_laser_light__15TBoss7LaserPtclFPv ((s32 (*)(void *, int))release_laser_light__15TBoss7LaserPtclFPv)
-#define set_swim_direction__8TObjFishFPv ((void (*)(void *, s32))set_swim_direction__8TObjFishFPv)
-void TObjFish::pick_random_target() {
+void TBoss7DeRolLeC::pick_random_target() {
     s32 n;
     u8 *p;
     s32 idx;
     s32 i;
     n = TLobby::get_game_mode();
     if (n == 0) {
-        ((TObjEneDD_ST *)(this))->enemy_clear_target();
+        enemy_clear_target();
         return;
     }
     if (n == 1) {
         p = (u8 *)TObjPlayer::get_player_data(0);
-        ((TObjEneDD_ST *)((u8 *)this))->set_target_player(p);
+        set_target_player(p);
         return;
     }
-    idx = (s32)floor_to_float((f32)n * ((TObjChara *)this)->random_ratio());
-    ((TObjEneDD_ST *)(this))->enemy_clear_target();
+    idx = (s32)floor_to_float((f32)n * random_ratio());
+    enemy_clear_target();
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(idx);
         if (((TObjBase *)p)->is_alive() != 0) {
-            ((TObjEneDD_ST *)((u8 *)this))->set_target_player(p);
+            set_target_player(p);
             return;
         }
         idx++;
@@ -2057,30 +1811,30 @@ void TObjFish::pick_random_target() {
     }
 }
 
-void TObjFish__sub_802ECC44(Fish_802ECC44 *self) {
+void TBoss7DeRolLeC::sub_802ECC44() {
     s32 i;
-    ((VObj_802ECC44 *)self)->v93();
+    vfunc_95();
     for (i = 0; i < 10; i++) {
-        self->kids[i]->v93();
+        unk_5F8[i]->vfunc_95();
     }
 }
 
-void TObjFish__sub_802ECBDC(Fish_802ECBDC *self) {
+void TBoss7DeRolLeC::sub_802ECBDC() {
     s32 i;
-    ((VObj_802ECBDC *)self)->v94();
+    vfunc_96();
     for (i = 0; i < 10; i++) {
-        self->kids[i]->v94();
+        unk_5F8[i]->vfunc_96();
     }
 }
 
-void TObjFish::apply_damage_and_set_effect(s32 arg1) {
-    *(s32 *)((s8 *)((u8 *)this) + 0x6FC) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x6FC) - (s32) (0.5f * (f32) arg1));
-    TObjFish::set_effect_target_position(this, (void *)0x3B213, ((u8 *)this) + 0x38);
+void TBoss7DeRolLeC::apply_damage_and_set_effect(s32 damage, u16) {
+    unk_6FC = unk_6FC - (s32)(0.5f * (f32)damage);
+    play_sound_at(0x3B213, &position);
 }
 
-void TObjFish::set_hooked_effect_target() {
-    *(s32 *)((s8 *)((u8 *)this) + 0x628) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x628) | 0x88);
-    TObjFish::set_effect_target_position(this, (void *)0x3A312, ((u8 *)this) + 0x38);
+void TBoss7DeRolLeC::set_hooked_effect_target() {
+    unk_628 |= 0x88;
+    play_sound_at(0x3A312, &position);
 }
 
 s32 TBoss7DeRolLeC::sub_802ECB10() {
@@ -2094,13 +1848,13 @@ s32 TBoss7DeRolLeC::sub_802ECB10() {
 }
 
 void TBoss7DeRolLeC::sub_802ECAA4() {
-    if (((Ply_802ECAA4 *)this)->state == 0x1C || ((Ply_802ECAA4 *)this)->state == 0x1D) {
-    } else if (((Ply_802ECAA4 *)this)->state == 0x13 || ((Ply_802ECAA4 *)this)->state == 0x14) {
+    if (mode == 0x1C || mode == 0x1D) {
+    } else if (mode == 0x13 || mode == 0x14) {
         advance_action_sequence();
-    } else if (((Ply_802ECAA4 *)this)->state == 0x15 || ((Ply_802ECAA4 *)this)->state == 0x16) {
-        ((TBoss7DeRolLeC *)((Ply_802ECAA4 *)this))->set_state_and_send(0x1C);
+    } else if (mode == 0x15 || mode == 0x16) {
+        set_state_and_send(0x1C);
     } else {
-        ((TBoss7DeRolLeC *)((Ply_802ECAA4 *)this))->set_state_and_send(0x1B);
+        set_state_and_send(0x1B);
     }
 }
 
@@ -2290,8 +2044,8 @@ void fn_802EC52C(s32 arg0, saddr arg1) {
     TObjFish__sub_802F18E8((void *)arg1);
 }
 
-void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2) {
-    TObjFish::spawn_default_particle(arg2, 0x201);
+void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
+    TObjFish::spawn_default_particle((saddr)pos, 0x201);
 }
 #pragma push
 #pragma fp_contract on
@@ -2305,39 +2059,38 @@ void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1) {
 }
 #pragma pop
 void TBoss7DeRolLeC::update_projectile_spawns() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
+    Vec *mid;
 
-    project_sound_origin_from_camera((saddr)(arg0 + 0x38), (u8 *)(arg0 + 0x50C), 0.3f);
-    project_sound_origin_from_camera((saddr)(arg0 + 0x4C4), (u8 *)(arg0 + 0x518), 0.3f);
-    temp_r31 = arg0 + 0x524;
-    VecCopy__FP3VecPC3Vec((saddr)temp_r31, arg0 + 0x518);
-    vec3_add_to((saddr)temp_r31, arg0 + 0x518);
-    *(f32 *)((s8 *)temp_r31 + 0) *= 0.5f;
-    *(f32 *)((s8 *)temp_r31 + 4) *= 0.5f;
-    *(f32 *)((s8 *)temp_r31 + 8) *= 0.5f;
-    if ((*(s32 *)((s8 *)arg0 + 0x628) & 0x100) && ((((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0))) {
-        *(s32 *)((s8 *)arg0 + 0x6BC) = 0;
+    project_sound_origin_from_camera((saddr)&position, (u8 *)&unk_50C[0], 0.3f);
+    project_sound_origin_from_camera((saddr)&unk_3EC[18], (u8 *)&unk_50C[1], 0.3f);
+    mid = &unk_50C[2];
+    VecCopy(mid, &unk_50C[1]);
+    vec3_add_to(mid, &unk_50C[1]);
+    mid->x *= 0.5f;
+    mid->y *= 0.5f;
+    mid->z *= 0.5f;
+    if ((unk_628 & 0x100) && ((is_passing_frame(3.0f) != 0) || (is_passing_frame(20.0f) != 0))) {
+        unk_6BC = 0;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x6BC) <= 0x10) {
-        if (*(s32 *)((s8 *)arg0 + 0x628) & 0x400) {
-            TObjFish::spawn_via_trap((saddr)arg0, 0x39704, (saddr)(arg0 + 0x524));
+    if (unk_6BC <= 0x10) {
+        if (unk_628 & 0x400) {
+            play_persistent_sound_at(0x39704, &unk_50C[2]);
         } else {
-            TObjFish::spawn_via_trap((saddr)arg0, 0x3A303, (saddr)(arg0 + 0x524));
+            play_persistent_sound_at(0x3A303, &unk_50C[2]);
         }
-        *(s32 *)((s8 *)arg0 + 0x6BC) = (s32) (*(s32 *)((s8 *)arg0 + 0x6BC) + 1);
+        unk_6BC = unk_6BC + 1;
     }
-    if (*(s32 *)((s8 *)arg0 + 0x628) & 0x200) {
-        TObjFish::spawn_via_trap((saddr)arg0, 0x39F08, (saddr)(arg0 + 0x50C));
+    if (unk_628 & 0x200) {
+        play_persistent_sound_at(0x39F08, &unk_50C[0]);
     }
 }
 
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *) {  }
 
-void TObjFish::set_effect_target_position(void* p, void* a1, void* a2) { play_sound_effect(a1, a2, (void*)0, (void*)0); }
+void TBoss7DeRolLeC::play_sound_at(s32 id, Vec *pos) { play_sound_effect(id, pos, 0, 0); }
 
-void TObjFish::spawn_via_trap(s32 arg0, s32 arg1, s32 arg2) {
-    play_persistent_sound(arg1, arg0, arg2, 0, 0);
+void TBoss7DeRolLeC::play_persistent_sound_at(s32 id, Vec *pos) {
+    play_persistent_sound(id, (saddr)this, (uaddr)pos, 0, 0);
 }
 
 void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
@@ -2425,10 +2178,10 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         TObjFish__sub_802E8E34((u8 *)this, reason);
         return;
     case 0x1C:
-        ((TObjFish *)this)->handle_death_state(reason);
+        handle_death_state(reason);
         return;
     case 0x1D:
-        TObjFish__sub_802E8AD4((Fish_802E8AD4 *)this, reason);
+        sub_802E8AD4(reason);
         return;
     case 0x28:
     case 0x29:
@@ -2549,7 +2302,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjMotion *)arg0)->set_field_b8(0);
-        TObjFish__sub_802ECC44((Fish_802ECC44 *) arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECC44();
         *(s32 *)((s8 *)arg0 + 0x628) &= ~4;
         *(s32 *)((s8 *)arg0 + 0x628) &= ~0x100;
         *(f32 *)((s8 *)arg0 + 0x6F0) = 0.0f;
@@ -2586,14 +2339,14 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
         } else {
             ((TObjMotion *)arg0)->advance_animation();
             if (((TObjMotion *)arg0)->is_passing_frame(60.0f) != 0) {
-                play_sound_effect((void *) 0x39E00, 0, 0, 0);
+                play_sound_effect(0x39E00, NULL, 0, 0);
             }
             if (((TObjMotion *)arg0)->is_passing_frame(83.0f) != 0) {
-                ((TObjFish *)arg0)->destroy_child();
+                ((TBoss7DeRolLeC *)arg0)->destroy_child();
                 *(s32 *)((s8 *)arg0 + 0x7B0) = (saddr)spawn_continuous_particle_effect_with_flags(arg0 + 0x7B4, 0x20F, 0x40);
             }
             if (((TObjMotion *)arg0)->is_passing_frame(105.0f) != 0) {
-                ((TObjFish *)arg0)->destroy_child();
+                ((TBoss7DeRolLeC *)arg0)->destroy_child();
             }
             if (((TObjMotion *)arg0)->is_passing_frame(85.0f) != 0) {
                 Vec v = lbl_80473F78;
@@ -2602,9 +2355,9 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
             if (((TObjMotion *)arg0)->is_passing_frame(98.0f) != 0) {
                 Vec w = lbl_80473F84;
                 spawn_particle_effect_with_flags(&w, 0x20F, 0x40);
-                play_sound_effect((void *) 0x39906, 0, 0, 0);
+                play_sound_effect(0x39906, NULL, 0, 0);
             }
-            ((TObjFish *)arg0)->update_attached_orientation();
+            ((TBoss7DeRolLeC *)arg0)->update_attached_orientation();
             if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
                 ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
@@ -2626,7 +2379,7 @@ void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjMotion *)arg0)->set_field_b8(1);
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         arg0->flags628 &= ~4;
         arg0->flags628 |= 0x100;
         arg0->f6F0 = 0.0f;
@@ -2741,12 +2494,12 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
     switch (event) {
     case 4:
         this->set_field_b8(1);
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)this);
+        sub_802ECBDC();
         unk_628 &= ~4;
         unk_628 |= 0x100;
         unk_6C0 = mode;
         unk_6C4 = next_mode;
-        TObjFish__sub_802ED4AC((u8 *)this, unk_6C0);
+        set_position_index(unk_6C0);
         unk_728 = 0;
         unk_744 = position.x;
         unk_754 = position.y;
@@ -2826,11 +2579,11 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
             unk_72C = 4;
             if (unk_758 > 0.0f) {
                 TObjFish__sub_802E7B40(this);
-                TObjFish::set_effect_target_position(this, (void *)0x39902, unk_50C);
+                play_sound_at(0x39902, unk_50C);
                 unk_628 &= ~0x400;
             } else {
                 TObjFish__sub_802E7B94(this);
-                TObjFish::set_effect_target_position(this, (void *)0x39E01, unk_50C);
+                play_sound_at(0x39E01, unk_50C);
                 unk_628 |= 0x400;
             }
         } else {
@@ -2892,23 +2645,23 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         done = 0;
         switch (unk_72C) {
         case 0:
-            done = ((TObjFish *)this)->update_phase_rising();
+            done = update_phase_rising();
             break;
         case 1:
-            done = ((TObjFish *)this)->update_anim_state();
+            done = update_anim_state();
             position.z = unk_748 + motion_z.travelled;
             break;
         case 2:
-            done = ((TObjFish *)this)->update_phase_settling();
+            done = update_phase_settling();
             position.z = unk_748 - motion_z.travelled;
             break;
         case 3:
-            done = ((TObjFish *)this)->update_tail_anim_state();
+            done = update_tail_anim_state();
             position.z = unk_748 - motion_z.travelled;
             break;
         case 4:
             done = 0;
-            if (((TObjFish *)this)->is_all_parts_done()) {
+            if (is_all_parts_done()) {
                 play_speed += 0.1f;
                 if (play_speed > 0.9f) {
                     done = 1;
@@ -2935,12 +2688,12 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
     switch (arg1) {
     case 4:
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *) self);
+        ((TBoss7DeRolLeC *)self)->sub_802ECBDC();
         self->flags |= 4;
         self->flags &= ~0x100;
         self->mode = arg2;
         self->next_mode = arg3;
-        TObjFish__sub_802ED4AC((u8 *)self, self->mode);
+        ((TBoss7DeRolLeC *)self)->set_position_index(self->mode);
         if (self->mode == 0) {
             ((TObjMotion *)self)->set_field_b8(5);
             self->dir = -1.0f;
@@ -3012,7 +2765,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
             case 2:
                 if (self->frame >= 28.0f) {
                     self->step = 3;
-                    self->f748 = (TObjFish__sub_802ED3E4((u8 *)self) - self->f748) / 2.5f;
+                    self->f748 = (((TBoss7DeRolLeC *)self)->sub_802ED3E4() - self->f748) / 2.5f;
                     self->f74C = (2.0f * self->f748) / 56.666664f;
                     self->vx = -6.5294123f * self->dir;
                     self->tick = 0;
@@ -3025,7 +2778,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                     ((TUnk_80036250 *)self->mover)->set_move_params(7.0f, fabs_float(25.0f - self->z), 0.2f, 0.05f);
                     self->f680 = -(0.5f * self->vy);
                     self->vy = self->z;
-                    ((TObjFish *)self)->destroy_child();
+                    ((TBoss7DeRolLeC *)self)->destroy_child();
                 }
                 break;
             case 4:
@@ -3042,12 +2795,12 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
             }
             if (self->fB8 != 1) {
                 if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)(41.0f)) != 0) {
-                    TObjFish::set_effect_target_position(self, (void *) 0x39905, self->eff);
+                    ((TBoss7DeRolLeC *)self)->play_sound_at(0x39905, (Vec *)(self->eff));
                 } else if (((TObjMotion *)self)->is_passing_frame(25.0f) != 0) {
-                    TObjFish::set_effect_target_position(self, (void *) 0x39906, self->eff);
+                    ((TBoss7DeRolLeC *)self)->play_sound_at(0x39906, (Vec *)(self->eff));
                 }
             }
-            ((TObjFish *)self)->update_attached_orientation();
+            ((TBoss7DeRolLeC *)self)->update_attached_orientation();
             self->tick++;
             if (self->step != 6) {
                 f32 frame = self->frame;
@@ -3066,7 +2819,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                         v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
                         v.y = -5.0f;
                         v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
-                        ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
+                        ((TBoss7DeRolLeC *)self)->spawn_particle_201(&v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
                     Vec v;
@@ -3075,7 +2828,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                     v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
                     v.y = -5.0f;
                     v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
-                    ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
+                    ((TBoss7DeRolLeC *)self)->spawn_particle_201(&v);
                 }
             }
             switch (self->step) {
@@ -3091,7 +2844,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 self->x = self->x + self->vx;
                 self->vy = self->vy + self->ay;
                 self->z = self->z + self->vy;
-                self->f748 = TObjFish__sub_802ED3E4((u8 *)self);
+                self->f748 = ((TBoss7DeRolLeC *)self)->sub_802ED3E4();
                 break;
             case 3:
                 self->x = self->x + self->vx;
@@ -3102,18 +2855,18 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 break;
             case 4:
                 self->x = self->x + self->vx;
-                ((TObjFish *)self)->update_wobble_angle();
+                ((TBoss7DeRolLeC *)self)->update_wobble_angle();
                 advance_scalar_motion_profile(self->mover);
                 self->z = self->vy - self->f688;
                 break;
             case 5:
                 self->x = self->x + self->vx;
-                ((TObjFish *)self)->update_wobble_angle();
+                ((TBoss7DeRolLeC *)self)->update_wobble_angle();
                 advance_scalar_motion_profile(self->mover);
                 self->z = self->vy - self->f688;
                 break;
             case 6:
-                ((TObjFish *)self)->update_wobble_angle();
+                ((TBoss7DeRolLeC *)self)->update_wobble_angle();
                 if (advance_scalar_motion_profile(self->mover) == 3) {
                     self->phase = 2;
                 }
@@ -3141,11 +2894,11 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjMotion *)arg0)->set_field_b8(1);
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         *(s32 *)((s8 *)arg0 + 0x628) |= 4;
         *(s32 *)((s8 *)arg0 + 0x628) &= ~0x100;
         *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
-        TObjFish__sub_802ED4AC(arg0, *(s32 *)((s8 *)arg0 + 0x6C0));
+        ((TBoss7DeRolLeC *)arg0)->set_position_index(*(s32 *)((s8 *)arg0 + 0x6C0));
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x730) = 0;
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
@@ -3217,9 +2970,9 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
             }
             if (*(s16 *)((s8 *)arg0 + 0xB8) != 1) {
                 if (((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame(22.0f) != 0) {
-                    TObjFish::set_effect_target_position(arg0, (void *)0x39905, arg0 + 0x50C);
+                    ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39905, (Vec *)(arg0 + 0x50C));
                 } else if (((TObjMotion *)arg0)->is_passing_frame(14.0f) != 0) {
-                    TObjFish::set_effect_target_position(arg0, (void *)0x39906, arg0 + 0x50C);
+                    ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39906, (Vec *)(arg0 + 0x50C));
                 }
             }
             switch (*(s32 *)((s8 *)arg0 + 0x72C)) {
@@ -3232,7 +2985,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                     v.x = 50.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
                     v.y = -5.0f;
                     v.z += 180.0f;
-                    spawn_particle_201__8TObjFishFii((saddr)arg0, (saddr)&v);
+                    ((TBoss7DeRolLeC *)arg0)->spawn_particle_201(&v);
                 }
                 break;
             case 2:
@@ -3247,7 +3000,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                         v.x = 50.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
                         v.y = -5.0f;
                         v.z += -20.0f;
-                        spawn_particle_201__8TObjFishFii((saddr)arg0, (saddr)&v);
+                        ((TBoss7DeRolLeC *)arg0)->spawn_particle_201(&v);
                     }
                 }
                 break;
@@ -3263,7 +3016,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
             case 1:
                 *(f32 *)((s8 *)arg0 + 0x74C) += *(f32 *)((s8 *)arg0 + 0x750);
                 *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
-                *(f32 *)((s8 *)arg0 + 0x744) = TObjFish__sub_802ED3E4(arg0);
+                *(f32 *)((s8 *)arg0 + 0x744) = ((TBoss7DeRolLeC *)arg0)->sub_802ED3E4();
                 break;
             case 2:
                 *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
@@ -3287,7 +3040,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                 } else {
                     *(f32 *)((s8 *)arg0 + 0x40) = *(f32 *)((s8 *)arg0 + 0x74C) - *(f32 *)((s8 *)arg0 + 0x688);
                 }
-                ((TObjFish *)arg0)->update_wobble_angle();
+                ((TBoss7DeRolLeC *)arg0)->update_wobble_angle();
                 break;
             }
             break;
@@ -3305,11 +3058,11 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
     switch (arg1) {
     case 4:
         ((TObjMotion *)self)->set_field_b8(1);
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *) self);
+        ((TBoss7DeRolLeC *)self)->sub_802ECBDC();
         self->flags |= 4;
         self->flags &= ~0x100;
         self->mode = arg2;
-        TObjFish__sub_802ED4AC((u8 *)self, self->mode);
+        ((TBoss7DeRolLeC *)self)->set_position_index(self->mode);
         self->f744 = 0.0f;
         self->f750 = 0.0f;
         self->f74C = 0.0f;
@@ -3409,7 +3162,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
                 } else {
                     TObjBoss2Tunnel__sub_802F22C4();
                 }
-                TObjFish::set_effect_target_position(self, (void *) 0x3A107, self->eff);
+                ((TBoss7DeRolLeC *)self)->play_sound_at(0x3A107, (Vec *)(self->eff));
                 {
                     uaddr o = (uaddr)TObject::operator new(0x60);
                     if (o != 0) {
@@ -3436,10 +3189,10 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
                 v.x = v.x - self->f744 * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
-                ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
+                ((TBoss7DeRolLeC *)self)->spawn_particle_201(&v);
             }
             if (((TObjMotion *)self)->is_passing_frame(15.0f) != 0) {
-                TObjFish::set_effect_target_position(self, (void *) 0x39905, self->eff);
+                ((TBoss7DeRolLeC *)self)->play_sound_at(0x39905, (Vec *)(self->eff));
             }
             p_ = self->ptcl;
             if (p_ == NULL) {
@@ -3477,7 +3230,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
             self->x = self->f74C * t + self->f748;
             { f32 h_ = 0.5f * self->f754; self->z = t * (h_ * t + -7.0f) + self->f75C; }
             if (((TObjMotion *)self)->is_passing_frame(8.5f) != 0) {
-                TObjFish::set_effect_target_position(self, (void *) 0x39906, self->eff);
+                ((TBoss7DeRolLeC *)self)->play_sound_at(0x39906, (Vec *)(self->eff));
             }
             break;
         }
@@ -3526,11 +3279,11 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
     s32 j;
     switch (arg1) {
     case 4:
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)(o));
+        ((TBoss7DeRolLeC *)(o))->sub_802ECBDC();
         o->flags &= ~4;
         o->flags &= ~0x100;
         o->dir = arg2;
-        set_swim_direction__8TObjFishFPv(o, o->dir);
+        ((TBoss7DeRolLeC *)o)->set_swim_direction(o->dir);
         if (o->dir == 0) {
             ((TObjMotion *)o)->set_field_b8(9);
         } else {
@@ -3605,7 +3358,7 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
         }
         break;
     case 6:
-        ((TObjFish *)o)->pick_random_target();
+        ((TBoss7DeRolLeC *)o)->pick_random_target();
         break;
     case 5:
         for (j = 0; j < 4; j++) {
@@ -3624,11 +3377,11 @@ void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
         for (s32 i = 0; i < 4; i++) {
             TBoss7Tentacle__sub_802F0AF0((u8 *)o->kids[i]);
         }
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)o);
+        ((TBoss7DeRolLeC *)o)->sub_802ECBDC();
         o->flags |= 4;
         o->flags &= 0xFFFFFEFF;
         o->dir = dir;
-        set_swim_direction__8TObjFishFPv(o, o->dir);
+        ((TBoss7DeRolLeC *)o)->set_swim_direction(o->dir);
         if (o->dir == 0) {
             o->v748 = -1.0f;
             ((TObjMotion *)o)->set_field_b8(9);
@@ -3672,11 +3425,11 @@ void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
             o->rot64 = o->angle * -o->v748;
             if (o->fired == 0 && o->angle >= 0x2200) {
                 o->fired = 1;
-                TObjFish::set_effect_target_position(o, (void *)0x39906, (u8 *)o + 0x50C);
+                ((TBoss7DeRolLeC *)o)->play_sound_at(0x39906, (Vec *)((u8 *)o + 0x50C));
             }
             if (o->depth < -137.0f) {
                 o->state = 1;
-                TObjFish__sub_802ED4AC((u8 *)o, o->dir);
+                ((TBoss7DeRolLeC *)o)->set_position_index(o->dir);
                 o->depth = -137.0f;
                 ((TObjMotion *)o)->set_field_b8(1);
                 o->v750 = 0.0f;
@@ -3708,11 +3461,11 @@ void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2) {
     switch (arg1) {
     case 4:
         ((TObjMotion *)arg0)->set_field_b8(3);
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFFB);
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFEFF);
         *(s32 *)((s8 *)arg0 + 0x6C0) = arg2;
-        TObjFish__sub_802ED4AC((arg0), (*(s32 *)((s8 *)arg0 + 0x6C0)));
+        ((TBoss7DeRolLeC *)(arg0))->set_position_index((*(s32 *)((s8 *)arg0 + 0x6C0)));
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
         *(f32 *)((s8 *)arg0 + 0x744) = -1000.0f;
@@ -3760,17 +3513,17 @@ void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
-    struct { f32 x, y, z; } v;
+    Vec v;
     f32 temp_f1;
 
     switch (arg1) {
     case 4:
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFFB);
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) | 0x100);
-        ((s32 (*)(void *))TObjFish__sub_802ECBDC)(arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         ((TObjMotion *)arg0)->set_field_b8(0xC);
         *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
-        TObjFish__sub_802ED4AC((arg0), (*(s32 *)((s8 *)arg0 + 0x6C0)));
+        ((TBoss7DeRolLeC *)(arg0))->set_position_index((*(s32 *)((s8 *)arg0 + 0x6C0)));
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x724) = 0;
         return;
@@ -3795,10 +3548,10 @@ void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
             v.x = 30.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
-            spawn_particle_201__8TObjFishFii((saddr)arg0, (saddr)&v);
+            ((TBoss7DeRolLeC *)arg0)->spawn_particle_201(&v);
         }
         if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
-            TObjFish::set_effect_target_position(arg0, (void *) (0x39905), arg0 + 0x50C);
+            ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39905, (Vec *)(arg0 + 0x50C));
         }
         break;
     }
@@ -3818,10 +3571,10 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
     case 4:
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFFB);
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) | 0x100);
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         ((TObjMotion *)arg0)->set_field_b8(0xF);
         *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
-        TObjFish__sub_802ED4AC((arg0), (*(s32 *)((s8 *)arg0 + 0x6C0)));
+        ((TBoss7DeRolLeC *)(arg0))->set_position_index((*(s32 *)((s8 *)arg0 + 0x6C0)));
         fill_value_array((saddr)(*(PointerBuffer **)((s8 *)arg0 + 0x718)));
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
@@ -3872,8 +3625,8 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 boss7_laser_ptcl = (uaddr)new TBoss7LaserPtcl((TObject *)arg0, (TBoss7LaserPtclVector *)((u8 *)arg0 + 0x4DC), (TBoss7LaserPtclVector *)temp_r30);
                 *(u32 *)((s8 *)arg0 + 0x7A8) = boss7_laser_ptcl;
                 TBoss7LaserPtcl__sub_802ECE28((arg0));
-                ((TBoss7LaserPtcl *)arg0)->free_laser_light();
-                TObjFish::set_effect_target_position((void *)arg0, (void *) (0x39E0F), (void *) ((u8 *)arg0 + 0x50C));
+                ((TBoss7DeRolLeC *)arg0)->turn_on_laser_light();
+                ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39E0F, (Vec *)(((u8 *)arg0 + 0x50C)));
                 return;
             }
             break;
@@ -3891,7 +3644,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
                     ((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->init_laser();
                 }
-                TObjFish::set_effect_target_position((void *)arg0, (void *) (0x3A310), (void *) ((u8 *)arg0 + 0x50C));
+                ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x3A310, (Vec *)(((u8 *)arg0 + 0x50C)));
                 return;
             }
             break;
@@ -3939,12 +3692,12 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
         }
         break;
     case 6:
-        ((TObjFish *)arg0)->pick_random_target();
+        ((TBoss7DeRolLeC *)arg0)->pick_random_target();
         return;
     case 5:
         temp_r4_2 = *(s32 *)((s8 *)arg0 + 0x724);
         *(s32 *)((s8 *)arg0 + 0x724) = (s32)(temp_r4_2 + 1);
-        release_laser_light__15TBoss7LaserPtclFPv(arg0, (int)temp_r4_2);
+        ((TBoss7DeRolLeC *)arg0)->turn_off_laser_light();
         if ((u32) *(u32 *)((s8 *)arg0 + 0x784) != 0U) {
             ((TObject *)(*(void **)((s8 *)arg0 + 0x784)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x784) = 0U;
@@ -3971,9 +3724,9 @@ void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32 _w2) {
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFFB);
         *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) | 0x100);
         ((TObjMotion *)arg0)->set_field_b8(0xE);
-        ((s32 (*)(void *))TObjFish__sub_802ECBDC)(arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
-        TObjFish__sub_802ED4AC((arg0), (*(s32 *)((s8 *)arg0 + 0x6C0)));
+        ((TBoss7DeRolLeC *)(arg0))->set_position_index((*(s32 *)((s8 *)arg0 + 0x6C0)));
         break;
     case 2:
         if ((s16) ((TBoss7DeRolLeC *)arg0)->requested_action == 1) {
@@ -3991,7 +3744,7 @@ void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32 _w2) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
-            TObjFish::set_effect_target_position(arg0, (void*)(0x39906), arg0 + 0x50C);
+            ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39906, (Vec *)(arg0 + 0x50C));
         }
         break;
     }
@@ -4002,7 +3755,7 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
     case 4:
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) | 4;
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) & 0xFFFFFEFF;
-        ((s32 (*)(void *))TObjFish__sub_802ECC44)(boss7_de_rol_le_c);
+        ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->sub_802ECC44();
         ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->rotation_x = 0;
         *(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) = 0.0f;
         return;
@@ -4028,29 +3781,28 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
     }
 }
 
-void TObjFish::handle_death_state(u32 arg1) {
-    Fish_802E8B50 *o = (Fish_802E8B50 *)this;
+void TBoss7DeRolLeC::handle_death_state(u32 event) {
     CameraPlayback cam;
     s32 i;
-    switch (arg1) {
+    switch (event) {
     case 4:
-        o->flags &= ~0x300;
-        o->flags |= 4;
-        TObjFish__sub_802ECC44((Fish_802ECC44 *)o);
-        ((TObjMotion *)o)->set_field_b8(0x10);
-        o->dir = 3;
-        TObjFish__sub_802ED4AC((u8 *)o, o->dir);
-        o->f5C = 0;
-        o->f6F0 = 0.0f;
-        o->phase = 0;
-        o->timer = 0;
-        o->f73C = 0;
-        o->f6FC = 0;
+        unk_628 &= ~0x300;
+        unk_628 |= 4;
+        sub_802ECC44();
+        set_field_b8(0x10);
+        unk_6C0 = 3;
+        set_position_index(unk_6C0);
+        rotation_x = 0;
+        unk_6EC.y = 0.0f;
+        unk_728 = 0;
+        unk_72C = 0;
+        unk_73C = 0;
+        unk_6FC = 0;
         for (i = 0; i < 4; i++) {
-            TBoss7Tentacle__sub_802F0AD0(o->tent[i]);
+            TBoss7Tentacle__sub_802F0AD0(unk_6DC[i]);
         }
-        if (o->nodes != NULL) {
-            ((TObject *)(o->nodes))->queue_destruction_for_each_node();
+        if (crawfish_parent != NULL) {
+            crawfish_parent->queue_destruction_for_each_node();
         }
         TObjBoss2Tunnel::clear_flags_0x3000();
         TWindowCtrl::init_all_slots();
@@ -4065,54 +3817,54 @@ void TObjFish::handle_death_state(u32 arg1) {
         }
         break;
     case 2:
-        if (o->body->flags & 0x400) {
-            o->f30 &= ~0x800;
-            TObjFish__sub_802ECBDC((Fish_802ECBDC *)o);
-            ((TBoss7DeRolLeC *)o)->set_state_and_send(2);
+        if (unk_624->unknown_08 & 0x400) {
+            actorFlags &= ~0x800;
+            sub_802ECBDC();
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->phase == 1) {
-            ((TBoss7DeRolLeC *)o)->set_state_and_send(0x1D);
+        if (unk_728 == 1) {
+            set_state_and_send(0x1D);
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
+        advance_animation();
         if (get_scripted_camera_playback()->flags & 1) {
-            o->phase = 1;
+            unk_728 = 1;
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();
         }
-        if (((TObjMotion *)o)->is_passing_frame(85.0f) != 0) {
+        if (is_passing_frame(85.0f) != 0) {
             Vec v = lbl_80473F90;
             create_timed_particle_emitter_with_flags(&v, 0x20C, 0, 0xA0, 0x40);
-            play_sound_effect((void *)0x39614, 0, 0, 0);
+            play_sound_effect(0x39614, NULL, 0, 0);
         }
-        if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
-            ((TObjFish *)o)->destroy_child();
-            o->f7B0 = (saddr)spawn_continuous_particle_effect_with_flags(o->f7B4, 0x20F, 0x40);
+        if (is_passing_frame(20.0f) != 0) {
+            destroy_child();
+            unk_7B0 = spawn_continuous_particle_effect_with_flags(&unk_7B4, 0x20F, 0x40);
         }
-        if (((TObjMotion *)o)->is_passing_frame(123.0f) != 0) {
-            ((TObjFish *)o)->destroy_child();
+        if (is_passing_frame(123.0f) != 0) {
+            destroy_child();
         }
-        ((TObjFish *)o)->update_attached_orientation();
+        update_attached_orientation();
         break;
     case 5: {
         Vec saved;
-        VecCopy__FP3VecPC3Vec((saddr)&saved, &o->pos);
-        o->pos.x = 0.0f;
-        o->pos.y = 12.0f;
-        o->pos.z = -90.0f;
-        ((TObjEnemy *)o)->update_prev_position();
+        VecCopy(&saved, &position);
+        position.x = 0.0f;
+        position.y = 12.0f;
+        position.z = -90.0f;
+        update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(o, (saddr)o->kids[i]);
+            assign_slots_from_list(this, (saddr)unk_5F8[i]);
         }
-        ((TObjEnemy *)o)->refresh_and_send_entity_flags();
+        refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x4C);
-        VecCopy__FP3VecPC3Vec((saddr)&o->pos, &saved);
-        ((TObjEnemy *)o)->update_prev_position();
-        o->f30 = 0x12008;
-        ((TBoss7DeRolLeC *)o)->vfunc_74(0);
+        VecCopy(&position, &saved);
+        update_prev_position();
+        actorFlags = 0x12008;
+        vfunc_74(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         break;
@@ -4120,17 +3872,17 @@ void TObjFish::handle_death_state(u32 arg1) {
     }
 }
 
-void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k) {
-    switch (k) {
+void TBoss7DeRolLeC::sub_802E8AD4(u32 event) {
+    switch (event) {
     case 4:
-        ((TObjMotion *)o)->set_field_b8(0x10);
-        ((s32 (*)(void *))TObjFish__sub_802ECC44)(o);
-        o->flags |= 4;
-        o->flags &= 0xFFFFFEFF;
+        set_field_b8(0x10);
+        sub_802ECC44();
+        unk_628 |= 4;
+        unk_628 &= ~0x100;
         TObjBoss2Tunnel::set_flag_0x200();
         return;
     case 0:
-        ((TObject *)o)->queue_destruction();
+        queue_destruction();
         return;
     case 1: return;
     case 2: return;
@@ -4238,11 +3990,11 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
     s32 k;
     switch (arg1) {
     case 4:
-        TObjFish__sub_802ECBDC((Fish_802ECBDC *)arg0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
         self->flags &= ~4;
         self->flags &= ~0x100;
         self->dir = arg2;
-        set_swim_direction__8TObjFishFPv(self, self->dir);
+        ((TBoss7DeRolLeC *)self)->set_swim_direction(self->dir);
         if (self->dir == 0) {
             ((TObjMotion *)self)->set_field_b8(9);
         } else {
@@ -4320,7 +4072,7 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
         }
         return;
     case 6:
-        ((TObjFish *)arg0)->pick_random_target();
+        ((TBoss7DeRolLeC *)arg0)->pick_random_target();
         return;
     case 5:
         for (k = 0; k < 4; k++) {
@@ -4382,7 +4134,7 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
     switch (k) {
     case 4:
         ((TObjMotion *)boss)->set_field_b8(1);
-        TObjFish__sub_802ED4AC(boss, 9);
+        ((TBoss7DeRolLeC *)boss)->set_position_index(9);
         self->timer = 20;
         self->count = 12;
         id = 0;
@@ -4414,15 +4166,13 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
         }
         break;
     case 6:
-        ((TObjFish *)boss)->pick_random_target();
+        ((TBoss7DeRolLeC *)boss)->pick_random_target();
         break;
     }
 }
 #pragma pop
 #undef TObjFish__sub_802E7B40
 #undef TObjFish__sub_802E7B94
-#undef release_laser_light__15TBoss7LaserPtclFPv
-#undef set_swim_direction__8TObjFishFPv
 void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E8274, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E8274, spC) == 0x4);
@@ -4696,57 +4446,51 @@ void TBoss7DeRolLeC::render_shadows() {
     }
 }
 void TBoss7DeRolLeC::set_flag_800() { *(u32*)((char*)this + 0x628) |= 0x800; }
-#define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
-#define vec3_add_to ((void (*)(void *, void *))vec3_add_to)
 void fn_802E79B0(Obj_802E79B0 *arg0) {
     Vec v;
     Vec *out;
     s32 i;
     out = arg0->out;
-    VecCopy__FP3VecPC3Vec(&v, &arg0->pts[0]);
+    VecCopy(&v, &arg0->pts[0]);
     vec3_add_to(&v, &arg0->pts[9]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
-    VecCopy__FP3VecPC3Vec(&out[0], &v);
-    VecCopy__FP3VecPC3Vec(&v, &arg0->pts[9]);
+    VecCopy(&out[0], &v);
+    VecCopy(&v, &arg0->pts[9]);
     vec3_add_to(&v, &arg0->pts[11]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
-    VecCopy__FP3VecPC3Vec(&out[1], &v);
+    VecCopy(&out[1], &v);
     out += 2;
     for (i = 0; i < 8; i++, out++) {
-        VecCopy__FP3VecPC3Vec(&v, &arg0->pts[i + 11]);
+        VecCopy(&v, &arg0->pts[i + 11]);
         vec3_add_to(&v, &arg0->pts[i + 12]);
         v.x *= 0.5f;
         v.y *= 0.5f;
         v.z *= 0.5f;
-        VecCopy__FP3VecPC3Vec(out, &v);
+        VecCopy(out, &v);
     }
 }
 
-#undef VecCopy__FP3VecPC3Vec
-#undef vec3_add_to
-void TObjFish::destroy_child() {
-    Obj_802E7888 *o = (Obj_802E7888 *)this;
-    if (o->f7B0 != 0) {
-        ((TObject *)o->f7B0)->queue_destruction();
-        o->f7B0 = 0;
+void TBoss7DeRolLeC::destroy_child() {
+    if (unk_7B0 != NULL) {
+        unk_7B0->queue_destruction();
+        unk_7B0 = NULL;
     }
 }
 
-void TObjFish::update_attached_orientation() {
-    Obj_802E7888 *o = (Obj_802E7888 *)this;
-    if (o->f7B0 != 0) {
-        Vec d = o->pos;
+void TBoss7DeRolLeC::update_attached_orientation() {
+    if (unk_7B0 != NULL) {
+        Vec d = unk_7B4;
         Ang_802E7888 ang;
-        subtract_vector(&d, &o->v7C0);
+        subtract_vector(&d, &unk_7C0);
         ang.x = -(s32)(10430.38043493439 * atan2_float(d.y, newton_sqrtf(d.x * d.x + d.z * d.z))) - 0x4000;
         ang.y = (s32)(10430.38043493439 * atan2_float(d.x, d.z));
         ang.z = 0;
-        ((TParticleCtrl *)o->f7B0)->set_position(&o->pos);
-        ((TParticleCtrl *)(o->f7B0))->set_direction(&ang);
+        unk_7B0->set_position(&unk_7B4);
+        unk_7B0->set_direction(&ang);
     }
 }
 

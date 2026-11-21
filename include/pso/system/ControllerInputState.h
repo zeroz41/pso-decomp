@@ -7,7 +7,8 @@
 struct ControllerInputContext {
     u32 buttons;
     u32 flags_04;
-    u8 unknown_08[0xC];
+    u32 unknown_08;
+    u8 unknown_0c[0x8];
     // Analog stick, signed (inferred: scaled into a turn rate by TAdLdQuestPrtGC).
     s16 stick_x;
     s16 stick_y;

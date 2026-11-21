@@ -18,6 +18,7 @@ class TBoss7Tentacle;
 class TBoss7LaserLight;
 class AreaAttackHistory;
 class TUnk_804F1C58;
+class TParticleCtrl;
 
 // Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
 struct TBoss7DeRolLeCParams {
@@ -59,6 +60,30 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void apply_paralysis();
     void apply_poison_status();
     void vfunc_28();
+    void sync_position_vectors();
+    void update_wobble_angle();
+    s32 is_all_parts_done();
+    u32 update_anim_state();
+    u32 update_phase_settling();
+    u32 update_tail_anim_state();
+    u32 update_phase_rising();
+    void turn_on_laser_light();
+    void turn_off_laser_light();
+    void pick_random_target();
+    void sub_802ECC44();
+    void sub_802ECBDC();
+    void apply_damage_and_set_effect(s32 damage, u16);
+    void set_hooked_effect_target();
+    void play_sound_at(s32 id, Vec *pos);
+    void play_persistent_sound_at(s32 id, Vec *pos);
+    void spawn_particle_201(Vec *pos);
+    void set_position_index(s32 index);
+    void set_swim_direction(s32);
+    f32 sub_802ED3E4();
+    void destroy_child();
+    void update_attached_orientation();
+    void handle_death_state(u32 event);
+    void sub_802E8AD4(u32 event);
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)
     u8 pad_380[0xC];
@@ -133,13 +158,9 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TObject *crawfish_parent;     // the group spawned crawfish are children of
     s32 unk_7A8;
     TUnk_804F1C58 *unk_7AC;
-    s32 unk_7B0;
-    f32 unk_7B4;
-    f32 unk_7B8;
-    f32 unk_7BC;
-    f32 unk_7C0;
-    f32 unk_7C4;
-    f32 unk_7C8;
+    TParticleCtrl *unk_7B0;       // destroy_child releases it, update_attached_orientation aims it
+    Vec unk_7B4;                  // where unk_7B0 sits
+    Vec unk_7C0;                  // the point unk_7B0 is aimed away from
     u16 unk_7CC;
     u16 unk_7CE;
     u16 unk_7D0;
@@ -203,23 +224,17 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EBE50(void *o, u32 k);
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
-f32 TObjFish__sub_802ED3E4(u8 *arg0);
-void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1);
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 void render__14TBoss7DeRolLeCFv(u8 *unused);
 void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 void fn_802EC52C(s32 arg0, saddr arg1);
 void fn_802EC9A4(void *arg0, void *arg1);
 void fn_802EC9F0(TObjEneDD *arg0, void *arg1);
-void free_laser_light__15TBoss7LaserPtclFv(void *arg0);
 }
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
 extern "C" {
 AnimationMotion *get_boss7_motion(s32 kind);
-void release_laser_light__15TBoss7LaserPtclFPv(void *arg0);
-void set_swim_direction__8TObjFishFPv(void *arg0);
-void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);
 }
 
 #endif

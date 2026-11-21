@@ -26,7 +26,6 @@ struct TBoss7LaserPtcl : public TObject {
     void calc_position(u8 *arg1, u8 *arg2);
     void destroy_particles();
     virtual void render();
-    void free_laser_light();
 };
 
 LAYOUT_ASSERT(TBoss7LaserPtcl_size, sizeof(TBoss7LaserPtcl) == 0x58);
