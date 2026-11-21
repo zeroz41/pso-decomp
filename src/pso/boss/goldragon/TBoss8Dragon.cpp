@@ -631,9 +631,6 @@ extern s32 lbl_805D6990;
 extern f32 boss8_dragon_visibility_distance;
 extern void *lbl_805D28BC;
 
-extern "C" {
-struct Obj_802F7B70;
-}
 
 // The tables below mirror TBoss1Dragon's (same values where the Gol Dragon kept them).
 extern const Vec TBoss8Dragon__data_804744A8 = {0.0f, 0.0f, 0.0f};
@@ -955,68 +952,6 @@ struct VObj_18_2719b2x : VBase_18_2719b2x {
     virtual s32 m94();
 };
 struct Obj_802FC580;
-struct VBase_802F7B70 { u8 pad[0x18]; };
-struct VObj_802F7B70 : VBase_802F7B70 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84(); virtual void m85(); virtual void m86(); virtual void m87();
-    virtual void m88(); virtual void m89(); virtual void m90(); virtual void m91();
-    virtual void m92(); virtual void m93(); virtual void m94();
-};
-struct Obj_802F7B70 : VObj_802F7B70 {
-    u8 pad1C[0x38 - 0x1C];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 rotX;
-    s32 rotY;
-    s32 rotZ;
-    u8 pad68[0xB8 - 0x68];
-    s16 fb8;
-    u8 padBA[0x394 - 0xBA];
-    Vec f394;
-    f32 f3a0;
-    f32 f3a4;
-    f32 f3a8;
-    f32 f3ac;
-    u8 pad3B0[0x3C0 - 0x3B0];
-    u32 f3c0;
-    u8 pad3C4[0x414 - 0x3C4];
-    f32 f414;
-    u8 pad418[0x650 - 0x418];
-    s32 f650;
-    u8 pad654[0x680 - 0x654];
-    s32 f680;
-    u8 pad684[0x84C - 0x684];
-    s32 state;
-    s32 timer;
-    u8 pad854[0x85C - 0x854];
-    s32 angle;
-    s32 spin;
-    f32 f864;
-    f32 f868;
-    f32 f86c;
-    u8 pad870[0x890 - 0x870];
-    s32 spawned;
-};
 void TBoss8Dragon__sub_802FC060(void *, s32);
 struct Pair_802F8578 { f32 a; f32 b; };
 struct Ids_802F8578 { u8 pad[0x8]; saddr id8; saddr idC; };
@@ -3970,42 +3905,42 @@ void TBoss8Dragon::state_roar(s32 event) {
 void TBoss8Dragon::sub_802F7B70(s32 event) {
     switch (event) {
     case 4:
-        ((Obj_802F7B70 *)this)->fb8 = 0x10;
-        ((Obj_802F7B70 *)this)->m94();
-        ((TBoss8Dragon *)((Obj_802F7B70 *)this))->set_state();
-        ((TBoss8Dragon *)((Obj_802F7B70 *)this))->activate_attack();
-        ((Obj_802F7B70 *)this)->f3c0 &= ~0x36;
-        ((Obj_802F7B70 *)this)->state = 0;
-        ((Obj_802F7B70 *)this)->timer = 0;
-        ((Obj_802F7B70 *)this)->spawned = 0;
-        ((Obj_802F7B70 *)this)->spin = 0;
-        ((Obj_802F7B70 *)this)->angle = (s32)(RADIANS_TO_ANGLE * atan2_float(((Obj_802F7B70 *)this)->f3a0, ((Obj_802F7B70 *)this)->f3a8));
-        ((Obj_802F7B70 *)this)->f3ac += 5.0f;
-        TBoss8Dragon__sub_802FC060(((Obj_802F7B70 *)this), ((Obj_802F7B70 *)this)->angle);
-        if (((Obj_802F7B70 *)this)->f3ac < 50.0f) {
-            ((Obj_802F7B70 *)this)->f864 = ((Obj_802F7B70 *)this)->f868 = ((Obj_802F7B70 *)this)->f3ac / 60.0f;
-            ((Obj_802F7B70 *)this)->f86c = 0.0f;
+        this->requested_action = 0x10;
+        this->clear_intangible();
+        this->set_state();
+        this->activate_attack();
+        this->m_3c0 &= ~0x36;
+        this->m_84c = 0;
+        this->m_850 = 0;
+        this->m_890 = 0;
+        this->m_860 = 0;
+        this->m_85c = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+        this->destination_distance += 5.0f;
+        TBoss8Dragon__sub_802FC060(this, this->m_85c);
+        if (this->destination_distance < 50.0f) {
+            this->m_864 = this->m_868 = this->destination_distance / 60.0f;
+            this->m_86c = 0.0f;
         } else {
             f32 t;
-            ((Obj_802F7B70 *)this)->f868 = 1.6666666f;
-            t = 2.0f * (50.0f - (((Obj_802F7B70 *)this)->f3ac - 50.0f)) / 30.0f;
-            ((Obj_802F7B70 *)this)->f86c = t / 30.0f;
-            ((Obj_802F7B70 *)this)->f864 = 1.6666666f - t;
+            this->m_868 = 1.6666666f;
+            t = 2.0f * (50.0f - (this->destination_distance - 50.0f)) / 30.0f;
+            this->m_86c = t / 30.0f;
+            this->m_864 = 1.6666666f - t;
         }
         break;
     case 2:
-        if (((Obj_802F7B70 *)this)->state == 6) {
+        if (this->m_84c == 6) {
             send_action_packet(0x1C);
         }
         break;
     case 11:
-        if (((Obj_802F7B70 *)this)->state == 6) {
+        if (this->m_84c == 6) {
             send_action_packet(0x25);
         }
         break;
     case 9:
-        if (((Obj_802F7B70 *)this)->state == 6) {
-            ((TBoss8Dragon *)((Obj_802F7B70 *)this))->pick_next_action();
+        if (this->m_84c == 6) {
+            this->pick_next_action();
         }
         break;
     case 7:
@@ -4013,45 +3948,45 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         this->update_velocity();
         break;
     case 6:
-        if (TBoss8Dragon__sub_802FC580((Obj_802FC580 *)((Obj_802F7B70 *)this), &destination.x) == 0) {
-            ((Obj_802F7B70 *)this)->f394.x = 0.0f;
-            ((Obj_802F7B70 *)this)->f394.y = 0.0f;
-            ((Obj_802F7B70 *)this)->f394.z = 0.0f;
+        if (TBoss8Dragon__sub_802FC580((Obj_802FC580 *)this, &destination.x) == 0) {
+            this->destination.x = 0.0f;
+            this->destination.y = 0.0f;
+            this->destination.z = 0.0f;
         }
         this->update_velocity();
-        ((TBoss8Dragon *)((Obj_802F7B70 *)this))->save_position();
+        this->save_position();
         break;
     case 0:
-        ((TObjMotion *)((Obj_802F7B70 *)this))->advance_animation();
-        switch (((Obj_802F7B70 *)this)->state) {
+        this->advance_animation();
+        switch (this->m_84c) {
         case 0:
-            ((Obj_802F7B70 *)this)->state = 1;
+            this->m_84c = 1;
         case 1:
-            spawn_effect_if_in_band__12TBoss8DragonFi((saddr)((Obj_802F7B70 *)this));
-            TBoss8Dragon__sub_802FB09C((saddr)((Obj_802F7B70 *)this));
-            if (TBoss8Dragon__sub_802FBFA4((u8 *)((Obj_802F7B70 *)this)) != 0) {
-                ((Obj_802F7B70 *)this)->f650 = 0;
-                ((Obj_802F7B70 *)this)->rotY = ((Obj_802F7B70 *)this)->angle;
-                ((Obj_802F7B70 *)this)->state = 2;
-                ((Obj_802F7B70 *)this)->fb8 = 0x16;
+            spawn_effect_if_in_band__12TBoss8DragonFi((saddr)this);
+            TBoss8Dragon__sub_802FB09C((saddr)this);
+            if (TBoss8Dragon__sub_802FBFA4((u8 *)this) != 0) {
+                this->m_650 = 0;
+                this->rotation_y = this->m_85c;
+                this->m_84c = 2;
+                this->requested_action = 0x16;
             }
             break;
         case 2:
-            if (((TObjMotion *)((Obj_802F7B70 *)this))->is_passing_frame(14.0f) != 0) {
-                ((Obj_802F7B70 *)this)->f3c0 |= 0x30;
-                ((Obj_802F7B70 *)this)->timer = 0;
-                ((Obj_802F7B70 *)this)->state = 3;
+            if (this->is_passing_frame(14.0f) != 0) {
+                this->m_3c0 |= 0x30;
+                this->m_850 = 0;
+                this->m_84c = 3;
             }
             break;
         case 3: {
             Vec v;
-            ((Obj_802F7B70 *)this)->f864 += ((Obj_802F7B70 *)this)->f86c;
-            ((TObjEneDD *)((Obj_802F7B70 *)this))->move_with_wall_stop(((Obj_802F7B70 *)this)->f3a0, ((Obj_802F7B70 *)this)->f3a8, ((Obj_802F7B70 *)this)->f864);
-            eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)((Obj_802F7B70 *)this)->timer / 60.0f);
-            ((Obj_802F7B70 *)this)->pos.y = v.y;
-            ((Obj_802F7B70 *)this)->timer++;
-            if (((TObjMotion *)((Obj_802F7B70 *)this))->is_passing_frame(39.0f) != 0) {
-                ((Obj_802F7B70 *)this)->state = 4;
+            this->m_864 += this->m_86c;
+            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->m_864);
+            eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)this->m_850 / 60.0f);
+            this->position.y = v.y;
+            this->m_850++;
+            if (this->is_passing_frame(39.0f) != 0) {
+                this->m_84c = 4;
                 this->play_effect_sound(0x4003B210);
             }
             break;
@@ -4059,31 +3994,31 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         case 4:
         case 5: {
             Vec v;
-            ((TObjEneDD *)((Obj_802F7B70 *)this))->move_with_wall_stop(((Obj_802F7B70 *)this)->f3a0, ((Obj_802F7B70 *)this)->f3a8, ((Obj_802F7B70 *)this)->f868);
-            ((Obj_802F7B70 *)this)->rotX = approach_angle_limited(((Obj_802F7B70 *)this)->rotX, 0x4000, 0x400);
-            if (((Obj_802F7B70 *)this)->spin < 0x2811) {
-                ((Obj_802F7B70 *)this)->spin += 0x117;
+            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->m_868);
+            this->rotation_x = approach_angle_limited(this->rotation_x, 0x4000, 0x400);
+            if (this->m_860 < 0x2811) {
+                this->m_860 += 0x117;
             }
-            ((Obj_802F7B70 *)this)->rotZ += ((Obj_802F7B70 *)this)->spin;
-            eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)((Obj_802F7B70 *)this)->timer / 60.0f);
-            ((Obj_802F7B70 *)this)->pos.y = v.y;
-            ((Obj_802F7B70 *)this)->timer++;
-            if (((Obj_802F7B70 *)this)->f414 <= TBoss8Dragon__data_804744A8.y - 50.0f && ((Obj_802F7B70 *)this)->state == 4) {
-                ((Obj_802F7B70 *)this)->state = 5;
+            this->rotation_z += this->m_860;
+            eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)this->m_850 / 60.0f);
+            this->position.y = v.y;
+            this->m_850++;
+            if (this->m_410.y <= TBoss8Dragon__data_804744A8.y - 50.0f && this->m_84c == 4) {
+                this->m_84c = 5;
                 this->play_effect_sound(0x4003AD0F);
             }
-            if (((Obj_802F7B70 *)this)->pos.y <= 0.0f && ((Obj_802F7B70 *)this)->spawned == 0) {
-                TBoss8Dragon::init_state((saddr)((Obj_802F7B70 *)this));
-                fill_value_array(((Obj_802F7B70 *)this)->f680);
-                create_boss8_piller_ctrl((saddr)&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)((Obj_802F7B70 *)this))), 100.0f);
-                ((Obj_802F7B70 *)this)->spawned = 1;
-                ((Obj_802F7B70 *)this)->m89();
-                ((Obj_802F7B70 *)this)->m92();
-                ((TBoss8Dragon *)((Obj_802F7B70 *)this))->set_action_state();
+            if (this->position.y <= 0.0f && this->m_890 == 0) {
+                TBoss8Dragon::init_state((saddr)this);
+                fill_value_array(this->attack_history);
+                create_boss8_piller_ctrl((saddr)&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                this->m_890 = 1;
+                this->set_invulnerable();
+                this->disable_body_collision();
+                this->set_action_state();
             }
-            if (((Obj_802F7B70 *)this)->timer >= 60) {
-                ((Obj_802F7B70 *)this)->state = 6;
-                ((Obj_802F7B70 *)this)->f3c0 &= ~1;
+            if (this->m_850 >= 60) {
+                this->m_84c = 6;
+                this->m_3c0 &= ~1;
             }
             break;
         }
@@ -4092,8 +4027,8 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         }
         break;
     case 5:
-        ((Obj_802F7B70 *)this)->rotX = 0;
-        ((Obj_802F7B70 *)this)->rotZ = 0;
+        this->rotation_x = 0;
+        this->rotation_z = 0;
         break;
     case 1:
     case 3:

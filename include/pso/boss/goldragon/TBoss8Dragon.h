@@ -141,7 +141,7 @@ public:
     s32 m_854;
     u32 m_858;
     s32 m_85c;
-    u32 m_860;
+    s32 m_860;
     f32 m_864;
     f32 m_868;
     f32 m_86c;
@@ -153,7 +153,7 @@ public:
     f32 m_884;
     f32 m_888;
     f32 m_88c;
-    u32 m_890;
+    s32 m_890;
     TParticleCtrl *m_894;
     TParticleCtrl *m_898;
     TParticleCtrl *m_89c;
