@@ -11,8 +11,8 @@ struct TechniqueContactBody;
 
 class TUnk_804CCC68 : public TEffect {
 public:
-    TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4);
-    TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level);
+    TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4);
+    TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TUnk_804CCC68();
     void check_technique_projectile_wall_hit();
     void move_technique_projectile();
@@ -24,8 +24,8 @@ public:
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
     void dispatch_technique_contact(s32);
-    u8 *query_technique_player_contacts(s32);
-    u8 *query_technique_enemy_contacts(s32);
+    u8 *query_technique_player_contacts(saddr);
+    u8 *query_technique_enemy_contacts(saddr);
     f32 range;
     f32 traveled;
     f32 previous[3];
@@ -42,7 +42,7 @@ public:
     f32 halfWidth;
 };
 
-typedef char TechniqueGroundCandidatesOffset[offsetof(TUnk_804CCC68, ground_candidates) == 0x84 ? 1 : -1];
+LAYOUT_ASSERT(TechniqueGroundCandidatesOffset, offsetof(TUnk_804CCC68, ground_candidates) == 0x84);
 
 extern "C" {
 // TUnk_804CCC68::~TUnk_804CCC68(), called by the destructors that are still written by hand.

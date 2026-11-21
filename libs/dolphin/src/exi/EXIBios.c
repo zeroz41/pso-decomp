@@ -1,6 +1,5 @@
 
 
-#define EXIGetID Dolphin_EXIGetID
 #define SetExiInterruptMask EXIBios_SetExiInterruptMask
 #define UnlockedHandler EXIBios_UnlockedHandler
 

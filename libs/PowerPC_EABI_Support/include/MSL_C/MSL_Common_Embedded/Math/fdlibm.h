@@ -189,8 +189,8 @@ inline double fabs(double x) {
 }
 #endif
 
-extern unsigned long __float_nan[];
-extern unsigned long __float_huge[];
+extern unsigned int __float_nan[];
+extern unsigned int __float_huge[];
 #ifndef INFINITY
 #define INFINITY (*(float*)__float_huge)
 #endif

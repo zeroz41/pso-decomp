@@ -54,8 +54,8 @@ public:
 
 TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller);
 
-typedef char DrawLineRecordSize[sizeof(DrawLineRecord) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(DrawLineRecordSize, sizeof(DrawLineRecord) == 0x2C);
 
-typedef char TAdDrawLineTaskSize[sizeof(TAdDrawLineTask) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TAdDrawLineTaskSize, sizeof(TAdDrawLineTask) == 0xB0);
 
 #endif

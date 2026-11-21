@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
+void TWindowReturnCity__sub_8024ACA8(saddr arg0);
 }
 
 // --- C functions defined in text_8024ACA8.cpp ---
 extern "C" {
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
+void TWindowReturnCity__sub_8024ACA8(saddr arg0);
 }
 // --- end of C functions
 

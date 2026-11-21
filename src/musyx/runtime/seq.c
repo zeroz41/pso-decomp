@@ -185,7 +185,7 @@ u32 seqGetPrivateId(u32 seqId) {
 }
 #pragma pop
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
+#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (uaddr)arr))
 #define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
 #define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
 #define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
@@ -1219,7 +1219,7 @@ void InsertGlobalEvent(List_803A5A04 *arg0, Node_803A5A04 *arg1) {
     arg1->next = 0;
 }
 
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
+#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (uaddr)arr))
 #define CSEQ_5A78 (*(SEQ_INSTANCE_803A6364 **)&lbl_805D7360)
 #define NOTEFREE_5A78 (*(NOTE_803A6364 **)&lbl_805D7364)
 #pragma push

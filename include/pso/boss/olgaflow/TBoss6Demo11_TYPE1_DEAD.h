@@ -12,7 +12,7 @@ class TBoss6Demo11_TYPE1_DEAD : public TObject {
 public:
     // One drawn body part: get_bml_model / get_bml_texlist / get_bml_motion results (ctor loop).
     struct Part {
-        s32 model;
+        saddr model;
         s32 texture;
         AnimationMotion *motion;
     };
@@ -32,6 +32,6 @@ public:
     TObjFish *node_effect;   // 0x88, TObjFish__sub_800E3124 result
     TParticleCtrl *emitter;  // 0x8C, create_particle_emitter result
 };
-typedef char TBoss6Demo11_TYPE1_DEAD_size[sizeof(TBoss6Demo11_TYPE1_DEAD) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo11_TYPE1_DEAD_size, sizeof(TBoss6Demo11_TYPE1_DEAD) == 0x90);
 
 #endif

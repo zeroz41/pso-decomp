@@ -13,7 +13,7 @@ struct TObjNpcFemaleDwarf : public TUnk_804A8640 {
     static void load_static_resource();
 };
 
-typedef char TObjNpcFemaleDwarf_size[sizeof(TObjNpcFemaleDwarf) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcFemaleDwarf_size, sizeof(TObjNpcFemaleDwarf) == 0x3B8);
 
 extern "C" {
 void *TObjNpcFemaleDwarf__create(void *set_data);

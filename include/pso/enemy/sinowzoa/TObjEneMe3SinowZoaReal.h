@@ -15,7 +15,7 @@ struct TObjEneMe3SinowZoaReal : public TObjEneMe3SinowZoa {
     static void *create_instance(void *arg0);
 };
 
-typedef char TObjEneMe3SinowZoaReal_size[sizeof(TObjEneMe3SinowZoaReal) == 0x45C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3SinowZoaReal_size, sizeof(TObjEneMe3SinowZoaReal) == 0x45C);
 
 
 #endif

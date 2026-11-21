@@ -28,8 +28,8 @@ public:
     s32 timing_rate;
 };
 
-typedef char TEndingPicQuads[offsetof(TEndingPic, quads) == 0x2C ? 1 : -1];
-typedef char TEndingPicRate[offsetof(TEndingPic, timing_rate) == 0xEC ? 1 : -1];
-typedef char TEndingPic_size[sizeof(TEndingPic) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TEndingPicQuads, offsetof(TEndingPic, quads) == 0x2C);
+LAYOUT_ASSERT(TEndingPicRate, offsetof(TEndingPic, timing_rate) == 0xEC);
+LAYOUT_ASSERT(TEndingPic_size, sizeof(TEndingPic) == 0xF0);
 
 #endif

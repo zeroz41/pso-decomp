@@ -1,5 +1,6 @@
 
 #include <stddef.h>
+#include <stdlib.h>
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/render/TUnk_80494938.h"
@@ -104,9 +105,9 @@ const char *TObjEneMe1Gee__fade_command_streams[5] = {
 
 const char *TObjEneMe1Gee__class_name = "TObjEneMe1Gee";
 
-static s32 gee_boss_stat_handle_table[3];
-static s32 gee_shared_handler_b_table[3];
-static s32 gee_object_handle_table[3];
+static saddr gee_boss_stat_handle_table[3];
+static saddr gee_shared_handler_b_table[3];
+static saddr gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 f32 atan2_float(f32 y, f32 x);
@@ -114,12 +115,11 @@ void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
-s32 rand(f32);
 
 // One entry collect_enemy_target_candidates fills: an entity id and its horizontal squared distance
 // (TObjEneDD.cpp calls the same record Ent_800BB484).
@@ -130,23 +130,22 @@ struct TargetCandidate {
 
 f32 newton_sqrtf(f32);
 
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 s32 pack_debug_text_position(s32, s32);
 
-void TBoss3Volopt__sub_800D8D88(s32);
+void TBoss3Volopt__sub_800D8D88(saddr);
 
 s32 push_matrix();
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource(u8 *arg0);
 s32 TObjPlayer__sub_800F0928(s32);
 extern s32 lbl_8043BCD8[];
 extern s32 lbl_8043BCE4[];
@@ -170,9 +169,9 @@ void TObjEneMe1Gee::load_resources() {
     TObjEneMe1Gee::cache_result_805D6660();
     lbl_805D51B4 = (u8 *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
-        gee_boss_stat_handle_table[i] = (s32)TLobby::register_boss(lbl_8043BCD8[i]);
-        gee_shared_handler_b_table[i] = (s32)TLobby::dispatch_shared_handler_b(lbl_8043BCE4[i]);
-        gee_object_handle_table[i] = (s32)TLobby::register_object(lbl_8043BCF0[i]);
+        gee_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(lbl_8043BCD8[i]);
+        gee_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043BCE4[i]);
+        gee_object_handle_table[i] = (saddr)TLobby::register_object(lbl_8043BCF0[i]);
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
@@ -249,8 +248,8 @@ void TObjEneMe1Gee::init_state() {
     this->init_position_vectors();
     this->vfunc_106();
     this->init_model(&lbl_8049379C, 1);
-    this->set_field_d8((s32)TObjEneMe1Gee__motion_parameters);
-    this->set_field_dc((int)TObjEneMe1Gee__resource_bundle->motions);
+    this->set_field_d8((saddr)TObjEneMe1Gee__motion_parameters);
+    this->set_field_dc((saddr)TObjEneMe1Gee__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
@@ -267,7 +266,7 @@ void TObjEneMe1Gee::init_state() {
     this->fade.reset_color();
     this->m_3e8 = 45.0f;
     this->m_3ec = 15.0f;
-    this->m_3f0 = ((5.0f * (3.0517578e-05f * (f32) rand(45.0f))) + 15.0f);
+    this->m_3f0 = ((5.0f * (3.0517578e-05f * (f32) rand())) + 15.0f);
     this->m_3f4 = this->m_3ec;
     this->m_3f8 = this->position.y + this->m_3f4;
     this->m_404 = 0;
@@ -299,7 +298,7 @@ void TObjEneMe1Gee::init_state() {
     this->m_484 = 0;
     this->m_488 = 0;
     this->copy_pos();
-    set_part_position__9TObjEneDDFPvPvi(this, (int)this->bodies, 0);
+    set_part_position__9TObjEneDDFPvPvi(this, (saddr)this->bodies, 0);
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
     if (this->m_3c0 != NULL) {
@@ -406,8 +405,8 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     vec3_add_to(out, &this->position);
 }
 #pragma pop
-u8 *TObjEneMe1Gee::vfunc_101(u8 *) {
-    if (vfunc_101__9TObjEneDDFPUc() == 0U) {
+u8 *TObjEneMe1Gee::vfunc_101(u8 *dest) {
+    if (TObjEneDD::vfunc_101(dest) == 0) {
         this->m_3c8 &= 0xFEFFFFFF;
         return;
     }
@@ -589,7 +588,7 @@ s32 TObjEneMe1Gee::handle_message(s32 id) {
 }
 
 void TObjEneMe1Gee::sub_800CB968() {
-    play_persistent_sound(this->handle_message(0x3BC16), (s32)this, (u32)&this->m_2fc, 0, 0);
+    play_persistent_sound(this->handle_message(0x3BC16), (saddr)this, (uaddr)&this->m_2fc, 0, 0);
 }
 
 s32 TObjEneMe1Gee::vfunc_104(f32 range) { return this->select_and_apply_target(range); }
@@ -708,7 +707,7 @@ TObjChara *TObjEneMe1Gee::sub_800CB584() {
     return NULL;
 }
 
-void TObjEneMe1Gee::vfunc_117(u32) {  }
+void TObjEneMe1Gee::vfunc_117(uaddr) {  }
 
 int TObjEneMe1Gee::vfunc_116(TObjChara *) { return 1; }
 
@@ -870,7 +869,7 @@ void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
         VecCopy(&pos, &this->position);
         pos.y += 150.0f;
         this->m_3f8 = pos.y;
-        TBoss3Volopt__sub_800D8D88((s32) &pos);
+        TBoss3Volopt__sub_800D8D88((saddr) &pos);
         this->vfunc_91();
         this->m_434 = 0;
         return;
@@ -1184,9 +1183,9 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
                     queue_destruction__7TObjectFv(this->m_464);
                     this->m_464 = NULL;
                 }
-                play_sound_effect(this->handle_message(0x3AD17), (u32)&this->m_2fc, 0, 0);
+                play_sound_effect(this->handle_message(0x3AD17), (uaddr)&this->m_2fc, 0, 0);
             } else {
-                play_persistent_sound((s32)(this->handle_message(0x3A914)), (s32)this, (u32)&this->m_2fc, 0, 0);
+                play_persistent_sound((s32)(this->handle_message(0x3A914)), (saddr)this, (uaddr)&this->m_2fc, 0, 0);
             }
             break;
         }
@@ -1322,7 +1321,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                 f32 k;
                 this->enemy_copy_target_destination();
                 this->update_velocity();
-                play_sound_effect(this->handle_message(0x3AD13), (u32)&this->m_2fc, 0, 0);
+                play_sound_effect(this->handle_message(0x3AD13), (uaddr)&this->m_2fc, 0, 0);
                 k = 956.25f;
                 inv = 1.0f / newton_sqrtf(k);
                 k *= inv;
@@ -1371,7 +1370,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
         case 3:
             this->requested_action = 1;
             this->m_434 = 4;
-            play_sound_effect(this->handle_message(0x3AD15), (u32)&this->m_2fc, 0, 0);
+            play_sound_effect(this->handle_message(0x3AD15), (uaddr)&this->m_2fc, 0, 0);
         case 4:
             this->enemy_copy_target_destination();
             this->update_velocity();
@@ -1473,7 +1472,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
                     this->m_448 = 0.125f * (this->m_3e8 - this->m_3f4);
                     this->m_450 = 0.125f * (70.0f - this->m_3ac);
                     this->m_44c = this->m_3ac;
-                    play_sound_effect(this->handle_message(0x3AD13), (u32)&this->m_2fc, 0, 0);
+                    play_sound_effect(this->handle_message(0x3AD13), (uaddr)&this->m_2fc, 0, 0);
                 }
                 this->m_438++;
                 if (this->m_438 >= 8) {
@@ -1634,7 +1633,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
         this->actorFlags |= 0x800;
         if ((s32) this->m_3c4 == 1) {
             this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(this->m_48c);
-            this->m_3c0->vfunc_117((u32)this);
+            this->m_3c0->vfunc_117((uaddr)this);
         } else {
             this->send_entity_set_flags();
         }
@@ -1700,10 +1699,10 @@ void TObjEneMe1Gee::vfunc_112(s32 arg1) {
     case 4:
         if ((s32) this->m_3c4 == 1) {
             this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(this->m_48c);
-            this->m_3c0->vfunc_117((u32)this);
+            this->m_3c0->vfunc_117((uaddr)this);
         }
-        TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (s32)&this->m_2fc, this->rotation_y);
-        play_sound_effect(this->handle_message(0x3A843), (u32)&this->position, 0, 0);
+        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (saddr)&this->m_2fc, this->rotation_y);
+        play_sound_effect(this->handle_message(0x3A843), (uaddr)&this->position, 0, 0);
         this->m_3c8 |= 0x400000;
         this->actorFlags |= 0x01000000;
         VecCopy(&pos, (Vec *)&this->m_2fc);
@@ -1823,8 +1822,8 @@ void TObjEneMe1Gee::render() {
         if (var_r29 != 0) {
             if ((s16) this->mode != 0xB) {
                 TObjEneMe1Gee__render_node_index = 0;
-                gee_camera_ctrl_step_ptr = (s32)this->m_414;
-                set_chunk_model_node_callback((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                gee_camera_ctrl_step_ptr = (saddr)this->m_414;
+                set_chunk_model_node_callback((saddr)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
                 if (var_r30 == 1) {
                     set_motion_packed_rotation();
                     this->draw();
@@ -1838,8 +1837,8 @@ void TObjEneMe1Gee::render() {
             } else {
                 rotate_matrix_z(NULL, this->rotation_z);
                 TObjEneMe1Gee__render_node_index = -1;
-                gee_camera_ctrl_step_ptr = (s32)this->m_414;
-                set_chunk_model_node_callback((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                gee_camera_ctrl_step_ptr = (saddr)this->m_414;
+                set_chunk_model_node_callback((saddr)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
                 this->draw_with_alt_model(this->m_410);
                 set_chunk_model_node_callback((s32)NULL);
             }
@@ -1996,7 +1995,7 @@ s32 TUnk_8049387C::vfunc_108() {
     return 0;
 }
 
-void TUnk_8049387C::vfunc_117(u32 arg1) {
+void TUnk_8049387C::vfunc_117(uaddr arg1) {
     s32 i;
     TObjEneMe1Gee *tmp;
 
@@ -2199,7 +2198,7 @@ void TUnk_8049387C::vfunc_111(s32 arg1) {
 void TUnk_8049387C::vfunc_112(s32 arg1) {
     switch (arg1) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe1Gee__data_805D51C0, 0, this->texlist, (s32)&this->m_2fc, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C0, 0, this->texlist, (saddr)&this->m_2fc, this->rotation_y);
         this->m_3c8 |= 0x400000;
         ((TObjPlayer *)this)->refresh_lobby_state();
         return;

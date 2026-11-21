@@ -31,9 +31,9 @@ public:
     s32 timing_rate;
 };
 
-typedef char EndingWallQuadSize[sizeof(EndingWallQuad) == 0x20 ? 1 : -1];
-typedef char EndingABSize[sizeof(TEndingAB) == 0xF0 ? 1 : -1];
-typedef char EndingABQuadsOffset[offsetof(TEndingAB, quads) == 0x2C ? 1 : -1];
-typedef char EndingABRateOffset[offsetof(TEndingAB, timing_rate) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(EndingWallQuadSize, sizeof(EndingWallQuad) == 0x20);
+LAYOUT_ASSERT(EndingABSize, sizeof(TEndingAB) == 0xF0);
+LAYOUT_ASSERT(EndingABQuadsOffset, offsetof(TEndingAB, quads) == 0x2C);
+LAYOUT_ASSERT(EndingABRateOffset, offsetof(TEndingAB, timing_rate) == 0xEC);
 
 #endif

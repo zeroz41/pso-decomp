@@ -21,5 +21,5 @@ struct TOMineDisp : public TObjBase {
 
 extern const char *TOMineDisp__name;
 
-typedef char TOMineDisp_size[sizeof(TOMineDisp) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TOMineDisp_size, sizeof(TOMineDisp) == 0xAC);
 #endif

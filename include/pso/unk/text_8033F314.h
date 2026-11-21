@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_8033F314(s32 arg0, s32 arg1);
+s32 fn_8033F314(saddr arg0, saddr arg1);
 }
 
 // --- C functions defined in text_8033F314.cpp ---
 extern "C" {
-s32 fn_8033F314(s32 arg0, s32 arg1);
+s32 fn_8033F314(saddr arg0, saddr arg1);
 }
 // --- end of C functions
 

@@ -18,6 +18,6 @@ public:
     s32 m_64;
 };
 
-typedef char TUnk_804CF948_size[sizeof(TUnk_804CF948) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF948_size, sizeof(TUnk_804CF948) == 0x68);
 
 #endif

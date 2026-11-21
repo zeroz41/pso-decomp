@@ -63,7 +63,7 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-extern s32 tl_05;
+extern saddr tl_05;
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
@@ -194,7 +194,7 @@ TObjLight::~TObjLight() {
 }
 
 
-typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80194528_TObjLight__data_80506320_size, sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50);
 TObjLight::TObjLight(TObject *parent, u8 *arg2) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = TObjLight__class_name;

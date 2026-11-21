@@ -13,6 +13,6 @@ public:
     virtual void run_task();
 };
 
-typedef char TQuestBgmCtrlSize[(sizeof(TQuestBgmCtrl) == 0x1C) ? 1 : -1];
+LAYOUT_ASSERT(TQuestBgmCtrlSize, sizeof(TQuestBgmCtrl) == 0x1C);
 
 #endif

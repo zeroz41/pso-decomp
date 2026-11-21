@@ -11,14 +11,14 @@ public:
     TItemList(TObject *parent);
     virtual ~TItemList();
 public:
-    static s32 is_item_valid(s32 arg0);
+    static s32 is_item_valid(saddr arg0);
     static void *create_node(void *arg0, void *arg1, void *arg2, s8 arg3);
     int copy_item_data();
-    void lookup_entry_by_count(s32 arg1);
+    void lookup_entry_by_count(saddr arg1);
     u8 get_item_count();
     void *run_item_count_update();
     void set_field_1c(s32 v);
-    s32 get_owner_if_alive();
+    saddr get_owner_if_alive();
     void *find_inventory_item_by_field_d8();
     void *find_inventory_item_matching_data();
     void count_items_recursive();
@@ -41,11 +41,11 @@ void TItemList__sub_801D5804(s32 *arg0);
 void TItemList__sub_801D5838(void *p);
 int TItemList__sub_801D5844(void *p);
 void TItemList__sub_801D58C8(void *p);
-void TItemList__sub_801D59A0(TItemList *item_list, s32 arg1);
+void TItemList__sub_801D59A0(TItemList *item_list, saddr arg1);
 void copy_position__9TItemListFPv(void *p, const Vec *v);
 void *get_ptr_0x44__9TItemListFPv(void *p);
 }
-void clear_placement_search_slot(TItemList *arg0, s32 arg1);
+void clear_placement_search_slot(TItemList *arg0, saddr arg1);
 // Inventory walks over the TItemList nodes below root (TObjPlayer_801D5220.cpp).
 void *find_matching_inventory_item_node(TObject *root);
 extern "C" {
@@ -63,14 +63,14 @@ void *TItemList__sub_801D3B00(void *list, void *source, void *pos, s8 arg);
 // (TObjPlayer_801D4890.cpp) set it, the recursive walks read and advance it.
 extern s32 inventory_walk_visit_count;
 extern s32 inventory_walk_progress_count;
-extern s32 item_reduce_target_player;
+extern saddr item_reduce_target_player;
 extern u8 item_reduce_owner_match_field_ec;
 extern u8 reduce_owner_match_id;
 extern s32 *TObjPlayer__owner_field_write_cursor;
 extern s32 *player_owner_collect_cursor;
 extern u8 *player_item_collect_cursor;
-extern s32 owned_item_export_cursor;
+extern saddr owned_item_export_cursor;
 extern s32 inventory_update_field_d8_key;
-extern s32 inventory_search_item_data;
+extern saddr inventory_search_item_data;
 
 #endif

@@ -117,5 +117,5 @@ struct TWindowKeyBoardBase : public TWindowBase {
     int get_flag62_bit8();
 };
 
-typedef char TWindowKeyBoardBase_size[sizeof(TWindowKeyBoardBase) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TWindowKeyBoardBase_size, sizeof(TWindowKeyBoardBase) == 0xB8);
 #endif

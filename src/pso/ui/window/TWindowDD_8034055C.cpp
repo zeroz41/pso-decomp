@@ -16,9 +16,8 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-void __dl__7TObjectFPv(void *);
 void TWindowDD__sub_803489B8(void *ctx, E_803403F8 *points, s32 row);
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
@@ -38,7 +37,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     f32 h;
     u32 color;
 
-    ctx = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    ctx = (WindowDrawContext *)TWindowDD::draw_default_entry((saddr)self);
     if (ctx->open_tick < 0) {
         return;
     }
@@ -121,13 +120,13 @@ void TWindowDD::handle_input() {
     s32 temp_r31;
     s32 temp_r3;
     temp_r31 = this->m_64[1];
-    if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x10) != 0) {
+    if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x10) != 0) {
         this->m_64[1] = (this->m_64[1] - 1);
-    } else if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x20) != 0) {
+    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x20) != 0) {
         this->m_64[1] = (this->m_64[1] + 1);
-    } else if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x20000) != 0) {
+    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x20000) != 0) {
         this->m_64[1] = 0;
-    } else if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x10000) != 0) {
+    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x10000) != 0) {
         this->m_64[1] = 2;
     }
     temp_r0 = this->m_64[1];
@@ -177,7 +176,7 @@ void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EFBAC;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

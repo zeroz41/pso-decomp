@@ -5,7 +5,7 @@
 
 class TBoss7PhotonPad : public TObject {
 public:
-    TBoss7PhotonPad(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    TBoss7PhotonPad(saddr arg1, s32 arg2, saddr arg3, s32 arg4);
     virtual ~TBoss7PhotonPad();
     virtual void run_task();
     virtual void render();

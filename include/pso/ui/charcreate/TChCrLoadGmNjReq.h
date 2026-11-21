@@ -28,7 +28,7 @@ public:
     virtual void run_task();
 };
 
-typedef char TChCrLoadGmNjReq_size[sizeof(TChCrLoadGmNjReq) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadGmNjReq_size, sizeof(TChCrLoadGmNjReq) == 0x78);
 
 void *create_ch_cr_load_gm_nj_req(void *arg0, void *arg1);
 

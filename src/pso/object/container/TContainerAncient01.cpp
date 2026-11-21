@@ -208,7 +208,7 @@ f32 horizontal_distance_squared(void *, void *);
 // pair TContainerAncient01R::init_table_entries copies for its open effect.
 s32 TContainerAncient01__effect_id_table[2];
 
-s32 TContainerAncient01__open_effect_table[2];
+saddr TContainerAncient01__open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
@@ -238,7 +238,6 @@ void TContainerAncient01R__sub_8018AF74(void);
 
 s32 free_collision_body_parts(void *);
 
-s32 __dl__7TObjectFPv(void *);
 
 extern "C" void vfunc_29__9TObjCharaFv();
 
@@ -512,7 +511,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 0));
     this->texlist = get_bml_texlist(TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
-    this->set_field_d8((s32)((void *) (this->action_table)));
+    this->set_field_d8((saddr)((void *) (this->action_table)));
     this->motion_list = TContainerAncient01__bml_resource->motions;
     this->requested_action = 0;
     this->set_animation((this->requested_action));
@@ -630,7 +629,7 @@ void TContainerAncient01::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->model), (void *)(*(saddr *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -658,7 +657,7 @@ f32 TContainerAncient01::receive_physical_attack(void *, f32) {
 
     if ((u16) this->entity_id >= 0x1000U) {
         reset_state__19TContainerAncient01Fv();
-        if (((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+        if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = 1;
             access_object_saved_state(&sp8, 0);
             send_object_state_update(&sp8);
@@ -838,7 +837,7 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     self->x34 = get_bml_model(TContainerAncient01R__bml_resource, 0);
     self->x24 = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
     self->animTbl = (void *)TContainerAncient01__anim_table;
-    ((TObjMotion *)self)->set_field_d8((s32)self->animTbl);
+    ((TObjMotion *)self)->set_field_d8((saddr)self->animTbl);
     self->motion_list = TContainerAncient01R__bml_resource->motions;
     self->anim = 0;
     ((TObjMotion *)self)->set_animation(self->anim);
@@ -934,7 +933,7 @@ void TContainerAncient01R::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->model), (void *)(*(saddr *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -962,7 +961,7 @@ f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
     s16 sp8;
     if ((u16) this->entity_id >= 0x1000U) {
         this->m_338 = (this->m_338 + 1);
-        if (((u32) this->set_entry != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+        if (((uaddr) this->set_entry != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = this->m_338;
             ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
             ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
@@ -1128,7 +1127,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
                 atk.type = 0xF;
                 atk.base = 1e+02f;
                 atk.kind = 0xF;
-                *(s32 *)&atk.power = *(s32 *)&atk.base;
+                *(saddr *)&atk.power = *(saddr *)&atk.base;
                 pl->m21(self, &atk, 0, -1, -1);
             }
         }

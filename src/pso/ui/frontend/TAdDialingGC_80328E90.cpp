@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/unk/TUnk_804ED7D0.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby.h"
 
 extern "C" {
-s32 is_handle_valid__10TObjPlayerFv();
 void TLobby__sub_802A5154(void);
 
 extern s32 TAdDialingGC__instance;
@@ -23,7 +23,7 @@ void TAdDialingGC::open() {
 }
 
 int TUnk_804ED7D0::vfunc_30() {
-    s32 t = is_handle_valid__10TObjPlayerFv();
+    s32 t = ((TObjPlayer *)this)->is_handle_valid();
     s32 r = 2;
     if (t == 2) {
         r = 5;
@@ -32,7 +32,7 @@ int TUnk_804ED7D0::vfunc_30() {
 }
 
 int TUnk_804ED7D0::vfunc_22() {
-    s32 t = is_handle_valid__10TObjPlayerFv();
+    s32 t = ((TObjPlayer *)this)->is_handle_valid();
     s32 r = 1;
     if (t == 2) {
         r = 4;
@@ -41,7 +41,7 @@ int TUnk_804ED7D0::vfunc_22() {
 }
 
 int TUnk_804ED7D0::vfunc_23() {
-    return ((is_handle_valid__10TObjPlayerFv() - 2) == 0) ? 3 : 0;
+    return ((((TObjPlayer *)this)->is_handle_valid() - 2) == 0) ? 3 : 0;
 }
 
 }

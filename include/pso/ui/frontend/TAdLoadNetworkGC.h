@@ -15,5 +15,5 @@ struct TAdLoadNetworkGC : public TObject {
     u8 unk_38[0x8];
 };
 
-typedef char TAdLoadNetworkGC_size[sizeof(TAdLoadNetworkGC) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadNetworkGC_size, sizeof(TAdLoadNetworkGC) == 0x40);
 #endif

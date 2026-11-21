@@ -20,6 +20,6 @@ public:
     static TBoss6CrushPtcl *create(Vec *point);
 };
 
-typedef char CrushParticleSize[sizeof(TBoss6CrushPtcl) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(CrushParticleSize, sizeof(TBoss6CrushPtcl) == 0x28);
 
 #endif

@@ -13,7 +13,7 @@ public:
     virtual void run_task();
     virtual void render();
     void draw();
-    void draw_setting(s32);
+    void draw_setting(saddr);
     void clamp_scroll();
     void update_scroll_offset();
     void move_cursor_prev();
@@ -37,6 +37,6 @@ public:
     TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window (inferred)
     u8 unk_7C[0x4];
 };
-typedef char TUnk_804D0658_size[sizeof(TUnk_804D0658) == 0x80 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804D0658_size, sizeof(TUnk_804D0658) == 0x80);
 
 #endif

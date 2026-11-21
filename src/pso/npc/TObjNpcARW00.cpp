@@ -13,8 +13,8 @@ const char *TObjNpcARW00__name = "TObjNpcARW00";
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
-u32 TObjNpcARW00__static_model;
-u32 TObjNpcARW00__gvm_texture_handle;
+uaddr TObjNpcARW00__static_model;
+uaddr TObjNpcARW00__gvm_texture_handle;
 void release_texture_list(void*);
 
 void TObjNpcARW00::free_resources() {
@@ -24,14 +24,14 @@ void TObjNpcARW00::free_resources() {
         TObjNpcARW00__gvm_texture_handle = 0U;
     }
     if ((u32) TObjNpcARW00__static_model != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TObjNpcARW00__static_model));
+        TLobby::free_nodes_with_id((uaddr)((void*)TObjNpcARW00__static_model));
         TObjNpcARW00__static_model = 0U;
     }
 }
 
 void TObjNpcARW00::load_resources() {
-    TObjNpcARW00__static_model = (u32)create_named_object((s32)"npc_f00_data.rel");
-    TObjNpcARW00__gvm_texture_handle = (u32)load_gvm_texture_file((s32)"n_f00_w_body.gvm");
+    TObjNpcARW00__static_model = (u32)create_named_object((saddr)"npc_f00_data.rel");
+    TObjNpcARW00__gvm_texture_handle = (uaddr)load_gvm_texture_file((saddr)"n_f00_w_body.gvm");
 }
 
 }
@@ -39,7 +39,7 @@ TObjNpcARW00::~TObjNpcARW00() {}
 
 
 TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcARW00__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcARW00__name;
     ((TObjNpcARW00 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcARW00__static_model);
@@ -48,7 +48,7 @@ TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TUnk_804A8640(parent) 
 }
 
 void TObjNpcARW00::play_voice() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
 }
 

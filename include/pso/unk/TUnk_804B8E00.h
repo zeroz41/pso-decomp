@@ -12,6 +12,6 @@ public:
     virtual void render();
     s32 beat; // inferred: TLobby::get_internet_beat() of the last run_task
 };
-typedef char TUnk_804B8E00_size[sizeof(TUnk_804B8E00) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804B8E00_size, sizeof(TUnk_804B8E00) == 0x20);
 
 #endif

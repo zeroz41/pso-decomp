@@ -5,20 +5,20 @@
 #include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopEquipmentListWindow : public TShopWindowBase {
-    TShopEquipmentListWindow(s32 parent, s32, s32);
+    TShopEquipmentListWindow(saddr parent, s32, s32);
     virtual ~TShopEquipmentListWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
-    u32 m_3c;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
+    uaddr m_3c;
     u32 m_40;
     u8 _pad44[0x4];
     u32 m_48;
@@ -37,7 +37,7 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     static void create_buy_list_windows(void *p);
 };
 
-typedef char TShopEquipmentListWindow_size[sizeof(TShopEquipmentListWindow) == 0x194 ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentListWindow_size, sizeof(TShopEquipmentListWindow) == 0x194);
 // --- C functions defined in TShopEquipmentListWindow.cpp ---
 extern "C" {
 int TShopEquipmentListWindow__sub_8021C85C(int a0);

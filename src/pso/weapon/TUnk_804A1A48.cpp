@@ -67,7 +67,7 @@ void TUnk_804A1A48::reserved_53() {
 
 
 void TUnk_804A1A48::emit_marker_effects() {
-    s32 item = (s32)this;
+    saddr item = (saddr)this;
     if (get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 4);
     }

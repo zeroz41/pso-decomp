@@ -18,14 +18,14 @@ u8 *get_captured_target_entry(s32, s32);
 s32 get_captured_target_count();
 
 void TUnk_804A65E0::emit_marker_effects() {
-    s32 state;
+    saddr state;
     TargetCursorRecord *record;
     s32 i;
     u8 *entry;
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(0, &cast_point);
-        state = (s32)((TObjPlayer *)owner)->get_extended_state();
+        state = (saddr)((TObjPlayer *)owner)->get_extended_state();
         if (state != 0) {
             targets.count = get_captured_target_count();
             record = targets.records;
@@ -64,7 +64,7 @@ TUnk_804A65E0::TUnk_804A65E0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(5);
 }
 
-u8 *TObjPlayer::create_effect_object(s32 item) {
+u8 *TObjPlayer::create_effect_object(saddr item) {
     if (item != 0) {
         return (u8 *)new TUnk_804A65E0(tl_05, (u8 *)item);
     }

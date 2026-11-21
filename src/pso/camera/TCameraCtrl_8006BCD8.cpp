@@ -37,11 +37,11 @@ struct ScriptedCameraState {
     CameraPathMode* mode;
     CameraPlayback playback;
 };
-typedef char ScriptedCameraSize[(sizeof(ScriptedCameraState) == 0xA4) ? 1 : -1];
-typedef char ScriptedCameraPositionOffset[(offsetof(ScriptedCameraState, position_origin) == 0x6C) ? 1 : -1];
-typedef char ScriptedCameraTargetOffset[(offsetof(ScriptedCameraState, target_origin) == 0x78) ? 1 : -1];
-typedef char ScriptedCameraYawOffset[(offsetof(ScriptedCameraState, angles) + offsetof(CameraAngles, yaw) == 0x88) ? 1 : -1];
-typedef char ScriptedCameraPlaybackOffset[(offsetof(ScriptedCameraState, playback) == 0x98) ? 1 : -1];
+LAYOUT_ASSERT(ScriptedCameraSize, sizeof(ScriptedCameraState) == 0xA4);
+LAYOUT_ASSERT(ScriptedCameraPositionOffset, offsetof(ScriptedCameraState, position_origin) == 0x6C);
+LAYOUT_ASSERT(ScriptedCameraTargetOffset, offsetof(ScriptedCameraState, target_origin) == 0x78);
+LAYOUT_ASSERT(ScriptedCameraYawOffset, offsetof(ScriptedCameraState, angles) + offsetof(CameraAngles, yaw) == 0x88);
+LAYOUT_ASSERT(ScriptedCameraPlaybackOffset, offsetof(ScriptedCameraState, playback) == 0x98);
 extern "C" {
 f32 vector_length(const Vec*);
 void approach_vector_fixed_distance(const Vec*, const Vec*, Vec*, f32);

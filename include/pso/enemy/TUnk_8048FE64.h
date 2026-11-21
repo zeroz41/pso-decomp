@@ -19,6 +19,6 @@ public:
     f32 length;
     f32 frames;
 };
-typedef char TUnk_8048FE64_size[sizeof(TUnk_8048FE64) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8048FE64_size, sizeof(TUnk_8048FE64) == 0x54);
 
 #endif

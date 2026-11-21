@@ -34,12 +34,12 @@ struct GcrnaStream {
 };
 
 #include <stddef.h>
-typedef char GcrnaStream_size[sizeof(GcrnaStream) == 0x80 ? 1 : -1];
-typedef char GcrnaStream_flags_offset[offsetof(GcrnaStream, flags) == 0x08 ? 1 : -1];
-typedef char GcrnaStream_channels_offset[offsetof(GcrnaStream, allocated_channels) == 0x0C ? 1 : -1];
-typedef char GcrnaStream_rings_offset[offsetof(GcrnaStream, ring_buffers) == 0x28 ? 1 : -1];
-typedef char GcrnaStream_ids_offset[offsetof(GcrnaStream, stream_ids) == 0x40 ? 1 : -1];
-typedef char GcrnaStream_silence_offset[offsetof(GcrnaStream, silence_samples) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(GcrnaStream_size, sizeof(GcrnaStream) == 0x80);
+LAYOUT_ASSERT(GcrnaStream_flags_offset, offsetof(GcrnaStream, flags) == 0x08);
+LAYOUT_ASSERT(GcrnaStream_channels_offset, offsetof(GcrnaStream, allocated_channels) == 0x0C);
+LAYOUT_ASSERT(GcrnaStream_rings_offset, offsetof(GcrnaStream, ring_buffers) == 0x28);
+LAYOUT_ASSERT(GcrnaStream_ids_offset, offsetof(GcrnaStream, stream_ids) == 0x40);
+LAYOUT_ASSERT(GcrnaStream_silence_offset, offsetof(GcrnaStream, silence_samples) == 0x54);
 
 extern "C" {
 void GCRNA_SetPlaySw(GcrnaStream* stream, s32 enabled);

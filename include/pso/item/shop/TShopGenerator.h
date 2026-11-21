@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TShopGenerator : public TObjBase {
-    TShopGenerator(s32);
+    TShopGenerator(saddr);
     virtual ~TShopGenerator();
     bool is_player_in_service_range(u8 *, f32);
     virtual void run_task();
@@ -18,7 +18,7 @@ struct TShopGenerator : public TObjBase {
     static void run_fn_table_forward();
 };
 
-typedef char TShopGenerator_size[sizeof(TShopGenerator) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TShopGenerator_size, sizeof(TShopGenerator) == 0x98);
 
 extern "C" {
 void THunterGuildSeqOffline__sub_8021E180(s32 arg0);

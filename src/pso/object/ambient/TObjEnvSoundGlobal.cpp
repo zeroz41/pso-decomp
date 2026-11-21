@@ -88,12 +88,11 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 f32 xz_distance_squared(void *, void *);
 extern TCameraCtrl *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-void __dl__7TObjectFPv(void *);
 
 
 extern void *tl_05;
@@ -192,15 +191,15 @@ void TObjEnvSound::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
     temp_f0 = *(f32 *)&this->unk_90;
-    if ((fn_801908F8((s32)this, (f32) (temp_f0 * temp_f0)) != 0) && (TObjEnvSound::is_sound_enabled(arg0, this->m_98) != 0)) {
+    if ((fn_801908F8((saddr)this, (f32) (temp_f0 * temp_f0)) != 0) && (TObjEnvSound::is_sound_enabled(arg0, this->m_98) != 0)) {
         switch (this->m_9c) {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)this->m_98, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
+            play_persistent_sound((s32)this->m_98, (saddr)arg0, (uaddr)(arg0 + 0x38), 0, 0);
             return;
         case 2:
-            play_persistent_sound((s32)this->m_98, (s32)arg0, (u32)(arg0 + 0x38), (s32)this->m_94, 2);
+            play_persistent_sound((s32)this->m_98, (saddr)arg0, (uaddr)(arg0 + 0x38), (s32)this->m_94, 2);
             break;
         }
     }
@@ -215,7 +214,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
     return new TObjEnvSound((TObject *)tl_05, rader_map_core);
 }
 
-s32 fn_801908F8(s32 arg0, f32 farg0) {
+s32 fn_801908F8(saddr arg0, f32 farg0) {
     return xyz_distance_squared(&camera_ctrl_instance->pos_x, (void *)(arg0 + 0x38), (void *)arg0) < farg0;
 }
 
@@ -231,7 +230,7 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
 }
 
 #define env_sound_ex ((u8 *)this)
-TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, s32 arg2) : TObjBase(parent) {
+TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, saddr arg2) : TObjBase(parent) {
     ((TObjEnvSoundEx *)env_sound_ex)->m_name = TObjEnvSoundEx__class_name;
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
@@ -254,10 +253,10 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)o->pos), 0, 0);
+            play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)o->pos), 0, 0);
             break;
         case 2:
-            play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)(0)), (s32)((s32)o->vol), 2);
+            play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)(0)), (s32)((s32)o->vol), 2);
             break;
         }
     } else {
@@ -270,10 +269,10 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
             case 0:
                 break;
             case 1:
-                play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)o->pos), 0, 0);
+                play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)o->pos), 0, 0);
                 break;
             case 2:
-                play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)(0)), (s32)((s32)o->vol), 2);
+                play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)(0)), (s32)((s32)o->vol), 2);
                 break;
             }
         }
@@ -285,9 +284,9 @@ void TObjEnvSoundEx::render() {  }
 s32 TObjEnvSoundEx::init_sound_params() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    u32 temp_r4;
+    uaddr temp_r4;
     var_r31 = 1;
-    temp_r4 = (u32)environment_sound_tables_by_area[get_current_floor_area()];
+    temp_r4 = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
     if (temp_r4 != 0U) {
         ((s32 (*)(void *, int))copy_pair__18TObjEnvSoundGlobalFPvPv)(arg0 + 0x9C, (int) (temp_r4 + (this->set_params[0] * 8)));
     } else {
@@ -314,11 +313,11 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSoundEx((TObject *)tl_05, (s32)rader_map_core);
+    return new TObjEnvSoundEx((TObject *)tl_05, (saddr)rader_map_core);
 }
 
 #define env_sound_global this
-TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, s32 arg2) : TObjBase(parent) {
+TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, saddr arg2) : TObjBase(parent) {
     ((TObjEnvSoundGlobal *)env_sound_global)->m_name = TObjEnvSoundGlobal__class_name;
     ((TObjEnvSoundGlobal *)(env_sound_global))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundGlobal *)env_sound_global)->setup_sound();
@@ -335,10 +334,10 @@ void TObjEnvSoundGlobal::run_task() {
     case 0:
         break;
     case 1:
-        play_persistent_sound((s32)self->sound, (s32)self, (u32)self->pos, 0, 0);
+        play_persistent_sound((s32)self->sound, (saddr)self, (uaddr)self->pos, 0, 0);
         break;
     case 2:
-        play_persistent_sound((s32)self->sound, (s32)self, (u32)(0), (s32)self->param, 2);
+        play_persistent_sound((s32)self->sound, (saddr)self, (u32)(0), (s32)self->param, 2);
         break;
     }
 }
@@ -351,9 +350,9 @@ void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q) { *(u32*)((char*)p +
 #pragma opt_common_subs off
 s32 TObjEnvSoundGlobal::setup_sound() {
     s32 var_r31;
-    u32 temp_r4;
+    uaddr temp_r4;
     var_r31 = 1;
-    temp_r4 = (u32)environment_sound_tables_by_area[get_current_floor_area()];
+    temp_r4 = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
     if (temp_r4 != 0U) {
         copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->set_params[0] * 8))));
     } else {

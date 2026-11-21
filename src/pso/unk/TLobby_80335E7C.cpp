@@ -84,7 +84,7 @@ void *get_title_texture_list(void) {
 void *TLobby::get_record(int a0) { return &lobby_record_table[a0]; }
 
 void bind_title_texture_list(void) {
-    set_texlist((u32)&title_texture_list.value);
+    set_texlist((uaddr)&title_texture_list.value);
 }
 
 int TLobby__sub_80336030(void* p) { return ((TUnk_804EE458 *)(*(void**)((char*)p + 0x24)))->sub_8033596C(); }

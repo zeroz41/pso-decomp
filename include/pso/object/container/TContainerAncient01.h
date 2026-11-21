@@ -43,8 +43,8 @@ struct TContainerAncient01 : public TObjChara {
     static int get_table_entry(int a0);
 };
 
-typedef char TContainerAncient01_size[sizeof(TContainerAncient01) == 0x370 ? 1 : -1];
-typedef char TContainerAncient01LowerEffectOffset[offsetof(TContainerAncient01, lower_effect_position) == 0x344 ? 1 : -1];
-typedef char TContainerAncient01UpperEffectOffset[offsetof(TContainerAncient01, upper_effect_position) == 0x350 ? 1 : -1];
-typedef char TContainerAncient01OpenScaleOffset[offsetof(TContainerAncient01, open_scale) == 0x360 ? 1 : -1];
+LAYOUT_ASSERT(TContainerAncient01_size, sizeof(TContainerAncient01) == 0x370);
+LAYOUT_ASSERT(TContainerAncient01LowerEffectOffset, offsetof(TContainerAncient01, lower_effect_position) == 0x344);
+LAYOUT_ASSERT(TContainerAncient01UpperEffectOffset, offsetof(TContainerAncient01, upper_effect_position) == 0x350);
+LAYOUT_ASSERT(TContainerAncient01OpenScaleOffset, offsetof(TContainerAncient01, open_scale) == 0x360);
 #endif

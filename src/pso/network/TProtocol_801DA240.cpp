@@ -1,11 +1,12 @@
+#include <stdio.h>
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/unk/TLobby.h"
 #include <stddef.h>
-typedef char TradeResultCallbackOffset[(offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C) ? 1 : -1];
-typedef char TradeAdvanceCallbackOffset[(offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0) ? 1 : -1];
-typedef char TradeHeaderSize[sizeof(packet_header) == 4 ? 1 : -1];
-typedef char TradeStateOffset[offsetof(packet_header, flags) == 1 ? 1 : -1];
+LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
+LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0);
+LAYOUT_ASSERT(TradeHeaderSize, sizeof(packet_header) == 4);
+LAYOUT_ASSERT(TradeStateOffset, offsetof(packet_header, flags) == 1);
 
 /* TProtocol's globals. Its code is split over several files; this is the first whose data sits where these do (the
  * strings ahead of its trade-list log formats in .rodata). */
@@ -109,7 +110,6 @@ struct Pkt_801DA734 {
 };
 
 extern "C" {
-int sprintf(char *, const char *, ...);
 void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src);
 void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src);
 typedef void (*Fn_801DA240)(char *);

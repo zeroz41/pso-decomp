@@ -20,13 +20,13 @@ public:
     virtual void run_task();
 };
 
-typedef char TObjDFRecover_parent_offset[(offsetof(TObjDFRecover, m_up) == 0x10) ? 1 : -1];
-typedef char TObjDFRecover_countdown_offset[(offsetof(TObjDFRecover, countdown) == 0x28) ? 1 : -1];
-typedef char TObjDFRecover_effect_offset[(offsetof(TObjDFRecover, effect) == 0x2C) ? 1 : -1];
-typedef char TObjDFRecover_phase_offset[(offsetof(TObjDFRecover, phase) == 0x30) ? 1 : -1];
-typedef char TObjDFRecover_target_id_offset[(offsetof(TObjDFRecover, target_id) == 0x34) ? 1 : -1];
-typedef char TObjDFRecover_cached_position_offset[(offsetof(TObjDFRecover, cached_position) == 0x38) ? 1 : -1];
+LAYOUT_ASSERT(TObjDFRecover_parent_offset, offsetof(TObjDFRecover, m_up) == 0x10);
+LAYOUT_ASSERT(TObjDFRecover_countdown_offset, offsetof(TObjDFRecover, countdown) == 0x28);
+LAYOUT_ASSERT(TObjDFRecover_effect_offset, offsetof(TObjDFRecover, effect) == 0x2C);
+LAYOUT_ASSERT(TObjDFRecover_phase_offset, offsetof(TObjDFRecover, phase) == 0x30);
+LAYOUT_ASSERT(TObjDFRecover_target_id_offset, offsetof(TObjDFRecover, target_id) == 0x34);
+LAYOUT_ASSERT(TObjDFRecover_cached_position_offset, offsetof(TObjDFRecover, cached_position) == 0x38);
 
-typedef char TObjDFRecover_size[(sizeof(TObjDFRecover) == 0x44) ? 1 : -1];
+LAYOUT_ASSERT(TObjDFRecover_size, sizeof(TObjDFRecover) == 0x44);
 
 #endif

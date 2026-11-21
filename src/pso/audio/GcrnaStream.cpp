@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/audio/GcrnaStream.h"
 #include "pso/audio/GcrnaError.h"
 #include <dolphin/os/OSAlloc.h>
@@ -19,7 +20,6 @@ u32 sndStreamAllocEx(u8 priority, void *buffer, u32 samples, u32 frequency, u8 v
                      u32 (*callback)(void *, u32, void *, u32, u32), u32 user,
                      SND_ADPCMSTREAM_INFO *adpcm_info);
 void DCFlushRange(void *buffer, u32 size);
-void *memset(void *, int, unsigned long);
 }
 
 extern u8 gcrna_volume_table[1000];
@@ -32,7 +32,7 @@ u32 lbl_805D7688;
 u8 *gcrna_audio_allocation;
 s32 gcrna_uses_caller_buffer;
 s32 lbl_805D7694;
-u32 gcrna_aligned_audio_storage;
+uaddr gcrna_aligned_audio_storage;
 
 extern "C" const char *const volatile gcrna_version_pointer = "\nGCRNA Ver.0.97 Build:Jun 13 2002 19:01:27\n";
 
@@ -426,7 +426,7 @@ void gcrna_initialize(void) {
             lbl_805D7688 = 0x2000;
             gcrna_audio_allocation = (u8 *)OSAlloc(32 * 0x2000 + 32);
         }
-        gcrna_aligned_audio_storage = ((u32)gcrna_audio_allocation + 31) & ~31ULL;
+        gcrna_aligned_audio_storage = ((uaddr)gcrna_audio_allocation + 31) & ~31ULL;
         gcrna_initialize_buffer_table();
         memset(gcrna_stream_pool, 0, sizeof(gcrna_stream_pool));
     }

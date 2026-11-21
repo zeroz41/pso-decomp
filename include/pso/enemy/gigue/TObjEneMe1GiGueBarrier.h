@@ -20,5 +20,5 @@ struct TObjEneMe1GiGueBarrier : public TObjMotion {
     static void init_global();
 };
 
-typedef char TObjEneMe1GiGueBarrier_size[sizeof(TObjEneMe1GiGueBarrier) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1GiGueBarrier_size, sizeof(TObjEneMe1GiGueBarrier) == 0x10C);
 #endif

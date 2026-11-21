@@ -40,8 +40,8 @@ struct TContainerAncient01R : public TObjChara {
     u32 m_370;
 };
 
-typedef char TContainerAncient01R_size[sizeof(TContainerAncient01R) == 0x374 ? 1 : -1];
-typedef char TContainerAncient01RLowerEffectOffset[offsetof(TContainerAncient01R, lower_effect_position) == 0x348 ? 1 : -1];
-typedef char TContainerAncient01RUpperEffectOffset[offsetof(TContainerAncient01R, upper_effect_position) == 0x354 ? 1 : -1];
-typedef char TContainerAncient01ROpenScaleOffset[offsetof(TContainerAncient01R, open_scale) == 0x364 ? 1 : -1];
+LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);
+LAYOUT_ASSERT(TContainerAncient01RLowerEffectOffset, offsetof(TContainerAncient01R, lower_effect_position) == 0x348);
+LAYOUT_ASSERT(TContainerAncient01RUpperEffectOffset, offsetof(TContainerAncient01R, upper_effect_position) == 0x354);
+LAYOUT_ASSERT(TContainerAncient01ROpenScaleOffset, offsetof(TContainerAncient01R, open_scale) == 0x364);
 #endif

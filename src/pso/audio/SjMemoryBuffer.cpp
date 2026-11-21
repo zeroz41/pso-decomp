@@ -1,7 +1,7 @@
+#include <string.h>
 #include "pso/system/MiddlewareInterruptLock.h"
 #include "pso/audio/SjMemoryBuffer.h"
 extern "C" {
-s32 memset(void*, int, int);
 extern SjMemoryBuffer sj_memory_buffer_pool[32];
 extern s32 sj_memory_buffer_init_count;
 extern SjMemoryBufferInterface sj_memory_buffer_interface;

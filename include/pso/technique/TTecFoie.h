@@ -5,8 +5,8 @@
 #include "pso/effect/TUnk_804CCC68.h"
 
 struct TTecFoie : public TUnk_804CCC68 {
-    TTecFoie(s32 source, u8 *pos, u8 *target, s32 level);
-    TTecFoie(s32 source, Vec *pos, s32 angle, s32 level);
+    TTecFoie(saddr source, u8 *pos, u8 *target, s32 level);
+    TTecFoie(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecFoie();
     virtual void vfunc_8(void *);
     virtual void vfunc_6();
@@ -20,5 +20,5 @@ struct TTecFoie : public TUnk_804CCC68 {
     void **emitters; // the particle emitters of the band, queued for destruction with it
 };
 
-typedef char TTecFoie_size[sizeof(TTecFoie) == 0x134 ? 1 : -1];
+LAYOUT_ASSERT(TTecFoie_size, sizeof(TTecFoie) == 0x134);
 #endif

@@ -11,12 +11,12 @@
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
 
 extern "C" {
 extern TObject *tl_04;
-s32 get_bml_texlist(void *, int);
 BmlResource *TAdRicoRing__resource_bundle;
 f32 lbl_805D4A04;
 s8 lbl_805D4A08;
@@ -153,7 +153,7 @@ void TAdRicoRing::set_scale4(f32 value) {
 
 void TAdRicoRing::render() {
     push_matrix();
-    TObjFish::set_global_param((s32)textures);
+    TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(NULL, angles[0], angles[1], angles[2]);
     set_chunk_render_flags(1);

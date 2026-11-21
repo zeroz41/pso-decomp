@@ -26,7 +26,7 @@ void THunterGuildWarning::queue_destruction() {
     }
 }
 
-void THunterGuildWarning::create_instance(s32 arg0) {
+void THunterGuildWarning::create_instance(saddr arg0) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning__instance == NULL)) {
         new THunterGuildWarning(tl_05, (void *)arg0);
     }
@@ -41,7 +41,7 @@ void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning__instance = 0
 void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning__instance = 0; }
 
 extern "C" {
-s32 get_window_layout_position(s32 index);
+saddr get_window_layout_position(s32 index);
 }
 
 void THunterGuildWarning::close_windows() {
@@ -134,7 +134,7 @@ THunterGuildWarning::~THunterGuildWarning() {
 
 THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(object) {
     m_name = THunterGuildWarning__name;
-    mode = (s32)arg2;
+    mode = (saddr)arg2;
     timer = 90;
     THunterGuildWarning__sub_802119CC(this);
     sub_80211774((void *)mode);
@@ -248,15 +248,15 @@ s32 TLobby__sub_80211C3C(void) {
 extern "C" {
 
 
-s32 TLobby::handle_main_phase(s32 arg0) {
+s32 TLobby::handle_main_phase(saddr arg0) {
     if (get_main_phase() == 0xE) {
-        return (s32)THunterGuildSeqOffline::create((void *)arg0);
+        return (saddr)THunterGuildSeqOffline::create((void *)arg0);
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) TLobby__designated_client_id) {
-            return (s32)TLobby::create_tl05_object((void *)arg0);
+            return (saddr)TLobby::create_tl05_object((void *)arg0);
         }
-        return (s32)create_lobby_object_05((void *)arg0);
+        return (saddr)create_lobby_object_05((void *)arg0);
     }
     return 0;
 }

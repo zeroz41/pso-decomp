@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
@@ -89,7 +90,7 @@ void update__6TLobbyFPv(void *arg0) {
             *(s32 *)((s8 *)arg0 + 0x78) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
         } else {
             *(s32 *)((s8 *)arg0 + 0x78) = (s32) ((s32) (*(s32 *)((s8 *)arg0 + 0x7C) * (temp_r4 - temp_r0)) / temp_r4);
-            *(s32 *)((s8 *)arg0 + 0x84) = (s32) (*(s32 *)((s8 *)arg0 + 0x84) - ((TLobby *)(*(s32 *)((s8 *)arg0 + 0)))->get_field_308());
+            *(s32 *)((s8 *)arg0 + 0x84) = (s32) (*(s32 *)((s8 *)arg0 + 0x84) - ((TLobby *)(*(saddr *)((s8 *)arg0 + 0)))->get_field_308());
         }
     }
     *(s32 *)((s8 *)arg0 + 0x64) = (s32) (*(s32 *)((s8 *)arg0 + 0x6C) + *(s32 *)((s8 *)arg0 + 0x70) + *(s32 *)((s8 *)arg0 + 0x78));
@@ -193,7 +194,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         TLobby__sub_80240F3C(v);
         calc_sound_spatial_params(v);
         ((TLobby *)v)->clamp_params();
-        update__6TLobbyFPv(v);
+        TLobby::update(v);
         params.count = 1;
         params.ctl = ctl;
         ctl[0].type = 0x80;
@@ -243,7 +244,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         v->refresh--;
         send_sound_request_reverb((SoundRequestVoice *)(v));
         ((TLobby *)v)->clamp_params();
-        update__6TLobbyFPv(v);
+        TLobby::update(v);
         if (sndFXCheck(v->token) == 0xFFFFFFFF) {
             if ((v->flags & 1) && v->refresh >= 0) {
                 sndFXKeyOff(v->token);
@@ -948,7 +949,7 @@ typedef struct Entry_80242380 {
 extern "C" {
 struct RecoveredGlobal_TLobby__data_8050AAAC { s32 value; u8 remaining[0x24]; };
 extern RecoveredGlobal_TLobby__data_8050AAAC TLobby__data_8050AAAC;
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 char *get_shared_text_buffer();
 void text_builder_append(char *);
 }
@@ -989,10 +990,10 @@ void load_selected_guild_card_record(Src_8024220C *arg0) {
   new_var = arg0->list;
   new_var = ((TLobby *)new_var)->build_text_from_comma_list();
   p = new_var;
-  p = ((void *)parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s19)));
-  p = ((void *)parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s2A)));
-  p = ((void *)parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s2A)));
-  parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s3B));
+  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s19)));
+  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
+  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
+  TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
   TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(selected_guild_card_record.ext, arg0->ext);
 }
@@ -1011,7 +1012,7 @@ void TLobby::find_and_load_com_card(u32 arg0) {
         if (arg0 == ((GuildCardRecord *)TLobby::get_com_card_entry(i))->get_serial()) break;
     }
     if (i < n) {
-        copy_com_card_entry__6TLobbyFPvPv((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
+        TLobby::copy_com_card_entry((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
     }
 }
 
@@ -1083,7 +1084,7 @@ char *TLobby::build_text_from_comma_list() {
     return get_shared_text_buffer();
 }
 
-void TLobby__sub_8024259C(s32 arg0) {
+void TLobby__sub_8024259C(saddr arg0) {
     if ((u32) TLobby__protocol_instance != 0U) {
         memset((char *)&TLobby__data_8050AAAC.value, 0, 0x11);
         strncpy((char *)&TLobby__data_8050AAAC.value, (char *)(arg0 + 0x19), 0x10);
@@ -1094,7 +1095,7 @@ void TLobby__sub_8024259C(s32 arg0) {
 #pragma pop
 extern int com_card_entry_count;
 u32 find_card_by_id__17TWindowSubComCardFUl();
-s32 get_com_card_list__6TLobbyFv();
+saddr get_com_card_list__6TLobbyFv();
 
 extern s32 lbl_805D63D8;
 
@@ -1126,7 +1127,7 @@ void TLobby::remove_com_card_entry(s32 arg0) {
     u8 *lobby;
     if (arg0 < 7) {
         lobby = (u8 *)&com_card_entries[arg0];
-        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (s32)((void *) ((u32) ((7 - arg0) * 0xBC) >> 2U)));
+        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (saddr)((u32) ((7 - arg0) * 0xBC) >> 2U));
     }
     (*(s32 *)&com_card_entry_count) -= 1;
 }
@@ -1136,7 +1137,7 @@ int TLobby__sub_8024273C(void *p) {
     s32 slot = TLobby::remove_com_card_by_id(*(u32 *)((u8 *)p + 0xC));
     entry = (u8 *)com_card_entries;
     entry += slot * 0xBC;
-    init_player_entry__6TLobbyFPvPv(entry, (u8 *)p);
+    TLobby::init_player_entry(entry, (u8 *)p);
     com_card_entry_count++;
     TLobby__sub_80242918();
 }

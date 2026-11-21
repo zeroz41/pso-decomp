@@ -5,7 +5,7 @@
 
 extern "C" {
 void Add_803EB8BC(u8 *key, s32 len);
-u32 Call_803EED0C(s32 a, s32 b, s32 c, s32 d);
+u32 Call_803EED0C(s32 a, s32 b, saddr c, s32 d);
 void CopyText_803E9190(u8 *s, u8 *p);
 s32 Copy_803EBD38(u8 *dst, u8 *src, s32 max);
 s32 Find_803EB8BC(u8 *key, s32 len);
@@ -30,10 +30,10 @@ s32 Open_803E8150(void);
 s32 Open_803E8624(void);
 void Reload_803EB0D8(void);
 s32 SeekRetry_803E7ACC(s32 pos);
-s32 Seek_803E7ACC(s32 h, s32 pos, s32 whence);
+s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence);
 s32 Seek_803E7B9C(s32 pos);
 s32 Seek_803E8150(s32 pos);
-s32 Seek_803E8624(s32 h, s32 pos, s32 whence);
+s32 Seek_803E8624(saddr h, s32 pos, s32 whence);
 s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mode);
@@ -80,14 +80,14 @@ s32 TQuestVmDownLoadServer__sub_803F0BE0(void *_w0, void *_w1);
 void TQuestVmDownLoadServer__sub_803F0BE8(u8 *arg0);
 s32 Write_803E7B9C(void);
 s32 Write_803E8150(void);
-void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode);
+void *format_number_text__22TQuestVmDownLoadServerFiiPvi(saddr arg0, s32 arg1, void *arg2, s32 mode);
 u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 }
 
 // --- C functions defined in TQuestVmDownLoadServer_803E6970.cpp ---
 extern "C" {
 void Add_803EB8BC(u8 *key, s32 len);
-u32 Call_803EED0C(s32 a, s32 b, s32 c, s32 d);
+u32 Call_803EED0C(s32 a, s32 b, saddr c, s32 d);
 void CopyText_803E9190(u8 *s, u8 *p);
 s32 Copy_803EBD38(u8 *dst, u8 *src, s32 max);
 s32 Find_803EB8BC(u8 *key, s32 len);
@@ -112,10 +112,10 @@ s32 Open_803E8150(void);
 s32 Open_803E8624(void);
 void Reload_803EB0D8(void);
 s32 SeekRetry_803E7ACC(s32 pos);
-s32 Seek_803E7ACC(s32 h, s32 pos, s32 whence);
+s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence);
 s32 Seek_803E7B9C(s32 pos);
 s32 Seek_803E8150(s32 pos);
-s32 Seek_803E8624(s32 h, s32 pos, s32 whence);
+s32 Seek_803E8624(saddr h, s32 pos, s32 whence);
 s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mode);
@@ -162,7 +162,7 @@ s32 TQuestVmDownLoadServer__sub_803F0BE0(void *_w0, void *_w1);
 void TQuestVmDownLoadServer__sub_803F0BE8(u8 *arg0);
 s32 Write_803E7B9C(void);
 s32 Write_803E8150(void);
-void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode);
+void *format_number_text__22TQuestVmDownLoadServerFiiPvi(saddr arg0, s32 arg1, void *arg2, s32 mode);
 u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 }
 // --- end of C functions

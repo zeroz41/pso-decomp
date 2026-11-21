@@ -29,7 +29,7 @@ extern const f32 lbl_805D9E84;
 extern const Vec re4_bit_render_vec;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-s32 TObjEneRe4Bit__model;
+saddr TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
 extern "C" { extern char TObjEneRe4Bit__class_name_string[]; }
 const char *lbl_805D2AE8 = TObjEneRe4Bit__class_name_string;

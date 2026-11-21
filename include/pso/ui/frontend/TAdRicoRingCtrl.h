@@ -20,7 +20,7 @@ struct TAdRicoRingCtrl : public TObject {
     f32 fade;
     f32 fade_step;
 };
-typedef char TAdRicoRingCtrl_size[sizeof(TAdRicoRingCtrl) == 0x2C ? 1 : -1];
-typedef char TAdRicoRingCtrl_rings_offset[offsetof(TAdRicoRingCtrl, rings) == 0x1C ? 1 : -1];
-typedef char TAdRicoRingCtrl_fade_offset[offsetof(TAdRicoRingCtrl, fade) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TAdRicoRingCtrl_size, sizeof(TAdRicoRingCtrl) == 0x2C);
+LAYOUT_ASSERT(TAdRicoRingCtrl_rings_offset, offsetof(TAdRicoRingCtrl, rings) == 0x1C);
+LAYOUT_ASSERT(TAdRicoRingCtrl_fade_offset, offsetof(TAdRicoRingCtrl, fade) == 0x24);
 #endif

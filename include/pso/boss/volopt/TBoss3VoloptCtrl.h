@@ -15,6 +15,6 @@ public:
     s32 phase;
 };
 
-typedef char TBoss3VoloptCtrl_size[sizeof(TBoss3VoloptCtrl) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3VoloptCtrl_size, sizeof(TBoss3VoloptCtrl) == 0x24);
 
 #endif

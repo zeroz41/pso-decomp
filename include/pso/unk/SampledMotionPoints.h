@@ -23,6 +23,6 @@ struct SampledMotionPoints {
     void sample_node_offsets(NJS_OBJECT *model, NJS_MOTION *motion, s32 node_index, const Vec *first_offset, const Vec *second_offset);
 };
 
-typedef char SampledMotionPoints_size[sizeof(SampledMotionPoints) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(SampledMotionPoints_size, sizeof(SampledMotionPoints) == 0x18);
 
 #endif

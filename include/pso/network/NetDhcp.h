@@ -26,18 +26,18 @@ typedef struct BootpPacket {
     u32 cookie;
 } BootpPacket;
 
-typedef char BootpPacket_size[sizeof(BootpPacket) == 0xF0 ? 1 : -1];
-typedef char BootpPacket_flags[offsetof(BootpPacket, flags) == 0xA ? 1 : -1];
-typedef char BootpPacket_ciaddr[offsetof(BootpPacket, ciaddr) == 0xC ? 1 : -1];
-typedef char BootpPacket_chaddr[offsetof(BootpPacket, chaddr) == 0x1C ? 1 : -1];
-typedef char BootpPacket_cookie[offsetof(BootpPacket, cookie) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(BootpPacket_size, sizeof(BootpPacket) == 0xF0);
+LAYOUT_ASSERT(BootpPacket_flags, offsetof(BootpPacket, flags) == 0xA);
+LAYOUT_ASSERT(BootpPacket_ciaddr, offsetof(BootpPacket, ciaddr) == 0xC);
+LAYOUT_ASSERT(BootpPacket_chaddr, offsetof(BootpPacket, chaddr) == 0x1C);
+LAYOUT_ASSERT(BootpPacket_cookie, offsetof(BootpPacket, cookie) == 0xEC);
 
 typedef struct DhcpMessage {
     BootpPacket hdr;
     u8 options[0x5DC - sizeof(BootpPacket)];
 } DhcpMessage;
 
-typedef char DhcpMessage_size[sizeof(DhcpMessage) == 0x5DC ? 1 : -1];
+LAYOUT_ASSERT(DhcpMessage_size, sizeof(DhcpMessage) == 0x5DC);
 
 // The UDP callback receives into scratch, then copies accepted replies into
 // reply. Each region owns one 1500-byte message (0x804249F0 / 0x80424A48).
@@ -47,10 +47,10 @@ typedef struct DhcpClientBuffers {
     DhcpMessage received;
 } DhcpClientBuffers;
 
-typedef char DhcpClientBuffers_outgoing[offsetof(DhcpClientBuffers, outgoing) == 0 ? 1 : -1];
-typedef char DhcpClientBuffers_reply[offsetof(DhcpClientBuffers, reply) == 0x5DC ? 1 : -1];
-typedef char DhcpClientBuffers_received[offsetof(DhcpClientBuffers, received) == 0xBB8 ? 1 : -1];
-typedef char DhcpClientBuffers_size[sizeof(DhcpClientBuffers) == 0x1194 ? 1 : -1];
+LAYOUT_ASSERT(DhcpClientBuffers_outgoing, offsetof(DhcpClientBuffers, outgoing) == 0);
+LAYOUT_ASSERT(DhcpClientBuffers_reply, offsetof(DhcpClientBuffers, reply) == 0x5DC);
+LAYOUT_ASSERT(DhcpClientBuffers_received, offsetof(DhcpClientBuffers, received) == 0xBB8);
+LAYOUT_ASSERT(DhcpClientBuffers_size, sizeof(DhcpClientBuffers) == 0x1194);
 
 s32 get_task_count(void);
 void parse_dhcp_lease_times(u8 *packet);

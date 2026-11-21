@@ -20,9 +20,9 @@ public:
     f32 riseDistance;
 };
 #include <stddef.h>
-typedef char FireWorkBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char FireWorkSize[(sizeof(TObjCity_Season_FireWork)==0x40)?1:-1];
-#define FIREWORK_OFFSET(field,offset) typedef char FireWorkOffset_##field[(offsetof(TObjCity_Season_FireWork,field)==offset)?1:-1]
+LAYOUT_ASSERT(FireWorkBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(FireWorkSize, sizeof(TObjCity_Season_FireWork)==0x40);
+#define FIREWORK_OFFSET(field,offset) LAYOUT_ASSERT(FireWorkOffset_##field, offsetof(TObjCity_Season_FireWork,field)==offset)
 FIREWORK_OFFSET(pos,0x1C); FIREWORK_OFFSET(state,0x28); FIREWORK_OFFSET(handle,0x2C);
 FIREWORK_OFFSET(limit,0x30); FIREWORK_OFFSET(timer,0x34); FIREWORK_OFFSET(burstEffectId,0x38); FIREWORK_OFFSET(riseDistance,0x3C);
 #undef FIREWORK_OFFSET

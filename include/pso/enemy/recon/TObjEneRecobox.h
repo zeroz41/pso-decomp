@@ -48,5 +48,5 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     f32 m_4f0;
 };
 
-typedef char TObjEneRecobox_size[sizeof(TObjEneRecobox) == 0x4F4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRecobox_size, sizeof(TObjEneRecobox) == 0x4F4);
 #endif

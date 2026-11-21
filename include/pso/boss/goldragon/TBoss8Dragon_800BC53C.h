@@ -5,7 +5,7 @@
 
 extern "C" {
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-s32 attack_target_history_add(s32 object, s32 target);
+s32 attack_target_history_add(saddr object, saddr target);
 }
 int attack_target_history_contains(void *object, void *target);
 extern "C" {

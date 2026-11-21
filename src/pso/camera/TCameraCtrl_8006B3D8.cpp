@@ -28,7 +28,7 @@ struct View_8006B798 {
 };
 
 extern s32 local_client_id;
-extern s32 tl_07;
+extern saddr tl_07;
 u8 *create_conversation_camera(s32 arg0);
 
 struct NpcCameraDestination {
@@ -73,7 +73,7 @@ Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
 Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 f32 vector_length(void *);
 void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
@@ -173,12 +173,12 @@ void TUnk_80488AF0::run_task() {
     }
 }
 
-void TCameraCtrl::create(s32 arg0, s32 arg1, s32 arg2) {
+void TCameraCtrl::create(saddr arg0, s32 arg1, s32 arg2) {
     new TUnk_80488AF0((Vec *)arg0, arg1, arg2, (TObject *)tl_07);
 }
 
 typedef struct RecoveredFields_8006B588_arg0 RecoveredFields_8006B588_arg0;
-u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
+u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr arg3) {
   void *new_var;
   __ct__7TObjectFP7TObject((void *) this, (void *) arg3);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = ((s32 *)&__vt__13TUnk_80488AD8);
@@ -192,8 +192,8 @@ u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
   }
   else
   {
-    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)((*(s32 *)&camera_ctrl_instance) + 0x178));
-    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((*(s32 *)&camera_ctrl_instance) + 0x184));
+    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)((*(saddr *)&camera_ctrl_instance) + 0x178));
+    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((*(saddr *)&camera_ctrl_instance) + 0x184));
   }
   set_active_camera_pose((void *) (((u8 *)this) + 0x1C), (void *) (((u8 *)this) + 0x28));
   TCameraCtrl__fixed_npc_camera_active = 0;

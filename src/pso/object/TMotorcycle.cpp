@@ -26,7 +26,7 @@ extern BmlResourceDescriptor motorcycle_resource_descriptor;
 extern const char *fe_obj_baiku_motion_names[1];
 
 
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
+void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 BmlResource *TMotorcycle__bml_resource;
 GinjaTextureList *TMotorcycle__texture_list;
@@ -46,7 +46,7 @@ const s32 lbl_80445DF4[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
 
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 
 // The override of TObjBase::update_object_view_visibility (vtable slot +0x28): visible inside `radius` of the camera.
 s32 TMotorcycle::update_object_view_visibility(f32 depth, f32 radius) {
@@ -106,7 +106,7 @@ void TMotorcycle::load_resources() {
         storage = load_resource_from_descriptor(storage, 5, &motorcycle_resource_descriptor, 0, 0, 0);
     }
     TMotorcycle__bml_resource = storage;
-    TMotorcycle__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((s32)"obj_motorcycle.GVM"));
+    TMotorcycle__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"obj_motorcycle.GVM"));
     TMotorcycle::add_entry(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, 0)),
                            TMotorcycle__texture_list, 16.0f, 0.0f);
     TMotorcycle::add_entry(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, 1)),

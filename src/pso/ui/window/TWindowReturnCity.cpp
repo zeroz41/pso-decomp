@@ -36,16 +36,15 @@ s32 get_floor_map_terrain(s32);
 void mark_area_change_pending(void);
 s32 prepare_hospital_return__10TObjPlayerFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
 extern s32 __vt__17TWindowReturnCity[];
 #pragma push
 #pragma readonly_strings on
 const char *TWindowReturnCity__class_name = "TWindowReturnCity";
 #pragma pop
-u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
-u32 __nw__7TObjectFUl(s32);
-extern s32 tl_00;
+u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, saddr arg1, s32 arg2);
+extern saddr tl_00;
 void TWindowReturnCity__sub_8026D4BC(void);
 void TWindowReturnCity__sub_8026D4C0(void);
 }
@@ -54,7 +53,7 @@ int TWindowReturnCity__client_scan_index;
 void return_to_city_after_defeat(void);
 void return_to_city_after_defeat(void) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
-        if (((s32)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
+        if (((saddr)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
             prepare_hospital_return__10TObjPlayerFv();
         }
         floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
@@ -103,7 +102,7 @@ void TWindowReturnCity::run_task() {
                 temp_r3 = ((TWindowSubComCard *)(this->m_1c))->get_slot_or_neg1();
                 if (temp_r3 == 0) {
                     TWindowReturnCity__client_scan_index = this->m_24;
-                    u32 task = __nw__7TObjectFUl(0x28);
+                    uaddr task = (uaddr)TObject::operator new(0x28);
                     if (task != 0U) {
                         ((THunterGuildSeqOffline *)task)->init((void *)tl_00, (void *)return_to_city_after_defeat);
                     }
@@ -126,19 +125,19 @@ TWindowReturnCity::~TWindowReturnCity() {
     if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x1C)))->close(); this->m_1c = 0; }
 }
 
-u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 arg2) {
+u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr arg1, s32 arg2) {
   s32 temp_r31;
   __ct__7TObjectFP7TObject((void *) window_return_city, (void *) arg1);
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
-  *((s32 *) (((s8 *) window_return_city) + 0)) = (s32) TWindowReturnCity__class_name;
+  *((s32 *) (((s8 *) window_return_city) + 0)) = (saddr) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
-  temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *) window_return_city), (void *)(window_return_city->m_24), 0, 0);
+  temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((void *) window_return_city), (void *)(window_return_city->m_24), 0, 0);
   window_return_city->m_1c = temp_r31;
   if (window_return_city)
   {
   }
   temp_r31 = get_window_layout_position(0x23);
-  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_return_city->m_1c, (s32)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
+  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_return_city->m_1c, (saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
   set_menu_selected_index((TWindowSubComCard *)window_return_city->m_1c, 1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();

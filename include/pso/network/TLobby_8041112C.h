@@ -28,7 +28,7 @@ typedef struct LoopbackState {
     s16 *slot_used;          /* 0x10 */
     u8 *slots;               /* 0x14: slot_count slots of slot_size bytes */
 } LoopbackState;
-typedef char LoopbackState_size_check[sizeof(LoopbackState) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(LoopbackState_size_check, sizeof(LoopbackState) == 0x18);
 /* network_buffer_pool_state: init_buffer_desc_a fills 0x00-0x0B.  A NetBufferRef of kind 2 names a segment as
    (entry << 24) + (segment << 16) + offset into it. */
 typedef struct NetBufferSegment {
@@ -49,12 +49,12 @@ typedef struct NetBufferPool {
     u8 *data;                 /* 0x08: count buffers of size bytes */
     u8 padC[4];
 } NetBufferPool;
-typedef char NetBufferPoolEntry_size_check[sizeof(NetBufferPoolEntry) == 0x3C ? 1 : -1];
-typedef char NetBufferPool_size_check[sizeof(NetBufferPool) == 0x10 ? 1 : -1];
-typedef char NetPoolSegmentSize[(sizeof(NetBufferSegment) == 6) ? 1 : -1];
-typedef char NetPoolSegmentsOffset[(offsetof(NetBufferPoolEntry, segs) == 0xc) ? 1 : -1];
-typedef char NetPoolEntriesOffset[(offsetof(NetBufferPool, ents) == 4) ? 1 : -1];
-typedef char NetPoolDataOffset[(offsetof(NetBufferPool, data) == 8) ? 1 : -1];
+LAYOUT_ASSERT(NetBufferPoolEntry_size_check, sizeof(NetBufferPoolEntry) == 0x3C);
+LAYOUT_ASSERT(NetBufferPool_size_check, sizeof(NetBufferPool) == 0x10);
+LAYOUT_ASSERT(NetPoolSegmentSize, sizeof(NetBufferSegment) == 6);
+LAYOUT_ASSERT(NetPoolSegmentsOffset, offsetof(NetBufferPoolEntry, segs) == 0xc);
+LAYOUT_ASSERT(NetPoolEntriesOffset, offsetof(NetBufferPool, ents) == 4);
+LAYOUT_ASSERT(NetPoolDataOffset, offsetof(NetBufferPool, data) == 8);
 /* A packet queued until its next hop's link-layer address is known (tag "PEN"). */
 struct Ipv6NdPending {
     u8 tag[3];
@@ -119,10 +119,10 @@ struct Ipv6NdState {
     s16 delay_first_probe;     /* 0x2C */
     u8 pad2E[2];
 };
-typedef char Ipv6NdPending_size_check[sizeof(Ipv6NdPending) == 0x38 ? 1 : -1];
-typedef char Ipv6NdNeighbor_size_check[sizeof(Ipv6NdNeighbor) == 0x48 ? 1 : -1];
-typedef char Ipv6NdRouter_size_check[sizeof(Ipv6NdRouter) == 0x24 ? 1 : -1];
-typedef char Ipv6NdState_size_check[sizeof(Ipv6NdState) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdPending_size_check, sizeof(Ipv6NdPending) == 0x38);
+LAYOUT_ASSERT(Ipv6NdNeighbor_size_check, sizeof(Ipv6NdNeighbor) == 0x48);
+LAYOUT_ASSERT(Ipv6NdRouter_size_check, sizeof(Ipv6NdRouter) == 0x24);
+LAYOUT_ASSERT(Ipv6NdState_size_check, sizeof(Ipv6NdState) == 0x30);
 /* A received fragment (tag "FRG"). */
 struct NetFragment {
     u8 tag[3];
@@ -162,9 +162,9 @@ struct NetFragPool {
     NetFragPacket *head;    /* 0x10: datagrams being reassembled */
     NetFragPacket *tail;    /* 0x14 */
 };
-typedef char NetFragment_size_check[sizeof(NetFragment) == 0x18 ? 1 : -1];
-typedef char NetFragPacket_size_check[sizeof(NetFragPacket) == 0x34 ? 1 : -1];
-typedef char NetFragPool_size_check[sizeof(NetFragPool) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(NetFragment_size_check, sizeof(NetFragment) == 0x18);
+LAYOUT_ASSERT(NetFragPacket_size_check, sizeof(NetFragPacket) == 0x34);
+LAYOUT_ASSERT(NetFragPool_size_check, sizeof(NetFragPool) == 0x18);
 
 #ifdef __cplusplus
 extern "C" {
@@ -185,7 +185,7 @@ s32 release_packet_fragments(NetPacket *a);
 void tick_entry_timers(void);
 void update_timeout_entries(void);
 void NetIPv6ApplyNeighborDiscoveryDefaults(Ipv6NdState *nd);
-s16 TLobby__sub_80413230(u8 *arg0, s32 arg1);
+s16 TLobby__sub_80413230(u8 *arg0, saddr arg1);
 s16 TLobby__sub_804145D4(void *out, s16 idx);
 s32 TLobby__sub_804136AC(s16 i);
 s16 TLobby__sub_804136CC(s16 i);
@@ -197,8 +197,8 @@ void TLobby__sub_804150EC(void);
 void TLobby__sub_8041615C(void);
 void NetIPv6TickNeighborCache(void);
 void NetIPv6TickNeighborDiscovery(void);
-s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, int arg4);
-s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s16 arg1);
+s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3, int arg4);
+s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(saddr arg0, s16 arg1);
 s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
 s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);
 s16 ipv6_iface_for_address(void *self);

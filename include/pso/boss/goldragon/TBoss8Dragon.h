@@ -150,7 +150,7 @@ public:
     const s32 *m_760;
     void* m_764;
     u8 unk_768[0xC];
-    s32 m_774;
+    saddr m_774;
     u8 unk_778[0xD4];
     s32 m_84c;
     s32 m_850;
@@ -175,14 +175,18 @@ public:
     TParticleCtrl *m_89c;
     u32 m_8a0;
     void set_random_param(u8 *arg1);
-    void calc_params(void *arg1, s32 arg2);
-    void calc_product_and_ratio(void *arg1, s32 arg2);
-    void calc_attack_params(void *arg1, s32 arg2);
+    void calc_params(void *arg1, saddr arg2);
+    void calc_product_and_ratio(void *arg1, saddr arg2);
+    void calc_attack_params(void *arg1, saddr arg2);
     void fn_8005EBDC(u8 *arg1, u8 *arg2);
     s32 run_action_script_step(s16 *out, u32 *entry);
     static void copy_angle_state(void *arg0, void *dst, void *src);
     void update_target_from_state();
     static void init_state_zero(void *arg0);
+    static void set_flag_4e4(void *p);
+    static void sync_target_pos(void *p);
+    static s32 restore_target_pos(void *p);
+    static s32 copy_pos_to_field688(void *p);
     void flush_pending_effect();
     void scale_size(f32 farg0, f32 farg1, f32 farg2);
     void fire_at_angle(s32 arg1);
@@ -196,7 +200,7 @@ public:
     int query_default();
     void copy_spawn_params(void* a1);
     void copy_action_state(u8 *arg1);
-    static s32 spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2);
+    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);
     static void set_default_on_state0();
     static void update_camera_script();
     void calc_velocity_from_angle();
@@ -207,7 +211,7 @@ public:
     int setup_instance(int _w1, void * _w2, int _w3);
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
     void emit_effect(void *pos, void *params, s32 history);
-    static void init_state(s32 arg0);
+    static void init_state(saddr arg0);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);
     void spawn_effect();
@@ -272,7 +276,7 @@ public:
     static s32 is_any_part_alive();
     static void update_all_parts();
     static bool has_enough_enemies();
-    s32 spawn_attack_object(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4);
     u16 get_part_count_plus(s32 arg1);
     void set_mode_params(s8 arg1);
     void update_pos_from_data();
@@ -291,7 +295,7 @@ public:
     s32 is_closest_part();
     s32 push_apart_from_parts();
     s32 is_near_other_part();
-    void draw_with_fade(s32 arg1, s32 arg2);
+    void draw_with_fade(saddr arg1, s32 arg2);
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
@@ -336,11 +340,11 @@ public:
 };
 
 #include <stddef.h>
-typedef char TBoss8DragonFadeStride[(sizeof(RenderFadeState) == 0x1C) ? 1 : -1];
-typedef char TBoss8DragonFadeOffset[(offsetof(TBoss8Dragon, renderFadeStates) == 0x6DC) ? 1 : -1];
-typedef char TBoss8DragonSize[(sizeof(TBoss8Dragon) == 0x8A4) ? 1 : -1];
-typedef char TBoss8DragonSubTasksOffset[(offsetof(TBoss8Dragon, sub_tasks) == 0x3C4) ? 1 : -1];
-typedef char TBoss8DragonAfterFadeOffset[(offsetof(TBoss8Dragon, m_74c) == 0x74C) ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonFadeStride, sizeof(RenderFadeState) == 0x1C);
+LAYOUT_ASSERT(TBoss8DragonFadeOffset, offsetof(TBoss8Dragon, renderFadeStates) == 0x6DC);
+LAYOUT_ASSERT(TBoss8DragonSize, sizeof(TBoss8Dragon) == 0x8A4);
+LAYOUT_ASSERT(TBoss8DragonSubTasksOffset, offsetof(TBoss8Dragon, sub_tasks) == 0x3C4);
+LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, m_74c) == 0x74C);
 
 // boss8_dragon_reference_pos_vec: layout known from its uses only.
 struct Boss8DragonReferencePosVec { s32 value; u8 remaining[0x8]; };

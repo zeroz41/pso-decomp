@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
 
-extern u32 TWindowCtrl__active_window;
+extern uaddr TWindowCtrl__active_window;
 
 void TWindowCtrl::shutdown() {
     if ((u32) TWindowCtrl__active_window != 0U) {

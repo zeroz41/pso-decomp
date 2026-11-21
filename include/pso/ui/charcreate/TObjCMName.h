@@ -26,7 +26,7 @@ public:
     static TObjCMName *create(TObject *parent);
 };
 
-typedef char TObjCMNameSize[sizeof(TObjCMName) == 0x34 ? 1 : -1];
-typedef char TObjCMNameFadeOffset[offsetof(TObjCMName, fade) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TObjCMNameSize, sizeof(TObjCMName) == 0x34);
+LAYOUT_ASSERT(TObjCMNameFadeOffset, offsetof(TObjCMName, fade) == 0x30);
 
 #endif

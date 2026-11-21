@@ -29,9 +29,9 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 
 s32 arp_init(void);
 void TLobby__sub_804073B8(void);
-s32 arp_remove_alias(s16, s32);
-s32 arp_add_alias(s16, s32);
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h);
+s32 arp_remove_alias(s16, saddr);
+s32 arp_add_alias(s16, saddr);
+s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -96,7 +96,7 @@ s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
 }
 
 void forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
-    s16 register_arp_interface(s16, s16, s16, s16, s16, s32, s8, s32);
+    s16 register_arp_interface(s16, s16, s16, s16, s16, saddr, s8, saddr);
     register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
@@ -235,7 +235,7 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s16 c)
         NetMemcpy(out.tha, in.sha, hit->hlen);
         NetMemcpy(out.spa, in.tpa, hit->plen);
         NetMemcpy(out.tpa, in.spa, hit->plen);
-        call_handler_by_index(hit->handler, c, 0, (s32)in.sha, (s32)r);
+        call_handler_by_index(hit->handler, c, 0, (saddr)in.sha, (saddr)r);
         if (r != NULL) {
           release_entry(r);
         }
@@ -316,7 +316,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
         NetMemcpy(o.spa, e->paddr, e->plen);
         NetMemset(o.tha, 0, e->hlen);
         NetMemcpy(o.tpa, name, e->plen);
-        call_handler_by_index(e->handler, e->arp_socket, 1, 0, (s32)r);
+        call_handler_by_index(e->handler, e->arp_socket, 1, 0, (saddr)r);
         if (r != NULL) {
             release_entry(r);
         }
@@ -339,7 +339,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     if (p != NULL) {
         p->timer = t->timeout;
         if (p->state != 1) {
-            ret = call_handler_by_index(e->handler, e->socket, 0, (s32)p->haddr, (s32)pkt);
+            ret = call_handler_by_index(e->handler, e->socket, 0, (saddr)p->haddr, (saddr)pkt);
         } else {
             if (p->hold != NULL) {
                 Clear_8040799C(p);
@@ -360,7 +360,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     return ret;
 }
 
-s32 arp_remove_alias(s16 id, s32 key) {
+s32 arp_remove_alias(s16 id, saddr key) {
     ArpState *tbl = &lbl_805C1AB0;
     ArpIface *base = tbl->ifaces;
     s16 ok;
@@ -437,7 +437,7 @@ inline ArpAlias *alloc2_80407D98(ArpState *t, s16 *count) {
     }
     return NULL;
 }
-s32 arp_add_alias(s16 id, s32 pkey) {
+s32 arp_add_alias(s16 id, saddr pkey) {
     s16 lim;
     ArpAlias *next;
     ArpAlias *p;
@@ -491,7 +491,7 @@ inline ArpIface *findfree_80407F20(ArpIface *base) {
     return NULL;
 }
 
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
+s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h)
 {
     ArpIface *base;
     ArpIface *slot;
@@ -615,7 +615,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     pkt->total_bytes = len;
     buf = (u8 *)&lbl_805C1AB0.packet;
     pkt->fragments[0].length = t;
-    set_value_and_enable(&pkt->fragments[0].buffer, (s32)*(u8 **)buf);
+    set_value_and_enable(&pkt->fragments[0].buffer, (saddr)*(u8 **)buf);
     buf = *(u8 **)buf;
     NetMemset(buf, 0, len);
     NetMemcpy(buf, &iface->htype, 6);
@@ -733,7 +733,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
                 p->total_bytes = e->hold->len;
                 p->fragments[0].length = e->hold->len;
                 set_value_and_enable(&p->fragments[0].buffer, e->hold->data);
-                call_handler_by_index(handler, socket, 0, (s32)e->haddr, (s32)p);
+                call_handler_by_index(handler, socket, 0, (saddr)e->haddr, (saddr)p);
                 release_entry(p);
             }
         }

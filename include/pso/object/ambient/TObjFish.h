@@ -38,10 +38,10 @@ struct TObjFish : public TObjBase {
     static void *alloc(void *arg0);
     static void reset_fish_globals();
     s32 get_phase();
-    static int get_fish_count();
+    static saddr get_fish_count();
     static void spawn_default_particle(s32 position, s32 particle_index);
-    static void create_splash_particle(s32 arg0, s32 arg1, s32 arg2);
-    static void spawn_particle(s32 arg0, s32 arg1, f32 farg0);
+    static void create_splash_particle(saddr arg0, s32 arg1, saddr arg2);
+    static void spawn_particle(saddr arg0, s32 arg1, f32 farg0);
     static void free_resource();
     static void load_area_resource();
     static void draw_callback_transform_to_view();
@@ -51,7 +51,7 @@ struct TObjFish : public TObjBase {
     static void init_state_1(void *arg0);
     void update_attached_orientation();
     void destroy_child();
-    static s32 set_global_param(s32 arg0);
+    static s32 set_global_param(saddr arg0);
     void handle_death_state(u32 arg1);
     static void spawn_via_trap(s32 arg0, s32 arg1, s32 arg2);
     static void set_effect_target_position(void* p, void* a1, void* a2);
@@ -66,16 +66,16 @@ struct TObjFish : public TObjBase {
     void update_wobble_angle();
 };
 
-typedef char TObjFishEntry_size[sizeof(TObjFishEntry) == 0x44 ? 1 : -1];
-typedef char TObjFishEntry_target_offset[offsetof(TObjFishEntry, target) == 0xC ? 1 : -1];
-typedef char TObjFishEntry_velocity_offset[offsetof(TObjFishEntry, velocity) == 0x18 ? 1 : -1];
-typedef char TObjFishEntry_yaw_offset[offsetof(TObjFishEntry, yaw) == 0x24 ? 1 : -1];
-typedef char TObjFishEntry_frame_offset[offsetof(TObjFishEntry, frame) == 0x28 ? 1 : -1];
-typedef char TObjFishEntry_angle_offset[offsetof(TObjFishEntry, angle) == 0x2C ? 1 : -1];
-typedef char TObjFishEntry_target_angle_offset[offsetof(TObjFishEntry, target_angle) == 0x2E ? 1 : -1];
-typedef char TObjFishEntry_anim_offset[offsetof(TObjFishEntry, anim) == 0x30 ? 1 : -1];
-typedef char TObjFishEntry_timer_offset[offsetof(TObjFishEntry, timer) == 0x32 ? 1 : -1];
-typedef char TObjFishEntry_seen_offset[offsetof(TObjFishEntry, seen) == 0x34 ? 1 : -1];
-typedef char TObjFishEntry_mode_offset[offsetof(TObjFishEntry, mode) == 0x38 ? 1 : -1];
-typedef char TObjFish_size[sizeof(TObjFish) == 0xA4 ? 1 : -1];
+LAYOUT_ASSERT(TObjFishEntry_size, sizeof(TObjFishEntry) == 0x44);
+LAYOUT_ASSERT(TObjFishEntry_target_offset, offsetof(TObjFishEntry, target) == 0xC);
+LAYOUT_ASSERT(TObjFishEntry_velocity_offset, offsetof(TObjFishEntry, velocity) == 0x18);
+LAYOUT_ASSERT(TObjFishEntry_yaw_offset, offsetof(TObjFishEntry, yaw) == 0x24);
+LAYOUT_ASSERT(TObjFishEntry_frame_offset, offsetof(TObjFishEntry, frame) == 0x28);
+LAYOUT_ASSERT(TObjFishEntry_angle_offset, offsetof(TObjFishEntry, angle) == 0x2C);
+LAYOUT_ASSERT(TObjFishEntry_target_angle_offset, offsetof(TObjFishEntry, target_angle) == 0x2E);
+LAYOUT_ASSERT(TObjFishEntry_anim_offset, offsetof(TObjFishEntry, anim) == 0x30);
+LAYOUT_ASSERT(TObjFishEntry_timer_offset, offsetof(TObjFishEntry, timer) == 0x32);
+LAYOUT_ASSERT(TObjFishEntry_seen_offset, offsetof(TObjFishEntry, seen) == 0x34);
+LAYOUT_ASSERT(TObjFishEntry_mode_offset, offsetof(TObjFishEntry, mode) == 0x38);
+LAYOUT_ASSERT(TObjFish_size, sizeof(TObjFish) == 0xA4);
 #endif

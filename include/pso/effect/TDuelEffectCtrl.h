@@ -18,7 +18,7 @@ public:
     TObject* m_effect;
 };
 
-typedef char DuelFrameOffset[(offsetof(TDuelEffectCtrl, m_frameCount) == 0x20) ? 1 : -1];
-typedef char DuelEffectOffset[(offsetof(TDuelEffectCtrl, m_effect) == 0x24) ? 1 : -1];
-typedef char DuelControllerSize[(sizeof(TDuelEffectCtrl) == 0x28) ? 1 : -1];
+LAYOUT_ASSERT(DuelFrameOffset, offsetof(TDuelEffectCtrl, m_frameCount) == 0x20);
+LAYOUT_ASSERT(DuelEffectOffset, offsetof(TDuelEffectCtrl, m_effect) == 0x24);
+LAYOUT_ASSERT(DuelControllerSize, sizeof(TDuelEffectCtrl) == 0x28);
 #endif

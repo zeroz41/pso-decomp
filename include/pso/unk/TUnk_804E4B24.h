@@ -24,6 +24,6 @@ public:
     f32 half_length;   // the controller's half_length; destroyed once z <= -half_length
     Mtx34 matrix;      // update_collision: identity, translate(position), rotate(rotation)
 };
-typedef char TUnk_804E4B24_size[sizeof(TUnk_804E4B24) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E4B24_size, sizeof(TUnk_804E4B24) == 0x78);
 
 #endif

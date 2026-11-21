@@ -72,12 +72,12 @@ f32 normalize_vector(void *);
 s32 get_entity_id(s32);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;
 void TMedicalCenterMes__sub_80216260(void);
-extern s32 tl_05;
+extern saddr tl_05;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
 }
@@ -120,7 +120,7 @@ s32 TShopGenerator::is_no_service_active(void *self, s32 player) {
 void TShopGenerator::run_task() {
     ShopService *service;
     s32 i;
-    s32 p;
+    saddr p;
     int (*get_slot_flag)(int);
     service = &TShopGenerator__service_dispatch_table[this->set_params[0]];
     if (this->m_94 > 0) {
@@ -138,7 +138,7 @@ void TShopGenerator::run_task() {
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            p = (s32)get_player_by_client_id(i);
+            p = (saddr)get_player_by_client_id(i);
             if (p == 0) continue;
             if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
             if (is_slot_active(get_entity_id(p)) == 1) continue;
@@ -151,9 +151,9 @@ void TShopGenerator::run_task() {
             service->create((void *)p);
         }
     } else {
-        s32 q;
+        saddr q;
         int (*get_slot_flag2)(int);
-        q = (s32)get_player_by_client_id(local_client_id);
+        q = (saddr)get_player_by_client_id(local_client_id);
         if (q == 0) return;
         if (is_slot_active(get_entity_id(q)) == 1) return;
         if (TMedicalCenterMes::get_slot_flag(get_entity_id(q)) == 1) return;
@@ -171,7 +171,7 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(s32 arg1) : TObjBase((TObject *)tl_05) {
+TShopGenerator::TShopGenerator(saddr arg1) : TObjBase((TObject *)tl_05) {
     s32 temp_r0;
     m_name = TShopGenerator__class_name;
     this->apply_object_set_data((void *)arg1);
@@ -204,7 +204,7 @@ void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
 }
 
 void *TShopGenerator__create(void *arg0) {
-    void *o = (void *)new TShopGenerator((s32)arg0);
+    void *o = (void *)new TShopGenerator((saddr)arg0);
     return o;
 }
 }

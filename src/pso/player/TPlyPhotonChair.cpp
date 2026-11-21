@@ -143,13 +143,12 @@ struct Chair_8035B058 {
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s32 is_mounted__15TPlyPhotonChairFv();
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TPlyPhotonChair__shared_model_resource;
+extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_texlist(int, int);
+saddr get_bml_model(int, int);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 int rotate_matrix_y(int, int);
 int push_matrix();
@@ -200,11 +199,12 @@ void TPlyPhotonChair::render() {
 
 void TPlyPhotonChair::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (get_player_by_client_id((((TPlyPhotonChair *)arg0)->sub_8035B530())) == 0U) {
+    void *pl;
+    if ((pl = get_player_by_client_id((((TPlyPhotonChair *)arg0)->sub_8035B530()))) == NULL) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    if (((u32) this->m_94 == 0U) && (is_mounted__15TPlyPhotonChairFv() == 0)) {
+    if (((u32) this->m_94 == 0U) && (((TPlyPhotonChair *)pl)->is_mounted() == 0)) {
         this->m_94 = 1U;
         ((TPlyPhotonChair *)(arg0 + 0x98))->set_state_ready();
         TPlyPhotonChair__sub_8035B56C((u8 *)&this->m_98, 2.0f);
@@ -234,9 +234,9 @@ void TPlyPhotonChair::free_static_model() {
 }
 
 s32 TPlyPhotonChair::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &photon_chair_resource_descriptor, 0, 0, 0));
@@ -258,15 +258,15 @@ TPlyPhotonChair::~TPlyPhotonChair() {
 
 #define ply_photon_chair ((u8 *)this)
 TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
-    u32 player;
+    uaddr player;
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
     __ct__13TUnk_804A7254Fv((ply_photon_chair + 0xD0));
-    *(s32 *)((s8 *)ply_photon_chair + 0) = (s32)TPlyPhotonChair__class_name;
+    *(s32 *)((s8 *)ply_photon_chair + 0) = (saddr)TPlyPhotonChair__class_name;
     ((TPlyPhotonChair *)ply_photon_chair)->set_field90(arg1);
     ((TPlyPhotonChair *)ply_photon_chair)->m_92 = 0;
     ((TPlyPhotonChair *)ply_photon_chair)->m_94 = 0;
-    player = (u32)get_player_by_client_id((s32)((void *) ((s32) (u16) arg1)));
+    player = (uaddr)get_player_by_client_id((saddr)(((s32) (u16) arg1)));
     if (player == 0U) {
         ((TObject *)ply_photon_chair)->queue_destruction();
         return;
@@ -330,7 +330,7 @@ u8 *TUnk_804A7488::init_parts() {
 
 void TUnk_804A7488::sub_8035B66C() { model = NULL; }
 
-extern u32 chao_npc_instance_handle;
+extern uaddr chao_npc_instance_handle;
 
 void TPlyPhotonChair::free_instance() {
     if ((u32) chao_npc_instance_handle != 0U) {
@@ -340,4 +340,4 @@ void TPlyPhotonChair::free_instance() {
 }
 
 
-u32 TPlyPhotonChair__shared_model_resource;
+uaddr TPlyPhotonChair__shared_model_resource;

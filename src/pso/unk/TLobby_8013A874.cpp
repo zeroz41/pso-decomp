@@ -16,7 +16,7 @@ void TLobby::bswap_fields() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u3
 
 void TLobby::bswap_header_3words() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 
-void bswap__15disp_data_part2Fv(s32 arg0) {
+void bswap__15disp_data_part2Fv(saddr arg0) {
     s32 off;
     s32 i;
 
@@ -24,7 +24,7 @@ void bswap__15disp_data_part2Fv(s32 arg0) {
     bswap_32((u32 *)(arg0 + 0x2C));
     bswap_32((u32 *)(arg0 + 0x34));
     for (i = 0, off = 0; i < 8; i++, off += 2) {
-        bswap_16((u16 *)((s32)((char *)arg0 + off + 0x38)));
+        bswap_16((u16 *)((char *)arg0 + off + 0x38));
     }
     bswap_32((u32 *)(arg0 + 0x48));
     bswap_32((u32 *)(arg0 + 0x4C));
@@ -42,7 +42,7 @@ u8 *TLobby__sub_8013AA64(u8 *arg0, u8 *arg1) {
     __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag();
     *(s32 *)((s8 *)arg0 + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
     *(s32 *)((s8 *)arg0 + 0xC) = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(ByteBlock_10 *)((s32) arg0 + 0x10) = *(const ByteBlock_10 *)((s32) arg1 + 0x10);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x10) = *(const ByteBlock_10 *)((saddr) arg1 + 0x10);
     fn_8013AAD4((arg0 + 0x20), (arg1 + 0x20));
     return arg0;
 }

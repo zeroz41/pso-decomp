@@ -12,7 +12,6 @@ extern "C" void render__8TChCrTagFv();
 
 extern "C" {
 void __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(void *);
 void render_shadows__7TObjectFv(void);
 
 int TChCrTag__vt4(void) { return 0; }
@@ -74,7 +73,7 @@ void *__dt__8TChCrTagFv(void *self, s16 arg1) {
         *(void ***)((s8 *)self + 0x18) = __vt__8TChCrTag;
         __dt__7TObjectFv(self, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -83,7 +82,7 @@ void *__dt__8TChCrTagFv(void *self, s16 arg1) {
 }
 TChCrTag::TChCrTag(TObject *object, void *arg2) : TObject(object) {
     m_name = lbl_805D3D90;
-    m_20 = (s32)arg2;
+    m_20 = (saddr)arg2;
     m_1c = 0;
     m_24 = 0.0f;
     m_30 = 0.0f;

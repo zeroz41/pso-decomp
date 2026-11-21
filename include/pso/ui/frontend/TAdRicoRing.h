@@ -29,8 +29,8 @@ public:
     Vec position;
     s32 angles[3];
 };
-typedef char TAdRicoRing_size[sizeof(TAdRicoRing) == 0x70 ? 1 : -1];
-typedef char TAdRicoRing_flags_offset[offsetof(TAdRicoRing, flags) == 0x2C ? 1 : -1];
-typedef char TAdRicoRing_model_offset[offsetof(TAdRicoRing, model) == 0x4C ? 1 : -1];
-typedef char TAdRicoRing_position_offset[offsetof(TAdRicoRing, position) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TAdRicoRing_size, sizeof(TAdRicoRing) == 0x70);
+LAYOUT_ASSERT(TAdRicoRing_flags_offset, offsetof(TAdRicoRing, flags) == 0x2C);
+LAYOUT_ASSERT(TAdRicoRing_model_offset, offsetof(TAdRicoRing, model) == 0x4C);
+LAYOUT_ASSERT(TAdRicoRing_position_offset, offsetof(TAdRicoRing, position) == 0x58);
 #endif

@@ -8,7 +8,7 @@ void init_class_starting_inventory(void *arg0) {
     u8 *p = (u8 *) arg0;
     u8 v = p[0x3A1];
     p[0] = 5;
-    copy_item_entry_array(p[0], get_class_starting_inventory(v), (s32)((TObjPlayer *)p)->get_ptr_4());
+    copy_item_entry_array(p[0], get_class_starting_inventory(v), (saddr)((TObjPlayer *)p)->get_ptr_4());
 }
 
 }

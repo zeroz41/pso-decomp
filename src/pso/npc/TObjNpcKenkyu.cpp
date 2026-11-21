@@ -20,13 +20,13 @@ const char *bm_npc_kenkyu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_kenkyu_model_names[2] = { "kenkyu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_kenkyu_resource_descriptor = { "bm_npc_kenkyu.bml", bm_npc_kenkyu_model_names, bm_npc_kenkyu_motion_names, 1, 0 };
 const char *TObjNpcKenkyu__name = "TObjNpcKenkyu";
-u32 TObjNpcKenkyu__static_model;
+uaddr TObjNpcKenkyu__static_model;
 }
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_texlist(int, int);
+saddr get_bml_model(int, int);
 void free_bin_model_request(void*, int);
 
 void TObjNpcKenkyu::free_static_model() {
@@ -37,9 +37,9 @@ void TObjNpcKenkyu::free_static_model() {
 }
 
 void TObjNpcKenkyu::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_kenkyu_resource_descriptor, 0, 0, 0));
@@ -54,7 +54,7 @@ TObjNpcKenkyu::~TObjNpcKenkyu() {}
 extern void *tl_04;
 
 TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcKenkyu__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu__name;
     ((TObjNpcKenkyu *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);

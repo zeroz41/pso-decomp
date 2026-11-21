@@ -402,7 +402,7 @@ const char *lbl_805D3D58 = TObjFish__class_name_string;
 extern "C" {
 TObjFish::~TObjFish() {
     if (m_a0 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)m_a0);
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(m_a0));
         m_a0 = NULL;
     }
 }
@@ -416,7 +416,7 @@ struct TObjFishSetData {
     Vec scale;
     s32 counts[3];
 };
-typedef char TObjFishSetData_counts_offset[offsetof(TObjFishSetData, counts) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TObjFishSetData_counts_offset, offsetof(TObjFishSetData, counts) == 0x30);
 
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
@@ -474,8 +474,8 @@ struct TObjFishAreaResource {
     const char *motions[4];
     BmlResourceDescriptor descriptor;
 };
-typedef char TObjFishAreaResource_size[sizeof(TObjFishAreaResource) == 0x30 ? 1 : -1];
-typedef char TObjFishAreaResource_descriptor_offset[offsetof(TObjFishAreaResource, descriptor) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TObjFishAreaResource_size, sizeof(TObjFishAreaResource) == 0x30);
+LAYOUT_ASSERT(TObjFishAreaResource_descriptor_offset, offsetof(TObjFishAreaResource, descriptor) == 0x20);
 
 TObjFishAreaResource fish_resource_name_table[5] = {
     { { lbl_80465A48, lbl_80465A68, lbl_80465A88, NULL },

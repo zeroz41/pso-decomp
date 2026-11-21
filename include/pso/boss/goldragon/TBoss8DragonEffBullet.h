@@ -7,7 +7,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 struct TBoss8DragonEffBullet : public TObject {
-    TBoss8DragonEffBullet(TObject *parent, Vec *from, Vec *to, s32 kind, u16 owner);
+    TBoss8DragonEffBullet(TObject *parent, Vec *from, Vec *to, saddr kind, u16 owner);
     virtual ~TBoss8DragonEffBullet();
     Vec m_1c;
     Vec m_28;
@@ -24,6 +24,6 @@ struct TBoss8DragonEffBullet : public TObject {
     virtual void run_task();
 };
 
-typedef char TBoss8DragonEffBullet_size[sizeof(TBoss8DragonEffBullet) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonEffBullet_size, sizeof(TBoss8DragonEffBullet) == 0x58);
 
 #endif

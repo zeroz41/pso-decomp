@@ -44,12 +44,12 @@ void NetIPv6ShutdownNeighborDiscovery(void);
 s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
 void TLobby__sub_80421FB8(void *, void *, void *);
-s32 raw_socket_deliver_ipv4(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
-s32 net_register_timer(s32 arg0, s32 arg1);
+s32 raw_socket_deliver_ipv4(u8 *arg0, s32 arg1, s32 arg2, uaddr arg3, s32 arg4);
+s32 net_register_timer(saddr arg0, s32 arg1);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
-s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2);
+s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
-s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 arg2);
+s32 net_add_ipv4_route(saddr arg0, saddr arg1, saddr arg2);
 s32 TLobby__sub_8041E780();
 s32 tcp_create(void);
 s32 mark_connection_closed(s32);
@@ -98,7 +98,7 @@ s32 TLobby__sub_8041E5E4(int, void *, u16);
 s32 tcp_bind(s32 a, void *addr, u16 port);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
 s16 TLobby__sub_80412058(s16, void *, int, void *);
-s16 TLobby__sub_80422F70(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
+s16 TLobby__sub_80422F70(s16 arg0, s32 arg1, s32 arg2, saddr arg3);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s16 bring_down_ipv4_interface(s16);
@@ -221,7 +221,7 @@ s32 net_lock(void) {
     lock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 net_unregister_timer(s32 timer) {
+s32 net_unregister_timer(saddr timer) {
     s32 result;
     if (timer == 0) {
         return -2;
@@ -232,7 +232,7 @@ s32 net_unregister_timer(s32 timer) {
     return result;
 }
 
-s32 net_register_timer(s32 callback, s32 interval) {
+s32 net_register_timer(saddr callback, s32 interval) {
     s32 result;
     if (callback == 0) {
         return -2;
@@ -259,7 +259,7 @@ s32 raw_socket_deliver(NetPacket *pkt, void *src, void *dst, void *cb, s32 index
     return 0;
 }
 
-s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
     result = TLobby__sub_8040F9CC((void *)arg0, (void *)arg1, (void *)arg2, 0);
@@ -267,7 +267,7 @@ s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
     return result;
 }
 
-s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 gateway) {
+s32 net_add_ipv4_route(saddr arg0, saddr arg1, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
     result = NetIPv4AddRoute((void *)arg0, (void *)arg1, (void *)gateway, 1, (int) (0U), (int) (0U));
@@ -275,13 +275,13 @@ s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 gateway) {
     return result;
 }
 
-s32 raw_socket_deliver_ipv4(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
+s32 raw_socket_deliver_ipv4(u8 *sock, s32 src, s32 dst, uaddr cb, s32 flags) {
     typedef struct SockFields { u8 pad_0[8]; s32 field_8; s16 field_C; } SockFields;
-    typedef char sp1C_offset[(offsetof(Stack_80421AD8, sp1C) == 0x0) ? 1 : -1];
-    typedef char sp1E_offset[(offsetof(Stack_80421AD8, sp1E) == 0x2) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80421AD8, sp20) == 0x4) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_80421AD8, sp24) == 0x8) ? 1 : -1];
-    typedef char sp28_offset[(offsetof(Stack_80421AD8, sp28) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80421AD8, sp1C) == 0x0);
+    LAYOUT_ASSERT(sp1E_offset, offsetof(Stack_80421AD8, sp1E) == 0x2);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80421AD8, sp20) == 0x4);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80421AD8, sp24) == 0x8);
+    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_80421AD8, sp28) == 0xC);
     Stack_80421AD8 stack;
     stack.sp1C = flags | 0x800;
     stack.sp1E = ((SockFields*)sock)->field_8 - ((SockFields*)sock)->field_C;
@@ -307,7 +307,7 @@ s32 udp_close(s32 a) {
     return r;
 }
 
-s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 opt); /* declared here with an s32 handle; the definition takes s16 */
+s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr opt); /* declared here with an s32 handle; the definition takes s16 */
 
 s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs) {
     u32 any_addr[5];
@@ -358,7 +358,7 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
         }
         pkt->total_bytes += bufs[i - 1].len;
         pkt->fragments[pkt->fragment_count].length = bufs[i - 1].len;
-        init_packet_header((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, (s32)bufs[i - 1].buff);
+        init_packet_header((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, (saddr)bufs[i - 1].buff);
         pkt->fragment_count++;
     }
     if (pkt->total_bytes > 0x7FE3) {
@@ -371,7 +371,7 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
         unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
-    r = udp_sendto(h, pkt, (NetworkAddress *)src, (NetworkAddress *)dst, port, (s32)opt);
+    r = udp_sendto(h, pkt, (NetworkAddress *)src, (NetworkAddress *)dst, port, (saddr)opt);
     release_entry(pkt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
@@ -403,7 +403,7 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, NetUdpReceive
         unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    r = NetUdpConnect(h, (NetworkAddress*)dst, dport, arg4, (u32)cb);
+    r = NetUdpConnect(h, (NetworkAddress*)dst, dport, arg4, (uaddr)cb);
     if (r < 0) {
         NetUdpClose(h);
         unlock_mutex(network_dispatch_state.lock_handle);
@@ -450,7 +450,7 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
             return;
         }
         buf = hdr->buf;
-        init_packet_header(&pkt, (s32)buf);
+        init_packet_header(&pkt, (saddr)buf);
         for (i = 1; len > 0; i++) {
             if (len > o->fragments[i].length) {
                 chunk = o->fragments[i].length;
@@ -505,7 +505,7 @@ s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    init_packet_header(&destination, (s32)buf);
+    init_packet_header(&destination, (saddr)buf);
     NetMemset(&s->waits[0].flags, 0, 8);
     s->waits[0].flags |= 1;
     if (s->flags & 0x40) {
@@ -618,7 +618,7 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
-        init_packet_header((NetBufferRef *)(cur + 0x10), (s32)p->buff);
+        init_packet_header((NetBufferRef *)(cur + 0x10), (saddr)p->buff);
         *(s16 *)(cur + 0xc) = p->len;
         entry->total_bytes += *(s16 *)(cur + 0xc);
         cur += 0xc;
@@ -871,7 +871,7 @@ s32 tcp_create(void) {
     return handle;
 }
 
-void NetDispatchSocketEvent(s16 v, s32 cb_, s32 type, s16 code) {
+void NetDispatchSocketEvent(s16 v, saddr cb_, s32 type, s16 code) {
     s16 validate_tcp_handle(s16 handle);
     TcpTcb *s;
     switch ((s16)type) {
@@ -911,7 +911,7 @@ void NetDispatchSocketEvent(s16 v, s32 cb_, s32 type, s16 code) {
     }
 }
 
-s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, s32 buf) {
+s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
     NetBufferRef sp18;
     s16 first;
     s16 second;

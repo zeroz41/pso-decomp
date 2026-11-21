@@ -34,7 +34,7 @@ struct Unk_8014F844 {
     CollisionBody m_d8;
     s32 m_104;
 };
-typedef char Unk_8014F844_size[sizeof(Unk_8014F844) == 0x108 ? 1 : -1];
+LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
 
 struct Vec;
 
@@ -174,5 +174,5 @@ struct TNpcPlayer : public TObject {
     void calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, Vec *axis, f32 *reach);
 };
 
-typedef char TNpcPlayer_size[sizeof(TNpcPlayer) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 #endif

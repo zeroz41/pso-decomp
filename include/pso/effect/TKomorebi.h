@@ -13,7 +13,7 @@ struct TKomorebi : public TObjBase {
     static void load_resources();
 };
 
-typedef char TKomorebi_size[sizeof(TKomorebi) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TKomorebi_size, sizeof(TKomorebi) == 0x90);
 
 extern "C" {
 void *TKomorebi__create(void *arg0);

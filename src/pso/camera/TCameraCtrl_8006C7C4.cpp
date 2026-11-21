@@ -80,7 +80,7 @@ void TUnk_80488D70::vfunc_6() {
     void *temp_r31;
     void *player;
 
-    if ((u32) camera_ctrl_instance != 0U) {
+    if ((uaddr) camera_ctrl_instance != 0U) {
         temp_r31 = ((TCameraCtrl *)camera_ctrl_instance)->get_params();
         player = get_player_by_client_id(0);
         if (player != NULL) {

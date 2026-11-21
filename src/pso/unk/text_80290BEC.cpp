@@ -11,7 +11,6 @@ extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
-void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -45,7 +44,7 @@ void run_main_frame(void) {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (func_801A5E54__Fv() != 0) {
         TKeyBoardControl__sub_8000F92C();

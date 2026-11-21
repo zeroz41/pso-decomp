@@ -395,7 +395,7 @@ s32 TQuestVmDownLoadServer__sub_803E93DC(void) {
     if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) == -1) {
         return -1;
     }
-    if (((TQuestVmDownLoadServer *)quest_download_file_handle)->aram_read_thunk((u32)lbl_80591EC8.pages, 0x2000) != 0x2000) {
+    if (((TQuestVmDownLoadServer *)quest_download_file_handle)->aram_read_thunk((uaddr)lbl_80591EC8.pages, 0x2000) != 0x2000) {
         return -1;
     }
     slot = lbl_80591EC8.pages[0];

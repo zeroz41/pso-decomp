@@ -8,14 +8,14 @@
 // TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
 class TUnk_804CC148 : public TEffect {
 public:
-    TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4);
-    TUnk_804CC148(s32 source, Vec *pos, Vec *target, s32 level);
+    TUnk_804CC148(saddr arg1, saddr arg2, s32 arg4);
+    TUnk_804CC148(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TUnk_804CC148();
     virtual void vfunc_6(void *);
     virtual void tick_lifetime();
     virtual void vfunc_8(void *);
     virtual void vfunc_9();
-    void find_area_contact(s32);
+    void find_area_contact(saddr);
     void apply_technique_to_area_targets();
     void sub_8022C008();
     void count_if_within_range();
@@ -36,10 +36,10 @@ public:
     u8 unk_B0[0x4];
     u16 m_b4;
     u8 unk_B6[0x2];
-    s32 m_b8;
+    saddr m_b8;
     CollisionBody collisionBody;
     TObjCollidable *m_e8;
 };
-typedef char TUnk_804CC148Size[sizeof(TUnk_804CC148) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC148Size, sizeof(TUnk_804CC148) == 0xEC);
 
 #endif

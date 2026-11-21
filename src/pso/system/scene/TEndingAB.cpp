@@ -21,7 +21,7 @@ struct EndingWallTextureSet {
     GinjaTextureEntry names[14];
     GinjaTextureList list;
 };
-typedef char EndingWallTextureSetSize[sizeof(EndingWallTextureSet) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
 const char ending_texture_name_ed_512kabe_a[] = "ed_512kabe_A";
 const char ending_texture_name_ed_512kabe_b[] = "ed_512kabe_B";
@@ -248,13 +248,13 @@ void TEndingAB::set_fish_global_param() {
     switch (game_difficulty_selection) {
     case 0:
     case 1:
-        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
+        TObjFish::set_global_param((saddr)ending_ab_wall_texture_list);
         break;
     case 2:
-        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
+        TObjFish::set_global_param((saddr)ending_ab_wall_texture_list);
         break;
     case 3:
-        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
+        TObjFish::set_global_param((saddr)ending_ab_wall_texture_list);
         break;
     }
 }

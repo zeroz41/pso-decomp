@@ -8,9 +8,9 @@ struct GinjaTextureList;
 struct NJS_OBJECT;
 
 struct TOJungleDesign : public TObjCollidable {
-    TOJungleDesign(s32, s32);
+    TOJungleDesign(saddr, saddr);
     virtual ~TOJungleDesign();
-    u32 m_ac;
+    uaddr m_ac;
     u32 m_b0;
     void init_design_variant();
     // The floor table's resource pair (free_shared_resource: name inferred).
@@ -19,7 +19,7 @@ struct TOJungleDesign : public TObjCollidable {
     virtual void render();
 };
 
-typedef char TOJungleDesign_size[sizeof(TOJungleDesign) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TOJungleDesign_size, sizeof(TOJungleDesign) == 0xB4);
 
 extern "C" {
 void *TOJungleDesign__create(void *arg0);

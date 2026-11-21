@@ -30,12 +30,12 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     u32 m_380;
     u32 m_384;
     u32 m_388;
-    u32 m_38c;
-    u32 m_390;
-    u32 m_394;
-    u32 m_398;
-    u32 m_39c;
-    u32 m_3a0;
+    uaddr m_38c;
+    uaddr m_390;
+    uaddr m_394;
+    uaddr m_398;
+    uaddr m_39c;
+    uaddr m_3a0;
     u32 m_3a4;
     u32 m_3a8;
     s32 update();
@@ -44,12 +44,12 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     s32 close();
     void handle_selection();
     void build_sell_list();
-    static s32 get_item_data_value(u32 arg0);
+    static s32 get_item_data_value(uaddr arg0);
     int is_confirmed();
     s32 get_result();
     static void set_entry_count(void *arg1, void *arg2);
-    void add_item(s32 arg1, s32 arg2, s32 arg3);
+    void add_item(saddr arg1, s32 arg2, s32 arg3);
 };
 
-typedef char TShopEquipmentSellWindow_size[sizeof(TShopEquipmentSellWindow) == 0x3AC ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentSellWindow_size, sizeof(TShopEquipmentSellWindow) == 0x3AC);
 #endif

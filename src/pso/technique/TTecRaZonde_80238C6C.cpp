@@ -42,7 +42,7 @@ u16 get_entity_id(void *);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 void normalize_vector(void *);
-extern s32 tl_07;
+extern saddr tl_07;
 #pragma push
 #pragma opt_common_subs off
 
@@ -129,7 +129,7 @@ void TTecRaZonde::vfunc_8(void *) {
     u32 i;
     self->emitters = (s32 *)mem_alloc(TTecRaZonde__band_profile_table[self->band].count * 4);
     for (i = 0; i < TTecRaZonde__band_profile_table[self->band].count; i++) {
-        self->emitters[i] = (s32)create_particle_emitter(&self->points[i], TTecRaZonde__band_profile_table[self->band].entries[i].entry);
+        self->emitters[i] = (saddr)create_particle_emitter(&self->points[i], TTecRaZonde__band_profile_table[self->band].entries[i].entry);
     }
 }
 
@@ -169,7 +169,7 @@ extern "C" {
 void create_timed_particle_emitter(void *, s32, s32, s32, void *);
 void spawn_particle_effect(void *, s32, void *);
 void TTecRaZonde::create(void *origin, void *level) {
-    new TTecRaZonde((s32)this, (Vec *)origin, (s32)level);
+    new TTecRaZonde((saddr)this, (Vec *)origin, (saddr)level);
 }
 
 }
@@ -201,7 +201,7 @@ void TTecRaZonde::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->m_b4);
     if (this->source == 0) {
         queue_destruction();
         return;
@@ -222,7 +222,7 @@ void TTecRaZonde::run_task() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 ang;
     s32 i;
     s32 j;

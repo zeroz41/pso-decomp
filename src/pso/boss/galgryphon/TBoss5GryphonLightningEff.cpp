@@ -177,10 +177,10 @@ s32 release_texture_list(void*);
 }
 
 void TLobby::free_char_select_singleton() {
-    if ((u32) inazuma_texture_list != 0U) {
+    if ((uaddr) inazuma_texture_list != 0U) {
         release_texture_list((void*)inazuma_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)inazuma_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)inazuma_texture_list);
         inazuma_texture_list = 0U;
     }
 }
-void load_f512_inazuma(void) { (*(int *)&inazuma_texture_list) = (int)load_gvm_texture_file((s32)(unsigned char *)"f512_inazuma.gvm"); }
+void load_f512_inazuma(void) { (*(int *)&inazuma_texture_list) = (saddr)load_gvm_texture_file((saddr)(unsigned char *)"f512_inazuma.gvm"); }

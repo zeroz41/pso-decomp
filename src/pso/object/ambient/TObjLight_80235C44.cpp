@@ -39,7 +39,7 @@ struct Light_80235C44 {
     Vec direction;
     s32 age;
     f32 step;
-    s32 source;
+    saddr source;
     f32 peak;
     f32 intensity;
     u16 actor;
@@ -106,7 +106,7 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
+u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
     Stack_80235E9C stack;
     __ct__7TObjectFP7TObject(this, (void *)arg5);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;
@@ -136,8 +136,8 @@ u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3,
     ((TUnk_804CCAA8 *)arg0)->m_20 = 0;
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) lbl_805DC888[0];
     ((TUnk_804CCAA8 *)arg0)->m_5c = (f32) lbl_805DC888[0];
-    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(int)(((TUnk_804CCAA8 *)arg0)->m_54)));
-    TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((s32) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
+    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(saddr)(((TUnk_804CCAA8 *)arg0)->m_54)));
+    TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((saddr) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
     return arg0;
 }
 
@@ -170,7 +170,7 @@ void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
 extern "C" {
 
 
-s32 TTecLuker::is_parents_unqueued(u32 arg0) {
+s32 TTecLuker::is_parents_unqueued(uaddr arg0) {
     if (arg0 == 0U) {
         return 0;
     }
@@ -262,7 +262,7 @@ f32 vector_length(void *);
 const f64 lbl_8044D8D0[1] = {0.5};
 s32 obj_is_hit_receivable();
 
-s32 TObjPlayer::is_valid_and_active(u32 arg0) {
+s32 TObjPlayer::is_valid_and_active(uaddr arg0) {
     if (arg0 == 0U) {
         return 0;
     }
@@ -276,10 +276,10 @@ TechniqueContactQueryResults technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
-s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3);
-s32 find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, CollisionBody *body, void *arg3);
+saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w3);
+saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, CollisionBody *body, void *arg3);
 
-s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
+saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
     Vec pos;
     f32 range;
     s32 i;
@@ -293,7 +293,7 @@ s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3)
     VecCopy((Vec *)&pos, (const Vec *)((u8 *)self + 0x20));
     resetTechniqueContactQuery();
     if ((u32)target == 0) {
-        return (s32)&technique_contact_query_results;
+        return (saddr)&technique_contact_query_results;
     }
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
@@ -310,16 +310,16 @@ s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3)
             }
         }
     }
-    return (s32)&technique_contact_query_results;
+    return (saddr)&technique_contact_query_results;
 }
 
-s32 *TObjPlayer::gather_player_contacts(u32 actor, s32 _w2, s32 _w3) {
-    s32 arg0 = (s32)this;
+s32 *TObjPlayer::gather_player_contacts(uaddr actor, saddr _w2, s32 _w3) {
+    saddr arg0 = (saddr)this;
     Stack_80236290 stack;
     s32 temp_r0;
-    s32 player;
+    saddr player;
     s32 var_r29;
-    u32 temp_r3_2;
+    uaddr temp_r3_2;
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x20));
     resetTechniqueContactQuery();
     if (actor == 0U) {
@@ -328,8 +328,8 @@ s32 *TObjPlayer::gather_player_contacts(u32 actor, s32 _w2, s32 _w3) {
     VecCopy((Vec *)(actor + 0x38), (const Vec *)(&stack.sp8));
     var_r29 = 0;
 loop_3:
-    player = (s32)get_player_by_client_id((var_r29));
-    if ((player != 0) && (temp_r3_2 = (u32)((TObjCollidable *)actor)->find_actor_body_contact((u8 *)player, (f32)1e+04f), ((temp_r3_2 == 0U) == 0)) && (*(u32 *)((s8 *)((u8 *)&technique_contact_query_results.value + (*(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) * 4)) + 0x40) = temp_r3_2, *(s32 *)((s8 *)&technique_contact_query_results.value + (*(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) * 4)) = player, temp_r0 = *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) + 1, *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) = temp_r0, ((temp_r0 < 0x10) == 0))) {
+    player = (saddr)get_player_by_client_id((var_r29));
+    if ((player != 0) && (temp_r3_2 = (uaddr)((TObjCollidable *)actor)->find_actor_body_contact((u8 *)player, (f32)1e+04f), ((temp_r3_2 == 0U) == 0)) && (*(u32 *)((s8 *)((u8 *)&technique_contact_query_results.value + (*(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) * 4)) + 0x40) = temp_r3_2, *(s32 *)((s8 *)&technique_contact_query_results.value + (*(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) * 4)) = player, temp_r0 = *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) + 1, *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) = temp_r0, ((temp_r0 < 0x10) == 0))) {
         *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) = 0xF;
     } else {
         var_r29 += 1;
@@ -340,7 +340,7 @@ loop_3:
     return &technique_contact_query_results.value;
 }
 
-s32 find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, CollisionBody *body, void *arg3) {
+saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, CollisionBody *body, void *arg3) {
     Vec pos;
     f32 range;
     PD_80236378 *pd;
@@ -354,7 +354,7 @@ s32 find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, Col
     VecCopy(&pos, &self->position);
     resetTechniqueContactQuery();
     if (target == NULL) {
-        return (s32)&technique_contact_query_results;
+        return (saddr)&technique_contact_query_results;
     }
     VecCopy(&target->position, &pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
@@ -371,10 +371,10 @@ s32 find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, Col
             }
         }
     }
-    return (s32)&technique_contact_query_results;
+    return (saddr)&technique_contact_query_results;
 }
 
-s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
+saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     Vec pos;
     PD_802364D8 *e;
     PD_802364D8 *pd;
@@ -386,7 +386,7 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     VecCopy((Vec *)&pos, (const Vec *)((u8 *)this + 0x20));
     resetTechniqueContactQuery();
     if ((u32)target == 0) {
-        return (s32)&technique_contact_query_results;
+        return (saddr)&technique_contact_query_results;
     }
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
     if (get_entity_id(player) < 4) {
@@ -431,28 +431,28 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
             }
         }
     }
-    return (s32)&technique_contact_query_results;
+    return (saddr)&technique_contact_query_results;
 }
 
-void TUnk_804CC148::find_area_contact(s32 arg1) {
+void TUnk_804CC148::find_area_contact(saddr arg1) {
     find_area_technique_contact(this, this->m_e8, &this->collisionBody, (void *)arg1);
 }
 
-void TObjPlayer::collect_body_contacts_for_target(s32 player) {
+void TObjPlayer::collect_body_contacts_for_target(saddr player) {
     collect_body_contacts((int)(this->blend.motion[1]), (u8 *)&this->previous_action, (void *)player);
 }
 
-void TObjPlayer::find_support_technique_contact_for_target(s32 arg1) {
+void TObjPlayer::find_support_technique_contact_for_target(saddr arg1) {
     u8 *arg0 = (u8 *)this;
     find_support_technique_contact((void *)arg0, (int)this->motion_list, (u8 *)&this->motion_flags, (void *)arg1);
 }
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    gather_player_contacts((u32)((int)this->motion_list), (s32)(arg0 + 0xb0), arg1);
+    gather_player_contacts((uaddr)this->motion_list, (saddr)(arg0 + 0xb0), arg1);
 }
 
-u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
+u8 *TUnk_804CCC68::query_technique_enemy_contacts(saddr arg) {
     Vec pos;
     Vec d;
     f32 range;
@@ -508,7 +508,7 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
     return (u8 *)&technique_contact_query_results;
 }
 
-u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
+u8 *TUnk_804CCC68::query_technique_player_contacts(saddr arg) {
     Vec pos;
     Vec d;
     f32 range;

@@ -60,7 +60,7 @@ struct TBoss6Rock : public TObjCollidable {
     void init_spin_params();
     void draw_model();
     static s32 is_active();
-    static void create_rock_pool(s32 arg0);
+    static void create_rock_pool(saddr arg0);
     static void free_data();
     static void load_resources();
     static void spawn_crush_rocks(Vec *point, s32 kind);
@@ -69,7 +69,7 @@ struct TBoss6Rock : public TObjCollidable {
     static s32 get_point(s32 i, Vec *out, f32 *radius);
 };
 
-typedef char TBoss6Rock_size[sizeof(TBoss6Rock) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);
 
 extern "C" {
 // The texture list and model resource load_resources loads (TBoss6CrushRock's ctor).

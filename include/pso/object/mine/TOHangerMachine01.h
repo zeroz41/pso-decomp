@@ -15,6 +15,6 @@ struct TOHangerMachine01 : public TObjMapObject {
     s32 fan_angle;
 };
 
-typedef char TOHangerMachine01_size[sizeof(TOHangerMachine01) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TOHangerMachine01_size, sizeof(TOHangerMachine01) == 0xCC);
 
 #endif

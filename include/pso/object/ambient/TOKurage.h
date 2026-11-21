@@ -36,6 +36,6 @@ struct TOKurage : public TObjMapObject {
     static void load_static_resource();
 };
 
-typedef char TOKurage_size[sizeof(TOKurage) == 0x114 ? 1 : -1];
+LAYOUT_ASSERT(TOKurage_size, sizeof(TOKurage) == 0x114);
 
 #endif

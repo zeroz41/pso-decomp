@@ -16,14 +16,14 @@ struct TObjEneSlime : public TObjEnemy {
     virtual void run_task();
     static void free_instance();
     static void spawn_pair();
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     static void spawn_child(s16 arg0, s32 arg1, s32 arg2, f32 farg0, f32 farg1);
     void init_slots();
 
     u8 _pad3b8[0x3D8 - 0x3B8];
 };
 
-typedef char TObjEneSlime_size[sizeof(TObjEneSlime) == 0x3D8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneSlime_size, sizeof(TObjEneSlime) == 0x3D8);
 
 extern "C" {
 void TObjEneSlime__sub_800EB9F0(void *p, void *q);

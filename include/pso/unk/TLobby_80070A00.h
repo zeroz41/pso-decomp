@@ -11,7 +11,7 @@ void TLobby__sub_80070B34(s32 v);
 void TLobby__sub_80070BE8(s32 arg0);
 void TLobby__sub_80070C50(void);
 s32 TLobby__sub_80070DA8(void);
-void TLobby__sub_80070EE4(s32 arg0);
+void TLobby__sub_80070EE4(saddr arg0);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
 void TLobby__sub_80071064(s32 arg0);
@@ -21,7 +21,7 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg);
 s32 *TLobby__sub_800713C8(void);
 u32 TLobby__sub_80071640(u32 c);
 s32 TLobby__sub_80071654(s32 arg0);
-s32 add_entry__6TLobbyFiii(s32 src, s32 arg1, s32 arg2);
+s32 add_entry__6TLobbyFiii(saddr src, saddr arg1, s32 arg2);
 void set_challenge_mode_split_flag(void);
 }
 // --- end of C functions

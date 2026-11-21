@@ -28,8 +28,8 @@ struct TOBind : public TObjCollidable {
     f32 m_d4;
 };
 
-typedef char TOBind_motion_frame_offset[offsetof(TOBind, motion_frame) == 0xB8 ? 1 : -1];
-typedef char TOBind_animated_model_offset[offsetof(TOBind, animated_model) == 0xC4 ? 1 : -1];
-typedef char TOBind_motion_offset[offsetof(TOBind, motion) == 0xCC ? 1 : -1];
-typedef char TOBind_size[sizeof(TOBind) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOBind_motion_frame_offset, offsetof(TOBind, motion_frame) == 0xB8);
+LAYOUT_ASSERT(TOBind_animated_model_offset, offsetof(TOBind, animated_model) == 0xC4);
+LAYOUT_ASSERT(TOBind_motion_offset, offsetof(TOBind, motion) == 0xCC);
+LAYOUT_ASSERT(TOBind_size, sizeof(TOBind) == 0xD8);
 #endif

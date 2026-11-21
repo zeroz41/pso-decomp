@@ -12,14 +12,14 @@ struct TBoss4Type2Params
 {
     f32 move_seconds;
     u8 pad_04[0x14];
-    s32 rafoie_level;
-    s32 rabarta_level;
+    saddr rafoie_level;
+    saddr rabarta_level;
     s32 power;
 };
 
 struct TBoss4Type2
 {
-    s32 sub_80057224();
+    saddr sub_80057224();
     void sub_80056FEC(s32);
     void sub_80056F90(s32, s32);
     void sub_80056998();
@@ -111,7 +111,7 @@ struct TBoss4Type2
     void set_attack_pattern_by_index(s32 arg1);
     void update_phase_timer();
     void advance_afterimage();
-    static s32 create(s32 arg0);
+    static saddr create(saddr arg0);
     static s32 pick_weighted_random(s32 n, f32 *w, s32 *t);
     void calc_scale_slot_indices(s32 *a, s32 *b);
     void set_state(s32 arg1);
@@ -172,6 +172,6 @@ struct TBoss4Type2
     void sub_800531BC();
 };
 
-typedef char Type2NodeTablesOffset[(offsetof(TBoss4Type2, node_tables) == 0x378) ? 1 : -1];
+LAYOUT_ASSERT(Type2NodeTablesOffset, offsetof(TBoss4Type2, node_tables) == 0x378);
 
 #endif

@@ -24,5 +24,5 @@ struct TOExplosiveMachine : public TObjBase {
     s32 debris_textures[2];
 };
 
-typedef char TOExplosiveMachine_size[sizeof(TOExplosiveMachine) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TOExplosiveMachine_size, sizeof(TOExplosiveMachine) == 0xAC);
 #endif

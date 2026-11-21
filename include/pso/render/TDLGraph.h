@@ -49,6 +49,6 @@ struct TDLGraph : public TObject {
     TDLGraphSample m_samples[4]; // newest first
 };
 
-typedef char TDLGraph_size[sizeof(TDLGraph) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TDLGraph_size, sizeof(TDLGraph) == 0x64);
 
 #endif

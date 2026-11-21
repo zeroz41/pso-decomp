@@ -50,7 +50,7 @@ TUnk_804A67D0::TUnk_804A67D0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-u8 *TObjPlayer::create_fields_state(s32 arg0) {
+u8 *TObjPlayer::create_fields_state(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804A67D0(tl_05, (u8 *)arg0);
     }

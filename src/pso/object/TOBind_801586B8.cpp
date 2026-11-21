@@ -45,7 +45,7 @@ void TOBind::render() {
         TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->m_b0 != 1) {
-            TObjFish::set_global_param(reinterpret_cast<s32>(animated_textures));
+            TObjFish::set_global_param(reinterpret_cast<saddr>(animated_textures));
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();
@@ -57,7 +57,7 @@ void TOBind::render() {
 void *TOBind::create(void *arg0) {
     void *o = TObject::operator new(0xD8);
     if (o != NULL) {
-        o = TOBind__ct((TOBind *)((u8 *)o), (s32)arg0);
+        o = TOBind__ct((TOBind *)((u8 *)o), (saddr)arg0);
     }
     return o;
 }
@@ -83,7 +83,7 @@ TOBind::~TOBind() {
     free_collision_body_parts(this);
 }
 
-u8 *TOBind__ct(TOBind *bind, s32 arg1) {
+u8 *TOBind__ct(TOBind *bind, saddr arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
     *(s32 **)((s8 *)bind + 0x18) = __vt__6TOBind;
     ((TOBind *)bind)->m_name = lbl_805D2EA8;

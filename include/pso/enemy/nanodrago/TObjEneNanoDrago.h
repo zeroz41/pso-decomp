@@ -70,5 +70,5 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     RenderFadeState cameraFades[4];
 };
 
-typedef char TObjEneNanoDrago_size[sizeof(TObjEneNanoDrago) == 0x47C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneNanoDrago_size, sizeof(TObjEneNanoDrago) == 0x47C);
 #endif

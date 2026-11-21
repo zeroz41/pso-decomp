@@ -76,36 +76,36 @@ s16 TLobby__sub_803F8E9C(void)
 
   q = (s32 *) network_mutex_slot_table;
   ((s32 *) (new_var4 = (u8 *) network_mutex_slot_table))[0] = 0;
-  ((s32 *) network_mutex_slot_table)[1] = (s32)(q + 2);
+  ((s32 *) network_mutex_slot_table)[1] = (saddr)(q + 2);
   q = (s32 *)(tbl + 0x1620);
   q[0] = 0;
   new_var = (s32 *)(tbl + 0x1640);
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = new_var;
   new_var2 = (s32 *)(tbl + 0x1660);
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = new_var2;
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = (s32 *)(tbl + 0x1680);
   q[0] = 0;
-  q[(((1 & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF] = (s32)(q + 2);
+  q[(((1 & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF] = (saddr)(q + 2);
   q = (s32 *)(tbl + 0x16a0);
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = (s32 *)(tbl + 0x16c0);
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = (s32 *)(tbl + 0x16e0);
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = (s32 *) new_var3;
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   q = (s32 *)(tbl + 0x1aa8);
   q[0] = 0;
-  q[1] = (s32)(q + 2);
+  q[1] = (saddr)(q + 2);
   for (i = 0; i < lobby_buffer_slot_count; i++)
   {
     lobby_buffer_slots[i].active = 0;
@@ -238,11 +238,11 @@ s32 TLobby__sub_803F94F0(s32 *out) {
 }
 #pragma pop
 
-void unlock_mutex(int _w0) {
+void unlock_mutex(saddr _w0) {
     OSUnlockMutex((OSMutex*)_w0);
 }
 
-void lock_mutex(int _w0) {
+void lock_mutex(saddr _w0) {
     OSLockMutex((OSMutex*)_w0);
 }
 

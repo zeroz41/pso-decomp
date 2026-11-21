@@ -39,7 +39,7 @@ struct Rev_8023A364 {
     s16 fe0;
 };
 
-struct List_8023A244 { u32 objs[16]; s32 vals[16]; s32 count; };
+struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
 void *find_entity_by_id(u16 id);
@@ -83,7 +83,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
         return;
     }
     if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
+        if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
             list = (List_8023A244 *) query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
@@ -114,7 +114,7 @@ void TUnk_804CCC68::dispatch_technique_contact(s32) {
         return;
     }
     if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
+        if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
             var_r31 = query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
@@ -137,7 +137,7 @@ void TUnk_804CCC68::dispatch_technique_contact(s32) {
 }
 
 #define tec_reverser ((u8 *)this)
-TTecReverser::TTecReverser(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TUnk_804CC148(arg1, arg2, arg4) {
+TTecReverser::TTecReverser(saddr arg1, saddr arg2, saddr arg3, saddr arg4) : TUnk_804CC148(arg1, arg2, arg4) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
@@ -157,12 +157,12 @@ TTecReverser::~TTecReverser() {
 }
 
 void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecReverser((s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+    new TTecReverser((saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
 }
 
 void run_task__12TTecReverserFv(u8 *tec_reverser) {
-    u32 entity;
-    ((TTecReverser *)tec_reverser)->source = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
+    uaddr entity;
+    ((TTecReverser *)tec_reverser)->source = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
     if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;
@@ -171,7 +171,7 @@ void run_task__12TTecReverserFv(u8 *tec_reverser) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;
     }
-    entity = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
+    entity = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
     if ((is_active__12TTecReverserFv() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         ((TTecReverser *)(tec_reverser))->vfunc_6((void *)entity);
     }

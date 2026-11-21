@@ -1,4 +1,5 @@
 #include "types.h"
+#include <stdlib.h>
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
@@ -17,7 +18,6 @@ struct O_8010EF14 { s32 count; s32 f4; u8 *buf; };
 extern "C" {
 void fn_8010EFE8(O_8010EFE8 *self);
 s32 test_flags_any(s32 *flags, s32 mask);
-s32 rand();
 void fn_8010EF14(O_8010EF14 *self);
 
 void fn_8010EF14(O_8010EF14 *self) {

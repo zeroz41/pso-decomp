@@ -4,6 +4,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/map/TSetManager.h"
 #include "types.h"
+#include <string.h>
 
 #pragma readonly_strings on
 #include "pso/map/TSetManager_8020D918.h"
@@ -44,7 +45,7 @@ EnemySetRecord *TLobby__data_805D6114;
 s32 TLobby__current_floor_enemy_set_count;
 FloorObjectSetRow *floor_decoration_rows;
 s32 TLobby__data_805D6120;
-u32 TLobby__data_805D6124;
+uaddr TLobby__data_805D6124;
 s32 TLobby__data_805D6128;
 s32 item_drop_memory_pool_ar_addr;
 s32 item_drop_memory_pool_size;
@@ -117,7 +118,7 @@ void mem_free(void*);
 extern void *tl_02;
 
 void TSetManager::create() {
-    void* obj = __nw__7TObjectFUl(0x20);
+    void* obj = TObject::operator new(0x20);
     if (obj != 0) {
         TSetManager__ct(obj, tl_02);
     }
@@ -187,11 +188,11 @@ void TLobby::clear_floor_flags_and_depart() {
 
 void TLobby::setup_floor_decorations() {
     FloorMapSelection v;
-    s32 r;
+    saddr r;
     arrive_floor_population();
     floor_decoration_rows = NULL;
     TLobby__data_805D6134 &= ~8;
-    (*(s32 *)&TLobby__data_805D6124) = 0;
+    (*(saddr *)&TLobby__data_805D6124) = 0;
     TLobby__data_805D6120 = 0;
     TLobby__data_805D6128 = 0;
     TLobby__data_805D6134 &= ~16;
@@ -316,22 +317,22 @@ void depart_floor_population(int unused) {
         }
     }
     if (TLobby__data_805D6114 != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D6114);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6114);
         TLobby__data_805D6114 = 0;
     }
     if (TLobby__data_805D610C != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D610C);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D610C);
         TLobby__data_805D610C = 0;
     }
 }
 
 void TLobby::free_resources() {
     if (TLobby__data_805D6144 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D6144);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6144);
         TLobby__data_805D6144 = NULL;
     }
     if (quest_object_entries != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)quest_object_entries);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)quest_object_entries);
         quest_object_entries = NULL;
     }
     if (TLobby__data_805D6108 != NULL) {
@@ -339,15 +340,15 @@ void TLobby::free_resources() {
         TLobby__data_805D6108 = NULL;
     }
     if (TLobby__data_805D6104 != NULL) {
-        free_and_delete__6TLobbyFPvs((u32 *)TLobby__data_805D6104, 1);
+        TLobby::free_and_delete((u32 *)TLobby__data_805D6104, 1);
         TLobby__data_805D6104 = NULL;
     }
     if (TLobby__data_805D613C != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D613C);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D613C);
         TLobby__data_805D613C = NULL;
     }
     if (TLobby__data_805D6138 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D6138);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6138);
         TLobby__data_805D6138 = NULL;
     }
 }
@@ -358,7 +359,7 @@ void *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 void arrive_floor_population(void) {
     s32 index;
     LobbyFloorRows *floor;
-    s32 bytes;
+    saddr bytes;
     FloorObjectSetRow *o;
     FloorSavedSetRow *r;
     s32 i;
@@ -451,13 +452,13 @@ void init_item_drop_tables(void) {
 
 extern "C" {
 
-s32 Dolphin_ARAlloc(s32);
+s32 ARAlloc(s32);
 
 void TLobby__sub_8020E3BC(void) {  }
 
 void TLobby__sub_8020E3C0(void) {
     item_drop_memory_pool_size = 0x100000;
-    item_drop_memory_pool_ar_addr = Dolphin_ARAlloc(0x100000);
+    item_drop_memory_pool_ar_addr = ARAlloc(0x100000);
 }
 
 EnemySetRecord *get_loaded_enemy_set_rows() { return TLobby__data_805D6114; }

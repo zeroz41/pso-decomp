@@ -18,6 +18,6 @@ struct TOCakeshopCave01 : public TObjMapObject {
     u8 blink_state[8];  // 0 lit, 1 fading out, 2 fading back in
 };
 
-typedef char TOCakeshopCave01_size[sizeof(TOCakeshopCave01) == 0xF4 ? 1 : -1];
+LAYOUT_ASSERT(TOCakeshopCave01_size, sizeof(TOCakeshopCave01) == 0xF4);
 
 #endif

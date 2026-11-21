@@ -25,8 +25,8 @@ typedef struct PppLink {
     s16 count;                  /* 0x16 */
 } PppLink;
 
-typedef char PppLinkProtocol_size_check[sizeof(PppLinkProtocol) == 4 ? 1 : -1];
-typedef char PppLink_size_check[sizeof(PppLink) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(PppLinkProtocol_size_check, sizeof(PppLinkProtocol) == 4);
+LAYOUT_ASSERT(PppLink_size_check, sizeof(PppLink) == 0x18);
 
 extern PppLink lobby_net_buffer_desc_b;
 

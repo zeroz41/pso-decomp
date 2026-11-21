@@ -52,5 +52,5 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void update_if_in_band();
 };
 
-typedef char TObjEneDf2Bringer_size[sizeof(TObjEneDf2Bringer) == 0x4C8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDf2Bringer_size, sizeof(TObjEneDf2Bringer) == 0x4C8);
 #endif

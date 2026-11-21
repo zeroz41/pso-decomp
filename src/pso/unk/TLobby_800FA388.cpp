@@ -1,23 +1,22 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
 extern "C" {
 
-s32 adxf_open__6TLobbyFUii(s32, s32);
-s32 strncpy(void *, s32, s32);
 
 struct Ent_800fa388;
 
-s32 TLobby::request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3) {
+s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     struct Ent_800fa388 *var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg3 != NULL) {
         *arg3 = NULL;
     }
-    temp_r3 = adxf_open__6TLobbyFUii(arg0, 0);
+    temp_r3 = (saddr)TLobby::adxf_open(arg0, 0);
     if (temp_r3 == 0) {
         return -2;
     }
@@ -25,7 +24,7 @@ s32 TLobby::request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3) {
     if (var_r31 != NULL) {
         var_r31 = (struct Ent_800fa388 *)link_into_list(var_r31);
     }
-    strncpy((u8 *)var_r31 + 8, arg0, 0x20);
+    strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
     *(s32 *)((s8 *)var_r31 + 0x2C) = ((TLobby *)temp_r3)->adxf_get_fsize_byte();

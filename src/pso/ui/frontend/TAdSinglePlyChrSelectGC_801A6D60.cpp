@@ -8,11 +8,11 @@
 extern "C" {
 
 s32 test_controller_flag_4c_color(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->flags_4c & TRaderMapCore::pack_color_bits((s32)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->flags_4c & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
 }
 
 s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask) {
-    return (*(s32 *)((s8 *)pad + 0x4C) & pack_flags__13TRaderMapCoreFii((s32)pad, mask)) != 0;
+    return (*(s32 *)((s8 *)pad + 0x4C) & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
 
 }

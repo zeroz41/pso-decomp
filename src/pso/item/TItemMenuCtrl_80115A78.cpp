@@ -5,11 +5,10 @@
 
 extern "C" {
 
-u32 __nw__7TObjectFUl(s32);
 s32 set_menu_flags__13TItemMenuCtrlFv(u32, s32);
 
-extern u32 TItemMenuCtrl__instance;
-extern s32 tl_05;
+extern uaddr TItemMenuCtrl__instance;
+extern saddr tl_05;
 
 void TItemMenuCtrl::open_menu(u32 arg0) {
     if (((u32) TItemMenuCtrl__instance == 0U)) {
