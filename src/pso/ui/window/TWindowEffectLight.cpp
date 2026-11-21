@@ -26,7 +26,7 @@ void TCameraCtrl__sub_80068EF0(void);
 s32 is_window_display_enabled(void);
 void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
-const char *lbl_805D3E60 = "TWindowEffectLight";
+const char *TWindowEffectLight__name = "TWindowEffectLight";
 extern saddr tl_window;
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -42,7 +42,7 @@ void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id)
 }
 
 TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
-    this->m_name = lbl_805D3E60;
+    this->m_name = TWindowEffectLight__name;
     copy_vec2((((u8 *)this) + 0x1C), arg1);
     WindowDrawContext::adjust_pos_for_split_screen((NJS_POINT2 *)(((u8 *)this) + 0x1C), TCameraCtrl::get_split_screen_view_index(id));
     effect_kind = arg2;
