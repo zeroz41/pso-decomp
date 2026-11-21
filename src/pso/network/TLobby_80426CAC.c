@@ -297,14 +297,13 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e) {
 #pragma opt_common_subs off
 #pragma opt_lifetimes off
 s16 TLobby__sub_804270C0(u8 *self) {
-    s16 NetStringLength(const char *);
     s16 write_pppoe_ac_name_tag(u8 **, u8 *);
     u8 pad1[4];
     u8 *p;
     u16 w[8];
     u8 pad2[12];
     s16 len;
-    s32 n;
+    s16 n;
     s16 r;
 
     p = self + 0x24e;
@@ -312,7 +311,7 @@ s16 TLobby__sub_804270C0(u8 *self) {
     NetMemcpy(p, &w[6], 2);
     p += 2;
     n = NetStringLength((const char *)(self + 0x13a));
-    w[7] = (u16)n;
+    w[7] = n;
     NetMemcpy(p, &w[7], 2);
     p += 2;
     NetMemcpy(p, self + 0x13a, n);
