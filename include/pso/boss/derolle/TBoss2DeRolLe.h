@@ -20,6 +20,7 @@ class TParticleCtrl;
 struct TBoss2LaserLight;
 class TUnk_80482EC0;
 class TUnk_80482D04;
+class TUnk_80482C58;
 class AreaAttackHistory;
 
 // The boss's models and motions, loaded from bm_boss2_de_rol_le(_a).bml by load_resources.
@@ -120,6 +121,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void sub_800313F8(u32 reason, s32 side);
     void handle_death_state(u32 reason);
     void sub_80032E38(u32 reason);
+    void sub_8002FE60(u32 reason);
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -156,11 +158,11 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     TBoss2LaserLight *laser_light;
     Vec laser_light_pos;               // the position the laser light follows
     AreaAttackHistory *attack_history;
-    TObject *unk_6CC;
-    TObject *unk_6D0;
+    TUnk_80482C58 *hit_trail;          // ring trail of the laser's hit point (limit 6, effect 0x124)
+    TUnk_80482C58 *hit_trail_long;     // the same with limit 15, effect 0x125
     f32 pulse_phase;                   // 0..2, advanced by pulse_speed (advance_phase_wrap)
     f32 pulse_speed;
-    s32 unk_6DC;
+    s32 laser_shot_count;              // laser shots since the state that clears it; 4 ends the laser runs
     s32 state_step;                    // the running state's step (every state handler switches on it)
     s32 unk_6E4;
     s32 unk_6E8;
@@ -169,8 +171,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 unk_6F4;
     s32 unk_6F8;
     f32 state_floats[10];              // per-state scratch: each state handler gives them its own meaning
-    Vec node_offset;                   // the model node offset get_node_world_pos gives sub_80032E38
-    f32 unk_730[3];
+    Vec state_vectors[2];              // per-state scratch: sub_80032E38's node offset; the laser's aim and hit point
     TParticleCtrl *unk_73C;
     TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
     s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
@@ -179,7 +180,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
-void TBoss2DeRolLe__sub_8002FE60(TBoss2DeRolLe *self, u32 reason);
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
 void TBoss2DeRolLe__sub_800360A8(void *arg0);

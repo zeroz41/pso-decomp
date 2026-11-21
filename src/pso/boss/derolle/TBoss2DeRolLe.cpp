@@ -104,6 +104,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
@@ -568,42 +569,6 @@ void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s
 namespace behavior_view {
 
 
-struct D_8002FE60 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 frame;
-    u8 padC4[0x390 - 0xC4];
-    u8 *target;
-    u8 pad394[0x3C0 - 0x394];
-    u32 flags;
-    u8 pad3C4[0x4E8 - 0x3C4];
-    Vec pos;
-    Vec dir;
-    u8 pad500[0x518 - 0x500];
-    u8 snd[0x654 - 0x518];
-    s32 mode;
-    u8 pad658[0x6C8 - 0x658];
-    s32 f6C8;
-    void *laser1;
-    void *laser2;
-    u8 pad6D4[0x6DC - 0x6D4];
-    s32 count;
-    s32 phase;
-    s32 timer;
-    s32 f6E8;
-    u8 pad6EC[0x6F4 - 0x6EC];
-    s32 f6F4;
-    u8 pad6F8[0x6FC - 0x6F8];
-    f32 speed;
-    f32 f700;
-    u8 pad704[0x724 - 0x704];
-    Vec vel;
-    Vec hit;
-    void *ptcl;
-    u8 pad740[0x758 - 0x740];
-    s32 f758;
-};
 
 extern "C" {
 
@@ -653,7 +618,6 @@ void subtract_vector(void *, void *);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);
 
 
 
@@ -1481,8 +1445,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     laser_light_pos.z = 0.0f;
     attack_history = new AreaAttackHistory(4);
     fill_value_array(attack_history);
-    unk_6CC = NULL;
-    unk_6D0 = NULL;
+    hit_trail = NULL;
+    hit_trail_long = NULL;
     pulse_phase = 1.0f;
     pulse_speed = 0.1f;
     for (k = 0; k < 3; k++) {
@@ -1501,7 +1465,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         splash_ctrls[m] = NULL;
     }
     splash_joint = 0;
-    unk_6DC = 0;
+    laser_shot_count = 0;
     state_step = 0;
     unk_6E4 = 0;
     unk_6E8 = 0;
@@ -1519,12 +1483,12 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     state_floats[7] = 0.0f;
     state_floats[8] = 0.0f;
     state_floats[9] = 0.0f;
-    node_offset.x = 0.0f;
-    node_offset.y = 0.0f;
-    node_offset.z = 0.0f;
-    unk_730[0] = 0.0f;
-    unk_730[1] = 0.0f;
-    unk_730[2] = 0.0f;
+    state_vectors[0].x = 0.0f;
+    state_vectors[0].y = 0.0f;
+    state_vectors[0].z = 0.0f;
+    state_vectors[1].x = 0.0f;
+    state_vectors[1].y = 0.0f;
+    state_vectors[1].z = 0.0f;
     unk_73C = NULL;
     debug_pad_active = 0;
     debug_pad = &controller_input_state.controllers[1];
@@ -1560,13 +1524,13 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
     }
     mem_free(unk_618);
     unk_618 = NULL;
-    if (unk_6CC != NULL) {
-        unk_6CC->queue_destruction();
-        unk_6CC = NULL;
+    if (hit_trail != NULL) {
+        hit_trail->queue_destruction();
+        hit_trail = NULL;
     }
-    if (unk_6D0 != NULL) {
-        unk_6D0->queue_destruction();
-        unk_6D0 = NULL;
+    if (hit_trail_long != NULL) {
+        hit_trail_long->queue_destruction();
+        hit_trail_long = NULL;
     }
     if (attack_history != NULL) {
         delete attack_history;
@@ -2666,7 +2630,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         state_ceiling_attack(reason);
         return;
     case 27:
-        TBoss2DeRolLe__sub_8002FE60(this, reason);
+        sub_8002FE60(reason);
         return;
     case 28:
         sub_8002FD9C(reason, 0);
@@ -2710,7 +2674,7 @@ void TBoss2DeRolLe::sub_800333F4(u32 reason) {
 #pragma fp_contract on
 
 void TBoss2DeRolLe::sub_80032E38(u32 reason) {
-    Vec *p = &node_offset;
+    Vec *p = &state_vectors[0];
     CameraPlayback cam;
     CameraPlayback cam2;
     Vec v1;
@@ -4110,7 +4074,7 @@ void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
         position_index = 3;
         set_position_index(position_index);
         state_step = 0;
-        unk_6DC = 0;
+        laser_shot_count = 0;
         return;
     case 2:
         if (requested_action == 0xF) {
@@ -4144,128 +4108,120 @@ void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
     }
 }
 
-namespace behavior_view {
-
-extern "C" {
-
-#define VADD(d, s) ((void (*)(void *, void *)) vec3_add_to)((d), (s))
-#define VCOPY(d, s) ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)((d), (s))
-
-void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
+void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
     Vec *vel;
     Vec *hit;
-    D_8002FE60 *self = (D_8002FE60 *) arg0;
-    vel = &self->vel;
-    switch (arg1) {
+    vel = &state_vectors[0];
+    switch (reason) {
     case 4:
-        self->flags &= ~4;
-        self->flags |= 0x100;
-        ((TBoss2DeRolLe *)self)->sub_800341F0();
-        self->fB8 = 0xF;
-        self->mode = 3;
-        ((TBoss2DeRolLe *)self)->set_position_index(self->mode);
-        fill_value_array(self->f6C8);
-        self->phase = 0;
-        self->timer = 0;
-        self->f6E8 = 0;
-        self->f6F4 = 0;
-        self->speed = 0.0f;
-        self->f700 = 0.0f;
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        sub_800341F0();
+        requested_action = 0xF;
+        position_index = 3;
+        set_position_index(position_index);
+        fill_value_array(attack_history);
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
+        unk_6F4 = 0;
+        state_floats[0] = 0.0f;
+        state_floats[1] = 0.0f;
         vel->x = 0.0f;
         vel->y = 0.0f;
         vel->z = 0.0f;
-        self->ptcl = NULL;
+        unk_73C = NULL;
         break;
     case 2:
-        if (self->phase == 4) {
-            if (self->count >= 4) {
-                ((TBoss2DeRolLe *)self)->set_state_and_send(0x1C);
+        if (state_step == 4) {
+            if (laser_shot_count >= 4) {
+                set_state_and_send(0x1C);
             } else {
-                ((TBoss2DeRolLe *)self)->set_state_and_send(0x1B);
+                set_state_and_send(0x1B);
             }
         }
         break;
     case 9:
-        if (self->phase == 4) {
-            ((TBoss2DeRolLe *)self)->advance_action_sequence();
+        if (state_step == 4) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        self->f758 = 6;
-        switch (self->phase) {
+        advance_animation();
+        splash_joint = 6;
+        switch (state_step) {
         case 0:
-            self->timer++;
-            if (self->timer >= 0x14) {
-                self->timer = 0;
-                self->phase = 1;
-                fill_value_array(self->f6C8);
-                self->fB8 = 0xD;
-                if (((TObjEneDD_ST *)self)->enemy_check_target_valid() != 0) {
-                    VCOPY(vel, self->target + 0x38);
+            unk_6E4++;
+            if (unk_6E4 >= 0x14) {
+                unk_6E4 = 0;
+                state_step = 1;
+                fill_value_array(attack_history);
+                requested_action = 0xD;
+                if (enemy_check_target_valid() != 0) {
+                    VecCopy(vel, &target->position);
                 } else {
                     vel->x = 0.0f;
                     vel->y = 0.0f;
                     vel->z = 0.0f;
                 }
-                ((TBoss2DeRolLe *)self)->calc_offset_position();
-                ((TBoss2DeRolLe *)self)->activate_laser_light();
-                ((int (*)(int, void *))play_sound)(0x4003A809, self->snd);
+                calc_offset_position();
+                activate_laser_light();
+                play_sound(0x4003A809, &unk_518[0]);
             }
             break;
         case 1:
-            if (self->count != 0 && TObjEneDD::check_v2_mode() != 0) {
-                self->frame = 13.0f;
+            if (laser_shot_count != 0 && TObjEneDD::check_v2_mode() != 0) {
+                frame = 13.0f;
             }
-            if (self->frame <= 12.0f) {
-                if (self->ptcl == NULL) {
-                    self->ptcl = spawn_continuous_particle_effect_with_flags(&self->pos, 0x122, 0x40);
-                    if (self->ptcl != NULL) {
-                        ((TParticleCtrl *)(self->ptcl))->enable();
+            if (frame <= 12.0f) {
+                if (unk_73C == NULL) {
+                    unk_73C = spawn_continuous_particle_effect_with_flags(&unk_4E8[0], 0x122, 0x40);
+                    if (unk_73C != NULL) {
+                        unk_73C->enable();
                     }
                 } else {
                     Vec a;
-                    VCOPY(&a, &self->pos);
-                    a.x += 2.0f * (5.0f * self->dir.x);
-                    a.y += 5.0f * self->dir.y;
-                    a.z += 5.0f * self->dir.z;
-                    ((TParticleCtrl *)self->ptcl)->set_position(&a);
+                    VecCopy(&a, &unk_4E8[0]);
+                    a.x += 2.0f * (5.0f * unk_4E8[1].x);
+                    a.y += 5.0f * unk_4E8[1].y;
+                    a.z += 5.0f * unk_4E8[1].z;
+                    unk_73C->set_position(&a);
                 }
-            } else if (self->ptcl != NULL) {
-                ((TObject *)self->ptcl)->queue_destruction();
-                self->ptcl = NULL;
+            } else if (unk_73C != NULL) {
+                unk_73C->queue_destruction();
+                unk_73C = NULL;
             }
-            ((TBoss2DeRolLe *)self)->calc_offset_position();
-            if (self->frame >= 13.0f) {
-                self->frame = 13.0f;
-                self->phase = 2;
-                subtract_vector(vel, &self->pos);
-                normalize_vector_xz((Vec *)vel);
+            calc_offset_position();
+            if (frame >= 13.0f) {
+                frame = 13.0f;
+                state_step = 2;
+                subtract_vector(vel, &unk_4E8[0]);
+                normalize_vector_xz(vel);
                 vel->y = 0.0f;
-                self->f6F4 = RADIANS_TO_ANGLE * atan2_float(vel->x, vel->z);
-                self->speed = 80.0f;
-                spawn_particle_effect_with_flags(&self->pos, 0x126, 0x40);
+                unk_6F4 = RADIANS_TO_ANGLE * atan2_float(vel->x, vel->z);
+                state_floats[0] = 80.0f;
+                spawn_particle_effect_with_flags(&unk_4E8[0], 0x126, 0x40);
             }
             break;
         case 2: {
             f32 k;
             f32 dist;
             f32 s;
-            u8 *col;
-            self->frame = 13.0f;
-            self->speed += 30.0f;
-            if (self->ptcl == NULL) {
-                self->ptcl = spawn_continuous_particle_effect_with_flags(&self->pos, 0x177, 0x40);
-                if (self->ptcl != NULL) {
-                    ((TParticleCtrl *)(self->ptcl))->enable();
+            CsnHit *col;
+            frame = 13.0f;
+            state_floats[0] += 30.0f;
+            if (unk_73C == NULL) {
+                unk_73C = spawn_continuous_particle_effect_with_flags(&unk_4E8[0], 0x177, 0x40);
+                if (unk_73C != NULL) {
+                    unk_73C->enable();
                 }
             } else {
                 Vec b;
-                VCOPY(&b, &self->pos);
-                b.x += 2.0f * (5.0f * self->dir.x);
-                b.y += 5.0f * self->dir.y;
-                b.z += 5.0f * self->dir.z;
-                ((TParticleCtrl *)self->ptcl)->set_position(&b);
+                VecCopy(&b, &unk_4E8[0]);
+                b.x += 2.0f * (5.0f * unk_4E8[1].x);
+                b.y += 5.0f * unk_4E8[1].y;
+                b.z += 5.0f * unk_4E8[1].z;
+                unk_73C->set_position(&b);
             }
             {
                 Vec e;
@@ -4275,26 +4231,26 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 f32 h;
                 f32 dy;
                 f32 t;
-                hit = &self->hit;
-                h = self->pos.y;
+                hit = &state_vectors[1];
+                h = unk_4E8[0].y;
                 dy = -10.0f - h;
-                e.x = vel->x * self->speed;
+                e.x = vel->x * state_floats[0];
                 e.y = dy;
-                e.z = vel->z * self->speed;
+                e.z = vel->z * state_floats[0];
                 t = (10.0f - h) / dy;
                 c.x = e.x * t;
                 c.y = dy * t;
                 c.z = e.z * t;
-                VADD(&c, &self->pos);
-                VCOPY(hit, &e);
-                VADD(hit, &self->pos);
-                self->f700 += 5.0f;
-                if (self->f700 >= 20.0f) {
-                    self->f700 -= 20.0f;
+                vec3_add_to(&c, &unk_4E8[0]);
+                VecCopy(hit, &e);
+                vec3_add_to(hit, &unk_4E8[0]);
+                state_floats[1] += 5.0f;
+                if (state_floats[1] >= 20.0f) {
+                    state_floats[1] -= 20.0f;
                 }
-                s = self->f700;
-                VCOPY(&p, &self->pos);
-                VCOPY(&d, hit);
+                s = state_floats[1];
+                VecCopy(&p, &unk_4E8[0]);
+                VecCopy(&d, hit);
                 subtract_vector(&d, &p);
                 dist = normalize_vector_safe(&d);
                 p.x += d.x * s;
@@ -4306,79 +4262,72 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 d.z *= k;
                 for (; dist > s; s += k) {
                     spawn_particle_effect_with_flags(&p, 0x176, 0x40);
-                    VADD(&p, &d);
+                    vec3_add_to(&p, &d);
                 }
                 col = csnVector(&c, hit, 0x16EF);
                 if (col != NULL) {
-                    VCOPY(hit, *(void **) (col + 4));
-                    if (self->laser1 == NULL) {
-                        self->laser1 = new TUnk_80482C58((TObject *)self, 6, 0x124);
+                    VecCopy(hit, &col->contact->point);
+                    if (hit_trail == NULL) {
+                        hit_trail = new TUnk_80482C58(this, 6, 0x124);
                     } else {
-                        ((TUnk_80482C58 *)self->laser1)->push_ring_point(hit);
+                        hit_trail->push_ring_point(hit);
                     }
-                    if (self->laser2 == NULL) {
-                        self->laser2 = new TUnk_80482C58((TObject *)self, 0xF, 0x125);
+                    if (hit_trail_long == NULL) {
+                        hit_trail_long = new TUnk_80482C58(this, 0xF, 0x125);
                     } else {
-                        ((TUnk_80482C58 *)self->laser2)->push_ring_point(hit);
+                        hit_trail_long->push_ring_point(hit);
                     }
                 }
                 {
                     DeRolLeEffectParams r = derolle_laser_hit_effect_params;
                     r.pad_04 = *(f32 *) TBoss2DeRolLe__data_805D4BA0;
-                    TObjEneDD::setup_instance((saddr)self, (saddr)hit, (u8 *)&r, self->f6C8);
+                    TObjEneDD::setup_instance((saddr)this, (saddr)hit, (u8 *)&r, (saddr)attack_history);
                 }
             }
-            spawn_trap__13TBoss2DeRolLeFPvii(0x4003B00A, self, hit);
-            if (self->speed >= 500.0f) {
-                self->speed = 500.0f;
-                self->phase = 3;
-                if (self->ptcl != NULL) {
-                    ((TObject *)self->ptcl)->queue_destruction();
-                    self->ptcl = NULL;
+            spawn_trap__13TBoss2DeRolLeFPvii(0x4003B00A, this, hit);
+            if (state_floats[0] >= 500.0f) {
+                state_floats[0] = 500.0f;
+                state_step = 3;
+                if (unk_73C != NULL) {
+                    unk_73C->queue_destruction();
+                    unk_73C = NULL;
                 }
             }
             break;
         }
         case 3:
             if (TObjEneDD::check_v2_mode() != 0) {
-                self->phase = 4;
+                state_step = 4;
             }
-            if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-                self->phase = 4;
+            if (get_flag_b4() != 0) {
+                state_step = 4;
             }
             break;
         }
         break;
     case 6:
-        ((TBoss2DeRolLe *)(saddr) self)->pick_random_target();
+        pick_random_target();
         break;
     case 5:
-        self->count++;
-        ((TBoss2DeRolLe *)self)->free_laser();
-        if (self->ptcl != NULL) {
-            ((TObject *)self->ptcl)->queue_destruction();
-            self->ptcl = NULL;
+        laser_shot_count++;
+        free_laser();
+        if (unk_73C != NULL) {
+            unk_73C->queue_destruction();
+            unk_73C = NULL;
         }
-        if (self->laser1 != NULL) {
-            ((TObject *)self->laser1)->queue_destruction();
-            self->laser1 = NULL;
+        if (hit_trail != NULL) {
+            hit_trail->queue_destruction();
+            hit_trail = NULL;
         }
-        if (self->laser2 != NULL) {
-            ((TObject *)self->laser2)->queue_destruction();
-            self->laser2 = NULL;
+        if (hit_trail_long != NULL) {
+            hit_trail_long->queue_destruction();
+            hit_trail_long = NULL;
         }
         break;
     }
 }
 
 #pragma pop
-
-#undef VADD
-#undef VCOPY
-
-}
-
-}
 
 void TBoss2DeRolLe::sub_8002FD9C(u32 reason, s32 arg2) {
     switch (reason) {
