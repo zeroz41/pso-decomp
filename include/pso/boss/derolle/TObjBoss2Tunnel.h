@@ -115,8 +115,8 @@ struct TObjBoss2Tunnel : public TObject {
     static void enable_and_trigger();
     static void reset_player_state();
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
-    // Hand the emitter's particles over to TObjBoss2Tunnel_parent_object, shifted by offset or
-    // moved speed along z, so they stay behind when the emitter goes (TObjBoss2Tunnel_8003B1FC.cpp).
+    // Hand the emitter's particles over to TObjBoss2Tunnel_parent_object, adding offset to their
+    // step or speed to its z, so they outlive the emitter (TObjBoss2Tunnel_8003B1FC.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
     // release_children with the full -5.0f drift (TObjBoss2RaftSplash.cpp).

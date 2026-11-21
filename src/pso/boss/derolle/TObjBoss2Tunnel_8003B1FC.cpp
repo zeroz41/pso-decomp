@@ -9,27 +9,23 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/TUnk_8048E728.h"
 
-// One particle of an emitter; only its position (0x3C) is known.
-struct Particle_8003B1FC : public TObject {
-    u8 pad_1c[0x3C - 0x1C];
-    Vec position;
-};
 
 TObject *TObjBoss2Tunnel_parent_object;
 
 void TObjBoss2Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
-    Particle_8003B1FC *child;
-    while ((child = (Particle_8003B1FC *)particle->m_down) != NULL) {
-        vec3_add_to(&child->position, offset);
+    TUnk_8048E728 *child;
+    while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
+        vec3_add_to(&child->step, offset);
         child->set_parent(TObjBoss2Tunnel_parent_object);
     }
 }
 
 void TObjBoss2Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
-    Particle_8003B1FC *child;
-    while ((child = (Particle_8003B1FC *)particle->m_down) != NULL) {
-        child->position.z = child->position.z + speed;
+    TUnk_8048E728 *child;
+    while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
+        child->step.z = child->step.z + speed;
         child->set_parent(TObjBoss2Tunnel_parent_object);
     }
 }
