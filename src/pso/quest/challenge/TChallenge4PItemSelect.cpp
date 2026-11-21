@@ -53,7 +53,7 @@ Challenge4PItemCode TChallenge4PItemSelect__item_table[8] = {
     { 0, 0x35, 0 }, { 0, 0x52, 0 }, { 0, 0x2A, 0 }, { 0, 0x59, 0 },
 };
 
- s32 TChallenge4PResult__slot_entries[4]; 
+s32 TChallenge4PResult__slot_entries[4];
 struct E_8034B694 { u8 b[0x14]; };
 struct Q_8034B694 { s32 v; };
 struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
@@ -64,7 +64,6 @@ saddr get_localized_text_entry(s32, s32);
 s32 get_map_id__13TRaderMapCoreFv();
 uaddr get_player_by_client_id(int);
 extern u8 controller_input_state[];
-extern s32 TChallenge4PResult__slot_entries[];
 
 
 void obj_set_flag_20000(TObjPlayer *);

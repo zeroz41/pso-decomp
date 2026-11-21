@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
@@ -15,12 +16,6 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-s32 strcmp(const char *, const char *);
-s32 strlen(char *);
-s32 strncpy(char *, char *, s32);
-extern u8 gstream_sector_buffer[];
-extern GslArchiveEntry gsl_archive_entries[256];
-extern char gsl_archive_filename[32];
 
 #pragma readonly_strings on
 const char TGStream__class_name_string[] = "TGStream";

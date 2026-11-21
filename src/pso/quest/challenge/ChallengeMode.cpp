@@ -606,7 +606,6 @@ void *lbl_8048D108[6] = {
 };
 
 void __dt__7TObjectFv(void *, s32);
-extern s32 challenge_task;
 
 Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1) {
     if (arg0 != NULL) {

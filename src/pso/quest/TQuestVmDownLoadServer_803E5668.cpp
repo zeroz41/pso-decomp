@@ -612,8 +612,8 @@ u8 lbl_8058DC48[80];
 u8 lbl_8058DC98[80];
 u8 lbl_8058DCE8[80];
 u8 quest_request_text_buffer[80];
-QuestConvertString quest_convert_string;
 }
+QuestConvertString quest_convert_string;
 
 struct Stack_803E68D0 {
     s32 sp14;

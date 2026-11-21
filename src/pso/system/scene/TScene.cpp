@@ -1753,7 +1753,6 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
   }
 
 }
-extern Vec lbl_8044A840[];
 }
 
 void TScene::sub_80204D7C() {

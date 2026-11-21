@@ -104,8 +104,6 @@ struct Src_801F718C {
 struct QVm_801F7890;
 struct QVm_801F6D24;extern "C" {
 void subtractive_rng_seed(SubtractiveRng *, u32);
-char *strncpy(char *, const char *, u32);
-void *memcpy(void *, const void *, u32);
 }
 s32 *get_quest_download_file_header(void);
 extern char TQuestVmDownLoadServer__data_804C8690[];
@@ -122,13 +120,13 @@ struct Src_801F8A40 {
     s32 f34;
     void *f38;
 };
-extern "C" {
 Src_801F8A40 TQuestVmDownLoadServer__download_file_state;
 Src_801F8A40 quest_download_file_slot;
 Src_801F718C quest_download_file_info;
 QuestDownloadFileHeader quest_download_file_header;
 SubtractiveRng TQuestVmDownLoadServer__rng_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
+extern "C" {
 s32 get_memcard_free_files(s32);
 u8 *init_shop_judgment_window(void *p);
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
