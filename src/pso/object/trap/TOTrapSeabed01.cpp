@@ -208,7 +208,7 @@ void TOTrapSeabed01::vfunc_84() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
-        (projected == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((s32)this) == 0) &&
+        (projected == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) == 0) &&
         m_340 == 1) {
         switch (mode) {
         case 0:
