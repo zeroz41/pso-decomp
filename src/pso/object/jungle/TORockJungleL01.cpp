@@ -103,7 +103,7 @@ void TORockJungleS01::free_globals() {
     }
 }
 
-s32 TORockJungleS01::get_model(s32 index) {
+saddr TORockJungleS01::get_model(s32 index) {
     if (TORockJungleS01__bml_resource != NULL) {
         return get_bml_model(TORockJungleS01__bml_resource, index);
     }

@@ -317,11 +317,11 @@ TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUn
 TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
 }
 
-s32 TOContainerAncientItemCommon::create() {
+saddr TOContainerAncientItemCommon::create() {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
-        return (s32)new TOContainerAncientItemCommon(this);
+        return (saddr)new TOContainerAncientItemCommon(this);
     }
-    return (s32)new TOContainerAncientItemCommon(this);
+    return (saddr)new TOContainerAncientItemCommon(this);
 }
 
 void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {

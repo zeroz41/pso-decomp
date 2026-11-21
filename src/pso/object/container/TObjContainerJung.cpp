@@ -244,7 +244,7 @@ void TObjContainerJung::vfunc_79() const {
         a.pos[1] = py;
         a.pos[2] = pz;
         a.pad_38[0] = py;
-        a.model = (s32) get_bml_model((void *) TObjContainerJung__bml_model_resource, 1);
+        a.model = (saddr) get_bml_model((void *) TObjContainerJung__bml_model_resource, 1);
         a.textures = TObjContainerJung__bml_aux_handle;
         TObjChipParams b = container_jung_spawn_params;
         f32 qz;
@@ -257,7 +257,7 @@ void TObjContainerJung::vfunc_79() const {
         b.pos[1] = qy;
         b.pos[2] = qz;
         b.pad_38[0] = qy;
-        b.model = (s32) get_bml_model((void *) TObjContainerJung__bml_model_resource, 2);
+        b.model = (saddr) get_bml_model((void *) TObjContainerJung__bml_model_resource, 2);
         b.textures = TObjContainerJung__bml_aux_handle;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
@@ -387,7 +387,7 @@ void TObjContainerJungEx::vfunc_79() const {
     a.pos[1] = py;
     a.pos[2] = pz;
     a.pad_38[0] = py;
-    a.model = (s32)TObjContainerJungEx::get_model(1);
+    a.model = (saddr)TObjContainerJungEx::get_model(1);
     a.textures = TObjContainerJungEx__sub_8018D900(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
@@ -400,7 +400,7 @@ void TObjContainerJungEx::vfunc_79() const {
     b.pos[1] = qy;
     b.pos[2] = qz;
     b.pad_38[0] = qy;
-    b.model = (s32)TObjContainerJungEx::get_model(2);
+    b.model = (saddr)TObjContainerJungEx::get_model(2);
     b.textures = TObjContainerJungEx__sub_8018D900(0);
     spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
     spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
@@ -454,7 +454,7 @@ void TObjContainerJungEnemy::load_models() {
     }
     switch (var_r0) {
     case 0:
-        this->m_368 = (s32)TObjContainerJung::get_model_by_index(0);
+        this->m_368 = (uaddr)TObjContainerJung::get_model_by_index(0);
         this->m_36c = (saddr)TObjContainerJung::get_model_by_index(1);
         this->m_370 = (saddr)TObjContainerJung::get_model_by_index(2);
         this->m_374 = (saddr)TObjContainerJung::get_model_by_index(3);
@@ -462,7 +462,7 @@ void TObjContainerJungEnemy::load_models() {
         return;
     default:
     case 1:
-        this->m_368 = (s32)TObjContainerJungEx::get_model(0);
+        this->m_368 = (uaddr)TObjContainerJungEx::get_model(0);
         this->m_36c = (saddr)TObjContainerJungEx::get_model(1);
         this->m_370 = (saddr)TObjContainerJungEx::get_model(2);
         this->m_374 = (saddr)TObjContainerJungEx::get_model(3);

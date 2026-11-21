@@ -13,7 +13,7 @@ struct TORockJungleS01 : public TORockCaveBrakable {
     virtual void vfunc_18();
     TObjMapCsn *map_csn;     // the rock's map collision
     static void *create(void *set_data);
-    static s32 get_model(s32 index);
+    static saddr get_model(s32 index);
     static void free_globals();
     static void load_resources();
 };
