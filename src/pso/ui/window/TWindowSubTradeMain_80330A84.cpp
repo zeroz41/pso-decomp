@@ -145,7 +145,6 @@ void TWindowSubTradeMain__sub_803323C8(void *);
 extern Ctrl_8033162C controller_input_state[];
 void TWindowCtrl__sub_8024ADF0(saddr arg0);
 void TWindowSubComCard__sub_8024AB98(saddr arg0);
-s32 TLobby__sub_802D29E8(u32 arg0);
 void TWindowCtrl__sub_8024ADAC(saddr arg0);
 void snapshot_trade_inventories(void);
 void fn_8024AB54(saddr arg0);

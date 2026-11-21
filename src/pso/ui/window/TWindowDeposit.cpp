@@ -60,7 +60,7 @@ TWindowDeposit::~TWindowDeposit() {}
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
+u8 *TWindowDeposit__ct(u8 *arg0, s16 arg1) {
   u8 *temp_r30;
   u32 spC;
   s32 sp8;
@@ -68,7 +68,6 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   saddr str;
   u32 temp_r3_2;
   u8 *temp_r31;
-  u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, s32, u8 *);
   __ct__11TWindowBaseFPUcsPUc((void *) arg0, (u8 *) &window_deposit_layout, arg1, (u8 *) get_window_layout_position(0x29));
   *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
   *((s32 *) (((s8 *) arg0) + 0)) = (saddr) TWindowDeposit__name;

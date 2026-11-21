@@ -36,7 +36,6 @@ s32 canSetMenuCursorAction(s32, s32, u8, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 s32 fn_8002AE08(int);
 s32 is_player_input_active(s32 param_1);
-saddr get_character_save_record(u32 arg0);
 s32 try_send_6x27_use_item(void *arg0, s32 arg1);
 s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
