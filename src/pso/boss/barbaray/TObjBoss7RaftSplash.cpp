@@ -31,7 +31,7 @@ void TObjBoss7RaftSplash::run_task() {
             elapsed = timer - period;
             VecCopy(&splash_position, &position);
             splash_position.y += *step - boss7_tunnel_max_scroll_speed;
-            TObjFish::create_splash_particle((saddr)&splash_position, 0x200, (saddr)&splash_offset);
+            spawn_splash(&splash_position, 0x200, &splash_offset);
         }
     }
 }
@@ -48,35 +48,35 @@ TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, c
 }
 
 void TObjFish::spawn_default_particle(s32 position, s32 particle_index) {
-    spawn_particle(position, particle_index, -5.0f);
+    TUnk_804E4B3C::create_particle_effect((const void *)position, particle_index, -5.0f);
 }
 
-// The TObjFish particle helpers below share this TU's .sdata2 pool: -5.0f (0x805DEC90) is used by
+// The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805DEC90) is used by
 // spawn_default_particle and TObjFish__sub_802F18E8, and the .text runs on without a pool of its own.
 
-void TObjFish::create_splash_particle(saddr position, s32 particle_index, saddr offset) {
+void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, const Vec *offset) {
     TParticleCtrl *particle;
 
     particle = (TParticleCtrl *)TObject::operator new(0x78);
     if (particle != NULL) {
-        particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
+        particle = initialize_flagged_particle(particle, position, TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
         particle->run_task();
-        TUnk_804E4B3C::detach_children(particle, (const Vec *)offset);
+        TUnk_804E4B3C::detach_children(particle, offset);
     }
 }
 
-void TObjFish::spawn_particle(saddr position, s32 particle_index, f32 height) {
+void TUnk_804E4B3C::create_particle_effect(const void *position, s32 particle_index, f32 speed) {
     TParticleCtrl *particle;
 
     particle = (TParticleCtrl *)TObject::operator new(0x78);
     if (particle != NULL) {
-        particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
+        particle = initialize_flagged_particle(particle, position, TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
         particle->run_task();
-        TUnk_804E4B3C::release_children(particle, height);
+        release_children(particle, speed);
     }
 }
 

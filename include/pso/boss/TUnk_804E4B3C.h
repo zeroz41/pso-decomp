@@ -43,6 +43,8 @@ public:
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
     static void sub_802F19C0();
+    // Twin of TObjBoss2Tunnel::create_particle_effect (TObjBoss7RaftSplash.cpp).
+    static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
     // Clears boss2_tunnel_state_flags (init_scene_boss2_tunnel).
     static void sub_802F2C84();
     // Creates the tunnel under tl_04 (fn_802F1084).

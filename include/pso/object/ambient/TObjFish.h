@@ -39,8 +39,6 @@ struct TObjFish : public TObjBase {
     static void *alloc(void *arg0);
     static void reset_fish_globals();
     static void spawn_default_particle(s32 position, s32 particle_index);
-    static void create_splash_particle(saddr arg0, s32 arg1, saddr arg2);
-    static void spawn_particle(saddr arg0, s32 arg1, f32 farg0);
     static void free_resource();
     static void load_area_resource();
     static s32 set_global_param(saddr arg0);
