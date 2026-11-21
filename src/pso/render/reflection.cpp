@@ -222,11 +222,11 @@ void TObjEneRecon::destroy_instance() {
 
 
 void TObjEneRecon::alloc_if_valid_state() {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     if (is_central_control_area() != 0) {
         scene_sora_instance = 0;
-        temp_r3 = (int)::operator new(0x28);
+        temp_r3 = (uaddr)::operator new(0x28);
         scene_sora_recon_object = temp_r3;
         if (temp_r3 != 0U) {
             init_render_target__10TObjPlayerFv();

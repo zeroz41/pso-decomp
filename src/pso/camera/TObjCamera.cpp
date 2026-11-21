@@ -226,12 +226,12 @@ void TObjCamera::free_resources() {
 
 void TObjCamera::load_resources() {
     void *resource;
-    u32 loaded;
+    uaddr loaded;
     camera_slot_scan_index = 0;
     resource = ::operator new(0x440);
-    loaded = (u32)resource;
+    loaded = (uaddr)resource;
     if (loaded != 0) {
-        loaded = (u32)load_resource_from_descriptor(resource, 1, &fe_obj_cam_resource_descriptor, 0, 0, 0);
+        loaded = (uaddr)load_resource_from_descriptor(resource, 1, &fe_obj_cam_resource_descriptor, 0, 0, 0);
     }
     model_resource = loaded;
 }
