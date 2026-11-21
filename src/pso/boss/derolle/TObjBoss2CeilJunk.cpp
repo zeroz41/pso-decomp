@@ -46,7 +46,7 @@ const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
 extern "C" {
-extern const f32 lbl_805D4BE0;
+extern const f32 boss2_ceil_junk_water_level;
 }
 
 void TObjBoss2CeilJunk::render() {
@@ -102,7 +102,7 @@ void TObjBoss2CeilJunk::run_task() {
             velocity.y = -10.0f;
         }
         position.y += velocity.y;
-        if (position.y <= lbl_805D4BE0) {
+        if (position.y <= boss2_ceil_junk_water_level) {
             state = 1;
             VecCopy(&p, &position);
             switch (kind) {

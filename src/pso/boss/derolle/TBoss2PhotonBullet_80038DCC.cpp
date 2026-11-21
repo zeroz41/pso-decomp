@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
@@ -58,9 +59,7 @@ const char *TBoss2PhotonBullet__name = "TBoss2PhotonBullet";
 extern "C" {
 s32 project_actor_to_ground(TObjBase *actor, Vec *pos, Vec *normal);
 
-extern const f32 lbl_805D8268;
 
-extern const f32 lbl_805D826C;
 }
 
 TBoss2PhotonPad::TBoss2PhotonPad(TObject *parent, Vec *start, Vec *dir, s32 level) : TObject(parent) {
@@ -145,7 +144,7 @@ void TBoss2PhotonBullet::run_task() {
             grounded &= ~1;
         }
     }
-    if (position.x <= lbl_805D8268 && position.x >= lbl_805D826C) {
+    if (position.x <= boss2_platform_max && position.x >= boss2_platform_min) {
         DirectAttackPayload attack = boss2_photon_bullet_attack[0];
         attack.power = TBoss2DeRolLe::get_bullet_power();
         if (vfunc_16((void *)boss2_photon_bullet_hit_args, &attack) != 0) {

@@ -1,5 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -47,7 +48,7 @@ BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
 };
 
 void *lbl_804FE9C8[7];
-f32 lbl_805D4BE0;
+f32 boss2_ceil_junk_water_level;
 s32 lbl_805D4BE4;
 BmlResource *boss2_common_resource;
 GinjaTextureList *boss2_common_texture_list;
@@ -56,10 +57,8 @@ void *TObjBoss2CeilJunk::create(void *position) {
     return new TObjBoss2CeilJunk(tl_05, (const Vec *)position);
 }
 
-// -10.0f, pooled in TObjPlayer_8002E784.cpp's .sdata2.
-extern const f32 lbl_805D8258;
 
-void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { lbl_805D4BE0 = lbl_805D8258; }
+void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { boss2_ceil_junk_water_level = boss2_water_level; }
 void TLobby__sub_8003A874(void) {
     s32 i;
     for (i = 0; i < 7; i++) {

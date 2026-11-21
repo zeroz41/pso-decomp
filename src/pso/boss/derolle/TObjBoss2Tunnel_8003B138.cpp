@@ -80,8 +80,8 @@ static s32 boss2_tunnel_shift_queue_table[10] = {
     6, 5, 5, 0, 5, 5, 5, 5, 5, 0,
 };
 static Vec boss2_tunnel_raft_splash_positions[2] = {
-    {78.0f, lbl_805D825C, 83.0f},
-    {-78.0f, lbl_805D825C, 83.0f},
+    {78.0f, boss2_tunnel_splash_y, 83.0f},
+    {-78.0f, boss2_tunnel_splash_y, 83.0f},
 };
 static Vec boss2_tunnel_particle_pos_table[4] = {
     {26.0f, -19.0f, 62.0f},

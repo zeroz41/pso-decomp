@@ -38,27 +38,23 @@ f32 vec3_add_to(void *, void *);
 extern saddr current_scene_light;
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
-extern const f32 lbl_805D8228;
-extern const f32 lbl_805D822C;
-extern const f32 lbl_805D8230;
-extern const f32 lbl_805D8234;
-extern const f32 lbl_805D8238;
-extern const f32 lbl_805D823C;
-extern const f32 lbl_805D8240;
-extern const f32 lbl_805D824C;
-extern const f32 lbl_805D8250;
-extern const f32 lbl_805D8254;
-extern const f32 lbl_805D8258;
-extern const f32 lbl_805D8260;
-extern const f32 lbl_805D8264;
-extern const f32 lbl_805D8268;
-extern const f32 lbl_805D826C;
+extern const f32 breakup_unit;
+extern const f32 breakup_zero;
+extern const f32 breakup_bounce_factor;
+extern const f32 breakup_rise_speed_min;
+extern const f32 breakup_rise_speed_max;
+extern const f32 breakup_back_speed_max;
+extern const f32 breakup_spin_max;
+extern const f32 breakup_spread_scale;
+extern const f32 breakup_gravity;
+extern const f32 breakup_fade_step;
+extern const f32 breakup_floor_height;
 void TObjPlayer__sub_8002ECC4(TUnk_8048FA00 *model, s32 n);
 void TObjPlayer__sub_8002ED48(TUnk_8048FA00 *model, s32 n);
 
 TUnk_8048FA00 *shared_breakup_model;
 TUnk_8048FA00 *lbl_805D4B8C;
-f32 lbl_805D4B90 = lbl_805D8258;
+f32 boss2_breakup_water_level = boss2_water_level;
 
 #pragma push
 #pragma opt_common_subs off
@@ -76,18 +72,18 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
     temp_r31 = piece->spin;
     switch (temp_r0) {
     case 0:
-        piece->vel.y = (piece->vel.y - lbl_805D8250);
+        piece->vel.y = (piece->vel.y - breakup_gravity);
         vec3_add_to(&piece->pos, &piece->vel);
         temp_f1 = piece->vel.y;
-        if (temp_f1 < lbl_805D822C) {
+        if (temp_f1 < breakup_zero) {
             temp_f2 = piece->pos.y;
-            if (temp_f2 < lbl_805D8264) {
+            if (temp_f2 < breakup_floor_height) {
                 temp_f3 = piece->pos.x;
                 temp_f4 = piece->pos.z;
-                if ((temp_f3 <= lbl_805D8268) && (temp_f3 >= lbl_805D826C) && (temp_f4 <= 76.0f) && (temp_f4 >= (-75.0f))) {
-                    piece->vel.y = (temp_f1 * lbl_805D8230);
+                if ((temp_f3 <= boss2_platform_max) && (temp_f3 >= boss2_platform_min) && (temp_f4 <= 76.0f) && (temp_f4 >= (-75.0f))) {
+                    piece->vel.y = (temp_f1 * breakup_bounce_factor);
                     piece->state = 2;
-                } else if (temp_f2 < lbl_805D8258) {
+                } else if (temp_f2 < boss2_water_level) {
                     var_r30 = 1;
                     piece->state = 1;
                 }
@@ -97,18 +93,18 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
         piece->ang_z = (piece->ang_z + (temp_r31 * 2));
         break;
     case 2:
-        piece->vel.y = (piece->vel.y - lbl_805D8250);
+        piece->vel.y = (piece->vel.y - breakup_gravity);
         vec3_add_to(&piece->pos, &piece->vel);
-        piece->alpha = (piece->alpha - lbl_805D8254);
-        if (piece->alpha < lbl_805D822C) {
-            piece->alpha = lbl_805D822C;
+        piece->alpha = (piece->alpha - breakup_fade_step);
+        if (piece->alpha < breakup_zero) {
+            piece->alpha = breakup_zero;
             piece->state = 3;
         }
         piece->ang_x = (piece->ang_x + temp_r31);
         piece->ang_z = (piece->ang_z + (temp_r31 * 2));
         break;
     case 1:
-        piece->pos.y = ((lbl_805D8250 * piece->vel.y) + piece->pos.y);
+        piece->pos.y = ((breakup_gravity * piece->vel.y) + piece->pos.y);
         piece->pos.z = (piece->pos.z + piece->vel.z);
         break;
     }
@@ -120,7 +116,7 @@ void TObjPlayer__sub_8002ED48(TUnk_8048FA00 *model, s32 n) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    scale_matrix(0, lbl_805D8260, lbl_805D8260, lbl_805D8260);
+    scale_matrix(0, boss2_model_scale, boss2_model_scale, boss2_model_scale);
     for (i = 0; i < n; i++) {
         rotate_vector_by_matrix(0, &model->m_records[i].pos, &model->m_records[i].pos);
     }
@@ -131,7 +127,7 @@ void TObjPlayer__sub_8002ECC4(TUnk_8048FA00 *model, s32 n) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    scale_matrix(0, lbl_805D824C, lbl_805D822C, lbl_805D824C);
+    scale_matrix(0, breakup_spread_scale, breakup_zero, breakup_spread_scale);
     for (i = 0; i < n; i++) {
         rotate_vector_by_matrix(0, &model->m_records[i].vel, &model->m_records[i].vel);
     }
@@ -158,25 +154,25 @@ void TObjPlayer__sub_8002EB88(void) {
 }
 
 TUnk_804820A8::TUnk_804820A8(TObject *parent, const Vec *pos) : TUnk_804820C0(parent) {
-    f32 zero;
-    f32 scale;
+    f32 alpha;
+    f32 spin_max;
     BreakupPiece *p;
     Vec *v;
     s32 i;
-    scale = lbl_805D8240;
-    zero = lbl_805D8228;
+    spin_max = breakup_spin_max;
+    alpha = breakup_unit;
     for (i = 0, p = m_pieces; i < 19; i++, p++) {
         VecCopy(&p->pos, pos);
         vec3_add_to(&p->pos, &shared_breakup_model->m_records[i].pos);
         v = &p->vel;
         VecCopy(v, &shared_breakup_model->m_records[i].vel);
-        v->y = lerp__9TDeadSpotFff(lbl_805D8234, lbl_805D8238);
-        v->z -= lerp__9TDeadSpotFff(lbl_805D8228, lbl_805D823C);
+        v->y = lerp__9TDeadSpotFff(breakup_rise_speed_min, breakup_rise_speed_max);
+        v->z -= lerp__9TDeadSpotFff(breakup_unit, breakup_back_speed_max);
         p->ang_x = TObjPlayer::calc_random_scaled();
-        p->spin = (s32)(scale * rand_signed_unit());
+        p->spin = (s32)(spin_max * rand_signed_unit());
         p->ang_z = TObjPlayer::calc_random_scaled();
         p->state = 0;
-        p->alpha = zero;
+        p->alpha = alpha;
     }
 }
 
@@ -212,9 +208,9 @@ void TUnk_804820A8::render() {
     BreakupPiece *p = m_pieces;
     s32 i;
 
-    scale.x = lbl_805D8260;
-    scale.y = lbl_805D8260;
-    scale.z = lbl_805D8260;
+    scale.x = boss2_model_scale;
+    scale.y = boss2_model_scale;
+    scale.z = boss2_model_scale;
     TObjFish::set_global_param((saddr)models[2].m_c);
     for (i = 0; i < 19; i++) {
         push_matrix();
@@ -266,20 +262,20 @@ TUnk_80482090::TUnk_80482090(TObject *parent, u32 matrix) : TUnk_804820C0(parent
     set_matrix_identity(0);
     TObjPlayer::concat_matrix(0, m_matrix);
     v = &m_origin;
-    v->x = lbl_805D822C;
-    v->y = lbl_805D822C;
-    v->z = lbl_805D822C;
+    v->x = breakup_zero;
+    v->y = breakup_zero;
+    v->z = breakup_zero;
     matrix_mult_vec(0, v, v);
     for (i = 0; i < 0x1C; i++, p++) {
         matrix_mult_vec(0, &lbl_805D4B8C->m_records[i].pos, &p->pos);
         rotate_vector_by_matrix(0, &lbl_805D4B8C->m_records[i].vel, &p->vel);
-        p->vel.y = lerp__9TDeadSpotFff(lbl_805D8234, lbl_805D8238);
-        p->vel.z -= lerp__9TDeadSpotFff(lbl_805D8228, lbl_805D823C);
+        p->vel.y = lerp__9TDeadSpotFff(breakup_rise_speed_min, breakup_rise_speed_max);
+        p->vel.z -= lerp__9TDeadSpotFff(breakup_unit, breakup_back_speed_max);
         p->ang_x = 0;
-        p->spin = (s32)(lbl_805D8240 * rand_signed_unit());
+        p->spin = (s32)(breakup_spin_max * rand_signed_unit());
         p->ang_z = 0;
         p->state = 0;
-        p->alpha = lbl_805D8228;
+        p->alpha = breakup_unit;
     }
     pop_matrix();
 }
@@ -354,21 +350,21 @@ void TUnk_80482090::render() {
 
 }
 
-extern const f32 lbl_805D8228 = 1.0f;
-extern const f32 lbl_805D822C = 0.0f;
-extern const f32 lbl_805D8230 = -0.8f;
-extern const f32 lbl_805D8234 = 2.0f;
-extern const f32 lbl_805D8238 = 6.0f;
-extern const f32 lbl_805D823C = 5.0f;
-extern const f32 lbl_805D8240 = 3400.0f;
-extern const f32 lbl_805D8244 = 3.0517578e-05f;
-extern const f32 lbl_805D8248 = 65536.0f;
-extern const f32 lbl_805D824C = 1.1f;
-extern const f32 lbl_805D8250 = 0.2f;
-extern const f32 lbl_805D8254 = 0.05f;
-extern const f32 lbl_805D8258 = -10.0f;
-extern const f32 lbl_805D825C = -5.0f;
-extern const f32 lbl_805D8260 = 2.0f;
-extern const f32 lbl_805D8264 = 1.15f;
-extern const f32 lbl_805D8268 = 76.0f;
-extern const f32 lbl_805D826C = -75.0f;
+extern const f32 breakup_unit = 1.0f;
+extern const f32 breakup_zero = 0.0f;
+extern const f32 breakup_bounce_factor = -0.8f;
+extern const f32 breakup_rise_speed_min = 2.0f;
+extern const f32 breakup_rise_speed_max = 6.0f;
+extern const f32 breakup_back_speed_max = 5.0f;
+extern const f32 breakup_spin_max = 3400.0f;
+extern const f32 random_unit_scale = 3.0517578e-05f;
+extern const f32 random_angle_range = 65536.0f;
+extern const f32 breakup_spread_scale = 1.1f;
+extern const f32 breakup_gravity = 0.2f;
+extern const f32 breakup_fade_step = 0.05f;
+extern const f32 boss2_water_level = -10.0f;
+extern const f32 boss2_tunnel_splash_y = -5.0f;
+extern const f32 boss2_model_scale = 2.0f;
+extern const f32 breakup_floor_height = 1.15f;
+extern const f32 boss2_platform_max = 76.0f;
+extern const f32 boss2_platform_min = -75.0f;

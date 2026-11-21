@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/boss/derolle/TBoss2Joint.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/TUnk_80482C58.h"
@@ -15,7 +16,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
-extern const f32 lbl_805D8258;
 }
 
 // The movement parameters init_params installs.
@@ -132,7 +132,7 @@ void TBoss2Joint::enable_body_collision() {
 }
 
 void TBoss2Joint::update_body_colliders() {
-    if (position.y < lbl_805D8258 - 50.0f) {
+    if (position.y < boss2_water_level - 50.0f) {
         TObjEneDD::disable_body_collision();
         bodies->flags &= ~6;
     } else {

@@ -5,6 +5,7 @@
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -18,7 +19,6 @@
 extern "C" {
 s32 TObjLight__sub_801337F8(s32);
 extern saddr current_scene_light;
-extern const f32 lbl_805D8260;
 }
 
 const char *TBoss2Fin__name = "TBoss2Fin";
@@ -57,7 +57,7 @@ void TBoss2Fin::render() {
             rotate_matrix_x(0, (65536.0 / (2.0 * 3.141592f)) * acosf(-v.y));
             rotate_matrix_y(0, end->twist - yaw);
             push_matrix();
-            scale_matrix(0, lbl_805D8260, lbl_805D8260, lbl_805D8260);
+            scale_matrix(0, boss2_model_scale, boss2_model_scale, boss2_model_scale);
             rotate_matrix_x(0, -0x4000);
             if (j == 1) {
                 if (seg->tip_model != NULL) {
