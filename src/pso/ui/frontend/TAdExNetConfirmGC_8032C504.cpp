@@ -14,34 +14,11 @@
 
 #pragma readonly_strings on
 
-struct Base_8032C504 { char pad[0x18]; };
-struct VObj_8032C504 : Base_8032C504 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
-struct Base_8032C594_8032C504 { char pad[0x18]; };
-struct VObj_8032C594_8032C504 : Base_8032C594_8032C504 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
 extern "C" {
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
 
 void TAdExNetConfirmGC::render() {
-    struct VObj_8032C504 *o = (struct VObj_8032C504 *)this;
-    o->m7();
+    vfunc_9();
 }
 
 void TAdExNetConfirmGC::vfunc_7() {
@@ -55,8 +32,7 @@ void TAdExNetConfirmGC::vfunc_7() {
 void TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 void TAdExNetConfirmGC::run_task() {
-    struct VObj_8032C594_8032C504 *o = (struct VObj_8032C594_8032C504 *)this;
-    o->m6();
+    vfunc_8();
 }
 
 }
