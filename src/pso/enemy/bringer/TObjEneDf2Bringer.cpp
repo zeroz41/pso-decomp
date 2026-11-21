@@ -26,7 +26,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 struct VBase_18_26a62c { char pad[0x18]; };
 
@@ -91,7 +90,6 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 struct Bringer_80097714;
 struct Bringer_800993E8;
@@ -1833,7 +1831,7 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
         case 1:
             ((TObjEneDf2Bringer *)arg0)->spawn_particle_if_in_band();
             hit = 0;
-            if ((u32)((TBoss5Gryphon *)arg0)->enemy_probe_wall_ahead(F(f32, 0x3A0), F(f32, 0x3A8), 30.0f * PRM->speed) != 0) {
+            if ((u32)((TObjEneDD *)arg0)->enemy_probe_wall_ahead(F(f32, 0x3A0), F(f32, 0x3A8), 30.0f * PRM->speed) != 0) {
                 hit = 1;
             }
             ((TObjEneDD *)arg0)->move_clamped_on_ground(F(f32, 0x3A0), F(f32, 0x3A8), PRM->speed);

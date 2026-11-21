@@ -30,7 +30,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -1650,7 +1649,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
             if (!(this->m_410->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
-                if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0U) {
+                if (this->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0U) {
                     Vec v;
                     VecCopy(&v, &this->body_center);
                     v.x += dx;

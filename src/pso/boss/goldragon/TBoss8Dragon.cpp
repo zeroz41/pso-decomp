@@ -36,7 +36,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TMainCursor.h"
 
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -5611,8 +5610,8 @@ void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target) {
     delta.y = 0.0f;
     delta.z = target->z - (&dragon->position)->z;
     dist = normalize_vector_xz((Vec *)&delta);
-    ((TBoss5Gryphon *)dragon)->calc_shot_position(shot, delta.x, delta.z, dist);
-    ((TBoss5Gryphon *)dragon)->try_move_actor_xz_on_ground(shot);
+    ((TObjEneDD *)dragon)->calc_shot_position(shot, delta.x, delta.z, dist);
+    ((TObjEneDD *)dragon)->try_move_actor_xz_on_ground(shot);
     (&dragon->position)->y = saved.y;
     if (dragon->is_near_other_part() != 0) {
         VecCopy(&dragon->position, &saved);
@@ -5629,8 +5628,8 @@ void TBoss8Dragon::apply_ground_movement(Vec *step) {
     VecCopy__FP3VecPC3Vec(&a, &this->position);
     VecCopy__FP3VecPC3Vec(&c, step);
     t = normalize_vector_xz((Vec *)&c);
-    ((TBoss5Gryphon *)this)->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
-    ((TBoss5Gryphon *)this)->try_move_actor_xz_on_ground((u8 *)&b);
+    this->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
+    this->try_move_actor_xz_on_ground((u8 *)&b);
     this->position.y = a.y;
     if ((this->push_apart_from_parts() != 0) && (this->is_near_other_part() != 0)) {
         VecCopy__FP3VecPC3Vec(&this->position, &a);

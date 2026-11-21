@@ -79,6 +79,9 @@ struct TObjEneDD : public TObjEnemy {
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();
     int has_move_failures(s32 arg1);
+    s32 enemy_probe_wall_ahead(f32, f32, f32);
+    void calc_shot_position(u8 *, f32, f32, f32);
+    u8 *try_move_actor_xz_on_ground(u8 *);
     void move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 farg2);
     u8 *move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2);

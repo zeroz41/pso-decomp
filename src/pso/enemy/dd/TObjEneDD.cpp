@@ -35,7 +35,6 @@ void *get_player_by_client_id(s32 i);
 #include "pso/enemy/dd/TObjEneDD_800BABA4.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -808,7 +807,7 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *arg1) {
     return (u8 *)hit;
 }
 
-s32 TBoss5Gryphon::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
+s32 TObjEneDD::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
   f32 temp_f31;
   Vec stack;
   f32 temp_f30;
@@ -824,12 +823,12 @@ s32 TBoss5Gryphon::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
   return csnVector((void *) (((u8 *)this) + 0x2FC), &stack.x, 0x88E0);
 }
 
-void TBoss5Gryphon::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2) {
+void TObjEneDD::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r5;
 
     f32 reach = farg2 + this->wall_reach;
-    if (((TBoss5Gryphon *)arg0)->enemy_probe_wall_ahead(farg0, farg1, reach) == 0U) {
+    if (((TObjEneDD *)arg0)->enemy_probe_wall_ahead(farg0, farg1, reach) == 0U) {
         *(f32 *)((s8 *)arg1 + 0) = (f32) ((farg0 * farg2) + *(f32 *)((s8 *)arg0 + 0x38));
         *(f32 *)((s8 *)arg1 + 4) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
         *(f32 *)((s8 *)arg1 + 8) = (f32) ((farg1 * farg2) + *(f32 *)((s8 *)arg0 + 0x40));
@@ -849,7 +848,7 @@ void TBoss5Gryphon::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2
 void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
     Node_800BB000 *n;
     Vec v;
-    n = (Node_800BB000 *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
+    n = (Node_800BB000 *)e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
         out->x = dx * dist + e->position.x;
         out->y = e->position.y;
@@ -868,7 +867,7 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
         dx = -v.x;
         dz = -v.z;
     }
-    if ((Node_800BB000 *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach) == NULL) {
+    if ((Node_800BB000 *)e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach) == NULL) {
         out->x = dx * dist + e->position.x;
         out->y = e->position.y;
         out->z = dz * dist + e->position.z;
@@ -885,7 +884,7 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
     TObjEneDD *e = (TObjEneDD *)arg0;
     Vec *out = (Vec *)arg1;
-    Node_800BAF1C *n = (Node_800BAF1C *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
+    Node_800BAF1C *n = (Node_800BAF1C *)e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
         e->wall_probe_failures = 0;
     } else {
@@ -906,7 +905,7 @@ void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 d
 }
 #pragma pop
 
-u8 *TBoss5Gryphon::try_move_actor_xz_on_ground(u8 *arg1) {
+u8 *TObjEneDD::try_move_actor_xz_on_ground(u8 *arg1) {
     f32 temp_f31;
     u8 *temp_r3;
     temp_f31 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
@@ -962,28 +961,28 @@ u8 *TObjEneDD::update_ground_contact() {
 void TObjEneDD::move_to_shot_position(f32 farg0, f32 farg1, f32 farg2) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    ((TBoss5Gryphon *)arg0)->calc_shot_position((u8 *)&sp8, (f32)farg0, (f32)farg1, (f32)farg2);
-    ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    ((TObjEneDD *)arg0)->calc_shot_position((u8 *)&sp8, (f32)farg0, (f32)farg1, (f32)farg2);
+    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     calc_wall_slide_destination(arg0, &sp8, dx, dz, dist);
-    ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_clamped_on_ground(f32 farg0, f32 farg1, f32 dist) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     calc_wall_clamped_destination(arg0, &sp8, farg0, farg1, dist);
-    ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    ((TBoss5Gryphon *)arg0)->calc_shot_position((u8 *)&sp8, (f32)farg0, (f32)farg1, (f32)farg2);
+    ((TObjEneDD *)arg0)->calc_shot_position((u8 *)&sp8, (f32)farg0, (f32)farg1, (f32)farg2);
     this->move_xz_on_ground((u8 *)&sp8);
 }
 
@@ -1581,7 +1580,7 @@ void TObjEneEpsilon::fire_attack_c(s32 arg1, s32 arg2, f32 farg0) {
 
     temp_f30 = farg0;
     turn_toward_target_direction(arg2);
-    ((TBoss5Gryphon *)this)->calc_shot_position((u8 *)arg1, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)temp_f30);
+    this->calc_shot_position((u8 *)arg1, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)temp_f30);
 }
 
 void TObjEneEpsilon::fire_attack_b(saddr arg1, s32 arg2, f32 farg0) {
@@ -1605,13 +1604,13 @@ void TObjEneEpsilon::fire_attack_a(saddr out, s32 arg2, f32 farg0) {
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0) {
     s32 sp8;
     ((TObjEneEpsilon *)arg0)->fire_attack_c((saddr) &sp8, arg1, farg0);
-    ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0) {
     s32 sp8;
     ((TObjEneEpsilon *)arg0)->fire_attack_b((saddr) &sp8, arg1, farg0);
-    ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 

@@ -25,7 +25,6 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 #include "pso/unk/text_803D8F74.h"
@@ -934,7 +933,7 @@ void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
                 if (self->check_hit_sphere(ang, 160.0f) == 0) {
                     f32 dx = 2.0f * (60.0f * sin_table_lookup(ang));
                     f32 dz = 2.0f * (60.0f * cos_table_lookup(ang));
-                    if ((u32)((TBoss5Gryphon *)self)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0) {
+                    if ((u32)((TObjEneDD *)self)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0) {
                         Vec v;
                         VecCopy(&v, (const Vec *)&self->body_center);
                         v.x += dx;
@@ -1241,7 +1240,7 @@ void TObjEneBm5GibonU__sub_800CE694(TObjEneBm5GibonU *self, s32 arg1) {
             if (!(self->m_50c->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
-                if (((TBoss5Gryphon *)self)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0U) {
+                if (((TObjEneDD *)self)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0U) {
                     VecCopy(&v, &self->body_center);
                     v.x += dx;
                     v.z += dz;
