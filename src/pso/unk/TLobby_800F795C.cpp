@@ -403,7 +403,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_31[2] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_32[5] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TObjPlayer__sub_802EE574, TBoss7DeRolLeC::run_exit_callbacks },
+    { TBoss7DeRolLeC::load_resources, TBoss7DeRolLeC::run_exit_callbacks },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
 };

@@ -556,7 +556,6 @@ struct RecoveredGlobal_802E80F4_lbl_8058D4C0 {
 extern "C" {
 
 
-void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 
 
 
@@ -758,9 +757,9 @@ void run_load_callback_table(void *, int);
 
 NJS_OBJECT boss7_derolle_light_pool[11];
 
-BmlResource *boss7_derolle_c_bml_resource; // loaded by TObjPlayer__sub_802EE574
-// State of the draw callback TObjPlayer__sub_802E8274, reset by sub_802E8234 before each
-// draw: the node it is at, the points and matrices it records, and a copy of state_flags.
+BmlResource *boss7_derolle_c_bml_resource; // loaded by load_resources
+// State of the draw callback record_node_transforms, reset by reset_node_transforms before
+// each draw: the node it is at, the points and matrices it records, and a copy of state_flags.
 s32 boss7_derolle_c_node_index;
 s32 boss7_derolle_c_body_point_index;
 s32 boss7_derolle_c_draw_state_flags;
@@ -791,7 +790,7 @@ void TBoss7DeRolLeC::apply_poison_status() {  }
 
 TBoss7DeRolLeC *TBoss7Joint::get_state() { return boss7_joint_state; }
 
-void TObjPlayer__sub_802EE574(void) {
+void TBoss7DeRolLeC::load_resources() {
     s32 i;
     boss7_derolle_c_bml_resource = new BmlResource(1, &bm_boss7_de_rol_le_c_resource_descriptor, 0, 0, NULL);
     boss7_derolle_c_node_index = 0;
@@ -982,7 +981,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     unk_7AC = new TUnk_804F1C58(this, model);
     if (unk_7AC != NULL) {
-        unk_7AC->set_field_38(TObjPlayer__sub_802E8274);
+        unk_7AC->set_field_38(record_node_transforms);
     }
     unk_7B0 = NULL;
     unk_7B4.x = 0.0f;
@@ -1131,7 +1130,7 @@ void TBoss7DeRolLeC::run_task() {
         post_translate_matrix(&unk_6EC.x);
         rotate_matrix_by_node_angles(&rotation_x, 1);
         scale_current_matrix(&boss7_derolle_c_model_scale.x);
-        this->sub_802E8234();
+        this->reset_node_transforms();
         unk_7AC->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
@@ -3873,7 +3872,7 @@ void TBoss7DeRolLeC::sub_802E83E8(u32 event) {
 }
 #pragma pop
 
-void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
+void TBoss7DeRolLeC::record_node_transforms(NJS_OBJECT *) {
     Vec emitter_point;
     Vec aim_point;
     Vec body_point;
@@ -3918,7 +3917,7 @@ void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
     boss7_derolle_c_node_index += 1;
 }
 
-void TBoss7DeRolLeC::sub_802E8234() {
+void TBoss7DeRolLeC::reset_node_transforms() {
     boss7_derolle_c_node_index = 0;
     boss7_derolle_c_draw_state_flags = this->state_flags;
     boss7_derolle_c_body_point_index = 0;

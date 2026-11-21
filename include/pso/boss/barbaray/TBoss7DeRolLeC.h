@@ -54,7 +54,11 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802ECAA4();
     void sub_802EB270(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
-    void sub_802E8234();
+    // Resets the node-walk state that record_node_transforms advances during a draw.
+    void reset_node_transforms();
+    // Draw callback of the body model: counts the nodes and records the points and
+    // matrices of the ones the boss tracks.
+    static void record_node_transforms(NJS_OBJECT *node);
     void set_flag_800();
     virtual void vfunc_88();
     virtual void render_shadows();
@@ -212,6 +216,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     Vec unk_7B4;                  // where unk_7B0 sits
     Vec unk_7C0;                  // the point unk_7B0 is aimed away from
     u16 needle_targets[4];        // client ids of the players sub_802E83E8 sends a TBoss7TentacleNeedle under
+    static void load_resources();
     static void run_exit_callbacks();
     static void *create(void *arg0);
 };
@@ -225,25 +230,11 @@ extern "C" {
 extern NJS_OBJECT boss7_derolle_light_pool[11];
 
 void TObjPlayer__sub_802ED984(void);
-void TObjPlayer__sub_802EE574(void);
 }
 
 // Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;
-extern "C" {
-
-}
 s32 TBoss7Joint_get_shell_max_hp(void);
-extern "C" {
-
-
-
-
-
-
-
-void TObjPlayer__sub_802E8274(NJS_OBJECT *);
-}
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
 extern "C" {
