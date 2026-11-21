@@ -39,7 +39,7 @@ struct TObjMapCsn : public TObjCollidable {
     s32 build_box_triangles();
     static saddr create(saddr arg0);
     void*get_data_ptr();
-    static s32 get_map_count();
+    static saddr get_map_count();
     void*init();
     static saddr init_and_return(saddr arg0);
     u8 unk_1F8[0x5C];

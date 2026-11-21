@@ -1798,14 +1798,16 @@ int qst_op_gba_destroy_dl_graph(void* p) { return destroy_singleton__6TLobbyFv(p
 int qst_op_gba_create_dl_graph(void* p) { return init_graph__6TLobbyFv(p); }
 
 void qst_op_enable_movement2() {
-    if (get_player_by_client_id((s32)((int) ((u16) qst_args[0]))) != 0U) {
-        init_local_pad_binding__10TObjPlayerFv();
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id((s32)((int) ((u16) qst_args[0])));
+    if (player != NULL) {
+        player->init_local_pad_binding();
     }
 }
 
 void qst_op_disable_movement2() {
-    if (get_player_by_client_id((s32)((int) ((u16) qst_args[0]))) != 0U) {
-        stop_force_if_alive__10TObjPlayerFv();
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id((s32)((int) ((u16) qst_args[0])));
+    if (player != NULL) {
+        player->stop_force_if_alive();
     }
 }
 extern "C" {
@@ -1879,8 +1881,9 @@ void qst_op_get_stackable_item_count(s32 i, s32 dst) {
 void qst_op_get_total_deaths() {
     u8 temp_r31;
     temp_r31 = (u8) qst_args[1];
-    if (((u32 (*)(int))get_player_by_client_id)((int) (qst_args[0])) != 0U) {
-        qst_registers[(u8)temp_r31] = get_card_window_field_244__10TObjPlayerFv();
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(qst_args[0]);
+    if (player != NULL) {
+        qst_registers[(u8)temp_r31] = player->get_card_window_field_244();
     }
 }
 
@@ -3401,8 +3404,9 @@ void qst_op_set_cmode_rank_result(void) {
 
 void qst_op_get_mag_levels(s32 i) {
     saddr r;
-    if (((u32 (*)(void *))get_player_by_client_id)((void *)local_client_id) != 0) {
-        r = activate_d04_slot__10TObjPlayerFv();
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        r = player->activate_d04_slot();
         if (r != 0) {
             qst_registers[(u8)i++] = ((TItemMag *)r)->get_def_level();
             qst_registers[(u8)i++] = ((TItemMag *)r)->get_pow_level();
@@ -4019,8 +4023,9 @@ int qst_op_disable_map(void) { return set_mode__13TRaderMapCoreFi((void*)(0)); }
 int qst_op_enable_map(void) { return set_mode__13TRaderMapCoreFi((void*)(1)); }
 
 void qst_op_get_coord_of_player(s32 a, s32 b) {
-    if (((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)b]), b) != 0) {
-        f32 *p = get_position_ptr__10TObjPlayerFv();
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(qst_registers[(u8)b]);
+    if (player != NULL) {
+        f32 *p = (f32 *)player->get_position_ptr();
         if (p != NULL) {
             qst_registers[(u8)a++] = (s32)p[0];
             qst_registers[(u8)a++] = (s32)p[1];
@@ -4104,8 +4109,9 @@ void qst_op_delete_bank_item(u8 arg0, u8 arg1) {
 }
 
 void qst_op_set_returncity() {
-    if (((s32 (*)(s32))get_player_by_client_id)(local_client_id) != 0U) {
-        stop_battle__10TObjPlayerFv();
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        player->stop_battle();
     }
 }
 

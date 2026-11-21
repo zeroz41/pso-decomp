@@ -148,7 +148,6 @@ extern Vec lbl_8050BF00;
 extern Vec lbl_8050BF20;
 extern Vec lbl_8050BF40;
 extern Vec lbl_8050BF60;
-CsnGroup **get_data_ptr__10TObjMapCsnFv();
 M_80079C64 *refill_csn_candidate_cache(Vec *arg0, M_80079C64 **arg1, u32 arg2);
 void TObjPlayer__sub_80079114(void);
 f32 vector_length(void *);
@@ -620,8 +619,7 @@ M_80079C64 *refill_csn_candidate_cache(Vec *arg0, M_80079C64 **arg1, u32 arg2) {
     M_80079C64 **it;
     M_80079C64 *m;
     M_80079C64 **first;
-    TObjMapCsn::get_map_count();
-    it = (M_80079C64 **)get_data_ptr__10TObjMapCsnFv();
+        it = (M_80079C64 **)((TObjMapCsn *)TObjMapCsn::get_map_count())->get_data_ptr();
     first = arg1;
     while ((m = *it++) != 0) {
         if ((m->flags & arg2) && !(m->flags & 0x40000000)) {
@@ -654,8 +652,7 @@ CsnGroup *select_ground_query_groups(CsnVector *origin, u32 mask) {
   float zSquared;
   CsnGroup **output;
   float zDelta;
-  TObjMapCsn::get_map_count();
-  input = get_data_ptr__10TObjMapCsnFv();
+  input = (CsnGroup **)((TObjMapCsn *)TObjMapCsn::get_map_count())->get_data_ptr();
   output = ((CsnGroup * *)&lbl_804FFD40);
   while ((group = *(input++)) != 0)
   {
@@ -695,8 +692,7 @@ u32 TObjPlayer__sub_80079DE0(void *a, void *b) {
     f32 r;
     f32 dsq;
     n = 0;
-    TObjMapCsn::get_map_count();
-    src = (Wall_8007A138 **)get_data_ptr__10TObjMapCsnFv();
+        src = (Wall_8007A138 **)((TObjMapCsn *)TObjMapCsn::get_map_count())->get_data_ptr();
     dst = (Wall_8007A138 **)lbl_804FFD40;
     vsub(a, b, &d);
     lenSq = d.x * d.x + d.z * d.z;
@@ -741,8 +737,7 @@ s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask) {
     Grp_80079F58 *g;
     s32 n;
     Grp_80079F58 **dst;
-    TObjMapCsn::get_map_count();
-    src = (Grp_80079F58 **)get_data_ptr__10TObjMapCsnFv();
+        src = (Grp_80079F58 **)((TObjMapCsn *)TObjMapCsn::get_map_count())->get_data_ptr();
     if (src == NULL) {
         return 0;
     }
@@ -813,8 +808,7 @@ Wall_8007A138 *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
     f32 r;
     f32 dsq;
     n = 0;
-    TObjMapCsn::get_map_count();
-    src = (Wall_8007A138 **)get_data_ptr__10TObjMapCsnFv();
+        src = (Wall_8007A138 **)((TObjMapCsn *)TObjMapCsn::get_map_count())->get_data_ptr();
     dst = (Wall_8007A138 **)lbl_804FFD40;
     vsub(a, b, &d);
     len = vector_length(&d);
@@ -970,7 +964,7 @@ void*TObjMapCsn::get_data_ptr() { return (char*)this + 0x1c; }
 
 extern s32 map_csn_ctrl_instance;
 
-s32 TObjMapCsn::get_map_count() {
+saddr TObjMapCsn::get_map_count() {
     return map_csn_ctrl_instance;
 }
 void*TObjMapCsn::init() { TObjMapCsn::init_and_return((saddr)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
