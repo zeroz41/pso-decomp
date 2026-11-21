@@ -70,8 +70,8 @@ struct TItemData {
     s32 get_base_rarity();
     s32 check_item_flags();
     static u8 is_item_usable(saddr arg0, u8 *arg1);
-    int test_flag3();
-    int get_item_field_2();
+    saddr test_flag3();
+    saddr get_item_field_2();
     void add_quantity(s32 arg1);
     void adjust_count(s32 arg1);
     static void add_stat_ptr(s16 *arg0, s32 arg1);
