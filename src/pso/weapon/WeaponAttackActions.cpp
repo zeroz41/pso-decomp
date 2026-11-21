@@ -270,7 +270,6 @@ s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 u32 __cvt_fp2unsigned(f32);
 s32 vec3_add_to(void *, void *);
-f32 normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 
 extern const f32 lbl_805DAC98;
@@ -649,7 +648,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                     temp_r22_2 = (u8 *)&(*(Rec_8011F108 **)((s8 *)var_r29 + 0xA4))[get_captured_target_collider_index(temp_r22)];
                     VecCopy((Vec *)(&endpoint.x), (const Vec *)((void *) &((Rec_8011F108 *)temp_r22_2)->pos));
                     subtract_vector(&endpoint.x, arg1);
-                    temp_f3 = normalize_vector(&endpoint.x) - *(f32 *)((s8 *)temp_r22_2 + 0xC);
+                    temp_f3 = normalize_vector((Vec *)&endpoint.x) - *(f32 *)((s8 *)temp_r22_2 + 0xC);
                     endpoint.x *= temp_f3;
                     endpoint.y *= temp_f3;
                     endpoint.z *= temp_f3;

@@ -21,6 +21,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 
@@ -120,7 +121,6 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 void vec3_add_to(void *, void *);
-void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
 f32 vector_length(Vec *);
@@ -131,7 +131,6 @@ int TBoss6PlotFalz__sub_8036964C(void);
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
 saddr VecCopy__FP3VecPC3Vec(saddr, saddr);
 s32 init_collision_body_parts(void *, void *, int);
-s32 normalize_vector(void *);
 const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -463,7 +462,7 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
     if (vector_length((Vec *) (self + 0x378)) <= 1e-05f) {
         *(f32 *)((s8 *)self + 0x378) = 1.0f;
     }
-    normalize_vector(self + 0x378);
+    normalize_vector((Vec *)(self + 0x378));
     *(f32 *)((s8 *)self + 0x378) *= 4.166667f;
     *(f32 *)((s8 *)self + 0x380) *= 4.166667f;
     *(u32 *)((s8 *)self + 0x3B0) = (uaddr)create_particle_emitter(self + 0x38, 0x146);

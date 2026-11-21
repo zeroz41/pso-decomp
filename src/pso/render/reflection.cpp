@@ -336,7 +336,6 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 const f64 lbl_80465E18 = 0.0054931640625;
 extern uaddr camera_ctrl_instance;
 extern "C" {
-void normalize_vector(Vec *);
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;

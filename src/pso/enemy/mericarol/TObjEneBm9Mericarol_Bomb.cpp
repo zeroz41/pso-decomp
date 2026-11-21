@@ -18,6 +18,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/unk/text_800870BC.h"
+#include "pso/unk/text_803D96A8.h"
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
@@ -181,7 +182,6 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
 }
 
 s16 get_entity_id(void *);
-s32 normalize_vector(Vec *);
 
 }
 

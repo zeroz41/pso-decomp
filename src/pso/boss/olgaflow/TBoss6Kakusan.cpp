@@ -16,6 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 #pragma readonly_strings on
@@ -70,7 +71,6 @@ extern "C" {
 int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
-f32 normalize_vector(void *);
 s32 TBoss6Kakusan__homing_start_frame;
 u8 boss6_kakusan_homing_start_initialized;
 s32 boss6_kakusan_homing_end_frame;

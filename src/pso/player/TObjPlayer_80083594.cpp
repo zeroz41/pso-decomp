@@ -247,7 +247,6 @@ s32 GXSetProjection(void *, int);
 s32 pop_matrix();
 void TObjPlayer__sub_80083FA4(void);
 f32 vec_squared_length(void *);
-void normalize_vector(void *);
 void TObjPlayer__sub_800847FC(void);
 void GXTexCoord2f32_80083594(f32 farg0, f32 farg1);
 void GXColor1u32_80083594(s32 arg0);

@@ -79,7 +79,6 @@ void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr);
 void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);
 f32 xyz_distance(Vec*,void*);
 f32 vector_length(Vec*);
-void normalize_vector(Vec*);
 }
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
@@ -248,7 +247,6 @@ extern "C" {
 Hit_8019978C *csnVector(Vec *, Vec *, s32);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
-void normalize_vector(Vec *);
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 matrix_mult_vec(int, void *, void *);
 void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2);

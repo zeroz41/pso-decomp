@@ -38,7 +38,6 @@
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {
-f32 normalize_vector(Vec *v);
 s32 push_matrix();
 s32 post_translate_matrix(const void *pos);
 void *find_entity_by_id(u16 id);

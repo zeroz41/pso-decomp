@@ -90,7 +90,6 @@ typedef struct Obj_8005063C {
 extern "C" {
 f32 fabs_float(f32);
 void queue_destruction__7TObjectFv(void *);
-void normalize_vector(void *);
 void steer_homing_direction(Obj_8005063C *arg0);
 
 
@@ -908,7 +907,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
         ((TObjDFHorming *)arg0)->check_attack_trigger();
         break;
     }
-    normalize_vector(arg0 + 0x348);
+    normalize_vector((Vec *)(arg0 + 0x348));
     *(f32 *)((s8 *)arg0 + 0x348) *= *(f32 *)((s8 *)arg0 + 0x354);
     *(f32 *)((s8 *)arg0 + 0x34C) *= *(f32 *)((s8 *)arg0 + 0x354);
     ((TObjDFHorming *)arg0)->velocity.z *= *(f32 *)((s8 *)arg0 + 0x354);

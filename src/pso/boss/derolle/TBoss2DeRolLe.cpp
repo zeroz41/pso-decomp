@@ -313,7 +313,6 @@ void *__ct__14TBoss2TentacleFP7TObjectll(void *, TObject *, GC_Mtx *, s32);
 
 void fill_value_array(AreaAttackHistory *history);
 
-s32 add_radar_scaled_marker(Vec *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale);
 
 void update_local_colliders_from_world(TObjEneDD *self, Vec *offsets);
 extern f32 lbl_804FF5E8[];
@@ -1079,9 +1078,6 @@ extern Vec TBoss2DeRolLe__mine_ground_targets[];
 
 
 
-extern "C" {
-
-}
 
 extern int fold_flush_0;
 
@@ -1308,7 +1304,6 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
 
 
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 
 
 void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
@@ -1344,7 +1339,6 @@ s32 subtract_vector(void *, void *);
 
 s32 rotate_matrix_x(int, int);
 
-s32 normalize_vector(void *);
 
 s32 push_matrix();
 
@@ -2150,9 +2144,6 @@ void TBoss2DeRolLe::set_state_and_send(s32 state) {
 
 namespace joint_state_view {
 
-extern "C" {
-
-}
 
 }
 
@@ -2482,9 +2473,6 @@ void TBoss2DeRolLe::free_laser() {
 
 namespace behavior_view {
 
-extern "C" {
-
-}
 
 }
 
@@ -2567,9 +2555,6 @@ void TBoss2DeRolLe::clear_play_flags() {
 
 namespace behavior_view {
 
-extern "C" {
-
-}
 
 }
 
@@ -4976,9 +4961,6 @@ void TBoss2DeRolLe::sub_8002F73C(u32 reason) {
 
 namespace behavior_view {
 
-extern "C" {
-
-}
 
 }
 

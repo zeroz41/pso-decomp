@@ -5,6 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/animation/MotionContext.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
@@ -229,7 +230,6 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
 extern saddr tl_04;
 extern saddr tl_02;
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern s32 TBoss1Dragon__data_805D4B38;
 extern s32 local_client_id;
 void run_task__12TBoss1DragonFv(u8 *arg0);
@@ -5198,7 +5198,7 @@ void TBoss1Dragon::run_task() {
     ((TBoss1Dragon *)(arg0))->vfunc_88();
     ((TBoss1Dragon *)arg0)->update_position_history();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
-    add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, (f32) (((2.0f))));
+    add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, (f32) (((2.0f))));
     VecCopy__FP3VecPC3Vec((saddr)&this->m_648, (saddr)&this->body_center);
     if (temp_r30_2 == 0) {
         ((TObject *)&this->unknown3C4)->run_tasks();

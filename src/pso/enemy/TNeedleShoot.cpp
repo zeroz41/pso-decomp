@@ -10,6 +10,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
@@ -74,7 +75,6 @@ void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(Vec *);
-void normalize_vector(Vec *);
 extern s32 __vt__12TNeedleShoot[];
 extern void *tl_06;
 TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to);

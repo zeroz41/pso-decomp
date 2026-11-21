@@ -18,6 +18,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D96A8.h"
 void set_constant_material(const NJS_ARGB *color);
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "pso/unk/text_8035966C.h"
@@ -434,7 +435,6 @@ f64 atan2_float(f32, f32);
 s32 get_nth_view_player_id__11TCameraCtrlFl();
 s32 vec3_add_to(void *, const void *);
 f32 vec3_dot(void *, void *);
-s32 normalize_vector(void *);
 extern u8 *camera_ctrl_instance;
 s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r);
 

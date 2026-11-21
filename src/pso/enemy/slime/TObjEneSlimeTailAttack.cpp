@@ -67,7 +67,6 @@ f32 atan2_float(f32 y, f32 x);
 u32 csnLookAt(void *, void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
-void normalize_vector(void *);
 f32 random_ratio__9TObjCharaFv(void *);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix();
@@ -1042,7 +1041,7 @@ void TObjEneSlimeOne::sub_800EA56C() {
         ((TObjEneSlimeOne *)actor)->set_state(2);
         return;
     }
-    ((s32 (*)(void *))normalize_vector)(actor + 0x3B8);
+    normalize_vector((Vec *)(actor + 0x3B8));
     *(f32 *)((s8 *)actor + 0x398) = ((20.0f * ((TObjChara *)actor)->random_ratio()) + 50.0f);
     this->alpha = (f32) 1.0f;
     ((TObjEneSlimeOne *)actor)->animation->set_state(8);
@@ -1248,7 +1247,7 @@ void TObjEneSlimeOne::sub_800E9BCC() {
         v[1] = 0.0f;
         v[2] = 0.0f;
     } else {
-        normalize_vector(v);
+        normalize_vector((Vec *)v);
     }
     v[0] *= 0.2f;
     v[1] *= 0.2f;

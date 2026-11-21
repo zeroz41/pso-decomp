@@ -2,6 +2,7 @@
 #define PSO_UNK_TEXT_803D96A8_H
 
 #include "types.h"
+struct Vec;
 
 struct TLobby;
 extern "C" {
@@ -14,6 +15,8 @@ void apply_quat_rotation(f32 w, f32 *xyz);
 extern "C" {
 s32 pop_matrix(void);
 s32 push_matrix_from(void *src);
+// Scales v to unit length in place and returns its original length.
+f32 normalize_vector(Vec *v);
 }
 
 #endif

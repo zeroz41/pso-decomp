@@ -31,6 +31,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/system/byteswap.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -295,7 +296,6 @@ struct S_8004CB28 {
 
 extern "C" {
 extern Vec lbl_80485448;
-void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }

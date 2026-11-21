@@ -35,6 +35,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -84,7 +85,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 project_actor_to_ground(void *, void *, int);
 f32 vec3_add_to(void *, void *);
 f32 subtract_vector(void *, void *);
-f32 normalize_vector(void *);
 f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
@@ -229,7 +229,7 @@ void TBoss6Mine::state_5() {
         this->state = 6;
         return;
     }
-    normalize_vector(&stack.sp14);
+    normalize_vector((Vec *)&stack.sp14);
     stack.sp14 *= 8.333333f;
     stack.sp18 *= 8.333333f;
     stack.sp1C *= 8.333333f;
@@ -332,7 +332,6 @@ void TBoss6Mine::state_0() {
 }
 #pragma pop
 
-void add_radar_scaled_marker(void *pos, u32 color, s32 a2, s32 a3, f32 scale);
 
 void TBoss6Mine::run_task() {
     u32 color;

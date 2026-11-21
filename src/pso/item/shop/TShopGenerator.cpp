@@ -68,7 +68,6 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
-f32 normalize_vector(void *);
 s32 get_entity_id(s32);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
@@ -100,7 +99,7 @@ bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
     to_self[0] = *(f32 *)((s8 *)arg0 + 0x38) - *(f32 *)((s8 *)arg1 + 0x38);
     to_self[1] = *(f32 *)((s8 *)arg0 + 0x3C) - *(f32 *)((s8 *)arg1 + 0x3C);
     to_self[2] = *(f32 *)((s8 *)arg0 + 0x40) - *(f32 *)((s8 *)arg1 + 0x40);
-    normalize_vector((void *)to_self);
+    normalize_vector((Vec *)to_self);
     return (vec3_dot((void *)facing, (void *)to_self) > -0.5f) == 0;
 }
 #pragma pop

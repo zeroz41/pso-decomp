@@ -40,6 +40,7 @@
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct Obj_802B4B34 { u8 pad[0x508]; s32 f508; s32 arr[1]; };
 
@@ -304,7 +305,6 @@ void randomize_attack__11TBoss6Type1FPvPv(Boss_802B8EE0 *self, Atk_802B8EE0 *atk
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 f32 vec3_add_to(void *, const void *);
 void vec3_cross(void *, void *, void *);
-void normalize_vector(void *);
 f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self);
@@ -424,7 +424,6 @@ f32 vec3_dot(void *, void *);
 
 
 s32 submit_cursor_candidate(void *, int);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 }
 
 struct T1_802B529C;
@@ -996,7 +995,7 @@ void TBoss6Type1::run_task() {
     update_parts_flags();
     ((TObjPlayer *)this)->update_collisions();
     submit_cursor_candidate(this, -1);
-    add_radar_scaled_marker((u8 *)this + 0x584, -0x5DB4, 1, 1, 5.0f);
+    add_radar_scaled_marker(&this->node_points[1], -0x5DB4, 1, 1, 5.0f);
     sub_802B5CB4();
     this->m_4d4 += -0.06666667f;
     if (this->m_4d4 < 0.0f) {

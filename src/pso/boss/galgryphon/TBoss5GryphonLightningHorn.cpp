@@ -12,6 +12,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
@@ -36,7 +37,6 @@ typedef struct Wing_80326074 {
 
 extern "C" {
 f32 vec3_dot(void *, void *);
-void normalize_vector(void *);
 void TBoss8Dragon__sub_80063FB8(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);

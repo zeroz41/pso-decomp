@@ -12,9 +12,9 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern const f32 lbl_805D8258;
 s32 TBoss2Joint_get_shell_max_hp(void);
 }

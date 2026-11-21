@@ -37,7 +37,6 @@
 extern "C" {
 // Defined in text_803D96A8.cpp; its header does not declare it yet (the
 // callers' private prototypes disagree on the return type).
-f32 normalize_vector(Vec *v);
 // TBoss6PlotFalz.cpp; same declaration as TBoss6Type1/TBoss6Type2 use.
 void TBoss6PlotFalz__sub_802AC724(void *player, void *pos);
 // TBoss6Type2.cpp: the arena radius (its centre is declared in Boss6Type2Data.h).

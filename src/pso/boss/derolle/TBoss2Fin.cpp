@@ -13,10 +13,10 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 s32 TObjLight__sub_801337F8(s32);
-s32 normalize_vector(void *);
 extern saddr current_scene_light;
 extern const f32 lbl_805D8260;
 }

@@ -21,6 +21,7 @@
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
@@ -120,7 +121,6 @@ void TBoss6GravBall::render() {  }
 extern "C" {
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
-void normalize_vector(void *);
 
 
 void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0);

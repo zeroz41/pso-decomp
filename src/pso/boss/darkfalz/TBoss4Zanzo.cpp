@@ -62,6 +62,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 struct Obj_8005683C;
@@ -69,11 +70,9 @@ struct Obj_8005683C;
 struct Obj_80055BC0 { u8 pad[0x450]; Vec f450; Vec f45c; };
 
 extern "C" {
-s32 add_radar_scaled_marker(void *, u32, int, int, f32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -936,7 +935,7 @@ void TBoss4Type2::beam_enter() {
   }
   else
   {
-    normalize_vector(arg0 + 0x3F8);
+    normalize_vector((Vec *)(arg0 + 0x3F8));
   }
   var_r31 = (s32) ((10430.38043493439) * atan2_float((f32) (*((f32 *) (((s8 *) arg0) + 0x3F8))), (f32) (*((f32 *) (((s8 *) arg0) + 0x400)))));
   temp_r31 = var_r31;
@@ -954,7 +953,7 @@ void TBoss4Type2::beam_enter() {
   *((f32 *) (((s8 *) arg0) + 0x408)) = 0.0f;
   VecCopy((Vec *)(arg0 + 0x410), (const Vec *)(arg0 + 0x38));
   *((f32 *) (((s8 *) arg0) + 0x414)) = 0.0f;
-  normalize_vector(arg0 + 0x410);
+  normalize_vector((Vec *)(arg0 + 0x410));
   *((f32 *) (((s8 *) arg0) + 0x410)) *= 280.0f;
   *((f32 *) (((s8 *) arg0) + 0x418)) *= 280.0f;
   *((s32 *) (((s8 *) arg0) + 0x398)) = 0x96;
@@ -1013,7 +1012,7 @@ void TBoss4Type2::beam_update() {
         *(f32 *)((s8 *)arg0 + 0x404) *= -1.0f;
         *(f32 *)((s8 *)arg0 + 0x40C) *= -1.0f;
         if (vector_length(arg0 + 0x410) > 280.0f) {
-            normalize_vector(arg0 + 0x410);
+            normalize_vector((Vec *)(arg0 + 0x410));
             *(f32 *)((s8 *)arg0 + 0x410) *= 280.0f;
             *(f32 *)((s8 *)arg0 + 0x418) *= 280.0f;
             a = (s32)((10430.38043493439) * atan2_float(*(f32 *)((s8 *)arg0 + 0x410), *(f32 *)((s8 *)arg0 + 0x418)));

@@ -734,7 +734,6 @@ extern "C" {
 
 
 s32 update_local_colliders_from_world(void *, void *);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 #pragma pop
 
 

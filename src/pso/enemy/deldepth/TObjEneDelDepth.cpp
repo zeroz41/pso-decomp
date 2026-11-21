@@ -52,7 +52,6 @@ f64 atan2_float(f32, f32);
 s32 project_actor_to_ground(void *, void *, void *);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
-s32 normalize_vector(void *);
 extern const f64 TObjEneDelDepth__data_80475DD0;
 extern const f32 TObjEneDelDepth__data_805DF280;
 extern const f32 lbl_805DF288;
@@ -643,7 +642,7 @@ void TObjEneDelDepth::start_move_toward_player() {
         this->set_action_state(2);
         return;
     }
-    normalize_vector((u8 *)&this->direction.x);
+    normalize_vector(&this->direction);
     this->m_38c = ((lbl_805DF2B8 * random_ratio()) + lbl_805DF2B4);
     this->opacity = TObjEneDelDepth__data_805DF260;
     this->motionController->set_motion(7);

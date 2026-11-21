@@ -22,6 +22,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
@@ -40,9 +41,6 @@ LAYOUT_ASSERT(LaserHit_body_offset, offsetof(TUnk_804F1C88, hit_body) == 0x34);
 struct Boss7LaserAngles { s32 x, y, z; };
 
 // Defined without a shared declaration in their owners' headers.
-extern "C" {
-void normalize_vector(Vec *v);
-}
 
 const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
 

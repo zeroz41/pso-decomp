@@ -200,7 +200,6 @@ f32 vector_length(void *);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy);
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);

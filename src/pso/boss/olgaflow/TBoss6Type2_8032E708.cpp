@@ -22,6 +22,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -278,7 +279,6 @@ void *lbl_804EDDEC[83] = {
 f32 vec3_add_to(void *, int);
 f32 vector_length(void *);
 f32 subtract_vector(void *, int);
-f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
@@ -458,7 +458,7 @@ void TBoss6Type2::enforce_min_distance() {
       {
         stack.x = apply_direction_sign(1.0f);
       }
-      normalize_vector(&stack.x);
+      normalize_vector((Vec *)&stack.x);
       stack.x *= (4e+01f);
       stack.y = (0.0f);
       stack.z *= (4e+01f);
@@ -1141,7 +1141,6 @@ s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 submit_cursor_candidate(void *, int);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TObjPlayer::save_position() {
@@ -1222,7 +1221,7 @@ void TBoss6Mag::run_task() {
         if ((s32) *(s32 *)((s8 *)arg0 + 0x388) != 0) {
             var_r4 = -0x5DB4;
         }
-        add_radar_scaled_marker(arg0 + 0x38, var_r4, 1, 1, 2.0f);
+        add_radar_scaled_marker((Vec *)(arg0 + 0x38), var_r4, 1, 1, 2.0f);
         ((TBoss6Mag *)arg0)->decay_glow_and_calc_hp_ratio();
         ((TBoss6Mag *)arg0)->sync_hp_apply_damage();
         ((TBoss6Mag *)arg0)->spawn_trap_by_stat();

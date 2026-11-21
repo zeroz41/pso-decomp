@@ -497,7 +497,6 @@ extern s32 actor_frame_tick;
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0);
 f32 enemy_backstep_from_point(void *, void *, f32);
 u32 csnVector(void *, void *, s32);
-f32 normalize_vector(void *);
 void beast_update_group_chase__16TObjEneMerillLiaFv(Obj_800D6110 *arg0);
 f32 fabs_float(f32);
 f32 atan2_float(f32 y, f32 x);

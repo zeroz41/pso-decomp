@@ -13,6 +13,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 extern const f32 lbl_805DE9F0;
@@ -20,7 +21,6 @@ extern const f32 lbl_805DE9F0;
 // Defined without a shared declaration: the 0x2C-byte object TObjPlayer_802E6CA8.cpp builds and the radar.
 extern "C" {
 void *TObjPlayer__sub_802E72DC(void *object, TBoss7Joint *joint, Vec *position, s32 index);
-s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
 }
 
 int TBoss7Joint::is_part_active() { return part_flags & 0x1; }

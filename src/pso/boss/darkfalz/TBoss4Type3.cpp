@@ -35,6 +35,8 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -175,11 +177,9 @@ union TypedVector_80059B78 {
 
 extern "C" {
 saddr VecCopy__FP3VecPC3Vec(void *, void *);
-s32 add_radar_scaled_marker(void *, u32, int, int, f32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4Type3__sub_8005254C(u16);
@@ -1393,9 +1393,9 @@ void TBoss4Type3::update_radar_markers() {
     }
     *(u32 *)((s8 *)arg0 + 0x3C4) = c[0] | ((c[2] << 16) | 0xFF000000 | (c[1] << 8));
     if (0.0f == *(f32 *)((s8 *)arg0 + 0x3B0) && (*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
-        add_radar_scaled_marker((u8 *)&this->body_center, -1, 1, 1, 5.0f);
+        add_radar_scaled_marker(&this->body_center, -1, 1, 1, 5.0f);
     } else {
-        add_radar_scaled_marker((u8 *)&this->body_center, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
+        add_radar_scaled_marker(&this->body_center, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 1) && *(u16 *)((s8 *)arg0 + 0x3BA) != 0xFFFF) {
         p = (Ply_80059ABC *)get_player_by_client_id((u16)(*(u16 *)((s8 *)arg0 + 0x3BA)));
@@ -1858,7 +1858,7 @@ void TBoss4Type3::update_dark_magic() {
                 if (0.0f == ((f32 (*)(Vec *))vector_length)(&v)) {
                     v.y = 1.0f;
                 } else {
-                    ((s32 (*)(Vec *))normalize_vector)(&v);
+                    normalize_vector(&v);
                 }
                 s = 40.0f * (3.0517578e-05f * (f32)rand()) + 35.0f;
                 v.x *= s;

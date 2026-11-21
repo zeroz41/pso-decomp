@@ -8,10 +8,10 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 extern "C" {
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 
@@ -88,7 +88,7 @@ void TUnk_804F1A78::run_task() {
     this->vfunc_88();
     ((TBoss8Dragon *)boss8_dragon)->store_position();
     ((TObjEnemy *)boss8_dragon)->submit_default_cursor_candidate();
-    add_radar_scaled_marker(boss8_dragon + 0x38, -0x5DB4, 1, 1, 2.0f);
+    add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
     if (temp_r30_2 == 0) {
         this->sub_tasks.run_tasks();
     }

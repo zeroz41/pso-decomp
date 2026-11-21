@@ -32,6 +32,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -193,7 +194,6 @@ int VecCopy__FP3VecPC3Vec(void*, void*);
 s32 get_flag_bit6__13TBoss5GryphonFv();
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern const f32 lbl_805D8DAC;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
 s32 fill_value_array(int);
@@ -4712,7 +4712,7 @@ void TBoss5Gryphon::run_task() {
     ((TBoss5Gryphon *)(arg0))->vfunc_88();
     ((TBoss5Gryphon *)arg0)->shift_position_history();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
-    add_radar_scaled_marker(arg0 + 0x38, -0x5DB4, 1, 1, 2.0f);
+    add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
     VecCopy__FP3VecPC3Vec((u8 *)&this->m_56c, (u8 *)&this->body_center);
     if (temp_r31_2 == 0) {
         ((TObject *)(arg0 + 0x4C4))->run_tasks();

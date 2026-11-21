@@ -13,6 +13,8 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -135,7 +137,6 @@ void vt1__11TBoss4BishiFv(Obj_8005BB5C *self);
 
 s32 TBoss4Zako__ct(saddr, saddr, saddr);
 
-void normalize_vector(void *);
 extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
 extern saddr __vt__11TBoss4Bishi[];
 extern const char *TBoss4Bishi__name;
@@ -291,7 +292,6 @@ void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 
 #define THIS self
 
-void add_radar_scaled_marker(void *, s32, s32, s32, f32);
 
 u8 *VecCopy__FP3VecPC3Vec(void *, void *);
 void TBoss4Uro__sub_8005D6D4(void *arg0);
@@ -480,7 +480,7 @@ void TBoss4Zako::run_task() {
                 minimap_render_dot(self->m_2fc, -0x5DB4, 1, 0);
             } else {
                 self->m_384->flags &= ~1;
-                add_radar_scaled_marker(self->m_2fc, 0xFF7F5126, 1, 1, 1.0f);
+                add_radar_scaled_marker((Vec *)self->m_2fc, 0xFF7F5126, 1, 1, 1.0f);
             }
         }
         self->m_3b8++;

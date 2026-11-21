@@ -183,7 +183,6 @@ f32 atan2_float(f32 y, f32 x);
 f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 f32 subtract_vector(void *, void *);
-f32 normalize_vector(void *);
 extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
@@ -464,7 +463,7 @@ void TOMine::follow_target() {
   subtract_vector(&stack.x, (u8 *)&this->position);
   if (2.0f < vec_squared_length((u8 *)&stack.x))
   {
-    normalize_vector(&stack.x);
+    normalize_vector(&stack);
     stack.x *= 2.0f;
     stack.z *= 2.0f;
   }

@@ -276,7 +276,6 @@ f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
 s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
-s32 add_radar_scaled_marker(Vec *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
 s32 add_radar_scaled_gate(Vec *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
 }
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
@@ -1309,7 +1308,7 @@ s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags) {
     return 1;
 }
 
-s32 add_radar_scaled_marker(Vec *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale) {
+s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale) {
     Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
     Vec v;
     u8 pad[0x10];
@@ -1317,7 +1316,7 @@ s32 add_radar_scaled_marker(Vec *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale) {
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
         return 0;
     }
-    if (!(arg3 & 1)) {
+    if (!(flags & 1)) {
         v.x = cam->x;
         v.z = cam->z;
         if (xz_distance_squared(pos, &v) > 90000.0f) {
@@ -1328,8 +1327,8 @@ s32 add_radar_scaled_marker(Vec *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale) {
     d = &((Dot_801F9B8C *)&TRaderMapCore__marker_buffer)[TRaderMapCore__data_805D5F30];
     d->z = pos->z;
     d->w = scale;
-    d->color = arg1;
-    d->type = arg2;
+    d->color = color;
+    d->type = kind;
     d->c = 0;
     TRaderMapCore__data_805D5F30++;
     return 1;

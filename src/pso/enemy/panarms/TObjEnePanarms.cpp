@@ -244,7 +244,6 @@ s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
-s32 normalize_vector(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *, f32);
 
@@ -1073,7 +1072,7 @@ void TObjEnePanBARA::sub_800E10D0() {
             if (vector_length(&a) <= 0.01f) {
                 a.x = a.z = 0.0f;
             } else {
-                normalize_vector(&a);
+                normalize_vector((Vec *)&a);
             }
         }
     } else {
