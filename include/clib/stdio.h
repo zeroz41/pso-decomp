@@ -11,6 +11,7 @@ extern "C" {
 int sprintf(char *str, const char *format, ...);
 int printf(const char *format, ...);
 int vsprintf(char *str, const char *format, va_list arg);
+int sscanf(const char *str, const char *format, ...);
 
 #ifdef __cplusplus
 }

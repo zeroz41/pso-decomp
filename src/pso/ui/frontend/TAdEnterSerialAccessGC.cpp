@@ -26,7 +26,6 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-
 #pragma readonly_strings on
 
 #include <stddef.h>
@@ -88,7 +87,6 @@ struct RecoveredGlobal_8032195C_TAdEnterSerialAccessGC__data_804EC9B8 {
     u8 remaining[0x8];
 };
 
-
 struct RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8
 {
   s32 value;
@@ -102,9 +100,6 @@ struct RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4
 };
 
 struct T_80321738 { s32 a; s32 b; s32 c; };
-
-
-
 
 struct V_803212F8 { f32 a; f32 b; };
 
@@ -128,14 +123,12 @@ s32 play_sound_effect(int, int, int, int);
 uaddr TAdEnterSerialAccessGC__keyboard_control;
 s32 TAdEnterSerialAccessGC__input_state;
 extern u8 lbl_805430BC[];
-int sscanf(const char *, const char *, ...);
 extern char lbl_80543010[];
 extern char lbl_80543050[];
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__22TAdEnterSerialAccessGC[];
 void fn_8025DE10(void *arg0, void *arg1);
 extern V_803212F8 serial_entry_status_line_position[];
-
 
 const NJS_COLOR serial_plate_color = { 0xFF };
 const NJS_POINT2 lbl_804764C8 = { 46.0f, 110.0f };
