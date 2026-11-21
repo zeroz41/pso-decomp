@@ -859,7 +859,7 @@ struct TLobby : public TObject {
     static void cancel_trade();
     static s32 show_event_message(s32 arg0, s32 arg1, s32 arg2);
     void build_trade_item_list();
-    static char send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2);
+    static void send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2);
     static void send_trade_proposal_result(s8 arg0, s8 arg1);
     static s32 ar_alloc(s32 context);
     static s32 get_state_zero(s32 context);

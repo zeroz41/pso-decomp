@@ -663,7 +663,7 @@ void TLobby::build_trade_item_list() {
     }
 }
 
-char TLobby::send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2) {
+void TLobby::send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2) {
   Stack_802D3228 stack;
   build_6xA6_modify_trade_proposal(&stack.sp8);
   stack.spC = arg0;
