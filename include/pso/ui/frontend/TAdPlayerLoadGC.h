@@ -44,8 +44,8 @@ public:
     static s32 probe_card_slot(saddr chan);
     static s32 find_card_file(saddr chan, const char *name);
     static s32 check_memcard_status(s32 arg0);
-    static s32 query_memcard_capacity(s32 arg0);
-    static s32 poll_load_status(s32 arg0);
+    static s32 query_memcard_capacity(s32 arg0, s32 unused);
+    static s32 delete_memcard_file(s32 chan, const char *name);
     static s32 get_or_set_channel_flag(s32 arg0, s32 arg1);
     static s32 get_load_state();
     static void step_set_attributes(s32 arg0);

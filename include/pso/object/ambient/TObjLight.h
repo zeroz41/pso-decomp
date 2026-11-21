@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLight : public TObjBase {
+    TObjLight(TObject *parent, u8 *arg2);
     virtual ~TObjLight();
     void *init_from_source(void *, int, int);
     u32 m_90;
@@ -24,7 +25,7 @@ struct TObjLight : public TObjBase {
     void*init_light(int a1);
     void unregister_and_free();
     static uaddr alloc_light_slot();
-    static void init_directional_light();
+    void init_directional_light();
     static void free_shared_data();
     static void apply_distant_light();
     void set_light(void *arg1, f32 farg0);
@@ -47,7 +48,6 @@ LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);
 
 extern "C" {
 u8 *TObjLight__create(u8 *arg0);
-u8 *TObjLight__ct(TObjLight *arg0, s32 arg1, u8 *arg2);
 void *__dt__9TObjLightFv(void *arg0, s16 arg1);
 }
 

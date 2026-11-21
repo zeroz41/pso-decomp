@@ -1,3 +1,4 @@
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 
@@ -13,7 +14,6 @@ struct VObj : VBase {
 extern "C" {
 
 u8 *create_set_object_from_row(void *);
-u8 *get_object_count__6TLobbyFPv();
 
 extern s32 quest_object_entries;
 
@@ -25,7 +25,7 @@ void TLobby::attach_objects_by_id(s32 arg0) {
     s32 i;
     u8 *set_object;
 
-    ptr = get_object_count__6TLobbyFPv();
+    ptr = reinterpret_cast<u8 *>(get_active_floor_object_rows(arg0));
     count = TLobby::get_obj_table_entry(arg0);
     for (i = 0; i < count; i++, ptr += 0x44) {
         temp_r3 = *(s16 *)((s8 *)ptr + 2);

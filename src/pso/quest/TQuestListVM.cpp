@@ -418,7 +418,7 @@ void TQuestListVM::build_download_list() {
         }
         if (description_window == NULL) {
             WindowSize size = description_window_size;
-            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (saddr)&size, 1);
+            description_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0x2D), (const f32 *)&size, 1);
             description_window->append_line((saddr)entries[0].description, 0x80);
             described_entry = 0;
         }
@@ -754,9 +754,9 @@ s32 TQuestListVM::update_load_status() {
     return 0;
 }
 
-void TQuestListVM::vfunc_6() {
+void TQuestListVM::vfunc_6(s32 id, s32 flags) {
     if (owner != NULL) {
-        owner->vfunc_6();
+        owner->vfunc_6(id, flags);
     }
 }
 

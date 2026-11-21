@@ -3,12 +3,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-s32 TWindowSubStatusDisp::calc_layout_hash() {
-    return TWindowSubStatusDisp::get_layout_id() * 0x8C9F;
+s32 TWindowSubStatusDisp::calc_layout_hash(s32 slot) {
+    return TWindowSubStatusDisp::get_layout_id(slot) * 0x8C9F;
 }
 
-s32 TWindowSubStatusDisp::calc_entry_offset() {
-    return TWindowSubStatusDisp::get_layout_id() * 0x12C;
+s32 TWindowSubStatusDisp::calc_entry_offset(s32 slot) {
+    return TWindowSubStatusDisp::get_layout_id(slot) * 0x12C;
 }
 
 
@@ -41,11 +41,10 @@ extern const s32 lbl_8043859C[3] = { 9, 5, 9 };
 s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot);
 E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot);
 
-typedef s32 (*SlotQueryNoArgs_8006F094)(void);
-
-s32 TWindowSubStatusDisp::get_layout_id() {
-    if (((SlotQueryNoArgs_8006F094)TWindowSubStatusDisp::resolve_player_slot)() < 3) {
-        return lbl_8043859C[((SlotQueryNoArgs_8006F094)TWindowSubStatusDisp::resolve_player_slot)()];
+s32 TWindowSubStatusDisp::get_layout_id(s32 slot) {
+    slot = TWindowSubStatusDisp::resolve_player_slot(slot);
+    if (slot < 3) {
+        return lbl_8043859C[TWindowSubStatusDisp::resolve_player_slot(slot)];
     }
     return 5;
 }

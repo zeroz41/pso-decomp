@@ -107,10 +107,10 @@ struct TCameraCtrl : public TObject {
     void update_position();
     void update_pose_smoothing();
     static s32 release_photon_blast_camera();
-    static void reset_view_flags();
+    void reset_view_flags();
     void*get_params();
     static void set_shake_preset(s32 arg0);
-    static void cycle_spectate_target();
+    void cycle_spectate_target();
     static void update_active_player();
     static void update_battle_camera();
     static void create(saddr arg0, s32 arg1, s32 arg2);
@@ -125,7 +125,7 @@ struct TCameraCtrl : public TObject {
     static s32 get_screen_height();
     static s32 should_update();
     void copy_position_vectors(void *arg1, void *arg2);
-    static void update_single_screen();
+    void update_single_screen();
     static int get_mode();
     // The mode word at 0x1C of `p` (the main task).
     static s32 get_mode(void *p);
@@ -135,7 +135,6 @@ struct TCameraCtrl : public TObject {
     static void target_player0(int arg0);
     static s32 get_camera_no();
     static void set_mode(int a0);
-    u8 is_on_current_screen();
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
     static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
     static s32 translate_view_negated(f32 x, f32 y, f32 z);

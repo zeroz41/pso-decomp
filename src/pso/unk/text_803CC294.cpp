@@ -61,7 +61,6 @@ extern Slot_803CD16C adxf_file_handle_pool[];
 extern s32 adxf_log_write_index;
 u32 TLobby__sub_803C8CDC(u32, s32, s32);
 Slot_803CD16C *adxf_open__6TLobbyFUii(u32 arg0, s32 arg1);
-s32 invalidate_cache__6TLobbyFv(s32, s32);
 extern s32 lbl_805D75E4;
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
@@ -221,7 +220,7 @@ inline s32 stop_803CC980(Snd_803CC980 *adxf) {
     adxf->f20 = sp8;
     if (adxf->f8 != NULL && adxf->f2 == 0) {
         if (lbl_805D75E4 == 1) {
-            invalidate_cache__6TLobbyFv(adxf->f24, adxf->f28);
+            TLobby::invalidate_cache((void *)adxf->f24, adxf->f28);
         }
         adxf->f8->interface->destroy(adxf->f8);
         adxf->f8 = NULL;
@@ -277,7 +276,7 @@ void TLobby__sub_803CC884(void) {
                 p->f14 += p->f20;
                 if (p->f8 != NULL && p->f2 == 0) {
                     if (lbl_805D75E4 == 1) {
-                        invalidate_cache__6TLobbyFv(p->f24, p->f28);
+                        TLobby::invalidate_cache((void *)p->f24, p->f28);
                     }
                     p->f8->interface->destroy(p->f8);
                     p->f8 = NULL;
@@ -333,7 +332,7 @@ s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
     adxf->f28 = nsct << 11;
     TLobby::init_once();
     if (lbl_805D75E4 == 1) {
-        invalidate_cache__6TLobbyFv(adxf->f24, adxf->f28);
+        TLobby::invalidate_cache((void *)adxf->f24, adxf->f28);
     }
     if (TLobby__sub_803C8B2C((u8 *)adxf->f4) != 1) {
         TLobby__sub_803C89C4((u8 *)adxf->f4);

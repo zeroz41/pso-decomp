@@ -70,7 +70,8 @@ struct Obj_801DF61C {
 };
 
 extern "C" {
-int bswap__13packet_headerFv(void* a0);
+int bswap_32__FPUl(void* a0);
+s32 bswap_16__FPUs(s32);
 Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 *s);
 int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
 Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
@@ -87,7 +88,7 @@ s32 construct_cmd_db_regist_connect_reply(saddr arg0) {
     __ct__8TPlySmthFv((void *)(arg0 + 0x44));
     return arg0;
 }
-int bswap_cmd_8a_header(void* p) { return bswap__13packet_headerFv(p); }
+void bswap_cmd_8a_header(void *p) { ((packet_header *)p)->bswap(); }
 void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
 
 void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); }
@@ -122,9 +123,9 @@ void bswap_cmd_c4_entry(void *arg0) {
 
 void bswap_cmd_c4_reconnect_command(saddr arg0) {
     ((packet_header *)arg0)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_16((u16 *)(arg0 + 8));
-    bswap_16((u16 *)(arg0 + 0xA));
+    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
+    bswap_16__FPUs(arg0 + 8);
+    bswap_16__FPUs(arg0 + 0xA);
 }
 
 typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
@@ -187,12 +188,12 @@ void bswap_c0_lobby_entries(void* p) { ((packet_header *)p)->bswap(); { int i; f
 
 void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
 
-int bswap_packet_header_cmd_b1(void* p) { return bswap__13packet_headerFv(p); }
+void bswap_packet_header_cmd_b1(void *p) { ((packet_header *)p)->bswap(); }
 
 void bswap_save_packet(saddr arg0) {
     ((packet_header *)arg0)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
+    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
+    ((s32)bswap_32__FPUl((void*)(arg0 + 8)));
 }
 
 void bswap_change_ship_block_packet(void* p) { ((packet_header *)p)->bswap(); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }

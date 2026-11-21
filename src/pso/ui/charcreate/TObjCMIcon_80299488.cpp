@@ -5,9 +5,10 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/system/vector.h"
 
 void fn_8029945C(const vec2f *pos) {
-    ((TWindowSubSymbolChatPartsSet *)&cm_icon_screen_position)->copy_vec2((void *)pos);
+    copy_vec2(&cm_icon_screen_position, (void *)pos);
 }
 
 #pragma common off

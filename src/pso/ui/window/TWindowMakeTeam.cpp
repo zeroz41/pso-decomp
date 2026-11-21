@@ -46,7 +46,6 @@ extern "C" {
 const char *TWindowMakeTeam__sub_80264B38(Obj_80264B38 *o);
 const char *TWindowMakeTeam__sub_80264B24(Obj_80264B24 *o);
 void align_menu_entry_positions(s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *, s32);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
 extern s32 local_client_id;
@@ -123,7 +122,7 @@ void TWindowMakeTeam::run_task() {
             this->m_1d |= 2;
             this->m_1c = 11;
         } else if (((TUnk_804D0658 *)(self->menu))->is_open() != 0) {
-            ((TWindowMakeTeam *)self)->set_state(((TWindowSubComCard *)self->menu)->update_selected_entry());
+            ((TWindowMakeTeam *)self)->set_state(((TWindowSubComCard *)(self->menu))->update_selected_entry());
         }
         break;
     case 3: {
@@ -146,7 +145,7 @@ void TWindowMakeTeam::run_task() {
             mem_free(self->name);
             self->name = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
             TWindowSubComCard::mask_profanity_words(self->name, get_shared_text_buffer());
-            n = ((TWindowSubStatusDisp *)self->name)->measure_string_len();
+            n = (s32)measure_string_len((const char *)(self->name));
             strncpy(self->name, get_shared_text_buffer(), n);
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->name, 0);
             this->m_1c = 1;
@@ -171,14 +170,14 @@ void TWindowMakeTeam::run_task() {
             mem_free(self->comment);
             self->comment = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
             TWindowSubComCard::mask_profanity_words(self->comment, get_shared_text_buffer());
-            n = ((TWindowSubStatusDisp *)self->comment)->measure_string_len();
+            n = (s32)measure_string_len((const char *)(self->comment));
             strncpy(self->comment, get_shared_text_buffer(), n);
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->comment, 1);
             this->m_1c = 1;
         }
         break;
     case 7:
-        self->window = (void *)this->create_entry_menu_window();
+        self->window = (void *)((TWindowMakeTeam *)self)->create_entry_menu_window();
         this->m_1c = 8;
     case 8:
         if (((TWindowMenu *)(self->window))->is_cancelled() != 0) {
@@ -191,7 +190,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 9:
-        self->window = (void *)this->create_status_menu_window();
+        self->window = (void *)((TWindowMakeTeam *)self)->create_status_menu_window();
         this->m_1c = 10;
     case 10:
         if (((TWindowMenu *)(self->window))->is_cancelled() != 0) {
@@ -223,7 +222,7 @@ saddr TWindowMakeTeam::create_menu() {
 saddr TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
-    r = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044F300, 3);
+    r = (s32)create_window_menu_default((s32)lbl_8044F300, 3);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(0)), 6, 0);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(1)), 6, 1);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(2)), 6, 2);
@@ -237,7 +236,7 @@ saddr TWindowMakeTeam::create_status_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
     s32 m;
-    r = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044F308, 4);
+    r = (s32)create_window_menu_default((s32)lbl_8044F308, 4);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(0), 6, 0);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(1), 6, 1);
     TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(2), 6, 2);
@@ -301,11 +300,11 @@ const char *TWindowMakeTeam__sub_80264B24(Obj_80264B24 *o) {
     return lbl_805D395C;
 }
 
-u8 TWindowMakeTeam::is_enabled() {
+s32 TWindowMakeTeam::is_enabled() {
     if (get_mode__6TLobbyFv() == 1) {
-        return 0U;
+        return (u8)(0U);
     }
-    return this->m_1f;
+    return (u8)(this->m_1f);
 }
 
 saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -212,7 +214,6 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2);
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
-s32 get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 void TObjEneDD__sub_800BA5A4(void *, void *, void *);
 s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
@@ -290,12 +291,6 @@ extern const s32 lbl_8043A198[3];
 extern const s32 lbl_8043A1A4[3];
 
 // Motion setup passed to TLobby::spawn_npc_enemy: (motions, animation table, 0, 0x70000).
-struct CanadinSpawnParams {
-    s32 motions;
-    void *animations;
-    s32 pad_8;
-    s32 flags;
-};
 
 // Floor load: loads the Canadin archive, the per-difficulty stats and the breakup models, and spawns the
 // two NPC copies.
@@ -332,9 +327,9 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_805D4FF0 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 2))->model)[1] + 4);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
-    CanadinSpawnParams params = { (saddr)bm_ene_me1_mb_resource->motions, lbl_8048FF30, 0, 0x70000 };
+    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(lbl_8048FF30), 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        TLobby::spawn_npc_enemy(ids[i], bm_ene_me1_mb_resource->models[i].model, (NJS_TEXLIST *)bm_ene_me1_mb_resource->models[1].m_c, &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].m_c), &params, 8.0f, 15.0f);
     }
 }
 
@@ -400,7 +395,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     set_animation(requested_action);
     set_field_b8(requested_action);
     reset_hp((u8 *)lbl_80500930[m_3C4], (u8 *)lbl_8050093C[m_3C4], (u8 *)lbl_80500948[m_3C4]);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &canadin_setup_param_block;
     initialize_enemy_state(0x1C);
     m_37C = 10.0f;
@@ -540,7 +535,7 @@ void TObjEneMe1Canadin::calc_move_vector(int leader, void *out) {
     f32 x;
     f32 dist;
 
-    angle = ((TObjEneDD *)leader)->get_random_scaled();
+    angle = ((TObjEneMe1Canadin *)leader)->get_random_scaled();
     f32 ratio = ((TObjEneMe1Canadin *)leader)->random_ratio();
     dist = (30.0f * ratio) + 10.0f;
     x = dist * sin_table_lookup(angle);
@@ -1914,7 +1909,7 @@ void fn_8009BD00(void) {
     case 2:
     case 3:
         push_matrix();
-        TObjEneDD::update_camera_sequence();
+        forward_split_screen_view_matrix();
         temp_r5 = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = temp_r5 + 1;
         matrix_mult_vec(0, &lbl_80500960, temp_r5);
@@ -1929,7 +1924,7 @@ void fn_8009BD00(void) {
     case 14:
         pos = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = pos + 1;
-        get_camera_ctrl__9TObjEneDDFv(&lbl_80500960, pos);
+        forward_transform_to_view(&lbl_80500960, pos);
         break;
     }
     TObjEneMe1Canadin__render_node_index += 1;

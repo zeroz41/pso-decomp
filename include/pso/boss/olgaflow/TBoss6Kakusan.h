@@ -2,9 +2,12 @@
 #define PSO_BOSS_OLGAFLOW_TBOSS6KAKUSAN_H
 
 #include "types.h"
+
+struct Vec;
 #include "pso/system/task/TObject.h"
 
 struct TBoss6Kakusan : public TObject {
+    TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
     virtual ~TBoss6Kakusan();
     u32 m_1c;
     u16 m_20;

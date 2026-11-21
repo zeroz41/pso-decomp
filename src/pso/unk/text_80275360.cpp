@@ -42,6 +42,6 @@ void TWindowSubComCardList::sub_80275360() {
             msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
-        TWindowSubComCard::draw_text_gray((saddr)this, msg, 4, -1);
+        add_gray_text_entry((TWindowSubTradeMain *)this, (const char *)msg, 4, -1);
     }
 }

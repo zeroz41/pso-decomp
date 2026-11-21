@@ -178,7 +178,7 @@ THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *play
     m_34 = 0;
     unk_38 = 0;
     THunterGuildSeqOffline__active_instance = this;
-    THunterGuildSeqOffline__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 1;
+    THunterGuildSeqOffline__instance_table[sub_8022397C()] = 1;
 }
 
 THunterGuildSeqOffline::~THunterGuildSeqOffline() {
@@ -195,7 +195,7 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
         ((TObject *)m_34)->queue_destruction();
         m_34 = 0;
     }
-    THunterGuildSeqOffline__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 0;
+    THunterGuildSeqOffline__instance_table[sub_8022397C()] = 0;
     THunterGuildSeqOffline__active_instance = NULL;
 }
 

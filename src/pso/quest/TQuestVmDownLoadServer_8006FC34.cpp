@@ -9,46 +9,19 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-struct Info_8006FE7C {
-    s8 a;
-    s8 b;
-    s8 c;
-    u8 pad3;
-    s16 d;
-};
-
-struct Rec_8006FE7C {
-    s32 active;
-    u8 pad4[0x60];
-    Info_8006FE7C info;
-    u8 pad6A[0x104 - 0x6A];
-};
-
 struct Table_8006FE7C {
     s32 v0;
     s32 v4;
     s32 v8;
     u8 padC[0x270 - 0xC];
-    Rec_8006FE7C recs[4];
+    ChallengeTombstonePlayerSlot recs[4];
 };
 
 struct Date_8006FC7C { u16 year; u8 a; u8 b; u8 c; u8 d; u8 pad[6]; };
 
-struct Ply_8006FC7C { u8 pad[0x38]; Vec pos; };
-
 struct Card_8006FC7C {
-    u8 pad0[0x2224];
-    s8 f2224;
-    s8 f2225;
-    s8 f2226;
-    u8 pad2227;
-    s16 f2228;
-    u8 pad222a[2];
-    s32 f222C;
-    s32 f2230;
-    Vec pos;
-    char name[0x14];
-    char unit[0x20];
+    u8 reserved[0x2224];
+    TObjTombstoneRecord tombstone;
 };
 
 struct Unit_8006FC7C { u8 pad[0x370]; s32 f370; };
@@ -77,7 +50,7 @@ void TLobby::update_card_save_info() {
     char name[0x20];
     Date_8006FC7C date;
     Card_8006FC7C *card;
-    Ply_8006FC7C *ply;
+    TObjPlayer *ply;
     s32 n;
     s32 v;
     u8 b;
@@ -90,20 +63,20 @@ void TLobby::update_card_save_info() {
         return;
     }
     card = get_character_save_record(0xFFFF);
-    ply = (Ply_8006FC7C *)get_player_by_client_id(local_client_id);
+    ply = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
     if (ply == NULL) {
         return;
     }
-    card->f2224 = TWindowSubStatusDisp::resolve_player_slot(-1);
-    card->f2225 = challenge_mode_state.v0;
-    card->f2226 = get_current_floor();
-    if (card->f2228 < 0) {
-        card->f2228 = 0x270F;
+    card->tombstone.phase = TWindowSubStatusDisp::resolve_player_slot(-1);
+    card->tombstone.layout = challenge_mode_state.v0;
+    card->tombstone.floor = get_current_floor();
+    if (card->tombstone.unk_4 < 0) {
+        card->tombstone.unk_4 = 0x270F;
     }
-    if (++card->f2228 > 0x270F) {
-        card->f2228 = 0x270F;
+    if (++card->tombstone.unk_4 > 0x270F) {
+        card->tombstone.unk_4 = 0x270F;
     }
-    VecCopy((Vec *)&card->pos, (const Vec *)&ply->pos);
+    VecCopy((Vec *)&card->tombstone.position, (const Vec *)&ply->position);
     getDateStamp((DateStamp *)&date);
     if (date.year / 100 != 20) {
         v = 0xF;
@@ -122,11 +95,11 @@ void TLobby::update_card_save_info() {
     v |= (c = date.c);
     v <<= 8;
     v |= date.d;
-    card->f222C = v;
-    strncpy(card->name, TLobby__sub_80070ACC(c, b, v), 0x13);
-    card->name[0x13] = 0;
-    unit = card->unit;
-    card->unit[0] = 0;
+    card->tombstone.date = v;
+    strncpy(card->tombstone.display_name, TLobby__sub_80070ACC(c, b, v), 0x13);
+    card->tombstone.display_name[0x13] = 0;
+    unit = card->tombstone.unit_name;
+    card->tombstone.unit_name[0] = 0;
     s = (char *)TLobby::get_unit_list();
     if (s != NULL) {
         strncpy(buf, s, 0x5F);
@@ -150,21 +123,21 @@ void TLobby::update_card_save_info() {
             id = u->f370;
         }
     }
-    card->f2230 = id;
+    card->tombstone.rt_index = id;
 }
 
 void TLobby::spawn_player_tombstones() {
     saddr i;
-    Rec_8006FE7C *rec;
-    Info_8006FE7C *info;
+    ChallengeTombstonePlayerSlot *rec;
+    TObjTombstoneRecord *info;
     TLobby::reset_tombstone_values();
     for (i = 0; i < 4; i++) {
         rec = &challenge_mode_state.recs[i];
         if (rec->active != 0 && get_player_by_client_id(i) != NULL) {
-            info = &rec->info;
-            if (info->d > 0 && info->a == TWindowSubStatusDisp::resolve_player_slot(-1)
-                && info->b == challenge_mode_state.v0 && info->c == challenge_mode_state.v8) {
-                TObjTombstone::create(tl_07, (void *)i, info);
+            info = &rec->record;
+            if (info->unk_4 > 0 && info->phase == TWindowSubStatusDisp::resolve_player_slot(-1)
+                && info->layout == challenge_mode_state.v0 && static_cast<s8>(info->floor) == challenge_mode_state.v8) {
+                TObjTombstone::create(static_cast<TObject *>(tl_07), i, info);
             }
         }
     }

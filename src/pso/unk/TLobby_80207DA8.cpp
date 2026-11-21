@@ -1,4 +1,6 @@
-#include <string.h>
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/MapSetArchive.h"
+#include "pso/network/FloorEventCommand.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -15,7 +17,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/network/protocol/protocol.h"
+#include "pso/system/byteswap.h"
+#include <string.h>
 
 
 extern char floor_map_name_acity00[];
@@ -269,16 +272,15 @@ __declspec(section ".data") const char *lbl_804C9260[2] = { floor_map_name_aboss
 __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss03, floor_map_name_aboss03 };
 }
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
-saddr forest_rel_filename_table[6] = { (saddr)"SetDataTableOff.rel", (saddr)"SetDataTableOffUlti.rel", (saddr)"SetDataTableOn.rel", (saddr)"SetDataTableOnUlti.rel", (saddr)"SetDataTable_TGS2001.rel", 0 };
+const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 saddr get_floor_scene_table(s32 arg0);
 extern "C" {
-void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_80207E44(void);
-s32 get_floor_map_selection(int, void *);
+
 void randomize_adventure_maps(void);
 
     extern int story_select_pending_state;
-void reset_story_select__6TLobbyFv(void) { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
+void TLobby::reset_story_select() { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 temp_r3;
@@ -292,11 +294,13 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-void TLobby__sub_80207E24(void *p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
+void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
 void TLobby__sub_80207E44(void) {  }
 void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 }
-int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
+s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
+    return get_floor_map_selection(floor, selection);
+}
 saddr get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
         return 0;
@@ -309,7 +313,7 @@ saddr get_floor_scene_table(s32 arg0) {
 extern "C" {
 
 
-int TLobby::reset_story_select(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
+void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
 void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
 }
 
@@ -377,7 +381,7 @@ s32 run_floor_initialize_callbacks(s32 arg0) {
     return 1;
 }
 
-void TLobby::update_key_machine() { get_current_floor_area(); ((int (*)(void))run_floor_initialize_callbacks)(); }
+s32 TLobby::update_key_machine() { get_current_floor_area(); return ((int (*)(void))run_floor_initialize_callbacks)(); }
 void bswap_enemy_set_row(void *arg0) {
     bswap_16((u16 *)arg0);
     bswap_enemy_set_row_fields((void *)((void *)((char *)arg0 + 4)));
@@ -459,27 +463,27 @@ s32 TLobby::get_drop_item_mode() {
 
 saddr load_relocatable_file(saddr arg0, saddr arg1);
 
-s32 TLobby__data_805D6068;
+MapSetArea *TLobby__data_805D6068;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
-s32 forest_rel_set_data_table;
+MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
-s32 *forest_rel_module;
+MapSetModule *forest_rel_module;
 uaddr forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
-    s32 *temp_r3;
-    s32 temp_r0;
+    MapSetModule *temp_r3;
+    MapSetArea *temp_r0;
     s32 drop_item_mode;
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
-            temp_r3 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+        if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
+            temp_r3 = (MapSetModule *)load_relocatable_file((s32)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
-                temp_r0 = *temp_r3;
+                temp_r0 = temp_r3->areas;
                 forest_rel_set_data_table = temp_r0;
                 TLobby__data_805D6068 = temp_r0;
             }
@@ -488,8 +492,6 @@ void TLobby::update_drop_item() {
 }
 
 void TLobby__sub_802083C0(void);
-
-#define forest_rel_module (*(s32 *)&forest_rel_module)
 
 void TLobby__sub_802083C0(void) {
     if ((u32) forest_rel_work_buffer != 0U) {
@@ -502,9 +504,6 @@ void TLobby__sub_802083C0(void) {
 }
 }
 
-#undef forest_rel_module
-
-struct Pkt_802084B0 { u8 hdr[2]; u16 a; s32 b; s32 c; s32 d; };
 
 struct Pkt_8020857C { u8 hdr[2]; u16 a; s16 b; s16 pad; s16 c; s8 d; s8 e; };
 
@@ -523,8 +522,8 @@ extern "C" {
 void set_destroy_event__6TLobbyFi(int a0);
 
 void TLobby::load_item_data() {
-    s32 *temp_r3_2;
-    s32 temp_r0;
+    MapSetModule *temp_r3_2;
+    MapSetArea *temp_r0;
     s32 drop_item_mode;
     u32 temp_r3;
 
@@ -534,11 +533,11 @@ void TLobby::load_item_data() {
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
-            temp_r3_2 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+        if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
+            temp_r3_2 = (MapSetModule *)load_relocatable_file((s32)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
-                temp_r0 = *temp_r3_2;
+                temp_r0 = temp_r3_2->areas;
                 forest_rel_set_data_table = temp_r0;
                 TLobby__data_805D6068 = temp_r0;
             }
@@ -558,16 +557,16 @@ void send_6x67_wave_trigger_event(s32 arg0);
 void send_6x05_wave_set_switch(s16 arg0);
 void send_6x05_wave_clear_switch(s32 arg0);
 void send_6x67_wave_trigger_event(s32 arg0) {
-    Pkt_802084B0 pkt;
+    G_FloorEvent_6x67 pkt;
     s32 t = wave_event_trigger_count;
     wave_event_trigger_count = t + 1;
     ((void (*)(int, int))set_destroy_event__6TLobbyFi)(1, t);
-    ((TLobby *)(&pkt))->init_packet_67_04();
-    pkt.a = 0xFFFF;
-    pkt.b = get_current_floor();
-    pkt.c = arg0;
-    pkt.d = local_client_id;
-    ((TLobby *)(&pkt))->byteswap_and_send();
+    pkt.init();
+    pkt.header.client_id = 0xFFFF;
+    pkt.floor = get_current_floor();
+    pkt.event_id = arg0;
+    pkt.sender_client_id = local_client_id;
+    pkt.send();
 }
 
 void send_6x05_wave_clear_switch(s32 arg0) {

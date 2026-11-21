@@ -135,9 +135,6 @@ struct Crater_8002C288 : VBase_8002C288 {
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 s32 isV2Mode__12TBoss1DragonFv();
-void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
-extern s32 __vt__15TObjBoss1Crater[];
-Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *arg2, void *arg3);
 f32 TBoss1Dragon__sub_80027634(u32);
 s32 TObjBoss1Crater__sub_8002C7E4(void *);
 }
@@ -226,12 +223,11 @@ TObjBoss1Crater::~TObjBoss1Crater() {
 }
 
 
-Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *arg2, void *arg3) {
+#define self ((Crater_8002C544 *)this)
+TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, void *arg3) : TUnk_804928CC(parent, owner) {
     f32 r;
     void *p;
     s32 i;
-    __ct__13TUnk_804928CCFP7TObjectP8TObjBase(self);
-    self->vt = ((s32 *)&__vt__15TObjBoss1Crater);
     r = lbl_80435560.c;
     self->f0 = TObjBoss1Crater__name;
     self->fA4->fC = r;
@@ -257,8 +253,8 @@ Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *ar
         self->fC8 = 0x13;
         break;
     }
-    return self;
 }
+#undef self
 
 s32 TObjBoss1Crater::is_count_below_limit() {
     return TObjBoss1Crater__instance_count < 0x14;
@@ -278,14 +274,11 @@ void *TObjBoss1Crater::create(void *arg1) {
     if (TObjBoss1Crater::is_count_below_limit() == 0) {
         return NULL;
     }
-    x1 = ((void *)TBoss1Dragon::get_instance());
+    x1 = (void *)TBoss1Dragon::get_instance();
     if (x1 == NULL) {
         return NULL;
     }
-    o = TObject::operator new(0xCC);
-    if (o != NULL) {
-        o = TObjBoss1Crater__ct((Crater_8002C544 *)o, this, x1, arg1);
-    }
+    o = new TObjBoss1Crater(this, (TObjBase *)x1, arg1);
     return o;
 }
 

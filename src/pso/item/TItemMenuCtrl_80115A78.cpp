@@ -5,16 +5,14 @@
 
 extern "C" {
 
-s32 TItemMenuCtrl__ct(u32, s32);
 s32 set_menu_flags__13TItemMenuCtrlFv(u32, s32);
 
 extern uaddr TItemMenuCtrl__instance;
 extern s32 tl_05;
 
 void TItemMenuCtrl::open_menu(u32 arg0) {
-    uaddr obj;
-    if (((u32) TItemMenuCtrl__instance == 0U) && ((obj = (uaddr)TObject::operator new(0x20)) != 0U)) {
-        TItemMenuCtrl__ct(obj, tl_05);
+    if (((u32) TItemMenuCtrl__instance == 0U)) {
+        new TItemMenuCtrl((TObject *)tl_05);
     }
     if (arg0 < 7U) {
         if (arg0 == 0) {

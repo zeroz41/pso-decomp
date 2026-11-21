@@ -1,5 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/technique/TTecZarua.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -88,7 +92,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
-s32 create_instance__9TTecZaruaFllll(void *, void *, void *, s32);
 void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
 void *find_entity_by_id(u16 id);
@@ -411,8 +414,8 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGue__sub_802CE4EC();
     TObjEneMe1GiGueBarrier::init_global();
     {
-    DelDepthAnimationBinding binding = {TObjEneMe1GiGue__data_805D6838->motions, gigue_enemy_param_table, 1, 9, 0};
-    TLobby::spawn_npc_enemy(0x41, TObjEneMe1GiGue__data_805D6838->models->model, (NJS_TEXLIST *)TObjEneMe1GiGue__data_805D6838->models->m_c, &binding, lbl_804E1304[0].radius, 15.0f);
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(TObjEneMe1GiGue__data_805D6838->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
+    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(TObjEneMe1GiGue__data_805D6838->models->model), reinterpret_cast<void *>(TObjEneMe1GiGue__data_805D6838->models->m_c), &binding, lbl_804E1304[0].radius, 15.0f);
     }
 }
 
@@ -931,7 +934,7 @@ void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue) {
             if (gigue->frame >= 10.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 gigue->state = 3;
-                create_instance__9TTecZaruaFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
+                TTecZarua::create_instance((s32)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
                 create__9TTecJelinFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
             }
             break;
@@ -1317,7 +1320,7 @@ void init__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue) {
         flags = gigue->actorFlags | 0x04000000;
         gigue->actorFlags = flags;
         gigue->requested_action = 0;
-        ((TBoss3Volopt *)&gigue->m_2fc)->play_area_sound_effect();
+        play_area_sound_effect((Vec *)&gigue->m_2fc);
         gigue->m_3fc.start_fade_in();
         gigue->state = 1;
     case 1:
@@ -1456,12 +1459,11 @@ void TObjEneMe1GiGue::sub_802CACD8() {
 }
 
 s32 TObjEneMe1GiGue::check_vector_bit(Vec *pos) {
-    s32 *csnVectorUnder(Vec *, u32 *, s32, TObjEneMe1GiGue *);
-    s32 *hit = csnVectorUnder(pos, (u32 *)&m_120, 5, this);
+    CsnHit *hit = csnVectorUnder(pos, (CsnGroup **)&m_120, 5);
     if (hit == NULL) {
         return 0;
     }
-    return (u32)__cntlzw(*hit & 4) >> 5;
+    return (u32)__cntlzw(hit->hit_mask & 4) >> 5;
 }
 
 BmlResource *TObjEneMe1GiGue::sub_802CAC80() { return TObjEneMe1GiGue__data_805D6838; }

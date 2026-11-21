@@ -17,7 +17,7 @@ void render__12TObjEneSaverFv(u8 *arg0);
 void run_task__12TObjEneSaverFv(u8 *arg0);
 void *create_ene_saver(void *arg0);
 void initialize_saver_resources(void);
-void step_angle_clamped__10TObjPlayerFPvi(void *arg0, s32 arg1);
+void step_angle_clamped(void *arg0, s32 arg1);
 void update_collapse_and_destroy__12TObjEneSaverFv(u8 *arg0);
 }
 

@@ -6,6 +6,7 @@
 
 class TObjEZBoneRotPlayer : public TObjEZBoneRotBase {
 public:
+    TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc);
     virtual ~TObjEZBoneRotPlayer();
     void start_bone_rotation_sequence(s32);
     void calc_bone_offsets_recursive(void *, s32, s32);

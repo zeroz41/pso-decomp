@@ -25,6 +25,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/vector.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -41,7 +42,6 @@ struct S_8030E3BC { s32 x; s32 y; };
 
 extern "C" {
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
-s32 push_plate_position__19TAdPlyChrSelPlateGCFv(int, void *);
 extern G_8030E3BC chr_select_b_slot_entry;
 G_8030E3BC *TAdChrSelBSlotGC__sub_8030E3BC(s32 arg0, s32 arg1, s32 arg2, void *arg3);
 void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030E3BC *entry);
@@ -68,7 +68,7 @@ G_8030E3BC *TAdChrSelBSlotGC__sub_8030E3BC(s32 arg0, s32 arg1, s32 i, void *arg3
     chr_select_b_slot_entry.a = arg1;
     chr_select_b_slot_entry.b = e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C);
     chr_select_b_slot_entry.c = e != NULL ? e->y + 1 : 0;
-    ((TWindowSubSymbolChatPartsSet *)(chr_select_b_slot_entry.v))->copy_vec2(arg3);
+    copy_vec2((chr_select_b_slot_entry.v), arg3);
     return &chr_select_b_slot_entry;
 }
 
@@ -136,10 +136,10 @@ void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self) {
 void TAdChrSelBSlotGC::reset_plate_positions() {
     u8 *arg0 = (u8 *)this;
     if (((TAdChrSelBSlotGC *)arg0)->get_global_state() == 0x19) {
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[0]);
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[1]);
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[2]);
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[3]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[0]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[1]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[2]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[3]);
         this->m_1c = 0x13;
     }
 }

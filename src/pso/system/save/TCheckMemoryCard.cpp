@@ -17,8 +17,6 @@
 
 extern "C" {
 s32 poll_memcard_result(saddr chan);
-TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
-TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
 s32 align_menu_entry_positions(TWindowMenu *menu);
 }
 
@@ -150,7 +148,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
     if (use_main_ctrl != 0) {
         message_window = (TWindowMessage *)TWindowMessage::create((saddr)check_memory_card_message_pos, check_memory_card_message_size, 1, 4);
     } else {
-        message_window = update_window_mode_from_progress__6TLobbyFPv(check_memory_card_message_pos, check_memory_card_message_size);
+        message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)check_memory_card_message_pos, (NJS_POINT2 *)check_memory_card_message_size);
     }
     if (message_window == NULL) {
         return;
@@ -168,7 +166,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
     if (use_main_ctrl != 0) {
         menu_window = (TWindowMenu *)create_window_menu((saddr)check_memory_card_menu_pos, 2, 4);
     } else {
-        menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(check_memory_card_menu_pos, 2);
+        menu_window = (TWindowMenu *)create_window_menu_default((s32)check_memory_card_menu_pos, 2);
     }
     if (message_window == NULL) {
         return;

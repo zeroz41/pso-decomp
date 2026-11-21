@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct TBoss7Crawfish : public TObjEnemy {
+    TBoss7Crawfish(TObject *parent, void *set);
     virtual ~TBoss7Crawfish();
     s32 sub_80308AA8();
     s32 is_visible();

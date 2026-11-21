@@ -220,7 +220,6 @@ void create_all_tenchu_furu__11TBoss4Type2Fi(saddr arg0);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
 void * create__9TBoss4UroFi(Params_80052CDC *);
-int toggle_particle_effect__10TObjPlayerFv(void*);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
@@ -230,7 +229,6 @@ void vec3_add_to(Vec *, Vec *);
 void subtract_vector(Vec *, Vec *);
 void normalize_vector(void *);
 int post_translate_matrix(void*);
-s32 set_global_param__8TObjFishFl();
 f32 xyz_distance(Vec *, Vec *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
@@ -698,7 +696,7 @@ void TBoss4Type1::snapshot_position() {
     *(f32 *)((s8 *)arg0 + 0x300) += 50.0f;
 }
 
-void TBoss4Type1::render_effects() { toggle_particle_effect__10TObjPlayerFv(this); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x60)); this->draw_parts(); pop_matrix(); TParticleCtrl::end_effect_render(); }
+void TBoss4Type1::render_effects() { TObjPlayer::toggle_particle_effect(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x60)); this->draw_parts(); pop_matrix(); TParticleCtrl::end_effect_render(); }
 
 #pragma push
 #pragma opt_common_subs off
@@ -755,8 +753,7 @@ void TBoss4Type1::draw_parts() {
     saddr a;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
-        get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]));
         switch (i) {
         case 2:
         case 3:
@@ -851,8 +848,8 @@ void TBoss4Type1::push_players_out_of_colliders() {
     pop_matrix();
     for (p = 0; p < registered_player_count; p++) {
         pl = (u8 *)TObjPlayer::get_player_data(p);
-        if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
-            Vec pos = *((Vec *)((TObjPlayer *)pl)->get_position_ptr());
+        if (pl != NULL && ((TObjPlayer *)pl)->get_area() == 0xE) {
+            Vec pos = *(Vec *)((TObjPlayer *)pl)->get_position_ptr();
             Vec d;
             Vec q;
             for (j = 0; j < o->count; j++) {
@@ -1280,13 +1277,16 @@ void TBoss4Type2::tick_state_398_timer() {
     }
 }
 
-void TWindowSubSymbolChatPartsSet::copy_vec2(void* q) { *(f32*)((char*)this + 0x0) = *(f32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); }
+void copy_vec2(void *dst, void *src) {
+    ((f32 *)dst)[0] = ((f32 *)src)[0];
+    ((f32 *)dst)[1] = ((f32 *)src)[1];
+}
 
 void TBoss4Type2::start_motion_for_index() {
     S_80052E10 *self = (S_80052E10 *)this;
     set_motion_index(((s32 *)lbl_804861F4)[self->idx]);
     self->f3c8 = 0;
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)boss4_type1_xz_offset_table + 0x28))->copy_vec2(&((P2_80052E10 *)lbl_80486200)[self->idx]);
+    copy_vec2(((u8 *)boss4_type1_xz_offset_table + 0x28), &((P2_80052E10 *)lbl_80486200)[self->idx]);
     self->f3d0 = 6;
     if (self->f374 == 5) {
         self->f398 = 0x12C;

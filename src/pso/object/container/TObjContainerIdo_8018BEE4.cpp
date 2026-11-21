@@ -13,6 +13,8 @@
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/system/BmlResourceLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -37,7 +39,6 @@ const char *obj_container_ido_class_name = "TObjContainerIdo";
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-saddr get_bml_model(saddr, int);
 s32 init_collision_body_parts(void *, void *, int);
 
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
@@ -101,7 +102,7 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
 
-uaddr TObjContainerIdo__model_resource;
+BmlResource *container_ido_model_archive;
 
 void render__16TObjContainerIdoFv(u8 *container_ido) {
     s32 var_r31;
@@ -115,23 +116,23 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
             ((VMem_8018C06C*)(container_ido + 0xF0))->m6();
         }
         {
-            extern const u32 container_ido_texture_gvm_handle;
-            u32 temp = (u32) container_ido_texture_gvm_handle;
-            if (temp != 0U) {
-                TObjFish::set_global_param(temp);
+            extern GinjaTextureList *container_ido_textures;
+            GinjaTextureList *textures = container_ido_textures;
+            if (textures != NULL) {
+                TObjFish::set_global_param((s32)textures);
             }
         }
         push_matrix();
         post_translate_matrix(container_ido + 0xC0);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
         rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
-        draw_ginja_object((void *)get_bml_model(TObjContainerIdo__model_resource, 0));
+        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(container_ido + 0x38);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
         rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
-        draw_ginja_object((void *)get_bml_model(TObjContainerIdo__model_resource, 1));
+        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 1));
         pop_matrix();
         if (var_r31 != 0) {
             ((VMem_8018C06C*)(container_ido + 0xF0))->m7();
@@ -266,41 +267,37 @@ void *TObjContainerIdo::create(void *arg0) {
 
 struct Ido_8018C7BC { u8 pad[0xCC]; s32 ids[4]; };
 
-u32 container_ido_texture_gvm_handle;
+GinjaTextureList *container_ido_textures;
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 u8 * load_gvm_texture_file(saddr);
 extern s32 __vt__16TObjContainerIdo[];
 extern "C" {
-void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 }
 
 void TObjContainerIdo::free_resources() {
-    if ((u32) container_ido_texture_gvm_handle != 0U) {
-        release_texture_list((void*)container_ido_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(container_ido_texture_gvm_handle);
-        container_ido_texture_gvm_handle = 0U;
+    if (container_ido_textures != NULL) {
+        release_texture_list(container_ido_textures);
+        TAdSinglePlyChrSelectGC::safe_free((u32)container_ido_textures);
+        container_ido_textures = NULL;
     }
-    if ((u32) TObjContainerIdo__model_resource != 0U) {
-        free_bin_model_request((void*)TObjContainerIdo__model_resource, 1);
-        TObjContainerIdo__model_resource = 0U;
+    if (container_ido_model_archive != NULL) {
+        free_bin_model_request(container_ido_model_archive, 1);
+        container_ido_model_archive = NULL;
     }
 }
 
 void TObjContainerIdo::load_resources() {
-    saddr temp_r3;
-    saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 5, &container_ido_resource_descriptor, 0, 0, 0));
+    BmlResource *archive = (BmlResource *)::operator new(0x440);
+    if (archive != NULL) {
+        archive = load_resource_from_descriptor(archive, 5, &container_ido_resource_descriptor, 0, 0, 0);
     }
-    (*(saddr *)&TObjContainerIdo__model_resource) = var_r0;
-    (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((saddr) "obj_containerido.GVM");
+    container_ido_model_archive = archive;
+    container_ido_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_containerido.GVM");
 }
+
 TObjContainerIdo::~TObjContainerIdo() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);

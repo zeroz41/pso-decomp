@@ -23,11 +23,10 @@ typedef struct Trail_800D76E8 {
 
 extern "C" {
 
-s32 defer_render__7TObjectFv();
 
 void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
-    if ((defer_render__7TObjectFv() == 0) && ((s32) this->segment_count > 1)) {
+    if (((s32)this->defer_render() == 0) && ((s32) this->segment_count > 1)) {
         set_additive_blend();
         ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(this->segment_count * 2), 1);
     }
@@ -158,7 +157,7 @@ Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, s32 x, s32 a, s32 b);
 Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, s32 x, s32 a, s32 b) {
     s32 i;
     Ent_800D79A8 *p;
-    TAttackTrace__ct(self);
+    __ct__12TAttackTraceFP7TObject(self, (TObject *)x);
     self->vt = __vt__13TUnk_80494968;
     ((TUnk_80494968 *)self)->sub_800D7818(a, b);
     p = self->ents;

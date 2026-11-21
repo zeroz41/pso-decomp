@@ -1,6 +1,10 @@
+#include "pso/unk/text_80087278.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/unk/text_800D8830.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -48,34 +52,12 @@
 #include "pso/unk/text_802D1C84.h"
 #pragma defer_codegen on
 
-struct Stack_802CE510
-{
-  s32 sp8;
-  f32 spC;
-  u8 trailing_storage[0x4];
-};
-
-struct RecoveredFields_802CE510_temp_r3
-{
-  int field_0;
-  int field_4;
-};
-
-extern "C" {
-void *spawn_particle_effect(const void *pos, s32 id);
-typedef struct RecoveredFields_802CE510_temp_r3 RecoveredFields_802CE510_temp_r3;
-
-typedef struct Stack_802CE510 Stack_802CE510;
-
-}
-
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
-void enemy_clear_target__12TObjEneDD_STFUs(TObjEneDD_ST *self);
 extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
@@ -83,9 +65,8 @@ void fill_value_array(saddr address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
-void fn_802CE510(int arg0);
+void fn_802CE510(TObjEneBm9Mericarol *owner);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
-void mult_vec_array__10TObjPlayerFUll(u32 matrix, Vec *src, Vec *dst, s32 count);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
 void enemy_set_target_id(TObjEneBm9Mericarol *self, u16 id);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
@@ -93,13 +74,6 @@ u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
-struct Bm9MericarolAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 extern "C" {
 // Reached with a lis/addi each, never off a shared .rodata base like the TU's own tables: not defined here.
@@ -213,8 +187,8 @@ extern "C" void TBoss4Type3__sub_802D1130(void) {
     lbl_805D6864->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)lbl_805D6868->motions[lbl_804E1634[8].motion].motion, 0x2A, 0x2B);
     clear_motion_packed_rotation();
     {
-        Bm9MericarolAnimationBinding params = { lbl_805D6868->motions, lbl_804E1634, 0x30001, 9, 0 };
-        TLobby::spawn_npc_enemy(0x42, lbl_805D6868->models[0].model, (NJS_TEXLIST *)lbl_805D6868->models[0].m_c, &params,
+        NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(lbl_805D6868->motions), reinterpret_cast<TObjMotionAction *>(lbl_804E1634), 3, 1, 9 };
+        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(lbl_805D6868->models[0].model), reinterpret_cast<void *>(lbl_805D6868->models[0].m_c), &params,
             lbl_804E1564[0].radius, 0.0f);
     }
 }
@@ -518,9 +492,9 @@ void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
         m_438 |= 0x28;
         m_438 &= ~0x10;
         set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        this->enemy_clear_target();
         m_46c.start_fade_in();
-        ((TBoss3Volopt *)&position)->play_area_sound_effect();
+        play_area_sound_effect(&position);
         return;
     case 3:
         if (m_46c.advance_toward_max() != 0) {
@@ -547,7 +521,7 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
         sub_802D093C();
         m_438 &= ~0x28;
         set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        this->enemy_clear_target();
         return;
     case 3:
         if (try_set_mode8_if_flag2() == 0 && update_linked_position(250.0f) != 0) {
@@ -611,7 +585,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
             if (m_3ac > 30.0f) {
                 if (vfunc_99() != 0) {
-                    target = set_squared_value(m_3ac - 30.0f);
+                    target = enemy_nearest_visible_enemy(this, m_3ac - 30.0f);
                 }
                 if (target == 0xFFFF) {
                     target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(m_3ac - 30.0f));
@@ -745,8 +719,8 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
-                mult_vec_array__10TObjPlayerFUll(0, points0, trail0, 2);
-                mult_vec_array__10TObjPlayerFUll(0, points1, trail1, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)points0, (Vec *)trail0, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)points1, (Vec *)trail1, 2);
                 pop_matrix();
                 if (m_3c0[0] != NULL) {
                     m_3c0[0]->vfunc_6(&trail0[0], &trail0[1]);
@@ -832,7 +806,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             vfunc_89();
             return;
         case 1:
-            fn_802CE510((saddr)this);
+            fn_802CE510(this);
             hit_wall = 0;
             sync_center_position();
             if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, 30.0f * m_444) != 0U) {
@@ -1363,55 +1337,38 @@ void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
     clear_motion_packed_rotation();
 }
 
-void fn_802CE510(int owner) {
-  Stack_802CE510 stack;
-  saddr new_var;
-  unsigned int temp_r31;
-  uaddr particle_effect;
-  uaddr temp_r3_3;
-  uaddr temp_r3_4;
-  u8 *temp_r3;
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)(owner + 0x38));
-  stack.spC += 15.0f;
-  temp_r3 = (u8 *) csnVectorUnder((Vec *)&stack.sp8, (u32 *)(owner + 0x120), 0x15);
-  if (temp_r3 != 0)
-  {
-    temp_r31 = ((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_0 & 4;
-    if (temp_r31 != 0)
-    {
-      fn_800D8830((void *)owner, (void *)(owner + 0x38));
-    }
-    else
-    {
-      play_persistent_sound((saddr)((void *) ((TObjEnemy *)((void *) owner))->remap_sound_for_area(0x3B211)), owner, (owner + 0x38), 0, 0);
-    }
-    if (((((TObjMotion *)owner)->is_passing_frame((f32)(5.0f)) != 0) || (((TObjMotion *)owner)->is_passing_frame((f32)(15.0f)) != 0)) || (((TObjMotion *)owner)->is_passing_frame((f32)(25.0f)) != 0))
-    {
-      if (temp_r31 != 0)
-      {
-        particle_effect = (uaddr)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0x49);
-        if (particle_effect != 0U)
-        {
-          ;
-          attach_particle_model((u8 *)particle_effect, (s32)((int) TParticleCtrl::get_particle_model(2)), (s32)((int) TParticleCtrl::get_instance()), 0, 1, (f32)(1.0f));
-          temp_r3 = temp_r3;
-          new_var = (int) particle_effect;
-          ((TParticleCtrl *)new_var)->set_scale(5.0f, 1.0f);
+void fn_802CE510(TObjEneBm9Mericarol *owner) {
+    Vec origin;
+    VecCopy(&origin, &owner->position);
+    origin.y += 15.0f;
+
+    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&owner->m_120, 0x15);
+    if (hit != NULL) {
+        u32 surface_mask = hit->hit_mask & 4;
+        if (surface_mask != 0) {
+            fn_800D8830(owner, &owner->position);
+        } else {
+            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (s32)owner, (u32)&owner->position, 0, 0);
         }
-        temp_r3_3 = (uaddr)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0xA4);
-        if (temp_r3_3 != 0U)
-        {
-          ((TParticleCtrl *)temp_r3_3)->set_scale(5.0f, 1.5f);
+        if (owner->is_passing_frame(5.0f) != 0 || owner->is_passing_frame(15.0f) != 0 ||
+            owner->is_passing_frame(25.0f) != 0) {
+            if (surface_mask != 0) {
+                TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
+                if (spray != NULL) {
+                    attach_particle_model((u8 *)spray, (s32)TParticleCtrl::get_particle_model(2),
+                                          (s32)TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                    spray->set_scale(5.0f, 1.0f);
+                }
+                TParticleCtrl *ripple = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
+                if (ripple != NULL) {
+                    ripple->set_scale(5.0f, 1.5f);
+                }
+            } else {
+                TParticleCtrl *dust = (TParticleCtrl *)spawn_particle_effect(&owner->position, 0xF3);
+                if (dust != NULL) {
+                    dust->set_scale(5.0f, 2.0f);
+                }
+            }
         }
-      }
-      else
-      {
-        temp_r3_4 = (uaddr)spawn_particle_effect((const void *)(owner + 0x38), 0xF3);
-        if (temp_r3_4 != 0U)
-        {
-          ((TParticleCtrl *)temp_r3_4)->set_scale(5.0f, 2.0f);
-        }
-      }
     }
-  }
 }

@@ -2,6 +2,7 @@
 #define PSO_NETWORK_UDP_RUNTIME_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/network/SocketEvents.h"
 
 typedef struct NetworkAddress {
@@ -47,6 +48,12 @@ typedef struct UdpDatagram {
 } UdpDatagram;
 LAYOUT_ASSERT(UdpDatagram_size_check, sizeof(UdpDatagram) == 0x34);
 
+typedef char UdpDatagram_socket_check[offsetof(UdpDatagram, socket) == 0 ? 1 : -1];
+typedef char UdpDatagram_length_check[offsetof(UdpDatagram, len) == 2 ? 1 : -1];
+typedef char UdpDatagram_buffer_check[offsetof(UdpDatagram, buf) == 4 ? 1 : -1];
+
+typedef s32 (*NetUdpReceiveCallback)(s16 mode, UdpDatagram *datagram);
+
 typedef struct UdpRuntimeState {
     s16 count;
     u16 ephemeralPort;
@@ -64,6 +71,7 @@ extern UdpRuntimeState udp_runtime_state;
 s32 NetUdpClose(s16 handle);
 s16 NetUdpConnect(s16 handle, NetworkAddress* remoteAddress, s32 port,
                   s32 eventCallback, u32 receiveCallback);
+s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 eventCallback, NetUdpReceiveCallback callback);
 s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);
 u16 NetUdpAllocateEphemeralPort(void);

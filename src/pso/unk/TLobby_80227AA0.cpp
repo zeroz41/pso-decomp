@@ -25,7 +25,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 u16 TCameraCtrl__sub_8006A5DC();
 void *get_player_by_client_id(s32 i);
 s32 bswap_6xB2_play_sound();
-s32 on_set_mode__6TLobbyFv(s32);
 
 void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
 }
@@ -73,16 +72,16 @@ s32 TLobby::is_camera_state_active() {
 void TLobby::set_mode(s32 arg0) {
     switch (arg0) {
     case 0:
-        on_set_mode__6TLobbyFv(1);
+        TLobby::on_set_mode(1);
         break;
     case 1:
-        on_set_mode__6TLobbyFv(0);
+        TLobby::on_set_mode(0);
         break;
     case 2:
-        on_set_mode__6TLobbyFv(0);
+        TLobby::on_set_mode(0);
         break;
     }
-    TLobby::set_mode((s32 *)&sound_control_state, arg0);
+    sound_control_state.set_output_mode(arg0);
 }
 extern "C" {
 
@@ -190,7 +189,7 @@ s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
 extern "C" {
 
 void is_sound_enabled(void) {
-    TLobby::is_ready(&sound_control_state);
+    sound_control_state.is_ready();
 }
 }
 
@@ -229,7 +228,7 @@ void load_floor_sound_bank(s32 arg0) {
                 TLobby::run_disk_error_check();
                 TLobby__sub_803CB81C();
                 TLobby::run_frame();
-            } while (((s32 (*)(void *))is_ready__6TLobbyFPv)((void *)&sound_control_state) == 0);
+            } while (sound_control_state.is_ready() == 0);
             TLobby__sub_80226B64(0);
         }
     }

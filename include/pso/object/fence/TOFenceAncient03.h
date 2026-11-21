@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/fence/TOFenceBase.h"
 
+struct GinjaTextureList;
+
 struct BmlResource;
 
 // The Ruins' 4x4 fence (fd_obj_n_saku_4x4).
@@ -20,7 +22,7 @@ struct TOFenceAncient03 : public TOFenceBase {
 
     static const char *class_name;
     static BmlResource *model_resource;
-    static saddr *texlists;  // read_texture_variant's four texture lists
+    static GinjaTextureList **texlists;  // read_texture_variant's four texture lists
     static const char texture_file_b[];
     static const char texture_file_g[];
     static const char texture_file_p[];

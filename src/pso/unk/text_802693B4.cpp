@@ -13,19 +13,18 @@ struct Win_80269454 { u8 pad[0x5c]; u32 f5c; u8 pad2[0xc]; f32 f6c; u8 pad3[0xc]
 struct Win_802693B4 { u8 pad[0x6c]; f32 f6c; u8 pad2[0x84 - 0x70]; f32 f84; u8 pad3[4]; u32 count; };
 
 extern "C" {
-s32 is_window_reveal_complete__11TWindowBaseFv();
 
 s32 TWindowMessagePage::is_message_window_ready() {
     Entry_80269454 *e;
     u32 i;
-    if (is_window_reveal_complete__11TWindowBaseFv() == 0) {
+    if (((TWindowBase *)this)->is_window_reveal_complete() == 0) {
         return 0;
     }
     if (((struct Win_802693B4 *)this)->f6c != ((struct Win_802693B4 *)this)->f84) {
         return 0;
     }
     for (i = 0; i < ((struct Win_802693B4 *)this)->count; i++) {
-        e = (Entry_80269454 *)((TWindowBase *)((struct Win_802693B4 *)this))->get_array_entry(i);
+        e = (Entry_80269454 *)((TWindowBase *)this)->get_array_entry(i);
         if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->flags & 0x10)) {
             return 0;
         }
@@ -40,7 +39,7 @@ void TWindowMessage::complete_reveal() {
     ((Win_80269454 *)this)->f5c = 0x01000000;
     ((Win_80269454 *)this)->f6c = ((Win_80269454 *)this)->f84;
     for (i = 0; i < ((Win_80269454 *)this)->count; i++) {
-        e = (Entry_80269454 *)get_array_entry(i);
+        e = (Entry_80269454 *)((TWindowBase *)this)->get_array_entry(i);
         lines = ((Win_80269454 *)this)->lines;
         if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0) {
             if (lines[i].flags & 8) {

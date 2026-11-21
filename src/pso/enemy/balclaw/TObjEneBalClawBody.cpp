@@ -1,4 +1,7 @@
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
@@ -730,7 +733,7 @@ void TObjPlayer__sub_8008EC3C(TObjEneBalClawBody *body) {
         body->m_388 |= 4;
         body->actorFlags |= 0x04000000;
         body->requested_action = (body->m_388 & 0x01000000) ? 0 : 5;
-        ((TBoss3Volopt *)&body->position)->play_area_se_with_particle();
+        play_area_se_with_particle(&body->position);
         TObjPlayer__sub_800A0554(&body->fade);
         body->state = 1;
     case 1:
@@ -1176,7 +1179,7 @@ void TObjEneBalClawBody::sub_8008DC90() {
 }
 
 void TObjEneBalClawClaw::spawn_child_enemy() {
-    BalClawSpawnParams params = {lbl_805D4F20->motions, balclaw_body_actions, 1, 12, 0};
-    TLobby::spawn_npc_enemy(0x13, lbl_805D4F20->models[1].model, (NJS_TEXLIST *)lbl_805D4F20->models[1].m_c, &params,
+    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(lbl_805D4F20->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
+    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(lbl_805D4F20->models[1].model), reinterpret_cast<void *>(lbl_805D4F20->models[1].m_c), &params,
                             balclaw_body_collision.radius, 15.0f);
 }

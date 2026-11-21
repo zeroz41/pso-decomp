@@ -1,9 +1,13 @@
 #ifndef PSO_OBJECT_TRAP_TOMINE_H
 #define PSO_OBJECT_TRAP_TOMINE_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/NinjaTypes.h"
+
+struct GinjaTextureList;
+struct NJS_OBJECT;
 
 struct TOMine : public TObjChara {
     TOMine(TObject *parent);
@@ -46,6 +50,8 @@ struct TOMine : public TObjChara {
     u8 pad_35E[0x2];
     NJS_ARGB color;           // the constant material colour render draws it with
     u32 m_370;
+    NJS_OBJECT *light_model;
+    GinjaTextureList *light_textures;
     int get_player_state();
     int find_target_player();
     virtual void run_task();
@@ -56,7 +62,9 @@ struct TOMine : public TObjChara {
     static void load_static_resource();
 };
 
-LAYOUT_ASSERT(TOMine_size, sizeof(TOMine) == 0x374);
+LAYOUT_ASSERT(TOMine_size, sizeof(TOMine) == 0x37C);
+LAYOUT_ASSERT(TOMineLightModelOffset, offsetof(TOMine, light_model) == 0x374);
+LAYOUT_ASSERT(TOMineLightTexturesOffset, offsetof(TOMine, light_textures) == 0x378);
 
 struct BmlResource;
 // bm_o_mine.bml, loaded by TOMine::load_static_resource; the mine models of every TOMine class.

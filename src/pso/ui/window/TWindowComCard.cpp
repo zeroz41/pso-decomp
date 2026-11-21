@@ -18,7 +18,6 @@
 
 
 extern "C" {
-saddr draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__14TWindowComCardFv(saddr arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
@@ -143,7 +142,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
             text_builder_reset();
             text_builder_append_int(id);
             set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
-            ((TWindowDD *)t4)->refresh_status_display();
+            measure_message_text_width_default(t4);
             t4->x = 198.0f - t4->w;
             t4->flags &= ~2;
         }
@@ -231,7 +230,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
 
 void render__14TWindowComCardFv(saddr arg0) {
     saddr temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = TWindowDD::draw_default_entry(arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
 }
@@ -374,7 +373,7 @@ void request_active_window_close(void);
 
 void TUnk_804CE964::render() {
     s32 arg0 = (saddr)this;
-    s8 *tmp = (s8 *)draw_default_entry__9TWindowDDFl();
+    s8 *tmp = (s8 *)TWindowDD::draw_default_entry(arg0);
     ((s32 (*)(s32, s32, s32))draw_visible_window_entries)(arg0, arg0 + 0x24, (saddr)tmp);
 }
 

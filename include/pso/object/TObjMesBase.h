@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjMesBase : public TObjCollidable {
+    TObjMesBase(TObject *parent, ObjectSetData *placement);
     virtual ~TObjMesBase();
     virtual void vfunc_14();
     virtual void clear_ref_if_destroyed();

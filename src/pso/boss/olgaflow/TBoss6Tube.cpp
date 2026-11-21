@@ -184,26 +184,18 @@ void TBoss6Tube::run_task() {
 
 }
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__10TBoss6Tube[];
-
-}
 TBoss6Tube::~TBoss6Tube() {
     TBoss6Tube::reset_state();
 }
 
-u8 *TBoss6Tube__ct(TBoss6Tube *boss6_tube, u8 *arg1) {
-    __ct__7TObjectFP7TObject(boss6_tube, arg1);
-    *(s32 **)((s8 *)boss6_tube + 0x18) = __vt__10TBoss6Tube;
-    boss6_tube->m_name = TBoss6Tube__name;
-    *(u8 **)((s8 *)boss6_tube + 0x2C) = arg1;
-    boss6_tube->m_24 = 0;
-    boss6_tube->m_28 = 0;
+TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
+    m_name = TBoss6Tube__name;
+    *(u8 **)((s8 *)this + 0x2C) = (u8 *)arg1;
+    m_24 = 0;
+    m_28 = 0;
     TBoss6Tube::reset_state();
-    boss6_tube->m_20 = 0;
-    boss6_tube->m_1c = 0;
-    return (u8 *)boss6_tube;
+    m_20 = 0;
+    m_1c = 0;
 }
 
 extern "C" {
@@ -216,11 +208,7 @@ s32 release_texture_list(void*);
 }
 
 void *TBoss6Tube::create(void *arg0) {
-    void *o = TObject::operator new(0x30);
-    if (o != NULL) {
-        o = TBoss6Tube__ct((TBoss6Tube *)((u8 *)o), (u8 *)arg0);
-    }
-    return o;
+    return new TBoss6Tube((TObject *)arg0);
 }
 
 void TBoss6Tube::free_resources() {

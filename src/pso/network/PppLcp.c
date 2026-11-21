@@ -52,10 +52,10 @@ s32 wait_for_connection(Conn_804004DC *c) {
 }
 
 extern saddr TLobby__sub_8040172C(Conn_804004DC *c);
-extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src);
-extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src);
-s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src);
-s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, Msg_803FA664 *arg1, uaddr arg2);
+extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, PppHeader *msg, s32 src);
+extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src);
+s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src);
+s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, PppHeader *arg1, uaddr arg2);
 
 void TLobby__sub_8040059C(u8 *conn)
 {
@@ -262,16 +262,16 @@ void reset_lcp_options(void *self) {
     s->remote.mask |= s->remote.want.mask;
 }
 
-extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src) {
+extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
     s16 last = 0;
     LcpOpts *o = fsm->opts;
-    s32 left = msg->h2;
+    s32 left = msg->len;
     u8 opt[12];
     s16 n;
     u8 len;
     u8 type;
 
-    if (msg->b1 != fsm->id) {
+    if (msg->id != fsm->id) {
         return -1;
     }
     while (left > 0 && (s16)read_2_bytes((opt), &src) != -1) {
@@ -298,14 +298,14 @@ extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src) 
 
 #pragma push
 #pragma opt_common_subs on
-extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src) {
+extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
     LcpOpts *opts = fsm->opts;
     LcpSide *local = &opts->local;
-    s32 remaining = msg->h2;
+    s32 remaining = msg->len;
     s16 last = 0;
     u8 hdr[2];
     s16 r;
-    if (msg->b1 != fsm->id) {
+    if (msg->id != fsm->id) {
         return -1;
     }
     while (remaining > 0 && (s16)read_2_bytes((hdr), &src) != -1) {
@@ -365,17 +365,17 @@ inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, Msg_803FA664 *msg_803_fa664, uaddr arg2) {
+s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, uaddr arg2) {
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (msg_803_fa664->b1 != fsm->b1) {
+    if (msg_803_fa664->id != fsm->b1) {
         return -1;
     }
     {
         uaddr cur = first2_80400F1C(fsm);
-        if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
+        if (msg_803_fa664->len != get_field_4((void *)cur)) {
             err = 1;
         } else {
             while ((a = read_80400F1C(&cur)) != -1) {
@@ -407,7 +407,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
     }
 }
 
-s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
+s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     LcpOpts *opts;
     s32 remaining;
     s16 status;
@@ -419,7 +419,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
 
     status = 2;
     opts = (LcpOpts *)fsm->p30;
-    remaining = msg->h2;
+    remaining = msg->len;
     reply = NULL;
     opts->remote.got.mask = 0;
     reply = init_net_buffer_entry(1);
@@ -448,7 +448,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
         }
         TLobby__sub_804017D8((uaddr *)&reply, &opts->remote.got.mask, hdr[0], hdr[1], (s32 *)&src);
         if (r >= 3) {
-            ppp_fsm_send_packet(fsm, status, msg->b1, reply);
+            ppp_fsm_send_packet(fsm, status, msg->id, reply);
         }
     }
     missing = opts->remote.want.mask & ~opts->remote.got.mask;
@@ -458,13 +458,13 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
             fsm->b6--;
         } else {
             status = 4;
-            ppp_fsm_send_packet(fsm, 4, msg->b1, reply);
+            ppp_fsm_send_packet(fsm, 4, msg->id, reply);
         }
     }
     if (status >= 3) {
         return status != 2;
     }
-    ppp_fsm_send_packet(fsm, status, msg->b1, reply);
+    ppp_fsm_send_packet(fsm, status, msg->id, reply);
     return status != 2;
 }
 #pragma pop

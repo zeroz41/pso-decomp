@@ -7,8 +7,6 @@
 
 extern "C" {
 
-s32 calc_recoil_offsets__13TUnk_80490470Fv(f32);
-
 
 s32 TUnk_80490470::has_visible_opacity() {
     return phase > 0.0f;
@@ -19,14 +17,14 @@ s32 TUnk_80490470::advance_toward_max() {
     f32 temp_f1;
     temp_f1 = phase;
     phase = (f32) (temp_f1 + this->rate);
-    calc_recoil_offsets__13TUnk_80490470Fv(temp_f1);
+    this->calc_recoil_offsets();
     return phase >= 2.0f;
 }
 s32 TUnk_80490470::decay_value_toward_floor() {
     f32 temp_f1;
     temp_f1 = this->phase;
     this->phase = (f32) (temp_f1 - this->rate);
-    calc_recoil_offsets__13TUnk_80490470Fv(temp_f1);
+    this->calc_recoil_offsets();
     return this->phase <= 0.0f;
 }
 

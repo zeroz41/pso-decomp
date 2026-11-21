@@ -75,6 +75,7 @@
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/object/base/TObjChara.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -1414,7 +1415,7 @@ void TItem::notify_owner(s32 sound) {
     }
 }
 
-void scroll_item_model_uvs(NJS_OBJECT *object, s16 du, s16 dv, u16 mesh) {
+void scroll_item_model_uvs(NJS_OBJECT *object, s32 du, s32 dv, u16 mesh) {
     scroll_ginja_mesh_uvs(object->model, du, dv, mesh, 1);
     PPCSync();
 }

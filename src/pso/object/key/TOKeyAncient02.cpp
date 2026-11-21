@@ -28,7 +28,9 @@ const char *TOKeyAncient02__class_name = "TOKeyAncient02";
 BmlResource *TOKeyAncient02__model_archive;
 NJS_OBJECT *TOKeyAncient02__glass_model;
 // The glass's own texture list while off, o_key_ancient02.gvm while on.
-saddr *TOKeyAncient02__texture_lists;
+struct GinjaTextureList;
+
+GinjaTextureList **TOKeyAncient02__texture_lists;
 
 void TOKeyAncient02::vfunc_25() {}
 
@@ -58,7 +60,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model((saddr)object->model);
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param(TOKeyAncient02__texture_lists[is_on]);
+        TObjFish::set_global_param((s32)TOKeyAncient02__texture_lists[is_on]);
         TParticleCtrl::begin_effect_render();
         object = TOKeyAncient02__glass_model;
         push_matrix();
@@ -122,7 +124,7 @@ void *TOKeyAncient02::create(void *set_data) {
 
 void TOKeyAncient02::free_static() {
     if (TOKeyAncient02__texture_lists != NULL) {
-        TObjPlayer::free_if_valid(TOKeyAncient02__texture_lists[1]);
+        TObjPlayer::free_if_valid((s32)TOKeyAncient02__texture_lists[1]);
         if (TOKeyAncient02__texture_lists != NULL) {
             mem_free(TOKeyAncient02__texture_lists);
             TOKeyAncient02__texture_lists = NULL;
@@ -141,9 +143,9 @@ void TOKeyAncient02::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, 0);
     }
     TOKeyAncient02__model_archive = resource;
-    TOKeyAncient02__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
-    TOKeyAncient02__texture_lists[0] = get_bml_texlist(TOKeyAncient02__model_archive, 0);
-    TOKeyAncient02__texture_lists[1] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient02.gvm");
+    TOKeyAncient02__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
+    TOKeyAncient02__texture_lists[0] = (GinjaTextureList *)get_bml_texlist(TOKeyAncient02__model_archive, 0);
+    TOKeyAncient02__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient02.gvm");
     TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model(TOKeyAncient02__model_archive, 0);
 }
 

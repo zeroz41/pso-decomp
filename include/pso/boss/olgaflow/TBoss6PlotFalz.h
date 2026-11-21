@@ -37,7 +37,6 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static s32 damage_player_hp(s32 arg0, u32 arg1);
     static s32 sort_active_players();
     static u16 pick_random_active_player();
-    s32 is_active();
     void set_state_2();
     void reset_state();
     void activate_warp();

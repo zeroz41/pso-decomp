@@ -1,3 +1,5 @@
+#include "pso/effect/particle/ParticleDefinition.h"
+#include "pso/unk/TUnk_804C57F0.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/system/NinjaTypes.h"
@@ -30,20 +32,6 @@ struct Ctrl_80086418 {
 };
 
 struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
-
-struct UV_80086248 { f32 u0, v0, u1, v1; };
-
-struct Tex_80086248 {
-    u32 flags;
-    s32 param;
-    s32 tex;
-    u8 pad0C[4];
-    UV_80086248 *uvs;
-    f32 sx;
-    f32 sy;
-    s32 color;
-    u8 pad20[8];
-};
 
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
@@ -81,8 +69,6 @@ struct Ctrl_80086248 {
 };
 
 extern "C" {
-struct RecoveredGlobal_TParticleCtrl__data_80511F70 { s32 value; u8 remaining[0x1AC]; };
-extern RecoveredGlobal_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 s32 GXSetNumTexGens(int);
 s32 GXSetTevOp(int, int);
@@ -93,7 +79,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
-extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 void set_inverse_alpha_blend(void);
 f32 sin_table_lookup(int);
@@ -248,26 +233,26 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     Vec p;
     Vtx_80086248 v[4];
     s32 frame;
-    UV_80086248 *uv;
+    const f32 *uv;
     frame = self->frame;
     if (is_split_screen() != 0) {
         return;
     }
     TParticleCtrl::begin_effect_render();
-    uv = &lbl_804C5820[self->tex].uvs[frame];
+    uv = lbl_804C5820[self->tex].uvs[frame];
     p.x = self->pos.x + self->ofs.x;
     p.y = self->pos.y + self->ofs.y;
     p.z = self->pos.z + self->ofs.z;
-    v[0].x = 10.0f * self->w; v[0].y = 10.0f * self->h; v[0].z = 0.0f; v[0].u = uv->u0; v[0].v = uv->v0; v[0].color = self->color;
-    v[1].x = 10.0f * self->w; v[1].y = -10.0f * self->h; v[1].z = 0.0f; v[1].u = uv->u1; v[1].v = uv->v0; v[1].color = self->color;
-    v[2].x = -10.0f * self->w; v[2].y = 10.0f * self->h; v[2].z = 0.0f; v[2].u = uv->u0; v[2].v = uv->v1; v[2].color = self->color;
-    v[3].x = -10.0f * self->w; v[3].y = -10.0f * self->h; v[3].z = 0.0f; v[3].u = uv->u1; v[3].v = uv->v1; v[3].color = self->color;
+    v[0].x = 10.0f * self->w; v[0].y = 10.0f * self->h; v[0].z = 0.0f; v[0].u = uv[0]; v[0].v = uv[1]; v[0].color = self->color;
+    v[1].x = 10.0f * self->w; v[1].y = -10.0f * self->h; v[1].z = 0.0f; v[1].u = uv[2]; v[1].v = uv[1]; v[1].color = self->color;
+    v[2].x = -10.0f * self->w; v[2].y = 10.0f * self->h; v[2].z = 0.0f; v[2].u = uv[0]; v[2].v = uv[3]; v[2].color = self->color;
+    v[3].x = -10.0f * self->w; v[3].y = -10.0f * self->h; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = self->color;
     push_matrix();
     post_translate_matrix(&p);
     rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
     rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
     load_projected_texture_matrix(1.1333334f);
-    TObjFish::set_global_param(*(s32 *)((u8 *)lbl_804C5820 + 0x16C));
+    TObjFish::set_global_param((s32)lbl_804C5820[9].texlist);
     set_texture_num(self->tex);
     TParticleCtrl::setup_particle_draw(1);
     GXSetNumTevStages(2);
@@ -288,8 +273,8 @@ void TParticleCtrl::mark_active() {
     request_indirect_effect(0x1F);
 }
 
-s32 TUnk_8048E728::is_particle_sprite_additive() {
-    return **(s32 **)((s8 *)(*(saddr *)((s8 *)&TParticleCtrl__data_80511F70.value + (this->sprite_index * 4))) + 0x28) & 1;
+s32 TUnk_8048E728::is_particle_sprite_additive(s32) {
+    return TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1;
 }
 
 #pragma push
@@ -299,7 +284,7 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     Vec view;
     Vec world;
     Quad_80085EE4 quad;
-    UV_80086248 *uv;
+    const f32 *uv;
     f32 sx;
     f32 sy;
     f32 x;
@@ -330,14 +315,14 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     sx = sy * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_804C5820[kind].param);
-    set_draw_texture_and_color(lbl_804C5820[kind].tex, lbl_804C5820[kind].color);
-    uv = &lbl_804C5820[kind].uvs[p->f94];
-    quad.u = uv->u0;
-    quad.v = uv->v0;
-    quad.du = uv->u1 - uv->u0;
+    TObjFish::set_global_param((s32)lbl_804C5820[kind].texlist);
+    set_draw_texture_and_color(lbl_804C5820[kind].texture, lbl_804C5820[kind].color);
+    uv = lbl_804C5820[kind].uvs[p->f94];
+    quad.u = uv[0];
+    quad.v = uv[1];
+    quad.du = uv[2] - uv[0];
     quad.k1 = quad.k0 = 0.0f;
-    quad.dv = uv->v1 - uv->v0;
+    quad.dv = uv[3] - uv[1];
     world.x = p->pos.x + p->off.x;
     world.y = p->pos.y + p->off.y;
     world.z = p->pos.z + p->off.z;
@@ -364,8 +349,8 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
             x = view.x;
             y = view.y;
         }
-        sx *= lbl_804C5820[kind].sx;
-        sy *= lbl_804C5820[kind].sy;
+        sx *= lbl_804C5820[kind].width;
+        sy *= lbl_804C5820[kind].height;
         sx *= p->f88;
         sy *= p->f8C;
         c = cos_table_lookup(p->f96);

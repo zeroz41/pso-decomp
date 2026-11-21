@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A8640.h"
 
 struct TObjNpcARW00 : public TUnk_804A8640 {
+    TObjNpcARW00(TObject *parent, void *set_data);
     virtual ~TObjNpcARW00();
     virtual void play_voice();
     static void free_resources();
@@ -14,13 +15,11 @@ struct TObjNpcARW00 : public TUnk_804A8640 {
 LAYOUT_ASSERT(TObjNpcARW00_size, sizeof(TObjNpcARW00) == 0x3B8);
 
 extern "C" {
-u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *__dt__12TObjNpcARW00Fv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcARW00.cpp ---
 extern "C" {
-u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *__dt__12TObjNpcARW00Fv(void *arg0, s16 arg1);
 }
 // --- end of C functions

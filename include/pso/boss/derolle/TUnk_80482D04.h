@@ -10,10 +10,10 @@ public:
     virtual void vfunc_105(s32);
     virtual void vfunc_106(s32);
     void move_mine();
+    void init_launch(Vec *pos, TObjBase *owner, s32 slot);
     virtual void vfunc_88();
-    u8 unk_3B4[0x3C];
     // Set by init_launch and followed by move_mine (names inferred):
-    TObject *owner;     // the object the mine rides on
+    TObjBase *owner;     // the object the mine rides on
     s32 slot;           // its launch slot, 0-2
     Vec owner_offset;   // where it sits relative to the owner
     Vec direction;      // its launch direction

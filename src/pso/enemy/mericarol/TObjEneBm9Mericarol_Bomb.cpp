@@ -72,7 +72,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr arg
 
 void TObjEneBm9Mericarol_Bomb::render() {
     if (shadow_visible != 0) {
-        ((TObjEneDD *)&position)->draw_oriented_shadow((saddr)&shadow_pos, 0, (u32)0);
+        TObjEneDD::draw_oriented_shadow(&position, &ground_normal, 0, NULL);
     }
 }
 
@@ -127,7 +127,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         hit = (CsnHit *)csnVecterUnder((saddr)&pos, 0x16EF);
         if (hit != NULL) {
             position.y = hit->contact->point.y;
-            VecCopy(&shadow_pos, &hit->contact->normal);
+            VecCopy(&ground_normal, &hit->contact->normal);
             shadow_visible = 1;
         } else {
             shadow_visible = 0;
@@ -236,9 +236,9 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     owner_id = get_entity_id(owner);
     VecCopy(&pos, start);
     VecCopy(&position, &pos);
-    shadow_pos.x = 0.0f;
-    shadow_pos.y = 0.0f;
-    shadow_pos.z = 0.0f;
+    ground_normal.x = 0.0f;
+    ground_normal.y = 0.0f;
+    ground_normal.z = 0.0f;
     d.x = target->x - start->x;
     d.y = 12.0f + (target->y - start->y);
     d.z = target->z - start->z;

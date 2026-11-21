@@ -47,7 +47,9 @@ struct TObjEneGibbles : public TObjEnemy {
     s32 m_3bc;
     u8 unk_3C0[0x8C];
     static void set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 farg0);
-    s32 spawn_ground_impact_effects(void *pos, f32 farg0);
+    s32 spawn_ground_impact_effects(const Vec *pos, f32 scale);
+    s32 spawn_ground_contact_effect();
+    void play_ground_contact_sound();
     void play_distance_sound();
     void update_shadow_height();
     void update_position();
@@ -70,8 +72,6 @@ LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 extern "C" {
 u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, saddr arg2);
 void TObjEneGibbles__sub_802D7A54(void *arg0);
-s32 TObjEneGibbles__sub_802D7BE0(saddr arg0);
-void TObjEneGibbles__sub_802D7DAC(saddr arg0);
 void TObjEneGibbles__sub_802D7E3C(void);
 void TObjEneGibbles__sub_802D8034(void);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);

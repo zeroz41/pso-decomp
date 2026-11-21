@@ -1,8 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/object/ambient/TObjCGrass.h"
+#include "pso/map/CsnGroundCandidates.h"
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -18,85 +22,17 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
 
-struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
-
-struct Obj_800B8B08 { u8 pad0[0x24]; s32 f24; u8 pad28[0x34 - 0x28]; saddr f34; u8 pad38[0xC0 - 0x38]; f32 fc0; u8 padc4[0xF8 - 0xC4]; s32 ff8; Rec_800B8B08 *recs; u8 pad100[4]; s32 count; };
-
-struct Rec_800B8BB4 { Vec pos; Vec v2; s32 f18; u32 flags; };
-
-struct Hit_800B8BB4 { u8 pad0[4]; Vec *pos; };
-
-struct Grass_800B8BB4 {
-    u8 pad0[0x3C];
-    f32 f3C;
-    u8 pad40[4];
-    Vec f44;
-    u8 pad50[0xC0 - 0x50];
-    f32 fC0;
-    u8 padC4[4];
-    f32 fC8;
-    u8 padCC[0xFC - 0xCC];
-    Rec_800B8BB4 *recs;
-    f32 f100;
-    s32 count;
-    s32 f108;
-    u8 f10C[4];
-};
-
-struct Rec_800B8EFC { Vec pos; Vec v2; s32 f18; u32 flags; };
-
-struct Src_800B8EFC { u8 pad0[8]; s32 f8; s32 fC; };
-
-struct Mgr_800B8EFC { u8 pad0[0x42C]; Src_800B8EFC *src; s32 f430; };
-
-struct Grass_800B8EFC {
-    const char *f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x34 - 0x28];
-    s32 f34;
-    Vec f38;
-    u8 pad44[0xC4 - 0x44];
-    f32 fC4;
-    u8 padC8[0xD8 - 0xC8];
-    void *fD8;
-    s32 fDC;
-    u8 padE0[0xFC - 0xE0];
-    Rec_800B8EFC *recs;
-    f32 f100;
-    s32 count;
-    s32 f108;
-    u8 f10C[4];
-};
-
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-u8 *csnVectorUnder(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
-s32 __ct__10TObjMotionFP7TObject(void *, s32);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
-uaddr TObjCGrass_bml_resource;
+BmlResource *TObjCGrass_bml_resource;
 extern s32 tl_06;
-u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
-void free_bin_model_request(void*, int);
 
-u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-
-// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as DelDepthAnimationBinding).
-struct CGrassAnimBinding {
-    s32 motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 const char *bm_ene_cgrass_model_names[2] = {"re1c_b_cgrass_base.nj", NULL};
 const char *bm_ene_cgrass_motion_names[2] = {"re1c_b_cgrass_base.njm", NULL};
@@ -104,22 +40,21 @@ BmlResourceDescriptor bm_ene_cgrass_resource_descriptor = {
     "bm_ene_cgrass.bml", bm_ene_cgrass_model_names, bm_ene_cgrass_motion_names, 1, 1,
 };
 TObjMotionAction cgrass_action_desc[1] = {{1, 0, 0, 4.0f, 1}};
-// inferred: the class name pointer TObjCGrass__ct stores in the object's name field
+// inferred: the class name pointer the TObjCGrass constructor stores in the object's name field
 const char *TObjCGrass__name = "TObjCGrass";
-const CGrassAnimBinding cgrass_anim_binding = {0, cgrass_action_desc, 0, 1, 0};
+const NpcAnimationBinding cgrass_anim_binding = {NULL, cgrass_action_desc, 0, 0, 1};
 
 void* fn_800B8B00(void* p) { return (char*)p + 0x3e8; }
 
 void TObjCGrass::render() {
-    Obj_800B8B08 *arg0 = (Obj_800B8B08 *)this;
     s32 i;
     TObjFish::set_global_param(this->texlist);
-    for (i = 0; i < *(s32 *)&this->m_104; i++) {
-        if (!(arg0->recs[i].flags & 1)) {
+    for (i = 0; i < fragment_count; i++) {
+        if (!(fragments[i].flags & 1)) {
             push_matrix_from(0);
-            translate_matrix_vec3((u8 *)(0), (u8 *)&arg0->recs[i]);
-            rotate_matrix_y(0, arg0->recs[i].f18);
-            draw_model_motion((void *)arg0->f34, (void *)*(saddr *)&this->current_motion, this->frame);
+            translate_matrix_vec3((u8 *)(0), (u8 *)&fragments[i].position);
+            rotate_matrix_y(0, fragments[i].yaw);
+            draw_model_motion(model, current_motion, this->frame);
             set_default_alpha_blend();
             pop_matrices(1);
         }
@@ -127,131 +62,123 @@ void TObjCGrass::render() {
 }
 
 void TObjCGrass::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 i;
-    Grass_800B8BB4 *self = (Grass_800B8BB4 *)arg0;
     Vec a;
     Vec b;
-    Hit_800B8BB4 *hit;
-    self->fC0 += self->fC8;
-    if (self->f100 < self->fC0) {
-        self->fC0 -= self->f100;
+    CsnHit *hit;
+    frame += play_speed;
+    if (last_animation_frame < frame) {
+        frame -= last_animation_frame;
     }
-    for (i = 0; i < self->count; i++) {
-        VecCopy((Vec *)&a, (const Vec *)&self->recs[i].pos);
-        VecCopy((Vec *)&b, (const Vec *)&self->recs[i].v2);
-        VecCopy((Vec *)&self->f44, (const Vec *)&a);
+    for (i = 0; i < fragment_count; i++) {
+        VecCopy(&a, &fragments[i].position);
+        VecCopy(&b, &fragments[i].velocity);
+        VecCopy(&prev_position, &a);
         vec3_add_to(&a, &b);
-        if (i == actor_frame_tick % self->count) {
-            hit = (Hit_800B8BB4 *)csnVectorUnder(&a, self->f10C, 1);
+        if (i == actor_frame_tick % fragment_count) {
+            hit = csnVectorUnder(&a, ground_candidates, 1);
             if (hit != NULL) {
-                VecCopy((Vec *)&a, (const Vec *)hit->pos);
+                VecCopy(&a, &hit->contact->point);
                 b.y += -0.10888889f;
-                self->f44.y += b.y;
-                if (a.y < self->f44.y) {
-                    a.y = self->f44.y;
+                prev_position.y += b.y;
+                if (a.y < prev_position.y) {
+                    a.y = prev_position.y;
                 } else {
                     b.y = 0.0f;
                 }
-                VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&a);
-                VecCopy((Vec *)&self->recs[i].v2, (const Vec *)&b);
+                VecCopy(&fragments[i].position, &a);
+                VecCopy(&fragments[i].velocity, &b);
             } else {
-                self->recs[i].flags |= 1;
+                fragments[i].flags |= 1;
             }
-        } else if (self->f3C <= a.y) {
+        } else if (position.y <= a.y) {
             b.y = 0.0f;
         } else {
             b.y += -0.10888889f;
         }
-        VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&a);
-        VecCopy((Vec *)&self->recs[i].v2, (const Vec *)&b);
+        VecCopy(&fragments[i].position, &a);
+        VecCopy(&fragments[i].velocity, &b);
     }
-    if (self->f108-- < 0) {
-        ((TObject *)self)->queue_destruction();
+    if (remaining_frames-- < 0) {
+        queue_destruction();
     }
 }
 
 void TObjCGrass::release_global_805D5130() {
-    if ((u32) TObjCGrass_bml_resource != 0U) {
-        free_bin_model_request((void*)TObjCGrass_bml_resource, 1);
-        TObjCGrass_bml_resource = 0U;
+    if (TObjCGrass_bml_resource != NULL) {
+        free_bin_model_request(TObjCGrass_bml_resource, 1);
+        TObjCGrass_bml_resource = NULL;
     }
 }
 
 void TObjCGrass::load_resources() {
-
-    u8 *temp_r3;
-    u8 *temp_r5;
-    u8 *var_r0;
-
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjCGrass_bml_resource = (uaddr) load_enemy_bml_resource_named((saddr)&bm_ene_cgrass_resource_descriptor, (saddr)("bm_ene_cgrass_a.bml"));
+        TObjCGrass_bml_resource = (BmlResource *)load_enemy_bml_resource_named(
+            (saddr)&bm_ene_cgrass_resource_descriptor, (saddr)"bm_ene_cgrass_a.bml");
     } else {
-        temp_r3 = (u8 *)((saddr)::operator new(0x440));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &bm_ene_cgrass_resource_descriptor, 0, 0, 0));
+        BmlResource *archive = (BmlResource *)::operator new(0x440);
+        if (archive != NULL) {
+            archive = load_resource_from_descriptor(archive, 1, &bm_ene_cgrass_resource_descriptor, 0, 0, 0);
         }
-        TObjCGrass_bml_resource = (uaddr) var_r0;
+        TObjCGrass_bml_resource = archive;
     }
-    CGrassAnimBinding binding = cgrass_anim_binding;
-    binding.motions = *(s32 *)((s8 *)TObjCGrass_bml_resource + 0x430);
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)TObjCGrass_bml_resource + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(0x36), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (NJS_TEXLIST *)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), &binding, 2.0f, 0.0f);
+    NpcAnimationBinding binding = cgrass_anim_binding;
+    binding.motions = TObjCGrass_bml_resource->motions;
+    BmlModelEntry *model = TObjCGrass_bml_resource->models;
+    NpcModelRegistry::register_animated_chunk(0x36, reinterpret_cast<void *>(model->model), reinterpret_cast<void *>(model->m_c), &binding, 2.0f, 0.0f);
 }
 
 }
 TObjCGrass::~TObjCGrass() {
-    if (*(void **)((s8 *)this + 0xFC) != NULL) { mem_free(*(void **)((s8 *)this + 0xFC)); }
+    if (fragments != NULL) { mem_free(fragments); }
 }
 
 #pragma push
 #pragma fp_contract on
-u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
-    u8 *hit;
-    __ct__10TObjMotionFP7TObject(self, tl_06);
-    self->vt = __vt__10TObjCGrass;
-    ((TObjPlayer *)(self->f10C))->register_object();
-    self->f0 = TObjCGrass__name;
-    hit = csnVectorUnder(arg1, self->f10C, 1);
+#define self this
+TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion((TObject *)tl_06) {
+    CsnHit *hit;
+    initialize_ground_candidates(self->ground_candidates);
+    self->m_name = TObjCGrass__name;
+    hit = csnVectorUnder(origin, self->ground_candidates, 1);
     if (hit != NULL) {
-        VecCopy((Vec *)&self->f38, (const Vec *)(*(void **)(hit + 4)));
+        VecCopy(&self->position, &hit->contact->point);
     } else {
-        VecCopy((Vec *)&self->f38, (const Vec *)arg1);
+        VecCopy(&self->position, origin);
     }
-    self->f34 = (*(Mgr_800B8EFC * *)&TObjCGrass_bml_resource)->src->f8;
-    self->f24 = (*(Mgr_800B8EFC * *)&TObjCGrass_bml_resource)->src->fC;
-    self->fDC = (*(Mgr_800B8EFC * *)&TObjCGrass_bml_resource)->f430;
-    self->fD8 = cgrass_action_desc;
-    ((TObjMotion *)self)->set_field_d8((saddr)self->fD8);
-    ((TObjMotion *)self)->set_animation(0);
-    self->f100 = self->fC4 - 1.0f;
-    self->count = arg2;
-    if (arg2 != 0) {
-        self->recs = (Rec_800B8EFC *)mem_alloc(self->count << 5);
+    self->model = (void *)TObjCGrass_bml_resource->models[0].model;
+    self->texlist = (s32)TObjCGrass_bml_resource->models[0].m_c;
+    self->motion_list = TObjCGrass_bml_resource->motions;
+    self->action_table = cgrass_action_desc;
+    self->set_field_d8((saddr)self->action_table);
+    self->set_animation(0);
+    self->last_animation_frame = self->frame_count - 1.0f;
+    self->fragment_count = count;
+    if (count != 0) {
+        self->fragments = (CGrassFragment *)mem_alloc(self->fragment_count * sizeof(CGrassFragment));
     } else {
-        self->recs = NULL;
+        self->fragments = NULL;
     }
     {
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < self->fragment_count; i++) {
         s32 a;
         Vec v;
-        VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&self->f38);
+        VecCopy(&self->fragments[i].position, &self->position);
         v.x = 0.0f;
         v.y = 3.0517578e-05f * (f32)rand();
         v.z = 3.0517578e-05f * (f32)rand() + 1.0f;
         a = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-        self->recs[i].f18 = a;
+        self->fragments[i].yaw = a;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, a);
-        rotate_vector_by_matrix(0, &v, &self->recs[i].v2);
+        rotate_vector_by_matrix(0, &v, &self->fragments[i].velocity);
         pop_matrices(1);
-        self->recs[i].flags = 0;
+        self->fragments[i].flags = 0;
     }
     }
-    self->f108 = arg3;
-    return (u8 *)self;
+    self->remaining_frames = lifetime;
 }
+#undef self
 #pragma pop
 

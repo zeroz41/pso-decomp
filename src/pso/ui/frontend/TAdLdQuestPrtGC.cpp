@@ -8,7 +8,6 @@
 
 extern "C" {
 int ansi_fp_abs(int x);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *context, s32 button);
 }
 
 // Camera position (0..2) and forward axis (3..5).
@@ -26,7 +25,7 @@ void TAdLdQuestPrtGC::render() {
 void TAdLdQuestPrtGC::run_task() {
     u32 i;
     if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
-        test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 4) != 0) {
+        test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         tint_timer = 0;
         tint_index++;
         if (tint_index >= 6) {

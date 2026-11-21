@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/ParticleDefinition.h"
+#include "pso/unk/TUnk_804C57F0.h"
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
@@ -132,7 +134,6 @@ struct Desc_8008AC24 {
 
 struct IVec_8008AC24 { s32 x, y, z; };
 
-extern ParticleTexture *TParticleCtrl__data_80511F70[];
 struct OObj_8008B060 {
     u8 pad_0[0x18]; s32 *f18; u16 f1C; u8 pad_1E[6]; u16 f24; s16 f26;
     f32 f28; f32 f2C; f32 f30; f32 f34; f32 f38; f32 f3C; f32 f40; u8 pad_44[0x18];
@@ -150,9 +151,7 @@ struct ODesc_8008B060 {
 struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
-s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(s32, s32);
 void draw_ginja_object(void *child);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
@@ -332,7 +331,7 @@ void TUnk_8048E790::run_task() {
     } else {
         t[1] = fade_out;
     }
-    if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
+    if (TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
             ch[0] = fade_particle_channel(p->orbit_red_rate * t[0] + color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->unk_38 * t[0] + color_base[1], t[1]);
@@ -370,7 +369,7 @@ void TUnk_8048E790::run_task() {
     } else {
         m_96 -= (s32)(182.04445f * tilt);
     }
-    frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
+    frames = TParticleCtrl__data_80511F70[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
         frame = age * (frames - 1);
     } else {
@@ -399,7 +398,7 @@ void TUnk_8048E790::render() {
     f32 temp_f3;
     s32 temp_r4;
     u16 temp_r3;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() != 0) {
+    if ((s32)this->all_parents_unqueued_for_destruction() != 0) {
         temp_f3 = *(f32 *)((s8 *)this->param + 0x70) * cos_table_lookup(this->m_dc);
         this->m_88 = (f32) (this->m_28 * (1.0f + temp_f3));
         *(f32 *)((s8 *)arg0 + 0x8C) = (f32) (*(f32 *)&this->unk_2C * (1.0f - temp_f3));
@@ -434,7 +433,7 @@ void TUnk_8048E790::render() {
                     temp_r4 = model_render_flags;
                     saved_model_render_flags = temp_r4;
                     model_render_flags = temp_r4 | 0x8021;
-                    if (is_particle_sprite_additive__13TUnk_8048E728Fv(arg0, temp_r4) != 0) {
+                    if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                     } else {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);

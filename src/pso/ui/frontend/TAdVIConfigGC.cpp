@@ -13,6 +13,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include <string.h>
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -33,11 +34,8 @@ void *get_player_by_client_id(s32 i);
 saddr get_window_layout_position(s32);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
-void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 int OSSetProgressiveMode(void*);
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-s32 VecCopy__FP3VecPC3Vec(void *);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);
 int VIFlush(void);
@@ -107,9 +105,9 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
 
 extern "C" {
 
-u8 *TAdVIConfigGC::init(f32 farg0) {
+u8 *TAdVIConfigGC::init(const Vec *position, f32 farg0) {
     u8 *arg0 = (u8 *)this;
-    VecCopy__FP3VecPC3Vec((u8 *)&this->m_prev);
+    VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (farg0 * farg0);
     *(s32 *)&this->m_24 = 0;
     memset((u8 *)&this->m_28, 0, 0x60);
@@ -156,20 +154,16 @@ void TAdVIConfigGC::run_task() {
     vfunc_11();
 }
 
-extern s32 __vt__13TAdVIConfigGC[];
 
 TAdVIConfigGC::~TAdVIConfigGC() {
 
 }
 
 
-void *TAdVIConfigGC__ct(TAdVIConfigGC *ad_vi_config_gc) {
-    TAdYesNoBaseGC__ct(ad_vi_config_gc);
-    *(s32 **)((s8 *)ad_vi_config_gc + 0x18) = __vt__13TAdVIConfigGC;
-    ad_vi_config_gc->m_name = TAdVIConfigGC__class_name;
-    ad_vi_config_gc->set_field_2c(0);
-    ad_vi_config_gc->m_48 = 0;
-    return ad_vi_config_gc;
+TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
+    m_name = TAdVIConfigGC__class_name;
+    set_field_2c(0);
+    m_48 = 0;
 }
 
 }

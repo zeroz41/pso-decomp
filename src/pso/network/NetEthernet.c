@@ -21,7 +21,6 @@ s32 TLobby__sub_8040939C();
 s32 TLobby__sub_804093EC(s16 idx);
 s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k);
 s32 TLobby__sub_8040970C(s16 idx, u8 *dst);
-u8 *TLobby__sub_8042558C(u32 size);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off

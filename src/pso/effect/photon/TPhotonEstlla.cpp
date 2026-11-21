@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
+#include "pso/effect/photon/TPhotonLine.h"
 
 u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
 void* TObjPlayer__sub_801AA66C(void* p, void* a1) { *(short*)(p) = *(unsigned short*)(a1); *(short*)((char*)p + 0x2) = *(short*)((char*)a1 + 0x2); *(void**)((char*)p + 0x4) = *(void**)((char*)a1 + 0x4); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x8), (u8 *)((char*)a1 + 0x8)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0xc), (u8 *)((char*)a1 + 0xc)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x10), (u8 *)((char*)a1 + 0x10)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x14), (u8 *)((char*)a1 + 0x14)); return p; }
@@ -41,13 +42,6 @@ void TPhotonEstlla::sub_801AA6F8() { *(float *)&this->m_180 = 0.0f; *(float*)((c
 #pragma auto_inline off
 #pragma dont_inline off
 
-// The TPhotonLine construction packet (TPhotonLine__ct reads pos, dir and scale).
-struct Packet_801AA710 {
-    Vec pos;
-    Vec dir;
-    f32 scale;
-    f32 pad_1C;
-};
 
 struct Self_801AA710 {
     u8 pad0[0x38];
@@ -82,21 +76,19 @@ u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr a
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
-s32 TPhotonLine__ct(void *, void *, void *, u16);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 }
 s32 pop_matrices(s32 arg0);
 const char *TPhotonEstlla__class_name = "TPhotonEstlla";
-extern const Packet_801AA710 photon_estlla_line_packet_init = {
+extern const PhotonLineParams photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
 };
 extern u8 identity_matrix[];
 extern "C" {
 
 s32 scroll_strip_uvs(void *, s16, int);
-s32 clear_render_context__10TObjPlayerFv(void *);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
@@ -115,7 +107,6 @@ void TPhotonEstlla::spawn_line() {
     Owner_801AA710 *owner;
     Vec forward;
     Vec direction;
-    uaddr line;
     owner = (Owner_801AA710 *)find_entity_by_id(this->m_17c);
     forward.x = 0.0f;
     forward.y = 0.0f;
@@ -127,14 +118,11 @@ void TPhotonEstlla::spawn_line() {
     rotate_vector_by_matrix(0, &forward, &direction);
     pop_matrices(1);
     {
-        Packet_801AA710 packet = photon_estlla_line_packet_init;
+        PhotonLineParams packet = photon_estlla_line_packet_init;
         packet.pos = self->pos;
         packet.dir = direction;
-        packet.pad_1C = this->m_150;
-        line = (uaddr)TObject::operator new(0x378);
-        if (line) {
-            TPhotonLine__ct((void *)line, &packet, self, this->m_17c);
-        }
+        packet.power = this->m_150;
+        new TPhotonLine(&packet, (TObject *)self, this->m_17c);
     }
 }
 
@@ -162,7 +150,7 @@ void TPhotonEstlla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

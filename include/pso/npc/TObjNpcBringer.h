@@ -5,6 +5,7 @@
 
 class TObjNpcBringer : public TObjNpcBase {
 public:
+    TObjNpcBringer(TObject *parent, void *set_data);
     virtual ~TObjNpcBringer();
     virtual void request_action(s32);
 public:

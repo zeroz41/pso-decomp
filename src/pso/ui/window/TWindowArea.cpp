@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/system/vector.h"
 
 // The functions are generated last to first.
 #pragma defer_codegen on
@@ -34,7 +35,7 @@ u8 *get_window_layout_position(s32);
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
     this->m_name = TWindowArea__name;
     u8 *position = get_window_layout_position(0x25);
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)this + 0x40))->copy_vec2(position);
+    copy_vec2(((u8 *)this + 0x40), position);
     this->tabParameter = 0.0f;
 }
 

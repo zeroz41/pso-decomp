@@ -41,7 +41,6 @@ s32 TChCrLoadAfs::try_begin_load() {
 
 extern "C" {
 s32 adxf_get_stat(int);
-u32 adxf_open_afs__6TLobbyFii(s32, s32);
 }
 
 void TChCrLoadAfs::sub_8028B940() {  }
@@ -82,7 +81,7 @@ void TChCrLoadAfs::start_download() {
     u32 buffer;
 
     if (try_begin_load() != 0) {
-        handle = adxf_open_afs__6TLobbyFii(source_20, source_24);
+        handle = (u32)TLobby::adxf_open_afs(source_20, source_24);
         load_handle = handle;
         if (handle == 0U) {
             load_state = 3;
@@ -244,7 +243,7 @@ void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
     u32 handle;
     u32 buf;
-    handle = adxf_open_afs__6TLobbyFii(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
+    handle = (u32)TLobby::adxf_open_afs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
         m_20 = 0;

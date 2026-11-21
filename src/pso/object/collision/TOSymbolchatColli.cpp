@@ -69,7 +69,6 @@ CollisionBody lbl_804B4550[1] = {
 const char *lbl_805D3190 = "symbolchatcolli.prs";
 const char *TOSymbolchatColli__name = "TOSymbolchatColli";
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
-s32 is_locally_controlled__10TObjPlayerFPv();
 void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
@@ -156,7 +155,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
     Player_80178890 *pl;
     for (i = 0; i != 4; i++) {
         pl = (Player_80178890 *)find_entity_by_id(i);
-        if (pl != NULL && is_locally_controlled__10TObjPlayerFPv() != 0) {
+        if (pl != NULL && TObjPlayer::is_locally_controlled(pl) != 0) {
             if (horizontal_distance_squared((const Vec *)pl->pos, (const Vec *)self->pos) < self->radiusSq) {
                 if (self->inside[i] == 0) {
                     self->inside[i] = 1;

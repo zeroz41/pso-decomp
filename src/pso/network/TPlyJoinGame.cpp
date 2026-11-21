@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/protocol/protocol.h"
 #include "pso/network/TPlyJoinGame.h"
 #include "pso/unk/text_801E051C.h"
 #include "pso/system/byteswap.h"
@@ -18,13 +19,12 @@ struct Join_801E03B8 {
 };
 
 extern "C" {
-void bswap__13packet_headerFv();
 void bswap__12TPlyJoinGameFv(Join_801E03B8 *self);
 
 void bswap__12TPlyJoinGameFv(Join_801E03B8 *self) {
     int i;
     int j;
-    bswap__13packet_headerFv();
+    ((packet_header *)self)->bswap();
     for (i = 0; i < 16; i++) {
         for (j = 0; j < 2; j++) {
             bswap_32(&self->e[i].a[j]);

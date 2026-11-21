@@ -12,7 +12,7 @@ public:
     void set_active();
     void init_float_params();
     void set_target_player(void *);
-    void enemy_clear_target(u16);
+    void enemy_clear_target();
     void enemy_init_acquire_period(s32);
     s32 select_and_apply_target(f32);
     s32 select_nearest_target(f32);

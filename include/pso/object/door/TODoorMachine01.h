@@ -5,6 +5,8 @@
 #include "pso/object/door/TODoorBase.h"
 #include "pso/system/NinjaTypes.h"
 
+struct GinjaTextureList;
+
 struct BmlResource;
 
 // The machine-area door with four lights: set_params[1] of them are lit from
@@ -35,7 +37,7 @@ struct TODoorMachine01 : public TODoorBase {
     NJS_ARGB light_color;  // the unlit lights' tint
 
     static BmlResource *bml_resource;
-    static saddr *texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
+    static GinjaTextureList **texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
 };
 
 LAYOUT_ASSERT(TODoorMachine01_size, sizeof(TODoorMachine01) == 0xEC);

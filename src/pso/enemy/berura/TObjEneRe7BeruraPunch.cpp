@@ -71,7 +71,7 @@ void TObjEneRe7BeruraPunch::render() {
                 return;
             }
         }
-        ((TObjEneDD *)&this->position)->draw_oriented_shadow((saddr)&this->ground_normal, 0, (u32)0);
+        TObjEneDD::draw_oriented_shadow(&position, &ground_normal, 0, NULL);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&this->position);
@@ -195,7 +195,6 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 extern const char *TObjEneRe7BeruraPunch__name;
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
@@ -241,7 +240,8 @@ void TObjEneRe7BeruraPunch::run_task() {
     Vec v;
     f32 s;
     f32 c;
-    if (find_entity_by_id(this->owner_id) == NULL || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    TObject *e;
+    if ((e = (TObject *)find_entity_by_id(this->owner_id)) == NULL || e->all_parents_unqueued_for_destruction() == 0) {
         queue_destruction();
         return;
     }

@@ -85,7 +85,6 @@ extern s32 chunk_render_flags;
 void transform_chunk_object_tree(void *, void (*)(void *));
 extern saddr current_matrix;
 s32 __cvt_fp2unsigned(f32);
-void apply_quat_rotation__10TObjPlayerFf(f32 *arg0, f32 farg0);
 void rotate_matrix_by_node_angles(void *, int);
 void push_matrix(void);
 void scale_current_matrix(void *);
@@ -171,7 +170,7 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
                 if (flags & 0x1000) {
                     ((TObjPlayer *)chunk_object_current_matrix)->copy_matrix3x3_for_chunk_tree();
                 } else if (flags & 0x400) {
-                    ((void (*)(f32, f32 *))apply_quat_rotation__10TObjPlayerFf)(node->f34, (f32 *)node->ang);
+                    apply_quat_rotation(node->f34, (f32 *)node->ang);
                 } else {
                     rotate_matrix_by_node_angles(node->ang, flags & 0x20);
                 }

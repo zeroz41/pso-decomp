@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -52,7 +54,6 @@ void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
 f32 atan2_float(f32, f32);
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9E80;
 s32 is_vec_xz_cross_negative(void *, void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
@@ -84,7 +85,7 @@ TObjMotionAction bm3_fly_action_table[5] = {
     { 3, 4, 0x3, 1.0f, 0x0 },
 };
 
-const Bm3FlyAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_action_table, 1, 5, 0 };
+const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_fly_action_table), 0, 1, 5 };
 
 void TObjEneBm3Fly::load_resources() {
     TUnk_8048FA00 *model;
@@ -96,9 +97,9 @@ void TObjEneBm3Fly::load_resources() {
     lbl_805D50E8 = (u8 *)TLobby::register_object(0);
     lbl_805D50EC = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
     {
-        Bm3FlyAnimationBinding binding = bm3_fly_resource_binding_desc;
-        binding.motions = bm3_fly_nest_resources->motions;
-        TLobby::spawn_npc_enemy(7, bm3_fly_nest_resources->models[0].model, (NJS_TEXLIST *)bm3_fly_nest_resources->models[0].m_c, &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
+        binding.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_resources->motions);
+        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].m_c), &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 
@@ -138,7 +139,7 @@ void TObjEneBm3Fly::init_child_params() {
     set_animation(this->requested_action);
     set_field_b8(this->requested_action);
     this->reset_hp(bm3_fly_boss_stat_handle, (u8 *)TObjEneBm3Fly__attack_params, lbl_805D50E8);
-    check_state_flag_1();
+    set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
     this->initialize_enemy_state(3);
     this->m_37c = (5.0f);
@@ -155,8 +156,8 @@ void TObjEneBm3Fly::init_child_params() {
     this->m_440 = 0;
     this->m_444 = (0.0f);
     this->m_448 = 0;
-    this->m_44c = (2.0f) * TObjEneDD::calc_elapsed_scaled() + (45.0f);
-    this->m_450 = (2.0f) * TObjEneDD::calc_elapsed_scaled() + (15.0f);
+    this->m_44c = (2.0f) * calc_elapsed_scaled() + (45.0f);
+    this->m_450 = (2.0f) * calc_elapsed_scaled() + (15.0f);
     this->m_454 = 0;
     this->particle_effect = NULL;
     this->alternate_phase = 0;
@@ -329,7 +330,7 @@ void TObjEneBm3Fly::update_collide_flag() {
 }
 
 void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
-    if (this->move_with_wall_slide_commit(x, z, speed) != 0) {
+    if (this->move_with_wall_slide_commit(x, z, speed) != 0U) {
         this->m_428 |= 2;
         return;
     }
@@ -432,8 +433,8 @@ void TObjEneBm3Fly::choose_attack() {
 #pragma push
 #pragma fp_contract on
 void TObjEneBm3Fly::sub_800B1634() {
-    this->m_444 = (f32) (((2.0f) * TObjEneDD::calc_elapsed_scaled()) + ((45.0f) + this->m_41c.y));
-    this->m_448 = TObjEneDD::get_random_scaled();
+    this->m_444 = (f32) (((2.0f) * calc_elapsed_scaled()) + ((45.0f) + this->m_41c.y));
+    this->m_448 = get_random_scaled();
 }
 #pragma pop
 u16 TObjEneBm3Fly::get_active_id() {
@@ -479,7 +480,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
         p->y = this->m_444;
         p->z = (3e+01f) * cos_table_lookup(this->m_448) + this->m_41c.z;
         this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->m_40c.x, this->m_40c.z));
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        ((TObjEneDD_ST *)(this))->enemy_clear_target();
         break;
     case 3:
         if (this->m_3c4 == 2) {
@@ -510,7 +511,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
             this->m_430.x -= this->position.x;
             this->m_430.y -= this->m_42c;
             this->m_430.z -= this->position.z;
-            this->m_3e0 = ((TObjBoss2Tunnel *)(&this->m_430))->update_scale();
+            this->m_3e0 = normalize_vector_safe(&this->m_430);
             if (this->m_43c < (2.0f)) {
                 this->m_43c += (0.1f);
             }
@@ -556,7 +557,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         if (is_vec_xz_cross_negative(&d, &arg0->m_430) != 0) {
             arg0->m_3d8 *= -1;
         }
-        enemy_clear_target__12TObjEneDD_STFUs(arg0);
+        ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         arg0->m_3c8 = -1;
         break;
     case 3:
@@ -589,7 +590,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_430.x = arg0->position.x - arg0->prev_position.x;
         arg0->m_430.y = (0.0f);
         arg0->m_430.z = arg0->position.z - arg0->prev_position.z;
-        arg0->m_43c = ((TObjBoss2Tunnel *)(&arg0->m_430))->update_scale();
+        arg0->m_43c = normalize_vector_safe(&arg0->m_430);
         break;
     }
 }
@@ -668,7 +669,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
                 vel->y = (0.0f);
                 vel->z = (0.18f) * z + vel->z;
                 VecCopy(&ene_bm3_fly->m_430, vel);
-                ((TObjBoss2Tunnel *)(&ene_bm3_fly->m_430))->update_scale();
+                normalize_vector_safe(&ene_bm3_fly->m_430);
             } else {
                 ene_bm3_fly->m_3c4 = 1;
                 VecCopy(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0);
@@ -749,7 +750,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
     case 0:
         advance_animation();
         if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
-            enemy_clear_target__12TObjEneDD_STFUs(this);
+            ((TObjEneDD_ST *)(this))->enemy_clear_target();
         }
         switch (this->m_3c0) {
         case 0:

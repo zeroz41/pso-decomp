@@ -19,11 +19,10 @@ struct O_801C0708 { u8 a; u8 b; u8 pad[2]; s32 c; u16 d; u16 e; };
 struct O_801C0350 { u8 a; u8 b; u8 pad[2]; u16 c; u16 d; };
 
 extern "C" {
-int clear__8FlagWordFUl(void*, int);
 extern s32 fn_80152EF8[];
 void __construct_array(void *, void *, int, int, int);
 void __copy(void *, void *, int);
-int TFontSmallLobby__sub_801C013C(void* p) { return clear__8FlagWordFUl((void*)((char*)p + 0x10), 2); }
+void TFontSmallLobby__sub_801C013C(void* p) { ((FlagWord *)((void*)((char*)p + 0x10)))->clear(2); }
 
 void *TFontSmallLobby__sub_801C0164(void *player) {
     __ct__8FlagWordFv(((char *)player + 16));

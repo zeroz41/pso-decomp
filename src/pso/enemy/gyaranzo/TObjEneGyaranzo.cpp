@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyTargetCandidate.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/RenderFadeState.h"
@@ -131,7 +133,6 @@ extern "C" {
 
 void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 
-s32 update_if_active__15TObjEnemyCustomFl(void *, int);
 
 void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0);
 }
@@ -236,7 +237,6 @@ extern f32 TObjGyaranzoMissile__max_range;
 
 extern "C" {
 
-void init_params_from_table__15TObjEneGyaranzoFv(u8 *arg0);
 
 s32 check_path_obstructed(void *, void *);
 
@@ -251,9 +251,7 @@ extern s32 registered_player_count;
 
 extern s32 lbl_805D5870;
 
-void select_targets__15TObjEneGyaranzoFv(u8 *arg0);
 
-s32 TObjGyaranzoMissile__ct(void *, void *, void *, u16);
 
 
 extern s32 gyaranzo_missile_volley_end_time;
@@ -285,6 +283,7 @@ s32 get_gyaranzo_missile_int_parameter(s32 i);
 
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 
 struct Obj_800D30A8 {
     u8 pad0[0x30];
@@ -307,7 +306,6 @@ extern "C" {
 
 u16 find_nearest_visible_player(void *, int, int, f32);
 
-#define select_targets__15TObjEneGyaranzoFv ((s32 (*)(void *))select_targets__15TObjEneGyaranzoFv)
 
 u8 *find_active_entity_by_id(u16);
 
@@ -369,13 +367,6 @@ struct VObj_800D3BA0_800D3B38 : Base_800D3BA0_800D3B38 {
 };
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as MojaAnimationBinding).
-struct GyaranzoAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 struct Res_800D3C04 { u8 pad0[0x38]; s32 r38; NJS_TEXLIST *texlist; u8 pad40[8]; s32 r48; };
 
@@ -409,7 +400,6 @@ void __dt__15TObjEnemyCustomFv(void *, int);
 
 s32 __ct__15TObjEnemyCustomFP7TObject(void *);
 
-#define init_params_from_table__15TObjEneGyaranzoFv ((s32 (*)(void *))init_params_from_table__15TObjEneGyaranzoFv)
 #define update_walk_to_target__10TObjPlayerFPv ((s32 (*)(void *))update_walk_to_target__10TObjPlayerFPv)
 void TObjPlayer__sub_800D2E8C(Ene_800D2E8C *arg0);
 
@@ -436,7 +426,6 @@ void __ct__15RenderFadeStateFv(void *);
 
 void create_dead_spot__10TObjPlayerFllf(void *, s32, f32);
 
-s32 set_param__9TObjEnemyFl(void *, int, int, int);
 
 }
 
@@ -761,7 +750,7 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
     arg0->variant = 0;
     arg0->movementParameters = (u8 *) lbl_804941DC;
     ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)gyaranzo_boss_stats_handle, (u8 *)gyaranzo_boss_stats_ptr_b, (u8 *)gyaranzo_object_handle);
-    arg0->init_params_from_table();
+    ((TObjEneGyaranzo *)arg0)->init_params_from_table();
     arg0->requested_action = 0;
     ((TObjMotion *)arg0)->set_animation(arg0->requested_action);
     ((TObjMotion *)arg0)->set_field_b8(arg0->requested_action);
@@ -776,7 +765,7 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
     arg0->m_3ac = 0;
     arg0->m_3b4 = 0;
     arg0->m_3b8 = 0;
-    set_param__9TObjEnemyFl(arg0, 0x19, temp_r5, temp_r6);
+    ((TObjEnemy *)arg0)->set_param(0x19);
     ((TObjChara *)arg0)->add_flags_2e4(4);
     ((TObjEnemy *)arg0)->update_prev_position();
     initialize_enemy_photon_effect(arg0);
@@ -839,10 +828,10 @@ void TLobby::load_gyaranzo_resources() {
     gyaranzo_object_handle = (saddr)TLobby::register_object(0x1D);
     gyaranzo_missile_param_table = (saddr)TLobby::dispatch_shared_handler_a(0x1D);
     {
-        GyaranzoAnimationBinding pos = {NULL, gyaranzo_action_table, 1, 8, 0};
-        pos.motions = AREA->motions;
-        TLobby::spawn_npc_enemy(0x20, AREA->res->r38, AREA->res->texlist, &pos, 18.0f, 0.0f);
-        TLobby::spawn_npc_enemy(0x21, AREA->res->r48, AREA->res->texlist, &pos, 18.0f, 0.0f);
+        NpcAnimationBinding pos = { NULL, reinterpret_cast<TObjMotionAction *>(gyaranzo_action_table), 0, 1, 8 };
+        pos.motions = reinterpret_cast<BmlMotionEntry *>(AREA->motions);
+        NpcModelRegistry::register_animated_chunk(0x20, reinterpret_cast<void *>(AREA->res->r38), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x21, reinterpret_cast<void *>(AREA->res->r48), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
     }
 }
 
@@ -955,28 +944,28 @@ void TObjEneGyaranzo::sub_800D37F4() {
                         a = 1;
                     }
                     if (this->targetId != 0xFFFF) {
-                        this->update_if_active(a);
+                        update_if_active(a);
                         *(s32 *)&this->m_378 = 2;
                     }
                     break;
                 case 1:
                     this->targetId = this->m_3c0;
                     if (this->targetId != 0xFFFF) {
-                        this->update_if_active(9);
+                        update_if_active(9);
                         *(s32 *)&this->m_378 = 2;
                     }
                     break;
                 case 2:
                     this->targetId = *(s32 *)((s8 *)((u8 *)this) + 0x3BC);
                     if (this->targetId != 0xFFFF) {
-                        this->update_if_active(9);
+                        update_if_active(9);
                         *(s32 *)&this->m_378 = 2;
                     }
                     break;
                 }
             } else if (this->is_actor_cadence_frame(0x1E) != 0 &&
                        xz_distance_squared((Vec *)(((u8 *)this) + 0x38), (Vec *)(((u8 *)this) + 0x50)) > 100.0f) {
-                this->update_if_active(8);
+                update_if_active(8);
             }
         }
         break;
@@ -988,7 +977,7 @@ void TObjEneGyaranzo::sub_800D37F4() {
                 this->targetId = r;
             }
             if (this->targetId == 0xFFFF) {
-                this->update_if_active(8);
+                update_if_active(8);
             }
         }
         break;
@@ -1391,7 +1380,7 @@ void TObjEneGyaranzo::sub_800D2900() {
 
 #undef spawn_missile_volley__19TObjGyaranzoMissileFPv
 #undef update_walk_to_target__10TObjPlayerFPv
-#define NEW(d, id) { void *o = TObject::operator new(0xDC); if (o != NULL) { TObjGyaranzoMissile__ct(o, arg0, &d, id); } }
+#define NEW(d, id) { new TObjGyaranzoMissile(arg0, (u8 *)&d, id); }
 #define V ((VObj_18_f1aa6a *)(arg0))
 #pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
@@ -1557,7 +1546,7 @@ void update__19TObjGyaranzoMissileFPv(u8 *arg0) {
         temp_r5 = *(s32 *)((s8 *)arg0 + 0x388);
         *(s32 *)((s8 *)arg0 + 0x388) = (s32) (temp_r5 & ~5);
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFBFFFFFF);
-        ((s32 (*)(void *, s32, s32))update_if_active__15TObjEnemyCustomFl)(arg0, 0, temp_r5);
+        ((TObjEnemyCustom *)arg0)->update_if_active(0);
         break;
     }
 }

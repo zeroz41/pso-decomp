@@ -144,6 +144,7 @@
 #include "pso/item/drop/TItemDropSub_80107B74.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TPlyPhotonChair.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -376,7 +377,7 @@ void *item_tool_factory_table[24] = {
 void normalize_drop_area(s32 *p);
 
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
-int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }
+int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
 s32 TLobby::get_item_data(u32 arg0) {
     if (arg0 != 0U) {
         return get_item_icon_index();
@@ -756,25 +757,22 @@ struct MagData_80104DAC { u8 b[0x10]; };
 
 struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 bC; };
 
-extern "C" {
-s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
-}
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
 extern "C" {
 void *lookup_item_pmt_record(u8 *);
 }
 
-u8 TItemData::is_item_usable(saddr arg0, u8 *item) {
+s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
-        return 1U;
+        return (u8)(1U);
     }
     if ((u8) *item == 3) {
         if (*(s32 *)((s8 *)(lookup_item_pmt_record(item)) + 0x10) & 1) {
-            return 1U;
+            return (u8)(1U);
         }
-        return (u8) (find_eligible_combination_recipe(arg0, item) != 0);
+        return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
     }
-    return (u8) (find_eligible_combination_recipe(arg0, item) != 0);
+    return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
 }
 #define o ((Obj_80104DAC *)arg0)
 saddr find_eligible_combination_recipe(s32 arg0, u8 *item) {
@@ -822,7 +820,7 @@ saddr find_eligible_combination_recipe(s32 arg0, u8 *item) {
         }
         v = rec->bC;
         if (v != 0xFF) {
-            if (v != get_actor_section_id__15TPlyPhotonChairFv(o)) {
+            if (v != (s32)((TPlyPhotonChair *)(o))->get_actor_section_id()) {
                 return 0;
             }
         }
@@ -896,23 +894,6 @@ struct Pkt_8010567C {
     s32 f1c;
     s32 f20;
     s32 f24;
-};
-
-struct Obj_8010567C {
-    u8 pad[0x28];
-    s16 f28;
-    u8 pad2a[2];
-    s16 f2c;
-    u8 pad2e[0x38 - 0x2E];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0x70 - 0x44];
-    f32 f70;
-    u8 pad74[0x84 - 0x74];
-    s32 f84;
-    s32 f88;
-    s32 f8c;
 };
 
 
@@ -1280,11 +1261,10 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
     }
 }
 
-void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
-    Obj_8010567C *self = (Obj_8010567C *)this;
+void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
     void *p1;
     void *p2;
-    if (self != 0) {
+    if (this != NULL) {
         p1 = get_player_by_client_id(TLobby__designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
@@ -1297,15 +1277,15 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
                     ((TLobby *)(&pkt))->build_6x06_guild_card_packet();
                     pkt.f4 = get_current_floor();
                     pkt.f5 = 0x30;
-                    pkt.x = self->x;
-                    pkt.z = self->z;
-                    pkt.f10 = self->f28;
-                    pkt.f12 = arg2;
+                    pkt.x = position.x;
+                    pkt.z = position.z;
+                    pkt.f10 = room;
+                    pkt.f12 = random_item;
                     pkt.f6 = this->set_index;
                     pkt.f14 = get_current_floor_area();
-                    pkt.f18 = self->f70;
+                    pkt.f18 = scale.z;
                     pkt.f1c = this->set_params[0];
-                    pkt.f20 = self->f88;
+                    pkt.f20 = set_params[1];
                     pkt.f24 = this->set_params[2];
                     ((TLobby *)(&pkt))->process_and_dispatch_packet();
                 }

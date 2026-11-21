@@ -16,8 +16,6 @@ extern "C" {
 extern void* quest_mission_manager;
 extern void* quest_area_manager;
 extern void* tl_00;
-void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, saddr arg2);
-s32 __ct__14TObjCollidableFP7TObject();
 
 const char *TObjMesBase__class_name = "TObjMesBase";
 
@@ -78,7 +76,6 @@ void TObjMesBase::run_task() {
     }
 }
 
-extern s32 __vt__11TObjMesBase[];
 
 }
 TObjMesBase::~TObjMesBase() {
@@ -86,22 +83,20 @@ TObjMesBase::~TObjMesBase() {
 }
 
 
-void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, saddr arg2) {
-    __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)mes_base + 0x18) = __vt__11TObjMesBase;
-    mes_base->m_name = TObjMesBase__class_name;
-    mes_base->apply_object_set_data((void *)arg2);
-    mes_base->messageLabel = (s32) mes_base->set_params[0];
-    mes_base->messageBank = (s32) mes_base->set_params[2];
-    if ((s32) mes_base->messageBank < 0) {
-        mes_base->messageBank = 0;
+TObjMesBase::TObjMesBase(TObject *parent, ObjectSetData *placement) : TObjCollidable(parent) {
+    m_name = TObjMesBase__class_name;
+    apply_object_set_data(placement);
+    messageLabel = set_params[0];
+    messageBank = set_params[2];
+    if (messageBank < 0) {
+        messageBank = 0;
     }
-    if ((s32) mes_base->messageBank > 1) {
-        mes_base->messageBank = 1;
+    if (messageBank > 1) {
+        messageBank = 1;
     }
-    *(s32 *)((s8 *)mes_base + 0xAC) = 0;
-    mes_base->messagePhase = 0;
-    return mes_base;
+    messageChild = NULL;
+    messagePhase = 0;
 }
+#undef mes_base
 
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteCol.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C57F0.h"
@@ -27,22 +28,11 @@ typedef struct Node_801E4FF0 {
 
 typedef struct List_801E4FF0 { Node_801E4FF0 *head; u8 pad[0x28]; } List_801E4FF0;
 
-typedef struct Desc_801E4FF0 {
-    u32 flags;
-    saddr param4;
-    s32 param8;
-    s32 count;
-    Col_801E4FF0 *cols;
-    f32 w;
-    f32 h;
-    s32 param1C;
-} Desc_801E4FF0;
-
 typedef struct Self_801E4FF0 {
     u8 pad0[0x1C];
     List_801E4FF0 *lists;
     u8 pad20[0x8];
-    Desc_801E4FF0 *desc;
+    ParticleDefinition *definition;
 } Self_801E4FF0;
 
 typedef struct Cam_801E4FF0 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E4FF0;
@@ -58,12 +48,9 @@ void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_801E4FF0 lbl_8058D4F8;
 extern "C" {
-void *TQuadSpriteCol__ct(void *arg0);
-void quad_sprite_base_ct(void *);
 
 void TUnk_804C57F0::render() {  }
 
-extern s32 __vt__14TQuadSpriteCol[];
 
 #pragma push
 #pragma fp_contract on
@@ -82,7 +69,7 @@ void TQuadSpriteCol::render() {
     s32 li;
     s32 i;
     Node_801E4FF0 *n;
-    flags = self->desc->flags;
+    flags = self->definition->flags;
     if (flags & 2) {
         if (flags & 4) {
             set_inverse_alpha_blend();
@@ -100,11 +87,11 @@ void TQuadSpriteCol::render() {
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(self->desc->param4);
-    set_draw_texture_and_color(self->desc->param8, self->desc->param1C);
+    TObjFish::set_global_param((s32)self->definition->texlist);
+    set_draw_texture_and_color(self->definition->texture, self->definition->color);
     one = 1.0f;
-    for (i = 0, ci = 0, li = 0; i < self->desc->count; i++, ci += 0x10, li += 0x2C) {
-        Col_801E4FF0 *c = (Col_801E4FF0 *)((u8 *)self->desc->cols + ci);
+    for (i = 0, ci = 0, li = 0; i < self->definition->uv_count; i++, ci += 0x10, li += 0x2C) {
+        Col_801E4FF0 *c = (Col_801E4FF0 *)((u8 *)self->definition->uvs + ci);
         n = *(Node_801E4FF0 **)((u8 *)self->lists + li);
         q.col.r = c->r;
         q.col.g = c->g;
@@ -137,8 +124,8 @@ void TQuadSpriteCol::render() {
                     x = out.x;
                     y = out.y;
                 }
-                w *= self->desc->w;
-                h *= self->desc->h;
+                w *= self->definition->width;
+                h *= self->definition->height;
                 q.x0 = x - w;
                 q.x1 = x + w;
                 q.y0 = y - h;
@@ -163,9 +150,8 @@ TQuadSpriteCol::~TQuadSpriteCol() {
 
 const char *TQuadSpriteCol__class_name = "TQuadSpriteCol";
 
-void *TQuadSpriteCol__ct(void *quad_sprite_col) {
-    quad_sprite_base_ct(quad_sprite_col);
-    *(s32 **)((s8 *)quad_sprite_col + 0x18) = __vt__14TQuadSpriteCol;
+#define quad_sprite_col ((u8 *)this)
+TQuadSpriteCol::TQuadSpriteCol(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteCol *)quad_sprite_col)->m_name = TQuadSpriteCol__class_name;
-    return quad_sprite_col;
 }
+#undef quad_sprite_col

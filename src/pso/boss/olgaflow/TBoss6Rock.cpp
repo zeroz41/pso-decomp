@@ -146,7 +146,7 @@ TBoss6Rock::TBoss6Rock(TObject *parent, s32 index) : TObjCollidable(parent) {
 
 TBoss6Rock::~TBoss6Rock() {
     if (m_c4 != 0) {
-        ((TBoss6Rock *)&m_d4)->spawn_crush_rocks(m_b4);
+        spawn_crush_rocks(&m_d4, m_b4);
     }
     release_object();
     TBoss6Rock__instance_table[m_ac] = NULL;
@@ -245,7 +245,7 @@ void TBoss6Rock::break_and_release() {
         m_c8 = 0;
     }
     if (m_c8 != 2) {
-        ((TBoss6Rock *)&m_d4)->spawn_crush_rocks(m_b4);
+        spawn_crush_rocks(&m_d4, m_b4);
         play_sound_effect(0x4006AB1F, &position, 0, 0);
         release_object();
         randomize_motion();
@@ -274,7 +274,7 @@ void TBoss6Rock::sub_803542E8(s32 landed) {
     }
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)player)->is_active() == 0) {
+        if (((TObjPlayer *)player)->is_active() == 0) {
             continue;
         }
         VecCopy(&d, &player->position);
@@ -434,11 +434,11 @@ s32 TBoss6Rock::is_rock_state_2(int i) {
     return rock->m_c8 == 2;
 }
 
-s32 TBoss6Rock::get_point(s32 i, saddr out, f32 *radius) {
+s32 TBoss6Rock::get_point(s32 i, Vec *out, f32 *radius) {
     if (is_rock_valid(i) == 0) {
         return 0;
     }
-    VecCopy((Vec *)out, &TBoss6Rock__rock_point_table[i]);
+    VecCopy(out, &TBoss6Rock__rock_point_table[i]);
     *radius = get_rock_entry(i)->radius;
     return 1;
 }
@@ -529,12 +529,12 @@ s32 TBoss6Rock__sub_80353A14(s32 i, Vec *out, f32 *radius) {
     return 1;
 }
 
-int TBoss6Rock__sub_80353A0C(void) {
-    return (saddr)TBoss6Rock__data_805D6EF0;
+BmlResource *TBoss6Rock__sub_80353A0C(void) {
+    return TBoss6Rock__data_805D6EF0;
 }
 
-int TBoss6Rock__sub_80353A04(void) {
-    return (saddr)TBoss6Rock__data_805D6EF4;
+GinjaTextureList *TBoss6Rock__sub_80353A04(void) {
+    return TBoss6Rock__data_805D6EF4;
 }
 
 TUnk_804F1280 *TBoss6Rock::create() {

@@ -159,7 +159,7 @@ void TAdTitleGC::render() {
         }
         goto block_5;
     }
-    if (TObject::defer_render() == 0) {
+    if ((s32)this->defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_color_blending_mode(0, 8);

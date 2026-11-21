@@ -1,10 +1,10 @@
-#include <string.h>
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/QuestVm.h"
 #include "pso/system/data/FlagWord.h"
 #include "types.h"
+#include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_801F2D2C.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -13,8 +13,6 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/network/protocol/protocol.h"
-#include "pso/system/byteswap.h"
 
 struct Op_801F2E64 { void (*fn)(s32); u32 pad; };
 
@@ -29,6 +27,8 @@ struct Hdr_801F3124 {
 };
 
 extern "C" {
+int bswap_32__FPUl(void*);
+s32 memcpy(void *, void *, int);
 extern s32 lbl_805D5E94;
 extern s32 lbl_805D5E9C;
 extern u8 TLobby__data_805D5EA8;
@@ -38,10 +38,10 @@ extern u16 TLobby__data_805D5EAC;
 struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
+int bswap_16__FPUs(void*);
+void *memset(void *, int, u32);
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
 int VecCopy__FP3VecPC3Vec(void*);
-void queue_destruction__7TObjectFv(void *arg0);
-int set__8FlagWordFUl(void*, int);
 
 unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
 
@@ -69,23 +69,23 @@ void TLobby::close_windows() {
         qst_list_window = NULL;
     }
     if (qst_item_name_entry != NULL) {
-        queue_destruction__7TObjectFv(qst_item_name_entry);
+        ((TObject *)qst_item_name_entry)->queue_destruction();
         qst_item_name_entry = NULL;
     }
     if (qst_item_name_select != NULL) {
-        queue_destruction__7TObjectFv(qst_item_name_select);
+        ((TObject *)qst_item_name_select)->queue_destruction();
         qst_item_name_select = NULL;
     }
     if (qst_item_ok_window != NULL) {
-        queue_destruction__7TObjectFv(qst_item_ok_window);
+        ((TObject *)qst_item_ok_window)->queue_destruction();
         qst_item_ok_window = NULL;
     }
     if (qst_pack_select_window != NULL) {
-        queue_destruction__7TObjectFv(qst_pack_select_window);
+        ((TObject *)qst_pack_select_window)->queue_destruction();
         qst_pack_select_window = NULL;
     }
     if (qst_pack_select_help_window != NULL) {
-        queue_destruction__7TObjectFv(qst_pack_select_help_window);
+        ((TObject *)qst_pack_select_help_window)->queue_destruction();
         qst_pack_select_help_window = NULL;
     }
 }
@@ -174,17 +174,17 @@ void QuestVmContext::load_globals() {
     qst_statistic_arg2 = statistic_arg2;
 }
 
-LAYOUT_ASSERT(QuestVmContext_size, sizeof(QuestVmContext) == 0x174);
+typedef char QuestVmContext_size[sizeof(QuestVmContext) == 0x174 ? 1 : -1];
 
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     u32 n;
     u32 i;
-    bswap_32(&h->off0);
-    bswap_32(&h->off4);
-    bswap_32(&h->off8);
-    bswap_16(&h->hC);
-    bswap_16(&h->hE);
-    bswap_16((u16 *)((u8 *)h + 0x12));
+    bswap_32__FPUl(&h->off0);
+    bswap_32__FPUl(&h->off4);
+    bswap_32__FPUl(&h->off8);
+    bswap_16__FPUs(&h->hC);
+    bswap_16__FPUs(&h->hE);
+    bswap_16__FPUs((void*)((u8 *)h + 0x12));
     qst_statistic_id = h->b12;
     c->code = (u8 *)h + h->off0;
     c->function_table = (s32 *)((u8 *)h + h->off4);
@@ -202,7 +202,7 @@ void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     memset(c->call_stack, 0, sizeof(c->call_stack));
     n = (h->off8 - h->off4) / 4;
     for (i = 0; i < n; i++) {
-        bswap_32((u32 *)(&c->function_table[i]));
+        bswap_32__FPUl(&c->function_table[i]);
     }
     (*(s8 *)&TLobby__data_805D5EA8) = 0;
     (*(s8 *)&TLobby__data_805D5EA9) = 0;
@@ -233,19 +233,17 @@ void TLobby::free_luker_object() {
     }
 }
 
-void TLobby::set_flag_80000() {
-    saddr arg0 = (saddr)this;
-    ((TObjPlayer *)arg0)->test_action_mask(0x80000);
+s32 TObjPlayer::test_action_80000() {
+    return test_action_mask(0x80000);
 }
-void TLobby::set_flag_40000() {
-    ((TObjPlayer *)this)->test_action_mask(0x40000);
+s32 TObjPlayer::test_action_40000() {
+    return test_action_mask(0x40000);
 }
 void TLobby__sub_801F3314(saddr arg0) {
     ((TObjPlayer *)arg0)->test_action_mask(0x10000);
 }
-void TLobby::set_flag_8000() {
-    saddr arg0 = (saddr)this;
-    ((TObjPlayer *)arg0)->test_action_mask(0x8000);
+s32 TObjPlayer::test_action_8000() {
+    return test_action_mask(0x8000);
 }
 int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }
 int TLobby__sub_801F3384(void* p) { return ((TObjPlayer *)p)->test_action_mask(1024); }
@@ -253,12 +251,12 @@ int TLobby__sub_801F33A8(void* p) { return ((TObjPlayer *)p)->test_action_mask(5
 int TLobby__sub_801F33CC(void* p) { return ((TObjPlayer *)p)->test_action_mask(256); }
 int TLobby__sub_801F33F0(void* p) { return ((TObjPlayer *)p)->test_action_mask(224); }
 int TLobby::test_flag_16() { return ((TObjPlayer *)this)->test_action_mask(16); }
-int set_flag_4__6TLobbyFPv(void* p) { return ((TObjPlayer *)p)->test_action_mask(4); }
+s32 TObjPlayer::test_action_4() { return test_action_mask(4); }
 
 int TLobby__sub_801F345C(void* p) { return ((TObjPlayer *)p)->test_action_mask(2); }
 
-int fn_801F3480(void* p) { return ((TObjPlayer *)p)->has_item_flag_4096(); }
-int fn_801F34A0(void* p) { return ((TObjPlayer *)p)->check_technique_flag(); }
+void fn_801F3480(void* p) { ((TObjPlayer *)p)->clear_flag_4096(); }
+void fn_801F34A0(void* p) { ((TObjPlayer *)p)->set_flag_4096(); }
 s32 get_field_d4(void* p) { return *(s32*)((char*)p + 0xd4); }
 s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
 
@@ -274,13 +272,13 @@ void TLobby__sub_801F34E8(int a0, int a1) { lbl_805D6CD9 = a1; lbl_805D6CDA = (a
 int TLobby__sub_801F34F8(void) {  return TLobby__data_805D6CCC; }
 
 int TLobby__sub_801F3500(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0xc0); }
-void TLobby::bswap_4x32() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
+void TLobby::bswap_4x32() { bswap_32__FPUl(this); bswap_32__FPUl((char*)this + 0x4); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }
 
     extern unsigned char camera_capture_flags;
 void TLobby__sub_801F3568(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
 void TLobby::sync_quest_register_and_send() { TLobby::bswap_header(this); send_subcommand((u8 *)this); }
-void bswap_header__6TLobbyFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x8)); }
+void TLobby::bswap_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
 void build_6x77_sync_quest_register(void* p) { *(u8*)((char*)p + 0x0) = 119; *(u8*)((char*)p + 0x1) = 3; }
 
     extern int warning_aram_load_done_flag;
@@ -304,15 +302,15 @@ void TLobby::bswap_entry_words(s32 arg0) {
     var_r31 = 0;
     do {
         temp_r30 = arg0 + var_r31;
-        bswap_32((u32 *)temp_r30);
-        bswap_32((u32 *)(temp_r30 + 0x18));
+        bswap_32__FPUl((void*)temp_r30);
+        bswap_32__FPUl((void*)(temp_r30 + 0x18));
         var_r29 += 1;
         var_r31 += 4;
     } while (var_r29 < 6);
 }
 #pragma pop
 
-int TLobby__sub_801F3694(void* p) { return set__8FlagWordFUl((char*)p + 0x10, 2); }
+void TLobby__sub_801F3694(void* p) { ((FlagWord *)((char*)p + 0x10))->set(2); }
 
     extern int lobby_online_ready_flag;
 void TLobby__sub_801F36BC(void) { lobby_online_ready_flag = 1; }
@@ -323,10 +321,8 @@ void TLobby::set_lobby_id(int a0) { current_lobby_id = a0; }
     extern int lbl_805D3614;
 void TLobby::set_global_805D3614(int a0) { lbl_805D3614 = a0; }
 
-    extern int lobby_quest_progress_flag;
 void TLobby__sub_801F36D8(void) { lobby_quest_progress_flag = 1; }
 
-    extern int quest_warp_enabled;
 void TLobby__sub_801F36E4(void) { quest_warp_enabled = 0; }
 
 int TLobby__sub_801F36F0(void) { return -1; }

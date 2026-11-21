@@ -13,15 +13,9 @@ BmlResourceDescriptor bm_n_ecw_i_body_resource_descriptor = { "bm_n_ecw_i_body.b
 const char *TObjNpcFemaleChild__name = "TObjNpcFemaleChild";
 BmlResource *TObjNpcFemaleChild__static_instance;
 
-s32 __vt__18TObjNpcFemaleChild[];
-
 void *TObjNpcFemaleChild__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcFemaleChild));
-    if (npc != NULL) {
-        npc = TObjNpcFemaleChild__ct((TObjNpcFemaleChild *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcFemaleChild(control, set_data);
 }
 
 void TObjNpcFemaleChild::release_static_instance() {
@@ -42,14 +36,11 @@ void TObjNpcFemaleChild::load_shared_resource() {
 
 TObjNpcFemaleChild::~TObjNpcFemaleChild() {}
 
-TObjNpcFemaleChild *TObjNpcFemaleChild__ct(TObjNpcFemaleChild *npc, TObjControl *control, void *set_data) {
-    npc->construct_female_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__18TObjNpcFemaleChild;
-    npc->m_name = TObjNpcFemaleChild__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcFemaleChild__static_instance->models->model;
-    npc->texlist = TObjNpcFemaleChild__static_instance->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcFemaleChild::TObjNpcFemaleChild(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+    this->m_name = TObjNpcFemaleChild__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcFemaleChild__static_instance->models->model;
+    this->texlist = TObjNpcFemaleChild__static_instance->models->m_c;
+    this->setup_common();
 }

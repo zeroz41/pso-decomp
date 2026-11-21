@@ -3,6 +3,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 struct Obj_802AEBA8 { u8 pad[0xa4]; s32 a4; s32 a8; s32 ac; u8 pad2[0x6bc - 0xb0]; s32 arr[16]; s32 f6fc; s32 f700; };
 
 typedef struct { f32 x, y, x2, y2; f32 pad[4]; } Quad_802AEBE4;
@@ -35,7 +36,7 @@ void TAdEnterSerialAccessGC::reset_input_state() {
 void TLevelSelect::add_item_rect(void *src) {
     Obj_802AEBE4 *self = (Obj_802AEBE4 *)this;
     if (self->count < 16) {
-        ((TWindowSubSymbolChatPartsSet *)(&self->pts[self->count]))->copy_vec2(src);
+        copy_vec2((&self->pts[self->count]), src);
         self->q0[self->count].x = 16.0f + self->pts[self->count].x;
         self->q0[self->count].y = self->pts[self->count].y;
         self->q0[self->count].x2 = self->q0[self->count].x + (self->w - 32.0f);

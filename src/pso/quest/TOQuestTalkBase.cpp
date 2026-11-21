@@ -142,7 +142,7 @@ void TOQuestTalkBase::run_task() {
             end_conversation_camera();
             if (interactor == local_client_id) {
                 player = get_player_by_client_id(local_client_id);
-                if (player != NULL && ((TLobby *)player)->check_player_flag1() != 0) {
+                if (player != NULL && ((TObjPlayer *)player)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)player);
                 }
             }

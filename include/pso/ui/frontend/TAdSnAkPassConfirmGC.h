@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
+    TAdSnAkPassConfirmGC(TObject *parent);
     virtual ~TAdSnAkPassConfirmGC();
     virtual void vfunc_8();
     virtual void vfunc_9();

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
@@ -34,6 +36,7 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 struct Stack_803216C0 {
     s32 sp8;
     s32 spC;
@@ -123,19 +126,13 @@ extern TAdEnterSerialAccessGCSerialBuffer TAdEnterSerialAccessGC_serial_buffer;
 struct SerialAccessEnteredValueTable { s32 value; u8 remaining[0xC]; };
 extern SerialAccessEnteredValueTable serial_access_entered_value_table;
 int serial_to_hex_string__22TAdEnterSerialAccessGCFi(void);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
-s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, void *, int);
 uaddr TAdEnterSerialAccessGC__keyboard_control;
 s32 TAdEnterSerialAccessGC__input_state;
 extern u8 lbl_805430BC[];
 void sscanf(int, const char *, ...);
 extern char lbl_80543010[];
 extern char lbl_80543050[];
-s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
-s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__22TAdEnterSerialAccessGC[];
 void TAdEnterSerialAccessGC__sub_802C4B64(void *, void *, Col_803214C4, int);
@@ -385,7 +382,7 @@ void create_draw_callback__22TAdEnterSerialAccessGCFv(void) {
 }
 
 s32 TAdEnterSerialAccessGC::open_message_window(void *arg0, void *arg1) {
-    saddr r = update_window_mode_from_progress__6TLobbyFPv((void *)&lbl_804764C8, (void *)&lbl_804764D0);
+    saddr r = (s32)create_message_window_for_size((NJS_POINT2 *)&lbl_804764C8, (NJS_POINT2 *)&lbl_804764D0);
     ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
     return r;
 }
@@ -406,7 +403,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
   uaddr temp_r3_7;
   uaddr temp_r3_9;
   temp_r30 = (saddr)((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->realloc_buffer();
-  if (((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0)) || ((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)))
+  if (((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0)) || ((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)))
   {
     switch ((int) TAdEnterSerialAccessGC__input_state)
     {
@@ -470,7 +467,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
   *(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_64 = (int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_60);
   if (((unsigned int) TAdEnterSerialAccessGC__keyboard_control) != 0U)
   {
-    if (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) != 0)
+    if (forward_validate_input((void *)ad_enter_serial_access_gc, (s32)arg1, (char *)temp_r30) != 0)
     {
       *(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_60 = 1;
       temp_r3_6 = *(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_54;
@@ -488,7 +485,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
         ((TAdEnterSerialAccessGC *)temp_r3_7)->set_active();
       }
     }
-    if ((((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->is_confirmed() != 0) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) == 0))
+    if ((((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->is_confirmed() != 0) && (forward_validate_input((void *)ad_enter_serial_access_gc, (s32)arg1, (char *)temp_r30) == 0))
     {
       free_menu_object((void *)TAdEnterSerialAccessGC__keyboard_control);
       play_sound_effect(0x53F06, 0, 0, 0);
@@ -516,7 +513,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
       }
     }
   }
-  if ((((TAdSinglePlyChrSelectGC *)(*(uaddr *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_54))->get_selected_slot() == 1) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) != 0))
+  if ((((TAdSinglePlyChrSelectGC *)(*(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_54))->get_selected_slot() == 1) && (forward_validate_input((void *)ad_enter_serial_access_gc, (s32)arg1, (char *)temp_r30) != 0))
   {
     temp_r3_11 = *(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_58;
     if (temp_r3_11 != 0U)
@@ -699,18 +696,14 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
         return (u8 *)ad_enter_serial_access_gc;
     }
     flag[0] = 0;
-    if (load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(flag, sp8) != 0 && flag[0] != 0) {
+    if (((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)sp8) != 0 && flag[0] != 0) {
         ((void (*)(s8 *)) init__22TAdEnterSerialAccessGCFv)(flag);
         TAdEnterSerialAccessGC__sub_8032190C((saddr) sp8);
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
     }
-    if ((p = TObject::operator new(0x24)) != 0) {
-        __ct__9TAdBackGCFv(p, ad_enter_serial_access_gc);
-    }
-    if ((p = TObject::operator new(0x28)) != 0) {
-        __ct__12TAdBackTxtGCFv(p, ad_enter_serial_access_gc);
-    }
+    new TAdBackGC(ad_enter_serial_access_gc);
+    new TAdBackTxtGC(ad_enter_serial_access_gc);
     p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)&TAdEnterSerialAccessGC__selection_positions[0], (void *)&lbl_804764F8);

@@ -86,7 +86,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void reset_gauge(void* p);
     static f32 get_card_window_scale(s32 _w0);
     static s32 get_card_window_flags(s32 arg0);
-    s32 measure_string_len();
     static void append_play_time(u32 arg0);
     static void append_comma();
     s8 *copy_message_page_text();
@@ -94,7 +93,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_selected_index(s16 arg1);
     static void draw_status(saddr arg1, s32 arg2, s32 arg3);
     static void dispatch_without_flags(saddr arg1, s32 arg2, s32 arg3);
-    static void *refresh_with_default_list(s32 a, s32 b);
     int is_flag_4_set();
     s8 get_type();
     void set_input_mode(u8 v);
@@ -130,7 +128,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void draw_entry_tab(void *arg1);
     void update(void* a1);
     static s32 deleting_destructor(s32 arg0, s16 arg1);
-    int forward_render();
+    void forward_render(void *a1);
     int update_subwindow();
     void fill_card_text_entries(saddr arg1);
     static saddr query_status_field(void *arg0, s8 arg1);
@@ -144,9 +142,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s32 get_display_mode();
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 arg0);
-    s32 calc_layout_hash();
-    static s32 calc_entry_offset();
-    static s32 get_layout_id();
+    static s32 calc_layout_hash(s32 slot);
+    static s32 calc_entry_offset(s32 slot);
+    static s32 get_layout_id(s32 slot);
     static s32 resolve_player_slot(s32 slot);
     u8 *init_layout_entry_copy(u8 *arg1);
     void advance_state();
@@ -186,4 +184,6 @@ LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_x, offsetof(TWindowSubStatusDisp
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp, scale_y) == 0x70);
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_size, sizeof(TWindowSubStatusDisp) == 0x74);
+extern "C" s32 measure_string_len(const char *str);
+
 #endif

@@ -5,7 +5,6 @@ extern "C" {
 s16 TWindowDD__sub_80342158(int);
 s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
-s32 update_selection_state__9TWindowDDFv(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
 void TWindowDD__sub_80342800(u8 *arg0);
@@ -133,7 +132,7 @@ void TWindowDD__sub_803429B0(u8 *window_dd) {
     var_r31 = 0;
     switch (*(s32 *)((s8 *)window_dd + 0xB8)) {
     case 0:
-        ((s32 (*)())update_selection_state__9TWindowDDFv)();
+        ((TWindowDD *)window_dd)->update_selection_state();
         if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
             TWindowDD::play_sound();
             var_r31 = update_close_flag__9TWindowDDFPv(window_dd) == 0;

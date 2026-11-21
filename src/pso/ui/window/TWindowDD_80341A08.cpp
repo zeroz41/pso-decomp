@@ -38,7 +38,7 @@ void TWindowDD_WS_Word::render() {
             item = (TUnk_804CFA28 *)self->get_array_entry(i);
             set_text_entry_string((u8 *)item, get_word_select_token_text(((s16 *)self->m_80)[idx]), 0xC0);
             item->y = (f32)(i * 20);
-            ((TWindowDD *)item)->refresh_status_display();
+            measure_message_text_width_default(item);
             ((TWindowHelpItem *)item)->reset_float_field();
             item->color = TWindowDD__data_805DFC14;
         }
@@ -393,7 +393,7 @@ void TWindowDD::load_element_list() {
     s32 i;
     s32 n;
     Entry_80341FFC *ent;
-    e = (Elem_80341FFC *)TWindowDD::get_element_ptr(self->x70);
+    e = (Elem_80341FFC *)TWindowDD::get_element_ptr((s32)self->x70);
     if (e != NULL) {
         self->count = e->count;
         self->buf = (s16 *)mem_alloc(self->count * 2);
@@ -413,7 +413,7 @@ void TWindowDD::load_element_list() {
         ent = (Entry_80341FFC *)((TWindowBase *)self)->get_array_entry(i);
         set_text_entry_string((u8 *)ent, get_word_select_token_text((s16)self->buf[i]), 0xC0);
         ent->y = i * 20;
-        ((TWindowDD *)ent)->refresh_status_display();
+        measure_message_text_width_default(ent);
     }
 }
 

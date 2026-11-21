@@ -8,8 +8,6 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, u32 start, u32 end);
-void TLobby__sub_8041FED4(TcpTcb *tcb);
 void TLobby__sub_8041F66C(TcpTcb *o);
 
 s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback) {

@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct TObjEneSlimeWaterBomb : public TObjEnemy {
+    TObjEneSlimeWaterBomb(TObject *parent, void *owner);
     virtual ~TObjEneSlimeWaterBomb();
     int find_nearest_enemy_masked(f32);
     virtual void run_task();

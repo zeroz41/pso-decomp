@@ -36,7 +36,6 @@ void TItemEffPG__begin_visual_fade(void *p);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804F0BF0[];
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
@@ -219,7 +218,7 @@ void TUnk_804F0BF0::run_task() {
 
 void TUnk_804F0BF0::render() {
     u8 *arg0 = (u8 *)this;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x1C))) == 0U) {
+    if ((s32)this->all_parents_unqueued_for_destruction() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x1C))) == 0U) {
         return;
     }
     {

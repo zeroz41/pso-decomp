@@ -5,7 +5,9 @@
 #include "pso/npc/TObjNpcBase.h"
 
 struct TObjNpcMoja : public TObjNpcBase {
+    TObjNpcMoja(TObject *parent, void *set_data);
     virtual ~TObjNpcMoja();
+    virtual void render();
     virtual void request_action(s32);
     static void *create(void *arg0);
 };

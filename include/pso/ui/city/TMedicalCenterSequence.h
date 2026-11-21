@@ -4,6 +4,10 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+struct TObjPlayer;
+class TWindowBase;
+struct TWindowMenu;
+
 struct TMedicalCenterSequence : public TShopSequence {
     TMedicalCenterSequence(TObject *parent, TObjPlayer *player);
     virtual ~TMedicalCenterSequence();
@@ -19,8 +23,8 @@ struct TMedicalCenterSequence : public TShopSequence {
     void show_declined();
     void show_already_healthy();
     s32 handle_window_input();
-    s32 m_2c;
-    uaddr m_30;
+    TWindowBase *m_2c;       // meseta window
+    TWindowMenu *m_30;       // yes or no
     TObject *counter_camera; // 0x34: set_service_counter_camera
     void show_fee_prompt();
 };
@@ -37,6 +41,5 @@ extern "C" {
 void TMedicalCenterMes__sub_80216260(void);
 u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1);
 }
-// --- end of C functions
 
 #endif

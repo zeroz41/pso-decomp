@@ -2,6 +2,7 @@
 #define PSO_UNK_TLOBBY_80227A2C_H
 
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 extern "C" {
 void *TLobby__sub_80227A4C(u32 size);
@@ -31,10 +32,7 @@ void load_floor_sound_bank(s32 arg0);
 }
 s32 normalize_sound_request(u32 arg0, s32 arg1, saddr arg2, s32 arg3, s32 arg4);
 s32 play_packed_sound_once(u32 arg0, saddr arg1, s32 arg2, s32 arg3);
-void promote_area_floor(u8 *arg0);
 void release_sound_with_fade(s32 slot);
-void run_area_scene_cleanup(u8 *arg0);
-s32 select_area_entrance(void *arg0);
 extern "C" {
 void update_global_sound_frame(void);
 }

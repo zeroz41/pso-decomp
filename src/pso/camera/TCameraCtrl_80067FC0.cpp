@@ -9,6 +9,7 @@
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer.h"
 
 
 struct View_8006835C {
@@ -53,9 +54,6 @@ struct Hit_8006809C { u8 pad0[4]; void *pos; };
 
 struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; Vec out; };
 
-extern "C" {
-Vec *get_target__11TCameraCtrlFv(void *);
-}
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 void GXSetScissorBoxOffset(s32, s32);
@@ -69,8 +67,6 @@ extern View_8006835C *camera_ctrl_instance;
 void apply_camera_controller_pose(Cam_80068530 *arg0);
 s32 is_split_screen();
 f32 fabs_float();
-Vec *get_position_ptr__10TObjPlayerFv(void *);
-Vec *get_target_ptr__11TCameraCtrlFv(void *);
 Hit_8006809C *csnVector(void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 vec3_dot(void *, void *);
@@ -130,7 +126,7 @@ s32 TUnk_80488E00::predict_obstruction() {
         return 0;
     }
     tgt = (Vec *)((TCameraCtrl *)self->obj)->get_target_ptr();
-    pos = get_position_ptr__10TObjPlayerFv(self->obj);
+    pos = (Vec *)((TObjPlayer *)self->obj)->get_position_ptr();
     d.x = pos->x - tgt->x;
     d.y = pos->y - tgt->y;
     d.z = pos->z - tgt->z;

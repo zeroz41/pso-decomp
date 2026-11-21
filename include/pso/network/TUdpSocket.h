@@ -18,12 +18,7 @@ struct UdpSocketEventRecord {
     u16 e;
 };
 
-// How handle_socket_event reads the start of the event (the record's first two words).
-struct UdpSocketEvent {
-    s16 socket;
-    s16 size;
-    u8 *buffer;
-};
+struct UdpDatagram;
 
 class TUdpSocket : public TSocket {
 public:
@@ -41,7 +36,7 @@ public:
     virtual short send(u8 *data);
     virtual short send(u8 *data, size_t size);
 
-    static s32 handle_socket_event(s16 received, UdpSocketEvent *event);
+    static s32 handle_socket_event(s16 received, UdpDatagram *event);
 };
 
 LAYOUT_ASSERT(TUdpSocket_size, sizeof(TUdpSocket) == 0x8B8);

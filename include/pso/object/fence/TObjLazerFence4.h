@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLazerFence4 : public TObjCollidable {
+    TObjLazerFence4(TObject *parent, void *arg2);
     virtual ~TObjLazerFence4();
     void sub_801933C8();
     virtual s32 update_object_view_visibility(f32, f32);

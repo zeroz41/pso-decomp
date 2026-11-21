@@ -1,11 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
@@ -146,14 +149,8 @@ void *lbl_80492EFC[11] = {
 
 const char *TObjEneLappy__class_name = "TObjEneLappy";
 
-typedef struct Desc_800C17B8 {
-    s32 a;
-    void *b;
-    s32 c;
-    s32 d;
-} Desc_800C17B8;
 
-const Desc_800C17B8 lappy_resource_binding_desc = {0, rappy_variant_speed_table, 0x10003, 0xA0000};
+const NpcAnimationBinding lappy_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(rappy_variant_speed_table), 1, 3, 10 };
 
 const Vec lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
 
@@ -219,6 +216,7 @@ VA
 };
 
 #include <stddef.h>
+#include "pso/object/ambient/TObjFish.h"
 struct VPad18 { char pad[0x18]; };
 
 struct VCls18 : VPad18 {
@@ -378,27 +376,18 @@ s32 remap_area_sound_id(s32, s32);
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-void sub_800C20B0__12TObjEneLappyFv(void *arg0);
-#define sub_800C20B0__12TObjEneLappyFv (*(s32 (*)())&sub_800C20B0__12TObjEneLappyFv)
 s32 play_sound_effect(s32, u32, s32, s32);
 void vfunc_63__12TObjEneLappyFv(u8 *arg0);
 void vfunc_62__12TObjEneLappyFv(u8 *arg0);
 void vfunc_61__12TObjEneLappyFv(void *arg0);
 void vfunc_60__12TObjEneLappyFv(void *arg0);
 s32 TObjEneDD__sub_800B9B24(f32);
-void set_speed_params__12TObjEneLappyFl(void *arg0, s32 arg1);
-#define set_speed_params__12TObjEneLappyFl (*(s32 (*)(void *, int))&set_speed_params__12TObjEneLappyFl)
-s32 toggle_particle_effect__10TObjPlayerFv();
 s32 is_item_light_interaction_blocked();
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 draw_motion_model__9TObjEnemyFv(void *);
-s32 draw__10TObjMotionFv(void *);
-s32 end_effect_render__13TParticleCtrlFv();
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
-s32 set_global_param__8TObjFishFl(int);
 s32 draw_chunk_object(int);
 s32 lappy_variant_id;
 void *rappy_bml_resource;
@@ -408,12 +397,9 @@ extern s32 model_render_flags;
 void render__12TObjEneLappyFv(u8 *arg0);
 u16 find_nearest_visible_player(void *, int, f32);
 void TObjPlayer__sub_800BFF54(void * _w0);
-void sub_800C20C0__12TObjEneLappyFv(void *arg0);
-#define sub_800C20C0__12TObjEneLappyFv (*(s32 (*)())&sub_800C20C0__12TObjEneLappyFv)
 u8 *find_active_entity_by_id(u16);
 s32 minimap_render_dot(void *, int, int, int);
 void run_task__12TObjEneLappyFv(u8 *arg0);
-void apply_variant_speeds__12TObjEneLappyFv(Obj_800BFCD4 *self);
 s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
@@ -564,7 +550,7 @@ void TObjEneLappy::render() {
         }
         temp_r3 = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (temp_r3 != 0) {
-            this->set_speed_params(this->variant);
+            set_speed_params(this->variant);
             TObjFish::set_global_param(this->texlist);
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
@@ -582,9 +568,9 @@ void TObjEneLappy::render() {
             } else {
                 model_render_flags |= 0x01000000;
                 if (temp_r3 == 1) {
-                    this->draw();
+                    draw();
                 } else {
-                    this->draw_motion_model();
+                    draw_motion_model();
                 }
                 model_render_flags &= 0xFEFFFFFF;
             }
@@ -617,7 +603,7 @@ void TObjEneLappy::set_boss4_state() {
     this->actorFlags = (s32) (this->actorFlags & ~0xA00);
 }
 s32 TObjEneLappy::apply_move_friction() {
-    sub_800C20B0__12TObjEneLappyFv();
+    sub_800C20B0();
     advance_animation();
     if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity(this, 0, 0.0f);
@@ -1129,9 +1115,9 @@ void TObjEneLappy::run_task() {
     s16 temp_r5;
     u8 *temp_r3;
     u8 *temp_r3_2;
-    sub_800C20C0__12TObjEneLappyFv();
+    sub_800C20C0();
     if (TObjPlayer::check_demo_mode() == 1) {
-        this->apply_variant_speeds();
+        apply_variant_speeds();
         TObjPlayer__sub_800BFF54(this);
         return;
     }
@@ -1191,9 +1177,6 @@ void TObjEneLappy::run_task() {
 }
 #pragma pop
 
-#undef sub_800C20B0__12TObjEneLappyFv
-#undef set_speed_params__12TObjEneLappyFl
-#undef sub_800C20C0__12TObjEneLappyFv
 
 #undef lappy_variant_speed_ptr_table
 
@@ -1222,18 +1205,12 @@ void *TObjEneLappy::create(void *arg0) {
 #undef TObjEneLappy__ct
 
 #define render__12TObjEneLappyFv (*(void (*)())&render__12TObjEneLappyFv)
-#define apply_variant_speeds__12TObjEneLappyFv (*(s32 (*)(void *))&apply_variant_speeds__12TObjEneLappyFv)
-#define draw_motion_model__9TObjEnemyFv (*(void (*)(void *))&draw_motion_model__9TObjEnemyFv)
-#define draw__10TObjMotionFv (*(void (*)(void *))&draw__10TObjMotionFv)
 #define scale_matrix (*(void (*)(int, f32, f32, f32))&scale_matrix)
 #define draw_chunk_object (*(s32 (*)(int))&draw_chunk_object)
-#define set_global_param__8TObjFishFl (*(s32 (*)(void *))&set_global_param__8TObjFishFl)
 #define post_translate_matrix (*(s32 (*)(void *))&post_translate_matrix)
 #define pop_matrix (*(s32 (*)())&pop_matrix)
 #define push_matrix (*(s32 (*)())&push_matrix)
 #define rotate_matrix_y (*(s32 (*)(int, int))&rotate_matrix_y)
-#define end_effect_render__13TParticleCtrlFv (*(s32 (*)())&end_effect_render__13TParticleCtrlFv)
-#define toggle_particle_effect__10TObjPlayerFv (*(s32 (*)())&toggle_particle_effect__10TObjPlayerFv)
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -1506,16 +1483,16 @@ void TObjEneLappy::load_resources() {
     }
     {
         u8 *res = RES_800C17B8;
-        Desc_800C17B8 d = lappy_resource_binding_desc;
-        d.a = *(s32 *)(res + 0x430);
-        TLobby::spawn_npc_enemy(5, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8),
-                                        (NJS_TEXLIST *)*(saddr *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, 10.0f, 0.0f);
+        NpcAnimationBinding d = lappy_resource_binding_desc;
+        d.motions = reinterpret_cast<BmlMotionEntry *>(*(s32 *)(res + 0x430));
+        NpcModelRegistry::register_animated_chunk(5, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8)),
+                                        reinterpret_cast<void *>(*(saddr *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC)), &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (NJS_TEXLIST *)(*(uaddr *)&rappy_alternate_texture_list), &d,
+            NpcModelRegistry::register_animated_chunk(6, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8)), reinterpret_cast<void *>((*(uaddr *)&rappy_alternate_texture_list)), &d,
                                             10.0f, 0.0f);
         } else {
-            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18),
-                                            (NJS_TEXLIST *)*(saddr *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, 10.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(6, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18)),
+                                            reinterpret_cast<void *>(*(saddr *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C)), &d, 10.0f, 0.0f);
         }
     }
 }
@@ -1665,16 +1642,10 @@ __declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
 }
 
 
-#undef toggle_particle_effect__10TObjPlayerFv
-#undef end_effect_render__13TParticleCtrlFv
 #undef rotate_matrix_y
 #undef push_matrix
 #undef pop_matrix
 #undef post_translate_matrix
-#undef set_global_param__8TObjFishFl
 #undef draw_chunk_object
 #undef scale_matrix
-#undef draw__10TObjMotionFv
-#undef draw_motion_model__9TObjEnemyFv
-#undef apply_variant_speeds__12TObjEneLappyFv
 #undef render__12TObjEneLappyFv

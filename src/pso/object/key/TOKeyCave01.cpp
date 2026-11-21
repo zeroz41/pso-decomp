@@ -45,7 +45,7 @@ const s32 key_cave01_switch_sounds[] = {
 };
 const char *TOKeyCave01__class_name = "TOKeyCave01";
 BmlResource *TOKeyCave01__resource_bundle;
-saddr *TOKeyCave01__texture_lists;
+GinjaTextureList **TOKeyCave01__texture_lists;
 s32 key_cave_render_state;
 
 void TOKeyCave01::vfunc_25() {}
@@ -167,7 +167,7 @@ void TOKeyCave01::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(TOKeyCave01__texture_lists[is_on]);
+        TObjFish::set_global_param((s32)TOKeyCave01__texture_lists[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -214,7 +214,7 @@ void *TOKeyCave01::create(void *set_data) {
 
 void TOKeyCave01::free_objects() {
     if (TOKeyCave01__texture_lists != NULL) {
-        TObjPlayer::free_if_valid(TOKeyCave01__texture_lists[0]);
+        TObjPlayer::free_if_valid((s32)TOKeyCave01__texture_lists[0]);
         if (TOKeyCave01__texture_lists != NULL) {
             mem_free(TOKeyCave01__texture_lists);
             TOKeyCave01__texture_lists = NULL;
@@ -236,9 +236,9 @@ void TOKeyCave01::load_resources() {
             resource = load_resource_from_descriptor(resource, 1, &fs_obj_key_jungle_resource_descriptor, 0, 0, 0);
         }
         TOKeyCave01__resource_bundle = resource;
-        TOKeyCave01__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
-        TOKeyCave01__texture_lists[0] = (saddr)load_gvm_texture_file((saddr) "fs_obj_key_jungle_red.gvm");
-        TOKeyCave01__texture_lists[1] = TOKeyCave01__resource_bundle->models[0].m_c;
+        TOKeyCave01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyCave01__texture_lists));
+        TOKeyCave01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_key_jungle_red.gvm");
+        TOKeyCave01__texture_lists[1] = (GinjaTextureList *)TOKeyCave01__resource_bundle->models[0].m_c;
         key_cave_render_state = 1;
         return;
     }
@@ -247,9 +247,9 @@ void TOKeyCave01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_do_doa_panel_resource_descriptor, 0, 0, 0);
     }
     TOKeyCave01__resource_bundle = resource;
-    TOKeyCave01__texture_lists = (saddr *)mem_alloc(2 * sizeof(saddr));
-    TOKeyCave01__texture_lists[0] = (saddr)load_gvm_texture_file((saddr) "fs_obj_do_doa_panelr.gvm");
-    TOKeyCave01__texture_lists[1] = TOKeyCave01__resource_bundle->models[0].m_c;
+    TOKeyCave01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyCave01__texture_lists));
+    TOKeyCave01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_do_doa_panelr.gvm");
+    TOKeyCave01__texture_lists[1] = (GinjaTextureList *)TOKeyCave01__resource_bundle->models[0].m_c;
     key_cave_render_state = 0;
 }
 
@@ -259,7 +259,7 @@ TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
     m_name = TOKeyCave01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = TOKeyCave01__texture_lists[0];
+    texlist = (s32)TOKeyCave01__texture_lists[0];
     model = (void *)TOKeyCave01__resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 20.0f;

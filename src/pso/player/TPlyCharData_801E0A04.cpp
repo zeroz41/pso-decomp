@@ -4,14 +4,14 @@
 #include "pso/unk/TLobby_8013A874.h"
 #include "pso/player/TPlyCharData_801E0A04.h"
 #include "pso/player/TPlyDispConfigSmth.h"
-#include "pso/player/TPlyInventoryItem.h"
+#include "pso/player/TPlyInventory.h"
 
 void bswap__12TPlyCharDataFv(saddr arg0) {
     s32 off;
     s32 i;
 
     for (i = 0, off = 0; i < 0x1E; i++, off += 0x1C) {
-        bswap__17TPlyInventoryItemFv((saddr)((char *)arg0 + off + 4));
+        ((TPlyInventoryItem *)((char *)arg0 + off + 4))->bswap();
     }
     bswap__15disp_data_part2Fv(arg0 + 0x370);
     bswap__12player_statsFv((void *)(arg0 + 0x34C));

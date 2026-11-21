@@ -39,7 +39,7 @@ struct TAdDialingGC : public TObject {
     void draw_dialing_status();
     void draw_if_flag_set();
     void render_if_flag_set();
-    static void create();
+    void create();
     static void close();
     static void open();
 };

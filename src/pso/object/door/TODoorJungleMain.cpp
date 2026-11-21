@@ -1,6 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/object/ambient/TObjFish.h"
+
+struct BmlResource;
+struct GinjaTextureList;
+struct AnimationMotion;
 
 #include "pso/object/door/TODoorJungleMain.h"
 
@@ -122,9 +127,9 @@ struct Door_8029B428 : VObj_8029B428 {
     s32 count;
 };
 
-uaddr TODoorJungleMain__bml_resource;
+BmlResource *TODoorJungleMain__bml_resource;
 
-uaddr door_jungle_main_gvm_texture;
+GinjaTextureList *door_jungle_main_gvm_texture;
 extern "C" {
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -133,7 +138,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
 
-saddr get_bml_motion(void *, s32);
+AnimationMotion *get_bml_motion(BmlResource *, s32);
 
 u32 init_collision_body_parts(void *, saddr, s32);
 
@@ -141,15 +146,14 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 
 extern s32 __vt__16TODoorJungleMain[];
 
-void *get_bml_model(uaddr, int);
+void *get_bml_model(BmlResource *, int);
 
 s32 rotate_matrix_y(int, int);
+int push_matrix();
 
-int push_matrix(void *);
 
 int post_translate_matrix(void *);
 
-void *set_global_param__8TObjFishFl(void *);
 
 s32 draw_ginja_model_with_motion(void *, int, f32);
 }
@@ -189,7 +193,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
-    arg0->motion = (AnimationMotion *)get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);
+    arg0->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
     arg0->animation_step = 1.0f;
     ((TODoorJungleMain *)arg0)->animation_end_frame = 0.0f;
     init_collision_body_parts(arg0, (saddr) TODoorJungleMain_collision_body_parts, 1);
@@ -301,7 +305,8 @@ void TODoorJungleMain::render() {
     Ids_8029B428 ids = {{2, 1, 0}};
     s32 i;
     if (self->m8(self->fc0, self->fc4) == 1) {
-        push_matrix(set_global_param__8TObjFishFl((void *)door_jungle_main_gvm_texture));
+        TObjFish::set_global_param((s32)door_jungle_main_gvm_texture);
+        push_matrix();
         post_translate_matrix(self->xf);
         rotate_matrix_y(0, self->f60);
         if (self->flags & 1) {
@@ -324,19 +329,19 @@ void TODoorJungleMain::load_resources() {
     if (var_r0 != 0) {
         var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, 0));
     }
-    (*(saddr *)&TODoorJungleMain__bml_resource) = var_r0;
-    (*(u8 * *)&door_jungle_main_gvm_texture) = load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
+    TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
+    door_jungle_main_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
 }
 
 void TODoorJungleMain::free_static_resources() {
-    if ((u32) door_jungle_main_gvm_texture != 0U) {
-        release_texture_list((void*)door_jungle_main_gvm_texture);
-        TAdSinglePlyChrSelectGC::safe_free(door_jungle_main_gvm_texture);
-        door_jungle_main_gvm_texture = 0U;
+    if (door_jungle_main_gvm_texture != NULL) {
+        release_texture_list(door_jungle_main_gvm_texture);
+        TAdSinglePlyChrSelectGC::safe_free((u32)door_jungle_main_gvm_texture);
+        door_jungle_main_gvm_texture = NULL;
     }
-    if ((u32) TODoorJungleMain__bml_resource != 0U) {
-        free_bin_model_request((void*)TODoorJungleMain__bml_resource, 1);
-        TODoorJungleMain__bml_resource = 0U;
+    if (TODoorJungleMain__bml_resource != NULL) {
+        free_bin_model_request(TODoorJungleMain__bml_resource, 1);
+        TODoorJungleMain__bml_resource = NULL;
     }
 }
 

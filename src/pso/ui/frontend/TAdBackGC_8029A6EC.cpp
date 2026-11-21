@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
-#include "pso/ui/frontend/TAdBackGC_8029A7B0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8029A914.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
@@ -50,7 +50,7 @@ void TAdBackGC::sub_8029A6EC() {
     fan.pos[6] = 639.0f;
     fan.pos[7] = 0.0f;
     fan.col[3] = 0xFF;
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 3, *(f32 *)((u8 *)this + 0x1C) - 0.01f);
+    draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 3, *(f32 *)((u8 *)this + 0x1C) - 0.01f);
 }
 
 extern "C" {
@@ -59,7 +59,7 @@ void __ct__7TObjectFP7TObject(void *);
 void TAdBackGC::render() {
     u8 *arg0 = (u8 *)this;
     if ((s32) *(s32 *)((s8 *)arg0 + 0x20) == 0) {
-        if (TObject::defer_render() == 0) {
+        if ((s32)this->defer_render() == 0) {
             set_depth_buffer_settings_2();
             goto block_4;
         }
@@ -79,16 +79,11 @@ block_4:
 
 void TAdBackGC::run_task() {  }
 
-extern s32 __vt__9TAdBackGC[];
-
 TAdBackGC::~TAdBackGC() {}
-void *__ct__9TAdBackGCFv(void *ad_back_gc) {
-    __ct__7TObjectFP7TObject(ad_back_gc);
-    *(s32 **)((s8 *)ad_back_gc + 0x18) = __vt__9TAdBackGC;
-    *(void * *)&((TAdBackGC *)ad_back_gc)->m_name = (void *)TAdBackGC__class_name;
-    *(f32 *)((s8 *)ad_back_gc + 0x1C) = -400.0f;
-    *(u32 *)((s8 *)ad_back_gc + 0x20) = 1;
-    return ad_back_gc;
+TAdBackGC::TAdBackGC(TObject *parent) : TObject(parent) {
+    m_name = TAdBackGC__class_name;
+    m_depth = -400.0f;
+    m_20 = 1;
 }
 
 uaddr chr_select_ad_pic_texture;

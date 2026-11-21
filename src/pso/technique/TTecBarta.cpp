@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/technique/TechniqueParams.h"
 #include "types.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -7,21 +8,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 
-struct RecoveredGlobal_8022B6FC_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_8022B6FC_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
-
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_80226070.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -86,9 +76,6 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-saddr calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_8022B6FC_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_8022B6FC_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
 u16 get_entity_id(void *);
 saddr get_bml_model(s32, s32);
@@ -133,7 +120,6 @@ s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
     u8 *arg0 = (u8 *)this;
@@ -143,7 +129,7 @@ void TTecBarta::update_technique_by_state() {
     case 0:
         handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
+            set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
@@ -153,28 +139,24 @@ void TTecBarta::update_technique_by_state() {
     case 3:
         handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
+            set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
         handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
+            set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
         handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
+            set_sound_pitch_request(handle, -0x100, 0);
         }
         break;
     }
 }
 
-typedef struct RecoveredGlobal_8022B6FC_lbl_804CC510 RecoveredGlobal_8022B6FC_lbl_804CC510;
-typedef struct RecoveredGlobal_8022B6FC_lbl_804CC55C RecoveredGlobal_8022B6FC_lbl_804CC55C;
-typedef char RecoveredGlobal_8022B6FC_lbl_804CC510_size[((sizeof(RecoveredGlobal_8022B6FC_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_8022B6FC_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8022B6FC_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 void TTecBarta::create_particle_emitters() {
 #define self ((TTecBarta *)this)
@@ -216,18 +198,18 @@ void TTecBarta::create_particle_emitters() {
 void TTecBarta::init_parameters() {
     u8 *arg0 = (u8 *)this;
   saddr new_var;
-  new_var = calc_technique_parameters(3, this->level, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
+  new_var = (int) calc_technique_parameters(3, this->level, 0xFFFF);
+  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    this->power = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xC))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xE))) * (this->level)));
+    this->power = (f32) (tech_high_level_linear_power_table[3].base + (tech_high_level_linear_power_table[3].per_level * (this->level)));
   }
   else
   {
     this->power = (f32) ((this->power) + ((f32) ((*((s16 *) (((s8 *) arg0) + 0xF0))) * (this->level))));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      this->power = (f32) ((this->power) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x18))));
+      this->power = (f32) ((this->power) * lbl_804CC55C[3].pad_00);
     }
   }
   this->speed = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));

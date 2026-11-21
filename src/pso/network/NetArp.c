@@ -37,13 +37,12 @@ s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, sa
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s32 NetUnregisterTimer(void* p);
 void age_arp_cache(void);
 s32 TLobby__sub_80407358(void) {
     ArpState *g = &lbl_805C1AB0;
     s32 tmp[2];
     release_slot_by_id(0x806);
-    NetUnregisterTimer((void *)age_arp_cache);
+    NetUnregisterTimer(age_arp_cache);
     TLobby__sub_803F8A24(g);
     g->nentries = 0;
     g->nifaces = 0;
@@ -583,7 +582,7 @@ src = found->data;
 p = pkt->fragments + k - 1;
 while (k > 0)
 {
-set_value_and_enable(tmp, src);
+set_value_and_enable((NetBufferRef *)tmp, src);
 netbuf_copy_by_ref(tmp, (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
 src += p->length;
 sum += p->length;

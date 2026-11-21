@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 
 struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
+    TAdTrialAgreementGC(TObject *parent);
     virtual ~TAdTrialAgreementGC();
     virtual void vfunc_6();
     virtual void vfunc_7();

@@ -232,7 +232,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, 
 void TObjEneRe2Flower_Bomb::render() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->m_100 != 0) {
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((saddr)(arg0 + 0xD8), 0, (u32)0);
+        TObjEneDD::draw_oriented_shadow(&position, (const Vec *)(arg0 + 0xD8), 0, NULL);
     }
 }
 void TObjEneRe2Flower_Bomb::run_task() {

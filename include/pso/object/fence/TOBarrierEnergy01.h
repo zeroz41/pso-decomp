@@ -17,7 +17,6 @@ public:
     virtual void update_open();
     virtual void update_closing();
     virtual void update_demo();
-    TOBarrierEnergy01 *init();
     void play_ambient_loop_sound();
     static void *create(void *set_data);
     static void free_resources();
@@ -25,4 +24,6 @@ public:
 };
 
 LAYOUT_ASSERT(TOBarrierEnergy01_size, sizeof(TOBarrierEnergy01) == 0xD4);
+extern "C" void *init_collision_subcommand_header(void *packet);
+
 #endif

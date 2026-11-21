@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/system/data/FlagWord.h"
 
 struct E_80154098 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 
@@ -16,8 +17,6 @@ void TMainCursor__sub_801540D8(E_801540D8 *arr, s32 n);
 void TMainCursor__sub_801540B8(void *self, E_801540B8 *arr, s32 i);
 void TMainCursor__sub_801540FC(E_801540FC *arr, s32 n);
 s32 test_flags_any(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
-s32 clear__8FlagWordFUl(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
-s32 set__8FlagWordFUl(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
 
 void TMainCursor__sub_80154090(void) {  }
 void TMainCursor__sub_80154094(void) {  }
@@ -66,7 +65,7 @@ void TMainCursor::set_flag_bit(s32 arg1, u16 arg2) {
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
         temp_r5 = *(s32 *)((s8 *)this + 0x9C);
-        clear__8FlagWordFUl(temp_r5 + (arg1 * 4), 1 << arg2, temp_r5);
+        ((FlagWord *)(temp_r5 + (arg1 * 4)))->clear(1 << arg2);
     }
 }
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2) {
@@ -74,7 +73,7 @@ void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2) {
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
         temp_r5 = *(s32 *)((s8 *)arg0 + 0x9C);
-        set__8FlagWordFUl(temp_r5 + (arg1 * 4), 1 << arg2, temp_r5);
+        ((FlagWord *)(temp_r5 + (arg1 * 4)))->set(1 << arg2);
     }
 }
 

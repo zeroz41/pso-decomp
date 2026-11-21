@@ -1,11 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -21,6 +24,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D853C.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -175,7 +179,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_800ABA9C_lbl_8058D490 identity_matrix;
 void vfunc_94__12TObjEneSharkFv(u8 *arg0);
 void vfunc_83__12TObjEneSharkFv(Obj_800ABCBC *arg0);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern uaddr TObjEneShark__attack_motion_3_trail;
 extern uaddr shark_attack4_trail_buffer;
@@ -262,7 +265,7 @@ void TObjEneShark::vfunc_93() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    mult_vec_array__10TObjPlayerFUll(0, e, &a, 2);
+    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {
@@ -303,7 +306,7 @@ void TObjEneShark::vfunc_83() {
     default:
         if (*(s32 *)&this->m_390 != 0) {
             ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
-            ((TBoss3Volopt *)(arg0->sub38))->play_area_sound_effect();
+            play_area_sound_effect((Vec *)(arg0->sub38));
             *(s16 *)&this->m_328 = 1;
         } else {
             *(s16 *)&this->m_328 = 2;
@@ -529,7 +532,6 @@ typedef struct O_800AC5EC {
     void *objs[2];
 } O_800AC5EC;
 
-struct Anim_800AC318 { s32 motions; void *actions; s32 initial_action; s32 counts; };
 
 struct Pair_800AC318 { s32 a; s32 b; };
 
@@ -829,9 +831,9 @@ void TLobby::load_shark_resources() {
     shark_render_node_index = 0;
     {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
-        Anim_800AC318 anim = { (saddr)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
+        NpcAnimationBinding anim = { reinterpret_cast<BmlMotionEntry *>(RES->motions), reinterpret_cast<TObjMotionAction *>(TObjEneShark__action_table), 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            TLobby::spawn_npc_enemy(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(RES->bodies[i].model), reinterpret_cast<void *>(RES->bodies[i].textures), &anim,
                 7.5f, 0.0f);
         }
     }

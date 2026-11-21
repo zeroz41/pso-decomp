@@ -1,3 +1,4 @@
+#include "pso/effect/GroundContactSound.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/map/FloorArea.h"

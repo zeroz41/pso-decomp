@@ -4,17 +4,23 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
+struct AnimationMotion;
+
 struct TObjWarpLobby : public TObjAreaWarp {
     TObjWarpLobby(TObject *parent, void *set_data);
     virtual ~TObjWarpLobby();
     virtual void debug_print_area_num();
     void run_task();
     static void release_static();
+    static void load_resources();
     void open_lobby_menu();
     void render();
-    u8 unk_C4[0x4];
-    f32 m_c8;
-    u8 unk_CC[0x14];
+    f32 beam_phase;
+    f32 beam_frame;
+    s32 show_beam;
+    u8 unused_D0[0x8];
+    AnimationMotion *beam_motion;
+    u8 unused_DC[0x4];
 };
 
 LAYOUT_ASSERT(TObjWarpLobby_size, sizeof(TObjWarpLobby) == 0xE0);

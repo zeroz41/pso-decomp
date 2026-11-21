@@ -1,3 +1,5 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/object/base/TObjMotion.h"
@@ -60,12 +62,10 @@ void rotate_matrix_y(int, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-extern void *lazer_fence_norm_texture_list;
 u8 is_current_floor_switch_set(s32 id);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
-extern saddr lazer_fence_norm_bml_resource;
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
@@ -88,13 +88,13 @@ void TObjLazerFence4::init_models() {
     s32 i;
     s32 j;
     if (arg0->f8C % 2 == 0) {
-        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
-        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
-        arg0->fC4 = (saddr)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 2);
+        arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 4);
+        arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 5);
+        arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
-        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
-        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
-        arg0->fC4 = (saddr)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 3);
+        arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 6);
+        arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 7);
+        arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         arg0->fC8[j] = 0;
@@ -129,12 +129,12 @@ void TObjLazerFence4::draw_model() {
   var_r31 = 0;
   do
   {
-    ((TObjDoorJung *)(*((s32 *) ((arg0 + var_r31) + 0xC8))))->free_children((void *)(*new_var2));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((*((s32 *) ((arg0 + var_r31) + 0xC8)))), (*new_var2));
     var_r30 += 1;
     var_r31 += 4;
   }
   while (var_r30 < 0xC);
-  TObjFish::set_global_param((saddr)((void *)((*(saddr *)&lazer_fence_norm_texture_list))));
+  TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
   push_matrix();
   post_translate_matrix((u8 *)&this->position);
   rotate_matrix_y(0, (void *)this->rotation_y);
@@ -231,17 +231,11 @@ extern "C" {
 
 s32 init_collision_body_parts(void *, void *, int);
 
-void __ct__14TObjCollidableFP7TObject(void *);
-extern s32 __vt__15TObjLazerFence4[];
 
 void free_collision_body_parts(void *);
 
 void *TObjLazerFence4::create() {
-    void *o = TObject::operator new(0xF8);
-    if (o != NULL) {
-        o = TObjLazerFence4__ct(o, tl_05, this);
-    }
-    return o;
+    return new TObjLazerFence4((TObject *)tl_05, this);
 }
 
 }
@@ -251,11 +245,9 @@ TObjLazerFence4::~TObjLazerFence4() {
 }
 
 
-#define self ((Fence_801935D8 *)arg0)
-void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
+#define self ((Fence_801935D8 *)this)
+TObjLazerFence4::TObjLazerFence4(TObject *parent, void *arg2) : TObjCollidable(parent) {
     s32 i;
-    ((void (*)(void *, void *, void *))__ct__14TObjCollidableFP7TObject)(self, arg1, arg2);
-    self->vt = (void *)__vt__15TObjLazerFence4;
     self->id = lazer_fence4_class_name;
     ((V_801935D8 *)self)->init(arg2);
     self->fAC = 0;
@@ -274,6 +266,5 @@ void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
     self->flags |= 0x40000000;
     ((TObjPlayer *)self)->register_object_by_id();
     ((TObjCollidable *)self)->refresh_collision_body_centers();
-    return self;
 }
 #undef self

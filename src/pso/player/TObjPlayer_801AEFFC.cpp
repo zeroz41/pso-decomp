@@ -7,7 +7,6 @@
 extern "C" {
 s32 get_entity_id(void *);
 s32 init_pad_binding(void *, s32, int);
-s32 update_movement_by_screen__10TObjPlayerFv(s32);
 s32 TObjPlayer__sub_801AF868(s32);
 s32 check_flag_800000__10TObjPlayerFPv(s32);
 void emit_idle_water_effect(saddr arg0);
@@ -60,7 +59,7 @@ void TObjPlayer::apply_switch_attack() {
 
 void TObjPlayer::update_movement_effects() {
     saddr player = (saddr)this;
-    if ((TTecCtrl::is_technique_ready() != 0) && (TObjPlayer__sub_801AF868(player) == 0) && (update_movement_by_screen__10TObjPlayerFv(player) != 0) && (((TObjPlayer *)player)->test_action_mask(0x408000) == 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (check_flag_800000__10TObjPlayerFPv(player) == 0)) {
+    if ((TTecCtrl::is_technique_ready() != 0) && (TObjPlayer__sub_801AF868(player) == 0) && (((TObjPlayer *)player)->update_movement_by_screen() != 0) && (((TObjPlayer *)player)->test_action_mask(0x408000) == 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (check_flag_800000__10TObjPlayerFPv(player) == 0)) {
         ((TObjPlayer *)(player + 0x384))->emit_movement_effect_at();
     }
     if ((((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)player)->test_action_mask(2) != 0) && (has_water_ground_flag((void *)(player + 0x360)) != 0)) {

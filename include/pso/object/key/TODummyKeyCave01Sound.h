@@ -6,15 +6,12 @@
 
 class TODummyKeyCave01Sound : public TObject {
 public:
+    TODummyKeyCave01Sound(TObject *parent, s32 arg2, s32 arg3);
     virtual ~TODummyKeyCave01Sound();
     void play_cave01_key_sound();
     virtual void run_task();
     s32 sound_kind;
     s32 delay_frames;
 };
-
-extern "C" {
-void *TODummyKeyCave01Sound__ct(void *dummy_key_cave01_sound, saddr arg1, s32 arg2, s32 arg3);
-}
 
 #endif

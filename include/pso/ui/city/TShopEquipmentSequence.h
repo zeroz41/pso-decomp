@@ -4,7 +4,9 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+struct TObjPlayer;
 class TWindowBase;
+struct TWindowMenu;
 
 struct TShopEquipmentSequence : public TShopSequence {
     TShopEquipmentSequence(TObject *parent, TObjPlayer *player);
@@ -15,7 +17,7 @@ struct TShopEquipmentSequence : public TShopSequence {
     void update_buy_sell_choice();
     s32 open_greeting();
     static void *create_instance(void *arg0);
-    TWindowBase *choice_menu;   // 0x2C: the buy/sell create_window_menu
+    TWindowMenu *choice_menu;   // 0x2C: the buy/sell create_window_menu
     TWindowBase *meseta_window; // 0x30: create_meseta_window
     TObject *counter_camera; // 0x34: set_service_counter_camera
     void open_sell_window();
@@ -29,9 +31,8 @@ extern "C" {
 s32 TShopEquipmentSequence__sub_8021D65C(void);
 void TShopEquipmentSequence__sub_8021DBE0(void);
 void TShopEquipmentSequence__sub_8021DC08(void);
-void exit__22TShopEquipmentSequenceFPv(void *shop_window_base);
-void init_window__22TShopEquipmentSequenceFPv(void *shop_window_base);
+void exit__22TShopEquipmentSequenceFPv(TShopWindowBase *window);
+void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window);
 }
-// --- end of C functions
 
 #endif

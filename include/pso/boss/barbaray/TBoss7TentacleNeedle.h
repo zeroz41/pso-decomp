@@ -4,7 +4,9 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct Vec;
 struct TBoss7TentacleNeedle : public TObject {
+    TBoss7TentacleNeedle(TObject *parent, Vec *pos);
     virtual ~TBoss7TentacleNeedle();
     void advance_needle_timer();
     void* m_1c;
@@ -28,7 +30,7 @@ LAYOUT_ASSERT(TBoss7TentacleNeedle_size, sizeof(TBoss7TentacleNeedle) == 0x7C);
 class TBoss7Tentacle;
 extern "C" {
 void TBoss7Tentacle__sub_802EF954(void *p);
-u8 TBoss7Tentacle__sub_802F0904(u8 *arg0);
+s32 TBoss7Tentacle__sub_802F0904(u8 *arg0);
 void TBoss7Tentacle__sub_802F0918(void *p);
 void TBoss7Tentacle__sub_802F09B4(void *p);
 void TBoss7Tentacle__sub_802F09C8(void *a0);

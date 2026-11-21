@@ -9,6 +9,7 @@
 #include "pso/item/TItem.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #pragma readonly_strings on
@@ -123,7 +124,7 @@ void TItemEffectWeapon::push_trail_entry(const f32* first, const f32* second) {
 }
 
 void TItemEffectWeapon::render_trail() {
-    if (TCameraCtrl::get_mode(((u8 *)&main_task)) & 0x200) {
+    if ((s32)main_task.get_task_flags() & 0x200) {
         if (vertex_count != 0 && vertices != NULL) {
             TParticleCtrl::begin_effect_render();
             saved_model_render_flags = model_render_flags;

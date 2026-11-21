@@ -82,7 +82,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
     this->m_6c -= d;
     *(f32 *)(((u8 *)this) + 0x80) -= d;
     for (; i < this->line_count; i++) {
-        e = (u8 *)get_array_entry(i);
+        e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
         *(f32 *)(e + 0xC) -= d;
     }
     *(f32 *)(arg1 + 0xC) = 0.0f;
@@ -93,8 +93,8 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
 void TWindowMessage::advance_reveal_cursor() {
     u16 *e;
     s32 t;
-    e = ((u16 *)get_array_entry(((Msg_802695A8 *)this)->cur));
-    while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
+    e = ((u16 *)((TWindowBase *)((Msg_802695A8 *)this))->get_array_entry(((Msg_802695A8 *)this)->cur));
+    while (((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
         t = ((Msg_802695A8 *)this)->cur + 1;
         ((Msg_802695A8 *)this)->cur = t;
         if (t >= ((Msg_802695A8 *)this)->cnt) {
@@ -103,7 +103,7 @@ void TWindowMessage::advance_reveal_cursor() {
         if (((Msg_802695A8 *)this)->cur == ((Msg_802695A8 *)this)->sel) {
             break;
         }
-        e = ((u16 *)get_array_entry(((Msg_802695A8 *)this)->cur));
+        e = ((u16 *)((TWindowBase *)((Msg_802695A8 *)this))->get_array_entry(((Msg_802695A8 *)this)->cur));
         if (((Msg_802695A8 *)this)->ents[((Msg_802695A8 *)this)->cur].flags & 8) {
             ((Msg_802695A8 *)this)->ents[((Msg_802695A8 *)this)->cur].flags &= ~8;
             *e &= ~8;
@@ -118,16 +118,16 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)((Q_80269664 *)this)->capacity; i++) {
-        if ((u32)((TWindowSubComCard *)get_array_entry(i))->get_field_20() != 0) {
+        if (((TWindowSubComCard *)((u8 *)((TWindowBase *)this)->get_array_entry(i)))->get_field_20() != 0) {
             if ((((Q_80269664 *)this)->meta[i].flags & 4) && ((Q_80269664 *)this)->meta[i].timer > 0) {
                 ((Q_80269664 *)this)->meta[i].timer--;
             }
         }
     }
     idx = ((Q_80269664 *)this)->oldest;
-    e = (Ent_80269664 *)get_array_entry(idx);
+    e = (Ent_80269664 *)((TWindowBase *)((Q_80269664 *)this))->get_array_entry(idx);
     m = &((Q_80269664 *)this)->meta[idx];
-    while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
+    while (((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
         h = (1.0f) + (e->y + e->h);
         if (((Q_80269664 *)this)->height < h) {
@@ -140,7 +140,7 @@ void TWindowMessage::update_line_timers() {
         if (idx == ((Q_80269664 *)this)->oldest) {
             break;
         }
-        e = (Ent_80269664 *)get_array_entry(idx);
+        e = (Ent_80269664 *)((TWindowBase *)((Q_80269664 *)this))->get_array_entry(idx);
         m = &((Q_80269664 *)this)->meta[idx];
     }
 }
@@ -151,7 +151,7 @@ void TWindowMessage::retire_scrolled_lines() {
     Meta_802697B4 *m;
     e = (u8 *)((TWindowBase *)w)->get_array_entry(w->oldest);
     m = &w->meta[w->oldest];
-    while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
+    while (((TWindowSubComCard *)e)->get_field_20() != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
         ((TWindowMessage *)w)->scroll_up_line(e);
         m->flags = 0;
         m->timer = 0;
@@ -334,7 +334,6 @@ WindowDescriptor message_window_settings = {
 
 extern "C" {
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
-u8 *TWindowMessage__ct(u8 *arg0, saddr arg1, u32 arg2, s32 arg3);
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
@@ -351,24 +350,16 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
 }
 
 u8 *TWindowMessage::create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3) {
-    u8 *temp_r3;
-    u8 *var_r0;
     ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
-    temp_r3 = (u8 *)(TObject::operator new(0x90));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowMessage__ct(temp_r3, arg0, arg2, arg3));
-    }
-    return var_r0;
+    return (u8 *)new TWindowMessage(arg0, arg2, arg3);
 }
 
-u8 *TWindowMessage::create(void *arg0, saddr arg1, s32 arg2) {
-    return TWindowMessage::create((saddr)arg0, (const f32 *)arg1, (u32)arg2, 4);
+u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
+    return TWindowMessage::create((saddr)pos, size, (u32)rows, 4);
 }
 
-void TLobby::update_window_mode_from_progress(void *arg1) {
-    saddr arg0 = (saddr)this;
-    TWindowMessage::create((void *)arg0, (saddr)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
+u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
+    return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
@@ -380,7 +371,6 @@ s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
 
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
-extern s32 __vt__14TWindowMessage[];
 
 
 void TWindowMessage::render() {
@@ -408,11 +398,10 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-u8 *TWindowMessage__ct(u8 *window_addition, saddr arg1, u32 arg2, s32 arg3) {
+TWindowMessage::TWindowMessage(saddr arg1, u32 arg2, s32 arg3) : TWindowAddition((u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1) {
     u32 i;
     u8 *p;
-    __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1);
-    *(void **)(window_addition + 0x18) = ((u8 *)&__vt__14TWindowMessage);
+    #define window_addition ((u8 *)this)
     ((TObject *)window_addition)->m_name = lbl_805D3980;
     *(s32 *)(window_addition + 0x70) = 0;
     *(s32 *)(window_addition + 0x74) = 0;
@@ -428,7 +417,7 @@ u8 *TWindowMessage__ct(u8 *window_addition, saddr arg1, u32 arg2, s32 arg3) {
         *(s32 *)(p + 4) = 0;
         p += 8;
     }
-    return window_addition;
+    #undef window_addition
 }
 
 }

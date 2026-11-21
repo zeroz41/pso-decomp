@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjDeadListWin.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -10,6 +11,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <string.h>
+#include "pso/player/TObjPlayer.h"
 extern "C" {
 saddr get_player_by_client_id(s32);
 s32 has_window_task_root();
@@ -25,7 +27,7 @@ extern const char dead_list_name_separator[] = "\n";
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];
     s32 i;
-    m_window_handle = (uaddr)TWindowMessage::create(get_window_layout_position(0x3C), (saddr)dead_list_window_position, 1);
+    m_window_handle = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
     if (m_window_handle != 0U) {
         text[0] = 0;
         strcat(text, dead_list_text_prefix);
@@ -49,7 +51,7 @@ void TObjDeadListWin::update_countdown() {
         queue_destruction();
         return;
     }
-    if ((((TLobby *)player)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
+    if ((((TObjPlayer *)player)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
     temp_r0 = m_countdown - 1;
     m_countdown = temp_r0;
     if (temp_r0 < 0) {

@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TLoadingCur : public TObject {
+    TLoadingCur(TObject *parent, Vec *pos);
     virtual ~TLoadingCur();
     int sub_8001CCD4();
     void update_camera_facing_offset();
@@ -17,7 +18,6 @@ struct TLoadingCur : public TObject {
     static s32 calc_clamp_offset(s32 arg0, u8 *arg1, u8 *arg2);
     void render();
     void run_task();
-    u8 is_flag_set();
     u8 unk_38[0x4];
     f32 m_3c;
     u8 unk_40[0x14];
@@ -28,14 +28,7 @@ struct TLoadingCur : public TObject {
 LAYOUT_ASSERT(TLoadingCur_size, sizeof(TLoadingCur) == 0x5C);
 
 extern "C" {
-u8 *TLoadingCur__ct(u8 *arg0, saddr arg1);
 void *__dt__11TLoadingCurFv(void *arg0, s16 arg1);
 }
-
-// --- C functions defined in TLoadingCur.cpp ---
-extern "C" {
-u8 *TLoadingCur__ct(u8 *object, saddr arg1);
-}
-// --- end of C functions
 
 #endif

@@ -53,15 +53,14 @@ struct V_803FE600;
 
 TcpState tcp_protocol_state;
 
-s32 NetUnregisterTimer(void* p);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
 s32 TLobby__sub_8041A1D8(void) {
-    NetUnregisterTimer((void *)TLobby__sub_8041A5B4);
-    NetUnregisterTimer((void *)TLobby__sub_8041A3CC);
+    NetUnregisterTimer(TLobby__sub_8041A5B4);
+    NetUnregisterTimer(TLobby__sub_8041A3CC);
     TLobby__sub_803F8794((void *)&tcp_protocol_state);
     tcp_protocol_state.count = 0;
     return 0;
@@ -895,8 +894,6 @@ s16 tcp_input(u8 *pkt, u8 *a, u8 *b) {
     s32 ack;
     s16 rtt;
     s16 srtt;
-    s32 TLobby__sub_80422AB8(s16, void (*)(s16, s16, s32, s32), s16, s32, s32, s32); /* declared here with an s16 first parameter; the definition takes s32 */
-    s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041B3D4(void *, void *, u16, u16, s32, s32, u8); /* declared s16 here; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
 
     ((NetPacket *)pkt)->total_bytes = ((NetPacket *)pkt)->total_bytes - ((NetPacket *)pkt)->fragments[0].length;
@@ -1023,7 +1020,7 @@ retry:
         if (!(kind & 2)) {
             goto drop;
         }
-        if (is_multicast_address(b, 0) == 1) {
+        if (is_multicast_address((NetworkAddress *)b, 0) == 1) {
             goto drop;
         }
         ent_new = (u8 *)TLobby__sub_8041B774((TcpTcb *)found, ti, a, b);
@@ -1071,7 +1068,7 @@ retry:
                 int listener_index = (TcpTcb *)found - tcp_protocol_state.tcbs;
                 int accepted_index = (TcpTcb *)ent_new - tcp_protocol_state.tcbs;
                 TLobby__sub_80422AB8(listener_index,
-                                     *(void (**)(s16, s16, s32, s32))(found + offsetof(TcpTcb, accept_cb)),
+                                     *(TcpAcceptCallback *)(found + offsetof(TcpTcb, accept_cb)),
                                      accepted_index, (saddr)(ent_new + offsetof(TcpTcb, remote)),
                                      (s32)((TcpTcb *)ent_new)->hdr.sport, (s32)((TcpTcb *)ent_new)->hdr.dport);
             }
@@ -1564,7 +1561,7 @@ dropwithreset:
     if (kind & 4) {
         goto drop;
     }
-    if (is_multicast_address(b, 0) == 1) {
+    if (is_multicast_address((NetworkAddress *)b, 0) == 1) {
         goto drop;
     }
     if (kind & 0x10) {
@@ -2312,7 +2309,6 @@ extern s32 TLobby__sub_8041E590(s16 idx) {
 }
 
 extern s32 TLobby__sub_8041E5E4(s16 idx, u8 *a, u16 id) {
-    s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     s16 i;
     TcpTcb *e;
     TcpState *g;

@@ -25,7 +25,7 @@ void TWindowDD::update_dispatch() {
 }
 
 void TWindowDD::update_layout() {
-    update_selection_state();
+    this->update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         *(s32 *)((s8 *)this + 0xB4) = 0x14;

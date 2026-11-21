@@ -90,13 +90,13 @@ s32 TObjPlayer::consume_trap_count(s32 arg1, s32 arg2) {
     return 1;
 }
 
-u8 TObjPlayer::clamp_char_at(s32 arg1) {
+s32 TObjPlayer::clamp_char_at(s32 arg1) {
     s8 *arg0 = (s8 *)this;
     s8 c = arg0[arg1];
     if (c < 0 || (s32)c > 20) {
         arg0[arg1] = 0;
     }
-    return arg0[arg1];
+    return (u8)(arg0[arg1]);
 }
 
 void TObjPlayer__sub_801C5780(saddr arg0, s8 arg1, s32 arg2) {

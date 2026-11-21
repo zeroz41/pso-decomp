@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-u32 create_shoot_model__10TObjPlayerFUiiif();
+u32 spawn_shoot_particle__10TObjPlayerFUlllf(void *, s32, s32, f32);
 }
 
 void TUnk_804A0CB8::emit_marker_effects() {
@@ -51,8 +51,8 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
     uaddr temp_r30;
     void *temp_r5;
 
-    temp_r31 = create_shoot_model__10TObjPlayerFUiiif();
-    temp_r30 = ((uaddr)TObjPlayer::spawn_shoot_particle((uaddr)player, arg1, arg2, farg0));
+    temp_r31 = TObjPlayer::create_shoot_model((u32)player, arg1, arg2, farg0);
+    temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, arg1, arg2, farg0);
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r5 = *(void **)((s8 *)player + 0x188);
         if (temp_r5 != NULL) {
@@ -69,10 +69,10 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
     return temp_r31;
 }
 
-long belra_cannon_create_shot(u8 *arg0) {
+long belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
   s32 temp_r4;
   u8 *temp_r6;
-  if (create_shoot_model__10TObjPlayerFUiiif() != 0U)
+  if (TObjPlayer::create_shoot_model((u32)arg0, arg1, arg2, farg0) != 0U)
   {
     temp_r6 = (unsigned char *) (*((void **) (((s8 *) arg0) + 0x188)));
     if (temp_r6 != 0)

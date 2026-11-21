@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
@@ -15,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include <string.h>
+#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
@@ -25,20 +27,15 @@ extern "C" {
 extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
-s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void request_main_phase(int);
 s32 TLobby__sub_80145A94(void);
 s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
 s8 *TLobby__sub_80146D44(void);
-int reset_mode_state__21TAdMultiChgGameModeGCFv(void*);
 void mem_free(void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
-s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, char *);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -70,15 +67,15 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
     }
 }
 
-int forward_chg_game_mode__17TAdEnterPPPPassGCFPv(void* p) { return reset_mode_state__21TAdMultiChgGameModeGCFv(p); }
-int request_transition__17TAdEnterPPPPassGCFPv(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
+void forward_chg_game_mode__17TAdEnterPPPPassGCFPv(void* p) { TAdMultiChgGameModeGC::reset_mode_state(); }
+void request_transition__17TAdEnterPPPPassGCFPv(void* p) { TAdMultiChgGameModeGC::request_transition(); }
 
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
     char *buf;
     s32 cur;
     buf = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
     if ((*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) ||
-        (*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+        (*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         mem_free(buf);
         set_password__17TAdEnterPPPPassGCFi((saddr)"");
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 2;
@@ -89,13 +86,13 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     if (password_entry_keyboard_control != NULL) {
         if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
             if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
-                test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
+                test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
                 free_menu_object(password_entry_keyboard_control);
                 *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 0;
                 if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                     ((TAdEnterSerialAccessGC *)(*(saddr *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->set_active();
                 }
-            } else if (forward_input__22TAdEnterSerialAccessGCFPv(ad_enter_serial_access_gc, 3, buf) == 0) {
+            } else if (forward_validate_input(ad_enter_serial_access_gc, 3, buf) == 0) {
                 free_menu_object(password_entry_keyboard_control);
                 play_sound_effect(0x53F06, 0, 0, 0);
             } else {
@@ -135,7 +132,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
 void open_keyboard_window__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
     uaddr temp_r3;
     ((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_30 = TAdEnterSerialAccessGC::show_message_window((void *)ad_enter_serial_access_gc, (void *)3);
-    *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x34) = create_default_callback__22TAdEnterSerialAccessGCFv(ad_enter_serial_access_gc);
+    *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x34) = (s32)((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->create_default_callback();
     temp_r3 = *(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C);
     if (temp_r3 != 0U) {
         ((TAdEnterSerialAccessGC *)temp_r3)->reset_input_state();
@@ -205,7 +202,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
         ok = 1;
     }
     if (ok != 0) {
-        ((int (*)(void))reset_mode_state__21TAdMultiChgGameModeGCFv)();
+        TAdMultiChgGameModeGC::reset_mode_state();
         queue_destruction();
         return;
     }

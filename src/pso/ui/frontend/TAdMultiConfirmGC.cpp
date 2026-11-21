@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -39,8 +41,6 @@ int multi_confirm_cancel_requested(void *p);
 extern "C" {
 s32 are_all_entries_finished(s32);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
@@ -117,12 +117,8 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     for (i = 0; i < 4; i++) {
         ((TAdMultiConfirmGC_802FFA3C *)this)->players[i] = 0;
     }
-    if ((p = TObject::operator new(0x24)) != 0) {
-        __ct__9TAdBackGCFv(p, this);
-    }
-    if ((p = TObject::operator new(0x28)) != 0) {
-        __ct__12TAdBackTxtGCFv(p, this);
-    }
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
     if ((p = TObject::operator new(0x138)) != 0) {
         __ct__10TAdTitleGCFP7TObjectl(p, this, 0x10);
     }

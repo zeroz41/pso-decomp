@@ -8,6 +8,7 @@
 // the file is built with deferred code generation and written from its last
 // function back (configure.py).
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
@@ -19,7 +20,6 @@
 #include "pso/unk/text_8011BE50.h"
 #include "pso/unk/text_8011BEF0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8011BA54.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/item/TItem.h"
@@ -89,7 +89,7 @@ s32 spawn_shoot_particle_9f(u32 owner, s32 pos, s32 dir, f32 life) {
 }
 
 s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
-    saddr model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
+    saddr model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
     TItemShootParticle *particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if ((u32)model != 0U && particle != NULL) {
         ((TItemShootModel *)model)->m_60 = 0x4000;
@@ -101,7 +101,7 @@ s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
 }
 
 u32 TItemShoot::spawn_shoot_particle_attached(u32 owner, s32 pos, s32 dir, f32 life) {
-    uaddr model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
+    uaddr model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
     uaddr particle = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (model != 0U && particle != 0U) {
         ((TItemShootParticle *)particle)->spawn_slot_emitter(0x1BD, 0);
@@ -168,7 +168,7 @@ s32 TItemShootModel::is_owner_alive() {
     return all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
-s32 create_shoot_model__10TObjPlayerFUiiif(uaddr owner, saddr pos, saddr dir, f32 life) {
+s32 TObjPlayer::create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life) {
     TItemShootModel *model = NULL;
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModel((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
@@ -305,7 +305,7 @@ void TItemShootGun::hook() {
 void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (m_58 != NULL) {
-            ((TObjDoorJung *)(*(saddr *)((u8 *)m_58 + 4)))->free_children((void *)(m_70 & 0xFFFF));
+            set_ginja_model_texture_slot(reinterpret_cast<void *>((*(saddr *)((u8 *)m_58 + 4))), (m_70 & 0xFFFF));
             set_texlist((uaddr)m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();

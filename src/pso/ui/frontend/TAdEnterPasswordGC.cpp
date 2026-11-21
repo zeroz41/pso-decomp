@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
@@ -15,6 +16,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include <string.h>
+#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
@@ -41,20 +43,15 @@ extern s32 password_entry_dispatch_state;
 TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern u8 *password_entry_keyboard_control;
-s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void request_main_phase(s32 arg0);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
 void mem_free(void *p);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 play_sound_effect(int, int, int, int);
-s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self);
 void __dl__7TObjectFPv(void *);
-int request_transition__21TAdMultiChgGameModeGCFv(void*);
-int set_mode_0x14__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEnterPasswordGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -86,15 +83,15 @@ void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0) {
     }
 }
 
-int set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv(void* p) { return set_mode_0x14__21TAdMultiChgGameModeGCFv(p); }
-int request_transition__18TAdEnterPasswordGCFPv(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
+void set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv(void* p) { TAdMultiChgGameModeGC::set_mode_0x14(); }
+void request_transition__18TAdEnterPasswordGCFPv(void* p) { TAdMultiChgGameModeGC::request_transition(); }
 
 typedef struct Pw_8032B6A0 Pw_8032B6A0;
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   saddr buf = (saddr)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
   s32 prev;
   int cur;
-  if (((self->len == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) || ((self->len == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)))
+  if (((self->len == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) || ((self->len == 0) && (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)))
   {
     mem_free((void *)buf);
     memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
@@ -107,7 +104,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   {
     if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0)
     {
-      if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0))
+      if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0))
       {
         free_menu_object(password_entry_keyboard_control);
         self->f38 = 0;
@@ -117,7 +114,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
         }
       }
       else
-        if (forward_input__22TAdEnterSerialAccessGCFPv(self, 2, buf) == 0)
+        if (forward_validate_input((void *)self, 2, (char *)buf) == 0)
       {
         free_menu_object(password_entry_keyboard_control);
         play_sound_effect(0x53F06, 0, 0, 0);
@@ -172,7 +169,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
 
 void open_keyboard_window__18TAdEnterPasswordGCFPv(saddr arg0) {
     ((TAdEnterSerialAccessGC *)arg0)->m_30 = TAdEnterSerialAccessGC::show_message_window((void *)arg0, (void *)2);
-    *(s32 *)((s8 *)arg0 + 0x34) = create_default_callback__22TAdEnterSerialAccessGCFv((void *)arg0);
+    *(s32 *)((s8 *)arg0 + 0x34) = (s32)((TAdEnterSerialAccessGC *)arg0)->create_default_callback();
     if ((u32) *(u32 *)((s8 *)arg0 + 0x2C) != 0U) {
         ((TAdEnterSerialAccessGC *)(*(void **)((s8 *)arg0 + 0x2C)))->reset_input_state();
         ((TLevelSelect *)(*(uaddr *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)enter_password_item_rect_table[0]);

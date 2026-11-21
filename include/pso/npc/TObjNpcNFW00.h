@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A8640.h"
 
 struct TObjNpcNFW00 : public TUnk_804A8640 {
+    TObjNpcNFW00(TObject *parent, void *set_data);
     virtual ~TObjNpcNFW00();
     static void free_resources();
     static void load_assets();
@@ -16,7 +17,6 @@ class TObjControl;
 
 extern "C" {
 void *TObjNpcNFW00__create(void *set_data);
-TObjNpcNFW00 *TObjNpcNFW00__ct(TObjNpcNFW00 *npc, TObjControl *control, void *set_data);
 }
 
 #endif

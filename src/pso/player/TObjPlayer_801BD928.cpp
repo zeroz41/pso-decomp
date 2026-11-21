@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,27 +15,21 @@ s32 __ct__9TObjCharaFP7TObject();
 s32 init_player_substructs__10TObjPlayerFv(void *, void *);
 s32 TObjPlayer__sub_801BC8F0(void *);
 s32 TObjPlayer__sub_801BCA14(void *, void *);
-s32 init_player_data__10TObjPlayerFv(void *, void *);
-s32 TObjPlayer__sub_801BEB68(void *, s32);
-s32 get_quest_status__10TObjPlayerFv(void *, s32);
-s32 TObjPlayer__sub_801BEC78(void *);
+s32 TObjPlayer__sub_801BEB68(void *, void *);
 s32 TObjPlayer__sub_801BF660(void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
 s32 init_player_telepipe_record(void *);
 s32 get_byte_157(void *);
-s32 get_byte_13b(void *);
-s32 get_byte_11f(void *);
-s32 get_byte_103(void *);
-s32 get_byte_e7(void *);
+u8 get_byte_13b(void *);
+u8 get_byte_11f(void *);
+u8 get_byte_103(void *);
+u8 get_byte_e7(void *);
 s32 TObjPlayer__sub_80309E9C(void *);
 s32 TObjPlayer__sub_803374C4(void *);
 s32 TObjPlayer__sub_80351974(void *);
 s32 __ct__14TPlyDispConfigFv(void *);
-s32 get_field_0x374__10TObjPlayerFv(void *, s32);
 u16 get_entity_id(void *);
-s32 query_field374__10TObjPlayerFv(void *, s32);
-s32 query_flags_374__10TObjPlayerFv(void *, s32);
 s32 update_body_parts__10TObjPlayerFv(void *, void *);
 
 extern s32 __vt__10TObjPlayer[];
@@ -64,7 +59,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *ar
     ((TObjPlayer *)(((u8 *)this) + 0x64C))->reset_fields();
     ((TObjPlayer *)(((u8 *)this) + 0x658))->reset_scale_vector();
     ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
-    TObjPlayer__sub_801BEC78((void *) (((u8 *)this) + 0x678));
+    npc_control.reset();
     ((TObjPlayer *)(((u8 *)this) + 0x6AC))->forward_release();
     TObjPlayer__sub_801BF660((void *) (((u8 *)this) + 0x730));
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
@@ -83,14 +78,14 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *ar
     this->entity_id = arg2;
     this->setup_control_role(role);
     update_body_parts__10TObjPlayerFv(this, arg4 + 0x370);
-    this->sub_801BEE2C(*(u8 *)((s8 *)arg4 + 1));
-    this->sub_801BEE24(*(u8 *)((s8 *)arg4 + 2));
-    get_field_0x374__10TObjPlayerFv(this, (get_byte_e7(arg4)));
-    get_quest_status__10TObjPlayerFv(this, (get_byte_103(arg4)));
-    query_flags_374__10TObjPlayerFv(this, (get_byte_11f(arg4)));
-    query_field374__10TObjPlayerFv(this, (get_byte_13b(arg4)));
-    TObjPlayer__sub_801BEB68(this, (get_byte_157(arg4)));
-    init_player_data__10TObjPlayerFv(this, arg4 + 0x34C);
+    sub_801BEE2C((s16)(*(u8 *)((s8 *)arg4 + 1)));
+    sub_801BEE24((s16)(*(u8 *)((s8 *)arg4 + 2)));
+    this->set_field_374(get_byte_e7(arg4));
+    this->set_field_374_state(get_byte_103(arg4));
+    this->set_inventory_state(get_byte_11f(arg4));
+    this->set_equip_flags(get_byte_13b(arg4));
+    TObjPlayer__sub_801BEB68(this, (void *) (get_byte_157(arg4)));
+    this->init_player_data(arg4 + 0x34C);
     this->create_lockon_cursor();
     this->sub_801BD318();
     this->init_control_mode(role);
@@ -119,7 +114,6 @@ struct VObj_18_dac7f3 : VBase_18_dac7f3 {
 struct E_801BDC98 { u8 b[0x42C]; };
 
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv();
 void *get_player_by_client_id(s32 i);
 struct TObjPlayerCharDataArray { s32 value; u8 remaining[0x320C]; };
 extern TObjPlayerCharDataArray TObjPlayer__char_data_array;
@@ -129,7 +123,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
-extern s32 lbl_80515BA0[];
 extern const char *TObjPlayer__player_set_class_name;
 
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
@@ -140,7 +133,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     if (side != -1) {
         player->reset_entrance_id();
     } else {
-        switch (select_area_entrance(lbl_80515BA0)) {
+        switch (select_area_entrance(&floor_transition_state)) {
         case 0:
             side = 1;
             break;
@@ -189,7 +182,7 @@ void TObjPlayer::refresh_player_lobby_headers() {
     player = (u8 *) get_player_by_client_id(var_r31);
     if (player != 0)
     {
-      if (is_locally_controlled__10TObjPlayerFPv() != 0)
+      if (TObjPlayer::is_locally_controlled(player) != 0)
       {
         ((TObjPlayer *)var_r29)->copy_lobby_header((saddr) player);
       }

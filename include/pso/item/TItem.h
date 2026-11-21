@@ -232,7 +232,7 @@ s32 consume_item_by_id(s32 id);
 s32 is_item_stackable(s32 type, s32 kind);
 void handle_6x59_pick_up_item(G_PickUpItem_6x59 *cmd);
 TItem *find_equipped_item(s32 id);
-void scroll_item_model_uvs(NJS_OBJECT *object, s16 du, s16 dv, u16 mesh);
+void scroll_item_model_uvs(NJS_OBJECT *object, s32 du, s32 dv, u16 mesh);
 s32 feed_item_to_mag(TItem *mag, TItem *item);
 void give_item_to_client(u16 client, TItemData *data);
 void replace_item_with_new_code(const TItemData *data, TItem *item);

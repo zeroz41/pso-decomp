@@ -71,7 +71,7 @@ struct TWindowSubComCard : public TObject {
     static void select_card_entry(saddr arg0);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
-    saddr get_field_20();
+    uaddr get_field_20();
     f32 calc_offset();
     f32 get_normalized_progress();
     void reparent_to_main_ctrl();
@@ -81,8 +81,6 @@ struct TWindowSubComCard : public TObject {
     void clear_flag_and_release2();
     void set_entry_value_clear_flag(s32 idx, s32 val);
     void clear_transition_flag();
-    static void draw_text_gray(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
-    saddr draw_card_icon(saddr arg1, saddr arg2);
     s32 update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
@@ -91,7 +89,6 @@ struct TWindowSubComCard : public TObject {
     void update_card_slot();
     void notify_trade_main();
     void close();
-    void free_member();
     s32 get_slot_or_neg1();
     s32 get_card_data();
     void*init_fields(int a1, int a2);
@@ -133,4 +130,8 @@ struct TWindowSubComCard : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
+struct TWindowSubTradeMain;
+extern "C" void set_menu_selected_index(TWindowSubComCard *window, s16 index);
+extern "C" void add_gray_text_entry(TWindowSubTradeMain *list, const char *text, s32 kind, s32 id);
+
 #endif

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/text_8035B750.h"
 #include "pso/unk/text_8035B788.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -29,7 +31,6 @@ static TObjMotionAction nights_npc_actions[2] = {
     { 1, 0, 1, 0.7f, 0 },
 };
 
-struct Rec_8035B788 { s32 a; TObjMotionAction *b; s32 c, d; };
 
 struct Inner_8035B788 { u8 pad[8]; s32 x8; NJS_TEXLIST *texlist; };
 
@@ -38,8 +39,8 @@ struct Obj_8035B788 { u8 pad[0x42C]; Inner_8035B788 *x42c; s32 x430; };
 extern "C" {
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 // inferred: spawn bindings of the two nights NPCs (TLobby::spawn_npc_enemy 0x11 and 0x12)
-const Rec_8035B788 lbl_804798CC = { 0, nights_npc_actions, 0x10001, 0x20000 };
-const Rec_8035B788 lbl_804798DC = { 0, nights_npc_actions, 0, 0x20000 };
+const NpcAnimationBinding lbl_804798CC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 1, 1, 2 };
+const NpcAnimationBinding lbl_804798DC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 0, 0, 2 };
 void fn_8035B788(void) {
     Obj_8035B788 *o = (Obj_8035B788 *)::operator new(0x440);
     if (o != NULL) {
@@ -47,14 +48,14 @@ void fn_8035B788(void) {
     }
     lbl_805D6F50 = o;
     {
-        Rec_8035B788 r = lbl_804798CC;
-        r.a = o->x430;
-        TLobby::spawn_npc_enemy((s16)0x11, o->x42c->x8, o->x42c->texlist, &r, 10.0f, 0.0f);
+        NpcAnimationBinding r = lbl_804798CC;
+        r.motions = reinterpret_cast<BmlMotionEntry *>(o->x430);
+        NpcModelRegistry::register_animated_chunk((s16)0x11, reinterpret_cast<void *>(o->x42c->x8), reinterpret_cast<void *>(o->x42c->texlist), &r, 10.0f, 0.0f);
     }
     {
-        Rec_8035B788 r = lbl_804798DC;
-        r.a = lbl_805D6F50->x430;
-        TLobby::spawn_npc_enemy((s16)0x12, lbl_805D6F50->x42c->x8, lbl_805D6F50->x42c->texlist, &r, 10.0f, 0.0f);
+        NpcAnimationBinding r = lbl_804798DC;
+        r.motions = reinterpret_cast<BmlMotionEntry *>(lbl_805D6F50->x430);
+        NpcModelRegistry::register_animated_chunk((s16)0x12, reinterpret_cast<void *>(lbl_805D6F50->x42c->x8), reinterpret_cast<void *>(lbl_805D6F50->x42c->texlist), &r, 10.0f, 0.0f);
     }
 }
 

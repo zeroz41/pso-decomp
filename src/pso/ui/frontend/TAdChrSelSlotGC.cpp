@@ -90,6 +90,7 @@ struct TAdChrSelSlotGC_802C7314 {
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/vector.h"
 struct TObject;
 
 extern "C" {
@@ -124,7 +125,7 @@ void TAdChrSelSlotGC::render() {
         }
         goto block_5;
     }
-    if (TObject::defer_render() == 0) {
+    if ((s32)this->defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_color_blending_mode(0, 8);
@@ -147,7 +148,7 @@ void TAdChrSelSlotGC__sub_802C7498(struct S802C7498_802C70AC *arg0, s32 arg1) {
 void TAdChrSelSlotGC::init_slot_entry(s32 arg1, void *arg2) {
     S_802C74AC *arg0 = (S_802C74AC *)this;
     arg0->a[arg1] = 1;
-    ((TWindowSubSymbolChatPartsSet *)(&arg0->v[arg1 + 2]))->copy_vec2(arg2);
+    copy_vec2((&arg0->v[arg1 + 2]), arg2);
     arg0->e[arg1].x = arg0->v[arg1 + 2].x;
     arg0->e[arg1].y = arg0->v[arg1 + 2].y;
     arg0->e[arg1].x2 = 174.0f + arg0->v[arg1 + 2].x;
@@ -162,7 +163,7 @@ void TAdChrSelSlotGC__sub_802C754C(O_802C754C *self, s32 i) {
 void TAdMcSelectGC::init_slot(s32 arg1, void *arg2) {
     S_802C7560 *arg0 = (S_802C7560 *)this;
     arg0->a[arg1] = 1;
-    ((TWindowSubSymbolChatPartsSet *)(&arg0->v[arg1]))->copy_vec2(arg2);
+    copy_vec2((&arg0->v[arg1]), arg2);
     arg0->e[arg1].x = arg0->v[arg1].x;
     arg0->e[arg1].y = arg0->v[arg1].y;
     arg0->e[arg1].x2 = 174.0f + arg0->v[arg1].x;

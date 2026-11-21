@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOChatSensor : public TObjBase {
+    TOChatSensor(TObject *parent, void *arg2);
     virtual ~TOChatSensor();
     u32 m_90;
     u16 m_94;

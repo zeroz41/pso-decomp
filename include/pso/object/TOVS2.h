@@ -16,9 +16,4 @@ public:
 
 LAYOUT_ASSERT(TOVS2Size, sizeof(TOVS2) == 0xD0);
 
-// The derived constructors and destructors still written out by hand call
-// these by their symbols.
-extern "C" void *__ct__5TOVS2FPvl(void *self, void *set_data, s32 index);
-extern "C" void *__dt__5TOVS2Fv(void *self, s16 del);
-
 #endif

@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/unk/TLobby.h"
-#include "pso/network/protocol/protocol.h"
+#include "pso/system/byteswap.h"
 
 // The LZSS decoder's stream pointers, after its window and trees.
 struct LzssStream { u8 pad[0x7220]; u8 *in; s8 *out; u8 *in_end; };

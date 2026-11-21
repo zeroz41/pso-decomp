@@ -1,3 +1,5 @@
+#include "pso/object/base/TObjMotion.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/map/FloorArea.h"
 
@@ -8,13 +10,12 @@
 extern "C" {
 typedef ObjectFactoryFunction Fn_8020CFEC;
 typedef ObjectFactoryEntry Ent_8020CFEC;
-struct Msg_8020CFEC { s16 id; s16 pad; u8 data[1]; };
-s32 call_area_set_factory(s32 arg0, Msg_8020CFEC *arg1) {
-    Fn_8020CFEC f = floor_object_factory_tables[get_current_floor_area()][arg1->id].create;
-    if (f != 0) {
-        return (saddr) f(arg1->data);
+TObjBase *call_area_set_factory(TSetManager *, FloorObjectSetRow *row) {
+    ObjectFactoryFunction factory = floor_object_factory_tables[get_current_floor_area()][row->type].create;
+    if (factory != NULL) {
+        return static_cast<TObjBase *>(factory(&row->placement));
     }
-    return 0;
+    return NULL;
 }
 
 typedef s32 (*Fn_8020D054)(void *);

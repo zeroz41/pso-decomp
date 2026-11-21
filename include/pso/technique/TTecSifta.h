@@ -5,6 +5,8 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecSifta : public TTecPlayerInfluence {
+    TTecSifta(void *owner, void *pos, void *arg3, s32 level);
+    TTecSifta(void *owner, void *pos, s32 level);
     virtual ~TTecSifta();
     void play_sifta_cast_sound();
     virtual void vfunc_7(void *);

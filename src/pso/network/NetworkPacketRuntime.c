@@ -13,8 +13,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct R_804253A0 { s32 a; s32 b; } R_804253A0;
-
 NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
 u32 network_packet_mutex;
@@ -38,14 +36,14 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
 }
 
 void clear_message_entry(s32 a) {
-    R_804253A0 *r;
+    NetworkPacketBufferDescriptor *entry;
     u8 unused[8];
     lock_mutex((saddr)network_packet_mutex);
-    r = (R_804253A0 *)find_entry_by_address(a);
+    entry = find_entry_by_address(a);
     unlock_mutex((saddr)network_packet_mutex);
-    if (r != 0) {
-        r->a = 0;
-        r->b = 0;
+    if (entry != NULL) {
+        entry->in_use = 0;
+        entry->queued_length = 0;
     }
 }
 
@@ -112,7 +110,7 @@ NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
 }
 #pragma pop
 
-u8 *find_entry_by_address(s32 arg0) {
+NetworkPacketBufferDescriptor *find_entry_by_address(s32 arg0) {
     s32 i;
     for (i = 0; i < 32; i++) {
         if (((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].in_use != 0 && (uaddr)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data <= (u32)arg0 && (u32)arg0 < (uaddr)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data + 0x600) {
@@ -122,14 +120,14 @@ u8 *find_entry_by_address(s32 arg0) {
     if (i >= 32) {
         return NULL;
     }
-    return (u8 *)&((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i];
+    return &network_packet_buffer_descriptors[i];
 }
 
 void cancel_alarm_a(void) {
     NetReleaseMutex(network_packet_mutex);
 }
 
-s32 initialize_network_packet_pool(void) {
+s16 initialize_network_packet_pool(void) {
     s32 i;
     if (TLobby__sub_803F96AC(&network_packet_mutex) < 0) {
         return -1;

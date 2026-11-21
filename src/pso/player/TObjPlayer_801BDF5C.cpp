@@ -4,6 +4,8 @@
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/unk/text_801BDE60.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/client_id.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
@@ -21,7 +23,7 @@
 #include "pso/system/memory.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyPhotonChair.h"
-#include "pso/player/TPlyInventoryItem_800721D4.h"
+#include "pso/player/TPlyInventory.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer_801BEB0C.h"
@@ -45,7 +47,7 @@ u8 *TObjPlayer::create_player_instance(s32 arg0, saddr arg1) {
     p = (u8 *)TObject::operator new(0xDB8);
     if (p != NULL) {
         p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlslPUc)(
-            p, tl_03, arg0, get_field_0_s32((void *)arg1), (saddr)((TObjPlayer *)((void *)arg1))->get_char_data());
+            p, tl_03, arg0, get_field_0_s32((void *)arg1), (saddr)((TObjPlayer *)arg1)->get_char_data());
     }
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)arg1)->get_sub_obj());
     ((Obj_801BDE60 *)p)->v6();
@@ -146,7 +148,6 @@ extern "C" {
 int is_quest_active(void);
 int subtract_photon_blast_charge(void*, f32);
 int add_photon_blast_chain_charge(void*);
-int set__8FlagWordFUl(void*, int);
 
 s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
@@ -168,16 +169,16 @@ void TObjPlayer::vfunc_77() { add_photon_blast_chain_charge((char*)this + 0x4ac)
 
 s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {
-    return (u8) (is_quest_active() == 1);
+    return (u8)((u8) (is_quest_active() == 1));
 }
 void TObjPlayer__sub_801BE2C0(void* p, s32 v) { *(s32*)((char*)p + 0x370) = v; }
 s32 TObjPlayer__sub_801BE2C8(void* p) { return *(s32*)((char*)p + 0x370); }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
-int TObjPlayer::check_stat_flag_41c() { return set__8FlagWordFUl((char*)this + 0x41c, 32); }
-int TObjPlayer::check_flag_at_41c() { return set__8FlagWordFUl((char*)this + 0x41c, 4); }
-int TObjPlayer::set_flag_41c_bit1() { return set__8FlagWordFUl((char*)this + 0x41c, 2); }
-int TObjPlayer::clamp_stat_41c() { return set__8FlagWordFUl((char*)this + 0x41c, 8); }
+void TObjPlayer::check_stat_flag_41c() { ((FlagWord *)((char*)this + 0x41c))->set(32); }
+void TObjPlayer::check_flag_at_41c() { ((FlagWord *)((char*)this + 0x41c))->set(4); }
+void TObjPlayer::set_flag_41c_bit1() { ((FlagWord *)((char*)this + 0x41c))->set(2); }
+void TObjPlayer::clamp_stat_41c() { ((FlagWord *)((char*)this + 0x41c))->set(8); }
 
 }
 
@@ -212,7 +213,7 @@ struct VObj_801BE3D8 : Base_801BE3D8 {
     virtual void m22();
     virtual void m23();
     virtual void m24();
-    virtual short m25();
+    virtual int m25();
 };
 struct Base_801BE40C { char pad[0x8]; };
 struct VObj_801BE40C : Base_801BE40C {
@@ -266,7 +267,7 @@ struct VObj_801BE440 : Base_801BE440 {
     virtual void m21();
     virtual void m22();
     virtual void m23();
-    virtual short m24();
+    virtual int m24();
 };
 struct Base_801BE474 { char pad[0x8]; };
 struct VObj_801BE474 : Base_801BE474 {
@@ -296,7 +297,7 @@ struct VObj_801BE474 : Base_801BE474 {
     virtual void m23();
     virtual void m24();
     virtual void m25();
-    virtual short m26();
+    virtual int m26();
 };
 struct Base_801BE4A8 { char pad[0x8]; };
 struct VObj_801BE4A8 : Base_801BE4A8 {
@@ -326,7 +327,7 @@ struct VObj_801BE4A8 : Base_801BE4A8 {
     virtual void m23();
     virtual void m24();
     virtual void m25();
-    virtual short m26();
+    virtual int m26();
 };
 struct Base_801BE4DC { char pad[0x8]; };
 struct VObj_801BE4DC : Base_801BE4DC {
@@ -349,7 +350,7 @@ struct VObj_801BE4DC : Base_801BE4DC {
     virtual void m16();
     virtual void m17();
     virtual void m18();
-    virtual short m19();
+    virtual int m19();
 };
 struct Base_801BE510 { char pad[0x8]; };
 struct VObj_801BE510 : Base_801BE510 {
@@ -380,7 +381,7 @@ struct VObj_801BE510 : Base_801BE510 {
     virtual void m24();
     virtual void m25();
     virtual void m26();
-    virtual short m27();
+    virtual int m27();
 };
 struct Base_801BE544 { char pad[0x8]; };
 struct VObj_801BE544 : Base_801BE544 {
@@ -419,7 +420,7 @@ struct VObj_801BE578 : Base_801BE578 {
     virtual void m14();
     virtual void m15();
     virtual void m16();
-    virtual short m17();
+    virtual int m17();
 };
 struct Base_801BE5AC { char pad[0x8]; };
 struct VObj_801BE5AC : Base_801BE5AC {
@@ -458,7 +459,7 @@ struct VObj_801BE5E0 : Base_801BE5E0 {
     virtual void m12();
     virtual void m13();
     virtual void m14();
-    virtual short m15();
+    virtual int m15();
 };
 struct Base_801BE614 { char pad[0x8]; };
 struct VObj_801BE614 : Base_801BE614 {
@@ -490,18 +491,17 @@ struct VObj_801BE614 : Base_801BE614 {
     virtual void m25();
     virtual void m26();
     virtual void m27();
-    virtual short m28();
+    virtual int m28();
 };
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 
-void TObjPlayer::set_flag_400000() {
-    sub_8011E204(0x400000);
+void TObjPlayer::clear_flag_400000() {
+    clear_state_flags(0x400000);
 }
 
-s32 TObjPlayer::get_model_field_m25() {
+short TObjPlayer::get_model_field_m25() {
     struct VObj_801BE3D8 *o = (struct VObj_801BE3D8 *)*(void * *)&this->unk_380;
     return o->m25();
 }
@@ -511,27 +511,27 @@ short TObjPlayer::get_action_animation() {
     return o->m22();
 }
 
-s32 TObjPlayer::call_model_m24() {
+short TObjPlayer::call_model_m24() {
     struct VObj_801BE440 *o = (struct VObj_801BE440 *)*(void * *)&this->unk_380;
     return o->m24();
 }
 
-s32 TObjPlayer::get_weapon_stat_c() {
+short TObjPlayer::get_weapon_stat_c() {
     struct VObj_801BE474 *o = (struct VObj_801BE474 *)*(void * *)&this->unk_380;
     return o->m26();
 }
 
-s32 TObjPlayer::call_obj_vt26() {
+short TObjPlayer::call_obj_vt26() {
     struct VObj_801BE4A8 *o = (struct VObj_801BE4A8 *)*(void * *)&this->unk_380;
     return o->m26();
 }
 
-s32 TObjPlayer::query_child_state() {
+short TObjPlayer::query_child_state() {
     struct VObj_801BE4DC *o = (struct VObj_801BE4DC *)*(void * *)&this->unk_380;
     return o->m19();
 }
 
-s32 TObjPlayer::query_equip() {
+short TObjPlayer::query_equip() {
     struct VObj_801BE510 *o = (struct VObj_801BE510 *)*(void * *)&this->unk_380;
     return o->m27();
 }
@@ -541,7 +541,7 @@ short TObjPlayer::get_status() {
     return o->m14();
 }
 
-s32 TObjPlayer::get_model_state() {
+short TObjPlayer::get_model_state() {
     struct VObj_801BE578 *o = (struct VObj_801BE578 *)*(void * *)&this->unk_380;
     return o->m17();
 }
@@ -551,30 +551,30 @@ short TObjPlayer::get_state() {
     return o->m16();
 }
 
-s32 TObjPlayer::call_subobject_m15() {
+short TObjPlayer::call_subobject_m15() {
     struct VObj_801BE5E0 *o = (struct VObj_801BE5E0 *)*(void * *)&this->unk_380;
     return o->m15();
 }
 
-s32 TObjPlayer::get_vobj_state_28() {
+short TObjPlayer::get_vobj_state_28() {
     struct VObj_801BE614 *o = (struct VObj_801BE614 *)*(void * *)&this->unk_380;
     return o->m28();
 }
 
-    extern int local_client_id;
-TObjPlayer *TObjPlayer::update_battle_controller() { return (TObjPlayer *)get_player_by_client_id((local_client_id)); }
+extern "C" TObjPlayer *get_local_player() {
+    return get_player_by_client_id(local_client_id);
+}
 
 int copy_subcommand_header(void*);
-int set_state_flags__10TObjPlayerFUl(void*, int);
 
-void TObjPlayer::set_flag_200000() {
-    sub_8011E204(0x200000);
+void TObjPlayer::clear_flag_200000() {
+    clear_state_flags(0x200000);
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
 void*TObjPlayer::set_invisible() { copy_subcommand_header(this); return this; }
-void TObjPlayer::clear_flag_4000_callback() { set_flag_4000(); }
-void TObjPlayer::set_flag_4000() { sub_8011E204(16384); }
-int TObjPlayer::clear_flag_4000() { return set_state_flags__10TObjPlayerFUl(this, 16384); }
+void TObjPlayer::clear_flag_4000_callback() { clear_flag_4000(); }
+void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
+void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
 void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
 s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
 int TObjPlayer::check_flag_0x40000000() { return (this->m_334 >> 30) & 0x1; }
@@ -606,9 +606,7 @@ u8 TObjPlayer::get_field_374() { return TObjPlayer__sub_801BED90((char*)this + 0
 
 }
 
-struct Item_801BE890 { u8 b[0x1C]; };
-
-struct Inv_801BE890 { s32 f0; Item_801BE890 items[0x1E]; };
+struct Inv_801BE890 { s32 f0; TPlyInventoryItem items[0x1E]; };
 
 extern "C" {
 Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *arg0);
@@ -617,7 +615,7 @@ Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *arg0) {
     s32 i;
     arg0->f0 = 0;
     for (i = 0; i < 0x1E; i++) {
-        init__17TPlyInventoryItemFv((u8 *)&arg0->items[i]);
+        arg0->items[i].init();
     }
     return arg0;
 }
@@ -650,20 +648,20 @@ s32 TObjPlayer::clamp_index_to_max(s32 arg0) {
     }
     return max_level;
 }
-void TObjPlayer::clamp_nested_index() {
-    TObjPlayer::clamp_index_to_max(*(s32 *)(this->m_2b0 + 0x18));
+s32 TObjPlayer::clamp_nested_index() {
+    return TObjPlayer::clamp_index_to_max(*(s32 *)(this->m_2b0 + 0x18));
 }
-void TObjPlayer::sub_801BE9A8() {
-    sub_8011E204(0x20000);
+void TObjPlayer::clear_flag_20000() {
+    clear_state_flags(0x20000);
 }
 void TObjPlayer::set_flag_20000() {
     set_state_flags(0x20000);
 }
-void TObjPlayer::set_flag_2000000() {
-    sub_8011E204(0x02000000);
+void TObjPlayer::clear_flag_2000000() {
+    clear_state_flags(0x02000000);
 }
-void TObjPlayer::set_flag_02000000() {
-    check_flag(0x02000000);
+int TObjPlayer::check_flag_02000000() {
+    return check_flag(0x02000000);
 }
 
 void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
@@ -678,8 +676,8 @@ void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
 
 
 void TObjPlayer::set_action_flag_2() { this->m_334 |= 0x2; }
-void set_flag_400000__10TObjPlayerFi(saddr arg0) {
-    ((TObjPlayer *)arg0)->set_state_flags(0x400000);
+void set_flag_400000(TObjPlayer *arg0) {
+    arg0->set_state_flags(0x400000);
 }
 int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }
@@ -687,19 +685,18 @@ int TObjPlayer::is_status_flag_200() { return this->actorFlags & 0x200; }
 int TObjPlayer__sub_801BEABC(void* p) { return ((TObjPlayer *)p)->end_camera_pan(); }
 int TObjPlayer::start_freeze_self() { return start_freeze(); }
 void TObjPlayer::set_floor(s32 v) { this->current_floor = v; }
-void TObjPlayer::set_floor_index(s32 v) { *(s32*)((char*)this + 0x3e0) = v; }
+void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
 extern "C" {
 
-int unregister_object_by_id__14TObjCollidableFv(void*);
 int TObjPlayer__sub_801BED98(void*);
-int TObjPlayer__sub_801BEDA0(void*);
-int TObjPlayer__sub_801BEDA8(void*);
-int TObjPlayer__sub_801BEDB0(void*);
-int TObjPlayer__sub_801BEDB8(void*);
+void TObjPlayer__sub_801BEDA0(void*, u8);
+void TObjPlayer__sub_801BEDA8(void*, u8);
+void TObjPlayer__sub_801BEDB0(void*, u8);
+void TObjPlayer__sub_801BEDB8(void*, u8);
 
 s32 TObjPlayer__sub_801BEB0C(void* p) { return *(s32*)((char*)p + 0x334); }
-int TObjPlayer::unregister_sub() { return unregister_object_by_id__14TObjCollidableFv(this); }
+int TObjPlayer::unregister_sub() { return unregister_object_by_id(); }
 void TObjPlayer::set_control_role(s32 v) { *(s32 *)&this->unk_3E8 = v; }
 u8 TObjPlayer__sub_801BEB3C(void* p) { return *(u8*)((char*)p + 0x2e7); }
 u8 TObjPlayer__sub_801BEB44(void* p) { return *(u8*)((char*)p + 0x2cb); }
@@ -708,13 +705,13 @@ void TObjPlayer::set_play_time(s32 v) { this->m_3bc = v; }
 void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
 int TObjPlayer__sub_801BEB68(void* p) { return TObjPlayer__sub_801BED98((char*)p + 0x374); }
 u8 TObjPlayer__sub_801BEB8C(void* p) { return *(u8*)((char*)p + 0x293); }
-int TObjPlayer::query_field374() { return TObjPlayer__sub_801BEDA0((char*)this + 0x374); }
+void TObjPlayer::set_equip_flags(u8 v) { TObjPlayer__sub_801BEDA0((char*)this + 0x374, v); }
 u8 TObjPlayer__sub_801BEBB8(void* p) { return *(u8*)((char*)p + 0x277); }
-int TObjPlayer::query_flags_374() { return TObjPlayer__sub_801BEDA8((char*)this + 0x374); }
+void TObjPlayer::set_inventory_state(u8 v) { TObjPlayer__sub_801BEDA8((char*)this + 0x374, v); }
 u8 TObjPlayer__sub_801BEBE4(void* p) { return *(u8*)((char*)p + 0x25b); }
-int TObjPlayer::get_quest_status() { return TObjPlayer__sub_801BEDB0((char*)this + 0x374); }
+void TObjPlayer::set_field_374_state(u8 v) { TObjPlayer__sub_801BEDB0((char*)this + 0x374, v); }
 u8 TObjPlayer__sub_801BEC10(void* p) { return *(u8*)((char*)p + 0x23f); }
-int TObjPlayer::get_field_0x374() { return TObjPlayer__sub_801BEDB8((char*)this + 0x374); }
+void TObjPlayer::set_field_374(u8 v) { TObjPlayer__sub_801BEDB8((char*)this + 0x374, v); }
 u8 TObjPlayer__sub_801BEC3C(void* p) { return *(u8*)((char*)p + 0x223); }
 
 }

@@ -3,8 +3,10 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
 
 struct TNowLoading : public TObject {
+    TNowLoading(TObject *parent, Vec *pos);
     virtual ~TNowLoading();
     u32 m_1c;
     u32 m_20;

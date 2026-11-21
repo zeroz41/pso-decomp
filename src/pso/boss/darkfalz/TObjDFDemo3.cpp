@@ -1,43 +1,69 @@
+#pragma defer_codegen on
+
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+
 #include "pso/camera/CameraPlayback.h"
+
 #include "pso/system/task/TObject.h"
+
 #include "pso/object/base/TObjMotion.h"
+
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
+
 #include "pso/camera/TCameraCtrl_800687BC.h"
+
 #include "pso/system/task/TObject_80019A50.h"
+
 #include "pso/player/TObjPlayer_80052374.h"
+
 #include "pso/player/TObjPlayer_803E4954.h"
+
 #include "pso/unk/text_803D96A8.h"
+
 #include "pso/unk/text_803E2D70.h"
+
 #include "pso/system/vector.h"
+
 #include "pso/boss/darkfalz/TObjDFDemo3.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+
 #include "pso/boss/darkfalz/TBoss4Uro.h"
+
 #include "pso/camera/TCameraCtrl.h"
+
 #include "pso/ui/hud/TNowLoading.h"
+
 #include "pso/object/ambient/TObjFish.h"
+
 #include "pso/player/TObjPlayer.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
+
 #include "pso/unk/text_803D8F74.h"
+
 #include "pso/system/SoundEffect.h"
+
 #include "pso/unk/text_80087278.h"
+
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
-
 #pragma readonly_strings on
-
 extern "C" {
-void run_task__11TObjDFDemo3Fv(u8 *arg0);
 s32 push_matrix();
+
 s32 post_translate_matrix(void *);
-void render__11TObjDFDemo3Fv(u8 *arg0);
+
 s32 get_bml_motion(s32, s32);
+
 saddr get_bml_texlist(s32, s32);
+
 saddr get_bml_model(s32, s32);
+
 void set_scripted_camera_pose(void *, void *, void *);
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 
 struct IVec_8004F030 { s32 x, y, z; };
@@ -50,72 +76,111 @@ struct S_EF94 {
     u8 pad94[0xb8 - 0x94];
     void *fb8;
 };
-
 extern "C" {
+
 s32 vec3_add_to(void *, void *);
+
 f32 vector_length(void *);
+
 s32 normalize_vector(void *);
 
 void render_shadows__7TObjectFv();
+
 void vfunc_6__8TObjBaseFPsl();
+
 void apply_object_set_data__8TObjBaseFPv();
+
 void reset_motion_fields__8TObjBaseFv();
+
 void get_center__8TObjBaseFv();
+
 void update_object_view_visibility__8TObjBaseFff();
+
 void classify_actor_view_detail__8TObjBaseFfff();
+
 void get_name__8TObjBaseFv();
-S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag);
-u8 *TObjDFDemo3__ct(u8 *arg0, saddr arg1, saddr arg2, s32 arg3);
 
 const char *TObjDFDemo3__name = "TObjDFDemo3";
+
 __declspec(section ".rodata") IVec_8004F030 lbl_804373A4 = {0, 0, 0};
+
 void *lbl_804856C0[8] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-CameraPlayback lbl_804856E0 = {0, 6, 0, 0.0f, 1.0f};
-void *__vt__11TObjDFDemo3[13] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo3Fv, (void *)&run_task__11TObjDFDemo3Fv,
-    (void *)&render__11TObjDFDemo3Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv,
-};
 
-void TObjDFDemo3::render() {
-    f32 a = 1.0f;
-    s32 t = this->m_b0;
-    if (t < 5) {
-        a = (f32)t / 5.0f;
-    } else if (t > 0x86) {
-        a = (f32)(0x8B - t) / 5.0f;
+CameraPlayback lbl_804856E0 = {0, 6, 0, 0.0f, 1.0f};
+
+void *TObjDFDemo3::create(void *arg0, void *arg1, void *arg2) {
+    return new TObjDFDemo3((TObject *)arg0, arg1, arg2);
+}
+}
+
+#define lbl_804856C0 ((u8 *)lbl_804856C0)
+#define base ((u8 *)this)
+extern "C" {
+TObjDFDemo3::TObjDFDemo3(TObject *parent, void *arg2_, void *arg3_) : TObjBase(parent) {
+    s32 cnt;
+    s32 arg2 = (s32)arg2_;
+    s32 arg3 = (s32)arg3_;
+    *(s32 *)((s8 *)base + 0) = (saddr) TObjDFDemo3__name;
+    VecCopy((Vec *)(base + 0xA0), (const Vec *)arg2);
+    *(f32 *)((s8 *)base + 0xA4) = 0.0f;
+    {
+        Vec v = *(Vec *)(base + 0xA0);
+        v.y = 0.0f;
+        if (!(vector_length(&v) <= 0.01f)) {
+            normalize_vector(&v);
+            v.x *= -50.0f;
+            v.z *= -50.0f;
+            vec3_add_to(base + 0xA0, &v);
+        }
     }
-    if (a <= 0.0f) {
-        return;
+    *(s32 *)((s8 *)base + 0xAC) = arg3;
+    cnt = TBoss4Uro::get_instance_count();
+    *(s32 *)((s8 *)base + 0x94) = get_bml_model(cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x98) = get_bml_texlist(cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x9C) = get_bml_motion(cnt, 0x45);
+    *(f32 *)((s8 *)base + 0xB4) = -1.0f;
+    *(s32 *)((s8 *)base + 0x90) = 0;
+    activate_camera_mode(5);
+    {
+        IVec_8004F030 c = lbl_804373A4;
+        c.y = *(s32 *)((s8 *)base + 0xAC);
+        set_scripted_camera_pose(base + 0xA0, base + 0xA0, &c);
     }
-    if (a < 1.0f) {
-        TObjPlayer__sub_80052390(a);
+    lbl_804856E0.cache_target_and_forward(0x1555);
+    *(s32 *)((s8 *)base + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (saddr)(base + 0xBC));
+    *(s32 *)((s8 *)base + 0xB0) = 0;
+}
+}
+
+#undef lbl_804856C0
+#undef base
+#define o ((S_EF94 *)this)
+extern "C" {
+TObjDFDemo3::~TObjDFDemo3() {
+    s32 i;
+    if (o->fb8 != 0) {
+        TObjFish::init_state_1(o->fb8);
+        o->fb8 = 0;
     }
-    push_matrix();
-    set_motion_packed_rotation();
-    post_translate_matrix((u8 *)&this->m_a0);
-    rotate_matrix_y(0, this->m_ac);
-    TObjFish::set_global_param(this->m_98);
-    ((TObjFish *)(this->m_b8))->set_draw_callback_list();
-    set_chunk_render_flags(1);
-    draw_model_motion((void *)(*(saddr *)&this->m_94), (void *)(*(saddr *)&this->m_9c), *(f32 *)&this->_padB4);
-    ((TObjFish *)this->m_b8)->clear_render_callback();
-    set_chunk_render_flags(2);
-    draw_model_motion((void *)(*(saddr *)&this->m_94), (void *)(*(saddr *)&this->m_9c), *(f32 *)&this->_padB4);
-    clear_chunk_render_flags();
-    clear_motion_packed_rotation();
-    pop_matrix();
-    if (a < 1.0f) {
-        TObjPlayer::sync_player_globals();
+    for (i = 0; i < 1; i++) {
+        if (o->ptr[i] != 0) {
+            TParticleCtrl::release(o->ptr[i]);
+            o->ptr[i] = 0;
+        }
     }
+    if (TBoss4DarkFalz::is_ending_or_split_screen() == 0) {
+        restore_player_cameras();
+    }
+}
 }
 
 #pragma push
 #pragma opt_common_subs off
+#undef o
+extern "C" {
 void TObjDFDemo3::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 cur;
@@ -158,78 +223,40 @@ void TObjDFDemo3::run_task() {
         ((TObject *)arg0)->queue_destruction();
     }
 }
+}
+
 #pragma pop
-
-S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
-    s32 i;
-    if (o != 0) {
-        o->vt = __vt__11TObjDFDemo3;
-        if (o->fb8 != 0) {
-            TObjFish::init_state_1(o->fb8);
-            o->fb8 = 0;
-        }
-        for (i = 0; i < 1; i++) {
-            if (o->ptr[i] != 0) {
-                TParticleCtrl::release(o->ptr[i]);
-                o->ptr[i] = 0;
-            }
-        }
-        if (TBoss4DarkFalz::is_ending_or_split_screen() == 0) {
-            restore_player_cameras();
-        }
-        __dt__8TObjBaseFv(o, 0);
-        if (flag > 0) {
-            TObject::operator delete(o);
-        }
+extern "C" {
+void TObjDFDemo3::render() {
+    f32 a = 1.0f;
+    s32 t = this->m_b0;
+    if (t < 5) {
+        a = (f32)t / 5.0f;
+    } else if (t > 0x86) {
+        a = (f32)(0x8B - t) / 5.0f;
     }
-    return o;
+    if (a <= 0.0f) {
+        return;
+    }
+    if (a < 1.0f) {
+        TObjPlayer__sub_80052390(a);
+    }
+    push_matrix();
+    set_motion_packed_rotation();
+    post_translate_matrix((u8 *)&this->m_a0);
+    rotate_matrix_y(0, this->m_ac);
+    TObjFish::set_global_param(this->m_98);
+    ((TObjFish *)(this->m_b8))->set_draw_callback_list();
+    set_chunk_render_flags(1);
+    draw_model_motion((void *)(*(saddr *)&this->m_94), (void *)(*(saddr *)&this->m_9c), *(f32 *)&this->_padB4);
+    ((TObjFish *)this->m_b8)->clear_render_callback();
+    set_chunk_render_flags(2);
+    draw_model_motion((void *)(*(saddr *)&this->m_94), (void *)(*(saddr *)&this->m_9c), *(f32 *)&this->_padB4);
+    clear_chunk_render_flags();
+    clear_motion_packed_rotation();
+    pop_matrix();
+    if (a < 1.0f) {
+        TObjPlayer::sync_player_globals();
+    }
 }
-
-#define lbl_804856C0 ((u8 *)lbl_804856C0)
-u8 *TObjDFDemo3__ct(u8 *base, saddr parent, saddr arg2, s32 arg3) {
-    s32 cnt;
-    __ct__8TObjBaseFP7TObject(base, (void *)parent);
-    *(void **)((s8 *)base + 0x18) = (void *)__vt__11TObjDFDemo3;
-    *(s32 *)((s8 *)base + 0) = (saddr) TObjDFDemo3__name;
-    VecCopy((Vec *)(base + 0xA0), (const Vec *)arg2);
-    *(f32 *)((s8 *)base + 0xA4) = 0.0f;
-    {
-        Vec v = *(Vec *)(base + 0xA0);
-        v.y = 0.0f;
-        if (!(vector_length(&v) <= 0.01f)) {
-            normalize_vector(&v);
-            v.x *= -50.0f;
-            v.z *= -50.0f;
-            vec3_add_to(base + 0xA0, &v);
-        }
-    }
-    *(s32 *)((s8 *)base + 0xAC) = arg3;
-    cnt = TBoss4Uro::get_instance_count();
-    *(s32 *)((s8 *)base + 0x94) = get_bml_model(cnt, 0x12);
-    *(s32 *)((s8 *)base + 0x98) = get_bml_texlist(cnt, 0x12);
-    *(s32 *)((s8 *)base + 0x9C) = get_bml_motion(cnt, 0x45);
-    *(f32 *)((s8 *)base + 0xB4) = -1.0f;
-    *(s32 *)((s8 *)base + 0x90) = 0;
-    activate_camera_mode(5);
-    {
-        IVec_8004F030 c = lbl_804373A4;
-        c.y = *(s32 *)((s8 *)base + 0xAC);
-        set_scripted_camera_pose(base + 0xA0, base + 0xA0, &c);
-    }
-    lbl_804856E0.cache_target_and_forward(0x1555);
-    *(s32 *)((s8 *)base + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (saddr)(base + 0xBC));
-    *(s32 *)((s8 *)base + 0xB0) = 0;
-    return base;
-}
-#undef lbl_804856C0
-
-void *TObjDFDemo3::create(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0xC8);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *, void *))TObjDFDemo3__ct)(o, arg0, arg1, arg2);
-    }
-    return o;
-}
-
 }

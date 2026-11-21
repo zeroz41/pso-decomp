@@ -15,15 +15,9 @@ BmlResourceDescriptor bm_n_etm_i_body_resource_descriptor = { "bm_n_etm_i_body.b
 const char *TObjNpcMaleTall__name = "TObjNpcMaleTall";
 BmlResource *TObjNpcMaleTall__shared_model_resource;
 
-s32 __vt__15TObjNpcMaleTall[];
-
 void *TObjNpcMaleTall__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcMaleTall));
-    if (npc != NULL) {
-        npc = TObjNpcMaleTall__ct((TObjNpcMaleTall *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcMaleTall(control, set_data);
 }
 
 void TObjNpcMaleTall::destroy_instance() {
@@ -44,14 +38,11 @@ void TObjNpcMaleTall::load_resource_instance() {
 
 TObjNpcMaleTall::~TObjNpcMaleTall() {}
 
-TObjNpcMaleTall *TObjNpcMaleTall__ct(TObjNpcMaleTall *npc, TObjControl *control, void *set_data) {
-    npc->construct_male_npc_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__15TObjNpcMaleTall;
-    npc->m_name = TObjNpcMaleTall__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcMaleTall__shared_model_resource->models->model;
-    npc->texlist = TObjNpcMaleTall__shared_model_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcMaleTall::TObjNpcMaleTall(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+    this->m_name = TObjNpcMaleTall__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcMaleTall__shared_model_resource->models->model;
+    this->texlist = TObjNpcMaleTall__shared_model_resource->models->m_c;
+    this->setup_common();
 }

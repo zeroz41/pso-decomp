@@ -8,7 +8,7 @@ void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void
 void TWindowTimer__sub_80198D98(void);
 void TWindowTimer__sub_8019A098(void);
 void TWindowTimer__sub_8019A6F8(void *p);
-int TWindowTimer__sub_8019A770(void *p);
+void TWindowTimer__sub_8019A770();
 }
 void add_gogo_ball_one_point_score(s32 i);
 void add_gogo_ball_three_point_score(s32 i);

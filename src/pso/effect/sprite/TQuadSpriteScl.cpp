@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteScl.h"
 
 #include "pso/system/vector.h"
@@ -26,23 +27,12 @@ typedef struct Node_801E58D8 {
 
 typedef struct List_801E58D8 { Node_801E58D8 *head; u8 pad[0x28]; } List_801E58D8;
 
-typedef struct Desc_801E58D8 {
-    u32 flags;
-    saddr param4;
-    s32 param8;
-    s32 count;
-    Col_801E58D8 *cols;
-    f32 w;
-    f32 h;
-    s32 param1C;
-} Desc_801E58D8;
-
 typedef struct Self_801E58D8 {
     u8 pad0[0x1C];
     List_801E58D8 *lists;
     u8 pad20[0x4];
     s32 active;
-    Desc_801E58D8 *desc;
+    ParticleDefinition *definition;
 } Self_801E58D8;
 
 typedef struct Cam_801E58D8 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E58D8;
@@ -58,10 +48,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_801E58D8 lbl_8058D4F8;
 void render__14TQuadSpriteSclFv(Self_801E58D8 *self);
-void *TQuadSpriteScl__ct(void *arg0);
-void quad_sprite_base_ct(void *);
 
-extern s32 __vt__14TQuadSpriteScl[];
 
 #pragma push
 #pragma fp_contract on
@@ -82,7 +69,7 @@ void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
     if (self->active == 0) {
         return;
     }
-    flags = self->desc->flags;
+    flags = self->definition->flags;
     if (flags & 2) {
         if (flags & 4) {
             set_inverse_alpha_blend();
@@ -99,12 +86,12 @@ void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
     cy = lbl_8058D4F8.cy;
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     begin_screen_draw(1);
-    TObjFish::set_global_param(self->desc->param4);
-    set_draw_texture_and_color(self->desc->param8, self->desc->param1C);
+    TObjFish::set_global_param((s32)self->definition->texlist);
+    set_draw_texture_and_color(self->definition->texture, self->definition->color);
     TParticleCtrl::begin_effect_render();
     one = -1.0f;
-    for (i = 0, ci = 0, li = 0; i < self->desc->count; i++, ci += 0x10, li += 0x2C) {
-        Col_801E58D8 *c = (Col_801E58D8 *)((u8 *)self->desc->cols + ci);
+    for (i = 0, ci = 0, li = 0; i < self->definition->uv_count; i++, ci += 0x10, li += 0x2C) {
+        Col_801E58D8 *c = (Col_801E58D8 *)((u8 *)self->definition->uvs + ci);
         n = *(Node_801E58D8 **)((u8 *)self->lists + li);
         q.col.r = c->r;
         q.col.g = c->g;
@@ -136,8 +123,8 @@ void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
                     x = out.x;
                     y = out.y;
                 }
-                w *= self->desc->w;
-                h *= self->desc->h;
+                w *= self->definition->width;
+                h *= self->definition->height;
                 w *= n->sx;
                 h *= n->sy;
                 q.x0 = x - w;
@@ -164,9 +151,8 @@ TQuadSpriteScl::~TQuadSpriteScl() {
 
 const char *TQuadSpriteScl__class_name = "TQuadSpriteScl";
 
-void *TQuadSpriteScl__ct(void *quad_sprite_scl) {
-    quad_sprite_base_ct(quad_sprite_scl);
-    *(s32 **)((s8 *)quad_sprite_scl + 0x18) = __vt__14TQuadSpriteScl;
+#define quad_sprite_scl ((u8 *)this)
+TQuadSpriteScl::TQuadSpriteScl(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteScl *)quad_sprite_scl)->m_name = TQuadSpriteScl__class_name;
-    return quad_sprite_scl;
 }
+#undef quad_sprite_scl

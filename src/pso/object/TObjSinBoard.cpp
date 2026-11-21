@@ -20,6 +20,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.
 
@@ -118,7 +119,7 @@ void fn_80197FD0(const void *image, u32 size) {
     uaddr t = (uaddr)TQuestVmDownLoadServer::alloc(size);
     TObjSinBoard__texture_buffer = t;
     if (t != 0) {
-        ((TLobby *)t)->move_data(image, size);
+        move_data((void *)(t), (const void *)(image), size);
         signboard_texture_list.entries = &TObjSinBoard__texture_name;
         signboard_texture_list.count = 1;
         ((TObjPlayer *)TObjSinBoard__texture_surface)->set_render_rect(TObjSinBoard__texture_buffer, 0, 0, 0);

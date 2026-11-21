@@ -5,6 +5,7 @@
 #include "pso/object/switch/TOSensor.h"
 
 struct BmlResource;
+struct GinjaTextureList;
 
 // The general sensor (fs_obj_sensor): once on, its three lamps light one by
 // one over 1.5 seconds while it turns, then it spins fast and rises out of
@@ -30,6 +31,6 @@ LAYOUT_ASSERT(TOSensorGeneral01_size, sizeof(TOSensorGeneral01) == 0xF4);
 extern const char *TOSensorGeneral01__class_name;
 extern BmlResource *sensor_general_shared_bml_archive;
 // The red texture list, then the model's own (lit).
-extern saddr *TOSensorGeneral01__texture_lists;
+extern GinjaTextureList **TOSensorGeneral01__texture_lists;
 
 #endif

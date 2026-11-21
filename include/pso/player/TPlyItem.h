@@ -52,6 +52,18 @@ public:
     TObject *pad_1C8;
     TPlyItem(TObject *parent);
     virtual ~TPlyItem();
+    s32 count_items_by_id(s32 arg1);
+    void remove_equipped_item(s32 arg1, void *arg2);
+    s32 update_inventory_item(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+    void *start_inventory_update(int key);
+    void destroy_subobjects(int a1);
+    void *set_mode_and_refresh_object(void *item_data);
+    void find_first_inventory_entry(int a1);
+    void set_flag_and_update(int a1);
+    int apply_shop_judgment(int a1);
+    int count_matching_items(int a1);
+    int run_state_query(int a1);
+    int run_and_get_result(int a1);
 };
 
 #endif

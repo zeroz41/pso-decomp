@@ -31,7 +31,6 @@ struct Stack_8030C0C4 {
 };
 
 extern "C" {
-s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__18TWindowPartyStatusFv(saddr arg0);
 s32 TWindowSubComCard__sub_802452DC(int);
@@ -117,7 +116,7 @@ extern "C" {
 
 void render__18TWindowPartyStatusFv(saddr arg0) {
     saddr ctx;
-    ctx = draw_default_entry__9TWindowDDFl();
+    ctx = TWindowDD::draw_default_entry((s32)arg0);
     ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
 }

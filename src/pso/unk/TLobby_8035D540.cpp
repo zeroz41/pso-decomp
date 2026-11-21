@@ -15,10 +15,7 @@ saddr TLobby::open_message_scroll_window(saddr arg0, saddr arg1, saddr arg2) {
 
     TLobby__sub_80269CA4(0x23);
     TLobby__sub_80269DA4(arg1, 1);
-    window_message_scroll = (saddr)TObject::operator new(0x9C);
-    if (window_message_scroll != 0) {
-        window_message_scroll = (saddr)TWindowMessageScroll__ct((u8 *)window_message_scroll, arg0, (s32 *)arg2);
-    }
+    window_message_scroll = (saddr)new TWindowMessageScroll(arg0, (s32 *)arg2);
     TLobby__sub_80269C90();
     return window_message_scroll;
 }

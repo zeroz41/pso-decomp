@@ -26,7 +26,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TObjNpcHosa2__shared_model_resource;
 saddr get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
-extern s32 __vt__12TObjNpcHosa2[];
 extern const char *TObjNpcHosa2__name;
 void free_bin_model_request(void*, int);
 
@@ -51,15 +50,12 @@ void TObjNpcHosa2::load_shared_resource() {
 }
 TObjNpcHosa2::~TObjNpcHosa2() {}
 
-u8 *TObjNpcHosa2__ct(u8 *player, s32 arg1, saddr arg2) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcHosa2;
-    *(s32 *)((s8 *)player + 0) = (saddr) TObjNpcHosa2__name;
-    ((TObjNpcHosa2 *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
-    ((TObjNpcHosa2 *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcHosa2::TObjNpcHosa2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHosa2__name;
+    ((TObjNpcHosa2 *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
+    ((TObjNpcHosa2 *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
+    ((TObjNpcBase *)this)->setup_common();
 }
 

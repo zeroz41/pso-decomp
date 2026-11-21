@@ -1,3 +1,4 @@
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/text_8020CCF4.h"
 #include "pso/unk/TLobby.h"
@@ -86,7 +87,6 @@ struct VObj : VBase {
 
 extern "C" {
 
-u8 *resolve_matching_object__6TLobbyFv();
 
 extern s32 TLobby__data_805D6144;
 
@@ -98,7 +98,7 @@ void TLobby::create_objects(s32 arg0) {
     s32 i;
     u8 *temp_r3_2;
 
-    ptr = resolve_matching_object__6TLobbyFv();
+    ptr = reinterpret_cast<u8 *>(get_active_floor_enemy_rows(arg0));
     count = TLobby::get_object_type(arg0);
     for (i = 0; i < count; i++, ptr += 0x48) {
         temp_r3 = *(s16 *)((s8 *)ptr + 2);

@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecAnti.h"
+#include "pso/technique/TechniqueParams.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/unk/TUnk_804CC0E8.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -10,6 +12,8 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_80226070.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
 
@@ -19,13 +23,9 @@ const char *TTecAnti_name_ref = "TTecAnti";
 
 struct Obj_8022ACB4 { u8 pad[0xA6]; s16 state; };
 extern "C" {
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(int, void *, int, int);
 
 }
-
-struct RecoveredGlobal_8022B288_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
-LAYOUT_ASSERT(RecoveredGlobal_8022B288_lbl_804CC1CC_size, sizeof(RecoveredGlobal_8022B288_lbl_804CC1CC) == 0x344);
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -110,11 +110,7 @@ extern "C" {
 saddr get_entity_id(int);
 int TTecAnti__sub_8022AD74(void* p);
 void TTecAnti__sub_8022AD94(void *);
-s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
-extern s32 __vt__8TTecAnti[];
-extern RecoveredGlobal_8022B288_lbl_804CC1CC technique_param_table;
 extern const char *TTecAnti_name_ref;
-u8 *TTecAnti__ct(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -127,7 +123,6 @@ AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
 extern s32 __vt__13TUnk_804CC0E8[];
 Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent);
 void *find_entity_by_id(u16 id);
-s32 is_parents_unqueued__9TTecLukerFUl();
 void deliver_technique_to_party_targets(void *);
 void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
@@ -144,37 +139,35 @@ S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s) {
     return d;
 }
 
-void TTecAnti::copy_params(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)&this->m_name = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)&this->m_flags = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)&this->m_prev = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)&this->m_next = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(s16 *)&this->m_up = (s16) *(s16 *)((s8 *)arg1 + 0x10);
-    *(s16 *)((s8 *)arg0 + 0x12) = (s16) *(s16 *)((s8 *)arg1 + 0x12);
-    *(s16 *)&this->m_down = (s16) *(s16 *)((s8 *)arg1 + 0x14);
-    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(saddr *)&this->source = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s16 *)((s8 *)arg0 + 0x20) = (s16) *(s16 *)((s8 *)arg1 + 0x20);
-    *(u8 *)((s8 *)arg0 + 0x22) = (u8) *(u8 *)((s8 *)arg1 + 0x22);
-    *(u8 *)((s8 *)arg0 + 0x23) = (u8) *(u8 *)((s8 *)arg1 + 0x23);
-    *(s16 *)((s8 *)arg0 + 0x24) = (s16) *(s16 *)((s8 *)arg1 + 0x24);
-    *(s16 *)((s8 *)arg0 + 0x26) = (s16) *(s16 *)((s8 *)arg1 + 0x26);
-    *(s16 *)((s8 *)arg0 + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    *(s16 *)((s8 *)arg0 + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
+void TechniqueParams::copy(TechniqueParams *src) {
+    pad_00 = src->pad_00;
+    pad_04 = src->pad_04;
+    pad_08 = src->pad_08;
+    pad_0C = src->pad_0C;
+    tp_cost = src->tp_cost;
+    pad_12 = src->pad_12;
+    pad_14 = src->pad_14;
+    pad_16 = src->pad_16;
+    pad_18 = src->pad_18;
+    pad_1C = src->pad_1C;
+    pad_20 = src->pad_20;
+    pad_22 = src->pad_22;
+    tp_cost_percent = src->tp_cost_percent;
+    pad_24 = src->pad_24;
+    pad_26 = src->pad_26;
+    pad_28 = src->pad_28;
+    pad_2A = src->pad_2A;
 }
 
-u8 *TTecAnti__ct(u8 *arg0, saddr owner, saddr pos, saddr arg3, saddr level) {
+#define arg0 ((u8 *)this)
+TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, saddr level) : TTecPlayerInfluence(owner, pos, level) {
     u32 temp_r3_2;
     u8 *temp_r3;
-    TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TTecAnti;
-    ((TObjPlayer *)(arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)TTecAnti_name_ref);
     ((TTecAnti *)arg0)->m_13c = 1;
     copy_technique_target_list((S_8022B3E8 *)(arg0 + 0xE0), (S_8022B3E8 *)(arg3));
-    ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)((void *) ((u8 *)&technique_param_table.value + 0x2C0)));
+    ((TechniqueParams *)(arg0 + 0x74))->copy(&technique_param_table[16]);
     TTecAnti__sub_8022AD94(arg0);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
     if (temp_r3 != NULL) {
@@ -188,8 +181,8 @@ u8 *TTecAnti__ct(u8 *arg0, saddr owner, saddr pos, saddr arg3, saddr level) {
         ((TTecAnti *)arg0)->play_anti_cast_sound();
         TTecAnti__sub_8022AD74(arg0);
     }
-    return arg0;
 }
+#undef arg0
 
 void run_task__8TTecAntiFv(Anti_8022B150 *self) {
     uaddr target;
@@ -207,7 +200,7 @@ void run_task__8TTecAntiFv(Anti_8022B150 *self) {
             if (self->count != 0) {
                 for (i = 0; i < self->count; i++) {
                     target = (uaddr)find_entity_by_id(self->targets[i].id);
-                    if ((is_parents_unqueued__9TTecLukerFUl() != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
+                    if ((TTecLuker::is_parents_unqueued(target) != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
                         ((TTecAnti *)self)->vfunc_7((void *)target);
                     }
                 }
@@ -226,11 +219,7 @@ TTecAnti::~TTecAnti() {
 }
 
 void TTecAnti::create(void *owner, void *pos, void *arg2, void *level) {
-    void *o;
-    o = TObject::operator new(0x140);
-    if (o != NULL) {
-        TTecAnti__ct((u8 *)o, (saddr)owner, (saddr)pos, (saddr)arg2, (saddr)level);
-    }
+    new TTecAnti(owner, pos, arg2, (saddr)level);
 }
 
 void TTecAnti::vfunc_7(void *pl_arg) {
@@ -314,7 +303,7 @@ void TTecAnti::play_anti_cast_sound() {
     case 1:
         r = play_sound_effect(0x4002AB10, (u8 *)arg0 + 0x20, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
@@ -325,7 +314,7 @@ void TTecAnti::play_anti_cast_sound() {
     case 5:
         r = play_sound_effect(0x4002AB10, (u8 *)arg0 + 0x20, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }

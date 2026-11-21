@@ -25,19 +25,15 @@
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
-struct Ent_800874F4 { u8 data[0x98]; };
-
 extern "C" {
 extern s32 particle_pool_limit;
-extern saddr particle_global_entry_table;
-extern saddr particle_area_entry_table;
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
     void *p;
     if (particle_pool_limit > id) {
         p = TObject::operator new(0x78);
         if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize(pos, (saddr)(&(*(Ent_800874F4 * *)&particle_global_entry_table)[id]), 0, 0, 0, 0);
+            p = ((TParticleCtrl *)p)->initialize(pos, &particle_global_entry_table[id], 0, 0, 0, 0);
         }
         return (TParticleCtrl *)p;
     }
@@ -45,7 +41,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
         s32 idx = id - 0x200;
         p = TObject::operator new(0x78);
         if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize(pos, (saddr)(&(*(Ent_800874F4 * *)&particle_area_entry_table)[idx]), 0, 0, 0, 0);
+            p = ((TParticleCtrl *)p)->initialize(pos, &particle_area_entry_table[idx], 0, 0, 0, 0);
         }
         return (TParticleCtrl *)p;
     }
@@ -57,10 +53,10 @@ void TParticleCtrl::set_param_ptr(s32 index) {
     *(s32 *)((s8 *)this + 0x20) = 0;
     *(f32 *)((s8 *)this + 0x24) = 1.0f;
     if (index >= 0x200) {
-        *(s32 *)((s8 *)this + 0x28) = (s32) (particle_area_entry_table + ((index - 0x200) * 0x98));
+        emitter_entry = &particle_area_entry_table[index - 0x200];
         return;
     }
-    *(s32 *)((s8 *)this + 0x28) = (s32) (particle_global_entry_table + (index * 0x98));
+    emitter_entry = &particle_global_entry_table[index];
 }
 
 void TParticleCtrl::set_direction(void *dir) {
@@ -148,20 +144,12 @@ typedef u8 *(*Gen_8008767C)(void *, void *, u32);
 
 struct Color_8008767C { u8 r, g, b, a; };
 
-struct Def_8008767C {
-    u8 pad0[0x10];
-    s32 kind;
-    u8 pad14[0x40 - 0x14];
-    f32 freq;
-    f32 amp;
-};
-
 struct Ctrl_8008767C {
     u8 pad0[0x1C];
     f32 accum;
     s32 angle;
     f32 rate;
-    Def_8008767C *def;
+    ParticleParam *def;
     u16 flags;
     u16 f2E;
     s32 f30;
@@ -198,7 +186,6 @@ void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);
@@ -234,11 +221,11 @@ void clear_active_flag__13TParticleCtrlFv(void* p);
         }                                                                             \
     }
 void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
-    Def_8008767C *def;
+    ParticleParam *def;
     s32 kind;
     u8 *p;
     f32 step;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
     if (self->delay-- <= 0) {
@@ -258,11 +245,11 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
     if (def == NULL) {
         return;
     }
-    if (0.0f == def->freq) {
-        self->accum += def->amp * self->rate;
+    if (0.0f == def->emission_frequency) {
+        self->accum += def->emission_rate * self->rate;
     } else {
-        self->angle += (s32)(182.04445f * def->freq);
-        self->accum += self->rate * (self->def->amp * fabs_float(sin_table_lookup(self->angle)));
+        self->angle += (s32)(182.04445f * def->emission_frequency);
+        self->accum += self->rate * (self->def->emission_rate * fabs_float(sin_table_lookup(self->angle)));
     }
     if (camera_ctrl_instance != NULL && !(self->flags & 0x40)) {
         if (is_split_screen() != 0) {
@@ -289,7 +276,7 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
     step = 1.0f;
     while (self->accum >= step) {
         self->accum -= step;
-        kind = self->def->kind;
+        kind = self->def->generator_kind;
         if (kind == 0) {
             u8 *q = CREATE6(create_ballistic_particle)(self->def, &self->pos, &self->dir, self->tex, self->flags, self->f2E);
             if (q != NULL) {
@@ -409,7 +396,7 @@ struct ParticleCtrlData {
     f32 field1C;
     s32 field20;
     f32 field24;
-    s32 particle_index;
+    ParticleParam *particle_index;
     u16 flags;
     u16 field2E;
     s32 field30;
@@ -489,7 +476,7 @@ void *__ct__13TParticleCtrlFv(
     ParticleCtrlData *particle,
     const void *position,
     ParticleVec *direction,
-    s32 particle_index,
+    ParticleParam *particle_index,
     s32 field30,
     s32 field34,
     s32 field38,
@@ -543,7 +530,7 @@ void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
     ParticleCtrlData *particle,
     const void *position,
     ParticleVec *direction,
-    s32 particle_index,
+    ParticleParam *particle_index,
     s32 field30,
     s32 field34,
     s32 field38,
@@ -592,14 +579,16 @@ void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
     return particle;
 }
 
-void *TParticleCtrl::initialize_with_flags(const void *position, saddr particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags) {
-    INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
+TParticleCtrl *initialize_flagged_particle(void *storage, const void *position, ParticleParam *particle_index,
+                                           s32 field30, s32 field34, s32 field38, s32 use_self, s32 flags) {
+    ParticleCtrlData *particle = static_cast<ParticleCtrlData *>(storage);
+    INITIALIZE_PARTICLE(particle, position, particle_index, field30, field34,
                         field38, use_self, flags, CLEAR_PARTICLE_DIRECTION,
                         position);
-    return ((ParticleCtrlData *)this);
+    return static_cast<TParticleCtrl *>(storage);
 }
 
-void *TParticleCtrl::initialize(const void *position, saddr particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
+void *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
     INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
                         field38, use_self, 0, CLEAR_PARTICLE_DIRECTION,
                         position);
@@ -629,9 +618,9 @@ void set_particle_tint_color(u8 *arg0, void *arg1) {
 void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
 }
 
-void TParticleCtrl::free_system() { mem_free((void *)particle_global_entry_table); particle_global_entry_table = 0; }
+void TParticleCtrl::free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
 void TParticleCtrl::free_all() {
-    mem_free((void *)particle_area_entry_table);
+    mem_free(particle_area_entry_table);
     particle_area_entry_table = 0;
     if ((u32) TParticleCtrl__regular_bml_resource != 0U) {
         free_bin_model_request((void*)TParticleCtrl__regular_bml_resource, 1);
@@ -645,18 +634,18 @@ void TParticleCtrl::free_all() {
 }
 void TParticleCtrl::init_particle_buffer() {
     s32 temp_r3;
-    particle_global_entry_table = mem_alloc(0x13000);
-    temp_r3 = read_disc_file((const char *)TParticleCtrl__particle_entry_path, (void *)particle_global_entry_table);
+    particle_global_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x13000));
+    temp_r3 = read_disc_file((const char *)TParticleCtrl__particle_entry_path, particle_global_entry_table);
     particle_pool_limit = 0;
     if (temp_r3 >= 0) {
         particle_pool_limit = (u32) temp_r3 / 152U;
     }
 }
-saddr TParticleCtrl::get_particle_by_index(s32 arg0) {
+ParticleParam *TParticleCtrl::get_particle_by_index(s32 arg0) {
     if (arg0 >= 0x200) {
-        return particle_area_entry_table + ((arg0 - 0x200) * 0x98);
+        return &particle_area_entry_table[arg0 - 0x200];
     }
-    return (*(s32 *)&particle_global_entry_table) + (arg0 * 0x98);
+    return &particle_global_entry_table[arg0];
 }
 void load_particle_entry_resources(void);
 extern char lbl_80439494[];
@@ -678,8 +667,8 @@ void load_particle_entry_resources(void) {
     } else {
         sprintf(name, lbl_804394BC, area);
     }
-    particle_area_entry_table = mem_alloc(0x2600);
-    read_disc_file(name, (void *)particle_area_entry_table);
+    particle_area_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x2600));
+    read_disc_file(name, particle_area_entry_table);
     p = ::operator new(0x440);
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);

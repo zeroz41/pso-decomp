@@ -48,21 +48,24 @@
 
 extern s32 game_difficulty_selection;
 
-const char *bm_fs_obj_o_torabasami_model_names[] = {"fs_obj_o_torabasami.gj", NULL};
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
-BmlResourceDescriptor bm_fs_obj_o_torabasami_resource_descriptor = {
-    "bm_fs_obj_o_torabasami.bml", bm_fs_obj_o_torabasami_model_names, bm_fs_obj_o_torabasami_motion_names, 1, 0,
-};
-const char *bm_obj_ruins_pillar_model_names[] = {"fe_obj_o_torabasami02.gj", NULL};
 const char *bm_obj_ruins_pillar_motion_names[] = {NULL};
-BmlResourceDescriptor bm_obj_ruins_pillar_resource_descriptor = {
-    "bm_obj_ruins_pillar.bml", bm_obj_ruins_pillar_model_names, bm_obj_ruins_pillar_motion_names, 1, 0,
-};
-const char *bm_obj_seabed_pillar_model_names[] = {"obj_o_tarabasami03.gj", NULL};
 const char *bm_obj_seabed_pillar_motion_names[] = {NULL};
-BmlResourceDescriptor bm_obj_seabed_pillar_resource_descriptor = {
-    "bm_obj_seabed_pillar.bml", bm_obj_seabed_pillar_model_names, bm_obj_seabed_pillar_motion_names, 1, 0,
+struct TrapAncient02ResourceRecord {
+    const char *model_filenames[2];
+    BmlResourceDescriptor descriptor;
 };
+
+typedef char TrapAncient02ResourceRecord_size[sizeof(TrapAncient02ResourceRecord) == 0x18 ? 1 : -1];
+TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
+    { {"fs_obj_o_torabasami.gj", NULL},
+      {"bm_fs_obj_o_torabasami.bml", trap_ancient02_resources[0].model_filenames, bm_fs_obj_o_torabasami_motion_names, 1, 0} },
+    { {"fe_obj_o_torabasami02.gj", NULL},
+      {"bm_obj_ruins_pillar.bml", trap_ancient02_resources[1].model_filenames, bm_obj_ruins_pillar_motion_names, 1, 0} },
+    { {"obj_o_tarabasami03.gj", NULL},
+      {"bm_obj_seabed_pillar.bml", trap_ancient02_resources[2].model_filenames, bm_obj_seabed_pillar_motion_names, 1, 0} },
+};
+
 CollisionBody trap_ancient02_collision_body = {
     {0.0f, 8.5f, 0.0f}, 2.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
@@ -168,13 +171,14 @@ TOTrapAncient02::~TOTrapAncient02() {
 }
 
 void TOTrapAncient02::load_resources() {
+    TrapAncient02ResourceRecord *records = trap_ancient02_resources;
     BmlResource *resource;
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_obj_ruins_pillar_resource_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, &records[1].descriptor, 0, 0, 0);
         }
         TOTrapAncient02__shared_resource = resource;
         lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
@@ -192,7 +196,7 @@ void TOTrapAncient02::load_resources() {
     case AREA_TOWER:
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_obj_seabed_pillar_resource_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, &records[2].descriptor, 0, 0, 0);
         }
         TOTrapAncient02__shared_resource = resource;
         lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
@@ -202,7 +206,7 @@ void TOTrapAncient02::load_resources() {
     default:
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_torabasami_resource_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, &records[0].descriptor, 0, 0, 0);
         }
         TOTrapAncient02__shared_resource = resource;
         lbl_805D5AE0 = ((NJS_OBJECT *)resource->models->model)->child->child->model;
@@ -334,7 +338,7 @@ void TOTrapAncient02::vfunc_81() {
         }
         break;
     case 2:
-        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             p = get_player_by_client_id(player);
             target = (u8 *)p;
@@ -391,15 +395,15 @@ void TOTrapAncient02::vfunc_82() {
     case 2:
         if (target != NULL) {
             obj_setFlags30(target, 0x200);
-            ((TObjEnemy *)target)->sub_8002AE64();
-            ((TObjEnemy *)target)->sub_800A7798(1.0f);
+            ((TObjChara *)target)->sub_8002AE64();
+            ((TObjChara *)target)->sub_800A7798(1.0f);
             timer--;
             if (timer < 0) {
                 phase = 3;
                 timer = reset;
                 if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
                     p = get_player_by_client_id(local_client_id);
-                    if (p != NULL && ((TLobby *)p)->check_player_flag1() != 0) {
+                    if (p != NULL && p->check_player_flag1() != 0) {
                         TObjPlayer::send_code_45_1((saddr)p);
                     }
                 }
@@ -557,7 +561,7 @@ void TOTrapAncient02R::find_target_player() {
     clear_player_status_flag(0, 1);
     calc_attach_pos();
     if (switch_id == -1 || is_current_floor_switch_set((u16)switch_id) == 1) {
-        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             target = (u8 *)get_player_by_client_id(player);
             if (target != NULL) {
@@ -596,7 +600,7 @@ void TOTrapAncient02R::vfunc_81() {
         }
         break;
     case 2:
-        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             TObjPlayer *p = get_player_by_client_id(player);
             target = (u8 *)p;
@@ -612,7 +616,7 @@ void TOTrapAncient02R::vfunc_81() {
                     scratch_vec.y += h344 + h348;
                     VecCopy(&lbl_8050BF00, (Vec *)&((TObjChara *)target)->m_2fc);
                     subtract_vector(&lbl_8050BF00, &scratch_vec);
-                    if (((TObjBoss2Tunnel *)&lbl_8050BF00)->update_scale() < 1e-5f) {
+                    if (normalize_vector_safe(&lbl_8050BF00) < 1e-5f) {
                         lbl_8050BF00.x = lbl_8050BF00.y = 0.0f;
                         lbl_8050BF00.z = 1.0f;
                         push_matrix_from(identity_matrix);

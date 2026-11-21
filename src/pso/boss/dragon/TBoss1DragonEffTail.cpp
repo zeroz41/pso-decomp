@@ -68,8 +68,6 @@ CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
-extern s32 __vt__19TBoss1DragonEffTail[];
-EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2);
 s32 matrix_mult_vec(int, void *, void *);
 int fill_value_array(void*);
 
@@ -136,29 +134,26 @@ TBoss1DragonEffTail::~TBoss1DragonEffTail() {
     delete attack_history;
     attack_history = NULL;
 }
-EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2) {
+TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804928CC(NULL, owner, TBoss1DragonEffTail__collision_body_templates, 0x11) {
     void *data;
     s32 i;
     void *p;
-    __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(arg0, (void *)0, (void *)arg1, (void *)TBoss1DragonEffTail__collision_body_templates, 0x11);
-    arg0->vtbl = ((s32 *)&__vt__19TBoss1DragonEffTail);
     data = TBoss1DragonEffTail__collision_body_templates;
-    arg0->name = TBoss1DragonEffTail__name;
+    m_name = TBoss1DragonEffTail__name;
     for (i = 1; i < 0x11; i++) {
-        copy_collision_body((CollisionBody *)&arg0->spheres[i], (const CollisionBody *)data);
+        copy_collision_body(&bodies[i], (const CollisionBody *)data);
     }
-    arg0->unkB0 = arg1;
-    arg0->unkB4 = arg2;
+    m_b0 = (u32)owner;
+    m_b4 = (u32)arg2;
     p = ::operator new(0x10);
     if (p != 0) {
         p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
     }
-    arg0->unkB8 = p;
-    arg0->unkBC = 0;
-    arg0->unkC0 = 0.0f;
-    arg0->unkC4 = 0.0f;
-    arg0->unkC8 = 0.0f;
-    return arg0;
+    attack_history = (AreaAttackHistory *)p;
+    m_bc = 0;
+    m_c0.x = 0.0f;
+    m_c0.y = 0.0f;
+    m_c0.z = 0.0f;
 }
 
 }

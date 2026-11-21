@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -11,6 +12,7 @@
 #include "pso/unk/TLobby.h"
 
 #include "pso/system/vector.h"
+#include "pso/ui/hud/TNowLoading.h"
 
 uaddr TLoadCtrl__instance;
 
@@ -37,10 +39,8 @@ void TNowLoading__sub_8001D4D4(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
-extern s32 lbl_80515BA0[];
 extern s32 tl_su;
 extern saddr tl_camera;
-s32 TNowLoading__ct(s32, void *, const Vec *);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
 }
@@ -57,7 +57,7 @@ bool TLoadCtrl__sub_8001C60C(void) {
 void TLoadCtrl::render() {  }
 
 const char *TLoadCtrl__class_name = "TLoadCtrl";
-const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: TNowLoading__ct copies it to TNowLoading::pos
+const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: the TNowLoading constructor copies it to TNowLoading::pos
 
 extern void *camera_ctrl_instance;
 
@@ -71,10 +71,7 @@ void TLoadCtrl::run_task() {
         if (++self->f20 == 2) {
             switch (TLoadCtrl__loading_mode) {
             case 0:
-                o = (saddr)TObject::operator new(0x3C);
-                if ((u32)o != 0) {
-                    TNowLoading__ct(o, self, &now_loading_pos);
-                }
+                new TNowLoading(this, (Vec *)&now_loading_pos);
                 break;
             case 1:
                 o = (saddr)TObject::operator new(0x20);
@@ -184,7 +181,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
     if (var_r31 == 2U) {
-        temp_r3 = select_area_entrance(lbl_80515BA0);
+        temp_r3 = select_area_entrance(&floor_transition_state);
         if (temp_r3 == 0) {
             var_r31 = 3U;
         } else if (temp_r3 == 1) {

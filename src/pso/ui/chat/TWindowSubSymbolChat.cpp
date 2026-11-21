@@ -2,6 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "types.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -31,6 +32,9 @@
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/system/vector.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -57,18 +61,17 @@ struct Win_80281840 { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; Sub_80281840
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-saddr get_window_layout_position(s32);
 s32 add__20TWindowSubSymbolChatFlllll(int, int, int, int, int, int);
+saddr get_window_layout_position(s32);
+u8 *create_chat_symbol_window__20TWindowSubSymbolChatFll(void *, s32);
 void * TWindowSubSymbolChat__instance;
 s8 TWindowSubSymbolChat__data_805D6494;
 s32 TWindowSubSymbolChat__data_805D6498;
 s32 TWindowSubSymbolChat__data_805D649C;
 s32 TWindowSubSymbolChat__help_window;
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 
 s32 TWindowSubSymbolChat__sub_800771B0(s32, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(s32, s32);
-s32 set_entry_bits__20TWindowSubSymbolChatFUsllll(s32, s32, s32, s32, s32, s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern s32 lbl_805D63F0;
 
@@ -77,6 +80,7 @@ s32 TWindowSubComCard__sub_80265660(s32, s32);
 s32 align_menu_entry_positions(s32);
 s32 TWindowSubSymbolChatPartsSet__ct(s32, s32, s16, s32 *, s32 *);
 s32 TWindowSubSymbolChatParts__ct(s32, s32, s32 *, s32 *);
+s32 __nw__7TObjectFUl(int);
 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
@@ -125,7 +129,6 @@ extern s32 TWindowSubSymbolChat__data_805D6498;
 extern s32 TWindowSubSymbolChat__data_805D649C;
 extern s32 TWindowSubSymbolChat__help_window;
 void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1);
-s32 update_display__20TWindowSubSymbolChatFl(s32 *);
 
 extern s32 close_child__20TWindowSubSymbolChatFv[];
 }
@@ -142,6 +145,7 @@ extern s32 close_child__20TWindowSubSymbolChatFv[];
 #pragma dont_inline off
 extern "C" {
 s32 __copy(void *, void *, int);
+s32 update_layout__20TWindowSubSymbolChatFv(void);
 
     extern unsigned char pending_symbol_chat_count;
 }
@@ -164,7 +168,7 @@ void TWindowSubSymbolChat::set_flag_bit1(s32 *arg0) {
 unsigned char TWindowSubSymbolChat::get_global_4e54() {  return pending_symbol_chat_count; }
 void*TWindowSubSymbolChat::get_keyboard_ptr() { return (char*)this + 0x4; }
 s32 TWindowSubSymbolChat::calc_remaining_slots() {
-    return 0xC - TWindowSubSymbolChat::refresh_parts();
+    return 0xC - TWindowSubSymbolChat::count_instance_empty_slots();
 }
 
 s32 TWindowSubSymbolChat::compute_total_height() {
@@ -172,7 +176,7 @@ s32 TWindowSubSymbolChat::compute_total_height() {
 
     s32 temp_r3;
     temp_r31 = TWindowSubSymbolChat::calc_remaining_slots();
-    temp_r3 = TWindowSubSymbolChat::update_layout();
+    temp_r3 = update_layout__20TWindowSubSymbolChatFv();
     return temp_r3 + temp_r31;
 }
 s32 *TWindowSubSymbolChat__sub_8028379C(void) {
@@ -200,7 +204,7 @@ TWindowSubSymbolChat::TWindowSubSymbolChat(TObject *parent, s32 client) : TObjec
     TWindowSubSymbolChat__data_805D649C = 0;
     m_20 = 0;
     TWindowSubSymbolChat__instance = this;
-    m_5c = update_display__20TWindowSubSymbolChatFl(close_child__20TWindowSubSymbolChatFv);
+    m_5c = (u32)create_callback_at_zero_vec2((void *)close_child__20TWindowSubSymbolChatFv);
     m_1c = 0;
 }
 
@@ -354,7 +358,7 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowSubSymbolChatPartsSet *)(this->m_30))->set_selection(this->m_28);
         }
         temp_r5 = (u8 *)this->m_30;
-        ((TWindowSubSymbolChatPartsSet *)(this->m_30 + 0x30))->copy_vec2((void*)((saddr)get_window_layout_position(0x7B)));
+        copy_vec2((void *)((this->m_30 + 0x30)), (void *)((void*)((s32)get_window_layout_position(0x7B))));
         *(s32 *)(this->m_30 + 0x50) = 6;
         if ((u32) this->m_3c == 0U) {
             this->m_3c = ((u32)TWindowSubSymbolChat::open_main_menu(arg0));
@@ -458,7 +462,7 @@ void TWindowSubSymbolChat::run_task() {
             this->m_50 = 0U;
         }
         if ((u32) this->m_4c == 0U) {
-            this->m_4c = (u32)((TWindowSubSymbolChat *)arg0)->create_parts();
+            this->m_4c = ((TWindowSubSymbolChat *)arg0)->create_parts();
             fn_80285A28(this->m_4c, &TWindowSubSymbolChat__help_window);
         }
         ((TWindowSubSymbolChat *)(this->m_4c))->select_index_and_scroll(this->m_1e);
@@ -466,7 +470,7 @@ void TWindowSubSymbolChat::run_task() {
             var_r0_2 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
             this->m_54 = var_r0_2;
         }
-        if (TWindowSubSymbolChat::refresh_parts() > 1) {
+        if (TWindowSubSymbolChat::count_instance_empty_slots() > 1) {
             ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit1();
         } else {
             TWindowSubSymbolChat__sub_80283944(this->m_54);
@@ -502,7 +506,7 @@ void TWindowSubSymbolChat::run_task() {
         if (((TWindowSubSymbolChatPartsSet *)(this->m_50))->is_active() != 0) {
             ((TWindowSubSymbolChat *)arg0)->sub_80281CC4();
             ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
-            if (TWindowSubSymbolChat::refresh_parts() > 0) {
+            if (TWindowSubSymbolChat::count_instance_empty_slots() > 0) {
                 this->m_1c = 0xCU;
                 return;
             }
@@ -518,7 +522,7 @@ void TWindowSubSymbolChat::run_task() {
             this->m_50 = 0U;
         }
         if ((u32) this->m_4c == 0U) {
-            this->m_4c = (u32)((TWindowSubSymbolChat *)arg0)->create_parts();
+            this->m_4c = ((TWindowSubSymbolChat *)arg0)->create_parts();
             ((TWindowSubSymbolChat *)(this->m_4c))->open((saddr)&TWindowSubSymbolChat__data_805D6494);
         }
         ((TWindowSubSymbolChat *)(this->m_4c))->select_index_and_scroll(this->m_1e);
@@ -596,7 +600,7 @@ void TWindowSubSymbolChat::run_task() {
             this->m_50 = 0U;
         }
         if ((u32) this->m_4c == 0U) {
-            this->m_4c = (u32)((TWindowSubSymbolChat *)arg0)->create_parts();
+            this->m_4c = ((TWindowSubSymbolChat *)arg0)->create_parts();
             ((TWindowSubSymbolChat *)(this->m_4c))->update_height();
         }
         ((TWindowSubSymbolChat *)(this->m_4c))->select_index_and_scroll(this->m_1e);
@@ -630,7 +634,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         if (((TWindowSubSymbolChat *)(this->m_50))->select_symbol_chat_record(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window) != 0) {
             ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit2();
-        } else if (TWindowSubSymbolChat::refresh_parts() > 0) {
+        } else if (TWindowSubSymbolChat::count_instance_empty_slots() > 0) {
             ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit1();
         }
         ((TWindowSubSymbolChat *)(this->m_54))->set_pos_and_flag((saddr)&TWindowSubSymbolChat__data_805D6498, (saddr)&TWindowSubSymbolChat__data_805D649C);
@@ -700,7 +704,7 @@ void TWindowSubSymbolChat::run_task() {
             this->m_40 = 0U;
         }
         if ((u32) this->m_38 == 0U) {
-            this->m_38 = (u32)((TWindowSubSymbolChat *)arg0)->create_menu();
+            this->m_38 = ((TWindowSubSymbolChat *)arg0)->create_menu();
         }
         ((TWindowSubComCard *)(this->m_38))->clear_flag_and_release();
         this->m_1c = 0x23U;
@@ -710,7 +714,7 @@ void TWindowSubSymbolChat::run_task() {
             return;
         }
         if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
-            play_symbol_sound(((TWindowMenu *)this->m_38)->get_selected_value());
+            TWindowSubSymbolChat::play_symbol_sound((s32)((TWindowMenu *)this->m_38)->get_selected_value());
             this->m_1c = 0x24U;
             return;
         }
@@ -741,7 +745,7 @@ void TWindowSubSymbolChat::run_task() {
         this->m_1c = 0x27U;
     case 39:
         if (((TWindowMenuIconLine *)(this->m_44))->is_cancelled() != 0) {
-            ((TWindowSubSymbolChat *)(this->m_28))->set_flag_bit9((int) (((TWindowOptionCtrl *)this->m_44)->update_selected_item()));
+            ((TWindowSubSymbolChat *)this->m_28)->set_flag_bit9((int) (((TWindowOptionCtrl *)this->m_44)->update_selected_item()));
             this->m_1c = 4U;
             return;
         }
@@ -788,7 +792,7 @@ s32 TWindowSubSymbolChat::create_symbol_list_card() {
     saddr sym;
     saddr card;
     s32 data;
-    card = ((TWindowSubComCard *)get_window_layout_position(0x77))->draw_card_icon(0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x31));
+    card = create_titled_window_menu_default(get_window_layout_position(0x77), 0xC, (s32)TWindowSubStatusDisp::get_message_10(0x31));
     for (i = 0; i < 0xC; i++) {
         sym = (saddr)get_symbol_chat_preset(i);
         data = (saddr)((TWindowSubSymbolChat *)sym)->get_symbol_chat_data();
@@ -812,7 +816,7 @@ void TWindowSubSymbolChat::apply_symbol() {
 s32 TWindowSubSymbolChat::open_main_menu(void * _w0) {
     saddr temp_r31;
 
-    temp_r31 = ((TWindowSubComCard *)get_window_layout_position(0x78))->draw_card_icon(6, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x78), 6, (s32)TWindowSubStatusDisp::get_message_10(0x1D));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xA8)), 6, 6);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xA9)), 6, 0xA);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xAA)), 6, 0x14);
@@ -828,17 +832,17 @@ s32 TWindowSubSymbolChat::open_main_menu(void * _w0) {
 s32 TWindowSubSymbolChat::open_edit_menu() {
     saddr temp_r31;
 
-    temp_r31 = ((TWindowSubComCard *)get_window_layout_position(0x79))->draw_card_icon(3, (saddr)TWindowSubStatusDisp::get_message_10(0xA8));
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (s32)TWindowSubStatusDisp::get_message_10(0xA8));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB3)), 6, 8);
     if (((TWindowSubSymbolChat *)(this->m_28))->is_initialized() != 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xB4), 6, 0x1E);
+        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
     }
     if ((s8)TWindowSubSymbolChat::get_global_4e54() > 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xB5), 6, 0x20);
+        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
     ((TWindowSubComCardList *)temp_r31)->set_scroll_target(193.0f, 128.0f);
@@ -852,17 +856,17 @@ s32 TWindowSubSymbolChat::open_edit_menu() {
 #pragma auto_inline off
 #pragma dont_inline off
 s32 TWindowSubSymbolChat__sub_8028233C(s32 arg0) {
-    s32 r = ((TWindowSubComCard *)get_window_layout_position(0x79))->draw_card_icon(6, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0xA9)));
+    s32 r = create_titled_window_menu_default((s32)(get_window_layout_position(0x79)), 6, (s32)((s32)TWindowSubStatusDisp::get_message_10(0xA9)));
     TWindowSubSymbolChat::open_menu(arg0, r);
     return r;
 }
 
 void TWindowSubSymbolChat::open_menu(s32 arg0, saddr arg1) {
     ((TWindowSubComCardList *)arg1)->reset_entries();
-    if (TWindowSubSymbolChat::refresh_parts() > 0) {
+    if (TWindowSubSymbolChat::count_instance_empty_slots() > 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0xAE)), 6, 0xC);
     } else {
-        TWindowSubComCard::draw_text_gray(arg1, (saddr)TWindowSubStatusDisp::get_message_10(0xAE), 6, 0xC);
+        add_gray_text_entry((TWindowSubTradeMain *)arg1, (const char *)(TWindowSubStatusDisp::get_message_10(0xAE)), 6, 0xC);
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0xAF)), 6, 0x10);
     ((TWindowSubComCardList *)arg1)->set_flag70_bit10();
@@ -873,7 +877,7 @@ void TWindowSubSymbolChat::open_menu(s32 arg0, saddr arg1) {
 s32 TWindowSubSymbolChat::create_parts() {
     s32 var_r31;
 
-    var_r31 = (saddr)TObject::operator new(0x90);
+    var_r31 = __nw__7TObjectFUl(0x90);
     if (var_r31 != 0) {
         var_r31 = TWindowSubSymbolChatParts__ct(var_r31, get_window_layout_position(0x7D), &TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
     }
@@ -883,7 +887,7 @@ s32 TWindowSubSymbolChat::create_parts() {
 s32 TWindowSubSymbolChat::create_parts_set() {
     s32 var_r31;
 
-    var_r31 = (saddr)TObject::operator new(0x98);
+    var_r31 = __nw__7TObjectFUl(0x98);
     if (var_r31 != 0) {
         var_r31 = TWindowSubSymbolChatPartsSet__ct(var_r31, get_window_layout_position(0x7D), this->m_1e, &TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
     }
@@ -893,10 +897,10 @@ s32 TWindowSubSymbolChat::create_parts_set() {
 s32 create_menu__20TWindowSubSymbolChatFPv(void *window_sub_symbol_chat) {
     saddr temp_r31;
 
-    temp_r31 = ((TWindowSubComCard *)get_window_layout_position(0x79))->draw_card_icon(3, (saddr)TWindowSubStatusDisp::get_message_10(0xAA));
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (s32)TWindowSubStatusDisp::get_message_10(0xAA));
     if (TWindowSubSymbolChat::compute_total_height() <= 0) {
-        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xB0), 6, 0x16);
-        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xB1), 6, 0x1A);
+        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
+        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
     } else {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
@@ -904,7 +908,7 @@ s32 create_menu__20TWindowSubSymbolChatFPv(void *window_sub_symbol_chat) {
     if (((TWindowSubSymbolChat *)(((TWindowSubSymbolChat *)window_sub_symbol_chat)->m_28))->is_initialized() != 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xB2), 6, 0x1C);
+        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
     ((TWindowSubComCardList *)temp_r31)->set_scroll_target(193.0f, 128.0f);
@@ -915,7 +919,7 @@ s32 create_menu__20TWindowSubSymbolChatFPv(void *window_sub_symbol_chat) {
 s32 TWindowSubSymbolChat::create_menu() {
     saddr temp_r31;
 
-    temp_r31 = ((TWindowSubComCard *)get_window_layout_position(0x79))->draw_card_icon(9, (saddr)TWindowSubStatusDisp::get_message_10(0xAB));
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x79), 9, (s32)TWindowSubStatusDisp::get_message_10(0xAB));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB6)), 0x26, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB7)), 0x26, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB8)), 0x26, 2);
@@ -933,7 +937,7 @@ s32 TWindowSubSymbolChat::create_menu() {
 
 s32 TWindowSubSymbolChat::open_confirm_prompt() {
     Win_80281EA8 *arg0 = (Win_80281EA8 *)this;
-    saddr r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f24, 0, 0);
+    s32 r = (s32)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f24), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x44)), (s32)(get_window_layout_position(0x7A)), 178.0f);
     ((TWindowSubShortMail *)r)->notify_warp_flag70();
     return r;
@@ -942,7 +946,7 @@ s32 TWindowSubSymbolChat::open_confirm_prompt() {
 s32 TWindowSubSymbolChat::create_confirm_window() {
     saddr temp_r31;
 
-    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x79), (saddr)lbl_804D2B48);
+    temp_r31 = (s32)create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0x79), lbl_804D2B48);
     ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0xAC));
     TWindowOptionCtrl::add_menu_item(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
     TWindowOptionCtrl::add_menu_item(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);
@@ -986,7 +990,7 @@ void TWindowSubSymbolChat::sub_80281C60() {
     s16 y;
     x = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_x();
     y = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_pos();
-    set_entry_bits__20TWindowSubSymbolChatFUsllll(this->m_28, this->m_1e, TWindowSubSymbolChat__data_805D6494, x + y * 2, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
+    ((TWindowSubSymbolChat *)this->m_28)->set_entry_bits(this->m_1e, TWindowSubSymbolChat__data_805D6494, x + y * 2, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
 }
 
 void TWindowSubSymbolChat::draw_selected_entry() {
@@ -1007,7 +1011,7 @@ void TWindowSubSymbolChat::draw_selected_entry() {
     if (rem > this->m_1e) {
         ((TWindowSubSymbolChat *)(this->m_28))->set_entry(this->m_1e, data->e[this->m_1e].c, x, y, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
         if (TWindowSubSymbolChat__help_window != 0) {
-            add__20TWindowSubSymbolChatFlllll(this->m_28, data->e[this->m_1e].c, 0x40 - x, y, (u8)(TWindowSubSymbolChat__data_805D6498 == 0), TWindowSubSymbolChat__data_805D649C);
+            ((TWindowSubSymbolChat *)this->m_28)->add(data->e[this->m_1e].c, 0x40 - x, y, (u8)(TWindowSubSymbolChat__data_805D6498 == 0), TWindowSubSymbolChat__data_805D649C);
         }
     } else {
         n = this->m_1e - rem;
@@ -1016,7 +1020,7 @@ void TWindowSubSymbolChat::draw_selected_entry() {
             if (TWindowSubSymbolChat__sub_800771C4(inst, i) != 0 && n-- <= 0) {
                 v = data->w[i];
                 TWindowSubSymbolChat__sub_800771B0(this->m_28, i);
-                set_entry_bits__20TWindowSubSymbolChatFUsllll(this->m_28, v, TWindowSubSymbolChat__data_805D6494, pos, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
+                ((TWindowSubSymbolChat *)this->m_28)->set_entry_bits(v, TWindowSubSymbolChat__data_805D6494, pos, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
                 return;
             }
         }
@@ -1051,15 +1055,15 @@ void TWindowSubSymbolChat::update_sub_window() {
         if (window_base != NULL) {
             ((TWindowBase *)window_base)->close();
             *(u8 **)((s8 *)arg0 + 0x34) = NULL;
-            ((TWindowSubSymbolChatPartsSet *)(*(u8 **)((s8 *)arg0 + 0x30) + 0x30))->copy_vec2((void*)(get_window_layout_position(0x7B)));
+            copy_vec2((void *)((*(u8 **)((s8 *)arg0 + 0x30) + 0x30)), (void *)((void*)(get_window_layout_position(0x7B))));
             *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x30)) + 0x50) = 6;
         }
     } else {
         if ((void *) *(u8 **)((s8 *)arg0 + 0x34) == NULL) {
-            *(u8 **)((s8 *)arg0 + 0x34) = (u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 0);
+            *(u8 **)((s8 *)arg0 + 0x34) = create_chat_symbol_window__20TWindowSubSymbolChatFll(arg0, 0);
             ((TWindowSubSymbolChatPartsSet *)(*(u8 **)((s8 *)arg0 + 0x34)))->set_selection((saddr) (TWindowSubSymbolChat__sub_8028379C()));
             *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x34)) + 0x64) = 1;
-            ((TWindowSubSymbolChatPartsSet *)(*(u8 **)((s8 *)arg0 + 0x30) + 0x30))->copy_vec2((void*)(get_window_layout_position(0x7C)));
+            copy_vec2((void *)((*(u8 **)((s8 *)arg0 + 0x30) + 0x30)), (void *)((void*)(get_window_layout_position(0x7C))));
             *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x30)) + 0x50) = 6;
         }
         ((TWindowSubSymbolChatPartsSet *)(*(u8 **)((s8 *)arg0 + 0x34)))->update_visibility();

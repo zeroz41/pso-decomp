@@ -14,7 +14,6 @@ void TObjPlayer__sub_800A1974(void);
 void TObjPlayer__sub_800A1D70(u8 *arg0);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
 s32 TObjPlayer__sub_800A2390(void *arg0_);
-u8 *TObjPlayer__sub_800A2F94(u8 *self, s32 arg1, u8 *arg2);
 f32 TObjPlayer__sub_800A3200(s32 arg0);
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 void *__dt__13TUnk_804909C4Fv(void *arg0, s16 arg1);

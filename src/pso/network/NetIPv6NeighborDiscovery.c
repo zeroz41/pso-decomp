@@ -23,7 +23,6 @@
 s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
 
-s32 NetUnregisterTimer(void* p);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -35,7 +34,7 @@ s16 TLobby__sub_804137FC(void *self, s16 idx);
 
 void NetIPv6ShutdownNeighborDiscovery(void) {
     Ipv6NdState *g = &ipv6_neighbor_discovery_state;
-    NetUnregisterTimer((void *)NetIPv6TickNeighborDiscovery);
+    NetUnregisterTimer(NetIPv6TickNeighborDiscovery);
     TLobby__sub_803F88E0(g);
     g->nneighbors = 0;
     g->nrouters = 0;
@@ -974,7 +973,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
       case 3:
         if (len == 0x20U)
       {
-        set_value_and_enable((void *) buf58, (saddr) &prefix_opt);
+        set_value_and_enable((NetBufferRef *) buf58, (saddr) &prefix_opt);
         new_var3 = prefix_opt.prefix.bytes;
         netbuf_copy_by_ref(buf58, &self->buffer, 0x20);
         prefix_event.prefix = (new_var2 = new_var3);
@@ -989,7 +988,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
       case 5:
         if (len == 8U)
       {
-        set_value_and_enable((void *) buf58, (saddr) &mtu_opt);
+        set_value_and_enable((NetBufferRef *) buf58, (saddr) &mtu_opt);
         netbuf_copy_by_ref(buf58, &self->buffer, 8);
         mtu_event.router = dst;
         mtu_event.mtu = mtu_opt.mtu;

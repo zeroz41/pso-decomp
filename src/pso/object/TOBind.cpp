@@ -11,14 +11,13 @@ s32 TOBind__sub_80158608(void *);
 extern saddr quest_mission_manager;
 
 void TOBind::sub_8015860C() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f0;
     f32 bc;
-    *(f32 *)((s8 *)arg0 + 0xB8) = (f32) (*(f32 *)((s8 *)arg0 + 0xB8) + *(f32 *)&this->unk_C0);
+    motion_frame += motion_step;
     bc = this->m_bc;
-    temp_f0 = *(f32 *)((s8 *)arg0 + 0xB8);
+    temp_f0 = motion_frame;
     if (bc < temp_f0) {
-        *(f32 *)((s8 *)arg0 + 0xB8) = (f32) (temp_f0 - bc);
+        motion_frame = temp_f0 - bc;
     }
 }
 

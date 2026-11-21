@@ -9,9 +9,9 @@ extern "C" {
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
 int VecCopy__FP3VecPC3Vec(s32, s32, s32);
 
-void TBoss8Dragon::copy_position(saddr arg1) {
+void TBoss5GryphonLightningWing::copy_position(void *out) {
     s32 arg0 = (saddr)this;
-    VecCopy__FP3VecPC3Vec(arg1, arg0 + 0x20, arg0);
+    VecCopy__FP3VecPC3Vec((s32)out, arg0 + 0x20, arg0);
 }
 
 void TBoss5GryphonLightningWing::update_wing_segments() {

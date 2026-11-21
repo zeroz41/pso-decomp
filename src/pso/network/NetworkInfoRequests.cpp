@@ -1,34 +1,42 @@
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
 
+// The original has a 32-byte-aligned frame with no live stack locals. MWCC's
+// parameter alignment reproduces that frame without changing the register ABI.
+#ifdef __MWERKS__
+#define NETWORK_INFO_FRAME_ALIGN ATTRIBUTE_ALIGN(32)
+#else
+#define NETWORK_INFO_FRAME_ALIGN
+#endif
+
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-#pragma opt_dead_assignments off
-// The caller's buffer is declared 32-byte aligned, as the library's buffer pointers in .sbss are; GC/1.3 gives
-// the parameter an aligned home, hence the 32-aligned frame.
-s32 request_network_info_load(s32 channel, void *buffer ATTRIBUTE_ALIGN_PARAM(32)) {
+s32 request_network_info_load(s32 channel NETWORK_INFO_FRAME_ALIGN, void *buffer) {
     switch (get_network_config_mode()) {
     case 0:
         return -1;
+    case 1:
+        break;
     case 2:
     case 3:
     default:
         return -5;
-    case 1:
-        break;
     }
-    if (network_info_load_state.request_kind != 0) {
+
+    NetworkInfoLoadState *state = &network_info_load_state;
+    if (state->request_kind != 0) {
         return -4;
     }
     set_network_config_card_channel(channel);
-    network_info_load_state.request_kind = 2;
+    state->request_kind = 2;
     network_info_load_state.phase = 3;
     network_info_load_state.caller_buffer = buffer;
     network_info_load_state.result = 200;
     return 0;
 }
 #pragma pop
+#undef NETWORK_INFO_FRAME_ALIGN
 
 #pragma push
 #pragma scheduling off

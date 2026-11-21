@@ -2,7 +2,14 @@
 #define PSO_UI_CITY_TSHOPDELETEITEMWINDOW_H
 
 #include "types.h"
+#include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopWindowBase.h"
+
+struct TObjPlayer;
+struct TWindowMenu;
+class TWindowMenuIconLine;
+struct TWindowInputNumber;
+struct TWindowHelpItem;
 
 struct TShopDeleteItemWindow : public TShopWindowBase {
     TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);
@@ -10,23 +17,23 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     void sub_80337E2C();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6();
+    virtual void vfunc_6(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u32 m_2c;
-    uaddr m_30;
-    uaddr m_34;
-    uaddr m_38;
-    uaddr m_3c;
-    void* m_40;
-    u8 _pad44[0x10];
+    TObjPlayer *m_24;
+    void (*m_28)(TShopWindowBase *);  // called when the player leaves
+    void (*m_2c)(TShopWindowBase *);  // called when there is nothing to list
+    TWindowMenuIconLine *m_30;
+    TWindowMenu *m_34;
+    TWindowInputNumber *m_38;
+    TWindowHelpItem *m_3c;
+    TItemData m_40;  // the selected item
     u8 m_54;
-    u8 _pad55[0x7];
-    u32 m_5c;
-    u32 m_60;
-    u32 m_64;
+    u8 _pad55[0x3];
+    s32 m_58;
+    s32 m_5c;  // quantity
+    s32 m_60;  // cursor
+    TShopWindowBase *m_64;  // owner
     s32 destroy();
     static s32 update_item_select(void *arg0);
     void handle_number_input();

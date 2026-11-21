@@ -10,16 +10,6 @@
 
 #pragma readonly_strings on
 
-struct Obj_802FE024 {
-    u8 pad0[0x18];
-    void *vt;
-    Vec pos;
-    Vec vel;
-    s32 a;
-    s16 b;
-    void *h;
-};
-
 extern "C" {
 const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
 s32 vec3_add_to(void *, void *);
@@ -29,39 +19,33 @@ void TBoss8DragonEffBreath::render() {  }
 
 
 void TBoss8DragonEffBreath::run_task() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     uaddr ent;
 
-    vec3_add_to((u8 *)&this->m_1c, (u8 *)&this->m_28);
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x20);
+    vec3_add_to(&m_1c, &m_28);
+    temp_f1 = m_1c.y;
     if (temp_f1 < -10.0f) {
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
         return;
     }
-    if ((temp_f1 < 30.0f) && ((ent = (uaddr)get_enemy_entity((this->m_38))) != 0U)) {
-        TBoss8Dragon::setup_breath_instance((void *)ent, (saddr)(arg0 + 0x1C), (u32)((int)this->m_34), (int)((int)this->m_3c));
+    if ((temp_f1 < 30.0f) && ((ent = (uaddr)get_enemy_entity(m_38)) != 0U)) {
+        ((TBoss8Dragon *)ent)->setup_breath_instance(&m_1c, m_34, m_3c);
     }
 }
 
 }
 TBoss8DragonEffBreath::~TBoss8DragonEffBreath() {
-    __dt__17AreaAttackHistoryFv((saddr)(*(void **)((s8 *)this + 0x3C)), 1);
-    this->m_3c = 0;
+    delete m_3c;
+    m_3c = 0;
 }
-TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, void *p, void *v, s32 a, s16 b) : TObject(parent) {
-    void *h;
-    *(const char **)this = TBoss8DragonEffBreath__name;
-    VecCopy((Vec *)&((Obj_802FE024 *)this)->pos, (const Vec *)p);
-    VecCopy((Vec *)&((Obj_802FE024 *)this)->vel, (const Vec *)v);
-    ((Obj_802FE024 *)this)->vel.x *= 5.0f;
-    ((Obj_802FE024 *)this)->vel.y *= 5.0f;
-    ((Obj_802FE024 *)this)->vel.z *= 5.0f;
-    ((Obj_802FE024 *)this)->a = a;
-    ((Obj_802FE024 *)this)->b = b;
-    h = ::operator new(0x10);
-    if (h != NULL) {
-        h = __ct__17AreaAttackHistoryFl((u8 *)h, 4);
-    }
-    ((Obj_802FE024 *)this)->h = h;
+TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, Vec *pos, Vec *velocity, s32 kind, u16 owner) : TObject(parent) {
+    m_name = TBoss8DragonEffBreath__name;
+    VecCopy(&m_1c, pos);
+    VecCopy(&m_28, velocity);
+    m_28.x *= 5.0f;
+    m_28.y *= 5.0f;
+    m_28.z *= 5.0f;
+    m_34 = kind;
+    m_38 = owner;
+    m_3c = new AreaAttackHistory(4);
 }

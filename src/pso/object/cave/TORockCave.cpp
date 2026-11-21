@@ -1,3 +1,4 @@
+#include <stddef.h>
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -55,18 +56,39 @@ extern const char *bm_fe_obj_rb3_liwa_motion_names[1];
 
 // The rocks of each cave floor (bm_o_rock_cave0N) and the debris pieces of its
 // breakable ones (bm_fe_obj_rbN_liwa).
-static const char *rock_cave_resource_table[4] = { "fe_obj_liwa01.gj", "fe_obj_miwa01.gj", "fe_obj_siwa01.gj", NULL };
-static BmlResourceDescriptor bm_o_rock_cave01_descriptor = { "bm_o_rock_cave01.bml", rock_cave_resource_table, bm_o_rock_cave01_motion_names, 3, 0 };
-static const char *bm_o_rock_cave02_resource_bundle[7] = { "fe_obj_liwa02.gj", "fe_obj_miwa02.gj", "fe_obj_siwa02.gj", "fs_obj_liwa025.gj", "fs_obj_miwa025.gj", "fs_obj_siwa025.gj", NULL };
-static BmlResourceDescriptor bm_o_rock_cave02_descriptor = { "bm_o_rock_cave02.bml", bm_o_rock_cave02_resource_bundle, bm_o_rock_cave02_motion_names, 6, 0 };
-static const char *bm_o_rock_cave03_resource_bundle[4] = { "fe_obj_liwa03.gj", "fe_obj_miwa03.gj", "fe_obj_siwa03.gj", NULL };
-static BmlResourceDescriptor bm_o_rock_cave03_descriptor = { "bm_o_rock_cave03.bml", bm_o_rock_cave03_resource_bundle, bm_o_rock_cave03_motion_names, 3, 0 };
-static const char *bm_fe_obj_rb_liwa_resource_bundle[7] = { "fe_obj_rb_liwa01.gj", "fe_obj_rb_liwa02.gj", "fe_obj_rb_liwa03.gj", "fe_obj_rb_liwa04.gj", "fe_obj_rb_liwa05.gj", "fe_obj_rb_liwa06.gj", NULL };
-static BmlResourceDescriptor bm_fe_obj_rb_liwa_descriptor = { "bm_fe_obj_rb_liwa.bml", bm_fe_obj_rb_liwa_resource_bundle, bm_fe_obj_rb_liwa_motion_names, 6, 0 };
-static const char *bm_fe_obj_rb2_liwa_resource_bundle[7] = { "fe_obj_rb2_liwa01.gj", "fe_obj_rb2_liwa02.gj", "fe_obj_rb2_liwa03.gj", "fe_obj_rb2_liwa04.gj", "fe_obj_rb2_liwa05.gj", "fe_obj_rb2_liwa06.gj", NULL };
-static BmlResourceDescriptor bm_fe_obj_rb2_liwa_descriptor = { "bm_fe_obj_rb2_liwa.bml", bm_fe_obj_rb2_liwa_resource_bundle, bm_fe_obj_rb2_liwa_motion_names, 6, 0 };
-static const char *bm_fe_obj_rb3_liwa_resource_bundle[7] = { "fe_obj_rb3_liwa01.gj", "fe_obj_rb3_liwa02.gj", "fe_obj_rb3_liwa03.gj", "fe_obj_rb3_liwa04.gj", "fe_obj_rb3_liwa05.gj", "fe_obj_rb3_liwa06.gj", NULL };
-static BmlResourceDescriptor bm_fe_obj_rb3_liwa_descriptor = { "bm_fe_obj_rb3_liwa.bml", bm_fe_obj_rb3_liwa_resource_bundle, bm_fe_obj_rb3_liwa_motion_names, 6, 0 };
+template <int ModelSlots>
+struct CaveRockArchive {
+    const char *model_filenames[ModelSlots];
+    BmlResourceDescriptor descriptor;
+};
+
+struct CaveRockArchives {
+    CaveRockArchive<4> cave_one;
+    CaveRockArchive<7> cave_two;
+    CaveRockArchive<4> cave_three;
+    CaveRockArchive<7> debris_one;
+    CaveRockArchive<7> debris_two;
+    CaveRockArchive<7> debris_three;
+};
+
+typedef char CaveRockArchives_size[sizeof(CaveRockArchives) == 0xF0 ? 1 : -1];
+typedef char CaveRockArchive4_descriptor_offset[offsetof(CaveRockArchive<4>, descriptor) == 0x10 ? 1 : -1];
+typedef char CaveRockArchive7_descriptor_offset[offsetof(CaveRockArchive<7>, descriptor) == 0x1C ? 1 : -1];
+
+static CaveRockArchives rock_cave_resource_table = {
+    { { "fe_obj_liwa01.gj", "fe_obj_miwa01.gj", "fe_obj_siwa01.gj", NULL },
+      { "bm_o_rock_cave01.bml", rock_cave_resource_table.cave_one.model_filenames, bm_o_rock_cave01_motion_names, 3, 0 } },
+    { { "fe_obj_liwa02.gj", "fe_obj_miwa02.gj", "fe_obj_siwa02.gj", "fs_obj_liwa025.gj", "fs_obj_miwa025.gj", "fs_obj_siwa025.gj", NULL },
+      { "bm_o_rock_cave02.bml", rock_cave_resource_table.cave_two.model_filenames, bm_o_rock_cave02_motion_names, 6, 0 } },
+    { { "fe_obj_liwa03.gj", "fe_obj_miwa03.gj", "fe_obj_siwa03.gj", NULL },
+      { "bm_o_rock_cave03.bml", rock_cave_resource_table.cave_three.model_filenames, bm_o_rock_cave03_motion_names, 3, 0 } },
+    { { "fe_obj_rb_liwa01.gj", "fe_obj_rb_liwa02.gj", "fe_obj_rb_liwa03.gj", "fe_obj_rb_liwa04.gj", "fe_obj_rb_liwa05.gj", "fe_obj_rb_liwa06.gj", NULL },
+      { "bm_fe_obj_rb_liwa.bml", rock_cave_resource_table.debris_one.model_filenames, bm_fe_obj_rb_liwa_motion_names, 6, 0 } },
+    { { "fe_obj_rb2_liwa01.gj", "fe_obj_rb2_liwa02.gj", "fe_obj_rb2_liwa03.gj", "fe_obj_rb2_liwa04.gj", "fe_obj_rb2_liwa05.gj", "fe_obj_rb2_liwa06.gj", NULL },
+      { "bm_fe_obj_rb2_liwa.bml", rock_cave_resource_table.debris_two.model_filenames, bm_fe_obj_rb2_liwa_motion_names, 6, 0 } },
+    { { "fe_obj_rb3_liwa01.gj", "fe_obj_rb3_liwa02.gj", "fe_obj_rb3_liwa03.gj", "fe_obj_rb3_liwa04.gj", "fe_obj_rb3_liwa05.gj", "fe_obj_rb3_liwa06.gj", NULL },
+      { "bm_fe_obj_rb3_liwa.bml", rock_cave_resource_table.debris_three.model_filenames, bm_fe_obj_rb3_liwa_motion_names, 6, 0 } },
+};
 const char *bm_o_rock_cave01_motion_names[1] = { NULL };
 const char *bm_o_rock_cave02_motion_names[1] = { NULL };
 const char *bm_o_rock_cave03_motion_names[1] = { NULL };
@@ -118,41 +140,43 @@ TORockCave::~TORockCave() {}
 
 void TORockCave::load_resources() {
     BmlResource *resource;
+    // The loader addresses each descriptor from the same archive table base.
+    u8 *archives = reinterpret_cast<u8 *>(&rock_cave_resource_table);
 
     switch (get_current_floor_area()) {
     case AREA_CAVE1:
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_o_rock_cave01_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_one) + offsetof(CaveRockArchive<4>, descriptor)), 0, 0, 0);
         }
         cave_rock_resource_bundle = resource;
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_fe_obj_rb_liwa_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_one) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
         }
         rock_cave_model_resource = resource;
         break;
     case AREA_CAVE2:
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_o_rock_cave02_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_two) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
         }
         cave_rock_resource_bundle = resource;
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_fe_obj_rb2_liwa_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_two) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
         }
         rock_cave_model_resource = resource;
         break;
     case AREA_CAVE3:
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_o_rock_cave03_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_three) + offsetof(CaveRockArchive<4>, descriptor)), 0, 0, 0);
         }
         cave_rock_resource_bundle = resource;
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &bm_fe_obj_rb3_liwa_descriptor, 0, 0, 0);
+            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_three) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
         }
         rock_cave_model_resource = resource;
         break;

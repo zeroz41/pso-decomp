@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/protocol/protocol.h"
 #include "pso/player/TPlyCharData_801E0A04.h"
 #include "pso/unk/text_801DF280.h"
 #include "pso/unk/text_801DFC3C.h"
@@ -7,12 +8,9 @@
 
 struct Obj_801DFC3C { u8 pad[0x600]; u32 w[30]; };
 
-extern "C" {
-void bswap__13packet_headerFv();
-}
 void bswap_player_record_upload(u8 *arg0) {
     s32 i;
-    bswap__13packet_headerFv();
+    ((packet_header *)arg0)->bswap();
     bswap__12TPlyCharDataFv((saddr)(arg0 + 4));
     ((TLobby *)(arg0 + 0x420))->bswap_cmd_c5();
     bswap_choice_search_config(arg0 + 0x53C);

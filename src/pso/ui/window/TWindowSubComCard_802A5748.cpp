@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/charcreate/TChCrTagPlBack.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
@@ -15,10 +16,9 @@
 extern "C" {
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 saddr create_window_menu(saddr, saddr, saddr);
-int set_selected_index__21TWindowSubComCardListFs(void*);
 
 void TWindowSubComCard::close() { queue_destruction(); }
-void TWindowSubComCard::free_member() { void* m = *(void* *)&this->m_2c; if (m) set_selected_index__21TWindowSubComCardListFs(m); }
+void set_menu_selected_index(TWindowSubComCard *window, s16 index) { void *m = *(void **)&window->m_2c; if (m) ((TWindowSubComCardList *)m)->set_selected_index(index); }
 s32 TWindowSubComCard::get_slot_or_neg1() {
     saddr v = this->m_2c;
     if ((u32) v == 0U) {

@@ -19,12 +19,12 @@ extern const f32 TObjPlayer__data_805DC294;
 
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
-    if (TObjChara::obj_isState2_324() == 0) {
+    if (this->obj_isState2_324() == 0) {
         ((TObjPlayer *)arg0)->update_position_from_target();
         return;
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
-        ((TObjPlayer *)arg0)->sub_8011E204(4);
+        ((TObjPlayer *)arg0)->clear_state_flags(4);
         if (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) {
             run_action_state_phase__10TObjPlayerFisi(arg0, 0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
@@ -178,7 +178,6 @@ typedef struct Player_801BD0C0 {
 
 extern "C" {
 u16 get_entity_id(void *);
-void select_class_action_provider__10TObjPlayerFv(void *, s32);
 extern s32 TObjPlayer__shared_model_buffer;
 extern const f32 TObjPlayer__data_805DC278;
 
@@ -210,7 +209,7 @@ void TObjPlayer::sub_801BD240() {
     P_801BD240 *arg0 = (P_801BD240 *)this;
     s32 t = get_entity_id(arg0) * 0xC00;
     arg0->fE0 = TObjPlayer__shared_model_buffer + t;
-    select_class_action_provider__10TObjPlayerFv(arg0, t);
+    ((TObjPlayer *)arg0)->select_class_action_provider();
     arg0->f380->m3(get_entity_id(arg0));
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->update_input_and_draw();

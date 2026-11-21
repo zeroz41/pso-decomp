@@ -3,12 +3,12 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/render_util.h"
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-s32 is_camera_visible__17TObjEneHoldEffectFv(s32);
 
 u16 TObjRoomId__sub_801A1DB8(u16);
 void *find_entity_by_id(u16 id);
@@ -58,14 +58,14 @@ s32 validate_6x42_move_to_position(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return (u32) __cntlzw(is_camera_visible__17TObjEneHoldEffectFv((s32)packet + 4)) >> 5;
+    return (u32) __cntlzw(has_nonfinite_position((f32 *)((u8 *)packet + 4))) >> 5;
 }
 
 s32 validate_6x40_walk_to_position(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return (u32)__cntlzw(is_camera_visible__17TObjEneHoldEffectFv((s32)packet + 4)) >> 5;
+    return (u32)__cntlzw(has_nonfinite_position((f32 *)((u8 *)packet + 4))) >> 5;
 }
 
 s32 validate_6x3F_set_position(G_ClientIDHeader *packet) {
@@ -230,7 +230,7 @@ s32 validate_6x2C_impose_hold(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    if (is_camera_visible__17TObjEneHoldEffectFv((s32)((u8*)packet + 8)) != 0) {
+    if (has_nonfinite_position((f32 *)((u8 *)packet + 8)) != 0) {
         return 0;
     }
     cond = (*(f32 *)((s8 *)((u8*)packet) + 0x10) < 0.0f);

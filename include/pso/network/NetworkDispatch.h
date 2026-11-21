@@ -2,17 +2,9 @@
 #define PSO_NETWORK_NETWORK_DISPATCH_H
 
 #include "types.h"
+#include "pso/network/NetworkRuntime.h"
+#include "pso/network/NetworkTimer.h"
 #include <stddef.h>
-
-typedef void (*NetTimerCallback)(void);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
-#ifdef __cplusplus
-}
-#endif
 
 /* A protocol handler: NetRunProtocolDispatchLoop passes it a message's payload, detail, first and second fields. */
 typedef void (*NetProtocolHandler)(s32, s16, s16, s16);
@@ -35,7 +27,7 @@ typedef struct NetTimerRecord {
 typedef struct NetworkDispatchState {
     s32 lock_handle;
     s32 queue_handle;
-    uaddr thread_ids[2]; /* protocol and timer dispatch threads */
+    NetThreadHandle thread_ids[2]; /* protocol and timer dispatch threads */
     s32 interval;
     NetProtocolHandlerEntry handlers[3];
     NetTimerRecord timers[10];
@@ -48,6 +40,8 @@ extern NetworkDispatchState network_dispatch_state;
 s32 register_protocol_handler(u16 type, NetProtocolHandler fn);
 s32 release_slot_by_id(u16 a);
 void TLobby__sub_80419A00(void);
+s16 TLobby__sub_80419A34(void);
+s16 NetInitializeDispatcher(void);
 s32 TLobby__sub_80419A7C(void);
 #ifdef __cplusplus
 }
@@ -74,9 +68,11 @@ NET_DISPATCH_OFFSET(NetTimerRecord, next, 0x0C);
 NET_DISPATCH_OFFSET(NetTimerRecord, fn, 0x10);
 NET_DISPATCH_OFFSET(NetworkDispatchState, lock_handle, 0x00);
 NET_DISPATCH_OFFSET(NetworkDispatchState, queue_handle, 0x04);
+NET_DISPATCH_OFFSET(NetworkDispatchState, thread_ids, 0x08);
 NET_DISPATCH_OFFSET(NetworkDispatchState, interval, 0x10);
 NET_DISPATCH_OFFSET(NetworkDispatchState, handlers, 0x14);
 NET_DISPATCH_OFFSET(NetworkDispatchState, timers, 0x2C);
+NET_DISPATCH_OFFSET(NetworkDispatchState, unknown_F4, 0xF4);
 NET_DISPATCH_OFFSET(NetProtocolMessage, first, 0x00);
 NET_DISPATCH_OFFSET(NetProtocolMessage, second, 0x02);
 NET_DISPATCH_OFFSET(NetProtocolMessage, protocol, 0x04);

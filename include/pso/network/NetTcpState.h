@@ -199,6 +199,8 @@ s32 TLobby__sub_8041F11C(TcpTcb *self);
 void expire_timeout_entries(TcpTcb *tcb);
 s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self);
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
+void TLobby__sub_8041FDA0(TcpTcb *tcb, s16 index, u32 start, u32 end);
+void TLobby__sub_8041FED4(TcpTcb *tcb);
 s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
 /* Add len bytes of queued send data, starting off bytes past the oldest unacknowledged byte, to pkt's fragment list
    (as buffer references, no copy; BSD tcp_output's m_copy). The fragments are stored last first. Returns -1 when off

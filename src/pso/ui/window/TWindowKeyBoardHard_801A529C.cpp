@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/network/packet_copy.h"
 #include "pso/unk/TLobby.h"

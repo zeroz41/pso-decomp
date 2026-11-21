@@ -1,13 +1,17 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/GroundContactSound.h"
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/stelth/StelthData.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -68,12 +72,10 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/npc/TNpcPlayer.h"
+#include "pso/technique/TTecDeband.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-void TObjEneGibbles__sub_800D8988(Vec *pos);
-}
 
 // Class names the two constructors store in m_name (.sdata).
 const char *TObjEneMe3Stelth__class_name = stelth_class_name;
@@ -90,7 +92,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern s32 game_difficulty_selection;
 u16 get_entity_id(void *);
-u32 get_valid_target_player__10TNpcPlayerFv(int);
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
 s32 TObjEneMe3Stelth__render_node_index;
@@ -122,17 +123,12 @@ s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1);
 f32 *TBoss3Volopt__sub_800F059C(void *);
 f32 atan2_float(f32 y, f32 x);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
-s32 move_to_shot_position__9TObjEneDDFfff(void *, int, f32, f32, f32);
 void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
-s32 create__10TTecDebandFlll(void *, void *, s32);
 
 
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
-s32 get_item_id__5TItemFv(void);
-int select_and_apply_target__12TObjEneDD_STFf(void*);
 void TObjEneDD__sub_800BA438(void *, void *);
 
 
@@ -190,7 +186,6 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 
 s32 free_bin_model_request(BmlResource *, s32);
 
-int create__20TObjEneMe3StelthRealFPv(void*);
 
 
 
@@ -296,15 +291,17 @@ void TObjEneMe3Stelth::load_shared_resources() {
         TObjEneMe3Stelth__trail_buffer->sample_node_offsets((NJS_OBJECT *)mdl, (NJS_MOTION *)trail_motion, 0x22, &va, &vb);
     }
     {
-        DelDepthAnimationBinding a = stelth_attack_binding_desc_a;
+        NpcAnimationBinding a = stelth_attack_binding_desc_a;
         a.motions = TObjEneMe3Stelth__bml_resource->motions;
-        DelDepthAnimationBinding b = stelth_attack_binding_desc_b;
+        NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = TObjEneMe3Stelth__bml_resource->motions;
-        TObjEneMe3Stelth::spawn_attack(0x2B, TObjEneMe3Stelth__bml_resource->models->model, TObjEneMe3Stelth__bml_resource->models->m_c, (saddr)&a, 8.0f, 0.0f);
-        TObjEneMe3Stelth::spawn_attack(0x2D, TObjEneMe3Stelth__bml_resource->models->model, TObjEneMe3Stelth__bml_resource->models->m_c, (saddr)&b, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
+                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &a, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
+                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &b, 8.0f, 0.0f);
     }
 }
-int TObjEneMe3Stelth::create_real() { return create__20TObjEneMe3StelthRealFPv(this); }
+int TObjEneMe3Stelth::create_real() { return (int)TObjEneMe3StelthReal::create(this); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (TObjEneMe3Stelth__trail_buffer != NULL) {
         delete TObjEneMe3Stelth__trail_buffer;
@@ -351,7 +348,7 @@ void TObjEneMe3StelthReal::init_common() {
     set_animation(requested_action);
     v = m_3c8;
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = TObjEneMe3Stelth__shared_params;
     m_37c = 10.0f;
     enemy_init_acquire_period(0x1E);
@@ -516,8 +513,9 @@ void TObjEneMe3Stelth::attack_and_unequip() {
         if (d > 0.0f) {
             if (sub_800F47D4() != 0) {
                 TObjChara *t = target;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && get_item_field_6__10TObjPlayerFPv(t) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)t, (void *)(get_item_id__5TItemFv()));
+                TItem *held;
+                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(t)) != 0) {
+                    TObjPlayer::send_6x26_unequip_item((void *)t, (void *)(held->get_item_id()));
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&m_3f8);
                     spawn_particle_effect(&m_3f8, 0x1D0);
                 }
@@ -581,7 +579,7 @@ s32 TObjEneMe3Stelth::is_angle_in_range() {
     return parameters[0] < 1.0f ||
            (parameters[0] >= 2.0f && parameters[0] < 3.0f);
 }
-s32 TObjEneMe3Stelth::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
+s32 TObjEneMe3Stelth::vfunc_104(f32 f) { return select_and_apply_target(f); }
 s32 TObjEneMe3Stelth::sub_800F47D4() {
     return m_3f0 >= 1;
 }
@@ -1120,7 +1118,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
                 set_matrix_identity(0);
                 post_translate_matrix((f32 *)&stelth->position);
                 rotate_matrix_y(0, stelth->rotation_y);
-                mult_vec_array__10TObjPlayerFUll(0, entry, points, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)entry, (Vec *)points, 2);
                 pop_matrix();
             }
         }
@@ -1176,7 +1174,7 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
             TObjEneMe3Stelth__sub_800F0C90(stelth);
             temp_f1 = stelth->frame;
             if ((temp_f1 >= 0.0f) && (temp_f1 <= 5.0f)) {
-                move_to_shot_position__9TObjEneDDFfff(stelth, (saddr) TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8], stelth->m_3a0, stelth->m_3a8, TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_08);
+                ((TObjEneDD *)stelth)->move_to_shot_position(stelth->m_3a0, stelth->m_3a8, TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_08);
             } else {
                 stelth->vfunc_102();
             }
@@ -1325,7 +1323,7 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
             if (m_428 == 5) {
                 TTecSifta::create((void *)this, (u8 *)&position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
             } else if (m_428 == 0xA) {
-                create__10TTecDebandFlll(this, (u8 *)&position, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level));
+                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
                 m_424 = 1;
                 m_428 = 0;
             }
@@ -1468,7 +1466,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
                 ofs.x = 0.0f;
                 ofs.y = 10.0f;
                 ofs.z = 20.0f;
-                ((TObjBoss2Tunnel *)(&ofs))->init_zako((u8 *)&position, rotation_y);
+                rotate_y_and_translate(&ofs, &position, rotation_y);
                 TObjPlayer::spawn_effect_f8((saddr)&ofs, 0x14);
             } else if (is_passing_frame(2.0f) != 0) {
                 m_3cc |= 8;
@@ -1580,7 +1578,7 @@ void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1) {
                         q.z += p.z - stelth->target->position.z;
                         if (TObjEneMe3Stelth__sub_800F0F84(stelth, &q) == 0 &&
                             csnVector(&stelth->target->position, &q, 0x88E0) == 0 &&
-                            csnVectorUnder(&p, (u32 *)&stelth->m_120, 0x15) != 0 &&
+                            csnVectorUnder(&p, (CsnGroup **)&stelth->m_120, 0x15) != 0 &&
                             ((TScene *)(&p))->find_section_at_position() == stelth->room) {
                             VecCopy(&stelth->position, &p);
                             stelth->rotation_y = ang + 0xC000;
@@ -2064,12 +2062,12 @@ s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos) {
     VecCopy(&stelth->position, pos);
     TObjPlayer::init_all_slots();
     stelth->vfunc_89();
-    if ((body->flags & 0x80000) && get_valid_target_player__10TNpcPlayerFv(get_entity_id(stelth->target)) == 0) {
+    if ((body->flags & 0x80000) && ((TNpcPlayer *)(get_entity_id(stelth->target)))->get_valid_target_player() == 0) {
         VecCopy(&stelth->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
     }
-    if ((body->flags & 0x100000) && get_valid_target_player__10TNpcPlayerFv(stelth->entity_id) == 0) {
+    if ((body->flags & 0x100000) && ((TNpcPlayer *)stelth->entity_id)->get_valid_target_player() == 0) {
         VecCopy(&stelth->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
@@ -2115,7 +2113,7 @@ void TObjEneMe3StelthReal::vfunc_111() {  }
 
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
     if (stelth->is_passing_frame(12.0f) != 0 || stelth->is_passing_frame(28.0f) != 0) {
-        stelth->try_spawn_ground_effect((saddr)&stelth->position);
+        stelth->try_spawn_ground_effect(&stelth->position);
     }
 }
 
@@ -2124,12 +2122,12 @@ void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
 // Body after its sibling sub_800F0C90 (a ground effect on a motion frame); name inferred.
 void TObjEneMe3Stelth::spawn_ground_effect_on_frame_23() {
     if (is_passing_frame(23.0f) != 0) {
-        try_spawn_ground_effect((saddr)&position);
+        try_spawn_ground_effect(&position);
     }
 }
 
 void TObjEneMe3Stelth::play_hit_effect() {
-    if (try_spawn_ground_effect((saddr)&position) != 0) {
+    if (try_spawn_ground_effect(&position) != 0) {
         play_sound_effect(0x3A836, &position, 0, 0);
         return;
     }
@@ -2137,19 +2135,19 @@ void TObjEneMe3Stelth::play_hit_effect() {
     play_sound_effect(0x3A836, &position, 0, 0);
 }
 
-s32 TObjEneMe3Stelth::try_spawn_ground_effect(saddr arg1) {
+s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
     Vec pos;
     void *effect;
-    s32 *hit;
-    VecCopy(&pos, (const Vec *)arg1);
+    CsnHit *hit;
+    VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (u32 *)&m_120, 0x15);
-    if (hit != NULL && (hit[0] & 4)) {
-        effect = spawn_particle_effect((void *)(hit[1] + 0x38), 0x49);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 0x15);
+    if (hit != NULL && (hit->hit_mask & 4)) {
+        effect = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (effect != NULL) {
             attach_particle_model((u8 *)effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
         }
-        spawn_particle_effect((void *)(hit[1] + 0x38), 0xA4);
+        spawn_particle_effect(&hit->contact[2].point, 0xA4);
         TObjEneGibbles__sub_800D8988(&position);
         return 1;
     }

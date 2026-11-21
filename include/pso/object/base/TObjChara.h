@@ -30,7 +30,7 @@ public:
     s32 get_attack_angle();
     s16 test_immunity_flags(s32);
     s16 get_actor_attack_params_atp_min();
-    u8 obj_testFlag_2E4(u32);
+    s32 obj_testFlag_2E4(u32);
     int obj_getPtr2B0_1C();
     // The character's stat block (ATP, MST, EVP, HP, DFP, ATA, LCK first).
     u8 *get_stats();
@@ -45,7 +45,7 @@ public:
     s32 recalc_combat_stats(void *, void *, void *, f32, f32);
     s32 set_motion_params(void *);
     void show_miss_popup(const float *);
-    void try_apply_damage(uaddr, s32);
+    void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
     void sub_80010DE8(u16, u8, u8);
     s16 clamp_hp();
@@ -109,6 +109,7 @@ public:
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
+    void trigger_switch_attack(const Vec *pos);
     virtual void enemy_spawn_zalure_effect();
     // Recomputes the combat stats and clamps HP and TP to their maxima.
     virtual void recalc_stats();
@@ -118,7 +119,7 @@ public:
     virtual void vfunc_76(f32 charge);
     virtual void vfunc_77();
     virtual void vfunc_78(s32);
-    void request_box_item_drop(void *, s16);
+    void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
     int m_fc;

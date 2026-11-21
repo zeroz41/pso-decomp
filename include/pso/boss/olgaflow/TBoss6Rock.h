@@ -6,6 +6,8 @@
 #include "pso/system/vector.h"
 
 class TUnk_804F1280;
+struct BmlResource;
+struct GinjaTextureList;
 struct TBoss6Type2;
 
 // The per-kind parameters of a falling rock (TBoss6Rock__data_80479258).
@@ -59,18 +61,18 @@ struct TBoss6Rock : public TObjCollidable {
     static void create_rock_pool(saddr arg0);
     static void free_data();
     static void load_resources();
-    void spawn_crush_rocks(s32 kind);
+    static void spawn_crush_rocks(Vec *point, s32 kind);
     void break_rocks_in_radius(f32 r);
     s32 push_out_of_rocks(f32 r);
-    static s32 get_point(s32 arg0, saddr arg1, f32 *arg2);
+    static s32 get_point(s32 i, Vec *out, f32 *radius);
 };
 
 LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);
 
 extern "C" {
 // The texture list and model resource load_resources loads (TBoss6CrushRock's ctor).
-int TBoss6Rock__sub_80353A04(void);
-int TBoss6Rock__sub_80353A0C(void);
+GinjaTextureList *TBoss6Rock__sub_80353A04(void);
+BmlResource *TBoss6Rock__sub_80353A0C(void);
 // The point a rock pushes players out of the boss's reach towards (TBoss6Type2).
 s32 TBoss6Rock__sub_80353A14(s32 i, Vec *out, f32 *radius);
 // Lays the 32 rock points out on four rings around the arena centre.

@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 
 struct TAdExNetConfirmGC : public TAdWarningBaseGC {
+    TAdExNetConfirmGC(TObject *parent);
     virtual ~TAdExNetConfirmGC();
     virtual void vfunc_7();
     virtual int vfunc_6();

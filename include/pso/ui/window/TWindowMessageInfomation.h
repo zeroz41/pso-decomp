@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 
 struct TWindowMessageInfomation : public TWindowMessage {
+    TWindowMessageInfomation(s32 parent, s32 client);
     virtual ~TWindowMessageInfomation();
     void render();
 };

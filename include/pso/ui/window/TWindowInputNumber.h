@@ -7,7 +7,7 @@
 
 struct TWindowInputNumber : public TWindowBase {
     s32 is_locked(s32);
-    u8 test_input_flag();
+    s32 test_input_flag(s32 buttons);
     void refresh_digit_entries();
     void align_digits();
     virtual void render();

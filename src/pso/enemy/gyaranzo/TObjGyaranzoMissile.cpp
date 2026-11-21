@@ -5,6 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TUnk_8049442C.h"
+#include "pso/object/ambient/TObjFish.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
@@ -53,13 +54,9 @@ extern saddr gyaranzo_bml_resource;
 extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
-extern s32 __vt__19TObjGyaranzoMissile[];
 extern f32 TObjGyaranzoMissile__speed_scale;
-u8 *TObjGyaranzoMissile__ct(u8 *arg0, u8 *arg1, u8 *arg2, s16 arg3);
-Obj_800D47B4 *get_battle_param__10TObjPlayerFi(s32);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
-void init_all_slots__10TObjPlayerFv(void *);
 void check_enemy_body_collisions(void *);
 s32 play_sound_effect(s32, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
@@ -77,7 +74,6 @@ saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 s32 draw_chunk_object();
 s32 push_matrix();
-s32 set_global_param__8TObjFishFl();
 
 extern s32 model_render_flags;
 
@@ -88,12 +84,12 @@ void TObjGyaranzoMissile::sub_800D47B4() {
     Col_800D4990 *&collision = (Col_800D4990 *&)bodies;
     owner = find_entity_by_id(owner_id);
     collision->radius = 6.0f;
-    init_all_slots__10TObjPlayerFv(owner);
+    TObjPlayer::init_all_slots();
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     if (collision->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
-            q = get_battle_param__10TObjPlayerFi(i);
+            q = (Obj_800D47B4 *)TObjPlayer::get_battle_param(i);
             if (q == NULL) {
                 break;
             }
@@ -110,8 +106,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 }
 
 void TObjGyaranzoMissile::render() {
-    get_bml_texlist((void *)gyaranzo_bml_resource, 6);
-    set_global_param__8TObjFishFl();
+    TObjFish::set_global_param((s32)get_bml_texlist((void *)gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_x(0, (int)this->rotation_x);
@@ -177,10 +172,9 @@ TObjGyaranzoMissile::~TObjGyaranzoMissile() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) {
+#define gyaranzo_missile ((u8 *)this)
+TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCollidable((TObject *)tl_04) {
     u8 *temp_r4;
-    __ct__14TObjCollidableFP7TObject(gyaranzo_missile, tl_04);
-    *(s32 **)((s8 *)gyaranzo_missile + 0x18) = __vt__19TObjGyaranzoMissile;
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (saddr) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
@@ -203,6 +197,6 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     matrix_mult_vec(0, (saddr)temp_r4, (saddr)temp_r4);
     pop_matrix();
     ((TObjGyaranzoMissile *)gyaranzo_missile)->timer = 0;
-    return gyaranzo_missile;
 }
+#undef gyaranzo_missile
 #pragma pop

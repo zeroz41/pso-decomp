@@ -41,7 +41,7 @@ struct TItemData {
     s32 get_name_style();
     void decode_from_network();
     void encode_for_network();
-    static u8 get_entry_field16();
+    u8 get_entry_field16();
     int register_drop();
     s32 get_max_stack_size();
     // A tool's stack count (data1 byte 5); 1 for an item that does not stack.
@@ -69,14 +69,13 @@ struct TItemData {
     int calc_display_grade();
     s32 get_base_rarity();
     s32 check_item_flags();
-    static u8 is_item_usable(saddr arg0, u8 *arg1);
+    static s32 is_item_usable(saddr arg0, u8 *arg1);
     saddr test_flag3();
     saddr get_item_field_2();
     void add_quantity(s32 arg1);
     void adjust_count(s32 arg1);
     static void add_stat_ptr(s16 *arg0, s32 arg1);
     void add_bonus(s16 arg1);
-    void update_player_field();
     void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);

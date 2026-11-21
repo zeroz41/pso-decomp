@@ -2,7 +2,10 @@
 #define PSO_OBJECT_TRAP_TOTRAPCHAINSAW_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/object/base/TObjMapObject.h"
+
+class TObjPlayer;
 
 struct TOTrapChainSaw : public TObjMapObject {
     TOTrapChainSaw(TObject *parent, void *set_data);
@@ -11,9 +14,9 @@ struct TOTrapChainSaw : public TObjMapObject {
     virtual void decode_params();
     virtual void vfunc_16();
     virtual int check_player_contact();
-    virtual void vfunc_18();
-    virtual s32 consume_counter(void *);
-    virtual void set_hit_cooldown_for_player(void *);
+    virtual void vfunc_18(TObjPlayer *player);
+    virtual s32 consume_counter(TObjPlayer *player);
+    virtual void set_hit_cooldown_for_player(TObjPlayer *player);
     virtual void clear_field_d8();
     virtual void update_extension();
     virtual void update_sweep();
@@ -29,11 +32,8 @@ struct TOTrapChainSaw : public TObjMapObject {
     u32 m_c8;
     u32 m_cc;
     u32 m_d0;
-    u32 m_d4;
-    u8 unk_D8[0x4];
-    u32 m_dc;
-    u32 m_e0;
-    u32 m_e4;
+    s32 yaw_offset;
+    s32 hit_cooldown[4];
     u32 m_e8;
     u32 m_ec;
     u8 _padF0[0x4];
@@ -44,4 +44,5 @@ struct TOTrapChainSaw : public TObjMapObject {
 };
 
 LAYOUT_ASSERT(TOTrapChainSaw_size, sizeof(TOTrapChainSaw) == 0xF8);
+typedef char TOTrapChainSawCooldownOffset[offsetof(TOTrapChainSaw, hit_cooldown) == 0xD8 ? 1 : -1];
 #endif

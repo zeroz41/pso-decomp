@@ -8,7 +8,6 @@ public:
     virtual ~TAdSelectCurGC();
     virtual void run_task();
 public:
-    u8 check_flag_0x48();
     virtual void render();
 };
 

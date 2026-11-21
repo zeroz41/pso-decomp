@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/save/TSaveChCr.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
@@ -51,9 +53,6 @@ extern "C" {
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
-void *__ct__9TAdBackGCFv(void *, void *);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
-uaddr update_window_mode_from_progress__6TLobbyFPv(const NJS_POINT2 *, const NJS_POINT2 *);
 s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 int begin_action_from_char_select__10TObjPlayerFv(void*);
@@ -170,7 +169,7 @@ void TSaveChCr::set_message_by_index(s32 arg1) {
 }
 void TSaveChCr::open_message_window(u32 arg1) {
     if ((uaddr) this->owned_window == 0U) {
-        *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(&save_ch_cr_message_window_pos, &save_ch_cr_message_window_size);
+        *(u32 *)&this->owned_window = (u32)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((uaddr) this->owned_window != 0U) {
             if (arg1 != 0U) {
                 ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);
@@ -191,15 +190,9 @@ void TSaveChCr::close_window() {
 void TSaveChCr::create_backgrounds() {
     void *o;
     void *o2;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        o = __ct__9TAdBackGCFv(o, this);
-    }
+    o = new TAdBackGC(this);
     *(void **)((s8 *)this + 0x30) = o;
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        o2 = __ct__12TAdBackTxtGCFv(o2, this);
-    }
+    o2 = new TAdBackTxtGC(this);
     this->m_34 = o2;
 }
 

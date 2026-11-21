@@ -110,7 +110,6 @@ extern saddr quest_mission_manager;
 void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 saddr set_service_counter_camera(void *, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 restore_player_state__13TShopSequenceFv();
 
     extern int evt2_random_enemies_mode;
 
@@ -229,7 +228,6 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 saddr get_window_layout_position(s32);
 
-s32 restore_player_state__13TShopSequenceFv();
 
 }
 
@@ -268,7 +266,7 @@ THunterGuildSeqOnline_Server::THunterGuildSeqOnline_Server(TObject *parent, TObj
     choice_menu = NULL;
     quest_thread = NULL;
     pad_40 = 1;
-    THunterGuildSeqOnline_Server__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 1;
+    THunterGuildSeqOnline_Server__instance_table[sub_8022397C()] = 1;
     hunter_guild_seq_online_server_instance = this;
 }
 
@@ -282,7 +280,7 @@ THunterGuildSeqOnline_Server::~THunterGuildSeqOnline_Server() {
         choice_menu->close();
         choice_menu = NULL;
     }
-    THunterGuildSeqOnline_Server__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 0;
+    THunterGuildSeqOnline_Server__instance_table[sub_8022397C()] = 0;
     hunter_guild_seq_online_server_instance = NULL;
 }
 
@@ -596,7 +594,7 @@ THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObj
     pad_34 = 0;
     choice_menu = NULL;
     quest_thread = NULL;
-    THunterGuildSeqOnline_Client__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 1;
+    THunterGuildSeqOnline_Client__instance_table[sub_8022397C()] = 1;
     hunter_guild_seq_online_client_instance = this;
 }
 
@@ -610,7 +608,7 @@ THunterGuildSeqOnline_Client::~THunterGuildSeqOnline_Client() {
         choice_menu->close();
         choice_menu = NULL;
     }
-    THunterGuildSeqOnline_Client__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 0;
+    THunterGuildSeqOnline_Client__instance_table[sub_8022397C()] = 0;
     hunter_guild_seq_online_client_instance = NULL;
 }
 

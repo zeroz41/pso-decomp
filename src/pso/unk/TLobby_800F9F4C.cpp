@@ -12,7 +12,7 @@ void process_async_file_reads(void);
 
 void TLobby::free_static_buffer(void* a0) { ((THeap *)game_heap)->heap_free(a0); }
 
-void TLobby::alloc_from_heap(void* a0) { ((THeap *)game_heap)->heap_alloc((size_t)a0); }
+void *TLobby::alloc_from_heap(size_t size) { return ((THeap *)game_heap)->heap_alloc(size); }
 
 void TLobby::pump_frames() {
 loop_1:

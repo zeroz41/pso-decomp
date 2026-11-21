@@ -15,15 +15,9 @@ BmlResourceDescriptor secretary_body_resource_descriptor = { "bm_n_hisyo_i_body.
 const char *TObjNpcSecretaryBase__name = "TObjNpcSecretaryBase";
 BmlResource *TObjNpcSecretaryBase__static_model_resource;
 
-s32 __vt__20TObjNpcSecretaryBase[];
-
 void *TObjNpcSecretaryBase__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcSecretaryBase));
-    if (npc != NULL) {
-        npc = TObjNpcSecretaryBase__ct((TObjNpcSecretaryBase *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcSecretaryBase(control, set_data);
 }
 
 void TObjNpcSecretaryBase::free_static_data() {
@@ -44,14 +38,11 @@ void TObjNpcSecretaryBase::load_static_data() {
 
 TObjNpcSecretaryBase::~TObjNpcSecretaryBase() {}
 
-TObjNpcSecretaryBase *TObjNpcSecretaryBase__ct(TObjNpcSecretaryBase *npc, TObjControl *control, void *set_data) {
-    npc->construct_female_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__20TObjNpcSecretaryBase;
-    npc->m_name = TObjNpcSecretaryBase__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcSecretaryBase__static_model_resource->models->model;
-    npc->texlist = TObjNpcSecretaryBase__static_model_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcSecretaryBase::TObjNpcSecretaryBase(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+    this->m_name = TObjNpcSecretaryBase__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcSecretaryBase__static_model_resource->models->model;
+    this->texlist = TObjNpcSecretaryBase__static_model_resource->models->m_c;
+    this->setup_common();
 }

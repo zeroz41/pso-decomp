@@ -7,6 +7,7 @@
 struct TAdMcSelectCursorGC;
 
 struct TAdMcSelectGC : public TObject {
+    TAdMcSelectGC(TObject *parent);
     virtual ~TAdMcSelectGC();
     virtual void render();
     u32 m_1c;
@@ -30,10 +31,6 @@ struct TAdMcSelectGC : public TObject {
     void set_field_0x1c(s32 v);
     void set_select_index(s32 v);
     void set_field_134(s32 arg1);
-    void set_field_24(s32 v);
-    void set_field20(f32 v);
-    void set_field_20(s32 v);
-    void set_float_1c(f32 v);
 };
 
 LAYOUT_ASSERT(TAdMcSelectGC_size, sizeof(TAdMcSelectGC) == 0x34);

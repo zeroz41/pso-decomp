@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/player/TUnk_804B6C24.h"
 
+struct NJS_OBJECT;
+
 struct TObjContainerJungEnemy : public TUnk_804B6C24 {
     TObjContainerJungEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerJungEnemy();
@@ -13,10 +15,10 @@ struct TObjContainerJungEnemy : public TUnk_804B6C24 {
     virtual void vfunc_6(s16 *, s32);
     virtual void vfunc_80();
     virtual f32 receive_physical_attack(void *, f32);
-    uaddr m_368;
-    uaddr m_36c;
-    uaddr m_370;
-    uaddr m_374;
+    NJS_OBJECT *body_model;
+    NJS_OBJECT *large_fragment_model;
+    NJS_OBJECT *small_fragment_model;
+    NJS_OBJECT *light_model;
     void load_models();
     static void *create(void *arg0);
 };

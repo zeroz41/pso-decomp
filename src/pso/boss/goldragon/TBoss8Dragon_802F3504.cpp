@@ -55,8 +55,9 @@ void TBoss8Dragon::update_all_parts() {
         var_r31 = 1;
         do {
             ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(var_r31);
-            if ((entity = get_enemy_entity()) != 0U) {
-                ((TBoss8Dragon *)entity)->set_state_22();
+            u32 enemy;
+            if ((enemy = get_enemy_entity()) != 0U) {
+                ((TBoss8Dragon *)enemy)->set_state_22();
             }
             var_r31 += 1;
         } while (var_r31 < 6);

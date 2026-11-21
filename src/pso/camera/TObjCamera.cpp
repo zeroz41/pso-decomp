@@ -12,12 +12,14 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 
@@ -26,9 +28,7 @@ u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32
 void free_bin_model_request(void *, int);
 AnimationMotion *get_bml_motion(uaddr, int);
 saddr get_bml_model(uaddr, int);
-void get_bml_texlist(uaddr, int);
-void set_global_param__8TObjFishFl();
-void get_camera_ctrl__9TObjEneDDFv(const Vec *, Vec *);
+s32 get_bml_texlist(uaddr, int);
 }
 
 __declspec(section ".data") const char *fe_obj_cam_model_names[2] = { "fe_obj_cam840_841.gj", NULL };
@@ -93,7 +93,7 @@ void TObjCamera::update_camera_slots() {
     for (i = 0; i < 8; i++) {
         if (camera_slot_scan_index == camera_slot_id_table[i]) {
             Vec v = { 0.0f, 0.0f, 0.0f };
-            get_camera_ctrl__9TObjEneDDFv(&v, &camera_slot_positions[i]);
+            forward_transform_to_view(&v, &camera_slot_positions[i]);
         }
     }
     camera_slot_scan_index += 1;
@@ -132,8 +132,7 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
 void TObjCamera::render() {
     s32 i;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        get_bml_texlist(model_resource, 0);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param(get_bml_texlist(model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

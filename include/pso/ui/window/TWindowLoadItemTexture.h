@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowLoadItemTexture : public TWindowBase {
+    TWindowLoadItemTexture(u8 *parent, void *pos, s32 client);
     virtual ~TWindowLoadItemTexture();
     virtual void render();
     u8 _pad1C[0x8];
@@ -26,14 +27,12 @@ struct TWindowLoadItemTexture : public TWindowBase {
 LAYOUT_ASSERT(TWindowLoadItemTexture_size, sizeof(TWindowLoadItemTexture) == 0x74);
 
 extern "C" {
-void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3);
 void fn_80262C2C(void *p);
 void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0);
 }
 
 // --- C functions defined in TWindowLoadItemTexture.cpp ---
 extern "C" {
-void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3);
 TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id);
 void fn_80262C2C(void *p);
 void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0);

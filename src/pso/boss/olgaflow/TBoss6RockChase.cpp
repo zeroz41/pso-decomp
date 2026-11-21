@@ -3,6 +3,7 @@
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -82,14 +83,11 @@ struct Chase_8036D1B4 {
 struct Param_8036D1B4 { u8 pad[0xC]; f32 v; };
 
 extern "C" {
-saddr get_bml_model(int, int);
-int TBoss6Rock__sub_80353A04(void);
-int TBoss6Rock__sub_80353A0C(void);
+saddr __nw__7TObjectFUl(int);
 __declspec(section ".rodata") char TBoss6RockChase__class_name_string[] = "TBoss6RockChase";
 __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table = {
     4, { 0x41, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00 }
 };
-extern s32 __vt__15TBoss6RockChase[];
 const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
 f32 vector_length(void *);
 int subtract_vector(void *, void *);
@@ -121,7 +119,7 @@ s32 TBoss6RockChase::damage_players_in_range() {
     }
     for (i = 0; i < n; i++) {
         pl = (Player_8036D1B4 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&d, (const Vec *)&pl->pos);
             subtract_vector(&d, &self->pos);
             d.y = 0.0f;
@@ -166,7 +164,7 @@ void TBoss6RockChase::run_task() {
             spawn_particle_effect(((u8 *)&this->position), 0x220);
             spawn_particle_effect(((u8 *)&this->position), 0x222);
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
-            ((TBoss6Rock *)(arg0 + 0x38))->spawn_crush_rocks(this->m_b0);
+            TBoss6Rock::spawn_crush_rocks(&position, m_b0);
             play_sound_effect(0x4006AB1F, (u8 *)&this->position, 0, 0);
             ((TObject *)arg0)->queue_destruction();
         }
@@ -182,10 +180,10 @@ TBoss6RockChase::~TBoss6RockChase() {
 
 #pragma push
 #pragma fp_contract on
-LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
-u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, saddr arg2, s32 arg3) {
-    __ct__14TObjCollidableFP7TObject(boss6_rock_chase, arg1);
-    *(s32 **)((s8 *)boss6_rock_chase + 0x18) = __vt__15TBoss6RockChase;
+typedef char RecoveredGlobal_8036D4E0_lbl_8047ACE8_size[sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10 ? 1 : -1];
+TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : TObjCollidable(parent) {
+    TBoss6RockChase *boss6_rock_chase = this;
+    s32 arg1 = (s32)parent;
     boss6_rock_chase->m_name = TBoss6RockChase__name;
     boss6_rock_chase->m_ac = arg1;
     boss6_rock_chase->m_b0 = arg3;
@@ -196,30 +194,22 @@ u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, saddr arg2,
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     *(f32 *)((s8 *)boss6_rock_chase + 0xB8) = 0.0f;
     VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(arg2));
-    boss6_rock_chase->m_c0 = get_bml_model((int) (TBoss6Rock__sub_80353A0C()), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
-    boss6_rock_chase->m_c4 = TBoss6Rock__sub_80353A04();
-    return (u8 *)boss6_rock_chase;
+    boss6_rock_chase->m_c0 = get_bml_model(TBoss6Rock__sub_80353A0C(), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
+    boss6_rock_chase->m_c4 = (u32)TBoss6Rock__sub_80353A04();
 }
 #pragma pop
 
-s32 TBoss6RockChase::spawn(saddr arg0, saddr arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036D6D4, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036D6D4, spC) == 0x4);
+TBoss6RockChase *TBoss6RockChase::spawn(TObject *parent, const Vec *position) {
+    typedef char sp8_offset[(offsetof(Stack_8036D6D4, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_8036D6D4, spC) == 0x4) ? 1 : -1];
     Stack_8036D6D4 stack;
-    saddr boss6_rock_chase;
-    s32 var_r0;
     s32 var_r31;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg1));
+    VecCopy((Vec *)(&stack.sp8), position);
     var_r31 = 0;
     stack.spC = 450.0f;
     if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
         var_r31 = 1;
     }
-    boss6_rock_chase = (saddr)TObject::operator new(0xC8);
-    var_r0 = boss6_rock_chase;
-    if (var_r0 != 0) {
-        var_r0 = ((saddr)TBoss6RockChase__ct((TBoss6RockChase *)((u8 *)boss6_rock_chase), (s32)arg0, (saddr)((void *)&stack.sp8), (s32)var_r31));
-    }
-    return var_r0;
+    return new TBoss6RockChase(parent, (const Vec *)&stack.sp8, var_r31);
 }
 

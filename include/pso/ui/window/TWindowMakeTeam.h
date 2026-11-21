@@ -17,7 +17,7 @@ struct TWindowMakeTeam : public TObject {
     uaddr m_30;
     uaddr m_34;
     static saddr draw_entry_0x110(s8 arg0);
-    u8 is_enabled();
+    s32 is_enabled();
     void set_state(s32 arg1);
     void send_state();
     void update_ok_button();

@@ -4,220 +4,115 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonColli_C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/boss/darkfalz/TOBoss4Rock.h"
-
-class TBoss8DragonColli : public TObject {
-public:
-    virtual void render();
-    virtual ~TBoss8DragonColli();
-    TObject *objects[3];
-};
+#include "pso/unk/TLobby.h"
 #include "types.h"
-struct E_802F3144 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
 
-struct O_802F3144 { u8 pad[0xa4]; E_802F3144 *arr; s32 count; };
-
-struct E_802F310C { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-
-struct O_802F310C { u8 pad[0xa4]; E_802F310C *arr; s32 count; };
-
-struct O_802F310C;
-struct E_802F31E4 { f32 x, y, z, w; u8 pad10[8]; u32 flags; u8 pad1c[0x2c - 0x1c]; };
-
-struct O_802F31E4 {
-    const char *name;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    s16 f1c;
-    u8 pad1e[0xa4 - 0x1e];
-    E_802F31E4 *elems;
-    s32 count;
-    u8 pos[0xc];
-};
+#pragma defer_codegen on
 
 extern "C" {
-void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self);
+void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
-s32 __ct__14TObjCollidableFP7TObject(void *, void *);
-extern u8 boss8_collision_segment_desc[];
-extern saddr lbl_804E4BB4[];
-s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(saddr arg0, void *arg1, int arg2, void *arg3, f32 scale);
-}
+int matrix_mult_vec(void*, void*, void*);
+int post_translate_matrix(void*);
+void free_collision_body_parts(void *);
+int set_matrix_identity(void*);
+int rotate_matrix_y(void*, void*);
+int push_matrix(void*);
 
 const char *TBoss8DragonColli_C__name = "TBoss8DragonColli_C";
 const char *TBoss8DragonColli__name = "TBoss8DragonColli";
 
+CollisionBody boss8_collision_segment_desc = {
+    {0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003,
+};
+
+TBoss8DragonColli_C::TBoss8DragonColli_C(TObject *parent, s32 count, Vec *offset, f32 scale) : TObjCollidable(parent) {
+    CollisionBody *e;
+    s32 i;
+    f32 zero;
+    f32 step;
+    f32 z;
+    m_name = TBoss8DragonColli_C__name;
+    VecCopy(&unk_AC, offset);
+    entity_id = TLobby::alloc_actor_ids(0);
+    body_count = count;
+    bodies = (CollisionBody *)mem_alloc(body_count * 0x2C);
+    step = 2.0f * scale;
+    e = bodies;
+    zero = 0.0f;
+    z = scale * (body_count - 1);
+    for (i = 0; i < body_count; i++) {
+        copy_collision_body(e, &boss8_collision_segment_desc);
+        e->offset.x = zero;
+        e->offset.y = zero;
+        e->offset.z = z;
+        z -= step;
+        e->radius = scale;
+        e->flags = 0x10003;
+        e++;
+    }
+    refresh_collision_body_centers();
+    register_entity_by_id(this);
+    clear_segment_flags();
+}
+
+TBoss8DragonColli_C::~TBoss8DragonColli_C() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+
+void set_all_flags__17TBoss8DragonColliFPv(TBoss8DragonColli_C *self) {
+    s32 i;
+    for (i = 0; i < self->body_count; i++) self->bodies[i].flags |= 1;
+}
+
+void TBoss8DragonColli_C::clear_segment_flags() {
+    s32 i;
+    for (i = 0; i < body_count; i++) bodies[i].flags &= ~1;
+}
+
+void init__17TBoss8DragonColliFPvPvPv(void *p, void *pos, void *angle) {
+    push_matrix(p);
+    set_matrix_identity((void *)0);
+    post_translate_matrix(pos);
+    rotate_matrix_y((void *)0, angle);
+    matrix_mult_vec((void *)0, &((TBoss8DragonColli_C *)p)->unk_AC, &((TBoss8DragonColli_C *)p)->position);
+    pop_matrix();
+    ((TBoss8DragonColli_C *)p)->rotation_y = (s32)angle;
+    ((TBoss8DragonColli_C *)p)->refresh_collision_body_centers();
+    set_all_flags__17TBoss8DragonColliFPv((TBoss8DragonColli_C *)p);
+}
+
+void TBoss8DragonColli__sub_802F3074(void* p) { ((TBoss8DragonColli_C *)p)->clear_segment_flags(); }
+
+void TBoss8DragonColli_C::render() {  }
+
+TBoss8DragonColli::TBoss8DragonColli(TObject *parent) : TObject(parent) {
+    Vec offset;
+    m_name = TBoss8DragonColli__name;
+    offset.x = 0.0f;
+    offset.y = 0.0f;
+    offset.z = 0.0f;
+    objects[0] = new TBoss8DragonColli_C(this, 1, &offset, 25.0f);
+    offset.x = -4.0f;
+    offset.y = 0.0f;
+    offset.z = 40.0f;
+    objects[1] = new TBoss8DragonColli_C(this, 3, &offset, 10.0f);
+    offset.x = -4.0f;
+    offset.y = 0.0f;
+    offset.z = -100.0f;
+    objects[2] = new TBoss8DragonColli_C(this, 5, &offset, 10.0f);
+}
+}
+
 TBoss8DragonColli::~TBoss8DragonColli() {
-    for (s32 index = 0; index < 3; ++index) {
+    for (saddr index = 0; index < 3; ++index) {
         if (objects[index] != NULL) {
             objects[index]->queue_destruction();
             objects[index] = NULL;
         }
     }
-}
-
-#include <stddef.h>
-#include "pso/unk/TLobby.h"
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern void *__vt__17TBoss8DragonColli[];
-u8 *TBoss8DragonColli__ct(u8 *arg0, saddr arg1);
-void render__19TBoss8DragonColli_CFv(void);
-void TBoss8DragonColli__sub_802F3074(void* p);
-void *destroy__17TBoss8DragonColliFPvs(void *arg0, s16 arg1);
-void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2);
-int matrix_mult_vec(void*, void*, void*);
-int post_translate_matrix(void*);
-void free_collision_body_parts(void *);
-void set_matrix_identity(u8 *arg0);
-int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
-
-u8 *TBoss8DragonColli__ct(u8 *object, saddr arg1) {
-    Vec stack;
-    saddr temp_r3;
-    saddr temp_r3_2;
-    saddr temp_r3_3;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss8DragonColli;
-    *(s32 *)((s8 *)object + 0) = (saddr) TBoss8DragonColli__name;
-    stack.x = 0.0f;
-    stack.y = 0.0f;
-    stack.z = 0.0f;
-    temp_r3 = (saddr)TObject::operator new(0xB8);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3, object, 1, &stack.x, 25.0f);
-    }
-    *(s32 *)((s8 *)object + 0x1C) = var_r0;
-    stack.x = -4.0f;
-    stack.y = 0.0f;
-    stack.z = 40.0f;
-    temp_r3_2 = (saddr)TObject::operator new(0xB8);
-    var_r0_2 = temp_r3_2;
-    if (var_r0_2 != 0) {
-        var_r0_2 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_2, object, 3, &stack.x, 10.0f);
-    }
-    *(s32 *)((s8 *)object + 0x20) = var_r0_2;
-    stack.x = -4.0f;
-    stack.y = 0.0f;
-    stack.z = -100.0f;
-    temp_r3_3 = (saddr)TObject::operator new(0xB8);
-    var_r0_3 = temp_r3_3;
-    if (var_r0_3 != 0) {
-        var_r0_3 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_3, object, 5, &stack.x, 10.0f);
-    }
-    *(s32 *)((s8 *)object + 0x24) = var_r0_3;
-    return object;
-}
-
-void TBoss8DragonColli_C::render() {  }
-void TBoss8DragonColli__sub_802F3074(void* p) { ((TBoss8DragonColli_C *)p)->clear_segment_flags(); }
-void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TObjCollidable *)p)->refresh_collision_body_centers(); set_all_flags__17TBoss8DragonColliFPv((O_802F3144 *)(p)); }
-
-void TBoss8DragonColli_C::clear_segment_flags() {
-    O_802F310C *self = (O_802F310C *)this;
-    s32 i;
-    for (i = 0; i < this->body_count; i++) self->arr[i].flags &= ~1;
-}
-
-void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {
-    s32 i;
-    for (i = 0; i < self->count; i++) self->arr[i].flags |= 1;
-}
-
-void *destroy__17TBoss8DragonColliFPvs(void *collidable, s16 arg1) {
-    if (collidable != NULL) {
-        *(saddr **)((s8 *)collidable + 0x18) = lbl_804E4BB4;
-        ((TObjCollidable *)collidable)->unregister_object_by_id();
-        free_collision_body_parts(collidable);
-        __dt__14TObjCollidableFv(collidable, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(collidable);
-        }
-    }
-    return collidable;
-}
-#define self ((O_802F31E4 *)arg0)
-s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(saddr arg0, void *arg1, int arg2, void *arg3, f32 scale) {
-    E_802F31E4 *e;
-    s32 i;
-    f32 zero;
-    f32 step;
-    f32 z;
-    __ct__14TObjCollidableFP7TObject(self, arg1);
-    self->vt = ((u8 *)&lbl_804E4BB4);
-    self->name = TBoss8DragonColli_C__name;
-    VecCopy((Vec *)self->pos, (const Vec *)arg3);
-    self->f1c = TLobby::alloc_actor_ids(0);
-    self->count = arg2;
-    self->elems = (E_802F31E4 *)mem_alloc(self->count * 0x2C);
-    step = 2.0f * scale;
-    e = self->elems;
-    zero = 0.0f;
-    z = scale * (self->count - 1);
-    for (i = 0; i < self->count; i++) {
-        copy_collision_body((CollisionBody *)e, (const CollisionBody *)boss8_collision_segment_desc);
-        e->x = zero;
-        e->y = zero;
-        e->z = z;
-        z -= step;
-        e->w = scale;
-        e->flags = 0x10003;
-        e++;
-    }
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    register_entity_by_id(self);
-    ((TBoss8DragonColli_C *)self)->clear_segment_flags();
-    return arg0;
-}
-#undef self
-
-void __dt__17TBoss8DragonColliFv();
-void run_task__7TObjectFv();
-void render__7TObjectFv();
-void render_shadows__7TObjectFv();
-void vfunc_6__8TObjBaseFPsl();
-void apply_object_set_data__8TObjBaseFPv();
-void reset_motion_fields__14TObjCollidableFv();
-void get_center__8TObjBaseFv();
-void update_object_view_visibility__8TObjBaseFff();
-void classify_actor_view_detail__8TObjBaseFfff();
-void get_name__8TObjBaseFv();
-void interact__14TObjCollidableFl();
-u8 boss8_collision_segment_desc[0x2C] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x41, 0xC8, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x80, 0x03,
-};
-void *__vt__17TBoss8DragonColli[] = {
-    0,
-    0,
-    (void *)__dt__17TBoss8DragonColliFv,
-    (void *)run_task__7TObjectFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
-};
-saddr lbl_804E4BB4[] = {
-    0,
-    0,
-    (saddr)destroy__17TBoss8DragonColliFPvs,
-    (saddr)run_task__7TObjectFv,
-    (saddr)render__19TBoss8DragonColli_CFv,
-    (saddr)render_shadows__7TObjectFv,
-    (saddr)vfunc_6__8TObjBaseFPsl,
-    (saddr)apply_object_set_data__8TObjBaseFPv,
-    (saddr)reset_motion_fields__14TObjCollidableFv,
-    (saddr)get_center__8TObjBaseFv,
-    (saddr)update_object_view_visibility__8TObjBaseFff,
-    (saddr)classify_actor_view_detail__8TObjBaseFfff,
-    (saddr)get_name__8TObjBaseFv,
-    (saddr)interact__14TObjCollidableFl,
-    0,
-};
 }

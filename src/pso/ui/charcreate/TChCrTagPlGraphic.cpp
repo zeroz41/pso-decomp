@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/render/render_util.h"
+#include "pso/system/vector.h"
 #include "pso/ui/UISprite.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
@@ -16,7 +17,7 @@ void TChCrTagPlGraphic::draw_class_illustration() {
     f32 alpha;
     s32 id;
     if (!(m_3c <= 0.0f)) {
-        ((TWindowSubSymbolChatPartsSet *)&position)->copy_vec2(&pos);
+        copy_vec2(&position, &pos);
         value = m_44;
         size.y = value;
         size.x = value;
@@ -131,7 +132,7 @@ TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, void *arg) : TChCrTag(pare
     e = &TChCrTagPlGraphic__data_804664A4[m_20];
     m_40 = e->m_40;
     m_44 = e->m_44;
-    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)&e->pos);
+    copy_vec2(&pos, (void *)&e->pos);
 }
 
 

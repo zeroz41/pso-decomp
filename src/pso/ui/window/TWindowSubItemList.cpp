@@ -29,7 +29,6 @@ s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
-s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 
 u8 *create_sub_item_list_window(saddr parent, saddr position, s32 client) {
@@ -50,7 +49,7 @@ void TWindowSubItemList::render() {
     sub_8027ACF8((u8 *)window_key_board_soft);
     draw_item_list_capacity(this, window_key_board_soft, this->m_8c, 0x1E);
     if ((uaddr) this->status_display != 0U) {
-        forward_render__20TWindowSubStatusDispFv(this->status_display, window_key_board_soft);
+        ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render((void *)(window_key_board_soft));
     }
     if ((uaddr) this->scroll_bar != 0U) {
         draw_window_scrollbar(this->scroll_bar, window_key_board_soft, (u8 *)&this->m_68);

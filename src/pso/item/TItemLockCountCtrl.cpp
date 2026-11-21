@@ -13,24 +13,21 @@ TItemLockCountCtrl::~TItemLockCountCtrl() {
 
 extern "C" {
 
-s32 __ct__7TObjectFP7TObject();
 
-extern s32 __vt__18TItemLockCountCtrl[];
 const char *lbl_805D2BF8 = "TItemLockCountCtrl";
 
-void *TItemLockCountCtrl__ct(void *arg0, s32 arg1, s32 arg2, TItemLockCountCallback arg3, TItemLockCountCallback arg4) {
+#define arg0 ((u8 *)this)
+TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 arg2, TItemLockCountCallback arg3, TItemLockCountCallback arg4) : TObject(parent) {
     s32 temp_r31;
 
-    __ct__7TObjectFP7TObject();
     temp_r31 = arg2 * 4;
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TItemLockCountCtrl;
     ((TItemLockCountCtrl *)arg0)->m_name = lbl_805D2BF8;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
     *(s32 *)((s8 *)arg0 + 0x20) = (saddr)mem_alloc(temp_r31);
     *(TItemLockCountCallback *)((s8 *)arg0 + 0x24) = arg3;
     *(TItemLockCountCallback *)((s8 *)arg0 + 0x28) = arg4;
     memset(*(void **)((s8 *)arg0 + 0x20), 0, temp_r31);
-    return arg0;
 }
+#undef arg0
 
 }

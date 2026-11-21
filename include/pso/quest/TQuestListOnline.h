@@ -29,7 +29,7 @@ struct TQuestListOnline : public TShopWindowBase {
     void handle_quest_confirm();
     void decompress_quest_list_buffers();
     void request_download_buffer();
-    int begin_buffer_request();
+    void begin_buffer_request();
     void handle_list_selection();
     void show_info_window();
     void build_list_window();

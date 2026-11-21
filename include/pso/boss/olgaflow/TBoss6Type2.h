@@ -5,7 +5,37 @@
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 
-struct TBoss6Type2Point { f32 x, y, z; };
+struct CollisionBody;
+struct NJS_MOTION;
+struct TBoss6Mag;
+struct TBoss6Type1;
+struct TParticleCtrl;
+
+struct TBoss6Type2Model {
+    s32 m_0;
+    s32 m_4;
+};
+
+struct TBoss6Type2Segments {
+    s16 m_0;
+    s16 m_2[5];
+};
+
+struct TBoss6Type2MotionTrack {
+    NJS_MOTION *m_0;
+    f32 m_4;
+    f32 m_8;
+    f32 m_c;
+    f32 m_10;
+    NJS_MOTION *m_14;
+    f32 m_18;
+};
+
+struct TBoss6Type2Joint {
+    s32 *m_0;
+    s32 m_4;
+    s32 m_8;
+};
 
 struct Blk_802BCFD4;
 
@@ -27,7 +57,7 @@ struct TBoss6Type2 : public TObjEnemy
     virtual void clear_harmful_statuses();
     virtual void vfunc_62();
     virtual void vfunc_63();
-    u8 is_active();
+    s32 is_active();
     void sub_802BC124();
     void sub_802BB554();
     void sub_802BB498();
@@ -38,35 +68,22 @@ struct TBoss6Type2 : public TObjEnemy
     void aim_toward_point(void *);
     void render_body_effects();
     u32 m_374;
-    u8 unk_378[0x4];
-    s32 m_37c;
-    u8 unk_380[0x40];
-    s32 m_3c0;
-    u8 unk_3C4[0x8];
-    s32 m_3cc;
-    u8 unk_3D0[0x28];
-    uaddr m_3f8;
+    s32 m_378[32];
+    TBoss6Type1 *m_3f8;
     uaddr m_3fc;
-    u8 unk_400[0xC];
-    s32 m_40c;
-    u8 unk_410[0x4];
-    void * m_414;
-    u32 m_418;
+    TBoss6Type2Model m_400[2];
+    TBoss6Mag *m_410[2];
+    s32 m_418;
     f32 state_progress;  // 1 - state_timer / state_duration
     u32 m_420;
     u32 m_424;
     u32 m_428;
     u32 m_42c;
     u32 m_430;
-    u8 unk_434[0x2];
-    s16 m_436;
-    u8 unk_438[0x2];
-    s16 m_43a;
-    u8 unk_43C[0x2];
-    s16 m_43e;
+    TBoss6Type2Segments m_434;
     u8 unk_440[0x14];
     s16 m_454;
-    u8 unk_456[0x2];
+    s16 m_456;
     u32 m_458;
     saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
@@ -78,30 +95,63 @@ struct TBoss6Type2 : public TObjEnemy
     u32 m_470;
     u32 m_474;
     u8 m_478;
-    u8 _pad479[0x3];
+    u8 unk_479[0x3];
     u32 m_47c;
     u32 m_480;
-    TBoss6Type2Point target_position;
-    u8 _pad490[0x4F8 - 0x490];
+    Vec target_position;
+    s32 m_490;
+    s32 m_494;
+    TBoss6Type2MotionTrack m_498[1];
+    s32 m_4b4;
+    s32 m_4b8;
+    s32 m_4bc;
+    s32 m_4c0;
+    s32 m_4c4;
+    s32 m_4c8;
+    s32 m_4cc;
+    s32 m_4d0;
+    s32 m_4d4;
+    f32 m_4d8;
+    f32 m_4dc;
+    f32 m_4e0;
+    f32 m_4e4;
+    f32 m_4e8;
+    s32 m_4ec;
+    s32 m_4f0;
+    s32 m_4f4;
     u32 m_4f8;
-    u8 unk_4FC[0x4];
+    f32 m_4fc;
     f32 m_500;
-    u8 unk_504[0x4];
+    s32 m_504;
     u32 m_508;
-    u8 _pad50C[0x520 - 0x50C];
+    Vec m_50c;
+    s32 m_518;
+    s32 m_51c;
     s32 lower_contact_index;
-    TBoss6Type2Point lower_contact_delta;
-    TBoss6Type2Point previous_lower_contact;
-    u8 _pad53C[0x59C - 0x53C];
-    void* m_59c;
-    u8 _pad5A0[0x5C0 - 0x5A0];
-    TBoss6Type2Point contact_point_5c0;
-    u8 _pad5CC[0x5FC - 0x5CC];
-    TBoss6Type2Point contact_point_5fc;
-    u8 _pad608[0x764 - 0x608];
+    Vec lower_contact_delta;
+    Vec previous_lower_contact;
+    TBoss6Type2Joint m_53c[2];
+    s32 m_554[2];
+    u16 m_55c;
+    u8 unk_55E[0x2];
+    s32 m_560;
+    s32 m_564;
+    s32 m_568;
+    s32 m_56c;
+    s32 m_570;
+    u32 m_574[2];
+    u32 m_57c[2];
+    u32 m_584[2];
+    s32 m_58c;
+    s32 m_590;
+    s32 m_594;
+    s32 m_598;
+    Vec m_59c[19];
+    Vec m_680[19];
     u32 m_764;
     void* m_768;
-    u8 pad_76C[0x7B4 - 0x76C];
+    u8 unk_76C[0x10];
+    TParticleCtrl *m_77c[14];
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
@@ -121,7 +171,7 @@ struct TBoss6Type2 : public TObjEnemy
     void init_collected_entries();
     void copy_vec2(void* q);
     s32 check_target();
-    int is_falz_ready();
+    u16 is_falz_ready();
     void reset_counters();
     void cache_fish_params();
     void update_zako();
@@ -206,7 +256,7 @@ struct TBoss6Type2 : public TObjEnemy
     void reset_state_timers();
     void tick_timer_460();
     void select_attack_state();
-    void set_action_field_0x408(s16 v);
+    void set_action_field_0x408(u16 v);
     void set_target_nodes(void* a1, void* a2);
     void set_anim_frame(s32 v);
     void destroy_part_object(s32 arg1);
@@ -273,15 +323,15 @@ struct TBoss6Type2 : public TObjEnemy
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 };
 
-LAYOUT_ASSERT(TBoss6Type2_offset_m_374, offsetof(TBoss6Type2, m_374) == 0x374);
-LAYOUT_ASSERT(TBoss6Type2_offset_target_position, offsetof(TBoss6Type2, target_position) == 0x484);
-LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_index, offsetof(TBoss6Type2, lower_contact_index) == 0x520);
-LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_delta, offsetof(TBoss6Type2, lower_contact_delta) == 0x524);
-LAYOUT_ASSERT(TBoss6Type2_offset_previous_lower_contact, offsetof(TBoss6Type2, previous_lower_contact) == 0x530);
-LAYOUT_ASSERT(TBoss6Type2_offset_contact_point_5c0, offsetof(TBoss6Type2, contact_point_5c0) == 0x5c0);
-LAYOUT_ASSERT(TBoss6Type2_offset_contact_point_5fc, offsetof(TBoss6Type2, contact_point_5fc) == 0x5fc);
-LAYOUT_ASSERT(TBoss6Type2_offset_m_764, offsetof(TBoss6Type2, m_764) == 0x764);
-LAYOUT_ASSERT(TBoss6Type2_offset_m_768, offsetof(TBoss6Type2, m_768) == 0x768);
+typedef char TBoss6Type2_offset_m_374[(offsetof(TBoss6Type2, m_374) == 0x374) ? 1 : -1];
+typedef char TBoss6Type2_offset_target_position[(offsetof(TBoss6Type2, target_position) == 0x484) ? 1 : -1];
+typedef char TBoss6Type2_offset_lower_contact_index[(offsetof(TBoss6Type2, lower_contact_index) == 0x520) ? 1 : -1];
+typedef char TBoss6Type2_offset_lower_contact_delta[(offsetof(TBoss6Type2, lower_contact_delta) == 0x524) ? 1 : -1];
+typedef char TBoss6Type2_offset_previous_lower_contact[(offsetof(TBoss6Type2, previous_lower_contact) == 0x530) ? 1 : -1];
+typedef char TBoss6Type2_offset_m_59c[(offsetof(TBoss6Type2, m_59c) == 0x59c) ? 1 : -1];
+typedef char TBoss6Type2_offset_m_764[(offsetof(TBoss6Type2, m_764) == 0x764) ? 1 : -1];
+typedef char TBoss6Type2_offset_m_768[(offsetof(TBoss6Type2, m_768) == 0x768) ? 1 : -1];
+typedef char TBoss6Type2_size[(sizeof(TBoss6Type2) == 0x7B4) ? 1 : -1];
 
 LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 

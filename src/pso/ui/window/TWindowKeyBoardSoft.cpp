@@ -63,7 +63,6 @@ struct Lines_80261DD8 {
 };
 
 s32 play_sound_effect(int, int, int, int);
-s32 draw_default_entry__9TWindowDDFl();
 extern s32 lbl_805D63F0;
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
@@ -344,19 +343,19 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
     s32 input;
     if (kb->flags & 2) {
         input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
-        if (TWindowChoiceSetting::apply_choice(input, 0xF0, 6, 2) == 0) {
+        if (test_buttons_press_or_repeat(input, 0xF0, 6, 2) == 0) {
             return;
         }
-        if (TWindowChoiceSetting::apply_choice(input, 0x10, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat(input, 0x10, 6, 2) != 0) {
             dy = -1;
         }
-        if (TWindowChoiceSetting::apply_choice(input, 0x20, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat(input, 0x20, 6, 2) != 0) {
             dy++;
         }
-        if (TWindowChoiceSetting::apply_choice(input, 0x40, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat(input, 0x40, 6, 2) != 0) {
             dx = -1;
         }
-        if (TWindowChoiceSetting::apply_choice(input, 0x80, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat(input, 0x80, 6, 2) != 0) {
             dx++;
         }
     } else {
@@ -893,7 +892,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 
 void TWindowKeyBoardSoft::render() {
     saddr ctx;
-    ctx = draw_default_entry__9TWindowDDFl();
+    ctx = TWindowDD::draw_default_entry((s32)this);
     sub_8026227C((WindowDrawContext *)ctx);
     sub_80261DD8((WindowDrawContext *)ctx);
     sub_802616BC((WindowDrawContext *)ctx);
@@ -908,7 +907,7 @@ void TWindowKeyBoardSoft::run_task() {
     s32 port;
 
     if (m_control != NULL) {
-        if ((TWindowBase::sub_80244994() != 0) && (m_control->is_confirmed() == 0)) {
+        if ((this->sub_80244994() != 0) && (m_control->is_confirmed() == 0)) {
             port = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
             handle_page_cycle_input(port);
             sub_80260E30(port);

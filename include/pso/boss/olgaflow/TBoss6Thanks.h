@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 struct TBoss6Thanks : public TObject {
+    TBoss6Thanks(TObject *parent);
     virtual ~TBoss6Thanks();
     s32 m_1c;
     s32 current_motion;

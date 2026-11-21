@@ -33,7 +33,6 @@ s16 get_partner_counter(void *, s32);
 void init_6x45_attack_packet(void *);
 void init_6x44_attack_packet(void *);
 void init_6x43_attack_packet(void *);
-void set_field2__10TNpcPlayerFs(void *, s32);
 void set_field_0__10TNpcPlayerFs(void *, s32);
 int request_technique_cast__10TNpcPlayerFl(void*);
 s32 set_technique_seed_level(s32, s32, u8);
@@ -43,7 +42,7 @@ void TNpcPlayer::init_equipment() {
     s32 flags;
 
     flags = this->ai_params.technique_flags;
-    temp_r31 = *(s32 *)(this->m_78 + 0x94);
+    temp_r31 = (s32)this->m_78->m_94;
     if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
         TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 0);
         TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 1);
@@ -91,7 +90,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 pl = self->npc->pl;
                 ((TNpcPlayer *)(((TObjPlayer *)pl->state)->get_state_ptr()))->set_state(1);
                 set_field_0__10TNpcPlayerFs((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4, ((GetState_8014DC5C)get_npc_state__10TNpcPlayerFv)(self->npc));
-                set_field2__10TNpcPlayerFs((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4, TNpcPlayer__sub_801528DC(self->npc));
+                ((TNpcPlayer *)((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4))->set_field2((s16)(TNpcPlayer__sub_801528DC(self->npc)));
                 ((TNpcPlayer *)(&m0))->update_lobby();
                 increment_partner_counter(self->f5C, 1);
             }
@@ -108,7 +107,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 pl = self->npc->pl;
                 ((TNpcPlayer *)(((TObjPlayer *)pl->state)->get_state_ptr()))->set_state(1);
                 set_field_0__10TNpcPlayerFs((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4, ((GetState_8014DC5C)get_npc_state__10TNpcPlayerFv)(self->npc));
-                set_field2__10TNpcPlayerFs((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4, TNpcPlayer__sub_801528DC(self->npc));
+                ((TNpcPlayer *)((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4))->set_field2((s16)(TNpcPlayer__sub_801528DC(self->npc)));
                 ((TNpcPlayer *)(&m1))->update_players();
                 increment_partner_counter(self->f5C, 1);
             }
@@ -125,7 +124,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 pl = self->npc->pl;
                 ((TNpcPlayer *)(((TObjPlayer *)pl->state)->get_state_ptr()))->set_state(1);
                 set_field_0__10TNpcPlayerFs((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4, ((GetState_8014DC5C)get_npc_state__10TNpcPlayerFv)(self->npc));
-                set_field2__10TNpcPlayerFs((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4, TNpcPlayer__sub_801528DC(self->npc));
+                ((TNpcPlayer *)((u8 *)((TObjPlayer *)pl->state)->get_state_ptr() + 4))->set_field2((s16)(TNpcPlayer__sub_801528DC(self->npc)));
                 ((TNpcPlayer *)(&m2))->update();
                 reset_partner_counter(self->f5C, 1);
                 ((TNpcPlayer *)self)->request_chatter(0xD);

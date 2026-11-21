@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 #include "pso/enemy/shinowa/ShinowaData.h"
@@ -56,10 +58,10 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/technique/TTecDeband.h"
 
 #pragma defer_codegen on
 extern "C" {
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 s32 is_player_entity_id(u16);
 s32 enemy_set_target_id(void *, u16);
 void fn_800E762C(TObjEneMe3Shinowa *);
@@ -67,7 +69,6 @@ u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;
 TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
 s32 *csnVecterUnder(saddr origin, s32 mask);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 BmlResource * TObjEneMe3ShinowaMirage__data_805D5298;
@@ -83,7 +84,6 @@ s32 collect_target_candidates__9TObjEneDDFlf(void *, f32);
 s32 subtract_vector(void *, void *);
 extern EnemyTargetCandidate enemy_target_candidate_table[];
 void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *, s32);
-s32 move_to_shot_position__9TObjEneDDFfff(void *, void *, f32, f32, f32);
 void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *, s32);
 struct Tbl_800E7884 { u8 pad[0xC]; s32 t[3][2]; };
 }
@@ -91,7 +91,6 @@ void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 d
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 enemy_validate_retained_target(void *, int);
-void get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1);
@@ -103,7 +102,6 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *, s32);
 void TObjEneMe3ShinowaMirage__sub_800E6F0C(TObjEneMe3Shinowa *shinowa);
 void TObjEneMe3Shinowa__sub_800E7268(TObjEneMe3Shinowa *);
 s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa);
-s32 create__10TTecDebandFlll(void *, void *, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
@@ -163,12 +161,11 @@ const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
 // inferred: TObjEneMe3ShinowaMirage__class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
 const char *TObjEneMe3ShinowaMirage__class_name = "TObjEneMe3ShinowaMirage";
 // inferred: motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy
-const DelDepthAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mirage_motion_param_table, 0x80009, 11, 0 };
+const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, reinterpret_cast<TObjMotionAction *>(shinowa_mirage_motion_param_table), 8, 9, 11 };
 // inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 
 s32 free_bin_model_request(void *, s32);
-int create__21TObjEneMe3ShinowaRealFv(void*);
 
 // Floor resource callback (inferred: load_shared_resources, the TObjEneMe3SinowZoa::load_resources twin):
 // loads the shared Shinowa BML, a texture-list copy for the mirage, the per-variant parameter tables,
@@ -279,14 +276,14 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage__data_805D52A8->sample_node_offsets(model, trail, 0x15, &first, &second);
     }
     {
-        DelDepthAnimationBinding binding = shinowa_mirage_spawn_binding;
-        binding.motions = TObjEneMe3ShinowaMirage__data_805D5298->motions;
-        TLobby::spawn_npc_enemy(0x26, TObjEneMe3ShinowaMirage__data_805D5298->models->model, (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__data_805D5298->models->m_c, &binding, 8.0f, 0.0f);
-        TLobby::spawn_npc_enemy(0x27, TObjEneMe3ShinowaMirage__data_805D5298->models->model, &lbl_80500FEC, &binding, 8.0f, 0.0f);
+        NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
+        binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__data_805D5298->motions);
+        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->m_c), &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->model), reinterpret_cast<void *>(&lbl_80500FEC), &binding, 8.0f, 0.0f);
     }
 }
 
-int TObjEneMe3ShinowaMirage__sub_800E7B74(void* p) { return create__21TObjEneMe3ShinowaRealFv(p); }
+int TObjEneMe3ShinowaMirage__sub_800E7B74(void* p) { return (int)((TObjEneMe3ShinowaReal *)p)->create(); }
 
 void TObjEneMe3ShinowaMirage::free_shared_resources() {
     if (TObjEneMe3ShinowaMirage__data_805D52A8 != 0) {
@@ -346,7 +343,7 @@ void TObjEneMe3Shinowa::init_enemy() {
         s32 i = m_3c0;
         reset_hp((u8 *)a[i], (u8 *)b[i], (u8 *)c[i]);
     }
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &TObjEneMe3ShinowaMirage__init_params;
     m_37c = 10.0f;
     enemy_init_acquire_period(0x1E);
@@ -505,8 +502,8 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     ret = 0;
     if (!(m_3c4 & 0x10000)) {
         if (m_3ac > 100.0f && m_3ac < 150.0f) {
-            mine = (s32)TObjBase::get_room();
-            theirs = (s32)((TObjBase *)m_390)->get_room();
+            mine = (s32)((TObjBase *)this)->get_room();
+            theirs = m_390->get_room();
             if (theirs == mine && check_body_collision_at(rotation_y, m_3ac - 20.0f) == 0) {
                 ret = 1;
             }
@@ -559,12 +556,12 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
     rotate_matrix_y(0, rotation_y);
     entry = (saddr)TObjEneMe3ShinowaMirage__data_805D52A4->lookup(frame);
     if (entry != 0U) {
-        mult_vec_array__10TObjPlayerFUll(0, entry, &sp8, 2);
+        matrix_mult_vec_array(NULL, (const Vec *)entry, (Vec *)&sp8, 2);
         m_3e0->vfunc_6(&sp8, &sp8[3]);
     }
     src = (saddr)TObjEneMe3ShinowaMirage__data_805D52A8->lookup(frame);
     if (src != 0U) {
-        mult_vec_array__10TObjPlayerFUll(0, src, &sp8, 2);
+        matrix_mult_vec_array(NULL, (const Vec *)src, (Vec *)&sp8, 2);
         m_3e4->vfunc_6(&sp8, &sp8[3]);
     }
     pop_matrix();
@@ -1034,7 +1031,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 set_matrix_identity(0);
                 post_translate_matrix(&shinowa->position);
                 rotate_matrix_y(0, shinowa->rotation_y);
-                mult_vec_array__10TObjPlayerFUll(0, entry, &sp14, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)entry, (Vec *)&sp14, 2);
                 pop_matrix();
                 shinowa->m_3e0->vfunc_6(&sp14, &sp20);
             }
@@ -1091,7 +1088,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
             shinowa->apply_effect_pair();
             if (shinowa->frame >= 0.0f && shinowa->frame <= 5.0f) {
                 info = TObjEneMe3ShinowaMirage__mirage_info_table[shinowa->m_3c0];
-                move_to_shot_position__9TObjEneDDFfff(shinowa, info, shinowa->m_3a0.x, shinowa->m_3a0.z, info->m_8);
+                ((TObjEneDD *)shinowa)->move_to_shot_position(shinowa->m_3a0.x, shinowa->m_3a0.z, info->m_8);
             } else {
                 shinowa->vfunc_102();
             }
@@ -1231,8 +1228,8 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 0:
         shinowa->advance_animation();
         shinowa->m_404++;
-        if (shinowa->transform_relative_position(shinowa->m_390) != 0) {
-            if ((s16)shinowa->get_room() == (s16)((TObjBase *)shinowa->m_390)->get_room()) {
+        if (is_target_unobstructed_from((TObjEneDD *)shinowa, shinowa->m_390) != 0) {
+            if ((s16)shinowa->get_room() == (s16)shinowa->m_390->get_room()) {
                 shinowa->enemy_copy_target_destination();
             }
         }
@@ -1356,7 +1353,7 @@ void TObjEneMe3ShinowaMirage::state_cast_support(s32 arg1) {
             if (m_408 == 5) {
                 TTecSifta::create(this, &position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_18)));
             } else if (m_408 == 0xA) {
-                create__10TTecDebandFlll(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_18));
+                TTecDeband::create(this, &position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_18)));
                 m_404 = 1;
                 m_408 = 0;
             }
@@ -1494,7 +1491,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
                 effect_pos.x = 0.0f;
                 effect_pos.y = 10.0f;
                 effect_pos.z = 20.0f;
-                ((TObjBoss2Tunnel *)&effect_pos)->init_zako(&position, rotation_y);
+                rotate_y_and_translate(&effect_pos, &position, rotation_y);
                 TObjPlayer::spawn_effect_f8((saddr)&effect_pos, 0x14);
             }
             break;
@@ -1528,7 +1525,7 @@ void TObjEneMe3Shinowa::vfunc_116(s32) {  }
 
 void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step() {
     if ((s32) TObjEneMe3ShinowaMirage__render_node_index == 1) {
-        get_camera_ctrl__9TObjEneDDFv(&TObjEneMe3ShinowaMirage__data_80500FC0, &lbl_80500FF4);
+        forward_transform_to_view(&TObjEneMe3ShinowaMirage__data_80500FC0, &lbl_80500FF4);
     }
     TObjEneMe3ShinowaMirage__render_node_index += 1;
 }
@@ -1766,11 +1763,11 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
             m_3b8 = m_3bc;
             i = 0;
             if (vfunc_99() != 0 || is_player_entity_id(m_38c) != 0) {
-                if (this->transform_relative_position(m_390) != 0) {
+                if (is_target_unobstructed_from(this, m_390) != 0) {
                     i = 1;
                 }
             } else {
-                enemy_clear_target__12TObjEneDD_STFUs(this);
+                ((TObjEneDD_ST *)(this))->enemy_clear_target();
             }
             if (i == 1) {
                 enemy_copy_target_destination();

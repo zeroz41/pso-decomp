@@ -4,7 +4,10 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct Vec;
+
 struct TBoss1DragonEffBullet : public TObject {
+    TBoss1DragonEffBullet(TObject *parent, Vec *start, Vec *dest);
     virtual ~TBoss1DragonEffBullet();
     void* m_1c;
     u8 _pad20[0x8];
@@ -23,14 +26,8 @@ struct TBoss1DragonEffBullet : public TObject {
 LAYOUT_ASSERT(TBoss1DragonEffBullet_size, sizeof(TBoss1DragonEffBullet) == 0x4C);
 
 extern "C" {
-u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, saddr arg1, saddr arg2, saddr arg3);
 void *__dt__21TBoss1DragonEffBulletFv(void *arg0, s16 arg1);
 }
 
-// --- C functions defined in TBoss1DragonEffBullet.cpp ---
-extern "C" {
-u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, saddr arg1, saddr arg2, saddr arg3);
-}
-// --- end of C functions
 
 #endif

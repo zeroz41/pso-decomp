@@ -35,9 +35,9 @@ void TObjPlayer::reset_tech_state() {
         self->levels[i] = v;
         self->caps[i] = v;
     }
-    ((TObjPlayer *)self)->set_technique_id((u8)(0xFF));
+    ((TObjPlayer *)self)->set_technique_id((u8)0xFF);
     ((TObjPlayer *)self)->set_tech_override(0);
-    ((TObjPlayer *)self)->set_technique_id((s16)(0));
+    ((TObjPlayer *)self)->set_technique_id((s16)0);
     ((TObjPlayer *)self)->set_tech_level(0);
     TObjPlayer__sub_801D9E10(self, 0);
     ((TObjPlayer *)self)->set_technique_state(0);

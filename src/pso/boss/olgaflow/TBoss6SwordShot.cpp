@@ -65,7 +65,7 @@ u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 f32 xyz_distance(void *, void *);
-s32 get_point__10TBoss6RockFllPf(s32, void *, void *);
+
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
@@ -113,7 +113,7 @@ void damage_players_in_radius(u8 *arg0) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
             subtract_vector(&v, arg0 + 0x20);
             v.y = 0.0f;
@@ -178,7 +178,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, saddr arg1, saddr arg2, s32 arg3, f32 farg0)
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     self->speed = farg0;
     self->f30 = 0;
-    v = *((f32 *)TLobby::dispatch_shared_handler_a(0x2B));
+    v = *(f32 *)TLobby::dispatch_shared_handler_a(0x2B);
     self->life = (s32)v;
     if (0.0f == v) {
         self->life = 0x14;
@@ -263,7 +263,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&dir, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&dir, arg0 + 0x20);
             dir.y = 0.0f;
@@ -312,7 +312,7 @@ s32 TBoss6SwordWave::break_rocks_in_wave() {
     s32 hi;
     f32 dist;
     for (i = 0; i < 32; i++) {
-        if (get_point__10TBoss6RockFllPf(i, &pt, &scale) == 0) {
+        if (TBoss6Rock::get_point(i, &pt, &scale) == 0) {
             continue;
         }
         VecCopy((Vec *)&d, (const Vec *)&pt);
@@ -397,7 +397,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, sadd
     *(f32 *)((s8 *)arg0 + 0x50) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x54) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) 0.0f;
-    temp_f2 = *((f32 *)TLobby::dispatch_shared_handler_a(0x2C));
+    temp_f2 = *(f32 *)TLobby::dispatch_shared_handler_a(0x2C);
     *(s32 *)((s8 *)arg0 + 0x5C) = (s32) temp_f2;
     if (0.0f == temp_f2) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0x14;

@@ -87,7 +87,8 @@ void TORockJungleS01::load_resources() {
         TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_123.GVM");
         break;
     }
-    TMotorcycle::add_entry(0x3E, get_model(0), get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
+    TMotorcycle::add_entry(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),
+                           reinterpret_cast<GinjaTextureList *>(get_jungle_rock_texture_resource(0)), 5.0f, 0.0f);
 }
 #pragma pool_data reset
 

@@ -13,6 +13,8 @@
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 #pragma readonly_strings on
 
@@ -41,9 +43,6 @@ struct RecoveredGlobal_8027AF58_lbl_8050E208 {
 struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *f1c; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 is_flag_set__11TLoadingCurFv(void *, int);
-s32 is_on_current_screen__11TCameraCtrlFv(int, int);
 s32 play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024701C(int);
 void TWindowChat__sub_80247DFC(u8 *arg0);
@@ -74,14 +73,14 @@ void TWindowSubLog::run_task() {
     }
     TWindowSubLog__sub_8026A664((*(u8 * *)&this->m_24), 408.0f);
     context = (u8 *)&controller_input_state.value + 0x20;
-    if ((is_on_current_screen__11TCameraCtrlFv((saddr)context, 0x10) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&controller_input_state.value + 0x160), 0x10) != 0)) {
+    if ((test_previous_buttons_packed(context, 0x10) != 0) || (test_previous_buttons_color((void *) ((u8 *)&controller_input_state.value + 0x160), 0x10) != 0)) {
         fn_8026A61C((*(u8 * *)&this->m_24), -6.0f);
     }
-    if ((is_on_current_screen__11TCameraCtrlFv((saddr)context, 0x20) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&controller_input_state.value + 0x160), 0x20) != 0)) {
+    if ((test_previous_buttons_packed(context, 0x20) != 0) || (test_previous_buttons_color((void *) ((u8 *)&controller_input_state.value + 0x160), 0x20) != 0)) {
         ((TAdScrollWinGC *)(this->m_24))->advance_scroll(6.0f);
     }
     temp_r3 = (u8 *)this->m_24;
-    if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0))) {
+    if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0))) {
         play_sound_effect(0x52F16, 0, 0, 0);
         ((VObj_18_204a81 *)(this->m_20))->m7();
         ((TWindowSubLog *)(this->m_20))->clear_flag4c_bit8();

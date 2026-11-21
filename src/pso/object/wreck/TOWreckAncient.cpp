@@ -6,6 +6,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjChip.h"
 #include "pso/object/wreck/TOWreckAncient.h"
+#include "pso/object/wreck/TOWreckAncientResources.h"
 #include "pso/object/wreck/TOWreckAncient01.h"
 #include "pso/object/wreck/TOWreckAncient04.h"
 #include "pso/object/wreck/TOWreckAncient05.h"
@@ -30,58 +31,59 @@
 // 04, 01, TOWreckAncient while its strings, name pointers and vtables run the other way, so the source is
 // written last function first.
 
-struct Arr_8017D448 { Vec v[9]; };
-
-// Same layout as TObjChipParams (TObjChip.h).
-struct Param_8017D448 {
-    f32 f0;
-    f32 f4;
-    f32 f8;
-    Vec pos;
-    f32 f18[3];
-    s32 f24[3];
-    s32 f30[2];
-    f32 f38;
-    f32 f3c;
-    s32 f40;
-    s32 f44;
-    s32 f48;
-};
+static __declspec(section ".rodata") const char wreck_model_02[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai02.gj";
+static __declspec(section ".rodata") const char wreck_model_01[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai01.gj";
+static __declspec(section ".rodata") const char wreck_model_03[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai03.gj";
+static __declspec(section ".rodata") const char wreck_model_05[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai05.gj";
+static __declspec(section ".rodata") const char wreck_model_04[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai04.gj";
+static __declspec(section ".rodata") const char wreck_model_07[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai07.gj";
+static __declspec(section ".rodata") const char wreck_model_06[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_zangai06.gj";
+static __declspec(section ".rodata") const char wreck_archive[] ATTRIBUTE_ALIGN(4) = "bm_o_wreck_ancient.bml";
+static __declspec(section ".rodata") const char debris_model_01[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen01.gj";
+static __declspec(section ".rodata") const char debris_model_02[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen02.gj";
+static __declspec(section ".rodata") const char debris_model_03[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen03.gj";
+static __declspec(section ".rodata") const char debris_model_04[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen04.gj";
+static __declspec(section ".rodata") const char debris_model_05[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen05.gj";
+static __declspec(section ".rodata") const char debris_model_06[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen06.gj";
+static __declspec(section ".rodata") const char debris_model_07[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen07.gj";
+static __declspec(section ".rodata") const char debris_model_08[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen08.gj";
+static __declspec(section ".rodata") const char debris_model_09[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_hahen09.gj";
+static __declspec(section ".rodata") const char debris_archive[] ATTRIBUTE_ALIGN(4) = "bm_fe_obj_o_hahen.bml";
 
 const char *bm_o_wreck_ancient_model_names[8] = {
-    "fe_obj_o_zangai02.gj",
-    "fe_obj_o_zangai01.gj",
-    "fe_obj_o_zangai03.gj",
-    "fe_obj_o_zangai05.gj",
-    "fe_obj_o_zangai04.gj",
-    "fe_obj_o_zangai07.gj",
-    "fe_obj_o_zangai06.gj",
+    wreck_model_02,
+    wreck_model_01,
+    wreck_model_03,
+    wreck_model_05,
+    wreck_model_04,
+    wreck_model_07,
+    wreck_model_06,
     NULL,
 };
 const char *bm_o_wreck_ancient_motion_names[1] = {NULL};
 BmlResourceDescriptor bm_o_wreck_ancient_resource_descriptor = {
-    "bm_o_wreck_ancient.bml", bm_o_wreck_ancient_model_names, bm_o_wreck_ancient_motion_names, 7, 0,
+    wreck_archive, bm_o_wreck_ancient_model_names, bm_o_wreck_ancient_motion_names, 7, 0,
 };
 const char *bm_fe_obj_o_hahen_model_names[10] = {
-    "fe_obj_o_hahen01.gj",
-    "fe_obj_o_hahen02.gj",
-    "fe_obj_o_hahen03.gj",
-    "fe_obj_o_hahen04.gj",
-    "fe_obj_o_hahen05.gj",
-    "fe_obj_o_hahen06.gj",
-    "fe_obj_o_hahen07.gj",
-    "fe_obj_o_hahen08.gj",
-    "fe_obj_o_hahen09.gj",
+    debris_model_01,
+    debris_model_02,
+    debris_model_03,
+    debris_model_04,
+    debris_model_05,
+    debris_model_06,
+    debris_model_07,
+    debris_model_08,
+    debris_model_09,
     NULL,
 };
 const char *bm_fe_obj_o_hahen_motion_names[1] = {NULL};
 BmlResourceDescriptor TOWreckAncient__resource_descriptor = {
-    "bm_fe_obj_o_hahen.bml", bm_fe_obj_o_hahen_model_names, bm_fe_obj_o_hahen_motion_names, 9, 0,
+    debris_archive, bm_fe_obj_o_hahen_model_names, bm_fe_obj_o_hahen_motion_names, 9, 0,
 };
 const char *TOWreckAncient__name = "TOWreckAncient";
 
 // One sphere per wreck model: the subclass passes its model's entry (TOWreckAncient02/03 use it too).
-CollisionBody TOWreckAncient__collision_body_templates[7] = {
+extern __declspec(section ".data") const CollisionBody TOWreckAncient__collision_body_templates[7] = {
     { { 0.0f, 0.0f, 0.0f }, 20.0f, 0.0f, 0, 0x10003 },
     { { 0.0f, 0.0f, 0.0f }, 12.0f, 0.0f, 0, 0x10003 },
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 0.0f, 0, 0x10003 },
@@ -99,7 +101,7 @@ const char *TOWreckAncient07__name = "TOWreckAncient07";
 const char *TOWreckAncientBrakable__name = "TOWreckAncientBrakable";
 const char *TOWreckAncientBrakable05__name = "TOWreckAncientBrakable05";
 
-const Arr_8017D448 TOWreckAncientBrakable__debris_table = {
+extern const AncientWreckDebrisOffsets TOWreckAncientBrakable__debris_table = {
     {
         { -7.0f, 12.0f, 9.0f },
         { 0.0f, 25.0f, -5.0f },
@@ -113,18 +115,18 @@ const Arr_8017D448 TOWreckAncientBrakable__debris_table = {
     }
 };
 
-const Param_8017D448 TOWreckAncientBrakable__debris_param_table = {
-    0.25f, 0.07f, 0.26f,
+extern const TObjChipParams TOWreckAncientBrakable__debris_param_table = {
+    { 0.25f, 0.07f, 0.26f },
     { 0.0f, 0.0f, 0.0f },
     { 5.0f, 7.5f, 5.0f },
     { 0x400, 0x100, 0x400 },
     { 1, 30 },
-    0.0f, 0.6f,
+    { 0.0f, 0.6f },
     0, 0, 30,
 };
 
-uaddr wreck_ancient_bml_resource;
-uaddr wreck_ancient_brakable_bml_resource;
+BmlResource *wreck_ancient_bml_resource;
+BmlResource *wreck_ancient_brakable_bml_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -143,8 +145,8 @@ u8 is_current_floor_switch_set(s32 id);
 
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = TOWreckAncient__name;
-    model = (void *)get_bml_model((void *)wreck_ancient_bml_resource, model_index);
-    texlist = get_bml_texlist((void *)wreck_ancient_bml_resource, model_index);
+    model = (void *)get_bml_model(wreck_ancient_bml_resource, model_index);
+    texlist = get_bml_texlist(wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;
 }
@@ -164,23 +166,23 @@ void TOWreckAncient::load_resources() {
     if (var_r0 != 0) {
         var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, 0));
     }
-    wreck_ancient_bml_resource = var_r0;
+    wreck_ancient_bml_resource = (BmlResource *)var_r0;
     temp_r3_2 = (saddr)::operator new(0x440);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
         var_r0_2 = (saddr) (load_resource_from_descriptor((void *) temp_r3_2, 1, &TOWreckAncient__resource_descriptor, 0, 0, 0));
     }
-    wreck_ancient_brakable_bml_resource = var_r0_2;
+    wreck_ancient_brakable_bml_resource = (BmlResource *)var_r0_2;
 }
 
 void TOWreckAncient::free_statics() {
-    if (wreck_ancient_bml_resource != 0U) {
-        free_bin_model_request((void*)wreck_ancient_bml_resource, 1);
-        wreck_ancient_bml_resource = 0U;
+    if (wreck_ancient_bml_resource != NULL) {
+        free_bin_model_request(wreck_ancient_bml_resource, 1);
+        wreck_ancient_bml_resource = NULL;
     }
-    if (wreck_ancient_brakable_bml_resource != 0U) {
-        free_bin_model_request((void*)wreck_ancient_brakable_bml_resource, 1);
-        wreck_ancient_brakable_bml_resource = 0U;
+    if (wreck_ancient_brakable_bml_resource != NULL) {
+        free_bin_model_request(wreck_ancient_brakable_bml_resource, 1);
+        wreck_ancient_brakable_bml_resource = NULL;
     }
 }
 
@@ -316,24 +318,24 @@ void TOWreckAncientBrakable::run_task() {
 
 void TOWreckAncientBrakable::spawn_debris() {
     Vec tmp;
-    Arr_8017D448 arr = TOWreckAncientBrakable__debris_table;
-    Param_8017D448 p = TOWreckAncientBrakable__debris_param_table;
+    AncientWreckDebrisOffsets arr = TOWreckAncientBrakable__debris_table;
+    TObjChipParams p = TOWreckAncientBrakable__debris_param_table;
     s32 i;
-    p.pos.x = position.x;
-    p.pos.y = position.y;
-    p.pos.z = position.z;
-    p.f38 = p.pos.y;
+    p.pos[0] = position.x;
+    p.pos[1] = position.y;
+    p.pos[2] = position.z;
+    p.pad_38[0] = p.pos[1];
     for (i = 0; i < 9; i++) {
-        VecCopy((Vec *)&tmp, (const Vec *)&arr.v[i]);
+        VecCopy(&tmp, &arr.offsets[i]);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, rotation_y);
         rotate_vector_by_matrix(0, &tmp, &tmp);
         pop_matrix();
-        VecCopy((Vec *)&p.pos, &position);
-        vec3_add_to(&p.pos, &tmp);
-        p.f40 = get_bml_model((void *) wreck_ancient_brakable_bml_resource, i);
-        p.f44 = get_bml_texlist((void *) wreck_ancient_brakable_bml_resource, i);
-        new TObjChip(tl_05, (const TObjChipParams *)&p);
+        VecCopy((Vec *)p.pos, &position);
+        vec3_add_to((Vec *)p.pos, &tmp);
+        p.model = get_bml_model(wreck_ancient_brakable_bml_resource, i);
+        p.textures = get_bml_texlist(wreck_ancient_brakable_bml_resource, i);
+        new TObjChip(tl_05, &p);
     }
 }
 

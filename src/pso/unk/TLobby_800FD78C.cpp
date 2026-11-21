@@ -43,11 +43,11 @@ u8 fn_800FD7C0(f32 *xz) {
     return (u8)var_r31;
 }
 
-u8 TObjEneHoldEffect::is_camera_visible() {
+s32 has_nonfinite_position(f32 *xz) {
     int var_r31;
 
     var_r31 = 0;
-    if ((is_float_nonfinite(*(f32 *)&this->m_name) != 0) || (is_float_nonfinite(*(f32 *)&this->m_flags) != 0)) {
+    if ((is_float_nonfinite(xz[0]) != 0) || (is_float_nonfinite(xz[1]) != 0)) {
         var_r31 = 1;
     }
     return (u8) var_r31;

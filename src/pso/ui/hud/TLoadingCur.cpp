@@ -11,6 +11,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;
@@ -121,10 +122,8 @@ struct Obj_8001CCD4 { u8 pad0[0x38]; f32 f38; f32 f3c; f32 f40; };
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__11TLoadingCur[];
 
 
-s32 is_flag_set__11TLoadingCurFv(void *, s32);
 s32 play_persistent_sound(int, void *, void *, int, int);
 extern Pad_8001CD90 controller_input_state;
 
@@ -210,16 +209,16 @@ void TLoadingCur::run_task() {
         x -= 1.0f;
     }
     p = controller_input_state.f160;
-    if (is_flag_set__11TLoadingCurFv(p, 0x10) != 0) {
+    if (test_previous_buttons_color(p, 0x10) != 0) {
         y += 1.0f;
     }
-    if (is_flag_set__11TLoadingCurFv(p, 0x20) != 0) {
+    if (test_previous_buttons_color(p, 0x20) != 0) {
         y -= 1.0f;
     }
-    if (is_flag_set__11TLoadingCurFv(p, 0x80) != 0) {
+    if (test_previous_buttons_color(p, 0x80) != 0) {
         x += 1.0f;
     }
-    if (is_flag_set__11TLoadingCurFv(p, 0x40) != 0) {
+    if (test_previous_buttons_color(p, 0x40) != 0) {
         x -= 1.0f;
     }
     self->f38 += 0.51f * x;
@@ -250,13 +249,12 @@ TLoadingCur::~TLoadingCur() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TLoadingCur__ct(u8 *object, saddr arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001D0A0, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001D0A0, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001D0A0, sp10) == 0x8);
+#define object ((u8 *)this)
+TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
+    typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];
     Stack_8001D0A0 stack;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = __vt__11TLoadingCur;
     *(s32 *)((s8 *)object + 0) = (saddr) TLoadingCur__class_name;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
@@ -275,6 +273,6 @@ u8 *TLoadingCur__ct(u8 *object, saddr arg1) {
     stack.sp10 = 0;
     direction_to_rotation_xz((object + 0x50), (&stack.sp8), (&stack.sp10));
     *(s32 *)((s8 *)object + 0x1C) = (saddr)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
-    return object;
 }
+#undef object
 #pragma pop

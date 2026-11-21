@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 
 #include "pso/object/base/TObjMotion.h"
@@ -278,11 +280,9 @@ extern "C" {
 
 u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec *, Vec *);
 
-s32 alloc_child_id__12TObjEneReconFv(void *);
 
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 
-Vec *get_field_38_ptr__12TObjEneReconFv(void *, s32);
 
 
 }
@@ -676,11 +676,11 @@ BmlResourceDescriptor lbl_804EC750 = {
 
 const char *TObjEneRecobox_name_ref = "TObjEneRecobox";
 
-void *TObjEneRecobox__animation_entries[16] = {
-    (void *)0x10000, (void *)0x1, (void *)0x3dcccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x2, (void *)0x3f19999a, (void *)0x0,
-    (void *)0x10000, (void *)0x3, (void *)0x3dcccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x0, (void *)0x3f19999a, (void *)0x0,
+TObjMotionAction TObjEneRecobox__animation_entries[4] = {
+    {1, 0, 1, 0.1f, 0},
+    {3, 0, 2, 0.6f, 0},
+    {1, 0, 3, 0.1f, 0},
+    {3, 0, 0, 0.6f, 0},
 };
 
 void *TObjEneRecobox__vtable[107] = {
@@ -723,7 +723,6 @@ void free_bin_model_request(void*, int);
 
 
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
-struct Spawn_80320260 { s32 motions; void **actions; u32 unknown_08; u16 action_count; u16 unknown_0E; };
 
 struct Inner_80320260 { u8 pad[0x18]; s32 f18; NJS_TEXLIST *texlist; };
 
@@ -743,7 +742,7 @@ s32 lbl_805D6B1C;
 
 BmlResource *TObjEneRecobox__static_instance;
 
-const Spawn_80320260 recobox_resource_binding_desc = {0, TObjEneRecobox__animation_entries, 0, 4, 0};
+const NpcAnimationBinding recobox_resource_binding_desc = { NULL, TObjEneRecobox__animation_entries, 0, 0, 4 };
 
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -770,10 +769,10 @@ void TObjEneRecobox::load_resources() {
     TObjEneRecon::load_resources();
     {
         Sub_80320260 *sp = (Sub_80320260 *)lbl_804EC684;
-        Spawn_80320260 s = recobox_resource_binding_desc;
+        NpcAnimationBinding s = recobox_resource_binding_desc;
         box = (Box_80320260 *)(*(uaddr *)&TObjEneRecobox__static_instance);
-        s.motions = box->f430;
-        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->texlist, &s, (f32)(getf_80320260(sp)), 0.0f);
+        s.motions = reinterpret_cast<BmlMotionEntry *>(box->f430);
+        NpcModelRegistry::register_animated_chunk((s16)0xD, reinterpret_cast<void *>(box->f42C->f18), reinterpret_cast<void *>(box->f42C->texlist), &s, (f32)(getf_80320260(sp)), 0.0f);
     }
 }
 
@@ -839,7 +838,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     ((TObjMotion *)ene_recobox)->set_animation(((TObjEneRecobox *)ene_recobox)->requested_action);
     ((TObjMotion *)ene_recobox)->set_field_b8(((TObjEneRecobox *)ene_recobox)->requested_action);
     ((TObjEneDD *)ene_recobox)->reset_hp((u8 *)recobox_boss_register_id, (u8 *)lbl_805D6B14, (u8 *)TObjEneRecobox__shared_object_handle);
-    ((TObjEneDD *)ene_recobox)->check_state_flag_4();
+    ((TObjEneDD *)ene_recobox)->set_state_flag_4();
     *(u8 * *)&((TObjEneRecobox *)ene_recobox)->movementParameters = TObjEneRecobox__attack_params;
     ((TObjEneDD *)ene_recobox)->initialize_enemy_state(0x43);
     ((TObjEneRecobox *)ene_recobox)->m_37c = 10.0f;
@@ -964,7 +963,7 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     } else {
         stack.spC += 5.0f;
     }
-    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)(ene_recobox + 0x120), 0x15));
+    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(ene_recobox + 0x120), 0x15));
     if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->m_300 >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
         ((TObjEneRecobox *)(ene_recobox))->vfunc_97();
     }
@@ -1025,9 +1024,9 @@ void TObjEneRecon::update_child_spawn() {
         dir.z = 2.0f * cos_table_lookup(o->f60);
         break;
     }
-    id = alloc_child_id__12TObjEneReconFv(o);
+    id = ((TObjEneRecon *)o)->alloc_child_id();
     arg = o->f2C + (id - o->f1C);
-    VecCopy((Vec *)&pos, (const Vec *)(get_field_38_ptr__12TObjEneReconFv(o, o->f2C)));
+    VecCopy((Vec *)&pos, (const Vec *)(((TObjEneRecon *)o)->get_field_38_ptr()));
     if (id == 0xFFFF) {
         o->f414 = o->f3F4;
         return;
@@ -1145,7 +1144,7 @@ void TObjEneRecon::update_state(s32 arg1) {
         set_field_378(3);
         return;
     case 3:
-        if (TObjEneDD::get_flag_b4() != 0) {
+        if (get_flag_b4() != 0) {
             this->m_4d8 = 0;
             *(s32 *)((s8 *)this + 0x4DC) = 0x1E;
             transition_enemy_state(4);
@@ -1212,7 +1211,7 @@ void TObjEneRecon::handle_death_state(s32 arg1) {
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)this + 0x410) == 0) {
-            TObjEnemy::send_entity_set_flags();
+            send_entity_set_flags();
             queue_destruction();
         }
     case 5:
@@ -1310,7 +1309,7 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
 
 
 s32 TObjEneRecon::is_anim_6() {
-    return (u8) (this->mode == 6);
+    return (u8)((u8) (this->mode == 6));
 }
 
 void TObjEneRecobox::update_floor_probe() {
@@ -1320,7 +1319,7 @@ void TObjEneRecobox::update_floor_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy((Vec *)&stack.sp8, (const Vec *)&this->position);
         stack.spC += 15.0f;
-        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)&this->m_120, 0x4000));
+        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)arg0 + 0x3E0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
             VecCopy((Vec *)(arg0 + 0x3E4), (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
@@ -1335,7 +1334,7 @@ void TObjEneRecobox::update_floor_probe() {
 
 #pragma push
 #pragma opt_propagation off
-u16 TObjEneRecon::alloc_child_id() {
+s32 TObjEneRecon::alloc_child_id() {
     Rec_8031EDF8 *o = (Rec_8031EDF8 *)this;
   s32 new_var;
   s32 i;
@@ -1347,10 +1346,10 @@ u16 TObjEneRecon::alloc_child_id() {
       v = (0, o->base + i);
       new_var = i;
       o->ids[new_var] = v + 1;
-      return o->ids[new_var];
+      return (u16)(o->ids[new_var]);
     }
   }
-  return 0xFFFF;
+  return (u16)(0xFFFF);
 }
 #pragma pop
 
@@ -1475,7 +1474,7 @@ block_37:
 #pragma push
 #pragma pool_data off
 void TObjEneRecobox::draw_with_debug_info() {
-    if (TObjEneDD::get_target_info() != 0) {
+    if (get_target_info() != 0) {
         switch (this->m_3f8) {
         case 0:
             debug_printf_at(pack_debug_text_position(0, 9), "TYPE : NORMAL");

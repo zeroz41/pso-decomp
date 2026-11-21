@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjRaderIcon : public TObjBase {
+    TObjRaderIcon(TObject *parent, void *arg2);
     virtual ~TObjRaderIcon();
     u32 m_90;
     u32 m_94;
@@ -20,14 +21,12 @@ LAYOUT_ASSERT(TObjRaderIcon_size, sizeof(TObjRaderIcon) == 0xA4);
 
 extern "C" {
 void *TObjRaderIcon__create(void *arg0);
-u8 *TObjRaderIcon__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *__dt__13TObjRaderIconFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjRaderIcon.cpp ---
 extern "C" {
 void *TObjRaderIcon__create(void *arg0);
-u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, saddr arg2);
 void *__dt__13TObjRaderIconFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

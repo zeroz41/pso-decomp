@@ -19,7 +19,6 @@
 /* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct PH_8040EC38 PH_8040EC38;
 typedef struct P_8040EC38 P_8040EC38;
-u16 calc_ip_checksum(void *self, s16 b);
 u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
 s32 init_ipv4_interfaces(void);
 
@@ -706,7 +705,7 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
     return ~sum;
 }
 
-u16 calc_ip_checksum(void *self, s16 b) {
+u16 calc_ip_checksum(NetPacket *self, s16 b) {
     u32 s = packet_ones_complement_sum(self, b);
     s = (s >> 16) + (s & 0xFFFF);
     s += (s >> 16);

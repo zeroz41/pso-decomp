@@ -39,4 +39,6 @@ public:
     void  heap_free(void *ptr);
 };
 
+extern "C" void *alloc_from_obj_heap(size_t size);
+
 #endif

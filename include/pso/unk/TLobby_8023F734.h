@@ -15,6 +15,8 @@ class SoundControlState {
 public:
     SoundControlState();
     ~SoundControlState();
+    void set_output_mode(s32 mode);
+    s32 is_ready();
 
     u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
     u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
@@ -37,7 +39,7 @@ public:
     s32 f294;
     s32 load_state;
     s32 next_group_state;
-    u8 pad_2A0[0x2A4 - 0x2A0];
+    s32 output_mode;              // 0, 1 or 2: what set_output_mode gave sndOutputMode
     f32 f2A4;
     s32 f2A8;
     s32 f2AC;
@@ -89,7 +91,6 @@ f32 get_field_2a4__6TLobbyFv(void *p);
 s32 get_field_308__6TLobbyFv(void *p);
 void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1);
 s32 init_sound_voice__6TLobbyFllll(void *lobby, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-u8 is_ready__6TLobbyFPv(void *arg0);
 char *parse_csv_token__6TLobbyFPvPv(char *src, char *dst);
 s32 pop_sound_groups__6TLobbyFPvl(void *p, s32 arg1);
 s32 remove_com_card_by_id__6TLobbyFUl(u32 arg0);
@@ -97,12 +98,10 @@ void remove_com_card_entry__6TLobbyFl(s32 arg0);
 void reset_sound_group_fade__6TLobbyFv(void);
 s32 reset_sound_state__6TLobbyFv(u8 *arg0);
 void reset_state_805D63DC__6TLobbyFPv(void *);
-void reset_state__6TLobbyFPv(void *p);
 void send_find_user_self_tag__6TLobbyFl(s32 arg0);
 void set_clamped_field27c__6TLobbyFf(void *arg0, f32 farg0);
 void set_field0__6TLobbyFPv(struct SoundRequestVoice *voice, void *owner);
 void set_menu_index__6TLobbyFl(void *p, s32 v);
-void set_mode__6TLobbyFPvi(void *arg0, s32 arg1);
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 }
 void set_sound_slot_special_scale(s32 slot, f32 scale);
@@ -146,7 +145,6 @@ s32 get_field_0x280__6TLobbyFv(void *p);
 f32 get_field_2a4__6TLobbyFv(void *p);
 s32 get_field_308__6TLobbyFv(void *p);
 void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1);
-u8 is_ready__6TLobbyFPv(void *arg0);
 char *parse_csv_token__6TLobbyFPvPv(char *src, char *dst);
 s32 pop_sound_groups__6TLobbyFPvl(void *p, s32 arg1);
 s32 remove_com_card_by_id__6TLobbyFUl(u32 arg0);
@@ -154,11 +152,9 @@ void remove_com_card_entry__6TLobbyFl(s32 arg0);
 void reset_sound_group_fade__6TLobbyFv(void);
 s32 reset_sound_state__6TLobbyFv(u8 *arg0);
 void reset_state_805D63DC__6TLobbyFPv(void *);
-void reset_state__6TLobbyFPv(void *p);
 void send_find_user_self_tag__6TLobbyFl(s32 arg0);
 void set_clamped_field27c__6TLobbyFf(void *arg0, f32 farg0);
 void set_menu_index__6TLobbyFl(void *p, s32 v);
-void set_mode__6TLobbyFPvi(void *arg0, s32 arg1);
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 }
 void set_sound_slot_special_scale(s32 slot, f32 scale);

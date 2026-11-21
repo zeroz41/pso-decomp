@@ -26,7 +26,6 @@ s32 handle_list_page_flip_input(s32);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
-s32 forward_render__20TWindowSubStatusDispFv(void *, s32);
 
 }
 
@@ -81,7 +80,7 @@ void TWindowSubShortCutList::render() {
     draw_visible_window_entries(this, (u8 *)this + 0x24, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
-        forward_render__20TWindowSubStatusDispFv(status_display, context);
+        ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
     }
     if (m_88 != 0U) {
         draw_list_page_indicator(m_88, context);

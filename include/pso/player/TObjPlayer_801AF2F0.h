@@ -1,13 +1,13 @@
 #ifndef PSO_PLAYER_TOBJPLAYER_801AF2F0_H
 #define PSO_PLAYER_TOBJPLAYER_801AF2F0_H
 
-#include "types.h"
+#include "pso/player/PlayerSlots.h"
 
-struct TObjPlayer;
 struct Vec;
 
 extern "C" {
-TObjPlayer *get_player_by_client_id(s32 client);
+// Thin wrapper: sends 6x29 to delete the item with this id (count of it) from the player.
+void delete_item(void *player, s32 id, s32 count);
 void submit_cursor_candidate(void *object, s32 id);
 // 6x2F: sets a player's HP (sender 0xFFFF for an object).
 void send_6x2F_change_player_hp(s32 sender, s32 client, s16 hp);

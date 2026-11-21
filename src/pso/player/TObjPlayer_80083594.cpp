@@ -29,6 +29,7 @@ void set_camera_capture_flags_bit2(void);
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 struct Stack_80082C30 {
     f32 sp8;
@@ -114,7 +115,6 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 extern "C" {
 extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern u8 controller_physical_port_bank[];
 }
 
@@ -515,7 +515,8 @@ s32 TObjPlayer::check_all_players_ready() {
     if (get_main_phase() == 0xF) {
         counter = 0;
         do {
-            if (((p = get_player_by_client_id(counter)) != NULL) && (((TObjPlayer *)p)->is_inactive() == 0)) {
+            TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(counter);
+            if ((player != NULL) && (player->is_inactive() == 0)) {
                 flag = 0;
             }
             counter += 1;
@@ -932,7 +933,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     switch (mode) {
     case 0:
         if (src != NULL) {
-            ((TWindowSubSymbolChatPartsSet *)(&v))->copy_vec2(src);
+            copy_vec2((&v), src);
             v.x -= 128.0f;
             v.y -= 96.0f;
         } else {
@@ -948,11 +949,11 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         a.y = 144.0f;
         b.x = 256.0f;
         b.y = 192.0f;
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             set_tev_swap_mode(0);
         }
         TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 1);
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             init_tev_swap();
         }
         TObjPlayer__sub_80082C30();
@@ -973,11 +974,11 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         a.y = 144.0f;
         b.x = 256.0f;
         b.y = 192.0f;
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             set_tev_swap_mode(0);
         }
         TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 0);
-        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+        if (test_previous_buttons_packed(cam, 0x100) != 0) {
             init_tev_swap();
         }
         TObjPlayer__sub_80082C30();

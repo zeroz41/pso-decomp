@@ -40,9 +40,7 @@ struct Self_8032A2A4 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, s32);
-extern s32 __vt__19TAdMcSelectCursorGC[];
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
-Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -66,7 +64,7 @@ void TAdMcSelectCursorGC::render() {
         }
         goto block_5;
     }
-    if (TObject::defer_render() == 0) {
+    if ((s32)this->defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_additive_blend();
@@ -90,7 +88,7 @@ void TAdMcSelectCursorGC::run_task() {
     if (self->f1C == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - self->f20);
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_physical_port_bank + 0x20), 0x80, 6, 1) != 0 ||
-            TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
+            test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
             if (TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
                 self->f20++;
                 if (self->f20 > 1) {
@@ -98,7 +96,7 @@ void TAdMcSelectCursorGC::run_task() {
                 }
             }
         } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_physical_port_bank + 0x20), 0x40, 6, 1) != 0 ||
-                    TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
+                    test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
                    TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
             self->f20--;
             if (self->f20 < 0) {
@@ -137,11 +135,9 @@ TAdMcSelectCursorGC::~TAdMcSelectCursorGC() {
         TAdMcSelectCursorGC__instance = 0U;
     }
 }
-extern "C" {
-Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
+#define arg0 ((Obj_8032A574 *)this)
+TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
     s32 i;
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->vt = ((u8 *)&__vt__19TAdMcSelectCursorGC);
     arg0->f0 = TAdMcSelectCursorGC__class_name;
     ((Alt_8032A574 *)arg0)->f138 = 0;
     ((Alt_8032A574 *)arg0)->f12C = 0;
@@ -157,8 +153,9 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
         arg0->ents[i].c = 1.0f;
         arg0->ents[i].d = 1.0f;
     }
-    return arg0;
 }
+#undef arg0
+extern "C" {
 
 s32 release_texture_list(void *, s32);
 
@@ -167,10 +164,7 @@ uaddr TAdMcSelectCursorGC::get_instance(s32 arg0) {
     uaddr var_r0;
 
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {
-        var_r0 = (uaddr)TObject::operator new(0x140);
-        if (var_r0 != 0U) {
-            var_r0 = (uaddr)TAdMcSelectCursorGC__ct((Obj_8032A574 *)var_r0, arg0);
-        }
+        var_r0 = (uaddr)new TAdMcSelectCursorGC((TObject *)arg0);
         TAdMcSelectCursorGC__instance = var_r0;
     }
     return TAdMcSelectCursorGC__instance;

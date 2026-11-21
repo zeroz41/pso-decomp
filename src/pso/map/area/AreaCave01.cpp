@@ -36,7 +36,7 @@ s32 init_cave_b_stage(void) {
         init_music_sequencer(1);
     }
     if ((get_main_phase() != 0xE) || (is_quest_active() == 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x1E);
+        set_story_flag_or_send_quest_flag(0x1E);
     }
     return 1;
 }

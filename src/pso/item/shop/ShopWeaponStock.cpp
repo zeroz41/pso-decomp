@@ -99,7 +99,6 @@ void push_shop_pool_entry(void *, u8);
 extern int shop_weapon_stock_level;
 void roll_shop_weapon_special(Obj_80224F7C *obj);
 extern s32 shop_difficulty_tier;
-u8 get_entry_field16__9TItemDataFv(void *);
 extern s32 section_id_favored_grind_table[];
 extern s32 lbl_805D6238;
 void roll_shop_weapon_grind(Item_80225064 *it);
@@ -494,7 +493,7 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
         }
         it->f3 = v;
     }
-    m = get_entry_field16__9TItemDataFv(it);
+    m = ((TItemData *)it)->get_entry_field16();
     if (it->f3 > m) {
         it->f3 = m;
     }

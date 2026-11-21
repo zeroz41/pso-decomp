@@ -141,7 +141,7 @@ void TBoss6Type1::update_countdown_state() {
 }
 
 void TBoss6Type1::update_if_ready() {
-    if (((s32) this->action_timer == 0) || (this->is_timer_expired() != 0)) {
+    if (((s32) this->action_timer == 0) || (is_timer_expired() != 0)) {
         TBoss6Type1__sub_802B8E1C(this);
     }
 }
@@ -647,7 +647,7 @@ void TBoss6Type1::sub_802B3564() {
     s32 temp_r0;
     s32 temp_r4;
 
-    update_beam_attack();
+    this->update_beam_attack();
     boss6_type1->interpolate_pos_to_target(*(s32 *)((s8 *)boss6_type1 + 0x410), boss6_type1->m_40c);
     temp_r0 = *(s32 *)((s8 *)boss6_type1 + 0x410) - 1;
     *(s32 *)((s8 *)boss6_type1 + 0x410) = temp_r0;
@@ -678,7 +678,7 @@ void TBoss6Type1::update_timer_state() {
     s32 temp_r0;
     s32 temp_r4;
 
-    update_beam_attack();
+    this->update_beam_attack();
     temp_r0 = this->action_timer - 1;
     this->action_timer = temp_r0;
     if (temp_r0 < 0) {

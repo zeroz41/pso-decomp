@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
@@ -48,6 +50,7 @@
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -57,7 +60,7 @@ extern TObjMotionAction TObjEneRecon__animation_entries[6];
 // Breakup-model parameters TObjEneRecon__sub_8031C364 hands to TBoss3Volopt::create_breakup_mdl.
 extern const TBoss3VoloptBreakupParams recon_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneRecon_name_ref = "TObjEneRecon";
-extern const DelDepthAnimationBinding recon_anim_binding = { NULL, TObjEneRecon__animation_entries, 0x10001, 6, 0 };
+extern const NpcAnimationBinding recon_anim_binding = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRecon__animation_entries), 1, 1, 6 };
 extern const Vec lbl_804760FC = { 0.8f, 1.0f, 0.8f };
 
 saddr lbl_805D6AF0;
@@ -109,7 +112,7 @@ void TObjEneRecon::vfunc_106() {
 
 
 s32 TObjEneRecon::render_model_if_visible() {
-    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x41C)) != 0) {
             TObjFish::set_global_param((int) (this->texlist));
             push_matrix();
@@ -228,7 +231,7 @@ void TObjEneRecon::advance_intro_stage() {
     switch ((s32) recon_intro_stage) {
     case 0:
         push_matrix();
-        TObjEneDD::update_camera_sequence();
+        forward_split_screen_view_matrix();
         matrix_mult_vec(0, (Vec *)recon_model_matrix_ptr, (Vec *)recon_model_matrix_ptr);
         pop_matrix();
         break;
@@ -256,7 +259,7 @@ void TObjEneRecon::update_ground_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy((Vec *)&stack.sp8, (const Vec *)&this->position);
         stack.spC += 15.0f;
-        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)&this->m_120, 0x4000));
+        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)arg0 + 0x418) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
             VecCopy((Vec *)&this->m_438, (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
@@ -319,9 +322,7 @@ f32 TObjEneRecon__sub_8031C2D4(void);
 u8 TObjEneRecon__sub_8031C250(T_8031C250 *self);
 s16 get_attack_params_atp_min(void *p);
 u16 get_entity_id(void *);
-void enemy_clear_target__12TObjEneDD_STFUs(void *);
 f32 horizontal_distance_squared(void *, void *);
-s32 is_valid_and_active__10TObjPlayerFUl();
 s32 TObjEneRecon__sub_8031DA90(u8 *arg0);
 extern s32 lbl_805D5868;
 void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1);
@@ -478,7 +479,6 @@ struct VObj_18_414afc : VBase_18_414afc {
 
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
-void set_flag2__12TObjEneReconFv(void *, f32, f32, f32);
 void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1);
 void TBoss8Dragon__sub_800BB7D8(void *, int, f32);
 void TBoss8Dragon__sub_800BB7DC(void *);
@@ -514,7 +514,7 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
         switch (F(s32, 0x3C0)) {
         case 0:
         case 1:
-            set_flag2__12TObjEneReconFv(arg0, F(f32, 0x44C), F(f32, 0x454), F(f32, 0x3E4));
+            ((TObjEneRecon *)arg0)->set_flag2(F(f32, 0x44C), F(f32, 0x454), F(f32, 0x3E4));
             {
                 Vec v = F(Vec, 0x38);
                 v.y += F(f32, 0x448);
@@ -591,7 +591,7 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
         *(f32 *)((s8 *)arg0 + 0x44C) = *(f32 *)((s8 *)arg0 + 0x308);
         *(f32 *)((s8 *)arg0 + 0x454) = *(f32 *)((s8 *)arg0 + 0x310);
         v = normalize_vector_xz__FP3Vec(arg0 + 0x44C, n);
-        set_flag2__12TObjEneReconFv(arg0, *(f32 *)((s8 *)arg0 + 0x44C), *(f32 *)((s8 *)arg0 + 0x454), v);
+        ((TObjEneRecon *)arg0)->set_flag2(*(f32 *)((s8 *)arg0 + 0x44C), *(f32 *)((s8 *)arg0 + 0x454), v);
         ((TObjEneRecon *)arg0)->clamp_min_height();
         *(f32 *)((s8 *)arg0 + 0x308) *= 0.5f;
         *(f32 *)((s8 *)arg0 + 0x310) *= 0.5f;
@@ -984,7 +984,7 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
                 break;
             }
             VecCopy((Vec *)(arg0 + 0x44C), (const Vec *)(arg0 + 0x3A0));
-            set_flag2__12TObjEneReconFv(arg0, F(f32, 0x44C), F(f32, 0x454), r);
+            ((TObjEneRecon *)arg0)->set_flag2(F(f32, 0x44C), F(f32, 0x454), r);
             F(f32, 0x448) = ((TObjEneRecon *)arg0)->approach_value(F(f32, 0x448), F(f32, 0x398) + h);
             ((TObjEneRecon *)arg0)->clamp_min_height();
             t = F(Obj_8031C920 *, 0x390);
@@ -1029,7 +1029,7 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneEpsilon *)arg0)->update_death_check() == 0) {
-            enemy_clear_target__12TObjEneDD_STFUs(arg0);
+            ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         }
         switch (*(s32 *)((s8 *)arg0 + 0x3C0)) {
         case 0:
@@ -1099,7 +1099,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneEpsilon *)arg0)->update_death_check() == 0) {
-            enemy_clear_target__12TObjEneDD_STFUs(arg0);
+            ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         }
         switch (F(s32, 0x3C0)) {
         case 0:
@@ -1140,7 +1140,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             if (F(s32, 0x3C8) == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
                     p = (u8 *)TObjPlayer::get_player_data(i);
-                    if (is_valid_and_active__10TObjPlayerFUl() != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
+                    if (TObjPlayer::is_valid_and_active((u32)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
                         d = horizontal_distance_squared(p + 0x2FC, arg0 + 0x40C);
                         if (d <= ((AttackParams *)(F(s32, 0x318)))->get_damage_radius() * ((AttackParams *)(F(s32, 0x318)))->get_damage_radius()) {
                             Pair_8031CF30 t;
@@ -1227,7 +1227,7 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x30) = (*(s32 *)((s8 *)arg0 + 0x30) | 0x01000000);
         *(s32 *)((s8 *)arg0 + 0x3C0) = 0;
         this->rotation_y = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x428)), (f32) (*(f32 *)((s8 *)arg0 + 0x430))));
-        enemy_clear_target__12TObjEneDD_STFUs(arg0);
+        ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         break;
     case 3:
         if ((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 2) {
@@ -1512,7 +1512,7 @@ extern "C" {
 void TObjEneRecon::vfunc_89() {
     struct VObj_8031DCCC *o = (struct VObj_8031DCCC *)this;
     o->m86();
-    this->TObjEneDD::vfunc_89();
+    TObjEneDD::vfunc_89();
     this->clamp_min_height();
 }
 
@@ -1570,7 +1570,6 @@ VV(91)VV(92)VV(93)VV(94)VV(95)VV(96)VV(97)VV(98)VV(99)
 
 extern "C" {
 
-u32 move_with_wall_slide_commit__9TObjEneDDFfff();
 u32 TObjEneEpsilon__sub_800B92F8(void *, s32, void *, f32);
 
 
@@ -1585,8 +1584,8 @@ void TObjEneRecon::update_collide_flag() {
     *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) & 0xFFFFFFFD);
 }
 
-void TObjEneRecon::set_flag2() {
-    if (move_with_wall_slide_commit__9TObjEneDDFfff() != 0U) {
+void TObjEneRecon::set_flag2(f32 x, f32 z, f32 r) {
+    if (this->move_with_wall_slide_commit(x, z, r) != 0U) {
         *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) | 2);
         return;
     }
@@ -1606,7 +1605,7 @@ void enemy_copy_target_destination__12TObjEneDD_STFv(void *);
 #pragma push
 #pragma fp_contract on
 void TObjEneRecon::set_orbit_destination(s32 arg1) {
-    this->enemy_copy_target_destination();
+    enemy_copy_target_destination();
     *(f32 *)((s8 *)((u8 *)this) + 0x394) = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x468) * sin_table_lookup(arg1)) + *(f32 *)((s8 *)((u8 *)this) + 0x394));
     *(f32 *)((s8 *)((u8 *)this) + 0x398) = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x460);
     *(f32 *)((s8 *)((u8 *)this) + 0x39C) = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x468) * cos_table_lookup(arg1)) + *(f32 *)((s8 *)((u8 *)this) + 0x39C));
@@ -1678,14 +1677,13 @@ void TObjEneRecon::load_resources() {
   TObjEneRecon__resistance_params = (saddr)TLobby::register_object(0x42);
   TObjEneRecon__data_805D6AFC = (f32 *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneRecon__sub_8031BC94();
-  DelDepthAnimationBinding binding = recon_anim_binding;
-  binding.motions = TObjEneRecon__recobox_static_instance->motions;
+  NpcAnimationBinding binding = recon_anim_binding;
+  binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
   temp_r5 = (u8 *)TObjEneRecon__recobox_static_instance->models;
-  TLobby::spawn_npc_enemy((s16)(0xC), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8), ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist, &binding, TObjEneRecon__collision_body_template.radius, (f32)(15.0f));
+  NpcModelRegistry::register_animated_chunk((s16)(0xC), reinterpret_cast<void *>(((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8)), reinterpret_cast<void *>(((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist), &binding, TObjEneRecon__collision_body_template.radius, (f32)(15.0f));
 }
 
 
-extern void *tl_04;
 
 void *TObjEneRecon::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
     void *o;
@@ -1749,7 +1747,6 @@ struct VObj_14_2f517b : VBase_14_2f517b {
 void obj_setFlags30(void *, u32);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void run_task__12TObjEneReconFv(TObjEneRecon *arg0);
 
 
@@ -1763,14 +1760,14 @@ void TObjEneRecon::init_state() {
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C)) + 8);
     temp_r6 = (u8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C));
     this->texlist = (s32) *(s32 *)((s8 *)temp_r6 + 0xC);
-    ((TObjEneDD *)arg0)->init_model((CollisionBody *)(&TObjEneRecon__collision_body_template), 1);
+    ((TObjEneDD *)arg0)->init_model((CollisionBody *)&TObjEneRecon__collision_body_template, 1);
     ((TObjMotion *)arg0)->set_field_d8((saddr)TObjEneRecon__animation_entries);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)TObjEneRecon__recobox_static_instance + 0x430)));
     this->requested_action = 0;
     ((TObjMotion *)arg0)->set_animation((this->requested_action));
     ((TObjMotion *)arg0)->set_field_b8((int) (this->requested_action));
     ((TObjEneDD *)arg0)->reset_hp((u8 *)lbl_805D6AF0, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
-    ((TObjEneDD *)arg0)->check_state_flag_4();
+    ((TObjEneDD *)arg0)->set_state_flag_4();
     *(void **)((s8 *)arg0 + 0x350) = (void *) TObjEneRecon__ai_parameters;
     ((TObjEneDD *)arg0)->initialize_enemy_state(0x44);
     *(f32 *)((s8 *)arg0 + 0x37C) = 5.0f;
@@ -1845,7 +1842,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
         return;
     }
     entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));
-    if ((entity == 0) || (all_parents_unqueued_for_destruction__7TObjectFv() == 0)) {
+    if ((entity == 0) || (((TObject *)entity)->all_parents_unqueued_for_destruction() == 0)) {
         ene_recon->queue_destruction();
         return;
     }

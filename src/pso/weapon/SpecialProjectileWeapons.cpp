@@ -68,8 +68,6 @@ extern "C" {
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
-s32 warn_if_gauge_low__10TObjPlayerFv(s32);
-s32 set_model_fade_alpha__10TObjPlayerFf();
 void TObjPlayer__sub_80364198(void);
 s32 push_matrix();
 extern s32 model_render_flags;
@@ -236,8 +234,7 @@ void TUnk_804A204C::reserved_53() {
             push_matrix();
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
-            this->get_owner_alpha();
-            set_model_fade_alpha__10TObjPlayerFf();
+            TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
             post_translate_matrix(&sp8);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
             *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 0x11);
@@ -247,7 +244,7 @@ void TUnk_804A204C::reserved_53() {
             TParticleCtrl::end_effect_render();
             temp_r3 = *(s32 *)((s8 *)temp_r31 + 0);
             *(s32 *)((s8 *)temp_r31 + 0) = (s32) (temp_r3 & ~0x11);
-            warn_if_gauge_low__10TObjPlayerFv(temp_r3);
+            ((TObjPlayer *)(temp_r3))->warn_if_gauge_low();
             pop_matrix();
             pop_matrix();
         }

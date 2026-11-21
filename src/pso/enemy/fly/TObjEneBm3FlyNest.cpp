@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
@@ -47,7 +49,6 @@ struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
 void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void get_camera_ctrl__9TObjEneDDFv(const Vec *origin, Vec *out);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
@@ -141,7 +142,7 @@ TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *ori
     this->index = index;
     VecCopy(&v, this->origin);
     subtract_vector(&v, this->target);
-    ((TObjBoss2Tunnel *)(&v))->update_scale();
+    normalize_vector_safe(&v);
     angle = (s32) (10430.38043493439 * atan2_float(v.x, v.z));
     offset.x = 6.0f * v.x;
     offset.y = 6.0f;
@@ -265,10 +266,10 @@ void TObjEneBm3FlyNest::load_resources() {
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
     {
-        Bm3FlyAnimationBinding anim = {NULL, bm3_flynest_hit_action_table, 8, 10, 0};
-        anim.motions = lbl_805D5108->motions;
+        NpcAnimationBinding anim = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_flynest_hit_action_table), 0, 8, 10 };
+        anim.motions = reinterpret_cast<BmlMotionEntry *>(lbl_805D5108->motions);
         models = lbl_805D5108->models;
-        TLobby::spawn_npc_enemy(8, models[1].model, (NJS_TEXLIST *)models[0].m_c, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[0].m_c), &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
 
@@ -305,7 +306,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     set_animation(requested_action);
     set_field_b8(requested_action);
     reset_hp(lbl_805D50F8, lbl_805D50FC, lbl_805D5100);
-    check_state_flag_1();
+    set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;
     initialize_enemy_state(4);
     unk_37c = 10.0f;
@@ -894,7 +895,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 unk_4c8 += 1;
                 if (unk_4c8 >= 4) {
                     r = rand_range(5.0f, 10.0f);
-                    a = TObjEneDD::get_random_scaled();
+                    a = get_random_scaled();
                     VecCopy(&p, (Vec *)&m_2fc);
                     p.x = r * sin_table_lookup(a) + p.x;
                     p.y += 5.0f;
@@ -972,7 +973,7 @@ void TObjEneBm3FlyNest::init() { init_params(); }
 void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     switch (lbl_805D510C) {
     case 36: case 45:
-        get_camera_ctrl__9TObjEneDDFv(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
+        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
         break;
     }
     ++lbl_805D510C;
@@ -984,7 +985,7 @@ void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
         pos = lbl_805D5114;
         bm3_fly_nest_attachment_index += 1;
         lbl_805D5114 = pos + 1;
-        get_camera_ctrl__9TObjEneDDFv(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
+        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
     }
     TObjEneBm3FlyNest::capture_attachment((void *)arg0);
 }

@@ -29,6 +29,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/ui/hud/TMainCursor.h"
+#include "pso/technique/TTecResta.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -79,7 +81,6 @@ typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; 
 typedef struct LightData_8022C738 { u8 pad0[0x1C]; f32 f1C; u8 pad20[4]; } LightData_8022C738;
 
 extern "C" {
-Cursor_8022CDE8 *find_by_pos__11TMainCursorFss(u32, int, s16);
 void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
@@ -90,7 +91,6 @@ Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
-void create__9TTecRestaFPvPvPvPv(void *, void *, void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
 void push_matrix_from(void *);
@@ -162,12 +162,11 @@ TechniqueParams technique_param_table[19] = {
 };
 const char *TTecCtrl__name = "TTecCtrl";
 
-void *tech_high_level_linear_power_table[19] = {
-    (void *)0xffab0041, (void *)0x1e002a, (void *)0x1720015, (void *)0xff83003f,
-    (void *)0x28, (void *)0x1d6000f, (void *)0x50037, (void *)0xffe20026,
-    (void *)0x2260009, (void *)0x578003c, (void *)0xa0001, (void *)0xa0001,
-    (void *)0xa0001, (void *)0xa0001, (void *)0x0, (void *)0xffec000a,
-    (void *)0x0, (void *)0x0, (void *)0x2a0002,
+TechniqueLinearPower tech_high_level_linear_power_table[19] = {
+    {-85, 65}, {30, 42}, {370, 21}, {-125, 63}, {0, 40},
+    {470, 15}, {5, 55}, {-30, 38}, {550, 9}, {1400, 60},
+    {10, 1}, {10, 1}, {10, 1}, {10, 1}, {0, 0},
+    {-20, 10}, {0, 0}, {0, 0}, {42, 2},
 };
 TechniqueCostScale lbl_804CC55C[19] = {
     {0.8f, 3.0f}, {0.8f, 2.0f}, {0.6f, 2.0f}, {0.8f, 3.0f}, {0.6f, 2.0f},
@@ -303,7 +302,7 @@ TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client)
     if (level > 29) {
         level = 29;
     }
-    ((TTecAnti *)&lbl_80515F90)->copy_params((u8 *)&technique_param_table[technique]);
+    ((TechniqueParams *)&lbl_80515F90)->copy(&technique_param_table[technique]);
     if (technique != 17 && technique != 14) {
         lbl_80515F90.tp_cost += level * (lbl_80515F90.tp_cost_percent / 100.0f);
     }
@@ -501,7 +500,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     Target_8022D27C *targets;
     s32 i;
     Ent_8022D27C *ent;
-    ((TObjPlayer *)(&list))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((&list));
     ofs.x = 0.0f;
     ofs.y = 0.0f;
     ofs.z = 100.0f;
@@ -589,7 +588,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         if (n == 0) {
             return;
         }
-        ((TTecGiZonde *)pl)->create(&hand, &list, (void *)(get_cast_technique_level(td, 7)));
+        TTecGiZonde::create(pl, &hand, &list, get_cast_technique_level(td, 7));
         break;
     case 8:
         ((TTecRaZonde *)pl)->create(&hand, (void *)(get_cast_technique_level(td, 8)));
@@ -603,7 +602,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         break;
     case 10:
         COLLECT_8022D27C()
-        TTecDeband::create((saddr)pl, (saddr)(&hand), (saddr)(&list), get_cast_technique_level(td, 10));
+        TTecDeband::create((saddr)pl, (saddr)(&hand), (saddr)(&list), (s32)(get_cast_technique_level(td, 10)));
         break;
     case 11:
         COLLECT_8022D27C()
@@ -626,7 +625,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         break;
     case 15:
         COLLECT_8022D27C()
-        create__9TTecRestaFPvPvPvPv(pl, &hand, &list, get_cast_technique_level(td, 15));
+        TTecResta::create(pl, &hand, &list, (void *)get_cast_technique_level(td, 15));
         break;
     case 16:
         COLLECT_8022D27C()
@@ -664,7 +663,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
         return;
     }
     ((TObjPlayer *)(owner->slots))->reset_slots();
-    c = find_by_pos__11TMainCursorFss(owner->f424, 3, kind);
+    c = (Cursor_8022CDE8 *)((TMainCursor *)owner->f424)->find_by_pos(3, kind);
     if (c == NULL) {
         return;
     }

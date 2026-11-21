@@ -81,10 +81,10 @@ public:
     static void notify_lobby(void* p, void* a1, void* a2);
     void reset_score_counters();
     s32 set_state();
-    static void update_players();
+    void update_players();
     void start_match();
     s32 is_battle_decided();
-    static s32 check_all_players_flag();
+    s32 check_all_players_flag();
     static s32 fn_80211B10(s32 client_id);
     static void remove_player(void *arg0, u16 arg1, s32 arg2);
     void apply_rule_configuration(s32 arg1);

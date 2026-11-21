@@ -1,173 +1,125 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "types.h"
-#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TObjParticle.h"
-#include "pso/render/NinjaUtil.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
-#include "pso/object/base/TObjMotion.h"
-
-#include "pso/system/task/TObject.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/ui/hud/TNowLoading.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
-
-
-struct P_8019527C { u8 pad[0x90]; u32 f90; };
-
-struct Src_80195400 {
-    u8 pad0[0xC];
-    Vec pos;
-    Vec ang;
-    f32 params[3];
-    s32 ints[3];
-};
-
-struct Part_80195400 {
-    const char *f0;
-    u8 pad4[0x14];
-    s32 *vt;
-    u8 pad1c[0x38 - 0x1C];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    Vec ang;
-    f32 params[3];
-    u8 pad74[0x84 - 0x74];
-    s32 ints[3];
-    s32 emitter;
-    s32 sel;
-};
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/unk/text_800871A0.h"
 
 extern "C" {
-extern s32 tl_05;
-s32 spawn_particle_effect_with_rotation(void *, void *, s32, u16);
-s32 spawn_continuous_particle_with_direction(void *, void *, s32);
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__12TObjParticle[];
-const char *obj_particle_class_name = "TObjParticle";
-Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, saddr arg1, Src_80195400 *arg2);
-
-extern saddr camera_ctrl_instance;
+s32 is_split_screen(void);
+extern TObject *tl_05;
+extern const char TObjParticle__class_name_string[] = "TObjParticle";
+const char *obj_particle_class_name = TObjParticle__class_name_string;
+extern TCameraCtrl *camera_ctrl_instance;
+}
 
 void TObjParticle::render() {
-    P_8019527C *arg0 = (P_8019527C *)this;
-    if (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0) {
-        if (this->m_90 == 0) {
+    if (all_parents_unqueued_for_destruction() != 0) {
+        if (emitter == NULL) {
             return;
         }
     }
 }
 
 void TObjParticle::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 var_f31;
-
-    if (((get_current_floor_area() == AREA_DARK_FALZ) || ((s32) this->set_params[0] == 1)) && ((s32) this->set_params[2] != 1)) {
-        var_f31 = 2250000.0f;
+    f32 distance_limit;
+    if (((get_current_floor_area() == AREA_DARK_FALZ) || (set_params[0] == 1)) && (set_params[2] != 1)) {
+        distance_limit = 2250000.0f;
     } else {
-        var_f31 = 160000.0f;
+        distance_limit = 160000.0f;
     }
-    if (((s32) this->set_params[2] == 1) && ((s32) this->set_params[0] == 1)) {
-        var_f31 = 100000000.0f;
+    if ((set_params[2] == 1) && (set_params[0] == 1)) {
+        distance_limit = 100000000.0f;
     }
-    if (xyz_distance_squared((Vec *)&this->position, (Vec *)(camera_ctrl_instance + 0x178)) > var_f31) {
-        ((TObject *)arg0)->queue_destruction();
+    if (xyz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos_x) > distance_limit) {
+        queue_destruction();
         return;
     }
-    if ((u32) this->m_90 != 0U) {
-        ((TParticleCtrl *)this->m_90)->set_position((u8 *)&this->position);
-        ((TParticleCtrl *)(this->m_90))->set_direction((u8 *)&this->rotation_x);
+    if (emitter != NULL) {
+        emitter->set_position(&position);
+        emitter->set_direction(&rotation_x);
     }
 }
 
-}
 TObjParticle::~TObjParticle() {
-    if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x90))))->queue_destruction(); this->m_90 = 0; }
-    this->mask_object_set_row_flags(-3);
+    if (emitter != NULL) {
+        emitter->queue_destruction();
+        emitter = NULL;
+    }
+    mask_object_set_row_flags(-3);
 }
 
-
-Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, saddr parent, Src_80195400 *arg2) {
+TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBase(parent) {
     u32 i;
     s32 entry;
-    u16 flags;
-    u16 base;
-    u16 other;
-    __ct__8TObjBaseFP7TObject(arg0, (void *) parent);
-    arg0->vt = __vt__12TObjParticle;
-    other = 0;
-    arg0->f0 = obj_particle_class_name;
-    VecCopy((Vec *)&arg0->pos, (const Vec *)&arg2->pos);
-    copy_xyz(&arg0->ang, &arg2->ang);
-    VecCopy((Vec *)arg0->params, (const Vec *)arg2->params);
+    s32 flags;
+    s32 base;
+    // Compose flag words in 16 bits, then pass the shared API its full-width int.
+    s32 continuous_flags = 0;
+    m_name = obj_particle_class_name;
+    VecCopy(&position, &set_data->position);
+    copy_xyz(&rotation_x, &set_data->rotation);
+    VecCopy(&scale, &set_data->params);
     for (i = 0; i < 3; i++) {
-        arg0->ints[i] = arg2->ints[i];
+        set_params[i] = set_data->set_params[i];
     }
-    arg0->sel = (s32) arg2->params[0];
-    arg0->emitter = 0;
-    entry = (s32) arg0->params[0];
+    particle_id = (s32)set_data->params.x;
+    emitter = NULL;
+    entry = (s32)scale.x;
     if (entry < 0) {
         entry = 0;
     }
-    if (arg0->params[2] < 0.0f) {
+    if (scale.z < 0.0f) {
         base = 2;
-        if (arg0->ints[0] == 1) {
+        if (set_params[0] == 1) {
             base = 0x42;
         }
         flags = base;
-        if (arg0->ints[1] == 1) {
-            flags = base | 0x2000;
+        if (set_params[1] == 1) {
+            flags = (base | 0x2000) & 0xFFFF;
         }
-        arg0->emitter = spawn_particle_effect_with_rotation(&arg0->pos, &arg0->ang, entry, flags);
-    } else if ((s32) arg0->params[2] == 2) {
+        emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, flags);
+    } else if ((s32)scale.z == 2) {
         flags = 8;
-        if (arg0->ints[0] == 1) {
+        if (set_params[0] == 1) {
             flags = 0x48;
         }
-        if (arg0->ints[1] == 1) {
-            flags |= 0x2000;
+        if (set_params[1] == 1) {
+            flags = (flags | 0x2000) & 0xFFFF;
         }
-        arg0->emitter = spawn_particle_effect_with_rotation(&arg0->pos, &arg0->ang, entry, flags);
-    } else if ((s32) arg0->params[2] == 3) {
+        emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, flags);
+    } else if ((s32)scale.z == 3) {
         flags = 4;
-        if (arg0->ints[0] == 1) {
+        if (set_params[0] == 1) {
             flags = 0x44;
         }
-        if (arg0->ints[1] == 1) {
-            flags |= 0x2000;
+        if (set_params[1] == 1) {
+            flags = (flags | 0x2000) & 0xFFFF;
         }
-        arg0->emitter = spawn_particle_effect_with_rotation(&arg0->pos, &arg0->ang, entry, flags);
+        emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, flags);
     } else {
-        if (arg0->ints[0] == 1) {
-            other = 0x40;
+        if (set_params[0] == 1) {
+            continuous_flags = 0x40;
         }
-        if (arg0->ints[1] == 1) {
-            other |= 0x2000;
+        if (set_params[1] == 1) {
+            continuous_flags = (continuous_flags | 0x2000) & 0xFFFF;
         }
-        if (arg0->ints[0] == 1 || arg0->ints[1] == 1) {
-            arg0->emitter = spawn_particle_effect_with_rotation(&arg0->pos, &arg0->ang, entry, (u16)other);
+        if (set_params[0] == 1 || set_params[1] == 1) {
+            emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, continuous_flags & 0xFFFF);
         } else {
-            arg0->emitter = spawn_continuous_particle_with_direction(&arg0->pos, &arg0->ang, entry);
+            emitter = (TParticleCtrl *)spawn_continuous_particle_with_direction(&position, &rotation_x, entry);
         }
     }
-    ((TObject *)arg0)->disallow_rendering();
-    return arg0;
+    disallow_rendering();
 }
+#undef arg0
 
-u8 *TObjParticle__create(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
+extern "C" u8 *TObjParticle__create(u8 *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    temp_r3 = (u8 *)(TObject::operator new(0x98));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TObjParticle__ct((Part_80195400 *)(temp_r3), tl_05, (Src_80195400 *)(arg0)));
-    }
-    return var_r0;
+    return (u8 *)new TObjParticle(tl_05, (ParticleSetData *)set_data);
 }
-

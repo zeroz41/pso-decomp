@@ -120,7 +120,7 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 }
 
 extern "C" {
-f32 PSMTXMultVecArray(s32, s32);
+void PSMTXMultVecArray(f32 (*m)[4], const Vec *src, Vec *dst, u32 count);
 extern saddr current_matrix;
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
@@ -226,13 +226,13 @@ void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer::mult_vec_array(u32 arg0, s32 arg1) {
-    uaddr var_r3;
-    var_r3 = arg0;
-    if (var_r3 == 0U) {
-        var_r3 = (u32) current_matrix;
+extern "C" {
+void matrix_mult_vec_array(f32 (*m)[4], const Vec *src, Vec *dst, u32 count) {
+    if (m == NULL) {
+        m = (f32 (*)[4])current_matrix;
     }
-    PSMTXMultVecArray((s32) var_r3, arg1);
+    PSMTXMultVecArray(m, src, dst, count);
+}
 }
 #pragma pop
 

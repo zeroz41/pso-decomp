@@ -8,6 +8,7 @@
 #include "pso/unk/TLobby_80227A2C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/vector.h"
+#include "pso/unk/TLobby_80226070.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
@@ -15,14 +16,13 @@
 
 extern "C" {
 
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 s8 sound_mode_value = 1;
 s32 last_sound_effect_slot = -1;
 
 void TObjPlayer::play_effect_if_v2(s32 arg0) {
     if (TObjEneDD::check_v2_mode() != 0) {
-        update_technique_slot__10TTecRaFoieFl(last_sound_effect_slot, arg0, 0);
+        set_sound_pitch_request(last_sound_effect_slot, arg0, 0);
     }
 }
 
@@ -99,7 +99,7 @@ void TLobby__sub_8022644C(void);
 void set_menu_index_main__6TLobbyFPUc(void);
 int TLobby__sub_80226308(void);
 void TTecRaFoie__sub_80226254(void);
-s32 set_sound_slot_pitch();
+void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 
 int TLobby::get_lobby_data() {  return lbl_805D6280; }
 
@@ -130,9 +130,9 @@ void update_music_stream_gain(s32 user) {
 
 void TTecRaFoie__sub_80226254(void) {  }
 
-void TTecRaFoie::update_technique_slot(s32 arg0) {
-    if (((s32) lbl_805D62B0 != 0) && (arg0 >= 0) && (arg0 < 0x28)) {
-        set_sound_slot_pitch();
+void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
+    if (((s32) lbl_805D62B0 != 0) && (slot >= 0) && (slot < 0x28)) {
+        set_sound_slot_pitch(slot, pitch, duration);
     }
 }
 

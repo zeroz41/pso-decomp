@@ -26,6 +26,7 @@ public:
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/vector.h"
 
 struct Ent_802E6750 { s32 idx; f32 x; f32 y; s32 c; };
 
@@ -314,7 +315,7 @@ u8 *__ct__17TAdGameStartSubGCFv(u8 *arg0, void *arg1, u8 *arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TAdGameStartSubGC;
     I(0) = (saddr)lbl_805D3FB0[0];
     I(0x1C) = *(s32 *)((s8 *)arg2 + 0);
-    ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x60))->copy_vec2(arg2 + 4);
+    copy_vec2((arg0 + 0x60), arg2 + 4);
     t = *(s32 *)((s8 *)arg2 + 0xC);
     I(0x7C) = t;
     I(0x84) = -1;

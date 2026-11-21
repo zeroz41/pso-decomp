@@ -159,7 +159,7 @@ void TBoss6GravBall::clear_player_grav_flags() {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        P_80323348 *p = ((P_80323348 *)TObjPlayer::get_player_data(i));
+        P_80323348 *p = (P_80323348 *)TObjPlayer::get_player_data(i);
         if (is_state_1f__14TBoss6PlotFalzFUi() != 0) {
             p->flags &= 0xFFFDFFFF;
         }
@@ -178,7 +178,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
     for (i = 0; i < n; i++) {
         pl = (PL_803233AC *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
-        if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
+        if (((TObjPlayer *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
@@ -224,7 +224,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     for (i = 0; i < n; i++) {
         pl = (PL_80323544 *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
-        if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
+        if (((TObjPlayer *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
@@ -438,7 +438,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
 }
 
 void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (((TObjPlayer *)(arg0))->check_demo_mode() != 0) {
         return;
     }
     if (TObjEneDD::query_teammate_state() != 0) {
@@ -457,7 +457,7 @@ void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
 }
 TBoss6GravBall::~TBoss6GravBall() {
     init_parts();
-    ((TBoss6GravBall *)this)->clear_player_grav_flags();
+    clear_player_grav_flags();
 }
 TBoss6GravBall::TBoss6GravBall(saddr arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;

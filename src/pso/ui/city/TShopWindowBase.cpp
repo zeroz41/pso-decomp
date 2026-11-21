@@ -7,12 +7,12 @@
 
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 get_entity_id(void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 
 void TShopWindowBase::vfunc_11() {  }
 
@@ -24,7 +24,7 @@ f32 TShopWindowBase::get_scale() {
     return 1.0f;
 }
 
-int TShopWindowBase::sub_8022397C() {
+s32 TShopWindowBase::sub_8022397C() {
     u8 *arg0 = (u8 *)this;
     uaddr temp_r3;
     temp_r3 = *(u32 *)((s8 *)arg0 + 0x24);
@@ -48,7 +48,7 @@ bool TShopSequence::sub_802239EC() {
     if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
         return 1;
     }
-    return test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0;
+    return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0;
 }
 
 s32 TShopWindowBase::sub_80223A48() {
@@ -56,7 +56,7 @@ s32 TShopWindowBase::sub_80223A48() {
     if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
         return 1;
     }
-    if (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0) {
+    if (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;
     }
     return 0;

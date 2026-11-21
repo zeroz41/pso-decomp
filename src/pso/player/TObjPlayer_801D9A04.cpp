@@ -13,11 +13,11 @@ s32 TObjPlayer::is_valid_technique_id(s16 arg0) {
     if ((arg0 >= 0) && (arg0 < 0x13)) {
         var_r4 = 1;
     }
-    return (u8)var_r4;
+    return (u8)((u8)var_r4);
 }
 
 s32 TObjPlayer::is_valid_technique_slot(u8 arg0) {
-    return (u8) (arg0 <= 0xFU);
+    return (u8)((u8) (arg0 <= 0xFU));
 }
 
 s32 TObjPlayer::check_technique_level(saddr arg0, s32 arg1, u8 arg2) {

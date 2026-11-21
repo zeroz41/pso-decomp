@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby_8013AD38.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdDialingGC_80328B20.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
@@ -33,7 +35,6 @@ TAdDialingGC *TAdDialingGC__instance;
 extern "C" {
 s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 extern TAdDialingGC *TAdDialingGC__instance;
 s32 __ct__10TAdTitleGCFP7TObjectl(u32, void *, s32);
 s8 func_801A5E54__Fv();
@@ -42,9 +43,6 @@ extern s32 TLobby__net_session_mode;
 
 struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
 
-extern "C" {
-s32 render_status_disp__23TAdSinglePlyChrSelectGCFff(f32, f32);
-}
 
 struct Obj_80328990 { u8 pad[0x9C]; u32 state; };
 
@@ -145,7 +143,7 @@ void TAdDialingGC__sub_80328B24(const NJS_POINT2 *origin, const NJS_POINT2 *size
     poly.p[3].x = origin->x + size->x;
     poly.p[3].y = origin->y;
     poly.col[3].color = 0x8F;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 7, -120.0f);
+    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 7, -120.0f);
 }
 
 void TAdDialingGC__sub_80328B20(void) {  }
@@ -160,12 +158,11 @@ void TAdDialingGC::draw_dialing_status() {
     }
     sprintf(b, lbl_804767C8, a, call_146CA0_with_5708__6TLobbyFv());
     sprintf(c, (char *)get_connection_message_text(1), b);
-    ((TAdSinglePlyChrSelectGC *)c)->render_status_disp(23.0f, 351.0f);
+    draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
 }
 
 void TAdDialingGC::init_dialog() {
-    get_connection_message_text(0);
-    render_status_disp__23TAdSinglePlyChrSelectGCFff(23.0f, 331.0f);
+    draw_menu_font_string_white((const char *)get_connection_message_text(0), 23.0f, 331.0f);
 }
 
 int TAdDialingGC::refresh_display() { return update_dialing_display__12TAdDialingGCFi((void*)(8)); }
@@ -269,8 +266,7 @@ void TAdDialingGC::update_status_message() {
 }
 
 void TAdDialingGC::update_dialing_display(int _w0) {
-    get_connection_message_text(_w0);
-    render_status_disp__23TAdSinglePlyChrSelectGCFff(23.0f, 331.0f);
+    draw_menu_font_string_white((const char *)get_connection_message_text(_w0), 23.0f, 331.0f);
 }
 
 void TAdDialingGC::update() {
@@ -393,7 +389,7 @@ void TAdDialingGC::update_selection() {
 }
 
 s32 TAdDialingGC__sub_803284F8(s32 _w0) {
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 0x706) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 0x606) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 0x706) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 0x606) != 0)) {
         return 1;
     }
     return 0;

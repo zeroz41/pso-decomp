@@ -14,9 +14,6 @@ extern "C" {
 void set_string__20TWindowSubStatusDispFUl(u8 *, void *);
 struct Ent_802684BC { u8 p0[0x1C]; s32 f1C; };
 struct Win_802684BC { u8 p0[0x76]; s16 f76; };
-s32 is_flag_4_set__17TWindowSubComCardFv(void *);
-s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s16 a1 = 0);
-s32 get_entry_id__17TWindowSubComCardFv();
 
 s32 TWindowSubComCard::update_selected_entry() {
     return ((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x74)))->get_entry_id();
@@ -26,8 +23,8 @@ s32 TWindowSubComCard::find_entry_value_by_id(s32 arg1) {
     s32 i;
     Ent_802684BC *e;
     for (i = 0; i < ((Win_802684BC *)this)->f76; i++) {
-        e = ((Ent_802684BC *(*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
-        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((s32 (*)(void *))get_entry_id__17TWindowSubComCardFv)(e)) {
+        e = (Ent_802684BC *)((TWindowBase *)this)->get_array_entry(i);
+        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
             return e->f1C;
         }
     }
@@ -37,8 +34,8 @@ void TWindowSubComCard::mark_entry_by_id(s32 arg1) {
     s32 i;
     u8 *e;
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
-        e = ((u8 *(*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
-        if (e != 0 && ((s32 (*)(void))is_flag_4_set__17TWindowSubComCardFv)() != 0 && arg1 == ((s32 (*)(u8 *))get_entry_id__17TWindowSubComCardFv)(e)) {
+        e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
+        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
             *(u16 *)e |= 1;
             *(s32 *)(e + 0x24) = -1;
         }
@@ -48,8 +45,8 @@ void TWindowSubComCard::disable_entry_by_id(s32 arg1) {
     s32 i;
     u8 *e;
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
-        e = ((u8 *(*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
-        if (e != 0 && ((s32 (*)(void))is_flag_4_set__17TWindowSubComCardFv)() != 0 && arg1 == ((s32 (*)(u8 *))get_entry_id__17TWindowSubComCardFv)(e)) {
+        e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
+        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
             *(u16 *)e &= 0xFFFE;
             *(s32 *)(e + 0x24) = 0xFF909090;
         }
@@ -59,8 +56,8 @@ void TWindowMakeTeam::set_entry_string_by_id(void *arg1, s32 arg2) {
     s32 i;
     u8 *e;
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
-        e = ((u8 *(*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
-        if (e != 0 && ((s32 (*)(void))is_flag_4_set__17TWindowSubComCardFv)() != 0 && arg2 == ((s32 (*)(u8 *))get_entry_id__17TWindowSubComCardFv)(e)) {
+        e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
+        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg2 == ((TWindowSubComCard *)e)->get_entry_id()) {
             set_string__20TWindowSubStatusDispFUl(e, arg1);
         }
     }

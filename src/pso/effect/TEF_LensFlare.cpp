@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -74,20 +75,8 @@ struct FlareGlareColor {
     struct { signed int a : 8; u8 r, g, b; } argb;
 };
 
-// An entry of the particle sprite table (lbl_804C5820, 0x28 bytes each).
-struct FlareSpriteTexture {
-    u32 flags;
-    s32 param;
-    s32 tex;
-    u8 pad_c[0x8];
-    f32 sx;
-    f32 sy;
-    u8 pad_1c[0xC];
-};
-
 extern "C" {
 extern TCameraCtrl *camera_ctrl_instance;
-extern FlareSpriteTexture lbl_804C5820[];
 void normalize_vector(Vec *v);
 }
 
@@ -155,14 +144,14 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = 20.0f * s;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                TObjFish::set_global_param(lbl_804C5820[15].param);
-                set_draw_texture_and_color(lbl_804C5820[15].tex, -1);
+                TObjFish::set_global_param((s32)lbl_804C5820[15].texlist);
+                set_draw_texture_and_color(lbl_804C5820[15].texture, -1);
                 f32 x = at.x;
                 f32 y = at.y;
                 f32 sx;
                 f32 two;
-                f32 w = lbl_804C5820[15].sx;
-                f32 h = lbl_804C5820[15].sy;
+                f32 w = lbl_804C5820[15].width;
+                f32 h = lbl_804C5820[15].height;
                 two = 2.0f;
                 sx = two * sprite->scale_x;
                 f32 sy = two * sprite->scale_y;
@@ -205,14 +194,14 @@ void TEF_LensFlare::render() {
             sprite->scale_x = 1.0f;
             sprite->scale_y = sprite->scale_x;
             begin_screen_draw(1);
-            TObjFish::set_global_param(lbl_804C5820[9].param);
-            set_draw_texture_and_color(lbl_804C5820[9].tex, -1);
+            TObjFish::set_global_param((s32)lbl_804C5820[9].texlist);
+            set_draw_texture_and_color(lbl_804C5820[9].texture, -1);
             f32 x = at.x;
             f32 y = at.y;
             f32 sx;
             f32 two;
-            f32 w = lbl_804C5820[9].sx;
-            f32 h = lbl_804C5820[9].sy;
+            f32 w = lbl_804C5820[9].width;
+            f32 h = lbl_804C5820[9].height;
             two = 2.0f;
             sx = two * sprite->scale_x;
             f32 sy = two * sprite->scale_y;
@@ -252,14 +241,14 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = size;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                s32 param = lbl_804C5820[9 + e->sprite].param;
-                TObjFish::set_global_param(param);
-                set_draw_texture_and_color(lbl_804C5820[9 + e->sprite].tex, -1);
+                GinjaTextureList *texlist = lbl_804C5820[9 + e->sprite].texlist;
+                TObjFish::set_global_param((s32)texlist);
+                set_draw_texture_and_color(lbl_804C5820[9 + e->sprite].texture, -1);
                 f32 sy;
                 f32 sx = 2.0f * sprite->scale_x;
                 const f32 x = at.x;
-                f32 w = lbl_804C5820[9 + e->sprite].sx;
-                f32 h = lbl_804C5820[9 + e->sprite].sy;
+                f32 w = lbl_804C5820[9 + e->sprite].width;
+                f32 h = lbl_804C5820[9 + e->sprite].height;
                 sy = 2.0f * sprite->scale_y;
                 h *= sy;
                 f32 quad[8];

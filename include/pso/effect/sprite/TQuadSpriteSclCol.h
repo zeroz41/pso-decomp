@@ -5,6 +5,7 @@
 #include "pso/unk/TUnk_804C57F0.h"
 
 struct TQuadSpriteSclCol : public TUnk_804C57F0 {
+    TQuadSpriteSclCol(TObject *arg_r4, void *arg2);
     virtual ~TQuadSpriteSclCol();
     virtual void render();
 };

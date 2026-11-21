@@ -326,7 +326,6 @@ extern "C" {
 s32 build_player_class_stat_template(saddr arg0, saddr arg1);
 s32 build_player_equipment_requirement_stats(int, void *);
 s32 get_shared_text_buffer();
-s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
@@ -391,7 +390,7 @@ void TWindowSubStatusDisp::render() {
     saddr temp_r3;
 
     if (get_player_by_client_id(this->m_20) != 0U) {
-        temp_r3 = this->setup_window_draw_context((saddr)(((u8 *)this) + 0x6C));
+        temp_r3 = this->setup_window_draw_context((f32 *)(((u8 *)this) + 0x6C));
         draw_window_frame((void *)temp_r3);
         draw_visible_window_entries(this, ((u8 *)this) + 0x24, temp_r3);
         draw_list_page_indicator(this->m_68, temp_r3);
@@ -492,13 +491,13 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     if (p != NULL) {
         q = (Q_80280F14 *)((TObjPlayer *)p)->get_stats();
         if (q != NULL) {
-            e = ((En_80280F14 *)((TWindowBase *)arg0)->get_array_entry(2));
+            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(2));
             e->v = p->m14() + 1;
-            e = ((En_80280F14 *)((TWindowBase *)arg0)->get_array_entry(0x10));
+            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(0x10));
             e->v = q->b;
-            e = ((En_80280F14 *)((TWindowBase *)arg0)->get_array_entry(8));
+            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(8));
             e->v = q->a;
-            e = ((En_80280F14 *)((TWindowBase *)arg0)->get_array_entry(0xC));
+            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(0xC));
             e->v = ((TObjPlayer *)p)->get_next_level_exp() - q->a;
         }
     }
@@ -535,26 +534,26 @@ void vt12__20TWindowSubStatusDispFv(u8 *window_base) {
     ((TWindowSubStatusDisp *)(&req))->clear_fields();
     pl = (saddr)get_player_by_client_id(*(s16 *)(window_base + 0x20));
     if (pl != 0) {
-        e2 = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(2);
+        e2 = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(2);
         e2->value = TObjPlayer__sub_800A776C((void *)pl) + (((TObjPlayer *)pl)->get_field_2c8() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min());
-        e = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(8);
+        e = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(8);
         e->value = ((TWindowSubStatusDisp *)pl)->get_value();
-        e = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(0x14);
+        e = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(0x14);
         e->value = ((TObjPlayer *)pl)->get_ata();
-        e = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(0x1A);
+        e = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(0x1A);
         e->value = ((TObjPlayer *)pl)->get_hp();
         q = ((TObjPlayer *)pl)->get_stats();
         if (q != NULL) {
-            e = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(0xE);
+            e = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(0xE);
             e->value = *(s16 *)(q + 2);
-            e = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(0x20);
+            e = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(0x20);
             e->value = *(s16 *)(q + 0xC);
         }
     }
     if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
         build_player_class_stat_template(pl, (saddr)&req);
 #define ROW(idx, k) \
-        e = (Entry_80280B1C *)((TWindowBase *)window_base)->get_array_entry(idx); \
+        e = (Entry_80280B1C *)(void *)((TWindowBase *)window_base)->get_array_entry(idx); \
         e->value = cur.v[k]; \
         if (req.v[k] <= cur.v[k]) { e->color = -0x100; } else { e->color = -1; }
         ROW(4, 0)
@@ -594,15 +593,15 @@ void TWindowSubStatusDisp::vt13() {
 
     player = (saddr)get_player_by_client_id(this->m_20);
     if (player != 0) {
-        temp_r31 = (void *)get_array_entry(2);
+        temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(2);
         *(s32 *)((s8 *)temp_r31 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
-        temp_r31_2 = (void *)get_array_entry(8);
+        temp_r31_2 = (void *)((TWindowBase *)this)->get_array_entry(8);
         *(s32 *)((s8 *)temp_r31_2 + 0x20) = (s32) ((TObjPlayer *)player)->get_class_id();
-        temp_r31_3 = (void *)get_array_entry(0xE);
+        temp_r31_3 = (void *)((TWindowBase *)this)->get_array_entry(0xE);
         *(s32 *)((s8 *)temp_r31_3 + 0x20) = (s32) ((TObjPlayer *)player)->get_item_index();
-        temp_r31_4 = (void *)get_array_entry(0x14);
+        temp_r31_4 = (void *)((TWindowBase *)this)->get_array_entry(0x14);
         *(s32 *)((s8 *)temp_r31_4 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
-        temp_r31_5 = (void *)get_array_entry(0x1A);
+        temp_r31_5 = (void *)((TWindowBase *)this)->get_array_entry(0x1A);
         *(s32 *)((s8 *)temp_r31_5 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
     }
 }
@@ -614,31 +613,31 @@ void vt3__20TWindowSubStatusDispFv(u8 *window_base) {
         *(s32 *)((s8 *)window_base + 0x5C) = 7;
     }
     init_window_layout_entries(window_base + 0x24, TWindowSubStatusDisp__record_summary_layout, *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(0));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0));
     set_text_entry_string(temp_r30, (saddr)TWindowSubStatusDisp::get_message_10(0x8E), 0);
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(1));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(1));
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 6), 0);
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(4));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(4));
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 7), 0);
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(7));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(7));
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 8), 0);
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(0xA));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0xA));
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 9), 0);
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(0xD));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0xD));
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 0xE), 0);
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(3));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(3));
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_field_21a8((u16) *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(6));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(6));
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_value((u16) *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(9));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(9));
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_status((u16) *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = ((u8 *)((TWindowBase *)window_base)->get_array_entry(0xC));
+    temp_r30 = ((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0xC));
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_field((u16) *(s16 *)((s8 *)window_base + 0x20));
     card_flag = TAdSinglePlyChrSelectGC::get_card_flag((u16) *(s16 *)((s8 *)window_base + 0x20));
     if (TLobby__sub_801C2614() != 0) {
         card_flag -= 1;
     }
-    *(s32 *)((s8 *)((u8 *)((TWindowBase *)window_base)->get_array_entry(0xF)) + 0x20) = (s32) card_flag;
+    *(s32 *)((s8 *)((u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0xF)) + 0x20) = (s32) card_flag;
 }
 
 void TWindowSubStatusDisp::vt14() {  }
@@ -649,25 +648,25 @@ void vt7__20TWindowSubStatusDispFv(u8 *window_base) {
         *(s32 *)((s8 *)window_base + 0x5C) = 7;
     }
     init_window_layout_entries(window_base + 0x24, TWindowSubStatusDisp__record_summary_layout, *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(0);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0);
     set_text_entry_string(temp_r30, (saddr)TWindowSubStatusDisp::get_message_10(0x8F), 0);
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(1);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(1);
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 6), 0);
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(4);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(4);
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 7), 0);
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(7);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(7);
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 8), 0);
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(0xA);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0xA);
     set_text_entry_string(temp_r30, get_localized_text_entry(0x10, 9), 0);
     ((TWindowHelpItem *)((void *)((TWindowBase *)window_base)->get_array_entry(0xD)))->set_flag0_bit2();
     ((TWindowHelpItem *)((void *)((TWindowBase *)window_base)->get_array_entry(0xE)))->set_flag0_bit2();
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(3);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(3);
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_state((u16) *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(6);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(6);
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC__sub_801FC36C((u16) *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(9);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(9);
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_window_status((u16) *(s16 *)((s8 *)window_base + 0x20));
-    temp_r30 = (u8 *)((TWindowBase *)window_base)->get_array_entry(0xC);
+    temp_r30 = (u8 *)(void *)((TWindowBase *)window_base)->get_array_entry(0xC);
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_window_field((u16) *(s16 *)((s8 *)window_base + 0x20));
     ((TWindowHelpItem *)((void *)((TWindowBase *)window_base)->get_array_entry(0xF)))->set_flag0_bit2();
 }
@@ -807,13 +806,13 @@ void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
   init_window_layout_entries(window_base + 0x24, TWindowSubStatusDisp__numbered_times_layout, *((s16 *) (((s8 *) window_base) + 0x20)));
   new_var = window_base;
   type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();
-  e = (u16 *) ((TWindowBase *)window_base)->get_array_entry(0);
+  e = (u16 *) (void *)((TWindowBase *)window_base)->get_array_entry(0);
   set_text_entry_string((u8 *)e, (saddr)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
-  n = get_layout_id__20TWindowSubStatusDispFv(type);
+  n = TWindowSubStatusDisp::get_layout_id(type);
   i = 0;
   do
   {
-    e = (u16 *) ((TWindowBase *)window_base)->get_array_entry(i + 1);
+    e = (u16 *) (void *)((TWindowBase *)window_base)->get_array_entry(i + 1);
     new_var2 = n > i;
     if (!new_var2)
     {

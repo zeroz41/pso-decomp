@@ -152,7 +152,6 @@ void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 
 Hit_802E3D8C *csnVector(void *, void *, s32);
 
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
 TItemAttackCol *attack_collider_render_owner;
@@ -508,7 +507,7 @@ void TItemAttackCol::run_task() {
 }
 
 void TItemAttackCol::render() {
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || find_equipped_item(item_id) == 0U) {
+    if ((s32)this->all_parents_unqueued_for_destruction() == 0 || find_equipped_item(item_id) == 0U) {
         return;
     }
     {

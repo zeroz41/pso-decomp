@@ -44,4 +44,6 @@ struct TTecGiFoie : public TUnk_804CC148 {
 };
 
 LAYOUT_ASSERT(TTecGiFoie_size, sizeof(TTecGiFoie) == 0x13C);
+
+extern const char *TTecGiFoie__name;
 #endif

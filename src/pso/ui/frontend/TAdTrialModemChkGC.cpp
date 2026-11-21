@@ -59,7 +59,6 @@ void TAdTrialModemChkGC::run_task() {
     o->m6();
 }
 
-extern s32 __vt__18TAdTrialModemChkGC[];
 
 }
 TAdTrialModemChkGC::~TAdTrialModemChkGC() {
@@ -69,10 +68,7 @@ TAdTrialModemChkGC::~TAdTrialModemChkGC() {
 
 const char *TAdTrialModemChkGC__name = "TAdTrialModemChkGC";
 
-void *TAdTrialModemChkGC__ct(void *ad_trial_modem_chk_gc) {
-    TAdWarningBaseGC__ct((TAdWarningBaseGC *)ad_trial_modem_chk_gc);
-    *(s32 **)((s8 *)ad_trial_modem_chk_gc + 0x18) = __vt__18TAdTrialModemChkGC;
-    ((TAdTrialModemChkGC *)ad_trial_modem_chk_gc)->m_name = TAdTrialModemChkGC__name;
-    return ad_trial_modem_chk_gc;
+TAdTrialModemChkGC::TAdTrialModemChkGC(TObject *parent) : TAdWarningBaseGC(parent) {
+    m_name = TAdTrialModemChkGC__name;
 }
 

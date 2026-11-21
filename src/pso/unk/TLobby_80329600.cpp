@@ -10,7 +10,7 @@ void TLobby::apply_state_6c84() {
     ((FlagWord *)(&lbl_805D6C84))->set(2);
 }
 
-s32 TLobby::apply_player_flag_2() {
+s32 TLobby::test_flag_2_at_6c84() {
     return test_flags_any(&lbl_805D6C84, 2);
 }
 
@@ -18,7 +18,7 @@ void TLobby::init_object_flag() {
     ((FlagWord *)(&lbl_805D6C84))->set(1);
 }
 
-s32 TLobby::set_flag_1_at_6c84() {
+s32 TLobby::test_flag_1_at_6c84() {
     return test_flags_any(&lbl_805D6C84, 1);
 }
 

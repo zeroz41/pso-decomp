@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TUnk_804E3008.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/object/ambient/TObjFish.h"
 #pragma defer_codegen on
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"

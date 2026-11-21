@@ -39,7 +39,7 @@ void TLobby::set_info_board_text() {
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x20FC);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (const char *)get_shared_text_buffer(), 0xAB);
+    strncpy((char *)temp_r31, (char *)get_shared_text_buffer(), 0xAB);
     *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
     info_board_state_flags |= 1;
 }

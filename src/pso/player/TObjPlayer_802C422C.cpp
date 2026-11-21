@@ -7,17 +7,19 @@
 #include "pso/network/TPlyOnCreated.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
+#include "pso/player/TPlyItem.h"
 
 extern "C" {
 
-u32 update_battle_controller__10TObjPlayerFv();
+TObjPlayer *get_local_player();
+
 void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1);
 
 extern s32 local_client_id;
 
 s32 sync_state__10TObjPlayerFi(saddr arg0) {
     uaddr temp_r3;
-    temp_r3 = update_battle_controller__10TObjPlayerFv();
+    temp_r3 = (u32)get_local_player();
     if (temp_r3 == 0U) {
         TPlyOnCreated::create((void *)((u16) local_client_id), (void *)fn_802C4748);
         return 0;
@@ -43,7 +45,7 @@ s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr arg0, u16 arg1) {
 
 s32 update_battle__10TObjPlayerFi(saddr arg0) {
     s32 r;
-    r = update_battle_controller__10TObjPlayerFv();
+    r = (s32)get_local_player();
     if (r == 0) {
         return 0;
     }
@@ -79,13 +81,12 @@ void TObjPlayer__sub_802C4668(O_802C4668 *self, u32 c);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
 s32 copy_player_visual_record(void *, void *);
 s32 TObjPlayer__sub_8013A748(void *, void *);
+void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, void *);
 u8 TObjPlayer__sub_801BE7BC(void *);
-s32 TObjPlayer__sub_801C0124(void *, s16);
-void split_capped_value__10TObjPlayerFUcPUcPSc(s32, u8 *, E_802C4698 *);
+u8 TObjPlayer__sub_801C0124(void *, s16);
 s32 TObjPlayer__sub_802A1018();
-void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 int init_action_config__10TObjPlayerFv(void*);
 int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 
@@ -97,7 +98,7 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     ((TObjPlayer *)arg1)->set_flag_80000();
     copy_player_visual_record((u8 *)arg0 + 0x370, arg1 + 0x85C);
     *(s8 *)((s8 *)arg0 + 0) = query_state_if_present__10TObjPlayerFPv(arg1, (void *) (arg0->get_ptr_4()));
-    ((TObjPlayer *)(*(saddr *)((s8 *)arg1 + 0xD00)))->set_flag_and_update((saddr)arg1);
+    ((TPlyItem *)(*(saddr *)((s8 *)arg1 + 0xD00)))->set_flag_and_update((int)arg1);
     clamp_stats__10TObjPlayerFiPv(arg1, (u8 *)arg0 + 0x34C, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
     *(s8 *)((s8 *)arg0 + 1) = ((TObjPlayer *)arg1)->get_hp_material_points();
     *(s8 *)((s8 *)arg0 + 2) = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
@@ -109,8 +110,8 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     TObjPlayer__sub_8013A748((u8 *)arg0 + 0x3C0, arg1 + 0x500);
     for (i = 0; i < 0x13; i++) {
         e = TObjPlayer__sub_802C4698((O_802C4698 *) arg0, i);
-        split_capped_value__10TObjPlayerFUcPUcPSc(TObjPlayer__sub_801C0124(arg1 + 0x428, i),
-            TObjPlayer__sub_802C4688((O_802C4688 *) arg0, i), e);
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg1 + 0x428, i),
+            TObjPlayer__sub_802C4688((O_802C4688 *) arg0, i), (s8 *)e);
     }
     *(s8 *)((s8 *)arg0 + 3) = current_language;
     if (TObjPlayer__sub_802A1018() != 0) {
@@ -120,7 +121,7 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     ((TObjPlayer *)arg1)->copy_mag_level_to_record((u8 *)arg0);
     ((TObjPlayer *)arg1)->copy_byte_339_to_record((u8 *)arg0);
     ((TObjPlayer *)arg1)->copy_battle_mode((u8 *)arg0);
-    ((TObjPlayer *)arg1)->set_flag_524288();
+    ((TObjPlayer *)arg1)->clear_flag_80000();
 }
 
 void TObjPlayer::set_action_state(u8 v) { *(u8*)((char*)this + 0x173) = v; }
@@ -182,5 +183,5 @@ int init_character_action_config(void* p) { return init_action_config__10TObjPla
 
 int TObjPlayer__sub_802C46E0(void* p) { return set_palette_entry__20TWindowActionPaletteFlllll(p); }
 
-void TObjPlayer::set_flag_524288() { sub_8011E204((saddr)(524288)); }
-void TObjPlayer::set_flag_80000() { set_state_flags((uaddr)(524288)); }
+void TObjPlayer::clear_flag_80000() { clear_state_flags((saddr)((void*)524288)); }
+void TObjPlayer::set_flag_80000() { set_state_flags((uaddr)((void*)524288)); }

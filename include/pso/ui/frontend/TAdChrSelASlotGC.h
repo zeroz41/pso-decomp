@@ -17,7 +17,6 @@ struct TAdChrSelASlotGC : public TObject {
     u32 prev_state;
     u8 _pad2C[0x4];
     uaddr m_30;
-    void check_room_seq_4(saddr arg1);
     void set_flag_40();
     static void render(void *self);
     s32 get_plate_value_for_slot(s32 k);
@@ -49,7 +48,6 @@ struct TAdChrSelASlotGC : public TObject {
     void create_children(s32 arg1);
     void init(s32 arg1);
     s32 get_slot_index();
-    void forward_slot_selection(void* a1, void* a2);
     u8 unk_34[0x4];
     saddr m_38;
     TAdSubPlyItemGC *player_items;

@@ -64,6 +64,8 @@ extern "C" {
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
+s32 __nw__7TObjectFUl(s32);
+s32 TItemShootModel::is_owner_alive();
 
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
@@ -85,7 +87,7 @@ void TUnk_804A2148::render() {
     u8 *temp_r31;
     u8 *temp_r3;
 
-    if (this->is_owner_alive() != 0) {
+    if (TItemShootModel::is_owner_alive() != 0) {
         temp_r3 = (unsigned char *) (this->m_58);
         if ((temp_r3 != NULL) && ((uaddr) this->m_5C != 0U)) {
             temp_r31 = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)temp_r3 + 0x2C))) + 0x30));
@@ -123,7 +125,7 @@ s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
         }
         var_r31 = var_r0;
     }
-    var_r0 = ((saddr)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0));
+    var_r0 = (u32)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0);
     if (var_r0 != 0U) {
         ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
     }

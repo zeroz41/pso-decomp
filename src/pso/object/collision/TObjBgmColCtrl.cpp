@@ -1,3 +1,4 @@
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "types.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -14,7 +15,6 @@
 #include "pso/object/collision/TObjBgmCol.h"
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
 
@@ -38,7 +38,6 @@ extern "C" {
 u32 __ct__7TObjectFP7TObject(int, int);
 extern uaddr TObjBgmColCtrl__instance;
 extern s32 tl_05;
-s32 is_active__14TObjBgmColCtrlFv();
 }
 int get_quest_bgm_issued_flag(void);
 
@@ -93,11 +92,6 @@ extern s32 bgm_zone_category;
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
 extern "C" {
-s32 is_within_distance__10TObjBgmColFf(f32);
-s32 __ct__8TObjBaseFP7TObject();
-
-extern s32 __vt__10TObjBgmCol[];
-
 const char *TObjBgmCol__name = "TObjBgmCol";
 const char *TObjBgmColCtrl__name = "TObjBgmColCtrl";
 }
@@ -107,13 +101,12 @@ extern int TQuestBgmCtrl__bgm_issued_flag;
 
 int get_quest_bgm_issued_flag(void) {  return TQuestBgmCtrl__bgm_issued_flag; }
 
-u8 TObjBgmColCtrl::is_active() {
-    return (u8) (lbl_805D62E4 != 0);
+s32 TObjBgmColCtrl::is_active() {
+    return (u8)((u8) (lbl_805D62E4 != 0));
 }
 
-void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, void *arg2) {
-    __ct__8TObjBaseFP7TObject();
-    *(s32 **)((s8 *)bgm_col + 0x18) = __vt__10TObjBgmCol;
+TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
+#define bgm_col this
     *(saddr *)((s8 *)bgm_col + 0) = (saddr) TObjBgmCol__name;
     bgm_col->apply_object_set_data(arg2);
     bgm_col->m_90 = 1;
@@ -122,7 +115,7 @@ void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, void *arg2) {
     if ((s32) bgm_col->m_9c < 0) {
         bgm_col->m_9c = 0;
     }
-    return bgm_col;
+#undef bgm_col
 }
 
 TObjBgmCol::~TObjBgmCol() {
@@ -157,7 +150,7 @@ s32 TObjBgmCol::check() {
     f32 temp_f0;
 
     temp_f0 = this->m_98;
-    if (is_within_distance__10TObjBgmColFf(temp_f0 * temp_f0) != 0) {
+    if (is_within_distance(temp_f0 * temp_f0) != 0) {
         if ((s32) this->m_90 != 0) {
             this->m_90 = 0;
             return 1;
@@ -172,11 +165,8 @@ s32 TObjBgmCol::check() {
 }
 
 s32 TObjBgmCol::is_within_distance(f32 farg0) {
-    saddr arg0 = (saddr)this;
-    uaddr player;
-
-    player = (uaddr)get_player_by_client_id(local_client_id);
-    if ((player != 0U) && (xyz_distance_squared((Vec *)(player + 0x38), (Vec *)(arg0 + 0x38)) < farg0)) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
         return 1;
     }
     return 0;
@@ -185,7 +175,6 @@ s32 TObjBgmCol::is_within_distance(f32 farg0) {
 void create_bgm_col_zones(void) {
     Set_8017E550 set;
     s32 i;
-    void *p;
     bgm_zone_category = 4;
     TLobby__sub_80207F30(&set);
     switch (get_current_floor_area()) {
@@ -194,10 +183,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443690[i].pos);
             set.radius = lbl_80443690[i].radius;
             set.category = lbl_80443690[i].category;
-            p = TObject::operator new(0xA0);
-            if (p != NULL) {
-                TObjBgmCol__ct((TObjBgmCol *)p, TObjBgmColCtrl__instance, &set);
-            }
+            new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
@@ -205,10 +191,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443780[i].pos);
             set.radius = lbl_80443780[i].radius;
             set.category = lbl_80443780[i].category;
-            p = TObject::operator new(0xA0);
-            if (p != NULL) {
-                TObjBgmCol__ct((TObjBgmCol *)p, TObjBgmColCtrl__instance, &set);
-            }
+            new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
         }
         break;
     }
@@ -256,9 +239,9 @@ void TObjBgmColCtrl::run_task() {
 
     temp_r4 = this->m_1c;
     this->m_1c = (temp_r4 - 1);
-    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != 0U)) && (get_quest_bgm_issued_flag() == 0)) {
+    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            if (is_active__14TObjBgmColCtrlFv() == 0) {
+            if (TObjBgmColCtrl::is_active() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();
             }
         } else {
@@ -268,7 +251,7 @@ void TObjBgmColCtrl::run_task() {
                 ((TObject *)thisObj)->run_tasks();
             }
             if ((s32) lbl_805D5B04 == 0) {
-                if (is_active__14TObjBgmColCtrlFv() == 0) {
+                if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
                 if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby__event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {

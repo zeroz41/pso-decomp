@@ -17,6 +17,17 @@ public:
     void lookup_entry_by_count(saddr arg1);
     u8 get_item_count();
     void *run_item_count_update();
+    void set_field_1c(s32 v);
+    s32 get_owner_if_alive();
+    void *find_inventory_item_by_field_d8();
+    void *find_inventory_item_matching_data();
+    void count_items_recursive();
+    void unequip_invalid_items_recursive();
+    void collect_alive_owners();
+    void collect_item_owners_recursive();
+    void count_owned_items();
+    void collect_owner_fields_recursive();
+    void destroy_subobjects_recursive();
 
     u32 pad_1C;
 };
@@ -39,9 +50,6 @@ void clear_placement_search_slot(TItemList *arg0, saddr arg1);
 void *find_matching_inventory_item_node(TObject *root);
 extern "C" {
 void TObjPlayer__sub_801D52A8(TObject *root);
-// TObjPlayer_801D4890.cpp: r3 = the inventory (player + 0xD00, its s16 at 0x1C counts the
-// items), r4 = the player that may have the item equipped, r5 = the inventory node.
-void remove_equipped_item__10TObjPlayerFlPv(void *inventory, s32 player, void *node);
 s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *keys, s32 count);
 }
 void decrement_placement_search_pending(void *p, void *a1);

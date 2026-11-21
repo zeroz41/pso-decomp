@@ -6,6 +6,8 @@
 
 class TItemMenuCtrl : public TObject {
 public:
+    u32 m_1c;
+    TItemMenuCtrl(TObject *parent);
     virtual ~TItemMenuCtrl();
 public:
     static s32 query_flag(s32 arg0);

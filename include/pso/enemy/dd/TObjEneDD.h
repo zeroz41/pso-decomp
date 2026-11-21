@@ -18,7 +18,7 @@ struct TObjEneDD : public TObjEnemy {
     virtual s32 vfunc_83();
     virtual s32 vfunc_84();
     virtual void vfunc_85();
-    virtual u8 vfunc_86();
+    virtual s32 vfunc_86();
     virtual void dispatch_action(u32 state, s32 reason) = 0;
     virtual void vfunc_88();
     virtual void vfunc_89();
@@ -50,32 +50,29 @@ struct TObjEneDD : public TObjEnemy {
     int get_target_state_b();
     static int query_teammate_state();
     int update_lobby_state();
-    static u8 is_phase_e();
+    static s32 is_phase_e();
     static s32 is_main_phase_15();
     static void clear_global_flag_400();
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
-    void draw_oriented_shadow(saddr arg1, saddr arg2, uaddr arg3);
+    static void draw_oriented_shadow(const Vec *position, const Vec *normal, saddr angle, const Vec *scale);
     int update_primary_light();
     int update_secondary_light();
-    void reload_stats_keep_hp_tp();
+    void reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
-    int get_camera_ctrl();
-    static void update_camera_sequence();
     void initialize_enemy_state(s32 parameter);
     s32 get_random_scaled();
     f32 rand_range(f32 farg0, f32 farg1);
     void set_state_8();
-    void check_state_flag_4();
-    void check_state_flag_2();
-    void check_state_flag_1();
+    void set_state_flag_4();
+    void set_state_flag_2();
+    void set_state_flag_1();
     static void send_damage_message(s32 arg0, u8 *arg1);
     static void inflict_poison(s32 arg0, u8 *arg1);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void* p, int a1, int a2);
-    static void emit_enemy_effect(saddr arg0, saddr arg1, u8 *arg2, saddr arg3);
+    static void emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *arg3);
     static void setup(void* p, int a1, int a2);
     static void setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
-    s32 transform_relative_position(void* a1);
     s32 is_target_unobstructed(saddr arg1);
     s32 is_valid_target();
     void transform_part_positions();
@@ -88,7 +85,6 @@ struct TObjEneDD : public TObjEnemy {
     void move_clamped_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_slide_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_to_shot_position(f32 farg0, f32 farg1, f32 farg2);
-    u16 set_squared_value(f32 farg0);
     static void collect_target_candidates(saddr arg0, f32 farg0);
     static void create_instance();
     static int get_enemy_count();
@@ -102,5 +98,12 @@ struct TObjEneDD : public TObjEnemy {
     void init_position_vectors();
     static void release_resource();
 };
+
+extern "C" {
+void forward_split_screen_view_matrix();
+void forward_transform_to_view(const Vec *in, Vec *out);
+s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
+u16 enemy_nearest_visible_enemy(void *self, f32 range);
+}
 
 #endif

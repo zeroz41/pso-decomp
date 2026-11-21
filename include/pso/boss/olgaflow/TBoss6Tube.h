@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TBoss6Tube : public TObject {
+    TBoss6Tube(TObject *parent);
     virtual ~TBoss6Tube();
     void sub_802B1218();
     u32 m_1c;

@@ -1,10 +1,13 @@
 #ifndef PSO_OBJECT_AMBIENT_TOBJGRASS_H
 #define PSO_OBJECT_AMBIENT_TOBJGRASS_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/effect/TUnk_80494968.h"
+
+struct NJS_OBJECT;
 
 struct TObjGrass : public TObjEnemy {
     TObjGrass(TObject *parent, void *set_data);
@@ -39,7 +42,7 @@ struct TObjGrass : public TObjEnemy {
     TUnk_80494938 fade;
     TUnk_80494968 *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     static void update_dying(void *arg0_);
-    static void update_camera_vec_by_stage();
+    static void update_camera_vec_by_stage(NJS_OBJECT *);
     s32 update();
     s32 update_web_attack();
     static void update_chase_target(void *arg0_);
@@ -53,5 +56,6 @@ struct TObjGrass : public TObjEnemy {
     u8 unk_3D4[0x30];
 };
 
+typedef char TObjGrassFadeOffset[offsetof(TObjGrass, fade) == 0x3B0 ? 1 : -1];
 LAYOUT_ASSERT(TObjGrass_size, sizeof(TObjGrass) == 0x404);
 #endif

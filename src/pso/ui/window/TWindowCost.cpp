@@ -4,15 +4,6 @@
 #pragma readonly_strings on
 
 
-extern "C" {
-
-void *TWindowCost__ct(void *arg0);
-void __ct__13TWindowMesetaFlll(void *);
-void get_item_count__24TShopEquipmentSellWindowFv(void *, int);
-
-extern s32 __vt__11TWindowCost[];
-
-}
 TWindowCost::~TWindowCost() {
 
 }
@@ -20,11 +11,7 @@ TWindowCost::~TWindowCost() {
 
 const char *TWindowCost__class_name = "TWindowCost";
 
-void *TWindowCost__ct(void *arg0) {
-    __ct__13TWindowMesetaFlll(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TWindowCost;
-    ((TWindowCost *)arg0)->m_name = TWindowCost__class_name;
-    get_item_count__24TShopEquipmentSellWindowFv(arg0, 0);
-    return arg0;
+TWindowCost::TWindowCost(s32 arg1, s32 arg2, s32 str) : TWindowMeseta(arg1, arg2, str) {
+    this->m_name = TWindowCost__class_name;
+    set_cost(0);
 }
-

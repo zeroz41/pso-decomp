@@ -74,7 +74,6 @@ extern s32 local_client_id;
 void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 *obj, void *attacker);
 u32 csnVector(void *, void *, int);
 void *find_entity_by_id(u16);
-s32 is_valid_and_active__10TObjPlayerFUl();
 s32 vec3_add_to(void *, void *);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
@@ -187,7 +186,7 @@ void TUnk_80494E10::run_task() {
     if (att != NULL) {
         for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
             pl = (void *)TObjPlayer::get_player_data(i);
-            if (pl != NULL && is_valid_and_active__10TObjPlayerFUl() != 0) {
+            if (pl != NULL && TObjPlayer::is_valid_and_active((u32)pl) != 0) {
                 TObjPlayer::hit_object_in_radius((Src_800DC4B4 *)arg0, (Obj_800DC4B4 *)pl, att);
             }
         }

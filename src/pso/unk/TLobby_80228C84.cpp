@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_80228C84.h"
 
 struct Base_80228C84 { char pad[0x18]; };
 struct VObj_80228C84 : Base_80228C84 {
@@ -18,11 +19,11 @@ struct VObj_80228C84 : Base_80228C84 {
 
 extern "C" {
 
-void *get_player_by_client_id();
+void *get_player_by_client_id(s32 client_id);
 s32 text_builder_append();
 
-void TLobby::refresh_player_status() {
-    struct VObj_80228C84 *o = (struct VObj_80228C84 *)get_player_by_client_id();
+void refresh_player_status(s32 client_id) {
+    struct VObj_80228C84 *o = (struct VObj_80228C84 *)get_player_by_client_id(client_id);
     if (o != NULL) {
         o->m10();
         text_builder_append();

@@ -66,7 +66,6 @@ void run_task__12TAdBackTxtGCFv(void *arg0) {
     *(s32 *)((s8 *)arg0 + 0x1C) = (temp_r4 + 1);
 }
 
-extern void *__vt__12TAdBackTxtGC[];
 extern const char *TAdBackTxtGC__name;
 
 }
@@ -75,14 +74,11 @@ TAdBackTxtGC::~TAdBackTxtGC() {
 }
 extern "C" {
 
-void *__ct__12TAdBackTxtGCFv(void *ad_back_txt_gc) {
-    __ct__7TObjectFP7TObject(ad_back_txt_gc);
-    *(void ***)((s8 *)ad_back_txt_gc + 0x18) = __vt__12TAdBackTxtGC;
-    ((TAdBackTxtGC *)ad_back_txt_gc)->m_name = TAdBackTxtGC__name;
-    *(u32 *)((s8 *)ad_back_txt_gc + 0x1C) = -1;
-    *(f32 *)((s8 *)ad_back_txt_gc + 0x20) = 0.0025641026f;
-    *(u32 *)((s8 *)ad_back_txt_gc + 0x24) = 1;
-    return ad_back_txt_gc;
+TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
+    m_name = TAdBackTxtGC__name;
+    m_1c = -1;
+    m_depth = 0.0025641026f;
+    m_24 = 1;
 }
 
     struct TexName_804DC098 { const char *name; s32 a; s32 b; };

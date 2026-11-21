@@ -34,7 +34,7 @@ extern uaddr TBoss6PlotFalz__type2_instance;
 
 // --- FALL_ELEV ---
 void TBoss6PlotFalz::sub_802B0A34() { *(s32*)((char*)this + 0x3d0) = 0; *(s32*)((char*)this + 0x3cc) = 0; }
-void TBoss6PlotFalz::advance_if_ready() { if (is_ready() != 0) { send_6xA3_action((s8)(saddr)((void*)2)); } }
+void TBoss6PlotFalz::advance_if_ready() { if (is_ready() != 0) { send_6xA3_action((s8)((void*)2)); } }
 void TBoss6PlotFalz::advance_intro_timer() {
     if ((s32) *(s32 *)((s8 *)this + 0x3CC) == 0x69) {
         play_sound_effect(0x40030F00, 0, 0, 0);
@@ -51,10 +51,10 @@ void TBoss6PlotFalz::init_proto1_adx() {
     TBoss6PlotFalz::freeze_all_players();
     *(s32 *)((s8 *)this + 0x3D0) = 0;
     *(s32 *)((s8 *)this + 0x3CC) = 0;
-    TBoss4DarkFalz::dispatch_by_main_phase(0x56);
+    set_story_flag_or_send_quest_flag(0x56);
     TBoss6Demo10_TYPE1_APPEAR__create(this);
 }
-void TBoss6PlotFalz::sub_802B08F0() { if (is_ready() != 0) { send_6xA3_action((s8)(saddr)((void*)2)); } }
+void TBoss6PlotFalz::sub_802B08F0() { if (is_ready() != 0) { send_6xA3_action((s8)((void*)2)); } }
 void TBoss6PlotFalz::tick_timeout() {
     s32 temp_r0;
 
@@ -70,7 +70,7 @@ void TBoss6PlotFalz::tick_timeout() {
 void TBoss6PlotFalz::enter_active_state() { end_cutscene_camera__14TBoss6PlotFalzFPv(); refresh_players_equipment__14TBoss6PlotFalzFPv(); *(int*)((char*)this + 0x3d0) = 1; *(int*)((char*)this + 0x3cc) = 0; spawn_type1(); }
 void TBoss6PlotFalz::update_phase() {
     if ((TBoss6PlotFalz__sub_802ABADC() == 0) || (is_ready() != 0)) {
-        send_6xA3_action((s8)(saddr)((void*)(3)));
+        send_6xA3_action((s8)((void*)(3)));
     }
 }
 void TBoss6PlotFalz::sub_802B0808() {  }
@@ -86,7 +86,7 @@ void TBoss6PlotFalz::reset_and_recreate() {
     *(s32 *)((s8 *)this + 0x3CC) = 0;
     TBoss6PlotFalz::create(this, &sp8);
 }
-void TBoss6PlotFalz::set_state4_if_ready() { if (is_ready() != 0) { send_6xA3_action((s8)(saddr)((void*)4)); } }
+void TBoss6PlotFalz::set_state4_if_ready() { if (is_ready() != 0) { send_6xA3_action((s8)((void*)4)); } }
 void TBoss6PlotFalz::sub_802B06D0() {
     f32 f;
     refresh_players_equipment__14TBoss6PlotFalzFPv();
@@ -109,12 +109,12 @@ void TBoss6PlotFalz::init_hall_boss_scene() {
     play_area_music("HALL.adx");
     refresh_players_equipment__14TBoss6PlotFalzFPv();
     *(s32 *)((s8 *)this + 0x3CC) = 0;
-    *(s32 *)((s8 *)this + 0x3DC) = ((saddr)TObjFish::alloc(this));
+    *(s32 *)((s8 *)this + 0x3DC) = (saddr)TObjFish::alloc(this);
 }
 void TBoss6PlotFalz::check_and_advance_state() {
     void *player = *(void **)((s8 *)this + 0x3DC);
     if ((player != NULL) && ((((TObjPlayer *)player)->get_plot_state() != 0) || (is_ready() != 0))) {
-        send_6xA3_action((s8)(saddr)((void *)5));
+        send_6xA3_action((s8)((void *)5));
     }
 }
 void TBoss6PlotFalz::update_cutscene_fade() {
@@ -142,7 +142,7 @@ void TBoss6PlotFalz::stop_adx_audio() {
     *(s32 *)((s8 *)this + 0x3CC) = 0;
     create_boss6_type2_appearance(this);
 }
-void TBoss6PlotFalz::advance_phase_if_ready() { if (is_ready() != 0) { this->send_6xA3_action((s8)(saddr)((void*)6)); } }
+void TBoss6PlotFalz::advance_phase_if_ready() { if (is_ready() != 0) { this->send_6xA3_action((s8)((void*)6)); } }
 void TBoss6PlotFalz::advance_timer() {
     s32 temp_r0;
 
@@ -158,7 +158,7 @@ void TBoss6PlotFalz::advance_timer() {
 void TBoss6PlotFalz::sub_802B0448() { end_cutscene_camera__14TBoss6PlotFalzFPv(); refresh_players_equipment__14TBoss6PlotFalzFPv(); *(int*)((char*)this + 0x3d0) = 0; *(int*)((char*)this + 0x3cc) = 0; spawn_type2(); }
 void TBoss6PlotFalz::check_action_7() {
     if ((TBoss6PlotFalz::is_boss_active() == 0) || (is_ready() != 0)) {
-        send_6xA3_action((s8)(saddr)((void*)(7)));
+        send_6xA3_action((s8)((void*)(7)));
     }
 }
 void TBoss6PlotFalz::sub_802B03F4() {  }
@@ -183,7 +183,7 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
     TBoss6PlotFalz::freeze_all_players();
     *(s32 *)((s8 *)((u8 *)this) + 0x3D0) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x3CC) = 0;
-    TBoss4DarkFalz::dispatch_by_main_phase(0x57);
+    set_story_flag_or_send_quest_flag(0x57);
     TBoss6Thanks::try_dispatch_darkfalz_phase();
     create_boss6_type2_death((this), (sp10));
 }

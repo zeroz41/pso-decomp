@@ -12,7 +12,7 @@ struct TTecZarua : public TUnk_804CC148 {
     virtual void vfunc_6(void *);
     virtual void run_task();
     void calc_range();
-    static void create_instance(saddr arg0, saddr arg1, saddr arg2, s32 arg3);
+    static void create_instance(saddr source, Vec *pos, Vec *target, saddr level);
     virtual void render();
     s32 has_targets;  // set by the target-list constructor: run_task hits targets, not the area
     TargetCursorList targets;

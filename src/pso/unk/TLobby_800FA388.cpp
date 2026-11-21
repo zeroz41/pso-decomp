@@ -2,10 +2,10 @@
 #include <string.h>
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_800FA848.h"
 
 extern "C" {
 
-u8 *alloc_from_heap__6TLobbyFPv(s32);
 
 struct Ent_800fa388;
 
@@ -20,9 +20,9 @@ s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     if (temp_r3 == 0) {
         return -2;
     }
-    var_r31 = (struct Ent_800fa388 *)alloc_from_heap__6TLobbyFPv(0x68);
+    var_r31 = (struct Ent_800fa388 *)(u8 *)TLobby::alloc_from_heap(0x68);
     if (var_r31 != NULL) {
-        var_r31 = (struct Ent_800fa388 *)((TLobby *)var_r31)->link_into_list();
+        var_r31 = (struct Ent_800fa388 *)link_into_list(var_r31);
     }
     strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;

@@ -1,6 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/unk/text_800C3088.h"
 #include "pso/unk/text_800C3A60.h"
@@ -165,7 +168,6 @@ struct RecoveredFields_800C3088_arg0
 
 extern "C" {
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(s32, void *, int, int);
 extern const f32 lbl_805D9FD8;
@@ -184,7 +186,6 @@ typedef struct VObj_18_880cfd VObj_18_880cfd;
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 extern "C" {
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9FF0;
 f32 atan2_float(f32 y, f32 x);
 s32 enemy_set_target_id(void *, u16);
@@ -209,23 +210,13 @@ struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
     virtual s32 m5();
 };
 
-extern "C" {
-s32 get_flag_11__16TObjEneRe2FlowerFv();
-}
 
-struct Stack_800C44C4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-};
 
 extern "C" {
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 saddr load_enemy_bml_resource(u8 *arg0);
-struct RecoveredGlobal_lbl_8043BB90 { s32 value; u8 remaining[0xC]; };
 
-extern RecoveredGlobal_lbl_8043BB90 lbl_8043BB90;
+extern const NpcAnimationBinding lbl_8043BB90;
 extern char lbl_8043BAAC[];
 extern char lbl_8043BAC4[];
 extern char lbl_8043BADC[];
@@ -308,7 +299,7 @@ TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
 void load_re2_flower_resources(void) {
-    Stack_800C44C4 stack;
+    NpcAnimationBinding binding;
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
@@ -323,13 +314,10 @@ void load_re2_flower_resources(void) {
     re2_flower_node_points = 0;
     TObjPlayer::create_render_texture();
     TObjPlayer__sub_800F0928();
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8043BB90.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8043BB90.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_8043BB90.value + 8);
-    stack.sp14 = *(s32 *)((s8 *)&lbl_8043BB90.value + 0xC);
-    stack.sp8 = (saddr)re2_flower_bml_resource->motions;
+    __memcpy(&binding, &lbl_8043BB90, sizeof(binding));
+    binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    TLobby::spawn_npc_enemy(0x37, models->model, (NJS_TEXLIST *)models->m_c, &stack.sp8, lbl_805D9FBC, lbl_805D9FAC);
+    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->m_c), &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
 void *TObjEneRe2Flower::create(void *arg0) {
@@ -384,7 +372,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     if (get_flag_11()) {
         set_state_8();
     } else {
-        check_state_flag_2();
+        set_state_flag_2();
     }
     movementParameters = &TObjEneRe2Flower__setup_data;
     if (get_flag_11()) {
@@ -595,7 +583,7 @@ int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
 
 extern "C" {
 s32 fn_800C3A60(saddr arg0, s32 arg1) {
-    if (get_flag_11__16TObjEneRe2FlowerFv() != 0) {
+    if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
         switch (arg1) {
         case 0x4003A10E:
             return 0x4003A339;
@@ -644,13 +632,13 @@ void TObjEneDD::handle_state(s32 arg1) {
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) | 8);
         ((TObjEneDD *)arg0)->set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(arg0);
+        ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         ((TUnk_80494938 *)(arg0 + 0x3F4))->start_fade_in();
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
-            ((TBoss3Volopt *)(arg0 + 0x38))->play_area_se_with_particle();
+            play_area_se_with_particle((Vec *)(arg0 + 0x38));
             return;
         }
-        ((TBoss3Volopt *)(arg0 + 0x38))->play_area_sound_effect();
+        play_area_sound_effect((Vec *)(arg0 + 0x38));
         return;
     case 3:
         if (((V_Sub_800c38d0 *) (arg0 + 0x3F4))->m5() != 0) {
@@ -679,10 +667,10 @@ void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
         ((TObjEneRe2Flower *)ene_dd)->clear_child_flags();
         *(s32 *)((s8 *)ene_dd + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C4) & 0xFFFFFFF7);
         ene_dd->set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(ene_dd);
+        ((TObjEneDD_ST *)(ene_dd))->enemy_clear_target();
         return;
     case 3:
-        if ((((s32 (*)())check_hit_flag__16TObjEneRe2FlowerFv)() == 0) && (((TObjEneDD_ST *)ene_dd)->update_linked_position(lbl_805D9FF0) != 0)) {
+        if ((((TObjEneRe2Flower *)ene_dd)->check_hit_flag() == 0) && (((TObjEneDD_ST *)ene_dd)->update_linked_position(lbl_805D9FF0) != 0)) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(3);
         }
     case 5:
@@ -722,7 +710,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         }
         break;
     case 3:
-        if (((s32 (*)())check_hit_flag__16TObjEneRe2FlowerFv)() == 0) {
+        if (((TObjEneRe2Flower *)arg0)->check_hit_flag() == 0) {
             d = *(f32 *)((s8 *)arg0 + 0x3AC);
             if (d > lbl_805D9FE0 || *(void **)((s8 *)arg0 + 0x390) == NULL) {
                 ((TObjEneDD *)arg0)->transition_enemy_state(2);
@@ -742,7 +730,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         if (tick_period_counter((saddr)arg0, (s32 *)(arg0 + 0x3D0), 0x14) != 0) {
             if (*(f32 *)((s8 *)arg0 + 0x3AC) > lbl_805D9FEC) {
                 if (this->vfunc_99() != 0) {
-                    idx = ((TObjEneDD *)arg0)->set_squared_value(*(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
+                    idx = enemy_nearest_visible_enemy(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
                 }
                 if (idx == 0xFFFF) {
                     idx = enemy_find_nearest_player_in_range(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);

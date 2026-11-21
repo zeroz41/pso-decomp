@@ -446,7 +446,7 @@ TQuestThread *TObjQuestColApcINW::vfunc_16() {
 
 void fn_8019608C(void) {
     if (quest_collision_warp_pending != 0) {
-        TNpcPlayer::send_warp_toward_player(1, &quest_col_apc_warp_target_pos.x);
+        TNpcPlayer::send_warp_toward_player(1, &quest_col_apc_warp_target_pos);
     }
 }
 

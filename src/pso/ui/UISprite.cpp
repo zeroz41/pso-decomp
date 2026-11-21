@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/system/vector.h"
 
 #pragma const_strings off
 NJS_TEXNAME creation_chara_sprite_entries[20] = {
@@ -372,7 +373,7 @@ NJS_POINT3COL lbl_804DA98C = { lbl_804DA94C, creation_ruler_line_colors, NULL, 4
 s32 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
     NJS_TEXANIM *cells;
     TCharaMaking__resolve_creation_sprite_table(&cells, &sprite_id);
-    return cells[sprite_id].sx;
+    return (s16)(cells[sprite_id].sx);
 }
 
 f32 ui_sprite_scale = 1.0f;
@@ -385,7 +386,7 @@ void draw_creation_sprite_offset(s32 sprite_id, const vec2f *position, const vec
     s32 id;
     vec2f pos;
     NJS_TEXANIM *cell;
-    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)position);
+    copy_vec2(&pos, (void *)position);
     id = sprite_id;
     TCharaMaking__resolve_creation_sprite_table(&cells, &id);
     cell = &cells[id];

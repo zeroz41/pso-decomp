@@ -10,7 +10,6 @@
 s32 init_packet_fragment_pools(void);
 u16 ones_complement_sum(); /* declared without a parameter list; the definition is u16 (p, n) */
 
-s32 NetUnregisterTimer(void* p);
 
 NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl);
 s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
@@ -24,7 +23,7 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
 
 s32 TLobby__sub_80418A7C(void) {
     NetFragPool *g = &packet_fragment_pool_state;
-    NetUnregisterTimer((void *)update_timeout_entries);
+    NetUnregisterTimer(update_timeout_entries);
     TLobby__sub_803F89A0(g);
     g->npackets = 0;
     g->nfrags = 0;
@@ -536,8 +535,7 @@ found:
 }
 #pragma pop
 /* Frees every other datagram being reassembled to make room for self, which becomes the only one in the list. */
-s32 reset_other_connection_lists(void *obj) {
-    NetFragPacket *self = (NetFragPacket *)obj;
+s32 reset_other_connection_lists(NetFragPacket *self) {
     NetFragPool *g = &packet_fragment_pool_state;
     NetFragment *p;
     NetFragment *cur;

@@ -79,16 +79,13 @@ s32 text_builder_append();
 void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
-s32 free_member__17TWindowSubComCardFv(int, int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 extern s32 local_client_id;
-s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 }
@@ -180,11 +177,11 @@ void TWindowSubTrade::run_task() {
         if ((u32) this->m_message_window == 0U) {
             this->m_message_window = ((TWindowSubTrade *)arg0)->open_player_message_window(this->m_24, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
         }
-        send_modify_trade_proposal__6TLobbyFi((this->m_24));
+        send_6xA6_modify_trade_proposal((this->m_24));
         this->m_1c = 6U;
     case 6:
         temp_r5 = temp_r30 * 0x50;
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
             this->m_1c = 1U;
@@ -204,7 +201,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     TObjPlayer *player;
     TWindowSubComCardList *list;
 
-    list = (TWindowSubComCardList *)((TWindowSubComCard *)get_window_layout_position(0x5A))->draw_card_icon(4, (saddr)TWindowSubStatusDisp::get_message_10(0x1F));
+    list = (TWindowSubComCardList *)create_titled_window_menu_default((s32)(get_window_layout_position(0x5A)), 4, (saddr)(TWindowSubStatusDisp::get_message_10(0x1F)));
     for (i = 0; i < 4; i++) {
         if (i == local_client_id) {
             continue;
@@ -222,11 +219,11 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
         if (is_trade_range_bit_set(i)) {
             TObjCityMainWarp::forward_trade_action_default(list, (saddr)player->get_name(), 7, i);
         } else {
-            draw_text_gray__17TWindowSubComCardFllll(list, (void *)player->get_name(), 7, i);
+            add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(player->get_name()), 7, i);
         }
     }
     if (list->get_field_72() <= 0) {
-        TWindowSubComCard::draw_text_gray((saddr)list, (saddr)TWindowSubStatusDisp::get_message_10(0xD2), 7, 0);
+        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     list->set_flag70_bit10();
     list->set_scroll_target(224.0f, 88.0f);
@@ -243,7 +240,7 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
         ((s32 (*)(s32))text_builder_append)(p->m10());
     }
     ((s32 (*)(s32))text_builder_append)(arg2);
-    r = (saddr)TWindowMessage::create(get_window_layout_position(0x5B), (const f32 *)lbl_80470AA8, 1, this->m_20);
+    r = (saddr)TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
     ((TWindowMessage *)r)->append_line((saddr)get_shared_text_buffer(), 0x82);
     return r;
 }
@@ -260,9 +257,9 @@ s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     }
     TWindowSubStatusDisp::get_message_10(0xD6);
     text_builder_append();
-    temp_r29 = (saddr)TWindowMessageYesNo::create(arg0, (void *)(uaddr)this->m_20, 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(this->m_20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
-    free_member__17TWindowSubComCardFv(temp_r29, 1);
+    set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;
 }

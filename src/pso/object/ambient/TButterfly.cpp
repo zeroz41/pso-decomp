@@ -12,6 +12,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/ModelDrawContext.h"
 #include <stdlib.h>
+#include "pso/object/ambient/TObjFish.h"
 
 __declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
 __declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "abecyou2_fe_obj001_cyou.njm", NULL };
@@ -41,7 +42,6 @@ struct Butterfly_8017EA74 {
 
 extern "C" {
 void rotate_vector_by_matrix(void *, Vec *, Vec *);
-s32 set_global_param__8TObjFishFl();
 
 BmlResource *butterfly_bml_resource;
 
@@ -69,8 +69,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        get_bml_texlist(butterfly_bml_resource, 0);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param((s32)get_bml_texlist(butterfly_bml_resource, 0));
         draw_model();
     }
 }

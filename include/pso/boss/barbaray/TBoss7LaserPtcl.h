@@ -7,6 +7,7 @@
 struct TBoss7LaserPtclVector { f32 x, y, z; };
 
 struct TBoss7LaserPtcl : public TObject {
+    TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *arg2, TBoss7LaserPtclVector *arg3);
     virtual ~TBoss7LaserPtcl();
     s32 state;
     TBoss7LaserPtclVector position;

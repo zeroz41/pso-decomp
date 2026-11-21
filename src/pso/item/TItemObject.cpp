@@ -20,7 +20,6 @@
 
 extern "C" {
 const char *TItemObject_name = "TItemObject";
-s32 sub_801A1DDC__10TObjPlayerFv(void *);
 void send_nearby_player_ids(TObjPlayer *self, f32 range);
 void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(TObjPlayer *player);
@@ -129,7 +128,7 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
     saddr cursor;
     s32 i;
-    if (player != NULL && sub_801A1DDC__10TObjPlayerFv(player) != 0 && (TMainCursor *)player->m_424 != NULL) {
+    if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && (TMainCursor *)player->m_424 != NULL) {
         cursor = ((TMainCursor *)player->m_424)->find_by_pos(4, 0xA);
         if (cursor != 0) {
             ((TObjPlayer *)&cmd)->set_type_bytes();
@@ -147,7 +146,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
     s32 j;
     u16 i;
     TObjPlayer *player;
-    if (self != NULL && sub_801A1DDC__10TObjPlayerFv(self) != 0) {
+    if (self != NULL && ((TObjPlayer *)self)->sub_801A1DDC() != 0) {
         ((TObjPlayer *)&cmd)->set_type_bytes();
         j = 0;
         for (i = 0; i != 4; i++) {

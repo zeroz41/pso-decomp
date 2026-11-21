@@ -11,8 +11,8 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/vector.h"
 #pragma readonly_strings on
 
 typedef struct Item_8025A354 {
@@ -38,6 +38,7 @@ typedef struct Win_8025A354 {
 } Win_8025A354;
 
 extern "C" {
+s32 strncpy(s32, u32, s32);
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w);
 
 void *lbl_804CF9F8[6] = {
@@ -118,9 +119,9 @@ void TWindowHelpItem::set_help_text(uaddr arg1) {
     mem_free(*(void **)((s8 *)this + 0x18));
     *(void **)((s8 *)this + 0x18) = 0;
     if (arg1 != 0U) {
-        temp_r3 = ((TWindowSubStatusDisp *)arg1)->measure_string_len();
+        temp_r3 = (s32)measure_string_len((const char *)(arg1));
         *(s32 *)((s8 *)this + 0x18) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x18)), (const char *)arg1, (u32)temp_r3 + 1);
+        strncpy(*(s32 *)((s8 *)this + 0x18), arg1, temp_r3 + 1);
     }
 }
 
@@ -186,7 +187,7 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
 u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, saddr arg1, s32 arg2) {
     __ct__13TUnk_804CF918Fl(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
-    ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
+    copy_vec2((arg0 + 8), (void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;
     *(s32 *)((s8 *)arg0 + 0x14) = 0;
     *(s32 *)((s8 *)arg0 + 0x18) = 0;

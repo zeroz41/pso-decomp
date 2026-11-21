@@ -64,6 +64,7 @@ struct Out_80069F20 {
 };
 
 #include <stddef.h>
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 struct Stack_80069318 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -213,7 +214,6 @@ s32 get_entity_id(void *);
 s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
 void TCameraCtrl__sub_801E32D8(f32, f32);
-s32 get_mode__11TCameraCtrlFPv(void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 push_matrix();
 s32 pop_matrix();
@@ -262,7 +262,6 @@ struct Sel_8006A13C { u8 busy; u8 pad1; u16 slot; u8 pad4[0x8]; };
 extern "C" {
 
 
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern Big_8006A13C controller_input_state;
 }
 
@@ -457,9 +456,6 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix_from(void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
 extern RecoveredGlobal_8006ABAC_lbl_8058D490 identity_matrix;
-u8 *get_target__11TCameraCtrlFv(void *);
-s32 reset_view_flags__11TCameraCtrlFv(void *);
-s32 cycle_spectate_target__11TCameraCtrlFv(void *);
 int is_float_nonfinite(f32);
 int is_quest_active(void);
 int TCameraCtrl__sub_8006B3B8(void* p);
@@ -517,7 +513,7 @@ int is_float_nonfinite(f32 farg0) {
     return v == 0x7F800000;
 }
 int is_quest_active(void) {  return quest_active_flag; }
-s32 get_mode__11TCameraCtrlFPv(void* p) { return *(s32*)((char*)p + 0x1c); }
+s32 TMainTask::get_task_flags() { return task_flags; }
 
 s32 TCameraCtrl__sub_8006B358(void *p) { return *(u16*)((char*)p + 0x20); }
 void TCameraCtrl::set_target_coords(int a0, int a1) { TCameraCtrl__viewport_x = a0; TCameraCtrl__viewport_y = a1; }
@@ -675,9 +671,9 @@ void TCameraCtrl::run_task() {
 
     arg0[0x1C] = 1;
     ((TCameraCtrl *)arg0)->update_target_from_state();
-    cycle_spectate_target__11TCameraCtrlFv(arg0);
+    ((TCameraCtrl *)arg0)->cycle_spectate_target();
     ((TCameraCtrl *)arg0)->update_active_controller();
-    reset_view_flags__11TCameraCtrlFv(arg0);
+    ((TCameraCtrl *)arg0)->reset_view_flags();
     if (G != NULL) {
         if (ISNAN(GF(0x178)) == 0 && ISNAN(GF(0x17C)) == 0) {
             ISNAN(GF(0x180));
@@ -1088,9 +1084,9 @@ void TCameraCtrl::cycle_spectate_target() {
         return;
     }
     pad = controller_input_state.unk70;
-    if (is_on_current_screen__11TCameraCtrlFv(pad, 0x20000) == 0 ||
+    if (test_previous_buttons_packed(pad, 0x20000) == 0 ||
         TWindowShortListCtrl__check_controller_button(pad, 0x10) == 0 ||
-        is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) == 0 ||
+        test_previous_buttons_packed(pad, 0x10000) == 0 ||
         (pl = get_player_by_client_id(local_client_id)) == 0 ||
         (tries = 0, TCameraCtrl__view_state[0] != 0) ||
         get_current_floor_area() == AREA_DRAGON ||
@@ -1641,7 +1637,7 @@ void TCameraCtrl::create() {
 }
 s32 *TCameraCtrl::get_view_matrix() {
     if (is_split_screen() != 0) {
-        if (TCameraCtrl::get_mode((void *)&main_task) & 1) {
+        if (main_task.get_task_flags() & 1) {
             return (long *) ((u8 *)&TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30));
         }
         return (long *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30));
@@ -1651,7 +1647,7 @@ s32 *TCameraCtrl::get_view_matrix() {
 
 void TCameraCtrl::apply_split_screen_view_matrix() {
     if (is_split_screen() != 0) {
-        if (TCameraCtrl::get_mode(&main_task) & 1) {
+        if (main_task.get_task_flags() & 1) {
             TCameraCtrl::concat_matrix(0U, (uaddr) ((u8 *)TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30)));
             return;
         }

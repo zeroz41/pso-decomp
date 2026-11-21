@@ -58,10 +58,7 @@ struct ByteBlock_100 { u8 bytes[0x100]; };
 extern "C" {
 s32 init_quest_script_context(s32, void *);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 void *get_window_layout_position(s32);
-void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
-void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr arg1);
 void TQuestThread__sub_801F5D88(void);
@@ -159,7 +156,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         ((TWindowSubComCardList *)m_60)->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions((uaddr)m_60);
     }
-    m_5c = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
+    m_5c = (void *)create_window_menu_default((s32)get_window_layout_position(0x56), 1);
     if (m_5c != NULL) {
         name = (saddr)TObjItemNameSelect::get_selected_name();
         if (name != 0) {
@@ -175,7 +172,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     TQuestThread::set_status_flag_80(m_5c);
     pos.x = 332.0f;
     pos.y = 80.0f;
-    m_64 = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x55), &pos);
+    m_64 = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
     if (m_64 != NULL) {
         ((TWindowMessage *)m_64)->append_line(get_message_text(0x48), 0x81);
     }
@@ -219,7 +216,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
 
     m_name = TObjItemNameSelect__class_name;
     item_name_selection_table = TLobby::get_instance() == 0 ? item_name_table_a : item_name_table_b;
-    m_1c = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x58), 0x19);
+    m_1c = (void *)create_window_menu_default((s32)get_window_layout_position(0x58), 0x19);
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
         TObjCityMainWarp::forward_trade_action_default(m_1c, get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
@@ -228,7 +225,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     ((TWindowBase *)m_1c)->set_depth(39000.0f);
     pos.x = 332.0f;
     pos.y = 80.0f;
-    m_20 = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x55), &pos);
+    m_20 = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
     if (m_20 != NULL) {
         ((TWindowMessage *)m_20)->append_line(get_message_text(0x46), 0x81);
     }
@@ -278,7 +275,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         ((TKeyBoardControl *)m_1c)->set_soft_position((u8 *)get_window_layout_position(0xC0));
         ((TKeyBoardControl *)m_1c)->set_hard_position((u8 *)fn_8026CB5C());
     }
-    m_20 = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
+    m_20 = (void *)create_window_menu_default((s32)get_window_layout_position(0x56), 1);
     if (m_20 != NULL) {
         TObjCityMainWarp::forward_trade_action_default(m_20, get_message_text(0x47), 0x81, 0);
     }
@@ -331,7 +328,7 @@ void TQuestThreadBoard::run_task() {
             state = QST_RUNNING;
         }
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
-            has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+            TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
             TLobby::close_windows();
@@ -351,7 +348,7 @@ void TQuestThreadBoard::run_task() {
             TWindowCtrl::clear_flag_2();
         }
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
-            has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+            TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             if (ctx.message_window != NULL) {
                 ((TWindowBase *)ctx.message_window)->close();
                 ctx.message_window = NULL;

@@ -35,10 +35,9 @@ NJS_TEXNAME f256_hyouji_texname[13] = { // inferred: the name array of f256_hyou
 NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 
 extern "C" {
-int update__20TWindowSubStatusDispFPv(void*);
 int TWindowSubStatusDisp__sub_802879B0(void*);
 
-int TWindowSubStatusDisp::forward_render() { return update__20TWindowSubStatusDispFPv(this); }
+void TWindowSubStatusDisp::forward_render(void *a1) { this->update(a1); }
 int TWindowSubStatusDisp::update_subwindow() { return TWindowSubStatusDisp__sub_802879B0(this); }
 s32 TWindowSubStatusDisp::destroy_status_display(saddr arg0, s16 arg1) {
     if (arg0 != 0) {

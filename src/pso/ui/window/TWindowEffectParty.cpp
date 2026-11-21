@@ -9,6 +9,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/vector.h"
 
 
 struct Obj_8024FB80 { u8 pad[0x78]; void *arr[1]; };
@@ -147,7 +148,7 @@ void TWindowEffectParty::set_slot_position(s32 arg0, s32 arg1, void *window_sub_
     (void)arg0;
 
     if (arg1 <= 0) {
-        ((TWindowSubSymbolChatPartsSet *)window_sub_symbol_chat_parts_set)->copy_vec2((void*)(get_window_layout_position(0x1C)));
+        copy_vec2(window_sub_symbol_chat_parts_set, (void*)(get_window_layout_position(0x1C)));
         *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0) += 228.0f;
         *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 4) += 32.0f;
         return;

@@ -39,6 +39,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/ui/hud/TMainCursor_8013E7B8.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 #pragma readonly_strings on
 
@@ -209,10 +210,10 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
         if (get_validated_attack_stage((u8 *)self) > arg3) {
             ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
         }
-        t = obj->get_action_palette_entry(arg2);
+        t = ((TObjPlayer *)obj)->get_action_palette_entry(arg2);
         ((TObjPlayer *)obj)->get_field_340(2);
         ((TObjPlayer *)self)->set_attack_target((s16)(t));
-        dispatch_to_child__11TWindowCtrlFPv(((s32 (*)(void *))get_entity_id)(obj), arg2);
+        TWindowCtrl::dispatch_to_child((u16)((s32 (*)(void *))get_entity_id)(obj), arg2);
     }
 }
 #pragma pop
@@ -273,7 +274,7 @@ s32 TObjPlayer::tick_countdown_timer() {
 void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1) {
     ((FlagWord *)((void *) (arg0 + 0xC)))->set(2);
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) ((TObjPlayer *)arg1)->get_attack_recovery_count();
-    TObjPlayer::check_status_flag_128((void*)((void *) (arg1)));
+    TObjPlayer::clear_flag_128((void*)((void *) (arg1)));
 }
 #pragma pop
 
@@ -472,7 +473,7 @@ int TObjPlayer::get_field_340(int _w1) { return ((TObjPlayer *)((char*)this + 0x
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TObjPlayer::check_status_flag_128(void* p) { return ((int (*)(void*, int))sub_8011E204__10TObjPlayerFl)(p, 128); }
+void TObjPlayer::clear_flag_128(void* p) { ((TObjPlayer *)p)->clear_state_flags(128); }
 #pragma pop
 
 #pragma push

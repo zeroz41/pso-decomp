@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/TLobby.h"
 #include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/quest/TQuestListVM.h"
@@ -52,8 +52,7 @@ void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 s8 TObjPlayer__sub_801AFD8C(void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, s32);
 u8 TObjPlayer__sub_801BE7BC(void *);
-s32 TObjPlayer__sub_801C0124(void *, s16);
-void split_capped_value__10TObjPlayerFUcPUcPSc(s32, u8 *, E_802C4698 *);
+u8 TObjPlayer__sub_801C0124(void *, s16);
 u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
 saddr reset(s32);
@@ -94,13 +93,13 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)arg0)->get_equip_flags());
     ((TObjPlayer *)arg1)->set_field_157(TObjPlayer__sub_801BE7BC(arg0));
     TLobby::copy_data(arg1 + 0x34C, ((TObjPlayer *)arg0)->get_stats());
-    clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry((u8 *)arg0));
+    clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(arg0));
     copy_player_visual_record(arg1 + 0x370, arg0 + 0x85C);
     TObjPlayer__sub_8013A748(arg1 + 0x3C0, arg0 + 0x500);
     for (j = 0; j < 0x13; j++) {
         e = TObjPlayer__sub_802C4698((O_802C4698 *)arg1, j);
-        split_capped_value__10TObjPlayerFUcPUcPSc(TObjPlayer__sub_801C0124(arg0 + 0x428, j),
-            TObjPlayer__sub_802C4688((O_802C4688 *)arg1, j), e);
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg0 + 0x428, j),
+            TObjPlayer__sub_802C4688((O_802C4688 *)arg1, j), (s8 *)e);
     }
     for (k = 0; k != 0xD; k++) {
         eq = ((TObjPlayer *)arg0)->get_equipped_item(k);
@@ -115,7 +114,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     ((TObjPlayer *)arg0)->copy_mag_level_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_byte_339_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_battle_mode((u8 *)arg1);
-    ((TObjPlayer *)arg0)->set_flag_524288();
+    ((TObjPlayer *)arg0)->clear_flag_80000();
 }
 void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     Item_802C3F74 *items[30];
@@ -168,12 +167,12 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     ((TObjPlayer *)arg1)->set_action_flags(((TObjPlayer *)arg0)->get_inventory_state());
     ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)arg0)->get_equip_flags());
     ((TObjPlayer *)arg1)->set_field_157(TObjPlayer__sub_801BE7BC(arg0));
-    clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry((u8 *)arg0));
+    clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(arg0));
     copy_player_visual_record(arg1 + 0x370, arg0 + 0x85C);
     TObjPlayer__sub_8013A748(arg1 + 0x3C0, arg0 + 0x500);
     for (k = 0; k < 19; k++) {
         a = (saddr)TObjPlayer__sub_802C4698((O_802C4698 *)arg1, k);
-        split_capped_value__10TObjPlayerFUcPUcPSc(TObjPlayer__sub_801C0124(arg0 + 0x428, k), TObjPlayer__sub_802C4688((O_802C4688 *)arg1, k), (E_802C4698 *)a);
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg0 + 0x428, k), TObjPlayer__sub_802C4688((O_802C4688 *)arg1, k), (s8 *)a);
     }
     for (m = 0; m != 13; m++) {
         item = (Item_802C3F74 *)((TObjPlayer *)arg0)->get_equipped_item(m);
@@ -191,7 +190,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     ((TObjPlayer *)arg0)->copy_mag_level_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_byte_339_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_battle_mode((u8 *)arg1);
-    ((TObjPlayer *)arg0)->set_flag_524288();
+    ((TObjPlayer *)arg0)->clear_flag_80000();
 }
 
 }

@@ -492,11 +492,11 @@ void TWindowHelpItem::update_resistance_rows(void *arg0) {
         c = ((TWindowBase *)self)->get_array_entry(2);
         d = ((TWindowBase *)self)->get_array_entry(3);
         e = ((TWindowBase *)self)->get_array_entry(4);
-        ((TWindowHelpItem *)a)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x89));
-        ((TWindowHelpItem *)b)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8A));
-        ((TWindowHelpItem *)c)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8B));
-        ((TWindowHelpItem *)d)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8C));
-        ((TWindowHelpItem *)e)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8D));
+        ((TWindowHelpItem *)a)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x89));
+        ((TWindowHelpItem *)b)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8A));
+        ((TWindowHelpItem *)c)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8B));
+        ((TWindowHelpItem *)d)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8C));
+        ((TWindowHelpItem *)e)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8D));
         ((TWindowHelpItem *)a)->set_flag4_and_field1c(((TWindowSubStatusDisp *)pl)->get_stat());
         ((TWindowHelpItem *)b)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_class_id());
         ((TWindowHelpItem *)c)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_item_index());

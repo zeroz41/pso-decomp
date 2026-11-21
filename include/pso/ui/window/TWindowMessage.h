@@ -4,12 +4,15 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct NJS_POINT2;
+
 struct TWindowMessageLine {
     s32 flags;
     s32 timer;
 };
 
 struct TWindowMessage : public TWindowAddition {
+    TWindowMessage(s32 parent, u32 rows, s32 client);
     virtual ~TWindowMessage();
     virtual void run_task();
     virtual void render();
@@ -19,7 +22,7 @@ struct TWindowMessage : public TWindowAddition {
     void scroll_up_line(u8 *);
     int append_line(int text, int mode);
     static u8 *create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3);
-    static u8 *create(void *arg0, saddr arg1, s32 arg2);
+    static u8 *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
     u8 unk_1C[0x4];
     s16 m_20;
     u8 unk_22[0x2];
@@ -50,4 +53,6 @@ struct TWindowMessage : public TWindowAddition {
 };
 
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
+extern "C" u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);
+
 #endif

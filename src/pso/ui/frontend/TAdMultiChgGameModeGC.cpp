@@ -5,6 +5,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -41,11 +43,8 @@ struct Obj_802FFE58 {
 };
 
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 lbl_805D69E8;
 void __ct__7TObjectFP7TObject(void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
@@ -94,7 +93,7 @@ void TAdMultiChgGameModeGC::run_task() {
   {
     ((TAdMultiPlyChrSelectGC *)((saddr) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
   }
-  if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0))
+  if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))
   {
     TAdMultiChgGameModeGC::request_scene_change();
   }
@@ -136,12 +135,8 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
     self->f24 = -1;
     self->f28 = 0;
     self->f2C = 0;
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__9TAdBackGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x28)) != NULL) {
-        __ct__12TAdBackTxtGCFv(p, self);
-    }
+    new TAdBackGC((TObject *)self);
+    new TAdBackTxtGC((TObject *)self);
     if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }

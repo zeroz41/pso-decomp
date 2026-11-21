@@ -4,19 +4,24 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct BmlResource;
+struct TObjMapCsn;
+
 struct TObjLaboDesignBase : public TObjCollidable {
+    TObjLaboDesignBase(TObject *parent, void *set_data, s32 state);
     virtual ~TObjLaboDesignBase();
     virtual void run_task();
     virtual void render();
     virtual s32 update_object_view_visibility(f32, f32);
     void *create_instance(void *);
     void *alloc_and_construct(void *);
-    void render(void *);
-    u8 unk_AC[0x4];
+    void render_model();
+    void draw_node_tree(NJS_OBJECT *node);
+    BmlResource *model_resource;
     s32 state;
     f32 xB4;
     f32 xB8;
-    void *map_csn;
+    TObjMapCsn *map_csn;
 };
 
 LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);

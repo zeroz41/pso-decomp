@@ -15,10 +15,8 @@
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/TLobby_80428374.h"
+#include "pso/network/TLobby_80426CAC.h"
 #include "pso/network/TLobby_803FAEA0.h"
-
-s32 TLobby__sub_80428358(void);
-
 
 NetworkAlarmSlot lobby_alarm_slot_table[0x40];
 NetworkMutexSlot network_mutex_slot_table[8];
@@ -42,11 +40,8 @@ s32 cancel_pending_alarms(void) {
     return 0;
 }
 
-s32 TLobby__sub_803F8E9C(void)
+s16 TLobby__sub_803F8E9C(void)
 {
-  s16 init_buffer_pool(void); /* declared s16 here; the definition returns s32 */
-  s16 initialize_network_packet_pool(void); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_80428360(); /* declared s16 here; the definition returns s32 */
   s32 i;
   s32 off;
   s32 cnt;
@@ -57,6 +52,7 @@ s32 TLobby__sub_803F8E9C(void)
   s32 *q;
   s32 *new_var;
   s32 *new_var2;
+  NetworkThreadSlot *slot;
   u8 *tbl;
   tbl = (u8 *) lobby_alarm_slot_table;
   new_var3 = tbl;
@@ -68,8 +64,8 @@ s32 TLobby__sub_803F8E9C(void)
   for (i = 0; i < lobby_thread_pool_count; i++)
   {
     lobby_thread_pool_base[i].active = 0;
-    q = (s32 *)&lobby_thread_pool_base[i];
-    q[1] = (saddr)(q + 2);
+    slot = &lobby_thread_pool_base[i];
+    slot->key = (NetThreadHandle)&slot->thread;
   }
 
   for (i = 0; i < 0x40; i++)

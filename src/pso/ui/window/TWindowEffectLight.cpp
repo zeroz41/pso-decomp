@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -47,7 +48,7 @@ void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
 
 TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
     this->m_name = lbl_805D3E60;
-    ((TWindowSubSymbolChatPartsSet *)(((u8 *)this) + 0x1C))->copy_vec2(arg1);
+    copy_vec2((((u8 *)this) + 0x1C), arg1);
     WindowDrawContext::adjust_pos_for_split_screen((NJS_POINT2 *)(((u8 *)this) + 0x1C), TCameraCtrl::get_split_screen_view_index(id));
     *(s16 *)((s8 *)this + 0x24) = arg2;
     *(s16 *)((s8 *)this + 0x26) = -1;

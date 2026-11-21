@@ -6,6 +6,8 @@
 #include "dolphin/mtx.h"
 
 struct TObjEneSlimeOne : public TObjEnemy {
+    TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_data);
+    TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_data, Vec *pos);
     virtual ~TObjEneSlimeOne();
     void initialize_slime_instance_state();
     void sub_800E9090();
@@ -39,6 +41,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     void * particle;  // TParticleCtrl, released in the dtor
     u32 m_3ec;
     uaddr parent_slime;  // the ctor's spawner; try_spawn_child is called on it when this one is hit
+    s32 m_3f4;
     s32 get_attack_target();
     s32 is_in_water_bomb_states();
     static saddr get_instance();
@@ -89,5 +92,5 @@ struct TObjEneSlimeOne : public TObjEnemy {
     void init_state();
 };
 
-LAYOUT_ASSERT(TObjEneSlimeOne_size, sizeof(TObjEneSlimeOne) == 0x3F4);
+typedef char TObjEneSlimeOne_size[sizeof(TObjEneSlimeOne) == 0x3F8 ? 1 : -1];
 #endif

@@ -249,7 +249,7 @@ CollisionBody seabed_suiso_brakable_collision_bodies[3] = {
 
 
 BmlResource *TObjSeabedSuisoBrakable::bml_resource;
-uaddr TObjSeabedSuisoBrakable::texture_list;
+GinjaTextureList *TObjSeabedSuisoBrakable::texture_list;
 s32 TObjSeabedSuiso_CH::last_uv_scroll_tick;
 s32 TObjSeabedSuisoBrakable::last_uv_scroll_tick;
 
@@ -260,7 +260,7 @@ void *TObjSeabedSuisoBrakable::get_model(int index) {
     return NULL;
 }
 
-s32 TObjSeabedSuisoBrakable::get_texlist(int index) {
+GinjaTextureList *TObjSeabedSuisoBrakable::get_texlist(int index) {
     return texture_list;
 }
 
@@ -334,7 +334,7 @@ void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
         update_state();
-        TObjFish::set_global_param(TObjSeabedSuisoBrakable::get_texlist(0));
+        TObjFish::set_global_param((s32)TObjSeabedSuisoBrakable::get_texlist(0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -485,7 +485,7 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
     params.pad_38[0] = position.y;
     params.pad_38[1] = 1.0f;
     params.model = 0;
-    params.textures = get_texlist(0);
+    params.textures = (s32)get_texlist(0);
     params.pad_48 = 17;
     piece = seabed_suiso_break_sets[kind].chips;
     for (i = 0; i < 17; i++, piece++) {
@@ -501,7 +501,7 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
 
 void TObjSeabedSuisoBrakable::init_model() {
     model = get_model(seabed_suiso_break_sets[kind].whole.model);
-    texlist = get_texlist(0);
+    texlist = (s32)get_texlist(0);
     m_b0 = 40.0f;
 }
 

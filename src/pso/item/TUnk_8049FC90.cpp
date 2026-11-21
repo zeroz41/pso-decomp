@@ -3,6 +3,7 @@
 #include "pso/item/TUnk_8049FC90.h"
 #include "pso/item/TItem.h"
 
+
 void TUnk_8049FC90::apply_use_effect() {
   u8 temp_r31;
     saddr arg0 = (saddr)this;

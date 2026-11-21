@@ -9,6 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredFields_8006B588_arg0
 {
@@ -78,8 +79,6 @@ void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 void approach_vector_fixed_distance(Vec *, Vec *, Vec *, f32);
 s32 restore_player_cameras();
-s32 activate_body_collision__10TObjPlayerFv();
-s32 deactivate_body_collision__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 
 extern unsigned char TCameraCtrl__override_flags;
@@ -231,13 +230,15 @@ u8 *create_conversation_camera(s32 arg0) {
 }
 
 void TCameraCtrl::update_battle_camera() {
-    if (get_player_by_client_id(local_client_id) != 0U) {
-        deactivate_body_collision__10TObjPlayerFv();
+    void *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        ((TObjPlayer *)player)->deactivate_body_collision();
     }
 }
 
 void TCameraCtrl::update_active_player() {
-    if (get_player_by_client_id(local_client_id) != 0U) {
-        activate_body_collision__10TObjPlayerFv();
+    void *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        ((TObjPlayer *)player)->activate_body_collision();
     }
 }

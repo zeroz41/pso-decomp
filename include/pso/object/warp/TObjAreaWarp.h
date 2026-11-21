@@ -8,14 +8,16 @@ struct TObjAreaWarp : public TObjWarpBase {
     TObjAreaWarp(TObject *parent, void *set_data);
     virtual ~TObjAreaWarp();
     void handle_area_selection();
-    virtual void confirm_area_transfer(void *player);  // player: who confirmed (find_warp_player_in_range)
+    virtual void confirm_area_transfer(TObjPlayer *player);  // player: who confirmed (find_warp_player_in_range)
     virtual void debug_print_area_num();
     virtual void open_confirm_window(s32 arg1);
     s32 find_active_player();
-    virtual u8 is_warp_enabled();
+    virtual s32 is_warp_enabled();
     s32 dest_floor;            // set data value, or the current floor + 1 while lobby_quest_progress_flag is set
     TAdVIConfigGC *vi_config;  // created by derived constructors, destroyed by ~TObjAreaWarp
 };
 LAYOUT_ASSERT(TObjAreaWarp_size, sizeof(TObjAreaWarp) == 0xC4);
+
+extern "C" TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range);
 
 #endif

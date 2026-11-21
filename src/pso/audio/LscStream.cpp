@@ -32,8 +32,6 @@ void lsc_notify_queue_empty(void) {
     }
 }
 extern LscStream lsc_slot_table[];
-void notify_dvd_read__6TLobbyFv(void *);
-void enter_lock__6TLobbyFv(void *);
 s32 lsc_get_min_buffer_bytes(LscStream *p) {
     if (p == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
@@ -139,13 +137,13 @@ s32 lsc_get_state(LscStream *lsc_stream) {
 void lsc_poll_all(void) {
     u8 sp8[8];
     s32 i;
-    ((void (*)(void *))enter_lock__6TLobbyFv)(sp8);
+    lsc_interrupt_lock_enter(sp8);
     for (i = 0; i < 16; i++) {
         if ((s32)lsc_slot_table[i].in_use == 1) {
             lsc_poll(&lsc_slot_table[i]);
         }
     }
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(sp8);
+    lsc_interrupt_lock_leave(sp8);
 }
 
 void lsc_stop(LscStream *lsc_stream) {
@@ -155,7 +153,7 @@ void lsc_stop(LscStream *lsc_stream) {
         return;
     }
     if ((s8) lsc_stream->state != 0) {
-        enter_lock__6TLobbyFv(&sp8);
+        lsc_interrupt_lock_enter(&sp8);
         lsc_stream->state = 0U;
         if ((u32) (uaddr)lsc_stream->file_handle != 0U) {
             if ((s32) lsc_stream->read_started == 1) {
@@ -174,7 +172,7 @@ void lsc_stop(LscStream *lsc_stream) {
             lsc_stream->queued_count = 0;
         }
         lsc_stream->field_34 = 0;
-        notify_dvd_read__6TLobbyFv(&sp8);
+        lsc_interrupt_lock_leave(&sp8);
     }
 }
 
@@ -185,12 +183,12 @@ void lsc_start(LscStream *o) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
-    ((void (*)(void *))enter_lock__6TLobbyFv)(lk0);
+    lsc_interrupt_lock_enter(lk0);
     if (o->state != 0) {
         if (o == 0) {
             TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         } else if (o->state != 0) {
-            ((void (*)(void *))enter_lock__6TLobbyFv)(lk1);
+            lsc_interrupt_lock_enter(lk1);
             o->state = 0;
             if (o->file_handle != 0) {
                 if ((s32)o->read_started == 1) {
@@ -209,7 +207,7 @@ void lsc_start(LscStream *o) {
                 o->queued_count = 0;
             }
             o->field_34 = 0;
-            ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lk1);
+            lsc_interrupt_lock_leave(lk1);
         }
     }
     if (o->queued_count > 0) {
@@ -217,7 +215,7 @@ void lsc_start(LscStream *o) {
     } else {
         o->state = 1;
     }
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lk0);
+    lsc_interrupt_lock_leave(lk0);
 }
 
 s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode, s32 range_offset, s32 range_length) {
@@ -286,11 +284,11 @@ void lsc_destroy(LscStream *lsc_stream) {
     s32 spC;
     s32 sp8;
     if (lsc_stream != NULL) {
-        enter_lock__6TLobbyFv(&spC);
+        lsc_interrupt_lock_enter(&spC);
         if (lsc_stream == NULL) {
             TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         } else if ((s8) lsc_stream->state != 0) {
-            enter_lock__6TLobbyFv(&sp8);
+            lsc_interrupt_lock_enter(&sp8);
             lsc_stream->state = 0U;
             if ((u32) (uaddr)lsc_stream->file_handle != 0U) {
                 if ((s32) lsc_stream->read_started == 1) {
@@ -309,11 +307,11 @@ void lsc_destroy(LscStream *lsc_stream) {
                 lsc_stream->queued_count = 0;
             }
             lsc_stream->field_34 = 0;
-            notify_dvd_read__6TLobbyFv(&sp8);
+            lsc_interrupt_lock_leave(&sp8);
         }
         lsc_stream->in_use = 0;
         memset(lsc_stream, 0, (unsigned long)(0x438));
-        notify_dvd_read__6TLobbyFv(&spC);
+        lsc_interrupt_lock_leave(&spC);
     }
 }
 
@@ -326,7 +324,7 @@ LscStream *lsc_create(void *sj_handle) {
         TLobby::log_printf("E0001: Illigal parameter=sj (LSC_Create)");
         return 0;
     }
-    ((void (*)(void *))enter_lock__6TLobbyFv)(lk);
+    lsc_interrupt_lock_enter(lk);
     o = lsc_find_free_slot();
     if (o == 0) {
         TLobby::log_printf("E0002: Not enough instance (LSC_Create)");
@@ -340,7 +338,7 @@ LscStream *lsc_create(void *sj_handle) {
         }
         o->in_use = 1;
     }
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lk);
+    lsc_interrupt_lock_leave(lk);
     return o;
 }
 }

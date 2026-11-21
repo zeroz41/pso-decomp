@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBoss7TunnelCol : public TObjCollidable {
+    TObjBoss7TunnelCol(TObject *parent);
     virtual ~TObjBoss7TunnelCol();
     CollisionBody collision_body; // copied from TObjBoss7TunnelCol__col_desc, then set_collision_body
     virtual void render();
@@ -14,8 +15,5 @@ struct TObjBoss7TunnelCol : public TObjCollidable {
 
 LAYOUT_ASSERT(TObjBoss7TunnelCol_size, sizeof(TObjBoss7TunnelCol) == 0xD8);
 
-extern "C" {
-void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent);
-}
 
 #endif

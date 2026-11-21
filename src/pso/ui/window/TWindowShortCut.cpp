@@ -60,10 +60,9 @@ WindowDescriptor window_short_cut_layout = {
 };
 
 extern "C" {
-s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
-s32 forward_render__20TWindowSubStatusDispFv(int, int);
 void measure_message_text_width(void *entry, f32 max_width);
+void measure_message_text_width_default(void *entry);
 }
 
 // A shortcut's preview text entry: its flags word and the measured size of its text.
@@ -152,7 +151,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         u16 player = (u16)local_client_id;
         TWindowDD::format_message(shortcut + 1, buffer, player);
         set_text_entry_string((u8 *)preview, (uaddr)get_shared_text_buffer(), 0);
-        ((TWindowDD *)preview)->refresh_status_display();
+        measure_message_text_width_default(preview);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
         size.y = 3.0f + (20.0f + preview->height);
@@ -187,10 +186,10 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
 void render__15TWindowShortCutFv(u8 *arg0) {
     saddr temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    forward_render__20TWindowSubStatusDispFv((int) (((TWindowShortCut *)arg0)->heading), temp_r3);
+    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));
 }
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }

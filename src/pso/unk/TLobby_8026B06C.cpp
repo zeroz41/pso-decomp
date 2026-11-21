@@ -24,13 +24,6 @@ int dispatch_message_window_text(void *w, int text, int flags) {
 }
 
 saddr create_quest_message_window_at(s32 arg0, saddr arg1) {
-    saddr temp_r3;
-    s32 var_r0;
     TLobby__sub_80269DA4((void *)arg1, 1);
-    temp_r3 = (saddr)TObject::operator new(0x94);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr)TWindowMessageQuest__ct((u8 *)temp_r3, (arg0));
-    }
-    return var_r0;
+    return (saddr)new TWindowMessageQuest(arg0);
 }

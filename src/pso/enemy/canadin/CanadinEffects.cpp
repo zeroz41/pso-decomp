@@ -217,7 +217,7 @@ void TObjEneMe1Canadin_EffDischarge::run_task() {
     }
     VecCopy(&v, &m_50);
     subtract_vector(&v, &m_38);
-    scale = ((TObjBoss2Tunnel *)&v)->update_scale();
+    scale = normalize_vector_safe(&v);
     TTecZondeEff *eff = (TTecZondeEff *)TObject::operator new(0x260);
     if (eff != NULL) {
         eff->construct((u8 *)tl_05, (u8 *)&m_38, (u8 *)&v, scale);

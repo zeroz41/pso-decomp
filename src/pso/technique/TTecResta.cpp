@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -13,6 +14,8 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
 
@@ -20,11 +23,6 @@
 const char *TTecResta__name = "TTecResta";
 
 
-struct RecoveredGlobal_802394B0_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
@@ -108,13 +106,7 @@ struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 pow
 
 extern "C" {
 saddr get_entity_id(int);
-s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
-extern s32 __vt__9TTecResta[];
 extern const char *TTecResta__name;
-u8 *TTecResta__sub_80239C48(TTecResta *arg0, saddr arg1, saddr arg2, saddr arg3);
-f32 *calc_technique_parameters(s32, s32, s32);
-s32 is_technique_ready__8TTecCtrlFv(int);
-extern RecoveredGlobal_802394B0_lbl_804CC55C lbl_804CC55C;
 extern s32 __vt__13TUnk_804CCBC0[];
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
@@ -129,13 +121,9 @@ void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
 s32 copy_technique_target_list(void *, void *);
-void *TTecResta__ct(TTecResta *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-void create__9TTecRestaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
 int spawn_support_tec_range_effect(void*);
 
 
-typedef struct RecoveredGlobal_802394B0_lbl_804CC55C RecoveredGlobal_802394B0_lbl_804CC55C;
-typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802394B0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 
 }
@@ -155,12 +143,11 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
     }
 }
 
-u8 *TTecResta__sub_80239C48(TTecResta *arg0, saddr owner, saddr pos, saddr level) {
+TTecResta::TTecResta(void *owner, void *pos, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+#define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;
-    TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
-    ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)TTecResta__name);
     arg0->m_13c = 0;
     arg0->init_parameters();
@@ -176,17 +163,16 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, saddr owner, saddr pos, saddr level
         arg0->init_cast();
         arg0->play_launch_sound();
     }
-    return (u8 *)arg0;
+#undef arg0
 }
 
 #pragma push
 #pragma opt_common_subs off
-void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *level) {
+TTecResta::TTecResta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+#define arg0 this
     u32 src;
     u8 *p;
-    TTecPlayerInfluence__ct(arg0, owner, pos, level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
-    ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
     copy_technique_target_list((u8 *)arg0 + 0xE0, arg3);
@@ -203,7 +189,7 @@ void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *l
         arg0->init_cast();
         arg0->play_launch_sound();
     }
-    return arg0;
+#undef arg0
 }
 #pragma pop
 
@@ -286,19 +272,11 @@ void TTecResta::vfunc_7(void *arg1_arg) {
 #pragma pop
 
 void TTecResta::create(void *owner, void *pos, void *level) {
-    void *o;
-    o = TObject::operator new(0x140);
-    if (o != NULL) {
-        TTecResta__sub_80239C48((TTecResta *)((u8 *)o), (saddr)owner, (saddr)pos, (saddr)level);
-    }
+    new TTecResta(owner, pos, (saddr)level);
 }
 
-void create__9TTecRestaFPvPvPvPv(void *owner, void *pos, void *arg2, void *level) {
-    void *o;
-    o = TObject::operator new(0x140);
-    if (o != NULL) {
-        TTecResta__ct((TTecResta *)o, owner, pos, arg2, level);
-    }
+void TTecResta::create(void *owner, void *pos, void *arg2, void *level) {
+    new TTecResta(owner, pos, arg2, (s32)level);
 }
 
 #pragma push
@@ -351,11 +329,11 @@ void TTecResta::init_parameters() {
     u8 *arg0 = (u8 *)this;
   saddr new_var;
   new_var = (saddr) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0x74))->copy((TechniqueParams *)new_var);
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
-  if (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0)
+  if (TTecCtrl::is_technique_ready() != 0)
   {
-    this->m_74 = (f32) ((this->m_74) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78))));
+    this->m_74 = (f32) ((this->m_74) * lbl_804CC55C[15].pad_00);
   }
 }
 
@@ -365,9 +343,9 @@ f32 TTecResta::calc_heal_amount(s32 arg0) {
   temp_r3 = (f32 *) calc_technique_parameters(0xF, arg0, 0xFFFF);
   var_f31 = *((f32 *) (((s8 *) temp_r3) + 0));
   var_f31 = var_f31 + ((f32) (arg0 * 5));
-  if (is_technique_ready__8TTecCtrlFv((saddr) temp_r3) != 0)
+  if (TTecCtrl::is_technique_ready() != 0)
   {
-    var_f31 *= *((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78));
+    var_f31 *= lbl_804CC55C[15].pad_00;
   }
   return var_f31;
 }

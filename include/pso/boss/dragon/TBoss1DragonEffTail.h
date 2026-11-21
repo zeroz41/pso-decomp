@@ -8,6 +8,7 @@
 class AreaAttackHistory;
 
 struct TBoss1DragonEffTail : public TUnk_804928CC {
+    TBoss1DragonEffTail(TObjBase *owner, void *arg2);
     virtual ~TBoss1DragonEffTail();
     virtual void apply_hit_if_active(void *, f32 *);
     virtual void run_task();

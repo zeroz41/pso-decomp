@@ -26,7 +26,6 @@ __declspec(section ".data") NJS_TEXLIST clitical_texture_list = { clitical_textu
 
 extern "C" {
 f32 vector_length(void *);
-s32 begin_effect_render__13TParticleCtrlFv(int);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -50,7 +49,7 @@ void TEffClitical::render() {
     temp_r3 = model_render_flags;
     saved_model_render_flags = temp_r3;
     model_render_flags = temp_r3 | 0x10;
-    begin_effect_render__13TParticleCtrlFv(temp_r3);
+    TParticleCtrl::begin_effect_render();
     set_constant_material((const NJS_ARGB *)((arg0 + 0x2C)));
     copy_anim_frame_to_slot((TextureFrameSlot *)&sp8);
     push_matrix();

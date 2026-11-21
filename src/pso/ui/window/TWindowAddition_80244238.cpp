@@ -25,6 +25,7 @@ typedef struct Disp_80244238 {
 
 extern "C" {
 const char *lbl_805D3878 = "TWindowAddition";
+
 Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self);
 
 #pragma push
@@ -49,7 +50,7 @@ void TWindowAddition::step_window_tween() {
 #pragma pop
 
 Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self) {
-    Ctx_80244364 *c = (Ctx_80244364 *)((TWindowBase *)self)->setup_window_draw_context((saddr)self->a);
+    Ctx_80244364 *c = (Ctx_80244364 *)((TWindowBase *)self)->setup_window_draw_context(self->a);
     c->x -= self->x;
     c->y -= self->y;
     return c;

@@ -2,6 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FE00.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
 
 extern "C" {
 int obj_getS16_2BA(void*);
@@ -23,7 +24,7 @@ void TUnk_8049FE00::apply_use_effect() {
     s32 stat_value;
 
     stat_value = 0;
-    switch ((s32) ((TItem *)this)->get_item_index()) {
+    switch ((s32) this->get_item_index()) {
     case 0:
         stat_value = calc_small_tp();
         break;

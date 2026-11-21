@@ -78,7 +78,6 @@ struct Missile_800D43B4 {
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
-u8 *get_battle_param__10TObjPlayerFi(s32);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
@@ -149,7 +148,7 @@ void TUnk_8049442C::sub_800D4200() {
     check_enemy_body_collisions(arg0);
     if ((((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
-            t = get_battle_param__10TObjPlayerFi(i);
+            t = (u8 *)TObjPlayer::get_battle_param(i);
             if (t == NULL) {
                 break;
             }

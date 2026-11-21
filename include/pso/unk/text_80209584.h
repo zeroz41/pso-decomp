@@ -3,13 +3,15 @@
 
 #include "types.h"
 
+struct EventShuffleTable;
+
 extern "C" {
-u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1);
+EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity);
 }
 
 // --- C functions defined in text_80209584.cpp ---
 extern "C" {
-u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1);
+EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity);
 }
 // --- end of C functions
 

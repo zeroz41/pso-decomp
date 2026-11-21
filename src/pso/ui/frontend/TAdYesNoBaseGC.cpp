@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
@@ -29,7 +31,6 @@ struct VObj_18 : VBase_18 {
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
 u8 *init_shop_judgment_window(void *p);
 struct VtBase8032C1C8_8032C188 { char pad[0x18]; };
@@ -44,11 +45,7 @@ struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
     virtual void m7();
 };
 
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
-void __ct__7TObjectFP7TObject(void *);
-void *__ct__9TAdBackGCFv(void *, void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
+void copy_vec2__FPvPv(void *);
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
@@ -56,7 +53,7 @@ const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     saddr temp_r31;
-    temp_r31 = update_window_mode_from_progress__6TLobbyFPv((u8 *)&this->unk_30, (u8 *)&this->unk_38);
+    temp_r31 = (s32)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
     ((TWindowMessage *)temp_r31)->append_line((saddr)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }
@@ -72,8 +69,8 @@ s32 TAdYesNoBaseGC::create_menu_window() {
 }
 
 void TAdYesNoBaseGC::init_parts(void *arg1, void *arg2) {
-    ((TWindowSubSymbolChatPartsSet *)((char *)this + 48))->copy_vec2(arg1);
-    ((TWindowSubSymbolChatPartsSet *)((char *)this + 56))->copy_vec2(arg2);
+    copy_vec2__FPvPv((void *)((char *)this + 48));
+    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)this + 56), arg2);
 }
 
 extern s8 controller_input_state[];
@@ -105,7 +102,7 @@ void TAdYesNoBaseGC::vfunc_11() {
                 this->m_24 = 4;
                 break;
             }
-        } else if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+        } else if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
             this->m_1c = 2;
             this->m_24 = 4;
         }
@@ -137,7 +134,6 @@ void TAdYesNoBaseGC::vfunc_11() {
     }
 }
 
-extern s32 __vt__14TAdYesNoBaseGC[];
 
 }
 TAdYesNoBaseGC::~TAdYesNoBaseGC() {
@@ -146,29 +142,20 @@ TAdYesNoBaseGC::~TAdYesNoBaseGC() {
 }
 
 
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
+TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     void *o;
     void *o2;
-    __ct__7TObjectFP7TObject(ad_yes_no_base_gc);
-    *(s32 **)((s8 *)ad_yes_no_base_gc + 0x18) = __vt__14TAdYesNoBaseGC;
-    ad_yes_no_base_gc->m_name = TAdYesNoBaseGC__class_name;
-    ad_yes_no_base_gc->m_28 = 0;
-    *(f32 *)((s8 *)ad_yes_no_base_gc + 0x30) = 46.0f;
-    ad_yes_no_base_gc->m_34 = 131.0f;
-    *(f32 *)((s8 *)ad_yes_no_base_gc + 0x38) = 548.0f;
-    ad_yes_no_base_gc->m_3c = 220.0f;
-    ad_yes_no_base_gc->m_1c = 0;
-    ad_yes_no_base_gc->m_24 = 0;
-    ad_yes_no_base_gc->m_2c = 1;
-    ad_yes_no_base_gc->m_40 = 0;
-    ad_yes_no_base_gc->m_44 = 0;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        __ct__9TAdBackGCFv(o, ad_yes_no_base_gc);
-    }
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, ad_yes_no_base_gc);
-    }
-    return ad_yes_no_base_gc;
+    m_name = TAdYesNoBaseGC__class_name;
+    m_28 = 0;
+    *(f32 *)((s8 *)this + 0x30) = 46.0f;
+    m_34 = 131.0f;
+    *(f32 *)((s8 *)this + 0x38) = 548.0f;
+    m_3c = 220.0f;
+    m_1c = 0;
+    m_24 = 0;
+    m_2c = 1;
+    m_40 = 0;
+    m_44 = 0;
+    o = new TAdBackGC(this);
+    o2 = new TAdBackTxtGC(this);
 }

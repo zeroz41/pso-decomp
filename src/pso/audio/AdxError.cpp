@@ -12,7 +12,6 @@ void TLobby__sub_803D38B4(const char *fmt, ...);
 char number_format_digit_buffer[0x20];
 char adx_error_message_buffer[0x100];
 const char lbl_805E0D28[2] = " ";
-s32 set_callback_params__6TLobbyFll();
 }
 
 inline void num_to_str_803C526C(s32 v, char *out, s32 n) {
@@ -63,7 +62,7 @@ void TLobby::notify_error(const char *arg0) {
 void TLobby::set_params(saddr arg0, s32 arg1) {
     lobby_error_callback = (AdxErrorCallback)arg0;
     tlobby_error_callback_arg = arg1;
-    set_callback_params__6TLobbyFll();
+    TLobby::set_callback_params(arg0, arg1);
 }
 
 void TLobby::clear_error_callback() {

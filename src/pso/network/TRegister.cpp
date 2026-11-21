@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/protocol/protocol.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/network/TRegister.h"
 #include "pso/network/TProtocol_801E08CC.h"
@@ -14,11 +15,9 @@ struct ByteBlock_70 { u8 bytes[0x70]; };
 #pragma dont_inline off
 extern "C" {
 s32 __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag();
-s32 bswap__13packet_headerFv();
-int bswap__16TPlyGuildCardTagFv(void*);
 
 void bswap__9TRegisterFv(saddr arg0) {
-    bswap__13packet_headerFv();
+    ((packet_header *)arg0)->bswap();
     bswap_ply_smth_pair((void *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 0xC));
 }
@@ -56,7 +55,7 @@ void TMenuList<QuestListEntry, 30, 0>::bswap() {
     }
 }
 
-int bswap_quest_list_entry(void* p) { return bswap__16TPlyGuildCardTagFv(p); }
+void bswap_quest_list_entry(void *p) { ((TPlyGuildCardTag *)p)->bswap(); }
 
 struct PacketHeaderCopy_801E0038 { u8 bytes[sizeof(packet_header)]; };
 struct QuestListEntryRaw_801E0038 { u8 bytes[sizeof(QuestListEntry)]; };

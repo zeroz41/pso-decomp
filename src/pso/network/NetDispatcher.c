@@ -17,8 +17,6 @@ struct Self_803FD85C;
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
-s32 TLobby__sub_803F8E9C(void);
-s32 TLobby__sub_80419A34(void);
 void net_sleep_ms(s32 ms);
 void TLobby__sub_803F9344(u32 handle, void *source, s32 size);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
@@ -29,13 +27,12 @@ struct V_803FE600;
 
 NetworkDispatchState network_dispatch_state;
 
-s32 NetUnregisterTimer(void* p);
 
 void TLobby__sub_80419A00(void) {
     NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
     cancel_pending_alarms();
 }
-s32 TLobby__sub_80419A34(void) {
+s16 TLobby__sub_80419A34(void) {
     NetMemset(&network_dispatch_state, 0, offsetof(NetworkDispatchState, unknown_F4));
     network_dispatch_state.interval = 0x1E;
     return TLobby__sub_803F8E9C();
@@ -57,26 +54,25 @@ extern void NetRunProtocolDispatchLoop(void);
 extern void NetRunTimerDispatchLoop(void);
 extern s16 TLobby__sub_803F94F0(void *);
 extern s16 TLobby__sub_803F96AC(void *);
-extern s16 TLobby__sub_803F9B94(void *, void *);
-extern s32 NetInitializeDispatcher(void) {
+s16 NetInitializeDispatcher(void) {
     s32 *p4 = &network_dispatch_state.queue_handle;
-    s32 *p8;
-    s32 *p12;
+    NetThreadHandle *p8;
+    NetThreadHandle *p12;
     if (TLobby__sub_803F94F0(p4) < 0) {
         return -0x100;
     }
-    if (TLobby__sub_803F96AC(&network_dispatch_state) < 0) {
+    if (TLobby__sub_803F96AC(&network_dispatch_state.lock_handle) < 0) {
         clear_slot_for_handle(*p4);
         return -0x100;
     }
-    p8 = (s32 *)&network_dispatch_state.thread_ids[0];
-    if (TLobby__sub_803F9B94((void *)NetRunProtocolDispatchLoop, p8) < 0) {
+    p8 = &network_dispatch_state.thread_ids[0];
+    if (TLobby__sub_803F9B94(NetRunProtocolDispatchLoop, p8) < 0) {
         clear_slot_for_handle(*p4);
         NetReleaseMutex(network_dispatch_state.lock_handle);
         return -0x100;
     }
-    p12 = (s32 *)&network_dispatch_state.thread_ids[1];
-    if (TLobby__sub_803F9B94((void *)NetRunTimerDispatchLoop, p12) < 0) {
+    p12 = &network_dispatch_state.thread_ids[1];
+    if (TLobby__sub_803F9B94(NetRunTimerDispatchLoop, p12) < 0) {
         deactivate_entry_by_key(*p8);
         clear_slot_for_handle(*p4);
         NetReleaseMutex(network_dispatch_state.lock_handle);
@@ -147,7 +143,7 @@ extern void NetRunTimerDispatchLoop(void) {
     }
 }
 
-extern s32 NetUnregisterTimer(void *fn) {
+extern s32 NetUnregisterTimer(NetTimerCallback fn) {
     NetworkDispatchState *g = &network_dispatch_state;
     s16 i;
 
@@ -155,7 +151,7 @@ extern s32 NetUnregisterTimer(void *fn) {
         return -0x100;
     }
     for (i = 0; i < 10; i++) {
-        if (network_dispatch_state.timers[i].active != 0 && (void *)network_dispatch_state.timers[i].fn == fn) {
+        if (network_dispatch_state.timers[i].active != 0 && network_dispatch_state.timers[i].fn == fn) {
             g->timers[i].active = 0;
             g->timers[i].fn = NULL;
             g->timers[i].lock_callback = 0;
@@ -293,4 +289,3 @@ s32 register_protocol_handler(u16 type, NetProtocolHandler fn) {
     g->handlers[freei].fn = fn;
     return 0;
 }
-

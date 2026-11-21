@@ -119,6 +119,8 @@ void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 arg1);
 void lsc_shutdown(void);
 void lsc_start(LscStream *o);
 void lsc_stop(LscStream *lsc_stream);
+void lsc_interrupt_lock_leave(void *lock);
+void lsc_interrupt_lock_enter(void *lock);
 }
 // --- end of C functions
 

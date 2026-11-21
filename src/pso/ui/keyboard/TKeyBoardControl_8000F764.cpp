@@ -8,6 +8,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/render/render_util.h"
+#include "pso/render/TFogCtrl.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
@@ -23,9 +24,6 @@
 #include "pso/render/BlobShadow.h"
 #include "pso/system/memory.h"
 
-extern "C" {
-int clear_split_screen_fog__8TFogCtrlFv(void*);
-}
 void update_music_sequencer(void);
 extern "C" {
 void TObjPlayer__sub_80083FB0(void);
@@ -49,7 +47,7 @@ void TKeyBoardControl::run_tasks() {
     keyboard_task_object.run_tasks();
 }
 
-int TKeyBoardControl::get_fog_ctrl() { return clear_split_screen_fog__8TFogCtrlFv(this); }
+extern "C" void forward_clear_split_screen_fog() { TFogCtrl::clear_split_screen_fog(); }
 
 void TKeyBoardControl__sub_8000F7FC(void) {
     end_of_render_root.run_tasks();
@@ -87,7 +85,6 @@ void TLobby__sub_8007EB70(void);
 void fn_800FFE10(void);
 void install_depth_alpha_state(void);
 void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void);
-void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_8020E3C0(void);
 s32 TLobby__sub_80226BA4();
 }
@@ -369,7 +366,7 @@ void init_game_systems(void) {
     TLobby::init_account_entries();
     load_ha_u032_kage();
     fn_800FFE10();
-    reset_story_select__6TLobbyFv();
+    TLobby::reset_story_select();
     TLobby__sub_8032C91C();
     load_ply_level_tbl();
     verify_game_file_integrity();

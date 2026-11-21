@@ -27,7 +27,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/ui/window/TWindowChoiceSetting.h"
+#include "pso/system/vector.h"
 #pragma push
 #pragma readonly_strings on
 
@@ -54,7 +54,7 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
     for (i = 0; i < 3; i++) {
         s32 blast = ((MagStats *)mag)->get_photon_blast(i);
         ((Win_8027C188 *)this)->pb[lbl_805DD678[i]] = blast;
-        void *e = (void *)get_array_entry(i + 1);
+        void *e = (void *)this->get_array_entry(i + 1);
         if (blast != -1) {
             draw_action_palette_icon(e, 5, blast);
         } else {
@@ -93,15 +93,13 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
 struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 
 extern "C" {
-s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__19TWindowSubMagPhotonFv(saddr arg0);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 extern s32 __vt__19TWindowSubMagPhoton[];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, saddr arg1, s32 arg2, s16 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
+s32 test_buttons_press_or_repeat(void *, int, int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
 }
 extern "C" {
@@ -123,18 +121,18 @@ void TWindowSubMagPhoton::update_selection_input() {
     u8 temp_r3_2;
     u8 *window_choice_setting;
     window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
-    if ((TWindowChoiceSetting::apply_choice((saddr)window_choice_setting, 0xF0, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((TWindowChoiceSetting::apply_choice((saddr)(void *)window_choice_setting, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x80, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x80, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x80, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x40, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x40, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x40, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
         temp_r3 = this->m_61;
@@ -156,7 +154,7 @@ s32 TWindowSubMagPhoton::draw_cursor(int arg1) {
 
 void render__19TWindowSubMagPhotonFv(saddr arg0) {
     saddr temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
     ((TWindowSubMagPhoton *)arg0)->draw_cursor(temp_r3);
@@ -170,10 +168,10 @@ void TWindowSubMagPhoton::run_task() {
     if (((TWindowSubMagPhoton *)arg0)->get_active_flag() == 0) {
         update_selection_input();
         context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_open_sound();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             handle_cancel();
         }
     }
@@ -187,10 +185,10 @@ TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, saddr arg1, s32 arg2, s16 arg3) {
     s16 temp_r4;
     u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, void *, u8 *);
-    __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, (void *)(saddr)arg3, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (u8 *)arg1);
     *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = __vt__19TWindowSubMagPhoton;
     *(s32 *)((s8 *)window_sub_mag_photon + 0) = (saddr) TWindowSubMagPhoton__class_name;
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)window_sub_mag_photon + 0x30))->copy_vec2((void *)arg1);
+    copy_vec2(((u8 *)window_sub_mag_photon + 0x30), (void *)arg1);
     ((TWindowBase *)window_sub_mag_photon)->save_position();
     window_sub_mag_photon->m_20 = arg3;
     window_sub_mag_photon->m_70 = arg2;

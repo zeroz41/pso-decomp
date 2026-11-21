@@ -60,7 +60,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static void *create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
     static void load_resources();
     void remove_tracked_id(s32 id);
-    u16 alloc_child_id();
+    s32 alloc_child_id();
     s32 is_anim_6();
     void handle_death_state(s32 arg1);
     void handle_action_state(s32 arg1);
@@ -81,12 +81,12 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static s32 render_player_marker(u16 arg0, s32 arg1);
     static void update_particle_if_active();
     static void notify_scene(s32 arg0);
-    static s32 calc_scaled_value();
+    s32 calc_scaled_value();
     void handle_message(s32 arg1);
     void retarget();
     void select_next_target();
     void update_collide_flag();
-    void set_flag2();
+    void set_flag2(f32 x, f32 z, f32 r);
     void set_orbit_destination(s32 arg1);
     void advance_field398();
     void sync_height();

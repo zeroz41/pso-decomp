@@ -6,11 +6,10 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 extern "C" {
 
-int open_yes_no_prompt(void* a0 = 0, void* a1 = 0, void* a2 = 0, void* a3 = 0);
-
-void TAdChrSelASlotGC::forward_slot_selection(void* a1, void* a2) { open_yes_no_prompt(this, (void*)0, a1, a2); }
+void open_yes_no_prompt_with_text(TChCrTagPlBack *window, s32 text, s32 pos, f32 width) { open_yes_no_prompt(window, 0, text, pos, width); }
 
 }

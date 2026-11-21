@@ -22,7 +22,6 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     u32 m_80;
     u8 _pad84[0x4];
     uaddr m_88;
-    void copy_vec2(void* q);
     s32 draw_selected_part_cursor(int arg1);
     void handle_cancel();
     void handle_decide();
@@ -35,8 +34,9 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     static int get_parts_entry(int a0);
     void set_pos(s16 arg1, s16 arg2);
     static void set_part_sprite(void *arg0, s16 id, s32 a, s32 b);
-    saddr get_entry_offset_d(s32 arg1);
-    saddr get_parts_entry(long arg1);
+    u16 *get_entry_offset_d(s32 arg1);
+    u16 *get_parts_entry(saddr arg1);
+    static u16 *get_parts_entry(int arg0, int arg1);
 };
 
 LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);

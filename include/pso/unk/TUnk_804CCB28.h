@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TUnk_804DDF04;
+
 class TUnk_804CCB28 : public TObject {
 public:
     virtual ~TUnk_804CCB28();
@@ -12,7 +14,7 @@ public:
     u8 unk_1C[0x4];
     s16 m_20;
     u8 unk_22[0x2];
-    s32 m_24;
+    TUnk_804DDF04 *indirect_effect;
     u8 unk_28[0xC];
     f32 m_34;
     u8 unk_38[0x4];

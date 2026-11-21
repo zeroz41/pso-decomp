@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 
 extern "C" __declspec(section ".rodata") FollowVector lbl_80438528 = { 0.0f, 0.0f, 45.42f };
@@ -200,8 +201,6 @@ extern FollowVector lbl_80438534;
 void camera_renderer_setup_nop(void *, s32);
 extern FollowVector lbl_80438528;
 extern u8 lbl_804FF5E8[];
-FollowVector *get_position_ptr__10TObjPlayerFv(void *);
-FollowVector *get_target_ptr__11TCameraCtrlFv(void *);
 }
 extern s32 local_client_id;
 void reset_cameras_to_actor(void *p, s32 x);
@@ -221,7 +220,6 @@ extern "C" {
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec *, Vec *);
 s32 fn_8006E82C(s32);
 s32 approach_angle_limited(s32, s32, s32);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 void *TCameraCtrl__vt0(void);
 void *TKeyBoardControl__sub_803DEB74(s32);
@@ -880,7 +878,7 @@ void TUnk_80488E00::run_task() {
         m_f4 = 0;
         projection_angle = approach_angle_limited(projection_angle, 0x22D8, 0xB6);
     } else if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
-        if (is_split_screen() == 0 && is_on_current_screen__11TCameraCtrlFv((u8 *)&controller_input_state + 0x110, 0x20000) == 0) {
+        if (is_split_screen() == 0 && test_previous_buttons_packed((u8 *)&controller_input_state + 0x110, 0x20000) == 0) {
             projection_angle = approach_angle_limited(projection_angle, 0x36C1, 0xB6);
         }
     } else {

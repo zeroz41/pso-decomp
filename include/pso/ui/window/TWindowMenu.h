@@ -5,10 +5,11 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TWindowMenu : public TWindowAddition {
+    TWindowMenu(u32 rows, s32 client, s32 parent);
     virtual ~TWindowMenu();
     saddr get_selected_entry();
     int sub_80266BB8();
-    u8 test_menu_flag();
+    s32 test_menu_flag(s32 buttons);
     void render_selected_entry(saddr);
     void draw_selected_bar(u8 *);
     void layout_entries();

@@ -28,7 +28,7 @@ void TUnk_804A3450::emit_marker_effects() {
         } else {
             temp_r3_2 = (saddr)this->owner;
             temp_r4_2 = temp_r3_2 + 0x38;
-            TTecZarua::create_instance(temp_r3_2, temp_r4_2, temp_r4_2, 4);
+            TTecZarua::create_instance(temp_r3_2, (Vec *)temp_r4_2, (Vec *)temp_r4_2, 4);
         }
         roll_technique();
         return;

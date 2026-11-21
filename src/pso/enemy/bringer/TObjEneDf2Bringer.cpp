@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -88,6 +90,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 struct Bringer_80097714;
 struct Bringer_800993E8;
@@ -891,7 +894,6 @@ s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
 s32 vec3_add_to(f32 *, void *);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
-void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
 f32 horizontal_distance_squared(void *, void *);
 void check_can_act__10TObjPlayerFii(void *, s16);
@@ -1048,18 +1050,10 @@ extern void *tl_04;
 typedef struct Ent_80099BD4 Ent_80099BD4;
 typedef struct Path_80099BD4 Path_80099BD4;
 typedef struct Seg_80099BD4 Seg_80099BD4;
-typedef struct Sp_80099BD4 Sp_80099BD4;
 struct Ent_80099BD4
 {
   s32 k;
   s32 v;
-};
-struct Sp_80099BD4
-{
-  s32 a;
-  void *b;
-  s32 c;
-  s32 d;
 };
 struct Seg_80099BD4
 {
@@ -1137,7 +1131,7 @@ void TObjEneDf2Bringer::load_resources() {
     VecCopy((Vec *)&a, (const Vec *)&seg->p0);
     VecCopy((Vec *)&d, (const Vec *)&seg->p2);
     subtract_vector(&d, &a);
-    len = ((TObjBoss2Tunnel *)(&d))->update_scale();
+    len = normalize_vector_safe(&d);
     p1 = &seg->p1;
     s1 = 0.4f * len;
     VecCopy((Vec *)p1, (const Vec *)&a);
@@ -1160,8 +1154,8 @@ void TObjEneDf2Bringer::load_resources() {
   TObjEneDf2Bringer__uv_scroll_buffer = (uaddr) o;
   init_bringer_effect_tables();
   {
-    Sp_80099BD4 sp = { *((s32 *) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430)), &lbl_8048FAF8, 1, 0xB0000 };
-    TLobby::spawn_npc_enemy((s16)0x16, (s32)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8))), (NJS_TEXLIST *)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 0xC))), &sp, 7.0f, 0.0f);
+    NpcAnimationBinding sp = { reinterpret_cast<BmlMotionEntry *>(*((s32 *) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430))), reinterpret_cast<TObjMotionAction *>(&lbl_8048FAF8), 0, 1, 11 };
+    NpcModelRegistry::register_animated_chunk((s16)0x16, reinterpret_cast<void *>((*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8)))), reinterpret_cast<void *>((*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 0xC)))), &sp, 7.0f, 0.0f);
   }
 }
 
@@ -1326,13 +1320,12 @@ void TObjEneDf2Bringer::vfunc_28() {  }
 
 void TObjEneDf2Bringer::vfunc_63() { if (*(short*)((char*)this + 0x326) != 10) { TObjEneDD::transition_enemy_state(10); } }
 
-#define sub_80098DEC__17TObjEneDf2BringerFv ((s32 (*)())sub_80098DEC__17TObjEneDf2BringerFv)
 void TObjEneDf2Bringer::vfunc_62() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     temp_r0 = this->mode;
     if ((temp_r0 != 9) && (temp_r0 != 8)) {
-        sub_80098DEC__17TObjEneDf2BringerFv();
+        this->sub_80098DEC();
     }
     if (*(s32 *)((s8 *)arg0 + 0x3C0) & 4) {
         ((TObjEneDD *)arg0)->clear_attack_receipts();
@@ -1358,7 +1351,6 @@ void TObjEneDf2Bringer::sub_800994F8() {  }
 
 #undef sub_80098DEC__17TObjEneDf2BringerFv
 #define enemy_validate_retained_target ((s32 (*)())enemy_validate_retained_target)
-#define update_linked_position__12TObjEneDD_STFf ((s32 (*)(f32))update_linked_position__12TObjEneDD_STFf)
 void update_attack_child__17TObjEneDf2BringerFPv(Bringer_800993E8 *obj) {
     Fields_800993E8 *self = (Fields_800993E8 *)obj;
     Entry_800993E8 *entry;
@@ -1451,7 +1443,7 @@ void TObjEneDf2Bringer::update_if_in_band() {
 
 void update_flag_0x3C0__17TObjEneDf2BringerFPv(void *arg0) {
     if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 8)) {
-        update_linked_position__12TObjEneDD_STFf(300.0f);
+        ((TObjEneDD_ST *)arg0)->update_linked_position(300.0f);
         return;
     }
     if (enemy_validate_retained_target() == 0) {
@@ -1484,7 +1476,7 @@ s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self) {
         enemy_set_target_id(self, id);
         return 1;
     }
-    enemy_clear_target__12TObjEneDD_STFUs(self);
+    ((TObjEneDD_ST *)(self))->enemy_clear_target();
     return 0;
 }
 
@@ -1547,7 +1539,6 @@ s32 TObjEneDf2Bringer::check_stage_advance() {
 }
 
 #undef enemy_validate_retained_target
-#undef update_linked_position__12TObjEneDD_STFf
 #define TObjEneDf2Bringer__sub_80097714 ((s32 (*)(void *, void *))TObjEneDf2Bringer__sub_80097714)
 #define play_sound_effect ((s32 (*)(s32, void *, s32, s32))play_sound_effect)
 void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
@@ -2238,7 +2229,7 @@ void bringer_render_node_callback(void) {
     case 41:
         pos = TObjEneDf2Bringer__render_point_cursor;
         TObjEneDf2Bringer__render_point_cursor = pos + 0xC;
-        get_camera_ctrl__9TObjEneDDFv(&bringer_camera_ctrl_target_vec, pos);
+        forward_transform_to_view((const Vec *)&bringer_camera_ctrl_target_vec, (Vec *)pos);
         break;
     }
     TObjEneDf2Bringer__render_node_index += 1;

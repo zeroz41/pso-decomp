@@ -118,7 +118,6 @@ void TUnk_804A4F60::update_attack() {
 }
 
 TUnk_804A4F60::TUnk_804A4F60(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     set_weapon_flags(0x22);
     rotation_z = 0;
     extension = 0.0f;

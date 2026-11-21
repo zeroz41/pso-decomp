@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TUnk_804F3A20.h"
@@ -48,8 +50,6 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-void *__ct__9TAdBackGCFv(void *, void *);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 s32 load_system_file(s32 arg0);
 void refresh_char_slots__23TAdSinglePlyChrSelectGCFv(void);
 s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv();
@@ -59,8 +59,7 @@ struct PsoSystemCardFilename { char value[0xB]; };
 extern PsoSystemCardFilename pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
-u32 update_window_mode_from_progress__6TLobbyFPv(void *, const void *);
-void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
+void *create_window_menu_default(void *, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 align_menu_entry_positions(void *);
 s32 all_players_loaded__23TAdSinglePlyChrSelectGCFv();
@@ -309,7 +308,7 @@ void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1) {
         ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
         *(u32 *)((s8 *)arg0 + 0x30) = 0U;
     }
-    *(u32 *)((s8 *)arg0 + 0x30) = update_window_mode_from_progress__6TLobbyFPv(multi_chg_game_mode_window_extent, multi_chg_game_mode_window_size);
+    *(u32 *)((s8 *)arg0 + 0x30) = (u32)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
         ((TWindowMessage *)(*(uaddr *)((s8 *)arg0 + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((saddr)arg0, (s32)arg1, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x24)))))), 3);
     }
@@ -331,7 +330,7 @@ s32 TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
     s32 b;
     s32 c;
     s32 d;
-    self->win = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_804F3A18, 2);
+    self->win = create_window_menu_default(lbl_804F3A18, 2);
     a = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 6, self->f24);
     b = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 7, self->f24);
     c = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 2, self->f24);
@@ -385,17 +384,11 @@ void TAdMultiChgGameModeGC::create_back_objects() {
     void *o;
     void *o2;
     if (*(void **)((s8 *)this + 0x28) == NULL) {
-        o = TObject::operator new(0x24);
-        if (o != NULL) {
-            o = __ct__9TAdBackGCFv(o, this);
-        }
+        o = new TAdBackGC(this);
         *(void **)((s8 *)this + 0x28) = o;
     }
     if (*(void **)((s8 *)this + 0x2C) == NULL) {
-        o2 = TObject::operator new(0x28);
-        if (o2 != NULL) {
-            o2 = __ct__12TAdBackTxtGCFv(o2, this);
-        }
+        o2 = new TAdBackTxtGC(this);
         *(void **)((s8 *)this + 0x2C) = o2;
     }
 }

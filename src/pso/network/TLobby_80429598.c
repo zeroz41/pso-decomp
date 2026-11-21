@@ -66,7 +66,7 @@ u32 exi_dma_write_length;
 s32 exi_dma_read_length;
 volatile RecvDescriptor lbl_805D7C5C;
 s32 lbl_805D7C58;
-void (*lbl_805D7C54)(u8); /* send-done callback */
+ExiSendCompletionCallback lbl_805D7C54;
 saddr exi_receive_callback;
 uaddr lbl_805D7C4C;
 s32 lbl_805D7C48;
@@ -369,7 +369,7 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
     s32 notify;
     u8 status;
     u8 err;
-    void (*callback)(u8);
+    ExiSendCompletionCallback callback;
 
     notify = 0;
     if (EXILock(0, 2, TLobby__sub_80429B8C) == 0) {
@@ -587,7 +587,7 @@ s32 init_bba_exi_adapter(void *arg) {
 }
 #pragma pop
 
-void start_exi_send(s32 arg0, s32 arg1, void (*arg2)(u8)) {
+void start_exi_send(s32 arg0, s32 arg1, ExiSendCompletionCallback arg2) {
     s32 var_r3;
     s32 var_r4;
     lbl_805D7C7C = arg0;

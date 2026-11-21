@@ -1,21 +1,18 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/render/GinjaModel.h"
 #include "types.h"
 #include <string.h>
-#include "pso/object/door/TObjDoorJung.h"
-
-struct Ent_8023DBEC { const char *name; u32 a; u32 b; };
-
-struct List_8023DBEC { Ent_8023DBEC *ents; u32 count; };
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
-void set_material_texture_slot(void *);
 
-s32 TObjDoorJung::find_entry_by_name(const char *name) {
-    Ent_8023DBEC *ents;
+s32 find_texture_entry_by_name(const GinjaTextureList *list, const char *name) {
+    const GinjaTextureEntry *ents;
     u32 i;
-    if (this != NULL) {
-        ents = ((List_8023DBEC *)this)->ents;
+    if (list != NULL) {
+        ents = list->entries;
         if (ents != NULL) {
-            for (i = 0; i < ((List_8023DBEC *)this)->count; i++) {
+            for (i = 0; i < list->count; i++) {
                 if (strcmp(name, ents[i].name) == 0) {
                     return i;
                 }
@@ -25,12 +22,13 @@ s32 TObjDoorJung::find_entry_by_name(const char *name) {
     return -1;
 }
 
-void TObjDoorJung::free_children(void *arg1) {
-    if (this->m_prev != NULL) {
-        set_material_texture_slot(this->m_prev);
+void set_ginja_model_texture_slot(void *model, u32 slot) {
+    GinjaModel *mesh = static_cast<GinjaModel *>(model);
+    if (mesh->primary != NULL) {
+        set_material_texture_slot(mesh->primary, slot);
     }
-    if (this->m_next != NULL) {
-        ((void (*)(void *, void *))set_material_texture_slot)(this->m_next, arg1);
+    if (mesh->secondary != NULL) {
+        set_material_texture_slot(mesh->secondary, slot);
     }
 }
 

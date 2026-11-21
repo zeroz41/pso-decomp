@@ -107,9 +107,6 @@ struct Junk_8003A314 {
 
 extern "C" {
 s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
-s32 __ct__8TObjBaseFP7TObject();
-extern s32 __vt__17TObjBoss2CeilJunk[];
-u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, saddr arg2);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -137,7 +134,7 @@ void TObjBoss2CeilJunk::render() {
     new_var = (0.2f) * t;
     s.y = (1.0f);
     s.x = (s.z = new_var);
-    ((TObjEneDD *)(self->f44))->draw_oriented_shadow((saddr)self->f9C, 0, (uaddr)&s);
+    TObjEneDD::draw_oriented_shadow((const Vec *)self->f44, (const Vec *)self->f9C, 0, &s);
   }
   saved_model_render_flags = model_render_flags;
   if (self->fB4 < (1.0f))
@@ -274,13 +271,12 @@ TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
-u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, saddr arg2) {
+#define arg0 ((struct RecoveredFields_8003A6F4_arg0 *)this)
+TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TObjBase(parent) {
     f32 temp_f1;
     f32 temp_f2;
-    __ct__8TObjBaseFP7TObject();
-    arg0->unk18 = __vt__17TObjBoss2CeilJunk;
     arg0->field_0 = (saddr)TObjBoss2CeilJunk__name;
-    VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);
+    VecCopy((Vec *)&arg0->unknown_1C[0x1C], position);
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;
     arg0->field_AC = (s32) (*(const volatile f32 *)&lbl_805D85A0 * temp_f1);
@@ -297,6 +293,6 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
     arg0->field_98 = (0.0f);
     arg0->field_B0 = 0;
     arg0->field_B4 = (1.0f);
-    return (unsigned char *) (arg0);
 }
+#undef arg0
 #pragma pop

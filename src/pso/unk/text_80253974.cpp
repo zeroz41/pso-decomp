@@ -6,6 +6,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowDD.h"
 
 class Win_80253D10;
 typedef void (Win_80253D10::*PM_80253D10)();
@@ -21,7 +22,6 @@ struct VBar_80253D10 : VBase_80253D10 {
 extern "C" {
 extern const f32 lbl_805DCDF0;
 s32 init_window_layout_entries(void *, void *, s16);
-s32 refresh_status_display__9TWindowDDFv(void *);
 extern u8 lbl_804CF30C[];
 extern PM_80253D10 TWindowHelpItem__mag_growth_update_callback;
 extern const f32 lbl_805DCDF4;
@@ -109,14 +109,14 @@ void TWindowHelpItem__vt10(u8 *window_base) {
     sy = ((TWindowBase *)window_base)->get_array_entry(1);
     iq = ((TWindowBase *)window_base)->get_array_entry(2);
     up = ((TWindowBase *)window_base)->get_array_entry(0xF);
-    ((TWindowHelpItem *)lv)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0xA2));
-    ((TWindowHelpItem *)sy)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0xA3));
-    ((TWindowHelpItem *)iq)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0xA4));
+    ((TWindowHelpItem *)lv)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA2));
+    ((TWindowHelpItem *)sy)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA3));
+    ((TWindowHelpItem *)iq)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA4));
     ((TWindowHelpItem *)sy)->set_flag0_bit20();
     ((TWindowHelpItem *)lv)->set_flag4_and_field1c(((MagStats *)(mag))->get_level());
     ((TWindowHelpItem *)sy)->set_flag4_and_field1c(((MagStats *)mag)->get_synchro());
     ((TWindowHelpItem *)iq)->set_flag4_and_field1c(((MagStats *)mag)->get_iq());
-    refresh_status_display__9TWindowDDFv((void *) up);
+    measure_message_text_width_default((void *)up);
     *(f32 *)((s8 *)up + 8) = -(lbl_805DCDF8 * *(f32 *)((s8 *)up + 0x10) - lbl_805DCDF4);
     ((TWindowHelpItem *)up)->set_flag0_bit2();
     a = ((TWindowBase *)window_base)->get_array_entry(3);

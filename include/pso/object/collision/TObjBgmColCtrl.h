@@ -12,7 +12,7 @@ struct TObjBgmColCtrl : public TObject {
     virtual void render();
     virtual void run_task();
     static void create_controller();
-    static u8 is_active();
+    static s32 is_active();
     static void update_all_zones(saddr arg0);
 };
 

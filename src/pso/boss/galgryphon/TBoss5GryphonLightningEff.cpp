@@ -141,7 +141,7 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
     eval_bezier_curve__12TBoss8DragonFPviiPvf(a, b, 0, &self->v1c, x0);
     eval_bezier_curve__12TBoss8DragonFPviiPvf(a, b, 0, &self->v28, x1);
     subtract_vector(&self->v28, &self->v1c);
-    self->f34 = ((TObjBoss2Tunnel *)(&self->v28))->update_scale();
+    self->f34 = normalize_vector_safe(&self->v28);
     self->n = self->f34 * *(const volatile f32 *)&lbl_805DF5FC;
     self->n = self->n + 1;
     if (self->n < 2) {
@@ -159,7 +159,7 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
     for (i = 0; (f32)i < denom; i++) {
         VecCopy((Vec *)&v, (const Vec *)&self->pts[i]);
         subtract_vector(&v, &self->pts[i + 1]);
-        self->f34 += ((TObjBoss2Tunnel *)(&v))->update_scale();
+        self->f34 += normalize_vector_safe(&v);
     }
     ((TTecZondeEff *)self)->randomize_bolt_jitter();
     for (i = 0; i < self->n; i++) {

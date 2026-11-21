@@ -11,7 +11,6 @@
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/enemy/TObjEnemy.h"
 #include <stddef.h>
-#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -243,7 +242,7 @@ s32 TObjDFHorming::is_boss_active() {
             }
         }
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
 
 s32 TBoss4DarkFalz::is_state_ready() {
@@ -257,7 +256,7 @@ s32 TBoss4DarkFalz::is_state_ready() {
             }
         }
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
 
 s32 TBoss4DarkFalz::is_active() {
@@ -271,7 +270,7 @@ s32 TBoss4DarkFalz::is_active() {
             }
         }
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
 s32 TBoss4Type3::pick_random_target_player() {
     u16 buf[4];
@@ -280,7 +279,7 @@ s32 TBoss4Type3::pick_random_target_player() {
     u8 *p;
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
-        p = ((u8 *)TObjPlayer::get_player_data(i));
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0) {
             buf[n++] = get_entity_id(p);
             if (n >= 4) {
@@ -289,9 +288,9 @@ s32 TBoss4Type3::pick_random_target_player() {
         }
     }
     if (n == 0) {
-        return 0xFFFF;
+        return (u16)(0xFFFF);
     }
-    return buf[(s32)(((f32)n - 0.01f) * (3.0517578e-05f * (f32)rand()))];
+    return (u16)(buf[(s32)(((f32)n - 0.01f) * (3.0517578e-05f * (f32)rand()))]);
 }
 
 }
@@ -636,7 +635,7 @@ void TBoss4DarkFalz__sub_8004B5A0(void) {
         k = 12.5f;
         for (i = 0; i < registered_player_count; i++) {
             p = (P_8004B5A0 *)TObjPlayer::get_player_data(i);
-            if (p != 0 && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
+            if (p != 0 && ((TObjPlayer *)p)->get_area() == 0xE) {
                 VecCopy((Vec *)&v, (const Vec *)&p->pos);
                 v.y += k;
                 spawn_particle_effect(&v, 0x28);
@@ -669,7 +668,7 @@ void TBoss4DarkFalz::handle_defeat() {
     }
     flags[0] = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(flags);
-    ((TObjEnemy *)arg0)->exchange_object_state((saddr)flags, (s16)0);
+    ((TObjEnemy *)arg0)->exchange_object_state(flags, 0);
     ((VObj_18_8004B654 *)(arg0))->m77(flags);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
@@ -693,7 +692,7 @@ void TBoss4DarkFalz::refresh_player_equipment(void *self) {
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
-            if (((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
+            if (((TObjPlayer *)p)->get_area() == 0xE) {
                 ((TObjPlayer *)p)->refresh_equipment_slot();
             }
         }
@@ -711,7 +710,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
     ang = 0;
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
+        if (p != NULL && ((TObjPlayer *)p)->get_area() == 0xE) {
             Vec v = base;
             v.x += 2.5e+02f * sin_table_lookup(ang);
             v.z += 2.5e+02f * cos_table_lookup(ang);
@@ -738,7 +737,7 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
     ang = rate / 2;
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
+        if (p != NULL && ((TObjPlayer *)p)->get_area() == 0xE) {
             Vec v = base;
             v.x += 12.5f * sin_table_lookup(ang);
             v.z += 12.5f * cos_table_lookup(ang);

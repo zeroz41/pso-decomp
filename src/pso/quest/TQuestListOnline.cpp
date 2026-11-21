@@ -104,7 +104,6 @@ struct T_80217B30 { u8 pad[0x38]; s32 f38; };
 
 extern "C" {
 s32 get_entity_id(int);
-int set_field_20__15TShopWindowBaseFl(void*, int);
 saddr get_window_layout_position(int);
 
 s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);
@@ -227,8 +226,8 @@ void TQuestListOnline::build_list_window() {
         }
         if (description_window == 0U) {
             WindowSize size = online_description_window_size;
-            description_window = (uaddr)TWindowMessage::create((void *)get_window_layout_position(0x2D), (saddr)(&size), 1);
-            ((TWindowMessage *)description_window)->append_line((saddr)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
+            description_window = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x2D)), (const f32 *)(&size), 1);
+            ((TWindowMessage *)description_window)->append_line((int)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         } else {
             ((TWindowMessage *)description_window)->append_line((saddr)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         }
@@ -242,7 +241,7 @@ void TQuestListOnline::show_info_window() {
     if ((u32) info_window == 0U) {
         WindowSize size = online_info_window_size;
         temp_r31 = get_entity_id(window_owner);
-        info_window = (uaddr)TWindowMessage::create((int) (get_window_layout_position(0x2E)), (const f32 *)(&size), 1, (int) ((s32) temp_r31));
+        info_window = (uaddr)TWindowMessage::create((s32)((int) (get_window_layout_position(0x2E))), (const f32 *)(&size), 1, (s32)((int) ((s32) temp_r31)));
         ((TWindowBase *)info_window)->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
             ((TWindowAddition *)info_window)->set_position_xy(0.75f, 0.75f);
@@ -318,7 +317,7 @@ void TQuestListOnline::handle_list_selection() {
     }
 }
 
-int TQuestListOnline::begin_buffer_request() { return set_field_20__15TShopWindowBaseFl(this, 5); }
+void TQuestListOnline::begin_buffer_request() { set_field_20(5); }
 
 void TQuestListOnline::request_download_buffer() {
     if (TLobby::tmp_buf_is_free() != 0) {

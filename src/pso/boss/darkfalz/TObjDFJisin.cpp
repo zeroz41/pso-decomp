@@ -44,7 +44,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 
 const char *TObjDFUsoTower__name = "TObjDFUsoTower";
@@ -282,6 +281,7 @@ LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFiel
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 typedef struct Obj_80052090 {
     u8 pad0[0x38];
@@ -649,12 +649,12 @@ void TObjDFRecover::run_task() {
     uaddr effect_address;
     u16 id;
     if (TBoss4DarkFalz::is_state_ready() == 0) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+        queue_destruction();
         return;
     }
     id = target_id;
     if ((id == 0xFFFF) || ((target_address = (saddr)get_player_by_client_id(id)) == 0)) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+        queue_destruction();
         return;
     }
     VecCopy((Vec *)position, (const Vec *)(target_address + 0x2FC));
@@ -666,7 +666,7 @@ void TObjDFRecover::run_task() {
             effect_address = (uaddr)create_particle_emitter(position, 0xEB);
             effect = (void*)effect_address;
             if (effect_address == 0U) {
-                ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+                queue_destruction();
                 return;
             }
             ((TParticleCtrl *)effect)->set_flags(0x40);
@@ -691,7 +691,7 @@ void TObjDFRecover::run_task() {
             ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((saddr)m_up, position, cached_position);
         }
         if (countdown <= 0) {
-            ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+            queue_destruction();
         }
         break;
     }
@@ -850,7 +850,7 @@ void damage_players_near_point(s32 arg0, Vec *arg1) {
     hit.type = 0x11;
     hit.value = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = ((Player_80050D74 *)TObjPlayer::get_player_data(i));
+        p = (Player_80050D74 *)TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->pos) > 20.0f)) {

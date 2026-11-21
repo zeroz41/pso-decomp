@@ -1,10 +1,12 @@
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/object/base/TObjMotion.h"
 
 // Data-only unit split off the flower enemy: the .rodata block at 0x8043BA68.
 // The referencing units (TObjEneRe2Flower, TObjEneDD) keep these extern so
 // their per-object lis/addi codegen is unchanged; this unit only provides bytes.
 
-extern u8 TObjEneRe2Flower__animation_descriptors[];
+extern TObjMotionAction TObjEneRe2Flower__animation_descriptors[8];
 
 __declspec(section ".rodata") extern const u32 enemy_dd_attack_param_block[5] ATTRIBUTE_ALIGN(4) = {
     0x00000010, 0x00000000, 0x41F00000, 0x00000000,
@@ -77,9 +79,11 @@ __declspec(section ".rodata") extern const u8 TObjEneRe2Flower__class_name_strin
     0x00,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BB90[4] = {
-    0x00000000, (uaddr)TObjEneRe2Flower__animation_descriptors, 0x00010006, 0x00080000,
+extern "C" {
+__declspec(section ".rodata") extern const NpcAnimationBinding lbl_8043BB90 = {
+    NULL, TObjEneRe2Flower__animation_descriptors, 1, 6, 8,
 };
+}
 
 __declspec(section ".rodata") extern const u32 lbl_8043BBA0[5] ATTRIBUTE_ALIGN(4) = {
     0x00000000, 0x00000000, 0x41F00000, 0x00000000,

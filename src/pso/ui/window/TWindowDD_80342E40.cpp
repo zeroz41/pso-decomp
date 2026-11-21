@@ -36,7 +36,7 @@ s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803484C4(void *);
 
 void TWindowDD::update() {
-    update_selection_state();
+    this->update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         if ((s32) *(s32 *)((s8 *)this + 0xB0) == 1) {

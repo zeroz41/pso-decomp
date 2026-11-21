@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -95,7 +97,7 @@ TObjMotionAction wolf_action_table[19] = {
 
 const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
 
-static const DelDepthAnimationBinding bm5_wolf_spawn_descriptor = { NULL, wolf_action_table, 1, 19, 0 };
+static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, reinterpret_cast<TObjMotionAction *>(wolf_action_table), 0, 1, 19 };
 
 __declspec(section ".data") s32 TObjEneBm5Wolf__stat_params[2];
 __declspec(section ".data") s32 wolf_stat_handle_a_table[2];
@@ -104,7 +106,6 @@ __declspec(section ".data") s32 lbl_80500B58[2];
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
-void enemy_clear_target__12TObjEneDD_STFUs(void *);
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 void draw_blob_shadow(s32 arg0);
 s32 scale_matrix(s32, f32, f32, f32);
@@ -132,9 +133,7 @@ f32 newton_sqrtf(f32);
 #pragma push
 #pragma fp_contract on
 s32 angle_diff_s16(s32, s32);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 free_collision_body_parts(void *);
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int, int);
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
 void free_bin_model_request(void*, int);
@@ -271,10 +270,10 @@ void TObjEneBm5Wolf::load_resources() {
         lbl_80500B58[i] = (saddr)TLobby::dispatch_shared_handler_a(lbl_8043B3C0[i]);
     }
     {
-    DelDepthAnimationBinding sp = bm5_wolf_spawn_descriptor;
-    sp.motions = TObjEneBm5Wolf__bml_resource->motions;
-    TLobby::spawn_npc_enemy(9, TObjEneBm5Wolf__bml_resource->models[1].model, (NJS_TEXLIST *)TObjEneBm5Wolf__bml_resource->models[0].m_c, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    TLobby::spawn_npc_enemy(10, TObjEneBm5Wolf__bml_resource->models[0].model, (NJS_TEXLIST *)TObjEneBm5Wolf__bml_resource->models[0].m_c, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
+    sp.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneBm5Wolf__bml_resource->motions);
+    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].m_c), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].m_c), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
 }
 
@@ -338,8 +337,8 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_animation(requested_action);
     set_field_b8(requested_action);
     n = m_3d8;
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0], n);
-    check_state_flag_1();
+    reset_hp((u8 *)TObjEneBm5Wolf__stat_params[n != 0], (u8 *)wolf_stat_handle_a_table[n != 0], (u8 *)wolf_stat_handle_b_table[n != 0]);
+    set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (m_3d8 != 0) {
         initialize_enemy_state(8);
@@ -420,8 +419,9 @@ void TObjEneBm5Wolf::run_task() {
         this->update_state();
         return;
     }
-    if (find_entity_by_id((this->m_3e0)) != 0U) {
-        all_parents_unqueued_for_destruction__7TObjectFv();
+    TObject *entity = (TObject *)find_entity_by_id((this->m_3e0));
+    if (entity != NULL) {
+        entity->all_parents_unqueued_for_destruction();
     }
     if (this->vfunc_83() != 4) {
         temp_r3 = this->m_414;
@@ -683,7 +683,7 @@ s32 TObjEneBm5Wolf::calc_lunge_aim() {
     f32 temp_f4;
     f32 temp_f5;
     f32 var_f0;
-    if (this->transform_relative_position(this->target) != 0) {
+    if (is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)this->target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (((s32)get_flag_bit0()) != 0) {
@@ -835,7 +835,7 @@ void TObjEneBm5Wolf::appearing_state(s32 arg1) {
         this->vfunc_95();
         this->m_408 &= ~3;
         this->m_408 |= 4;
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        this->enemy_clear_target();
         this->turnOffset = 0;
         VecCopy(home, &this->position);
         this->position.x -= 100.0f * sin_table_lookup(this->rotation_y);
@@ -893,7 +893,7 @@ void TObjEneBm5Wolf::sleeping_state(s32 arg1) {
       this->requested_action = 4;
       this->set_field_378(2);
       (this->vfunc_95());
-      enemy_clear_target__12TObjEneDD_STFUs(this);
+      this->enemy_clear_target();
       this->turnOffset = 0;
       this->m_408 = (s32) ((this->m_408) & 0xFFFFFFFE);
       return;
@@ -1658,7 +1658,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
                     VecCopy(&v, (const Vec *)&this->m_2fc);
                     v.x += dx;
                     v.z += dz;
-                    if (csnVectorUnder(&v, (u32 *)&this->m_120, 0x15) != NULL) {
+                    if (csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x15) != NULL) {
                         this->roamingSubstate = 1;
                         this->requested_action = 0x12;
                         this->destinationDirection.x = sin_table_lookup(this->m_42c);
@@ -1970,7 +1970,7 @@ void TObjEneBm5Wolf::render_debug() {
     AnimationMotion *motion;
     TObjEneBm5Wolf *leader;
 
-    if (TObjEneDD::get_target_info() != 0) {
+    if (this->get_target_info() != 0) {
         debug_printf_at(pack_debug_text_position(0, 0), "GROUP:%2d", this->m_3dc);
         if (this->m_3d8 != 0) {
             debug_printf_at(pack_debug_text_position(0, 1), "L/M:LEADER");

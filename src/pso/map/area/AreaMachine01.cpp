@@ -36,7 +36,7 @@ s32 init_machine_scene(void) {
         init_music_sequencer(2);
     }
     if ((get_main_phase() != 0xE) || (is_quest_active() == 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x28);
+        set_story_flag_or_send_quest_flag(0x28);
     }
     return 1;
 }

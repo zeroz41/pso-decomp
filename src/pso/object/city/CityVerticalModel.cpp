@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterial.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -40,8 +41,6 @@ extern "C" {
 void vfunc_13__13TUnk_804B5C08Fl(void* a0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 draw_ginja_object();
-extern saddr city_common_texture_list;
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
 extern void *tl_05;
@@ -64,14 +63,13 @@ void TUnk_804B5C08::render() {
       ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C = ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C;
       return;
     }
-    TObjFish::set_global_param((saddr)((void *) city_common_texture_list));
+    TObjFish::set_global_param((saddr)city_common_texture_list);
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     translate_matrix(0, 0.0f, (f32) ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C, 0.0f);
     new_var2 = arg0;
     rotate_matrix_y(0, (int) ((RecoveredFields_80182E90_arg0 *) new_var2)->field_60);
-    get_city_common_model(8);
-    draw_ginja_object();
+    draw_ginja_object(get_city_common_model(8));
     pop_matrix();
   }
 }

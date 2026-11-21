@@ -22,11 +22,11 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 
-extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -67,7 +67,7 @@ void clear_photon_blast_hits(void) {
 void queue_deferred_photon_blast_hit(u32 arg0, s32 arg1, s32 arg2) {
     s32 found = 0;
     if (deferred_photon_blast_hit_count < 0x20) {
-        const f32 *e = ((const f32 *)TObjPlayer::get_photon_blast_entry(arg1));
+        const f32 *e = (const f32 *)TObjPlayer::get_photon_blast_entry(arg1);
         if (arg2 == 0) {
             s32 i;
             for (i = 0; i < deferred_photon_blast_hit_count; i++) {
@@ -93,7 +93,7 @@ void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 sca
     if (photon_blast_hit_count >= 32) {
         return;
     }
-    entry = ((const f32 *)TObjPlayer::get_photon_blast_entry(kind));
+    entry = (const f32 *)TObjPlayer::get_photon_blast_entry(kind);
     if (allow_duplicate == 0) {
         for (i = 0; i < photon_blast_hit_count; i++) {
             if (photon_blast_hit_queue[i].identity == identity) {
@@ -196,7 +196,6 @@ struct Obj_801A7428 {
 extern "C" {
 void set_active_camera_pose_from_params(u8 *arg0);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
-void get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
 extern s32 photon_blast_joint_index;
@@ -264,7 +263,7 @@ void publish_photon_blast_joint_origins(void) {
         struct Node_801A7578 *node = &photon_blast_joint_origins->list[i];
         if (photon_blast_joint_index == node->id) {
             Vec origin = lbl_80446A44;
-            get_camera_ctrl__9TObjEneDDFv(&origin, &node->pos);
+            forward_transform_to_view(&origin, &node->pos);
         }
     }
     photon_blast_joint_index += 1;
@@ -410,7 +409,7 @@ void TUnk_804C3248::update_if_active() {
 
 void TUnk_804C3248::enter_scene() {
     s32 arg0 = (s32)this;
-    ((s32 (*)(void))setup_photon_blast_camera__13TUnk_804C3248Fv)();
+    ((TUnk_804C3248 *)this)->setup_photon_blast_camera();
     reset_state__10TSceneSoraFv(arg0);
     ((s32 (*)(s32))apply_all_default__8TFogCtrlFv)(arg0);
     TObjPlayer__sub_800D8A60();

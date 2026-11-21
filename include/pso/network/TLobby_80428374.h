@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TLOBBY_80428374_H
 
 #include "types.h"
+#include <stddef.h>
 
 typedef struct ModemSessionState {
     char **subst;
@@ -103,6 +104,10 @@ typedef struct NetSession {
     u8 bufC8[8];                /* 0xC8: NetConnectCfg.b64 */
 } NetSession;
 LAYOUT_ASSERT(NetSession_size_check, sizeof(NetSession) == 0xD0);
+typedef char NetSession_modem_offset[offsetof(NetSession, modem) == 0x1C ? 1 : -1];
+typedef char NetSession_request_offset[offsetof(NetSession, req) == 0x88 ? 1 : -1];
+typedef char NetSession_auth_offset[offsetof(NetSession, h98) == 0x98 ? 1 : -1];
+typedef char ModemConfig_size[sizeof(ModemConfig) == 0x60 ? 1 : -1];
 
 /* TLobby_80428374.c: the modem session (dial-script expansion, timed waits) and the buffer pool's bounds. */
 #ifdef __cplusplus
@@ -119,7 +124,7 @@ s16 TLobby__sub_804290D4(s32 idx);
 void reset_boot_state(void);
 s32 wait_timeout_loop(void *params);
 void cancel_alarm_b(void);
-s32 init_buffer_pool(void);
+s16 init_buffer_pool(void);
 void reset_buffer_pool(void);
 #ifdef __cplusplus
 }

@@ -60,11 +60,6 @@ s32 find_chat_keyword(char *, char (*)[0x20], s32);
 
 }
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__18TOChatSensorFolder[];
-}
 
 struct C_8015ACE4 { u8 pad0[0xA4]; s8 buf[0x20]; };
 
@@ -88,11 +83,6 @@ extern s32 tl_05;
 
 u32 TOChatSensor__create(saddr arg0);
 
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-
-extern s32 __vt__12TOChatSensor[];
-
-u32 TOChatSensor__ct(int arg0, void *arg1, void *arg2);
 }
 
 extern "C" {
@@ -115,22 +105,11 @@ void TOChatSensor::destroy_global() {
 }
 
 u32 TOChatSensor__create(saddr arg0) {
-    uaddr temp_r3;
-    uaddr temp_r3_2;
-    u32 var_r0;
     if ((uaddr) TOChatSensorFolder__instance == 0U) {
-        temp_r3 = (uaddr)TObject::operator new(0x1C);
-        if (temp_r3 != 0U) {
-            ((s32 (*)(u32, s32))TOChatSensorFolder__ct)(temp_r3, tl_05);
-        }
+        new TOChatSensorFolder((TObject *)tl_05);
     }
     if ((uaddr) TOChatSensorFolder__instance != 0U) {
-        temp_r3_2 = (uaddr)TObject::operator new(0xD0);
-        var_r0 = temp_r3_2;
-        if (var_r0 != 0U) {
-            var_r0 = TOChatSensor__ct((int)temp_r3_2, (void *)TOChatSensorFolder__instance, (void *)arg0);
-        }
-        return var_r0;
+        return (uaddr)new TOChatSensor((TObject *)TOChatSensorFolder__instance, (void *)arg0);
     }
     return 0U;
 }
@@ -146,11 +125,10 @@ void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
     }
 }
 
-u32 TOChatSensor__ct(int arg0, void *parent, void *arg2) {
+#define arg0 ((int)this)
+TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
     s32 n;
     s32 *t;
-    __ct__8TObjBaseFP7TObject((void *) arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOChatSensor;
     *(const char **)((s8 *)arg0 + 0) = TOChatSensor__name;
     ((TOChatSensor *)arg0)->apply_object_set_data(arg2);
     ((TOChatSensor *)arg0)->m_c4 = 0;
@@ -162,8 +140,8 @@ u32 TOChatSensor__ct(int arg0, void *parent, void *arg2) {
         t += n;
         ((TOChatSensor *)arg0)->set_trigger_text((void *)t[-1]);
     }
-    return arg0;
 }
+#undef arg0
 
 TOChatSensor::~TOChatSensor() {
 
@@ -296,12 +274,9 @@ void TOChatSensor::check_player_proximity() {
     }
 }
 
-void *TOChatSensorFolder__ct(void *chat_sensor_folder) {
-    __ct__7TObjectFP7TObject(chat_sensor_folder);
-    *(s32 **)((s8 *)chat_sensor_folder + 0x18) = __vt__18TOChatSensorFolder;
-    ((TOChatSensorFolder *)chat_sensor_folder)->m_name = chat_sensor_folder_name_ptr;
-    TOChatSensorFolder__instance = chat_sensor_folder;
-    return chat_sensor_folder;
+TOChatSensorFolder::TOChatSensorFolder(TObject *parent) : TObject(parent) {
+    m_name = chat_sensor_folder_name_ptr;
+    TOChatSensorFolder__instance = this;
 }
 }
 

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
@@ -30,6 +32,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_803D853C.h"
 
 #include "pso/object/base/TObjChara.h"
 
@@ -277,7 +280,6 @@ s32 angle_difference_abs(s32, s32);
 
 s32 obj_is_hit_receivable();
 
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
 
@@ -502,9 +504,9 @@ void TObjEneMoja::load_resources() {
     lbl_805D50D4[0] = TLobby::dispatch_shared_handler_a(0x48);
     lbl_805D50D4[1] = TLobby::dispatch_shared_handler_a(0x49);
     s16 ids[3] = { 0x32, 0x33, 0x34 };
-    MojaAnimationBinding binding = { lbl_805D50D8->motions, lbl_804918C8, 2, 9, 0 };
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(lbl_805D50D8->motions), reinterpret_cast<TObjMotionAction *>(lbl_804918C8), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        TLobby::spawn_npc_enemy(ids[i], lbl_805D50D8->models[i].model, (NJS_TEXLIST *)lbl_805D50D8->models[i].m_c,
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(lbl_805D50D8->models[i].model), reinterpret_cast<void *>(lbl_805D50D8->models[i].m_c),
             &binding, lbl_80491990.radius, 0.0f);
     }
 }
@@ -1054,7 +1056,7 @@ s32 TObjEneMoja::update_approach_state() {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (this->action_flags != 0x20U) {
-            ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[(this->variant)] + 0xC));
+            ((TObjMotion *)arg0)->sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[(this->variant)] + 0xC));
             this->requested_action = 2;
             {
             Vec v = *(Vec *)(this->target + 0x2FC);
@@ -1201,7 +1203,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
     s32 e;
     switch (*(s16 *)(arg0 + 0x328)) {
     case 0:
-        ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)lbl_805D50D4[*(s32 *)(arg0 + 0x368)]);
+        ((TObjMotion *)arg0)->sub_800A7798(*(f32 *)lbl_805D50D4[*(s32 *)(arg0 + 0x368)]);
         *(s16 *)(arg0 + 0x328) = 1;
     case 1:
         ((TObjMotion *)arg0)->advance_animation();
@@ -1236,7 +1238,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
                 set_matrix_identity(0);
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-                mult_vec_array__10TObjPlayerFUll(0, e, &sp8, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)e, &sp8, 2);
                 ((s32 (*)())pop_matrix)();
                 o = *(V398_800ADAAC **)(arg0 + 0x398);
                 if (o != NULL) {
@@ -1373,7 +1375,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                     ((s32 (*)(void *, int))spawn_particle_effect)(&pos, 0xB9);
                     ((s32 (*)(void *, int))spawn_particle_effect)(&pos, 0xBA);
                     if (ang2 < ((AttackParams *)(self->f318))->get_attack_angle() / 2) {
-                        if (((TObjBoss2Tunnel *)(&dir))->update_scale() < 0.00001f) {
+                        if (normalize_vector_safe(&dir) < 0.00001f) {
                             dir.y = dir.x = 0.0f;
                             dir.z = 1.0f;
                             ((s32 (*)(void *))push_matrix_from)(identity_matrix);

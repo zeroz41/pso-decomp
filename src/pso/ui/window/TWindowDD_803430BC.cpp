@@ -205,7 +205,6 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0);
 void TWindowDD__sub_80347A4C(u8 *arg0, saddr arg1);
 u8 *TWindowDD__sub_80347AD4(void *, s32, s32);
 s32 TWindowDD__sub_80347E04(void *, int);
-s32 dispatch_state__9TWindowDDFv(void *, int, int, int);
 extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
@@ -220,8 +219,6 @@ void *get_player_by_client_id(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 void *TWindowDD__sub_80340F70(void);
 saddr TWindowDD__sub_80342384(s32 arg0, s32 arg1);
-void set_default_positions__9TWindowDDFiPv(void *, s32);
-void init_layout__9TWindowDDFiPv(void *, s32);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 const char *word_select_type_name_pointer = "TWindowDD";
@@ -393,7 +390,7 @@ void TWindowDD__sub_80344114(void) {
     lbl_805D6E24 = -1;
     for (i = 0; i < 6; i++) {
         src = &window_dd_quad_positions[i];
-        ((TWindowDD *)TWindowDD__data_805434E8[i])->set_quad_corners_scaled(src->x, src->y, window_dd_quad_scales[i]);
+        ((TWindowDD *)(TWindowDD__data_805434E8[i]))->set_quad_corners_scaled(src->x, src->y, window_dd_quad_scales[i]);
     }
     pt = TWindowDD__data_805434E8[6];
     x2 = window_dd_quad_positions[6].x;
@@ -515,7 +512,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     s32 w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      set_default_positions__9TWindowDDFiPv(self, w);
+      TWindowDD::set_default_positions((int)self, (void*)w);
       self->a24[0] = w;
     }
   }
@@ -523,7 +520,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   p = (u8 *) TWindowDD__sub_80342384(self->f8C, (s32) lbl_805DFB54);
   if (p != 0)
   {
-    init_layout__9TWindowDDFiPv(self, (saddr) p);
+    TWindowDD::init_layout((int)self, (void*)p);
     self->a24[1] = (saddr) p;
   }
   if (!lbl_805D6E68)
@@ -610,7 +607,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
 #pragma pop
 
 TWindowDD::~TWindowDD() {
-    ((TWindowDD *)this)->close_all_windows();
+    close_all_windows();
 }
 }
 
@@ -695,7 +692,7 @@ void TWindowDD::run_task() {
             if (w->xB8 != 1 && TWindowDD_check_input_mask(w->input, 0x80) != 0) {
                 TWindowDD::spawn_window();
                 w->xA8 = 1;
-                ((TWindowDD *)w->x80)->set_clamped_selection(((TWindowDD *)w->subs[w->idx])->get_cursor_index());
+                ((TWindowDD *)w->x80)->set_clamped_selection(((TWindowDD *)(w->subs[w->idx]))->get_cursor_index());
                 TWindowDD__sub_80341AE0((saddr)cur);
                 copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)(&w->xE0), (R_80343BC0 *)(&w->xC4));
                 if (w->xE0 > 0) {
@@ -801,8 +798,8 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xB4) == 1 || *(s32 *)((s8 *)arg0 + 0xB4) == 2 || *(s32 *)((s8 *)arg0 + 0xB4) == 8 || *(s32 *)((s8 *)arg0 + 0xB4) == 0xF || *(s32 *)((s8 *)arg0 + 0xB4) == 0x11) {
         ((TWindowDD *)(arg0 + 0xC4))->reset_index();
     }
-    temp_r29 = get_entry__9TWindowDDFii(arg0, *(s32 *)((s8 *)arg0 + 0xB0));
-    temp_r31 = get_entry__9TWindowDDFii(arg0, *(s32 *)((s8 *)arg0 + 0xB4));
+    temp_r29 = (s32 *)TWindowDD::get_entry((int)arg0, *(s32 *)((s8 *)arg0 + 0xB0));
+    temp_r31 = (s32 *)TWindowDD::get_entry((int)arg0, *(s32 *)((s8 *)arg0 + 0xB4));
     temp_r3 = arg0 + *(s32 *)((s8 *)arg0 + 0x20) * 4;
     temp_r3 = *(u8 **)((s8 *)temp_r3 + 0x24);
     if (temp_r3 != NULL) {
@@ -840,13 +837,13 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     temp_r3_5 = *(s32 *)((s8 *)temp_r31 + 0);
     if (!(temp_r3_5 & 8)) {
         if (temp_r3_5 & 1) {
-            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_state__9TWindowDDFv(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
+            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
                 ((TWindowDD *)temp_r3)->set_pos_and_data(TWindowDD__data_805DFC10);
             }
             TWindowDD__sub_80347F48((arg0));
         } else {
-            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_state__9TWindowDDFv(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
+            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
                 ((TWindowDD *)temp_r3)->set_pos_and_data(lbl_805DFB80);
             }
@@ -901,8 +898,8 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
     u8 *w;
     u8 *child;
     s32 id;
-    prev = get_entry__9TWindowDDFii(arg0, arg0->fB0);
-    entry = get_entry__9TWindowDDFii(arg0, arg0->ids[arg0->depth]);
+    prev = (s32 *)TWindowDD::get_entry((int)arg0, arg0->fB0);
+    entry = (s32 *)TWindowDD::get_entry((int)arg0, arg0->ids[arg0->depth]);
     w = ((TWindowDD *)arg0)->init_last_child();
     if (w != NULL) {
         if (*entry & 1) {

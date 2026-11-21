@@ -5,6 +5,7 @@
 #include "pso/object/switch/TOSensor.h"
 
 struct BmlResource;
+struct GinjaTextureList;
 
 // The ruins sensor (fs_obj_o_sensor01): once on, its three lamps light one
 // by one over two seconds, its head spins and its four fins pulse, then it
@@ -33,8 +34,8 @@ LAYOUT_ASSERT(TOSensorAncient01_size, sizeof(TOSensorAncient01) == 0xF8);
 
 // set_params[2] picks the pair: the red texture list and the plain one.
 struct TOSensorAncient01Textures {
-    saddr red;
-    saddr plain;
+    GinjaTextureList *red;
+    GinjaTextureList *plain;
 };
 
 extern const char *TOSensorAncient01__class_name;

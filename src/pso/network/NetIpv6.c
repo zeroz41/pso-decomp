@@ -642,7 +642,7 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   ((NetPacket *) self)->total_bytes += sizeof(Ipv6Header);
   ((NetPacketFragment *) (((u8 *) self) + offsetof(NetPacket, fragments)))[((NetPacket *) self)->fragment_count].length = sizeof(Ipv6Header);
   off = ((NetPacket *) self)->fragment_count * (s32)sizeof(NetPacketFragment);
-  set_value_and_enable((((u8 *) self) + off) + offsetof(NetPacket, fragments[0].buffer), (saddr) slot);
+  set_value_and_enable((NetBufferRef *)(((u8 *)self) + off + offsetof(NetPacket, fragments[0].buffer)), (saddr) slot);
   ((NetPacket *) self)->fragment_count += 1;
   if (NetIPv6IsMulticast(((NetIPv6SendParameters *) a)->destination.bytes))
   {

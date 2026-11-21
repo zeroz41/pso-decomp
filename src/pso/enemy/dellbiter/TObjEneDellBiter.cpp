@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/GroundContactSound.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -61,6 +64,8 @@
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
+#include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
@@ -85,16 +90,12 @@ void obj_setFlags30(void *, s32);
 void free_bin_model_request(void*, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 u32 csnLookAt(void *, void *);
-s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
-void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
-s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 pack_debug_text_position(s32, s32);
 s32 attack_target_history_add(saddr object, saddr target);
 void fn_800D8830(void *owner, void *pos);
-s32 TObjEneGibbles__sub_800D8988(s32);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
@@ -104,7 +105,6 @@ s32 post_translate_matrix(void *);
 extern Vec dellbiter_demo_camera_vec;
 extern s32 actor_frame_tick;
 extern s32 game_difficulty_selection;
-extern void *tl_04;
 
 extern "C" {
 s32 is_split_screen();
@@ -194,8 +194,8 @@ void TObjEneDellBiter::load_resources() {
         NJS_OBJECT *object = (NJS_OBJECT *)resource->models->model;
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
-        DelbiterAttackDefinition attack = { resource->motions, dell_biter_param_table, 1, 10, 0 };
-        TLobby::spawn_npc_enemy((s16)0x46, resource->models->model, (NJS_TEXLIST *)resource->models->m_c,
+        NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
+        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->m_c),
             &attack, lbl_804E6B8C[0].radius, 0.0f);
     }
 }
@@ -487,7 +487,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
 
 void TObjEneDellBiter::update_attack_effect() {
     if (fn_803059BC(&position) != 0) {
-        TObjEneGibbles__sub_800D8988((saddr)&position);
+        TObjEneGibbles__sub_800D8988(&position);
         return;
     }
     play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E11)), &position, 0, 0);
@@ -507,37 +507,37 @@ void TObjEneDellBiter::spawn_front_particle() {
 
 s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
     Vec pos;
-    CsnGroundHit *hit;
+    CsnHit *hit;
     void *e;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = (CsnGroundHit *)csnVectorUnder(&pos, (u32 *)&m_120, 0x4007);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 0x4007);
     if (hit != NULL) {
-        flags_3c4 = hit->surface->flags;
+        flags_3c4 = hit->contact[0].flags;
         if (flags_3c4 & 0x4000) {
-            VecCopy(&reflection_position, &hit->surface->point);
+            VecCopy(&reflection_position, &hit->contact[0].point);
         } else {
             VecCopy(&reflection_position, &position);
         }
-        if (hit->flags & 4) {
-            e = (void *)spawn_particle_effect(&hit->surface->point_38, 0x49);
+        if (hit->hit_mask & 4) {
+            e = (void *)spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
                 attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
-            e = (void *)spawn_particle_effect(&hit->surface->point_38, 0xA4);
+            e = (void *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
             if (e != NULL) {
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
             return 1;
         }
-        if (hit->flags & 2) {
-            e = (void *)spawn_particle_effect(&hit->surface->point_54, 0x49);
+        if (hit->hit_mask & 2) {
+            e = (void *)spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {
                 attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
-            e = (void *)spawn_particle_effect(&hit->surface->point_54, 0xA4);
+            e = (void *)spawn_particle_effect(&hit->contact[3].point, 0xA4);
             if (e != NULL) {
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
@@ -600,7 +600,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
         enemy_set_target_id(this, id);
         return 1;
     }
-    enemy_clear_target__12TObjEneDD_STFUs(this);
+    this->enemy_clear_target();
     return 0;
 }
 
@@ -965,7 +965,7 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
             this->update_velocity();
         }
         rotation_y = approach_angle_limited(rotation_y, temp_r30 = (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x300);
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, part_rotation_x, temp_r30, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)temp_r30, 0x200, 0x2000);
         delbiter_movement_parameters = TObjEneDellBiter__movement_params;
         if (target_distance <= (f32) delbiter_movement_parameters->attack_distance) {
             temp_f31_2 = (target_direction.x * sin_table_lookup(rotation_y)) + (target_direction.z * cos_table_lookup(rotation_y));
@@ -1028,7 +1028,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             rotation_y = approach_angle_limited(rotation_y, (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x280);
-            part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, part_rotation_x, rotation_y, 0x200, 0x2000);
+            part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)rotation_y, 0x200, 0x2000);
             this->vfunc_89();
             break;
         case 1:
@@ -1126,7 +1126,7 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
     case 0:
         advance_animation();
         temp_r3 = rotation_y;
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(temp_r3, part_rotation_x, temp_r3, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)temp_r3, (s32)part_rotation_x, (s32)temp_r3, 0x200, 0x2000);
         switch (field_4d0) {
         case 0:
             if (is_passing_frame(11.0f) != 0) {
@@ -1457,7 +1457,7 @@ void TObjEneDellBiter::step_demo_script() {
     case 32:
         pos = TObjEneDellBiter__demo_script_cursor;
         TObjEneDellBiter__demo_script_cursor = pos + 0xC;
-        get_camera_ctrl__9TObjEneDDFv(&dellbiter_demo_camera_vec, pos);
+        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, (Vec *)pos);
         break;
     }
     TObjEneDellBiter__demo_script_step += 1;
@@ -1586,7 +1586,7 @@ void TObjEneDellBiter::vfunc_106() {
 #pragma pool_data reset
 
 s32 TObjEneDellBiter::render_model_if_visible() {
-    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_position) != 0) {
             TObjFish::set_global_param(texlist);
             push_matrix();

@@ -12,12 +12,10 @@ struct ItemChoice { u8 code[3]; u8 weight; };
 
 struct ItemChoiceList { s32 count; ItemChoice *choices; };
 
-extern "C" {
-}
 
 void TUnk_804F0C48::apply_use_effect() {
     ItemChoiceList *list;
-    list = ((ItemChoiceList *)TObjPlayer::get_item_pmt_entry(this->get_item_index()));
+    list = (ItemChoiceList *)TObjPlayer::get_item_pmt_entry(this->get_item_index());
     if (list != NULL) {
         s32 r = (s32)(100.0f * (3.0517578e-05f * (f32)rand()));
         ItemChoice *choice = list->choices;

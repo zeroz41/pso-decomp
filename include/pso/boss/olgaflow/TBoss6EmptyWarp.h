@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TBoss6EmptyWarp : public TObject {
+    TBoss6EmptyWarp(TObject *parent);
     virtual ~TBoss6EmptyWarp();
     void render();
     void run_task();

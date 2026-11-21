@@ -74,7 +74,6 @@ struct Table_8006F38C {
 };
 
 extern "C" {
-s32 get_layout_id__20TWindowSubStatusDispFv(int);
 saddr TWindowSubStatusDisp__sub_8006F0D8(void *, int);
 s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
@@ -83,7 +82,6 @@ s32 TLobby__sub_8006F5B0(saddr arg0);
 LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
 void TLobby__sub_8006F48C(void);
-s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
 u32 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 TLobby__sub_8006F38C(s32 arg0);
 s32 TLobby::check_challenge_time_range(s32 arg0) {
@@ -110,8 +108,8 @@ s32 TLobby__sub_8006F38C(s32 arg0) {
     s32 i;
     Entry_8006F38C *e;
     uaddr w;
-    lo = calc_entry_offset__20TWindowSubStatusDispFv(-1);
-    hi = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
+    lo = TWindowSubStatusDisp::calc_entry_offset(-1);
+    hi = TWindowSubStatusDisp::calc_layout_hash(-1);
     if (get_character_save_record(0xFFFF) == 0) {
         return -4;
     }
@@ -176,7 +174,7 @@ s32 TLobby__sub_8006F5B0(saddr arg0) {
     s32 var_r28;
     uaddr character_save_record;
     character_save_record = get_character_save_record(0xFFFF);
-    temp_r3 = get_layout_id__20TWindowSubStatusDispFv(-1);
+    temp_r3 = TWindowSubStatusDisp::get_layout_id(-1);
     if ((character_save_record == 0U) || ((s32) challenge_mode_state.value < 0) || ((s32) challenge_mode_state.value >= temp_r3)) {
         return 0;
     }
@@ -329,10 +327,10 @@ s32 mix_seed_checked__6TLobbyFi(s32 arg0) {
     return ((s32 (*)(s32))mix_seed__6TLobbyFUs)(arg0);
 }
 
-s32 TLobby::get_slot_clamped() {
+s32 TLobby::get_slot_clamped(u32 id) {
     s32 var_r3;
 
-    var_r3 = ((s32 (*)())decode_slot__6TLobbyFUi)();
+    var_r3 = decode_slot__6TLobbyFUi(id);
     if (var_r3 < 0) {
         var_r3 = 0;
     }

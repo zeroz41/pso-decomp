@@ -13,7 +13,7 @@ struct TObjWarpJungMain : public TObjAreaWarp {
     virtual void vfunc_14();
     virtual void open_confirm_window(s32 client_id);
     virtual s32 vfunc_18(s32);
-    virtual void confirm_area_transfer(void *player);
+    virtual void confirm_area_transfer(TObjPlayer *player);
     void render();
     void run_task();
     f32 m_c4;

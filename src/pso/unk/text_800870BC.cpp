@@ -1,12 +1,10 @@
+#include "pso/effect/particle/ParticleParam.h"
 #include "types.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/system/task/TObject.h"
-struct Ent_800870BC { u8 data[0x98]; };
 
 extern "C" {
 extern s32 particle_pool_limit;
-extern Ent_800870BC *particle_global_entry_table;
-extern Ent_800870BC *particle_area_entry_table;
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
 #pragma push
 #pragma opt_propagation off

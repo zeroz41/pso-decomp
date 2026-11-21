@@ -22,13 +22,12 @@ struct Obj_8012AFF8 {
 };
 
 extern "C" {
-s32 is_rand_below_threshold__10TObjPlayerFv(void *);
 void TUnk_804A4C78::reserved_53() {
     s32 saved;
     s32 savedF4;
     saved = sub_8012B1F8();
     savedF4 = ((Obj_8012AFF8 *)this)->unkF4;
-    if (is_rand_below_threshold__10TObjPlayerFv(this) == 0) {
+    if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
         sub_8012B1F0(8);
         item_render_state.set(4);
     }
@@ -37,7 +36,7 @@ void TUnk_804A4C78::reserved_53() {
         update_trail_slot(0);
     }
     ((Obj_8012AFF8 *)this)->unkF4 = ((Obj_8012AFF8 *)this)->unk188;
-    if (is_rand_below_threshold__10TObjPlayerFv(this) == 0) {
+    if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
         sub_8012B1F0(8);
         item_render_state.set(4);
     } else {

@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjItemLight : public TObjBase {
+    TObjItemLight(TObject *parent, s32 arg2);
     virtual ~TObjItemLight();
     void run_task();
     u8 unk_90[0x4];
@@ -13,16 +14,5 @@ struct TObjItemLight : public TObjBase {
 
 LAYOUT_ASSERT(TObjItemLight_size, sizeof(TObjItemLight) == 0x98);
 
-extern "C" {
-u8 *TObjItemLight__ct(TObjItemLight *arg0, s32 arg1, saddr arg2);
-void *__dt__13TObjItemLightFv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TObjItemLight.cpp ---
-extern "C" {
-u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, saddr arg2);
-void *__dt__13TObjItemLightFv(void *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

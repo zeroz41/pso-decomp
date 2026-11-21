@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"
+#include "pso/object/fence/TOVS2WallResources.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -21,10 +22,10 @@
 #include "pso/object/TOVS2Wreck02.h"
 #include "pso/object/TOVS2Wreck01.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaModel.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/object/fence/TOVS2Wall01_8017C7A4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TMotorcycle.h"
@@ -39,7 +40,6 @@
 #include "pso/system/task/TMainTask.h"
 
 #include "pso/unk/text_80087278.h"
-#include "pso/object/fence/TOVS2Wall01_8017BCC8.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
 
@@ -61,6 +61,11 @@ const char *TOVS2Wreck05__class_name = "TOVS2Wreck05";
 const char *TOVS2Wreck06__class_name = "TOVS2Wreck06";
 const char *TOVS2Wall01__class_name = "TOVS2Wall01";
 
+extern const TObjChipParams vs2_wall_debris_desc = {
+    { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+    { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
+};
+
 // One body per wreck model (TOVS2::TOVS2 takes entry `index`), the last one the wall's.
 CollisionBody ovs2wall01_collision_parts[7] = {
     {{0.0f, 0.0f, 0.0f}, 20.0f, 30.0f, 0, 0x20010003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -81,11 +86,11 @@ struct Ent_8017B9B0 { s16 a; s16 b; };
 
 extern "C" {
 extern Ent_8017B9B0 *quest_object_entries;
-void handle_6x86_hit_destructible_object(WallHitPacket *arg0);
 
 void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
-void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
+void handle_6x86_hit_destructible_object(game_command_header *command) {
+    WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
     Ent_8017B9B0 spC;
     Ent_8017B9B0 sp8;
     TOVS2Wall01 *o;
@@ -93,7 +98,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
     if (wall_hit_packet == NULL) {
         return;
     }
-    ((TOVS2Wall01 *)wall_hit_packet)->byteswap_hit_packet();
+    wall_hit_packet->byteswap();
     id = wall_hit_packet->entity_id;
     if (id == 0xFFFF) {
         return;
@@ -106,7 +111,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
         if (((TUnk_804B6C24 *)o)->check_value_equals((saddr)TOVS2Wall01__class_name) == 0) {
             return;
         }
-        switch (wall_hit_packet->m_c) {
+        switch (wall_hit_packet->update_reason) {
         case 0:
             switch (o->mode) {
             case 1:
@@ -114,15 +119,15 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
             default:
                 o->mode = 0;
             case 0:
-                if (wall_hit_packet->m_e < TOVS2Wall01__sub_8017CA50(o)) {
-                    TOVS2Wall01__sub_8017CA48(o, wall_hit_packet->m_e);
+                if (wall_hit_packet->remaining_hits < o->remaining_hits()) {
+                    o->set_remaining_hits(wall_hit_packet->remaining_hits);
                 }
                 break;
             }
             break;
         case 1:
             o->mode = 1;
-            init__11TOVS2Wall01Fi((saddr)o);
+            o->break_wall();
             break;
         }
         o->access_object_saved_state(&spC, 1);
@@ -130,10 +135,10 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
         o->access_object_saved_state(&spC, 0);
         o->vfunc_6(&spC.a, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->m_8];
+        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->set_entry_index];
         if (sp8.a != 1) {
             sp8.a = wall_hit_packet->state;
-            TLobby::apply_table_entry(wall_hit_packet->m_8, &sp8);
+            TLobby::apply_table_entry(wall_hit_packet->set_entry_index, &sp8);
         }
     }
 }
@@ -150,13 +155,13 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         sp8 = v;
         access_object_saved_state(&sp8, 0);
         entry = (WallSetEntry *)set_entry;
-        ((TOVS2Wall01 *)&pkt)->init();
+        pkt.init();
         pkt.entity_id = entity_id;
         pkt.state = sp8;
-        pkt.m_8 = entry->m_4;
-        pkt.m_c = arg1;
-        pkt.m_e = m_33c;
-        ((TOVS2Wall01 *)&pkt)->update_and_send();
+        pkt.set_entry_index = entry->m_4;
+        pkt.update_reason = arg1;
+        pkt.remaining_hits = m_33c;
+        pkt.send();
     }
 }
 
@@ -182,17 +187,14 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
     } else {
         this->m_33c = 0;
         if (arg2 != 0) {
-            init__11TOVS2Wall01Fi((saddr)this);
+            break_wall();
         }
     }
 }
 
 // Throws the wall's debris chips (models 7-15 of bm_o_vs2.bml, one per call).
 void TOVS2Wall01::spawn_debris(s32 index) {
-    TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
-    };
+    TObjChipParams params = vs2_wall_debris_desc;
 
     params.pos[0] = m_2fc;
     params.pos[1] = m_300;
@@ -208,38 +210,37 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 // ---- TOVS2Wall01_8017BCC8
 
 
-void init__11TOVS2Wall01Fi(saddr arg0) {
+void TOVS2Wall01::break_wall() {
     s32 index;
 
-    ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+    clear_player_status_flag(0, 1);
     index = 7;
     do {
-        ((TOVS2Wall01 *)arg0)->spawn_debris(index);
+        spawn_debris(index);
         index += 1;
     } while (index <= 0xF);
-    spawn_particle_effect((void *)(arg0 + 0x38), 0x45);
-    spawn_particle_effect((void *)(arg0 + 0x38), 0x46);
-    play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+    spawn_particle_effect((void *)&position, 0x45);
+    spawn_particle_effect((void *)&position, 0x46);
+    play_sound_effect(0x4004BC05, (void *)&position, 0, 0);
 }
 
-f32 take_hit__11TOVS2Wall01FPvUi(u8 *ovs2_wall01, void *attacker) {
-    void *player;
+f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
+    TObjPlayer *player = NULL;
 
-    player = NULL;
-    get_entity_id((TObjBase *)attacker);
-    if (get_entity_id((TObjBase *)attacker) < 4U) {
-        player = attacker;
+    get_entity_id(attacker);
+    if (get_entity_id(attacker) < 4U) {
+        player = (TObjPlayer *)attacker;
     }
     if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) == 1)) {
-        ((TOVS2Wall01 *)ovs2_wall01)->m_33c = (s32) (((TOVS2Wall01 *)ovs2_wall01)->m_33c - 1);
-        if ((s32) ((TOVS2Wall01 *)ovs2_wall01)->m_33c <= 0) {
-            ((TOVS2Wall01 *)ovs2_wall01)->m_33c = 0;
-            ((TOVS2Wall01 *)ovs2_wall01)->save_and_send_state(1);
+        m_33c--;
+        if ((s32)m_33c <= 0) {
+            m_33c = 0;
+            save_and_send_state(1);
         } else {
-            ((TOVS2Wall01 *)ovs2_wall01)->save_and_send_state(0);
+            save_and_send_state(0);
         }
-        spawn_particle_effect((ovs2_wall01 + 0x38), 0x1D0);
-        spawn_particle_effect((ovs2_wall01 + 0x38), 1);
+        spawn_particle_effect((void *)&position, 0x1D0);
+        spawn_particle_effect((void *)&position, 1);
     }
     return 0.0f;
 }
@@ -258,7 +259,6 @@ struct VObj_14_1eb8da : VBase_14_1eb8da {
     virtual s32 m7();
 };
 extern "C" {
-void __ct__15RenderFadeStateFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
@@ -267,37 +267,41 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void __ct__9TObjCharaFP7TObject(void *, void *);
-void activate_and_dispatch__15RenderFadeStateFv(void *, s32, f32);
-extern s32 __vt__11TOVS2Wall01[];
-void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1);
 int submit_cursor_candidate(void*, int);
-// ---- TOVS2Wreck06
-extern s32 __vt__12TOVS2Wreck06[];
-// ---- TOVS2Wreck05
-extern s32 __vt__12TOVS2Wreck05[];
-// ---- TOVS2Wreck04
-extern s32 __vt__12TOVS2Wreck04[];
-// ---- TOVS2Wreck03
-extern s32 __vt__12TOVS2Wreck03[];
-// ---- TOVS2Wreck02
-extern s32 __vt__12TOVS2Wreck02[];
-// ---- TOVS2Wreck01
-extern s32 __vt__12TOVS2Wreck01[];
 // ---- TOVS2Wall01_8017C7A4
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
 void free_bin_model_request(void*, int);
 #pragma defer_codegen on
-void*TOVS2Wall01::init() { ((TOBarrierEnergy01 *)this)->TOBarrierEnergy01::init(); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
-void TOVS2Wall01::update_and_send() { byteswap_hit_packet(); send_subcommand((u8 *)this); }
-void TOVS2Wall01::byteswap_hit_packet() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }
-s32 TOVS2Wall01__sub_8017CA50(void* p) { return *(s32*)((char*)p + 0x33c); }
-void TOVS2Wall01__sub_8017CA48(void* p, s32 v) { *(s32*)((char*)p + 0x33c) = v; }
+// The shared byte-swap entry operates on the first three packet words.
+void bswap_header__6TLobbyFv(WallHitPacket *packet);
+
+WallHitPacket *WallHitPacket::init() {
+    init_collision_subcommand_header(this);
+    update_reason = 0;
+    remaining_hits = 0;
+    subcommand = 0x86;
+    word_count = 4;
+    return this;
+}
+
+void WallHitPacket::send() {
+    byteswap();
+    send_subcommand((u8 *)this);
+}
+
+void WallHitPacket::byteswap() {
+    bswap_header__6TLobbyFv(this);
+    bswap_16(&update_reason);
+    bswap_16(&remaining_hits);
+}
+
+s32 TOVS2Wall01::remaining_hits() { return (s32)m_33c; }
+void TOVS2Wall01::set_remaining_hits(s32 count) { m_33c = count; }
 }
 void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
-f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit__11TOVS2Wall01FPvUi((u8 *)this, attacker); }
-f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit__11TOVS2Wall01FPvUi((u8 *)this, attacker); }
-f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit__11TOVS2Wall01FPvUi((u8 *)this, attacker); }
+f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
+f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit((TObjBase *)attacker); }
+f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit((TObjBase *)attacker); }
 int TOVS2Wall01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
@@ -306,7 +310,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = TOVS2__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
-    model_radius = 50.0f + *(f32 *)((s8 *)(*(void **)((s8 *)model + 4)) + 0x14);
+    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
     texlist = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
@@ -331,13 +335,14 @@ void TOVS2Wall01::load_resources() {
   {
     var_r0 = load_resource_from_descriptor((int) temp_r3, 1, &bm_o_vs2_resource_descriptor, 0, 0, 0);
   }
-  (*(saddr *)&TOVS2Wall01__bml_resource) = var_r0;
-  TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) get_bml_texlist((BmlResource *)var_r0, 5), 10.0f, 0.0f);
+  TOVS2Wall01__bml_resource = (BmlResource *)var_r0;
+  TMotorcycle::add_entry(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOVS2Wall01__bml_resource, 5)),
+                        reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)var_r0, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
-    if ((uaddr) TOVS2Wall01__bml_resource != 0U) {
-        free_bin_model_request((void*)TOVS2Wall01__bml_resource, 1);
-        TOVS2Wall01__bml_resource = 0U;
+    if (TOVS2Wall01__bml_resource != NULL) {
+        free_bin_model_request(TOVS2Wall01__bml_resource, 1);
+        TOVS2Wall01__bml_resource = NULL;
     }
 }
 void TOVS2::render() {
@@ -351,132 +356,80 @@ void TOVS2::render() {
         pop_matrix();
     }
 }
-void *TOVS2Wreck01__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck01;
-    ((TOVS2Wreck01 *)arg0)->m_name = TOVS2Wreck01__class_name;
-    return arg0;
-}
-TOVS2Wreck01::~TOVS2Wreck01() {
-
+TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
+    m_name = TOVS2Wreck01__class_name;
 }
 
-void *TOVS2Wreck01__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck01__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck02__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck02;
-    ((TOVS2Wreck02 *)arg0)->m_name = TOVS2Wreck02__class_name;
-    return arg0;
-}
-TOVS2Wreck02::~TOVS2Wreck02() {
+TOVS2Wreck01::~TOVS2Wreck01() {}
 
+void *TOVS2Wreck01__create(void *set_data) {
+    return new TOVS2Wreck01(set_data);
+}
+TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
+    m_name = TOVS2Wreck02__class_name;
 }
 
-void *TOVS2Wreck02__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck02__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck03__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 2);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck03;
-    ((TOVS2Wreck03 *)arg0)->m_name = TOVS2Wreck03__class_name;
-    return arg0;
-}
-TOVS2Wreck03::~TOVS2Wreck03() {
+TOVS2Wreck02::~TOVS2Wreck02() {}
 
+void *TOVS2Wreck02__create(void *set_data) {
+    return new TOVS2Wreck02(set_data);
+}
+TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
+    m_name = TOVS2Wreck03__class_name;
 }
 
-void *TOVS2Wreck03__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck03__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck04__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 3);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck04;
-    ((TOVS2Wreck04 *)arg0)->m_name = TOVS2Wreck04__class_name;
-    return arg0;
-}
-TOVS2Wreck04::~TOVS2Wreck04() {
+TOVS2Wreck03::~TOVS2Wreck03() {}
 
+void *TOVS2Wreck03__create(void *set_data) {
+    return new TOVS2Wreck03(set_data);
+}
+TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
+    m_name = TOVS2Wreck04__class_name;
 }
 
-void *TOVS2Wreck04__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck04__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck05__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 4);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck05;
-    ((TOVS2Wreck05 *)arg0)->m_name = TOVS2Wreck05__class_name;
-    return arg0;
-}
-TOVS2Wreck05::~TOVS2Wreck05() {
+TOVS2Wreck04::~TOVS2Wreck04() {}
 
+void *TOVS2Wreck04__create(void *set_data) {
+    return new TOVS2Wreck04(set_data);
+}
+TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
+    m_name = TOVS2Wreck05__class_name;
 }
 
-void *TOVS2Wreck05__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck05__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck06__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 5);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck06;
-    ((TOVS2Wreck06 *)arg0)->m_name = TOVS2Wreck06__class_name;
-    return arg0;
-}
-TOVS2Wreck06::~TOVS2Wreck06() {
+TOVS2Wreck05::~TOVS2Wreck05() {}
 
+void *TOVS2Wreck05__create(void *set_data) {
+    return new TOVS2Wreck05(set_data);
+}
+TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
+    m_name = TOVS2Wreck06__class_name;
 }
 
-void *TOVS2Wreck06__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck06__ct(o, arg0);
-    }
-    return o;
+TOVS2Wreck06::~TOVS2Wreck06() {}
+
+void *TOVS2Wreck06__create(void *set_data) {
+    return new TOVS2Wreck06(set_data);
 }
 #pragma push
 #pragma opt_common_subs off
-void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
-    s32 t;
-    __ct__9TObjCharaFP7TObject(arg0, tl_05);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TOVS2Wall01;
-    __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0x340)));
-    arg0->m_name = TOVS2Wall01__class_name;
-    arg0->apply_object_set_data(arg1);
-    ((TObjChara *)arg0)->calc_attach_pos();
-    obj_setFlags30(arg0, 0x60000000);
-    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TOVS2Wall01__bml_resource, 6);
-    arg0->texlist = get_bml_texlist(TOVS2Wall01__bml_resource, 6);
-    init_collision_body_parts(arg0, &ovs2wall01_collision_parts[6], 1);
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x08000000);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    arg0->mode = 0;
-    *(f32 *)((s8 *)arg0 + 0x334) = 800.0f;
-    arg0->m_338 = 50.0f + *(f32 *)((s8 *)(*(void **)((s8 *)arg0->model + 4)) + 0x14);
-    t = arg0->set_params[0];
-    arg0->m_33c = t + 0x100;
-    activate_and_dispatch__15RenderFadeStateFv((u8 *)arg0 + 0x340, t, 50.0f);
-    arg0->m_35c = 1;
-    return arg0;
+TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
+    s32 initial_hits;
+    m_name = TOVS2Wall01__class_name;
+    apply_object_set_data(set_data);
+    calc_attach_pos();
+    obj_setFlags30(this, 0x60000000);
+    model = (void *)get_bml_model(TOVS2Wall01__bml_resource, 6);
+    texlist = get_bml_texlist(TOVS2Wall01__bml_resource, 6);
+    init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
+    set_indexed_flags(0, 0x08000000);
+    register_object_by_id();
+    mode = 0;
+    view_range = 800.0f;
+    m_338 = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
+    initial_hits = set_params[0];
+    m_33c = initial_hits + 0x100;
+    m_340.activate_and_dispatch();
+    m_35c = 1;
 }
 #pragma pop
 TOVS2Wall01::~TOVS2Wall01() {
@@ -484,23 +437,19 @@ TOVS2Wall01::~TOVS2Wall01() {
     free_collision_body_parts(this);
 }
 
-void *TOVS2Wall01::create() {
-    void *o = TObject::operator new(0x360);
-    if (o != NULL) {
-        o = TOVS2Wall01__ct((TOVS2Wall01 *)o, this);
-    }
-    return o;
+void *TOVS2Wall01::create(void *set_data) {
+    return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    ((RenderFadeState *)((u8 *)&this->m_340))->update();
-    *(s32 *)&this->m_35c = this->update_object_view_visibility(*(f32 *)&this->unk_334, this->m_338);
+    m_340.update();
+    *(s32 *)&this->m_35c = this->update_object_view_visibility(view_range, m_338);
     if ((s32) this->m_35c == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             var_r31 = 0;
         } else {
-            var_r31 = ((RenderFadeState *)(arg0 + 0x340))->updateFromCamera((const f32*)(arg0 + 0x38));
+            var_r31 = m_340.updateFromCamera(&position.x);
         }
         if (var_r31 != 0) {
             saved_model_render_flags = model_render_flags;

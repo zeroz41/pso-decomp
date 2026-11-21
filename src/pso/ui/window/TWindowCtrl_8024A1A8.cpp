@@ -91,11 +91,11 @@ bool TWindowCtrl__sub_8024A1A8(void) {
     return *(s32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C) != 0;
 }
 
-void TWindowCtrl::call_window_method_with_default_vec() {
-    saddr arg0 = (saddr)this;
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A1CC, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A1CC, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A1CC, sp10) == 0x8);
+void TWindowCtrl::call_window_method_with_default_vec(s32 client) {
+    saddr arg0 = client;
+    typedef char sp8_offset[(offsetof(Stack_8024A1CC, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_8024A1CC, spC) == 0x4) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_8024A1CC, sp10) == 0x8) ? 1 : -1];
     Stack_8024A1CC stack;
     stack.sp8 = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 0);
     stack.spC = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 4);

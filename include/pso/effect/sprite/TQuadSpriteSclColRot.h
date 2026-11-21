@@ -5,14 +5,11 @@
 #include "pso/unk/TUnk_804C57F0.h"
 
 struct TQuadSpriteSclColRot : public TUnk_804C57F0 {
+    TQuadSpriteSclColRot(TObject *arg_r4, void *arg2);
     virtual ~TQuadSpriteSclColRot();
     virtual void render();
 };
 
 LAYOUT_ASSERT(TQuadSpriteSclColRot_size, sizeof(TQuadSpriteSclColRot) == 0x2C);
-
-extern "C" {
-void *TQuadSpriteSclColRot__ct(void *quad_sprite_scl_col_rot);
-}
 
 #endif

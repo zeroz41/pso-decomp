@@ -4,17 +4,20 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct AnimationMotion;
+struct GinjaTextureList;
+
 struct TSceneSora : public TObjBase {
     TSceneSora(saddr _w1);
     virtual ~TSceneSora();
-    uaddr m_90;
-    uaddr m_94;
-    u32 m_98;
+    NJS_OBJECT *sky_model;
+    AnimationMotion *sky_motion;
+    GinjaTextureList *sky_textures;
     virtual void render();
     virtual void run_task();
     static void create_instance();
     static void load_sky_resources();
-    u8 unk_9C[0x4];
+    f32 motion_step;
     f32 m_a0;
     static void update(s32 _w0);
     s32 get_state();
@@ -22,5 +25,7 @@ struct TSceneSora : public TObjBase {
     static void copy_reflection_vec(u8 *arg0);
 };
 
+typedef char TSceneSora_motion_offset[offsetof(TSceneSora, sky_motion) == 0x94 ? 1 : -1];
+typedef char TSceneSora_frame_offset[offsetof(TSceneSora, m_a0) == 0xA0 ? 1 : -1];
 LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
 #endif

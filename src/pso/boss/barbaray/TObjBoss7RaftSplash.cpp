@@ -17,12 +17,8 @@ struct Stack_802F15D4 {
     f32 spC;
 };
 
-struct RecoveredGlobal_802F16CC___vt__19TObjBoss7RaftSplash { s32 value; u8 remaining[0x14]; };
-
 extern "C" {
 u16 TCameraCtrl__sub_8006A5DC();
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_802F16CC___vt__19TObjBoss7RaftSplash __vt__19TObjBoss7RaftSplash;
 const char *lbl_805D3FE8 = "TObjBoss7RaftSplash";
 
 
@@ -45,17 +41,16 @@ void TObjBoss7RaftSplash::run_task() {
 }
 
 TObjBoss7RaftSplash::~TObjBoss7RaftSplash() {}
-u8 *TObjBoss7RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss7RaftSplash.value;
-    ((TObjBoss7RaftSplash *)object)->m_name = lbl_805D3FE8;
+#define object ((u8 *)this)
+TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, u8 *arg2, u8 *arg3, s32 arg4) : TObject(parent) {
+    m_name = lbl_805D3FE8;
     *(f32 *)((s8 *)object + 0x20) = (f32) (boss7_tunnel_max_scroll_speed * (3.0f + rand_signed_unit()));
     *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);
     VecCopy((Vec *)(object + 0x34), (const Vec *)arg3);
     *(s32 *)((s8 *)object + 0x24) = arg4;
-    return object;
 }
+#undef object
 
 void TObjFish::spawn_default_particle(s32 position, s32 particle_index) {
     spawn_particle(position, particle_index, -5.0f);
@@ -73,7 +68,7 @@ void TObjFish::create_splash_particle(saddr arg0, s32 arg1, saddr arg2) {
 
     var_r31 = TObject::operator new(0x78);
     if (var_r31 != NULL) {
-        var_r31 = ((TParticleCtrl *)var_r31)->initialize_with_flags((const void *)arg0, (s32)(TParticleCtrl::get_particle_by_index(arg1)), 1, 0, 0, 1, (u16)0x40);
+        var_r31 = initialize_flagged_particle(var_r31, reinterpret_cast<const void *>(arg0), TParticleCtrl::get_particle_by_index(arg1), 1, 0, 0, 1, (u16)0x40);
     }
     if (var_r31 != NULL) {
         ((TObject *)var_r31)->run_task();
@@ -86,7 +81,7 @@ void TObjFish::spawn_particle(saddr arg0, s32 arg1, f32 farg0) {
 
     var_r31 = TObject::operator new(0x78);
     if (var_r31 != NULL) {
-        var_r31 = ((TParticleCtrl *)var_r31)->initialize_with_flags((const void *)arg0, (s32)(TParticleCtrl::get_particle_by_index(arg1)), 1, 0, 0, 1, (u16)0x40);
+        var_r31 = initialize_flagged_particle(var_r31, reinterpret_cast<const void *>(arg0), TParticleCtrl::get_particle_by_index(arg1), 1, 0, 0, 1, (u16)0x40);
     }
     if (var_r31 != NULL) {
         ((TObject *)var_r31)->run_task();

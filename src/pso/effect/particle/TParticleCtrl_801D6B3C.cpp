@@ -20,7 +20,7 @@ extern "C" {
 
 void TParticleCtrl::destroy_particle() {
     void *x;
-    x = ((void *)((TParticleCtrl *)this)->validate_ctrl());
+    x = (void *)((TParticleCtrl *)this)->validate_ctrl();
     if (x != NULL) {
         ((TObject *)(*(void * *)&this->m_flags))->queue_destruction();
     }

@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/unk/TLobby_803DE778.h"
 struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
     u32 field_14;
@@ -57,13 +57,14 @@ s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1);
 extern S_803DA7E0 lbl_8058D470;
 void TObjPlayer__sub_803DA7E0(void);
 void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
-void DCFlushRange(void *, u32);
-void TObjPlayer__sub_803DA808(void *arg0, saddr arg1, u32 arg2);
+void DCFlushRange(void *, void *);
+void TObjPlayer__sub_803DA808(void *arg0, s32 arg1, void *arg2);
 s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_803DB23C(void *);
 s32 TObjPlayer__sub_803DB244(void);
 s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2);
 s32 TObjPlayer__sub_803DA104(int);
+s32 find_free_slot__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_803DAD24(void);
 s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3);
 s32 TObjPlayer__sub_803D9DA8(int, void *);
@@ -81,8 +82,8 @@ s32 set_texture_num(s32 i);
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_14_offset, offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14);
-LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_1C_offset, offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C);
+typedef char RecoveredFields_803DA84C_arg0_14_offset[offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14 ? 1 : -1];
+typedef char RecoveredFields_803DA84C_arg0_1C_offset[offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C ? 1 : -1];
 
 #pragma push
 #pragma scheduling off
@@ -108,8 +109,8 @@ void TObjPlayer__sub_803DA7E0(void) {
 }
 #pragma pop
 
-void TObjPlayer__sub_803DA808(void *buf, saddr arg1, u32 arg2) {
-    ((TLobby *)buf)->move_data((const void *)arg1, arg2);
+void TObjPlayer__sub_803DA808(void *buf, s32 arg1, void *arg2) {
+    move_data(buf, (const void *)arg1, (u32)arg2);
     DCFlushRange(buf, arg2);
 }
 
@@ -131,7 +132,7 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (var_r5 > temp_r6) {
         var_r5 = temp_r6;
     }
-    TObjPlayer__sub_803DA808((void *)(temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C), (s32)arg1, var_r5);
+    TObjPlayer__sub_803DA808((void *)((int) (temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C)), (s32)arg1, (void *)var_r5);
     return 0;
 }
 #pragma pop
@@ -139,7 +140,7 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
 #pragma push
 #pragma peephole off
 s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1) {
-    TObjPlayer__sub_803DA808((void *)((int) (*(s32 *)((s8 *)arg0 + 0x1C))), arg1, *(u32 *)((s8 *)arg0 + 0x14));
+    TObjPlayer__sub_803DA808((void *)((int) (*(s32 *)((s8 *)arg0 + 0x1C))), arg1, (void *)((int) (*(s32 *)((s8 *)arg0 + 0x14))));
     return 0;
 }
 #pragma pop
@@ -160,7 +161,7 @@ s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3) {
         }
         r = TObjPlayer::find_record_index(arg0, arg1);
         if (r < 0) {
-            slot = TObjPlayer::find_free_slot(&sp8, NULL);
+            slot = find_free_slot__10TObjPlayerFPvPv(&sp8, NULL);
             if (slot < 0) {
                 return -1;
             }
@@ -192,7 +193,7 @@ s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
     u8 *spC;
     s32 *sp8;
     s32 temp_r3;
-    temp_r3 = TObjPlayer::find_free_slot(&spC, &sp8);
+    temp_r3 = find_free_slot__10TObjPlayerFPvPv(&spC, &sp8);
     if (temp_r3 < 0) {
         return -1;
     }

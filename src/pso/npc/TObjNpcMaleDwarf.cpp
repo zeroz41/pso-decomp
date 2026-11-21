@@ -15,15 +15,9 @@ BmlResourceDescriptor bm_n_efsm_i_body_3_resource_descriptor = { "bm_n_efsm_i_bo
 const char *TObjNpcMaleDwarf__name = "TObjNpcMaleDwarf";
 BmlResource *TObjNpcMaleDwarf__shared_model_resource;
 
-s32 __vt__16TObjNpcMaleDwarf[];
-
 void *TObjNpcMaleDwarf__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcMaleDwarf));
-    if (npc != NULL) {
-        npc = TObjNpcMaleDwarf__ct((TObjNpcMaleDwarf *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcMaleDwarf(control, set_data);
 }
 
 void TObjNpcMaleDwarf::unload_static_data() {
@@ -44,14 +38,11 @@ void TObjNpcMaleDwarf::load_shared_resource() {
 
 TObjNpcMaleDwarf::~TObjNpcMaleDwarf() {}
 
-TObjNpcMaleDwarf *TObjNpcMaleDwarf__ct(TObjNpcMaleDwarf *npc, TObjControl *control, void *set_data) {
-    npc->construct_male_npc_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__16TObjNpcMaleDwarf;
-    npc->m_name = TObjNpcMaleDwarf__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcMaleDwarf__shared_model_resource->models->model;
-    npc->texlist = TObjNpcMaleDwarf__shared_model_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcMaleDwarf::TObjNpcMaleDwarf(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+    this->m_name = TObjNpcMaleDwarf__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcMaleDwarf__shared_model_resource->models->model;
+    this->texlist = TObjNpcMaleDwarf__shared_model_resource->models->m_c;
+    this->setup_common();
 }

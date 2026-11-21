@@ -2,9 +2,14 @@
 #define PSO_ENEMY_DARKGUNNER_TOBJENEDARKGUNNER_H
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/render/TUnk_80490470.h"
+
+class TObject;
 
 struct TObjEneDarkGunner : public TObjEnemyCustom {
+    TObjEneDarkGunner(TObject *parent, void *set_data);
     virtual ~TObjEneDarkGunner();
+    static void *create(void *arg0);
     void sub_800A27CC();
     virtual void run_task();
     virtual void render();
@@ -25,10 +30,9 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void* children[4];
     void* child400;
     void* child404;
-    u8 render_control[0x1C];
+    TUnk_80490470 render_control;
     s32 material_phase;
     u8 unknown428[4];
-    void *deleting_dtor(s16 arg1);
 };
 LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
 #endif

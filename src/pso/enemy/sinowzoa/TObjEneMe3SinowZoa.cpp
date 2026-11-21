@@ -1,5 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/GroundContactSound.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
+#include "pso/item/TItem.h"
+#include "pso/technique/TTecZarua.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80087278.h"
@@ -55,6 +60,9 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/technique/TTecRaBarta.h"
+#include "pso/npc/TNpcPlayer.h"
+#include "pso/technique/TTecDeband.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -79,7 +87,6 @@ void move_with_wall_slide(u8 *arg0);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 
 extern "C" {
-void TObjEneGibbles__sub_800D8988(void *);
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 scale_matrix(int, f32, f32, f32);
@@ -90,23 +97,18 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-void create__11TTecRaBartaFPvPvPvPv(void *, void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
 u16 get_entity_id(int);
-u32 get_valid_target_player__10TNpcPlayerFv(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-s32 get_item_id__5TItemFv();
 void TObjEneDD__sub_800BA438(void *, void *);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 f32 * TBoss3Volopt__sub_800F059C(void *);
-void create__10TTecDebandFlll(void *, void *, int);
 void create__9TTecJelinFllll(void *, void *, void *, int);
-void create_instance__9TTecZaruaFllll(void *, void *, void *, int);
 void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1);
 void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1);
 void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1);
@@ -275,14 +277,14 @@ void TObjEneMe3SinowZoa::load_resources() {
     breakup = new TUnk_8048FA00((int)TObjEneMe3SinowZoa__bml_resource->models->model, (int)motion, motion->frameCount - 1);
     TObjEneMe3SinowZoa__breakup_model = breakup;
     {
-        DelDepthAnimationBinding info = lbl_80475FA8;
-        info.motions = TObjEneMe3SinowZoa__bml_resource->motions;
-        DelDepthAnimationBinding info_b = lbl_80475FB8;
-        info_b.motions = TObjEneMe3SinowZoa__bml_resource->motions;
-        TLobby::spawn_npc_enemy(0x49, TObjEneMe3SinowZoa__bml_resource->models->model, (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->m_c, &info, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
-        TLobby::spawn_npc_enemy(0x4A, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
-        TLobby::spawn_npc_enemy(0x4B, TObjEneMe3SinowZoa__bml_resource->models->model, (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->m_c, &info_b, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
-        TLobby::spawn_npc_enemy(0x4C, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
+        NpcAnimationBinding info = lbl_80475FA8;
+        info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
+        NpcAnimationBinding info_b = lbl_80475FB8;
+        info_b.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
+        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->m_c), &info, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
+        NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
+        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->m_c), &info_b, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
+        NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info_b, TObjEneMe3SinowZoa__data_805DF2FC, TObjEneMe3SinowZoa__data_805DF31C);
     }
 }
 
@@ -333,7 +335,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     set_animation((this->requested_action));
     kind = this->m_3c8;
     reset_hp(lbl_80542FBC[kind], lbl_80542FC4[kind], lbl_80542FCC[kind]);
-    this->check_state_flag_4();
+    this->set_state_flag_4();
     movementParameters = &TObjEneMe3SinowZoa_init_params;
     this->m_37c = TObjEneMe3SinowZoa__data_805DF314;
     enemy_init_acquire_period(0x1E);
@@ -556,8 +558,9 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                 if (d > TObjEneMe3SinowZoa__data_805DF31C) {
                     if (sub_8031A454() != 0) {
                         pl = m_390;
-                        if (TObjPlayer::is_locally_controlled(pl) != 0 && get_item_field_6__10TObjPlayerFPv(pl) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(pl, (void *)get_item_id__5TItemFv());
+                        TItem *held;
+                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(pl)) != 0) {
+                            TObjPlayer::send_6x26_unequip_item(pl, (void *)held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&unk_408);
                             spawn_particle_effect(&unk_408, 0x1D0);
                         }
@@ -661,9 +664,9 @@ void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *arg0) {
     if (((TObjEneMe3SinowZoa *)arg0)->sub_8031A454() != 0) {
         if (game_difficulty_selection == 3) {
             TTecSifta::create((void *)arg0, arg0 + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18)));
-            create__10TTecDebandFlll(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecDeband::create(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
         } else {
-            create_instance__9TTecZaruaFllll(arg0, arg0 + 0x38, arg0 + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecZarua::create_instance((s32)arg0, (Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
             create__9TTecJelinFllll(arg0, arg0 + 0x38, arg0 + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
         }
     } else {
@@ -1458,7 +1461,7 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
             if ((self->m_438) == 5) {
                 TTecSifta::create(self, &self->position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(self->m_3c8)]->m_18)));
             } else if ((self->m_438) == 0xA) {
-                create__10TTecDebandFlll(self, &self->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(self->m_3c8)]->m_18));
+                TTecDeband::create(self, &self->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(self->m_3c8)]->m_18));
                 if ((self->m_3cc) & 0x100000) {
                     (self->m_434) = 4;
                 } else {
@@ -1614,7 +1617,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
                 v.x = TObjEneMe3SinowZoa__data_805DF31C;
                 v.y = TObjEneMe3SinowZoa__data_805DF314;
                 v.z = 20.0f;
-                ((TObjBoss2Tunnel *)(&v))->init_zako(&self->position, self->rotation_y);
+                rotate_y_and_translate(&v, &self->position, self->rotation_y);
                 TObjPlayer::spawn_effect_f8((saddr)&v, 0x14);
             }
             break;
@@ -1721,7 +1724,7 @@ void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
                         tmp.z += pos.z - self->m_390->position.z;
                         if (check_move_collision__18TObjEneMe3SinowZoaFPvPv(self, &tmp) == 0 &&
                             csnVector(&self->m_390->position, &tmp, 0x88E0) == 0 &&
-                            csnVectorUnder(&pos, (u32 *)&self->m_120, 0x15) != 0 &&
+                            csnVectorUnder(&pos, (CsnGroup **)&self->m_120, 0x15) != 0 &&
                             self->room == ((TScene *)(&pos))->find_section_at_position()) {
                             VecCopy(&self->position, &pos);
                             self->rotation_y = ang + 0xC000;
@@ -1828,7 +1831,7 @@ void TObjEneMe3SinowZoa::action() { if (get_target_info() != 0) { setup_move_bou
 extern "C" {
 
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
-    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&this->m_3d4) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
@@ -2097,8 +2100,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
                 }
                 if (angle < ((AttackParams *)self->m_318)->attack_angle / 2 && self->m_390 != NULL) {
                     if (game_difficulty_selection == 3) {
-                        create__11TTecRaBartaFPvPvPvPv(self, &out, &self->position,
-                            TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24));
+                        TTecRaBarta::create((void *)self, (void *)(&out), (void *)(&self->position), (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
                     } else {
                         ((TTecGiBarta *)self)->create_ex(&out, (void *)self->rotation_y, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
                     }
@@ -2145,13 +2147,13 @@ s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, co
     self->vfunc_89();
     self->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
-        if (get_valid_target_player__10TNpcPlayerFv(get_entity_id((saddr)self->m_390)) == 0) {
+        if (((TNpcPlayer *)(get_entity_id((int)self->m_390)))->get_valid_target_player() == 0) {
             VecCopy(&self->position, &sp8);
             TObjPlayer::init_all_slots();
             return 1;
         }
     }
-    if ((body->flags & 0x100000) && get_valid_target_player__10TNpcPlayerFv(self->entity_id) == 0) {
+    if ((body->flags & 0x100000) && ((TNpcPlayer *)self->entity_id)->get_valid_target_player() == 0) {
         VecCopy(&self->position, &sp8);
         TObjPlayer::init_all_slots();
         return 1;
@@ -2219,13 +2221,13 @@ void TObjEneMe3SinowZoa::check_and_notify() {
     }
 }
 
-s32 TObjEneMe3SinowZoa::check_floor_contact(void *arg1) {
+s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
     Vec v;
     CsnHit *hit;
     void *p;
-    VecCopy(&v, (const Vec *)arg1);
+    VecCopy(&v, origin);
     v.y += TObjEneMe3SinowZoa__data_805DF2F0;
-    hit = (CsnHit *)csnVectorUnder(&v, (u32 *)&this->m_120, 0x4007);
+    hit = csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x4007);
     if (hit != NULL) {
         this->m_3d0 = hit->contact->flags;
         if (this->m_3d0 & 0x4000) {

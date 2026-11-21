@@ -4,7 +4,10 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+class TObjEneRecon;
+
 struct TObjEneReconBomb : public TObjChara {
+    TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const Vec *pos);
     virtual ~TObjEneReconBomb();
     u32 m_334;
     u16 m_338;
@@ -26,7 +29,6 @@ struct TObjEneReconBomb : public TObjChara {
 LAYOUT_ASSERT(TObjEneReconBomb_size, sizeof(TObjEneReconBomb) == 0x364);
 
 extern "C" {
-u8 *TObjEneReconBomb__ct(TObjEneReconBomb *arg0, s32 arg1, s32 arg2, saddr arg3);
 void *__dt__16TObjEneReconBombFv(void *arg0, s16 arg1);
 }
 

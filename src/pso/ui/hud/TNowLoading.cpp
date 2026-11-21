@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/ui/hud/TLoadingCur.h"
+#include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -32,12 +34,7 @@ extern f32 lbl_804FF5E8[];
 extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void *);
-s32 TLoadingCur__ct(void *, void *, void *);
-s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 TAdLoadNetworkGC__ct(void *, void *, void *);
-extern s32 __vt__11TNowLoading[];
 const char *TNowLoading__class_name = "TNowLoading";
-TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *arg0, void *arg1, Vec *arg2);
 void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
@@ -111,15 +108,13 @@ TNowLoading::~TNowLoading() {
 
 #pragma push
 #pragma fp_contract on
-TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, Vec *arg2) {
+#define self ((TNowLoading_8001D3A8 *)this)
+TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
     Vec dir;
     s32 out[3];
     Cam_8001D3A8 *cam;
-    void *p;
-    __ct__7TObjectFP7TObject(parent, arg1);
-    parent->vtable = __vt__11TNowLoading;
-    parent->unk0 = TNowLoading__class_name;
-    VecCopy((Vec *)&parent->pos, (const Vec *)arg2);
+    self->unk0 = TNowLoading__class_name;
+    VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     cam = (Cam_8001D3A8 *) &lbl_804FF5E8;
     out[0] = 0;
     out[1] = 0;
@@ -128,23 +123,17 @@ TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, 
     dir.y = -cam->dir.y;
     dir.z = -cam->dir.z;
     direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    parent->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
-    parent->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
-    parent->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
-    parent->children[0] = NULL;
-    parent->children[1] = NULL;
-    parent->children[2] = NULL;
-    parent->children[3] = NULL;
-    p = TObject::operator new(0x40);
-    if (p != NULL) {
-        TAdLoadNetworkGC__ct(p, parent, &parent->pos);
-    }
-    p = TObject::operator new(0x5C);
-    if (p != NULL) {
-        TLoadingCur__ct(p, parent, &parent->pos);
-    }
-    return parent;
+    self->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
+    self->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
+    self->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
+    self->children[0] = NULL;
+    self->children[1] = NULL;
+    self->children[2] = NULL;
+    self->children[3] = NULL;
+    new TAdLoadNetworkGC(this, &self->pos);
+    new TLoadingCur(this, &self->pos);
 }
+#undef self
 #pragma pop
 
 void TNowLoading__sub_8001D4D0(void) {  }

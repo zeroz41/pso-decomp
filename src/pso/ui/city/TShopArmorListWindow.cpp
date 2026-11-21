@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowCost.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -195,7 +196,6 @@ struct Win_8021AE18 {
 
 extern "C" {
 const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
-int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 s32 get_entity_id(s32);
@@ -207,7 +207,6 @@ extern "C" {
 uaddr create_yes_no_window(int, u16, int, int);
 saddr get_window_layout_position(s32);
 extern const s32 local_client_id;
-s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w);
@@ -215,7 +214,7 @@ s32 TLobby__sub_8021B274();
 s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
-s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
+s32 sub_802239EC__13TShopSequenceFv(void *);
 void *create_cost_window(u16);
 saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
 s32 align_menu_entry_positions(u32);
@@ -239,7 +238,7 @@ TShopArmorListWindow::TShopArmorListWindow(saddr parent, s32 arg2, s32 arg3) : T
     this->m_1f4 = 0;
     this->m_1f0 = 0;
     ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
-    TLobby::set_shop_armor_list_flag((saddr)((void *) ((saddr)((TShopWindowBase *)this)->sub_8022397C())), sp8);
+    TLobby::set_shop_armor_list_flag((int)((void *) (sub_8022397C())), sp8);
 }
 
 TShopArmorListWindow::~TShopArmorListWindow() {
@@ -320,7 +319,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
     s32 k;
     u8 *e;
     void *c;
-    base = (saddr)((TShopWindowBase *)W)->sub_8022397C();
+    base = ((TShopWindowBase *)W)->sub_8022397C();
     W->count = TLobby__sub_8021B274();
     for (i = 0; i < W->count; i++) {
         ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
@@ -363,7 +362,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
     if (W->cost == NULL) {
         W->cost = create_cost_window(get_entity_id(W->player));
         if ((c = W->cost) != NULL && W->recs[0].price > 0) {
-            get_item_count__24TShopEquipmentSellWindowFv(c, W->recs[0].price);
+            ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }
     }
     W->base.m4(0xB, 1);
@@ -460,7 +459,7 @@ s32 TShopArmorListWindow::update() {
     }
 }
 
-int TShopArmorListWindow::advance_to_preparation_phase() { return set_field_20__15TShopWindowBaseFl(this, 8); }
+int TShopArmorListWindow::advance_to_preparation_phase() { set_field_20(8); }
 
 s32 TShopArmorListWindow::open_menu_window() {
     f32 scale;
@@ -481,7 +480,7 @@ s32 TShopArmorListWindow::open_menu_window() {
 }
 
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
-    saddr base = (saddr)((TShopWindowBase *)w)->sub_8022397C();
+    saddr base = ((TShopWindowBase *)w)->sub_8022397C();
     s32 r;
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_decided() != 0) {
         r = ((TWindowMenu *)w->card)->get_selected_value();
@@ -566,7 +565,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 try_buy_item(w->player, &c);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)(saddr)((TShopWindowBase *)w)->sub_8022397C()));
+                    TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)((TShopWindowBase *)w)->sub_8022397C()));
                 }
                 ((TShopArmorListWindow *)(w->list))->save_cursor_selection();
                 ((TWindowBase *)w->win)->close();
@@ -592,12 +591,12 @@ void TShopArmorListWindow::update_selection(void *arg1) {
     if (r3 != 0) {
         s32 r4 = *(s32 *)((s8 *)arg1 + 0x10);
         if (r4 > 0) {
-            get_item_count__24TShopEquipmentSellWindowFv(r3, r4);
+            ((TWindowCost *)r3)->set_cost(r4);
         }
     }
 }
 
-void TShopArmorListWindow::vfunc_6() {
+void TShopArmorListWindow::vfunc_6(s32 id, s32 flags) {
     struct VObj_8021A3CC_8021A394 *o = (struct VObj_8021A3CC_8021A394 *)*(void **)((s8 *)this + 0x28);
     if (o != NULL) {
         o->m4();

@@ -7,14 +7,11 @@
 
 extern "C" {
 
-int reset_trade_state__6TLobbyFv(void*);
-int close_trade_request__6TLobbyFv(void*);
-
 void TLobby::update_game_modes() { TLobby::update_trade_partner(); TLobby::update_battle_mode(); TLobby::update_trade_proposal_state(); TLobby::update_trade_list_send(); }
-int close_trade_request__6TLobbyFPv(void* p) { return close_trade_request__6TLobbyFv(p); }
-int TLobby__sub_802D39BC(void* p) { return close_trade_request__6TLobbyFv(p); }
-int TLobby__sub_802D39DC(void* p) { return reset_trade_state__6TLobbyFv(p); }
-int TLobby__sub_802D39FC(void* p) { return reset_trade_state__6TLobbyFv(p); }
+void close_trade_request__6TLobbyFPv(void* p) { ((TLobby *)p)->close_trade_request(); }
+void TLobby__sub_802D39BC(void* p) { ((TLobby *)p)->close_trade_request(); }
+void TLobby__sub_802D39DC(void* p) { ((TLobby *)p)->reset_trade_state(); }
+void TLobby__sub_802D39FC(void* p) { ((TLobby *)p)->reset_trade_state(); }
 void TLobby::byteswap_trade_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
 void TLobby::prepare_and_send_trade_packet(void* a1) { this->prepare_trade_packet(); send_subcommand_to_client((uaddr)a1); }
 }

@@ -20,11 +20,9 @@ s32 TWindowSubShortMail__sub_8007B834(void* p) { return *(s32*)((char*)p + 0x0);
 
 void* fn_8007B83C(void* p) { return (char*)p + 0x8; }
 
-s8 TPlyPhotonChair::get_actor_section_id() {
-    u8 *arg0 = (u8 *)this;
-  u8 *new_var;
-  new_var = &(*(arg0 + 0x88C));
-  return ((s8) ((*new_var) & 0xFFFFFFFFFFFFFFFFu)) & 0xFFFF;
+s32 TPlyPhotonChair::get_actor_section_id() {
+    s8 id = *((s8 *)this + 0x88C);
+    return id;
 }
 
 const char *TObjPlayer::get_name() { return name; }

@@ -21,7 +21,6 @@ char *lobby_current_slot_entry = "";
 
 extern "C" {
     extern int lbl_805D62B8;
-int set_and_notify__6TLobbyFi(void*);
 void start_audio_stream_file(s32, char *);
 void play_cue_stream_file(saddr arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
@@ -51,7 +50,6 @@ s32 music_fade_frames_remaining;
 s32 lbl_805D6330;
 s16 lbl_805D6334;
 void TLobby__sub_802272B4(void);
-void set_field_40_and_notify__6TLobbyFs(s32, s32);
 }
 void set_cue_stream_gain(s32 arg0);
 extern "C" {
@@ -76,8 +74,8 @@ u8 *TLobby::get_current_slot_entry() {
     return (u8 *)lobby_current_slot_entry;
 }
 
-int TLobby::set_and_notify_default() { return set_and_notify__6TLobbyFi((void*)(0)); }
-int TLobby::send_neg30() { return set_and_notify__6TLobbyFi((void*)(-30)); }
+void TLobby::set_and_notify_default() { TLobby::set_and_notify(0); }
+void TLobby::send_neg30() { TLobby::set_and_notify(-30); }
 
 void set_cue_stream_gain(s32 arg0) {
     s32 var_r4;
@@ -86,7 +84,7 @@ void set_cue_stream_gain(s32 arg0) {
         var_r4 = -0x3E7;
     }
     if ((u32) lbl_804CB850[2] != 0U) {
-        set_field_40_and_notify__6TLobbyFs(lbl_804CB850[2], var_r4);
+        ((TLobby *)lbl_804CB850[2])->set_field_40_and_notify(var_r4);
     }
 }
 
@@ -97,9 +95,9 @@ void set_music_streams_volume(s32 arg0) {
         var_r31 = -0x3E7;
     }
     if ((s32) lbl_805D6330 == 0) {
-        set_field_40_and_notify__6TLobbyFs(lbl_804CB850[0], var_r31);
+        ((TLobby *)lbl_804CB850[0])->set_field_40_and_notify(var_r31);
     }
-    set_field_40_and_notify__6TLobbyFs(lbl_804CB850[1], var_r31);
+    ((TLobby *)lbl_804CB850[1])->set_field_40_and_notify(var_r31);
 }
 extern "C" {
 
@@ -126,7 +124,7 @@ void TLoadCtrl__sub_80226DA0(s32 index) {
         read_disc_file_sectors(bgm_stream_files[index],
                                (lbl_805D6330 = 1, buf = lbl_80514C60[0]));
         ((TLobby *)lbl_804CB850[1])->adxt_start_mem_idx((u8 *)buf, 0);
-        set_field_40_and_notify__6TLobbyFs(lbl_804CB850[1], get_music_base_gain());
+        ((TLobby *)lbl_804CB850[1])->set_field_40_and_notify(get_music_base_gain());
         TLobby__sub_803C94DC((u8 *)lbl_804CB850[1], 0);
     }
 }
@@ -568,7 +566,7 @@ void update_music_fade(void) {
             } else {
                 v = -999;
             }
-            set_field_40_and_notify__6TLobbyFs(lbl_804CB850[i], v);
+            ((TLobby *)lbl_804CB850[i])->set_field_40_and_notify(v);
         }
         if (--music_fade_frames_remaining <= 0) {
             s32 st;

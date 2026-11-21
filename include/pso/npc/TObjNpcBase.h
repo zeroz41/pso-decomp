@@ -4,7 +4,25 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
+class TQuestThread;
+
+// The stats block TObjChara::set_motion_params reads.
+struct NpcBattleStats {
+    s16 unk_00[8];
+    f32 unk_10;
+    u32 unk_14[4];
+};
+
+// What TObjEnemy::movementParameters points at for the town NPCs.
+struct NpcMovementParameters {
+    f32 unk_00;
+    f32 speed;       // walking speed (enemy_set_heading_velocity)
+    s32 turn_speed;  // largest turn per frame (approach_angle_limited)
+    u32 unk_0C[4];
+};
+
 struct TObjNpcBase : public TObjEnemy {
+    TObjNpcBase(TObject *parent);
     virtual ~TObjNpcBase();
     virtual void run_task();
     virtual void render();
@@ -28,21 +46,27 @@ struct TObjNpcBase : public TObjEnemy {
     virtual void vfunc_28();
     u8 unk_374[0x10];
     s32 m_384;
-    u32 m_388;
-    u32 m_38c;
-    u32 m_390;
-    u32 m_394;
+    s32 m_388;
+    s32 m_38c;
+    s32 m_390;
+    s32 m_394;
     f32 m_398;
     f32 m_39c;
-    u32 m_3a0;
-    u32 m_3a4;
-    u32 m_3a8;
-    u32 m_3ac;
-    u32 m_3b0;
-    u32 m_3b4;
+    s32 m_3a0;
+    s32 m_3a4;
+    s32 m_3a8;
+    s32 m_3ac;
+    TQuestThread *m_3b0;
+    TObject *m_3b4;
     static void free_static();
     void setup_common();
 };
+
+extern "C" {
+extern NpcBattleStats npc_default_battle_stats;
+extern NpcMovementParameters npc_movement_parameters;
+extern CollisionBody npc_base_collision_body_desc;
+}
 
 LAYOUT_ASSERT(NpcBaseSize, sizeof(TObjNpcBase) == 0x3B8);
 

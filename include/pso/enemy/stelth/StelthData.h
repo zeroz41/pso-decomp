@@ -35,8 +35,9 @@ extern const char stelth_low_model[];
 extern const char stelth_low_bml[];
 extern const char stelth_class_name[];
 extern const char stelth_real_class_name[];
-extern const DelDepthAnimationBinding stelth_attack_binding_desc_a;
-extern const DelDepthAnimationBinding stelth_attack_binding_desc_b;
+struct NpcAnimationBinding;
+extern const NpcAnimationBinding stelth_attack_binding_desc_a;
+extern const NpcAnimationBinding stelth_attack_binding_desc_b;
 // set_constant_material colors of TObjEneMe3Stelth::render.
 extern const NJS_ARGB stelth_render_color_a;
 extern const NJS_ARGB stelth_render_color_b;

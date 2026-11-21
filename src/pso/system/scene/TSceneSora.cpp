@@ -1,10 +1,16 @@
 #include "pso/system/ResourceFile.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "types.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_80140FF4.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/scene/TSceneSora.h"
@@ -16,25 +22,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 
-struct RecoveredGlobal_802075F8_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct SkyMotion_80207238 { u32 rows; u32 frame_count; };
-
-struct TSceneSora_80207238 {
-    u8 pad[0x60];
-    s32 yaw;
-    u8 pad64[0x94 - 0x64];
-    SkyMotion_80207238 *motion;
-    void *textures;
-    f32 rate;
-    f32 frame;
-};
-
-struct Ref_80207478 { s32 id; s32 idx; s32 pad; };
 
 struct Ent_80207478 { s32 f0; char *name; };
 
@@ -46,21 +35,14 @@ extern "C" {
 s32 TSceneSora__sky_active_flag = 1;
 const char *TSceneSora__name = "TSceneSora";
 s32 TSceneSora__instance;
-u32 TSceneSora__sky_bml_resource;
+BmlResource *TSceneSora__sky_bml_resource;
 s32 TSceneSora__has_sky_motion;
 
-u8 * free_bin_model_request(void *, s16);
 void TSceneSora__sub_80207430(void);
-s32 get_bml_motion(int, int);
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
 u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(int, int);
-s32 set_global_param__8TObjFishFl();
-void *get_current_floor();
+s32 get_current_floor();
 u32 init_bin_model_request(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
-s32 lookup_scene_object__6TLobbyFPv(void *, Ref_80207478 *);
 void *adxf_open__6TLobbyFUii(char *, int);
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
@@ -72,14 +54,13 @@ extern s32 tl_05;
 void TSceneSora::render() {
     if ((s32) TSceneSora__sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        get_bml_texlist((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param(get_bml_texlist(TSceneSora__sky_bml_resource, 0));
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
-        if ((u32) this->m_94 != 0U) {
-            draw_ginja_model_with_motion((void *)this->m_90, (void *)this->m_94, (f32)this->m_a0);
+        if (sky_motion != NULL) {
+            draw_ginja_model_with_motion(sky_model, sky_motion, m_a0);
         } else {
-            draw_ginja_object((void *)this->m_90);
+            draw_ginja_object(sky_model);
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -87,17 +68,16 @@ void TSceneSora::render() {
 }
 
 void TSceneSora::run_task() {
-    TSceneSora_80207238 *sky = (TSceneSora_80207238 *)this;
-    if (sky->motion != NULL) {
-        sky->frame += sky->rate;
-        if (sky->frame > (sky->motion->frame_count - 1)) {
-            sky->frame = 0.0f;
+    if (sky_motion != NULL) {
+        m_a0 += motion_step;
+        if (m_a0 > (sky_motion->frameCount - 1)) {
+            m_a0 = 0.0f;
         }
     } else {
         switch (get_current_floor_area()) {
         case AREA_FOREST1:
         case AREA_FOREST2:
-            sky->yaw++;
+            rotation_y++;
             break;
         }
     }
@@ -109,22 +89,22 @@ TSceneSora::~TSceneSora() {
 }
 TSceneSora::TSceneSora(saddr _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;
-    this->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+    sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TSceneSora__sky_bml_resource, 0));
     if (TSceneSora__has_sky_motion != 0) {
-        this->m_94 = get_bml_motion((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+        sky_motion = get_bml_motion(TSceneSora__sky_bml_resource, 0);
     } else {
-        this->m_94 = 0;
+        sky_motion = NULL;
     }
-    this->m_98 = get_bml_texlist((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
-    *(f32 *)((s8 *)this + 0x9C) = 0.1f;
-    this->m_a0 = 0.0f;
+    sky_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TSceneSora__sky_bml_resource, 0));
+    motion_step = 0.1f;
+    m_a0 = 0.0f;
 }
 extern "C" {
 
 void TSceneSora::create_instance() {
     saddr scene_sora;
 
-    if ((u32) TSceneSora__sky_bml_resource != 0U) {
+    if (TSceneSora__sky_bml_resource != NULL) {
         scene_sora = (saddr)TObject::operator new(0xA4);
         if (scene_sora != 0) {
             scene_sora = ((saddr)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
@@ -137,9 +117,9 @@ void TSceneSora::create_instance() {
 
 void TSceneSora__sub_80207430(void) {
     TSceneSora__sky_active_flag = 1;
-    if ((void *) (*(u8 * *)&TSceneSora__sky_bml_resource) != NULL) {
-        free_bin_model_request((*(u8 * *)&TSceneSora__sky_bml_resource), 1);
-        (*(u8 * *)&TSceneSora__sky_bml_resource) = NULL;
+    if (TSceneSora__sky_bml_resource != NULL) {
+        free_bin_model_request(TSceneSora__sky_bml_resource, 1);
+        TSceneSora__sky_bml_resource = NULL;
     }
     TSceneSora__instance = 0;
 }
@@ -147,7 +127,7 @@ void TSceneSora__sub_80207430(void) {
 void TSceneSora::load_sky_resources() {
     char name2[0x20];
     char name1[0x20];
-    Ref_80207478 ref;
+    FloorMapSelection ref;
     Res_80207478 b;
     Res_80207478 a;
     Ent_80207478 *tbl;
@@ -155,18 +135,18 @@ void TSceneSora::load_sky_resources() {
     void *p;
     uaddr o;
     TSceneSora__instance = 0;
-    TSceneSora__sky_bml_resource = 0;
+    TSceneSora__sky_bml_resource = NULL;
     TSceneSora__has_sky_motion = 0;
-    if (lookup_scene_object__6TLobbyFPv(get_current_floor(), &ref) != 0) {
+    if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
-        tbl = (Ent_80207478 *)get_floor_scene_table(ref.id);
-        TLobby::replace_file_extension(name1, tbl[ref.idx].name, sky_model_ext_s_njm);
+        tbl = (Ent_80207478 *)get_floor_scene_table(ref.area);
+        replace_file_extension__6TLobbyFPvPvPv(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            TLobby::replace_file_extension(name2, tbl[ref.idx].name, sky_model_ext_sm_gj);
+            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size((const char *)name2);
         }
         if (ok <= 0) {
-            TLobby::replace_file_extension(name2, tbl[ref.idx].name, sky_model_ext_s_gj);
+            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
         }
         p = adxf_open__6TLobbyFUii(name2, 0);
         if (p != NULL) {
@@ -189,21 +169,19 @@ void TSceneSora::load_sky_resources() {
         if (o != 0) {
             o = init_bin_model_request((void *)o, 1, &b, &a, 0, 0, 0);
         }
-        TSceneSora__sky_bml_resource = o;
+        TSceneSora__sky_bml_resource = reinterpret_cast<BmlResource *>(o);
         TSceneSora__sky_active_flag = 1;
     }
 }
 
 void TLobby__sub_802075F4(void) {  }
 }
-extern RecoveredGlobal_802075F8_lbl_80515BA0 lbl_80515BA0;
 extern s32 pending_adventure_map_floor;
 void prepare_adventure_maps(void);
-LAYOUT_ASSERT(RecoveredGlobal_802075F8_lbl_80515BA0_size, sizeof(RecoveredGlobal_802075F8_lbl_80515BA0) == 0x28);
 void prepare_adventure_maps(void) {
     randomize_adventure_maps();
     if ((s32) pending_adventure_map_floor != -1) {
-        TLobby__sub_80141038((u8 *)&lbl_80515BA0.value, pending_adventure_map_floor, get_floor_map_terrain(pending_adventure_map_floor));
+        initialize_floor_transition(&floor_transition_state, pending_adventure_map_floor, get_floor_map_terrain(pending_adventure_map_floor));
         pending_adventure_map_floor = -1;
     }
 }

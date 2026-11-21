@@ -45,7 +45,7 @@ s32 TItemTexLoad::load_texture(s32 index) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;
-        m_archive_handle = ((uaddr)TLobby::adxf_open_afs(0xB8, m_texture_index));
+        m_archive_handle = (uaddr)TLobby::adxf_open_afs(0xB8, m_texture_index);
         if (m_archive_handle == 0U) {
             unload_texture();
             return 0;

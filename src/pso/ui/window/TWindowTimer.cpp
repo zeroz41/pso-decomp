@@ -14,6 +14,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -96,7 +97,7 @@ void TWindowTimer::update_chat_parts() {
     } else {
         window_layout_position = get_window_layout_position(0x22);
     }
-    ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x30))->copy_vec2((void*)window_layout_position);
+    copy_vec2((arg0 + 0x30), (void*)window_layout_position);
 }
 
 void TWindowTimer::draw(s32 arg1, s32 arg2) {

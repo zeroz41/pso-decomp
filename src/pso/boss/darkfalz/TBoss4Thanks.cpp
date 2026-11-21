@@ -76,8 +76,8 @@ s32 fn_8035C2B4(void) {
 s32 TBoss4Thanks::is_door_0x97_open() {
     return get_story_flag(0x97) != 0;
 }
-void TBoss4Thanks::dispatch_main_phase_153() { TBoss4DarkFalz::dispatch_by_main_phase(153); }
-void TBoss4Thanks::dispatch_main_phase() { TBoss4DarkFalz::dispatch_by_main_phase(151); }
+void TBoss4Thanks::dispatch_main_phase_153() { set_story_flag_or_send_quest_flag(153); }
+void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151); }
 
 
 void TBoss4Thanks::update_particle_emitters() {

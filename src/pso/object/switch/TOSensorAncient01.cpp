@@ -70,7 +70,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(ancient_sensor_resource_pair_table[set_params[2]].red);
+        TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[set_params[2]].red);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -78,7 +78,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->child;
         if ((f32)lamp_timer < 30.0f) {
-            TObjFish::set_global_param(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
+            TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
         }
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -86,7 +86,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->sibling;
         if ((f32)lamp_timer < 60.0f) {
-            TObjFish::set_global_param(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
+            TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
         }
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -94,7 +94,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->sibling;
         if ((f32)lamp_timer < 90.0f) {
-            TObjFish::set_global_param(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
+            TObjFish::set_global_param((s32)ancient_sensor_resource_pair_table[sensor_texture_table_index].plain);
         }
         post_translate_matrix(object->pos);
         draw_ginja_model((saddr)object->model);
@@ -138,9 +138,9 @@ void *TOSensorAncient01::create(void *set_data) {
 
 void TOSensorAncient01::destroy() {
     if (ancient_sensor_resource_pair_table != NULL) {
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[0].red);
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].plain);
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].red);
+        TObjPlayer::free_if_valid((s32)ancient_sensor_resource_pair_table[0].red);
+        TObjPlayer::free_if_valid((s32)ancient_sensor_resource_pair_table[1].plain);
+        TObjPlayer::free_if_valid((s32)ancient_sensor_resource_pair_table[1].red);
         if (ancient_sensor_resource_pair_table != NULL) {
             mem_free(ancient_sensor_resource_pair_table);
             ancient_sensor_resource_pair_table = NULL;
@@ -158,11 +158,11 @@ void TOSensorAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &TOSensorAncient01__resource_descriptor, 0, 0, 0);
     }
     sensor_ancient01_model_resource = resource;
-    ancient_sensor_resource_pair_table = (TOSensorAncient01Textures *)mem_alloc(0x10);
-    ancient_sensor_resource_pair_table[0].plain = sensor_ancient01_model_resource->models[0].m_c;
-    ancient_sensor_resource_pair_table[0].red = (saddr)load_gvm_texture_file((saddr) "fs_obj_o_sensor01r.gvm");
-    ancient_sensor_resource_pair_table[1].plain = (saddr)load_gvm_texture_file((saddr) "fs_obj_o_sensor02.gvm");
-    ancient_sensor_resource_pair_table[1].red = (saddr)load_gvm_texture_file((saddr) "fs_obj_o_sensor02r.gvm");
+    ancient_sensor_resource_pair_table = (TOSensorAncient01Textures *)mem_alloc(2 * sizeof(*ancient_sensor_resource_pair_table));
+    ancient_sensor_resource_pair_table[0].plain = (GinjaTextureList *)sensor_ancient01_model_resource->models[0].m_c;
+    ancient_sensor_resource_pair_table[0].red = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_sensor01r.gvm");
+    ancient_sensor_resource_pair_table[1].plain = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_sensor02.gvm");
+    ancient_sensor_resource_pair_table[1].red = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_sensor02r.gvm");
     lbl_805D5A90 = 0;
     lbl_805D5A94 = 0;
     lbl_805D5A98 = 0;

@@ -614,7 +614,7 @@ void TWindowMainMenu::open(s32 arg1) {
 }
 
 void TWindowMainMenu::close_and_clear_flags() {
-    TObjPlayer *player;
+    void *player;
     s32 temp_r4;
 
     temp_r4 = *(s32 *)((s8 *)this + 0x4C);
@@ -622,9 +622,8 @@ void TWindowMainMenu::close_and_clear_flags() {
     close_child_window();
     destroy_submenu();
     close();
-    player = get_player_by_client_id(*(s32 *)((s8 *)this + 0x54));
-    if (player != 0) {
-        player->init_parts();
+    if ((player = (void *)get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54)))) != 0U) {
+        ((TObjPlayer *)player)->init_parts();
     }
 }
 

@@ -6,7 +6,7 @@
 
 extern "C" {
 extern u8 *text_language_group_table;
-s32 get_class_index__10TObjPlayerFv();
+s32 get_class_index__10TObjPlayerFv(void *);
 
 void TItemData__sub_8010EDA8(void *arg0, s32 arg1) {
     *(s16 *)((s8 *)arg0 + 8) = (s16) (*(s16 *)((s8 *)arg0 + 8) + arg1);
@@ -60,9 +60,8 @@ s16 MagStats::get_pow_level() {
     return pow / 100;
 }
 
-void TItemData::update_player_field() {
-    saddr arg0 = (saddr)this;
-    ((TObjPlayer *)(arg0 + 0x374))->can_use_more_materials(get_class_index__10TObjPlayerFv());
+s32 TObjPlayer::can_use_more_materials_for_class() {
+    return ((TObjPlayer *)((s32)this + 0x374))->can_use_more_materials(get_class_index__10TObjPlayerFv(this));
 }
 saddr get_item_description_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 4)) + (arg0 * 4));

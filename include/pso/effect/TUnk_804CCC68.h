@@ -1,9 +1,11 @@
 #ifndef PSO_PLAYER_TUNK_804CCC68_H
 #define PSO_PLAYER_TUNK_804CCC68_H
+#include <stddef.h>
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct CsnGroup;
 struct TechniqueContactActor;
 struct TechniqueContactBody;
 
@@ -21,13 +23,13 @@ public:
     virtual void vfunc_8(void *);
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
-    void dispatch_technique_contact();
+    void dispatch_technique_contact(s32);
     u8 *query_technique_player_contacts(saddr);
     u8 *query_technique_enemy_contacts(saddr);
     f32 range;
     f32 traveled;
     f32 previous[3];
-    u8 beforeLevel[0x40];
+    CsnGroup *ground_candidates[16];
     s16 level;
     s16 band;
     u16 sourceId;
@@ -39,6 +41,8 @@ public:
     TechniqueContactActor* proxy;
     f32 halfWidth;
 };
+
+typedef char TechniqueGroundCandidatesOffset[offsetof(TUnk_804CCC68, ground_candidates) == 0x84 ? 1 : -1];
 
 extern "C" {
 // TUnk_804CCC68::~TUnk_804CCC68(), called by the destructors that are still written by hand.

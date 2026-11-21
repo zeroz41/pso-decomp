@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TUnk_80494938.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/effect/TUnk_80494968.h"
@@ -41,6 +43,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D853C.h"
 
 struct VBase_800AA704 { u8 pad[0xC]; };
 struct VObj_800AA704 : VBase_800AA704 {
@@ -118,7 +121,6 @@ struct VObj_18_fe09eb : VBase_18_fe09eb {
 
 struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
 
-struct Desc_800AA82C { s32 a; void *b; s32 c; s32 d; };
 
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -360,7 +362,6 @@ struct Ene_800A93E4 {
     VO_800A93E4 *model;
 };
 
-s32 mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 
 
 }
@@ -551,12 +552,12 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     collect_visible_nodes((NJS_OBJECT *)nodes[2], (NJS_OBJECT **)lbl_80500A48);
     {
         Ids_800AA82C ids = {{0x1E, 0x1F}};
-        Desc_800AA82C d = {0, &lbl_804910F4, 1, 0x140000};
+        NpcAnimationBinding d = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804910F4), 0, 1, 20 };
         s32 j;
-        d.a = dubchik_resource->f430;
+        d.motions = reinterpret_cast<BmlMotionEntry *>(dubchik_resource->f430);
         for (j = 0; j < 2; j++) {
             Mdl_800AA82C *e = &dubchik_resource->mdl[j];
-            TLobby::spawn_npc_enemy(ids.v[j], e->f8, (NJS_TEXLIST *)e->fC, &d, 5.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids.v[j], reinterpret_cast<void *>(e->f8), reinterpret_cast<void *>(e->fC), &d, 5.0f, 0.0f);
         }
     }
 }
@@ -767,7 +768,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
         break;
     case 0:
         *(s32 *)((s8 *)arg0 + 0x388) |= 0x01800000;
-        ((TObjEnemyCustom *)arg0_)->sub_8004292C();
+        ((TObjEnemyCustom *)arg0)->sub_8004292C();
         if (*(s32 *)((s8 *)arg0 + 0x380) != 0) {
             if (TObjEneDD::check_v2_mode() == 0) {
                 if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
@@ -916,7 +917,7 @@ void TObjEneDubchik::update_fall_apart() {
         ((TObjPlayer *)this)->set_invuln_flags();
         requested_action = 4;
         enemy_set_heading_velocity(-7.0f, this, rotation_y);
-        ((TObjPlayer *)this)->render_model_and_set_attach_points();
+        render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
                 parts[i] = new TUnk_80491478(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
@@ -982,7 +983,7 @@ void TObjEneDubchik::update_fall_apart() {
         break;
     case 3: {
         s32 all_done;
-        ((TObjPlayer *)this)->render_model_and_set_attach_points();
+        render_model_and_set_attach_points();
         play_persistent_sound(remap_sound_for_area(0x4003AD07), (saddr)this, (uaddr)&position, 0, 0);
         all_done = 1;
         for (i = 0; i < 3; i++) {
@@ -1083,12 +1084,12 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
         post_translate_matrix(&e->pos);
         rotate_matrix_y(0, e->angle);
         if (h0 != 0) {
-            mult_vec_array__10TObjPlayerFUll(0, h0, &a1, 2);
+            matrix_mult_vec_array(NULL, (const Vec *)h0, &a1, 2);
             e->model->m4(&a1, &b1);
         }
         if (h1 != 0) {
             saddr pa = (saddr)&a2;
-            mult_vec_array__10TObjPlayerFUll(0, h1, (void *)pa, 2);
+            matrix_mult_vec_array(NULL, (const Vec *)h1, (Vec *)pa, 2);
             e->model->m4((Vec *)pa, &b2);
         }
         pop_matrix();
@@ -1343,11 +1344,11 @@ void TObjEneDubchik::sub_800A8B8C() {
     TObjPlayer__sub_800AAFF0(*(u8 **)((s8 *)this + 0x318), sub_800AAF78(this->collapsed ? 5 : 1));
 }
 
-void TObjPlayer::render_model_and_set_attach_points() {
-    ((TObjEnemyCustom *)this)->render_anim_model_at_pos();
-    this->get_anim_node_position(0x13, (Vec *)&this->unk_3D4);
-    this->get_anim_node_position(0x28, (Vec *)&this->unk_3E0);
-    this->get_anim_node_position(0x29, (Vec *)&this->m_3ec);
+void TObjEneDubchik::render_model_and_set_attach_points() {
+    render_anim_model_at_pos();
+    get_anim_node_position(0x13, &part_offsets[0]);
+    get_anim_node_position(0x28, &part_offsets[1]);
+    get_anim_node_position(0x29, &part_offsets[2]);
 }
 
 void TObjEneDubchik::sub_800A8A7C() {

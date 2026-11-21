@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdChrMoveEffectGC : public TObject {
+    TAdChrMoveEffectGC(TObject *parent);
     virtual ~TAdChrMoveEffectGC();
     void sub_80348E34();
     u32 m_1c;
@@ -21,7 +22,6 @@ struct TAdChrMoveEffectGC : public TObject {
 LAYOUT_ASSERT(TAdChrMoveEffectGC_size, sizeof(TAdChrMoveEffectGC) == 0x3A4);
 
 extern "C" {
-void *TAdChrMoveEffectGC__ct(void *arg0);
 void *__dt__18TAdChrMoveEffectGCFv(void *arg0, s16 arg1);
 }
 

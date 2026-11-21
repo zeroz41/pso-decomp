@@ -25,6 +25,7 @@
 #include "pso/unk/text_801AE1F8.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/effect/photon/TPhotonLaser.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -43,19 +44,9 @@ struct Self_801ADDDC {
     s32 started;
 };
 
-// The TPhotonLaser construction packet (TPhotonLaser__ct reads pos, dir and scale).
-typedef struct Packet_801ADD10 {
-    Vec pos;
-    u8 padC[0x18 - 0xC];
-    Vec dir;
-    f32 pad_24;
-    f32 scale;
-    f32 pad_2C;
-} Packet_801ADD10;
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
-s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
@@ -65,11 +56,10 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void TPhotonLaser__ct(void *, void *, void *, u16);
 void vec3_add_to(void *, void *);
 const char *TPhotonPilla__class_name = "TPhotonPilla";
 void *pilla_photon_buffer_pair;
-extern const Packet_801ADD10 photon_pilla_laser_packet = {
+extern const PhotonLaserParams photon_pilla_laser_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
 };
 extern void *photon_pilla_laser_offset_table[];
@@ -99,20 +89,16 @@ void TPhotonPilla::apply_photon_blast_effects() {
 
 void TPhotonPilla::spawn_laser() {
     Vec position;
-    u8 *laser;
     position.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
     position.y = 3e+02f;
     position.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
     vec3_add_to(&position, &((Vec *)photon_pilla_laser_offset_table)[*(s32 *)((s8 *)((u8 *)this) + 0x194)]);
     (*(s32 *)((s8 *)((u8 *)this) + 0x194))++;
-    Packet_801ADD10 packet = photon_pilla_laser_packet;
+    PhotonLaserParams packet = photon_pilla_laser_packet;
     packet.pos.x = position.x;
     packet.pos.y = position.y;
     packet.pos.z = position.z;
-    laser = (u8 *) TObject::operator new(0x380);
-    if (laser != NULL) {
-        TPhotonLaser__ct(laser, &packet, this, this->m_17c);
-    }
+    new TPhotonLaser(&packet, this, this->m_17c);
 }
 
 void TPhotonPilla::render() {
@@ -139,7 +125,7 @@ void TPhotonPilla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

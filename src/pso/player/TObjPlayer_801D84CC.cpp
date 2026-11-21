@@ -28,7 +28,6 @@ struct Stack_801D8664 {
 
 
 extern "C" {
-void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
 s32 copy_player_visual_record(void *, void *);
 s32 fn_801D40D4(s32, void *, void *);
 struct VObj_84Base_801d859c_801D84CC { char pad[0x18]; };
@@ -46,7 +45,6 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 
 s32 advance_item_id_counter();
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-void *pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
 u16 get_entity_id(void *);
 
@@ -59,15 +57,15 @@ void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     if (item != NULL) {
         s8 val = ((VObj_84_801d859c_801D84CC *)item)->m31();
         s32 val_ext = (s32)val;
-        saddr slot;
-        if ((slot = TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext)) != 0U) {
-            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, ((TItem *)slot)->get_item_id(), 1);
+        TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext);
+        if (slot_item != NULL) {
+            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, slot_item->get_item_id(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
-        if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)item) != 0U) {
+        if (((TObjPlayer *)arg0)->pickup_item((TItem *)item) != 0U) {
             ((TObjPlayer *)arg0)->set_flag_20000();
             ((TObjPlayer *)arg0)->equip_item_to_slot(item, 0);
-            ((TObjPlayer *)arg0)->sub_801BE9A8();
+            ((TObjPlayer *)arg0)->clear_flag_20000();
         }
     }
 }
@@ -100,7 +98,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     TUnk_801D8A4C sp8;
     ((TObjPlayer *)(&sp8))->init_inventory();
     copy_player_visual_record(sp8.visual, &data->m_disp_data.m_disp_part2);
-    copy_data__6TLobbyFPvPv(sp8.stats, &data->m_disp_data);
+    TLobby::copy_data(sp8.stats, &data->m_disp_data);
     fn_801D40D4(data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
     return new TUnk_804C4540(tl_03, &sp8);
 }
@@ -137,6 +135,7 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_en
 }
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/player/TPlyInventory.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -145,7 +144,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_en
 extern "C" {
 extern u8 *TObjPlayer__shared_model_buffer;
 void TObjPlayer__sub_801BFF80(u8 *arg0);
-void init__17TPlyInventoryItemFv(u8 *arg0);
 }
 void create_player_ending_motion(void);
 saddr create_named_object(saddr arg0);
@@ -183,7 +181,7 @@ s32 TObjPlayer::init_inventory_items(saddr arg0) {
     var_r31 = 0;
     var_r30 = 0;
     do {
-        init__17TPlyInventoryItemFv((u8 *)(arg0 + var_r30));
+        ((TPlyInventoryItem *)(arg0 + var_r30))->init();
         var_r31 += 1;
         var_r30 += 0x1C;
     } while (var_r31 < 2);

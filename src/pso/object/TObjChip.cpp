@@ -8,10 +8,13 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 
+#include "pso/object/TObjChipParams.h"
+
 class TObjChip : public TObject {
 public:
     virtual void render_shadows();
     virtual ~TObjChip();
+    static TObjChipSpawnParams *copy_transform(TObjChipSpawnParams *spawn, TObjChipParams *params);
 };
 
 #include "types.h"
@@ -204,32 +207,37 @@ struct VObj_801809F0_801809B4 : Base_801809F0_801809B4 {
 };
 
 int vfunc_8__8TObjChipFv(void* p);
-u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void render__8TObjChipFv(void *arg0);
 void run_task__8TObjChipFv(void *arg0);
 
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
 
-u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
-    *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    VecCopy((Vec *)(arg0 + 0xC), (const Vec *)(arg1 + 0xC));
-    VecCopy((Vec *)(arg0 + 0x18), (const Vec *)(arg1 + 0x18));
-    copy_xyz(arg0 + 0x24, arg1 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg1 + 0x3C);
-    *(s32 *)((s8 *)arg0 + 0x40) = (s32) *(s32 *)((s8 *)arg1 + 0x40);
-    *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
-    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
-    *(s32 *)((s8 *)arg0 + 0x54) = 0;
-    *(s32 *)((s8 *)arg0 + 0x50) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4C) = 0;
-    return arg0;
 }
+
+TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjChipParams *params) {
+    TObjChipParams *src = params;
+    TObjChipParams &dst = spawn->chip;
+    dst.pad_0[0] = src->pad_0[0];
+    dst.pad_0[1] = src->pad_0[1];
+    dst.pad_0[2] = src->pad_0[2];
+    VecCopy((Vec *)spawn->chip.pos, (const Vec *)params->pos);
+    VecCopy((Vec *)spawn->chip.pad_18, (const Vec *)params->pad_18);
+    copy_xyz(spawn->chip.pad_24, (void *)params->pad_24);
+    dst.pad_30[0] = src->pad_30[0];
+    dst.pad_30[1] = src->pad_30[1];
+    dst.pad_38[0] = src->pad_38[0];
+    dst.pad_38[1] = src->pad_38[1];
+    dst.model = src->model;
+    dst.textures = src->textures;
+    dst.pad_48 = src->pad_48;
+    spawn->pad_54 = 0;
+    spawn->angle_y = 0;
+    spawn->pad_4C = 0;
+    return spawn;
+}
+
+extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;

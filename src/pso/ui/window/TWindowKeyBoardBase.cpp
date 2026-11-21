@@ -2,6 +2,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/ui/window/TWindowKeyBoardBase_8008102C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include <stddef.h>
@@ -345,7 +346,7 @@ void TWindowKeyBoardBase::insert_string(char *src) {
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)this;
     s32 n;
     u8 *p = self->buf;
-    s8 len = ((TWindowSubStatusDisp *)src)->measure_string_len();
+    s8 len = (s32)measure_string_len((const char *)(src));
     KbRec_8025D264 *rec;
     u8 *dst;
     s8 total;
@@ -384,7 +385,7 @@ s32 TWindowKeyBoardBase::sub_8025D378(void *window_sub_status_disp) {
     void * arg0 = (void *)this;
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)arg0;
     s32 len = ((KbRec_8025D264 *)self->buf)->len;
-    s32 need = ((TWindowSubStatusDisp *)window_sub_status_disp)->measure_string_len();
+    s32 need = (s32)measure_string_len((const char *)(window_sub_status_disp));
 
     return (self->remain >= need - len) ? 1 : 0;
 }
@@ -757,7 +758,7 @@ void fn_8025DE10(void *arg0, void *arg1) {
     pos[5] = bottom;
     pos[6] = pos[0];
     pos[7] = bottom;
-    ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 6, depth);
+    draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
 }
 
 void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
@@ -815,7 +816,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
                 pos[5] = q.y2;
                 pos[6] = q.x;
                 pos[7] = q.y2;
-                ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 6, depth);
+                draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
                 ((f32 *)arg2)[0] += (f32)(s32)adv;
             }
         }
@@ -863,7 +864,7 @@ void TWindowKeyBoardBase::sub_8025E148(WindowDrawContext *box, f32 *cursor, u16 
             pos[5] = q.y2;
             pos[6] = q.x;
             pos[7] = q.y2;
-            ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 6, depth);
+            draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
             cursor[0] += (f32)adv;
         }
     }

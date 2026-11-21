@@ -5,6 +5,7 @@
 
 class TObjBoss1MokoHill_SoloM : public TObject {
 public:
+    TObjBoss1MokoHill_SoloM(TObject *parent, u8 *position, s32 heading);
     virtual ~TObjBoss1MokoHill_SoloM();
     virtual void render();
     virtual void run_task();

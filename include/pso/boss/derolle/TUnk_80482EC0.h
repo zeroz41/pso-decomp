@@ -10,7 +10,6 @@ public:
     virtual void vfunc_105(s32);
     virtual void vfunc_106(s32);
     virtual void vfunc_88();
-    u8 unk_3B4[0x3C];
 };
 LAYOUT_ASSERT(TUnk_80482EC0_size, sizeof(TUnk_80482EC0) == 0x3F0);
 

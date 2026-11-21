@@ -6,11 +6,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80338740.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include <string.h>
 
 extern "C" {
 void mem_free(void *p);
 void *mem_alloc(u32 size);
+s32 strncpy(int, void *, int);
 typedef struct
 {
   f32 x;
@@ -39,9 +39,9 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr arg2, s8 arg3,
     } else {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
     }
-    temp_r3 = ((TWindowSubStatusDisp *)arg2)->measure_string_len();
+    temp_r3 = (s32)measure_string_len((const char *)((void *)arg2));
     *(s32 *)((s8 *)arg0 + 0x24) = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((char *)(*(saddr *)((s8 *)arg0 + 0x24)), (const char *)arg2, (int)temp_r3);
+    strncpy((int) (*(s32 *)((s8 *)arg0 + 0x24)), (void *)arg2, (int)temp_r3);
     *(s8 *)((s8 *)temp_r3 + (*(s32 *)((s8 *)arg0 + 0x24))) = 0;
     *(s8 *)((s8 *)arg0 + 0x1D) = arg7;
     *(s8 *)((s8 *)arg0 + 0x1E) = arg6;
@@ -53,7 +53,7 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr arg2, s8 arg3,
 }
 
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
-    TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
+    (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }
 saddr TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
     if (arg1 == 0) {

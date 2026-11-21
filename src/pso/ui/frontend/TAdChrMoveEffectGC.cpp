@@ -1,12 +1,14 @@
 #pragma push
 
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
 
 const f32 chr_move_effect_pos_table[7][2] = {
@@ -61,7 +63,7 @@ void TAdChrMoveEffectGC::sub_80348E34() {
                 desc.col = col;
                 desc.a = 0;
                 desc.n = 4;
-                ((TWindowSubSymbolChatPartsSet *)pos)->copy_vec2(e + 0x44);
+                copy_vec2(pos, e + 0x44);
                 src = e + 0x4C;
                 ((TAdChrMoveEffectGC *)(desc.col))->copy4(src);
                 desc.col[3] = *(u8 *)((s8 *)e + 0x50);
@@ -77,7 +79,7 @@ void TAdChrMoveEffectGC::sub_80348E34() {
                 desc.pos[7] = *(f32 *)((s8 *)e + 0x48);
                 ((TAdChrMoveEffectGC *)(desc.col + 12))->copy4(src);
                 desc.col[15] = *(u8 *)((s8 *)e + 0x50);
-                ((TObjCMHairMenu *)(&desc))->draw_tri_fan_2d(4, 7, 1e-05f * (f32)i + (-1.01f));
+                draw_polygon_2d((NJS_POINT2COL *)&desc, 4, 7, 1e-05f * (f32)i + (-1.01f));
             }
         }
     }
@@ -114,7 +116,6 @@ void __ct__7TObjectFP7TObject(void *);
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
-extern s32 __vt__18TAdChrMoveEffectGC[];
 extern u32 lbl_805D6E78;
 
 void TAdChrMoveEffectGC::reset_effect_entries() {
@@ -123,7 +124,7 @@ void TAdChrMoveEffectGC::reset_effect_entries() {
     ((E_80349038 *)this)->f1C = 0;
     for (i = 0; i < 16; i++) {
         e = (E_80349038 *)((u8 *)this + i * 0x38);
-        ((TWindowSubSymbolChatPartsSet *)(e->v44))->copy_vec2(e->v24);
+        copy_vec2((e->v44), e->v24);
         ((TAdChrMoveEffectGC *)(e->v4C))->copy4(e->v34);
         *(u8 *)&e->f50 = e->v34[3];
         e->f54 = 0;
@@ -143,11 +144,11 @@ void TAdChrMoveEffectGC::clear_entries() {
 struct W_80349194;
 void TAdChrMoveEffectGC::setup_move_effect_params(s32 arg1, s32 arg2) {
     P_803490D8 p;
-    ((TWindowSubSymbolChatPartsSet *)(&p.a))->copy_vec2((void *)&chr_move_effect_pos_table[arg1]);
-    ((TWindowSubSymbolChatPartsSet *)(&p.b))->copy_vec2((void *)&chr_move_effect_pos_table[arg2]);
+    copy_vec2((&p.a), (void *)&chr_move_effect_pos_table[arg1]);
+    copy_vec2((&p.b), (void *)&chr_move_effect_pos_table[arg2]);
     ((TAdChrMoveEffectGC *)(&p.c))->copy4((void *)(arg1 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
     ((TAdChrMoveEffectGC *)(&p.d))->copy4((void *)(arg2 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
-    ((TWindowSubSymbolChatPartsSet *)(&p.e))->copy_vec2((void *)lbl_804786F0);
+    copy_vec2((&p.e), (void *)lbl_804786F0);
     TAdChrMoveEffectGC__sub_80349194((W_80349194 *)this, &p);
 }
 
@@ -202,7 +203,7 @@ void TAdChrMoveEffectGC::run_task() {
                 vx = -dx / 30.0f * (f32)self->e[i].cnt + dx;
                 vy = -dy / 30.0f * (f32)self->e[i].cnt + dy;
                 if (self->e[i].cnt == 0) {
-                    ((TWindowSubSymbolChatPartsSet *)(&self->e[i].cur))->copy_vec2(&self->e[i].start);
+                    copy_vec2((&self->e[i].cur), &self->e[i].start);
                     ((TAdChrMoveEffectGC *)(self->e[i].curcol))->copy4(self->e[i].col0);
                 } else {
                     self->e[i].cur.x += vx;
@@ -219,7 +220,7 @@ void TAdChrMoveEffectGC::run_task() {
                 self->e[i].f2C = self->e[i].curcol[3] / 5;
                 self->e[i].cnt++;
             } else {
-                ((TWindowSubSymbolChatPartsSet *)(&self->e[i].cur))->copy_vec2(&self->e[i].end);
+                copy_vec2((&self->e[i].cur), &self->e[i].end);
                 ((TAdChrMoveEffectGC *)(self->e[i].curcol))->copy4(self->e[i].col1);
                 t = self->e[i].col1[3] / 10;
                 self->e[i].f2C = (self->e[i].f2C > t) ? self->e[i].f2C - t : 0;
@@ -237,12 +238,9 @@ TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
 }
 
 
-void *TAdChrMoveEffectGC__ct(void *ad_chr_move_effect_gc) {
-    __ct__7TObjectFP7TObject(ad_chr_move_effect_gc);
-    *(s32 **)((s8 *)ad_chr_move_effect_gc + 0x18) = __vt__18TAdChrMoveEffectGC;
-    *(void * *)&((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_name = (void *)TAdChrMoveEffectGC__class_name;
-    ((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_20 = 0;
-    return ad_chr_move_effect_gc;
+TAdChrMoveEffectGC::TAdChrMoveEffectGC(TObject *parent) : TObject(parent) {
+    m_name = TAdChrMoveEffectGC__class_name;
+    m_20 = 0;
 }
 
 

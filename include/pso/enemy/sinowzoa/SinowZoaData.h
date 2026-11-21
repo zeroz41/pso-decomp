@@ -1,6 +1,7 @@
 #ifndef PSO_ENEMY_SINOWZOA_SINOWZOADATA_H
 #define PSO_ENEMY_SINOWZOA_SINOWZOADATA_H
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -35,8 +36,8 @@ extern const char sinow_zoa_low_model[];
 extern const char sinow_zoa_low_bml[];
 extern const char sinow_zoa_class_name[];
 extern const char sinow_zoa_real_class_name[];
-extern const DelDepthAnimationBinding lbl_80475FA8;
-extern const DelDepthAnimationBinding lbl_80475FB8;
+extern const NpcAnimationBinding lbl_80475FA8;
+extern const NpcAnimationBinding lbl_80475FB8;
 extern const Vec lbl_80475FC8;
 extern const char sinow_zoa_debug_stelth_enable[];
 extern const char sinow_zoa_debug_stelth_disable[];

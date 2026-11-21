@@ -48,7 +48,6 @@ extern const f32 lbl_805D85C4;
 extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
-extern s32 __vt__17TObjBoss2DustCtrl[];
 extern saddr tl_05;
 
 s32 post_translate_matrix(int);
@@ -109,20 +108,11 @@ void TObjBoss2DustCtrl__sub_8003AD50(void) {  }
 }
 
 void TObjBoss2DustCtrl::create() {
-    void* obj = TObject::operator new(0x1C);
-    if (obj != 0) {
-        ((s32 (*)(void *, s32))TObjBoss2DustCtrl__ct)(obj, tl_05);
-    }
+    new TObjBoss2DustCtrl((TObject *)tl_05);
 }
 
-extern "C" {
-void *TObjBoss2DustCtrl__ct(void *boss2_dust_ctrl) {
-    void __ct__7TObjectFP7TObject(void *);
-    __ct__7TObjectFP7TObject(boss2_dust_ctrl);
-    *(s32 **)((s8 *)boss2_dust_ctrl + 0x18) = __vt__17TObjBoss2DustCtrl;
-    ((TObjBoss2DustCtrl *)boss2_dust_ctrl)->m_name = TObjBoss2DustCtrl__name;
-    return boss2_dust_ctrl;
-}
+TObjBoss2DustCtrl::TObjBoss2DustCtrl(TObject *parent) : TObject(parent) {
+    m_name = TObjBoss2DustCtrl__name;
 }
 
 TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}

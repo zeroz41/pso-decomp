@@ -223,7 +223,7 @@ void check_valid_state__6TLobbyFi(saddr unused) {
 }
 
 int TUnk_804ED7D0::vfunc_76() {
-    return (saddr)get_state_table(is_handle_valid__10TObjPlayerFv());
+    return (int)get_state_table(((TObjPlayer *)this)->is_handle_valid());
 }
 s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
     saddr unused = (saddr)this;
@@ -268,11 +268,11 @@ int TUnk_804ED7D0::vfunc_7(s32, s32) {
 int TUnk_804ED7D0::vfunc_6(s32, s32, s32) { return 1; }
 int TUnk_804ED7D0::vfunc_5(s32) {
     saddr arg0 = (saddr)this;
-    if (TLobby::set_flag_1_at_6c84() == 0) {
+    if (TLobby::test_flag_1_at_6c84() == 0) {
         TLobby::init_object_flag();
         ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(0, 0, 0);
     }
-    if (TLobby::apply_player_flag_2() == 0) {
+    if (TLobby::test_flag_2_at_6c84() == 0) {
         TLobby::apply_state_6c84();
         ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(1, 1, 0);
     }

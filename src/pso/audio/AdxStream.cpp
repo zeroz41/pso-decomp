@@ -103,7 +103,6 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
 void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
-s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void SIGetTypeAsync(void);
 
 void TLobby::set_field_10_and_notify(s32 up) {
@@ -136,7 +135,8 @@ s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1) {
     return 1;
 }
 
-s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2) {
+s32 TLobby::set_range(void *stream, int arg1, int arg2) {
+    u8 *arg0 = (u8 *)stream;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
     *(s32 *)((s8 *)arg0 + 0x18) = arg2;
     return 1;

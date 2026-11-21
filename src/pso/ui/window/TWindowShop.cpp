@@ -9,6 +9,7 @@
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma readonly_strings on
 
@@ -19,7 +20,6 @@ s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
-s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 u8 *get_window_layout_position(s32);
 
 const char *TWindowShop__class_name = "TWindowShop";
@@ -64,8 +64,8 @@ u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2) {
 
 }
 
-void TShopJudgmentItemWindow::open_default(s32 a) {
-    create_item_list_window(a, 0x40, local_client_id);
+u8 *TShopJudgmentItemWindow::open_default(s32 a) {
+    return create_item_list_window(a, 0x40, local_client_id);
 }
 
 #pragma push
@@ -86,7 +86,7 @@ void TWindowShop::render() {
     }
     p = this->status_display;
     if (p != NULL) {
-        forward_render__20TWindowSubStatusDispFv(p, context);
+        ((TWindowSubStatusDisp *)((void *)(p)))->forward_render((void *)(context));
     }
     p = this->scroll_bar;
     if (p != NULL) {

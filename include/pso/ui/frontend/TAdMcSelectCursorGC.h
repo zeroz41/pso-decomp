@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdMcSelectCursorGC : public TObject {
+    TAdMcSelectCursorGC(TObject *parent);
     virtual ~TAdMcSelectCursorGC();
     u32 m_1c;
     u32 m_20;

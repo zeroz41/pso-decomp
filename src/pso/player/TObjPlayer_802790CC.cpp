@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowBase.h"
 
 extern "C" {
 

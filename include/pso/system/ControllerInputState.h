@@ -5,7 +5,8 @@
 
 struct ControllerInputContext {
     u32 buttons;
-    u8 unknown_04[0x10];
+    u32 flags_04;
+    u8 unknown_08[0xC];
     // Analog stick, signed (inferred: scaled into a turn rate by TAdLdQuestPrtGC).
     s16 stick_x;
     s16 stick_y;
@@ -17,7 +18,7 @@ struct ControllerInputContext {
     f32 cstick_magnitude;
     u8 unknown_2c[0x1C];
     u32 previous_buttons;
-    u8 unknown_4c[4];
+    u32 flags_4c;
 };
 
 struct ControllerInputState {
@@ -32,7 +33,6 @@ LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 extern "C" {
 extern ControllerInputState controller_input_state;
 extern ControllerInputState controller_physical_port_bank;
-s32 is_flag_set__11TLoadingCurFv(ControllerInputContext *context, s32 mask);
 }
 
 #endif

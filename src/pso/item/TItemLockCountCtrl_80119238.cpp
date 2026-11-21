@@ -150,13 +150,8 @@ void TItemLockCountCtrl::free_all() {
     }
 }
 #define MK_80119444(idx, a, b)                                   \
-    p = TObject::operator new(0x2C);                                 \
-    if (p != 0) {                                                \
-        p = TItemLockCountCtrl__ct(p, 0, 0xC, a, b);             \
-    }                                                            \
-    item_effect_object_table[idx] = (VObj_801193D8 *)p;
+    item_effect_object_table[idx] = (VObj_801193D8 *)new TItemLockCountCtrl(0, 0xC, a, b);
 void TItemLockCountCtrl::init_effect_table() {
-    void *p;
     MK_80119444(0, TItemLockCountCtrl::set_battle_ctrl_flag30, TItemLockCountCtrl__sub_80119238)
     MK_80119444(1, TItemLockCountCtrl::apply_unit_immunity, fn_80119204)
     MK_80119444(2, TItemLockCountCtrl__sub_8011933C, TItemEquipBase__sub_801191D0)

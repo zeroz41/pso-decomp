@@ -8,6 +8,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/vector.h"
 
 extern "C" {
 extern void *__vt__12TChCrTagName[];
@@ -46,7 +47,7 @@ void TChCrTagName::draw_tag_sprites() {
     }
     bright = (0.75f) * (s * s) + (0.25f);
     t2 = t * t;
-    ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+    copy_vec2((&pos), &this->pos);
     pos.x += (5.0f);
     pos.y += (9.0f);
     alpha = t2;
@@ -60,7 +61,7 @@ void TChCrTagName::draw_tag_sprites() {
         }
     }
     draw_ui_sprite_shaded(id, &pos, &scale, depth, alpha, bright);
-    ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+    copy_vec2((&pos), &this->pos);
     pos.x = (169.0f);
     pos.y += (3.0f);
     draw_ui_sprite_shaded(this->m_20 + 0x57, &pos, &scale, depth, t2, bright);
@@ -85,7 +86,7 @@ void TChCrTagName::sub_802A226C() {
     {
         vec2f scale = lbl_80466410[0];
         vec2f pos;
-        ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+        copy_vec2((&pos), &this->pos);
         draw_ui_sprite_shaded(0x41, &pos, &scale, depth, t, bright);
         pos.y += (22.0f);
         draw_ui_sprite_shaded(0x42, &pos, &scale, depth, t, bright);
@@ -93,7 +94,7 @@ void TChCrTagName::sub_802A226C() {
     {
         vec2f scale = lbl_80466418[0];
         vec2f pos;
-        ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+        copy_vec2((&pos), &this->pos);
         pos.x += (226.0f);
         draw_ui_sprite_shaded(this->m_20 == 0 ? 0x44 : 0x48, &pos, &scale, depth, t, bright);
         pos.y += (22.0f);
@@ -102,7 +103,7 @@ void TChCrTagName::sub_802A226C() {
     {
         vec2f scale = lbl_80466420[0];
         vec2f pos;
-        ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+        copy_vec2((&pos), &this->pos);
         pos.x += (226.0f);
         pos.y += (8.0f);
         draw_ui_sprite_shaded(0x40, &pos, &scale, depth, t, bright);
@@ -110,7 +111,7 @@ void TChCrTagName::sub_802A226C() {
     if (this->m_24 < (1.0f)) {
         vec2f scale = lbl_80466428[0];
         vec2f pos;
-        ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+        copy_vec2((&pos), &this->pos);
         pos.x -= (3.0f);
         draw_ui_sprite_shaded(0x3F, &pos, &scale, depth, t, bright);
     }
@@ -133,7 +134,7 @@ void TChCrTagName::draw_tag_sprite() {
     } else {
         depth = (0.3125f) * s + (-2.75f);
     }
-    ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2(&this->pos);
+    copy_vec2((&pos), &this->pos);
     pos.y += (3.0f);
     draw_ui_sprite_shaded(id, &pos, &scale, depth, t * t, (0.75f) * (s * s) + (0.25f));
 }

@@ -6,7 +6,6 @@
 extern "C" {
 
 s32 TLobby__sub_803CBEC8(int);
-s32 apply_field__6TLobbyFv(int);
 s32 VIWaitForRetrace();
 
 void TKeyBoardControl::flush_input() {
@@ -23,7 +22,7 @@ void TLobby__sub_803CBE20(void) {
 }
 
 void TLobby__sub_803CBE40(u8 *arg0) {
-    apply_field__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 0xC)));
+    ((TLobby *)(*(s32 *)((s8 *)arg0 + 0xC)))->apply_field();
 }
 
 void TLobby__sub_803CBE64(u8 *arg0) {

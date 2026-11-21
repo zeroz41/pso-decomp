@@ -23,7 +23,6 @@
 s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
 
-s32 NetUnregisterTimer(void* p);
 
 s32 TLobby__sub_80409E18(s16 arg0, s32 arg1, s32 arg2);
 
@@ -38,8 +37,8 @@ extern s32 TLobby__sub_80411DEC(IPv6Address *addr, s32 mtu);
 void TLobby__sub_80411334(void);
 s32 TLobby__sub_8041112C(void) {
     Ipv6State *g = &ipv6_address_routing_state;
-    NetUnregisterTimer((void *)TLobby__sub_80411334);
-    NetUnregisterTimer((void *)tick_entry_timers);
+    NetUnregisterTimer(TLobby__sub_80411334);
+    NetUnregisterTimer(tick_entry_timers);
     TLobby__sub_803F8864(g);
     g->route_count = 0;
     g->count = 0;
@@ -574,7 +573,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     rec.a = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
     rec.b = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
     rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
-    set_value_and_enable((void *)ref, (saddr)&rec);
+    set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
     netbuf_copy_by_ref(self, ref, 0x1C);
     netbuf_ref_advance((NetBufferRef *)self, 0x1C);
     cur = *(u8 **)(ent + offsetof(Ipv6Iface, addrs));
@@ -587,7 +586,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         rec.a = *(s16 *)(cur + offsetof(Ipv6AddrNode, prefix_len));
         rec.b = *(s16 *)(cur + offsetof(Ipv6AddrNode, f18));
         rec.c = 0;
-        set_value_and_enable((void *)ref, (saddr)&rec);
+        set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
         netbuf_copy_by_ref(self, ref, 0x1C);
         netbuf_ref_advance((NetBufferRef *)self, 0x1C);
         cur = *(u8 **)(cur + offsetof(Ipv6AddrNode, next));

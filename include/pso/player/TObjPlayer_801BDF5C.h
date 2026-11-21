@@ -3,8 +3,12 @@
 
 #include "types.h"
 
+struct TObjPlayer;
+
 // --- C functions defined in TObjPlayer_801BDF5C.cpp ---
 extern "C" {
+// The player of this machine's client, or NULL.
+TObjPlayer *get_local_player();
 void TObjPlayer__sub_801BE2C0(void *p, s32 v);
 s32 TObjPlayer__sub_801BE2C8(void *p);
 void TObjPlayer__sub_801BE784(void *p, u8 v);

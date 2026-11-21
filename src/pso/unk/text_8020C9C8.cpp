@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/unk/text_8020C9C8.h"
 #include "pso/unk/TLobby.h"
@@ -46,7 +47,7 @@ s32 unhide_room_set_objects(saddr arg0, s32 arg1, s32 arg2) {
     if (local == 0) {
         return set_room_group_flags__6TLobbyFlssl(arg0, arg1, arg2, 1);
     }
-    set = (Set_8020C9C8 *)TLobby::get_object_count((void *)arg0);
+    set = reinterpret_cast<Set_8020C9C8 *>(get_active_floor_object_rows(arg0));
     n = TLobby::get_obj_table_entry(arg0);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;

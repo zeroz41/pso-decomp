@@ -22,7 +22,6 @@ uaddr TObjNpcExpertBase__shared_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern s32 __vt__17TObjNpcExpertBase[];
 void free_bin_model_request(void*, int);
 
 void TObjNpcExpertBase::free_shared_data() {
@@ -46,15 +45,12 @@ void TObjNpcExpertBase::load_shared_resource() {
 }
 TObjNpcExpertBase::~TObjNpcExpertBase() {}
 
-u8 *TObjNpcExpertBase__ct(u8 *player, s32 arg1, saddr arg2) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__17TObjNpcExpertBase;
-    *(s32 *)((s8 *)player + 0) = (saddr) TObjNpcExpertBase__name;
-    ((TObjNpcExpertBase *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 8);
-    ((TObjNpcExpertBase *)player)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 0xC);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcExpertBase__name;
+    ((TObjNpcExpertBase *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 8);
+    ((TObjNpcExpertBase *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 0xC);
+    ((TObjNpcBase *)this)->setup_common();
 }
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -6,7 +7,6 @@
 extern "C" {
 
 void *get_player_by_client_id(s32 i);
-s32 get_item_id__5TItemFv();
 void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
 void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, saddr arg1);
 
@@ -28,10 +28,11 @@ void TWindowSubEquip::update() {
     player = (saddr)get_player_by_client_id(this->m_28);
     if (player != 0) {
         slot = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
-        if (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot) == 0U) {
+        TItem *item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
+        if (item == NULL) {
             var_r3 = -1;
         } else {
-            var_r3 = get_item_id__5TItemFv();
+            var_r3 = item->get_item_id();
         }
         if (var_r3 != (s32) this->m_20) {
             this->m_20 = var_r3;

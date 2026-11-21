@@ -33,11 +33,11 @@ WindowDescriptor room_window_base_parameters = {
 };
 
 extern "C" {
+void measure_message_text_width_default(void *);
 saddr get_window_layout_position(int);
 const char *TWindowRoom__class_name = "TWindowRoom";
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);
-s32 draw_default_entry__9TWindowDDFl();
 
 }
 
@@ -57,7 +57,7 @@ void TWindowRoom::render() {
     saddr temp_r3;
     saddr arg0 = (saddr)this;
 
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
     ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
 }
@@ -71,7 +71,7 @@ TWindowRoom::TWindowRoom(char *title)
     m_name = TWindowRoom__class_name;
     entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);
     set_text_entry_string((u8 *)entry, (uaddr)title, 0x60);
-    ((TWindowDD *)entry)->refresh_status_display();
+    measure_message_text_width_default(entry);
     width = 10.0f + (entry->positionX + entry->width);
     positionX -= width;
     ((TWindowBase *)this)->save_position();

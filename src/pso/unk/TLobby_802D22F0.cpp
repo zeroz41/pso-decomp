@@ -42,6 +42,6 @@ void TLobby__sub_802D2358(E_802D2358 *p) {
     }
 }
 
-void TLobby::prepare_trade_packet() { *(short*)((char*)this + 0x2) = local_client_id; byteswap_trade_packet(); }
+void TLobby::prepare_trade_packet() { *(short*)((char*)this + 0x2) = local_client_id; this->byteswap_trade_packet(); }
 
 }

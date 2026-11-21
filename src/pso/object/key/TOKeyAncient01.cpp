@@ -26,7 +26,9 @@ CollisionBody key_ancient01_collision_body[] = {
 const char *TOKeyAncient01__class_name = "TOKeyAncient01";
 BmlResource *TOKeyAncient01__shared_resource_object;
 // The model's own texture list, then the b, g and p variants.
-saddr *TOKeyAncient01__texture_lists;
+struct GinjaTextureList;
+
+GinjaTextureList **TOKeyAncient01__texture_lists;
 
 void TOKeyAncient01::vfunc_25() {}
 
@@ -67,7 +69,7 @@ void *TOKeyAncient01::create(void *set_data) {
 void TOKeyAncient01::free_shared_resources() {
     if (TOKeyAncient01__texture_lists != NULL) {
         for (s32 i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid(TOKeyAncient01__texture_lists[i]);
+            TObjPlayer::free_if_valid((s32)TOKeyAncient01__texture_lists[i]);
         }
         if (TOKeyAncient01__texture_lists != NULL) {
             mem_free(TOKeyAncient01__texture_lists);
@@ -86,11 +88,11 @@ void TOKeyAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_switch_resource_descriptor, 0, 0, 0);
     }
     TOKeyAncient01__shared_resource_object = resource;
-    TOKeyAncient01__texture_lists = (saddr *)mem_alloc(4 * sizeof(saddr));
-    TOKeyAncient01__texture_lists[0] = TOKeyAncient01__shared_resource_object->models[0].m_c;
-    TOKeyAncient01__texture_lists[1] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient01b.gvm");
-    TOKeyAncient01__texture_lists[2] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient01g.gvm");
-    TOKeyAncient01__texture_lists[3] = (saddr)load_gvm_texture_file((saddr) "o_key_ancient01p.gvm");
+    TOKeyAncient01__texture_lists = (GinjaTextureList **)mem_alloc(4 * sizeof(*TOKeyAncient01__texture_lists));
+    TOKeyAncient01__texture_lists[0] = (GinjaTextureList *)TOKeyAncient01__shared_resource_object->models[0].m_c;
+    TOKeyAncient01__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient01b.gvm");
+    TOKeyAncient01__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient01g.gvm");
+    TOKeyAncient01__texture_lists[3] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient01p.gvm");
 }
 
 TOKeyAncient01::~TOKeyAncient01() {
@@ -107,7 +109,7 @@ TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) 
     } else if (set_params[1] > 3) {
         set_params[1] = 3;
     }
-    texlist = TOKeyAncient01__texture_lists[set_params[1]];
+    texlist = (s32)TOKeyAncient01__texture_lists[set_params[1]];
     model = (void *)TOKeyAncient01__shared_resource_object->models[0].model;
     motion = TOKeyAncient01__shared_resource_object->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

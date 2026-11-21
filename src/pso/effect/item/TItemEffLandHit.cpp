@@ -19,25 +19,13 @@ void TItemEffLandHit::run_task() {
 
 TItemEffLandHit::~TItemEffLandHit() {}
 
-struct RecoveredGlobal_801095EC___vt__15TItemEffLandHit {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_801095EC___vt__15TItemEffLandHit __vt__15TItemEffLandHit;
-LAYOUT_ASSERT(RecoveredGlobal_801095EC___vt__15TItemEffLandHit_size, sizeof(RecoveredGlobal_801095EC___vt__15TItemEffLandHit) == 0x18);
-u8 *TItemEffLandHit__ct(u8 *item_eff_land_hit, u8 *arg1, u8 *item, u8 *arg3, u8 *arg4) {
-    __ct__7TObjectFP7TObject(item_eff_land_hit, arg1);
-    *(s32 **)((s8 *)item_eff_land_hit + 0x18) = &__vt__15TItemEffLandHit.value;
+#define item_eff_land_hit ((u8 *)this)
+TItemEffLandHit::TItemEffLandHit(TObject *parent, TItem *item, Vec *arg3, Vec *arg4) : TObject(parent) {
     *(saddr *)((s8 *)item_eff_land_hit + 0) = (saddr) TItemEffLandHit__class_name;
     VecCopy((Vec *)(item_eff_land_hit + 0x28), (const Vec *)arg4);
     VecCopy((Vec *)(item_eff_land_hit + 0x1C), (const Vec *)arg3);
     *(s32 *)((s8 *)item_eff_land_hit + 0x34) = ((TItem *)item)->get_item_id();
     ((TItemEffLandHit *)item_eff_land_hit)->m_38 = 0;
     ((TObject *)item_eff_land_hit)->disallow_rendering();
-    return item_eff_land_hit;
 }
-
-}
+#undef item_eff_land_hit

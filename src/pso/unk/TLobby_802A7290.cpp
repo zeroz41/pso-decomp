@@ -2661,7 +2661,6 @@ int is_valid_player_motion_variant(s32 a0);
 int TLobby__sub_802A7278(s32 a0);
 void TLobby__sub_802A7848(void *p, s32 _w1);
 s32 TLobby__sub_802A7868(void *, s32, s32);
-s32 forward_801C210C__10TObjPlayerFv(void *, s32);
 void TLobby__sub_802A7640(void);
 }
 void disable_and_free_boss4rock_buffer(void);
@@ -2723,7 +2722,7 @@ int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 arg2, s32 arg3) {
     if (TLobby__sub_802A7868(this, arg2, arg3) != 0) {
         return 1;
     }
-    forward_801C210C__10TObjPlayerFv(this, arg2);
+    TObjPlayer::forward_801C210C(this, arg2);
     TLobby__sub_802A7848(this, arg3);
     temp_r3 = load_action_motion_pairs(arg1, arg2, arg3);
     if (temp_r3 != 0) {

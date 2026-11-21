@@ -20,6 +20,7 @@
 #include "pso/unk/text_800C3A60.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -39,9 +40,6 @@ extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FB0;
 extern const f32 lbl_805D9FB4;
 extern const f32 lbl_805D9FB8;
-extern "C" {
-s32 mult_vec_array__10TObjPlayerFUll(s32, f32 *, f32 *, s32);
-}
 
 struct Prm_800C2628 { f32 a, b, c, d, e; };
 extern "C" {
@@ -185,8 +183,8 @@ void TObjPlayer::update_effect_sequence() {
         break;
     case 14:
         push_matrix();
-        TObjEneDD::update_camera_sequence();
-        mult_vec_array__10TObjPlayerFUll(0, re2_flower_node_points, re2_flower_node_points, 2);
+        forward_split_screen_view_matrix();
+        matrix_mult_vec_array(NULL, (const Vec *)re2_flower_node_points, (Vec *)re2_flower_node_points, 2);
         pop_matrix();
         break;
     }

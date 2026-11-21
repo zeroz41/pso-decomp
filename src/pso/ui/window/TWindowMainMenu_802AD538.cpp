@@ -13,8 +13,7 @@ struct TWindowSubComCard;
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/window/TWindowChoiceSetting.h"
-#include "pso/ui/window/TWindowBase.h"
+#include "pso/system/vector.h"
 
 struct Item_802AE4DC { u8 pad[0x12]; u8 sel; };
 
@@ -109,9 +108,8 @@ struct Item_802AD7F0 {
     s8 x14;
 };
 
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
+s32 test_buttons_press_or_repeat(void *, int, int, int);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
-s32 sub_80246948__11TWindowBaseFv();
 saddr fn_8026CB68();
 void draw_item_labels__15TWindowMainMenuFv(Item_802AD538 *p, Win_802AD538 *w);
 void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0);
@@ -207,7 +205,7 @@ void TWindowMainMenu__sub_802AD74C(void* p) { *(u8*)((char*)p + 0x13) |= 0x2; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { ((TWindowSubSymbolChatPartsSet *)this)->copy_vec2(_w1); *(unsigned char *)&this->m_down = 8; }
+void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { copy_vec2(this, _w1); *(unsigned char *)&this->m_down = 8; }
 #pragma pop
 
 #pragma push
@@ -215,8 +213,8 @@ void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { ((TWindowSubSymbolChat
 #pragma auto_inline off
 #pragma dont_inline off
 void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_set, saddr arg1, s8 arg2, s8 arg3) {
-    ((TWindowSubSymbolChatPartsSet *)window_sub_symbol_chat_parts_set)->copy_vec2((void *)arg1);
-    ((TWindowSubSymbolChatPartsSet *)(window_sub_symbol_chat_parts_set + 8))->copy_vec2((void *)arg1);
+    copy_vec2(window_sub_symbol_chat_parts_set, (void *)arg1);
+    copy_vec2((window_sub_symbol_chat_parts_set + 8), (void *)arg1);
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x10) = arg3;
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x11) = arg2;
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x12) = 0;
@@ -619,7 +617,7 @@ Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_me
 }
 
 void TWindowMainMenu::update_slide_position() {
-    if (sub_80246948__11TWindowBaseFv() != 0) {
+    if (((TWindowBase *)this)->sub_80246948() != 0) {
         set_target_y(0.0f);
         *(u32 *)((s8 *)this + 0x50) = (u32) (4.5f - (f32) (*(s16 *)((s8 *)this + 0x22)));
         return;
@@ -675,16 +673,16 @@ void TWindowMenuMainMenu::handle_navigation_input() {
     u8 *window_choice_setting;
     if ((TWindowBase::is_window_reveal_complete() != 0) && (this->get_menu_flag() == 0) && (this->is_flag_set() == 0) && !(this->m_60 & 4)) {
         window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active((*(s16 *)&this->m_20)) * 0x50) + 0x20;
-        if ((TWindowChoiceSetting::apply_choice((saddr)window_choice_setting, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             play_cursor_sound__15TWindowMainMenuFv((Menu_802AE4DC *)(this), -1);
         }
-        if ((TWindowChoiceSetting::apply_choice((saddr)(void *)window_choice_setting, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
             play_cursor_sound__15TWindowMainMenuFv((Menu_802AE4DC *)(this), 1);
         }
-        if ((TWindowShortListCtrl__check_controller_button(window_choice_setting, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(window_choice_setting, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             this->handle_confirm();
         }
-        if ((this->get_menu_flag() == 0) && ((TWindowShortListCtrl__check_controller_button(window_choice_setting, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0))) {
+        if ((this->get_menu_flag() == 0) && ((TWindowShortListCtrl__check_controller_button(window_choice_setting, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
             this->handle_cancel();
         }
     }

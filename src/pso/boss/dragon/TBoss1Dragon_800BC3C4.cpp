@@ -4,9 +4,9 @@
 #include "pso/boss/dragon/TBoss1Dragon.h"
 
 extern "C" {
-int VecCopy__FP3VecPC3Vec(void*);
+int VecCopy__FP3VecPC3Vec(void*, void*);
 
-int TBoss1Dragon::get_position() { return VecCopy__FP3VecPC3Vec((char*)this + 0x38); }
+int TUnk_804928CC::set_position_from(void *pos) { return VecCopy__FP3VecPC3Vec(&this->position, pos); }
 
 void TUnk_804928CC::sub_800BC3E8(u8 *arg1) {
     *(void * *)&this->owner = arg1;

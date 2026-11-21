@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOSwitchAttack : public TObjBase {
+    TOSwitchAttack(TObject *parent, void *arg2);
     virtual ~TOSwitchAttack();
     u8 unk_90[0x4];
     f32 m_94;

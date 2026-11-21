@@ -26,7 +26,6 @@ void * TObjPlayer__sub_80116620(void *, s32);
 int get_captured_target_entry(void*, int);
 void TObjPlayer__sub_8012AF80(void *);
 u16 get_action_palette_entry__10TObjPlayerFl(void *, s32);
-void dispatch_to_child__11TWindowCtrlFPv(u16, s32);
 }
 
 extern "C" {

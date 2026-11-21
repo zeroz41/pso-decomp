@@ -253,7 +253,7 @@ s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
     group = get_room__8TObjBaseFv(local);
     owner = get_player_by_client_id(owner_id);
     if (owner != NULL) {
-        if (((TObjPlayer *)local)->get_floor() == ((TObjPlayer *)owner)->get_floor() && group == (s16) (s32)((TObjBase *)owner)->get_room()) {
+        if (((TObjPlayer *)local)->get_floor() == ((TObjPlayer *)owner)->get_floor() && group == (s16) ((TObjBase *)owner)->get_room()) {
             return 1;
         }
     }
@@ -476,7 +476,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                     play_sound_effect(0x4002AD14, NULL, 0, 0);
                     play_sound_effect(0x4002AA16, NULL, 0, 0);
                 }
-                TParticleCtrl *effect = (TParticleCtrl *)create_timed_particle_emitter_with_flags(&target->position, 0x16E, 0, 0xF, 0x10);
+                TParticleCtrl *effect = create_timed_particle_emitter_with_flags(&target->position, 0x16E, 0, 0xF, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
@@ -574,7 +574,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                     play_sound_effect(0x4002AD14, NULL, 0, 0);
                     play_sound_effect(0x4002AA16, NULL, 0, 0);
                 }
-                TParticleCtrl *effect = (TParticleCtrl *)create_timed_particle_emitter_with_flags(&target->position, 0x16E, 0, 0xF, 0x10);
+                TParticleCtrl *effect = create_timed_particle_emitter_with_flags(&target->position, 0x16E, 0, 0xF, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }

@@ -43,7 +43,6 @@ s32 TLobby__sub_8041112C(void);
 void NetIPv6ShutdownNeighborDiscovery(void);
 s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
-s32 NetUnregisterTimer(void *);
 void TLobby__sub_80421FB8(void *, void *, void *);
 s32 raw_socket_deliver_ipv4(u8 *arg0, s32 arg1, s32 arg2, uaddr arg3, s32 arg4);
 s32 net_register_timer(saddr arg0, s32 arg1);
@@ -72,11 +71,8 @@ s16 init_ipv4_interfaces();
 s16 init_ipv4_routing();
 s16 NetIPv6Init();
 s16 TUdpSocket__sub_8041118C();
-s16 TLobby__sub_80415690(); /* declared s16 here; the definition returns s32 */
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
-s16 TLobby__sub_80419A34(int); /* declared here with an int argument and an s16 return; the definition takes no arguments and returns s32 */
-s16 NetInitializeDispatcher();
 s16 NetTCPInit();
 /* inferred: the avetcp.a version strings (names from their contents); init_network_stack checks the banner's
    leading '\n' through avetcp_version_banner_ptr */
@@ -131,16 +127,14 @@ s32 cleanup_subsystems(void) {
 s16 init_network_stack(void) {
     s16 init_ucb_entries(void);
     s16 result;
-    u32 count;
     if ((s32) *avetcp_version_banner_ptr != 0xA) {
         return -1;
     }
     if ((u32) TLobby__network_stack_init_count == 0U) {
         OSReport(lbl_804800F0);
     }
-    count = TLobby__network_stack_init_count;
-    TLobby__network_stack_init_count = count + 1;
-    result = TLobby__sub_80419A34(count);
+    ++TLobby__network_stack_init_count;
+    result = TLobby__sub_80419A34();
     if (result >= 0) {
         result = TLobby__sub_80415690();
         if (result >= 0) {
@@ -233,7 +227,7 @@ s32 net_unregister_timer(saddr timer) {
         return -2;
     }
     lock_mutex(network_dispatch_state.lock_handle);
-    result = NetUnregisterTimer((void *)timer);
+    result = NetUnregisterTimer((NetTimerCallback)timer);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
@@ -364,7 +358,7 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
         }
         pkt->total_bytes += bufs[i - 1].len;
         pkt->fragments[pkt->fragment_count].length = bufs[i - 1].len;
-        init_packet_header((void *)&pkt->fragments[pkt->fragment_count].buffer, (saddr)bufs[i - 1].buff);
+        init_packet_header((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, (saddr)bufs[i - 1].buff);
         pkt->fragment_count++;
     }
     if (pkt->total_bytes > 0x7FE3) {
@@ -383,7 +377,7 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
     return r;
 }
 
-s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, void *cb) {
+s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, NetUdpReceiveCallback cb) {
     u8 any[0x14];
     s16 h;
     s16 r;
@@ -624,7 +618,7 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
-        init_packet_header((void *)(cur + 0x10), (saddr)p->buff);
+        init_packet_header((NetBufferRef *)(cur + 0x10), (saddr)p->buff);
         *(s16 *)(cur + 0xc) = p->len;
         entry->total_bytes += *(s16 *)(cur + 0xc);
         cur += 0xc;
@@ -765,13 +759,13 @@ s32 tcp_abort(s32 a) {
     return r;
 }
 
-s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 name, s32 arg4, s32 arg5) {
+s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, s32 name, s32 arg4, s32 arg5) {
     TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;
-    s += (s16)idx;
+    s += idx;
     if (cb != NULL && !(s->waits[3].flags & 8)) {
-        i2 = (s16)idx;
+        i2 = (int)idx;
         if (code >= 0) {
             v = (s32)code;
             TLobby__sub_8041E590(code);
@@ -918,7 +912,7 @@ void NetDispatchSocketEvent(s16 v, saddr cb_, s32 type, s16 code) {
 }
 
 s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
-    s32 sp18;
+    NetBufferRef sp18;
     s16 first;
     s16 second;
     s16 total;

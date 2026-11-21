@@ -68,7 +68,7 @@ s32 CARDProbeEx(s32, s32 *, s32 *);
 s32 poll_memcard_result(saddr);
 s32 CARDCheck(s32);
 s32 CARDFreeBlocks(s32, s32 *, s32 *);
-s32 CARDDelete();
+s32 CARDDelete(s32 chan, const char *name);
 s32 CARDCheckAsync(void *, int);
 s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
@@ -841,7 +841,7 @@ check:
     return -0xFB;
 }
 
-s32 TAdPlayerLoadGC::query_memcard_capacity(s32 arg0) {
+s32 TAdPlayerLoadGC::query_memcard_capacity(s32 arg0, s32 unused) {
     s32 spC;
     s32 sp8;
     if (arg0 >= 2) {
@@ -890,12 +890,12 @@ s32 start_memcard_format(s32 chan) {
     return -1;
 }
 
-s32 TAdPlayerLoadGC::poll_load_status(s32 arg0) {
-    if (arg0 >= 2) {
+s32 TAdPlayerLoadGC::delete_memcard_file(s32 chan, const char *name) {
+    if (chan >= 2) {
         TAdPlayerLoadGC__card_result_code = -1;
         return -1;
     }
-    switch (CARDDelete()) {
+    switch (CARDDelete(chan, name)) {
     case -1:
         TAdPlayerLoadGC__card_result_code = -1;
         return -1;

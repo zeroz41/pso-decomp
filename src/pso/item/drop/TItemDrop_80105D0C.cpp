@@ -37,7 +37,6 @@ extern u8 TLobby__data_805011D8[];
 s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
 u8 TItemDrop__sub_80107B04(void *);
-s32 init__9TItemDataFv(void *);
 u8 TLobby__sub_801D6F94(void *);
 u8 TLobby__sub_801D6FFC(void *);
 u8 fn_801D7168(void *);
@@ -354,7 +353,6 @@ extern "C" {
 void roll_armor_bonuses__9TItemDropFv(saddr, void *);
 s32 try_generate_rare_item__9TItemDropFiPvPv(saddr arg0, u8 *arg1, u8 *arg2);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr, saddr, s32, s32, s32);
-s32 init__9TItemDataFv(void *);
 s32 find_tool_pmt_base_id(u8, void *);
 void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 arg1, void *arg2);
 saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
@@ -372,7 +370,6 @@ u8 roll_weapon_special_for_stars(u8);
 void roll_weapon_special__9TItemDropFiPvi(saddr rng, u8 *item, s32 idx);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 arg1, void *arg2);
-s32 init__9TItemDataFv(void *);
 extern const f32 lbl_805DAADC;
 s32 run_step__9TItemDropFl(s32, u32);
 s32 __cvt_fp2unsigned(f32);
@@ -380,16 +377,13 @@ extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAD8;
 extern const f32 lbl_805DAAE4;
 
-s32 init__9TItemDataFv(void *);
 void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item);
-s32 init__9TItemDataFv(void *);
 void select_box_item__9TItemDropFiiPv(saddr arg0, s32 arg1, u8 *arg2);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, s32 count, s32 stride);
 void roll_rare_weapon_attributes__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
 void roll_weapon_special__9TItemDropFiPvi(saddr rng, u8 *item, s32 idx);
 void build_weapon_type_weights__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
-s32 init__9TItemDataFv(void *);
 void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item);
 void *load_relocatable_file(char *, saddr);
 void close_gsl_archive(void);
@@ -397,7 +391,6 @@ void open_gsl_archive(char *);
 s32 get_drop_table_mode_flags(void);
 void roll_armor_bonuses__9TItemDropFv(saddr, void *);
 u8 TLobby__sub_801D6DDC(void *arg0);
-s32 init__9TItemDataFv(void *);
 
 
 void TItemDrop::free_unit_star_tables() {
@@ -654,8 +647,6 @@ struct Def_80106D0C {
     u8 b;
 };
 void *lookup_item_pmt_record(u8 *item);
-void set_dfp_bonus__9TItemDataFs(u8 *, s32);
-void set_bswapped_field_8__9TItemDataFs(u8 *, s32);
 
 #define item ((u8 *)item_)
 void roll_armor_bonuses__9TItemDropFv(saddr rng, void *item_) {
@@ -672,9 +663,9 @@ void roll_armor_bonuses__9TItemDropFv(saddr rng, void *item_) {
         if (def != NULL) {
             f32 r;
             r = ((f32 (*)(u8 *, u32))roll_table_ratio__9TItemDropFPvUi)((u8 *)rng, 12);
-            set_dfp_bonus__9TItemDataFs(item, (s32)(def->a * r));
+            ((TItemData *)item)->set_dfp_bonus((s16)(def->a * r));
             r = ((f32 (*)(u8 *, u32))roll_table_ratio__9TItemDropFPvUi)((u8 *)rng, 13);
-            set_bswapped_field_8__9TItemDataFs(item, (s32)(def->b * r));
+            ((TItemData *)item)->set_bswapped_field_8((s16)(def->b * r));
         }
         break;
     }

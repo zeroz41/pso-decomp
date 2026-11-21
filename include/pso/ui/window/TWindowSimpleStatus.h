@@ -9,7 +9,7 @@ struct TWindowSimpleStatus : public TWindowBase {
     void draw_background(u8 *);
     void apply_random_shake();
     void update_status_icons(void *);
-    s32 get_width(); // returns a client id (passed to get_player_by_client_id)
+    s32 get_width();
     virtual void render();
     u8 _pad1C[0x4];
     u16 m_20;

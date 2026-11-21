@@ -7,7 +7,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowDuelResult.h"
 
 
 #pragma readonly_strings on
@@ -26,6 +25,14 @@ typedef struct Win_8024F094 {
     u8 pad22[2];
     u8 sub[4];
 } Win_8024F094;
+
+struct TWindowDuelResult {
+    void sub_8024F094();
+    void sub_8024EF40();
+    void sub_8024F090();
+    void sub_8024EF3C();
+    static int set_default_status(void *, int);
+};
 
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
@@ -51,6 +58,7 @@ s32 text_builder_append(s32);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
 extern "C" {
+void measure_message_text_width_default(void *);
 extern u8 lobby_rule_settings[];
 void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self);
 void sub_8024F090__17TWindowDuelResultFv(void);
@@ -59,6 +67,7 @@ void *destroy__17TWindowDuelResultFPvs(void *arg0, s16 arg1);
 void update__17TWindowDuelResultFPv(u8 *arg0);
 s32 TWindowDuelResult__sub_8024F330(void *);
 s32 handle_list_page_flip_input(s32);
+void __dl__7TObjectFPv(void *);
 
 extern "C" u8 lbl_805D63F0[];
 extern "C" const char lbl_805DCCA8[] = ":";
@@ -218,7 +227,7 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
             text_builder_reset();
             text_builder_append_int(e->value);
             set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
-            ((TWindowDD *)d)->refresh_status_display();
+            measure_message_text_width_default(d);
             *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);
         }
     }
@@ -248,7 +257,7 @@ s32 TWindowDuelResult__sub_8024F330(void *arg0_) {
 
 void draw_window__17TWindowDuelResultFPv(u8 *arg0) {
     saddr temp_r3;
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((saddr)(arg0 + 0x60));
+    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60));
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     draw_list_page_indicator((int) (*(s32 *)((s8 *)arg0 + 0x68)), temp_r3);
@@ -279,7 +288,7 @@ void *destroy__17TWindowDuelResultFPvs(void *arg0, s16 arg1) {
         delete_if_allocated((saddr)(*(void **)((s8 *)arg0 + 0x68)), 1);
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            __dl__7TObjectFPv(arg0);
         }
     }
     return arg0;

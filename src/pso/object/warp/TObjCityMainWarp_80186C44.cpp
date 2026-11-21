@@ -28,7 +28,6 @@ u8 is_current_floor_switch_set(s32 id);
 void end_player_keyboard_hold(saddr arg0);
 void obj_clear_flag30_20000(TObjBase *actor);
 void obj_set_flag_20000(TObjBase *actor);
-s32 send_code_45_1__10TObjPlayerFl();
 
 extern s32 local_client_id;
 
@@ -47,7 +46,7 @@ void TObjCityMainWarpChallenge::close_windows() {
     }
     end_player_keyboard_hold(local_client_id);
     TWindowCtrl::clear_flag();
-    ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+    TWindowCtrl::unsuppress_slot(local_client_id);
 }
 
 void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
@@ -64,7 +63,7 @@ void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
 
     player = (saddr)get_player_by_client_id(arg1);
     if (player != 0) {
-        send_code_45_1__10TObjPlayerFl();
+        TObjPlayer::send_code_45_1(player);
         obj_clear_flag30_20000((TObjBase *)player);
     }
 }

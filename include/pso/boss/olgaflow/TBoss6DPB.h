@@ -6,16 +6,14 @@
 
 class TBoss6DPB : public TObject {
 public:
+    TBoss6DPB(TObject *parent, s32 position, f32 arg3);
     virtual ~TBoss6DPB();
     void apply_shower_damage_to_players();
     void sub_8035D8B0();
     virtual void run_task();
     virtual void render();
 public:
+    u8 pad_1C[0x20];
 };
-
-extern "C" {
-u8 *__ct__9TBoss6DPBFv(u8 *arg0, saddr arg1, saddr arg2, f32 farg0);
-}
 
 #endif

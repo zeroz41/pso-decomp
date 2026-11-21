@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A9F50.h"
 
 struct TObjNpcKenkyu : public TUnk_804A9F50 {
+    TObjNpcKenkyu(TObject *parent, void *set_data);
     virtual ~TObjNpcKenkyu();
     static void free_static_model();
     static void load_shared_resource();
@@ -13,14 +14,12 @@ struct TObjNpcKenkyu : public TUnk_804A9F50 {
 LAYOUT_ASSERT(TObjNpcKenkyu_size, sizeof(TObjNpcKenkyu) == 0x3B8);
 
 extern "C" {
-u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *TObjNpcSoutokufu__create(void *arg0);
 void *__dt__13TObjNpcKenkyuFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcKenkyu.cpp ---
 extern "C" {
-u8 *TObjNpcKenkyu__ct(u8 *player, s32 arg1, saddr arg2);
 void *TObjNpcSoutokufu__create(void *arg0);
 void *__dt__13TObjNpcKenkyuFv(void *arg0, s16 arg1);
 }

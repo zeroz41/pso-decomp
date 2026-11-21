@@ -27,7 +27,7 @@ void TObjEneBm9Mericarol_EffCurse3::run_task() {
         a.y += 14.0f;
         VecCopy(&b, (const Vec *)&camera_ctrl_instance->pos_x);
         subtract_vector(&b, &a);
-        ((TObjBoss2Tunnel *)&b)->update_scale();
+        normalize_vector_safe(&b);
         a.x = 20.0f * b.x + a.x;
         a.y = 20.0f * b.y + a.y;
         a.z = 20.0f * b.z + a.z;

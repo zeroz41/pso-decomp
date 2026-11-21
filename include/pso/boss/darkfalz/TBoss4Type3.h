@@ -15,6 +15,7 @@ struct TBoss4Type3CollisionState {
 };
 
 struct TBoss4Type3 : public TObjEnemy {
+    TBoss4Type3(TObject *parent, s32 *arg2);
     virtual ~TBoss4Type3();
     virtual void render();
     virtual void vfunc_62();

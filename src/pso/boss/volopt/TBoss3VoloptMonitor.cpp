@@ -1,3 +1,4 @@
+#include "pso/render/GinjaUvScroll.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
@@ -30,7 +31,6 @@ void *find_entity_by_id(u16 id);
 s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
 void init_collision_body_parts(TObject *obj, void *parts, s32 count);
 void free_collision_body_parts(TObject *obj);
-void scroll_ginja_mesh_uvs(void *mesh, s16 du, s16 dv, u16 cmd, s32 rewrite);
 void PPCSync(void);
 void release_texture_list(GinjaTextureList *list);
 

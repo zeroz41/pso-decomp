@@ -10,19 +10,19 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
 s32 draw_visible_window_entries(void *, void *, void *, f32);
-void *draw_default_entry__9TWindowDDFl();
 
 void TWindowDD_WS_String::render() {
     f32 y;
     u8 *entry;
 
-    entry = (u8 *)draw_default_entry__9TWindowDDFl();
+    entry = (u8 *)TWindowDD::draw_default_entry((s32)this);
     calc_inner_rect(entry);
     draw_entry_if_visible(entry);
     y = *(f32 *)((s8 *)entry + 0x14);
@@ -48,12 +48,12 @@ extern const f32 TWindowDD__data_805DFB58;
 extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *arg1) {
-    ((TWindowSubSymbolChatPartsSet *)pad_30)->copy_vec2(pad_64);
+    copy_vec2(pad_30, pad_64);
     pad_50 = (saddr)arg1;
 }
 
 void TWindowDD_WS_String::update_position(s32 arg1) {
-    ((TWindowSubSymbolChatPartsSet *)pad_30)->copy_vec2(pad_6C);
+    copy_vec2(pad_30, pad_6C);
     pad_50 = arg1;
     if (pad_6C[0] < 0.0f) {
         pad_30[0] -= pad_38[0];
@@ -67,7 +67,7 @@ void TWindowDD__sub_803412A0(TWindowDD_WS_String *self) {
     u8 *entry;
     entry = (u8 *)self->get_array_entry(0);
     if (entry != NULL) {
-        ((TWindowDD *)entry)->refresh_status_display();
+        measure_message_text_width_default(entry);
         self->pad_38[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
     }
 }
@@ -114,15 +114,15 @@ TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos
     __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos);
     *(s32 **)((s8 *)self + 0x18) = __vt__19TWindowDD_WS_String;
     self->m_name = lbl_805D42D8;
-    ((TWindowSubSymbolChatPartsSet *)self->pad_64)->copy_vec2(pos);
-    ((TWindowSubSymbolChatPartsSet *)self->pad_6C)->copy_vec2(size);
+    copy_vec2(self->pad_64, pos);
+    copy_vec2(self->pad_6C, size);
     self->pad_60 = style;
     entry = (u8 *)self->get_array_entry(0);
     if (entry != NULL) {
         set_text_entry_string(entry, str, 0x80);
         *(f32 *)((s8 *)entry + 0x8) = 0.0f;
         *(f32 *)((s8 *)entry + 0xC) = 0.0f;
-        ((TWindowDD *)entry)->refresh_status_display();
+        measure_message_text_width_default(entry);
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
     if ((self->pad_60 == 1) || (self->pad_60 == 3)) {

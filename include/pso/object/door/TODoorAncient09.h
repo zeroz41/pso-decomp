@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/door/TODoorBase.h"
 
+struct GinjaTextureList;
+
 struct BmlResource;
 
 // The ancient-area door locked by two floor switches (switch_id and the one
@@ -34,7 +36,7 @@ struct TODoorAncient09 : public TODoorBase {
     s32 m_e4;               // cleared by the constructor, never read here
 
     static BmlResource *bml_resource;
-    static saddr *texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
+    static GinjaTextureList **texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
 };
 
 LAYOUT_ASSERT(TODoorAncient09_size, sizeof(TODoorAncient09) == 0xE8);

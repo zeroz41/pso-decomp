@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TBoss6RockChase : public TObjCollidable {
+    TBoss6RockChase(TObject *parent, const Vec *position, s32 size_kind);
     virtual ~TBoss6RockChase();
     u32 m_ac;
     u32 m_b0;
@@ -16,15 +17,13 @@ struct TBoss6RockChase : public TObjCollidable {
     s32 damage_players_in_range();
     virtual void render();
     virtual void run_task();
-    static s32 spawn(saddr arg0, saddr arg1);
+    static TBoss6RockChase *spawn(TObject *parent, const Vec *position);
 };
 
 LAYOUT_ASSERT(TBoss6RockChase_size, sizeof(TBoss6RockChase) == 0xC8);
 
 extern "C" {
-u8 *TBoss6RockChase__ct(TBoss6RockChase *arg0, s32 arg1, saddr arg2, s32 arg3);
 void *__dt__15TBoss6RockChaseFv(void *arg0, s16 arg1);
-s32 spawn__15TBoss6RockChaseFll(s32 arg0, s32 arg1);
 }
 
 #endif

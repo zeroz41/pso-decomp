@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjEnvSound : public TObjBase {
+    TObjEnvSound(TObject *parent, void *arg2);
     virtual ~TObjEnvSound();
     u8 unk_90[0x4];
     u32 m_94;

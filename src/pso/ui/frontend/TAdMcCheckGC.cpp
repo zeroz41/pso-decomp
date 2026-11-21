@@ -13,7 +13,7 @@
 extern "C" {
 extern s32 memcard_cursor_instance_table[];
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(const void *, s32);
+s32 create_window_menu_default(const void *, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 }
 
@@ -32,7 +32,7 @@ static const NJS_POINT2 mc_check_window_positions[2] = {
 s32 TAdMcCheckGC::create(s32 arg1) {
     saddr temp_r31;
 
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(&mc_check_window_positions[this->m_28], 1);
+    temp_r31 = create_window_menu_default(&mc_check_window_positions[this->m_28], 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
     ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)temp_r31);

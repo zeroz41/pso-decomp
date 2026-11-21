@@ -177,7 +177,6 @@ u16 get_entity_id(void *);
 saddr get_bml_motion(s32, s32);
 saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
-s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void TObjPlayer__sub_80052390(f32 x);
@@ -185,7 +184,6 @@ void TBoss4Type2__sub_80055300(void);
 void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out);
 s32 create__11TBoss4BishiFi(void *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-int toggle_particle_effect__10TObjPlayerFv(void*);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
@@ -437,7 +435,7 @@ void TBoss4Type2::advance_afterimage() {
     *(f32 *)((s8 *)arg0 + 0x300) += 75.0f;
 }
 
-void TUnk_80486924::init_hanger() { toggle_particle_effect__10TObjPlayerFv(this); ((int (*)(void))push_matrix)(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void**)((char*)this + 0x60)); draw_hanger(); ((int (*)(void))pop_matrix)(); TParticleCtrl::end_effect_render(); }
+void TUnk_80486924::init_hanger() { TObjPlayer::toggle_particle_effect(); ((int (*)(void))push_matrix)(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void**)((char*)this + 0x60)); draw_hanger(); ((int (*)(void))pop_matrix)(); TParticleCtrl::end_effect_render(); }
 
 #pragma push
 #pragma opt_common_subs off
@@ -704,7 +702,7 @@ void TBoss4Type2::choose_next_action() {
     Vec grid;
     s32 r;
     s32 id;
-    id = ((s32 (*)(void *))pick_random_target_player__11TBoss4Type3Fv)(this);
+    id = TBoss4Type3::pick_random_target_player();
     if (((Obj_80056A54 *)this)->f32c <= ((Obj_80056A54 *)this)->f3ec && (u16)id != 0xFFFF) {
         r = TBoss4Type2::pick_weighted_random(4, boss4_type2_next_action_weights_a, boss4_type2_next_actions_a);
     } else {

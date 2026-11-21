@@ -7,7 +7,6 @@
 #include "pso/network/NetworkInfoRequests.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.h"
 #include "pso/unk/text_80145A94.h"
 #include "pso/unk/text_8042EE4C.h"
 #include "pso/system/main_loop.h"

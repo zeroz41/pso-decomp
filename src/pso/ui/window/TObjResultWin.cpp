@@ -137,7 +137,7 @@ void TObjResultWin::run_task() {
     }
 }
 void TObjResultWin::create_window() {
-    m_window = (uaddr)TWindowMessage::create((void *)get_window_layout_position(0x41), (saddr)challenge_result_window_extent, 1);
+    m_window = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x41)), (const f32 *)challenge_result_window_extent, 1);
     if ((u32) m_window != 0U) {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);

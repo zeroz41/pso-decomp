@@ -18,6 +18,7 @@ struct TWindowMeseta : public TWindowBase {
     void run_task();
     s32 get_meseta_value();
     void draw_value(s32 arg1);
+    void set_value(s32 value);
     u8 unk_70[0x4];
 };
 

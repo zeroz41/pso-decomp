@@ -1,4 +1,7 @@
 #include "types.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/mine/TOSparkMachine01.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -19,99 +22,33 @@ const char *bm_fe_obj_tank_hikari_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_fe_obj_tank_hikari_model_names[2] = { "fe_obj_tank_hikari.gj", NULL };
 BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor = { "bm_fe_obj_tank_hikari.bml", bm_fe_obj_tank_hikari_model_names, bm_fe_obj_tank_hikari_motion_names, 1, 0 };
 const char *TOSparkMachine01__name = "TOSparkMachine01";
-uaddr TOSparkMachine01__static_resource;
+BmlResource *TOSparkMachine01__static_resource;
 }
 
 
-struct VBase_801773D8 { u8 pad[0x18]; };
-
-struct Obj_801773D8 : VBase_801773D8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5(void *);
-    s32 unk1c;
-    s32 unk20;
-    s32 unk24;
-    u8 pad28[0x30 - 0x28];
-    u32 flags;
-    s32 unk34;
-    u8 pad38[0x68 - 0x38];
-    f32 unk68;
-    u8 pad6c[0x90 - 0x6C];
-    f32 timer[4];
-    u8 on[4];
-    f32 speed;
-    f32 unka8;
-    f32 unkac;
-};
-
-struct Model_801773D8 { u8 pad[8]; s32 a; s32 b; };
-
-struct Res_801773D8 { u8 pad[0x42C]; Model_801773D8 *model; };
-
-struct Obj_80177088 { u8 pad[0x90]; f32 timer[4]; u8 on[4]; f32 speed; };
-
-struct VBase_801771F4 { u8 pad[0x18]; };
-
-struct Node_801771F4 { u8 pad[4]; s32 f4; u8 m[0x28]; Node_801771F4 *next; };
-
-struct Res_801771F4 { u8 pad[0x2C]; Node_801771F4 *head; };
-
-struct Obj_801771F4 : VBase_801771F4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-    s32 unk1c;
-    s32 unk20;
-    s32 unk24;
-    u8 pad28[0x34 - 0x28];
-    Res_801771F4 *res;
-    u8 m38[0x60 - 0x38];
-    s32 unk60;
-    u8 pad64[0xA0 - 0x64];
-    u8 on[4];
-    f32 speed;
-    f32 unka8;
-    f32 unkac;
-};
-
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
-extern uaddr TOSparkMachine01__static_resource;
-void __ct__8TObjBaseFP7TObject(void *, s32);
-extern s32 __vt__16TOSparkMachine01[];
+extern BmlResource *TOSparkMachine01__static_resource;
 extern const char *TOSparkMachine01__name;
 extern s32 tl_05;
 void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
-void free_bin_model_request(void*, int);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {
-    Obj_80177088 *self = (Obj_80177088 *)this;
-    switch (self->on[i]) {
+    switch (spark_on[i]) {
     case 1:
-        self->timer[i] += self->speed;
-        if (0.000030517578f * (f32)rand() < self->timer[i]) {
-            self->on[i] = 0;
-            self->timer[i] = 0.0f;
+        spark_timer[i] += spark_speed;
+        if (0.000030517578f * (f32)rand() < spark_timer[i]) {
+            spark_on[i] = 0;
+            spark_timer[i] = 0.0f;
         }
         break;
     default:
-        self->timer[i] += self->speed;
-        if (0.000030517578f * (f32)rand() < self->timer[i]) {
-            self->on[i] = 1;
-            self->timer[i] = 0.0f;
+        spark_timer[i] += spark_speed;
+        if (0.000030517578f * (f32)rand() < spark_timer[i]) {
+            spark_on[i] = 1;
+            spark_timer[i] = 0.0f;
         }
         break;
     }
@@ -127,35 +64,32 @@ void TOSparkMachine01::run_task() {
         } while (var_r31 < 4);
         return;
     }
-    this->m_a3 = 0;
-    this->m_a2 = 0;
-    this->m_a0 = 0;
+    spark_on[3] = 0;
+    spark_on[2] = 0;
+    spark_on[0] = 0;
     update_spark_toggle(1);
 }
 
 void TOSparkMachine01::render() {
-    Obj_801771F4 *self = (Obj_801771F4 *)this;
-    Node_801771F4 *n;
+    NJS_OBJECT *n;
     s32 i;
-    Res_801771F4 *r;
-    if (self->m8(self->unka8, self->unkac) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
-        post_translate_matrix(self->m38);
-        rotate_matrix_y(0, self->unk60);
-        TObjFish::set_global_param(self->unk24);
-        r = self->res;
-        n = r->head;
+        post_translate_matrix(&position);
+        rotate_matrix_y(0, rotation_y);
+        TObjFish::set_global_param(texlist);
+        n = ((NJS_OBJECT *)model)->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {
-            switch (self->on[i]) {
+            switch (spark_on[i]) {
             case 1:
                 push_matrix();
-                post_translate_matrix(n->m);
-                draw_ginja_model(n->f4);
+                post_translate_matrix(n->pos);
+                draw_ginja_model((s32)n->model);
                 pop_matrix();
                 break;
             }
-            n = n->next;
+            n = n->sibling;
         }
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -163,29 +97,22 @@ void TOSparkMachine01::render() {
 }
 
 void *TOSparkMachine01::create() {
-    void *o = TObject::operator new(0xB0);
-    if (o != NULL) {
-        o = TOSparkMachine01__ct(o, this);
-    }
-    return o;
+    return new TOSparkMachine01(this);
 }
 
 void TOSparkMachine01::destroy_static_instance() {
-    if ((u32) TOSparkMachine01__static_resource != 0U) {
-        free_bin_model_request((void*)TOSparkMachine01__static_resource, 1);
-        TOSparkMachine01__static_resource = 0U;
+    if (TOSparkMachine01__static_resource != NULL) {
+        free_bin_model_request(TOSparkMachine01__static_resource, 1);
+        TOSparkMachine01__static_resource = NULL;
     }
 }
 
 void TOSparkMachine01::load_static_resource() {
-    saddr temp_r3;
-    saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_fe_obj_tank_hikari_resource_descriptor, 0, 0, 0));
+    BmlResource *archive = (BmlResource *)::operator new(0x440);
+    if (archive != NULL) {
+        archive = load_resource_from_descriptor(archive, 1, &bm_fe_obj_tank_hikari_resource_descriptor, 0, 0, 0);
     }
-    (*(saddr *)&TOSparkMachine01__static_resource) = var_r0;
+    TOSparkMachine01__static_resource = archive;
 }
 
 }
@@ -193,23 +120,19 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-void *TOSparkMachine01__ct(void *arg0, void *arg1) {
-    Obj_801773D8 *self = (Obj_801773D8 *)arg0;
+TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
+    TOSparkMachine01 *self = this;
     s32 i;
-    __ct__8TObjBaseFP7TObject(self, tl_05);
-    *(void **)((u8 *)self + 0x18) = ((s32 *)&__vt__16TOSparkMachine01);
-    *(s32 *)self = ((s32)TOSparkMachine01__name);
-    self->m5(arg1);
-    self->unk34 = ((Res_801773D8 *)TOSparkMachine01__static_resource)->model->a;
-    self->unk24 = ((Res_801773D8 *)TOSparkMachine01__static_resource)->model->b;
-    self->unka8 = 500.0f;
-    self->unkac = 40.0f;
-    self->flags |= 0x40000000;
+    self->m_name = TOSparkMachine01__name;
+    self->apply_object_set_data(arg1);
+    self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
+    self->texlist = (s32)TOSparkMachine01__static_resource->models[0].m_c;
+    self->view_range = 500.0f;
+    self->model_radius = 40.0f;
+    self->actorFlags |= 0x40000000;
     for (i = 0; i < 4; i++) {
-        self->timer[i] = 0.0f;
-        self->on[i] = 0;
+        self->spark_timer[i] = 0.0f;
+        self->spark_on[i] = 0;
     }
-    self->speed = -0.98f + self->unk68;
-    return self;
+    self->spark_speed = -0.98f + self->scale.x;
 }
-

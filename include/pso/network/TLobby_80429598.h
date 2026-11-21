@@ -5,6 +5,8 @@
 
 struct OSContext;
 
+typedef void (*ExiSendCompletionCallback)(u8 status);
+
 // --- C functions defined in TLobby_80429598.c ---
 #ifdef __cplusplus
 extern "C" {
@@ -17,7 +19,7 @@ void wake_network_thread(void);
 void exi_write(s32 reg, void *data, s32 len);
 void start_exi_dma_read(u16 reg);
 void start_exi_dma_write(s32 chan, struct OSContext *ctx);
-void start_exi_send(s32 data, s32 len, void (*callback)(u8));
+void start_exi_send(s32 data, s32 len, ExiSendCompletionCallback callback);
 void exi_start_send_dma(s32 chan, struct OSContext *ctx);
 void copy_6_byte_config(void *out);
 void copy_mac_address(void *address);

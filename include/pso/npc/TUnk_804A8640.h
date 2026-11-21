@@ -6,12 +6,12 @@
 
 class TUnk_804A8640 : public TObjNpcBase {
 public:
+    TUnk_804A8640(TObject *parent);
     virtual ~TUnk_804A8640();
     virtual void request_action(s32 action);
-    u8 *construct_female_base();
 };
 
-// Idle and talk motions installed by construct_female_base.
+// Idle and talk motions installed by the constructor.
 extern const TObjMotionAction npc_female_base_action_table[2];
 
 // The floor resource load/free callbacks of its shared data (TLobby_800F795C).

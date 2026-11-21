@@ -1,19 +1,17 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/render/GinjaModel.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "types.h"
-struct Rec_8023DCB8 { u8 kind; u8 pad[3]; u32 w; };
-
-struct Set_8023DCB8 { Rec_8023DCB8 *recs; u32 count; };
-
 extern "C" {
-void set_material_texture_slot(Set_8023DCB8 *set, s32 arg1);
-void set_material_texture_slot(Set_8023DCB8 *set, s32 arg1) {
-    Rec_8023DCB8 *p;
+void set_material_texture_slot(GinjaDrawRecord *draw, u32 slot) {
+    GinjaParameter *p;
     u32 i;
-    if (set != NULL) {
-        p = set->recs;
-        for (i = 0; i < set->count; i++, p++) {
+    if (draw != NULL) {
+        p = static_cast<GinjaParameter *>(draw->parameters);
+        for (i = 0; i < draw->parameter_count; i++, p++) {
             if (p->kind == 8) {
-                p->w = p->w & 0xFFFFE000;
-                p->w = p->w | (arg1 & 0x1FFF);
+                p->value = p->value & 0xFFFFE000;
+                p->value = p->value | (slot & 0x1FFF);
             }
         }
     }

@@ -294,7 +294,7 @@ void TWindowSubComCard__sub_8007AF10(s32 arg0) {
     ((TWindowSubComCard *)(&sp8))->init_guild_card();
     temp = TWindowSubComCard::get_keyboard_mode();
     ((s32 (*)(Big *, s32))copy_struct__17TWindowSubComCardFPvPv)(&spC, temp);
-    ((TWindowSubComCard *)&sp8)->init_card((void *)(saddr)arg0);
+    ((TWindowSubComCard *)(&sp8))->init_card((void*)arg0);
 }
 #pragma pop
 

@@ -63,7 +63,7 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
 }
 #pragma pop
 
-void TWindowCtrl::set_field28(s16 arg0) {
+void TWindowCtrl::set_field28(u16 arg0) {
     if ((void *) (*(void * *)&TWindowCtrl__active_window) != NULL) {
         *(s16 *)((s8 *)(*(void * *)&TWindowCtrl__active_window) + 0x28) = arg0;
     }

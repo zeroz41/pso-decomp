@@ -5,7 +5,10 @@
 #include "pso/object/trap/TOTrapChainSaw.h"
 
 struct TOTrapChainSawDamage : public TOTrapChainSaw {
+    TOTrapChainSawDamage(TObject *parent, void *set_data);
     virtual ~TOTrapChainSawDamage();
+    virtual void vfunc_16();
+    virtual void vfunc_18(TObjPlayer *player);
     virtual void update_state();
     virtual void decode_params();
     virtual void vfunc_25();

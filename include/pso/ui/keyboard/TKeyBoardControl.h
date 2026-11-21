@@ -32,7 +32,6 @@ struct TKeyBoardControl : public TObject {
     int is_confirmed();
     static void run_main_frame();
     static void run_tasks();
-    int get_fog_ctrl();
     static void update();
     static s32 get_input();
     static s32 get_key_state();

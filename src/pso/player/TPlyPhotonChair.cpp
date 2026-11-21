@@ -149,11 +149,7 @@ extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
 saddr get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
-s32 get_actor_section_id__15TPlyPhotonChairFv(int);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__15TPlyPhotonChair[];
-u8 *TPlyPhotonChair__ct(u8 *arg0, s32 arg1, saddr arg2);
 int rotate_matrix_y(int, int);
 int push_matrix();
 int scale_current_matrix(void *);
@@ -260,10 +256,9 @@ TPlyPhotonChair::~TPlyPhotonChair() {
 }
 
 
-u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, saddr parent) {
+#define ply_photon_chair ((u8 *)this)
+TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
     u32 player;
-    __ct__8TObjBaseFP7TObject((void *)ply_photon_chair, (void *)parent);
-    *(s32 **)((s8 *)ply_photon_chair + 0x18) = __vt__15TPlyPhotonChair;
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
     __ct__13TUnk_804A7254Fv((ply_photon_chair + 0xD0));
@@ -274,9 +269,9 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, saddr parent) {
     player = (uaddr)get_player_by_client_id((saddr)(((s32) (u16) arg1)));
     if (player == 0U) {
         ((TObject *)ply_photon_chair)->queue_destruction();
-        return ply_photon_chair;
+        return;
     }
-    get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[get_actor_section_id__15TPlyPhotonChairFv(player)]);
+    get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)(player))->get_actor_section_id()]);
     ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((s32)((int) (get_bml_model((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
@@ -288,8 +283,8 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, saddr parent) {
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->sync_field10_from_child();
     TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0xB4, 1.0f);
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_state_ready();
-    return ply_photon_chair;
 }
+#undef ply_photon_chair
 
 int TPlyPhotonChair__sub_8035B520(void* p) { return *(u32*)((char*)p + 0x94) == 0; }
 u16 TPlyPhotonChair::sub_8035B530() { return *(u16 *)&this->unk_90; }

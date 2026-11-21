@@ -5,6 +5,7 @@
 #include "pso/object/TObjMesBase.h"
 
 struct TObjGbAdvance : public TObjMesBase {
+    TObjGbAdvance(TObject *parent, ObjectSetData *placement);
     virtual ~TObjGbAdvance();
     virtual void vfunc_14();
     static void free_shared_data();
@@ -13,4 +14,6 @@ struct TObjGbAdvance : public TObjMesBase {
 };
 
 LAYOUT_ASSERT(TObjGbAdvance_size, sizeof(TObjGbAdvance) == 0xBC);
+extern "C" void *TObjGbAdvance__create(void *placement);
+
 #endif

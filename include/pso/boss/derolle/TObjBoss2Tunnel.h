@@ -26,6 +26,7 @@ struct PiecewiseCurve {
 };
 
 struct TObjBoss2Tunnel : public TObject {
+    TObjBoss2Tunnel(TObject *parent);
     virtual ~TObjBoss2Tunnel();
     void init_queue_from_start();
     void copy_ring_buffer_window();
@@ -50,14 +51,8 @@ struct TObjBoss2Tunnel : public TObject {
     u32 m_5c;
     u8 _pad60[0x4];
     u32 m_64;
-    void* m_68;
-    u8 unk_6C[0x4];
-    s32 m_70;
-    u8 unk_74[0xC];
-    f32 m_80;
-    u8 unk_84[0x4];
-    u32 m_88;
-    u8 unk_8C[0x10];
+    PiecewiseCurve m_curve;
+    u8 unk_94[0x8];
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;
@@ -70,7 +65,7 @@ struct TObjBoss2Tunnel : public TObject {
     u8 _padC0[0x18];
     u32 m_d8;
     s32 advance_phase(f32 *out);
-    void update_position();
+    f32 update_position();
     f32 eval_piecewise_curve(f32 farg0);
     static void set_global_flag_200();
     static void clear_global_flag_3000();
@@ -90,14 +85,11 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 decrement_packed_timer(u32 *arg0, s32 arg1);
     static s32 spawn_effect(saddr arg0, void *arg1, void *arg2);
     static s32 adjust_to_ground(saddr arg0, void *arg1);
-    void init_zako(void* a1, s32 _w2);
     static s32 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
     s32 count_tree_nodes();
     static f32 calc_scaled_value(s32 arg0, f32 farg0);
     static void transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2);
     void render(void* a1);
-    f32 update_scale();
-    void finalize_and_send_60();
     static void set_flag_0x200();
     static void clear_flags_0x3000();
     static s32 is_phase_active(s32 _w0);

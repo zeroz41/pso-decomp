@@ -4,6 +4,9 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct GinjaTextureList;
+struct NJS_OBJECT;
+
 struct TOJungleDesign : public TObjCollidable {
     TOJungleDesign(saddr, saddr);
     virtual ~TOJungleDesign();
@@ -20,8 +23,8 @@ LAYOUT_ASSERT(TOJungleDesign_size, sizeof(TOJungleDesign) == 0xB4);
 
 extern "C" {
 void *TOJungleDesign__create(void *arg0);
-u8 *fn_802FF028(s32 arg0);
-u8 *fn_802FF064(s32 arg0);
+GinjaTextureList *fn_802FF028(s32 arg0);
+NJS_OBJECT *fn_802FF064(s32 arg0);
 }
 
 #endif

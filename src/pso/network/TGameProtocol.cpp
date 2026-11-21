@@ -1,4 +1,7 @@
+#include "pso/network/FloorEventCommand.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
+#include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -16,6 +19,7 @@
 #include "pso/system/debug_print.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/door/TObjDoorKey.h"
+#include "pso/object/fence/WallHitPacket.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdio.h>
 
@@ -120,7 +124,6 @@ extern "C" void handle_6x50_switch_interaction(const void *source);
 extern "C" void handle_6x52_set_animation_state(saddr arg0);
 extern "C" void handle_6x53(void *arg0);
 extern "C" void handle_6x54();
-extern "C" void handle_6x55_intra_map_warp(saddr arg0);
 extern "C" void handle_6x56_set_player_position_and_angle(void *arg0);
 extern "C" void handle_6x57(void *arg0);
 extern "C" void handle_6x58_lobby_animation(void *arg0);
@@ -133,7 +136,6 @@ void handle_6x63_destroy_floor_item(void *arg0);
 extern "C" void handle_6x64();
 extern "C" void handle_6x65();
 void handle_6x66_use_star_atomizer(u8 *arg0);
-extern "C" void handle_6x67_trigger_set_event();
 extern "C" void handle_6x68_set_telepipe_state();
 extern "C" void handle_6x69_npc_control();
 void handle_6x6A_set_boss_warp_flags(void *arg0);
@@ -155,11 +157,11 @@ extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7B_disable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7C_set_challenge_records();
 extern "C" void handle_6x7D_set_battle_mode_data();
-extern "C" void handle_6x80_trigger_trap();
+struct game_command_header;
+extern "C" void handle_6x80_trigger_trap(game_command_header *command);
 extern "C" void handle_6x81_disable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x82_enable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x83_place_trap(void *arg0);
-extern "C" void handle_6x86_hit_destructible_object();
 extern "C" void handle_6x87_shrink_player();
 extern "C" void handle_6x88_restore_shrunken_player();
 extern "C" void handle_6x89_set_killer_entity_id(void *arg0);
@@ -173,7 +175,6 @@ extern "C" void handle_6x90_set_player_battle_team(saddr arg0);
 extern "C" void handle_6x91_update_attackable_col_state();
 void handle_6x92(u8 *arg0);
 extern "C" void handle_6x93_set_switch_flag_from_timer();
-extern "C" void handle_6x94_inter_level_warp();
 extern "C" void handle_6x95_set_challenge_time();
 void handle_6x96();
 void handle_6x97_select_challenge_mode_failure_option(void *arg0);
@@ -238,7 +239,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x52, 0x0007, (PsoCommandFn)handle_6x52_set_animation_state},
     {0x53, 0x0006, (PsoCommandFn)handle_6x53},
     {0x54, 0x0007, (PsoCommandFn)handle_6x54},
-    {0x55, 0x0006, (PsoCommandFn)handle_6x55_intra_map_warp},
+    {0x55, 0x0006, handle_6x55_intra_map_warp},
     {0x56, 0x0006, (PsoCommandFn)handle_6x56_set_player_position_and_angle},
     {0x57, 0x0007, (PsoCommandFn)handle_6x57},
     {0x58, 0x0007, (PsoCommandFn)handle_6x58_lobby_animation},
@@ -327,7 +328,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0xA4, 0x0004, (PsoCommandFn)handle_6xA4_olga_flow_boss_actions},
     {0xA5, 0x0004, (PsoCommandFn)handle_6xA5_olga_flow_boss_actions},
     {0xAD, 0x0004, (PsoCommandFn)handle_6xAD_olga_flow_subordinate_boss_actions},
-    {0x67, 0x0007, (PsoCommandFn)handle_6x67_trigger_set_event},
+    {0x67, 0x0007, handle_6x67_trigger_set_event},
     {0x68, 0x0006, (PsoCommandFn)handle_6x68_set_telepipe_state},
     {0x69, 0x0007, (PsoCommandFn)handle_6x69_npc_control},
     {0x6A, 0x0007, (PsoCommandFn)handle_6x6A_set_boss_warp_flags},
@@ -353,8 +354,8 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x7D, 0x0007, (PsoCommandFn)handle_6x7D_set_battle_mode_data},
     {0x7E, 0x0007, (PsoCommandFn)handle_6x7E},
     {0x7F, 0x0007, (PsoCommandFn)handle_6x7F_battle_scores},
-    {0x80, 0x0004, (PsoCommandFn)handle_6x80_trigger_trap},
-    {0x86, 0x0006, (PsoCommandFn)handle_6x86_hit_destructible_object},
+    {0x80, 0x0004, handle_6x80_trigger_trap},
+    {0x86, 0x0006, handle_6x86_hit_destructible_object},
     {0x8A, 0x0002, (PsoCommandFn)handle_6x8A_show_challenge_time_records_window},
     {0x91, 0x0006, (PsoCommandFn)handle_6x91_update_attackable_col_state},
     {0x92, 0x0004, (PsoCommandFn)handle_6x92},
@@ -363,7 +364,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x8B, 0x0006, (PsoCommandFn)handle_6x8B},
     {0x65, 0x0006, (PsoCommandFn)handle_6x65},
     {0x8C, 0x0006, (PsoCommandFn)handle_6x8C},
-    {0x94, 0x0007, (PsoCommandFn)handle_6x94_inter_level_warp},
+    {0x94, 0x0007, handle_6x94_inter_level_warp},
     {0x95, 0x0006, (PsoCommandFn)handle_6x95_set_challenge_time},
     {0x96, 0x0004, (PsoCommandFn)handle_6x96},
     {0x97, 0x0006, (PsoCommandFn)handle_6x97_select_challenge_mode_failure_option},
@@ -423,14 +424,14 @@ void TPsoDataBuf::recv_pso_data_buf(size_t size) {
 
     while (remaining > 0) {
         command = (game_command_header *)cursor;
-        ((TLobby *)command)->bswap_packet_header();
+        bswap_client_id_header((G_ClientIDHeader *)command);
         if ((u8)command->size != 0) {
             u32 command_size = (u8)command->size * 4;
             cursor += command_size;
             remaining -= command_size;
-            ((TLobby *)command)->bswap_packet_header();
+            bswap_client_id_header((G_ClientIDHeader *)command);
         } else {
-            ((TLobby *)command)->bswap_packet_header();
+            bswap_client_id_header((G_ClientIDHeader *)command);
             extended_game_command_header *extended = (extended_game_command_header *)cursor;
             bswap_extended_subcommand_header(extended);
             cursor += extended->size;

@@ -5,9 +5,11 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjDFDemoF : public TObjBase {
+    TObjDFDemoF(TObject *parent);
     virtual ~TObjDFDemoF();
-    virtual void render();
     virtual void run_task();
+    virtual void render();
+    virtual void vfunc_13() = 0;
     u32 m_90;
     static void *create(void *arg0);
     u8 unk_94[0x24];

@@ -127,7 +127,6 @@ void vt6__9TBoss4UroFv(u8 *arg0);
 void vt2__11TBoss4BishiFv(u8 *arg0);
 void vt5__9TBoss4UroFv(u8 *arg0);
 
-s32 get_position_ptr__10TObjPlayerFv(s32);
 
 void enter_state_3__11TBoss4BishiFPv(void* p);
 f32 vector_length(void *);
@@ -720,10 +719,11 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
     if (arg0->f378 == 0) {
         return;
     }
-    if ((uaddr)TBoss4DarkFalz::get_instance() == 0) {
+    u32 falz = TBoss4DarkFalz::get_instance();
+    if (falz == 0) {
         return;
     }
-    VecCopy__FP3VecPC3Vec(&target, (void *)((s32 (*)())get_position_ptr__10TObjPlayerFv)());
+    VecCopy__FP3VecPC3Vec(&target, ((TObjPlayer *)falz)->get_position_ptr());
     VecCopy__FP3VecPC3Vec(&d, &arg0->pos);
     subtract_vector(&d, &target);
     d.y = 0.0f;

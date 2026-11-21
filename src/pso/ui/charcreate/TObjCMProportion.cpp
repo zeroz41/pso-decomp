@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
+#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
 __declspec(section ".rodata") CreationInputState lbl_80465150 = { 0 };
 
 extern "C" {
@@ -101,17 +102,17 @@ void TObjCMProportion::poll_pad_buttons() {
             creation_input_state.held_buttons |= 0x20;
         } else {
             for (i = 0; i < 4; i++) {
-                if (is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, cm_proportion_pad_button_masks[i]) != 0) {
+                if (test_previous_buttons_color(&controller_input_state.keyboard, cm_proportion_pad_button_masks[i]) != 0) {
                     creation_input_state.held_buttons |= cm_proportion_pad_button_masks[i];
                     break;
                 }
             }
         }
     }
-    if (!(creation_input_state.held_buttons & 4) && is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 4) != 0) {
+    if (!(creation_input_state.held_buttons & 4) && test_previous_buttons_color(&controller_input_state.keyboard, 4) != 0) {
         creation_input_state.held_buttons |= 4;
     }
-    if (!(creation_input_state.held_buttons & 2) && is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 2) != 0) {
+    if (!(creation_input_state.held_buttons & 2) && test_previous_buttons_color(&controller_input_state.keyboard, 2) != 0) {
         creation_input_state.held_buttons |= 2;
     }
     creation_input_state.pressed_buttons = creation_input_state.held_buttons & ~old;

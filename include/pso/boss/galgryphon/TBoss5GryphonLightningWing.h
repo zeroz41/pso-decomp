@@ -4,6 +4,8 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "types.h"
 
+struct Vec;
+
 class TBoss5GryphonLightningWing : public TBoss5GryphonLightning {
 public:
     virtual ~TBoss5GryphonLightningWing();
@@ -11,7 +13,9 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void get_wing_position(saddr arg1);
+    static void render();
+    void get_wing_position(Vec *out);
+    void copy_position(void *out);
 public:
     void apply_lightning_effect();
 };

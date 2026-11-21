@@ -5,14 +5,11 @@
 
 extern "C" {
 int TWindowSubComCard__sub_8026906C(void *p);
-class TWindowBase;
-void fn_80269078(TWindowBase *arg0, s32 arg1);
 }
 
 // --- C functions defined in TWindowSubComCard_80269064.cpp ---
 extern "C" {
 int TWindowSubComCard__sub_8026906C(void *p);
-void fn_80269078(TWindowBase *arg0, s32 arg1);
 }
 // --- end of C functions
 

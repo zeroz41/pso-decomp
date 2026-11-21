@@ -48,7 +48,7 @@ void TUnk_804C57E0::init_image_buffer(u8 *arg1, s32 arg2) {
     *(s32 *)((s8 *)(*(void * *)&this->m_3c) + 4) = 1;
     ((TObjPlayer *)(arg0 + 0x18))->set_render_rect(this->m_44 + 0x20, 5, (int) this->m_4, (int) this->m_0);
     set_texture_name((u8 *)&this->m_c, arg0 + 0x18, (int) this->m_8, 0x40800000);
-    ((TLobby *)(*(void * *)&this->m_3c))->pso_load_texture();
+    pso_load_texture(*(NJS_TEXLIST **)&this->m_3c);
 }
 
 }

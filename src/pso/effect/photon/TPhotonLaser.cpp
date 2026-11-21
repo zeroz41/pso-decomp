@@ -17,14 +17,6 @@
 const char *TPhotonLaser__name = "TPhotonLaser";
 
 
-struct Params_801AC36C {
-    Vec pos;
-    u8 padC[0x18 - 0xC];
-    Vec dir;
-    f32 f24;
-    f32 scale;
-    f32 f2C;
-};
 
 struct Laser_801AC36C {
     s32 f0;
@@ -61,11 +53,8 @@ struct Laser_801AC17C {
 };
 
 extern "C" {
-void __ct__9TObjCharaFP7TObject(void *, void *);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-extern s32 __vt__12TPhotonLaser[];
 extern const char *TPhotonLaser__name;
-Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3);
 void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
@@ -130,9 +119,8 @@ TPhotonLaser::~TPhotonLaser() {
 }
 
 
-Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3) {
-    __ct__9TObjCharaFP7TObject(self, parent);
-    self->vt18 = ((s32 *)&__vt__12TPhotonLaser);
+TPhotonLaser::TPhotonLaser(PhotonLaserParams *p, TObject *parent, u16 arg3) : TObjChara(parent) {
+    Laser_801AC36C *self = (Laser_801AC36C *)this;
     self->f0 = ((s32)TPhotonLaser__name);
     VecCopy((Vec *)&self->f334, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f340), (const Vec *)((const Vec *)&p->pos))));
     self->f370 = arg3;
@@ -140,11 +128,10 @@ Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void 
     self->f34C.x *= p->scale;
     self->f34C.y *= p->scale;
     self->f34C.z *= p->scale;
-    self->f358 = p->f24;
-    self->f35C = p->f2C;
+    self->f358 = p->unk_24;
+    self->f35C = p->unk_2C;
     self->f364 = (saddr)create_particle_emitter(&self->f340, 0x134);
     self->f36C = 0;
-    return self;
 }
 
 

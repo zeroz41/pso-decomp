@@ -24,8 +24,6 @@ void TObjNpcFemaleTall__sub_8014AA48(void) {
 }
 
 extern "C" {
-u8 * TObjNpcBase__ct(void *);
-extern s32 __vt__13TUnk_804A92A8[];
 extern uaddr npc_town_motion_data;
 extern u32 lbl_805D5D78;
 }
@@ -34,10 +32,7 @@ void TObjNpcFemaleTall__sub_8014AA60(void) { lbl_805D5798 = lbl_805D5D78; }
 
 TUnk_804A92A8::~TUnk_804A92A8() {}
 
-u8 *TUnk_804A92A8::fn_8014AAC4() {
-    TObjNpcBase__ct(this);
-    *(s32 **)((u8 *)this + 0x18) = __vt__13TUnk_804A92A8;
+TUnk_804A92A8::TUnk_804A92A8(TObject *parent) : TObjNpcBase(parent) {
     init_motion((TObjMotionAction *)town_npc_animation_init_data, (BmlMotionEntry *)*(uaddr *)npc_town_motion_data, 0);
     set_motion_interpolation_flag();
-    return (u8 *)this;
 }

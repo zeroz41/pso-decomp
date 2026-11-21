@@ -87,8 +87,6 @@ struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
 
 extern "C" {
 
-s32 TAdAgreementBaseGC__ct(void *);
-extern s32 __vt__19TAdTrialAgreementGC[];
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
 
 extern s32 pso_system_card_filename[];
@@ -124,17 +122,16 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 
 }
 
-u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
+#define ad_trial_agreement_gc ((u8 *)this)
+TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
     saddr ad_scroll_win_gc;
     s32 var_r0;
-    TAdAgreementBaseGC__ct(ad_trial_agreement_gc);
-    *(s32 **)((s8 *)ad_trial_agreement_gc + 0x18) = __vt__19TAdTrialAgreementGC;
     *(const char **)((s8 *)ad_trial_agreement_gc + 0) = TAdTrialAgreementGC__name;
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
     if (TAdTrialAgreementGC::check_card_file((saddr)ad_trial_agreement_gc) != 0) {
         ((TAdTrialAgreementGC *)(ad_trial_agreement_gc))->vfunc_7();
         ((TObject *)ad_trial_agreement_gc)->queue_destruction();
-        return ad_trial_agreement_gc;
+        return;
     }
     ad_scroll_win_gc = (saddr)TObject::operator new(0x54);
     var_r0 = ad_scroll_win_gc;
@@ -142,5 +139,5 @@ u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
         var_r0 = (saddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);
     }
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = var_r0;
-    return ad_trial_agreement_gc;
 }
+#undef ad_trial_agreement_gc

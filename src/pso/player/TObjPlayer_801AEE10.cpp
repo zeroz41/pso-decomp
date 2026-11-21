@@ -13,7 +13,7 @@ s32 TObjPlayer__sub_80354C7C(s32);
 s32 TObjPlayer__sub_80354E3C();
 
 s32 TObjPlayer::is_final_phase() {
-    return (u8) (get_main_phase() == 0xF);
+    return (u8)((u8) (get_main_phase() == 0xF));
 }
 s32 TObjPlayer::is_camera_ready() {
     int var_r31;
@@ -22,7 +22,7 @@ s32 TObjPlayer::is_camera_ready() {
     if ((TObjPlayer::check_camera_mode() != 0) && (get_game_play_mode() == 2)) {
         var_r31 = 1;
     }
-    return (u8)var_r31;
+    return (u8)((u8)var_r31);
 }
 s32 TObjPlayer::is_camera_mode_active() {
     int var_r31;
@@ -31,7 +31,7 @@ s32 TObjPlayer::is_camera_mode_active() {
     if ((TObjPlayer::check_camera_mode() != 0) && (get_game_play_mode() == 1)) {
         var_r31 = 1;
     }
-    return (u8)var_r31;
+    return (u8)((u8)var_r31);
 }
 s32 TObjPlayer::is_single_screen() {
     return (u8) (TRaderMapCore::is_not_split_screen() == 1);

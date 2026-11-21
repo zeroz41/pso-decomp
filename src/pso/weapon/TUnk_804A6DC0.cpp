@@ -13,13 +13,9 @@
 
 struct Obj_80131334 { u8 pad[0x1f8]; s32 state; };
 
-extern "C" {
-    
-int get_player_list__10TObjPlayerFv(void*);
-}
 
 // Yasminkov 7000V (inferred)
-void TUnk_804A6DC0::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { post_translate_matrix(&this->m_1fc); } }
+void TUnk_804A6DC0::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { post_translate_matrix(&this->m_1fc); } }
 
 #pragma push
 #pragma opt_common_subs off

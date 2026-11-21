@@ -11,6 +11,7 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
+#include "pso/audio/GcrnaStream.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };
@@ -40,10 +41,9 @@ struct Obj_803C9104 {
 extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
-s32 set_global_805D7520__6TLobbyFl();
 
-void TLobby::on_set_mode() {
-    set_global_805D7520__6TLobbyFl();
+void TLobby::on_set_mode(s32 mode) {
+    set_global_805D7520(mode);
 }
 
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
@@ -254,7 +254,6 @@ extern s32 lbl_805D7540;
 
 extern "C" {
 s32 TLobby__sub_803CC030(int, int);
-s32 dispatch_packet__6TLobbyFv(int, int);
 void configure_audio_stream_output(Stream_803C9FCC *self);
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
 s32 TLobby__sub_803CBF50(void *);
@@ -273,11 +272,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0);
 void *TLobby__sub_803C0848(void *, s32, void *);
 void *run_step_5210__6TLobbyFv(void *, s32);
 Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size);
-s32 notify_field_4__6TLobbyFv(int);
-s32 send_packet_by_id__6TLobbyFv(int);
-s32 send_with_offset4__6TLobbyFv(int);
 s32 set_params__6TLobbyFll();
-s32 trigger_sub_task__6TLobbyFv(int);
 
 void TLobby::set_field98(s8 arg1) {
     *(s8 *)((s8 *)((u8 *)this) + 0x98) = arg1;
@@ -393,9 +388,9 @@ s16 TLobby__sub_803C96B0(u8 *arg0) {
     return *(s16 *)((s8 *)arg0 + 0x40);
 }
 
-void TLobby::set_field_40_and_notify(s16 arg1) {
+void TLobby::set_field_40_and_notify(s32 arg1) {
     *(s16 *)((s8 *)((u8 *)this) + 0x40) = arg1;
-    trigger_sub_task__6TLobbyFv((saddr)this->m_next);
+    ((TLobby *)this->m_next)->trigger_sub_task();
 }
 
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i) {
@@ -414,21 +409,21 @@ void TLobby::adxt_set_out_pan(s32 arg1, s16 arg2) {
 
 s32 TLobby__sub_803C9740(u8 *arg0) {
     if ((s8) *(u8 *)((s8 *)arg0 + 1) >= 2) {
-        return send_with_offset4__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 4)));
+        return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_with_offset4();
     }
     return 0;
 }
 
 s32 TLobby::apply_if_v2() {
     if ((s8) *(u8 *)((s8 *)((u8 *)this) + 1) >= 2) {
-        return notify_field_4__6TLobbyFv((int) (*(s32 *)&this->m_flags));
+        return ((TLobby *)(*(s32 *)&this->m_flags))->notify_field_4();
     }
     return 0;
 }
 
 s32 TLobby__sub_803C97B8(u8 *arg0) {
     if ((s8) *(u8 *)((s8 *)arg0 + 1) >= 2) {
-        return send_packet_by_id__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 4)));
+        return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_packet_by_id();
     }
     return 0;
 }
@@ -462,8 +457,6 @@ struct Adxt_803C97F4 {
 };
 
 extern "C" {
-s32 send_packet_by_id_2__6TLobbyFv(int);
-s32 query_available_size__6TLobbyFv(int);
 u32 lbl_805D4678 = 1;
 }
 
@@ -471,13 +464,13 @@ inline void get_play_position_803C97F4(Adxt_803C97F4 *p, s32 *pos, s32 *rate) {
     s32 st = p->f1;
     if (st == 3 || st == 4) {
         s32 total;
-        *rate = notify_field_4__6TLobbyFv(p->f4);
+        *rate = ((TLobby *)p->f4)->notify_field_4();
         total = TLobby__sub_803C0010((u8 *)p->f4);
-        *pos = p->fA4 + (total - (query_available_size__6TLobbyFv(p->fC) + (p->f18 != NULL ? p->f18->vt->f24(p->f18, 1) / 2 : 0)));
+        *pos = p->fA4 + (total - (TLobby::query_available_size((TLobby *)p->fC) + (p->f18 != NULL ? p->f18->vt->f24(p->f18, 1) / 2 : 0)));
     } else if (st == 5) {
-        *pos = send_packet_by_id__6TLobbyFv(p->f4);
-        *rate = notify_field_4__6TLobbyFv(p->f4);
-        *pos *= 16 / send_packet_by_id_2__6TLobbyFv(p->f4);
+        *pos = ((TLobby *)p->f4)->send_packet_by_id();
+        *rate = ((TLobby *)p->f4)->notify_field_4();
+        *pos *= 16 / ((TLobby *)p->f4)->send_packet_by_id_2();
         *pos += p->fA4;
     } else {
         *pos = 0;
@@ -518,9 +511,9 @@ void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate) {
             p->fA0 = lbl_805D7540;
         }
     } else if (st == 5) {
-        cur_pos = send_packet_by_id__6TLobbyFv(p->f4);
-        cur_rate = notify_field_4__6TLobbyFv(p->f4);
-        cur_pos *= 16 / send_packet_by_id_2__6TLobbyFv(p->f4);
+        cur_pos = ((TLobby *)p->f4)->send_packet_by_id();
+        cur_rate = ((TLobby *)p->f4)->notify_field_4();
+        cur_pos *= 16 / ((TLobby *)p->f4)->send_packet_by_id_2();
         *pos = (s32)((f32)lbl_805D7570 * ((f32)cur_pos / (f32)cur_rate));
         *pos += p->f9C + 1;
     } else {
@@ -577,7 +570,7 @@ void stop_audio_stream(u8 *arg0) {
         }
     }
     TLobby::init_once();
-    dispatch_packet__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
+    TLobby::dispatch_packet((GcrnaStream *)((int) (*(s32 *)((s8 *)arg0 + 0xC))), 0);
     TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
@@ -598,7 +591,7 @@ void stop_audio_stream(u8 *arg0) {
 void TLobby__sub_803C9DB4(u8 *arg0) {
     void **temp_r3;
     TLobby::init_once();
-    dispatch_packet__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
+    TLobby::dispatch_packet((GcrnaStream *)((int) (*(s32 *)((s8 *)arg0 + 0xC))), 0);
     TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
@@ -630,7 +623,7 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
         }
     }
     TLobby::init_once();
-    dispatch_packet__6TLobbyFv(arg0->fc, 0);
+    TLobby::dispatch_packet((GcrnaStream *)(arg0->fc), 0);
     TLobby__sub_803CC030(arg0->fc, 0);
     ((TLobby *)((saddr)arg0->f4))->reset_flag();
     if ((s32)arg0->f2 == 2) {
@@ -662,7 +655,7 @@ void configure_audio_stream_output(Stream_803C9FCC *self) {
     s32 i;
     s32 v;
     Stream_803C9FCC *pp;
-    set_range__6TLobbyFPvii((u8 *)self->f8, self->f3e << 11, self->f3c << 11);
+    TLobby::set_range((void *)self->f8, self->f3e << 11, self->f3c << 11);
     ((TLobby *)(self->f8))->set_scroll_position(0x19);
     ((TLobby *)(self->f8))->init_stream_position();
     v = self->f10;
@@ -730,7 +723,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
             }
         }
         TLobby::init_once();
-        dispatch_packet__6TLobbyFv((saddr)arg0->fc, 0);
+        TLobby::dispatch_packet((GcrnaStream *)((int)arg0->fc), 0);
         TLobby__sub_803CC030((saddr)arg0->fc, 0);
         ((TLobby *)((saddr)arg0->f4))->reset_flag();
         if ((s32)arg0->f2 == 2) {

@@ -6,7 +6,10 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjGyaranzoMissile : public TObjCollidable {
+    TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3);
     virtual ~TObjGyaranzoMissile();
+    virtual void run_task();
+    virtual void render();
     void sub_800D47B4();
     Vec velocity;
     u8 pad_B8[0xC];
@@ -17,8 +20,6 @@ struct TObjGyaranzoMissile : public TObjCollidable {
     s32 wobble_speed;
     f32 wobble_height;
     u16 owner_id;
-    virtual void render();
-    virtual void run_task();
     u8 pad_DA[0x2];
 };
 

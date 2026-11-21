@@ -75,6 +75,7 @@ struct RecoveredFields_8032F174_arg0
 #include "pso/enemy/lappy/TObjEneLappy.h"
 
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 union MemberActionStorage_803301B8 { s32 words[3]; void (TBoss6Type2::*action)(); };
 
 struct T_8032E748 { u8 pad[0x380]; s32 phase; };
@@ -300,7 +301,6 @@ s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 arg1);
 f32 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 
 s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec *arg3);
-s32 is_active__11TBoss6Type2Fv(int);
 void *get_player_by_client_id(s32 i);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
@@ -313,7 +313,7 @@ void TBoss6Type2__sub_8032E708(void* p, s32 v);
 s32 is_local_client_floor_leader();
 
 void TBoss6Type2__sub_8032E708(void* p, s32 v) { *(s32*)((char*)p + 0x40c) = v; }
-void TBoss6Type2::set_action_field_0x408(s16 v) { *(s16*)((char*)this + 0x408) = v; }
+void TBoss6Type2::set_action_field_0x408(u16 v) { *(s16*)((char*)this + 0x408) = v; }
 void TBoss6Type2::set_target_nodes(void* a1, void* a2) { *(void**)((char*)this + 0x2e4) = a1; *(void**)((char*)this + 0x390) = a2; update_segment_angles(); }
 void TBoss6Type2::set_anim_frame(s32 v) { *(s32*)((char*)this + 0x37c) = v; }
 
@@ -394,7 +394,7 @@ void TBoss6Mag::sub_8032E8DC() {
         ((TBoss6Type2 *)this)->destroy_part_object(2);
         break;
     }
-    if (!(((Obj_8032E8DC *)this)->f3C8 & 0x1F) && is_active__11TBoss6Type2Fv(((Obj_8032E8DC *)this)->f378) != 0) {
+    if (!(((Obj_8032E8DC *)this)->f3C8 & 0x1F) && ((TBoss6Type2 *)(((Obj_8032E8DC *)this)->f378))->is_active() != 0) {
         spawn_particle_effect_with_flags(((Obj_8032E8DC *)this)->sw, 0x224, 0x2040);
     }
 }
@@ -1106,11 +1106,10 @@ f32 fn_80330240(O_80330240 *arg0, void *att, P_80330240 arg2, void *coll, void *
     return receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(arg0, att, arg2, coll, tech, arg5);
 }
 s32 TBoss6Type2__sub_802BD340(int);
-f32 receive_physical_attack__9TObjCharaFPvf();
 
-f32 TBoss6Mag::receive_physical_attack(void *, f32) {
+f32 TBoss6Mag::receive_physical_attack(void *arg1, f32 farg0) {
     if ((s32) *(s32 *)((s8 *)this + 0x388) != 0) {
-        return receive_physical_attack__9TObjCharaFPvf();
+        return TObjChara::receive_physical_attack(arg1, farg0);
     }
     return (0.0f);
 }
@@ -1256,7 +1255,6 @@ struct Key_80330724 { s32 a; s16 b; s16 c; s32 d; s32 e; };
 
 extern "C" {
 void __ct__9TObjEnemyFP7TObject(void *, s32, void *);
-s32 exchange_object_state__9TObjEnemyFls(void *, Key_80330724 *, s32);
 void init_collision_body_parts(void *, void *, s32);
 saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 void TBoss6Mag__sub_803309C4(void *, void *);
@@ -1275,10 +1273,10 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     *(s32 *)((s8 *)arg0 + 0x384) = *(s32 *)((s8 *)arg2 + 0x54);
     TBoss6Type2__instance_slots[*(s32 *)((s8 *)arg0 + 0x384)] = arg0;
     ((TBoss6Mag *)arg0)->apply_set_data(arg2);
-    if (exchange_object_state__9TObjEnemyFls(arg0, &key, 1) != 0) {
+    if (((TObjEnemy *)arg0)->exchange_object_state(&key, 1) != 0) {
         key.a = 0;
         key.c = 0;
-        exchange_object_state__9TObjEnemyFls(arg0, &key, 0);
+        ((TObjEnemy *)arg0)->exchange_object_state(&key, 0);
     }
     *(s32 *)((s8 *)arg0 + 0x374) = TObjFish::get_fish_count();
     *(s32 *)((s8 *)arg0 + 0x37C) = 0;
