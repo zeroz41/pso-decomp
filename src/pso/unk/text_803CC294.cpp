@@ -461,7 +461,7 @@ void ADXF_Close(AdxfHandle *adxf) {
             stop_803CC980(adxf);
         }
         if (adxf->stream != 0) {
-            TLobby__sub_803C8B38(adxf->stream);
+            stop_and_release_adx_stream_file(adxf->stream);
         }
         memset(adxf, 0, sizeof(*adxf));
         TLobby::release_ref();
@@ -527,7 +527,7 @@ inline s32 open_803CD3A8(AdxfHandle *s, const void *name, s32 mode) {
         TLobby::notify_error("E9081901:illigal parameter fname=null.(ADXF_Open)");
         return -1;
     }
-    h = TLobby__sub_803C8CDC((const char *)name, mode, 0);
+    h = open_adx_stream_file_with_mode((const char *)name, mode, 0);
     if (h == 0) {
         TLobby::notify_error("E0110901:can't open file.(ADXF_Open)");
         return -1;
