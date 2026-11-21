@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TLobby__sub_80145A94(void);
+s32 fetch_network_player_data(void);
 s32 TLobby__sub_80145DB4(s32 arg0);
 }
 
