@@ -299,7 +299,7 @@ s32 quest_download_request_0x20(saddr *arg0) {
 
 s32 quest_download_request_0x1E(saddr *arg0) {
   s32 kind;
-  s32 x;
+  u8 *text;
   s32 code;
   u8 *src;
   int new_var;
@@ -324,7 +324,7 @@ s32 quest_download_request_0x1E(saddr *arg0) {
   new_var = 1;
   idx = arg0[3];
   src = (u8 *) arg0[1];
-  x = arg0[2];
+  text = (u8 *) arg0[2];
   if (((idx - 1) < 0) || ((idx - 1) >= 30))
   {
     code = -1;
@@ -362,7 +362,7 @@ s32 quest_download_request_0x1E(saddr *arg0) {
   req.pad6 = 0;
   req.x7 = code;
   req.x8 = 0;
-  req.text = (u8 *)x;
+  req.text = text;
   if (kind == 30)
   {
     if (TQuestVmDownLoadServer__sub_803EF538(&req) == 3)
@@ -647,12 +647,12 @@ struct Req_803E693C { s32 id; s32 a; s32 b; };
 struct Req_803E689C { s32 id; s32 a; s32 b; };
 
 struct Req_803E6868 { s32 id; s32 a; s32 b; };
-struct S_803E6610 { s32 idx; s32 rest; };
+struct S_803E6610 { s32 idx; saddr rest; };
 
 s32 TWindowKeyBoardSoft::dispatch_by_index() {
     S_803E6610 *arg0 = (S_803E6610 *)this;
     s32 i = arg0->idx;
-    s32 *rest = &arg0->rest;
+    saddr *rest = &arg0->rest;
     if (i <= 0 || (u32)i > 0x3F) {
         return -1;
     }
