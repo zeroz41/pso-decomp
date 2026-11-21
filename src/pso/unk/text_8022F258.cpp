@@ -34,7 +34,7 @@ s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(int, void *, int, int);
 }
 
-TUnk_804CC74C::TUnk_804CC74C(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg2)) {
+TUnk_804CC74C::TUnk_804CC74C(saddr arg1, saddr arg2) : TObject((TObject *)((void *)arg2)) {
     m_actor = (TObjPlayer *)arg1;
     VecCopy(&m_position, (const Vec *)((u8 *)m_actor + 0x2FC));
     m_age = 0;
