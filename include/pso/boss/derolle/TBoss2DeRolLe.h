@@ -210,11 +210,11 @@ LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
-void TBoss2DeRolLe__sub_800360A8(void *arg0);
+void plan_motion_profile(TUnk_80036250 *profile);  // caps max_speed so it fits distance, sets brake_point
 s32 TBoss2Joint_get_shell_max_hp(void);
 void derolle_capture_node_points(NJS_OBJECT *);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
-s32 advance_scalar_motion_profile(void *arg0);
+s32 advance_scalar_motion_profile(TUnk_80036250 *profile);
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 void derolle_begin_node_capture(TBoss2DeRolLe *boss);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);

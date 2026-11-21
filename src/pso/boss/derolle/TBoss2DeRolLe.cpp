@@ -655,7 +655,7 @@ void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
     speed = 0.0f;
     this->distance = distance;
     travelled = 0.0f;
-    TBoss2DeRolLe__sub_800360A8(this);
+    plan_motion_profile(this);
 }
 
 void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
@@ -666,68 +666,55 @@ void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 
     speed = 0.0f;
     this->distance = distance;
     travelled = 0.0f;
-    TBoss2DeRolLe__sub_800360A8(this);
+    plan_motion_profile(this);
 }
 
 namespace lifecycle_view {
 
 extern "C" {
 
-void TBoss2DeRolLe__sub_800360A8(void *arg0) {
-  s8 *new_var;
-  s8 *new_var2;
-  f32 temp_f0;
-  f32 temp_f1;
-  f32 temp_f31;
-  f32 temp_f3;
-  f32 temp_f4;
-  f32 temp_f5;
-  new_var = ((s8 *) arg0) + 0xC;
-  temp_f4 = *((f32 *) (((s8 *) arg0) + 0x10));
-  temp_f31 = -(*((f32 *) (((s8 *) arg0) + 8)));
-  temp_f5 = temp_f4 * temp_f4;
-  temp_f3 = (1.0f / (*((f32 *) (((s8 *) arg0) + 4)))) - (1.0f / temp_f31);
-  new_var2 = ((s8 *) arg0) + 0x1C;
-  temp_f1 = (*((f32 *) (((s8 *) arg0) + 0x14))) + (temp_f5 / (-2.0f * temp_f31));
-  if ((((1.0f / (*((f32 *) (((s8 *) arg0) + 4)))) - (1.0f / temp_f31)) * (0.5f * temp_f5)) > temp_f1)
-  {
-    *((f32 *) new_var) = newton_sqrtf((2.0f * temp_f1) / temp_f3);
-    temp_f3 = (1.0f / (*((f32 *) (((s8 *) arg0) + 4)))) - (1.0f / temp_f31);
-  }
-  temp_f0 = *((f32 *) new_var);
-  *((f32 *) new_var2) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x14))) + ((0.5f * (temp_f0 * temp_f0)) / temp_f31));
+void plan_motion_profile(TUnk_80036250 *profile) {
+    f32 speed = profile->speed;
+    f32 neg_decel = -profile->decel;
+    f32 speed_sq = speed * speed;
+    f32 ramp = 1.0f / profile->accel - 1.0f / neg_decel;
+    f32 reach = profile->distance + speed_sq / (-2.0f * neg_decel);
+    f32 top;
+    if ((1.0f / profile->accel - 1.0f / neg_decel) * (0.5f * speed_sq) > reach) {
+        profile->max_speed = newton_sqrtf((2.0f * reach) / ramp);
+    }
+    top = profile->max_speed;
+    profile->brake_point = profile->distance + (0.5f * (top * top)) / neg_decel;
 }
 
-s32 advance_scalar_motion_profile(void *arg0) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    switch (*(s32 *)((s8 *)arg0 + 0)) {
+s32 advance_scalar_motion_profile(TUnk_80036250 *profile) {
+    switch (profile->state) {
     case 0:
-        *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) + *(f32 *)((s8 *)arg0 + 4));
-        if (*(f32 *)((s8 *)arg0 + 0x10) > *(f32 *)((s8 *)arg0 + 0xC)) {
-            *(f32 *)((s8 *)arg0 + 0x10) = *(f32 *)((s8 *)arg0 + 0xC);
-            *(s32 *)((s8 *)arg0 + 0) = 1;
+        profile->speed = profile->speed + profile->accel;
+        if (profile->speed > profile->max_speed) {
+            profile->speed = profile->max_speed;
+            profile->state = 1;
         }
         break;
     case 1:
-        if (*(f32 *)((s8 *)arg0 + 0x18) > *(f32 *)((s8 *)arg0 + 0x1C)) {
-            *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - *(f32 *)((s8 *)arg0 + 8));
-            *(s32 *)((s8 *)arg0 + 0) = 2;
+        if (profile->travelled > profile->brake_point) {
+            profile->speed = profile->speed - profile->decel;
+            profile->state = 2;
         }
         break;
     case 2:
-        *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - *(f32 *)((s8 *)arg0 + 8));
-        if (*(f32 *)((s8 *)arg0 + 0x10) < 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x10) = 0.0f;
-            *(s32 *)((s8 *)arg0 + 0) = 3;
+        profile->speed = profile->speed - profile->decel;
+        if (profile->speed < 0.0f) {
+            profile->speed = 0.0f;
+            profile->state = 3;
         }
         break;
     }
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) (*(f32 *)((s8 *)arg0 + 0x18) + *(f32 *)((s8 *)arg0 + 0x10));
-    if (*(f32 *)((s8 *)arg0 + 0x18) > *(f32 *)((s8 *)arg0 + 0x14)) {
-        *(f32 *)((s8 *)arg0 + 0x18) = *(f32 *)((s8 *)arg0 + 0x14);
+    profile->travelled = profile->travelled + profile->speed;
+    if (profile->travelled > profile->distance) {
+        profile->travelled = profile->distance;
     }
-    return *(s32 *)((s8 *)arg0 + 0);
+    return profile->state;
 }
 
 void load_resources__13TBoss2DeRolLeFv(void) {
