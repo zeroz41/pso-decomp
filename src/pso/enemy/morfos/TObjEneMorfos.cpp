@@ -1278,8 +1278,8 @@ s32 TObjEneMorfos__sub_803344F0(void *arg0) {
 }
 
 #define ene_morfos ((u8 *)this)
-void TObjEneMorfos::dispatch_action(u32 arg1, s32 ev) {
-    switch (arg1) {
+void TObjEneMorfos::dispatch_action(u32 state, s32 ev) {
+    switch (state) {
     case 0: ((TObjEneMorfos *)ene_morfos)->handle_event_transition(ev); break;
     case 1: TObjEneMorfos__sub_803342B8(ene_morfos, ev); break;
     case 3: ((TObjEneMorfos *)ene_morfos)->state_appear(ev); break;

@@ -762,7 +762,7 @@ void TObjEneBalClawBody::update_dragon_boss_state() {
 
 #pragma push
 #pragma opt_propagation off
-void TObjEneBalClawBody::set_form(s32 arg1) {
+void TObjEneBalClawBody::set_form(s32 form) {
     Vec a;
     Vec b;
     s32 angA;
@@ -774,7 +774,7 @@ void TObjEneBalClawBody::set_form(s32 arg1) {
     s32 k;
     u8 *ent;
     s32 j;
-    if (arg1 == 1) {
+    if (form == 1) {
         this->m_388 |= 0x01000000;
         this->set_param(0x28);
         this->requested_action = 0;
@@ -826,9 +826,9 @@ void TObjEneBalClawBody::set_form(s32 arg1) {
         this->m_3d8 = 0;
     }
     this->set_field_b8(this->requested_action);
-    this->movementParameters = &player_attack_param_table[arg1];
+    this->movementParameters = &player_attack_param_table[form];
     this->sub_8008DC90();
-    this->variant = arg1;
+    this->variant = form;
     this->m_3d4 = 0;
 }
 #pragma pop

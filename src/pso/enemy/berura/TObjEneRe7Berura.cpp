@@ -1264,10 +1264,10 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
 }
 
 #pragma pop
-void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
+void TObjEneRe7Berura::state_patrol(void *arg0, int msg) {
     TObjEneRe7Berura *self = (TObjEneRe7Berura *)arg0;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 1;
         self->clear_intangible();

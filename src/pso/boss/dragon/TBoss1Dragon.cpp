@@ -5771,16 +5771,16 @@ void TObjPlayer::bswap_6x12_packet() { ((G_ClientIDHeader *)this)->bswap(); bswa
 void TObjPlayer::set_type_dragon() { *(u8*)((char*)this + 0x0) = 18; *(u8*)((char*)this + 0x1) = 5; }
 void TObjPlayer::bswap_dragon_boss_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TObjPlayer::bswap_stats() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
-s32 TObjEnemy::exchange_object_state(void *record, s16 arg2) {
+s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
     s16 temp_r31;
     temp_r31 = this->set_index;
     if ((temp_r31 < 0) || (temp_r31 > 0xB4F)) {
         return 0;
     }
-    if (arg2 == 0) {
+    if (mode == 0) {
         ((TLobby *)(TLobby__data_805D6144 + (temp_r31 * 0xC)))->copy_header(record);
     }
-    if (arg2 == 1) {
+    if (mode == 1) {
         ((TLobby *)record)->copy_header((void *) (TLobby__data_805D6144 + (temp_r31 * 0xC)));
     }
     return 1;

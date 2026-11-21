@@ -247,8 +247,8 @@ void TObjEneBm3Fly::run_task() {
     this->render_minimap_dot();
 }
 
-void TObjEneBm3Fly::dispatch_action(u32 arg1, s32 msg) {
-    switch (arg1) {
+void TObjEneBm3Fly::dispatch_action(u32 state, s32 msg) {
+    switch (state) {
     case 0:
         sub_800B1214(msg);
         return;
@@ -371,14 +371,14 @@ void TObjEneBm3Fly::update_body_colliders() {
     this->bodies->offset.y = temp_f31;
 }
 
-f32 TObjEneBm3Fly::approach_value(f32 farg0, f32 farg1) {
+f32 TObjEneBm3Fly::approach_value(f32 current, f32 target) {
     f32 temp_f31;
     f32 var_f1;
     f32 cap;
 
-    temp_f31 = farg1 - farg0;
+    temp_f31 = target - current;
     if (fabs_float(temp_f31) < (0.2f)) {
-        return farg1;
+        return target;
     }
     var_f1 = (0.1f);
     var_f1 = temp_f31 * var_f1;
@@ -387,7 +387,7 @@ f32 TObjEneBm3Fly::approach_value(f32 farg0, f32 farg1) {
     } else if (var_f1 < (-1.5f)) {
         var_f1 = (-1.5f);
     }
-    return farg0 + var_f1;
+    return current + var_f1;
 }
 
 s32 TObjEneBm3Fly::can_attack_target() {

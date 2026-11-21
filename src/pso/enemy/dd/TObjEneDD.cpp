@@ -1571,8 +1571,8 @@ s32 TObjEneEpsilon::update_death_check() {
     return enemy_validate_retained_target((u8 *)this);
 }
 
-void TObjEneDD_ST::turn_toward_target_direction(s32 arg1) {
-    this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), arg1);
+void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
+    this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), max_step);
 }
 
 void TObjEneEpsilon::fire_attack_c(s32 arg1, s32 arg2, f32 farg0) {

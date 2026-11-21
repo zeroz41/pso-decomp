@@ -2255,14 +2255,14 @@ void TBoss8Dragon::send_6xA8_action() {
     ((TBoss8Dragon *)(&p))->send_swapped_packet();
 }
 
-void TBoss8Dragon::send_action_packet(int arg1) {
+void TBoss8Dragon::send_action_packet(int action) {
     u8 * boss8_dragon = (u8 *)this;
     Pkt_802FBBFC p;
     f32 t;
-    ((TBoss8Dragon *)boss8_dragon)->dispatch_action(arg1, 6);
+    ((TBoss8Dragon *)boss8_dragon)->dispatch_action(action, 6);
     build_6xA8_gol_dragon_boss_actions(&p);
     p.a = ((TBoss8Dragon *)boss8_dragon)->entity_id;
-    p.b = arg1;
+    p.b = action;
     p.c = ((TBoss8Dragon *)boss8_dragon)->m_674;
     p.d = ((TBoss8Dragon *)boss8_dragon)->target_id;
     p.e = *(f32 *)((s8 *)boss8_dragon + 0x688);
@@ -2859,8 +2859,8 @@ void *TBoss8Dragon__dive_height_curve[12] = {
     (void *)0x0, (void *)0x44610000, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0xc3c80000, (void *)0x0, (void *)0x0,
 };
-void TBoss8Dragon::sub_802FA478(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::sub_802FA478(s32 event) {
+    switch (event) {
     case 4:
         this->select_freeze_target();
         return;
@@ -2879,8 +2879,8 @@ void TBoss8Dragon::sub_802FA478(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802FA374(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::sub_802FA374(s32 event) {
+    switch (event) {
     case 4:
         this->requested_action = 0;
         this->m_84c = 0;
@@ -2907,11 +2907,11 @@ void TBoss8Dragon::sub_802FA374(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802FA16C(s32 arg1) {
+void TBoss8Dragon::sub_802FA16C(s32 event) {
     f32 temp_f1;
     s32 temp_r4_2;
     s32 var_r30;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 1;
         this->clear_intangible();
@@ -2979,9 +2979,9 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::state_breath_attack(s32 arg1) {
+void TBoss8Dragon::state_breath_attack(s32 event) {
     Rot_802F9D08 rot;
-    switch (arg1) {
+    switch (event) {
     case 4:
         F(s16, 0xB8) = 4;
         this->clear_intangible();
@@ -3120,8 +3120,8 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
 
 #pragma pop
 #undef F
-void TBoss8Dragon::handle_tail_attack_state(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::handle_tail_attack_state(s32 event) {
+    switch (event) {
     case 4:
         this->requested_action = 7;
         this->clear_intangible();
@@ -3161,15 +3161,15 @@ void TBoss8Dragon::handle_tail_attack_state(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F9A4C(s32 arg1) {
+void TBoss8Dragon::sub_802F9A4C(s32 event) {
     s32 i;
-    switch (arg1) {
+    switch (event) {
     case 4:
         for (i = 0; i < 4; i++) {
             ((TBoss8Dragon *)(&((Obj_802F9A4C *)this)->fades[i]))->set_speed(0.08f);
         }
         this->m_3c0 |= 0x100;
-        sub_802F9850(arg1);
+        sub_802F9850(event);
         break;
     case 2:
     case 11:
@@ -3193,22 +3193,22 @@ void TBoss8Dragon::sub_802F9A4C(s32 arg1) {
             }
             break;
         }
-        sub_802F9850(arg1);
+        sub_802F9850(event);
         break;
     case 5:
         this->m_3c0 &= ~0x100;
-        sub_802F9850(arg1);
+        sub_802F9850(event);
         break;
     default:
-        sub_802F9850(arg1);
+        sub_802F9850(event);
         break;
     }
 }
 
-void TBoss8Dragon::sub_802F9850(s32 arg1) {
+void TBoss8Dragon::sub_802F9850(s32 event) {
     struct { f32 x, y, z; } sp8;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0xF;
         this->advance_animation();
@@ -3271,10 +3271,10 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::state_turn_and_charge(s32 arg1) {
+void TBoss8Dragon::state_turn_and_charge(s32 event) {
     Dragon_802F951C *d = (Dragon_802F951C *)this;
     s32 diff;
-    switch (arg1) {
+    switch (event) {
     case 4:
         d->field_B8 = 0x10;
         d->m94();
@@ -3353,10 +3353,10 @@ void TBoss8Dragon::state_turn_and_charge(s32 arg1) {
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
 #define VO ((VObj_18_444bc5x *)this)
-void TBoss8Dragon::sub_802F8F88(s32 arg1) {
+void TBoss8Dragon::sub_802F8F88(s32 event) {
     f32 *d = &m_878;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         F(s16, 0xB8) = 0x10;
         VO->m94();
@@ -3649,19 +3649,19 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F87EC(s32 arg1) {
+void TBoss8Dragon::sub_802F87EC(s32 event) {
     struct { f32 x, y, z; } v;
     s32 ang;
     f32 c;
     s32 i;
     u8 *hit;
-    switch (arg1) {
+    switch (event) {
     case 4:
         for (i = 0; i < 4; i++) {
             ((TBoss8Dragon *)(&((Self_802F87EC *)this)->arr[i]))->set_speed(0.008f);
         }
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x100);
-        sub_802F8578(arg1);
+        sub_802F8578(event);
         this->play_effect_sound(0x4003A814);
         return;
     case 7:
@@ -3689,24 +3689,24 @@ void TBoss8Dragon::sub_802F87EC(s32 arg1) {
         for (i = 0; i < 4; i++) {
             ((Self_802F87EC *)this)->arr[i].m5();
         }
-        sub_802F8578(arg1);
+        sub_802F8578(event);
         return;
     case 5:
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFEFF);
-        sub_802F8578(arg1);
+        sub_802F8578(event);
         return;
     case 11:
     default:
-        sub_802F8578(arg1);
+        sub_802F8578(event);
         return;
     }
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F8578(s32 arg1) {
+void TBoss8Dragon::sub_802F8578(s32 event) {
     Pair_802F8578 out;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         ((Dragon_802F8578 *)this)->field_B8 = 0x11;
         ((Dragon_802F8578 *)this)->m94();
@@ -3787,13 +3787,13 @@ void TBoss8Dragon::sub_802F8578(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F8270(s32 arg1) {
+void TBoss8Dragon::sub_802F8270(s32 event) {
     f32 var_f31;
     f32 temp_f30;
     f32 temp_f29;
     f32 temp_f1;
     s32 temp_r5;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 8;
         this->clear_intangible();
@@ -3881,8 +3881,8 @@ void TBoss8Dragon::sub_802F8270(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F8150(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::sub_802F8150(s32 event) {
+    switch (event) {
     case 4:
         this->requested_action = 2;
         this->set_intangible();
@@ -3921,9 +3921,9 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::state_roar(s32 arg1) {
+void TBoss8Dragon::state_roar(s32 event) {
     s32 temp_r4;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x10;
         this->clear_intangible();
@@ -3961,8 +3961,8 @@ void TBoss8Dragon::state_roar(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F7B70(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::sub_802F7B70(s32 event) {
+    switch (event) {
     case 4:
         ((Obj_802F7B70 *)this)->fb8 = 0x10;
         ((Obj_802F7B70 *)this)->m94();
@@ -4189,9 +4189,9 @@ void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
 #undef VO
 #define F(t, o) (*(t *)((u8 *)this + (o)))
 #define VO ((VObj_18_667c9b *)this)
-void TBoss8Dragon::sub_802F75C8(s32 arg1) {
+void TBoss8Dragon::sub_802F75C8(s32 event) {
     struct { f32 x, y, z; } sp8;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->clear_intangible();
         this->set_action_state();
@@ -4250,9 +4250,9 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::handle_spiral_state(s32 arg1) {
+void TBoss8Dragon::handle_spiral_state(s32 event) {
     s32 a;
-    switch (arg1) {
+    switch (event) {
     case 4:
         VO->m94();
         this->set_action_state();
@@ -4329,11 +4329,11 @@ void TBoss8Dragon::handle_spiral_state(s32 arg1) {
 
 #undef VO
 #define VO ((VObj_18_2719b2x *)this)
-void TBoss8Dragon::handle_leap_state(s32 arg1) {
+void TBoss8Dragon::handle_leap_state(s32 event) {
     f32 *d = &m_878;
     f32 v;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         F(s16, 0xB8) = 0x18;
         this->advance_animation();
@@ -4482,12 +4482,12 @@ void TBoss8Dragon::handle_leap_state(s32 arg1) {
 #undef VO
 #pragma push
 #pragma pool_data off
-void TBoss8Dragon::sub_802F6838(s32 arg1) {
+void TBoss8Dragon::sub_802F6838(s32 event) {
     CameraPlayback cam;
     Rot_802F6838 r;
     Vec v;
 
-    switch (arg1) {
+    switch (event) {
     case 4: {
         this->requested_action = 0x13;
         this->set_intangible();
@@ -4611,11 +4611,11 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802F6708(s32 arg1) {
+void TBoss8Dragon::sub_802F6708(s32 event) {
     f32 temp_f1;
     f32 temp_f4;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->set_intangible();
         this->reset_timer();
@@ -4680,11 +4680,11 @@ void TBoss8Dragon::sub_802F6618(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F645C(s32 arg1) {
+void TBoss8Dragon::sub_802F645C(s32 event) {
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 *temp_r4_3;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0;
         this->clear_intangible();
@@ -4746,13 +4746,13 @@ void TBoss8Dragon::sub_802F645C(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F610C(s32 arg1) {
+void TBoss8Dragon::sub_802F610C(s32 event) {
     s32 *p = (s32 *)((u8 *)this + 0x85C);
     u8 *q;
     f32 s;
     f32 c;
     f32 scale;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 1;
         this->clear_intangible();
@@ -4853,11 +4853,11 @@ void TBoss8Dragon::sub_802F610C(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F5F64(s32 arg1) {
+void TBoss8Dragon::sub_802F5F64(s32 event) {
     u8 *temp_r3;
     u8 *temp_r4;
     u8 *temp_r4_2;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x10;
         this->clear_intangible();
@@ -4917,14 +4917,14 @@ void TBoss8Dragon::sub_802F5F64(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
+void TBoss8Dragon::sub_802F5CC8(s32 event) {
     s32 *p = (s32 *)((u8 *)this + 0x85C);
     u8 *q;
     f32 s;
     f32 c;
     f32 scale;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x10;
         this->clear_intangible();
@@ -5007,9 +5007,9 @@ void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F5BA0(s32 arg1) {
+void TBoss8Dragon::sub_802F5BA0(s32 event) {
     u8 *temp_r3;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->clear_intangible();
         this->set_action_state();
@@ -5052,7 +5052,7 @@ void TBoss8Dragon::sub_802F5BA0(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TBoss8Dragon::handle_walk_state(s32 arg1) {
+void TBoss8Dragon::handle_walk_state(s32 event) {
     f32 temp_f1;
     f32 temp_f31;
     f32 temp_f31_2;
@@ -5060,7 +5060,7 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
     u8 *temp_r4;
 
     temp_r30 = ((u8 *)this + 0x878);
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x11;
         this->clear_intangible();
@@ -5122,9 +5122,9 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F57E4(s32 arg1) {
+void TBoss8Dragon::sub_802F57E4(s32 event) {
     s32 temp_r4;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x11;
         this->clear_intangible();
@@ -5172,10 +5172,10 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TBoss8Dragon::sub_802F5644(s32 arg1) {
+void TBoss8Dragon::sub_802F5644(s32 event) {
     f32 temp_f1;
     f32 temp_f2;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x11;
         this->clear_intangible();
@@ -5220,11 +5220,11 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F5434(s32 arg1) {
+void TBoss8Dragon::sub_802F5434(s32 event) {
     f32 temp_f1;
     s32 i;
     s32 j;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 1;
         this->clear_intangible();
@@ -5288,13 +5288,13 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802F51DC(s32 arg1) {
+void TBoss8Dragon::sub_802F51DC(s32 event) {
     Vec v;
     f32 temp_f1;
     f32 var_f2;
     s32 i;
     s32 j;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 1;
         this->clear_intangible();
@@ -5356,8 +5356,8 @@ void TBoss8Dragon::sub_802F51DC(s32 arg1) {
 }
 
 #pragma pop
-void TBoss8Dragon::update_wander_state(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::update_wander_state(s32 event) {
+    switch (event) {
     case 4:
         this->requested_action = 0xB;
         *(s32 *)((s8 *)this + 0x84C) = 0;
@@ -5382,10 +5382,10 @@ void TBoss8Dragon::update_wander_state(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #define o ((Drg_802F4DD4 *)this)
-void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
+void TBoss8Dragon::sub_802F4DD4(s32 event) {
     s32 *flag = &o->f858;
 
-    switch (arg1) {
+    switch (event) {
     case 4: {
         void *p;
         o->fB8 = 0;
@@ -5497,8 +5497,8 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
 
 #pragma pop
 #undef o
-void TBoss8Dragon::action(s32 arg1) {
-    switch (arg1) {
+void TBoss8Dragon::action(s32 event) {
+    switch (event) {
     case 4:
         this->requested_action = 0;
         *(s32 *)((s8 *)this + 0x84C) = 0;
@@ -5520,10 +5520,10 @@ void TBoss8Dragon::action(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F4B90(s32 arg1) {
+void TBoss8Dragon::sub_802F4B90(s32 event) {
     s32 *p = (s32 *)((u8 *)this + 0x85C);
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->clear_intangible();
         this->set_action_state();

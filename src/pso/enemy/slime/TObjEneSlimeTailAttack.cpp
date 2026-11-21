@@ -659,7 +659,7 @@ void TObjEneSlime::release_child_slot(s32 id) {
 }
 
 
-s32 TObjEneSlime::try_spawn_child(void *arg1) {
+s32 TObjEneSlime::try_spawn_child(void *position) {
     s32 i;
     Vec pos;
     Vec dir;
@@ -671,7 +671,7 @@ s32 TObjEneSlime::try_spawn_child(void *arg1) {
     if (i == n) {
         return 0;
     }
-    VecCopy((Vec *)&pos, (const Vec *)arg1);
+    VecCopy((Vec *)&pos, (const Vec *)position);
     pos.y += 10.0f;
     ang = (s16) (65535.0f * ((f32 (*)(int)) random_ratio__9TObjCharaFv)((int)this));
     dir.x = sin_table_lookup(ang);

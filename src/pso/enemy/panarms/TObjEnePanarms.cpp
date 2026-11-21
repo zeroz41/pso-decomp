@@ -363,10 +363,10 @@ u8 is_phase_12__14TObjEnePanarmsFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x378) == 0xC);
 }
 
-void TObjMotion::clear_motion_flags(s32 arg1) {
+void TObjMotion::clear_motion_flags(s32 flags) {
   s32 *new_var;
   int new_var2;
-  new_var2 = ~arg1;
+  new_var2 = ~flags;
   new_var = (s32 *) (((s8 *) this) + 0xB0);
   *new_var = (s32) ((this->motion_flags) & new_var2);
 }

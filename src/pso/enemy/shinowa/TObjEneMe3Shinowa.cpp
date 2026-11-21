@@ -607,58 +607,58 @@ void TObjEneMe3ShinowaMirage__sub_800E6F0C(TObjEneMe3Shinowa *shinowa) {
     TTecResta::create(shinowa, &shinowa->position, (void *)f);
 }
 
-void TObjEneMe3Shinowa::dispatch_action(u32 arg1, s32 arg2) {
-    switch (arg1) {
+void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
+    switch (state) {
     case 0:
-        action(arg2);
+        action(reason);
         return;
     case 1:
-        sub_800E6BB8(arg2);
+        sub_800E6BB8(reason);
         return;
     case 2:
-        TObjEneMe3ShinowaMirage__sub_800E69F0(this, (s32)arg2);
+        TObjEneMe3ShinowaMirage__sub_800E69F0(this, (s32)reason);
         return;
     case 3:
-        TObjEneMe3ShinowaMirage__sub_800E66FC(this, arg2);
+        TObjEneMe3ShinowaMirage__sub_800E66FC(this, reason);
         return;
     case 4:
-        ((TObjEneMe3ShinowaMirage *)this)->state_chase_target(arg2);
+        ((TObjEneMe3ShinowaMirage *)this)->state_chase_target(reason);
         return;
     case 5:
-        TObjEneMe3ShinowaMirage__sub_800E5F64(this, (s32)arg2);
+        TObjEneMe3ShinowaMirage__sub_800E5F64(this, (s32)reason);
         return;
     case 6:
-        TObjEneMe3ShinowaMirage__sub_800E5CE4(this, (s32)arg2);
+        TObjEneMe3ShinowaMirage__sub_800E5CE4(this, (s32)reason);
         return;
     case 7:
-        TObjEneMe3ShinowaReal__sub_800E5950(this, (s32)arg2);
+        TObjEneMe3ShinowaReal__sub_800E5950(this, (s32)reason);
         return;
     case 8:
-        TObjEneMe3ShinowaMirage__sub_800E54E8(this, arg2);
+        TObjEneMe3ShinowaMirage__sub_800E54E8(this, reason);
         return;
     case 11:
-        TObjEneMe3ShinowaMirage__sub_800E5220(this, arg2);
+        TObjEneMe3ShinowaMirage__sub_800E5220(this, reason);
         return;
     case 9:
-        TObjEneMe3ShinowaMirage__sub_800E50D8(this, arg2);
+        TObjEneMe3ShinowaMirage__sub_800E50D8(this, reason);
         return;
     case 10:
-        ((TObjEneMe3ShinowaMirage *)this)->state_cast_support(arg2);
+        ((TObjEneMe3ShinowaMirage *)this)->state_cast_support(reason);
         return;
     case 12:
-        TObjEneMe3ShinowaMirage__sub_800E4FE8(this, arg2);
+        TObjEneMe3ShinowaMirage__sub_800E4FE8(this, reason);
         return;
     case 13:
-        ((TObjEneMe3ShinowaMirage *)this)->state_break_apart(arg2);
+        ((TObjEneMe3ShinowaMirage *)this)->state_break_apart(reason);
         return;
     case 14:
-        vfunc_114(arg2);
+        vfunc_114(reason);
         return;
     case 15:
-        vfunc_115(arg2);
+        vfunc_115(reason);
         return;
     case 16:
-        vfunc_116(arg2);
+        vfunc_116(reason);
     default:
         return;
     }

@@ -269,11 +269,11 @@ void TObjEneNanoDrago::free_resources() {
         nano_drago_entry_params_resource = NULL;
     }
 }
-void *TObjEneNanoDrago::create(void *arg0) {
+void *TObjEneNanoDrago::create(void *setData) {
     void *o;
     void *o2;
     o = new TObjControl((TObject *)tl_04);
-    o2 = new TObjEneNanoDrago((TObject *)o, arg0);
+    o2 = new TObjEneNanoDrago((TObject *)o, setData);
     return o2;
 }
 void TObjEneNanoDrago::run_task() {
