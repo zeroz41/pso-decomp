@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TUnk_80036250.h"
 #include "pso/system/ControllerInputState.h"
 #include <dolphin/mtx.h>
+#include "pso/network/protocol/protocol_types.h"
 
 struct TBoss2Joint;
 class TBoss2Tentacle;
@@ -17,6 +18,21 @@ struct TBoss2LaserLight;
 class TUnk_80482EC0;
 class TUnk_80482D04;
 class AreaAttackHistory;
+
+// The 6x13 subcommand: the boss's new action state (handle_6x13_de_rol_le_boss_actions).
+struct DeRolLeActionPacket {
+    G_ClientIDHeader header;
+    s16 state;
+    s16 sequence_index;
+};
+
+// The 6x14 subcommand: 6x13 plus the target (handle_6x14_de_rol_le_boss_actions_with_target).
+struct DeRolLeActionTargetPacket {
+    G_ClientIDHeader header;
+    s16 state;
+    s16 sequence_index;
+    s32 target_id;
+};
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
     TBoss2DeRolLe(TObject *parent, void *set_data);
@@ -59,9 +75,16 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void apply_hp_damage_with_sound(s32 damage, u16);
     void set_flags_play_sound();
     static void spawn_offset_particle(Vec *position, f32 height, f32 distance);
+    void set_state_and_send(s32 state);
+    s32 is_ready();
+    void sub_80034034();
+    void advance_action_sequence();
+    void sub_8003508C();
     u8 pad_374[0x8];
     f32 unk_37C;                       // 20.0 (TBoss7DeRolLeC's twin field too)
-    u8 pad_380[0x40];
+    u8 pad_380[0xC];
+    u16 unk_38C;
+    u8 pad_38E[0x32];
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -134,18 +157,15 @@ void TBoss2DeRolLe__sub_800320B4(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 
 void TBoss2DeRolLe__sub_800327C8(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
 void TBoss2DeRolLe__sub_80032E38(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800333F4(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_80034034(TBoss2DeRolLe *self);
 void TBoss2DeRolLe__sub_800338BC(void);
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
-void TBoss2DeRolLe__sub_8003508C(void *arg0);
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
 void TBoss2DeRolLe__sub_80036358(void *p);
 void TBoss2DeRolLe__sub_800363A0(void *p);
 s32 TBoss2Joint_get_shell_max_hp(void);
 void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
-void advance_action_sequence__13TBoss2DeRolLeFPv(TBoss2DeRolLe *self);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 s32 advance_scalar_motion_profile(void *arg0);
 void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
@@ -160,7 +180,6 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
 void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
 void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0);
-s32 is_ready__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0);
 void pick_random_target__13TBoss2DeRolLeFi(saddr actor);
 s32 play_sound(s32 id, Vec *position);
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);

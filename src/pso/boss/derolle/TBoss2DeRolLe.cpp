@@ -1192,8 +1192,6 @@ void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
 void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p);
 
 void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
@@ -1203,8 +1201,6 @@ void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
 
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
-
-void TBoss2DeRolLe__sub_80034034(Obj_80034034 *self);
 
 void clear_play_flags__13TBoss2DeRolLeFv(void *arg0);
 
@@ -1219,8 +1215,6 @@ void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
 void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
 
 void swap_endian__13TBoss2DeRolLeFPv(void *);
 
@@ -1250,47 +1244,21 @@ extern Vec TBoss2DeRolLe__mine_ground_targets[];
 
 extern "C" {
 
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
 void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
 
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
 void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
 
 void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
 
 void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
 
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
 void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
 
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
+void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
 
 void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
 
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
 void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
 
 }
 
@@ -1332,10 +1300,6 @@ struct Rol_80031AD4 {
 extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
 
 void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
 
@@ -1409,103 +1373,8 @@ struct RecoveredFields_80034C2C_arg0 {
 
 struct Obj_80034B60 { u8 pad0[0x34]; saddr f34; u8 pad1[0xC0 - 0x38]; f32 fC0; u8 pad2[0xF8 - 0xC4]; saddr fF8; };
 
-struct Base_80034E90 { char pad[0x18]; };
 
-struct Obj_80034E90 : Base_80034E90 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(s32, s32);
-    u8 pad1c[0x1C - 0x1C];
-};
 
-struct Pkt8_80034E90 { u8 hdr[2]; u16 a; s16 b; s16 c; };
-
-struct Pkt16_80034E90 { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
-
-struct Fld_80034E90 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x38C - 0x1E]; u16 f38C; u8 pad2[0x3D4 - 0x38E]; s32 f3D4; };
 
 extern "C" {
 
@@ -1572,8 +1441,6 @@ void update_and_send__13TBoss2DeRolLeFPv(void *p);
 
 void TBoss2DeRolLe__sub_800363A0(void *p);
 
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind);
-
 void vfunc_61__13TBoss2DeRolLeFv(void);
 
 s32 TBoss2Joint_get_shell_max_hp(void);
@@ -1600,96 +1467,6 @@ LAYOUT_ASSERT(RecoveredFields_80034C2C_arg0_3AC_offset, offsetof(RecoveredFields
 }
 
 namespace lifecycle_view {
-
-struct VBase_8003508C_80035084 {
-    char pad[0x18];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(s16, int);
-};
 
 struct VBase_18_bd2ad6
 {
@@ -1856,20 +1633,12 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
 
-s32 advance_action_sequence__13TBoss2DeRolLeFPv(void *);
-
 
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
 s32 update_particle_ctrls__13TBoss2DeRolLeFPv(void *);
 
-s32 TBoss2DeRolLe__sub_80034034(void *);
-
-s32 is_ready__13TBoss2DeRolLeFPv(void *);
-
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
-
-void TBoss2DeRolLe__sub_8003508C(void *arg0);
 
 
 
@@ -1965,8 +1734,6 @@ void vfunc_63__13TBoss2DeRolLeFv(void);
 
 void vfunc_28__13TBoss2DeRolLeFv(void);
 
-void TBoss2DeRolLe__sub_8003508C(void *arg0);
-
 void apply_poison_status__13TBoss2DeRolLeFv(void);
 
 void apply_paralysis__13TBoss2DeRolLeFv(void);
@@ -1998,8 +1765,6 @@ void swap_endian__13TBoss2DeRolLeFPv(void* p);
 void update_and_send__13TBoss2DeRolLeFPv(void* p);
 
 void *TBoss2DeRolLe__ct(void *, void *, void *);
-
-s32 TBoss2DeRolLe__sub_80034034(void *);
 
 
 
@@ -2564,7 +2329,7 @@ void TBoss2DeRolLe::run_task() {
     {
       case 1:
         unk_3F4 = 0;
-        advance_action_sequence__13TBoss2DeRolLeFPv(this);
+        advance_action_sequence();
         break;
       case 0:
         unk_3F4 = 2;
@@ -2591,9 +2356,9 @@ void TBoss2DeRolLe::run_task() {
     {
       if (unk_3F4 == 2)
       {
-        if (is_ready__13TBoss2DeRolLeFPv(this) != 0)
+        if (is_ready() != 0)
         {
-          TBoss2DeRolLe__sub_80034034(this);
+          sub_80034034();
         }
         else
         {
@@ -2602,7 +2367,7 @@ void TBoss2DeRolLe::run_task() {
       }
       else
       {
-        TBoss2DeRolLe__sub_8003508C(this);
+        sub_8003508C();
       }
       if (test_flag30_512() != 0)
       {
@@ -2634,14 +2399,21 @@ void TBoss2DeRolLe::run_task() {
   }
 }
 
-void TBoss2DeRolLe__sub_8003508C(void *arg0) {
-    struct VBase_8003508C_80035084 *o = (struct VBase_8003508C_80035084 *)arg0;
-    if (is_ready__13TBoss2DeRolLeFPv(arg0) != 0) {
-        TBoss2DeRolLe__sub_80034034(arg0);
+}
+
+}
+
+void TBoss2DeRolLe::sub_8003508C() {
+    if (is_ready() != 0) {
+        sub_80034034();
         return;
     }
-    o->m85(((TBoss2DeRolLe *)arg0)->mode, 9);
+    dispatch_action(mode, 9);
 }
+
+namespace lifecycle_view {
+
+extern "C" {
 
 void TBoss2DeRolLe::vfunc_28() {  }
 
@@ -2693,26 +2465,33 @@ void TBoss2DeRolLe::vfunc_88() {
 
 #pragma pop
 
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind) {
-    Pkt16_80034E90 p16;
-    Pkt8_80034E90 p8;
-    Fld_80034E90 *f = (Fld_80034E90 *)self;
-    self->m85(kind, 6);
-    if (kind == 0x19 || (kind - 0x14) <= 1U || kind == 0x1B) {
-        TBoss2DeRolLe__sub_800363A0(&p16);
-        p16.a = f->f1C;
-        p16.b = kind;
-        p16.c = f->f3D4;
-        p16.d = f->f38C;
-        update_and_send__13TBoss2DeRolLeFPv(&p16);
+}
+
+}
+
+void TBoss2DeRolLe::set_state_and_send(s32 state) {
+    DeRolLeActionTargetPacket target_packet;
+    DeRolLeActionPacket packet;
+    dispatch_action(state, 6);
+    if (state == 0x19 || (state - 0x14) <= 1U || state == 0x1B) {
+        TBoss2DeRolLe__sub_800363A0(&target_packet);
+        target_packet.header.client_id = entity_id;
+        target_packet.state = state;
+        target_packet.sequence_index = unk_3D4;
+        target_packet.target_id = unk_38C;
+        update_and_send__13TBoss2DeRolLeFPv(&target_packet);
         return;
     }
-    TBoss2DeRolLe__sub_80036358(&p8);
-    p8.a = f->f1C;
-    p8.b = kind;
-    p8.c = f->f3D4;
-    send_6x13__13TBoss2DeRolLeFPv(&p8);
+    TBoss2DeRolLe__sub_80036358(&packet);
+    packet.header.client_id = entity_id;
+    packet.state = state;
+    packet.sequence_index = unk_3D4;
+    send_6x13__13TBoss2DeRolLeFPv(&packet);
 }
+
+namespace joint_state_view {
+
+extern "C" {
 
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
     s32 a;
@@ -3099,28 +2878,36 @@ namespace behavior_view {
 
 extern "C" {
 
-s32 is_ready__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0) {
-    int var_r4;
-
-    var_r4 = 0;
-    if (((s32) arg0->unk_6AC <= 0) && !(*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
-        var_r4 = 1;
-    }
-    return (u8)var_r4;
 }
 
-void TBoss2DeRolLe__sub_80034034(Obj_80034034 *self) {
-    s16 st = self->f326;
+}
+
+s32 TBoss2DeRolLe::is_ready() {
+    int ready;
+
+    ready = 0;
+    if (unk_6AC <= 0 && !(state_flags & 4)) {
+        ready = 1;
+    }
+    return (u8)ready;
+}
+
+void TBoss2DeRolLe::sub_80034034() {
+    s16 st = mode;
     if (st != 0x1f && st != 0x20) {
         if (st == 0x14 || st == 0x15) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)(self));
+            advance_action_sequence();
         } else if (st == 0x16 || st == 0x17) {
-            set_state_and_send__13TBoss2DeRolLeFPvi(self, 0x1f);
+            set_state_and_send(0x1f);
         } else {
-            set_state_and_send__13TBoss2DeRolLeFPvi(self, 0x1e);
+            set_state_and_send(0x1e);
         }
     }
 }
+
+namespace behavior_view {
+
+extern "C" {
 
 void handle_6x13_de_rol_le_boss_actions(void *arg0) {
     void *x;
@@ -3153,83 +2940,87 @@ void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
 
 void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p) { *(s32*)((char*)p + 0x3d0) = 0; *(s32*)((char*)p + 0x3d4) = 0; }
 
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
+}
+
+}
+
+void TBoss2DeRolLe::advance_action_sequence() {
     s32 retry;
     s32 mode;
     do {
         retry = 0;
-        (*(s32 *)((s8 *)self + 0x3D4))++;
+        unk_3D4++;
         if (TObjEneDD::check_v2_mode() != 0) {
-            mode = derolle_action_sequence_table[*(s32 *)((s8 *)self + 0x3D4)];
+            mode = derolle_action_sequence_table[unk_3D4];
         } else {
-            mode = derolle_action_mode_sequence_table[*(s32 *)((s8 *)self + 0x3D4)];
+            mode = derolle_action_mode_sequence_table[unk_3D4];
         }
         switch (mode) {
         case 33:
-            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
+            if (calc_elapsed_scaled() > 0.0f) {
                 mode = 8;
             } else {
                 mode = 6;
             }
             break;
         case 34:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 5;
             } else {
                 mode = 9;
             }
             break;
         case 35:
-            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
+            if (calc_elapsed_scaled() > 0.0f) {
                 mode = 0xC;
             } else {
                 mode = 0xE;
             }
             break;
         case 36:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 3;
             } else {
                 mode = 0xB;
             }
             break;
         case 37:
-            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
+            if (calc_elapsed_scaled() > 0.0f) {
                 mode = 0x18;
             } else {
                 mode = 0x19;
             }
             break;
         case 39:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 4;
             } else {
                 mode = 0xA;
             }
             break;
         case 40:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 0x10;
             } else {
                 mode = 0x11;
             }
             break;
         case 41:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 0x12;
             } else {
                 mode = 0x13;
             }
             break;
         case 42:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 0x14;
             } else {
                 mode = 0x15;
             }
             break;
         case 43:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (unk_658 == 0) {
                 mode = 0x16;
             } else {
                 mode = 0x17;
@@ -3237,12 +3028,16 @@ void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
             break;
         case 44:
             retry = 1;
-            *(s32 *)((s8 *)self + 0x3D4) = 5;
+            unk_3D4 = 5;
             break;
         }
     } while (retry != 0);
-    set_state_and_send__13TBoss2DeRolLeFPvi(self, mode);
+    set_state_and_send(mode);
 }
+
+namespace behavior_view {
+
+extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -3538,7 +3333,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
 void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
     switch (arg1) {
     case 4: self->f_B8 = 1; return;
-    case 2: set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(self), 1); return;
+    case 2: ((TBoss2DeRolLe *)self)->set_state_and_send(1); return;
     case 0: ((TObjMotion *)self)->advance_animation(); return;
     case 1: return;
     case 3: return;
@@ -3602,13 +3397,13 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
     case 2:
         if (o->f6E0 == 5) {
             o->f654 = 0;
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
         }
         break;
     case 9:
         if (o->f6E0 == 5) {
             o->f654 = 0;
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)o);
+            ((TBoss2DeRolLe *)o)->advance_action_sequence();
         }
         break;
     case 0:
@@ -3732,63 +3527,63 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
         case 0:
             b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
             if (b & 0x10) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 3);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(3);
             } else if (b & 0x40) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 4);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(4);
             } else if (b & 0x20) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 5);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(5);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x12);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x12);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x10);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x10);
             } else if (b & 2) {
                 *(f32 *)((s8 *)arg0 + 0x40) = -210.0f;
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 1);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(1);
             }
             break;
         case 1:
             b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
             if (b & 0x40) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 6);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(6);
             } else if (b & 0x20) {
             } else if (b & 0x80) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 8);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(8);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x18);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x18);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x19);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x19);
             } else if (b & 2) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1E);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1E);
             }
             break;
         case 2:
             b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
             if (b & 0x20) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 9);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(9);
             } else if (b & 0x80) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xA);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xA);
             } else if (b & 0x10) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xB);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xB);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x13);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x13);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x11);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x11);
             } else if (b & 2) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1E);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1E);
             }
             break;
         case 3:
             b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
             if (b & 0x80) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xC);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xC);
             } else if (b & 0x10) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xD);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xD);
             } else if (b & 0x40) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xE);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xE);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xF);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xF);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1A);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1A);
             } else if (b & 0x200) {
                 if (TObjBoss2Tunnel::is_active() != 0) {
                     TObjBoss2Tunnel::set_global_flag_800();
@@ -3796,7 +3591,7 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
                     TObjBoss2Tunnel::set_global_flag_400();
                 }
             } else if (b & 2) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1F);
+                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1F);
             }
             break;
         }
@@ -3915,12 +3710,12 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
         break;
     case 2:
         if (o->done == 1) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
         }
         break;
     case 9:
         if (o->done == 1) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)o);
+            ((TBoss2DeRolLe *)o)->advance_action_sequence();
         }
         break;
     case 0:
@@ -3986,12 +3781,12 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
         break;
     case 2:
         if (self->phase == 2) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *) self, 2);
+            ((TBoss2DeRolLe *)self)->set_state_and_send(2);
         }
         break;
     case 9:
         if (self->phase == 2) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *) self);
+            ((TBoss2DeRolLe *)self)->advance_action_sequence();
         }
         break;
     case 0:
@@ -4169,12 +3964,12 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
         break;
     case 2:
         if (o->f6E0 == 3) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
         }
         break;
     case 9:
         if (o->f6E0 == 3) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)o);
+            ((TBoss2DeRolLe *)o)->advance_action_sequence();
         }
         break;
     case 0:
@@ -4336,22 +4131,22 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
         u32 fl = o->f3CC->f8;
         if (fl & 0x400) {
             if (o->f654 == 0) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x14);
+                ((TBoss2DeRolLe *)o)->set_state_and_send(0x14);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x15);
+                ((TBoss2DeRolLe *)o)->set_state_and_send(0x15);
             }
         } else if (fl & 4) {
             if (o->f654 == 0) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x16);
+                ((TBoss2DeRolLe *)o)->set_state_and_send(0x16);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x17);
+                ((TBoss2DeRolLe *)o)->set_state_and_send(0x17);
             }
         }
         break;
     }
     case 9:
         if (o->fB8 == 0xA || o->fB8 == 9) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)(o));
+            ((TBoss2DeRolLe *)o)->advance_action_sequence();
         }
         break;
     case 0:
@@ -4555,15 +4350,15 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
     case 2:
         if (self->phase == 3) {
             if (self->dir == 0) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 0x16);
+                ((TBoss2DeRolLe *)self)->set_state_and_send(0x16);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 0x17);
+                ((TBoss2DeRolLe *)self)->set_state_and_send(0x17);
             }
         }
         break;
     case 9:
         if (self->phase == 3) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)self);
+            ((TBoss2DeRolLe *)self)->advance_action_sequence();
         }
         break;
     case 0:
@@ -4663,12 +4458,12 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
         break;
     case 2:
         if (F(s32, 0x6E0) == 2) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
+            ((TBoss2DeRolLe *)arg0)->set_state_and_send(2);
         }
         break;
     case 9:
         if (F(s32, 0x6E0) == 2) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
         }
         break;
     case 0:
@@ -4742,12 +4537,12 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
         return;
     case 2:
         if (*(s32 *)((s8 *)arg0 + 0x6E0) == 6) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
+            ((TBoss2DeRolLe *)arg0)->set_state_and_send(2);
         }
         return;
     case 9:
         if (*(s32 *)((s8 *)arg0 + 0x6E0) == 6) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
             return;
         }
         break;
@@ -4860,13 +4655,13 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
         return;
     case 2:
         if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
+            ((TBoss2DeRolLe *)arg0)->set_state_and_send(2);
             return;
         }
         break;
     case 9:
         if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
             return;
         }
         break;
@@ -4911,12 +4706,12 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
         break;
     case 2:
         if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 2);
+            ((TBoss2DeRolLe *)self)->set_state_and_send(2);
         }
         break;
     case 9:
         if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)self);
+            ((TBoss2DeRolLe *)self)->advance_action_sequence();
         }
         break;
     case 0:
@@ -4963,12 +4758,12 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
         return;
     case 2:
         if (arg0->requested_action == 0xF) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1B);
+            ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1B);
         }
         return;
     case 9:
         if (arg0->requested_action == 0xF) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
             return;
         }
         break;
@@ -5024,15 +4819,15 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
     case 2:
         if (self->phase == 4) {
             if (self->count >= 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *) self, 0x1C);
+                ((TBoss2DeRolLe *)self)->set_state_and_send(0x1C);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *) self, 0x1B);
+                ((TBoss2DeRolLe *)self)->set_state_and_send(0x1B);
             }
         }
         break;
     case 9:
         if (self->phase == 4) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *) self);
+            ((TBoss2DeRolLe *)self)->advance_action_sequence();
         }
         break;
     case 0:
@@ -5236,12 +5031,12 @@ void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2) {
         break;
     case 2:
         if (self->state == 1) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)((struct Obj_80034034 *)self), 2);
+            ((TBoss2DeRolLe *)self)->set_state_and_send(2);
         }
         break;
     case 9:
         if (self->state == 1) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)((struct Obj_80034034 *)self));
+            ((TBoss2DeRolLe *)self)->advance_action_sequence();
         }
         break;
     case 0:
@@ -5261,12 +5056,12 @@ void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind) {
         return;
     case 9:
         if (self->fB8 == 1) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)(self));
+            ((TBoss2DeRolLe *)self)->advance_action_sequence();
         }
         break;
     case 8:
         if (self->f6A4 < -200.0f) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(self), 0x1F);
+            ((TBoss2DeRolLe *)self)->set_state_and_send(0x1F);
             return;
         }
         break;
@@ -5332,12 +5127,12 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         if (o->f3CC->f8 & 0x400) {
             o->flags30 &= ~0x800;
             TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)o);
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
         }
         break;
     case 9:
         if (o->f6E0 == 3) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 0x20);
+            ((TBoss2DeRolLe *)o)->set_state_and_send(0x20);
         }
         break;
     case 0:
