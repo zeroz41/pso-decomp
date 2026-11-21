@@ -29,11 +29,10 @@
 
 extern "C" {
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void);
-s32 is_ending_or_split_screen__14TBoss6PlotFalzFv(void *);
 s32 obj_setArrS16_FC(void *, int, void *);
 }
 
-extern u32 TBoss6PlotFalz__type2_instance;
+extern uaddr TBoss6PlotFalz__type2_instance;
 
 // --- FALL_ELEV ---
 void TBoss6PlotFalz::sub_802B0A34() { *(s32*)((char*)this + 0x3d0) = 0; *(s32*)((char*)this + 0x3cc) = 0; }
@@ -118,7 +117,7 @@ void TBoss6PlotFalz::init_hall_boss_scene() {
     play_area_music("HALL.adx");
     refresh_players_equipment();
     *(s32 *)((s8 *)this + 0x3CC) = 0;
-    *(s32 *)((s8 *)this + 0x3DC) = (s32)TObjFish::alloc(this);
+    *(s32 *)((s8 *)this + 0x3DC) = (saddr)TObjFish::alloc(this);
 }
 void TBoss6PlotFalz::check_and_advance_state() {
     void *player = *(void **)((s8 *)this + 0x3DC);
@@ -212,7 +211,7 @@ void TBoss6PlotFalz::update_plot_timer() {
     temp_r0 = m_3cc + 1;
     m_3cc = temp_r0;
     if (temp_r0 > 0x2CA) {
-        if (is_ending_or_split_screen__14TBoss6PlotFalzFv(this) != 0) {
+        if (is_ending_or_split_screen() != 0) {
             set_state(8);
             return;
         }

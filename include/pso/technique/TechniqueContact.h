@@ -30,6 +30,6 @@ struct TechniqueContactPlayerSource {
     u8 beforeTargetMode[0x828];
     s32 targetMode;
 };
-typedef char TechniqueContactList_size[sizeof(TechniqueContactList)==0x88?1:-1];
-typedef char TechniqueContactProjectile_size[sizeof(TechniqueContactProjectile)==0x12c?1:-1];
+LAYOUT_ASSERT(TechniqueContactList_size, sizeof(TechniqueContactList)==0x88);
+LAYOUT_ASSERT(TechniqueContactProjectile_size, sizeof(TechniqueContactProjectile)==0x12c);
 #endif

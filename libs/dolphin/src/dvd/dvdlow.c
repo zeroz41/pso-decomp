@@ -2,8 +2,6 @@
 
 #define AlarmHandler dvdlow_AlarmHandler
 #define Breaking lbl_805D7100
-#define DVDLowRead Dolphin_DVDLowRead
-#define DVDLowSeek Dolphin_DVDLowSeek
 #define FirstRead lbl_805D4530
 #define LastCommandWasRead lbl_805D7120
 #define LastLength lbl_805D70E4

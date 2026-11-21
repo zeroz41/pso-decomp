@@ -58,7 +58,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type2_appear_origin.x);
-    TObjFish::set_global_param((s32)(((s32)model12.texture)));
+    TObjFish::set_global_param((saddr)(model12.texture));
     draw_model_motion(model12.model, model12.motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -80,7 +80,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         if (var_f31 < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
-        TObjFish::set_global_param((s32)(((s32)model1.texture)));
+        TObjFish::set_global_param((saddr)(model1.texture));
         set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix(&effect_positions[4].x);
@@ -117,7 +117,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&boss6_type2_appear_origin.x);
-        TObjFish::set_global_param((s32)(((s32)model4.texture)));
+        TObjFish::set_global_param((saddr)(model4.texture));
         capture->install();
         draw_model_motion(model4.model, model4.motion, frame);
         capture->clear();
@@ -149,7 +149,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         post_translate_matrix(&boss6_type2_appear_origin.x);
         s32 i = 0;
         do {
-            TObjFish::set_global_param((s32)(((s32)opening_parts[i].texture)));
+            TObjFish::set_global_param((saddr)(opening_parts[i].texture));
             draw_model_motion(opening_parts[i].model, opening_parts[i].motion, frame);
             i++;
         } while (i < 2);
@@ -168,7 +168,7 @@ void render__25TBoss6Demo20_TYPE2_APPEARFv(void* p) { ((TBoss6Demo20_TYPE2_APPEA
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
 s32 __dl__7TObjectFPv(void *);
-extern s32 __vt__25TBoss6Demo20_TYPE2_APPEAR[];
+extern saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[];
 TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *arg0, s16 arg1);
 
 extern const Ent_8033D6DC boss6_type2_appear_particle_schedule[];
@@ -198,7 +198,7 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
         play_sound_effect(0x40031C2B, 0, 0, 0);
         break;
     }
-    play_persistent_sound(0x4003C627, (s32)self, 0, 0, 0);
+    play_persistent_sound(0x4003C627, (saddr)self, 0, 0, 0);
     switch (self->timer) {
     case 0xB9:
         spawn_particle_effect_with_flags(&self->effect_positions[3], 0x220, 0x40);
@@ -266,7 +266,7 @@ TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE
         }
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -296,9 +296,9 @@ __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR
 TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *demo, TBoss6PlotFalz *plot) {
     s32 v;
     BmlResource *archive;
-    s32 i;
+    saddr i;
     __ct__7TObjectFP7TObject(demo, plot);
-    *(s32 **)((s8 *)demo + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
+    *(saddr **)((s8 *)demo + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
     demo->m_name = TBoss6Demo20_TYPE2_APPEAR__name.value;
     demo->plot = plot;
     archive = TBoss6PlotFalz::get_scene_archive();
@@ -354,9 +354,9 @@ __declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = 
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
 void render_shadows__7TObjectFv(void *);
-s32 __vt__25TBoss6Demo20_TYPE2_APPEAR[7] = {0, 0,
-    (s32)__dt__25TBoss6Demo20_TYPE2_APPEARFv,
-    (s32)run_task__25TBoss6Demo20_TYPE2_APPEARFv, (s32)render__25TBoss6Demo20_TYPE2_APPEARFv,
-    (s32)render_shadows__7TObjectFv, 0};
+saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[7] = {0, 0,
+    (saddr)__dt__25TBoss6Demo20_TYPE2_APPEARFv,
+    (saddr)run_task__25TBoss6Demo20_TYPE2_APPEARFv, (saddr)render__25TBoss6Demo20_TYPE2_APPEARFv,
+    (saddr)render_shadows__7TObjectFv, 0};
 __declspec(section ".sdata") AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name = {TBoss6Demo20_TYPE2_APPEAR__class_name, 0};
 }

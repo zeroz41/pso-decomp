@@ -11,23 +11,23 @@ struct TWindowMakeTeam : public TObject {
     s8 m_1e;
     s8 m_1f;
     u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u32 m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
-    u32 m_30;
-    u32 m_34;
-    static s32 draw_entry_0x110(s8 arg0);
+    uaddr m_24;
+    uaddr m_28;
+    uaddr m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
+    uaddr m_30;
+    uaddr m_34;
+    static saddr draw_entry_0x110(s8 arg0);
     s32 is_enabled();
     void set_state(s32 arg1);
     void send_state();
     void update_ok_button();
-    s32 create_status_menu_window();
-    s32 create_entry_menu_window();
-    static s32 create_menu();
+    saddr create_status_menu_window();
+    saddr create_entry_menu_window();
+    saddr create_menu();
     virtual void render();
     virtual void run_task();
     void set_entry_string_by_id(void *arg1, s32 arg2);
 };
 
-typedef char TWindowMakeTeam_size[sizeof(TWindowMakeTeam) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMakeTeam_size, sizeof(TWindowMakeTeam) == 0x38);
 #endif

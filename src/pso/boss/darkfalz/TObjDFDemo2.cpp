@@ -52,7 +52,7 @@ TObjDFDemo2 *TObjDFDemo2::create(TObject *parent, const Vec *position, s32 angle
 TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 variant) : TObjBase(parent) {
     s32 k;
     BmlResource *archive;
-    s32 i;
+    saddr i;
 
     this->m_name = TObjDFDemo2__name;
     VecCopy(&this->camera_position, position);
@@ -132,7 +132,7 @@ void TObjDFDemo2::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)parts[i].texlist)));
+        TObjFish::set_global_param((saddr)(parts[i].texlist));
         draw_model_motion(parts[i].model, parts[i].motion, frame);
     }
     clear_motion_packed_rotation();

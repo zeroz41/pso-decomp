@@ -20,5 +20,5 @@ struct TTecSifta : public TTecPlayerInfluence {
     virtual void render();
 };
 
-typedef char TTecSifta_size[sizeof(TTecSifta) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(TTecSifta_size, sizeof(TTecSifta) == 0x140);
 #endif

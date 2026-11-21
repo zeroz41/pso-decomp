@@ -7,9 +7,9 @@ static SYNTH_JOBTAB_SV synthJobTable[32];
 SynthInfo_SV synthInfo;
 SYNTHMasterFader_SV synthMasterFader[32];
 u8 synthTrackVolume[64];
-s32 synthAuxAUser[8];
+saddr synthAuxAUser[8];
 void *synthAuxACallback[8];
-s32 synthAuxBUser[8];
+saddr synthAuxBUser[8];
 void *synthAuxBCallback[8];
 Tbl_803AA1E0 synthITDDefault[8];
 s32 synthGlobalVariable[16];
@@ -808,7 +808,7 @@ void synthForceLowPrecisionUpdate(void *arg0) {
     synthAddJob((SYNTH_VOICE_SV *)arg0, 1, 0);
 }
 
-void synthKeyStateUpdate(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     synthAddJob((SYNTH_VOICE_SV *) (arg0), (int) (2), (int) (0));
 }
 
@@ -1276,7 +1276,7 @@ void synthInit(u32 mixFrq, u32 numVoices) {
 
     voiceInitLastStarted();
     synthInitJobQueue_SV();
-    hwSetMesgCallback((s32)synthHWMessageHandler);
+    hwSetMesgCallback((saddr)synthHWMessageHandler);
 }
 #pragma pop
 

@@ -42,7 +42,7 @@ extern RecoveredGlobal_80271480_lbl_8050E208 controller_input_state;
 void TWindowSubAreaMap::render() {  }
 
 
-typedef char RecoveredGlobal_80271480_lbl_8050E208_size[sizeof(RecoveredGlobal_80271480_lbl_8050E208) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80271480_lbl_8050E208_size, sizeof(RecoveredGlobal_80271480_lbl_8050E208) == 0x1B0);
 void TWindowSubAreaMap::run_task() {
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -64,7 +64,7 @@ TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(obje
     *(void **)((s8 *)this + 0x24) = o;
 }
 
-typedef char RecoveredGlobal_802715F0_lbl_8050E208_size[sizeof(RecoveredGlobal_802715F0_lbl_8050E208) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802715F0_lbl_8050E208_size, sizeof(RecoveredGlobal_802715F0_lbl_8050E208) == 0x1B0);
 void TWindowSubAreaMapDisp::update_manual_scroll() {
     u8 *temp_r31;
     if ((s32) this->m_6c != 0) {

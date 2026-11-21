@@ -4,7 +4,7 @@
 #include "types.h"
 
 /* The blob (round ground) shadow: its texture list (ha_u032_kage.gvm), quad and draw call. */
-extern u32 blob_shadow_texture_list;
+extern uaddr blob_shadow_texture_list;
 extern "C" {
 void draw_blob_shadow(s32 arg0);
 }

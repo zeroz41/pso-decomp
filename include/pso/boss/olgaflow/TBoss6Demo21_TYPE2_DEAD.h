@@ -20,7 +20,7 @@ public:
     virtual void run_task();
     OlgaFlowScenePart models[4];
     f32 frame;
-    s32 timer;
+    saddr timer;
     TBoss6PlotFalz *plot;
     Vec camera_position;
     Vec effect_position_5;
@@ -37,8 +37,8 @@ public:
     void draw_fading_model_5();
     void draw_fading_model_4();
 };
-typedef char TBoss6Demo21_TYPE2_DEAD_size[sizeof(TBoss6Demo21_TYPE2_DEAD) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_size, sizeof(TBoss6Demo21_TYPE2_DEAD) == 0xB4);
 
-typedef char TBoss6Demo21_TYPE2_DEAD_camera_position_offset[offsetof(TBoss6Demo21_TYPE2_DEAD, camera_position) == 0x58 ? 1 : -1];
-typedef char TBoss6Demo21_TYPE2_DEAD_trail_offset[offsetof(TBoss6Demo21_TYPE2_DEAD, trail_effect) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_camera_position_offset, offsetof(TBoss6Demo21_TYPE2_DEAD, camera_position) == 0x58);
+LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_trail_offset, offsetof(TBoss6Demo21_TYPE2_DEAD, trail_effect) == 0xB0);
 #endif

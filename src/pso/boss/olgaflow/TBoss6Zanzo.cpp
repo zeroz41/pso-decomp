@@ -16,7 +16,7 @@ const char *TBoss6Zanzo__name = "TBoss6Zanzo";
 
 extern "C" {
 
-s32 fn_803204B0(void *p) { return *(s32 *)((char *)p + 0x4); }
+saddr fn_803204B0(void *p) { return *(s32 *)((char *)p + 0x4); }
 
 void TBoss6Zanzo::set_effect_points(const Vec *points, const u32 *colors) {
     Boss6TrailPoint *p;

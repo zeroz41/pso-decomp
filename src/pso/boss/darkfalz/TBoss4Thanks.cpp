@@ -27,6 +27,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
@@ -57,7 +58,7 @@ struct Thanks_8035C6FC
 };
 
 extern "C" {
-void TBoss4Thanks__sub_8035C480(s32 arg0);
+void TBoss4Thanks__sub_8035C480(saddr arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
@@ -111,7 +112,7 @@ void TBoss4Thanks::destroy_effects() {
     }
 }
 
-void TBoss4Thanks__sub_8035C480(s32 arg0) {
+void TBoss4Thanks__sub_8035C480(saddr arg0) {
     O_8035C480 *self = (O_8035C480 *)arg0;
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -153,7 +154,7 @@ void TBoss4Thanks::render() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);
-    TObjFish::set_global_param((s32)((GinjaTextureList *)(reinterpret_cast<s32>(texture_list))));
+    TObjFish::set_global_param(reinterpret_cast<saddr>(texture_list));
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -225,13 +226,13 @@ TBoss4Thanks::~TBoss4Thanks() {
 
 TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
     BmlResource *archive;
-    *(s32 *)((s8 *)this + 0) = (s32) TBoss4Thanks__class_name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TBoss4Thanks__class_name;
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
     this->texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(archive, 1));
     motions[0] = get_bml_motion(archive, 0x46);
     motions[1] = get_bml_motion(archive, 0x47);
-    TBoss4Thanks__sub_8035C480((s32)((s32) ((u8 *)this)));
+    TBoss4Thanks__sub_8035C480((saddr)((saddr) ((u8 *)this)));
     this->state = 0;
     this->next_motion = 0;
     this->current_motion = 0;

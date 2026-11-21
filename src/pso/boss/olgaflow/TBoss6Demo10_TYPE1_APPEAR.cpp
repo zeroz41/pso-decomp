@@ -46,9 +46,9 @@ void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&lbl_80477DEC.x);
-    TObjFish::set_global_param((s32)(((s32)parts[0].texture)));
+    TObjFish::set_global_param((saddr)(parts[0].texture));
     draw_model_motion(parts[0].model, parts[0].motion, frame);
-    TObjFish::set_global_param((s32)(((s32)parts[1].texture)));
+    TObjFish::set_global_param((saddr)(parts[1].texture));
     capture->install();
     draw_model_motion(parts[1].model, parts[1].motion, frame);
     capture->clear();
@@ -147,7 +147,7 @@ TBoss6Demo10_TYPE1_APPEAR::~TBoss6Demo10_TYPE1_APPEAR() {
 TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TObject(plot) {
     s32 k;
     BmlResource *archive;
-    s32 i;
+    saddr i;
     m_name = TBoss6Demo10_TYPE1_APPEAR__name.value;
     this->plot = plot;
     archive = TBoss6PlotFalz::get_scene_archive();

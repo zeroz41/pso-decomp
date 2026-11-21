@@ -97,7 +97,7 @@ TObjDFDemo5::~TObjDFDemo5() {
 void TObjDFDemo5::run_task() {
     update_particle_emitters();
     if (timer == 0x8C) {
-        play_cue_stream_file((s32)"dfdeath.adx");
+        play_cue_stream_file((saddr)"dfdeath.adx");
         start_pad_rumble_all(0xC0, 0xF);
     }
     if ((frame += 0.5f) > 149.0f) {
@@ -132,14 +132,14 @@ void TObjDFDemo5::draw_fading_motion() {
     set_motion_packed_rotation();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
-    TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)parts[0].texlist)));
+    TObjFish::set_global_param((saddr)(parts[0].texlist));
     node_list0->install();
     draw_model_motion((void *)parts[0].model, parts[0].motion, frame);
     node_list0->clear();
     part_frame = (s32)frame % 30;
-    TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)parts[1].texlist)));
+    TObjFish::set_global_param((saddr)(parts[1].texlist));
     draw_model_motion((void *)parts[1].model, parts[1].motion, part_frame);
-    TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)parts[2].texlist)));
+    TObjFish::set_global_param((saddr)(parts[2].texlist));
     draw_model_motion((void *)parts[2].model, parts[2].motion, part_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -155,7 +155,7 @@ void TObjDFDemo5::release_subobjects() {
         set_motion_packed_rotation();
         post_translate_matrix(&pos.x);
         rotate_matrix_y(NULL, angle);
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)parts[3].texlist)));
+        TObjFish::set_global_param((saddr)(parts[3].texlist));
         node_list1->install();
         draw_model_motion((void *)parts[3].model, parts[3].motion, frame);
         node_list1->clear();

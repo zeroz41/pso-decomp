@@ -71,7 +71,7 @@ struct TBoss4Type1 : public TObjEnemy
     void push_players_out_of_colliders();
     void sub_80053D4C();
     void update_follow_camera_offsets();
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     s32 get_state();
     s32 state;                    // index into the lbl_80485C48 state table
     ModelNodeTables model_nodes;
@@ -102,6 +102,6 @@ struct TBoss4Type1 : public TObjEnemy
     Vec unk_484[2];
 };
 
-typedef char TBoss4Type1_size[sizeof(TBoss4Type1) == 0x49C ? 1 : -1];
+LAYOUT_ASSERT(TBoss4Type1_size, sizeof(TBoss4Type1) == 0x49C);
 
 #endif

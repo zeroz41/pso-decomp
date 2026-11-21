@@ -1,6 +1,8 @@
 #ifndef PSO_BOSS_OLGAFLOW_OLGAFLOWACTIONS_H
 #define PSO_BOSS_OLGAFLOW_OLGAFLOWACTIONS_H
 
+#include "types.h"
+
 #include "pso/network/protocol/protocol_types.h"
 #include <stddef.h>
 
@@ -56,12 +58,12 @@ struct OlgaFlowType2ActionMsg {
     void send();
 };
 
-typedef char OlgaFlowActionMsg_size[sizeof(OlgaFlowActionMsg) == 0x14 ? 1 : -1];
-typedef char OlgaFlowActionMsg_flow_offset[offsetof(OlgaFlowActionMsg, flow) == 4 ? 1 : -1];
-typedef char OlgaFlowActionMsg_sync_offset[offsetof(OlgaFlowActionMsg, attack_mode) == 8 ? 1 : -1];
-typedef char OlgaFlowType2ActionMsg_size[sizeof(OlgaFlowType2ActionMsg) == 0x14 ? 1 : -1];
-typedef char OlgaFlowType2ActionMsg_action_offset[offsetof(OlgaFlowType2ActionMsg, action) == 4 ? 1 : -1];
-typedef char OlgaFlowType2ActionMsg_sync_offset[offsetof(OlgaFlowType2ActionMsg, random_factor) == 8 ? 1 : -1];
+LAYOUT_ASSERT(OlgaFlowActionMsg_size, sizeof(OlgaFlowActionMsg) == 0x14);
+LAYOUT_ASSERT(OlgaFlowActionMsg_flow_offset, offsetof(OlgaFlowActionMsg, flow) == 4);
+LAYOUT_ASSERT(OlgaFlowActionMsg_sync_offset, offsetof(OlgaFlowActionMsg, attack_mode) == 8);
+LAYOUT_ASSERT(OlgaFlowType2ActionMsg_size, sizeof(OlgaFlowType2ActionMsg) == 0x14);
+LAYOUT_ASSERT(OlgaFlowType2ActionMsg_action_offset, offsetof(OlgaFlowType2ActionMsg, action) == 4);
+LAYOUT_ASSERT(OlgaFlowType2ActionMsg_sync_offset, offsetof(OlgaFlowType2ActionMsg, random_factor) == 8);
 
 struct OlgaFlowPlotActionMsg {
     G_ClientIDHeader header;
@@ -74,8 +76,8 @@ struct OlgaFlowPlotActionMsg {
     void send();
 };
 
-typedef char OlgaFlowPlotActionMsg_size[sizeof(OlgaFlowPlotActionMsg) == 0x14 ? 1 : -1];
-typedef char OlgaFlowPlotActionMsg_phase_offset[offsetof(OlgaFlowPlotActionMsg, phase) == 4 ? 1 : -1];
+LAYOUT_ASSERT(OlgaFlowPlotActionMsg_size, sizeof(OlgaFlowPlotActionMsg) == 0x14);
+LAYOUT_ASSERT(OlgaFlowPlotActionMsg_phase_offset, offsetof(OlgaFlowPlotActionMsg, phase) == 4);
 
 struct game_command_header;
 extern "C" void handle_6xA3_olga_flow_boss_actions(game_command_header *command);

@@ -69,7 +69,7 @@ struct TBoss6Rock : public TObjCollidable {
     static s32 get_point(s32 index, Vec *point, f32 *radius);
 };
 
-typedef char TBoss6Rock_size[sizeof(TBoss6Rock) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);
 
 extern "C" {
 // The texture list and model resource load_resources loads (TBoss6CrushRock's ctor).

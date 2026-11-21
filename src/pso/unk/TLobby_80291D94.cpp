@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/object/TObjWarnChime.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -224,16 +225,15 @@ struct Table_800712D8 {
 
 extern "C" {
 s32 TLobby__sub_80291F9C(void);
-s32 strncpy(void *, void *, int);
 char split_screen_player_name[0x20];
 void TLobby__sub_80292200(s32 arg0);
 }
 void set_challenge_time_window_timer(int);
 extern "C" {
-s32 TWindowSubStatusDisp__sub_8006F134(s32, s32);
-s32 get_character_save_record(s32);
+saddr TWindowSubStatusDisp__sub_8006F134(s32, s32);
+saddr get_character_save_record(s32);
 s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
-u32 get_player_by_client_id(s32);
+uaddr get_player_by_client_id(s32);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
@@ -242,7 +242,7 @@ s32 TLobby__sub_8029204C(void);
 void TLobby__sub_8026A328(void *);
 int TLobby__sub_80292268(void);
 
-extern u32 challenge_retry_object;
+extern uaddr challenge_retry_object;
 
 void TLobby::draw_if_ready2() {
     if ((is_challenge_mode_active() != 0) && (TLobby::is_multi_ready() != 0) && ((u32) challenge_retry_object != 0U)) {
@@ -329,7 +329,7 @@ s32 TLobby__sub_8029204C(void) {
     return best;
 }
 
-u32 challenge_retry_object;
+uaddr challenge_retry_object;
 s32 split_screen_challenge_created; // inferred: setup_split_screen sets it once it has created the TChallenge4P
 s32 split_screen_flag;
 s32 challenge_mode_active_flag;
@@ -380,7 +380,7 @@ s32 TLobby__sub_80292270(s32 seed, s32 card) {
         return -2;
     }
     TAdSinglePlyChrSelectGC *record = (TAdSinglePlyChrSelectGC *)get_character_save_record((u16)card);
-    if ((u32)record != 0 && record->is_level_capped() != 0) {
+    if ((uaddr)record != 0 && record->is_level_capped() != 0) {
         *(s32 *)((s8 *)lbl_804DB1F0 + 0x14) = -3;
         return -3;
     }
@@ -450,8 +450,8 @@ void TLobby::set_encoded_name_and_color(u8 *arg0, s32 arg1) {
     *(s32 *)((s8 *)&lbl_804DB1F0 + 0x18) = (s32) (arg1 | 0xFF000000);
 }
 void TLobby::set_split_screen_name() {
-    s32 arg0 = (s32)this;
-    strncpy(split_screen_player_name, (void *)arg0, 0x20);
+    saddr arg0 = (saddr)this;
+    strncpy(split_screen_player_name, (const char *)arg0, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
 void TLobby::update_challenge_timer(s32 arg0) {
@@ -495,7 +495,6 @@ void __ct__12TPlyCharDataFv(void *);
 #define get_player_by_client_id ((Pl_80292730 * (*)(s32))get_player_by_client_id)
 Pl_80292730 *create_player_object(s32, s32, void *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
-void begin_action_state__10TObjPlayerFPv(void *);
 void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, void *);
 
 
@@ -559,7 +558,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             }
             __ct__12TPlyCharDataFv(&cd);
             copy_player_visual_record(&cd.info, &info);
-            begin_action_state__10TObjPlayerFPv(&cd);
+            TObjPlayer::begin_action_state(&cd);
             send_command__10TNpcPlayerFlScllPSc(info.cls, tbl->f4, tbl->f8, tbl->f0, &cd);
             p = create_player_object(i, map, &cd);
             if (p == NULL) {
@@ -623,7 +622,7 @@ s32 TLobby__sub_8029299C(void) {
     var_r31 = 0;
     var_r30 = 0;
     do {
-        player = (u8 *)(((s32)get_player_by_client_id(var_r30)));
+        player = (u8 *)(((saddr)get_player_by_client_id(var_r30)));
         if ((player != NULL) && (((int)((TLobby *)player)->check_player_state_flag_2()) != 0)) {
             TLobby__sub_80293218((s32) var_r30);
             var_r31 = 1;
@@ -663,7 +662,7 @@ s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
     s32 *flags;
     s32 i;
     Ent_80292AB4 *e;
-    s32 w;
+    saddr w;
     lo = TWindowSubStatusDisp::calc_entry_offset(slot);
     hi = TWindowSubStatusDisp::calc_layout_hash(slot);
     if (GCW_80292AB4((u16)arg1) == NULL) {
@@ -988,10 +987,9 @@ int TAdPlayerLoadGC__sub_801E1510(void);
 s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 #define create_challenge4p__6TLobbyFv ((u32 (*)())create_challenge4p__6TLobbyFv)
 
-u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 }
 void *create_obj_tag_challenge(void *arg0);
-extern s32 tl_07;
+extern saddr tl_07;
 void *create_ch_time_win(void *arg0);
 void setup_split_screen(void);
 
@@ -1016,11 +1014,11 @@ void setup_split_screen(void) {
         challenge_retry_object = create_challenge4p__6TLobbyFv();
         split_screen_challenge_created = 1;
         split_screen_flag = 0;
-        ((TLobby *)((s32)"Area00"))->set_split_screen_name();
+        ((TLobby *)((saddr)"Area00"))->set_split_screen_name();
         var_r31 = 0U;
         do {
             player = get_player_by_client_id(var_r31);
-            temp_r4 = get_char_index__23TAdSinglePlyChrSelectGCFUi(var_r31);
+            temp_r4 = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
             if ((player != 0U) && (temp_r4 != 0U)) {
                 export_character_data__10TObjPlayerFPvPv(player, temp_r4);
             }
@@ -1065,7 +1063,7 @@ extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObj
 #pragma pop
 
 void TLobby::spawn_player_tombstones2() {
-    s32 i;
+    saddr i;
     ChallengeTombstonePlayerSlot *r;
     const TObjTombstoneSpot *t;
     TLobby::reset_tombstone_values();
@@ -1165,7 +1163,6 @@ void update_destruction_countdown__6TLobbyFPv(TLobby *lobby) {
     }
 }
 s32 __dt__7TObjectFv(void *, s32);
-s32 __dl__7TObjectFPv(void *);
 void *TLobby__sub_802936AC(void *object, s16 arg1) {
     if (object != NULL) {
         *(void **)((u8 *)object + 0x18) = (void *)lbl_804DB888;
@@ -1173,7 +1170,7 @@ void *TLobby__sub_802936AC(void *object, s16 arg1) {
         challenge_retry_object = 0;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;

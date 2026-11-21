@@ -27,6 +27,6 @@ public:
 
     void push_ring_point(const Vec *pos);
 };
-typedef char TUnk_804E4788_size[sizeof(TUnk_804E4788) == 0x124 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E4788_size, sizeof(TUnk_804E4788) == 0x124);
 
 #endif

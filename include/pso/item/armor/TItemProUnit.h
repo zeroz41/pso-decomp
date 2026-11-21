@@ -59,7 +59,7 @@ struct TItemProUnit : public TItemEquipBase {
     s16 modifier_limit;          // twice UnitPmtEntry::modifier_amount
 };
 
-typedef char TItemProUnit_size[sizeof(TItemProUnit) == 0x1C0 ? 1 : -1];
-typedef char TItemProUnitModifierOffset[(offsetof(TItemProUnit, modifier) == 0x1BC) ? 1 : -1];
+LAYOUT_ASSERT(TItemProUnit_size, sizeof(TItemProUnit) == 0x1C0);
+LAYOUT_ASSERT(TItemProUnitModifierOffset, offsetof(TItemProUnit, modifier) == 0x1BC);
 
 #endif

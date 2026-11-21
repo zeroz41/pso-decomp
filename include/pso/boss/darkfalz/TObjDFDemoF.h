@@ -23,6 +23,6 @@ struct TObjDFDemoF : public TObjBase {
     f32 frame;
 };
 
-typedef char TObjDFDemoF_size[sizeof(TObjDFDemoF) == 0xBC ? 1 : -1];
-typedef char TObjDFDemoF_models_offset[offsetof(TObjDFDemoF, models) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemoF_size, sizeof(TObjDFDemoF) == 0xBC);
+LAYOUT_ASSERT(TObjDFDemoF_models_offset, offsetof(TObjDFDemoF, models) == 0x94);
 #endif

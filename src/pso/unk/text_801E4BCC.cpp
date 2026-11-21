@@ -54,7 +54,7 @@ void distort_texture_wave_image(Wave_801E4BCC *wave) {
             out[calc_gx_tile_index(x, y, wave->width)] = color;
         }
     }
-    ((TObjPlayer *)0)->reload_texture((s32)(wave->output + 0x20), (u32)0x40000000, (void *)0);
+    ((TObjPlayer *)0)->reload_texture((saddr)(wave->output + 0x20), (u32)0x40000000, (void *)0);
 }
 
 }

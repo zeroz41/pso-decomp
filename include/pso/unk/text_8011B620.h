@@ -5,7 +5,7 @@
 
 // Defined in pso/weapon/shoot/TItemShoot.cpp.
 extern "C" {
-s32 create_gun_shot(s32 owner, s32 pos, s32 endpoint, f32 life);
+s32 create_gun_shot(saddr owner, saddr pos, saddr endpoint, f32 life);
 }
 
 #endif

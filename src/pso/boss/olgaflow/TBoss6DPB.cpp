@@ -19,19 +19,20 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
 struct W_8035D8B0 { u8 pad0[0x20]; V_8035D8B0 v; };
 
 struct RecoveredGlobal_8035DB70___vt__9TBoss6DPB { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035DB70___vt__9TBoss6DPB_size[sizeof(RecoveredGlobal_8035DB70___vt__9TBoss6DPB) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8035DB70___vt__9TBoss6DPB_size, sizeof(RecoveredGlobal_8035DB70___vt__9TBoss6DPB) == 0x18);
 
 struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
     s32 value;
     u8 remaining[0x14];
 };
-typedef char RecoveredGlobal_8035D7D0___vt__10TDPBShower_size[sizeof(RecoveredGlobal_8035D7D0___vt__10TDPBShower) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8035D7D0___vt__10TDPBShower_size, sizeof(RecoveredGlobal_8035D7D0___vt__10TDPBShower) == 0x18);
 
 
 #pragma push
@@ -75,7 +76,7 @@ struct Dmg_8035D924 { s32 a; s32 b; s32 c; f32 d; };
 
 struct Shower_8035D924 {
     u8 pad0[0x1C];
-    s32 owner;
+    saddr owner;
     Vec pos;
     f32 radius;
     u8 pad30[4];
@@ -84,7 +85,6 @@ struct Shower_8035D924 {
 };
 
 extern "C" {
-extern s32 tl_02;
 
 s32 play_sound_effect(s32, u32, int, s32);
 
@@ -94,14 +94,14 @@ void subtract_vector(void *, void *);
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
+u8 *TBoss6Type2::create_dpb(saddr arg0, saddr arg1, f32 farg0) {
     return (u8 *)new TBoss6DPB((TObject *)arg0, arg1, farg0);
 }
 #pragma pop
 
-TBoss6DPB::TBoss6DPB(TObject *parent, s32 arg2, f32 farg0) : TObject(parent) {
+TBoss6DPB::TBoss6DPB(TObject *parent, saddr arg2, f32 farg0) : TObject(parent) {
     u8 *object = (u8 *)this;
-    s32 arg1 = (s32)parent;
+    saddr arg1 = (saddr)parent;
     f32 temp_f1;
     f32 temp_f2;
     *(const char **)((s8 *)object + 0) = TBoss6DPB__class_name;
@@ -119,7 +119,7 @@ TBoss6DPB::TBoss6DPB(TObject *parent, s32 arg2, f32 farg0) : TObject(parent) {
     if (0.0f == temp_f1) {
         *(f32 *)((s8 *)object + 0x38) = 1.0f;
     }
-    play_sound_effect(0x40069410, (u32)(object + 0x20), 0, 0);
+    play_sound_effect(0x40069410, (uaddr)(object + 0x20), 0, 0);
     *(s32 *)((s8 *)object + 0x30) = 0;
 }
 
@@ -132,7 +132,7 @@ void TBoss6DPB::run_task() {
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((f32) *(s32 *)((s8 *)arg0 + 0x30) > 5.0f) {
             ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
-            play_sound_effect(0x40069411, (u32)(arg0 + 0x20), 0, 0);
+            play_sound_effect(0x40069411, (uaddr)(arg0 + 0x20), 0, 0);
             ((TBoss6DPB *)arg0)->sub_8035D8B0();
             ((TObject *)arg0)->queue_destruction();
         }

@@ -57,7 +57,7 @@ typedef struct RecvDescriptor {
 s32 lbl_805D7C88;
 s32 lbl_805D7C84;
 s32 exi_send_size;
-s32 lbl_805D7C7C;
+saddr lbl_805D7C7C;
 u16 lbl_805D7C7A; /* receive ring read page */
 u16 lbl_805D7C78; /* receive ring write page */
 u8 *lbl_805D7C74;
@@ -67,8 +67,8 @@ s32 exi_dma_read_length;
 volatile RecvDescriptor lbl_805D7C5C;
 s32 lbl_805D7C58;
 ExiSendCompletionCallback lbl_805D7C54;
-s32 exi_receive_callback;
-u32 lbl_805D7C4C;
+saddr exi_receive_callback;
+uaddr lbl_805D7C4C;
 s32 lbl_805D7C48;
 u16 *lbl_805D7C44; /* accepted ethertypes (lbl_805D7C48 entries) */
 s32 exi_send_started_flag;
@@ -651,7 +651,7 @@ void copy_6_byte_config(void *out) {
 }
 
 void copy_mac_address(void *address) {
-    s32 arg0 = (s32)address;
+    saddr arg0 = (saddr)address;
     memcpy(exi_mac_address, (void *)arg0, 6);
 }
 

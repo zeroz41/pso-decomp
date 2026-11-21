@@ -35,6 +35,7 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
@@ -66,7 +67,7 @@ struct Stack_80308B38 {
 
 struct Msg_803086A8 { void *p; s32 one; Vec pos; s32 id; };
 
-struct Slot_803086A8 { u32 a; s32 b; };
+struct Slot_803086A8 { uaddr a; s32 b; };
 
 struct Obj_803086A8 { u8 pad[0x3A4]; s32 count; Slot_803086A8 slots[4]; };
 
@@ -126,7 +127,7 @@ void TBoss7Crawfish::register_attack_hits() {
     msg.one = 1;
     VecCopy((Vec *)&msg.pos, (const Vec *)((u8 *)this + 0x38));
     msg.id = this->rotation_y;
-    TObjPlayer::apply_status_effect((s32)&msg);
+    TObjPlayer::apply_status_effect((saddr)&msg);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)((Obj_803086A8 *)this)->count < 4) {
             e = (Slot_803086A8 *)TObjOnlineEnding::get_attack_entry(i);
@@ -151,7 +152,7 @@ void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1) {
 }
 
 void TBoss7Crawfish::spawn_effect(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     play_sound_effect(arg1, arg0 + 0x38, 0, 0);
 }
 
@@ -181,7 +182,7 @@ void TBoss7Crawfish::spawn_ground_effects() {
     spawn_particle_effect((&position.x), 0x20E);
 }
 
-#define arg0 ((s32)arg0_)
+#define arg0 ((saddr)arg0_)
 #define arg1 ((u8 *)arg1_)
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *arg0_, void *arg1_) {
     Pair_8030895C p;
@@ -219,12 +220,12 @@ s32 TBoss7Crawfish::sub_80308AA8() {
     return 0.0f == *(f32 *)((s8 *)((u8 *)this) + 0x354);
 }
 
-void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texlist); set_motion_packed_rotation(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((s32)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); clear_motion_packed_rotation(); } }
+void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texlist); set_motion_packed_rotation(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((saddr)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); clear_motion_packed_rotation(); } }
 
 void TBoss7Crawfish::clear_object_state_exchange() {
-    s32 arg0 = (s32)this;
-    typedef char sp8_offset[(offsetof(Stack_80308B38, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_80308B38, spE) == 0x6) ? 1 : -1];
+    saddr arg0 = (saddr)this;
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80308B38, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_80308B38, spE) == 0x6);
     Stack_80308B38 stack;
     if (((TObjEnemy *)arg0)->exchange_object_state(&stack.sp8, 1) != 0) {
         stack.sp8 = 0;
@@ -234,7 +235,7 @@ void TBoss7Crawfish::clear_object_state_exchange() {
 }
 
 void TBoss7Crawfish::check_band_and_destroy() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (((TObjMotion *)arg0)->is_passing_frame(14.0f) != 0) {
         spawn_ground_effects();
     }
@@ -247,7 +248,7 @@ int TBoss7Crawfish__sub_80308BEC(void* p) { return change_state__14TBoss7Crawfis
 
 }
 
-void TBoss7Crawfish::update(s32 arg0) {
+void TBoss7Crawfish::update(saddr arg0) {
     if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
         ((TBoss7Crawfish *)arg0)->spawn_ground_effects();
         ((TBoss7Crawfish *)arg0)->spawn_effect(0x39E0D);
@@ -272,7 +273,6 @@ s32 TBoss7Crawfish__sub_80308ED8(TBoss7Crawfish *self, const Vec *delta);
 u16 find_nearest_visible_player(void *, void *, f32);
 f32 atan2_float(f32 y, f32 x);
 void normalize_vector(void *);
-s32 register_attack_hits__14TBoss7CrawfishFv(void *, void *, f32, f32);
 
 void TBoss7Crawfish::update_motion_and_release() {
     u8 *arg0 = (u8 *)this;
@@ -280,7 +280,7 @@ void TBoss7Crawfish::update_motion_and_release() {
 
     temp_r4 = *(f32 * *)&this->m_3a0;
     this->play_speed = 0.1f * (1.0f + *temp_r4);
-    register_attack_hits__14TBoss7CrawfishFv(arg0, temp_r4, 1.0f, 0.1f);
+    ((TBoss7Crawfish *)arg0)->register_attack_hits();
     {
         void *temp_ptr = (void *) this->m_3cc;
         if (temp_ptr != NULL) {
@@ -292,7 +292,7 @@ void TBoss7Crawfish::update_motion_and_release() {
         ((TBoss7Crawfish *)arg0)->change_state(3);
         return;
     }
-    TBoss7Crawfish__sub_803087D4((s32)arg0, 0x3A80C);
+    TBoss7Crawfish__sub_803087D4((saddr)arg0, 0x3A80C);
 }
 void TBoss7Crawfish::aim_at_nearest_player() {
     Craw_80308D1C *o = (Craw_80308D1C *)this;
@@ -398,7 +398,7 @@ void TBoss7Crawfish::change_state(s32 state) {
         }
         o->f3A4 = 0;
         ((TBoss7Crawfish *)o)->free_child();
-        o->f3CC = (s32)create_particle_emitter(o->f38, 0x20B);
+        o->f3CC = (saddr)create_particle_emitter(o->f38, 0x20B);
         break;
     case 3:
         ((TBoss7Crawfish *)o)->set_anim_timer(4);
@@ -413,9 +413,9 @@ void TBoss7Crawfish::change_state(s32 state) {
 }
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u32 TBoss7Crawfish__shared_resource;
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+uaddr TBoss7Crawfish__shared_resource;
+saddr get_bml_texlist(int, int);
+saddr get_bml_model(int, int);
 int TBoss7Crawfish__sub_80308BEC(void *p);
 void free_bin_model_request(void*, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
@@ -437,7 +437,7 @@ void TBoss7Crawfish::run_task() {
         ((TBoss7Crawfish *)arg0)->update_motion_and_release();
         break;
     case 3:
-        TBoss7Crawfish::update((s32)arg0);
+        TBoss7Crawfish::update((saddr)arg0);
         break;
     case 4:
         TBoss7Crawfish__sub_80308BEC((arg0));
@@ -465,11 +465,11 @@ TBoss7Crawfish::~TBoss7Crawfish() {
 #define arg0 ((u8 *)this)
 TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) {
     Vec v;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss7Crawfish__class_name;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr) TBoss7Crawfish__class_name;
     ((TBoss7Crawfish *)arg0)->texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body((CollisionBody *)(arg0 + 0x374), &crawfish_collision_body_desc);
     ((TObjCollidable *)arg0)->set_collision_body(arg0 + 0x374);
-    ((TObjMotion *)arg0)->set_field_d8((s32)crawfish_action_table);
+    ((TObjMotion *)arg0)->set_field_d8((saddr)crawfish_action_table);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)((u8 *)TBoss7Crawfish__shared_resource) + 0x430)));
     ((TBoss7Crawfish *)arg0)->set_anim_timer(2);
     ((TObjMotion *)arg0)->set_animation((((TBoss7Crawfish *)arg0)->requested_action));
@@ -479,12 +479,12 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) 
     if (((TBoss7Crawfish *)arg0)->sub_80308AA8() != 0) {
         ((TObjEnemy *)arg0)->set_param(0x4A);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(8)), (u8 *)(TLobby::dispatch_shared_handler_b(8)), (u8 *)(TLobby::register_object(8)));
-        ((TBoss7Crawfish *)arg0)->m_3a0 = (s32)TLobby::dispatch_shared_handler_a(8);
+        ((TBoss7Crawfish *)arg0)->m_3a0 = (saddr)TLobby::dispatch_shared_handler_a(8);
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 0);
     } else {
         ((TObjEnemy *)arg0)->set_param(0x4B);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(9)), (u8 *)(TLobby::dispatch_shared_handler_b(9)), (u8 *)(TLobby::register_object(9)));
-        ((TBoss7Crawfish *)arg0)->m_3a0 = (s32)TLobby::dispatch_shared_handler_a(9);
+        ((TBoss7Crawfish *)arg0)->m_3a0 = (saddr)TLobby::dispatch_shared_handler_a(9);
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 1);
     }
     ((TObjChara *)arg0)->get_or_assign_entity_id(0);
@@ -516,9 +516,9 @@ void TBoss7Crawfish::destroy_instance() {
 }
 
 void TBoss7Crawfish::load_static_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_boss7_crawfish_resource_descriptor, 0, 0, 0));

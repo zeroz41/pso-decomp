@@ -59,8 +59,8 @@ const char *ad_title_gc_class_name = "TAdTitleGC";
 extern "C" {
 u32 calc_text_width(char *s);
 s32 get_player__20TWindowSubStatusDispFv();
-u32 lbl_805D6630;
-s32 get_localized_text_entry(s32, s32);
+uaddr lbl_805D6630;
+saddr get_localized_text_entry(s32, s32);
 void restore_saved_depth_alpha_state(void);
 
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
@@ -75,8 +75,8 @@ void TLobby__sub_802A0F70(void) {
     TLobby::update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
     NJS_TEXLIST *lists[5] = { &lbl_804DCA98, &lbl_804DCA78, &lbl_804DCA78, &lbl_804DCA78, &lbl_804DCA78 };
-    lbl_805D6630 = (u32)lists[current_language];
-    load_streamed_prs_texture((s32)names[current_language], (s32)lists[current_language]);
+    lbl_805D6630 = (uaddr)lists[current_language];
+    load_streamed_prs_texture((saddr)names[current_language], (saddr)lists[current_language]);
 }
 
 void TLobby::free_dialog_global() {
@@ -106,7 +106,7 @@ TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
         ((TAdTitleGC_802A0E08 *)this)->recs[i].c = 1.0f;
         ((TAdTitleGC_802A0E08 *)this)->recs[i].d = (4e+01f) * (f32)(((TAdTitleGC_802A0E08 *)this)->idx + off + 1) / 512.0f;
     }
-    ((TAdTitleGC_802A0E08 *)this)->f130 = (u32)create_draw_line_ctrl((TObject *)this, 8, 0.0f);
+    ((TAdTitleGC_802A0E08 *)this)->f130 = (uaddr)create_draw_line_ctrl((TObject *)this, 8, 0.0f);
 }
 
 TAdTitleGC::~TAdTitleGC() {}
@@ -125,7 +125,7 @@ void run_task__10TAdTitleGCFv(u8 *ad_title_gc) {
         *(s32 *)((s8 *)ad_title_gc + 0x12C) = 0xFF;
     }
     ((TAdTitleGC *)ad_title_gc)->update_title_rects();
-    TAdTitleGC::calc_text_pos((s32)ad_title_gc, ad_title_gc + 0x120, (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)ad_title_gc + 0x1C))));
+    TAdTitleGC::calc_text_pos((saddr)ad_title_gc, ad_title_gc + 0x120, (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)ad_title_gc + 0x1C))));
 }
 
 // Per-rect slide-in factor update_title_rects scales the remaining frames by.
@@ -140,12 +140,12 @@ s32 TAdTitleGC::update_title_rects() {
         arg0->rects[i].x1 = (512.0f) + arg0->rects[i].x0;
         arg0->rects[i].y1 = (4e+01f) + arg0->rects[i].y0;
     }
-    return (s32)this;
+    return (saddr)this;
 }
 
 #pragma push
 #pragma fp_contract on
-void TAdTitleGC::calc_text_pos(s32 arg0, u8 *arg1, s32 arg2) {
+void TAdTitleGC::calc_text_pos(s32 arg0, u8 *arg1, saddr arg2) {
     *(f32 *)((s8 *)arg1 + 0) = (f32) ((6.2e+02f) - (f32) calc_text_width((char *)(arg2)));
     *(f32 *)((s8 *)arg1 + 4) = 86.0f;
 }
@@ -167,7 +167,7 @@ block_5:
         draw_title_layer((s32)(*(s32 *)((s8 *)arg0 + 0x1C)), 0x1FFFFFFF);
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
-        fn_802A0A30((s32)arg0, arg0 + 0x120, (s32)(*(s32 *)((s8 *)arg0 + 0x1C)), (s32)((*(s32 *)((s8 *)arg0 + 0x12C) << 0x18) | 0xFF0000 | 0xFFFF), (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)arg0 + 0x1C))));
+        fn_802A0A30((saddr)arg0, arg0 + 0x120, (s32)(*(s32 *)((s8 *)arg0 + 0x1C)), (s32)((*(s32 *)((s8 *)arg0 + 0x12C) << 0x18) | 0xFF0000 | 0xFFFF), (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)arg0 + 0x1C))));
         if ((s32) *(s32 *)((s8 *)arg0 + 0x134) == 0) {
             restore_saved_depth_alpha_state();
         }

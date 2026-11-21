@@ -17,7 +17,7 @@ public:
     static void create_instance(void *parent);
 };
 
-typedef char ChatCaptureSize[sizeof(TOChatSensorCapture) == 0x3C ? 1 : -1];
-typedef char ChatCaptureLifetimes[offsetof(TOChatSensorCapture, lifetime) == 0x1C ? 1 : -1];
-typedef char ChatCaptureMessages[offsetof(TOChatSensorCapture, messages) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(ChatCaptureSize, sizeof(TOChatSensorCapture) == 0x3C);
+LAYOUT_ASSERT(ChatCaptureLifetimes, offsetof(TOChatSensorCapture, lifetime) == 0x1C);
+LAYOUT_ASSERT(ChatCaptureMessages, offsetof(TOChatSensorCapture, messages) == 0x2C);
 #endif

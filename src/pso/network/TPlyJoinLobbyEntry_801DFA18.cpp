@@ -7,7 +7,7 @@ extern "C" {
 
 s32 bswap__16TPlyGuildCardTagFv();
 
-void bswap__18TPlyJoinLobbyEntryFv(s32 arg0) {
+void bswap__18TPlyJoinLobbyEntryFv(saddr arg0) {
     bswap__16TPlyGuildCardTagFv();
     bswap_32((u32 *)(arg0 + 8));
     bswap_32((u32 *)(arg0 + 0xC));

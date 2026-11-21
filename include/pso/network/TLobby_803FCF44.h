@@ -94,7 +94,7 @@ void TLobby__sub_803FD0C0(void);
 void TLobby__sub_803FD694(u8 *arg0); /* PppFsm.c */
 void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
 s16 TLobby__sub_803FED78(u8 *self); /* PppIpcp.c */
-s16 TLobby__sub_80400744(int a0, void *a1); /* PppLcp.c */
+s16 TLobby__sub_80400744(void *a0, void *a1); /* PppLcp.c */
 s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 
 /* The protocol header that opens the IPCP and LCP state objects (.bss 805C0328 and 805C0400). */
@@ -109,9 +109,9 @@ typedef struct Obj_803FEF4C {
     s32 wC;
     void *fn[11];
 } Obj_803FEF4C;
-void TLobby__sub_803FE820(s32 arg0);
+void TLobby__sub_803FE820(saddr arg0);
 s16 TLobby__sub_803FF304(u8 *lobby);
-void TLobby__sub_803FF468(s32 arg0);
+void TLobby__sub_803FF468(saddr arg0);
 void TLobby__sub_803FD85C(void *arg0);
 s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 modem_name, s32 no_modem);
 s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payload);
@@ -130,8 +130,8 @@ s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
 void TLobby__sub_8040098C(Conn_804004DC *c);
 s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
-void TLobby__sub_80400270(u32 *self, void *opt, s32 mask);
-s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, struct PppHeader *arg1, u32 arg2);
+void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask);
+s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, struct PppHeader *arg1, uaddr arg2);
 s16 TLobby__sub_803FD5A4(s16 h, s16 v);
 s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3);
 s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2);

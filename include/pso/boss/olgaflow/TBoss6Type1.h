@@ -48,11 +48,11 @@ struct TBoss6Type1 : public TObjEnemy {
     void update_trail_points();
     u32 m_374;
     u8 unk_378[0x80];
-    s32 m_3f8;
-    s32 bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
+    saddr m_3f8;
+    saddr bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
     TBoss6Zanzo *trail_point_receiver;
     TBoss6Zanzo *effect_point_receiver;
-    s32 unk_408;
+    saddr unk_408;
     s32 m_40c;
     s32 action_timer;
     s32 m_414;
@@ -107,7 +107,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void interpolate_pos_to_target(s32 step, s32 total);
     void ease_toward_target(s32 a, s32 b);
     s32 count_matches(s32 arg1, s32 arg2);
-    static s32 pick_random_entry(s32 arg0, s32 arg1, s32 arg2);
+    static s32 pick_random_entry(s32 arg0, saddr arg1, s32 arg2);
     static int rand_range_inclusive(s32 arg0, int arg1, int arg2);
     s32 pick_remapped_list_value(s32 a, s32 b, s32 n);
     static s32 request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3);
@@ -230,12 +230,12 @@ void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
 extern const Vec lbl_80470CE0;
 
-typedef char Boss6EffectPoint_size[(sizeof(Boss6EffectPoint)==0xC)?1:-1];
-typedef char TBoss6Type1_receiver_offset[(offsetof(TBoss6Type1,effect_point_receiver)==0x404)?1:-1];
-typedef char TBoss6Type1_points_offset[(offsetof(TBoss6Type1,arm_node_positions) + 5 * sizeof(Vec) == 0x638)?1:-1];
-typedef char TBoss6Type1_trail_receiver_offset[(offsetof(TBoss6Type1,trail_point_receiver)==0x400)?1:-1];
-typedef char TBoss6Type1_map_csn_offset[(offsetof(TBoss6Type1,map_csn)==0x680)?1:-1];
-typedef char TBoss6Type1_target_position_offset[offsetof(TBoss6Type1, m_420) == 0x420 ? 1 : -1];
-typedef char TBoss6Type1_node_points_offset[offsetof(TBoss6Type1, node_points) == 0x578 ? 1 : -1];
-typedef char TBoss6Type1_arm_node_positions_offset[offsetof(TBoss6Type1, arm_node_positions) == 0x5FC ? 1 : -1];
+LAYOUT_ASSERT(Boss6EffectPoint_size, (sizeof(Boss6EffectPoint)==0xC));
+LAYOUT_ASSERT(TBoss6Type1_receiver_offset, (offsetof(TBoss6Type1,effect_point_receiver)==0x404));
+LAYOUT_ASSERT(TBoss6Type1_points_offset, (offsetof(TBoss6Type1,arm_node_positions) + 5 * sizeof(Vec) == 0x638));
+LAYOUT_ASSERT(TBoss6Type1_trail_receiver_offset, (offsetof(TBoss6Type1,trail_point_receiver)==0x400));
+LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680));
+LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, m_420) == 0x420);
+LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
+LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
 #endif

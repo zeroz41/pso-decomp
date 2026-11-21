@@ -299,9 +299,9 @@ extern "C" {
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 
-s32 TLobby::add_player(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby::add_player(s32 arg0, saddr arg1, s32 arg2) {
     s32 temp_r29;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg0 > 0x11) {
         return 0;
@@ -344,7 +344,7 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].variants[terrain].entries[entities].enemy_set_name, ".evt");
     n = get_resource_file_size((const char *)buf.data);
     if (n > 0) {
-        p = ((void *)HA2((s32)((*(void * *)&area_event_set_heap)), n));
+        p = ((void *)HA2((saddr)((*(void * *)&area_event_set_heap)), n));
         if (p != 0) {
             read_disc_file((const char *)buf.data, p);
             ((void * *)&lobby_slot_ptr_table)[floor] = p;
@@ -412,7 +412,7 @@ void TLobby::free_heap() { __dt__5THeapFv((void*)area_event_set_heap, (void*)1);
 void TLobby::create_heap_8000() {
     u8 *heap;
     u8 *var_r0;
-    heap = (u8 *)(__nw__5THeapFUl(0x14));
+    heap = (u8 *)(THeap::operator new(0x14));
     var_r0 = heap;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__5THeapFUli(heap, 0x8000, 0x20));

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void draw_ginja_model(s32 model);
+void draw_ginja_model(saddr model);
 void draw_ginja_object(void *child);
 }
 void end_ginja_model_draw(void);

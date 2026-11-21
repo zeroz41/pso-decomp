@@ -45,7 +45,7 @@ void TEffClitical::render() {
     s32 sp8;
     s32 temp_r3;
     set_depth_buffer_settings_1();
-    init_texture_copy_rect((void *)((void *)&sp8), (s32)&clitical_texture_list, (s32)technique_ringwave_texture_list, 0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x70) + 1)));
+    init_texture_copy_rect((void *)((void *)&sp8), (saddr)&clitical_texture_list, (saddr)technique_ringwave_texture_list, 0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x70) + 1)));
     temp_r3 = model_render_flags;
     saved_model_render_flags = temp_r3;
     model_render_flags = temp_r3 | 0x10;
@@ -53,11 +53,11 @@ void TEffClitical::render() {
     set_constant_material((const NJS_ARGB *)((arg0 + 0x2C)));
     copy_anim_frame_to_slot((TextureFrameSlot *)&sp8);
     push_matrix();
-    TObjFish::set_global_param((s32)&clitical_texture_list);
+    TObjFish::set_global_param((saddr)&clitical_texture_list);
     post_translate_matrix(arg0 + 0x20);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)camera_ctrl_instance + 0x194)));
     scale_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)), (f32) (*(f32 *)((s8 *)arg0 + 0x44)));
-    draw_chunk_object((void *)(*(s32 *)effect_rel));
+    draw_chunk_object((void *)(*(saddr *)effect_rel));
     pop_matrix();
     copy_slot_to_anim_frame((TextureFrameSlot *)&sp8);
     model_render_flags = saved_model_render_flags;
@@ -135,7 +135,7 @@ void TEffClitical::create() {
     }
 }
 
-void init_texture_copy_rect(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void init_texture_copy_rect(void *arg0, saddr arg1, saddr arg2, s32 arg3, s32 arg4) {
     *(s32 *)((s8 *)arg0 + 0) = arg2;
     *(s32 *)((s8 *)arg0 + 4) = arg1;
     *(s32 *)((s8 *)arg0 + 8) = arg4;

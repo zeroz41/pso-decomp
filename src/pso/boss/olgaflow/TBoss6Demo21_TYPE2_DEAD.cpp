@@ -49,7 +49,7 @@ f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0);
 
 }
@@ -72,7 +72,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&camera_position.x);
-        TObjFish::set_global_param((s32)(((s32)models[3].texture)));
+        TObjFish::set_global_param((saddr)(models[3].texture));
         capture_13->install();
         draw_model_motion(models[3].model, models[3].motion, frame);
         capture_13->clear();
@@ -99,7 +99,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&camera_position.x);
-        TObjFish::set_global_param((s32)(((s32)models[2].texture)));
+        TObjFish::set_global_param((saddr)(models[2].texture));
         capture_8->install();
         draw_model_motion(models[2].model, models[2].motion, frame);
         capture_8->clear();
@@ -134,7 +134,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&camera_position.x);
-        TObjFish::set_global_param((s32)(((s32)models[1].texture)));
+        TObjFish::set_global_param((saddr)(models[1].texture));
         capture_5->install();
         draw_model_motion(models[1].model, models[1].motion, frame);
         capture_5->clear();
@@ -164,7 +164,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&camera_position.x);
-        TObjFish::set_global_param((s32)(((s32)models[0].texture)));
+        TObjFish::set_global_param((saddr)(models[0].texture));
         capture_5->install();
         draw_model_motion(models[0].model, models[0].motion, frame);
         capture_5->clear();
@@ -198,10 +198,10 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0) {
         break;
     }
     if (arg0->timer >= 0x12C && arg0->timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4003352E, (saddr)arg0, 0, 0, 0);
     }
     if (arg0->timer >= 0x1D7 && arg0->timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x32D2F, (saddr)arg0, 0, 0, 0);
     }
     switch (arg0->timer) {
     case 0xAE:

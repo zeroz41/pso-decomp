@@ -25,22 +25,23 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
 
 
-typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
-typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];
-typedef char Thanks_frame1[offsetof(TBoss6Thanks,frame1)==0x2c?1:-1];
-typedef char Thanks_opacity[offsetof(TBoss6Thanks,opacity)==0x30?1:-1];
-typedef char Thanks_model0[offsetof(TBoss6Thanks,model0)==0x38?1:-1];
-typedef char Thanks_model1[offsetof(TBoss6Thanks,model1)==0x3c?1:-1];
-typedef char Thanks_texture0[offsetof(TBoss6Thanks,texture0)==0x40?1:-1];
-typedef char Thanks_texture1[offsetof(TBoss6Thanks,texture1)==0x44?1:-1];
-typedef char Thanks_motions[offsetof(TBoss6Thanks,motions)==0x48?1:-1];
-typedef char Thanks_motion1[offsetof(TBoss6Thanks,motion1)==0x50?1:-1];
+LAYOUT_ASSERT(Thanks_current_motion, offsetof(TBoss6Thanks,current_motion)==0x20);
+LAYOUT_ASSERT(Thanks_frame0, offsetof(TBoss6Thanks,frame0)==0x28);
+LAYOUT_ASSERT(Thanks_frame1, offsetof(TBoss6Thanks,frame1)==0x2c);
+LAYOUT_ASSERT(Thanks_opacity, offsetof(TBoss6Thanks,opacity)==0x30);
+LAYOUT_ASSERT(Thanks_model0, offsetof(TBoss6Thanks,model0)==0x38);
+LAYOUT_ASSERT(Thanks_model1, offsetof(TBoss6Thanks,model1)==0x3c);
+LAYOUT_ASSERT(Thanks_texture0, offsetof(TBoss6Thanks,texture0)==0x40);
+LAYOUT_ASSERT(Thanks_texture1, offsetof(TBoss6Thanks,texture1)==0x44);
+LAYOUT_ASSERT(Thanks_motions, offsetof(TBoss6Thanks,motions)==0x48);
+LAYOUT_ASSERT(Thanks_motion1, offsetof(TBoss6Thanks,motion1)==0x50);
 struct ThanksMotionHeader
 {
   u32 x0;
@@ -84,10 +85,9 @@ static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
 };
 
 extern "C" {
-int TBoss6Thanks__sub_8035CB40(void);
-void TBoss6Thanks__sub_8035CCAC(s32 arg0);
+void TBoss6Thanks__sub_8035CB40(void);
+void TBoss6Thanks__sub_8035CCAC(saddr arg0);
 f32 xyz_distance(const void *, const void *);
-int set_story_flag_or_send_quest_flag(void*);
 
 s32 fn_8035CAE0(void) {
     return get_story_flag(0x9A) != 0;
@@ -95,8 +95,8 @@ s32 fn_8035CAE0(void) {
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-int TBoss6Thanks__sub_8035CB40(void) { return set_story_flag_or_send_quest_flag((void*)(154)); }
-int TBoss6Thanks::dispatch_darkfalz_phase() { return set_story_flag_or_send_quest_flag((void*)(152)); }
+void TBoss6Thanks__sub_8035CB40(void) { set_story_flag_or_send_quest_flag(154); }
+void TBoss6Thanks::dispatch_darkfalz_phase() { set_story_flag_or_send_quest_flag(152); }
 
 void TBoss6Thanks::update_particle_emitters() {
     Obj_8035CB88 *o = (Obj_8035CB88 *)this;
@@ -130,7 +130,7 @@ void TBoss6Thanks::destroy_effects() {
     }
 }
 
-void TBoss6Thanks__sub_8035CCAC(s32 arg0) {
+void TBoss6Thanks__sub_8035CCAC(saddr arg0) {
     O_8035CCAC *self = (O_8035CCAC *)arg0;
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -166,13 +166,13 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position);
-    TObjFish::set_global_param((s32)(o->texture0));
+    TObjFish::set_global_param((saddr)(o->texture0));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(o->model0, o->motions[o->current_motion], o->frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position);
-    TObjFish::set_global_param((s32)(o->texture1));
+    TObjFish::set_global_param((saddr)(o->texture1));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(o->model1, o->motion1, o->frame1);
     pop_matrix();
@@ -255,14 +255,14 @@ TBoss6Thanks::TBoss6Thanks(TObject *arg1) : TObject(arg1) {
     u8 *fish_count;
     ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
     fish_count = (u8 *)TBoss6PlotFalz::get_scene_archive();
-    *(s32 *)((s8 *)boss6_thanks + 0x38) = (s32)get_bml_model((BmlResource *)fish_count, 7);
-    boss6_thanks->texture0 = (s32)get_bml_texlist((BmlResource *)fish_count, 7);
-    *(s32 *)((s8 *)boss6_thanks + 0x48) = reinterpret_cast<s32>(get_bml_motion((BmlResource *)(fish_count), 9));
-    *(s32 *)((s8 *)boss6_thanks + 0x4C) = reinterpret_cast<s32>(get_bml_motion((BmlResource *)(fish_count), 0xB));
-    *(s32 *)((s8 *)boss6_thanks + 0x3C) = (s32)get_bml_model((BmlResource *)fish_count, 9);
-    boss6_thanks->texture1 = (s32)get_bml_texlist((BmlResource *)fish_count, 9);
-    *(s32 *)((s8 *)boss6_thanks + 0x50) = reinterpret_cast<s32>(get_bml_motion((BmlResource *)(fish_count), 0xA));
-    TBoss6Thanks__sub_8035CCAC((s32)((s32) boss6_thanks));
+    *(saddr *)((s8 *)boss6_thanks + 0x38) = (saddr)get_bml_model((BmlResource *)fish_count, 7);
+    boss6_thanks->texture0 = (saddr)get_bml_texlist((BmlResource *)fish_count, 7);
+    *(saddr *)((s8 *)boss6_thanks + 0x48) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 9));
+    *(saddr *)((s8 *)boss6_thanks + 0x4C) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 0xB));
+    *(saddr *)((s8 *)boss6_thanks + 0x3C) = (saddr)get_bml_model((BmlResource *)fish_count, 9);
+    boss6_thanks->texture1 = (saddr)get_bml_texlist((BmlResource *)fish_count, 9);
+    *(saddr *)((s8 *)boss6_thanks + 0x50) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 0xA));
+    TBoss6Thanks__sub_8035CCAC((saddr)((saddr) boss6_thanks));
     boss6_thanks->m_1c = 0;
     boss6_thanks->m_24 = 0;
     boss6_thanks->current_motion = 0;

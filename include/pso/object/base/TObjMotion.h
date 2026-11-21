@@ -33,12 +33,12 @@ public:
     int set_position_from(void *pos);
     void save_previous_position();
     CameraAngles *get_rotation();
-    s32 get_texlist();
+    saddr get_texlist();
     s32 is_alive();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
     s32 m_20;
-    s32 texlist;  // its texture list, made current before it draws
+    saddr texlist;  // its texture list, made current before it draws
     // Copied from the object's set entry when it is spawned; see
     // TLobby::link_matching_objects.
     s16 room;
@@ -187,8 +187,8 @@ public:
     void draw();
     virtual void reset_motion_fields();
     void set_animation(s16 action);
-    void set_field_d8(s32);
-    void set_field_dc(s32);
+    void set_field_d8(saddr);
+    void set_field_dc(saddr);
     void set_field_b8(s16);
     void sub_8002AE64();
     void sub_800A7798(f32);
@@ -201,7 +201,7 @@ public:
     f32 get_action_frame_count(s16 action);
     // Makes the action's motion current.
     void set_action_motion(s32 action);
-    s32 get_item_ptr(s32);
+    saddr get_item_ptr(s32);
     void set_motion_interpolation_flag();
     // Sets both tables and starts the action.
     void init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action);
@@ -285,12 +285,12 @@ extern void *lbl_805D5680;
 // The name every TObjMotion constructor gives the object.
 extern const char *TObjMotion__class_name;
 
-typedef char TObjBaseSize[sizeof(TObjBase)==0x90?1:-1];
-typedef char TObjCollidableSize[sizeof(TObjCollidable)==0xAC?1:-1];
-typedef char CollisionBodySize[sizeof(CollisionBody)==0x2C?1:-1];
-typedef char TObjMotionSize[sizeof(TObjMotion)==0xFC?1:-1];
-typedef char WorldActorModelOffset[offsetof(TObjBase,model)==0x34?1:-1];
-typedef char MotionActionsOffset[offsetof(TObjMotion,action_table)==0xD8?1:-1];
-typedef char MotionListOffset[offsetof(TObjMotion,motion_list)==0xDC?1:-1];
-typedef char JointMatricesOffset[offsetof(TObjMotion,joint_matrices)==0xE0?1:-1];
+LAYOUT_ASSERT(TObjBaseSize, sizeof(TObjBase)==0x90);
+LAYOUT_ASSERT(TObjCollidableSize, sizeof(TObjCollidable)==0xAC);
+LAYOUT_ASSERT(CollisionBodySize, sizeof(CollisionBody)==0x2C);
+LAYOUT_ASSERT(TObjMotionSize, sizeof(TObjMotion)==0xFC);
+LAYOUT_ASSERT(WorldActorModelOffset, offsetof(TObjBase,model)==0x34);
+LAYOUT_ASSERT(MotionActionsOffset, offsetof(TObjMotion,action_table)==0xD8);
+LAYOUT_ASSERT(MotionListOffset, offsetof(TObjMotion,motion_list)==0xDC);
+LAYOUT_ASSERT(JointMatricesOffset, offsetof(TObjMotion,joint_matrices)==0xE0);
 #endif

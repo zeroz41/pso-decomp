@@ -6,7 +6,7 @@
 
 struct TPhotonMagicSquare : public TObjBase {
     virtual ~TPhotonMagicSquare();
-    u32 m_90;
+    uaddr m_90;
     u8 unk_94[0x4];
     f32 m_98;
     u8 unk_9C[0x4];
@@ -26,5 +26,5 @@ struct TPhotonMagicSquare : public TObjBase {
     TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id);
 };
 
-typedef char TPhotonMagicSquare_size[sizeof(TPhotonMagicSquare) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonMagicSquare_size, sizeof(TPhotonMagicSquare) == 0xD0);
 #endif

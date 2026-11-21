@@ -61,7 +61,7 @@ void draw_shape_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, NJS_MOTION *s
 }
 
 void TObjPlayer::draw_motion_node_list() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 tmp;
     ModelDrawContext *ctx;
     s32 *obj;
@@ -87,7 +87,7 @@ void TObjPlayer::draw_motion_node_list() {
             ctx->draw(n->obj);
         }
         if (n->child != NULL) {
-            ((TObjPlayer *)((s32)n->child))->draw_motion_node_list();
+            ((TObjPlayer *)((saddr)n->child))->draw_motion_node_list();
         }
         pop_matrix();
         n = n->next;
@@ -311,7 +311,7 @@ typedef union {
 } WGPipe_803E549C;
 #define GXWGFifo_803E549C (*(volatile WGPipe_803E549C *)0xCC008000)
 
-void Dolphin_GXSetVtxDesc(int, int);
+void GXSetVtxDesc(int, int);
 void GXClearVtxDesc(void);
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void GXBegin(int, int, u16);
@@ -320,7 +320,7 @@ extern u32 chunk_render_flags;
 s32 resolve_render_keys__10TObjPlayerFPPUlPPUl();
 
 
-void TObjPlayer::set_global_7778(s32 arg0) {
+void TObjPlayer::set_global_7778(saddr arg0) {
     lbl_805D7778 = (u32 *)arg0;
 }
 
@@ -356,9 +356,9 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
     GXSetVtxAttrFmt(0, 9, 1, 4, 0);
     GXSetVtxAttrFmt(0, 0xB, 1, 5, 0);
     GXSetVtxAttrFmt(0, 0xD, 1, 3, big ? 0xC : 8);
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xB, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xB, 1);
+    GXSetVtxDesc(0xD, 1);
     do {
         n = *p++;
         if (n < 0) {

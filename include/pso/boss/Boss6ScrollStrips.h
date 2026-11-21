@@ -26,6 +26,6 @@ struct Boss6ScrollStrips {
     void build_tables(const Boss6StripDesc *descs, s32 n);
 };
 
-typedef char Boss6ScrollStrips_size[sizeof(Boss6ScrollStrips) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(Boss6ScrollStrips_size, sizeof(Boss6ScrollStrips) == 0x14);
 
 #endif

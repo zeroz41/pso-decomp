@@ -20,7 +20,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     u8 unk_374[0xC];
     u8 * model_archive;  // get_instance(); its texlist and bml models
     u32 state;  // index into the {enter, update} state table; set_state
-    u32 m_388;
+    uaddr m_388;
     void *collision_body_parts;  // init_collision_body_parts / free_collision_body_parts
     s32 state_timer;  // set_random_timer, counted down by the states
     u8 unk_394[0x4];
@@ -40,13 +40,13 @@ struct TObjEneSlimeOne : public TObjEnemy {
     Vec launch_velocity;  // the ctor's start vector; falls by 0.075 per frame, added to position
     void * particle;  // TParticleCtrl, released in the dtor
     u32 m_3ec;
-    u32 parent_slime;  // the ctor's spawner; try_spawn_child is called on it when this one is hit
+    uaddr parent_slime;  // the ctor's spawner; try_spawn_child is called on it when this one is hit
     s32 m_3f4;
     s32 get_attack_target();
     s32 is_in_water_bomb_states();
-    static int get_instance();
+    static saddr get_instance();
     int is_timer_active();
-    int find_nearest_enemy_with_flag(s32 arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(saddr arg1, f32 farg0);
     int check_player_field_7cc();
     void draw_part(s32 arg1);
     void advance_animation_state();
@@ -92,5 +92,5 @@ struct TObjEneSlimeOne : public TObjEnemy {
     void init_state();
 };
 
-typedef char TObjEneSlimeOne_size[sizeof(TObjEneSlimeOne) == 0x3F8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneSlimeOne_size, sizeof(TObjEneSlimeOne) == 0x3F8);
 #endif

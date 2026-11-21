@@ -21,6 +21,6 @@ struct TObjDFDemo2 : public TObjBase {
     f32 frame;
 };
 
-typedef char TObjDFDemo2_size[sizeof(TObjDFDemo2) == 0xC4 ? 1 : -1];
-typedef char TObjDFDemo2CameraPositionOffset[offsetof(TObjDFDemo2, camera_position) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo2_size, sizeof(TObjDFDemo2) == 0xC4);
+LAYOUT_ASSERT(TObjDFDemo2CameraPositionOffset, offsetof(TObjDFDemo2, camera_position) == 0xAC);
 #endif

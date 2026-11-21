@@ -16,6 +16,6 @@ public:
     s32 m_30;
     u8 unk_34[0x4];
 };
-typedef char TUnk_804F3A20_size[sizeof(TUnk_804F3A20) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F3A20_size, sizeof(TUnk_804F3A20) == 0x38);
 
 #endif

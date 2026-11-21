@@ -73,11 +73,11 @@ void TTecGrants::vfunc_6(void *target_arg) {
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecGrants((s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+    new TTecGrants((saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
 }
 
 void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
-    u32 entity;
+    uaddr entity;
     u8 *temp_r3_2;
     *(u8 **)((s8 *)tec_grants + 0x1C) = (u8 *)find_entity_by_id(tec_grants->m_b4);
     if ((void *) *(u8 **)((s8 *)tec_grants + 0x1C) == NULL) {
@@ -110,7 +110,7 @@ TTecGrants::~TTecGrants() {
 }
 
 #define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TUnk_804CC148(arg1, arg2, arg4) {
+TTecGrants::TTecGrants(saddr arg1, saddr arg2, saddr arg3, saddr arg4) : TUnk_804CC148(arg1, arg2, arg4) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_grants + 0xEC));
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;

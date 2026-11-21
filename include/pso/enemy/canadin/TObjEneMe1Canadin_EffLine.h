@@ -18,6 +18,6 @@ public:
     u32 m_40;
     u32 m_44;
 };
-typedef char TObjEneMe1Canadin_EffLine_size[sizeof(TObjEneMe1Canadin_EffLine) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Canadin_EffLine_size, sizeof(TObjEneMe1Canadin_EffLine) == 0x48);
 
 #endif

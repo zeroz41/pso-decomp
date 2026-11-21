@@ -1,14 +1,11 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
 extern "C" {
-int strcmp(const char *a, const char *b);
-char *strcat(char *, const char *);
-char *strncpy(char *, const char *, u32);
-void *memset(void *, int, u32);
 extern const char lbl_805DB070 = '.';
 void TLobby::debug_print(const char *fmt, ...) {}
 

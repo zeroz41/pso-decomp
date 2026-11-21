@@ -29,11 +29,11 @@ Vec three_part_model_translate_offset = {-20000.0f, 0.0f, 0.0f};
 #pragma opt_propagation off
 #pragma opt_common_subs off
 TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
-    s32 texture_index;
+    saddr texture_index;
     s32 *motion_indices;
     BmlResource *archive;
     TObjDFDemoF *self;
-    s32 i;
+    saddr i;
 
     self = this;
     self->m_name = TObjDFDemoF__name;

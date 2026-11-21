@@ -105,7 +105,7 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
 };
 
 extern "C" {
-u32 init_collision_body_parts(void *, s32, s32);
+u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
@@ -154,7 +154,7 @@ TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TUnk_804
     m_name = TObjContainerJung__name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (s32)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy((Vec *)&m_2fc, &position);
@@ -182,7 +182,7 @@ void TObjContainerJung::vfunc_81() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((s32)jungle_container_textures);
+            TObjFish::set_global_param((saddr)jungle_container_textures);
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
@@ -234,8 +234,8 @@ void TObjContainerJung::vfunc_79() const {
         a.pos[1] = py;
         a.pos[2] = pz;
         a.pad_38[0] = py;
-        a.model = (s32) get_bml_model(jungle_container_archive, 1);
-        a.textures = (s32)jungle_container_textures;
+        a.model = (saddr) get_bml_model(jungle_container_archive, 1);
+        a.textures = (saddr)jungle_container_textures;
         TObjChipParams b = container_jung_spawn_params;
         f32 qz;
         f32 qy;
@@ -247,8 +247,8 @@ void TObjContainerJung::vfunc_79() const {
         b.pos[1] = qy;
         b.pos[2] = qz;
         b.pad_38[0] = qy;
-        b.model = (s32) get_bml_model(jungle_container_archive, 2);
-        b.textures = (s32)jungle_container_textures;
+        b.model = (saddr) get_bml_model(jungle_container_archive, 2);
+        b.textures = (saddr)jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -298,7 +298,7 @@ TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TUnk
     m_name = TObjContainerJungEx__name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (s32)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy((Vec *)&m_2fc, &position);
@@ -326,7 +326,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param((s32)TObjContainerJungEx::get_textures(0));
+        TObjFish::set_global_param((saddr)TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -372,8 +372,8 @@ void TObjContainerJungEx::vfunc_79() const {
     a.pos[1] = py;
     a.pos[2] = pz;
     a.pad_38[0] = py;
-    a.model = (s32)TObjContainerJungEx::get_model(1);
-    a.textures = (s32)TObjContainerJungEx::get_textures(0);
+    a.model = (saddr)TObjContainerJungEx::get_model(1);
+    a.textures = (saddr)TObjContainerJungEx::get_textures(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
     f32 qy;
@@ -385,8 +385,8 @@ void TObjContainerJungEx::vfunc_79() const {
     b.pos[1] = qy;
     b.pos[2] = qz;
     b.pad_38[0] = qy;
-    b.model = (s32)TObjContainerJungEx::get_model(2);
-    b.textures = (s32)TObjContainerJungEx::get_textures(0);
+    b.model = (saddr)TObjContainerJungEx::get_model(2);
+    b.textures = (saddr)TObjContainerJungEx::get_textures(0);
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
     void *o = TObject::operator new(0x234);
@@ -410,7 +410,7 @@ TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) 
     load_models();
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (s32)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy((Vec *)&m_2fc, &position);
@@ -427,7 +427,7 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 }
 
 void TObjContainerJungEnemy::load_models() {
-    s32 var_r0;
+    saddr var_r0;
     s32 temp_r3 = this->set_params[1];
     if (temp_r3 < 0) {
         var_r0 = 0;
@@ -443,7 +443,7 @@ void TObjContainerJungEnemy::load_models() {
         this->large_fragment_model = TObjContainerJung::get_model_by_index(1);
         this->small_fragment_model = TObjContainerJung::get_model_by_index(2);
         this->light_model = TObjContainerJung::get_model_by_index(3);
-        this->texlist = (s32)TObjContainerJung::get_textures(0);
+        this->texlist = (saddr)TObjContainerJung::get_textures(0);
         return;
     default:
     case 1:
@@ -451,7 +451,7 @@ void TObjContainerJungEnemy::load_models() {
         this->large_fragment_model = TObjContainerJungEx::get_model(1);
         this->small_fragment_model = TObjContainerJungEx::get_model(2);
         this->light_model = TObjContainerJungEx::get_model(3);
-        this->texlist = (s32)TObjContainerJungEx::get_textures(0);
+        this->texlist = (saddr)TObjContainerJungEx::get_textures(0);
         return;
     }
 }
@@ -528,7 +528,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         a.pos[1] = ya;
         a.pos[2] = za;
         a.pad_38[0] = ya;
-        a.model = (s32)large_fragment_model;
+        a.model = (saddr)large_fragment_model;
         a.textures = texlist;
         TObjChipParams b = container_jung_enemy_spawn_params_b;
         f32 zb;
@@ -541,7 +541,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         b.pos[1] = yb;
         b.pos[2] = zb;
         b.pad_38[0] = yb;
-        b.model = (s32)small_fragment_model;
+        b.model = (saddr)small_fragment_model;
         b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);

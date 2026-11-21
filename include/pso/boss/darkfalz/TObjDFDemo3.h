@@ -27,7 +27,7 @@ struct TObjDFDemo3 : public TObjBase {
     Vec emitter_position;
 };
 
-typedef char TObjDFDemo3_size[sizeof(TObjDFDemo3) == 0xC8 ? 1 : -1];
-typedef char TObjDFDemo3_camera_position_offset[offsetof(TObjDFDemo3, camera_position) == 0xA0 ? 1 : -1];
-typedef char TObjDFDemo3_emitter_position_offset[offsetof(TObjDFDemo3, emitter_position) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo3_size, sizeof(TObjDFDemo3) == 0xC8);
+LAYOUT_ASSERT(TObjDFDemo3_camera_position_offset, offsetof(TObjDFDemo3, camera_position) == 0xA0);
+LAYOUT_ASSERT(TObjDFDemo3_emitter_position_offset, offsetof(TObjDFDemo3, emitter_position) == 0xBC);
 #endif

@@ -21,6 +21,6 @@ struct TObjContainerJung : public TUnk_804B6C24 {
     static void load_resources();
 };
 
-typedef char TObjContainerJung_size[sizeof(TObjContainerJung) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TObjContainerJung_size, sizeof(TObjContainerJung) == 0x368);
 
 #endif

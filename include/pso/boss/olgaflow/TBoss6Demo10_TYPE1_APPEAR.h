@@ -22,14 +22,14 @@ public:
     virtual void run_task();
     OlgaFlowScenePart parts[2];
     f32 frame;
-    s32 timer;
+    saddr timer;
     TBoss6PlotFalz *plot;
     Boss6ScrollStrips scroll_strips;
     Vec effect_position;
     ModelNodePositionCapture *capture;
     TParticleCtrl *emitter;
 };
-typedef char TBoss6Demo10_TYPE1_APPEAR_size[sizeof(TBoss6Demo10_TYPE1_APPEAR) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo10_TYPE1_APPEAR_size, sizeof(TBoss6Demo10_TYPE1_APPEAR) == 0x68);
 
-typedef char TBoss6Demo10_capture_offset[offsetof(TBoss6Demo10_TYPE1_APPEAR, capture) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo10_capture_offset, offsetof(TBoss6Demo10_TYPE1_APPEAR, capture) == 0x60);
 #endif

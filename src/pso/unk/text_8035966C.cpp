@@ -2,6 +2,7 @@
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "pso/unk/text_8035966C.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/task/TObject.h"
 
 extern TObject *tl_clipout;
 TBoss4Fade *create_boss4_fade() {

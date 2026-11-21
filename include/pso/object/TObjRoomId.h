@@ -18,5 +18,5 @@ struct TObjRoomId : public TObjBase {
     Vec normal;
 };
 
-typedef char TObjRoomId_size[sizeof(TObjRoomId) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(TObjRoomId_size, sizeof(TObjRoomId) == 0x9C);
 #endif

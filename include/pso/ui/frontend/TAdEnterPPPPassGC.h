@@ -18,7 +18,7 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
     s32 m_40;
 };
 
-typedef char TAdEnterPPPPassGC_size[sizeof(TAdEnterPPPPassGC) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TAdEnterPPPPassGC_size, sizeof(TAdEnterPPPPassGC) == 0x44);
 
 // --- C functions defined in TAdEnterPPPPassGC.cpp ---
 extern "C" {
@@ -26,7 +26,7 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0);
 void forward_chg_game_mode__17TAdEnterPPPPassGCFPv(void *p);
 void open_keyboard_window__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc);
 void request_transition__17TAdEnterPPPPassGCFPv(void *p);
-void set_password__17TAdEnterPPPPassGCFi(s32 arg0);
+void set_password__17TAdEnterPPPPassGCFi(saddr arg0);
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc);
 }
 // --- end of C functions

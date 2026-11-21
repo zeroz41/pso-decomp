@@ -2,10 +2,10 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaModelQueue.h"
 #include <stddef.h>
-typedef char queue_models_offset[(offsetof(GinjaModelQueue, models) == 0) ? 1 : -1];
-typedef char queue_count_offset[(offsetof(GinjaModelQueue, count) == 4) ? 1 : -1];
-typedef char queue_draw_offset[(offsetof(GinjaModelQueue, draw) == 8) ? 1 : -1];
-typedef char queue_known_size[(sizeof(GinjaModelQueue) == 12) ? 1 : -1];
+LAYOUT_ASSERT(queue_models_offset, offsetof(GinjaModelQueue, models) == 0);
+LAYOUT_ASSERT(queue_count_offset, offsetof(GinjaModelQueue, count) == 4);
+LAYOUT_ASSERT(queue_draw_offset, offsetof(GinjaModelQueue, draw) == 8);
+LAYOUT_ASSERT(queue_known_size, sizeof(GinjaModelQueue) == 12);
 extern void* model_draw_queue_models[10];
 
 void init_model_draw_queue(ModelDrawCallback draw);

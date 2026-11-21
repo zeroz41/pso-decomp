@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjEvtCollision : public TObjCollidable {
-    TObjEvtCollision(s32, s32);
+    TObjEvtCollision(saddr, saddr);
     virtual ~TObjEvtCollision();
     f32 trigger_radius;
     u32 m_b0;
@@ -15,5 +15,5 @@ struct TObjEvtCollision : public TObjCollidable {
     virtual void run_task();
 };
 
-typedef char TObjEvtCollision_size[sizeof(TObjEvtCollision) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEvtCollision_size, sizeof(TObjEvtCollision) == 0xB8);
 #endif

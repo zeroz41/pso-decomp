@@ -25,13 +25,13 @@ BmlResourceDescriptor boss06_tube_dat_resource_descriptor = { "boss06_tube_dat.b
 const char *TBoss6Tube__name = "TBoss6Tube";
 // The model drawn on each of render's three passes (name inferred).
 const s32 boss6_tube_model_order[3] = { 2, 0, 1 };
-u32 boss6_tube_bml_resource;
-u32 boss6_tube_texture_list;
+uaddr boss6_tube_bml_resource;
+uaddr boss6_tube_texture_list;
 
 typedef struct TBoss6Tube_802B1020 {
     u8 pad[0x28];
     s32 f28;
-    s32 f2c;
+    saddr f2c;
 } TBoss6Tube_802B1020;
 
 extern "C" {
@@ -39,7 +39,7 @@ void TBoss6Tube__sub_802B129C(u8 *arg0);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void draw_ginja_object(void);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TBoss6Tube::render() {
     TBoss6Tube_802B1020 *o = (TBoss6Tube_802B1020 *)this;
@@ -85,7 +85,7 @@ void TBoss6Tube::render() {
         break;
     }
     start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(o->f28));
-    TObjFish::set_global_param((s32)(boss6_tube_texture_list));
+    TObjFish::set_global_param((saddr)(boss6_tube_texture_list));
     set_draw_list_mask(3);
     for (i = 0; i < 3; i++) {
         for (y = start; y < hi; y += (8e+02f)) {
@@ -149,7 +149,7 @@ void TBoss6Tube::update_wobble() {
 #pragma pop
 
 void TBoss6Tube::spawn_trap() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     TBoss6Tube__sub_802B129C((u8 *)arg0);
     play_persistent_sound(0x40033520, arg0, 0, 0, 0);
 }
@@ -199,7 +199,7 @@ TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
     m_1c = 0;
 }
 
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 release_texture_list(void*);
 }
@@ -223,12 +223,12 @@ void TBoss6Tube::free_resources() {
 void TBoss6Tube::load_resources() {
     s32 r;
     TBoss6Tube::reset_state();
-    r = (int)::operator new(0x440);
+    r = (saddr)::operator new(0x440);
     if (r != 0) {
-        r = (s32)load_resource_from_descriptor((void *)r, 5, &boss06_tube_dat_resource_descriptor, 0, 0, 0);
+        r = (saddr)load_resource_from_descriptor((void *)r, 5, &boss06_tube_dat_resource_descriptor, 0, 0, 0);
     }
     boss6_tube_bml_resource = r;
-    boss6_tube_texture_list = (u32)load_gvm_texture_file((s32)"boss06_tube_dat.gvm");
+    boss6_tube_texture_list = (uaddr)load_gvm_texture_file((saddr)"boss06_tube_dat.gvm");
     if (boss6_tube_bml_resource != 0 && boss6_tube_texture_list != 0) {
         return;
     }

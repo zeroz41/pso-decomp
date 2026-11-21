@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/unk/TLobby.h"
@@ -54,12 +55,12 @@ typedef struct Hdr_8022525C
 
 extern "C" {
 void sort_shop_items(s32, s32, s32);
-u32 lobby_tool_random_rel;
+uaddr lobby_tool_random_rel;
 int shop_tool_stock_level;
 s32 shop_tool_stock_counts[4];
 s32 shop_tool_stock_table[4];
 s32 shop_tool_flags[4];
-s32 shop_tool_stock_buffers[4];
+saddr shop_tool_stock_buffers[4];
 
 }
 
@@ -105,7 +106,6 @@ const s32 shop_technique_pool_table[19] = {
 };
 
 extern "C" {
-s32 memset(void *, int, int);
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 TLobby__sub_80223DD8(Item_802242F8 *, s32);
@@ -394,7 +394,7 @@ void clear_shop_tool_flags(void) {
 }
 
 void TLobby::copy_shop_item_entry(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[arg2] + (arg1 * 0x14));
 }
 void mark_shop_tool_sold_out(s32 a, s32 b) {
@@ -425,11 +425,11 @@ void TLobby::generate_shop_inventory(s32 idx) {
 
 void TLobby::free_all_rocks() {
     s32 var_r28 = 3;
-    s32 *var_r29 = shop_tool_stock_buffers;
+    saddr *var_r29 = shop_tool_stock_buffers;
     s32 var_r30 = 0;
     s32 var_r31 = 3;
     do {
-        u32 v = (u32)var_r29[var_r31];
+        uaddr v = (u32)var_r29[var_r31];
         if (v != 0U) {
             mem_free((void *)v);
             var_r29[var_r31] = (s32)var_r30;
@@ -442,19 +442,19 @@ void TLobby::free_all_rocks() {
         lobby_tool_random_rel = var_r30;
     }
 }
-s32 create_named_object(s32 arg0);
+saddr create_named_object(saddr arg0);
 void load_tool_random_rel(void) {
     s32 i;
-    (*(s32 *)&lobby_tool_random_rel) = create_named_object((s32)"ToolRandom.rel");
+    (*(s32 *)&lobby_tool_random_rel) = create_named_object((saddr)"ToolRandom.rel");
     for (i = 0; i < 4; i++) {
-        ((s32 *)&shop_tool_stock_buffers)[i] = 0;
+        ((saddr *)&shop_tool_stock_buffers)[i] = 0;
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_tool_stock_buffers)[i] = (s32)mem_alloc(0x168);
+            ((saddr *)&shop_tool_stock_buffers)[i] = (saddr)mem_alloc(0x168);
         }
     } else {
-        ((s32 *)&shop_tool_stock_buffers)[0] = (s32)mem_alloc(0x168);
+        ((saddr *)&shop_tool_stock_buffers)[0] = (saddr)mem_alloc(0x168);
     }
     (*(s32 *)&shop_tool_stock_level) = 0;
 }

@@ -129,7 +129,7 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
         break;
     }
     if (timer >= 0x89) {
-        play_persistent_sound(0x4003A424, (s32)this, 0, 0, 0);
+        play_persistent_sound(0x4003A424, (saddr)this, 0, 0, 0);
     }
     switch (timer) {
     case 0xE:
@@ -205,9 +205,9 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param((s32)(((s32)parts[0].texture)));
+        TObjFish::set_global_param((saddr)(parts[0].texture));
         draw_model_motion(parts[0].model, parts[0].motion, frame);
-        TObjFish::set_global_param((s32)(((s32)parts[1].texture)));
+        TObjFish::set_global_param((saddr)(parts[1].texture));
         node_effect->install();
         draw_model_motion(parts[1].model, parts[1].motion, frame);
         node_effect->clear();

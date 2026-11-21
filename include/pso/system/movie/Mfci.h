@@ -20,12 +20,12 @@ struct MfciFilePool {
     MfciFileEntry entries[40];
     u8 unknown_tail[4];
 };
-typedef char MfciFileEntrySize[sizeof(MfciFileEntry) == 0x38 ? 1 : -1];
-typedef char MfciFilePoolSize[sizeof(MfciFilePool) == 0x8C4 ? 1 : -1];
+LAYOUT_ASSERT(MfciFileEntrySize, sizeof(MfciFileEntry) == 0x38);
+LAYOUT_ASSERT(MfciFilePoolSize, sizeof(MfciFilePool) == 0x8C4);
 #include <stddef.h>
-typedef char MfciFileNameOffset[offsetof(MfciFileEntry, name) == 0x1C ? 1 : -1];
-typedef char MfciReadOffset[offsetof(MfciFileEntry, read_offset) == 0x30 ? 1 : -1];
-typedef char MfciRequestSizeOffset[offsetof(MfciFileEntry, request_size) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(MfciFileNameOffset, offsetof(MfciFileEntry, name) == 0x1C);
+LAYOUT_ASSERT(MfciReadOffset, offsetof(MfciFileEntry, read_offset) == 0x30);
+LAYOUT_ASSERT(MfciRequestSizeOffset, offsetof(MfciFileEntry, request_size) == 0x34);
 
 s32 mfci_get_num_transferred(MfciFileEntry *file); // inferred: mfCiGetNumTr
 void mfci_set_sector_length(MfciFileEntry *file, s32 length); // inferred: mfCiSetSctLen
@@ -38,7 +38,7 @@ s32 mfci_seek(MfciFileEntry* file, s32 sectors, s32 origin);
 void mfci_close(MfciFileEntry* file);
 MfciFileEntry* mfci_open(const char* name, s32 entry, s32 mode);
 u32 mfci_parse_file_size(char* name);
-void mfci_set_error_callback(s32 arg0, s32 arg1);
+void mfci_set_error_callback(saddr arg0, s32 arg1);
 void mfci_exec_server(void); // inferred: mfCiExecServer
 
 // The device's function table for CRI's file system: cvFsAddDev("MFS", mfci_get_interface, 0) registers
@@ -46,7 +46,7 @@ void mfci_exec_server(void); // inferred: mfCiExecServer
 // does not implement. Slot names inferred from the functions they hold.
 struct MfciDeviceInterface {
     void (*exec_server)(void);
-    void (*set_error_callback)(s32 callback, s32 context);
+    void (*set_error_callback)(saddr callback, s32 context);
     u32 (*get_file_size)(char *name);
     void *pad_0c;
     MfciFileEntry *(*open)(const char *name, s32 entry, s32 mode);
@@ -62,7 +62,7 @@ struct MfciDeviceInterface {
     s32 (*get_num_transferred)(MfciFileEntry *file);
     void *pad_3c[11];
 };
-typedef char MfciDeviceInterfaceSize[sizeof(MfciDeviceInterface) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(MfciDeviceInterfaceSize, sizeof(MfciDeviceInterface) == 0x68);
 
 extern MfciDeviceInterface mfci_callback_table;
 MfciDeviceInterface *mfci_get_interface(void); // inferred: mfCiGetInterface

@@ -23,7 +23,7 @@ struct TBoss6RockChase : public TObjCollidable {
     static TBoss6RockChase *spawn(TObject *parent, const Vec *position);
 };
 
-typedef char TBoss6RockChase_size[sizeof(TBoss6RockChase) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6RockChase_size, sizeof(TBoss6RockChase) == 0xC8);
 
 extern "C" {
 void *__dt__15TBoss6RockChaseFv(void *arg0, s16 arg1);

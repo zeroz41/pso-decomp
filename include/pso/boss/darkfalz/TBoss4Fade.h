@@ -21,9 +21,9 @@ public:
     FadeFrame frames[2];
 };
 
-typedef char TBoss4Fade_size[sizeof(TBoss4Fade) == 0x38 ? 1 : -1];
-typedef char TBoss4Fade_write_index_offset[offsetof(TBoss4Fade, write_index) == 0x1C ? 1 : -1];
-typedef char TBoss4Fade_frames_offset[offsetof(TBoss4Fade, frames) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TBoss4Fade_size, sizeof(TBoss4Fade) == 0x38);
+LAYOUT_ASSERT(TBoss4Fade_write_index_offset, offsetof(TBoss4Fade, write_index) == 0x1C);
+LAYOUT_ASSERT(TBoss4Fade_frames_offset, offsetof(TBoss4Fade, frames) == 0x20);
 
 struct TBoss4DarkFalz;
 

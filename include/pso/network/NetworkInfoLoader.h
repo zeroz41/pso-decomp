@@ -15,11 +15,10 @@ struct NetworkInfoLoadState {
     s32 card_result;
     s32 card_detail;
 };
-typedef char NetworkInfoLoadStateExtent[
-    sizeof(NetworkInfoLoadState) == 0x24 ? 1 : -1];
-typedef char NetworkInfoPhaseOffset[offsetof(NetworkInfoLoadState, phase) == 8 ? 1 : -1];
-typedef char NetworkInfoHandleOffset[offsetof(NetworkInfoLoadState, file_handle) == 0x10 ? 1 : -1];
-typedef char NetworkInfoDetailOffset[offsetof(NetworkInfoLoadState, card_detail) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(NetworkInfoLoadStateExtent, sizeof(NetworkInfoLoadState) == 0x24);
+LAYOUT_ASSERT(NetworkInfoPhaseOffset, offsetof(NetworkInfoLoadState, phase) == 8);
+LAYOUT_ASSERT(NetworkInfoHandleOffset, offsetof(NetworkInfoLoadState, file_handle) == 0x10);
+LAYOUT_ASSERT(NetworkInfoDetailOffset, offsetof(NetworkInfoLoadState, card_detail) == 0x20);
 
 extern NetworkInfoLoadState network_info_load_state;
 
@@ -38,7 +37,7 @@ void set_network_config_card_channel(s32 channel);
 s32 get_network_config_buffer_size(s32 backup_mode);
 s32 get_network_info_file_size(void);
 s32 get_network_info_card_key(int channel, u8 *key);
-u32 calc_crc32(s32 buf, s32 len);
+u32 calc_crc32(saddr buf, s32 len);
 extern "C" {
 u32 fn_803F4D10(u32 crc, u8 *buf, s32 len);
 }

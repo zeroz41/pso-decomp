@@ -37,7 +37,7 @@
 #include "pso/object/base/TObjChara.h"
 
 
-typedef char PanarmsActionTimerOffset[offsetof(TObjEnePanBARA, action_timer) == 0x3B4 ? 1 : -1];
+LAYOUT_ASSERT(PanarmsActionTimerOffset, offsetof(TObjEnePanBARA, action_timer) == 0x3B4);
 
 extern "C" {
 s32 TObjEnePanarms__sub_800DFB44(s32);
@@ -317,7 +317,7 @@ s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self) {
     return self->state == 9 || self->state == 11;
 }
 
-int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(s32 arg1, f32 farg0) {
+int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
@@ -422,7 +422,7 @@ PanarmsMotionParam *lbl_80495914[2] = { lbl_80495484, lbl_80495524 };
 s32 panarms_turn_delta_table[2] = { 0x4000, -0x4000 };
 
 s32 TObjEnePanarms::create_bara(void *setData, s32 index) {
-    return (s32)new TObjEnePanBARA(new TObjControl(tl_04), setData, index);
+    return (saddr)new TObjEnePanBARA(new TObjControl(tl_04), setData, index);
 }
 
 struct PanBARAParams {
@@ -457,8 +457,8 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     model = (void *)get_bml_model(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, lbl_80495458, 1);
-    set_field_d8((s32)lbl_80495914[m_380]);
-    set_field_dc((s32)TObjEnePanarms__entry_params_resource->motions);
+    set_field_d8((saddr)lbl_80495914[m_380]);
+    set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_field_b8(0);
     VecCopy((Vec *)&m_2fc, &position);
@@ -612,7 +612,7 @@ void TObjEnePanBARA::render() {
     saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x01000000 | 1;
     temp_r31 = &((Obj_800E20D0 *) ((u8 *)this))->fades[camera_mode];
-    update__15RenderFadeStateFv((int)temp_r31, (int)temp_r4);
+    update__15RenderFadeStateFv((saddr)temp_r31, (int)temp_r4);
     if (((RenderFadeState *)temp_r31)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
         temp_r31->m6();
         var_r30 = 1;
@@ -631,12 +631,12 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { ((int (*)(void*))push_matrix)(this); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((s32)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); ((int (*)(void))pop_matrix)(); }
+void TObjEnePanBARA::draw() { ((int (*)(void*))push_matrix)(this); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((saddr)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); ((int (*)(void))pop_matrix)(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     u8 *arg0 = (u8 *)this;
     struct { u8 b[0x10]; } sp10;
-    s32 spC;
+    saddr spC;
     s32 sp8;
     f32 temp_f1;
     s32 temp_r0;
@@ -705,7 +705,7 @@ void TObjEnePanarms__sub_800E1E14(u8 *arg0) {
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x39C) + 0x38));
     temp_r5 = *(u8 **)((s8 *)arg0 + 0x39C);
     *(s32 *)((s8 *)arg0 + 0x60) = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
-    ((s32 (*)(void *, int, int))sub_800E1C98__14TObjEnePanBARAFl)((void *)arg0, 1, (int)temp_r5);
+    ((s32 (*)(void *, int, int))sub_800E1C98__14TObjEnePanBARAFl)((void *)arg0, 1, (saddr)temp_r5);
 }
 
 #pragma push
@@ -713,7 +713,7 @@ void TObjEnePanarms__sub_800E1E14(u8 *arg0) {
 #pragma auto_inline off
 #pragma dont_inline off
 void TObjEnePanBARA::init_state() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     update_offset_from_parent();
     ((TObjEnePanBARA *)((void*)arg0))->sub_800E1C98(3);
 }
@@ -895,7 +895,7 @@ s32 TObjEnePanarms__sub_800E1774(void * self_) {
 
     if ((s32)((TObjEnePanarms *)self_)->get_state_flag() != 0) {
         ret = TObjEnePanarms__sub_800E2FB4(*(O_800E2FB4 **)(((u8*)self_) + 0x3a0)) == 0
-            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = ((TObjEnePanBARA *)self_)->find_nearest_enemy_with_flag_alt_target((s32)vec, lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
+            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = ((TObjEnePanBARA *)self_)->find_nearest_enemy_with_flag_alt_target((saddr)vec, lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
             && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
         return (u8)ret;
     } else {
@@ -933,7 +933,7 @@ void TObjEnePanBARA::attack_target_player(s32 arg1) {
             if (lv < 0 || lv > 0xE) {
                 lv = 0;
             }
-            TTecJelin::create((s32)this, (s32)(((u8 *)this) + 0x2FC), (s32)(t + 0x2FC), (s32)lv);
+            TTecJelin::create((saddr)this, (saddr)(((u8 *)this) + 0x2FC), (saddr)(t + 0x2FC), (s32)lv);
             return;
         }
         if (sc <= *(f32 *)((s8 *)((u8 *)this) + 0x468) + this->m_46c) {
@@ -941,7 +941,7 @@ void TObjEnePanBARA::attack_target_player(s32 arg1) {
             if (lv < 0 || lv > 0xE) {
                 lv = 0;
             }
-            TTecZarua::create_instance((s32)this, (Vec *)(((u8 *)this) + 0x2FC), (Vec *)(t + 0x2FC), (s32)lv);
+            TTecZarua::create_instance((saddr)this, (Vec *)(((u8 *)this) + 0x2FC), (Vec *)(t + 0x2FC), (s32)lv);
             return;
         }
         {
@@ -1283,7 +1283,7 @@ void TObjEnePanBARA::sub_800E0950() {
     if (temp_r0 <= 0x78) {
         if (temp_r0 == 0x78) {
             ((TObjPlayer *)unk_3A4)->spawn_ground_effect(0x78);
-            TObjPlayer::spawn_dead_spot_default((s32)unk_3A4, 6);
+            TObjPlayer::spawn_dead_spot_default((saddr)unk_3A4, 6);
         }
         this->position.y += -0.15625f;
         if ((s32) this->action_timer < 0) {
@@ -1456,7 +1456,7 @@ void TObjEnePanBARA::sub_800E0344() {
         this->m_3b0 = 0.0f;
         this->action_timer = 0x96;
         *(s32 *)((s8 *)this + 0x3C0) = 1;
-        play_sound_effect((s32)((void *) (((s32)this->remap_sound_for_area(0x4003BC2D)))), (u8 *)this + 0x38, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003BC2D), (u8 *)this + 0x38, 0, 0);
         this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
         this->set_field_b8(2);
     }
@@ -1585,7 +1585,7 @@ void TObjEnePanBARA::init_open_state() {
 
 void TObjEnePanBARA::sub_800DFE08() {
     s32 temp_r0;
-    s32 var_r5;
+    saddr var_r5;
     temp_r0 = this->action_timer - 1;
     this->action_timer = temp_r0;
     if (temp_r0 == 0) {
@@ -1597,7 +1597,7 @@ void TObjEnePanBARA::sub_800DFE08() {
             var_r5 = 0;
         }
         TTecResta::create((void *)this, &position, (void *)var_r5);
-        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) (this->remap_sound_for_area(0x4003BC31)), &position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003BC31), &position, 0, 0);
     }
     if (*(s32 *)((s8 *)this + 0xB0) & 0x10) {
         ((TObjEnePanBARA *)((u8 *)this))->sub_800E1C98(2);
@@ -1654,7 +1654,7 @@ void TObjEnePanarms::spawn_npc_pair() {
     NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding_b, 7.5f, 0.0f);
 }
 
-int TObjEnePanarms::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
+int TObjEnePanarms::find_nearest_enemy_with_flag(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);

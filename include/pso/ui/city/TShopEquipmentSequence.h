@@ -24,7 +24,7 @@ struct TShopEquipmentSequence : public TShopSequence {
     void open_buy_window();
 };
 
-typedef char TShopEquipmentSequence_size[sizeof(TShopEquipmentSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentSequence_size, sizeof(TShopEquipmentSequence) == 0x38);
 
 // --- C functions defined in TShopEquipmentSequence.cpp ---
 extern "C" {

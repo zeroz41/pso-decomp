@@ -58,12 +58,12 @@ void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
 u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
-extern u32 quest_mission_manager;
-extern u32 quest_area_manager;
-extern s32 tl_00;
+extern uaddr quest_mission_manager;
+extern uaddr quest_area_manager;
+extern saddr tl_00;
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 tl_05;
+extern saddr tl_05;
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
@@ -124,7 +124,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
         if (msg->room != 0xFFFF && msg->room >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(msg->room);
             if (col != NULL) {
-                if (((TUnk_804B6C24 *)col)->check_value_equals((s32)TOAttackableCol__name) != 0) {
+                if (((TUnk_804B6C24 *)col)->check_value_equals((saddr)TOAttackableCol__name) != 0) {
                     SetEntry_80157454 saved;
                     switch (msg->state) {
                     case 0:
@@ -211,15 +211,15 @@ void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
 
 int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_flag__14TObjCollidableFlUl(this, 0, 1); }
 
-f32 TOAttackableCol::apply_hit(s32 arg1) {
+f32 TOAttackableCol::apply_hit(saddr arg1) {
     u8 *arg0 = (u8 *)this;
   s32 temp_r0;
   s32 temp_r0_2;
   s32 var_r30;
   u32 temp_r3;
   u32 temp_r3_2;
-  u32 var_r0;
-  u32 var_r0_2;
+  uaddr var_r0;
+  uaddr var_r0_2;
   var_r30 = 0;
   if (((arg1 != 0) && (get_entity_id((void *) arg1) < 4U)) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
   {
@@ -242,7 +242,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
         temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x340));
         if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && (((u32) quest_mission_manager) != 0U)) && (((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0 = (u32)new TQuestThread((TObject *)quest_mission_manager, this->m_344);
+          var_r0 = (uaddr)new TQuestThread((TObject *)quest_mission_manager, this->m_344);
           if (var_r0 != 0U)
           {
             ((TObject *)var_r0)->set_parent((TObject *)tl_00);
@@ -251,7 +251,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
         else
           if ((((u32) quest_area_manager) != 0U) && (((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0_2 = (u32)new TQuestThread((TObject *)quest_area_manager, this->m_344);
+          var_r0_2 = (uaddr)new TQuestThread((TObject *)quest_area_manager, this->m_344);
           if (var_r0_2 != 0U)
           {
             ((TObject *)var_r0_2)->set_parent((TObject *)tl_00);
@@ -305,7 +305,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *arg0) {
     void *o;
-    o = (void *)new TOAttackableCol((s32)arg0);
+    o = (void *)new TOAttackableCol((saddr)arg0);
     return o;
 }
 
@@ -316,7 +316,7 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(s32 arg1) : TObjChara((TObject *)tl_05) {
+TOAttackableCol::TOAttackableCol(saddr arg1) : TObjChara((TObject *)tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);
     ((TObjChara *)this)->calc_attach_pos();
@@ -338,11 +338,11 @@ s32 TOAttackableCol::select_melee_contact_body(void *, f32) { return 1; }
 
 int TOAttackableCol::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
-f32 TOAttackableCol::receive_physical_attack(void *_w1, f32) { return this->apply_hit((s32)_w1); }
+f32 TOAttackableCol::receive_physical_attack(void *_w1, f32) { return this->apply_hit((saddr)_w1); }
 
-f32 TOAttackableCol::receive_direct_attack(void *_w1, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((s32)_w1); }
+f32 TOAttackableCol::receive_direct_attack(void *_w1, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((saddr)_w1); }
 
-f32 TOAttackableCol::receive_weapon_special_attack(void *_w1, void *) { return this->apply_hit((s32)_w1); }
+f32 TOAttackableCol::receive_weapon_special_attack(void *_w1, void *) { return this->apply_hit((saddr)_w1); }
 
 void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 

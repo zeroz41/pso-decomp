@@ -16,10 +16,10 @@ struct TBoss6Type2BattleAction {
     TBoss6Type2BattleHandler update;
 };
 
-typedef char TBoss6Type2BattleActionSize[sizeof(TBoss6Type2BattleAction) == 0x30 ? 1 : -1];
-typedef char TBoss6Type2BattleActionEnterOffset[offsetof(TBoss6Type2BattleAction, enter) == 0xC ? 1 : -1];
-typedef char TBoss6Type2BattleActionIdleOffset[offsetof(TBoss6Type2BattleAction, idle) == 0x18 ? 1 : -1];
-typedef char TBoss6Type2BattleActionUpdateOffset[offsetof(TBoss6Type2BattleAction, update) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Type2BattleActionSize, sizeof(TBoss6Type2BattleAction) == 0x30);
+LAYOUT_ASSERT(TBoss6Type2BattleActionEnterOffset, offsetof(TBoss6Type2BattleAction, enter) == 0xC);
+LAYOUT_ASSERT(TBoss6Type2BattleActionIdleOffset, offsetof(TBoss6Type2BattleAction, idle) == 0x18);
+LAYOUT_ASSERT(TBoss6Type2BattleActionUpdateOffset, offsetof(TBoss6Type2BattleAction, update) == 0x24);
 
 extern TBoss6Type2BattleAction boss6_type2_battle_actions[36];
 

@@ -10,6 +10,6 @@ public:
     s8 m_1d;
     u8 unk_1E[0x2];
 };
-typedef char TUnk_804ED5B0_size[sizeof(TUnk_804ED5B0) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804ED5B0_size, sizeof(TUnk_804ED5B0) == 0x20);
 
 #endif

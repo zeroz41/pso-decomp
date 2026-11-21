@@ -14,7 +14,7 @@ extern f32 camera_clip_parameters[];
 extern G_803D6688 lbl_8058D4F8;
 void C_MTXLookAt(void *, void *, void *, void *);
 extern u8 *current_matrix;
-s32 translate_matrix(s32, f32, f32, f32);
+s32 translate_matrix(saddr, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
 }
 f32 camera_look_at_up_vector[3] = {0.0f, 1.0f, 0.0f};

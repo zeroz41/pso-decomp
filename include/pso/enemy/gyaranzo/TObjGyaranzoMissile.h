@@ -23,5 +23,5 @@ struct TObjGyaranzoMissile : public TObjCollidable {
     u8 pad_DA[0x2];
 };
 
-typedef char TObjGyaranzoMissile_size[sizeof(TObjGyaranzoMissile) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjGyaranzoMissile_size, sizeof(TObjGyaranzoMissile) == 0xDC);
 #endif

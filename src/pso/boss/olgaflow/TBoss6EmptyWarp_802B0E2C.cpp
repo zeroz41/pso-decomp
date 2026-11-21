@@ -53,7 +53,7 @@ void TBoss6EmptyWarp::run_task() {
     *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
     if ((s32) *(s32 *)&this->unk_1C > 3) {
         TBoss6EmptyWarp::init_warp();
-        if (is_ship_door_ready__12TBoss6ThanksFv() != 0) {
+        if (TBoss6Thanks::is_ship_door_ready() != 0) {
             TBoss6Thanks::create();
             play_area_music((char *)("T2.adx"));
         } else {

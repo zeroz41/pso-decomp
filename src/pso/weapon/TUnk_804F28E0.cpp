@@ -33,7 +33,7 @@ void TUnk_804F28E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 }
 
 void TUnk_804F28E0::emit_marker_effects() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 sp8;
 
     ((TItemWeapon *)arg0)->get_gun_point(&sp8);
@@ -43,12 +43,12 @@ void TUnk_804F28E0::emit_marker_effects() {
 }
 
 void TUnk_804F28E0::update_idle() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1FC), 0.5f, 4.0f);
 }
 
 void TUnk_804F28E0::update_attack() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1FC), -1.0f, 0.0f);
 }
 

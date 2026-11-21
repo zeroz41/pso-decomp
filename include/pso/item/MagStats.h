@@ -59,6 +59,6 @@ struct MagStats {
 extern const u8 photon_blast_masks[3];
 extern const u8 photon_blast_slots[3];
 
-typedef char MagStatsSize[sizeof(MagStats) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(MagStatsSize, sizeof(MagStats) == 0x10);
 
 #endif

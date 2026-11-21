@@ -12,7 +12,7 @@
 
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 s32 TJudgmentSequence__slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
 TShopJudgmentItemWindow *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
@@ -62,9 +62,9 @@ void TJudgmentSequence::open_judgment_window() {
     if (o != 0) {
         o = __ct__23TShopJudgmentItemWindowFPvPvPv(o, tl_05, this, player);
     }
-    o->m_16c = (u32)TJudgmentSequence__sub_80215BCC;
-    o->m_174 = (u32)TJudgmentSequence__sub_80215BA0;
-    o->m_170 = (u32)TJudgmentSequence__sub_80215BF8;
+    o->m_16c = (uaddr)TJudgmentSequence__sub_80215BCC;
+    o->m_174 = (uaddr)TJudgmentSequence__sub_80215BA0;
+    o->m_170 = (uaddr)TJudgmentSequence__sub_80215BF8;
     set_field_20(5);
 }
 
@@ -82,7 +82,7 @@ void TJudgmentSequence::setup_counter_camera() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     x = 332.0f;
-    create_message_window(get_window_layout_position(0x2C, x), (s32)pos);
+    create_message_window(get_window_layout_position(0x2C, x), (saddr)pos);
     vfunc_8(1, 1);
     m_2c = (TWindowBase *)create_meseta_window(((s32)get_child_field1c()) & 0xFFFF);
     set_field_20(2);

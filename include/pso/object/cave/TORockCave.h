@@ -19,5 +19,5 @@ struct TORockCave : public TObjCollidable {
     f32 m_b0;
 };
 
-typedef char TORockCave_size[sizeof(TORockCave) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TORockCave_size, sizeof(TORockCave) == 0xB4);
 #endif

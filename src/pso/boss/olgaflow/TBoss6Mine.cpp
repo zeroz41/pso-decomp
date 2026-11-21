@@ -32,6 +32,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
@@ -84,7 +85,7 @@ f32 vec3_add_to(void *, void *);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
 f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
@@ -97,7 +98,6 @@ int rotate_matrix_x(void*, void*);
 void free_collision_body_parts(void *);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-s32 __nw__7TObjectFUl(s32);
 
 void TBoss6Mine::render_shadows() {
     u8 *arg0 = (u8 *)this;
@@ -115,20 +115,20 @@ void TBoss6Mine::vfunc_63() {
 void TBoss6Mine::vfunc_62() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
 
 void TBoss6Mine::copy_pos() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
 }
 
 void TBoss6Mine::draw() {
     s32 temp_r31;
     AnimationMotion *bml_motion;
-    s32 bml_model;
+    saddr bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = (s32)get_bml_texlist((BmlResource *)this->m_374, 2);
-    bml_model = (s32)get_bml_model((BmlResource *)this->m_374, 2);
+    temp_r31 = (saddr)get_bml_texlist((BmlResource *)this->m_374, 2);
+    bml_model = (saddr)get_bml_model((BmlResource *)this->m_374, 2);
     bml_motion = get_bml_motion((BmlResource *)(this->m_374), 0);
-    TObjFish::set_global_param((s32)(temp_r31));
+    TObjFish::set_global_param((saddr)(temp_r31));
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
@@ -145,7 +145,7 @@ void TBoss6Mine::update_facing_angles() {
     switch (this->state) {
     case 5:
     case 6:
-        VecCopy__FP3VecPC3Vec((s32) &v, (s32)(arg0 + 0x38));
+        VecCopy__FP3VecPC3Vec((saddr) &v, (saddr)(arg0 + 0x38));
         subtract_vector(&v, (u8 *)&this->prev_position);
         if (vector_length(&v) <= 0.00001f) {
             a = 0;
@@ -168,7 +168,7 @@ void TBoss6Mine::update_facing_angles() {
 }
 
 s32 TBoss6Mine::is_far_from_origin() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     return vector_length((void *)(arg0 + 0x38)) > 500.0f;
 }
 
@@ -214,11 +214,11 @@ void TBoss6Mine::state_6() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Mine::state_5() {
-    typedef char sp8_offset[(offsetof(Stack_803242C0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803242C0, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_803242C0, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_803242C0, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_803242C0, sp1C) == 0x14) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803242C0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803242C0, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_803242C0, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_803242C0, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_803242C0, sp1C) == 0x14);
     Stack_803242C0 stack;
     f32 ground_y;
     VecCopy((Vec *)&stack.sp14, &this->target_pos);
@@ -291,7 +291,7 @@ void TBoss6Mine::state_2() {
         this->state_frames = 0;
         this->state = 3;
     }
-    play_persistent_sound(0x4003B21C, (s32)this, (u32)&this->position, 0, 0);
+    play_persistent_sound(0x4003B21C, (saddr)this, (uaddr)&this->position, 0, 0);
 }
 
 void TBoss6Mine::state_1() {
@@ -386,7 +386,7 @@ TBoss6Mine::~TBoss6Mine() {
 }
 
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 #pragma push
 #pragma fp_contract on
@@ -439,9 +439,9 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     ((TBoss6Mine *)THIS)->m_398 = 0;
     *(s32 *)((s8 *)THIS + 0x38C) = 0;
     ((TBoss3Volopt *)THIS)->m_380 = 0;
-    *(u32 *)((s8 *)THIS + 0x3CC) = (u32)create_particle_emitter(THIS + 0x38, 0x146);
+    *(u32 *)((s8 *)THIS + 0x3CC) = (uaddr)create_particle_emitter(THIS + 0x38, 0x146);
     if (*(u32 *)((s8 *)THIS + 0x3CC) != 0) {
-        ((TParticleCtrl *)(*(u32 *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
+        ((TParticleCtrl *)(*(uaddr *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
     }
 }
 #pragma pop

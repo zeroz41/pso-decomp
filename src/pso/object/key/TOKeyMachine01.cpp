@@ -163,13 +163,13 @@ void TOKeyMachine01::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param((s32)TOKeyMachine01__texture_lists[is_on]);
+        TObjFish::set_global_param((saddr)TOKeyMachine01__texture_lists[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         if (is_on != 1) {
             flags = model_render_flags;
             saved_model_render_flags = flags;
@@ -181,11 +181,11 @@ void TOKeyMachine01::render() {
         push_matrix();
         post_translate_matrix(&scale.x);
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -203,7 +203,7 @@ void *TOKeyMachine01::create(void *set_data) {
 
 void TOKeyMachine01::free_statics() {
     if (TOKeyMachine01__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyMachine01__texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)TOKeyMachine01__texture_lists[0]);
         TOKeyMachine01__texture_lists[0] = 0;
         if (TOKeyMachine01__texture_lists != NULL) {
             mem_free(TOKeyMachine01__texture_lists);
@@ -223,7 +223,7 @@ void TOKeyMachine01::load_assets() {
     }
     TOKeyMachine01__resource_bundle = resource;
     TOKeyMachine01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyMachine01__texture_lists));
-    TOKeyMachine01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32) "fs_obj_ki_doa_panel_r.gvm");
+    TOKeyMachine01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_ki_doa_panel_r.gvm");
     TOKeyMachine01__texture_lists[1] = (GinjaTextureList *)TOKeyMachine01__resource_bundle->models[0].m_c;
 }
 
@@ -233,7 +233,7 @@ TOKeyMachine01::TOKeyMachine01(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyMachine01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (s32)TOKeyMachine01__texture_lists[0];
+    texlist = (saddr)TOKeyMachine01__texture_lists[0];
     model = (void *)TOKeyMachine01__resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 10.0f;

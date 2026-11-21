@@ -44,11 +44,11 @@ void TScene::apply_uv_offset(s16 arg1, s16 arg2) {
 
 void *TScene::destroy_buffers(s16 arg1) {
     if (this != NULL) {
-        if ((u32) this->m_next != 0U) {
+        if ((uaddr) this->m_next != 0U) {
             mem_free(this->m_next);
             this->m_next = 0U;
         }
-        if ((u32) this->m_prev != 0U) {
+        if ((uaddr) this->m_prev != 0U) {
             mem_free(this->m_prev);
             this->m_prev = 0U;
         }
@@ -62,7 +62,7 @@ void *TScene::destroy_buffers(s16 arg1) {
 extern s32 scroll_uv_entry_write_cursor;
 extern s32 scroll_uv_coordinate_write_cursor;
 
-void *TScene::init_buffers(s32 arg1, s32 arg2) {
+void *TScene::init_buffers(saddr arg1, s32 arg2) {
     s32 temp_r0;
 
     *(s32 *)&this->m_flags = 0;
@@ -72,11 +72,11 @@ void *TScene::init_buffers(s32 arg1, s32 arg2) {
     *(s32 *)&this->m_next = 0;
     temp_r0 = *(s32 *)&this->m_flags;
     if (temp_r0 > 0) {
-        *(s32 *)&this->m_prev = (s32)mem_alloc(temp_r0 * 8);
-        *(s32 *)&this->m_next = (s32)mem_alloc(*(s32 *)&this->m_name * 4);
+        *(s32 *)&this->m_prev = (saddr)mem_alloc(temp_r0 * 8);
+        *(s32 *)&this->m_next = (saddr)mem_alloc(*(s32 *)&this->m_name * 4);
         scroll_uv_entry_write_cursor = *(s32 *)&this->m_prev;
         scroll_uv_coordinate_write_cursor = *(s32 *)&this->m_next;
-        visit_matching_models((s32)this, (u8 *)arg1, arg2);
+        visit_matching_models((saddr)this, (u8 *)arg1, arg2);
     }
     *(s16 *)&this->m_up = 0;
     *(s16 *)((s8 *)this + 0x12) = 0;

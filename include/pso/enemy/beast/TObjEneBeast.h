@@ -29,8 +29,8 @@ struct TObjEneBeast : public TUnk_80493450 {
 };
 
 #include <stddef.h>
-typedef char BeastSize[(sizeof(TObjEneBeast) == 0x420) ? 1 : -1];
-typedef char BeastEmbeddedObjects[(offsetof(TObjEneBeast, m_3b0) == 0x3B0) ? 1 : -1];
+LAYOUT_ASSERT(BeastSize, sizeof(TObjEneBeast) == 0x420);
+LAYOUT_ASSERT(BeastEmbeddedObjects, offsetof(TObjEneBeast, m_3b0) == 0x3B0);
 
 void free_boss4_rock_pool(void);
 

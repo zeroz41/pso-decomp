@@ -108,7 +108,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
     }
     o = (TOVS2Wall01 *)find_entity_by_id(id);
     if (o != NULL) {
-        if (((TUnk_804B6C24 *)o)->check_value_equals((s32)TOVS2Wall01__class_name) == 0) {
+        if (((TUnk_804B6C24 *)o)->check_value_equals((saddr)TOVS2Wall01__class_name) == 0) {
             return;
         }
         switch (wall_hit_packet->update_reason) {
@@ -314,7 +314,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     texlist = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
-    m_c8 = TObjMapCsn::create((s32)set_data);
+    m_c8 = TObjMapCsn::create((saddr)set_data);
     m_cc = 1;
 }
 TOVS2::~TOVS2() {
@@ -327,9 +327,9 @@ TOVS2::~TOVS2() {
 }
 
 void TOVS2Wall01::load_resources() {
-  s32 temp_r3;
-  s32 var_r0;
-  temp_r3 = (int)::operator new(0x440);
+  saddr temp_r3;
+  saddr var_r0;
+  temp_r3 = (saddr)::operator new(0x440);
   var_r0 = temp_r3;
   if (var_r0 != 0)
   {

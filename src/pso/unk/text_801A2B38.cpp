@@ -40,7 +40,7 @@ void *TObjBgmCol__create(void *set) {
 }
 
 void *TObjItemLight__create(void *arg0) {
-    return new TObjItemLight((TObject *)tl_05, (s32)arg0);
+    return new TObjItemLight((TObject *)tl_05, (saddr)arg0);
 }
 
 void *TObjCityMainWarpChallenge__create(void *set_data) {

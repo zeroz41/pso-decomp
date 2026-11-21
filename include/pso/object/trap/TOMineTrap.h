@@ -39,5 +39,5 @@ struct TOMineTrap : public TOMine {
     s32 show_owner_message(TObjChara *player);
 };
 
-typedef char TOMineTrap_size[sizeof(TOMineTrap) == 0x384 ? 1 : -1];
+LAYOUT_ASSERT(TOMineTrap_size, sizeof(TOMineTrap) == 0x384);
 #endif

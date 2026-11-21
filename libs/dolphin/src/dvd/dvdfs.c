@@ -1,7 +1,5 @@
 
 
-#define DVDReadAbsAsyncPrio Dolphin_DVDReadAbsAsyncPrio
-#define DVDReadPrio Dolphin_DVDReadPrio
 #define cbForReadAsync dvdfs_cbForReadAsync
 #define cbForReadSync dvdfs_cbForReadSync
 #define currentDirectory lbl_805D7138

@@ -52,7 +52,7 @@ public:
     Vec part_offsets[3];
     u8 pad_3F8[0x24];
 };
-typedef char TObjEneDubchik_size[sizeof(TObjEneDubchik) == 0x41C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDubchik_size, sizeof(TObjEneDubchik) == 0x41C);
 
 extern const char *TObjEneDubchik__class_name;
 

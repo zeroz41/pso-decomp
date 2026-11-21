@@ -2,13 +2,11 @@
 #define PSO_UNK_RESETCONNECTPARAM_H
 
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/unk/SharedMemory.h"
 #include "pso/unk/text_8042EE4C.h"
 
-extern "C" {
-int sprintf(char *, const char *, ...);
-void *memset(void *, int, unsigned long);
-}
 
 // Clears the connect parameters and fills in their defaults.
 inline s32 reset_connect_param(const char *name) {

@@ -117,7 +117,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u3
         synthAuxBCallback[studio] = 0;
         synthAuxBMIDI[studio] = 0xFF;
     }
-    hwSetAUXProcessingCallbacks(studio, (s32)auxA, userA, (s32)auxB, userB);
+    hwSetAUXProcessingCallbacks(studio, (saddr)auxA, userA, (saddr)auxB, userB);
     hwEnableIrq();
 }
 #pragma push

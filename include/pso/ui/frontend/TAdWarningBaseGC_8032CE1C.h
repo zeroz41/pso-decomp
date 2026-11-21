@@ -8,8 +8,8 @@ int TAdWarningBaseGC__sub_8032D020(void);
 void *__dt__13TUnk_804EDBD0Fv(void *arg0, s16 arg1);
 void enter_request_state__16TAdWarningBaseGCFv(void *p);
 int get_alloc_size__16TAdWarningBaseGCFv(void);
-s32 load_from_aram_sync__16TAdWarningBaseGCFi(s32 arg0);
-s32 post_aram_request__16TAdWarningBaseGCFii(s32 buf, s32 arg1);
+s32 load_from_aram_sync__16TAdWarningBaseGCFi(saddr arg0);
+s32 post_aram_request__16TAdWarningBaseGCFii(saddr buf, s32 arg1);
 void request_aram_load_state__16TAdWarningBaseGCFPv(u8 *arg0);
 void wait_aram_request__16TAdWarningBaseGCFv(void *arg0);
 }
@@ -19,8 +19,8 @@ extern "C" {
 int TAdWarningBaseGC__sub_8032D020(void);
 void enter_request_state__16TAdWarningBaseGCFv(void *p);
 int get_alloc_size__16TAdWarningBaseGCFv(void);
-s32 load_from_aram_sync__16TAdWarningBaseGCFi(s32 arg0);
-s32 post_aram_request__16TAdWarningBaseGCFii(s32 buf, s32 arg1);
+s32 load_from_aram_sync__16TAdWarningBaseGCFi(saddr arg0);
+s32 post_aram_request__16TAdWarningBaseGCFii(saddr buf, s32 arg1);
 void request_aram_load_state__16TAdWarningBaseGCFPv(u8 *arg0);
 void wait_aram_request__16TAdWarningBaseGCFv(void *arg0);
 }

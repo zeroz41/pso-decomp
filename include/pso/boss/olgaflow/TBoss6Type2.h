@@ -75,7 +75,7 @@ struct TBoss6Type2 : public TObjEnemy
     u32 m_374;
     s32 m_378[32];
     TBoss6PlotFalz *m_3f8;
-    u32 m_3fc;
+    uaddr m_3fc;
     TBoss6Type2Model m_400[2];
     TBoss6Mag *m_410[2];
     s32 m_418;
@@ -90,7 +90,7 @@ struct TBoss6Type2 : public TObjEnemy
     s16 m_454;
     s16 m_456;
     TBoss6Zanzo *trail_effect;
-    s32 state_duration;  // what state_timer was last set to
+    saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
     u16 m_464;
     u16 m_466;
@@ -159,7 +159,7 @@ struct TBoss6Type2 : public TObjEnemy
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(s32 arg0, s32 arg1, f32 farg0);
+    static u8 *create_dpb(saddr arg0, saddr arg1, f32 farg0);
     s32 get_phase();
     void call_9A24_plus_1(s32 *arg1);
     void unpack_path_entry(s32 *arg1);
@@ -215,10 +215,10 @@ struct TBoss6Type2 : public TObjEnemy
     void update_motion_tracks();
     void init_motion_entries();
     void copy_transform(void* q);
-    void set_action_state(s32 action);
-    void copy_pos_620(s32 arg1);
-    void get_push_points(s32 arg1, s32 arg2);
-    void copy_pos_59c(s32 arg1);
+    void set_action_state(saddr action);
+    void copy_pos_620(saddr arg1);
+    void get_push_points(saddr arg1, saddr arg2);
+    void copy_pos_59c(saddr arg1);
     void apply_damage(s32 arg1);
     s32 get_rotation_timer();
     s32 count_matching_values(s32 arg1, s32 arg2);
@@ -231,7 +231,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_action_state();
     void send_action_packet_if_idle(s32 arg1, s32 *arg2);
     void parse_action_packet(void *arg1);
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     void draw();
     void select_action();
     void update_zako_timer();
@@ -270,7 +270,7 @@ struct TBoss6Type2 : public TObjEnemy
     void enforce_min_distance();
     void push_out_from_points();
     void push_out_from_target();
-    static void compute_random_dir_vec(s32 arg0, u8 *arg1, s32 arg2, s32 arg3);
+    static void compute_random_dir_vec(s32 arg0, u8 *arg1, saddr arg2, saddr arg3);
     void init_with_global_table();
     void spawn_mag_mines();
     static void set_path_points_by_index(s32 i, void *pts, s32 n);
@@ -279,7 +279,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_segment_angles();
     void init_segment_angle_range();
     void copy_state(void* q);
-    static s32 create_mag(s32 arg0);
+    static s32 create_mag(saddr arg0);
     void update_recover_timer();
     void update_ramp_timer();
     void tick_attack_timer();
@@ -292,8 +292,8 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_80337108();
     void sub_80337160();
     void sub_803371B4();
-    static void send_6xAD_grid_positions(u8 arg0, s32 arg1, s32 arg2);
-    static s32 send_subordinate_actions(s32 kind, s32 ids, s32 n, s32 force, s32 unused);
+    static void send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2);
+    static s32 send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static void *create_flow_soul(void *arg0, void *arg1, void *arg2, void *arg3);
     static void capture_player_snapshots();
     s32 get_state();
@@ -324,17 +324,17 @@ struct TBoss6Type2 : public TObjEnemy
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 };
 
-typedef char TBoss6Type2ActionHistoryOffset[offsetof(TBoss6Type2, m_378) == 0x378 ? 1 : -1];
-typedef char TBoss6Type2_offset_m_374[(offsetof(TBoss6Type2, m_374) == 0x374) ? 1 : -1];
-typedef char TBoss6Type2_offset_target_position[(offsetof(TBoss6Type2, target_position) == 0x484) ? 1 : -1];
-typedef char TBoss6Type2_offset_lower_contact_index[(offsetof(TBoss6Type2, lower_contact_index) == 0x520) ? 1 : -1];
-typedef char TBoss6Type2_offset_lower_contact_delta[(offsetof(TBoss6Type2, lower_contact_delta) == 0x524) ? 1 : -1];
-typedef char TBoss6Type2_offset_previous_lower_contact[(offsetof(TBoss6Type2, previous_lower_contact) == 0x530) ? 1 : -1];
-typedef char TBoss6Type2_offset_m_59c[(offsetof(TBoss6Type2, m_59c) == 0x59c) ? 1 : -1];
-typedef char TBoss6Type2_offset_m_764[(offsetof(TBoss6Type2, m_764) == 0x764) ? 1 : -1];
-typedef char TBoss6Type2_offset_m_768[(offsetof(TBoss6Type2, scroll_strips) == 0x768) ? 1 : -1];
-typedef char TBoss6Type2_size[(sizeof(TBoss6Type2) == 0x7B4) ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Type2ActionHistoryOffset, offsetof(TBoss6Type2, m_378) == 0x378);
+LAYOUT_ASSERT(TBoss6Type2_offset_m_374, (offsetof(TBoss6Type2, m_374) == 0x374));
+LAYOUT_ASSERT(TBoss6Type2_offset_target_position, (offsetof(TBoss6Type2, target_position) == 0x484));
+LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_index, (offsetof(TBoss6Type2, lower_contact_index) == 0x520));
+LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_delta, (offsetof(TBoss6Type2, lower_contact_delta) == 0x524));
+LAYOUT_ASSERT(TBoss6Type2_offset_previous_lower_contact, (offsetof(TBoss6Type2, previous_lower_contact) == 0x530));
+LAYOUT_ASSERT(TBoss6Type2_offset_m_59c, (offsetof(TBoss6Type2, m_59c) == 0x59c));
+LAYOUT_ASSERT(TBoss6Type2_offset_m_764, (offsetof(TBoss6Type2, m_764) == 0x764));
+LAYOUT_ASSERT(TBoss6Type2_offset_m_768, (offsetof(TBoss6Type2, scroll_strips) == 0x768));
+LAYOUT_ASSERT(TBoss6Type2_size, (sizeof(TBoss6Type2) == 0x7B4));
 
-typedef char TBoss6Type2_size[(sizeof(TBoss6Type2) == 0x7B4) ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
 #endif

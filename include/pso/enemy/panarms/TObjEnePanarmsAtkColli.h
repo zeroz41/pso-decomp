@@ -19,5 +19,5 @@ struct TObjEnePanarmsAtkColli : public TObjEnemy {
     u8 unk_38C[0x4];
 };
 
-typedef char TObjEnePanarmsAtkColli_size[sizeof(TObjEnePanarmsAtkColli) == 0x390 ? 1 : -1];
+LAYOUT_ASSERT(TObjEnePanarmsAtkColli_size, sizeof(TObjEnePanarmsAtkColli) == 0x390);
 #endif

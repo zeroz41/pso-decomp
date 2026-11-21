@@ -114,20 +114,20 @@ struct TBoss4DarkFalzState {
     TBoss4DarkFalzHandler update;
 };
 
-typedef char TBoss4DarkFalzHandler_size[sizeof(TBoss4DarkFalzHandler) == 0xC ? 1 : -1];
-typedef char TBoss4DarkFalzState_size[sizeof(TBoss4DarkFalzState) == 0x34 ? 1 : -1];
-typedef char TBoss4DarkFalzState_enter_offset[offsetof(TBoss4DarkFalzState, enter) == 4 ? 1 : -1];
-typedef char TBoss4DarkFalzState_leave_offset[offsetof(TBoss4DarkFalzState, leave) == 0x10 ? 1 : -1];
-typedef char TBoss4DarkFalzState_leader_offset[offsetof(TBoss4DarkFalzState, update_leader) == 0x1C ? 1 : -1];
-typedef char TBoss4DarkFalzState_update_offset[offsetof(TBoss4DarkFalzState, update) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TBoss4DarkFalzHandler_size, sizeof(TBoss4DarkFalzHandler) == 0xC);
+LAYOUT_ASSERT(TBoss4DarkFalzState_size, sizeof(TBoss4DarkFalzState) == 0x34);
+LAYOUT_ASSERT(TBoss4DarkFalzState_enter_offset, offsetof(TBoss4DarkFalzState, enter) == 4);
+LAYOUT_ASSERT(TBoss4DarkFalzState_leave_offset, offsetof(TBoss4DarkFalzState, leave) == 0x10);
+LAYOUT_ASSERT(TBoss4DarkFalzState_leader_offset, offsetof(TBoss4DarkFalzState, update_leader) == 0x1C);
+LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, update) == 0x28);
 
 extern TBoss4DarkFalzState dark_falz_state_table[16];
 extern "C" void set_story_flag_or_send_quest_flag(u16 flag);
 
-typedef char TBoss4DarkFalz_intro_tower_offset[offsetof(TBoss4DarkFalz, intro_tower) == 0x394 ? 1 : -1];
-typedef char TBoss4DarkFalz_fade_offset[offsetof(TBoss4DarkFalz, fade) == 0x398 ? 1 : -1];
-typedef char TBoss4DarkFalz_state_timer_offset[offsetof(TBoss4DarkFalz, state_timer) == 0x380 ? 1 : -1];
-typedef char TBoss4DarkFalz_size[sizeof(TBoss4DarkFalz) == 0x3AC ? 1 : -1];
-typedef char TBoss4DarkFalz_cinematic_position_offset[offsetof(TBoss4DarkFalz, cinematic_position) == 0x39C ? 1 : -1];
-typedef char TBoss4DarkFalz_cinematic_angle_offset[offsetof(TBoss4DarkFalz, cinematic_angle) == 0x3A8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss4DarkFalz_intro_tower_offset, offsetof(TBoss4DarkFalz, intro_tower) == 0x394);
+LAYOUT_ASSERT(TBoss4DarkFalz_fade_offset, offsetof(TBoss4DarkFalz, fade) == 0x398);
+LAYOUT_ASSERT(TBoss4DarkFalz_state_timer_offset, offsetof(TBoss4DarkFalz, state_timer) == 0x380);
+LAYOUT_ASSERT(TBoss4DarkFalz_size, sizeof(TBoss4DarkFalz) == 0x3AC);
+LAYOUT_ASSERT(TBoss4DarkFalz_cinematic_position_offset, offsetof(TBoss4DarkFalz, cinematic_position) == 0x39C);
+LAYOUT_ASSERT(TBoss4DarkFalz_cinematic_angle_offset, offsetof(TBoss4DarkFalz, cinematic_angle) == 0x3A8);
 #endif

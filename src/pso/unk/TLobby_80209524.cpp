@@ -39,6 +39,7 @@
 #include "pso/unk/TLobby_8020B334.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include <stdlib.h>
 
 // ---- pso/unk/TLobby_80209524
 
@@ -65,7 +66,7 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
 struct Ent_802098AC;
 struct SpawnRecord_8020A9C4;
 
-s32 item_drop_rng;
+saddr item_drop_rng;
 EventShuffleTable *challenge_event_shuffle;
 u8 *challenge_event_source;
 u8 *lbl_805D60AC;
@@ -221,7 +222,7 @@ void TLobby__sub_802097B0(s16 id) {
     TLobby__sub_8020A3D0(&e, table + lo * 8);
     TLobby__sub_8020A394(&e);
     if (e.id == id) {
-        lbl_805D60B8 = (Ent_802098AC *)((u32)lbl_805D60AC + hdr.data + e.offset);
+        lbl_805D60B8 = (Ent_802098AC *)((uaddr)lbl_805D60AC + hdr.data + e.offset);
         init_event_shuffle_table(challenge_event_shuffle, e.count);
     }
 }
@@ -250,7 +251,7 @@ Rec_802099FC *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
     lo = 0;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        ((TLobby *)(&t))->copy_record_entry((s32)(arr + mid * 32));
+        ((TLobby *)(&t))->copy_record_entry((saddr)(arr + mid * 32));
         TLobby__sub_8020A48C(&t);
         if (t.v < key) {
             lo = mid + 1;
@@ -259,7 +260,7 @@ Rec_802099FC *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
         }
     }
     e = arr + lo * 32;
-    ((TLobby *)(&t))->copy_record_entry((s32)e);
+    ((TLobby *)(&t))->copy_record_entry((saddr)e);
     TLobby__sub_8020A48C(&t);
     if (t.v == key) {
         return (Rec_802099FC *)e;
@@ -271,7 +272,7 @@ void TLobby__sub_802099FC(Out_802099FC *arg0, s32 key) {
     Hdr_802099FC hdr = *(Hdr_802099FC *)TLobby__item_data_table_buffer;
     Rec_802099FC *p;
     TLobby__sub_8020A568(&hdr);
-    p = bsearch_record__6TLobbyFPvii((void *)(TLobby__item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (Rec_802099FC *)TLobby::bsearch_record((void *)(TLobby__item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
         Rec_802099FC r = *p;
         TLobby__sub_8020A48C(&r);
@@ -400,12 +401,12 @@ s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
 
 #pragma push
 #pragma dont_inline off
-typedef char ChallengeEventHeaderSize[sizeof(ChallengeEventHeader) == 0x10 ? 1 : -1];
-typedef char ChallengeRandomEventSize[sizeof(ChallengeRandomEvent) == 0x18 ? 1 : -1];
-typedef char ChallengeFixedEventSize[sizeof(ChallengeFixedEvent) == 0x14 ? 1 : -1];
-typedef char ChallengeEnemyPlacementSize[sizeof(SpawnRecord_8020A9C4) == 0x48 ? 1 : -1];
-typedef char ChallengeEnemyRoomOffset[offsetof(SpawnRecord_8020A9C4, room) == 0x0C ? 1 : -1];
-typedef char ChallengeEnemyWaveOffset[offsetof(SpawnRecord_8020A9C4, wave) == 0x0E ? 1 : -1];
+LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
+LAYOUT_ASSERT(ChallengeRandomEventSize, sizeof(ChallengeRandomEvent) == 0x18);
+LAYOUT_ASSERT(ChallengeFixedEventSize, sizeof(ChallengeFixedEvent) == 0x14);
+LAYOUT_ASSERT(ChallengeEnemyPlacementSize, sizeof(SpawnRecord_8020A9C4) == 0x48);
+LAYOUT_ASSERT(ChallengeEnemyRoomOffset, offsetof(SpawnRecord_8020A9C4, room) == 0x0C);
+LAYOUT_ASSERT(ChallengeEnemyWaveOffset, offsetof(SpawnRecord_8020A9C4, wave) == 0x0E);
 
 void build_challenge_enemy_set(s32 floor) {
     s32 enemyOffset;
@@ -531,7 +532,7 @@ void build_challenge_enemy_set(s32 floor) {
 
 extern "C" {
 
-void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
+void init_buffers__6TLobbyFii(s32 id, saddr arg1) {
     Hdr_802095EC *items;
 
     challenge_event_source = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)arg1, id);
@@ -563,8 +564,7 @@ void TLobby::free_boss4rock() {
 // ---- pso/unk/text_8020A2AC
 s32 run_step__9TItemDropFl(int, void *);
 s32 __cvt_fp2unsigned(f32);
-s32 rand();
-s32 item_drop_server_seed;
+saddr item_drop_server_seed;
 s32 lbl_805D60D4;
 s32 map_set_data_handle_a;
 s32 map_set_data_handle_b;
@@ -582,7 +582,7 @@ void TLobby__sub_8020A2AC(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         item_drop_server_seed = __cvt_fp2unsigned(seed_scale * (rand_reciprocal * (f32)rand()));
     }
-    temp_r3 = (int)::operator new(0xE8);
+    temp_r3 = (saddr)::operator new(0xE8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = run_step__9TItemDropFl((int)temp_r3, (void *)item_drop_server_seed);
@@ -622,8 +622,8 @@ void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*
 #pragma dont_inline off
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-void TLobby::copy_record_entry(s32 arg1) {
-    s32 arg0 = (s32)this;
+void TLobby::copy_record_entry(saddr arg1) {
+    saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(arg1);
     *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg1 + 0x14);
     *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
@@ -742,7 +742,7 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     Ent_8020A834 *p;
     s32 n;
     s32 i;
-    s32 floor;
+    saddr floor;
     replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)filename, "o.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
@@ -774,7 +774,7 @@ void load_map_set_data(s32 idx, const char *filename) {
     TLobby__next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
-    copy_name((s32)"SET");
+    copy_name("SET");
     TLobby__data_805D6134 = 0;
     if (TLobby::init_handle(0x8000) != 0) {
         load_object_set_file(idx, filename);
@@ -786,7 +786,7 @@ void load_map_set_data(s32 idx, const char *filename) {
         TLobby::free_data_60F0();
         TLobby__data_805D6134 |= 1;
     }
-    copy_name((s32)"..");
+    copy_name("..");
 }
 
 struct Rec_8020AA94 {
@@ -913,7 +913,7 @@ extern "C" {
 s32 is_area_transfer_pending();
 }
 
-s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
+s32 load_area_object_set(s32 arg0, saddr lobby, s32 arg2, s32 arg3) {
     char name[0x20];
     MapSetVariant *subs;
     MapSetEntry *items;
@@ -1017,7 +1017,7 @@ extern "C" {
 
 void TLobby::free_data_60F0() {
     if (TLobby__map_set_file_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__map_set_file_buffer);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__map_set_file_buffer);
         TLobby__map_set_file_buffer = NULL;
         TLobby__map_set_file_buffer_size = 0;
     }
@@ -1044,7 +1044,7 @@ void clear_map_set_data(void) {
     TLobby__map_set_file_buffer_size = 0;
     const char *name = (const char *)get_player_name_copy_buffer();
     if (strncmp(name, "SET", 0x10) == 0) {
-        copy_name((s32)"..");
+        copy_name("..");
     }
 }
 

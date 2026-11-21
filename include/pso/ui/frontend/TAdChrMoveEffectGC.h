@@ -19,7 +19,7 @@ struct TAdChrMoveEffectGC : public TObject {
     u8 unk_24[0x380];
 };
 
-typedef char TAdChrMoveEffectGC_size[sizeof(TAdChrMoveEffectGC) == 0x3A4 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrMoveEffectGC_size, sizeof(TAdChrMoveEffectGC) == 0x3A4);
 
 extern "C" {
 void *__dt__18TAdChrMoveEffectGCFv(void *arg0, s16 arg1);

@@ -11,7 +11,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void copy_stat_block(s32 arg1);
+    void copy_stat_block(saddr arg1);
 };
 
 extern "C" {

@@ -1,4 +1,6 @@
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "pso/unk/text_8034DAA0.h"
@@ -32,7 +34,7 @@ struct VObj_18_dac7f3 : VBase_18_dac7f3 {
 struct E_8034E02C { u8 flag; u8 pad[0x35]; };
 
 extern "C" {
-s32 get_player_by_client_id(s32);
+saddr get_player_by_client_id(s32);
 E_8034E02C npc_partner_dialogue_state[25] = { 0 };
 }
 
@@ -123,7 +125,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 
 
 
-s32 send_item_pickup_request__10TObjPlayerFl();
 
 
 }
@@ -231,9 +232,6 @@ s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 s32 get_entity_id(s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-int sprintf(char *, const char *, ...);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 f32 atan2_float(f32, f32);
 void TNpcPlayer__ct(void *, u16, u16, s16, s32, void *);
 s32 load_npc_player_template(s16);
@@ -272,21 +270,21 @@ void TObjPlayer::set_npc_control_state(s32 state) { npc_control.state = state; }
 s32 TObjPlayer::get_npc_control_state() { return npc_control.state; }
 
 void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((arg1 < 0x10) && ((temp_r3 = ((u32)get_player_by_client_id(arg0))) != 0U)) {
         ((TObjPlayer *)temp_r3)->init_photon_blast(arg1);
     }
 }
 
 void TNpcPlayer::end_camera_pan_for_client(u16 arg0) {
-    s32 tmp_player;
+    saddr tmp_player;
     if ((tmp_player = (s32)get_player_by_client_id(arg0)) != 0U) {
         ((TObjPlayer *)tmp_player)->end_camera_pan();
     }
 }
 
 void TNpcPlayer::update_player_field(u16 arg0, s32 arg1) {
-    u32 player;
+    uaddr player;
     player = ((u32)get_player_by_client_id(arg0));
     if (player != 0U) {
         ((TObjPlayer *)player)->protection.set_frames(arg1);
@@ -294,7 +292,7 @@ void TNpcPlayer::update_player_field(u16 arg0, s32 arg1) {
 }
 
 void TNpcPlayer::reset_player_lobby_model(u16 arg0) {
-    u32 player;
+    uaddr player;
     player = ((u32)get_player_by_client_id(arg0));
     if (player != 0U) {
         ((TObjPlayer *)(player + 0x644))->reset_lobby_model();
@@ -332,6 +330,7 @@ void TNpcPlayer::send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2) {
     s32 tmp_player;
     Stack_8034ECD0 stack;
     s32 var_r31;
+    uaddr player;
     build_6x69_npc_control(&stack.sp8);
     stack.spC = arg0;
     var_r31 = 0;
@@ -382,6 +381,7 @@ void TNpcPlayer::send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3,
     Stack_8034EB08 stack;
     s32 var_r31;
     build_6x69_npc_control(&stack.sp8);
+    uaddr player;
     stack.spC = arg0;
     var_r31 = 0;
     stack.spE = 0xFFFF;
@@ -477,7 +477,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             if (p == NULL) {
                 return;
             }
-            NOTIFY_8034E814(p);
+            TObjPlayer::notify_field1c((saddr)p);
             p->m6();
             reinterpret_cast<TObjPlayer *>(p)->set_npc_controller((u16)local_client_id);
             reinterpret_cast<TObjPlayer *>(p)->set_npc_control_state(pkt->state);
@@ -489,7 +489,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p = create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
                 p->m6();
-                NOTIFY_8034E814(p);
+                TObjPlayer::notify_field1c((saddr)p);
             }
         }
         break;
@@ -498,7 +498,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
 
 void TNpcPlayer::send_inter_level_warp_all(s32 arg0) {
     s32 i;
-    s32 player;
+    saddr player;
 
     for (i = 0; i < 4; i++) {
         player = get_player_by_client_id(i);
@@ -510,7 +510,7 @@ void TNpcPlayer::send_inter_level_warp_all(s32 arg0) {
 
 void TNpcPlayer::apply_to_players(s32 arg0, void *arg1, s32 arg2) {
     s32 var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
     var_r31 = 0;
     do {
         temp_r3 = get_player_by_client_id(var_r31);
@@ -525,7 +525,7 @@ void TNpcPlayer::apply_to_players(s32 arg0, void *arg1, s32 arg2) {
 void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
     Pkt_8034E64C pkt;
     s32 i;
-    s32 p;
+    saddr p;
     s16 flag;
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
@@ -546,12 +546,12 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
 
 void show_partner_chatter_for_key(s16 key) {
     s32 i;
-    s32 player;
+    saddr player;
     for (i = 0; i < 4; i++) {
         player = get_player_by_client_id(i);
         if (player && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() && key == ((TObjBase *)player)->get_room()
             && !(lbl_805D6EA0 & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
-            TWindowCtrl::open(get_entity_id(player), (s32)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
+            TWindowCtrl::open(get_entity_id(player), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
         }
     }
 }
@@ -559,20 +559,20 @@ void show_partner_chatter_for_key(s16 key) {
 void notify_partner_room_cleared(s32 arg0) {
     s8 *win = (s8 *)((s32 *)&npc_partner_dialogue_state) + 0x3CC;
     s32 i;
-    s32 p;
+    saddr p;
     i = 0;
     do {
         p = get_player_by_client_id(i);
         if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(lbl_805D6EA0 & 2) && *win != 0) {
-            TWindowCtrl::open(get_entity_id(p), (s32)((void *)((s32)win)), 0x1B);
+            TWindowCtrl::open(get_entity_id(p), (saddr)((void *)((saddr)win)), 0x1B);
         }
         i += 1;
     } while (i < 4);
 }
 
 void quest_remove_npc_player(u16 arg0) {
-    s32 player;
-    player = ((s32)((void *)get_player_by_client_id(arg0)));
+    saddr player;
+    player = ((saddr)((void *)get_player_by_client_id(arg0)));
     if (player != 0) {
         TObjPlayer::send_item_pickup_request(player);
         if ((u32) player != 0U) {
@@ -690,7 +690,7 @@ void quest_player_face_actor(u16 src, u16 dst) {
 }
 
 void TNpcPlayer::play_effect(int arg0) {
-    s32 player;
+    saddr player;
 
     player = get_player_by_client_id((u16) arg0);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
@@ -699,7 +699,7 @@ void TNpcPlayer::play_effect(int arg0) {
 }
 
 void TNpcPlayer::send_code_45_to_player(int arg0) {
-    s32 player;
+    saddr player;
 
     player = get_player_by_client_id((u16) arg0);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
@@ -739,11 +739,12 @@ void set_partner_common_remark(s32 kind, const char *text) {
 
 void TObjPlayer::update_4p_battle_ctrls() {
     s32 var_r31;
+    uaddr player;
 
     var_r31 = 0;
     do {
-        if (get_player_by_client_id(var_r31) != 0U) {
-            send_item_pickup_request__10TObjPlayerFl();
+        if ((player = get_player_by_client_id(var_r31)) != 0) {
+            TObjPlayer::send_item_pickup_request(player);
         }
         var_r31 += 1;
     } while (var_r31 < 4);
@@ -752,6 +753,7 @@ void TObjPlayer::update_4p_battle_ctrls() {
 void TObjPlayer::notify_all_battle_players() {
     s32 tmp_player;
     s32 var_r31;
+    uaddr player;
 
     var_r31 = 0;
     do {
@@ -773,7 +775,7 @@ s32 TTecReverser::is_active() {
 }
 
 void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r5;
     temp_r5 = arg1 * 0x28;
     ((AiParams *)((u8 *)&TNpcPlayer__template_table.value + temp_r5))->copy((AiParams *)arg0);

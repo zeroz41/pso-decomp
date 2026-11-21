@@ -24,15 +24,15 @@ struct TBoss6Zanzo : public TObject {
     virtual void render();
 };
 
-typedef char Boss6TrailPoint_size[sizeof(Boss6TrailPoint) == 0x10 ? 1 : -1];
-typedef char Boss6TrailPoint_position_offset[offsetof(Boss6TrailPoint, position) == 0x4 ? 1 : -1];
-typedef char Boss6TrailFrame_size[sizeof(Boss6TrailFrame) == 0x8 ? 1 : -1];
-typedef char TBoss6Zanzo_size[sizeof(TBoss6Zanzo) == 0x2C ? 1 : -1];
-typedef char TBoss6Zanzo_current_offset[offsetof(TBoss6Zanzo, current) == 0x20 ? 1 : -1];
-typedef char TBoss6Zanzo_m_24_offset[offsetof(TBoss6Zanzo, m_24) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(Boss6TrailPoint_size, sizeof(Boss6TrailPoint) == 0x10);
+LAYOUT_ASSERT(Boss6TrailPoint_position_offset, offsetof(Boss6TrailPoint, position) == 0x4);
+LAYOUT_ASSERT(Boss6TrailFrame_size, sizeof(Boss6TrailFrame) == 0x8);
+LAYOUT_ASSERT(TBoss6Zanzo_size, sizeof(TBoss6Zanzo) == 0x2C);
+LAYOUT_ASSERT(TBoss6Zanzo_current_offset, offsetof(TBoss6Zanzo, current) == 0x20);
+LAYOUT_ASSERT(TBoss6Zanzo_m_24_offset, offsetof(TBoss6Zanzo, m_24) == 0x24);
 
 extern "C" {
-s32 fn_803204B0(void *p);
+saddr fn_803204B0(void *p);
 void TBoss6Zanzo__sub_803205A0(Boss6TrailPoint *arg0, const Boss6TrailPoint *arg1);
 }
 

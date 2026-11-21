@@ -38,7 +38,7 @@ s32 wait_for_connection(Conn_804004DC *c) {
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
-            update_connection_state((int)c);
+            update_connection_state(c);
             c->abort = 0;
             return -1;
         }
@@ -51,11 +51,11 @@ s32 wait_for_connection(Conn_804004DC *c) {
     return 0;
 }
 
-extern s32 TLobby__sub_8040172C(Conn_804004DC *c);
+extern saddr TLobby__sub_8040172C(Conn_804004DC *c);
 extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, PppHeader *msg, s32 src);
 extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src);
 s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src);
-s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, PppHeader *arg1, u32 arg2);
+s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, PppHeader *arg1, uaddr arg2);
 
 void TLobby__sub_8040059C(u8 *conn)
 {
@@ -93,7 +93,7 @@ void TLobby__sub_8040059C(u8 *conn)
   TLobby__sub_803FD694((u8 *)e);
 }
 
-extern s16 TLobby__sub_80400744(int a0, void *a1) {
+extern s16 TLobby__sub_80400744(void *a0, void *a1) {
     s32 pad[2];
     s32 *pp;
     Conn_804004DC *s = (Conn_804004DC *)a0;
@@ -324,7 +324,7 @@ extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
                 last = hdr[0];
             }
         }
-        r = parse_lcp_option((s32)&src, (u8 *)opts, (u8 *)local, hdr, 0);
+        r = parse_lcp_option((saddr)&src, (u8 *)opts, (u8 *)local, hdr, 0);
         if (r == -1) {
             return -1;
         }
@@ -335,8 +335,8 @@ extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
     return 0;
 }
 #pragma pop
-extern void TLobby__sub_804017D8(u32 *self_m, void *src, u8 idx, u8 val, s32 *flag);
-inline void loop_8040172C(u32 *self, void *src, s16 mask) {
+extern void TLobby__sub_804017D8(uaddr *self_m, void *src, u8 idx, u8 val, s32 *flag);
+inline void loop_8040172C(uaddr *self, void *src, s16 mask) {
     s16 i;
     i = 1;
     while (i <= 8) {
@@ -346,7 +346,7 @@ inline void loop_8040172C(u32 *self, void *src, s16 mask) {
         i++;
     }
 }
-inline s32 read_80400F1C(u32 *p) {
+inline s32 read_80400F1C(uaddr *p) {
     if (ppp_buffer_read(p, lobby_read_byte_buffer, 1) != 1) {
         return -1;
     }
@@ -355,17 +355,17 @@ inline s32 read_80400F1C(u32 *p) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 first2_80400F1C(Obj_803FF858 *fsm) {
+inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
     LcpOpts *o = (LcpOpts *)fsm->p30;
-    u32 t = 0;
-    t = (u32)init_net_buffer_entry(0);
+    uaddr t = 0;
+    t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
         return 0;
     }
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, u32 arg2) {
+s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, uaddr arg2) {
     s16 err;
     s16 a;
     s16 b;
@@ -374,7 +374,7 @@ s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, u32 arg2) 
         return -1;
     }
     {
-        u32 cur = first2_80400F1C(fsm);
+        uaddr cur = first2_80400F1C(fsm);
         if (msg_803_fa664->len != get_field_4((void *)cur)) {
             err = 1;
         } else {
@@ -402,7 +402,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
 
     for (i = 1; i <= 8; i++) {
         if (mask & (1 << i)) {
-            TLobby__sub_804017D8((u32 *)pbuf, vals, i, lbl_8047FE68[i], NULL);
+            TLobby__sub_804017D8((uaddr *)pbuf, vals, i, lbl_8047FE68[i], NULL);
         }
     }
 }
@@ -432,7 +432,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
         if (remaining < 0) {
             return -1;
         }
-        r = parse_lcp_option((s32)&src, (u8 *)opts, (u8 *)&opts->remote, hdr, 1);
+        r = parse_lcp_option((saddr)&src, (u8 *)opts, (u8 *)&opts->remote, hdr, 1);
         if (r == -1) {
             return -1;
         }
@@ -446,7 +446,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
         if (r != 4 && hdr[0] <= 8) {
             opts->remote.got.mask |= 1 << hdr[0];
         }
-        TLobby__sub_804017D8((u32 *)&reply, &opts->remote.got.mask, hdr[0], hdr[1], (s32 *)&src);
+        TLobby__sub_804017D8((uaddr *)&reply, &opts->remote.got.mask, hdr[0], hdr[1], (s32 *)&src);
         if (r >= 3) {
             ppp_fsm_send_packet(fsm, status, msg->id, reply);
         }
@@ -472,7 +472,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
 #define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
 #define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
 #define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
-s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
+s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     s16 len;
     s16 res;
     s32 t;
@@ -593,12 +593,12 @@ s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TLobby__sub_8040172C(Conn_804004DC *c) {
-    u32 obj;
+saddr TLobby__sub_8040172C(Conn_804004DC *c) {
+    uaddr obj;
     LcpOpts *s;
     s = c->opts;
     obj = 0;
-    obj = (u32)init_net_buffer_entry(0);
+    obj = (uaddr)init_net_buffer_entry(0);
     if (obj == 0) {
         return 0;
     }
@@ -607,7 +607,7 @@ s32 TLobby__sub_8040172C(Conn_804004DC *c) {
 }
 #pragma pop
 
-extern void TLobby__sub_804017D8(u32 *self_m, void *src, u8 idx, u8 val, s32 *flag) {
+extern void TLobby__sub_804017D8(uaddr *self_m, void *src, u8 idx, u8 val, s32 *flag) {
 p803FE518_UnkBuf803FF344 *p;
 p803FE518_UnkSrc803FE518 *s;
 u8 *out;

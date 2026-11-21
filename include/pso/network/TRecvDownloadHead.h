@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void bswap__17TRecvDownloadHeadFv(s32 arg0);
+void bswap__17TRecvDownloadHeadFv(saddr arg0);
 }
 
 // --- C functions defined in TRecvDownloadHead.cpp ---
 extern "C" {
-void bswap__17TRecvDownloadHeadFv(s32 arg0);
+void bswap__17TRecvDownloadHeadFv(saddr arg0);
 }
 // --- end of C functions
 

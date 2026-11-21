@@ -18,9 +18,9 @@ struct WallHitPacket {
     void send();
 };
 
-typedef char WallHitPacketSize[sizeof(WallHitPacket) == 0x10 ? 1 : -1];
-typedef char WallHitPacketReasonOffset[offsetof(WallHitPacket, update_reason) == 0xC ? 1 : -1];
-typedef char WallHitPacketHitsOffset[offsetof(WallHitPacket, remaining_hits) == 0xE ? 1 : -1];
+LAYOUT_ASSERT(WallHitPacketSize, sizeof(WallHitPacket) == 0x10);
+LAYOUT_ASSERT(WallHitPacketReasonOffset, offsetof(WallHitPacket, update_reason) == 0xC);
+LAYOUT_ASSERT(WallHitPacketHitsOffset, offsetof(WallHitPacket, remaining_hits) == 0xE);
 
 struct game_command_header;
 extern "C" void handle_6x86_hit_destructible_object(game_command_header *command);

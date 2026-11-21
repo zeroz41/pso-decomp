@@ -23,7 +23,6 @@ void run_task__15TBoss6SwordShotFv(u8 *arg0);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 void *__vt__15TBoss6SwordShot[6] = {
     0, 0, (void *)__dt__15TBoss6SwordShotFv, (void *)run_task__15TBoss6SwordShotFv,
     (void *)render__7TObjectFv, (void *)render_shadows__7TObjectFv,
@@ -35,7 +34,7 @@ struct Stack_80356C80 {
 };
 
 struct RecoveredGlobal_80356B18___vt__15TBoss6SwordWave { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size[sizeof(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size, sizeof(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave) == 0x18);
 
 struct W_80356D10 { s32 w[1]; };
 
@@ -56,12 +55,12 @@ struct VObj_8035663C : VBase_8035663C {
 };
 
 extern "C" {
-u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
-void set_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
+u8 test_rock_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1);
+void set_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
-TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, s32 arg3, s32 arg4, f32 farg0);
+TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, saddr arg3, saddr arg4, f32 farg0);
 s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
@@ -145,7 +144,7 @@ void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1) {
         *(void **)((u8 *)arg0 + 0x18) = __vt__15TBoss6SwordShot;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -165,12 +164,12 @@ struct Shot_80356374 {
 extern "C" {
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 extern const char *TBoss6SwordShot__name;
-u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
+u8 *TBoss6SwordShot__ct(void *arg0, saddr arg1, saddr arg2, s32 arg3, f32 farg0);
 
 #pragma push
 #pragma opt_common_subs off
 #define self ((Shot_80356374 *)arg0)
-u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
+u8 *TBoss6SwordShot__ct(void *arg0, saddr arg1, saddr arg2, s32 arg3, f32 farg0) {
     f32 scale;
     f32 v;
     void *p;
@@ -385,12 +384,12 @@ void TBoss6SwordWave::run_task() {
 #pragma pop
 
 TBoss6SwordWave::~TBoss6SwordWave() {}
-TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, s32 arg3, s32 arg4, f32 farg0) {
+TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, saddr arg3, saddr arg4, f32 farg0) {
     f32 temp_f1;
     f32 temp_f2;
     __ct__7TObjectFP7TObject(arg0, owner);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__15TBoss6SwordWave.value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss6SwordWave__name;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr) TBoss6SwordWave__name;
     ((TBoss6SwordWave *)arg0)->owner = owner;
     VecCopy((Vec *)(arg0 + 0x20), position);
     *(f32 *)((s8 *)arg0 + 0x24) = (f32) 0.0f;
@@ -421,9 +420,9 @@ TBoss6SwordWave *TBoss6SwordWave::create(TObject *owner, const Vec *position, s3
     return wave;
 }
 
-u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_80356C80, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80356C80, spC) == 0x4) ? 1 : -1];
+u8 test_rock_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1) {
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80356C80, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80356C80, spC) == 0x4);
     Stack_80356C80 stack;
     TBoss6SwordWave::split_bit_index(arg0, arg1, &stack.spC, &stack.sp8);
     return (u8) (((1 << stack.sp8) & *(s32 *)((s8 *)arg0 + (stack.spC * 4))) != 0);
@@ -442,7 +441,7 @@ u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2) {
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1) {
     s32 idx;
     s32 bit;
-    TBoss6SwordWave::split_bit_index((s32)arg0, arg1, &idx, &bit);
+    TBoss6SwordWave::split_bit_index((saddr)arg0, arg1, &idx, &bit);
     arg0->w[idx] &= ~(1 << bit);
 }
 
@@ -459,7 +458,7 @@ void TBoss6SwordWave::fill_range(void *arg1, void *arg2) {
     }
 }
 
-void set_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1) {
+void set_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1) {
   s32 spC;
   s32 sp8;
   s32 temp_r5;

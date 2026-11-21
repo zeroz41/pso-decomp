@@ -43,7 +43,7 @@ void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern s32 model_render_flags;
 int TObjLight__sub_801337F8(void*);
 
-    extern int current_scene_light;
+    extern saddr current_scene_light;
 void TObjPlayer::update_lights() { ((TObjLight *)current_scene_light)->init_directional_light(); TObjLight__sub_801337F8((void*)current_scene_light); }
 
 void TObjPlayer__sub_800F083C(void) {  }
@@ -52,7 +52,7 @@ void TObjPlayer::clear_alt_model_flag() {
     model_render_flags &= 0xFFFFF7FF;
     set_chunk_material_override_pair(0xFF00, 0);
 }
-void TObjPlayer::set_alt_model_flag() { (*(int *)&model_render_flags) = ((*(int *)&model_render_flags) | 0x800); set_chunk_material_override_pair((s32)((void*)-513), (s32)((void*)0)); }
+void TObjPlayer::set_alt_model_flag() { (*(int *)&model_render_flags) = ((*(int *)&model_render_flags) | 0x800); set_chunk_material_override_pair((saddr)(-513), (saddr)(0)); }
 AltChunkObject alt_model_object;
 AltChunkModel alt_model;
 AltChunkStrips alt_model_strips;
@@ -63,11 +63,11 @@ AltChunkObject *TObjPlayer__sub_800F08AC(AltChunkObject *next, s32 diffuse) {
     return &alt_model_object;
 }
 void TObjEneDD_ST::draw_with_alt_model(s32 diffuse) {
-    s32 temp_r31;
+    saddr temp_r31;
     temp_r31 = *(s32 *)&this->model;
     TObjPlayer::set_alt_model_flag();
     TObjPlayer__sub_800F083C();
-    *(s32 *)&this->model = (s32)TObjPlayer__sub_800F08AC((AltChunkObject *)temp_r31, diffuse);
+    *(s32 *)&this->model = (saddr)TObjPlayer__sub_800F08AC((AltChunkObject *)temp_r31, diffuse);
     draw();
     TObjPlayer::update_lights();
     TObjPlayer::clear_alt_model_flag();

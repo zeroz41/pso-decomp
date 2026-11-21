@@ -2,6 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_803F0C50.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "dolphin/os/OSReset.h"
+#include <string.h>
 
 struct K_803F119C { u8 pad0[0x10]; s32 f10; s32 f14; u8 pad1[0x18]; s32 f30; u8 pad2[0x34]; };
 
@@ -117,21 +118,18 @@ extern s32 TKeyBoardControl__polling_channel_mask;
 s32 TKeyBoardControl__polling_disabled;
 s32 OSDisableInterrupts(void);
 void OSRestoreInterrupts(s32);
-void Dolphin_SIGetTypeAsync(s32, void *);
+void SIGetTypeAsync(s32, void *);
 void OSInitThreadQueue(void *);
 s32 SIRefreshSamplingRate(void);
-void *memset(void *, int, u32);
 void OSClearContext(OSContext_803F0F84 *);
 void OSSetCurrentContext(OSContext_803F0F84 *);
 void handle_pad_transfer_done__16TKeyBoardControlFiUiPv(s32 chan, u32 status, OSContext_803F0F84 *ctx);
-void *memcpy(void *, const void *, u32);
 s32 SITransfer(s32 chan, void *out, u32 outBytes, void *in, u32 inBytes, void (*cb)(s32, u32, OSContext_803F0F84 *), s64 delay);
 OSContext_803F0F84 *OSGetCurrentContext(void);
 s32 __OSReschedule(void);
 void SISetCommand(s32, u32);
 void SIEnablePolling(u32);
 s32 SIGetResponse(s32, void *);
-void *memmove(void *, const void *, u32);
 s32 SIIsChanBusy(s32);
 u32 SIGetStatus(s32);
 
@@ -249,7 +247,7 @@ s32 TKeyBoardControl__sub_803F0E90(s32 arg0, void *arg1) {
         return ret;
     }
     p->x3 = 0xFF;
-    return TKeyBoardControl::start_get_type_async(arg0, 1, 3, (s32)TKeyBoardControl::detect_device_type);
+    return TKeyBoardControl::start_get_type_async(arg0, 1, 3, (saddr)TKeyBoardControl::detect_device_type);
 }
 
 s32 TKeyBoardControl::disable_all_channels() {
@@ -336,7 +334,7 @@ s32 TKeyBoardControl::start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg
     k->f30 = arg3;
     k->f10 = arg1;
     k->f14 = arg2;
-    Dolphin_SIGetTypeAsync(arg0, (void *)TKeyBoardControl__sub_803F107C);
+    SIGetTypeAsync(arg0, (void *)TKeyBoardControl__sub_803F107C);
     OSRestoreInterrupts(en);
     return 0;
 }

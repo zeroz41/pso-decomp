@@ -16,12 +16,12 @@ public:
     ControllerInputContext *controller;
     f32 m_70;
 };
-typedef char TUnk_80488838_size[sizeof(TUnk_80488838) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80488838_size, sizeof(TUnk_80488838) == 0x74);
 
 // --- C functions defined in TUnk_80488838.cpp ---
 extern "C" {
 void *TCameraCtrl__vt7(void);
-void target_player0__11TCameraCtrlFi(s32 arg0);
+void target_player0__11TCameraCtrlFi(saddr arg0);
 }
 // --- end of C functions
 

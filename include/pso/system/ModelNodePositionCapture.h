@@ -27,7 +27,7 @@ private:
     Vec *positions;
 };
 
-typedef char ModelNodePositionEntry_size[sizeof(ModelNodePositionEntry) == 16 ? 1 : -1];
-typedef char ModelNodePositionCapture_size[sizeof(ModelNodePositionCapture) == 8 ? 1 : -1];
+LAYOUT_ASSERT(ModelNodePositionEntry_size, sizeof(ModelNodePositionEntry) == 16);
+LAYOUT_ASSERT(ModelNodePositionCapture_size, sizeof(ModelNodePositionCapture) == 8);
 
 #endif

@@ -15,7 +15,7 @@ public:
     f32 m_bc;
     s32 m_c0;
 };
-typedef char TObjEneMe1Gee_NEEDLE_size[sizeof(TObjEneMe1Gee_NEEDLE) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Gee_NEEDLE_size, sizeof(TObjEneMe1Gee_NEEDLE) == 0xC4);
 
 extern "C" {
 TObjEneMe1Gee_NEEDLE *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *self, TObject *owner, Vec *from, Vec *to, f32 farg0,

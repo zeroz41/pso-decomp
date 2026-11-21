@@ -10,7 +10,7 @@ public:
     virtual void render();
     TObject *quest_display;
 };
-typedef char TAdLoadQuestGCDisplayOffset[offsetof(TAdLoadQuestGC, quest_display) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadQuestGCDisplayOffset, offsetof(TAdLoadQuestGC, quest_display) == 0x1C);
 
 extern "C" {
 s32 create_cost_window(s32 arg0);
@@ -26,9 +26,9 @@ extern "C" {
 void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent);
 void TAdLoadQuestGC__sub_8030984C(void);
 void TAdLoadQuestGC__sub_80309850(void);
-int TAdLoadQuestGC__sub_80309854(int a0);
-int TAdLoadQuestGC__sub_80309868(int a0);
-int TAdLoadQuestGC__sub_8030987C(int a0);
+saddr TAdLoadQuestGC__sub_80309854(int a0);
+saddr TAdLoadQuestGC__sub_80309868(int a0);
+saddr TAdLoadQuestGC__sub_8030987C(int a0);
 }
 
 #endif

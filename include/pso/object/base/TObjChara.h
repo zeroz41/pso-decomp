@@ -221,7 +221,7 @@ public:
     u8 unk_2DA[0x2];
     u32 m_2dc;
     void* m_2e0;
-    u32 m_2e4;
+    uaddr m_2e4;
     u8 unk_2E8[0x2];
     s16 m_2ea;
     u8 unk_2EC[0x2];
@@ -242,7 +242,7 @@ public:
     f32 y_speed;
     f32 m_310;
     s32 m_314;
-    u32 m_318;
+    uaddr m_318;  // the actor's AttackParams
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];
     s16 m_322;
@@ -264,6 +264,6 @@ public:
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);
 
-typedef char TObjCharaGroundNormalOffset[offsetof(TObjChara, ground_normal) == 0x248 ? 1 : -1];
+LAYOUT_ASSERT(TObjCharaGroundNormalOffset, offsetof(TObjChara, ground_normal) == 0x248);
 
 #endif

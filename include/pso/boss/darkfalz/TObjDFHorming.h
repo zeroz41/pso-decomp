@@ -31,9 +31,9 @@ struct TObjDFHorming : public TObjChara {
     static s32 is_boss_active();
 };
 
-typedef char TObjDFHorming_velocity_offset[offsetof(TObjDFHorming, velocity) == 0x348 ? 1 : -1];
-typedef char TObjDFHorming_effects_offset[offsetof(TObjDFHorming, effects) == 0x358 ? 1 : -1];
-typedef char TObjDFHorming_size[sizeof(TObjDFHorming) == 0x380 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFHorming_velocity_offset, offsetof(TObjDFHorming, velocity) == 0x348);
+LAYOUT_ASSERT(TObjDFHorming_effects_offset, offsetof(TObjDFHorming, effects) == 0x358);
+LAYOUT_ASSERT(TObjDFHorming_size, sizeof(TObjDFHorming) == 0x380);
 
 struct TBoss4DarkFalz;
 extern "C" {

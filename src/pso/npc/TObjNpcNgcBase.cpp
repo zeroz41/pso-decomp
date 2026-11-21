@@ -11,8 +11,8 @@
 
 TObjNpcNgcBase::~TObjNpcNgcBase() {}
 extern "C" {
-s32 get_bml_texlist(void *, int);
-s32 get_bml_model(void *, int);
+saddr get_bml_texlist(void *, int);
+saddr get_bml_model(void *, int);
 const char *TObjNpcNgcBase__name = "TObjNpcNgcBase";
 TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, void *resource) : TUnk_804A9F50(parent) {
     m_name = TObjNpcNgcBase__name;

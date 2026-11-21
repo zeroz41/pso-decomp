@@ -11,6 +11,6 @@ public:
     virtual void render();
     Vec unk_AC;
 };
-typedef char TBoss8DragonColli_C_size[sizeof(TBoss8DragonColli_C) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonColli_C_size, sizeof(TBoss8DragonColli_C) == 0xB8);
 
 #endif

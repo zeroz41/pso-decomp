@@ -15,7 +15,7 @@ s32 TShopGenerator__sub_80222DAC(s32);
 s32 get_entity_id(TObjPlayer *);
 void *get_player_by_client_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(s32);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void TMedicalCenterMes__sub_80216260(void);
 
@@ -37,10 +37,10 @@ s32 TMedicalCenterMes__slot_flags[4];
 }
 
 extern "C" {
-s32 create_meseta_window(unsigned short);
+saddr create_meseta_window(unsigned short);
 TObject *set_service_counter_camera(void *, int);
 extern const char *TMedicalCenterSequence__class_name;
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(TObjPlayer *player, s32 amount);
 int sub_802239EC__13TShopSequenceFv(void *);
@@ -154,7 +154,7 @@ s32 TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)pos);
+    create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     vfunc_6(0x1F, 1);
     m_2c = (TWindowBase *)create_meseta_window(get_child_field1c());
     set_field_20(2);
@@ -288,7 +288,7 @@ void TMedicalCenterMes::run_task() {
         TWindowCtrl::suppress_slot((u16)get_entity_id(player));
         f32 pos[2] = {332.0f, 80.0f};
         u16 id = (u16)get_entity_id(player);
-        create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (s32)pos, id);
+        create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (saddr)pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
             ((TObjPlayer *)player)->init_effect_5f0();

@@ -10,7 +10,7 @@ struct TBoss4Uro : public TBoss4Zako {
     virtual ~TBoss4Uro();
     void run_task();
     s32 get_phase();
-    static int get_instance_count();
+    static saddr get_instance_count();
 };
 
 #endif

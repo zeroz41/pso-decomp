@@ -79,7 +79,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void send_6xA3_action(s8 v);
     static void free_all();
     static void load_resources();
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     static s32 is_phase_reached();
     void reset_ending_state();
     void update_plot_timer();
@@ -91,7 +91,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void tick_timeout();
     void advance_intro_timer();
     void advance_if_ready();
-    static u8 is_ending_or_split_screen();
+    s32 is_ending_or_split_screen();
     int is_ready();
     void finish_and_dispatch_next_phase();
     void check_action_7();

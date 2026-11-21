@@ -73,6 +73,6 @@ public:
     Vec unk_450[3];
 };
 
-typedef char TUnk_80486924_size[sizeof(TUnk_80486924) == 0x474 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80486924_size, sizeof(TUnk_80486924) == 0x474);
 
 #endif

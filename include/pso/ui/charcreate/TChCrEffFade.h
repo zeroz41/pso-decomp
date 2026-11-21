@@ -21,6 +21,6 @@ public:
     s32 mode;
 };
 
-typedef char TChCrEffFade_size[sizeof(TChCrEffFade) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TChCrEffFade_size, sizeof(TChCrEffFade) == 0x30);
 
 #endif

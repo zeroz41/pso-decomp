@@ -114,6 +114,6 @@ public:
     char text[0x400];                // 0x68: message text built by the state handlers
 };
 
-typedef char TAdTimeSetGC_size[sizeof(TAdTimeSetGC) == 0x468 ? 1 : -1];
+LAYOUT_ASSERT(TAdTimeSetGC_size, sizeof(TAdTimeSetGC) == 0x468);
 
 #endif

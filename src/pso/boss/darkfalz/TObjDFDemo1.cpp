@@ -65,7 +65,7 @@ s32 lbl_804855F0[6] = {0x50, 0x4E, 0x1B, 0x1B, 0x1B, 0x1A};
 s32 lbl_80485608[2] = {0x1D, 0x1C};
 CameraPlayback lbl_80485610 = {0, 2, 0, 0.0f, 0.5f};
 DFDemo1NodeColor lbl_8048561C[3] = {{0, 2, 5}, {1, 6, 5}, {1, 0x69, 3}};
-TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, s32 angle) {
+TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, saddr angle) {
     return new TObjDFDemo1(parent, pos, angle);
 }
 
@@ -200,7 +200,7 @@ void TObjDFDemo1::draw_fading_model() {
     rotate_matrix_y(NULL, angle);
     max = 30.0f;
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)body_parts[i].texlist)));
+        TObjFish::set_global_param((saddr)(body_parts[i].texlist));
         f = frame;
         switch (i) {
         case 0:
@@ -233,7 +233,7 @@ void TObjDFDemo1::sub_8004E068() {
     if (timer < 0x88) {
         alpha = (timer - 0x7C) / 12.0f;
     }
-    col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((u32)zanzo_parts[1].model, 0x6A))->model)->polygon_list;
+    col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((uaddr)zanzo_parts[1].model, 0x6A))->model)->polygon_list;
     f = 0.0f;
     if (timer >= 0xF0) {
         f = 1.0f;
@@ -249,7 +249,7 @@ void TObjDFDemo1::sub_8004E068() {
     }
     for (i = 0; i < 3; i++) {
         e = &lbl_8048561C[i];
-        col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((u32)zanzo_parts[e->part].model, e->node))->model)->polygon_list;
+        col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((uaddr)zanzo_parts[e->part].model, e->node))->model)->polygon_list;
         s32 old = col[e->slot];
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);
     }
@@ -263,7 +263,7 @@ void TObjDFDemo1::sub_8004E068() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (j = 0; j < 2; j++) {
-        TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)zanzo_parts[j].texlist)));
+        TObjFish::set_global_param((saddr)(zanzo_parts[j].texlist));
         draw_model_motion(zanzo_parts[j].model, zanzo_parts[j].motion, frame);
     }
     clear_motion_packed_rotation();

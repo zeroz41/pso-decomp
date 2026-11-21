@@ -29,6 +29,6 @@ struct TAdMultiSaveGC : public TObject {
     TWindowMessage *sub_802FF314();
 };
 
-typedef char TAdMultiSaveGC_size[sizeof(TAdMultiSaveGC) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TAdMultiSaveGC_size, sizeof(TAdMultiSaveGC) == 0x34);
 
 #endif

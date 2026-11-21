@@ -38,7 +38,6 @@ extern "C" {
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 u32 TAdPlyStatusGC__ct(u32, s32, s32);
-u32 __nw__7TObjectFUl(s32);
 
 extern u32 ply_status_gc_instance;
 
@@ -46,7 +45,7 @@ u32 TAdPlyStatusGC::get_instance(s32 arg0, s32 arg1) {
     u32 var_r0;
 
     if ((u32) ply_status_gc_instance == 0U) {
-        var_r0 = __nw__7TObjectFUl(0x70);
+        var_r0 = (uaddr)TObject::operator new(0x70);
         if (var_r0 != 0U) {
             var_r0 = TAdPlyStatusGC__ct(var_r0, arg0, arg1);
         }
@@ -70,7 +69,7 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
   {
     temp_r30 = (u8 *) (arg0 + (var_r31 & 0xFFFFFFFFFFFFFFFF));
     TObjFish::set_global_param((int) (*((s32 *) (((s8 *) temp_r30) + 0x2C))));
-    draw_model_motion((void *)(*((s32 *) (((s8 *) temp_r30) + 0x28))), (void *)(*((s32 *) (((s8 *) temp_r30) + 0x30))), 0.0f);
+    draw_model_motion((void *)(*((saddr *) (((s8 *) temp_r30) + 0x28))), (void *)(*((saddr *) (((s8 *) temp_r30) + 0x30))), 0.0f);
     var_r29 += 1;
     var_r31 += 0xC;
   }
@@ -153,7 +152,7 @@ extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 create__10TObjMapCsnFl(void *);
+saddr create__10TObjMapCsnFl(void *);
 void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
@@ -227,7 +226,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
 extern "C" {
 void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *, TObjFish *);
 
-void TBoss6Demo15_TYPE2_WAIT::render() { TObjPlayer__sub_8033FDB0((s32)this); }
+void TBoss6Demo15_TYPE2_WAIT::render() { TObjPlayer__sub_8033FDB0((saddr)this); }
 
 extern s32 __vt__23TBoss6Demo15_TYPE2_WAIT[];
 
@@ -243,7 +242,7 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
             ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_40);
         }
         ((TBoss6Demo15_TYPE2_WAIT *)arg0)->check_any_player_near();
-        play_persistent_sound(0x4003A126, (s32)arg0, (u32)(arg0 + 0x40), 0, 0);
+        play_persistent_sound(0x4003A126, (saddr)arg0, (uaddr)(arg0 + 0x40), 0, 0);
         if (((TBoss6PlotFalz *)(*(u8 * *)&this->unk_1C))->get_scene_state() != 4) {
             ((TObject *)arg0)->queue_destruction();
         }
@@ -296,7 +295,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
             self->parts[i].model = get_bml_model((BmlResource *)bml, t);
         }
         self->parts[i].model_aux = get_bml_texlist((BmlResource *)bml, v);
-        self->parts[i].motion = (s32)get_bml_motion((BmlResource *)bml, lbl_804EFB70[i]);
+        self->parts[i].motion = (saddr)get_bml_motion((BmlResource *)bml, lbl_804EFB70[i]);
     }
     fn_8034009C(wait);
     TObjFish__sub_8033FF64(wait);

@@ -13,5 +13,5 @@ struct TUnk_804E48D8 : public TObjAreaWarpForest {
     s32 visible; // set once TObjBoss2Tunnel__sub_802F2070 passes; render is skipped until then
 };
 
-typedef char TUnk_804E48D8_size[sizeof(TUnk_804E48D8) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E48D8_size, sizeof(TUnk_804E48D8) == 0xE0);
 #endif

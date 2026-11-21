@@ -15,8 +15,8 @@ struct TObjDFUsoTower : public TObjBase {
     void sub_8004D9A0(s32 state);
 };
 
-typedef char TObjDFUsoTower_state_offset[offsetof(TObjDFUsoTower, fade_state) == 0x90 ? 1 : -1];
-typedef char TObjDFUsoTower_alpha_offset[offsetof(TObjDFUsoTower, fade_alpha) == 0x94 ? 1 : -1];
-typedef char TObjDFUsoTower_size[sizeof(TObjDFUsoTower) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFUsoTower_state_offset, offsetof(TObjDFUsoTower, fade_state) == 0x90);
+LAYOUT_ASSERT(TObjDFUsoTower_alpha_offset, offsetof(TObjDFUsoTower, fade_alpha) == 0x94);
+LAYOUT_ASSERT(TObjDFUsoTower_size, sizeof(TObjDFUsoTower) == 0x98);
 
 #endif

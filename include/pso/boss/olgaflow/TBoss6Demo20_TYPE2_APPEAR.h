@@ -29,11 +29,11 @@ public:
     OlgaFlowScenePart model12;
     f32 frame;
     f32 secondary_frame;
-    s32 timer;
+    saddr timer;
     TBoss6PlotFalz *plot;
 };
-typedef char TBoss6Demo20_TYPE2_APPEAR_size[sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo20_TYPE2_APPEAR_size, sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0);
 
-typedef char TBoss6Demo20_capture_offset[offsetof(TBoss6Demo20_TYPE2_APPEAR, capture) == 0x7C ? 1 : -1];
-typedef char TBoss6Demo20_parts_offset[offsetof(TBoss6Demo20_TYPE2_APPEAR, opening_parts) == 0xA4 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo20_capture_offset, offsetof(TBoss6Demo20_TYPE2_APPEAR, capture) == 0x7C);
+LAYOUT_ASSERT(TBoss6Demo20_parts_offset, offsetof(TBoss6Demo20_TYPE2_APPEAR, opening_parts) == 0xA4);
 #endif

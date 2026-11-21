@@ -239,7 +239,7 @@ TBoss6Kakusan::~TBoss6Kakusan() {
 TBoss6Kakusan::TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) : TObject(parent) {
     u8 *boss6_kakusan = (u8 *)this;
     f32 temp_f2;
-    u32 temp_r3;
+    uaddr temp_r3;
     ((TBoss6Kakusan *)boss6_kakusan)->m_name = TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;
@@ -261,7 +261,7 @@ TBoss6Kakusan::TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_cli
     if (((TBoss6Kakusan *)boss6_kakusan)->m_28 < 0.0f) {
         ((TBoss6Kakusan *)boss6_kakusan)->m_28 = 0.0f;
     }
-    ((TBoss6Kakusan *)boss6_kakusan)->m_54 = (u32)create_particle_emitter((boss6_kakusan + 0x30), 0x214);
+    ((TBoss6Kakusan *)boss6_kakusan)->m_54 = (uaddr)create_particle_emitter((boss6_kakusan + 0x30), 0x214);
     temp_r3 = ((TBoss6Kakusan *)boss6_kakusan)->m_54;
     if (temp_r3 != 0U) {
         ((TParticleCtrl *)temp_r3)->set_flags(0x40);

@@ -10,7 +10,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
     static void *create();
 
     s32 m_wait_frames; // 0x1C, frames counted before the boss-4 check (inferred name)

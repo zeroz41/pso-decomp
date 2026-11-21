@@ -13,7 +13,7 @@ struct TObjBoss5PillarSmoke : public TObject {
     virtual void run_task();
 };
 
-typedef char TObjBoss5PillarSmoke_size[sizeof(TObjBoss5PillarSmoke) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss5PillarSmoke_size, sizeof(TObjBoss5PillarSmoke) == 0x28);
 
 // The model-node callback TObjBoss5Pillar::render installs (fn_8028ADDC) and clears (sub_8028ADB0) for a smoke.
 extern "C" {

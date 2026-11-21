@@ -12,7 +12,7 @@ struct CreationInputState {
     s32 repeated_buttons;
 };
 
-typedef char CreationInputState_size[sizeof(CreationInputState) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(CreationInputState_size, sizeof(CreationInputState) == 0x18);
 
 extern CreationInputState creation_input_state;
 extern CreationInputState lbl_80465150;
@@ -28,6 +28,6 @@ void update_creation_direction_repeat();
 void get_creation_pad_stick(s32 *angle, f32 *magnitude);
 
 // Pad word of the player doing the character creation (TChCrEffCtrlPl.cpp).
-s32 get_creation_pad(void);
+saddr get_creation_pad(void);
 
 #endif

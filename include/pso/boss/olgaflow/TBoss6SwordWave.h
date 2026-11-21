@@ -22,6 +22,6 @@ public:
     TObject *owner;
 };
 
-typedef char TBoss6SwordWaveOwnerOffset[offsetof(TBoss6SwordWave, owner) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TBoss6SwordWaveOwnerOffset, offsetof(TBoss6SwordWave, owner) == 0x1C);
 
 #endif

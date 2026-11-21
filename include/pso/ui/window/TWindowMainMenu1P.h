@@ -35,7 +35,7 @@ struct TWindowMainMenu1P : public TWindowMainMenu {
     u8 unk_A8[0x4];
 };
 
-typedef char TWindowMainMenu1P_size[sizeof(TWindowMainMenu1P) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TWindowMainMenu1P_size, sizeof(TWindowMainMenu1P) == 0xAC);
 
 extern "C" {
 u8 *__dt__17TWindowMainMenu1PFv(u8 *arg0, s16 arg1);

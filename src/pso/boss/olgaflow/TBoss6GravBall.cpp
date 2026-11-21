@@ -56,7 +56,7 @@ void fn_80323134(TBoss6GravBall *ball) {
 #pragma opt_common_subs off
 
 void TBoss6GravBall::destroy_part(s32 index) {
-    u8 *entry_base = (u8 *)((u32)this + index * sizeof(TParticleCtrl *));
+    u8 *entry_base = (u8 *)((uaddr)this + index * sizeof(TParticleCtrl *));
     TParticleCtrl *emitter = *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters));
     if (emitter != NULL) {
         TParticleCtrl::release(emitter);
@@ -82,7 +82,7 @@ void TBoss6GravBall__sub_80323214(TBoss6GravBall *ball, s32 index) {
 #pragma opt_common_subs off
 void TBoss6GravBall::create_emitter(s32 index) {
     s32 offset = index * sizeof(TParticleCtrl *);
-    u8 *entry_base = (u8 *)((u32)this + offset);
+    u8 *entry_base = (u8 *)((uaddr)this + offset);
     if (*(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) == NULL) {
         *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) =
             create_particle_emitter(&ball_position, *(s32 *)((u8 *)TBoss6GravBall__emitter_id_table + offset));
@@ -96,7 +96,7 @@ void TBoss6GravBall::create_emitter(s32 index) {
 #pragma pop
 
 void TBoss6GravBall::init_parts() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -152,7 +152,7 @@ void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self) {
     s32 n;
     s32 i;
     TObjPlayer *pl;
-    s32 id;
+    saddr id;
     s32 flag;
     f32 d;
     n = TLobby::get_game_mode();
@@ -198,7 +198,7 @@ void TBoss6GravBall__sub_80323544(TBoss6GravBall *self) {
     s32 n;
     s32 i;
     TObjPlayer *pl;
-    s32 id;
+    saddr id;
     s32 flag;
     f32 d;
     n = TLobby::get_game_mode();

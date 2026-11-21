@@ -43,7 +43,7 @@ TBoss5GryphonDemo::~TBoss5GryphonDemo() {}
 }
 TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 arg2, f32 farg0) : TObject(parent) {
     CameraPlayback c;
-    ((Obj_800665FC *)this)->f0 = ((s32)TBoss5GryphonDemo__name);
+    ((Obj_800665FC *)this)->f0 = ((saddr)TBoss5GryphonDemo__name);
     ((Obj_800665FC *)this)->f1c = farg0;
     ((Obj_800665FC *)this)->f20 = 0.0f;
     ((Obj_800665FC *)this)->f24 = arg2;

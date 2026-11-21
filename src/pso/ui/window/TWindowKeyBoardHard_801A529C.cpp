@@ -5,11 +5,13 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
+#include "pso/network/TProtocol.h"
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
 extern void *TLobby__protocol_instance;
-s32 deferred_packet_buffer;
+saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
 s32 lbl_805D5D04;
@@ -54,7 +56,7 @@ void TLobby::drain_deferred_packets() {
         if (p[0] == 0) {
             break;
         }
-        ((TProtocol *)TLobby__protocol_instance)->handle_command((struct packet *)p);
+        ((TProtocol *)TLobby__protocol_instance)->handle_command((union packet *)p);
         deferred_packet_buffer_used += n;
     }
 }
@@ -63,7 +65,7 @@ void copy_packet(packet *arg0) {
 
     len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)arg0 + 2));
     if (deferred_packet_buffer_used + len <= 0x10000) {
-        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), arg0, (u16)len);
+        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), arg0, len);
         deferred_packet_buffer_used += len;
     }
 }
@@ -84,7 +86,7 @@ void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
     lbl_805D5D04 = 0;
-    deferred_packet_buffer = (s32)mem_alloc(0x10000);
+    deferred_packet_buffer = (saddr)mem_alloc(0x10000);
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }
 }

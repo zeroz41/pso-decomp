@@ -6,7 +6,7 @@ struct Matrix34 { f32 elements[3][4]; };
 struct ReflectionPlane { f32 origin[3]; f32 normal[3]; };
 
 extern "C" {
-extern u32 current_matrix;
+extern uaddr current_matrix;
 void PSMTXRotRad(Matrix34*, char, f32);
 f32 PSMTXConcat(int, int, int);
 void rotate_matrix_y(Matrix34* matrix, s32 angle);
@@ -35,7 +35,7 @@ static inline f32 acosf_803D8F74(f32 v) {
     return (f32)acos(v);
 }
 
-void reflect_matrix_in_plane(u32 matrix, const ReflectionPlane *arg1)
+void reflect_matrix_in_plane(uaddr matrix, const ReflectionPlane *arg1)
 {
     f32 xz = sqrtf_803D8F74(arg1->normal[0] * arg1->normal[0] + arg1->normal[2] * arg1->normal[2]);
     f32 len = sqrtf_803D8F74(arg1->normal[1] * arg1->normal[1] + xz * xz);
@@ -70,7 +70,7 @@ void rotate_matrix_y(Matrix34* matrix, s32 angle) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
         PSMTXRotRad(&rotation, 'y', (f32)((9.587378008291125e-05) * (f64)angle));
-        PSMTXConcat((int)selected, (int)&rotation, (int)selected);
+        PSMTXConcat((saddr)selected, (saddr)&rotation, (saddr)selected);
     }
 }
 

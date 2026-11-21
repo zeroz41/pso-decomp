@@ -23,8 +23,8 @@ struct TOLightMachine01 : public TObjBase {
     static void load_assets();
 };
 
-typedef char TOLightMachine01ViewRangeOffset[offsetof(TOLightMachine01, view_range) == 0x90 ? 1 : -1];
-typedef char TOLightMachine01_size[sizeof(TOLightMachine01) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TOLightMachine01ViewRangeOffset, offsetof(TOLightMachine01, view_range) == 0x90);
+LAYOUT_ASSERT(TOLightMachine01_size, sizeof(TOLightMachine01) == 0xB0);
 
 extern "C" {
 void *__dt__16TOLightMachine01Fv(void *arg0, s16 arg1);

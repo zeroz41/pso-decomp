@@ -342,14 +342,14 @@ s32 func_801A5E54__Fv(void) {
 s32 TKeyBoardControl::read_key_checked(u8 arg0) {
     return TKeyBoardControl::check_and_read((s32)(arg0));
 }
-typedef char ControllerInputState_size[sizeof(ControllerInputState) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 void TKeyBoardControl::update_input_frame() {
     u8 *key_board_control;
     hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
         key_board_control = controller_input_state.pad_160;
         ((TKeyBoardControl *)key_board_control)->poll_key_state();
-        update_button_hold_counters((int)key_board_control);
+        update_button_hold_counters((saddr)key_board_control);
     }
 }
 #pragma push
@@ -477,7 +477,7 @@ void controller_stuff(void) {
                     }
                     pad->ang0 = (u16)a;
                     pad->ang1 = (u16)b;
-                    update_button_hold_counters((int)pad);
+                    update_button_hold_counters((saddr)pad);
                 } else {
                     pad->hold = (*(Src_801A5F1C *)&controller_default_pad_state).b0;
                     pad->rel = (*(Src_801A5F1C *)&controller_default_pad_state).b1;
@@ -575,9 +575,8 @@ struct Ctl_801A6510 {
 };
 
 extern "C" {
-s32 TKeyBoardControl__sub_803DEB74(int);
+saddr TKeyBoardControl__sub_803DEB74(int);
 extern s8 lbl_805D5D08;
-s32 read_input__16TKeyBoardControlFl(u8);
 void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);
 s32 is_split_screen(void);
 
@@ -722,7 +721,7 @@ s32 TKeyBoardControl::poll_key_state() {
     self->f0 = 0;
     self->f8 = 0;
     for (i = 0; i < 6; i++) {
-        if (read_input__16TKeyBoardControlFl(keyboard_poll_key_codes[i]) != 0) {
+        if (TKeyBoardControl::read_input((u8)keyboard_poll_key_codes[i]) != 0) {
             self->f0 |= TKeyBoardControl_key_bit_table[i];
         }
     }

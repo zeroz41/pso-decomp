@@ -1,6 +1,3 @@
-#define GXSetCopyFilter Dolphin_GXSetCopyFilter
-#define GXSetFog Dolphin_GXSetFog
-#define GXSetIndTexCoordScale Dolphin_GXSetIndTexCoordScale
 
 #include <string.h>
 

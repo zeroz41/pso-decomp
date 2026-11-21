@@ -13,5 +13,5 @@ struct TObjWarpBoss03 : public TObjAreaWarp {
     static void *create(void *arg0);
 };
 
-typedef char TObjWarpBoss03_size[sizeof(TObjWarpBoss03) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TObjWarpBoss03_size, sizeof(TObjWarpBoss03) == 0xC4);
 #endif

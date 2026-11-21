@@ -161,7 +161,7 @@ void TObjDFDemo3::render() {
     set_motion_packed_rotation();
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
-    TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)part.texlist)));
+    TObjFish::set_global_param((saddr)(part.texlist));
     node_list->install();
     set_chunk_render_flags(1);
     draw_model_motion(part.model, part.motion, frame);

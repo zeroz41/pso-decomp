@@ -40,15 +40,14 @@ struct Obj_801BDE60 : VBase_801BDE60 {
 
 extern "C" {
 u8 * construct_player_instance__10TObjPlayerFlslPUc(void *, s32, s16, s32, void *);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_03;
 
-u8 *TObjPlayer::create_player_instance(s32 arg0, s32 arg1) {
+u8 *TObjPlayer::create_player_instance(s32 arg0, saddr arg1) {
     u8 *p;
-    p = __nw__7TObjectFUl(0xDB8);
+    p = (u8 *)TObject::operator new(0xDB8);
     if (p != NULL) {
         p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlslPUc)(
-            p, tl_03, arg0, get_field_0_s32((void *)arg1), (s32)((TObjPlayer *)arg1)->get_char_data());
+            p, tl_03, arg0, get_field_0_s32((void *)arg1), (saddr)((TObjPlayer *)arg1)->get_char_data());
     }
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)arg1)->get_sub_obj());
     ((Obj_801BDE60 *)p)->v6();
@@ -59,7 +58,7 @@ u8 *create_player_object(s16 slot, s32 role, u8 *record) {
     u8 *player;
     u8 *var_r0;
     decode_created_player_inventory(record);
-    player = (u8 *)(__nw__7TObjectFUl(0xDB8));
+    player = (u8 *)((u8 *)TObject::operator new(0xDB8));
     var_r0 = player;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, record));
@@ -68,10 +67,10 @@ u8 *create_player_object(s16 slot, s32 role, u8 *record) {
 }
 
 
-u32 TObjPlayer__shared_photon_blast_state;
+uaddr TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
-extern u32 TObjPlayer__shared_model_buffer;
-extern u32 player_shared_buffer_base;
+extern uaddr TObjPlayer__shared_model_buffer;
+extern uaddr player_shared_buffer_base;
 
 void TObjPlayer::free_shared_data() {
     if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
@@ -90,19 +89,19 @@ void TObjPlayer::free_shared_data() {
 
 void *fn_801C2360(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
-        TObjPlayer__shared_model_buffer = (u32)mem_alloc((u32)((void *)0x9000));
+        TObjPlayer__shared_model_buffer = (uaddr)mem_alloc((uaddr)(0x9000));
     }
     if ((u32) player_shared_buffer_base == 0U) {
-        player_shared_buffer_base = (u32)mem_alloc((u32)((void *)0x4800));
+        player_shared_buffer_base = (uaddr)mem_alloc((uaddr)(0x4800));
     }
     if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
-        temp_r3 = (int)::operator new(0x60);
+        temp_r3 = (saddr)::operator new(0x60);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)fn_801C2360((void *)temp_r3);
+            var_r0 = (saddr)fn_801C2360((void *)temp_r3);
         }
         TObjPlayer__shared_photon_blast_state = (u32) var_r0;
     }
@@ -113,9 +112,9 @@ void TObjPlayer::alloc_shared_buffers() {
     extern unsigned char lobby_rule_settings[];
     extern int lbl_805D5D7C;
     extern int shared_state_flags;
-void TObjPlayer::finalize_shared() { set_player_count__6TLobbyFi((int)((void*)0)); TObjPlayer::set_shared_count((int)((void*)0)); TObjPlayer::set_shared_flag((int)((void*)0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags = 0; TLockOnCursor::free_cursor_resources(); TLobby__sub_802A7BD8(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
+void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags = 0; TLockOnCursor::free_cursor_resources(); TLobby__sub_802A7BD8(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
-void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); set_player_count__6TLobbyFi((int)((void*)0)); TObjPlayer::set_shared_count((int)((void*)1)); TObjPlayer::set_shared_flag((int)((void*)0)); lbl_805D5D7C = 0; TLobby::alloc_snapshot_buffer(); load_player_motion_data(); copy_if_space(); TWindowSnapShot::init_default(); TWindowSnapShot::free_shared_instance(); load_target_cursor_models(); load_player_footstamp(); TObjPlayer__sub_80354E7C(); shared_state_flags = 0; }
+void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; TLobby::alloc_snapshot_buffer(); load_player_motion_data(); copy_if_space(); TWindowSnapShot::init_default(); TWindowSnapShot::free_shared_instance(); load_target_cursor_models(); load_player_footstamp(); TObjPlayer__sub_80354E7C(); shared_state_flags = 0; }
 
 extern "C" {
 extern u8 TObjPlayer__char_data_array[];
@@ -150,7 +149,7 @@ int is_quest_active(void);
 int subtract_photon_blast_charge(void*, f32);
 int add_photon_blast_chain_charge(void*);
 
-s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1) {
+s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __dt__12TPlyCharDataFv(arg0 + 0xC, -1);
         if (arg1 > 0) {
@@ -666,7 +665,7 @@ int TObjPlayer::check_flag_02000000() {
 }
 
 void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r3;
     temp_r3 = (u8 *)(arg0 + (arg1 * 8));
     *(f32 *)((s8 *)temp_r3 + 0x6B0) = farg0;

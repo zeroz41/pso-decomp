@@ -76,8 +76,8 @@ typedef struct Conn_804004DC {
     void *proto;
     void *opts;
 } Conn_804004DC;
-typedef char Conn_804004DC_size_check[sizeof(Conn_804004DC) == 0x34 ? 1 : -1];
-typedef char Conn_804004DC_opts_check[(offsetof(Conn_804004DC, opts) == 0x30) ? 1 : -1];
+LAYOUT_ASSERT(Conn_804004DC_size_check, sizeof(Conn_804004DC) == 0x34);
+LAYOUT_ASSERT(Conn_804004DC_opts_check, offsetof(Conn_804004DC, opts) == 0x30);
 /* CHAP state, in Conn_804004DC.opts of the CHAP connection. */
 typedef struct PppChap {
     const char *name;
@@ -88,8 +88,8 @@ typedef struct PppChap {
     u8 padF;
     u16 len;
 } PppChap;
-typedef char PppChap_size_check[sizeof(PppChap) == 0x14 ? 1 : -1];
-typedef char PppChap_len_check[(offsetof(PppChap, len) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(PppChap_size_check, sizeof(PppChap) == 0x14);
+LAYOUT_ASSERT(PppChap_len_check, offsetof(PppChap, len) == 0x10);
 
 /* lbl_805C02D0: the CHAP buffers and settings (TLobby_803FC178.c).  init_net_buffer_table (NetworkTransport.c) points
  * the buffers into that file's static block and sets their sizes. */
@@ -117,7 +117,7 @@ typedef struct PppAuthState {
     u16 f38;                    /* 0x38: the FSM's timeout, in seconds */
     u8 pad3A[6];
 } PppAuthState;
-typedef char PppAuthState_size_check[sizeof(PppAuthState) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(PppAuthState_size_check, sizeof(PppAuthState) == 0x40);
 
 /* lbl_805C0620: the PAP buffers and settings (TLobby_803FCF44.c), set by init_net_block_620_params. */
 typedef struct PppPapState {
@@ -132,7 +132,7 @@ typedef struct PppPapState {
     s16 f14;
     u8 pad16[2];
 } PppPapState;
-typedef char PppPapState_size_check[sizeof(PppPapState) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(PppPapState_size_check, sizeof(PppPapState) == 0x18);
 
 /* lbl_805C04A8: the PPP frame buffers (TLobby_803FCF44.c), set by init_net_buffer_desc.  Each buffer starts with its
  * PppFrame record; its data starts ((headroom + 0x83) & ~3) bytes in. */
@@ -153,7 +153,7 @@ typedef struct PppBuffers {
     s16 reply_words;
     u8 pad2A[6];
 } PppBuffers;
-typedef char PppBuffers_size_check[sizeof(PppBuffers) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(PppBuffers_size_check, sizeof(PppBuffers) == 0x30);
 #ifdef __cplusplus
 extern "C" {
 #endif

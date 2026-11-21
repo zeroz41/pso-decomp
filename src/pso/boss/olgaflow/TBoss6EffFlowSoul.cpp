@@ -21,7 +21,7 @@ const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";
 
 struct Soul_8036A6B0 {
     u8 pad0[0x1c];
-    s32 f1c;
+    saddr f1c;
     void *f20;
     u16 player;
     u8 pad26[0x28 - 0x26];
@@ -45,7 +45,7 @@ void TBoss6EffFlowSoul::run_task() {
         return;
     }
     if (self->player == 0xFFFF) {
-        ((TBoss6Type2 *)(self->f1c))->copy_pos_620((s32)&target);
+        ((TBoss6Type2 *)(self->f1c))->copy_pos_620((saddr)&target);
     } else {
         p = (u8 *)get_player_by_client_id(self->player);
         if (p != NULL && TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0) {

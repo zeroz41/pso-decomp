@@ -51,7 +51,7 @@ TODoorAncient03::TODoorAncient03(TObject *parent, void *set_data) : TODoorBase(p
     m_name = TODoorAncient03_name;
     apply_object_set_data(set_data);
     model = (void *)door_ancient03_archive->models[0].model;
-    texlist = (s32)door_ancient03_texlists[1];
+    texlist = (saddr)door_ancient03_texlists[1];
     motion = door_ancient03_archive->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;
@@ -75,12 +75,12 @@ void TODoorAncient03::load_resources() {
     GinjaTextureList **texlists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     door_ancient03_texlists = texlists;
     texlists[0] = (GinjaTextureList *)door_ancient03_archive->models[0].m_c;
-    door_ancient03_texlists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)"fe_obj_o_door03g.gvm");
+    door_ancient03_texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_o_door03g.gvm");
 }
 
 void TODoorAncient03::free_resources() {
     if (door_ancient03_texlists != NULL) {
-        TObjPlayer::free_if_valid((s32)door_ancient03_texlists[1]);
+        TObjPlayer::free_if_valid((saddr)door_ancient03_texlists[1]);
         if (door_ancient03_texlists != NULL) {
             mem_free(door_ancient03_texlists);
             door_ancient03_texlists = NULL;
@@ -101,26 +101,26 @@ void TODoorAncient03::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)door_ancient03_texlists[door_flags & DOOR_FLAG_UNLOCKED]);
+        TObjFish::set_global_param((saddr)door_ancient03_texlists[door_flags & DOOR_FLAG_UNLOCKED]);
         if (object_state == DOOR_CLOSED) {
             NJS_OBJECT *node = (NJS_OBJECT *)model;
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             node = node->child;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             pop_matrix();
             TParticleCtrl::begin_effect_render();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             pop_matrix();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
         } else {

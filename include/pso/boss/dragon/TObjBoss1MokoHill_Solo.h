@@ -16,6 +16,6 @@ public:
     s32 m_48;
     u8 unk_4C[0x4];
 };
-typedef char TObjBoss1MokoHill_Solo_size[sizeof(TObjBoss1MokoHill_Solo) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss1MokoHill_Solo_size, sizeof(TObjBoss1MokoHill_Solo) == 0x50);
 
 #endif

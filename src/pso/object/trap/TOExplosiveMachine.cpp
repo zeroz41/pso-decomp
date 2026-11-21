@@ -24,7 +24,7 @@ s32 post_translate_matrix(const Vec *);
 s32 push_matrix();
 
 void *get_bml_model(void *, s32);
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 
 __declspec(section ".rodata") const char lbl_80441268[] = "fs_obj_bapipe.gj";
 __declspec(section ".rodata") const char lbl_8044127C[] = "fs_obj_bapipe_a.gj";
@@ -114,12 +114,12 @@ void TOExplosiveMachine::run_task() {
             const TObjChipParams first = {
                 {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},
                 {0x800, 0x100, 0x800}, {7, 50}, {-100, 1},
-                (s32)debris_models[0], debris_textures[0], 22
+                (saddr)debris_models[0], debris_textures[0], 22
             };
             const TObjChipParams second = {
                 {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},
                 {0x800, 0x100, 0x800}, {7, 50}, {-100, 1},
-                (s32)debris_models[1], debris_textures[1], 22
+                (saddr)debris_models[1], debris_textures[1], 22
             };
             spawn_particle_effect(&position, 0x45);
             spawn_particle_effect(&position, 0x46);

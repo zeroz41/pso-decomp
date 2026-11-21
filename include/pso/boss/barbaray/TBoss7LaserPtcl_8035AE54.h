@@ -5,7 +5,7 @@
 
 // --- C functions defined in TBoss7LaserPtcl_8035AE54.cpp ---
 extern "C" {
-u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *object, s32 arg1, s32 arg2);
+u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *object, saddr arg1, saddr arg2);
 void TBoss7LaserPtcl__sub_8035AF0C(void);
 void TBoss7LaserPtcl__sub_8035AF10(void);
 void TBoss7LaserPtcl__sub_8035AF14(void);

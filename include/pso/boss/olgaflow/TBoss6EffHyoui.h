@@ -19,8 +19,8 @@ public:
     s32 age;
 };
 
-typedef char TBoss6EffHyouiSize[sizeof(TBoss6EffHyoui) == 0x2C ? 1 : -1];
-typedef char TBoss6EffHyouiClientOffset[offsetof(TBoss6EffHyoui, client) == 0x20 ? 1 : -1];
-typedef char TBoss6EffHyouiDurationOffset[offsetof(TBoss6EffHyoui, duration) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6EffHyouiSize, sizeof(TBoss6EffHyoui) == 0x2C);
+LAYOUT_ASSERT(TBoss6EffHyouiClientOffset, offsetof(TBoss6EffHyoui, client) == 0x20);
+LAYOUT_ASSERT(TBoss6EffHyouiDurationOffset, offsetof(TBoss6EffHyoui, duration) == 0x24);
 
 #endif

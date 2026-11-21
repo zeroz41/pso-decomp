@@ -54,7 +54,6 @@ struct Pos_801D2964 { u8 bytes[0x8]; };
 struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 
 extern "C" {
-void bswap_32__FPUl(void *);
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(void* p, void* q);
@@ -69,20 +68,20 @@ int test_flags_any(void*, int);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
-void emit_idle_water_effect(s32 arg0);
+void emit_idle_water_effect(saddr arg0);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 s32 get_entity_id(int);
 }
 int emit_zalure_support_effect(void* p, int a1);
 int emit_deband_support_effect(void* p, int a1);
 void* get_surface_contact_point(void* p);
-void emit_grass_footstep_effect(s32 arg0);
-void emit_water_step_particles(s32 owner, s32 position);
-void emit_water_footstep_effect(s32 arg0);
-void emit_sand_step_particles(s32 owner, s32 position);
-void emit_sand_footstep_effect(s32 arg0);
-void emit_idle_water_splash(s32 owner, s32 position);
-void emit_photon_blast_feedback_effects(s32 arg0, s32 arg1);
+void emit_grass_footstep_effect(saddr arg0);
+void emit_water_step_particles(saddr owner, saddr position);
+void emit_water_footstep_effect(saddr arg0);
+void emit_sand_step_particles(saddr owner, saddr position);
+void emit_sand_footstep_effect(saddr arg0);
+void emit_idle_water_splash(s32 owner, saddr position);
+void emit_photon_blast_feedback_effects(saddr arg0, s32 arg1);
 void prepare_heavy_attack_particles(u8 *arg0);
 void emit_jellen_support_effect(u8 *arg0);
 void emit_shifta_support_effect(u8 *arg0);
@@ -159,8 +158,8 @@ void TObjPlayer::sub_801BEE24(s16 v) { this->tp_bonus = v; }
 void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }
 
 void TObjPlayer::bswap_status_effect_data() {
-    bswap_32__FPUl(this);
-    bswap_32__FPUl((void *)((char *)this + 4));
+    bswap_32((u32 *)this);
+    bswap_32((u32 *)((void *)((char *)this + 4)));
 }
 
 #pragma push
@@ -180,7 +179,7 @@ void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1) {
     *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(ByteBlock_8 *)((s32) arg0 + 0xC) = *(const ByteBlock_8 *)((s32) arg1 + 0xC);
+    *(ByteBlock_8 *)((saddr) arg0 + 0xC) = *(const ByteBlock_8 *)((saddr) arg1 + 0xC);
 }
 
 void TObjPlayer__sub_801BEEE0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
@@ -190,7 +189,7 @@ void TObjPlayer::copy_player_record_header(u8 *arg1) {
     *(u16 *)((s8 *)arg0 + 0) = (u16) *(u16 *)((s8 *)arg1 + 0);
     *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((s32) arg1 + 8);
+    *(ByteBlock_C *)((saddr) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((saddr) arg1 + 8);
     *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)arg1 + 0x14);
     *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
 }
@@ -208,8 +207,8 @@ void TObjPlayer::prepare_heavy_attack_particles_default() { prepare_heavy_attack
 #pragma fp_contract on
 void prepare_heavy_attack_particles(u8 *arg0) {
     if (*(u32 *)((s8 *)arg0 + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x11);
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x12);
+        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x11);
+        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x12);
     }
 }
 #pragma pop
@@ -222,7 +221,7 @@ int emit_zalure_support_effect(void* p, int a1) { return create_attached_oneshot
 int TObjPlayer::emit_deband_support_effect_at() {
     u16 *arg0 = (u16 *)this; return emit_deband_support_effect((void*)((s8 *)arg0 + 4), (int)(*arg0)); }
 
-int emit_deband_support_effect(void* p, int a1) { return TObjPlayer::check_hit_by_id((s32)p, (s32)a1, 508); }
+int emit_deband_support_effect(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 508); }
 
 void TObjPlayer::emit_jellen_support_effect_default() { emit_jellen_support_effect((u8 *)((char*)this + 0x4)); }
 
@@ -244,16 +243,16 @@ void TObjPlayer::emit_shifta_support() { emit_shifta_support_effect((u8 *)((char
 #pragma fp_contract on
 void emit_shifta_support_effect(u8 *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0) != 0U) {
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 0))))), 0x1C);
+        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 0))))), 0x1C);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x1C);
+        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x1C);
     }
 }
 #pragma pop
 
-void emit_idle_water_effect(s32 arg0) {
-    emit_idle_water_splash((arg0 + 4), (s32)(get_surface_contact_point((void*)arg0)));
+void emit_idle_water_effect(saddr arg0) {
+    emit_idle_water_splash((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
 void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
@@ -261,23 +260,23 @@ void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
 int TObjPlayer::emit_movement_effect_at() {
     u16 *arg0 = (u16 *)this; return ((TObjPlayer *)((s8 *)arg0 + 4))->check_hit_by_id_276((int)(*arg0)); }
 
-int TObjPlayer::check_hit_by_id_276(int a1) { return TObjPlayer::check_hit_by_id((s32)this, (s32)a1, 276); }
+int TObjPlayer::check_hit_by_id_276(int a1) { return TObjPlayer::check_hit_by_id((saddr)this, (s32)a1, 276); }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
     u16 *arg0 = (u16 *)this;
     TObjPlayer::check_hit_by_id_431((s8 *)arg0 + 4, *arg0);
 }
 
-void emit_sand_footstep_effect(s32 arg0) {
-    emit_sand_step_particles((arg0 + 4), (s32)(get_surface_contact_point((void*)arg0)));
+void emit_sand_footstep_effect(saddr arg0) {
+    emit_sand_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
-void emit_water_footstep_effect(s32 arg0) {
-    emit_water_step_particles((arg0 + 4), (s32)(get_surface_contact_point((void*)arg0)));
+void emit_water_footstep_effect(saddr arg0) {
+    emit_water_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
-void emit_grass_footstep_effect(s32 arg0) {
-    ((TObjPlayer *)(arg0 + 4))->emit_grass_footstep_particle((int)((int) (TObjPlayer__sub_801BF31C((void*)arg0))));
+void emit_grass_footstep_effect(saddr arg0) {
+    ((TObjPlayer *)(arg0 + 4))->emit_grass_footstep_particle((int)((saddr) (TObjPlayer__sub_801BF31C((void*)arg0))));
 }
 
 int TObjPlayer::emit_grass_footstep_particle(int a1) { return emit_player_particle(this, a1, 570); }
@@ -286,7 +285,7 @@ void* TObjPlayer__sub_801BF31C(void* p) { return (char*)p + 0x18; }
 
 void TObjPlayer::emit_photon_blast_feedback_from_packet() {
     u16 *arg0 = (u16 *)this;
-    emit_photon_blast_feedback_effects((s32)((s8 *)arg0 + 4), (s32)(*arg0));
+    emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), (s32)(*arg0));
 }
 
 void emit_photon_blast_feedback_effects(s32 arg0, s32 arg1) {
@@ -417,7 +416,7 @@ int TObjPlayer__sub_801BF8CC(void* p) { return reset__8FlagWordFv(p); }
 
 }
 
-void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2) {
+void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + (arg1 * 4)) = arg2;
 }
 
@@ -476,7 +475,7 @@ u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-s32 TObjPlayer__sub_801BFA4C(s32 arg0, s16 arg1) {
+s32 TObjPlayer__sub_801BFA4C(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TObjPlayer::free_if_valid(arg0, 0);
         if (arg1 > 0) {
@@ -510,7 +509,7 @@ void *TObjPlayer__sub_801BFAD4(void *arg0, s16 arg1) {
 extern "C" {
 int clear_movement_history(void*);
 
-s32 TObjPlayer::reset_and_return(s32 p) {
+s32 TObjPlayer::reset_and_return(saddr p) {
     TObjPlayer__sub_801BF8F8((s32 *)p);
     return p;
 }
@@ -597,7 +596,7 @@ void TObjPlayer__sub_801BFE88(u8 *arg0) {
 }
 
 s32 TObjPlayer::init_state() {
-    s32 p = (s32)this;
+    saddr p = (saddr)this;
     ((TObjPlayer *)p)->setup_state();
     TObjPlayer__sub_801BFED4((void *)p);
     return p;
@@ -607,7 +606,7 @@ s32 TObjPlayer::init_state() {
 
 void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
 s32 TObjPlayer::setup_state() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     __ct__8FlagWordFv(this);
     setup_state_helper();
     return arg0;
@@ -637,7 +636,7 @@ u8 *TObjPlayer::copy_hold_params(u8 *arg1) {
     copy_subcommand_header(this);
     this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
     this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(ByteBlock_8 *)((s32) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((s32) arg1 + 8);
+    *(ByteBlock_8 *)((saddr) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((saddr) arg1 + 8);
     *(f32 *)((s8 *)((u8 *)this) + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
     return ((u8 *)this);
 }

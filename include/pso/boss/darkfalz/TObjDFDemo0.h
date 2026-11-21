@@ -12,5 +12,5 @@ struct TObjDFDemo0 : public TObjBase {
     static TObjDFDemo0 *create(TObject *parent);
 };
 
-typedef char TObjDFDemo0_size[sizeof(TObjDFDemo0) == 0x110 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo0_size, sizeof(TObjDFDemo0) == 0x110);
 #endif

@@ -16,5 +16,5 @@ struct TObjBoss5PillarCtrl : public TObject {
     void play_sound_once();
 };
 
-typedef char TObjBoss5PillarCtrl_size[sizeof(TObjBoss5PillarCtrl) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss5PillarCtrl_size, sizeof(TObjBoss5PillarCtrl) == 0x24);
 #endif

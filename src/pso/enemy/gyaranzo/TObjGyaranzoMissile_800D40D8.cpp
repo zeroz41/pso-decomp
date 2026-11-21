@@ -81,7 +81,7 @@ s32 obj_is_hit_receivable();
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(s32, void *, int, int);
 
 void rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
@@ -96,7 +96,7 @@ s32 TObjEneGyaranzo::is_target_in_attack_range() { return 0; }
 void TObjEneGyaranzo::vfunc_58() {  }
 }
 
-extern s32 gyaranzo_missile_param_table;
+extern saddr gyaranzo_missile_param_table;
 f32 get_gyaranzo_missile_float_parameter(s32 arg0);
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 
@@ -163,7 +163,7 @@ void TUnk_8049442C::sub_800D4200() {
         }
     }
     spawn_particle_effect(arg0 + 0x38, 0xFB);
-    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), arg0 + 0x38, 0, 0);
+    play_sound_effect(remap_area_sound_id(0x4003A80C, 0x19), arg0 + 0x38, 0, 0);
     ((TObject *)arg0)->queue_destruction();
 }
 

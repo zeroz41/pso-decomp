@@ -6,7 +6,7 @@
 extern "C" {
 
 s32 test_previous_buttons_color(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->previous_buttons & TRaderMapCore::pack_color_bits((s32)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->previous_buttons & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
 }
 
 }

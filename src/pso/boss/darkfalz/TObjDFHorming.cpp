@@ -496,7 +496,7 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     s32 ang;
     s32 step;
     s32 i;
-    p.owner = (s32)this;
+    p.owner = (saddr)this;
     r = 28.571428f;
     dr = 57.142857f;
     TBoss4DarkFalz__sub_8004B4F0(p.a, &TBoss4DarkFalz__data_804FF1E8);
@@ -599,7 +599,7 @@ void TBoss4DarkFalz::handle_defeat() {
     u8 *arg0 = (u8 *)this;
     struct V3_8004B654 save;
     s32 flags[3];
-    s32 p;
+    saddr p;
 
     TBoss4DarkFalz__sub_8004B5A0();
     if (is_split_screen() != 0) {
@@ -783,11 +783,10 @@ extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
 void *fn_8030A83C(void *arg0);
-s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2);
+s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 int free_bin_model_request(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
-s32 __nw__7TObjectFUl(s32);
 
 void TBoss4DarkFalz::render() {  }
 
@@ -853,7 +852,7 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
 }
 
 
-s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
+s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2) {
     u8 *boss4_dark_falz = (u8 *)a0;
     u8 *arg2 = (u8 *)a2;
     s32 temp_r0;
@@ -864,12 +863,12 @@ s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     s32 temp_r30_2;
     __ct__9TObjEnemyFP7TObject();
     *(s32 **)((s8 *)boss4_dark_falz + 0x18) = __vt__14TBoss4DarkFalz;
-    *(s32 *)((s8 *)boss4_dark_falz + 0) = (s32) TBoss4DarkFalz__name;
+    *(s32 *)((s8 *)boss4_dark_falz + 0) = (saddr) TBoss4DarkFalz__name;
     ((TBoss4DarkFalz *)boss4_dark_falz)->sub_8004AFB8();
     if ((s16) *(s16 *)((s8 *)arg2 + 2) != 0x200) {
-        return (s32)boss4_dark_falz;
+        return (saddr)boss4_dark_falz;
     }
-    dark_falz_controller_instance = (s32)boss4_dark_falz;
+    dark_falz_controller_instance = (saddr)boss4_dark_falz;
     ((TBoss4DarkFalz *)(boss4_dark_falz))->apply_set_data(arg2);
     TBoss4DarkFalz__sub_8004B4F0(&TBoss4DarkFalz__data_804FF1E8, arg2);
     TBoss4DarkFalz__data_804FF1E8.f2 = 0;
@@ -910,10 +909,10 @@ s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     if ((temp_r0_2 < 0) || (temp_r0_2 > 0xE)) {
         lbl_805D4D70 = 0;
     }
-    TBoss4DarkFalz::push_players_out_of_zone((s32)boss4_dark_falz, 0);
+    TBoss4DarkFalz::push_players_out_of_zone((saddr)boss4_dark_falz, 0);
     *(s32 *)((s8 *)boss4_dark_falz + 0x37C) = -1;
     ((TBoss4DarkFalz *)boss4_dark_falz)->change_state(1);
-    return (s32)boss4_dark_falz;
+    return (saddr)boss4_dark_falz;
 }
 
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
@@ -958,12 +957,12 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
 
 void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); TBoss4DarkFalz__sub_8030AD38(); free_bin_model_request((void*)darkfalz_dat_resource, (void*)1); darkfalz_dat_resource = 0; }
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 void TBoss4DarkFalz::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &darkfalz_dat_resource_descriptor, 0, 0, 0));
@@ -976,12 +975,12 @@ void TBoss4DarkFalz::load_resources() {
 }
 
 s32 TBoss4DarkFalz::create(s32 arg0) {
-    s32 var_r31;
-    s32 var_r4;
+    saddr var_r31;
+    saddr var_r4;
 
-    var_r31 = __nw__7TObjectFUl(sizeof(TBoss4DarkFalz));
+    var_r31 = (saddr)TObject::operator new(sizeof(TBoss4DarkFalz));
     if (var_r31 != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
+        var_r4 = (saddr)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }
@@ -992,4 +991,4 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
 
 s32 TBoss4Uro::get_phase() { return *(s32 *)&this->_pad37c; }
 
-int TBoss4Uro::get_instance_count() { return reinterpret_cast<int>(darkfalz_dat_resource); }
+saddr TBoss4Uro::get_instance_count() { return reinterpret_cast<saddr>(darkfalz_dat_resource); }

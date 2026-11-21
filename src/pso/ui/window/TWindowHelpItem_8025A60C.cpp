@@ -126,7 +126,7 @@ void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr arg1, s32 arg2) {
     __ct__13TUnk_804CF918Fl(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA10);
     copy_vec2((arg0 + 8), (void *)(arg1 + 4));

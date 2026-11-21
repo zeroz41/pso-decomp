@@ -33,7 +33,7 @@ struct TBoss6GravBall : public TObjCollidable {
     virtual void render();
 };
 
-typedef char TBoss6GravBallOwnerOffset[offsetof(TBoss6GravBall, owner) == 0xAC ? 1 : -1];
-typedef char TBoss6GravBallEmittersOffset[offsetof(TBoss6GravBall, emitters) == 0xD4 ? 1 : -1];
-typedef char TBoss6GravBall_size[sizeof(TBoss6GravBall) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6GravBallOwnerOffset, offsetof(TBoss6GravBall, owner) == 0xAC);
+LAYOUT_ASSERT(TBoss6GravBallEmittersOffset, offsetof(TBoss6GravBall, emitters) == 0xD4);
+LAYOUT_ASSERT(TBoss6GravBall_size, sizeof(TBoss6GravBall) == 0xF8);
 #endif

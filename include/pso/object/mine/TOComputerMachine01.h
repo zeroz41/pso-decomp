@@ -29,6 +29,6 @@ struct TOComputerMachine01 : public TOQuestTalkBase {
     u8 pad_e4[0x4];
 };
 
-typedef char TOComputerMachine01_size[sizeof(TOComputerMachine01) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TOComputerMachine01_size, sizeof(TOComputerMachine01) == 0xE8);
 
 #endif

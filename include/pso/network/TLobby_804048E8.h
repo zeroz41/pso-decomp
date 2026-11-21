@@ -25,7 +25,7 @@ typedef struct A_80403F4C {
     u8 optlen;
     u8 opts[0x40 - 0x18];
 } A_80403F4C;
-typedef char A_80403F4C_size_check[sizeof(A_80403F4C) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(A_80403F4C_size_check, sizeof(A_80403F4C) == 0x40);
 
 /* A TCP header decoded for VJ compression. */
 typedef struct B_80403F4C {
@@ -47,7 +47,7 @@ typedef struct B_80403F4C {
     u8 option_len;
     u8 options[0x28];
 } B_80403F4C;
-typedef char B_80403F4C_size_check[sizeof(B_80403F4C) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(B_80403F4C_size_check, sizeof(B_80403F4C) == 0x44);
 
 /* A VJ compression connection state. */
 typedef struct Ent_80403F4C {
@@ -57,7 +57,7 @@ typedef struct Ent_80403F4C {
     A_80403F4C a;
     B_80403F4C b;
 } Ent_80403F4C;
-typedef char Ent_80403F4C_size_check[sizeof(Ent_80403F4C) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(Ent_80403F4C_size_check, sizeof(Ent_80403F4C) == 0x8C);
 
 /* The VJ compression state. */
 typedef struct Obj_80403F4C {
@@ -81,7 +81,7 @@ typedef struct Obj_80403F4C {
     s32 n30;
     s32 n34;
 } Obj_80403F4C;
-typedef char Obj_80403F4C_size_check[sizeof(Obj_80403F4C) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(Obj_80403F4C_size_check, sizeof(Obj_80403F4C) == 0x38);
 
 #ifdef __cplusplus
 extern "C" {

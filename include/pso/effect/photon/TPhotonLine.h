@@ -25,5 +25,5 @@ struct TPhotonLine : public TObjChara {
     u8 unk_36A[0xE];
 };
 
-typedef char TPhotonLine_size[sizeof(TPhotonLine) == 0x378 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonLine_size, sizeof(TPhotonLine) == 0x378);
 #endif

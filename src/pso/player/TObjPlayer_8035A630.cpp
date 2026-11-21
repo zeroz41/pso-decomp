@@ -7,7 +7,7 @@
 
 s32 player_node_matrix_cursor;
 s32 player_node_matrix_count;
-s32 node_matrix_array_base;
+saddr node_matrix_array_base;
 s32 (*player_apply_callback_fn)(s32);
 extern "C" {
 
@@ -15,7 +15,7 @@ extern s32 (*player_apply_callback_fn)(s32);
 
 extern s32 player_node_matrix_cursor;
 extern s32 player_node_matrix_count;
-extern s32 node_matrix_array_base;
+extern saddr node_matrix_array_base;
 
 void TObjPlayer::process_callback_list(s32 arg0) {
     if ((s32) player_node_matrix_cursor < (s32) player_node_matrix_count) {
@@ -43,7 +43,7 @@ void TObjPlayer::draw_node_tree(void *arg1) {
             temp_r12(var_r30);
         }
         if (!(temp_r31 & 8)) {
-            draw_chunk_model((void *)(*(s32 *)((s8 *)var_r30 + 4)));
+            draw_chunk_model((void *)(*(saddr *)((s8 *)var_r30 + 4)));
         }
         pop_matrix();
         if (!(temp_r31 & 0x10)) {

@@ -32,7 +32,7 @@
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
 extern GC_Mtx identity_matrix;
 }
@@ -128,7 +128,7 @@ void TUnk_80484AFC::run_task() {
         explode_and_destroy();
         return;
     }
-    play_persistent_sound((s32)(0x4003C114), (s32)this, (u32)&position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(0x4003C114), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
 }
 
 TUnk_80484AFC::~TUnk_80484AFC() {

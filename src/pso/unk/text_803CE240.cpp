@@ -55,7 +55,7 @@ void TLobby__sub_803CE2A0(Ent_803CE240 *ent) {
             lobby->get_entry_pair(ent->f1B0 = ent->f1B4, &a, &b);
             ent->stream->set_scroll_offset((long long)(a / 2048));
             ent->stream->set_scroll_position((a + b) / 2048);
-            ent->stream->set_coords((s32)update_scroll__6TLobbyFv, (s32)ent);
+            ent->stream->set_coords((saddr)update_scroll__6TLobbyFv, (saddr)ent);
             lobby->set_client_slot(0);
             if ((s32)ent->f1A8 == 1 || (s32)ent->f1A9 == 1) {
                 lobby->set_flag_4(1);

@@ -137,7 +137,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     s32 i;
     model = (NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8);
     TObjPlayer__sub_80052390(zako_fade_full);
-    TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)falz_zako_texture_list)));
+    TObjFish::set_global_param((saddr)(falz_zako_texture_list));
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
         post_translate_matrix(&p->position.x);

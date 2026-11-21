@@ -6,7 +6,7 @@
 
 struct TItemEffArmor : public TObject {
     virtual ~TItemEffArmor();
-    u32 m_1c;
+    uaddr m_1c;
     u8 unk_20[0x4];
     f32 m_24;
     u8 unk_28[0x4];
@@ -19,15 +19,15 @@ struct TItemEffArmor : public TObject {
     f32 m_60;
     u8 unk_64[0x4];
     u32 m_68;
-    u32 m_6c;
-    u32 m_70;
-    u32 m_74;
+    uaddr m_6c;
+    uaddr m_70;
+    uaddr m_74;
     u32 m_78;
     virtual void render();
     virtual void run_task();
 };
 
-typedef char TItemEffArmor_size[sizeof(TItemEffArmor) == 0x7C ? 1 : -1];
+LAYOUT_ASSERT(TItemEffArmor_size, sizeof(TItemEffArmor) == 0x7C);
 
 extern "C" {
 void *__dt__13TItemEffArmorFv(void *arg0, s16 arg1);

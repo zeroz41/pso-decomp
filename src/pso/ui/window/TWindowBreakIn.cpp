@@ -45,7 +45,7 @@ u8 * get_window_layout_position(s32);
 s32 draw_visible_window_entries(s32, s32, s32);
 
 void TWindowBreakIn::render() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 tmp = TWindowDD::draw_default_entry(arg0);
     draw_visible_window_entries(arg0, arg0 + 0x24, tmp);
 }

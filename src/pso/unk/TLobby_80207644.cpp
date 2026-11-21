@@ -1,4 +1,6 @@
 #include "types.h"
+#include <stdlib.h>
+#include <string.h>
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
@@ -302,10 +304,8 @@ extern const Tbl_8020765C boss_warp_destination_table_b = { {
 
 s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
-s32 rand(void);
 int selected_episode;
 void randomize_adventure_maps(void);
-s32 memset(void *, int, int);
 void TLobby__sub_80207BB0(void);
 s32 get_game_play_mode();
 }
@@ -313,7 +313,7 @@ s32 get_boss_warp_destination(void);
 extern "C" {
 s32 get_floor_map_terrain(s32 arg0);
 }
-s32 story_select_pending_state = -1;
+saddr story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
 
@@ -330,7 +330,7 @@ s32 get_boss_warp_destination(void) {
     return a.w[i][p];
 }
 
-s32 get_floor_area(s32 floor) {
+saddr get_floor_area(s32 floor) {
     FloorMapSelection buf;
 
     if (get_floor_map_selection(floor, &buf) == 1) {
@@ -417,7 +417,7 @@ void randomize_adventure_maps(void) {
   s32 main_phase;
   s32 var_r29;
   var_r31 = floor_map_registry;
-  TAdStorySelectGC::set_state((s32)((void*)((*(s32 *)&selected_episode))));
+  TAdStorySelectGC::set_state((saddr)((void*)((*(saddr *)&selected_episode))));
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
   {
@@ -479,7 +479,7 @@ void init_floor_map_registry(void) {
 
 void TLobby::reset_story_select_state() {
     if ((s32) story_select_pending_state != -1) {
-        TAdStorySelectGC::set_state((s32)((void*)story_select_pending_state));
+        TAdStorySelectGC::set_state((saddr)((void*)story_select_pending_state));
         story_select_pending_state = -1;
     }
 }

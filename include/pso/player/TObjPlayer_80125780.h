@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-u8 *create_panzer_faust(s32 arg0);
+u8 *create_panzer_faust(saddr arg0);
 
 #endif
