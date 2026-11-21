@@ -6,6 +6,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
+#include "pso/network/UdpRuntime.h"
 
 /* Defined K&R with an s16 mtu (TLobby_8041112C.c). */
 s32 TLobby__sub_80411DEC(IPv6Address *addr, s16 mtu);

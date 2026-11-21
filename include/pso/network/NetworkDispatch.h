@@ -42,6 +42,7 @@ s32 release_slot_by_id(u16 a);
 void TLobby__sub_80419A00(void);
 s16 TLobby__sub_80419A34(void);
 s16 NetInitializeDispatcher(void);
+void NetYieldOutsideDispatcherThread(void);
 s32 TLobby__sub_80419A7C(void);
 #ifdef __cplusplus
 }
