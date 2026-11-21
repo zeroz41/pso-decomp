@@ -606,9 +606,8 @@ extern "C" {
 // Archive loaded instead of beast_resource_descriptor's when TObjEneDD::check_v2_mode() is set. Defined after
 // load_resources (it follows that function's initialisers and is not pooled there); the declaration above it would
 // otherwise send it to .data.
-__declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
-
 }
+__declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
 
 #pragma defer_codegen on
 #define F(o, T, off) (*(T *)(o + (off)))

@@ -196,7 +196,9 @@ SlimePairedMotion lbl_80496C90[2] = {
 };
 __declspec(section ".data") SlimePairedMotion *lbl_80496CB8[2] = {lbl_80496C68, lbl_80496C90};
 __declspec(section ".data") s32 slime_one_attack_target_id_table[2] = {4, 5};
+}
 __declspec(section ".data") s32 slime_one_part_texture_index_table[2] = {0, 2};
+extern "C" {
 f32 TObjEneSlimeOne__target_depth;
 u8 TObjEneSlimeOne__target_depth_initialized;
 f32 slime_one_animation_end_frame;

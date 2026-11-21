@@ -2590,6 +2590,6 @@ uaddr gibbles_combat_stat_entries;
 saddr gibbles_combat_stats_handle;
 u8 *TObjEneGibbles__ai_parameters;
 uaddr TObjEneGibbles__resource_bundle;
+}
 s32 TObjEneGibbles__render_node_index;
 s32 TObjEneGibbles__render_rotation_x;
-}

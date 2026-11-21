@@ -267,7 +267,6 @@ s32 get_current_floor();
 u32 csnVector(void *, void *, int);
 u8 *get_enemy_entity(u16);
 s32 subtract_vector(void *, void *);
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 s32 TObjPlayer__sub_800ACA0C(void *);
 

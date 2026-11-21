@@ -161,7 +161,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 extern s32 plot_falz_phase;
-extern s32 registered_player_count;
 void set_chunk_material_override_pair(int, int, s32, s32);
 }
 

@@ -640,7 +640,6 @@ void TUnk_80493450::run_idle_action() {
 u32 csnVector(void *, void *, s32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-extern const Vec lbl_8043BC68;
 }
 u16 get_enemy_target_id(void *p);
 

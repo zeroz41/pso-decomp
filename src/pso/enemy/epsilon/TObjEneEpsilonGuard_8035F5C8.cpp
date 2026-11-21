@@ -52,7 +52,6 @@ s32 matrix_mult_vec(int, void *, void *);
 extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();
 void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 arg1);
-extern EpsilonBodySharedParams *lbl_805D6F8C;
 void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 void draw_line_list(VoloptLineList *, s32, u32);
 void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 arg1);

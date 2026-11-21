@@ -35,7 +35,6 @@ TObjBase *find_active_entity_by_id(u16 id);
 extern Mtx34 identity_matrix;
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 }
 

@@ -247,7 +247,6 @@ u16 get_entity_id(void *);
 
 s32 subtract_vector(void *, void *);
 
-extern EnemyTargetCandidate TObjGyaranzoMissile_target_slots[];
 
 extern s32 registered_player_count;
 
@@ -453,7 +452,6 @@ s32 post_translate_matrix(void *);
 
 s32 draw_chunk_object(int);
 
-extern u32 *gyaranzo_model_resources[];
 
 
 extern saddr gyaranzo_boss_stats_handle;
@@ -710,6 +708,7 @@ saddr gyaranzo_object_handle;
 
 saddr gyaranzo_missile_param_table;
 
+}
 f32 lbl_805D51F0;
 
 f32 TObjGyaranzoMissile__speed_scale;
@@ -717,6 +716,7 @@ f32 TObjGyaranzoMissile__speed_scale;
 f32 TObjGyaranzoMissile__max_range;
 
 uaddr gyaranzo_bml_resource;
+extern "C" {
 
 u32 *lbl_805D5200;
 

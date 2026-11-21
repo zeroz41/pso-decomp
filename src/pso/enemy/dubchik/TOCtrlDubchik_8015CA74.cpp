@@ -48,7 +48,6 @@ static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 
 extern "C" {
 extern uaddr TOCtrlDubchik__shared_resource;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void dubchik_start_dying(u8 *arg0);
 

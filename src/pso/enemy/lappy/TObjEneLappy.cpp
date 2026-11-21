@@ -157,7 +157,6 @@ const Vec lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
 
 extern "C" __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 #define lappy_variant_speed_ptr_table ((f32 * *)lappy_variant_speed_ptr_table)
-extern "C" void * rappy_variant_speed_table[40];
 
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
@@ -1303,22 +1302,6 @@ extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
-extern void *TObjEneLappy__model_filename_table[3];
-extern void *lbl_80492BE4[11];
-extern void *lbl_80492C20[3];
-extern void *lbl_80492C2C[11];
-extern void *lbl_80492C68[3];
-extern void *lbl_80492C74[11];
-extern void *lbl_80492CB0[3];
-extern void *lbl_80492CBC[11];
-extern void *lbl_80492CF8[3];
-extern void *TObjEneLappy__resource_name_table[11];
-extern void *lbl_80492D40[3];
-extern void *TObjEneLappy__resource_list[11];
-extern void *lbl_80492D88[3];
-extern void *lbl_80492D94[11];
-extern void *lbl_80492DD0[3];
-extern void *lbl_80492DDC[11];
 void *lbl_80492F28[84] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__12TObjEneLappyFv, (void *)&run_task__12TObjEneLappyFv,
     (void *)&render__12TObjEneLappyFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -1604,9 +1587,7 @@ void TObjEneLappy::sub_800C20B0() {
 void TObjEneLappy::sub_800C20C0() {
     this->m_374 = (s16) (this->m_374 | 1);
 }
-extern "C" {
 __declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
-}
 
 
 #undef rotate_matrix_y

@@ -25,7 +25,6 @@ CameraPlayback *get_scripted_camera_playback();
 
 int TBoss8Dragon__sub_8005D700(void);
 s32 activate_camera_mode(s32 arg0);
-extern const char *TBoss5GryphonDemo__name;
 
 void TBoss5GryphonDemo::render() {  }
 

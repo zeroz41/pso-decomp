@@ -9,7 +9,6 @@
 
     extern void* boss8_dragon_leader_part;
 extern "C" {
-extern void *boss8_dragon_leader_part;
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 

@@ -156,7 +156,9 @@ extern const RecoveredGlobal_800EA678_lbl_8043D230 lbl_8043D230 = {0x40200000, {
 extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C = {0x3F800000, {0x3F, 0x80, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00}};
 extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
 extern s32 __vt__21TObjEneSlimeWaterBomb[];
+}
 RecoveredGlobal_lbl_80501010 lbl_80501010;
+extern "C" {
 void *slime_bml_resource;
 int lbl_805D52B4;
 extern s32 registered_player_count;

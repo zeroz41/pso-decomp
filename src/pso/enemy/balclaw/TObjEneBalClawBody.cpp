@@ -67,7 +67,6 @@ extern void *tl_04;
 
 
 extern "C" {
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;

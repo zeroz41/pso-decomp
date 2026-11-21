@@ -302,7 +302,6 @@ s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
 }
 
 extern "C" {
-extern const u8 listed_equipment_table[][3];
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
 s32 any_player_has_listed_equipment(void) {

@@ -53,7 +53,6 @@ extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 
 const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 extern s32 lbl_805D6FA8;
 
-extern TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 extern CollisionBody TObjEneEpsilonGuard__model_desc[];
 
 int TObjEneEpsilonGuard__sub_8035F95C(TObjEneEpsilonBody *body);
@@ -599,9 +598,6 @@ void TObjEneEpsilonGuard::update_body_colliders() { set_part_local_pos(&body_cen
 
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
-extern s32 epsilon_guard_boss_stat_handle;
-extern s32 epsilon_guard_shared_handler_b;
-extern s32 epsilon_guard_registered_object_handle;
 extern BmlResource *lbl_805D6FA0;
 s32 __ct__14TObjEneEpsilonFP7TObject();
 void *TObjEneEpsilonGuard__ct(TObjEneEpsilonGuard *guard, TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
@@ -761,7 +757,6 @@ void TObjEneEpsilonGuard::run_hit_reaction() {  }
 void TObjEneEpsilonGuard::run_death_reaction() {  }
 void TObjEneEpsilonGuard::refresh_target() {  }
 
-extern TObject *tl_04;
 
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *guard, s32 state, s32 msg) {
     switch (state) {

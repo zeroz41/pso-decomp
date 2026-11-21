@@ -259,7 +259,9 @@ BmlResourceDescriptor bm_ene_dubchik_resource_descriptor = {
     "bm_ene_dubchik.bml", bm_ene_dubchik_model_names, bm_ene_dubchik_motion_names, 2, 15,
 };
 
+}
 const char *TObjEneDubchik__class_name = "TObjEneDubchik";
+extern "C" {
 
 __declspec(section ".data") f32 lbl_804910E4[2] = { 0.37037036f, 0.5703704f };
 __declspec(section ".data") s32 lbl_804910EC[2] = { 1, 19 };

@@ -66,7 +66,9 @@ s32 update_movement_status__12TObjEneSaverFv(u8 *arg0);
 s32 update_action_hold_status__12TObjEneSaverFv(u8 *arg0);
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
+}
 RecoveredGlobal_lbl_80500978 lbl_80500978;
+extern "C" {
 void *saver_boss_stat_handle;
 void **player_object_ptr_array;
 void *saver_object_stat_handle;

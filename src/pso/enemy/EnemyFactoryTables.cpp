@@ -477,6 +477,7 @@ EnemyFactoryEntry enemy_factories_floor_30[3] = {
     { -1, 0, 250000.0f, 0 },
 };
 
+}
 EnemyFactoryEntry* enemy_factory_area_table[36] = {
     enemy_factories_floor_00,
     enemy_factories_floor_01,
@@ -515,4 +516,3 @@ EnemyFactoryEntry* enemy_factory_area_table[36] = {
     enemy_factories_floor_34,
     enemy_factories_floor_35,
 };
-}

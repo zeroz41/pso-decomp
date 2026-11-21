@@ -191,11 +191,15 @@ struct Obj_802F44D8 {
 
 saddr TBoss8Dragon__data_80541DC8[5];
 u8 *TBoss8Dragon__data_80541DDC[3];
+}
 RecoveredGlobal_lbl_80541DE8 lbl_80541DE8;
 RecoveredGlobal_lbl_80541DF4 lbl_80541DF4;
+extern "C" {
 Boss8DragonNodeState lbl_80541E18;
+}
 Boss8DragonReferencePosVec boss8_dragon_reference_pos_vec;
 DragonForwardReferenceVec dragon_forward_reference_vec;
+extern "C" {
 
 struct VBase_14_f8ef8c { char pad[0x14]; };
 
@@ -1013,7 +1017,6 @@ struct Obj_802F7B70 : VObj_802F7B70 {
     s32 spawned;
 };
 void TBoss8Dragon__sub_802FC060(void *, s32);
-extern void *TBoss8Dragon__dive_height_curve[];
 struct Pair_802F8578 { f32 a; f32 b; };
 struct Ids_802F8578 { u8 pad[0x8]; saddr id8; saddr idC; };
 struct Dragon_802F8578 : VObj_18_444bc5 {
@@ -1271,6 +1274,7 @@ Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_80
 extern const f32 lbl_805D9E80;
 f32 lbl_805D6980 = 5.0f * lbl_805D9E80;
 f32 lbl_805D6984 = 7.0f * lbl_805D9E80;
+}
 Boss8DragonBmlRes *TBoss8Dragon__data_805D6988;
 s32 TBoss8Dragon__data_805D698C;
 s32 lbl_805D6990;
@@ -1282,10 +1286,11 @@ s32 lbl_805D69A4;
 saddr TBoss8Dragon__data_805D69A8;
 u8 *TBoss8Dragon__data_805D69AC;
 f32 boss8_dragon_visibility_distance;
+extern "C" {
 s32 lbl_805D69B4;
 s32 TBoss8Dragon__data_805D69B8;
-u16 TBoss8Dragon__data_805D69BC;
 }
+u16 TBoss8Dragon__data_805D69BC;
 // (from _802FDDD4)
 typedef struct A_802F3D6C { u8 pad0[4]; s32 idx; u8 pad8[8]; } A_802F3D6C;
 typedef struct Anim_802F3D6C { u8 pad0[4]; u32 nframes; } Anim_802F3D6C;

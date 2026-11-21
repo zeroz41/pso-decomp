@@ -34,7 +34,9 @@ typedef struct Ent_8033D6DC { s32 start; s32 end; s32 id; s32 src; } Ent_8033D6D
 
 extern "C" {
 const char TBoss6Demo20_TYPE2_APPEAR__class_name[] = "TBoss6Demo20_TYPE2_APPEAR";
+}
 const Vec boss6_type2_appear_origin = {-10000.0f, 0.0f, 0.0f};
+extern "C" {
 const ModelNodePositionEntry boss6_type2_appear_model_node_descriptors[9] = {
     {0x24}, {0x30}, {0x36}, {0x3A}, {0x48}, {0x4B}, {0x4E}, {0x52}, {-1},
 };
@@ -351,7 +353,9 @@ void initialize_boss6_type2_appear_particle_origin(void) {
 extern "C" {
 __declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = (void *)initialize_boss6_type2_appear_particle_origin;
 
+}
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
+extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
 void render_shadows__7TObjectFv(void *);
 saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[7] = {0, 0,
