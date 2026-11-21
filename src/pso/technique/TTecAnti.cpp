@@ -111,7 +111,6 @@ extern "C" {
 saddr get_entity_id(int);
 int TTecAnti__sub_8022AD74(void* p);
 void TTecAnti__sub_8022AD94(void *);
-extern const char *TTecAnti_name_ref;
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);

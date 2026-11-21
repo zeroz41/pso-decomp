@@ -97,7 +97,6 @@ void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern const char *TObjLuker__name;
 f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);

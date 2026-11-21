@@ -55,7 +55,6 @@ const char *TOSwitchTimer__name = "TOSwitchTimer";
 
 void clear_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
-extern const char *TOSwitchTimer__name;
 
 void TOSwitchTimer::render() {
     if (TObjPlayer::check_demo_mode() == 1) {

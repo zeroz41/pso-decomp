@@ -16,7 +16,6 @@ const char *TObjTradeCollision__name = "TObjTradeCollision";
 
 extern "C" {
 s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(void *, int);
-extern const char *TObjTradeCollision__name;
 
 void TObjTradeCollision::render() {  }
 

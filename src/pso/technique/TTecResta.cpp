@@ -106,7 +106,6 @@ struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 pow
 
 extern "C" {
 saddr get_entity_id(int);
-extern const char *TTecResta__name;
 extern s32 __vt__13TUnk_804CCBC0[];
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},

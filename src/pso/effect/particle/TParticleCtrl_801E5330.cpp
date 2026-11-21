@@ -16,7 +16,6 @@ extern "C" {
 
 extern TObject *tl_particle;
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
-extern GinjaTextureList *lbl_805D35A0[2];
 extern f32 lbl_804C6900[1][4];
 
 void TParticleCtrl::reset_emitter_table() {

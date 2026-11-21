@@ -37,7 +37,6 @@ u32 TObjBgmColCtrl__current_theme_id;
 void create_bgm_col_zones(void);
 extern "C" {
 u32 __ct__7TObjectFP7TObject(int, int);
-extern uaddr TObjBgmColCtrl__instance;
 extern s32 tl_05;
 }
 int get_quest_bgm_issued_flag(void);
@@ -76,7 +75,6 @@ const Row_8017E550 lbl_80443780[12] = {
 };
 
 extern "C" {
-extern s32 bgm_zone_category;
 }
 
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };

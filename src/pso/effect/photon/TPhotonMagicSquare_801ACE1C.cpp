@@ -159,7 +159,6 @@ NJS_ARGB TPhotonMagicSquare__color_palette[6] = {
     { 0.0f, 0.0f, 1.0f, 0.75f },
 };
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
-extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
 s32 play_sound_effect(int, int, int, int);
 

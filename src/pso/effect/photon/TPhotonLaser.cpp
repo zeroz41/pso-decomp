@@ -56,7 +56,6 @@ struct Laser_801AC17C {
 
 extern "C" {
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-extern const char *TPhotonLaser__name;
 void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);

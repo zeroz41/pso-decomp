@@ -201,7 +201,6 @@ void set_active_camera_pose_from_params(u8 *arg0);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
-extern s32 photon_blast_joint_index;
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
 void matrix_mult_vec(s32, Vec *, Vec *);

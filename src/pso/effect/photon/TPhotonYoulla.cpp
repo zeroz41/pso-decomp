@@ -58,7 +58,6 @@ TObjMotionAction photon_blast_youlla_params[2] = {
     {1, 0, 14, 1.0f, 0},
 };
 extern s32 __vt__13TPhotonYoulla[];
-extern const char *TPhotonYoulla__name;
 extern u8 *photon_blast_shared_resource;
 
 
@@ -127,7 +126,6 @@ TPhotonYoulla::~TPhotonYoulla() {
     free_photon();
 }
 
-    extern int lbl_805D5D60;
 
 u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     u8 *temp_r3;

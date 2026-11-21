@@ -195,7 +195,6 @@ void TCameraCtrl__sub_8006E804(void* a0);
 extern Pads_8006D1A4 controller_input_state;
 f32 horizontal_distance_squared(void *, void *);
 f32 vec_squared_length(FollowVector *);
-extern FollowVector lbl_80438534;
 void camera_renderer_setup_nop(void *, s32);
 extern FollowVector lbl_80438528;
 extern u8 lbl_804FF5E8[];
