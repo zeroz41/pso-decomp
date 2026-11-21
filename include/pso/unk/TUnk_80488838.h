@@ -2,6 +2,7 @@
 #define PSO_UNK_TUNK_80488838_H
 #include "types.h"
 #include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraCtrl_80067CE8.h"
 
 struct ControllerInputContext;
 
@@ -20,7 +21,6 @@ LAYOUT_ASSERT(TUnk_80488838_size, sizeof(TUnk_80488838) == 0x74);
 
 // --- C functions defined in TUnk_80488838.cpp ---
 extern "C" {
-void *TCameraCtrl__vt7(void);
 void target_player0__11TCameraCtrlFi(saddr arg0);
 }
 // --- end of C functions
