@@ -341,8 +341,8 @@ struct TLobby : public TObject {
     static void attach_objects_by_id(s32 arg0);
     static void assign_objects_to_slots(u8 *arg0, s32 arg1);
     static void free_resources();
-    static int get_matching_object();
-    static int get_object_count();
+    static saddr get_matching_object();
+    static saddr get_object_count();
     static s32 get_lobby_group(s32 arg0);
     static s32 get_shield_shop_tier_for_level(s32 arg0);
     static s32 get_armor_shop_tier_for_level(s32 arg0);

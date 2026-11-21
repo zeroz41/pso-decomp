@@ -485,8 +485,8 @@ void TLobby__sub_8020E3C0(void) {
     item_drop_memory_pool_ar_addr = Dolphin_ARAlloc(0x100000);
 }
 
-int TLobby::get_matching_object() {  return (int)TLobby__data_805D6114; }
+saddr TLobby::get_matching_object() {  return (saddr)TLobby__data_805D6114; }
 
-int TLobby::get_object_count() {  return (int)TLobby__data_805D610C; }
+saddr TLobby::get_object_count() {  return (saddr)TLobby__data_805D610C; }
 
 }
