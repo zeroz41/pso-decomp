@@ -116,6 +116,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     f32 calc_node_height();
     void get_node_world_pos(Vec *out);
     void sub_800320B4(u32 reason, s32 from, s32 to);
+    void sub_80031AD4(u32 reason);
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -175,7 +176,6 @@ LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 void TBoss2DeRolLe__sub_8002FE60(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800313F8(TBoss2DeRolLe *self, u32 reason, s32 arg2);
-void TBoss2DeRolLe__sub_80031AD4(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_80032E38(TBoss2DeRolLe *self, u32 reason);
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
