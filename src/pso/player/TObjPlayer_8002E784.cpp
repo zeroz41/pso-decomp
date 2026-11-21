@@ -4,6 +4,7 @@
 // and TUnk_804820A8::render's .rodata templates before TUnk_80482090::render's only come out in that order).
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TUnk_804820A8.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"
@@ -26,7 +27,6 @@ s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 void push_matrix(void);
-s32 pop_matrix();
 void post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 s32 matrix_mult_vec(int, void *, void *);

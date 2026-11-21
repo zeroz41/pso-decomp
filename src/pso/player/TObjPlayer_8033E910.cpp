@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8033E910.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TUnk_804EFA88.h"
@@ -49,7 +50,6 @@ s32 C_MTXLightPerspective(void *, f32, f32, f32, f32, f32, f32);
 s32 GXSetTevOp(int, int);
 s32 GXSetTevOrder(int, int, int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(saddr);

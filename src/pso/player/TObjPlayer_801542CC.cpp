@@ -120,9 +120,7 @@ s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, v
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 s32 vec3_add_to(void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
 s32 rotate_vector_by_current_matrix(void *, void *);
-s32 pop_matrix();
 extern f32 identity_matrix[12];
 u8 * TObjPlayer__sub_80155028(saddr arg0, saddr arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox *out);

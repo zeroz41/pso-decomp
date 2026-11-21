@@ -86,7 +86,6 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
 void push_matrix();
-s32 pop_matrix(void);
 int fn_8001ED90(void *p);
 void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p);
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);

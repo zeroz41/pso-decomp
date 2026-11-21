@@ -71,9 +71,7 @@ Hit_8006809C *csnVector(void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 vec3_dot(void *, void *);
 s32 rotate_matrix_y(int, s32);
-s32 push_matrix_from(void *);
 }
-s32 pop_matrices(s32 arg0);
 const Vec lbl_80438168 = {0.0f, 0.0f, -1.0f};
 const Vec lbl_80438174 = {0.0f, 0.0f, -1.0f};
 

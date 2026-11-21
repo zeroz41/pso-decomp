@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/unk/text_803D96A8.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
@@ -94,9 +95,7 @@ Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
-void push_matrix_from(void *);
 }
-s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 extern s32 local_client_id;
 extern "C" {

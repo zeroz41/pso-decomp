@@ -244,7 +244,6 @@ void **release_shared_capture_texture(void);
 u8 get_display_copy_filter();
 s32 GXSetCopyFilter(int, void *, int, void *);
 s32 GXSetProjection(void *, int);
-s32 pop_matrix();
 void TObjPlayer__sub_80083FA4(void);
 f32 vec_squared_length(void *);
 void TObjPlayer__sub_800847FC(void);

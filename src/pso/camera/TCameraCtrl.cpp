@@ -216,7 +216,6 @@ extern void *camera_controller_registry[13];
 void TCameraCtrl__sub_801E32D8(f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 push_matrix();
-s32 pop_matrix();
 void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 void set_active_camera_pose_from_params(u8 *arg0);
@@ -443,7 +442,6 @@ extern "C" {
 u8 * copy_view_params__11TCameraCtrlFii(C30_8006AD34 *arg0, const C30_8006AD34 *arg1);
 s32 rotate_matrix_y(int, void *);
 s32 rotate_matrix_x(int, void *);
-s32 push_matrix_from(void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
 extern RecoveredGlobal_8006ABAC_lbl_8058D490 identity_matrix;
 int is_float_nonfinite(f32);

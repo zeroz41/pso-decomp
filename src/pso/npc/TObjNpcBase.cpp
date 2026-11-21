@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/npc/TObjNpcBase_80149128.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -93,7 +94,6 @@ f32 horizontal_distance_squared(Vec *, Vec *);
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 void rotate_matrix_y(int, int);
-s32 push_matrix_from(void *src);
 extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/effect/particle/ParticleRadial.h"
@@ -79,7 +80,6 @@ void request_main_phase(s32 arg0);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix(f32);
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object(u32);
 s32 draw_ginja_model_with_motion(u32, NJS_MOTION *, f32);

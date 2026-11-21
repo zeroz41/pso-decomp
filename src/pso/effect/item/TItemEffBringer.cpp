@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/effect/item/TItemEffBringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
@@ -32,7 +33,6 @@ void *__ct__10TItemShootFPvPC3VecPC3Vecf(void *, u32, s32, s32, f32);
 void subtract_vector(Vec*, Vec*);
 void transform_point_by_current_matrix(void *, void *);
 void push_matrix(void);
-s32 pop_matrix(void);
 extern void *__vt__15TItemEffBringer[];
 void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 arg3, f32 farg0);
 }

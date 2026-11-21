@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -153,7 +154,6 @@ void __ct__14TObjCollidableFP7TObject(void *, void *);
 void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);
 void rotate_matrix_x(s32, s32);
-s32 push_matrix_from(void *src);
 extern s32 __vt__13TUnk_80494E48[];
 extern u8 identity_matrix[];
 extern f32 lbl_805D5264;

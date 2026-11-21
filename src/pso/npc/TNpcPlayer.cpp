@@ -32,9 +32,7 @@
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
 void rotate_matrix_y(s32, s32);
-s32 push_matrix_from(void *src);
 }
-s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 struct Stack_8014F728 {
     s32 sp8;

@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/effect/photon/TPhotonEstlla.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -78,9 +79,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
 }
-s32 pop_matrices(s32 arg0);
 const char *TPhotonEstlla__class_name = "TPhotonEstlla";
 extern const PhotonLineParams photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f

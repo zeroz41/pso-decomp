@@ -2,6 +2,7 @@
 // last to first, so they are defined here from the highest address down.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -2150,7 +2151,6 @@ s32 rotate_matrix_y(s32, s32);
 void rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void rotate_matrix_x(int, s32);
-s32 push_matrix_from(int);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 void draw_chunk_object(void *child);
 

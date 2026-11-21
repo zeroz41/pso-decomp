@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
@@ -282,7 +283,6 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
 extern "C" {
 void rotate_vector_by_matrix(void *, Vec *, Vec *);
 void rotate_matrix_y(void *, s32);
-s32 push_matrix_from(void *src);
 extern u8 identity_matrix[];
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 }

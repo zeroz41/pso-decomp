@@ -232,7 +232,6 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 s32 push_matrix();
 
-s32 pop_matrix();
 
 void *TContainerAncient01R__create(void *arg0);
 

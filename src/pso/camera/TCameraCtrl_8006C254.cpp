@@ -83,11 +83,9 @@ struct Stack_8006C28C {
 void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-s32 push_matrix_from(void *src);
 void rotate_matrix_y(int, s32);
 void matrix_mult_vec(int, Vec *, Vec *);
 }
-s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 
 void TUnk_80488B68::run_task() {

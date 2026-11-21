@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -178,11 +179,9 @@ s32 play_sound_effect(s32, s32, s32, s32);
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
 void *find_entity_by_id(u16);
-s32 push_matrix_from(void *src);
 void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, Vec *, Vec *);
 }
-s32 pop_matrices(s32 arg0);
 extern "C" {
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
