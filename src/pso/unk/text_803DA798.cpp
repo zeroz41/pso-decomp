@@ -58,7 +58,7 @@ extern S_803DA7E0 lbl_8058D470;
 void TObjPlayer__sub_803DA7E0(void);
 void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
 void DCFlushRange(void *, u32);
-void TObjPlayer__sub_803DA808(void *arg0, s32 arg1, u32 arg2);
+void TObjPlayer__sub_803DA808(void *arg0, saddr arg1, u32 arg2);
 s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_803DB23C(void *);
 s32 TObjPlayer__sub_803DB244(void);
@@ -108,7 +108,7 @@ void TObjPlayer__sub_803DA7E0(void) {
 }
 #pragma pop
 
-void TObjPlayer__sub_803DA808(void *buf, s32 arg1, u32 arg2) {
+void TObjPlayer__sub_803DA808(void *buf, saddr arg1, u32 arg2) {
     ((TLobby *)buf)->move_data((const void *)arg1, arg2);
     DCFlushRange(buf, arg2);
 }

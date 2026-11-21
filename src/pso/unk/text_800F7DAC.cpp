@@ -385,7 +385,7 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1) {
   s32 var_r5;
   s32 var_r6;
   u32 var_r30;
-  u32 var_r31;
+  uaddr var_r31;
   u32 var_r3;
   u32 phi_r30;
   s32 saved_reg_r30;
