@@ -24,7 +24,7 @@ void TObjPlayer::init_local_pad_binding() {
     }
 }
 
-void TObjPlayer::stop_force_if_alive() { if (TObjPlayer::is_locally_controlled(this) != 0) { TObjPlayer__sub_801BEF60((char*)this + 0x550, (saddr)((void*)0)); } }
+void TObjPlayer::stop_force_if_alive() { if (TObjPlayer::is_locally_controlled(this) != 0) { TObjPlayer__sub_801BEF60((char*)this + 0x550, (saddr)(0)); } }
 void TObjPlayer::update_battle_control_if_unlocked() { if (this->is_body_collision_inactive() == 0) { ((TObjPlayer *)((char*)this + 0x384))->prepare_heavy_attack_particles_default(); } }
 
 void TObjPlayer::enemy_spawn_zalure_effect() {

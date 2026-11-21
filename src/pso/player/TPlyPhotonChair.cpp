@@ -271,7 +271,7 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, saddr parent) {
     ((TPlyPhotonChair *)ply_photon_chair)->set_field90(arg1);
     ((TPlyPhotonChair *)ply_photon_chair)->m_92 = 0;
     ((TPlyPhotonChair *)ply_photon_chair)->m_94 = 0;
-    player = (uaddr)get_player_by_client_id((saddr)((void *) ((s32) (u16) arg1)));
+    player = (uaddr)get_player_by_client_id((saddr)(((s32) (u16) arg1)));
     if (player == 0U) {
         ((TObject *)ply_photon_chair)->queue_destruction();
         return ply_photon_chair;

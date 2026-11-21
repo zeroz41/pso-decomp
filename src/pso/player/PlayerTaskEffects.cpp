@@ -1051,9 +1051,9 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p) {
     return --p->n < 0 ? 0 : 1;
 }
 
-void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((uaddr)((void*)1)); TLobby::set_target_id((saddr)((void*)1)); }
+void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((uaddr)(1)); TLobby::set_target_id((saddr)(1)); }
 
-void TObjPlayer::reset_ring() { ((FlagWord *)this)->clear(1); set_lock_timer(-1); TLobby::set_target_id((saddr)((void*)0)); }
+void TObjPlayer::reset_ring() { ((FlagWord *)this)->clear(1); set_lock_timer(-1); TLobby::set_target_id((saddr)(0)); }
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
 
@@ -1197,10 +1197,10 @@ TPlyOnCountOver::~TPlyOnCountOver() {}
 
 TPlayerLobbyMarker::~TPlayerLobbyMarker() {}
 
-void TObjPlayer::set_flag_2000000_alt() { set_state_flags((uaddr)((void*)2097152)); }
-s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
-void TObjPlayer::set_flag_0x8000() { sub_8011E204((saddr)((void*)32768)); }
-void TObjPlayer::check_flag_0x8000() { check_flag((saddr)((void*)32768)); }
+void TObjPlayer::set_flag_2000000_alt() { set_state_flags((uaddr)(2097152)); }
+s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)(4194304)); }
+void TObjPlayer::set_flag_0x8000() { sub_8011E204((saddr)(32768)); }
+void TObjPlayer::check_flag_0x8000() { check_flag((saddr)(32768)); }
 void*TObjPlayer::restore_shrunken_font() { copy_subcommand_header(this); return this; }
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::send_font_update_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }

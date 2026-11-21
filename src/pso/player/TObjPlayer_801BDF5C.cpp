@@ -90,10 +90,10 @@ void TObjPlayer::alloc_shared_buffers() {
     saddr temp_r3;
     saddr var_r0;
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
-        TObjPlayer__shared_model_buffer = (uaddr)mem_alloc((uaddr)((void *)0x9000));
+        TObjPlayer__shared_model_buffer = (uaddr)mem_alloc((uaddr)(0x9000));
     }
     if ((u32) player_shared_buffer_base == 0U) {
-        player_shared_buffer_base = (uaddr)mem_alloc((uaddr)((void *)0x4800));
+        player_shared_buffer_base = (uaddr)mem_alloc((uaddr)(0x4800));
     }
     if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
         temp_r3 = (saddr)::operator new(0x60);
@@ -110,9 +110,9 @@ void TObjPlayer::alloc_shared_buffers() {
     extern unsigned char lobby_rule_settings[];
     extern int lbl_805D5D7C;
     extern int shared_state_flags;
-void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)((void*)0)); TObjPlayer::set_shared_count((saddr)((void*)0)); TObjPlayer::set_shared_flag((saddr)((void*)0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags = 0; TLockOnCursor::free_cursor_resources(); TLobby__sub_802A7BD8(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
+void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags = 0; TLockOnCursor::free_cursor_resources(); TLobby__sub_802A7BD8(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
-void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)((void*)0)); TObjPlayer::set_shared_count((saddr)((void*)1)); TObjPlayer::set_shared_flag((saddr)((void*)0)); lbl_805D5D7C = 0; TLobby::alloc_snapshot_buffer(); load_player_motion_data(); copy_if_space(); TWindowSnapShot::init_default(); TWindowSnapShot::free_shared_instance(); load_target_cursor_models(); load_player_footstamp(); TObjPlayer__sub_80354E7C(); shared_state_flags = 0; }
+void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; TLobby::alloc_snapshot_buffer(); load_player_motion_data(); copy_if_space(); TWindowSnapShot::init_default(); TWindowSnapShot::free_shared_instance(); load_target_cursor_models(); load_player_footstamp(); TObjPlayer__sub_80354E7C(); shared_state_flags = 0; }
 
 extern "C" {
 extern u8 TObjPlayer__char_data_array[];

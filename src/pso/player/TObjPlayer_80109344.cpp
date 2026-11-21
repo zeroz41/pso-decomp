@@ -42,7 +42,7 @@ void invoke_menu_callback__10TObjPlayerFPv(void *arg0) {
     void *x;
     x = find_item_by_id((saddr)(*(void **)((s8 *)arg0 + 0x34)));
     if (x != NULL) {
-        ((TObjPlayer *)x)->call_callback_1ec((saddr)((void *)((char *)arg0 + 28)), (saddr)((void *)((char *)arg0 + 40)));
+        ((TObjPlayer *)x)->call_callback_1ec((saddr)(((char *)arg0 + 28)), (saddr)(((char *)arg0 + 40)));
     }
     *(u32 *)((s8 *)arg0 + 0x38) = 1;
 }

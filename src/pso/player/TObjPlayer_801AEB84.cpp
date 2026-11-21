@@ -27,7 +27,7 @@ void TObjPlayer::apply_luck_reward(u8 arg1) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_lck(var_r31);
-    TObjPlayer::add_item_count_kind4(arg0 + 0x374, (saddr)((void *) (get_class_index__10TObjPlayerFv((void *)arg0))), 1);
+    TObjPlayer::add_item_count_kind4(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv((void *)arg0))), 1);
 }
 
 }
@@ -40,7 +40,7 @@ void TObjPlayer::add_dfp_material(u8 arg1) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_dfp(var_r31);
-    TObjPlayer::try_add_item_count_kind3(arg0 + 0x374, (saddr)((void *) (get_class_index__10TObjPlayerFv((void *)arg0))), 1);
+    TObjPlayer::try_add_item_count_kind3(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv((void *)arg0))), 1);
 }
 
 }
@@ -53,7 +53,7 @@ void TObjPlayer::add_evp_material(u8 arg1) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_evp(var_r31);
-    TObjPlayer::try_add_item_count_type2(arg0 + 0x374, (saddr)((void *) (get_class_index__10TObjPlayerFv((void *)arg0))), 1);
+    TObjPlayer::try_add_item_count_type2(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv((void *)arg0))), 1);
 }
 
 }
@@ -66,7 +66,7 @@ void TObjPlayer::add_mst_and_item(u8 arg1) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_mst(var_r31);
-    TObjPlayer::add_item_count(arg0 + 0x374, (saddr)((void *) (get_class_index__10TObjPlayerFv((void *)arg0))), 1);
+    TObjPlayer::add_item_count(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv((void *)arg0))), 1);
 }
 
 }
@@ -79,7 +79,7 @@ void TObjPlayer::add_stat_and_item(u8 arg1) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_stat(var_r31);
-    TObjPlayer::try_add_item(arg0 + 0x374, (saddr)((void *) (get_class_index__10TObjPlayerFv((void *)arg0))), 1);
+    TObjPlayer::try_add_item(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv((void *)arg0))), 1);
 }
 
 }

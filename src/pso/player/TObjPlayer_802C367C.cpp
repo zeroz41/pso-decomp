@@ -35,7 +35,7 @@ int init_character_action_config(void*);
 extern "C" {
 s32 TObjPlayer__sub_802C46E0(s32, s32, s32, s32, s32);
 
-int init_new_character_data(void* p) { *(unsigned char*)(p) = 0; ((TObjPlayer *)p)->clear_item_slots(); init_character_action_config((char*)p + 0x3c0); init_class_starting_inventory(p); ((TObjPlayer *)p)->m_36c = 300; ((TObjPlayer *)p)->set_action_state((u8)((void*)1)); return 1; }
+int init_new_character_data(void* p) { *(unsigned char*)(p) = 0; ((TObjPlayer *)p)->clear_item_slots(); init_character_action_config((char*)p + 0x3c0); init_class_starting_inventory(p); ((TObjPlayer *)p)->m_36c = 300; ((TObjPlayer *)p)->set_action_state((u8)(1)); return 1; }
 
 void TObjPlayer::clear_30_slots() { { int i; for (i = 0; i < 30; i++) { TObjPlayer__sub_802C456C(this, (void*)i, (void*)0); } } }
 

@@ -362,9 +362,9 @@ void **release_shared_capture_texture(void) {
     return var_r3;
 }
 
-void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((saddr)((void*)1)); }
+void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((saddr)(1)); }
 
-void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((saddr)((void*)0)); }
+void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((saddr)(0)); }
 
 void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
 
@@ -795,7 +795,7 @@ TUnk_8048E5F4::~TUnk_8048E5F4() {
 
 void TUnk_8048E5F4::run_task() {  }
 
-void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)((void*)0)); } }
+void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)(0)); } }
 
 void TUnk_8048E5F4::render() {
     if (!(get_camera_capture_flags() & 4)) {

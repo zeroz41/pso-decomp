@@ -533,7 +533,7 @@ void *find_entity_by_id(u16 id) {
 }
 
 void TOTrapAncient02R__sub_80154D78(void) {  }
-void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((saddr)((void*)i), (saddr)((void*)0)); } } }
+void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((saddr)(i), (saddr)(0)); } } }
 s32 TObjPlayer::find_or_alloc_slot(uaddr arg0) {
     s32 var_r31;
     u32 battle_param;

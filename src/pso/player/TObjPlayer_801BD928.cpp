@@ -69,14 +69,14 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *ar
     TObjPlayer__sub_801BF660((void *) (((u8 *)this) + 0x730));
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
-    TObjPlayer::init_partial((saddr)((void *) (((u8 *)this) + 0x7C4)));
+    TObjPlayer::init_partial((saddr)((((u8 *)this) + 0x7C4)));
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
     ((TObjPlayer *)(((u8 *)this) + 0x7CC))->init();
     TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));
     init_player_telepipe_record((void *) (((u8 *)this) + 0x830));
     TObjPlayer__sub_801BFB4C((void *) (((u8 *)this) + 0x84C));
     __ct__8FlagWordFv((((u8 *)this) + 0x858));
-    TObjPlayer::reset_and_return((saddr)((void *) (((u8 *)this) + 0xD04)));
+    TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
     *(s32 *)((s8 *)((u8 *)this) + 0) = (saddr) lbl_805D3530;
     this->init_action_provider();
@@ -101,7 +101,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *ar
     TObjPlayer__sub_801BC8F0(this);
     this->setup_fresh_player_state((u8 *)arg4);
     this->sub_801BB8B0((u8 *)arg4);
-    TObjPlayer::set_com_card_window((saddr)((void *) (get_entity_id(this))));
+    TObjPlayer::set_com_card_window((saddr)((get_entity_id(this))));
     return ((u8 *)this);
 }
 
