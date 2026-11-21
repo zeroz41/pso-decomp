@@ -10,7 +10,6 @@ void apply_chunk_texture_command(s32 arg0, s32 arg1);
 void draw_chunk_model(void *arg0);
 extern "C" {
 void draw_chunk_object(void *child);
-s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void *arg);
 }
 void set_chunk_alpha_compare_ref(int ref);
 void set_chunk_blend(u32 x);

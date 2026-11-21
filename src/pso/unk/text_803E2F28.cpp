@@ -885,7 +885,7 @@ void TObjPlayer::end_chunk_draw() {
 }
 #pragma pop
 
-s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void* arg) {
+s32 TObjPlayer::draw_chunk_vertices_cached(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
     saddr cache;
     s32 count = 0;
@@ -924,7 +924,7 @@ s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void* arg) {
 
 void draw_chunk_model(void *arg0) {
     TObjPlayer::setup_model_draw_state(arg0);
-    draw_chunk_vertices_cached__10TObjPlayerFPv(arg0);
+    TObjPlayer::draw_chunk_vertices_cached(arg0);
     TObjPlayer::end_chunk_draw();
 }
 
@@ -933,7 +933,7 @@ void draw_chunk_model(void *arg0) {
 
 void draw_chunk_object(void *child) {
     TObjPlayer::setup_model_draw_state(child);
-    transform_chunk_object_tree(child, (void (*)(void *))draw_chunk_vertices_cached__10TObjPlayerFPv);
+    transform_chunk_object_tree(child, (void (*)(void *))TObjPlayer::draw_chunk_vertices_cached);
     TObjPlayer::end_chunk_draw();
 }
 #pragma pop

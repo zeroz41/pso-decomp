@@ -48,7 +48,7 @@ struct TObjPlayer : public TObjChara {
     virtual const char *get_name();
     void update_swim_flag(void *);
     void draw_weapon_if_not_hidden(void *);
-    void draw_chunk_vertices_cached(void *);
+    static s32 draw_chunk_vertices_cached(void *model);
     void draw_actor_model(void *);
     s32 destroy_char_data(int, s16);
     void *apply_wall_response();
