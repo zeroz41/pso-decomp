@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TechniqueParams.h"
@@ -140,10 +141,8 @@ const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
     {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
 };
 const char *TTecFoie__name = "TTecFoie";
-s32 attach_particle_model(int, int, int, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
 void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
-extern s32 lbl_805D63B0;
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct Angles_8022FC94 Angles_8022FC94;
@@ -185,7 +184,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
-        attach_particle_model((saddr) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), (saddr)lbl_805D63B0, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }

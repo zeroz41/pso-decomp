@@ -47,7 +47,6 @@ void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void);
 extern u8 technique_ringwave_texture_list[];
-extern s32 technique_effect_bml;
 
 // ---- pso/unk/text_80232AA4
 void *find_entity_by_id(u16 id);
@@ -142,7 +141,6 @@ const SGrp_80232C50 technique_effect_entry_table[6] = {
 
 const char *tec_grants_class_name = "TTecGrants";
 extern void *tl_07;
-extern s32 lbl_805D63B0;
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 #pragma defer_codegen on
@@ -179,7 +177,7 @@ void TUnk_804CC888::run_task() {
                 if (e->flags & 0x20) {
                     r = (saddr)spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
                     if (r != 0) {
-                        attach_particle_model((u8 *)r, (s32)(get_bml_model((BmlResource *)technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
+                        attach_particle_model((u8 *)r, (saddr)get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (saddr)lbl_805D63B0, 0, 1, 1.0f);
                     }
                 } else {
                     spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
@@ -276,7 +274,7 @@ void TUnk_804CC870::render() {
     scale_matrix(0, arg0->pos.x, arg0->pos.y, arg0->pos.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
     TObjFish::set_global_param((saddr)&lbl_804CC868);
-    (saddr)get_bml_model((BmlResource *)technique_effect_bml, 10);
+    get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();
     copy_slot_to_anim_frame(&ctx);

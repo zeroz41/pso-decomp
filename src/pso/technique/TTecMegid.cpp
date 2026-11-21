@@ -5,6 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -186,12 +187,9 @@ extern "C" {
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 
-s32 attach_particle_model(void *, void *, s32, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);
 void *spawn_continuous_particle_effect_with_flags(void *, u32, u16);
 void **mem_alloc(u32, s32);
-extern s32 technique_effect_bml;
-extern s32 lbl_805D63B0;
 u32 __nw__7TObjectFUl(s32 a0 = 0);
 
 void TTecMegid::update_by_state() {
@@ -277,7 +275,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model(self->emitters[i], (void *)get_bml_model((BmlResource *)technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], (saddr)get_bml_model(technique_effect_bml, new_var), (saddr)lbl_805D63B0, 0, 1, 1.0f);
       }
     }
   }

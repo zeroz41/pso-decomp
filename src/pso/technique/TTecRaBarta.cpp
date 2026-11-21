@@ -5,6 +5,8 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
@@ -141,13 +143,9 @@ struct RaBarta_802377FC {
 extern "C" {
 u16 get_entity_id(void *);
 
-void *get_bml_motion(void *, int);
 
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 
 void *mem_alloc(u32 size);
-extern void *technique_effect_bml;
-extern void *lbl_805D63B0;
 
 s32 play_sound_effect(s32, s32, s32, s32);
 
@@ -197,7 +195,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], (saddr)(get_bml_model((BmlResource *)technique_effect_bml, mid)), (saddr)lbl_805D63B0, 0, 0, (f32)(1.0f));
+      attach_particle_model((u8 *)self->emitters[i], (saddr)(get_bml_model(technique_effect_bml, mid)), (saddr)lbl_805D63B0, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -220,7 +218,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, id)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
+      attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, id)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
     }
   }
 }

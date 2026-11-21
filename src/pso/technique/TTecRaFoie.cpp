@@ -1,3 +1,4 @@
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -41,9 +42,6 @@ u16 get_entity_id(void *);
 void construct_area_technique_base(void *, void *, void *, void *, int);
 s32 is_split_screen();
 
-void attach_particle_model(void *, void *, void *, int, int, f32);
-extern void *technique_effect_bml;
-extern void *lbl_805D63B0;
 
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
@@ -130,7 +128,7 @@ void TTecRaFoie::vfunc_8(void *) {
         } else {
             emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model(emitter, (void *)get_bml_model((BmlResource *)technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
+                attach_particle_model((u8 *)emitter, (saddr)get_bml_model(technique_effect_bml, 9), (saddr)lbl_805D63B0, 0, 1, 1.0f);
             }
         }
         spawn_particle_effect(&target, 0x3A);
@@ -144,7 +142,7 @@ void TTecRaFoie::vfunc_8(void *) {
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model(emitter, (void *)get_bml_model((BmlResource *)technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
+                attach_particle_model((u8 *)emitter, (saddr)get_bml_model(technique_effect_bml, 9), (saddr)lbl_805D63B0, 0, 1, 1.0f);
             }
         }
     }
@@ -241,7 +239,7 @@ void TUnk_804CCB28::render() {
     TObjFish::set_global_param((saddr)lbl_805D63B0);
     set_cull_back();
     set_draw_list_mask(3);
-    (void *)get_bml_model((BmlResource *)technique_effect_bml, 0xB);
+    get_bml_model(technique_effect_bml, 0xB);
     draw_ginja_object();
     restore_draw_list_mask();
     set_cull_none();

@@ -3,6 +3,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -80,7 +82,6 @@ extern "C" {
 void mem_free(void *p);
 u16 get_entity_id(void *);
 
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
 }
@@ -110,10 +111,7 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
 };
 const char *TTecBarta__class_name = "TTecBarta";
 void move_ground_technique_projectile(void *p);
-extern s32 technique_effect_bml;
-extern s32 lbl_805D63B0;
 extern "C" {
-s32 get_bml_motion(s32, s32);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void *mem_alloc(u32 size);
@@ -187,7 +185,7 @@ void TTecBarta::create_particle_emitters() {
         if (self->emitters[i] != NULL) {
             row = &TTecBarta__emitter_bands[self->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)self->emitters[i], (s32)(get_bml_model((BmlResource *)technique_effect_bml, 0)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 0)), 0, 1.0f);
+                attach_particle_model((u8 *)self->emitters[i], (saddr)get_bml_model(technique_effect_bml, 0), (saddr)lbl_805D63B0, (saddr)get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
                 ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
             }
@@ -280,7 +278,7 @@ void TTecBarta::run_task() {
     if (this->band == 5) {
         TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
         if (e != NULL) {
-            attach_particle_model((u8 *)e, (s32)(get_bml_model((BmlResource *)technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
+            attach_particle_model((u8 *)e, (saddr)get_bml_model(technique_effect_bml, 5), (saddr)lbl_805D63B0, 0, 0, 1.0f);
         }
     }
     move_ground_technique_projectile(this);

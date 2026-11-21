@@ -190,7 +190,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 }
 
 s8 lbl_805D63A8;
-u8 *technique_effect_bml;
+BmlResource *technique_effect_bml;
 void **lbl_805D63B0;
 extern s32 __vt__8TTecCtrl[];
 
@@ -230,8 +230,7 @@ extern s32 __vt__8TTecCtrl[];
 // order: they are defined here from the last address to the first.
 
 void load_technique_resources(void) {
-    u8 *p = (u8 *)new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    technique_effect_bml = p;
+    technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
     lbl_805D63B0 = (void **)load_gvm_texture_file((saddr)"technic.gvm");
     bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
     TTecZondeEff::init_resources();
@@ -243,7 +242,7 @@ void TLobby__sub_8022F068(void) {
     if ((u32) *(u32 *)((s8 *)technique_ringwave_texture_list.value + 8) != 0U) {
         release_texture_list(&technique_ringwave_texture_list.value, (saddr) technique_ringwave_texture_list.value);
     }
-    if ((void **) lbl_805D63B0 != NULL) {
+    if (lbl_805D63B0 != NULL) {
         temp_r4 = (u8 *)(*lbl_805D63B0);
         if ((u32) *(u32 *)((s8 *)temp_r4 + 8) != 0U) {
             release_texture_list(lbl_805D63B0, (saddr) temp_r4);
@@ -251,8 +250,8 @@ void TLobby__sub_8022F068(void) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr) lbl_805D63B0);
         lbl_805D63B0 = NULL;
     }
-    if ((void *) technique_effect_bml != NULL) {
-        delete (BmlResource *)technique_effect_bml;
+    if (technique_effect_bml != NULL) {
+        delete technique_effect_bml;
     }
     technique_effect_bml = NULL;
 }
