@@ -527,8 +527,8 @@ force_active:
   - TEffIndirectCtrl__ct
   - TEffIndirectCtrl__name
   - TEffIndirectCtrl__source_buffers
-  - TEffIndirectCtrl__sub_802A9548
-  - TEffIndirectCtrl__sub_802A9554
+  - resume_indirect_effect
+  - get_indirect_kind
   - TEffStarLight2D__name
   - TEffStarLight2D_class_name
   - TEffStarLightChild__name
@@ -1597,8 +1597,8 @@ force_active:
   - TObjPlayer__sub_801D9C34
   - TObjPlayer__sub_8023E034
   - TObjPlayer__sub_802A1588
-  - TObjPlayer__sub_802A83F4
-  - TObjPlayer__sub_802A841C
+  - clear_indirect_effect_ctrl_table
+  - reset_indirect_effect_ctrl_table
   - __ct__13TUnk_804E08D4FP7TObjectPv
   - __ct__13TUnk_804E0910FP7TObjectPv
   - __ct__13TUnk_804E094CFP7TObjectPv
@@ -16326,7 +16326,7 @@ force_active:
   - sub_8028B940__12TChCrLoadAfsFv
   - sub_8028B944__12TChCrLoadAfsFv
   - sub_802A2DF4__18TChCrTagOccupationFv
-  - sub_802A955C__16TEffIndirectCtrlFv
+  - pause_indirect_effect__16TEffIndirectCtrlFv
   - sub_802B0228__14TBoss6PlotFalzFv
   - sub_802B03F4__14TBoss6PlotFalzFv
   - sub_802B0448__14TBoss6PlotFalzFv
