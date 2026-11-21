@@ -253,7 +253,7 @@ f32 normalize_vector(void *);
 
 
 u8 boss2_tunnel_state_flag;
-s16 TObjBoss2Tunnel__snapshot_state;
+u16 TObjBoss2Tunnel__snapshot_state;
 s32 *boss2_tunnel_snapshot_buffer;
 void *TObjBoss2Tunnel__snapshot_buffer;
 s32 TObjBoss2Tunnel__snapshot_saved_flag;
@@ -444,13 +444,13 @@ void rotate_y_and_translate(Vec *v, Vec *origin, s32 angle) {
 }
 
 s32 TObjBoss2Tunnel::adjust_to_ground(saddr from, void *out) {
-    s32 *hit;
+    CsnHit *hit;
 
     VecCopy((Vec *)out, (const Vec *)from);
     ((Vec *)out)->y += 20.0f;
-    hit = csnVecterUnder((saddr)out, 0x16EF);
+    hit = (CsnHit *)csnVecterUnder((saddr)out, 0x16EF);
     if (hit != NULL) {
-        VecCopy((Vec *)out, (const Vec *)(*(saddr *)((s8 *)hit + 4)));
+        VecCopy((Vec *)out, &hit->contact->point);
         return 1;
     }
     VecCopy((Vec *)out, (const Vec *)from);
@@ -458,14 +458,14 @@ s32 TObjBoss2Tunnel::adjust_to_ground(saddr from, void *out) {
 }
 
 s32 TObjBoss2Tunnel::spawn_effect(saddr from, void *out, void *normal) {
-    s32 *hit;
+    CsnHit *hit;
 
     VecCopy((Vec *)out, (const Vec *)from);
     ((Vec *)out)->y += 20.0f;
-    hit = csnVecterUnder((saddr)out, 0x16EF);
+    hit = (CsnHit *)csnVecterUnder((saddr)out, 0x16EF);
     if (hit != NULL) {
-        VecCopy((Vec *)out, (const Vec *)(*(saddr *)((s8 *)hit + 4)));
-        VecCopy((Vec *)normal, (const Vec *)(*(saddr *)((s8 *)hit + 4) + 0xC));
+        VecCopy((Vec *)out, &hit->contact->point);
+        VecCopy((Vec *)normal, &hit->contact->normal);
         return 1;
     }
     VecCopy((Vec *)out, (const Vec *)from);
@@ -1225,7 +1225,7 @@ s32 TObjBoss2Tunnel::load_snapshot() {
     CardSaveDescriptor file;
     saddr buf;
     if (poll_memcard_result(1) == 0) {
-        if (((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) != 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) >= 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) < 3)) {
+        if (((s32) TObjBoss2Tunnel__snapshot_state != 0) && ((s32) TObjBoss2Tunnel__snapshot_state >= 0) && ((s32) TObjBoss2Tunnel__snapshot_state < 3)) {
             buf = get_capture_texture_pixels();
             if (TAdPlayerLoadGC__sub_801E1538(&file, TObjBoss2Tunnel__snapshot_buffer) == 0) {
                 memcpy((void *)buf, file.data + 8, 0x1818C);

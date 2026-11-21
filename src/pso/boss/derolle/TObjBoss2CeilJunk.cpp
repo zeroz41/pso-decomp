@@ -89,7 +89,7 @@ void TObjBoss2CeilJunk::run_task() {
     s32 id;
     s32 hit;
     s32 n;
-    u8 *pl;
+    TObjPlayer *pl;
     s32 i;
     f32 top;
     f32 bottom;
@@ -140,13 +140,13 @@ void TObjBoss2CeilJunk::run_task() {
             bottom = position.y - TObjBoss2CeilJunk__height_offset_table[kind];
             rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[kind];
             for (i = 0; i < n; i++) {
-                pl = (u8 *)TObjPlayer::get_player_data(i);
+                pl = TObjPlayer::get_player_data(i);
                 if (((TObjEneDD *)pl)->is_valid_target() != 0) {
-                    h = *(f32 *)((s8 *)pl + 0xD48) + *(f32 *)((s8 *)pl + 0x3C);
+                    h = pl->m_d48 + pl->position.y;
                     if (top > h && bottom < h) {
-                        VecCopy((Vec *)&d, (const Vec *)(pl + 0x38));
+                        VecCopy(&d, &pl->position);
                         subtract_vector(&d, &position);
-                        if (normalize_vector_xz((Vec *)(&d)) < rad) {
+                        if (normalize_vector_xz(&d) < rad) {
                             hit = 1;
                             forward_switch_phase_stats__13TBoss2DeRolLeFi((saddr)pl);
                         }
