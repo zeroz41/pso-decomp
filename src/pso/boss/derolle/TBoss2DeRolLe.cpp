@@ -574,25 +574,6 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
-struct Self_800310F8 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x390 - 0xBA];
-    u8 *f390;
-    u8 pad394[0x3C0 - 0x394];
-    s32 flags;
-    u8 pad3C4[0x620 - 0x3C4];
-    void *parts[4];
-    u8 pad630[0x654 - 0x630];
-    s32 dir;
-    u8 pad658[0x6E0 - 0x658];
-    s32 phase;
-    s32 timer;
-    s32 idx;
-    s32 limit;
-    s32 life;
-};
-
 struct DR_800327C8 {
     u8 pad0[0x38];
     f32 x;
@@ -868,7 +849,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 void fill_value_array(saddr);
 
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
 int play_sound(void* p, int a1);
 
@@ -894,15 +874,12 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-void set_move_direction__13TBoss2DeRolLeFPv(void *, s32);
 
 
-s32 TBoss2Tentacle__sub_80039CA0(void *);
 
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2);
 
 
 void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
@@ -970,9 +947,7 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
 
-void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1);
 
-void TBoss2DeRolLe__sub_80030DFC(void *, void *, int);
 
 void TBoss2DeRolLe__sub_80031AD4(void *, void *);
 
@@ -981,7 +956,6 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *, void *);
 void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
 
 
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
 int play_sound(void* p, int a1);
 
@@ -1205,7 +1179,6 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 
-void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
@@ -1758,7 +1731,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     unk_660 = 0;
     unk_664.init_float_block();
     unk_684.init_float_block();
-    unk_6A4 = 0.0f;
+    height_offset = 0.0f;
     unk_6A8 = unk_6AC = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x18);
     unk_6B0 = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x20);
     hpmax = hp = 20000;
@@ -1790,29 +1763,29 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     }
     splash_joint = 0;
     unk_6DC = 0;
-    unk_6E0 = 0;
+    state_step = 0;
     unk_6E4 = 0;
     unk_6E8 = 0;
     unk_6EC = 0;
     unk_6F0 = 0;
     unk_6F4 = 0;
     unk_6F8 = 0;
-    unk_6FC[0] = 0.0f;
-    unk_6FC[1] = 0.0f;
-    unk_6FC[2] = 0.0f;
-    unk_6FC[3] = 0.0f;
-    unk_6FC[4] = 0.0f;
-    unk_6FC[5] = 0.0f;
-    unk_6FC[6] = 0.0f;
-    unk_6FC[7] = 0.0f;
-    unk_6FC[8] = 0.0f;
-    unk_6FC[9] = 0.0f;
-    unk_6FC[10] = 0.0f;
-    unk_6FC[11] = 0.0f;
-    unk_6FC[12] = 0.0f;
-    unk_6FC[13] = 0.0f;
-    unk_6FC[14] = 0.0f;
-    unk_6FC[15] = 0.0f;
+    state_floats[0] = 0.0f;
+    state_floats[1] = 0.0f;
+    state_floats[2] = 0.0f;
+    state_floats[3] = 0.0f;
+    state_floats[4] = 0.0f;
+    state_floats[5] = 0.0f;
+    state_floats[6] = 0.0f;
+    state_floats[7] = 0.0f;
+    state_floats[8] = 0.0f;
+    state_floats[9] = 0.0f;
+    state_floats[10] = 0.0f;
+    state_floats[11] = 0.0f;
+    state_floats[12] = 0.0f;
+    state_floats[13] = 0.0f;
+    state_floats[14] = 0.0f;
+    state_floats[15] = 0.0f;
     unk_73C = NULL;
     debug_pad_active = 0;
     debug_pad = &controller_input_state.controllers[1];
@@ -2168,7 +2141,7 @@ s32 TBoss2Joint_get_shell_max_hp(void) {
 
 void TBoss2DeRolLe::set_position_index(s32 index) {
     VecCopy(&position, &TBoss2DeRolLe__position_point_table[index]);
-    unk_6A4 = 0.0f;
+    height_offset = 0.0f;
     rotation_z = 0;
 }
 
@@ -2196,17 +2169,27 @@ extern "C" {
 
 #pragma pop
 
-void set_move_direction__13TBoss2DeRolLeFPv(void *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x654) == 0) {
-        *(f32 *)((s8 *)arg0 + 0x38) = -100.0f;
-        *(s32 *)((s8 *)arg0 + 0x64) = 0x500;
-    } else {
-        *(f32 *)((s8 *)arg0 + 0x38) = 100.0f;
-        *(s32 *)((s8 *)arg0 + 0x64) = -0x500;
-    }
-    *(f32 *)((s8 *)arg0 + 0x40) = 10.0f;
-    *(f32 *)((s8 *)arg0 + 0x6A4) = 4.0f;
 }
+
+}
+
+// Puts the body at the side of position_index it swims out from (the TBoss7DeRolLeC twin is
+// set_swim_direction); the callers pass position_index, which it reads itself.
+void TBoss2DeRolLe::set_move_direction(s32) {
+    if (position_index == 0) {
+        position.x = -100.0f;
+        rotation_z = 0x500;
+    } else {
+        position.x = 100.0f;
+        rotation_z = -0x500;
+    }
+    position.z = 10.0f;
+    height_offset = 4.0f;
+}
+
+namespace joint_state_view {
+
+extern "C" {
 
 f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self) {
     Vec v;
@@ -2241,15 +2224,15 @@ void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
 }
 
 void TBoss2DeRolLe::update_angle() {
-    if (unk_6A4 > 0.4f) {
-        unk_6A4 -= 0.4f;
+    if (height_offset > 0.4f) {
+        height_offset -= 0.4f;
         return;
     }
-    if (unk_6A4 < -0.4f) {
-        unk_6A4 += 0.4f;
+    if (height_offset < -0.4f) {
+        height_offset += 0.4f;
         return;
     }
-    unk_6A4 = 0.0f;
+    height_offset = 0.0f;
 }
 
 void TBoss2DeRolLe::init_head_params() {
@@ -2792,10 +2775,12 @@ extern "C" {
 
 int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
 
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((saddr)p, (a1), (a2), 0, 0); }
+}
 
 }
 
+extern "C" int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos) {
+    return play_persistent_sound(id, (saddr)owner, (uaddr)pos, 0, 0);
 }
 
 
@@ -2918,16 +2903,16 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         TBoss2DeRolLe__sub_800313F8(this, reason, 2);
         return;
     case 20:
-        TBoss2DeRolLe__sub_800310F8(this, reason, 0);
+        sub_800310F8(reason, 0);
         return;
     case 21:
-        TBoss2DeRolLe__sub_800310F8(this, reason, 2);
+        sub_800310F8(reason, 2);
         return;
     case 22:
-        TBoss2DeRolLe__sub_80030DFC(this, reason, 0);
+        sub_80030DFC(reason, 0);
         return;
     case 23:
-        TBoss2DeRolLe__sub_80030DFC(this, reason, 2);
+        sub_80030DFC(reason, 2);
         return;
     case 16:
         state_photon_pads(reason, 0);
@@ -2936,7 +2921,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         state_photon_pads(reason, 2);
         return;
     case 15:
-        TBoss2DeRolLe__sub_80030A38(this, reason);
+        sub_80030A38(reason);
         return;
     case 24:
         state_launch_mines(reason, 0x18);
@@ -3964,109 +3949,111 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
 
 #pragma pop
 
-#define self ((Self_800310F8 *)arg0)
+}
 
-void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
+}
+
+// TBoss2Tentacle's state == 4 test (turning to its rest angle).
+extern "C" s32 TBoss2Tentacle__sub_80039CA0(void *);
+
+void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
     Vec v;
     s32 a;
     s32 ok;
     s32 i;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)self)->sub_800341F0();
-        self->flags &= ~4;
-        self->flags &= ~0x100;
-        self->dir = arg2;
-        set_move_direction__13TBoss2DeRolLeFPv(self, self->dir);
-        if (self->dir == 0) {
-            self->fB8 = 9;
+        sub_800341F0();
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position_index = side;
+        set_move_direction(position_index);
+        if (position_index == 0) {
+            requested_action = 9;
         } else {
-            self->fB8 = 10;
+            requested_action = 10;
         }
-        self->phase = 0;
-        self->timer = 0;
-        self->idx = 0;
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
         if (TObjEneDD::check_v2_mode() != 0) {
-            self->limit = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x24);
-            self->life = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x28);
+            unk_6EC = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x24);
+            unk_6F0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x28);
         } else {
-            self->limit = 0xB4;
-            self->life = 0x78;
+            unk_6EC = 0xB4;
+            unk_6F0 = 0x78;
         }
         break;
     case 2:
-        if (self->phase == 3) {
-            if (self->dir == 0) {
-                ((TBoss2DeRolLe *)self)->set_state_and_send(0x16);
+        if (state_step == 3) {
+            if (position_index == 0) {
+                set_state_and_send(0x16);
             } else {
-                ((TBoss2DeRolLe *)self)->set_state_and_send(0x17);
+                set_state_and_send(0x17);
             }
         }
         break;
     case 9:
-        if (self->phase == 3) {
-            ((TBoss2DeRolLe *)self)->advance_action_sequence();
+        if (state_step == 3) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        switch (self->phase) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            self->timer++;
-            if (self->timer > 0x28) {
-                self->phase = 1;
-                self->timer = 0;
-                self->idx = 0;
+            unk_6E4++;
+            if (unk_6E4 > 0x28) {
+                state_step = 1;
+                unk_6E4 = 0;
+                unk_6E8 = 0;
             }
             break;
         case 1:
-            self->timer++;
-            if (self->timer >= self->limit) {
-                self->timer = 0;
-                if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
-                    VecCopy__FP3VecPC3Vec((saddr)&v, self->f390 + 0x38);
+            unk_6E4++;
+            if (unk_6E4 >= unk_6EC) {
+                unk_6E4 = 0;
+                if (enemy_has_live_target() != 0) {
+                    VecCopy(&v, &target->position);
                 } else {
-                    f32 r = 120.0f * ((TObjChara *)self)->random_ratio();
-                    a = ((TObjEneDD *)self)->get_random_scaled();
+                    f32 r = 120.0f * random_ratio();
+                    a = get_random_scaled();
                     v.x = r * sin_table_lookup(a);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(a);
                     TObjBoss2Tunnel::adjust_to_ground((saddr)&v, &v);
                 }
-                {
-                    Self_800310F8 *o = (Self_800310F8 *)arg0;
-                    ((TBoss2Tentacle *)(o->parts[o->idx]))->start_attack_at_target((u8 *)&v, o->life);
-                }
-                self->idx++;
-                if (self->idx >= 4) {
-                    self->timer = 0;
-                    self->phase = 2;
+                tentacles[unk_6E8]->start_attack_at_target((u8 *)&v, unk_6F0);
+                unk_6E8++;
+                if (unk_6E8 >= 4) {
+                    unk_6E4 = 0;
+                    state_step = 2;
                 }
             }
             break;
         case 2:
             ok = 1;
-            self->timer++;
+            unk_6E4++;
             for (i = 0; i < 4; i++) {
-                if (TBoss2Tentacle__sub_80039CA0(self->parts[i]) == 0) {
+                if (TBoss2Tentacle__sub_80039CA0(tentacles[i]) == 0) {
                     ok = 0;
                     break;
                 }
             }
-            if (ok != 0 || self->timer > 0x258) {
-                self->phase = 3;
+            if (ok != 0 || unk_6E4 > 0x258) {
+                state_step = 3;
             }
             break;
         }
         break;
     case 6:
-        ((TBoss2DeRolLe *)(saddr)self)->pick_random_target();
+        pick_random_target();
         break;
     case 5:
         {
             s32 j;
             for (j = 0; j < 4; j++) {
-                ((TBoss2Tentacle *)self->parts[j])->drop_back();
+                tentacles[j]->drop_back();
             }
         }
         break;
@@ -4076,83 +4063,79 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
 #pragma push
 #pragma fp_contract on
 
-#undef self
-#define F(t, o) (*(t *)(arg0 + (o)))
-#define arg0 ((u8 *)arg0_)
-
-void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
-    switch ((uaddr)arg1_) {
+void TBoss2DeRolLe::sub_80030DFC(u32 reason, s32 side) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->sub_800341F0();
-        F(s32, 0x3C0) |= 4;
-        F(s32, 0x3C0) &= ~0x100;
-        F(s32, 0x654) = arg2;
-        set_move_direction__13TBoss2DeRolLeFPv(arg0, F(s32, 0x654));
-        if (F(s32, 0x654) == 0) {
-            F(f32, 0x700) = -1.0f;
-            F(s16, 0xB8) = 9;
+        sub_800341F0();
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_index = side;
+        set_move_direction(position_index);
+        if (position_index == 0) {
+            state_floats[1] = -1.0f;
+            requested_action = 9;
         } else {
-            F(f32, 0x700) = 1.0f;
-            F(s16, 0xB8) = 10;
+            state_floats[1] = 1.0f;
+            requested_action = 10;
         }
-        F(s32, 0x6E0) = 0;
-        F(s32, 0x6E4) = 0;
-        F(f32, 0x6FC) = 0.0f;
-        F(f32, 0x708) = -1.0f;
-        F(f32, 0x704) = 0.0f;
-        F(s32, 0x6F4) = 0x500;
+        state_step = 0;
+        unk_6E4 = 0;
+        state_floats[0] = 0.0f;
+        state_floats[3] = -1.0f;
+        state_floats[2] = 0.0f;
+        unk_6F4 = 0x500;
         TObjBoss2Tunnel::clear_global_flag_3000();
         break;
     case 2:
-        if (F(s32, 0x6E0) == 2) {
-            ((TBoss2DeRolLe *)arg0)->set_state_and_send(2);
+        if (state_step == 2) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (F(s32, 0x6E0) == 2) {
-            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
+        if (state_step == 2) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (F(s32, 0x6E0)) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            F(f32, 0x704) += 0.2f;
-            F(f32, 0x40) -= F(f32, 0x704);
-            F(f32, 0x6FC) += 0.08f;
-            F(f32, 0x38) += F(f32, 0x6FC) * F(f32, 0x700);
-            F(f32, 0x708) += 0.1f;
-            F(f32, 0x6A4) -= F(f32, 0x708);
-            F(s32, 0x6F4) += 256.0f;
-            if ((f32)F(s32, 0x6F4) >= 16384.0f) {
-                F(s32, 0x6F4) = 0x4000;
+            state_floats[2] += 0.2f;
+            position.z -= state_floats[2];
+            state_floats[0] += 0.08f;
+            position.x += state_floats[0] * state_floats[1];
+            state_floats[3] += 0.1f;
+            height_offset -= state_floats[3];
+            unk_6F4 += 256.0f;
+            if ((f32)unk_6F4 >= 16384.0f) {
+                unk_6F4 = 0x4000;
             }
-            F(s32, 0x64) = (s32)((f32)F(s32, 0x6F4) * -F(f32, 0x700));
-            if (F(s32, 0x6E4) == 0 && F(s32, 0x6F4) >= 0x2200) {
-                F(s32, 0x6E4) = 1;
-                play_sound((void *)0x4003AD12, (saddr)(arg0 + 0x518));
+            rotation_z = (s32)((f32)unk_6F4 * -state_floats[1]);
+            if (unk_6E4 == 0 && unk_6F4 >= 0x2200) {
+                unk_6E4 = 1;
+                play_sound(0x4003AD12, &unk_518[0]);
             }
-            if (F(f32, 0x6A4) < -137.0f) {
-                F(s32, 0x6E0) = 1;
-                ((TBoss2DeRolLe *)arg0)->set_position_index(F(s32, 0x654));
-                F(f32, 0x6A4) = -137.0f;
-                F(s16, 0xB8) = 1;
-                F(f32, 0x708) = 0.0f;
-                F(s32, 0x3C0) &= ~4;
-                F(s32, 0x3C0) |= 0x100;
+            if (height_offset < -137.0f) {
+                state_step = 1;
+                set_position_index(position_index);
+                height_offset = -137.0f;
+                requested_action = 1;
+                state_floats[3] = 0.0f;
+                state_flags &= ~4;
+                state_flags |= 0x100;
             }
             break;
         case 1:
-            F(f32, 0x6A4) += 2.0f;
-            if (F(f32, 0x6A4) >= 0.0f) {
-                F(f32, 0x6A4) = 0.0f;
-                F(s32, 0x6E0) = 2;
+            height_offset += 2.0f;
+            if (height_offset >= 0.0f) {
+                height_offset = 0.0f;
+                state_step = 2;
             }
             break;
         }
         break;
     case 5:
-        F(s32, 0x3C0) &= ~4;
+        state_flags &= ~4;
         break;
     case 1:
     case 3:
@@ -4163,113 +4146,110 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
     }
 }
 
-#undef F
-#undef arg0
-
-void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
+void TBoss2DeRolLe::sub_80030A38(u32 reason) {
     Vec v;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->requested_action = 1;
-        ((TBoss2DeRolLe *)arg0)->sub_800341F0();
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) | 4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~0x100;
-        ((TBoss2DeRolLe *)arg0)->set_position_index(3);
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E8) = 0x1E;
-        *(f32 *)((s8 *)arg0 + 0x6FC) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x700) = 3.0f;
+        requested_action = 1;
+        sub_800341F0();
+        state_flags = state_flags | 4;
+        state_flags = state_flags & ~0x100;
+        set_position_index(3);
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0x1E;
+        state_floats[0] = 0.0f;
+        state_floats[1] = 3.0f;
         return;
     case 2:
-        if (*(s32 *)((s8 *)arg0 + 0x6E0) == 6) {
-            ((TBoss2DeRolLe *)arg0)->set_state_and_send(2);
+        if (state_step == 6) {
+            set_state_and_send(2);
         }
         return;
     case 9:
-        if (*(s32 *)((s8 *)arg0 + 0x6E0) == 6) {
-            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
+        if (state_step == 6) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (*(s32 *)((s8 *)arg0 + 0x6E0)) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            *(f32 *)((s8 *)arg0 + 0x6FC) += 0.2f;
-            *(f32 *)((s8 *)arg0 + 0x40) -= *(f32 *)((s8 *)arg0 + 0x6FC);
-            *(f32 *)((s8 *)arg0 + 0x700) += -0.2f;
-            *(f32 *)((s8 *)arg0 + 0x6A4) += *(f32 *)((s8 *)arg0 + 0x700);
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) < -137.0f) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 1;
-                *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
+            state_floats[0] += 0.2f;
+            position.z -= state_floats[0];
+            state_floats[1] += -0.2f;
+            height_offset += state_floats[1];
+            if (height_offset < -137.0f) {
+                state_step = 1;
+                unk_6E4 = 0;
             }
             break;
         case 1:
-            *(s32 *)((s8 *)arg0 + 0x6E4) += 1;
-            if (*(s32 *)((s8 *)arg0 + 0x6E4) >= 0x2D) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 2;
-                ((TBoss2DeRolLe *)arg0)->requested_action = 2;
-                *(f32 *)((s8 *)arg0 + 0x40) = -1200.0f;
-                ((TBoss2DeRolLe *)arg0)->rotation_z = 0x8000;
-                *(f32 *)((s8 *)arg0 + 0x6A4) = 93.0f;
+            unk_6E4 += 1;
+            if (unk_6E4 >= 0x2D) {
+                state_step = 2;
+                requested_action = 2;
+                position.z = -1200.0f;
+                rotation_z = 0x8000;
+                height_offset = 93.0f;
             }
             break;
         case 2:
-            *(s32 *)((s8 *)arg0 + 0x6E8) += 1;
-            if (*(s32 *)((s8 *)arg0 + 0x6E8) >= 0x1E) {
-                *(s32 *)((s8 *)arg0 + 0x6E8) = 0;
+            unk_6E8 += 1;
+            if (unk_6E8 >= 0x1E) {
+                unk_6E8 = 0;
             }
-            ((int (*)(int, void *, void *))spawn_trap__13TBoss2DeRolLeFPvii)(0x40039E02, arg0, arg0 + 0x518);
-            *(f32 *)((s8 *)arg0 + 0x40) += 6.0f;
-            if (*(f32 *)((s8 *)arg0 + 0x40) >= 360.0f) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 3;
-                *(f32 *)((s8 *)arg0 + 0x700) = 0.0f;
+            spawn_trap__13TBoss2DeRolLeFPvii(0x40039E02, this, &unk_518[0]);
+            position.z += 6.0f;
+            if (position.z >= 360.0f) {
+                state_step = 3;
+                state_floats[1] = 0.0f;
             }
-            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
-                VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
-                v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
-                v.z -= 100.0f * ((TObjChara *)arg0)->random_ratio();
-                v.y += 10.0f + *(f32 *)((s8 *)arg0 + 0x6A4);
+            if (random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
+                VecCopy(&v, &position);
+                v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * calc_elapsed_scaled() + v.x;
+                v.z -= 100.0f * random_ratio();
+                v.y += 10.0f + height_offset;
                 TObjBoss2CeilJunk::create(&v);
             }
             break;
         case 3:
-            ((TBoss2DeRolLe *)arg0)->play_speed -= 0.02f;
-            if (((TBoss2DeRolLe *)arg0)->play_speed < 0.0f) {
-                ((TBoss2DeRolLe *)arg0)->play_speed = 0.0f;
+            play_speed -= 0.02f;
+            if (play_speed < 0.0f) {
+                play_speed = 0.0f;
             }
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) > 0.0f) {
-                *(f32 *)((s8 *)arg0 + 0x700) += -0.1f;
-                *(f32 *)((s8 *)arg0 + 0x40) += 4.8f;
+            if (height_offset > 0.0f) {
+                state_floats[1] += -0.1f;
+                position.z += 4.8f;
             } else {
-                *(f32 *)((s8 *)arg0 + 0x40) += 1.2f;
+                position.z += 1.2f;
             }
-            *(f32 *)((s8 *)arg0 + 0x6A4) += *(f32 *)((s8 *)arg0 + 0x700);
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) < -137.0f) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 4;
-                *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
-                ((int (*)(int, void *))play_sound)(0x4003AD12, arg0 + 0x518);
+            height_offset += state_floats[1];
+            if (height_offset < -137.0f) {
+                state_step = 4;
+                unk_6E4 = 0;
+                play_sound(0x4003AD12, &unk_518[0]);
             }
             break;
         case 4:
-            *(s32 *)((s8 *)arg0 + 0x6E4) += 1;
-            if (*(s32 *)((s8 *)arg0 + 0x6E4) >= 0x2D) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 5;
-                ((TBoss2DeRolLe *)arg0)->requested_action = 1;
-                *(s32 *)((s8 *)arg0 + 0x654) = 1;
-                ((TBoss2DeRolLe *)arg0)->set_position_index(*(s32 *)((s8 *)arg0 + 0x654));
-                ((TBoss2DeRolLe *)arg0)->rotation_z = 0;
-                *(f32 *)((s8 *)arg0 + 0x6A4) = -137.0f;
+            unk_6E4 += 1;
+            if (unk_6E4 >= 0x2D) {
+                state_step = 5;
+                requested_action = 1;
+                position_index = 1;
+                set_position_index(position_index);
+                rotation_z = 0;
+                height_offset = -137.0f;
                 TObjBoss2Tunnel::set_global_flag_400();
             }
             break;
         case 5:
-            *(f32 *)((s8 *)arg0 + 0x6A4) += 0.9f;
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) >= 0.0f) {
-                *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 6;
+            height_offset += 0.9f;
+            if (height_offset >= 0.0f) {
+                height_offset = 0.0f;
+                state_step = 6;
             }
             break;
         }
@@ -4280,10 +4260,6 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
 }
 
 #pragma pop
-
-}
-
-}
 
 void TBoss2DeRolLe::state_photon_pads(u32 reason, s32 position) {
     s32 i;
@@ -4296,9 +4272,9 @@ void TBoss2DeRolLe::state_photon_pads(u32 reason, s32 position) {
         state_flags = state_flags & ~0x100;
         position_index = position;
         set_position_index(position_index);
-        unk_6E0 = 0;
+        state_step = 0;
         unk_6E4 = 0;
-        unk_6FC[0] = -1000.0f;
+        state_floats[0] = -1000.0f;
         photon_pad_level = photon_pad_level + 1;
         if (photon_pad_level >= 3) {
             photon_pad_level = 0;
@@ -4321,19 +4297,19 @@ void TBoss2DeRolLe::state_photon_pads(u32 reason, s32 position) {
         switch (unk_6E4) {
         case 0:
             if (!(motion_flags & 4)) {
-                spawn_photon_pad(unk_6E0, photon_pad_level);
+                spawn_photon_pad(state_step, photon_pad_level);
                 unk_6E4 = 1;
                 return;
             }
             break;
         case 1:
-            i = unk_6E0;
+            i = state_step;
             if (joint_positions[i].y < joint_positions[i + 1].y) {
-                unk_6E0 = i + 1;
-                if ((f32)unk_6E0 >= 4.0f) {
+                state_step = i + 1;
+                if ((f32)state_step >= 4.0f) {
                     unk_6E4 = 2;
                 }
-                spawn_photon_pad(unk_6E0, photon_pad_level);
+                spawn_photon_pad(state_step, photon_pad_level);
             }
             break;
         }
@@ -4404,7 +4380,7 @@ void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
         requested_action = 0xC;
         position_index = 3;
         set_position_index(position_index);
-        unk_6E0 = 0;
+        state_step = 0;
         unk_6DC = 0;
         return;
     case 2:
@@ -4420,10 +4396,10 @@ void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
         break;
     case 0:
         advance_animation();
-        unk_6E0 = unk_6E0 + 1;
+        state_step = state_step + 1;
         frame_now = frame;
-        if (frame_now >= 10.0f && frame_now <= 14.0f && (f32)unk_6E0 >= 3.0f) {
-            unk_6E0 = 0;
+        if (frame_now >= 10.0f && frame_now <= 14.0f && (f32)state_step >= 3.0f) {
+            state_step = 0;
             VecCopy(&v, &position);
             v.x = 30.0f * calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
@@ -4623,7 +4599,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                     TObjEneDD::setup_instance((saddr)self, (saddr)hit, (u8 *)&r, self->f6C8);
                 }
             }
-            ((int (*)(int, void *, void *))spawn_trap__13TBoss2DeRolLeFPvii)(0x4003B00A, self, hit);
+            spawn_trap__13TBoss2DeRolLeFPvii(0x4003B00A, self, hit);
             if (self->speed >= 500.0f) {
                 self->speed = 500.0f;
                 self->phase = 3;
@@ -4711,7 +4687,7 @@ void TBoss2DeRolLe::sub_8002FCE4(u32 reason) {
         state_flags = state_flags & 0xFFFFFEFF;
         sub_80034258();
         rotation_x = 0;
-        unk_6A4 = 0.0f;
+        height_offset = 0.0f;
         return;
     case 9:
         if (requested_action == 1) {
@@ -4719,13 +4695,13 @@ void TBoss2DeRolLe::sub_8002FCE4(u32 reason) {
         }
         break;
     case 8:
-        if (unk_6A4 < -200.0f) {
+        if (height_offset < -200.0f) {
             set_state_and_send(0x1F);
             return;
         }
         break;
     case 0:
-        unk_6A4 = unk_6A4 - 2.0f;
+        height_offset = height_offset - 2.0f;
         break;
     case 1:
         return;

@@ -107,6 +107,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void update_projectile_spawns();
     void sub_800338BC();
     void update_pulsing_colors();
+    void sub_80030DFC(u32 reason, s32 side);
+    void set_move_direction(s32 side);
+    void sub_800310F8(u32 reason, s32 side);
+    void sub_80030A38(u32 reason);
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -135,7 +139,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 unk_660;
     TUnk_80036250 unk_664;
     TUnk_80036250 unk_684;
-    f32 unk_6A4;
+    f32 height_offset;                 // body height the render matrix is translated by (render)
     s32 unk_6A8;
     s32 unk_6AC;
     s32 unk_6B0;
@@ -148,14 +152,14 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     f32 pulse_phase;                   // 0..2, advanced by pulse_speed (advance_phase_wrap)
     f32 pulse_speed;
     s32 unk_6DC;
-    s32 unk_6E0;
+    s32 state_step;                    // the running state's step (every state handler switches on it)
     s32 unk_6E4;
     s32 unk_6E8;
     s32 unk_6EC;
     s32 unk_6F0;
     s32 unk_6F4;
     s32 unk_6F8;
-    f32 unk_6FC[16];
+    f32 state_floats[16];              // per-state scratch: each state handler gives them its own meaning
     TParticleCtrl *unk_73C;
     TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
     s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
@@ -165,9 +169,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 void TBoss2DeRolLe__sub_8002FE60(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_80030A38(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_80030DFC(TBoss2DeRolLe *self, u32 reason, s32 arg2);
-void TBoss2DeRolLe__sub_800310F8(TBoss2DeRolLe *self, u32 reason, s32 arg2);
 void TBoss2DeRolLe__sub_800313F8(TBoss2DeRolLe *self, u32 reason, s32 arg2);
 void TBoss2DeRolLe__sub_80031AD4(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800320B4(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
@@ -197,9 +198,8 @@ s32 play_sound(s32 id, Vec *position);
 void render__13TBoss2DeRolLeFv(u8 *arg0);
 void render_body__13TBoss2DeRolLeFv(u8 *arg0);
 void send_6x13__13TBoss2DeRolLeFPv(void *p);
-void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
 void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-int spawn_trap__13TBoss2DeRolLeFPvii(void *p, int a1, int a2);
+int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos);
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
 void swap_endian__13TBoss2DeRolLeFPv(void *p);
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
