@@ -2102,11 +2102,11 @@ s8 TLobby__sub_801D6DDC(s32 *);
 u8 TLobby__sub_801D6F94(s32 *);
 u8 TLobby__sub_801D6FFC(s32 *);
 u8 TLobby__sub_801D7100(s32 *);
-u8 fn_801D7134(s32 *);
-u8 fn_801D7168(s32 *);
-u8 fn_801D719C(s32 *);
-u8 fn_801D71D0(s32 *);
-u8 fn_801D7204(s32 *);
+u8 get_rule_field_5__6TLobbyFv(s32 *);
+u8 get_rule_field_4__6TLobbyFv(s32 *);
+u8 get_rule_field_3__6TLobbyFv(s32 *);
+u8 get_rule_field_2__6TLobbyFv(s32 *);
+u8 get_rule_field_1__6TLobbyFv(s32 *);
 u8 * TObjPlayer__sub_801D8DCC();
 s32 TObjPlayer__sub_801D91B8(void *, void *);
 s32 get_current_state_field__10TObjPlayerFScl(s32, s32);
@@ -5889,7 +5889,7 @@ s32 TObjPlayer::can_use_camera_field() {
 
 s32 TObjPlayer::can_use_item(void *arg1) {
     uaddr p;
-    if (TTecCtrl::is_technique_ready() != 0 && ((u8 (*)(void *))fn_801D7168)(lobby_rule_settings) == 2) {
+    if (TTecCtrl::is_technique_ready() != 0 && ((u8 (*)(void *))get_rule_field_4__6TLobbyFv)(lobby_rule_settings) == 2) {
         return 0;
     }
     switch (((TItem *)arg1)->get_item_type()) {
@@ -7092,7 +7092,7 @@ void TLobby::apply_battle_rules_to_players() {
         } else {
             return;
         }
-        switch (fn_801D71D0(q)) {
+        switch (get_rule_field_2__6TLobbyFv(q)) {
         case 1:
         case 2:
         case 3:
@@ -7100,7 +7100,7 @@ void TLobby::apply_battle_rules_to_players() {
             ((TLobby *)(p->fD00))->set_globals_and_update((saddr)p, 1);
             break;
         }
-        switch (fn_801D719C(q)) {
+        switch (get_rule_field_3__6TLobbyFv(q)) {
         case 1:
             ((TLobby *)(p->fD00))->set_globals_and_update((saddr)p, 2);
             break;
@@ -7108,13 +7108,13 @@ void TLobby::apply_battle_rules_to_players() {
         if ((j = get_item_field_6__10TObjPlayerFPv(p)) != 0 && ((TItem *)j)->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
             ((void (*)(Pl_801B0B88 *, s32))unequip_item__10TObjPlayerFiPv)(p, j);
         }
-        switch (fn_801D7168(q)) {
+        switch (get_rule_field_4__6TLobbyFv(q)) {
         case 1:
         case 2:
             ((TLobby *)(p->fD00))->set_globals_and_update((saddr)p, 3);
             break;
         }
-        if (fn_801D7134(q) == 1) {
+        if (get_rule_field_5__6TLobbyFv(q) == 1) {
             for (j = 0; j < 4; j++) {
                 TObjPlayer__sub_801C5780(p->f7C4, get_validated_array_value(q, j), j);
             }
@@ -7132,7 +7132,7 @@ void TLobby::apply_battle_rules_to_players() {
             break;
         }
         lv = TLobby__sub_801D6DDC(q);
-        switch (fn_801D7204(q)) {
+        switch (get_rule_field_1__6TLobbyFv(q)) {
         case 1:
             ((TObjPlayer *)(p->f428))->copy_all_technique_entries((void *)0xFF);
             ((TObjPlayer *)(p->f428))->set_all_technique_levels((void *)0xFF);
@@ -7170,7 +7170,7 @@ void TLobby::apply_battle_rules_to_players() {
 s32 check_switch_available__6TLobbyFPvi(void *arg0, s32 key) {
     uaddr owner;
     if (TTecCtrl::is_technique_ready() != 0) {
-        if (fn_801D71D0(((s32 *)&lobby_rule_settings)) == 2) {
+        if (get_rule_field_2__6TLobbyFv(((s32 *)&lobby_rule_settings)) == 2) {
             void *node_7213 = ((TPlyItem *)(*(s32 *)((s8 *)arg0 + 0xD00)))->start_inventory_update(key);
             if (node_7213 == 0U) {
                 return 0;
@@ -7185,7 +7185,7 @@ s32 check_switch_available__6TLobbyFPvi(void *arg0, s32 key) {
             goto block_8;
         }
 block_8:
-        if (fn_801D719C(((s32 *)&lobby_rule_settings)) == 1) {
+        if (get_rule_field_3__6TLobbyFv(((s32 *)&lobby_rule_settings)) == 1) {
             void *node_7226 = ((TPlyItem *)(*(s32 *)((s8 *)arg0 + 0xD00)))->start_inventory_update(key);
             if (node_7226 == 0U) {
                 return 0;

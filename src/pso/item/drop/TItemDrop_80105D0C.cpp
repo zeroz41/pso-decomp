@@ -39,10 +39,10 @@ const char *item_drop_class_name = "TItemDrop";
 u8 TItemDrop__sub_80107B04(void *);
 u8 TLobby__sub_801D6F94(void *);
 u8 TLobby__sub_801D6FFC(void *);
-u8 fn_801D7168(void *);
-u8 fn_801D719C(void *);
-u8 fn_801D71D0(void *);
-u8 fn_801D7204(void *);
+u8 get_rule_field_4__6TLobbyFv(void *);
+u8 get_rule_field_3__6TLobbyFv(void *);
+u8 get_rule_field_2__6TLobbyFv(void *);
+u8 get_rule_field_1__6TLobbyFv(void *);
 extern s32 lobby_rule_settings[];
 void apply_drop_restrictions(void *arg0, Item_80105EA4 *it);
 extern s32 game_difficulty_selection;
@@ -131,7 +131,7 @@ void apply_drop_restrictions(void *arg0, Item_80105EA4 *it) {
         return;
     }
     if (it->type == 0 || it->type == 1) {
-        switch (fn_801D71D0(p)) {
+        switch (get_rule_field_2__6TLobbyFv(p)) {
         case 2:
             ((TItemData *)it)->init();
             return;
@@ -143,14 +143,14 @@ void apply_drop_restrictions(void *arg0, Item_80105EA4 *it) {
         }
     }
     if (it->type == 2) {
-        if (fn_801D719C(p) == 1) {
+        if (get_rule_field_3__6TLobbyFv(p) == 1) {
             ((TItemData *)it)->init();
         }
     } else if (it->type == 3) {
-        if (fn_801D7168(p) == 2) {
+        if (get_rule_field_4__6TLobbyFv(p) == 2) {
             ((TItemData *)it)->init();
         } else if (it->b1 == 2) {
-            switch (fn_801D7204(p)) {
+            switch (get_rule_field_1__6TLobbyFv(p)) {
             case 0:
                 return;
             case 1:
