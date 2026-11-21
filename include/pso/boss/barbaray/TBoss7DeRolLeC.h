@@ -143,13 +143,13 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u8 pad_38E[0x2];
     TObjChara *target;            // TObjEneDD_ST's target (enemy_clear_target clears it)
     u8 pad_394[0x2C];
-    CollisionBody unk_3C0;        // copy of lbl_80473C3C, the body's collision sphere
+    CollisionBody unk_3C0;        // copy of boss7_derolle_c_collision_body, the body's collision sphere
     Vec unk_3EC[20];
     Vec unk_4DC[4];
     Vec unk_50C[3];               // effect source passed to TObjFish::set_effect_target_position
     Vec joint_positions[10];      // one per TBoss7Joint in joints (field names from the TBoss2DeRolLe twin)
-    s16 *joint_polygons[10];      // polygon lists of the lbl_804739AC nodes, saved by the ctor
-    s16 *shell_polygons[10];      // polygon lists of the lbl_804739D4 nodes
+    s16 *joint_polygons[10];      // polygon lists of the boss7_derolle_c_joint_node_ids nodes, saved by the ctor
+    s16 *shell_polygons[10];      // polygon lists of the boss7_derolle_c_shell_node_ids nodes
     TBoss7Joint *joints[10];
     TBoss7DeRolLeCParams *unk_620; // TLobby::dispatch_shared_handler_a(15)
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1], read by handle_debug_pad_input
@@ -161,11 +161,11 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TObject part_group;           // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
     s32 unk_6AC;
     s32 unk_6B0;
-    s32 action_index;             // step in lbl_804E3C2C[difficulty][], advanced by advance_action_sequence
+    s32 action_index;             // step in boss7_derolle_c_difficulty_actions[difficulty][], advanced by advance_action_sequence
     s32 unk_6B8;
     s32 unk_6BC;
-    s32 position_slot;            // the lbl_80472D04 point the body is at or leaves (inferred name)
-    s32 next_position_slot;       // the lbl_80472D04 point it moves to (sub_802EB270)
+    s32 position_slot;            // the boss7_derolle_c_position_points point the body is at or leaves (inferred name)
+    s32 next_position_slot;       // the boss7_derolle_c_position_points point it moves to (sub_802EB270)
     s32 unk_6C8;
     s32 unk_6CC;
     s32 unk_6D0;
