@@ -79,7 +79,7 @@ s32 free_collision_body_parts(void *);
 saddr init_collision_body_parts(void *, void *, int);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, void *);
+s32 rotate_matrix_x(void *, s32);
 s32 push_matrix();
 s32 scale_current_matrix(void *, f32, f32, f32);
 s32 post_translate_matrix(void *);
@@ -1285,7 +1285,7 @@ void TObjEneDelDepthBomb::render() {
     translate_matrix(0, position.x, lbl_805DF250 + groundHeight, position.z);
     direction_to_rotation_xz((u8 *)&ground_normal, &rotationX, &rotationZ);
     rotate_matrix_z(0, rotationZ);
-    rotate_matrix_x(0, (void *)(rotationX + 0x4000));
+    rotate_matrix_x(0, rotationX + 0x4000);
     f32 height = position.y - groundHeight;
     if (height > lbl_805DF254) {
         height = lbl_805DF254;

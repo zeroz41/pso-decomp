@@ -128,7 +128,7 @@ s32 get_current_floor();
 saddr get_enemy_entity();
 void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
-uaddr get_player_by_client_id(void *);
+uaddr get_player_by_client_id(s32);
 s32 minimap_render_dot(void *, int, int, int);
 void TObjEneGibbles__sub_802D7DAC(saddr arg0);
 s32 TObjEneGibbles__sub_802D9644(void *, s32, f32);
@@ -662,7 +662,7 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
     s16 t;
     s16 u;
     uaddr r;
-    if ((get_main_phase() == 0xF || is_split_screen() == 0) && (r = get_player_by_client_id((void *)local_client_id)) != 0) {
+    if ((get_main_phase() == 0xF || is_split_screen() == 0) && (r = get_player_by_client_id(local_client_id)) != 0) {
         t = (s32)((TObjBase *)r)->get_room();
         u = (s32)((TObjBase *)arg0)->get_room();
         if (u == t) {
@@ -996,7 +996,7 @@ void TObjEneGibbles::vfunc_62() {
             }
         } else {
             Vec v;
-            uaddr pl = get_player_by_client_id((void *)this->m_2d4);
+            uaddr pl = get_player_by_client_id(this->m_2d4);
             if (pl != 0) {
                 VecCopy(&v, (const Vec *)(pl + 0x2FC));
                 subtract_vector(&v, (u8 *)this + 0x2FC);
@@ -1131,7 +1131,7 @@ inline void to_idle_802D8984(Gib_802D8984 *o) {
 void TObjEneGibbles::sub_802D8984() {
     Gib_802D8984 *o = (Gib_802D8984 *)this;
     if (o->idx < 0x1000) {
-        Gib_802D8984 *p = (Gib_802D8984 *)get_player_by_client_id((void *)o->idx);
+        Gib_802D8984 *p = (Gib_802D8984 *)get_player_by_client_id(o->idx);
         if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             o->target = p;
         } else {
@@ -1252,7 +1252,7 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
     u16 id;
     id = F_802D(0x338, u16);
     if (id < 0x1000) {
-        p = get_player_by_client_id((void *)id);
+        p = get_player_by_client_id(id);
         if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             F_802D(0x2A8, u32) = p;
         } else {
@@ -1349,7 +1349,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
     self->flags30 &= 0xF9FBFFFF;
     u16 id = self->targetId;
     if (id < 0x1000) {
-        uaddr p = get_player_by_client_id((void *)id);
+        uaddr p = get_player_by_client_id(id);
         if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             self->target = (Gib_802D9110 *)p;
         } else {

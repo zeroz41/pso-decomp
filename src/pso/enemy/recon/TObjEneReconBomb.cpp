@@ -103,7 +103,7 @@ extern s32 lbl_805D5868;
 saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, void *);
+s32 rotate_matrix_x(void *, s32);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
@@ -160,7 +160,7 @@ void TObjEneReconBomb::render() {
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((0.1f) + this->m_348), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
     direction_to_rotation_xz(((u8 *)&this->ground_normal), (&spC), (&sp8));
     rotate_matrix_z(0, sp8);
-    rotate_matrix_x(0, (void *)(spC + 0x4000));
+    rotate_matrix_x(0, spC + 0x4000);
     var_f1 = *(f32 *)((s8 *)arg0 + 0x3C) - this->m_348;
     if (var_f1 > 40.0f) {
         var_f1 = 40.0f;
