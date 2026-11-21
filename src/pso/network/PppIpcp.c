@@ -113,7 +113,7 @@ void TLobby__sub_803FF48C(P_803FF48C *);
 extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg);
 extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg);
 extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits);
-extern PppFrame *TLobby__sub_80400174(void *self);
+extern PppFrame *build_ipcp_config_request(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
     const IpcpOptions *src = &lbl_8047FE18;
     u8 *o = (u8 *)&lbl_805C0328;
@@ -135,7 +135,7 @@ void TLobby__sub_803FEF4C(u8 *self) {
     *(void **)(o + 0x1c) = (void *)TLobby__sub_803FF384;
     *(void **)(o + 0x20) = (void *)free_field_98_and_clear;
     *(void **)(o + 0x24) = (void *)TLobby__sub_803FF468;
-    *(void **)(o + 0x28) = (void *)TLobby__sub_80400174;
+    *(void **)(o + 0x28) = (void *)build_ipcp_config_request;
     *(void **)(o + 0x2c) = (void *)TLobby__sub_803FF9A4;
     *(void **)(o + 0x30) = (void *)TLobby__sub_803FF858;
     *(void **)(o + 0x34) = (void *)TLobby__sub_803FF698;
@@ -397,7 +397,7 @@ inline uaddr first_803FA664(Sub_803FF858 *s) {
     if (t == 0) {
         return v;
     }
-    TLobby__sub_80400270(&t, &s->h1C, s->h1C);
+    append_masked_ipcp_options(&t, &s->h1C, s->h1C);
     v = t;
     return v;
 }
@@ -448,7 +448,7 @@ extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
     s16 k;
     s16 res;
     s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
-    void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
+    void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
     base = (IpcpConfig *)self->opts;
     n = src->len;
     k = 2;
@@ -474,7 +474,7 @@ extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
             sh = (hdr[0] < 8) ? hdr[0] : (((new_var = hdr[0]) >= 0x80 && new_var < 0x90) ? new_var - 0x78 : 0);
             base->peer.got.flags |= 1 << sh;
         }
-        TLobby__sub_80400338((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
+        append_ipcp_option((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
         if (res > 3) {
             ppp_fsm_send_packet(self, k, src->id, buf);
         }
@@ -675,8 +675,8 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
 }
 #pragma pop
 
-void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
-extern PppFrame *TLobby__sub_80400174(void *self) {
+void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
+extern PppFrame *build_ipcp_config_request(void *self) {
     PppFrame *blk;
     s16 i;
     s16 flags;
@@ -699,7 +699,7 @@ extern PppFrame *TLobby__sub_80400174(void *self) {
     p = lbl_8047FE3C + 1;
     for (i = 1; i < 0x20; i++) {
         if (flags & (1 << i)) {
-            TLobby__sub_80400338(&blk, &base->local.got, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *p, 0);
+            append_ipcp_option(&blk, &base->local.got, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *p, 0);
         }
         p++;
     }
@@ -720,7 +720,7 @@ inline s32 optnum_80400270(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask) {
+void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask) {
     s16 new_var;
     s16 i;
     s32 m;
@@ -733,12 +733,12 @@ void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask) {
     m = (new_var = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
-            TLobby__sub_80400338((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
+            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
         }
     }
 }
 #pragma pop
-void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src) {
+void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src) {
     PppFrame *buf;
     s16 n;
     u8 *p;

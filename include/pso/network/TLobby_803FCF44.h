@@ -130,7 +130,7 @@ s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
 void setup_auth_after_lcp_negotiation(Conn_804004DC *c);
 s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
-void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask);
+void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask);
 s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, struct PppHeader *arg1, uaddr arg2);
 s16 TLobby__sub_803FD5A4(s16 h, s16 v);
 s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3);
