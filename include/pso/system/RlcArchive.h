@@ -44,10 +44,10 @@ public:
 
     RlcArchive();
     virtual ~RlcArchive();
-    s32 fn_802A5C3C();
-    void fn_802A5C7C();
-    void fn_802A5CB8();
-    void fn_802A5CC4(saddr file);
+    s32 snapshot_chunk_count_or_fail();
+    void rlc_set_directory_cursor();
+    void rlc_set_header_pointer();
+    void store_capture_filename(saddr file);
     void free_buffer();
     s32 alloc_buffer();
     s32 open_stream(saddr file);
@@ -57,7 +57,7 @@ public:
     s32 start_capture(saddr file);
     void set_mode(s32 v);
     s32 get_buffer_size();
-    s32 fn_802A605C();
+    s32 has_resource_size();
     saddr get_size();
     saddr get_field_8();
 };

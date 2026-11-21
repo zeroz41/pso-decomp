@@ -5,8 +5,8 @@
 
 // --- C functions defined in TWindowSnapShot_802A5B2C.cpp ---
 extern "C" {
-void fn_802A6070(void *p, s32 v);
-void fn_802A6078(void *p, s32 v);
+void set_slot_size(void *p, s32 v);
+void set_slot_offset(void *p, s32 v);
 }
 // --- end of C functions
 

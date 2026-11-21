@@ -36,8 +36,8 @@ extern "C" {
 void TLobby__sub_802A7BC8(void* p);
 extern uaddr snapshot_image_buffer;
 void TLobby__sub_802A7BD8(void);
-void fn_802A6070(void *p, s32 v);
-void fn_802A6078(void *p, s32 v);
+void set_slot_size(void *p, s32 v);
+void set_slot_offset(void *p, s32 v);
 extern s32 lbl_805D669C;
 void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
@@ -138,7 +138,7 @@ void TLobby__sub_802A7BD8(void) {
 extern s32 snapshot_buffer_size;
 s32 copy_if_space(void);
 s32 copy_if_space(void) {
-    if (shared_snapshot_capture->fn_802A5C3C() >= 0x258) {
+    if (shared_snapshot_capture->snapshot_chunk_count_or_fail() >= 0x258) {
         return 0;
     }
     memcpy((void *)snapshot_image_buffer, (const void *)shared_snapshot_capture->get_size(), snapshot_buffer_size);
@@ -171,8 +171,8 @@ void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1) {
     temp_r31 = ((RlcHeader *)(*(saddr *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
     temp_r31 = temp_r31 + arg0 * 8;
-    fn_802A6078((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());
-    fn_802A6070((void *)arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
+    set_slot_offset((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());
+    set_slot_size((void *)arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
 }
 void TLobby::send_type2_event(s32 arg0, s32 arg1, s32 arg2) {
     aram_dma_blocking__6TLobbyFllll(2, arg0, arg1, arg2, arg0);
