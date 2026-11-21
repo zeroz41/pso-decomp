@@ -574,32 +574,6 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
-struct DR_800327C8 {
-    u8 pad0[0x38];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0xB8 - 0x44];
-    s16 fB8;
-    u8 padBA[0x3C0 - 0xBA];
-    u32 flags;
-    u8 pad3C4[0x654 - 0x3C4];
-    s32 mode;
-    s32 sub;
-    u8 pad65C[0x67C - 0x65C];
-    f32 ampX;
-    u8 pad680[0x69C - 0x680];
-    f32 ampZ;
-    u8 pad6A0[0x6E0 - 0x6A0];
-    s32 done;
-    s32 kind;
-    u8 pad6E8[0x6FC - 0x6E8];
-    f32 baseX;
-    f32 baseZ;
-    f32 scaleX;
-    f32 scaleZ;
-};
-
 struct VBase_18_8002F7C4 { char pad[0x18]; };
 
 struct VObj_18_8002F7C4 : VBase_18_8002F7C4 {
@@ -882,7 +856,6 @@ extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
 
 
-void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
 
 void assign_slots_from_list(void *, saddr);
 
@@ -951,7 +924,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 void TBoss2DeRolLe__sub_80031AD4(void *, void *);
 
-void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *, void *);
 
 void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
 
@@ -1054,8 +1026,6 @@ s32 advance_scalar_motion_profile(void *);
 int play_sound(void* p, int a1);
 
 }
-
-struct Pad_80032B28 { u8 pad[8]; u32 buttons; };
 
 extern int fold_flush_1;
 
@@ -1726,11 +1696,11 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         fin = (TBoss2Fin *)p;
     }
     position_index = 0;
-    unk_658 = 0;
+    next_position_index = 0;
     unk_65C = 0;
     unk_660 = 0;
-    unk_664.init_float_block();
-    unk_684.init_float_block();
+    motion_x.init_float_block();
+    motion_z.init_float_block();
     height_offset = 0.0f;
     unk_6A8 = unk_6AC = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x18);
     unk_6B0 = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x20);
@@ -2237,23 +2207,23 @@ void TBoss2DeRolLe::update_angle() {
 
 void TBoss2DeRolLe::init_head_params() {
     unk_65C = 0;
-    unk_664.init_params(3.0f, fabs_float(-position.x), 0.08f);
-    unk_684.init_params(5.0f, fabs_float(500.0f - position.z), 0.08f);
+    motion_x.init_params(3.0f, fabs_float(-position.x), 0.08f);
+    motion_z.init_params(5.0f, fabs_float(500.0f - position.z), 0.08f);
 }
 
 #pragma push
 #pragma opt_common_subs off
 
 s32 TBoss2DeRolLe::update_phase_is_done() {
-    advance_scalar_motion_profile(&unk_684);
+    advance_scalar_motion_profile(&motion_z);
     switch (unk_65C) {
     case 0:
-        if (unk_684.travelled > 380.0f) {
+        if (motion_z.travelled > 380.0f) {
             unk_65C = 1;
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(&unk_664) == 3) {
+        if (advance_scalar_motion_profile(&motion_x) == 3) {
             unk_65C = 2;
         }
         break;
@@ -2269,15 +2239,15 @@ s32 TBoss2DeRolLe::update_phase_is_done() {
 
 void TBoss2DeRolLe::init_movement() {
     unk_660 = 0;
-    unk_664.init_params(3.0f, fabs_float(-175.0f - position.x), 0.08f);
-    unk_684.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
+    motion_x.init_params(3.0f, fabs_float(-175.0f - position.x), 0.08f);
+    motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
 }
 
 s32 TBoss2DeRolLe::sub_80034800() {
-    advance_scalar_motion_profile(&unk_664);
+    advance_scalar_motion_profile(&motion_x);
     switch (unk_660) {
     case 0:
-        if (unk_664.travelled > 160.0f) {
+        if (motion_x.travelled > 160.0f) {
             unk_660 = 2;
         }
         break;
@@ -2286,10 +2256,10 @@ s32 TBoss2DeRolLe::sub_80034800() {
         unk_660 = 3;
         break;
     case 3:
-        if (advance_scalar_motion_profile(&unk_684) == 3) {
+        if (advance_scalar_motion_profile(&motion_z) == 3) {
             unk_660 = 4;
         }
-        if (unk_684.travelled > 200.0f) {
+        if (motion_z.travelled > 200.0f) {
             play_speed += 0.1f;
             if (play_speed > 0.9f) {
                 play_speed = 0.9f;
@@ -2302,27 +2272,27 @@ s32 TBoss2DeRolLe::sub_80034800() {
 
 void TBoss2DeRolLe::init_move_params() {
     unk_65C = 0;
-    unk_664.init_params(3.0f, fabs_float(-position.x), 0.08f);
-    unk_684.set_move_params(7.0f, fabs_float(-250.0f - position.z), 0.2f, 0.05f);
+    motion_x.init_params(3.0f, fabs_float(-position.x), 0.08f);
+    motion_z.set_move_params(7.0f, fabs_float(-250.0f - position.z), 0.2f, 0.05f);
 }
 
 s32 TBoss2DeRolLe::update_state() {
 
-    advance_scalar_motion_profile(&unk_684);
+    advance_scalar_motion_profile(&motion_z);
     switch (unk_65C) {
     case 0:
         play_speed = 0.3f;
-        if (unk_684.travelled > 100.0f) {
+        if (motion_z.travelled > 100.0f) {
             unk_65C = 1;
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(&unk_664) == 3) {
+        if (advance_scalar_motion_profile(&motion_x) == 3) {
             unk_65C = 2;
         }
         break;
     }
-    if (unk_684.travelled > 100.0f) {
+    if (motion_z.travelled > 100.0f) {
         play_speed = 0.9f;
     }
     return unk_65C == 2;
@@ -2330,29 +2300,29 @@ s32 TBoss2DeRolLe::update_state() {
 
 void TBoss2DeRolLe::init_wave_params() {
     unk_660 = 1;
-    unk_664.init_params(3.0f, fabs_float(-175.0f - position.x), 0.08f);
-    unk_684.init_params(5.0f, fabs_float(25.0f - position.z), 0.08f);
+    motion_x.init_params(3.0f, fabs_float(-175.0f - position.x), 0.08f);
+    motion_z.init_params(5.0f, fabs_float(25.0f - position.z), 0.08f);
 }
 
 s32 TBoss2DeRolLe::sub_80034574() {
     f32 speed;
-    advance_scalar_motion_profile(&unk_664);
+    advance_scalar_motion_profile(&motion_x);
     switch (unk_660) {
     case 2:
         break;
     case 1:
-        speed = unk_684.speed - 0.1f;
+        speed = motion_z.speed - 0.1f;
         if (speed < -4.0f) {
             speed = -4.0f;
         }
-        unk_684.speed = speed;
-        unk_684.travelled = unk_684.travelled + speed;
-        if (unk_664.travelled > 30.0f) {
+        motion_z.speed = speed;
+        motion_z.travelled = motion_z.travelled + speed;
+        if (motion_x.travelled > 30.0f) {
             unk_660 = 3;
         }
         break;
     case 3:
-        if (advance_scalar_motion_profile(&unk_684) == 3) {
+        if (advance_scalar_motion_profile(&motion_z) == 3) {
             unk_660 = 4;
         }
         break;
@@ -2574,7 +2544,7 @@ void TBoss2DeRolLe::advance_action_sequence() {
             }
             break;
         case 34:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 5;
             } else {
                 mode = 9;
@@ -2588,7 +2558,7 @@ void TBoss2DeRolLe::advance_action_sequence() {
             }
             break;
         case 36:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 3;
             } else {
                 mode = 0xB;
@@ -2602,35 +2572,35 @@ void TBoss2DeRolLe::advance_action_sequence() {
             }
             break;
         case 39:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 4;
             } else {
                 mode = 0xA;
             }
             break;
         case 40:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 0x10;
             } else {
                 mode = 0x11;
             }
             break;
         case 41:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 0x12;
             } else {
                 mode = 0x13;
             }
             break;
         case 42:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 0x14;
             } else {
                 mode = 0x15;
             }
             break;
         case 43:
-            if (unk_658 == 0) {
+            if (next_position_index == 0) {
                 mode = 0x16;
             } else {
                 mode = 0x17;
@@ -2861,40 +2831,40 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         TBoss2DeRolLe__sub_80032E38(this, reason);
         return;
     case 2:
-        handle_debug_pad_input__13TBoss2DeRolLeFPvPv(this, reason);
+        handle_debug_pad_input(reason);
         return;
     case 3:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 0, 1);
+        sub_800327C8(reason, 0, 1);
         return;
     case 4:
         TBoss2DeRolLe__sub_800320B4(this, reason, 0, 2);
         return;
     case 5:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 0, 3);
+        sub_800327C8(reason, 0, 3);
         return;
     case 6:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 1, 2);
+        sub_800327C8(reason, 1, 2);
         return;
     case 8:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 1, 0);
+        sub_800327C8(reason, 1, 0);
         return;
     case 9:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 2, 3);
+        sub_800327C8(reason, 2, 3);
         return;
     case 10:
         TBoss2DeRolLe__sub_800320B4(this, reason, 2, 0);
         return;
     case 11:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 2, 1);
+        sub_800327C8(reason, 2, 1);
         return;
     case 12:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 3, 0);
+        sub_800327C8(reason, 3, 0);
         return;
     case 13:
         TBoss2DeRolLe__sub_80031AD4(this, reason);
         return;
     case 14:
-        TBoss2DeRolLe__sub_800327C8(this, reason, 3, 2);
+        sub_800327C8(reason, 3, 2);
         return;
     case 18:
         TBoss2DeRolLe__sub_800313F8(this, reason, 0);
@@ -3136,86 +3106,89 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
 #pragma pop
 
 #undef o
-#define arg0 ((u8 *)arg0_)
+#undef arg0
 
-void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
-    u32 arg1 = (uaddr)arg1_;
+}
+
+}
+
+void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     u32 b;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->requested_action = 1;
-        ((TBoss2DeRolLe *)arg0)->sub_800341F0();
-        *(s32 *)((s8 *)arg0 + 0x3C0) &= ~4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) |= 0x100;
-        *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
-        ((TBoss2DeRolLe *)arg0)->rotation_z = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E4) = 1;
-        *(s32 *)((s8 *)arg0 + 0x6E8) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
+        requested_action = 1;
+        sub_800341F0();
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        height_offset = 0.0f;
+        rotation_z = 0;
+        unk_6E4 = 1;
+        unk_6E8 = 0;
+        state_step = 0;
         break;
     case 2:
-        switch (*(s32 *)((s8 *)arg0 + 0x654)) {
+        switch (position_index) {
         case 0:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x10) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(3);
+                set_state_and_send(3);
             } else if (b & 0x40) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(4);
+                set_state_and_send(4);
             } else if (b & 0x20) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(5);
+                set_state_and_send(5);
             } else if (b & 0x400) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x12);
+                set_state_and_send(0x12);
             } else if (b & 4) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x10);
+                set_state_and_send(0x10);
             } else if (b & 2) {
-                *(f32 *)((s8 *)arg0 + 0x40) = -210.0f;
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(1);
+                position.z = -210.0f;
+                set_state_and_send(1);
             }
             break;
         case 1:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x40) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(6);
+                set_state_and_send(6);
             } else if (b & 0x20) {
             } else if (b & 0x80) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(8);
+                set_state_and_send(8);
             } else if (b & 0x400) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x18);
+                set_state_and_send(0x18);
             } else if (b & 4) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x19);
+                set_state_and_send(0x19);
             } else if (b & 2) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1E);
+                set_state_and_send(0x1E);
             }
             break;
         case 2:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x20) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(9);
+                set_state_and_send(9);
             } else if (b & 0x80) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xA);
+                set_state_and_send(0xA);
             } else if (b & 0x10) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xB);
+                set_state_and_send(0xB);
             } else if (b & 0x400) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x13);
+                set_state_and_send(0x13);
             } else if (b & 4) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x11);
+                set_state_and_send(0x11);
             } else if (b & 2) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1E);
+                set_state_and_send(0x1E);
             }
             break;
         case 3:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x80) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xC);
+                set_state_and_send(0xC);
             } else if (b & 0x10) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xD);
+                set_state_and_send(0xD);
             } else if (b & 0x40) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xE);
+                set_state_and_send(0xE);
             } else if (b & 0x400) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0xF);
+                set_state_and_send(0xF);
             } else if (b & 4) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1A);
+                set_state_and_send(0x1A);
             } else if (b & 0x200) {
                 if (TObjBoss2Tunnel::is_active() != 0) {
                     TObjBoss2Tunnel::set_global_flag_800();
@@ -3223,17 +3196,17 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
                     TObjBoss2Tunnel::set_global_flag_400();
                 }
             } else if (b & 2) {
-                ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1F);
+                set_state_and_send(0x1F);
             }
             break;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        if (!(((TBoss2DeRolLe *)arg0)->motion_flags & 4)) {
-            ((TBoss2DeRolLe *)arg0)->play_speed -= 0.03f;
-            if (((TBoss2DeRolLe *)arg0)->play_speed < 0.6f) {
-                ((TBoss2DeRolLe *)arg0)->play_speed = 0.6f;
+        advance_animation();
+        if (!(motion_flags & 4)) {
+            play_speed -= 0.03f;
+            if (play_speed < 0.6f) {
+                play_speed = 0.6f;
             }
         }
         break;
@@ -3247,141 +3220,152 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
     }
 }
 
+namespace behavior_view {
+
+extern "C" {
+
 #pragma push
 #pragma fp_contract on
 
 #undef arg0
-#define o ((DR_800327C8 *)arg0)
 
-void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
+}
+
+}
+
+void TBoss2DeRolLe::sub_800327C8(u32 reason, s32 from, s32 to) {
     s32 r;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->fB8 = 1;
-        ((TBoss2DeRolLe *)o)->sub_800341F0();
-        o->flags &= ~4;
-        o->flags |= 0x100;
-        o->mode = arg2;
-        o->sub = arg3;
-        ((TBoss2DeRolLe *)o)->set_position_index(o->mode);
-        o->done = 0;
-        o->baseX = o->x;
-        o->baseZ = o->z;
-        switch (o->mode) {
+        requested_action = 1;
+        sub_800341F0();
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        position_index = from;
+        next_position_index = to;
+        set_position_index(position_index);
+        state_step = 0;
+        state_floats[0] = position.x;
+        state_floats[1] = position.z;
+        switch (position_index) {
         case 0:
-            o->scaleX = 1.0f;
-            switch (o->sub) {
+            state_floats[2] = 1.0f;
+            switch (next_position_index) {
             case 2:
                 break;
             case 1:
-                o->kind = 1;
+                unk_6E4 = 1;
                 break;
             case 3:
-                o->kind = 3;
+                unk_6E4 = 3;
                 break;
             }
             break;
         case 1:
-            o->kind = 2;
-            switch (o->sub) {
+            unk_6E4 = 2;
+            switch (next_position_index) {
             case 1:
                 break;
             case 2:
-                o->scaleX = 1.0f;
+                state_floats[2] = 1.0f;
                 break;
             case 0:
-                o->scaleX = -1.0f;
+                state_floats[2] = -1.0f;
                 break;
             }
             break;
         case 2:
-            o->scaleX = -1.0f;
-            switch (o->sub) {
+            state_floats[2] = -1.0f;
+            switch (next_position_index) {
             case 2:
                 break;
             case 1:
-                o->kind = 1;
+                unk_6E4 = 1;
                 break;
             case 3:
-                o->kind = 3;
+                unk_6E4 = 3;
                 break;
             }
             break;
         case 3:
-            o->kind = 0;
-            switch (o->sub) {
+            unk_6E4 = 0;
+            switch (next_position_index) {
             case 1:
                 break;
             case 2:
-                o->scaleX = 1.0f;
+                state_floats[2] = 1.0f;
                 break;
             case 0:
-                o->scaleX = -1.0f;
+                state_floats[2] = -1.0f;
                 break;
             }
             break;
         }
-        switch (o->kind) {
+        switch (unk_6E4) {
         case 0:
-            ((TBoss2DeRolLe *)arg0)->init_wave_params();
-            o->scaleZ = 1.0f;
+            init_wave_params();
+            state_floats[3] = 1.0f;
             break;
         case 1:
-            ((TBoss2DeRolLe *)o)->init_head_params();
-            o->scaleZ = 1.0f;
+            init_head_params();
+            state_floats[3] = 1.0f;
             break;
         case 2:
-            ((TBoss2DeRolLe *)arg0)->init_movement();
-            o->scaleZ = -1.0f;
+            init_movement();
+            state_floats[3] = -1.0f;
             break;
         case 3:
-            ((TBoss2DeRolLe *)arg0)->init_move_params();
-            o->scaleZ = -1.0f;
+            init_move_params();
+            state_floats[3] = -1.0f;
             break;
         }
         break;
     case 2:
-        if (o->done == 1) {
-            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
+        if (state_step == 1) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->done == 1) {
-            ((TBoss2DeRolLe *)o)->advance_action_sequence();
+        if (state_step == 1) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        ((TBoss2DeRolLe *)o)->sub_800338BC();
+        advance_animation();
+        sub_800338BC();
         r = 0;
-        switch (o->kind) {
+        switch (unk_6E4) {
         case 0:
-            r = ((TBoss2DeRolLe *)arg0)->sub_80034574();
+            r = sub_80034574();
             break;
         case 1:
-            r = ((TBoss2DeRolLe *)arg0)->update_phase_is_done();
-            o->z = o->baseZ + o->ampZ;
+            r = update_phase_is_done();
+            position.z = state_floats[1] + motion_z.travelled;
             break;
         case 2:
-            r = ((TBoss2DeRolLe *)arg0)->sub_80034800();
-            o->z = o->baseZ - o->ampZ;
+            r = sub_80034800();
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         case 3:
-            r = ((TBoss2DeRolLe *)arg0)->update_state();
-            o->z = o->baseZ - o->ampZ;
+            r = update_state();
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         }
         if (r != 0) {
-            o->done = 1;
+            state_step = 1;
         }
-        o->x = o->ampX * o->scaleX + o->baseX;
-        o->z = o->ampZ * o->scaleZ + o->baseZ;
+        position.x = motion_x.travelled * state_floats[2] + state_floats[0];
+        position.z = motion_z.travelled * state_floats[3] + state_floats[1];
         break;
     case 5:
-        o->mode = o->sub;
+        position_index = next_position_index;
         break;
     }
 }
+
+namespace behavior_view {
+
+extern "C" {
 
 #define self ((D_800320B4 *) arg0)
 
