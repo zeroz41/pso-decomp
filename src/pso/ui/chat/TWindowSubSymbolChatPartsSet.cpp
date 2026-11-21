@@ -249,7 +249,7 @@ void TWindowSubSymbolChatPartsSet::handle_cancel() {
 void TWindowSubSymbolChatPartsSet::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_68 = (u8) (this->m_68 | 1);
-    ((TWindowSubStatusDisp *)(this->m_88))->set_entry_state(2);
+    this->m_88->set_entry_state(2);
 }
 
 void TWindowSubSymbolChatPartsSet::sub_8028625C() {
@@ -393,7 +393,7 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     window_sub_symbol_chat_parts_set->draw_selected_part_cursor((saddr)c_arg);
     copy_vec2((c_arg + 0x10), &sp10);
     copy_vec2((c_arg + 0x28), &sp8);
-    ((TWindowSubStatusDisp *)((void *)((int) (*(s32 *)&window_sub_symbol_chat_parts_set->m_88))))->forward_render((void *)((int)c_arg));
+    window_sub_symbol_chat_parts_set->m_88->forward_render((void *)((int)c_arg));
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_80286824_lbl_8050E208_size, sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0);
@@ -414,7 +414,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     toggle_selected_part();
     ((TWindowSubSymbolChatPartsSet *)arg0)->sub_8028625C();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->update_subwindow();
+        this->m_88->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list(&entry_list);

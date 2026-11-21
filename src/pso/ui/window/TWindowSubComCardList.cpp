@@ -47,10 +47,10 @@ void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
         reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowMenu *)arg0)->render_selected_entry(temp_r3);
     arg0->draw_card_list_selection((u8 *)temp_r3);
-    if ((u32) arg0->m_88 != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(arg0->m_88)))->forward_render((void *)(temp_r3));
+    if (arg0->m_88 != 0) {
+        arg0->m_88->forward_render((void *)(temp_r3));
     }
-    if ((u32) arg0->m_8c != 0U) {
+    if (arg0->m_8c != 0) {
         draw_list_page_indicator(arg0->m_8c, reinterpret_cast<WindowDrawContext *>(temp_r3));
     }
 }

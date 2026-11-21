@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct TWindowSubStatusDisp;
+
 struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual ~TWindowSubSymbolChatParts();
     void sub_80284FB8();
@@ -23,7 +25,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     u32 m_7c;
     u32 m_80;
     u8 _pad84[0x4];
-    uaddr m_88;
+    TWindowSubStatusDisp *m_88;
     u32 m_8c;
     void handle_cancel();
     void add_part();

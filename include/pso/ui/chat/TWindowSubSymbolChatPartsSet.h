@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 
+struct TWindowSubStatusDisp;
+
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     virtual ~TWindowSubSymbolChatPartsSet();
     void sub_8028625C();
@@ -21,7 +23,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     u32 m_7c;
     u32 m_80;
     u8 _pad84[0x4];
-    uaddr m_88;
+    TWindowSubStatusDisp *m_88;
     s32 draw_selected_part_cursor(int arg1);
     void handle_cancel();
     void handle_decide();

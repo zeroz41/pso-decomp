@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct TWindowSubStatusDisp;
+
 struct TWindowMenu : public TWindowAddition {
     TWindowMenu(u32 rows, s32 client, saddr parent);
     virtual ~TWindowMenu();
@@ -37,7 +39,7 @@ struct TWindowMenu : public TWindowAddition {
     f32 layout_height;
     u32 m_80;
     u32 m_84;
-    u32 m_88;
+    TWindowSubStatusDisp *m_88;
     void set_active_flag();
     void confirm_selection();
     void select_next_item();

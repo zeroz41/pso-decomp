@@ -238,7 +238,7 @@ void TWindowSubSymbolChatParts::add_part() {
     play_sound_effect(0x52D01, 0, 0, 0);
     **(s32 * *)&this->_pad84 = 1;
     this->m_70 = (u8) (this->m_70 | 1);
-    ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->set_entry_state(2);
+    this->m_88->set_entry_state(2);
 }
 
 void TWindowSubSymbolChatParts::handle_add() {
@@ -248,7 +248,7 @@ void TWindowSubSymbolChatParts::handle_add() {
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_70 = (u8) (this->m_70 | 1);
-    ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->set_entry_state(2);
+    this->m_88->set_entry_state(2);
 }
 
 #pragma push
@@ -539,7 +539,7 @@ void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts) {
     }
     draw_window_scrollbar(((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_8c, ctx, window_sub_symbol_chat_parts + 0x68);
     ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->sub_80285274((u8 *)ctx);
-    ((TWindowSubStatusDisp *)((void *)(((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_88)))->forward_render((void *)(ctx));
+    ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_88->forward_render((void *)(ctx));
 }
 
 void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {

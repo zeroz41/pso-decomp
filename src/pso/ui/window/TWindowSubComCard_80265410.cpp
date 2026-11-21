@@ -271,7 +271,7 @@ void TWindowMenu::confirm_selection() {
                 play_sound_effect(0x52D01, 0, 0, 0);
             }
             this->m_70 = (u16) (this->m_70 | 2);
-            window_sub_status_disp = (u8 *)(*(u8 * *)&this->m_88);
+            window_sub_status_disp = (u8 *)this->m_88;
             if (window_sub_status_disp != NULL) {
                 ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(2);
             }
@@ -353,7 +353,7 @@ void TWindowMenu::clamp_menu_choice_scroll() {
         stack.sp8 = 0.0f;
         temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x4C) - 20.0f;
         stack.spC = temp_f1;
-        if ((u32) this->m_88 != 0U) {
+        if (this->m_88 != 0) {
             stack.spC = temp_f1 - 6.0f;
         }
         clamp_list_scroll_offset(this->m_84, (void *) (((u8 *)this) + 0x68), &stack.sp8);
@@ -719,8 +719,8 @@ void render__11TWindowMenuFv(TWindowMenu *arg0) {
         arg0->render_selected_entry(window_key_board_soft);
         arg0->draw_selected_bar((u8 *)window_key_board_soft);
     }
-    if ((u32) arg0->m_88 != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(arg0->m_88)))->forward_render((void *)(window_key_board_soft));
+    if (arg0->m_88 != 0) {
+        arg0->m_88->forward_render((void *)(window_key_board_soft));
     }
     if ((u32) arg0->m_84 != 0U) {
         draw_window_scrollbar(arg0->m_84, window_key_board_soft, (u8 *)arg0 + 0x68);
@@ -766,8 +766,8 @@ void TWindowMenu::run_task() {
         }
     }
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        if ((u32) this->m_88 != 0U) {
-            ((TWindowSubStatusDisp *)(*(void * *)&this->m_88))->update_subwindow();
+        if (this->m_88 != 0) {
+            this->m_88->update_subwindow();
         }
         if ((u32) this->m_84 != 0U) {
             ((TWindowSubStatusDisp *)(*(void * *)&this->m_84))->increment_counter();
