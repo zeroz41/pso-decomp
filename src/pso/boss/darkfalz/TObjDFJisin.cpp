@@ -3,6 +3,8 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -532,7 +534,7 @@ void TObjDFTenchuFuru::transform_node_tree() {
 }
 
 extern "C" {
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((saddr)TObjDFTenchuFuru::capture_matrix_by_frame); }
+void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback(TObjDFTenchuFuru::capture_matrix_by_frame); }
 }
 
 extern "C" {

@@ -325,7 +325,7 @@ void TObjEneShark::vfunc_83() {
     }
 }
 
-void TObjPlayer::update_particle_by_phase() {
+void TObjPlayer::update_particle_by_phase(NJS_OBJECT *) {
     switch (shark_render_node_index) {
     case 0x10:
     case 0x1A:
@@ -417,7 +417,7 @@ void TObjEneShark::render() {
     }
     TObjPlayer::toggle_particle_effect();
     shark_render_node_index = 0;
-    set_chunk_model_node_callback((saddr)((void *) TObjPlayer::update_particle_by_phase));
+    set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
     if ((*(s32 *)&this->m_390) == 1)
     {
       if (((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m8() != 0)

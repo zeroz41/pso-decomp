@@ -1,6 +1,8 @@
 #ifndef PSO_ITEM_MAG_TITEMMAGSUB_H
 #define PSO_ITEM_MAG_TITEMMAGSUB_H
 #include "pso/item/TItemHeapObject.h"
+
+struct NJS_OBJECT;
 #include "types.h"
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
@@ -80,7 +82,7 @@ public:
     static void clear_optional_oscillation_flag(void *sub);
     void reset_oscillation(s32 from, s32 to);
     void apply_node_oscillation(void* node);
-    static void update_node_oscillation(void* node);
+    static void update_node_oscillation(NJS_OBJECT *node);
     s32 get_world_position(Vec *output);
     void apply_placement_matrix();
     s32 resolve_owner_heading();

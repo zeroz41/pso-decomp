@@ -352,7 +352,7 @@ void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
             scale_current_matrix(var_r30 + 0x20);
         }
         if (!(temp_r31 & 8)) {
-            draw_ginja_model((*(s32 *)((s8 *)var_r30 + 4)));
+            draw_ginja_model((void *)((*(s32 *)((s8 *)var_r30 + 4))));
         }
         if (!(temp_r31 & 0x10)) {
             temp_r4 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));

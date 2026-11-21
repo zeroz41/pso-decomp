@@ -2,6 +2,8 @@
 #define PSO_ENEMY_SORCERER_TOBJENERE4SORCERER_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/render/RenderFadeState.h"
@@ -23,7 +25,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void vfunc_28();
     void render();
     void run_task();
-    static void step_effect_sequence();
+    static void step_effect_sequence(NJS_OBJECT *);
     void handle_death_state(s32 arg1);
     void update_state_machine(s32 reason);
     void state_wait(s32 arg1);

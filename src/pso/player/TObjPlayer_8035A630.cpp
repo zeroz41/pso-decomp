@@ -1,3 +1,4 @@
+#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -8,21 +9,19 @@
 s32 player_node_matrix_cursor;
 s32 player_node_matrix_count;
 saddr node_matrix_array_base;
-s32 (*player_apply_callback_fn)(s32);
+ChunkModelNodeCallback player_apply_callback_fn;
 extern "C" {
-
-extern s32 (*player_apply_callback_fn)(s32);
 
 extern s32 player_node_matrix_cursor;
 extern s32 player_node_matrix_count;
 extern saddr node_matrix_array_base;
 
-void TObjPlayer::process_callback_list(s32 arg0) {
+void process_node_callback(NJS_OBJECT *node) {
     if ((s32) player_node_matrix_cursor < (s32) player_node_matrix_count) {
         get_current_matrix((void *)(node_matrix_array_base + (player_node_matrix_cursor * 0x30)));
     }
-    if (((s32 (*)(s32)) player_apply_callback_fn) != NULL) {
-        player_apply_callback_fn(arg0);
+    if (player_apply_callback_fn != NULL) {
+        player_apply_callback_fn(node);
     }
     player_node_matrix_cursor += 1;
 }

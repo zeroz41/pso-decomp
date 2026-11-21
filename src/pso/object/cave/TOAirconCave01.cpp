@@ -24,7 +24,7 @@ void TOAirconCave01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         pop_matrix();
     }
 }

@@ -31,7 +31,7 @@ void ModelNodePositionCapture::install() {
     model_node_position_capture_state.node_index = 0;
     model_node_position_capture_state.entries = entries;
     model_node_position_capture_state.positions = positions;
-    set_chunk_model_node_callback((s32)capture_node);
+    set_chunk_model_node_callback(capture_node);
 }
 
 s32 ModelNodePositionCapture::is_valid(const ModelNodePositionEntry *entries) {

@@ -2,6 +2,8 @@
 #define PSO_ENEMY_GEE_TOBJENEME1GEE_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/system/NinjaTypes.h"
@@ -134,7 +136,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     static void load_resources();
     static void cache_result_805D6660();
     static void queue_debug_text(s32 arg0, char *arg1);
-    static void advance_camera_ctrl_step();
+    static void advance_camera_ctrl_step(NJS_OBJECT *);
     void state_orbit(s32 arg1);
     void handle_event(s32 arg1);
     void state_return_home(s32 arg1);

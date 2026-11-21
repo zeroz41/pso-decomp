@@ -636,7 +636,7 @@ void TObjGrass::render() {
     } else {
         TObjPlayer::toggle_particle_effect();
         TObjGrass__render_node_index = 0;
-        set_chunk_model_node_callback((saddr)((void *)TObjGrass::update_camera_vec_by_stage));
+        set_chunk_model_node_callback(TObjGrass::update_camera_vec_by_stage);
         if (*(s32 *)((s8 *)arg0 + 0x3AC) == 1) {
             if ((&self->sub)->m8() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -662,7 +662,7 @@ void TObjGrass::render() {
         }
         TParticleCtrl::end_effect_render();
     }
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     pop_matrix();
     restore_scene_lighting();
     VecCopy((Vec *)(arg0 + 0x374), (const Vec *)&grass_camera_vec);

@@ -1371,7 +1371,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
     }
 }
 
-void TObjEneRe7Berura::demo_frame_callback() {
+void TObjEneRe7Berura::demo_frame_callback(NJS_OBJECT *) {
     switch (re7_berura_demo_state) {
     case 0x2:
         lbl_805D4F6C = model_render_flags;
@@ -1409,7 +1409,7 @@ void TObjEneRe7Berura::demo_frame_callback() {
     re7_berura_demo_state += 1;
 }
 
-void TObjEneRe7Berura::advance_state() {
+void TObjEneRe7Berura::advance_state(NJS_OBJECT *) {
     switch (re7_berura_demo_state) {
     case 25:
         lbl_805D4F6C = model_render_flags;
@@ -1496,13 +1496,13 @@ void TObjEneRe7Berura::render() {
                     f1 = 0;
                 }
                 if (f1 != 0) {
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneRe7Berura::demo_frame_callback));
+                    set_chunk_model_node_callback(TObjEneRe7Berura::demo_frame_callback);
                     draw();
                     set_chunk_model_node_callback(0);
                 }
                 fade->clear_flag_and_notify();
             } else {
-                set_chunk_model_node_callback((saddr)((void *)TObjEneRe7Berura::demo_frame_callback));
+                set_chunk_model_node_callback(TObjEneRe7Berura::demo_frame_callback);
                 if (visible == 1) {
                     draw();
                 } else {
@@ -1521,7 +1521,7 @@ void TObjEneRe7Berura::render() {
                         f2 = 0;
                     }
                     if (f2 != 0) {
-                        set_chunk_model_node_callback((saddr)((void *)TObjEneRe7Berura::advance_state));
+                        set_chunk_model_node_callback(TObjEneRe7Berura::advance_state);
                         draw();
                         set_chunk_model_node_callback(0);
                     }
@@ -1529,7 +1529,7 @@ void TObjEneRe7Berura::render() {
                 }
             } else if (cam != 0) {
                 fade->set_flags_and_apply_damage_color();
-                set_chunk_model_node_callback((saddr)((void *)TObjEneRe7Berura::advance_state));
+                set_chunk_model_node_callback(TObjEneRe7Berura::advance_state);
                 draw();
                 set_chunk_model_node_callback(0);
                 fade->clear_flag_and_notify();

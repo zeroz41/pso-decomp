@@ -193,12 +193,12 @@ s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)(((u8 *)this + 0xD4)));
-            draw_ginja_model(obj->model);
+            draw_ginja_model((void *)(obj->model));
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
         } else {
-            draw_ginja_model(obj->model);
+            draw_ginja_model((void *)(obj->model));
         }
     }
     if (obj->child != 0) {

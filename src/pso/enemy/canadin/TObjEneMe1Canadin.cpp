@@ -1914,7 +1914,7 @@ void TObjEneMe1Canadin::update_by_state(s32 arg1) {
 }
 
 
-void fn_8009BD00(void) {
+void fn_8009BD00(NJS_OBJECT *) {
     Vec *temp_r4;
     Vec *pos;
     Vec *temp_r5;
@@ -1990,7 +1990,7 @@ void TObjEneMe1Canadin::render() {
                 TObjEneMe1Canadin__render_point_cursor = m_414;
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
-                set_chunk_model_node_callback((saddr)&fn_8009BD00);
+                set_chunk_model_node_callback(fn_8009BD00);
                 if (var_r30 == 1) {
                     draw();
                 } else {
@@ -2003,7 +2003,7 @@ void TObjEneMe1Canadin::render() {
                 TObjEneMe1Canadin__render_point_cursor = m_414;
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
-                set_chunk_model_node_callback((saddr)&fn_8009BD00);
+                set_chunk_model_node_callback(fn_8009BD00);
                 this->draw_with_alt_model(m_410);
                 set_chunk_model_node_callback(NULL);
             }

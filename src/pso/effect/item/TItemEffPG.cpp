@@ -217,12 +217,12 @@ void TUnk_804F0BF0::render() {
         push_matrix();
         rotate_matrix_y(NULL, rotation_y);
         scale_current_matrix(&scale.x);
-        draw_ginja_model((saddr)m_20->model);
+        draw_ginja_model(m_20->model);
         pop_matrix();
         push_matrix();
         rotate_matrix_y(NULL, m_40);
         scale_current_matrix(&scale.x);
-        draw_ginja_model((saddr)m_20->child->model);
+        draw_ginja_model(m_20->child->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();

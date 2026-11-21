@@ -106,7 +106,7 @@ FlagWord item_render_state;
 #pragma pop
 int item_registry_count;
 TItem **item_registry_sorted_entries;
-void (*model_node_draw_callback)(saddr model);
+void (*model_node_draw_callback)(void *model);
 void (*model_node_visit_callback)(NJS_OBJECT *object);
 TItemIdCounters *item_id_counters;
 u8 *model_node_matrix_output_cursor;
@@ -865,7 +865,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
                 model_node_visit_callback(object);
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
-                model_node_draw_callback((saddr)object->model);
+                model_node_draw_callback(object->model);
             }
             if (!(flags & NJD_EVAL_BREAK)) {
                 draw_model_node_tree(object->child);
@@ -890,7 +890,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
                 model_node_matrix_output_cursor += 0x30;
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
-                model_node_draw_callback((saddr)object->model);
+                model_node_draw_callback(object->model);
             }
             if (!(flags & NJD_EVAL_BREAK)) {
                 draw_model_node_tree(object->child);
@@ -1513,9 +1513,9 @@ void TItem::render_present_box() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         set_constant_material(&item_box_primary_colors[box_color]);
-        draw_ginja_model((saddr)box->model);
+        draw_ginja_model((void *)box->model);
         set_constant_material(&item_box_secondary_colors[box_color]);
-        draw_ginja_model((saddr)box->child->model);
+        draw_ginja_model((void *)box->child->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         set_default_alpha_blend();

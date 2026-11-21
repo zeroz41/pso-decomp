@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterial.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "types.h"
 #include "pso/system/data/pso_date.h"
@@ -20,7 +21,7 @@ struct DateStamp_801E2B24 {
 };
 
 extern "C" {
-void prepare_ginja_model(void *);
+
 extern const Tbl_801E2B24 date_month_start_days[] = {
     {{0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334}}
 };
@@ -153,7 +154,7 @@ void draw_ginja_motion_link(NJS_OBJECT *model, NJS_MOTION_LINK *link, f32 frame)
     bind_motion_blend_channels(link, frame);
     ModelDrawContext *g = model_draw_context;
     g->draw = draw_ginja_model_lists;
-    prepare_ginja_model(g);
+    prepare_ginja_model();
     TObjPlayer::render_model_tree(model);
     end_ginja_model_draw();
 }

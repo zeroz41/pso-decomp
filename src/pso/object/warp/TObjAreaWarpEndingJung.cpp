@@ -820,7 +820,7 @@ void TObjAreaWarpForest::render() {
         rotate_matrix_y(NULL, this->rotation_y);
         push_matrix();
         post_translate_matrix(m->pos);
-        draw_ginja_model((saddr)m->model);
+        draw_ginja_model(m->model);
         TParticleCtrl::begin_effect_render();
         m = m->child;
         while (m != NULL) {
@@ -828,7 +828,7 @@ void TObjAreaWarpForest::render() {
             post_translate_matrix(m->pos);
             rotate_matrix_zyx(NULL, (m->ang[0]), (m->ang[1]), (m->ang[2]));
             rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
-            draw_ginja_model((saddr)m->model);
+            draw_ginja_model(m->model);
             pop_matrix();
             m = m->sibling;
         }
@@ -919,7 +919,7 @@ void TObjAreaWarpQuest::render() {
         rotate_matrix_y(NULL, this->rotation_y);
         push_matrix();
         post_translate_matrix(m->pos);
-        draw_ginja_model((saddr)m->model);
+        draw_ginja_model(m->model);
         TParticleCtrl::begin_effect_render();
         m = m->child;
         while (m != NULL) {
@@ -927,7 +927,7 @@ void TObjAreaWarpQuest::render() {
             post_translate_matrix(m->pos);
             rotate_matrix_zyx(NULL, (m->ang[0]), (m->ang[1]), (m->ang[2]));
             rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
-            draw_ginja_model((saddr)m->model);
+            draw_ginja_model(m->model);
             pop_matrix();
             m = m->sibling;
         }
@@ -1043,14 +1043,14 @@ void TObjAreaWarpEnding::render() {
     rotate_matrix_y(NULL, rotation_y);
     push_matrix();
     post_translate_matrix(root->pos);
-    draw_ginja_model((saddr)root->model);
+    draw_ginja_model(root->model);
     TParticleCtrl::begin_effect_render();
     for (root = root->child; root != 0; root = root->sibling) {
         push_matrix();
         post_translate_matrix(root->pos);
         rotate_matrix_zyx(NULL, root->ang[0], root->ang[1], root->ang[2]);
         rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
-        draw_ginja_model((saddr)root->model);
+        draw_ginja_model(root->model);
         pop_matrix();
     }
     TParticleCtrl::end_effect_render();

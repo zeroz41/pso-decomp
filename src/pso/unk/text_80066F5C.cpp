@@ -22,7 +22,7 @@ void TObjPlayer::draw_shadowed_node_tree() {
         scale_current_matrix((u8 *)&this->m_20);
         if (!(*(s32 *)((s8 *)arg0 + 0) & 8) && ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U)) {
             render_projected_shadow_receiver((u8 *)(arg0 + 8), (saddr)(arg0 + 0x14));
-            ::draw_ginja_model((*(u32 *)((s8 *)arg0 + 4)));
+            ::draw_ginja_model((void *)((*(u32 *)((s8 *)arg0 + 4))));
             TScene::apply_single_screen_state();
         }
         (*(TObjPlayer **)&this->set_index)->draw_shadowed_node_tree();

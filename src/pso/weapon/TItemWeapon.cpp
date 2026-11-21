@@ -68,7 +68,7 @@ s32 TItemWeapon::draw_weapon_model() {
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208((saddr)apply_weapon_node_material);
             } else {
-                set_chunk_model_node_callback((saddr)apply_weapon_node_material);
+                set_chunk_model_node_callback(apply_weapon_node_material);
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;

@@ -1,4 +1,6 @@
 #include "types.h"
+
+struct NJS_OBJECT;
 #include <string.h>
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F1320.h"
@@ -1203,7 +1205,7 @@ s32 test_flags_any(s32 *flags, s32 mask);
 extern const u8 lbl_805DACA4;
 }
 
-void apply_weapon_node_material() {
+void apply_weapon_node_material(NJS_OBJECT *) {
     const s32 node = TObjPlayer::get_player_list();
     TItem::end_material_color();
     TItem::end_effect_render();

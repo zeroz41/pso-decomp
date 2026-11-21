@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804F1C58.h"
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer.h"
@@ -5,21 +6,19 @@
 #include "pso/unk/TLobby_801E2F94.h"
 
 
-extern s32 process_callback_list__10TObjPlayerFl[];
 extern s32 player_node_matrix_cursor;
 extern s32 player_node_matrix_count;
 extern saddr node_matrix_array_base;
-extern s32 player_apply_callback_fn;
+extern ChunkModelNodeCallback player_apply_callback_fn;
 
-void TObjPlayer::apply_with_callback(saddr arg1, f32 farg0) {
-    (*(s32 *)&this->m_20) = arg1;
-    *(f32 *)&this->texlist = farg0;
+void TUnk_804F1C58::apply_with_callback(NJS_MOTION *new_motion, f32 new_frame) {
+    motion = new_motion;
+    frame = new_frame;
     player_node_matrix_cursor = 0;
-    player_node_matrix_count = *(s32 *)&this->set_index;
-    node_matrix_array_base = *(s32 *)&this->room;
-    player_apply_callback_fn = *(s32 *)&this->position.x;
-    set_chunk_model_node_callback((saddr)TObjPlayer::process_callback_list);
-    draw_motion(*(NJS_OBJECT **)((s8 *)this + 0x1C), (NJS_MOTION *)arg1, farg0);
-    set_chunk_model_node_callback((s32)NULL);
+    player_node_matrix_count = node_count;
+    node_matrix_array_base = reinterpret_cast<saddr>(node_matrices);
+    player_apply_callback_fn = node_callback;
+    set_chunk_model_node_callback(process_node_callback);
+    draw_motion(static_cast<NJS_OBJECT *>(model), new_motion, new_frame);
+    set_chunk_model_node_callback(NULL);
 }
-

@@ -85,7 +85,7 @@ void TOSparkMachine01::render() {
             case 1:
                 push_matrix();
                 post_translate_matrix(n->pos);
-                draw_ginja_model((saddr)n->model);
+                draw_ginja_model(n->model);
                 pop_matrix();
                 break;
             }

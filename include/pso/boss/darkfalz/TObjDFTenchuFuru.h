@@ -4,6 +4,8 @@
 struct NJS_OBJECT;
 
 #include "pso/system/task/TObject.h"
+
+struct NJS_OBJECT;
 #include "types.h"
 #include <dolphin/mtx.h>
 #include <stddef.h>

@@ -9,8 +9,8 @@ TUnk_804F1C58::~TUnk_804F1C58() {
 
 TUnk_804F1C58::TUnk_804F1C58(TObject *parent, void *model) : TObject(parent) {
     this->model = model;
-    pad_20 = 0;
-    pad_24 = 0.0f;
+    motion = NULL;
+    frame = 0.0f;
     pad_30 = 0;
     node_count = ((TObjBoss2Tunnel *)model)->count_tree_nodes();
     node_matrices = mem_alloc(node_count * 0x30);

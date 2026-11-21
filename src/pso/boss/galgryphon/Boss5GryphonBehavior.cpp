@@ -425,7 +425,7 @@ s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1
 s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0);
 void render_shadows__13TBoss5GryphonFv(void* p);
 void TBoss8Dragon__sub_8005E040(void *arg0);
-void TBoss8Dragon__sub_8005E17C(void);
+void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 s32 TBoss8Dragon__sub_8005E1E8(f32 farg0);
 void TBoss8Dragon__sub_8005E39C(Obj_8005E39C *self);
 s32 get_random_sign__12TBoss8DragonFiPvi(s32 arg0, Ent_8005E868 *arg1, s32 arg2);
@@ -1267,7 +1267,7 @@ void TBoss5Gryphon::draw_body() {
     boss5_gryphon_bone_capture_index = 0;
     boss5_gryphon_bone_capture_output = (saddr)((Obj_8005E0C0 *)this)->f3c0;
     boss5_gryphon_render_flags = ((Obj_8005E0C0 *)this)->f4c0;
-    set_chunk_model_node_callback((saddr)((void *)TBoss8Dragon__sub_8005E17C));
+    set_chunk_model_node_callback(TBoss8Dragon__sub_8005E17C);
     ((void (*)(void))push_matrix)();
     set_motion_packed_rotation();
     ((void (*)(void *))post_translate_matrix)((u8 *)this + 0x38);
@@ -1281,7 +1281,7 @@ void TBoss5Gryphon::draw_body() {
     set_chunk_model_node_callback(0);
 }
 
-void TBoss8Dragon__sub_8005E17C(void) {
+void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *) {
     s32 pos;
     if ((s32) boss5_gryphon_render_node_index == boss5_gryphon_bone_capture_node_indices[boss5_gryphon_bone_capture_index]) {
         pos = boss5_gryphon_bone_capture_output;

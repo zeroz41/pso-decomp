@@ -5,6 +5,8 @@
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/text_803D853C.h"
 
+struct NJS_OBJECT;
+
 #include "pso/math/FloatRounding.h"
 
 #include "pso/enemy/TObjEnemy.h"
@@ -618,7 +620,7 @@ s32 transform_point_by_current_matrix(void *, void *);
 
 s32 push_matrix();
 
-void TObjPlayer__sub_802E8274(void);
+void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 
 
 void TObjPlayer__sub_802E7FC0(void *arg0);
@@ -1246,7 +1248,6 @@ s32 update_local_colliders_from_world(void *, void *);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 #pragma pop
 #undef VecCopy__FP3VecPC3Vec
-s32 apply_with_callback__10TObjPlayerFlf(int, int);
 
 s32 rotate_matrix_by_node_angles(void *, int);
 
@@ -1501,7 +1502,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     unk_7AC = new TUnk_804F1C58(this, model);
     if (unk_7AC != NULL) {
-        unk_7AC->set_field_38((saddr)TObjPlayer__sub_802E8274);
+        unk_7AC->set_field_38(TObjPlayer__sub_802E8274);
     }
     unk_7B0 = 0;
     unk_7B4 = 0.0f;
@@ -1651,8 +1652,7 @@ void TBoss7DeRolLeC::run_task() {
         rotate_matrix_by_node_angles(((u8 *)this) + 0x5C, 1);
         scale_current_matrix(&lbl_804E3BF0);
         this->sub_802E8234();
-        this->get_frame();
-        apply_with_callback__10TObjPlayerFlf((saddr)this->unk_7AC, (saddr)this->current_motion);
+        unk_7AC->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
         fn_802E79B0((Obj_802E79B0 *)this);
@@ -4427,7 +4427,7 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
 #undef TObjFish__sub_802E7B94
 #undef release_laser_light__15TBoss7LaserPtclFPv
 #undef set_swim_direction__8TObjFishFPv
-void TObjPlayer__sub_802E8274(void) {
+void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E8274, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E8274, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802E8274, sp10) == 0x8);

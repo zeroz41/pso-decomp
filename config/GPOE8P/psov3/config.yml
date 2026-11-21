@@ -260,7 +260,7 @@ force_active:
   - get_snd_queued
   - get_snd_space
   - handle_appear__17TObjEneBm3FlyNestFl
-  - handle_attachment_sample__17TObjEneBm3FlyNestFl
+  - handle_attachment_sample__17TObjEneBm3FlyNestFP10NJS_OBJECT
   - handle_event__17TObjEneBm3FlyNestFl
   - handle_motion_event__17TObjEneBm3FlyNestFl
   - handle_state__17TObjEneBm3FlyNestFl
@@ -3799,7 +3799,7 @@ force_active:
   - advance_afterimage__11TBoss4Type2Fv
   - advance_afterimage__11TBoss4Type3Fv
   - advance_air_turn__12TBoss1DragonFv
-  - advance_anim_frame__16TObjEneBm5GibonUFv
+  - advance_anim_frame__16TObjEneBm5GibonUFP10NJS_OBJECT
   - advance_anim_frame__18TObjEneRe4SorcererFv
   - advance_anim_time__13TUnk_804B5E48Flf
   - advance_anim_time_wrapped__14TBoss7TentacleFf
@@ -3807,8 +3807,8 @@ force_active:
   - advance_appear__11TBoss4Type3Fv
   - advance_bone_rotation__19TObjEZBoneRotPlayerFv
   - advance_bura__11TBoss4Type3Fv
-  - advance_camera_ctrl_step__13TObjEneMe1GeeFv
-  - advance_camera_ctrl_step__19TObjEneEpsilonGuardFv
+  - advance_camera_ctrl_step__13TObjEneMe1GeeFP10NJS_OBJECT
+  - advance_camera_ctrl_step__19TObjEneEpsilonGuardFP10NJS_OBJECT
   - advance_capture__11TBoss4Type3Fv
   - advance_cut__11TBoss4Type3Fv
   - advance_dark_magic__11TBoss4Type3Fv
@@ -3845,10 +3845,10 @@ force_active:
   - advance_review__14CreationCameraFv
   - advance_scene_object_animations__6TSceneFv
   - advance_scroll__13TRaderMapCoreFv
-  - advance_spawn_timer__14TObjEneBm5WolfFv
+  - advance_spawn_timer__14TObjEneBm5WolfFP10NJS_OBJECT
   - advance_state_4_to_5__17TObjEneMe1CanadinFv
   - advance_state_5_to_4__17TObjEneMe1CanadinFv
-  - advance_state__16TObjEneRe7BeruraFv
+  - advance_state__16TObjEneRe7BeruraFP10NJS_OBJECT
   - advance_text_entry_reveal__FPUc
   - advance_thanks_state__12TBoss4ThanksFv
   - advance_thanks_state__12TBoss6ThanksFv
@@ -4681,7 +4681,7 @@ force_active:
   - break_apart__15TObjEneMe1GiGueFv
   - break_rocks_in_wave__15TBoss6SwordWaveFv
   - bringer_init_params
-  - bringer_render_node_callback__Fv
+  - bringer_render_node_callback__FP10NJS_OBJECT
   - broadcast_state__15TOAttackableColFv
   - broadcast_to_players__6TLobbyFii
   - broadcast_values__15TBoss3VoloptP02Fv
@@ -4864,9 +4864,9 @@ force_active:
   - capsule_labo_collision_body
   - capsule_machine01_collision_body
   - capsule_machine_ginja_mesh_handle
-  - capture_attachment__17TObjEneBm3FlyNestFPv
+  - capture_attachment__17TObjEneBm3FlyNestFP10NJS_OBJECT
   - capture_beam_origins__16TObjEneNanoDragoFv
-  - capture_effect_positions__14TObjEneIllGillFv
+  - capture_effect_positions__14TObjEneIllGillFP10NJS_OBJECT
   - capture_matrix_by_frame__16TObjDFTenchuFuruFP10NJS_OBJECT
   - card_attach_callback
   - card_detach_callback
@@ -5634,7 +5634,7 @@ force_active:
   - deliver_photon_blast_results_animated
   - deliver_target_hit__10TTecSlicerFv
   - dellbiter_demo_camera_vec
-  - demo_frame_callback__16TObjEneRe7BeruraFv
+  - demo_frame_callback__16TObjEneRe7BeruraFP10NJS_OBJECT
   - demo_step__13TObjLobbyMainFv
   - demo_step__15TObjSuisouLobbyFv
   - demo_step__16TObjCurtainLobbyFv
@@ -5796,7 +5796,7 @@ force_active:
   - door_vs2door01_resource_descriptor
   - dragon_boss1_render_color
   - dragon_breath_attack_params
-  - dragon_capture_node_points__Fv
+  - dragon_capture_node_points__FP10NJS_OBJECT
   - dragon_fireball_attack_params
   - dragon_fireball_impact_damage_params
   - dragon_fireball_particle_ids
@@ -14009,8 +14009,8 @@ force_active:
   - receive_weapon_special_attack__20TContainerAncient01RFPvPv
   - recobox_boss_register_id
   - recobox_motion_name_table
-  - record_camera_angle_samples__19TObjEneEpsilonGuardFv
-  - record_camera_path_point__13TObjEneMorfosFv
+  - record_camera_angle_samples__19TObjEneEpsilonGuardFP10NJS_OBJECT
+  - record_camera_path_point__13TObjEneMorfosFP10NJS_OBJECT
   - record_hit__22TObjFogCollisionPoisonFll
   - record_local_battle_placement
   - record_local_damage_if_enabled__FPvPvl
@@ -15277,7 +15277,7 @@ force_active:
   - save_character__9TSaveChCrFv
   - save_globals__14QuestVmContextFv
   - save_if_dirty__9TSaveChCrFv
-  - save_joint_matrix_callback__Fv
+  - save_joint_matrix_callback__FP10NJS_OBJECT
   - save_position__10TBoss2MineFv
   - save_position__10TObjPlayerFv
   - saved_card_disk_id
@@ -16136,9 +16136,9 @@ force_active:
   - step_angle_clamped
   - step_angle_toward__11TBoss6Type2Flll
   - step_camera_scalar__FPCfPCfPff
-  - step_cutscene_frame__10TObjPlayerFv
-  - step_demo_script__16TObjEneDellBiterFv
-  - step_effect_sequence__18TObjEneRe4SorcererFv
+  - step_cutscene_frame__10TObjPlayerFP10NJS_OBJECT
+  - step_demo_script__16TObjEneDellBiterFP10NJS_OBJECT
+  - step_effect_sequence__18TObjEneRe4SorcererFP10NJS_OBJECT
   - step_fade_opacity_decrease__13TUnk_80499970Fv
   - step_fade_opacity_increase__13TUnk_80499970Fv
   - step_ground_technique_projectile
@@ -16576,7 +16576,7 @@ force_active:
   - tl_window_name
   - to_le_uint16_t__FUs
   - tobjtank_collision_body_parts
-  - toggle_effect_render__14TObjEneDolmOlmFv
+  - toggle_effect_render__14TObjEneDolmOlmFP10NJS_OBJECT
   - toggle_selected_part__28TWindowSubSymbolChatPartsSetFv
   - tombstone_first_run_flag
   - tombstone_name_label_offset_table
@@ -16754,7 +16754,7 @@ force_active:
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
   - update_camera_slots__10TObjCameraFv
-  - update_camera_vec_by_stage__9TObjGrassFv
+  - update_camera_vec_by_stage__9TObjGrassFP10NJS_OBJECT
   - update_capture__11TBoss4Type3Fv
   - update_capture__14TObjVoloptCageFv
   - update_card_confirm__16TAdChrSelBSlotGCFPv
@@ -17074,7 +17074,7 @@ force_active:
   - update_movement_status__17TObjEneDarkGunnerFv
   - update_moving__12TObjEneLappyFv
   - update_multi_beam_state__16TObjEneNanoDragoFv
-  - update_node_oscillation__11TItemMagSubFPv
+  - update_node_oscillation__11TItemMagSubFP10NJS_OBJECT
   - update_object_view_visibility__10TObjCameraFff
   - update_object_view_visibility__13TObjHashiBaseFff
   - update_object_view_visibility__15TObjLazerFence4Fff
@@ -17115,7 +17115,7 @@ force_active:
   - update_palette_sprite__20TWindowSubStatusDispFv
   - update_part_positions__11TBoss6Type2Fv
   - update_particle__15TObjSuisouLobbyFv
-  - update_particle_by_phase__10TObjPlayerFv
+  - update_particle_by_phase__10TObjPlayerFP10NJS_OBJECT
   - update_particle_emitters__11TObjDFDemo5Fv
   - update_particle_emitters__12TBoss4ThanksFv
   - update_particle_emitters__12TBoss6ThanksFv

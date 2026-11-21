@@ -333,7 +333,7 @@ void TBreakUpMdl::render() {
         post_translate_matrix(part->pos);
         rotate_matrix_by_node_angles(part->rot, 0);
         if (self->model->is_chunk != 0) {
-            draw_ginja_model(self->model->chunks[i].model);
+            draw_ginja_model((void *)(self->model->chunks[i].model));
         } else {
             draw_chunk_model((void *)self->model->chunks[i].model);
         }

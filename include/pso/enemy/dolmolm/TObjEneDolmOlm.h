@@ -2,6 +2,8 @@
 #define PSO_ENEMY_DOLMOLM_TOBJENEDOLMOLM_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/TUnk_80493450.h"
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
@@ -40,7 +42,7 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     void load_params_from_table(s32 i);
     static void load_shared_resources();
     static void free_shared_resources();
-    static void toggle_effect_render();
+    static void toggle_effect_render(NJS_OBJECT *);
     void advance_position();
     void init_body_sub();
     static void reset_count();

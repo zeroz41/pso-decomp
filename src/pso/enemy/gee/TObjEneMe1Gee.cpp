@@ -1760,7 +1760,7 @@ void TObjEneMe1Gee::state_orbit(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::advance_camera_ctrl_step() {
+void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
     s32 pos;
     s32 temp_r4_2;
     switch ((s32) TObjEneMe1Gee__render_node_index) {
@@ -1822,8 +1822,8 @@ void TObjEneMe1Gee::render() {
         if (var_r29 != 0) {
             if ((s16) this->mode != 0xB) {
                 TObjEneMe1Gee__render_node_index = 0;
-                gee_camera_ctrl_step_ptr = (saddr)this->m_414;
-                set_chunk_model_node_callback((saddr)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                gee_camera_ctrl_step_ptr = (s32)this->m_414;
+                set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 if (var_r30 == 1) {
                     set_motion_packed_rotation();
                     this->draw();
@@ -1833,14 +1833,14 @@ void TObjEneMe1Gee::render() {
                     this->draw_motion_model();
                     clear_motion_packed_rotation();
                 }
-                set_chunk_model_node_callback((s32)NULL);
+                set_chunk_model_node_callback(NULL);
             } else {
                 rotate_matrix_z(NULL, this->rotation_z);
                 TObjEneMe1Gee__render_node_index = -1;
-                gee_camera_ctrl_step_ptr = (saddr)this->m_414;
-                set_chunk_model_node_callback((saddr)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                gee_camera_ctrl_step_ptr = (s32)this->m_414;
+                set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 this->draw_with_alt_model(this->m_410);
-                set_chunk_model_node_callback((s32)NULL);
+                set_chunk_model_node_callback(NULL);
             }
         }
         temp_r0_2 = this->mode;

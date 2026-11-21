@@ -166,7 +166,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
 LAYOUT_ASSERT(TObjEneMe1Canadin_size, sizeof(TObjEneMe1Canadin) == 0x4CC);
 
 extern "C" {
-void fn_8009BD00(void);
+void fn_8009BD00(NJS_OBJECT *);
 }
 
 #endif

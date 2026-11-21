@@ -1523,7 +1523,7 @@ void TObjEneMe3Shinowa::vfunc_115(s32) {  }
 
 void TObjEneMe3Shinowa::vfunc_116(s32) {  }
 
-void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step() {
+void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step(NJS_OBJECT *) {
     if ((s32) TObjEneMe3ShinowaMirage__render_node_index == 1) {
         forward_transform_to_view(&TObjEneMe3ShinowaMirage__data_80500FC0, &lbl_80500FF4);
     }
@@ -1570,7 +1570,7 @@ void TObjEneMe3Shinowa::render() {
             translate_matrix(0, 0.0f, m_3cc, 0.0f);
             rotate_matrix_y(0, rotation_y);
             TObjEneMe3ShinowaMirage__render_node_index = 0;
-            set_chunk_model_node_callback((saddr)((void *)(TObjEneMe3ShinowaMirage::advance_camera_ctrl_step)));
+            set_chunk_model_node_callback(TObjEneMe3ShinowaMirage::advance_camera_ctrl_step);
             if (detail == 1) {
                 TObjMotion::draw();
             } else {

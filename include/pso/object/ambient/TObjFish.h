@@ -2,6 +2,8 @@
 #define PSO_OBJECT_AMBIENT_TOBJFISH_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 

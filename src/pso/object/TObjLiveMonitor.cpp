@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterial.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
 #include "pso/unk/text_8020BFE4.h"
@@ -28,7 +30,6 @@
 extern "C" {
 s32 TObjPlayer__sub_80084500();
 s32 TObjLiveMonitor__sub_8030C050(void* p);
-void draw_ginja_model(saddr);
 saddr get_bml_model(saddr, s32);
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
@@ -55,7 +56,6 @@ const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 /* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
-s32 draw_ginja_object(int);
 saddr get_bml_texlist(saddr, s32);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
@@ -405,7 +405,7 @@ void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
         live_monitor->render_live_monitor_screen();
     }
     push_matrix();
-    draw_ginja_object((int) (*(s32 *)((s8 *)live_monitor + 0x1C)));
+    draw_ginja_object(*(void **)((s8 *)live_monitor + 0x1C));
     pop_matrix();
 }
 
@@ -466,9 +466,9 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     default:
         return *(s32 *)((s8 *)this + 0x24);
     }
-    set_ginja_model_texture_slot((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), static_cast<u16>(var_r4));
+    set_ginja_model_texture_slot((*reinterpret_cast<NJS_OBJECT **>((u8 *)this + 0x1C))->model, static_cast<u16>(var_r4));
     push_matrix();
-    ::draw_ginja_model((*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
+    ::draw_ginja_model((*reinterpret_cast<NJS_OBJECT **>((u8 *)this + 0x1C))->model);
     return pop_matrix();
 }
 

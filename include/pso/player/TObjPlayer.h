@@ -2,6 +2,8 @@
 #define PSO_PLAYER_TOBJPLAYER_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
@@ -283,7 +285,7 @@ struct TObjPlayer : public TObjChara {
     void clear_counter();
     void set_cancel_flag();
     static void reset_effect_count();
-    static void step_cutscene_frame();
+    static void step_cutscene_frame(NJS_OBJECT *);
     static void free_resources();
     void enter_state_8();
     void tick_freeze_state();
@@ -441,7 +443,7 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_04000000();
     void set_invuln_flags();
     void update_invincibility();
-    static void update_effect_sequence();
+    static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
     static void create_dead_spot(saddr arg0, s32 arg1, f32 farg0);
     static void spawn_effect_f8(saddr arg1, s32 arg2);
@@ -1059,12 +1061,10 @@ struct TObjPlayer : public TObjChara {
     void reset_field4();
     static TItem *create_state_34_alt(u8 *item);
     static void update_battle_control_on_unlock(void *arg0, void *arg1, void *arg2, s32 arg3);
-    static void process_callback_list(s32 arg0);
     void draw_node_tree(void *arg1);
     void draw_node_tree_if_visible();
-    void apply_with_callback(saddr arg1, f32 farg0);
-    static s32 conditional_delete_ex(saddr arg0, s16 arg1);
-    static void create_cane_if_ready(saddr arg0, void *position);
+    static s32 conditional_delete_ex(s32 arg0, s16 arg1);
+    static void create_cane_if_ready(s32 arg0, void *position);
     static void create_cleanup_object(void *arg0);
     static void free_static_buffer();
     static void alloc_and_run_object();
@@ -1096,8 +1096,8 @@ struct TObjPlayer : public TObjChara {
     static void set_global_state(saddr arg0);
     static void set_global_7778(saddr arg0);
     static void update_render_state();
-    static void set_global_color_rgba(u32 v);
-    static void set_global_color_rgba_alt_b(u32 v);
+    static void set_global_color_rgba(u32 v, u32);
+    static void set_global_color_rgba_alt_b(u32 v, u32);
     static void draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 farg1);
     static void draw_player_model_by_id(s32 arg0, f32 farg0);
     void draw_shadowed_node_tree();
@@ -1184,7 +1184,7 @@ struct TObjPlayer : public TObjChara {
     void draw_trail_pair();
     void update_aim_and_fire();
     void set_flag_and_notify();
-    static void update_particle_by_phase();
+    static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
     void clear_render_context();

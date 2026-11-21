@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl_803D676C.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -287,8 +288,8 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 }
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-void draw_ginja_model(saddr);
+void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+
 void set_chunk_material_override_pair(s32, s32);
 extern Color_801FAAEC radar_map_backdrop_color;
 extern u8 saved_model_draw_color[];
@@ -848,7 +849,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
             push_matrix();
             translate_matrix(0, r->x, r->y, r->z);
             rotate_matrix_zyx(0, r->rx, r->ry, r->rz);
-            draw_ginja_model(r->model->obj);
+            draw_ginja_model((void *)(r->model->obj));
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }
