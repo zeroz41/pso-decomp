@@ -218,27 +218,11 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
-// Light pool element (0x38 bytes): TObjPlayer__sub_802EE574 initialises 11 of them as a linked free list.
-struct Light_802EE574 {
-    s32 type;
-    s32 f4;
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    s32 f14;
-    s32 f18;
-    s32 f1C;
-    f32 f20;
-    f32 f24;
-    f32 f28;
-    Light_802EE574 *next;
-    s32 f30;
-    u8 pad34[4];
-};
-
 // Globals of the De Rol Le C translation unit (802E7888-802EE814; .sbss/.bss).
 extern "C" {
-extern Light_802EE574 boss7_derolle_light_pool[11];
+// 11 empty nodes chained through child (evalflags 0xF, the last 0x1F); render hangs
+// them under model node 0x4D in place of its own child while state_flags & 0x40.
+extern NJS_OBJECT boss7_derolle_light_pool[11];
 
 void TObjPlayer__sub_802ED984(void);
 void TObjPlayer__sub_802EE574(void);

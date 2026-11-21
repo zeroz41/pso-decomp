@@ -756,7 +756,7 @@ void run_load_callback_table(void *, int);
 
 }
 
-Light_802EE574 boss7_derolle_light_pool[11];
+NJS_OBJECT boss7_derolle_light_pool[11];
 
 u8 *lbl_805D6918; // resource bundle loaded by TObjPlayer__sub_802EE574
 s32 boss7_derolle_c_motion_id;
@@ -767,8 +767,8 @@ Vec *lbl_805D692C;
 GC_Mtx *lbl_805D6930;
 GC_Mtx *lbl_805D6934;
 TBoss7DeRolLeC *boss7_joint_state; // the destructor clears it when it holds this object
-u8 *lbl_805D693C;
-s32 *lbl_805D6940;
+NJS_OBJECT *lbl_805D693C;
+NJS_OBJECT *lbl_805D6940;
 Vec *lbl_805D6944;
 
 void TBoss7DeRolLeC::clear_harmful_statuses() {  }
@@ -801,31 +801,31 @@ void TObjPlayer__sub_802EE574(void) {
     lbl_805D6934 = NULL;
     boss7_joint_state = NULL;
     run_load_callback_table(lbl_804E3C5C, 0x30);
-    lbl_805D693C = (u8 *)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D6918 + 0x42C)) + 8), 0x4D);
-    lbl_805D6940 = *(s32 **)((s8 *)lbl_805D693C + 0x2C);
+    lbl_805D693C = (NJS_OBJECT *)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D6918 + 0x42C)) + 8), 0x4D);
+    lbl_805D6940 = lbl_805D693C->child;
     for (i = 0; i < 11; i++) {
-        Light_802EE574 *l = &boss7_derolle_light_pool[i];
-        l->type = 0xF;
-        l->f4 = 0;
-        l->f8 = 0.0f;
-        l->fC = 0.0f;
-        l->f10 = 0.0f;
-        l->f14 = 0;
-        l->f18 = 0;
-        l->f1C = 0;
-        l->f20 = 0.0f;
-        l->f24 = 0.0f;
-        l->f28 = 0.0f;
-        l->next = 0;
-        l->f30 = 0;
+        NJS_OBJECT *node = &boss7_derolle_light_pool[i];
+        node->evalflags = 0xF;
+        node->model = NULL;
+        node->pos[0] = 0.0f;
+        node->pos[1] = 0.0f;
+        node->pos[2] = 0.0f;
+        node->ang[0] = 0;
+        node->ang[1] = 0;
+        node->ang[2] = 0;
+        node->scl[0] = 0.0f;
+        node->scl[1] = 0.0f;
+        node->scl[2] = 0.0f;
+        node->child = NULL;
+        node->sibling = NULL;
     }
     for (i = 0; i < 10; i++) {
-        boss7_derolle_light_pool[i].next = &boss7_derolle_light_pool[i + 1];
+        boss7_derolle_light_pool[i].child = &boss7_derolle_light_pool[i + 1];
     }
     {
-        Light_802EE574 *t = &boss7_derolle_light_pool[10];
-        t->type = 0x1F;
-        t->next = 0;
+        NJS_OBJECT *last = &boss7_derolle_light_pool[10];
+        last->evalflags = 0x1F;
+        last->child = NULL;
     }
     TWindowCtrl::init_all_slots();
 }
@@ -3949,9 +3949,9 @@ void TBoss7DeRolLeC::render() {
         push_matrix();
         if (this->unk_7AC != 0) {
             if (this->state_flags & 0x40) {
-                *(s32 **)((s8 *)lbl_805D693C + 0x2C) = &boss7_derolle_light_pool[0].type;
+                lbl_805D693C->child = &boss7_derolle_light_pool[0];
             } else {
-                *(s32 **)((s8 *)lbl_805D693C + 0x2C) = (s32 *) lbl_805D6940;
+                lbl_805D693C->child = lbl_805D6940;
             }
             TObjPlayer::draw_effect();
             ((TObjPlayer *)(this->unk_7AC))->draw_node_tree_if_visible();
