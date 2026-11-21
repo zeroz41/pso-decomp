@@ -8,6 +8,7 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "string.h"
+#include <ctype.h>
 #include "dolphin/os/OSThread.h"
 #include "dolphin/os/OSAlarm.h"
 #include "dolphin/os/OSTime.h"
