@@ -1353,8 +1353,8 @@ void fn_802CE510(TObjEneBm9Mericarol *owner) {
             if (surface_mask != 0) {
                 TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
                 if (spray != NULL) {
-                    attach_particle_model((u8 *)spray, (s32)TParticleCtrl::get_particle_model(2),
-                                          (s32)TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                    attach_particle_model((u8 *)spray, TParticleCtrl::get_particle_model(2),
+                                          TParticleCtrl::get_instance(), 0, 1, 1.0f);
                     spray->set_scale(5.0f, 1.0f);
                 }
                 TParticleCtrl *ripple = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0xA4);

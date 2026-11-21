@@ -1,6 +1,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -8,7 +9,6 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/technique/TTecZarua.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -2238,7 +2238,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             TObjEneGibbles__sub_800D8988(&this->position);
             p = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (p != 0) {
-                attach_particle_model((u8 *)p, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
+                attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
             }
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
             return 1;
@@ -2247,7 +2247,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             TObjEneGibbles__sub_800D8988(&this->position);
             p = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (p != 0) {
-                attach_particle_model((u8 *)p, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
+                attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
             }
             spawn_particle_effect(&hit->contact[3].point, 0xA4);
             return 1;

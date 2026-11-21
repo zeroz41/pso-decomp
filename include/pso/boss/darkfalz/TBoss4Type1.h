@@ -13,7 +13,7 @@ struct TBoss4DarkFalz;
 
 struct TBoss4Type1 : public TObjEnemy
 {
-    TBoss4Type1(TObject *parent, s32 *params);
+    TBoss4Type1(TObject *parent, saddr *params);
     virtual ~TBoss4Type1();
     virtual void run_task();
     virtual void render();

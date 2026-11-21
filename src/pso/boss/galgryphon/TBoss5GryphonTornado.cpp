@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
@@ -71,7 +72,6 @@ extern s32 __vt__20TBoss5GryphonTornado[];
 s32 get_bml_motion(s32, s32);
 
 void apply_tornado_hit(s32, Vec *);
-void attach_particle_model(void *, s32, s32, s32, s32, f32);
 Res_80355570 *csnVecterUnder(Vec *, s32);
 void play_persistent_sound(s32, void *, Vec *, s32, s32);
 extern s32 boss5_gryphon_bml_resource;

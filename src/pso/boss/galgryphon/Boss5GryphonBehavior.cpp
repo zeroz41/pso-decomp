@@ -1,5 +1,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlAccessors.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -57,7 +58,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/galgryphon/Boss5GryphonActionScripts.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/unk/text_80355A1C.h"
 #include "pso/unk/TLobby.h"
@@ -458,7 +458,6 @@ void run_death_reaction__13TBoss5GryphonFv(void);
 void refresh_target__13TBoss5GryphonFv(void);
 Obj_80065658 * __dt__13TBoss5GryphonFv(Obj_80065658 *o, s16 flag);
 void TBoss8Dragon__sub_800660A4(void *);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
 s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr arg1);
@@ -5062,14 +5061,14 @@ void fn_800660B8(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0xB0) = (s32) (*(s32 *)((s8 *)arg0 + 0xB0) | 1);
 }
 
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
-    *(s32 *)((s8 *)arg0 + 0x4C) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x50) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x54) = arg3;
-    *(u16 *)((s8 *)arg0 + 0x2C) = (u16) (*(u16 *)((s8 *)arg0 + 0x2C) | 0x200);
-    *(f32 *)((s8 *)arg0 + 0x5C) = farg0;
+void attach_particle_model(void *particle, saddr model, saddr texlist, saddr motion, s32 arg4, f32 farg0) {
+    *(saddr *)((s8 *)particle + 0x4C) = model;
+    *(saddr *)((s8 *)particle + 0x50) = texlist;
+    *(saddr *)((s8 *)particle + 0x54) = motion;
+    *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x200);
+    *(f32 *)((s8 *)particle + 0x5C) = farg0;
     if (arg4 != 0) {
-        *(u16 *)((s8 *)arg0 + 0x2C) = (u16) (*(u16 *)((s8 *)arg0 + 0x2C) | 0x400);
+        *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x400);
     }
 }
 

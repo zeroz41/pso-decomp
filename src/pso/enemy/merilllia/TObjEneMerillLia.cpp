@@ -23,6 +23,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 
 
 #include "pso/system/task/TObject.h"
@@ -490,7 +491,6 @@ extern "C" {
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void fn_800D88E4(void *pos);
 extern s32 actor_frame_tick;
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0);
@@ -1737,7 +1737,7 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
             particle_effect = (saddr)spawn_particle_effect((const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
             if (particle_effect != 0) {
-                attach_particle_model((u8 *)particle_effect, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
+                attach_particle_model((u8 *)particle_effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
             spawn_particle_effect((const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
         }

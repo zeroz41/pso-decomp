@@ -9,7 +9,7 @@ struct Vec;
 extern "C" {
 const Vec *get_arena_center(void);
 void TBoss8Dragon__sub_800660A4(void *p);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
+void attach_particle_model(void *particle, saddr model, saddr texlist, saddr motion, s32 arg4, f32 farg0);
 void fn_800660B8(u8 *arg0);
 }
 // --- end of C functions

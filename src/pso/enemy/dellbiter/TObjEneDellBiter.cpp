@@ -1,5 +1,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -86,7 +87,6 @@ s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 u32 csnLookAt(void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
@@ -514,7 +514,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
         if (hit->hit_mask & 4) {
             e = (void *)spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
-                attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
+                attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
             e = (void *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
@@ -526,7 +526,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
         if (hit->hit_mask & 2) {
             e = (void *)spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {
-                attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
+                attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
             e = (void *)spawn_particle_effect(&hit->contact[3].point, 0xA4);

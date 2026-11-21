@@ -16,7 +16,7 @@ struct TBoss4DarkFalz;
 // table name until the two are merged.
 class TUnk_80486924 : public TObjEnemy {
 public:
-    TUnk_80486924(TObject *parent, s32 *params);
+    TUnk_80486924(TObject *parent, saddr *params);
     virtual ~TUnk_80486924();
     void init_hanger();
     s32 get_phase();

@@ -735,11 +735,8 @@ s32 update_local_colliders_from_world(void *, void *);
 
 
 
-extern const char *TBoss7DeRolLeC__class_name;
 
-extern const CollisionBody boss7_derolle_c_collision_body;
 
-extern const Vec boss7_derolle_c_joint_start_position;
 
 
 
@@ -3962,7 +3959,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { TObjFish::set_global_param((s32)get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
+void TObjPlayer::draw_effect() { TObjFish::set_global_param((saddr)get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
 GinjaTextureList *TBoss7DeRolLeC::get_archive_textures() { return (GinjaTextureList *)get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 

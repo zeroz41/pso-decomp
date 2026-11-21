@@ -26,6 +26,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
@@ -182,7 +183,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_805D5868;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
@@ -342,7 +342,6 @@ V(60)V(61)V(62)V(63)V(64)V(65)V(66)V(67)V(68)V(69)V(70)V(71)V(72)V(73)V(74)V(75)
 };
 extern "C" {
 s32 is_split_screen();
-s32 get_player_by_client_id(void *);
 extern s32 local_client_id;
 s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2);
 
@@ -601,16 +600,16 @@ void TBoss4DarkFalz::handle_defeat() {
     u8 *arg0 = (u8 *)this;
     struct V3_8004B654 save;
     s32 flags[3];
-    saddr p;
+    TObjPlayer *p;
 
     TBoss4DarkFalz__sub_8004B5A0();
     if (is_split_screen() != 0) {
         ((TObjEnemy *)arg0)->distribute_experience();
     } else {
-        p = get_player_by_client_id((void *) ((u16) local_client_id));
+        p = get_player_by_client_id((u16)local_client_id);
         if (p != 0) {
             save = *(struct V3_8004B654 *)(arg0 + 0x2FC);
-            VecCopy(&this->body_center, (const Vec *)(p + 0x2FC));
+            VecCopy(&this->body_center, &p->body_center);
             ((TObjEnemy *)arg0)->distribute_experience();
             VecCopy(&this->body_center, (const Vec *)&save);
         }

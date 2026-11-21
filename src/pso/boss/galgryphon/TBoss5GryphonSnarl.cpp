@@ -1,5 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
@@ -29,7 +30,6 @@ extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 void apply_snarl_hit(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
 
-void attach_particle_model(void *, s32, s32, s32, s32, f32);
 
 s32 release_texture_list(void*);
 

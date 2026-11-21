@@ -534,12 +534,12 @@ void apply_tenchu_hits(TObject *source) {
 }
 
 s32 TBoss4Type1::create(saddr arg0) {
-    return (saddr)new TBoss4Type1(new TObjControl(tl_04), (s32 *)arg0);
+    return (saddr)new TBoss4Type1(new TObjControl(tl_04), (saddr *)arg0);
 }
 
 }
 
-TBoss4Type1::TBoss4Type1(TObject *parent, s32 *params) : TObjEnemy(parent) {
+TBoss4Type1::TBoss4Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     s32 i;
     s32 j;
 

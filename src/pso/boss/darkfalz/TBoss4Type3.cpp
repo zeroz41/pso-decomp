@@ -294,7 +294,7 @@ struct Obj_80059ABC { u8 pad[0x60]; s32 f60; };
 
 struct Ply_80059ABC { u8 pad[0x38]; f32 f38; u8 pad3c[4]; f32 f40; };
 
-struct Obj_8005A300 { u8 pad[0x38]; u8 f38[0x3CC]; u32 f404[13]; };
+struct Obj_8005A300 { u8 pad[0x38]; u8 f38[0x3CC]; TParticleCtrl *f404[13]; };
 
 struct Obj_8005A438 { u8 pad[0x3B0]; f32 f3b0; };
 
@@ -1110,9 +1110,9 @@ void TBoss4Type3::create_particle_emitters() {
     Obj_8005A300 *self = (Obj_8005A300 *)this;
     s32 i;
     for (i = 0; i < 8; i++) {
-        self->f404[i] = (uaddr)create_particle_emitter(self->f38, boss4_type3_effect_ids[i]);
+        self->f404[i] = create_particle_emitter(self->f38, boss4_type3_effect_ids[i]);
         if (self->f404[i] != 0) {
-            ((TParticleCtrl *)(self->f404[i]))->set_flags(0x40);
+            self->f404[i]->set_flags(0x40);
         }
     }
     for (; i < 13; i++) {
@@ -1153,9 +1153,9 @@ void TBoss4Type3::copy_positions_to_parts() {
 void TBoss4Type3__sub_8005A150(TBoss4Type3 *self) {
     s32 i;
     for (i = 8; i < 13; i++) {
-        u32 *slot = &((Obj_8005A300 *)self)->f404[i];
+        TParticleCtrl **slot = &((Obj_8005A300 *)self)->f404[i];
         if (*slot != 0) {
-            TParticleCtrl::release((void *)*slot);
+            TParticleCtrl::release(*slot);
             *slot = 0;
         }
     }

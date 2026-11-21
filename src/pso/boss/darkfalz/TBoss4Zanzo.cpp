@@ -193,7 +193,6 @@ f32 xyz_distance(Vec *, Vec *);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 extern Ofs_8005683C bishi_spawn_offset_table[];
-extern s32 registered_player_count;
 struct Def_804867C8 { s32 value; s32 remaining[39]; };
 
 const char *boss4_type2_class_name = "TBoss4Type2";
@@ -276,10 +275,10 @@ struct Obj_80057128 {
 };
 
 saddr TBoss4Type2::create(saddr params) {
-    return (saddr)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)params);
+    return (saddr)new TUnk_80486924(new TObjControl((TObject *)tl_04), (saddr *)params);
 }
 
-TUnk_80486924::TUnk_80486924(TObject *parent, s32 *params) : TObjEnemy(parent) {
+TUnk_80486924::TUnk_80486924(TObject *parent, saddr *params) : TObjEnemy(parent) {
     s32 i;
     s32 v;
 

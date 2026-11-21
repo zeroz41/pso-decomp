@@ -230,7 +230,6 @@ struct RecoveredFields_80051AD0_var_r31 {
 };
 
 void get_current_matrix(void *m);
-extern Mtx34 df_captured_matrix_pair[2];
 int TObjDFTenchuFuru__matrix_node_index;
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
