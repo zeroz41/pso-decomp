@@ -83,13 +83,13 @@ extern "C" void get_weapon_color__11TItemWeaponFPv(void *, void *);
 
 void TUnk_804F27E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     u8 sp8[16];
-    desc->pad_4c = 5.0f;
-    desc->pad_58 = 0xC000;
+    desc->scale = 5.0f;
+    desc->spin[2] = 0xC000;
     desc->flags |= 0x282;
     get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb((NJS_ARGB *)desc->color, (NJS_ARGB *)sp8);
-    desc->pad_74 = (void *)TObjPlayer::create_network_object;
-    desc->pad_70 = (void *)TObjPlayer__sub_8032E648;
+    copy_argb(&desc->color, (NJS_ARGB *)sp8);
+    desc->hit_effect = (void *)TObjPlayer::create_network_object;
+    desc->wall_effect = (void *)TObjPlayer__sub_8032E648;
 }
 
 extern "C" {
@@ -157,9 +157,9 @@ TUnk_804F27E0::TUnk_804F27E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     set_weapon_flags(3);
     pad_1fc = 0;
 }
-u8 *TObjPlayer__sub_803630F0(u8 *item) {
+TItem *TObjPlayer__sub_803630F0(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F27E0(tl_05, item);
+        return new TUnk_804F27E0(tl_05, item);
     }
     return NULL;
 }

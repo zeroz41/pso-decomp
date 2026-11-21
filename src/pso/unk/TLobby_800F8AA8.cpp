@@ -1,3 +1,4 @@
+#include "pso/render/GvmTextureArchive.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"
@@ -919,7 +920,7 @@ void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
 
 #pragma push
 void release_texture_list(void *p);
-s32 load_gvm_texture_archive(void *, void *);
+void *tmp_buf_use_req__6TLobbyFPCc(const char *);
 
 void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (s32 *)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
 
@@ -953,7 +954,7 @@ void TLobby::load_font_texture() {
     if (file != 0) {
         s32 r;
         prs_decompress_buffer((s32)lobby_font_texture_prs_data, (s32)file);
-        r = load_gvm_texture_archive(file, lbl_8049C61C);
+        r = load_gvm_texture_archive(file, (GinjaTextureList *)lbl_8049C61C);
         TLobby::tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
         if (r == -1) {

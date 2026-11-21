@@ -1,31 +1,41 @@
 #ifndef PSO_ITEM_TUNK_804F0BF0_H
 #define PSO_ITEM_TUNK_804F0BF0_H
+
+#include <stddef.h>
+#include <dolphin/mtx.h>
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+
+struct GinjaTextureList;
+struct S_8035016C;
+struct TItemEffPG;
+class TParticleCtrl;
 
 class TUnk_804F0BF0 : public TObject {
 public:
+    TUnk_804F0BF0(TItemEffPG *parent, S_8035016C *params);
     virtual ~TUnk_804F0BF0();
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x4];
-    u8 * m_20;
-    u8 unk_24[0x4];
-    f32 m_28;
-    u8 unk_2C[0x4];
-    f32 m_30;
-    u8 unk_34[0x4];
-    void * m_38;
-    u8 unk_3C[0x4];
+
+    s32 item_id;
+    NJS_OBJECT *m_20;
+    GinjaTextureList *texture_list;
+    NJS_ARGB color;
+    TParticleCtrl *m_38;
+    s32 rotation_y;
     s32 m_40;
-    u8 unk_44[0x4];
-    f32 m_48;
-    u8 unk_4C[0x4];
-    f32 m_50;
-    u8 unk_54[0x4];
+    f32 max_scale;
+    Vec scale;
+    f32 scale_step;
     s32 m_58;
-    u8 unk_5C[0xC];
+    Vec position;
 };
+
 typedef char TUnk_804F0BF0_size[sizeof(TUnk_804F0BF0) == 0x68 ? 1 : -1];
+typedef char TUnk_804F0BF0_color_offset[offsetof(TUnk_804F0BF0, color) == 0x28 ? 1 : -1];
+typedef char TUnk_804F0BF0_scale_offset[offsetof(TUnk_804F0BF0, scale) == 0x48 ? 1 : -1];
+typedef char TUnk_804F0BF0_position_offset[offsetof(TUnk_804F0BF0, position) == 0x5C ? 1 : -1];
 
 #endif

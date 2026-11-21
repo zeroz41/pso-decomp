@@ -15,6 +15,6 @@ public:
     s32 rotation_z;  // rotate_matrix_z angle of the model hook
 };
 
-extern "C" u8 *TObjPlayer__sub_8012EFAC(u8 *item);
+extern "C" TItem *TObjPlayer__sub_8012EFAC(u8 *item);
 
 #endif

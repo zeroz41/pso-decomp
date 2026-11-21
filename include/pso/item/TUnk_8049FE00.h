@@ -8,7 +8,7 @@ public:
     TUnk_8049FE00(TObject *parent, u8 *item);
     virtual ~TUnk_8049FE00();
     virtual void apply_use_effect();
-    static TUnk_8049FE00 *create(u8 *item);
+    static TItem *create(u8 *item);
     // The TP the three kinds give (by item index).
     int get_max_tp();
     int calc_large_tp();

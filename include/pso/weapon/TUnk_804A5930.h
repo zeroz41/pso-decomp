@@ -19,7 +19,7 @@ public:
     s16 kill_count_seen; // 0x1F8: owner kill count already counted (inferred name)
 };
 
-u8 *sealed_j_sword_create(u8 *item);
+TItem *sealed_j_sword_create(u8 *item);
 
 
 #endif

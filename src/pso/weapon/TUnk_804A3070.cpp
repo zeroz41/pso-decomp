@@ -43,9 +43,9 @@ TUnk_804A3070::TUnk_804A3070(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_agito_weapon(u8 *item) {
+TItem *create_agito_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A3070(tl_05, item);
+        return new TUnk_804A3070(tl_05, item);
     }
     return NULL;
 }

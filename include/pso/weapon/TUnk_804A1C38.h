@@ -10,6 +10,6 @@ public:
     virtual void reserved_53();
 };
 
-u8 *create_claw_weapon(u8 *arg0);
+TItem *create_claw_weapon(u8 *arg0);
 
 #endif

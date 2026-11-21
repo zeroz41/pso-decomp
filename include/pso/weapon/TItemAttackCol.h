@@ -2,7 +2,7 @@
 #define PSO_WEAPON_TITEMATTACKCOL_H
 
 #include "types.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/weapon/WeaponEffectDescriptor.h"
 
 #include "pso/system/data/FlagWord.h"
 
@@ -16,37 +16,17 @@ typedef void (*TItemAttackColHitWall)(s32 item_id, Vec *position, Vec *velocity)
 // ActorBodyHit entry and the collider's velocity.
 typedef void (*TItemAttackColHitObject)(s32 item_id, s32 *hit, Vec *velocity);
 
-// TItemAttackCol's parameters (TObjPlayer__sub_802E449C fills in the defaults).
-struct S_802E449C : S_802E451C {
-    s32 rotation_y;     // heading without flag 1
-    Vec direction;      // with it
-    f32 speed;
-    f32 range;          // how far it flies before it destroys itself
-    u32 flags;          // copied to TItemAttackCol::flags
-    u32 model;          // NJS_OBJECT drawn at its position, 0 for none
-    u32 texlist;
-    f32 scale;
-    s32 spin[3];
-    f32 star_width;     // StarLightParameters::width of its star light
-    f32 pad_60;
-    f32 star_color[3];  // red, green, blue in 0..1
-    TItemAttackColHitWall hit_wall;
-    TItemAttackColHitObject hit_object;
-    s32 particle;       // create_particle_emitter id, -1 for none
-    s32 trail_particle; // a second one, -1 for none
-};
-
 struct TItemAttackCol : public TUnk_804E355C {
-    TItemAttackCol(TObject *parent, S_802E449C *params);
+    TItemAttackCol(TObject *parent, Desc_8011E5C4 *params);
     virtual ~TItemAttackCol();
     virtual void vfunc_7();
     void check_object_hits();
-    virtual void vfunc_6(s32 *);
+    virtual void vfunc_6(ActorBodyHit *hit);
     Vec start_position;
     Vec velocity;
     f32 range_sq;
     FlagWord hit_wall_flags;
-    u32 flags;          // S_802E449C::flags
+    u32 flags;          // Desc_8011E5C4::flags
     u32 model;          // NJS_OBJECT render draws, 0 for none
     u32 texlist;        // set_texlist before drawing it
     s32 rotation[3];    // heading the model is drawn at
@@ -65,8 +45,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     void move_with_collision(void *arg1);
     virtual void render();
     virtual void run_task();
-    static void create(void *arg0, void *arg1);
-    void copy_pos(void* q);
+    static void create(TObject *parent, Desc_8011E5C4 *params);
 };
 
 typedef char TItemAttackCol_size[sizeof(TItemAttackCol) == 0x144 ? 1 : -1];

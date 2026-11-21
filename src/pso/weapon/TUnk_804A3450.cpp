@@ -43,9 +43,9 @@ TUnk_804A3450::TUnk_804A3450(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(2);
 }
 
-u8 *TObjPlayer::create_substate_b(u8 *arg0) {
+TItem *TObjPlayer::create_substate_b(u8 *arg0) {
     if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A3450(tl_05, arg0);
+        return new TUnk_804A3450(tl_05, arg0);
     }
     return NULL;
 }

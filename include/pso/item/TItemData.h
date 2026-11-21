@@ -3,6 +3,14 @@
 
 #include "types.h"
 
+// The start every ItemPMT record shares (lookup_item_pmt_record): its id and
+// the ItemModel.afs / ItemTexture.afs file indices of the item's model.
+struct ItemPmtHeader {
+    u32 id;
+    s16 model;
+    s16 texture;
+};
+
 struct EquipStats { s16 s0; s16 s2; s16 s4; s16 s6; s16 s8; s16 sA; s16 sC; };
 
 struct TItemData {

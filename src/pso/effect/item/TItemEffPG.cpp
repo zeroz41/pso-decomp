@@ -30,17 +30,10 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
 
-extern "C" {
-void TItemEffPG__begin_visual_fade(void *p);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_804F0BF0[];
-s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-}
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
 extern s32 saved_model_render_flags;
@@ -64,12 +57,11 @@ S_8035016C *S_8035016C::init_params() {
     return this;
 }
 
-void TItemEffPG::create(void *arg0, void *arg1) {
-    new TItemEffPG((TObject *)arg0, (S_8035016C *)arg1);
+void TItemEffPG::create(TObject *parent, S_8035016C *params) {
+    new TItemEffPG(parent, params);
 }
 
 TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(parent, params) {
-    void *visual;
     m_name = TItemEffPG__name;
     pad_C4 = params->pad_28;
     if (50.0f < pad_C4) {
@@ -78,11 +70,7 @@ TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(pare
     m_c8 = params->pad_30;
     required_charge = params->required_charge;
     pad_B0 *= 3.0f;
-    visual = operator new(0x68);
-    if (visual != NULL) {
-        visual = TItemEffPG__visual_ct((u8 *)visual, (u8 *)this, (u8 *)params);
-    }
-    m_d0 = (u32)visual;
+    m_d0 = new TUnk_804F0BF0(this, params);
 }
 
 TItemEffPG::~TItemEffPG() {}
@@ -116,9 +104,9 @@ void TItemEffPG::run_task() {
         disallow_rendering();
         return;
     }
-    if ((u32) this->m_d0 != 0U) {
-        TItemEffPG__begin_visual_fade(*(void * *)&this->m_d0);
-        this->m_d0 = 0U;
+    if (m_d0 != NULL) {
+        TItemEffPG__begin_visual_fade(m_d0);
+        m_d0 = NULL;
     }
 }
 
@@ -134,8 +122,8 @@ s32 TItemEffPG::vfunc_7() {
     return 1;
 }
 
-void TItemEffPG::create(void *parent, void *params, void *count) {
-    new TUnk_804F0C08((TObject *)parent, (S_8035016C *)params, (s32)count);
+void TItemEffPG::create(TObject *parent, S_8035016C *params, s32 count) {
+    new TUnk_804F0C08(parent, params, count);
 }
 
 TUnk_804F0C08::TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count) : TItemEffPG(parent, params) {
@@ -155,103 +143,96 @@ s32 TUnk_804F0C08::vfunc_7() {
     return 0;
 }
 
-u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
-    f32 temp_f1;
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804F0BF0;
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg2 + 0x18);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg2 + 0x34);
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)arg2 + 0x38);
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) *(f32 *)((s8 *)arg2 + 0x30);
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) *(f32 *)((s8 *)arg2 + 0x28);
-    VecCopy((Vec *)(arg0 + 0x5C), (const Vec *)arg2);
-    temp_f1 = *(f32 *)((s8 *)arg2 + 0xC);
-    ((TUnk_804F0BF0 *)arg0)->m_50 = temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x4C) = temp_f1;
-    ((TUnk_804F0BF0 *)arg0)->m_48 = temp_f1;
-    *(s32 *)((s8 *)arg0 + 0x3C) = 0;
-    ((TUnk_804F0BF0 *)arg0)->m_40 = 0;
-    ((TUnk_804F0BF0 *)arg0)->m_28 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
-    ((TUnk_804F0BF0 *)arg0)->m_30 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x34) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x38) = (s32)create_particle_emitter((arg0 + 0x5C), 0x83);
-    ((TUnk_804F0BF0 *)arg0)->m_58 = 0;
-    return arg0;
+TUnk_804F0BF0::TUnk_804F0BF0(TItemEffPG *parent, S_8035016C *params) : TObject(parent) {
+    item_id = params->item_id;
+    m_20 = params->pad_34;
+    texture_list = params->pad_38;
+    scale_step = params->pad_30;
+    max_scale = params->pad_28;
+    VecCopy(&position, &params->position);
+    f32 radius = params->radius;
+    scale.z = radius;
+    scale.y = radius;
+    scale.x = radius;
+    rotation_y = 0;
+    m_40 = 0;
+    color.a = 0.0f;
+    color.r = 0.0f;
+    color.g = 0.0f;
+    color.b = 0.0f;
+    m_38 = create_particle_emitter(&position, 0x83);
+    m_58 = 0;
 }
 
 TUnk_804F0BF0::~TUnk_804F0BF0() {
-    if (this->m_38 != NULL) { ((TObject *)this->m_38)->queue_destruction(); *(s32 *)((s8 *)this + 0x38) = 0; }
+    if (m_38 != NULL) {
+        m_38->queue_destruction();
+        m_38 = NULL;
+    }
 }
 
 void TUnk_804F0BF0::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f0;
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    *(s32 *)((s8 *)arg0 + 0x3C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C) + 0x71C);
-    *(s32 *)((s8 *)arg0 + 0x40) = (s32) (*(s32 *)((s8 *)arg0 + 0x40) - 0xE38);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x58) == 0) {
-        temp_f1 = *(f32 *)((s8 *)arg0 + 0x50);
-        if (temp_f1 < *(f32 *)((s8 *)arg0 + 0x44)) {
-            *(f32 *)((s8 *)arg0 + 0x50) = (f32) (temp_f1 + *(f32 *)((s8 *)arg0 + 0x54));
-            temp_f1_2 = *(f32 *)((s8 *)arg0 + 0x44);
-            if (temp_f1_2 < *(f32 *)((s8 *)arg0 + 0x50)) {
-                *(f32 *)((s8 *)arg0 + 0x50) = temp_f1_2;
+    rotation_y += 0x71C;
+    m_40 -= 0xE38;
+    if (m_58 == 0) {
+        f32 current_scale = scale.z;
+        if (current_scale < max_scale) {
+            scale.z = current_scale + scale_step;
+            f32 limit = max_scale;
+            if (limit < scale.z) {
+                scale.z = limit;
             }
         }
-        temp_f0 = *(f32 *)((s8 *)arg0 + 0x50);
-        *(f32 *)((s8 *)arg0 + 0x4C) = temp_f0;
-        *(f32 *)((s8 *)arg0 + 0x48) = temp_f0;
+        f32 final_scale = scale.z;
+        scale.y = final_scale;
+        scale.x = final_scale;
     } else {
-        temp_f1_3 = *(f32 *)((s8 *)arg0 + 0x28);
-        if (temp_f1_3 <= -1.0f) {
-            ((TObject *)arg0)->queue_destruction();
-            ((TObject *)arg0)->disallow_rendering();
+        f32 opacity = color.a;
+        if (opacity <= -1.0f) {
+            queue_destruction();
+            disallow_rendering();
         } else {
-            *(f32 *)((s8 *)arg0 + 0x28) = (f32) (temp_f1_3 - 0.06666667f);
+            color.a = opacity - 0.06666667f;
         }
     }
-    play_persistent_sound(0x4001A343, (s32)arg0, (u32)(arg0 + 0x5C), 0, 0);
+    play_persistent_sound(0x4001A343, (s32)this, (u32)&position, 0, 0);
 }
 
 void TUnk_804F0BF0::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32)this->all_parents_unqueued_for_destruction() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x1C))) == 0U) {
+    if (all_parents_unqueued_for_destruction() == 0 || find_equipped_item(item_id) == 0) {
         return;
     }
-    {
-        if (((void *) this->m_20 != NULL) && (TMainTask::get_render_pass() == 1)) {
-            set_draw_list_mask(3);
-            saved_model_render_flags = model_render_flags;
-            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
-            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-            copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
-            model_render_flags |= 0x20;
-            set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_28)));
-            TParticleCtrl::begin_effect_render();
-            TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x24)));
-            push_matrix();
-            post_translate_matrix((u8 *)&this->unk_5C);
-            push_matrix();
-            rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x3C)));
-            scale_current_matrix((u8 *)&this->m_48);
-            draw_ginja_model((*(s32 *)(this->m_20 + 4)));
-            pop_matrix();
-            push_matrix();
-            rotate_matrix_y(0, this->m_40);
-            scale_current_matrix((u8 *)&this->m_48);
-            draw_ginja_model((*(s32 *)((s8 *)(*(void **)(this->m_20 + 0x2C)) + 4)));
-            pop_matrix();
-            pop_matrix();
-            TParticleCtrl::end_effect_render();
-            copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
-            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-            model_render_flags = saved_model_render_flags;
-        }
+    if ((m_20 != NULL) && (TMainTask::get_render_pass() == 1)) {
+        set_draw_list_mask(3);
+        saved_model_render_flags = model_render_flags;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+        model_render_flags |= 0x20;
+        set_constant_material(&color);
+        TParticleCtrl::begin_effect_render();
+        TObjFish::set_global_param((s32)texture_list);
+        push_matrix();
+        post_translate_matrix(&position.x);
+        push_matrix();
+        rotate_matrix_y(NULL, rotation_y);
+        scale_current_matrix(&scale.x);
+        draw_ginja_model((s32)m_20->model);
+        pop_matrix();
+        push_matrix();
+        rotate_matrix_y(NULL, m_40);
+        scale_current_matrix(&scale.x);
+        draw_ginja_model((s32)m_20->child->model);
+        pop_matrix();
+        pop_matrix();
+        TParticleCtrl::end_effect_render();
+        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+        model_render_flags = saved_model_render_flags;
     }
 }
 
-void TItemEffPG__begin_visual_fade(void* p) { *(s32*)((char*)p + 0x58) = 1; }
+void TItemEffPG__begin_visual_fade(TUnk_804F0BF0 *visual) {
+    visual->m_58 = 1;
+}

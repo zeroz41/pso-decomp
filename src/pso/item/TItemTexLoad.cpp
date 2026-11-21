@@ -1,3 +1,4 @@
+#include "pso/render/GvmTextureArchive.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -7,10 +8,9 @@
 
 extern "C" {
 void prs_decompress_alloc(void*, s32, s32);
-void load_gvm_texture_archive(s32, void*);
+u32 adxf_open_afs__6TLobbyFii(int, int);
 void *lookup_item_pmt_record(u8 *item);
 s32 adxf_get_stat(s32);
-void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
 char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
@@ -25,7 +25,7 @@ void TItemTexLoad::load_texture_archive() {
     s32 r = TLobby::tmp_buf_use_req((const char *)(&t));
     if (r != 0) {
         prs_decompress_alloc(m_archive_buffer, r, 0x40000);
-        load_gvm_texture_archive(r, &m_texture_list);
+        load_gvm_texture_archive((void *)r, &m_texture_list);
         TLobby::tmp_buf_release((const char *)&t);
         m_state = 2;
     } else {
@@ -65,11 +65,11 @@ s32 TItemTexLoad::load_texture(s32 index) {
 }
 
 s32 TItemTexLoad::load_item_icon(TItemData* item) {
-    s32* rec;
+    const ItemPmtHeader *rec;
     s32 id;
     if (item != NULL) {
-        rec = (s32 *)lookup_item_pmt_record((u8 *)item);
-        id = *rec;
+        rec = (const ItemPmtHeader *)lookup_item_pmt_record((u8 *)item);
+        id = rec->id;
         if (rec != NULL) {
             switch (item->data1.data_u8[0]) {
             case 0:
@@ -120,7 +120,7 @@ TItemTexLoad::~TItemTexLoad() {
 
 TItemTexLoad::TItemTexLoad(TObject* parent) : TObject(parent) {
     m_name = TItemTexLoad_name;
-    TObjPlayer__sub_803DD5E8(&m_texture_list, &m_texture_entry, item_texture_filename_buffer, 1);
+    TObjPlayer__sub_803DD5E8(&m_texture_list, &m_texture_entry, (u32)item_texture_filename_buffer, 1);
     m_texture_entry.value04 = 0;
     m_texture_list.count = 1;
     m_texture_index = -1;

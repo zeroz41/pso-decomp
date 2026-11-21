@@ -34,7 +34,7 @@ struct RecoveredGlobal_8032DC94_lbl_8058D4C0
   u8 remaining[0xC];
 };
 
-u8 *create_guardianna(u8 *item);
+TItem *create_guardianna(u8 *item);
 
 const char *item_wpn_card_effect_class_name = "TItemWpnCardEffect";
 
@@ -111,7 +111,7 @@ s16 get_entity_id(void *);
 TUnk_804EDD44::TUnk_804EDD44(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
     ((Eff_8032E34C *)this)->f34 = get_entity_id(hit->target);
     ((Eff_8032E34C *)this)->f60 = item_id;
-    ((TItemAttackCol *)&unk_28)->copy_pos(hit);
+    copy_actor_body_hit(&hit_target, hit);
     VecCopy((Vec *)(((Eff_8032E34C *)this)->f38), (const Vec *)direction);
     VecCopy((Vec *)(((Eff_8032E34C *)this)->f64), (const Vec *)&hit->target->bodies[hit->body].center);
     ((Eff_8032E34C *)this)->f58 = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
@@ -120,8 +120,8 @@ TUnk_804EDD44::TUnk_804EDD44(TObject *parent, ActorBodyHit *hit, f32 *direction,
 }
 
 TUnk_804EDD44::TUnk_804EDD44(TObject *parent, f32 *arg2, f32 *arg3, s32 arg4, s32 arg5) : TObject(parent) {
-    ((Eff_8032E34C *)this)->f28 = 0;
-    ((Eff_8032E34C *)this)->f2C = 0;
+    hit_target.target = NULL;
+    hit_target.body = 0;
     ((Eff_8032E34C *)this)->f34 = 0xFFFF;
     ((Eff_8032E34C *)this)->f60 = arg5;
     VecCopy((Vec *)(((Eff_8032E34C *)this)->f38), (const Vec *)arg3);
@@ -258,7 +258,7 @@ void TUnk_804EDD44::anchor_card_effect() {
   {
     if (find_entity_by_id(temp_r3) != 0)
     {
-      temp_r3_2 = (u8 *) ((*((s32 *) (((s8 *) (*((u8 **) (((s8 *) ((u8 *)this)) + 0x28)))) + 0xA4))) + ((this->m_2c) * 0x2C));
+      temp_r3_2 = (u8 *)&hit_target.target->bodies[hit_target.body];
       *((f32 *) (((s8 *) ((u8 *)this)) + 0x64)) = (f32) ((*((f32 *) (((s8 *) temp_r3_2) + 0x1C))) - (this->m_44));
       this->m_68 = (f32) ((*((f32 *) (((s8 *) temp_r3_2) + 0x20))) - (*((f32 *) (((s8 *) ((u8 *)this)) + 0x48))));
       *((f32 *) (((s8 *) ((u8 *)this)) + 0x6C)) = (f32) ((*((f32 *) (((s8 *) temp_r3_2) + 0x24))) - (this->m_4c));
@@ -361,9 +361,9 @@ TUnk_804EDD20::~TUnk_804EDD20() {}
 
 TUnk_804EDC28::~TUnk_804EDC28() {}
 
-u8 *create_guardianna(u8 *item) {
+TItem *create_guardianna(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804EDC28(tl_05, item);
+        return new TUnk_804EDC28(tl_05, item);
     }
     return NULL;
 }
@@ -388,7 +388,7 @@ void TUnk_804EDC28::emit_marker_effects() {
     }
 }
 void TUnk_804EDC28::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    desc->pad_78 = 0x176;
-    desc->pad_74 = (void *)TObjPlayer::start_guardianna_hit_card;
-    desc->pad_70 = (void *)start_guardianna_wall_card;
+    desc->particle = 0x176;
+    desc->hit_effect = (void *)TObjPlayer::start_guardianna_hit_card;
+    desc->wall_effect = (void *)start_guardianna_wall_card;
 }

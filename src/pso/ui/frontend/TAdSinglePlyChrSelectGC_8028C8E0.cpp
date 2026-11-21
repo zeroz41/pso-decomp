@@ -146,8 +146,8 @@ s32 TAdSinglePlyChrSelectGC__sub_8028C998(void *arg0) {
 extern s32 chr_select_load_slot_count;
 
 s32 TAdSinglePlyChrSelectGC::load_preview_models() {
-    s32 len;
-    s32 tag;
+    u32 len;
+    u32 tag;
     u32 bufs[6];
     Arg_8028C9B0 s;
     s32 i;
@@ -156,10 +156,10 @@ s32 TAdSinglePlyChrSelectGC::load_preview_models() {
     Sel_8028C9B0 *self = (Sel_8028C9B0 *)this;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (u32)TLobby__sub_801E38A0((s32)(((TAdSinglePlyChrSelectGC *)(self->f74[i]))->get_result()), &len, &tag, (s32 *)(0), (s32 *)(0));
+        p = (u32)TLobby__sub_801E38A0((u8 *)((TAdSinglePlyChrSelectGC *)self->f74[i])->get_result(), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
         TAdSinglePlyChrSelectGC::safe_free(p);
-        bufs[i] = (u32)TLobby__sub_801E38A0((s32)(((TAdSinglePlyChrSelectGC *)(self->f74[i]))->get_result()), &len, &tag, (s32 *)(0), (s32 *)(0));
+        bufs[i] = (u32)TLobby__sub_801E38A0((u8 *)((TAdSinglePlyChrSelectGC *)self->f74[i])->get_result(), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
             return;

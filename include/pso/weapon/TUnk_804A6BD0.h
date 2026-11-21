@@ -18,6 +18,6 @@ public:
     s32 slide_state;  // 2 opening, 3 open, 1 closing, 0 closed
 };
 
-u8 *create_yasminkov_3000r(u8 *item);
+TItem *create_yasminkov_3000r(u8 *item);
 
 #endif

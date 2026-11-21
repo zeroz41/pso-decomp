@@ -43,9 +43,9 @@ TUnk_804A0EA8::TUnk_804A0EA8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-u8 *create_guld_milla(s32 item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A0EA8(tl_05, (u8 *)item);
+TItem *create_guld_milla(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A0EA8(tl_05, item);
     }
     return NULL;
 }

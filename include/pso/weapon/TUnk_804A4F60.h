@@ -33,6 +33,6 @@ public:
     s32 rotation_z;           // 0x278: rotate_matrix_z angle of the model hook
 };
 
-u8 *create_psycho_wand(u8 *item);
+TItem *create_psycho_wand(u8 *item);
 
 #endif

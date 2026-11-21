@@ -1,3 +1,4 @@
+#include "pso/item/ItemCreateFunction.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -24,8 +25,6 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range);
 void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(TObjPlayer *player);
 void *lookup_item_pmt_record(u8 *item);
-// The factory that builds the tool an item code names.
-TItem *(*TLobby__sub_8010440C(u8 *item))(u8 *item);
 }
 void handle_6x66_use_star_atomizer(u8 *arg0);
 extern const char *TItemObject_name;
@@ -38,13 +37,13 @@ TItemObject::~TItemObject() {}
 
 TItem *TItemObject::create_tool(u8 *item) {
     if (item != NULL) {
-        TItem *(*factory)(u8 *) = TLobby__sub_8010440C(item);
+        ItemCreateFunction factory = TLobby__sub_8010440C(item);
         return factory(item);
     }
     return NULL;
 }
 
-TItemObject *TItemObject::create(u8 *item) {
+TItem *TItemObject::create(u8 *item) {
     if (item != NULL) {
         return new TItemObject(tl_05, item);
     }

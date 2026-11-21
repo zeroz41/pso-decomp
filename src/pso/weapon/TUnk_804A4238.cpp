@@ -70,9 +70,9 @@ TUnk_804A4238::TUnk_804A4238(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     set_weapon_flags(2);
 }
 
-u8 *create_s_rank_j_cutter_weapon(u8 *owner) {
+TItem *create_s_rank_j_cutter_weapon(u8 *owner) {
     if (owner != NULL) {
-        return (u8 *)new TUnk_804A4238(tl_05, owner);
+        return new TUnk_804A4238(tl_05, owner);
     }
     return NULL;
 }

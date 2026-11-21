@@ -15,6 +15,6 @@ public:
     s32 unk_1f8; // 10 for item index 1, else 1; copied to the descriptor's +0x10
 };
 
-extern "C" u8 *TObjPlayer__sub_80126054(u8 *item);
+extern "C" TItem *TObjPlayer__sub_80126054(u8 *item);
 
 #endif

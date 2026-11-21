@@ -1,3 +1,4 @@
+#include "pso/render/GvmTextureArchive.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -17,14 +18,12 @@ char texture_prs_stream_filename_buffer[128];
 s32 lbl_805D63C0;
 s32 lbl_805D63C4;
 s32 sprintf(char *, const char *, ...);
-void load_gvm_texture_archive(s32, s32);
 extern char texture_prs_stream_filename_buffer[];
 s32 adxf_get_fsize_sct();
 s32 adxf_open__6TLobbyFUii(void *, s32);
 s32 xmalloc__FUl(s32);
 void xfree__FPv(s32);
 extern char texture_prs_disc_filename_buffer[];
-void TObjPlayer__sub_803DD5E8(void *, s32, s32, s32);
 s32 memset(s32, s32, s32);
 extern s32 lbl_805D63C0;
 extern s32 lbl_805D63C4;
@@ -53,7 +52,7 @@ s32 load_streamed_prs_texture(s32 arg0, s32 arg1) {
     }
     buf = (s32)TQuestVmDownLoadServer::alloc(0x100000);
     prs_decompress_buffer(h, buf);
-    load_gvm_texture_archive(buf, arg1);
+    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)arg1);
     TAdSinglePlyChrSelectGC::safe_free(buf);
     TAdSinglePlyChrSelectGC::safe_free(h);
     return 1;
@@ -72,7 +71,7 @@ s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
         if (read_disc_file(texture_prs_disc_filename_buffer, (void *)b) != -1) {
             c = xmalloc__FUl(0x200000);
             prs_decompress_buffer(b, c);
-            load_gvm_texture_archive(c, arg1);
+            load_gvm_texture_archive((void *)c, (GinjaTextureList *)arg1);
             xfree__FPv(c);
         }
         xfree__FPv(b);
@@ -90,7 +89,7 @@ s32 bind_gvm_texture_list(const char *name, GinjaTextureList *texlist) {
         return 0;
     }
     memset(lbl_805D63C0, 0, 0x1800);
-    TObjPlayer__sub_803DD5E8(m_texture_list, lbl_805D63C0, lbl_805D63C4, 0x200);
+    TObjPlayer__sub_803DD5E8((GinjaTextureList *)m_texture_list, (GinjaTextureEntry *)lbl_805D63C0, lbl_805D63C4, 0x200);
     if (TLobby::load_texture_pvm_file(name, (s32)m_texture_list) == -1) {
         return 0;
     }

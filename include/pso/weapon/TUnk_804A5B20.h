@@ -21,6 +21,6 @@ public:
     WeaponVector scale; // 0x1FC: blade scale (variant 5) or offset (variant 7)
 };
 
-u8 *create_slicer_weapon(u8 *item);
+TItem *create_slicer_weapon(u8 *item);
 
 #endif

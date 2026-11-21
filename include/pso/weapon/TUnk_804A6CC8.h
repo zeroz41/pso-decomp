@@ -24,6 +24,6 @@ public:
     WeaponVector slide;  // post_translate_matrix in vfunc_60
 };
 
-u8 *create_yasminkov_2000h(u8 *item);
+TItem *create_yasminkov_2000h(u8 *item);
 
 #endif

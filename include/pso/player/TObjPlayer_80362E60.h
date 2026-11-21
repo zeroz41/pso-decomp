@@ -3,9 +3,11 @@
 
 #include "types.h"
 
+struct TItem;
+
 // --- C functions defined in TObjPlayer_80362E60.cpp ---
 extern "C" {
-u8 *TObjPlayer__sub_803630F0(u8 *arg0);
+TItem *TObjPlayer__sub_803630F0(u8 *arg0);
 }
 // --- end of C functions
 

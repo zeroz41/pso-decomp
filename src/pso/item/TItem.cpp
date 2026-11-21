@@ -1475,13 +1475,13 @@ void TItem::render_ground() {
 }
 
 void TItem::render_model() {
-    void *model;
-    s32 texture;
-    TItemLoad::get_model_ids(drop_model, (s32 *)&model, &texture);
+    NJS_OBJECT *model;
+    GinjaTextureList *texture;
+    TItemLoad::get_drop_model(drop_model, &model, &texture);
     if (model != NULL) {
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist(texture);
+        set_texlist((u32)texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1497,8 +1497,8 @@ void TItem::render_model() {
 // colours of its wrapping.
 void TItem::render_present_box() {
     NJS_OBJECT *box;
-    s32 texture;
-    TItemLoad::get_model_ids(6, (s32 *)&box, &texture);
+    GinjaTextureList *texture;
+    TItemLoad::get_drop_model(6, &box, &texture);
     if (box != NULL) {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -1507,7 +1507,7 @@ void TItem::render_present_box() {
         model_render_flags |= 0x10;
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist(texture);
+        set_texlist((u32)texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

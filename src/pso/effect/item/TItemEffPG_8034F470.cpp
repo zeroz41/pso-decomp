@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804CCB28.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -39,8 +40,6 @@ struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
 
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
-void create_fire_explosion_effect(void *, f32, void *, int, void *);
-void *TObjPlayer__sub_802E449C(void *a0);
 s32 rotate_matrix_x(s32, s32);
 void draw_weapon_at_joint(s32, s8);
 }
@@ -49,9 +48,9 @@ void draw_weapon_at_joint(s32, s8);
 // TU, since its 10.0f literal at 0x805DFE00 sits between two 4-byte pads.
 // Built with -inline off,deferred like TItemEffPG.cpp: functions are written last to first.
 
-u8 *TUnk_804F0AF8::create(u8 *item) {
+TItem *TUnk_804F0AF8::create(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F0AF8(tl_05, item);
+        return new TUnk_804F0AF8(tl_05, item);
     }
     return NULL;
 }
@@ -84,9 +83,9 @@ void TUnk_804F0AF8::vfunc_60() {
     }
 }
 
-u8 *TObjPlayer::create_gi_gue_bazooka(s32 arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804F0A00(tl_05, (u8 *)arg0);
+TItem *TObjPlayer::create_gi_gue_bazooka(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804F0A00(tl_05, item);
     }
     return NULL;
 }
@@ -125,13 +124,13 @@ void TUnk_804F0A00::vfunc_60() {
 }
 
 void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    desc->pad_74 = (void *)TObjPlayer::spawn_fire_explosion_at_item;
-    desc->pad_70 = (void *)TObjPlayer::spawn_fire_explosion_for_item;
+    desc->hit_effect = (void *)TObjPlayer::spawn_fire_explosion_at_item;
+    desc->wall_effect = (void *)TObjPlayer::spawn_fire_explosion_for_item;
     desc->flags |= 0x80;
 }
 
 s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
-    S_802E449C info;
+    Desc_8011E5C4 info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
     ((TItemWeapon *)a0)->fill_status_info(&info);
@@ -140,7 +139,7 @@ s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
     new TUnk_804A2548(tl_05, &info);
     o = TObject::operator new(0x64);
     if (o != NULL) {
-        create_fire_explosion_effect(o, 10.0f, &info, 0, tl_particle);
+        create_fire_explosion_effect((u8 *)o, 10.0f, &info.position, 0, tl_particle);
     }
 }
 

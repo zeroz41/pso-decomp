@@ -38,7 +38,7 @@ typedef char GinjaTextureListEntries[(offsetof(GinjaTextureList,entries)==0)?1:-
 typedef char GinjaTextureListCount[(offsetof(GinjaTextureList,count)==4)?1:-1];
 typedef char GinjaTextureEntrySize[(sizeof(GinjaTextureEntry)==12)?1:-1];
 typedef char GinjaTextureEntryName[(offsetof(GinjaTextureEntry,name)==0)?1:-1];
-typedef char GinjaTextureEntryValue04[(offsetof(GinjaTextureEntry,value04)==4)?1:-1];
+typedef char GinjaTextureEntryAttributes[(offsetof(GinjaTextureEntry,value04)==4)?1:-1];
 typedef char GinjaTextureEntryTexture[(offsetof(GinjaTextureEntry,texture)==8)?1:-1];
 
 void load_item_kt_afs(void);

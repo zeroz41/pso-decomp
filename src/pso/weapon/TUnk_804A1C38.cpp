@@ -17,9 +17,9 @@ TUnk_804A1C38::TUnk_804A1C38(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(1);
 }
 
-u8 *create_claw_weapon(u8 *item) {
+TItem *create_claw_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A1C38(tl_05, item);
+        return new TUnk_804A1C38(tl_05, item);
     }
     return NULL;
 }

@@ -11,7 +11,7 @@ public:
     virtual void emit_marker_effects();
     // The two points emit_marker_effects shoots from (launch_shot origins);
     // reserved_53 fills them (draw_status_icons).
-    WeaponVector shot_origins[2];
+    Vec shot_origins[2];
 };
 
 

@@ -4,6 +4,10 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct AnimationMotion;
+struct GinjaTextureList;
+struct NJS_OBJECT;
+
 struct TItemEffArmor : public TObject {
     virtual ~TItemEffArmor();
     u32 m_1c;
@@ -20,9 +24,9 @@ struct TItemEffArmor : public TObject {
     u8 unk_64[0x4];
     u32 m_68;
     u32 m_6c;
-    u32 m_70;
-    u32 m_74;
-    u32 m_78;
+    NJS_OBJECT *model;
+    AnimationMotion *motion;
+    GinjaTextureList *texture_list;
     virtual void render();
     virtual void run_task();
 };

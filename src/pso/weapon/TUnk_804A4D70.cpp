@@ -105,9 +105,9 @@ TUnk_804A4D70::TUnk_804A4D70(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_partisan_weapon(u8 *item) {
+TItem *create_partisan_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A4D70(tl_05, item);
+        return new TUnk_804A4D70(tl_05, item);
     }
     return NULL;
 }

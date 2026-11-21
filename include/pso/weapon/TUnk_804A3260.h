@@ -11,7 +11,7 @@ public:
     virtual void reserved_53();
     virtual void update_weapon();
     virtual void emit_marker_effects();
-    f32 muzzle[2][3];
+    Vec muzzle[2];
     s32 effectJoint;
     s32 effectAngle;
     s32 effectScaleJoint;

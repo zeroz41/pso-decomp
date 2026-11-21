@@ -127,9 +127,9 @@ TUnk_804A4F60::TUnk_804A4F60(TObject *parent, u8 *item) : TItemWeapon(parent, it
     targets.count = 0;
 }
 
-u8 *create_psycho_wand(u8 *item) {
+TItem *create_psycho_wand(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A4F60(tl_05, item);
+        return new TUnk_804A4F60(tl_05, item);
     }
     return NULL;
 }

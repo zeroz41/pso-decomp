@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-u8 *create_panzer_faust(s32 arg0);
+struct TItem;
+
+TItem *create_panzer_faust(u8 *item);
 
 #endif

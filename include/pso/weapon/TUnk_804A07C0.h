@@ -11,7 +11,7 @@ public:
 
 // Factory
 extern "C" {
-u8 *TObjPlayer__sub_80121318(u8 *arg0);
+TItem *TObjPlayer__sub_80121318(u8 *arg0);
 }
 
 #endif

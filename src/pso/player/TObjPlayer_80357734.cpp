@@ -12,9 +12,9 @@
 // vfunc_60's jump table in .data), which emits functions in reverse order of definition.
 #pragma defer_codegen on
 
-u8 *TObjPlayer::create_state_34_alt(u8 *item) {
+TItem *TObjPlayer::create_state_34_alt(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F14A8(tl_05, item);
+        return new TUnk_804F14A8(tl_05, item);
     }
     return NULL;
 }
@@ -82,7 +82,7 @@ void TUnk_804F14A8::emit_marker_effects() {
 
 void TUnk_804F14A8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->flags |= 0x400;
-    desc->pad_78 = 0x12;
+    desc->particle = 0x12;
 }
 
 S_80357734 *S_80357734::reset_field28() {

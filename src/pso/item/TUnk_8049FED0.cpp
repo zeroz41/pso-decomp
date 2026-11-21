@@ -12,7 +12,7 @@
 // Written from the last function back (deferred code generation), which puts
 // TUnk_8049FEB8's vtable before this class's.
 
-TUnk_8049FED0 *TUnk_8049FED0::create(u8 *item) {
+TItem *TUnk_8049FED0::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_8049FED0(tl_05, item);
     }

@@ -13,6 +13,6 @@ public:
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
 };
 
-u8 *alloc_and_init_obj_effect(u8 *arg0);
+TItem *alloc_and_init_obj_effect(u8 *arg0);
 
 #endif

@@ -13,7 +13,7 @@ public:
 };
 
 extern "C" {
-u8 *TObjPlayer__sub_80123950(u8 *item);
+TItem *TObjPlayer__sub_80123950(u8 *item);
 }
 
 #endif

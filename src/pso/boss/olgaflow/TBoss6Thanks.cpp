@@ -334,7 +334,7 @@ void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     f32 sp8[4];
     desc->flags |= 0x1C;
     get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb((NJS_ARGB *)desc->color, (NJS_ARGB *)sp8);
+    copy_argb(&desc->color, (NJS_ARGB *)sp8);
     desc->model = second_model;
-    desc->pad_70 = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
 }

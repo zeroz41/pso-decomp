@@ -23,6 +23,6 @@ public:
     WeaponVector second_translation; // node 2 (index 5)
 };
 
-u8 *create_partisan_weapon(u8 *item);
+TItem *create_partisan_weapon(u8 *item);
 
 #endif

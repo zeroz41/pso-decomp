@@ -26,6 +26,6 @@ public:
     u8 pad_228[4];
 };
 
-u8 *create_shot_weapon(u8 *item);
+TItem *create_shot_weapon(u8 *item);
 
 #endif

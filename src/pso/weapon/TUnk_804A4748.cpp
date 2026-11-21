@@ -17,7 +17,7 @@ void TUnk_804A4748::emit_marker_effects() {
 }
 
 void TUnk_804A4748::reserved_53() {
-    ((TObjPlayer *)this)->draw_status_icons(&shot_origins[0], &shot_origins[1]);
+    sample_dual_muzzles(&shot_origins[0], &shot_origins[1]);
 }
 
 TUnk_804A4748::~TUnk_804A4748() {}
@@ -28,9 +28,9 @@ TUnk_804A4748::TUnk_804A4748(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-u8 *TObjPlayer::create_action(s32 arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804A4748(tl_05, (u8 *)arg0);
+TItem *TObjPlayer::create_action(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A4748(tl_05, item);
     }
     return NULL;
 }

@@ -12,6 +12,6 @@ public:
     virtual void vfunc_62();  // marker effect at the owner's knuckle joint
 };
 
-u8 *create_s_rank_knuckle(u8 *item);
+TItem *create_s_rank_knuckle(u8 *item);
 
 #endif

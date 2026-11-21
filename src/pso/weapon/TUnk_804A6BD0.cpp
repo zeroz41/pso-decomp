@@ -69,9 +69,9 @@ TUnk_804A6BD0::TUnk_804A6BD0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     slide_state = 0;
 }
 
-u8 *create_yasminkov_3000r(u8 *item) {
+TItem *create_yasminkov_3000r(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A6BD0(tl_05, item);
+        return new TUnk_804A6BD0(tl_05, item);
     }
     return NULL;
 }

@@ -76,9 +76,9 @@ TUnk_804A4E68::TUnk_804A4E68(TObject *parent, u8 *item) : TItemWeapon(parent, it
     rotation_z = 0;
 }
 
-u8 *TObjPlayer::create_vtable_clear_field1f8(u8 *item) {
+TItem *TObjPlayer::create_vtable_clear_field1f8(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A4E68(tl_05, item);
+        return new TUnk_804A4E68(tl_05, item);
     }
     return NULL;
 }

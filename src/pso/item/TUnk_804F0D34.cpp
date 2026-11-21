@@ -26,7 +26,7 @@ static char *event_music_adx_table[] = {
 
 static TUnk_804F0D1C *pending_destroy_object;
 
-TUnk_804F0D34 *TUnk_804F0D34::create(u8 *item) {
+TItem *TUnk_804F0D34::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_804F0D34(tl_05, item);
     }

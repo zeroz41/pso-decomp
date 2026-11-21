@@ -182,12 +182,12 @@ TUnk_804F2A10::~TUnk_804F2A10() {
 
 
 void TUnk_804F2A10::run_task() {
-    void *spC;
-    s32 sp8;
+    NJS_OBJECT *model;
+    GinjaTextureList *texture;
 
-    TItemLoad::get_model_ids((u8)5, (s32 *)&spC, (s32 *)&sp8);
-    if (spC != NULL) {
-        scroll_item_model_uvs(*(NJS_OBJECT **)((s8 *)spC + 0x2C), 2, 2, 0xB);
+    TItemLoad::get_drop_model(5, &model, &texture);
+    if (model != NULL) {
+        scroll_item_model_uvs(model->child, 2, 2, 0xB);
     }
 }
 void TUnk_804F2A10::render() {

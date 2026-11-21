@@ -17,8 +17,7 @@ public:
     void sub_8032E294();
     void destroy_effect_objects();
     void *particles[3];  // queued for destruction by destroy_effect_objects
-    u8 unk_28[0x4];
-    s32 m_2c;
+    ActorBodyHit hit_target;
     u8 unk_30[0x4];
     u16 m_34;
     u8 unk_36[0xE];

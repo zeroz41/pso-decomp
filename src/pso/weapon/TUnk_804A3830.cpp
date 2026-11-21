@@ -33,9 +33,9 @@ TUnk_804A3830::TUnk_804A3830(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(513);
 }
 
-u8 *TObjPlayer::create_state_variant(u8 *item) {
+TItem *TObjPlayer::create_state_variant(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A3830(tl_05, item);
+        return new TUnk_804A3830(tl_05, item);
     }
     return NULL;
 }

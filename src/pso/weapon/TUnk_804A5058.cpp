@@ -19,9 +19,9 @@ TUnk_804A5058::~TUnk_804A5058() {}
 
 TUnk_804A5058::TUnk_804A5058(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-u8 *TObjPlayer::create_variant_ct(u8 *item) {
+TItem *TObjPlayer::create_variant_ct(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A5058(tl_05, item);
+        return new TUnk_804A5058(tl_05, item);
     }
     return NULL;
 }

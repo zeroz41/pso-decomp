@@ -23,6 +23,6 @@ public:
     WeaponVector ejectors[2];  // joint 1 of each gun
 };
 
-u8 *create_yasminkov_9000m(u8 *item);
+TItem *create_yasminkov_9000m(u8 *item);
 
 #endif

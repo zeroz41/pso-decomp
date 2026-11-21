@@ -19,9 +19,9 @@ TUnk_804A1190::~TUnk_804A1190() {}
 TUnk_804A1190::TUnk_804A1190(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
 
-u8 *TObjPlayer__sub_801229EC(u8 *item) {
+TItem *TObjPlayer__sub_801229EC(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A1190(tl_05, item);
+        return new TUnk_804A1190(tl_05, item);
     }
     return NULL;
 }

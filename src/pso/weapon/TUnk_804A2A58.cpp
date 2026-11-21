@@ -85,9 +85,9 @@ TUnk_804A2A58::TUnk_804A2A58(TObject *parent, u8 *item) : TItemWeapon(parent, it
 // ---- pso/unk/text_80126740
 
 
-u8 *create_baranz_launcher(u8 *item) {
+TItem *create_baranz_launcher(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2A58(tl_05, item);
+        return new TUnk_804A2A58(tl_05, item);
     }
     return NULL;
 }
