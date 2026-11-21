@@ -24,11 +24,10 @@ extern s32 TMedicalCenterMes__slot_flags[4];
 extern s32 local_client_id;
 }
 
-struct TMedicalCenterMesInput { u8 pad[0x20]; u8 buttons[0x30]; };
-TMedicalCenterMesInput controller_input_state[];
 
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
 extern "C" {
@@ -150,7 +149,7 @@ void TMedicalCenterSequence::restore_player_state() {
 
 typedef struct Stack_80216830 Stack_80216830;
 typedef struct VBase_18_a93f07 VBase_18_a93f07;
-s32 TMedicalCenterSequence::open_greeting_window() {
+void TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
@@ -233,7 +232,7 @@ void TMedicalCenterSequence::show_fee_prompt() {
     set_field_20(3);
 }
 
-s32 TMedicalCenterSequence::handle_window_input() {
+void TMedicalCenterSequence::handle_window_input() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         vfunc_6(0x22, 1);
         set_field_20(0xa);
@@ -298,7 +297,7 @@ void TMedicalCenterMes::run_task() {
     }
     case 1:
         if (is_ready() != 0 && player != NULL) {
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)player)->get_map_id()].buttons, 4) != 0) {
+            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], 4) != 0) {
                 state = 2;
             }
         }

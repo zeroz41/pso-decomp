@@ -267,7 +267,7 @@ void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
-void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
+void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, s32 kind);
 void fn_802972BC(void);
 void fn_802972C0(void);
 void TObjCMMainMenu__sub_80298310(void);
@@ -1012,7 +1012,7 @@ void TObjCMMainMenu::draw_root_menu() {
 void TObjCMMainMenu::open_assign_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
-    TObjCMAssignMenu::create(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
+    TObjCMAssignMenu::create(nodes, TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
 }
 
 void TObjCMMainMenu::open_hair_menu() {
@@ -1084,7 +1084,7 @@ void fn_802972BC(void) {  }
 
 const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 
-void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *kind) {
+void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, s32 kind) {
     u32 bit;
     s32 i;
     ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(obj_cm_assign_menu, parent);
@@ -1092,7 +1092,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
     ((Menu_80297128 *)obj_cm_assign_menu)->name = TObjCMAssignMenu__name;
     ((Menu_80297128 *)obj_cm_assign_menu)->chara = (*(Chara_80297128 * *)&creation_player_character);
     ((Menu_80297128 *)obj_cm_assign_menu)->f20 = 0;
-    ((Menu_80297128 *)obj_cm_assign_menu)->kind = (saddr)kind;
+    ((Menu_80297128 *)obj_cm_assign_menu)->kind = kind;
     ((Menu_80297128 *)obj_cm_assign_menu)->count = ((Row_80297128 *)&class_appearance_table)[character_display_index(reinterpret_cast<uaddr>(((Menu_80297128 *)obj_cm_assign_menu)->chara))].v[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->f28 = ((Menu_80297128 *)obj_cm_assign_menu)->chara->f38[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->n = 0;
@@ -1130,7 +1130,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
 
 TObjCMAssignMenu::~TObjCMAssignMenu() {}
 
-void *TObjCMAssignMenu::create(void *parent, void *kind) {
+void *TObjCMAssignMenu::create(void *parent, s32 kind) {
     void *o;
     o = TObject::operator new(0x5C);
     if (o != NULL) {
