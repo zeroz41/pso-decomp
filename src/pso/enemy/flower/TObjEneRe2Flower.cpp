@@ -336,7 +336,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
 
     m_name = lbl_805D2A48;
     invoke_initialization_hook(setData);
-    sub_800C3BA8();
+    finish_ctor();
     m_3c4 = 0;
     if (get_current_floor_area() == AREA_TOWER) {
         m_3c4 |= 0x800;
@@ -359,7 +359,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     sub_8002AE64();
     if (get_flag_11()) {
         variant = 2;
-    } else if (sub_800C3B8C()) {
+    } else if (get_flag_10_if_not_flag_11()) {
         variant = 1;
     } else {
         variant = 0;
@@ -376,7 +376,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     movementParameters = &TObjEneRe2Flower__setup_data;
     if (get_flag_11()) {
         initialize_enemy_state(83);
-    } else if (sub_800C3B8C()) {
+    } else if (get_flag_10_if_not_flag_11()) {
         initialize_enemy_state(14);
     } else {
         initialize_enemy_state(13);
@@ -402,7 +402,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     m_420 = 0;
     m_424 = lbl_805D9FAC;
     m_428 = NULL;
-    sub_800C3DC4();
+    sync_center_offset();
     update_body_colliders();
     transform_part_positions();
     mode = 0;
@@ -432,7 +432,7 @@ void TObjEneRe2Flower::run_task() {
             transition_enemy_state(2);
         }
     }
-    this->sub_800C3DC4();
+    this->sync_center_offset();
     submit_default_cursor_candidate();
     this->render_minimap_dot();
 }
@@ -452,10 +452,10 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
         state_chase_target(reason);
         return;
     case 4:
-        fn_800C32DC((u8 *)this, reason);
+        state_action_4((u8 *)this, reason);
         return;
     case 5:
-        fn_800C3088((u8 *)this, reason);
+        state_action_5((u8 *)this, reason);
         return;
     case 9:
         state_damaged(reason);
@@ -506,7 +506,7 @@ void TObjEneRe2Flower::run_hit_reaction() {
 
 void TObjEneRe2Flower::run_miss_reaction() {  }
 
-void TObjEneRe2Flower::sub_800C3DC4() {
+void TObjEneRe2Flower::sync_center_offset() {
     VecCopy(&this->body_center, &this->position);
     this->body_center.y = this->body_center.y + lbl_805D9FF8;
     VecCopy(&this->center, &this->body_center);
@@ -568,9 +568,9 @@ u8 *TObjEneRe2Flower::find_target_in_range() {
     return NULL;
 }
 
-void TObjEneRe2Flower::sub_800C3BA8() {  }
+void TObjEneRe2Flower::finish_ctor() {  }
 
-s32 TObjEneRe2Flower::sub_800C3B8C() {
+s32 TObjEneRe2Flower::get_flag_10_if_not_flag_11() {
     u32 flags = m_3c4;
     if (flags & 0x800) {
         return 0;
@@ -581,7 +581,7 @@ s32 TObjEneRe2Flower::sub_800C3B8C() {
 int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
 
 extern "C" {
-s32 fn_800C3A60(saddr arg0, s32 arg1) {
+s32 remap_sound_for_variant(saddr arg0, s32 arg1) {
     if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
         switch (arg1) {
         case 0x4003A10E:
@@ -755,7 +755,7 @@ void TObjEneDD_ST::state_chase_target(s32 arg1) {
 }
 
 extern "C" {
-void fn_800C32DC(u8 *owner, s32 arg1) {
+void state_action_4(u8 *owner, s32 arg1) {
     Vec stack;
     uaddr temp_r3;
     uaddr temp_r3_2;
@@ -805,7 +805,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
                     TObjPlayer__sub_800C4A5C(temp_r3_3, owner, &stack.x, (int) (((TObjEneRe2Flower *)owner)->rotation_y));
                 }
             }
-            play_sound_effect((fn_800C3A60((saddr)owner, 0x4003A10E)), owner + 0x3DC, 0, 0);
+            play_sound_effect((remap_sound_for_variant((saddr)owner, 0x4003A10E)), owner + 0x3DC, 0, 0);
         }
         ((TObjEneDD *)(owner))->update_ground_contact();
         ((TObjEneDD *)(owner))->update_body_colliders();
@@ -821,7 +821,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     }
 }
 
-void fn_800C3088(u8 *arg0, int arg1) {
+void state_action_5(u8 *arg0, int arg1) {
   switch (arg1)
   {
     case 4:
@@ -868,7 +868,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
             (((VObj_18_880cfd *)((u8 *) ((RecoveredFields_800C3088_arg0 *) arg0)->field_390))->m23((arg0), (lbl_805D9FD4)));
           }
         }
-        play_sound_effect(fn_800C3A60((saddr)arg0, 0x4003A814), arg0 + 0x38, 0, 0);
+        play_sound_effect(remap_sound_for_variant((saddr)arg0, 0x4003A814), arg0 + 0x38, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
       }
         break;

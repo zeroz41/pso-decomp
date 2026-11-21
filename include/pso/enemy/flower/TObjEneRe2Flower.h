@@ -18,9 +18,9 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void run_demo_task();
     virtual void render_demo();
-    void sub_800C3DC4();
-    s32 sub_800C3B8C();
-    void sub_800C3BA8();
+    void sync_center_offset();
+    s32 get_flag_10_if_not_flag_11();
+    void finish_ctor();
     void dispatch_action(s32);
     void handle_event(s32 arg1);
     void begin_state_242();
