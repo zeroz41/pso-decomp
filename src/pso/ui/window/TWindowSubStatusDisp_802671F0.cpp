@@ -87,7 +87,6 @@ void TWindowSubTradeMain::close() {
 struct Win_80266CF8 { u8 p0[0x72]; s16 f72; s16 f74; u8 p76[2]; s16 f78; };
 
 extern "C" {
-saddr get_array_entry__11TWindowBaseFi(void *, s16);
 
 void TShopArmorListWindow::clamp_selection_to_valid_entry() {
     Win_80266CF8 *w = (Win_80266CF8 *)this;
