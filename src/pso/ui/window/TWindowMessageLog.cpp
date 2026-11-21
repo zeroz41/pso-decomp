@@ -4,6 +4,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/TObjPlayer.h"
 #include <stddef.h>
+#include <string.h>
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -117,12 +118,10 @@ void TWindowMessageLog::update_scroll_animation() {
 
 extern "C" {
 u8 *heap_alloc__5THeapFUl(s32, s32);
-s32 strncpy(int, void *, int);
 extern saddr TAdScrollWinGC__chat_log_heap;
 extern u8 *chat_last_line_buffer;
 struct ChatLogLines { s32 value; u8 remaining[0x74]; };
 ChatLogLines chat_log_lines;
-s32 strlen();
 
 void TAdScrollWinGC__sub_8026A5F8(void* a0) { *(float*)((char*)a0 + 0x84) = 0.0f; *(float*)((char*)a0 + 0x6c) = 0.0f; *(float*)((char*)a0 + 0x94) = 0.0f; }
 
@@ -214,7 +213,7 @@ void cache_last_chat_line(uaddr text) {
             }
             size -= 2;
         }
-        strncpy((int)var_r3, (void *)text, (int)size);
+        strncpy((char *)var_r3, (const char *)text, size);
     }
 }
 
@@ -223,7 +222,7 @@ void chat_log_add_line(const char *text) {
     s32 temp_r30;
     s32 var_r28;
     s32 free_chat_log_slot;
-    temp_r29 = strlen();
+    temp_r29 = strlen(text);
     free_chat_log_slot = TLobby::find_free_chat_log_slot();
     var_r28 = (saddr) heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, temp_r29 + 1);
     if (var_r28 == 0) {
@@ -235,7 +234,7 @@ void chat_log_add_line(const char *text) {
     }
     temp_r30 = free_chat_log_slot * 4;
     *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0) = var_r28;
-    strncpy((int) (*(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)), (void *)text, (int)temp_r29);
+    strncpy(*(char **)((u8 *)&chat_log_lines.value + temp_r30), text, temp_r29);
     *(s8 *)((s8 *)(temp_r29 + *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)) + 0) = 0;
 }
 
