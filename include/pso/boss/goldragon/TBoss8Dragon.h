@@ -44,7 +44,7 @@ public:
     virtual int vfunc_105();
     virtual void draw_motion_model();
 
-    void sub_802F4098(u8 *);
+    void get_render_position(u8 *);
     s32 hasActiveRenderFade();
 
     u8 pad_374[0x8];
@@ -299,22 +299,22 @@ public:
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
-    void sub_802F4B90(s32 event);
+    void action_43(s32 event);
     void action(s32 event);
-    void sub_802F4DD4(s32 event);
+    void action_30(s32 event);
     void update_wander_state(s32 event);
-    void sub_802F51DC(s32 event);
-    void sub_802F5434(s32 event);
-    void sub_802F5644(s32 event);
-    void sub_802F57E4(s32 event);
+    void action_40(s32 event);
+    void action_39(s32 event);
+    void action_38(s32 event);
+    void action_37(s32 event);
     void handle_walk_state(s32 event);
-    void sub_802F5BA0(s32 event);
-    void sub_802F5CC8(s32 event);
-    void sub_802F5F64(s32 event);
-    void sub_802F610C(s32 event);
-    void sub_802F645C(s32 event);
-    void sub_802F6618(s32 event);
-    void sub_802F6708(s32 event);
+    void action_28(s32 event);
+    void action_27(s32 event);
+    void action_26(s32 event);
+    void action_25(s32 event);
+    void action_24(s32 event);
+    void action_23(s32 event);
+    void action_22(s32 event);
     void sub_802F6838(s32 event);
     void handle_leap_state(s32 event);
     void handle_spiral_state(s32 event);

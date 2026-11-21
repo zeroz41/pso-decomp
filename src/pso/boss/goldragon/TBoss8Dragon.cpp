@@ -2816,28 +2816,28 @@ void TBoss8Dragon::dispatch_action(u32 action, s32 event) {
         &TBoss8Dragon::handle_leap_state,
         0,
         &TBoss8Dragon::sub_802F6838,
-        &TBoss8Dragon::sub_802F6708,
-        &TBoss8Dragon::sub_802F6618,
-        &TBoss8Dragon::sub_802F645C,
-        &TBoss8Dragon::sub_802F610C,
-        &TBoss8Dragon::sub_802F5F64,
-        &TBoss8Dragon::sub_802F5CC8,
-        &TBoss8Dragon::sub_802F5BA0,
+        &TBoss8Dragon::action_22,
+        &TBoss8Dragon::action_23,
+        &TBoss8Dragon::action_24,
+        &TBoss8Dragon::action_25,
+        &TBoss8Dragon::action_26,
+        &TBoss8Dragon::action_27,
+        &TBoss8Dragon::action_28,
         &TBoss8Dragon::handle_walk_state,
-        &TBoss8Dragon::sub_802F4DD4,
+        &TBoss8Dragon::action_30,
         &TBoss8Dragon::action,
         &TBoss8Dragon::update_wander_state,
         0,
         0,
         &TBoss8Dragon::sub_802F89F8,
         &TBoss8Dragon::handle_spiral_state,
-        &TBoss8Dragon::sub_802F57E4,
-        &TBoss8Dragon::sub_802F5644,
-        &TBoss8Dragon::sub_802F5434,
-        &TBoss8Dragon::sub_802F51DC,
+        &TBoss8Dragon::action_37,
+        &TBoss8Dragon::action_38,
+        &TBoss8Dragon::action_39,
+        &TBoss8Dragon::action_40,
         &TBoss8Dragon::sub_802F9A4C,
         &TBoss8Dragon::sub_802F87EC,
-        &TBoss8Dragon::sub_802F4B90,
+        &TBoss8Dragon::action_43,
     };
     if (handlers[action]) {
         (this->*handlers[action])(event);
@@ -4614,7 +4614,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802F6708(s32 arg1) {
+void TBoss8Dragon::action_22(s32 arg1) {
     f32 temp_f1;
     f32 temp_f4;
 
@@ -4655,7 +4655,7 @@ void TBoss8Dragon::sub_802F6708(s32 arg1) {
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F6618(s32 event) {
+void TBoss8Dragon::action_23(s32 event) {
     s32 i;
     switch (event) {
     case 4:
@@ -4683,7 +4683,7 @@ void TBoss8Dragon::sub_802F6618(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F645C(s32 arg1) {
+void TBoss8Dragon::action_24(s32 arg1) {
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 *temp_r4_3;
@@ -4749,7 +4749,7 @@ void TBoss8Dragon::sub_802F645C(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F610C(s32 arg1) {
+void TBoss8Dragon::action_25(s32 arg1) {
     s32 *p = (s32 *)((u8 *)this + 0x85C);
     u8 *q;
     f32 s;
@@ -4856,7 +4856,7 @@ void TBoss8Dragon::sub_802F610C(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F5F64(s32 arg1) {
+void TBoss8Dragon::action_26(s32 arg1) {
     u8 *temp_r3;
     u8 *temp_r4;
     u8 *temp_r4_2;
@@ -4920,7 +4920,7 @@ void TBoss8Dragon::sub_802F5F64(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
+void TBoss8Dragon::action_27(s32 arg1) {
     s32 *p = (s32 *)((u8 *)this + 0x85C);
     u8 *q;
     f32 s;
@@ -5010,7 +5010,7 @@ void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F5BA0(s32 arg1) {
+void TBoss8Dragon::action_28(s32 arg1) {
     u8 *temp_r3;
     switch (arg1) {
     case 4:
@@ -5125,7 +5125,7 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F57E4(s32 arg1) {
+void TBoss8Dragon::action_37(s32 arg1) {
     s32 temp_r4;
     switch (arg1) {
     case 4:
@@ -5175,7 +5175,7 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TBoss8Dragon::sub_802F5644(s32 arg1) {
+void TBoss8Dragon::action_38(s32 arg1) {
     f32 temp_f1;
     f32 temp_f2;
     switch (arg1) {
@@ -5223,7 +5223,7 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F5434(s32 arg1) {
+void TBoss8Dragon::action_39(s32 arg1) {
     f32 temp_f1;
     s32 i;
     s32 j;
@@ -5291,7 +5291,7 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802F51DC(s32 arg1) {
+void TBoss8Dragon::action_40(s32 arg1) {
     Vec v;
     f32 temp_f1;
     f32 var_f2;
@@ -5385,7 +5385,7 @@ void TBoss8Dragon::update_wander_state(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #define o ((Drg_802F4DD4 *)this)
-void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
+void TBoss8Dragon::action_30(s32 arg1) {
     s32 *flag = &o->f858;
 
     switch (arg1) {
@@ -5523,7 +5523,7 @@ void TBoss8Dragon::action(s32 arg1) {
     }
 }
 
-void TBoss8Dragon::sub_802F4B90(s32 arg1) {
+void TBoss8Dragon::action_43(s32 arg1) {
     s32 *p = (s32 *)((u8 *)this + 0x85C);
 
     switch (arg1) {
@@ -5750,7 +5750,7 @@ void TBoss8Dragon::render() {
     if (is_split_screen() != 0) {
         view = TCameraCtrl::get_camera_mode();
     }
-    this->sub_802F4098(pos);
+    this->get_render_position(pos);
     if (defer_render() != 0) {
         if (!((s32)main_task.get_task_flags() & 0x10)) {
             this->render_body_model();
@@ -5829,7 +5829,7 @@ void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
     }
 }
 
-void TBoss8Dragon::sub_802F4098(u8 *arg1) {
+void TBoss8Dragon::get_render_position(u8 *arg1) {
     VecCopy((Vec *)arg1, (const Vec *)(((u8 *)this) + 0x38));
     if (((s32)main_task.get_task_flags() & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
         *(f32 *)((s8 *)arg1 + 8) += -460.0f;
