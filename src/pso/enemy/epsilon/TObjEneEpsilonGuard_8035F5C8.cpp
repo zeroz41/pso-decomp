@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -1046,7 +1048,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     rotate_matrix_y(0, body->rotation_y);
     TObjEneDD::clear_global_flag_400();
     if (body->flags & 2) {
-        set_chunk_model_node_callback((saddr)((void *) TObjEneEpsilonGuard::record_camera_angle_samples));
+        set_chunk_model_node_callback(TObjEneEpsilonGuard::record_camera_angle_samples);
     }
     TObjPlayer::toggle_particle_effect();
     epsilon_guard_camera_sample_read_ptr = body->guard_position;
@@ -1066,7 +1068,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     }
     TParticleCtrl::end_effect_render();
     if (body->flags & 2) {
-        set_chunk_model_node_callback((s32)NULL);
+        set_chunk_model_node_callback(NULL);
     }
     pop_matrix();
     body->update_primary_light();
@@ -1098,7 +1100,7 @@ void TObjEneEpsilonBody::render_body_effect() {
     }
 }
 
-void TObjEneEpsilonGuard::record_camera_angle_samples() {
+void TObjEneEpsilonGuard::record_camera_angle_samples(NJS_OBJECT *) {
     switch (epsilon_guard_camera_sample_phase) {
     case 0x1C:
     case 0x26:

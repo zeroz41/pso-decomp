@@ -169,7 +169,7 @@ void TOKeyMachine01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         if (is_on != 1) {
             flags = model_render_flags;
             saved_model_render_flags = flags;
@@ -181,11 +181,11 @@ void TOKeyMachine01::render() {
         push_matrix();
         post_translate_matrix(&scale.x);
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();

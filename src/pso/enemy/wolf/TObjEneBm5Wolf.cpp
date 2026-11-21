@@ -1880,7 +1880,7 @@ void TObjEneBm5Wolf::despawn_state(s32 msg) {
     }
 }
 
-void TObjEneBm5Wolf::advance_spawn_timer() {
+void TObjEneBm5Wolf::advance_spawn_timer(NJS_OBJECT *) {
     if (((s32) TObjEneBm5Wolf__spawn_timer >= 0x16) && ((s32) TObjEneBm5Wolf__spawn_timer < 0x18)) {
         rotate_matrix_y(0, TObjEneBm5Wolf__data_805D5128);
     }
@@ -1928,7 +1928,7 @@ void TObjEneBm5Wolf::render() {
             }
             TObjEneBm5Wolf__spawn_timer = 0;
             TObjEneBm5Wolf__data_805D5128 = -(this->turnOffset / 2);
-            set_chunk_model_node_callback((saddr)((void *)TObjEneBm5Wolf::advance_spawn_timer));
+            set_chunk_model_node_callback(TObjEneBm5Wolf::advance_spawn_timer);
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
             if (var_r31 == 1) {
@@ -1936,7 +1936,7 @@ void TObjEneBm5Wolf::render() {
             } else {
                 this->draw_motion_model();
             }
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             pop_matrix();
             this->update_primary_light();
         }

@@ -157,7 +157,7 @@ void TObjEneMe1Canadin__sub_8009E930(TObjEneMe1Canadin *self);
 void TObjEneMe1Canadin__sub_8009E948(TObjEneMe1Canadin *self);
 void TObjEneMe1Canadin__sub_8009EB14(TObjEneMe1Canadin *self, f32 height);
 void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 height);
-void fn_8009BD00(void);
+void fn_8009BD00(NJS_OBJECT *);
 void fn_8009E1D4(TObjEneMe1Canadin *canadin, Vec *pos);
 void fn_8009E2DC(TObjEneMe1Canadin *self);
 saddr fn_8009E300(TObjEneMe1Canadin *self);

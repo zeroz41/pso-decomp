@@ -2,6 +2,8 @@
 #define PSO_ENEMY_SLIME_TOBJENESLIMETAILATTACK_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
 
 struct TObjEneSlimeTailAttack : public TObjEnemy {
@@ -21,7 +23,7 @@ struct TObjEneSlimeOne;
 struct TObjEneSlimeWaterBomb;
 extern "C" {
 void TObjPlayer__sub_800E80C0(u8 *dst);
-void TObjPlayer__sub_800E8128(void);
+void TObjPlayer__sub_800E8128(NJS_OBJECT *);
 void TObjPlayer__sub_800E81A8(void);
 void sub_800E841C__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void render__22TObjEneSlimeTailAttackFv(u8 *arg0);

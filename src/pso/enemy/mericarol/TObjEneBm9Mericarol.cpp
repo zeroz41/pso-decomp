@@ -1147,7 +1147,7 @@ void TObjEneBm9Mericarol::sub_802CED40() {
 
 void TObjEneBm9Mericarol::vfunc_105() {  }
 
-void TObjEneBm9Mericarol::update_particle_effect() {
+void TObjEneBm9Mericarol::update_particle_effect(NJS_OBJECT *) {
     switch (lbl_805D686C) {
     case 0x21:
     case 0x2B:
@@ -1236,7 +1236,7 @@ void TObjEneBm9Mericarol::render() {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
-        set_chunk_model_node_callback((saddr)TObjEneBm9Mericarol::update_particle_effect);
+        set_chunk_model_node_callback(TObjEneBm9Mericarol::update_particle_effect);
     }
     if (m_438 & 8) {
         if (m_46c.has_visible_opacity() != 0) {

@@ -2,6 +2,8 @@
 #define PSO_OBJECT_AMBIENT_TOBJFISH_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 
@@ -43,7 +45,7 @@ struct TObjFish : public TObjBase {
     static void spawn_particle(saddr arg0, s32 arg1, f32 farg0);
     static void free_resource();
     static void load_area_resource();
-    static void draw_callback_transform_to_view();
+    static void draw_callback_transform_to_view(NJS_OBJECT *);
     void set_draw_callback_list();
     void clear_render_callback();
     s32 is_entry_table_valid();

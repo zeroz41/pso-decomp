@@ -198,18 +198,18 @@ void TOHealGeneral::render() {
         TObjFish::set_global_param(texlist);
         base = (NJS_OBJECT *)model;
         post_translate_matrix(base->pos);
-        draw_ginja_model((saddr)base->model);
+        draw_ginja_model((void *)base->model);
         push_matrix();
         rotor = base->child;
         post_translate_matrix(rotor->pos);
         rotate_matrix_y(NULL, rotor_angle);
-        draw_ginja_model((saddr)rotor->model);
+        draw_ginja_model((void *)rotor->model);
         pop_matrix();
         push_matrix();
         ring = rotor->sibling;
         translate_matrix(0, ring->pos[0], ring->pos[1] - ring_drop, ring->pos[2]);
         rotate_matrix_y(NULL, -rotor_angle);
-        draw_ginja_model((saddr)ring->model);
+        draw_ginja_model((void *)ring->model);
         pop_matrix();
         pop_matrix();
     }

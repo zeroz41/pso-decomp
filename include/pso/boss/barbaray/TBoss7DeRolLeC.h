@@ -2,6 +2,8 @@
 #define PSO_BOSS_BARBARAY_TBOSS7DEROLLEC_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TUnk_80036250.h"
@@ -202,7 +204,7 @@ void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1);
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 void TObjPlayer__sub_802E80A0(void);
 void render__14TBoss7DeRolLeCFv(u8 *unused);
-void TObjPlayer__sub_802E8274(void);
+void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 void fn_802EC52C(s32 arg0, saddr arg1);
 void fn_802EC9A4(void *arg0, void *arg1);
 void fn_802EC9F0(TObjEneDD *arg0, void *arg1);

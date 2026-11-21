@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
+
+struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
@@ -221,7 +223,7 @@ void set_chunk_material_override_pair(s32, s32);
 void render__12TBoss1DragonFv(u8 *arg0);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-void dragon_capture_node_points(void);
+void dragon_capture_node_points(NJS_OBJECT *);
 extern u8 lbl_804FE1D0[0xC];
 extern u8 lbl_804FE1DC[0xC];
 extern uaddr TBoss1Dragon__data_805D4B08;
@@ -827,11 +829,11 @@ void TBoss1Dragon::render() {
             rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, ((TBoss1Dragon *)((u8 *)this))->rotation_z);
             scale_matrix(0, (2.0f), (2.0f), (2.0f));
-            set_chunk_model_node_callback((saddr)((s32 *) dragon_capture_node_points));
+            set_chunk_model_node_callback(dragon_capture_node_points);
             TObjPlayer::toggle_particle_effect();
             ((TObjMotion *)((u8 *)this))->draw();
             TParticleCtrl::end_effect_render();
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             TObjLight__sub_801337F8(current_scene_light);
             pop_matrix();
         }
@@ -858,7 +860,7 @@ void TBoss1Dragon::draw() {
 
     temp_r31 = *(s32 *)&this->model;
     *(s32 *)&this->model = (s32) TBoss1Dragon__data_805D4B28;
-    set_chunk_model_node_callback((saddr)(((s32 *)dragon_capture_node_points)));
+    set_chunk_model_node_callback(dragon_capture_node_points);
     push_matrix();
     post_translate_matrix(&this->position);
     translate_matrix(0, (0.0f), this->heightOffset, (0.0f));
@@ -868,11 +870,11 @@ void TBoss1Dragon::draw() {
     scale_matrix(0, (2.0f), (2.0f), (2.0f));
     ((TObjMotion *)((u8 *)this))->draw();
     pop_matrix();
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     *(s32 *)&this->model = temp_r31;
 }
 
-void dragon_capture_node_points(void) {
+void dragon_capture_node_points(NJS_OBJECT *) {
     s32 temp_r0;
     s32 temp_r4;
     if ((s32) TBoss1Dragon__data_805D4B0C == (s32) lbl_805D4B10) {

@@ -2,6 +2,8 @@
 #define PSO_ENEMY_WOLF_TOBJENEBM5WOLF_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
@@ -81,7 +83,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     f32 m_460;
     f32 m_464;
     s32 nearTarget;
-    static void advance_spawn_timer();
+    static void advance_spawn_timer(NJS_OBJECT *);
     void despawn_state(s32 msg);
     void update_dying_state(s32 arg1);
     void hurt_state(s32 arg1);

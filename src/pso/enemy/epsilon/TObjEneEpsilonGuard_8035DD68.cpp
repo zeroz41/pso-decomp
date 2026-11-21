@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -208,7 +210,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     this->effect_anchor.x = 0.0f;
     this->effect_anchor.y = 0.0f;
     this->effect_anchor.z = 0.0f;
-    set_chunk_model_node_callback((saddr)((void *)TObjEneEpsilonGuard::advance_camera_ctrl_step));
+    set_chunk_model_node_callback(TObjEneEpsilonGuard::advance_camera_ctrl_step);
     TObjPlayer::toggle_particle_effect();
     if (detail == 1) {
         this->TObjMotion::draw();
@@ -216,7 +218,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
         this->draw_motion_model();
     }
     TParticleCtrl::end_effect_render();
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     pop_matrix();
     this->update_primary_light();
     if (fade->updateFromCamera(&this->m_2fc) != 0) {
@@ -256,7 +258,7 @@ void TObjEneEpsilonGuard::render() {
     }
 }
 
-void TObjEneEpsilonGuard::advance_camera_ctrl_step() {
+void TObjEneEpsilonGuard::advance_camera_ctrl_step(NJS_OBJECT *) {
     if ((s32) epsilon_guard_camera_step == 0) {
         forward_transform_to_view((const Vec *)&lbl_805439E0.value, (Vec *)epsilon_guard_camera_ctrl_ptr);
     }

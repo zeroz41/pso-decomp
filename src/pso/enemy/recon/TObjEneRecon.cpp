@@ -199,7 +199,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                     *(f32 *)((s8 *)ene_recon + 0x40C) = 0.0f;
                     *(f32 *)((s8 *)ene_recon + 0x410) = 0.0f;
                     *(f32 *)((s8 *)ene_recon + 0x414) = 0.0f;
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneRecon::advance_intro_stage));
+                    set_chunk_model_node_callback(TObjEneRecon::advance_intro_stage);
                     TObjPlayer::toggle_particle_effect();
                     model_render_flags |= 0x01000000;
                     if (var_r31 == 1) {
@@ -227,7 +227,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
 
 
 
-void TObjEneRecon::advance_intro_stage() {
+void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
     switch ((s32) recon_intro_stage) {
     case 0:
         push_matrix();

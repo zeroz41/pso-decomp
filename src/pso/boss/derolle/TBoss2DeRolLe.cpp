@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
 
+struct NJS_OBJECT;
+
 #include "pso/math/FloatRounding.h"
 
 #include "pso/enemy/TObjEnemy.h"
@@ -605,7 +607,7 @@ s32 post_translate_matrix(void *);
 
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
-void TObjPlayer__sub_8002F61C(void);
+void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 
 extern u8 controller_input_state[];
 
@@ -843,7 +845,7 @@ extern saddr lbl_805D4BBC;
 
 extern saddr lbl_805D4BC0;
 
-void TObjPlayer__sub_8002F61C(void);
+void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 
 }
 
@@ -6279,7 +6281,7 @@ namespace joint_transform_view {
 
 extern "C" {
 
-void TObjPlayer__sub_8002F61C(void) {
+void TObjPlayer__sub_8002F61C(NJS_OBJECT *) {
     if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
         forward_transform_to_view((const Vec *)&lbl_804FE31C.value, (Vec *)lbl_805D4BB4);
         TBoss2DeRolLe__sequence_match_index += 1;
@@ -6370,7 +6372,7 @@ void TBoss2DeRolLe::render() {
     }
     fn_8002F5AC(((u8 *)this));
     TObjFish::set_global_param(e->f24);
-    set_chunk_model_node_callback((saddr)((void *)TObjPlayer__sub_8002F61C));
+    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
     {
     Vec4_8002F258 saved;
     col = &TObjLight__scene_light_state.col;
@@ -6385,7 +6387,7 @@ void TBoss2DeRolLe::render() {
     this->draw();
     copy_argb((NJS_ARGB *)col, (NJS_ARGB *)&saved);
     }
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -6473,10 +6475,10 @@ void TBoss2DeRolLe::render_body() {
         }
     }
     fn_8002F5AC((u8 *)self);
-    set_chunk_model_node_callback((saddr)TObjPlayer__sub_8002F61C);
+    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
     TObjFish::set_global_param(this->texlist);
     draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();
 }

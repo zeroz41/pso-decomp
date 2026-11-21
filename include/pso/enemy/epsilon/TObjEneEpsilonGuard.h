@@ -2,6 +2,8 @@
 #define PSO_ENEMY_EPSILON_TOBJENEEPSILONGUARD_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/system/NinjaTypes.h"
@@ -58,7 +60,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void init_model_and_state();
     s32 all_children_gone();
     static void update_attack_pattern(void *arg0);
-    static void record_camera_angle_samples();
+    static void record_camera_angle_samples(NJS_OBJECT *);
     void draw_debug_line();
     static s32 create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void free_shared_resources();
@@ -69,7 +71,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void clear_and_flag_state();
     void set_flag_8_and_notify();
     void set_target(saddr arg1, s32 arg2, s32 arg3);
-    static void advance_camera_ctrl_step();
+    static void advance_camera_ctrl_step(NJS_OBJECT *);
     void handle_message(s32 arg1);
     void handle_break_state(s32 arg1);
     void state_orbit(s32 arg1);

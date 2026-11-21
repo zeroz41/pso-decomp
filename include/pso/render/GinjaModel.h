@@ -3,8 +3,9 @@
 #ifndef TYPES_H
 #include "types.h"
 #endif
+typedef struct GinjaParameter GinjaParameter;
 typedef struct GinjaDrawRecord {
-  void *parameters;
+  GinjaParameter *parameters;
   u32 parameter_count;
   void *display_list;
   u32 display_list_size;

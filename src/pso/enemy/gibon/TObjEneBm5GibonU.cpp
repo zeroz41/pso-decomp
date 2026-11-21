@@ -3,6 +3,8 @@
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResource.h"
+
+struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -719,7 +721,7 @@ void TObjEneBm5GibonU::render() {
             }
             TObjEneBm5GibonU__render_node_index = 0;
             TObjEneBm5GibonU__render_joint_y_rotation = -(m_478 / 2);
-            set_chunk_model_node_callback((saddr)((s32 *)TObjEneBm5GibonU::advance_anim_frame));
+            set_chunk_model_node_callback(TObjEneBm5GibonU::advance_anim_frame);
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
             if (fade != 0) {
@@ -735,7 +737,7 @@ void TObjEneBm5GibonU::render() {
             } else {
                 this->draw_motion_model();
             }
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             if (this->mode == 1 || this->mode == 2) {
                 m_3d8.clear_flag_and_notify();
             } else if (fade != 0) {
@@ -748,7 +750,7 @@ void TObjEneBm5GibonU::render() {
     }
 }
 
-void TObjEneBm5GibonU::advance_anim_frame() {
+void TObjEneBm5GibonU::advance_anim_frame(NJS_OBJECT *) {
     if (((s32) TObjEneBm5GibonU__render_node_index >= 0x30) && ((s32) TObjEneBm5GibonU__render_node_index < 0x32)) {
         rotate_matrix_y(0, TObjEneBm5GibonU__render_joint_y_rotation);
     }

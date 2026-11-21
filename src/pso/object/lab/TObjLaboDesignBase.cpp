@@ -192,7 +192,7 @@ void TObjLaboDesignBase::draw_node_tree(NJS_OBJECT *node) {
             scale_current_matrix(node->scl);
         }
         if (!(flags & 8)) {
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model(node->model);
         }
         if (!(flags & 0x10)) {
             child = node->child;

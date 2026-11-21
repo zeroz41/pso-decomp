@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TUnk_80494938.h"
@@ -53,7 +55,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     void sync_center_position();
     static void free_shared_instances();
     static void *create(void *arg0);
-    static void update_particle_effect();
+    static void update_particle_effect(NJS_OBJECT *);
     void sub_802CE68C(Vec *out, s32 node);
     void sub_802CED40();
     s32 get_clamped_level();

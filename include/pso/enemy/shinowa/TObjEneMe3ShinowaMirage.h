@@ -2,6 +2,8 @@
 #define PSO_ENEMY_SHINOWA_TOBJENEME3SHINOWAMIRAGE_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 
 struct TObjEneMe3ShinowaReal;
@@ -19,7 +21,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     virtual void vfunc_115(s32);
     void vfunc_63();
     void vfunc_62();
-    static void advance_camera_ctrl_step();
+    static void advance_camera_ctrl_step(NJS_OBJECT *);
     void state_break_apart(s32 arg1);
     void state_cast_support(s32 arg1);
     void state_chase_target(s32 arg1);

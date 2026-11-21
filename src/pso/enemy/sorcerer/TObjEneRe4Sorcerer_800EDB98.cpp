@@ -1576,7 +1576,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
 #pragma push
 #pragma opt_propagation off
 extern "C" {
-void TObjEneRe4Sorcerer::step_effect_sequence() {
+void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
     s32 t;
     switch (TObjEneRe4Sorcerer__render_node_index) {
     case 0:
@@ -1660,8 +1660,8 @@ void TObjEneRe4Sorcerer::render() {
             TObjEneRe4Sorcerer__render_node_index = 0;
             TObjEneRe4Sorcerer__saved_render_flags = 0;
             TObjEneRe4Sorcerer__effect_render_scale = m_3f8;
-            re4_sorcerer_render_node_ptr = (saddr)bit_anchors;
-            set_chunk_model_node_callback((saddr)TObjEneRe4Sorcerer::step_effect_sequence);
+            re4_sorcerer_render_node_ptr = (s32)bit_anchors;
+            set_chunk_model_node_callback(TObjEneRe4Sorcerer::step_effect_sequence);
             model_render_flags |= 0x01000000;
             if (var_r28 == 1) {
                 draw();
@@ -1669,7 +1669,7 @@ void TObjEneRe4Sorcerer::render() {
                 draw_motion_model();
             }
             model_render_flags &= 0xFEFFFFFF;
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             pop_matrix();
         }
         if (m_3c8 & 4) {

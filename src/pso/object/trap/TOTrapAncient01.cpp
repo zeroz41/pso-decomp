@@ -184,12 +184,12 @@ void TOTrapAncient01::render() {
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);
         post_translate_matrix(n->pos);
-        draw_ginja_model((saddr)((NJS_OBJECT *)model)->model);
+        draw_ginja_model((void *)((NJS_OBJECT *)model)->model);
         n = n->child;
         push_matrix();
         post_translate_matrix(n->pos);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((saddr)n->model);
+        draw_ginja_model((void *)n->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         pop_matrix();

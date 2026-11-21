@@ -202,7 +202,7 @@ public:
     void copy_action_state(u8 *arg1);
     static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);
     static void set_default_on_state0();
-    static void update_camera_script();
+    static void update_camera_script(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
     void freeze_player_at_self();

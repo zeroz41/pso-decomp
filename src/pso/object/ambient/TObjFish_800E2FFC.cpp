@@ -27,7 +27,7 @@ extern "C" {
 u8 * fn_800E31C4(void *, void *, saddr);
 State_800E2FFC TObjFish_draw_callback_state;
 
-void TObjFish::draw_callback_transform_to_view() {
+void TObjFish::draw_callback_transform_to_view(NJS_OBJECT *) {
     Entry_800E2FFC *p = TObjFish_draw_callback_state.list;
     Param_800E2FFC *q = TObjFish_draw_callback_state.params;
     s32 id;
@@ -46,7 +46,7 @@ void TObjFish::set_draw_callback_list() {
     (*(State_800E3074 *)&TObjFish_draw_callback_state).counter = 0;
     (*(State_800E3074 *)&TObjFish_draw_callback_state).list = arg->list;
     (*(State_800E3074 *)&TObjFish_draw_callback_state).params = arg->params;
-    set_chunk_model_node_callback((saddr)((void *)TObjFish::draw_callback_transform_to_view));
+    set_chunk_model_node_callback(TObjFish::draw_callback_transform_to_view);
 }
 
 s32 TObjFish::is_entry_table_valid() {

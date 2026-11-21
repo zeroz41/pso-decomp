@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/map/TMapCsnCtrl.h"
@@ -172,7 +173,6 @@ extern s32 model_render_flags;
 
 extern s32 saved_model_render_flags;
 
-void prepare_ginja_model(void);
 
 void push_matrix(void);
 

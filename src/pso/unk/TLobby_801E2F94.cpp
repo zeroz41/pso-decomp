@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -507,7 +508,6 @@ s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
-extern s32 (*chunk_model_node_callback)(void *);
 void TKeyBoardControl__sub_8000F7FC(void);
 
 void fn_803DCEC8(void);
@@ -520,8 +520,8 @@ void TObjPlayer::render_tree(void *arg0) {
     do {
         push_matrix();
         compose_motion_node_matrix(var_r31);
-        if (((s32 (*)(void *)) chunk_model_node_callback) != NULL) {
-            chunk_model_node_callback(var_r31);
+        if (chunk_model_node_callback != NULL) {
+            chunk_model_node_callback(static_cast<NJS_OBJECT *>(var_r31));
         }
         if ((u32) *(u32 *)((s8 *)var_r31 + 0x2C) != 0U) {
             TObjPlayer::render_tree((void *)(*(void **)((s8 *)var_r31 + 0x2C)));

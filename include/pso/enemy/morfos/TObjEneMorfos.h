@@ -2,6 +2,8 @@
 #define PSO_ENEMY_MORFOS_TOBJENEMORFOS_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TUnk_80490470.h"
@@ -43,7 +45,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     void* m_498;
     static int get_instance();
     void draw_body();
-    static void record_camera_path_point();
+    static void record_camera_path_point(NJS_OBJECT *);
     void state_death(s32 arg1);
     void state_patrol(s32 arg1);
     void state_appear(s32 arg1);

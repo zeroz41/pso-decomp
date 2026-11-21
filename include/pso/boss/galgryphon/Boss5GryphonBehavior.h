@@ -3,12 +3,14 @@
 
 #include "types.h"
 
+struct NJS_OBJECT;
+
 struct TBoss5Gryphon;
 struct TBoss8Dragon;
 extern "C" {
 void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2);
 void TBoss8Dragon__sub_8005E040(void *arg0);
-void TBoss8Dragon__sub_8005E17C(void);
+void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 s32 TBoss8Dragon__sub_8005E1E8(f32 farg0);
 f32 TBoss8Dragon__sub_8005EAD0(void *arg0, void *arg1, int arg2);
 s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
@@ -49,7 +51,7 @@ void run_task__13TBoss5GryphonFv(u8 *arg0);
 extern "C" {
 void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2);
 void TBoss8Dragon__sub_8005E040(void *arg0);
-void TBoss8Dragon__sub_8005E17C(void);
+void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 s32 TBoss8Dragon__sub_8005E1E8(f32 farg0);
 f32 TBoss8Dragon__sub_8005EAD0(void *arg0, void *arg1, int arg2);
 s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);

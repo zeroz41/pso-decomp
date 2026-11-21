@@ -1183,18 +1183,18 @@ void TUnk_804B8DD0::render() {
         }
         push_matrix();
         post_translate_matrix((u8 *)&this->pos);
-        ::draw_ginja_model((*(s32 *)((s8 *)bml_model + 4)));
+        ::draw_ginja_model((void *)((*(s32 *)((s8 *)bml_model + 4))));
         push_matrix();
-        ::draw_ginja_model((*(s32 *)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 4)));
+        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 4))));
         pop_matrix();
         push_matrix();
         rotate_matrix_z(0, this->m_38);
         rotate_matrix_y(0, 0x8000);
-        ::draw_ginja_model((*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 4)));
+        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 4))));
         pop_matrix();
         push_matrix();
         rotate_matrix_z(0, (int) (-this->m_38));
-        ::draw_ginja_model((*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 0x30)) + 4)));
+        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 0x30)) + 4))));
         pop_matrix();
         pop_matrix();
     }

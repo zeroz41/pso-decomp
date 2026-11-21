@@ -214,7 +214,7 @@ extern int item_system_generation;
 
 // draw_model_node_tree's callbacks; when model_node_matrix_output_cursor
 // is set each node's matrix is stored there.
-extern void (*model_node_draw_callback)(saddr model);
+extern void (*model_node_draw_callback)(void *model);
 extern void (*model_node_visit_callback)(NJS_OBJECT *object);
 extern u8 *model_node_matrix_output_cursor;
 extern s32 model_node_counter;

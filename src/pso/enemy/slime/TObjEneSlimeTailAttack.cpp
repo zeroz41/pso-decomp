@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlime.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
@@ -189,7 +191,7 @@ u8 * get_bml_motion(s32, s32);
 void transform_to_view__11TCameraCtrlFii(saddr, saddr);
 void TObjPlayer__sub_800E80C0(u8 *arg0);
 S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
-void TObjPlayer__sub_800E8128(void);
+void TObjPlayer__sub_800E8128(NJS_OBJECT *);
 void TObjPlayer__sub_800E81A8(void);
 void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
@@ -1959,7 +1961,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
     TObjFish::set_global_param((int) (((TObjEneSlimeTailAttack *)arg0)->texlist));
     if ((s32) *(s32 *)((s8 *)arg0 + 0x378) != 0) {
         TObjPlayer__sub_800E81A8();
-        set_chunk_model_node_callback((saddr)TObjPlayer__sub_800E8128);
+        set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
         ((TObjMotion *)arg0)->draw();
         set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0(arg0 + 0x390);
@@ -1968,7 +1970,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
         TObjPlayer__sub_800EBE48((f32) (*(f32 *)((s8 *)arg0 + 0x38C)));
         scale_matrix_vec3(0, (arg0 + 0x380));
         TObjPlayer__sub_800E81A8();
-        set_chunk_model_node_callback((saddr)TObjPlayer__sub_800E8128);
+        set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
         ((TObjMotion *)arg0)->draw();
         set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0(arg0 + 0x390);
@@ -2031,7 +2033,7 @@ void TObjPlayer::draw_blob_shadows() {
     }
 }
 void TObjPlayer__sub_800E81A8(void) { lbl_805D52B4 = 0; }
-void TObjPlayer__sub_800E8128(void) {
+void TObjPlayer__sub_800E8128(NJS_OBJECT *) {
     if ((s32) (*(s32 *)&lbl_805D52B4) == 7) {
         transform_to_view__11TCameraCtrlFii((saddr)&slime_tail_attack_zero_vec, (saddr) &lbl_80501010.value);
     }

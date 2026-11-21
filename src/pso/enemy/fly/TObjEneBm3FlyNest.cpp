@@ -970,7 +970,7 @@ s32 TObjEneBm3FlyNest::copy_target_state(s32 sound_id) { return remap_sound_for_
 
 void TObjEneBm3FlyNest::init() { init_params(); }
 
-void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
+void TObjEneBm3FlyNest::capture_attachment(NJS_OBJECT *_w0) {
     switch (lbl_805D510C) {
     case 36: case 45:
         forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
@@ -979,7 +979,7 @@ void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     ++lbl_805D510C;
 }
 
-void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
+void TObjEneBm3FlyNest::handle_attachment_sample(NJS_OBJECT *arg0) {
     Vec *pos;
     if (lbl_805D510C == bm3_fly_nest_attachment_sample_table[bm3_fly_nest_attachment_index]) {
         pos = lbl_805D5114;
@@ -987,7 +987,7 @@ void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
         lbl_805D5114 = pos + 1;
         forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
     }
-    TObjEneBm3FlyNest::capture_attachment((void *)arg0);
+    TObjEneBm3FlyNest::capture_attachment(arg0);
 }
 
 void TObjEneBm3FlyNest::render() {
@@ -1048,9 +1048,9 @@ void TObjEneBm3FlyNest::render() {
                 if (mode == 0) {
                     bm3_fly_nest_attachment_index = 0;
                     lbl_805D5114 = unk_3e0;
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneBm3FlyNest::handle_attachment_sample));
+                    set_chunk_model_node_callback(TObjEneBm3FlyNest::handle_attachment_sample);
                 } else {
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneBm3FlyNest::capture_attachment));
+                    set_chunk_model_node_callback(TObjEneBm3FlyNest::capture_attachment);
                 }
                 ((s32 (*)(int, int))rotate_matrix_y)(0, rotation_y);
                 TObjEneDD::clear_global_flag_400();
@@ -1061,7 +1061,7 @@ void TObjEneBm3FlyNest::render() {
                     draw_motion_model();
                 }
                 TParticleCtrl::end_effect_render();
-                set_chunk_model_node_callback((s32)NULL);
+                set_chunk_model_node_callback(NULL);
                 pop_matrix();
             }
             update_primary_light();
