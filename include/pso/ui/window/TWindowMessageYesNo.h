@@ -22,6 +22,7 @@ struct TWindowMessageYesNo : public TObject {
     virtual void run_task();
     static TWindowMessageYesNo *create(void *parent, s32 client_id, void *arg2, void *arg3);
     void set_menu_selected_index(s16 index);
+    void open_yes_no_prompt_with_text(s32 text, s32 pos, f32 width);
 };
 
 LAYOUT_ASSERT(TWindowMessageYesNoChoiceMenuOffset, offsetof(TWindowMessageYesNo, choice_menu) == 0x2C);

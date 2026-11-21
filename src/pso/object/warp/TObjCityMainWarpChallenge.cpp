@@ -186,7 +186,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                open_yes_no_prompt_with_text((TChCrTagPlBack *)this->yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
+                ((TWindowMessageYesNo *)this->yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_menu_selected_index(1);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
                 begin_player_keyboard_hold(local_client_id);

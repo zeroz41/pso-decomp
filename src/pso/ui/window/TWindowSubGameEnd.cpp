@@ -115,7 +115,7 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
         var_f31 = 469.0f;
     }
     window_sub_game_end->m_28 = (saddr)TWindowMessageYesNo::create((void *)(window_sub_game_end), window_sub_game_end->m_20, 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)window_sub_game_end->m_28, (s32)var_r31, (s32)(get_window_layout_position(0x17)), var_f31);
+    ((TWindowMessageYesNo *)window_sub_game_end->m_28)->open_yes_no_prompt_with_text((s32)var_r31, (s32)(get_window_layout_position(0x17)), var_f31);
     ((TWindowMessageYesNo *)window_sub_game_end->m_28)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)(window_sub_game_end->m_28))->set_choice_menu_flag70_bit10();
     window_sub_game_end->m_1c = 0;

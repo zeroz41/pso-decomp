@@ -270,7 +270,7 @@ void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
     }
     this->m_2c = (uaddr)TWindowMessageYesNo::create((void *)(tl_01), local_client_id, 0, 0);
     if (arg2 != 0) {
-        open_yes_no_prompt_with_text((TChCrTagPlBack *)this->m_2c, (s32)message, (saddr)TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
+        ((TWindowMessageYesNo *)this->m_2c)->open_yes_no_prompt_with_text((s32)message, (saddr)TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }
     initialize_option_dialog((void *)this->m_2c, message, ((saddr)TWindowOptionCtrl::get_option_entry(0xCF)), 470.0f);

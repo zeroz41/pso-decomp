@@ -137,7 +137,7 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr parent, s
   {
   }
   temp_r31 = get_window_layout_position(0x23);
-  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_return_city->m_1c, (saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
+  ((TWindowMessageYesNo *)window_return_city->m_1c)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
   ((TWindowMessageYesNo *)window_return_city->m_1c)->set_menu_selected_index(1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();

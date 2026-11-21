@@ -177,7 +177,7 @@ s32 TAdChrSelASlotGC::open_confirm_message(s32 arg1, s32 arg2) {
         copy_vec2((&pos), (void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)w, (s32)(get_localized_text_entry(0x16, arg1 + 0x25)), (saddr)&pos, 190.0f);
+    ((TWindowMessageYesNo *)w)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, arg1 + 0x25)), (saddr)&pos, 190.0f);
     ((TWindowMessageYesNo *)w)->set_menu_selected_index(1);
     return w;
 }
@@ -195,7 +195,7 @@ s32 TAdChrSelASlotGC::create_message_window(s32 arg1, s32 arg2) {
         copy_vec2((&pos), (void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)w, (s32)(get_localized_text_entry(0x16, arg1 + 0x23)), (saddr)&pos, 190.0f);
+    ((TWindowMessageYesNo *)w)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, arg1 + 0x23)), (saddr)&pos, 190.0f);
     ((TWindowMessageYesNo *)w)->set_menu_selected_index(1);
     return w;
 }
@@ -205,7 +205,7 @@ s32 TAdChrSelASlotGC::create_format_message_window(saddr arg0, s32 arg1, s32 arg
     w = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg2, 0, 0);
     memset(char_select_format_message_buffer, 0, 0x100);
     sprintf(char_select_format_message_buffer, (const char *)get_localized_text_entry(0x16, 0x1E), 0x2710);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)w, (saddr)char_select_format_message_buffer, (s32)arg1, 193.0f);
+    ((TWindowMessageYesNo *)w)->open_yes_no_prompt_with_text((saddr)char_select_format_message_buffer, (s32)arg1, 193.0f);
     ((TWindowMessageYesNo *)w)->set_menu_selected_index(1);
     return w;
 }
@@ -215,7 +215,7 @@ s32 TAdChrSelASlotGC::create_format_message_window(saddr arg0, s32 arg1, s32 arg
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, saddr arg2) {
     saddr temp_r31;
     temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((saddr)arg0), arg2, 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x16, 0x1D)), (s32)arg1, 193.0f);
+    ((TWindowMessageYesNo *)temp_r31)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1D)), (s32)arg1, 193.0f);
     ((TWindowMessageYesNo *)temp_r31)->set_menu_selected_index(1);
     return temp_r31;
 }
@@ -226,7 +226,7 @@ s32 TAdChrSelASlotGC::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
 
     play_sound_effect(0x53F06, 0, 0, 0);
     temp_r31 = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg2, 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x16, 0x1B)), (s32)arg1, 458.0f);
+    ((TWindowMessageYesNo *)temp_r31)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), (s32)arg1, 458.0f);
     ((TWindowMessageYesNo *)temp_r31)->set_menu_selected_index(1);
     ((TWindowSubComCard *)temp_r31)->free_windows();
     return temp_r31;
@@ -235,7 +235,7 @@ s32 TAdChrSelASlotGC::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
 s32 TAdChrSelASlotGC__sub_8030CA84(saddr arg0, s32 arg1) {
     saddr temp_r31;
     temp_r31 = (saddr)TWindowMessageYesNo::create((void *)(arg0), TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x16, 0x1A)), (s32)arg1, 196.0f);
+    ((TWindowMessageYesNo *)temp_r31)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1A)), (s32)arg1, 196.0f);
     ((TWindowMessageYesNo *)temp_r31)->set_menu_selected_index(1);
     ((TWindowSubComCard *)temp_r31)->free_windows();
     return temp_r31;

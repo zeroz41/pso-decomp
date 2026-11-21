@@ -1323,7 +1323,7 @@ s32 TWindowSubComCard::confirm_and_free() {
 s32 TWindowSubComCard::sub_802730E0() {
     saddr window;
     window = (saddr)TWindowMessageYesNo::create((void *)(this), this->m_20, 0, 0);
-    open_yes_no_prompt_with_text((TChCrTagPlBack *)window, (saddr)(TWindowSubStatusDisp::get_message_10(0xFC)), (s32)(get_window_layout_position(0x96)), 213.0f);
+    ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0xFC)), (s32)(get_window_layout_position(0x96)), 213.0f);
     ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)window)->set_choice_menu_flag70_bit10();
     return window;

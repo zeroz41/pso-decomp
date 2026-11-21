@@ -331,7 +331,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        open_yes_no_prompt_with_text((TChCrTagPlBack *)yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
+        ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
         ((TWindowMessageYesNo *)yes_no_window)->set_menu_selected_index(1);
         ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
         begin_player_keyboard_hold(local_client_id);
