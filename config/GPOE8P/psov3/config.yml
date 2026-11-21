@@ -5853,7 +5853,7 @@ force_active:
   - draw_fading_model_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_motion__11TObjDFDemo5Fv
   - draw_filled_rects_2d__FPvPvi
-  - draw_frame__20TWindowActionPaletteFi
+  - draw_frame__20TWindowActionPaletteFl
   - draw_fullscreen_texture_quad__6TLobbyFv
   - draw_ginja_motion_node_tree__FPUc
   - draw_hanger__13TUnk_80486924Fv

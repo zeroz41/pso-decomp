@@ -559,7 +559,6 @@ void fill_value_array(saddr);
 s32 update_local_colliders_from_world(void *, void *);
 void TBoss1Dragon__sub_800274A4(saddr arg0);
 
-s32 fn_8002AE08(void*);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 
 f32 atan2_float(f32 y, f32 x);
@@ -1680,7 +1679,7 @@ void TBoss1Dragon__sub_800228E8(TBoss1Dragon *arg0, u32 arg1) {
             ((TBoss1Dragon *)arg0)->request_state_change(5);
             return;
         }
-        if (TBoss1Dragon::filter_input_flags((saddr)arg0, arg0->m_6e4->flags, fn_8002AE08((void *)TBoss1Dragon__data_805D4B3C)) != 0) {
+        if (TBoss1Dragon::filter_input_flags((saddr)arg0, arg0->m_6e4->flags, fn_8002AE08(TBoss1Dragon__data_805D4B3C)) != 0) {
             ((TBoss1Dragon *)arg0)->request_state_change(9);
             return;
         }
@@ -1767,7 +1766,7 @@ void TBoss1Dragon__sub_80022C38(TBoss1Dragon *arg0, u32 arg1) {
             ((TBoss1Dragon *)arg0)->request_state_change(5);
             return;
         }
-        if (TBoss1Dragon::filter_input_flags((saddr)arg0, self->m_6e4->flags, fn_8002AE08((void *)TBoss1Dragon__data_805D4B3C)) != 0) {
+        if (TBoss1Dragon::filter_input_flags((saddr)arg0, self->m_6e4->flags, fn_8002AE08(TBoss1Dragon__data_805D4B3C)) != 0) {
             ((TBoss1Dragon *)arg0)->request_state_change(9);
         }
         return;
@@ -5743,8 +5742,8 @@ int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
-s32 fn_8002AE08(void *p) {
-    return TBoss8Dragon::test_card_flag_2((saddr)p) ? 0x20000 : 0x10000;
+s32 fn_8002AE08(s32 client) {
+    return TBoss8Dragon::test_card_flag_2(client) ? 0x20000 : 0x10000;
 }
 
 }

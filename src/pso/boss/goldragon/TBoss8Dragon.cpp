@@ -62,6 +62,7 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
 struct FadeE_802FCF00 { u8 b[0x1C]; };
 
@@ -124,7 +125,6 @@ f32 atan2_float(f32 y, f32 x);
 void fill_value_array(saddr);
 void TBoss8Dragon__sub_802FB300(void);
 void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2);
-s32 fn_8002AE08(void *p);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 u8 TBoss8Dragon__sub_802FABB4(void *arg0);
 void TBoss8Dragon__sub_802FBBC8(u8 *arg0, s32 *arg1);
@@ -4710,7 +4710,7 @@ void TBoss8Dragon::sub_802F645C(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), (int) (fn_8002AE08((void *)TBoss8Dragon__data_805D69BC))) != 0) {
+        if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), (int) (fn_8002AE08(TBoss8Dragon__data_805D69BC))) != 0) {
             send_action_packet(9);
         }
         return;
@@ -4798,7 +4798,7 @@ void TBoss8Dragon::sub_802F610C(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), fn_8002AE08((void *)TBoss8Dragon__data_805D69BC)) != 0) {
+        if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), fn_8002AE08(TBoss8Dragon__data_805D69BC)) != 0) {
             send_action_packet(9);
             return;
         }

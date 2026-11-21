@@ -25,6 +25,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
 // Built with deferred code generation: data come first, functions come out
 // in reverse source order (so they are written last to first).
@@ -52,7 +53,6 @@ struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 extern "C" {
 s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
-s32 fn_8002AE08(void *p);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
@@ -66,7 +66,7 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-extern saddr lbl_805D63F0;
+extern s32 lbl_805D63F0;
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -166,7 +166,7 @@ TWindowActionPalette::~TWindowActionPalette() {}
 
 void TWindowActionPalette::run_task() {
     TObjPlayer *player;
-    s32 effect;
+    saddr effect;
     s32 slot;
     u16 v;
     u16 target;
@@ -180,7 +180,7 @@ void TWindowActionPalette::run_task() {
         open_tick = 0x01000000;
     }
     slot = is_player_input_active(client_index);
-    if (test_previous_buttons_packed(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08((void *)client_index)) != 0) {
+    if (test_previous_buttons_packed(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08(client_index)) != 0) {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);
@@ -237,7 +237,7 @@ void TWindowActionPalette::render() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowActionPalette::draw_frame(int arg1) {
+void TWindowActionPalette::draw_frame(saddr arg1) {
     Rect_80243B6C r1;
     Rect_80243B6C r2;
     Rect_80243B6C r4;
@@ -248,7 +248,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)((void *)lbl_805D63F0));
+    TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(2, ctx->tex);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;

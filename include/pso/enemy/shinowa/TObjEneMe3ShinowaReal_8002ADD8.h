@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_8002AE08(void *p);
+s32 fn_8002AE08(s32 client);
 }
 
 #endif
