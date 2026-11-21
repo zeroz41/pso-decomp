@@ -30,7 +30,7 @@ struct StelthMovementParams {
 struct TObjEneMe3Stelth : public TObjEneDD_ST {
     TObjEneMe3Stelth(TObject *parent);
     virtual ~TObjEneMe3Stelth();
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32 technique, s32 flags);
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();

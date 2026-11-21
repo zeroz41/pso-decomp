@@ -640,7 +640,7 @@ s32 TObjEneMe3SinowZoa::is_outside_visible_range() {
     return r;
 }
 
-s32 TObjEneMe3SinowZoa::vfunc_104(f32 arg1) { return select_and_apply_target(arg1); }
+s32 TObjEneMe3SinowZoa::acquire_target(f32 arg1) { return select_and_apply_target(arg1); }
 
 s32 TObjEneMe3SinowZoa::sub_8031A454() {
     u8 r = this->m_400 >= 1;
@@ -848,7 +848,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
         this->m_444 = TObjEneMe3SinowZoa__data_805DF31C;
         return;
     case 3:
-        if (this->vfunc_104(200.0f) != 0) {
+        if (this->acquire_target(200.0f) != 0) {
             if (this->m_3ac <= 40.0f) {
                 this->transition_enemy_state(0xD);
                 return;
@@ -1334,7 +1334,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
         self->m_3cc &= 0xFFEFFFF8;
         self->m_3fc = zero;
         self->m_434 = 3;
-        if (self->vfunc_104(200.0f) != 0) {
+        if (self->acquire_target(200.0f) != 0) {
             self->enemy_copy_target_destination();
             self->update_velocity();
             self->m_43c = (s32) (RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));

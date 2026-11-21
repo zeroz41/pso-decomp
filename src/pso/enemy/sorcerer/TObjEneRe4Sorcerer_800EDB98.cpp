@@ -276,7 +276,7 @@ void is_confused__9TObjEneDDFv();
 
 void render_minimap_dot__9TObjEneDDFv();
 
-int vfunc_104__12TObjEneDD_STFf(void *p);
+int acquire_target__12TObjEneDD_STFf(void *p);
 
 void update_status_effects__12TObjEneDD_STFv();
 

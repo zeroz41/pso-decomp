@@ -1506,7 +1506,7 @@ void TObjEneDf2Bringer__sub_80098EB4(saddr arg0) {
     play_persistent_sound((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B708)), arg0, (arg0 + 0x38), 0, 0);
 }
 
-s32 TObjEneDf2Bringer::vfunc_104(f32 farg0) {
+s32 TObjEneDf2Bringer::acquire_target(f32 farg0) {
     if (this->is_confused() != 0) {
         ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;

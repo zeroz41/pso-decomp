@@ -454,7 +454,7 @@ void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly) {
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
-s32 TObjEneBm3Fly::vfunc_104(f32 farg0) {
+s32 TObjEneBm3Fly::acquire_target(f32 farg0) {
     if (this->is_confused() != 0) {
         this->select_and_apply_target(farg0);
         return;
@@ -645,7 +645,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
         break;
     case 0:
         ene_bm3_fly->advance_animation();
-        if (((TObjEneEpsilon *)ene_bm3_fly)->update_death_check() == 0 && ene_bm3_fly->vfunc_104(2e+02f) == 0) {
+        if (((TObjEneEpsilon *)ene_bm3_fly)->update_death_check() == 0 && ene_bm3_fly->acquire_target(2e+02f) == 0) {
             break;
         }
         ene_bm3_fly->update();
@@ -842,7 +842,7 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->vfunc_104(2e+02f) == 0) {
+        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         switch (this->m_3c0) {
@@ -956,7 +956,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
     case 3:
         if (this->motion_flags & 0x10) {
             if (this->is_confused() != 0) {
-                this->vfunc_104(2e+02f);
+                this->acquire_target(2e+02f);
             }
             if (this->m_378 == 3) {
                 choose_attack();

@@ -7,7 +7,7 @@
 struct TObjEneDf2Bringer : public TObjEneDD_ST {
     TObjEneDf2Bringer(TObject *arg1, void *arg2);
     virtual ~TObjEneDf2Bringer();
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     virtual void update_body_colliders();
     virtual void run_demo_task();
     virtual void render_demo();

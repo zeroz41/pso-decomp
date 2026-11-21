@@ -21,7 +21,7 @@ public:
     void enemy_copy_target_destination();
     void enemy_init_validate_period(s32);
     virtual s32 update_status_effects();
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     void sub_800F5874(s32);
     void sub_800F5864(s32);
     s32 enemy_check_target_valid();

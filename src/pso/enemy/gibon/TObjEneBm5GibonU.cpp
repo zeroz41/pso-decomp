@@ -155,7 +155,7 @@ extern "C" {
 void update_ground_contact__9TObjEneDDFv();
 }
 extern "C" {
-int vfunc_104__12TObjEneDD_STFf(void *p);
+int acquire_target__12TObjEneDD_STFf(void *p);
 }
 extern "C" {
 void update_status_effects__12TObjEneDD_STFv();
@@ -433,7 +433,7 @@ void *lbl_80493F04[107] = {
     (void *)clear_invulnerable__9TObjEneDDFv, (void *)enable_body_collision__9TObjEneDDFv, (void *)disable_body_collision__9TObjEneDDFv, (void *)set_intangible__9TObjEneDDFv,
     (void *)clear_intangible__9TObjEneDDFv, (void *)set_colliders_contact_high__9TObjEneDDFv, (void *)set_colliders_contact_low__9TObjEneDDFv, (void *)is_confused__9TObjEneDDFv,
     (void *)render_minimap_dot__9TObjEneDDFv, (void *)move_xz_on_ground__9TObjEneDDFPUc, (void *)update_ground_contact__9TObjEneDDFv, (void *)snap_to_ground_at__9TObjEneDDFPUc,
-    (void *)vfunc_104__12TObjEneDD_STFf, (void *)run_demo_task__16TObjEneBm5GibonUFv, (void *)render_debug__16TObjEneBm5GibonUFv,
+    (void *)acquire_target__12TObjEneDD_STFf, (void *)run_demo_task__16TObjEneBm5GibonUFv, (void *)render_debug__16TObjEneBm5GibonUFv,
 };
 __declspec(section ".data") u32 TObjEneBm5GibonU__data_80500E78[2];
 __declspec(section ".data") u32 lbl_80500E80[2];

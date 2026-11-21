@@ -43,7 +43,7 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *arg6);
     virtual ~TObjEneBm3Fly();
     void sub_800B1214(s32);
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     virtual void run_demo_task();
     virtual void render_demo();
     virtual void check_collisions();

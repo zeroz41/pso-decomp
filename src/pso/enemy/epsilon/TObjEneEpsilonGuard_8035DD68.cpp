@@ -634,7 +634,7 @@ extern "C" void move_xz_on_ground__9TObjEneDDFPUc();
 extern "C" void update_ground_contact__9TObjEneDDFv();
 extern "C" void receive_physical_attack__19TObjEneEpsilonGuardFPvf();
 extern "C" void receive_weapon_special_attack__19TObjEneEpsilonGuardFPvPv();
-extern "C" int vfunc_104__12TObjEneDD_STFf(void *p);
+extern "C" int acquire_target__12TObjEneDD_STFf(void *p);
 extern "C" void is_target_in_attack_range__14TObjEneEpsilonFv();
 extern "C" void update_movement_status__14TObjEneEpsilonFv();
 extern "C" void update_status_effects__12TObjEneDD_STFv();
@@ -736,7 +736,7 @@ void *__vt__19TObjEneEpsilonGuard[105] = {
     (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
     (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
     (void *)&render_minimap_dot__9TObjEneDDFv, (void *)&move_xz_on_ground__9TObjEneDDFPUc, (void *)&update_ground_contact__9TObjEneDDFv, (void *)&snap_to_ground_at__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf,
+    (void *)&acquire_target__12TObjEneDD_STFf,
 };
 
 s32 TObjEneEpsilonGuard::calc_angle_to_target() {

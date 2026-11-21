@@ -57,7 +57,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     void sub_803055C8();
     s32 render_model_if_visible();
     virtual void update_body_colliders();
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     virtual void run_demo_task();
     virtual void dispatch_action(u32, s32);
     virtual void render_demo();

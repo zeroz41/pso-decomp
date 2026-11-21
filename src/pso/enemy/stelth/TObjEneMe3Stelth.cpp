@@ -578,7 +578,7 @@ s32 TObjEneMe3Stelth::is_angle_in_range() {
     return parameters[0] < 1.0f ||
            (parameters[0] >= 2.0f && parameters[0] < 3.0f);
 }
-s32 TObjEneMe3Stelth::vfunc_104(f32 f) { return select_and_apply_target(f); }
+s32 TObjEneMe3Stelth::acquire_target(f32 f) { return select_and_apply_target(f); }
 s32 TObjEneMe3Stelth::sub_800F47D4() {
     return m_3f0 >= 1;
 }
@@ -1206,7 +1206,7 @@ void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
         this->m_3cc &= ~7;
         this->m_3ec = 0;
         this->m_424 = 3;
-        if (this->vfunc_104(200.0f) != 0) {
+        if (this->acquire_target(200.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             this->m_42c = (s32) (10430.38043493439 * atan2_float(this->m_3a0, this->m_3a8));

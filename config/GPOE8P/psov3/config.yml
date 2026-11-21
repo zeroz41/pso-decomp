@@ -1215,15 +1215,15 @@ force_active:
   - fn_8009E4AC__17TObjEneMe1CanadinFl
   - vfunc_105__23TObjEneMe1CanadinLeaderFv
   - vfunc_106__23TObjEneMe1CanadinLeaderFv
-  - vfunc_107__23TObjEneMe1CanadinLeaderFv
+  - spawn_members__23TObjEneMe1CanadinLeaderFv
   - vfunc_108__23TObjEneMe1CanadinLeaderFv
-  - vfunc_109__23TObjEneMe1CanadinLeaderFv
+  - has_no_members__23TObjEneMe1CanadinLeaderFv
   - vfunc_110__23TObjEneMe1CanadinLeaderFl
   - vfunc_111__23TObjEneMe1CanadinLeaderFl
   - vfunc_112__23TObjEneMe1CanadinLeaderFl
   - vfunc_113__23TObjEneMe1CanadinLeaderFv
-  - vfunc_116__23TObjEneMe1CanadinLeaderFP9TObjChara
-  - vfunc_117__23TObjEneMe1CanadinLeaderFUl
+  - can_member_attack_target__23TObjEneMe1CanadinLeaderFP9TObjChara
+  - remove_member__23TObjEneMe1CanadinLeaderFUl
   - TObjEneMe1Canadin__render_point_cursor
   - fn_8009BFF8__17TObjEneMe1CanadinFl
   - fn_8009C178__17TObjEneMe1CanadinFl
@@ -17418,9 +17418,9 @@ force_active:
   - run_demo_task__16TObjEneMerillLiaFv
   - move_xz_on_ground__18TObjEneRe4SorcererFPUc
   - update_ground_contact__18TObjEneRe4SorcererFv
-  - vfunc_104__13TObjEneBm3FlyFf
-  - vfunc_104__16TObjEneDellBiterFf
-  - vfunc_104__17TObjEneDf2BringerFf
+  - acquire_target__13TObjEneBm3FlyFf
+  - acquire_target__16TObjEneDellBiterFf
+  - acquire_target__17TObjEneDf2BringerFf
   - run_demo_task__12TBoss1DragonFv
   - vfunc_105__13TUnk_8049387CFv
   - run_demo_task__18TObjEneEpsilonBodyFv
@@ -17428,9 +17428,9 @@ force_active:
   - render_demo__16TObjEneDellBiterFv
   - render_demo__18TObjEneEpsilonBodyFv
   - render_demo__18TObjEneRe4SorcererFv
-  - vfunc_107__13TUnk_8049387CFv
+  - spawn_members__13TUnk_8049387CFv
   - vfunc_108__13TUnk_8049387CFv
-  - vfunc_109__13TUnk_8049387CFv
+  - has_no_members__13TUnk_8049387CFv
   - vfunc_10__12TQuestListVMFv
   - vfunc_10__13TAdVIConfigGCFv
   - vfunc_10__16TAdPsoPassSaveGCFv
@@ -17439,8 +17439,8 @@ force_active:
   - vfunc_111__13TUnk_8049387CFl
   - vfunc_112__13TUnk_8049387CFl
   - vfunc_113__13TUnk_8049387CFv
-  - vfunc_116__13TUnk_8049387CFP9TObjChara
-  - vfunc_117__13TUnk_8049387CFUl
+  - can_member_attack_target__13TUnk_8049387CFP9TObjChara
+  - remove_member__13TUnk_8049387CFUl
   - vfunc_11__12TQuestListVMFv
   - vfunc_11__17TQuestListOfflineFv
   - vfunc_12__8TObjChipFv

@@ -625,7 +625,7 @@ void TObjEneDellBiter::fn_80305688() {
 
 void TObjEneDellBiter::fn_80305684() {}
 
-s32 TObjEneDellBiter::vfunc_104(f32 distance) {
+s32 TObjEneDellBiter::acquire_target(f32 distance) {
     if (is_confused() != 0) {
         return select_and_apply_target(distance);
     }

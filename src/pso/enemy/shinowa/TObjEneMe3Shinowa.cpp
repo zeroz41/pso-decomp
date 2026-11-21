@@ -586,7 +586,7 @@ s32 TObjEneMe3Shinowa::sub_800E701C() {
     return parameters[0] < 1.0f;
 }
 
-s32 TObjEneMe3Shinowa::vfunc_104(f32 range) { return select_and_apply_target(range); }
+s32 TObjEneMe3Shinowa::acquire_target(f32 range) { return select_and_apply_target(range); }
 
 s32 TObjEneMe3Shinowa::sub_800E6FE0() {
     return parameters[1] >= 1.0f;
@@ -1119,7 +1119,7 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
         shinowa->m_3c4 &= ~3;
         shinowa->m_3d8 = 0;
         shinowa->m_404 = 3;
-        if (shinowa->vfunc_104(200.0f) != 0) {
+        if (shinowa->acquire_target(200.0f) != 0) {
             shinowa->enemy_copy_target_destination();
             shinowa->update_velocity();
             shinowa->m_40c = (s32)(10430.38043493439 * atan2_float(shinowa->m_3a0.x, shinowa->m_3a0.z));

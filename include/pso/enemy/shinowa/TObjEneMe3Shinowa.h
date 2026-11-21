@@ -30,7 +30,7 @@ struct TObjEneMe3ShinowaMoveParams {
 struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     TObjEneMe3Shinowa(TObject *parent);
     virtual ~TObjEneMe3Shinowa();
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     virtual void run_task();
     virtual void render();
     virtual void dispatch_action(u32 state, s32 reason);

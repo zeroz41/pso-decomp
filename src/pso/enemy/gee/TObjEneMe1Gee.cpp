@@ -521,7 +521,7 @@ s32 TObjEneMe1Gee::find_attack_target(f32 *out, f32 range) {
         p = get_player_by_client_id(recs[i].id);
         if (p != this->m_390) {
             this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(this->m_48c);
-            if (this->m_3c0->vfunc_116(p) != 0) {
+            if (this->m_3c0->can_member_attack_target(p) != 0) {
                 *out = newton_sqrtf(recs[i].dist);
                 found = 1;
                 this->set_target_player(p);
@@ -540,7 +540,7 @@ s32 TObjEneMe1Gee::check_can_attack() {
     if (this->m_3ac < 70.0f) {
         var_r31 = 1;
         *(void **)&this->m_3c0 = find_entity_by_id(this->m_48c);
-        if ((this->m_3c0->vfunc_116(this->m_390) == 0) && (this->find_attack_target(&sp8, 22500.0f) != 0) && (sp8 > 70.0f)) {
+        if ((this->m_3c0->can_member_attack_target(this->m_390) == 0) && (this->find_attack_target(&sp8, 22500.0f) != 0) && (sp8 > 70.0f)) {
             var_r31 = 0;
         }
     }
@@ -551,7 +551,7 @@ s32 TObjEneMe1Gee::sub_800CBA80() {
     return this->m_3f4 < 20.0f;
 }
 
-void TObjEneMe1Gee::vfunc_107() {  }
+void TObjEneMe1Gee::spawn_members() {  }
 
 s32 TObjEneMe1Gee::vfunc_108() {
     s32 temp_r4;
@@ -590,7 +590,7 @@ void TObjEneMe1Gee::sub_800CB968() {
     play_persistent_sound(this->handle_message(0x3BC16), (saddr)this, (uaddr)&this->body_center, 0, 0);
 }
 
-s32 TObjEneMe1Gee::vfunc_104(f32 range) { return this->select_and_apply_target(range); }
+s32 TObjEneMe1Gee::acquire_target(f32 range) { return this->select_and_apply_target(range); }
 
 void TObjEneMe1Gee::update_fade_sequence() {
     switch (this->m_47c) {
@@ -664,7 +664,7 @@ void TObjEneMe1Gee::vfunc_113() {
     }
 }
 
-int TObjEneMe1Gee::vfunc_109() { return 1; }
+int TObjEneMe1Gee::has_no_members() { return 1; }
 
 void TObjEneMe1Gee::update_photon_target() {
     if ((s16) this->mode == 3) {
@@ -706,9 +706,9 @@ TObjChara *TObjEneMe1Gee::sub_800CB584() {
     return NULL;
 }
 
-void TObjEneMe1Gee::vfunc_117(uaddr) {  }
+void TObjEneMe1Gee::remove_member(uaddr) {  }
 
-int TObjEneMe1Gee::vfunc_116(TObjChara *) { return 1; }
+int TObjEneMe1Gee::can_member_attack_target(TObjChara *) { return 1; }
 
 void TObjEneMe1Gee::sub_800CB560() {
     this->m_404 = 0;
@@ -815,7 +815,7 @@ void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
     case 0:
         this->m_434 += 1;
         if ((s32) this->m_434 == 2) {
-            this->vfunc_107();
+            this->spawn_members();
         }
         this->m_3c8 &= 0xFEFFFFFF;
         break;
@@ -1297,7 +1297,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                     }
                 } else if (this->m_3ac < 100.0f) {
                     this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(this->m_48c);
-                    if (this->m_3c0->vfunc_116(this->m_390) != 0) {
+                    if (this->m_3c0->can_member_attack_target(this->m_390) != 0) {
                         this->m_3c8 |= 0x40000;
                     } else if (this->find_attack_target(&dist, 10000.0f) != 0) {
                         if (dist < 100.0f) {
@@ -1632,7 +1632,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
         this->actorFlags |= 0x800;
         if ((s32) this->m_3c4 == 1) {
             this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(this->m_48c);
-            this->m_3c0->vfunc_117((uaddr)this);
+            this->m_3c0->remove_member((uaddr)this);
         } else {
             this->send_entity_set_flags();
         }
@@ -1640,7 +1640,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
         this->fade.reset_color();
         return;
     case 3:
-        if ((this->fade.decay_value_toward_floor() != 0) && (this->vfunc_109() != 0)) {
+        if ((this->fade.decay_value_toward_floor() != 0) && (this->has_no_members() != 0)) {
             queue_destruction__7TObjectFv(this);
         }
     case 5:
@@ -1698,7 +1698,7 @@ void TObjEneMe1Gee::vfunc_112(s32 arg1) {
     case 4:
         if ((s32) this->m_3c4 == 1) {
             this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(this->m_48c);
-            this->m_3c0->vfunc_117((uaddr)this);
+            this->m_3c0->remove_member((uaddr)this);
         }
         TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
         play_sound_effect(this->handle_message(0x3A843), (uaddr)&this->position, 0, 0);
@@ -1937,14 +1937,14 @@ void TUnk_8049387C::vfunc_105() {
     }
 }
 
-// dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after vfunc_107's
+// dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after spawn_members'
 // 0.0f and before vfunc_115's 400.0f, ahead of its first live user sub_800C9DF8 (deferred codegen
 // runs this file bottom-up). Minimal body after sub_800C9DF8's frame-10 hit check; name inferred.
 static s32 is_hit_frame(TUnk_8049387C *gee) {
     return gee->is_passing_frame(10.0f);
 }
 
-void TUnk_8049387C::vfunc_107() {
+void TUnk_8049387C::spawn_members() {
     s32 n;
     s32 i;
     s32 j;
@@ -1994,7 +1994,7 @@ s32 TUnk_8049387C::vfunc_108() {
     return 0;
 }
 
-void TUnk_8049387C::vfunc_117(uaddr arg1) {
+void TUnk_8049387C::remove_member(uaddr arg1) {
     s32 i;
     TObjEneMe1Gee *tmp;
 
@@ -2022,7 +2022,7 @@ void TUnk_8049387C::vfunc_117(uaddr arg1) {
     }
 }
 
-int TUnk_8049387C::vfunc_116(TObjChara *) {
+int TUnk_8049387C::can_member_attack_target(TObjChara *) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < this->m_494; i++) {
@@ -2038,7 +2038,7 @@ int TUnk_8049387C::vfunc_116(TObjChara *) {
 
 void TUnk_8049387C::vfunc_113() {  }
 
-int TUnk_8049387C::vfunc_109() {
+int TUnk_8049387C::has_no_members() {
     return (u8) (this->m_494 <= 0);
 }
 
@@ -2202,7 +2202,7 @@ void TUnk_8049387C::vfunc_112(s32 arg1) {
         ((TObjPlayer *)this)->refresh_lobby_state();
         return;
     case 0:
-        if (this->vfunc_109() != 0) {
+        if (this->has_no_members() != 0) {
             this->send_entity_set_flags();
             queue_destruction__7TObjectFv(this);
         }

@@ -85,7 +85,7 @@ struct CanadinBehaviorParams {
     s32 m_10;
 };
 
-// The leader's vfunc_116 slot, called here with a player; TObjEneMe1CanadinLeader declares it without one.
+// The leader's can_member_attack_target slot, called here with a player; TObjEneMe1CanadinLeader declares it without one.
 struct CanadinLeaderCallBase { char pad[0x18]; };
 
 struct CanadinLeaderCall : CanadinLeaderCallBase {
@@ -645,7 +645,7 @@ s32 TObjEneMe1Canadin::fn_8009E860(f32 *out, f32 squared_range) {
         player = get_player_by_client_id(list[i].id);
         if (player != self->m_390) {
             self->m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(self->m_4C8);
-            if (self->m_3C0->vfunc_116(player) != 0) {
+            if (self->m_3C0->can_member_attack_target(player) != 0) {
                 *out = newton_sqrtf(list[i].dist);
                 found = 1;
                 self->set_target_player(player);
@@ -664,7 +664,7 @@ s32 TObjEneMe1Canadin::check_target() {
     if (m_3AC < 70.0f) {
         var_r31 = 1;
         m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(m_4C8);
-        if ((m_3C0->vfunc_116(m_390) == 0) && (fn_8009E860(&sp8, 22500.0f) != 0) && (sp8 > 70.0f)) {
+        if ((m_3C0->can_member_attack_target(m_390) == 0) && (fn_8009E860(&sp8, 22500.0f) != 0) && (sp8 > 70.0f)) {
             var_r31 = 0;
         }
     }
@@ -691,7 +691,7 @@ s32 TObjEneMe1Canadin::fn_8009E76C() {
     return m_3F4 < 20.0f;
 }
 
-void TObjEneMe1Canadin::vfunc_107() {  }
+void TObjEneMe1Canadin::spawn_members() {  }
 
 s32 TObjEneMe1Canadin::vfunc_108() {
     s32 temp_r4;
@@ -720,7 +720,7 @@ s32 TObjEneMe1Canadin::try_trigger_action() {
 
 void TObjEneMe1Canadin::noop() {}
 
-s32 TObjEneMe1Canadin::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
+s32 TObjEneMe1Canadin::acquire_target(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
 
 void TObjEneMe1Canadin::update_fade_sequence() {
     TObjEneMe1Canadin *p = this;
@@ -793,7 +793,7 @@ void TObjEneMe1Canadin::vfunc_113() {
     *lbl_805D4FF0 = m_4B4;
 }
 
-int TObjEneMe1Canadin::vfunc_109() { return 1; }
+int TObjEneMe1Canadin::has_no_members() { return 1; }
 
 
 void TObjEneMe1Canadin::fn_8009E378() {
@@ -821,9 +821,9 @@ TObjChara *TObjEneMe1Canadin::fn_8009E300() {
     return NULL;
 }
 
-void TObjEneMe1Canadin::vfunc_117(uaddr) {  }
+void TObjEneMe1Canadin::remove_member(uaddr) {  }
 
-int TObjEneMe1Canadin::vfunc_116(TObjChara *) { return 1; }
+int TObjEneMe1Canadin::can_member_attack_target(TObjChara *) { return 1; }
 
 
 void TObjEneMe1Canadin::fn_8009E2DC() {
@@ -939,7 +939,7 @@ void TObjEneMe1Canadin::handle_state(s32 arg1) {
     case 0:
         m_470 += 1;
         if (m_470 == 2) {
-            this->vfunc_107();
+            this->spawn_members();
         }
         m_3C8 &= ~0x1000000;
         break;
@@ -1380,7 +1380,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 arg1) {
                     }
                 } else if (self->m_3AC < 100.0f) {
                     self->m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(self->m_4C8);
-                    if (self->m_3C0->vfunc_116(self->m_390) != 0) {
+                    if (self->m_3C0->can_member_attack_target(self->m_390) != 0) {
                         self->m_3C8 |= 0x40000;
                     } else if (self->fn_8009E860(&d, 10000.0f) != 0) {
                         if (d < 100.0f) {
@@ -1778,7 +1778,7 @@ void TObjEneMe1Canadin::fn_8009C178(s32 arg1) {
         self->actorFlags |= 0x800;
         if (self->m_3C4 == 1) {
             self->m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(self->m_4C8);
-            self->m_3C0->vfunc_117((uaddr)self);
+            self->m_3C0->remove_member((uaddr)self);
         } else {
             self->send_entity_set_flags();
         }
@@ -1789,7 +1789,7 @@ void TObjEneMe1Canadin::fn_8009C178(s32 arg1) {
         play_sound_effect(0x4003AD18, &self->body_center, 0, 0);
         return;
     case 3:
-        if ((self->fade.decay_value_toward_floor() != 0) && (self->vfunc_109() != 0)) {
+        if ((self->fade.decay_value_toward_floor() != 0) && (self->has_no_members() != 0)) {
             self->queue_destruction();
         }
     case 5:
@@ -1850,7 +1850,7 @@ void TObjEneMe1Canadin::vfunc_112(s32 arg1) {
     case 4:
         if (m_3C4 == 1) {
             m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(m_4C8);
-            m_3C0->vfunc_117((uaddr)this);
+            m_3C0->remove_member((uaddr)this);
         }
         TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FE0, 0, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
         m_3C8 |= 0x400000;
@@ -2113,7 +2113,7 @@ void TObjEneMe1CanadinLeader::vfunc_105() {
     }
 }
 
-void TObjEneMe1CanadinLeader::vfunc_107() {
+void TObjEneMe1CanadinLeader::spawn_members() {
     saddr id;
     saddr sub;
     s32 angle;
@@ -2163,7 +2163,7 @@ s32 TObjEneMe1CanadinLeader::vfunc_108() {
     return 0;
 }
 
-void TObjEneMe1CanadinLeader::vfunc_117(uaddr id) {
+void TObjEneMe1CanadinLeader::remove_member(uaddr id) {
     TObjEneMe1Canadin *member = (TObjEneMe1Canadin *)id;
     s32 i;
     for (i = 0; i < m_4D0; i++) {
@@ -2190,7 +2190,7 @@ void TObjEneMe1CanadinLeader::vfunc_117(uaddr id) {
     }
 }
 
-int TObjEneMe1CanadinLeader::vfunc_116(TObjChara *) {
+int TObjEneMe1CanadinLeader::can_member_attack_target(TObjChara *) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < m_4D0; i++) {
@@ -2209,7 +2209,7 @@ void TObjEneMe1CanadinLeader::vfunc_113() {
     *lbl_805D4FE8 = m_4B4;
 }
 
-int TObjEneMe1CanadinLeader::vfunc_109() {
+int TObjEneMe1CanadinLeader::has_no_members() {
     return (u8) (m_4D0 <= 0);
 }
 
@@ -2387,7 +2387,7 @@ void TObjEneMe1CanadinLeader::vfunc_112(s32 mode) {
         ((TObjPlayer *)this)->refresh_lobby_state();
         break;
     case 0:
-        if (vfunc_109() != 0) {
+        if (has_no_members() != 0) {
             send_entity_set_flags();
             queue_destruction();
         }

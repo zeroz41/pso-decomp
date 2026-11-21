@@ -1497,7 +1497,7 @@ void TObjEneDD_ST::enemy_init_acquire_period(s32 arg1) {
     *(s32 *)((s8 *)((u8 *)this) + 0x3B4) = arg1;
 }
 
-s32 TObjEneDD_ST::vfunc_104(f32 distance) { return select_nearest_target(distance); }
+s32 TObjEneDD_ST::acquire_target(f32 distance) { return select_nearest_target(distance); }
 
 s32 enemy_bind_or_clear_target(void *self, u16 x) {
     if (x != 0xFFFF) {
@@ -1533,7 +1533,7 @@ s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
 s32 TObjEneDD_ST::enemy_tick_target_acquisition(s32 *counter, s32 limit, f32 scale) {
     s32 var_r31;
     if (tick_period_counter((saddr)this, counter, limit) != 0) {
-        var_r31 = this->vfunc_104(scale);
+        var_r31 = this->acquire_target(scale);
     } else {
         var_r31 = enemy_has_live_target();
         if (var_r31 == 0) {

@@ -751,7 +751,7 @@ extern "C" {
 void update_ground_contact__9TObjEneDDFv();
 }
 extern "C" {
-int vfunc_104__12TObjEneDD_STFf(void *p);
+int acquire_target__12TObjEneDD_STFf(void *p);
 }
 extern "C" {
 void update_status_effects__12TObjEneDD_STFv();
@@ -1704,7 +1704,7 @@ void *__vt__13TBoss5Gryphon[107] = {
     (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
     (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
     (void *)&render_minimap_dot__9TObjEneDDFv, (void *)&move_xz_on_ground__9TObjEneDDFPUc, (void *)&update_ground_contact__9TObjEneDDFv, (void *)&snap_to_ground_at__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&run_demo_task__13TBoss5GryphonFv, (void *)&render_demo__13TBoss5GryphonFv,
+    (void *)&acquire_target__12TObjEneDD_STFf, (void *)&run_demo_task__13TBoss5GryphonFv, (void *)&render_demo__13TBoss5GryphonFv,
 };
 #define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
 #define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)

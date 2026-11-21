@@ -33,7 +33,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     TObjEneMe3SinowZoa(TObject *parent);
     virtual ~TObjEneMe3SinowZoa();
     virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32);
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     virtual void dispatch_action(u32 state, s32 reason);
     void sub_8031AC74();
     void sub_80319E74(s32);

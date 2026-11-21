@@ -1307,7 +1307,7 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
     }
 }
 
-s32 TObjEneRecon::vfunc_104(f32 farg0) {
+s32 TObjEneRecon::acquire_target(f32 farg0) {
     if (this->is_confused() != 0) {
         ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
