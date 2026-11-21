@@ -65,10 +65,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
-struct FadeE_802FCF00 { u8 b[0x1C]; };
-
-struct Fade_802FCF00 { u8 pad[0x6DC]; FadeE_802FCF00 e[4]; };
-
 struct Rot_802F9D08 { s32 x, y, z; };
 
 struct Obj_802FC674 {
@@ -200,147 +196,6 @@ Boss8DragonReferencePosVec boss8_dragon_reference_pos_vec;
 DragonForwardReferenceVec dragon_forward_reference_vec;
 extern "C" {
 
-struct VBase_14_f8ef8c { char pad[0x14]; };
-
-struct VObj_14_f8ef8c : VBase_14_f8ef8c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5();
-    u8 pad1C[4];
-};
-
-struct Self_802F51DC { u8 pad[0x6DC]; VObj_14_f8ef8c arr[4]; };
-
-
-struct VBase_14_df5984 { char pad[0x14]; };
-
-struct VObj_14_df5984 : VBase_14_df5984 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-    u8 pad1C[4];
-};
-
-struct Self_802F5434 { u8 pad[0x6DC]; VObj_14_df5984 arr[4]; };
-
-
-struct FadeBase_802F9A4C { char pad[0x14]; };
-
-struct Fade_802F9A4C : FadeBase_802F9A4C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    u8 pad2[4];
-};
-
-struct Obj_802F9A4C { u8 pad[0x6DC]; Fade_802F9A4C fades[4]; };
-
-struct VBase_802F9B8C { char pad[0x18]; };
-
-struct VObj_802F9B8C : VBase_802F9B8C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-};
 
 struct Stack_802FB0DC {
     s32 sp8;
@@ -352,13 +207,6 @@ struct Obj_802FAC08 { u8 pad0[0x38]; f32 x; u8 pad1[4]; f32 z; };
 struct F3_802FB290 { f32 f[3]; };
 
 struct G_802FB290 { F3_802FB290 *value; u8 rest[8]; };
-
-struct VBase_18_be4a70
-{
-  char pad[0x18];
-};
-
-typedef struct VBase_18_be4a70 VBase_18_be4a70;
 
 struct Obj_802FC580 {
     u8 pad0[0x698];
@@ -583,7 +431,6 @@ extern void *boss8_dragon_bezier_points_3[12];
 extern void *TBoss8Dragon__dive_height_curve[12];
 #define TBoss8Dragon__data_804E4C28 ((s32 *)TBoss8Dragon__data_804E4C28)
 
-struct Self_802F87EC { u8 pad[0x6DC]; VObj_14_f8ef8c arr[4]; };
 
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_collider_contact_low(u8 *arg0);
@@ -1271,7 +1118,7 @@ void TBoss8Dragon::run_task() {
     project_sound_origin_from_camera((saddr)(arg0 + 0x38), (u8 *)(arg0 + 0x634), 0.4f);
     if (!(*(s32 *)&this->m_3c0 & 0x100)) {
         for (i = 0; i < 4; i++) {
-            ((RenderFadeState *)((void *) &((Fade_802FCF00 *) arg0)->e[i]))->update();
+            this->renderFadeStates[i].update();
         }
     }
 }
@@ -2629,7 +2476,7 @@ void TBoss8Dragon::handle_tail_attack_state(s32 event) {
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x34;
         *(s32 *)((s8 *)this + 0x3C0) |= 2;
         *(s32 *)((s8 *)this + 0x84C) = 0;
-        ((TBoss8DragonEffTail *)(*(u8 **)((s8 *)this + 0x67C)))->enable();
+        this->tail->enable();
         break;
     case 2:
     case 11:
@@ -2650,11 +2497,11 @@ void TBoss8Dragon::handle_tail_attack_state(s32 event) {
         }
         if (*(s32 *)((s8 *)this + 0x84C) > 1) {
             if (this->is_passing_frame(10.0f) != 0) {
-                ((TBoss8DragonEffTail *)(*(u8 **)((s8 *)this + 0x67C)))->disable();
+                this->tail->disable();
             } else if (this->is_passing_frame(23.0f) != 0) {
-                ((TBoss8DragonEffTail *)(*(u8 **)((s8 *)this + 0x67C)))->enable();
+                this->tail->enable();
             }
-            (*(VObj_802F9B8C **)((s8 *)this + 0x67C))->m1();
+            this->tail->run_task();
         }
         break;
     }
@@ -2665,7 +2512,7 @@ void TBoss8Dragon::sub_802F9A4C(s32 event) {
     switch (event) {
     case 4:
         for (i = 0; i < 4; i++) {
-            ((TBoss8Dragon *)(&((Obj_802F9A4C *)this)->fades[i]))->set_speed(0.08f);
+            this->renderFadeStates[i].set_speed(0.08f);
         }
         this->m_3c0 |= 0x100;
         sub_802F9850(event);
@@ -2688,7 +2535,7 @@ void TBoss8Dragon::sub_802F9A4C(s32 event) {
             break;
         case 1:
             for (i = 0; i < 4; i++) {
-                ((Obj_802F9A4C *)this)->fades[i].m4();
+                this->renderFadeStates[i].decay_value_toward_floor();
             }
             break;
         }
@@ -3153,7 +3000,7 @@ void TBoss8Dragon::sub_802F87EC(s32 event) {
     switch (event) {
     case 4:
         for (i = 0; i < 4; i++) {
-            ((TBoss8Dragon *)(&((Self_802F87EC *)this)->arr[i]))->set_speed(0.008f);
+            this->renderFadeStates[i].set_speed(0.008f);
         }
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x100);
         sub_802F8578(event);
@@ -3182,7 +3029,7 @@ void TBoss8Dragon::sub_802F87EC(s32 event) {
         return;
     case 0:
         for (i = 0; i < 4; i++) {
-            ((Self_802F87EC *)this)->arr[i].m5();
+            this->renderFadeStates[i].advance_toward_max();
         }
         sub_802F8578(event);
         return;
@@ -4152,13 +3999,13 @@ void TBoss8Dragon::sub_802F6618(s32 event) {
         this->set_active_flag();
         this->m_3c0 |= 0x136;
         for (i = 0; i < 4; i++) {
-            ((TBoss8Dragon *)&this->renderFadeStates[i])->set_speed(0.005f);
+            this->renderFadeStates[i].set_speed(0.005f);
         }
         break;
     case 0:
         this->advance_animation();
         for (i = 0; i < 4; i++) {
-            if (((VObj_14_df5984 *)&this->renderFadeStates[i])->m4() != 0) {
+            if (this->renderFadeStates[i].decay_value_toward_floor() != 0) {
                 TObject::queue_destruction();
                 return;
             }
@@ -4722,7 +4569,7 @@ void TBoss8Dragon::sub_802F5434(s32 event) {
         this->set_active_flag();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
         for (i = 0; i < 4; i++) {
-            ((TBoss8Dragon *)(&((Self_802F5434 *)this)->arr[i]))->set_speed(0.02f);
+            this->renderFadeStates[i].set_speed(0.02f);
         }
         this->m_3c0 = (this->m_3c0 | 0x100);
         this->m_84c = 0;
@@ -4767,7 +4614,7 @@ void TBoss8Dragon::sub_802F5434(s32 event) {
     case 0:
         ((s32 (*)(void))update_movement__12TBoss8DragonFPv)();
         for (j = 0; j < 4; j++) {
-            ((Self_802F5434 *)this)->arr[j].m4();
+            this->renderFadeStates[j].decay_value_toward_floor();
         }
         return;
     case 5:
@@ -4793,7 +4640,7 @@ void TBoss8Dragon::sub_802F51DC(s32 event) {
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & ~0x36);
         TBoss8Dragon__sub_802F48DC(this, (Vec *)((u8 *)this + 0x394));
         for (i = 0; i < 4; i++) {
-            ((TBoss8Dragon *)(&((Self_802F51DC *)this)->arr[i]))->set_speed(0.02f);
+            this->renderFadeStates[i].set_speed(0.02f);
         }
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x100);
         temp_f1 = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[0] + 0x10);
@@ -4836,7 +4683,7 @@ void TBoss8Dragon::sub_802F51DC(s32 event) {
     case 0:
         ((s32 (*)(void))update_movement__12TBoss8DragonFPv)();
         for (j = 0; j < 4; j++) {
-            ((Self_802F51DC *)this)->arr[j].m5();
+            this->renderFadeStates[j].advance_toward_max();
         }
         return;
     case 5:

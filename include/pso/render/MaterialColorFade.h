@@ -18,6 +18,7 @@ public:
     virtual void set_flags_and_apply_damage_color();
     virtual void clear_flag_and_notify();
     virtual s32 has_visible_opacity();
+    void set_speed(f32 v);
 };
 
 #include <stddef.h>

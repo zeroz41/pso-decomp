@@ -1808,7 +1808,7 @@ void TBoss1Dragon::update_fade_state(u32 arg1) {
         this->beginHeightTransition();
         this->flags |= 0xE80;
         for (i = 0; i < 4; i++) {
-            ((TBoss8Dragon *)&this->viewFade[i])->set_speed((0.005f));
+            this->viewFade[i].set_speed(0.005f);
         }
         break;
     case ENEMY_STATE_UPDATE:
@@ -5735,7 +5735,7 @@ s32 fn_8002AE08(s32 client_id) {
 
 s32 TWindowKeyBoardHard::test_card_flag_2(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 2); }
 
-void TBoss8Dragon::set_speed(f32 v) { *(f32 *)((u8 *)this + 0x10) = v; }
+void MaterialColorFade::set_speed(f32 v) { rate = v; }
 
 void TObjMotion::sub_8002AE64() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);

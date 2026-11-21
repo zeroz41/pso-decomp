@@ -235,7 +235,6 @@ public:
     static void *clone_node_tree(void *src, void *dst, int state);
     static void *create(void *arg0);
     void update_colli_parts();
-    void set_speed(f32 v);
     void set_field_3c();
     void set_field_1c();
     void spawn_child_object();
