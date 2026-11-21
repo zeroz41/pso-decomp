@@ -2000,10 +2000,10 @@ void TBoss2DeRolLe::sub_80032E38(u32 reason) {
         case 2:
             break;
         case 3:
-            position.x = 3.0f * move_dir.x + position.x;
-            position.z = 3.0f * move_dir.z + position.z;
+            position.x = 3.0f * destination_direction.x + position.x;
+            position.z = 3.0f * destination_direction.z + position.z;
             state_floats[0] += 3.0f;
-            if (state_floats[0] >= move_distance) {
+            if (state_floats[0] >= destination_distance) {
                 state_step = 4;
             }
             break;
@@ -2894,7 +2894,7 @@ void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
             if (unk_6E4 >= unk_6EC) {
                 unk_6E4 = 0;
                 if (enemy_has_live_target() != 0) {
-                    VecCopy(&v, &target->position);
+                    VecCopy(&v, &current_target->position);
                 } else {
                     f32 r = 120.0f * random_ratio();
                     a = get_random_scaled();
@@ -3231,7 +3231,7 @@ void TBoss2DeRolLe::state_launch_mines(u32 reason, s32 state) {
                 }
             } else if (enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {
-                    target_mines[j]->init_launch(pos, target, j);
+                    target_mines[j]->init_launch(pos, current_target, j);
                 }
             }
             play_sound(0x4003A303, &unk_518[1]);
@@ -3345,7 +3345,7 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
                 fill_value_array(attack_history);
                 requested_action = 0xD;
                 if (enemy_check_target_valid() != 0) {
-                    VecCopy(vel, &target->position);
+                    VecCopy(vel, &current_target->position);
                 } else {
                     vel->x = 0.0f;
                     vel->y = 0.0f;
