@@ -24,7 +24,7 @@ extern saddr tl_window;
 void on_game_player_add__6TLobbyFiii();
 void handle_game_join__6TLobbyFPv();
 
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 void TLobby::dispatch_by_index(s32 arg0) {
     s32 var_r3;
