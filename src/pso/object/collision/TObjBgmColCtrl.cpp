@@ -1,5 +1,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "types.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 
@@ -74,18 +75,7 @@ const Row_8017E550 lbl_80443780[12] = {
     {{12.82f, 0.0f, -204.0f}, 26.0f, 2},
 };
 
-struct Set_8017E550 {
-    u8 pad[0xC];
-    Vec pos;
-    u8 pad18[0x24 - 0x18];
-    f32 radius;
-    u8 pad28[0x30 - 0x28];
-    s32 category;
-    u8 pad34[0x40 - 0x34];
-};
-
 extern "C" {
-void TLobby__sub_80207F30(Set_8017E550 *);
 extern s32 bgm_zone_category;
 }
 
@@ -173,24 +163,24 @@ s32 TObjBgmCol::is_within_distance(f32 farg0) {
 }
 
 void create_bgm_col_zones(void) {
-    Set_8017E550 set;
+    ObjectSetData set;
     s32 i;
     bgm_zone_category = 4;
     TLobby__sub_80207F30(&set);
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {
-            VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443690[i].pos);
-            set.radius = lbl_80443690[i].radius;
-            set.category = lbl_80443690[i].category;
+            VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443690[i].pos);
+            set.scale.x = lbl_80443690[i].radius;
+            set.set_params[0] = lbl_80443690[i].category;
             new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
         for (i = 0; i < 12; i++) {
-            VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443780[i].pos);
-            set.radius = lbl_80443780[i].radius;
-            set.category = lbl_80443780[i].category;
+            VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443780[i].pos);
+            set.scale.x = lbl_80443780[i].radius;
+            set.set_params[0] = lbl_80443780[i].category;
             new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
         }
         break;

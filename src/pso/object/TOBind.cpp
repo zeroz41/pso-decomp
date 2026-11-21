@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TOBind.h"
@@ -8,7 +9,6 @@ extern "C" {
 
 s32 TOBind__sub_80158608(void *);
 
-extern s32 quest_mission_manager;
 
 void TOBind::sub_8015860C() {
     f32 temp_f0;
@@ -27,7 +27,7 @@ void TOBind::run_task() {
         return;
     }
     if ((s32) this->m_b0 != 1) {
-        if (TQuestThread::get_register((u8 *)quest_mission_manager, this->m_b4) != 0) {
+        if (TQuestThread::get_register(quest_mission_manager, this->m_b4) != 0) {
             this->m_b0 = 1;
             clear_player_status_flag(0, 1);
         }

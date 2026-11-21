@@ -1,7 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
+#include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/QuestVm.h"
+#include "pso/quest/TQuestColCtrl.h"
+#include "pso/object/quest/TObjQuestColApcINW.h"
+#include "pso/system/vector.h"
+#include "pso/quest/QuestScriptFormat.h"
 #include "pso/system/data/FlagWord.h"
 #include "types.h"
 #include "pso/object/warp/ForestWarpResources.h"
@@ -15,16 +21,6 @@
 #include "pso/player/TObjPlayer.h"
 
 struct Op_801F2E64 { void (*fn)(s32); u32 pad; };
-
-struct Hdr_801F3124 {
-    u32 off0;
-    u32 off4;
-    u32 off8;
-    u16 hC;
-    u16 hE;
-    u16 h10;
-    s8 b12;
-};
 
 extern "C" {
 int bswap_32__FPUl(void*);
@@ -40,7 +36,6 @@ extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
 int bswap_16__FPUs(void*);
 void *memset(void *, int, u32);
-void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
 int VecCopy__FP3VecPC3Vec(void*);
 
 unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
@@ -57,11 +52,11 @@ quest_suspend_reason QuestVmContext::dispatch() {
 
 void TLobby::close_windows() {
     if (qst_message_window != NULL) {
-        ((TWindowBase *)qst_message_window)->close();
+        qst_message_window->close();
         qst_message_window = NULL;
     }
     if (qst_message_window_qb != NULL) {
-        ((TWindowBase *)qst_message_window_qb)->close();
+        qst_message_window_qb->close();
         qst_message_window_qb = NULL;
     }
     if (qst_list_window != NULL) {
@@ -91,7 +86,6 @@ void TLobby::close_windows() {
 }
 }
 
-extern u32 quest_mission_manager;
 
 quest_suspend_reason dispatch_quest_opcode(void) {
     s32 op;
@@ -176,19 +170,19 @@ void QuestVmContext::load_globals() {
 
 typedef char QuestVmContext_size[sizeof(QuestVmContext) == 0x174 ? 1 : -1];
 
-void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
+void init_quest_script_context(QuestBinHeader *h, QuestVmContext *c) {
     u32 n;
     u32 i;
-    bswap_32__FPUl(&h->off0);
-    bswap_32__FPUl(&h->off4);
-    bswap_32__FPUl(&h->off8);
-    bswap_16__FPUs(&h->hC);
-    bswap_16__FPUs(&h->hE);
+    bswap_32__FPUl(&h->code_offset);
+    bswap_32__FPUl(&h->function_table_offset);
+    bswap_32__FPUl(&h->size);
+    bswap_16__FPUs((void *)((u8 *)h + 0x0C));
+    bswap_16__FPUs((void *)((u8 *)h + 0x0E));
     bswap_16__FPUs((void*)((u8 *)h + 0x12));
-    qst_statistic_id = h->b12;
-    c->code = (u8 *)h + h->off0;
-    c->function_table = (s32 *)((u8 *)h + h->off4);
-    c->registers = (s32 *)((u8 *)h + h->off8);
+    qst_statistic_id = h->quest_number;
+    c->code = (u8 *)h + h->code_offset;
+    c->function_table = (s32 *)((u8 *)h + h->function_table_offset);
+    c->registers = (s32 *)((u8 *)h + h->size);
     c->message_window = NULL;
     c->list_window = NULL;
     c->result_register = 0;
@@ -200,7 +194,7 @@ void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     memset(c->args, 0, sizeof(c->args));
     memset(c->registers, 0, 0x400);
     memset(c->call_stack, 0, sizeof(c->call_stack));
-    n = (h->off8 - h->off4) / 4;
+    n = (h->size - h->function_table_offset) / 4;
     for (i = 0; i < n; i++) {
         bswap_32__FPUl(&c->function_table[i]);
     }
@@ -222,14 +216,14 @@ s32 *TObjItemOKWindow__sub_801F3268(void) {
 }
 
 void TLobby::clear_quest_vm_flag() {
-    if ((u32) quest_mission_manager != NULL) {
-        ((TQuestVmDownLoadServer *)quest_mission_manager)->clear_flag4_bit4();
+    if (quest_mission_manager != NULL) {
+        quest_mission_manager->clear_update_suspension();
     }
 }
 
 void TLobby::free_luker_object() {
-    if ((u32) quest_mission_manager != NULL) {
-        ((TObject *)quest_mission_manager)->suspend_update();
+    if (quest_mission_manager != NULL) {
+        quest_mission_manager->suspend_update();
     }
 }
 
@@ -271,7 +265,9 @@ void TLobby__sub_801F34E8(int a0, int a1) { lbl_805D6CD9 = a1; lbl_805D6CDA = (a
     extern int TLobby__data_805D6CCC;
 int TLobby__sub_801F34F8(void) {  return TLobby__data_805D6CCC; }
 
-int TLobby__sub_801F3500(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0xc0); }
+Vec *TLobby__sub_801F3500(TObjQuestColApcINW *trigger, const Vec *position) {
+    return VecCopy(&trigger->warp_pos, position);
+}
 void TLobby::bswap_4x32() { bswap_32__FPUl(this); bswap_32__FPUl((char*)this + 0x4); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }
 
     extern unsigned char camera_capture_flags;

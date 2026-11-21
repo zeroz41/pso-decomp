@@ -383,7 +383,7 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
         while (TLobby::tmp_buf_is_free() == 0) {
             TLobby::pump_frames();
         }
-        gstream_tmp_buffer = TLobby::tmp_buf_use_req((const char *)TGStream__class_name_string);
+        gstream_tmp_buffer = (s32)TLobby::tmp_buf_use_req((const char *)TGStream__class_name_string);
     }
 }
 

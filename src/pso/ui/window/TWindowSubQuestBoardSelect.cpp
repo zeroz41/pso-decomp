@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/TQuestThread.h"
@@ -94,7 +95,6 @@ void TWindowSubQuestBoardSelect::sub_8027D230() {
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
 }
 
-extern s32 quest_mission_manager;
 
 s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1) {
     if (arg1 < 0) {
@@ -103,7 +103,7 @@ s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1) {
     if (arg1 > 6) {
         return 0;
     }
-    return TQuestThread::get_register((u8 *)quest_mission_manager, arg1 + 0x4A);
+    return TQuestThread::get_register(quest_mission_manager, arg1 + 0x4A);
 }
 
 void TWindowSubQuestBoardSelect::update_slot_display_flags() {

@@ -18,10 +18,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 
-// Defined in TQuestThread.cpp. TQuestThread.h cannot declare them yet: 16
-// files still redeclare them with their own types.
-extern TUnk_804C8678 *quest_mission_manager;
-extern TUnk_804C8678 *quest_area_manager;
 
 void TOQuestTalkBase::update_demo() {}
 
@@ -118,14 +114,14 @@ void TOQuestTalkBase::run_task() {
             object_state = 3;
             begin_conversation_camera();
             if (script_id >= 100 && script_id < 1000 && quest_mission_manager != NULL &&
-                ((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0) {
-                quest_thread = new TQuestThread((TObject *)quest_mission_manager, quest_label);
+                quest_mission_manager->all_parents_unqueued_for_destruction() != 0) {
+                quest_thread = new TQuestThread(quest_mission_manager, quest_label);
                 if (quest_thread != NULL) {
                     quest_thread->set_parent(tl_00);
                 }
             } else if (quest_area_manager != NULL &&
-                       ((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0) {
-                quest_thread = new TQuestThread((TObject *)quest_area_manager, quest_label);
+                       quest_area_manager->all_parents_unqueued_for_destruction() != 0) {
+                quest_thread = new TQuestThread(quest_area_manager, quest_label);
                 if (quest_thread != NULL) {
                     quest_thread->set_parent(tl_00);
                 }

@@ -6,7 +6,7 @@
 
 class TAdLoadQuestLineGC : public TObject {
 public:
-    TAdLoadQuestLineGC(TObject *arg1, void *arg2);
+    TAdLoadQuestLineGC(TObject *parent, s32 state);
     virtual ~TAdLoadQuestLineGC();
     virtual void run_task();
     virtual void render();
@@ -20,8 +20,6 @@ typedef char TAdLoadQuestLineGCFrameOffset[(offsetof(TAdLoadQuestLineGC, m_frame
 typedef char TAdLoadQuestLineGCSize[sizeof(TAdLoadQuestLineGC) == 0x24 ? 1 : -1];
 typedef char TAdLoadQuestLineGCStateOffset[offsetof(TAdLoadQuestLineGC, m_state) == 0x1C ? 1 : -1];
 
-extern "C" {
-s32 get_or_create_line__14TAdLoadQuestGCFii(s32 arg0, s32 arg1);
-}
+extern "C" __declspec(section ".data") TAdLoadQuestLineGC *ad_load_quest_line_instances[2];
 
 #endif

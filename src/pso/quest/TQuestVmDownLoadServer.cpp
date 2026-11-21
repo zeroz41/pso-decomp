@@ -581,10 +581,10 @@ void TQuestVmDownLoadServer::run_task() {
             }
         } else {
             if (m_290 != NULL) {
-                ((TQuestVmDownLoadServer *)m_290)->clear_flag4_bit4();
+                ((TObject *)m_290)->clear_update_suspension();
             }
             if (m_29c != NULL) {
-                ((TQuestVmDownLoadServer *)m_29c)->clear_flag4_bit4();
+                ((TObject *)m_29c)->clear_update_suspension();
             }
             ((TQuestVmDownLoadServer *)arg0)->handle_confirm_input();
         }
@@ -1158,7 +1158,7 @@ void TQuestVmDownLoadServer::check_client_connections() {
             }
         } else {
             if ((u32) this->m_29c != 0U) {
-                ((TQuestVmDownLoadServer *)(this->m_29c))->clear_flag4_bit4();
+                ((TObject *)(this->m_29c))->clear_update_suspension();
             }
             chan = 0;
             this->m_234 = 0;

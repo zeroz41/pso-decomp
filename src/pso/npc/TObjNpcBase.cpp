@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/npc/TObjNpcBase_80149128.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -105,8 +106,7 @@ void begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
 s32 subtract_vector(Vec *, Vec *);
 extern s32 local_client_id;
-extern u8 *quest_mission_manager;
-extern u8 *quest_area_manager;
+s32 has_interactor__14TObjCollidableFv();
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;
@@ -248,11 +248,11 @@ void TObjNpcBase::update_conversation() {
                 break;
             }
         }
-        if (m_3ac >= 100 && m_3ac < 1000 && quest_mission_manager != 0 && ((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0) {
-            m = new TQuestThread((TObject *)quest_mission_manager, m_3a8);
+        if (m_3ac >= 100 && m_3ac < 1000 && quest_mission_manager != 0 && (quest_mission_manager)->all_parents_unqueued_for_destruction() != 0) {
+            m = new TQuestThread(quest_mission_manager, m_3a8);
             m_3b0 = (TQuestThread *)m;
-        } else if (m_3ac >= 1000 && quest_area_manager != 0 && ((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0) {
-            m = new TQuestThread((TObject *)quest_area_manager, m_3a8);
+        } else if (m_3ac >= 1000 && quest_area_manager != 0 && (quest_area_manager)->all_parents_unqueued_for_destruction() != 0) {
+            m = new TQuestThread(quest_area_manager, m_3a8);
             m_3b0 = (TQuestThread *)m;
         }
         break;
@@ -458,7 +458,7 @@ void TObjNpcBase::render() {
 void TObjNpcBase::run_task() {
     s32 temp_r4;
     s32 temp_r4_2;
-    u8 *var_r31;
+    TUnk_804C8678 *var_r31;
     if (m_3a0 <= 0 && m_3a4 <= 0) {
         m_390 = 1;
         set_indexed_flags(0, 1);

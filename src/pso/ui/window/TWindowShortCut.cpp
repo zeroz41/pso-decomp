@@ -17,6 +17,8 @@
 #include "pso/unk/text_80266BD0.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_8026B06C.h"
+#include "pso/ui/window/TWindowMessageQuest.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/client_id.h"
 
@@ -79,10 +81,6 @@ struct SpriteOrigin {
     f32 v;
 };
 
-struct PreviewPoint {
-    f32 x;
-    f32 y;
-};
 
 // Icon sprite of each shortcut kind, indexed by kind - 1: text, word select, symbol chat.
 static const u8 shortcut_kind_sprites[] = {0x12, 0x10, 0x11};
@@ -93,9 +91,9 @@ static const u8 shortcut_kind_sprites[] = {0x12, 0x10, 0x11};
 void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     u8 icon;
     u8 icon_detail;
-    PreviewPoint position;
+    NJS_POINT2 position;
     s32 kind;
-    PreviewPoint size;
+    NJS_POINT2 size;
 
     u8 *shortcut_label = (u8 *)get_array_entry(0);
     ShortcutPreviewEntry *shortcut_icon = (ShortcutPreviewEntry *)get_array_entry(2);
@@ -141,7 +139,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         size.y = 3.0f + (20.0f + preview->height);
         position.x = TWindowSubStatusDisp::round_away_from_zero(position.x - 0.5f * size.x);
         position.y = TWindowSubStatusDisp::round_away_from_zero(position.y - 0.5f * size.y);
-        preview_window = (TWindowBase *)create_quest_message_window_at((s32)&position, (s32)&size);
+        preview_window = create_quest_message_window_at(&position, &size);
         dispatch_message_window_text(preview_window, (s32)text, 0x402);
         preview_window->set_depth(50060.0f);
         break;
@@ -157,7 +155,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         size.y = 3.0f + (20.0f + preview->height);
         position.x = TWindowSubStatusDisp::round_away_from_zero(position.x - 0.5f * size.x);
         position.y = TWindowSubStatusDisp::round_away_from_zero(position.y - 0.5f * size.y);
-        preview_window = (TWindowBase *)create_quest_message_window_at((s32)&position, (s32)&size);
+        preview_window = create_quest_message_window_at(&position, &size);
         dispatch_message_window_text(preview_window, (s32)get_shared_text_buffer(), 2);
         preview_window->set_depth(50060.0f);
         break;

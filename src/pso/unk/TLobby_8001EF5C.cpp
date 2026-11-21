@@ -153,7 +153,7 @@ s32 xmalloc__FUl(s32);
 char TLobby__tmp_buf_name[0x20];
 s32 strcmp(void *, void *);
 u8 bml_load_state;
-s32 lobby_download_buffer;
+u8 *lobby_download_buffer;
 s32 lbl_805D4AD0;
 s32 tmp_buf_in_use_flag;
 u32 bml_load_buffer;
@@ -233,7 +233,7 @@ s32 TLobby::tmp_buf_release(const char *name) {
 s32 TLobby::tmp_buf_is_free() {
     return tmp_buf_in_use_flag;
 }
-s32 TLobby::tmp_buf_use_req(const char *name) {
+u8 *TLobby::tmp_buf_use_req(const char *name) {
     if (tmp_buf_in_use_flag != 0) {
         tmp_buf_in_use_flag = 0;
         strncpy(TLobby__tmp_buf_name, name, 0x20);
@@ -269,11 +269,11 @@ void TLobby::load_texture_sub(void *arg1, s32 arg2) {
     char buf[0x20];
     s32 size;
     change_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)arg1, "gvm");
-    size = TGStream::load_sct_file(buf, (u8 *)lobby_download_buffer);
+    size = TGStream::load_sct_file(buf, lobby_download_buffer);
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
-        load_gvm_texture_archive(lobby_download_buffer, arg0->entries[arg2].data);
+        load_gvm_texture_archive((s32)lobby_download_buffer, arg0->entries[arg2].data);
         arg0->entries[arg2].flags |= 1;
     } else {
         arg0->entries[arg2].flags |= 2;
@@ -304,7 +304,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             break;
         }
         bml_load_entry_index = 0;
-        lobby_bml_read_buffer = (u8 *)TLobby::tmp_buf_use_req("LoadBmlExec");
+        lobby_bml_read_buffer = TLobby::tmp_buf_use_req("LoadBmlExec");
         lobby_bml_file_handle = adxf_open__6TLobbyFUii(arg1, 0);
         if (lobby_bml_file_handle == 0) {
             TLobby::debug_print("LoadBmlExec: %s cannot open.", arg1);
@@ -511,12 +511,12 @@ void TLobby::free_chr_select_data() {
         bml_load_buffer = 0U;
     }
     TItemDrop__sub_800FE2D8();
-    TAdSinglePlyChrSelectGC::safe_free(lobby_download_buffer);
-    lobby_download_buffer = 0;
+    TAdSinglePlyChrSelectGC::safe_free((u32)lobby_download_buffer);
+    lobby_download_buffer = NULL;
 }
 void TLobby::init_download_buffers() {
     (*(s32 *)&bml_load_buffer) = xmalloc__FUl(0x4000);
-    lobby_download_buffer = (s32)TQuestVmDownLoadServer::alloc(0x40000);
+    lobby_download_buffer = (u8 *)TQuestVmDownLoadServer::alloc(0x40000);
     reset_gstream_globals();
     tmp_buf_in_use_flag = 1;
     TLobby__tmp_buf_name[0] = 0;
@@ -545,7 +545,7 @@ void load_bin_motion_callback(void *arg0) {
     void *temp_r4;
     **(s32 **)((s8 *)arg0 + 0) = 0;
     spC = 0;
-    temp_r3 = alloc_load_data__6TLobbyFPviii((void *)(*(void **)((s8 *)arg0 + 4)), lobby_download_buffer, (s32)&spC, (s32)&sp8);
+    temp_r3 = alloc_load_data__6TLobbyFPviii((void *)(*(void **)((s8 *)arg0 + 4)), (s32)lobby_download_buffer, (s32)&spC, (s32)&sp8);
     if (temp_r3 == 0) {
         TLobby::debug_print("LoadBinMotionCallBack: Illegal format.");
     }
@@ -569,7 +569,7 @@ void load_bin_model_callback(void *request) {
     s32 *slot;
     i = 0;
     while (i < self->f14) {
-        data = ((s32 (*)(void *, s32, void *, void *))alloc_load_data__6TLobbyFPviii)(self->fC, lobby_download_buffer, &i, &tag);
+        data = ((s32 (*)(void *, s32, void *, void *))alloc_load_data__6TLobbyFPviii)(self->fC, (s32)lobby_download_buffer, &i, &tag);
         switch (tag) {
         case 0x4E4A544C:
             slot = self->f8;
@@ -652,7 +652,7 @@ s32 TLobby::load_bin_motion(s32 arg1, s32 arg2) {
         TLobby::debug_print("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
-    data = alloc_load_data__6TLobbyFPviii(arg0, lobby_download_buffer, (s32)&offset, (s32)&tag);
+    data = alloc_load_data__6TLobbyFPviii(arg0, (s32)lobby_download_buffer, (s32)&offset, (s32)&tag);
     if (data == 0) {
         TLobby::debug_print("LoadBinMotion: Illegal format.");
     }
@@ -673,7 +673,7 @@ s32 TLobby::load_bin_model(s32 arg1, s32 arg2) {
         TLobby::debug_print("LoadBinModel: tmpbuf overflow(%x)", size - 0x40000);
     }
     read_disc_file_sectors((const char *)arg1, (void *)lobby_download_buffer);
-    bind_bml_model((Lobby_8001FBEC *)(this), size, arg2, lobby_download_buffer);
+    bind_bml_model((Lobby_8001FBEC *)(this), size, arg2, (s32)lobby_download_buffer);
     if (((Lobby_8001FD98 *)this)->entries[arg2].texture != NULL) {
         this->load_texture_sub((void *)arg1, (s32)arg2);
     }
@@ -914,7 +914,7 @@ inline void TBinModel::request_motions(u32 *list) {
     for (i = 0; *list != 0; list++, i++) {
         req.a = (Ctx_8001FA1C *)&ents8[i].data;
         req.b = (s32)this;
-        create_named_entry__6TLobbyFiiUiiPv(*list, lobby_download_buffer, (u32)load_bin_motion_callback, &req, (void **)&handle);
+        create_named_entry__6TLobbyFiiUiiPv(*list, (s32)lobby_download_buffer, (u32)load_bin_motion_callback, &req, (void **)&handle);
         TLobby__sub_8001EDD8(this, handle);
     }
 }
@@ -972,7 +972,7 @@ TBinModel *init_bin_model_request(TBinModel *self, s32 kind, u32 *models, u32 *m
             req.fC = (Ctx_8001FA1C *)self;
             req.f10 = (s32)&self->ents16[i];
             req.f14 = TGStream::get_resource_file_size((const char *)*p);
-            create_named_entry__6TLobbyFiiUiiPv(*p, lobby_download_buffer, (u32)load_bin_model_callback, &req, (void **)&handle);
+            create_named_entry__6TLobbyFiiUiiPv(*p, (s32)lobby_download_buffer, (u32)load_bin_model_callback, &req, (void **)&handle);
             TLobby__sub_8001EDD8(self, handle);
         }
         self->request_motions(motions);

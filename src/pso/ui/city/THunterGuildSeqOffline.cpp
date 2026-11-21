@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -53,7 +54,6 @@ s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-extern u8 *quest_mission_manager;
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
 void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);

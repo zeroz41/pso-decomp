@@ -689,7 +689,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         this->state = 1;
         break;
     case 1:
-        ((TQuestVmDownLoadServer *)this->summon)->clear_flag4_bit4();
+        this->summon->clear_update_suspension();
         this->summon->allow_rendering();
         this->state = 0;
         break;

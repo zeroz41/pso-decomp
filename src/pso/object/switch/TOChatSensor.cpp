@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 #pragma readonly_strings on
 
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
 
 #include "pso/ui/Language.h"
@@ -73,7 +74,6 @@ struct Packet_8015AD54 {
 extern "C" {
 u8 is_current_floor_switch_set(s32 id);
 
-extern void *quest_mission_manager;
 
 extern void *tl_00;
 
@@ -83,7 +83,6 @@ u32 __nw__7TObjectFUl(int);
 
 extern s32 tl_05;
 
-u32 TOChatSensor__create(s32 arg0);
 
 }
 
@@ -106,14 +105,17 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-u32 TOChatSensor__create(s32 arg0) {
+void *TOChatSensor__create(void *set) {
+    u32 temp_r3;
+    u32 temp_r3_2;
+    u32 var_r0;
     if ((u32) TOChatSensorFolder__instance == 0U) {
         new TOChatSensorFolder((TObject *)tl_05);
     }
     if ((u32) TOChatSensorFolder__instance != 0U) {
-        return (u32)new TOChatSensor((TObject *)TOChatSensorFolder__instance, (void *)arg0);
+        return new TOChatSensor((TObject *)TOChatSensorFolder__instance, set);
     }
-    return 0U;
+    return NULL;
 }
 
 void TOChatSensor::dispatch_chat_message_to_children(s32 arg0) {
@@ -230,7 +232,7 @@ void TOChatSensor::handle_chat_message(void *arg1) {
         if (r > -1) {
             if (*(u32 *)(arg0 + 0x90) == 0) {
                 if (quest_mission_manager != NULL) {
-                    o = new TQuestThread((TObject *)quest_mission_manager, *(u32 *)(arg0 + 0x94));
+                    o = new TQuestThread(quest_mission_manager, *(u32 *)(arg0 + 0x94));
                     *(void **)(arg0 + 0xC4) = o;
                     if (*(void **)(arg0 + 0xC4) != NULL) {
                         ((TObject *)(*(void **)(arg0 + 0xC4)))->set_parent((TObject *)tl_00);

@@ -28,6 +28,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/quest/AreaDialogueScripts.h"
 #include "pso/quest/QuestVm.h"
+#include "pso/quest/QuestScriptFormat.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -50,12 +51,10 @@
 
 struct ItemNameEntry { s32 text_id; s32 value; };
 struct WindowPos { f32 x; f32 y; };
-struct QuestScriptHeader { u8 pad[0x14]; char name[1]; };
 struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-s32 init_quest_script_context(s32, void *);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_window_layout_position(s32);
 s32 align_menu_entry_positions(u32);
@@ -78,7 +77,7 @@ extern s32 game_difficulty_selection;
 extern s32 evt2_random_enemies_mode;
 extern u8 controller_input_state[];
 extern int quest_bin_decompressed_size;
-extern int online_quest_bin_data;
+extern u8 *online_quest_bin_data;
 extern char offline_quest_filename_buffer_a[];
 }
 
@@ -425,9 +424,9 @@ TQuestThreadBoard::~TQuestThreadBoard() {
     quest_thread_board = NULL;
 }
 
-TQuestThreadBoard::TQuestThreadBoard(TObject *root, s32 label) : TObject(NULL) {
+TQuestThreadBoard::TQuestThreadBoard(TUnk_804C8678 *root, s32 label) : TObject(NULL) {
     m_name = TQuestThreadBoard__class_name;
-    ctx.copy(&((TUnk_804C8678 *)root)->ctx);
+    ctx.copy(&root->ctx);
     ctx.pc = ctx.function_table[label];
     state = QST_RUNNING;
     quest_thread_board = this;
@@ -621,9 +620,9 @@ TQuestThread *TQuestThread::create_in_root(s32 label) {
     return NULL;
 }
 
-TQuestThread::TQuestThread(TObject *root, s32 label) : TObject(root) {
+TQuestThread::TQuestThread(TUnk_804C8678 *root, s32 label) : TObject(root) {
     m_name = TQuestThread__class_name;
-    ctx.copy(&((TUnk_804C8678 *)root)->ctx);
+    ctx.copy(&root->ctx);
     ctx.pc = ctx.function_table[label];
     state = QST_RUNNING;
     if (ctx.pc == -1) {
@@ -654,9 +653,9 @@ void TQuestThread::clear_all_floor_handlers() {
     }
 }
 
-void TQuestThread::clear_buffer(void *root) {
-    if (((TUnk_804C8678 *)root)->ctx.registers != NULL) {
-        memset(((TUnk_804C8678 *)root)->ctx.registers, 0, 1024);
+void TQuestThread::clear_buffer(TUnk_804C8678 *root) {
+    if (root->ctx.registers != NULL) {
+        memset(root->ctx.registers, 0, 1024);
     }
 }
 
@@ -677,7 +676,7 @@ void handle_6x77_sync_quest_register(u8 *packet) {
 
 char *TQuestThread::get_quest_name() {
     if (quest_mission_manager != NULL) {
-        return ((QuestScriptHeader *)quest_mission_manager->script)->name;
+        return reinterpret_cast<QuestBinHeader *>(quest_mission_manager->script)->name;
     }
     return "ERROR";
 }
@@ -694,9 +693,9 @@ void TQuestThread::clear_thread_state() {
     memset(quest_board_handlers, 0, 0xD8);
 }
 
-s32 TQuestThread::get_register(void *root, int index) {
+s32 TQuestThread::get_register(const TUnk_804C8678 *root, int index) {
     if (root != NULL) {
-        return ((TUnk_804C8678 *)root)->ctx.registers[index];
+        return root->ctx.registers[index];
     }
     return 0;
 }
@@ -710,7 +709,7 @@ TUnk_804C8678::~TUnk_804C8678() {
     } else {
         quest_area_manager = NULL;
     }
-    TAdSinglePlyChrSelectGC::safe_free(script);
+    TAdSinglePlyChrSelectGC::safe_free((u32)script);
 }
 
 void TQuestThread::destroy_quest_obj() {
@@ -748,14 +747,14 @@ TUnk_804C8678 *TQuestThread::create_by_mode() {
     case 1:
         return new TUnk_804C8678(tl_su, get_offline_quest_filename());
     case 2:
-        return new TUnk_804C8678(tl_su, (void *)TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
+        return new TUnk_804C8678(tl_su, TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
     case 3: {
         TUnk_804C8678 *root = new TUnk_804C8678(tl_su, TQuestListVM::get_quest_bin(), TQuestListVM::get_quest_size());
         TQuestListVM::reset();
         return root;
     }
     case 4:
-        return new TUnk_804C8678(tl_su, (void *)TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
+        return new TUnk_804C8678(tl_su, TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
     case 5:
         return new TUnk_804C8678(tl_su, get_offline_quest_filename());
     default:
@@ -769,10 +768,10 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(pa
         queue_destruction();
     } else {
         alloc_size = size + 0x400;
-        script = (s32)TQuestVmDownLoadServer::alloc(alloc_size);
-        memcpy((void *)script, data, alloc_size);
+        script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(alloc_size));
+        memcpy(script, data, alloc_size);
         quest_mission_manager = this;
-        init_quest_script_context(script, &ctx);
+        init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);
         kind = 0;
     }
     TQuestThread::clear_thread_state();
@@ -781,7 +780,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(pa
 TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : TObject(parent) {
     s32 size;
     this->kind = kind;
-    script = 0;
+    script = NULL;
     switch (this->kind) {
     case 0:
         copy_name((s32)"QUEST");
@@ -789,11 +788,11 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
-            read_disc_file((const char *)filename, (void *)script);
+            script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+            read_disc_file((const char *)filename, script);
             copy_name((s32)"..");
             quest_mission_manager = this;
-            init_quest_script_context(script, &ctx);
+            init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);
             new TQuestThread(this, 0);
         }
         TQuestThread::clear_thread_state();
@@ -803,10 +802,10 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
-            read_disc_file((const char *)filename, (void *)script);
+            script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+            read_disc_file((const char *)filename, script);
             quest_area_manager = this;
-            init_quest_script_context(script, &ctx);
+            init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);
         }
         break;
     default:
@@ -822,11 +821,11 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(pa
     if (size < 0) {
         queue_destruction();
     } else {
-        script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
-        read_disc_file((const char *)filename, (void *)script);
+        script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+        read_disc_file((const char *)filename, script);
         copy_name((s32)"..");
         quest_mission_manager = this;
-        init_quest_script_context(script, &ctx);
+        init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);
         kind = 0;
     }
     TQuestThread::clear_thread_state();
@@ -851,7 +850,7 @@ u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
 
 int TQuestListOnline::get_quest_size() { return quest_bin_decompressed_size; }
 
-int TQuestListOnline::get_quest_data() { return online_quest_bin_data; }
+u8 *TQuestListOnline::get_quest_data() { return online_quest_bin_data; }
 
 char *get_offline_quest_filename() { return offline_quest_filename_buffer_a; }
 

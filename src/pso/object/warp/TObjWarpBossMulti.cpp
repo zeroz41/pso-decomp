@@ -791,15 +791,15 @@ void TObjWarpBoss::update_warp_boss_visibility() {
         }
     } else {
         if (yes_no_window != NULL) {
-            ((TQuestVmDownLoadServer *)yes_no_window)->clear_flag4_bit4();
+            ((TObject *)yes_no_window)->clear_update_suspension();
             ((TObject *)yes_no_window)->allow_rendering();
         }
         if (menu_window != 0) {
-            ((TQuestVmDownLoadServer *)menu_window)->clear_flag4_bit4();
+            ((TObject *)menu_window)->clear_update_suspension();
             ((TObject *)menu_window)->allow_rendering();
         }
         if (player_list_window != NULL) {
-            ((TQuestVmDownLoadServer *)player_list_window)->clear_flag4_bit4();
+            ((TObject *)player_list_window)->clear_update_suspension();
             ((TObject *)player_list_window)->allow_rendering();
         }
     }

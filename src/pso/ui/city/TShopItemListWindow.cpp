@@ -140,6 +140,7 @@ struct Win_8021F9EC {
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
+s32 sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);
@@ -151,7 +152,6 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 s32 get_window_layout_position(int);
 void *create_window_quantity(u16);
 void *create_item_list_window(s32, s32, u16);
-void *create_cost_window(u16);
 s32 align_menu_entry_positions(u32);
 s32 try_buy_item(s32 arg0, void *item);
 
@@ -279,7 +279,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
     }
     if (W->cost == NULL) {
-        W->cost = create_cost_window(get_entity_id(W->player));
+        W->cost = create_cost_window((u16)get_entity_id(W->player));
         if ((c = W->cost) != NULL && W->recs[0].price > 0) {
             ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }

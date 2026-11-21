@@ -8,7 +8,8 @@ struct TWindowMessageQuest : public TWindowMessage {
     TWindowMessageQuest(s32 parent);
     virtual ~TWindowMessageQuest();
     virtual void render();
-    u8 unk_90[0x4];
+    void set_frame_mode(s32 mode);
+    s32 frame_mode;
 };
 
 typedef char TWindowMessageQuest_size[sizeof(TWindowMessageQuest) == 0x94 ? 1 : -1];
@@ -18,7 +19,7 @@ void *__dt__19TWindowMessageQuestFv(void *arg0, s16 arg1);
 }
 
 extern "C" {
-void create_quest_message_window(void);
+TWindowMessageQuest *create_quest_message_window();
 }
 
 #endif

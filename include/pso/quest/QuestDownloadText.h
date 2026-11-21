@@ -1,0 +1,59 @@
+#ifndef PSO_QUEST_QUESTDOWNLOADTEXT_H
+#define PSO_QUEST_QUESTDOWNLOADTEXT_H
+
+#include "types.h"
+#include <stddef.h>
+
+struct QuestDownloadInputEntry {
+    u16 ch;
+    u16 reserved;
+    s32 len;
+};
+
+// The request type tag is part of the existing append_message_text signature.
+struct Req_803EEF2C {
+    char *name;
+    s16 len;
+    u8 pad6;
+    u8 x7;
+    u8 x8;
+    u8 pad9[3];
+    u8 *text;
+};
+typedef Req_803EEF2C QuestDownloadRequest;
+
+typedef char QuestDownloadInputEntrySize[sizeof(QuestDownloadInputEntry) == 8 ? 1 : -1];
+typedef char QuestDownloadInputEntryLength[offsetof(QuestDownloadInputEntry, len) == 4 ? 1 : -1];
+typedef char QuestDownloadRequestSize[sizeof(QuestDownloadRequest) == 0x10 ? 1 : -1];
+typedef char QuestDownloadRequestLength[offsetof(QuestDownloadRequest, len) == 4 ? 1 : -1];
+typedef char QuestDownloadRequestKind[offsetof(QuestDownloadRequest, x7) == 7 ? 1 : -1];
+typedef char QuestDownloadRequestText[offsetof(QuestDownloadRequest, text) == 0xC ? 1 : -1];
+
+extern "C" {
+extern QuestDownloadInputEntry quest_download_entry_table[39];
+typedef char QuestDownloadInputTableSize[sizeof(quest_download_entry_table) == 0x138 ? 1 : -1];
+extern QuestDownloadInputEntry *lbl_805D78C4;
+extern QuestDownloadInputEntry *lbl_805D78C8;
+
+// Native character codes are halfwords; the single-byte conversion returns a byte.
+s32 TQuestVmDownLoadServer__sub_803E6F98(u16 code);
+s32 TQuestVmDownLoadServer__sub_803E7018(u16 code);
+// The output must have room for two bytes, even when the caller expects one.
+s32 TQuestVmDownLoadServer__sub_803E7098(u8 *output, u16 code);
+u16 TQuestVmDownLoadServer__sub_803EC69C(u16 code);
+u8 TQuestVmDownLoadServer__sub_803EC8D8(u16 code);
+s32 TQuestVmDownLoadServer__sub_803ECC7C(u16 code);
+
+s32 convert_romaji_to_kana(const u16 *src, s32 count, u16 *out, s32 *written);
+void reset_entry_text_accumulator(void);
+void process_entry_text_range(s32 start, s32 end);
+u16 *get_entry_text(s32 start, s32 length);
+u8 *convert_all_entry_text(void);
+void free_slot_node_chain(s32 slot, s32 mode);
+s32 build_all_entry_text(void);
+s32 format_number_text_all_modes(s32 format, s32 mode, void *out, s32 *count);
+s32 TQuestVmDownLoadServer__sub_803EF208(QuestDownloadRequest *request);
+s32 TQuestVmDownLoadServer__sub_803EF538(QuestDownloadRequest *request);
+}
+
+#endif

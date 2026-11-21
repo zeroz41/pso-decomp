@@ -170,7 +170,6 @@ s32 get_window_layout_position(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, s32 arg1);
 void *create_window_quantity(u16 arg0);
-void *create_cost_window(u16);
 int sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
@@ -335,7 +334,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
     }
     if (self->cost_win == NULL) {
-        self->cost_win = create_cost_window(get_entity_id((s32)self->owner));
+        self->cost_win = create_cost_window((u16)get_entity_id((s32)self->owner));
         if (self->cost_win != NULL && self->entries[0].price > 0) {
             ((TWindowCost *)self->cost_win)->set_cost(self->entries[0].price);
         }

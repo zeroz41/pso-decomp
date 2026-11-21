@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/collision/TOAttackableCol.h"
 #include "types.h"
@@ -58,8 +59,6 @@ void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
 u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
-extern u32 quest_mission_manager;
-extern u32 quest_area_manager;
 extern s32 tl_00;
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
@@ -240,18 +239,18 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
       if ((this->m_344) > 0)
       {
         temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x340));
-        if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && (((u32) quest_mission_manager) != 0U)) && (((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0))
+        if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && ((quest_mission_manager) != 0U)) && (quest_mission_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0 = (u32)new TQuestThread((TObject *)quest_mission_manager, this->m_344);
+          var_r0 = (u32)new TQuestThread(quest_mission_manager, this->m_344);
           if (var_r0 != 0U)
           {
             ((TObject *)var_r0)->set_parent((TObject *)tl_00);
           }
         }
         else
-          if ((((u32) quest_area_manager) != 0U) && (((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0))
+          if (((quest_area_manager) != 0U) && (quest_area_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0_2 = (u32)new TQuestThread((TObject *)quest_area_manager, this->m_344);
+          var_r0_2 = (u32)new TQuestThread(quest_area_manager, this->m_344);
           if (var_r0_2 != 0U)
           {
             ((TObject *)var_r0_2)->set_parent((TObject *)tl_00);

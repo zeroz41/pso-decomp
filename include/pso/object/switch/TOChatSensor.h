@@ -35,4 +35,6 @@ struct TOChatSensor : public TObjBase {
 };
 
 typedef char TOChatSensor_size[sizeof(TOChatSensor) == 0xD0 ? 1 : -1];
+extern "C" void *TOChatSensor__create(void *set);
+
 #endif

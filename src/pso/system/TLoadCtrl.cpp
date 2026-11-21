@@ -75,10 +75,7 @@ void TLoadCtrl::run_task() {
                 new TNowLoading(this, (Vec *)&now_loading_pos);
                 break;
             case 1:
-                o = __nw__7TObjectFUl(0x20);
-                if ((u32)o != 0) {
-                    TAdLoadQuestGC__ct((void *)o, this);
-                }
+                new TAdLoadQuestGC(this);
                 break;
             case 2:
                 break;
@@ -152,7 +149,7 @@ void TLoadCtrl::cleanup_scene() {
         break;
     case 1:
         TLobby::release_bgm_resource();
-        TAdLoadQuestGC__sub_8030984C();
+        TAdLoadQuestGC::cleanup();
         break;
     case 3:
     case 4:
@@ -196,7 +193,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
         TNowLoading__sub_8001D4D4();
         break;
     case 1:
-        TAdLoadQuestGC__sub_80309850();
+        TAdLoadQuestGC::setup();
         break;
     case 3:
     case 4:

@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+class TQuestThread;
+
 struct TObjMesBase : public TObjCollidable {
     TObjMesBase(TObject *parent, ObjectSetData *placement);
     virtual ~TObjMesBase();
@@ -12,7 +14,7 @@ struct TObjMesBase : public TObjCollidable {
     virtual void debug_draw_label();
     virtual void interact(s32 client);
     virtual void run_task();
-    void* messageChild;
+    TQuestThread *messageChild;
     s32 messagePhase;
     s32 messageLabel;
     s32 messageBank;

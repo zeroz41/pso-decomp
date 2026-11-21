@@ -1,10 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestListOnline.h"
+#include "pso/quest/OnlineQuestMenuRecords.h"
+#include "pso/quest/OnlineQuestDownloadState.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -87,14 +90,14 @@ extern "C" {
 
 s32 get_window_layout_position(s32);
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
-u8 TQuestListOnline__dat_download_state[0x3C];
-u8 TQuestListOnline__bin_download_state[0x3C];
+OnlineQuestDownloadState TQuestListOnline__dat_download_state;
+OnlineQuestDownloadState TQuestListOnline__bin_download_state;
 // Per-player slot flags, set by each class's ctor and cleared by its dtor
 // (same pattern as THunterGuildSeqOffline__instance_table).
 s32 THunterGuildSeqOnline_Server__instance_table[4];
 s32 THunterGuildSeqOnline_Client__instance_table[4];
-u8 *TQuestListOnline__quest_list_buffer;
-u8 *TQuestListOnline__selected_quest_info;
+OnlineQuestMenu *TQuestListOnline__quest_list_buffer;
+OnlineQuestInfo *TQuestListOnline__selected_quest_info;
 int TQuestListOnline__bin_download_complete;
 int TQuestListOnline__dat_download_complete;
 u32 TQuestListOnline__download_window;
@@ -106,7 +109,6 @@ s32 quest_download_graph_current_bytes;
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern s32 quest_mission_manager;
 void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 s32 set_service_counter_camera(void *, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -222,7 +224,6 @@ s32 get_window_layout_position(s32);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern s32 quest_mission_manager;
 s32 set_service_counter_camera(void *, s32);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -376,7 +377,7 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
                 break;
             case 2:
                 if (is_quest_active() != 0) {
-                    if (TQuestThread::get_register((u8 *)quest_mission_manager, 0xFF) != 0) {
+                    if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
                         ((TShopSequence *)(shop_sequence))->display_guild_message(0xB, 1);
                         if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
                             *(s32 *)((s8 *)shop_sequence + 0x3C) = (s32)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
@@ -384,7 +385,7 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
                         ((TShopWindowBase *)shop_sequence)->set_field_20(4);
                         return;
                     }
-                    if (TQuestThread::get_register((u8 *)quest_mission_manager, 0xFD) != 0) {
+                    if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                         ((TShopSequence *)(shop_sequence))->display_guild_message(0x12, 1);
                         if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
                             *(s32 *)((s8 *)shop_sequence + 0x3C) = (s32)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
@@ -665,13 +666,13 @@ void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self) {
         return;
     case 0:
         if (is_quest_active() != 0) {
-            if (TQuestThread::get_register((u8 *)quest_mission_manager, 0xFF) != 0) {
+            if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
                 self->m7(0xB, 1);
                 if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
                     self->thread = (s32)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
                 }
                 ((TShopWindowBase *)self)->set_field_20(4);
-            } else if (TQuestThread::get_register((u8 *)quest_mission_manager, 0xFD) != 0) {
+            } else if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                 self->m7(0x12, 1);
                 if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
                     self->thread = (s32)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);

@@ -158,7 +158,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
         }
         allocated = 1;
     } else {
-        buf = TLobby::tmp_buf_use_req("LoadTexturePvm");
+        buf = (s32)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::load_sct_file((const char *)path, (u8 *)buf);
     ret = load_gvm_texture_archive(buf, (void *)arg1);
@@ -232,7 +232,7 @@ u8 *load_gvm_texture_file(s32 name) {
         big = (u32)TQuestVmDownLoadServer::alloc(size);
         buf = big;
     } else {
-        buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
+        buf = (s32)TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
     TGStream::load_sct_file((const char *)name, (u8 *)buf);
     count = TLanguage::read_file_header(buf, &hdr);

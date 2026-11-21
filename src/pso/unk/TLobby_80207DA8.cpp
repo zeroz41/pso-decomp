@@ -4,6 +4,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
@@ -315,12 +316,9 @@ void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
 void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
 }
 
-struct R_80207F30 { s16 a; s16 b; u16 c; };
-
 extern "C" {
 s32 get_current_floor();
 void *memset(void *, int, unsigned long);
-int TLobby__sub_80207F30(R_80207F30 *arg0);
 }
 void bswap_enemy_set_row(void *arg0);
 void bswap_enemy_set_row_fields(void *arg0);
@@ -335,13 +333,13 @@ void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0);
 s32 bswap_16__FPUs(u16 *, s32);
 s32 bswap_32__FPUl(s32 *, s32);
 
-int TLobby__sub_80207F30(R_80207F30 *arg0) {
+s32 TLobby__sub_80207F30(ObjectSetData *set) {
     s32 r;
-    memset(arg0, 0, 0x3C);
-    arg0->a = -1;
+    memset(set, 0, sizeof(*set));
+    set->object_type = -1;
     r = get_current_floor();
-    arg0->b = r;
-    arg0->c = 0xFFFF;
+    set->floor = r;
+    set->entity_id = 0xFFFF;
     return r;
 }
 

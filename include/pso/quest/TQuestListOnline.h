@@ -1,7 +1,18 @@
 #ifndef PSO_QUEST_TQUESTLISTONLINE_H
 #define PSO_QUEST_TQUESTLISTONLINE_H
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
+
+class TWindowMenuIconLine;
+struct TWindowMenu;
+struct TWindowMessage;
+class TRecvDownloadHead;
+template <size_t size> struct TPlyText;
+typedef TPlyText<288> OnlineQuestInfo;
+class QuestListEntry;
+template <typename T, int entries, int pad_entries> class TMenuList;
+typedef TMenuList<QuestListEntry, 30, 0> OnlineQuestMenu;
 
 struct TQuestListOnline : public TShopWindowBase {
     virtual ~TQuestListOnline();
@@ -13,10 +24,10 @@ struct TQuestListOnline : public TShopWindowBase {
     s32 (*callback2c)();
     s32 (*callback30)();
     s32 (*callback34)();
-    u32 list_window;
-    u32 description_window;
-    u32 info_window;
-    u32 confirm_window;
+    TWindowMenuIconLine *list_window;
+    TWindowMessage *description_window;
+    TWindowMessage *info_window;
+    TWindowMenu *confirm_window;
     s32 selected_index;
     u8 selected_entry[0x1C];
     s32 selection_stage;
@@ -36,24 +47,22 @@ struct TQuestListOnline : public TShopWindowBase {
     void request_menu();
     s32 get_selection_stage();
     static int get_quest_size();
-    static int get_quest_data();
-    void begin_file_download();
-    static void receive_quest_info(void *arg0);
-    void copy_quest_list_data();
+    static u8 *get_quest_data();
+    static void begin_file_download(TRecvDownloadHead &file);
+    static void receive_quest_info(OnlineQuestInfo &info);
     static void release_resources();
     static void init_download_buffers();
     static s32 get_list_state();
-    static s32 get_selected_entry();
+    static const char *get_selected_entry();
     static int get_selected_quest_id();
     static u8 get_unlocked_tier();
-    static void decompress_quest_buffer(s32 arg0);
+    static void decompress_quest_buffer(const u8 *data, s32 size);
     static s32 init();
     static void ensure_online_quests_loaded();
-    static int get_quest_list_flag();
+    static u8 *get_quest_list_flag();
     static void close_windows_and_reset();
     static void handle_quest_ready();
 };
-#include <stddef.h>
 typedef char QuestListOnlineSize[(sizeof(TQuestListOnline)==0x70)?1:-1];
 typedef char QuestListOnline_state[(offsetof(TQuestListOnline,state)==0x20)?1:-1];
 typedef char QuestListOnline_window_owner[(offsetof(TQuestListOnline,window_owner)==0x24)?1:-1];
@@ -69,7 +78,10 @@ typedef char QuestListOnline_selected_index[(offsetof(TQuestListOnline,selected_
 typedef char QuestListOnline_selected_entry[(offsetof(TQuestListOnline,selected_entry)==0x4C)?1:-1];
 typedef char QuestListOnline_selection_stage[(offsetof(TQuestListOnline,selection_stage)==0x68)?1:-1];
 typedef char QuestListOnline_sequence[(offsetof(TQuestListOnline,sequence)==0x6C)?1:-1];
+extern TQuestListOnline *TQuestListOnline__instance;
+
 extern "C" {
+void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);
 void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *arg3);
 }
 

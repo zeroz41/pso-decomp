@@ -23,4 +23,6 @@ struct ObjectSetData {
 typedef char ObjectSetDataSize[sizeof(ObjectSetData) == 0x3C ? 1 : -1];
 typedef char ObjectSetDataPositionOffset[offsetof(ObjectSetData, position) == 0xC ? 1 : -1];
 
+extern "C" s32 TLobby__sub_80207F30(ObjectSetData *set);
+
 #endif

@@ -289,7 +289,7 @@ void hide_title_layers_and_release(O_8033612C *arg0) {
 void TLobby::set_flag_and_clear_download() {
     *(s32 *)((s8 *)this + 0x3C) = (s32) (*(s32 *)((s8 *)this + 0x3C) | 1);
     if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0x24)))->clear_flag4_bit4();
+        ((TObject *)(*(void **)((s8 *)this + 0x24)))->clear_update_suspension();
     }
 }
 

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_801A2D90.h"
@@ -25,7 +26,6 @@ s32 create_player_object(s32, s32, u32);
 u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 extern s32 local_client_id;
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
-extern u32 quest_mission_manager;
 void *get_player_by_client_id(s32 i);
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
@@ -83,8 +83,8 @@ void TLobby::reset_quest_state() {
     TLobby::reset_item_id_counters();
     TLobby::reset_floor_items();
     TNpcPlayer::enable_all_battle_ctrl();
-    if ((u32) quest_mission_manager != 0U) {
-        ((TObject *)quest_mission_manager)->queue_destruction();
+    if (quest_mission_manager != NULL) {
+        quest_mission_manager->queue_destruction();
     }
     clear_enabled_main_warps();
     reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();

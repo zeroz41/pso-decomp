@@ -39,7 +39,7 @@ void process_async_file_reads(void) {
             } else {
                 async_file_read_current_request->flags |= 0x100;
                 if (async_file_read_current_request->flags & 2) {
-                    async_file_read_texture_buffer = TLobby::tmp_buf_use_req("FSVR_READPVM");
+                    async_file_read_texture_buffer = (u32)TLobby::tmp_buf_use_req("FSVR_READPVM");
                     if (async_file_read_texture_buffer != 0) {
                         lobby_download_state_ptr = adxf_open__6TLobbyFUii(async_file_read_current_request->name, 0);
                         TLobby::read_checked_align(lobby_download_state_ptr, async_file_read_current_request->count, async_file_read_texture_buffer);

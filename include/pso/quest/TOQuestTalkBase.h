@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/object/base/TObjMapObject.h"
 
+class TQuestThread;
+
 // The base of the map objects a player talks to to run a quest label
 // (TOCapsuleAncient01, TOCapsuleLabo, TOComputerMachine01,
 // TOMonumentAncient01). No class name string survives for it; it is named
@@ -36,7 +38,7 @@ public:
     // manager.
     s32 script_id;
     s32 quest_label;  // the label the quest thread runs, 0 for none
-    TObject *quest_thread;
+    TQuestThread *quest_thread;
     s32 visible;  // update_object_view_visibility's last result
 };
 

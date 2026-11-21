@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"
@@ -13,8 +14,6 @@
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {
-extern void* quest_mission_manager;
-extern void* quest_area_manager;
 extern void* tl_00;
 
 const char *TObjMesBase__class_name = "TObjMesBase";
@@ -38,7 +37,7 @@ void TObjMesBase::debug_draw_label() {
 void TObjMesBase::interact(s32) {
     s32 label = messageLabel;
     if (label != 0) {
-        void* root = 0;
+        TUnk_804C8678 *root = NULL;
         switch (messageBank) {
         case 0: root = quest_mission_manager; break;
         case 1: root = quest_area_manager; break;
@@ -46,8 +45,8 @@ void TObjMesBase::interact(s32) {
         switch (messagePhase) {
         case 0:
             if (!messageChild && label != 0 && root) {
-                messageChild = new TQuestThread((TObject *)root, messageLabel);
-                if (messageChild) ((TObject *)messageChild)->set_parent((TObject *)tl_00);
+                messageChild = new TQuestThread(root, messageLabel);
+                if (messageChild) messageChild->set_parent((TObject *)tl_00);
                 messagePhase = 1;
             }
             break;
@@ -56,9 +55,9 @@ void TObjMesBase::interact(s32) {
     }
 }
 void TObjMesBase::clear_ref_if_destroyed() {
-    void *p = this->messageChild;
-    if ((p != 0) && (((TObject *)p)->all_parents_unqueued_for_destruction() == 0)) {
-        this->messageChild = 0U;
+    TQuestThread *p = this->messageChild;
+    if ((p != 0) && (p->all_parents_unqueued_for_destruction() == 0)) {
+        this->messageChild = NULL;
         this->messagePhase = 0;
     }
 }

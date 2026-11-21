@@ -383,7 +383,7 @@ struct TLobby : public TObject {
     static int get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();
-    void set_field_90(s32 v);
+    void update_window_mode_from_progress(void *arg1);
     static void send_packet(s32 arg0, s32 arg1);
     static void free_shared_objects();
     int start_load_default();
@@ -476,8 +476,6 @@ struct TLobby : public TObject {
     void set_info_board_text();
     static void reset_info_board();
     static int get_lobby_texlist();
-    void set_timer(f32 v);
-    static s32 open_message_scroll_window(s32 arg0, s32 arg1, s32 arg2);
     static void *create_dialing_message_window(void *arg0, void *arg1);
     static void free_singleton_805D7018();
     void *reset_counters();
@@ -592,7 +590,7 @@ struct TLobby : public TObject {
     static void tmp_buf_release_if_owner(const char *name);
     static s32 tmp_buf_release(const char *name);
     static s32 tmp_buf_is_free();
-    static s32 tmp_buf_use_req(const char *name);
+    static u8 *tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
     static u16 alloc_actor_ids(s32 arg);
     void reduce_owner_matched_items();

@@ -438,7 +438,7 @@ void ItemTextureArchiveLoader::on_loaded() {
     s32 data;
 
     if (TLobby::tmp_buf_is_free() == 1) {
-        data = TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+        data = (s32)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
         TItemLoad::decompress_buffer(data);
         load_gvm_texture_archive(data, texlist);
         TLobby::tmp_buf_release(item_load_tmp_buffer);
@@ -476,7 +476,7 @@ void ItemModelChunkLoader::on_loaded() {
     void *chunk;
     u32 i;
     if (TLobby::tmp_buf_is_free() == 1) {
-        data = TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+        data = (s32)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
         dst = buffer;
         total = TItemLoad::decompress_buffer(data);
         pos = 0;

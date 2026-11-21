@@ -1,4 +1,6 @@
 #include "types.h"
-#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/task/TObject.h"
 
-void TQuestVmDownLoadServer::clear_flag4_bit4() { this->m_flags &= 0xfffffffb; }
+void TObject::clear_update_suspension() {
+    m_flags &= ~SUSPEND_UPDATE;
+}

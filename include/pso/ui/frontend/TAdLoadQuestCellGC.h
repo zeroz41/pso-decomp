@@ -6,7 +6,7 @@
 
 class TAdLoadQuestCellGC : public TObject {
 public:
-    TAdLoadQuestCellGC(TObject *arg1, void *arg2);
+    TAdLoadQuestCellGC(TObject *parent, s32 state);
     virtual ~TAdLoadQuestCellGC();
     virtual void run_task();
     virtual void render();
@@ -20,8 +20,6 @@ typedef char TAdLoadQuestCellGCFrameOffset[(offsetof(TAdLoadQuestCellGC, m_frame
 typedef char TAdLoadQuestCellGCSize[sizeof(TAdLoadQuestCellGC) == 0x24 ? 1 : -1];
 typedef char TAdLoadQuestCellGCStateOffset[offsetof(TAdLoadQuestCellGC, m_state) == 0x1C ? 1 : -1];
 
-extern "C" {
-s32 get_or_create_cell__14TAdLoadQuestGCFii(s32 arg0, s32 arg1);
-}
+extern "C" TAdLoadQuestCellGC *ad_load_quest_cell_table[3];
 
 #endif

@@ -1,3 +1,4 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include <stddef.h>
@@ -237,7 +238,6 @@ void chat_log_add_line(const char *text) {
 }
 
 extern "C" {
-s32 TLobby__sub_80269DA4(void *, int);
 s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
 s32 *get_active_photon_object__17TWindowMessageLogFv(u16);
