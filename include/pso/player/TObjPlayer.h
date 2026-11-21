@@ -335,7 +335,6 @@ struct TObjPlayer : public TObjChara {
     void refresh_lobby_state();
     int query_lobby_state();
     s32 is_action_available();
-    void draw_trail_strip(void *arg1, s32 arg2);
     f32 calc_photon_blast_power(s32 arg1, f32 farg0);
     static s32 is_any_teammate_in_state();
     static void set_shared_flag(int a0);

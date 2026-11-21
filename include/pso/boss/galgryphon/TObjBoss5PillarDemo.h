@@ -7,7 +7,7 @@
 struct TObjBoss5PillarDemo : public TObjBoss5Pillar {
     virtual ~TObjBoss5PillarDemo();
     static void update_active_pillar();
-    static s32 create();
+    static TObjBoss5PillarDemo *create();
 };
 
 LAYOUT_ASSERT(TObjBoss5PillarDemo_size, sizeof(TObjBoss5PillarDemo) == 0x4C);

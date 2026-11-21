@@ -1,3 +1,4 @@
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer_802E6CA8.h"
@@ -80,7 +81,6 @@ extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
 extern s32 __vt__13TUnk_804E3BD8[];
 s32 TObjLight__sub_801337F8(s32);
-u8 *queue_boss_effect__10TObjPlayerFPv(s32);
 s32 rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, s32);
@@ -246,7 +246,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, 
         n = -1;
     }
     if (n > 0) {
-        ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((uaddr)queue_boss_effect__10TObjPlayerFPv(3), n));
+        ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
         ((TUnk_804E3BC0 *)arg0)->sub_802E7640();
         p = arg0->pieces;
         for (i = 0; i < arg0->count; i++, p++) {
@@ -289,7 +289,7 @@ void TUnk_804E3BC0::run_task() {
 void TUnk_804E3BC0::render() {
     Node_802E708C *node;
     Part_802E708C *part;
-    u8 *fx = queue_boss_effect__10TObjPlayerFPv(3);
+    u8 *fx = (u8 *)TBoss7DeRolLeC::get_archive_model(3);
     Col_802E708C c = lbl_80472C80;
     node = *(Node_802E708C **)((s8 *)fx + 0x2C);
     Vec s = lbl_80472C90;
@@ -332,7 +332,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, saddr arg2) {
     s32 i;
     this->init_zeroed_object();
     *(u8 **)((s8 *)((u8 *)this) + 0x18) = ((u8 *)&__vt__13TUnk_804E3BA8);
-    ((TUnk_804E3BD8 *)((u8 *)this))->alloc_breakup_model(((saddr)queue_boss_effect__10TObjPlayerFPv(2)));
+    ((TUnk_804E3BD8 *)((u8 *)this))->alloc_breakup_model(((saddr)TBoss7DeRolLeC::get_archive_model(2)));
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = arg2;
     part = *(Part_802E6F10 * *)&this->room;
     push_matrix();
@@ -378,7 +378,7 @@ void TUnk_804E3BA8::render() {
     Node_802E6CB0 *node;
     Part_802E6CB0 *part;
     s32 i;
-    u8 *fx = queue_boss_effect__10TObjPlayerFPv(2);
+    u8 *fx = (u8 *)TBoss7DeRolLeC::get_archive_model(2);
     Col_802E6CB0 c = lbl_80472C9C;
     node = *(Node_802E6CB0 **)((s8 *)fx + 0x2C);
     part = *(Part_802E6CB0 * *)&this->unk_28;

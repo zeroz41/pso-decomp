@@ -1,3 +1,4 @@
+#include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/bringer/BringerEffects.h"
@@ -224,8 +225,8 @@ void TUnk_8048FE7C::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, angle);
-    ((TObjPlayer *)&vertices[0])->draw_trail_strip((void *)6, alpha < 1.0f);
-    ((TObjPlayer *)&vertices[6])->draw_trail_strip((void *)6, alpha < 1.0f);
+    draw_trail_strip(&vertices[0], 6, alpha < 1.0f);
+    draw_trail_strip(&vertices[6], 6, alpha < 1.0f);
     pop_matrix();
 }
 

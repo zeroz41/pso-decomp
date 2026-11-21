@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -79,8 +80,6 @@ struct Obj_8006426C {
     u8 pad450[0x578 - 0x450];
     s32 attack_history;
 };
-
-struct Fx_8006442C { u8 pad0[8]; f32 scale; u8 padC[8]; };
 
 struct Dragon_8006442C {
     u8 pad0[0x3E4];
@@ -178,15 +177,6 @@ struct Dragon_80060020 {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-// Five-word attack/effect sphere descriptor: copied by TBoss1Dragon__sub_80027A80 and passed to
-// emit_enemy_effect / setup_instance (same layout as TBoss1Dragon.cpp's DragonAttackParams).
-struct DragonAttackParams {
-    s32 field_0;
-    f32 field_4;
-    f32 field_8;
-    f32 field_C;
-    s32 field_10;
-};
 
 
 #pragma inline_depth(1)
@@ -204,7 +194,6 @@ extern const f32 lbl_805D8DAC;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
 s32 fill_value_array(int);
 void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0);
-s32 TBoss1Dragon__sub_80027A80(void *, const void *);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0);
 s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
@@ -366,20 +355,6 @@ struct Stack_80063F34 {
     f32 spC;
 };
 
-struct Stack_800646F0 {
-    s32 sp8;
-    u8 pad_C[0x4];
-    f32 sp10;
-    u8 trailing_storage[0x8];
-};
-
-
-struct Stack_8006435C {
-    s32 sp8;
-    u8 pad_C[0x4];
-    f32 sp10;
-    u8 trailing_storage[0x8];
-};
 
 
 struct O_80064AB0 { u8 pad[0x1c]; u16 id; u8 pad2[0x38c - 0x1e]; u16 kind; u8 pad3[6]; f32 x; u8 pad4[4]; f32 z; };
@@ -4145,22 +4120,20 @@ void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0) {
 #pragma pop
 
 void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8006435C, sp8) == 0x0);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8006435C, sp10) == 0x8);
-    Stack_8006435C stack;
+    DragonAttackParams stack;
     u8 *temp_r31;
     u8 *temp_r31_2;
-    TBoss1Dragon__sub_80027A80(&stack.sp8, &boss8_dragon_attack_params);
+    TBoss1Dragon__sub_80027A80(&stack, &boss8_dragon_attack_params);
     fill_value_array((int) (*(s32 *)((s8 *)ene_dd + 0x578)));
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[3]), (u8 *)0);
     temp_r31 = (ene_dd + 0x444);
-    stack.sp10 = lbl_805D8EAC;
-    TBoss8Dragon__sub_800670E0((saddr)temp_r31, &stack.sp8);
-    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31, (u8 *)&stack.sp8, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
+    stack.field_8 = lbl_805D8EAC;
+    TBoss8Dragon__sub_800670E0((saddr)temp_r31, &stack);
+    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31, (u8 *)&stack, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
     temp_r31_2 = (ene_dd + 0x3C0);
-    stack.sp10 = lbl_805D8DD0;
-    TBoss8Dragon__sub_800670E0((saddr)temp_r31_2, &stack.sp8);
-    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31_2, (u8 *)&stack.sp8, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
+    stack.field_8 = lbl_805D8DD0;
+    TBoss8Dragon__sub_800670E0((saddr)temp_r31_2, &stack);
+    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31_2, (u8 *)&stack, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
 }
 #pragma pop
@@ -4171,7 +4144,7 @@ void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
 #pragma dont_inline off
 
 void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0) {
-    Fx_8006442C fx;
+    DragonAttackParams fx;
     Vec pts[10];
     Vec *p;
     s32 i;
@@ -4204,7 +4177,7 @@ void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0) {
     ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[3]), (u8 *)0);
     p = pts;
     for (i = 0; i < 5; i++) {
-        fx.scale = gryphon_effect_scale_table[i];
+        fx.field_8 = gryphon_effect_scale_table[i];
         TBoss8Dragon__sub_800670E0((saddr)p, &fx);
         TObjEneDD::emit_enemy_effect(arg0, (void *)p++, (u8 *)&fx, (void *)arg0->attack_history);
         TBoss8Dragon__sub_800670E0((saddr)p, &fx);
@@ -4225,14 +4198,12 @@ void TBoss5Gryphon::update_collider_from_table() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss8Dragon__sub_800646F0(saddr arg0) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800646F0, sp8) == 0x0);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800646F0, sp10) == 0x8);
-    Stack_800646F0 stack;
-    TBoss1Dragon__sub_80027A80(&stack.sp8, &boss5_gryphon_params_b);
-    stack.sp10 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x10);
+    DragonAttackParams stack;
+    TBoss1Dragon__sub_80027A80(&stack, &boss5_gryphon_params_b);
+    stack.field_8 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x10);
     ((TBoss5Gryphon *)arg0)->reload_stats_for_phase(boss5_gryphon_behavior_params[2]);
-    TBoss8Dragon__sub_80067074((arg0 + 0x38), (saddr)&stack.sp8);
-    ((TObjEneDD *)arg0)->emit_effect_at_position(&stack.sp8);
+    TBoss8Dragon__sub_80067074((arg0 + 0x38), (saddr)&stack);
+    ((TObjEneDD *)arg0)->emit_effect_at_position(&stack);
     ((TBoss5Gryphon *)arg0)->reload_stats_for_type();
 }
 #pragma pop

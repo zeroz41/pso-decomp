@@ -159,7 +159,7 @@ TUnk_804E4B3C::TUnk_804E4B3C(TObject *parent) : TObject(parent) {
     unk_78.z = 0.0f;
     dust_timer = 30;
     for (i = 0; i < 2; i++) {
-        new TObjBoss7RaftSplash((TObject *)this, (u8 *)&lbl_804E4A44[i], (u8 *)&TObjBoss2Tunnel__raft_splash_offset_table[i], (saddr)&scroll_speed);
+        new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&lbl_804E4A44[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], &scroll_speed);
     }
     new TUnk_804E4AD4(render_nodes, 0);
     new TUnk_804E4AD4(render_nodes, 1);

@@ -6,6 +6,7 @@
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/system/vector.h"
@@ -353,7 +354,6 @@ void scale_matrix(int matrix, f32 x, f32 y, f32 z);
 void rotate_vector_by_matrix(int matrix, const Vec *in, Vec *out);
 extern Entry_802B865C boss6_type1_action_table[];
 
-u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 extern s32 game_difficulty_selection;
 f32 atan2_float(f64, f64);
 void request_follow_camera_offsets(void *, void *, int);
@@ -1544,7 +1544,7 @@ void TBoss6Type1__sub_802B73AC(TBoss6Type1 *self) {
         if ((self->unk_408 & 3) == 0) {
             flag = 1;
         }
-        fn_8035648C((saddr)self, (saddr)&p, flag, sc);
+        TBoss6SwordShot::create((TObject *)self, &p, flag, sc);
         if (flag != 0) {
             play_sound_effect(0x4003B210, &p, 0, 0);
             TBoss6PlotFalz::apply_radial_effect_to_players(&p, 0xC0, 0xF, 100.0f);

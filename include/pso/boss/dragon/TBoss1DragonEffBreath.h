@@ -3,16 +3,16 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
+
+class AreaAttackHistory;
 
 struct TBoss1DragonEffBreath : public TObject {
-    TBoss1DragonEffBreath(TObject *arg1, void *arg2, void *arg3);
+    TBoss1DragonEffBreath(TObject *parent, void *initial_position, void *direction);
     virtual ~TBoss1DragonEffBreath();
-    void* m_1c;
-    u8 _pad20[0x8];
-    void* m_28;
-    u8 unk_2C[0x4];
-    f32 m_30;
-    u32 m_34;
+    Vec position;
+    Vec velocity;
+    AreaAttackHistory *attack_history;
     virtual void render();
     virtual void run_task();
 };

@@ -1,7 +1,7 @@
 #ifndef PSO_EFFECT_ITEM_TITEMEFFECTWEAPON_H
 #define PSO_EFFECT_ITEM_TITEMEFFECTWEAPON_H
 
-#include "types.h"
+#include "pso/system/TrailStrip.h"
 #include "pso/item/TItemHeapObject.h"
 
 class TItemEffectWeapon : public TItemHeapObject {
@@ -10,10 +10,7 @@ public:
     virtual ~TItemEffectWeapon();
     void run_task();
 public:
-    struct TrailVertex {
-        f32 x, y, z;
-        u32 color;
-    };
+    typedef TrailStripVertex TrailVertex;
     void render_trail();
     void push_trail_interpolated(const f32* first, const f32* second);
     void push_trail_entry(const f32* first, const f32* second);

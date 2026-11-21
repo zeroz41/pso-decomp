@@ -1,3 +1,4 @@
+#include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
@@ -191,7 +192,7 @@ void TItemEffOrgaFlowShot::render() {
     set_depth_buffer_settings_1();
     set_additive_blend();
     TObjPlayer__sub_803DF768(1);
-    draw_untextured_trail_strip((void *)(arg0 + 0xC4), (void *)(0xA));
+    draw_untextured_trail_strip((void *)(arg0 + 0xC4), 10);
     reset_player_transform();
     set_default_alpha_blend();
     restore_saved_depth_alpha_state();

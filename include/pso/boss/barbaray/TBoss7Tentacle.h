@@ -5,6 +5,8 @@
 #include "types.h"
 #include <stddef.h>
 
+struct NJS_OBJECT;
+
 class TBoss7Tentacle : public TObject {
 public:
     TBoss7Tentacle(TObject *arg1, s32 arg2, s32 arg3);
@@ -25,7 +27,7 @@ public:
     void init_segments();
     void start_attack_at_position(u8 *arg1, s32 arg2);
 
-    s32 m_1c;
+    NJS_OBJECT *m_1c;
     void *m_20;
     f32 m_24;
     f32 m_28;
