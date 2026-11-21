@@ -1,3 +1,6 @@
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlResource.h"
+#include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -14,9 +17,6 @@ struct DelDepthModelMotion { s32 model; s32 motion; };
 struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 
 extern "C" {
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
-s32 get_bml_model(BmlResource *resource, s32 index);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 DelDepthMotionBinding lbl_804E8760[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
 DelDepthPairBinding lbl_804E8780[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
@@ -26,13 +26,12 @@ extern u8 TObjEneDelDepth__animation_end_frame_initialized;
 
 int TObjEneDelDepth::get_flag_bit4() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneDelDepth::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
-    u16 temp_r3;
+int TObjEneDelDepth::find_nearest_enemy_with_flag(Vec *arg1, f32 farg0) {
+    s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    temp_r3 = find_nearest_hittable_enemy__10TObjPlayerFiPvf((void *)arg0, (void *)arg1, (f32)farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(this), arg1, farg0);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
-    return temp_r3;
+    return static_cast<u16>(target_id);
 }
 
 s32 DelDepthMotion::get_type() { return motion; }

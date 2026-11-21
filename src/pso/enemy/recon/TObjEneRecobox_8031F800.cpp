@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -156,7 +157,6 @@ struct Obj_8031F070 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };
 
 extern "C" {
 
-u8 *find_entity_by_id(u16);
 
 u16 TObjEneRecon__sub_8031D878();
 
@@ -1281,7 +1281,7 @@ s32 TObjEneRecon::has_child_in_anim_5() {
 void remove_tracked_target__12TObjEneReconFPvPv(Obj_8031EFAC *o, u8 *target) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(o->ids[i]) == target) {
+        if (find_entity_by_id(o->ids[i]) == reinterpret_cast<TObjCollidable *>(target)) {
             ((TObjEneRecon *)o)->remove_tracked_id(o->ids[i]);
             o->count--;
             o->ids[i] = o->ids[o->count];
@@ -1299,7 +1299,7 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
     Obj_8031EF14 *arg0 = (Obj_8031EF14 *)this;
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(arg0->ids[i]) == arg1) {
+        if (find_entity_by_id(arg0->ids[i]) == reinterpret_cast<TObjCollidable *>(arg1)) {
             arg0->count--;
             arg0->ids[i] = arg0->ids[arg0->count];
             arg0->ids[arg0->count] = 0xFFFF;

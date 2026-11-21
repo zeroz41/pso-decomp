@@ -1,3 +1,5 @@
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -212,8 +214,6 @@ struct Panarms_800E2200 {
 
 struct O_800E2FB4 { u8 pad[0x378]; s32 state; };
 
-s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
-u16 find_nearest_visible_player(void *, Vec_800E0A44 *, f32);
 s32 is_split_screen();
 f64 atan2_float(f32, f32, f32);
 u32 csnLookAt(void *, void *);
@@ -318,13 +318,12 @@ s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self) {
     return self->state == 9 || self->state == 11;
 }
 
-int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(s32 arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
-    u16 temp_r3;
+int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(Vec *arg1, f32 farg0) {
+    s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    temp_r3 = find_nearest_hittable_enemy__10TObjPlayerFiPvf((void *)arg0, (void *)arg1, (f32)farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(this), arg1, farg0);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
-    return temp_r3;
+    return static_cast<u16>(target_id);
 }
 
 #pragma push
@@ -896,12 +895,12 @@ s32 TObjEnePanarms__sub_800E1774(void * self_) {
 
     if ((s32)((TObjEnePanarms *)self_)->get_state_flag() != 0) {
         ret = TObjEnePanarms__sub_800E2FB4(*(O_800E2FB4 **)(((u8*)self_) + 0x3a0)) == 0
-            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = ((TObjEnePanBARA *)self_)->find_nearest_enemy_with_flag_alt_target((s32)vec, lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
+            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = ((TObjEnePanBARA *)self_)->find_nearest_enemy_with_flag_alt_target(reinterpret_cast<Vec *>(vec), lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
             && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
         return (u8)ret;
     } else {
         ret = TObjEnePanarms__sub_800E2FB4(*(O_800E2FB4 **)(((u8*)self_) + 0x3a0)) == 0
-            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = (u16)find_nearest_visible_player(self_, (Vec_800E0A44 *)vec, lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
+            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = (u16)find_nearest_visible_player(reinterpret_cast<TObjChara *>(self_), reinterpret_cast<Vec *>(vec), lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
             && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
         return (u8)ret;
     }
@@ -1050,7 +1049,7 @@ void TObjEnePanBARA::sub_800E10D0() {
         sub_800E1C98(0xD);
         return;
     }
-    idx = find_nearest_visible_player((u8 *)this, &v, 500.0f);
+    idx = find_nearest_visible_player(this, reinterpret_cast<Vec *>(&v), 500.0f);
     ok = 0;
     if (idx != 0xFFFF) {
         angle = (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(v.x, v.z));
@@ -1254,7 +1253,7 @@ void TObjEnePanBARA::sub_800E0A44() {
     ((TObjPlayer *)this)->refresh_lobby_state();
     var_r30 = 7;
     this->motion_flags &= ~1;
-    if (find_nearest_visible_player((u8 *)this, &v, 500.0f) != 0xFFFF) {
+    if (find_nearest_visible_player(this, reinterpret_cast<Vec *>(&v), 500.0f) != 0xFFFF) {
         if (v.x * sin_table_lookup(this->rotation_y) + v.z * cos_table_lookup(this->rotation_y) < 0.0f) {
             var_r30 = 6;
         }
@@ -1655,13 +1654,12 @@ void TObjEnePanarms::spawn_npc_pair() {
     NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding_b, 7.5f, 0.0f);
 }
 
-int TObjEnePanarms::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
-    u16 temp_r3;
+int TObjEnePanarms::find_nearest_enemy_with_flag(Vec *arg1, f32 farg0) {
+    s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    temp_r3 = find_nearest_hittable_enemy__10TObjPlayerFiPvf((void *)arg0, (void *)arg1, (f32)farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(this), arg1, farg0);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
-    return temp_r3;
+    return static_cast<u16>(target_id);
 }
 
 }

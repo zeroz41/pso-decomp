@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -90,7 +91,6 @@ extern Vec lbl_8050BF00;
 
 void submit_cursor_candidate(void *, int);
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
-u16 find_nearest_visible_player(void *, int, f32 *, f32);
 s32 check_path_obstructed(void *, void *);
 s32 obj_is_hit_receivable(u8 *arg0);
 extern s32 registered_player_count;
@@ -1246,7 +1246,7 @@ void TObjEneIllGill::vfunc_28() {
             }
             targetId = best;
         } else {
-            targetId = find_nearest_visible_player(this, 0, (f32 *)((IllGillMovementParameters *)movementParameters), ((IllGillMovementParameters *)movementParameters)->range);
+            targetId = find_nearest_visible_player(this, NULL, ((IllGillMovementParameters *)movementParameters)->range);
         }
         t = targetId;
         if (t < 0x1000) {

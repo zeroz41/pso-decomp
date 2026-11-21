@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -344,7 +345,6 @@ f32 TObjEneRecon__sub_8031C2D4(void) {
     return *(f32 *)((s8 *)TObjEneRecon__data_805D6AFC + 4);
 }
 
-void *find_entity_by_id(u16 id);
 void TObjEneRecon::handle_message(s32 arg1) {
     u32 temp;
     switch (arg1) {
@@ -1361,7 +1361,6 @@ extern "C" {
 f32 fabs_float(f32);
 void enemy_set_target_id(void *, u16);
 s32 collect_enemy_target_candidates(void *, void *, f32);
-void *find_entity_by_id(u16);
 
 void TObjEneRecon::retarget() {
     Hit_8031D898 hits[5];

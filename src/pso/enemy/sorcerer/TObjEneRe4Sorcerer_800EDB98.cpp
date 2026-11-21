@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -118,7 +119,6 @@ void TObjEneRe4Sorcerer__sub_800EFE30(void);
 extern "C" {
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 
-void *find_entity_by_id(u16 id);
 
 void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 arg1);
 

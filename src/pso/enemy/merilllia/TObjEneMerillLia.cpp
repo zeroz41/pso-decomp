@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -478,7 +479,6 @@ u32 TObjEneMerillLia__rock_param_table;
 u32 TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
 void vfunc_59__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
-s16 find_nearest_visible_player(void *, s32, f32);
 s32 obj_setFlags30(void *, s32);
 void vfunc_83__16TObjEneMerillLiaFv(Ene_800D64F0 *arg0);
 void vfunc_60__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
@@ -1117,7 +1117,7 @@ void TObjEneMerillLia::vfunc_83() {
         }
         break;
     case 2:
-        arg0->target = find_nearest_visible_player(arg0, 0, *arg0->param);
+        arg0->target = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->param);
         arg0->state = 1;
         break;
     }
@@ -1178,7 +1178,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
             break;
         }
         if (arg0->m17(0x1E) != 0) {
-            arg0->f338 = find_nearest_visible_player(arg0, 0, *arg0->f350);
+            arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
         }
         if (arg0->f338 < 0x1000) {
             Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
@@ -1196,7 +1196,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
     case 2:
         ((TObjBase *)arg0)->obj_clearFlags30(0x1000);
         if (arg0->m17(0x1E) != 0) {
-            arg0->f338 = find_nearest_visible_player(arg0, 0, *arg0->f350);
+            arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
         }
         if (arg0->f338 < 0x1000) {
             Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
@@ -1477,7 +1477,7 @@ s32 TObjEneMerillLia::update_emerge_state(void *ov) {
 void TObjEneMerillLia::search_target(void *ov) {
     Pl_800D5614 *p;
     s32 v;
-    arg0->f338 = find_nearest_visible_player(arg0, 0, *arg0->f350);
+    arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
     if (arg0->f338 < 0x1000) {
         p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
         if (p != NULL) {

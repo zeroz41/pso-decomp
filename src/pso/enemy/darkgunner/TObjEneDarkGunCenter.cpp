@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -118,7 +119,6 @@ struct Gun_800A0B20 : VBase_800A0B20 {
 };
 
 extern "C" {
-u16 find_nearest_visible_player(void *, s32, f32);
 f32 atan2_float(f32, f32);
 void TObjPlayer__sub_800A0654(void *);
 s32 TObjPlayer__sub_800A06B4(void *);
@@ -416,7 +416,7 @@ void TObjEneDarkGunCenter::run_task() {
     switch (self->state) {
     case 0:
         if (self->m17(0x1e) != 0) {
-            id = find_nearest_visible_player(self, 0, 1000.0f);
+            id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, 1000.0f);
             if (id != 0xFFFF) {
                 self->target = (u8 *)get_player_by_client_id(id);
                 ang = (s32)(10430.38043493439 * atan2_float(*(f32 *)(self->target + 0x40) - self->f40, *(f32 *)(self->target + 0x38) - self->f38)) + 0x4000;
@@ -449,7 +449,7 @@ void TObjEneDarkGunCenter::run_task() {
         }
         break;
     case 3:
-        if (find_nearest_visible_player(self, 0, 1000.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, 1000.0f) != 0xFFFF) {
             ((TObjEneDarkGunCenter *)self)->hide_linked_enemies();
             fn_800A0884(self);
         } else {

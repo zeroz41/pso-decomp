@@ -1,3 +1,4 @@
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -128,7 +129,6 @@ extern s32 enable_v2_features;
 extern Vec scratch_vec;
 f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
-void *find_entity_by_id(u16 id);
 }
 extern s32 quest_object_entries;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
@@ -503,7 +503,7 @@ u16 register_entity_by_id(void *ov) {
 #undef TBL
 #undef o
 
-void *find_entity_by_id(u16 id) {
+TObjCollidable *find_entity_by_id(u16 id) {
     s32 lo;
     s32 mid;
     s32 hi;
@@ -512,7 +512,7 @@ void *find_entity_by_id(u16 id) {
         return 0;
     }
     if (id < 12) {
-        return get_player_by_client_id(id);
+        return static_cast<TObjCollidable *>(get_player_by_client_id(id));
     }
     lo = 0;
     hi = lbl_805D5868 - 1;
@@ -526,7 +526,7 @@ void *find_entity_by_id(u16 id) {
     }
     e = ((Ent_80154CB4 **)TObjPlayer__data_8050D460)[lo];
     if (e != 0 && e->id == id) {
-        return e;
+        return reinterpret_cast<TObjCollidable *>(e);
     }
     return 0;
 }

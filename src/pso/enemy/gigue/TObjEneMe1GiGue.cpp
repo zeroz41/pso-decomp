@@ -1,3 +1,5 @@
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/enemy/EnemyTargeting.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -89,11 +91,9 @@ s32 play_sound_effect(s32, void *, s32, s32);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
-void *find_entity_by_id(u16 id);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
 s32 find_active_entity_by_id(int);
@@ -1214,7 +1214,7 @@ void TObjEneMe1GiGue::sub_802CB6D4() {
     switch (mode) {
     case 0:
         if (is_actor_cadence_frame(30) != 0) {
-            if (find_nearest_visible_player(this, 0, ((EnemyMoveParams *)movementParameters)->max_distance) != 0xFFFF) {
+            if (find_nearest_visible_player(this, NULL, ((EnemyMoveParams *)movementParameters)->max_distance) != 0xFFFF) {
                 find_target_in_range(((EnemyMoveParams *)movementParameters)->max_distance);
                 if (m_388 & 0x40000) {
                     init_move();
@@ -1225,14 +1225,14 @@ void TObjEneMe1GiGue::sub_802CB6D4() {
         }
         break;
     case 1:
-        if (find_nearest_visible_player(this, 0, 50.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             if (random_ratio() <= m_444) {
                 update_if_active(11);
             } else {
                 update_if_active(13);
                 m_378 = 1;
             }
-        } else if (find_nearest_visible_player(this, 0, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance) == 0xFFFF) {
+        } else if (find_nearest_visible_player(this, NULL, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance) == 0xFFFF) {
             update_if_active(0);
         }
         break;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/math/MatrixTransforms.h"
@@ -106,7 +107,6 @@ s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
-s32 find_nearest_visible_player(void *, int, f32);
 u32 recon_bomb_bml_resource;
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
@@ -117,7 +117,7 @@ s32 fn_8031B618(Obj_8031B618 *arg0) {
     s32 var_r30 = 0;
     Ctrl_8031B618 *c;
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos2, &arg0->pos);
-    u16 id = find_nearest_visible_player(arg0, 0, (25.0f));
+    u16 id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, (25.0f));
     if (id != 0xFFFF) {
         c = (Ctrl_8031B618 *)get_player_by_client_id(id);
         if (c != 0) {

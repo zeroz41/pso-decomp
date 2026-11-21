@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -37,7 +38,6 @@ s32 push_matrix();
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 TBoss8Dragon__sub_800BB7DC(void *);
-void *find_entity_by_id(u16 id);
 s32 TBoss8Dragon__sub_800BB7D8(void *, s32, f32);
 s32 post_translate_matrix(void *);
 u8 * bm3_fly_boss_stat_handle;

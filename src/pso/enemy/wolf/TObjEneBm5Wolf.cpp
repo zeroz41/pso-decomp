@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -39,7 +40,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 s32 approach_angle_limited(int, int, int);
-void *find_entity_by_id(u16 id);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void *fn_800B8B00(void *p);
 u16 get_entity_id(TObjBase *object);

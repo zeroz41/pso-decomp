@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -104,7 +105,6 @@ void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
 void check_radius_collisions(Obj_800E35C8 *arg0);
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, s32, f32);
 u8 *get_enemy_entity(u16 arg0);
 void fn_800E322C(void *p, void *t);
 void vec3_add_to(void *, void *);
@@ -132,7 +132,7 @@ void fn_800E322C(void *p, void *t) {
     s32 r;
     u32 ent;
     VecCopy((Vec *)&target->pos, (const Vec *)t);
-    if ((r = find_nearest_hittable_enemy__10TObjPlayerFiPvf(target, 0, target->f378)) != 0xFFFF) {
+    if ((r = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<s32>(target), NULL, target->f378)) != 0xFFFF) {
         if ((ent = (u32)get_enemy_entity(r)) != 0 && ent != target->f10) {
             ((TObjEnePanarmsAtkColli *)target)->sub_800E32C0((V_800E32C0 *)ent);
         }

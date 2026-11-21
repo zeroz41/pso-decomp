@@ -1,6 +1,7 @@
 #ifndef PSO_PLAYER_TOBJPLAYER_801542CC_H
 #define PSO_PLAYER_TOBJPLAYER_801542CC_H
 
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -13,8 +14,6 @@ extern "C" {
 CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
 void free_collision_body_parts(TObjCollidable *actor);
 void check_enemy_body_collisions(TObjCollidable *actor);
-// The registered actor with this entity id (players below 12), or NULL.
-TObjCollidable *find_entity_by_id(u16 id);
 // Gives the actor an entity id from the pool its actorFlags pick; returns it.
 u16 register_entity_by_id(void *ov);
 // The actor with this entity id if it can be hit on that collision body now,

@@ -50,8 +50,8 @@ TObjMotionAction balclaw_body_actions[12] = {
 
 // Movement rows; TObjPlayer__sub_8008E934 points TObjEnemy::movementParameters at one.
 BalClawMovement player_attack_param_table[2] = {
-    {{150.0f, 0.5555555f, 0x400}, 0x1E0000, 0, 1, 0},
-    {{150.0f, 0.5555555f, 0x400}, 0x1E0000, 0, 1, 0},
+    {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
+    {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
 };
 
 // The body's one collision sphere (init_collision_body_parts in the ctor).
@@ -72,19 +72,6 @@ extern s32 lbl_805D5870;
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void TObjPlayer__sub_8008DD14(TObjEneBalClawBody *self);
-s32 TObjPlayer__sub_8008E098(TObjEneBalClawBody *self);
-void TObjPlayer__sub_8008E254(TObjEneBalClawBody *body);
-void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body);
-void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1);
-void TObjPlayer__sub_8008EC3C(TObjEneBalClawBody *body);
-void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body);
-void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body);
-void TObjPlayer__sub_8008F910(TObjEneBalClawBody *body);
-void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body);
-void calc_slot_offset_position__10TObjPlayerFPviPvPv(TObjEneBalClawBody *self, s32 slot, Vec *out, s32 *angle_out);
-void *create__18TObjEneBalClawClawFPvPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
-void enter_hit_state__18TObjEneBalClawClawFs(void *, u16);
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 check_path_obstructed(void *, void *);
@@ -96,7 +83,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 void queue_destruction__7TObjectFv(void *arg0);
-s32 reset_enemy_state__10TObjPlayerFv();
 void restore_scene_lighting(void);
 s32 rotate_matrix_x(s32, s32);
 void select_actor_lighting(s32 obj);
@@ -144,7 +130,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     for (i = 0; i < 4; i++) {
         child_ids[i] = 0xFFFF;
     }
-    TObjPlayer__sub_8008E934(this, 1);
+    this->set_form(1);
     bind_enemy_combat_stats(lbl_805007A8[0], lbl_805007B0[0], lbl_805007B8[0]);
     effects[0] = NULL;
     effects[1] = NULL;
@@ -227,34 +213,34 @@ void TObjEneBalClawBody::sub_8008FF50() {
         update_dragon_boss_state();
         return;
     case 1:
-        TObjPlayer__sub_8008FAD0(this);
+        this->sub_8008FAD0();
         return;
     case 2:
-        TObjPlayer__sub_8008F1DC(this);
+        this->sub_8008F1DC();
         return;
     case 9:
-        TObjPlayer__sub_8008EDE8(this);
+        this->sub_8008EDE8();
         return;
     case 4:
-        TObjPlayer__sub_8008F910(this);
+        this->sub_8008F910();
         return;
     case 5:
-        ((TObjPlayer *)this)->run_death_sequence();
+        this->run_death_sequence();
         return;
     case 7:
-        TObjPlayer__sub_8008EC3C(this);
+        this->sub_8008EC3C();
         return;
     case 10:
-        TObjPlayer__sub_8008E310(this);
+        this->sub_8008E310();
         return;
     case 11:
-        TObjPlayer__sub_8008E254(this);
+        this->sub_8008E254();
         return;
     case 12:
-        ((TObjPlayer *)this)->update_move_to_target();
+        this->update_move_to_target();
         return;
     case 8:
-        TObjPlayer__sub_8008DD14(this);
+        this->sub_8008DD14();
         break;
     }
 }
@@ -369,7 +355,8 @@ void TObjEneBalClawBody::sub_8008FC10() {
 void TObjEneBalClawBody::sub_8008FC0C() {
 }
 
-void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008FAD0() {
+    TObjEneBalClawBody *body = this;
     s16 v;
     switch (body->state) {
     case 0:
@@ -387,7 +374,7 @@ void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body) {
         break;
     case 1:
         if (body->target == NULL) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
             break;
         }
         play_persistent_sound(0x4003B235, (s32)body, (u32)&body->position, 0, 0);
@@ -406,7 +393,8 @@ void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body) {
     }
 }
 
-void TObjPlayer__sub_8008F910(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008F910() {
+    TObjEneBalClawBody *body = this;
     s32 next_mode;
     s32 percent;
     switch (body->state) {
@@ -456,13 +444,13 @@ void TObjPlayer__sub_8008F910(TObjEneBalClawBody *body) {
     }
 }
 
-void TObjPlayer::run_death_sequence() {
-    TObjEneBalClawBody *body = (TObjEneBalClawBody *)this;
+void TObjEneBalClawBody::run_death_sequence() {
+    TObjEneBalClawBody *body = this;
     s32 i;
     TObjEnemy *claw;
     switch (body->state) {
     case 0:
-        refresh_lobby_state();
+        reinterpret_cast<TObjPlayer *>(this)->refresh_lobby_state();
         body->m_388 &= ~0x20000;
         if (body->get_flag_0x388_b24() != 0) {
             body->requested_action = 4;
@@ -513,11 +501,12 @@ void TObjPlayer::run_death_sequence() {
     }
 }
 
-void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008F1DC() {
+    TObjEneBalClawBody *body = this;
     switch (body->state) {
     case 0:
         if (body->get_flag_0x388_b24() != 0) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
             return;
         }
         if (body->m_2d4 < 0x1000) {
@@ -540,7 +529,7 @@ void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
         break;
     case 1:
         if (body->target == NULL) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
         } else {
             body->y_speed = 0.0f;
             calc_velocity_toward_destination(body, *(Vec *)&body->m_2fc, *(Vec *)&((TObjChara *)body->target)->m_2fc, 0.7f);
@@ -629,11 +618,12 @@ void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
     check_enemy_body_collisions(body);
 }
 
-void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008EDE8() {
+    TObjEneBalClawBody *body = this;
     switch (body->state) {
     case 0:
         if (body->get_flag_0x388_b24() == 0) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
             return;
         }
         body->find_target_in_range(250.0f);
@@ -644,12 +634,12 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
                 ((void (*)(void *, Vec))copy_position_if_valid__10TObjPlayerFii)(body, *(Vec *)&body->m_2fc);
             }
         } else {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
         }
         break;
     case 1:
         if (body->target == NULL) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
         } else {
             body->y_speed = 0.0f;
             calc_velocity_toward_destination(body, *(Vec *)&body->m_2fc, *(Vec *)&((TObjChara *)body->target)->m_2fc, 0.7f);
@@ -672,7 +662,7 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
         break;
     case 2:
         if (body->target == NULL) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
         } else {
             body->y_speed = 0.0f;
             calc_velocity_toward_destination(body, *(Vec *)&body->m_2fc, *(Vec *)&((TObjChara *)body->target)->m_2fc, 0.7f);
@@ -697,7 +687,7 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
                 body->m_3da++;
             }
             if (body->action_flags != 4) {
-                ((TObjPlayer *)body)->reset_enemy_state();
+                body->reset_enemy_state();
             }
         }
         break;
@@ -725,7 +715,8 @@ void TObjPlayer::set_visibility_flags_by_count(void *arg0, s32 arg1) {
     }
 }
 
-void TObjPlayer__sub_8008EC3C(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008EC3C() {
+    TObjEneBalClawBody *body = this;
     s32 cleared;
     s32 flags;
     switch (body->state) {
@@ -744,7 +735,7 @@ void TObjPlayer__sub_8008EC3C(TObjEneBalClawBody *body) {
             cleared = flags & ~5;
             body->m_388 = cleared;
             body->state = -1;
-            ((s32 (*)(void *, s32, s32))reset_enemy_state__10TObjPlayerFv)(body, cleared, flags);
+            body->reset_enemy_state();
         }
         return;
     case -1:
@@ -772,7 +763,7 @@ void TObjEneBalClawBody::update_dragon_boss_state() {
 
 #pragma push
 #pragma opt_propagation off
-void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1) {
+void TObjEneBalClawBody::set_form(s32 arg1) {
     Vec a;
     Vec b;
     s32 angA;
@@ -785,61 +776,61 @@ void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1) {
     u8 *ent;
     s32 j;
     if (arg1 == 1) {
-        body->m_388 |= 0x01000000;
-        body->set_param(0x28);
-        body->requested_action = 0;
-        ((TObjEneBalClawClaw *)body)->sub_80090418(1);
-        body->m_3da = 0;
-        body->clear_all_status_effects();
+        this->m_388 |= 0x01000000;
+        this->set_param(0x28);
+        this->requested_action = 0;
+        ((TObjEneBalClawClaw *)this)->sub_80090418(1);
+        this->m_3da = 0;
+        this->clear_all_status_effects();
     } else {
-        body->m_388 &= ~0x01000000;
-        body->set_param(0x27);
-        body->requested_action = 5;
-        ((TObjEneBalClawClaw *)body)->sub_80090418(0);
-        body->clear_all_status_effects();
-        if (!(body->m_388 & 0x40000)) {
-            body->hp = body->hp / (body->m_3d8 + 1);
-            if (body->hp <= 0) {
-                body->hp = 1;
+        this->m_388 &= ~0x01000000;
+        this->set_param(0x27);
+        this->requested_action = 5;
+        ((TObjEneBalClawClaw *)this)->sub_80090418(0);
+        this->clear_all_status_effects();
+        if (!(this->m_388 & 0x40000)) {
+            this->hp = this->hp / (this->m_3d8 + 1);
+            if (this->hp <= 0) {
+                this->hp = 1;
             }
-            body->referenceHp = body->hp;
-            if (body->set_entry != NULL) {
-                body->m_388 |= 0x40000;
+            this->referenceHp = this->hp;
+            if (this->set_entry != NULL) {
+                this->m_388 |= 0x40000;
                 for (i = 0; i < 4; i++) {
-                    id = body->entity_id + i;
-                    id2 = body->set_index + i;
+                    id = this->entity_id + i;
+                    id2 = this->set_index + i;
                     id++;
                     id2++;
-                    calc_slot_offset_position__10TObjPlayerFPviPvPv(body, i, &a, &angA);
-                    ((void *(*)(void *, u16, void *, void *, void *, void *))create__18TObjEneBalClawClawFPvPvPvPvPv)(body, id, (void *)id2, &a, (void *)angA, (void *)body->hp);
+                    this->calc_slot_offset_position(i, &a, &angA);
+                    TObjEneBalClawClaw::create_from_body(this, id, id2, &a, angA, this->hp);
                 }
             }
         } else {
             n = 0;
-            for (k = 0; k < body->m_3d8; k++) {
-                ent = get_enemy_entity(body->child_ids[k]);
+            for (k = 0; k < this->m_3d8; k++) {
+                ent = get_enemy_entity(this->child_ids[k]);
                 if (ent != NULL) {
-                    calc_slot_offset_position__10TObjPlayerFPviPvPv(body, k, &b, &angB);
-                    TObjEneBalClawClaw__sub_80090A10((TObjEneBalClawClaw *)ent, &b, angB, body->hp);
+                    this->calc_slot_offset_position(k, &b, &angB);
+                    TObjEneBalClawClaw__sub_80090A10((TObjEneBalClawClaw *)ent, &b, angB, this->hp);
                     n++;
                 }
             }
             if (n > 0) {
-                body->hp = body->hp / (n + 1);
-                for (j = 0; j < body->m_3d8; j++) {
-                    if ((ent = get_enemy_entity(body->child_ids[j])) != NULL) {
-                        ((TObjPlayer *)ent)->set_hp_clamped(body->hp);
+                this->hp = this->hp / (n + 1);
+                for (j = 0; j < this->m_3d8; j++) {
+                    if ((ent = get_enemy_entity(this->child_ids[j])) != NULL) {
+                        ((TObjPlayer *)ent)->set_hp_clamped(this->hp);
                     }
                 }
             }
         }
-        body->m_3d8 = 0;
+        this->m_3d8 = 0;
     }
-    body->set_field_b8(body->requested_action);
-    body->movementParameters = &player_attack_param_table[arg1];
-    body->sub_8008DC90();
-    body->variant = arg1;
-    body->m_3d4 = 0;
+    this->set_field_b8(this->requested_action);
+    this->movementParameters = &player_attack_param_table[arg1];
+    this->sub_8008DC90();
+    this->variant = arg1;
+    this->m_3d4 = 0;
 }
 #pragma pop
 
@@ -907,7 +898,8 @@ void TObjEneBalClawBody::vfunc_60() {
     update_if_active(get_flag_0x388_b24() ? 9 : 2);
 }
 
-void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008E310() {
+    TObjEneBalClawBody *body = this;
     s32 all;
     s32 cnt;
     TObjEneBalClawClaw *claw;
@@ -915,12 +907,12 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
     switch (body->state) {
     case 0:
         if (body->get_flag_0x388_b24() != 0) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
             return;
         }
         body->m_3d4 = 0;
-        if (TObjPlayer__sub_8008E098(body) == 0) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+        if (body->sub_8008E098() == 0) {
+            body->reset_enemy_state();
             return;
         }
         body->m_388 |= 1;
@@ -950,7 +942,7 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
         }
         if (--body->m_384 <= 0 || cnt == 0) {
             body->m_388 &= ~1;
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
             return;
         }
         if (all == 1) {
@@ -981,8 +973,8 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
         if (body->requested_action != 0xB) {
             queue_destruction__7TObjectFv(body->effects[0]);
             body->effects[0] = NULL;
-            spawn_particle_effect(&body->m_2fc, 0x129);
-            TObjPlayer__sub_8008E934(body, 1);
+            spawn_particle_effect(reinterpret_cast<const Vec *>(&body->m_2fc), 0x129);
+            body->set_form(1);
             body->advance_animation();
             body->m_388 &= ~0x04000000;
             body->timer = 0x1E;
@@ -996,12 +988,12 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
         apply_actor_gravity(body, NULL, 0.0f);
         if (--body->timer <= 0) {
             body->m_388 &= ~1;
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
         }
         break;
     case -1:
         if (body->m_388 & 0x04000000) {
-            TObjPlayer__sub_8008E934(body, 1);
+            body->set_form(1);
             body->advance_animation();
         }
         if (body->get_flag_0x388_b24() == 0) {
@@ -1025,17 +1017,18 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
     }
 }
 
-void TObjPlayer__sub_8008E254(TObjEneBalClawBody *body) {
+void TObjEneBalClawBody::sub_8008E254() {
+    TObjEneBalClawBody *body = this;
     switch (body->state) {
     case -1:
         break;
     case 0:
         if (body->get_flag_0x388_b24() == 0) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
             return;
         }
         body->m_3d4 = 0;
-        TObjPlayer__sub_8008E934(body, 0);
+        body->set_form(0);
         body->timer = 0x1E;
         body->state = 1;
         return;
@@ -1044,13 +1037,14 @@ void TObjPlayer__sub_8008E254(TObjEneBalClawBody *body) {
         apply_actor_gravity(body, NULL, 0.0f);
         body->timer--;
         if (body->timer <= 0) {
-            ((TObjPlayer *)body)->reset_enemy_state();
+            body->reset_enemy_state();
         }
         return;
     }
 }
 
-void calc_slot_offset_position__10TObjPlayerFPviPvPv(TObjEneBalClawBody *self, s32 slot, Vec *out, s32 *angle_out) {
+void TObjEneBalClawBody::calc_slot_offset_position(s32 slot, Vec *out, s32 *angle_out) {
+    TObjEneBalClawBody *self = this;
     s32 angle;
     push_matrix();
     angle = (s32)(182.04445f * (f32)(slot * 0x5A + 0x2D));
@@ -1065,7 +1059,8 @@ void calc_slot_offset_position__10TObjPlayerFPviPvPv(TObjEneBalClawBody *self, s
     pop_matrix();
 }
 
-s32 TObjPlayer__sub_8008E098(TObjEneBalClawBody *self) {
+s32 TObjEneBalClawBody::sub_8008E098() {
+    TObjEneBalClawBody *self = this;
     s32 i;
     TObjEneBalClawClaw *p;
     s32 j;
@@ -1081,13 +1076,14 @@ s32 TObjPlayer__sub_8008E098(TObjEneBalClawBody *self) {
         }
     }
     for (j = 0; j < self->m_3d8; j++) {
-        enter_hit_state__18TObjEneBalClawClawFs(find_entity_by_id(self->child_ids[j]), self->entity_id);
+        TObjEneBalClawClaw *claw = static_cast<TObjEneBalClawClaw *>(find_entity_by_id(self->child_ids[j]));
+        claw->enter_hit_state(self->entity_id);
     }
     return self->m_3d8;
 }
 
-void TObjPlayer::update_move_to_target() {
-    TObjEneBalClawBody *self = (TObjEneBalClawBody *)this;
+void TObjEneBalClawBody::update_move_to_target() {
+    TObjEneBalClawBody *self = this;
     switch (self->state) {
     case -1:
         break;
@@ -1127,7 +1123,8 @@ void TObjPlayer::update_move_to_target() {
     }
 }
 
-void TObjPlayer__sub_8008DD14(TObjEneBalClawBody *self) {
+void TObjEneBalClawBody::sub_8008DD14() {
+    TObjEneBalClawBody *self = this;
     s16 mode;
     switch (self->state) {
     case 0:
@@ -1152,7 +1149,7 @@ void TObjPlayer__sub_8008DD14(TObjEneBalClawBody *self) {
             move_with_wall_slide((u8 *)self);
         }
         if (xz_distance_squared(&self->position, &self->home_position) < 100.0f) {
-            ((TObjPlayer *)self)->reset_enemy_state();
+            self->reset_enemy_state();
         }
         self->advance_animation();
         apply_actor_gravity(self, NULL, 0.0f);
@@ -1163,7 +1160,7 @@ void TObjPlayer__sub_8008DD14(TObjEneBalClawBody *self) {
     }
 }
 
-int TObjPlayer::reset_enemy_state() {
+int TObjEneBalClawBody::reset_enemy_state() {
     return update_if_active__15TObjEnemyCustomFl(this, 0);
 }
 

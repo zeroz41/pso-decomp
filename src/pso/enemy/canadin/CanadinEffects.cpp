@@ -225,7 +225,7 @@ void TObjEneMe1Canadin_EffDischarge::run_task() {
     }
     VecCopy(&m_38, &m_50);
     if (done != 0) {
-        fn_8009E1D4(m_1C, &m_44);
+        m_1C->fn_8009E1D4(&m_44);
         queue_destruction();
     }
 }

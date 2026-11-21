@@ -1,3 +1,5 @@
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/system/BmlResource.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -56,7 +58,6 @@ extern const f32 lbl_805DF28C;
 extern const f32 lbl_805DF290;
 void minimap_render_dot(void *, s32, s32, s32);
 f32 fabs_float(f32);
-u16 find_nearest_visible_player(void *, int, f32);
 
 s32 obj_is_hit_receivable(void *);
 s32 get_entity_id(void *);
@@ -525,7 +526,7 @@ void TObjEneDelDepth::try_relocate_on_timer() {
     temp_r0 = this->timer - 1;
     this->timer = temp_r0;
     if (temp_r0 <= 0) {
-        if (find_nearest_visible_player(arg0, 0, TObjEneDelDepth__data_805DF26C) == 0xFFFF) {
+        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, TObjEneDelDepth__data_805DF26C) == 0xFFFF) {
             temp_r0_2 = this->relocationAttempts + 1;
             this->relocationAttempts = temp_r0_2;
             if (temp_r0_2 >= 5) {
@@ -579,7 +580,7 @@ void TObjEneDelDepth::fn_80314EC4() {
     temp_f1_4 = ene_del_depth->m_38c + lbl_805DF2D0;
     ene_del_depth->m_38c = temp_f1_4;
     if (temp_f1_4 > TObjEneDelDepth__data_805DF260) {
-        if (find_nearest_visible_player(ene_del_depth, 0, TObjEneDelDepth__data_805DF26C) != 0xFFFF) {
+        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(ene_del_depth), NULL, TObjEneDelDepth__data_805DF26C) != 0xFFFF) {
             ene_del_depth->set_action_state(3);
             play_sound_effect(0x4003A822, (u8 *)&ene_del_depth->position, 0, 0);
         } else {
@@ -637,7 +638,7 @@ void TObjEneDelDepth::start_move_toward_player() {
     s32 temp_r31;
     u8 *actor = (u8 *)this;
     this->movementSpeed = TObjEneDelDepth__data_805DF258;
-    if (find_nearest_visible_player(actor, (int)((u8 *)&this->direction), TObjEneDelDepth__data_805DF26C) == 0xFFFF) {
+    if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(actor), &direction, TObjEneDelDepth__data_805DF26C) == 0xFFFF) {
         this->set_action_state(2);
         return;
     }
@@ -760,7 +761,7 @@ void TObjEneDelDepth::update_movement() {
     }
     if (this->m_38c <= TObjEneDelDepth__data_805DF258 && TObjEneDelDepth__data_805DF258 == arg0->movementSpeed) {
         Vec q;
-        if (find_nearest_visible_player(arg0, (int)&q, TObjEneDelDepth__data_805DF280) != 0xFFFF && vector_length(&q) > TObjEneDelDepth__data_805DF270) {
+        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), &q, TObjEneDelDepth__data_805DF280) != 0xFFFF && vector_length(&q) > TObjEneDelDepth__data_805DF270) {
             this->set_action_state(4);
         } else {
             this->set_action_state(3);
@@ -832,7 +833,7 @@ void TObjEneDelDepth::fn_803142DC() {
     }
     this->rotation_y = (s32)(f * (f32)this->m_3bc + (f32)this->rotation_y);
     if (this->targetPlayer == 0xFFFF) {
-        id = find_nearest_visible_player(ene_del_depth, (int)&v, lbl_805DF29C);
+        id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(ene_del_depth), &v, lbl_805DF29C);
         if (id != 0xFFFF && angle_difference_abs(this->rotation_y, (s32)(TObjEneDelDepth__data_80475DD0 * atan2_float(v.x, v.z))) < 0x1C71) {
             this->m_394 = 0;
             this->targetPlayer = id;
@@ -875,12 +876,12 @@ void TObjEneDelDepth::init_depth() {
 
 void TObjEneDelDepth::fn_803141A8() {
     TObjEneDelDepth *arg0 = this;
-    f32 sp[3];
+    Vec sp;
     s32 r = 0;
     s32 t;
     arg0->rotation_y = arg0->rotation_y + arg0->m_3bc;
-    if (this->find_nearest_enemy_with_flag((s32)sp, (f32)lbl_805DF294) != 0xFFFF) {
-        t = (s32) (((const f64 *)&TObjEneDelDepth__data_80475DD0)[0] * atan2_float(sp[0], sp[2]));
+    if (this->find_nearest_enemy_with_flag(&sp, (f32)lbl_805DF294) != 0xFFFF) {
+        t = (s32) (((const f64 *)&TObjEneDelDepth__data_80475DD0)[0] * atan2_float(sp.x, sp.z));
         if (angle_difference_abs(arg0->rotation_y, t) < 0x444) {
             arg0->rotation_y = t;
             r = 1;
@@ -1039,7 +1040,7 @@ void TObjEneDelDepth::start_attack_motion() {
 
 void TObjEneDelDepth::update_ai_state() {
     u8 *arg0 = (u8 *)this;
-    s32 sp8;
+    Vec sp8;
     s32 temp_r0;
 
     if (this->motionController->get_type() < 6) {
@@ -1050,7 +1051,7 @@ void TObjEneDelDepth::update_ai_state() {
         temp_r0 = this->timer - 1;
         this->timer = temp_r0;
         if (temp_r0 <= 0) {
-            if (((((u16 (*)(void *, void *, f32))find_nearest_visible_player)(arg0, &sp8, TObjEneDelDepth__data_805DF280)) != 0xFFFF) && (vector_length(&sp8) > TObjEneDelDepth__data_805DF270)) {
+            if (((find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), &sp8, TObjEneDelDepth__data_805DF280)) != 0xFFFF) && (vector_length(&sp8) > TObjEneDelDepth__data_805DF270)) {
                 this->set_action_state(4);
                 return;
             }

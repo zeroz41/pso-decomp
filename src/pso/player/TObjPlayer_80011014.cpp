@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/map/CsnGroundQuery.h"
@@ -382,7 +383,6 @@ s32 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec *arg1, f32 farg0);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -765,7 +765,6 @@ s32 consume_timer_field__9TObjCharaFl(u8 *arg0, s32 arg1);
 s32 add_actor_exp__9TObjCharaFl(u8 *arg0, s32 arg1);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
-u16 find_nearest_visible_player(TObjChara *searcher, Vec *arg1, f32 farg0);
 s32 is_actor_cadence_frame__9TObjCharaFl(O_80011704 *self, s32 x);
 }
 
