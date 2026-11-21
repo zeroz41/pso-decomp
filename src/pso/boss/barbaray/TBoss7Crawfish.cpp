@@ -80,7 +80,7 @@ struct Boss7CrawfishStateRecord {
 
 BmlResource *TBoss7Crawfish__shared_resource;
 
-s32 TBoss7Crawfish::sub_80308688() {
+s32 TBoss7Crawfish::is_past_arena_x_bound() {
     return (u32) __cntlzw((u32) (75.0f < position.x)) >> 5;
 }
 
@@ -114,7 +114,7 @@ void TBoss7Crawfish::register_attack_hits() {
     reset_global_table();
 }
 
-void TBoss7Crawfish::sub_803087D4(s32 sound_id) {
+void TBoss7Crawfish::play_persistent_sound_at_position(s32 sound_id) {
     play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
 }
 
@@ -211,7 +211,7 @@ void TBoss7Crawfish::check_band_and_destroy() {
     }
 }
 
-void TBoss7Crawfish::sub_80308BEC() { change_state(5); }
+void TBoss7Crawfish::advance_to_band_check() { change_state(5); }
 
 void TBoss7Crawfish::update() {
     if (is_passing_frame(8.0f) != 0) {
@@ -230,12 +230,12 @@ void TBoss7Crawfish::update_motion_and_release() {
     if (effect != NULL) {
         effect->set_position(&position);
     }
-    if (sub_80308ED8((Vec *)unk_308) == 0) {
+    if (try_move_by_delta((Vec *)unk_308) == 0) {
         free_child();
         change_state(3);
         return;
     }
-    sub_803087D4(0x3A80C);
+    play_persistent_sound_at_position(0x3A80C);
 }
 
 void TBoss7Crawfish::aim_at_nearest_player() {
@@ -276,7 +276,7 @@ void TBoss7Crawfish::update_attack_state() {
 }
 
 // Moves by delta when the new position is free and still inside the arena (names inferred); returns 1 if moved.
-s32 TBoss7Crawfish::sub_80308ED8(const Vec *delta) {
+s32 TBoss7Crawfish::try_move_by_delta(const Vec *delta) {
     Vec next;
     s32 moved;
 
@@ -284,7 +284,7 @@ s32 TBoss7Crawfish::sub_80308ED8(const Vec *delta) {
     next.y = position.y + delta->y;
     next.z = position.z + delta->z;
     if (vfunc_18((u8 *)&next) != 0) {
-        if (sub_80308688() != 0) {
+        if (is_past_arena_x_bound() != 0) {
             moved = 1;
             position.x = next.x;
             position.z = next.z;
@@ -348,7 +348,7 @@ void TBoss7Crawfish::run_task() {
         update();
         break;
     case 4:
-        sub_80308BEC();
+        advance_to_band_check();
         break;
     case 5:
         check_band_and_destroy();
@@ -399,7 +399,7 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     still.z = 0.0f;
     still.y = 0.0f;
     still.x = 0.0f;
-    sub_80308ED8(&still);
+    try_move_by_delta(&still);
     if (sub_80308AA8() != 0) {
         scale.z = 0.8f;
         scale.y = 0.8f;
