@@ -69,14 +69,14 @@ void TUnk_804EE458::handle_cursor_input() {
     u8 *input;
     input = (u8 *)&controller_physical_port_bank.controllers[0];
     color.a = 1.0f;
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
         cursor = cursor - 1;
         if (cursor < 0) {
             cursor = 3;
         }
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
         cursor = cursor + 1;
         if (cursor >= 4) {
             cursor = 0;
@@ -153,8 +153,8 @@ void TUnk_804EE458::run_task() {
 
 TUnk_804EE458::~TUnk_804EE458() {}
 
-TUnk_804EE458::TUnk_804EE458(int a1) : TObject((TObject *)a1) {
-    owner = a1;
+TUnk_804EE458::TUnk_804EE458(TObject *parent) : TObject(parent) {
+    owner = parent;
     cursor = 0;
     state = 0;
     color.a = 0.0f;

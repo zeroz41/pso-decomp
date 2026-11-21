@@ -6,7 +6,7 @@
 
 class TUnk_804EE458 : public TObject {
 public:
-    TUnk_804EE458(int a1);
+    TUnk_804EE458(TObject *parent);
     virtual ~TUnk_804EE458();
     virtual void render();
     virtual void run_task();
@@ -17,7 +17,7 @@ public:
     // Field names are inferred from use: run_task switches on state (0 prompt, 1 cursor, 2 done),
     // handle_cursor_input wraps cursor in 0..3, render passes color to set_constant_material,
     // update_title_prompt pulses color.a with frame.
-    s32 owner;
+    TObject *owner;
     s32 cursor;
     s32 state;
     NJS_ARGB color;
