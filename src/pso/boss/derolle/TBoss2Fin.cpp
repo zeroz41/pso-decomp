@@ -1,4 +1,5 @@
 #include "pso/boss/derolle/TBoss2Fin.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/TObjEZRopeBase.h"
@@ -19,7 +20,6 @@ s32 normalize_vector(void *);
 extern saddr current_scene_light;
 extern const f32 lbl_805D8260;
 }
-extern BmlResource *lbl_805D4BA4;
 
 const char *TBoss2Fin__name = "TBoss2Fin";
 // The pull run_task() hands to the rope update every frame.
@@ -32,7 +32,7 @@ void TBoss2Fin::render() {
     s32 j;
     s32 yaw;
     Vec v;
-    TObjFish::set_global_param((saddr)lbl_805D4BA4->models[2].m_c);
+    TObjFish::set_global_param((saddr)boss2_derolle_resource->models[2].m_c);
     seg = segments;
     end = ends;
     pt = points;
@@ -132,8 +132,8 @@ void TBoss2Fin::init_effect_table() {
         seg->step.x = 0.0f;
         seg->step.y = 0.0f;
         seg->step.z = -5.0f;
-        seg->body_model = lbl_805D4BA4->models[1].model;
-        seg->tip_model = lbl_805D4BA4->models[0].model;
+        seg->body_model = boss2_derolle_resource->models[1].model;
+        seg->tip_model = boss2_derolle_resource->models[0].model;
         seg++;
     }
     seg->count = -1;

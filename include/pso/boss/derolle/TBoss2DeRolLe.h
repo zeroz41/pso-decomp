@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+struct BmlResource;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TUnk_80036250.h"
@@ -18,6 +19,9 @@ struct TBoss2LaserLight;
 class TUnk_80482EC0;
 class TUnk_80482D04;
 class AreaAttackHistory;
+
+// The boss's models and motions, loaded from bm_boss2_de_rol_le(_a).bml by load_resources.
+extern BmlResource *boss2_derolle_resource;
 
 // The 6x13 subcommand: the boss's new action state (handle_6x13_de_rol_le_boss_actions).
 struct DeRolLeActionPacket {

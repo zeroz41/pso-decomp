@@ -527,7 +527,7 @@ void get_current_matrix(void *m);
 saddr TBoss2DeRolLe__base_params[1];
 saddr TBoss2DeRolLe__resistance_params[1];
 u8 *TBoss2DeRolLe__data_805D4BA0;
-BmlResource *lbl_805D4BA4;
+BmlResource *boss2_derolle_resource;
 s32 TBoss2DeRolLe__current_attack_id;
 s32 TBoss2DeRolLe__sequence_match_index;
 s32 lbl_805D4BB0;
@@ -1348,7 +1348,6 @@ s32 normalize_vector(void *);
 
 s32 push_matrix();
 
-extern u32 lbl_805D4BA4;
 
 extern saddr current_scene_light;
 
@@ -1370,7 +1369,6 @@ extern saddr TBoss2DeRolLe__resistance_params[1];
 
 extern s32 TBoss2DeRolLe__data_805D4BA0[1];
 
-extern u32 lbl_805D4BA4;
 
 extern s32 TBoss2DeRolLe__current_attack_id;
 
@@ -1445,7 +1443,6 @@ int bswap_16__FPUs(void*);
 
 int bswap_32__FPUl(void*);
 
-extern u32 lbl_805D4BA4;
 
 }
 
@@ -1628,7 +1625,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     } else {
         res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
     }
-    (*(u8 * *)&lbl_805D4BA4) = res;
+    boss2_derolle_resource = (BmlResource *)res;
     TBoss2DeRolLe__current_attack_id = 0;
     TBoss2DeRolLe__sequence_match_index = 0;
     lbl_805D4BB0 = 0;
@@ -1662,7 +1659,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
         TObjBoss2Tunnel::adjust_to_ground((saddr)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
     }
     TBoss2Fin::init_effect_table();
-    res = (*(u8 * *)&lbl_805D4BA4);
+    res = (u8 *)boss2_derolle_resource;
     n = *(Node_80035D24 **)(*(u8 **)(*(u8 **)(res + 0x42C) + 0x28) + 0x2C);
     for (i = 0; i < 10; i++) {
         ((s32 *)derolle_segment_joint_node_offsets)[i] = n->h->v + 8;
@@ -1712,9 +1709,9 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TBoss2Fin::release_effect_table();
     TBoss2Mine::free_resources();
     TBoss2Tentacle::release_shared_model();
-    if ((u32) lbl_805D4BA4 != 0U) {
-        delete (BmlResource *)lbl_805D4BA4;
-        lbl_805D4BA4 = 0U;
+    if (boss2_derolle_resource != NULL) {
+        delete boss2_derolle_resource;
+        boss2_derolle_resource = NULL;
     }
 }
 
@@ -1751,12 +1748,12 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         }
     }
     init_position_vectors();
-    model = lbl_805D4BA4->models[2].model;
-    texlist = (saddr)lbl_805D4BA4->models[2].m_c;
+    model = boss2_derolle_resource->models[2].model;
+    texlist = (saddr)boss2_derolle_resource->models[2].m_c;
     init_model(boss2_derolle_collision_bodies, 3);
     motion_flags = 0;
     set_field_d8((saddr)boss2_derolle_action_table);
-    set_field_dc((saddr)lbl_805D4BA4->motions);
+    set_field_dc((saddr)boss2_derolle_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);

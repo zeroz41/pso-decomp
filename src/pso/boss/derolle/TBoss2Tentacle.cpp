@@ -395,7 +395,6 @@ TBoss2Tentacle::TBoss2Tentacle(TObject *parent, s32 joint, s32 index) : TObject(
 
 void TBoss2Tentacle::release_shared_model() {  }
 
-extern BmlResource *lbl_805D4BA4;
 
 DragonModelNode tentacle_model_nodes[14];
 Vec TBoss2Tentacle__segment_points[14];
@@ -406,10 +405,10 @@ void TBoss2Tentacle::load_shared_model() {
     DragonModelNode *dst;
     s32 i;
     dst = tentacle_model_nodes;
-    boss2_tentacle_model = lbl_805D4BA4->models[4].model;
+    boss2_tentacle_model = boss2_derolle_resource->models[4].model;
     src = (DragonModelNode *)boss2_tentacle_model;
-    TBoss2Tentacle__motion_data = ((DragonMotionEntry *)lbl_805D4BA4->motions)[17].motion;
-    boss2_tentacle_texlist = (saddr)lbl_805D4BA4->models[2].m_c;
+    TBoss2Tentacle__motion_data = ((DragonMotionEntry *)boss2_derolle_resource->motions)[17].motion;
+    boss2_tentacle_texlist = (saddr)boss2_derolle_resource->models[2].m_c;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
         dst->child = dst + 1;

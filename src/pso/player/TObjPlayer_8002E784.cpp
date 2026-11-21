@@ -16,21 +16,9 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/TUnk_80482090.h"
 #include "pso/player/TObjPlayer_8002E784.h"
-
-struct BreakupNode_8002E818 {
-    u8 pad0[4];
-    void *model;
-    u8 pad8[0x28];
-    BreakupNode_8002E818 *next;
-};
-
-struct Node_8002E3D4 { u8 pad[4]; saddr f4; u8 pad8[0x30 - 8]; Node_8002E3D4 *next; };
-
-struct Mesh_8002E3D4 { u8 pad[0x2C]; Node_8002E3D4 *nodes; };
-
-struct Model_8002E3D4 { u8 pad[0x2C]; s32 f2C; u8 pad30[0x58 - 0x30]; Mesh_8002E3D4 *mesh; };
-
-struct Holder_8002E3D4 { u8 pad[0x42C]; Model_8002E3D4 *model; };
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 void TObjLight__sub_801337F8(s32);
@@ -51,7 +39,6 @@ f32 vec3_add_to(void *, void *);
 extern saddr current_scene_light;
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
-extern Holder_8002E3D4 *lbl_805D4BA4;
 extern const f32 lbl_805D8228;
 extern const f32 lbl_805D822C;
 extern const f32 lbl_805D8230;
@@ -160,7 +147,7 @@ TUnk_804820C0::~TUnk_804820C0() {
 }
 
 void TObjPlayer::create_breakup_model() {
-    TUnk_8048FA00 *model = new TUnk_8048FA00(*(s32 *)((s8 *)((u8 *)lbl_805D4BA4->model) + 0x68));
+    TUnk_8048FA00 *model = new TUnk_8048FA00((s32)boss2_derolle_resource->models[6].model);
     shared_breakup_model = model;
     TObjPlayer__sub_8002ED48(model, 0x13);
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
@@ -218,10 +205,10 @@ void TUnk_804820A8::run_task() {
 }
 
 void TUnk_804820A8::render() {
-    u8 *res = (u8 *)lbl_805D4BA4->model;
-    u8 *mdl = *(u8 **)(res + 0x68);
+    BmlModelEntry *models = boss2_derolle_resource->models;
+    NJS_OBJECT *mdl = models[6].model;
     NJS_ARGB color = {1.0f, 1.0f, 1.0f, 1.0f};
-    BreakupNode_8002E818 *node = *(BreakupNode_8002E818 **)(mdl + 0x2C);
+    NJS_OBJECT *node = mdl->child;
     Vec scale = {0.0f, 0.0f, 0.0f};
     BreakupPiece *p = m_pieces;
     s32 i;
@@ -229,7 +216,7 @@ void TUnk_804820A8::render() {
     scale.x = lbl_805D8260;
     scale.y = lbl_805D8260;
     scale.z = lbl_805D8260;
-    TObjFish::set_global_param(*(s32 *)(res + 0x2C));
+    TObjFish::set_global_param((saddr)models[2].m_c);
     for (i = 0; i < 19; i++) {
         push_matrix();
         post_translate_matrix(&p->pos);
@@ -253,14 +240,14 @@ void TUnk_804820A8::render() {
             break;
         }
         pop_matrix();
-        node = node->next;
+        node = node->sibling;
         p++;
     }
     TObjLight__sub_801337F8(current_scene_light);
 }
 
 void TObjPlayer__sub_8002E7C8(void) {
-    TUnk_8048FA00 *model = new TUnk_8048FA00(*(s32 *)((s8 *)((u8 *)lbl_805D4BA4->model) + 0x58));
+    TUnk_8048FA00 *model = new TUnk_8048FA00((s32)boss2_derolle_resource->models[5].model);
     lbl_805D4B8C = model;
     TObjPlayer__sub_8002ECC4(model, 0x1C);
 }
@@ -322,20 +309,20 @@ void TUnk_80482090::run_task() {
 }
 
 void TUnk_80482090::render() {
-    Node_8002E3D4 *n;
+    NJS_OBJECT *n;
     BreakupPiece *p;
     s32 i;
-    Model_8002E3D4 *model;
-    Mesh_8002E3D4 *mesh;
+    BmlModelEntry *models;
+    NJS_OBJECT *mesh;
     p = m_pieces;
-    model = lbl_805D4BA4->model;
-    mesh = model->mesh;
+    models = boss2_derolle_resource->models;
+    mesh = models[5].model;
     {
         NJS_ARGB c = {1.0f, 1.0f, 1.0f, 1.0f};
-        n = mesh->nodes;
-        TObjFish::set_global_param(model->f2C);
+        n = mesh->child;
+        TObjFish::set_global_param((saddr)models[2].m_c);
         push_matrix();
-        for (i = 0; i < 0x1C; i++, n = n->next, p++) {
+        for (i = 0; i < 0x1C; i++, n = n->sibling, p++) {
             push_matrix();
             post_translate_matrix(p);
             rotate_matrix_z(0, p->ang_z);
@@ -345,7 +332,7 @@ void TUnk_80482090::render() {
             switch (p->state) {
             case 0:
             case 1:
-                draw_chunk_model((void *)n->f4);
+                draw_chunk_model(n->model);
                 break;
             case 2:
                 saved_model_render_flags = model_render_flags;
@@ -354,7 +341,7 @@ void TUnk_80482090::render() {
                 set_constant_material(&c);
                 set_chunk_material_override_pair(0xFF00, 0x800);
                 set_chunk_blend(0x2500);
-                draw_chunk_model((void *)n->f4);
+                draw_chunk_model(n->model);
                 set_chunk_material_override_pair(0xFF00, 0);
                 model_render_flags = saved_model_render_flags;
                 break;

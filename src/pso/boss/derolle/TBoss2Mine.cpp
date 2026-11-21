@@ -53,7 +53,6 @@ const Vec boss2_mine_shadow_scale = { 2.0f, 1.0f, 2.0f };
 
 const NJS_ARGB boss2_mine_render_color = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-extern BmlResource *lbl_805D4BA4;
 
 extern "C" {
 
@@ -120,8 +119,8 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
 
 void TBoss2Mine::init(s32 variant) {
     this->init_position_vectors();
-    this->model = lbl_805D4BA4->models[3].model;
-    this->texlist = (s32)lbl_805D4BA4->models[2].m_c;
+    this->model = boss2_derolle_resource->models[3].model;
+    this->texlist = (s32)boss2_derolle_resource->models[2].m_c;
     this->init_model(&boss2_mine_collision_body, 1);
     this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
                    (u8 *)TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
