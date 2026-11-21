@@ -6,6 +6,8 @@
 #include "pso/effect/TEffStarLight2D.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+struct BmlResource;
+
 // A sound the camera plays once per motion loop, when its frame comes up.
 struct CameraSoundEvent {
     Vec position;  // relative to the camera until init_sound_events places it
@@ -32,7 +34,7 @@ struct TObjCamera : public TObjMapObject {
     static void load_resources();
     static void update_camera_slots();
 
-    static u32 model_resource;
+    static BmlResource *model_resource;
     static s32 camera_slot_scan_index;
 
     s32 lights_visible;  // 1 while the local player is near enough to see its lights

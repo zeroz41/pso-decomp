@@ -67,6 +67,8 @@ struct Out_80069F20 {
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 struct Stack_80069318 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -324,9 +326,9 @@ struct Master_8006A410
 extern "C" {
 
 
-s32 apply_camera_controller_pose(int);
-s32 resolve_anchor_obstruction__11TCameraCtrlFv(void *, int);
-s32 clamp_to_target_obstruction__11TCameraCtrlFv(void *, int);
+void apply_camera_controller_pose(saddr controller);
+s32 resolve_anchor_obstruction__11TCameraCtrlFv(void *, saddr);
+s32 clamp_to_target_obstruction__11TCameraCtrlFv(void *, saddr);
 void reset__11TCameraCtrlFv(void);
 void TCameraCtrl__sub_80068354(void);
 }
@@ -376,16 +378,6 @@ Ctl_8006AA90 *TCameraCtrl__sub_8006AA90(Ctl_8006AA90 *self, s16 arg1);
 #pragma auto_inline off
 #pragma dont_inline off
 struct ByteBlock_30 { u8 bytes[0x30]; };
-
-struct RecoveredGlobal_8006ABAC_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_8006AC70_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
-};
 
 struct Count_8006B0D4 {
     s8 flag;
@@ -439,10 +431,7 @@ extern "C" {
 
 
 u8 * copy_view_params__11TCameraCtrlFii(C30_8006AD34 *arg0, const C30_8006AD34 *arg1);
-s32 rotate_matrix_y(int, void *);
-s32 rotate_matrix_x(int, void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
-extern RecoveredGlobal_8006ABAC_lbl_8058D490 identity_matrix;
 int is_float_nonfinite(f32);
 int is_quest_active(void);
 int TCameraCtrl__sub_8006B3B8(void* p);
@@ -485,8 +474,6 @@ void *lbl_80488AC0[6] = {
 extern "C" {
 
     extern int camera_split_screen_selector;
-LAYOUT_ASSERT(RecoveredGlobal_8006ABAC_lbl_8058D490_size, sizeof(RecoveredGlobal_8006ABAC_lbl_8058D490) == 0x30);
-LAYOUT_ASSERT(RecoveredGlobal_8006AC70_lbl_8058D490_size, sizeof(RecoveredGlobal_8006AC70_lbl_8058D490) == 0x30);
 
 
 
@@ -712,12 +699,12 @@ void TCameraCtrl::run_task() {
 void TCameraCtrl::calc_rotated_axes() {
     Vec right = {1.0f, 0.0f, 0.0f};
     Vec up = {0.0f, 1.0f, 0.0f};
-    push_matrix_from((void *) (&(*(RecoveredGlobal_8006AC70_lbl_8058D490 *)&identity_matrix).value));
-    rotate_matrix_y(0, (void *)this->yaw);
+    push_matrix_from(identity_matrix);
+    rotate_matrix_y(NULL, this->yaw);
     rotate_vector_by_current_matrix((void *)&right, (void *)camera_right);
     pop_matrix();
-    push_matrix_from((void *) (&(*(RecoveredGlobal_8006AC70_lbl_8058D490 *)&identity_matrix).value));
-    rotate_matrix_x(0, (void *)this->pitch);
+    push_matrix_from(identity_matrix);
+    rotate_matrix_x(NULL, this->pitch);
     rotate_vector_by_current_matrix((void *)&up, (void *) (&camera_pitch_rotated_up_vector.value));
     pop_matrix();
 }
@@ -728,12 +715,12 @@ void TCameraCtrl::calc_rotated_axes() {
 void TCameraCtrl::calc_axes_from_angles(saddr arg0, saddr arg1, saddr arg2) {
     Vec right = {1.0f, 0.0f, 0.0f};
     Vec up = {0.0f, 1.0f, 0.0f};
-    push_matrix_from((void *)&identity_matrix.value);
-    rotate_matrix_y(0, (void *)arg2);
+    push_matrix_from(identity_matrix);
+    rotate_matrix_y(NULL, arg2);
     rotate_vector_by_current_matrix((void *)&right, (void *)camera_right);
     pop_matrix();
-    push_matrix_from((void *)&identity_matrix.value);
-    rotate_matrix_x(0, (void *)arg1);
+    push_matrix_from(identity_matrix);
+    rotate_matrix_x(NULL, arg1);
     rotate_vector_by_current_matrix((void *)&up, (void *)&camera_pitch_rotated_up_vector.value);
     pop_matrix();
 }
@@ -825,7 +812,7 @@ void TCameraCtrl::update_active_controller() {
     {
       PSO_VCALL_VObj_18_9639c7_m4(temp_r30, 1);
     }
-    apply_camera_controller_pose((int) temp_r30);
+    apply_camera_controller_pose((saddr) temp_r30);
     new_var = (s32 *) ((s8 *)&TCameraCtrl__view_state + 8);
     var_r27 = 0;
     if (is_split_screen() != 0)
@@ -849,7 +836,7 @@ void TCameraCtrl::update_active_controller() {
     {
       if ((*((s32 *) (((s8 *) temp_r30) + 0x38))) & 1)
       {
-        resolve_anchor_obstruction__11TCameraCtrlFv((void *) this, (int) temp_r30);
+        resolve_anchor_obstruction__11TCameraCtrlFv(this, (saddr) temp_r30);
       }
       temp_r3 = *((s32 *) (((s8 *) temp_r30) + 0x38));
       if (temp_r3 & 4)
@@ -867,7 +854,7 @@ void TCameraCtrl::update_active_controller() {
       }
       if ((*((s32 *) (((s8 *) temp_r30) + 0x38))) & 1)
       {
-        clamp_to_target_obstruction__11TCameraCtrlFv((void *) this, (int) temp_r30);
+        clamp_to_target_obstruction__11TCameraCtrlFv(this, (saddr) temp_r30);
       }
       update_shake();
     }
@@ -886,7 +873,7 @@ void TCameraCtrl::update_active_controller() {
 void select_camera_controller(s32 arg0) {
   u8 *temp_r0;
   (*(s8 *)&TCameraCtrl__view_state) = arg0;
-  temp_r0 = (u8 *) (*((s32 *) ((s8 *)&camera_controller_registry + ((arg0 * 4) & 0x3FC))));
+  temp_r0 = (u8 *)camera_controller_registry[(u8)arg0];
   if (temp_r0 != 0)
   {
     PSO_VCALL_VObj_18_f8ef8c_m5(temp_r0);

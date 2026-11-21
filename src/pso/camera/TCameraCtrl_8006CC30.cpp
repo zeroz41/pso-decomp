@@ -558,7 +558,7 @@ void TUnk_80488E00::update_follow_motion_state() {
             if (temp_r3_3 & 1) {
                 if (temp_r3_3 & 0x10) {
                     m_58 = (0.05f);
-                    yaw = TCameraCtrl::clamp_distance(yaw, (saddr)((void *) (sub_8006E7FC())), 0x16C);
+                    yaw = TCameraCtrl::clamp_distance(yaw, sub_8006E7FC(), 0x16C);
                 } else {
                     m_58 = (0.67f);
                     vfunc_14(*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)) + 0x60) + 0x8000);
@@ -572,7 +572,7 @@ void TUnk_80488E00::update_follow_motion_state() {
                     var_r4_2 = 1;
                 }
                 if (var_r4_2 == 0) {
-                    yaw = TCameraCtrl::clamp_distance(yaw, (saddr)((void *) (sub_8006E7FC())), var_r4);
+                    yaw = TCameraCtrl::clamp_distance(yaw, sub_8006E7FC(), var_r4);
                 }
             }
             if (var_r31 == 0) {
@@ -582,7 +582,7 @@ void TUnk_80488E00::update_follow_motion_state() {
             break;
         case 2:
             vfunc_14(*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)) + 0x60) + 0x8000);
-            yaw = TCameraCtrl::clamp_distance(yaw, (saddr)((void *) (sub_8006E7FC())), 3);
+            yaw = TCameraCtrl::clamp_distance(yaw, sub_8006E7FC(), 3);
             if (var_r31 != 0) {
                 m_f8 = 1;
                 m_f4 = 0;
