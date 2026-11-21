@@ -275,7 +275,6 @@ extern "C" {
 void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_80207E44(void);
 s32 get_floor_map_selection(int, void *);
-int copy_table_entries__6TLobbyFUl(void*, s32);
 void randomize_adventure_maps(void);
 
     extern int story_select_pending_state;
@@ -293,7 +292,7 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-int TLobby__sub_80207E24(void* p, s32 size) { return copy_table_entries__6TLobbyFUl(p, size); }
+void TLobby__sub_80207E24(void *p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
 void TLobby__sub_80207E44(void) {  }
 void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 }

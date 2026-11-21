@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-int TLobby__sub_80207E24(void *p, s32 size);
+void TLobby__sub_80207E24(void *p, s32 size);
 void TLobby__sub_80207E44(void);
 void TLobby__sub_80207E48(void);
 void TLobby__sub_80207F10(void);
