@@ -132,6 +132,7 @@ void TObjPlayer::concat_quaternion_rotation() {
     PSMTXQuat(sp18, &q);
     PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
 }
+}
 
 void apply_quat_rotation(f32 farg0, f32 *arg0) {
     u8 sp18[0x30];
@@ -143,6 +144,8 @@ void apply_quat_rotation(f32 farg0, f32 *arg0) {
     PSMTXQuat(sp18, &q);
     PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
 }
+
+extern "C" {
 
 // {0.0f, 0.0f}: rotate_vector_by_current_matrix pairs the first with z so the translation column drops out
 // (name inferred). The original keeps these zeros in .sdata, which only an aggregate gets: a scalar zero goes to .sbss.

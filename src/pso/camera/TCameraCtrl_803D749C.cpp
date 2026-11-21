@@ -50,15 +50,15 @@ extern void *motion_sampler_function_table[3];
 extern void *motion_angle_sampler_table[4];
 extern void *motion_key_sampler_table[3];
 extern s32 motion_packed_rotation_mode;
+void rotate_matrix_by_node_angles(void *, int);
+void scale_current_matrix(void *);
+void post_translate_matrix(void *);
+}
 CameraMotionContextTable camera_motion_context_table;
 // The context model_draw_context points to (name inferred from it).
 ModelDrawContext default_model_draw_context;
 // Const for its users, but placed in .sdata (not .sdata2) in the DOL.
 __declspec(section ".sdata") ModelDrawContext *const model_draw_context = &default_model_draw_context;
-void rotate_matrix_by_node_angles(void *, int);
-void scale_current_matrix(void *);
-void post_translate_matrix(void *);
-}
 void euler_zyx_to_quaternion(u8 *arg0, u8 *arg1);
 void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1);
 
