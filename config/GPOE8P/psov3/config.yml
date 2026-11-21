@@ -1617,7 +1617,7 @@ force_active:
   - __ct__13TUnk_804ECFB0FP7TObjectPUc
   - TObjPlayer__sub_803519D8
   - __sinit_TObjPlayer_80354EC8_cpp
-  - TObjPlayer__sub_80355098
+  - delete_quest_slot_if_array_flag
   - TObjPlayer__sub_80363C5C
   - TObjPlayer__sub_803D6C1C
   - TObjPlayer__sub_803D7FD0

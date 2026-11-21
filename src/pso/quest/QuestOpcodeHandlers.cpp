@@ -1035,10 +1035,10 @@ s32 reset_player_lobby_model__10TNpcPlayerFUs(int, void *);
 s32 update_player_field__10TNpcPlayerFUsl(int, int, void *);
 s32 end_camera_pan_for_client__10TNpcPlayerFUs(int, void *);
 s32 apply_to_battle_player_slot__10TNpcPlayerFUss(int, int, void *);
-void TObjPlayer__sub_80354CCC(s32 arg0);
-void TObjPlayer__sub_80354D14(s32 arg0);
-void TObjPlayer__sub_80354DAC(s32 arg0);
-void TObjPlayer__sub_80354DF4(s32 arg0);
+void clear_client_quest_slot_bit1(s32 arg0);
+void set_client_quest_slot_bits01(s32 arg0);
+void clear_client_quest_slot_bits01(s32 arg0);
+void set_client_quest_slot_flag1(s32 arg0);
 u32 TLobby__sub_803DF1CC(void);
 }
 
@@ -1524,42 +1524,42 @@ void qst_op_disable_movement2() {
 }
 extern "C" {
 
-s32 TObjPlayer__sub_80354C7C(u16, void *);
+s32 test_client_quest_slot_bits01(u16, void *);
 }
 void qst_op_get_palettex_enabled(void) {
     u8 idx = qst_args[2];
-    qst_registers[idx] = TObjPlayer__sub_80354C7C(qst_args[0], qst_args);
+    qst_registers[idx] = test_client_quest_slot_bits01(qst_args[0], qst_args);
 }
 extern "C" {
 
-s32 TObjPlayer__sub_80354D5C(u16, void *);
+s32 test_client_quest_slot_lock_flag(u16, void *);
 }
 void qst_op_get_palettex_activated(void) {
     u8 idx = qst_args[1];
-    qst_registers[idx] = TObjPlayer__sub_80354D5C(qst_args[0], qst_args);
+    qst_registers[idx] = test_client_quest_slot_lock_flag(qst_args[0], qst_args);
 }
 
 void qst_op_disable_palettex(void) {
-    TObjPlayer__sub_80354CCC(((u16) qst_args[0]));
+    clear_client_quest_slot_bit1(((u16) qst_args[0]));
 }
 
 void qst_op_restore_palettex(void) {
-    TObjPlayer__sub_80354DAC(((u16) qst_args[0]));
+    clear_client_quest_slot_bits01(((u16) qst_args[0]));
 }
 
 void qst_op_enable_palettex() {
-    TObjPlayer__sub_80354D14(((u16) qst_args[0]));
+    set_client_quest_slot_bits01(((u16) qst_args[0]));
 }
 
 void qst_op_activate_palettex() {
-    TObjPlayer__sub_80354DF4(((u16) qst_args[0]));
+    set_client_quest_slot_flag1(((u16) qst_args[0]));
 }
 extern "C" {
 
-s32 TObjPlayer__sub_80354C2C(u16, int);
+s32 set_client_quest_slot_player_index(u16, int);
 }
 void qst_op_set_palettex_callback(void) {
-    TObjPlayer__sub_80354C2C(qst_args[0], (u16)qst_args[1]);
+    set_client_quest_slot_player_index(qst_args[0], (u16)qst_args[1]);
 }
 
 void qst_op_thaw_and_show_equip() {

@@ -4,16 +4,16 @@
 #include "types.h"
 
 extern "C" {
-void TObjPlayer__sub_80354BE4(s32 arg0);
-void TObjPlayer__sub_80354C2C(s32 arg0, s32 arg1);
-u8 TObjPlayer__sub_80354C7C(s32 arg0);
-void TObjPlayer__sub_80354CCC(s32 arg0);
-void TObjPlayer__sub_80354D14(s32 arg0);
-s32 TObjPlayer__sub_80354D5C(s32 arg0);
-void TObjPlayer__sub_80354DAC(s32 arg0);
-void TObjPlayer__sub_80354DF4(s32 arg0);
-s32 TObjPlayer__sub_80354E3C(s32 arg0);
-void TObjPlayer__sub_80354E7C(void);
+void finish_client_quest_thread(s32 arg0);
+void set_client_quest_slot_player_index(s32 arg0, s32 arg1);
+u8 test_client_quest_slot_bits01(s32 arg0);
+void clear_client_quest_slot_bit1(s32 arg0);
+void set_client_quest_slot_bits01(s32 arg0);
+s32 test_client_quest_slot_lock_flag(s32 arg0);
+void clear_client_quest_slot_bits01(s32 arg0);
+void set_client_quest_slot_flag1(s32 arg0);
+s32 is_client_quest_slot_local(s32 arg0);
+void reset_client_quest_slot_table(void);
 }
 
 #endif
