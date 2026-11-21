@@ -109,7 +109,7 @@ void load_chat_sensor(void) { chat_sensor_table = (s32 *)load_encrypted_archive_
 
 void TOChatSensor::destroy_global() {
     if ((uaddr) chat_sensor_table != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)chat_sensor_table));
+        TLobby::free_nodes_with_id((uaddr)((void*)chat_sensor_table));
         chat_sensor_table = 0U;
     }
 }

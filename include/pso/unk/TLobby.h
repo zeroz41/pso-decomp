@@ -39,7 +39,7 @@ struct TLobby : public TObject {
     static void load_shark_resources();
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
-    static void free_nodes_with_id(u32 arg0);
+    static void free_nodes_with_id(uaddr arg0);
     static void create_time_window(void * _w0);
     void update_battle_cleanup_flag();
     void set_challenge_record_page(s32 v);

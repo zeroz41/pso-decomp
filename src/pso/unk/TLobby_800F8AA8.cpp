@@ -1183,7 +1183,7 @@ void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((uaddr)p); }
 void *load_data_file(const char *path) { return load_disc_file(path); }
 }
 
-void TLobby::free_nodes_with_id(u32 root) {
+void TLobby::free_nodes_with_id(uaddr root) {
     TUnk_8049C658 *file = (TUnk_8049C658 *)resource_load_task_root.m_down;
 
     while (file != NULL) {
