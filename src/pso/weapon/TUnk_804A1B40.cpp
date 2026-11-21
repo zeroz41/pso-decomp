@@ -4,10 +4,9 @@
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_80120908.h"
 
 extern "C" {
-
-void draw_weapon_at_joint(saddr arg0, s8 arg1);
 
 void TUnk_804A1B40::reserved_53() {
     s32 temp_r31;

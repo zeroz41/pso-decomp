@@ -10,6 +10,7 @@
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct VBase_18_f15a7b { char pad[0x18]; };
 
@@ -90,7 +91,6 @@ struct VObj_18_f15a7b : VBase_18_f15a7b {
 };
 
 extern "C" {
-s32 obj_is_hit_receivable(u8 *arg0);
 }
 #pragma push
 #pragma fp_contract on
