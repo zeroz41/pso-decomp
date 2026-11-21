@@ -723,18 +723,18 @@ void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b) {
     ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x20(s32 a, s32 b) {
+s32 TWindowKeyBoardSoft::dispatch_request_0x20(saddr a, saddr b) {
     Req_803E6808 req;
     req.id = 0x20;
     req.a = a;
     req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    return ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x1c() {
+s32 TWindowKeyBoardSoft::dispatch_request_0x1c() {
     s32 sp8;
     sp8 = 0x1C;
-    ((TWindowKeyBoardSoft *)(&sp8))->dispatch_by_index();
+    return ((TWindowKeyBoardSoft *)(&sp8))->dispatch_by_index();
 }
 
 void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b) {

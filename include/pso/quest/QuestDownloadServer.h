@@ -61,8 +61,6 @@ extern saddr lbl_805D78F8;
 extern QuestDownloadNameCacheImage lbl_80591EC8;
 extern u8 lbl_805D7868;
 extern const u8 romaji_kana_char_class_table[0x100];
-s32 dispatch_request_0x20__19TWindowKeyBoardSoftFll(void *, void *);
-s32 dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
 extern s32 quest_download_initialized;
 extern s32 quest_download_state;
 extern s32 lbl_805D7908;
@@ -113,7 +111,7 @@ s32 find_symbol_entry__22TQuestVmDownLoadServerFsP13Info_803F0138(const char *na
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *req, uaddr owner, u32 type, u32 prio, uaddr src, uaddr dst, u32 len, void (*cb)(u8 *));
 u32 OSGetTick(void);
-u32 __OSBusClock : 0x800000F8;
+u32 __OSBusClock AT_ADDRESS(0x800000F8);
 void OSReport(const char *, ...);
 void ARQRemoveRequest(void *);
 extern u8 quest_download_aram_dma_buffer[];
