@@ -2951,9 +2951,9 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
         return 0.0f;
     }
     attach_mine_trap__10TObjPlayerFiUi(((Obj_80014108 *)this), ((Obj_80014108 *)att));
-    if (obj_isState2_324__9TObjCharaFv(((Obj_80014108 *)this)) != 0) {
+    if (((TObjChara *)((Obj_80014108 *)this))->obj_isState2_324() != 0) {
         immune = 1;
-    } else if (obj_isState2_324__9TObjCharaFv(((Obj_80014108 *)att)) != 0) {
+    } else if (((TObjChara *)((Obj_80014108 *)att))->obj_isState2_324() != 0) {
         if (is_locally_controlled__10TObjPlayerFPv(((Obj_80014108 *)this)) != 0 && get_type__10TObjPlayerFPv((u8 *)((Obj_80014108 *)att) + 0x828) != 0) {
             immune = 0;
         } else {

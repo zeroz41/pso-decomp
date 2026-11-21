@@ -125,21 +125,6 @@ s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
 s32 fn_801D726C(void *, void *);
 s32 fn_801D72B0(void *, s32);
-s32 set_field_0xE__6TLobbyFPvUc(void *, void *);
-s32 set_field_d__6TLobbyFPvUc(void *, void *);
-s32 set_clamped_field_c__6TLobbyFPvUc(void *, void *);
-s32 set_field_b__6TLobbyFPvUc(void *, void *);
-s32 set_field_a__6TLobbyFPvUc(void *, int);
-s32 set_byte9_clamped__6TLobbyFPvUc(void *, void *);
-s32 set_difficulty__6TLobbyFPvUc(void *, void *);
-s32 set_field7_clamped__6TLobbyFPvUc(void *, void *);
-s32 set_field_0x6__6TLobbyFPvUc(void *, void *);
-s32 set_field_5__6TLobbyFPvUc(void *, void *);
-s32 set_clamped_field_4__6TLobbyFPvUc(void *, void *);
-s32 set_field_3__6TLobbyFPvUc(void *, void *);
-s32 set_field_2__6TLobbyFPvUc(void *, void *);
-s32 set_validated_field_0x1__6TLobbyFPvUc(void *, void *);
-s32 set_section_id__6TLobbyFPvUc(void *, int);
 extern const f32 lbl_805D3538;
 extern const f32 lbl_805D353C;
 extern const f32 lbl_805D3540;
@@ -928,25 +913,25 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
   ((TLobby *)((s32 *)&lobby_rule_settings))->reset_settings_to_default();
   if (arg1 != 0)
   {
-    set_validated_field_0x1__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[0]);
-    set_field_2__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[1]);
-    set_field_3__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[2]);
-    set_clamped_field_4__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[3]);
-    set_field_5__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[4]);
-    set_field_0x6__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[5]);
-    set_field7_clamped__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[6]);
-    set_difficulty__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[7]);
-    set_byte9_clamped__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[8]);
-    set_field_b__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[0xA]);
-    set_clamped_field_c__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[0xB]);
+    TLobby::set_validated_field_0x1(((s32 *)&lobby_rule_settings), o->cfg[0]);
+    TLobby::set_field_2(((s32 *)&lobby_rule_settings), o->cfg[1]);
+    TLobby::set_field_3(((s32 *)&lobby_rule_settings), o->cfg[2]);
+    TLobby::set_clamped_field_4(((s32 *)&lobby_rule_settings), o->cfg[3]);
+    TLobby::set_field_5(((s32 *)&lobby_rule_settings), o->cfg[4]);
+    TLobby::set_field_0x6(((s32 *)&lobby_rule_settings), o->cfg[5]);
+    TLobby::set_field7_clamped(((s32 *)&lobby_rule_settings), o->cfg[6]);
+    TLobby::set_difficulty(((s32 *)&lobby_rule_settings), o->cfg[7]);
+    TLobby::set_byte9_clamped(((s32 *)&lobby_rule_settings), o->cfg[8]);
+    TLobby::set_field_b(((s32 *)&lobby_rule_settings), o->cfg[0xA]);
+    TLobby::set_clamped_field_c(((s32 *)&lobby_rule_settings), o->cfg[0xB]);
     fn_801D72B0(((s32 *)&lobby_rule_settings), ((s8 *) o->cfg)[0xC]);
     for (i = 0; i < 4; i++)
     {
       fn_801D6D8C(((s32 *)&lobby_rule_settings), o->cfg[i + 0xD], i);
     }
-    set_field_d__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[0x11]);
+    TLobby::set_field_d(((s32 *)&lobby_rule_settings), o->cfg[0x11]);
     ((TObjPlayer *)((s32 *)&lobby_rule_settings))->set_level(((s8 *) o->cfg)[0x12]);
-    set_field_0xE__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (void *) o->cfg[0x13]);
+    TLobby::set_field_0xE(((s32 *)&lobby_rule_settings), o->cfg[0x13]);
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_volume((u8)((void *) ((u8) (*((s32 *) (((s8 *) o->cfg) + 0x18))))));
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_validated_field_0x11((u8)((void *) ((u8) (*((s32 *) (((s8 *) o->cfg) + 0x1C))))));
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_clamped_index((s16)((void *) ((s16) (*((s32 *) (((s8 *) o->cfg) + 0x20))))));
@@ -977,7 +962,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
       }
       flag = 1;
     }
-    set_field_a__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), (u8) (flag != 0));
+    TLobby::set_field_a(((s32 *)&lobby_rule_settings), (u8) (flag != 0));
     for (j = 0; j < 4; j++)
     {
       p = ((u32)get_player_by_client_id(j));
@@ -995,7 +980,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
         ((TLobby *)(p + 0x79C))->set_pos_z(lbl_805D5DC8);
       }
     }
-    set_section_id__6TLobbyFPvUc(((s32 *)&lobby_rule_settings), 1);
+    TLobby::set_section_id(((s32 *)&lobby_rule_settings), 1);
   }
   for (j = 0; j < 4; j++)
   {

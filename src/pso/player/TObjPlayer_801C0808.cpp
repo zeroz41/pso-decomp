@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/item/TItemData.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -80,7 +81,6 @@ void TObjPlayer::build_6x2C_impose_hold_packet() {
 
 #define copy_subcommand_header ((s32 (*)())copy_subcommand_header)
 #define bswap_pkt_u16x2_u32__10TObjPlayerFPv ((s32 (*)())bswap_pkt_u16x2_u32__10TObjPlayerFPv)
-void bswap__9TItemDataFv(saddr arg0);
 
 void TObjPlayer::bswap_and_send_packet() {
     saddr cmd = (saddr)this;
@@ -254,7 +254,7 @@ extern "C" {
 void TObjPlayer::bswap_cmd_item_data() {
     saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)arg0)->bswap();
-    bswap__9TItemDataFv(arg0 + 4);
+    ((TItemData *)(arg0 + 4))->bswap();
 }
 
 void*TObjPlayer::copy(void* a1) { TObjPlayer__sub_801C0F10((u8 *)this, (u8 *)a1); *(unsigned char*)((char*)this + 0x18) = *(unsigned char*)((char*)a1 + 0x18); *(unsigned char*)((char*)this + 0x19) = *(unsigned char*)((char*)a1 + 0x19); *(short*)((char*)this + 0x1a) = *(unsigned short*)((char*)a1 + 0x1a); return this; }

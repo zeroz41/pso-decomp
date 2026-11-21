@@ -1760,8 +1760,6 @@ void clear_velocity(u8 *arg0);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 set_hp_clamped__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-s32 update_attack_stat_status__9TObjCharaFv(s32);
-s32 vfunc_37__9TObjCharaFv(s32);
 s32 is_locally_controlled__10TObjPlayerFPv(void * a0);
 s32 obj_getArrWord_254(void *, s32);
 s32 get_actor_tp(void *);
@@ -6503,7 +6501,7 @@ s32 TObjPlayer::vfunc_37() {
     if ((((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() == 0) || (((TObjPlayer *)player)->is_body_collision_inactive() != 0)) {
         return 0;
     }
-    return vfunc_37__9TObjCharaFv(player);
+    return ((TObjChara *)player)->TObjChara::vfunc_37();
 }
 
 s32 TObjPlayer::update_flag30_timer() {
@@ -6528,9 +6526,9 @@ s32 TObjPlayer::update_shock_clock() {
 }
 
 s32 TObjPlayer::update_attack_stat_status() {
-    s32 player = (saddr)this;
+    saddr player = (saddr)this;
     if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() != 0) {
-        return update_attack_stat_status__9TObjCharaFv(player);
+        return ((TObjChara *)player)->TObjChara::update_attack_stat_status();
     }
     return 0;
 }
