@@ -36,12 +36,12 @@ public:
     void sub_802F0A44();
     void init_segments();
     void start_attack_at_position(u8 *target, s32 hold_time);
-    s32 sub_802F0904();
-    void sub_802F0AD0();
+    s32 is_attack_finished();
+    void speed_up_sway();
     void sub_802F0AF0();
     void sub_802F0B58();
-    void sub_802F0B70();
-    void sub_802F0B80();
+    void enable_retract();
+    void enable_extend();
     // Load and release the shared tentacle model nodes (the boss's resource callback table, as the
     // TBoss7Crawfish pair next to them).
     static void load_static_resource();

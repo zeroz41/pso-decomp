@@ -20,7 +20,7 @@ struct TBoss7Crawfish : public TObjEnemy {
     virtual ~TBoss7Crawfish();
     s32 sub_80308AA8();
     s32 is_visible();
-    s32 sub_80308688();
+    s32 is_within_x_limit();
     s16 get_floor();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
@@ -35,7 +35,7 @@ struct TBoss7Crawfish : public TObjEnemy {
     ActorBodyHit hits[4];
     s32 attack_timer;
     TParticleCtrl *effect;
-    void sub_803087D4(s32 sound_id);
+    void play_persistent_sound_at_position(s32 sound_id);
     void spawn_effect(s32 sound_id);
     void free_child();
     void spawn_ground_effects();
@@ -43,12 +43,12 @@ struct TBoss7Crawfish : public TObjEnemy {
     virtual void render();
     void clear_object_state_exchange();
     void check_band_and_destroy();
-    void sub_80308BEC();
+    void advance_to_band_check();
     void update();
     void update_motion_and_release();
     void aim_at_nearest_player();
     void update_attack_state();
-    s32 sub_80308ED8(const Vec *delta);
+    s32 try_move_by_delta(const Vec *delta);
     void change_state(s32 state);
     virtual void run_task();
     static void destroy_instance();

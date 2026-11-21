@@ -44,7 +44,7 @@ public:
     virtual int run_demo_task();
     virtual void draw_motion_model();
 
-    void sub_802F4098(u8 *);
+    void get_render_position(u8 *);
     s32 hasActiveRenderFade();
 
     u32 m_3c0;

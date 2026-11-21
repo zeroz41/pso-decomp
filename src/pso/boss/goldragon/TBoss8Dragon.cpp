@@ -5747,7 +5747,7 @@ void TBoss8Dragon::render() {
     if (is_split_screen() != 0) {
         view = TCameraCtrl::get_camera_mode();
     }
-    this->sub_802F4098(pos);
+    this->get_render_position(pos);
     if (defer_render() != 0) {
         if (!((s32)main_task.get_task_flags() & 0x10)) {
             this->render_body_model();
@@ -5826,7 +5826,7 @@ void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
     }
 }
 
-void TBoss8Dragon::sub_802F4098(u8 *arg1) {
+void TBoss8Dragon::get_render_position(u8 *arg1) {
     VecCopy((Vec *)arg1, (const Vec *)(((u8 *)this) + 0x38));
     if (((s32)main_task.get_task_flags() & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
         *(f32 *)((s8 *)arg1 + 8) += -460.0f;

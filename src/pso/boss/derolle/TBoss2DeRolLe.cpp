@@ -134,7 +134,7 @@ struct NJS_OBJECT;
 #include <stddef.h>
 
 // inferred: the five-word effect descriptor emit_effect and setup_instance read (an id word,
-// three floats, a trailing word); sub_8002FE60 patches the first float per spawn
+// three floats, a trailing word); handle_laser_attack_state patches the first float per spawn
 struct DeRolLeEffectParams {
     s32 pad_00;
     f32 pad_04;
@@ -167,7 +167,7 @@ const Vec derolle_mine_offsets[5] = {
     {-45.0f, 0.0f, -30.0f},
 };
 
-// inferred: the effect sub_8002FE60 spawns where the laser hits
+// inferred: the effect handle_laser_attack_state spawns where the laser hits
 const DeRolLeEffectParams derolle_laser_hit_effect_params = {0, 120.0f, 16.0f, 20.0f, 1};
 
 s32 de_rol_le_base_param_ids[1] = {0xF};
@@ -1752,64 +1752,64 @@ extern "C" {
 void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
     switch (state) {
     case 0:
-        sub_800333F4(reason);
+        handle_opening_state(reason);
         return;
     case 1:
-        sub_80032E38(reason);
+        handle_intro_camera_state(reason);
         return;
     case 2:
         handle_debug_pad_input(reason);
         return;
     case 3:
-        sub_800327C8(reason, 0, 1);
+        handle_position_travel_state(reason, 0, 1);
         return;
     case 4:
-        sub_800320B4(reason, 0, 2);
+        handle_side_jump_state(reason, 0, 2);
         return;
     case 5:
-        sub_800327C8(reason, 0, 3);
+        handle_position_travel_state(reason, 0, 3);
         return;
     case 6:
-        sub_800327C8(reason, 1, 2);
+        handle_position_travel_state(reason, 1, 2);
         return;
     case 8:
-        sub_800327C8(reason, 1, 0);
+        handle_position_travel_state(reason, 1, 0);
         return;
     case 9:
-        sub_800327C8(reason, 2, 3);
+        handle_position_travel_state(reason, 2, 3);
         return;
     case 10:
-        sub_800320B4(reason, 2, 0);
+        handle_side_jump_state(reason, 2, 0);
         return;
     case 11:
-        sub_800327C8(reason, 2, 1);
+        handle_position_travel_state(reason, 2, 1);
         return;
     case 12:
-        sub_800327C8(reason, 3, 0);
+        handle_position_travel_state(reason, 3, 0);
         return;
     case 13:
-        sub_80031AD4(reason);
+        handle_forward_jump_state(reason);
         return;
     case 14:
-        sub_800327C8(reason, 3, 2);
+        handle_position_travel_state(reason, 3, 2);
         return;
     case 18:
-        sub_800313F8(reason, 0);
+        handle_bite_state(reason, 0);
         return;
     case 19:
-        sub_800313F8(reason, 2);
+        handle_bite_state(reason, 2);
         return;
     case 20:
-        sub_800310F8(reason, 0);
+        handle_tentacle_volley_state(reason, 0);
         return;
     case 21:
-        sub_800310F8(reason, 2);
+        handle_tentacle_volley_state(reason, 2);
         return;
     case 22:
-        sub_80030DFC(reason, 0);
+        handle_roll_dive_state(reason, 0);
         return;
     case 23:
-        sub_80030DFC(reason, 2);
+        handle_roll_dive_state(reason, 2);
         return;
     case 16:
         state_photon_pads(reason, 0);
@@ -1818,7 +1818,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         state_photon_pads(reason, 2);
         return;
     case 15:
-        sub_80030A38(reason);
+        handle_ceiling_pass_state(reason);
         return;
     case 24:
         state_launch_mines(reason, 0x18);
@@ -1830,7 +1830,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         state_ceiling_attack(reason);
         return;
     case 27:
-        sub_8002FE60(reason);
+        handle_laser_attack_state(reason);
         return;
     case 28:
         sub_8002FD9C(reason, 0);
@@ -1839,13 +1839,13 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         sub_8002FD9C(reason, 1);
         return;
     case 30:
-        sub_8002FCE4(reason);
+        handle_deep_sink_state(reason);
         return;
     case 31:
         handle_death_state(reason);
         return;
     case 32:
-        sub_8002F73C(reason);
+        handle_despawn_state(reason);
     default:
         return;
     }
@@ -1853,7 +1853,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
 
 }
 
-void TBoss2DeRolLe::sub_800333F4(u32 reason) {
+void TBoss2DeRolLe::handle_opening_state(u32 reason) {
     switch (reason) {
     case 4: requested_action = 1; return;
     case 2: set_state_and_send(1); return;
@@ -1871,7 +1871,7 @@ void TBoss2DeRolLe::sub_800333F4(u32 reason) {
 #pragma push
 #pragma fp_contract on
 
-void TBoss2DeRolLe::sub_80032E38(u32 reason) {
+void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
     Vec *p = &state_vectors[0];
     CameraPlayback cam;
     CameraPlayback cam2;
@@ -2143,7 +2143,7 @@ extern "C" {
 
 }
 
-void TBoss2DeRolLe::sub_800327C8(u32 reason, s32 from, s32 to) {
+void TBoss2DeRolLe::handle_position_travel_state(u32 reason, s32 from, s32 to) {
     s32 r;
     switch (reason) {
     case 4:
@@ -2273,7 +2273,7 @@ void TBoss2DeRolLe::sub_800327C8(u32 reason, s32 from, s32 to) {
     }
 }
 
-void TBoss2DeRolLe::sub_800320B4(u32 reason, s32 from, s32 to) {
+void TBoss2DeRolLe::handle_side_jump_state(u32 reason, s32 from, s32 to) {
     switch (reason) {
     case 4:
         sub_800341F0();
@@ -2458,7 +2458,7 @@ void TBoss2DeRolLe::sub_800320B4(u32 reason, s32 from, s32 to) {
 #undef o
 #undef self
 
-void TBoss2DeRolLe::sub_80031AD4(u32 reason) {
+void TBoss2DeRolLe::handle_forward_jump_state(u32 reason) {
     Vec va;
     Vec vb;
 
@@ -2621,7 +2621,7 @@ void TBoss2DeRolLe::sub_80031AD4(u32 reason) {
 
 #undef o
 
-void TBoss2DeRolLe::sub_800313F8(u32 reason, s32 side) {
+void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
     switch (reason) {
     case 4:
         requested_action = 1;
@@ -2835,7 +2835,7 @@ void TBoss2DeRolLe::sub_800313F8(u32 reason, s32 side) {
 // TBoss2Tentacle's state == 4 test (turning to its rest angle).
 extern "C" s32 TBoss2Tentacle__sub_80039CA0(void *);
 
-void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
+void TBoss2DeRolLe::handle_tentacle_volley_state(u32 reason, s32 side) {
     Vec v;
     s32 a;
     s32 ok;
@@ -2942,7 +2942,7 @@ void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
 #pragma push
 #pragma fp_contract on
 
-void TBoss2DeRolLe::sub_80030DFC(u32 reason, s32 side) {
+void TBoss2DeRolLe::handle_roll_dive_state(u32 reason, s32 side) {
     switch (reason) {
     case 4:
         sub_800341F0();
@@ -3025,7 +3025,7 @@ void TBoss2DeRolLe::sub_80030DFC(u32 reason, s32 side) {
     }
 }
 
-void TBoss2DeRolLe::sub_80030A38(u32 reason) {
+void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
     Vec v;
 
     switch (reason) {
@@ -3294,7 +3294,7 @@ void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
     }
 }
 
-void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
+void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
     Vec *vel;
     Vec *hit;
     vel = &state_vectors[0];
@@ -3544,7 +3544,7 @@ void TBoss2DeRolLe::sub_8002FD9C(u32 reason, s32 arg2) {
     }
 }
 
-void TBoss2DeRolLe::sub_8002FCE4(u32 reason) {
+void TBoss2DeRolLe::handle_deep_sink_state(u32 reason) {
     switch (reason) {
     case 4:
         state_flags = state_flags | 4;
@@ -3722,7 +3722,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
 
 #pragma pop
 
-void TBoss2DeRolLe::sub_8002F73C(u32 reason) {
+void TBoss2DeRolLe::handle_despawn_state(u32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0x10;

@@ -37,7 +37,7 @@ typedef struct Wing_80326074 {
 
 extern "C" {
 f32 vec3_dot(void *, void *);
-void TBoss8Dragon__sub_80063FB8(s32, void *, f32);
+void apply_lightning_hit(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);
 void vec3_add_to(void *, void *);
@@ -120,7 +120,7 @@ void fn_80325F7C(void *arg0) {
                 dir.z = ray.d.z;
                 TObjPlayer__sub_80325D58(arg0, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
                                          normalize_vector_safe(&dir));
-                TBoss8Dragon__sub_80063FB8(inst, &hit, 6.0f);
+                apply_lightning_hit(inst, &hit, 6.0f);
             }
             i++;
         } while (i < 4);

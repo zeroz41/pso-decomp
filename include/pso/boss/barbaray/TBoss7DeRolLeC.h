@@ -26,7 +26,7 @@ struct TBoss7LaserPtcl;
 
 // Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
 struct TBoss7DeRolLeCParams {
-    f32 unk_00;                   // the laser's attack power (sub_802E8FCC)
+    f32 unk_00;                   // the laser's attack power (handle_laser_attack_state)
     f32 target_pos_y;             // TBoss7PhotonBullet::get_target_pos_y
     u8 pad_08[0x10];
     s32 unk_18;
@@ -52,7 +52,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void emit_hit_effect(const Vec *position);
     s32 is_ready();                // name from the TBoss2DeRolLe twin
     void sub_802ECAA4();
-    void sub_802EB270(u32 event, s32 mode, s32 next_mode);
+    void handle_position_travel_state(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
     // Resets the node-walk state that record_node_transforms advances during a draw.
     void reset_node_transforms();
@@ -96,25 +96,25 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void destroy_child();
     void update_attached_orientation();
     void handle_death_state(u32 event);
-    void sub_802E8AD4(u32 event);
-    void sub_802EBE50(u32 event);
-    void sub_802E8584(u32 event);
-    void sub_802E8528(u32 event);
-    void sub_802E83E8(u32 event);
-    void sub_802E7B94();
-    void sub_802E7B40();
+    void handle_despawn_state(u32 event);
+    void handle_opening_state(u32 event);
+    void handle_retract_tentacles_state(u32 event);
+    void handle_extend_tentacles_state(u32 event);
+    void handle_tentacle_needle_barrage_state(u32 event);
+    void retract_all_tentacles();
+    void extend_all_tentacles();
     void sub_802E8EEC(u32 event, s32);
-    void sub_802E8E34(u32 event);
+    void handle_deep_sink_state(u32 event);
     void handle_crawfish_spawn_state(u32 event, s32 variant);
-    void sub_802E8990(u32 event);
-    void sub_802E88F8(u32 event);
-    void sub_802ECE90(s32 joint, s32 shot_level);
-    void sub_802E95F8(u32 event, s32 position_index);
-    void sub_802E9458(u32 event);
+    void handle_crawfish_drain_state(u32 event);
+    void handle_wait_state(u32 event);
+    void spawn_photon_pad(s32 joint, s32 shot_level);
+    void handle_photon_pad_spawn_state(u32 event, s32 position_index);
+    void handle_ceiling_attack_state(u32 event);
     void calc_offset_position();   // name from the TBoss2DeRolLe twin: laser_light_pos = 30 units along the head axis
-    void sub_802E8FCC(u32 event);
+    void handle_laser_attack_state(u32 event);
     void handle_tentacle_attack_state(u32 event, s32 position_index);
-    void sub_802E979C(u32 event, s32 position_index);
+    void handle_roll_dive_state(u32 event, s32 position_index);
     void sub_802EC32C();
     void reload_stats_for_phase(s32 phase);
     void update_particle_ctrls();
@@ -128,18 +128,18 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s16 find_free_crawfish_slot();
     void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
     void try_spawn_pattern_crawfish(s32 variant, s32 index);
-    void sub_802EBBC8(u32 event);
+    void handle_intro_camera_state(u32 event);
     void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (debug_pad)
-    void sub_802EA4D8(u32 event);
-    void sub_802E9DBC(u32 event, s32 position_index);
+    void handle_forward_jump_state(u32 event);
+    void handle_bite_state(u32 event, s32 position_index);
     // 6xA9/6xAA receivers; names from the TBoss2DeRolLe twin (init_from_param, set_params)
     void init_from_param(G_BarbaRayBossActions_6xA9 *cmd);
     void set_params(G_BarbaRayBossActions_6xAA *cmd);
     // a particle at pos, lifted and pulled back along the camera's view (name from the TBoss2DeRolLe twin)
     static void spawn_offset_particle(const Vec *pos, f32 lift, f32 back);
     void reset_action_sequence();  // zeroes unk_6B0 and action_index (inferred name)
-    void sub_802EAAC8(u32 event, s32 position_index, s32 next_index);
-    void sub_802E85E0(u32 event, s32 position_index);
+    void handle_side_jump_state(u32 event, s32 position_index, s32 next_index);
+    void handle_tentacle_volley_state(u32 event, s32 position_index);
     CollisionBody unk_3C0;        // copy of boss7_derolle_c_collision_body, the body's collision sphere
     Vec unk_3EC[20];
     Vec unk_4DC[4];
@@ -152,7 +152,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1], read by handle_debug_pad_input
     s32 state_flags;              // 0x4, 0x8, 0x40, 0x80, 0x8000 tested
     s32 unk_62C;                  // the stat phase reload_stats_for_phase restores after a hit
-    TUnk_80036250 motion_x;       // drives position.x (sub_802EB270)
+    TUnk_80036250 motion_x;       // drives position.x (handle_position_travel_state)
     TUnk_80036250 motion_y;       // drives position.y
     TUnk_80036250 motion_z;       // drives position.z
     TObject part_group;           // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
@@ -162,7 +162,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s32 unk_6B8;
     s32 unk_6BC;
     s32 position_slot;            // the boss7_derolle_c_position_points point the body is at or leaves (inferred name)
-    s32 next_position_slot;       // the boss7_derolle_c_position_points point it moves to (sub_802EB270)
+    s32 next_position_slot;       // the boss7_derolle_c_position_points point it moves to (handle_position_travel_state)
     s32 unk_6C8;
     s32 unk_6CC;
     s32 unk_6D0;
@@ -180,7 +180,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TUnk_804E4788 *unk_71C;       // ring trail of the laser's hit point
     TUnk_804E4788 *unk_720;
     s32 unk_724;
-    s32 unk_728;                  // state step (sub_802EB270: 1 = arrived)
+    s32 unk_728;                  // state step (handle_position_travel_state: 1 = arrived)
     s32 unk_72C;
     s32 unk_730;
     s32 unk_734;
@@ -208,7 +208,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TParticleCtrl *unk_7B0;       // destroy_child releases it, update_attached_orientation aims it
     Vec unk_7B4;                  // where unk_7B0 sits
     Vec unk_7C0;                  // the point unk_7B0 is aimed away from
-    u16 needle_targets[4];        // client ids of the players sub_802E83E8 sends a TBoss7TentacleNeedle under
+    u16 needle_targets[4];        // client ids of the players handle_tentacle_needle_barrage_state sends a TBoss7TentacleNeedle under
     static void load_resources();
     static void run_exit_callbacks();
     static void *create(void *arg0);

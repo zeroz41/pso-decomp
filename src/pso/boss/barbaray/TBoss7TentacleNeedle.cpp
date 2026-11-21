@@ -106,9 +106,9 @@ TBoss7Tentacle::TBoss7Tentacle(TObject *parent, s32 joint, s32 index) : TObject(
 
 TBoss7Tentacle::~TBoss7Tentacle() {}
 
-void TBoss7Tentacle::sub_802F0B80() { flags &= ~HIDDEN; }
+void TBoss7Tentacle::enable_extend() { flags &= ~HIDDEN; }
 
-void TBoss7Tentacle::sub_802F0B70() { flags |= HIDDEN; }
+void TBoss7Tentacle::enable_retract() { flags |= HIDDEN; }
 
 void TBoss7Tentacle::sub_802F0B58() {
     next_state = 1;
@@ -129,7 +129,7 @@ void TBoss7Tentacle::sub_802F0AF0() {
     flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle::sub_802F0AD0() {
+void TBoss7Tentacle::speed_up_sway() {
     frame_speed = 1.6f;
     sway_speed = 3038;
     pitch = 0;
@@ -201,7 +201,7 @@ void TBoss7Tentacle::sub_802F0918() {
     pitch = 0x4000;
 }
 
-s32 TBoss7Tentacle::sub_802F0904() {
+s32 TBoss7Tentacle::is_attack_finished() {
     return state == 4;
 }
 

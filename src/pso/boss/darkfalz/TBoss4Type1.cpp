@@ -238,10 +238,10 @@ void *lbl_80485AE0[10] = {
 };
 s32 lbl_80485B08[2] = { 0xFB, 0xFC };
 Entry_800542B0 lbl_80485C48[11] = {
-    { "APPEAR", 0, &TBoss4Type1::sub_800531BC, &TBoss4Type1::check_state_if_idle, &TBoss4Type1::sub_800530C0 },
+    { "APPEAR", 0, &TBoss4Type1::init_appear_state, &TBoss4Type1::check_state_if_idle, &TBoss4Type1::sub_800530C0 },
     { "WAITNEXT", 0, 0, &TBoss4Type1::update_flag800_state, 0 },
-    { "MOVESTNDPOS", 0, &TBoss4Type1::sub_8005307C, &TBoss4Type1::update_state_transition, &TBoss4Type1::sub_80052EF8 },
-    { "DEAD", 1, &TBoss4Type1::sub_80052EEC, &TBoss4Type1::sub_80052EE8, &TBoss4Type1::tick_state_398_timer },
+    { "MOVESTNDPOS", 0, &TBoss4Type1::init_movestndpos_state, &TBoss4Type1::update_state_transition, &TBoss4Type1::sub_80052EF8 },
+    { "DEAD", 1, &TBoss4Type1::init_dead_state, &TBoss4Type1::update_dead_idle, &TBoss4Type1::tick_state_398_timer },
     { "WAITKILL", -1, 0, 0, 0 },
     { "HAKILOOP", 2, &TBoss4Type1::start_motion_for_index, 0, &TBoss4Type1::update_spawn_uro },
     { "PAKULOOP", 2, &TBoss4Type1::start_motion_for_index, 0, &TBoss4Type1::tick_countdown_set_state7 },
@@ -1188,7 +1188,7 @@ void TBoss4Type1::update_follow_camera_offsets() {
     }
 }
 
-void TBoss4Type1::sub_800531BC() { *(s32 *)((char *)this + 0x398) = 75; }
+void TBoss4Type1::init_appear_state() { *(s32 *)((char *)this + 0x398) = 75; }
 
 void TBoss4Type1::check_state_if_idle() {
     if (*(int *)((char *)this + 0x398) == 0) {
@@ -1215,7 +1215,7 @@ void TBoss4Type1::update_flag800_state() {
     TBoss4Type2__sub_80053504(this);
 }
 
-void TBoss4Type1::sub_8005307C() { *(u32 *)((char *)this + 0x398) = *(u32 *)((char *)this + 0x3cc); }
+void TBoss4Type1::init_movestndpos_state() { *(u32 *)((char *)this + 0x398) = *(u32 *)((char *)this + 0x3cc); }
 
 void TBoss4Type1::update_state_transition() {
     if (*(int *)((char *)this + 0x398) == 0) {
@@ -1241,9 +1241,9 @@ void TBoss4Type1::sub_80052EF8() {
     }
 }
 
-void TBoss4Type1::sub_80052EEC() { *(s32 *)((char *)this + 0x398) = 75; }
+void TBoss4Type1::init_dead_state() { *(s32 *)((char *)this + 0x398) = 75; }
 
-void TBoss4Type1::sub_80052EE8() {  }
+void TBoss4Type1::update_dead_idle() {  }
 
 void TBoss4Type1::tick_state_398_timer() {
     s32 temp_r0;
