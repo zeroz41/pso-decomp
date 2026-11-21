@@ -22,11 +22,6 @@ Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
 TrailStripVertex boss2_dust_output_table[60];
 s32 boss2_dust_random_angles[10];
-extern const f32 lbl_805D85B8;
-extern const f32 lbl_805D85BC;
-extern const f32 lbl_805D85C0;
-extern const f32 lbl_805D85C4;
-extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
 #pragma push
@@ -40,10 +35,11 @@ void TObjBoss2DustCtrl::sub_8003AD54() {
     s32 j;
 
     for (i = 0; i < 6; i++) {
-        int a = (int)(lbl_805D85C0 * (f32)i);
-        boss2_dust_points[i].x = lbl_805D85C4 * sin_table_lookup(a);
-        boss2_dust_points[i].y = lbl_805D85C8 * (f32)i;
-        boss2_dust_points[i].z = lbl_805D85C4 * cos_table_lookup(a);
+        int a = (int)(10922.667f * (f32)i);
+        f32 sine = sin_table_lookup(a);
+        boss2_dust_points[i].x = 0.7f * sine;
+        boss2_dust_points[i].y = 0.083333336f * (f32)i;
+        boss2_dust_points[i].z = 0.7f * cos_table_lookup(a);
     }
     {
         s32 *p = boss2_dust_rotation_table;
@@ -54,9 +50,9 @@ void TObjBoss2DustCtrl::sub_8003AD54() {
     {
         TrailStripVertex *o = boss2_dust_output_table;
         for (i = 0; i < 60; i++) {
-            o->x = lbl_805D85B8;
-            o->y = lbl_805D85B8;
-            o->z = lbl_805D85B8;
+            o->x = 0.0f;
+            o->y = 0.0f;
+            o->z = 0.0f;
             o->color = 0xFF709070;
             o++;
         }
@@ -82,7 +78,6 @@ TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}
 #pragma push
 #pragma opt_propagation off
 void TObjBoss2DustCtrl::run_task() {
-    f32 scale;
     s32 *ang;
     TrailStripVertex *out;
     s32 *rot;
@@ -92,11 +87,10 @@ void TObjBoss2DustCtrl::run_task() {
     rot = boss2_dust_rotation_table;
     out = boss2_dust_output_table;
     push_matrix();
-    scale = lbl_805D85BC;
     ang = boss2_dust_random_angles;
     for (i = 0; i < 10; i++) {
         set_matrix_identity(0);
-        translate_matrix(0, lbl_805D85B8, scale * sin_table_lookup(ang[i]), lbl_805D85B8);
+        translate_matrix(0, 0.0f, 6.0f * sin_table_lookup(ang[i]), 0.0f);
         {
             s32 a = ang[i];
             s32 r;

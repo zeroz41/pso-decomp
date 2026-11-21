@@ -322,7 +322,6 @@ pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
-pso/effect/enemy/TeneFakeTecThunderEffSdata2B.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
