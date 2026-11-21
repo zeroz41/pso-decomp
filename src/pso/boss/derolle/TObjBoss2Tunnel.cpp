@@ -1,3 +1,4 @@
+#include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
@@ -199,30 +200,11 @@ NJS_OBJECT lbl_8048DEF4 = {
 NJS_OBJECT *debug_chunk_object = &lbl_8048DEF4;
 NJS_OBJECT *lbl_805D28BC = &debug_chunk_a_object;
 
-struct Stack_8007CBC4 {
-    s32 sp8;
-    u8 pad_C[0x54];
-    s32 sp60;
-};
 struct Stack_8007CAE8 {
     f32 sp8;
     f32 spC;
     f32 sp10;
     f32 sp14;
-};
-struct Load_8007CB50 { u8 pad[0x58]; s32 *data; u32 size; };
-struct Card_8007CCD0 {
-    char file[0x12];
-    char title[0x22];
-    u8 icon[0x10];
-    u8 pad44[8];
-    s16 f4c;
-    s16 f4e;
-    s32 f50;
-    s16 flag; /* TAdPlayerLoadGC::build_save_file_image: 0 adds a space after the comment name */
-    u8 pad56[2];
-    s32 *data;
-    s32 size;
 };
 struct VBase_8007C5C0 { char pad[0x18]; };
 struct VObj_8007C5C0 : VBase_8007C5C0 {
@@ -268,14 +250,10 @@ struct G_PlaySound_6xB2 {
 };
 extern "C" {
 s32 DCFlushRange(int, int);
-s32 TAdPlayerLoadGC__sub_801E1538(void *, void *);
 s32 poll_memcard_result(s32 chan);
 extern s32 lbl_805D49B4;
 s32 draw_textured_screen_quad__10TObjPlayerFUlPfPfl(int, void *, void *, int, f32);
 u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
-void TAdPlayerLoadGC__sub_801E14E4(void *);
-void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
-void build_save_file_image__15TAdPlayerLoadGCFPvPv(void *, void *, void *);
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
 extern u32 camera_ctrl_instance;
@@ -893,7 +871,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     TDLGraph *graph;
     s32 err;
     s32 err2;
-    Card_8007CCD0 card;
+    CardSaveDescriptor card;
     G_PlaySound_6xB2 cmd;
     f32 pos[2];
     f32 size[2];
@@ -1002,15 +980,15 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         }
         *countp = count;
         memset(&card, 0, sizeof(card));
-        strcpy(card.file, episode_i_and_ii_card_filename);
+        strcpy(card.filename, episode_i_and_ii_card_filename);
         strcpy(card.title, snapshot_card_title);
-        memcpy(card.icon, snapshot_card_icon, 0x10);
-        TAdPlayerLoadGC__sub_801E14E8((u8 *)&card, 4);
-        card.f4c = 1;
-        card.f4e = 1;
-        card.f50 = 0;
-        card.flag = 0;
-        card.data = (s32 *)snap;
+        memcpy(card.key, snapshot_card_icon, 0x10);
+        TAdPlayerLoadGC__sub_801E14E8(&card, 4);
+        card.field_4c = 1;
+        card.field_4e = 1;
+        card.field_50 = 0;
+        card.omit_title_space = 0;
+        card.data = (u8 *)snap;
         card.size = sizeof(ScreenSnapshot);
         *sum = calc_crc32_bitwise((u8 *)snap, sizeof(ScreenSnapshot));
         TAdPlayerLoadGC::build_save_file_image(frame->save_image, &card);
@@ -1215,7 +1193,7 @@ block_9:
 }
 
 s32 TObjBoss2Tunnel::save_snapshot_to_card() {
-    Card_8007CCD0 c;
+    CardSaveDescriptor c;
     s32 *p;
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
@@ -1225,20 +1203,20 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     }
     memset(TObjBoss2Tunnel__snapshot_buffer, 0, 4);
     memset(&c, 0, 0x60);
-    strcpy(c.file, episode_i_and_ii_card_filename);
+    strcpy(c.filename, episode_i_and_ii_card_filename);
     strcpy(c.title, snapshot_card_title);
-    memcpy(c.icon, snapshot_card_icon, 0x10);
-    TAdPlayerLoadGC__sub_801E14E8((u8 *)&c, 4);
-    c.f4c = 1;
+    memcpy(c.key, snapshot_card_icon, 0x10);
+    TAdPlayerLoadGC__sub_801E14E8(&c, 4);
+    c.field_4c = 1;
     p = boss2_tunnel_snapshot_buffer;
-    c.f4e = 1;
-    c.f50 = 0;
-    c.flag = 0;
+    c.field_4e = 1;
+    c.field_50 = 0;
+    c.omit_title_space = 0;
     *p = 0;
     *p = calc_crc32_bitwise((u8 *)boss2_tunnel_snapshot_buffer, 0x1818C);
+    c.data = (u8 *)boss2_tunnel_snapshot_buffer;
     c.size = 0x1818C;
-    c.data = boss2_tunnel_snapshot_buffer;
-    build_save_file_image__15TAdPlayerLoadGCFPvPv(TObjBoss2Tunnel__snapshot_buffer, &c, boss2_tunnel_snapshot_buffer);
+    TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel__snapshot_buffer, &c);
     TAdPlayerLoadGC__sub_801E14E4(&c);
     if (TAdSinglePlyChrSelectGC::load_player(1, (s32)TObjBoss2Tunnel__data_80438A08, (s32)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
         return 0;
@@ -1260,13 +1238,13 @@ s32 save_screen_snapshot(void) {
 }
 
 s32 TObjBoss2Tunnel::load_snapshot() {
-    Stack_8007CBC4 stack;
+    CardSaveDescriptor file;
     s32 buf;
     if (poll_memcard_result(1) == 0) {
         if (((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) != 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) >= 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) < 3)) {
             buf = get_capture_texture_pixels();
-            if (TAdPlayerLoadGC__sub_801E1538(&stack.sp8, TObjBoss2Tunnel__snapshot_buffer) == 0) {
-                memcpy((void *)buf, (void *)(stack.sp60 + 8), 0x1818C);
+            if (TAdPlayerLoadGC__sub_801E1538(&file, TObjBoss2Tunnel__snapshot_buffer) == 0) {
+                memcpy((void *)buf, file.data + 8, 0x1818C);
                 DCFlushRange(buf, 0x1818C);
             }
             lbl_805D49B4 = 0;
@@ -1277,17 +1255,17 @@ s32 TObjBoss2Tunnel::load_snapshot() {
 }
 
 bool TObjBoss2Tunnel::verify_snapshot_checksum() {
-    Load_8007CB50 ld;
+    CardSaveDescriptor ld;
     s32 *p;
     s32 saved;
     s32 sum;
     if ((u32)TAdPlayerLoadGC__sub_801E1538(&ld, TObjBoss2Tunnel__snapshot_buffer) == 0xFFFFFF20) {
         return false;
     }
-    p = ld.data;
+    p = (s32 *)ld.data;
     saved = *p;
     *p = 0;
-    sum = calc_crc32_bitwise((u8 *)ld.data, 0x1818C);
+    sum = calc_crc32_bitwise(ld.data, 0x1818C);
     *p = saved;
     return sum == saved;
 }

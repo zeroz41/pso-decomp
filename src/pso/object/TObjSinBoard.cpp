@@ -1,3 +1,4 @@
+#include "pso/system/save/CardSaveFile.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -25,14 +26,11 @@
 
 struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 
-struct Hdr_80197E64 { u8 pad0[0x58]; s32 f58; s32 f5C; u8 pad60[0xC]; };
-
 struct Pos_8019806C { f32 w[12]; };
 struct Uv_8019806C { u32 w[4]; };
 struct Desc_8019806C { Pos_8019806C *pos; Uv_8019806C *uv; s16 *col; s32 count; };
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1538(Hdr_80197E64 *, void *);
 s32 poll_memcard_result(s32);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32, const char *, Stat_80197E64 *);
 void memset(void *, int, int);
@@ -58,7 +56,7 @@ s32 is_signboard_texture_buffer_missing(void) {
 
 void load_memcard_file(void) {
     Stat_80197E64 stat;
-    Hdr_80197E64 hdr;
+    CardSaveDescriptor hdr;
     s32 slot;
     void *buf;
     s32 r;
@@ -97,7 +95,7 @@ void load_memcard_file(void) {
         TAdSinglePlyChrSelectGC::safe_free((u32)buf);
         return;
     }
-    fn_80197FD0((void *)hdr.f58, hdr.f5C);
+    fn_80197FD0(hdr.data, hdr.size);
     TAdSinglePlyChrSelectGC::safe_free((u32)buf);
 }
 

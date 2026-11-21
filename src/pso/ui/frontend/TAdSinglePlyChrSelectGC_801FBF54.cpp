@@ -1,3 +1,4 @@
+#include "pso/system/save/CardSaveFile.h"
 #include "types.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
@@ -2736,18 +2737,6 @@ struct Str_80200A44 {
     char name[0x10];
 };
 
-struct File_80200A44 {
-    char name[0x12];
-    char title[0x22];
-    u8 icon[0x18];
-    s16 f4C;
-    s16 f4E;
-    s32 f50;
-    s16 f54;
-    s32 buf;
-    s32 size;
-};
-
 extern "C" {
 u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 void reset_save_header__23TAdSinglePlyChrSelectGCFv(void);
@@ -2859,8 +2848,6 @@ s32 get_field_118__22TAdEnterSerialAccessGCFv();
 s32 memcpy(void *, s32, s32);
 extern RecoveredGlobal_801FFF14_lbl_80513910 chr_select_serial_seeds;
 void prepare_save_data__23TAdSinglePlyChrSelectGCFv(void);
-void TAdPlayerLoadGC__sub_801E14E4(File_80200A44 *);
-void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0);
 char *strcpy(char *, const char *);
 s32 memcpy(void *, s32, s32);
@@ -2873,15 +2860,11 @@ int construct_card_window_array__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 s32 memcpy(void *, s32, s32);
 void verify_save_checksum__23TAdSinglePlyChrSelectGCFv(void);
-void TAdPlayerLoadGC__sub_801E14E4(File_80200A44 *);
-void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 char *strcpy(char *, const char *);
 s32 memcpy(void *, s32, s32);
 s32 memset(void *, s32, s32);
 extern u8 pso_character_card_filename[];
 s32 build_save_file__23TAdSinglePlyChrSelectGCFv();
-void TAdPlayerLoadGC__sub_801E14E4(File_80200A44 *);
-void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 char *strcpy(char *, const char *);
 s32 memcpy(void *, s32, s32);
 s32 memset(void *, s32, s32);
@@ -3189,59 +3172,59 @@ s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *arg0) {
 
 s32 build_save_file__23TAdSinglePlyChrSelectGCFv() {
     s32 base = (s32)pso_character_card_filename;
-    File_80200A44 f;
+    CardSaveDescriptor f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.name, (char *)(base + 0xB4));
+    strcpy(f.filename, (char *)(base + 0xB4));
     strcpy(f.title, (char *)(base + 0x11C));
-    memcpy(f.icon, base + 0xEC, 0x10);
-    TAdPlayerLoadGC__sub_801E14E8((u8 *)&f, 1);
-    f.f4C = 1;
-    f.f4E = 1;
-    f.f50 = 0;
-    f.f54 = 0;
-    f.buf = guild_card_save_payload;
+    memcpy(f.key, base + 0xEC, 0x10);
+    TAdPlayerLoadGC__sub_801E14E8(&f, 1);
+    f.field_4c = 1;
+    f.field_4e = 1;
+    f.field_50 = 0;
+    f.omit_title_space = 0;
+    f.data = (u8 *)guild_card_save_payload;
     f.size = 0xE28C;
-    TAdPlayerLoadGC::build_save_file_image((void *)guild_card_save_file_buffer, (void *)(&f));
+    TAdPlayerLoadGC::build_save_file_image((void *)guild_card_save_file_buffer, &f);
     TAdPlayerLoadGC__sub_801E14E4(&f);
 }
 
 s32 build_default_save_file__23TAdSinglePlyChrSelectGCFv() {
     s32 base = (s32)pso_character_card_filename;
-    File_80200A44 f;
+    CardSaveDescriptor f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.name, (char *)(base + 0xB4));
+    strcpy(f.filename, (char *)(base + 0xB4));
     strcpy(f.title, (char *)(base + 0xC8));
-    memcpy(f.icon, base + 0xEC, 0x10);
-    TAdPlayerLoadGC__sub_801E14E8((u8 *)&f, 0);
-    f.f4C = 1;
-    f.f4E = 1;
-    f.f50 = 0;
-    f.f54 = 0;
-    f.buf = (s32)system_save_payload;
+    memcpy(f.key, base + 0xEC, 0x10);
+    TAdPlayerLoadGC__sub_801E14E8(&f, 0);
+    f.field_4c = 1;
+    f.field_4e = 1;
+    f.field_50 = 0;
+    f.omit_title_space = 0;
+    f.data = (u8 *)system_save_payload;
     f.size = 0x11C;
-    TAdPlayerLoadGC::build_save_file_image((void *)system_save_file_buffer, (void *)(&f));
+    TAdPlayerLoadGC::build_save_file_image((void *)system_save_file_buffer, &f);
     TAdPlayerLoadGC__sub_801E14E4(&f);
 }
 
 s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int arg0) {
     s32 base = (s32)pso_character_card_filename;
-    File_80200A44 f;
-    memset(&f, 0, (s32)(sizeof(f)));
-    strcpy(f.name, ((Str_80200A44 *)base)->name);
+    CardSaveDescriptor f;
+    memset(&f, 0, sizeof(f));
+    strcpy(f.filename, ((Str_80200A44 *)base)->name);
     strcpy(f.title, ((Str_80200A44 *)base)->title);
-    memcpy(f.icon, (s32)((s32)((Str_80200A44 *)base)->icon), 0x10);
-    TAdPlayerLoadGC__sub_801E14E8((u8 *)&f, 2);
-    f.f4C = 1;
-    f.f4E = 1;
-    f.f50 = 0;
-    f.f54 = 0;
+    memcpy(f.key, (s32)((s32)((Str_80200A44 *)base)->icon), 0x10);
+    TAdPlayerLoadGC__sub_801E14E8(&f, 2);
+    f.field_4c = 1;
+    f.field_4e = 1;
+    f.field_50 = 0;
+    f.omit_title_space = 0;
     if (arg0 != 0) {
-        f.buf = card_character_save_buffer;
+        f.data = (u8 *)card_character_save_buffer;
     } else {
-        f.buf = secondary_card_character_save_buffer;
+        f.data = (u8 *)secondary_card_character_save_buffer;
     }
     f.size = 0x1156C;
-    TAdPlayerLoadGC::build_save_file_image((void *)character_save_file_buffer, (void *)(&f));
+    TAdPlayerLoadGC::build_save_file_image((void *)character_save_file_buffer, &f);
     TAdPlayerLoadGC__sub_801E14E4(&f);
     if (arg0 != 0) {
         decrypt_char_data__23TAdSinglePlyChrSelectGCFPv((void *)card_character_save_buffer);
