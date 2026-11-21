@@ -46,6 +46,7 @@ public:
 
     void get_render_position(u8 *);
     s32 hasActiveRenderFade();
+    s32 sub_802F46F4();
 
     u32 m_3c0;
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks

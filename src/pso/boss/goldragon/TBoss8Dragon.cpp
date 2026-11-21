@@ -74,24 +74,6 @@ struct Obj_802FC674 {
     s16 f32C;
 };
 
-struct Induction_802F46F4_var_r31 { u8 bytes[0x1C]; };
-
-struct Induction_802F46F4_var_r31_owner { u8 padding[0x6DC]; Induction_802F46F4_var_r31 elements[4]; };
-
-struct VBase_14_8d1630 { char pad[0x14]; };
-
-struct VObj_14_8d1630 : VBase_14_8d1630 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-};
-
 struct F3_802FB220 { f32 f[3]; };
 
 struct G_802FB220 { F3_802FB220 *value; u8 rest[8]; };
@@ -137,7 +119,6 @@ void TBoss8Dragon__sub_802FC9D8(u8 *arg0);
 f32 newton_sqrtf(f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out);
-s32 TBoss8Dragon__sub_802F46F4(saddr arg0);
 void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
 
@@ -436,8 +417,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_collider_contact_low(u8 *arg0);
 void set_collider_contact_high(u8 *arg0);
 void build_6xA8_gol_dragon_boss_actions(void *p);
-LAYOUT_ASSERT(Induction_802F46F4_var_r31_size_check, sizeof(Induction_802F46F4_var_r31) == 0x1C);
-LAYOUT_ASSERT(Induction_802F46F4_var_r31_offset_check, offsetof(Induction_802F46F4_var_r31_owner, elements) == 0x6DC);
 extern "C" {
 struct Info_802F4DD4 { u8 pad[8]; s32 a; s32 b; };
 struct Drg_802F4DD4 {
@@ -651,18 +630,6 @@ typedef struct Obj_802F3F20 {
     u8 pad328[0x434 - 0x328];
     Vec pts[8];
 } Obj_802F3F20;
-struct VBase_14_681f8e { char pad[0x14]; };
-struct VObj_14_681f8e : VBase_14_681f8e {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-};
-struct Fade_802F4114 { u8 pad[0x1C]; };
-struct Obj_802F4114 { u8 pad[0x6DC]; Fade_802F4114 fades[4]; };
 extern "C" {
 u8 *find_entity_by_id(void);
 extern u8 *camera_ctrl_instance;
@@ -2520,12 +2487,12 @@ void TBoss8Dragon::sub_802F9A4C(s32 event) {
     case 2:
     case 11:
         this->m_754 = 0;
-        if (((s32 (*)(void *))TBoss8Dragon__sub_802F46F4)(this) == 0) {
+        if (this->sub_802F46F4() == 0) {
             this->pick_next_action();
         }
         break;
     case 9:
-        if (((s32 (*)(void *))TBoss8Dragon__sub_802F46F4)(this) == 0) {
+        if (this->sub_802F46F4() == 0) {
             this->pick_next_action();
         }
         break;
@@ -4581,7 +4548,7 @@ void TBoss8Dragon::sub_802F5434(s32 event) {
         send_action_packet(0x18);
         return;
     case 9:
-        if (TBoss8Dragon__sub_802F46F4((saddr)this) == 0) {
+        if (this->sub_802F46F4() == 0) {
             this->pick_next_action();
         }
         return;
@@ -4993,18 +4960,13 @@ s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0) {
 }
 
 #pragma pop
-s32 TBoss8Dragon__sub_802F46F4(saddr arg0) {
-    s32 var_r30;
-    var_r30 = 0;
-    loop_1:
-    if (((VObj_14_8d1630 *)((unsigned char *) ((saddr)&((Induction_802F46F4_var_r31_owner *)arg0)->elements[var_r30])))->m8() != 0) {
-        return 1;
+s32 TBoss8Dragon::sub_802F46F4() {
+    for (s32 i = 0; i < 4; ++i) {
+        if (renderFadeStates[i].has_visible_opacity() != 0) {
+            return 1;
+        }
     }
-    var_r30 += 1;
-    if (var_r30 >= 4) {
-        return 0;
-    }
-    goto loop_1;
+    return 0;
 }
 
 s32 TBoss8Dragon::hasActiveRenderFade() {
@@ -5122,20 +5084,20 @@ void TBoss8Dragon::draw() {
 }
 
 void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
-    u8 *temp_r31;
+    RenderFadeState *fade;
     if (!(this->position.y <= -400.0f)) {
         TObjFish::set_global_param(this->texlist);
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
         if (TBoss8Dragon__sub_802F3F20(((u8 *)this)) != 0) {
-            ((RenderFadeState *)(&((Obj_802F4114 *)((u8 *)this))->fades[arg2]))->fadeOut();
+            this->renderFadeStates[arg2].fadeOut();
         } else {
-            ((RenderFadeState *)(&((Obj_802F4114 *)((u8 *)this))->fades[arg2]))->restore();
+            this->renderFadeStates[arg2].restore();
         }
-        temp_r31 = (u8 *)&((Obj_802F4114 *)((u8 *)this))->fades[arg2];
-        if (((RenderFadeState *)temp_r31)->isFading() != 0) {
-            ((VObj_14_681f8e *)(temp_r31))->m6();
+        fade = &this->renderFadeStates[arg2];
+        if (fade->isFading() != 0) {
+            fade->set_flags_and_apply_damage_color();
         }
         push_matrix();
         post_translate_matrix((void *)arg1);
