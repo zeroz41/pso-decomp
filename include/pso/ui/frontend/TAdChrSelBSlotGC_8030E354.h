@@ -7,13 +7,13 @@ extern "C" {
 void TAdChrSelBSlotGC__sub_8030E458(void);
 void TAdChrSelBSlotGC__sub_8030E550(void);
 void TAdChrSelBSlotGC__sub_8030E620(void);
-void TAdChrSelBSlotGC__sub_8030E768(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030E824(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030E8E0(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030E99C(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030EA58(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030EB14(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_64(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_68(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_60(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_5c(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_58(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_54(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_70(u8 *arg0);
 }
 
 #endif

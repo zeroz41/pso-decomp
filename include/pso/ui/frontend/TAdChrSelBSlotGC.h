@@ -11,7 +11,7 @@ class TAdPlyChrSelPlateGC;
 struct TAdChrSelBSlotGC : public TObject {
     TAdChrSelBSlotGC(TObject *parent);
     virtual ~TAdChrSelBSlotGC();
-    void sub_8030FE04();
+    void TAdChrSelBSlotGC::clear_all_fields();
     virtual void render();
     virtual void run_task();
     u32 m_1c;

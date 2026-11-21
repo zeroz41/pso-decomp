@@ -4,11 +4,11 @@
 #include "types.h"
 
 extern "C" {
-void TAdChrSelBSlotGC__sub_8030EF74(void *arg0);
-void TAdChrSelBSlotGC__sub_8030F13C(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030F228(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030F2E4(u8 *arg0);
-void TAdChrSelBSlotGC__sub_8030F3A0(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_78(void *arg0);
+void TAdChrSelBSlotGC__update_window_6c(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_4c(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_48(u8 *arg0);
+void TAdChrSelBSlotGC__update_window_44(u8 *arg0);
 void close_windows__16TAdChrSelBSlotGCFPv(void *arg0);
 void reset_windows__16TAdChrSelBSlotGCFPv(void *arg0);
 void update_card_confirm__16TAdChrSelBSlotGCFPv(void *arg0);

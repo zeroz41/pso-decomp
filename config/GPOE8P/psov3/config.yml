@@ -127,12 +127,12 @@ force_active:
   - TAdChrMoveEffectGC__class_name
   - TAdChrMoveEffectGC__sub_80349194
   - TAdChrSelASlotGC__sub_8030C45C
-  - TAdChrSelBSlotGC__sub_8030E3BC
-  - TAdChrSelBSlotGC__sub_8030EF74
-  - TAdChrSelBSlotGC__sub_8030F13C
-  - TAdChrSelBSlotGC__sub_8030F228
-  - TAdChrSelBSlotGC__sub_8030F2E4
-  - TAdChrSelBSlotGC__sub_8030F3A0
+  - TAdChrSelBSlotGC__build_slot_entry
+  - TAdChrSelBSlotGC__update_window_78
+  - TAdChrSelBSlotGC__update_window_6c
+  - TAdChrSelBSlotGC__update_window_4c
+  - TAdChrSelBSlotGC__update_window_48
+  - TAdChrSelBSlotGC__update_window_44
   - TAdChrSelSlotGC__name
   - TAdChrSelSlotGC__sub_802C754C
   - TAdDialingGC__sub_803284F8
