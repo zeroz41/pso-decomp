@@ -118,12 +118,12 @@ block_9:
 }
 
 static inline TWindowMenu *create_quest_confirmation_menu(const NJS_POINT2 *position, u16 client, const char *yes_text, const char *no_text) {
-    return (TWindowMenu *)create_yes_no_window((s32)position, client, (u32)yes_text, (u32)no_text);
+    return (TWindowMenu *)create_yes_no_window((saddr)position, client, (uaddr)yes_text, (uaddr)no_text);
 }
 
 struct Pair_80288DA4 { s32 a; s32 b; };
 static inline TWindowMessage *create_quest_detail_window(const NJS_POINT2 *position, const f32 *size, u32 rows, u16 client) {
-    return (TWindowMessage *)TWindowMessage::create((s32)position, size, rows, client);
+    return (TWindowMessage *)TWindowMessage::create((saddr)position, size, rows, client);
 }
 
 #pragma push

@@ -14,7 +14,7 @@ void TUnk_804A0BC0::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &pos) != 0) {
             player = owner;
-            TTecFoie::create(player, &pos, (void *)(*(s32 *)((s8 *)player + 0x60)), (void *)(((TItemWeapon *)this)->get_tp()));
+            TTecFoie::create(player, &pos, (void *)(*(saddr *)((s8 *)player + 0x60)), (void *)(((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {
@@ -93,5 +93,5 @@ u8 *TObjPlayer::create_enter_state_804A0BC0(u8 *arg0) {
     return NULL;
 }
 
-s32 TItemWeapon::get_tp() { return (this->previous_technique_roll); }
+saddr TItemWeapon::get_tp() { return (this->previous_technique_roll); }
 void TObjPlayer::set_effect_state(s32 v) { *(s32 *)&this->unk_1C4 = v; }

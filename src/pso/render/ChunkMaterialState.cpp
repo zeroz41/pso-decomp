@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803E2070.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -29,7 +30,7 @@ typedef struct Pad_803DEA18
 
 
 extern "C" {
-s32 Dolphin_PADRead(void *, void *);
+s32 PADRead(void *, void *);
 extern s32 keyboard_pad_status_buffer[];
 extern s32 TKeyBoardControl__pad_status_buffer[];
 extern Ent_803DEBC8 pad_button_map_table[];
@@ -44,11 +45,10 @@ extern s32 gx_chan_ctrl_light_mask;
 void GXInitLightAttnK(void *, f32, f32, f32);
 extern u8 identity_matrix[];
 extern u32 matrix_stack_limit;
-extern u32 matrix_stack_base;
+extern uaddr matrix_stack_base;
 extern u32 current_matrix;
 void PSMTXIdentity(void *);
 extern Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
-void *memmove(void *, const void *, u32);
 s32 PADReset(u32);
 
 #pragma push
@@ -59,7 +59,7 @@ void TKeyBoardControl::init_pad_slots_and_read() {
     *(u8 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0x64) = (unsigned char *) ((void *) ((u8 *)TKeyBoardControl__pad_status_buffer + 0x78));
     *(u8 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0x98) = (unsigned char *) ((void *) ((u8 *)TKeyBoardControl__pad_status_buffer + 0xF0));
     *(u8 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0xCC) = (unsigned char *) ((void *) ((u8 *)TKeyBoardControl__pad_status_buffer + 0x168));
-    Dolphin_PADRead(keyboard_pad_status_buffer, TKeyBoardControl__pad_status_buffer);
+    PADRead(keyboard_pad_status_buffer, TKeyBoardControl__pad_status_buffer);
 }
 
 typedef struct Pad_803DEA18 Pad_803DEA18;
@@ -76,7 +76,7 @@ void TKeyBoardControl::read_pads() {
   u16 released;
   u16 prev;
   memmove(TKeyBoardControl_prev_pad_state, keyboard_pad_status_buffer, 0x30);
-  ((s32 (*)(void *)) Dolphin_PADRead)(keyboard_pad_status_buffer);
+  ((s32 (*)(void *)) PADRead)(keyboard_pad_status_buffer);
   for (i = 0; i < 4; i++)
   {
     pad = &((Pad_803DEA18 *) keyboard_pad_status_buffer)[i];

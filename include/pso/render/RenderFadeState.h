@@ -19,8 +19,8 @@ public:
 };
 
 #include <stddef.h>
-typedef char RenderFadeAdjustmentOffset[(offsetof(RenderFadeState, color) == 0) ? 1 : -1];
-typedef char RenderFadeDirectionOffset[(offsetof(RenderFadeState, restoring) == 0x18) ? 1 : -1];
-typedef char RenderFadeSize[(sizeof(RenderFadeState) == 0x1C) ? 1 : -1];
+LAYOUT_ASSERT(RenderFadeAdjustmentOffset, offsetof(RenderFadeState, color) == 0);
+LAYOUT_ASSERT(RenderFadeDirectionOffset, offsetof(RenderFadeState, restoring) == 0x18);
+LAYOUT_ASSERT(RenderFadeSize, sizeof(RenderFadeState) == 0x1C);
 
 #endif

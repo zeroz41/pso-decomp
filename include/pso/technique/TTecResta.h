@@ -22,5 +22,5 @@ struct TTecResta : public TTecPlayerInfluence {
     virtual void render();
 };
 
-typedef char TTecResta_size[sizeof(TTecResta) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(TTecResta_size, sizeof(TTecResta) == 0x140);
 #endif

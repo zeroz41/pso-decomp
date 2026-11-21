@@ -10,9 +10,9 @@ struct OnlineQuestDownloadState {
     u8 *buffer;
 };
 
-typedef char OnlineQuestDownloadStateSize[sizeof(OnlineQuestDownloadState) == 0x3C ? 1 : -1];
-typedef char OnlineQuestDownloadSizeOffset[offsetof(OnlineQuestDownloadState, size) == 0x34 ? 1 : -1];
-typedef char OnlineQuestDownloadBufferOffset[offsetof(OnlineQuestDownloadState, buffer) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(OnlineQuestDownloadStateSize, sizeof(OnlineQuestDownloadState) == 0x3C);
+LAYOUT_ASSERT(OnlineQuestDownloadSizeOffset, offsetof(OnlineQuestDownloadState, size) == 0x34);
+LAYOUT_ASSERT(OnlineQuestDownloadBufferOffset, offsetof(OnlineQuestDownloadState, buffer) == 0x38);
 
 extern "C" {
 extern OnlineQuestDownloadState TQuestListOnline__dat_download_state;

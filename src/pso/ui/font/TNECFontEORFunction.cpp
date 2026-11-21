@@ -433,11 +433,11 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 arg2) {
 }
 
 void TWindowSubStatusDisp::set_gauge_param(s32 _w0) {
-    TObjFish::set_global_param((s32)menu_font_texture_list);
+    TObjFish::set_global_param((saddr)menu_font_texture_list);
 }
 
 void TWindowSubStatusDisp::end_render_forward() { get_player(); }
-void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((s32)((void*)1)); TWindowSubStatusDisp::set_gauge_param((s32)p); set_draw_texture_and_color((s32)((void*)0), (s32)((void*)-1)); }
+void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
 typedef struct Pos_8014556C Pos_8014556C;
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;

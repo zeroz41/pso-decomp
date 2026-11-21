@@ -12,5 +12,5 @@ struct TWindowPartyStatus : public TWindowSimpleStatus {
     virtual void run_task();
 };
 
-typedef char TWindowPartyStatus_size[sizeof(TWindowPartyStatus) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(TWindowPartyStatus_size, sizeof(TWindowPartyStatus) == 0x78);
 #endif

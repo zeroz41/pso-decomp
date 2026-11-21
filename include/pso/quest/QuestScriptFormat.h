@@ -19,7 +19,7 @@ struct QuestBinHeader {
     char long_description[0x120];
 };
 
-typedef char QuestBinScriptNameOffset[offsetof(QuestBinHeader, name) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(QuestBinScriptNameOffset, offsetof(QuestBinHeader, name) == 0x14);
 
 struct QuestVmContext;
 extern "C" void init_quest_script_context(QuestBinHeader *header, QuestVmContext *context);

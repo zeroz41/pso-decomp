@@ -14,7 +14,7 @@
 
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_8020D2B4_lbl_8058D490_size[sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8020D2B4_lbl_8058D490_size, sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30);
 
 typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
 
@@ -47,7 +47,7 @@ s32 push_matrix_from(void *src);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 extern s32 TLobby__data_805D60FC;
 void *find_scene_room_by_id(s32 room);
@@ -58,12 +58,12 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_801C2614();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
-void apply_room_transform(s32 arg0, u8 *arg1, u8 *arg2);
+void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
 s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
 extern Obj_8020D4E8 *camera_ctrl_instance;
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
 void spawn_decorations_in_range(TSetManager *arg0);
-void apply_room_transform(s32 arg0, u8 *arg1, u8 *arg2) {
+void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
     push_matrix_from(&identity_matrix.value);
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg2 + 4)), (f32) (*(f32 *)((s8 *)arg2 + 8)), (f32) (*(f32 *)((s8 *)arg2 + 0xC)));
     rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg2 + 0x18)));
@@ -88,7 +88,7 @@ void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count) {
             cached_id = row->room;
         }
         if (cached_room) {
-            apply_room_transform((s32)&row->position, (u8 *)&row->angles, (u8 *)cached_room);
+            apply_room_transform((saddr)&row->position, (u8 *)&row->angles, (u8 *)cached_room);
         }
     }
 }
@@ -107,7 +107,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
             key = p->placement.room;
         }
         if (sec != NULL) {
-            apply_room_transform((s32)&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
+            apply_room_transform((saddr)&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
         }
     }
 }

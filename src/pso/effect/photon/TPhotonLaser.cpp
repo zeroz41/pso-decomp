@@ -29,7 +29,7 @@ struct Laser_801AC36C {
     f32 f358;
     f32 f35C;
     u8 pad360[4];
-    s32 f364;
+    saddr f364;
     u8 pad368[4];
     s32 f36C;
     s16 f370;
@@ -121,7 +121,7 @@ TPhotonLaser::~TPhotonLaser() {
 
 TPhotonLaser::TPhotonLaser(PhotonLaserParams *p, TObject *parent, u16 arg3) : TObjChara(parent) {
     Laser_801AC36C *self = (Laser_801AC36C *)this;
-    self->f0 = ((s32)TPhotonLaser__name);
+    self->f0 = ((saddr)TPhotonLaser__name);
     VecCopy((Vec *)&self->f334, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f340), (const Vec *)((const Vec *)&p->pos))));
     self->f370 = arg3;
     VecCopy((Vec *)&self->f34C, (const Vec *)&p->dir);
@@ -130,7 +130,7 @@ TPhotonLaser::TPhotonLaser(PhotonLaserParams *p, TObject *parent, u16 arg3) : TO
     self->f34C.z *= p->scale;
     self->f358 = p->unk_24;
     self->f35C = p->unk_2C;
-    self->f364 = (s32)create_particle_emitter(&self->f340, 0x134);
+    self->f364 = (saddr)create_particle_emitter(&self->f340, 0x134);
     self->f36C = 0;
 }
 

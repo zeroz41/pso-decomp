@@ -11,7 +11,7 @@ s32 TObjPlayer__sub_801C19C8(f32);
 
 
 void TLobby::update_child_player() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     TObjPlayer__sub_801C19C8(0.0f);
     set_float_4(0.0f);
 }

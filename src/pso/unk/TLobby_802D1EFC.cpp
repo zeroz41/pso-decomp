@@ -28,17 +28,16 @@ struct VObj802D1F30 : VBase802D1F30 {
 extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
-Entry_802D20C8 *find_free_trade_slot__6TLobbyFPv(void *);
 void *get_player_by_client_id(s32 i);
 int TLobby__sub_802D2358(void*);
 }
 
 void TLobby::set_trade_field_4(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     *(s32 *)((s8 *)(((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr()) + 4) = arg1;
 }
 
-void snapshot_player_trade_inventory(s32 arg0, s32 arg1) {
+void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
     s32 ids[0x1E];
     s32 temp_r29;
     s32 var_r31;
@@ -51,7 +50,7 @@ void snapshot_player_trade_inventory(s32 arg0, s32 arg1) {
     ((TLobby *)arg0)->update_both_halves();
     player = (u8 *)get_player_by_client_id(arg1);
     if (player != NULL) {
-        temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((int)((void *) ids));
+        temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((saddr)((void *) ids));
         var_r25 = (unsigned char *) (arg0 + 0xF8);
         var_r26 = 0;
         while (var_r26 < temp_r29) {
@@ -97,9 +96,9 @@ void TLobby::clear_stale_entries(u8 *arg0) {
 s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
     ItemB_802D20C8 a;
     ItemA_802D20C8 b;
-    u32 item;
+    uaddr item;
     Entry_802D20C8 *e;
-    u32 found;
+    uaddr found;
     s32 i;
     if (arg1 == 0xFFFFFF01) {
         s32 *t = (s32 *) this->get_trade_obj_ptr();
@@ -128,7 +127,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
             }
         }
     }
-    e = find_free_trade_slot__6TLobbyFPv(this);
+    e = (Entry_802D20C8 *)TLobby::find_free_trade_slot(this);
     if (e == NULL) {
         return 3;
     }

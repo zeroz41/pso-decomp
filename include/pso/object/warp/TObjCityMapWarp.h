@@ -17,5 +17,5 @@ struct TObjCityMapWarp : public TObjMapWarp {
     u8 unk_FC[0x4];
 };
 
-typedef char TObjCityMapWarp_size[sizeof(TObjCityMapWarp) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjCityMapWarp_size, sizeof(TObjCityMapWarp) == 0x100);
 #endif

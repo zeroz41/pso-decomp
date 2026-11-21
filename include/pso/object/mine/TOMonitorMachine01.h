@@ -18,6 +18,6 @@ struct TOMonitorMachine01 : public TObjMapObject {
     f32 hold_timer;  // frames in the current hold phase
 };
 
-typedef char TOMonitorMachine01_size[sizeof(TOMonitorMachine01) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOMonitorMachine01_size, sizeof(TOMonitorMachine01) == 0xD8);
 
 #endif

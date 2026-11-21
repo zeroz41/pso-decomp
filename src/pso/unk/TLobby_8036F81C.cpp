@@ -7,7 +7,7 @@ extern "C" {
 
 s32 TAdEp3Exist__sub_8036F574();
 
-s32 TLobby::destroy_ep3_exist(s32 arg0, s16 arg1) {
+s32 TLobby::destroy_ep3_exist(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TAdEp3Exist::free_if_valid(arg0, 0);
         if (arg1 > 0) {

@@ -13,7 +13,7 @@ struct AsyncFileReadRequest {
     u8 pad34[8];
     s32 tex;
     u8 pad40[0x24];
-    s32 mode;
+    saddr mode;
 };
 
 extern "C" {
@@ -25,7 +25,7 @@ AsyncFileReadRequest *async_file_read_current_request;
 void *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;
 s32 async_file_read_state;
-u32 async_file_read_sector_buffer;
+uaddr async_file_read_sector_buffer;
 u32 lobby_download_state_ptr;
 s32 lobby_list_next_id;
 s32 game_heap;
@@ -39,7 +39,7 @@ void process_async_file_reads(void) {
             } else {
                 async_file_read_current_request->flags |= 0x100;
                 if (async_file_read_current_request->flags & 2) {
-                    async_file_read_texture_buffer = (u32)TLobby::tmp_buf_use_req("FSVR_READPVM");
+                    async_file_read_texture_buffer = (uaddr)TLobby::tmp_buf_use_req("FSVR_READPVM");
                     if (async_file_read_texture_buffer != 0) {
                         lobby_download_state_ptr = adxf_open__6TLobbyFUii(async_file_read_current_request->name, 0);
                         TLobby::read_checked_align(lobby_download_state_ptr, async_file_read_current_request->count, async_file_read_texture_buffer);
@@ -51,7 +51,7 @@ void process_async_file_reads(void) {
                     u32 h = lobby_download_state_ptr = adxf_open__6TLobbyFUii(async_file_read_current_request->name, 0);
                     if (h != 0) {
                         if (async_file_read_current_request->count > 1) {
-                            TLobby::read_checked_align(h, async_file_read_current_request->count - 1, (u32)async_file_read_current_request->dst);
+                            TLobby::read_checked_align(h, async_file_read_current_request->count - 1, (uaddr)async_file_read_current_request->dst);
                             async_file_read_state = 1;
                         } else {
                             TLobby::read_checked_align(h, 1, async_file_read_sector_buffer);

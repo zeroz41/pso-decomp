@@ -19,7 +19,7 @@ struct TObjEneDarkGunCenter : public TObjEnemy {
     void hide_linked_enemies();
 };
 
-typedef char TObjEneDarkGunCenter_size[sizeof(TObjEneDarkGunCenter) == 0x3A8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDarkGunCenter_size, sizeof(TObjEneDarkGunCenter) == 0x3A8);
 
 extern "C" {
 void TObjEneDarkGunCenter__sub_800A0B18(void);

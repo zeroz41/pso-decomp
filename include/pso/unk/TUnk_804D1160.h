@@ -12,12 +12,12 @@ public:
     u8 unk_1C[0x4];
     s32 m_20;
     u8 unk_24[0x4];
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
+    uaddr m_28;
+    uaddr m_2c;
+    uaddr m_30;
     u8 unk_34[0x4];
 };
-typedef char TUnk_804D1160_size[sizeof(TUnk_804D1160) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804D1160_size, sizeof(TUnk_804D1160) == 0x38);
 
 extern "C" {
 void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2);

@@ -23,5 +23,5 @@ struct TBoss7PhotonBullet : public TUnk_804928CC {
     void emit_hit_effect(void *arg1);
 };
 
-typedef char TBoss7PhotonBullet_size[sizeof(TBoss7PhotonBullet) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7PhotonBullet_size, sizeof(TBoss7PhotonBullet) == 0xF8);
 #endif

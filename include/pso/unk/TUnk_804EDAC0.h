@@ -22,7 +22,7 @@ public:
     TObject *queued[24];
     s32 queued_count;
 };
-typedef char TUnk_804EDAC0_size[sizeof(TUnk_804EDAC0) == 0x84 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EDAC0_size, sizeof(TUnk_804EDAC0) == 0x84);
 
 // Floor resource callbacks (TLobby's load/release table): both forget the instance.
 extern "C" {

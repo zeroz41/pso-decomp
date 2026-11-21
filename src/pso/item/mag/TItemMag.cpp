@@ -831,7 +831,7 @@ s32 TItemMag::apply_feed(MagStats *change) {
         if (get_mode() == 2) {
             refresh_owner_stats();
             if (owner->obj_isState2_324() == 0) {
-                weapon = (TItem *)get_item_field_6__10TObjPlayerFPv(owner);
+                weapon = (TItem *)TObjPlayer::get_item_field_6(owner);
                 if (weapon != NULL && weapon->check_equip_requirements(owner, NULL) == 0) {
                     TObjPlayer::send_6x26_unequip_item(owner, (void *)weapon->get_item_id());
                 }
@@ -844,7 +844,7 @@ s32 TItemMag::apply_feed(MagStats *change) {
 }
 
 void TItemMag::cast_support_technique(s32 technique) {
-    s32 level = stats.iq / 40;
+    saddr level = stats.iq / 40;
 
     if (owner == NULL) {
         return;

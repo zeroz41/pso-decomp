@@ -24,6 +24,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
+#include <string.h>
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
 
@@ -132,7 +133,7 @@ struct Win_8021CC44 {
     s32 sel;
     u8 pad388[4];
     void *list_win;
-    u32 menu_win;
+    uaddr menu_win;
     void *qty_win;
     void *status_win;
     void *help_win;
@@ -149,11 +150,11 @@ struct VObj_8021C968 : VBase_8021C968 {
     virtual s32 m4(s32, s32);
 };
 
-struct Rec_8021C968 { s32 item; s32 w[4]; s32 price; s32 w18; };
+struct Rec_8021C968 { saddr item; s32 w[4]; s32 price; s32 w18; };
 
 struct Win_8021C968 : VObj_8021C968 {
     u8 pad1c[0x24 - 0x1C];
-    s32 player;
+    saddr player;
     Rec_8021C968 recs[30];
     u8 pad370[0x37C - 0x370];
     s32 count;
@@ -166,17 +167,16 @@ struct Win_8021C968 : VObj_8021C968 {
 extern "C" {
 void *create_item_list_window(s32, s32, u16);
 s32 get_entity_id(s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
-void TWindowHelpItem__set_displayed_item_by_id(void *arg0, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
 void *create_window_quantity(u16 arg0);
 int sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 align_menu_entry_positions(u32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
-u32 create_window_menu(s32, s32, u16);
-void memset(void *, int, int);
+uaddr create_window_menu(saddr, saddr, u16);
 extern s32 __vt__24TShopEquipmentSellWindow[];
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
 }
@@ -256,7 +256,7 @@ void TShopEquipmentSellWindow::vfunc_11() {
 
 void TShopEquipmentSellWindow::build_sell_list() {
     Win_8021CF04 *self = (Win_8021CF04 *)this;
-    u32 ids[32];
+    uaddr ids[32];
     s32 n;
     s32 i;
     s32 v;
@@ -285,7 +285,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     self->m4(0xC, 1);
     ((TShopWindowBase *)self)->set_field_20(1);
     if (self->list_win == NULL) {
-        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((s32)self->owner));
+        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((saddr)self->owner));
         for (i = 0; i < self->count; i++) {
             ((TShopEquipmentSellWindow *)(self->list_win))->add_item(self->entries[i].id, self->entries[i].price, i);
         }
@@ -305,7 +305,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     if (self->help_win == NULL) {
         p = TObject::operator new(0xBC);
         if (p != NULL) {
-            p = __ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(0x27), get_entity_id((s32)self->owner));
+            p = __ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(0x27), get_entity_id((saddr)self->owner));
         }
         self->help_win = p;
         if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -318,7 +318,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     }
     if (self->qty_win == NULL) {
         self->qty_win = create_window_quantity(((TShopSequence *)self)->get_child_field1c());
-        r = (u32)((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[0].item);
+        r = (uaddr)((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[0].item);
         if (r != 0) {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());
         } else {
@@ -326,7 +326,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
     } else if (self->list_win != NULL) {
         v = ((TWindowMenuIconLine *)self->list_win)->get_cursor_value();
-        r = (u32)((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[v].item);
+        r = (uaddr)((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[v].item);
         if (r != 0) {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());
         } else {
@@ -334,7 +334,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
     }
     if (self->cost_win == NULL) {
-        self->cost_win = create_cost_window((u16)get_entity_id((s32)self->owner));
+        self->cost_win = create_cost_window((u16)get_entity_id((saddr)self->owner));
         if (self->cost_win != NULL && self->entries[0].price > 0) {
             ((TWindowCost *)self->cost_win)->set_cost(self->entries[0].price);
         }
@@ -390,7 +390,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             }
         }
         if (w->menu_win == 0) {
-            w->menu_win = create_window_menu(get_window_layout_position(0x2B), 2, get_entity_id((s32)w->owner));
+            w->menu_win = create_window_menu(get_window_layout_position(0x2B), 2, get_entity_id((saddr)w->owner));
             forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(6), 6, 0);
             forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(7), 6, 1);
             ((TWindowSubComCard *)(w->menu_win))->calc_window_size();

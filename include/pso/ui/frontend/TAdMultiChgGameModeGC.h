@@ -10,14 +10,13 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
     static s32 check_players_ready(void * _w0);
     static s32 is_input_phase_active();
     static void set_default_camera();
     static void set_mode_change_state();
     static void set_change_mode_flags();
-    static void apply_bgm_col_ctrl(s32 arg0);
-    static void set_state_0x1a();
+    static void apply_bgm_col_ctrl(saddr arg0);
+    void set_state_0x1a();
     static void reset_and_set_mode();
     static void set_mode_18();
     static void set_mode_17();

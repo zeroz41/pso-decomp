@@ -13,9 +13,9 @@ struct TAdMcSelectGC : public TObject {
     u32 m_1c;
     u8 _pad20[0x4];
     u32 m_24;
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
+    uaddr m_28;
+    uaddr m_2c;
+    uaddr m_30;
     void init_slot(s32 arg1, void *arg2);
     static void render(void *self);
     static void update_state();
@@ -33,7 +33,7 @@ struct TAdMcSelectGC : public TObject {
     void set_field_134(s32 arg1);
 };
 
-typedef char TAdMcSelectGC_size[sizeof(TAdMcSelectGC) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TAdMcSelectGC_size, sizeof(TAdMcSelectGC) == 0x34);
 
 extern "C" {
 void *__dt__13TAdMcSelectGCFv(void *arg0, s16 arg1);

@@ -18,6 +18,6 @@ struct TODragonflyCave01 : public TODragonfly {
     static BmlResource *model_resource;
 };
 
-typedef char TODragonflyCave01_size[sizeof(TODragonflyCave01) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TODragonflyCave01_size, sizeof(TODragonflyCave01) == 0x100);
 
 #endif

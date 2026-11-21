@@ -26,7 +26,7 @@ BmlResourceDescriptor bm_npc_kenkyu_w_resource_descriptor = {
 };
 const char *TObjNpcKenkyuW__name = "TObjNpcKenkyuW";
 TechniqueContactList technique_contact_list;
-u32 TObjNpcKenkyuW__model_resource;
+uaddr TObjNpcKenkyuW__model_resource;
 
 struct Pl_802A3DE8 {
     u8 pad0[0x30];
@@ -69,8 +69,8 @@ struct Obj_802A3FDC {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_texlist(int, int);
+saddr get_bml_model(int, int);
 s32 obj_is_hit_receivable(u8 *arg0);
 void vector_length(void *);
 s32 get_entity_id(void *);
@@ -88,9 +88,9 @@ void TObjNpcKenkyuW::destroy_instance() {
 }
 
 void TObjNpcKenkyuW::load_resource_instance() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_kenkyu_w_resource_descriptor, 0, 0, 0));
@@ -119,7 +119,7 @@ void clear_technique_contacts__10TObjPlayerFv() {
     technique_contact_list.count=0;
 }
 
-s32 TObjPlayer::is_hit_receivable_target(s32 arg0, u32 arg1) {
+s32 TObjPlayer::is_hit_receivable_target(saddr arg0, uaddr arg1) {
     if (arg1 == 0U) {
         return FALSE;
     }
@@ -296,7 +296,7 @@ void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1) {
     }
     if (list == NULL) {
         self->vfunc_6();
-    } else if (TObjPlayer::is_hit_receivable_target((s32)self, (u32)list->actors[0])) {
+    } else if (TObjPlayer::is_hit_receivable_target((saddr)self, (uaddr)list->actors[0])) {
         TechniqueContactActor *target = list->actors[0];
         if (target != NULL) {
             TechniqueContactBody *body = list->bodies[0];

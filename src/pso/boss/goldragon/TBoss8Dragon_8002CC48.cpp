@@ -139,9 +139,9 @@ s32 lbl_805D4B74;
 
 Ent_8002CE78 *lbl_805D4B78;
 
-s32 dragon_trail_position_source;
+saddr dragon_trail_position_source;
 
-s32 dragon_trail_heading_source;
+saddr dragon_trail_heading_source;
 
 extern s32 saved_model_render_flags;
 
@@ -538,7 +538,7 @@ f32 get_velocity_scale_limit(void) {
 
 #define boss1_moko_hill_solo_m ((u8 *)this)
 TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, u8 *arg2, s32 arg3) : TObject(parent) {
-    *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (s32) TObjBoss1MokoHill_SoloM__name;
+    *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (saddr) TObjBoss1MokoHill_SoloM__name;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x1C) = 0;
     (*(u8 * *)&dragon_trail_position_source) = arg2;
     dragon_trail_heading_source = arg3;

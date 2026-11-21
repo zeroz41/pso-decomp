@@ -14,6 +14,6 @@ struct TObjQuestCol2 : public TObjQuestColBase {
     s32 m_c0;
 };
 
-typedef char TObjQuestCol2_size[sizeof(TObjQuestCol2) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TObjQuestCol2_size, sizeof(TObjQuestCol2) == 0xC4);
 
 #endif

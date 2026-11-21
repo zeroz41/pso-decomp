@@ -15,7 +15,7 @@ public:
     virtual void run_task();
     s32 download_buffer_size;
     void *download_buffer;
-    s32 chr_select_state;      // TAdSinglePlyChrSelectGC::get_chr_select_state() at construction
+    saddr chr_select_state;      // TAdSinglePlyChrSelectGC::get_chr_select_state() at construction
     s32 flag_count;            // TAdSinglePlyChrSelectGC::get_flag_count() at construction
     s32 state;                 // run_task's handler index
     s32 unk_30;
@@ -24,6 +24,6 @@ public:
     TObject *menu;
     TObject *check_memory_card; // TCheckMemoryCard::create
 };
-typedef char TUnk_804EF8C0_size[sizeof(TUnk_804EF8C0) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EF8C0_size, sizeof(TUnk_804EF8C0) == 0x44);
 
 #endif

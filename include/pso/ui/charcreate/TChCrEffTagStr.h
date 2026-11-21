@@ -18,7 +18,7 @@ public:
     vec2f pos;
 };
 
-typedef char TChCrEffTagStr_size[sizeof(TChCrEffTagStr) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TChCrEffTagStr_size, sizeof(TChCrEffTagStr) == 0x30);
 
 extern "C" {
 void TChCrEffTagStr__sub_8029AED0(TChCrEffTagStr *p);

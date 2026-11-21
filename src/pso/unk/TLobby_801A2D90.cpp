@@ -15,6 +15,7 @@
 #include "pso/object/door/TObjDoor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Base_801A2E00 { u8 pad0[0x18]; };
 
@@ -23,7 +24,6 @@ struct Ctrl_801A2E00 : Base_801A2E00 { virtual void v0(int); };
 s32 is_multiplayer_character_slot_selected(s32);
 extern "C" {
 s32 create_player_object(s32, s32, u32);
-u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 extern s32 local_client_id;
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
 void *get_player_by_client_id(s32 i);
@@ -62,7 +62,7 @@ void TLobby::apply_char_to_players() {
         var_r31 = 0;
         do {
             if (is_multiplayer_character_slot_selected(var_r31) != 0) {
-                temp_r3 = get_char_index__23TAdSinglePlyChrSelectGCFUi(var_r31);
+                temp_r3 = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
                 if (temp_r3 != 0U) {
                     create_player_object(var_r31, player_control_role_base + var_r31, temp_r3);
                 }
@@ -71,7 +71,7 @@ void TLobby::apply_char_to_players() {
         } while (var_r31 < 4);
         return;
     }
-    temp_r3_2 = get_char_index__23TAdSinglePlyChrSelectGCFUi(local_client_id);
+    temp_r3_2 = (u32)TAdSinglePlyChrSelectGC::get_char_index(local_client_id);
     if (temp_r3_2 != 0U) {
         create_player_object(0, player_control_role_base, temp_r3_2);
     }

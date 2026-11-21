@@ -14,7 +14,7 @@ public:
     void *init_lockon(TObject *parent, u16 id);
     virtual void run_task();
 };
-typedef char TLOC_ListClear_size[sizeof(TLOC_ListClear) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TLOC_ListClear_size, sizeof(TLOC_ListClear) == 0x24);
 
 extern "C" {
 void *__ct__13TUnk_804A7260FP7TObjectUs(void *self, TObject *parent, u16 id);

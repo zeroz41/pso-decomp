@@ -149,26 +149,26 @@ typedef struct DnsResolverState {
     DnsQuery *queries;          /* 0x44 */
 } DnsResolverState;
 
-typedef char DnsBuffer_size_check[sizeof(DnsBuffer) == 8 ? 1 : -1];
-typedef char DnsAddr_size_check[sizeof(DnsAddr) == 0x28 ? 1 : -1];
-typedef char DnsHost_size_check[sizeof(DnsHost) == 0x20C ? 1 : -1];
-typedef char DnsPtr_size_check[sizeof(DnsPtr) == 0x11C ? 1 : -1];
-typedef char DnsQuery_size_check[sizeof(DnsQuery) == 0x3C ? 1 : -1];
-typedef char DnsResolverState_size_check[sizeof(DnsResolverState) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(DnsBuffer_size_check, sizeof(DnsBuffer) == 8);
+LAYOUT_ASSERT(DnsAddr_size_check, sizeof(DnsAddr) == 0x28);
+LAYOUT_ASSERT(DnsHost_size_check, sizeof(DnsHost) == 0x20C);
+LAYOUT_ASSERT(DnsPtr_size_check, sizeof(DnsPtr) == 0x11C);
+LAYOUT_ASSERT(DnsQuery_size_check, sizeof(DnsQuery) == 0x3C);
+LAYOUT_ASSERT(DnsResolverState_size_check, sizeof(DnsResolverState) == 0x48);
 
-typedef char DnsLookupRequestSize[sizeof(DnsLookupRequest) == 0x1c ? 1 : -1];
-typedef char DnsPtrRequestSize[sizeof(DnsPtrRequest) == 0x10 ? 1 : -1];
-typedef char DnsQueryIdOffset[offsetof(DnsQuery, id) == 6 ? 1 : -1];
-typedef char DnsQueryKindOffset[offsetof(DnsQuery, kind) == 8 ? 1 : -1];
-typedef char DnsQueryTimerOffset[offsetof(DnsQuery, timer) == 0xa ? 1 : -1];
-typedef char DnsQueryStatusOffset[offsetof(DnsQuery, status) == 0x10 ? 1 : -1];
-typedef char DnsQueryMessageOffset[offsetof(DnsQuery, msg) == 0x18 ? 1 : -1];
-typedef char DnsQueryReplyOffset[offsetof(DnsQuery, reply) == 0x1c ? 1 : -1];
-typedef char DnsQueryRequestOffset[offsetof(DnsQuery, req) == 0x20 ? 1 : -1];
-typedef char DnsQueryLookupCallbackOffset[offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, cb) == 0x34 ? 1 : -1];
-typedef char DnsQueryLookupHostOffset[offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, host) == 0x38 ? 1 : -1];
-typedef char DnsQueryPtrCallbackOffset[offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, cb) == 0x28 ? 1 : -1];
-typedef char DnsQueryPtrEntryOffset[offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, entry) == 0x2c ? 1 : -1];
+LAYOUT_ASSERT(DnsLookupRequestSize, sizeof(DnsLookupRequest) == 0x1c);
+LAYOUT_ASSERT(DnsPtrRequestSize, sizeof(DnsPtrRequest) == 0x10);
+LAYOUT_ASSERT(DnsQueryIdOffset, offsetof(DnsQuery, id) == 6);
+LAYOUT_ASSERT(DnsQueryKindOffset, offsetof(DnsQuery, kind) == 8);
+LAYOUT_ASSERT(DnsQueryTimerOffset, offsetof(DnsQuery, timer) == 0xa);
+LAYOUT_ASSERT(DnsQueryStatusOffset, offsetof(DnsQuery, status) == 0x10);
+LAYOUT_ASSERT(DnsQueryMessageOffset, offsetof(DnsQuery, msg) == 0x18);
+LAYOUT_ASSERT(DnsQueryReplyOffset, offsetof(DnsQuery, reply) == 0x1c);
+LAYOUT_ASSERT(DnsQueryRequestOffset, offsetof(DnsQuery, req) == 0x20);
+LAYOUT_ASSERT(DnsQueryLookupCallbackOffset, offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, cb) == 0x34);
+LAYOUT_ASSERT(DnsQueryLookupHostOffset, offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, host) == 0x38);
+LAYOUT_ASSERT(DnsQueryPtrCallbackOffset, offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, cb) == 0x28);
+LAYOUT_ASSERT(DnsQueryPtrEntryOffset, offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, entry) == 0x2c);
 
 extern DnsResolverState dns_resolver_state;
 

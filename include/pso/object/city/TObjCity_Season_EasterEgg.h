@@ -20,5 +20,5 @@ struct TObjCity_Season_EasterEgg : public TUnk_804B5E48 {
     TParticleCtrl *upper_emitter;
 };
 
-typedef char TObjCity_Season_EasterEgg_size[sizeof(TObjCity_Season_EasterEgg) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TObjCity_Season_EasterEgg_size, sizeof(TObjCity_Season_EasterEgg) == 0xC0);
 #endif

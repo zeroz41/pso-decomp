@@ -44,7 +44,7 @@ public:
     s32 door_flags; // DOOR_FLAG_UNLOCKED; subclasses keep more bits here
 };
 
-typedef char TODoorBaseSize[sizeof(TODoorBase) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TODoorBaseSize, sizeof(TODoorBase) == 0xD4);
 
 // Set while the room's switch doors are held shut (TObjDoor raises it,
 // TLobby::reset_door_state clears it).

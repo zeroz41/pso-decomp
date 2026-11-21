@@ -76,7 +76,7 @@ void TLobby__sub_803FD694(u8 *arg0) {
     lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
 }
 
-void update_connection_state(int arg0) {
+void update_connection_state(void *arg0) {
     PppFsm *fsm;
 
     fsm = (PppFsm *)arg0;
@@ -549,7 +549,7 @@ s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payloa
     s32 command;
     u8 *length_field;
     s32 identifier;
-    u32 payload_length;
+    uaddr payload_length;
     u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
     u8 *write_network_u16_be(u8 *p, u32 v); /* declared here with other parameter types; the definition is u8 *(u8 *, u16) */
 
@@ -596,7 +596,7 @@ s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payloa
             *data++ = code;
             *data++ = identifier;
             length_field = data;
-            write_network_u16_be(length_field, (u32)payload);
+            write_network_u16_be(length_field, (uaddr)payload);
             payload = output;
         }
     }
@@ -610,7 +610,7 @@ s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payloa
     return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
 }
 #pragma pop
-void TLobby__sub_803FE820(s32 arg0) {
+void TLobby__sub_803FE820(saddr arg0) {
     lobby_timer_start((u8 *)&((PppFsm *)arg0)->timer);
 }
 

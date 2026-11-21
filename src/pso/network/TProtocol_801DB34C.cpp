@@ -1,9 +1,9 @@
 #include "pso/network/TProtocol.h"
 #include <stddef.h>
-typedef char ProtocolConnectedOffset[(offsetof(TProtocol, m_connected) == 0x1910) ? 1 : -1];
-typedef char PacketHeaderSize[(sizeof(packet_header) == 4) ? 1 : -1];
-typedef char PacketFlagsOffset[(offsetof(packet_header, flags) == 1) ? 1 : -1];
-typedef char PacketSizeOffset[(offsetof(packet_header, size) == 2) ? 1 : -1];
+LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
+LAYOUT_ASSERT(PacketHeaderSize, sizeof(packet_header) == 4);
+LAYOUT_ASSERT(PacketFlagsOffset, offsetof(packet_header, flags) == 1);
+LAYOUT_ASSERT(PacketSizeOffset, offsetof(packet_header, size) == 2);
 
 void TProtocol::send_choice_search_options_request() {
     packet_header header;

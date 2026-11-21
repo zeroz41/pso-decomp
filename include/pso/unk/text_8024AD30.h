@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void end_player_keyboard_hold(s32 arg0);
+void end_player_keyboard_hold(saddr arg0);
 }
 
 // --- C functions defined in text_8024AD30.cpp ---
 extern "C" {
-void end_player_keyboard_hold(s32 arg0);
+void end_player_keyboard_hold(saddr arg0);
 }
 // --- end of C functions
 

@@ -113,7 +113,7 @@ struct TBoss3Volopt : public TObjEnemyCustom {
 
     // Defined in other units; most are helpers of other classes filed under
     // TBoss3Volopt.
-    static void create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    static void create_breakup_mdl(saddr arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
     static s32 remap_area_sound_id(s32 arg0);
     void create_cage(u16 target_id);
 
@@ -139,7 +139,7 @@ struct TBoss3Volopt : public TObjEnemyCustom {
     static TObjPlayer *candidate_players[5];
 };
 
-typedef char TBoss3Volopt_size[sizeof(TBoss3Volopt) == 0x408 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3Volopt_size, sizeof(TBoss3Volopt) == 0x408);
 
 void handle_6x85_vol_opt_phase2_boss_actions(VoloptPhase2Message *message);
 void handle_6x84_vol_opt_boss_actions(TBoss3VoloptAttackPacket *packet);

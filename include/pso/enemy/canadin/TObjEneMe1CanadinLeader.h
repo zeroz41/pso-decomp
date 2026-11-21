@@ -18,7 +18,7 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     virtual void vfunc_112(s32);
     virtual void vfunc_113();
     virtual int vfunc_116();
-    virtual void vfunc_117(u32);
+    virtual void vfunc_117(uaddr);
     s32 m_4CC;
     s32 m_4D0;
     TObjEneMe1Canadin *m_4D4[8];
@@ -29,11 +29,11 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     void set_flag3c8_bit20();
     void set_flag3c8_bit8();
     void set_attack_flag();
-    void set_leader_index(s32 arg1, s32 arg2);
+    void set_leader_index(saddr arg1, s32 arg2);
     static void update_fade_sequence(void *pv);
     static void *create_canadin(void *arg0, void *arg1, void *arg2, void *arg3);
 };
 
-typedef char TObjEneMe1CanadinLeader_size[sizeof(TObjEneMe1CanadinLeader) == 0x4F8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1CanadinLeader_size, sizeof(TObjEneMe1CanadinLeader) == 0x4F8);
 
 #endif

@@ -65,7 +65,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8) != -1) {
-                    this->m_34 = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8));
+                    this->m_34 = (saddr)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8));
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(5);
                 return;

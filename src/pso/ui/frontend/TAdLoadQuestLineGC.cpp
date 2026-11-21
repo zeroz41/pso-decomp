@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 init_quest_line_draw_colors();

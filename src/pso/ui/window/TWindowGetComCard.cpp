@@ -33,11 +33,10 @@ struct GetCard_80252CCC {
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
-s32 init_com_card__17TWindowSubComCardFv();
 void *get_player_by_client_id(s32 i);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
-void TObjPlayer__sub_8024ABDC(s32 arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern void *__vt__17TWindowGetComCard[];
 const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
@@ -50,7 +49,7 @@ extern Pad_80252CCC controller_input_state[];
 void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self);
 void TWindowFukidasi__sub_80252C38(void* p);
 int fn_80252CBC(void* p);
-void TLobby__sub_8024AC20(s32 arg0);
+void TLobby__sub_8024AC20(saddr arg0);
 s32 TWindowCtrl__sub_8024A314();
 
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
@@ -108,7 +107,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         break;
     case 4:
         if (TAdPlayerLoadGC::get_instance() == 0) {
-            TWindowSubComCard::start_player_data_load((s32)TWindowGetComCard__sub_8007B594());
+            TWindowSubComCard::start_player_data_load((saddr)TWindowGetComCard__sub_8007B594());
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;
@@ -152,23 +151,23 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     void *player;
     static const f32 pos[2] = {10.0f, 277.0f};
     static const f32 size[3] = {264.0f, 104.0f, 0.0f};
-    s32 temp_r31;
+    saddr temp_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
-    *(s32 *)((s8 *)window_get_com_card + 0) = (s32) TWindowGetComCard__name;
-    window_get_com_card->m_1c = (s32)TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1);
+    *(s32 *)((s8 *)window_get_com_card + 0) = (saddr) TWindowGetComCard__name;
+    window_get_com_card->m_1c = (saddr)TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1);
     window_get_com_card->m_20 = 0;
-    if (init_com_card__17TWindowSubComCardFv() != 0) {
-        temp_r31 = (s32)TWindowGetComCard__sub_8007B594();
+    if (TWindowSubComCard::init_com_card() != 0) {
+        temp_r31 = (saddr)TWindowGetComCard__sub_8007B594();
         text_builder_reset();
         ((TLobby *)temp_r31)->get_com_card_list();
         text_builder_append();
         TWindowSubStatusDisp::get_message_10(0x36);
         text_builder_append();
-        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((int) (get_shared_text_buffer()), 2);
+        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((saddr) (get_shared_text_buffer()), 2);
         window_get_com_card->m_28 = 0;
     } else {
-        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((int) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
+        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((saddr) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
         window_get_com_card->m_28 = 0x384;
     }
     if ((player = (void *)get_player_by_client_id(local_client_id)) != 0U) {

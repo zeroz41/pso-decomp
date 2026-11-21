@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
+void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 void TWindowTimer__sub_80198D98(void);
 void TWindowTimer__sub_8019A098(void);
 void TWindowTimer__sub_8019A6F8(void *p);
@@ -13,7 +13,7 @@ void TWindowTimer__sub_8019A770();
 void add_gogo_ball_one_point_score(s32 i);
 void add_gogo_ball_three_point_score(s32 i);
 extern "C" {
-void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
+void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr arg0);
 }
 void draw_shadow_on_ground(u8 *arg0);
 extern "C" {

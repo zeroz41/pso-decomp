@@ -19,7 +19,7 @@ struct Boss5GryphonActionStep {
     s32 unk34[5];
 };
 
-typedef char Boss5GryphonActionStep_size[sizeof(Boss5GryphonActionStep) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(Boss5GryphonActionStep_size, sizeof(Boss5GryphonActionStep) == 0x48);
 
 extern "C" Boss5GryphonActionStep *boss5_gryphon_action_scripts[30];
 

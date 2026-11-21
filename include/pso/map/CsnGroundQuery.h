@@ -30,8 +30,8 @@ struct CsnHit {
     CsnContact *contact;
 };
 
-typedef char CsnContactSize[sizeof(CsnContact) == 0x1C ? 1 : -1];
-typedef char CsnHitSize[sizeof(CsnHit) == 8 ? 1 : -1];
+LAYOUT_ASSERT(CsnContactSize, sizeof(CsnContact) == 0x1C);
+LAYOUT_ASSERT(CsnHitSize, sizeof(CsnHit) == 8);
 
 // A cached query uses caller-provided storage for up to 14 groups and a null terminator.
 struct CsnGroup;

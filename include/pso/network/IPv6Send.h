@@ -25,8 +25,8 @@ typedef struct NetPacketPool {
     u8 pad2[2];
     NetPacket *packets;         /* 0x04: in_use 1 = allocated */
 } NetPacketPool;
-typedef char NetPacketPool_size_check[sizeof(NetPacketPool) == 8 ? 1 : -1];
-typedef char NetPacket_size_check[sizeof(NetPacket) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(NetPacketPool_size_check, sizeof(NetPacketPool) == 8);
+LAYOUT_ASSERT(NetPacket_size_check, sizeof(NetPacket) == 0x9C);
 
 typedef struct NetIPv6SendParameters {
     IPv6Address source;

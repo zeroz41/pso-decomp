@@ -27,7 +27,7 @@ extern "C" {
 // wrong parameters and text_800F7D30.h gives prs_decompress_alloc two.
 s32 adxf_get_stat(void *handle);
 s32 load_gvm_texture_archive(s32 data, NJS_TEXLIST *texlist);
-void *TLobby__sub_801E38A0(s32 data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
+void *TLobby__sub_801E38A0(saddr data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
 s32 prs_decompress_alloc(s32 src, u32 dst, s32 size);
 }
@@ -229,7 +229,7 @@ void TItemLoad::get_item_params(s32 *model, s32 *texlist, s32 *motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
         *model = get_bml_model(TItemLoad__bml_resource, 1);
         *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
-        *motion = (s32)get_bml_motion(TItemLoad__bml_resource, 0);
+        *motion = (saddr)get_bml_motion(TItemLoad__bml_resource, 0);
     }
 }
 
@@ -292,12 +292,12 @@ void AfsPartition::close() {
 }
 
 void AfsPartition::read(s32 buffer) {
-    TLobby::read_checked_align((s32)handle, size_sectors, buffer);
+    TLobby::read_checked_align((saddr)handle, size_sectors, buffer);
 }
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
     s32 decompressed_size;
-    s32 item_buff;
+    saddr item_buff;
 
     buffer = NULL;
     root = NULL;
@@ -305,7 +305,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
         buffer = mem_alloc(size);
         item_buff = create_item_buff(size);
         if ((item_buff != 0) && (buffer != NULL) && (read_disc_file(path, (void *)item_buff) > 0)) {
-            decompressed_size = prs_decompress_alloc(item_buff, (u32)buffer, size);
+            decompressed_size = prs_decompress_alloc(item_buff, (uaddr)buffer, size);
             TUnk_8049C658 file;
             file.data = (u8 *)buffer;
             file.size = decompressed_size;
@@ -331,7 +331,7 @@ void TItemLoad::free_work_buffer() {
 
 s32 TItemLoad::decompress_buffer(u32 dst) {
     if ((item_load_compressed_work_buffer != NULL) && (dst != 0)) {
-        return prs_decompress_buffer((s32)item_load_compressed_work_buffer, dst);
+        return prs_decompress_buffer((saddr)item_load_compressed_work_buffer, dst);
     }
     return 0;
 }
@@ -357,7 +357,7 @@ void AfsFileLoader::advance_load_state() {
     }
     if (open(file_index) != NULL) {
         get_size_sectors();
-        read((s32)item_load_compressed_work_buffer);
+        read((saddr)item_load_compressed_work_buffer);
         state = 2;
     }
 }
@@ -438,7 +438,7 @@ void ItemTextureArchiveLoader::on_loaded() {
     s32 data;
 
     if (TLobby::tmp_buf_is_free() == 1) {
-        data = (s32)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+        data = (saddr)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
         TItemLoad::decompress_buffer(data);
         load_gvm_texture_archive(data, texlist);
         TLobby::tmp_buf_release(item_load_tmp_buffer);
@@ -476,7 +476,7 @@ void ItemModelChunkLoader::on_loaded() {
     void *chunk;
     u32 i;
     if (TLobby::tmp_buf_is_free() == 1) {
-        data = (s32)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+        data = (saddr)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
         dst = buffer;
         total = TItemLoad::decompress_buffer(data);
         pos = 0;
@@ -561,7 +561,7 @@ TItemModelLoadTask::~TItemModelLoadTask() {
         break;
     }
     if ((resource.texlist != NULL) && (resource.texlist->textures->texaddr != 0)) {
-        free_texture_if_valid((u32)resource.texlist);
+        free_texture_if_valid((uaddr)resource.texlist);
     }
 }
 

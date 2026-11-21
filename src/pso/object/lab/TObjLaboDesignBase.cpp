@@ -35,8 +35,8 @@ void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
 void free_collision_body_parts(void *);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 s32 rotate_matrix_y(int, int);
 
 
@@ -192,7 +192,7 @@ void TObjLaboDesignBase::draw_node_tree(NJS_OBJECT *node) {
             scale_current_matrix(node->scl);
         }
         if (!(flags & 8)) {
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
         }
         if (!(flags & 0x10)) {
             child = node->child;
@@ -244,7 +244,7 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
     free_collision_body_parts(this);
 }
 
-TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 state) : TObjCollidable(parent) {
+TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, saddr state) : TObjCollidable(parent) {
     struct CopyStack_80365210 { u8 bytes[0x3C]; };
     CopyStack_80365210 copy_storage_80365210;
     s32 temp_r0;

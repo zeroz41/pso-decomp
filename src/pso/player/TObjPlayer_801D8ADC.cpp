@@ -39,10 +39,10 @@ player_stats *get_class_stat_caps(s8 arg0);
 u8 *get_class_attack_template(TObjPlayer *arg0);
 stats *get_class_base_stats(s8 arg0);
 s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
-s32 TObjPlayer__sub_801D91B8(s32 arg0);
+s32 TObjPlayer__sub_801D91B8(saddr arg0);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
-s32 get_contact_surface_type(s32 arg0);
+s32 get_contact_surface_type(saddr arg0);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
@@ -69,24 +69,24 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
         if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
             var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
             var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
-            var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
+            var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
             return var_r3;
         }
         var_r3 = (s32 *)player_getup_protection_ticks_table;
         var_r3 = (s32 *)player_getup_protection_ticks_table;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = var_r31;
     if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
         var_r3 = (s32 *)getup_protection_ticks_table_b;
         var_r3 = (s32 *)getup_protection_ticks_table_b;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = (s32 *)getup_protection_ticks_table_a;
     var_r3 = (s32 *)getup_protection_ticks_table_a;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
+    var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
     return var_r3;
 }
 
@@ -100,24 +100,24 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
         if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
             var_r3 = (s32 *)hurt_protection_ticks_table;
             var_r3 = (s32 *)hurt_protection_ticks_table;
-            var_r3 = (s32 *)(*(s32 *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
+            var_r3 = (s32 *)(*(saddr *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
             return var_r3;
         }
         var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
         var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = var_r31;
     if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
         var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
         var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = (s32 *)player_hurt_protection_ticks_table;
     var_r3 = (s32 *)player_hurt_protection_ticks_table;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
+    var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
     return var_r3;
 }
 
@@ -165,7 +165,7 @@ long TObjPlayer::get_anim_table_entry(s32 arg1) {
   return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (arg1 * 4);
 }
 
-s32 TObjPlayer::get_table_entry_by_clamped_index() {
+saddr TObjPlayer::get_table_entry_by_clamped_index() {
     u8 *arg0 = (u8 *)this;
     return *(s32 *)((s8 *)player_clamped_index_table_pointers + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
 }
@@ -193,7 +193,7 @@ f32 TObjPlayer::get_photon_blast_upper_bound() {
 }
 
 f32 TObjPlayer::get_photon_blast_hold_frame() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
   s32 temp_r31;
   s32 *new_var;
   temp_r31 = ((TObjPlayer *)arg0)->get_handle_value() * 0xC;
@@ -202,7 +202,7 @@ f32 TObjPlayer::get_photon_blast_hold_frame() {
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 falz_phase;
     falz_phase = get_falz_phase();
     return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (((TObjPlayer *)arg0)->get_handle_value() * 3))) + falz_phase) + 0);
@@ -327,7 +327,7 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
 };
 
-s32 TObjPlayer__sub_801D91B8(s32 arg0) {
+s32 TObjPlayer__sub_801D91B8(saddr arg0) {
     return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), TObjPlayer::get_max_level());
 }
 
@@ -336,10 +336,10 @@ s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
 }
 
 s32 TObjPlayer::get_class_state_field(s32 arg1) {
-    s32 arg0 = (s32)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
+    saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
 s32 get_ply_level_table_row(s8 cls, s32 arg1) {
-  s32 temp_r30;
+  saddr temp_r30;
   s32 temp_r31;
   temp_r30 = *(*(s32 * *)&ply_level_table);
   ;
@@ -383,7 +383,7 @@ f32 TObjPlayer::get_class_hp_factor() {
     return player_profession_stat_factors[get_clamped_index()].hp;
 }
 
-int TObjPlayer::get_floor_surface_type() { return get_contact_surface_type((s32)((char*)this + 0x360)); }
+int TObjPlayer::get_floor_surface_type() { return get_contact_surface_type((saddr)((char*)this + 0x360)); }
 s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0((void*)((char*)this + 0x7cc)); }
 
     extern int dark_falz_form_index;

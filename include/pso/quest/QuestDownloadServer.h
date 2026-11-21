@@ -4,6 +4,7 @@
 // Record types and data shared by the three quest download server TUs (_803E6970, _803E8918, _803E9A24).
 
 #include "types.h"
+#include <string.h>
 #include "pso/quest/QuestDownloadRecords.h"
 #include "pso/quest/QuestDownloadText.h"
 #include "pso/quest/QuestDownloadWorkspace.h"
@@ -51,16 +52,15 @@ extern u16 *quest_download_buffer_start;
 extern u16 *quest_vm_download_buffer_end;
 extern s32 quest_download_match_length_limit;
 extern s32 quest_download_server_state;
-extern s32 quest_download_file_handle;
+extern saddr quest_download_file_handle;
 s32 has_name_mismatch__22TQuestVmDownLoadServerFPUc(s32 row, u8 *key);
 s32 find_name_index__22TQuestVmDownLoadServerFv(const char *key);
 void set_file_info_name__22TQuestVmDownLoadServerFv(const char *filename);
 extern char quest_vm_download_server_file_info[0x44] ATTRIBUTE_ALIGN(4);
-extern s32 lbl_805D78F8;
+extern saddr lbl_805D78F8;
 extern QuestDownloadNameCacheImage lbl_80591EC8;
 extern u8 lbl_805D7868;
 extern const u8 romaji_kana_char_class_table[0x100];
-s32 strcpy(void *, void *);
 s32 dispatch_request_0x20__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
 extern s32 quest_download_initialized;
@@ -76,7 +76,6 @@ void TQuestVmDownLoadServer__sub_803ECD8C(QuestDownloadEntryNode *p);
 void TQuestVmDownLoadServer__sub_803ECE5C(QuestDownloadSegment *p);
 extern QuestDownloadFileCache quest_download_slot_table;
 QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry);
-int strncmp(const char *, const char *, u32);
 extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
 QuestDownloadItemNode *TQuestVmDownLoadServer__sub_803ECF84(void);
@@ -84,7 +83,6 @@ QuestDownloadItemNode *build_item_list__22TQuestVmDownLoadServerFlP12Hdr_803EA38
 void TQuestVmDownLoadServer__sub_803EADD4(QuestDownloadSlot *slot, s32 mode);
 s32 TQuestVmDownLoadServer__sub_803EC95C(u16 *, const u8 *, int);
 s32 TQuestVmDownLoadServer__sub_803EB420(s32 arg0, s32 arg1, QuestDownloadTextNode *arg2, u16 *arg3);
-char *strncpy(char *, const char *, u32);
 s32 TQuestVmDownLoadServer__sub_803E8DA0(char *, QuestDownloadRequest *, s32);
 extern s32 lbl_805D7900;
 s32 TQuestVmDownLoadServer__sub_803EEF2C(QuestDownloadRequest *arg0);
@@ -99,9 +97,8 @@ extern s32 quest_download_header_name_index_hi_count;
 extern s32 lbl_805D7874;
 extern s32 lbl_805D78FC;
 void append_message_text__22TQuestVmDownLoadServerFlP12Req_803EEF2CUc(u8 *arg0, s32 arg1, QuestDownloadRequest *arg2, u8 arg3);
-u32 strlen(const char *);
 extern s32 lbl_805D78A4;
-extern s32 quest_text_entry_len;
+extern saddr quest_text_entry_len;
 s32 TQuestVmDownLoadServer__sub_803EC71C(u16 *, u8 *, s32);
 extern u16 lbl_805A0340[];
 extern u8 *quest_download_text_write_ptr;
@@ -110,14 +107,13 @@ extern u16 lbl_805A02A8[];
 extern s32 quest_page_node_index;
 extern QuestDownloadTextNode *lbl_805D78A0;
 extern s32 lbl_805D78E8;
-extern s32 quest_text_cursor_pos;
+extern saddr quest_text_cursor_pos;
 u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 s32 find_symbol_entry__22TQuestVmDownLoadServerFsP13Info_803F0138(const char *name, s16 len, Info_803F0138 *out);
 void DCInvalidateRange(void *, u32);
-void ARQPostRequest(void *req, u32 owner, u32 type, u32 prio, u32 src, u32 dst, u32 len, void (*cb)(u8 *));
+void ARQPostRequest(void *req, uaddr owner, u32 type, u32 prio, uaddr src, uaddr dst, u32 len, void (*cb)(u8 *));
 u32 OSGetTick(void);
 u32 __OSBusClock : 0x800000F8;
-void *memcpy(void *, const void *, u32);
 void OSReport(const char *, ...);
 void ARQRemoveRequest(void *);
 extern u8 quest_download_aram_dma_buffer[];
@@ -159,8 +155,8 @@ s32 lookup_name_entry__22TQuestVmDownLoadServerFsP12Out_803E8C2C(char *arg0, s16
 void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 a1, s32 a2, s32 *cnt, s32 *total, u8 *buf, s32 flags);
 extern u8 *lbl_805D7824;
 
-typedef char QuestDownloadScratchSize[sizeof(quest_download_scratch_storage) == 0x28 ? 1 : -1];
-typedef char QuestDownloadBufferSize[sizeof(quest_download_buffer_storage) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadScratchSize, sizeof(quest_download_scratch_storage) == 0x28);
+LAYOUT_ASSERT(QuestDownloadBufferSize, sizeof(quest_download_buffer_storage) == 0xC8);
 void TQuestVmDownLoadServer__sub_803E79AC(void);
 void TQuestVmDownLoadServer__sub_803E7F9C(u8 *text, s16 mode);
 }

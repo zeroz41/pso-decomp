@@ -149,7 +149,7 @@ void mfci_stop_transfer(MfciFileEntry *file) {
 
 s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     MfciFileEntry *mfci_file_entry = (MfciFileEntry *)handle;
-    u32 data;
+    uaddr data;
     u32 size;
     s32 copied;
     s32 bytes;
@@ -294,7 +294,7 @@ u32 mfci_parse_file_size(char *s) {
     return lo;
 }
 
-void mfci_set_error_callback(s32 callback, s32 context) {
+void mfci_set_error_callback(saddr callback, s32 context) {
     mfci_error_callback = (MfciErrorCallback)callback;
     mfci_error_callback_context = context;
 }

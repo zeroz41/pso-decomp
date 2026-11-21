@@ -16,7 +16,7 @@ struct TWindowCtrlMain : public TObject {
     void update_field28();
     void free_member();
     s32 get_main_menu_message();
-    static int get_instance();
+    static saddr get_instance();
     static void advance_card_status(s32 arg0);
     static void free_window();
     static void release_ptr(void **arg0);
@@ -34,7 +34,7 @@ struct TWindowCtrlMain : public TObject {
     void draw_strip_swap_color(s32 n, s32 flags, f32 _w3);
 };
 
-typedef char TWindowCtrlMain_size[sizeof(TWindowCtrlMain) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrlMain_size, sizeof(TWindowCtrlMain) == 0x1C);
 
 extern "C" {
 // TWindowCtrlMain::reset_all(0): the load hook the scene hook tables pair with free_all_windows.

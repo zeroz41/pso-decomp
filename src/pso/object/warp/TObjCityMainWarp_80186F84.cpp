@@ -23,7 +23,6 @@
 extern "C" {
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
-s32 close_windows__25TObjCityMainWarpChallengeFv();
 s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
@@ -36,7 +35,7 @@ void TObjCityMainWarp::update_state() {
         *(s16 *)((s8 *)this + 0xE0) = 1;
         *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) | 1);
         *(s32 *)((s8 *)this + 0xD0) = (s32) city_common_model_archive->models[0].model;
-        *(s32 *)((s8 *)this + 0xD4) = (s32) city_common_model_archive->motions[5].motion;
+        *(s32 *)((s8 *)this + 0xD4) = (saddr) city_common_model_archive->motions[5].motion;
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {
@@ -98,7 +97,7 @@ void TObjCityMainWarpChallenge::update_warp_sequence() {
     case 2:
         break;
     case -1:
-        close_windows__25TObjCityMainWarpChallengeFv();
+        ((TObjCityMainWarpChallenge *) this)->close_windows();
         break;
     }
 }

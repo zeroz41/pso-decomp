@@ -18,9 +18,9 @@ public:
     TWindowMessage* messageWindow;
 };
 #include <stddef.h>
-typedef char TradeMessageBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char TradeMessageSize[(sizeof(TWindowSubTradeMessage)==0x2C)?1:-1];
-#define TRADE_MESSAGE_OFFSET(field,offset) typedef char TradeMessageOffset_##field[(offsetof(TWindowSubTradeMessage,field)==offset)?1:-1]
+LAYOUT_ASSERT(TradeMessageBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(TradeMessageSize, sizeof(TWindowSubTradeMessage)==0x2C);
+#define TRADE_MESSAGE_OFFSET(field,offset) LAYOUT_ASSERT(TradeMessageOffset_##field, offsetof(TWindowSubTradeMessage,field)==offset)
 TRADE_MESSAGE_OFFSET(state,0x1C); TRADE_MESSAGE_OFFSET(playerIndex,0x20);
 TRADE_MESSAGE_OFFSET(parentWindow,0x24); TRADE_MESSAGE_OFFSET(messageWindow,0x28);
 #undef TRADE_MESSAGE_OFFSET

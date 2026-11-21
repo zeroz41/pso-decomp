@@ -4,7 +4,6 @@
 #include <dolphin/dolphin.h>
 #include <dolphin/os.h>
 #include <dolphin/dvd.h>
-#define __DVDPrepareResetAsync Dolphin___DVDPrepareResetAsync
 #include "dvd/__dvd.h"
 #include "os/__os.h"
 

@@ -16,7 +16,7 @@ struct TObjEnvSound : public TObjBase {
     static s32 is_sound_enabled(void *self, s32 cue);
 };
 
-typedef char TObjEnvSound_size[sizeof(TObjEnvSound) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TObjEnvSound_size, sizeof(TObjEnvSound) == 0xA0);
 
 extern "C" {
 void *__dt__12TObjEnvSoundFv(void *arg0, s16 arg1);

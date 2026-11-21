@@ -7,7 +7,7 @@
 class TItemShootGun : public TItemShootModel {
 public:
  s32 m_6C;
- u32 m_70;
+ uaddr m_70;
 
 public:
     TItemShootGun(void* owner, const Vec* pos, const Vec* endpoint, f32 life);
@@ -16,7 +16,7 @@ public:
     virtual void hook();
     virtual ~TItemShootGun();
 public:
-    static u32 create(s32 owner, s32 pos, s32 endpoint, f32 life);
+    static u32 create(saddr owner, saddr pos, saddr endpoint, f32 life);
     void set_texture_id(s32 id);
 };
 

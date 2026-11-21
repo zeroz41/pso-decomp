@@ -5,7 +5,7 @@
 
 f32 calc_camera_fov_degrees(void);
 extern "C" {
-void render_projected_shadow_receiver(u8 *arg0, s32 arg1);
+void render_projected_shadow_receiver(u8 *arg0, saddr arg1);
 }
 
 #endif

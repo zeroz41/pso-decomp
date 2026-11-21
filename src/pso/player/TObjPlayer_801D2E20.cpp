@@ -104,7 +104,7 @@ void TObjPlayer::advance_and_clamp_state() {
 s16 get_validated_attack_stage(u8 *arg0) {
     s16 var_r31;
     var_r31 = *(s16 *)((s8 *)arg0 + 0x10);
-    if (TObjPlayer__sub_801D2EE8((s16)((void*)((int) (var_r31)))) == 0) {
+    if (TObjPlayer__sub_801D2EE8((s16)(((int) (var_r31)))) == 0) {
         var_r31 = 0;
     }
     return var_r31;
@@ -229,7 +229,7 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
 #pragma auto_inline off
 #pragma dont_inline off
 s32 TObjPlayer::update_if_flag8_set() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (((int (*)(void*, int))test_flags_any)((void*)(arg0 + 0xC), 8) != 0) {
         return tick_countdown_timer();
     }
@@ -271,7 +271,7 @@ s32 TObjPlayer::tick_countdown_timer() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, s32 arg1) {
+void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1) {
     ((FlagWord *)((void *) (arg0 + 0xC)))->set(2);
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) ((TObjPlayer *)arg1)->get_attack_recovery_count();
     TObjPlayer::clear_flag_128((void*)((void *) (arg1)));
@@ -290,7 +290,7 @@ void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, s32 arg1) {
 #pragma dont_inline off
 void begin_player_attack(u8 *player, s32 arg1, s16 arg2, s32 arg3) {
   s8 *new_var;
-  ((TObjPlayer *)player)->set_saved_attack_stage((s16)((void *) arg2));
+  ((TObjPlayer *)player)->set_saved_attack_stage((s16)(arg2));
   *((s32 *) (((s8 *) player) + 0x14)) = arg3;
   *((s16 *) (((s8 *) player) + 0x12)) = 0;
   new_var = (s8 *) player;

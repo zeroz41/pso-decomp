@@ -15,6 +15,6 @@ public:
     void sync_level_field();
     u8 unk_88[0x4];
 };
-typedef char TWindowCheckBox_size[sizeof(TWindowCheckBox) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowCheckBox_size, sizeof(TWindowCheckBox) == 0x8C);
 
 #endif

@@ -108,7 +108,7 @@ struct Rec_8021F964 { s32 w[4]; s32 qty; };
 
 struct Win_8021F964 {
     u8 pad0[0x24];
-    s32 player;
+    saddr player;
     void *list;
     u8 pad2c[0x58 - 0x2C];
     Rec_8021F964 recs[16];
@@ -149,15 +149,15 @@ s32 get_entity_id(void *);
 s32 TShopItemTecSequence__sub_8021FE6C();
 s32 get_shop_text(int);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 void *create_window_quantity(u16);
 void *create_item_list_window(s32, s32, u16);
 s32 align_menu_entry_positions(u32);
-s32 try_buy_item(s32 arg0, void *item);
+s32 try_buy_item(saddr arg0, void *item);
 
 }
 
-TShopItemListWindow::TShopItemListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopItemListWindow::TShopItemListWindow(saddr parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;
     this->m_name = TShopItemListWindow__class_name;
     this->m_24 = arg3;
@@ -255,11 +255,11 @@ void TShopItemListWindow::build_item_list(void *p) {
         for (i = 0; i < W->count; i++) {
             e = (u8 *)W + i * 0x14;
             if (*(s32 *)(e + 0x68) != -1) {
-                ((TWindowSubStatusDisp *)(W->list))->add_ground_item((s32)(e + 0x58), (s32)i);
+                ((TWindowSubStatusDisp *)(W->list))->add_ground_item((saddr)(e + 0x58), (s32)i);
             }
         }
         ((TWindowMenuIconLine *)W->list)->calc_content_extent();
-        ((TWindowMenuIconLine *)((s32)W->list))->clear_decided();
+        ((TWindowMenuIconLine *)((saddr)W->list))->clear_decided();
         ((TShopArmorListWindow *)(W->list))->clamp_selection_to_valid_entry();
     }
     if (W->help == NULL) {
@@ -271,11 +271,11 @@ void TShopItemListWindow::build_item_list(void *p) {
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
         }
-        ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((u32)W->recs);
+        ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((uaddr)W->recs);
     }
     if (W->status == NULL) {
         W->status = create_window_quantity(((TShopSequence *)W)->get_child_field1c());
-        n = ((TPlyItem *)(*(s32 *)(W->player + 0xD00)))->count_items_by_id((s32)W->recs);
+        n = ((TPlyItem *)(*(saddr *)(W->player + 0xD00)))->count_items_by_id((saddr)W->recs);
         ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
     }
     if (W->cost == NULL) {
@@ -314,10 +314,10 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
     if (W->list != NULL) {
         i = ((TWindowMenuIconLine *)(W->list))->get_cursor_value();
         if (W->help != NULL && i != W->cur) {
-            ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((u32)&W->recs[i]);
+            ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((uaddr)&W->recs[i]);
         }
         if (W->status != NULL && i != W->cur) {
-            n = ((TPlyItem *)(*(s32 *)(W->player + 0xD00)))->count_items_by_id((s32)&W->recs[i]);
+            n = ((TPlyItem *)(*(saddr *)(W->player + 0xD00)))->count_items_by_id((saddr)&W->recs[i]);
             ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
         }
         if (W->sell != NULL && i != W->cur && (e = (u8 *)W + i * 0x14, *(s32 *)(e + 0x68) > 0)) {
@@ -383,7 +383,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             count = room;
         }
         if (count > 1) {
-            quantity_input = (u32)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
+            quantity_input = (uaddr)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
             if (quantity_input != 0U && TLobby::is_camera_ctrl_active() > 2) {
                 ((TCheckRoomSequence *)quantity_input)->set_position(0.75f, 0.75f);
             }
@@ -446,12 +446,12 @@ void TShopItemListWindow::handle_amount_confirm() {
                     sel = ((TWindowMenuIconLine *)item_list)->get_cursor_value();
                     TItemData item = self->recs[sel];
                     item.id = advance_item_id_counter(local_client_id);
-                    if (TCheckRoomSequence::get_item_def((u32)&item) != 0) {
+                    if (TCheckRoomSequence::get_item_def((uaddr)&item) != 0) {
                         item.set_stack_count(m_50);
                     }
                     try_buy_item(m_24, &item);
                     if (status_window != 0U) {
-                        n = ((TPlyItem *)(*(s32 *)(m_24 + 0xD00)))->count_items_by_id((s32)&self->recs[sel]);
+                        n = ((TPlyItem *)(*(saddr *)(m_24 + 0xD00)))->count_items_by_id((saddr)&self->recs[sel]);
                         ((TWindowSubStatusDisp *)status_window)->set_entry1_field20(n);
                     }
                     if (is_single_purchase_shop_item((u8 *)&self->recs[sel]) != 0) {

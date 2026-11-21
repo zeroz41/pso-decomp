@@ -11,7 +11,7 @@ struct TWindowCost : public TWindowMeseta {
     void set_cost(s32 cost);
 };
 
-typedef char TWindowCost_size[sizeof(TWindowCost) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowCost_size, sizeof(TWindowCost) == 0x74);
 extern "C" {
 TWindowCost *create_cost_window(s32 client);
 }

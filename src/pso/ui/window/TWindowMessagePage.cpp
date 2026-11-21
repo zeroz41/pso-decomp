@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
@@ -32,8 +33,8 @@ s32 TWindowMessagePage::is_ready() {
 void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
-        this->m_94 = (u32)((TWindowSubStatusDisp *)this->m_94)->copy_message_page_text();
-        append_line((int)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
+        this->m_94 = (uaddr)((TWindowSubStatusDisp *)this->m_94)->copy_message_page_text();
+        append_line((saddr)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
 
@@ -49,7 +50,7 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
     update_message();
 }
 
-u8 *TWindowMessagePage::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TWindowMessagePage::create(s32 arg0, saddr arg1, saddr arg2, s32 arg3) {
     TLobby__sub_80269DA4((void *)arg1, (u32)arg2);
     return (u8 *)new TWindowMessagePage(arg0, arg2, arg3);
 }

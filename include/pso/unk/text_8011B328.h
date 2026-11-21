@@ -4,6 +4,6 @@
 #include "types.h"
 
 // Defined in pso/weapon/shoot/TItemShoot.cpp.
-s32 create_shoot_model_rot_z(u32 owner, s32 pos, s32 dir, f32 life);
+s32 create_shoot_model_rot_z(uaddr owner, saddr pos, saddr dir, f32 life);
 
 #endif

@@ -47,12 +47,12 @@ struct TQuestListChallenge : public TShopWindowBase {
     const QuestListStageEntry *entries;
 };
 
-typedef char QuestListStageEntry_size[sizeof(QuestListStageEntry) == 0x10 ? 1 : -1];
-typedef char TQuestListChallenge_size[sizeof(TQuestListChallenge) == 0x5C ? 1 : -1];
-typedef char TQuestListChallenge_state[offsetof(TQuestListChallenge, state) == 0x20 ? 1 : -1];
-typedef char TQuestListChallenge_callbacks[offsetof(TQuestListChallenge, on_cancel) == 0x28 ? 1 : -1];
-typedef char TQuestListChallenge_windows[offsetof(TQuestListChallenge, confirmation) == 0x34 ? 1 : -1];
-typedef char TQuestListChallenge_entries[offsetof(TQuestListChallenge, entries) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(QuestListStageEntry_size, sizeof(QuestListStageEntry) == 0x10);
+LAYOUT_ASSERT(TQuestListChallenge_size, sizeof(TQuestListChallenge) == 0x5C);
+LAYOUT_ASSERT(TQuestListChallenge_state, offsetof(TQuestListChallenge, state) == 0x20);
+LAYOUT_ASSERT(TQuestListChallenge_callbacks, offsetof(TQuestListChallenge, on_cancel) == 0x28);
+LAYOUT_ASSERT(TQuestListChallenge_windows, offsetof(TQuestListChallenge, confirmation) == 0x34);
+LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries) == 0x58);
 
 extern "C" {
 void *TObjNpcKenkyu__create(void *arg0);

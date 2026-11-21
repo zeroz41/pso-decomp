@@ -25,7 +25,7 @@ struct TPhotonLeilla : public TUnk_804C3248 {
     virtual void run_task();
 };
 
-typedef char TPhotonLeilla_size[sizeof(TPhotonLeilla) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonLeilla_size, sizeof(TPhotonLeilla) == 0x1B0);
 
 extern "C" {
 void TObjPlayer__sub_801AC43C(void);

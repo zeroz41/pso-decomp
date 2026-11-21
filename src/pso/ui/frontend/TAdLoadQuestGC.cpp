@@ -22,7 +22,7 @@ extern "C" TWindowCost *create_cost_window(s32 client) {
         return NULL;
     }
     return new TWindowCost(const_cast<NJS_POINT2 *>(get_window_layout_position(0x59)), client,
-        reinterpret_cast<s32>(TWindowSubStatusDisp::get_message_10(0x109)));
+        reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0x109)));
 }
 
 void TAdLoadQuestGC::render() {}

@@ -5,7 +5,7 @@ extern "C" {
 void copy_choice_search_parameters(ChoiceSearchParameters *, ChoiceSearchParameters *);
 }
 
-typedef char ProtocolConnectedOffset[(offsetof(TProtocol, m_connected) == 0x1910) ? 1 : -1];
+LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
 
 void TProtocol::send_choice_search(ChoiceSearchParameters &parameters) {
     ChoiceSearchPacket packet;

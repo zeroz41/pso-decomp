@@ -20,7 +20,7 @@ s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
     return 0;
 }
 
-s32 __DVDPrepareResetAsync(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7) {
+s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7) {
     AdxHeader *h = (AdxHeader *)hdr;
     s32 err;
     u8 ver;
@@ -58,7 +58,7 @@ s32 __DVDPrepareResetAsync(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4
         off = 0x20;
     }
     *o1 = ((AdxHeaderBlock *)(hdr + off))->m_00;
-    f = (AdxHeaderBlock *)(off + (s32)hdr);
+    f = (AdxHeaderBlock *)(off + (saddr)hdr);
     *o2 = f->m_02;
     if (*o2 != 1) {
         return -2;
@@ -123,7 +123,7 @@ s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
     return 0;
 }
 
-s32 ARStartDMA(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples) {
+s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples) {
     if (size < 0x10) {
         return -1;
     }

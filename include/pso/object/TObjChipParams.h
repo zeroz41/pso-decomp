@@ -11,7 +11,7 @@ struct TObjChipParams {
     s32 pad_24[3];
     s32 pad_30[2];
     f32 pad_38[2];
-    s32 model;
+    saddr model;
     s32 textures;
     s32 pad_48;
 };
@@ -25,7 +25,7 @@ struct TObjChipSpawnParams {
     u8 pad_58[0xC];
 };
 
-typedef char TObjChipParams_size[sizeof(TObjChipParams) == 0x4C ? 1 : -1];
-typedef char TObjChipSpawnParams_size[sizeof(TObjChipSpawnParams) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TObjChipParams_size, sizeof(TObjChipParams) == 0x4C);
+LAYOUT_ASSERT(TObjChipSpawnParams_size, sizeof(TObjChipSpawnParams) == 0x64);
 
 #endif

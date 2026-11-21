@@ -22,9 +22,9 @@ struct TAdLoadQuestPrtTxtGC : public TObject {
     virtual void run_task();
 };
 
-typedef char TAdLoadQuestPrtTxtGC_size[sizeof(TAdLoadQuestPrtTxtGC) == 0x228 ? 1 : -1];
-typedef char TAdLoadQuestPrtTxtGCSlotOffset[offsetof(TAdLoadQuestPrtTxtGC, slot) == 0x220 ? 1 : -1];
-typedef char TAdLoadQuestPrtTxtGCTimerOffset[offsetof(TAdLoadQuestPrtTxtGC, timer) == 0x224 ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadQuestPrtTxtGC_size, sizeof(TAdLoadQuestPrtTxtGC) == 0x228);
+LAYOUT_ASSERT(TAdLoadQuestPrtTxtGCSlotOffset, offsetof(TAdLoadQuestPrtTxtGC, slot) == 0x220);
+LAYOUT_ASSERT(TAdLoadQuestPrtTxtGCTimerOffset, offsetof(TAdLoadQuestPrtTxtGC, timer) == 0x224);
 
 extern "C" TAdLoadQuestPrtTxtGC *quest_load_prt_txt_by_slot[3];
 

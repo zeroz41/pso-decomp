@@ -59,7 +59,7 @@ void TLobby::notify_error(const char *arg0) {
     TLobby__sub_803D38B4(adx_error_message_buffer);
 }
 
-void TLobby::set_params(s32 arg0, s32 arg1) {
+void TLobby::set_params(saddr arg0, s32 arg1) {
     lobby_error_callback = (AdxErrorCallback)arg0;
     tlobby_error_callback_arg = arg1;
     TLobby::set_callback_params(arg0, arg1);

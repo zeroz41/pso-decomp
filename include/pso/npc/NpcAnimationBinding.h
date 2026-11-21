@@ -17,10 +17,10 @@ struct NpcAnimationBinding {
     NpcAnimationBinding &operator=(const NpcAnimationBinding &other);
 };
 
-typedef char NpcAnimationBinding_size[sizeof(NpcAnimationBinding) == 0x10 ? 1 : -1];
-typedef char NpcAnimationBinding_actions_offset[offsetof(NpcAnimationBinding, actions) == 4 ? 1 : -1];
-typedef char NpcAnimationBinding_default_offset[offsetof(NpcAnimationBinding, default_action) == 8 ? 1 : -1];
-typedef char NpcAnimationBinding_mode2_offset[offsetof(NpcAnimationBinding, mode2_action) == 0xA ? 1 : -1];
-typedef char NpcAnimationBinding_debug_limit_offset[offsetof(NpcAnimationBinding, debug_action_limit) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(NpcAnimationBinding_size, sizeof(NpcAnimationBinding) == 0x10);
+LAYOUT_ASSERT(NpcAnimationBinding_actions_offset, offsetof(NpcAnimationBinding, actions) == 4);
+LAYOUT_ASSERT(NpcAnimationBinding_default_offset, offsetof(NpcAnimationBinding, default_action) == 8);
+LAYOUT_ASSERT(NpcAnimationBinding_mode2_offset, offsetof(NpcAnimationBinding, mode2_action) == 0xA);
+LAYOUT_ASSERT(NpcAnimationBinding_debug_limit_offset, offsetof(NpcAnimationBinding, debug_action_limit) == 0xC);
 
 #endif

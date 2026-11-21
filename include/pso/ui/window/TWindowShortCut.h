@@ -8,7 +8,7 @@ struct TWindowChatSymbol;
 struct TWindowMessageQuest;
 
 struct TWindowShortCut : public TWindowBase {
-    TWindowShortCut(s32 arg1, s32 index, s32 *chat_shortcut);
+    TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut);
     virtual ~TWindowShortCut();
     virtual void render();
     u8 _pad1C[0x4];
@@ -16,7 +16,7 @@ struct TWindowShortCut : public TWindowBase {
     u8 _pad22[0x2];
     void* m_24;
     u8 _pad28[0x38];
-    u32 heading;                       // type-1 status heading titled with message 0x35
+    uaddr heading;                       // type-1 status heading titled with message 0x35
     TWindowMessageQuest *preview_window;       // text preview of a text or word-select shortcut
     TWindowChatSymbol *symbol_preview; // preview of a symbol-chat shortcut
     s32 shortcut_index;
@@ -25,7 +25,7 @@ struct TWindowShortCut : public TWindowBase {
     void show_shortcut(s32 index, s32 *shortcut);
 };
 
-typedef char TWindowShortCut_size[sizeof(TWindowShortCut) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowShortCut_size, sizeof(TWindowShortCut) == 0x74);
 
 extern "C" {
 void render__15TWindowShortCutFv(u8 *arg0);

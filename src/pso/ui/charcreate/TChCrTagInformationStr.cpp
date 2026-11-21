@@ -18,7 +18,7 @@ const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
 s32 char_creation_tag_info_selected_index = -1;
 
 void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
-    return new TChCrTagInformationStr((TObject *)arg0, (s32)arg1);
+    return new TChCrTagInformationStr((TObject *)arg0, (saddr)arg1);
 }
 }
 

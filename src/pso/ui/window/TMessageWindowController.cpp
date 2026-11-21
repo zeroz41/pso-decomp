@@ -9,21 +9,18 @@
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/quest/TQuestThread.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/quest/TQuestListOnline.h"
 #pragma readonly_strings on
 extern "C" {
-void *memset(void *, int, unsigned long);
-int sprintf(char *, const char *, ...);
-unsigned long strlen(const char *);
-char *strcpy(char *, const char *);
-int strcmp(const char *, const char *);
 extern s32 local_client_id;
 s32 get_game_play_mode();
-s32 get_shop_text(s32 arg0);
+saddr get_shop_text(s32 arg0);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }
-s32 get_guild_text(s32 arg0);
-s32 get_appraisal_text(s32 arg0);
+saddr get_guild_text(s32 arg0);
+saddr get_appraisal_text(s32 arg0);
 struct MessageTagCommand {
     const char *name;
     void (TMessageWindowController::*callback)();

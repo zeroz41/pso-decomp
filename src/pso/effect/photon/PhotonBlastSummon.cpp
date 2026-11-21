@@ -117,7 +117,7 @@ void queue_deferred_photon_blast_support(u32 identity, s32 kind, s32 allow_dupli
 void queue_photon_blast_support(void) {
     ((s32 (*)(f32))queue_photon_blast_hit)(1.0f);
 }
-typedef char RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628) == 0xC);
 
 void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -254,7 +254,7 @@ void copy_effect_params(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
     *(s32 *)((s8 *)arg0 + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
-    *(ByteBlock_C *)((s32) arg0 + 0xC) = *(const ByteBlock_C *)((s32) arg1 + 0xC);
+    *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
     *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
 }
 void publish_photon_blast_joint_origins(void) {
@@ -301,7 +301,6 @@ struct Self_801A7680 {
 
 extern "C" {
 
-int update_all__8TFogCtrlFl(void*);
 // Unit direction rotated into each attachment's heading.
 extern Vec lbl_80446A38;
 
@@ -312,7 +311,7 @@ void TUnk_804C3248::set_photon_blast_joint_callback() {
     photon_blast_joint_index=0;
     photon_blast_joint_origins[0].list=(Node_801A7578 *)self->bindings;
     photon_blast_joint_origins[0].count=self->binding_count;
-    set_chunk_model_node_callback((s32)publish_photon_blast_joint_origins);
+    set_chunk_model_node_callback((saddr)publish_photon_blast_joint_origins);
 }
 
 void TUnk_804C3248::update_photon_blast_attachments() {
@@ -383,8 +382,8 @@ void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
 }
 
 
-int update_all_default__8TFogCtrlFv(void) { return update_all__8TFogCtrlFl((void*)(0)); }
-void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((s32)((void*)63), (s32)((void*)0)); }
+int update_all_default__8TFogCtrlFv(void) { return TFogCtrl::update_all(0); }
+void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((saddr)((void*)63), (saddr)((void*)0)); }
 
 #pragma pop
 
@@ -399,7 +398,7 @@ extern void *tl_05;
 void TUnk_804C3248::update_if_active() {
     if (!(*(s32 *)&this->unk_154 & 1)) {
         TCameraCtrl::update();
-        TSceneSora::update((s32)this);
+        TSceneSora::update((saddr)this);
         ((s32 (*)(void *))update_all_default__8TFogCtrlFv)(this);
         TObjPlayer__sub_800D8A6C();
     }
@@ -409,7 +408,7 @@ void TUnk_804C3248::update_if_active() {
 }
 
 void TUnk_804C3248::enter_scene() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TUnk_804C3248 *)this)->setup_photon_blast_camera();
     reset_state__10TSceneSoraFv(arg0);
     ((s32 (*)(s32))apply_all_default__8TFogCtrlFv)(arg0);

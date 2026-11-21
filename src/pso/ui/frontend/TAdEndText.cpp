@@ -95,8 +95,8 @@ struct EndTextTexList { EndTextTexName *textures; u32 nbTexture; };
 extern EndTextTexList TAdEndText__ending_font_texture_list;
 extern char lbl_804347B0[];
 extern char lbl_804347C0[];
-extern u32 TAdEndText__loaded_font_texture_list;
-extern u32 TAdEndText__credit_script_lines;
+extern uaddr TAdEndText__loaded_font_texture_list;
+extern uaddr TAdEndText__credit_script_lines;
 extern s32 TAdEndText__font_loaded_flag;
 void bind_gvm_texture_list(const char *name, void *data);
 void TAdEndText__sub_8001A998(s32, char *, f32, f32, f32);
@@ -357,7 +357,7 @@ u8 *__ct__10TAdEndTextFv(u8 *object, TObject *parent) {
   s32 c;
   __ct__7TObjectFP7TObject(object, parent);
   self->vtable = __vt__10TAdEndText;
-  self->name = (s32)TAdEndText__class_name;
+  self->name = (saddr)TAdEndText__class_name;
   self->f1C = 0;
   self->scroll = lbl_805D7DFC;
   TAdEndText__font_loaded_flag = 0;
@@ -411,18 +411,18 @@ void TAdEndText::free_resources() {
         TAdEndText__loaded_font_texture_list = 0U;
     }
     if ((u32) TAdEndText__credit_script_lines != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TAdEndText__credit_script_lines));
+        TLobby::free_nodes_with_id((uaddr)((void*)TAdEndText__credit_script_lines));
         TAdEndText__credit_script_lines = 0U;
     }
 }
 
 
-typedef char RecoveredGlobal_8001B3BC_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3BC_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B3BC_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3BC_lbl_804F5800) == 0x100);
 
 void TAdEndText::load_ending_font() {
-    TAdEndText__loaded_font_texture_list = (u32)&TAdEndText__ending_font_texture_list;
+    TAdEndText__loaded_font_texture_list = (uaddr)&TAdEndText__ending_font_texture_list;
     bind_gvm_texture_list(lbl_804347B0, &TAdEndText__ending_font_texture_list);
-    TAdEndText__credit_script_lines = (u32)create_named_object((s32)lbl_804347C0);
+    TAdEndText__credit_script_lines = (u32)create_named_object((saddr)lbl_804347C0);
     TAdEndText__font_loaded_flag = 0;
 }
 
@@ -430,9 +430,9 @@ s32 TAdEndText__sub_8001B3BC(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)&__ctype_map.value + arg0) + 0) & 0x10;
 }
 
-typedef char RecoveredGlobal_8001B3EC_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3EC_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B3EC_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3EC_lbl_804F5800) == 0x100);
 
-typedef char RecoveredGlobal_8001B3D4_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3D4_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B3D4_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3D4_lbl_804F5800) == 0x100);
 s32 TAdEndText__sub_8001B3D4(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8001B3D4_lbl_804F5800 *)&__ctype_map).value) + arg0) + 0) & 0x80;
 }
@@ -441,7 +441,7 @@ s32 TAdEndText__sub_8001B3EC(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8001B3EC_lbl_804F5800 *)&__ctype_map).value) + arg0) + 0) & 0xD0;
 }
 
-typedef char RecoveredGlobal_8001B404_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B404_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B404_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B404_lbl_804F5800) == 0x100);
 s32 TAdEndText__sub_8001B404(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8001B404_lbl_804F5800 *)&__ctype_map).value) + arg0) + 0) & 0x40;
 }
@@ -451,8 +451,8 @@ s32 TAdEndText__sub_8001B41C(void) {
 }
 
 s32 TAdEndText__font_loaded_flag;
-u32 TAdEndText__loaded_font_texture_list;
-u32 TAdEndText__credit_script_lines;
+uaddr TAdEndText__loaded_font_texture_list;
+uaddr TAdEndText__credit_script_lines;
 __declspec(section ".rodata") char lbl_804347B0[] = "ed128_font.gvm";
 __declspec(section ".rodata") char lbl_804347C0[] = "AdEnding.rel";
 __declspec(section ".sdata2") extern const f32 lbl_805D7DF0 = 2.0f;

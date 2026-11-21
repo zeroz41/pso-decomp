@@ -35,7 +35,7 @@ extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
 extern "C" {
-extern s32 tl_00;
+extern saddr tl_00;
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though fn_80141CBC never reads r5 (TObjRoomId passes nothing there).
@@ -487,12 +487,12 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
             && cur->m_id == arg0) {
             cur->queue_destruction();
             return;
@@ -507,12 +507,12 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
             && arg0 == get_entity_id(static_cast<TObjQuestColBase *>(cur))) {
             return static_cast<TObjQuestColBase *>(cur);
         }

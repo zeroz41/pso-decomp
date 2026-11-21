@@ -6,17 +6,17 @@
 #include "pso/player/TargetCursorList.h"
 
 struct TTecZarua : public TUnk_804CC148 {
-    TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level);
-    TTecZarua(s32 source, Vec *pos, Vec *target, s32 level);
+    TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level);
+    TTecZarua(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecZarua();
     virtual void vfunc_6(void *);
     virtual void run_task();
     void calc_range();
-    static void create_instance(s32 source, Vec *pos, Vec *target, s32 level);
+    static void create_instance(saddr source, Vec *pos, Vec *target, saddr level);
     virtual void render();
     s32 has_targets;  // set by the target-list constructor: run_task hits targets, not the area
     TargetCursorList targets;
 };
 
-typedef char TTecZarua_size[sizeof(TTecZarua) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecZarua_size, sizeof(TTecZarua) == 0x14C);
 #endif

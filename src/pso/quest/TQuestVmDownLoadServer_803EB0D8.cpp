@@ -13,7 +13,7 @@ union QuestDownloadPoolCell {
     QuestDownloadItemNode item;
 };
 
-typedef char QuestDownloadPoolCellSize[sizeof(QuestDownloadPoolCell) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadPoolCellSize, sizeof(QuestDownloadPoolCell) == 0x14);
 
 enum QuestDownloadPoolPlacement { quest_download_pool_storage };
 #pragma push
@@ -46,13 +46,13 @@ s32 quest_download_match_length_limit;
 s16 lbl_805D78E0;
 s32 lbl_805D78E4;
 s32 lbl_805D78E8;
-s32 quest_text_entry_len;
-s32 quest_text_cursor_pos;
+saddr quest_text_entry_len;
+saddr quest_text_cursor_pos;
 s32 quest_download_server_state;
-s32 lbl_805D78F8;
+saddr lbl_805D78F8;
 s32 lbl_805D78FC;
 s32 lbl_805D7900;
-s32 quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
+saddr quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
 
 extern "C" {
 #pragma push
@@ -654,7 +654,7 @@ def:
         if (t->a != 0x1F) {
             goto def;
         }
-        if (format_number_text_all_modes((s32)quest_download_scratch_storage + quest_text_cursor_pos, t->off, base + 0xC, &count) > 0) {
+        if (format_number_text_all_modes((saddr)quest_download_scratch_storage + quest_text_cursor_pos, t->off, base + 0xC, &count) > 0) {
             goto build;
         }
         goto def;
@@ -682,7 +682,7 @@ build:
         p += 5;
         while (*p++ != 0) {
         }
-        if ((u32)p & 1) {
+        if ((uaddr)p & 1) {
             p++;
         }
         count--;
@@ -733,7 +733,7 @@ void TQuestVmDownLoadServer__sub_803EC09C(void) {
     QuestDownloadTextNode *n;
 
     e = &quest_download_slot_chain_table[quest_text_cursor_pos];
-    if ((u32)(o = e->head) == 0xFFFFFFFFU) {
+    if ((uaddr)(o = e->head) == 0xFFFFFFFFU) {
         return;
     }
     qh = NULL;
@@ -848,7 +848,7 @@ void TQuestVmDownLoadServer__sub_803EC460(s32 pos, s32 x) {
     if (e->chain != NULL) {
         return;
     }
-    if ((u32)(o = e->head) == 0xFFFFFFFFU) {
+    if ((uaddr)(o = e->head) == 0xFFFFFFFFU) {
 def:
         e->chain = Default_803EC460(x);
         return;
@@ -870,7 +870,7 @@ def:
         if (t->a != 0x1F) {
             goto def;
         }
-        if (TQuestVmDownLoadServer__sub_803EED0C((s32)quest_download_scratch_storage + pos, t->off, (s32)(base + 0xC)) > 0) {
+        if (TQuestVmDownLoadServer__sub_803EED0C((saddr)quest_download_scratch_storage + pos, t->off, (saddr)(base + 0xC)) > 0) {
             goto build;
         }
         goto def;
@@ -2451,7 +2451,7 @@ inline s32 IsSmall_803EEB10(s32 d) {
 }
 
 #define n ((s16)arg1)
-void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode) {
+void *format_number_text__22TQuestVmDownLoadServerFiiPvi(saddr arg0, s32 arg1, void *arg2, s32 mode) {
     u8 *s = (u8 *)arg0;
     Out_803EEB10 *o = (Out_803EEB10 *)arg2;
     const Tbl_803EEB10 *t = &quest_download_number_text_table;
@@ -2529,8 +2529,8 @@ void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, voi
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs off
-inline u32 Call_803EED0C(s32 a, s32 b, s32 c, s32 d) {
-    return ((u32)format_number_text__22TQuestVmDownLoadServerFiiPvi((s32)a, (s32)b, (void *)c, (s32)d));
+inline u32 Call_803EED0C(s32 a, s32 b, saddr c, s32 d) {
+    return ((uaddr)format_number_text__22TQuestVmDownLoadServerFiiPvi((s32)a, (s32)b, (void *)c, (s32)d));
 }
 s32 TQuestVmDownLoadServer__sub_803EED0C(s32 arg0, s32 arg1, s32 arg2) {
     if (quest_download_file_handle == -1) {
@@ -2924,7 +2924,7 @@ u8 *TQuestVmDownLoadServer::find_insert_position(s32 key, s32 n, s32 len) {
         p += 5;
         while (*p++ != 0) {
         }
-        if ((u32)p & 1) {
+        if ((uaddr)p & 1) {
             p++;
         }
     }
@@ -3232,7 +3232,7 @@ s32 TQuestVmDownLoadServer__sub_803F0500(u8 *name, s16 len, Out_803E8C2C *out) {
     s16 blen;
     s16 cnt;
     s16 pre;
-    s32 idx;
+    saddr idx;
     s32 first;
     u8 *page;
     u8 *p;

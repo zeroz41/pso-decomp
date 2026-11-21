@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 extern "C" {
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
@@ -23,11 +24,11 @@ void TAdSnAkPassConfirmGC::render() {
     vfunc_12();
 }
 
-void TAdSnAkPassConfirmGC::vfunc_10() { get_localized_text_entry((s32)((void*)39), (s32)((void*)0)); }
+void TAdSnAkPassConfirmGC::vfunc_10() { get_localized_text_entry((saddr)((void*)39), (saddr)((void*)0)); }
 void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_7() { TAdMultiChgGameModeGC::request_transition(); }
-void TAdSnAkPassConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::set_state_0x1a(); }
+void TAdSnAkPassConfirmGC::vfunc_6() { ((TAdMultiChgGameModeGC *)this)->set_state_0x1a(); }
 
 void TAdSnAkPassConfirmGC::run_task() {
     vfunc_11();

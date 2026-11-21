@@ -49,7 +49,7 @@ struct TObjEneSaver : public TObjEnemy {
     u8 unk_3B0[0x1C];
 };
 
-typedef char TObjEneSaver_size[sizeof(TObjEneSaver) == 0x3CC ? 1 : -1];
-typedef char TObjEneSaver_m_374[offsetof(TObjEneSaver, m_374) == 0x374 ? 1 : -1];
-typedef char TObjEneSaver_m_3a4[offsetof(TObjEneSaver, m_3a4) == 0x3A4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneSaver_size, sizeof(TObjEneSaver) == 0x3CC);
+LAYOUT_ASSERT(TObjEneSaver_m_374, offsetof(TObjEneSaver, m_374) == 0x374);
+LAYOUT_ASSERT(TObjEneSaver_m_3a4, offsetof(TObjEneSaver, m_3a4) == 0x3A4);
 #endif

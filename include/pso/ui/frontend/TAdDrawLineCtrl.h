@@ -18,11 +18,11 @@ public:
     f32 line_depth;
     s32 render_mode;
 };
-typedef char TAdDrawLineCtrlSize[sizeof(TAdDrawLineCtrl) == 0x2C ? 1 : -1];
-typedef char TAdDrawLineCtrlDataOffset[offsetof(TAdDrawLineCtrl, line_data) == 0x1C ? 1 : -1];
-typedef char TAdDrawLineCtrlRootOffset[offsetof(TAdDrawLineCtrl, child_root) == 0x20 ? 1 : -1];
-typedef char TAdDrawLineCtrlDepthOffset[offsetof(TAdDrawLineCtrl, line_depth) == 0x24 ? 1 : -1];
-typedef char TAdDrawLineCtrlModeOffset[offsetof(TAdDrawLineCtrl, render_mode) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TAdDrawLineCtrlSize, sizeof(TAdDrawLineCtrl) == 0x2C);
+LAYOUT_ASSERT(TAdDrawLineCtrlDataOffset, offsetof(TAdDrawLineCtrl, line_data) == 0x1C);
+LAYOUT_ASSERT(TAdDrawLineCtrlRootOffset, offsetof(TAdDrawLineCtrl, child_root) == 0x20);
+LAYOUT_ASSERT(TAdDrawLineCtrlDepthOffset, offsetof(TAdDrawLineCtrl, line_depth) == 0x24);
+LAYOUT_ASSERT(TAdDrawLineCtrlModeOffset, offsetof(TAdDrawLineCtrl, render_mode) == 0x28);
 
 TAdDrawLineCtrl *create_draw_line_ctrl(TObject *parent, s32 group_index, f32 depth);
 

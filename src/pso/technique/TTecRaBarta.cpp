@@ -196,7 +196,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], (s32)(get_bml_model(technique_effect_bml, mid)), (s32)lbl_805D63B0, 0, 0, (f32)(1.0f));
+      attach_particle_model((u8 *)self->emitters[i], (saddr)(get_bml_model(technique_effect_bml, mid)), (saddr)lbl_805D63B0, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -219,7 +219,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, (s32)(get_bml_model(technique_effect_bml, id)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
+      attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, id)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
     }
   }
 }
@@ -321,11 +321,11 @@ struct Self_80237A94 {
 };
 
 void TTecRaBarta::create(void *source, void *origin, void *pos, void *level) {
-    new TTecRaBarta((s32)source, (Vec *)origin, (Vec *)pos, (s32)level);
+    new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, (saddr)level);
 }
 
 void TTecRaBarta::create(void *origin, void *level) {
-    new TTecRaBarta((s32)this, (Vec *)origin, (s32)level);
+    new TTecRaBarta((saddr)this, (Vec *)origin, (saddr)level);
 }
 
 TTecRaBarta::~TTecRaBarta() {
@@ -337,7 +337,7 @@ TTecRaBarta::~TTecRaBarta() {
             ((TObject *)obj)->queue_destruction();
         }
     }
-    stop_sound_request((s32)((struct Self_80237A94 *)this)->emitters);
+    stop_sound_request((saddr)((struct Self_80237A94 *)this)->emitters);
     mem_free(((struct Self_80237A94 *)this)->objs);
 }
 
@@ -346,11 +346,11 @@ void TTecRaBarta::render() {  }
 
 void TTecRaBarta::run_task() {
     u8 *arg0 = (u8 *)this;
-    if ((u32) this->m_e8 == 0U) {
+    if ((uaddr) this->m_e8 == 0U) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id((this->m_b4));
+    this->source = (uaddr)find_entity_by_id((this->m_b4));
     if ((u32) this->source == 0U) {
         ((TObject *)arg0)->queue_destruction();
         return;
@@ -365,7 +365,7 @@ void TTecRaBarta::run_task() {
 #pragma push
 #pragma opt_common_subs off
 
-TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     calc_parameters();
@@ -386,7 +386,7 @@ TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_80
 }
 #pragma pop
 
-TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     m_f0 = 0;

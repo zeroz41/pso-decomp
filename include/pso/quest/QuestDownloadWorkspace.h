@@ -44,14 +44,14 @@ extern QuestDownloadDisplayPrefix lbl_80596258;
 extern u8 quest_download_text_buffer[0x404] ATTRIBUTE_ALIGN(4);
 }
 
-typedef char QuestDownloadQueryEntrySize[sizeof(QuestDownloadQueryEntry) == 6 ? 1 : -1];
-typedef char QuestDownloadQueryEntriesOffset[offsetof(QuestDownloadQueryResult, entries) == 14 ? 1 : -1];
-typedef char QuestDownloadQueryResultSize[sizeof(QuestDownloadQueryResult) == 0xD0 ? 1 : -1];
-typedef char QuestDownloadWorkspaceResultOffset[offsetof(QuestDownloadWorkspace, result) == 0x8C0 ? 1 : -1];
-typedef char QuestDownloadWorkspaceSize[sizeof(QuestDownloadWorkspace) == 0x990 ? 1 : -1];
-typedef char QuestDownloadDisplayPrefixSize[sizeof(QuestDownloadDisplayPrefix) == 0xC ? 1 : -1];
-typedef char QuestDownloadScratchWordsSize[sizeof(QuestDownloadScratchWords) == 0x404 ? 1 : -1];
-typedef char QuestDownloadScratchIdsSize[sizeof(QuestDownloadScratchIds) == 0x404 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadQueryEntrySize, sizeof(QuestDownloadQueryEntry) == 6);
+LAYOUT_ASSERT(QuestDownloadQueryEntriesOffset, offsetof(QuestDownloadQueryResult, entries) == 14);
+LAYOUT_ASSERT(QuestDownloadQueryResultSize, sizeof(QuestDownloadQueryResult) == 0xD0);
+LAYOUT_ASSERT(QuestDownloadWorkspaceResultOffset, offsetof(QuestDownloadWorkspace, result) == 0x8C0);
+LAYOUT_ASSERT(QuestDownloadWorkspaceSize, sizeof(QuestDownloadWorkspace) == 0x990);
+LAYOUT_ASSERT(QuestDownloadDisplayPrefixSize, sizeof(QuestDownloadDisplayPrefix) == 0xC);
+LAYOUT_ASSERT(QuestDownloadScratchWordsSize, sizeof(QuestDownloadScratchWords) == 0x404);
+LAYOUT_ASSERT(QuestDownloadScratchIdsSize, sizeof(QuestDownloadScratchIds) == 0x404);
 
 enum QuestDownloadScratchPlacement { quest_download_scratch_words_or_ids };
 #pragma push

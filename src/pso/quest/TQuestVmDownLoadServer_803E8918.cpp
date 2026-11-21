@@ -428,7 +428,7 @@ inline QuestDownloadCachedNameNode *find_cached_name_link(
 #pragma push
 #pragma inline_depth(2)
 inline s32 read_name_image_bytes(void *file, u8 *image, s32 length) {
-    return ((TQuestVmDownLoadServer *)file)->aram_read_thunk((u32)image, length);
+    return ((TQuestVmDownLoadServer *)file)->aram_read_thunk((uaddr)image, length);
 }
 // Keep the fixed cache-image read distinct from its byte-count adapter; their
 // native inline lifetimes also determine the rebuild name-buffer offset.

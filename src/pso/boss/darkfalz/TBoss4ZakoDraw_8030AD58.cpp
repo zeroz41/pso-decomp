@@ -4,7 +4,7 @@
 
 extern "C" {
 
-s32 get_bml_texlist(s32, s32);
+saddr get_bml_texlist(s32, s32);
 void *get_bml_model(s32, s32);
 
 extern s32 falz_zako_texture_list;

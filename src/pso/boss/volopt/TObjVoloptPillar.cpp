@@ -58,8 +58,8 @@ extern GC_Mtx identity_matrix;
 }
 
 
-static s32 volopt_pillar_model;
-static s32 volopt_pillar_base_model;
+static saddr volopt_pillar_model;
+static saddr volopt_pillar_base_model;
 static s32 volopt_pillar_textures;
 static s32 volopt_pillar_base_textures;
 
@@ -70,7 +70,7 @@ static CollisionBody volopt_pillar_collision_body[1] = {
 void TObjVoloptPillar::render() {
     f32 scale;
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-        select_actor_lighting((s32)this);
+        select_actor_lighting((saddr)this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position);

@@ -27,6 +27,6 @@ void send_keepalive(u8 *arg0) {
     stack.sp8 = 0x1D;
     stack.sp9 = 0;
     stack.spA = 4;
-    ((packet_header *)((s32) &stack.sp8))->bswap();
+    ((packet_header *)((saddr) &stack.sp8))->bswap();
     ((VObj_18_44382c *)(arg0))->m8(&stack.sp8, 4);
 }

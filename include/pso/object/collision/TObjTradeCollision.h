@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjTradeCollision : public TObjCollidable {
-    TObjTradeCollision(s32, s32);
+    TObjTradeCollision(saddr, saddr);
     virtual ~TObjTradeCollision();
     bool is_player_outside_trade_radius(u32);
     virtual void run_task();
@@ -13,19 +13,19 @@ struct TObjTradeCollision : public TObjCollidable {
     u8 unk_AC[0x4];
 };
 
-typedef char TObjTradeCollision_size[sizeof(TObjTradeCollision) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TObjTradeCollision_size, sizeof(TObjTradeCollision) == 0xB0);
 
 extern "C" {
 void *TObjTradeCollision__create(void *arg0);
 void *__dt__18TObjTradeCollisionFv(void *arg0, s16 arg1);
-void run_task__18TObjTradeCollisionFv(s32 arg0);
+void run_task__18TObjTradeCollisionFv(saddr arg0);
 }
 
 // --- C functions defined in TObjTradeCollision.cpp ---
 extern "C" {
 void *TObjTradeCollision__create(void *arg0);
 void *__dt__18TObjTradeCollisionFv(void *arg0, s16 arg1);
-void run_task__18TObjTradeCollisionFv(s32 arg0);
+void run_task__18TObjTradeCollisionFv(saddr arg0);
 }
 // --- end of C functions
 

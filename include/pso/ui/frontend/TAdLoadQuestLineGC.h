@@ -16,9 +16,9 @@ public:
     void render_by_state();
 };
 
-typedef char TAdLoadQuestLineGCFrameOffset[(offsetof(TAdLoadQuestLineGC, m_frameCount) == 0x20) ? 1 : -1];
-typedef char TAdLoadQuestLineGCSize[sizeof(TAdLoadQuestLineGC) == 0x24 ? 1 : -1];
-typedef char TAdLoadQuestLineGCStateOffset[offsetof(TAdLoadQuestLineGC, m_state) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadQuestLineGCFrameOffset, offsetof(TAdLoadQuestLineGC, m_frameCount) == 0x20);
+LAYOUT_ASSERT(TAdLoadQuestLineGCSize, sizeof(TAdLoadQuestLineGC) == 0x24);
+LAYOUT_ASSERT(TAdLoadQuestLineGCStateOffset, offsetof(TAdLoadQuestLineGC, m_state) == 0x1C);
 
 extern "C" __declspec(section ".data") TAdLoadQuestLineGC *ad_load_quest_line_instances[2];
 

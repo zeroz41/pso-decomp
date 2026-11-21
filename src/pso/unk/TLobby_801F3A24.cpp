@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_801F3A24.h"
@@ -32,18 +33,18 @@ struct Ent_801F3A80 {
 extern "C" {
 void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size);
 extern s16 quest_floor_designations[];
-s32 TLobby__data_805D5EE0;
+saddr TLobby__data_805D5EE0;
 
-void refresh_quest_list__6TLobbyFi(s32 arg0) {
-    s32 temp_r3;
+void refresh_quest_list__6TLobbyFi(saddr arg0) {
+    saddr temp_r3;
     s32 size;
 
     size = get_resource_file_size((const char *)arg0);
     if (size >= 0) {
-        temp_r3 = (s32)TQuestVmDownLoadServer::alloc(size);
+        temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(size);
         if (temp_r3 != 0) {
             read_disc_file((const char *)arg0, (void *)temp_r3);
-            rebuild_all__6TLobbyFi(temp_r3);
+            TLobby::rebuild_all(temp_r3);
             TAdSinglePlyChrSelectGC::safe_free(temp_r3);
         }
     }
@@ -88,7 +89,7 @@ void TLobby::init_floor_encounter_sections() {
             break;
         }
         if (ok == 0) {
-            init_buffers__6TLobbyFii(i, TLobby__data_805D5EE0);
+            TLobby::init_buffers(i, TLobby__data_805D5EE0);
         }
     }
 }
@@ -110,7 +111,6 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 }
 
 extern "C" {
-s32 memset(void *, int, int);
 
     extern short TLobby__data_805D6134;
 void rebuild_all__6TLobbyFi(int a0) { TLobby__data_805D5EE0 = a0; TLobby::handle_msg_type1_for_idle_slots(); TLobby::init_sub_state(); TLobby__sub_8020A2AC(); TLobby::init_floor_encounter_sections(); TLobby::free_boss4rock(); TLobby::rebuild_entry(); TLobby::init_id_tables(); TLobby__data_805D6134 = 1; TLobby__data_805D5EE0 = 0; }
@@ -214,7 +214,7 @@ loop_1:
         bswap_32((u32 *)&spC);
         bswap_32((u32 *)&sp8);
         if ((sp14 == 3) && (spC == arg0)) {
-            return TLobby::add_player(spC, (s32)(var_r31 + 0x10), sp8) != 0;
+            return TLobby::add_player(spC, (saddr)(var_r31 + 0x10), sp8) != 0;
         }
         if (sp14 != 0) {
             var_r31 += sp10;
@@ -353,13 +353,13 @@ extern B_801F4340* TLobby__data_805D6144;
 
 extern s16 TLobby__data_805D6134;
 
-void open_session__6TLobbyFi(s32 arg0) {
-    s32 t;
+void open_session__6TLobbyFi(saddr arg0) {
+    saddr t;
     s32 size;
 
     size = get_resource_file_size((const char *)arg0);
     if (size >= 0) {
-        t = (TLobby__data_805D5EE0 = (s32)TQuestVmDownLoadServer::alloc(size));
+        t = (TLobby__data_805D5EE0 = (saddr)TQuestVmDownLoadServer::alloc(size));
         if (t != 0) {
             read_disc_file((const char *)arg0, (void *)t);
             populate_quest_floor_sets();

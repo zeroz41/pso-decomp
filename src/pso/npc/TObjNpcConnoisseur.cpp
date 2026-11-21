@@ -54,7 +54,7 @@ const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 
 extern "C" {
 s32 lbl_805D5748;
-u32 TObjNpcConnoisseur__instance;
+uaddr TObjNpcConnoisseur__instance;
 extern u8 TLobby__data_805011D8[];
 
 void TObjNpcConnoisseur::destroy_instance() {
@@ -71,7 +71,7 @@ void TObjNpcConnoisseur::load_section_motion() {
     if (o != 0) {
         o = load_resource_from_descriptor(o, 1, tekker_descriptor_selector_table[lbl_805D5748], 0, 0, 0);
     }
-    TObjNpcConnoisseur__instance = (u32)o;
+    TObjNpcConnoisseur__instance = (uaddr)o;
 }
 
 }

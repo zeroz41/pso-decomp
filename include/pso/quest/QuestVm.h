@@ -36,7 +36,7 @@ struct QuestVmContext {
     s32 unk28;
     s32 message_speaker;
     s32 arg_count;
-    s32 args[8];
+    saddr args[8];
     s32 call_stack[64];
     u8 unk154;
     u8 unk155;
@@ -61,12 +61,12 @@ extern "C" {
 extern u8 *qst_code;
 extern s32 *qst_function_table;
 // Byte offset of the next instruction in qst_code.
-extern s32 qst_pc;
+extern saddr qst_pc;
 extern s32 qst_call_stack[64];
 extern s32 qst_call_stack_depth;
 // r0-r255 / f0-f255 quest VM register table
 extern s32 *qst_registers;
-extern s32 qst_args[8];
+extern saddr qst_args[8];
 extern s32 qst_arg_count;
 extern quest_suspend_reason qst_suspend_reason;
 // register a finished wait writes its result into

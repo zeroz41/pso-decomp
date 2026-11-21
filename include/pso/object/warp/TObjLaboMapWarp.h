@@ -19,5 +19,5 @@ struct TObjLaboMapWarp : public TObjMapWarp {
     f32 animation_frame;
 };
 
-typedef char TObjLaboMapWarp_size[sizeof(TObjLaboMapWarp) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjLaboMapWarp_size, sizeof(TObjLaboMapWarp) == 0x100);
 #endif

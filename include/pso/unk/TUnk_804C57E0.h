@@ -20,7 +20,7 @@ public:
     void init_image_buffer(u8 *arg1, s32 arg2);
 };
 
-typedef char TUnk_804C57E0_size[sizeof(TUnk_804C57E0) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C57E0_size, sizeof(TUnk_804C57E0) == 0x54);
 
 extern "C" {
 // TUnk_804C57E0::~TUnk_804C57E0(), called by the destructors that are still written by hand.

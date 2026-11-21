@@ -15,5 +15,5 @@ struct TObjCity_Season_Board : public TObjBase {
     s32 uv_scroll;
 };
 
-typedef char TObjCity_Season_Board_size[sizeof(TObjCity_Season_Board) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TObjCity_Season_Board_size, sizeof(TObjCity_Season_Board) == 0x94);
 #endif

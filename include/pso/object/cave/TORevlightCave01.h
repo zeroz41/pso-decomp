@@ -18,5 +18,5 @@ public:
     s32 spin_speed;  // angle added per frame: scale.x degrees
 };
 
-typedef char TORevlightCave01_size[sizeof(TORevlightCave01) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TORevlightCave01_size, sizeof(TORevlightCave01) == 0xD0);
 #endif

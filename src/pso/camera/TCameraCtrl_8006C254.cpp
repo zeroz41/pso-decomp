@@ -79,7 +79,7 @@ struct Stack_8006C28C {
     u8 out[0x2C];
 };
 
-void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0);
+void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
 void normalize_vector(Vec *);
@@ -100,7 +100,7 @@ void TUnk_80488B68::run_task() {
     st.ptrs[1] = &st.v;
     st.ptrs[2] = &st.sp54;
     st.ptrs[3] = &st.sp58;
-    sample_camera_motion((u8 *)st.out, (s32)s->motion, (u8 *)st.ptrs, (f32)((f32)s->frame));
+    sample_camera_motion((u8 *)st.out, (saddr)s->motion, (u8 *)st.ptrs, (f32)((f32)s->frame));
     s->projection = scripted_camera_projection_angle;
     set_camera_capture_overlay_alpha(0x8F);
     if (s->mode->flags & 4) {
@@ -168,7 +168,7 @@ TUnk_80488B68::~TUnk_80488B68() {
 
 extern "C" {
 
-s32 load_relocatable_file(s32 arg0, s32 arg1);
+saddr load_relocatable_file(saddr arg0, saddr arg1);
 
 }
 TUnk_80488B68::TUnk_80488B68() : TUnk_80488A28() {
@@ -229,7 +229,7 @@ void TCameraCtrl::load_camera_banks() {
         TCameraCtrl__camera_banks.e[j].p = xmalloc(sz);
     }
     for (k = 0; k < n; k++) {
-        TCameraCtrl__camera_banks.e[k].a = load_relocatable_file((s32)b->entries[k].filename, (s32)TCameraCtrl__camera_banks.e[k].p);
+        TCameraCtrl__camera_banks.e[k].a = load_relocatable_file((saddr)b->entries[k].filename, (saddr)TCameraCtrl__camera_banks.e[k].p);
     }
 }
 

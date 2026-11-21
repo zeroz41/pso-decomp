@@ -676,7 +676,7 @@ inline s32 Open_803E7ACC(void) {
     quest_download_file_handle = h;
     return 0;
 }
-inline s32 Seek_803E7ACC(s32 h, s32 pos, s32 whence) {
+inline s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence) {
     return TQuestVmDownLoadServer__sub_803F09FC((void *)h, pos, whence);
 }
 inline s32 SeekRetry_803E7ACC(s32 pos) {
@@ -742,8 +742,8 @@ u8 *TQuestVmDownLoadServer::get_cached_page(s32 page) {
 }
 #pragma pop
 
-typedef char QuestDownloadFileNameSize[sizeof(quest_vm_download_server_file_info) == 0x44 ? 1 : -1];
-typedef char QuestDownloadNameIndexSize[sizeof(quest_name_index_table) == 0x1000 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadFileNameSize, sizeof(quest_vm_download_server_file_info) == 0x44);
+LAYOUT_ASSERT(QuestDownloadNameIndexSize, sizeof(quest_name_index_table) == 0x1000);
 
 s32 TQuestVmDownLoadServer::match_prefix_length(const u8 *a, const u8 *b, s32 n) {
     s32 i;
@@ -955,7 +955,7 @@ inline s32 Open_803E8624(void) {
     quest_download_file_handle = h;
     return 0;
 }
-inline s32 Seek_803E8624(s32 h, s32 pos, s32 whence) {
+inline s32 Seek_803E8624(saddr h, s32 pos, s32 whence) {
     return TQuestVmDownLoadServer__sub_803F09FC((void *)((void *)h), pos, whence);
 }
 
@@ -1114,8 +1114,8 @@ s32 TQuestVmDownLoadServer__sub_803E8788(int _w0, void * _w1, int _w2) {
     return -1;
 }
 
-s32 TQuestVmDownLoadServer::aram_read_thunk(u32 arg1, int _w2) {
-    s32 arg0 = (s32)this;
+s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr arg1, int _w2) {
+    saddr arg0 = (saddr)this;
     return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)arg1, (int)_w2);
 }
 

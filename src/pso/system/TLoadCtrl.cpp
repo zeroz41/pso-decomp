@@ -14,7 +14,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TNowLoading.h"
 
-u32 TLoadCtrl__instance;
+uaddr TLoadCtrl__instance;
 
 void TLoadCtrl::set_field1C(s32 arg0) {
     if ((void *) TLoadCtrl__instance != NULL) {
@@ -30,10 +30,9 @@ struct VObj_8001C8B8_8001C61C : Base_8001C8B8_8001C61C {
 struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
 s32 TLoadCtrl__loading_mode;
-s32 TLoadCtrl__fade_task;
+saddr TLoadCtrl__fade_task;
 extern s32 tl_fade;
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
@@ -41,7 +40,7 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
 extern s32 tl_su;
-extern s32 tl_camera;
+extern saddr tl_camera;
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
 }
@@ -64,7 +63,7 @@ extern void *camera_ctrl_instance;
 
 void TLoadCtrl::run_task() {
     Obj_8001C620 *self = (Obj_8001C620 *)this;
-    s32 o;
+    saddr o;
     if (TLoadCtrl__instance != 0U) {
         if ((u32)TLoadCtrl__fade_task != 0U && ((TObject *)TLoadCtrl__fade_task)->all_parents_unqueued_for_destruction() == 0) {
             TLoadCtrl__fade_task = 0;
@@ -80,13 +79,13 @@ void TLoadCtrl::run_task() {
             case 2:
                 break;
             case 3:
-                o = __nw__7TObjectFUl(0x1C);
+                o = (saddr)TObject::operator new(0x1C);
                 if ((u32)o != 0) {
                     __ct__14TAdFloorLoadGCFP7TObjectPv(o, self, 0);
                 }
                 break;
             case 4:
-                o = __nw__7TObjectFUl(0x1C);
+                o = (saddr)TObject::operator new(0x1C);
                 if ((u32)o != 0) {
                     __ct__14TAdFloorLoadGCFP7TObjectPv(o, self, 1);
                 }
@@ -116,7 +115,7 @@ TLoadCtrl::~TLoadCtrl() {
 }
 
 }
-TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
+TLoadCtrl::TLoadCtrl(saddr arg1) : TObject((TObject *)((void *)arg1)) {
     s32 temp_r3;
     s32 var_r0;
     this->m_1c = 1;
@@ -124,7 +123,7 @@ TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
     this->m_20 = 0;
     this->m_name = TLoadCtrl__class_name;
     if (((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 0U) || ((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 1U)) {
-        temp_r3 = __nw__7TObjectFUl(0x38);
+        temp_r3 = (saddr)TObject::operator new(0x38);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = __ct__9TAdFadeGCFP7TObjectPv(temp_r3, tl_fade, 2);
@@ -135,7 +134,7 @@ TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
 extern "C" {
 
 void TLoadCtrl::cleanup_scene() {
-    u32 t;
+    uaddr t;
 
     t = TLoadCtrl__instance;
     if (t != 0U) {
@@ -217,13 +216,13 @@ void TLoadCtrl::start_loading(u32 arg0) {
         TLoadCtrl__sub_80226DA0(2);
         break;
     }
-    temp_cam = (u8 *) __nw__7TObjectFUl(0x1D4);
+    temp_cam = (u8 *) TObject::operator new(0x1D4);
     if (temp_cam != NULL) {
         TCameraCtrl__ct(temp_cam, (void *)tl_camera);
     }
     load_ctrl = (u8 *)new TLoadCtrl(tl_su);
-    TLoadCtrl__instance = (u32) load_ctrl;
+    TLoadCtrl__instance = (uaddr) load_ctrl;
 }
 
-void TLoadCtrl::poll_default() { TLoadCtrl::start_loading((u32)((void*)(0))); }
+void TLoadCtrl::poll_default() { TLoadCtrl::start_loading((uaddr)((void*)(0))); }
 }

@@ -23,7 +23,7 @@ void TUnk_804A5248::vfunc_60() {
 
 
 void TUnk_804A5248::update_idle() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (this->get_item_index() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.1f, 0.6f);
     }
@@ -31,7 +31,7 @@ void TUnk_804A5248::update_idle() {
 
 
 void TUnk_804A5248::update_attack() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (this->get_item_index() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.2f, 1.0f);
     }
@@ -42,7 +42,7 @@ extern u32 __vt__13TUnk_804A5248[];
 
 }
 
-TItemWeaponRifle* TItemWeaponRifle::initialize(s32 parent,u8* item) {
+TItemWeaponRifle* TItemWeaponRifle::initialize(saddr parent,u8* item) {
     TItemWeaponRifle* self=this;
     __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)self), (void *)parent, item);
     self->dispatch=__vt__13TUnk_804A5248;
@@ -52,16 +52,12 @@ TItemWeaponRifle* TItemWeaponRifle::initialize(s32 parent,u8* item) {
     return self;
 }
 
-extern "C" {
-
-u8 *__nw__5TItemFUl(s32);
-}
 extern s32 tl_05;
 u8 *create_rifle_weapon(u8 *item) {
     u8 *item_weapon_rifle;
     u8 *var_r0;
     if (item != NULL) {
-        item_weapon_rifle = (u8 *)(__nw__5TItemFUl(0x1FC));
+        item_weapon_rifle = (u8 *)((u8 *)TItem::operator new(0x1FC));
         var_r0 = item_weapon_rifle;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((TItemWeaponRifle*)item_weapon_rifle)->initialize(tl_05, item));

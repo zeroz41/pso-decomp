@@ -20,8 +20,8 @@ struct ObjectSetData {
     s32 set_params[3];
 };
 
-typedef char ObjectSetDataSize[sizeof(ObjectSetData) == 0x3C ? 1 : -1];
-typedef char ObjectSetDataPositionOffset[offsetof(ObjectSetData, position) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(ObjectSetDataSize, sizeof(ObjectSetData) == 0x3C);
+LAYOUT_ASSERT(ObjectSetDataPositionOffset, offsetof(ObjectSetData, position) == 0xC);
 
 extern "C" s32 TLobby__sub_80207F30(ObjectSetData *set);
 

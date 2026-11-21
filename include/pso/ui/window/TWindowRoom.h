@@ -24,11 +24,11 @@ struct TWindowRoom : public TWindowBase {
     virtual void render();
 };
 
-typedef char TWindowRoomSize[sizeof(TWindowRoom) == 0x64 ? 1 : -1];
-typedef char RoomPositionOffset[offsetof(TWindowRoom, positionX) == 0x30 ? 1 : -1];
-typedef char RoomWidthOffset[offsetof(TWindowRoom, width) == 0x38 ? 1 : -1];
-typedef char RoomField48Offset[offsetof(TWindowRoom, unknown48) == 0x48 ? 1 : -1];
-typedef char RoomTabParameterOffset[offsetof(TWindowRoom, tabParameter) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowRoomSize, sizeof(TWindowRoom) == 0x64);
+LAYOUT_ASSERT(RoomPositionOffset, offsetof(TWindowRoom, positionX) == 0x30);
+LAYOUT_ASSERT(RoomWidthOffset, offsetof(TWindowRoom, width) == 0x38);
+LAYOUT_ASSERT(RoomField48Offset, offsetof(TWindowRoom, unknown48) == 0x48);
+LAYOUT_ASSERT(RoomTabParameterOffset, offsetof(TWindowRoom, tabParameter) == 0x60);
 
 extern "C" {
 // TWindowRoom::~TWindowRoom(), called by the destructors that are still written by hand.

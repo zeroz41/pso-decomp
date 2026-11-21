@@ -14,7 +14,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status);
  * last-defined first. */
 s32 lbl_805D7A94;
 s32 lbl_805D7A90;
-s32 lbl_805D7A8C;
+saddr lbl_805D7A8C;
 s16 lobby_modem_connect_state;
 s16 lbl_805D7A88;
 s16 lobby_modem_abort_flag;
@@ -37,8 +37,8 @@ typedef struct LobbyPkt_803FB7A4 {
     s32 d;
     u16 e;
     u16 f;
-    s32 g;
-    s32 h;
+    saddr g;
+    saddr h;
 } LobbyPkt_803FB7A4;
 
 #define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(lbl_805C18A0.mutex); g->cb(lbl_805D7A82, 0); lock_mutex(lbl_805C18A0.mutex); } } while (0)
@@ -83,7 +83,7 @@ s16 TLobby__sub_803FAEDC(NetSession *cfg) {
         NetMemcpy(buf, cfg->phone_number, len);
         buf[len] = 0;
     }
-    if (map_state_to_code((s32)*pname, cfg->req.type) < 0) {
+    if (map_state_to_code((saddr)*pname, cfg->req.type) < 0) {
         return 1;
     }
     return 0;
@@ -213,8 +213,8 @@ s32 NetLinkConnect(NetConnectCfg *cfg) {
     return -1;
 }
 
-void lock_mutex(int mutex);
-void unlock_mutex(int mutex);
+void lock_mutex(saddr mutex);
+void unlock_mutex(saddr mutex);
 void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
@@ -308,7 +308,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     lobby_modem_connect_state = 1;
     lbl_805D7A88 = 1;
     lbl_805D7A90 = g->flags;
-    lbl_805D7A8C = (s32)g->cb;
+    lbl_805D7A8C = (saddr)g->cb;
     if (g->flags & 4)
     {
       lbl_805D7A7A = 1;
@@ -396,7 +396,7 @@ s32 TLobby__sub_803FB7A4(void) {
     lobby_modem_connect_state = 2;
     get_time_ms(&lbl_805D7A94);
     lbl_805D7A84 = 1;
-    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, (s32)g->modem.s48, g->flags & 4);
+    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, (saddr)g->modem.s48, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
             lbl_805D7A82 = 0xd;
@@ -412,7 +412,7 @@ s32 TLobby__sub_803FB7A4(void) {
             LOBBY_ABORT(1, 8);
         }
         if (g->modem.h0 != 0) {
-            rc = configure_modem_options(g->modem.w4C, g->modem.w50, g->modem.w54, g->modem.init_count, (s32)g->modem.init_command);
+            rc = configure_modem_options(g->modem.w4C, g->modem.w50, g->modem.w54, g->modem.init_count, (saddr)g->modem.init_command);
         } else {
             rc = configure_modem_options(0, 0, 0, 0, 0);
         }
@@ -504,8 +504,8 @@ L242:
     }
     pkt.c = g->h98;
     pkt.d = g->start_tick;
-    pkt.g = (s32)g->user;
-    pkt.h = (s32)g->password;
+    pkt.g = (saddr)g->user;
+    pkt.h = (saddr)g->password;
     if (lcp_connect(&pkt) != 0) {
         LOBBY_ABORT(5, 8);
     }
@@ -521,7 +521,7 @@ L242:
         ok = 1;
         break;
     case 0:
-        rc = pap_connect((s32)g->user, (s32)g->password, 0x80);
+        rc = pap_connect((saddr)g->user, (saddr)g->password, 0x80);
         if (rc != 0) {
             LOBBY_NOTIFY();
             return 0;
@@ -529,7 +529,7 @@ L242:
         ok = 1;
         break;
     case 2:
-        rc = chap_connect((s32)g->user, (s32)g->password, 0x82);
+        rc = chap_connect((saddr)g->user, (saddr)g->password, 0x82);
         if (rc != 0) {
             LOBBY_NOTIFY();
             return 0;
@@ -544,7 +544,7 @@ L242:
         for (r29 = 0; r29 < 2; r29++) {
             u16 st = ppp_auth_protocol;
             if (st == 0x80) {
-                rc = pap_connect((s32)g->user, (s32)g->password, st);
+                rc = pap_connect((saddr)g->user, (saddr)g->password, st);
                 if (rc == 0) {
                     ok = 1;
                     break;
@@ -554,7 +554,7 @@ L242:
                     return 0;
                 }
             } else if (st == 0x82) {
-                rc = chap_connect((s32)g->user, (s32)g->password, st);
+                rc = chap_connect((saddr)g->user, (saddr)g->password, st);
                 if (rc == 0) {
                     ok = 1;
                     break;

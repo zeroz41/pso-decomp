@@ -25,6 +25,6 @@ public:
     f32 sample_distance;
     f32 power;
 };
-typedef char TUnk_8048FE08_size[sizeof(TUnk_8048FE08) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8048FE08_size, sizeof(TUnk_8048FE08) == 0xD4);
 
 #endif

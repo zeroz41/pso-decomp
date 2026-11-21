@@ -21,6 +21,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
 
 
@@ -47,7 +48,6 @@ extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];
 void TLobby__sub_802075F4(void);
-s32 __nw__7TObjectFUl(s32);
 
 extern s32 tl_05;
 
@@ -87,7 +87,7 @@ void TSceneSora::run_task() {
 TSceneSora::~TSceneSora() {
     TSceneSora__instance = 0;
 }
-TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
+TSceneSora::TSceneSora(saddr _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;
     sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TSceneSora__sky_bml_resource, 0));
     if (TSceneSora__has_sky_motion != 0) {
@@ -102,12 +102,12 @@ TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
 extern "C" {
 
 void TSceneSora::create_instance() {
-    s32 scene_sora;
+    saddr scene_sora;
 
     if (TSceneSora__sky_bml_resource != NULL) {
-        scene_sora = __nw__7TObjectFUl(0xA4);
+        scene_sora = (saddr)TObject::operator new(0xA4);
         if (scene_sora != 0) {
-            scene_sora = ((s32)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
+            scene_sora = ((saddr)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
         }
         TSceneSora__instance = scene_sora;
         return;
@@ -133,7 +133,7 @@ void TSceneSora::load_sky_resources() {
     Ent_80207478 *tbl;
     s32 ok;
     void *p;
-    u32 o;
+    uaddr o;
     TSceneSora__instance = 0;
     TSceneSora__sky_bml_resource = NULL;
     TSceneSora__has_sky_motion = 0;
@@ -165,7 +165,7 @@ void TSceneSora::load_sky_resources() {
         }
         b.n = 0;
         a.n = 0;
-        o = (u32)(int)::operator new(0x440);
+        o = (u32)(saddr)::operator new(0x440);
         if (o != 0) {
             o = init_bin_model_request((void *)o, 1, &b, &a, 0, 0, 0);
         }

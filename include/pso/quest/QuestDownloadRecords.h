@@ -6,7 +6,7 @@
 
 struct QuestDownloadItemNode;
 struct QuestDownloadMatchToken { u8 a; u8 b; u8 off; u8 d; };
-typedef char QuestDownloadMatchTokenSize[sizeof(QuestDownloadMatchToken) == 4 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadMatchTokenSize, sizeof(QuestDownloadMatchToken) == 4);
 
 // A matched sequence segment produced by the recursive dictionary search.
 struct QuestDownloadSegment {
@@ -18,8 +18,8 @@ struct QuestDownloadSegment {
     QuestDownloadSegment *next;
 };
 
-typedef char QuestDownloadSegmentSize[sizeof(QuestDownloadSegment) == 0xC ? 1 : -1];
-typedef char QuestDownloadSegmentNext[offsetof(QuestDownloadSegment, next) == 8 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadSegmentSize, sizeof(QuestDownloadSegment) == 0xC);
+LAYOUT_ASSERT(QuestDownloadSegmentNext, offsetof(QuestDownloadSegment, next) == 8);
 
 // One fragment in a download text entry. The low flag bit joins the next
 // fragment to this entry. The other fields are used by headed fragments.
@@ -49,9 +49,9 @@ struct QuestDownloadEntryNode {
     QuestDownloadEntryNode *next;
 };
 
-typedef char QuestDownloadEntryPrefixSize[sizeof(QuestDownloadEntryPrefix) == 8 ? 1 : -1];
-typedef char QuestDownloadEntryNodeSize[sizeof(QuestDownloadEntryNode) == 0x10 ? 1 : -1];
-typedef char QuestDownloadEntryNodeNext[offsetof(QuestDownloadEntryNode, next) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadEntryPrefixSize, sizeof(QuestDownloadEntryPrefix) == 8);
+LAYOUT_ASSERT(QuestDownloadEntryNodeSize, sizeof(QuestDownloadEntryNode) == 0x10);
+LAYOUT_ASSERT(QuestDownloadEntryNodeNext, offsetof(QuestDownloadEntryNode, next) == 0xC);
 
 // The decoded cache item or default item prefix, distinct from a four-byte match token.
 struct QuestDownloadItemNode {
@@ -73,9 +73,9 @@ struct QuestDownloadQueueNode {
     QuestDownloadQueueNode *next;
 };
 
-typedef char QuestDownloadQueueNodeSize[sizeof(QuestDownloadQueueNode) == 0x10 ? 1 : -1];
-typedef char QuestDownloadQueueNodeNext[offsetof(QuestDownloadQueueNode, next) == 0xC ? 1 : -1];
-typedef char QuestDownloadTextAttributeOffset[offsetof(QuestDownloadTextNode, attribute) == 0xE ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadQueueNodeSize, sizeof(QuestDownloadQueueNode) == 0x10);
+LAYOUT_ASSERT(QuestDownloadQueueNodeNext, offsetof(QuestDownloadQueueNode, next) == 0xC);
+LAYOUT_ASSERT(QuestDownloadTextAttributeOffset, offsetof(QuestDownloadTextNode, attribute) == 0xE);
 
 struct QuestDownloadSlot {
     const QuestDownloadMatchToken *tokens;
@@ -92,12 +92,12 @@ struct QuestDownloadSlot {
     u8 reserved_1a[2];
 };
 
-typedef char QuestDownloadTextNodeSize[sizeof(QuestDownloadTextNode) == 0x14 ? 1 : -1];
-typedef char QuestDownloadTextNodeNextOffset[offsetof(QuestDownloadTextNode, next) == 0x10 ? 1 : -1];
-typedef char QuestDownloadItemNodeSize[sizeof(QuestDownloadItemNode) == 0x10 ? 1 : -1];
-typedef char QuestDownloadItemNextOffset[offsetof(QuestDownloadItemNode, next) == 0xC ? 1 : -1];
-typedef char QuestDownloadSlotSize[sizeof(QuestDownloadSlot) == 0x1C ? 1 : -1];
-typedef char QuestDownloadSlotTextOffset[offsetof(QuestDownloadSlot, chain) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadTextNodeSize, sizeof(QuestDownloadTextNode) == 0x14);
+LAYOUT_ASSERT(QuestDownloadTextNodeNextOffset, offsetof(QuestDownloadTextNode, next) == 0x10);
+LAYOUT_ASSERT(QuestDownloadItemNodeSize, sizeof(QuestDownloadItemNode) == 0x10);
+LAYOUT_ASSERT(QuestDownloadItemNextOffset, offsetof(QuestDownloadItemNode, next) == 0xC);
+LAYOUT_ASSERT(QuestDownloadSlotSize, sizeof(QuestDownloadSlot) == 0x1C);
+LAYOUT_ASSERT(QuestDownloadSlotTextOffset, offsetof(QuestDownloadSlot, chain) == 0xC);
 
 extern "C" {
 extern QuestDownloadSlot quest_download_slot_chain_table[80];

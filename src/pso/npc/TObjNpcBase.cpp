@@ -121,7 +121,7 @@ void TObjNpcBase::interact(s32 client) {
                 targetId = client;
                 target = (u8 *) player;
                 if ((s32) targetId == local_client_id) {
-                    TObjPlayer::play_effect_default((int) player, -1);
+                    TObjPlayer::play_effect_default((saddr) player, -1);
                 }
                 request_action(1);
                 m_2ac = 0;
@@ -175,7 +175,7 @@ void TObjNpcBase::update_conversation() {
     Vec d;
     s32 ang;
     void *m;
-    u32 p;
+    uaddr p;
     if (interactor != local_client_id || target == 0 || m_3a8 <= 0) {
         phase = 3;
     }
@@ -278,9 +278,9 @@ void TObjNpcBase::update_conversation() {
                 break;
             }
             if (target != 0 && local_client_id == get_entity_id(target)) {
-                p = (u32)get_player_by_client_id(local_client_id);
+                p = (uaddr)get_player_by_client_id(local_client_id);
                 if (p != 0 && ((TObjPlayer *)p)->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((s32)p);
+                    TObjPlayer::send_code_45_1((saddr)p);
                 }
             }
         }
@@ -435,7 +435,7 @@ extern s32 model_render_flags;
 
 void TObjNpcBase::render() {
     if ((update_object_view_visibility(m_398, m_39c) != 0) && (m_390 == 1)) {
-        select_actor_lighting((s32) this);
+        select_actor_lighting((saddr) this);
         model_render_flags |= 1;
         TObjFish::set_global_param(texlist);
         push_matrix_from(0);
@@ -511,7 +511,7 @@ void TObjNpcBase::run_task() {
 
 // ---- src/pso/npc/TObjNpcBase_801490F4.cpp
 
-u32 npc_town_motion_data;
+uaddr npc_town_motion_data;
 
 void TObjNpcBase::free_static() {
     if (npc_town_motion_data != 0U) {

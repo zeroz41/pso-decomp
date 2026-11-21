@@ -26,7 +26,7 @@ struct TObjEneShark {
     void* model;
     f32 position[3];
     u8 unknown44[0x1C];
-    s32 rotation_y;
+    saddr rotation_y;
     u8 unknown64[0x54];
     s16 m_b8;
     u8 unk_BA[0x6];
@@ -74,7 +74,7 @@ struct TObjEneShark {
 
 #include <stddef.h>
 #define SHARK_OFFSET(member, offset) \
-    typedef char Shark_##member##_offset[(offsetof(TObjEneShark, member) == offset) ? 1 : -1]
+    LAYOUT_ASSERT(Shark_##member##_offset, offsetof(TObjEneShark, member) == offset)
 SHARK_OFFSET(virtualTable, 0x18);
 SHARK_OFFSET(textures, 0x24);
 SHARK_OFFSET(m_30, 0x30);
@@ -107,8 +107,8 @@ SHARK_OFFSET(m_3c4, 0x3C4);
 SHARK_OFFSET(m_3c8, 0x3C8);
 SHARK_OFFSET(camera_fades, 0x3CC);
 #undef SHARK_OFFSET
-typedef char SharkFadeStride[(sizeof(RenderFadeState) == 0x1C) ? 1 : -1];
-typedef char SharkSize[(sizeof(TObjEneShark) == 0x43C) ? 1 : -1];
+LAYOUT_ASSERT(SharkFadeStride, sizeof(RenderFadeState) == 0x1C);
+LAYOUT_ASSERT(SharkSize, sizeof(TObjEneShark) == 0x43C);
 
 extern "C" {
 void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2);

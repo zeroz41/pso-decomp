@@ -13,5 +13,5 @@ struct TOWreckAncientBrakable : public TOWreckAncient {
     s32 switch_id;  // inferred: the floor switch that breaks it, -1 for none (is_current_floor_switch_set)
 };
 
-typedef char TOWreckAncientBrakable_size[sizeof(TOWreckAncientBrakable) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TOWreckAncientBrakable_size, sizeof(TOWreckAncientBrakable) == 0xBC);
 #endif

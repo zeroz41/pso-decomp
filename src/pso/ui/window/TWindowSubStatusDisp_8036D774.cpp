@@ -16,7 +16,7 @@
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
-s32 TBGMulti__textures;
+saddr TBGMulti__textures;
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 s32 split_screen_hud_animation_frame;
@@ -121,7 +121,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   f32 buffer_8[8];
   f32 temp_f31;
   begin_screen_draw(1);
-  TObjFish::set_global_param((s32)((void *) TBGMulti__textures));
+  TObjFish::set_global_param((saddr)((void *) TBGMulti__textures));
   set_draw_texture_and_color(0, -1);
   var_r31 = 0;
   ;
@@ -167,7 +167,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 
 #pragma readonly_strings on
 #pragma pool_data off
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 extern s32 split_screen_hud_animation_frame;
 s32 release_texture_list(void*);
@@ -182,10 +182,10 @@ void TLobby::free_singleton_805D7018() {
 void TBGMulti__ct(void) {
     s32 sp8[4];
     if (TCameraCtrl::get_camera_id() == 3) {
-        sp8[0] = (s32)TLobby::tmp_buf_use_req("TBGMulti");
+        sp8[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", sp8, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        TObjFish::set_global_param((*(s32 *)&TBGMulti__textures) = (s32)load_gvm_texture_file((s32)"bg_multi.gvm"));
+        TObjFish::set_global_param((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file((saddr)"bg_multi.gvm"));
         TLanguage::set_entry_index(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;

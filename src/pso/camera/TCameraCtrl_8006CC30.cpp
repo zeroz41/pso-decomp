@@ -175,7 +175,7 @@ extern Vec TCameraCtrl__override_position;
 extern Vec camera_fixed_target_position;
 u8 TCameraCtrl__override_flags;
 extern "C" {
-s32 get_player_by_client_id(u32);
+saddr get_player_by_client_id(u32);
 extern u16 TCameraCtrl__camera_override_client_id;
 struct CameraControllerRegistry { s32 value; u8 remaining[0x64]; };
 extern CameraControllerRegistry camera_controller_registry;
@@ -202,7 +202,7 @@ void camera_renderer_setup_nop(void *, s32);
 extern FollowVector lbl_80438528;
 extern u8 lbl_804FF5E8[];
 }
-extern void *local_client_id;
+extern s32 local_client_id;
 void reset_cameras_to_actor(void *p, s32 x);
 extern FollowView *camera_ctrl_instance;
 
@@ -281,9 +281,9 @@ s32 TUnk_80488E00::is_flag_set() {
     return ((u32) *(u32 *)((s8 *)(TKeyBoardControl__sub_803DEB74(0x12)) + 8) >> 0x11U) & 1;
 }
 
-typedef char RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628) == 0xC);
 
-typedef char RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628) == 0xC);
 
 #pragma push
 #pragma fp_contract on
@@ -444,7 +444,7 @@ void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3) {
 void TCameraCtrl::set_active_camera_flag() {
     u8 *temp_r3;
     if ((u8) (*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value == 0) {
-        temp_r3 = (u8 *)(*(s32 *)((s8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)));
+        temp_r3 = (u8 *)(*(saddr *)((s8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)temp_r3 + 0x104) = 1;
         }
@@ -452,7 +452,7 @@ void TCameraCtrl::set_active_camera_flag() {
 }
 
 void end_conversation_camera(void) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((u8) TCameraCtrl__view_state.value == 0) {
         temp_r3 = *(s32 *)((s8 *)&camera_controller_registry.value + ((TCameraCtrl__view_state.value * 4) & 0x3FC));
         if (temp_r3 != 0U) {
@@ -463,7 +463,7 @@ void end_conversation_camera(void) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628) == 0xC);
 
 s32 conversation_camera_obstructed(FollowController *self,s32 heading) {
     FollowVector eye,candidate,offset;
@@ -483,8 +483,8 @@ s32 conversation_camera_obstructed(FollowController *self,s32 heading) {
     candidate.x+=offset.x;
     candidate.y+=(12.0f)+offset.y;
     candidate.z+=offset.z;
-    if(((u32)csnVector(&eye, &candidate, (u32)(0x100))))return 1;
-    return ((u32)csnVector(&candidate, &camera_ctrl_instance->target, (u32)(0x100))) ? 1 : 0;
+    if(((uaddr)csnVector(&eye, &candidate, (u32)(0x100))))return 1;
+    return ((uaddr)csnVector(&candidate, &camera_ctrl_instance->target, (u32)(0x100))) ? 1 : 0;
 }
 
 void begin_conversation_camera(void) {
@@ -561,7 +561,7 @@ void TUnk_80488E00::update_follow_motion_state() {
             if (temp_r3_3 & 1) {
                 if (temp_r3_3 & 0x10) {
                     m_58 = (0.05f);
-                    yaw = TCameraCtrl::clamp_distance(yaw, (s32)((void *) (sub_8006E7FC())), 0x16C);
+                    yaw = TCameraCtrl::clamp_distance(yaw, (saddr)((void *) (sub_8006E7FC())), 0x16C);
                 } else {
                     m_58 = (0.67f);
                     vfunc_14(*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)) + 0x60) + 0x8000);
@@ -575,7 +575,7 @@ void TUnk_80488E00::update_follow_motion_state() {
                     var_r4_2 = 1;
                 }
                 if (var_r4_2 == 0) {
-                    yaw = TCameraCtrl::clamp_distance(yaw, (s32)((void *) (sub_8006E7FC())), var_r4);
+                    yaw = TCameraCtrl::clamp_distance(yaw, (saddr)((void *) (sub_8006E7FC())), var_r4);
                 }
             }
             if (var_r31 == 0) {
@@ -585,7 +585,7 @@ void TUnk_80488E00::update_follow_motion_state() {
             break;
         case 2:
             vfunc_14(*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)) + 0x60) + 0x8000);
-            yaw = TCameraCtrl::clamp_distance(yaw, (s32)((void *) (sub_8006E7FC())), 3);
+            yaw = TCameraCtrl::clamp_distance(yaw, (saddr)((void *) (sub_8006E7FC())), 3);
             if (var_r31 != 0) {
                 m_f8 = 1;
                 m_f4 = 0;
@@ -699,7 +699,7 @@ void TUnk_80488E00::vfunc_9(u8 *arg1, u8 *arg2) {
         arg0->field_44 = arg0->field_50 + *(f32 *)((s8 *)arg2 + 8);
         temp_r3 = (u8 *)(csnVector(&arg0->field_48, &arg0->field_3C, 0x100));
         if (temp_r3 != NULL) {
-            VecCopy((Vec *)(&arg0->field_3C), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+            VecCopy((Vec *)(&arg0->field_3C), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
         }
     }
 }
@@ -863,7 +863,7 @@ void TUnk_80488E00::run_task() {
                 }
                 return;
             }
-            if (m_20 != (s32)local_client_id && *(u8 **)((s8 *)arg0 + 0x1C) != NULL && ((TWindowCtrl *)(*(u8 **)((s8 *)arg0 + 0x1C)))->is_player_flag_4000_set() != 0) {
+            if (m_20 != (saddr)local_client_id && *(u8 **)((s8 *)arg0 + 0x1C) != NULL && ((TWindowCtrl *)(*(u8 **)((s8 *)arg0 + 0x1C)))->is_player_flag_4000_set() != 0) {
                 reset_cameras_to_actor((void *)get_player_by_client_id((u32)local_client_id), 0);
                 for (i = 0; i < 4; i++) {
                     p = (u8 *)get_player_by_client_id(i);

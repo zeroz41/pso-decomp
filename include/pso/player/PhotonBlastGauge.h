@@ -19,6 +19,6 @@ struct PhotonBlastGauge {
     u8 pad_4a[0xA];
 };
 
-typedef char PhotonBlastGaugeSize[sizeof(PhotonBlastGauge) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(PhotonBlastGaugeSize, sizeof(PhotonBlastGauge) == 0x54);
 
 #endif

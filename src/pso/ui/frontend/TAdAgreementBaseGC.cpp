@@ -82,8 +82,8 @@ void TAdAgreementBaseGC::update_state() {
         *(s32 *)&this->m_1c = 1;
         break;
     case 1:
-        if (((TAdSinglePlyChrSelectGC *)(*(s32 *)&this->m_30))->get_selected_slot() == 1) {
-            switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(s32 *)&this->m_30))) {
+        if (((TAdSinglePlyChrSelectGC *)(*(saddr *)&this->m_30))->get_selected_slot() == 1) {
+            switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(saddr *)&this->m_30))) {
             case 0:
                 *(s32 *)&this->m_1c = 2;
                 *(s32 *)&this->m_24 = 3;

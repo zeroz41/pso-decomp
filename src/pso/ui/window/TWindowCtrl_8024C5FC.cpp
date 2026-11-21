@@ -3,7 +3,7 @@
 
 extern s8 *TWindowCtrl__active_window;
 
-s32 TWindowCtrl::get_window(s32 arg0) {
+saddr TWindowCtrl::get_window(s32 arg0) {
     if (TWindowCtrl__active_window == 0) {
         return 0;
     }

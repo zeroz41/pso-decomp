@@ -45,7 +45,7 @@ WindowDescriptor quantity_window_layout = {
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
 u32 calc_text_width(void);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 const char *lbl_805D39B0 = "TWindowQuantity";
 s32 draw_window_tab(s32, s32, s32, f32);
 
@@ -53,7 +53,7 @@ void TWindowQuantity::set_position(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
 }
 
-void render__15TWindowQuantityFv(s32 arg0) {
+void render__15TWindowQuantityFv(saddr arg0) {
     s32 ctx;
     ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64));
     ((TWindowQuantity *)arg0)->set_position(ctx);
@@ -70,7 +70,7 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
     u8 *e0;
     s32 id;
     f32 n;
-    self->f0 = (s32)lbl_805D39B0;
+    self->f0 = (saddr)lbl_805D39B0;
     id = get_message_text(1);
     n = (f32)calc_text_width();
     self->f60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
@@ -91,7 +91,7 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
 }
 
 void *create_window_quantity(void *arg0) {
-    return new TWindowQuantity((s32)arg0);
+    return new TWindowQuantity((saddr)arg0);
 }
 
 }

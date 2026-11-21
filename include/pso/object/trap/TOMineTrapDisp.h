@@ -12,5 +12,5 @@ struct TOMineTrapDisp : public TOMineDisp {
     u8 unk_AE[0x2];
 };
 
-typedef char TOMineTrapDisp_size[sizeof(TOMineTrapDisp) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TOMineTrapDisp_size, sizeof(TOMineTrapDisp) == 0xB0);
 #endif

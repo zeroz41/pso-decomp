@@ -8,7 +8,7 @@ extern "C" {
 
 void *TAdEnterSerialAccessGC::create_callback(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = new TWindowCallBack((s32)arg0, (u8 *)arg1, (s32)arg2);
+    o = new TWindowCallBack((saddr)arg0, (u8 *)arg1, (saddr)arg2);
     return o;
 }
 

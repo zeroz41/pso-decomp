@@ -188,13 +188,13 @@ struct TItemMag : public TItemEquipBase {
     MagOwnerWatch owner_watch;
 };
 
-typedef char MagOffset_state[offsetof(TItemMag, state) == 0x18C ? 1 : -1];
-typedef char MagOffset_stats[offsetof(TItemMag, stats) == 0x198 ? 1 : -1];
-typedef char MagOffset_children[offsetof(TItemMag, children) == 0x1A8 ? 1 : -1];
-typedef char MagOffset_motion_types[offsetof(TItemMag, motion_types) == 0x1B0 ? 1 : -1];
-typedef char MagOffset_trigger_modes[offsetof(TItemMag, trigger_modes) == 0x1C1 ? 1 : -1];
-typedef char MagOffset_action_cooldown[offsetof(TItemMag, action_cooldown) == 0x1C8 ? 1 : -1];
-typedef char MagOwnerWatchOffset[offsetof(TItemMag, owner_watch) == 0x1D4 ? 1 : -1];
-typedef char MagSize[sizeof(TItemMag) == 0x1E0 ? 1 : -1];
+LAYOUT_ASSERT(MagOffset_state, offsetof(TItemMag, state) == 0x18C);
+LAYOUT_ASSERT(MagOffset_stats, offsetof(TItemMag, stats) == 0x198);
+LAYOUT_ASSERT(MagOffset_children, offsetof(TItemMag, children) == 0x1A8);
+LAYOUT_ASSERT(MagOffset_motion_types, offsetof(TItemMag, motion_types) == 0x1B0);
+LAYOUT_ASSERT(MagOffset_trigger_modes, offsetof(TItemMag, trigger_modes) == 0x1C1);
+LAYOUT_ASSERT(MagOffset_action_cooldown, offsetof(TItemMag, action_cooldown) == 0x1C8);
+LAYOUT_ASSERT(MagOwnerWatchOffset, offsetof(TItemMag, owner_watch) == 0x1D4);
+LAYOUT_ASSERT(MagSize, sizeof(TItemMag) == 0x1E0);
 
 #endif

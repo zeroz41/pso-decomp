@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/item/TItemTexLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -11,7 +12,6 @@ void load_gvm_texture_archive(s32, void*);
 void *lookup_item_pmt_record(u8 *item);
 s32 adxf_get_stat(s32);
 void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
-char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
 extern const char TItemTexLoad_class_name[] = "TItemTexLoad";
@@ -22,7 +22,7 @@ char* item_texture_filename_buffer;
 
 void TItemTexLoad::load_texture_archive() {
     char t[12] = "ItemTexLoad";
-    s32 r = (s32)TLobby::tmp_buf_use_req((const char *)(&t));
+    s32 r = (saddr)TLobby::tmp_buf_use_req((const char *)(&t));
     if (r != 0) {
         prs_decompress_alloc(m_archive_buffer, r, 0x40000);
         load_gvm_texture_archive(r, &m_texture_list);
@@ -34,18 +34,18 @@ void TItemTexLoad::load_texture_archive() {
 }
 
 void TItemTexLoad::unload_texture() {
-    if (m_state == 2) free_texture_if_valid((u32)&m_texture_list);
+    if (m_state == 2) free_texture_if_valid((uaddr)&m_texture_list);
     if (m_state == 1) ((TLobby *)m_archive_handle)->close_adxf_handle();
     m_state = 0;
     m_texture_index = -1;
 }
 
 s32 TItemTexLoad::load_texture(s32 index) {
-    if ((index >= 0) && (index < 0x17B) && ((u32)m_archive_buffer != 0U)) {
+    if ((index >= 0) && (index < 0x17B) && ((uaddr)m_archive_buffer != 0U)) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;
-        m_archive_handle = (u32)TLobby::adxf_open_afs(0xB8, m_texture_index);
+        m_archive_handle = (uaddr)TLobby::adxf_open_afs(0xB8, m_texture_index);
         if (m_archive_handle == 0U) {
             unload_texture();
             return 0;
@@ -57,7 +57,7 @@ s32 TItemTexLoad::load_texture(s32 index) {
                 unload_texture();
                 return 0;
             }
-            TLobby::read_checked_align(m_archive_handle, r, (int)m_archive_buffer);
+            TLobby::read_checked_align(m_archive_handle, r, (saddr)m_archive_buffer);
         }
         return 1;
     }

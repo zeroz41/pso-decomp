@@ -5,6 +5,8 @@
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <string.h>
+#include <stdio.h>
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -83,7 +85,7 @@ struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
     u8 remaining[0x14];
 };
 
-typedef char RecoveredGlobal_8019B854___vt__14TObjWarpString_size[sizeof(RecoveredGlobal_8019B854___vt__14TObjWarpString) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8019B854___vt__14TObjWarpString_size, sizeof(RecoveredGlobal_8019B854___vt__14TObjWarpString) == 0x18);
 
 struct Obj_8019B8D8 { u8 pad[0x88]; s32 id; };
 
@@ -144,7 +146,7 @@ s32 is_split_screen();
 s32 get_current_floor();
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 s32 get_floor_destination_name();
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
 s32 *TObjCityMainWarp__sub_80186AF4(void);
@@ -153,7 +155,7 @@ s64 fn_8019B480(void *arg0, void *arg1);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
 void TObjWarpString__sub_8019B728(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
-u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
+u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 s32 TObjWarpJung__sub_801A0404(s32);
@@ -161,15 +163,12 @@ int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 init__23TAdSinglePlyChrSelectGCFv();
 s32 get_floor_map_terrain(s32);
-void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 get_game_play_mode(int);
 s32 PPCSync();
-int sprintf(char *, const char *, ...);
-void strncpy(s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
 }
 extern "C" {
@@ -304,14 +303,14 @@ void load_forest_warp_resources(void) {
         resource = load_resource_from_descriptor(resource, 5, &forest_warp_resource_descriptor, 0, 0, 0);
     }
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
+    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_warp.gvm");
 }
 
 
 void TObjWarpBase::free_globals() {
     if (forest_warp_texture_list != NULL) {
         release_texture_list(forest_warp_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)forest_warp_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)forest_warp_texture_list);
         forest_warp_texture_list = NULL;
     }
     free_bin_model_request(forest_warp_bml_resource, 1);
@@ -347,13 +346,13 @@ TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 ran
 }
 
 void TObjWarpBase::vfunc_14() {
-    u32 player;
+    uaddr player;
 
     player = (u32) this->menu_window;
     if (player != 0U) {
         ((TWindowBase *)player)->close();
         this->menu_window = 0U;
-        player = (u32)get_player_by_client_id(this->user_client_id);
+        player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }
@@ -422,16 +421,16 @@ void TObjMapWarp::vfunc_14() {
 #pragma push
 #pragma opt_common_subs off
 void TObjMapWarp::closePlayerWindow(u16 arg1) {
-    s32 arg0 = (s32)this;
-    u32 temp_r3;
-    u32 player;
+    saddr arg0 = (saddr)this;
+    uaddr temp_r3;
+    uaddr player;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xEC);
     if (temp_r3 != 0U) {
         ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)temp_r31 + 0xEC) = 0U;
-        player = ((u32)get_player_by_client_id((u32)((void *) ((s32) arg1))));
+        player = ((uaddr)get_player_by_client_id((uaddr)((void *) ((s32) arg1))));
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }
@@ -442,16 +441,16 @@ void TObjMapWarp::closePlayerWindow(u16 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TObjMapWarp::open_confirm_window(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     if ((u32) *(u32 *)((s8 *)temp_r31 + 0xEC) == 0U) {
         *(u32 *)((s8 *)temp_r31 + 0xEC) = ((s32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
-        ((TWindowSubTradeMain *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
+        ((TWindowSubTradeMain *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
+        ((TWindowSubComCard *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
         align_menu_entry_positions((int) (*(u32 *)((s8 *)temp_r31 + 0xEC)));
-        ((TWindowSubComCardList *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
+        ((TWindowSubComCardList *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag70_bit10();
+        ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
     }
 }
 #pragma pop
@@ -592,7 +591,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((s32)textures);
+        TObjFish::set_global_param((saddr)textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -624,12 +623,12 @@ TObjAreaWarp::~TObjAreaWarp() {
 }
 
 void TObjAreaWarp::open_confirm_window(s32 arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     if ((u32) this->menu_window == 0U) {
         this->menu_window = ((u32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
-            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry((s32)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
             get_floor_area(this->dest_floor);
             ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_floor_destination_name(), 2, 0, -1);
@@ -639,7 +638,7 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
         ((TWindowSubComCardList *)(this->menu_window))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
         this->user_client_id = arg1;
-        temp_r3 = (u32)get_player_by_client_id(this->user_client_id);
+        temp_r3 = (uaddr)get_player_by_client_id(this->user_client_id);
         if (temp_r3 != 0U) {
             mask_action_buttons((void *)(temp_r3 + 0x550), 4);
         }
@@ -757,7 +756,7 @@ void TObjAreaWarp::debug_print_area_num() {
 const char *TObjAreaWarpForest__name = "TObjAreaWarpForest";
 
 TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     s32 var_r0;
     u32 temp_r0;
     u32 temp_r3;
@@ -776,10 +775,10 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3_2 = (int)::operator new(0x88);
+        temp_r3_2 = (saddr)::operator new(0x88);
         var_r0 = temp_r3_2;
         if (var_r0 != 0) {
-            var_r0 = (s32)((TAdVIConfigGC *)temp_r3_2)->init(&position, 20.0f);
+            var_r0 = (saddr)((TAdVIConfigGC *)temp_r3_2)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -814,13 +813,13 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
         push_matrix();
         post_translate_matrix(m->pos);
-        draw_ginja_model((s32)m->model);
+        draw_ginja_model((saddr)m->model);
         TParticleCtrl::begin_effect_render();
         m = m->child;
         while (m != NULL) {
@@ -828,7 +827,7 @@ void TObjAreaWarpForest::render() {
             post_translate_matrix(m->pos);
             rotate_matrix_zyx(NULL, (m->ang[0]), (m->ang[1]), (m->ang[2]));
             rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
-            draw_ginja_model((s32)m->model);
+            draw_ginja_model((saddr)m->model);
             pop_matrix();
             m = m->sibling;
         }
@@ -861,7 +860,7 @@ void TObjAreaWarpForest::debug_print_area_num() {
 const char *TObjAreaWarpQuest__name = "TObjAreaWarpQuest";
 
 TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     u32 temp_r0;
     u32 temp_r4;
@@ -877,10 +876,10 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3 = (int)::operator new(0x88);
+        temp_r3 = (saddr)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
+            var_r0 = (saddr)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -913,13 +912,13 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
         push_matrix();
         post_translate_matrix(m->pos);
-        draw_ginja_model((s32)m->model);
+        draw_ginja_model((saddr)m->model);
         TParticleCtrl::begin_effect_render();
         m = m->child;
         while (m != NULL) {
@@ -927,7 +926,7 @@ void TObjAreaWarpQuest::render() {
             post_translate_matrix(m->pos);
             rotate_matrix_zyx(NULL, (m->ang[0]), (m->ang[1]), (m->ang[2]));
             rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
-            draw_ginja_model((s32)m->model);
+            draw_ginja_model((saddr)m->model);
             pop_matrix();
             m = m->sibling;
         }
@@ -985,7 +984,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
 const char *TObjAreaWarpEnding__name = "TObjAreaWarpEnding";
 
 TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     u32 temp_r0;
     u32 temp_r4;
@@ -1000,10 +999,10 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3 = (int)::operator new(0x88);
+        temp_r3 = (saddr)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
+            var_r0 = (saddr)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -1037,20 +1036,20 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+    TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     push_matrix();
     post_translate_matrix(root->pos);
-    draw_ginja_model((s32)root->model);
+    draw_ginja_model((saddr)root->model);
     TParticleCtrl::begin_effect_render();
     for (root = root->child; root != 0; root = root->sibling) {
         push_matrix();
         post_translate_matrix(root->pos);
         rotate_matrix_zyx(NULL, root->ang[0], root->ang[1], root->ang[2]);
         rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
-        draw_ginja_model((s32)root->model);
+        draw_ginja_model((saddr)root->model);
         pop_matrix();
     }
     TParticleCtrl::end_effect_render();
@@ -1096,7 +1095,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 
 void TObjAreaWarpEnding::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    u32 obj = ((u32 (*)(s32))__nw__7TObjectFUl)(0x28);
+    uaddr obj = (uaddr)TObject::operator new(0x28);
     if (obj != 0U) {
         ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((s32 *)TKeyBoardControl::dispatch_select_phase));
     }
@@ -1177,11 +1176,11 @@ void TObjMapForceWarp::create_warp_id_string(u16 client_id) {
 
 const char *TObjWarpString__name = "TObjWarpString";
 
-u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, s32 arg2, s16 arg3) {
+u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, saddr arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__14TObjWarpString.value;
-    *(s32 *)((s8 *)object + 0) = (s32)TObjWarpString__name;
-    strncpy((s32)(object + 0x1C), arg2, 0x20);
+    *(saddr *)((s8 *)object + 0) = (saddr)TObjWarpString__name;
+    strncpy((char *)(object + 0x1C), (const char *)arg2, 0x20);
     *(s8 *)((s8 *)object + 0x3B) = 0;
     *(s16 *)((s8 *)object + 0x48) = arg3;
     *(s32 *)((s8 *)object + 0x3C) = -1;
@@ -1305,7 +1304,7 @@ s64 fn_8019B480(void *arg0, void *camera_ctrl) {
 
 void *create_TObjWarpString(char *text, u16 client_id) {
     void *o;
-    o = __nw__7TObjectFUl(0x50);
+    o = TObject::operator new(0x50);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, char *, u16))__ct__14TObjWarpStringFv)(o, tl_clipout, text, client_id);
     }

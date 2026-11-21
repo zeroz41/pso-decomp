@@ -21,8 +21,8 @@ public:
     static void init_scene();
 };
 
-typedef char ReverseTechPartOneOffset[offsetof(TItemReverseTech, part_one) == 0x20 ? 1 : -1];
-typedef char ReverseTechPartTwoOffset[offsetof(TItemReverseTech, part_two) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(ReverseTechPartOneOffset, offsetof(TItemReverseTech, part_one) == 0x20);
+LAYOUT_ASSERT(ReverseTechPartTwoOffset, offsetof(TItemReverseTech, part_two) == 0x24);
 
 extern "C" {
 void *TItemReverseTech__ct(void *item_reverse_tech, void *parent);

@@ -8,8 +8,8 @@ extern "C" {
 s32 __destroy_arr(s32, s32 *, s32, s32);
 
 u8 *__ct__13TPlyJoinLobbyFRC13TPlyJoinLobby(u8 *arg0, u8 *arg1) {
-    u32 var_r30;
-    s32 var_r29;
+    uaddr var_r30;
+    saddr var_r29;
 
     var_r30 = (unsigned long) (arg0 + 0x10);
     var_r29 = (long) (arg1 + 0x10);
@@ -30,13 +30,13 @@ u8 *__ct__13TPlyJoinLobbyFRC13TPlyJoinLobby(u8 *arg0, u8 *arg1) {
         TLobby__sub_8013AA64((u8 *)var_r30, (u8 *)var_r29);
         var_r30 += 0x43C;
         var_r29 += 0x43C;
-    } while (var_r30 < (u32)(arg0 + 0x32E0));
+    } while (var_r30 < (uaddr)(arg0 + 0x32E0));
     return arg0;
 }
 
 extern s32 __dt__18TPlyJoinLobbyEntryFv[];
 
-s32 __dt__13TPlyJoinLobbyFv(s32 arg0, s16 arg1) {
+s32 __dt__13TPlyJoinLobbyFv(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __destroy_arr(arg0 + 0x10, __dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
         if (arg1 > 0) {

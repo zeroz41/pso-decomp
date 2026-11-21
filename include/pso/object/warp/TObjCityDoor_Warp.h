@@ -13,5 +13,5 @@ struct TObjCityDoor_Warp : public TUnk_804B5BA8 {
     virtual void run_task();
 };
 
-typedef char TObjCityDoor_Warp_size[sizeof(TObjCityDoor_Warp) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjCityDoor_Warp_size, sizeof(TObjCityDoor_Warp) == 0xBC);
 #endif

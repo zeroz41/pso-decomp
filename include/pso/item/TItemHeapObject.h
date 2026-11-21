@@ -8,5 +8,5 @@ public:
     void* operator new(size_t size);
     void operator delete(void* ptr);
 };
-typedef char ItemHeapObjectSize[(sizeof(TItemHeapObject)==0x1C)?1:-1];
+LAYOUT_ASSERT(ItemHeapObjectSize, sizeof(TItemHeapObject)==0x1C);
 #endif

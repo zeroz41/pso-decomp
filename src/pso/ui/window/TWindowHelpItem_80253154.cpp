@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/item/TItemData.h"
 
-s32 format_item_description(u8 *item);
+saddr format_item_description(u8 *item);
 extern s32 lbl_805DCDE0;
 
 void TWindowHelpItem::format_description_with_price() {

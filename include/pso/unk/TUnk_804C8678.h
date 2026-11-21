@@ -18,7 +18,7 @@ public:
     virtual ~TUnk_804C8678();
     virtual void run_task();
 };
-typedef char TUnk_804C8678_size[sizeof(TUnk_804C8678) == 0x1A4 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C8678_size, sizeof(TUnk_804C8678) == 0x1A4);
 
 extern TUnk_804C8678 *quest_mission_manager;
 extern TUnk_804C8678 *quest_area_manager;

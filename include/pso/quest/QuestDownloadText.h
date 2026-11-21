@@ -22,16 +22,16 @@ struct Req_803EEF2C {
 };
 typedef Req_803EEF2C QuestDownloadRequest;
 
-typedef char QuestDownloadInputEntrySize[sizeof(QuestDownloadInputEntry) == 8 ? 1 : -1];
-typedef char QuestDownloadInputEntryLength[offsetof(QuestDownloadInputEntry, len) == 4 ? 1 : -1];
-typedef char QuestDownloadRequestSize[sizeof(QuestDownloadRequest) == 0x10 ? 1 : -1];
-typedef char QuestDownloadRequestLength[offsetof(QuestDownloadRequest, len) == 4 ? 1 : -1];
-typedef char QuestDownloadRequestKind[offsetof(QuestDownloadRequest, x7) == 7 ? 1 : -1];
-typedef char QuestDownloadRequestText[offsetof(QuestDownloadRequest, text) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadInputEntrySize, sizeof(QuestDownloadInputEntry) == 8);
+LAYOUT_ASSERT(QuestDownloadInputEntryLength, offsetof(QuestDownloadInputEntry, len) == 4);
+LAYOUT_ASSERT(QuestDownloadRequestSize, sizeof(QuestDownloadRequest) == 0x10);
+LAYOUT_ASSERT(QuestDownloadRequestLength, offsetof(QuestDownloadRequest, len) == 4);
+LAYOUT_ASSERT(QuestDownloadRequestKind, offsetof(QuestDownloadRequest, x7) == 7);
+LAYOUT_ASSERT(QuestDownloadRequestText, offsetof(QuestDownloadRequest, text) == 0xC);
 
 extern "C" {
 extern QuestDownloadInputEntry quest_download_entry_table[39];
-typedef char QuestDownloadInputTableSize[sizeof(quest_download_entry_table) == 0x138 ? 1 : -1];
+LAYOUT_ASSERT(QuestDownloadInputTableSize, sizeof(quest_download_entry_table) == 0x138);
 extern QuestDownloadInputEntry *lbl_805D78C4;
 extern QuestDownloadInputEntry *lbl_805D78C8;
 

@@ -49,9 +49,9 @@ struct TAdLdQuestPrtGC : public TObject {
     Tint tints[4];
 };
 
-typedef char TAdLdQuestPrtGC_size[sizeof(TAdLdQuestPrtGC) == 0x158 ? 1 : -1];
-typedef char QuestParticlePositionsOffset[offsetof(TAdLdQuestPrtGC, particle_pos) == 0x2C ? 1 : -1];
-typedef char QuestParticleAnglesOffset[offsetof(TAdLdQuestPrtGC, particle_angles) == 0x5C ? 1 : -1];
-typedef char QuestParticleStepsOffset[offsetof(TAdLdQuestPrtGC, angle_speed) == 0x8C ? 1 : -1];
-typedef char QuestParticleTintsOffset[offsetof(TAdLdQuestPrtGC, tints) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TAdLdQuestPrtGC_size, sizeof(TAdLdQuestPrtGC) == 0x158);
+LAYOUT_ASSERT(QuestParticlePositionsOffset, offsetof(TAdLdQuestPrtGC, particle_pos) == 0x2C);
+LAYOUT_ASSERT(QuestParticleAnglesOffset, offsetof(TAdLdQuestPrtGC, particle_angles) == 0x5C);
+LAYOUT_ASSERT(QuestParticleStepsOffset, offsetof(TAdLdQuestPrtGC, angle_speed) == 0x8C);
+LAYOUT_ASSERT(QuestParticleTintsOffset, offsetof(TAdLdQuestPrtGC, tints) == 0xC8);
 #endif

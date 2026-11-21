@@ -238,7 +238,7 @@ s32 init_net_list(s16 count1, s16 count2) {
         base[0].next = &base[p->n2];
         base[0].id = 0;
     }
-    return (s32)p;
+    return (saddr)p;
 }
 
 NetThreadState lbl_805C18A0;

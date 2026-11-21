@@ -18,5 +18,5 @@ struct TOMekaFish00 : public TODragonfly {
     static BmlResource *model_resource;
 };
 
-typedef char TOMekaFish00_size[sizeof(TOMekaFish00) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TOMekaFish00_size, sizeof(TOMekaFish00) == 0x100);
 #endif

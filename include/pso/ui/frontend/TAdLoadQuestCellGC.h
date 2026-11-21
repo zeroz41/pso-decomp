@@ -16,9 +16,9 @@ public:
     void render_state();
 };
 
-typedef char TAdLoadQuestCellGCFrameOffset[(offsetof(TAdLoadQuestCellGC, m_frameCount) == 0x20) ? 1 : -1];
-typedef char TAdLoadQuestCellGCSize[sizeof(TAdLoadQuestCellGC) == 0x24 ? 1 : -1];
-typedef char TAdLoadQuestCellGCStateOffset[offsetof(TAdLoadQuestCellGC, m_state) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadQuestCellGCFrameOffset, offsetof(TAdLoadQuestCellGC, m_frameCount) == 0x20);
+LAYOUT_ASSERT(TAdLoadQuestCellGCSize, sizeof(TAdLoadQuestCellGC) == 0x24);
+LAYOUT_ASSERT(TAdLoadQuestCellGCStateOffset, offsetof(TAdLoadQuestCellGC, m_state) == 0x1C);
 
 extern "C" TAdLoadQuestCellGC *ad_load_quest_cell_table[3];
 

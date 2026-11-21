@@ -27,7 +27,7 @@ public:
     TAdLdQuestPrtGC *quest_display;
 };
 
-typedef char TAdLoadQuestGCDisplayOffset[offsetof(TAdLoadQuestGC, quest_display) == 0x1C ? 1 : -1];
-typedef char TAdLoadQuestGCSize[sizeof(TAdLoadQuestGC) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadQuestGCDisplayOffset, offsetof(TAdLoadQuestGC, quest_display) == 0x1C);
+LAYOUT_ASSERT(TAdLoadQuestGCSize, sizeof(TAdLoadQuestGC) == 0x20);
 
 #endif

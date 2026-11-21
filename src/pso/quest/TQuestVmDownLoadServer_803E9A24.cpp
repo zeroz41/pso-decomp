@@ -614,7 +614,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
     }
     slot = &quest_download_slot_chain_table[pos];
     e = slot->tokens;
-    if ((u32)e == 0xFFFFFFFF) {
+    if ((uaddr)e == 0xFFFFFFFF) {
         return (QuestDownloadSegment *)-1;
     }
     if (e == NULL && IsBreakChar_803E9A74(quest_download_scratch_storage[pos])) {
@@ -659,7 +659,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
             QuestDownloadSegment *r;
             n = quest_download_lz_match_strings[sub->off];
             r = TQuestVmDownLoadServer__sub_803E9A74(pos + n, end, sub->a, sub->b);
-            if ((u32)r == 0xFFFFFFFF) {
+            if ((uaddr)r == 0xFFFFFFFF) {
                 TQuestVmDownLoadServer__sub_803ECE5C(head);
                 return (QuestDownloadSegment *)-1;
             }
@@ -793,7 +793,7 @@ QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 end, 
     tail = NULL;
     pos = arg0 + off;
     s = TQuestVmDownLoadServer__sub_803E9A74(pos, end, t->a, t->b);
-    if ((u32)s == 0xFFFFFFFFU) {
+    if ((uaddr)s == 0xFFFFFFFFU) {
         return (QuestDownloadEntryNode *)-1;
     }
     for (first = s; s != NULL; s = s->next) {
@@ -869,10 +869,10 @@ s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end) {
     QuestDownloadEntryNode *list;
     QuestDownloadEntryNode *o;
     e = &quest_download_slot_chain_table[start];
-    if ((u32)e->items != 0xFFFFFFFF) {
+    if ((uaddr)e->items != 0xFFFFFFFF) {
         for (tok = e->items; tok != NULL; tok = tok->next) {
             list = TQuestVmDownLoadServer__sub_803E9FFC(start, end, tok);
-            if ((u32)list == 0xFFFFFFFF) {
+            if ((uaddr)list == 0xFFFFFFFF) {
                 if (e->head != NULL) {
                     TQuestVmDownLoadServer__sub_803ECD8C(e->head);
                     e->head = NULL;
@@ -885,7 +885,7 @@ s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end) {
         }
     }
     list = TQuestVmDownLoadServer__sub_803E9FFC(start, end, &quest_download_lz_default_tokens);
-    if ((u32)list == 0xFFFFFFFF) {
+    if ((uaddr)list == 0xFFFFFFFF) {
         if (e->head != NULL) {
             TQuestVmDownLoadServer__sub_803ECD8C(e->head);
             e->head = NULL;
@@ -1165,7 +1165,7 @@ s32 TQuestVmDownLoadServer::count_leading_entries(s32 i, s32 end) {
         if (n == 0) {
             return -1;
         }
-        if (e->head != NULL && (u32)e->head != 0xFFFFFFFF && e->head->prefix.a != 0x28) {
+        if (e->head != NULL && (uaddr)e->head != 0xFFFFFFFF && e->head->prefix.a != 0x28) {
             break;
         }
         total += n;
@@ -1345,7 +1345,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
                 walk->x14 = 1;
             } else {
                 while (covered < groupLength) {
-                    if ((u32)walk->head != 0xFFFFFFFF) {
+                    if ((uaddr)walk->head != 0xFFFFFFFF) {
                         TQuestVmDownLoadServer__sub_803ECD8C(walk->head);
                     }
                     walk->head = NULL;
@@ -1354,7 +1354,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
                     walk->chain = NULL;
                     covered += (walk = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos + covered))->x15;
                 }
-                if ((u32)walk->head != 0xFFFFFFFF) {
+                if ((uaddr)walk->head != 0xFFFFFFFF) {
                     TQuestVmDownLoadServer__sub_803ECD8C(walk->head);
                 }
                 walk->head = NULL;
@@ -1386,7 +1386,7 @@ void TQuestVmDownLoadServer__sub_803EADD4(QuestDownloadSlot *slot, s32 mode) {
     if (mode == 0) {
         slot->tokens = reinterpret_cast<const QuestDownloadMatchToken *>(0xFFFFFFFFU);
         slot->x18 = -1;
-        if ((u32)slot->items != 0xFFFFFFFF) {
+        if ((uaddr)slot->items != 0xFFFFFFFF) {
             release_node_chain__22TQuestVmDownLoadServerFPv(slot->items);
         }
         slot->items = NULL;
@@ -1394,7 +1394,7 @@ void TQuestVmDownLoadServer__sub_803EADD4(QuestDownloadSlot *slot, s32 mode) {
         slot->x19 = -1;
         slot->x16 = 0;
     }
-    if (slot->head != NULL && (u32)slot->head != 0xFFFFFFFF) {
+    if (slot->head != NULL && (uaddr)slot->head != 0xFFFFFFFF) {
         TQuestVmDownLoadServer__sub_803ECD8C(slot->head);
     }
     slot->head = NULL;

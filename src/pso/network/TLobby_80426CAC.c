@@ -47,7 +47,7 @@ typedef struct PppoeTable {
     u8 mac[6];                  /* 0xE14: no code in this build writes it */
     u8 padE1A[6];
 } PppoeTable;
-typedef char PppoeTable_size_check[sizeof(PppoeTable) == 0xE20 ? 1 : -1];
+LAYOUT_ASSERT(PppoeTable_size_check, sizeof(PppoeTable) == 0xE20);
 
 extern u8 lbl_805CF240[0xA0];
 extern u8 pppoe_message_queue[0xA0];
@@ -58,7 +58,7 @@ extern u8 pppoe_message_queue[];
 
 extern u8 lbl_805CF240[];
 
-PppoeSlot *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1);
+PppoeSlot *find_pppoe_slot_by_session_id(saddr arg0, u16 arg1);
 s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len);
 s16 TLobby__sub_80426D80(PppoeSlot *e);
 s32 TLobby__sub_80426574(s32);
@@ -66,14 +66,14 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e);
 s16 TLobby__sub_804270C0(u8 *self);
 PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len);
 void TLobby__sub_80427378(PppoeSlot *e);
-s16 handle_pppoe_discovery_frame(s32, u16);
+s16 handle_pppoe_discovery_frame(saddr, u16);
 s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 
 #define arg0 ((s32)argp)
 #undef arg0
 
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
-s32 write_pppoe_ac_name_tag(s32 *arg0, u8 *arg1);
+s32 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1);
 s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2);
 s16 get_pppoe_session_id(s16 arg0);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
@@ -298,7 +298,7 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e) {
 #pragma opt_lifetimes off
 s16 TLobby__sub_804270C0(u8 *self) {
     s16 NetStringLength(const char *);
-    s16 write_pppoe_ac_name_tag(s32 *, u8 *);
+    s16 write_pppoe_ac_name_tag(u8 **, u8 *);
     u8 pad1[4];
     u8 *p;
     u16 w[8];
@@ -321,7 +321,7 @@ s16 TLobby__sub_804270C0(u8 *self) {
     if (len < 0) {
         return -1;
     }
-    r = write_pppoe_ac_name_tag((s32 *)&p, self);
+    r = write_pppoe_ac_name_tag(&p, self);
     if (r < 0) {
         return -1;
     }
@@ -359,7 +359,7 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 write_pppoe_ac_name_tag(s32 *arg0, u8 *arg1) {
+s32 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1) {
 typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
     s16 sp12;
     s16 sp10;
@@ -368,13 +368,13 @@ typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
         return 0;
     }
     sp12 = 0x102;
-    NetMemcpy((void *)(*arg0), (&sp12), 2);
+    NetMemcpy(*arg0, (&sp12), 2);
     *arg0 += 2;
     temp_r3 = NetStringLength(((Fields_arg1*)arg1)->name);
     sp10 = temp_r3;
-    NetMemcpy((void *)(*arg0), (&sp10), 2);
+    NetMemcpy(*arg0, (&sp10), 2);
     *arg0 += 2;
-    NetMemcpy((void *)(*arg0), ((Fields_arg1*)arg1)->name, (temp_r3));
+    NetMemcpy(*arg0, ((Fields_arg1*)arg1)->name, (temp_r3));
     *arg0 += temp_r3;
     return temp_r3 + 4;
 }
@@ -495,7 +495,7 @@ inline s16 send_frame(PppoeSlot *e, u16 len) {
 }
 
 // PPPoE discovery receive: PADO (7) / PADS (0x65) / PADT (0xA7) by the code byte of the header.
-s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
+s16 handle_pppoe_discovery_frame(saddr frame, u16 frame_len) {
     s16 ret = -1;
     u8 *base = (u8 *)frame + 0xe;
     u8 *sub = base + 6;
@@ -572,7 +572,7 @@ s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
             break;
         }
         p->timeout = 0;
-        skip_pppoe_tags((s32)p, sub, id);
+        skip_pppoe_tags((saddr)p, sub, id);
         if (p->state == 4) {
             p->state = 5;
             ret = TLobby__sub_80426D80(p);
@@ -756,7 +756,7 @@ done:
     return ret;
 }
 
-PppoeSlot *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1) {
+PppoeSlot *find_pppoe_slot_by_session_id(saddr arg0, u16 arg1) {
     u16 id;
     PppoeSlot *ret;
     s16 i;
@@ -805,7 +805,7 @@ static inline void check_80427D40(void) {
 }
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     u16 type;
-    s32 pkt;
+    saddr pkt;
     u16 id;
     s32 padA;
     u16 len;
@@ -949,7 +949,7 @@ s16 TLobby__sub_804281DC(void *self) {
     PppoeSlot *p;
     PppoeSlot *e;
     s32 now;
-    s32 stamp;
+    saddr stamp;
     s16 i;
     s16 slot;
     s16 set;
@@ -979,7 +979,7 @@ s16 TLobby__sub_804281DC(void *self) {
     }
     *(Unk804271E8Blk *)((u8 *)e + 0x3A) = *(Unk804271E8Blk *)self;
     e->m_4 = set;
-    stamp = (s32)e;
+    stamp = (saddr)e;
     get_time_ms(&now);
     NetMemcpy((u8 *)e + 0x32, &stamp, 4);
     NetMemcpy((u8 *)e + 0x36, &now, 4);
