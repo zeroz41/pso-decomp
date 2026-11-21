@@ -376,7 +376,7 @@ force_active:
   - TBoss6Demo20_TYPE2_APPEAR__name
   - TBoss6Demo21_TYPE2_DEAD__ct
   - TBoss6Demo21_TYPE2_DEAD__name
-  - __ct__14TBoss6EffHyouiFP7TObjectPvPvPv
+  - __ct__14TBoss6EffHyouiFP7TObjectUsll
   - __ct__15TBoss6EmptyWarpFP7TObject
   - TBoss6GravBall__sub_803233AC
   - TBoss6GravBall__sub_80323544
@@ -1371,9 +1371,9 @@ force_active:
   - __ct__14TObjEnvSoundExFP7TObjectl
   - __ct__12TObjEnvSoundFP7TObjectPv
   - TObjEvtCollision__ct
-  - TObjFish__sub_800E3188
+  - __dt__24ModelNodePositionCaptureFv
   - TObjFish__sub_8034029C
-  - TObjFish_draw_callback_state
+  - model_node_position_capture_state
   - __ct__22TObjFogCollisionPoisonFP7TObjectPv
   - TObjFogCollisionPoison__instances
   - __ct__22TObjFogCollisionSwitchFP7TObjectPv
@@ -2167,7 +2167,7 @@ force_active:
   - __ct__24TObjCity_Season_FireWorkFP7TObjectPvf
   - __ct__24TObjWaitEntryHairMoveSimFv
   - __ct__25G_DropStackedItem_DC_6x5DFv
-  - __ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject
+  - __ct__25TBoss6Demo10_TYPE1_APPEARFP14TBoss6PlotFalz
   - __ct__26TBoss5GryphonLightningHornFv
   - __ct__26TBoss5GryphonLightningWingFv
   - __ct__31G_DropStackedItem_PC_V3_BB_6x5DFv
@@ -4729,7 +4729,7 @@ force_active:
   - build_result_text__13TObjResultWinFv
   - build_save_file__23TAdSinglePlyChrSelectGCFv
   - build_sell_list__24TShopEquipmentSellWindowFv
-  - build_state_packet__11TBoss6Type2FPUc
+  - build_state_packet__11TBoss6Type2FP22OlgaFlowType2ActionMsg
   - build_status_text__20TWindowSubStatusDispFl
   - build_trade_menu__19TWindowSubTradeMainFv
   - build_weapon_type_weights__9TItemDropFiPvi
@@ -5815,7 +5815,7 @@ force_active:
   - draw_body__13TObjEneMorfosFv
   - draw_body_models__11TBoss6Type2Fv
   - draw_bottom_bar__20TWindowSubStatusDispFv
-  - draw_callback_transform_to_view__8TObjFishFv
+  - capture_node__24ModelNodePositionCaptureFP10NJS_OBJECT
   - draw_class_illustration__17TChCrTagPlGraphicFv
   - draw_closed__8TObjDoorFPv
   - draw_closed_glow__8TObjDoorFPv
@@ -5837,8 +5837,8 @@ force_active:
   - draw_fading_model_1_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_model_4__23TBoss6Demo21_TYPE2_DEADFv
   - draw_fading_model_4__25TBoss6Demo20_TYPE2_APPEARFv
-  - draw_fading_model_5__23TBoss6Demo21_TYPE2_DEADFPv
-  - draw_fading_model_8__23TBoss6Demo21_TYPE2_DEADFPv
+  - draw_fading_model_5__23TBoss6Demo21_TYPE2_DEADFv
+  - draw_fading_model_8__23TBoss6Demo21_TYPE2_DEADFv
   - draw_fading_model__11TObjDFDemo1Fv
   - draw_fading_model_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_motion__11TObjDFDemo5Fv
@@ -7298,7 +7298,7 @@ force_active:
   - is_enabled__9TItemDropFv
   - is_end__12TCharaMakingFv
   - is_entity_locally_controlled__Fl
-  - is_entry_table_valid__8TObjFishFv
+  - is_valid__24ModelNodePositionCaptureFPC22ModelNodePositionEntry
   - is_entry_valid__23TAdSinglePlyChrSelectGCFPvi
   - is_entry_valid__6TLobbyFl
   - is_far_from_origin__10TBoss6MineFv
@@ -9194,7 +9194,7 @@ force_active:
   - obj_clearArrS16_FC__FP8ObjArrFCi
   - obj_container_ido_class_name
   - obj_curtain_lobby_class_name
-  - obj_fish_count
+  - boss6_scene_archive
   - obj_kabocha_lobby_class_name
   - obj_lobby_main_class_name
   - obj_particle_lobby_class_name
@@ -16769,7 +16769,7 @@ force_active:
   - update_chara_making__10TObjPlayerFv
   - update_charge__11TBoss6Type1Fv
   - update_charge_attack__14TObjEneIllGillFv
-  - update_charge_effects__14TBoss6GravBallFPv
+  - update_charge_effects__14TBoss6GravBallFv
   - update_charge_state__16TBoss3VoloptCoreFv
   - update_chase__18TObjEneBalClawClawFPv
   - update_chase_state__18TObjEneBalClawClawFv
@@ -17024,7 +17024,7 @@ force_active:
   - update_letterbox_show__9TCineCtrlFv
   - update_level_requirement__15TWindowHelpItemFPv
   - update_libera__11TBoss4Type3Fv
-  - update_lifetime__14TBoss6GravBallFPv
+  - update_lifetime__14TBoss6GravBallFv
   - update_lift_state__12TBoss1DragonFUl
   - update_light_direction__12TCharaMakingFv
   - update_light_magic__11TBoss4Type3Fv
@@ -17255,7 +17255,7 @@ force_active:
   - update_state__11TBoss6Type1Fv
   - update_state__12TObjNpcEnemyFv
   - update_state__12TObjWarpBossFv
-  - update_state__14TBoss6GravBallFPv
+  - update_state__14TBoss6GravBallFv
   - update_state__14TOTrapChainSawFv
   - update_state__14TObjEneBm5WolfFv
   - update_state__14TObjVoloptCageFv

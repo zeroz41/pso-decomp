@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/RenderFadeState.h"
 
+class ModelNodePositionCapture;
 // One Pan Arms half (0x470 bytes, TObjEnePanarms::create_bara); 0x380 is the half's
 // index (create_bara's second argument, the constructor's third).
 extern "C" {
@@ -89,9 +90,8 @@ public:
     Vec pad_3c8;
     s32 m_3d4;
     f32 pad_3d8;
-    void* m_3dc;
-    u8 unk_3E0[0x4];
-    u8 unk_3E4[0x8];
+    ModelNodePositionCapture *m_3dc;
+    Vec draw_callback_position;
     RenderFadeState fades[4]; // one per camera (render)
     s32 m_45c;
     f32 pad_460;

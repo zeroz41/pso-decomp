@@ -3,6 +3,7 @@
 
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/ModelNodePositionCapture.h"
 #include "pso/unk/text_80087278.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -28,7 +29,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 
 #pragma readonly_strings on
@@ -42,7 +42,7 @@ s32 normalize_vector(void *);
 
 const char *TObjDFDemo3__name = "TObjDFDemo3";
 __declspec(section ".rodata") CameraAngles lbl_804373A4 = {0, 0, 0};
-TObjFishNodeEntry lbl_804856C0[2] = {{0}, {-1}};
+ModelNodePositionEntry lbl_804856C0[2] = {{0}, {-1}};
 CameraPlayback lbl_804856E0 = {0, 6, 0, 0.0f, 1.0f};
 
 TObjDFDemo3 *TObjDFDemo3::create(TObject *parent, const Vec *position, s32 angle) {
@@ -79,14 +79,14 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObj
         set_scripted_camera_pose(camera_position, camera_position, &c);
     }
     lbl_804856E0.cache_target_and_forward(0x1555);
-    this->node_list = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_804856C0, (s32)&this->emitter_position);
+    this->node_list = ModelNodePositionCapture::create(lbl_804856C0, &this->emitter_position);
     this->timer = 0;
 }
 
 TObjDFDemo3::~TObjDFDemo3() {
     s32 i;
     if (node_list != NULL) {
-        TObjFish::init_state_1(node_list);
+        ModelNodePositionCapture::destroy(node_list);
         node_list = NULL;
     }
     for (i = 0; i < 1; i++) {
@@ -162,10 +162,10 @@ void TObjDFDemo3::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)part.texlist)));
-    node_list->set_draw_callback_list();
+    node_list->install();
     set_chunk_render_flags(1);
     draw_model_motion(part.model, part.motion, frame);
-    node_list->clear_render_callback();
+    node_list->clear();
     set_chunk_render_flags(2);
     draw_model_motion(part.model, part.motion, frame);
     clear_chunk_render_flags();

@@ -1,6 +1,7 @@
 #ifndef PSO_BOSS_DARKFALZ_TOBJDFDEMO3_H
 #define PSO_BOSS_DARKFALZ_TOBJDFDEMO3_H
 
+#include "pso/system/ModelNodePositionCapture.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/boss/darkfalz/DarkFalzScenePart.h"
@@ -22,7 +23,7 @@ struct TObjDFDemo3 : public TObjBase {
     s32 angle;
     s32 timer;
     f32 frame;
-    TObjFish *node_list;
+    ModelNodePositionCapture *node_list;
     Vec emitter_position;
 };
 

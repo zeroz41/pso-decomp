@@ -1,7 +1,9 @@
+#include "pso/system/BmlResourceLoader.h"
+#define TOBJECT_OUT_OF_LINE_HELPERS
 // Compiled -inline off,deferred: the functions are written from the last
 // (0x80354B18 load_resources) back to the first (0x803537D4), so CodeWarrior
 // emits them in address order and the TUnk_804F1280 vtable before TBoss6Rock's.
-#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
@@ -20,7 +22,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/MatrixOps.h"
@@ -28,7 +29,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -106,12 +106,12 @@ void TBoss6Rock::free_data() {
     }
 }
 
-void TBoss6Rock::create_rock_pool(s32 owner) {
+void TBoss6Rock::create_rock_pool(TBoss6Type2 *owner) {
     s32 i;
     if (TBoss6Rock__data_805D6EF0 == NULL || TBoss6Rock__data_805D6EF4 == NULL) {
         return;
     }
-    TBoss6Rock__data_805D6EF8 = (TBoss6Type2 *)owner;
+    TBoss6Rock__data_805D6EF8 = owner;
     for (i = 0; i < 32; i++) {
         TBoss6Rock__instance_table[i] = create(i);
     }
@@ -172,7 +172,7 @@ void TBoss6Rock::run_task() {
         break;
     }
     if (m_e4 != NULL) {
-        s32 model = get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id);
+        s32 model = (s32)get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id);
         u64 pos = (s32)&position;
         m_e4->set_target(m_c4 != 0, (Vec *)pos, &rotation_x, (s32)TBoss6Rock__data_805D6EF4, model,
                          TBoss6Rock__data_80479258[m_b4].radius);
@@ -199,7 +199,7 @@ void TBoss6Rock::draw_model() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    TObjFish::set_global_param((s32)TBoss6Rock__data_805D6EF4);
+    TObjFish::set_global_param((s32)(TBoss6Rock__data_805D6EF4));
     draw_ginja_object((void *)get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id));
     pop_matrix();
 }
@@ -274,7 +274,7 @@ void TBoss6Rock::sub_803542E8(s32 landed) {
     }
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)player)->is_active() == 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)player) == 0) {
             continue;
         }
         VecCopy(&d, &player->position);
@@ -363,13 +363,13 @@ void TBoss6Rock::sub_80353F5C() {
         set.scale.z = e->width;
         set.scale.x = e->width;
         set.scale.y = e->height;
-        m_b0 = TObjMapCsn::create((s32)&set);
+        m_b0 = (TObjMapCsn *)TObjMapCsn::create((s32)&set);
     }
 }
 
 void TBoss6Rock::release_object() {
     if (m_b0 != 0) {
-        ((TObject *)m_b0)->queue_destruction();
+        m_b0->queue_destruction();
         m_b0 = 0;
     }
 }
@@ -443,7 +443,7 @@ s32 TBoss6Rock::get_point(s32 i, Vec *out, f32 *radius) {
     return 1;
 }
 
-s32 TBoss6Rock::push_out_of_rocks(f32 r) {
+s32 TBoss6Rock::push_out_of_rocks(Vec *point, f32 r) {
     Vec v;
     s32 hit;
     s32 i;
@@ -452,7 +452,7 @@ s32 TBoss6Rock::push_out_of_rocks(f32 r) {
     hit = 0;
     for (i = 0; i < 32; i++) {
         f32 d;
-        VecCopy(&v, (Vec *)this);
+        VecCopy(&v, point);
         subtract_vector(&v, &TBoss6Rock__rock_point_table[i]);
         v.y = y;
         d = vector_length(&v);
@@ -463,23 +463,23 @@ s32 TBoss6Rock::push_out_of_rocks(f32 r) {
             normalize_vector(&v);
             v.x *= lim;
             v.z *= lim;
-            vec3_add_to((Vec *)this, &v);
+            vec3_add_to(point, &v);
             hit = 1;
         }
     }
     return hit;
 }
 
-void TBoss6Rock::break_rocks_in_radius(f32 r) {
+void TBoss6Rock::break_rocks_in_radius(Vec *point, f32 r) {
     Vec v;
     s32 i;
     const RockKindParams *kind;
     for (i = 0; i < 32; i++) {
         kind = get_rock_entry(i);
-        if (kind != NULL && is_rock_state_2(i) != 0 && !(((Vec *)this)->y > r + kind->height)) {
+        if (kind != NULL && is_rock_state_2(i) != 0 && !(point->y > r + kind->height)) {
             f32 lim = r + kind->radius;
             VecCopy(&v, &TBoss6Rock__rock_point_table[i]);
-            subtract_vector(&v, (Vec *)this);
+            subtract_vector(&v, point);
             v.y = 0.0f;
             if (vector_length(&v) <= lim) {
                 clear_rock_state(i);
@@ -562,7 +562,7 @@ void TUnk_804F1280::render() {
         rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_z(NULL, rotation_z);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param((s32)(texlist));
         TBoss6PlotFalz::set_fade_material_color(0.5f);
         draw_ginja_object((void *)model);
         TObjFish::reset_fish_globals();

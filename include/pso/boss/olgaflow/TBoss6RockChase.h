@@ -4,16 +4,19 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct GinjaTextureList;
+struct NJS_OBJECT;
+
 struct TBoss6RockChase : public TObjCollidable {
     TBoss6RockChase(TObject *parent, const Vec *position, s32 size_kind);
     virtual ~TBoss6RockChase();
-    u32 m_ac;
+    TObject *owner;
     u32 m_b0;
     u32 m_b4;
     u8 _padB8[0x4];
     u32 m_bc;
-    u32 m_c0;
-    u32 m_c4;
+    NJS_OBJECT *model;
+    GinjaTextureList *textures;
     s32 damage_players_in_range();
     virtual void render();
     virtual void run_task();

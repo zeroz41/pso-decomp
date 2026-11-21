@@ -1,20 +1,20 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/system/MatrixStack.h"
-#include "pso/system/BmlResource.h"
-#include "pso/system/vector.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -26,25 +26,21 @@ struct FishSpawnEntry {
     s32 point;
 };
 
-// One node of the list TObjFish__sub_800E3124 reads (node -1 ends it).
-struct EffectNodeDesc {
-    s32 node;
-    Vec offset;
-};
+// One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
 
 extern s32 lbl_804DF614[]; // model ids, defined in TBoss6Type1.cpp
 
 const char TBoss6Demo11_TYPE1_DEAD__class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
-static s32 lbl_804EF9D8[2] = {4, 5};          // motion ids
-static Vec lbl_804EF9E0 = {0.0f, 0.0f, 70.0f}; // start position
+static s32 death_motion_indices[2] = {4, 5};          // motion ids
+static Vec death_origin = {0.0f, 0.0f, 70.0f}; // start position
 const char *TBoss6Demo11_TYPE1_DEAD__name = TBoss6Demo11_TYPE1_DEAD__class_name_string;
 
-void *TBoss6PlotFalz::create(void *parent, void *arg) {
-    return new TBoss6Demo11_TYPE1_DEAD((TObject *)parent, arg);
+TBoss6Demo11_TYPE1_DEAD *TBoss6Demo11_TYPE1_DEAD::create(TBoss6PlotFalz *plot, const Vec *target) {
+    return new TBoss6Demo11_TYPE1_DEAD(plot, target);
 }
 
-inline const EffectNodeDesc *dead_effect_nodes() {
-    static const EffectNodeDesc lbl_80477E60[] = {
+inline const ModelNodePositionEntry *dead_effect_nodes() {
+    static const ModelNodePositionEntry lbl_80477E60[] = {
         {0, {0.0f, 0.0f, 0.0f}},
         {4, {0.0f, 0.0f, 0.0f}},
         {6, {0.0f, 0.0f, 0.0f}},
@@ -63,21 +59,21 @@ inline const CameraPlayback *dead_camera_playback() {
     return &lbl_80477ECC;
 }
 
-TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : TObject(parent) {
+TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec *) : TObject(plot) {
     u32 model_id;
     BmlResource *resource;
     s32 i;
     m_name = TBoss6Demo11_TYPE1_DEAD__name;
-    owner = (TObjFish *)parent;
-    VecCopy(&position, &lbl_804EF9E0);
-    resource = (BmlResource *)TObjFish::get_fish_count();
+    this->plot = plot;
+    VecCopy(&position, &death_origin);
+    resource = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         model_id = lbl_804DF614[i];
-        parts[i].model = get_bml_model(resource, model_id);
-        parts[i].texture = get_bml_texlist(resource, model_id);
-        parts[i].motion = get_bml_motion(resource, lbl_804EF9D8[i]);
+        parts[i].model = (NJS_OBJECT *)get_bml_model(resource, model_id);
+        parts[i].texture = (GinjaTextureList *)get_bml_texlist(resource, model_id);
+        parts[i].motion = get_bml_motion(resource, death_motion_indices[i]);
     }
-    node_effect = (TObjFish *)TObjFish__sub_800E3124((u8 *)dead_effect_nodes(), (s32)effect_points);
+    node_effect = ModelNodePositionCapture::create(dead_effect_nodes(), effect_points);
     emitter = NULL;
     activate_camera_mode(5);
     set_scripted_camera_pose(&position, &position, dead_camera_angles());
@@ -89,7 +85,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : T
 TBoss6Demo11_TYPE1_DEAD::~TBoss6Demo11_TYPE1_DEAD() {
     restore_player_cameras();
     if (node_effect != NULL) {
-        TObjFish::init_state_1(node_effect);
+        ModelNodePositionCapture::destroy(node_effect);
         node_effect = NULL;
     }
     if (emitter != NULL) {
@@ -97,6 +93,8 @@ TBoss6Demo11_TYPE1_DEAD::~TBoss6Demo11_TYPE1_DEAD() {
         emitter = NULL;
     }
 }
+
+static const f32 TBoss6Demo11_TYPE1_DEAD_progress_limit = 179.0f;
 
 void TBoss6Demo11_TYPE1_DEAD::run_task() {
     static const FishSpawnEntry fish_spawn_entry_table[4] = {
@@ -110,8 +108,8 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
     Vec *p;
     Vec *q;
     const FishSpawnEntry *t;
-    if ((frame += 0.7f) > 179.0f) {
-        frame = 179.0f;
+    if ((frame += 0.7f) > TBoss6Demo11_TYPE1_DEAD_progress_limit) {
+        frame = TBoss6Demo11_TYPE1_DEAD_progress_limit;
     }
     switch (timer) {
     case 0x98:
@@ -184,7 +182,7 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
         break;
     }
     timer++;
-    if (timer >= 0x101 || owner->get_phase() != 3) {
+    if (timer >= 0x101 || plot->get_scene_state() != 3) {
         queue_destruction();
     }
 }
@@ -207,12 +205,12 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(parts[0].texture);
-        draw_model_motion((void *)parts[0].model, parts[0].motion, frame);
-        TObjFish::set_global_param(parts[1].texture);
-        node_effect->set_draw_callback_list();
-        draw_model_motion((void *)parts[1].model, parts[1].motion, frame);
-        node_effect->clear_render_callback();
+        TObjFish::set_global_param((s32)(((s32)parts[0].texture)));
+        draw_model_motion(parts[0].model, parts[0].motion, frame);
+        TObjFish::set_global_param((s32)(((s32)parts[1].texture)));
+        node_effect->install();
+        draw_model_motion(parts[1].model, parts[1].motion, frame);
+        node_effect->clear();
         clear_motion_packed_rotation();
         pop_matrix();
         if (fade < 1.0f) {

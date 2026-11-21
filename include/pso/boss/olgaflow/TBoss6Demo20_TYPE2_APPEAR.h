@@ -1,34 +1,39 @@
 #ifndef PSO_BOSS_OLGAFLOW_TBOSS6DEMO20_TYPE2_APPEAR_H
 #define PSO_BOSS_OLGAFLOW_TBOSS6DEMO20_TYPE2_APPEAR_H
 #include "types.h"
+#include "pso/boss/olgaflow/OlgaFlowScenePart.h"
+#include <dolphin/mtx.h>
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
 
+class ModelNodePositionCapture;
+struct TObjFish;
+class TParticleCtrl;
+struct TBoss6PlotFalz;
 class TBoss6Demo20_TYPE2_APPEAR : public TObject {
 public:
     virtual ~TBoss6Demo20_TYPE2_APPEAR();
+    static TBoss6Demo20_TYPE2_APPEAR *create(TBoss6PlotFalz *plot);
     void draw_fading_model_pair();
     void draw_fading_model_4();
     void draw_fading_model_1_pair();
     void draw_model_12();
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x60];
-    u32 m_7c;
-    u8 unk_80[0x3C];
-    s32 m_bc;
-    u8 unk_C0[0x4];
-    s32 m_c4;
-    u8 unk_C8[0x4];
-    s32 m_cc;
-    u8 unk_D0[0x4];
-    s32 m_d4;
-    u8 unk_D8[0x4];
-    s32 m_dc;
-    u8 unk_E0[0x4];
-    f32 m_e4;
-    u8 unk_E8[0x4];
-    s32 m_ec;
+    Vec effect_positions[8];
+    ModelNodePositionCapture *capture;
+    TParticleCtrl *emitters[9];
+    OlgaFlowScenePart opening_parts[2];
+    OlgaFlowScenePart model4;
+    OlgaFlowScenePart model1;
+    OlgaFlowScenePart model12;
+    f32 frame;
+    f32 secondary_frame;
+    s32 timer;
+    TBoss6PlotFalz *plot;
 };
 typedef char TBoss6Demo20_TYPE2_APPEAR_size[sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0 ? 1 : -1];
 
+typedef char TBoss6Demo20_capture_offset[offsetof(TBoss6Demo20_TYPE2_APPEAR, capture) == 0x7C ? 1 : -1];
+typedef char TBoss6Demo20_parts_offset[offsetof(TBoss6Demo20_TYPE2_APPEAR, opening_parts) == 0xA4 ? 1 : -1];
 #endif

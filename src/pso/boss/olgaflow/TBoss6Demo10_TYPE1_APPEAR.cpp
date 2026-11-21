@@ -1,8 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/olgaflow/Boss6Type1Appearance.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -22,38 +25,11 @@
 #include "pso/system/task/TObject.h"
 
 
-struct Ent_8033CB4C
-{
-  s32 a;
-  s32 b;
-  s32 c;
-};
-
-struct Fish_8033CB4C
-{
-  s32 x0;
-  u8 pad4[0x18 - 4];
-  const s32 *vt;
-  Ent_8033CB4C tbl[2];
-  f32 x34;
-  s32 x38;
-  s32 x3C;
-  u8 x40[0x54 - 0x40];
-  u8 x54[0x60 - 0x54];
-  s32 x60;
-  s32 x64;
-};
-
 extern "C" {
-s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
-int set_scripted_camera_pose(void *, void *, void *);
-int build_tables__14TBoss6PlotFalzFPvPvi(void *, void *, int);
-extern s32 lbl_80477DEC[];
-extern s32 boss6_type1_appear_node_desc[];
-extern s32 boss6_type1_appear_model_node_descriptors[];
-extern s32 lbl_80477E30[];
+extern Vec lbl_80477DEC;
+extern ModelNodePositionEntry boss6_type1_appear_node_desc[];
+extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
+extern CameraAngles lbl_80477E30;
 extern CameraPlayback lbl_80477E3C;
 extern s32 lbl_804DF614[];
 extern s32 boss6_type1_appear_motion_indices[];
@@ -62,21 +38,20 @@ struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name;
 struct AppearanceZero { f32 value; u32 padding; };
 __declspec(section ".sdata2") extern const AppearanceZero lbl_805DFA50;
-Fish_8033CB4C *__ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject(Fish_8033CB4C *self, void *parent);
-s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
-s32 post_translate_matrix(s32 *);
+TBoss6Demo10_TYPE1_APPEAR *__ct__25TBoss6Demo10_TYPE1_APPEARFP14TBoss6PlotFalz(TBoss6Demo10_TYPE1_APPEAR *demo, TBoss6PlotFalz *plot);
+void post_translate_matrix(const f32 *);
 s32 push_matrix();
 
 void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();
     set_motion_packed_rotation();
-    post_translate_matrix(lbl_80477DEC);
-    TObjFish::set_global_param(this->m_20);
-    draw_model_motion((void *)(*(s32 *)((s8 *)this + 0x1C)), (void *)(*(s32 *)((s8 *)this + 0x24)), *(f32 *)((s8 *)this + 0x34));
-    TObjFish::set_global_param(*(s32 *)((s8 *)this + 0x2C));
-    ((TObjFish *)(this->m_60))->set_draw_callback_list();
-    draw_model_motion((void *)this->m_28, (void *)this->m_30, *(f32 *)((s8 *)this + 0x34));
-    ((TObjFish *)this->m_60)->clear_render_callback();
+    post_translate_matrix(&lbl_80477DEC.x);
+    TObjFish::set_global_param((s32)(((s32)parts[0].texture)));
+    draw_model_motion(parts[0].model, parts[0].motion, frame);
+    TObjFish::set_global_param((s32)(((s32)parts[1].texture)));
+    capture->install();
+    draw_model_motion(parts[1].model, parts[1].motion, frame);
+    capture->clear();
     clear_motion_packed_rotation();
     pop_matrix();
 }
@@ -87,15 +62,15 @@ void render__25TBoss6Demo10_TYPE1_APPEARFv(void* p) { ((TBoss6Demo10_TYPE1_APPEA
 #pragma opt_common_subs off
 void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_demo10_type1_appear) {
     s32 temp_r0_3;
-    u8 *temp_r30;
-    if ((*(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) += 0.7f) > 349.0f) {
-        *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = 349.0f;
+    Vec *effect_position;
+    if ((boss6_demo10_type1_appear->frame += 0.7f) > 349.0f) {
+        boss6_demo10_type1_appear->frame = 349.0f;
     }
-    ((TBoss6PlotFalz *)((u8 *)boss6_demo10_type1_appear + 0x40))->scroll_strips_uv(8, 0);
-    if ((s32) boss6_demo10_type1_appear->m_38 == 0x78) {
+    boss6_demo10_type1_appear->scroll_strips.scroll_strips_uv(8, 0);
+    if ((s32) boss6_demo10_type1_appear->timer == 0x78) {
         play_sound_effect(0x4003A105, 0, 0, 0);
     }
-    switch (boss6_demo10_type1_appear->m_38) {
+    switch (boss6_demo10_type1_appear->timer) {
     case 0x1B8:
     case 0xFA:
         play_sound_effect(0x4003A811, 0, 0, 0);
@@ -104,7 +79,7 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
         play_sound_effect(0x40031222, 0, 0, 0);
         break;
     }
-    switch (boss6_demo10_type1_appear->m_38) {
+    switch (boss6_demo10_type1_appear->timer) {
     case 0x14:
     case 0xC6:
     case 0xFA:
@@ -113,42 +88,42 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
-    temp_r0_3 = boss6_demo10_type1_appear->m_38;
-    temp_r30 = (u8 *)boss6_demo10_type1_appear + 0x54;
+    temp_r0_3 = boss6_demo10_type1_appear->timer;
+    effect_position = &boss6_demo10_type1_appear->effect_position;
     switch (temp_r0_3) {
     case 0x1:
-        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x210);
-        if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+        boss6_demo10_type1_appear->emitter = create_particle_emitter(effect_position, 0x210);
+        if (boss6_demo10_type1_appear->emitter != NULL) {
+            boss6_demo10_type1_appear->emitter->set_flags(0x40);
         }
         break;
     case 0x1AC:
     case 0x8E:
-        if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            TParticleCtrl::release(*(void **)((s8 *)boss6_demo10_type1_appear + 0x64));
-            *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = 0U;
+        if (boss6_demo10_type1_appear->emitter != NULL) {
+            TParticleCtrl::release(boss6_demo10_type1_appear->emitter);
+            boss6_demo10_type1_appear->emitter = NULL;
         }
-        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x211);
-        if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+        boss6_demo10_type1_appear->emitter = create_particle_emitter(effect_position, 0x211);
+        if (boss6_demo10_type1_appear->emitter != NULL) {
+            boss6_demo10_type1_appear->emitter->set_flags(0x40);
         }
         break;
     case 0x11D:
-        if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            TParticleCtrl::release(*(void **)((s8 *)boss6_demo10_type1_appear + 0x64));
-            *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = 0U;
+        if (boss6_demo10_type1_appear->emitter != NULL) {
+            TParticleCtrl::release(boss6_demo10_type1_appear->emitter);
+            boss6_demo10_type1_appear->emitter = NULL;
         }
-        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x210);
-        if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+        boss6_demo10_type1_appear->emitter = create_particle_emitter(effect_position, 0x210);
+        if (boss6_demo10_type1_appear->emitter != NULL) {
+            boss6_demo10_type1_appear->emitter->set_flags(0x40);
         }
         break;
     }
-    if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-        ((TParticleCtrl *)*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64))->set_position((void*)temp_r30);
+    if (boss6_demo10_type1_appear->emitter != NULL) {
+        boss6_demo10_type1_appear->emitter->set_position(effect_position);
     }
-    boss6_demo10_type1_appear->m_38 = (boss6_demo10_type1_appear->m_38 + 1);
-    if (((s32) boss6_demo10_type1_appear->m_38 >= 0x1F4) || (((TObjFish *)(*(s32 *)((s8 *)boss6_demo10_type1_appear + 0x3C)))->get_phase() != 1)) {
+    boss6_demo10_type1_appear->timer = (boss6_demo10_type1_appear->timer + 1);
+    if (((s32) boss6_demo10_type1_appear->timer >= 0x1F4) || (boss6_demo10_type1_appear->plot->get_scene_state() != 1)) {
         boss6_demo10_type1_appear->queue_destruction();
     }
 }
@@ -157,59 +132,57 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
 }
 TBoss6Demo10_TYPE1_APPEAR::~TBoss6Demo10_TYPE1_APPEAR() {
     restore_player_cameras();
-    refresh_players_equipment__14TBoss6PlotFalzFPv();
-    ((TBoss6PlotFalz *)(((u8 *)this) + 0x40))->free_buffer_pairs();
-    if ((u32) this->m_60 != 0U) {
-        TObjFish::init_state_1(*(void **)((s8 *)this + 0x60));
-        this->m_60 = 0U;
+    TBoss6PlotFalz::refresh_players_equipment();
+    scroll_strips.free_buffer_pairs();
+    if (capture != NULL) {
+        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture);
+        capture = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x64) != 0U) {
-        TParticleCtrl::release(*(void **)((s8 *)this + 0x64));
-        *(u32 *)((s8 *)this + 0x64) = 0U;
+    if (emitter != NULL) {
+        TParticleCtrl::release(emitter);
+        emitter = NULL;
     }
 }
 
-typedef struct Ent_8033CB4C Ent_8033CB4C;
-typedef struct Fish_8033CB4C Fish_8033CB4C;
-TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(parent) {
+TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TObject(plot) {
     s32 k;
-    s32 n;
+    BmlResource *archive;
     s32 i;
-    ((Fish_8033CB4C *)this)->x0 = (s32)TBoss6Demo10_TYPE1_APPEAR__name.value;
-    ((Fish_8033CB4C *)this)->x3C = (s32) parent;
-    n = TObjFish::get_fish_count();
+    m_name = TBoss6Demo10_TYPE1_APPEAR__name.value;
+    this->plot = plot;
+    archive = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++)
     {
       k = lbl_804DF614[i];
       k = k & 0xFFFFFFFFu;
-      ((Fish_8033CB4C *)this)->tbl[i].a = get_bml_model((BmlResource *)n, k);
-      ((Fish_8033CB4C *)this)->tbl[i].b = get_bml_texlist((BmlResource *)n, k);
-      ((Fish_8033CB4C *)this)->tbl[i].c = get_bml_motion(n, boss6_type1_appear_motion_indices[i]);
+      parts[i].model = (NJS_OBJECT *)get_bml_model(archive, k);
+      parts[i].texture = (GinjaTextureList *)get_bml_texlist(archive, k);
+      parts[i].motion = get_bml_motion(archive, boss6_type1_appear_motion_indices[i]);
     }
-    ((Fish_8033CB4C *)this)->x60 = TObjFish__sub_800E3124((u8 *)boss6_type1_appear_node_desc, (s32)(((Fish_8033CB4C *)this)->x54));
-    ((Fish_8033CB4C *)this)->x64 = 0;
-    build_tables__14TBoss6PlotFalzFPvPvi(((Fish_8033CB4C *)this)->x40, boss6_type1_appear_model_node_descriptors, 2);
+    capture = ModelNodePositionCapture::create(boss6_type1_appear_node_desc, (Vec *)&effect_position);
+    emitter = NULL;
+    scroll_strips.build_tables(boss6_type1_appear_model_node_descriptors, 2);
     activate_camera_mode(5);
-    set_scripted_camera_pose(lbl_80477DEC, lbl_80477DEC, lbl_80477E30);
+    set_scripted_camera_pose(&lbl_80477DEC, &lbl_80477DEC, &lbl_80477E30);
     lbl_80477E3C.cache_target_and_forward(0x416C);
-    ((Fish_8033CB4C *)this)->x34 = lbl_805DFA50.value;
-    ((Fish_8033CB4C *)this)->x38 = 0;
+    frame = lbl_805DFA50.value;
+    timer = 0;
 }
 
-void *TBoss6Demo10_TYPE1_APPEAR__create(void *parent) {
-    void *o = TObject::operator new(0x68);
-    if (o != NULL) {
-        o = __ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject((Fish_8033CB4C *)(o), parent);
+TBoss6Demo10_TYPE1_APPEAR *TBoss6Demo10_TYPE1_APPEAR::create(TBoss6PlotFalz *plot) {
+    TBoss6Demo10_TYPE1_APPEAR *demo = (TBoss6Demo10_TYPE1_APPEAR *)TObject::operator new(sizeof(TBoss6Demo10_TYPE1_APPEAR));
+    if (demo != NULL) {
+        demo = __ct__25TBoss6Demo10_TYPE1_APPEARFP14TBoss6PlotFalz(demo, plot);
     }
-    return o;
+    return demo;
 }
 
 extern const char TBoss6Demo10_TYPE1_APPEAR__class_name[];
 __declspec(section ".rodata") const char TBoss6Demo10_TYPE1_APPEAR__class_name[] ATTRIBUTE_ALIGN(4) = "TBoss6Demo10_TYPE1_APPEAR";
-__declspec(section ".rodata") s32 lbl_80477DEC[] = {0x00000000, 0x41C80000, 0x42960000};
-__declspec(section ".rodata") s32 boss6_type1_appear_node_desc[] = {0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000};
-__declspec(section ".rodata") s32 boss6_type1_appear_model_node_descriptors[] = {0x00000003, 0x00000001, 0x00000000, 0x00000006, 0x00000001, 0x00000000};
-__declspec(section ".rodata") s32 lbl_80477E30[] = {0x00000000, 0x00000000, 0x00000000};
+__declspec(section ".rodata") Vec lbl_80477DEC = {0.0f, 25.0f, 75.0f};
+__declspec(section ".rodata") ModelNodePositionEntry boss6_type1_appear_node_desc[] = {{0}, {-1}};
+__declspec(section ".rodata") Boss6StripDesc boss6_type1_appear_model_node_descriptors[] = {{3, 1, 0}, {6, 1, 0}};
+__declspec(section ".rodata") CameraAngles lbl_80477E30 = {0, 0, 0};
 __declspec(section ".rodata") CameraPlayback lbl_80477E3C = {1, 2, 0, 0.0f, 0.7f};
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
 extern __declspec(section ".data") const s32 __vt__25TBoss6Demo10_TYPE1_APPEAR[];

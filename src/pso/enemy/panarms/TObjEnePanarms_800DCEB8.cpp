@@ -1,7 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "types.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
+#include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/panarms/TObjEnePanarms_800DCEB8.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -27,7 +28,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -163,8 +163,8 @@ static PanarmsState lbl_8049515C[14] = {
     { &TObjEnePanarms::enter_rejoin, &TObjEnePanarms::update_state_effect },
     { &TObjEnePanarms::enter_down_state, &TObjEnePanarms::update_spin },
 };
-/* Model nodes the constructor hands to TObjFish__sub_800E3124. */
-TObjFishNodeEntry panarms_model_node_desc[6] = {
+/* Model nodes the constructor hands to ModelNodePositionCapture::create. */
+ModelNodePositionEntry panarms_model_node_desc[6] = {
     { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
 };
 
@@ -310,7 +310,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
         particle_handles[i] = 0;
     }
     motion_flags &= ~1;
-    m_39c = TObjFish__sub_800E3124((u8 *)panarms_model_node_desc, (s32)&m_3a0);
+    m_39c = ModelNodePositionCapture::create(panarms_model_node_desc, draw_positions);
     m_38c = 1;
     attack_count = 0;
     max_hp = hp;
@@ -344,7 +344,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
 }
 
 TObjEnePanarms::~TObjEnePanarms() {
-    TObjFish::init_state_1(*(u8 **)((s8 *)this + 0x39C));
+    ModelNodePositionCapture::destroy((ModelNodePositionCapture *)*(u8 **)((s8 *)this + 0x39C));
     ((TObject *)(*(u8 **)((s8 *)this + 0x3E4)))->queue_destruction();
     ((TObject *)(*(u8 **)((s8 *)this + 0x3E8)))->queue_destruction();
     free_collision_body_parts(this);
@@ -428,7 +428,7 @@ void TObjEnePanarms::render() {
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(p); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((s32)(*(void**)((char*)p + 0x24))); ((TObjFish *)(((TObjEneRe7Berura *)p)->m_39c))->set_draw_callback_list(); ((TObjMotion *)p)->draw(); ((TObjFish *)(((TObjEneRe7Berura *)p)->m_39c))->clear_render_callback(); pop_matrix(); }
+void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(p); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((s32)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((ModelNodePositionCapture *)(((TObjEneRe7Berura *)p)->m_39c))->install(); ((TObjMotion *)p)->draw(); ((ModelNodePositionCapture *)(((TObjEneRe7Berura *)p)->m_39c))->clear(); pop_matrix(); }
 
 #pragma push
 #pragma fp_contract on
@@ -443,7 +443,7 @@ void TObjEnePanarms::draw_shadow() {
 
     if (!(*(f32 *)&this->unk_384 > 19.800001f + *(f32 *)((s8 *)((u8 *)this) + 0x3C))) {
         push_matrix(this);
-        translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * *(f32 *)&this->m_3a0, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * this->m_3a8);
+        translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * draw_positions[0].x, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * draw_positions[0].z);
         direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
         rotate_matrix_z(0, sp8);
         rotate_matrix_y((void *) 0, *(void * *)&this->rotation_y);
@@ -993,7 +993,7 @@ void TObjEnePanarms::update_particle_emitters_set2() {
 
 void TObjEnePanarms::enter_arm_attack_0() {
     s32 buffer_14[3];
-    f32 buffer_8[3];
+    Vec direction;
     s32 temp_r6;
     u8 *temp_r5;
     temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
@@ -1003,11 +1003,11 @@ void TObjEnePanarms::enter_arm_attack_0() {
     buffer_14[1] = 0;
     buffer_14[0] = temp_r6;
     buffer_14[2] = 0x4000;
-    *(s32 *)((s8 *)this + 0x394) = spawn_continuous_particle_with_direction(this->unk_3B8, &buffer_14[0], 0x105, temp_r6);
-    buffer_8[1] = 0.0f;
-    buffer_8[0] = sin_table_lookup(this->rotation_y);
-    buffer_8[2] = cos_table_lookup(this->rotation_y);
-    ((TObjEnePanarmsAtkColli *)this)->create(this->unk_3B8, &buffer_8[0], NULL);
+    *(s32 *)((s8 *)this + 0x394) = spawn_continuous_particle_with_direction(&draw_positions[2], &buffer_14[0], 0x105, temp_r6);
+    direction.y = 0.0f;
+    direction.x = sin_table_lookup(this->rotation_y);
+    direction.z = cos_table_lookup(this->rotation_y);
+    ((TObjEnePanarmsAtkColli *)this)->create(&draw_positions[2], &direction, (void *)0);
     set_field_b8(7);
     this->m_388 = 0x5A;
 }
@@ -1054,22 +1054,22 @@ void TObjEnePanarms::update_particle_emitters() {
 
 void TObjEnePanarms::enter_arm_attack_1() {
     s32 buffer_14[3];
-    f32 buffer_8[3];
+    Vec direction;
     s32 temp_r6;
     u8 *temp_r5;
     temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
     this->obj_clearFlags30(0x04040000U);
-    spawn_directional_particle((this->unk_3D0), ((u8 *)this + 0x5C), 0x109);
+    spawn_directional_particle((&draw_positions[4]), ((u8 *)this + 0x5C), 0x109);
     temp_r6 = this->rotation_y - 0x4000;
     buffer_14[1] = 0;
     buffer_14[0] = temp_r6;
     buffer_14[2] = 0x4000;
-    *(s32 *)((s8 *)this + 0x394) = spawn_continuous_particle_with_direction(this->unk_3D0, &buffer_14[0], 0x108, temp_r6);
-    buffer_8[1] = 0.0f;
-    buffer_8[0] = sin_table_lookup(this->rotation_y);
-    buffer_8[2] = cos_table_lookup(this->rotation_y);
-    ((TObjEnePanarmsAtkColli *)this)->create(this->unk_3D0, &buffer_8[0], (void *)1);
+    *(s32 *)((s8 *)this + 0x394) = spawn_continuous_particle_with_direction(&draw_positions[4], &buffer_14[0], 0x108, temp_r6);
+    direction.y = 0.0f;
+    direction.x = sin_table_lookup(this->rotation_y);
+    direction.z = cos_table_lookup(this->rotation_y);
+    ((TObjEnePanarmsAtkColli *)this)->create(&draw_positions[4], &direction, (void *)1);
     set_field_b8(9);
     this->m_388 = 0x5A;
 }

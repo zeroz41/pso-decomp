@@ -188,7 +188,7 @@ void TBoss6Kakusan::run_task() {
         speed = vector_length((u8 *)&this->m_3c);
         if (!(speed <= 1e-05f)) {
             pl = (u8 *)get_player_by_client_id(this->m_20);
-            if (((TObjPlayer *)pl)->is_active() != 0) {
+            if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
                 VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
                 v.y += 10.0f;
                 subtract_vector(&v, (u8 *)&this->m_30);

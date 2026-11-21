@@ -1,8 +1,9 @@
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/TObjPlayer.h"
@@ -15,7 +16,6 @@
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
@@ -301,15 +301,15 @@ void *boss4_type1_xz_offset_table[12] = {
     (void *)0x0, (void *)0x42480000, (void *)0xc2480000, (void *)0x0,
     (void *)0x0, (void *)0xc2a00000, (void *)0x0, (void *)0x0,
 };
-void *lbl_804860F0[12] = {
-    (void *)0x1a, (void *)0xc1700000, (void *)0x0, (void *)0x0,
-    (void *)0x1a, (void *)0x0, (void *)0x40f00000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
+ModelNodePositionEntry lbl_804860F0[3] = {
+    {0x1A, {-15.0f, 0.0f, 0.0f}},
+    {0x1A, {0.0f, 7.5f, 0.0f}},
+    {-1, {0.0f, 0.0f, 0.0f}},
 };
-void *lbl_80486120[12] = {
-    (void *)0xe, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x54, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
+ModelNodePositionEntry lbl_80486120[3] = {
+    {0xE, {0.0f, 0.0f, 0.0f}},
+    {0x54, {0.0f, 0.0f, 0.0f}},
+    {-1, {0.0f, 0.0f, 0.0f}},
 };
 Vec lbl_80486150 = { 0.0f, 0.0f, -120.0f };
 void *lbl_8048615C[14] = {
@@ -566,9 +566,9 @@ TBoss4Type1::TBoss4Type1(TObject *parent, s32 *params) : TObjEnemy(parent) {
     set_param(0x2F);
     unk_3ec = 0.4f;
     for (i = 0; i < 3; i++) {
-        fx[i] = (void *)TObjFish__sub_800E3124((u8 *)lbl_804860F0, (s32)unk_438[i]);
+        fx[i] = ModelNodePositionCapture::create(lbl_804860F0, unk_438[i]);
     }
-    unk_480 = (void *)TObjFish__sub_800E3124((u8 *)lbl_80486120, (s32)unk_484);
+    unk_480 = ModelNodePositionCapture::create(lbl_80486120, unk_484);
     for (j = 0; j < 8; j++) {
         parts[j] = create_particle_emitter(&position, boss4_type1_emitter_id_table[j]);
     }
@@ -612,10 +612,10 @@ TBoss4Type1::~TBoss4Type1() {
         }
     }
     for (j = 0; j < 3; j++) {
-        TObjFish::init_state_1(fx[j]);
+        ModelNodePositionCapture::destroy(fx[j]);
         fx[j] = 0;
     }
-    TObjFish::init_state_1(unk_480);
+    ModelNodePositionCapture::destroy((ModelNodePositionCapture *)unk_480);
     unk_480 = 0;
     free_collision_body_parts(this);
     unk_394 = 0;
@@ -739,16 +739,16 @@ void TBoss4Type1::draw_parts() {
         case 4:
             TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)arg0 + 0x3DC), this->hp_ratio);
             off = (i - 2) * 4 + 0x42C;
-            ((TObjFish *)(*(s32 *)(arg0 + off)))->set_draw_callback_list();
+            ((ModelNodePositionCapture *)(*(s32 *)(arg0 + off)))->install();
             a = get_bml_model(archive, lbl_80485EB0[i]);
             draw_model_motion((void *)a, (void *)(get_bml_motion(archive, *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
-            ((TObjFish *)(*(s32 *)(arg0 + off)))->clear_render_callback();
+            ((ModelNodePositionCapture *)(*(s32 *)(arg0 + off)))->clear();
             TBoss6PlotFalz::update_camera_target();
             break;
         case 5:
-            ((TObjFish *)(*(s32 *)((s8 *)arg0 + 0x480)))->set_draw_callback_list();
+            ((ModelNodePositionCapture *)(*(s32 *)((s8 *)arg0 + 0x480)))->install();
             draw_model_motion((void *)(get_bml_model(archive, lbl_80485EB0[i])), (void *)(get_bml_motion(archive, *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
-            ((TObjFish *)(*(s32 *)((s8 *)arg0 + 0x480)))->clear_render_callback();
+            ((ModelNodePositionCapture *)(*(s32 *)((s8 *)arg0 + 0x480)))->clear();
             break;
         default:
             draw_model_motion((void *)(get_bml_model(archive, lbl_80485EB0[i])), (void *)(get_bml_motion(archive, *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));

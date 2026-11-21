@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
 #include "pso/object/TObjControl.h"
@@ -27,7 +30,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -93,9 +95,6 @@ void TBoss6Type1__sub_802B5DD4(void *);
 int post_translate_matrix(void*);
 int rotate_matrix_x(void*, void*);
 void free_collision_body_parts(void *);
-s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 s32 __nw__7TObjectFUl(s32);
@@ -122,14 +121,14 @@ void TBoss6Mine::copy_pos() {
 
 void TBoss6Mine::draw() {
     s32 temp_r31;
-    s32 bml_motion;
+    AnimationMotion *bml_motion;
     s32 bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = get_bml_texlist((BmlResource *)this->m_374, 2);
-    bml_model = get_bml_model((BmlResource *)this->m_374, 2);
-    bml_motion = get_bml_motion(this->m_374, 0);
-    TObjFish::set_global_param(temp_r31);
+    temp_r31 = (s32)get_bml_texlist((BmlResource *)this->m_374, 2);
+    bml_model = (s32)get_bml_model((BmlResource *)this->m_374, 2);
+    bml_motion = get_bml_motion((BmlResource *)(this->m_374), 0);
+    TObjFish::set_global_param((s32)(temp_r31));
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
@@ -181,7 +180,7 @@ void TBoss6Mine::explode_damage_players() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)pl)->is_active() != 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             Vec v = *(Vec *) (arg0 + 0x38);
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
@@ -409,13 +408,13 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
         tmp.b = 0;
         ((TObjEnemy *)THIS)->exchange_object_state(&tmp, 0);
     }
-    ((TBoss3Volopt *)THIS)->next_action = TObjFish::get_fish_count();
+    ((TBoss3Volopt *)THIS)->next_action = (s32)TBoss6PlotFalz::get_scene_archive();
     ((TBoss3Volopt *)THIS)->texlist = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopyP(THIS + 0x44, VecCopyP(THIS + 0x50, VecCopyP(THIS + 0x74, THIS + 0x38)));
     init_collision_body_parts(THIS, TBoss6Mine__collision_body_template, 1);
     VecCopyP(THIS + 0x2FC, THIS + 0x38);
-    ((TBoss3Volopt *)THIS)->m_310 = 0.0f;
+    *(f32 *)((u8 *)THIS + 0x310) = 0.0f;
     *(f32 *)((s8 *)THIS + 0x30C) = 0.0f;
     *(f32 *)((s8 *)THIS + 0x308) = 0.0f;
     *(s32 *)((s8 *)THIS + 0x2A8) = 0;

@@ -4,10 +4,10 @@
 #include "types.h"
 
 class TBoss6Demo20_TYPE2_APPEAR;
+struct TBoss6PlotFalz;
 extern "C" {
-u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *arg0, s32 arg1);
+TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *demo, TBoss6PlotFalz *plot);
 }
-void *create_boss6_type2_appearance(void *arg0);
 void initialize_boss6_type2_appear_particle_origin(void);
 extern "C" {
 void render__25TBoss6Demo20_TYPE2_APPEARFv(void *p);

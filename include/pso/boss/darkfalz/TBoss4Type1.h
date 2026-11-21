@@ -7,6 +7,8 @@ struct BmlResource;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/ModelNodeTables.h"
 
+class ModelNodePositionCapture;
+
 struct TBoss4DarkFalz;
 
 struct TBoss4Type1 : public TObjEnemy
@@ -94,9 +96,9 @@ struct TBoss4Type1 : public TObjEnemy
     f32 unk_3ec;
     u8 pad_3f0[0x8];
     void *parts[13];              // particle effects, released by the dt
-    void *fx[3];                  // TObjFish__sub_800E3124(lbl_804860F0, unk_438[i])
+    ModelNodePositionCapture *fx[3];
     Vec unk_438[3][2];
-    void *unk_480;                // TObjFish__sub_800E3124(lbl_80486120, unk_484)
+    ModelNodePositionCapture *unk_480;
     Vec unk_484[2];
 };
 

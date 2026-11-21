@@ -1,19 +1,26 @@
 #ifndef PSO_BOSS_OLGAFLOW_TBOSS6EFFHYOUI_H
 #define PSO_BOSS_OLGAFLOW_TBOSS6EFFHYOUI_H
 
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "types.h"
+
+class TParticleCtrl;
 
 class TBoss6EffHyoui : public TObject {
 public:
- void* m_1c;
-    u8 pad_20[0xC];
-public:
-    TBoss6EffHyoui(TObject *parent, void *arg2, void *arg3, void *arg4);
+    TBoss6EffHyoui(TObject *parent, u16 client, s32 effect, s32 duration);
     virtual ~TBoss6EffHyoui();
     virtual void run_task();
-public:
-    void *create(void *arg1, void *arg2);
+    static TBoss6EffHyoui *create(u16 client, s32 effect, s32 duration);
+
+    TParticleCtrl *emitter;
+    u16 client;
+    s32 duration;
+    s32 age;
 };
+
+typedef char TBoss6EffHyouiSize[sizeof(TBoss6EffHyoui) == 0x2C ? 1 : -1];
+typedef char TBoss6EffHyouiClientOffset[offsetof(TBoss6EffHyoui, client) == 0x20 ? 1 : -1];
+typedef char TBoss6EffHyouiDurationOffset[offsetof(TBoss6EffHyoui, duration) == 0x24 ? 1 : -1];
 
 #endif

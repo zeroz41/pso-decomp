@@ -388,7 +388,6 @@ struct TObjPlayer : public TObjChara {
     void init_packet_9a();
     s32 get_floor();
     s32 get_area();
-    s32 is_active();
     static s32 get_player_count();
     void reset_lobby_model();
     void reset_type();

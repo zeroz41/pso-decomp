@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -12,6 +15,7 @@
 #pragma inline_depth(1)
 #pragma dont_inline off
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
 #include "pso/unk/ModelNodeTables.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
@@ -192,7 +196,6 @@ extern Ofs_8005683C bishi_spawn_offset_table[];
 extern s32 registered_player_count;
 struct Def_804867C8 { s32 value; s32 remaining[39]; };
 
-s32 TObjFish__sub_800E3124(void *, void *, f32);
 const char *boss4_type2_class_name = "TBoss4Type2";
 
 struct TBoss4Type2Action {
@@ -231,11 +234,11 @@ Def_804867C8 TBoss4Type2__attack_pattern_table = {
         0x0, 0x52, 0x51, 0x2, 0x0, 0xd, 0xc, 0x1, 0x0, 0x12, 0x11, 0x2, 0x5, 0x31, 0x30, 0x2, 0x0, 0x33, 0x32, 0x2, 0x0, 0x3f, 0x3e, 0x2, 0x0, 0x3, 0x2, 0x2, 0x0, 0x7, 0x6, 0x2, 0x9, 0x52, 0x44, 0x2, 0x0, 0x52, 0x3e,
     },
 };
-void *lbl_80486868[16] = {
-    (void *)0xf, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x55, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x6b, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
+ModelNodePositionEntry lbl_80486868[4] = {
+    {0xF, {0.0f, 0.0f, 0.0f}},
+    {0x55, {0.0f, 0.0f, 0.0f}},
+    {0x6B, {0.0f, 0.0f, 0.0f}},
+    {-1, {0.0f, 0.0f, 0.0f}},
 };
 static Vec boss4_type2_start_position = {0.0f, -50.0f, -300.0f};
 static f32 boss4_type2_next_action_weights_a[4] = {0.3f, 0.25f, 0.25f, 0.2f};
@@ -305,7 +308,7 @@ TUnk_80486924::TUnk_80486924(TObject *parent, s32 *params) : TObjEnemy(parent) {
     unk_3d8 = 0;
     unk_3d4 = 0.4f;
     unk_3d0 = 0.0f;
-    unk_44c = (void *)TObjFish__sub_800E3124(lbl_80486868, unk_450, 0.4f);
+    unk_44c = ModelNodePositionCapture::create(lbl_80486868, unk_450);
     for (i = 0; i < 2; i++) {
         parts[i] = (void *)create_particle_emitter(&position, boss4_type2_emitter_ids[i]);
     }
@@ -349,7 +352,7 @@ TUnk_80486924::~TUnk_80486924() {
             parts[i] = 0;
         }
     }
-    TObjFish::init_state_1(unk_44c);
+    ModelNodePositionCapture::destroy((ModelNodePositionCapture *)unk_44c);
     unk_44c = 0;
     free_collision_body_parts(this);
     collision_body_parts = 0;
@@ -493,11 +496,11 @@ void TUnk_80486924::draw_hanger() {
         case 1:
             model_render_flags |= 0x20000;
             TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, arg0->f3c0);
-            ((TObjFish *)(arg0->f44c))->set_draw_callback_list();
+            ((ModelNodePositionCapture *)(arg0->f44c))->install();
             draw_model_motion((void *)get_bml_model(arg0->archive, boss4_zanzo_bml_index_table[i]),
                 (void *)get_bml_motion(arg0->archive, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
                 arg0->f3d0);
-            ((TObjFish *)arg0->f44c)->clear_render_callback();
+            ((ModelNodePositionCapture *)arg0->f44c)->clear();
             model_render_flags &= ~0x20000;
             break;
         default:

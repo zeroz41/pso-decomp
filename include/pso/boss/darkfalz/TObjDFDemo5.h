@@ -5,16 +5,11 @@
 #include "pso/boss/darkfalz/DarkFalzScenePart.h"
 #include "pso/object/base/TObjMotion.h"
 
+class ModelNodePositionCapture;
+
 class TParticleCtrl;
 struct TObjFish;
 struct AnimationMotion;
-
-// One entry of a TObjFish node table (TObjFish__sub_800E3124 walks it up to
-// the node -1 and keeps one Vec per entry in the array it is given).
-struct TObjFishNodeEntry {
-    s32 node;
-    Vec offset; // inferred: a float triple per node (TBoss6Type2 sets y -5.0 / 1.0)
-};
 
 struct TObjDFDemo5 : public TObjBase {
     TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle);
@@ -32,9 +27,9 @@ struct TObjDFDemo5 : public TObjBase {
     s32 angle;
     s32 timer;
     f32 frame;
-    TObjFish *node_list0;     // tracks emitter_positions
+    ModelNodePositionCapture *node_list0;     // tracks emitter_positions
     Vec emitter_positions[2];
-    TObjFish *node_list1;     // tracks tail_position
+    ModelNodePositionCapture *node_list1;     // tracks tail_position
     Vec tail_position;
 };
 

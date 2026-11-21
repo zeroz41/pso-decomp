@@ -1618,7 +1618,7 @@ pso/object/door/TObjDoor_801F3754.cpp
 pso/object/TObjEZBoneRotBase.cpp
 pso/object/ambient/TObjEnvSoundGlobal.cpp
 pso/object/collision/TObjEvtCollision.cpp
-pso/object/ambient/TObjFish_800E2FFC.cpp
+pso/system/ModelNodePositionCapture.cpp
 pso/object/collision/TObjFogCollision.cpp
 pso/object/ambient/TObjGrass.cpp
 pso/enemy/gyaranzo/TObjEneGyaranzo.cpp

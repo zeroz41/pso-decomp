@@ -6,6 +6,7 @@ struct BmlResource;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/ModelNodeTables.h"
 
+class ModelNodePositionCapture;
 struct TBoss4DarkFalz;
 
 // The class whose vtable is at 0x80486924 (emitted by TBoss4Zanzo.cpp). Its ctor names it "TBoss4Type2"
@@ -68,7 +69,7 @@ public:
     s32 unk_424;
     s32 unk_428;
     void *parts[8];               // particle emitters, released by the dt
-    void *unk_44c;                // TObjFish__sub_800E3124(lbl_80486868, unk_450)
+    ModelNodePositionCapture *unk_44c;
     Vec unk_450[3];
 };
 

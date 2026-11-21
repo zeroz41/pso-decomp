@@ -1,14 +1,17 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/olgaflow/Boss6Type2Death.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Demo21_TYPE2_DEAD.h"
@@ -24,37 +27,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject.h"
 
-struct O_8033E5A8 {
-    u8 pad0[0x18];
-    void *vt;
-    u8 pad1c[0x70 - 0x1C];
-    void *f70;
-    u8 pad74[0x80 - 0x74];
-    void *f80;
-    u8 pad84[0x9C - 0x84];
-    void *f9c;
-    void *fa0[4];
-};
-
-struct Rng_8033E0F0 { s32 start; s32 end; s32 id; };
-
-struct Fish_8033E0F0 {
-    u8 pad0[0x4C];
-    f32 f4c;
-    s32 timer;
-    s32 f54;
-    Vec pos;
-    Vec f64;
-    u8 pad70[0x74 - 0x70];
-    Vec f74;
-    u8 pad80[0x84 - 0x80];
-    Vec f84;
-    Vec f90;
-    u8 pad9C[0xA0 - 0x9C];
-    void *emit[4];
-};
+struct EmitterSchedule { s32 start; s32 end; s32 id; };
 
 struct Pl_8033E0F0 {
     u8 pad0[0x30];
@@ -64,66 +40,51 @@ struct Pl_8033E0F0 {
 };
 
 extern "C" {
-s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
 void push_matrix();
-void post_translate_matrix(void *);
-s32 get_bml_motion(void *, int);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
-void set_scripted_camera_pose(void *, void *, void *);
-void __ct__7TObjectFP7TObject(void *);
+void post_translate_matrix(const f32 *);
+void __ct__7TObjectFP7TObject(void *, TObject *);
 void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
-void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0);
+void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0);
 
 }
 extern "C" const char TBoss6Demo21_TYPE2_DEAD__class_name_string[] = "TBoss6Demo21_TYPE2_DEAD";
-extern "C" const u32 lbl_804780A0[3] = {0xc61c4000, 0x0, 0x0};
-extern "C" const u32 lbl_804780AC[3] = {0x0, 0x0, 0xc30e0000};
-extern "C" const u32 lbl_804780B8[3] = {0x0, 0xc0000000, 0x40cccccd};
-extern "C" const u32 boss6_type2_death_effect_desc_a[8] = {0x24, 0x0, 0x0, 0x0, 0xffffffff, 0x0, 0x0, 0x0};
-extern "C" const u32 boss6_type2_death_effect_desc_b[8] = {0x19, 0x0, 0x0, 0x0, 0xffffffff, 0x0, 0x0, 0x0};
-extern "C" const u32 boss6_type2_death_effect_desc_c[12] = {0x2, 0x0, 0x0, 0x0, 0x3, 0x0, 0x0, 0x0, 0xffffffff, 0x0, 0x0, 0x0};
-extern "C" const u32 lbl_80478134[3] = {0x0, 0x0, 0x0};
+extern "C" const Vec lbl_804780A0 = {-10000.0f, 0.0f, 0.0f};
+extern "C" const Vec lbl_804780AC = {0.0f, 0.0f, -142.0f};
+extern "C" const Vec lbl_804780B8 = {0.0f, -2.0f, 6.4f};
+extern "C" const ModelNodePositionEntry boss6_type2_death_effect_desc_a[] = {{0x24}, {-1}};
+extern "C" const ModelNodePositionEntry boss6_type2_death_effect_desc_b[] = {{0x19}, {-1}};
+extern "C" const ModelNodePositionEntry boss6_type2_death_effect_desc_c[] = {{2}, {3}, {-1}};
+extern "C" const CameraAngles lbl_80478134 = {0, 0, 0};
 extern "C" const CameraPlayback lbl_80478140 = {1, 1, 0, 0.0f, 0.7f};
-extern "C" const u32 boss6_type2_death_emitter_ranges[12] = {0x0, 0x8e, 0x228, 0xfa, 0x13a, 0x22a, 0x11d, 0x1ac, 0x22e, 0xf2, 0x13a, 0x179};
+extern "C" const EmitterSchedule boss6_type2_death_emitter_ranges[4] = {{0, 0x8E, 0x228}, {0xFA, 0x13A, 0x22A}, {0x11D, 0x1AC, 0x22E}, {0xF2, 0x13A, 0x179}};
 extern "C" const u32 lbl_8047817C[3] = {0xffff4000, 0xffffff60, 0xffff4000};
 extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
-#define lbl_804780A0 ((u8 *)lbl_804780A0)
-#define lbl_804780AC ((Vec *)lbl_804780AC)
-#define lbl_804780B8 ((Vec *)lbl_804780B8)
-#define boss6_type2_death_effect_desc_a ((u8 *)boss6_type2_death_effect_desc_a)
-#define boss6_type2_death_effect_desc_b ((u8 *)boss6_type2_death_effect_desc_b)
-#define boss6_type2_death_effect_desc_c ((u8 *)boss6_type2_death_effect_desc_c)
-#define lbl_80478134 ((u8 *)lbl_80478134)
-#define boss6_type2_death_emitter_ranges ((Rng_8033E0F0 *)boss6_type2_death_emitter_ranges)
 #pragma pool_data off
 extern "C" {
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
-    if ((s32) this->m_50 >= 0x1AC) {
+    if (timer >= 0x1AC) {
         push_matrix();
         set_motion_packed_rotation();
-        post_translate_matrix((void *) (((u8 *)this) + 0x58));
-        TObjFish::set_global_param((int) (*(s32 *)((s8 *)((u8 *)this) + 0x44)));
-        ((TObjFish *)(this->m_9c))->set_draw_callback_list();
-        draw_model_motion((void *)this->m_40, (void *)this->m_48, (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x4C)));
-        ((TObjFish *)this->m_9c)->clear_render_callback();
+        post_translate_matrix(&camera_position.x);
+        TObjFish::set_global_param((s32)(((s32)models[3].texture)));
+        capture_13->install();
+        draw_model_motion(models[3].model, models[3].motion, frame);
+        capture_13->clear();
         clear_motion_packed_rotation();
         pop_matrix();
     }
 }
-#define arg0 ((u8 *) p)
-void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
+void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8() {
     f32 f;
     s32 t;
     f = 0.0f;
-    t = *(s32 *)(arg0 + 0x50);
+    t = timer;
     if (t > 0x11D && t < 0x1AC) {
         if (t >= 0x12C && t <= 0x1AC) {
             f = 1.0f;
@@ -137,11 +98,11 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
         }
         push_matrix();
         set_motion_packed_rotation();
-        post_translate_matrix(arg0 + 0x58);
-        TObjFish::set_global_param(*(s32 *)(arg0 + 0x38));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x80)))->set_draw_callback_list();
-        draw_model_motion((void *)(*(s32 *)(arg0 + 0x34)), (void *)(*(s32 *)(arg0 + 0x3C)), *(f32 *)(arg0 + 0x4C));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x80)))->clear_render_callback();
+        post_translate_matrix(&camera_position.x);
+        TObjFish::set_global_param((s32)(((s32)models[2].texture)));
+        capture_8->install();
+        draw_model_motion(models[2].model, models[2].motion, frame);
+        capture_8->clear();
         clear_motion_packed_rotation();
         pop_matrix();
         if (f < 1.0f) {
@@ -150,13 +111,13 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
     }
 }
 
-void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(void *p) {
+void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5() {
 
     f32 f;
     s32 t;
 
     f = 0.0f;
-    t = *(s32 *)(arg0 + 0x50);
+    t = timer;
     if (t > 0x101 && t < 0x12C) {
         if (t >= 0x10F && t <= 0x11D) {
             f = 1.0f;
@@ -172,11 +133,11 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(void *p) {
         }
         push_matrix();
         set_motion_packed_rotation();
-        post_translate_matrix(arg0 + 0x58);
-        TObjFish::set_global_param(*(s32 *)(arg0 + 0x2C));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x70)))->set_draw_callback_list();
-        draw_model_motion((void *)(*(s32 *)(arg0 + 0x28)), (void *)(*(s32 *)(arg0 + 0x30)), *(f32 *)(arg0 + 0x4C));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x70)))->clear_render_callback();
+        post_translate_matrix(&camera_position.x);
+        TObjFish::set_global_param((s32)(((s32)models[1].texture)));
+        capture_5->install();
+        draw_model_motion(models[1].model, models[1].motion, frame);
+        capture_5->clear();
         clear_motion_packed_rotation();
         pop_matrix();
         if (f < 1.0f) {
@@ -184,12 +145,11 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(void *p) {
         }
     }
 }
-#undef arg0
 
 void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
     f32 var_f31;
     s32 temp_r0;
-    temp_r0 = this->m_50;
+    temp_r0 = timer;
     if (temp_r0 < 0x101) {
         var_f31 = (1.0f);
     } else if (temp_r0 >= 0x10F) {
@@ -203,11 +163,11 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
         }
         push_matrix();
         set_motion_packed_rotation();
-        post_translate_matrix(((u8 *)this) + 0x58);
-        TObjFish::set_global_param(this->m_20);
-        ((TObjFish *)(this->m_70))->set_draw_callback_list();
-        draw_model_motion((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C)), (void *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)), *(f32 *)((s8 *)((u8 *)this) + 0x4C));
-        ((TObjFish *)this->m_70)->clear_render_callback();
+        post_translate_matrix(&camera_position.x);
+        TObjFish::set_global_param((s32)(((s32)models[0].texture)));
+        capture_5->install();
+        draw_model_motion(models[0].model, models[0].motion, frame);
+        capture_5->clear();
         clear_motion_packed_rotation();
         pop_matrix();
         if (var_f31 < (1.0f)) {
@@ -216,14 +176,14 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
     }
 }
 
-void render__23TBoss6Demo21_TYPE2_DEADFv(void* p) { ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_4(); TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(p); TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(p); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_model_13(); }
+void render__23TBoss6Demo21_TYPE2_DEADFv(void* p) { ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_4(); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_5(); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_8(); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_model_13(); }
 
 #pragma push
 #pragma pool_data off
-void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
+void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0) {
     Vec points[3];
-    if ((arg0->f4c += 0.7f) > 499.0f) {
-        arg0->f4c = 499.0f;
+    if ((arg0->frame += 0.7f) > 499.0f) {
+        arg0->frame = 499.0f;
     }
     switch (arg0->timer) {
     case 0x0:
@@ -246,68 +206,68 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
     switch (arg0->timer) {
     case 0xAE:
     case 0xCF: {
-        Vec p = arg0->pos;
-        vec3_add_to(&p, lbl_804780AC);
+        Vec p = arg0->camera_position;
+        vec3_add_to(&p, (void *)&lbl_804780AC);
         spawn_particle_effect_with_flags(&p, 0x221, 0x40);
         spawn_particle_effect_with_flags(&p, 0x22F, 0x40);
         break;
     }
     case 0x1AC:
-        spawn_particle_effect_with_flags(&arg0->f74, 0x223, 0x40);
+        spawn_particle_effect_with_flags(&arg0->effect_position_8, 0x223, 0x40);
         break;
     case 0x23A: {
-        Vec p = arg0->pos;
-        vec3_add_to(&p, lbl_804780B8);
+        Vec p = arg0->camera_position;
+        vec3_add_to(&p, (void *)&lbl_804780B8);
         spawn_particle_effect_with_flags(&p, 0xA4, 0x40);
         spawn_particle_effect_with_flags(&p, 0xE3, 0x40);
         break;
     }
     }
     if (arg0->timer >= 0x12C && arg0->timer < 0x1BA) {
-        spawn_particle_effect_with_flags(&arg0->f74, 0x22E, 0x40);
+        spawn_particle_effect_with_flags(&arg0->effect_position_8, 0x22E, 0x40);
     }
     {
         Vec *ptrs[4];
         s32 i;
-        ptrs[0] = &arg0->pos;
-        ptrs[1] = &arg0->f64;
-        ptrs[2] = &arg0->f74;
-        ptrs[3] = &arg0->f64;
+        ptrs[0] = &arg0->camera_position;
+        ptrs[1] = &arg0->effect_position_5;
+        ptrs[2] = &arg0->effect_position_8;
+        ptrs[3] = &arg0->effect_position_5;
         for (i = 0; i < 4; i++) {
             if (arg0->timer >= boss6_type2_death_emitter_ranges[i].start && arg0->timer < boss6_type2_death_emitter_ranges[i].end) {
-                if (arg0->emit[i] == 0) {
-                    arg0->emit[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
-                    if (arg0->emit[i] != 0) {
-                        ((TParticleCtrl *)(arg0->emit[i]))->set_flags(0x40);
+                if (arg0->emitters[i] == 0) {
+                    arg0->emitters[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
+                    if (arg0->emitters[i] != 0) {
+                        arg0->emitters[i]->set_flags(0x40);
                     }
                 } else {
-                    ((TParticleCtrl *)arg0->emit[i])->set_position(ptrs[i]);
+                    arg0->emitters[i]->set_position(ptrs[i]);
                 }
-            } else if (arg0->emit[i] != 0) {
-                TParticleCtrl::release(arg0->emit[i]);
-                arg0->emit[i] = 0;
+            } else if (arg0->emitters[i] != 0) {
+                TParticleCtrl::release(arg0->emitters[i]);
+                arg0->emitters[i] = 0;
             }
         }
     }
     if (arg0->timer >= 0x1AE) {
-        VecCopy(&points[0], &arg0->f84);
-        VecCopy(&points[2], &arg0->f90);
+        VecCopy(&points[0], &arg0->trail_positions[0]);
+        VecCopy(&points[2], &arg0->trail_positions[1]);
         VecCopy(&points[1], &points[0]);
         vec3_add_to(&points[1], &points[2]);
         points[1].x *= 0.5f;
         points[1].y *= 0.5f;
         points[1].z *= 0.5f;
-        ((TBoss6Demo21_TYPE2_DEAD *)arg0)->trail_effect->set_effect_points(points, lbl_8047817C);
+        arg0->trail_effect->set_effect_points(points, lbl_8047817C);
     }
     if (arg0->timer == 0x23A) {
         s32 n = TLobby::get_game_mode();
         Vec c;
         s32 i;
-        VecCopy((Vec *)&c, (const Vec *)&arg0->pos);
-        vec3_add_to(&c, lbl_804780B8);
+        VecCopy((Vec *)&c, (const Vec *)&arg0->camera_position);
+        vec3_add_to(&c, (void *)&lbl_804780B8);
         for (i = 0; i < n; i++) {
             Pl_8033E0F0 *p = (Pl_8033E0F0 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_locally_controlled(p) != 0 && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
+            if (TObjPlayer::is_locally_controlled(p) != 0 && TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0) {
                 Vec d;
                 VecCopy((Vec *)&d, (const Vec *)&p->pos);
                 subtract_vector(&d, &c);
@@ -330,8 +290,8 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         break;
     }
     arg0->timer++;
-    if (arg0->timer >= 0x2CA || ((TObjFish *)(arg0->f54))->get_phase() != 7) {
-        ((TObject *)arg0)->queue_destruction();
+    if (arg0->timer >= 0x2CA || arg0->plot->get_scene_state() != 7) {
+        arg0->queue_destruction();
     }
 }
 #pragma pop
@@ -340,88 +300,83 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
 TBoss6Demo21_TYPE2_DEAD::~TBoss6Demo21_TYPE2_DEAD() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (((O_8033E5A8 *)this)->fa0[i] != NULL) {
-            TParticleCtrl::release(((O_8033E5A8 *)this)->fa0[i]);
-            ((O_8033E5A8 *)this)->fa0[i] = NULL;
+        if (emitters[i] != NULL) {
+            TParticleCtrl::release(emitters[i]);
+            emitters[i] = NULL;
         }
     }
     restore_player_cameras();
-    refresh_players_equipment__14TBoss6PlotFalzFPv();
-    if (((O_8033E5A8 *)this)->f70 != NULL) {
-        TObjFish::init_state_1(((O_8033E5A8 *)this)->f70);
-        ((O_8033E5A8 *)this)->f70 = NULL;
+    TBoss6PlotFalz::refresh_players_equipment();
+    if (capture_5 != NULL) {
+        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture_5);
+        capture_5 = NULL;
     }
-    if (((O_8033E5A8 *)this)->f80 != NULL) {
-        TObjFish::init_state_1(((O_8033E5A8 *)this)->f80);
-        ((O_8033E5A8 *)this)->f80 = NULL;
+    if (capture_8 != NULL) {
+        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture_8);
+        capture_8 = NULL;
     }
-    if (((O_8033E5A8 *)this)->f9c != NULL) {
-        TObjFish::init_state_1(((O_8033E5A8 *)this)->f9c);
-        ((O_8033E5A8 *)this)->f9c = NULL;
+    if (capture_13 != NULL) {
+        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture_13);
+        capture_13 = NULL;
     }
 }
 #pragma push
 #pragma opt_common_subs off
-typedef struct {
-    u8 pad[0xA0];
-    s32 arr[4];
-} Fish_8033E688;
-#define arg0 ((u8 *)arg0p)
 extern "C" {
-void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
-    Vec v;
+TBoss6Demo21_TYPE2_DEAD *TBoss6Demo21_TYPE2_DEAD__ct(TBoss6Demo21_TYPE2_DEAD *demo, TBoss6PlotFalz *plot, const Vec *target) {
+    Vec delta;
     s32 i;
-    __ct__7TObjectFP7TObject(arg0);
-    *(u8 **)((s8 *)arg0 + 0x18) = __vt__23TBoss6Demo21_TYPE2_DEAD;
-    *(s32 *)((s8 *)arg0 + 0) = (*(s32 *)&TBoss6Demo21_TYPE2_DEAD__name);
-    *(void **)((s8 *)arg0 + 0x54) = arg1;
-    VecCopy((Vec *)(arg0 + 0x58), (const Vec *)lbl_804780A0);
-    VecCopy((Vec *)&v, (const Vec *)arg2);
-    subtract_vector(&v, lbl_804780A0);
-    v.y = (0.0f);
-    if (vector_length(&v) > 60.0f) {
-        normalize_vector(&v);
-        v.x *= 60.0f;
-        v.z *= 60.0f;
+    __ct__7TObjectFP7TObject(demo, plot);
+    *(void **)((u8 *)demo + 0x18) = __vt__23TBoss6Demo21_TYPE2_DEAD;
+    demo->m_name = TBoss6Demo21_TYPE2_DEAD__name;
+    demo->plot = plot;
+    VecCopy(&demo->camera_position, &lbl_804780A0);
+    VecCopy(&delta, target);
+    subtract_vector(&delta, (void *)&lbl_804780A0);
+    delta.y = 0.0f;
+    if (vector_length(&delta) > 60.0f) {
+        normalize_vector(&delta);
+        delta.x *= 60.0f;
+        delta.z *= 60.0f;
     }
-    vec3_add_to(arg0 + 0x58, &v);
-    void *count = (void *)TObjFish::get_fish_count();
-    *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model((BmlResource *)count, 4);
-    *(s32 *)((s8 *)arg0 + 0x20) = get_bml_texlist((BmlResource *)count, 4);
-    ((TBoss6Type1 *)arg0)->texlist = get_bml_motion(count, 7);
-    *(s32 *)((s8 *)arg0 + 0x28) = get_bml_model((BmlResource *)count, 5);
-    *(s32 *)((s8 *)arg0 + 0x2C) = get_bml_texlist((BmlResource *)count, 5);
-    ((TBoss6Type1 *)arg0)->actorFlags = get_bml_motion(count, 7);
-    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((BmlResource *)count, 8);
-    *(s32 *)((s8 *)arg0 + 0x38) = get_bml_texlist((BmlResource *)count, 8);
-    *(s32 *)((s8 *)arg0 + 0x3C) = get_bml_motion(count, 8);
-    *(s32 *)((s8 *)arg0 + 0x40) = get_bml_model((BmlResource *)count, 0xD);
-    *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.x = get_bml_texlist((BmlResource *)count, 0xD);
-    *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.y = get_bml_motion(count, 0x3D);
-    *(s32 *)&((TBoss6Type1 *)arg0)->scale.z = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_a, (s32)(arg0 + 0x64));
-    *(s32 *)((s8 *)arg0 + 0x80) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_b, (s32)(arg0 + 0x74));
-    *(s32 *)((s8 *)arg0 + 0x9C) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_c, (s32)(arg0 + 0x84));
+    vec3_add_to(&demo->camera_position, &delta);
+    BmlResource *archive = TBoss6PlotFalz::get_scene_archive();
+    demo->models[0].model = (NJS_OBJECT *)get_bml_model(archive, 4);
+    demo->models[0].texture = (GinjaTextureList *)get_bml_texlist(archive, 4);
+    demo->models[0].motion = get_bml_motion(archive, 7);
+    demo->models[1].model = (NJS_OBJECT *)get_bml_model(archive, 5);
+    demo->models[1].texture = (GinjaTextureList *)get_bml_texlist(archive, 5);
+    demo->models[1].motion = get_bml_motion(archive, 7);
+    demo->models[2].model = (NJS_OBJECT *)get_bml_model(archive, 8);
+    demo->models[2].texture = (GinjaTextureList *)get_bml_texlist(archive, 8);
+    demo->models[2].motion = get_bml_motion(archive, 8);
+    demo->models[3].model = (NJS_OBJECT *)get_bml_model(archive, 0xD);
+    demo->models[3].texture = (GinjaTextureList *)get_bml_texlist(archive, 0xD);
+    demo->models[3].motion = get_bml_motion(archive, 0x3D);
+    demo->capture_5 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_a, (Vec *)&demo->effect_position_5);
+    demo->capture_8 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_b, (Vec *)&demo->effect_position_8);
+    demo->capture_13 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_c, (Vec *)demo->trail_positions);
     activate_camera_mode(5);
-    set_scripted_camera_pose(arg0 + 0x58, arg0 + 0x58, lbl_80478134);
+    const Vec *camera_position = &demo->camera_position;
+    set_scripted_camera_pose(camera_position, camera_position, &lbl_80478134);
     lbl_80478140.cache_target_and_forward(0x416C);
     for (i = 0; i < 4; i++) {
-        ((Fish_8033E688 *)arg0)->arr[i] = 0;
+        demo->emitters[i] = NULL;
     }
-    ((TBoss6Demo21_TYPE2_DEAD *)arg0)->trail_effect = TBoss6Zanzo::create((TBoss6Demo21_TYPE2_DEAD *)arg0, 3, 0xF);
-    *(f32 *)((s8 *)arg0 + 0x4C) = (0.0f);
-    *(s32 *)((s8 *)arg0 + 0x50) = 0;
-    return arg0;
+    demo->trail_effect = TBoss6Zanzo::create(demo, 3, 0xF);
+    demo->frame = 0.0f;
+    demo->timer = 0;
+    return demo;
 }
 }
-#undef arg0
 #pragma pop
 
-void * create_boss6_type2_death(void *arg0, void *arg1) {
-    void *o;
-    o = TObject::operator new(0xB4);
-    if (o != NULL) {
-        o = TBoss6Demo21_TYPE2_DEAD__ct(o, arg0, arg1);
+TBoss6Demo21_TYPE2_DEAD *TBoss6Demo21_TYPE2_DEAD::create(TBoss6PlotFalz *plot, const Vec *target) {
+    TBoss6Demo21_TYPE2_DEAD *demo = (TBoss6Demo21_TYPE2_DEAD *)TObject::operator new(sizeof(TBoss6Demo21_TYPE2_DEAD));
+    if (demo != NULL) {
+        demo = TBoss6Demo21_TYPE2_DEAD__ct(demo, plot, target);
     }
-    return o;
+    return demo;
 }
+
 #undef __vt__23TBoss6Demo21_TYPE2_DEAD

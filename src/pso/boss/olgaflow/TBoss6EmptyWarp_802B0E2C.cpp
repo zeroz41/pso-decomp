@@ -41,7 +41,6 @@ void draw_empty_warp_overlay(void) {
 
 extern "C" {
 s32 is_ship_door_ready__12TBoss6ThanksFv();
-void end_cutscene_camera__14TBoss6PlotFalzFPv(void);
 
 void TBoss6EmptyWarp::render() { draw_empty_warp_overlay(); }
 
@@ -66,7 +65,7 @@ void TBoss6EmptyWarp::run_task() {
 
 }
 TBoss6EmptyWarp::~TBoss6EmptyWarp() {
-    end_cutscene_camera__14TBoss6PlotFalzFPv();
+    TBoss6PlotFalz::end_cutscene_camera();
 }
 
 TBoss6EmptyWarp::TBoss6EmptyWarp(TObject *parent) : TObject(parent) {
