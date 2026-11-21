@@ -72,7 +72,7 @@ s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list);
 void DCFlushRange(void *, u32);
 s32 DVDOpen(const char *, FileInfo_803DD784 *);
 s32 DVDClose(FileInfo_803DD784 *);
-s32 Dolphin_DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
+s32 DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
 extern u8 gvrt_header_read_buffer[];
 extern Slot_803DD784 *record_array_ptr;
 s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx);
@@ -152,7 +152,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
         return -1;
     }
     size = (fi.length + 0x1F) & ~0x1F;
-    if (Dolphin_DVDReadPrio(pfi, (void *)base, 0x20, 0, 2) == -1) {
+    if (DVDReadPrio(pfi, (void *)base, 0x20, 0, 2) == -1) {
         DVDClose(pfi);
         return -1;
     }
@@ -170,7 +170,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
         return r;
     }
     n -= base;
-    Dolphin_DVDReadPrio(pfi, record_array_ptr[handle].tex->buf, size - n, n, 2);
+    DVDReadPrio(pfi, record_array_ptr[handle].tex->buf, size - n, n, 2);
     DVDClose(pfi);
     return 1;
 }

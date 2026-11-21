@@ -160,7 +160,7 @@ s32 dvd_synchronous_read_enabled = 0;
 void DCInvalidateRange(void *, u32);
 s32 DVDGetTransferredSize(void *);
 s32 DVDReadAsyncPrio(void *, void *, s32, s32, void (*)(void), s32);
-s32 Dolphin_DVDReadPrio(void *, void *, s32, s32, s32);
+s32 DVDReadPrio(void *, void *, s32, s32, s32);
 void TLobby__sub_803CFE9C(void);
 
 inline s32 dvd_request_ready(GcciRequest *r) {
@@ -272,7 +272,7 @@ s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     if (dvd_synchronous_read_enabled == 0) {
         result = DVDReadAsyncPrio(r->block, buf, len, offset, TLobby__sub_803CFE9C, 2);
     } else {
-        result = Dolphin_DVDReadPrio(r->block, buf, len, offset, 2);
+        result = DVDReadPrio(r->block, buf, len, offset, 2);
     }
     if (result == 0) {
         return 0;

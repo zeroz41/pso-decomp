@@ -93,7 +93,7 @@ extern u8 chunk_object_current_matrix[];
 void transform_point_by_current_matrix(u8 *, u8 *);
 void rotate_vector_by_current_matrix(u8 *, u8 *);
 void GXBegin(int, int, u16);
-void Dolphin_GXSetVtxDesc(int, int);
+void GXSetVtxDesc(int, int);
 void GXClearVtxDesc(void);
 void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
@@ -424,9 +424,9 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
     TObjPlayer::clear_move_state_bits();
     GXSetVtxAttrFmt(0, 0xD, 1, 3, large ? 0xC : 8);
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(0xD, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -457,8 +457,8 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -950,8 +950,8 @@ void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, 
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
     do {
         n = *list++;
         if (n < 0) {
@@ -996,8 +996,8 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u
     }
     TObjPlayer::clear_move_state_bits();
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xA, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xA, 1);
     do {
         n = *list++;
         if (n < 0) {

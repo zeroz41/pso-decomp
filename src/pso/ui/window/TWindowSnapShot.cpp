@@ -25,7 +25,7 @@ extern s32 lbl_805D669C;
 
 extern "C" {
 
-u32 Dolphin_ARAlloc(u32);
+u32 ARAlloc(u32);
 
     extern int snapshot_aligned_buffer_size;
 void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((saddr)((void*)1), (uaddr)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
@@ -35,7 +35,7 @@ void TWindowSnapShot__sub_802A7DA0(void) {  }
 void TWindowSnapShot::alloc_buffer() {
     s32 file_size = TGStream::get_resource_file_size(get_player_motion_filename());
     snapshot_aligned_buffer_size = (file_size + 31) & ~31;
-    lbl_805D669C = Dolphin_ARAlloc(file_size);
+    lbl_805D669C = ARAlloc(file_size);
 }
 
 }

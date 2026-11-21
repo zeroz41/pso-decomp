@@ -38,7 +38,7 @@ extern s32 current_matrix;
 s32 tex_matrix_id_table[10] = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
 void GXLoadTexMtxImm(void *mtx, u32 id, s32 type);
 void OSPanic(const char *, int, const char *, ...);
-void Dolphin_GXInitTexObj(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8);
+void GXInitTexObj(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8);
 void GXInitTexObjCI(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8, u32);
 void GXLoadTexObj(TexObj_803E1D90 *, s32);
 /* GX_TEXMAP0..GX_TEXMAP7, GX_TEXMAP_NULL */
@@ -143,7 +143,7 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map) {
     if (flags & 0x8000) {
         GXInitTexObjCI(&list_texture_tex_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip, info->tlut);
     } else {
-        Dolphin_GXInitTexObj(&list_texture_tex_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip);
+        GXInitTexObj(&list_texture_tex_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip);
     }
     GXLoadTexObj(&list_texture_tex_obj, list_texture_map_table[map]);
 }
@@ -213,7 +213,7 @@ struct G_803E2010 { u8 pad[0x44]; f32 f44; f32 f48; };
 extern G_803E2010 scene_projection_state;
 typedef struct { u8 r, g, b, a; } Col_803E2010;
 extern "C" {
-void Dolphin_GXSetFog(s32, f32, f32, f32, f32, Col_803E2010);
+void GXSetFog(s32, f32, f32, f32, f32, Col_803E2010);
 }
 
 s32 scene_fog_type;
@@ -233,5 +233,5 @@ void apply_scene_fog(void) {
     } else {
         type = 0;
     }
-    Dolphin_GXSetFog(type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.f44, scene_projection_state.f48, *(Col_803E2010 *)&scene_fog_color);
+    GXSetFog(type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.f44, scene_projection_state.f48, *(Col_803E2010 *)&scene_fog_color);
 }

@@ -8,8 +8,6 @@
 
 #include "stdarg.h"
 // The game links the SDK's GXInitTexObj and GXSetVtxDesc under these names.
-#define GXInitTexObj Dolphin_GXInitTexObj
-#define GXSetVtxDesc Dolphin_GXSetVtxDesc
 #include <dolphin/gx.h>
 #undef GXInitTexObj
 #undef GXSetVtxDesc
@@ -153,7 +151,7 @@ void render_debug_text(u32 enabled) {
     GC_Mtx ident;
     DebugTextRecord *r;
 
-    Dolphin_GXInitTexObj(&debug_font_texture_object, debug_font_texture_i4, 128, 128, GX_TF_I4, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    GXInitTexObj(&debug_font_texture_object, debug_font_texture_i4, 128, 128, GX_TF_I4, GX_CLAMP, GX_CLAMP, GX_FALSE);
     GXInitTexObjLOD(&debug_font_texture_object, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, GX_FALSE, GX_FALSE, GX_ANISO_1);
     GXLoadTexObj(&debug_font_texture_object, GX_TEXMAP0);
     PSMTXScale(texMtx, 1.0f / 128.0f, 1.0f / 128.0f, 1.0f);
@@ -173,9 +171,9 @@ void render_debug_text(u32 enabled) {
     GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
     if (enabled == 1) {
         GXClearVtxDesc();
-        Dolphin_GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
-        Dolphin_GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-        Dolphin_GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+        GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+        GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+        GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_S16, 1);

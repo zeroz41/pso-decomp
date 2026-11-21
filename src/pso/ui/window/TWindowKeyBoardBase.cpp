@@ -1017,7 +1017,7 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 u8 * get_window_layout_position(s32);
 }
 extern "C" {
-s32 Dolphin_ARAlloc(s32);
+s32 ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 
 void TWindowKeyBoardBase::render() {
@@ -1074,7 +1074,7 @@ void TLobby::load_ask_dictionary() {
     s32 aram;
     size = TGStream::get_resource_file_size((const char *)lbl_8044F098);
     aligned = (size + 0x1F) & ~0x1F;
-    aram = Dolphin_ARAlloc(aligned);
+    aram = ARAlloc(aligned);
     data = (saddr)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
     TAdSinglePlyChrSelectGC::safe_free(data);

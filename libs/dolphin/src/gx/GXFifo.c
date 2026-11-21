@@ -5,7 +5,6 @@
 #define CPUFifo lbl_805D72D8
 #define GPFifo lbl_805D72DC
 #define GXCPInterruptHandler GXFifo_GXCPInterruptHandler
-#define GXFlush Dolphin_GXFlush
 #define GXOverflowSuspendInProgress lbl_805D72E8
 #define __GXCurrentThread lbl_805D72E0
 #define __GXFifoLink GXFifo___GXFifoLink

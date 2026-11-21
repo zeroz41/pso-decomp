@@ -1,6 +1,5 @@
 
 
-#define GXSetFog Dolphin_GXSetFog
 
 #include <libc/math.h>
 #include <dolphin/gx.h>

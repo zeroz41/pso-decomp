@@ -56,8 +56,8 @@ extern "C" {
 s32 GXSetNumIndStages(s32);
 s32 GXSetTevDirect(s32);
 void GXSetIndTexMtx(s32, f32 (*)[3], s32);
-void Dolphin_GXSetIndTexCoordScale(s32, s32, s32);
-void Dolphin_GXSetIndTexOrder(s32, s32, s32);
+void GXSetIndTexCoordScale(s32, s32, s32);
+void GXSetIndTexOrder(s32, s32, s32);
 void GXSetTevIndWarp(s32, s32, s32, s32, s32);
 void DCFlushRange(void *, u32);
 void set_texture_name(void *, void *, void *, s32);
@@ -490,8 +490,8 @@ void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sample
         s32 scales[5] = {0, 1, 2, 3, 4};
         f32 mtx[2][3];
         GXSetNumIndStages(1);
-        Dolphin_GXSetIndTexOrder(0, coords[2], 5);
-        Dolphin_GXSetIndTexCoordScale(0, scales[scale], scales[scale]);
+        GXSetIndTexOrder(0, coords[2], 5);
+        GXSetIndTexCoordScale(0, scales[scale], scales[scale]);
         GXSetTevIndWarp(1, 0, 0, 0, 1);
         mtx[0][0] = 0.5f;
         mtx[0][1] = 0.0f;
@@ -511,8 +511,8 @@ void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale,
     f32 m0[2][3];
     f32 m1[2][3];
     GXSetNumIndStages(1);
-    Dolphin_GXSetIndTexOrder(0, 0, 5);
-    Dolphin_GXSetIndTexCoordScale(0, scales[(u8)scale], scales[(u8)scale]);
+    GXSetIndTexOrder(0, 0, 5);
+    GXSetIndTexCoordScale(0, scales[(u8)scale], scales[(u8)scale]);
     if (second != 0) {
         static s32 shift = -2;
         static s32 unused = 0;

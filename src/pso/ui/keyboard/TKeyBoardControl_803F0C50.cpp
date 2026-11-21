@@ -118,7 +118,7 @@ extern s32 TKeyBoardControl__polling_channel_mask;
 s32 TKeyBoardControl__polling_disabled;
 s32 OSDisableInterrupts(void);
 void OSRestoreInterrupts(s32);
-void Dolphin_SIGetTypeAsync(s32, void *);
+void SIGetTypeAsync(s32, void *);
 void OSInitThreadQueue(void *);
 s32 SIRefreshSamplingRate(void);
 void OSClearContext(OSContext_803F0F84 *);
@@ -334,7 +334,7 @@ s32 TKeyBoardControl::start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg
     k->f30 = arg3;
     k->f10 = arg1;
     k->f14 = arg2;
-    Dolphin_SIGetTypeAsync(arg0, (void *)TKeyBoardControl__sub_803F107C);
+    SIGetTypeAsync(arg0, (void *)TKeyBoardControl__sub_803F107C);
     OSRestoreInterrupts(en);
     return 0;
 }

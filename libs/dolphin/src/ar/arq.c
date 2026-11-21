@@ -1,6 +1,5 @@
 
 
-#define ARStartDMA Dolphin_ARStartDMA
 #define __ARQCallbackHi lbl_805D7298
 #define __ARQCallbackLo lbl_805D729C
 #define __ARQChunkSize lbl_805D72A0

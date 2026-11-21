@@ -314,7 +314,7 @@ u32 ARInit(u32 *stack_index_addr, u32 num_entries);
 void ARQInit(void);
 void AIInit(u8 *stack);
 s32 VISetPostRetraceCallback(int (*callback)(void *));
-u32 Dolphin_ARAlloc(u32 length);
+u32 ARAlloc(u32 length);
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
@@ -620,7 +620,7 @@ void init_adx_audio_system(void) {
     VISetPostRetraceCallback(TLobby__sub_80227A70);
     VISetPreRetraceCallback(TLobby__sub_80227A6C);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);
-    Dolphin_ARAlloc(0xC00000);
+    ARAlloc(0xC00000);
     sndSetHooks(&hooks);
     sndInit(48, 48, 48, 4, 1, 0xC00000);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);

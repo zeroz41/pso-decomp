@@ -3,7 +3,7 @@
 
 extern "C" {
 s32 SIRegisterPollingHandler(void *);
-s32 Dolphin_SIUnregisterPollingHandler(void *);
+s32 SIUnregisterPollingHandler(void *);
 uaddr si_polling_callback;
 s32 TKeyBoardControl__polling_channel_mask;
 void OSClearContext(void *);
@@ -27,7 +27,7 @@ uaddr fn_803F1864(uaddr arg0) {
     if (arg0 != 0U) {
         SIRegisterPollingHandler((void *) (((s32 *)fn_803F1804)));
     } else {
-        Dolphin_SIUnregisterPollingHandler((void *) (((s32 *)fn_803F1804)));
+        SIUnregisterPollingHandler((void *) (((s32 *)fn_803F1804)));
     }
     return temp_r31;
 }

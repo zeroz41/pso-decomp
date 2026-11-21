@@ -452,13 +452,13 @@ void init_item_drop_tables(void) {
 
 extern "C" {
 
-s32 Dolphin_ARAlloc(s32);
+s32 ARAlloc(s32);
 
 void TLobby__sub_8020E3BC(void) {  }
 
 void TLobby__sub_8020E3C0(void) {
     item_drop_memory_pool_size = 0x100000;
-    item_drop_memory_pool_ar_addr = Dolphin_ARAlloc(0x100000);
+    item_drop_memory_pool_ar_addr = ARAlloc(0x100000);
 }
 
 EnemySetRecord *get_loaded_enemy_set_rows() { return TLobby__data_805D6114; }

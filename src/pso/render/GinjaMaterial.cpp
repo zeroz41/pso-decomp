@@ -58,7 +58,7 @@ typedef struct GinjaCounts_803DB734 {
 } GinjaCounts_803DB734;
 
 extern "C" {
-s32 Dolphin_GXSetVtxDesc(int, void *);
+s32 GXSetVtxDesc(int, void *);
 s32 GXClearVtxDesc();
 void GXSetZMode(u8, s32, s32);
 void GXSetZCompLoc(s32);
@@ -169,10 +169,10 @@ u32 update_ginja_cached_parameter(s32 i, u32 v) {
 
 void set_ginja_indexed_vtx_desc(s32 arg0) {
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, (void *) (get_ginja_vertex_descriptor_type(arg0, 1)));
-    Dolphin_GXSetVtxDesc(0xA, (void *) (get_ginja_vertex_descriptor_type(arg0, 2)));
-    Dolphin_GXSetVtxDesc(0xB, (void *) (get_ginja_vertex_descriptor_type(arg0, 3)));
-    Dolphin_GXSetVtxDesc(0xD, (void *) (get_ginja_vertex_descriptor_type(arg0, 5)));
+    GXSetVtxDesc(9, (void *) (get_ginja_vertex_descriptor_type(arg0, 1)));
+    GXSetVtxDesc(0xA, (void *) (get_ginja_vertex_descriptor_type(arg0, 2)));
+    GXSetVtxDesc(0xB, (void *) (get_ginja_vertex_descriptor_type(arg0, 3)));
+    GXSetVtxDesc(0xD, (void *) (get_ginja_vertex_descriptor_type(arg0, 5)));
 }
 
 void set_ginja_channel_ctrl(s32 channel,s32 flags) {

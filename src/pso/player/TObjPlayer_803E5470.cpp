@@ -311,7 +311,7 @@ typedef union {
 } WGPipe_803E549C;
 #define GXWGFifo_803E549C (*(volatile WGPipe_803E549C *)0xCC008000)
 
-void Dolphin_GXSetVtxDesc(int, int);
+void GXSetVtxDesc(int, int);
 void GXClearVtxDesc(void);
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void GXBegin(int, int, u16);
@@ -356,9 +356,9 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
     GXSetVtxAttrFmt(0, 9, 1, 4, 0);
     GXSetVtxAttrFmt(0, 0xB, 1, 5, 0);
     GXSetVtxAttrFmt(0, 0xD, 1, 3, big ? 0xC : 8);
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xB, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xB, 1);
+    GXSetVtxDesc(0xD, 1);
     do {
         n = *p++;
         if (n < 0) {
