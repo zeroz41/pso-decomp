@@ -12,7 +12,7 @@ struct TWindowMessageLine {
 };
 
 struct TWindowMessage : public TWindowAddition {
-    TWindowMessage(s32 parent, u32 rows, s32 client);
+    TWindowMessage(saddr parent, u32 rows, s32 client);
     virtual ~TWindowMessage();
     virtual void run_task();
     virtual void render();
