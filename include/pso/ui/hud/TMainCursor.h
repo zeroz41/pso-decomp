@@ -31,7 +31,7 @@ public:
 struct TMainCursor : public TObject {
     TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
     virtual ~TMainCursor();
-    s32 bind_action_channels();
+    void bind_action_channels();
     void sub_8013E724(f32);
     u32 m_1c;
     FlagWord unk_20;

@@ -934,7 +934,7 @@ void TMainCursor::set_cursor_pos(u16 arg1, s32 arg2) {
     set_target_part((u8 *)(arg0 + 0x508), arg1, arg2, eq + 1);
 }
 
-s32 TMainCursor::bind_action_channels() {
+void TMainCursor::bind_action_channels() {
     ActionCursor_8013C924 *self = (ActionCursor_8013C924 *)this;
     s32 i;
     saddr player;
@@ -1504,7 +1504,7 @@ void TMainCursor::validate_target() {
 
 s32 TMainCursor::check_can_pickup() {
     saddr entity;
-    u32 temp_r3b;
+    uaddr temp_r3b;
     saddr arg0 = (saddr)this;
 
     entity = (saddr)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
