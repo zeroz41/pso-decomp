@@ -184,7 +184,7 @@ extern "C" {
 
 void draw_party_label__15TFontSmallLobbyFiUis(saddr arg0, uaddr arg1, s16 arg2);
 s32 subtract_photon_blast_charge(PhotonBlastGauge *gauge, f32 amount);
-void TFontSmallLobby__sub_801D671C(void *a0, int a1);
+void TFontSmallLobby__add_field_4(void *a0, int a1);
 s32 create_party_effect__11TWindowCtrlFPvPv(s16, s16);
 s16 get_entity_id(u32);
 
@@ -196,7 +196,7 @@ void draw_party_label__15TFontSmallLobbyFiUis(saddr font_small_lobby, uaddr arg1
     ((TFontSmallLobby *)font_small_lobby)->set_flag_40_bit5();
     subtract_photon_blast_charge((PhotonBlastGauge *)font_small_lobby, 10.0f);
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
-    TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
+    TFontSmallLobby__add_field_4((void *)(font_small_lobby + 0x4C), 1);
     create_party_effect__11TWindowCtrlFPvPv(get_entity_id(arg1), arg2);
     if ((arg1 == 0U) || (((TObjChara *)arg1)->obj_isState2_324() == 0)) {
         TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&sp8);
@@ -347,7 +347,7 @@ s32 accumulate_damage_stats(u8 *arg0, s32 arg1, s32 arg2);
 void clear_player_sub_object_slots(Obj_801D6A18 *p);
 s32 __construct_array(void *, void *, int, int, int);
 extern s32 fn_80152EF8[];
-void TFontSmallLobby__sub_801D671C(void* a0, int a1);
+void TFontSmallLobby__add_field_4(void* a0, int a1);
 void TFontSmallLobby__sub_801D677C(void* p);
 
 s32 TFontSmallLobby::construct_pb_controller() {
@@ -378,7 +378,7 @@ s32 TFontSmallLobby::get_field_04() { return *(s32*)((char*)this + 0x4); }
 void TFontSmallLobby::check_flag_at_40() { ((FlagWord *)((char*)this + 0x40))->clear(32); }
 void TFontSmallLobby::set_target_count(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 void TFontSmallLobby::set_target_index(s32 v) { *(s32*)((char*)this + 0x0) = v; }
-void TFontSmallLobby__sub_801D671C(void* a0, int a1) { *(int*)((char*)a0 + 0x4) = (*(int*)((char*)a0 + 0x4) + a1); }
+void TFontSmallLobby__add_field_4(void* a0, int a1) { *(int*)((char*)a0 + 0x4) = (*(int*)((char*)a0 + 0x4) + a1); }
 void TFontSmallLobby::set_flag_40_bit5() { ((FlagWord *)((char*)this + 0x40))->set(32); }
 void TFontSmallLobby::update_field_40() { ((FlagWord *)((char*)this + 0x40))->clear(16); }
 void TFontSmallLobby__sub_801D677C(void* p) { ((FlagWord *)((char*)p + 0x40))->set(16); }
