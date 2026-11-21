@@ -841,7 +841,7 @@ TUnk_804C4498::TUnk_804C4498(TObject *parent, TObjBase *source, const Vec *pos, 
 TUnk_804C4498::~TUnk_804C4498() {
 }
 
-s32 TUnk_804C4498::reset_placement_search_ring() {
+void TUnk_804C4498::reset_placement_search_ring() {
     this->sample = 0;
     if (this->ring == 0) {
         this->count = 1;

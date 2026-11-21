@@ -872,7 +872,7 @@ struct TObjPlayer : public TObjChara {
     void byteswap_6x49_packet();
     void swap_endian_shorts();
     void *init_6x49_packet();
-    int byteswap_pb_targets_packet();
+    void byteswap_pb_targets_packet();
     void bswap_coords();
     void init_6x33_packet();
     void send_coords();
@@ -1087,7 +1087,7 @@ struct TObjPlayer : public TObjChara {
     static void setup_render();
     static void setup_vertex_format();
     static void setup_vtx_desc();
-    static s32 setup_color_channels(int arg0);
+    static void setup_color_channels(int arg0);
     static s32 apply_blend_mode_1();
     static void set_tev_passclr();
     static s32 set_num_tex_gens_zero();
@@ -1269,7 +1269,7 @@ struct TObjPlayer : public TObjChara {
     int attach_battle_ctrl_sub();
     void forward_1BF500_at_63c();
     s32 classify_action_state();
-    int update_foot_stamp(int arg1);
+    void update_foot_stamp(int arg1);
     void play_footstep_sound(f32 farg0, f32 farg1);
     void revive();
     static s32 revive_6xA1(saddr arg0, void * _w1);
@@ -1356,7 +1356,7 @@ struct TObjPlayer : public TObjChara {
     void unregister();
     void init_player_substructs();
     static void init_action_palette_defaults(saddr arg0);
-    s32 send_respawn_position();
+    void send_respawn_position();
     void init_battle();
     void reset_area_entry_state();
     u8 *construct_player_instance(saddr arg1, s16 arg2, s32 arg3, u8 *arg4);

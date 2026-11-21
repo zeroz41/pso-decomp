@@ -8,7 +8,7 @@ public:
     TUnk_8048E1A4(u8 *arg1, u8 *arg2);
     virtual ~TUnk_8048E1A4();
     void freeze_shell_grow();
-    s32 freeze_shell_hold();
+    void freeze_shell_hold();
     void update_freeze_shell_timer();
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);

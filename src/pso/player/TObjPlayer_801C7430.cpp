@@ -1294,7 +1294,7 @@ void TObjPlayer__sub_801CFB50(void);
 void TObjPlayer__sub_801CFB54(void);
 void TObjPlayer__sub_801CFB58(void);
 void TObjPlayer__sub_801CFB5C(void);
-int TObjPlayer__sub_801CFB80(saddr arg0, s16 arg1);
+void TObjPlayer__sub_801CFB80(saddr arg0, s16 arg1);
 u8 * TObjPlayer__sub_801CFBFC(u8 *arg0);
 s32 update_combat_stats__10TObjPlayerFPv(u8 *arg0);
 void set_attack_state__10TObjPlayerFPv(u8 *arg0);
@@ -5543,7 +5543,7 @@ int TObjPlayer::apply_status_action_b() { return TObjPlayer::try_apply_status_ac
 
 #pragma push
 #pragma opt_lifetimes off
-int TObjPlayer__sub_801CFB80(saddr arg0, s16 arg1) {
+void TObjPlayer__sub_801CFB80(saddr arg0, s16 arg1) {
   {
     switch (arg1)
     {
@@ -6524,11 +6524,11 @@ void TObjPlayer__sub_801D1F44(void* p) { *(s16*)((char*)p + 0x6) = 0; *(s16*)((c
 
 void send_photon_blast_targets_packet(u8 *player) {
     *(s8 *)((s8 *)player + 1) = (s8) ((((u32)TObjPlayer__sub_801D2004((u8 *)(player))) >> 2U) & 0x3F);
-    ((s32)((TObjPlayer *)player)->byteswap_pb_targets_packet());
+    ((TObjPlayer *)player)->byteswap_pb_targets_packet();
     send_subcommand(player);
 }
 
-int TObjPlayer::byteswap_pb_targets_packet() {
+void TObjPlayer::byteswap_pb_targets_packet() {
     Obj_801D1FA4 *arg0 = (Obj_801D1FA4 *)this;
     s32 i;
     ((G_ClientIDHeader *)arg0)->bswap();

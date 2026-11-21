@@ -38,7 +38,7 @@ struct TLobby : public TObject {
     virtual ~TLobby();
     void try_close(void *);
     void on_game_player_add(int, int, int);
-    void forward_8024273C(void *);
+    static void forward_8024273C(void *p);
     void close_window();
     static s32 get_filtered_event_theme();
     static void load_dimedian_resources();
@@ -718,7 +718,7 @@ struct TLobby : public TObject {
     void bswap_6x7C_packet();
     void send_6x7C_packet();
     void init_pkt_cmd_7C();
-    s32 bswap_challenge_battle_records();
+    void bswap_challenge_battle_records();
     void bswap_fields_0_4();
     void bswap_fields_4_8_12();
     void bswap_packet_field();

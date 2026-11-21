@@ -572,7 +572,7 @@ void TObjPlayer__sub_801BFD3C(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((c
 void*TObjPlayer::init_sub() { __ct__8FlagWordFv(((char*)this + 0xc)); reset_stat_scale_and_ring(); return this; }
 void*TObjPlayer::init_subobjects() { __ct__8FlagWordFv(((char*)this + 0x4)); ((TObjPlayer *)((char*)this + 0x18))->init_pair(); init_player_scale_state(this); return this; }
 }
-int init_player_scale_state(TObjPlayer *player) {
+void init_player_scale_state(TObjPlayer *player) {
     *(u16 *)player = 0xFFFF;
     ((FlagWord *)((u8 *)player + 4))->reset();
     player->set_speed(lbl_805DC2DC);

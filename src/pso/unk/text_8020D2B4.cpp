@@ -59,7 +59,7 @@ s32 TLobby__sub_801C2614();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
-s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
+void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
 extern Obj_8020D4E8 *camera_ctrl_instance;
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
 void spawn_decorations_in_range(TSetManager *arg0);
@@ -112,7 +112,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
     }
 }
 
-s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
+void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
     Out_8020D474 o;
     FloorObjectSetRow *p;
     s32 i;

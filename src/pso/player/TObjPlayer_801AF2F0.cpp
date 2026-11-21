@@ -1079,28 +1079,6 @@ struct Player_801B6C30;
 
 struct Obj_801B6CE0;
 
-struct Base_801B7AC8_801B3FD8 { char pad[0x18]; };
-
-struct VObj_801B7AC8_801B3FD8 : Base_801B7AC8_801B3FD8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16(s32);
-};
-
 struct P_801B7B58 { u8 pad[0xD00]; void *fD00; };
 
 struct L_801B7E14 { u8 f0[2]; s16 f2; s32 f4; s32 f8; };
@@ -2319,7 +2297,7 @@ void TObjPlayer__sub_801BC050(O_801BC050 *p) {
     p->b = 0;
 }
 
-s32 TObjPlayer::send_respawn_position() {
+void TObjPlayer::send_respawn_position() {
     Cand_801BBE54 list[13];
     Cmd_801BBE54 cmd;
     u8 pos[12];
@@ -4169,8 +4147,7 @@ void TObjPlayer::close_sub_window() {
 void handle_6x99(void) {  }
 
 u8 *TObjPlayer::update_actor_ground_y() {
-    struct VObj_801B7AC8_801B3FD8 *o = (struct VObj_801B7AC8_801B3FD8 *)this;
-    o->m16((saddr)this->get_position_ptr());
+    return vfunc_18((u8 *)get_position_ptr());
 }
 
 u8 *TObjPlayer::vfunc_18(u8 *arg1) {
@@ -5688,7 +5665,7 @@ void TObjPlayer::emit_footstep_effect(f32 farg0, f32 farg1) {
             emit_sand_footstep_effect((arg0 + 0x384));
             return;
         case 4:
-            ((s32)((TObjPlayer *)arg0)->update_foot_stamp(temp_r3));
+            ((TObjPlayer *)arg0)->update_foot_stamp(temp_r3);
             return;
         case 0:
             if (is_timer_running((u8 *)(arg0 + 0x360)) != 0) {
@@ -5706,7 +5683,7 @@ s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *motion, f32 farg0, f32 farg
     return (((TObjMotion *)motion)->is_passing_frame((f32)farg1) != 0) ? 2 : 0;
 }
 
-int TObjPlayer::update_foot_stamp(int arg1) {
+void TObjPlayer::update_foot_stamp(int arg1) {
     if (arg1 == 1) {
         TObjPlayer::clear_foot_stamp((saddr)((u8 *)this + 0x384), (saddr)this);
     } else if (arg1 == 2) {

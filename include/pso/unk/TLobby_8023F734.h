@@ -86,7 +86,6 @@ void fade_out_sound_slot(s32 slot, s32 step);
 extern "C" {
 void fade_voice_channels__6TLobbyFl(s32 arg0);
 void find_and_load_com_card__6TLobbyFUl(u32 arg0);
-int forward_8024273C__6TLobbyFPv(void *p);
 void *get_com_card_entry__6TLobbyFi(int a0);
 s32 get_field_0x280__6TLobbyFv(void *p);
 f32 get_field_2a4__6TLobbyFv(void *p);
@@ -141,7 +140,6 @@ void fade_out_sound_slot(s32 slot, s32 step);
 extern "C" {
 void fade_voice_channels__6TLobbyFl(s32 arg0);
 void find_and_load_com_card__6TLobbyFUl(u32 arg0);
-int forward_8024273C__6TLobbyFPv(void *p);
 void *get_com_card_entry__6TLobbyFi(int a0);
 s32 get_field_0x280__6TLobbyFv(void *p);
 f32 get_field_2a4__6TLobbyFv(void *p);

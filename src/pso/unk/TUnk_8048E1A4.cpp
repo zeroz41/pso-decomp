@@ -85,7 +85,7 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
-s32 TUnk_8048E1A4::freeze_shell_hold() {
+void TUnk_8048E1A4::freeze_shell_hold() {
     saddr p;
     p = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
     if (p == 0) {

@@ -159,7 +159,7 @@ struct TCameraCtrl : public TObject {
     static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
-    static s32 init_projection_state();
+    static void init_projection_state();
     static void set_target(int a0, int a1);
 };
 

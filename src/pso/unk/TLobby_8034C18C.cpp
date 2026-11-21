@@ -18,8 +18,9 @@ void TLobby::init_once(s32 arg0) {
     }
 }
 
-s32 TLobby__sub_8034C1D0(uaddr dst, saddr src) {
+uaddr TLobby__sub_8034C1D0(uaddr dst, saddr src) {
     *(Big_8034C1D0 *)dst = *(Big_8034C1D0 *)src;
+    return dst;
 }
 
 void *TLobby::get_info_board_ptr() {

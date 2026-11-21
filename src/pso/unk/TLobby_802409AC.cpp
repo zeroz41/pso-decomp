@@ -959,7 +959,7 @@ int com_card_entry_count;
 extern "C" {
 void __copy(void *, void *, int);
 Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src);
-int TLobby__sub_8024273C(void*);
+void TLobby__sub_8024273C(void *p);
 
 SoundRequestVoice::~SoundRequestVoice() {
     state = 0;
@@ -969,7 +969,7 @@ SoundRequestVoice::SoundRequestVoice() {
     state = 0;
 }
 s32 TLobby::get_field_308() { return *(s32*)((char*)this + 0x308); }
-int forward_8024273C__6TLobbyFPv(void* p) { return TLobby__sub_8024273C(p); }
+void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
 
 void TLobby::send_find_user_self_tag(s32 arg0) {
     if ((u32) TLobby__protocol_instance != 0U) {
@@ -1130,7 +1130,7 @@ void TLobby::remove_com_card_entry(s32 arg0) {
     (*(s32 *)&com_card_entry_count) -= 1;
 }
 
-int TLobby__sub_8024273C(void *p) {
+void TLobby__sub_8024273C(void *p) {
     u8 *entry;
     s32 slot = TLobby::remove_com_card_by_id(*(u32 *)((u8 *)p + 0xC));
     entry = (u8 *)com_card_entries;

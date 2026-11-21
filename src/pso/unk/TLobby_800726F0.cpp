@@ -144,7 +144,7 @@ void TLobby::init_pkt_cmd_7C() {
     *(s8 *)((s8 *)((u8 *)this) + 1) = 0x42;
 }
 
-s32 TLobby::bswap_challenge_battle_records() {
+void TLobby::bswap_challenge_battle_records() {
     saddr arg0 = (saddr)this;
     S_80072994 *s = (S_80072994 *)arg0;
     s32 i;

@@ -258,7 +258,7 @@ void TKeyBoardControl::update_camera() {
 }
 
 
-s32 TCameraCtrl::init_projection_state() {
+void TCameraCtrl::init_projection_state() {
     s32 i;
     Cam_803DD300 *c = &lbl_8058D4F8;
 

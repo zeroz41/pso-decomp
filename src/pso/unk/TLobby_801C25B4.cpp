@@ -411,7 +411,7 @@ void obj_clear_flag30_20000(void *arg0);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 
-s32 record_local_battle_placement(void *);
+void record_local_battle_placement(void *);
 
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *create_window_menu_default(void *, int);
@@ -455,7 +455,7 @@ s32 TObjPlayer__sub_801AFFD0();
 int show_duel_result_window(void*, void*);
 
 #define TBL_801C32B4 ((Ent_801C32B4 *)TLobby__duel_result_table)
-s32 record_local_battle_placement(void *arg0);
+void record_local_battle_placement(void *arg0);
 
 #define TBL_801C343C ((Rank_801C343C *)TLobby__duel_result_table)
 #define PLAYER_801C343C(k) ((u32 (*)(s32))get_player_by_client_id)(k)
@@ -471,8 +471,7 @@ extern "C" {
 
 void update_player_battle_ctrl_state(void *arg0);
 
-s32 fn_801C4CE0(TPlayerBattleCtrl *arg0);
-s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
+void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 
 }
 
@@ -562,7 +561,7 @@ void update_player_battle_ctrl_state(void *arg0) {
     }
 }
 
-s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl) {
+void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl) {
     switch (player_battle_ctrl->state_20) {
     case -1:
         break;
@@ -1287,7 +1286,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
     return 1;
 }
 
-s32 record_local_battle_placement(void *arg0) {
+void record_local_battle_placement(void *arg0) {
     s32 slot;
     s32 i;
     s32 n;
