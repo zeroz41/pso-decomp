@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TWindowSubTradeMain__sub_802D2870(void);
+void TLobby__snapshot_local_trade_inventory(void);
 }
 s32 are_both_trade_offers_confirmed(void);
 void clear_local_trade_final_confirmation(void);
@@ -15,7 +15,7 @@ void set_local_trade_offer_confirmation(void);
 
 // --- C functions defined in TWindowSubTradeMain_802D2808.cpp ---
 extern "C" {
-void TWindowSubTradeMain__sub_802D2870(void);
+void TLobby__snapshot_local_trade_inventory(void);
 }
 // --- end of C functions
 

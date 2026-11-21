@@ -154,7 +154,7 @@ void TLobby::update_trade_proposal_state() {
 
 #pragma push
 #pragma scheduling off
-saddr TLobby__sub_802D268C(void) {
+saddr TLobby__build_trade_partner_status_text(void) {
     text_builder_reset();
     refresh_player_status(TLobby__trade_partner_client_id);
     TWindowSubStatusDisp::get_message_10(0xF6);
@@ -239,7 +239,7 @@ void set_local_trade_offer_confirmation(void) {
     trade_protocol_flags |= 0x10;
 }
 
-void TWindowSubTradeMain__sub_802D2870(void) {
+void TLobby__snapshot_local_trade_inventory(void) {
   s32 *temp_r31;
   snapshot_player_trade_inventory((saddr)&TLobby__trade_window_state, local_client_id);
   temp_r31 = (s32 *) ((u8 *) ((s32 *) ((u8 *)&TLobby__trade_window_state + 0x1F0)));
@@ -274,11 +274,11 @@ s32 fn_801D4270(s32);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv();
 extern s32 local_client_id;
 
-u8 *TLobby__sub_802D298C(void) {
+u8 *TLobby__get_trade_window_0_list_1(void) {
     return (u8 *)TLobby__trade_window_state[0].lists[1];
 }
 
-u8 *TLobby__sub_802D299C(void) {
+u8 *TLobby__get_trade_window_1_list_0(void) {
     return (u8 *)TLobby__trade_window_state[1].lists[0];
 }
 
@@ -286,7 +286,7 @@ s32 *get_trade_window_state(void) {
     return (s32 *)TLobby__trade_window_state[0].lists[0];
 }
 
-s32 TLobby__sub_802D29B8(uaddr arg0) {
+s32 TLobby__clear_trade_message_controller_if_owner(uaddr arg0) {
     if ((uaddr) trade_message_controller != arg0) {
         return 0;
     }
@@ -294,7 +294,7 @@ s32 TLobby__sub_802D29B8(uaddr arg0) {
     return 1;
 }
 
-int TLobby__sub_802D29DC(saddr a0) { trade_message_controller = a0; return 1; }
+int TLobby__set_trade_message_controller(saddr a0) { trade_message_controller = a0; return 1; }
 
 s32 TLobby__sub_802D29E8(uaddr arg0) {
     if ((uaddr) TLobby__trade_main_window != arg0) {
@@ -304,7 +304,7 @@ s32 TLobby__sub_802D29E8(uaddr arg0) {
     return 1;
 }
 
-s32 TLobby__sub_802D2A0C(uaddr arg0) {
+s32 TLobby__claim_trade_main_window(uaddr arg0) {
     if ((uaddr) TLobby__trade_main_window != 0U) {
         return 0;
     }
@@ -313,7 +313,7 @@ s32 TLobby__sub_802D2A0C(uaddr arg0) {
 }
 
 
-s32 TLobby__sub_802D2A2C(uaddr arg0) {
+s32 TLobby__clear_data_805D6894_if_owner(uaddr arg0) {
     if ((uaddr) TLobby__data_805D6894 != arg0) {
         return 0;
     }
@@ -321,7 +321,7 @@ s32 TLobby__sub_802D2A2C(uaddr arg0) {
     return 1;
 }
 
-s32 TLobby__sub_802D2A50(uaddr arg0) {
+s32 TLobby__claim_data_805D6894(uaddr arg0) {
     if ((uaddr) TLobby__data_805D6894 != 0U) {
         return 0;
     }

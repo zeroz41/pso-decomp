@@ -88,12 +88,12 @@ TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(
     this->m_player_list = 0;
     this->m_message_window = 0;
     this->m_confirm_prompt = 0;
-    TLobby__sub_802D2A50((uaddr)this);
+    TLobby__claim_data_805D6894((uaddr)this);
     this->m_1c = 0;
 }
 
 TWindowSubTrade::~TWindowSubTrade() {
-    TLobby__sub_802D2A2C((uaddr)this);
+    TLobby__clear_data_805D6894_if_owner((uaddr)this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != 0U) {
         ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
