@@ -18,5 +18,5 @@ struct TOBoss4 : public TObjBase {
     f32 model_radius;
 };
 
-typedef char TOBoss4_size[sizeof(TOBoss4) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TOBoss4_size, sizeof(TOBoss4) == 0x98);
 #endif

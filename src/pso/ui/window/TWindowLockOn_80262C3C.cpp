@@ -143,7 +143,7 @@ u16 get_entity_id(void *);
 void measure_message_text_width_default(void *);
 void init_window_layout_entries(void *, void *, int);
 s32 draw_visible_window_entries(void *, void *, int);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 s32 is_split_screen(void);
 }
 s32 enemy_name_for_rt_index(s32 arg0);
@@ -189,7 +189,7 @@ void TWindowLockOn::run_task() {
 }
 
 void TWindowLockOn::render() {
-    s32 context;
+    saddr context;
 
     context = setup_window_draw_context((f32 *)&m_68);
     draw_window_frame((void *)context);
@@ -313,7 +313,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     static const char *type_names[5] = {"Native", "A.Beast", "Machine", "Dark", "\tCG???"};
     static u32 type_colors[5] = {0xFFA5FFAA, 0xFFF5FF99, 0xFFFF958B, 0xFFE1A9FF, 0xFFFFFFFF};
     u32 width;
-    s32 e;
+    saddr e;
     s32 kind;
     LockOnEntryText *p;
     u32 w2;
@@ -321,7 +321,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     init_window_layout_entries(&m_24, &lbl_804D00F4, m_20);
     m_70 = &TWindowLockOn::refresh_enemy_statuses;
     e = get_array_entry(1);
-    TWindowDuelResult::set_default_status((void *)e, (s32)TWindowSubStatusDisp::get_message_10(0xA5));
+    TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
     ((TWindowHelpItem *)e)->reset_float_field();
     width = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
     e = get_array_entry(0);
@@ -346,7 +346,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
         kind = 4;
     }
     e = get_array_entry(2);
-    TWindowDuelResult::set_default_status((void *)e, (s32)type_names[kind]);
+    TWindowDuelResult::set_default_status((void *)e, (saddr)type_names[kind]);
     ((TWindowHelpItem *)e)->reset_float_field();
     ((LockOnEntryText *)e)->y = 10.0f + (f32)width;
     ((LockOnEntryColor *)e)->color = type_colors[kind];

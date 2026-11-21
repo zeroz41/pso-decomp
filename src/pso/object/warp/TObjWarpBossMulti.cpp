@@ -103,14 +103,14 @@ GinjaTextureList *boss_warp_effect_textures;
 extern "C" {
 extern "C" {
 void release_boss_warp_resources(void);
-s32 TObjWarpBossMulti__create(s32 arg0);
+saddr TObjWarpBossMulti__create(saddr arg0);
 }
 }
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
 extern u32 player_slot_table[];
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 extern s32 lbl_805D55C0;
 
 
@@ -191,14 +191,14 @@ void release_boss_warp_resources(void) {
     }
 }
 
-s32 TObjWarpBossMulti__create(s32 set_data) {
+saddr TObjWarpBossMulti__create(saddr set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
-        return ((s32)((TObjWarpBossMulti *)set_data)->create());
+        return ((saddr)((TObjWarpBossMulti *)set_data)->create());
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return ((s32)((TObjWarpBossMulti *)set_data)->create());
+        return ((saddr)((TObjWarpBossMulti *)set_data)->create());
     }
-    return (s32)new TObjWarpBoss(tl_05, (void *)set_data);
+    return (saddr)new TObjWarpBoss(tl_05, (void *)set_data);
 }
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -277,11 +277,11 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)boss_warp_base_textures);
+        TObjFish::set_global_param((saddr)boss_warp_base_textures);
         draw_ginja_object(boss_warp_base_model);
         if (model != NULL) {
             TParticleCtrl::begin_effect_render();
-            TObjFish::set_global_param((s32)boss_warp_effect_textures);
+            TObjFish::set_global_param((saddr)boss_warp_effect_textures);
             draw_ginja_model_with_motion(model, motion, frame);
             TParticleCtrl::end_effect_render();
         }
@@ -331,6 +331,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
   int j;
   u32 color;
   f32 pos[2];
+  void *p;
   switch (state)
   {
     case 0:
@@ -339,7 +340,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        open_yes_no_prompt_with_text((TChCrTagPlBack *)yes_no_window, (s32)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
+        open_yes_no_prompt_with_text((TChCrTagPlBack *)yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
         set_menu_selected_index((TWindowSubComCard *)yes_no_window, 1);
         ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
         begin_player_keyboard_hold(local_client_id);
@@ -355,7 +356,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        initialize_option_dialog(yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), ((s32)get_window_layout_position(i)), 368.0f);
+        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), ((s32)get_window_layout_position(i)), 368.0f);
       }
     }
       break;
@@ -371,7 +372,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        TWindowSubStatusDisp::dispatch_without_flags((s32)player_list_window, (s32)player_names[i], (s32)i);
+        TWindowSubStatusDisp::dispatch_without_flags((saddr)player_list_window, (saddr)player_names[i], (s32)i);
       }
     }
     request_active_window_close();
@@ -608,7 +609,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             if (menu_window == 0) {
                 menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
-                    ((TWindowSubTradeMain *)menu_window)->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    ((TWindowSubTradeMain *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
                     ((TWindowSubComCard *)menu_window)->calc_window_size();
                     align_menu_entry_positions(menu_window);
@@ -670,9 +671,9 @@ void TObjWarpBoss::warp_player(s32 arg1) {
 }
 
 void TObjWarpBossMulti::notify_player(void *arg0, s32 arg1) {
-    s32 player;
+    saddr player;
 
-    player = (s32)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(arg1);
     if (player != 0) {
         TObjPlayer::send_code_45_1((s32)player);
         obj_clear_flag30_20000((TObjBase *)player);
@@ -834,7 +835,7 @@ TObjWarpBossMulti::~TObjWarpBossMulti() {
 
 void TObjWarpBossMulti::run_task() {
     s32 i;
-    u32 pl;
+    uaddr pl;
     f32 r;
 
     for (i = 0; i < 4; i++) {
@@ -891,10 +892,10 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)model_handle);
+        TObjFish::set_global_param((saddr)model_handle);
         draw_ginja_object(base_model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((s32)effect_textures);
+        TObjFish::set_global_param((saddr)effect_textures);
         switch (state) {
         case 0:
             draw_ginja_model_with_motion(confirmation_model, motion, frame);

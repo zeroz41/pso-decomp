@@ -1,4 +1,3 @@
-#define EXIGetID Dolphin_EXIGetID
 
 #include <dolphin/exi.h>
 #include <dolphin/os.h>

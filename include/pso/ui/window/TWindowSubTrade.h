@@ -13,16 +13,16 @@ struct TWindowSubTrade : public TObject {
     s32 open_trade_confirm_prompt(s32);
     u8 m_1c;
     u8 _pad1D[0x3];
-    u32 m_20;
+    uaddr m_20;
     u32 m_24;
     TWindowMainMenu *parent_menu;
-    u32 m_player_list; // inferred names: the windows run_task opens (trade partner list,
-    u32 m_message_window; // player message window,
-    u32 m_confirm_prompt; // trade yes/no prompt)
+    uaddr m_player_list; // inferred names: the windows run_task opens (trade partner list,
+    uaddr m_message_window; // player message window,
+    uaddr m_confirm_prompt; // trade yes/no prompt)
     virtual void render();
     virtual void run_task();
 };
 
-typedef char TWindowSubTrade_size[sizeof(TWindowSubTrade) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubTrade_size, sizeof(TWindowSubTrade) == 0x38);
 
 #endif

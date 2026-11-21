@@ -38,7 +38,7 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0);
 int set_depth_buffer_settings_1__Fv(void*);
 
-s32 fn_803204B0(void* p) { return *(s32*)((char*)p + 0x4); }
+saddr fn_803204B0(void* p) { return *(s32*)((char*)p + 0x4); }
 
 void TBoss6Type1::set_effect_points(f32 *a, u32 *b) {
     Ef_803204B8 *o = (Ef_803204B8 *)this;
@@ -75,7 +75,7 @@ void TBoss6Zanzo::copy_trail_buffer(void *arg1_arg, void *arg2_arg) {
 
 void TBoss6Zanzo__sub_803205A0(s32 *arg0, s32 *arg1) {
     *arg0 = *arg1;
-    *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
+    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) arg1 + 4);
 }
 
 // A trail point: its colour and position.

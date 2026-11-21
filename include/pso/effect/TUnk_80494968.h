@@ -18,6 +18,6 @@ public:
     s32 m_120;
     u8 unk_124[0x4];
 };
-typedef char TUnk_80494968_size[sizeof(TUnk_80494968) == 0x128 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80494968_size, sizeof(TUnk_80494968) == 0x128);
 
 #endif

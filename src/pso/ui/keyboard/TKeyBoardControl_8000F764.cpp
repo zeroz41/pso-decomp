@@ -22,6 +22,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/system/memory.h"
 
 void update_music_sequencer(void);
 extern "C" {
@@ -97,7 +98,7 @@ void TCharaMaking__sub_8028E790(void);
 }
 s32 verify_game_file_integrity();
 extern "C" {
-s32 TLobby__sub_8032C91C();
+void TLobby__sub_8032C91C(void);
 u32 OSInitAlloc(u32, u32, int);
 s32 VIInit();
 s32 PADInit();
@@ -115,7 +116,6 @@ u32 calc_framebuffer_size_bytes(int, void *);
 }
 void init_system_heap_and_global_allocator(u8 *start, s32 size);
 extern "C" {
-s32 xmalloc__FUl(u32);
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 void TObjPlayer__sub_803E492C(s32 a, s32 b);
 int OSResetSystem(void*, void*, void*);
@@ -135,10 +135,10 @@ void init_particle_sprite_atlas(void);
 void load_info_icon(void);
 void init_video_and_gx(void *arg0);
 extern u8 GXNtsc480IntDf[];
-int lbl_805D49A0;
-int lbl_805D49A4;
-int player_matrix_stack_buffer;
-s32 keyboard_input_buffer;
+saddr lbl_805D49A0;
+saddr lbl_805D49A4;
+saddr player_matrix_stack_buffer;
+saddr keyboard_input_buffer;
 extern "C" {
 void TLobby__sub_8022809C(void);
 void TLobby__sub_802433A8(void);
@@ -150,7 +150,6 @@ void TWindowSubStatusDisp__sub_803386F0(void);
 int VIWaitForRetrace(void);
 int VIFlush(void);
 int VISetBlack(void*);
-int xfree__FPv(void*);
 
 void TKeyBoardControl::update() {  }
 int TKeyBoardControl__sub_8000F828(void) { return 0; }
@@ -182,12 +181,12 @@ void shutdown_and_reset_system(void) {
     TWindowSubStatusDisp__sub_803386F0();
     TObjBoss2Tunnel__sub_8036EF4C();
     TLobby__sub_80147978();
-    xfree__FPv((void*)lbl_805D49A0);
-    xfree__FPv((void*)lbl_805D49A4);
-    xfree__FPv(resource_decompress_buffer);
-    xfree__FPv((void*)lbl_805D5680);
-    xfree__FPv((void*)anim_model_matrix_array);
-    xfree__FPv((void*)player_matrix_stack_buffer);
+    xfree((void*)lbl_805D49A0);
+    xfree((void*)lbl_805D49A4);
+    xfree(resource_decompress_buffer);
+    xfree((void*)lbl_805D5680);
+    xfree((void*)anim_model_matrix_array);
+    xfree((void*)player_matrix_stack_buffer);
     VISetBlack((void*)1);
     VIFlush();
     VIWaitForRetrace();
@@ -289,7 +288,7 @@ void init_game_systems(void) {
     u32 lo;
     u32 hi;
     u32 size;
-    u32 start;
+    uaddr start;
     PADSetSpec(5);
     OSInit();
     DVDInit();
@@ -312,25 +311,25 @@ void init_game_systems(void) {
     init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
     init_video_and_gx(&cfg);
     OSSetArenaLo(hi);
-    lbl_805D49A0 = xmalloc__FUl(0x4560);
-    lbl_805D49A4 = xmalloc__FUl(0x73A0);
+    lbl_805D49A0 = (saddr)xmalloc(0x4560);
+    lbl_805D49A4 = (saddr)xmalloc(0x73A0);
     init_record_and_slot_arrays(lbl_805D49A0, 0x2E4, (void *)lbl_805D49A4, (void *)(0x2E4));
     init_light_globals(0, 0);
     set_model_render_flags(0x100000);
-    resource_decompress_buffer = (u8 *)xmalloc__FUl(0x80000);
-    lbl_805D5680 = (void *)xmalloc__FUl(0x6000);
-    anim_model_matrix_array = (Mtx34 *)xmalloc__FUl(0x14A0);
-    TObjPlayer__sub_803E492C((s32)resource_decompress_buffer, 0x2000);
-    TKeyBoardControl::set_key_state((s32)TKeyBoardControl__sub_8000F764);
-    player_matrix_stack_buffer = xmalloc__FUl(0x600);
+    resource_decompress_buffer = (u8 *)xmalloc(0x80000);
+    lbl_805D5680 = (void *)xmalloc(0x6000);
+    anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
+    TObjPlayer__sub_803E492C((saddr)resource_decompress_buffer, 0x2000);
+    TKeyBoardControl::set_key_state((saddr)TKeyBoardControl__sub_8000F764);
+    player_matrix_stack_buffer = (saddr)xmalloc(0x600);
     TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
     init_pad_slots_and_read__16TKeyBoardControlFv(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();
-    TObjPlayer::set_global_7778((s32)lbl_805D5680);
-    keyboard_input_buffer = xmalloc__FUl(0x1000);
+    TObjPlayer::set_global_7778((saddr)lbl_805D5680);
+    keyboard_input_buffer = (saddr)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
     TObjNpcEnemy::set_global_count(-1);
     set_debug_text_scale(0xC);

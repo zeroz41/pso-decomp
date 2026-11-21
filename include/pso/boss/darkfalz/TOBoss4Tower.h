@@ -12,5 +12,5 @@ struct TOBoss4Tower : public TOBoss4 {
     static const char *class_name;
 };
 
-typedef char TOBoss4Tower_size[sizeof(TOBoss4Tower) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TOBoss4Tower_size, sizeof(TOBoss4Tower) == 0x98);
 #endif

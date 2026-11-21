@@ -89,7 +89,7 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-s32 queue_boss_effect__10TObjPlayerFPv(int);
+saddr queue_boss_effect__10TObjPlayerFPv(int);
 struct AnimationMotion *get_boss7_motion(s32 kind);
 s32 TObjPlayer__sub_802E80A0();
 void rotate_matrix_by_node_angles(void *, int);
@@ -130,12 +130,12 @@ void TObjPlayer__sub_802F0D30(void) {
     dst = lbl_80541528;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
-        *(u32 *)&dst->pad20[0xC] = (u32)(dst + 1);
+        *(u32 *)&dst->pad20[0xC] = (uaddr)(dst + 1);
         dst++;
         src = *(Node_802EFF24 **)&src->pad20[0xC];
     }
     copy_model_node((u8 *)dst, (u8 *)src);
-    *(u32 *)&dst->pad20[0x10] = (u32)(dst + 1);
+    *(u32 *)&dst->pad20[0x10] = (uaddr)(dst + 1);
     copy_model_node((u8 *)&dst[1], (u8 *)*(Node_802EFF24 **)&src->pad20[0x10]);
     for (i = 0; i < 14; i++) {
         lbl_80541528[i].flags &= ~3;
@@ -379,7 +379,7 @@ void run_task__14TBoss7TentacleFv(u8 *boss7_tentacle) {
                 *(s32 *)((s8 *)boss7_tentacle + 0x164) = 0;
                 *(s32 *)((s8 *)boss7_tentacle + 0x38) = 2;
                 {
-                    u32 st = TBoss7Joint::get_state();
+                    uaddr st = TBoss7Joint::get_state();
                     if (st != 0U) {
                         ((TBoss7PhotonBullet *)st)->emit_hit_effect(&p);
                     }
@@ -536,9 +536,9 @@ extern "C" {
 
 void TObjPlayer__sub_802EFEC4(void) {
     lbl_805D6948 = queue_boss_effect__10TObjPlayerFPv(5);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = (s32)get_boss7_motion(0x13);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = (s32)get_boss7_motion(0x14);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = (s32)get_boss7_motion(0x12);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = (saddr)get_boss7_motion(0x13);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = (saddr)get_boss7_motion(0x14);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = (saddr)get_boss7_motion(0x12);
 }
 
 void fn_802EFEA8(void) {
@@ -570,7 +570,7 @@ TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(
     v[0] = w0;
     v[1] = w1;
     v[2] = w2;
-    *(s32 *)((s8 *)self + 0x40) = (s32)create_particle_emitter(v, 0x212);
+    *(s32 *)((s8 *)self + 0x40) = (saddr)create_particle_emitter(v, 0x212);
     for (s32 i = 0; i < 12; i++) {
         ((Arr_802EFD08 *)self)->a[i] = 0;
     }
@@ -707,7 +707,7 @@ void TBoss7Tentacle::restart_particle_effect() {
     ((TObject *)(*((void **) (((s8 *) arg0) + 0x40))))->queue_destruction();
     *((u32 *) (((s8 *) arg0) + 0x40)) = 0U;
   }
-  particle_effect = (s32)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
+  particle_effect = (saddr)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
   temp_r3 = particle_effect;
   if (temp_r3 != 0)
   {

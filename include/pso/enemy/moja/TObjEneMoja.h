@@ -73,9 +73,9 @@ struct TObjEneMoja : public TObjEnemy {
     void update_attack_jump();
     void run_task();
 };
-typedef char MojaSize[(sizeof(TObjEneMoja)==0x40C)?1:-1];
+LAYOUT_ASSERT(MojaSize, sizeof(TObjEneMoja)==0x40C);
 #include <stddef.h>
-#define MOJA_OFFSET(field, offset) typedef char MojaOffset_##field[(offsetof(TObjEneMoja, field)==offset)?1:-1]
+#define MOJA_OFFSET(field, offset) LAYOUT_ASSERT(MojaOffset_##field, offsetof(TObjEneMoja, field)==offset)
 MOJA_OFFSET(appearance,0x374);
 MOJA_OFFSET(attackSequence,0x384);
 MOJA_OFFSET(roar,0x388);

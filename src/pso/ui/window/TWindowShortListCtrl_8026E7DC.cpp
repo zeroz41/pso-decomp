@@ -34,18 +34,18 @@ s32 canSetMenuCursorAction(s32, s32, u8, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 s32 fn_8002AE08(int);
 s32 is_player_input_active(s32 param_1);
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 void align_menu_entry_positions(void *);
 s32 try_send_6x27_use_item(void *arg0, s32 arg1);
 s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
-s32 TWindowCtrl__sub_8024A228(s32);
+s32 TWindowCtrl__sub_8024A228(saddr);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
-s32 get_window_layout_position(int);
-void *create_equip_kind_window(s32, const NJS_POINT2 *, s32);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-s32 end_player_keyboard_hold(s32);
+saddr get_window_layout_position(int);
+void *create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
+saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
+s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
 }
@@ -68,7 +68,7 @@ void TWindowShortListCtrl::update_cursor_pos() {
 
 s16 TWindowShortListCtrl::get_cursor_pos() { return *(s16*)((char*)this + 0x78); }
 
-void TWindowShortListCtrl::set_card_window_flags(s32 arg0, s32 arg1) {
+void TWindowShortListCtrl::set_card_window_flags(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 0x10), (s32)0xFFFCFFFF);
 }
 
@@ -182,7 +182,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((s32)player) == 0) {
+        if (TWindowSubItem::is_usable((saddr)player) == 0) {
             break;
         }
         assign_shortcut(6, ((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
@@ -214,7 +214,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((s32)player) == 0) {
+        if (TWindowSubItem::is_usable((saddr)player) == 0) {
             break;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -249,7 +249,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((s32)player) == 0) {
+        if (TWindowSubItem::is_usable((saddr)player) == 0) {
             return;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -270,14 +270,14 @@ void TWindowShortListCtrl::run_task() {
     case 9:
         if (tech_window == NULL) {
             TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
-            tech_window = create_window(get_window_layout_position(1), (s32)&short_list_window_pos);
+            tech_window = create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
         }
         ((TWindowSubComCard *)tech_window)->clear_flag_and_release();
         state = 10;
     case 10:
         ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
         if (TWindowSubTechnique::update_selection((s16 *)&m_20, (s32 *)&m_28, client_id) != 0) {
-            refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
+            refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
         }
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (((TWindowSubComCardList *)tech_window)->get_selected_index() == -1) {
@@ -285,7 +285,7 @@ void TWindowShortListCtrl::run_task() {
             } else {
                 swap_card_entries(((TWindowSubComCardList *)tech_window)->get_selected_index(), ((TWindowShortListCtrl *)tech_window)->get_cursor_pos());
                 ((TWindowMenu *)tech_window)->reset_selection();
-                refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
+                refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
             }
         }
         if (((TWindowMenu *)tech_window)->is_cancelled() != 0) {
@@ -309,7 +309,7 @@ void TWindowShortListCtrl::run_task() {
             return;
         }
         if (TWindowSubTechnique::is_technique_available((s16)((TWindowMenu *)tech_window)->get_selected_value(), client_id) == 0) {
-            refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
+            refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
             state = 9;
             return;
         }
@@ -323,18 +323,18 @@ void TWindowShortListCtrl::run_task() {
 
 void TWindowShortListCtrl::render() {}
 
-void *TWindowShortListCtrl::create_window(s32 arg1, s32 arg2_arg) {
+void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
     void *window_menu;
 
     window_menu = (void *)create_window_menu(arg1, 0x13, client_id);
     ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->m_5c = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
-    refresh_technique_rows((s32)window_menu, (void *)arg2_arg);
+    refresh_technique_rows((saddr)window_menu, (void *)arg2_arg);
     return window_menu;
 }
 
-void TWindowShortListCtrl::refresh_technique_rows(s32 arg1, void *arg2_arg) {
+void TWindowShortListCtrl::refresh_technique_rows(saddr arg1, void *arg2_arg) {
     const NJS_POINT2 *pos = (const NJS_POINT2 *)arg2_arg;
     s32 i;
     s16 cur;
@@ -408,7 +408,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((s32)(menu + 0x520), (s32)player, 4, slot) != 0) {
+                    if (canSetMenuCursorAction((saddr)(menu + 0x520), (saddr)player, 4, slot) != 0) {
                         ((TWindowActionPalette *)(menu + 0x520))->set_mode(4);
                         ((TWindowActionPalette *)(menu + 0x520))->set_slot(slot);
                         TMainCursor__sub_8013DFC4(menu + 0x520);

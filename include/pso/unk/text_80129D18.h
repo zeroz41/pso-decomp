@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-u8 *create_s_rank_bazooka(s32 arg0);
+u8 *create_s_rank_bazooka(saddr arg0);
 
 #endif

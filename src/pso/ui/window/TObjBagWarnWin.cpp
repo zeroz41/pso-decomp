@@ -3,6 +3,7 @@
 #pragma readonly_strings on
 
 #include "pso/ui/window/TObjBagWarnWin4P.h"
+#include <string.h>
 
 #include "pso/ui/window/TWindowMessage.h"
 
@@ -36,6 +37,7 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/map/FloorArea.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 
 extern "C" {
@@ -46,28 +48,23 @@ void *__ct__16TObjBagWarnWin4PFv(void *arg0);
 
 void *get_player_by_client_id(s32 i);
 
-s32 get_message_text(s32);
+saddr get_message_text(s32);
 s32 get_entity_id();
 
 
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 void __ct__7TObjectFP7TObject(void *);
 
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 
 
 
-s32 strncpy(void *, s32, s32);
 
 extern f32 TObjBagWarnWin4P__message_window_size[2];
 
 extern s32 __vt__16TObjBagWarnWin4P[];
-}
-
-extern "C" {
-s32 __nw__7TObjectFUl(int);
 }
 
 struct Sub_8006EC20 {
@@ -93,16 +90,15 @@ s32 TLobby__sub_80211C3C();
 extern s32 local_client_id;
 
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
-s32 strncpy(void *, s32, s32);
 
 extern f32 TObjBagWarnWin__message_window_size[2];
 
 extern u8 *text_language_group_table;
 
-s32 get_message_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
+saddr get_message_text(s32 arg0) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
 }
 
 void *TObjBagWarnWin::create(void *bag_warn_win) {
@@ -126,9 +122,9 @@ void TObjBagWarnWin::open_message_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             message_window->set_position_xy(0.8f, 0.8f);
         }
-        strncpy(message_text, get_message_text(0x59), 0x7F);
+        strncpy(message_text, (const char *)get_message_text(0x59), 0x7F);
         message_text[0x7F] = 0;
-        message_window->append_line((int)message_text, (int)0);
+        message_window->append_line((saddr)message_text, (int)0);
     }
 }
 
@@ -187,11 +183,11 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     return 1;
 }
 
-s32 fn_8006EBC4(s32 bag_warn_win4_p) {
+s32 fn_8006EBC4(saddr bag_warn_win4_p) {
     s32 temp_r3;
     s32 var_r0;
     if (TWindowCtrl::is_map_visible() == 0) {
-        temp_r3 = __nw__7TObjectFUl(0xA4);
+        temp_r3 = (saddr)TObject::operator new(0xA4);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = ((s32 (*)(int, void *))__ct__16TObjBagWarnWin4PFv)((int)temp_r3, (void *)bag_warn_win4_p);
@@ -215,11 +211,11 @@ TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
 void TObjBagWarnWin4P::create_window() {
     u8 *arg0 = (u8 *)this;
     s32 r3 = get_window_layout_position(0x5B);
-    *(u32 *)((s8 *)arg0 + 0x1C) = (u32)TWindowMessage::create(r3, TObjBagWarnWin4P__message_window_size, 1, 4);
+    *(u32 *)((s8 *)arg0 + 0x1C) = (uaddr)TWindowMessage::create(r3, TObjBagWarnWin4P__message_window_size, 1, 4);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
-        strncpy(arg0 + 0x20, get_message_text(0x69), 0x7F);
+        strncpy((char *)(arg0 + 0x20), (const char *)get_message_text(0x69), 0x7F);
         *(s8 *)((s8 *)arg0 + 0x9F) = 0;
-        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->append_line((saddr)(arg0 + 0x20), (int)0);
     }
 }
 
@@ -242,7 +238,7 @@ void TObjBagWarnWin4P::run_task() {
             }
         }
     } else if (TObjBagWarnWin4P::check_can_open(arg0) == 0) {
-        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->close();
+        ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->close();
         *(u32 *)((s8 *)arg0 + 0x1C) = 0U;
         *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
     }

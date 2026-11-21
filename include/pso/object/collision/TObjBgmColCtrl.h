@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TObjBgmColCtrl : public TObject {
-    TObjBgmColCtrl(s32 parent);
+    TObjBgmColCtrl(saddr parent);
     virtual ~TObjBgmColCtrl();
     u32 m_1c;
     static void play_lobby_theme_music();
@@ -13,8 +13,8 @@ struct TObjBgmColCtrl : public TObject {
     virtual void run_task();
     static void create_controller();
     static s32 is_active();
-    static void update_all_zones(s32 arg0);
+    static void update_all_zones(saddr arg0);
 };
 
-typedef char TObjBgmColCtrl_size[sizeof(TObjBgmColCtrl) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TObjBgmColCtrl_size, sizeof(TObjBgmColCtrl) == 0x20);
 #endif

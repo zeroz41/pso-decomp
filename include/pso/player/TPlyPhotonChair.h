@@ -36,5 +36,5 @@ struct TPlyPhotonChair : public TObjBase {
 
 extern const char *TPlyPhotonChair__class_name;
 
-typedef char TPlyPhotonChair_size[sizeof(TPlyPhotonChair) == 0xE4 ? 1 : -1];
+LAYOUT_ASSERT(TPlyPhotonChair_size, sizeof(TPlyPhotonChair) == 0xE4);
 #endif

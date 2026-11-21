@@ -15,6 +15,6 @@ public:
     void clear_send_buffer();
 };
 
-typedef char TPacket_size[sizeof(TPacket) == 0xE70 ? 1 : -1];
+LAYOUT_ASSERT(TPacket_size, sizeof(TPacket) == 0xE70);
 
 #endif

@@ -12,7 +12,6 @@ public:
     virtual ~TNECFontEORFunction();
     virtual void run_task();
 public:
-    static void run_task();
 };
 
 #endif

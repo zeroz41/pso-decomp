@@ -24,7 +24,7 @@
 extern "C" {
 s32 get_entity_id(TObjPlayer *);
 TWindowMenu *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
@@ -60,9 +60,9 @@ struct Stack_8021E5D8
 struct RecoveredFields_8021E5D8_arg0
 {
   u8 unknown_0[0x24];
-  s32 field_24;
-  s32 field_28;
-  u32 field_2C;
+  saddr field_24;
+  saddr field_28;
+  uaddr field_2C;
   u8 unknown_30[0x24];
   s32 field_54;
 };
@@ -198,11 +198,11 @@ void TShopGetItemWindow::rebuild_item_list() {
             if (m_34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 ((TLobby *)m_34)->set_position(0.75f, 0.75f);
             }
-            m_34->set_displayed_item_colored((u32)&m_38);
+            m_34->set_displayed_item_colored((uaddr)&m_38);
             m_58 = sel;
         }
     } else if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &m_38, x) != 0) {
-        m_34->set_displayed_item_colored((u32)&m_38);
+        m_34->set_displayed_item_colored((uaddr)&m_38);
         m_58 = sel;
     }
     set_field_20(1);
@@ -220,7 +220,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
         sel = m_28->get_cursor_value();
         if (m_34 != NULL && sel != m_58) {
             if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &m_38, x) != 0) {
-                m_34->set_displayed_item_colored((u32)&m_38);
+                m_34->set_displayed_item_colored((uaddr)&m_38);
             }
             m_58 = sel;
         }
@@ -292,7 +292,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
             idx = m_28->get_cursor_value();
             if (copy_item_record__18TCheckRoomSequenceFiPvi(idx, &record, (int)(slot & 0xFFFFFFFFFFFFFFFFu)) != 0) {
                 record.id = -1;
-                if (TCheckRoomSequence::get_item_def((u32)&record) != 0) {
+                if (TCheckRoomSequence::get_item_def((uaddr)&record) != 0) {
                     record.set_stack_count(m_54);
                 }
                 if (m_24->can_inventory_accept_item((u8 *)&record) == 0) {

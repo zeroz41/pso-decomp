@@ -14,9 +14,9 @@ struct DelDepthModelMotion { s32 model; s32 motion; };
 struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 
 extern "C" {
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 DelDepthMotionBinding lbl_804E8760[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
 DelDepthPairBinding lbl_804E8780[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
@@ -26,7 +26,7 @@ extern u8 TObjEneDelDepth__animation_end_frame_initialized;
 
 int TObjEneDelDepth::get_flag_bit4() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneDelDepth::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
+int TObjEneDelDepth::find_nearest_enemy_with_flag(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
@@ -48,7 +48,7 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((s32)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
             actor->draw();
             return;
         }
@@ -130,7 +130,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
             actor->set_field_b8((s16)id);
         }
     } else if (id < 0xA) {
-        s32 data = (s32)TObjEneDelDepth::get_data();
+        saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthMotionBinding *e = &lbl_804E8760[motion] - 6;
         model = (void *)get_bml_model((BmlResource *)data, 1);
         texture = get_bml_texlist((BmlResource *)data, 1);
@@ -139,7 +139,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         speed = e->speed;
         frame = lbl_805DF2EC;
     } else {
-        s32 data = (s32)TObjEneDelDepth::get_data();
+        saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthPairBinding *e = &lbl_804E8780[motion] - 10;
         DelDepthModelMotion *q;
         model = (void *)get_bml_model((BmlResource *)data, e->first.model);

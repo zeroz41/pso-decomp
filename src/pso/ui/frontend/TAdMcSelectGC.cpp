@@ -50,7 +50,7 @@ void TAdMcSelectGC::update_state() {
 s32 TAdMcSelectGC::get_selected_slot_index() {
     s32 var_r0;
     u8 *mc_count;
-    mc_count = (u8 *)(((int)TAdMcSelectGC::get_mc_count()));
+    mc_count = (u8 *)(((saddr)TAdMcSelectGC::get_mc_count()));
     var_r0 = 0;
     if (mc_count != NULL) {
         var_r0 = ((TAdMcSelectGC *)mc_count)->get_slot_index();
@@ -121,9 +121,9 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
         p = new TAdMcSelectMcGC((TObject *)self, i);
         ((TAdMcSelectGC *)p)->set_field_0x1c(0);
     }
-    ((TAdMcSelectGC *)(TAdMcSelectCursorGC::get_instance((s32)self)))->set_field_13c(0);
+    ((TAdMcSelectGC *)(TAdMcSelectCursorGC::get_instance((saddr)self)))->set_field_13c(0);
     for (j = 0; j < 2; j++) {
-        fn_8033F314((s32)self, j);
+        fn_8033F314((saddr)self, j);
     }
 }
 #undef self
@@ -153,7 +153,7 @@ void TAdMcSelectGC__sub_8032A180(void* p, s32 v) { *(s32*)((char*)p + 0x28) = v;
 void TAdMcSelectGC::set_field_134(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x134) = arg1;
-    TAdMcSelectGC__sub_8032A180((void*)((int) (*(s32 *)((s8 *)arg0 + 0x130))), arg1);
+    TAdMcSelectGC__sub_8032A180((void*)((saddr) (*(saddr *)((s8 *)arg0 + 0x130))), arg1);
 }
 
 void TAdBackTxtGC::set_field_24(s32 v) { m_24 = v; }

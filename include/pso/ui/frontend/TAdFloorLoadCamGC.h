@@ -21,7 +21,7 @@ struct TAdFloorLoadCamGC : public TObject {
     f32 m_48;
 };
 
-typedef char TAdFloorLoadCamGC_size[sizeof(TAdFloorLoadCamGC) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TAdFloorLoadCamGC_size, sizeof(TAdFloorLoadCamGC) == 0x4C);
 
 extern "C" {
 void *__dt__17TAdFloorLoadCamGCFv(void *arg0, s16 arg1);

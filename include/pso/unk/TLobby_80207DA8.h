@@ -27,7 +27,7 @@ struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);
 void dispatch_wave_event_action(u8 opcode);
-s32 get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 arg0);
 extern "C" {
 int link_matching_objects__6TLobbyFPv(void *p);
 }

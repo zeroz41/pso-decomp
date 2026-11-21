@@ -23,5 +23,5 @@ public:
     f32 m_28;
 };
 
-typedef char TUnk_804CFA28_size[sizeof(TUnk_804CFA28) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CFA28_size, sizeof(TUnk_804CFA28) == 0x2C);
 #endif

@@ -19,7 +19,7 @@ struct TMotorcycle : public TObjMesBase {
     static void add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *textures, f32 radius, f32 y_offset);
 };
 
-typedef char TMotorcycle_size[sizeof(TMotorcycle) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TMotorcycle_size, sizeof(TMotorcycle) == 0xC0);
 
 extern "C" void *create_stage_motorcycle(void *placement);
 

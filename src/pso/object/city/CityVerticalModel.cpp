@@ -44,7 +44,6 @@ s32 post_translate_matrix(void *);
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
 extern void *tl_05;
-void __dl__7TObjectFPv(void *);
 extern s32 city_vertical_model_vtable[];
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 void TUnk_804B5C08::vfunc_13(s32) { this->m_9c = 0.0f; *(int*)((char*)this + 0x90) = 1; }
@@ -64,7 +63,7 @@ void TUnk_804B5C08::render() {
       ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C = ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C;
       return;
     }
-    TObjFish::set_global_param((s32)city_common_texture_list);
+    TObjFish::set_global_param((saddr)city_common_texture_list);
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     translate_matrix(0, 0.0f, (f32) ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C, 0.0f);
@@ -118,7 +117,7 @@ void TUnk_804B5C08::run_task() {
 void *create_city_vertical_model(void *arg0) {
     void *o = TObject::operator new(0xA0);
     if (o != NULL) {
-        o = construct_city_vertical_model((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = construct_city_vertical_model((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }
@@ -128,12 +127,12 @@ void *destroy_city_vertical_model(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = city_vertical_model_vtable;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;
 }
-u8 *construct_city_vertical_model(u8 *arg0, s32 parent, s32 arg2) {
+u8 *construct_city_vertical_model(u8 *arg0, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = city_vertical_model_vtable;
     ((TUnk_804B5C08 *)(arg0))->apply_object_set_data((void *)arg2);
@@ -157,16 +156,16 @@ void get_name__8TObjBaseFv();
 s32 city_vertical_model_vtable[14] = {
     0,
     0,
-    (s32)destroy_city_vertical_model,
-    (s32)run_task__13TUnk_804B5C08Fv,
-    (s32)render__13TUnk_804B5C08Fv,
-    (s32)render_shadows__7TObjectFv,
-    (s32)vfunc_6__8TObjBaseFPsl,
-    (s32)apply_object_set_data__8TObjBaseFPv,
-    (s32)reset_motion_fields__8TObjBaseFv,
-    (s32)get_center__8TObjBaseFv,
-    (s32)update_object_view_visibility__8TObjBaseFff,
-    (s32)classify_actor_view_detail__8TObjBaseFfff,
-    (s32)get_name__8TObjBaseFv,
-    (s32)vfunc_13__13TUnk_804B5C08Fl,
+    (saddr)destroy_city_vertical_model,
+    (saddr)run_task__13TUnk_804B5C08Fv,
+    (saddr)render__13TUnk_804B5C08Fv,
+    (saddr)render_shadows__7TObjectFv,
+    (saddr)vfunc_6__8TObjBaseFPsl,
+    (saddr)apply_object_set_data__8TObjBaseFPv,
+    (saddr)reset_motion_fields__8TObjBaseFv,
+    (saddr)get_center__8TObjBaseFv,
+    (saddr)update_object_view_visibility__8TObjBaseFff,
+    (saddr)classify_actor_view_detail__8TObjBaseFfff,
+    (saddr)get_name__8TObjBaseFv,
+    (saddr)vfunc_13__13TUnk_804B5C08Fl,
 };

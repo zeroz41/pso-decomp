@@ -13,7 +13,7 @@ void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 }
 u8 *create_drill_launcher(u8 *arg0);
 extern "C" {
-void create_icon__10TObjPlayerFiii(s32 parent, s32 arg1, s32 arg2);
+void create_icon__10TObjPlayerFiii(saddr parent, s32 arg1, s32 arg2);
 void *ct_shoot_model__10TObjPlayerFPv(void *arg0);
 }
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);

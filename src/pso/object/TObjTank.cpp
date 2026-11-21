@@ -56,8 +56,8 @@ TObjTank::~TObjTank() {
 extern void *tl_05;
 
 #define arg0 ((u8 *)this)
-TObjTank::TObjTank(TObject *parent, s32 arg2) : TObjCollidable(parent) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;
+TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjTank__class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
@@ -68,7 +68,7 @@ TObjTank::TObjTank(TObject *parent, s32 arg2) : TObjCollidable(parent) {
 #undef arg0
 
 void *TObjTank__create(void *arg0) {
-    return new TObjTank((TObject *)tl_05, (s32)arg0);
+    return new TObjTank((TObject *)tl_05, (saddr)arg0);
 }
 
 void TObjTank::free_globals() {
@@ -88,6 +88,6 @@ void TObjTank::load_globals() {
         storage = load_resource_from_descriptor(storage, 5, &fs_obj_tank_resource_descriptor, 0, 0, 0);
     }
     tank_bml_resource = storage;
-    TObjTank__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((s32)"fs_obj_tank.GVM"));
+    TObjTank__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"fs_obj_tank.GVM"));
 }
 

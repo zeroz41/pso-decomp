@@ -16,7 +16,7 @@ public:
     virtual void run_task();
 };
 
-typedef char TAdGuideTxtGCSize[sizeof(TAdGuideTxtGC) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TAdGuideTxtGCSize, sizeof(TAdGuideTxtGC) == 0x44);
 
 extern "C" {
 void reset__15TLobby_802D2F7CFPv(u8 *arg0);

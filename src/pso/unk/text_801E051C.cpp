@@ -13,6 +13,6 @@ u8 *copy_player_lobby_data_entry(u8 *arg0, u8 *arg1) {
     __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag();
     *(s32 *)((s8 *)arg0 + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
     *(s32 *)((s8 *)arg0 + 0xC) = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(ByteBlock_10 *)((s32) arg0 + 0x10) = *(const ByteBlock_10 *)((s32) arg1 + 0x10);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x10) = *(const ByteBlock_10 *)((saddr) arg1 + 0x10);
     return arg0;
 }

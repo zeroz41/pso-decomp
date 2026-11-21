@@ -112,7 +112,7 @@ void TItemProShield::perform_action() {
     ShieldSoundCue cue;
     if (owner != NULL) {
         if (is_hidden() == 0) {
-            create_shield_effect((s32)tl_05, get_owner_client(), (u32)effect_entry);
+            create_shield_effect((saddr)tl_05, get_owner_client(), (uaddr)effect_entry);
             ((TObjPlayer *)&cue)->reset_status_block();
             cue.group = get_item_group();
             cue.index = get_item_index();

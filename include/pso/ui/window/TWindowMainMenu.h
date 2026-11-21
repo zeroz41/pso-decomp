@@ -69,7 +69,7 @@ struct TWindowMainMenu : public TObject {
     void close();
     virtual void run_task();
     virtual void render();
-    static void set_entry_field_20(s32 arg0, s32 arg1);
+    static void set_entry_field_20(saddr arg0, s32 arg1);
     int is_item_active();
     void set_symbol_chat_parts(void * _w1);
     void update_item_tween();
@@ -77,7 +77,7 @@ struct TWindowMainMenu : public TObject {
     void pop_level();
     int get_selected_item_type();
     void clear_menu_flags();
-    s32 find_free_slot();
+    saddr find_free_slot();
     s32 update_if_active(s32 _w1);
     void draw_entries_reversed(u8 *arg1);
     s32 is_not_split_screen();

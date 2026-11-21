@@ -15,6 +15,6 @@ public:
     u16 client;
     u8 pad_2A[0x2];
 };
-typedef char TUnk_804AF7B0_size[sizeof(TUnk_804AF7B0) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804AF7B0_size, sizeof(TUnk_804AF7B0) == 0x2C);
 
 #endif

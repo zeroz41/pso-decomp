@@ -12,7 +12,7 @@ struct TOGrassJungle : public TObjBase {
     virtual void render();
 };
 
-typedef char TOGrassJungle_size[sizeof(TOGrassJungle) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TOGrassJungle_size, sizeof(TOGrassJungle) == 0x94);
 
 extern "C" {
 void *TOGrassJungle__create(void *arg0);

@@ -16,7 +16,7 @@
 
 s32 lbl_805D7530;
 
-void ARAlloc(void) {
+void ADXT_ExecFsSvr(void) {
     if ((s32) lbl_805D7530 == 0) {
         TLobby::init_once();
         lbl_805D7530 = 1;

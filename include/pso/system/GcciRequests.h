@@ -24,15 +24,15 @@ struct GcciStatus {
     u8 unknown05[3];
     s32 unknown08;
 };
-typedef char GcciRequestSize[sizeof(GcciRequest) == 0x64 ? 1 : -1];
-typedef char GcciRequestState[offsetof(GcciRequest, state) == 2 ? 1 : -1];
-typedef char GcciRequestBuffer[offsetof(GcciRequest, buf) == 8 ? 1 : -1];
-typedef char GcciRequestStatus[offsetof(GcciRequest, status) == 0xC ? 1 : -1];
-typedef char GcciRequestUnit[offsetof(GcciRequest, unit) == 0x10 ? 1 : -1];
-typedef char GcciRequestPosition[offsetof(GcciRequest, pos) == 0x1C ? 1 : -1];
-typedef char GcciRequestDone[offsetof(GcciRequest, done) == 0x20 ? 1 : -1];
-typedef char GcciRequestCount[offsetof(GcciRequest, count) == 0x24 ? 1 : -1];
-typedef char GcciRequestDvdInfo[offsetof(GcciRequest, block) == 0x28 ? 1 : -1];
-typedef char GcciStatusSize[sizeof(GcciStatus) == 12 ? 1 : -1];
-typedef char GcciStatusState[offsetof(GcciStatus, state) == 4 ? 1 : -1];
+LAYOUT_ASSERT(GcciRequestSize, sizeof(GcciRequest) == 0x64);
+LAYOUT_ASSERT(GcciRequestState, offsetof(GcciRequest, state) == 2);
+LAYOUT_ASSERT(GcciRequestBuffer, offsetof(GcciRequest, buf) == 8);
+LAYOUT_ASSERT(GcciRequestStatus, offsetof(GcciRequest, status) == 0xC);
+LAYOUT_ASSERT(GcciRequestUnit, offsetof(GcciRequest, unit) == 0x10);
+LAYOUT_ASSERT(GcciRequestPosition, offsetof(GcciRequest, pos) == 0x1C);
+LAYOUT_ASSERT(GcciRequestDone, offsetof(GcciRequest, done) == 0x20);
+LAYOUT_ASSERT(GcciRequestCount, offsetof(GcciRequest, count) == 0x24);
+LAYOUT_ASSERT(GcciRequestDvdInfo, offsetof(GcciRequest, block) == 0x28);
+LAYOUT_ASSERT(GcciStatusSize, sizeof(GcciStatus) == 12);
+LAYOUT_ASSERT(GcciStatusState, offsetof(GcciStatus, state) == 4);
 #endif

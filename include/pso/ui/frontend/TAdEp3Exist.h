@@ -7,21 +7,21 @@
 struct TAdEp3Exist : public TObject {
     virtual ~TAdEp3Exist();
     virtual void vfunc_6();
-    u32 m_1c;
+    uaddr m_1c;
     u32 m_20;
     u32 m_24;
     u32 m_28;
     u8 _pad2C[0x4];
     u32 m_30;
     u32 m_34;
-    void draw_message_window(s32 arg1);
+    void draw_message_window(saddr arg1);
     virtual void render();
     void request_game_mode_transition();
     void request_scene_change();
     void close_window();
     virtual void run_task();
-    static s32 free_if_valid(s32 arg0, s16 arg1);
+    static saddr free_if_valid(saddr arg0, s16 arg1);
 };
 
-typedef char TAdEp3Exist_size[sizeof(TAdEp3Exist) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TAdEp3Exist_size, sizeof(TAdEp3Exist) == 0x38);
 #endif

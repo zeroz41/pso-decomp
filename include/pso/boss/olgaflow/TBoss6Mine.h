@@ -31,7 +31,7 @@ struct TBoss6Mine : public TObjEnemy {
     virtual void vfunc_62();
     virtual void render_shadows();
     virtual void render();
-    u32 m_374;
+    uaddr m_374;
     TObjEnemy *owner;
     s32 heading;
     s32 state;
@@ -67,8 +67,8 @@ struct TBoss6Mine : public TObjEnemy {
     void state_7();
 };
 
-typedef char TBoss6MineSetData_size[sizeof(TBoss6MineSetData) == 0x64 ? 1 : -1];
-typedef char TBoss6Mine_size[sizeof(TBoss6Mine) == 0x3D0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6MineSetData_size, sizeof(TBoss6MineSetData) == 0x64);
+LAYOUT_ASSERT(TBoss6Mine_size, sizeof(TBoss6Mine) == 0x3D0);
 
 extern "C" {
 void *__dt__10TBoss6MineFv(void *arg0, s16 arg1);

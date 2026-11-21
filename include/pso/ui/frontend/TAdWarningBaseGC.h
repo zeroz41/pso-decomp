@@ -16,13 +16,13 @@ struct TAdWarningBaseGC : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    uaddr m_2c;
     void destroy();
     static void create();
     static void init_heap();
 };
 
-typedef char TAdWarningBaseGC_size[sizeof(TAdWarningBaseGC) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TAdWarningBaseGC_size, sizeof(TAdWarningBaseGC) == 0x30);
 
 extern "C" {
 void clear_aram_request_busy(void);

@@ -36,6 +36,6 @@ public:
     virtual s32 *get_state_table(s32);
     virtual int vfunc_76();
 };
-typedef char TUnk_804DDBF0_size[sizeof(TUnk_804DDBF0) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804DDBF0_size, sizeof(TUnk_804DDBF0) == 0x8C);
 
 #endif

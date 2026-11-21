@@ -1,6 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/ui/window/TWindowBase.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 
@@ -122,15 +125,11 @@ void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, s32, void *);
 
-void *memset(void *, int, u32);
-
-u32 strlen(const char *);
-
-void draw_window_frame__11TWindowBaseFPv();
 
 
 
-int sprintf(char *, const char *, ...);
+
+
 
 void sscanf(int, const char *, ...);
 
@@ -149,12 +148,10 @@ s32 TAdEndText__sub_8001B3BC(int);
 s32 TAdEndText__sub_8001B3EC(int);
 
 
-u32 __nw__7TObjectFUl(int);
 
 
 extern s32 local_client_id;
 
-s32 strncpy(s32, s32, s32);
 }
 extern s32 tl_clipout;
 char serial_access_hex_string_buf[0x40];
@@ -195,7 +192,7 @@ void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     if ((s32) (*(s32 *)&TAdEnterBaseGC__entry_mode) == 3) {
-        temp_r3_3 = __nw__7TObjectFUl(0x708);
+        temp_r3_3 = (uaddr)TObject::operator new(0x708);
         var_r0 = temp_r3_3;
         if (var_r0 != 0U) {
             var_r0 = __ct__14TAdSelectCurGCFv(temp_r3_3, tl_clipout, &lbl_80477198[2], &lbl_804771B8[1]);
@@ -203,7 +200,7 @@ void TAdEnterBaseGC::create_parts() {
         *(u32 *)&this->unk_2C = var_r0;
         return;
     }
-    temp_r3_4 = __nw__7TObjectFUl(0x708);
+    temp_r3_4 = (uaddr)TObject::operator new(0x708);
     var_r0_2 = temp_r3_4;
     if (var_r0_2 != 0U) {
         var_r0_2 = __ct__14TAdSelectCurGCFv(temp_r3_4, tl_clipout, lbl_80477198, lbl_804771B8);
@@ -270,15 +267,15 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(int arg0) {
     return serial_access_hex_string_buf;
 }
 
-void TAdEnterSerialAccessGC::store_serial_access_key(s32 arg0, s32 arg1, s32 arg2) {
-    s32 instance;
+void TAdEnterSerialAccessGC::store_serial_access_key(saddr arg0, saddr arg1, saddr arg2) {
+    saddr instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != 0) {
-        strncpy(instance + 0x1152C, arg0, 0xF);
-        strncpy(instance + 0x1153C, arg1, 0xF);
+        strncpy((char *)(instance + 0x1152C), (const char *)arg0, 0xF);
+        strncpy((char *)(instance + 0x1153C), (const char *)arg1, 0xF);
         if (TAdPsoPassSaveGC__sub_8032B584() != 0) {
-            strncpy(instance + 0x1154C, arg2, 0xF);
+            strncpy((char *)(instance + 0x1154C), (const char *)arg2, 0xF);
         }
     }
 }
@@ -338,8 +335,8 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
 }
 
 s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    s32 r = (s32)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
-    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (s32)arg1), 1);
+    saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
+    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
     return r;
 }
 
@@ -347,7 +344,7 @@ void *TAdEnterSerialAccessGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
 }
 
-u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
+u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
     u8 *kb;
     if (arg1 < 0 || arg1 >= 4) {
         return 0;
@@ -364,11 +361,11 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
     if (arg1 != 3) {
         update_chat_window(kb);
     }
-    return (u32)kb;
+    return (uaddr)kb;
 }
 
 void fn_8032AC9C(void *arg0, void *arg1) {
-    draw_window_frame__11TWindowBaseFPv();
+    ((TWindowBase *)arg0)->draw_window_frame(arg1);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC__entry_mode) {
     case 0:
@@ -379,7 +376,7 @@ void fn_8032AC9C(void *arg0, void *arg1) {
         fn_8032AC24();
         return;
     case 3:
-        draw_masked_password_field((s32)arg1);
+        draw_masked_password_field((saddr)arg1);
         return;
     }
 }
@@ -401,7 +398,7 @@ void fn_8032AC24(void) {
     __dt__19TAdPlyChrSelPlateGCFv(&plate, -1);
 }
 
-void draw_masked_password_field(s32 arg0) {
+void draw_masked_password_field(saddr arg0) {
     char buf[0x80];
     Plate_8032AACC plate;
     char *str;

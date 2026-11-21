@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowCallBack : public TWindowBase {
-    TWindowCallBack(s32 arg1, u8 *arg2, s32 arg3);
+    TWindowCallBack(saddr arg1, u8 *arg2, s32 arg3);
     virtual ~TWindowCallBack();
     void render();
     void run_task();
@@ -15,7 +15,7 @@ struct TWindowCallBack : public TWindowBase {
     void (*callback)(TWindowCallBack *, s32);
 };
 
-typedef char TWindowCallBack_size[sizeof(TWindowCallBack) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TWindowCallBack_size, sizeof(TWindowCallBack) == 0x64);
 void build_6xA3_olga_flow_boss_actions(void *p);
 extern "C" {
 void fn_802ACD40(void *p);

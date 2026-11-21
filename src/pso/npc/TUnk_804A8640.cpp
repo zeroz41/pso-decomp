@@ -24,7 +24,7 @@ void TObjNpcFemaleBase__sub_80149C64(void) {
 }
 
 extern "C" {
-extern s32 *npc_town_motion_data;
+extern uaddr npc_town_motion_data;
 extern u32 lbl_805D5D78;
 }
 
@@ -33,6 +33,6 @@ void TObjNpcFemaleBase__sub_80149C7C(void) { lbl_805D5758 = lbl_805D5D78; }
 TUnk_804A8640::~TUnk_804A8640() {}
 
 TUnk_804A8640::TUnk_804A8640(TObject *parent) : TObjNpcBase(parent) {
-    init_motion((TObjMotionAction *)npc_female_base_action_table, (BmlMotionEntry *)*npc_town_motion_data, 0);
+    init_motion((TObjMotionAction *)npc_female_base_action_table, (BmlMotionEntry *)*(uaddr *)npc_town_motion_data, 0);
     set_motion_interpolation_flag();
 }

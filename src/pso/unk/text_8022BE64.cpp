@@ -16,7 +16,7 @@
 
 // Built with deferred code generation (configure.py): the functions run last to first.
 
-TUnk_804CC148::TUnk_804CC148(s32 source, Vec *pos, Vec *target, s32 level) : TEffect() {
+TUnk_804CC148::TUnk_804CC148(saddr source, Vec *pos, Vec *target, s32 level) : TEffect() {
     this->m_b4 = 0xFFFF;
     VecCopy(&this->position, pos);
     VecCopy(&this->target, target);
@@ -61,7 +61,7 @@ TUnk_804CC148::TUnk_804CC148(s32 source, Vec *pos, Vec *target, s32 level) : TEf
     }
 }
 
-TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
+TUnk_804CC148::TUnk_804CC148(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
     this->m_b4 = 0xFFFF;
     VecCopy(&this->position, (const Vec *)arg2);
     this->target.x = 0.0f;

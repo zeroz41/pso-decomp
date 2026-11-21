@@ -9,6 +9,7 @@
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 extern s32 game_difficulty_selection;
@@ -23,19 +24,19 @@ void TEndingPicStage::pose_player(player_class_type class_type, s8 picture) {
         case CLASS_TYPE_HUNTER: {
             ending_player->set_position_from((void *)&ending_player_positions_hunter[picture]);
             ending_player->rotation_y = 182.04445f * (f32)ending_player_angles_hunter[picture].y;
-            TObjPlayer::set_animation_from_data((s32)ending_player, picture);
+            TObjPlayer::set_animation_from_data((saddr)ending_player, picture);
             break;
         }
         case CLASS_TYPE_RANGER: {
             ending_player->set_position_from((void *)&ending_player_positions_ranger[picture]);
             ending_player->rotation_y = 182.04445f * (f32)ending_player_angles_ranger[picture].y;
-            TObjPlayer::set_animation_from_data((s32)ending_player, picture);
+            TObjPlayer::set_animation_from_data((saddr)ending_player, picture);
             break;
         }
         case CLASS_TYPE_FORCE: {
             ending_player->set_position_from((void *)&ending_player_positions_force[picture]);
             ending_player->rotation_y = 182.04445f * (f32)ending_player_angles_force[picture].y;
-            TObjPlayer::set_animation_from_data((s32)ending_player, picture);
+            TObjPlayer::set_animation_from_data((saddr)ending_player, picture);
             break;
         }
     }
@@ -110,7 +111,7 @@ TEndingPicStage::TEndingPicStage(TObject *parent) : TObject(parent) {
 
     player_light_index = 0;
     Vec position = ending_player_start_position;
-    ending_player = TUnk_804C4540::create(get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
+    ending_player = TUnk_804C4540::create((TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     ending_player->set_position_from(&position);
     ((TItemData *)(&item))->init();
     item.data1.data_u8[0] = 2;

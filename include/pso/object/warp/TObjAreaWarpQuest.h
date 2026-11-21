@@ -24,5 +24,5 @@ struct TObjAreaWarpQuest : public TObjAreaWarp {
     GinjaTextureList *textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
 };
 
-typedef char TObjAreaWarpQuest_size[sizeof(TObjAreaWarpQuest) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TObjAreaWarpQuest_size, sizeof(TObjAreaWarpQuest) == 0xE0);
 #endif

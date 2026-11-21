@@ -47,13 +47,13 @@ extern f32 lbl_804FF5E8[];
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
 extern u32 camera_ctrl_instance;
 
-typedef char RecoveredGlobal_8001CAD4_lbl_804349FC_size[sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8001CAD4_lbl_8058D490_size[sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_804349FC_size, sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC);
+LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_8058D490_size, sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30);
 void TLoadingCur::update_camera_facing_offset() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_8001CAD4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001CAD4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001CAD4, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001CAD4, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001CAD4, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001CAD4, sp10) == 0x8);
     Stack_8001CAD4 stack;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
         VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg0 + 0x20));
@@ -70,7 +70,7 @@ void TLoadingCur::update_camera_facing_offset() {
         rotate_vector_by_matrix(0, (u8 *)&this->m_20, (u8 *)&this->_pad48);
         pop_matrices(1);
         vec3_add_to((u8 *)&this->_pad48, arg0 + 0x44);
-        ((TParticleCtrl *)*(u32 *)((s8 *)arg0 + 0x1C))->set_position((u8 *)&this->_pad48);
+        ((TParticleCtrl *)*(uaddr *)((s8 *)arg0 + 0x1C))->set_position((u8 *)&this->_pad48);
     }
 }
 #pragma push
@@ -163,7 +163,7 @@ int TLoadingCur::sub_8001CCD4() {
     push_matrix();
     project_world_to_screen(0, (u8 *)self + 0x2c, sp10);
     pop_matrix();
-    if (TLoadingCur::calc_clamp_offset((s32)((s32)self), (u8 *)((u8 *)sp10), (u8 *)((u8 *)&v)) != 0) {
+    if (TLoadingCur::calc_clamp_offset((s32)((saddr)self), (u8 *)((u8 *)sp10), (u8 *)((u8 *)&v)) != 0) {
         f32 t[3];
         t[0] = v.x;
         t[1] = v.y;
@@ -251,11 +251,11 @@ TLoadingCur::~TLoadingCur() {
 #pragma fp_contract on
 #define object ((u8 *)this)
 TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
-    typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001D0A0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001D0A0, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001D0A0, sp10) == 0x8);
     Stack_8001D0A0 stack;
-    *(s32 *)((s8 *)object + 0) = (s32) TLoadingCur__class_name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TLoadingCur__class_name;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
@@ -272,7 +272,7 @@ TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
     stack.spC = 0;
     stack.sp10 = 0;
     direction_to_rotation_xz((object + 0x50), (&stack.sp8), (&stack.sp10));
-    *(s32 *)((s8 *)object + 0x1C) = (s32)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
+    *(s32 *)((s8 *)object + 0x1C) = (saddr)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
 }
 #undef object
 #pragma pop

@@ -11,8 +11,8 @@ struct TWindowSubLog : public TObject {
     virtual ~TWindowSubLog();
     u32 m_1c;
     TWindowMainMenu *parent_menu;
-    u32 m_24;
-    u32 m_28;
+    uaddr m_24;
+    uaddr m_28;
     void* m_2c;
     virtual void render();
     virtual void run_task();
@@ -21,7 +21,7 @@ struct TWindowSubLog : public TObject {
     u8 unk_50[0x30];
 };
 
-typedef char TWindowSubLog_size[sizeof(TWindowSubLog) == 0x80 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubLog_size, sizeof(TWindowSubLog) == 0x80);
 
 extern "C" {
 void *__dt__13TWindowSubLogFv(void *arg0, s16 arg1);

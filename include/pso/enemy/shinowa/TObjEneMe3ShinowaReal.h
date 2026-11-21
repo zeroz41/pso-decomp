@@ -23,5 +23,5 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     u16 m_42c[4];
 };
 
-typedef char TObjEneMe3ShinowaReal_size[sizeof(TObjEneMe3ShinowaReal) == 0x434 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3ShinowaReal_size, sizeof(TObjEneMe3ShinowaReal) == 0x434);
 #endif

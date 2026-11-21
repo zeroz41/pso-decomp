@@ -19,7 +19,7 @@ public:
     s32 m_24;
 };
 
-typedef char TAdBackTxtGC_size[sizeof(TAdBackTxtGC) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TAdBackTxtGC_size, sizeof(TAdBackTxtGC) == 0x28);
 
 class TAdBackTxtGC;
 extern "C" {

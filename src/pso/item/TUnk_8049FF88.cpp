@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FF88.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
@@ -10,7 +11,7 @@ s32 add_weapon_grind(s32, u8);
 void TUnk_8049FF88::apply_use_effect() {
     s32 temp_r3;
 
-    temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)this->owner);
+    temp_r3 = TObjPlayer::get_item_field_6((void *)this->owner);
     if (temp_r3 != 0) {
         add_weapon_grind(temp_r3, get_pmt_amount());
     }

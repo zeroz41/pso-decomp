@@ -24,7 +24,7 @@ typedef struct EthernetFrameHeader {
 } EthernetFrameHeader;
 
 #include <stddef.h>
-typedef char EthernetProtocolsOffset[offsetof(EthernetReceiveFilter, protocols) == 0x38 ? 1 : -1];
-typedef char EthernetReceiveFilterSize[sizeof(EthernetReceiveFilter) == 0x56 ? 1 : -1];
-typedef char EthernetTypeOffset[offsetof(EthernetFrameHeader, ether_type) == 0x0C ? 1 : -1];
+LAYOUT_ASSERT(EthernetProtocolsOffset, offsetof(EthernetReceiveFilter, protocols) == 0x38);
+LAYOUT_ASSERT(EthernetReceiveFilterSize, sizeof(EthernetReceiveFilter) == 0x56);
+LAYOUT_ASSERT(EthernetTypeOffset, offsetof(EthernetFrameHeader, ether_type) == 0x0C);
 #endif

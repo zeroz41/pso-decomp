@@ -5,6 +5,6 @@
 
 extern PlayerWindowCommand lbl_804CEA40;
 
-void TWindowReturnCity__sub_8024ACA8(s32 arg0) {
+void TWindowReturnCity__sub_8024ACA8(saddr arg0) {
     call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA40);
 }

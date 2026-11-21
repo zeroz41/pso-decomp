@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803DE7E0.h"
 #include "pso/unk/text_803DE864.h"
 #include "pso/unk/text_803DE8BC.h"
@@ -8,7 +9,6 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-void *memset(void *dst, s32 c, u32 n);
 void *OSCreateHeap(void *start, void *end);
 void OSFreeToHeap(void *heap, void *ptr);
 void *OSAllocFromHeap(void *heap, u32 size);

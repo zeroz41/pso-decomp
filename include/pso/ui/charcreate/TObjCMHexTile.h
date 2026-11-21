@@ -23,7 +23,7 @@ public:
     s32 frame;
 };
 
-typedef char TObjCMHexTile_size[sizeof(TObjCMHexTile) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TObjCMHexTile_size, sizeof(TObjCMHexTile) == 0x54);
 
 extern "C" {
 void fn_802947A8(void);

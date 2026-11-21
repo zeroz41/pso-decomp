@@ -27,6 +27,6 @@ struct TObjStendGlassLobby : public TObjMapObject {
     static u32 lobby_texlist;  // the lobby's shared texture list
 };
 
-typedef char TObjStendGlassLobby_size[sizeof(TObjStendGlassLobby) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TObjStendGlassLobby_size, sizeof(TObjStendGlassLobby) == 0xD4);
 
 #endif

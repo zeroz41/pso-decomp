@@ -10,8 +10,8 @@ struct FloorMapSelection {
     s32 entities;
 };
 
-typedef char FloorMapSelectionSize[sizeof(FloorMapSelection) == 0xC ? 1 : -1];
-typedef char FloorMapSelectionTerrainOffset[offsetof(FloorMapSelection, terrain) == 4 ? 1 : -1];
+LAYOUT_ASSERT(FloorMapSelectionSize, sizeof(FloorMapSelection) == 0xC);
+LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrain) == 4);
 
 extern "C" {
 void TLobby__sub_80207BB0(void);
@@ -23,7 +23,7 @@ void randomize_adventure_maps(void);
 s32 get_boss_warp_destination(void);
 void init_floor_map_registry(void);
 // The area id of the map on a floor, or -1 when it has none.
-s32 get_floor_area(s32 floor);
+saddr get_floor_area(s32 floor);
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
 void set_floor_map_variant(s32 floor, s32 terrain);
 

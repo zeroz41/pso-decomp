@@ -7,8 +7,6 @@
 #define SIDecodeType SIBios_SIDecodeType
 #define SIEnablePollingInterrupt SIBios_SIEnablePollingInterrupt
 #define SIGetResponseRaw SIBios_SIGetResponseRaw
-#define SIGetTypeAsync Dolphin_SIGetTypeAsync
-#define SIUnregisterPollingHandler Dolphin_SIUnregisterPollingHandler
 #define TypeCallback lbl_805D2060
 #define XferTime lbl_805D2040
 #define __SITransfer SIBios___SITransfer

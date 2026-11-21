@@ -86,7 +86,7 @@ void TUnk_804A5D28::update_weapon() {
             a.x = 0x4000;
             a.y = self->owner->f60;
             a.z = 0;
-            TObjPlayer::launch_weapon_casing((s32)tl_05, (u32)self, 3, (u32)&v, (u32)&a);
+            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)self, 3, (uaddr)&v, (uaddr)&a);
         }
     } else if (this->m_1fc == 2) {
         TItemEffOrgaFlowShot::approach_value(&self->f1FC, 0.2f, 0.0f);
@@ -115,7 +115,7 @@ extern RecoveredGlobal_8012E414_lbl_804A5D10 __vt__13TUnk_804A5D10;
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-typedef char RecoveredGlobal_8012E414_lbl_804A5D10_size[sizeof(RecoveredGlobal_8012E414_lbl_804A5D10) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8012E414_lbl_804A5D10_size, sizeof(RecoveredGlobal_8012E414_lbl_804A5D10) == 0x18);
 u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &__vt__13TUnk_804A5D10.value;
@@ -145,7 +145,7 @@ void TUnk_804A5D10::run_task() {
 
 void TUnk_804A5D10::render() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r31;
+    uaddr temp_r31;
     u8 *equipped_item;
 
     equipped_item = (u8 *)find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C));
@@ -165,7 +165,7 @@ void TUnk_804A5D10::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(s32 arg0, u32 arg1, s32 arg2, u32 arg3, u32 arg4) {
+void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 arg2, uaddr arg3, uaddr arg4) {
     u8 sp8[0x18];
     void *var_r0;
     if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (arg4 != 0U) && (((TItemWeapon *)arg1)->get_joint_position(arg2, sp8) != 0)) {
@@ -177,7 +177,7 @@ void TObjPlayer::launch_weapon_casing(s32 arg0, u32 arg1, s32 arg2, u32 arg3, u3
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(s32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4) {
+void TObjPlayer::spawn_weapon_casing(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, uaddr arg4) {
     void *p;
     if ((arg0 != 0) && (arg1 != 0U) && (arg2 != 0U) && (arg3 != 0U) && (arg4 != 0U)) {
         p = TObject::operator new(0x44);

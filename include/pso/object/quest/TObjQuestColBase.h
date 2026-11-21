@@ -24,6 +24,6 @@ struct TObjQuestColBase : public TObjCollidable {
     virtual void run_task();
 };
 
-typedef char TObjQuestColBase_size[sizeof(TObjQuestColBase) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjQuestColBase_size, sizeof(TObjQuestColBase) == 0xBC);
 
 #endif

@@ -26,7 +26,7 @@ public:
     static void cache_target_values();
 };
 
-typedef char TObjVoloptPillar_size[sizeof(TObjVoloptPillar) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TObjVoloptPillar_size, sizeof(TObjVoloptPillar) == 0xC0);
 
 extern const char *TObjVoloptPillar_name;
 extern const DirectAttackPayload volopt_pillar_attack;

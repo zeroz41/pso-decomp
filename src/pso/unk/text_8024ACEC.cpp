@@ -5,6 +5,6 @@
 
 extern PlayerWindowCommand player_keyboard_hold_cb;
 
-void begin_player_keyboard_hold(s32 arg0) {
+void begin_player_keyboard_hold(saddr arg0) {
     call_window_method__11TWindowCtrlFPvi(arg0, player_keyboard_hold_cb);
 }

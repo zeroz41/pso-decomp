@@ -27,6 +27,6 @@ public:
     void *root;
     char name[17];
 };
-typedef char TUnk_8049C658_size[sizeof(TUnk_8049C658) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8049C658_size, sizeof(TUnk_8049C658) == 0x3C);
 
 #endif

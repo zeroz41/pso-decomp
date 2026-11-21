@@ -13,7 +13,7 @@ struct TObjNpcFemaleFat : public TUnk_804A8640 {
     static void load_static_resource();
 };
 
-typedef char TObjNpcFemaleFat_size[sizeof(TObjNpcFemaleFat) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcFemaleFat_size, sizeof(TObjNpcFemaleFat) == 0x3B8);
 
 extern "C" {
 void *TObjNpcFemaleFat__create(void *set_data);

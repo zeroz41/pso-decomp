@@ -3,8 +3,8 @@
 #include "pso/system/memory.h"
 #include "pso/unk/TLobby.h"
 
-extern u32 lbl_805D4E58;
-extern u32 lbl_805D4E5C;
+extern uaddr lbl_805D4E58;
+extern uaddr lbl_805D4E5C;
 
 void TLobby::free_static_windows() {
     if ((u32) lbl_805D4E5C != 0U) {

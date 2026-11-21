@@ -31,7 +31,7 @@ public:
     f32 model_radius;
 };
 
-typedef char TObjMapObjectSize[sizeof(TObjMapObject) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TObjMapObjectSize, sizeof(TObjMapObject) == 0xC8);
 
 // The derived destructors still written out by hand call the base one by
 // its symbol.

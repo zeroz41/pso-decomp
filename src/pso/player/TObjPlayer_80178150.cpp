@@ -37,14 +37,14 @@ void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p) {
 #pragma opt_propagation off
 void TOSwitchTimer::send_switch_states() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801781D8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801781D8, spC) == 0x4) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_801781D8, spE) == 0x6) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_801781D8, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_801781D8, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_801781D8, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1A_offset[(offsetof(Stack_801781D8, sp1A) == 0x12) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_801781D8, sp1C) == 0x14) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801781D8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801781D8, spC) == 0x4);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_801781D8, spE) == 0x6);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_801781D8, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801781D8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801781D8, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1A_offset, offsetof(Stack_801781D8, sp1A) == 0x12);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_801781D8, sp1C) == 0x14);
     Stack_801781D8 stack;
     u16 *var_r30;
     s32 var_r29;

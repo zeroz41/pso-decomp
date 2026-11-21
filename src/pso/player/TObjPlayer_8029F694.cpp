@@ -16,7 +16,7 @@ void TObjPlayer::init_render_target() {
     u8 *arg0 = (u8 *)this;
     s32 sp8[12];
 
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32)(arg0 + 0x10);
+    *(s32 *)((s8 *)arg0 + 0x1C) = (saddr)(arg0 + 0x10);
     (this->m_20) = 1;
     ((TObjPlayer *)sp8)->set_render_rect(0, 4, 0x280, 0x1E0);
     set_texture_name(*(s32 *)((s8 *)arg0 + 0x1C), sp8, 0x901, 0x08800000);

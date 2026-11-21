@@ -33,7 +33,7 @@ void TOSwitchAttackSub::run_task() {
         queue_destruction();
         return;
     }
-    if (particle != 0 && (player = (u8 *)get_player_by_client_id((s32)local_client_id)) != 0 && camera_ctrl_instance != 0) {
+    if (particle != 0 && (player = (u8 *)get_player_by_client_id((saddr)local_client_id)) != 0 && camera_ctrl_instance != 0) {
         playerDistance = horizontal_distance_squared((const f32*)(player + 0x38), (const f32*)(camera_ctrl_instance + 0x178));
         if (2.0f * horizontal_distance_squared(position, (const f32*)(camera_ctrl_instance + 0x178)) < playerDistance) {
             ((TParticleCtrl *)particle)->enable();
@@ -86,7 +86,7 @@ TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 arg2, s32 arg3, u32 ar
 
 extern "C" {
 
-void TOSwitchAttack::create_sub(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
+void TOSwitchAttack::create_sub(saddr arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     new TOSwitchAttackSub((TObject *)arg0, arg1, arg2, (u32)arg3, farg0);
 }
 

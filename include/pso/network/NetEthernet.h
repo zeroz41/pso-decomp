@@ -61,11 +61,11 @@ typedef struct EthernetState {
     EthFrameSlot *slots;        /* 0x14 */
 } EthernetState;
 
-typedef char EthDriver_size_check[sizeof(EthDriver) == 0x1C ? 1 : -1];
-typedef char EthLink_size_check[sizeof(EthLink) == 0x10 ? 1 : -1];
-typedef char EthSocket_size_check[sizeof(EthSocket) == 0x10 ? 1 : -1];
-typedef char EthFrameSlot_size_check[sizeof(EthFrameSlot) == 0x5F8 ? 1 : -1];
-typedef char EthernetState_size_check[sizeof(EthernetState) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(EthDriver_size_check, sizeof(EthDriver) == 0x1C);
+LAYOUT_ASSERT(EthLink_size_check, sizeof(EthLink) == 0x10);
+LAYOUT_ASSERT(EthSocket_size_check, sizeof(EthSocket) == 0x10);
+LAYOUT_ASSERT(EthFrameSlot_size_check, sizeof(EthFrameSlot) == 0x5F8);
+LAYOUT_ASSERT(EthernetState_size_check, sizeof(EthernetState) == 0x18);
 
 extern EthernetState lbl_805C1AD8;
 

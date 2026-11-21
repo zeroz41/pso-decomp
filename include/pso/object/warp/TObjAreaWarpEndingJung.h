@@ -12,5 +12,5 @@ struct TObjAreaWarpEndingJung : public TObjAreaWarpEnding {
     void run_task();
 };
 
-typedef char TObjAreaWarpEndingJung_size[sizeof(TObjAreaWarpEndingJung) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjAreaWarpEndingJung_size, sizeof(TObjAreaWarpEndingJung) == 0xDC);
 #endif

@@ -11,11 +11,11 @@ struct TWindowSubTradeMain : public TObject {
     TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTradeMain();
     TWindowMessageYesNo *open_confirm_prompt();
-    s32 create_trade_window();
-    s32 open_trade_equip_window();
-    s32 create_list();
-    s32 create_input_number(s32);
-    s32 create_help_item();
+    saddr create_trade_window();
+    saddr open_trade_equip_window();
+    saddr create_list();
+    saddr create_input_number(s32);
+    saddr create_help_item();
     void set_displayed_item(s32);
     void set_labels(s32);
     void set_child_windows_enabled(s32);
@@ -26,17 +26,17 @@ struct TWindowSubTradeMain : public TObject {
     u32 m_24;
     u32 m_28;
     TWindowMainMenu *parent_menu;
-    u32 m_30;
-    u32 m_34;
+    uaddr m_30;
+    uaddr m_34;
     TWindowMessageYesNo *dialog;
-    u32 m_3c;
-    u32 m_40;
-    u32 m_44;
-    u32 m_48;
-    u32 m_4c;
-    u32 m_50;
+    uaddr m_3c;
+    uaddr m_40;
+    uaddr m_44;
+    uaddr m_48;
+    uaddr m_4c;
+    uaddr m_50;
     void* m_54;
-    s32 add_text_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 add_text_entry(saddr arg1, s32 arg2, s32 arg3, s32 arg4);
     void clear_trade_flag();
     void send_60_update();
     void bswap_6x6A_packet();
@@ -54,8 +54,8 @@ struct TWindowSubTradeMain : public TObject {
     static void draw_offer(void *arg0, void *arg1);
     static void draw_request(void *arg0, void *arg1);
     TWindowMessageYesNo *open_confirm_yes_no();
-    s32 create_trade_menu();
-    s32 build_trade_menu();
+    saddr create_trade_menu();
+    saddr build_trade_menu();
     virtual void render();
     virtual void run_task();
     u8 unk_58[0x18];
@@ -63,7 +63,7 @@ struct TWindowSubTradeMain : public TObject {
     u8 unk_72[0x2];
     s16 m_74;
     u8 unk_76[0xA];
-    u32 m_80;
+    uaddr m_80;
     u8 unk_84[0x4];
     s16 m_88;
     u8 unk_8A[0x1E];
@@ -71,8 +71,8 @@ struct TWindowSubTradeMain : public TObject {
     void notify_child_if_present(s32 arg1);
     void draw_item_slot();
     void update_trade_window();
-    static void update_position_if_changed(s32 arg0, u8 *arg1, u8 *arg2);
+    static void update_position_if_changed(saddr arg0, u8 *arg1, u8 *arg2);
 };
 
-typedef char TWindowSubTradeMain_size[sizeof(TWindowSubTradeMain) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubTradeMain_size, sizeof(TWindowSubTradeMain) == 0xA8);
 #endif

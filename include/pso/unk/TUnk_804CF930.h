@@ -24,7 +24,7 @@ public:
     void draw_status_gauge_bar(void *, void *, f32, f32);
 };
 
-typedef char TUnk_804CF930_size[sizeof(TUnk_804CF930) == 0x28 ? 1 : -1];
-typedef char TUnk_804CF930_target_offset[offsetof(TUnk_804CF930, target) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF930_size, sizeof(TUnk_804CF930) == 0x28);
+LAYOUT_ASSERT(TUnk_804CF930_target_offset, offsetof(TUnk_804CF930, target) == 0x24);
 
 #endif

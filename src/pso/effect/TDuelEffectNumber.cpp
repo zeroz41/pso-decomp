@@ -26,13 +26,13 @@ struct Obj_8007FF28 {
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-void fn_8007FE78(Obj_8007FF28 *self, s32 arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2);
+void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2);
 extern const RecoveredGlobal_800800EC_lbl_80438D7C duel_number_uv_table = {0, {0x43, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
 void sub_8007FF28__17TDuelEffectNumberFl(Obj_8007FF28 *self, s32 arg1);
 
 extern s32 lbl_805D63F0;
 
-void fn_8007FE78(Obj_8007FF28 *self, s32 arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2) {
+void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2) {
     f32 *src = (f32 *)arg2;
     farg1 *= (0.5);
     *(f32 *)((s8 *)arg1 + 0) = src[0] - 64.0f * farg1;
@@ -63,7 +63,7 @@ void TDuelEffectNumber::sub_8007FF28(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TDuelEffectNumber::sub_8007FFF4(s32 arg1) {
+void TDuelEffectNumber::sub_8007FFF4(saddr arg1) {
     f32 scale;
     f32 b;
     f32 c;
@@ -87,7 +87,7 @@ void TDuelEffectNumber::sub_8007FFF4(s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_800800EC_lbl_80438D7C_size[sizeof(RecoveredGlobal_800800EC_lbl_80438D7C) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800800EC_lbl_80438D7C_size, sizeof(RecoveredGlobal_800800EC_lbl_80438D7C) == 0x34);
 void calc_duel_number_uv(s32 arg0, u8 *arg1, s32 arg2) {
     s32 temp_r0;
     temp_r0 = arg2 * 8;
@@ -110,7 +110,7 @@ void TDuelEffectNumber::render() {
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(6, -1);
-    sub_8007FFF4((s32)((s32 *)&sp8));
+    sub_8007FFF4((saddr)((s32 *)&sp8));
     ((s32 (*)(void *, s32 *))sub_8007FF28__17TDuelEffectNumberFl)(this, (s32 *)&sp8);
     TWindowSubStatusDisp::get_player();
     set_default_alpha_blend();

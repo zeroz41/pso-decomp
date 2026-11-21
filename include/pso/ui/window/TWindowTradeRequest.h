@@ -18,6 +18,6 @@ struct TWindowTradeRequest : public TObject {
     virtual void run_task();
 };
 
-typedef char TradeRequestDialogOffset[offsetof(TWindowTradeRequest, dialog) == 0x20 ? 1 : -1];
-typedef char TWindowTradeRequest_size[sizeof(TWindowTradeRequest) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TradeRequestDialogOffset, offsetof(TWindowTradeRequest, dialog) == 0x20);
+LAYOUT_ASSERT(TWindowTradeRequest_size, sizeof(TWindowTradeRequest) == 0x24);
 #endif

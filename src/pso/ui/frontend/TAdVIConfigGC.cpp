@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
+#include <string.h>
 #include "pso/system/vector.h"
 
 #pragma readonly_strings on
@@ -21,7 +22,7 @@ struct Name_80307D00 { char s[0x18]; };
 
 struct Cfg_80307D00 {
     u8 pad0[0x24];
-    u32 win;
+    uaddr win;
     Name_80307D00 names[4];
 };
 
@@ -30,8 +31,7 @@ const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
 extern "C" {
 void *VIGetDTVStatus(void *);
 void *get_player_by_client_id(s32 i);
-s32 get_window_layout_position(s32);
-char *strncpy(char *, const char *, u32);
+saddr get_window_layout_position(s32);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
@@ -39,7 +39,6 @@ int OSSetProgressiveMode(void*);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);
 int VIFlush(void);
-s32 memset(void *, int, int);
 
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;
@@ -48,7 +47,7 @@ void TAdVIConfigGC::open_player_names_window() {
         ((TWindowBase *)(((Cfg_80307D00 *)this)->win))->close();
         ((Cfg_80307D00 *)this)->win = 0;
     }
-    ((Cfg_80307D00 *)this)->win = TAdVIConfigGC::draw_with_layer((s32)(get_window_layout_position(0x5A)), (s32)player_names_window_pos, (s32)local_client_id);
+    ((Cfg_80307D00 *)this)->win = TAdVIConfigGC::draw_with_layer((s32)(get_window_layout_position(0x5A)), (saddr)player_names_window_pos, (s32)local_client_id);
     if (((Cfg_80307D00 *)this)->win != 0) {
         ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_visible();
         ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_close_flag();
@@ -57,10 +56,10 @@ void TAdVIConfigGC::open_player_names_window() {
             if (p != 0) {
                 strncpy(((Cfg_80307D00 *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
                 ((Cfg_80307D00 *)this)->names[i].s[0x17] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((s32)(((Cfg_80307D00 *)this)->win), (s32)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
+                TWindowSubStatusDisp::dispatch_without_flags((s32)(((Cfg_80307D00 *)this)->win), (saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
             } else {
                 ((Cfg_80307D00 *)this)->names[i].s[0] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((s32)(((Cfg_80307D00 *)this)->win), (s32)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
+                TWindowSubStatusDisp::dispatch_without_flags((s32)(((Cfg_80307D00 *)this)->win), (saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
             }
         }
     }
@@ -93,8 +92,8 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x24) != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)arg0 + 0x24)))->clear_flag4_bit4();
-            ((TObject *)((void *)(*(u32 *)((s8 *)arg0 + 0x24))))->allow_rendering();
-            ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x24)))->close();
+            ((TObject *)((void *)(*(uaddr *)((s8 *)arg0 + 0x24))))->allow_rendering();
+            ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x24)))->close();
             *(u32 *)((s8 *)arg0 + 0x24) = 0U;
         }
         if (arg1 > 0) {
@@ -135,10 +134,10 @@ void TAdVIConfigGC::set_field48_clear_global() {
 
     extern unsigned char GXNtsc480Prog[];
     extern int active_gx_render_mode;
-void TAdVIConfigGC::enable_progressive_mode(void * _w0) { OSSetProgressiveMode((void*)1); active_gx_render_mode = (int)GXNtsc480Prog; VIConfigure(GXNtsc480Prog); VIFlush(); VIWaitForRetrace(); VIWaitForRetrace(); }
+void TAdVIConfigGC::enable_progressive_mode(void * _w0) { OSSetProgressiveMode((void*)1); active_gx_render_mode = (saddr)GXNtsc480Prog; VIConfigure(GXNtsc480Prog); VIFlush(); VIWaitForRetrace(); VIWaitForRetrace(); }
 
 int TAdVIConfigGC::disable_progressive_mode(void* _w0) { return OSSetProgressiveMode((void*)(0)); }
-void TAdVIConfigGC::vfunc_10() { get_localized_text_entry((s32)((void*)29), (s32)((void*)0)); }
+void TAdVIConfigGC::vfunc_10() { get_localized_text_entry((saddr)((void*)29), (saddr)((void*)0)); }
 
 void TAdVIConfigGC::vfunc_7() { disable_progressive_mode(this); set_field48_clear_global(); }
 

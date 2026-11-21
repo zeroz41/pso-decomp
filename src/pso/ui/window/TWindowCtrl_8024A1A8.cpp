@@ -50,7 +50,7 @@ void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 extern PlayerWindowQuery window_ctrl_main_callback_desc;
-void TWindowCtrl__sub_8024A228(s32 arg0);
+void TWindowCtrl__sub_8024A228(saddr arg0);
 extern PlayerWindowCommand window_ctrl_default_call_args;
 bool TWindowCtrl__sub_8024A1A8(void);
 u8 *find_entity_by_id(u16);
@@ -87,7 +87,7 @@ void TWindowCtrl::set_field22() {
     }
 }
 
-void TWindowCtrl__sub_8024A228(s32 arg0) {
+void TWindowCtrl__sub_8024A228(saddr arg0) {
     PlayerWindowQuery callback = window_ctrl_main_callback_desc;
     TWindowCtrl__sub_8024B098(arg0, callback);
 }
@@ -101,7 +101,7 @@ bool TWindowCtrl::is_submit_cooldown_clear() {
 
 void TWindowCtrl::update_focused() {
     if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) != 0U)) {
-        ((TWindowChat *)(*(u32 *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
+        ((TWindowChat *)(*(uaddr *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
     }
 }
 
@@ -159,8 +159,8 @@ void TWindowCtrl::create_timer() {
 }
 
 void TWindowCtrl::set_timer_window_time() {
-    s32 secs = (s32)this;
-    u32 temp_r3;
+    s32 secs = (saddr)this;
+    uaddr temp_r3;
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x30);
         if (temp_r3 != 0U) {
@@ -225,7 +225,7 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
             *arg3 = 0;
             return;
         }
-        *arg3 = (s32)p;
+        *arg3 = (saddr)p;
         return;
     }
     *arg3 = 0;
@@ -321,7 +321,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
         }
         b = TObject::operator new(0x98);
         if (b != 0) {
-            b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (s32)local, (f32)f);
+            b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (saddr)local, (f32)f);
         }
         self->slots[i] = b;
     }
@@ -366,7 +366,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
         if (i < 12) {
             u16 slot = i;
             TOChatSensorCapture::capture_message(slot, v);
-            TWindowCtrl::open(slot, (s32)v, 0xCB);
+            TWindowCtrl::open(slot, (saddr)v, 0xCB);
         }
     }
 }

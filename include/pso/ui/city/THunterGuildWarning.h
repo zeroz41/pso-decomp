@@ -13,12 +13,12 @@ public:
     virtual void run_task();
 public:
     static void queue_destruction();
-    static void create_instance(s32 arg0);
+    static void create_instance(saddr arg0);
     static s32 is_active();
     void close_windows();
     void sub_80211774(void *arg);
 
-    s32 mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
+    saddr mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
     s32 timer;                   // 0x20: frames left before the task destroys itself
     TWindowMessage *windows[4];  // 0x24: one message window per player
 };

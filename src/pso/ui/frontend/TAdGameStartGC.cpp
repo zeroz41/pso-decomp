@@ -52,7 +52,6 @@ struct Slot_802E655C { u8 pad[0x10]; };
 struct GS_802E655C { u8 pad0[0x1C]; Slot_802E655C slots[8]; s32 count; s32 active; s32 subs[8]; };
 
 extern "C" {
-u32 __nw__7TObjectFUl(int);
 u8 *__ct__18TAdGameStartBackGCFP7TObject(u8 *arg0, u8 *arg1);
 u32 __ct__20TAdGameStartShadowGCFv(int, void *);
 u32 __ct__18TAdGameStartLineGCFv(int, void *);
@@ -99,12 +98,12 @@ void destroy_windows__14TAdGameStartGCFPv(Obj_802E6380 *o) {
 }
 
 void create_effects__14TAdGameStartGCFPv(u8 *parent) {
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 temp_r3_3;
-    u32 temp_r3_4;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
+    uaddr temp_r3_3;
+    uaddr temp_r3_4;
     u32 temp_r3_5;
-    u32 object;
+    uaddr object;
     u32 temp_r3_7;
     u32 temp_r3_8;
     u32 var_r0;
@@ -132,25 +131,25 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
         ((TObject *)temp_r3_4)->queue_destruction();
         *(u32 *)((s8 *)parent + 0xD0) = 0U;
     }
-    temp_r3_5 = __nw__7TObjectFUl(0xC8);
+    temp_r3_5 = (uaddr)TObject::operator new(0xC8);
     var_r0 = temp_r3_5;
     if (var_r0 != 0U) {
         var_r0 = __ct__20TAdGameStartShadowGCFv(temp_r3_5, parent);
     }
     *(u32 *)((s8 *)parent + 0xC4) = var_r0;
-    object = __nw__7TObjectFUl(0x80);
+    object = (uaddr)TObject::operator new(0x80);
     var_r0_2 = object;
     if (var_r0_2 != 0U) {
-        var_r0_2 = (u32)__ct__18TAdGameStartBackGCFP7TObject((u8 *)object, (u8 *)parent);
+        var_r0_2 = (uaddr)__ct__18TAdGameStartBackGCFP7TObject((u8 *)object, (u8 *)parent);
     }
     *(u32 *)((s8 *)parent + 0xC8) = var_r0_2;
-    temp_r3_7 = __nw__7TObjectFUl(0x160);
+    temp_r3_7 = (uaddr)TObject::operator new(0x160);
     var_r0_3 = temp_r3_7;
     if (var_r0_3 != 0U) {
         var_r0_3 = __ct__18TAdGameStartLineGCFv(temp_r3_7, parent);
     }
     *(u32 *)((s8 *)parent + 0xCC) = var_r0_3;
-    temp_r3_8 = __nw__7TObjectFUl(0x80);
+    temp_r3_8 = (uaddr)TObject::operator new(0x80);
     var_r0_4 = temp_r3_8;
     if (var_r0_4 != 0U) {
         var_r0_4 = __ct__19TAdGameStartShineGCFv(temp_r3_8, parent);
@@ -160,12 +159,12 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
 
 void run_task__14TAdGameStartGCFv(u8 *arg0) {
     GS_802E655C *gs = (GS_802E655C *) arg0;
-    s32 sub;
+    saddr sub;
     u8 *pad;
     if (gs->active != 0) {
         gs->count++;
         if (gs->count < 8) {
-            sub = __nw__7TObjectFUl(0x88);
+            sub = (uaddr)TObject::operator new(0x88);
             if (sub != 0) {
                 sub = ((s32 (*)(void *, void *, void *))__ct__17TAdGameStartSubGCFv)((void *) sub, arg0, &gs->slots[gs->count]);
             }
@@ -185,16 +184,16 @@ void run_task__14TAdGameStartGCFv(u8 *arg0) {
         if (TWindowShortListCtrl__check_controller_button(pad, 8) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)pad, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x10, 6, 1) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)pad, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x20, 6, 1) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)pad, 0x40, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x40, 6, 1) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)pad, 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x80, 6, 1) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
     }
@@ -206,7 +205,7 @@ Obj_802E6750 *__ct__14TAdGameStartGCFv(Obj_802E6750 *arg0) {
     s32 i;
     __ct__7TObjectFP7TObject(arg0);
     arg0->vt = __vt__14TAdGameStartGC;
-    arg0->g = (s32)ad_game_start_name_ptr[0];
+    arg0->g = (saddr)ad_game_start_name_ptr[0];
     arg0->f9C = -1;
     arg0->fA0 = 0;
     arg0->fC4 = 0;
@@ -238,7 +237,7 @@ void destroy_instance__17TAdGameStartSubGCFv(void) {
 }
     extern const unsigned char lbl_80472C28[];
     extern void *texture_f512_multiplay_descriptor[];
-void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (int)texture_f512_multiplay_descriptor; load_streamed_prs_texture((s32)lbl_80472C28, (s32)texture_f512_multiplay_descriptor); }
+void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (saddr)texture_f512_multiplay_descriptor; load_streamed_prs_texture((saddr)lbl_80472C28, (saddr)texture_f512_multiplay_descriptor); }
 extern "C" {
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
 __declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";
@@ -314,7 +313,7 @@ u8 *__ct__17TAdGameStartSubGCFv(u8 *arg0, void *arg1, u8 *arg2) {
     s32 t;
     ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TAdGameStartSubGC;
-    I(0) = (s32)lbl_805D3FB0[0];
+    I(0) = (saddr)lbl_805D3FB0[0];
     I(0x1C) = *(s32 *)((s8 *)arg2 + 0);
     copy_vec2((arg0 + 0x60), arg2 + 4);
     t = *(s32 *)((s8 *)arg2 + 0xC);
@@ -348,18 +347,18 @@ __declspec(section ".data") void *texture_f512_multiplay_descriptor[2] = {(void 
 }
 s32 __vt__14TAdGameStartGC[] = {
     0, 0,
-    (s32)__dt__14TAdGameStartGCFv,
-    (s32)run_task__14TAdGameStartGCFv,
-    (s32)render__14TAdGameStartGCFv,
-    (s32)render_shadows__7TObjectFv,
+    (saddr)__dt__14TAdGameStartGCFv,
+    (saddr)run_task__14TAdGameStartGCFv,
+    (saddr)render__14TAdGameStartGCFv,
+    (saddr)render_shadows__7TObjectFv,
     0,
 };
 s32 __vt__17TAdGameStartSubGC[] = {
     0, 0,
-    (s32)__dt__17TAdGameStartSubGCFv,
-    (s32)run_task__17TAdGameStartSubGCFv,
-    (s32)render__17TAdGameStartSubGCFv,
-    (s32)render_shadows__7TObjectFv,
+    (saddr)__dt__17TAdGameStartSubGCFv,
+    (saddr)run_task__17TAdGameStartSubGCFv,
+    (saddr)render__17TAdGameStartSubGCFv,
+    (saddr)render_shadows__7TObjectFv,
 };
 void *ad_game_start_name_ptr[2] = {(void *)TAdGameStartGC__class_name_string, 0};
 void *lbl_805D3FB0[2] = {(void *)TAdGameStartSubGC__class_name_string, 0};

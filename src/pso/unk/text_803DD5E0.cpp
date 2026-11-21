@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
@@ -17,7 +18,7 @@ struct Ent_803DD6DC { s32 f0; s32 f4; s32 f8; };
 
 struct Obj_803DD6DC { struct Ent_803DD6DC *ents; u32 count; };
 
-typedef struct Info_803DDA68 { u32 f0; s32 f4; s32 f8; s32 fC; s32 f10; s32 f14; } Info_803DDA68;
+typedef struct Info_803DDA68 { uaddr f0; s32 f4; s32 f8; s32 fC; s32 f10; s32 f14; } Info_803DDA68;
 
 typedef struct Ent_803DDA68 { Info_803DDA68 *info; s32 f4; s32 f8; } Ent_803DDA68;
 
@@ -63,21 +64,19 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3);
 s32 TObjPlayer__sub_803DAC48(Obj_803DDA68 *, s32, s32, s32, Desc_803DDA68 *, s32 *);
 s32 TObjPlayer__sub_803DD91C(Obj_803DDA68 *obj, s32 idx);
 s32 TObjPlayer__sub_803DDA68(Obj_803DDA68 *obj, s32 idx);
-s32 find_free_slot__10TObjPlayerFPvPv(Slot_803DDB34 **, Rec_803DDB34 **);
 s32 TObjPlayer__sub_803DAB7C(Obj_803DDA68 *, s32, s32);
 extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DDB34(Obj_803DDA68 *obj, s32 idx);
-s32 strlen(const char*);
 void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, const GvmTextureHeader_803DDDC8* header);
 s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list);
 void DCFlushRange(void *, u32);
 s32 DVDOpen(const char *, FileInfo_803DD784 *);
 s32 DVDClose(FileInfo_803DD784 *);
-s32 Dolphin_DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
+s32 DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
 extern u8 gvrt_header_read_buffer[];
 extern Slot_803DD784 *record_array_ptr;
 s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx);
-void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count);
+void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, uaddr names, s32 count);
 }
 
 // The texture loaders TObjPlayer__sub_803DD6DC picks from an entry's format bits.
@@ -91,7 +90,7 @@ void set_ginja_draw_flags(s32 arg0) {
     ginja_draw_flags = arg0;
 }
 
-void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count) {
+void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, uaddr names, s32 count) {
     int i;
 
     for (i = 0; i < count; ++i) {
@@ -138,7 +137,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
     FileInfo_803DD784 fi;
     u32 n;
     s32 r;
-    u32 base = (u32)gvrt_header_read_buffer;
+    uaddr base = (uaddr)gvrt_header_read_buffer;
     FileInfo_803DD784 *pfi;
     u32 size;
     TObjPlayer__sub_803DA7E0();
@@ -153,11 +152,11 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
         return -1;
     }
     size = (fi.length + 0x1F) & ~0x1F;
-    if (Dolphin_DVDReadPrio(pfi, (void *)base, 0x20, 0, 2) == -1) {
+    if (DVDReadPrio(pfi, (void *)base, 0x20, 0, 2) == -1) {
         DVDClose(pfi);
         return -1;
     }
-    n = (u32)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)base));
+    n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)base));
     if (n == 0) {
         DVDClose(pfi);
         return -1;
@@ -171,7 +170,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
         return r;
     }
     n -= base;
-    Dolphin_DVDReadPrio(pfi, record_array_ptr[handle].tex->buf, size - n, n, 2);
+    DVDReadPrio(pfi, record_array_ptr[handle].tex->buf, size - n, n, 2);
     DVDClose(pfi);
     return 1;
 }
@@ -191,9 +190,9 @@ s32 TObjPlayer__sub_803DD91C(Obj_803DDA68 *obj, s32 idx) {
     if (r != 0) {
         return r;
     }
-    n = (u32)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info));
+    n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info));
     if (n == 0) {
-        n = (u32)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info->f0));
+        n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info->f0));
         if (n == 0) {
             info = obj->ents[idx].info;
             desc.w = info->f10;
@@ -266,7 +265,7 @@ s32 TObjPlayer__sub_803DDB34(Obj_803DDA68 *obj, s32 idx) {
     case -1:
         return -1;
     case 0:
-        h = find_free_slot__10TObjPlayerFPvPv(&slot, &rec);
+        h = TObjPlayer::find_free_slot(&slot, &rec);
         if (h < 0) {
             return -1;
         }
@@ -310,7 +309,7 @@ void TLobby__sub_803DDD20(s32 arg0) {
     lbl_805D77A0 = arg0;
 }
 
-s32 TLobby__sub_803DDD2C(s32 arg0) {
+saddr TLobby__sub_803DDD2C(s32 arg0) {
     s32 temp_r4;
     temp_r4 = lbl_805D77A0;
     lbl_805D77A0 = temp_r4 + arg0;
@@ -395,11 +394,11 @@ void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, co
         if (dimensions) record += 2;
         if (alternateGlobal) {
             if (globals) {
-                copy_4word_struct__6TLobbyFPvPv((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
+                TLobby::copy_4word_struct((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
                 texture->attributes |= 0x01000000;
             }
         } else if (globals) {
-            copy_4word_struct__6TLobbyFPvPv((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
+            TLobby::copy_4word_struct((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
             texture->attributes |= 0x00800000;
         }
         off += 0xC;
@@ -465,7 +464,7 @@ s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list) {
         lbl_8058D470.c = 1;
         return -1;
     }
-    TLobby__sub_803DDD20((s32)arg0);
+    TLobby__sub_803DDD20((saddr)arg0);
     hdr = (u32 *)TLobby__sub_803DDD2C(0xC);
     TLobby::bswap32_in_place(hdr);
     TLobby::bswap32_in_place(hdr + 1);
@@ -647,7 +646,7 @@ relocate:
             }
             pos += v * 4;
             if (*(u32 *)(buf + pos) != 0) {
-                *(u32 *)(buf + pos) += (u32) buf;
+                *(u32 *)(buf + pos) += (uaddr) buf;
             }
         }
     }

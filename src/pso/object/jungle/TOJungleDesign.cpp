@@ -30,8 +30,8 @@ void TOJungleDesign::init_design_variant() {
     if ((s32) this->m_b0 > 2) {
         this->m_b0 = 2;
     }
-    this->m_ac = (s32)fn_802FF064(jungle_design_variant_table[this->m_b0]);
-    this->texlist = (s32)fn_802FF028(0);
+    this->m_ac = (saddr)fn_802FF064(jungle_design_variant_table[this->m_b0]);
+    this->texlist = (saddr)fn_802FF028(0);
 }
 
 extern "C" {
@@ -39,7 +39,7 @@ extern "C" {
 
 
 void *TOJungleDesign__create(void *arg0) {
-    void *o = (void *)new TOJungleDesign((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TOJungleDesign((saddr)tl_05, (saddr)arg0);
     return o;
 }
 
@@ -78,7 +78,7 @@ TOJungleDesign::~TOJungleDesign() {
 }
 extern "C" {
 }
-TOJungleDesign::TOJungleDesign(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
+TOJungleDesign::TOJungleDesign(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
     this->m_name = TOJungleDesign__name;
     ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     this->init_design_variant();

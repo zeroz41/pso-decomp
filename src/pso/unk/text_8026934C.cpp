@@ -4,12 +4,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 #pragma push
 #pragma scheduling off
-s32 create_meseta_window(s32 arg0) {
+saddr create_meseta_window(s32 arg0) {
     s32 var_r30;
-    var_r30 = (s32)new TWindowMeseta((get_window_layout_position(0x28)), (arg0), ((s32)TWindowSubStatusDisp::get_message_10(0x82)));
+    var_r30 = (saddr)new TWindowMeseta((get_window_layout_position(0x28)), (arg0), ((saddr)TWindowSubStatusDisp::get_message_10(0x82)));
     return var_r30;
 }
 #pragma pop

@@ -8,6 +8,6 @@ struct EnemyTargetCandidate {
     void copy_from(const EnemyTargetCandidate *source);
 };
 
-typedef char EnemyTargetCandidate_size[sizeof(EnemyTargetCandidate) == 8 ? 1 : -1];
+LAYOUT_ASSERT(EnemyTargetCandidate_size, sizeof(EnemyTargetCandidate) == 8);
 
 #endif

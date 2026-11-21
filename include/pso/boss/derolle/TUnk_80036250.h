@@ -31,6 +31,6 @@ struct TUnk_80036250 {
 // construct their members by calling this one through its linkage name.
 extern "C" TUnk_80036250 *__ct__13TUnk_80036250Fv(void *self);
 
-typedef char TUnk_80036250_size[sizeof(TUnk_80036250) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80036250_size, sizeof(TUnk_80036250) == 0x20);
 
 #endif

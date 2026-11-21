@@ -14,6 +14,7 @@ const char *chat_sensor_folder_name_ptr = "TOChatSensorFolder";
 const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 
 #include "types.h"
+#include <string.h>
 
 #include "pso/unk/TLobby_8015ABD0.h"
 
@@ -56,9 +57,7 @@ TOChatSensorCapture *TOChatSensorCapture__instance;
 
 s32 find_chat_keyword(char *, char (*)[0x20], s32);
 
-char *strncpy(char *, const char *, size_t);
 
-void *memset(void *, int, size_t);
 }
 
 
@@ -79,11 +78,10 @@ extern void *tl_00;
 
 extern s32 local_client_id;
 
-u32 __nw__7TObjectFUl(int);
 
 extern s32 tl_05;
 
-u32 TOChatSensor__create(s32 arg0);
+u32 TOChatSensor__create(saddr arg0);
 
 }
 
@@ -100,23 +98,23 @@ void TOChatSensor::send_state() { swap_state_endian(); send_subcommand((u8 *)thi
 void load_chat_sensor(void) { chat_sensor_table = (s32 *)load_encrypted_archive_data((void *)"ChatSensor.prs"); }
 
 void TOChatSensor::destroy_global() {
-    if ((u32) chat_sensor_table != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)chat_sensor_table));
+    if ((uaddr) chat_sensor_table != 0U) {
+        TLobby::free_nodes_with_id((uaddr)((void*)chat_sensor_table));
         chat_sensor_table = 0U;
     }
 }
 
-u32 TOChatSensor__create(s32 arg0) {
-    if ((u32) TOChatSensorFolder__instance == 0U) {
+u32 TOChatSensor__create(saddr arg0) {
+    if ((uaddr) TOChatSensorFolder__instance == 0U) {
         new TOChatSensorFolder((TObject *)tl_05);
     }
-    if ((u32) TOChatSensorFolder__instance != 0U) {
-        return (u32)new TOChatSensor((TObject *)TOChatSensorFolder__instance, (void *)arg0);
+    if ((uaddr) TOChatSensorFolder__instance != 0U) {
+        return (uaddr)new TOChatSensor((TObject *)TOChatSensorFolder__instance, (void *)arg0);
     }
     return 0U;
 }
 
-void TOChatSensor::dispatch_chat_message_to_children(s32 arg0) {
+void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
     void *var_r31;
     if (TOChatSensorFolder__instance != 0U) {
         var_r31 = *(void **)((s8 *)TOChatSensorFolder__instance + 0x14);
@@ -138,7 +136,7 @@ TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
     ((TOChatSensor *)arg0)->init_params();
     n = ((TOChatSensor *)arg0)->m_cc;
     if (n > 0) {
-        t = (s32 *) *(s32 *)((s8 *)chat_sensor_table + 4);
+        t = (s32 *) *(saddr *)((s8 *)chat_sensor_table + 4);
         t += n;
         ((TOChatSensor *)arg0)->set_trigger_text((void *)t[-1]);
     }
@@ -264,9 +262,9 @@ void TOChatSensor::set_trigger_text(void *arg1) {
 
 void TOChatSensor::check_player_proximity() {
     u8 *arg0 = (u8 *)this;
-    u32 player;
+    uaddr player;
 
-    player = (u32)get_player_by_client_id((local_client_id));
+    player = (uaddr)get_player_by_client_id((local_client_id));
     if (player != 0U) {
         if (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < *(f32 *)&this->unk_9C) {
             this->m_a0 = 1;

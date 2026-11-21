@@ -27,5 +27,5 @@ public:
     s32 off_state_copy;
 };
 
-typedef char TOKeyGenericSw_size[sizeof(TOKeyGenericSw) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TOKeyGenericSw_size, sizeof(TOKeyGenericSw) == 0xFC);
 #endif

@@ -15,7 +15,7 @@ struct TWindowMessageYesNo : public TObject {
     u32 m_1c;
     u32 m_20;
     u32 m_24;
-    u32 m_28;
+    uaddr m_28;
     TWindowMenu *choice_menu;
     void set_choice_menu_flag70_bit10();
     virtual void render();
@@ -23,6 +23,6 @@ struct TWindowMessageYesNo : public TObject {
     static void *create(void *arg0, void *arg1, void *arg2, void *arg3);
 };
 
-typedef char TWindowMessageYesNoChoiceMenuOffset[offsetof(TWindowMessageYesNo, choice_menu) == 0x2C ? 1 : -1];
-typedef char TWindowMessageYesNo_size[sizeof(TWindowMessageYesNo) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessageYesNoChoiceMenuOffset, offsetof(TWindowMessageYesNo, choice_menu) == 0x2C);
+LAYOUT_ASSERT(TWindowMessageYesNo_size, sizeof(TWindowMessageYesNo) == 0x30);
 #endif

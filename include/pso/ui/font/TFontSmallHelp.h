@@ -15,7 +15,7 @@ public:
     s32 lifetime_ticks;
     u32 player_id;
 
-    TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, u32 text_id);
+    TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr text_id);
     virtual ~TFontSmallHelp();
     virtual void run_task();
     virtual void render();
@@ -26,14 +26,14 @@ public:
 };
 
 #include <stddef.h>
-typedef char TFontSmallHelpSize[sizeof(TFontSmallHelp) == 0x60 ? 1 : -1];
-typedef char TFontSmallHelpPosition[offsetof(TFontSmallHelp, position) == 0x1C ? 1 : -1];
-typedef char TFontSmallHelpOwner[offsetof(TFontSmallHelp, owner_identity) == 0x28 ? 1 : -1];
-typedef char TFontSmallHelpWidth[offsetof(TFontSmallHelp, text_width) == 0x2C ? 1 : -1];
-typedef char TFontSmallHelpText[offsetof(TFontSmallHelp, text) == 0x30 ? 1 : -1];
-typedef char TFontSmallHelpColor[offsetof(TFontSmallHelp, color) == 0x50 ? 1 : -1];
-typedef char TFontSmallHelpAge[offsetof(TFontSmallHelp, age_ticks) == 0x54 ? 1 : -1];
-typedef char TFontSmallHelpLifetime[offsetof(TFontSmallHelp, lifetime_ticks) == 0x58 ? 1 : -1];
-typedef char TFontSmallHelpPlayer[offsetof(TFontSmallHelp, player_id) == 0x5C ? 1 : -1];
+LAYOUT_ASSERT(TFontSmallHelpSize, sizeof(TFontSmallHelp) == 0x60);
+LAYOUT_ASSERT(TFontSmallHelpPosition, offsetof(TFontSmallHelp, position) == 0x1C);
+LAYOUT_ASSERT(TFontSmallHelpOwner, offsetof(TFontSmallHelp, owner_identity) == 0x28);
+LAYOUT_ASSERT(TFontSmallHelpWidth, offsetof(TFontSmallHelp, text_width) == 0x2C);
+LAYOUT_ASSERT(TFontSmallHelpText, offsetof(TFontSmallHelp, text) == 0x30);
+LAYOUT_ASSERT(TFontSmallHelpColor, offsetof(TFontSmallHelp, color) == 0x50);
+LAYOUT_ASSERT(TFontSmallHelpAge, offsetof(TFontSmallHelp, age_ticks) == 0x54);
+LAYOUT_ASSERT(TFontSmallHelpLifetime, offsetof(TFontSmallHelp, lifetime_ticks) == 0x58);
+LAYOUT_ASSERT(TFontSmallHelpPlayer, offsetof(TFontSmallHelp, player_id) == 0x5C);
 
 #endif

@@ -16,6 +16,6 @@ private:
     s32 ticks_until_spawn;
 };
 
-typedef char TObjRainCtrlSize[sizeof(TObjRainCtrl) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TObjRainCtrlSize, sizeof(TObjRainCtrl) == 0x20);
 
 #endif

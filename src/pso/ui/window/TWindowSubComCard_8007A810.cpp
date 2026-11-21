@@ -7,18 +7,18 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include <string.h>
 
 extern "C" {
-s32 strncpy(void *, s32, s32);
 
-void TWindowSubComCard::set_card_text(s32 arg1) {
-    s32 arg0 = (s32)this;
+void TWindowSubComCard::set_card_text(saddr arg1) {
+    saddr arg0 = (saddr)this;
     u8 *temp_r3;
 
     if (arg1 != 0) {
         temp_r3 = ((u8 * (*)(void *))get_card_entry__17TWindowSubComCardFi)((void *)arg0);
         if (temp_r3 != NULL) {
-            strncpy(temp_r3 + 0x94, arg1, 0x6B);
+            strncpy((char *)(temp_r3 + 0x94), (const char *)arg1, 0x6B);
             *(s8 *)((s8 *)temp_r3 + 0xFF) = 0;
         }
     }
@@ -33,7 +33,7 @@ u8 *TWindowSubComCard::get_card_entry_data() {
 
 s32 TWindowSubComCard::find_card_by_id(u32 arg0) {
     s32 i;
-    s32 acc;
+    saddr acc;
 
     acc = get_card_entry__17TWindowSubComCardFi(0);
     for (i = 0; i < 0xD2; i++) {
@@ -71,7 +71,7 @@ struct ByteBlock_6C { u8 bytes[0x6C]; };
 
 extern "C" {
 struct S_8007AA70;
-s32 forward_return_arg__17TWindowSubComCardFi(s32, S_8007AA70 *);
+s32 forward_return_arg__17TWindowSubComCardFi(saddr, S_8007AA70 *);
 
 void TWindowSubComCard::swap_cards(s32 arg0, s32 arg1) {
     s32 sp8[64];
@@ -81,12 +81,12 @@ void TWindowSubComCard::swap_cards(s32 arg0, s32 arg1) {
     ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(sp8);
     first_ptr = ((s32 * (*)(s32))get_card_entry__17TWindowSubComCardFi)(arg0);
     second_ptr = ((s32 * (*)(s32))get_card_entry__17TWindowSubComCardFi)(arg1);
-    copy_card__17TWindowSubComCardFiPv((s32)sp8, (u8 *)first_ptr);
-    copy_card__17TWindowSubComCardFiPv((s32)first_ptr, (u8 *)second_ptr);
-    copy_card__17TWindowSubComCardFiPv((s32)second_ptr, (u8 *)sp8);
+    copy_card__17TWindowSubComCardFiPv((saddr)sp8, (u8 *)first_ptr);
+    copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
+    copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
 }
-s32 copy_card__17TWindowSubComCardFiPv(s32 arg0, u8 *arg1) {
-    s32 temp_r5;
+s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1) {
+    saddr temp_r5;
     u8 *temp_r4;
     ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(arg0);
     temp_r5 = arg0 + 0x90;
@@ -95,7 +95,7 @@ s32 copy_card__17TWindowSubComCardFiPv(s32 arg0, u8 *arg1) {
     *(u8 *)((s8 *)arg0 + 0x91) = (u8) *(u8 *)((s8 *)arg1 + 0x91);
     *(u8 *)((s8 *)arg0 + 0x92) = (u8) *(u8 *)((s8 *)arg1 + 0x92);
     *(u8 *)((s8 *)arg0 + 0x93) = (u8) *(u8 *)((s8 *)arg1 + 0x93);
-    *(ByteBlock_6C *)(temp_r5 + 4) = *(const ByteBlock_6C *)((s32) temp_r4 + 4);
+    *(ByteBlock_6C *)(temp_r5 + 4) = *(const ByteBlock_6C *)((saddr) temp_r4 + 4);
     return arg0;
 }
 
@@ -120,13 +120,13 @@ struct S_8007AA70 {
 extern "C" {
 int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *, S_8007AA70 *);
 
-s32 forward_return_arg__17TWindowSubComCardFi(s32 arg0, S_8007AA70 * _w1) {
+s32 forward_return_arg__17TWindowSubComCardFi(saddr arg0, S_8007AA70 * _w1) {
     copy_struct__17TWindowSubComCardFPvPv((S_8007AA70 *)(arg0), (S_8007AA70 *)(_w1));
     return arg0;
 }
 int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *arg0, S_8007AA70 *arg1) {
     *arg0 = *arg1;
-    return (int)arg0;
+    return (saddr)arg0;
 }
 
 s32 reinit__17TWindowSubComCardFi(s32 arg0) {
@@ -175,12 +175,12 @@ s32 has_inactive_card__17TWindowSubComCardFPvi(Card_8007AB84 *cards, s32 n) {
     return 0;
 }
 
-void TWindowSubComCard::init_com_card() {
-    has_inactive_card__17TWindowSubComCardFPvi((Card_8007AB84 *)(((s32 (*)(s32))get_card_entry__17TWindowSubComCardFi)(0)), 0xD2);
+s32 TWindowSubComCard::init_com_card() {
+    return has_inactive_card__17TWindowSubComCardFPvi((Card_8007AB84 *)(((saddr (*)(s32))get_card_entry__17TWindowSubComCardFi)(0)), 0xD2);
 }
 
 void TWindowSubComCard::remove_card_at(s32 i) {
-    Box_8007AC10 *box = ((Box_8007AC10 *)((s32 (*)(s32))get_card_entry__17TWindowSubComCardFi)(0));
+    Box_8007AC10 *box = ((Box_8007AC10 *)((saddr (*)(s32))get_card_entry__17TWindowSubComCardFi)(0));
     if (i < 0xD1) {
         Card_8007AC10 *p = &box->cards[i];
         ((TLobby *)p)->move_words((u32 *)(p + 1), (0xD1 - i) * sizeof(Card_8007AC10) / 4);
@@ -214,8 +214,8 @@ s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, Card_8007AC7C *cards, s
 }
 
 s32 TWindowSubComCard::send_guild_card() {
-    s32 arg0 = (s32)this;
-    s32 temp;
+    saddr arg0 = (saddr)this;
+    saddr temp;
     if (((s32 (*)())TWindowSubComCard__sub_8007B070)() != 0) {
         return 0;
     }
@@ -255,7 +255,7 @@ void TWindowSubComCard::start_player_data_load(s32 arg0) {
 }
 }
 void handle_6x06_send_guild_card(s32 arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
     bswap_guild_card__17TWindowSubComCardFv();
     temp_r31 = arg0 + 4;
     if ((((s32 (*)(int))TWindowSubComCard__sub_8007B070)(temp_r31) == 0) && (((TWindowSubComCard *)temp_r31)->send_guild_card() == 0)) {
@@ -284,11 +284,10 @@ struct Card_8007B0D0 {
 extern "C" {
 s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n);
 s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n);
-int memset(void*, int, int);
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubComCard__sub_8007AF10(s32 arg0) {
+void TWindowSubComCard__sub_8007AF10(saddr arg0) {
     Big spC;
     s32 sp8;
     s32 temp;
@@ -395,9 +394,9 @@ void TWindowSubComCard__sub_8007B26C(O_8007B26C *self) {
     self->flags &= ~1;
 }
 
-int clear(void* p) { return memset(p, 0, 144); }
+int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
-void TWindowSubComCard::clear_and_init(void* a1) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((s32)a1); }
+void TWindowSubComCard::clear_and_init(void* a1) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)a1); }
 s32 fn_8007B2E0(u8 *arg0, s32 id) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(TLobby::find_short_mail_by_id(id));
@@ -405,7 +404,7 @@ s32 fn_8007B2E0(u8 *arg0, s32 id) {
         return 0;
     }
     *(u8 *)((s8 *)arg0 + 0x8C) = (u8) (*(u8 *)((s8 *)arg0 + 0x8C) | 3);
-    ((s32 (*)(void *, int, int))strncpy)(arg0 + 8, (int) (fn_8007B83C(temp_r3)), 0x17);
+    ((s32 (*)(void *, int, int))strncpy)(arg0 + 8, (saddr) (fn_8007B83C(temp_r3)), 0x17);
     *(s8 *)((s8 *)arg0 + 0x1F) = 0;
     *(s8 *)((s8 *)arg0 + 0x8F) = 0xC;
     *(s8 *)((s8 *)arg0 + 0x8E) = 0xA;

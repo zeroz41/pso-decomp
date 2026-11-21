@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 #pragma readonly_strings on
@@ -34,17 +35,16 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 
 extern "C" {
 void send_logout__6TLobbyFv(void);
-extern s32 tl_00;
+extern saddr tl_00;
 extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
 s32 __ct__7TObjectFP7TObject();
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern s32 __vt__17TWindowSubGameEnd[];
 extern const char *TWindowSubGameEnd__class_name;
 s32 setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
 s32 set_queued_main_phase(s32);
 s32 request_main_phase(s32);
-s32 init__23TAdSinglePlyChrSelectGCFv();
 
 void TKeyBoardControl::init_char_select() {
     if (is_split_screen() != 0) {
@@ -52,7 +52,7 @@ void TKeyBoardControl::init_char_select() {
         request_main_phase(7);
         return;
     }
-    init__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::init();
     set_queued_main_phase(9);
     request_main_phase(0x12);
 }
@@ -103,20 +103,20 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
     s32 var_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_game_end + 0x18) = __vt__17TWindowSubGameEnd;
-    *(s32 *)((s8 *)window_sub_game_end + 0) = (s32) ((s32)TWindowSubGameEnd__class_name);
+    *(s32 *)((s8 *)window_sub_game_end + 0) = (s32) ((saddr)TWindowSubGameEnd__class_name);
     window_sub_game_end->m_24 = arg1;
     window_sub_game_end->m_20 = arg2;
     if (get_main_phase() == 0xF) {
-        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3B);
+        var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3B);
         var_f31 = 469.0f;
     } else if (is_split_screen() != 0) {
-        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3C);
+        var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3C);
         var_f31 = 312.0f;
     } else {
-        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3A);
+        var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3A);
         var_f31 = 469.0f;
     }
-    window_sub_game_end->m_28 = (s32)TWindowMessageYesNo::create((void *)(window_sub_game_end), (void *)(window_sub_game_end->m_20), 0, 0);
+    window_sub_game_end->m_28 = (saddr)TWindowMessageYesNo::create((void *)(window_sub_game_end), (void *)(window_sub_game_end->m_20), 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)window_sub_game_end->m_28, (s32)var_r31, (s32)(get_window_layout_position(0x17)), var_f31);
     set_menu_selected_index((TWindowSubComCard *)window_sub_game_end->m_28, 1);
     ((TWindowMessageYesNo *)(window_sub_game_end->m_28))->set_choice_menu_flag70_bit10();

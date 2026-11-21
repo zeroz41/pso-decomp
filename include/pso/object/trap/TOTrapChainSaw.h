@@ -17,7 +17,7 @@ struct TOTrapChainSaw : public TObjMapObject {
     virtual void vfunc_18(TObjPlayer *player);
     virtual s32 consume_counter(TObjPlayer *player);
     virtual void set_hit_cooldown_for_player(TObjPlayer *player);
-    virtual int clear_field_d8();
+    virtual void clear_field_d8();
     virtual void update_extension();
     virtual void update_sweep();
     virtual void update_state();
@@ -43,6 +43,6 @@ struct TOTrapChainSaw : public TObjMapObject {
     static void unload_static_data();
 };
 
-typedef char TOTrapChainSaw_size[sizeof(TOTrapChainSaw) == 0xF8 ? 1 : -1];
-typedef char TOTrapChainSawCooldownOffset[offsetof(TOTrapChainSaw, hit_cooldown) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOTrapChainSaw_size, sizeof(TOTrapChainSaw) == 0xF8);
+LAYOUT_ASSERT(TOTrapChainSawCooldownOffset, offsetof(TOTrapChainSaw, hit_cooldown) == 0xD8);
 #endif

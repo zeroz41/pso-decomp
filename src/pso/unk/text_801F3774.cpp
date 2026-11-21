@@ -32,7 +32,6 @@ struct Stack_801F3778 {
 extern "C" {
 extern s32 game_difficulty_selection;
 extern char offline_quest_filename_buffer_a[],offline_quest_filename_buffer_b[];
-void replace_file_extension__6TLobbyFPvPvPv(char*,const char*,const char*);
 
 void TLobby__sub_801F3774(void) {  }
 
@@ -72,14 +71,14 @@ void handle_6x75_update_quest_flag_dc(TLobby *lobby) {
 
 void prepare_offline_quest_filenames(const char* identity) {
  switch(current_language) {
- case LANGUAGE_JAPANESE:replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_a,identity,"_j.bin");break;
- case LANGUAGE_ENGLISH:replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_a,identity,"_e.bin");break;
- case LANGUAGE_GERMAN:replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_a,identity,"_g.bin");break;
- case LANGUAGE_FRENCH:replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_a,identity,"_f.bin");break;
- case LANGUAGE_SPANISH:replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_a,identity,"_s.bin");break;
- default:replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_a,identity,"_e.bin");break;
+ case LANGUAGE_JAPANESE:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_j.bin");break;
+ case LANGUAGE_ENGLISH:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_e.bin");break;
+ case LANGUAGE_GERMAN:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_g.bin");break;
+ case LANGUAGE_FRENCH:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_f.bin");break;
+ case LANGUAGE_SPANISH:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_s.bin");break;
+ default:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_e.bin");break;
  }
- replace_file_extension__6TLobbyFPvPvPv(offline_quest_filename_buffer_b,identity,"_j.dat");
+ TLobby::replace_file_extension(offline_quest_filename_buffer_b, (char *)identity, (char *)"_j.dat");
 }
 
 void send_and_handle_6x75(TLobby *lobby) {

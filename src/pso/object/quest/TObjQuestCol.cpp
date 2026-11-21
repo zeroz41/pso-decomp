@@ -38,12 +38,12 @@ extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
 extern "C" {
-extern s32 tl_00;
+extern saddr tl_00;
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though fn_80141CBC never reads r5 (TObjRoomId passes nothing there).
 void fn_80141CBC(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-extern s32 tl_05;
+extern saddr tl_05;
 extern TObject *quest_mission_manager;
 extern TObject *quest_area_manager;
 extern s8 controller_input_state[];
@@ -189,10 +189,10 @@ TObjQuestColA::TObjQuestColA(TObject *parent, void *set_data) : TObjQuestColBase
 }
 
 int TObjQuestColA::vfunc_15() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
 
-    temp_r3 = (s32)get_player_by_client_id(local_client_id);
+    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
     if (temp_r3 != 0) {
         if (check_flag_100__10TObjPlayerFPv() != 0) {
             enable_action_input__10TObjPlayerFPv((void *)temp_r3);
@@ -265,10 +265,10 @@ TObjQuestColALock::~TObjQuestColALock() {
 }
 
 int TObjQuestColALock::vfunc_15() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
 
-    temp_r3 = (s32)get_player_by_client_id(local_client_id);
+    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
     if (temp_r3 != 0) {
         if (check_flag_100__10TObjPlayerFPv() != 0) {
             enable_action_input__10TObjPlayerFPv((void *)temp_r3);
@@ -500,12 +500,12 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
     while ((*(Obj_80195DE0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
             && cur->f6 == arg0) {
             ((TObject *)cur)->queue_destruction();
             return;
@@ -520,12 +520,12 @@ Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0) {
     while ((*(Obj_80195CF0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
             && arg0 == get_entity_id(cur)) {
             return cur;
         }
@@ -571,10 +571,10 @@ TObjQuestColALock2::~TObjQuestColALock2() {
 }
 
 int TObjQuestColALock2::vfunc_15() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
 
-    temp_r3 = (s32)get_player_by_client_id(local_client_id);
+    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
     if (temp_r3 != 0) {
         if (check_flag_100__10TObjPlayerFPv() != 0) {
             enable_action_input__10TObjPlayerFPv((void *)temp_r3);

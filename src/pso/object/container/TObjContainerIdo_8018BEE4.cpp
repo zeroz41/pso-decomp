@@ -119,7 +119,7 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
             extern GinjaTextureList *container_ido_textures;
             GinjaTextureList *textures = container_ido_textures;
             if (textures != NULL) {
-                TObjFish::set_global_param((s32)textures);
+                TObjFish::set_global_param((saddr)textures);
             }
         }
         push_matrix();
@@ -159,7 +159,7 @@ struct Ido_8018C18C {
 u8 is_current_floor_switch_set(s32 id);
 f32 xyz_distance(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern u8 identity_matrix[];
 
 #pragma push
@@ -203,7 +203,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             self->pos.y -= v.y;
             self->pos.z -= v.z;
             self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (s32)self, (u32)&self->pos, 0, 0);
+            play_persistent_sound(0x4B717, (saddr)self, (uaddr)&self->pos, 0, 0);
         } else if (!(self->e0 & 0x01000000)) {
             play_sound_effect(0x4C118, &self->pos, 0, 0);
             self->e0 |= 0x01000000;
@@ -221,7 +221,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             self->pos.y += w.y;
             self->pos.z += w.z;
             self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (s32)self, (u32)&self->pos, 0, 0);
+            play_persistent_sound(0x4B717, (saddr)self, (uaddr)&self->pos, 0, 0);
         } else if (!(self->e0 & 0x01000000)) {
             play_sound_effect(0x4C118, &self->pos, 0, 0);
             self->e0 |= 0x01000000;
@@ -258,7 +258,7 @@ extern void *tl_05;
 void *TObjContainerIdo::create(void *arg0) {
     void *o = TObject::operator new(0x10C);
     if (o != NULL) {
-        o = TObjContainerIdo__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TObjContainerIdo__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }
@@ -270,7 +270,7 @@ struct Ido_8018C7BC { u8 pad[0xCC]; s32 ids[4]; };
 GinjaTextureList *container_ido_textures;
 extern "C" {
 }
-u8 * load_gvm_texture_file(s32);
+u8 * load_gvm_texture_file(saddr);
 extern s32 __vt__16TObjContainerIdo[];
 extern "C" {
 s32 release_texture_list(void*);
@@ -280,7 +280,7 @@ void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void TObjContainerIdo::free_resources() {
     if (container_ido_textures != NULL) {
         release_texture_list(container_ido_textures);
-        TAdSinglePlyChrSelectGC::safe_free((u32)container_ido_textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_ido_textures);
         container_ido_textures = NULL;
     }
     if (container_ido_model_archive != NULL) {
@@ -295,7 +295,7 @@ void TObjContainerIdo::load_resources() {
         archive = load_resource_from_descriptor(archive, 5, &container_ido_resource_descriptor, 0, 0, 0);
     }
     container_ido_model_archive = archive;
-    container_ido_textures = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_containerido.GVM");
+    container_ido_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_containerido.GVM");
 }
 
 TObjContainerIdo::~TObjContainerIdo() {
@@ -305,7 +305,7 @@ TObjContainerIdo::~TObjContainerIdo() {
 }
 
 
-u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjContainerIdo__ct(u8 *arg0, saddr arg1, saddr arg2) {
     s32 i;
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;

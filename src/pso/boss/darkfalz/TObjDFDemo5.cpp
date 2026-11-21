@@ -36,7 +36,7 @@ TObjFishNodeEntry lbl_804857C8[2] = {{0}, {-1}};
 s32 lbl_804857E8[3] = {0x24, 0x54, 0x55};
 
 void *TObjDFDemo5::create(void *arg0, void *arg1, void *arg2) {
-    return new TObjDFDemo5((TObject *)arg0, (const Vec *)arg1, (s32)arg2);
+    return new TObjDFDemo5((TObject *)arg0, (const Vec *)arg1, (saddr)arg2);
 }
 
 TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
@@ -67,8 +67,8 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
         playback.cache_target_and_forward(0x416C);
     }
-    node_list0 = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485798, (s32)emitter_positions);
-    node_list1 = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_804857C8, (s32)&tail_position);
+    node_list0 = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485798, (saddr)emitter_positions);
+    node_list1 = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_804857C8, (saddr)&tail_position);
     play_sound_effect(0x4003A835, NULL, 0, 0);
     timer = 0;
 }
@@ -97,7 +97,7 @@ TObjDFDemo5::~TObjDFDemo5() {
 void TObjDFDemo5::run_task() {
     update_particle_emitters();
     if (timer == 0x8C) {
-        play_cue_stream_file((s32)"dfdeath.adx");
+        play_cue_stream_file((saddr)"dfdeath.adx");
         start_pad_rumble_all(0xC0, 0xF);
     }
     if ((frame += 0.5f) > 149.0f) {

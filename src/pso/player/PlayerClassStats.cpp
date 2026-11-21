@@ -49,9 +49,9 @@ stats* player_class_base_stat_tables[12] = {
     (stats*)&player_class_base_stats_11,
 };
 
-typedef char StatsSize[(sizeof(stats)==14)?1:-1];
-typedef char PlayerStatsSize[(sizeof(player_stats)==36)?1:-1];
-typedef char ProfessionFactorsSize[(sizeof(PlayerProfessionStatFactors)==8)?1:-1];
+LAYOUT_ASSERT(StatsSize, sizeof(stats)==14);
+LAYOUT_ASSERT(PlayerStatsSize, sizeof(player_stats)==36);
+LAYOUT_ASSERT(ProfessionFactorsSize, sizeof(PlayerProfessionStatFactors)==8);
 
 extern const u8 class_defense_template_table[12][0x20] = { 0 };
 extern const Rec_804475B0 class_attack_template_table[12] = {

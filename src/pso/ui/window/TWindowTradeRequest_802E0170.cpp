@@ -13,16 +13,16 @@
 
 extern "C" {
 void fn_8024AADC(s32 arg0, s32 arg1);
-void TLobby__sub_8024AC20(s32 arg0);
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
+void TLobby__sub_8024AC20(saddr arg0);
+void TWindowReturnCity__sub_8024ACA8(saddr arg0);
 extern s32 local_client_id;
 s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
 }
 void text_builder_reset(void);
 extern "C" {
-void TObjPlayer__sub_8024ABDC(s32 arg0);
-void fn_8024AC64(s32 arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
+void fn_8024AC64(saddr arg0);
 const char *lbl_805D3F70 = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
 

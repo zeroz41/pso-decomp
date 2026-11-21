@@ -23,5 +23,5 @@ struct TOSymbolchatColli : public TObjChara {
     u8 unk_37E[0x6];
 };
 
-typedef char TOSymbolchatColli_size[sizeof(TOSymbolchatColli) == 0x384 ? 1 : -1];
+LAYOUT_ASSERT(TOSymbolchatColli_size, sizeof(TOSymbolchatColli) == 0x384);
 #endif

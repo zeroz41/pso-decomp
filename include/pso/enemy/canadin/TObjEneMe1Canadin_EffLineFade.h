@@ -16,6 +16,6 @@ public:
     u8 m_38[0x3];
     s8 m_3b;
 };
-typedef char TObjEneMe1Canadin_EffLineFade_size[sizeof(TObjEneMe1Canadin_EffLineFade) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Canadin_EffLineFade_size, sizeof(TObjEneMe1Canadin_EffLineFade) == 0x3C);
 
 #endif

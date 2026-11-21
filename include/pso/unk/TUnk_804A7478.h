@@ -25,6 +25,6 @@ public:
     void sub_8035B610();
 };
 
-typedef char TUnk_804A7478Size[sizeof(TUnk_804A7478) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A7478Size, sizeof(TUnk_804A7478) == 0x1C);
 
 #endif

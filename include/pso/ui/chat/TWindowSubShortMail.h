@@ -12,22 +12,22 @@ struct TWindowSubShortMail : public TObject {
     s32 open_delete_confirm_dialog();
     u8 m_1c;
     u8 _pad1D[0x3];
-    u32 m_20;
+    uaddr m_20;
     u32 m_24;
     u32 m_28;
     u32 m_2c;
     u32 m_30;
     u32 m_34;
-    u32 m_38;
-    u32 m_3c;
-    u32 m_40;
-    u32 m_44;
-    u32 m_48;
-    u32 m_4c;
-    u32 m_50;
-    u32 m_54;
-    u32 m_58;
-    u32 m_5c;
+    uaddr m_38;
+    uaddr m_3c;
+    uaddr m_40;
+    uaddr m_44;
+    uaddr m_48;
+    uaddr m_4c;
+    uaddr m_50;
+    uaddr m_54;
+    uaddr m_58;
+    uaddr m_5c;
     static s32 is_active();
     void close();
     void update_mail_count();
@@ -37,5 +37,5 @@ struct TWindowSubShortMail : public TObject {
     void advance_line(s32 arg1);
 };
 
-typedef char TWindowSubShortMail_size[sizeof(TWindowSubShortMail) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubShortMail_size, sizeof(TWindowSubShortMail) == 0x60);
 #endif

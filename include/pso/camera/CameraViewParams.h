@@ -22,9 +22,9 @@ struct CameraViewParams {
     // Dead-stripped in the DOL (only its literals remain); see TCameraCtrl.cpp.
     void set_fullscreen_defaults();
 };
-typedef char CameraViewParams_size[sizeof(CameraViewParams) == 0x48 ? 1 : -1];
-typedef char CameraViewParams_center[offsetof(CameraViewParams, center_x) == 0x8 ? 1 : -1];
-typedef char CameraViewParams_viewport[offsetof(CameraViewParams, width) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(CameraViewParams_size, sizeof(CameraViewParams) == 0x48);
+LAYOUT_ASSERT(CameraViewParams_center, offsetof(CameraViewParams, center_x) == 0x8);
+LAYOUT_ASSERT(CameraViewParams_viewport, offsetof(CameraViewParams, width) == 0x28);
 
 // Drops a begun override and puts back the full-screen default parameters.
 void end_view_override();

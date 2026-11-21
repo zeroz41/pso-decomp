@@ -9,6 +9,6 @@ public:
     virtual void run_task();
     u8 unk_60[0x4];
 };
-typedef char TUnk_8049CA54_size[sizeof(TUnk_8049CA54) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8049CA54_size, sizeof(TUnk_8049CA54) == 0x64);
 
 #endif

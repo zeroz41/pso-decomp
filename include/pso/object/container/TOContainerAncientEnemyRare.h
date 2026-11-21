@@ -12,7 +12,7 @@ struct TOContainerAncientEnemyRare : public TOContainerAncientEnemy {
 extern "C" {
 void *TOContainerAncientEnemyCommon__create(void *set_data);
 }
-typedef char TOContainerAncientEnemyRare_size[sizeof(TOContainerAncientEnemyRare) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TOContainerAncientEnemyRare_size, sizeof(TOContainerAncientEnemyRare) == 0x368);
 
 
 // --- C functions defined in TOContainerAncientEnemyRare.cpp ---

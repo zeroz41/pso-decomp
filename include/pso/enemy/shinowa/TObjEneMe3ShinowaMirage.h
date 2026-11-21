@@ -37,5 +37,5 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     NJS_ARGB m_430;
 };
 
-typedef char TObjEneMe3ShinowaMirage_size[sizeof(TObjEneMe3ShinowaMirage) == 0x440 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3ShinowaMirage_size, sizeof(TObjEneMe3ShinowaMirage) == 0x440);
 #endif

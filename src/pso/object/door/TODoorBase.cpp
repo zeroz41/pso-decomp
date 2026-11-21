@@ -143,7 +143,7 @@ void TODoorBase::update_opening() {
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_persistent_sound(0x49E08, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x49E08, (saddr)this, (uaddr)&position, 0, 0);
         break;
     case AREA_DARK_FALZ:
         return;
@@ -202,7 +202,7 @@ void TODoorBase::update_closing() {
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_persistent_sound(0x49E08, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x49E08, (saddr)this, (uaddr)&position, 0, 0);
         break;
     case AREA_DARK_FALZ:
         return;

@@ -16,5 +16,5 @@ struct TObjMapForceWarp : public TObjMapWarp {
     virtual void render();
 };
 
-typedef char TObjMapForceWarp_size[sizeof(TObjMapForceWarp) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjMapForceWarp_size, sizeof(TObjMapForceWarp) == 0x100);
 #endif

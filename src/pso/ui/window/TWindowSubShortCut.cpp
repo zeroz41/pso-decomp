@@ -25,7 +25,7 @@ struct TWindowShortCut;
 
 #pragma readonly_strings on
 
-struct Win_8027DBB8 { u8 pad[0x20]; s32 f20; };
+struct Win_8027DBB8 { u8 pad[0x20]; saddr f20; };
 
 struct VBase_18_204a81 { char pad[0x18]; };
 
@@ -41,7 +41,7 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 };
 
 extern "C" {
-s32 get_window_layout_position(s32 a0);
+saddr get_window_layout_position(s32 a0);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 clear_chat_shortcut();
 }
@@ -50,7 +50,7 @@ extern "C" {
 void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 s32 align_menu_entry_positions(s32);
-s32 get_window_layout_position(s32 a0 = 0);
+saddr get_window_layout_position(s32 a0 = 0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 }
@@ -188,7 +188,7 @@ void TWindowSubShortCut::run_task() {
         }
         if (((TWindowMessageYesNo *)(this->m_34))->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(this->m_34))->get_slot_or_neg1() == 0) {
-                store_chat_shortcut((this->m_24), (s32)(arg0 + 0x40));
+                store_chat_shortcut((this->m_24), (saddr)(arg0 + 0x40));
                 this->m_1c = 1U;
                 return;
             }
@@ -225,20 +225,20 @@ void TWindowSubShortCut::run_task() {
 void TWindowSubShortCut::render() {  }
 
 void TWindowSubShortCut::open_com_card_list() {
-    s32 tmp = get_window_layout_position(0x72);
+    saddr tmp = get_window_layout_position(0x72);
     ((TWindowSubShortCutList *)tmp)->create((void *)this->m_24);
 }
 
 s32 TWindowSubShortCut::open_menu() {
-    s32 temp_r31;
+    saddr temp_r31;
     u32 *chat_shortcut;
 
     ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
-    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (s32)TWindowSubStatusDisp::get_message_10(0x2C));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        TObjCityMainWarp::forward_trade_action_default((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
@@ -250,17 +250,17 @@ s32 TWindowSubShortCut::open_menu() {
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    s32 r = (s32)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f20), 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
+    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f20), 0, 0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
 }
 
 s32 TWindowSubShortCut::open_confirm_message() {
-    s32 temp_r29;
+    saddr temp_r29;
 
-    temp_r29 = (s32)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;

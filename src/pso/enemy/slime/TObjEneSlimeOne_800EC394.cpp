@@ -68,15 +68,15 @@ extern "C" {
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
-s32 get_bml_texlist(s32, s32);
+saddr get_bml_texlist(s32, s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 }
 void draw_chunk_model_with_shape_motion(void *child, void *arg1, NJS_MOTION *arg2, f32 farg0);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 extern "C" {
-s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_motion(s32, s32);
+saddr get_bml_model(s32, s32);
 extern void *lbl_80496C68[10];
 extern void *lbl_80496C90[10];
 int get_validated_attack_stage(void*);
@@ -90,7 +90,7 @@ s32 TObjEneSlimeOne::is_in_water_bomb_states() {
     return self->state == 11 || self->state == 12 || self->state == 13;
 }
 
-int TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
+saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
 
 int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
     u8 *arg0 = (u8 *)this;
@@ -103,7 +103,7 @@ int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
 
 int TObjEneSlimeOne::is_timer_active() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneSlimeOne::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
+int TObjEneSlimeOne::find_nearest_enemy_with_flag(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
@@ -149,16 +149,16 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         if (arg1 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (NJS_MOTION *)((void *)(*(s32 *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
+            draw_chunk_model_with_shape_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), (NJS_MOTION *)((void *)(*(saddr *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
             clear_chunk_render_flags();
             model_render_flags &= ~0x400000;
             return;
         }
         set_chunk_render_flags(2);
         set_cull_back();
-        draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (NJS_MOTION *)((void *)(*(s32 *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
+        draw_chunk_model_with_shape_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), (NJS_MOTION *)((void *)(*(saddr *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
         set_cull_front();
-        draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (NJS_MOTION *)((void *)(*(s32 *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
+        draw_chunk_model_with_shape_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), (NJS_MOTION *)((void *)(*(saddr *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
         set_cull_none();
         clear_chunk_render_flags();
         return;
@@ -168,22 +168,22 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
     if (arg1 != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
-        draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), *(f32 *)&this->actorFlags);
         TObjFish::set_global_param(*(s32 *)&this->entity_id);
-        draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)((s8 *)arg0 + 0x18)), (void *)(*(saddr *)&this->m_20), *(f32 *)&this->actorFlags);
         clear_chunk_render_flags();
         model_render_flags &= ~0x400000;
     } else {
         set_chunk_render_flags(2);
         set_cull_back();
-        draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), *(f32 *)&this->actorFlags);
         set_cull_front();
-        draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), *(f32 *)&this->actorFlags);
         TObjFish::set_global_param(*(s32 *)&this->entity_id);
         set_cull_back();
-        draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)((s8 *)arg0 + 0x18)), (void *)(*(saddr *)&this->m_20), *(f32 *)&this->actorFlags);
         set_cull_front();
-        draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)((s8 *)arg0 + 0x18)), (void *)(*(saddr *)&this->m_20), *(f32 *)&this->actorFlags);
         set_cull_none();
         clear_chunk_render_flags();
     }
@@ -285,7 +285,7 @@ void TObjEneSlimeOne::set_motion_state(s32 arg1) {
   {
     s32 inst = TObjEneSlimeOne::get_instance();
     E12_800EC7F4 *e = (((E12_800EC7F4 *) slime_one_motion_state_table) + arg0->state) - 7;
-    unsigned int id = (s32) slime_one_attack_target_id_table[((TObjEneSlimeOne *)(arg0->obj))->get_attack_target()];
+    unsigned int id = (saddr) slime_one_attack_target_id_table[((TObjEneSlimeOne *)(arg0->obj))->get_attack_target()];
     arg0->f8 = get_bml_model(inst, id);
     arg0->fC = get_bml_texlist(inst, id);
     arg0->f10 = (Res_800EC7F4 *) get_bml_motion(inst, e->a);

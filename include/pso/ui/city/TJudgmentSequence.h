@@ -21,7 +21,7 @@ struct TJudgmentSequence : public TShopSequence {
     void open_judgment_window();
 };
 
-typedef char TJudgmentSequence_size[sizeof(TJudgmentSequence) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 
 // --- C functions defined in TJudgmentSequence.cpp ---
 extern "C" {

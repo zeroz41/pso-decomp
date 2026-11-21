@@ -23,9 +23,9 @@ struct TWindowMainMenu1P : public TWindowMainMenu {
     CameraViewParams backdrop;
 };
 
-typedef char TWindowMainMenu1P_size[sizeof(TWindowMainMenu1P) == 0xAC ? 1 : -1];
-typedef char MainMenu1PTransitionOffset[offsetof(TWindowMainMenu1P, m_60) == 0x60 ? 1 : -1];
-typedef char MainMenu1PBackdropOffset[offsetof(TWindowMainMenu1P, backdrop) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMainMenu1P_size, sizeof(TWindowMainMenu1P) == 0xAC);
+LAYOUT_ASSERT(MainMenu1PTransitionOffset, offsetof(TWindowMainMenu1P, m_60) == 0x60);
+LAYOUT_ASSERT(MainMenu1PBackdropOffset, offsetof(TWindowMainMenu1P, backdrop) == 0x64);
 
 
 // Window screen positions by window id, read by get_window_layout_position: the full-screen

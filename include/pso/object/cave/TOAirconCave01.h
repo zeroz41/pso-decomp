@@ -13,5 +13,5 @@ struct TOAirconCave01 : public TObjMapObject {
     static void load_shared_resource();
 };
 
-typedef char TOAirconCave01_size[sizeof(TOAirconCave01) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TOAirconCave01_size, sizeof(TOAirconCave01) == 0xC8);
 #endif

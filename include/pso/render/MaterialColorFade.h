@@ -21,8 +21,8 @@ public:
 };
 
 #include <stddef.h>
-typedef char MaterialColorFadeColorOffset[offsetof(MaterialColorFade, color) == 0 ? 1 : -1];
-typedef char MaterialColorFadeRateOffset[offsetof(MaterialColorFade, rate) == 0x10 ? 1 : -1];
-typedef char MaterialColorFadeSize[sizeof(MaterialColorFade) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(MaterialColorFadeColorOffset, offsetof(MaterialColorFade, color) == 0);
+LAYOUT_ASSERT(MaterialColorFadeRateOffset, offsetof(MaterialColorFade, rate) == 0x10);
+LAYOUT_ASSERT(MaterialColorFadeSize, sizeof(MaterialColorFade) == 0x18);
 
 #endif

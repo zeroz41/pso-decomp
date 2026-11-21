@@ -34,6 +34,6 @@ public:
     TAdPlyStatusGC *m_170;
 };
 extern TUnk_804E3008 *multi_chr_select_player_slot_table[4];
-typedef char TUnk_804E3008_size[sizeof(TUnk_804E3008) == 0x174 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E3008_size, sizeof(TUnk_804E3008) == 0x174);
 
 #endif

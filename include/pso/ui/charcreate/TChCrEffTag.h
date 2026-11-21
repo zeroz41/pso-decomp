@@ -22,7 +22,7 @@ public:
     static void *create_str(void *arg0, void *arg1, void *arg2);
 };
 
-typedef char TChCrEffTag_size[sizeof(TChCrEffTag) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TChCrEffTag_size, sizeof(TChCrEffTag) == 0x2C);
 
 void *create_TChCrEffTag(void *arg0);
 
