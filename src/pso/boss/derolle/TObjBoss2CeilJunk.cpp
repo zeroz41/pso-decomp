@@ -202,7 +202,7 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
     random = (f32) rand();
     fraction = 3.0517578e-05f * random;
     kind = (s32) (*(const volatile f32 *)&lbl_805D85A0 * fraction);
-    if (TObjBoss2Tunnel::spawn_effect((saddr)&this->position, &prev_position, &ground_normal) == 0) {
+    if (TObjBoss2Tunnel::spawn_effect(&this->position, &prev_position, &ground_normal) == 0) {
         state = 0;
     } else {
         state = 2;

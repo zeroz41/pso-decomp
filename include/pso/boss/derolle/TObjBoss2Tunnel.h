@@ -96,19 +96,21 @@ struct TObjBoss2Tunnel : public TObject {
     static void clear_target_flags();
     static s32 run_confirm_message_loop();
     static void poll_pso_screen_load();
-    static void show_message_and_wait(s32 arg0);
+    static void show_message_and_wait(s32 message);
     static bool verify_snapshot_checksum();
     static s32 load_snapshot();
     static s32 save_snapshot_to_card();
     static s32 save_snapshot();
     static void free_buffers();
     static void reset_state();
-    static s32 decrement_packed_timer(u32 *arg0, s32 arg1);
-    static s32 spawn_effect(saddr arg0, void *arg1, void *arg2);
-    static s32 adjust_to_ground(saddr arg0, void *arg1);
-    static s32 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
-    static f32 calc_scaled_value(s32 arg0, f32 farg0);
-    static void transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2);
+    static s32 decrement_packed_timer(u32 *packed, s32 step);
+    // Drops from 20 units above from to the ground: out gets the ground point and normal its
+    // normal, or out = from and 0 when there is no ground.
+    static s32 spawn_effect(const Vec *from, Vec *out, Vec *normal);
+    static s32 adjust_to_ground(saddr from, void *out);
+    static s32 turn_toward_angle_limited(s32 angle, s32 cur, s32 target, s32 step, s32 limit);
+    static f32 calc_scaled_value(s32 angle, f32 length);
+    static void transform_vec_by_camera(saddr camera, saddr in, saddr out);
     void render(void* a1);
     static void set_flag_0x200();
     static void clear_flags_0x3000();
@@ -132,7 +134,7 @@ struct TObjBoss2Tunnel : public TObject {
     // Draws n screen-space vertices {x, y, z, colour} as a triangle strip, dividing x and y by -z.
     static void draw_projected_quads(void *vertices, int n);
     // Loads the screen-space matrix and the vertex state for draw_projected_quads.
-    static void sub_803E2D10(s32 arg0);
+    static void sub_803E2D10(s32 mode);
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);

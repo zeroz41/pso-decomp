@@ -457,18 +457,18 @@ s32 TObjBoss2Tunnel::adjust_to_ground(saddr from, void *out) {
     return 0;
 }
 
-s32 TObjBoss2Tunnel::spawn_effect(saddr from, void *out, void *normal) {
+s32 TObjBoss2Tunnel::spawn_effect(const Vec *from, Vec *out, Vec *normal) {
     CsnHit *hit;
 
-    VecCopy((Vec *)out, (const Vec *)from);
-    ((Vec *)out)->y += 20.0f;
+    VecCopy(out, from);
+    out->y += 20.0f;
     hit = (CsnHit *)csnVecterUnder((saddr)out, 0x16EF);
     if (hit != NULL) {
-        VecCopy((Vec *)out, &hit->contact->point);
-        VecCopy((Vec *)normal, &hit->contact->normal);
+        VecCopy(out, &hit->contact->point);
+        VecCopy(normal, &hit->contact->normal);
         return 1;
     }
-    VecCopy((Vec *)out, (const Vec *)from);
+    VecCopy(out, from);
     return 0;
 }
 

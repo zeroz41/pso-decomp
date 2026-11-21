@@ -49,9 +49,9 @@ extern "C" void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32
 }
 #pragma pop
 
-void TObjBoss2Tunnel::sub_803E2D10(s32 arg0) {
+void TObjBoss2Tunnel::sub_803E2D10(s32 mode) {
     TObjPlayer::load_screen_space_matrix();
-    if (arg0 != 0) {
+    if (mode != 0) {
         TObjPlayer__sub_803E21DC();
         return;
     }
