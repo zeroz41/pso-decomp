@@ -32,7 +32,7 @@ struct Strike_80357B2C {
 
 extern "C" {
 u16 get_entity_id(void *);
-int get_item_field_6__10TObjPlayerFPv(void *p);
+void *get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void *spawn_particle_effect(const void *pos, s32 id);

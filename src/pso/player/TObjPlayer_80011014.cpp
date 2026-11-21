@@ -844,7 +844,7 @@ f32 newton_sqrtf(f32 x);
 u32 csnLookAt(void *, void *);
 u8 * csnVectorUnder(f32 *, void *, s32, void *, f32);
 u32 csnVecterUnder(void *, int);
-u32 csnVector(void *, void *, s32);
+void *csnVector(void *, void *, s32);
 u32 subtractive_rng_next();
 void create__10TObjPlayerFUiii(uaddr, s32, s32);
 s32 spawn_particle_effect_with_flags(saddr, s32, s32);

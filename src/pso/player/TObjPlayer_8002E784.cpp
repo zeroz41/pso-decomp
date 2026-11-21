@@ -24,7 +24,7 @@ struct BreakupNode_8002E818 {
     BreakupNode_8002E818 *next;
 };
 
-struct Node_8002E3D4 { u8 pad[4]; s32 f4; u8 pad8[0x30 - 8]; Node_8002E3D4 *next; };
+struct Node_8002E3D4 { u8 pad[4]; saddr f4; u8 pad8[0x30 - 8]; Node_8002E3D4 *next; };
 
 struct Mesh_8002E3D4 { u8 pad[0x2C]; Node_8002E3D4 *nodes; };
 

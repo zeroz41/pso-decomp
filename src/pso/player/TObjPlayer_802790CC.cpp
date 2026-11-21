@@ -28,7 +28,7 @@ void TObjPlayer::add_status_line(u8 arg1, uaddr arg2, s32 arg3) {
 #pragma cplusplus off
 void add_status_line__10TObjPlayerFUcUll(void* self, s32 a, void* b, void* c);
 void* get_player_by_client_id(s32 index);
-s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
+void *get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 void copy_to_item_data__5TItemFP9TItemData(void* p, void* out);
 s32 get_class_weapon_icon_index__FPvPUc(void* a, u8* self);
 #pragma pop

@@ -70,7 +70,7 @@ s32 __ct__11TPlayerSoulFP7TObjectUs();
 s32 check_flag_0x8000__10TObjPlayerFv();
 s32 get_entity_id(saddr);
 
-extern s32 tl_06;
+extern saddr tl_06;
 
 }
 

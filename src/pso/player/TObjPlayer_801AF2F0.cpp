@@ -2026,7 +2026,7 @@ void TObjPlayer__sub_801BF840(void *p);
 int TObjPlayer__sub_801BF8AC(void *p);
 void set_equip_slot_entry(saddr, s32, s32);
 void TObjPlayer__sub_801BF8F8(s32 *p);
-s32 TObjPlayer__sub_801BF914(void *);
+void *TObjPlayer__sub_801BF914(void *);
 s32 TObjPlayer__sub_801BF918(void *);
 void *TObjPlayer__sub_801BF934(void *p);
 s32 TObjPlayer__sub_801BF93C(void *, s32);
