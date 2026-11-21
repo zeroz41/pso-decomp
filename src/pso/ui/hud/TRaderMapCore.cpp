@@ -122,7 +122,7 @@ struct Cam_801F9314 { Vec dir; Vec pos; s32 rot; };
 
 struct Color_801FAAEC { f32 r, g, b, a; };
 
-struct Model_801FAAEC { u8 pad[4]; s32 obj; };
+struct Model_801FAAEC { u8 pad[4]; void *obj; };
 
 struct Rec_801FAAEC {
     s16 id; s16 flags;
@@ -434,8 +434,8 @@ extern "C" {
 
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
-s32 TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
-    return (saddr)get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
+void *TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
+    return get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
 }
 
 void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
@@ -535,9 +535,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
-    m_178 = (void *)init_map_ptr(&m_90, 2);
-    m_17c = (void *)init_map_ptr(&m_90, 0);
-    m_180 = (void *)init_map_ptr(&m_90, 1);
+    m_178 = init_map_ptr(&m_90, 2);
+    m_17c = init_map_ptr(&m_90, 0);
+    m_180 = init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
         g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
         fn_803D64F8(g);
@@ -845,7 +845,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
             push_matrix();
             translate_matrix(0, r->x, r->y, r->z);
             rotate_matrix_zyx(0, r->rx, r->ry, r->rz);
-            draw_ginja_model((void *)(r->model->obj));
+            draw_ginja_model(r->model->obj);
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }

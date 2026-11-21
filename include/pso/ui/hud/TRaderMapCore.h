@@ -104,7 +104,7 @@ struct TRaderMapCore : public TObjBase {
     static void free_statics();
     static void load_frame_texture();
     void reset();
-    static s32 init_map_ptr(s32 *counter, s32 index);
+    static void *init_map_ptr(s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();
     static s32 apply_packed_flags(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
