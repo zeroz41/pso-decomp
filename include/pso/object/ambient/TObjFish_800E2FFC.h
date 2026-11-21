@@ -5,7 +5,7 @@
 
 extern "C" {
 saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
-s32 TObjFish__sub_800E3188(s32 arg0, s16 arg1);
+saddr TObjFish__sub_800E3188(saddr arg0, s16 arg1);
 }
 
 #endif

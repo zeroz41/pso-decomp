@@ -64,7 +64,7 @@ s32 TObjFish::is_entry_table_valid() {
 }
 
 void TObjFish::init_state_1(void *arg0) {
-    TObjFish__sub_800E3188((s32)arg0, (s16)(1));
+    TObjFish__sub_800E3188((saddr)arg0, (s16)(1));
 }
 
 saddr TObjFish__sub_800E3124(u8 *list, saddr vecs) {
@@ -81,7 +81,7 @@ saddr TObjFish__sub_800E3124(u8 *list, saddr vecs) {
     return 0;
 }
 
-s32 TObjFish__sub_800E3188(s32 arg0, s16 arg1) {
+saddr TObjFish__sub_800E3188(saddr arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
         __dl__FPv();
     }

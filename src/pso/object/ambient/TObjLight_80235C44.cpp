@@ -448,7 +448,7 @@ void TObjPlayer::find_support_technique_contact_for_target(saddr arg1) {
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    gather_player_contacts((u32)((int)this->motion_list), (saddr)(arg0 + 0xb0), arg1);
+    gather_player_contacts((uaddr)this->motion_list, (saddr)(arg0 + 0xb0), arg1);
 }
 
 u8 *TUnk_804CCC68::query_technique_enemy_contacts(saddr arg) {
