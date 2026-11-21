@@ -39,7 +39,7 @@ void TLobby__sub_802A7BD8(void);
 void fn_802A6070(void *p, s32 v);
 void fn_802A6078(void *p, s32 v);
 extern s32 lbl_805D669C;
-void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1);
+void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
 saddr TItemDrop__sub_800F9448(saddr arg0, s32 arg1);
 void TLobby__sub_802A7848(void* p, s32 _w1);
@@ -166,7 +166,7 @@ void TLobby::alloc_snapshot_buffer() {
   }
 }
 
-void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1) {
+void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1) {
     saddr temp_r31;
     temp_r31 = ((RlcHeader *)(*(saddr *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
