@@ -9,26 +9,29 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
-struct Child_8003B250 { u8 pad0[0x44]; f32 f44; };
-struct Obj_8003B250 { u8 pad0[0x14]; Child_8003B250 *child; };
-struct Obj_8003B1FC { u8 pad[0x14]; Obj_8003B1FC *child; u8 pad2[0x3c - 0x18]; Vec xf; };
+// One particle of an emitter; only its position (0x3C) is known.
+struct Particle_8003B1FC : public TObject {
+    u8 pad_1c[0x3C - 0x1C];
+    Vec position;
+};
 
 TObject *TObjBoss2Tunnel_parent_object;
 
-void TObjBoss2Tunnel::detach_children(void *offset) {
-    Obj_8003B1FC *c;
-    while ((c = ((Obj_8003B1FC *)this)->child) != 0) {
-        vec3_add_to(&c->xf, (const Vec *)offset);
-        ((TObject *)c)->set_parent(TObjBoss2Tunnel_parent_object);
+void TObjBoss2Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
+    Particle_8003B1FC *child;
+    while ((child = (Particle_8003B1FC *)particle->m_down) != NULL) {
+        vec3_add_to(&child->position, offset);
+        child->set_parent(TObjBoss2Tunnel_parent_object);
     }
 }
 
-void TObjBoss2Tunnel::release_children(void *particle, f32 speed) {
-    Child_8003B250 *c;
-    while ((c = ((Obj_8003B250 *)particle)->child) != NULL) {
-        c->f44 = c->f44 + speed;
-        ((TObject *)c)->set_parent(TObjBoss2Tunnel_parent_object);
+void TObjBoss2Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
+    Particle_8003B1FC *child;
+    while ((child = (Particle_8003B1FC *)particle->m_down) != NULL) {
+        child->position.z = child->position.z + speed;
+        child->set_parent(TObjBoss2Tunnel_parent_object);
     }
 }
 

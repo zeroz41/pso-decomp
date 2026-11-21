@@ -4,6 +4,9 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TParticleCtrl;
+struct Vec;
+
 // A velocity/position ramp: accelerate from v0 to peak, cruise, brake to rest over dist.
 // init fills it, speed_at reads the speed and sample the distance at a time; advance samples
 // the distance at t and steps t by one frame.
@@ -33,6 +36,7 @@ struct PiecewiseCurve {
 
 class TObjBoss2RaftSplash;
 class TParticleCtrl;
+struct Vec;
 
 // The De Rol Le tunnel the raft travels through: it scrolls the tunnel segments past the
 // camera (segment_queue, models of the bm_obj_boss2_common resource), sways and rolls them,
@@ -111,8 +115,10 @@ struct TObjBoss2Tunnel : public TObject {
     static void enable_and_trigger();
     static void reset_player_state();
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
-    static void release_children(void *particle, f32 speed);
-    void detach_children(void *arg);
+    // Hand the emitter's particles over to TObjBoss2Tunnel_parent_object, shifted by offset or
+    // moved speed along z, so they stay behind when the emitter goes (TObjBoss2Tunnel_8003B1FC.cpp).
+    static void detach_children(TParticleCtrl *particle, const Vec *offset);
+    static void release_children(TParticleCtrl *particle, f32 speed);
     static void set_global_flag_100();
     static void draw_projected_quads(void *, int);
 };
