@@ -8,7 +8,7 @@ struct TObjEneShark {
     void sub_800AC9DC(s32);
     void apply_clamped_mode_param();
     void vfunc_83();
-    void vfunc_101();
+    void run_demo_task();
     void vfunc_98();
     void vfunc_97();
     void vfunc_96();

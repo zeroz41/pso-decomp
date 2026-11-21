@@ -408,7 +408,7 @@ TObjEneRe7Berura::~TObjEneRe7Berura() {
 
 void TObjEneRe7Berura::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_105();
+        run_demo_task();
         return;
     }
     if (update_status_effects() != 4) {
@@ -1430,7 +1430,7 @@ void TObjEneRe7Berura::render() {
     s32 l3;
     s32 l4;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_106();
+        render_demo();
         return;
     }
     cam = 0;
@@ -1555,9 +1555,9 @@ void TObjEneRe7Berura::render() {
     }
 }
 
-void TObjEneRe7Berura::vfunc_105() { if (get_target_info() != 0) { sub_80095328(); } }
+void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { sub_80095328(); } }
 
-void TObjEneRe7Berura::vfunc_106() {
+void TObjEneRe7Berura::render_demo() {
     s32 idx;
     AnimationMotion *mot;
     f32 frame;

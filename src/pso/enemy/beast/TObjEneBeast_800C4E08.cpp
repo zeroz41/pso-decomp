@@ -734,7 +734,7 @@ void TUnk_80493450::run_task() {
   s16 temp_r0;
   if (TObjPlayer::check_demo_mode() == 1)
   {
-    (this->vfunc_101());
+    (this->run_demo_task());
     return;
   }
   temp_r0 = this->mode;

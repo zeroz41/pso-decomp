@@ -1752,7 +1752,7 @@ void TObjEneMe3SinowZoa::render() {
     s32 i;
 
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_115();
+        this->render_demo();
         return;
     }
     sub_8031A454();
@@ -1848,7 +1848,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     return 0;
 }
 
-void TObjEneMe3SinowZoa::vfunc_115() {
+void TObjEneMe3SinowZoa::render_demo() {
     s32 save[3];
     s32 flag;
     AnimationMotion *motion;

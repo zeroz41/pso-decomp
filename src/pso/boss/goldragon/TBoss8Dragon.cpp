@@ -1678,7 +1678,7 @@ void TBoss8Dragon::run_task() {
     s32 temp_r30_2;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_105();
+        this->run_demo_task();
         return;
     }
     if (*(s32 *)&this->m_3c0 & 8) {
@@ -5765,7 +5765,7 @@ void TBoss8Dragon::render() {
     }
 }
 
-int TBoss8Dragon::vfunc_105() { return get_target_info(); }
+int TBoss8Dragon::run_demo_task() { return get_target_info(); }
 
 void TBoss8Dragon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { draw(); } }
 

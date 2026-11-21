@@ -9,8 +9,8 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     virtual ~TObjEneDf2Bringer();
     virtual s32 vfunc_104(f32);
     virtual void update_body_colliders();
-    virtual void vfunc_83();
-    virtual void vfunc_105();
+    virtual void run_demo_task();
+    virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
     void set_effect_pos_above_self();
     void sub_80098DEC();

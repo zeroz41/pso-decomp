@@ -19,7 +19,7 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void run_move_action();
     virtual void vfunc_83();
     virtual void request_stand_action();
-    virtual void vfunc_101();
+    virtual void run_demo_task();
     virtual void vfunc_100();
     virtual void vfunc_98();
     virtual void vfunc_97();

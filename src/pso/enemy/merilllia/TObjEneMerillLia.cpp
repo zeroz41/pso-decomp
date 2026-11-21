@@ -508,7 +508,7 @@ extern Vec scratch_vec;
 extern Vec lbl_8050BF00;
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void * TObjEneMerillLia__create(void *arg0);
-void vfunc_101__16TObjEneMerillLiaFv(void);
+void run_demo_task__16TObjEneMerillLiaFv(void);
 void vfunc_93__16TObjEneMerillLiaFv(void);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void run_idle_action__16TObjEneMerillLiaFv(void *arg0);
@@ -686,7 +686,7 @@ void *lbl_80494728[103] = {
     (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__16TObjEneMerillLiaFv, (void *)&beast_update_dead__13TUnk_80493450Fv,
     (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__16TObjEneMerillLiaFv, (void *)&vfunc_94__16TObjEneMerillLiaFv, (void *)&vfunc_95__13TUnk_80493450Fv,
     (void *)&vfunc_96__16TObjEneMerillLiaFv, (void *)&vfunc_97__16TObjEneMerillLiaFv, (void *)&vfunc_98__16TObjEneMerillLiaFv, (void *)&vfunc_99__16TObjEneMerillLiaFv,
-    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__16TObjEneMerillLiaFv, (void *)&request_stand_action__13TUnk_80493450Fv,
+    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&run_demo_task__16TObjEneMerillLiaFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
 #define lbl_80494728 ((s32 *)lbl_80494728)
 
@@ -869,7 +869,7 @@ void TObjEneMerillLia::run_task() {
   s16 temp_r0;
   if (TObjPlayer::check_demo_mode() == 1)
   {
-    (this->vfunc_101());
+    (this->run_demo_task());
     return;
   }
   temp_r0 = this->mode;
@@ -1749,4 +1749,4 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
 }
 }
 
-void TObjEneMerillLia::vfunc_101() {  }
+void TObjEneMerillLia::run_demo_task() {  }

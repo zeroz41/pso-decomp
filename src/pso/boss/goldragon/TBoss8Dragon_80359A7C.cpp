@@ -22,7 +22,7 @@ void TUnk_804F1A78::run_task() {
     s32 temp_r30;
     s32 temp_r30_2;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_105();
+        this->run_demo_task();
         return;
     }
     if (*(s32 *)((s8 *)boss8_dragon + 0x3C0) & 8) {

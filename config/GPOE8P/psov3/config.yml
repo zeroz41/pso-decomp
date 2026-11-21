@@ -1073,8 +1073,8 @@ force_active:
   - TObjEneBm3Fly__sub_800B0B20
   - TObjEneBm3Fly__sub_800B0F70
   - TObjEneBm3Fly__sub_800B1214
-  - vfunc_105__13TObjEneBm3FlyFv
-  - vfunc_106__13TObjEneBm3FlyFv
+  - run_demo_task__13TObjEneBm3FlyFv
+  - render_demo__13TObjEneBm3FlyFv
   - dispatch_action__13TObjEneBm3FlyFUll
   - TObjEneBm5GibonU__ct
   - TObjEneBm5GibonU__data_80500E78
@@ -6426,7 +6426,7 @@ force_active:
   - fn_802F1DAC
   - fn_802F1E54
   - __ct__13TUnk_804E4B24FP7TObjectlP3Vecf
-  - fn_80303538__16TObjEneDellBiterFv
+  - run_demo_task__16TObjEneDellBiterFv
   - fn_80303AA0__16TObjEneDellBiterFl
   - fn_80303BC0__16TObjEneDellBiterFl
   - fn_80303F04__16TObjEneDellBiterFl
@@ -17411,23 +17411,23 @@ force_active:
   - verify_save_checksum__23TAdSinglePlyChrSelectGCFi
   - verify_save_checksum__23TAdSinglePlyChrSelectGCFv
   - vfunc_100__14TObjEneDolmOlmFv
-  - vfunc_101__12TObjEneBeastFv
-  - vfunc_101__12TObjEneSharkFv
-  - vfunc_101__14TObjEneDolmOlmFv
-  - vfunc_101__15TObjEneDimedianFv
-  - vfunc_101__16TObjEneMerillLiaFv
+  - run_demo_task__12TObjEneBeastFv
+  - run_demo_task__12TObjEneSharkFv
+  - run_demo_task__14TObjEneDolmOlmFv
+  - run_demo_task__15TObjEneDimedianFv
+  - run_demo_task__16TObjEneMerillLiaFv
   - move_xz_on_ground__18TObjEneRe4SorcererFPUc
   - update_ground_contact__18TObjEneRe4SorcererFv
   - vfunc_104__13TObjEneBm3FlyFf
   - vfunc_104__16TObjEneDellBiterFf
   - vfunc_104__17TObjEneDf2BringerFf
-  - vfunc_105__12TBoss1DragonFv
+  - run_demo_task__12TBoss1DragonFv
   - vfunc_105__13TUnk_8049387CFv
-  - vfunc_105__18TObjEneEpsilonBodyFv
+  - run_demo_task__18TObjEneEpsilonBodyFv
   - vfunc_106__13TUnk_8049387CFv
-  - vfunc_106__16TObjEneDellBiterFv
-  - vfunc_106__18TObjEneEpsilonBodyFv
-  - vfunc_106__18TObjEneRe4SorcererFv
+  - render_demo__16TObjEneDellBiterFv
+  - render_demo__18TObjEneEpsilonBodyFv
+  - render_demo__18TObjEneRe4SorcererFv
   - vfunc_107__13TUnk_8049387CFv
   - vfunc_108__13TUnk_8049387CFv
   - vfunc_109__13TUnk_8049387CFv

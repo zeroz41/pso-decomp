@@ -59,7 +59,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void vfunc_112();
     virtual void action(s32);
     virtual void action();
-    virtual void vfunc_115();
+    virtual void render_demo();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();

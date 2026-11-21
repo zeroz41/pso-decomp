@@ -1535,7 +1535,7 @@ void TObjEneMe3Shinowa::render() {
     s32 draw;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_118();
+        render_demo();
         return;
     }
     sub_800E6FE0();
@@ -1594,7 +1594,7 @@ void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E7
 #pragma pool_data off
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
 // action parameters[2] at frame parameters[3] (unposed when mode is not 0).
-void TObjEneMe3Shinowa::vfunc_118() {
+void TObjEneMe3Shinowa::render_demo() {
     s32 gold;
     NJS_TEXNAME *textures;
     u32 saved_texaddr[3];

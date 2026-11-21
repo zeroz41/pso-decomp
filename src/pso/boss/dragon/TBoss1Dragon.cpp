@@ -369,7 +369,7 @@ extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_movement_status__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
-int vfunc_105__12TBoss1DragonFv(void* p);
+int run_demo_task__12TBoss1DragonFv(void* p);
 void run_miss_reaction__12TBoss1DragonFv(void);
 void run_hit_reaction__12TBoss1DragonFv(void);
 void run_death_reaction__12TBoss1DragonFv(void);
@@ -554,7 +554,7 @@ void *lbl_80481280[107] = {
     (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
     (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
     (void *)&render_minimap_dot__9TObjEneDDFv, (void *)&move_xz_on_ground__9TObjEneDDFPUc, (void *)&update_ground_contact__9TObjEneDDFv, (void *)&snap_to_ground_at__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_105__12TBoss1DragonFv, (void *)&render_low_detail__12TBoss1DragonFv,
+    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&run_demo_task__12TBoss1DragonFv, (void *)&render_low_detail__12TBoss1DragonFv,
 };
 
 void fill_value_array(saddr);
@@ -650,7 +650,7 @@ void TBoss1Dragon::render_low_detail() {
 extern const u8 boss1_dragon_death_cue_filename[] = "dradeath.adx";
 static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 
-int TBoss1Dragon::vfunc_105() { return this->get_target_info(); }
+int TBoss1Dragon::run_demo_task() { return this->get_target_info(); }
 
 void TBoss1Dragon::render_shadows() {
     s32 temp_r31;
@@ -5104,7 +5104,7 @@ void TBoss1Dragon::run_task() {
     s32 temp_r30_2;
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TBoss1Dragon *)(arg0))->vfunc_105();
+        ((TBoss1Dragon *)(arg0))->run_demo_task();
         return;
     }
     if (((TBoss1Dragon *)arg0)->flags & 0x40) {

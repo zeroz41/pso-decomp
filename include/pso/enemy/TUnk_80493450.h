@@ -36,7 +36,7 @@ public:
     virtual void vfunc_98();
     virtual void vfunc_99();
     virtual void vfunc_100();
-    virtual void vfunc_101();
+    virtual void run_demo_task();
     virtual void request_stand_action();
     virtual void run_miss_reaction();
     virtual void run_move_action();

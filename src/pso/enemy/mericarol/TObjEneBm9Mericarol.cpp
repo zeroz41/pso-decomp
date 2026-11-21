@@ -308,7 +308,7 @@ void TObjEneBm9Mericarol::run_task() {
     s16 state;
     s32 flags;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_105();
+        run_demo_task();
         return;
     }
     flags = m_438;
@@ -1145,7 +1145,7 @@ void TObjEneBm9Mericarol::sub_802CED40() {
     m_438 |= 2;
 }
 
-void TObjEneBm9Mericarol::vfunc_105() {  }
+void TObjEneBm9Mericarol::run_demo_task() {  }
 
 void TObjEneBm9Mericarol::update_particle_effect(NJS_OBJECT *) {
     switch (lbl_805D686C) {

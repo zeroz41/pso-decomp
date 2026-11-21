@@ -12,8 +12,8 @@ struct TObjEneRecon : public TObjEneDD_ST {
     s32 render_model_if_visible();
     virtual void check_collisions();
     virtual void update_body_colliders();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void run_demo_task();
+    virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
     void update_flag_0x444();
     void sub_8031D4B0(s32);

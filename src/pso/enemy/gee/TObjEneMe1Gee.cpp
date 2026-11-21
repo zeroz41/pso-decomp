@@ -318,7 +318,7 @@ TObjEneMe1Gee::~TObjEneMe1Gee() {
 void TObjEneMe1Gee::run_task() {
     u8 *object;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_114();
+        this->run_demo_task();
         return;
     }
     if (m_3c4 == 1 && ((m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(m_48c), object = (u8 *)m_3c0, object == NULL) || ((TObject *)object)->all_parents_unqueued_for_destruction() == 0)) {
@@ -1784,7 +1784,7 @@ void TObjEneMe1Gee::render() {
     s32 var_r29;
 
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_115();
+        this->render_demo();
         return;
     }
     if (this->m_3c8 & 0x400000) {
@@ -1856,12 +1856,12 @@ void TObjEneMe1Gee::render() {
     VecCopy(&this->m_414[1], &this->body_center);
 }
 
-void TObjEneMe1Gee::vfunc_114() { if (this->get_target_info() != 0) { this->sub_800CC0C4(); } }
+void TObjEneMe1Gee::run_demo_task() { if (this->get_target_info() != 0) { this->sub_800CC0C4(); } }
 
 #pragma push
 // pool_data off: vfunc_115 reaches each debug string with its own lis/addi.
 #pragma pool_data off
-void TObjEneMe1Gee::vfunc_115() {
+void TObjEneMe1Gee::render_demo() {
     s32 temp_r3;
     s32 temp_r3_2;
     if (this->get_target_info() != 0) {
@@ -1905,7 +1905,7 @@ TUnk_8049387C::~TUnk_8049387C() {}
 
 void TUnk_8049387C::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_114();
+        this->run_demo_task();
         return;
     }
     if (this->update_status_effects() != 4) {

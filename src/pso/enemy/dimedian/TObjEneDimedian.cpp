@@ -161,7 +161,7 @@ void TObjMotion::sub_800A7798(f32 farg0) {
 }
 
 void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
-void TObjEneDimedian::vfunc_101() {  }
+void TObjEneDimedian::run_demo_task() {  }
 
 void TObjEneDimedian::vfunc_99() {
     saddr arg0 = (saddr)this;

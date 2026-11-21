@@ -7,6 +7,6 @@ void TUnk_80493450::vfunc_95() {}
 void TUnk_80493450::vfunc_96() {}
 void TUnk_80493450::vfunc_97() {}
 void TUnk_80493450::vfunc_98() {}
-void TUnk_80493450::vfunc_101() {}
+void TUnk_80493450::run_demo_task() {}
 
 u16 get_enemy_target_id(void* p) { return *(u16*)((char*)p + 0x338); }

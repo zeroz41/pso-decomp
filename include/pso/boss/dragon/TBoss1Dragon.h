@@ -58,7 +58,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void render();
     virtual void render_shadows();
-    virtual int vfunc_105();
+    virtual int run_demo_task();
     virtual void render_low_detail();
     void run_death_reaction();
     void run_hit_reaction();

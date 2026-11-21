@@ -41,7 +41,7 @@ public:
     // Slot 88: moves the seven collider bodies to the model's node positions.
     virtual void update_body_colliders();
     // Slots 105 and 106, the two the dragon adds to TObjEneDD_ST's table.
-    virtual int vfunc_105();
+    virtual int run_demo_task();
     virtual void draw_motion_model();
 
     void sub_802F4098(u8 *);

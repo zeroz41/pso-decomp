@@ -1294,7 +1294,7 @@ TObjEneDf2Bringer::~TObjEneDf2Bringer() {
 void run_task__17TObjEneDf2BringerFv(u8 *arg0) {
     s32 temp_r0;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneDf2Bringer *)(arg0))->vfunc_83();
+        ((TObjEneDf2Bringer *)(arg0))->run_demo_task();
         return;
     }
     if (((VObj_18_p5 *)(arg0))->m81() != 4) {
@@ -2246,7 +2246,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
     s32 mode;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneDf2Bringer *)(arg0))->vfunc_105();
+        ((TObjEneDf2Bringer *)(arg0))->render_demo();
         return;
     }
     mode = 0;
@@ -2335,9 +2335,9 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
 #undef update_flag_0x3C0__17TObjEneDf2BringerFPv
 #undef S
 
-void TObjEneDf2Bringer::vfunc_83() { if (get_target_info() != 0) { sub_800994F8(); } }
+void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { sub_800994F8(); } }
 
-void TObjEneDf2Bringer::vfunc_105() {
+void TObjEneDf2Bringer::render_demo() {
     Bringer_80097100 *self = (Bringer_80097100 *)this;
     f32 frame;
     s32 i;

@@ -316,7 +316,7 @@ TObjEneDellBiter::~TObjEneDellBiter() {
 
 void TObjEneDellBiter::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->fn_80303538();
+        this->run_demo_task();
         return;
     }
     if (this->update_status_effects() != 4) {
@@ -1470,7 +1470,7 @@ void TObjEneDellBiter::render() {
     s32 i;
 
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_106();
+        render_demo();
         return;
     }
     cam = 0;
@@ -1550,10 +1550,10 @@ void TObjEneDellBiter::render() {
     }
 }
 
-void TObjEneDellBiter::fn_80303538() { if (get_target_info() != 0) { this->init_target_offsets(); } }
+void TObjEneDellBiter::run_demo_task() { if (get_target_info() != 0) { this->init_target_offsets(); } }
 
 #pragma pool_data off
-void TObjEneDellBiter::vfunc_106() {
+void TObjEneDellBiter::render_demo() {
     if (this->get_target_info() != 0) {
         debug_printf_at(pack_debug_text_position(0, 2), "HOWL PER(+0.3f)");
         debug_printf_at(pack_debug_text_position(0, 3), "CONFUSE PER(+0.3f)");

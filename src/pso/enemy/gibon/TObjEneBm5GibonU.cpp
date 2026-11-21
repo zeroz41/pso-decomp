@@ -85,7 +85,7 @@ void TObjEneBm5GibonU__sub_800D0AE8(TObjEneBm5GibonU *self, Vec *dir);
 void update_body_colliders__16TObjEneBm5GibonUFv(u8 *arg0);
 void run_death_reaction__16TObjEneBm5GibonUFv(void *arg0);
 void run_hit_reaction__16TObjEneBm5GibonUFv(void* p);
-void vfunc_105__16TObjEneBm5GibonUFv(void *arg0);
+void run_demo_task__16TObjEneBm5GibonUFv(void *arg0);
 BmlResource * TObjEneBm5GibonU__model_archive;
 #pragma push
 extern "C" {
@@ -433,7 +433,7 @@ void *lbl_80493F04[107] = {
     (void *)clear_invulnerable__9TObjEneDDFv, (void *)enable_body_collision__9TObjEneDDFv, (void *)disable_body_collision__9TObjEneDDFv, (void *)set_intangible__9TObjEneDDFv,
     (void *)clear_intangible__9TObjEneDDFv, (void *)set_colliders_contact_high__9TObjEneDDFv, (void *)set_colliders_contact_low__9TObjEneDDFv, (void *)is_confused__9TObjEneDDFv,
     (void *)render_minimap_dot__9TObjEneDDFv, (void *)move_xz_on_ground__9TObjEneDDFPUc, (void *)update_ground_contact__9TObjEneDDFv, (void *)snap_to_ground_at__9TObjEneDDFPUc,
-    (void *)vfunc_104__12TObjEneDD_STFf, (void *)vfunc_105__16TObjEneBm5GibonUFv, (void *)render_debug__16TObjEneBm5GibonUFv,
+    (void *)vfunc_104__12TObjEneDD_STFf, (void *)run_demo_task__16TObjEneBm5GibonUFv, (void *)render_debug__16TObjEneBm5GibonUFv,
 };
 __declspec(section ".data") u32 TObjEneBm5GibonU__data_80500E78[2];
 __declspec(section ".data") u32 lbl_80500E80[2];
@@ -645,7 +645,7 @@ void TObjEneBm5GibonU::render_debug() {
 }
 #pragma pool_data reset
 
-void TObjEneBm5GibonU::vfunc_105() {
+void TObjEneBm5GibonU::run_demo_task() {
     s32 temp_r31;
 
     if (this->get_target_info() != 0) {
@@ -2592,7 +2592,7 @@ void TObjEneBm5GibonU::run_task() {
     s32 temp_r3;
     TObject *partner;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_105();
+        this->run_demo_task();
         return;
     }
     partner = (TObject *)find_entity_by_id(m_474);

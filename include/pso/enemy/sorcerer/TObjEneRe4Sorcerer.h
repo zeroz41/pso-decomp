@@ -17,8 +17,8 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual u8 *move_xz_on_ground(u8 *);
     virtual u8 *update_ground_contact();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void run_demo_task();
+    virtual void render_demo();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();

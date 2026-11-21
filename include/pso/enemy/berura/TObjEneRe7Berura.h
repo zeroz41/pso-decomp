@@ -39,8 +39,8 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     TObjEneRe7Berura(TObject *parent, void *set_data);
     virtual ~TObjEneRe7Berura();
     virtual void update_body_colliders();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void run_demo_task();
+    virtual void render_demo();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();

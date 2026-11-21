@@ -49,8 +49,8 @@ public:
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
     virtual void check_collisions();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void run_demo_task();
+    virtual void render_demo();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     void update_position();
     void tick_stun_timer();

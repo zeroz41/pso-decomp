@@ -615,7 +615,7 @@ void TObjEneRe4Sorcerer::run_task() {
     s32 i;
     void *p;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_105();
+        run_demo_task();
         return;
     }
     if (update_status_effects() != 4) {
@@ -1607,7 +1607,7 @@ void TObjEneRe4Sorcerer::render() {
     s32 var_r28;
     s32 var_r27;
     if (TObjPlayer::check_demo_mode() == 1) {
-        vfunc_106();
+        render_demo();
         return;
     }
     camera_mode = 0;
@@ -1684,13 +1684,13 @@ void TObjEneRe4Sorcerer::render() {
 
 #undef re4_sorcerer_collision_body_part_table
 extern "C" {
-void TObjEneRe4Sorcerer::vfunc_105() {
+void TObjEneRe4Sorcerer::run_demo_task() {
     if (get_target_info() != 0) {
         ((void (*)(void *))TObjEneRe4Sorcerer__sub_800EFE30)(this);
     }
 }
 
-void TObjEneRe4Sorcerer::vfunc_106() {
+void TObjEneRe4Sorcerer::render_demo() {
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);

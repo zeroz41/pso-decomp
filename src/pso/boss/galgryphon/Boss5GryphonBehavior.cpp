@@ -654,10 +654,10 @@ extern saddr tl_01;
 #pragma fp_contract on
 
 extern "C" {
-void vfunc_105__13TBoss5GryphonFv();
+void render_demo__13TBoss5GryphonFv();
 }
 extern "C" {
-void vfunc_83__13TBoss5GryphonFv();
+void run_demo_task__13TBoss5GryphonFv();
 }
 extern "C" {
 s32 is_split_screen();
@@ -1006,7 +1006,7 @@ extern const f32 lbl_805D8D48;
 const f32 lbl_805D8D48 = 6.0f;
 
 extern "C" {
-int TBoss5Gryphon::vfunc_105() {
+int TBoss5Gryphon::render_demo() {
 #define o ((Obj_8005D708 *)this)
     Cnt_8005D708 *c;
     f32 f;
@@ -1047,7 +1047,7 @@ int TBoss5Gryphon::vfunc_105() {
 }
 
 
-void TBoss5Gryphon::vfunc_83() { get_target_info(); }
+void TBoss5Gryphon::run_demo_task() { get_target_info(); }
 
 s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out) {
     Obj_8005D880 *p;
@@ -1231,7 +1231,7 @@ void TBoss5Gryphon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) {
 void TBoss5Gryphon::render() {
     s32 view = 0;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_105();
+        this->render_demo();
         return;
     }
     if (is_split_screen() != 0) {
@@ -1704,7 +1704,7 @@ void *__vt__13TBoss5Gryphon[107] = {
     (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
     (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
     (void *)&render_minimap_dot__9TObjEneDDFv, (void *)&move_xz_on_ground__9TObjEneDDFPUc, (void *)&update_ground_contact__9TObjEneDDFv, (void *)&snap_to_ground_at__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_83__13TBoss5GryphonFv, (void *)&vfunc_105__13TBoss5GryphonFv,
+    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&run_demo_task__13TBoss5GryphonFv, (void *)&render_demo__13TBoss5GryphonFv,
 };
 #define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
 #define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
@@ -4662,7 +4662,7 @@ void TBoss5Gryphon::run_task() {
     s32 i;
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TBoss5Gryphon *)(arg0))->vfunc_83();
+        ((TBoss5Gryphon *)(arg0))->run_demo_task();
         return;
     }
     if (*(s32 *)((s8 *)arg0 + 0x4C0) & 1) {

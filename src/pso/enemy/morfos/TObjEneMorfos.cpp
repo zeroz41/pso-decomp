@@ -1068,7 +1068,7 @@ TObjEneMorfos::~TObjEneMorfos() {
 #define ene_morfos ((u8 *)this)
 void TObjEneMorfos::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneMorfos *)(ene_morfos))->vfunc_105();
+        ((TObjEneMorfos *)(ene_morfos))->run_demo_task();
         return;
     }
     if (((TObjEneMorfos *)(ene_morfos))->update_status_effects() != 4) {
@@ -2170,11 +2170,11 @@ void TObjEneMorfos::update_ground_probe() {
     }
 }
 
-s32 TObjEneMorfos::vfunc_105() { if (get_target_info() != 0) { this->init_target_offsets(); } }
+s32 TObjEneMorfos::run_demo_task() { if (get_target_info() != 0) { this->init_target_offsets(); } }
 
 // inferred name: the draw_ground_shadow scale in vfunc_106.
 static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};
-void TObjEneMorfos::vfunc_106() {
+void TObjEneMorfos::render_demo() {
     O_803323D8 *arg0 = (O_803323D8 *)this;
     s32 idx;
     f32 frame;

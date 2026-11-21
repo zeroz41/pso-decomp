@@ -212,7 +212,7 @@ void *create_TObjEneEpsilonBody(void *set_data) {
 
 void TObjEneEpsilonBody::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_105();
+        run_demo_task();
         return;
     }
     if (update_status_effects() != 4) {
@@ -325,7 +325,7 @@ void TObjEneEpsilonBody::update_guard_flag() {
     this->flags = (s32) (this->flags | 0x80);
 }
 
-void TObjEneEpsilonBody::vfunc_105() {  }
+void TObjEneEpsilonBody::run_demo_task() {  }
 
 void TObjEneEpsilonBody::sub_80361D4C(s32 arg1) {
     switch (arg1) {
@@ -922,7 +922,7 @@ void TObjEneEpsilonBody::render() {
     s32 var_r31;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_106();
+        this->render_demo();
         return;
     }
     if (!(this->actorFlags & 0x02000000)) {
@@ -1117,7 +1117,7 @@ void TObjEneEpsilonGuard::record_camera_angle_samples(NJS_OBJECT *) {
     }
     epsilon_guard_camera_sample_phase++;
 }
-void TObjEneEpsilonBody::vfunc_106() {  }
+void TObjEneEpsilonBody::render_demo() {  }
 void TObjEneEpsilonBody::set_guard_state() {
     if (flags & 2) {
         guarded = 1;

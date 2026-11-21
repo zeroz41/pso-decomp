@@ -168,7 +168,7 @@ s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 s32 push_matrix();
 extern s32 model_render_flags;
-void vfunc_101__12TObjEneSharkFv(void);
+void run_demo_task__12TObjEneSharkFv(void);
 extern s32 shark_render_node_index;
 s32 vec3_add_to(void *, void *);
 s32 play_sound_effect(s32, void *, int, int);
@@ -197,7 +197,7 @@ extern s32 chunk_polygon_flags_and_mask;
 #pragma fp_contract on
 #pragma pop
 
-void TObjEneShark::vfunc_101() {  }
+void TObjEneShark::run_demo_task() {  }
 
 void TObjEneShark::vfunc_98() {
     saddr arg0 = (saddr)this;
@@ -736,7 +736,7 @@ void *lbl_8049168C[103] = {
     (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__13TUnk_80493450Fv, (void *)&beast_update_dead__13TUnk_80493450Fv,
     (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__12TObjEneSharkFv, (void *)&vfunc_94__12TObjEneSharkFv, (void *)&vfunc_95__12TObjEneSharkFv,
     (void *)&vfunc_96__12TObjEneSharkFv, (void *)&vfunc_97__12TObjEneSharkFv, (void *)&vfunc_98__12TObjEneSharkFv, (void *)&vfunc_99__13TUnk_80493450Fv,
-    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__12TObjEneSharkFv, (void *)&request_stand_action__13TUnk_80493450Fv,
+    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&run_demo_task__12TObjEneSharkFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
 #define TObjEneShark__action_table ((Act_800AC318 *)TObjEneShark__action_table)
 

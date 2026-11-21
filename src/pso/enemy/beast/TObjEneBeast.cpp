@@ -133,7 +133,7 @@ extern void *boss4_type3_instance;
 extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
-void TObjEneBeast::vfunc_101() {  }
+void TObjEneBeast::run_demo_task() {  }
 void TObjEneBeast::vfunc_99() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003E431, arg0 + 0x38, 0, 0);

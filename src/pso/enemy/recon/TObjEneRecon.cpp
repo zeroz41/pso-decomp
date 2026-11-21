@@ -96,7 +96,7 @@ void TObjEneRecon::render_shadows() {
 s32 post_translate_matrix(void *);
 
 
-void TObjEneRecon::vfunc_106() {
+void TObjEneRecon::render_demo() {
     u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         ((TObjEneDD *)(arg0))->draw_ground_shadow(0, 0);
@@ -162,7 +162,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
     s32 var_r29;
     s32 var_r31;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneRecon *)(ene_recon))->vfunc_106();
+        ((TObjEneRecon *)(ene_recon))->render_demo();
         return;
     }
     if (!(*(s32 *)((s8 *)ene_recon + 0x444) & 1)) {
@@ -246,7 +246,7 @@ void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
 
 }
 
-void TObjEneRecon::vfunc_105() {  }
+void TObjEneRecon::run_demo_task() {  }
 
 struct Stack_8031C190 {
     s32 sp8;
@@ -1838,7 +1838,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
     u8 *temp_r3_3;
     u8 *temp_r3_4;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneRecon *)(ene_recon))->vfunc_105();
+        ((TObjEneRecon *)(ene_recon))->run_demo_task();
         return;
     }
     entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));

@@ -17,7 +17,7 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     virtual void vfunc_97();
     virtual void vfunc_98();
     virtual void vfunc_99();
-    virtual void vfunc_101();
+    virtual void run_demo_task();
     void sub_800D5570();
     virtual void vfunc_83();
     virtual void run_attack_action();

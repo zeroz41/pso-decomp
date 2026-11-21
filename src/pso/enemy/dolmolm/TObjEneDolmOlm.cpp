@@ -743,7 +743,7 @@ void TObjEneDolmOlm::run_task() {
   s16 temp_r0;
   if (TObjPlayer::check_demo_mode() == 1)
   {
-    (this->vfunc_101());
+    (this->run_demo_task());
     return;
   }
   temp_r0 = ((RecoveredFields_8030247C_arg0 *) ((u8 *)this))->field_326;
@@ -1416,7 +1416,7 @@ void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
         }
     }
 }
-void TObjEneDolmOlm::vfunc_101() {  }
+void TObjEneDolmOlm::run_demo_task() {  }
 s32 TObjEneDolmOlm__sub_80300CF0(void) {
     return 0x7FFFFFFF;
 }

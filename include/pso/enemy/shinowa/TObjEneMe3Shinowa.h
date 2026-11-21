@@ -49,7 +49,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual void vfunc_115(s32);
     virtual void vfunc_116(s32);
     virtual void update_mirage();
-    virtual void vfunc_118();
+    virtual void render_demo();
     void init_enemy();
     f32 get_node_world_y();
     s32 check_body_collision_at(s32, f32);

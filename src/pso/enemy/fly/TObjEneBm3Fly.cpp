@@ -202,7 +202,7 @@ void TObjEneBm3Fly::run_task() {
     TObject *nest;
     TParticleCtrl *effect;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_105();
+        this->run_demo_task();
         return;
     }
     nest = (TObject *)find_entity_by_id(this->owner_id);
@@ -1096,12 +1096,12 @@ void TObjEneBm3Fly::handle_message(s32 arg1) {
     }
 }
 
-void TObjEneBm3Fly::vfunc_105() {  }
+void TObjEneBm3Fly::run_demo_task() {  }
 
 void TObjEneBm3Fly::render() {
     s32 kind;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_106();
+        this->render_demo();
         return;
     }
     if (this->m_428 & 1) {
@@ -1139,7 +1139,7 @@ void TObjEneBm3Fly::render() {
     }
 }
 
-void TObjEneBm3Fly::vfunc_106() {
+void TObjEneBm3Fly::render_demo() {
     if (update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         draw_ground_shadow(0, 0);
         TObjFish::set_global_param(texlist);

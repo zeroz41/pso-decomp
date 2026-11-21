@@ -52,7 +52,7 @@ extern const f32 lbl_805D9FBC;
 extern const f32 lbl_805D9FC0;
 }
 
-void TObjEneRe2Flower::vfunc_106() {
+void TObjEneRe2Flower::render_demo() {
     s32 save8;
     s32 save14;
     if (update_object_view_visibility(400.0f, 25.0f) == 0) {
@@ -88,7 +88,7 @@ void TObjEneRe2Flower::render() {
     s32 save8;
     s32 save14;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_106();
+        render_demo();
         return;
     }
     if (mode == 11) {
@@ -193,7 +193,7 @@ void TObjPlayer::update_effect_sequence(NJS_OBJECT *) {
     re2_flower_node_index += 1;
 }
 
-void TObjEneRe2Flower::vfunc_105() {  }
+void TObjEneRe2Flower::run_demo_task() {  }
 
 void TObjEneDD__sub_800C2618(void* p) { *(u32*)((char*)p + 0x3c4) |= 0x2; }
 }
