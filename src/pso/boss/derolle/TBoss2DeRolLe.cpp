@@ -596,7 +596,6 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 
 void fn_8002F5AC(u8 *arg0);
 
-void TBoss2Joint__sub_8003688C(u8 *arg0);
 
 s32 TObjLight__sub_801337F8(s32);
 
@@ -3776,7 +3775,7 @@ void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
     }
     new TBoss2PhotonPad((TObject *)self->unk3D8, &self->pts[idx], &v, arg2);
     play_sound_effect(0x4003B708, &self->pts[idx], 0, 1);
-    ((TBoss2Joint *)(self->joints[idx]))->call_36A90_with_1();
+    ((TBoss2Joint *)(self->joints[idx]))->start_pad_flash();
 }
 
 #pragma push
@@ -6350,7 +6349,7 @@ void TBoss2DeRolLe::render() {
     }
     update_pulsing_colors__13TBoss2DeRolLeFPv(((u8 *)this));
     for (i = 0; i < 10; i++) {
-        TBoss2Joint__sub_8003688C((u8 *)e->joints[i]);
+        ((TBoss2Joint *)e->joints[i])->apply_flash_color();
     }
     if (e->flags & 0x40) {
         derolle_texture_list_handle->tex = derolle_segment_texture_slots;
@@ -6434,7 +6433,7 @@ void TBoss2DeRolLe::render_body() {
     TObjEneDD::check_v2_mode();
     scale_current_matrix(&scale);
     for (i = 0; i < 10; i++) {
-        TBoss2Joint__sub_8003688C((u8 *)self->joints[i]);
+        ((TBoss2Joint *)self->joints[i])->apply_flash_color();
     }
     idx = self->motionIdx;
     if (idx < 0) {

@@ -3,13 +3,24 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/NinjaTypes.h"
 
-// One of the ten shell segments TBoss2DeRolLe spawns along its body.
+// A shell segment's material in the De Rol Le body model: TBoss2DeRolLe's tables point just past a
+// material chunk's head (polygon_list + 8), at its diffuse colour word.
+struct TBoss2JointMaterial {
+    u32 diffuse;
+    u8 pad_4[0xC];
+    u16 strip_head;  // the following strip chunk's [flags|type] head
+};
+
+// One of the ten shell segments TBoss2DeRolLe spawns along its body (the Barba Ray twin is TBoss7Joint).
 struct TBoss2Joint : public TObjEneDD {
-    TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 joint_node,
-                s32 color_target);
+    enum { SHELL_BROKEN = 1 };  // joint_flags
+
+    TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 body_material,
+                s32 rim_material);
     virtual ~TBoss2Joint();
-    void sub_80036940();
+    void update_flash_color();
     virtual void run_task();
     virtual void render();
     virtual void vfunc_28();
@@ -26,27 +37,28 @@ struct TBoss2Joint : public TObjEneDD {
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void vfunc_88();
     virtual void vfunc_93();
-    virtual s32 vfunc_104(f32);
-    virtual void vfunc_105(s32 reason);
-    void call_36A90_with_1();
-    void init_joint_offset(s32 arg1);
+    virtual s32 break_shell();
+    virtual void handle_state_0(s32 reason);
+    void apply_flash_color();
+    void start_pad_flash();
+    void start_flash(s32 kind);
     void update_position_history();
     s32 init_params();
-    u8 pad_374[0x18];
-    s32 m_38c;
-    const Vec *anchor;  // run_task copies the joint's position from it (a TBoss2DeRolLe body point)
-    u8 pad_394[0x4];
-    s32 joint_node;     // from TBoss2DeRolLe's derolle_segment_joint_node_offsets
-    s32 color_target;   // from TBoss2DeRolLe's boss2_derolle_segment_color_targets
-    u8 pad_3a0[0x8];
-    f32 m_3a8;
-    u8 unk_3AC[0x10];
+
+    u8 pad_374[0x8];
+    f32 reach;           // TObjEneDD's wall-move reach
+    u8 pad_380[0xC];
+    s32 joint_flags;     // SHELL_BROKEN
+    const Vec *anchor;   // run_task copies the joint's position from it (a TBoss2DeRolLe body point)
+    s32 shell_hp;        // damage taken while the shell holds; break_shell runs when it reaches 0
+    TBoss2JointMaterial *body_material;  // from TBoss2DeRolLe's derolle_segment_joint_node_offsets
+    TBoss2JointMaterial *rim_material;   // from TBoss2DeRolLe's boss2_derolle_segment_color_targets
+    u32 color;           // packed ARGB that apply_flash_color writes into the materials
+    f32 unk_3a4;
+    f32 flash;           // flash_color's weight, fading by 0.05 per frame
+    NJS_ARGB flash_color;
 };
 
 LAYOUT_ASSERT(TBoss2Joint_size, sizeof(TBoss2Joint) == 0x3BC);
-
-extern "C" {
-void TBoss2Joint__sub_8003688C(u8 *arg0);
-}
 
 #endif
