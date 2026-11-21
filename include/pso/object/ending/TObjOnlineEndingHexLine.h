@@ -25,4 +25,9 @@ public:
 LAYOUT_ASSERT(EndingHexLineSize, sizeof(TObjOnlineEndingHexLine) == 0xA0);
 LAYOUT_ASSERT(EndingHexProgressOffset, offsetof(TObjOnlineEndingHexLine, progress) == 0x9C);
 
+struct GinjaTextureList;
+// The f512_multiplay texture list register_texture_f512_multiplay loads for the
+// game start screens; destroy_instance__17TAdGameStartSubGCFv releases it.
+extern GinjaTextureList *multiplay_texture_f512_handle;
+
 #endif

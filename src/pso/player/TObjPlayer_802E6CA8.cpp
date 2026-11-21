@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TBreakUpMdl.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -110,7 +111,6 @@ s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
 
-    extern saddr multiplay_texture_f512_handle;
 }
 void set_chunk_blend(u32 x);
 void draw_chunk_model(void *arg0);
@@ -415,7 +415,7 @@ void TUnk_804E3BA8::render() {
     TObjLight__sub_801337F8(current_scene_light);
 }
 
-saddr TObjPlayer::get_instance() {  return multiplay_texture_f512_handle; }
+saddr TObjPlayer::get_instance() { return (saddr)multiplay_texture_f512_handle; }
 
 f32 lbl_805D6910 = lbl_805DE9F0;
 const f32 lbl_805DE9C8 = 1.0f;

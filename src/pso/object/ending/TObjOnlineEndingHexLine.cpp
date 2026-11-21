@@ -17,7 +17,7 @@ LAYOUT_ASSERT(Param_802E5CB0_size, sizeof(Param_802E5CB0) == 0x10);
 struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
 
 
-saddr multiplay_texture_f512_handle;
+GinjaTextureList *multiplay_texture_f512_handle;
 
 const char *TObjOnlineEndingHexMove__name = "TObjOnlineEndingHexMove";
 static const NJS_POINT2 lbl_80472C00[] = {{320.0f, 240.0f}};
