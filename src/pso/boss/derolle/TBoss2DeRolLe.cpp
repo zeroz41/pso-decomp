@@ -442,7 +442,7 @@ void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
     speed = 0.0f;
     this->distance = distance;
     travelled = 0.0f;
-    plan_motion_profile(this);
+    plan_profile();
 }
 
 void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
@@ -453,53 +453,53 @@ void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 
     speed = 0.0f;
     this->distance = distance;
     travelled = 0.0f;
-    plan_motion_profile(this);
+    plan_profile();
 }
 
 extern "C" {
 
-void plan_motion_profile(TUnk_80036250 *profile) {
-    f32 speed = profile->speed;
-    f32 neg_decel = -profile->decel;
-    f32 speed_sq = speed * speed;
-    f32 ramp = 1.0f / profile->accel - 1.0f / neg_decel;
-    f32 reach = profile->distance + speed_sq / (-2.0f * neg_decel);
+void TUnk_80036250::plan_profile() {
+    f32 cur_speed = speed;
+    f32 neg_decel = -decel;
+    f32 speed_sq = cur_speed * cur_speed;
+    f32 ramp = 1.0f / accel - 1.0f / neg_decel;
+    f32 reach = distance + speed_sq / (-2.0f * neg_decel);
     f32 top;
-    if ((1.0f / profile->accel - 1.0f / neg_decel) * (0.5f * speed_sq) > reach) {
-        profile->max_speed = newton_sqrtf((2.0f * reach) / ramp);
+    if ((1.0f / accel - 1.0f / neg_decel) * (0.5f * speed_sq) > reach) {
+        max_speed = newton_sqrtf((2.0f * reach) / ramp);
     }
-    top = profile->max_speed;
-    profile->brake_point = profile->distance + (0.5f * (top * top)) / neg_decel;
+    top = max_speed;
+    brake_point = distance + (0.5f * (top * top)) / neg_decel;
 }
 
-s32 advance_scalar_motion_profile(TUnk_80036250 *profile) {
-    switch (profile->state) {
+s32 TUnk_80036250::advance() {
+    switch (state) {
     case 0:
-        profile->speed = profile->speed + profile->accel;
-        if (profile->speed > profile->max_speed) {
-            profile->speed = profile->max_speed;
-            profile->state = 1;
+        speed = speed + accel;
+        if (speed > max_speed) {
+            speed = max_speed;
+            state = 1;
         }
         break;
     case 1:
-        if (profile->travelled > profile->brake_point) {
-            profile->speed = profile->speed - profile->decel;
-            profile->state = 2;
+        if (travelled > brake_point) {
+            speed = speed - decel;
+            state = 2;
         }
         break;
     case 2:
-        profile->speed = profile->speed - profile->decel;
-        if (profile->speed < 0.0f) {
-            profile->speed = 0.0f;
-            profile->state = 3;
+        speed = speed - decel;
+        if (speed < 0.0f) {
+            speed = 0.0f;
+            state = 3;
         }
         break;
     }
-    profile->travelled = profile->travelled + profile->speed;
-    if (profile->travelled > profile->distance) {
-        profile->travelled = profile->distance;
+    travelled = travelled + speed;
+    if (travelled > distance) {
+        travelled = distance;
     }
-    return profile->state;
+    return state;
 }
 
 void TBoss2DeRolLe::load_resources() {
@@ -1171,7 +1171,7 @@ void TBoss2DeRolLe::init_head_params() {
 #pragma opt_common_subs off
 
 s32 TBoss2DeRolLe::update_phase_is_done() {
-    advance_scalar_motion_profile(&motion_z);
+    motion_z.advance();
     switch (unk_65C) {
     case 0:
         if (motion_z.travelled > 380.0f) {
@@ -1179,7 +1179,7 @@ s32 TBoss2DeRolLe::update_phase_is_done() {
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(&motion_x) == 3) {
+        if (motion_x.advance() == 3) {
             unk_65C = 2;
         }
         break;
@@ -1200,7 +1200,7 @@ void TBoss2DeRolLe::init_movement() {
 }
 
 s32 TBoss2DeRolLe::sub_80034800() {
-    advance_scalar_motion_profile(&motion_x);
+    motion_x.advance();
     switch (unk_660) {
     case 0:
         if (motion_x.travelled > 160.0f) {
@@ -1212,7 +1212,7 @@ s32 TBoss2DeRolLe::sub_80034800() {
         unk_660 = 3;
         break;
     case 3:
-        if (advance_scalar_motion_profile(&motion_z) == 3) {
+        if (motion_z.advance() == 3) {
             unk_660 = 4;
         }
         if (motion_z.travelled > 200.0f) {
@@ -1234,7 +1234,7 @@ void TBoss2DeRolLe::init_move_params() {
 
 s32 TBoss2DeRolLe::update_state() {
 
-    advance_scalar_motion_profile(&motion_z);
+    motion_z.advance();
     switch (unk_65C) {
     case 0:
         play_speed = 0.3f;
@@ -1243,7 +1243,7 @@ s32 TBoss2DeRolLe::update_state() {
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(&motion_x) == 3) {
+        if (motion_x.advance() == 3) {
             unk_65C = 2;
         }
         break;
@@ -1262,7 +1262,7 @@ void TBoss2DeRolLe::init_wave_params() {
 
 s32 TBoss2DeRolLe::sub_80034574() {
     f32 speed;
-    advance_scalar_motion_profile(&motion_x);
+    motion_x.advance();
     switch (unk_660) {
     case 2:
         break;
@@ -1278,7 +1278,7 @@ s32 TBoss2DeRolLe::sub_80034574() {
         }
         break;
     case 3:
-        if (advance_scalar_motion_profile(&motion_z) == 3) {
+        if (motion_z.advance() == 3) {
             unk_660 = 4;
         }
         break;
@@ -2426,18 +2426,18 @@ void TBoss2DeRolLe::sub_800320B4(u32 reason, s32 from, s32 to) {
             case 4:
                 position.x = position.x + state_floats[4];
                 update_angle();
-                advance_scalar_motion_profile(&motion_z);
+                motion_z.advance();
                 position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 5:
                 position.x = position.x + state_floats[4];
                 update_angle();
-                advance_scalar_motion_profile(&motion_z);
+                motion_z.advance();
                 position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 6:
                 update_angle();
-                if (advance_scalar_motion_profile(&motion_z) == 3) {
+                if (motion_z.advance() == 3) {
                     state_step = 2;
                 }
                 position.z = state_floats[3] - motion_z.travelled;
@@ -2602,7 +2602,7 @@ void TBoss2DeRolLe::sub_80031AD4(u32 reason) {
                     } else {
                         position.z += state_floats[2];
                     }
-                } else if (advance_scalar_motion_profile(&motion_z) == 3) {
+                } else if (motion_z.advance() == 3) {
                     state_step = 3;
                 } else {
                     position.z = state_floats[2] - motion_z.travelled;

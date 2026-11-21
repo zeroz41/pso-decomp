@@ -670,7 +670,6 @@ CameraPlayback *get_scripted_camera_playback();
 
 f32 fabs_float(f32);
 
-s32 advance_scalar_motion_profile(void *);
 
 
 
@@ -1310,9 +1309,9 @@ void TBoss7DeRolLeC::update_wobble_angle() {
 }
 
 s32 TBoss7DeRolLeC::is_all_parts_done() {
-    advance_scalar_motion_profile(&motion_z);
-    advance_scalar_motion_profile(&motion_x);
-    advance_scalar_motion_profile(&motion_y);
+    motion_z.advance();
+    motion_x.advance();
+    motion_y.advance();
     if (motion_x.state == 3 && motion_y.state == 3 && motion_z.state == 3) {
         return 1;
     }
@@ -1322,8 +1321,8 @@ s32 TBoss7DeRolLeC::is_all_parts_done() {
 #pragma opt_common_subs off
 u32 TBoss7DeRolLeC::update_anim_state() {
     u8 done;
-    advance_scalar_motion_profile(&motion_z);
-    if (advance_scalar_motion_profile(&motion_y) == 3) {
+    motion_z.advance();
+    if (motion_y.advance() == 3) {
         unk_6CC = 1;
     }
     switch (unk_6C8) {
@@ -1333,7 +1332,7 @@ u32 TBoss7DeRolLeC::update_anim_state() {
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(&motion_x) == 3) {
+        if (motion_x.advance() == 3) {
             unk_6C8 = 2;
         }
         break;
@@ -1354,8 +1353,8 @@ u32 TBoss7DeRolLeC::update_anim_state() {
 #pragma opt_propagation off
 u32 TBoss7DeRolLeC::update_phase_settling() {
     u8 done;
-    advance_scalar_motion_profile(&motion_x);
-    if (advance_scalar_motion_profile(&motion_y) == 3) {
+    motion_x.advance();
+    if (motion_y.advance() == 3) {
         unk_6CC = 1;
     }
     switch (unk_6D0) {
@@ -1369,7 +1368,7 @@ u32 TBoss7DeRolLeC::update_phase_settling() {
         unk_6D0 = 3;
         break;
     case 3:
-        if (advance_scalar_motion_profile(&motion_z) == 3) {
+        if (motion_z.advance() == 3) {
             unk_6D0 = 4;
         }
         if (motion_z.travelled > 200.0f) {
@@ -1391,8 +1390,8 @@ u32 TBoss7DeRolLeC::update_phase_settling() {
 #pragma fp_contract on
 u32 TBoss7DeRolLeC::update_tail_anim_state() {
     u8 done;
-    advance_scalar_motion_profile(&motion_z);
-    if (advance_scalar_motion_profile(&motion_y) == 3) {
+    motion_z.advance();
+    if (motion_y.advance() == 3) {
         unk_6CC = 1;
     }
     switch (unk_6C8) {
@@ -1403,7 +1402,7 @@ u32 TBoss7DeRolLeC::update_tail_anim_state() {
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(&motion_x) == 3) {
+        if (motion_x.advance() == 3) {
             unk_6C8 = 2;
         }
         break;
@@ -1423,8 +1422,8 @@ u32 TBoss7DeRolLeC::update_tail_anim_state() {
 u32 TBoss7DeRolLeC::update_phase_rising() {
     f32 speed;
     u8 done;
-    advance_scalar_motion_profile(&motion_x);
-    if (advance_scalar_motion_profile(&motion_y) == 3) {
+    motion_x.advance();
+    if (motion_y.advance() == 3) {
         unk_6CC = 1;
     }
     switch (unk_6D0) {
@@ -1442,7 +1441,7 @@ u32 TBoss7DeRolLeC::update_phase_rising() {
         }
         break;
     case 3:
-        if (advance_scalar_motion_profile(&motion_z) == 3) {
+        if (motion_z.advance() == 3) {
             unk_6D0 = 4;
         }
         break;
@@ -2573,18 +2572,18 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
             case 4:
                 position.x = position.x + unk_754;
                 update_wobble_angle();
-                advance_scalar_motion_profile(&motion_z);
+                motion_z.advance();
                 position.z = unk_750 - motion_z.travelled;
                 break;
             case 5:
                 position.x = position.x + unk_754;
                 update_wobble_angle();
-                advance_scalar_motion_profile(&motion_z);
+                motion_z.advance();
                 position.z = unk_750 - motion_z.travelled;
                 break;
             case 6:
                 update_wobble_angle();
-                if (advance_scalar_motion_profile(&motion_z) == 3) {
+                if (motion_z.advance() == 3) {
                     unk_728 = 2;
                 }
                 position.z = unk_750 - motion_z.travelled;
@@ -2752,7 +2751,7 @@ void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
                     } else {
                         position.z += unk_74C;
                     }
-                } else if (advance_scalar_motion_profile(&motion_z) == 3) {
+                } else if (motion_z.advance() == 3) {
                     unk_728 = 3;
                 } else {
                     position.z = unk_74C - motion_z.travelled;

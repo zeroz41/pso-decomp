@@ -212,10 +212,8 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
-void plan_motion_profile(TUnk_80036250 *profile);  // caps max_speed so it fits distance, sets brake_point
 void derolle_capture_node_points(NJS_OBJECT *);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
-s32 advance_scalar_motion_profile(TUnk_80036250 *profile);
 // TBoss2DeRolLe::backup_pos(int): the run_task call passes no int, so the call
 // cannot be a member call without a stray li r4.
 void backup_pos__13TBoss2DeRolLeFi(TBoss2DeRolLe *boss);
