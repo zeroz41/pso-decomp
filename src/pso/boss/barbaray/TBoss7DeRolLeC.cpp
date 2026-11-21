@@ -42,6 +42,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/boss/TUnk_804F1C88.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
@@ -396,10 +397,6 @@ void TObjPlayer__sub_802E7088(void);
 
 void TObjPlayer__sub_802E746C(void);
 
-
-void TBoss7LaserPtcl__sub_8035AF10(void);
-
-void TBoss7LaserPtcl__sub_8035AF0C(void);
 }
 
 Boss7LoadCallback lbl_804E3C5C[6] = {
@@ -408,7 +405,7 @@ Boss7LoadCallback lbl_804E3C5C[6] = {
     {TObjPlayer__sub_802E7088, TObjPlayer__sub_802E746C},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
-    {TBoss7LaserPtcl__sub_8035AF10, TBoss7LaserPtcl__sub_8035AF0C},
+    {TUnk_804F1C88::load_static_resource, TUnk_804F1C88::destroy_instance},
 };
 
 TBoss7DeRolLeCMovement lbl_804E3C8C = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
@@ -848,8 +845,6 @@ void assign_slots_from_list(void *arg0, saddr arg1);
 void TObjBoss2Tunnel__sub_802F22C4(void);
 
 void TObjBoss2Tunnel__sub_802F22DC(void);
-
-u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *arg0, saddr arg1, saddr arg2);
 
 void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 
@@ -3070,12 +3065,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
                     TObjBoss2Tunnel__sub_802F22C4();
                 }
                 ((TBoss7DeRolLeC *)self)->play_sound_at(0x3A107, (Vec *)(self->eff));
-                {
-                    uaddr o = (uaddr)TObject::operator new(0x60);
-                    if (o != 0) {
-                        TBoss7LaserPtcl__sub_8035AE54((u8 *)o, (saddr)self, (saddr)&self->p4DC);
-                    }
-                }
+                new TUnk_804F1C88((TBoss7DeRolLeC *)self, &self->p4DC);
                 self->flags |= 0x200;
                 for (i = 0; i < 4; i++) {
                     ((TBoss7Tentacle *)self->tent[i])->sub_802F0B58();
