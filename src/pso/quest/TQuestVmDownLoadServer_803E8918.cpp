@@ -14,11 +14,11 @@ u8 *lbl_805D786C;
 u8 *lbl_805D7870;
 s32 lbl_805D7874;
 QuestDownloadCachedNameNode *lbl_805D7878;
-void TQuestVmDownLoadServer__sub_803E8918(void) {
+void mark_name_cache_dirty(void) {
     lbl_805D7868 = 1;
 }
 
-void TQuestVmDownLoadServer__sub_803E95BC(void);
+void rotate_cache_page(void);
 
 inline int Hash_80591EC8(char *s) {
     int h;
@@ -59,7 +59,7 @@ inline QuestDownloadCachedNameNode *FindName_80591EC8(char *buf, s16 len, QuestD
     return n;
 }
 
-void TQuestVmDownLoadServer__sub_803E8924(s32 id) {
+void relocate_name_record(s32 id) {
     char buf[0x50];
     s32 unused[3];
     s16 page;
@@ -83,7 +83,7 @@ void TQuestVmDownLoadServer__sub_803E8924(s32 id) {
     size &= 0xFFFF;
     u8 *rec = p;
     if (lbl_805D7870 > lbl_805D786C - size - 2) {
-        TQuestVmDownLoadServer__sub_803E95BC();
+        rotate_cache_page();
     }
     dst = lbl_805D7870;
     lbl_805D7870 += size;
@@ -162,7 +162,7 @@ s32 TQuestVmDownLoadServer::lookup_name_entry(s16 name_len, Out_803E8C2C *out) {
     return 1;
 }
 
-s32 TQuestVmDownLoadServer__sub_803E8C2C(char *name, s16 name_len, Out_803E8C2C *out) {
+s32 lookup_name_prefix(char *name, s16 name_len, Out_803E8C2C *out) {
     QuestDownloadCachedNameNode *n;
     u8 *e;
     s16 len;
@@ -233,7 +233,7 @@ inline void WriteRecord_803E8DA0(u8 *p, s32 size, QuestDownloadRequest *req, u8 
 inline u8 *AllocRecord_80591EC8(s32 size) {
     u8 *p;
     if (lbl_805D7870 > lbl_805D786C - size - 2) {
-        TQuestVmDownLoadServer__sub_803E95BC();
+        rotate_cache_page();
     }
     p = lbl_805D7870;
     lbl_805D7870 += size;
@@ -241,7 +241,7 @@ inline u8 *AllocRecord_80591EC8(s32 size) {
     lbl_805D7870[1] = 0;
     return p;
 }
-s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, QuestDownloadRequest *req, s32 attr) {
+s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     QuestDownloadNameCacheImage *cache;
     QuestDownloadCachedNameNode *n;
     QuestDownloadCachedNameNode *node;
@@ -261,7 +261,7 @@ s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, QuestDownloadRequest *req, 
         lbl_805D7878 = n;
     }
     if (lbl_805D7878 == NULL) {
-        TQuestVmDownLoadServer__sub_803E95BC();
+        rotate_cache_page();
     }
     node = lbl_805D7878;
     lbl_805D7878 = node->next;
@@ -446,7 +446,7 @@ inline s32 read_cached_name_image(void *file, u8 *image) {
 #pragma inline_depth(2)
 #pragma opt_common_subs off
 
-s32 TQuestVmDownLoadServer__sub_803E93DC(void) {
+s32 load_name_cache_image(void) {
     char name[0x50];
     u8 *pageStart;
     u8 *record;
@@ -475,7 +475,7 @@ s32 TQuestVmDownLoadServer__sub_803E93DC(void) {
                 name[(s16)len] = 0;
                 node = find_cached_name_link(name, cacheAddress, len, link);
                 if (lbl_805D7878 == NULL) {
-                    TQuestVmDownLoadServer__sub_803E95BC();
+                    rotate_cache_page();
                 }
                 QuestDownloadCachedNameNode *allocated = lbl_805D7878;
                 lbl_805D7878 = allocated->next;
@@ -503,7 +503,7 @@ u8 *TQuestVmDownLoadServer::get_buffer_ptr(s32 id) {
 #pragma inline_depth(1)
 #pragma opt_common_subs off
 
-void TQuestVmDownLoadServer__sub_803E95BC(void) {
+void rotate_cache_page(void) {
     char name[0x50];
 
     size_t cacheAddress = (size_t)&lbl_80591EC8;
@@ -539,7 +539,7 @@ void TQuestVmDownLoadServer__sub_803E95BC(void) {
 
 #pragma pop
 
-void TQuestVmDownLoadServer__sub_803E9764(void) {
+void save_name_cache(void) {
     if (lbl_805D7868 != 0) {
         if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) != -1) {
             TQuestVmDownLoadServer__sub_803E8788(quest_download_file_handle, lbl_80591EC8.pages, 0x2000);
@@ -562,7 +562,7 @@ void __VIRetraceHandler(void) {
     for (u32 i = 0; i < 80; i++) {
         QUEST_DOWNLOAD_CACHE_INDEX(cacheAddress)->heads[i] = NULL;
     }
-    if (TQuestVmDownLoadServer__sub_803E93DC() == -1) {
+    if (load_name_cache_image() == -1) {
         u8 *bytes = reinterpret_cast<u8 *>(cacheAddress);
         u8 *page = bytes;
         for (s32 i = 0; i < 8; i++) {
