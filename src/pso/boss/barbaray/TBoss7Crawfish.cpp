@@ -107,15 +107,15 @@ extern s32 game_difficulty_selection;
 s32 obj_is_hit_receivable(u8 *arg0);
 void reset_global_table(void);
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *, void *);
-void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1);
-int TBoss7Crawfish__sub_80308BEC(void* p);
+void TBoss7Crawfish__play_persistent_sound_at_position(s32 arg0, s32 arg1);
+int TBoss7Crawfish__advance_to_band_check(void* p);
 s32 play_sound_effect(s32, s32, s32, s32);
 int change_state__14TBoss7CrawfishFl(void*, int);
 int scale_current_matrix(void*);
 int post_translate_matrix(void*);
 int push_matrix(void);
 
-s32 TBoss7Crawfish::sub_80308688() {
+s32 TBoss7Crawfish::is_past_arena_x_bound() {
     return (u32) __cntlzw((u32) (75.0f < *(f32 *)((s8 *)this + 0x38))) >> 5;
 }
 
@@ -149,7 +149,7 @@ void TBoss7Crawfish::register_attack_hits() {
     reset_global_table();
 }
 
-void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1) {
+void TBoss7Crawfish__play_persistent_sound_at_position(s32 arg0, s32 arg1) {
     play_persistent_sound(arg1, arg0, arg0 + 0x38, 0, 0);
 }
 
@@ -246,7 +246,7 @@ void TBoss7Crawfish::check_band_and_destroy() {
     }
 }
 
-int TBoss7Crawfish__sub_80308BEC(void* p) { return change_state__14TBoss7CrawfishFl(p, 5); }
+int TBoss7Crawfish__advance_to_band_check(void* p) { return change_state__14TBoss7CrawfishFl(p, 5); }
 
 }
 
@@ -271,7 +271,7 @@ struct Craw_80308D1C {
 };
 
 extern "C" {
-s32 TBoss7Crawfish__sub_80308ED8(TBoss7Crawfish *self, const Vec *delta);
+s32 TBoss7Crawfish__try_move_by_delta(TBoss7Crawfish *self, const Vec *delta);
 u16 find_nearest_visible_player(void *, void *, f32);
 f32 atan2_float(f32 y, f32 x);
 void normalize_vector(void *);
@@ -289,12 +289,12 @@ void TBoss7Crawfish::update_motion_and_release() {
             ((TParticleCtrl *)temp_ptr)->set_position((u8 *)&this->position);
         }
     }
-    if (TBoss7Crawfish__sub_80308ED8(this, (Vec *)this->unk_308) == 0) {
+    if (TBoss7Crawfish__try_move_by_delta(this, (Vec *)this->unk_308) == 0) {
         ((TBoss7Crawfish *)arg0)->free_child();
         ((TBoss7Crawfish *)arg0)->change_state(3);
         return;
     }
-    TBoss7Crawfish__sub_803087D4((saddr)arg0, 0x3A80C);
+    TBoss7Crawfish__play_persistent_sound_at_position((saddr)arg0, 0x3A80C);
 }
 void TBoss7Crawfish::aim_at_nearest_player() {
     Craw_80308D1C *o = (Craw_80308D1C *)this;
@@ -360,7 +360,7 @@ void TBoss7Crawfish::update_attack_state() {
     }
 }
 // Moves by delta when the new position is free and still inside the arena (names inferred); returns 1 if moved.
-s32 TBoss7Crawfish__sub_80308ED8(TBoss7Crawfish *self, const Vec *delta) {
+s32 TBoss7Crawfish__try_move_by_delta(TBoss7Crawfish *self, const Vec *delta) {
     Vec pos;
     s32 moved;
 
@@ -368,7 +368,7 @@ s32 TBoss7Crawfish__sub_80308ED8(TBoss7Crawfish *self, const Vec *delta) {
     pos.y = self->position.y + delta->y;
     pos.z = self->position.z + delta->z;
     if (self->vfunc_18((u8 *)&pos) != 0) {
-        if (self->sub_80308688() != 0) {
+        if (self->is_past_arena_x_bound() != 0) {
             moved = 1;
             self->position.x = pos.x;
             self->position.z = pos.z;
@@ -417,7 +417,7 @@ void TBoss7Crawfish::change_state(s32 state) {
 uaddr TBoss7Crawfish__shared_resource;
 
 
-int TBoss7Crawfish__sub_80308BEC(void *p);
+int TBoss7Crawfish__advance_to_band_check(void *p);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 
 void TBoss7Crawfish::run_task() {
@@ -440,7 +440,7 @@ void TBoss7Crawfish::run_task() {
         TBoss7Crawfish::update((saddr)arg0);
         break;
     case 4:
-        TBoss7Crawfish__sub_80308BEC((arg0));
+        TBoss7Crawfish__advance_to_band_check((arg0));
         break;
     case 5:
         ((TBoss7Crawfish *)arg0)->check_band_and_destroy();
@@ -494,7 +494,7 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) 
     v.z = 0.0f;
     v.y = 0.0f;
     v.x = 0.0f;
-    TBoss7Crawfish__sub_80308ED8((TBoss7Crawfish *)arg0, &v);
+    TBoss7Crawfish__try_move_by_delta((TBoss7Crawfish *)arg0, &v);
     if (((TBoss7Crawfish *)arg0)->sub_80308AA8() != 0) {
         *(f32 *)((s8 *)arg0 + 0x70) = 0.8f;
         ((TBoss7Crawfish *)arg0)->scale.y = 0.8f;
