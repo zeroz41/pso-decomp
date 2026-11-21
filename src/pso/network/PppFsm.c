@@ -235,7 +235,6 @@ static inline s16 read_packet_header(PppHeader *dst, void *src, s32 with_ext) {
 #pragma inline_depth(4)
 void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
 {
-    s16 ppp_fsm_send_packet(); /* declared without a parameter list; the definition is s32 (void *, u8, int, void *) */
     PppHeader hdr;
     s16 rc;
     u8 *newbuf;
@@ -513,7 +512,7 @@ void TLobby__sub_803FE600(O_803FE600 *o) {
     fsm->proto->f14(fsm, fsm->proto);
 }
 
-s32 TLobby__sub_803FE658(u8 *arg0) {
+s16 TLobby__sub_803FE658(u8 *arg0) {
     PppFsm *fsm;
     u8 count;
 
@@ -542,7 +541,7 @@ static inline PppFrame *ppp_frame_clear_length(PppFrame *frame) {
 #pragma inline_depth(4)
 #pragma opt_common_subs off
 #pragma opt_propagation on
-s32 ppp_fsm_send_packet(void *self, u8 code, int reply_identifier, void *payload) {
+s16 ppp_fsm_send_packet(void *self, u8 code, int reply_identifier, void *payload) {
     PppFsm *fsm = (PppFsm *)self;
     PppBuffers *buffers;
     PppFsmLink *link = (PppFsmLink *)fsm->sub;

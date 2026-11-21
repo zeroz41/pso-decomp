@@ -745,8 +745,8 @@ s32 TLobby__sub_804062A0(s16 arg0) {
 }
 
 s32 TLobby__sub_804048E8(void *, saddr *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
-s32 ppp_output_frame(PppFrame *);
-s32 TLobby__sub_80406328(saddr self, s16 type) {
+s16 ppp_output_frame(PppFrame *);
+s16 TLobby__sub_80406328(saddr self, s16 type) {
     saddr sv = self;
     void *me = (void *)self;
     s32 ty = type;
@@ -849,7 +849,7 @@ skip:
     }
 }
 
-s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
+s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
     s32 pad[4];
     u16 r30;
     u8 *r29;
@@ -894,7 +894,7 @@ inline s32 ppp_protocol_field_is_two_bytes(s32 is_lcp, LcpOpts *opts, u16 proto)
 
 #pragma push
 #pragma opt_propagation off
-s32 ppp_output_frame(PppFrame *p) {
+s16 ppp_output_frame(PppFrame *p) {
     PppFrame *frame;
     u8 *out;
     u8 *hdr;
@@ -1002,7 +1002,7 @@ s32 ppp_output_frame(PppFrame *p) {
         return 0;
     }
     get_time_ms(&lbl_805D7A94);
-    return (s16)send_network_frame(frame->len, frame->data);
+    return send_network_frame(frame->len, frame->data);
 }
 #pragma pop
 
