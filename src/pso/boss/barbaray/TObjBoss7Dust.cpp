@@ -16,6 +16,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_802F190C.h"
 
 // TObjBoss7DustCtrl and TObjBoss7Dust share one TU, built deferred and written from the unit's last
 // function back: Dust's code comes first in .text, yet DustCtrl's class name precedes Dust's in .sdata
@@ -31,7 +33,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec *, TrailStripVertex *);
 Vec TObjBoss7DustCtrl__helix_points[6];
 s32 TObjBoss7DustCtrl__rotation_pairs[20];
 TrailStripVertex TObjBoss7DustCtrl__transformed_vertices[60];
@@ -43,7 +44,6 @@ extern const f32 lbl_805DEC7C;
 extern const f32 lbl_805DEC80;
 extern s32 __vt__17TObjBoss7DustCtrl[];
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
-void fn_802F19C0(void);
 }
 
 const char *TObjBoss7DustCtrl__name = "TObjBoss7DustCtrl";
@@ -129,7 +129,7 @@ void TObjBoss7DustCtrl::run_task() {
         *rot += 0x555;
         rotate_matrix_x(0, *rot++);
         for (j = 0; j < 6; j++) {
-            matrix_mult_vec(0, &TObjBoss7DustCtrl__helix_points[j], out++);
+            matrix_mult_vec(NULL, &TObjBoss7DustCtrl__helix_points[j], (Vec *)out++);
         }
     }
     pop_matrix();
@@ -158,12 +158,12 @@ void boss7_dust_draw_at(const Vec *position, s32 slot) {
 
 LAYOUT_ASSERT(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size, sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18);
 
-u8 *__ct__13TObjBoss7DustFv(u8 *object, saddr arg1, saddr arg2) {
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
+u8 *__ct__13TObjBoss7DustFv(u8 *object, saddr parent, saddr origin) {
+    __ct__7TObjectFP7TObject((void *)object, (void *)parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss7Dust.value;
     ((TObjBoss7Dust *)object)->m_name = TObjBoss7Dust__name;
     TObjBoss7Dust *dust = (TObjBoss7Dust *)object;
-    VecCopy(&dust->position, (const Vec *)arg2);
+    VecCopy(&dust->position, (const Vec *)origin);
     dust->ticks = 0;
     dust->strip_slot = TObjBoss7DustCtrl__sub_802F125C();
     return object;
