@@ -11,6 +11,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 #pragma readonly_strings on
@@ -27,7 +28,6 @@ void TItemEffectWeapon__sub_80363410(void);
 
 void decrement_timer__17TItemEffectWeaponFv(void *, s32);
 f32 xyz_distance(const f32 *a, const f32 *b);
-f32 normalize_vector(f32 *v);
 
 void TItemEffectWeapon__sub_8036340C(void) {  }
 void TItemEffectWeapon__sub_80363410(void) {  }
@@ -86,7 +86,7 @@ void TItemEffectWeapon::push_trail_interpolated(const f32 *first, const f32 *sec
                 dir[0] = tip[0] - base[0];
                 dir[1] = tip[1] - base[1];
                 dir[2] = tip[2] - base[2];
-                normalize_vector(dir);
+                normalize_vector((Vec *)dir);
                 base[0] = 0.01f * dir[0] + base[0];
                 base[1] = 0.01f * dir[1] + base[1];
                 base[2] = 0.01f * dir[2] + base[2];

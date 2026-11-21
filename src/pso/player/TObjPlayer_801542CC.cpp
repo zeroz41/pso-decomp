@@ -99,6 +99,7 @@ struct Obj_801547E0;
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_803D96A8.h"
 union ObjectSavedState_801548A8 {
     u32 word;
     struct { s16 flags; s16 source; } halves;
@@ -153,7 +154,6 @@ extern s32 lbl_805D5868;
 void TObjPlayer__sub_80156934(void);
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_diff_s16(s32 a, s32 b);
-s32 normalize_vector(void *);
 extern saddr TObjPlayer__data_8050D460[];
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);

@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 static const f32 lbl_805DC888[1] = {1.0f};
@@ -143,7 +144,6 @@ u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3,
 
 extern "C" {
 f32 vec_squared_length(void *, f32);
-s32 normalize_vector(void *);
 }
 extern TCameraCtrl *camera_ctrl_instance;
 
@@ -158,7 +158,7 @@ void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
         temp_f1 = camera_ctrl_instance->pos_z;
         stack.z = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
         if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
-            normalize_vector(&stack.x);
+            normalize_vector(&stack);
         }
         *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.x * farg0) + *(f32 *)((s8 *)arg0 + 0));
         *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.y * farg0) + *(f32 *)((s8 *)arg0 + 4));

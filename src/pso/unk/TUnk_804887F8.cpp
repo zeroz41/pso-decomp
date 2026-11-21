@@ -8,6 +8,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/unk/text_803D96A8.h"
 
 const Vec camera_ctrl_default_offset_vecs[2] = {
     {0.0f, 25.43f, 45.42f},
@@ -17,7 +18,6 @@ const Vec camera_ctrl_default_offset_vecs[2] = {
 extern "C" {
 f32 vector_length(void *);
 extern u8 *camera_ctrl_instance;
-void normalize_vector(void *);
 s16 get_entity_id(u32);
 
 void TUnk_80488A28::set_target(uaddr arg1) {
@@ -45,7 +45,7 @@ void TUnk_804887F8::update_target_follow() {
         stack.z = temp_f1;
         temp_f1_2 = vector_length(&stack.x);
         if (0.0f != temp_f1_2) {
-            normalize_vector(&stack.x);
+            normalize_vector(&stack);
         } else {
             return;
         }

@@ -19,6 +19,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer_80036824.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -79,7 +80,6 @@ extern "C" {
 void *TObjEZRopeBase__ct(void *);
 extern f32 ezrope_chunk_material_color_table[];
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void normalize_vector(Vec *v);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern u8 lbl_8048DEF4[];
 extern s32 saved_model_render_flags;

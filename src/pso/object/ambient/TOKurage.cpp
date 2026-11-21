@@ -25,10 +25,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 
-// normalize_vector (text_803D96A8, 133 callers) has no header yet: the files
-// that use it declare it with conflicting return types.
-extern "C" f32 normalize_vector(Vec *v);
-
 const char *bm_fs_obj_kurage_model_names[] = {"fs_obj_kurage.nj", NULL};
 const char *bm_fs_obj_kurage_motion_names[] = {"fs_obj_kurage.njm", "fs_obj_kurage.njs", NULL};
 BmlResourceDescriptor bm_fs_obj_kurage_resource_descriptor = {

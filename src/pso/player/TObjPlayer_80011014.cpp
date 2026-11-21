@@ -100,6 +100,7 @@ extern "C" void apply_anti_technique__9TObjCharaFl();
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 
 #include "pso/item/TItemReverseTech.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct VBase_800172CC { u8 pad[0x18]; };
 
@@ -845,7 +846,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_z(int, int);
 s32 translate_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
-s32 normalize_vector(void *);
 s32 push_matrix_from(void *);
 s32 push_matrix();
 s32 pop_matrix();

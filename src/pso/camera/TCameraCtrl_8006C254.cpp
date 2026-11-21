@@ -18,6 +18,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 #pragma push
@@ -82,7 +83,6 @@ struct Stack_8006C28C {
 void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-void normalize_vector(Vec *);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(int, s32);
 void matrix_mult_vec(int, Vec *, Vec *);

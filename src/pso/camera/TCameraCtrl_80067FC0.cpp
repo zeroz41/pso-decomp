@@ -10,6 +10,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 struct View_8006835C {
@@ -58,7 +59,6 @@ void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 void GXSetScissorBoxOffset(s32, s32);
 f32 vector_length(void *);
-void normalize_vector(void *);
 extern Vec lbl_804FF5E8;
 extern Flags_8006835C TCameraCtrl__view_state;
 extern Scissor_8006835C TCameraCtrl__data_804FF634;

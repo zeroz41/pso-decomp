@@ -169,6 +169,7 @@ struct Cam_8006D9F0 : CamBase_8006D9F0 {
 
 #include <stddef.h>
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/text_803D96A8.h"
 struct Rec_8006E310 { u8 pad0[0x20]; u8 pad20[0x30]; };
 
 extern Vec TCameraCtrl__override_position;
@@ -185,7 +186,6 @@ u8 * csnVector(void *, void *, u32);
 s32 angle_difference_abs(s32 a, s32 b);
 void begin_conversation_camera(void);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-void push_matrix_from(void *);
 void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, void *, void *);
 }
@@ -196,7 +196,6 @@ void TCameraCtrl__sub_8006E804(void* a0);
 extern Pads_8006D1A4 controller_input_state;
 f32 horizontal_distance_squared(void *, void *);
 f32 vec_squared_length(FollowVector *);
-void normalize_vector(FollowVector *);
 extern FollowVector lbl_80438534;
 void camera_renderer_setup_nop(void *, s32);
 extern FollowVector lbl_80438528;
@@ -728,7 +727,7 @@ void TUnk_80488E00::vfunc_8(void *arg1_arg) {
             d.y = arg0->position.y - arg0->target.y;
             d.z = arg0->position.z - arg0->target.z;
             if ((0.0f) != vec_squared_length(&d)) {
-                normalize_vector(&d);
+                normalize_vector((Vec *)&d);
             }
             arg0->position.x = hit->point->x - d.x;
             arg0->position.y = hit->point->y - d.y;

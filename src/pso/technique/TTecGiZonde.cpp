@@ -11,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/unk/text_803D96A8.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -134,7 +135,6 @@ s16 get_entity_id(void *);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
 f32 vector_length(Vec *);
-void normalize_vector(Vec *);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 extern saddr tl_07;
 

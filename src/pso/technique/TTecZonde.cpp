@@ -94,6 +94,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 }
 
 #include "pso/technique/TTecLuker.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
@@ -126,7 +127,6 @@ void *find_entity_by_id(u16 id);
 s32 play_sound_effect(s32, void *, s32, s32);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 f32 vector_length(void *);
-void normalize_vector(void *);
 extern u8 *tl_07;
 
 void TTecZonde::run_task() {
@@ -167,7 +167,7 @@ void TTecZonde::run_task() {
             s->b[2] = t->z - s->a[2];
             s->len = vector_length(pb);
             if (0.0f != s->len) {
-                normalize_vector(pb);
+                normalize_vector((Vec *)pb);
             }
         }
         scale = 0.5f;

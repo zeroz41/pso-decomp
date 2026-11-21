@@ -27,6 +27,7 @@
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/technique/TTecReverser.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -209,7 +210,6 @@ void __construct_array(void *, void *, int, int, int);
 void matrix_mult_vec(s32, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
-void normalize_vector(Vec *);
 void project_point_onto_line(void *, Line_8014EE98 *, Vec *);
 f32 xyz_distance(Vec *, Vec *);
 
@@ -2091,7 +2091,7 @@ s32 TNpcPlayer::calc_follow_goal() {
                 dir.y = 0.0f;
                 dir.z = temp_f1;
                 if (0.0f != ((f32 (*)(void *, int, f32, f32))vector_length)(&dir, (int)temp_r4, temp_f1, temp_f2)) {
-                    ((s32 (*)(void *))normalize_vector)(&dir);
+                    normalize_vector(&dir);
                 }
                 m_dc.x = -((ai_params.unknown_24 * dir.x) - m_dc.x);
                 m_dc.z = -((ai_params.unknown_24 * dir.z) - m_dc.z);
@@ -2541,7 +2541,7 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
     dir.z = self->m_dc.z - actor->body_center.z;
     len = ((f32 (*)(void *))vector_length)(&dir);
     if (0.0f != len) {
-        ((s32 (*)(void *))normalize_vector)(&dir);
+        normalize_vector(&dir);
     }
     actor = self->m_78->m_94;
     half = len / 2.0f;
@@ -2566,7 +2566,7 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
             self->m_94.y = 0.0f;
             self->m_94.z = self->m_dc.z - self->m_a0.z;
             if (0.0f != ((f32 (*)(void *))vector_length)(&self->m_94)) {
-                ((s32 (*)(void *))normalize_vector)(&self->m_94);
+                normalize_vector(&self->m_94);
             }
             self->m_80 |= 1;
         }

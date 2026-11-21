@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_801AB608.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C3248.h"
@@ -133,7 +134,6 @@ u32 __cvt_fp2unsigned(f32);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void subtract_vector(void *, void *);
-void normalize_vector(void *);
 s32 push_matrix_from(void *src);
 }
 s32 pop_matrices(s32 arg0);

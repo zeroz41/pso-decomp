@@ -20,6 +20,7 @@
 #include "pso/item/TItem.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct InwardOrbitDir { s32 x, y, z; };
 
@@ -40,7 +41,6 @@ int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 f32 vector_length(void *);
-s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 get_bml_motion(s32, s32);
 

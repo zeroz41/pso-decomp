@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct Stack_8023A510 {
     s32 sp8;
@@ -183,7 +184,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 init_collision_body_parts(u32, void *, int);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 f32 vector_length(void *);
-s32 normalize_vector(void *);
 extern const f64 lbl_8044DC00;
 
 void free_collision_body_parts(void *);
@@ -239,7 +239,7 @@ TUnk_804CCC68::TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect
     *(f32 *)((s8 *)this + 0x4C) = dy;
     *(f32 *)((s8 *)this + 0x50) = dz;
     if (0.0f != vector_length(((u8 *)this) + 0x48)) {
-        normalize_vector(((u8 *)this) + 0x48);
+        normalize_vector((Vec *)((u8 *)this + 0x48));
     }
     direction_to_rotation_xz((((u8 *)this) + 0x48), (s32 *)(((u8 *)this) + 0x54), (s32 *)(((u8 *)this) + 0x5C));
     this->collisionBody.offset.x = 0.0f;

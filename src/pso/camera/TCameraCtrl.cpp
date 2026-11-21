@@ -66,6 +66,7 @@ struct Out_80069F20 {
 
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/unk/text_803D96A8.h"
 struct Stack_80069318 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -232,7 +233,6 @@ extern s32 TCameraCtrl__saved_projection_angle;
 s32 restore_player_cameras(void);
 u8 *csnVector(void *, void *, u32);
 f32 vector_length(void *);
-void normalize_vector(void *);
 f32 TCameraCtrl__sub_80068A04(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 

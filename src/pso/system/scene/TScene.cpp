@@ -32,6 +32,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/vector.h"
 #include <string.h>
+#include "pso/unk/text_803D96A8.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -157,15 +158,12 @@ SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 extern u8 identity_matrix[];
 
-void normalize_vector(Vec *);
 
-void push_matrix_from(void *);
 
 void rotate_matrix_y(s32, s32);
 
 void rotate_vector_by_matrix(saddr, void *, Vec *);
 
-void pop_matrix(void);
 
 s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 arg0, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 arg4);
 

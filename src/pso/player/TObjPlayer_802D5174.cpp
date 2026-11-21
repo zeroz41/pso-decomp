@@ -37,6 +37,7 @@
 #include "pso/weapon/TUnk_804E21F8.h"
 #include "pso/weapon/TUnk_804E22F4.h"
 #include "pso/weapon/TUnk_804E23F0.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct W_802D5B78 { s32 a; s32 b; s32 c; };
 
@@ -54,7 +55,6 @@ extern "C" {
 void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
-void normalize_vector(void *);
 s32 rotate_matrix_about_axis(int, void *, int);
 void set_matrix_identity(u8 *arg0);
 }
@@ -188,7 +188,7 @@ void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2) {
     w.a = a;
     w.b = b;
     w.c = c;
-    normalize_vector(&w);
+    normalize_vector((Vec *)&w);
     S_802D5B78 *tab = *(S_802D5B78 **)((s8 *)*(void **)arg0 + 0xA4);
     S_802D5B78 *e = (S_802D5B78 *)((s8 *)tab + *(s32 *)((s8 *)arg0 + 4) * 0x2C);
     f32 s = e->scale;

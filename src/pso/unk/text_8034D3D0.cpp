@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/unk/text_8034D3D0.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_803D96A8.h"
 typedef struct Vec4_8034D500 {
     f32 x, y, z, w;
 } Vec4_8034D500;
@@ -111,7 +112,6 @@ struct PartnerText_8034DA38
 struct PartnerText_8034D9E0 partner_dialogue_table[4];
 struct Ent_8034D790 { Vec p; f32 weight; };
 extern "C" {
-void normalize_vector(void *);
 
 #pragma push
 #pragma fp_contract on

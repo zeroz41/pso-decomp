@@ -527,7 +527,6 @@ void TUnk_804B8E18::update_best_time() {
 #undef xyz_distance
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
-#define normalize_vector ((s32 (*)(void*))normalize_vector)
 #define vector_length ((f32 (*)(void*))vector_length)
 void TUnk_804B8E18::render() {
     Vec dir;
@@ -632,7 +631,6 @@ void TUnk_804B8E18::render() {
 }
 
 #undef F
-#undef normalize_vector
 #undef vector_length
 
 
