@@ -334,16 +334,13 @@ s32 is_timed_out(void) {
 
 s32 close_all_connections(void);
 
-typedef struct St_803FB6A0 { u8 busy; u8 pad[3]; u8 state; u8 rest[0x143]; } St_803FB6A0;
-
 s32 TLobby__sub_803FB6A0(void) {
-    void update_connection_state(void *state, void *session); /* declared with 2 parameters; the definition is void (int) */
-    St_803FB6A0 *st = (St_803FB6A0 *)&ppp_proto_blocks;
+    PppProtoBlocks *blocks = &ppp_proto_blocks;
     NetSession *sess = &lbl_805BFF68;
-    u8 *state = &st->state;
-    update_connection_state(state, &lbl_805BFF68);
-    if (*state == 6) {
-        while (st->busy != 0) {
+    PppFsm *lcp = &blocks->lcp;
+    update_connection_state(lcp);
+    if (lcp->state == 6) {
+        while (blocks->busy != 0) {
             unlock_mutex(lbl_805C18A0.mutex);
             process_expired_timers();
             net_sleep_ms(lbl_805C18A0.poll_ms);
