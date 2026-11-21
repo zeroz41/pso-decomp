@@ -90,6 +90,14 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802E83E8(u32 event);
     void sub_802E7B94();
     void sub_802E7B40();
+    void sub_802E8EEC(u32 event, s32);
+    void sub_802E8E34(u32 event);
+    void handle_crawfish_spawn_state(u32 event, s32 variant);
+    void sub_802E8990(u32 event);
+    void sub_802E88F8(u32 event);
+    void sub_802ECE90(s32 joint, s32 shot_level);
+    void sub_802E95F8(u32 event, s32 position_index);
+    void sub_802E9458(u32 event);
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)
     u8 pad_380[0xC];
@@ -203,7 +211,7 @@ void TObjPlayer__sub_802EE574(void);
 // Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;
 extern "C" {
-void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 variant);
+
 void TBoss7DeRolLeC__sub_802EC994(void *p);
 }
 s32 TBoss7Joint_get_shell_max_hp(void);
@@ -213,12 +221,8 @@ void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
 
 void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
-void TObjFish__sub_802E88F8(u8 *arg0, u32 arg1);
-void TObjFish__sub_802E8990(u8 *arg0, u32 arg1);
-void TObjFish__sub_802E8E34(u8 *arg0, u32 arg1);
-void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32 _w2);
-void TObjFish__sub_802E9458(u8 *arg0, u32 arg1);
-void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2);
+
+
 void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
