@@ -748,7 +748,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
         }
         break;
     case 2:
-        wpn = get_weapon_range_record((void *)get_item_field_6__10TObjPlayerFPv(player), id);
+        wpn = get_weapon_range_record(TObjPlayer::get_item_field_6(player), id);
         TMainCursor__sub_8013E9A0(cur);
         TMainCursor::set_cursor_color((saddr)this, (saddr)player, C_8013CDE4);
         ((TMainCursor *)C_8013CDE4)->set_field_0c(0);

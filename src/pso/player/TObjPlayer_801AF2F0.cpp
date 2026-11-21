@@ -1726,7 +1726,6 @@ int obj_getPtr2B0_20(u8 *p);
 s32 get_actor_hp__9TObjCharaFv(void *);
 s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
-s32 get_item_field_6__10TObjPlayerFPv(Pl_801B0B88 *);
 s32 get_type__10TObjPlayerFPv(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 test_flags_any(s32 *flags, s32 mask);
@@ -2448,7 +2447,7 @@ void TObjPlayer::sub_801BB950() {
     u8 *arg0 = (u8 *)this;
   if (is_current_area_item_enabled() != 0)
   {
-    temp_r3 = (u8 *) ((u8 * (*)(void *))get_item_field_6__10TObjPlayerFPv)(arg0);
+    temp_r3 = (u8 *)TObjPlayer::get_item_field_6(arg0);
     if (temp_r3 != 0)
     {
       ((TObjPlayer *)arg0)->set_action_provider_variant((s16)((void *) ((s16) (((VObj_18_9c7036 *)(temp_r3))->m41()))));
@@ -3289,7 +3288,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming) {
     ((TLobby *)(&d))->copy_entry(*(void **)(arg0 + 0x31C));
     switch (incoming[0]) {
     case 0:
-        prev = ((Item_801B9954 *)get_item_field_6__10TObjPlayerFPv((Pl_801B0B88 *)(arg0)));
+        prev = (Item_801B9954 *)TObjPlayer::get_item_field_6(arg0);
         break;
     case 1:
         if (incoming[1] == 1) {
@@ -3393,13 +3392,13 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
 
 void TObjPlayer::send_unequip_held_item() {
     Cmd_801B9634 cmd;
-    saddr item;
+    TItem *item;
     uaddr arg0 = (uaddr)this;
-    item = ((s32 (*)(void *))get_item_field_6__10TObjPlayerFPv)((void *)arg0);
-    if ((item != 0) && (((TItem *)item)->check_equip_requirements((TObjPlayer *)arg0, (s16 *)0) == 0) && ((arg0 == 0U) || (((TObjChara *)arg0)->obj_isState2_324() == 0))) {
+    item = get_item_field_6(this);
+    if ((item != NULL) && (item->check_equip_requirements((TObjPlayer *)arg0, (s16 *)0) == 0) && ((arg0 == 0U) || (((TObjChara *)arg0)->obj_isState2_324() == 0))) {
         ((TObjPlayer *)(&cmd))->init_cmd_6x26();
         cmd.client = ((s16 (*)(u32))get_entity_id)(arg0);
-        cmd.val = ((TItem *)item)->get_item_id();
+        cmd.val = item->get_item_id();
         ((TObjPlayer *)(&cmd))->bswap_body_dwords4_and_send();
     }
 }
@@ -3827,7 +3826,7 @@ void TObjPlayer::drop_items_on_death() {
     } else if (((s32 (*)(TObjPlayer*))check_flag_01000000__10TObjPlayerFPv)(this)==0) {
         count=((TLobby *)(fields->inventory_owner))->set_globals_and_notify((int)this, (int)records);
     } else {
-        equipped=((void* (*)(TObjPlayer*))get_item_field_6__10TObjPlayerFPv)(this);
+        equipped = get_item_field_6(this);
         if (equipped!=NULL) {
             TObjPlayer::send_6x26_unequip_item(this, ((TItem *)equipped)->get_item_id());
         }
@@ -7056,6 +7055,7 @@ void TLobby::apply_battle_rules_to_players() {
     s32 *q;
     Pl_801B0B88 *p;
     saddr j;
+    TItem *weapon;
     s32 lv;
     q = ((s32 *)&lobby_rule_settings);
     for (i = 0; i < 0xC; i++) {
@@ -7085,8 +7085,8 @@ void TLobby::apply_battle_rules_to_players() {
             ((TLobby *)(p->fD00))->set_globals_and_update((saddr)p, 2);
             break;
         }
-        if ((j = get_item_field_6__10TObjPlayerFPv(p)) != 0 && ((TItem *)j)->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
-            ((void (*)(Pl_801B0B88 *, s32))unequip_item__10TObjPlayerFiPv)(p, j);
+        if ((weapon = TObjPlayer::get_item_field_6(p)) != NULL && weapon->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
+            ((void (*)(Pl_801B0B88 *, TItem *))unequip_item__10TObjPlayerFiPv)(p, weapon);
         }
         switch (fn_801D7168(q)) {
         case 1:

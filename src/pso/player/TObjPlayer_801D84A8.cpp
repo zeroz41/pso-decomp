@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/weapon/WeaponSpecialSelection.h"
 
 struct Tec_801D7DA4 { u8 pad[0x10]; s16 cost; };
 
@@ -26,8 +27,6 @@ Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
 s32 get_game_play_mode();
 s32 TObjPlayer__sub_801C1F50(void *);
 
-u32 get_item_field_6__10TObjPlayerFPv(void *);
-s32 weapon_has_extra_attack(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
@@ -62,8 +61,9 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
             return 0;
         }
         if ((u8)sub == 2) {
-            if (get_item_field_6__10TObjPlayerFPv(arg0) != 0) {
-                if (((s32 (*)())weapon_has_extra_attack)() == 0) {
+            TItem *weapon = TObjPlayer::get_item_field_6(arg0);
+            if (weapon != NULL) {
+                if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                     return 0;
                 }
             } else {
@@ -128,7 +128,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
 }
 bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 kind, u8 arg) {
     TItemData_801D8044 item;
-    u32 w;
+    TItem *w;
     switch (kind) {
     case 0:
         return 0;
@@ -136,9 +136,9 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         return 1;
     case 2:
         if (arg == 2) {
-            w = get_item_field_6__10TObjPlayerFPv(self);
-            if (w != 0) {
-                if (weapon_has_extra_attack(w) == 0) {
+            w = TObjPlayer::get_item_field_6(self);
+            if (w != NULL) {
+                if (weapon_has_extra_attack((TItemWeapon *)w) == 0) {
                     return 0;
                 }
             } else {

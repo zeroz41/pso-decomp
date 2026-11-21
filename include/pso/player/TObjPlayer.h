@@ -411,7 +411,7 @@ struct TObjPlayer : public TObjChara {
     static void set_com_card_window(s32 arg0);
     static s32 check_demo_mode();
     static s32 is_locally_controlled(void *player);
-    static saddr get_item_field_6(void *player);
+    static TItem *get_item_field_6(void *player);
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
     s32 test_action_mask(s32 arg1);

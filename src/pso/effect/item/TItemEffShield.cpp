@@ -160,7 +160,7 @@ TUnk_8049F148::~TUnk_8049F148() {
 void TUnk_8049F148::run_task() {
     s32 sp8[6];
     s32 temp_r3_2;
-    uaddr temp_r3_3;
+    TItem *temp_r3_3;
     TObjPlayer *player;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
@@ -182,7 +182,7 @@ void TUnk_8049F148::run_task() {
         temp_r3_3 = TObjPlayer::get_item_field_6(player);
         if (this->particle != NULL) {
             s32 var_r30 = 0;
-            if ((temp_r3_3 != 0U) && (((TItem *)temp_r3_3)->get_item_group() == 0x1A)) {
+            if ((temp_r3_3 != NULL) && (temp_r3_3->get_item_group() == 0x1A)) {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {

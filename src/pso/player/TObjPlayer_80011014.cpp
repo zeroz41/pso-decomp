@@ -395,7 +395,6 @@ void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
 s16 get_actor_tp(u8* p);
 int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
-TItem *get_item_field_6__10TObjPlayerFPv(void *p);
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 f32 receive_weapon_special_attack__9TObjCharaFPvPv(Actor_80011824 *self, Actor_80011824 *att, Coll_80011824 *coll);
@@ -1186,7 +1185,7 @@ s32 get_type__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x0); }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *get_item_field_6__10TObjPlayerFPv(void *p) { return (TItem *)TObjPlayer::get_slot_value(((TObjPlayer *)p)->equipped_items, 6); }
+TItem *TObjPlayer::get_item_field_6(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -3483,7 +3482,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     rec.kind = 0;
     rec.power = dmg;
     if (self->f2D4 < 0x1000) {
-        TItem *item = get_item_field_6__10TObjPlayerFPv(att);
+        TItem *item = TObjPlayer::get_item_field_6(att);
         if (item == NULL) {
             mul = (1.0f);
         } else {

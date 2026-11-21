@@ -469,34 +469,34 @@ void TLobby::forward_to_player(int arg0, void *item) {
 }
 void TLobby::handle_player_event(s32 arg0, s32 arg1) {
     TObjPlayer *player;
-    uaddr item;
+    TItem *item;
     player = get_player_by_client_id((u16)arg0);
     if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
-        item = 0U;
+        item = NULL;
         switch (arg1) {
         case 0:
             item = TObjPlayer::get_item_field_6(player);
             break;
         case 1:
-            item = ((TItemData *)player)->get_item_field_2();
+            item = (TItem *)((TItemData *)player)->get_item_field_2();
             break;
         case 2:
-            item = ((TItemData *)player)->test_flag3();
+            item = (TItem *)((TItemData *)player)->test_flag3();
             break;
         case 3:
-            item = player->activate_d04_slot();
+            item = (TItem *)player->activate_d04_slot();
             break;
         case 4:
         case 5:
         case 6:
         case 7:
-            item = (uaddr)player->get_equipped_item(arg1 + 5);
+            item = player->get_equipped_item(arg1 + 5);
             break;
         default:
             break;
         }
-        if (item != 0U) {
-            TObjPlayer::send_6x26_unequip_item((void *)player, ((TItem *)item)->get_item_id());
+        if (item != NULL) {
+            TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
         }
     }
 }

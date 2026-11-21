@@ -37,7 +37,6 @@ struct Strike_80357B2C {
 
 extern "C" {
 u16 get_entity_id(void *);
-int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 f32 vector_length(void *);
@@ -506,7 +505,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)(saddr)get_item_field_6__10TObjPlayerFPv(player);
+    weapon = (TItemWeapon *)TObjPlayer::get_item_field_6(player);
     if (weapon == NULL) {
         return;
     }

@@ -41,6 +41,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/enemy/TUnk_80493450.h"
+#include "pso/weapon/WeaponSpecialSelection.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 
@@ -599,38 +600,6 @@ typedef struct Player_801CE068 {
 
 struct VBase_801CE928 { u8 pad[0x18]; };
 
-struct Item_801CE928 : VBase_801CE928 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-};
-
 struct Player_801CE928 : VBase_801CE928 {
     virtual void v0();
     virtual void v1();
@@ -1092,7 +1061,6 @@ s32 get_actor_hp__9TObjCharaFv(void * a0 = 0);
 s32 TObjPlayer__sub_8001943C(void *, s32);
 void obj_setFlags30(void *, u32);
 s32 get_current_floor(void);
-Item_801CE928 * get_item_field_6__10TObjPlayerFPv(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 s32 test_flags_any(void *, int);
@@ -1101,7 +1069,6 @@ s32 fn_800660B8(void *);
 s32 TObjPlayer__sub_80082300(void *);
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, void *);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
-s32 weapon_has_extra_attack();
 s32 get_captured_target_count(s32 *arg0);
 }
 void increment_burst_counter(u8 *arg0);
@@ -4955,8 +4922,8 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         f32 accuracy;
-        if (TObjPlayer__sub_801D2F4C((s16 *)&attack_state) == 2 && get_item_field_6__10TObjPlayerFPv(this) != NULL &&
-            ((TItem *)get_item_field_6__10TObjPlayerFPv(this))->is_identified() == 0) {
+        if (TObjPlayer__sub_801D2F4C((s16 *)&attack_state) == 2 && get_item_field_6(this) != NULL &&
+            get_item_field_6(this)->is_identified() == 0) {
             if ((f32)get_ata() < 0.0f) {
                 accuracy = 0.0f;
             } else {
@@ -4988,7 +4955,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             hit = 1;
             WeaponHitSound sound;
             ((TObjPlayer *)&sound)->reset_status_block();
-            TItem *item = (TItem *)get_item_field_6__10TObjPlayerFPv(this);
+            TItem *item = get_item_field_6(this);
             if (item != NULL) {
                 sound.kind = item->get_item_group();
                 sound.variant = item->get_item_index();
@@ -5018,7 +4985,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         hit = 1;
                         WeaponHitSound sound;
                         ((TObjPlayer *)&sound)->reset_status_block();
-                        TItem *item = (TItem *)get_item_field_6__10TObjPlayerFPv(this);
+                        TItem *item = get_item_field_6(this);
                         if (item != NULL) {
                             sound.kind = item->get_item_group();
                         }
@@ -5045,16 +5012,16 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
 void handle_6x46_attack_finished(s32 arg0) {
     u16 packet[0x18];
     Player_801CE928 *pl;
-    Item_801CE928 *it;
+    TItem *it;
     ((TObjPlayer *)packet)->build_packet_header();
     ((s32 (*)(void *, s32))TObjPlayer__sub_801D2BB8)(packet, arg0);
     ((TObjPlayer *)packet)->bswap_field4_sub();
     if (validate_6x46_attack_finished(packet) != 0 && (pl = ((Player_801CE928 * (*)(u16))get_player_by_client_id)(packet[1])) != NULL &&
         ((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0 && reset_volopt_state__10TObjPlayerFv(pl) != 0) {
         ((s32 (*)(void *, void *))on_attack_finished__10TObjPlayerFPv)((u8 *)pl + 0x7CC, &packet[2]);
-        it = get_item_field_6__10TObjPlayerFPv(pl);
+        it = TObjPlayer::get_item_field_6(pl);
         if (it != NULL) {
-            ((TItem *)it)->perform_action();
+            it->perform_action();
             return;
         }
         if (pl->v65(1.0f) == 0) {
@@ -5091,8 +5058,9 @@ s32 TObjPlayer__sub_801CEAC8(u8 *self) {
 
 s32 TObjPlayer::check_mode_action(s32 arg1) {
     if (arg1 == 2) {
-        if (((u32 (*)(void))get_item_field_6__10TObjPlayerFPv)() != 0U) {
-            if (weapon_has_extra_attack() == 0) {
+        TItem *weapon = get_item_field_6(this);
+        if (weapon != NULL) {
+            if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                 return 0;
             }
             goto block_5;
@@ -5151,7 +5119,7 @@ void TObjPlayer::apply_movement_if_ready() {
 
 void TObjPlayer::update_anim_action() {
     u8 *arg0 = (u8 *)this;
-    ((s32 (*)(void))get_item_field_6__10TObjPlayerFPv)();
+    get_item_field_6(this);
     if (((s16 (*)(void *))get_handle_value__10TObjPlayerFv)(arg0) != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
             send_attack_target_packet();

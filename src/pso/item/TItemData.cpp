@@ -1195,11 +1195,11 @@ void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst) {
 
 f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
-  saddr temp_r31;
+  TItem *temp_r31;
   f32 var_f31;
   saddr temp_r30;
-  saddr temp_r30_2;
-  saddr temp_r30_3;
+  TItem *temp_r30_2;
+  TItem *temp_r30_3;
   saddr temp_r31_2;
   saddr temp_r31_3;
   u8 temp_r0;
@@ -1218,7 +1218,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     case 38:
       temp_r31 = TObjPlayer::get_item_field_6(arg1);
       temp_r30 = ((TItemData *)arg1)->get_item_field_2();
-      if (((((((u32) temp_r31) != 0U) && (((u32) temp_r30) != 0U)) && (((TItem *)temp_r31)->get_item_group() == 1)) && (((TItem *)temp_r31)->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
+      if (((((temp_r31 != NULL) && (((u32) temp_r30) != 0U)) && (temp_r31->get_item_group() == 1)) && (temp_r31->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
     {
       var_f31 = 1.5f;
     }
@@ -1226,7 +1226,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     case 36:
       temp_r30_2 = TObjPlayer::get_item_field_6(arg1);
       temp_r31_2 = ((TItemData *)arg1)->get_item_field_2();
-      if (((((((u32) temp_r30_2) != 0U) && (((u32) temp_r31_2) != 0U)) && (((TItem *)temp_r30_2)->get_item_group() == 2)) && (((TItem *)temp_r30_2)->get_item_index() == 5)) && (((TItem *)temp_r31_2)->get_item_index() == 0x26))
+      if (((((temp_r30_2 != NULL) && (((u32) temp_r31_2) != 0U)) && (temp_r30_2->get_item_group() == 2)) && (temp_r30_2->get_item_index() == 5)) && (((TItem *)temp_r31_2)->get_item_index() == 0x26))
     {
       var_f31 = 1.5f;
     }
@@ -1234,7 +1234,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     case 37:
       temp_r30_3 = TObjPlayer::get_item_field_6(arg1);
       temp_r31_3 = ((TItemData *)arg1)->get_item_field_2();
-      if (((((((u32) temp_r30_3) != 0U) && (((u32) temp_r31_3) != 0U)) && (((TItem *)temp_r30_3)->get_item_group() == 6)) && (((TItem *)temp_r30_3)->get_item_index() == 6)) && (((TItem *)temp_r31_3)->get_item_index() == 0x27))
+      if (((((temp_r30_3 != NULL) && (((u32) temp_r31_3) != 0U)) && (temp_r30_3->get_item_group() == 6)) && (temp_r30_3->get_item_index() == 6)) && (((TItem *)temp_r31_3)->get_item_index() == 0x27))
     {
       var_f31 = 1.5f;
     }
@@ -1247,10 +1247,10 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     f32 v;
     saddr b1;
-    saddr a1;
-    saddr a2;
+    TItem *a1;
+    TItem *a2;
     saddr b2;
-    saddr a3;
+    TItem *a3;
     saddr b3;
     s32 i;
     s32 found;
@@ -1313,21 +1313,21 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 40:
         a1 = TObjPlayer::get_item_field_6(arg1);
         b1 = ((TItemData *)arg1)->test_flag3();
-        if ((u32)a1 != 0 && (u32)b1 != 0 && ((TItem *)a1)->get_item_group() == 1 && ((TItem *)a1)->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
+        if (a1 != NULL && (u32)b1 != 0 && a1->get_item_group() == 1 && a1->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
             v = 1.5f;
         }
         break;
     case 38:
         a2 = TObjPlayer::get_item_field_6(arg1);
         b2 = ((TItemData *)arg1)->test_flag3();
-        if ((u32)a2 != 0 && (u32)b2 != 0 && ((TItem *)a2)->get_item_group() == 2 && ((TItem *)a2)->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
+        if (a2 != NULL && (u32)b2 != 0 && a2->get_item_group() == 2 && a2->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
             v = 1.5f;
         }
         break;
     case 39:
         a3 = TObjPlayer::get_item_field_6(arg1);
         b3 = ((TItemData *)arg1)->test_flag3();
-        if ((u32)a3 != 0 && (u32)b3 != 0 && ((TItem *)a3)->get_item_group() == 6 && ((TItem *)a3)->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
+        if (a3 != NULL && (u32)b3 != 0 && a3->get_item_group() == 6 && a3->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
             v = 1.5f;
         }
         break;
