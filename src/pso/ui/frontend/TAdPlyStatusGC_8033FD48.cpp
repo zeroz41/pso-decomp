@@ -8,6 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/TObjMapCsn.h"
 
 
 struct E_8034009C { Vec a; Vec b; s32 f18; };
@@ -149,7 +150,6 @@ extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-saddr create__10TObjMapCsnFl(void *);
 void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
@@ -203,7 +203,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
         prm.f1c = e->f18;
         prm.f20 = 0;
         VecCopy((Vec *)&prm.b, (const Vec *)&e->b);
-        boss6_demo15_type2_wait->csn_objects[i] = (TObject *)create__10TObjMapCsnFl(&prm);
+        boss6_demo15_type2_wait->csn_objects[i] = TObjMapCsn::create(&prm);
     }
 }
 

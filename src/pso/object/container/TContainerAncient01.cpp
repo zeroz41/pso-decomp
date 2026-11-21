@@ -109,17 +109,6 @@ struct Player_8018A584 : VBase_8018A584 {
 
 struct Obj_8018A584 { u8 pad[0x38]; f32 pos[3]; };
 
-struct Obj_8018A688 {
-    u8 pad[0x2B4];
-    f32 x2b4;
-    u8 pad2b8[0x340 - 0x2B8];
-    f32 x340;
-    f32 x344;
-    u8 x348[0xC];
-    u8 x354[0x370 - 0x354];
-    u32 x370;
-};
-
 struct Player_8018A914 { u8 pad[0x38]; f32 pos[3]; };
 
 struct Obj_8018A914 {
@@ -173,18 +162,6 @@ struct Player_8018B180 : VBase_8018B180 {
 struct Obj_8018B180 { u8 pad[0x38]; f32 pos[3]; };
 
 struct Obj_8018B180;
-
-struct Obj_8018B284 {
-    u8 pad0[0x38];
-    u8 pos[0x2B4 - 0x38];
-    f32 f2B4;
-    u8 pad2B8[0x33C - 0x2B8];
-    f32 f33C;
-    f32 f340;
-    u8 f344[0xC];
-    u8 f350[0x36C - 0x350];
-    u32 f36C;
-};
 
 
 struct VBase_8018B030 { u8 pad[0x18]; };
@@ -620,14 +597,14 @@ void TContainerAncient01::run_task() {
             this->m_2b4 = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
             submit_cursor_candidate(arg0, -1, temp_f1);
         } else {
-            temp_f1_2 = *(f32 *)&this->unk_364;
+            temp_f1_2 = this->open_scale.y;
             if (temp_f1_2 <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * *(f32 *)&this->unk_364)) {
+                if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
-                *(f32 *)&this->unk_364 = (f32) (temp_f1_2 - 0.025f);
+                this->open_scale.y = (f32) (temp_f1_2 - 0.025f);
             }
         }
     }
@@ -647,7 +624,7 @@ void TContainerAncient01::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if ((s32) this->m_35c != 0) {
-            scale_current_matrix((u8 *)&this->m_360);
+            scale_current_matrix(&this->open_scale.x);
         }
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
@@ -694,8 +671,8 @@ void TContainerAncient01::sub_8018B700() {
     if (arg0->f35C == 0) {
         arg0->f35C = 1;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        TContainerAncient01::spawn_effect((void*)arg0, (void*)arg0->pos, (void*)TContainerAncient01__effect_id_table[0]);
-        TContainerAncient01::spawn_effect((void*)arg0, (void*)arg0->pos, (void*)TContainerAncient01__effect_id_table[1]);
+        spawn_effect(&this->position, TContainerAncient01__effect_id_table[0]);
+        spawn_effect(&this->position, TContainerAncient01__effect_id_table[1]);
         if (TContainerAncient01::is_global_state_in_table() == 0) {
             ((TObjChara *)arg0)->request_box_item_drop(&((TObjChara *)arg0)->position, 1);
         }
@@ -721,16 +698,16 @@ extern "C" {
 void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_33c = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    *(f32 *)&this->unk_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
-    *(s32 *)&this->unk_36C = (s32) (*(s32 *)&this->set_params[2] + 4);
-    VecCopy((Vec *)&this->m_344, (const Vec *)&this->position);
-    *(f32 *)&this->unk_348 = (f32) (*(f32 *)&this->unk_348 + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
-    VecCopy((Vec *)&this->unk_350, (const Vec *)&this->m_344);
-    this->m_354 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->m_354);
+    this->m_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->m_36c = (s32) (*(s32 *)&this->set_params[2] + 4);
+    VecCopy(&this->lower_effect_position, &this->position);
+    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
+    VecCopy(&this->upper_effect_position, &this->lower_effect_position);
+    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->upper_effect_position.y);
     *(s32 *)&this->m_35c = 0;
-    *(f32 *)&this->m_360 = (f32) TContainerAncient01__data_805DBD10[0];
-    *(f32 *)&this->unk_364 = (f32) TContainerAncient01__data_805DBD10[0];
-    this->m_368 = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.x = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.y = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.z = (f32) TContainerAncient01__data_805DBD10[0];
 }
 
 void TContainerAncient01::update_wait_for_player() {
@@ -767,7 +744,7 @@ void TContainerAncient01::sub_8018B48C() {
   ((TObjMotion *)arg0)->advance_animation();
   if (((__cvt_fp2unsigned(this->m_2b4) & 0xFFFFFFFF) % 15) == 0)
   {
-    TContainerAncient01::spawn_effect(arg0, (u8 *)&this->m_344, (void*)((void *) 0x7D));
+    spawn_effect(&this->lower_effect_position, 0x7D);
   }
   if (6e+01f <= (this->m_2b4))
   {
@@ -778,11 +755,10 @@ void TContainerAncient01::sub_8018B48C() {
 }
 
 void TContainerAncient01::sub_8018B284() {
-    Obj_8018B284 *self = (Obj_8018B284 *)this;
     u32 period;
     u32 phase;
     f32 t;
-    ((TObjMotion *)self)->advance_animation();
+    this->advance_animation();
     if (1e+01f == this->m_2b4) {
         switch (get_current_floor_area()) {
         case AREA_CENTRAL_CONTROL_AREA:
@@ -790,36 +766,36 @@ void TContainerAncient01::sub_8018B284() {
         case AREA_JUNGLE_EAST:
         case AREA_MOUNTAIN:
         case AREA_SEASIDE:
-            play_sound_effect(0x4BC1C, self->pos, 0, 0);
+            play_sound_effect(0x4BC1C, &this->position, 0, 0);
             break;
         case AREA_SEASIDE_NIGHT:
-            play_sound_effect(0x4004BC1C, self->pos, 0, 0);
+            play_sound_effect(0x4004BC1C, &this->position, 0, 0);
             break;
         case AREA_TOWER:
-            play_sound_effect(0x4004BC1C, self->pos, 0, 0);
+            play_sound_effect(0x4004BC1C, &this->position, 0, 0);
             break;
         default:
-            play_sound_effect(0x4004BC16, self->pos, 0, 0);
+            play_sound_effect(0x4004BC16, &this->position, 0, 0);
             break;
         }
     }
     if (1e+01f == this->m_2b4 || 12.0f == this->m_2b4 || 14.0f == this->m_2b4) {
-        TContainerAncient01::spawn_effect(self, self->f350, (void *)0x7D);
+        spawn_effect(&this->upper_effect_position, 0x7D);
     }
     if (4e+01f == this->m_2b4) {
-        TContainerAncient01::spawn_effect(self, self->f344, (void *)0x7E);
+        spawn_effect(&this->lower_effect_position, 0x7E);
     }
-    period = (u32)(3e+01f / (f32)self->f36C);
+    period = (u32)(3e+01f / (f32)this->m_36c);
     phase = (u32)(t = this->m_2b4) % period;
     if (14.0f < t && t < 6e+01f && phase == 0) {
-        TContainerAncient01::spawn_effect(self, self->f350, (void *)0x7E);
+        spawn_effect(&this->upper_effect_position, 0x7E);
     }
     if (6e+01f < this->m_2b4 && phase == 0) {
-        TContainerAncient01::spawn_effect(self, self->f344, (void *)0x7E);
+        spawn_effect(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018B180((Obj_8018B180 *)self, self->f340);
+    TContainerAncient01__sub_8018B180((Obj_8018B180 *)this, this->m_340);
     if (this->m_33c <= this->m_2b4) {
-        ((TContainerAncient01 *)self)->reset_state();
+        this->reset_state();
     }
 }
 
@@ -844,7 +820,9 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     }
 }
 
-void TContainerAncient01::spawn_effect(void* p, void* a1, void* a2) { spawn_particle_effect(a1, (saddr)a2); }
+void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
+    spawn_particle_effect(position, effect_id);
+}
 }
 
 #pragma push
@@ -872,7 +850,7 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     self->pos74.y = c->y / 2.0f + self->pos74.y;
     VecCopy((Vec *)&self->pos2fc, (const Vec *)&self->pos74);
     self->state = 0;
-    ((TContainerAncient01 *)self)->init_positions();
+    init_positions();
 }
 }
 
@@ -923,14 +901,14 @@ void TContainerAncient01R::run_task() {
             this->m_2b4 = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
             submit_cursor_candidate(arg0, -1, temp_f1);
         } else {
-            temp_f1_2 = this->m_368;
+            temp_f1_2 = this->open_scale.y;
             if (temp_f1_2 <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->m_368)) {
+                if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
-                this->m_368 = (f32) (temp_f1_2 - 0.025f);
+                this->open_scale.y = (f32) (temp_f1_2 - 0.025f);
             }
         }
     }
@@ -950,7 +928,7 @@ void TContainerAncient01R::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if ((s32) this->m_360 != 0) {
-            scale_current_matrix((u8 *)&this->unk_364);
+            scale_current_matrix(&this->open_scale.x);
         }
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
@@ -997,8 +975,8 @@ void TContainerAncient01R::open_container() {
     if (arg0->f360 == 0) {
         arg0->f360 = 1;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        TContainerAncient01::trigger_spawn((void *)arg0, (void *)arg0->pos, (void *)TContainerAncient01__open_effect_table[0]);
-        TContainerAncient01::trigger_spawn((void *)arg0, (void *)arg0->pos, (void *)TContainerAncient01__open_effect_table[1]);
+        trigger_spawn(&this->position, TContainerAncient01__open_effect_table[0]);
+        trigger_spawn(&this->position, TContainerAncient01__open_effect_table[1]);
         if (TContainerAncient01::is_global_state_in_table() == 0) {
             ((TObjChara *)arg0)->request_box_item_drop(&((TObjChara *)arg0)->position, 1);
         }
@@ -1023,20 +1001,19 @@ void TContainerAncient01R::vfunc_6(s16 *arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 extern "C" {
-void TContainerAncient01::init_positions() {
-    u8 *arg0 = (u8 *)this;
+void TContainerAncient01R::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
-    *(f32 *)&this->unk_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
+    this->m_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
     this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
-    *(s32 *)((s8 *)arg0 + 0x370) = (this->set_params[2] + 4);
-    VecCopy((Vec *)&this->unk_348, (const Vec *)&this->position);
-    this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
-    VecCopy((Vec *)&this->m_354, (const Vec *)&this->unk_348);
-    *(f32 *)&this->unk_358 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + *(f32 *)&this->unk_358);
+    this->m_370 = (this->set_params[2] + 4);
+    VecCopy(&this->lower_effect_position, &this->position);
+    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
+    VecCopy(&this->upper_effect_position, &this->lower_effect_position);
+    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->upper_effect_position.y);
     this->m_360 = 0;
-    *(f32 *)&this->unk_364 = (f32) TContainerAncient01__data_805DBD10[0];
-    this->m_368 = (f32) TContainerAncient01__data_805DBD10[0];
-    *(f32 *)&this->unk_36C = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.x = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.y = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.z = (f32) TContainerAncient01__data_805DBD10[0];
     this->hp = (s16) this->rotation_z;
     if ((s16) this->hp < 1) {
         this->hp = 1;
@@ -1079,7 +1056,7 @@ void TContainerAncient01R::update_spawning() {
   ((TObjMotion *)arg0)->advance_animation();
   if ((__cvt_fp2unsigned(this->m_2b4) % 15) == 0)
   {
-    TContainerAncient01::trigger_spawn(arg0, (u8 *)&this->unk_348, (void *) 0x7D);
+    trigger_spawn(&this->lower_effect_position, 0x7D);
   }
   if (6e+01f <= (this->m_2b4))
   {
@@ -1090,12 +1067,11 @@ void TContainerAncient01R::update_spawning() {
 }
 
 s32 TContainerAncient01R::sub_8018A688() {
-    Obj_8018A688 *self = (Obj_8018A688 *)this;
     u32 period;
     f32 t;
     u32 rem;
 
-    ((TObjMotion *)self)->advance_animation();
+    this->advance_animation();
     if (1e+01f == this->m_2b4) {
         switch (get_current_floor_area()) {
         case AREA_CENTRAL_CONTROL_AREA:
@@ -1103,37 +1079,37 @@ s32 TContainerAncient01R::sub_8018A688() {
         case AREA_JUNGLE_EAST:
         case AREA_MOUNTAIN:
         case AREA_SEASIDE:
-            play_sound_effect(0x4BC1C, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4BC1C, &this->position, 0, 0);
             break;
         case AREA_SEASIDE_NIGHT:
-            play_sound_effect(0x4004BC1C, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4004BC1C, &this->position, 0, 0);
             break;
         case AREA_TOWER:
-            play_sound_effect(0x4004BC1C, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4004BC1C, &this->position, 0, 0);
             break;
         default:
-            play_sound_effect(0x4004BC16, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4004BC16, &this->position, 0, 0);
             break;
         }
     }
     if (1e+01f == this->m_2b4 || 12.0f == this->m_2b4 || 14.0f == this->m_2b4) {
-        TContainerAncient01::trigger_spawn(self, self->x354, (void *)0x7D);
+        trigger_spawn(&this->upper_effect_position, 0x7D);
     }
     if (4e+01f == this->m_2b4) {
-        TContainerAncient01::trigger_spawn(self, self->x348, (void *)0x7E);
+        trigger_spawn(&this->lower_effect_position, 0x7E);
     }
     period = __cvt_fp2unsigned(3e+01f / this->m_370);
     t = this->m_2b4;
     rem = (u32)t % period;
     if (14.0f < t && t < 6e+01f && rem == 0) {
-        TContainerAncient01::trigger_spawn(self, self->x354, (void *)0x7E);
+        trigger_spawn(&this->upper_effect_position, 0x7E);
     }
     if (6e+01f < this->m_2b4 && rem == 0) {
-        TContainerAncient01::trigger_spawn(self, self->x348, (void *)0x7E);
+        trigger_spawn(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018A584((Obj_8018A584 *)self, this->m_344);
-    if (self->x340 <= this->m_2b4) {
-        ((TContainerAncient01R *)self)->reset_hp();
+    TContainerAncient01__sub_8018A584((Obj_8018A584 *)this, this->m_344);
+    if (this->m_340 <= this->m_2b4) {
+        this->reset_hp();
     }
 }
 

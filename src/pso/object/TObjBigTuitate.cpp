@@ -158,7 +158,7 @@ TObjTuitate::TObjTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x24)) = 32.0f;
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x28)) = 2e+01f;
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x2C)) = 12.0f;
-    *(s32 *)((s8 *)arg0 + 0xC8) = TObjMapCsn::create((saddr)((void *) ((copy_storage_8019AF6C.bytes))));
+    *(TObjMapCsn **)((s8 *)arg0 + 0xC8) = TObjMapCsn::create(copy_storage_8019AF6C.bytes);
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
 }
 #undef arg0
@@ -243,7 +243,7 @@ TObjBigTuitate::TObjBigTuitate(TObject *parent, void *arg2) : TObjCollidable(par
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x24)) = 32.0f;
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x28)) = 4e+01f;
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x2C)) = 12.0f;
-    *(s32 *)((s8 *)arg0 + 0xC8) = TObjMapCsn::create((saddr)((void *) ((copy_storage_8019ABE8.bytes))));
+    *(TObjMapCsn **)((s8 *)arg0 + 0xC8) = TObjMapCsn::create(copy_storage_8019ABE8.bytes);
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
 }
 #undef arg0

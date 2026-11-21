@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -74,7 +75,7 @@ f32 vector_length(void *);
 void rotate_matrix_z(void *, s32);
 void normalize_vector(void *);
 extern u8 identity_matrix[];
-extern u8 *camera_ctrl_instance;
+extern TCameraCtrl *camera_ctrl_instance;
 
 const char *TObjLight__class_name = "TObjLight";
 
@@ -88,7 +89,7 @@ void TObjLight::render() {  }
 void TObjLight::run_task() {
     Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
-    if (xyz_distance_squared(&self->pos, camera_ctrl_instance + 0x178) > 160000.0f) {
+    if (xyz_distance_squared(&self->pos, &camera_ctrl_instance->pos_x) > 160000.0f) {
         ((TObject *)self)->queue_destruction();
         return;
     }

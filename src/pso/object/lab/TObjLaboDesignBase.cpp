@@ -14,6 +14,7 @@
 #include "pso/unk/text_80365348.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
+#include "pso/map/TObjMapCsn.h"
 #include "pso/object/ambient/TObjFish.h"
 
 #pragma readonly_strings on
@@ -29,7 +30,6 @@ f32 xz_distance_squared(void *, s32);
 extern s32 camera_ctrl_instance;
 s32 push_matrix();
 s32 init_collision_body_parts(void *, int, int);
-s32 create__10TObjMapCsnFl(void *, f32, f32);
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
@@ -263,7 +263,7 @@ TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, saddr st
         (*(f32 *)(copy_storage_80365210.bytes + 0x24)) = 40.0f;
         (*(f32 *)(copy_storage_80365210.bytes + 0x28)) = 20.0f;
         (*(f32 *)(copy_storage_80365210.bytes + 0x2C)) = 10.0f;
-        map_csn = (TObjMapCsn *)create__10TObjMapCsnFl(copy_storage_80365210.bytes, 20.0f, 40.0f);
+        map_csn = TObjMapCsn::create(copy_storage_80365210.bytes);
     }
 }
 

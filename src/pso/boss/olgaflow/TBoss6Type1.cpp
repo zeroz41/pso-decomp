@@ -2609,7 +2609,7 @@ void TBoss6Type1::spawn_map_csn() {
     VecCopy(&data.scale, &boss6_map_csn_scale);
     data.params[0] = 2;
     data.params[1] = 0;
-    map_csn = (TObject *)TObjMapCsn::create((saddr)&data);
+    map_csn = TObjMapCsn::create(&data);
 }
 
 void TBoss6Type1::release_object(void *) {

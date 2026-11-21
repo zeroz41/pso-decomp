@@ -139,6 +139,10 @@ force_active:
   - TAdDialingMessageWindow__name
   - TAdDrawLineCtrl__class_name
   - TAdDrawLineTask__class_name
+  - init_positions__20TContainerAncient01RFv
+  - spawn_effect__19TContainerAncient01FPC3Vecl
+  - start_anim__11TAdRicoRingFf
+  - start_fade__11TAdRicoRingFf
   - sub_8032BC94__13TUnk_804EDAC0FP7TObject
   - TAdEnterSerialAccessGC__input_state
   - TAdEnterSerialAccessGC__keyboard_control
@@ -7159,7 +7163,6 @@ force_active:
   - init_player_window_effect__6TLobbyFv
   - __ct__13TUnk_804A64E8FP7TObjectPUc
   - init_positions__10TEndingPicFv
-  - init_positions__19TContainerAncient01Fv
   - init_projection_state__11TCameraCtrlFv
   - init_proto1_adx__14TBoss6PlotFalzFv
   - init_queue_from_start__15TObjBoss2TunnelFv
@@ -15994,7 +15997,6 @@ force_active:
   - spawn_dead_spot__10TObjPlayerFlllf
   - spawn_debris__22TOWreckAncientBrakableFv
   - spawn_decorations_in_range__FP11TSetManager
-  - spawn_effect__19TContainerAncient01FPvPvPv
   - spawn_effects__19TBoss3VoloptMonitorFv
   - spawn_falling_rocks__9TBoss6MagFv
   - spawn_faust_explosion__FUlRC3Vec
@@ -16055,7 +16057,6 @@ force_active:
   - star_light_2d_base_color
   - start_action__8TItemMagFl
   - start_action_if_idle__11TBoss6Type1Fv
-  - start_anim__15TAdRicoRingCtrlFf
   - start_attack__11TBoss6Type1Fv
   - start_attack_motion__15TObjEneDelDepthFv
   - start_bone_rotation__12T_OWEHMS_ExpFv
@@ -16066,7 +16067,6 @@ force_active:
   - start_duel_battle__6TLobbyFv
   - start_effect__14TItemEquipBaseFUlUl
   - start_entry_timer__6TLobbyFUsl
-  - start_fade__15TAdRicoRingCtrlFf
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
   - start_get_type_async__16TKeyBoardControlFllll

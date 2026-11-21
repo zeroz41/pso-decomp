@@ -22,6 +22,7 @@ struct TObjFishEntry {
 };
 
 struct TObjFish : public TObjBase {
+    TObjFish(TObject *parent, void *set_data);
     virtual ~TObjFish();
     s32 init_fish_school(void *, s32, s32);
     s32 update_state();
@@ -31,7 +32,7 @@ struct TObjFish : public TObjBase {
     s16 m_92;
     u32 m_94;              // fish count
     u32 m_98;              // frame counter
-    u8 _pad9C[0x4];
+    f32 m_9c;
     TObjFishEntry *m_a0;   // the fish
     void sync_position_vectors();
     static void *alloc(void *arg0);

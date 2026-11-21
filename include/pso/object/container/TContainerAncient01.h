@@ -2,6 +2,7 @@
 #define PSO_OBJECT_CONTAINER_TCONTAINERANCIENT01_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/object/base/TObjChara.h"
 
 struct TContainerAncient01 : public TObjChara {
@@ -23,17 +24,12 @@ struct TContainerAncient01 : public TObjChara {
     s16 m_338;
     u8 unk_33A[0x2];
     f32 m_33c;
-    u8 unk_340[0x4];
-    f32 m_344;
-    u8 unk_348[0x4];
-    f32 m_34c;
-    u8 unk_350[0x4];
-    f32 m_354;
-    u8 unk_358[0x4];
+    f32 m_340;
+    Vec lower_effect_position;
+    Vec upper_effect_position;
     u32 m_35c;
-    void* m_360;
-    void init_positions();
-    static void spawn_effect(void* p, void* a1, void* a2);
+    Vec open_scale;
+    void spawn_effect(const Vec *position, s32 effect_id);
     void reset_state();
     void update_wait_for_player();
     void init_state_vectors();
@@ -42,13 +38,13 @@ struct TContainerAncient01 : public TObjChara {
     static void *create(void *arg0);
     static void release_static_resource();
     static void load_resources();
-    static void trigger_spawn(void* p, void* a1, void* a2);
     static s32 is_global_state_in_table();
-    u8 unk_364[0x4];
-    f32 m_368;
-    u8 unk_36C[0x4];
+    u32 m_36c;
     static int get_table_entry(int a0);
 };
 
 LAYOUT_ASSERT(TContainerAncient01_size, sizeof(TContainerAncient01) == 0x370);
+LAYOUT_ASSERT(TContainerAncient01LowerEffectOffset, offsetof(TContainerAncient01, lower_effect_position) == 0x344);
+LAYOUT_ASSERT(TContainerAncient01UpperEffectOffset, offsetof(TContainerAncient01, upper_effect_position) == 0x350);
+LAYOUT_ASSERT(TContainerAncient01OpenScaleOffset, offsetof(TContainerAncient01, open_scale) == 0x360);
 #endif

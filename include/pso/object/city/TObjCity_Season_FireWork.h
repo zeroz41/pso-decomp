@@ -2,15 +2,18 @@
 #define PSO_OBJECT_CITY_TOBJCITY_SEASON_FIREWORK_H
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+class TParticleCtrl;
 
 class TObjCity_Season_FireWork : public TObject {
 public:
     TObjCity_Season_FireWork(TObject* parent, void* position, f32 riseHeight);
     virtual ~TObjCity_Season_FireWork();
     virtual void run_task();
-    f32 pos[3];
+    Vec pos;
     s32 state;
-    void* handle;
+    TParticleCtrl *handle;
     f32 limit;
     s32 timer;
     s32 burstEffectId;

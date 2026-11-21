@@ -134,7 +134,7 @@ TORockJungleS01::TORockJungleS01(void *set_data) {
     }
     ObjectSetData csn_data = *(ObjectSetData *)set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
-    map_csn = (TObjMapCsn *)TObjMapCsn::create((saddr)&csn_data);
+    map_csn = TObjMapCsn::create(&csn_data);
 }
 
 TORockJungleS01::~TORockJungleS01() {
@@ -227,7 +227,7 @@ TORockJungleM01::TORockJungleM01(void *set_data) {
     }
     ObjectSetData csn_data = *(ObjectSetData *)set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
-    map_csn = (TObjMapCsn *)TObjMapCsn::create((saddr)&csn_data);
+    map_csn = TObjMapCsn::create(&csn_data);
     fade.activate_and_dispatch();
 }
 
@@ -294,7 +294,7 @@ TORockJungleL01::TORockJungleL01(void *set_data) {
     register_object_by_id();
     ObjectSetData csn_data = *(ObjectSetData *)set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
-    map_csn = (TObjMapCsn *)TObjMapCsn::create((saddr)&csn_data);
+    map_csn = TObjMapCsn::create(&csn_data);
     fade.activate_and_dispatch();
 }
 

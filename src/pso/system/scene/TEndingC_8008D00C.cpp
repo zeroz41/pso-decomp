@@ -1,4 +1,4 @@
-#include "pso/system/scene/TEndingAB.h"
+#include "pso/system/scene/EndingWallTextures.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "types.h"

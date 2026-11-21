@@ -209,14 +209,17 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
     (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = 100.0f;
     (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = 40.0f;
     (*(s32 *)(copy_storage_8029B924.bytes + 0x30)) = 2;
-    arg0->m_dc = TObjMapCsn::create((saddr)copy_storage_8029B924.bytes);
+    arg0->m_dc = TObjMapCsn::create(copy_storage_8029B924.bytes);
     return (u8 *)arg0;
 }
 
 }
 
 TODoorJungleMain::~TODoorJungleMain() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xDC)))->queue_destruction(); this->m_dc = 0; }
+    if (m_dc != NULL) {
+        m_dc->queue_destruction();
+        m_dc = NULL;
+    }
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
@@ -236,9 +239,9 @@ void TODoorJungleMain::run_task() {
         if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - 70.0f < t &&
             t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
-            if (*(void * *)&this->m_dc != NULL) {
-                ((TObject *)(*(void * *)&this->m_dc))->queue_destruction();
-                *(void * *)&this->m_dc = NULL;
+            if (m_dc != NULL) {
+                m_dc->queue_destruction();
+                m_dc = NULL;
             }
         } else {
             flag = 1;
@@ -400,9 +403,9 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
         if (arg2 == 0) {
             this->animation_end_frame = (f32) (*(u32 *)((s8 *)this->motion + 4) - 1);
             set_indexed_flags(0, 8);
-            if ((u32) this->m_dc != 0U) {
-                ((TObject *)(this->m_dc))->queue_destruction();
-                this->m_dc = 0U;
+            if (m_dc != NULL) {
+                m_dc->queue_destruction();
+                m_dc = NULL;
             }
         }
     }
