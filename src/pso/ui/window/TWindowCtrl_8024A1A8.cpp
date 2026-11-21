@@ -1,3 +1,5 @@
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/WindowCtrlCallback.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjChara.h"
@@ -12,18 +14,6 @@
 #include "pso/object/switch/TOChatSensorCapture.h"
 
 #include "pso/player/TObjPlayer.h"
-struct Stack_8024A228 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-struct Stack_8024A1CC {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 struct RecoveredFields_8024A688_arg1
 {
   u8 unknown_0[0x38];
@@ -58,13 +48,9 @@ extern void *TWindowCtrl__active_window;
 void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
-s32 TWindowCtrl__sub_8024B098(void *, void *);
-struct WindowCtrlMainCallbackDesc { s32 value; u8 remaining[0x8]; };
-extern WindowCtrlMainCallbackDesc window_ctrl_main_callback_desc;
+extern PlayerWindowQuery window_ctrl_main_callback_desc;
 void TWindowCtrl__sub_8024A228(saddr arg0);
-s32 call_window_method__11TWindowCtrlFPvi(void *, void *);
-struct WindowCtrlDefaultCallArgs { s32 value; u8 remaining[0x8]; };
-extern WindowCtrlDefaultCallArgs window_ctrl_default_call_args;
+extern PlayerWindowCommand window_ctrl_default_call_args;
 bool TWindowCtrl__sub_8024A1A8(void);
 u8 *find_entity_by_id(u16);
 extern const f32 lbl_805DCBE0;
@@ -76,7 +62,6 @@ s32 find_farthest_balloon_slot__11TWindowCtrlFPvUs(Ctrl_8024A714 *ctrl, u16 spea
 void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player, s32 flags, void *local);
 s32 obj_is_hit_receivable();
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
-s32 TWindowCtrl__sub_8024C5C4(u32);
 u32 create_area_window();
 }
 s32 create_window_area(void);
@@ -90,16 +75,9 @@ bool TWindowCtrl__sub_8024A1A8(void) {
     return *(s32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C) != 0;
 }
 
-void TWindowCtrl::call_window_method_with_default_vec(s32 client) {
-    saddr arg0 = client;
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A1CC, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A1CC, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A1CC, sp10) == 0x8);
-    Stack_8024A1CC stack;
-    stack.sp8 = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 0);
-    stack.spC = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&window_ctrl_default_call_args.value + 8);
-    call_window_method__11TWindowCtrlFPvi((void *)arg0, (void *)&stack.sp8);
+void TWindowCtrl::call_window_method_with_default_vec(s32 arg0) {
+    PlayerWindowCommand callback = window_ctrl_default_call_args;
+    call_window_method__11TWindowCtrlFPvi(arg0, callback);
 }
 
 void TWindowCtrl::set_field22() {
@@ -109,14 +87,8 @@ void TWindowCtrl::set_field22() {
 }
 
 void TWindowCtrl__sub_8024A228(saddr arg0) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A228, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A228, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A228, sp10) == 0x8);
-    Stack_8024A228 stack;
-    stack.sp8 = *(s32 *)((s8 *)&window_ctrl_main_callback_desc.value + 0);
-    stack.spC = *(s32 *)((s8 *)&window_ctrl_main_callback_desc.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&window_ctrl_main_callback_desc.value + 8);
-    TWindowCtrl__sub_8024B098((void *)arg0, (void *)&stack.sp8);
+    PlayerWindowQuery callback = window_ctrl_main_callback_desc;
+    TWindowCtrl__sub_8024B098(arg0, callback);
 }
 
 bool TWindowCtrl::is_submit_cooldown_clear() {
@@ -139,7 +111,7 @@ s32 TWindowCtrl::get_active_sub() {
     if ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) == 0U) {
         return 0;
     }
-    return TWindowCtrl__sub_8024C5C4(*(u32 *)((s8 *)TWindowCtrl__active_window + 0x38));
+    return TWindowCtrl__sub_8024C5C4(*(TWindowChat **)((s8 *)TWindowCtrl__active_window + 0x38));
 }
 
 s32 TWindowCtrl__sub_8024A314(void) {

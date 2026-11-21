@@ -78,7 +78,7 @@ void TWindowMainMenu1P::vfunc_7() {
     temp_r3 = *(s32 *)((s8 *)arg0 + 0x4C);
     if (!(temp_r3 & 2)) {
         *(s32 *)((s8 *)arg0 + 0x4C) = (s32) (temp_r3 | 2);
-        ((CameraViewParams *)(arg0 + 0x64))->begin_override();
+        backdrop.begin_override();
     }
 }
 

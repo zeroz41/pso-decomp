@@ -3,8 +3,8 @@
 #include "pso/ui/window/WindowCtrlCallback.h"
 
 
-extern WindowCtrlMethod lbl_804CEA4C;
+extern PlayerWindowCommand lbl_804CEA4C;
 
 void fn_8024AC64(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi((void *)arg0, lbl_804CEA4C);
+    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA4C);
 }

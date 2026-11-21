@@ -42,7 +42,7 @@ void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_men
     } while (var_r31 < 8);
     window_menu_main_menu->handle_navigation_input();
     ((TWindowDD *)window_menu_main_menu)->initialize_subwindow();
-    ((TWindowMainMenu *)window_menu_main_menu)->update_slide_position();
+    window_menu_main_menu->update_slide_position();
     ((TWindowBase *)window_menu_main_menu)->update_fade();
     temp_r3_2 = window_menu_main_menu->m_60;
     if (temp_r3_2 & 8) {
@@ -70,7 +70,7 @@ TWindowMenuMainMenu::TWindowMenuMainMenu(saddr arg1, s16 arg2) : TWindowBase((u8
     for (i = 0; i < 8; i++) {
         ((W_802AE864 *)this)->a[i] = 0;
     }
-    ((TWindowMainMenu *)this)->update_scaled_position();
+    update_scaled_position();
     ((TWindowBase *)this)->save_position();
 }
 

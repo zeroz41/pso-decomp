@@ -242,7 +242,7 @@ s32 TWindowSubShortCut::open_menu() {
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
     ((TWindowMenu *)temp_r31)->update_layout_height(205.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
@@ -252,7 +252,7 @@ s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
     saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
-    ((TWindowSubShortMail *)r)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
 }
 
@@ -262,7 +262,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
 

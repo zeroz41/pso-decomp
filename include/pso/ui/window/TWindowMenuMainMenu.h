@@ -15,6 +15,9 @@ struct TWindowMenuMainMenu : public TWindowBase {
     int get_menu_flag();
     int is_flag_set();
     void draw_frame(WindowDrawContext *frame);
+    void set_target_y(f32 y);
+    void update_scaled_position();
+    void update_slide_position();
     virtual void render();
     virtual void run_task();
     u8 m_60;

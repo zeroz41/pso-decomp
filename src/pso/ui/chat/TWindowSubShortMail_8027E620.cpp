@@ -507,7 +507,7 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x103)), 6, 0x13);
     }
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
     ((TWindowMenu *)temp_r31)->update_layout_height(179.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
@@ -527,7 +527,7 @@ s32 build_menu__19TWindowSubShortMailFv(void) {
         add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
     ((TWindowMenu *)temp_r31)->update_layout_height(206.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
@@ -550,7 +550,7 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, 
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(window_message_yes_no), (void *)(arg1), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 0);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
 
@@ -559,7 +559,7 @@ s32 create_confirm_menu_window__19TWindowSubShortMailFv(void) {
     temp_r31 = create_window_menu_default((saddr)((void *)(((saddr)get_window_layout_position(0xA0)))), 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x107))), 6, 0x16);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x108))), 6, 0x18);
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
     ((TWindowMenu *)temp_r31)->update_layout_height(206.0f);
     return temp_r31;
 }
@@ -594,7 +594,7 @@ s32 open_menu__19TWindowSubShortMailFv(void) {
     if (get_flag_bit0__6TLobbyFv() == 0) {
         ((TWindowSubComCardList *)temp_r31)->set_selected_index(1);
     }
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
     ((TWindowMenu *)temp_r31)->update_layout_height(206.0f);
     return temp_r31;
 }
@@ -605,7 +605,7 @@ s32 TWindowSubShortMail::open_confirm_dialog() {
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x9f)), 206.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 0);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
 
@@ -615,7 +615,7 @@ s32 TWindowSubShortMail::open_delete_confirm_dialog() {
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), (s32)(get_window_layout_position(0xa3)), 206.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 0);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
 

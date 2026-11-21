@@ -208,7 +208,7 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
     add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
   TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
-  ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+  ((TWindowMenu *)temp_r31)->set_flag70_bit10();
   ((TWindowMenu *)temp_r31)->update_layout_height(179.0f);
   align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
   return (uaddr)temp_r31;
@@ -236,7 +236,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     if (((TWindowSubComCardList *)w)->get_field_72() <= 0) {
         add_gray_text_entry((TWindowSubTradeMain *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
     }
-    ((TWindowSubComCardList *)w)->set_flag70_bit10();
+    ((TWindowMenu *)w)->set_flag70_bit10();
     ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);
     return (uaddr)w;
 }

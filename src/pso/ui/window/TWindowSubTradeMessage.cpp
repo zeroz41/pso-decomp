@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -5,11 +6,6 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-struct TradeMessageParentBase { u8 base[0x18]; };
-struct TradeMessageParentVirtual : TradeMessageParentBase {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-};
 struct TradeMessageInput { u8 base[0x20]; u8 buttons[0x30]; };
 extern "C" {
 void play_sound_effect(s32,s32,s32,s32);
@@ -21,7 +17,7 @@ __declspec(section ".sdata") const char* TWindowSubTradeMessage__name[2] = {trad
 }
 
 void TWindowSubTradeMessage::finish() {
-    ((TradeMessageParentVirtual*)parentWindow)->m7();
+    parentWindow->vfunc_9();
     state=2;
 }
 
@@ -48,7 +44,7 @@ void TWindowSubTradeMessage::run_task() {
         if(TWindowShortListCtrl__check_controller_button(controller_input_state[idx].buttons,2)!=0 ||
            test_controller_flag_4c_color(controller_input_state[4].buttons,2)!=0) {
             play_sound_effect(0x52F16,0,0,0);
-            ((TradeMessageParentVirtual*)parentWindow)->m7();
+            parentWindow->vfunc_9();
             state=2;
         }
         break;
@@ -60,12 +56,12 @@ void TWindowSubTradeMessage::run_task() {
 TWindowSubTradeMessage::~TWindowSubTradeMessage() {
     TLobby__sub_802D29B8((uaddr)this);
     if (messageWindow != 0) {
-        ((TWindowBase *)messageWindow)->close();
+        messageWindow->close();
         messageWindow=0;
     }
 }
 
-TWindowSubTradeMessage::TWindowSubTradeMessage(TObject* parent, s32 index) : TObject(parent) {
+TWindowSubTradeMessage::TWindowSubTradeMessage(TWindowMainMenu *parent, s32 index) : TObject(parent) {
     m_name=TWindowSubTradeMessage__name[0];
     parentWindow=parent;
     playerIndex=index;

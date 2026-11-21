@@ -327,7 +327,7 @@ void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
     void *window_menu;
 
     window_menu = (void *)create_window_menu((saddr)(arg1), 0x13, client_id);
-    ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
+    ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
     refresh_technique_rows((saddr)window_menu, (void *)arg2_arg);

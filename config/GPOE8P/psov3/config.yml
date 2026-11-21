@@ -5169,7 +5169,7 @@ force_active:
   - clear_error_callback_state__6TLobbyFv
   - clear_field2A0__22TQuestVmDownLoadServerFv
   - clear_field_d8__14TOTrapChainSawFv
-  - clear_flag4c_bit8__13TWindowSubLogFv
+  - clear_log_active__15TWindowMainMenuFv
   - clear_flag60_bit8__13TWindowSubMagFv
   - clear_flag70_bit80__19TWindowSubTechniqueFv
   - clear_flag_and_notify__18CameraDistanceFadeFv
@@ -15503,7 +15503,7 @@ force_active:
   - set_flag3c8_bit4__13TObjEneMe1GeeFv
   - set_flag3c8_bit8__13TObjEneMe1GeeFv
   - set_flag3c8_bit8__17TObjEneMe1CanadinFv
-  - set_flag4c_bit8__13TWindowSubLogFv
+  - set_log_active__15TWindowMainMenuFv
   - set_flag60_bit8__13TWindowSubMagFv
   - set_flag62_bit8__19TWindowKeyBoardBaseFv
   - set_flag_10__17TWindowSubComCardFv

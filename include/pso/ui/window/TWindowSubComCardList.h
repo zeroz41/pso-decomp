@@ -21,7 +21,6 @@ struct TWindowSubComCardList : public TWindowMenu {
     void sub_8026556C();
     void update_scroll_target_position();
     void set_flag70_bit100();
-    void set_flag70_bit10();
     virtual void render();
     PageIndicator *m_8c;
     uaddr m_90;

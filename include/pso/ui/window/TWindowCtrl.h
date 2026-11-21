@@ -2,7 +2,10 @@
 #define PSO_UI_WINDOW_TWINDOWCTRL_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
+
+struct TWindowTradeRequest;
 
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
@@ -19,7 +22,7 @@ struct TWindowCtrl : public TObject {
     uaddr m_34;
     uaddr m_38;
     u32 m_3c;
-    uaddr m_40;
+    TWindowTradeRequest *trade_request;
     u32 m_44;
     u8 unk_48[0x8];
     s32 m_50;
@@ -122,16 +125,8 @@ struct TWindowCtrl : public TObject {
     void clear_flag_bit0();
 };
 
+LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 
-// TWindowCtrl__player_menu_query_cb: layout known from its uses only.
-struct TWindowCtrlPlayerMenuQueryCb { s32 value; u8 remaining[0x8]; };
-extern TWindowCtrlPlayerMenuQueryCb TWindowCtrl__player_menu_query_cb;
-// TWindowCtrl__suppress_slot_cb: layout known from its uses only.
-struct TWindowCtrlSuppressSlotCb { s32 value; u8 remaining[0x8]; };
-extern TWindowCtrlSuppressSlotCb TWindowCtrl__suppress_slot_cb;
-// TWindowCtrl__unsuppress_slot_cb: layout known from its uses only.
-struct TWindowCtrlUnsuppressSlotCb { s32 value; u8 remaining[0x8]; };
-extern TWindowCtrlUnsuppressSlotCb TWindowCtrl__unsuppress_slot_cb;
 
 #endif
