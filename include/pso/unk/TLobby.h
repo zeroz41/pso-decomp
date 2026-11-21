@@ -606,7 +606,7 @@ struct TLobby : public TObject {
     static void wait_for_lock_release();
     static void adxm_goto_mwidle_border(s32 context);
     static void dec_ref_and_clear_buffer();
-    static void read_data_sync(s32 arg0, s32 arg1, s32 arg2);
+    static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();

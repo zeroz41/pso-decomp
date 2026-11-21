@@ -41,7 +41,7 @@ void load_area_gsl(void);
 void TItemDrop__sub_800FE2D8(void);
 }
 s32 get_gstream_buffered_bytes(void);
-s32 refill_gstream_buffer(s32 adxf_handle);
+s32 refill_gstream_buffer(saddr adxf_handle);
 void reset_gstream_globals(void);
 extern u8 gstream_sector_buffer[0x2000];
 
