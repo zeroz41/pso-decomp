@@ -18,6 +18,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
+#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -109,7 +110,7 @@ TShopItemListWindow::TShopItemListWindow(saddr parent, saddr arg2, s32 arg3) : T
     this->m_1c0 = 0;
     this->m_4c = 0;
     this->m_54 = 0;
-    ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
+    calc_item_count((TObjPlayer *)this->m_24, &sp8);
     TLobby::set_6264_and_call_2244B0(sub_8022397C(), sp8);
 }
 

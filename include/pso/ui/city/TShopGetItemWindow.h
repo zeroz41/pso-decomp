@@ -38,7 +38,6 @@ struct TShopGetItemWindow : public TShopWindowBase {
     void handle_withdraw_list_input();
     void rebuild_item_list();
     s16 get_cursor_index();
-    void calc_item_count(s32 *arg1);
     void handle_withdraw_confirm();
 };
 
