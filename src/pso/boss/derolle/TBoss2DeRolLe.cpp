@@ -101,6 +101,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
@@ -564,68 +567,6 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
-struct VBase_18_8002F7C4 { char pad[0x18]; };
-
-struct VObj_18_8002F7C4 : VBase_18_8002F7C4 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(s32);
-};
-
-struct Sub_8002F7C4 { u8 pad0[8]; u32 f8; };
-
-struct Rol_8002F7C4 : VObj_18_8002F7C4 {
-    u8 pad1C[0x30 - 0x1C];
-    u32 flags30;
-    u8 pad34[0x38 - 0x34];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 f5C;
-    u8 pad60[0xB8 - 0x60];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3C0 - 0xC4];
-    u32 f3C0;
-    u8 pad3C4[0x3CC - 0x3C4];
-    Sub_8002F7C4 *f3CC;
-    u8 pad3D0[0x540 - 0x3D0];
-    Vec pts[10];
-    u8 pad5B8[0x5E0 - 0x5B8];
-    s32 slots[10];
-    u8 pad608[0x620 - 0x608];
-    saddr tent[4];
-    u8 pad630[0x654 - 0x630];
-    s32 f654;
-    u8 pad658[0x6A4 - 0x658];
-    f32 f6A4;
-    u8 pad6A8[4];
-    s32 f6AC;
-    u8 pad6B0[0x6E0 - 0x6B0];
-    s32 f6E0;
-    s32 f6E4;
-    u8 pad6E8[0x6F4 - 0x6E8];
-    s32 f6F4;
-    u8 pad6F8[0x758 - 0x6F8];
-    s32 f758;
-};
-
 struct Rol_80032E38 {
     u8 pad0[0x38];
     Vec pos;
@@ -777,7 +718,6 @@ int play_sound_effect(void*, int, int, int);
 
 void play_cue_stream_file(saddr name);
 
-void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -967,7 +907,6 @@ int play_sound(void *, int);
 
 
 
-void run_hit_reaction__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
@@ -1004,7 +943,6 @@ void update_and_send__13TBoss2DeRolLeFPv(void *p);
 
 void TBoss2DeRolLe__sub_800363A0(void *p);
 
-void run_miss_reaction__13TBoss2DeRolLeFv(void);
 
 s32 TBoss2Joint_get_shell_max_hp(void);
 
@@ -1145,9 +1083,7 @@ void load_resources__13TBoss2DeRolLeFv(void);
 
 s32 advance_scalar_motion_profile(void *arg0);
 
-void run_death_reaction__13TBoss2DeRolLeFv(void);
 
-void refresh_target__13TBoss2DeRolLeFv(void);
 
 void apply_poison_status__13TBoss2DeRolLeFv(void);
 
@@ -2772,7 +2708,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         sub_8002FCE4(reason);
         return;
     case 31:
-        handle_death_state__13TBoss2DeRolLeFPvPv(this, reason);
+        handle_death_state(reason);
         return;
     case 32:
         sub_8002F73C(reason);
@@ -4552,39 +4488,32 @@ void TBoss2DeRolLe::sub_8002FCE4(u32 reason) {
     }
 }
 
-namespace behavior_view {
-
-extern "C" {
-
 #pragma push
 #pragma fp_contract on
-#pragma opt_common_subs off
 
-#define o ((Rol_8002F7C4 *)arg0)
-
-void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
+void TBoss2DeRolLe::handle_death_state(u32 reason) {
     CameraPlayback cam;
     Vec v;
     Vec w;
     Vec save;
     s32 i;
     f32 t;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->f3C0 &= ~0x100;
-        o->f3C0 |= 4;
-        ((TBoss2DeRolLe *)o)->sub_80034258();
-        o->fB8 = 0x10;
-        o->f654 = 3;
-        ((TBoss2DeRolLe *)o)->set_position_index(o->f654);
-        o->f5C = 0;
-        o->f6A4 = 0.0f;
-        o->f6E0 = 0;
-        o->f6E4 = 0;
-        o->f6F4 = 0;
-        o->f6AC = 0;
+        state_flags &= ~0x100;
+        state_flags |= 4;
+        sub_80034258();
+        requested_action = 0x10;
+        position_index = 3;
+        set_position_index(position_index);
+        rotation_x = 0;
+        height_offset = 0.0f;
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6F4 = 0;
+        unk_6AC = 0;
         for (i = 0; i < 4; i++) {
-            ((TBoss2Tentacle *)o->tent[i])->speed_up_sway();
+            tentacles[i]->speed_up_sway();
         }
         TWindowCtrl::init_all_slots();
         cam.index = 0;
@@ -4592,75 +4521,74 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         cam.flags = 0;
         cam.frame = 0.0f;
         cam.frame_step = 0.7f;
-        ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
+        activate_camera_mode(5);
         cam.cache_target_and_forward(0x2AAA);
-        set_scripted_camera_pose(&o->pos, &o->pos, &o->f5C);
+        set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
         break;
     case 2:
-        if (o->f3CC->f8 & 0x400) {
-            o->flags30 &= ~0x800;
-            ((TBoss2DeRolLe *)o)->sub_800341F0();
-            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
+        if (debug_pad->unknown_08 & 0x400) {
+            actorFlags &= ~0x800;
+            sub_800341F0();
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->f6E0 == 3) {
-            ((TBoss2DeRolLe *)o)->set_state_and_send(0x20);
+        if (state_step == 3) {
+            set_state_and_send(0x20);
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->f6E0) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            if (((TObjMotion *)o)->is_passing_frame(27.0f) != 0) {
+            if (is_passing_frame(27.0f) != 0) {
                 play_cue_stream_file((saddr)"deldeath.adx");
-            } else if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
-                play_sound_effect((void *)0x4003AD11, 0, 0, 0);
-            } else if (((TObjMotion *)o)->is_passing_frame(99.0f) != 0) {
-                play_sound_effect((void *)0x4003AD12, 0, 0, 0);
+            } else if (is_passing_frame(20.0f) != 0) {
+                play_sound_effect(0x4003AD11, 0, 0, 0);
+            } else if (is_passing_frame(99.0f) != 0) {
+                play_sound_effect(0x4003AD12, 0, 0, 0);
                 start_pad_rumble_all(0xC0, 0xF);
             }
-            o->f6E4++;
-            t = o->fC0;
+            unk_6E4++;
+            t = frame;
             if (t >= 20.0f && t <= 28.0f) {
-                if ((f32)o->f6E4 >= 2.0f) {
-                    o->f6E4 = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, &o->pos);
+                if ((f32)unk_6E4 >= 2.0f) {
+                    unk_6E4 = 0;
+                    VecCopy(&v, &position);
                     for (i = 0; i < 10; i++) {
-                        u8 *q = (u8 *)o + i * 12;
-                        if (v.y * *(f32 *)(q + 0x544) < 0.0f) {
+                        if (v.y * joint_positions[i].y < 0.0f) {
                             break;
                         }
-                        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, q + 0x540);
+                        VecCopy(&v, &joint_positions[i]);
                     }
-                    v.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                    v.x += 40.0f * calc_elapsed_scaled();
                     v.y = -5.0f;
-                    v.z += 80.0f * ((TObjChara *)o)->random_ratio();
-                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v);
+                    v.z += 80.0f * random_ratio();
+                    spawn_ceil_junk(&v);
                 }
-            } else if (t >= 99.0f && t <= 140.0f && (f32)o->f6E4 >= 2.0f) {
-                o->f6E4 = 0;
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&w, &o->pos);
-                w.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
+            } else if (t >= 99.0f && t <= 140.0f && (f32)unk_6E4 >= 2.0f) {
+                unk_6E4 = 0;
+                VecCopy(&w, &position);
+                w.x += 40.0f * calc_elapsed_scaled() + 20.0f;
                 w.y = -5.0f;
-                w.z += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
-                ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&w);
+                w.z += 40.0f * calc_elapsed_scaled() + 20.0f;
+                spawn_ceil_junk(&w);
             }
-            if (o->fC0 >= 20.0f) {
-                o->f758 = 5;
+            if (frame >= 20.0f) {
+                splash_joint = 5;
             }
-            if (o->fC0 > 100.0f) {
-                o->f6E0 = 2;
+            if (frame > 100.0f) {
+                state_step = 2;
             }
             break;
         case 1:
-            o->f6F4 += 0x400;
-            o->f6A4 = 0.5f * (6.0f * (cos_table_lookup(o->f6F4) - 1.0f));
+            unk_6F4 += 0x400;
+            height_offset = 0.5f * (6.0f * (cos_table_lookup(unk_6F4) - 1.0f));
             break;
         case 2:
-            o->f6A4 -= 1.0f;
-            if (o->f6A4 < -100.0f) {
-                o->f6E0 = 3;
+            height_offset -= 1.0f;
+            if (height_offset < -100.0f) {
+                state_step = 3;
                 TWindowCtrl::init_all_slots2();
                 restore_player_cameras();
             }
@@ -4672,20 +4600,20 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     case 3:
         break;
     case 5:
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&save, &o->pos);
-        o->pos.x = -55.8f;
-        o->pos.y = 2.0f;
-        o->pos.z = 60.29f;
-        ((TObjEnemy *)o)->update_prev_position();
+        VecCopy(&save, &position);
+        position.x = -55.8f;
+        position.y = 2.0f;
+        position.z = 60.29f;
+        update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(o, o->slots[i]);
+            assign_slots_from_list(this, (saddr)joints[i]);
         }
-        ((TObjEnemy *)o)->refresh_and_send_entity_flags();
-        set_story_flag_or_send_quest_flag((u16)((void *)0x20));
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&o->pos, &save);
-        ((TObjEnemy *)o)->update_prev_position();
-        o->flags30 = 0x12008;
-        o->m72(0);
+        refresh_and_send_entity_flags();
+        set_story_flag_or_send_quest_flag(0x20);
+        VecCopy(&position, &save);
+        update_prev_position();
+        actorFlags = 0x12008;
+        vfunc_74(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         break;
@@ -4699,12 +4627,6 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
 }
 
 #pragma pop
-
-#undef o
-
-}
-
-}
 
 void TBoss2DeRolLe::sub_8002F73C(u32 reason) {
     switch (reason) {
