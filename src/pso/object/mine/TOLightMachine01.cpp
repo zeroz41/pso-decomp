@@ -94,7 +94,7 @@ TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase(tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = (void *)get_bml_model((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
-    light_machine01->texlist = (s32)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->texlist = (saddr)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
     light_machine01->m_94 = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);

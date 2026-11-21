@@ -126,7 +126,7 @@ void load_computer_resources(void) {
 void TObjComputer::free_resources() {
     if (TObjComputer__texture_gvm_handle != NULL) {
         release_texture_list(TObjComputer__texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TObjComputer__texture_gvm_handle));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjComputer__texture_gvm_handle);
         TObjComputer__texture_gvm_handle = NULL;
     }
     if (TObjComputer__model_archive != NULL) {
@@ -162,7 +162,7 @@ void TObjComputer::draw_model() {
     if (screen_model == NULL) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<s32>(TObjComputer__texture_gvm_handle));
+    TObjFish::set_global_param((saddr)TObjComputer__texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

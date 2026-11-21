@@ -123,7 +123,7 @@ TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase(tl_05) {
     self->m_name = TOSparkMachine01__name;
     self->apply_object_set_data(arg1);
     self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
-    self->texlist = (s32)TOSparkMachine01__static_resource->models[0].m_c;
+    self->texlist = (saddr)TOSparkMachine01__static_resource->models[0].m_c;
     self->view_range = 500.0f;
     self->model_radius = 40.0f;
     self->actorFlags |= 0x40000000;

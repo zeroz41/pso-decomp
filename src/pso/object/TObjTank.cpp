@@ -38,7 +38,7 @@ s32 free_collision_body_parts(void *);
 void TObjTank::render() {
     GinjaTextureList *textures;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = TObjTank__texture_list)) {
-        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+        TObjFish::set_global_param((saddr)textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -76,7 +76,7 @@ void *TObjTank__create(void *arg0) {
 void TObjTank::free_globals() {
     if (TObjTank__texture_list != NULL) {
         release_texture_list(TObjTank__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TObjTank__texture_list));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjTank__texture_list);
         TObjTank__texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {

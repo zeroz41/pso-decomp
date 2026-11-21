@@ -71,7 +71,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
         draw_model();
     }
 }

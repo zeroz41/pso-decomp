@@ -70,7 +70,7 @@ void TMotorcycle::render() {
     if ((TMainTask::get_render_pass() != 1) && (update_object_view_visibility(400.0f, 50.0f) != 0)) {
         set_draw_list_mask(3);
         if (TMotorcycle__texture_list != NULL) {
-            TObjFish::set_global_param(reinterpret_cast<s32>(TMotorcycle__texture_list));
+            TObjFish::set_global_param((saddr)TMotorcycle__texture_list);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -91,7 +91,7 @@ extern "C" void *create_stage_motorcycle(void *placement) {
 void TMotorcycle::free_statics() {
     if (TMotorcycle__texture_list != NULL) {
         release_texture_list(TMotorcycle__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TMotorcycle__texture_list));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TMotorcycle__texture_list);
         TMotorcycle__texture_list = NULL;
     }
     if (TMotorcycle__bml_resource != NULL) {
