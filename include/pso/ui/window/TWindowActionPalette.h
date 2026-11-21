@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/ui/window/ActionPaletteTag.h"
 
 // A sprite part of a window (layout record type 6): position, texture rectangle, colour.
 struct Icon_80243630 {
@@ -23,7 +23,7 @@ struct Icon_80243630 {
 };
 
 struct TWindowActionPalette : public TWindowBase {
-    TWindowActionPalette(s16 slot);
+    TWindowActionPalette(s32 slot);
     struct ChildList {
         u32 count;
         void **entries;
@@ -37,7 +37,7 @@ struct TWindowActionPalette : public TWindowBase {
     virtual void render();
     virtual ~TWindowActionPalette();
 
-    gc_tag resources[3];
+    ActionPaletteTag resources[3];
     u8 state;
     u8 unknown_6d[3];
     Scale scale;
@@ -46,8 +46,6 @@ struct TWindowActionPalette : public TWindowBase {
     void update_slot_icon(int idx, u16 mode, u16 slot);
     void update_slot_sprites(int idx, u16 mode, u16 slot);
     void draw_frame(int arg1);
-    void set_slot(u8 v);
-    void set_mode(u8 v);
     int handle_input_forward();
     static s32 is_channel_active_at(saddr arg0, s32 arg1, s32 arg2);
     static void set_palette_entry(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);

@@ -50,7 +50,6 @@ extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
 extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFBCC;
-extern NJS_POINT2 TWindowDD__data_805434E8[7][8];
 
 #pragma push
 #pragma dont_inline off

@@ -409,8 +409,8 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
                     if (canSetMenuCursorAction((saddr)(menu + 0x520), (saddr)player, 4, slot) != 0) {
-                        ((TWindowActionPalette *)(menu + 0x520))->set_mode(4);
-                        ((TWindowActionPalette *)(menu + 0x520))->set_slot(slot);
+                        set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), 4);
+                        set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), slot);
                         TMainCursor__sub_8013DFC4(menu + 0x520);
                     }
                 }

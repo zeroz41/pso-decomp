@@ -36,6 +36,7 @@
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/task/TMainTask.h"
 #include <stddef.h>
@@ -1872,7 +1873,6 @@ void handle_6x2C_impose_hold(saddr arg0);
 void send_6x2C_impose_hold(saddr arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius);
 int check_flag_100__10TObjPlayerFPv(void* p);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
-u8 TObjPlayer__sub_801BF6E4(void *p);
 s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 void TObjPlayer__sub_801B5A44(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void TObjPlayer__sub_801B5AF8(saddr arg0, s32 arg1);
@@ -1969,8 +1969,6 @@ int TObjPlayer__sub_801BF460(void*);
 int TObjPlayer__sub_801BF47C(void*);
 int TObjPlayer__sub_801BF488(void*);
 int TObjPlayer__sub_801BF4A0(void*);
-void update_action_palette__10TObjPlayerFv(void *, u8);
-void set_action_palette_mode__10TObjPlayerFv(void *, u8);
 s32 is_timer_running(u8 *p);
 s32 TObjPlayer__sub_801BF560(s16 *arg0);
 s16 TObjPlayer__sub_801BF57C(void *p);
@@ -5083,7 +5081,8 @@ void *TObjPlayer__sub_801B57E8(TObjPlayer *player) {
     }
     cursor = player->m_424 + 0x5C;
     for (i = 0; i < 4; i++) {
-        if (try_move__11TMainCursorFiii(cursor, ((TObjPlayer *)&player->m_340)->update_main_cursor(), TObjPlayer__sub_801BF6E4(&player->m_340)) != 0) {
+        if (try_move__11TMainCursorFiii(cursor, get_player_action_palette_mode(reinterpret_cast<const PlayerActionPaletteState *>(&player->m_340)),
+                get_player_action_palette_slot(reinterpret_cast<const PlayerActionPaletteState *>(&player->m_340))) != 0) {
             return (void *)cursor;
         }
         cursor += 0x124;
@@ -5742,8 +5741,8 @@ s32 TObjPlayer::execute_palette_action(s32 arg1, void *arg2) {
     s16 act;
     kind = ((s32 (*)(void *, s32))TObjPlayer__sub_801B5AF8)(this, arg1);
     act = get_action_palette_entry(arg1);
-    set_action_palette_mode__10TObjPlayerFv((u8 *)&this->m_340, kind);
-    update_action_palette__10TObjPlayerFv((u8 *)&this->m_340, act);
+    set_player_action_palette_mode(reinterpret_cast<PlayerActionPaletteState *>(&m_340), kind);
+    set_player_action_palette_slot(reinterpret_cast<PlayerActionPaletteState *>(&m_340), act);
     switch (kind) {
     case 0:
         return 0;

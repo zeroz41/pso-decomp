@@ -433,7 +433,7 @@ void TWindowSubCustomEquip::handle_cancel() {
 void TWindowSubCustomEquip::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
-    ((TWindowSubStatusDisp *)(this->m_6c))->set_entry_state(2);
+    m_6c->set_entry_state(2);
 }
 
 void TWindowSubCustomEquip::handle_cursor_input() {
@@ -486,16 +486,12 @@ void TWindowSubCustomEquip::handle_cursor_input() {
     }
 }
 
-void render__21TWindowSubCustomEquipFv(u8 *arg0) {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TWindowSubCustomEquip *)arg0)->draw_cursor((u8 *)temp_r3);
-    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubCustomEquip *)arg0)->m_6c))))->forward_render((void *)(temp_r3));
+void TWindowSubCustomEquip::render() {
+    WindowDrawContext *context = draw_default_entry();
+    draw_window_frame(context);
+    draw_visible_window_entries(this, reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24), context);
+    draw_cursor(reinterpret_cast<u8 *>(context));
+    m_6c->forward_render(context);
 }
 
 void TWindowSubCustomEquip::run_task() {
@@ -516,8 +512,8 @@ void TWindowSubCustomEquip::run_task() {
     update_rotate_anim();
     reset_selection();
     refresh_palette_slots();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_6c))->update_subwindow();
+    if ((f32)open_tick >= 7.5f) {
+        m_6c->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
@@ -525,7 +521,7 @@ void TWindowSubCustomEquip::run_task() {
 }
 
 TWindowSubCustomEquip::~TWindowSubCustomEquip() {
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x6C)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(m_6c), 1);
 }
 
 u8 *get_window_layout_position(s32 index);
@@ -546,12 +542,12 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     if (heading != NULL) {
         heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
     }
-    this->m_6c = (uaddr)heading;
+    m_6c = static_cast<TWindowSubStatusDisp *>(heading);
     this->refresh_palette_slots();
 }
 
-saddr TWindowSubCustomEquip::calc_equip_index() {
-    return *(s32 *)((s8 *)this + 0x78) + (((s8) *(u8 *)((s8 *)this + 0x70) + ((s8) *(u8 *)((s8 *)this + 0x71) * 3)) * 4);
+void *TWindowSubCustomSelect::get_selected_action() {
+    return reinterpret_cast<void *>(m_78 + (static_cast<s8>(m_70) + static_cast<s8>(m_71) * 3) * 4);
 }
 
 }

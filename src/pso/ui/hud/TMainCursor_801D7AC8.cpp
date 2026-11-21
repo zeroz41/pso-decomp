@@ -18,8 +18,8 @@ s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 arg2, s32 arg3, s32 
         if (temp_r3 != 0U) {
             temp_r31 = temp_r3 + 0x520;
             if (TObjPlayer__sub_801D84F0((void *)temp_r31) != 0) {
-                if (((TMainCursor *)temp_r31)->get_type() == 1) {
-                    if (arg2 == (s32) ((TMainCursor *)temp_r31)->get_type()) {
+                if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(temp_r31)) == 1) {
+                    if (arg2 == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(temp_r31))) {
                         return 0;
                     }
                     goto block_8;
@@ -35,8 +35,8 @@ block_8:
     var_r29 = TWindowActionPalette__sub_801C1C68(arg0, arg4);
     var_r30 = 0;
 loop_9:
-    if (((TMainCursor *)var_r29)->get_type() == 1) {
-        if (arg2 == (s32) ((TMainCursor *)var_r29)->get_type()) {
+    if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(var_r29)) == 1) {
+        if (arg2 == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(var_r29))) {
             return var_r30;
         }
         goto block_14;

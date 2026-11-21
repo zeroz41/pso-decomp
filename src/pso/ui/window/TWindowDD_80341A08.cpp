@@ -93,7 +93,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.0f);
     ((TWindowDD *)verts)->reset_entries(depth, -1);
     ((TWindowDD *)verts)->copy_point_table(self->pad_64);
-    TWindowDD__sub_80348A2C(rect, verts);
+    TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(rect), reinterpret_cast<WindowVertex *>(verts));
     s = rect->scale[1];
     count = self->pad_78;
     top = -(0.5f * self->frame_size[1]);
@@ -166,7 +166,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
         ((TWindowDD *)verts)->reset_entries(depth, -1);
         ((TWindowDD *)verts)->copy_point_table(1);
-        TWindowDD__sub_80348A2C(rect, verts);
+        TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(rect), reinterpret_cast<WindowVertex *>(verts));
         f32 row = (f32)self->m_6c;
         f32 first_y = -(0.5f * self->frame_size[1]);
         y0 = row * TWindowDD__data_805DFB20 + first_y;

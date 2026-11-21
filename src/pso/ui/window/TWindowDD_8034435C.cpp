@@ -1,13 +1,8 @@
+#include "pso/ui/window/WordSelectMessage.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/TWindowDD.h"
-
-struct DD_803461CC {
-    s16 count;
-    s16 type;
-    s16 ids[4];
-};
 
 struct List_803467CC {
     s16 *items;
@@ -31,17 +26,13 @@ s16 TWindowDD__sub_8034435C(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 s16 TWindowDD__sub_80344568(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 s16 TWindowDD__sub_80344774(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 s16 TWindowDD__sub_80346434(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
-s32 TWindowDD__sub_8034740C(DD_803461CC *, char *, s32 *);
-s32 TWindowDD__sub_80347474(DD_803461CC *, s32, char *, s32 *);
+s32 TWindowDD__sub_8034740C(WordSelectMessage *, char *, s32 *);
+s32 TWindowDD__sub_80347474(WordSelectMessage *, s32, char *, s32 *);
 s32 append_word_select_token(s32, char *, s32 *);
-s32 format_entry_text__9TWindowDDFPvPv(DD_803461CC *arg0, char *arg1);
-s32 TWindowDD__sub_80347758(DD_803461CC *, DD_803461CC *);
-s32 TWindowDD__sub_803474CC(DD_803461CC *, s32, char *, char *, s32 *);
+s32 TWindowDD__sub_80347758(WordSelectMessage *, WordSelectMessage *);
+s32 TWindowDD__sub_803474CC(WordSelectMessage *, s32, char *, char *, s32 *);
 char fn_80228C54(char);
-s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 arg2);
-void TWindowDD__sub_8034694C(DD_803461CC *, s32, char *, char *, char *, s32 *);
-s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 arg2);
-s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 arg2);
+void TWindowDD__sub_8034694C(WordSelectMessage *, s32, char *, char *, char *, s32 *);
 s16 TWindowDD__sub_8034435C(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) {
     s16 v;
     switch (arg1) {
@@ -304,7 +295,7 @@ s16 TWindowDD__sub_80344774(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     return v;
 }
 
-s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u16 arg2) {
+s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 arg2) {
     s32 k;
     s32 n;
     s32 m;
@@ -339,7 +330,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
         break;
     case 3:
         if (n > 1) {
-            struct { DD_803461CC dd; u8 pad[0x10]; } tmp;
+            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
             pos = format_message_text__9TWindowDDFPvPvUs(&tmp.dd, window_dd, arg2);
         } else {
@@ -491,7 +482,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
     return pos;
 }
 
-s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u16 arg2) {
+s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 arg2) {
     s32 pos;
     s32 id;
     s32 kind;
@@ -527,7 +518,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, 
         break;
     case 3:
         if (n > 1) {
-            struct { DD_803461CC dd; u8 pad[0x10]; } tmp;
+            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
             pos = format_german_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, arg2);
         } else {
@@ -744,7 +735,7 @@ static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *po
     }
 }
 
-s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
+s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 arg2) {
     s32 k;
     s32 n;
     s32 i;
@@ -778,7 +769,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
         break;
     case 3:
         if (n > 1) {
-            struct { DD_803461CC dd; u8 pad[0x10]; } tmp;
+            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
             pos = TWindowDD__sub_80345608(&tmp.dd, window_dd, arg2);
         } else {
@@ -950,7 +941,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
     return pos;
 }
 
-s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u16 player) {
+s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 b;
     s32 n;
     s32 i;
@@ -985,7 +976,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         break;
     case 3:
         if (n > 1) {
-            struct { DD_803461CC dd; u8 pad[0x10]; } tmp;
+            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
             pos = format_english_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
         } else {
@@ -1117,7 +1108,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
 }
 #pragma pop
 
-s32 format_entry_text__9TWindowDDFPvPv(DD_803461CC *arg0, char *window_dd) {
+s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *arg0, char *window_dd) {
     s32 pos;
     s32 n;
     pos = 0;
@@ -1409,7 +1400,7 @@ void build_item_list__9TWindowDDFPv(u8 *arg0) {
     BUF_803467CC->n4 = n;
 }
 
-void TWindowDD__sub_8034694C(DD_803461CC *src, s32 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
+void TWindowDD__sub_8034694C(WordSelectMessage *src, s32 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
     s32 n;
     s32 len;
     s32 i;
