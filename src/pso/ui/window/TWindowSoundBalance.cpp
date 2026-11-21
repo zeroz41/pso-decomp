@@ -1,4 +1,5 @@
 #include "pso/system/ControllerInputState.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -59,7 +60,6 @@ extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 u32 calc_text_width();
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
-s32 draw_visible_window_entries(s32, s32, void *);
 
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
@@ -84,8 +84,8 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
 void TWindowSoundBalance::apply_balance(void *window_key_board_soft) {
     s32 temp;
 
-    temp = get_array_entry((s32)selection);
-    draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp, is_active());
+    temp = reinterpret_cast<s32>(get_array_entry((s32)selection));
+    draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp, is_active());
 }
 
 void TWindowSoundBalance::handle_cancel() {
@@ -160,9 +160,12 @@ void TWindowSoundBalance::handle_lr_input() {
 #pragma opt_common_subs off
 void TWindowSoundBalance::render() {
     TWindowSoundBalance *self = this;
-    WindowDrawContext *entry = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    WindowDrawContext *entry = self->draw_default_entry();
     self->draw_window_frame(entry);
-    draw_visible_window_entries((s32)self, (s32)&self->m_24, entry);
+    draw_visible_window_entries(
+        self,
+        reinterpret_cast<const WindowLayoutEntries *>((s32)&self->entry_list),
+        reinterpret_cast<WindowDrawContext *>(entry));
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
     self->apply_balance(entry);
@@ -184,7 +187,7 @@ void TWindowSoundBalance::run_task() {
     }
     ((TWindowDD *)this)->initialize_subwindow();
     update_fade();
-    update_window_entry_list(&m_24);
+    update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
 }
 
 TWindowSoundBalance::~TWindowSoundBalance() {}

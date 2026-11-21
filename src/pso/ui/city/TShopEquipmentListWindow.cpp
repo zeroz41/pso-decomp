@@ -18,6 +18,7 @@
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
@@ -231,8 +232,7 @@ extern const s32 local_client_id;
 u32 create_yes_no_window(int, u16, int, int);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 void play_sound_effect(int, int, int, int);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-s32 align_menu_entry_positions(u32);
+
 void __dl__7TObjectFPv(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 struct Win_8021C33C;
@@ -264,7 +264,7 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(s32 parent, s32 arg2, s32 arg
 extern "C" {
 TShopEquipmentListWindow::~TShopEquipmentListWindow() {
     if (m_30 != NULL) { ((TWindowBase *)m_30)->close(); m_30 = 0; }
-    if (m_2c != NULL) { ((TWindowBase *)m_2c)->close(); m_2c = 0; }
+    if (m_2c != NULL) { m_2c->close(); m_2c = 0; }
     if (m_34 != NULL) { ((TWindowBase *)m_34)->close(); m_34 = 0; }
     if (m_38 != NULL) { ((TWindowBase *)m_38)->close(); m_38 = 0; }
     if (m_3c != NULL) { ((TWindowBase *)m_3c)->close(); m_3c = 0; }
@@ -473,16 +473,16 @@ s32 TShopEquipmentListWindow::open_menu_window() {
     f32 scale;
     u16 temp_r31;
 
-    if ((u32) this->m_2c == 0U) {
+    if (this->m_2c == NULL) {
         temp_r31 = get_entity_id(this->m_24);
-        this->m_2c = create_window_menu(get_window_layout_position(0x2B), 2, temp_r31);
+        this->m_2c = create_window_menu((s32)(get_window_layout_position(0x2B)), 2, temp_r31);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->m_2c, (int)(get_shop_text(4)), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->m_2c, (int)(get_shop_text(5)), 6, 1);
-        ((TWindowSubComCard *)(this->m_2c))->calc_window_size();
+        m_2c->calc_window_size();
         align_menu_entry_positions(this->m_2c);
-        ((TCheckRoomSequence *)(this->m_2c))->set_ready_flag();
+        m_2c->set_ready_flag();
         scale = get_scale();
-        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), scale);
+        m_2c->set_position_xy(get_scale(), scale);
     }
     set_field_20(2);
 }

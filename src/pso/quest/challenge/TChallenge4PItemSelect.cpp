@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer.h"
@@ -40,7 +41,6 @@ struct Challenge4PItemCode {
 
 extern "C" {
 
-u32 create_window_menu(s32, s32, s32);
 s32 TWindowSubComCard__sub_80265500(u32);
 s32 get_window_layout_position(s32);
 s32 fn_8034BE30(TChallenge4PResult *);
@@ -388,7 +388,7 @@ void TChallenge4PItemSelect::open_menu() {
     waitFrames = temp_r0;
     if (temp_r0 <= 0) {
         temp_r30 = fn_8034BE30(result);
-        (u32 &)menu_window = create_window_menu(get_window_layout_position(0x42), 8, temp_r30);
+        (u32 &)menu_window = (u32)create_window_menu((s32)(get_window_layout_position(0x42)), 8, temp_r30);
         if ((u32) (u32 &)menu_window != 0U) {
             var_r29 = 0;
             do {

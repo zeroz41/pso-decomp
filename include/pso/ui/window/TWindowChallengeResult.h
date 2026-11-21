@@ -8,7 +8,8 @@ struct TWindowChallengeResult : public TWindowBase {
     virtual ~TWindowChallengeResult();
     virtual void render();
 
-    u8 unk_1C[0x4C];
+    f32 scale_x;
+    f32 scale_y;
 };
 
 typedef char TWindowChallengeResult_size[sizeof(TWindowChallengeResult) == 0x68 ? 1 : -1];

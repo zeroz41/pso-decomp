@@ -221,7 +221,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
             } else {
                 id = get_entity_id(self->m_24);
                 self->m_34 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
-                ((TCheckRoomSequence *)self->m_34)->set_ready_flag();
+                ((TWindowMenu *)self->m_34)->set_ready_flag();
                 ((TWindowSubComCardList *)self->m_34)->set_selected_index(1);
                 ((TWindowAddition *)self->m_34)->set_position_xy(self->get_scale(), self->get_scale());
                 self->set_field_20(3);
@@ -240,7 +240,7 @@ void TShopDeleteItemWindow::handle_number_input() {
         if (m_34 == NULL) {
             u32 id = get_entity_id(m_24);
             m_34 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
-            ((TCheckRoomSequence *)m_34)->set_ready_flag();
+            ((TWindowMenu *)m_34)->set_ready_flag();
             ((TWindowSubComCardList *)m_34)->set_selected_index(1);
             ((TWindowAddition *)m_34)->set_position_xy(get_scale(), get_scale());
         }

@@ -21,24 +21,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void calc_row_width();
     virtual void run_task();
     virtual void render();
-    u8 unk_1C[0x1];
-    s8 m_1d;
-    u8 unk_1E[0x1];
-    signed char m_1f;
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 unk_28[0x2];
-    s16 m_2a;
-    s32 m_2c;
-    u8 unk_30[0x4];
-    s32 m_34;
-    u8 unk_38[0x4];
-    f32 m_3c;
-    u8 unk_40[0xC];
-    f32 m_4c;
-    u8 unk_50[0xC];
-    u32 m_5c;
     s16 page; // inferred: index into the dispatch_page_init/update page tables
     u16 m_62;
     u32 m_64;
@@ -67,7 +49,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void clear_visible_flag();
     void increment_counter();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
-    void *reset_selection();
+
     static s32 get_status_index(u16 arg0);
     static s32 get_status_index_or_default(u16 *arg0);
     static s32 *get_status_window(u16 arg0);
@@ -100,7 +82,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_field_2F8();
     s16 get_stat();
     s16 get_value();
-    void destroy_all_items();
     void set_all_values(s32 arg1);
     void set_animated_target(s32 arg1, f32 farg0);
     static void update_palette_sprite();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
@@ -16,7 +17,6 @@
 const char *lbl_805D42E0 = "TWindowDD_WS_Word";
 
 extern "C" {
-void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, WindowDrawContext *);
 extern const s32 TWindowDD__data_805DFC14;
 extern const s32 lbl_805DFC18;
 }
@@ -28,8 +28,8 @@ void TWindowDD_WS_Word::render() {
     s32 idx;
     s32 i;
     s32 j;
-    entry = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
-    self->calc_inner_rect((u8 *)entry);
+    entry = self->draw_default_entry();
+    self->calc_inner_rect(entry);
     TWindowDD__sub_80341674(self, entry);
     if (self->m_8c != 0) {
         self->m_8c = 0;
@@ -52,7 +52,10 @@ void TWindowDD_WS_Word::render() {
         }
     }
     entry->inner_y += 1.0f;
-    draw_visible_window_entries(self, &self->entries, entry);
+    draw_visible_window_entries(
+        self,
+        reinterpret_cast<const WindowLayoutEntries *>(&self->entry_list),
+        reinterpret_cast<WindowDrawContext *>(entry));
 }
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
@@ -86,14 +89,14 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     if (rect->open_tick < 0) {
         return;
     }
-    c = 0.5f * self->pad_4C + self->pad_44;
-    f32 depth = TWindowDD__sub_80348AD4(self->pad_54, 0.0f);
+    c = 0.5f * self->frame_size[1] + self->frame_position[1];
+    f32 depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.0f);
     ((TWindowDD *)verts)->reset_entries(depth, -1);
     ((TWindowDD *)verts)->copy_point_table(self->pad_64);
     TWindowDD__sub_80348A2C(rect, verts);
     s = rect->scale[1];
     count = self->pad_78;
-    top = -(0.5f * self->pad_4C);
+    top = -(0.5f * self->frame_size[1]);
     y0 = top * s + c;
     bottom = top + TWindowDD__data_805DFB20;
     y1 = bottom * s + c;
@@ -148,7 +151,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         }
     }
     if (0.0f != frac) {
-        yb = 0.5f * self->pad_4C * s + c;
+        yb = 0.5f * self->frame_size[1] * s + c;
         v = verts;
         for (s32 i = 0; i < 4; i++) {
             v[0].b = y1;
@@ -160,12 +163,12 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
     if (self->m_74 > 0 && self->sub_80342254() != 0) {
-        depth = TWindowDD__sub_80348AD4(self->pad_54, 0.1f);
+        depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
         ((TWindowDD *)verts)->reset_entries(depth, -1);
         ((TWindowDD *)verts)->copy_point_table(1);
         TWindowDD__sub_80348A2C(rect, verts);
         f32 row = (f32)self->m_6c;
-        f32 first_y = -(0.5f * self->pad_4C);
+        f32 first_y = -(0.5f * self->frame_size[1]);
         y0 = row * TWindowDD__data_805DFB20 + first_y;
         s = rect->scale[1];
         bottom = y0 + TWindowDD__data_805DFB20;
@@ -268,7 +271,6 @@ struct Entry_80341FFC {
 
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
-s32 init_window_layout_entries(void *, void *, int);
 
 void TWindowDD::set_mode_2() { this->m_64[0] = 2; }
 void TWindowDD::reset_cursor() { this->m_64[0] = 0; }
@@ -360,7 +362,7 @@ void TWindowDD::handle_scroll_input() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
 }
 
 void TWindowDD::init_and_mark_field8C() { init_layout_entries(); load_element_list(); this->m_8c = 1; }
@@ -370,7 +372,7 @@ void TWindowDD::free_child() {
         mem_free(*(void **)((s8 *)this + 0x80));
         this->m_80 = 0;
     }
-    ((TWindowSubStatusDisp *)((char *)this + 36))->destroy_all_items();
+    reinterpret_cast<WindowLayoutEntries *>(((char *)this + 36))->destroy_all_items();
     this->m_64[4] = 0;
     this->m_7c = 0;
 }
@@ -380,7 +382,10 @@ void TWindowDD::init_child(void* a1) { free_child(); *(void**)((char*)this + 0x7
 void TWindowDD::init_layout_entries() {
     u8 *arg0 = (u8 *)this;
     TWindowDD__data_804EFC50.rows = this->m_64[5];
-    init_window_layout_entries(arg0 + 0x24, &TWindowDD__data_804EFC50, (int) (*(s16 *)((s8 *)arg0 + 0x20)));
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(arg0 + 0x24),
+        &TWindowDD__data_804EFC50,
+        (int) (*(s16 *)((s8 *)arg0 + 0x20)));
 }
 
 void TWindowDD::reset_fields() { *(float*)((char*)this + 0x88) = 0.0f; *(float*)((char*)this + 0x84) = 0.0f; this->m_64[1] = 0; this->m_64[2] = 0; this->m_8c = 1; }
@@ -506,7 +511,7 @@ TWindowDD_WS_Word *TWindowDD__sub_803422F0(TWindowDD_WS_Word *self, s32 element_
     self->pad_70 = element_list;
     ((TWindowDD *)self)->reset_fields();
     ((TWindowDD *)self)->load_element_list();
-    self->pad_5C = 0x01000000;
+    self->open_tick = 0x01000000;
     return self;
 }
 

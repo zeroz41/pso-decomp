@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/keyboard/KeyboardInputQueries.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/KeyboardCharacterMaps.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -50,7 +51,6 @@ struct Ctl_8025F4A0 {
 
 extern "C" {
 
-s32 TKeyBoardControl__sub_801A58B0(void);
 s32 set_input_mode__20TWindowSubStatusDispFUc(s32, s32);
 
 void TWindowKeyBoardHard::sub_8025EC04() {
@@ -625,7 +625,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
         NJS_POINT2 pt;
         pt.x = ((Ctx_80260020 *)ctx)->pos.x;
         pt.y = ((Ctx_80260020 *)ctx)->pos.y;
-        set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);
+        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(ctx), 0, 0, (f32)inv, 100000.0f);
         flags = ((Win_80260020 *)this)->state->flags;
         if (!(flags & 1)) {
             draw_window_text((f32 *)&pt, "\x94\xBC\x89\x70\x90\x94", -1, 0, 1000000.0f); // 半英数
@@ -649,7 +649,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
 void TWindowKeyBoardHard::render() {
     s32 temp;
     if (((s32) this->m_68 > 0) && (is_key_active() == 0)) {
-        temp = TWindowDD::draw_default_entry((s32)this);
+        temp = reinterpret_cast<s32>(draw_default_entry());
         draw_status_text((Ctx_80260020 *)(temp));
     }
 }

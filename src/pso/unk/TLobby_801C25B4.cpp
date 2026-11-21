@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/TSetEvtDestroy.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
@@ -411,7 +412,6 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 record_local_battle_placement(void *);
 
 u32 TWindowDuelResult__ct(void *, s32);
-s32 align_menu_entry_positions(void *);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *create_window_menu_default(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
@@ -812,9 +812,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
                     forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
                     forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
                     forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
-                    ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x50)))->calc_window_size();
-                    align_menu_entry_positions(*(void **)((s8 *)arg0 + 0x50));
-                    ((TCheckRoomSequence *)(*(void **)((s8 *)arg0 + 0x50)))->set_ready_flag();
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->calc_window_size();
+                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(*(void **)((s8 *)arg0 + 0x50)));
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->set_ready_flag();
                 }
                 if (*(void **)((s8 *)arg0 + 0x50) != NULL) {
                     if (((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->is_decided() != 0) {

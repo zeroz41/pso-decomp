@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
@@ -27,7 +28,6 @@ extern TWindowHelpItem::CallbackWords __ptmf_null;
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
 
 s32 handle_list_page_flip_input(s32);
-s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_list_page_indicator(int, int);
 s32 decay_page_arrow_offset(s32);
 
@@ -52,9 +52,12 @@ void TWindowHelpItem::render() {
     s32 temp_r3;
     u8 temp_r3_2;
 
-    temp_r3 = this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8));
+    temp_r3 = reinterpret_cast<s32>(this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8)));
     this->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(this, (u8 *)this + 0x24, temp_r3);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     temp_r3_2 = this->m_60;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
         draw_list_page_indicator((int) (this->m_64), temp_r3);
@@ -63,10 +66,10 @@ void TWindowHelpItem::render() {
 
 void TWindowHelpItem::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_2c & 2)) {
-        this->m_5c = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
-    if ((this->m_60 & 1) && (((TWindowBase *)arg0)->sub_80244994() != 0) && !(this->m_2c & 4)) {
+    if ((this->m_60 & 1) && (((TWindowBase *)arg0)->sub_80244994() != 0) && !(this->window_flags & 4)) {
         if (!(this->m_60 & 4)) {
             if (handle_list_page_flip_input(this->m_64) != 0) {
                 ((TWindowHelpItem *)arg0)->dispatch_item_help();
@@ -78,9 +81,9 @@ void TWindowHelpItem::run_task() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     if (!(this->m_60 & 8)) {
-        toggle_help_window_on_button((u32)arg0, this->m_20);
+        toggle_help_window_on_button((u32)arg0, this->client_index);
     }
 }
 
@@ -97,7 +100,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)window_
     this->m_60 = 0;
     p = ::operator new(0xc);
     if (p != 0) {
-        p = init__21TWindowSubComCardListFiii(p, 0, 3, this->m_20);
+        p = init__21TWindowSubComCardListFiii(p, 0, 3, this->client_index);
     }
     this->m_64 = (u32)p;
     this->m_68 = 0;
@@ -110,7 +113,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)window_
     this->m_a8 = 1.0f;
     this->m_ac = 1.0f;
     this->dispatch_item_help();
-    call_if_split_screen((u32)this, this->m_20);
+    call_if_split_screen((u32)this, this->client_index);
 }
 
 s32 get_help_text_string(s32 arg0) {

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowSpritePart.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8026CB5C.h"
@@ -18,7 +20,6 @@
 
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 void render__14TWindowComCardFv(s32 arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
 extern s32 local_client_id;
@@ -231,12 +232,15 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
 
 void render__14TWindowComCardFv(s32 arg0) {
     s32 temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry(arg0);
+    temp_r3 = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
 }
 
-void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list((char*)p + 0x24); }
+void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)p + 0x24)); }
 
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -280,9 +284,9 @@ void TWindowComCard::set_help_mode(s32 arg1) {
     }
     *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
     if (arg1 < 0xA) {
-        this->m_34 = 1;
+        reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
     } else {
-        this->m_34 = 2;
+        reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
     temp_r4 = &com_card_help_panel_rect_table[arg1];
     set_sprite_uv_from_pixels((u8 *)this, temp_r4->x, temp_r4->y);
@@ -321,7 +325,7 @@ void TWindowComCard::set_selected_index(s32 arg1) {
     s32 temp;
     if ((s32) *(s32 *)((s8 *)this + 0x70) != arg1) {
         *(s32 *)((s8 *)this + 0x70) = arg1;
-        temp = this->get_array_entry(0);
+        temp = reinterpret_cast<s32>(this->get_array_entry(0));
         ((TWindowComCard *)temp)->set_help_mode(*(s32 *)((s8 *)this + 0x70));
     }
 }
@@ -374,7 +378,7 @@ void request_active_window_close(void);
 
 void TUnk_804CE964::render() {
     s32 arg0 = (s32)this;
-    s8 *tmp = (s8 *)TWindowDD::draw_default_entry(arg0);
+    s8 *tmp = reinterpret_cast<s8 *>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((s32 (*)(s32, s32, s32))draw_visible_window_entries)(arg0, arg0 + 0x24, (s32)tmp);
 }
 
@@ -384,11 +388,11 @@ void TUnk_804CE964::run_task() {
     u8 *temp_r4;
     temp_r4 = (unsigned char *) (this->m_60);
     temp_f1 = *(f32 *)((s8 *)temp_r4 + 0x44);
-    this->m_34 = (f32) (temp_f1 + this->m_68);
-    this->m_44 = (f32) this->m_34;
+    this->target_position[1] = (f32) (temp_f1 + this->m_68);
+    this->frame_position[1] = (f32) this->target_position[1];
     ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (int)temp_r4, (f32)temp_f1);
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
 }
 
 void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {

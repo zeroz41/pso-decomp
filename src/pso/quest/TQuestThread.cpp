@@ -1,5 +1,6 @@
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -7,6 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/item/TObjItemNameSelect.h"
@@ -58,10 +60,8 @@ extern "C" {
 s32 init_quest_script_context(s32, void *);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_window_layout_position(s32);
-s32 align_menu_entry_positions(u32);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
 void TQuestThread__sub_801F5D88(void);
-void fn_801F6520(void *p);
 void __dt__16TObjItemOKWindowFv();
 void __dt__18TObjItemNameSelectFv();
 void __dt__17TObjItemNameEntryFv();
@@ -153,7 +153,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     m_60 = init_shop_judgment_window(get_window_layout_position(0x57));
     if (m_60 != NULL) {
         ((TWindowSubComCardList *)m_60)->set_scroll_target(104.0f, 74.0f);
-        align_menu_entry_positions((u32)m_60);
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_60));
     }
     m_5c = (void *)create_window_menu_default((s32)get_window_layout_position(0x56), 1);
     if (m_5c != NULL) {
@@ -167,7 +167,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(m_5c, (int)m_text, 0x81, 0);
     }
     ((TWindowSubComCardList *)m_5c)->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions((u32)m_5c);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_5c));
     TQuestThread::set_status_flag_80(m_5c);
     pos.x = 332.0f;
     pos.y = 80.0f;
@@ -242,11 +242,11 @@ s32 TObjItemNameEntry::process_keyboard_input() {
         text = (s32)((TKeyBoardControl *)m_1c)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
-            free_menu_object(m_1c);
+            ((TKeyBoardControl *)m_1c)->clear_keyboard_flag60_bit1();
             return 0;
         }
         if (TWindowSubComCard::contains_profanity((char *)text) != 0) {
-            free_menu_object(m_1c);
+            ((TKeyBoardControl *)m_1c)->clear_keyboard_flag60_bit1();
             mem_free((void *)text);
             return 0;
         }
@@ -279,7 +279,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(m_20, get_message_text(0x47), 0x81, 0);
     }
     ((TWindowSubComCardList *)m_20)->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions((u32)m_20);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_20));
     TQuestThread::set_status_flag_80(m_20);
 }
 
@@ -838,14 +838,14 @@ void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_in
 
 void TQuestThread::queue_destruction(void *obj) { ((TObject *)obj)->queue_destruction(); }
 
-void free_menu_object(void *window) {
-    void *menu = *(void **)((u8 *)window + 0x20);
-    if (menu != NULL) {
-        fn_801F6520(menu);
+void TKeyBoardControl::clear_keyboard_flag60_bit1() {
+    TWindowKeyBoardBase *composer = m_base;
+    if (composer != NULL) {
+        composer->clear_flag60_bit1();
     }
 }
 
-void fn_801F6520(void *p) { *(u16 *)((u8 *)p + 0x60) &= 0xfffe; }
+void TWindowKeyBoardBase::clear_flag60_bit1() { m_60 &= 0xfffe; }
 
 u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
 

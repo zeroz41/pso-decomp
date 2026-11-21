@@ -1,6 +1,7 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/warp/TObjAreaWarp.h"
@@ -61,7 +62,6 @@ extern "C" {
 s32 PPCSync();
 s32 get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
-s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 
 void * TObjWarpJung__create(void *arg0);
@@ -122,14 +122,14 @@ void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     s32 i;
     if (menu_window == 0) {
-        menu_window = create_window_menu(get_window_layout_position(0x32), 3, client_id);
+        menu_window = (s32)create_window_menu((s32)(get_window_layout_position(0x32)), 3, client_id);
         for (i = 0; i < 3; i++) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
-        ((TWindowSubComCard *)menu_window)->calc_window_size();
-        align_menu_entry_positions(menu_window);
+        ((TWindowMenu *)menu_window)->calc_window_size();
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
         ((TWindowSubComCardList *)menu_window)->set_flag70_bit10();
-        ((TLobby *)menu_window)->set_loss_flag();
+        ((TWindowMenu *)menu_window)->set_loss_flag();
         request_active_window_close();
         user_client_id = client_id;
     }

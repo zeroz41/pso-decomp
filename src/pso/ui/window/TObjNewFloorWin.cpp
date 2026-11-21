@@ -8,6 +8,8 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
@@ -18,7 +20,6 @@ struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 tim
 
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 get_window_layout_position(s32);
 s32 sprintf(void *, const char *, ...);
 s32 has_window_task_root();
@@ -65,12 +66,12 @@ void TObjNewFloorWin::open_window() {
     if ((s32) *(s32 *)((s8 *)arg0 + 0x4C) < 0) {
         *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32, s32)) create_window_menu_default)(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     } else {
-        *(u32 *)((s8 *)arg0 + 0x20) = create_window_menu(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
+        *(u32 *)((s8 *)arg0 + 0x20) = (u32)create_window_menu((s32)(pos), 1, *(s32 *)((s8 *)arg0 + 0x4C));
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         sprintf(arg0 + 0x2C, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)arg0 + 0x20)), (int)(arg0 + 0x2C), 0, 0);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x20)))->calc_window_size();
+        ((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x20)))->calc_window_size();
         ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)arg0 + 0x20)))->set_flag_40();
         fn_800740DC();
         TWindowCtrl::close_active_window();

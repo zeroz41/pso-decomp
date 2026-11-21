@@ -61,7 +61,7 @@ TWindowMenuMainMenu::TWindowMenuMainMenu(s32 arg1, s16 arg2) : TWindowBase((u8 *
     this->m_60 = 4;
     this->m_61 = 0;
     this->m_62 = 0;
-    this->m_20 = arg2;
+    this->client_index = arg2;
     do {
         ((TWindowMainMenu *)p)->init_color();
         i++;

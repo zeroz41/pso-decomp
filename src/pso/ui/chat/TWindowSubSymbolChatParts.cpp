@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -93,7 +95,6 @@ struct Chat_80285314 {
 
 extern "C" {
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
-void draw_visible_window_entries(void *, void *, void *);
 void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *arg1);
 struct Stack_80284C04 {
     f32 sp8;
@@ -152,10 +153,8 @@ struct Parts_80285B84 {
 s32 TWindowSubSymbolChat__sub_800771B0(struct TWSC *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(struct TWSC *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 get_draw_context__11TWindowBaseFPv();
 void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
 s32 draw_window_scrollbar(s32, s32, void *);
-void * reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
 void fn_802855C4(Win_802857C4 *, Rect_802857C4 *);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
@@ -170,7 +169,7 @@ void fn_80284C04(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 0x74) = (s8) TWindowSubStatusDisp::round_away_from_zero((f32) *(s16 *)((s8 *)arg0 + 0x76) / 4.0f);
     stack.sp8 = 170.0f;
     stack.spC = (40.0f * (f32) (s8) (u8) *(s8 *)((s8 *)arg0 + 0x74)) + 18.0f;
-    ((TWindowMenu *)(*(u8 **)((s8 *)arg0 + 0x8C)))->copy_position(&stack.sp8);
+    ((Scroll_8026D790 *)(*(u8 **)((s8 *)arg0 + 0x8C)))->copy_position(&stack.sp8);
 }
 }
 #pragma pop
@@ -361,7 +360,10 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
         e1->y = 16.0f + e0->y;
         flip = slot->flags & 1;
         TWindowSubSymbolChatPartsSet::set_part_sprite(e1, slot->id, flip, (slot->flags >> 1) & 1);
-        draw_visible_window_entries(self, self->sub, ctx);
+        draw_visible_window_entries(
+            self,
+            reinterpret_cast<const WindowLayoutEntries *>(self->sub),
+            reinterpret_cast<WindowDrawContext *>(ctx));
         if (++col >= 4) {
             col = 0;
             row++;
@@ -375,7 +377,10 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
             e1->x = 40.0f * (f32)col + 10.0f;
             e1->y = 40.0f * (f32)row + 9.0f;
             setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(e1, e2, e0, (u8)v, (v >> 8) & 7, (v >> 11) & 1, (v >> 12) & 1, i);
-            draw_visible_window_entries(self, self->sub, ctx);
+            draw_visible_window_entries(
+                self,
+                reinterpret_cast<const WindowLayoutEntries *>(self->sub),
+                reinterpret_cast<WindowDrawContext *>(ctx));
             if (++col >= 4) {
                 col = 0;
                 row++;
@@ -425,7 +430,10 @@ void fn_802855C4(Win_802857C4 *self, Rect_802857C4 *ctx) {
                 a[2] = 40.0f * (f32)k + 10.0f;
                 a[3] = x;
                 setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a, b, c, (u16)i, *(s8 *)self->p78, *self->p7C, *self->p80, 0);
-                draw_visible_window_entries(self, self->sub, ctx);
+                draw_visible_window_entries(
+                    self,
+                    reinterpret_cast<const WindowLayoutEntries *>(self->sub),
+                    reinterpret_cast<WindowDrawContext *>(ctx));
             }
         }
     }
@@ -465,7 +473,10 @@ void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *ctx) {
                 e1[2] = 16.0f + e0[2];
                 e1[3] = 16.0f + e0[3];
                 TWindowSubSymbolChatPartsSet::set_part_sprite(e1, (s16)i, *arg0->p7C, *arg0->p80);
-                draw_visible_window_entries(arg0, arg0->sub, ctx);
+                draw_visible_window_entries(
+                    reinterpret_cast<const void *>(arg0),
+                    reinterpret_cast<const WindowLayoutEntries *>(arg0->sub),
+                    reinterpret_cast<WindowDrawContext *>(ctx));
             }
         }
     }
@@ -513,7 +524,7 @@ extern "C" void fn_80285A28(Win_80285A28 *self, s32 *help) {
 void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts) {
     s32 ctx;
 
-    ctx = get_draw_context__11TWindowBaseFPv();
+    ctx = reinterpret_cast<s32>(reinterpret_cast<TWindowAddition *>(window_sub_symbol_chat_parts)->get_draw_context());
     ((TWindowBase *)window_sub_symbol_chat_parts)->draw_window_frame((void *)ctx);
     switch ((s8) (((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_71)) {
     case 0:
@@ -583,10 +594,7 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, 
     arg0->sub88 = p;
     v.x = 0.0f;
     v.y = 0.0f;
-    q = ::operator new(0xC);
-    if (q != NULL) {
-        q = reset_selection__20TWindowSubStatusDispFv(q, &v);
-    }
+    q = new Scroll_8026D790(&v);
     arg0->sub8C = q;
     return arg0;
 }

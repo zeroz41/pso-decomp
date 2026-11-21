@@ -4,6 +4,7 @@
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80070A00.h"
@@ -11,6 +12,7 @@
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
@@ -163,7 +165,6 @@ s32 init__23TAdSinglePlyChrSelectGCFv();
 s32 get_floor_map_terrain(s32);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 get_game_play_mode(int);
@@ -446,10 +447,10 @@ void TObjMapWarp::open_confirm_window(s32 arg1) {
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     if ((u32) *(u32 *)((s8 *)temp_r31 + 0xEC) == 0U) {
-        *(u32 *)((s8 *)temp_r31 + 0xEC) = ((s32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
+        *(u32 *)((s8 *)temp_r31 + 0xEC) = (u32)create_window_menu((s32)(get_window_layout_position(0x33)), 1, arg1);
         ((TWindowSubTradeMain *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
-        align_menu_entry_positions((int) (*(u32 *)((s8 *)temp_r31 + 0xEC)));
+        ((TWindowMenu *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>((*(u32 *)((s8 *)temp_r31 + 0xEC))));
         ((TWindowSubComCardList *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
     }
@@ -627,15 +628,15 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
     u32 temp_r3;
 
     if ((u32) this->menu_window == 0U) {
-        this->menu_window = ((u32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
+        this->menu_window = (u32)create_window_menu((s32)(get_window_layout_position(0x33)), 1, arg1);
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
             ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry((s32)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
             get_floor_area(this->dest_floor);
             ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_floor_destination_name(), 2, 0, -1);
         }
-        ((TWindowSubComCard *)(this->menu_window))->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        ((TWindowMenu *)(this->menu_window))->calc_window_size();
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
         ((TWindowSubComCardList *)(this->menu_window))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
         this->user_client_id = arg1;
@@ -1080,14 +1081,14 @@ void TObjAreaWarpEnding::debug_print_area_num() {
 
 void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
     if ((u32) this->menu_window == 0U) {
-        this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        this->menu_window = (u32)create_window_menu((s32)(get_window_layout_position(0x33)), 1, client_id);
         if (get_main_phase() == 0xE) {
             ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
         } else {
             ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
-        ((TWindowSubComCard *)(this->menu_window))->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        ((TWindowMenu *)(this->menu_window))->calc_window_size();
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
         ((TWindowSubComCardList *)(this->menu_window))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
         user_client_id = client_id;

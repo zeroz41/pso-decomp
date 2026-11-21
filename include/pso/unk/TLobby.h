@@ -138,7 +138,6 @@ struct TLobby : public TObject {
     static s32 count_set_bits(u32 x);
     static s32 get_party_min_tier(s32 arg0);
     void copy_header_struct(void* q);
-    void set_loss_flag();
     static void set_enemy_mode_flag();
     static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
     static void free_static_windows();

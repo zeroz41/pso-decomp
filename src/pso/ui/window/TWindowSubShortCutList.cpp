@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
@@ -24,8 +25,6 @@ int get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
 s32 handle_list_page_flip_input(s32);
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
 
 }
@@ -76,9 +75,12 @@ void *TWindowSubShortCutList::create(void *arg1) {
 void TWindowSubShortCutList::render() {
     s32 context;
 
-    context = get_draw_context__11TWindowBaseFPv();
+    context = reinterpret_cast<s32>(get_draw_context());
     draw_window_frame((void *)context);
-    draw_visible_window_entries(this, (u8 *)this + 0x24, context);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        reinterpret_cast<WindowDrawContext *>(context));
     draw_selected_list_entry(context);
     if (status_display != NULL) {
         ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));

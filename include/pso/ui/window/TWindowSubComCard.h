@@ -80,7 +80,6 @@ struct TWindowSubComCard : public TObject {
     int get_flag();
     void clear_flag_and_release2();
     void set_entry_value_clear_flag(s32 idx, s32 val);
-    void clear_transition_flag();
     s32 update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
@@ -107,7 +106,7 @@ struct TWindowSubComCard : public TObject {
     static void handle_press_a(s32 arg0, s32 arg1);
     static void handle_press_b(s32 arg0, s32 arg1);
     void calc_layout_height(f32 farg0);
-    void calc_window_size();
+
     s32 find_entry_value_by_id(s32 arg1);
     void mark_entry_by_id(s32 arg1);
     void disable_entry_by_id(s32 arg1);

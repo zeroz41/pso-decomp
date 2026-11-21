@@ -12,7 +12,7 @@ struct TWindowSubComCardList : public TWindowMenu {
     void draw_card_list_selection(u8 *);
     s16 get_field_72();
     s16 get_selected_index();
-    void update_layout_height(f32);
+
     void set_scroll_target(f32, f32);
     void set_selected_index(s16);
     void reset_entries();

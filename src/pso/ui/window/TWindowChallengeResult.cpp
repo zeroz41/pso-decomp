@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowChallengeResult.h"
 #include "pso/ui/window/TWindowChallengeResult_80246CE8.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -13,13 +14,15 @@
 #pragma readonly_strings on
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 void TWindowChallengeResult::render() {
     s32 temp_r3;
     s32 arg0 = (s32)this;
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60));
+    temp_r3 = reinterpret_cast<s32>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60)));
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
 }
 
 }
@@ -84,7 +87,7 @@ void *lbl_804CE2B8[6] = {
 };
 #define lbl_804CE2B8 ((s32 *)lbl_804CE2B8)
 
-void init_subwindow__22TWindowChallengeResultFPv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_window_entry_list((char*)p + 0x24); }
+void init_subwindow__22TWindowChallengeResultFPv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)p + 0x24)); }
 
 void *dt__22TWindowChallengeResultFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

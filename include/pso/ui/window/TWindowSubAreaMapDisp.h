@@ -7,12 +7,6 @@
 struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 unk_22[0xA];
-    s32 m_2c;
-    u8 unk_30[0x2C];
-    u32 m_5c;
     u8 unk_60[0x4];
     f32 m_64;
     u8 unk_68[0x4];

@@ -37,7 +37,7 @@ void build_6xA3_olga_flow_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 163; 
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x60) = v; }
 
 void TWindowCallBack::render() {
-    s32 r = TWindowDD::draw_default_entry((s32)this);
+    s32 r = reinterpret_cast<s32>(draw_default_entry());
     if (callback != NULL) {
         callback(this, r);
     }

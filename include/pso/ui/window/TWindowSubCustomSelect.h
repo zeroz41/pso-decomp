@@ -7,21 +7,6 @@
 struct TWindowSubCustomSelect : public TWindowAddition {
     virtual ~TWindowSubCustomSelect();
     virtual void render();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 _pad28[0x4];
-    u32 m_2c;
-    u8 _pad30[0x4];
-    u32 m_34;
-    u8 unk_38[0x14];
-    f32 m_4c;
-    u8 unk_50[0xC];
-    u32 m_5c;
-    u8 _pad60[0x8];
-    void* m_68;
-    u8 _pad6C[0x4];
     u8 m_70;
     u8 m_71;
     u8 m_72;

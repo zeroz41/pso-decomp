@@ -19,17 +19,6 @@ public:
     void *destroy(s16);
     s32 sub_80342268();
     s32 sub_80342254();
-    u8 unk_1C[0x8];
-    TWindowDDWordEntryList entries;
-    u8 unk_2C[0x14];
-    f32 pad_40; // window rectangle x, y, w, h (read by the strip draw 0x80341674)
-    f32 pad_44;
-    f32 pad_48;
-    f32 pad_4C;
-    u8 pad_50[0x4];
-    f32 pad_54; // depth: fed to the depth helper TWindowDD__sub_80348AD4
-    u8 pad_58[0x4];
-    s32 pad_5C; // set to 0x01000000 by the constructor 0x803422F0
     s32 m_60;
     s32 pad_64; // point table index for the strips; 0 also picks the first v range
     s32 m_68;

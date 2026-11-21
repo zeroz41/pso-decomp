@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -30,7 +31,6 @@ struct VObj_18 : VBase_18 {
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-void align_menu_entry_positions(s32);
 u8 *init_shop_judgment_window(void *p);
 struct VtBase8032C1C8_8032C188 { char pad[0x18]; };
 struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
@@ -61,8 +61,8 @@ s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *arg0 = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
     s32 r = (s32)init_shop_judgment_window(&pos);
-    ((TWindowSubComCardList *)r)->update_layout_height(470.0f);
-    align_menu_entry_positions(r);
+    ((TWindowMenu *)r)->update_layout_height(470.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);
     return r;
 }

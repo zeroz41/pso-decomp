@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -218,7 +219,6 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 draw_visible_window_entries(void *, void *, int, f32);
 
 s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int ctx) {
 #define arg0 ((Ps_80286120 *)this)
@@ -373,11 +373,11 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     f32 ctx;
     u8 *c_arg;
 
-    c_arg = (u8 *)TWindowDD::draw_default_entry((s32)window_sub_symbol_chat_parts_set);
+    c_arg = reinterpret_cast<u8 *>(reinterpret_cast<TWindowBase *>(window_sub_symbol_chat_parts_set)->draw_default_entry());
     copy_vec2((&sp10), c_arg + 0x10);
     copy_vec2((&sp8), c_arg + 0x28);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&window_sub_symbol_chat_parts_set->m_5c / 7.5f);
+        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&window_sub_symbol_chat_parts_set->open_tick / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
     ((TWindowBase *)window_sub_symbol_chat_parts_set)->draw_quest_message_frame((void *)c_arg);
@@ -386,7 +386,10 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
     ctx = *(f32 *)((s8 *)c_arg + 0x2C);
     *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
-    draw_visible_window_entries((void *)window_sub_symbol_chat_parts_set, (u8 *)window_sub_symbol_chat_parts_set + 0x24, (int)c_arg, (f32)ctx);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(window_sub_symbol_chat_parts_set),
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)window_sub_symbol_chat_parts_set + 0x24),
+        reinterpret_cast<WindowDrawContext *>(c_arg));
     window_sub_symbol_chat_parts_set->draw_selected_part_cursor((int)c_arg);
     copy_vec2((c_arg + 0x10), &sp10);
     copy_vec2((c_arg + 0x28), &sp8);
@@ -396,8 +399,8 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
 typedef char RecoveredGlobal_80286824_lbl_8050E208_size[sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubSymbolChatPartsSet::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_2c & 2)) {
-        *(s32 *)&this->m_5c = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        *(s32 *)&this->open_tick = 0x01000000;
     }
     if (((TWindowSubSymbolChatPartsSet *)arg0)->is_active() == 0) {
         handle_cursor_input();
@@ -410,11 +413,11 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     }
     toggle_selected_part();
     ((TWindowSubSymbolChatPartsSet *)arg0)->sub_8028625C();
-    if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
+    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         ((TWindowSubStatusDisp *)(*(s32 *)&this->m_88))->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(&entry_list);
 }
 
 }

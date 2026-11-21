@@ -1,6 +1,7 @@
 #ifndef PSO_UI_CITY_TSHOPEQUIPMENTSEQUENCE_H
 #define PSO_UI_CITY_TSHOPEQUIPMENTSEQUENCE_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
@@ -25,6 +26,7 @@ struct TShopEquipmentSequence : public TShopSequence {
 };
 
 typedef char TShopEquipmentSequence_size[sizeof(TShopEquipmentSequence) == 0x38 ? 1 : -1];
+typedef char TShopEquipmentSequence_choice_menu_offset[offsetof(TShopEquipmentSequence, choice_menu) == 0x2C ? 1 : -1];
 
 // --- C functions defined in TShopEquipmentSequence.cpp ---
 extern "C" {

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -15,6 +16,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
@@ -112,7 +114,7 @@ struct W_802689EC { u8 pad[0x4C]; f32 f4c; u32 f50; u8 pad54[0x6C - 0x54]; f32 f
 // inferred.
 static void get_scroll_clip(TUnk_804D0658 *window, f32 *clip) {
     clip[0] = 0.0f;
-    clip[1] = window->m_4c - 20.0f;
+    clip[1] = window->frame_size[1] - 20.0f;
     if (window->heading != 0) {
         clip[1] -= 6.0f;
     }
@@ -138,7 +140,7 @@ void TUnk_804D0658::clamp_scroll() {
     f32 temp_f1;
     if ((u32) *(u32 *)&this->unk_7C != 0U) {
         stack.sp8 = 0.0f;
-        temp_f1 = this->m_4c - 20.0f;
+        temp_f1 = this->frame_size[1] - 20.0f;
         stack.spC = temp_f1;
         if (this->heading != 0) {
             stack.spC = temp_f1 - 6.0f;
@@ -147,14 +149,13 @@ void TUnk_804D0658::clamp_scroll() {
     }
 }
 
-void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 
 void TUnk_804D0658::draw_setting(s32 window_key_board_soft) {
     u16 *temp_r3;
 
     temp_r3 = (u16 *)this->get_array_entry(this->m_74);
     if (*temp_r3 & 1) {
-        draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp_r3, this->is_open());
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, this->is_open());
     }
 }
 
@@ -211,16 +212,17 @@ void fn_80268C5C(NJS_POINT2 v, s32 x) {
 }
 
 extern "C" {
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
 
 void TUnk_804D0658::render() {
     s32 temp_r3;
 
-    temp_r3 = get_draw_context__11TWindowBaseFPv();
+    temp_r3 = reinterpret_cast<s32>(get_draw_context());
     ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(((u8 *)this), ((u8 *)this) + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(((u8 *)this)),
+        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TUnk_804D0658 *)((u8 *)this))->draw_setting(temp_r3);
     if (this->heading != 0) {
         ((TWindowSubStatusDisp *)((s32)this->heading))->forward_render((void *)(temp_r3));
@@ -263,7 +265,7 @@ void TUnk_804D0658::run_task() {
             ((TUnk_804D0658 *)arg0)->request_close();
         }
     }
-    if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
+    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         temp_r3 = *(u32 *)((s8 *)arg0 + 0x78);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
@@ -277,7 +279,7 @@ void TUnk_804D0658::run_task() {
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(*(void * *)((u8 *)this + 0x24)));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
 }
 
 TUnk_804D0658::~TUnk_804D0658() {

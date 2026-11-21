@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
@@ -35,7 +36,6 @@ void TMainCursor__sub_8013DFC4(u8 *arg0);
 s32 fn_8002AE08(int);
 s32 is_player_input_active(s32 param_1);
 s32 get_character_save_record(u32 arg0);
-void align_menu_entry_positions(void *);
 s32 try_send_6x27_use_item(void *arg0, s32 arg1);
 s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
@@ -44,7 +44,6 @@ s32 TWindowCtrl__sub_8024A228(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 s32 get_window_layout_position(int);
 void *create_equip_kind_window(s32, const NJS_POINT2 *, s32);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 end_player_keyboard_hold(s32);
 s32 TWindowCtrl__sub_8024A1A8();
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
@@ -147,7 +146,7 @@ void TWindowShortListCtrl::run_task() {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
             ((TWindowShortListCtrl *)list_window)->update_variant_c();
-            ((TWindowSubComCardList *)list_window)->m_5c = 0x01000000;
+            ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 1;
     case 1:
@@ -193,7 +192,7 @@ void TWindowShortListCtrl::run_task() {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
             ((TWindowShortListCtrl *)list_window)->update_variant_b();
-            ((TWindowSubComCardList *)list_window)->m_5c = 0x01000000;
+            ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 4;
     case 4:
@@ -229,7 +228,7 @@ void TWindowShortListCtrl::run_task() {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
             ((TWindowShortListCtrl *)list_window)->update_variant_a();
-            ((TWindowSubComCardList *)list_window)->m_5c = 0x01000000;
+            ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 7;
     case 7:
@@ -326,9 +325,9 @@ void TWindowShortListCtrl::render() {}
 void *TWindowShortListCtrl::create_window(s32 arg1, s32 arg2_arg) {
     void *window_menu;
 
-    window_menu = (void *)create_window_menu(arg1, 0x13, client_id);
+    window_menu = (void *)create_window_menu((s32)(arg1), 0x13, client_id);
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)window_menu)->m_5c = 0x01000000;
+    ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
     refresh_technique_rows((s32)window_menu, (void *)arg2_arg);
     return window_menu;
@@ -345,7 +344,7 @@ void TWindowShortListCtrl::refresh_technique_rows(s32 arg1, void *arg2_arg) {
         TWindowSubTechnique::draw_technique_row(order[i], client_id, arg1);
     }
     ((TWindowSubComCardList *)arg1)->set_scroll_target(pos->x, pos->y);
-    align_menu_entry_positions((void *)arg1);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(arg1));
     ((TWindowSubComCardList *)arg1)->set_selected_index(cur);
 }
 

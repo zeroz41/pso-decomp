@@ -3,6 +3,9 @@
 
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/item/TItemData.h"
+
+struct TWindowMenu;
 
 struct TShopItemListWindow : public TShopWindowBase {
     TShopItemListWindow(s32 parent, s32, s32);
@@ -18,7 +21,7 @@ struct TShopItemListWindow : public TShopWindowBase {
     // Child windows, closed by the destructor: names from the window each one holds.
     u32 item_list;      // create_item_list_window
     u32 m_2c;
-    u32 confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
+    TWindowMenu *confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
     u32 quantity_input; // TWindowInputNumber
     u32 help_window;    // TWindowHelpItem
     u32 status_window;  // TWindowSubStatusDisp
@@ -28,7 +31,9 @@ struct TShopItemListWindow : public TShopWindowBase {
     u32 m_4c;
     u32 m_50;
     u32 m_54;
-    u8 _pad58[0x168];
+    // Each copied shop item stores its meseta price in data2.
+    TItemData shop_items[16];
+    u8 _pad198[0x28];
     u32 m_1c0;
     s32 handle_confirm();
     s32 update();
@@ -38,5 +43,7 @@ struct TShopItemListWindow : public TShopWindowBase {
 };
 
 typedef char TShopItemListWindow_size[sizeof(TShopItemListWindow) == 0x1C4 ? 1 : -1];
+
+typedef char TShopItemListWindow_items_offset[offsetof(TShopItemListWindow, shop_items) == 0x58 ? 1 : -1];
 
 #endif

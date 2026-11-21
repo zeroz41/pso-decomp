@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
@@ -168,7 +169,7 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
     void *pl;
     u8 *a;
     u8 *b;
-    pl = get_player_by_client_id(this->m_20);
+    pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
         a = (u8 *)this->get_array_entry(lbl_8044F738[arg1]);
         b = (u8 *)this->get_array_entry(lbl_8044F740[arg1]);
@@ -178,7 +179,7 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
             *(s32 *)(a + 0x2C) = 0xFF404040;
         }
         draw_action_palette_icon(a, kind, arg3);
-        update_palette_item_count_label(b, a, kind, arg3, this->m_20);
+        update_palette_item_count_label(b, a, kind, arg3, this->client_index);
     }
 }
 
@@ -219,7 +220,7 @@ void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
     s32 saved_slot;
     s32 temp_r29;
 
-    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = (s32)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
+    if ((player = (u8 *)get_player_by_client_id(this->client_index), (player == 0U)) || (temp_r29 = (s32)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
         *(s16 *)((s8 *)arg1 + 0) = 0;
         *(s16 *)((s8 *)arg1 + 2) = 0;
         return;
@@ -232,7 +233,7 @@ void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
 void TWindowSubCustomEquip::remove_duplicate_bindings(void *arg1) {
     u8 *player;
     s32 temp_r29;
-    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = (s32)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
+    if ((player = (u8 *)get_player_by_client_id(this->client_index), (player == 0U)) || (temp_r29 = (s32)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
         return;
     }
     if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 0, 1) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 0, 1)) {
@@ -259,7 +260,7 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     s32 temp_r29;
     s32 valid;
     s32 idx;
-    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = (s32)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
+    if ((player = (u8 *)get_player_by_client_id(this->client_index), (player == 0U)) || (temp_r29 = (s32)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
         return;
     }
     valid = is_type_valid__21TWindowSubCustomEquipFv(this, this->m_62);
@@ -272,7 +273,6 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     ((TObjPlayer *)player)->set_action_palette_entry(0, valid, idx, *(u16 *)((s8 *)arg1 + 0), *(u16 *)((s8 *)arg1 + 2));
 }
 
-s32 draw_visible_window_entries(void *, void *, int);
 f32 TWindowSubCustomEquip__ring_scale;
 u8 TWindowSubCustomEquip__bank_ring_init_done;
 f32 lbl_805D6478;
@@ -309,7 +309,7 @@ int TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     }
     pos.x = 45.0f + *(f32 *)((s8 *)p + 8);
     pos.y = 53.0f + *(f32 *)((s8 *)p + 0xC);
-    TWindowHelpItem::set_help_text((s32)b, (s32)this->m_20);
+    TWindowHelpItem::set_help_text((s32)b, (s32)this->client_index);
     copy_vec2((a + 8), &pos);
     copy_vec2((b + 8), &pos);
     *(f32 *)((s8 *)a + 0x18) = *(f32 *)((s8 *)p + 0x18);
@@ -349,7 +349,7 @@ void TWindowSubCustomEquip::reset_selection() { layout_entry_group((void *)((voi
 s32 TWindowSubCustomEquip::refresh_palette_slots() {
     u8 *player;
     s32 pal;
-    player = (u8 *)get_player_by_client_id(this->m_20);
+    player = (u8 *)get_player_by_client_id(this->client_index);
     if (player == NULL || (pal = (s32)((TObjPlayer *)(player))->select_action_palette(0)) == 0) {
         return;
     }
@@ -444,7 +444,7 @@ void TWindowSubCustomEquip::handle_cursor_input() {
     u8 *temp_r31;
     u8 *window_choice_setting;
     u8 *array_entry;
-    temp_r29 = is_player_input_active((this->m_20));
+    temp_r29 = is_player_input_active((this->client_index));
     temp_r31 = (u8 *)(((u8 *)get_array_entry(0x10)));
     array_entry = (u8 *)(((u8 *)get_array_entry(7)));
     temp_r4 = this->m_63;
@@ -457,9 +457,9 @@ void TWindowSubCustomEquip::handle_cursor_input() {
         *(s32 *)((s8 *)array_entry + 0x2C) = 0xFF666666;
     }
     window_choice_setting = (u8 *)&controller_input_state + (temp_r29 * 0x50) + 0x20;
-    if ((test_buttons_press_or_repeat((void *)window_choice_setting, 0xF0, 6, 1) != 0) || (TWindowShortListCtrl__check_controller_button(window_choice_setting, (int) (fn_8002AE08((int)this->m_20))) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat((void *)window_choice_setting, 0xF0, 6, 1) != 0) || (TWindowShortListCtrl__check_controller_button(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
-        if (TWindowShortListCtrl__check_controller_button(window_choice_setting, (int) (fn_8002AE08((int)this->m_20))) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
             this->m_62 = (u8) (1 - this->m_62);
             this->m_63 = 3U;
         }
@@ -488,9 +488,12 @@ void TWindowSubCustomEquip::handle_cursor_input() {
 
 void render__21TWindowSubCustomEquipFv(u8 *arg0) {
     s32 temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
+    temp_r3 = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowSubCustomEquip *)arg0)->draw_cursor((u8 *)temp_r3);
     ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubCustomEquip *)arg0)->m_6c))))->forward_render((void *)(temp_r3));
 }
@@ -499,7 +502,7 @@ void TWindowSubCustomEquip::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
     u8 *context;
-    temp_r30 = is_player_input_active(((s32) this->m_20));
+    temp_r30 = is_player_input_active(((s32) this->client_index));
     if (((TWindowSubCustomEquip *)arg0)->is_selected() == 0) {
         ((TWindowSubCustomEquip *)arg0)->handle_cursor_input();
         context = (u8 *)&controller_input_state + (temp_r30 * 0x50) + 0x20;
@@ -513,11 +516,11 @@ void TWindowSubCustomEquip::run_task() {
     update_rotate_anim();
     reset_selection();
     refresh_palette_slots();
-    if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
+    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         ((TWindowSubStatusDisp *)(*(s32 *)&this->m_6c))->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     this->m_66 = (this->m_66 + 1);
 }
 
@@ -530,7 +533,7 @@ u8 *get_window_layout_position(s32 index);
 TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, get_window_layout_position(0xF)) {
     void *heading;
     this->m_name = TWindowSubCustomEquip__name;
-    this->m_20 = slot;
+    this->client_index = slot;
     this->m_60 = 0;
     this->m_61 = 1;
     this->m_62 = 0;
@@ -541,7 +544,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     this->m_68 = 0xB200;
     heading = (void *)::operator new(0x24);
     if (heading != NULL) {
-        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x23), this->m_20);
+        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
     }
     this->m_6c = (u32)heading;
     this->refresh_palette_slots();

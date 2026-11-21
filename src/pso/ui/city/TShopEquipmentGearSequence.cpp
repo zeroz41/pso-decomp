@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TObject.h"
 
 extern "C" {
@@ -34,9 +35,7 @@ void open_gear_shop__26TShopEquipmentGearSequenceFv(TShopWindowBase *);
 extern void *tl_05;
 s32 get_entity_id(TObjPlayer *);
 s32 get_shop_text(s32);
-s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 }
 
 #pragma readonly_strings on
@@ -67,6 +66,13 @@ struct Seq_8021B518 { u8 pad[0x24]; s32 f24; u8 pad28[4]; void *win; };
 s32 TShopEquipmentGearSequence__window_slot_table[4];
 TShopEquipmentGearSequence *lbl_805D6220;
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
+extern void *tl_05;
+s32 get_shop_text(s32);
+
+#define PSO_VCALL_VObj_18_a93f07_m4(_self, _arg0, _arg1) (((VObj_18_a93f07 *)(_self))->m4((_arg0), (_arg1)))
+
+// Written last-to-first: the unit is built with deferred code generation (see configure.py).
+
 void TShopEquipmentGearSequence::clear_window_slot_table() {
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -157,37 +163,37 @@ extern "C" {
 void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     u16 id;
     s32 r;
-    TShopEquipmentGearSequence *seq = (TShopEquipmentGearSequence *)self;
-    if (seq->choice_menu == NULL) {
-        id = get_entity_id(seq->player);
-        seq->choice_menu = (TWindowMenu *)create_window_menu(((s32 (*)(int))get_window_layout_position)(0x2B), 2, id);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(seq->choice_menu, get_shop_text(4), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(seq->choice_menu, get_shop_text(6), 6, 1);
-        ((TWindowSubComCard *)seq->choice_menu)->calc_window_size();
-        align_menu_entry_positions(seq->choice_menu);
-        ((TCheckRoomSequence *)seq->choice_menu)->set_ready_flag();
-        ((TWindowAddition *)seq->choice_menu)->set_position_xy(seq->get_scale(), seq->get_scale());
+    TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(self);
+    if (sequence->choice_menu == NULL) {
+        id = get_entity_id(sequence->player);
+        sequence->choice_menu = create_window_menu((s32)(((s32 (*)(int)) get_window_layout_position)(0x2B)), 2, id);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, get_shop_text(4), 6, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, get_shop_text(6), 6, 1);
+        sequence->choice_menu->calc_window_size();
+        align_menu_entry_positions(sequence->choice_menu);
+        sequence->choice_menu->set_ready_flag();
+        sequence->choice_menu->set_position_xy(sequence->get_scale(), sequence->get_scale());
     }
-    if (seq->choice_menu != NULL && seq->choice_menu->is_decided() != 0) {
-        r = seq->choice_menu->get_selected_value();
+    if (sequence->choice_menu != NULL && sequence->choice_menu->is_decided() != 0) {
+        r = sequence->choice_menu->get_selected_value();
         if (r == 0) {
-            seq->set_field_20(3);
-            ((TWindowBase *)seq->choice_menu)->close();
-            seq->choice_menu = NULL;
+            sequence->set_field_20(3);
+            sequence->choice_menu->close();
+            sequence->choice_menu = NULL;
             return;
         }
         if (r == 1) {
-            seq->set_field_20(4);
-            ((TWindowBase *)seq->choice_menu)->close();
-            seq->choice_menu = NULL;
+            sequence->set_field_20(4);
+            sequence->choice_menu->close();
+            sequence->choice_menu = NULL;
             return;
         }
     }
-    if (seq->choice_menu != NULL && seq->choice_menu->is_cancelled() != 0) {
-        seq->vfunc_6(0x2C, 1);
-        seq->set_field_20(6);
-        ((TWindowBase *)seq->choice_menu)->close();
-        seq->choice_menu = NULL;
+    if (sequence->choice_menu != NULL && sequence->choice_menu->is_cancelled() != 0) {
+        sequence->vfunc_6(0x2C, 1);
+        sequence->set_field_20(6);
+        sequence->choice_menu->close();
+        sequence->choice_menu = NULL;
     }
 }
 #undef arg0

@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
@@ -214,8 +215,8 @@ s32 TUnk_804D1818::create_option_menu_window() {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (s32)TWindowSubStatusDisp::get_message_10(0x6E), 6, 5);
     }
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(195.0f);
-    align_menu_entry_positions((void *)titled_window_menu);
+    ((TWindowMenu *)titled_window_menu)->update_layout_height(195.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 0));
     return titled_window_menu;
 }

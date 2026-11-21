@@ -66,7 +66,7 @@ void __ct__7TObjectFP7TObject(void *);
 void *TWindowDuelResult::init(void *arg1, void *arg2, void *arg3) {
     __ct__7TObjectFP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804C3E60;
-    *(void * *)&this->_pad1C = arg3;
+    *(void * *)&this->sort_depth = arg3;
     *(void **)((s8 *)this + 0x20) = arg2;
     TLobby::set_and_notify((int)arg2);
     return this;

@@ -54,7 +54,6 @@ struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 extern "C" {
 s32 TWindowCtrl__sub_8024A314(void);
-s32 TWindowCtrl__sub_8024701C(u32);
 extern void *TWindowCtrl__active_window;
 void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
@@ -150,7 +149,7 @@ s32 TWindowCtrl__sub_8024A314(void) {
     if ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) == 0U) {
         return 0;
     }
-    return TWindowCtrl__sub_8024701C(*(u32 *)((s8 *)TWindowCtrl__active_window + 0x38));
+    return TWindowCtrl__sub_8024701C(*reinterpret_cast<TWindowChat **>(reinterpret_cast<u8 *>(TWindowCtrl__active_window) + 0x38));
 }
 
 void TWindowCtrl::open_status_111() {

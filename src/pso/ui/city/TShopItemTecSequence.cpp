@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,9 +31,7 @@ TShopItemTecSequence *item_tec_sequence_instance;
 extern void *tl_05;
 s32 get_entity_id(TObjPlayer *);
 s32 get_shop_text(s32 arg0);
-int align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 
 s32 sub_802239EC__13TShopSequenceFv(void *);
 
@@ -103,7 +102,7 @@ TShopItemTecSequence::~TShopItemTecSequence() {
     }
     close_message_window();
     if (choice_menu != NULL) {
-        ((TWindowBase *)choice_menu)->close();
+        choice_menu->close();
         choice_menu = NULL;
     }
     item_tec_sequence_instance = NULL;
@@ -153,26 +152,26 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (choice_menu == NULL) {
         u16 id = get_entity_id(player);
-        choice_menu = (TWindowMenu *)create_window_menu(((s32 (*)(int))get_window_layout_position)(0x2B), 2, id);
+        choice_menu = create_window_menu(((s32 (*)(int))get_window_layout_position)(0x2B), 2, id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(6), 6, 1);
-        ((TWindowSubComCard *)choice_menu)->calc_window_size();
+        choice_menu->calc_window_size();
         align_menu_entry_positions(choice_menu);
-        ((TCheckRoomSequence *)choice_menu)->set_ready_flag();
-        ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
+        choice_menu->set_ready_flag();
+        choice_menu->set_position_xy(get_scale(), get_scale());
     }
     if (choice_menu != NULL && choice_menu->is_decided() != 0) {
         r = choice_menu->get_selected_value();
         if (r == 0) {
             vfunc_6(0xB, 1);
             set_field_20(3);
-            ((TWindowBase *)choice_menu)->close();
+            choice_menu->close();
             choice_menu = NULL;
             return;
         }
         if (r == 1) {
             set_field_20(4);
-            ((TWindowBase *)choice_menu)->close();
+            choice_menu->close();
             choice_menu = NULL;
             return;
         }
@@ -180,7 +179,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     if (choice_menu != NULL && choice_menu->is_cancelled() != 0) {
         vfunc_6(0x2C, 1);
         set_field_20(7);
-        ((TWindowBase *)choice_menu)->close();
+        choice_menu->close();
         choice_menu = NULL;
     }
 }

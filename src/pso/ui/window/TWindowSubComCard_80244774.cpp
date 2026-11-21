@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -24,6 +25,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -151,7 +153,6 @@ void fn_802449E0(u8 *arg0);
 Win_80244DFC * find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC *self, void *a, void *b, Win_80244DFC *p);
 int TWindowFukidasi__sub_8024695C(void *p);
 TObject *TWindowCtrlMain__sub_8024CE24(void);
-s32 init_window_layout_entries(void *, int, int);
 
 extern int lbl_805D3614;
 
@@ -200,7 +201,12 @@ void TWindowSubComCard::reparent_to_main_ctrl() {
     ((TObject *)arg0)->set_parent((TObject *)(TWindowCtrlMain__sub_8024CE24()));
 }
 
-void TWindowBase::save_position() { *(f32*)((char*)this + 0x40) = *(f32*)((char*)this + 0x30); *(f32*)((char*)this + 0x44) = *(f32*)((char*)this + 0x34); *(f32*)((char*)this + 0x48) = *(f32*)((char*)this + 0x38); *(f32*)((char*)this + 0x4c) = *(f32*)((char*)this + 0x3c); }
+void TWindowBase::save_position() {
+    frame_position[0] = target_position[0];
+    frame_position[1] = target_position[1];
+    frame_size[0] = target_size[0];
+    frame_size[1] = target_size[1];
+}
 
 void TWindowSubTradeMain__sub_802448E4(void *arg0) {
     copy_vec2__FPvPv((void*)((void *)((char *)arg0 + 48)));
@@ -237,26 +243,25 @@ void fn_802449E0(u8 *object) {
 }
 
 void TWindowBase::close() {
-    ((TWindowLockOn *)this)->request_close();
-    ((TWindowLockOn *)this)->m_2c = (s32) (((TWindowLockOn *)this)->m_2c | 0x10);
+    request_close();
+    window_flags |= 0x10;
 }
 
-void TWindowLockOn::request_close() {
-    s32 temp_r3;
-    temp_r3 = *(s32 *)&(this->m_2c);
-    if (!(temp_r3 & 1)) {
-        *(s32 *)&(this->m_2c) = (s32) (temp_r3 & 0xFFFFFFFB);
+void TWindowBase::request_close() {
+    s32 flags = window_flags;
+    if (!(flags & 1)) {
+        window_flags = flags & ~4;
         return;
     }
-    if (temp_r3 & 2) {
-        *(s32 *)&(this->m_2c) = (s32) (temp_r3 | 4);
+    if (flags & 2) {
+        window_flags = flags | 4;
         return;
     }
-    if (!(temp_r3 & 0x20)) {
-        ((s32)play_sound_effect(0x53704, 0, 0, 0));
+    if (!(flags & 0x20)) {
+        play_sound_effect(0x53704, 0, 0, 0);
     }
-    *(s32 *)&(this->m_2c) = (s32) (*(s32 *)&(this->m_2c) & 0xFFFFFFFE);
-    *(s32 *)&(this->m_2c) = (s32) (*(s32 *)&(this->m_2c) | 2);
+    window_flags &= ~1;
+    window_flags |= 2;
 }
 
 s32 TWindowBase::is_window_reveal_complete() {
@@ -266,7 +271,6 @@ s32 lbl_805D63F0;
 u16 window_ui_theme_index;
 s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
-void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 void window_request_refresh(u8 *arg0);
 void window_request_show(void *arg0);
 bool is_balloon_overlapping(u8 *arg0, u8 *arg1, u8 *arg2);
@@ -298,30 +302,30 @@ void window_request_show(void *object) {
     ((TObject *)object)->allow_rendering();
 }
 
-s32 TWindowBase::setup_window_draw_context(f32 *scale) {
+WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
     WindowDrawContext *context;
     s32 var_r4;
-    context = WindowDrawContext::open_singleton((f32 *)(((u8 *)this) + 0x40), (f32 *)(((u8 *)this) + 0x48), scale, *(f32 *)((s8 *)((u8 *)this) + 0x54), *(s32 *)((s8 *)((u8 *)this) + 0x2C));
-    if (*(s32 *)((s8 *)((u8 *)this) + 0x2C) & 0x40) {
+    context = WindowDrawContext::open_singleton(frame_position, frame_size, scale, draw_depth, window_flags);
+    if (window_flags & 0x40) {
         context->animate_scale();
     }
-    if (*(s32 *)((s8 *)((u8 *)this) + 0x2C) & 0x80) {
+    if (window_flags & 0x80) {
         context->shrink_clip_right();
     }
-    if (*(s32 *)((s8 *)((u8 *)this) + 0x2C) & 8) {
+    if (window_flags & 8) {
         context->set_bounds(0.0f, 0.0f, 640.0f, 480.0f);
     }
-    var_r4 = *(s32 *)((s8 *)((u8 *)this) + 0x5C);
-    if (!(*(s32 *)((s8 *)((u8 *)this) + 0x2C) & 0x2000)) {
+    var_r4 = open_tick;
+    if (!(window_flags & 0x2000)) {
         var_r4 = (s32) ((f32) var_r4 - 7.5f);
     }
     context->set_open_tick(var_r4);
-    context->apply_closing_stretch((*(s16 *)((s8 *)((u8 *)this) + 0x22)));
-    return (s32)context;
+    context->apply_closing_stretch(closing_tick);
+    return context;
 }
 
-s32 TWindowDD::draw_default_entry(s32 arg0) {
-    return ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)fn_8026CB68());
+WindowDrawContext *TWindowBase::draw_default_entry() {
+    return setup_window_draw_context((f32 *)fn_8026CB68());
 }
 
 void TWindowBase::set_depth(f32 farg0) {
@@ -379,34 +383,34 @@ void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
     f32 temp_f1;
     s32 temp_r3;
     s32 temp_r3_2;
-    *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) TWindowBase__name;
-    ((s32 (*)(void *, void *))copy_vec2__FPvPv)((void *) (((u8 *)this) + 0x30), arg2);
-    ((s32 (*)(void *, void *))copy_vec2__FPvPv)((void *) (((u8 *)this) + 0x38), arg1);
-    ((TWindowBase *)(this))->save_position();
+    m_name = TWindowBase__name;
+    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, arg2);
+    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, arg1);
+    save_position();
     temp_f1 = *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = temp_f1;
-    *(f32 *)((s8 *)((u8 *)this) + 0x54) = -10000.0f;
-    *(s32 *)((s8 *)((u8 *)this) + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x10);
+    sort_depth = temp_f1;
+    draw_depth = -10000.0f;
+    window_flags = (s32) *(s32 *)((s8 *)arg1 + 0x10);
     resort_window_order();
-    *(s32 *)((s8 *)((u8 *)this) + 0x50) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x20) = arg3;
-    init_window_layout_entries((void *) (((u8 *)this) + 0x24), (int) (*(s32 *)((s8 *)arg1 + 0xC)), (int) (*(s16 *)((s8 *)((u8 *)this) + 0x20)));
-    *(s32 *)((s8 *)((u8 *)this) + 0x5C) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x22) = 0;
-    temp_r3 = *(s32 *)((s8 *)((u8 *)this) + 0x2C);
+    tween_ticks = 0;
+    client_index = arg3;
+    init_window_layout_entries(&entry_list, reinterpret_cast<const void *>((*(s32 *)((s8 *)arg1 + 0xC))), (int) (client_index));
+    open_tick = 0;
+    closing_tick = 0;
+    temp_r3 = window_flags;
     if (!(temp_r3 & 1) && !(temp_r3 & 2)) {
-        ((TObject *)this)->disallow_rendering();
+        disallow_rendering();
     }
-    temp_r3_2 = *(s32 *)((s8 *)((u8 *)this) + 0x2C);
+    temp_r3_2 = window_flags;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2) && !(temp_r3_2 & 0x20)) {
         ((s32 (*)(int, int, int, int))play_sound_effect)(0x53703, 0, 0, 0);
     }
-    if (TWindowSubStatusDisp::get_card_window_scale((int) (*(s16 *)((s8 *)((u8 *)this) + 0x20))) <= 0.0f) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x5C) = 0x01000000;
+    if (TWindowSubStatusDisp::get_card_window_scale((int) (client_index)) <= 0.0f) {
+        open_tick = 0x01000000;
     }
 }
 
-void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
+void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     UVPair_8024503C uv = selection_bar_texture_coordinates;
     UV_8024503C *p;
     TexturedQuad q;
@@ -416,16 +420,16 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
     f32 z;
     f32 t;
     f32 u;
-    if (((WindowDrawContext *)window_key_board_soft)->open_tick < 0) {
+    if (context->open_tick < 0) {
         return;
     }
     p = &uv.e[0];
-    if (arg2 != 0) {
+    if (active != 0) {
         p = &uv.e[1];
     }
-    y = ((WindowDrawContext *)window_key_board_soft)->inner_y + *(f32 *)((s8 *)arg1 + 0xC);
-    x = ((WindowDrawContext *)window_key_board_soft)->inner_x;
-    z = -1.0f / (0.22424999f + ((WindowDrawContext *)window_key_board_soft)->depth);
+    y = context->inner_y + *(f32 *)((s8 *)entry + 0xC);
+    x = context->inner_x;
+    z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
@@ -433,36 +437,36 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
     q.x0 = x - 2.0f;
     q.y0 = y;
     q.x1 = x1 = (16.0f + x) - 2.0f;
-    q.y1 = y + *(f32 *)((s8 *)arg1 + 0x14);
+    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
     q.u0 = p->u / 256.0f;
     q.v0 = p->v / 256.0f;
     q.u1 = (16.0f + p->u) / 256.0f;
     q.v1 = (18.0f + p->v) / 256.0f;
-    if (((WindowDrawContext *)window_key_board_soft)->clip_and_transform_quad(&q) != 0) {
+    if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
-    t = x + ((WindowDrawContext *)window_key_board_soft)->inner_w;
+    t = x + context->inner_w;
     q.x0 = 2.0f + (t - 16.0f);
     q.y0 = y;
     q.x1 = 2.0f + t;
-    q.y1 = y + *(f32 *)((s8 *)arg1 + 0x14);
+    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
     u = 32.0f + p->u;
     q.u0 = u / 256.0f;
     q.v0 = p->v / 256.0f;
     q.u1 = (16.0f + u) / 256.0f;
     q.v1 = (18.0f + p->v) / 256.0f;
-    if (((WindowDrawContext *)window_key_board_soft)->clip_and_transform_quad(&q) != 0) {
+    if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
     q.x0 = x1;
     q.y0 = y;
-    q.x1 = 2.0f + ((x + ((WindowDrawContext *)window_key_board_soft)->inner_w) - 16.0f);
-    q.y1 = y + *(f32 *)((s8 *)arg1 + 0x14);
+    q.x1 = 2.0f + ((x + context->inner_w) - 16.0f);
+    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
     q.u0 = (16.0f + p->u) / 256.0f;
     q.v0 = p->v / 256.0f;
     q.u1 = (16.0f + (16.0f + p->u)) / 256.0f;
     q.v1 = (18.0f + p->v) / 256.0f;
-    if (((WindowDrawContext *)window_key_board_soft)->clip_and_transform_quad(&q) != 0) {
+    if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
     TWindowSubStatusDisp::get_player();
@@ -978,7 +982,7 @@ void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }
 
 TWindowBase::~TWindowBase() {
-    ((TWindowSubStatusDisp *)((s8 *)this + 0x24))->destroy_all_items();
+    reinterpret_cast<WindowLayoutEntries *>(((s8 *)this + 0x24))->destroy_all_items();
     sub_8026CC28();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
@@ -1080,14 +1084,14 @@ void TWindowSubStatusDisp::update_entry_visibility() {
     u32 temp_r25;
     u32 temp_r24;
     s32 arg0 = (s32)this;
-    temp_r31 = ((TWindowBase *)arg0)->get_array_entry(7);
-    temp_r30 = ((TWindowBase *)arg0)->get_array_entry(6);
-    temp_r29 = ((TWindowBase *)arg0)->get_array_entry(5);
-    temp_r28 = ((TWindowBase *)arg0)->get_array_entry(4);
-    temp_r27 = ((TWindowBase *)arg0)->get_array_entry(3);
-    temp_r26 = ((TWindowBase *)arg0)->get_array_entry(2);
-    temp_r25 = ((TWindowBase *)arg0)->get_array_entry(1);
-    temp_r24 = ((TWindowBase *)arg0)->get_array_entry(0);
+    temp_r31 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(7));
+    temp_r30 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(6));
+    temp_r29 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(5));
+    temp_r28 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(4));
+    temp_r27 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(3));
+    temp_r26 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(2));
+    temp_r25 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(1));
+    temp_r24 = reinterpret_cast<u32>(((TWindowBase *)arg0)->get_array_entry(0));
     if (is_guild_card_receive_active() != 0) {
         if (temp_r31 != 0U) {
             ((TWindowSubStatusDisp *)temp_r31)->clear_visible_flag();

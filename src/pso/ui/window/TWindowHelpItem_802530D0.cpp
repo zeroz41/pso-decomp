@@ -20,7 +20,7 @@ s32 TWindowHelpItem::is_item_already_equipped() {
     if (((TItem *)item)->test_item_flags(8) == 0U) {
         return 0;
     }
-    diff = (u32) ((TItem *)item)->get_owner_client() - (u32) (s32) this->m_20;
+    diff = (u32) ((TItem *)item)->get_owner_client() - (u32) (s32) this->client_index;
     return (s32) ((u32) __cntlzw(diff) >> 5);
 }
 

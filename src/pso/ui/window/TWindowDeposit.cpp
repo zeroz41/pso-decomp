@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
@@ -31,7 +32,6 @@ WindowDescriptor window_deposit_layout = {
 };
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 s32 get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
 #pragma push
@@ -46,12 +46,15 @@ void TWindowDeposit::render_status(s32 arg1) {
 
 void render__14TWindowDepositFv(s32 arg0) {
     s32 ctx;
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64));
+    ctx = reinterpret_cast<s32>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64)));
     ((TWindowDeposit *)arg0)->render_status(ctx);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(ctx));
 }
 
-void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
+void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowDeposit::~TWindowDeposit() {}
 #pragma opt_common_subs off
@@ -79,7 +82,7 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   temp_r31 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(1));
   set_text_entry_string(temp_r30, str, 0);
   *((f32 *) (((s8 *) temp_r31) + 8)) = (f32) (96.0f + (12.0f + (8.0f + temp_f31)));
-  ((TWindowDeposit *)arg0)->m_38 = TWindowSubStatusDisp::get_base_y(((TWindowDeposit *)arg0)->m_60);
+  ((TWindowDeposit *)arg0)->target_size[0] = TWindowSubStatusDisp::get_base_y(((TWindowDeposit *)arg0)->m_60);
   ((TWindowBase *)arg0)->save_position();
   if (TCameraCtrl::get_camera_id() > 2)
   {

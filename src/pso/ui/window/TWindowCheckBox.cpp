@@ -8,5 +8,5 @@ const char *TWindowCheckBox__class_name = "TWindowCheckBox";
 
 void TWindowCheckBox::sub_80248B7C(s32 arg1) {
     this->m_name = TWindowCheckBox__class_name;
-    this->m_20 = arg1;
+    this->client_index = arg1;
 }

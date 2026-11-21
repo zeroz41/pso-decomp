@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
@@ -63,8 +64,6 @@ struct SymbolChatSpriteLayout {
 };
 
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 arg2);
-s32 draw_visible_window_entries(void *, void *, void *, f32, f32, f32);
-s32 init_window_layout_entries(void *, void *, void *);
 
 extern s32 lbl_805D63F0;
 
@@ -298,7 +297,10 @@ void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1) {
 
 void TWindowSubSymbolChat::init_layout_entries(s32 player) {
     s32 arg0 = (s32)this;
-    init_window_layout_entries((void *)arg0, &symbol_chat_layout_sprite_records, (void *)player);
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(arg0),
+        &symbol_chat_layout_sprite_records,
+        player);
 }
 
 void TWindowSubSymbolChatPartsSet::update_visibility() {
@@ -331,24 +333,27 @@ void render__17TWindowChatSymbolFv(u8 *window_chat_symbol) {
     f32 temp_f2;
     u8 *c_arg;
 
-    c_arg = (u8 *)TWindowDD::draw_default_entry((s32)window_chat_symbol);
+    c_arg = reinterpret_cast<u8 *>(reinterpret_cast<TWindowBase *>(window_chat_symbol)->draw_default_entry());
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->m_5c / 7.5f);
+        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->open_tick / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
     ((TWindowBase *)window_chat_symbol)->draw_quest_message_frame(c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (((TWindowChatSymbol *)window_chat_symbol)->m_48 - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
+    *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (((TWindowChatSymbol *)window_chat_symbol)->frame_size[0] - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
     temp_f2 = *(f32 *)((s8 *)window_chat_symbol + 0x4C);
     temp_f1 = temp_f2 - 90.0f;
     *(f32 *)((s8 *)c_arg + 0x14) = (f32) ((0.5f * temp_f1) + *(f32 *)((s8 *)c_arg + 0x14));
-    draw_visible_window_entries(window_chat_symbol, window_chat_symbol + 0x24, c_arg, temp_f1, temp_f2, 0.5f);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(window_chat_symbol),
+        reinterpret_cast<const WindowLayoutEntries *>(window_chat_symbol + 0x24),
+        reinterpret_cast<WindowDrawContext *>(c_arg));
 }
 #pragma pop
 
 void TWindowChatSymbol::run_task() {
     ((TWindowDD *)this)->initialize_subwindow();
     update_fade();
-    update_window_entry_list((char *)this + 0x24);
+    update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char *)this + 0x24));
 }
 
 extern "C" {

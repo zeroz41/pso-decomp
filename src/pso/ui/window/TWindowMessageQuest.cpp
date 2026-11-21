@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_8026B06C.h"
@@ -29,15 +30,13 @@ static const Vec lbl_8044F464 = {384.0f, 80.0f, 0.0f};
 
 extern "C" {
 s32 get_window_layout_position(int);
-Ctx_8026B148 *get_draw_context__11TWindowBaseFPv(void *);
-void draw_visible_window_entries(void *, void *, void *);
 
 void create_quest_message_window(void) {
     create_quest_message_window_at((get_window_layout_position(0xAD)), (s32)&lbl_8044F464);
 }
 void TWindowMessageQuest::render() {
     Ctx_8026B148 *c;
-    c = get_draw_context__11TWindowBaseFPv(this);
+    c = reinterpret_cast<Ctx_8026B148 *>(get_draw_context());
     switch (((Win_8026B148 *)this)->mode) {
     case 0:
         if (c->reveal < 0) {
@@ -52,7 +51,10 @@ void TWindowMessageQuest::render() {
     case 2:
         break;
     }
-    draw_visible_window_entries(((Win_8026B148 *)this), ((Win_8026B148 *)this)->entries, c);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(((Win_8026B148 *)this)),
+        reinterpret_cast<const WindowLayoutEntries *>(((Win_8026B148 *)this)->entries),
+        reinterpret_cast<WindowDrawContext *>(c));
 }
 
 }

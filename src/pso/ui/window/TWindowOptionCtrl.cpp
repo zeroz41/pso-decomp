@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/unk/TUnk_804F01A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -50,7 +51,6 @@ const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 extern "C" {
 u8 *get_window_layout_position(s32);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
-s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 create_window_menu_default(s32, s32);
 }
@@ -193,7 +193,7 @@ void TWindowOptionCtrl::run_task() {
         if (self->f28 == NULL) {
             self->f28 = (void *)((TWindowOptionCtrl *)self)->create_menu();
         }
-        ((TWindowSubComCard *)(self->f28))->clear_transition_flag();
+        ((TWindowMenu *)(self->f28))->clear_transition_flag();
         ((TWindowSubComCard *)(self->f28))->clear_flag_and_release();
         self->state = 2;
     case 2:
@@ -336,7 +336,7 @@ void TWindowOptionCtrl::run_task() {
             self->f2C = (void *)((TWindowOptionCtrl *)self)->create_sub_menu_window();
         }
         ((TWindowOptionCtrl *)(self->f28))->open();
-        ((TWindowSubComCard *)(self->f2C))->clear_transition_flag();
+        ((TWindowMenu *)(self->f2C))->clear_transition_flag();
         ((TWindowSubComCard *)(self->f2C))->clear_flag_and_release();
         self->state = 0x11;
     case 17:
@@ -434,8 +434,8 @@ s32 TWindowOptionCtrl::create_menu() {
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 5), 6, 0x10);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 6), 6, 0x19);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 7), 6, 0x1B);
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(470.0f);
-    align_menu_entry_positions(temp_r31);
+    ((TWindowMenu *)temp_r31)->update_layout_height(470.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
 }
 
@@ -471,7 +471,7 @@ s32 TWindowOptionCtrl::create_list_window() {
     } while (idx < 0x31);
     ((TWindowOptionCtrl *)list)->set_flag70_bit400();
     ((TWindowSubComCardList *)list)->set_scroll_target(470.0f, 124.0f);
-    align_menu_entry_positions(list);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
     return list;
 }
 
@@ -517,8 +517,8 @@ s32 TWindowOptionCtrl::create_sub_menu_window() {
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(470.0f);
-    align_menu_entry_positions(temp_r31);
+    ((TWindowMenu *)temp_r31)->update_layout_height(470.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
 }
 

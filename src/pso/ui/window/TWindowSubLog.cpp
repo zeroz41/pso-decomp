@@ -44,9 +44,6 @@ struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *f1c; void *f20; s32 
 
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
-s32 TWindowCtrl__sub_8024701C(int);
-void TWindowChat__sub_80247DFC(u8 *arg0);
-void TWindowChat__sub_80247E50(u8 *arg0);
 extern RecoveredGlobal_8027AF58_lbl_8050E208 controller_input_state;
 const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
@@ -62,12 +59,12 @@ void TWindowSubLog::run_task() {
     u8 *context;
     u8 *temp_r3;
     if ((((TWindowChat *)(this->m_28))->is_mode_bit4() != 0) && (chat_accept_submission((s32)(arg0 + 0x2C)) != 0)) {
-        TWindowChat__sub_80247E50((u8 *)this->m_28);
+        TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(this->m_28));
     }
     if (((TWindowChat *)(this->m_28))->is_visible() != 0) {
-        TWindowChat__sub_80247DFC((u8 *)this->m_28);
+        TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(this->m_28));
     }
-    if (TWindowCtrl__sub_8024701C(this->m_28) != 0) {
+    if (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(this->m_28)) != 0) {
         TWindowSubLog__sub_8026A664((*(u8 * *)&this->m_24), 200.0f);
         return;
     }

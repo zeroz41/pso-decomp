@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/text_8025373C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -87,7 +88,6 @@ struct TWindowSubMag_8027B62C {
     s32 field_0x30;
 };
 extern "C" {
-s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 *get_shared_text_buffer(void);
 s32 calc_text_width();
@@ -463,8 +463,8 @@ void *TWindowSubMag::create_action_menu(s32 id) {
         add_gray_text_entry((TWindowSubTradeMain *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }
     ((TWindowSubComCardList *)window)->set_flag70_bit10();
-    ((TWindowSubComCardList *)window)->update_layout_height((172.0f));
-    align_menu_entry_positions(window);
+    ((TWindowMenu *)window)->update_layout_height((172.0f));
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window));
     return window;
 }
 

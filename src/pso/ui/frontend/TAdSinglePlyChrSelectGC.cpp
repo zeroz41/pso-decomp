@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
@@ -68,7 +69,6 @@ s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1);
 extern s32 controller_physical_port_bank[];
 s32 clear_entry__23TAdSinglePlyChrSelectGCFi();
 s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
-s32 align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 void TAdSinglePlyChrSelectGC::render() {
@@ -90,8 +90,8 @@ s32 TAdSinglePlyChrSelectGC::create_chr_warp(s32 arg0, s32 arg1) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
     }
-    ((TWindowSubComCard *)var_r31)->calc_window_size();
-    align_menu_entry_positions(var_r31);
+    ((TWindowMenu *)var_r31)->calc_window_size();
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(var_r31));
     return var_r31;
 }
 }
@@ -180,13 +180,13 @@ void TAdSinglePlyChrSelectGC::handle_card_select() {
             *(s32 *)&this->m_20 = 0xC;
             return;
         case 1:
-            ((TWindowSubComCard *)(*(s32 *)&this->unk_38))->clear_transition_flag();
+            ((TWindowMenu *)(*(s32 *)&this->unk_38))->clear_transition_flag();
             ((TAdMultiSelGameModeGC *)(*(s32 *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 5;
             return;
         }
     } else if (((TWindowSubComCard *)(*(s32 *)&this->unk_50))->get_card_data() != 0) {
-        ((TWindowSubComCard *)(*(s32 *)&this->unk_38))->clear_transition_flag();
+        ((TWindowMenu *)(*(s32 *)&this->unk_38))->clear_transition_flag();
         ((TAdMultiSelGameModeGC *)(*(s32 *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
@@ -205,13 +205,13 @@ void TAdSinglePlyChrSelectGC::handle_card_select2() {
             *(s32 *)&this->m_20 = 0xC;
             return;
         case 1:
-            ((TWindowSubComCard *)(*(s32 *)&this->unk_38))->clear_transition_flag();
+            ((TWindowMenu *)(*(s32 *)&this->unk_38))->clear_transition_flag();
             ((TAdMultiSelGameModeGC *)(*(s32 *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 5;
             return;
         }
     } else if (((TWindowSubComCard *)(this->m_4c))->get_card_data() != 0) {
-        ((TWindowSubComCard *)(*(s32 *)&this->unk_38))->clear_transition_flag();
+        ((TWindowMenu *)(*(s32 *)&this->unk_38))->clear_transition_flag();
         ((TAdMultiSelGameModeGC *)(*(s32 *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/KeyboardInputQueries.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -113,8 +114,6 @@ s32 TWindowCtrl__sub_8024C7C4(void *);
 s32 TWindowCtrl__sub_8024C7E0(void *);
 s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
-s32 TKeyBoardControl__sub_801A58B0();
-s32 TKeyBoardControl__sub_801A58D8();
 s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();

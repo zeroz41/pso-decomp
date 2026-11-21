@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -36,7 +37,6 @@ struct TWindowDuelResult {
 
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
-s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_list_page_indicator(int, int);
 void draw_window__17TWindowDuelResultFPv(u8 *arg0);
 s32 TWindowDuelResult__sub_8024F3CC(void *);
@@ -48,7 +48,6 @@ u8 *TWindowDuelResult__ct(u8 *arg0, s16 arg1);
 s32 get_localized_text_entry(int, int);
 void *get_player_by_client_id(s32 i);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
-void init_window_layout_entries(void *, void *, int);
 void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0);
 s32 get_shared_text_buffer(s32);
 s32 *TWindowDuelResult__sub_801C257C(void);
@@ -154,7 +153,10 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
     u8 *a;
     u8 *b;
     u8 *c;
-    init_window_layout_entries(arg0->sub, duel_result_window_layout_table, arg0->player);
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(arg0->sub),
+        reinterpret_cast<const void *>(duel_result_window_layout_table),
+        arg0->player);
     a = (u8 *)((TWindowBase *)arg0)->get_array_entry(0);
     TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0));
     c = (u8 *)((TWindowBase *)arg0)->get_array_entry(0xF);
@@ -186,7 +188,10 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
     u8 *b;
     u8 *c;
     u8 *d;
-    init_window_layout_entries(self->sub, TWindowDuelResult__layout_entries, self->player);
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(self->sub),
+        reinterpret_cast<const void *>(TWindowDuelResult__layout_entries),
+        self->player);
     a = (u8 *)((TWindowBase *)self)->get_array_entry(0);
     TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0));
     b = (u8 *)((TWindowBase *)self)->get_array_entry(0x12);
@@ -239,7 +244,7 @@ s32 TWindowDuelResult__sub_8024F3CC(void *arg0_) {
     typedef void (TWindowDuelResult::*PT)();
     static PT tbl[2] = { &TWindowDuelResult::sub_8024F094, &TWindowDuelResult::sub_8024EF40 };
     TWindowDuelResult *w = (TWindowDuelResult *)arg0;
-    ((TWindowSubStatusDisp *)(arg0 + 0x24))->destroy_all_items();
+    reinterpret_cast<WindowLayoutEntries *>((arg0 + 0x24))->destroy_all_items();
     s8 t = ((TWindowSubStatusDisp *)(*(s32 *)(arg0 + 0x68)))->get_type();
     (w->*tbl[t])();
     TWindowDuelResult__sub_8024F330(arg0);
@@ -257,9 +262,12 @@ s32 TWindowDuelResult__sub_8024F330(void *arg0_) {
 
 void draw_window__17TWindowDuelResultFPv(u8 *arg0) {
     s32 temp_r3;
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60));
+    temp_r3 = reinterpret_cast<s32>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60)));
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     draw_list_page_indicator((int) (*(s32 *)((s8 *)arg0 + 0x68)), temp_r3);
 }
 
@@ -272,7 +280,7 @@ void update__17TWindowDuelResultFPv(u8 *arg0_) {
     }
     TWindowDuelResult__sub_8024F330(arg0_);
     ((TWindowDD *)arg0_)->initialize_subwindow();
-    ((TWindowBase *)arg0_)->update_window_entry_list(arg0_ + 0x24);
+    ((TWindowBase *)arg0_)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0_ + 0x24));
 }
 
 extern "C" void render_shadows__7TObjectFv();

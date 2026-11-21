@@ -4,6 +4,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResourceLoad.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/object/warp/TObjWarpLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -71,7 +72,6 @@ void TObjWarpLobby::debug_print_area_num() {
 
 extern "C" {
 void request_active_window_close(void);
-s32 align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(f32 *, s32, f32);
 
@@ -93,8 +93,8 @@ void TObjWarpLobby::open_lobby_menu() {
     for (i = 0; i < 0xF; i++) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->menu_window, (int)warp_lobby_directory_label_table[i], 6, (int)i);
     }
-    ((TWindowSubComCard *)(this->menu_window))->calc_window_size();
-    align_menu_entry_positions(this->menu_window);
+    ((TWindowMenu *)(this->menu_window))->calc_window_size();
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
     ((TWindowSubComCardList *)(this->menu_window))->set_flag70_bit10();
     request_active_window_close();
 }

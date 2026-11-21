@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -79,7 +80,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
     i = 0;
     d = 2.0f + *(f32 *)(arg1 + 0x14);
     this->m_84 -= d;
-    this->m_6c -= d;
+    this->scroll_offset[1] -= d;
     *(f32 *)(((u8 *)this) + 0x80) -= d;
     for (; i < this->line_count; i++) {
         e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
@@ -252,10 +253,10 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
         self->scroll_up_line((u8 *)e);
     }
     if (flags & 0x80) {
-        self->unk_80 = self->m_6c;
+        self->unk_80 = self->scroll_offset[1];
     }
     if (flags & 0x10) {
-        lim = (self->m_6c + self->m_4c) - 2e+01f;
+        lim = (self->scroll_offset[1] + self->frame_size[1]) - 2e+01f;
         if (self->unk_80 < lim) {
             self->unk_80 = lim;
         }
@@ -286,8 +287,8 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
     if (flags & 0x400) {
         e->flags |= 0x200;
     }
-    y = self->m_48 - 8.0f;
-    if (self->m_2c & 0x80) {
+    y = self->frame_size[0] - 8.0f;
+    if (self->window_flags & 0x80) {
         y -= 5.0f;
     }
     measure_message_text_width(e, y);
@@ -304,8 +305,8 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
     self->unk_80 += 2.0f + e->f14;
     if (flags & 1) {
         self->m_84 = (self->unk_80 - e->f14) - 2.0f;
-    } else if (self->unk_80 > (self->m_6c + self->m_4c) - 2e+01f) {
-        lim = self->unk_80 - (self->m_4c - 2e+01f);
+    } else if (self->unk_80 > (self->scroll_offset[1] + self->frame_size[1]) - 2e+01f) {
+        lim = self->unk_80 - (self->frame_size[1] - 2e+01f);
         if (self->m_84 < lim) {
             self->m_84 = lim;
         }
@@ -369,22 +370,23 @@ s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
     message_window_layout_entries.rows = (u32)arg1;
 }
 
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, int);
 
 
 void TWindowMessage::render() {
     s32 temp_r3;
     s32 arg0 = (s32)this;
-    temp_r3 = get_draw_context__11TWindowBaseFPv();
+    temp_r3 = reinterpret_cast<s32>(get_draw_context());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
 }
 
 void TWindowMessage::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_2c & 2)) {
-        this->m_5c = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
     ((TWindowMessage *)arg0)->update_scroll();
     ((TWindowMessage *)arg0)->retire_scrolled_lines();
@@ -392,7 +394,7 @@ void TWindowMessage::run_task() {
     ((TWindowMessage *)arg0)->advance_reveal_cursor();
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowMessage::~TWindowMessage() {

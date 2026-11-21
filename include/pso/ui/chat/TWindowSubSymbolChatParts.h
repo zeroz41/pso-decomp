@@ -13,15 +13,6 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     s32 sub_80283974();
     virtual void render();
     virtual void run_task();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0xA];
-    u32 m_2c;
-    u8 _pad30[0x2C];
-    u32 m_5c;
-    u8 _pad60[0x8];
-    void* m_68;
-    u8 _pad6C[0x4];
     u8 m_70;
     u8 m_71;
     u8 m_72;

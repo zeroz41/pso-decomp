@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -369,7 +370,7 @@ void TShopEquipmentSellWindow::set_entry_count(void *arg1, void *arg2) {
     s32 temp_r3;
     void *temp_r31;
 
-    temp_r31 = (void *)((TWindowBase *)arg1)->get_array_entry(1);
+    temp_r31 = ((TWindowBase *)arg1)->get_array_entry(1);
     if (arg2 == NULL) {
         *(s32 *)((s8 *)temp_r31 + 0x20) = 0;
         return;

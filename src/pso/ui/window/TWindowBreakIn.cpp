@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowBreakIn.h"
@@ -42,15 +43,17 @@ WindowDescriptor window_break_in_layout = {
 
 extern "C" {
 u8 * get_window_layout_position(s32);
-s32 draw_visible_window_entries(s32, s32, s32);
 
 void TWindowBreakIn::render() {
     s32 arg0 = (s32)this;
-    s32 tmp = TWindowDD::draw_default_entry(arg0);
-    draw_visible_window_entries(arg0, arg0 + 0x24, tmp);
+    s32 tmp = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(tmp));
 }
 
-void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
+void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowBreakIn::~TWindowBreakIn() {}
 TWindowBreakIn::TWindowBreakIn() : TWindowBase((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA))) {

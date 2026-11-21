@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -110,7 +111,7 @@ void TWindowInputNumber::move_cursor_next() {
 }
 
 void TWindowInputNumber::set_value(f32 farg0) {
-    this->m_38 = farg0;
+    this->target_size[0] = farg0;
     TWindowBase::save_position();
     align_digits();
 }
@@ -157,7 +158,6 @@ void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
-s32 draw_visible_window_entries(void *, void *, int);
 void __dl__7TObjectFPv(void *);
 
 void TWindowInputNumber::create(s32 arg1) {
@@ -167,10 +167,10 @@ void TWindowInputNumber::create(s32 arg1) {
         var_r0 = (int)::operator new(0x24);
         if (var_r0 != 0U) {
             u32 saved = var_r0;
-            var_r0 = (u32)((TWindowSubStatusDisp *)saved)->construct_type1_heading(arg1, this->clientIndex);
+            var_r0 = (u32)((TWindowSubStatusDisp *)saved)->construct_type1_heading(arg1, this->client_index);
         }
         this->unknown70 = var_r0;
-        this->m_2c = (s32) (this->m_2c | 0x40);
+        this->window_flags = (s32) (this->window_flags | 0x40);
         *(f32 *)((s8 *)this + 0x3C) += 6.0f;
     }
 }
@@ -291,9 +291,12 @@ void TWindowInputNumber::render() {
     TWindowInputNumber *arg0 = this;
     s32 ctx;
 
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x74));
+    ctx = reinterpret_cast<s32>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x74)));
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
-    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, ctx);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(ctx));
     draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)ctx, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
     {
         void *temp_ptr = (void *) arg0->unknown70;
@@ -359,7 +362,7 @@ void TWindowInputNumber::run_task() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
 }
 
 TWindowInputNumber::~TWindowInputNumber() {
@@ -371,7 +374,7 @@ TWindowInputNumber::~TWindowInputNumber() {
 TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high, s32 initial, s16 client)
     : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {
     m_name = TWindowInputNumber__name;
-    clientIndex = client;
+    client_index = client;
     inputFlags = 0;
     selectedDigit = 0;
     minimum = low;

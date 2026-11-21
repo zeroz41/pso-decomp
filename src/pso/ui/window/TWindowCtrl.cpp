@@ -148,13 +148,12 @@ extern "C" {
 
 void *TWindowTradeRequest__ct(void *, void *);
 void *__nw__7TObjectFUl(s32);
-s32 TWindowCtrl__sub_8024701C(void *);
 
 
 void TWindowCtrl::update_trade_request_window() {
     void *var_r0;
 
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((u32) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(*(void * *)&this->m_38) != 0))) {
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((u32) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(*(void * *)&this->m_38)) != 0))) {
         if ((u32) this->m_40 != 0U) {
             ((TObject *)(this->m_40))->queue_destruction();
             this->m_40 = 0U;
@@ -180,7 +179,7 @@ void TWindowCtrl::update_com_card_window() {
     if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
         this->m_3c = 0U;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || ((u32) this->m_40 != 0U) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C((void *)temp_r3_2) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || ((u32) this->m_40 != 0U) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>((void *)temp_r3_2)) != 0))) {
         temp_r3_3 = this->m_3c;
         if (temp_r3_3 != 0U) {
             ((TObject *)temp_r3_3)->queue_destruction();
@@ -200,8 +199,6 @@ s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
 }
 s32 chat_accept_submission(s32 arg0);
 extern "C" {
-void TWindowChat__sub_80247DFC(u8 *arg0);
-void TWindowChat__sub_80247E50(u8 *arg0);
 
 
 void TWindowCtrl::update_window_visibility() {
@@ -225,10 +222,10 @@ void TWindowCtrl::update_window_visibility() {
         }
         ((TWindowChat *)(this->m_38))->open_input();
         if ((((TWindowChat *)(this->m_38))->is_mode_bit4() != 0) && (chat_accept_submission((s32)&this->m_94) != 0)) {
-            TWindowChat__sub_80247E50((u8 *)this->m_38);
+            TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(m_38));
         }
         if (((TWindowChat *)(this->m_38))->is_visible() != 0) {
-            TWindowChat__sub_80247DFC((u8 *)this->m_38);
+            TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(m_38));
         }
     }
 }

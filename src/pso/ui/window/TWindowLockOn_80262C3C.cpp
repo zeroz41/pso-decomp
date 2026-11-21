@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowHelpItem_8025A60C.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -141,8 +142,6 @@ u32 obj_getArrWord_254(LockOnEnemyView *, s32);
 s16 obj_getS16_2BA(LockOnEnemyView *);
 u16 get_entity_id(void *);
 void measure_message_text_width_default(void *);
-void init_window_layout_entries(void *, void *, int);
-s32 draw_visible_window_entries(void *, void *, int);
 s32 get_window_layout_position(int);
 s32 is_split_screen(void);
 }
@@ -162,25 +161,25 @@ TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D02
         this->m_6c = 1.0f;
     }
     this->m_60 = 0xFFFF;
-    this->m_20 = player;
+    this->client_index = player;
     this->m_64 = 0;
     this->m_70 = NULL;
     this->bind_target(id);
-    this->m_50 = 0;
+    this->tween_ticks = 0;
 }
 
 TWindowLockOn::~TWindowLockOn() {}
 
 void TWindowLockOn::run_task() {
     s32 old;
-    m_5c = 0x01000000;
+    open_tick = 0x01000000;
     if (m_70) {
         (this->*m_70)();
     }
     validate_target();
     ((TWindowDD *)this)->initialize_subwindow();
     update_fade();
-    update_window_entry_list(&m_24);
+    update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
     old = m_64;
     m_64 = old - 1;
     if (old < 0) {
@@ -191,10 +190,13 @@ void TWindowLockOn::run_task() {
 void TWindowLockOn::render() {
     s32 context;
 
-    context = setup_window_draw_context((f32 *)&m_68);
+    context = reinterpret_cast<s32>(setup_window_draw_context((f32 *)&m_68));
     draw_window_frame((void *)context);
-    if (m_30 == m_40 && m_34 == m_44 && m_38 == m_48 && m_3c == m_4c) {
-        draw_visible_window_entries(this, &m_24, context);
+    if (target_position[0] == frame_position[0] && target_position[1] == frame_position[1] && target_size[0] == frame_size[0] && target_size[1] == frame_size[1]) {
+        draw_visible_window_entries(
+            this,
+            reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
+            reinterpret_cast<WindowDrawContext *>(context));
     }
 }
 
@@ -237,7 +239,7 @@ void TWindowLockOn::bind_target(u16 id) {
 }
 
 void TWindowLockOn::update_for_target(TObjCollidable *actor) {
-    ((TWindowSubStatusDisp *)&m_24)->destroy_all_items();
+    reinterpret_cast<WindowLayoutEntries *>(&entry_list)->destroy_all_items();
     if (actor->obj_testFlags30(0x10000000) != 0) {
         update_for_other_player(actor);
         return;
@@ -256,18 +258,18 @@ void TWindowLockOn::update_for_target(TObjCollidable *actor) {
 void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     LockOnEntry *w;
     u16 id;
-    init_window_layout_entries(&m_24, &lock_on_window_params, m_20);
+    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_params, client_index);
     m_70 = &TWindowLockOn::update_photon_blast_marker;
     w = (LockOnEntry *)get_array_entry(1);
     id = get_entity_id(player);
     ((TWindowLockOn *)w)->update_for_player_index(id);
     ((TWindowHelpItem *)w)->reset_float_field();
     measure_message_text_width_default(w);
-    m_38 = 34.0f + w->w;
-    m_3c = 49.0f;
-    m_38 += 28.0f;
-    m_34 = ((TWindowLockOn *)(0x1E))->get_target_distance() - m_3c * m_6c;
-    m_50 = 0;
+    target_size[0] = 34.0f + w->w;
+    target_size[1] = 49.0f;
+    target_size[0] += 28.0f;
+    target_position[1] = ((TWindowLockOn *)(0x1E))->get_target_distance() - target_size[1] * m_6c;
+    tween_ticks = 0;
 }
 #pragma pop
 
@@ -277,7 +279,7 @@ void TWindowLockOn::update_for_item(TItem *item) {
     LockOnEntry *e;
     LockOnEntry *e2;
     f32 r;
-    init_window_layout_entries(&m_24, &lockon_window_layout_entries, m_20);
+    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     m_70 = &TWindowLockOn::refresh_ground_item;
     e = (LockOnEntry *)get_array_entry(0);
     ((TWindowSubStatusDisp *)e)->init_item_row(item, 0);
@@ -286,23 +288,23 @@ void TWindowLockOn::update_for_item(TItem *item) {
     if (e->kind != 0x33) {
         e->y += 18.0f;
     }
-    m_38 = e->w;
-    m_3c = 38.0f;
+    target_size[0] = e->w;
+    target_size[1] = 38.0f;
     e2 = (LockOnEntry *)get_array_entry(1);
     if (item->get_item_type() == 0 || item->get_item_type() == 1) {
         ((LockOnEntryGrade *)e2)->grade = (u8)item->calc_display_grade();
-        m_3c += 20.0f;
+        target_size[1] += 20.0f;
         e2->flags &= ~2;
         r = get_item_star_row_width((u8 *)e2);
-        if (m_38 < r) {
-            m_38 = r;
+        if (target_size[0] < r) {
+            target_size[0] = r;
         }
     } else {
         e2->flags |= 2;
     }
-    m_38 += 28.0f;
-    m_34 = ((TWindowLockOn *)(0x1E))->get_target_distance() - m_3c * m_6c;
-    m_50 = 0;
+    target_size[0] += 28.0f;
+    target_position[1] = ((TWindowLockOn *)(0x1E))->get_target_distance() - target_size[1] * m_6c;
+    tween_ticks = 0;
 }
 #pragma pop
 
@@ -318,19 +320,19 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     LockOnEntryText *p;
     u32 w2;
 
-    init_window_layout_entries(&m_24, &lbl_804D00F4, m_20);
+    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lbl_804D00F4, client_index);
     m_70 = &TWindowLockOn::refresh_enemy_statuses;
-    e = get_array_entry(1);
+    e = reinterpret_cast<s32>(get_array_entry(1));
     TWindowDuelResult::set_default_status((void *)e, (s32)TWindowSubStatusDisp::get_message_10(0xA5));
     ((TWindowHelpItem *)e)->reset_float_field();
     width = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
-    e = get_array_entry(0);
+    e = reinterpret_cast<s32>(get_array_entry(0));
     TWindowDuelResult::set_default_status((void *)e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
     ((TWindowHelpItem *)e)->reset_float_field();
-    m_38 = (f32)calc_text_width(((TWindowSubComCard *)e)->get_field_20());
-    m_3c = 64.0f;
+    target_size[0] = (f32)calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    target_size[1] = 64.0f;
     if (is_split_screen() == 0) {
-        m_3c += 29.0f;
+        target_size[1] += 29.0f;
     }
     if (((TObjChara *)enemy)->obj_testFlag_2E4(0x40) != 0) {
         kind = 4;
@@ -345,32 +347,32 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     } else {
         kind = 4;
     }
-    e = get_array_entry(2);
+    e = reinterpret_cast<s32>(get_array_entry(2));
     TWindowDuelResult::set_default_status((void *)e, (s32)type_names[kind]);
     ((TWindowHelpItem *)e)->reset_float_field();
     ((LockOnEntryText *)e)->y = 10.0f + (f32)width;
     ((LockOnEntryColor *)e)->color = type_colors[kind];
     w2 = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
     w2 += width;
-    if ((f32)w2 > m_38) {
-        m_38 = (f32)w2;
+    if ((f32)w2 > target_size[0]) {
+        target_size[0] = (f32)w2;
     }
-    m_38 += 28.0f;
-    m_34 = ((TWindowLockOn *)(0x1E))->get_target_distance() - m_3c * m_6c;
-    m_50 = 0;
+    target_size[0] += 28.0f;
+    target_position[1] = ((TWindowLockOn *)(0x1E))->get_target_distance() - target_size[1] * m_6c;
+    tween_ticks = 0;
     p = (LockOnEntryText *)get_array_entry(7);
-    p->w = m_38 - 28.0f;
+    p->w = target_size[0] - 28.0f;
     p->cur = (f32)((TItemProShield *)enemy)->get_field_2b8();
     p->max = (f32)((LockOnEnemyView *)enemy)->hp_max;
     p = (LockOnEntryText *)get_array_entry(8);
-    p->w = m_38 - 28.0f;
+    p->w = target_size[0] - 28.0f;
     p->cur = (f32)obj_getS16_2BA((LockOnEnemyView *)enemy);
     p->max = (f32)((LockOnEnemyView *)enemy)->tp_max;
 }
 #pragma pop
 
 void TWindowLockOn::update_photon_blast_marker() {
-    update_photon_blast_player_marker(get_array_entry(0), m_60);
+    update_photon_blast_player_marker(reinterpret_cast<s32>(get_array_entry(0)), m_60);
 }
 
 void TWindowLockOn::refresh_ground_item() {}

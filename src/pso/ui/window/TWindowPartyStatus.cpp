@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowPartyStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
@@ -31,7 +32,6 @@ struct Stack_8030C0C4 {
 };
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 void render__18TWindowPartyStatusFv(s32 arg0);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
@@ -89,7 +89,7 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
     f32 temp_f2;
     f32 temp_f31;
     f32 temp_f6;
-    temp_f31 = -1.0f / this->m_54;
+    temp_f31 = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)arg1 + 0x34)));
@@ -116,9 +116,12 @@ extern "C" {
 
 void render__18TWindowPartyStatusFv(s32 arg0) {
     s32 ctx;
-    ctx = TWindowDD::draw_default_entry((s32)arg0);
+    ctx = reinterpret_cast<s32>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(ctx));
 }
 }
 
@@ -130,7 +133,7 @@ void TWindowPartyStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0xAC)));
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 TWindowPartyStatus::~TWindowPartyStatus() {
@@ -141,7 +144,7 @@ u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
     TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
     *(s32 **)((s8 *)window_party_status + 0x18) = __vt__18TWindowPartyStatus;
     *(s32 *)((s8 *)window_party_status + 0) = (s32) ((s32)TWindowPartyStatus__name);
-    ((TWindowPartyStatus *)window_party_status)->m_20 = arg1;
+    ((TWindowPartyStatus *)window_party_status)->client_index = arg1;
     return window_party_status;
 }
 

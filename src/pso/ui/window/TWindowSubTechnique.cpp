@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -38,7 +39,6 @@ static const s16 technique_menu_category_4[] = { 13, 10, 11, 12, 14, 19 };
 const s16 *technique_menu_category_lists[5] = { technique_menu_category_0, technique_menu_category_1, technique_menu_category_2, technique_menu_category_3, technique_menu_category_4 };
 
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
-void align_menu_entry_positions(s32);
 void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 
 s32 get_technique_name(s16);
@@ -98,8 +98,8 @@ void TWindowSubTechnique::rebuildTechniqueList(s32 list, s32 category) {
         TWindowSubTechnique::draw_technique_row(*entry, playerIndex, list);
         ++entry;
     }
-    ((TWindowSubComCardList *)list)->update_layout_height(179.0f);
-    align_menu_entry_positions(list);
+    ((TWindowMenu *)list)->update_layout_height(179.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
     set_selected_index__21TWindowSubComCardListFs(list, selected);
 }
 
@@ -177,8 +177,8 @@ s32 TWindowSubTechnique::open_menu() {
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(179.0f);
-    align_menu_entry_positions(titled_window_menu);
+    ((TWindowMenu *)titled_window_menu)->update_layout_height(179.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
     return titled_window_menu;
 }
 

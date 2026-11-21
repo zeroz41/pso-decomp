@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_803411E8.h"
 #include "pso/ui/window/TWindowDD_80341334.h"
@@ -16,18 +17,20 @@
 
 extern "C" {
 
-s32 draw_visible_window_entries(void *, void *, void *, f32);
 
 void TWindowDD_WS_String::render() {
     f32 y;
     u8 *entry;
 
-    entry = (u8 *)TWindowDD::draw_default_entry((s32)this);
-    calc_inner_rect(entry);
+    entry = reinterpret_cast<u8 *>(draw_default_entry());
+    calc_inner_rect(reinterpret_cast<WindowDrawContext *>(entry));
     draw_entry_if_visible(entry);
     y = *(f32 *)((s8 *)entry + 0x14);
     *(f32 *)((s8 *)entry + 0x14) += 1.0f;
-    draw_visible_window_entries(this, pad_24, entry, y);
+    draw_visible_window_entries(
+        this,
+        &entry_list,
+        reinterpret_cast<WindowDrawContext *>(entry));
 }
 
 void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
@@ -39,7 +42,7 @@ void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
 void TWindowDD_WS_String::run_task() {
     ((TWindowDD *)this)->initialize_subwindow();
     update_fade();
-    update_window_entry_list(pad_24);
+    update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
 }
 
 }
@@ -48,18 +51,18 @@ extern const f32 TWindowDD__data_805DFB58;
 extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *arg1) {
-    copy_vec2(pad_30, pad_64);
-    pad_50 = (s32)arg1;
+    copy_vec2(target_position, pad_64);
+    tween_ticks = (s32)arg1;
 }
 
 void TWindowDD_WS_String::update_position(s32 arg1) {
-    copy_vec2(pad_30, pad_6C);
-    pad_50 = arg1;
+    copy_vec2(target_position, pad_6C);
+    tween_ticks = arg1;
     if (pad_6C[0] < 0.0f) {
-        pad_30[0] -= pad_38[0];
+        target_position[0] -= target_size[0];
     }
     if (pad_6C[1] < 0.0f) {
-        pad_30[1] -= pad_38[1];
+        target_position[1] -= target_size[1];
     }
 }
 
@@ -68,7 +71,7 @@ void TWindowDD__sub_803412A0(TWindowDD_WS_String *self) {
     entry = (u8 *)self->get_array_entry(0);
     if (entry != NULL) {
         measure_message_text_width_default(entry);
-        self->pad_38[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
+        self->target_size[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
     }
 }
 
@@ -128,7 +131,7 @@ TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos
     if ((self->pad_60 == 1) || (self->pad_60 == 3)) {
         *(s32 *)((s8 *)entry + 0x24) = lbl_805DFC18;
     }
-    self->m_5c = 0x01000000;
+    self->open_tick = 0x01000000;
     return self;
 }
 

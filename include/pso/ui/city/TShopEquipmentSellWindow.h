@@ -1,12 +1,16 @@
 #ifndef PSO_UI_CITY_TSHOPEQUIPMENTSELLWINDOW_H
 #define PSO_UI_CITY_TSHOPEQUIPMENTSELLWINDOW_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
+
+struct TWindowMenu;
 
 struct TShopEquipmentSellWindow : public TShopWindowBase {
     TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4);
     virtual ~TShopEquipmentSellWindow();
+    int get_item_count();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6(s32 id, s32 flags);
@@ -31,7 +35,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     u32 m_384;
     u32 m_388;
     u32 m_38c;
-    u32 m_390;
+    TWindowMenu *confirm_menu;
     u32 m_394;
     u32 m_398;
     u32 m_39c;
@@ -52,4 +56,5 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
 };
 
 typedef char TShopEquipmentSellWindow_size[sizeof(TShopEquipmentSellWindow) == 0x3AC ? 1 : -1];
+typedef char TShopEquipmentSellWindow_confirm_menu_offset[offsetof(TShopEquipmentSellWindow, confirm_menu) == 0x390 ? 1 : -1];
 #endif

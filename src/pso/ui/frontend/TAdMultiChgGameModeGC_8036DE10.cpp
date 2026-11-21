@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -61,7 +62,6 @@ extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 void *create_window_menu_default(void *, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 align_menu_entry_positions(void *);
 s32 all_players_loaded__23TAdSinglePlyChrSelectGCFv();
 s32 TAdPlayerLoadGC__sub_801FD770();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
@@ -345,8 +345,8 @@ s32 TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
             forward_trade_action_default__16TObjCityMainWarpFPviii(self->win, d, 5, 1);
             ((TWindowSubComCardList *)(self->win))->set_selected_index(0);
         }
-        ((TWindowSubComCardList *)(self->win))->update_layout_height(lbl_805D7020);
-        align_menu_entry_positions(self->win);
+        ((TWindowMenu *)(self->win))->update_layout_height(lbl_805D7020);
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(self->win));
     }
 }
 #undef self

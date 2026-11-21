@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -43,7 +44,6 @@ struct TWMT;
 extern "C" {
 const char *TWindowMakeTeam__sub_80264B38(Obj_80264B38 *o);
 const char *TWindowMakeTeam__sub_80264B24(Obj_80264B24 *o);
-void align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
@@ -131,7 +131,7 @@ void TWindowMakeTeam::run_task() {
         self->keyboard = kb;
         ((TKeyBoardControl *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCB)));
         ((TKeyBoardControl *)self->keyboard)->set_depth(38500.0f);
-        update_chat_window(self->keyboard);
+        reinterpret_cast<TKeyBoardControl *>(self->keyboard)->set_composer_flag62_bit4();
         ((TKeyBoardControl *)self->keyboard)->set_text((char *)self->name);
         ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(NULL, 0);
         this->m_1c = 4;
@@ -227,8 +227,8 @@ s32 TWindowMakeTeam::create_entry_menu_window() {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(0)), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(1)), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(2)), 6, 2);
-    ((TWindowSubComCard *)r)->calc_window_size();
-    align_menu_entry_positions(r);
+    ((TWindowMenu *)r)->calc_window_size();
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1E));
     return r;
 }
@@ -245,8 +245,8 @@ s32 TWindowMakeTeam::create_status_menu_window() {
     if (m == 1 || m == 2) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(3), 6, 3);
     }
-    ((TWindowSubComCard *)r)->calc_window_size();
-    align_menu_entry_positions(r);
+    ((TWindowMenu *)r)->calc_window_size();
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1F));
     return r;
 }

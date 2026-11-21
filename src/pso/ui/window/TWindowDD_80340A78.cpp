@@ -61,7 +61,7 @@ extern NJS_POINT2 TWindowDD__data_805434E8[7][8];
 static inline f32 span_start(f32 center, f32 half_extent) { return center - half_extent; }
 static inline f32 span_end(f32 center, f32 half_extent) { return center + half_extent; }
 void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
-    WindowDrawContext *rect = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    WindowDrawContext *rect = self->draw_default_entry();
     E_803403F8 verts[8];
     f32 quad[8];
     s32 tex;
@@ -83,9 +83,9 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     f32 range;
     f32 len;
 
-    self->calc_inner_rect((u8 *)rect);
+    self->calc_inner_rect(rect);
     tex = TWindowDD::get_draw_count((void **)lbl_805D63F0);
-    ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.0f), -1);
+    ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->draw_depth, 0.0f), -1);
     uv = TWindowDD__data_805434E8[6];
     s = rect->scale[1];
     v = verts;
@@ -96,9 +96,9 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
         v++;
     }
 
-    half = 0.5f * self->pad_4C;
+    half = 0.5f * self->frame_size[1];
     t = half * s;
-    c = self->pad_44 + half;
+    c = self->frame_position[1] + half;
     lo = c - t;
     hi = c + t;
     if (t < lbl_805DFB28) {
@@ -111,8 +111,8 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     verts[4].b = verts[5].b = hi - d;
     verts[6].b = verts[7].b = hi;
 
-    half = 0.5f * self->pad_48;
-    c = self->pad_40 + half;
+    half = 0.5f * self->frame_size[0];
+    c = self->frame_position[0] + half;
     step = lbl_805DFB24 * rect->scale[0];
     t = half * rect->scale[0];
     x0 = span_start(c, t);
@@ -127,7 +127,7 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     quad[2] = span_end(c, half);
     ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
 
-    z = TWindowDD__sub_80348AD4(self->pad_54, 0.1f);
+    z = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
     TObjFish::set_global_param(lbl_805D63F0);
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);

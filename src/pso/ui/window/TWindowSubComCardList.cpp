@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -35,8 +36,6 @@ extern s32 local_client_id;
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
 s32 handle_list_page_flip_input(s32);
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
@@ -44,9 +43,12 @@ void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
     s32 temp_r3;
 
-    temp_r3 = get_draw_context__11TWindowBaseFPv();
+    temp_r3 = reinterpret_cast<s32>(arg0->get_draw_context());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowMenu *)arg0)->render_selected_entry(temp_r3);
     arg0->draw_card_list_selection((u8 *)temp_r3);
     if ((u32) arg0->m_88 != 0U) {

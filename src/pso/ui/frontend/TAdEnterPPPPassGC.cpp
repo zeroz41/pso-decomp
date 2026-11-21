@@ -89,13 +89,13 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
         if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
             if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
                 test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
-                free_menu_object(password_entry_keyboard_control);
+                reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
                 *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 0;
                 if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                     ((TAdEnterSerialAccessGC *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->set_active();
                 }
             } else if (forward_validate_input(ad_enter_serial_access_gc, 3, buf) == 0) {
-                free_menu_object(password_entry_keyboard_control);
+                reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
                 play_sound_effect(0x53F06, 0, 0, 0);
             } else {
                 *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 1;

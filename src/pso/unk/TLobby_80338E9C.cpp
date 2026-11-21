@@ -29,7 +29,7 @@ void TWindowMenuTeamStatus::vfunc_6(u32 count, s32 id) {
     TWindowMenuTeamStatus::Entry *entry;
 
     m_name = TWindowMenuTeamStatus__name;
-    m_20 = id;
+    client_index = id;
     entry_count = 0;
     cursor = 0;
     entry_capacity = count;

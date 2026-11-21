@@ -15,6 +15,7 @@
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
@@ -216,8 +217,7 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 void *create_cost_window(u16);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-s32 align_menu_entry_positions(u32);
+
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
@@ -247,7 +247,7 @@ TShopArmorListWindow::~TShopArmorListWindow() {
         item_list = NULL;
     }
     if (choice_menu != 0) {
-        ((TWindowBase *)choice_menu)->close();
+        choice_menu->close();
         choice_menu = 0;
     }
     if (help_window != NULL) {
@@ -465,16 +465,16 @@ s32 TShopArmorListWindow::open_menu_window() {
     f32 scale;
     u16 temp_r31;
 
-    if ((u32) this->choice_menu == 0U) {
+    if (this->choice_menu == NULL) {
         temp_r31 = get_entity_id(this->m_24);
-        this->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, temp_r31);
+        this->choice_menu = create_window_menu((s32)(get_window_layout_position(0x2B)), 2, temp_r31);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->choice_menu, (int)(get_shop_text(4)), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->choice_menu, (int)(get_shop_text(5)), 6, 1);
-        ((TWindowSubComCard *)(this->choice_menu))->calc_window_size();
+        choice_menu->calc_window_size();
         align_menu_entry_positions(this->choice_menu);
-        ((TCheckRoomSequence *)(this->choice_menu))->set_ready_flag();
+        choice_menu->set_ready_flag();
         scale = get_scale();
-        ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), scale);
+        choice_menu->set_position_xy(get_scale(), scale);
     }
     set_field_20(2);
 }

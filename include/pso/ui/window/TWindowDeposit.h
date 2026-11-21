@@ -7,11 +7,6 @@
 struct TWindowDeposit : public TWindowBase {
     virtual ~TWindowDeposit();
     virtual void render();
-    u8 _pad1C[0x8];
-    void* m_24;
-    u8 unk_28[0x10];
-    f32 m_38;
-    u8 unk_3C[0x24];
     f32 m_60;
     void* m_64;
     void render_status(s32 arg1);

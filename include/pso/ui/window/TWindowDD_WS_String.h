@@ -13,15 +13,6 @@ public:
     void update_position(s32 arg1);
     void set_first_entry_text(u32 str);
     void draw_entry_if_visible(void *);
-    u8 pad_1C[0x8];
-    u8 pad_24[0xC];  // entry list (update_window_entry_list, draw_visible_window_entries)
-    f32 pad_30[2];   // position
-    f32 pad_38[2];   // size, from the window descriptor
-    u8 pad_40[0x10];
-    s32 pad_50;
-    u32 m_54;
-    u8 pad_58[0x4];
-    s32 m_5c;
     s32 pad_60;      // point table index passed to draw (ctor argument; 1 and 3 recolor the text)
     f32 pad_64[2];   // position given to the ctor
     f32 pad_6C[2];   // second ctor vector (update_position: negative x/y anchor right/bottom)

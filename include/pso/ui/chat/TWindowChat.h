@@ -3,6 +3,10 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowKeyBoardBase;
+struct TWindowKeyBoardHard;
+struct TWindowKeyBoardSoft;
+
 class TWindowChat : public TObject {
 public:
     virtual void render();
@@ -17,14 +21,17 @@ public:
     void open_input();
     void handle_dpad_shortcuts();
     void close_all_children();
+    void close_and_clear_flag();
+    void set_keyboard_flag62_bit4();
+    void set_flag1e_bit80();
     void open_next_input_window();
 
     u8 inputMode;
     u8 unknown_1D;
     u16 flags;
-    void* composer;
-    void* softKeyboard;
-    void* hardKeyboard;
+    TWindowKeyBoardBase *composer;
+    TWindowKeyBoardSoft *softKeyboard;
+    TWindowKeyBoardHard *hardKeyboard;
     void* auxiliaryWindow;
     void* symbolChatWindow;
     void* wordSelectWindow;
@@ -33,7 +40,6 @@ public:
     void update();
     void handle_input();
     void handle_chat_input();
-    u8 get_input_mode();
     int forward_card_at_1c();
     int get_subcard_field1c();
     void set_active_flag();
@@ -44,6 +50,12 @@ public:
     int is_open();
     static u8 *open_symbol_chat(s32 *arg0);
 };
+extern "C" {
+s32 TWindowCtrl__sub_8024701C(TWindowChat *chat);
+void TWindowChat__sub_80247DFC(TWindowChat *chat);
+void TWindowChat__sub_80247E50(TWindowChat *chat);
+}
+
 #include <stddef.h>
 typedef char ChatBaseSize[(sizeof(TObject)==0x1C)?1:-1];
 typedef char ChatSize[(sizeof(TWindowChat)==0x3C)?1:-1];

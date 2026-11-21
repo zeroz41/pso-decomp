@@ -25,17 +25,6 @@ struct UV_80262038 {
     f32 v;
 };
 
-struct Quad_80262038 {
-    f32 x;
-    f32 y;
-    f32 x2;
-    f32 y2;
-    f32 u;
-    f32 v;
-    f32 u2;
-    f32 v2;
-};
-
 #include <stddef.h>
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowEffectLight.h"
@@ -66,7 +55,7 @@ s32 play_sound_effect(int, int, int, int);
 extern s32 lbl_805D63F0;
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
-extern void *local_client_id;
+extern s32 local_client_id;
 void draw_color_lines(Lines_80261DD8 *l, s32 n, s32 flags, f32 scale);
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
@@ -526,10 +515,10 @@ s32 TWindowKeyBoardSoft::hit_test_relative(u8 *arg1, u8 *arg2) {
     f32 temp_f5;
     temp_f3 = *(f32 *)((s8 *)arg2 + 4);
     temp_f5 = *(f32 *)((s8 *)arg2 + 0);
-    return ((TWindowKeyBoardSoft *)arg0)->sub_802614DC(arg1, temp_f5 - *(f32 *)((s8 *)arg1 + 0), temp_f3 - *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg2 + 8) - temp_f5, *(f32 *)((s8 *)arg2 + 0xC) - temp_f3) >= 1.0f;
+    return ((TWindowKeyBoardSoft *)arg0)->sub_802614DC((WindowDrawContext *)arg1, temp_f5 - *(f32 *)((s8 *)arg1 + 0), temp_f3 - *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg2 + 8) - temp_f5, *(f32 *)((s8 *)arg2 + 0xC) - temp_f3) >= 1.0f;
 }
 
-f32 TWindowKeyBoardSoft::sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
+f32 TWindowKeyBoardSoft::sub_802614DC(WindowDrawContext *context, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
     u8 * window_sub_com_card = (u8 *)this;
     f32 t;
     f32 v;
@@ -538,7 +527,7 @@ f32 TWindowKeyBoardSoft::sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2,
     if (t >= 1.0f) {
         return 1.0f;
     }
-    v = (t * (*(f32 *)((s8 *)arg1 + 8) + *(f32 *)((s8 *)arg1 + 0xC))) - (farg0 + farg1);
+    v = (t * (context->w + context->h)) - (farg0 + farg1);
     if (v <= 0.0f) {
         return 0.0f;
     }
@@ -554,7 +543,7 @@ f32 TWindowKeyBoardSoft::sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2,
 void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
     s32 type;
     NJS_POINT2 pos;
-    s32 kind;
+    s16 kind;
 
     sub_80260760(calc_key_index(arg1, arg2), &type, 0);
     pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(arg1, arg2);
@@ -573,7 +562,7 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
         kind = 6;
         break;
     }
-    TWindowEffectLight::create(&pos, (void *)kind, (void *)local_client_id);
+    TWindowEffectLight::create(&pos, kind, local_client_id);
 }
 #pragma pop
 
@@ -596,7 +585,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
     SoftKeyLayout_80260904 *layout;
     s32 key;
     f32 tab_x;
-    Quad_80262038 q;
+    TexturedQuad q;
     u32 color;
 
     kb = (KeyCursor_80260E30 *)this;
@@ -625,13 +614,13 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
                 code = map_char_to_font_code(code);
                 key = calc_key_index(col, row);
                 color = key == cursor ? 0xFF000000 : 0xFF999999;
-                q.x = 1.0f + (1.0f + (19.0f * (f32)col + ctx->x));
-                q.y = 1.0f + (26.0f + (ctx->y + 19.0f * (f32)row));
+                q.x0 = 1.0f + (1.0f + (19.0f * (f32)col + ctx->x));
+                q.y0 = 1.0f + (26.0f + (ctx->y + 19.0f * (f32)row));
                 width = TWindowSubStatusDisp::calc_gauge_scale(code, &q, color);
-                q.x = 0.5f * (f32)(18 - width) + q.x;
+                q.x0 = 0.5f * (f32)(18 - width) + q.x0;
                 set_glyph_quad_extents(width, (u8 *)&q);
-                if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
-                    ctx->transform_quad((TexturedQuad *)&q);
+                if (hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
+                    ctx->transform_quad(&q);
                     draw_textured_quad_at_depth((f32 *)&q, depth);
                 }
             }
@@ -644,17 +633,17 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
 
     key = calc_key_index(2, 0);
     for (i = 0; i < 12; i++, key++) {
-        q.x = 1.0f + (1.0f + (19.0f * (i + 2) + ctx->x));
-        q.y = 1.0f + (26.0f + ctx->y);
-        q.x2 = 18.0f + q.x;
-        q.y2 = 18.0f + q.y;
-        q.u = 18.0f * (f32)i / 256.0f;
-        q.v = 0.0f;
-        q.u2 = 18.0f * (i + 1) / 256.0f;
-        q.v2 = 18.0f / 256.0f;
-        if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
+        q.x0 = 1.0f + (1.0f + (19.0f * (i + 2) + ctx->x));
+        q.y0 = 1.0f + (26.0f + ctx->y);
+        q.x1 = 18.0f + q.x0;
+        q.y1 = 18.0f + q.y0;
+        q.u0 = 18.0f * (f32)i / 256.0f;
+        q.v0 = 0.0f;
+        q.u1 = 18.0f * (i + 1) / 256.0f;
+        q.v1 = 18.0f / 256.0f;
+        if (hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
             set_constant_material_color(key == cursor ? 0xFF000000 : 0xFF999999);
-            ctx->transform_quad((TexturedQuad *)&q);
+            ctx->transform_quad(&q);
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
     }
@@ -673,16 +662,16 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
         } else {
             tab_color = 0xFF999999;
         }
-        q.x = 1.0f + (ctx->x + tab_x);
-        q.y = 1.0f + (-1.0f + ctx->y);
-        q.x2 = (q.x + (f32)layout->tab_width) - 2.0f;
-        q.y2 = 18.0f + q.y;
-        q.u = 0.0f;
-        q.v = 18.0f * (f32)page / 128.0f;
-        q.u2 = ((f32)layout->tab_width - 2.0f) / 128.0f;
-        q.v2 = 18.0f * (page + 1) / 128.0f;
-        if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
-            ctx->transform_quad((TexturedQuad *)&q);
+        q.x0 = 1.0f + (ctx->x + tab_x);
+        q.y0 = 1.0f + (-1.0f + ctx->y);
+        q.x1 = (q.x0 + (f32)layout->tab_width) - 2.0f;
+        q.y1 = 18.0f + q.y0;
+        q.u0 = 0.0f;
+        q.v0 = 18.0f * (f32)page / 128.0f;
+        q.u1 = ((f32)layout->tab_width - 2.0f) / 128.0f;
+        q.v1 = 18.0f * (page + 1) / 128.0f;
+        if (hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
+            ctx->transform_quad(&q);
             set_constant_material_color(tab_color);
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
@@ -694,17 +683,17 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
         key = calc_key_index((s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
         color = key == cursor ? 0xFF000000 : 0xFF999999;
         x = ctx->x + calc_key_x((s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
-        q.x = x - 0.5f * lbl_8044F1B4[i].x;
-        q.y = 1.0f + (26.0f + (19.0f * lbl_8044F164[i].y + ctx->y));
-        q.x2 = q.x + lbl_8044F1B4[i].x;
-        q.y2 = q.y + lbl_8044F1B4[i].y;
-        q.u = lbl_8044F204[i].u / 128.0f;
-        q.v = lbl_8044F204[i].v / 128.0f;
-        q.u2 = (lbl_8044F204[i].u + lbl_8044F1B4[i].x) / 128.0f;
-        q.v2 = (lbl_8044F204[i].v + lbl_8044F1B4[i].y) / 128.0f;
-        if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
+        q.x0 = x - 0.5f * lbl_8044F1B4[i].x;
+        q.y0 = 1.0f + (26.0f + (19.0f * lbl_8044F164[i].y + ctx->y));
+        q.x1 = q.x0 + lbl_8044F1B4[i].x;
+        q.y1 = q.y0 + lbl_8044F1B4[i].y;
+        q.u0 = lbl_8044F204[i].u / 128.0f;
+        q.v0 = lbl_8044F204[i].v / 128.0f;
+        q.u1 = (lbl_8044F204[i].u + lbl_8044F1B4[i].x) / 128.0f;
+        q.v1 = (lbl_8044F204[i].v + lbl_8044F1B4[i].y) / 128.0f;
+        if (hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
             set_constant_material_color(color);
-            ctx->transform_quad((TexturedQuad *)&q);
+            ctx->transform_quad(&q);
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
     }
@@ -763,9 +752,8 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     draw_color_lines(&d, 5, 0x14, depth);
 }
 
-void TWindowKeyBoardSoft::draw_key_frame(f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx) {
-    void * self = (void *)this;
-    Quad_80262038 q;
+void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx) {
+    TexturedQuad q;
     f32 v;
     f32 y2;
     f32 x2;
@@ -773,53 +761,53 @@ void TWindowKeyBoardSoft::draw_key_frame(f32 *rect, f32 x0, f32 y, f32 w, f32 sc
     f32 x4;
     const UV_80262038 *uv;
 
-    v = ((TWindowKeyBoardSoft *)self)->sub_802614DC((u8 *)rect, x0, y, w, 20.0f);
+    v = sub_802614DC(context, x0, y, w, 20.0f);
     if (v <= 0.0f) {
         return;
     }
     if (v < 1.0f) {
         color = ((u32)(255.0f * v) << 24) | (color & 0x00FFFFFF);
     }
-    x0 += rect[0];
-    y += rect[1];
+    x0 += context->x;
+    y += context->y;
     uv = &keyboard_key_frame_uv_table[idx];
     set_constant_material_color(color);
     x2 = 10.0f + x0;
     y2 = 20.0f + y;
-    q.x = x0;
-    q.y = y;
-    q.x2 = x2;
-    q.y2 = y2;
-    q.u = uv->u / 256.0f;
-    q.v = uv->v / 256.0f;
-    q.u2 = (10.0f + uv->u) / 256.0f;
-    q.v2 = (20.0f + uv->v) / 256.0f;
-    ((WindowDrawContext *)rect)->transform_quad((TexturedQuad *)&q);
+    q.x0 = x0;
+    q.y0 = y;
+    q.x1 = x2;
+    q.y1 = y2;
+    q.u0 = uv->u / 256.0f;
+    q.v0 = uv->v / 256.0f;
+    q.u1 = (10.0f + uv->u) / 256.0f;
+    q.v1 = (20.0f + uv->v) / 256.0f;
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
     x3 = x0 + w;
     x4 = x3 - 10.0f;
-    q.x = x4;
-    q.y = y;
-    q.x2 = x3;
-    q.y2 = y2;
-    q.u = (10.0f + uv->u) / 256.0f;
-    q.v = uv->v / 256.0f;
-    q.u2 = (20.0f + uv->u) / 256.0f;
-    q.v2 = (20.0f + uv->v) / 256.0f;
-    ((WindowDrawContext *)rect)->transform_quad((TexturedQuad *)&q);
+    q.x0 = x4;
+    q.y0 = y;
+    q.x1 = x3;
+    q.y1 = y2;
+    q.u0 = (10.0f + uv->u) / 256.0f;
+    q.v0 = uv->v / 256.0f;
+    q.u1 = (20.0f + uv->u) / 256.0f;
+    q.v1 = (20.0f + uv->v) / 256.0f;
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
     if (w <= 20.0f) {
         return;
     }
-    q.x = x2;
-    q.y = y;
-    q.x2 = x4;
-    q.y2 = y2;
-    q.u = (10.0f + uv->u) / 256.0f;
-    q.v = uv->v / 256.0f;
-    q.u2 = (10.0f + uv->u) / 256.0f;
-    q.v2 = (20.0f + uv->v) / 256.0f;
-    ((WindowDrawContext *)rect)->transform_quad((TexturedQuad *)&q);
+    q.x0 = x2;
+    q.y0 = y;
+    q.x1 = x4;
+    q.y1 = y2;
+    q.u0 = (10.0f + uv->u) / 256.0f;
+    q.v0 = uv->v / 256.0f;
+    q.u1 = (10.0f + uv->u) / 256.0f;
+    q.v1 = (20.0f + uv->v) / 256.0f;
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 
@@ -856,7 +844,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
             } else {
                 frame = 0;
             }
-            draw_key_frame((f32 *)ctx, 19.0f * (f32)i + 1.0f, 19.0f * (f32)j + 26.0f, w, depth, color, frame);
+            draw_key_frame(ctx, 19.0f * (f32)i + 1.0f, 19.0f * (f32)j + 26.0f, w, depth, color, frame);
         }
     }
 
@@ -876,7 +864,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
             }
             frame = 0;
         }
-        draw_key_frame((f32 *)ctx, tab_x, -1.0f, layout->tab_width + 1, depth, color, frame);
+        draw_key_frame(ctx, tab_x, -1.0f, layout->tab_width + 1, depth, color, frame);
         tab_x += (f32)layout->tab_width;
     }
 
@@ -892,7 +880,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 
 void TWindowKeyBoardSoft::render() {
     s32 ctx;
-    ctx = TWindowDD::draw_default_entry((s32)this);
+    ctx = reinterpret_cast<s32>(draw_default_entry());
     sub_8026227C((WindowDrawContext *)ctx);
     sub_80261DD8((WindowDrawContext *)ctx);
     sub_802616BC((WindowDrawContext *)ctx);

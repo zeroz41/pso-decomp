@@ -67,7 +67,6 @@ char *get_offline_quest_filename();
 void load_area_dialogue_script();
 
 extern "C" {
-void free_menu_object(void *window);
 }
 
 #endif

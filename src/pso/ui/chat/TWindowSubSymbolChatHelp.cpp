@@ -46,7 +46,6 @@ WindowDescriptor symbol_chat_help_window_layout = {
 };
 
 extern "C" {
-s32 draw_default_entry__9TWindowDDFl();
 u8 * get_window_layout_position(s32);
 extern s8 controller_input_state[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int);
@@ -246,7 +245,7 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
 void TWindowSubSymbolChatHelp::render() {
     s32 arg0 = (s32)this;
     s32 temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = reinterpret_cast<s32>(draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_help_entries((void *)temp_r3);
 }
