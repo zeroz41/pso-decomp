@@ -21,7 +21,7 @@ struct OnlineEndingPlayer {
     AnimationMotion *motion;
 };
 
-typedef char OnlineEndingPlayerSize[sizeof(OnlineEndingPlayer) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(OnlineEndingPlayerSize, sizeof(OnlineEndingPlayer) == 0x28);
 
 struct TObjOnlineEnding : public TObjBase {
     virtual ~TObjOnlineEnding();
@@ -47,9 +47,9 @@ struct TObjOnlineEnding : public TObjBase {
 };
 
 LAYOUT_ASSERT(TObjOnlineEnding_size, sizeof(TObjOnlineEnding) == 0x158);
-typedef char OnlineEndingPlayersOffset[offsetof(TObjOnlineEnding, players) == 0xA8 ? 1 : -1];
-typedef char OnlineEndingPlayerCountOffset[offsetof(TObjOnlineEnding, player_count) == 0x148 ? 1 : -1];
-typedef char OnlineEndingResultWindowOffset[offsetof(TObjOnlineEnding, result_window) == 0x154 ? 1 : -1];
+LAYOUT_ASSERT(OnlineEndingPlayersOffset, offsetof(TObjOnlineEnding, players) == 0xA8);
+LAYOUT_ASSERT(OnlineEndingPlayerCountOffset, offsetof(TObjOnlineEnding, player_count) == 0x148);
+LAYOUT_ASSERT(OnlineEndingResultWindowOffset, offsetof(TObjOnlineEnding, result_window) == 0x154);
 
 extern "C" {
 void fn_802E52AC(void);

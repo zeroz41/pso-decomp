@@ -251,9 +251,9 @@ TLoadingCur::~TLoadingCur() {
 #pragma fp_contract on
 #define object ((u8 *)this)
 TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
-    typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001D0A0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001D0A0, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001D0A0, sp10) == 0x8);
     Stack_8001D0A0 stack;
     *(s32 *)((s8 *)object + 0) = (saddr) TLoadingCur__class_name;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;

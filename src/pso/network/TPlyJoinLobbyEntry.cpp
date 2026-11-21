@@ -71,8 +71,8 @@ struct GameStateSyncScratch {
     u8 payload[sizeof(FloorSetFlagsPayload)];
 };
 
-typedef char GameStateSyncScratchSize[sizeof(GameStateSyncScratch) == 0x4008 ? 1 : -1];
-typedef char GameStateSyncPayloadOffset[offsetof(GameStateSyncScratch, payload) == 8 ? 1 : -1];
+LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
+LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
 
 extern "C" {
 void send_6x70_player_data__6TLobbyFi(saddr arg0);

@@ -787,8 +787,8 @@ void *dt__17TObjCityDoor_ShopFPvs(void *object, s16 arg1) {
 
 typedef struct RecoveredGlobal_8018289C_lbl_80443F4C RecoveredGlobal_8018289C_lbl_80443F4C;
 typedef struct RecoveredGlobal_8018289C_lbl_804B5B4C RecoveredGlobal_8018289C_lbl_804B5B4C;
-typedef char RecoveredGlobal_8018289C_lbl_80443F4C_size[((sizeof(RecoveredGlobal_8018289C_lbl_80443F4C)) == 0x1C) ? (1) : (-1)];
-typedef char RecoveredGlobal_8018289C_lbl_804B5B4C_size[((sizeof(RecoveredGlobal_8018289C_lbl_804B5B4C)) == 0x5C) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_8018289C_lbl_80443F4C_size, (sizeof(RecoveredGlobal_8018289C_lbl_80443F4C)) == 0x1C);
+LAYOUT_ASSERT(RecoveredGlobal_8018289C_lbl_804B5B4C_size, (sizeof(RecoveredGlobal_8018289C_lbl_804B5B4C)) == 0x5C);
 u8 *TObjCityDoor_Shop__ct(u8 *city_door_shop, s32 arg1, s32 arg2) {
   unsigned int new_var2;
   s32 *new_var;

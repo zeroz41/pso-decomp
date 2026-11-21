@@ -84,7 +84,7 @@ struct OnlineEndingPlayerPlacement {
     f32 scale;
 };
 
-typedef char OnlineEndingPlayerPlacementSize[sizeof(OnlineEndingPlayerPlacement) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(OnlineEndingPlayerPlacementSize, sizeof(OnlineEndingPlayerPlacement) == 0x14);
 
 OnlineEndingPlayerPlacement lbl_804E35F8[48] = {
     {{-18.8999996f, -8.0f, -9.0f}, 9466, 1.25f},

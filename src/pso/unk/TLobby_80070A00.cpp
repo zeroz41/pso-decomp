@@ -83,7 +83,7 @@ s32 TLobby::is_flag_set() {
 
     extern int chat_last_line_buffer;
 char *TLobby::get_unit_list() {  return (char *)chat_last_line_buffer; }
-typedef char RecoveredGlobal_80070ACC_lbl_8048D208_size[sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
 s32 *TLobby__sub_80070ACC(void) {
     return &lbl_8048D208.value;
 }

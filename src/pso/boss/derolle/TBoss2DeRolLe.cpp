@@ -1888,7 +1888,7 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-typedef char RecoveredFields_80034C2C_arg0_3AC_offset[offsetof(RecoveredFields_80034C2C_arg0, field_3AC) == 0x3AC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_80034C2C_arg0_3AC_offset, offsetof(RecoveredFields_80034C2C_arg0, field_3AC) == 0x3AC);
 
 }
 

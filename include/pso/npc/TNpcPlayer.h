@@ -34,7 +34,7 @@ struct Unk_8014F844 {
     CollisionBody m_d8;
     s32 m_104;
 };
-typedef char Unk_8014F844_size[sizeof(Unk_8014F844) == 0x108 ? 1 : -1];
+LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
 
 struct Vec;
 

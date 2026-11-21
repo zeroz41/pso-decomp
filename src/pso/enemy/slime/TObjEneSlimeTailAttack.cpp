@@ -836,8 +836,8 @@ s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
 
 #define ene_slime_one ((u8 *)this)
 TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_data) : TObjEnemy(parent) {
-    typedef char sp8_offset[(offsetof(Stack_800EB4A0, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_800EB4A0, spE) == 0x6) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800EB4A0, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_800EB4A0, spE) == 0x6);
     Stack_800EB4A0 stack;
     *(s32 *)((s8 *)ene_slime_one + 0) = (saddr) TObjEneSlimeOne_class_name;
     ((TObjChara *)ene_slime_one)->add_flags_2e4(2);
@@ -856,8 +856,8 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_da
 
 #define actor ((u8 *)this)
 TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_data, Vec *pos) : TObjEnemy(parent) {
-    typedef char sp8_offset[(offsetof(Stack_800EB3D4, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_800EB3D4, spE) == 0x6) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800EB3D4, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_800EB3D4, spE) == 0x6);
     Stack_800EB3D4 stack;
     *(s32 *)((s8 *)actor + 0) = (saddr) TObjEneSlimeOne_class_name;
     ((TObjChara *)actor)->add_flags_2e4(2);

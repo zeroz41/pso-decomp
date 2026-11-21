@@ -124,7 +124,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void handle_message(s32 arg1);
 };
 
-typedef char TObjEneMe3StelthFadeOffset[offsetof(TObjEneMe3Stelth, m_404) == 0x404 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3StelthFadeOffset, offsetof(TObjEneMe3Stelth, m_404) == 0x404);
 LAYOUT_ASSERT(TObjEneMe3Stelth_size, sizeof(TObjEneMe3Stelth) == 0x44C);
 
 extern "C" {

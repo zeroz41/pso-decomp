@@ -14,7 +14,7 @@ struct CGrassFragment {
     u32 flags;
 };
 
-typedef char CGrassFragmentSize[sizeof(CGrassFragment) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(CGrassFragmentSize, sizeof(CGrassFragment) == 0x20);
 
 struct TObjCGrass : public TObjMotion {
     TObjCGrass(Vec *origin, s32 count, s32 lifetime);
@@ -30,8 +30,8 @@ struct TObjCGrass : public TObjMotion {
     static void load_resources();
 };
 
-typedef char TObjCGrassFragmentsOffset[offsetof(TObjCGrass, fragments) == 0xFC ? 1 : -1];
-typedef char TObjCGrassGroundCandidatesOffset[offsetof(TObjCGrass, ground_candidates) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TObjCGrassFragmentsOffset, offsetof(TObjCGrass, fragments) == 0xFC);
+LAYOUT_ASSERT(TObjCGrassGroundCandidatesOffset, offsetof(TObjCGrass, ground_candidates) == 0x10C);
 LAYOUT_ASSERT(TObjCGrass_size, sizeof(TObjCGrass) == 0x14C);
 
 extern "C" {

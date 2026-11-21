@@ -14,7 +14,7 @@ extern const Pair_80219F64 episode2_story_quest_flag_pairs[];
 extern "C" {
 s32 set_story_flag_or_send_quest_flag(s32);
 }
-typedef char Induction_80219EE8_var_r31_size_check[sizeof(Induction_80219EE8_var_r31) == 0x8 ? 1 : -1];
+LAYOUT_ASSERT(Induction_80219EE8_var_r31_size_check, sizeof(Induction_80219EE8_var_r31) == 0x8);
 s32 should_record_episode1_quest_completion(void) {
     s32 var_r29;
     s32 var_r28;

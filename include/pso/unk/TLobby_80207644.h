@@ -10,8 +10,8 @@ struct FloorMapSelection {
     s32 entities;
 };
 
-typedef char FloorMapSelectionSize[sizeof(FloorMapSelection) == 0xC ? 1 : -1];
-typedef char FloorMapSelectionTerrainOffset[offsetof(FloorMapSelection, terrain) == 4 ? 1 : -1];
+LAYOUT_ASSERT(FloorMapSelectionSize, sizeof(FloorMapSelection) == 0xC);
+LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrain) == 4);
 
 extern "C" {
 void TLobby__sub_80207BB0(void);

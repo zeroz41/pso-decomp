@@ -44,5 +44,5 @@ struct TOTrapChainSaw : public TObjMapObject {
 };
 
 LAYOUT_ASSERT(TOTrapChainSaw_size, sizeof(TOTrapChainSaw) == 0xF8);
-typedef char TOTrapChainSawCooldownOffset[offsetof(TOTrapChainSaw, hit_cooldown) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOTrapChainSawCooldownOffset, offsetof(TOTrapChainSaw, hit_cooldown) == 0xD8);
 #endif

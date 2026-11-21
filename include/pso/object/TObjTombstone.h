@@ -53,13 +53,13 @@ struct ChallengeTombstonePlayerSlot {
     u8 reserved_0C4[0x40];
 };
 
-typedef char TombstoneSpotSize[sizeof(TObjTombstoneSpot) == 0x10 ? 1 : -1];
-typedef char TombstoneSpotPositionOffset[offsetof(TObjTombstoneSpot, position) == 4 ? 1 : -1];
-typedef char TombstoneRecordSize[sizeof(TObjTombstoneRecord) == 0x50 ? 1 : -1];
-typedef char TombstoneRecordPositionOffset[offsetof(TObjTombstoneRecord, position) == 0x10 ? 1 : -1];
-typedef char ChallengeTombstoneSlotSize[sizeof(ChallengeTombstonePlayerSlot) == 0x104 ? 1 : -1];
-typedef char ChallengeTombstoneRecordOffset[offsetof(ChallengeTombstonePlayerSlot, record) == 0x64 ? 1 : -1];
-typedef char ChallengeTombstoneSpotOffset[offsetof(ChallengeTombstonePlayerSlot, spot) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TombstoneSpotSize, sizeof(TObjTombstoneSpot) == 0x10);
+LAYOUT_ASSERT(TombstoneSpotPositionOffset, offsetof(TObjTombstoneSpot, position) == 4);
+LAYOUT_ASSERT(TombstoneRecordSize, sizeof(TObjTombstoneRecord) == 0x50);
+LAYOUT_ASSERT(TombstoneRecordPositionOffset, offsetof(TObjTombstoneRecord, position) == 0x10);
+LAYOUT_ASSERT(ChallengeTombstoneSlotSize, sizeof(ChallengeTombstonePlayerSlot) == 0x104);
+LAYOUT_ASSERT(ChallengeTombstoneRecordOffset, offsetof(ChallengeTombstonePlayerSlot, record) == 0x64);
+LAYOUT_ASSERT(ChallengeTombstoneSpotOffset, offsetof(ChallengeTombstonePlayerSlot, spot) == 0xB4);
 
 void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source);
 

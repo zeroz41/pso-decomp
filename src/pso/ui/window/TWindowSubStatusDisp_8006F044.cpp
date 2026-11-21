@@ -52,7 +52,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8006F23C_lbl_8048C9D8_size, sizeof(RecoveredGlobal
 
 typedef struct RecoveredGlobal_8006F1EC_lbl_8048C9D8 RecoveredGlobal_8006F1EC_lbl_8048C9D8;
 #pragma optimize_for_size off
-typedef char RecoveredGlobal_8006F1EC_lbl_8048C9D8_size[((sizeof(RecoveredGlobal_8006F1EC_lbl_8048C9D8)) == 0x748) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_8006F1EC_lbl_8048C9D8_size, (sizeof(RecoveredGlobal_8006F1EC_lbl_8048C9D8)) == 0x748);
 
 s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot) {
     s32 idx = TWindowSubStatusDisp::resolve_player_slot(slot);

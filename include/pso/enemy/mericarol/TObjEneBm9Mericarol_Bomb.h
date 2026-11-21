@@ -36,6 +36,6 @@ public:
 };
 LAYOUT_ASSERT(TObjEneBm9Mericarol_Bomb_size, sizeof(TObjEneBm9Mericarol_Bomb) == 0x118);
 
-typedef char TObjEneBm9Mericarol_Bomb_ground_normal_offset[offsetof(TObjEneBm9Mericarol_Bomb, ground_normal) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm9Mericarol_Bomb_ground_normal_offset, offsetof(TObjEneBm9Mericarol_Bomb, ground_normal) == 0xD8);
 
 #endif

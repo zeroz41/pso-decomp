@@ -38,11 +38,11 @@ struct RecoveredFields_803F88E4_arg0
   u8 unknown_16[0x2];
   u8 *field_18;
 };
-typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_803F88E4_lbl_805AEEB0_size, (sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8);
 LAYOUT_ASSERT(RecoveredGlobal_803AA0C0_lbl_80556E88_size, sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100);
 /* A PPP control packet header (RFC 1661): code, identifier and length. */
 struct PppHeader { u8 code; u8 id; s16 len; };
-typedef char PppHeader_size_check[sizeof(PppHeader) == 4 ? 1 : -1];
+LAYOUT_ASSERT(PppHeader_size_check, sizeof(PppHeader) == 4);
 
 /* Maps PPP configure option types to the negotiation bitmap. */
 static inline u32 ppp_configure_option_bit(u32 bit) {

@@ -47,8 +47,8 @@ typedef struct DnsQuestion {
     s16 cls;
 } DnsQuestion;
 
-typedef char DnsQueryHeader_size_check[sizeof(DnsQueryHeader) == DNS_HEADER_SIZE ? 1 : -1];
-typedef char DnsQuestion_size_check[sizeof(DnsQuestion) == DNS_QUESTION_FIXED_SIZE ? 1 : -1];
+LAYOUT_ASSERT(DnsQueryHeader_size_check, sizeof(DnsQueryHeader) == DNS_HEADER_SIZE);
+LAYOUT_ASSERT(DnsQuestion_size_check, sizeof(DnsQuestion) == DNS_QUESTION_FIXED_SIZE);
 
 s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1);
 

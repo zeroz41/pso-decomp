@@ -825,4 +825,4 @@ u8 debug_font_texture_i4[DEBUG_FONT_TEXTURE_BYTES] ATTRIBUTE_ALIGN(32) = {
 
 GXTexObj debug_font_texture_object;
 LAYOUT_ASSERT(DebugFontTextureObjectSize, sizeof(GXTexObj)==32);
-typedef char DebugFontTextureFormat[(GX_TF_I4==0) ? 1 : -1];
+LAYOUT_ASSERT(DebugFontTextureFormat, GX_TF_I4==0);

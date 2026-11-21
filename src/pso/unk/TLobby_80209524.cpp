@@ -401,12 +401,12 @@ s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
 
 #pragma push
 #pragma dont_inline off
-typedef char ChallengeEventHeaderSize[sizeof(ChallengeEventHeader) == 0x10 ? 1 : -1];
-typedef char ChallengeRandomEventSize[sizeof(ChallengeRandomEvent) == 0x18 ? 1 : -1];
-typedef char ChallengeFixedEventSize[sizeof(ChallengeFixedEvent) == 0x14 ? 1 : -1];
-typedef char ChallengeEnemyPlacementSize[sizeof(SpawnRecord_8020A9C4) == 0x48 ? 1 : -1];
-typedef char ChallengeEnemyRoomOffset[offsetof(SpawnRecord_8020A9C4, room) == 0x0C ? 1 : -1];
-typedef char ChallengeEnemyWaveOffset[offsetof(SpawnRecord_8020A9C4, wave) == 0x0E ? 1 : -1];
+LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
+LAYOUT_ASSERT(ChallengeRandomEventSize, sizeof(ChallengeRandomEvent) == 0x18);
+LAYOUT_ASSERT(ChallengeFixedEventSize, sizeof(ChallengeFixedEvent) == 0x14);
+LAYOUT_ASSERT(ChallengeEnemyPlacementSize, sizeof(SpawnRecord_8020A9C4) == 0x48);
+LAYOUT_ASSERT(ChallengeEnemyRoomOffset, offsetof(SpawnRecord_8020A9C4, room) == 0x0C);
+LAYOUT_ASSERT(ChallengeEnemyWaveOffset, offsetof(SpawnRecord_8020A9C4, wave) == 0x0E);
 
 void build_challenge_enemy_set(s32 floor) {
     s32 enemyOffset;

@@ -313,7 +313,7 @@ void TLobby::append_card_window_text() {
     append_string("Error");
 }
 
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
 void TLobby::append_default_string() {
     append_string((const char *)&quest_player_class_name_buffer.value);
 }
@@ -650,7 +650,7 @@ struct ItemData_801E8000 {
     u32 extra;
 };
 
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
 
 union U_801E8784 { s32 i; f32 f; };
 

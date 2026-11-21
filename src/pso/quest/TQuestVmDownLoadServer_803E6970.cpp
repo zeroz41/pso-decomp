@@ -754,8 +754,8 @@ u8 *TQuestVmDownLoadServer::get_cached_page(s32 page) {
 
 typedef struct RecoveredGlobal_803E8084_lbl_8058DE08 RecoveredGlobal_803E8084_lbl_8058DE08;
 typedef struct RecoveredGlobal_803E8084_lbl_80590AC4 RecoveredGlobal_803E8084_lbl_80590AC4;
-typedef char RecoveredGlobal_803E8084_lbl_8058DE08_size[((sizeof(RecoveredGlobal_803E8084_lbl_8058DE08)) == 0x44) ? (1) : (-1)];
-typedef char RecoveredGlobal_803E8084_lbl_80590AC4_size[((sizeof(RecoveredGlobal_803E8084_lbl_80590AC4)) == 0x1000) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_803E8084_lbl_8058DE08_size, (sizeof(RecoveredGlobal_803E8084_lbl_8058DE08)) == 0x44);
+LAYOUT_ASSERT(RecoveredGlobal_803E8084_lbl_80590AC4_size, (sizeof(RecoveredGlobal_803E8084_lbl_80590AC4)) == 0x1000);
 
 s32 TQuestVmDownLoadServer::match_prefix_length(const u8 *a, const u8 *b, s32 n) {
     s32 i;

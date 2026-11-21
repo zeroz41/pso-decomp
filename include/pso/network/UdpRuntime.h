@@ -48,9 +48,9 @@ typedef struct UdpDatagram {
 } UdpDatagram;
 LAYOUT_ASSERT(UdpDatagram_size_check, sizeof(UdpDatagram) == 0x34);
 
-typedef char UdpDatagram_socket_check[offsetof(UdpDatagram, socket) == 0 ? 1 : -1];
-typedef char UdpDatagram_length_check[offsetof(UdpDatagram, len) == 2 ? 1 : -1];
-typedef char UdpDatagram_buffer_check[offsetof(UdpDatagram, buf) == 4 ? 1 : -1];
+LAYOUT_ASSERT(UdpDatagram_socket_check, offsetof(UdpDatagram, socket) == 0);
+LAYOUT_ASSERT(UdpDatagram_length_check, offsetof(UdpDatagram, len) == 2);
+LAYOUT_ASSERT(UdpDatagram_buffer_check, offsetof(UdpDatagram, buf) == 4);
 
 typedef s32 (*NetUdpReceiveCallback)(s16 mode, UdpDatagram *datagram);
 

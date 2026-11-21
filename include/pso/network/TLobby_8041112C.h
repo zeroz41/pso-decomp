@@ -51,10 +51,10 @@ typedef struct NetBufferPool {
 } NetBufferPool;
 LAYOUT_ASSERT(NetBufferPoolEntry_size_check, sizeof(NetBufferPoolEntry) == 0x3C);
 LAYOUT_ASSERT(NetBufferPool_size_check, sizeof(NetBufferPool) == 0x10);
-typedef char NetPoolSegmentSize[(sizeof(NetBufferSegment) == 6) ? 1 : -1];
-typedef char NetPoolSegmentsOffset[(offsetof(NetBufferPoolEntry, segs) == 0xc) ? 1 : -1];
-typedef char NetPoolEntriesOffset[(offsetof(NetBufferPool, ents) == 4) ? 1 : -1];
-typedef char NetPoolDataOffset[(offsetof(NetBufferPool, data) == 8) ? 1 : -1];
+LAYOUT_ASSERT(NetPoolSegmentSize, sizeof(NetBufferSegment) == 6);
+LAYOUT_ASSERT(NetPoolSegmentsOffset, offsetof(NetBufferPoolEntry, segs) == 0xc);
+LAYOUT_ASSERT(NetPoolEntriesOffset, offsetof(NetBufferPool, ents) == 4);
+LAYOUT_ASSERT(NetPoolDataOffset, offsetof(NetBufferPool, data) == 8);
 /* A packet queued until its next hop's link-layer address is known (tag "PEN"). */
 struct Ipv6NdPending {
     u8 tag[3];

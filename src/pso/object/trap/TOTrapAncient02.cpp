@@ -56,7 +56,7 @@ struct TrapAncient02ResourceRecord {
     BmlResourceDescriptor descriptor;
 };
 
-typedef char TrapAncient02ResourceRecord_size[sizeof(TrapAncient02ResourceRecord) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(TrapAncient02ResourceRecord_size, sizeof(TrapAncient02ResourceRecord) == 0x18);
 TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
     { {"fs_obj_o_torabasami.gj", NULL},
       {"bm_fs_obj_o_torabasami.bml", trap_ancient02_resources[0].model_filenames, bm_fs_obj_o_torabasami_motion_names, 1, 0} },

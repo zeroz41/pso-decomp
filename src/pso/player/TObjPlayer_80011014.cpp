@@ -515,7 +515,7 @@ struct Stack_80018780
 };
 
 struct RecoveredGlobal_8001806C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_8001806C_lbl_8058D490_size[sizeof(RecoveredGlobal_8001806C_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001806C_lbl_8058D490_size, sizeof(RecoveredGlobal_8001806C_lbl_8058D490) == 0x30);
 struct Obj_80018660 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
 struct Obj_80018570 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
 struct Obj_800180E8 { u8 pad[0x308]; f32 vx; f32 vy; f32 vz; };

@@ -356,8 +356,8 @@ void TAdEnterSerialAccessGC__sub_8032195C(saddr arg0) {
 
 typedef struct RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8 RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8;
 typedef struct RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4 RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4;
-typedef char RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8_size[((sizeof(RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8)) == 0xC) ? (1) : (-1)];
-typedef char RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4_size[((sizeof(RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4)) == 0x10) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8_size, (sizeof(RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9B8)) == 0xC);
+LAYOUT_ASSERT(RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4_size, (sizeof(RecoveredGlobal_80321B28_TAdEnterSerialAccessGC__data_804EC9C4)) == 0x10);
 
 char *TAdEnterSerialAccessGC::convert_serial_hex_to_decimal(int arg0) {
     u32 v = 0;

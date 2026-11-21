@@ -65,16 +65,16 @@ struct TObjFish : public TObjBase {
     void update_wobble_angle();
 };
 
-typedef char TObjFishEntry_size[sizeof(TObjFishEntry) == 0x44 ? 1 : -1];
-typedef char TObjFishEntry_target_offset[offsetof(TObjFishEntry, target) == 0xC ? 1 : -1];
-typedef char TObjFishEntry_velocity_offset[offsetof(TObjFishEntry, velocity) == 0x18 ? 1 : -1];
-typedef char TObjFishEntry_yaw_offset[offsetof(TObjFishEntry, yaw) == 0x24 ? 1 : -1];
-typedef char TObjFishEntry_frame_offset[offsetof(TObjFishEntry, frame) == 0x28 ? 1 : -1];
-typedef char TObjFishEntry_angle_offset[offsetof(TObjFishEntry, angle) == 0x2C ? 1 : -1];
-typedef char TObjFishEntry_target_angle_offset[offsetof(TObjFishEntry, target_angle) == 0x2E ? 1 : -1];
-typedef char TObjFishEntry_anim_offset[offsetof(TObjFishEntry, anim) == 0x30 ? 1 : -1];
-typedef char TObjFishEntry_timer_offset[offsetof(TObjFishEntry, timer) == 0x32 ? 1 : -1];
-typedef char TObjFishEntry_seen_offset[offsetof(TObjFishEntry, seen) == 0x34 ? 1 : -1];
-typedef char TObjFishEntry_mode_offset[offsetof(TObjFishEntry, mode) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TObjFishEntry_size, sizeof(TObjFishEntry) == 0x44);
+LAYOUT_ASSERT(TObjFishEntry_target_offset, offsetof(TObjFishEntry, target) == 0xC);
+LAYOUT_ASSERT(TObjFishEntry_velocity_offset, offsetof(TObjFishEntry, velocity) == 0x18);
+LAYOUT_ASSERT(TObjFishEntry_yaw_offset, offsetof(TObjFishEntry, yaw) == 0x24);
+LAYOUT_ASSERT(TObjFishEntry_frame_offset, offsetof(TObjFishEntry, frame) == 0x28);
+LAYOUT_ASSERT(TObjFishEntry_angle_offset, offsetof(TObjFishEntry, angle) == 0x2C);
+LAYOUT_ASSERT(TObjFishEntry_target_angle_offset, offsetof(TObjFishEntry, target_angle) == 0x2E);
+LAYOUT_ASSERT(TObjFishEntry_anim_offset, offsetof(TObjFishEntry, anim) == 0x30);
+LAYOUT_ASSERT(TObjFishEntry_timer_offset, offsetof(TObjFishEntry, timer) == 0x32);
+LAYOUT_ASSERT(TObjFishEntry_seen_offset, offsetof(TObjFishEntry, seen) == 0x34);
+LAYOUT_ASSERT(TObjFishEntry_mode_offset, offsetof(TObjFishEntry, mode) == 0x38);
 LAYOUT_ASSERT(TObjFish_size, sizeof(TObjFish) == 0xA4);
 #endif

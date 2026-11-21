@@ -25,7 +25,7 @@ struct TSceneSora : public TObjBase {
     static void copy_reflection_vec(u8 *arg0);
 };
 
-typedef char TSceneSora_motion_offset[offsetof(TSceneSora, sky_motion) == 0x94 ? 1 : -1];
-typedef char TSceneSora_frame_offset[offsetof(TSceneSora, m_a0) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TSceneSora_motion_offset, offsetof(TSceneSora, sky_motion) == 0x94);
+LAYOUT_ASSERT(TSceneSora_frame_offset, offsetof(TSceneSora, m_a0) == 0xA0);
 LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
 #endif

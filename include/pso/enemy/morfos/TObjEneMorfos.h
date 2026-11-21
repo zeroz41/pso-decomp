@@ -82,7 +82,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
 
 #include <stddef.h>
 LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
-typedef char TObjEneMorfos_fades[offsetof(TObjEneMorfos, m_3ec) == 0x3EC ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, m_3ec) == 0x3EC);
 
 extern "C" {
 void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);

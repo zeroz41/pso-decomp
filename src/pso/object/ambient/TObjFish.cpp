@@ -505,8 +505,8 @@ struct TObjFishAreaResource {
     const char *motions[4];
     BmlResourceDescriptor descriptor;
 };
-typedef char TObjFishAreaResource_size[sizeof(TObjFishAreaResource) == 0x30 ? 1 : -1];
-typedef char TObjFishAreaResource_descriptor_offset[offsetof(TObjFishAreaResource, descriptor) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TObjFishAreaResource_size, sizeof(TObjFishAreaResource) == 0x30);
+LAYOUT_ASSERT(TObjFishAreaResource_descriptor_offset, offsetof(TObjFishAreaResource, descriptor) == 0x20);
 
 TObjFishAreaResource fish_resource_name_table[5] = {
     { { lbl_80465A48, lbl_80465A68, lbl_80465A88, NULL },

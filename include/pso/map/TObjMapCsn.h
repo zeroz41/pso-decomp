@@ -38,10 +38,10 @@ struct TObjMapCsn : public TObjCollidable {
     static saddr init_and_return(saddr arg0);
 };
 
-typedef char TObjMapCsnGroupOffset[offsetof(TObjMapCsn, collision_group) == 0xAC ? 1 : -1];
-typedef char TObjMapCsnModelOffset[offsetof(TObjMapCsn, collision_model) == 0xC4 ? 1 : -1];
-typedef char TObjMapCsnFacesOffset[offsetof(TObjMapCsn, collision_faces) == 0xD4 ? 1 : -1];
-typedef char TObjMapCsnVerticesOffset[offsetof(TObjMapCsn, collision_vertices) == 0x1F4 ? 1 : -1];
+LAYOUT_ASSERT(TObjMapCsnGroupOffset, offsetof(TObjMapCsn, collision_group) == 0xAC);
+LAYOUT_ASSERT(TObjMapCsnModelOffset, offsetof(TObjMapCsn, collision_model) == 0xC4);
+LAYOUT_ASSERT(TObjMapCsnFacesOffset, offsetof(TObjMapCsn, collision_faces) == 0xD4);
+LAYOUT_ASSERT(TObjMapCsnVerticesOffset, offsetof(TObjMapCsn, collision_vertices) == 0x1F4);
 
 LAYOUT_ASSERT(TObjMapCsn_size, sizeof(TObjMapCsn) == 0x254);
 #endif

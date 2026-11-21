@@ -1315,11 +1315,11 @@ struct Data_801B855C { u8 pad[0x20]; s32 meseta; };
 
 struct Player_801B855C { u8 pad[0x2B0]; Data_801B855C *data; };
 
-typedef char DeathDropRecordSize[(sizeof(DeathDropRecord)==0x1C)?1:-1];
+LAYOUT_ASSERT(DeathDropRecordSize, sizeof(DeathDropRecord)==0x1C);
 
-typedef char DeathDropItemOffset[(offsetof(DeathDropRecord,item)==8)?1:-1];
+LAYOUT_ASSERT(DeathDropItemOffset, offsetof(DeathDropRecord,item)==8);
 
-typedef char DeathPlayerInventoryOffset[(offsetof(PlayerDeathItemFields,inventory_owner)==0xD00)?1:-1];
+LAYOUT_ASSERT(DeathPlayerInventoryOffset, offsetof(PlayerDeathItemFields,inventory_owner)==0xD00);
 
 struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
 
@@ -1513,14 +1513,14 @@ struct RecoveredGlobal_802A1154_main_task {
     u8 remaining[0x30];
 };
 
-typedef char RecoveredGlobal_802A1154_main_task_size[sizeof(RecoveredGlobal_802A1154_main_task) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802A1154_main_task_size, sizeof(RecoveredGlobal_802A1154_main_task) == 0x34);
 
 struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
     s32 value;
     u8 remaining[0x24];
 };
 
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
 
 struct Base_801BA6BC { u8 pad[0x18]; };
 
@@ -2797,8 +2797,8 @@ void render__10TObjPlayerFv(u8 *arg0) {
 }
 
 void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_801BAD60, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801BAD60, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801BAD60, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801BAD60, spC) == 0x4);
     Stack_801BAD60 stack;
     u8 *temp_r3;
     push_matrix();
@@ -3740,8 +3740,8 @@ void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
 }
 
 void TObjPlayer::request_meseta_drop(s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_801B8A80, sp8) == 0x0) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_801B8A80, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801B8A80, sp8) == 0x0);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801B8A80, sp14) == 0xC);
     Stack_801B8A80 stack;
     if (arg1 > 0) {
         TObjPlayer::play_effect_default((int)this, 0x384);

@@ -22,8 +22,8 @@ struct ParticleDefinition {
     s32 sprite_type;
 };
 
-typedef char ParticleDefinition_size[sizeof(ParticleDefinition) == 0x28 ? 1 : -1];
-typedef char ParticleDefinition_uv_count_offset[offsetof(ParticleDefinition, uv_count) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(ParticleDefinition_size, sizeof(ParticleDefinition) == 0x28);
+LAYOUT_ASSERT(ParticleDefinition_uv_count_offset, offsetof(ParticleDefinition, uv_count) == 0xC);
 
 extern "C" {
 extern ParticleDefinition lbl_804C5820[0x6C];

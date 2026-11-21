@@ -1041,7 +1041,7 @@ u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec v[4]; };
 
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
-typedef char RecoveredGlobal_8031B170_lbl_804E8880_size[((sizeof(RecoveredGlobal_8031B170_lbl_804E8880)) == 0xD0) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_8031B170_lbl_804E8880_size, (sizeof(RecoveredGlobal_8031B170_lbl_804E8880)) == 0xD0);
 
 
 extern void *tl_04;

@@ -185,9 +185,9 @@ struct RecoveredGlobal_802D7ED4_lbl_8058D490 {
 };
 
 
-typedef char RecoveredGlobal_802D7ED4_lbl_80472780_size[sizeof(RecoveredGlobal_802D7ED4_lbl_80472780) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802D7ED4_lbl_80472780_size, sizeof(RecoveredGlobal_802D7ED4_lbl_80472780) == 0x10);
 
-typedef char RecoveredGlobal_802D7ED4_lbl_8058D490_size[sizeof(RecoveredGlobal_802D7ED4_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802D7ED4_lbl_8058D490_size, sizeof(RecoveredGlobal_802D7ED4_lbl_8058D490) == 0x30);
 
 struct GibBase_802da394_802D87D8 { char pad[0x14]; };
 
@@ -760,9 +760,9 @@ void TObjEneGibbles::update_position() {
 }
 
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_802D7ED4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802D7ED4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802D7ED4, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802D7ED4, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802D7ED4, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802D7ED4, sp10) == 0x8);
     Stack_802D7ED4 stack;
     set_motion_packed_rotation();
     push_matrix_from((void *) (&identity_matrix.value));

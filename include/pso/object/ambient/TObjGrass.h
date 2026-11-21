@@ -56,6 +56,6 @@ struct TObjGrass : public TObjEnemy {
     u8 unk_3D4[0x30];
 };
 
-typedef char TObjGrassFadeOffset[offsetof(TObjGrass, fade) == 0x3B0 ? 1 : -1];
+LAYOUT_ASSERT(TObjGrassFadeOffset, offsetof(TObjGrass, fade) == 0x3B0);
 LAYOUT_ASSERT(TObjGrass_size, sizeof(TObjGrass) == 0x404);
 #endif

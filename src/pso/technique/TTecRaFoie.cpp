@@ -323,8 +323,8 @@ void copy_technique_target_list(void *, void *);
 }
 
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, saddr arg4, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_802384E0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802384E0, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802384E0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802384E0, spC) == 0x4);
     Stack_802384E0 stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;

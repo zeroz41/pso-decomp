@@ -54,8 +54,8 @@ s16 get_validated_attack_stage(u8 *arg0);
 
 typedef struct RecoveredGlobal_8032DC94_lbl_8050BEC0 RecoveredGlobal_8032DC94_lbl_8050BEC0;
 typedef struct RecoveredGlobal_8032DC94_lbl_8058D4C0 RecoveredGlobal_8032DC94_lbl_8058D4C0;
-typedef char RecoveredGlobal_8032DC94_lbl_8050BEC0_size[((sizeof(RecoveredGlobal_8032DC94_lbl_8050BEC0)) == 0x20) ? (1) : (-1)];
-typedef char RecoveredGlobal_8032DC94_lbl_8058D4C0_size[((sizeof(RecoveredGlobal_8032DC94_lbl_8058D4C0)) == 0x10) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_8032DC94_lbl_8050BEC0_size, (sizeof(RecoveredGlobal_8032DC94_lbl_8050BEC0)) == 0x20);
+LAYOUT_ASSERT(RecoveredGlobal_8032DC94_lbl_8058D4C0_size, (sizeof(RecoveredGlobal_8032DC94_lbl_8058D4C0)) == 0x10);
 
 #pragma push
 #pragma opt_common_subs off

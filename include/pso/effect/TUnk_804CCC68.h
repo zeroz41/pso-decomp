@@ -42,7 +42,7 @@ public:
     f32 halfWidth;
 };
 
-typedef char TechniqueGroundCandidatesOffset[offsetof(TUnk_804CCC68, ground_candidates) == 0x84 ? 1 : -1];
+LAYOUT_ASSERT(TechniqueGroundCandidatesOffset, offsetof(TUnk_804CCC68, ground_candidates) == 0x84);
 
 extern "C" {
 // TUnk_804CCC68::~TUnk_804CCC68(), called by the destructors that are still written by hand.

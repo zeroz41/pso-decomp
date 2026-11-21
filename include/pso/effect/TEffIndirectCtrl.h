@@ -32,8 +32,8 @@ struct TEffIndirectSource {
     u8 pixels[0x1000];
 };
 
-typedef char TEffIndirectRecipe_size[sizeof(TEffIndirectRecipe) == 8 ? 1 : -1];
-typedef char TEffIndirectSource_size[sizeof(TEffIndirectSource) == 0x1020 ? 1 : -1];
+LAYOUT_ASSERT(TEffIndirectRecipe_size, sizeof(TEffIndirectRecipe) == 8);
+LAYOUT_ASSERT(TEffIndirectSource_size, sizeof(TEffIndirectSource) == 0x1020);
 
 struct TEffIndirectCtrl : public TObject {
     virtual ~TEffIndirectCtrl();

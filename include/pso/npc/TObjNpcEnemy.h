@@ -21,8 +21,8 @@ struct TObjNpcEnemyEntry {
     void reset();
 };
 
-typedef char NpcEnemyEntrySize[sizeof(TObjNpcEnemyEntry) == 0x24 ? 1 : -1];
-typedef char NpcEnemyEntryAnimationOffset[offsetof(TObjNpcEnemyEntry, animation) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(NpcEnemyEntrySize, sizeof(TObjNpcEnemyEntry) == 0x24);
+LAYOUT_ASSERT(NpcEnemyEntryAnimationOffset, offsetof(TObjNpcEnemyEntry, animation) == 0x14);
 
 struct TObjNpcEnemy : public TObjNpcBase {
     TObjNpcEnemy(TObject *parent, void *set_data);

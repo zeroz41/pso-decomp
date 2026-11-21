@@ -318,8 +318,8 @@ TWindowMessageLog::~TWindowMessageLog() {
 }
 TWindowMessageLog::TWindowMessageLog(s32 arg1, s32 arg2) : TWindowMessage(arg1, 0x1E, arg2) {
     #define window_message_log this
-    typedef char sp8_offset[(offsetof(Stack_8026ABA8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8026ABA8, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8026ABA8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026ABA8, spC) == 0x4);
     Stack_8026ABA8 stack;
     f32 temp_f1;
     f32 temp_f2;

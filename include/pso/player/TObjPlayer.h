@@ -33,7 +33,7 @@ struct PlayerNpcControl {
     void reset();
 };
 
-typedef char PlayerNpcControl_size[sizeof(PlayerNpcControl) == 0x8 ? 1 : -1];
+LAYOUT_ASSERT(PlayerNpcControl_size, sizeof(PlayerNpcControl) == 0x8);
 
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
@@ -1589,8 +1589,8 @@ LAYOUT_ASSERT(PlayerHairTargetOffset, offsetof(TObjPlayer, m_8ac) == 0x8AC);
 LAYOUT_ASSERT(PlayerHairWaitOffset, offsetof(TObjPlayer, m_cfc) == 0xCFC);
 LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
 
-typedef char TObjPlayer_area_offset[offsetof(TObjPlayer, current_area) == 0x3E0 ? 1 : -1];
-typedef char TObjPlayer_npc_control_offset[offsetof(TObjPlayer, npc_control) == 0x678 ? 1 : -1];
+LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);
+LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) == 0x678);
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 void set_flag_400000(TObjPlayer *player);

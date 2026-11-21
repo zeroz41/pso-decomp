@@ -180,7 +180,7 @@ TBoss6RockChase::~TBoss6RockChase() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8036D4E0_lbl_8047ACE8_size[sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
 TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : TObjCollidable(parent) {
     TBoss6RockChase *boss6_rock_chase = this;
     s32 arg1 = (s32)parent;
@@ -200,8 +200,8 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : T
 #pragma pop
 
 TBoss6RockChase *TBoss6RockChase::spawn(TObject *parent, const Vec *position) {
-    typedef char sp8_offset[(offsetof(Stack_8036D6D4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8036D6D4, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036D6D4, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036D6D4, spC) == 0x4);
     Stack_8036D6D4 stack;
     s32 var_r31;
     VecCopy((Vec *)(&stack.sp8), position);

@@ -21,7 +21,7 @@ struct TOSparkMachine01 : public TObjBase {
     static void load_static_resource();
 };
 
-typedef char TOSparkMachine01SparkTimersOffset[offsetof(TOSparkMachine01, spark_timer) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TOSparkMachine01SparkTimersOffset, offsetof(TOSparkMachine01, spark_timer) == 0x90);
 LAYOUT_ASSERT(TOSparkMachine01_size, sizeof(TOSparkMachine01) == 0xB0);
 
 extern "C" {
