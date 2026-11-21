@@ -176,7 +176,7 @@ void TODummyKeyCave01::render() {
         rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));
         scale_current_matrix((u8 *)&this->scale);
         node = *(u8 **)(arg0 + 0x34);
-        draw_ginja_model((void *)(*(s32 *)(node + 4)));
+        draw_ginja_model(*(void **)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             id = model_render_flags;
             saved_model_render_flags = id;
@@ -191,10 +191,10 @@ void TODummyKeyCave01::render() {
             post_translate_matrix((u8 *)&this->m_ac);
         }
         post_translate_matrix(node + 8);
-        draw_ginja_model((void *)(*(s32 *)(node + 4)));
+        draw_ginja_model(*(void **)(node + 4));
         node = *(u8 **)(node + 0x2C);
         post_translate_matrix(node + 8);
-        draw_ginja_model((void *)(*(s32 *)(node + 4)));
+        draw_ginja_model(*(void **)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;

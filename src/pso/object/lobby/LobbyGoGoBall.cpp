@@ -314,7 +314,7 @@ void add_gogo_ball_three_point_score(s32 i) {
 }
 extern "C" {
 
-int TWindowTimer::set_timer_value(int a0, int a1) { gogo_ball_team_scores[a0] = a1; return (int)gogo_ball_team_scores; }
+int *TWindowTimer::set_timer_value(int a0, int a1) { gogo_ball_team_scores[a0] = a1; return gogo_ball_team_scores; }
 
 s16 TWindowTimer::get_timer_value(s32 i) {
     return ((s32 *)&gogo_ball_team_scores)[i];
@@ -1178,18 +1178,18 @@ void TUnk_804B8DD0::render() {
         }
         push_matrix();
         post_translate_matrix((u8 *)&this->pos);
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)bml_model + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)bml_model + 4));
         push_matrix();
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 4));
         pop_matrix();
         push_matrix();
         rotate_matrix_z(0, this->m_38);
         rotate_matrix_y(0, 0x8000);
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 4));
         pop_matrix();
         push_matrix();
         rotate_matrix_z(0, (int) (-this->m_38));
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 0x30)) + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 0x30)) + 4));
         pop_matrix();
         pop_matrix();
     }

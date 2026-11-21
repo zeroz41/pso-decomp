@@ -428,10 +428,10 @@ void TItemDrop::load_drop_tables() {
 
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1) {
     if (arg1 < 0x10U) {
-        calc_random_ratio__10TObjPlayerFv((void *) (*(saddr *)((s8 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + (arg1 * 4)) + 0)));
+        calc_random_ratio__10TObjPlayerFv(*(void **)((s8 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + (arg1 * 4)) + 0));
         return;
     }
-    calc_random_ratio__10TObjPlayerFv((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + 0x40)));
+    calc_random_ratio__10TObjPlayerFv(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + 0x40));
 }
 
 u32 TItemDrop::roll_channel_below(s32 count, u32 arg2) {

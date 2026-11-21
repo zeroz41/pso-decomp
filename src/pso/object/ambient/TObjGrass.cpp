@@ -620,7 +620,7 @@ void TObjGrass::render() {
     rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
     scale_matrix(0, (1.3f), *(f32 *)((s8 *)arg0 + 0x6C), (1.3f));
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
+        draw_chunk_object(*(void **)((s8 *)arg0 + 0x34));
     } else {
         TObjPlayer::toggle_particle_effect();
         TObjGrass__render_node_index = 0;

@@ -175,8 +175,8 @@ void TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
     TObjFish::set_global_param(self->f24);
     post_translate_matrix(self->f38);
     rotate_matrix_y(0, self->f60);
-    draw_ginja_model((void *)(*(s32 *)((s8 *)p + 4)));
-    draw_ginja_model((void *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)p + 0x2C)) + 4)));
+    draw_ginja_model(*(void **)((s8 *)p + 4));
+    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)p + 0x2C)) + 4));
     }
     TParticleCtrl::begin_effect_render();
     for (s32 i = 0; i < 4; i++) {
@@ -188,13 +188,13 @@ void TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
         if (*a != 0) {
             push_matrix();
             post_translate_matrix(*a + 8);
-            draw_ginja_model((void *)(*(s32 *)((s8 *)(*a) + 4)));
+            draw_ginja_model(*(void **)((s8 *)(*a) + 4));
             pop_matrix();
         }
         if (*b != 0) {
             push_matrix();
             post_translate_matrix(*b + 8);
-            draw_ginja_model((void *)(*(s32 *)((s8 *)(*b) + 4)));
+            draw_ginja_model(*(void **)((s8 *)(*b) + 4));
             pop_matrix();
         }
         a++;
@@ -383,12 +383,12 @@ void TODoorFourLightSpace::draw_lights() {
     post_translate_matrix(mdl + 8);
     push_matrix();
     post_translate_matrix(*(u8 **)((s8 *)mdl + 0x2C) + 8);
-    draw_ginja_model((void *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 4)));
+    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 4));
     pop_matrix();
     post_translate_matrix(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30) + 8);
-    draw_ginja_model((void *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 4)));
+    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 4));
     post_translate_matrix(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 0x2C) + 8);
-    draw_ginja_model((void *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 0x2C)) + 4)));
+    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 0x2C)) + 4));
     TParticleCtrl::begin_effect_render();
     i = 0;
     do {
@@ -400,13 +400,13 @@ void TODoorFourLightSpace::draw_lights() {
         if (*pa != NULL) {
             push_matrix();
             post_translate_matrix(*pa + 8);
-            draw_ginja_model((void *)(*(s32 *)((s8 *)(*pa) + 4)));
+            draw_ginja_model(*(void **)((s8 *)(*pa) + 4));
             pop_matrix();
         }
         if (*pb != NULL) {
             push_matrix();
             post_translate_matrix(*pb + 8);
-            draw_ginja_model((void *)(*(s32 *)((s8 *)(*pb) + 4)));
+            draw_ginja_model(*(void **)((s8 *)(*pb) + 4));
             pop_matrix();
         }
         i++;

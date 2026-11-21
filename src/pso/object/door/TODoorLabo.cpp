@@ -254,7 +254,7 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
     case 1:
     case 3:
         push_matrix();
-        TObjFish::set_global_param((saddr)((void *)self->m20()));
+        TObjFish::set_global_param(self->m20());
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
         draw_ginja_model_with_motion((void *)door_four_light_base->m_d4, (void *)door_four_light_base->motion, (f32)door_four_light_base->animation_frame);
@@ -262,7 +262,7 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
         break;
     case 2:
         push_matrix();
-        TObjFish::set_global_param((saddr)((void *)self->m20()));
+        TObjFish::set_global_param(self->m20());
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
         draw_ginja_model_with_motion((void *)door_four_light_base->m_d4, (void *)door_four_light_base->motion, (f32)door_four_light_base->animation_end_frame);
@@ -274,7 +274,7 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
             break;
         }
         push_matrix();
-        TObjFish::set_global_param((saddr)((void *)self->m20()));
+        TObjFish::set_global_param(self->m20());
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
         draw_ginja_object((void *)door_four_light_base->m_d4);
@@ -331,9 +331,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
     do {
         temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
         if (temp_r31 & 0x100000) {
-            TObjFish::set_global_param((saddr)((void *) (((VObj_18_721d61 *)(this))->m20())));
+            TObjFish::set_global_param(((VObj_18_721d61 *)(this))->m20());
         } else {
-            TObjFish::set_global_param((saddr)((void *) (((VObj_18_721d61 *)(this))->m19())));
+            TObjFish::set_global_param(((VObj_18_721d61 *)(this))->m19());
         }
         if (*(s32 *)((s8 *)var_r30 + 0) & 0x200000) {
             TParticleCtrl::begin_effect_render();
@@ -351,7 +351,7 @@ void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
             scale_current_matrix(var_r30 + 0x20);
         }
         if (!(temp_r31 & 8)) {
-            draw_ginja_model((void *)((*(s32 *)((s8 *)var_r30 + 4))));
+            draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
         }
         if (!(temp_r31 & 0x10)) {
             temp_r4 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
