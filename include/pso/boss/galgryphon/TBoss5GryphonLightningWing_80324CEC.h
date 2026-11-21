@@ -3,14 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-f32 TBoss5GryphonLightningWing__sub_80324CEC(f32 x);
-}
-
-// --- C functions defined in TBoss5GryphonLightningWing_80324CEC.cpp ---
-extern "C" {
-f32 TBoss5GryphonLightningWing__sub_80324CEC(f32 x);
-}
-// --- end of C functions
+// The f32 form of the C library's asin.
+f32 asinf(f32 x);
 
 #endif

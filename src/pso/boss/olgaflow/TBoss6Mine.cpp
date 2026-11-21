@@ -36,6 +36,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -85,7 +86,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 project_actor_to_ground(void *, void *, int);
 f32 vec3_add_to(void *, void *);
 f32 subtract_vector(void *, void *);
-f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
@@ -154,7 +154,7 @@ void TBoss6Mine::update_facing_angles() {
         } else {
             normalize_vector(&v);
             a = (10430.38043493439) * atan2_float(-v.x, -v.z);
-            b = (10430.38043493439) * TBoss5GryphonLightningWing__sub_80324CEC(v.y);
+            b = (10430.38043493439) * asinf(v.y);
             if (b < -0x2000) {
                 b = -0x2000;
             } else if (b > 0x2000) {

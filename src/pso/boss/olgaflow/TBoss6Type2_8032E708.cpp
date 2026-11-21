@@ -23,6 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -299,7 +300,6 @@ void TBoss6Type2__sub_802BD378(void *, s32, void *, void *);
 s32 TBoss6Type2__sub_8032FB84(O_8032FB84 *arg0);
 
 s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 arg1);
-f32 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 
 s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec *arg3);
 void *get_player_by_client_id(s32 i);
@@ -585,7 +585,7 @@ s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Ve
         return 1;
     }
     *arg1 = (10430.38043493439) * atan2_float(v.x, v.z);
-    *arg2 = (10430.38043493439) * TBoss5GryphonLightningWing__sub_80324CEC(-v.y);
+    *arg2 = (10430.38043493439) * asinf(-v.y);
     return 1;
 }
 
