@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
@@ -11,9 +10,7 @@ struct Vtx_803E2BCC {
     u32 color;
 };
 
-extern "C" {
-s32 GXBegin(int, int, u16);
-void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32 n);
+extern "C" s32 GXBegin(int, int, u16);
 
 void TObjBoss2Tunnel::reset_player_state() {
     TObjPlayer__sub_803E2248();
@@ -29,7 +26,7 @@ typedef union {
     f32 f32;
 } WGPipe_803E2BCC;
 #define GXWGFifo_803E2BCC (*(volatile WGPipe_803E2BCC *)0xCC008000)
-void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32 n) {
+extern "C" void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32 n) {
     s32 i;
     f32 one;
     GXBegin(0x98, 4, n);
@@ -52,13 +49,11 @@ void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32 n) {
 }
 #pragma pop
 
-void TObjBoss2Tunnel__sub_803E2D10(s32 arg0) {
+void TObjBoss2Tunnel::sub_803E2D10(s32 arg0) {
     TObjPlayer::load_screen_space_matrix();
     if (arg0 != 0) {
         TObjPlayer__sub_803E21DC();
         return;
     }
     setup_opaque_color_draw();
-}
-
 }

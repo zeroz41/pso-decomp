@@ -129,7 +129,10 @@ struct TObjBoss2Tunnel : public TObject {
     static void sub_8003C610();
     static void sub_8003C5F8();
     static void set_global_flag_100();
-    static void draw_projected_quads(void *, int);
+    // Draws n screen-space vertices {x, y, z, colour} as a triangle strip, dividing x and y by -z.
+    static void draw_projected_quads(void *vertices, int n);
+    // Loads the screen-space matrix and the vertex state for draw_projected_quads.
+    static void sub_803E2D10(s32 arg0);
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);

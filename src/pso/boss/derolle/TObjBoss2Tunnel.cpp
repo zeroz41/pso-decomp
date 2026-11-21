@@ -7,7 +7,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
@@ -241,7 +240,6 @@ extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
 extern uaddr camera_ctrl_instance;
 void set_depth_buffer_settings_1__Fv(void);
-void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 s32 get_memcard_free_files(s32);
@@ -747,8 +745,8 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
     v[3].x = 640.0f;
     v[3].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
-    TObjBoss2Tunnel__sub_803E2D10(1);
-    draw_projected_quads__15TObjBoss2TunnelFPvi(v, 4);
+    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = 0.0f;
     v[0].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
@@ -758,8 +756,8 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = TObjBoss2Tunnel__data_8048DF2C.x - 128.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel__sub_803E2D10(1);
-    draw_projected_quads__15TObjBoss2TunnelFPvi(v, 4);
+    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = 128.0f + TObjBoss2Tunnel__data_8048DF2C.x;
     v[0].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
@@ -769,8 +767,8 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
     v[3].x = 640.0f;
     v[3].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
-    TObjBoss2Tunnel__sub_803E2D10(1);
-    draw_projected_quads__15TObjBoss2TunnelFPvi(v, 4);
+    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = TObjBoss2Tunnel__data_8048DF2C.x - 128.0f;
     v[0].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
@@ -780,8 +778,8 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = 640.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel__sub_803E2D10(1);
-    draw_projected_quads__15TObjBoss2TunnelFPvi(v, 4);
+    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(1, -1);
