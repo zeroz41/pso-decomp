@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/player/TUnk_804928CC.h"
 
-struct Vec;
+class TParticleCtrl;
 
 class TBoss2PhotonBullet : public TUnk_804928CC {
 public:
@@ -13,11 +13,16 @@ public:
     virtual void run_task();
     virtual void render();
 
-    u8 pad_b0[0xE8 - 0xB0];
+    f32 speed;
+    Vec aim;
+    Vec travel;
+    Vec shadow_pos;
+    s32 age;
+    u32 grounded;
+    f32 fall;
+    TParticleCtrl *effect;
 };
 
-extern "C" {
-void *__dt__15TBoss2PhotonPadFv(void *self, s16 arg1);
-}
+LAYOUT_ASSERT(TBoss2PhotonBullet_size, sizeof(TBoss2PhotonBullet) == 0xE8);
 
 #endif
