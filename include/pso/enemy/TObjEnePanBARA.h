@@ -62,7 +62,7 @@ public:
     void sub_800E0A44();
     void sub_800E0950();
     void sub_800E0930();
-    void sub_800E092C();
+    void idle_update_state8();
     void sub_800E055C();
     void sub_800E0344();
     void sub_800E0214();

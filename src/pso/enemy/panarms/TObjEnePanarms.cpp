@@ -389,7 +389,7 @@ void __sinit_TObjEnePanarms_cpp() {
     TObjEnePanarms__state_fn_table[7].enter = &TObjEnePanBARA::sub_800E0A44;
     TObjEnePanarms__state_fn_table[7].update = &TObjEnePanBARA::sub_800E0950;
     TObjEnePanarms__state_fn_table[8].enter = &TObjEnePanBARA::sub_800E0930;
-    TObjEnePanarms__state_fn_table[8].update = &TObjEnePanBARA::sub_800E092C;
+    TObjEnePanarms__state_fn_table[8].update = &TObjEnePanBARA::idle_update_state8;
     TObjEnePanarms__state_fn_table[9].enter = &TObjEnePanBARA::init_state_2;
     TObjEnePanarms__state_fn_table[9].update = &TObjEnePanBARA::update_chase_target;
     TObjEnePanarms__state_fn_table[10].enter = &TObjEnePanBARA::init_action;
@@ -1298,7 +1298,7 @@ void TObjEnePanBARA::sub_800E0930() {
     *(s32 *)((s8 *)this + 0x388) = 0;
 }
 
-void TObjEnePanBARA::sub_800E092C() {  }
+void TObjEnePanBARA::idle_update_state8() {  }
 
 void TObjEnePanBARA::init_state_2() {
     u8 *arg0 = (u8 *)this;
