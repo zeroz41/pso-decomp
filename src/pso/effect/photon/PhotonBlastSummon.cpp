@@ -282,13 +282,6 @@ struct PhotonDrawOwner_801A7638 {
     PhotonAttachment_801A7638 *bindings;
 };
 
-struct Eff_801A7680 {
-    void *obj;
-    Vec pos;
-    s32 flag;
-    s32 angles[3];
-};
-
 struct Self_801A7680 {
     u8 pad0[0x38];
     Vec pos;
@@ -297,7 +290,7 @@ struct Self_801A7680 {
     u8 pad2[0x100 - 0x64];
     u32 count;
     u8 pad3[0x148 - 0x104];
-    struct Eff_801A7680 *effects;
+    PhotonBlastAttachment *effects;
 };
 
 extern "C" {
@@ -318,7 +311,7 @@ void TUnk_804C3248::set_photon_blast_joint_callback() {
 void TUnk_804C3248::update_photon_blast_attachments() {
     struct Self_801A7680 *self = (struct Self_801A7680 *)this;
     u32 i;
-    struct Eff_801A7680 *e;
+    PhotonBlastAttachment *e;
     for (i = 0; i < self->count; i++) {
         if (((TObject *)(self->effects[i].obj))->all_parents_unqueued_for_destruction() == 0) {
             self->effects[i].obj = NULL;
@@ -334,7 +327,7 @@ void TUnk_804C3248::update_photon_blast_attachments() {
     }
 }
 
-void TUnk_804C3248::free_photon() { void* m = *(void* *)&this->m_148; if (m) mem_free(m); }
+void TUnk_804C3248::free_photon() { void *m = m_148; if (m) mem_free(m); }
 
 void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
     struct Self_801A7680 *self = (struct Self_801A7680 *)this;
@@ -346,7 +339,7 @@ void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
         PhotonAttachmentDef_801A7748 *def;
         PhotonAttachmentDef_801A7748 *defs;
         u32 i;
-        self->effects = (struct Eff_801A7680 *)mem_alloc(self->count * sizeof(struct Eff_801A7680));
+        self->effects = (PhotonBlastAttachment *)mem_alloc(self->count * sizeof(PhotonBlastAttachment));
         defs = group->attachments;
         for (i = 0; i < self->count; i++) {
             def = &defs[i];
