@@ -1453,7 +1453,7 @@ u32 TBoss7DeRolLeC::update_phase_rising() {
 }
 
 #pragma pop
-void TBoss7DeRolLeC::sub_802ECE90(s32 joint, s32 shot_level) {
+void TBoss7DeRolLeC::TObjFish__spawn_photon_pad(s32 joint, s32 shot_level) {
     s32 angle;
     Vec dir;
     angle = 0x3800 - joint * 51;
@@ -1809,52 +1809,52 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
     s32 slot;
     switch (state) {
     case 0x0:
-        sub_802EBE50(reason);
+        TObjFish__handle_opening_state(reason);
         return;
     case 0x1:
-        sub_802EBBC8(reason);
+        TObjFish__handle_intro_camera_state(reason);
         return;
     case 0x2:
         handle_debug_pad_input(reason);
         return;
     case 0x3:
-        sub_802EB270(reason, 0, 1);
+        handle_position_travel_state(reason, 0, 1);
         return;
     case 0x4:
-        sub_802EAAC8(reason, 0, 2);
+        TObjFish__handle_charge_state(reason, 0, 2);
         return;
     case 0x5:
-        sub_802EB270(reason, 0, 3);
+        handle_position_travel_state(reason, 0, 3);
         return;
     case 0x6:
-        sub_802EB270(reason, 1, 2);
+        handle_position_travel_state(reason, 1, 2);
         return;
     case 0x8:
-        sub_802EB270(reason, 1, 0);
+        handle_position_travel_state(reason, 1, 0);
         return;
     case 0x9:
-        sub_802EB270(reason, 2, 3);
+        handle_position_travel_state(reason, 2, 3);
         return;
     case 0xA:
-        sub_802EAAC8(reason, 2, 0);
+        TObjFish__handle_charge_state(reason, 2, 0);
         return;
     case 0xB:
-        sub_802EB270(reason, 2, 1);
+        handle_position_travel_state(reason, 2, 1);
         return;
     case 0xC:
-        sub_802EB270(reason, 3, 0);
+        handle_position_travel_state(reason, 3, 0);
         return;
     case 0xD:
-        sub_802EA4D8(reason);
+        TObjFish__handle_descent_state(reason);
         return;
     case 0xE:
-        sub_802EB270(reason, 3, 2);
+        handle_position_travel_state(reason, 3, 2);
         return;
     case 0x11:
-        sub_802E9DBC(reason, 0);
+        TObjFish__handle_laser_sweep_state(reason, 0);
         return;
     case 0x12:
-        sub_802E9DBC(reason, 2);
+        TObjFish__handle_laser_sweep_state(reason, 2);
         return;
     case 0x13:
         handle_tentacle_attack_state(reason, 0);
@@ -1863,22 +1863,22 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         handle_tentacle_attack_state(reason, 2);
         return;
     case 0x15:
-        sub_802E979C(reason, 0);
+        TObjFish__handle_breach_state(reason, 0);
         return;
     case 0x16:
-        sub_802E979C(reason, 2);
+        TObjFish__handle_breach_state(reason, 2);
         return;
     case 0xF:
-        sub_802E95F8(reason, 0);
+        TObjFish__handle_photon_pad_spawn_state(reason, 0);
         return;
     case 0x10:
-        sub_802E95F8(reason, 2);
+        TObjFish__handle_photon_pad_spawn_state(reason, 2);
         return;
     case 0x17:
-        sub_802E9458(reason);
+        TObjFish__handle_particle_201_cue_state(reason);
         return;
     case 0x18:
-        sub_802E8FCC(reason);
+        TBoss7LaserPtcl__handle_laser_barrage_state(reason);
         return;
     case 0x19:
         sub_802E8EEC(reason, 0);
@@ -1887,70 +1887,70 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802E8EEC(reason, 1);
         return;
     case 0x1B:
-        sub_802E8E34(reason);
+        TObjFish__handle_deep_sink_state(reason);
         return;
     case 0x1C:
         handle_death_state(reason);
         return;
     case 0x1D:
-        sub_802E8AD4(reason);
+        TObjFish__handle_tunnel_departure_state(reason);
         return;
     case 0x28:
     case 0x29:
         slot = position_slot;
         if (slot < 5) {
-            sub_802EB270(reason, slot, slot + 5);
+            handle_position_travel_state(reason, slot, slot + 5);
             return;
         }
-        sub_802EB270(reason, slot, slot - 5);
+        handle_position_travel_state(reason, slot, slot - 5);
         return;
     case 0x2A:
-        sub_802EB270(reason, 6, 7);
+        handle_position_travel_state(reason, 6, 7);
         return;
     case 0x2B:
-        sub_802EB270(reason, 7, 8);
+        handle_position_travel_state(reason, 7, 8);
         return;
     case 0x2C:
-        sub_802EB270(reason, 8, 5);
+        handle_position_travel_state(reason, 8, 5);
         return;
     case 0x2D:
-        sub_802EB270(reason, 5, 6);
+        handle_position_travel_state(reason, 5, 6);
         return;
     case 0x2E:
-        sub_802EB270(reason, 6, 5);
+        handle_position_travel_state(reason, 6, 5);
         return;
     case 0x2F:
-        sub_802EB270(reason, 5, 8);
+        handle_position_travel_state(reason, 5, 8);
         return;
     case 0x30:
-        sub_802EB270(reason, 8, 7);
+        handle_position_travel_state(reason, 8, 7);
         return;
     case 0x31:
-        sub_802EB270(reason, 7, 6);
+        handle_position_travel_state(reason, 7, 6);
         return;
     case 0x32:
-        sub_802EB270(reason, 6, 9);
+        handle_position_travel_state(reason, 6, 9);
         return;
     case 0x33:
-        sub_802EB270(reason, 9, 8);
+        handle_position_travel_state(reason, 9, 8);
         return;
     case 0x34:
-        sub_802EB270(reason, 8, 9);
+        handle_position_travel_state(reason, 8, 9);
         return;
     case 0x35:
-        sub_802EB270(reason, 9, 6);
+        handle_position_travel_state(reason, 9, 6);
         return;
     case 0x36:
-        sub_802EB270(reason, 5, 9);
+        handle_position_travel_state(reason, 5, 9);
         return;
     case 0x37:
-        sub_802EB270(reason, 9, 7);
+        handle_position_travel_state(reason, 9, 7);
         return;
     case 0x38:
-        sub_802EB270(reason, 7, 9);
+        handle_position_travel_state(reason, 7, 9);
         return;
     case 0x39:
-        sub_802EB270(reason, 9, 5);
+        handle_position_travel_state(reason, 9, 5);
         return;
     case 0x3A:
         handle_crawfish_spawn_state(reason, 0);
@@ -1965,31 +1965,31 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         handle_crawfish_spawn_state(reason, 3);
         return;
     case 0x3E:
-        sub_802E8990(reason);
+        TObjFish__handle_crawfish_drain_state(reason);
         return;
     case 0x3F:
-        sub_802E88F8(reason);
+        TObjFish__handle_wait_state(reason);
         return;
     case 0x40:
-        sub_802E85E0(reason, 0);
+        TObjFish__handle_tentacle_volley_state(reason, 0);
         return;
     case 0x41:
-        sub_802E85E0(reason, 2);
+        TObjFish__handle_tentacle_volley_state(reason, 2);
         return;
     case 0x42:
-        sub_802E8584(reason);
+        TObjFish__handle_retract_tentacles_reason(reason);
         return;
     case 0x43:
-        sub_802E8528(reason);
+        TObjFish__handle_extend_tentacles_reason(reason);
         return;
     case 0x44:
-        sub_802E83E8(reason);
+        TObjFish__handle_tentacle_needle_barrage_state(reason);
     default:
         return;
     }
 }
 
-void TBoss7DeRolLeC::sub_802EBE50(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_opening_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(1);
@@ -2010,7 +2010,7 @@ void TBoss7DeRolLeC::sub_802EBE50(u32 event) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802EBBC8(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_intro_camera_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(0);
@@ -2195,7 +2195,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
 // 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TUnk_80036250 profile
 // per axis, unk_74C/unk_758/unk_750 the x/y/z direction signs, unk_744/unk_754/unk_748
 // the start position.
-void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
+void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_mode) {
     f32 d;
     f32 z_speed;
     f32 z_accel;
@@ -2290,11 +2290,11 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         if (0.0f != unk_758) {
             unk_72C = 4;
             if (unk_758 > 0.0f) {
-                sub_802E7B40();
+                TObjFish__extend_all_tentacles();
                 play_sound_at(0x39902, unk_50C);
                 state_flags &= ~0x400;
             } else {
-                sub_802E7B94();
+                TObjFish__retract_all_tentacles();
                 play_sound_at(0x39E01, unk_50C);
                 state_flags |= 0x400;
             }
@@ -2396,7 +2396,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         break;
     }
 }
-void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index) {
+void TBoss7DeRolLeC::TObjFish__handle_charge_state(u32 event, s32 position_index, s32 next_index) {
     switch (event) {
     case 4:
         sub_802ECBDC();
@@ -2601,7 +2601,7 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
 #pragma push
 #pragma opt_common_subs off
 #undef self
-void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_descent_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(1);
@@ -2763,7 +2763,7 @@ void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
         break;
     }
 }
-void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
+void TBoss7DeRolLeC::TObjFish__handle_laser_sweep_state(u32 event, s32 position_index) {
     TParticleCtrl *p_;
     switch (event) {
     case 4:
@@ -3076,7 +3076,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
 #pragma fp_contract on
 #pragma push
 #pragma opt_common_subs off
-void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
+void TBoss7DeRolLeC::TObjFish__handle_breach_state(u32 event, s32 position_index) {
     switch (event) {
     case 4:
         for (s32 i = 0; i < 4; i++) {
@@ -3161,7 +3161,7 @@ void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
 #pragma pop
 #pragma pop
 #pragma pop
-void TBoss7DeRolLeC::sub_802E95F8(u32 event, s32 position_index) {
+void TBoss7DeRolLeC::TObjFish__handle_photon_pad_spawn_state(u32 event, s32 position_index) {
     s32 joint;
     switch (event) {
     case 4:
@@ -3196,7 +3196,7 @@ void TBoss7DeRolLeC::sub_802E95F8(u32 event, s32 position_index) {
         switch (unk_72C) {
         case 0:
             if (!(motion_flags & 4)) {
-                sub_802ECE90(unk_728, unk_704);
+                TObjFish__spawn_photon_pad(unk_728, unk_704);
                 unk_72C = 1;
                 return;
             }
@@ -3208,7 +3208,7 @@ void TBoss7DeRolLeC::sub_802E95F8(u32 event, s32 position_index) {
                 if ((f32)unk_728 >= 4.0f) {
                     unk_72C = 2;
                 }
-                sub_802ECE90(unk_728, unk_704);
+                TObjFish__spawn_photon_pad(unk_728, unk_704);
             }
             break;
         }
@@ -3217,7 +3217,7 @@ void TBoss7DeRolLeC::sub_802E95F8(u32 event, s32 position_index) {
 }
 #pragma push
 #pragma fp_contract on
-void TBoss7DeRolLeC::sub_802E9458(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_particle_201_cue_state(u32 event) {
     Vec v;
     f32 f;
 
@@ -3262,7 +3262,7 @@ void TBoss7DeRolLeC::sub_802E9458(u32 event) {
     }
 }
 #pragma pop
-void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
+void TBoss7DeRolLeC::TBoss7LaserPtcl__handle_laser_barrage_state(u32 event) {
     Vec from;
     CsnHit *hit;
     Vec *aim = &unk_76C;
@@ -3450,7 +3450,7 @@ void TBoss7DeRolLeC::sub_802E8EEC(u32 event, s32) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E8E34(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_deep_sink_state(u32 event) {
     switch (event) {
     case 4:
         state_flags |= 4;
@@ -3572,7 +3572,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E8AD4(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_tunnel_departure_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(0x10);
@@ -3630,7 +3630,7 @@ void TBoss7DeRolLeC::handle_crawfish_spawn_state(u32 event, s32 variant) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E8990(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_crawfish_drain_state(u32 event) {
     switch (event) {
     case 4:
         unk_728 = play_mode;
@@ -3655,7 +3655,7 @@ void TBoss7DeRolLeC::sub_802E8990(u32 event) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E88F8(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_wait_state(u32 event) {
     switch (event) {
     case 4:
         unk_728 = boss7_derolle_c_difficulty_actions[game_difficulty_selection][action_index].param * 30;
@@ -3676,7 +3676,7 @@ void TBoss7DeRolLeC::sub_802E88F8(u32 event) {
     case 9: return;
     }
 }
-void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
+void TBoss7DeRolLeC::TObjFish__handle_tentacle_volley_state(u32 event, s32 position_index) {
     Vec v;
     f32 scale;
     s32 r;
@@ -3782,11 +3782,11 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
         return;
     }
 }
-void TBoss7DeRolLeC::sub_802E8584(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_retract_tentacles_reason(u32 event) {
     switch (event) {
     case 0:
         advance_animation();
-        sub_802E7B94();
+        TObjFish__retract_all_tentacles();
         advance_action_sequence();
         return;
     case 1: return;
@@ -3801,11 +3801,11 @@ void TBoss7DeRolLeC::sub_802E8584(u32 event) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E8528(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_extend_tentacles_reason(u32 event) {
     switch (event) {
     case 0:
         advance_animation();
-        sub_802E7B40();
+        TObjFish__extend_all_tentacles();
         advance_action_sequence();
         return;
     case 1: return;
@@ -3820,7 +3820,7 @@ void TBoss7DeRolLeC::sub_802E8528(u32 event) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E83E8(u32 event) {
+void TBoss7DeRolLeC::TObjFish__handle_tentacle_needle_barrage_state(u32 event) {
     u8 *player;
     void *o;
     u16 id;
@@ -4086,7 +4086,7 @@ void TBoss7DeRolLeC::try_spawn_pattern_crawfish(s32 variant, s32 index) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E7B94() {
+void TBoss7DeRolLeC::TObjFish__retract_all_tentacles() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (tentacles[i] != NULL) {
@@ -4095,7 +4095,7 @@ void TBoss7DeRolLeC::sub_802E7B94() {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E7B40() {
+void TBoss7DeRolLeC::TObjFish__extend_all_tentacles() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (tentacles[i] != NULL) {
