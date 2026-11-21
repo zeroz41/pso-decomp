@@ -3,7 +3,7 @@
 extern "C" {
 
 u32 adsrConvertTimeCents(s32 arg0) {
-    return (u32)(1000.0f * powf(2.0f, 1.27156579e-08f * (f32)arg0, 1.27156579e-08f));
+    return (u32)(1000.0f * powf(2.0f, 1.27156579e-08f * (f32)arg0));
 }
 
 s32 salChangeADSRState(void *a0) {

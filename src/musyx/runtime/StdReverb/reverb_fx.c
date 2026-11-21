@@ -2,11 +2,11 @@
 
 extern "C" {
 
-void sndAuxCallbackReverbHI(u8 arg0, u8 *arg1, u8 *arg2) {
-    switch ((s32) arg0) {
+void sndAuxCallbackReverbHI(u8 reason, Info_803BF884 *info, S_803BF408 *rev) {
+    switch (reason) {
     case 0:
-        if ((u8) *(u8 *)((s8 *)arg2 + 0x1C4) == 0) {
-            ReverbHICallback((void *)((int) (*(s32 *)((s8 *)arg1 + 0))), (void *)((int) (*(s32 *)((s8 *)arg1 + 4))), (void *)((int) (*(s32 *)((s8 *)arg1 + 8))), (S_803BF408 *)((void *) (arg2)));
+        if (rev->disabled == 0) {
+            ReverbHICallback(info->left, info->right, info->surround, rev);
         }
     case 1:
         return;

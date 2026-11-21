@@ -1,6 +1,4 @@
-#define seqVolume TLobby__sub_803A5078_header_view
 #include "musyx/runtime/musyx_runtime_a.h"
-#undef seqVolume
 
 extern "C" {
 
@@ -233,11 +231,9 @@ static inline void BuildTransTab_803A3D8C(u8 *tab, PAGE_803A49C8 *page) {
 u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *midiSetup, u32 *song,
                          SND_PLAYPARA_SEQ *para, u8 studio, u16 sgid) {
     extern u16 lbl_80556E88[8][16];
-    void synthVolume(u8 volume, u16 time, u8 vGroup, u8 seqMode, u32 seqId);
     void synthSetMusicVolumeType(u8 i, u8 v);
     void inpResetMidiCtrl(u8, u8, u8);
     void inpResetChannelDefaults(u8, u8);
-    void inpSetMidiCtrl(u8 ctrl, u8 channel, u8 set, u8 value);
     void InitTrackEvents(void);
     ARR_803A49C8 *arr;
     u32 *tracktab;
@@ -942,15 +938,10 @@ static inline void seqMute_X5214(SeqBss_803A4FC4 *bss, u32 seqId, u32 mask1, u32
 }
 
 void seqCrossFade(SND_CROSSFADE_803A49C8 *ci, u32 *new_seqId, u8 irq_call) {
-    void seqVolume(u8 volume, u16 time, u32 seqId, u8 mode);
-    void sndSeqVolume(u8 volume, u16 time, u32 seqId, u8 mode);
     void seqContinue(s32 arg0);
     u32 seqGetPrivateId(u32 seqId);
     void sndSeqContinue(s32 arg0);
     void sndSeqMute(s32 arg0, s32 arg1, s32 arg2);
-    void sndSeqSpeed(u32 seqId, u16 speed);
-    u32 seqPlaySong(u16 sgid, u16 sid, void *arrfile, SND_PLAYPARA_SEQ *para, u8 irq_call, u8 studio);
-    u32 sndSeqPlayEx(u16 sgid, u16 sid, void *arrfile, SND_PLAYPARA_SEQ *para, u8 studio);
     SND_PLAYPARA_SEQ pp;
     u32 seqId;
     u16 time;

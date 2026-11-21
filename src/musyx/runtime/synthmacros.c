@@ -1207,7 +1207,6 @@ void mcmdSendMessage(Voice_803B0198 *svoice, MSTEP_803B0198 *cstep) {
 #pragma bool off
 #pragma opt_common_subs on
 void mcmdSetKeyGroup(Voice_803B03CC *svoice, MSTEP_803B03CC *cstep) {
-    void voiceKill(u32 vi);
     u32 i;
     u8 kg;
     u32 kill;

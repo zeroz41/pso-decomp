@@ -39,7 +39,9 @@ extern s16 sp;
 extern u8 sndActive;
 void *hwTransAddr(void *samples);
 u32 dataInsertSDir(void *sdir, void *smp_data);
-void ScanIDList(u16 *p, void *a, void *b, void *c);
+void ScanIDList(u16 *p, void *data, u8 dataType, u32 remove);
+u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *midiSetup, u32 *song,
+                 SND_PLAYPARA_SEQ *para, s32 studio, u16 sgid);
 s32 dataInsertFX(u16 arg0, Rec_803ADBF0 *arg1, u16 arg2);
 void hwSyncSampleMem(void);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
@@ -155,25 +157,23 @@ void InsertData(u16 id, void *data, u8 dataType, u32 remove) {
 
 #pragma pop
 
-void ScanIDList(u16 *p, void *a, void *b, void *c) {
-    void InsertData(u16, void *, void *, void *);
+void ScanIDList(u16 *p, void *data, u8 dataType, u32 remove) {
     u16 i;
     u16 v;
 
     while ((v = *p) != 0xFFFF) {
         if (v & 0x8000) {
             for (i = v & 0x3FFF; i <= p[1]; i++) {
-                InsertData(i, a, b, c);
+                InsertData(i, data, dataType, remove);
             }
             p += 2;
         } else {
-            InsertData(*p++, a, b, c);
+            InsertData(*p++, data, dataType, remove);
         }
     }
 }
 
-void ScanIDListReverse(u16 *start, void *a, void *b, void *c) {
-    void InsertData(u16, void *, void *, void *);
+void ScanIDListReverse(u16 *start, void *data, u8 dataType, u32 remove) {
     s16 i;
     u16 *p;
 
@@ -189,15 +189,15 @@ void ScanIDListReverse(u16 *start, void *a, void *b, void *c) {
         if (p != start) {
             if (p[-1] & 0x8000) {
                 for (i = *p; i >= (s16)(p[-1] & 0x3FFF); i--) {
-                    InsertData(i, a, b, c);
+                    InsertData(i, data, dataType, remove);
                 }
                 p -= 2;
             } else {
-                InsertData(*p, a, b, c);
+                InsertData(*p, data, dataType, remove);
                 p--;
             }
         } else {
-            InsertData(*p, a, b, c);
+            InsertData(*p, data, dataType, remove);
             p--;
         }
     }
@@ -213,13 +213,13 @@ struct Rec_803ADBF0;
 static inline void InsertSamples_803B50E8(u16 *ref, void *samples, void *sdir) {
     samples = hwTransAddr(samples);
     if (dataInsertSDir(sdir, samples)) {
-        ScanIDList(ref, sdir, (void *)1, (void *)0);
+        ScanIDList(ref, sdir, 1, 0);
     }
 }
-static inline void InsertMacros_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, (void *)0, (void *)0); }
-static inline void InsertCurves_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, (void *)4, (void *)0); }
-static inline void InsertKeymaps_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, (void *)2, (void *)0); }
-static inline void InsertLayers_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, (void *)3, (void *)0); }
+static inline void InsertMacros_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, 0, 0); }
+static inline void InsertCurves_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, 4, 0); }
+static inline void InsertKeymaps_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, 2, 0); }
+static inline void InsertLayers_803B50E8(u16 *ref, void *pool) { ScanIDList(ref, pool, 3, 0); }
 static inline void InsertFXTab_803B50E8(u16 gid, FX_DATA_803B50E8 *fd) { dataInsertFX(gid, (Rec_803ADBF0 *)fd->fx, fd->num); }
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool) {
     GROUP_DATA_803B50E8 *g;
@@ -256,12 +256,12 @@ s32 dataRemoveSDir(void *sdir);
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-static inline void RemoveMacros_803B5258(u16 *ref) { ScanIDList(ref, NULL, (void *)0, (void *)1); }
-static inline void RemoveCurves_803B5258(u16 *ref) { ScanIDList(ref, NULL, (void *)4, (void *)1); }
-static inline void RemoveKeymaps_803B5258(u16 *ref) { ScanIDList(ref, NULL, (void *)2, (void *)1); }
-static inline void RemoveLayers_803B5258(u16 *ref) { ScanIDList(ref, NULL, (void *)3, (void *)1); }
+static inline void RemoveMacros_803B5258(u16 *ref) { ScanIDList(ref, NULL, 0, 1); }
+static inline void RemoveCurves_803B5258(u16 *ref) { ScanIDList(ref, NULL, 4, 1); }
+static inline void RemoveKeymaps_803B5258(u16 *ref) { ScanIDList(ref, NULL, 2, 1); }
+static inline void RemoveLayers_803B5258(u16 *ref) { ScanIDList(ref, NULL, 3, 1); }
 static inline void RemoveSamples_803B5258(u16 *ref, void *sdir) {
-    ScanIDListReverse(ref, NULL, (void *)1, (void *)1);
+    ScanIDListReverse(ref, NULL, 1, 1);
     dataRemoveSDir(sdir);
 }
 static inline void RemoveFXTab_803B5258(u16 gid) { dataRemoveFX(gid); }
@@ -299,54 +299,53 @@ u32 sndPopGroup(void) {
 
 #pragma pop
 
-s32 seqPlaySong(u16 id, u16 sub, s32 a2, s32 a3, u8 locked, s32 a5) {
-    s32 seqStartPlay(u8 *, u8 *, u16 *, s32, s32, s32, u16);
+u32 seqPlaySong(u16 sgid, u16 sid, void *arrfile, SND_PLAYPARA_SEQ *para, u8 irq_call, s32 studio) {
     Ent_803B5398 *tbl = (Ent_803B5398 *)gs;
     Ent_803B5398 *e;
     s32 i;
     Desc_803B5398 *d;
     u8 *base;
-    u8 *p1;
-    u8 *p2;
-    u16 *q;
-    s32 r;
+    PAGE_803A49C8 *norm;
+    PAGE_803A49C8 *drum;
+    MIDISETUP_803A3D8C *midiSetup;
+    u32 seqId;
     u16 c;
 
     e = tbl;
     i = 0;
     while (i < sp) {
-        if (id == e->desc->id) {
+        if (sgid == e->desc->id) {
             d = tbl[i].desc;
             if (d->kind == 0) {
             base = tbl[i].base;
-            p1 = base + d->o1C;
-            p2 = base + d->o20;
-            q = (u16 *)(base + d->o24);
-            while ((c = *q) != 0xFFFF) {
-                if (c == sub) {
-                    if (locked) {
-                        r = seqStartPlay(p1, p2, q, a2, a3, a5, id);
+            norm = (PAGE_803A49C8 *)(base + d->o1C);
+            drum = (PAGE_803A49C8 *)(base + d->o20);
+            midiSetup = (MIDISETUP_803A3D8C *)(base + d->o24);
+            while ((c = midiSetup->songId) != 0xFFFF) {
+                if (c == sid) {
+                    if (irq_call) {
+                        seqId = seqStartPlay(norm, drum, midiSetup, (u32 *)arrfile, para, studio, sgid);
                     } else {
                         hwDisableIrq();
-                        r = seqStartPlay(p1, p2, q, a2, a3, a5, id);
+                        seqId = seqStartPlay(norm, drum, midiSetup, (u32 *)arrfile, para, studio, sgid);
                         hwEnableIrq();
                     }
-                    return r;
+                    return seqId;
                 }
-                q += 0x2A;
+                midiSetup++;
             }
-            return -1;
+            return 0xFFFFFFFF;
             }
-            return -1;
+            return 0xFFFFFFFF;
         }
         e++;
         i++;
     }
-    return -1;
+    return 0xFFFFFFFF;
 }
 
-void sndSeqPlayEx(u16 arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    seqPlaySong(arg0, arg1, arg2, arg3, 0U, arg4);
+u32 sndSeqPlayEx(u16 sgid, u16 sid, void *arrfile, SND_PLAYPARA_SEQ *para, s32 studio) {
+    return seqPlaySong(sgid, sid, arrfile, para, 0, studio);
 }
 
 s16 sp;

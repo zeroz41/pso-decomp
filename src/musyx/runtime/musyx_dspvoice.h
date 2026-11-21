@@ -33,6 +33,8 @@ typedef struct DSPvoice_803B5500 {
     u8 padEF[0xF4 - 0xEF];
 } DSPvoice_803B5500;
 
+extern "C" {
 extern DSPvoice_803B5500 *dspVoice;
+}
 
 #endif

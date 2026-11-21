@@ -1,4 +1,5 @@
 #include "musyx/runtime/musyx_runtime_b.h"
+#include <dolphin/dsp.h>
 
 extern "C" {
 
@@ -75,34 +76,10 @@ Rec_803BE528 *salAiGetDest(void) {
     return &salAIBufferBase[(u8)((salAIBufferIndex + 2) % 4)];
 }
 
-typedef struct DSPTaskInfo_803BE554 {
-    u32 state;
-    u32 priority;
-    u32 flags;
-    u16 *iram_mmem_addr;
-    u32 iram_length;
-    u32 iram_addr;
-    u16 *dram_mmem_addr;
-    u32 dram_length;
-    u32 dram_addr;
-    u16 dsp_init_vector;
-    u16 dsp_resume_vector;
-    void (*init_cb)(void *);
-    void (*res_cb)(void *);
-    void (*done_cb)(void *);
-    void (*req_cb)(void *);
-    DSPTaskInfo_803BE554 *next;
-    DSPTaskInfo_803BE554 *prev;
-    s64 t_context;
-    s64 t_task;
-} DSPTaskInfo_803BE554;
-
-void DSPInit(void);
-void DSPAddTask(void *);
 extern u8 dspSlave[];
 extern u16 dspSlaveLength;
 
-static DSPTaskInfo_803BE554 dsp_task __attribute__((aligned(8)));
+static DSPTaskInfo dsp_task __attribute__((aligned(8)));
 static u16 dram_image[4096] __attribute__((aligned(32)));
 
 
@@ -115,8 +92,8 @@ u32 salInitDsp(u32 flags) {
     dsp_task.dram_addr = 0;
     dsp_task.dsp_init_vector = 0x10;
     dsp_task.dsp_resume_vector = 0x30;
-    dsp_task.init_cb = (void (*)(void *))dspInitCallback;
-    dsp_task.res_cb = (void (*)(void *))dspResumeCallback;
+    dsp_task.init_cb = (DSPCallback)dspInitCallback;
+    dsp_task.res_cb = (DSPCallback)dspResumeCallback;
     dsp_task.done_cb = 0;
     dsp_task.req_cb = 0;
     dsp_task.priority = 0;
@@ -137,10 +114,10 @@ void salCtrlDsp(saddr arg0) {
     temp_r31 = dspCmdList;
     salDspIsDone = 0;
     PPCSync();
-    DSPSendMailToDSP((void *) (dspCmdFirstSize | 0xBABE0000));
+    DSPSendMailToDSP(dspCmdFirstSize | 0xBABE0000);
     do {
     } while (DSPCheckMailToDSP() != 0U);
-    DSPSendMailToDSP(temp_r31);
+    DSPSendMailToDSP((uaddr)temp_r31);
     do {
     } while (DSPCheckMailToDSP() != 0U);
 }

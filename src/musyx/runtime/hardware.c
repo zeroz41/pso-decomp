@@ -314,8 +314,8 @@ void hwAddInput(u8 i, void *p) {
     salAddStudioInput(&((Rec_803BD62C *)&lbl_805663D8)[i], p);
 }
 
-void hwRemoveInput(u8 i, u32 x) {
-    salRemoveStudioInput(&((Rec_803BD660 *)&lbl_805663D8)[i], x);
+void hwRemoveInput(u8 i, void *p) {
+    salRemoveStudioInput(&((Rec_803BD660 *)&lbl_805663D8)[i], p);
 }
 
 #define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)
@@ -359,8 +359,8 @@ void hwFlushStream(u8 *base, u32 offset, u32 len, u8 i, void *cb, void *arg) {
     aramUploadData((u8 *)(p), (u32)(addr + offset), (u32)(len), (s32)(1), (void *)(cb), (void *)(arg));
 }
 
-void *hwInitStream(u32 size) {
-    return aramAllocateStreamBuffer((u32)(size));
+u8 hwInitStream(u32 size) {
+    return aramAllocateStreamBuffer(size);
 }
 
 void hwExitStream(u8 i) {
@@ -382,8 +382,8 @@ void hwInitSampleMem(void *self, void *p) {
     aramInit((uaddr)p);
 }
 
-void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1) {
-    u32 info = (*arg0)->info;
+void hwSaveSample(Hdr_803BD8A8 **header, uaddr *data) {
+    u32 info = (*header)->info;
     u32 n = info & 0xFFFFFF;
     u32 fmt;
     u32 r;
@@ -401,8 +401,8 @@ void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1) {
     case 3:
         break;
     }
-    r = aramStoreData((u8 *)((u8 *)*arg1), (u32)(n));
-    *arg1 = r;
+    r = aramStoreData((u8 *)*data, n);
+    *data = r;
 }
 
 void hwRemoveSample(Hdr_803BD93C *arg0, u32 arg1) {

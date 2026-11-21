@@ -278,7 +278,7 @@ void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right) {
 
 #undef dspStudio
 #define dspStudio ((DSPstudioinfo *)lbl_805663D8)
-u32 __OSBusClock : 0x800000F8;
+u32 __OSBusClock AT_ADDRESS(0x800000F8);
 
 const u16 dspMixerCycles[32] = {
     1470, 2940, 2940, 4410, 2230, 4460, 4460, 6690, 2470, 4940, 4940, 7410, 3735, 7470, 7470, 11205,
@@ -639,7 +639,7 @@ static inline void AddDpop(s32 *sum, s16 delta) {
   *sum += (int)delta;
   *sum = (*sum > 0x7fffff) ? 0x7fffff : (*sum < -0x7fffff ? -0x7fffff : *sum);
 }
-static inline void DoDepopFade(long *dspStart, s16 *dspDelta, long *hostSum) {
+static inline void DoDepopFade(s32 *dspStart, s16 *dspDelta, s32 *hostSum) {
   if (*hostSum <= -160) {
     *dspDelta = (*hostSum <= -3200) ? 0x14 : (s16)(-*hostSum / 160);
   } else if (*hostSum >= 160) {
@@ -1466,15 +1466,15 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
       dspCmdPtr[2] = (uaddr)stp->main[salFrame];
       dspCmdPtr += 3;
       spb = stp->spb;
-      DoDepopFade((long *)&spb->dpopLHi, (s16 *)&spb->dpopLDelta, &stp->hostDPopSum.l);
-      DoDepopFade((long *)&spb->dpopRHi, (s16 *)&spb->dpopRDelta, &stp->hostDPopSum.r);
-      DoDepopFade((long *)&spb->dpopSHi, (s16 *)&spb->dpopSDelta, &stp->hostDPopSum.s);
-      DoDepopFade((long *)&spb->dpopALHi, (s16 *)&spb->dpopALDelta, &stp->hostDPopSum.lA);
-      DoDepopFade((long *)&spb->dpopARHi, (s16 *)&spb->dpopARDelta, &stp->hostDPopSum.rA);
-      DoDepopFade((long *)&spb->dpopASHi, (s16 *)&spb->dpopASDelta, &stp->hostDPopSum.sA);
-      DoDepopFade((long *)&spb->dpopBLHi, (s16 *)&spb->dpopBLDelta, &stp->hostDPopSum.lB);
-      DoDepopFade((long *)&spb->dpopBRHi, (s16 *)&spb->dpopBRDelta, &stp->hostDPopSum.rB);
-      DoDepopFade((long *)&spb->dpopBSHi, (s16 *)&spb->dpopBSDelta, &stp->hostDPopSum.sB);
+      DoDepopFade((s32 *)&spb->dpopLHi, (s16 *)&spb->dpopLDelta, &stp->hostDPopSum.l);
+      DoDepopFade((s32 *)&spb->dpopRHi, (s16 *)&spb->dpopRDelta, &stp->hostDPopSum.r);
+      DoDepopFade((s32 *)&spb->dpopSHi, (s16 *)&spb->dpopSDelta, &stp->hostDPopSum.s);
+      DoDepopFade((s32 *)&spb->dpopALHi, (s16 *)&spb->dpopALDelta, &stp->hostDPopSum.lA);
+      DoDepopFade((s32 *)&spb->dpopARHi, (s16 *)&spb->dpopARDelta, &stp->hostDPopSum.rA);
+      DoDepopFade((s32 *)&spb->dpopASHi, (s16 *)&spb->dpopASDelta, &stp->hostDPopSum.sA);
+      DoDepopFade((s32 *)&spb->dpopBLHi, (s16 *)&spb->dpopBLDelta, &stp->hostDPopSum.lB);
+      DoDepopFade((s32 *)&spb->dpopBRHi, (s16 *)&spb->dpopBRDelta, &stp->hostDPopSum.rB);
+      DoDepopFade((s32 *)&spb->dpopBSHi, (s16 *)&spb->dpopBSDelta, &stp->hostDPopSum.sB);
       DCFlushRangeNoSync(spb, sizeof(_SPB));
     }
   }
@@ -1620,15 +1620,15 @@ s32 salAddStudioInput(Obj_803B8A14 *stp, Src_803B8A14 *desc) {
 }
 #pragma pop
 
-s32 salRemoveStudioInput(Obj_803B8ABC *arg0, u32 arg1) {
+s32 salRemoveStudioInput(Obj_803B8ABC *stp, Src_803B8A14 *desc) {
     s32 i;
 
-    for (i = 0; i < arg0->count; i++) {
-        if (arg0->slots[i].src == arg1) {
-            for (; i <= arg0->count - 2; i++) {
-                arg0->slots[i] = arg0->slots[i + 1];
+    for (i = 0; i < stp->count; i++) {
+        if (stp->slots[i].src == desc) {
+            for (; i <= stp->count - 2; i++) {
+                stp->slots[i] = stp->slots[i + 1];
             }
-            arg0->count--;
+            stp->count--;
             return 1;
         }
     }
