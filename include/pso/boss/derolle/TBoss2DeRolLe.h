@@ -15,6 +15,7 @@ struct BmlResource;
 struct TBoss2Joint;
 class TBoss2Tentacle;
 class TBoss2Fin;
+class TObjChara;
 struct TBoss2LaserLight;
 class TUnk_80482EC0;
 class TUnk_80482D04;
@@ -72,7 +73,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 update_state();
     void init_wave_params();
     s32 sub_80034574();
-    void sub_800344A4(s32 joint, s32 arg2);
+    void spawn_photon_pad(s32 joint, s32 level);
     void calc_offset_position();
     void activate_laser_light();
     void free_laser();
@@ -96,6 +97,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void set_move_target_point(s32 index);
     void update_angle();
     void init_head_params();
+    void state_photon_pads(u32 reason, s32 position);
+    void state_launch_mines(u32 reason, s32 state);
+    void state_ceiling_attack(u32 reason);
+    void spawn_ceil_junk(Vec *pos);
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -115,10 +120,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     GC_Mtx *unk_618;                   // 12 matrices, mem_alloc'd by the constructor
     GC_Mtx *tentacle_matrices;         // one per tentacle root
     TBoss2Tentacle *tentacles[4];
-    TUnk_80482EC0 *unk_630[5];
-    TUnk_80482D04 *unk_644[3];
+    TUnk_80482EC0 *mines[5];
+    TUnk_80482D04 *target_mines[3];  // launched at the target (init_launch)
     TBoss2Fin *fin;
-    s32 unk_654;
+    s32 position_index;
     s32 unk_658;
     s32 unk_65C;
     s32 unk_660;
@@ -128,7 +133,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 unk_6A8;
     s32 unk_6AC;
     s32 unk_6B0;
-    s32 unk_6B4;
+    s32 photon_pad_level;              // 0-2, cycled by state_photon_pads; TBoss2PhotonPad's level
     TBoss2LaserLight *laser_light;
     Vec laser_light_pos;               // the position the laser light follows
     AreaAttackHistory *attack_history;
@@ -154,8 +159,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 void TBoss2DeRolLe__sub_8002FE60(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_80030720(TBoss2DeRolLe *self, u32 reason, s32 state);
-void TBoss2DeRolLe__sub_80030898(TBoss2DeRolLe *self, u32 reason, s32 arg2);
 void TBoss2DeRolLe__sub_80030A38(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_80030DFC(TBoss2DeRolLe *self, u32 reason, s32 arg2);
 void TBoss2DeRolLe__sub_800310F8(TBoss2DeRolLe *self, u32 reason, s32 arg2);
@@ -192,9 +195,7 @@ void render_body__13TBoss2DeRolLeFv(u8 *arg0);
 void send_6x13__13TBoss2DeRolLeFPv(void *p);
 void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
 void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 int spawn_trap__13TBoss2DeRolLeFPvii(void *p, int a1, int a2);
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *self, u32 reason);
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
 void swap_endian__13TBoss2DeRolLeFPv(void *p);
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);

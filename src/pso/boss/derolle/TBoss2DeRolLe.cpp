@@ -869,7 +869,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 int play_sound(void* p, int a1);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 
 void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2);
@@ -929,7 +928,6 @@ void assign_slots_from_list(void *, saddr);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 
 s32 restore_player_cameras();
@@ -954,7 +952,6 @@ void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 s32 vec3_add_to(int, void *);
 
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 int play_sound_effect(void*, int, int, int);
 
@@ -971,7 +968,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 int play_sound(void* p, int a1);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
 
@@ -980,25 +976,6 @@ s32 advance_scalar_motion_profile(void *);
 
 void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
 
-struct Obj_80030720 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x390 - 0xBA];
-    s32 f390;
-    u8 pad394[0x3C0 - 0x394];
-    u32 f3C0;
-    u8 pad3C4[0x4D0 - 0x3C4];
-    u8 f4D0[0x524 - 0x4D0];
-    u8 f524[0x630 - 0x524];
-    saddr f630[5];
-    saddr f644[3];
-    u8 pad650[4];
-    s32 f654;
-};
-
-struct Rec_80030898 { f32 a; f32 b; f32 c; };
-
-struct Obj_80030898 { u8 pad0[0x544]; Rec_80030898 recs[8]; };
 
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
@@ -1006,11 +983,8 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
 
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1);
 
-void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2);
 
-void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2);
 
 void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1);
 
@@ -1032,7 +1006,6 @@ void TBoss2DeRolLe__sub_800338BC(void);
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 
@@ -1122,7 +1095,6 @@ s32 advance_scalar_motion_profile(void *);
 
 
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 int play_sound(void* p, int a1);
 
@@ -1442,7 +1414,7 @@ int bswap_32__FPUl(void*);
 
 }
 
-u32 TBoss2DeRolLe__mine_ground_targets[15];
+Vec TBoss2DeRolLe__mine_ground_targets[5];
 
 u32 boss2_derolle_primary_color_targets[3];
 
@@ -1789,10 +1761,10 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], boss2_derolle_segment_color_targets[j]);
     }
     for (i = 0; i < 5; i++) {
-        unk_630[i] = new TUnk_80482EC0(&part_group, id++, set++);
+        mines[i] = new TUnk_80482EC0(&part_group, id++, set++);
     }
     for (i = 0; i < 3; i++) {
-        unk_644[i] = new TUnk_80482D04(&part_group, id++, set++);
+        target_mines[i] = new TUnk_80482D04(&part_group, id++, set++);
     }
     {
         void *p = TObject::operator new(0x88);
@@ -1801,7 +1773,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         }
         fin = (TBoss2Fin *)p;
     }
-    unk_654 = 0;
+    position_index = 0;
     unk_658 = 0;
     unk_65C = 0;
     unk_660 = 0;
@@ -1811,7 +1783,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     unk_6A8 = unk_6AC = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x18);
     unk_6B0 = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x20);
     hpmax = hp = 20000;
-    unk_6B4 = 0;
+    photon_pad_level = 0;
     laser_light = new TBoss2LaserLight(&part_group, &laser_light_pos);
     laser_light_pos.x = 0.0f;
     laser_light_pos.y = 0.0f;
@@ -1918,12 +1890,12 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
         fin = NULL;
     }
     for (i = 2; i >= 0; i--) {
-        unk_644[i]->queue_destruction();
-        unk_644[i] = NULL;
+        target_mines[i]->queue_destruction();
+        target_mines[i] = NULL;
     }
     for (i = 4; i >= 0; i--) {
-        unk_630[i]->queue_destruction();
-        unk_630[i] = NULL;
+        mines[i]->queue_destruction();
+        mines[i] = NULL;
     }
     for (i = 9; i >= 0; i--) {
         joints[i]->queue_destruction();
@@ -2430,17 +2402,17 @@ s32 TBoss2DeRolLe::sub_80034574() {
     return unk_660 == 4;
 }
 
-void TBoss2DeRolLe::sub_800344A4(s32 joint, s32 arg2) {
+void TBoss2DeRolLe::spawn_photon_pad(s32 joint, s32 level) {
     Vec dir;
     s32 ang;
     ang = 0x3800 - joint * 0x33;
     dir.x = sin_table_lookup(ang);
     dir.y = 0.0f;
     dir.z = cos_table_lookup(ang);
-    if (unk_654 == 2) {
+    if (position_index == 2) {
         dir.x *= -1.0f;
     }
-    new TBoss2PhotonPad(&part_group, &joint_positions[joint], &dir, arg2);
+    new TBoss2PhotonPad(&part_group, &joint_positions[joint], &dir, level);
     play_sound_effect(0x4003B708, &joint_positions[joint], 0, 1);
     joints[joint]->start_pad_flash();
 }
@@ -2791,9 +2763,17 @@ void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1) {
     TObjBoss2Tunnel::sub_8003B1D8((TParticleCtrl *)arg1);
 }
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2) {
-    TObjBoss2CeilJunk::create_particle((const void *)arg2, 0x121);
 }
+
+}
+
+void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {
+    TObjBoss2CeilJunk::create_particle(pos, 0x121);
+}
+
+namespace behavior_view {
+
+extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -2967,22 +2947,22 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         TBoss2DeRolLe__sub_80030DFC(this, reason, 2);
         return;
     case 16:
-        TBoss2DeRolLe__sub_80030898(this, reason, 0);
+        state_photon_pads(reason, 0);
         return;
     case 17:
-        TBoss2DeRolLe__sub_80030898(this, reason, 2);
+        state_photon_pads(reason, 2);
         return;
     case 15:
         TBoss2DeRolLe__sub_80030A38(this, reason);
         return;
     case 24:
-        TBoss2DeRolLe__sub_80030720(this, reason, 0x18);
+        state_launch_mines(reason, 0x18);
         return;
     case 25:
-        TBoss2DeRolLe__sub_80030720(this, reason, 0x19);
+        state_launch_mines(reason, 0x19);
         return;
     case 26:
-        state_ceiling_attack__13TBoss2DeRolLeFPvUi(this, reason);
+        state_ceiling_attack(reason);
         return;
     case 27:
         TBoss2DeRolLe__sub_8002FE60(this, reason);
@@ -3123,7 +3103,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                     v1.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     v1.y = -5.0f;
                     v1.z += 70.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v1);
+                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v1);
                 }
             } else if (t >= 64.0f && t <= 72.0f) {
                 if ((f32)o->f6E4 >= 2.0f) {
@@ -3133,7 +3113,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                     v2.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     v2.y = -5.0f;
                     v2.z += 40.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v2);
+                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v2);
                 }
             } else if (t >= 110.0f && t <= 120.0f && (f32)o->f6E4 >= 2.0f) {
                 o->f6E4 = 0;
@@ -3142,7 +3122,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                 v3.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                 v3.y = -5.0f;
                 v3.z += 70.0f;
-                ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v3);
+                ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v3);
             }
             if (((TObjMotion *)o)->is_passing_frame(35.0f) != 0 || ((TObjMotion *)o)->is_passing_frame(112.0f) != 0) {
                 play_sound_effect((void *)0x4003AD11, 0, 0, 0);
@@ -3552,7 +3532,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                         v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
                         v.y = -5.0f;
                         v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
-                        ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
+                        ((TBoss2DeRolLe *)self)->spawn_ceil_junk(&v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
                     Vec v;
@@ -3561,7 +3541,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                     v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
                     v.y = -5.0f;
                     v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
-                    ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
+                    ((TBoss2DeRolLe *)self)->spawn_ceil_junk(&v);
                 }
             }
             switch (self->step) {
@@ -3722,7 +3702,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
                     va.x += 50.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     va.y = -5.0f;
                     va.z += 180.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &va);
+                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&va);
                 }
                 break;
             case 2:
@@ -3734,7 +3714,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
                     vb.x += 50.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     vb.y = -5.0f;
                     vb.z += -20.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &vb);
+                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&vb);
                 }
                 break;
             }
@@ -3916,7 +3896,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 v.x = v.x - o->f6FC * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
-                ((void (*)(void *, Vec *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
+                ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v);
             }
             if (((TObjMotion *)o)->is_passing_frame(15.0f) != 0) {
                 ((int (*)(s32, void *))play_sound)(0x4003AD11, o->snd);
@@ -4318,55 +4298,59 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
 
 #pragma pop
 
-void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
+}
+
+}
+
+void TBoss2DeRolLe::state_photon_pads(u32 reason, s32 position) {
     s32 i;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->requested_action = 3;
-        ((TBoss2DeRolLe *)arg0)->sub_800341F0();
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~0x100;
-        *(s32 *)((s8 *)arg0 + 0x654) = arg2;
-        ((TBoss2DeRolLe *)arg0)->set_position_index(*(s32 *)((s8 *)arg0 + 0x654));
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
-        *(f32 *)((s8 *)arg0 + 0x6FC) = -1000.0f;
-        *(s32 *)((s8 *)arg0 + 0x6B4) = *(s32 *)((s8 *)arg0 + 0x6B4) + 1;
-        if (*(s32 *)((s8 *)arg0 + 0x6B4) >= 3) {
-            *(s32 *)((s8 *)arg0 + 0x6B4) = 0;
+        requested_action = 3;
+        sub_800341F0();
+        state_flags = state_flags & ~4;
+        state_flags = state_flags & ~0x100;
+        position_index = position;
+        set_position_index(position_index);
+        unk_6E0 = 0;
+        unk_6E4 = 0;
+        unk_6FC[0] = -1000.0f;
+        photon_pad_level = photon_pad_level + 1;
+        if (photon_pad_level >= 3) {
+            photon_pad_level = 0;
         }
         return;
     case 2:
-        if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            ((TBoss2DeRolLe *)arg0)->set_state_and_send(2);
+        if (get_flag_b4() != 0) {
+            set_state_and_send(2);
             return;
         }
         break;
     case 9:
-        if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
+        if (get_flag_b4() != 0) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (*(s32 *)((s8 *)arg0 + 0x6E4)) {
+        advance_animation();
+        switch (unk_6E4) {
         case 0:
-            if (!(*(s32 *)((s8 *)arg0 + 0xB0) & 4)) {
-                ((TBoss2DeRolLe *)arg0)->sub_800344A4(*(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
-                *(s32 *)((s8 *)arg0 + 0x6E4) = 1;
+            if (!(motion_flags & 4)) {
+                spawn_photon_pad(unk_6E0, photon_pad_level);
+                unk_6E4 = 1;
                 return;
             }
             break;
         case 1:
-            i = *(s32 *)((s8 *)arg0 + 0x6E0);
-            if (((Obj_80030898 *)arg0)->recs[i].a < ((Obj_80030898 *)arg0)->recs[i + 1].a) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = i + 1;
-                if ((f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 4.0f) {
-                    *(s32 *)((s8 *)arg0 + 0x6E4) = 2;
+            i = unk_6E0;
+            if (joint_positions[i].y < joint_positions[i + 1].y) {
+                unk_6E0 = i + 1;
+                if ((f32)unk_6E0 >= 4.0f) {
+                    unk_6E4 = 2;
                 }
-                ((TBoss2DeRolLe *)arg0)->sub_800344A4(*(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
+                spawn_photon_pad(unk_6E0, photon_pad_level);
             }
             break;
         }
@@ -4376,47 +4360,47 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
     }
 }
 
-void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
-    u8 *pos;
+void TBoss2DeRolLe::state_launch_mines(u32 reason, s32 state) {
+    Vec *pos;
     s32 i;
     s32 j;
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        self->f3C0 &= ~4;
-        self->f3C0 |= 0x100;
-        self->fB8 = 0xB;
-        self->f654 = 1;
-        ((TBoss2DeRolLe *)self)->set_position_index(self->f654);
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        requested_action = 0xB;
+        position_index = 1;
+        set_position_index(position_index);
         break;
     case 2:
-        if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-            ((TBoss2DeRolLe *)self)->set_state_and_send(2);
+        if (get_flag_b4() != 0) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-            ((TBoss2DeRolLe *)self)->advance_action_sequence();
+        if (get_flag_b4() != 0) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        if (((TObjMotion *)self)->is_passing_frame(18.0f) != 0) {
-            pos = self->f4D0;
-            if (arg2 == 0x18) {
+        advance_animation();
+        if (is_passing_frame(18.0f) != 0) {
+            pos = &unk_3F8[18];
+            if (state == 0x18) {
                 for (i = 0; i < 5; i++) {
-                    ((TBoss2Mine *)(self->f630[i]))->set_launch_position_velocity((Vec *)pos, (Vec *)&TBoss2DeRolLe__mine_ground_targets[i]);
+                    mines[i]->set_launch_position_velocity(pos, &TBoss2DeRolLe__mine_ground_targets[i]);
                 }
-            } else if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
+            } else if (enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {
-                    ((TUnk_80482D04 *)self->f644[j])->init_launch((Vec *)pos, (TObjBase *)self->f390, j);
+                    target_mines[j]->init_launch(pos, target, j);
                 }
             }
-            ((int (*)(int, void *))play_sound)(0x4003A303, self->f524);
+            play_sound(0x4003A303, &unk_518[1]);
         }
         break;
     case 6:
-        if (arg2 == 0x19) {
-            ((TBoss2DeRolLe *)self)->pick_random_target();
+        if (state == 0x19) {
+            pick_random_target();
         }
         break;
     }
@@ -4425,52 +4409,56 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
+void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
     Vec v;
-    f32 frame;
+    f32 frame_now;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) | 0x100;
-        arg0->sub_800341F0();
-        arg0->requested_action = 0xC;
-        *(s32 *)((s8 *)arg0 + 0x654) = 3;
-        ((TBoss2DeRolLe *)arg0)->set_position_index(*(s32 *)((s8 *)arg0 + 0x654));
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        arg0->unk_6DC = 0;
+        state_flags = state_flags & ~4;
+        state_flags = state_flags | 0x100;
+        sub_800341F0();
+        requested_action = 0xC;
+        position_index = 3;
+        set_position_index(position_index);
+        unk_6E0 = 0;
+        unk_6DC = 0;
         return;
     case 2:
-        if (arg0->requested_action == 0xF) {
-            ((TBoss2DeRolLe *)arg0)->set_state_and_send(0x1B);
+        if (requested_action == 0xF) {
+            set_state_and_send(0x1B);
         }
         return;
     case 9:
-        if (arg0->requested_action == 0xF) {
-            ((TBoss2DeRolLe *)arg0)->advance_action_sequence();
+        if (requested_action == 0xF) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        *(s32 *)((s8 *)arg0 + 0x6E0) = *(s32 *)((s8 *)arg0 + 0x6E0) + 1;
-        frame = arg0->frame;
-        if (frame >= 10.0f && frame <= 14.0f && (f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 3.0f) {
-            *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-            VecCopy__FP3VecPC3Vec((saddr)&v, (u8 *)arg0 + 0x38);
-            v.x = 30.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
+        advance_animation();
+        unk_6E0 = unk_6E0 + 1;
+        frame_now = frame;
+        if (frame_now >= 10.0f && frame_now <= 14.0f && (f32)unk_6E0 >= 3.0f) {
+            unk_6E0 = 0;
+            VecCopy(&v, &position);
+            v.x = 30.0f * calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
-            spawn_ceil_junk__13TBoss2DeRolLeFii((saddr)arg0, (saddr)&v);
+            spawn_ceil_junk(&v);
         }
-        if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
-            ((int (*)(int, void *))play_sound)(0x4003AD12, (u8 *)arg0 + 0x518);
+        if (is_passing_frame(10.0f) != 0) {
+            play_sound(0x4003AD12, &unk_518[0]);
         }
         break;
     default:
         break;
     }
 }
+
+namespace behavior_view {
+
+extern "C" {
 
 #define VADD(d, s) ((void (*)(void *, void *)) vec3_add_to)((d), (s))
 #define VCOPY(d, s) ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)((d), (s))
@@ -4711,8 +4699,8 @@ void TBoss2DeRolLe::sub_8002FD9C(u32 reason, s32 arg2) {
         state_flags |= 0x100;
         requested_action = 0xE;
         sub_800341F0();
-        unk_654 = 3;
-        set_position_index(unk_654);
+        position_index = 3;
+        set_position_index(position_index);
         if (arg2 != 0) {
             TObjBoss2Tunnel::set_global_flag_800();
         }
@@ -4855,7 +4843,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
                     v.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     v.y = -5.0f;
                     v.z += 80.0f * ((TObjChara *)o)->random_ratio();
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
+                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v);
                 }
             } else if (t >= 99.0f && t <= 140.0f && (f32)o->f6E4 >= 2.0f) {
                 o->f6E4 = 0;
@@ -4863,7 +4851,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
                 w.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
                 w.y = -5.0f;
                 w.z += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
-                ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &w);
+                ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&w);
             }
             if (o->fC0 >= 20.0f) {
                 o->f758 = 5;
