@@ -349,7 +349,7 @@ void TUnk_804CCBC0::run_task() {
 
 void TTecResta::init_parameters() {
     u8 *arg0 = (u8 *)this;
-  int new_var;
+  saddr new_var;
   new_var = (saddr) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)new_var);
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));

@@ -86,7 +86,7 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
+saddr calc_technique_parameters(int, int, int);
 extern RecoveredGlobal_8022B6FC_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_8022B6FC_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
@@ -215,8 +215,8 @@ void TTecBarta::create_particle_emitters() {
 
 void TTecBarta::init_parameters() {
     u8 *arg0 = (u8 *)this;
-  int new_var;
-  new_var = (int) calc_technique_parameters(3, this->level, 0xFFFF);
+  saddr new_var;
+  new_var = calc_technique_parameters(3, this->level, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
   if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
