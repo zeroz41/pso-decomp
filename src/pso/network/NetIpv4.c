@@ -81,7 +81,6 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
   s32 raw_socket_deliver_ipv4(u8 *pkt, u32 src, u32 dst, u32 cb, s16 index); /* declared here with an s16 index; the definition takes (u8 *, s32, s32, u32, s32) */
-  s16 icmp_send_error(u8 *msg, u8 *ip, s16 len, s16 iface); /* declared s16 here; the definition returns s32 */
   u16 total_len;
   u16 hlen;
   NetPacket *pkt;

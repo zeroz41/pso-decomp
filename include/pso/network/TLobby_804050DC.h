@@ -129,7 +129,7 @@ s32 TLobby__sub_80409E18(s16, s32, s32);
 s32 TLobby__sub_80409EB0(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
 s16 icmp_input(u8 *self, u32 d, u32 c);
-s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
+s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
 u16 ones_complement_sum(void *data, s16 n);
 /* ICMPv6 (src/pso/network/NetIcmp6.c). */
 s16 NetIPv6HandleIcmpMessage(struct NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface);

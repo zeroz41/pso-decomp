@@ -155,12 +155,11 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
   return 0;
 }
 
-s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
+s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
 {
-  s32 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared s32 with a void * protocol here; the definition returns s16 and takes u8 */
   NetPacket *pkt;
   s32 lim;
-  s32 r;
+  s16 r;
   if ((NetIPv4IsUnspecified(*((u32 *)(b + 0xc))) || NetIPv4IsLoopback(*((s32 *)(b + 0xc)))) || (NetIPv4IsBroadcast(*((u32 *)(b + 0xc)), id) != 0))
   {
     return -1;
@@ -188,7 +187,7 @@ s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
   pkt->fragment_count += 1;
   *((u16 *)(p + 2)) = 0;
   *((u16 *)(p + 2)) = calc_ip_checksum(pkt, 1);
-  r = AT_IP4_Send(pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, (void *) 1);
+  r = AT_IP4_Send(pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, 1);
   release_entry(pkt);
   return r;
 }
