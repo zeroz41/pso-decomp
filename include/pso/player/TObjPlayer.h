@@ -518,7 +518,7 @@ struct TObjPlayer : public TObjChara {
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3);
     s32 is_rand_below_threshold();
-    s32 get_hp_by_flag();
+    saddr get_hp_by_flag();
     s16 get_kill_count();
     static void apply_status_effect(saddr a);
     // Enters (target, body) in the hit pair table unless it is already there.
@@ -1109,7 +1109,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_substate(u8 *arg0);
     static TItem *create_enter_state_804A0BC0(u8 *arg0);
     // A weapon shot callback: news the shoot model that draws the shot.
-    static int create_item_shoot_model(int weapon, int origin, int end, f32 frames);
+    static saddr create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames);
     static TItem *create_vtable_804a1288(u8 *arg0);
     static TItem *create_obj_80122C2C(u8 *arg0);
     static TItem *create_bringer_effect(u8 *arg0);

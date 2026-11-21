@@ -31,10 +31,10 @@ TUnk_804A0AA8::TUnk_804A0AA8(void *owner, const Vec *pos, const Vec *dir, f32 li
     m_30 = 0;
 }
 
-int TObjPlayer::create_item_shoot_model(int weapon, int origin, int end, f32 frames) {
+saddr TObjPlayer::create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames) {
     TUnk_804A0AA8 *model = NULL;
-    if (weapon != 0) {
-        model = new TUnk_804A0AA8((void *)weapon, (const Vec *)origin, (const Vec *)end, frames);
+    if (weapon != NULL) {
+        model = new TUnk_804A0AA8(weapon, origin, end, frames);
     }
     return (saddr)model;
 }
