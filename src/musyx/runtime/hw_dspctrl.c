@@ -2,7 +2,7 @@
 
 extern "C" {
 
-Rec_803B59E4 lbl_805663D8[8];
+Rec_803B59E4 dspStudio[8];
 
 u32 dspARAMZeroBuffer;
 u16 *dspCmdLastLoad;
@@ -20,7 +20,6 @@ void *dspITDBuffer;
 DSPvoice_803B5500 *dspVoice;
 s32 (*salMessageCallback)(s32, s32);
 
-#define dspStudio lbl_805663D8
 
 #pragma push
 #pragma opt_common_subs on
@@ -110,14 +109,12 @@ u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
 }
 
 #pragma pop
-#undef dspStudio
 
 void salInitHRTFBuffer(void) {
     memset(dspHrtfHistoryBuffer, 0, 0x100);
     DCFlushRangeNoSync(dspHrtfHistoryBuffer, 0x100);
 }
 
-#define dspStudio lbl_805663D8
 #pragma push
 #pragma opt_common_subs on
 #pragma bool off
@@ -147,10 +144,9 @@ void salActivateStudio(u8 studio, u32 isMaster, u32 type) {
 }
 
 #pragma pop
-#undef dspStudio
 
 void salDeactivateStudio(u8 i) {
-    lbl_805663D8[i].f50 = 0;
+    dspStudio[i].f50 = 0;
 }
 
 #pragma push
@@ -276,8 +272,7 @@ void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right) {
     SortVoices(v, last + 1, right);
 }
 
-#undef dspStudio
-#define dspStudio ((DSPstudioinfo *)lbl_805663D8)
+#define dspStudio ((DSPstudioinfo *)dspStudio)
 u32 __OSBusClock AT_ADDRESS(0x800000F8);
 
 const u16 dspMixerCycles[32] = {
@@ -1560,11 +1555,11 @@ void salActivateVoice(Ent_803B8910 *dsp_vptr, u8 studio) {
         dsp_vptr->flags |= 0x20;
     }
     dsp_vptr->fED = 0;
-    if ((dsp_vptr->next = (Ent_803B8910 *)lbl_805663D8[studio].voiceRoot) != 0) {
+    if ((dsp_vptr->next = (Ent_803B8910 *)dspStudio[studio].voiceRoot) != 0) {
         dsp_vptr->next->prev = dsp_vptr;
     }
     dsp_vptr->prev = 0;
-    lbl_805663D8[studio].voiceRoot = dsp_vptr;
+    dspStudio[studio].voiceRoot = dsp_vptr;
     dsp_vptr->fEE = 0;
     dsp_vptr->active = 1;
     dsp_vptr->idx = studio;
@@ -1576,7 +1571,7 @@ void salDeactivateVoice(Ent_803B89B4 *arg0) {
         if (arg0->prev != 0) {
             arg0->prev->next = arg0->next;
         } else {
-            lbl_805663D8[arg0->idx].head = arg0->next;
+            dspStudio[arg0->idx].head = arg0->next;
         }
         if (arg0->next != 0) {
             arg0->next->prev = arg0->prev;
@@ -1623,7 +1618,7 @@ void salHandleAuxProcessing(void) {
     saddr buf;
 
     i = 0;
-    v = (Voice_803B8B40 *)lbl_805663D8;
+    v = (Voice_803B8B40 *)dspStudio;
     while (i < salMaxStudioNum) {
         if (v->b50 == 1) {
             if (v->cbA != 0) {

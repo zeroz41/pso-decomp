@@ -247,7 +247,7 @@ void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direc
     if (auxiliaryA >= 1.0f) auxiliaryA = 1.0f;
     if (auxiliaryB >= 1.0f) auxiliaryB = 1.0f;
     salCalcVolume(volumeCurve, out, pan, surroundPan, (state->flags & 0x80000000) != 0,
-        lbl_805663D8[state->studio].mode == 1, direct, auxiliaryA, auxiliaryB);
+        dspStudio[state->studio].mode == 1, direct, auxiliaryA, auxiliaryB);
     left = 32767.0f * out[0].left;
     right = 32767.0f * out[0].right;
     surround = 32767.0f * out[0].surround;
@@ -291,10 +291,10 @@ void hwOff(s32 arg0) {
 }
 
 void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB) {
-    lbl_805663D8[studio].auxAHandler = auxA;
-    lbl_805663D8[studio].auxAUser = userA;
-    lbl_805663D8[studio].auxBHandler = auxB;
-    lbl_805663D8[studio].auxBUser = userB;
+    dspStudio[studio].auxAHandler = auxA;
+    dspStudio[studio].auxAUser = userA;
+    dspStudio[studio].auxBHandler = auxB;
+    dspStudio[studio].auxBUser = userB;
 }
 
 void hwActivateStudio(u8 i, s32 a, s32 b) {
@@ -306,11 +306,11 @@ void hwDeactivateStudio(u8 i) {
 }
 
 void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
-    salAddStudioInput(&lbl_805663D8[studio], in_desc);
+    salAddStudioInput(&dspStudio[studio], in_desc);
 }
 
 void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
-    salRemoveStudioInput(&lbl_805663D8[studio], in_desc);
+    salRemoveStudioInput(&dspStudio[studio], in_desc);
 }
 
 #define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)

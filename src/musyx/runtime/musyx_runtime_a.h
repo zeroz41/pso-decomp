@@ -527,7 +527,7 @@ extern s64 synthRealTime;
 void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 extern u32 synthMasterFaderActiveFlags;
 s32 synthIsFadeOutActive(u8 arg0);
-extern Rec_803B59E4 lbl_805663D8[];
+extern Rec_803B59E4 dspStudio[];
 void salDeactivateStudio(u8 i);
 VID_LIST_SV *get_vidlist(u32 key);
 extern u8 sndActive;
