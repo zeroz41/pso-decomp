@@ -17,7 +17,7 @@ void convert_color_f32_to_u8(const NJS_ARGB *src, struct _GXColor *dst);
 void convert_color_u8_to_f32(const struct _GXColor *src, NJS_ARGB *dst);
 }
 void advance_motion_row(void);
-void bind_motion_channel_samplers(int arg0, f32 farg0);
+void bind_motion_channel_samplers(NJS_MOTION *motion, f32 farg0);
 s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *rot);
 void compose_motion_node_matrix(void *arg0);
 void find_motion_key_interval(void *keys, s32 stride, s32 count, f32 t, void *k0, void *k1, void *frac);

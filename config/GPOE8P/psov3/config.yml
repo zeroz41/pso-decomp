@@ -4197,7 +4197,7 @@ force_active:
   - bind_bml_motion
   - bind_collision_body_parts
   - bind_controller_devices
-  - bind_motion_channel_samplers__Fif
+  - bind_motion_channel_samplers__FP10NJS_MOTIONf
   - bind_network_info_cipher_pool__FPUll
   - biri_ball_model_names
   - biri_ball_motion_names

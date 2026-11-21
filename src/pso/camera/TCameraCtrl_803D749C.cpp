@@ -66,9 +66,9 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1);
 #pragma scheduling off
 void bind_motion_blend_channels(NJS_MOTION_LINK *motion, f32 blend_factor) {
     select_motion_context(1);
-    bind_motion_channel_samplers((saddr)motion->motion[1], motion->frame[1]);
+    bind_motion_channel_samplers(motion->motion[1], motion->frame[1]);
     select_motion_context(0);
-    bind_motion_channel_samplers((saddr)motion->motion[0], motion->frame[0]);
+    bind_motion_channel_samplers(motion->motion[0], motion->frame[0]);
     motion_blend_factor = blend_factor;
 }
 #pragma pop
@@ -298,13 +298,13 @@ void find_motion_key_interval(void *keys, s32 stride, s32 count, f32 t, void *k0
 
 void bind_motion_context(NJS_MOTION *motion, f32 farg0) {
     select_motion_context(0);
-    bind_motion_channel_samplers((saddr)motion, farg0);
+    bind_motion_channel_samplers(motion, farg0);
 }
 #pragma pop
 
-void bind_motion_channel_samplers(int arg0, f32 farg0) {
+void bind_motion_channel_samplers(NJS_MOTION *motion, f32 farg0) {
     s32 temp_r5;
-    select_motion_sampler((s32 *)arg0, farg0);
+    select_motion_sampler((s32 *)motion, farg0);
     temp_r5 = *(s32 *)((s8 *)current_motion_context + 0x20);
     if ((u32) (temp_r5 & 1) != 0) {
         *(void **)((s8 *)current_motion_context + 0x30) = (void *)sample_motion_vector_channel;

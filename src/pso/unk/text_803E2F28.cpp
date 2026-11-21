@@ -590,7 +590,7 @@ void set_strip_lighting_chan_ctrl(u32 flags) {
 
 #pragma push
 #pragma scheduling off
-s32 set_chunk_alpha_compare_ref(int ref) {
+void set_chunk_alpha_compare_ref(int ref) {
     GXSetAlphaCompare(4, ref, 0, 7, 0);
 }
 #pragma pop

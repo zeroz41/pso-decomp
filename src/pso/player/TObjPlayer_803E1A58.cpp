@@ -33,7 +33,7 @@ extern "C" {
 s32 GXLoadPosMtxImm(void *, int);
 /* GX_PNMTX0..GX_PNMTX9 */
 s32 gx_pos_mtx_index_table[10] = {0, 3, 6, 9, 12, 15, 18, 21, 24, 27};
-extern s32 current_matrix;
+extern saddr current_matrix;
 /* GX_TEXMTX0..GX_TEXMTX9 */
 s32 tex_matrix_id_table[10] = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
 void GXLoadTexMtxImm(void *mtx, u32 id, s32 type);
