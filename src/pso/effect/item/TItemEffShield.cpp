@@ -55,7 +55,6 @@ s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-int get_item_field_6__10TObjPlayerFPv(void *p);
 void play_sound_effect(s32, void *, s32, s32);
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 }
@@ -134,7 +133,7 @@ void TItemEffShield::spawn_recipe_particles() {
   }
   do
   {
-    temp_r5 = *((s32 *) (((s8 *) (*((s32 *) (((s8 *) arg0) + 0x34)))) + var_r31));
+    temp_r5 = *((s32 *) (((s8 *) (*((Recipe_8010A4C0 **) (((s8 *) arg0) + 0x34)))) + var_r31));
     if (temp_r5 != (-1))
     {
       create_oneshot_particle_emitter((arg0 + 0x1C), (arg0 + 0x28), temp_r5, 4);
@@ -146,50 +145,53 @@ void TItemEffShield::spawn_recipe_particles() {
 }
 
 TUnk_8049F148::TUnk_8049F148(TObject *arg1, s16 arg2) : TObject(arg1) {
-    *(s16 *)((s8 *)((u8 *)this) + 0x24) = arg2;
-    *(s32 *)((s8 *)((u8 *)this) + 0x20) = -1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x28) = get_item_system_generation();
+    client_id = arg2;
+    m_20 = -1;
+    particle = NULL;
+    m_28 = get_item_system_generation();
 }
 
 TUnk_8049F148::~TUnk_8049F148() {
-    if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x1C)))->queue_destruction(); *(s32 *)((s8 *)this + 0x1C) = 0; }
+    if (particle != NULL) {
+        particle->queue_destruction();
+        particle = NULL;
+    }
 }
 
 void TUnk_8049F148::run_task() {
     s32 sp8[6];
     s32 temp_r3_2;
-    u32 temp_r3_3;
+    uaddr temp_r3_3;
     TObjPlayer *player;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
         queue_destruction();
         return;
     }
-    player = (TObjPlayer *)get_player_by_client_id(*(u16 *)((s8 *)this + 0x24));
+    player = (TObjPlayer *)get_player_by_client_id(this->client_id);
     if (player != NULL) {
         player->get_anim_node_position(0x24, (Vec *)sp8);
         temp_r3_2 = get_current_floor();
         if (temp_r3_2 != (s32) this->m_20) {
             this->m_20 = temp_r3_2;
             if ((is_current_area_item_enabled() != 0) && (temp_r3_2 == player->get_floor())) {
-                *(u32 *)&this->unk_1C = (uaddr)create_particle_emitter(sp8, 0x101);
+                this->particle = create_particle_emitter(sp8, 0x101);
             } else {
-                *(u32 *)&this->unk_1C = 0U;
+                this->particle = NULL;
             }
         }
-        temp_r3_3 = get_item_field_6__10TObjPlayerFPv(player);
-        if ((u32) *(u32 *)&this->unk_1C != 0U) {
+        temp_r3_3 = TObjPlayer::get_item_field_6(player);
+        if (this->particle != NULL) {
             s32 var_r30 = 0;
             if ((temp_r3_3 != 0U) && (((TItem *)temp_r3_3)->get_item_group() == 0x1A)) {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {
-                ((TParticleCtrl *)(*(u32 *)&this->unk_1C))->clear_active_flag();
+                this->particle->clear_active_flag();
             } else {
-                ((TParticleCtrl *)(*(u32 *)&this->unk_1C))->enable();
+                this->particle->enable();
             }
-            ((TParticleCtrl *)*(u32 *)&this->unk_1C)->set_position(sp8);
+            this->particle->set_position(sp8);
         }
     } else {
         queue_destruction();
