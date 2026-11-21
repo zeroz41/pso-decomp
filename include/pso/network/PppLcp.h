@@ -2,6 +2,7 @@
 #define PSO_NETWORK_PPPLCP_H
 
 #include "types.h"
+#include "pso/network/PppFsm.h"
 
 /* Option bits of LcpVals.mask (bit N = LCP option type N). */
 #define LCP_OPT_ACCM (1 << 2)
@@ -52,31 +53,9 @@ typedef struct LcpConfig {
 } LcpConfig;
 LAYOUT_ASSERT(LcpConfig_size_check, sizeof(LcpConfig) == 0x10);
 
-/* The LCP protocol header init_lcp_protocol fills in: name, protocol number, timings and callbacks. */
-typedef struct LcpProto_8040059C {
-    const char *name;
-    u16 proto;
-    u16 h6;
-    u8 b8;
-    u8 b9;
-    u8 bA;
-    u8 bB;
-    s32 timeout;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1C;
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-} LcpProto_8040059C;
 /* lbl_805C0400: the LCP protocol header and its options. */
 typedef struct LcpState {
-    LcpProto_8040059C proto;
+    PppFsmProtocol proto;
     LcpOpts opts;
     u8 padA4[4];
 } LcpState;

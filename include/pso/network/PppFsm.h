@@ -71,13 +71,13 @@ struct PppFsm {
     u8 f5;
     u8 f6;
     u8 f7;
-    s16 f8;
+    s16 abort;                  /* 0x08: set when the FSM closes; the connect waits poll it */
     u8 padA;
     u8 ack_count;               /* 0x0B: the Configure-Acks the protocol's ack check accepted */
     u8 *sub;                    /* 0x0C: the link the FSM runs on */
     PppFsmTimer timer;          /* 0x10 */
     PppFsmProtocol *proto;      /* 0x2C */
-    u8 *opts;                   /* 0x30: the protocol's own state */
+    void *opts;                 /* 0x30: the protocol's own state */
 };
 
 LAYOUT_ASSERT(PppFsmProtocol_size_check, sizeof(PppFsmProtocol) == 0x3C);

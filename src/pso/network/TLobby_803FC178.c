@@ -35,7 +35,7 @@ s32 init_net_state_b(void) {
 }
 
 extern s16 get_remaining(s32 x);
-s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
+s16 TLobby__sub_803FC1CC(PppFsm *c, s32 timeout) {
     PppChap *auth;
     u8 *sub;
     NetThreadState *g;
@@ -194,7 +194,7 @@ void chap_input(void *self, saddr arg1) {
         TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
         switch (hdr.code) {
         case 1:
-            chap_recv_challenge((Conn_804004DC *)arg0, &hdr, (PppFrame *)arg1);
+            chap_recv_challenge((PppFsm *)arg0, &hdr, (PppFrame *)arg1);
             return;
         case 2:
             if (chap_recv_response((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
@@ -264,7 +264,7 @@ s32 TLobby__sub_803FC684(u8 *source, u8 *arg1, u8 *arg2) {
     return 0;
 }
 
-void TLobby__sub_803FC728(Conn_804004DC *c) {
+void TLobby__sub_803FC728(PppFsm *c) {
     PppFrame *buf;
     PppChap *chap = (PppChap *)c->opts;
     u8 *sub;
@@ -285,7 +285,7 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
     if (c->retries != 0) {
         buf = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
         ppp_fsm_send_packet(c, 2, chap->id, buf);
-        lobby_timer_start(c->timer);
+        lobby_timer_start((u8 *)&c->timer);
         c->retries--;
         return;
     }
@@ -320,7 +320,7 @@ inline s32 chap_read_byte(PppFrame **src) {
     }
     return chap_read_byte_slow(src);
 }
-extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
+extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
     s16 total;
     PppChap *chap;
     u8 *name;
@@ -417,11 +417,11 @@ extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-inline PppChap *chap_options(Conn_804004DC *arg0) {
+inline PppChap *chap_options(PppFsm *arg0) {
     return (PppChap *)arg0->opts;
 }
 
-void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame *source) {
+void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source) {
     struct {
         u8 *value;
     } challenge_slot;
@@ -482,7 +482,7 @@ void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame 
     chap->len = string_length + 0x11;
     reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
-    lobby_timer_start(connection->timer);
+    lobby_timer_start((u8 *)&connection->timer);
     connection->retries--;
     if (connection->f6 != 0) {
         connection->f6--;

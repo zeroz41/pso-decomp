@@ -150,7 +150,7 @@ s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     s16 r;
     s16 st;
     TLobby__sub_803FC684(chap_name, chap_secret, c);
-    r = TLobby__sub_803FC1CC((Conn_804004DC *)c, timeout);
+    r = TLobby__sub_803FC1CC((PppFsm *)c, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;
@@ -190,7 +190,7 @@ s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
 }
 
 s32 lcp_connect(LcpConfig *cfg) {
-    Conn_804004DC *conn;
+    PppFsm *conn;
     LcpSide *auth_side;
     LcpSide *local_side;
     s16 wait_for_connection(int);

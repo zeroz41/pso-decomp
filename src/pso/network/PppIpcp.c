@@ -110,9 +110,9 @@ after:
 
 struct P_803FF48C;
 void TLobby__sub_803FF48C(P_803FF48C *);
-extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg);
-extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg);
-extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits);
+extern s32 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, s32 arg);
+extern s32 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, s32 arg);
+extern s32 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, u32 bits);
 extern PppFrame *build_ipcp_config_request(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
     const IpcpOptions *src = &lbl_8047FE18;
@@ -305,7 +305,7 @@ inline u32 optbit_803FFB84(u16 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg) {
+extern s32 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, s32 arg) {
     IpcpConfig *bits = (IpcpConfig *)self->opts;
     s32 count = item->len;
     s16 k;
@@ -344,7 +344,7 @@ extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg) {
+extern s32 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, s32 arg) {
     IpcpConfig *bits;
     IpcpSide *p;
     s32 count;
@@ -437,7 +437,7 @@ s32 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, uaddr expected) {
 #pragma pop
 #pragma pop
 
-extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
+extern s32 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, u32 bits) {
     u32 sh;
     void *buf;
     unsigned int new_var;

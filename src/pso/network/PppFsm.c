@@ -189,7 +189,7 @@ void update_countdown_state(void *arg0) {
             fsm->retries = fsm->f4;
             fsm->f6 = fsm->f7;
             fsm->proto->f14(fsm, fsm->proto);
-            fsm->f8 = 1;
+            fsm->abort = 1;
         }
         break;
     case 6:
@@ -205,7 +205,7 @@ void update_countdown_state(void *arg0) {
             fsm->retries = fsm->f4;
             fsm->f6 = fsm->f7;
             fsm->proto->f14(fsm, fsm->proto);
-            fsm->f8 = 1;
+            fsm->abort = 1;
         }
         break;
     }

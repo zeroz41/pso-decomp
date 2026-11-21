@@ -28,7 +28,7 @@ s32 init_net_block_620_secondary(void) {
 }
 
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
-    Conn_804004DC *c = (Conn_804004DC *)arg0;
+    PppFsm *c = (PppFsm *)arg0;
     NetThreadState *g;
     u8 *sub;
 
@@ -133,7 +133,7 @@ void set_active(void *self) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 u8 pap_read_byte_buffer[8];
-static inline PapOptions *pap_options(Conn_804004DC *connection) {
+static inline PapOptions *pap_options(PppFsm *connection) {
     return (PapOptions *)connection->opts;
 }
 
@@ -171,18 +171,18 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     return -1;
 }
 
-static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
+static inline void pap_auth_done(PppFsm *self, u32 pending_bit) {
     u8 *link = self->sub;
     ((u8 *)self)[2] &= ~pending_bit;
     if (!(((u8 *)self)[2] & 0x30)) {
         self->state = 5;
     }
-    lobby_timer_stop(self->timer);
+    lobby_timer_stop(&self->timer);
     link[2] &= ~pending_bit;
     start_ipcp_after_auth((O_80400ACC *)link);
 }
-void pap_input(Conn_804004DC *self, PppFrame *source) {
-    Conn_804004DC *connection;
+void pap_input(PppFsm *self, PppFrame *source) {
+    PppFsm *connection;
     PppHeader header;
     PapOptions *options;
     options = pap_options(self);
@@ -209,7 +209,7 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
         if (pap_read_reply_message((PapOptions *)self->opts, header.id, self->id, source) != 0) {
             return;
         }
-        lobby_timer_stop(connection->timer);
+        lobby_timer_stop(&connection->timer);
         options->peer_id = NULL;
         options->password = NULL;
         connection->abort = 1;
@@ -278,7 +278,7 @@ void handle_request_timeout(void *self) {
     }
     opts->message = (u8 *)"Request retry exceeded";
     update_connection_state(fsm->sub + 4);
-    fsm->f8 = 1;
+    fsm->abort = 1;
 }
 
 #pragma push

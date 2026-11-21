@@ -114,11 +114,11 @@ extern const char chap_failure_message[7];
 extern s32 lbl_805D7AA0; /* PppFsm.c */
 extern u16 lbl_805D7A9A;
 extern u8 chap_read_byte_buffer;
-s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);
+s16 TLobby__sub_803FC1CC(PppFsm *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
-void TLobby__sub_803FC728(Conn_804004DC *c);
-s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v);
-void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame *source);
+void TLobby__sub_803FC728(PppFsm *c);
+s16 chap_recv_response(PppFsm *c, u8 *hdr, int v);
+void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source);
 #ifdef __cplusplus
 }
 #endif

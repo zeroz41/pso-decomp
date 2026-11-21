@@ -271,9 +271,9 @@ Blk_803FA2A8 lbl_804FD380 = {0};
  * types lbl_804FD398 gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
 s16 ipv6cp_default_option_flags = 6;
 void *TLobby__sub_803FABDC(void *self);
-s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h);
-s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h);
-s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 n);
+s32 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, s32 h);
+s32 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, void *h);
+s32 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
 void TLobby__sub_803F9FAC(u8 *ctx) {
     Blk_803FA2A8 *src = &lbl_804FD380;
@@ -380,7 +380,7 @@ void TLobby__sub_803FA2A8(P_803FA2A8 *o) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 h) {
+s32 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, s32 h) {
     u8* m = (u8 *)self->opts;
     s32 cnt = src->len;
     s16 k;
@@ -421,7 +421,7 @@ s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag)
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
+s32 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, s32 h) {
     u8 *bits;
     u8 *p;
     s32 cnt;
@@ -519,7 +519,7 @@ s32 verify_message_sequence(PppFsm *fsm, PppHeader *msg, uaddr expected) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h)
+s32 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, void *h)
 {
   u32 sh;
   PppFrame *blk;

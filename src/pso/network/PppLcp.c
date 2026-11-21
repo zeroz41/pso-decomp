@@ -31,7 +31,7 @@ u8 lobby_read_byte_buffer[1];
 u8 lcp_read_value_buffer[4];
 
 
-s32 wait_for_connection(Conn_804004DC *c) {
+s32 wait_for_connection(PppFsm *c) {
     NetThreadState *g;
     u8 *sub;
     sub = c->sub;
@@ -52,16 +52,16 @@ s32 wait_for_connection(Conn_804004DC *c) {
     return 0;
 }
 
-extern saddr TLobby__sub_8040172C(Conn_804004DC *c);
-extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src);
-extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src);
+extern saddr TLobby__sub_8040172C(PppFsm *c);
+extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src);
+extern s32 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, s32 src);
 s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src);
 s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected);
 
 void init_lcp_protocol(u8 *conn)
 {
-  LcpProto_8040059C *proto = &lbl_805C0400.proto;
-  Conn_804004DC *e = (Conn_804004DC *)(conn + 4);
+  PppFsmProtocol *proto = &lbl_805C0400.proto;
+  PppFsm *e = (PppFsm *)(conn + 4);
   LcpOpts *area = &lbl_805C0400.opts;
   const LcpVals *tbl = &lbl_8047FE50;
   proto->name = "Lcp";
@@ -97,7 +97,7 @@ void init_lcp_protocol(u8 *conn)
 extern s16 apply_lcp_config_to_sides(void *a0, void *a1) {
     s32 pad[2];
     s32 *pp;
-    Conn_804004DC *s = (Conn_804004DC *)a0;
+    PppFsm *s = (PppFsm *)a0;
     LcpConfig *msg = (LcpConfig *)a1;
     LcpSide *p;
     LcpSide *q;
@@ -184,7 +184,7 @@ void lcp_noop_callback(void) {
 
 }
 
-void setup_auth_after_lcp_negotiation(Conn_804004DC *c) {
+void setup_auth_after_lcp_negotiation(PppFsm *c) {
     LcpOpts *info = c->opts;
     St_8040098C *st;
     u32 now;
@@ -235,7 +235,7 @@ void start_ipcp_after_auth(O_80400ACC *o) {
 
 void reset_connection_slot(void *self) {
     s8 *temp_r31;
-    temp_r31 = (s8 *)((Conn_804004DC *)self)->sub;
+    temp_r31 = (s8 *)((PppFsm *)self)->sub;
     *temp_r31 = 4;
     TLobby__sub_803FD85C(temp_r31 + 0x6C);
     reset_connection_state((void *)(temp_r31 + 0x38));
@@ -246,13 +246,13 @@ void queue_command_81(void) {
 }
 
 void mark_lcp_starting(u8 *arg0) {
-    *((Conn_804004DC *)arg0)->sub = 1;
+    *((PppFsm *)arg0)->sub = 1;
 }
 
 void reset_lcp_options(void *self) {
     LcpOpts *s;
     s32 t;
-    s = ((Conn_804004DC *)self)->opts;
+    s = ((PppFsm *)self)->opts;
     if (s->local.want.mask & 0x20) {
         get_time_ms(&t);
         s->local.want.magic += t;
@@ -263,7 +263,7 @@ void reset_lcp_options(void *self) {
     s->remote.mask |= s->remote.want.mask;
 }
 
-extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
+extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src) {
     s16 last = 0;
     LcpOpts *o = fsm->opts;
     s32 left = msg->len;
@@ -299,7 +299,7 @@ extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
 
 #pragma push
 #pragma opt_common_subs on
-extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
+extern s32 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, s32 src) {
     LcpOpts *opts = fsm->opts;
     LcpSide *local = &opts->local;
     s32 remaining = msg->len;
@@ -593,7 +593,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-saddr TLobby__sub_8040172C(Conn_804004DC *c) {
+saddr TLobby__sub_8040172C(PppFsm *c) {
     uaddr obj;
     LcpOpts *s;
     s = c->opts;
