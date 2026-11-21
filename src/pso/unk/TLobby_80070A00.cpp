@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjDeadListWin.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/TObjTombstone.h"
@@ -188,7 +189,6 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
-s32 get_character_save_record(u32);
 s32 decode_obfuscated_string__6TLobbyFPvi(void *, void *, int, int);
 u8 lbl_804FF820[0xC];
 RecoveredGlobal_800713C8_lbl_804FF82C lbl_804FF82C;

@@ -2,6 +2,7 @@
 #define PSO_SYSTEM_CONTROLLERINPUTSTATE_H
 
 #include "types.h"
+#include <stddef.h>
 
 struct ControllerInputContext {
     u32 buttons;
@@ -21,13 +22,17 @@ struct ControllerInputContext {
     u32 flags_4c;
 };
 
+struct PadSlot;
+
 struct ControllerInputState {
-    u8 unknown_00[0x20];
+    PadSlot *sources[4];
+    s32 source_status[4];
     ControllerInputContext controllers[4];
     ControllerInputContext keyboard;
 };
 
 typedef char ControllerInputContext_size[sizeof(ControllerInputContext) == 0x50 ? 1 : -1];
+typedef char ControllerInputState_controllers_offset[offsetof(ControllerInputState, controllers) == 0x20 ? 1 : -1];
 typedef char ControllerInputState_size[sizeof(ControllerInputState) == 0x1B0 ? 1 : -1];
 
 extern "C" {

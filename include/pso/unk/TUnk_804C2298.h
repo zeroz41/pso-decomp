@@ -3,6 +3,9 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TCheckMemoryCard;
+struct TWindowMessage;
+
 // The scene TAdMultiChgGameModeGC creates for game mode 3: a short list (TWindowOptionCtrl) whose
 // choice picks the dial image, then the system file check and load (reading inferred).
 class TUnk_804C2298 : public TObject {
@@ -20,8 +23,8 @@ public:
     // The short list choice; 4 until one is made (name inferred).
     s32 selection;
     TObject *list;
-    TObject *window;
-    TObject *card;
+    TWindowMessage *window;
+    TCheckMemoryCard *card;
 };
 typedef char TUnk_804C2298_size[sizeof(TUnk_804C2298) == 0x30 ? 1 : -1];
 

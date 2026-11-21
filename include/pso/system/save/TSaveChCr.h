@@ -4,6 +4,10 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMessage;
+class TAdBackGC;
+class TAdBackTxtGC;
+
 class TSaveChCr : public TObject {
 public:
     TSaveChCr(TObject *parent, s32 mode);
@@ -16,13 +20,13 @@ public:
     s32 m_24;
     s32 m_28;
     s32 card_status;
-    u8 unk_30[0x4];
-    void * m_34;
+    TAdBackGC *backdrop;
+    TAdBackTxtGC *backdrop_text;
     s32 timer;
-    TObject *owned_window;
+    TWindowMessage *owned_window;
 
 public:
-    void close_and_advance(void* a1);
+    void close_and_advance(s32 message);
     void set_message_by_index(s32 arg1);
     void open_message_window(u32 arg1);
     void destroy_if_keyboard_idle();
@@ -42,7 +46,7 @@ public:
     void create_backgrounds();
     s32 save_character();
     void set_state(s32 arg1);
-    static void *create(void *arg0);
+    static TSaveChCr *create(s32 mode);
 };
 
 typedef void (TSaveChCr::*TSaveChCrStateAction)();

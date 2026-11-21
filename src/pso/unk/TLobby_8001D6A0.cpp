@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"

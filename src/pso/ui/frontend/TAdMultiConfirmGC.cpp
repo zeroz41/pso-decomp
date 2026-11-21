@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -43,11 +44,9 @@ s32 are_all_entries_finished(s32);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
-void *__ct__13TAdGuideTxtGCFv(void *, void *);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
 extern const char *TAdMultiConfirmGC__name;
@@ -138,7 +137,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     arg.count = ((TAdMultiConfirmGC_802FFA3C *)this)->count;
     arg.mask = 0;
     for (j = 0; j < (n = ((TAdMultiConfirmGC_802FFA3C *)this)->count); j++) {
-        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = (void *)get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((s32)((TAdMultiConfirmGC_802FFA3C *)this), (s32)(n + 1), (s32)j, (s32)(((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]));
+        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = TAdMultiPlyChrSelectGC::get_or_create_player(this, n + 1, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
         new TAdMultiPlayerNoGC(this, ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
         arg.mask |= 1 << ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j];
     }
@@ -147,13 +146,10 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
         p = __ct__12TAdMultiOkGCFv(p, ((TAdMultiConfirmGC_802FFA3C *)this), &arg);
     }
     ((TAdMultiConfirmGC_802FFA3C *)this)->ok = p;
-    p = TObject::operator new(0x44);
-    if (p != 0) {
-        p = __ct__13TAdGuideTxtGCFv(p, ((TAdMultiConfirmGC_802FFA3C *)this));
-    }
+    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(((TAdMultiConfirmGC_802FFA3C *)this)));
     ((TAdMultiConfirmGC_802FFA3C *)this)->guide = p;
-    ((TAdMultiPlyChrSelectGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_entry_value(0, (u32)(get_localized_text_entry(0x25, 0)));
-    ((TAdMultiPlyChrSelectGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_entry_value(1, (u32)&lbl_805DEF30);
+    ((TAdGuideTxtGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
+    ((TAdGuideTxtGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
     fn_802FF7EC(((TAdMultiConfirmGC_802FFA3C *)this));
 }
 

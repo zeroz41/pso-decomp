@@ -24,6 +24,6 @@ public:
 
 typedef char TChCrEffTag_size[sizeof(TChCrEffTag) == 0x2C ? 1 : -1];
 
-void *create_TChCrEffTag(void *arg0);
+TChCrEffTag *create_TChCrEffTag(TObject *parent);
 
 #endif

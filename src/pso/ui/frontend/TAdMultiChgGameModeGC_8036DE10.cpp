@@ -3,6 +3,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TUnk_804F3A20.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"

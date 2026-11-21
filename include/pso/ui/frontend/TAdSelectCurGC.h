@@ -1,14 +1,60 @@
 #ifndef PSO_UI_FRONTEND_TADSELECTCURGC_H
 #define PSO_UI_FRONTEND_TADSELECTCURGC_H
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
+
+struct SelectCursorQuad {
+    f32 x0, y0, x1, y1;
+    f32 u0, v0, u1, v1;
+};
 
 class TAdSelectCurGC : public TObject {
 public:
+    TAdSelectCurGC(TObject *parent, const NJS_POINT2 *position, const NJS_POINT2 *size);
     virtual ~TAdSelectCurGC();
     virtual void run_task();
 public:
     virtual void render();
+
+    s32 selection_index() const;
+    s32 confirmation_result() const;
+    void set_selection_index(s32 index);
+    void reset_entries();
+    void append_entry(const void *position);
+    void lock_navigation();
+    void request_navigation_unlock();
+    void draw_quads();
+    void update_texture_rectangles(s32 frame);
+    void set_draw_depth(f32 depth);
+
+    NJS_POINT2 entry_positions[16];
+    NJS_POINT2 cursor_size;
+    s32 selected_index;
+    u32 entry_count;
+    s32 confirmation;
+    s32 navigation_locked;
+    s32 confirmation_disabled;
+    s32 wait_directions_released;
+    SelectCursorQuad quads[48];
+    s32 entry_alpha[16];
+    s32 frame;
+    s32 pending_command;
+    f32 draw_depth;
 };
+
+typedef char TAdSelectCurGC_size[sizeof(TAdSelectCurGC) == 0x708 ? 1 : -1];
+typedef char TAdSelectCurGC_position_offset[offsetof(TAdSelectCurGC, entry_positions) == 0x1C ? 1 : -1];
+typedef char TAdSelectCurGC_cursor_size_offset[offsetof(TAdSelectCurGC, cursor_size) == 0x9C ? 1 : -1];
+typedef char TAdSelectCurGC_selection_table_offset[offsetof(TAdSelectCurGC, entry_alpha) == 0x6BC ? 1 : -1];
+
+typedef char SelectCursorQuadSize[sizeof(SelectCursorQuad) == 0x20 ? 1 : -1];
+typedef char SelectCursorQuadsOffset[offsetof(TAdSelectCurGC, quads) == 0xBC ? 1 : -1];
+typedef char SelectCursorIndexOffset[offsetof(TAdSelectCurGC, selected_index) == 0xA4 ? 1 : -1];
+typedef char SelectCursorConfirmationOffset[offsetof(TAdSelectCurGC, confirmation) == 0xAC ? 1 : -1];
+
+struct GinjaTextureList;
+extern "C" GinjaTextureList *menu_selection_cursor_texture_list;
 
 #endif

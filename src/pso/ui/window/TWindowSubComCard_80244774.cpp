@@ -195,9 +195,8 @@ f32 TWindowSubComCard::get_normalized_progress() {
 }
 #pragma pop
 
-void TWindowSubComCard::reparent_to_main_ctrl() {
-    s32 arg0 = (s32)this;
-    ((TObject *)arg0)->set_parent((TObject *)(TWindowCtrlMain__sub_8024CE24()));
+void TWindowBase::reparent_to_main_ctrl() {
+    set_parent(reinterpret_cast<TObject *>(TWindowCtrlMain__sub_8024CE24()));
 }
 
 void TWindowBase::save_position() { *(f32*)((char*)this + 0x40) = *(f32*)((char*)this + 0x30); *(f32*)((char*)this + 0x44) = *(f32*)((char*)this + 0x34); *(f32*)((char*)this + 0x48) = *(f32*)((char*)this + 0x38); *(f32*)((char*)this + 0x4c) = *(f32*)((char*)this + 0x3c); }

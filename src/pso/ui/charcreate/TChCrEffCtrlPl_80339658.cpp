@@ -68,6 +68,6 @@ TChCrEffCtrlPl::TChCrEffCtrlPl(TObject *object) : TObject(object) {
     m_34 = 0;
 }
 
-void *TChCrEffCtrlPl::create() {
-    return new TChCrEffCtrlPl((TObject *)this);
+TChCrEffCtrlPl *TChCrEffCtrlPl::create(TObject *parent) {
+    return new TChCrEffCtrlPl(parent);
 }

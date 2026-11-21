@@ -1,3 +1,4 @@
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -7,14 +8,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
-
-// The argument block create passes to the second constructor.
-struct TChCrLoadAfsTextureReqArgs {
-    GinjaTextureList *textures;
-    s32 m_6c;
-    s32 *m_34;
-    s32 m_70;
-};
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
@@ -131,12 +124,12 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, GinjaTextureList
     init_texture_table();
 }
 
-TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, void *args) : TObject(parent) {
+TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsTextureReqArgs *args) : TObject(parent) {
     m_name = lbl_805D3B50;
-    textures = ((TChCrLoadAfsTextureReqArgs *)args)->textures;
-    m_6c = ((TChCrLoadAfsTextureReqArgs *)args)->m_6c;
-    m_34 = ((TChCrLoadAfsTextureReqArgs *)args)->m_34;
-    m_70 = ((TChCrLoadAfsTextureReqArgs *)args)->m_70;
+    textures = args->textures;
+    m_6c = args->completion_mask;
+    m_34 = args->completion_flags;
+    m_70 = args->display_index;
     init_texture_table();
 }
 
@@ -144,43 +137,42 @@ TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *parent, void *te
     return new TChCrLoadAfsTextureReq((TObject *)parent, (GinjaTextureList *)textures, (s32 *)arg2, (s32)arg3);
 }
 
-void *TChCrLoadAfsTextureReq::create(void *parent, void *args) {
-    return new TChCrLoadAfsTextureReq((TObject *)parent, args);
+TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoadAfsTextureReqArgs *args) {
+    return new TChCrLoadAfsTextureReq(parent, args);
 }
 
 extern "C" f32 TLobby__sub_8028C50C(void) {
     return (f32) log();
 }
-void TLobby::update_model_load() {
+void TChCrLoadGmNjReq::update_model_load() {
     s32 timer;
     u32 bml_model;
     void *request;
-    TChCrLoadGmNjReq *req = (TChCrLoadGmNjReq *)this;
-    timer = req->m_74 - 1;
-    req->m_74 = timer;
+    timer = load_timer - 1;
+    load_timer = timer;
     if (timer < 0) {
-        if (req->m_68 != NULL) {
-            free_bin_model_request(req->m_68, 1);
+        if (loaded_bml != NULL) {
+            free_bin_model_request(loaded_bml, 1);
         } else {
             return;
         }
         request = ::operator new(0x440);
         if (request != NULL) {
-            request = init_bin_model_request(request, 6, &req->m_60, &req->m_64, 0, 0, req->m_24->start_load_default());
+            request = init_bin_model_request(request, 6, (char **)model_ids, (u32 *)&model_ids[1], 0, 0, (s32)get_character_load_buffer(load_slot));
         }
-        req->m_68 = request;
+        loaded_bml = (BmlResource *)request;
         if (request != NULL) {
-            req->m_74 = 0x12C;
+            load_timer = 0x12C;
         }
-    } else if (fn_8001ED90(req->m_68) != 0) {
-        bml_model = get_bml_model((BmlResource *)req->m_68, 0);
-        *req->m_1c = bml_model;
+    } else if (fn_8001ED90(loaded_bml) != 0) {
+        bml_model = (u32)get_bml_model(loaded_bml, 0);
+        *model_out = bml_model;
         if (bml_model != 0U) {
-            req->m_24->alloc_load_buffer(TLobby__sub_8001ED88(req->m_68));
-            free_bin_model_request(req->m_68, 1);
-            req->m_68 = NULL;
-            req->sub_8028C8A8();
-            *req->m_28 &= ~req->m_20;
+            advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
+            free_bin_model_request(loaded_bml, 1);
+            loaded_bml = NULL;
+            sub_8028C8A8();
+            *completion_flags &= ~completion_mask;
             queue_destruction();
         }
     }

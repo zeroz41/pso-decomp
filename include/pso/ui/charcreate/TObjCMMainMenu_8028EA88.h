@@ -4,8 +4,10 @@
 #include "types.h"
 
 class TObjCMMainMenu;
+struct BmlResource;
 
 extern "C" {
+extern BmlResource *creation_menu_main_obj;
 s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu);
 void TObjCMMainMenu__sub_8028EC18(void);
 void TObjCMMainMenu__sub_8028EC24(void);

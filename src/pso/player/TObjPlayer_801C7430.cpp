@@ -3033,11 +3033,11 @@ void TObjPlayer::enter_death_state() {
     }
     if ((TObjPlayer::is_locally_controlled((void *) (arg0)) != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (TTecCtrl::is_technique_ready() == 0)) {
         if (TObjPlayer::is_single_screen() != 0) {
-            character_save_record = get_character_save_record(((s32 (*)(void *))get_entity_id)((void *) (arg0)));
+            character_save_record = ((u8 *)get_character_save_record((u16)(((s32 (*)(void *))get_entity_id)((void *) (arg0)))));
             *(s32 *)((s8 *)character_save_record + 0x244) = (s32) (*(s32 *)((s8 *)character_save_record + 0x244) + 1);
             return;
         }
-        temp_r3_3 = get_character_save_record(0xFFFFU);
+        temp_r3_3 = ((u8 *)get_character_save_record((u16)(0xFFFFU)));
         *(s32 *)((s8 *)temp_r3_3 + 0x244) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x244) + 1);
     }
 }

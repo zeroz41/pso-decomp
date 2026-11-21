@@ -6,7 +6,10 @@
 
 struct CreationTextureCacheEntry;
 
+struct TCheckMemoryCard;
+
 struct TAdSinglePlyChrSelectGC : public TObject {
+    explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
     void sub_802D4E08();
     virtual void render();
@@ -36,7 +39,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u8 *get_global_state();
     static int get_state();
     static void safe_free(u32 arg0);
-    s32 get_selected_slot();
     void set_position(void* q);
     void noop_laser();
     void forward_to_field_0x14(void* a1);
@@ -80,9 +82,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_flags(s32 arg0);
     static s32 check_flag(s32 arg0);
     static void set_state(int a0);
-    void clear_slot_lists();
     static void set_chr_select_state(int a0);
-    void reset_slot_lists();
     void*copy_item_data(void* a1);
     void*init_guild_card_tag();
     void clear_inventory_slot();
@@ -90,18 +90,12 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
-    s32 are_all_selections_done();
-    s32 load_preview_models();
-    void request_texture_loads();
-    s32 try_claim_load_slot();
     static void *calc_preview_offset(void *arg0, s32 arg1, s32 arg2, s32 arg3);
-    s32 get_result();
     static void init_entry_tables(void* _w0);
     static s32 is_active();
     void reset_creation_parts();
     void free_field_FC();
     void draw_player_model();
-    void get_sorted_region_samples(s32 *arg1);
     static s32 map_button_code(s32 arg0);
     static s32 count_remaining_slots();
     static s32 has_matching_entry(void *arg0);
@@ -131,7 +125,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     u8 unk_38[0x4];
     s32 m_3c;
-    u8 unk_40[0x4];
+    TCheckMemoryCard *memory_card_check;
     s32 m_44;
     u8 unk_48[0x4];
     s32 m_4c;
@@ -146,8 +140,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 *copy_character_data(u8 *arg1);
     u8 *construct_chardata_array();
     void swap_item_data(s32 *arg1);
-    void start_character_load_task();
-    void request_model_loads();
     void draw_creation_figure();
     static void reset_quest_id();
     static void set_quest_download_server(int a0);
@@ -168,7 +160,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void run_frame();
     void init_warp();
     void init_warps();
-    s32 get_field_44();
     void apply_rng_cipher(u32 *data, s32 len);
     void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);

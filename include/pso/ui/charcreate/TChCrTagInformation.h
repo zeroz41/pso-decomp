@@ -5,15 +5,15 @@
 #include "pso/ui/charcreate/TChCrTag.h"
 
 struct TChCrTagInformation : public TChCrTag {
-    TChCrTagInformation(TObject *parent, void *arg);
+    TChCrTagInformation(TObject *parent, s32 index);
     virtual ~TChCrTagInformation();
     void draw_char_info_sprites();
     void render();
     void update_selected_char();
     void run_task();
     virtual s32 vt4();
-    static void *create(void *arg0);
-    static void *create_default();
+    static TChCrTagInformation *create(s32 index);
+    static TChCrTagInformation *create_default();
 };
 
 typedef char TChCrTagInformation_size[sizeof(TChCrTagInformation) == 0x3C ? 1 : -1];

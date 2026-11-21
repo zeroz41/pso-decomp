@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_801C4F80.h"
@@ -107,7 +108,6 @@ extern u8 lobby_rule_settings[];
 int sprintf(char *, const char *, ...);
 s32 TLobby__sub_801C19D0(void *);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-s32 get_character_save_record(u32 arg0);
 int obj_getPtr2B0_20(u8 *p);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);

@@ -24,15 +24,9 @@
 #pragma readonly_strings on
 
 
-struct CreationMenuEntry {
-    s32 kind;
-    void (TObjCMMainMenu::*select)(void *);
-};
-
-RecoveredGlobal_lbl_8051C070 lbl_8051C070;
+CharacterCreationEffects lbl_8051C070;
 char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
-extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
 extern "C" {
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 s32 init_menu_scene_lights(s32 *, s32);
@@ -40,7 +34,7 @@ s32 init_menu_scene_lights(s32 *, s32);
 extern s32 default_scene_light_config[];
 extern s32 tl_camera;
 extern s32 tl_03;
-void *creation_menu_main_obj;
+BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 extern s32 TObjCMMainMenu__data_805D659C;
 
@@ -66,7 +60,7 @@ void init_creation_menu_scene(void) {
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, &creation_menu_resource_descriptor, 0, 0, 0);
     }
-    creation_menu_main_obj = p;
+    creation_menu_main_obj = (BmlResource *)p;
     if (p != NULL) {
         fn_80291178();
         fn_8028D940();
@@ -76,7 +70,7 @@ void init_creation_menu_scene(void) {
             TObjCMMainMenu__sub_8028EC34();
             TObjCMMainMenu__sub_8028EC24();
             TObjCMMainMenu__sub_8028D9F8();
-            ((TChCrCharSelect *)tl_03)->init_and_create();
+            TChCrCharSelect::init_and_create((TObject *)tl_03);
             TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
         } else {
             TObjCMMainMenu__sub_8028EC18();

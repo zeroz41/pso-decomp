@@ -25,7 +25,7 @@ struct TAdDialingGC : public TObject {
     virtual void run_task();
     void update_dial_state();
     void update_state();
-    void update_dial_state(s32 arg1);
+    void update_idle_dial_state();
     void update_selection();
     void update_state_display();
     void show_guide_button();
@@ -34,7 +34,7 @@ struct TAdDialingGC : public TObject {
     void update_status_message();
     void handle_state();
     void update_status_display();
-    int refresh_display();
+    void refresh_display();
     void init_dialog();
     void draw_dialing_status();
     void draw_if_flag_set();

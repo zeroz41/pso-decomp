@@ -6,24 +6,40 @@
 
 struct CharacterAppearanceFields;
 struct CharacterClassAppearance;
+struct GinjaTextureList;
 struct TObjPlayer;
+class TChCrLoadAfs;
+
+struct CharacterPreviewLoadArgs {
+    CharacterAppearanceFields *appearance;
+    u32 *completion_flags;
+    s32 load_slot;
+    s32 *body_model;
+    s32 *part_models;
+    GinjaTextureList *body_textures;
+    GinjaTextureList *other_textures;
+    GinjaTextureList *head_textures;
+
+    void copy_from(const CharacterPreviewLoadArgs *source);
+};
+
+typedef char CharacterPreviewLoadArgs_size[sizeof(CharacterPreviewLoadArgs) == 0x20 ? 1 : -1];
 
 class TChCrLoadReq : public TObject {
 public:
-    TChCrLoadReq(TObject *arg1, void *arg2);
+    TChCrLoadReq(TObject *parent, const CharacterPreviewLoadArgs *args);
     TChCrLoadReq(TObjPlayer *player);
     virtual ~TChCrLoadReq();
     void release_load_slot();
+    s32 try_claim_load_slot();
+    void request_model_loads();
+    void request_texture_loads();
+    s32 all_preview_loads_complete();
+    void load_preview_models();
+    void start_preview_loads();
 public:
     u8 unk_1C[0x1C];
-    CharacterAppearanceFields *m_38;
-    u32 *m_3c;
-    s32 m_40;
-    s32 *m_44;
-    s32 *m_48;
-    void *m_4c;
-    void *m_50;
-    void *m_54;
+    CharacterPreviewLoadArgs inputs;
     s32 *m_58;
     CharacterClassAppearance *m_5c;
     s32 state;
@@ -35,12 +51,14 @@ public:
     void update_load_progress();
 public:
     void reset_request();
-    void copy(void* q);
     static void *create(void *arg0);
     s32 m_68[3];
-    void *m_74[6];
+    TChCrLoadAfs *m_74[6];
     s32 m_8c;
 };
+TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args);
+
+typedef char TChCrLoadReq_inputs_offset[offsetof(TChCrLoadReq, inputs) == 0x38 ? 1 : -1];
 typedef char TChCrLoadReq_state_offset[(offsetof(TChCrLoadReq,state)==0x60)?1:-1];
 typedef char TChCrLoadReq_timer_offset[(offsetof(TChCrLoadReq,timer)==0x64)?1:-1];
 typedef char TChCrLoadReq_size[sizeof(TChCrLoadReq) == 0x90 ? 1 : -1];

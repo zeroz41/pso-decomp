@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include "types.h"
 #include <string.h>
 #include <stdio.h>
@@ -8,20 +9,28 @@
 #include "pso/ui/frontend/CardFileEntry.h"
 
 // Per-slot card state: the last CARDProbeEx result and the sizes it reported.
-struct CardInfo_803F31D8 { s32 state; s32 mem_size; s32 sector_size; };
+struct CardSlotInfo { s32 state; s32 mem_size; u32 sector_size; };
+
+typedef void (*CardSlotChangeCallback)(s32 channel, s32 memory_size, u32 sector_size);
+typedef char CardSlotInfoSize[(sizeof(CardSlotInfo) == 0xC) ? 1 : -1];
 
 extern "C" {
-void *CARDGetDiskID(s32);
-s32 CARDSetDiskID(s32, void *);
 // memory-card library version banner
 static const char *const mcfs_version = "\nmcFsGc Ver 1.10.00 Build:Sep 17 2002 20:22:41\n";
 // inferred: the DVDDiskID gameName/company pair CARDSetDiskID is given in place of the disk's own
 static const char card_game_name[] = "G9AE";
 static const char card_company[] = "8P";
-u8 card_disk_id[0x20];
+DVDDiskID card_disk_id;
 CardRequestSlot TAdPlayerLoadGC__load_request_slots[2];
 CardFileEntry card_open_files[100];
-CardInfo_803F31D8 card_slot_info[4];
+CardSlotInfo card_slot_info[4];
+
+// The linker places the request slots between the disk ID and open-file table.
+// Two state-machine steps address the file record from that shared BSS base.
+enum {
+    OPEN_FILES_OFFSET = sizeof(card_disk_id) + sizeof(TAdPlayerLoadGC__load_request_slots),
+    OPEN_FILE_NUMBER_OFFSET = OPEN_FILES_OFFSET + offsetof(CardFileEntry, file_info) + offsetof(CARDFileInfo, fileNo),
+};
 
 s32 player_load_channel_flags[2] = {0, 0};
 // inferred: set to 1 by the init function (TAdPlayerLoadGC__sub_803F31D8) and checked first by every entry point
@@ -29,10 +38,10 @@ s32 card_lib_state;
 // inferred: re-entrancy count of the card poll (TAdPlayerLoadGC__sub_803F2F1C), raised on entry, dropped on exit
 u8 card_poll_depth;
 // inferred: called when a slot's probe turns ready (0), with the card's sizes
-void (*card_attach_callback)(s32, s32, s32);
+CardSlotChangeCallback card_attach_callback;
 // inferred: called when a ready slot's probe turns to no card (-3), with the sizes it had
-void (*card_detach_callback)(s32, s32, s32);
-void *saved_card_disk_id;
+CardSlotChangeCallback card_detach_callback;
+const DVDDiskID *saved_card_disk_id;
 // inferred: the init function stores the version banner pointer here
 const char *mcfs_version_ref;
 
@@ -62,9 +71,9 @@ void *card_work_area __attribute__((aligned(32)));
 // card_company codes when the channel flag says the disk id is overridden.
 static inline void get_game_name_and_company(s32 card_channel, u8 *game_name, u8 *company) {
     if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) != 1) {
-        u8 *disk_id = (u8 *)CARDGetDiskID(card_channel);
-        memcpy(game_name, disk_id, 4);
-        memcpy(company, disk_id + 4, 2);
+        const DVDDiskID *disk_id = CARDGetDiskID(card_channel);
+        memcpy(game_name, disk_id->gameName, 4);
+        memcpy(company, disk_id->company, 2);
     } else {
         memcpy(game_name, card_game_name, 4);
         memcpy(company, card_company, 2);
@@ -121,17 +130,17 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
             break;
         }
     case 5:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, (u32 *)&card_slot_info[card_channel].sector_size);
+        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, &card_slot_info[card_channel].sector_size);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
             TAdPlayerLoadGC__load_request_slots[card_channel].status = -202;
             TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
         } else {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
                 saved_card_disk_id = CARDGetDiskID(card_channel);
-                memcpy(card_disk_id, saved_card_disk_id, 0x20);
-                memcpy(card_disk_id, card_game_name, 4);
-                memcpy(card_disk_id + 4, card_company, 2);
-                CARDSetDiskID(card_channel, card_disk_id);
+                memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+                memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+                memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+                CARDSetDiskID(card_channel, &card_disk_id);
             }
             get_game_name_and_company(card_channel, game_name, company);
             found = 0;
@@ -172,10 +181,10 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
     case 0x11:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(card_channel, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(card_channel, &card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDSetAttributesAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].file_no, TAdPlayerLoadGC__load_request_slots[card_channel].attr, 0);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
@@ -214,10 +223,10 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
     case 0xF:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(card_channel, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(card_channel, &card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDDeleteAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, 0);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
@@ -255,10 +264,10 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
     case 0xd:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(card_channel, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(card_channel, &card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDRenameAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, TAdPlayerLoadGC__load_request_slots[card_channel].new_name, 0);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
@@ -310,10 +319,10 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
     case 0xB:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(id, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(id, &card_disk_id);
         }
         {
             CARDFileInfo *info = &((CardFileEntry *)((u8 *)card_open_files + off))->file_info;
@@ -362,10 +371,10 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
         id = *channel;
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(id, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(id, &card_disk_id);
         }
         {
             CardFileEntry *entry = (CardFileEntry *)((u8 *)card_open_files + off);
@@ -438,10 +447,10 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
     case 0x9:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(id, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(id, &card_disk_id);
         }
         {
             CARDFileInfo *info = &((CardFileEntry *)((u8 *)card_open_files + off))->file_info;
@@ -514,10 +523,10 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
     case 0x8:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
-            memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
-            CARDSetDiskID(id, card_disk_id);
+            memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+            memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+            memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+            CARDSetDiskID(id, &card_disk_id);
         }
         res = CARDOpen(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info);
         id = *channel;
@@ -534,8 +543,8 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
         }
         st[id * 0x1A] = 0x13;
     case 0x13:
-        rec = (CardFileEntry *)((u8 *)card_disk_id + off + 0xF0);
-        res = CARDGetStatus(*channel, *(s32 *)((u8 *)card_disk_id + off + 0xFC), &rec->stat);
+        rec = (CardFileEntry *)(reinterpret_cast<size_t>(&card_disk_id) + off + OPEN_FILES_OFFSET);
+        res = CARDGetStatus(*channel, *(s32 *)(reinterpret_cast<size_t>(&card_disk_id) + off + OPEN_FILE_NUMBER_OFFSET), &rec->stat);
         id = *channel;
         TAdPlayerLoadGC__load_request_slots[id].result = res;
         if (TAdPlayerLoadGC__load_request_slots[id].result < 0) {
@@ -588,10 +597,10 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
       if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1)
     {
       saved_card_disk_id = CARDGetDiskID(id);
-      memcpy(card_disk_id, saved_card_disk_id, 0x20);
-      memcpy(card_disk_id, card_game_name, 4);
-      memcpy(card_disk_id + 4, card_company, 2);
-      CARDSetDiskID(id, card_disk_id);
+      memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
+      memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
+      memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
+      CARDSetDiskID(id, &card_disk_id);
     }
       res = CARDCreateAsync(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, TAdPlayerLoadGC__load_request_slots[*channel].length, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info, 0);
       id = *channel;
@@ -642,8 +651,8 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
     }
 
     case 0x13:
-      rec = (CardFileEntry *)((((u8 *) card_disk_id) + off) + 0xF0);
-      res = CARDGetStatus(*channel, *((s32 *) ((((u8 *) card_disk_id) + off) + 0xFC)), &rec->stat);
+      rec = (CardFileEntry *)((reinterpret_cast<size_t>(&card_disk_id) + off) + OPEN_FILES_OFFSET);
+      res = CARDGetStatus(*channel, *((s32 *) ((reinterpret_cast<size_t>(&card_disk_id) + off) + OPEN_FILE_NUMBER_OFFSET)), &rec->stat);
       id = *channel;
       TAdPlayerLoadGC__load_request_slots[id].result = res;
       if (TAdPlayerLoadGC__load_request_slots[id].result < 0)
@@ -736,7 +745,7 @@ void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
             break;
         }
     case 5:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, (u32 *)&card_slot_info[card_channel].sector_size);
+        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, &card_slot_info[card_channel].sector_size);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
             TAdPlayerLoadGC__load_request_slots[card_channel].status = -202;
             TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;

@@ -1031,7 +1031,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
                     TParticleCtrl::end_effect_render();
                     render_tick();
                 } while (poll_memcard_result(1) == 0xFFFFFFFF);
-                if (TAdPlayerLoadGC::get_load_result((void *)1) == 0xFFFFFF81) {
+                if (TAdPlayerLoadGC::get_load_result(1) == 0xFFFFFF81) {
                     TObjBoss2Tunnel::show_message_and_wait(-2);
                 }
                 if (graph != NULL) {
@@ -1065,11 +1065,11 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
     }
     if (TAdPlayerLoadGC::probe_and_check_card(1) == 0) {
         if (arg1 != NULL) {
-            if ((u32)(TAdPlayerLoadGC::get_load_result((void *)1) + 0x10000) == 0xff83U) {
+            if ((u32)(TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xff83U) {
                 if (arg1 != NULL) {
                     *arg1 = -6;
                 }
-            } else if ((u32)(TAdPlayerLoadGC::get_load_result((void *)1) + 0x10000) == 0xff21U) {
+            } else if ((u32)(TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xff21U) {
                 if (arg1 != NULL) {
                     *arg1 = -8;
                 }
@@ -1113,7 +1113,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
         }
         return 0;
     }
-    if ((s32)TAdPlayerLoadGC::query_memcard_capacity(1, 0) < 0xF) {
+    if (TAdPlayerLoadGC::query_memcard_capacity(1, 0) < 0xF) {
         if (arg1 != NULL) {
             *arg1 = -1;
         }

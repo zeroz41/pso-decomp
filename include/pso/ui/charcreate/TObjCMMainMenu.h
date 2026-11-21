@@ -49,12 +49,12 @@ public:
     static void *create_fade(void *arg0, void *arg1);
     static void *create_fade_effect(void *arg0, void *arg1);
     static s32 try_pay_fee();
-    void confirm_selection(void *);
-    void open_name_menu(void *);
-    void open_proportion_menu(void *);
-    void open_auto_mk_menu(void *);
-    void open_hair_menu(void *);
-    void open_assign_menu(void *);
+    void confirm_selection();
+    void open_name_menu();
+    void open_proportion_menu();
+    void open_auto_mk_menu();
+    void open_hair_menu();
+    void open_assign_menu();
     void draw_root_menu();
     void draw_footer_divider();
     void update_submenu_fade();
@@ -84,4 +84,17 @@ typedef char CreationMainMenu_progress_offset[offsetof(TObjCMMainMenu,progress)=
 typedef char CreationMainMenu_idle_ticks_offset[offsetof(TObjCMMainMenu,idle_ticks)==0x4C?1:-1];
 typedef char CreationMainMenu_nodes_offset[offsetof(TObjCMMainMenu,nodes)==0x50?1:-1];
 typedef char CreationMainMenu_preview_offset[offsetof(TObjCMMainMenu,preview)==0x54?1:-1];
+// The action and optional assign-menu kind for one character creation choice.
+struct CreationMenuEntry {
+    s32 kind;
+    void (TObjCMMainMenu::*select)();
+};
+
+typedef char CreationMenuEntrySize[sizeof(CreationMenuEntry) == 0x10 ? 1 : -1];
+typedef char CreationMenuEntrySelectOffset[offsetof(CreationMenuEntry, select) == 4 ? 1 : -1];
+
+extern "C" {
+extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
+}
+
 #endif

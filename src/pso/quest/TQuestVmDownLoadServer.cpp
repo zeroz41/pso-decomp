@@ -752,7 +752,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
         slot = t;
     }
     if (TAdPlayerLoadGC::probe_card_slot(slot) != 0 && TAdPlayerLoadGC::probe_and_check_card(slot) != 0) {
-        cap = (s32)TAdPlayerLoadGC::query_memcard_capacity(slot, 0);
+        cap = TAdPlayerLoadGC::query_memcard_capacity(slot, 0);
         switch (cap) {
         case -0xFD:
             seq = (u8 *)new TMCFormatSequence((TObject *)(void *)arg0, (void *)(void *)((void *)slot));

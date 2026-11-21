@@ -4,6 +4,7 @@
 // (.sdata) are read and written by every part.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include <string.h>
 #include "pso/map/FloorResourceCallbacks.h"
@@ -67,7 +68,6 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 
 extern "C" {
-u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(TObject *parent, s32 kind);
 void *TAdEp3Exist__ct(void *, TObject *);
 void *__ct__17TAdExNetConfirmGCFP7TObject(void *, TObject *);
 void *__ct__17TAdLicAgreementGCFP7TObject(void *, TObject *);
@@ -367,14 +367,10 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 6:
-        p = TObject::operator new(0x60);
-        if (p != NULL) {
-            p = TAdSinglePlyChrSelectGC__ct((u8 *)p, (void *)tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdSinglePlyChrSelectGC(tl_01);
         break;
     case 7:
-        game_mode_scene_instance = (TObject *)get_or_create__22TAdMultiPlyChrSelectGCFii(tl_01, 0);
+        game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 0);
         break;
     case 8:
         game_mode_scene_instance = (TObject *)new TAdTimeSetGC(tl_01);
@@ -407,7 +403,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 14:
-        game_mode_scene_instance = (TObject *)get_or_create__22TAdMultiPlyChrSelectGCFii(tl_01, 1);
+        game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 1);
         break;
     case 15:
         p = TObject::operator new(0x68);
@@ -466,7 +462,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 24:
-        game_mode_scene_instance = (TObject *)get_or_create__22TAdMultiPlyChrSelectGCFii(tl_01, 2);
+        game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 2);
         break;
     case 25:
         game_mode_scene_instance = new TAdEnterPPPPassGC(tl_01);

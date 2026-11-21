@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -47,8 +50,6 @@ void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
-void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
-void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern u8 __vt__12TLevelSelect[];
 extern void *tl_01;
 Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self);
@@ -76,11 +77,11 @@ int count_unlocked_difficulties__12TLevelSelectFv(void) {
 void TLevelSelect::run_task() {
     Self_80133068 *self = (Self_80133068 *)this;
     TAdMultiChgGameModeGC::set_default_camera();
-    if (game_difficulty_selection != TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f20)) {
-        ((TAdMultiPlyChrSelectGC *)(self->f24))->set_entry_value(1, get_localized_text_entry(0xD, TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f20) + 1));
+    if (game_difficulty_selection != reinterpret_cast<TAdSelectCurGC *>(self->f20)->selection_index()) {
+        ((TAdGuideTxtGC *)(self->f24))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0xD, reinterpret_cast<TAdSelectCurGC *>(self->f20)->selection_index() + 1)));
     }
-    game_difficulty_selection = TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f20);
-    switch (((TAdSinglePlyChrSelectGC *)(self->f20))->get_selected_slot()) {
+    game_difficulty_selection = reinterpret_cast<TAdSelectCurGC *>(self->f20)->selection_index();
+    switch (((TAdSelectCurGC *)(self->f20))->confirmation_result()) {
     case 1:
         request_main_phase(0xE);
         break;
@@ -143,31 +144,27 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
         {
             NJS_POINT2 pos = { 302.0f, 28.0f };
             Poss_8013319C poss = {{ { 215.0f, 146.0f }, { 185.0f, 198.0f }, { 155.0f, 250.0f }, { 125.0f, 302.0f } }};
-            p = TObject::operator new(0x708);
-            if (p != NULL) {
-                p = __ct__14TAdSelectCurGCFv(p, self, &poss, &pos);
-            }
+            p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
+                reinterpret_cast<const NJS_POINT2 *>(&poss),
+                &pos);
             self->cur = p;
-            ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[0]);
-            p = TObject::operator new(0x44);
-            if (p != NULL) {
-                p = __ct__13TAdGuideTxtGCFv(p, self);
-            }
+            ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[0]);
+            p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
             self->guide = p;
-            ((TAdMultiPlyChrSelectGC *)(self->guide))->set_entry_value(0, get_localized_text_entry(0xD, 0));
-            ((TAdMultiPlyChrSelectGC *)(self->guide))->set_entry_value(1, get_localized_text_entry(0xD, 1));
+            ((TAdGuideTxtGC *)(self->guide))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0xD, 0)));
+            ((TAdGuideTxtGC *)(self->guide))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0xD, 1)));
             switch (self->count) {
             case 1:
-                ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[1]);
+                ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[1]);
                 break;
             case 2:
-                ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[1]);
-                ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[2]);
+                ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[1]);
+                ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[2]);
                 break;
             case 3:
-                ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[1]);
-                ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[2]);
-                ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[3]);
+                ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[1]);
+                ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[2]);
+                ((TAdSelectCurGC *)(self->cur))->append_entry(&poss.p[3]);
                 break;
             }
         }

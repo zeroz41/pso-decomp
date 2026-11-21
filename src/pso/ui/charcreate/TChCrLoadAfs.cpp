@@ -78,7 +78,7 @@ s32 load_texture_list(GinjaTextureList *);
 void TChCrLoadAfs::start_download() {
     s32 count;
     u32 handle;
-    u32 buffer;
+    u8 *buffer;
 
     if (try_begin_load() != 0) {
         handle = (u32)TLobby::adxf_open_afs(source_20, source_24);
@@ -88,13 +88,13 @@ void TChCrLoadAfs::start_download() {
             return;
         }
         count = adxf_get_fsize_sct((u8 *)load_handle);
-        buffer = (u32)TQuestVmDownLoadServer::alloc(count << 0xB);
+        buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(count << 0xB));
         buffer_address = buffer;
-        if (buffer == 0U) {
+        if (buffer == NULL) {
             load_state = 3;
             return;
         }
-        TLobby::read_checked_align(load_handle, count, buffer_address);
+        TLobby::read_checked_align(load_handle, count, (s32)buffer_address);
         load_state = 1;
     }
 }
@@ -126,9 +126,9 @@ TChCrLoadAfs::~TChCrLoadAfs() {
         ((TLobby *)load_handle)->close_adxf_handle();
         load_handle = 0;
     }
-    u32 buffer = buffer_address;
-    if (buffer != 0) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+    u8 *buffer = buffer_address;
+    if (buffer != NULL) {
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<u32>(buffer));
         buffer_address = 0;
     }
     release_load_slot();
@@ -146,8 +146,8 @@ TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(ob
     timer = 900;
 }
 
-void *TChCrLoadAfs::create(void *arg1, void *arg2) {
-    return new TChCrLoadAfs(this, arg1, arg2);
+TChCrLoadAfs *TChCrLoadAfs::create(TObject *parent, u32 archive, u32 entry) {
+    return new TChCrLoadAfs(parent, (void *)archive, (void *)entry);
 }
 
 s32 find_player_texture_name_ordinal(u8 *object) {

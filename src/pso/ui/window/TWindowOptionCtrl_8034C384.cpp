@@ -232,7 +232,7 @@ void TUnk_804F01A8::run_task() {
             return;
         case 14:
             if (poll_memcard_result(1) == 0) {
-                if ((u32) TAdPlayerLoadGC::get_load_result((void *)1) == 0xFFFFFF81U) {
+                if ((u32) TAdPlayerLoadGC::get_load_result(1) == 0xFFFFFF81U) {
                     set_option_and_confirm(9, 0);
                     *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;
                     return;

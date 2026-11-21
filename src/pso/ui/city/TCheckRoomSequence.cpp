@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -197,7 +198,6 @@ s32 create_meseta_window(u16);
 void open_bank__18TCheckRoomSequenceFv(u8 *arg0);
 extern const char *TCheckRoomSequence__name;
 void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 slot);
-s32 get_character_save_record(u32 arg0);
 void copy_bank_to_card_window(s32 slot);
 extern u32 bank_item_records_by_slot[4];
 void copy_data__18TCheckRoomSequenceFPvPv(void* p, void* a1);

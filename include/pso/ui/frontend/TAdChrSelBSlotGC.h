@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 
 class TAdSubPlyItemGC;
+class TAdChrSelMovePlateGC;
+class TAdPlyChrSelPlateGC;
 
 struct TAdChrSelBSlotGC : public TObject {
     TAdChrSelBSlotGC(TObject *parent);
@@ -31,9 +33,9 @@ struct TAdChrSelBSlotGC : public TObject {
     int get_global_state();
     static int get_global_slot_data();
     u8 unk_28[0x4];
-    s32 m_2c;
+    TAdPlyChrSelPlateGC *m_2c;
     TAdSubPlyItemGC *player_items;
-    void * m_34;
+    TAdChrSelMovePlateGC *m_34;
     u8 unk_38[0x4];
     s32 m_3c;
     u8 unk_40[0x4];

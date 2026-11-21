@@ -59,6 +59,6 @@ TChCrEffWall::TChCrEffWall(TObject *object) : TObject(object) {
     m_name = TChCrEffWall__name;
 }
 
-void *fn_8029AE88(void *arg0) {
-    return new TChCrEffWall((TObject *)arg0);
+TChCrEffWall *fn_8029AE88(TObject *parent) {
+    return new TChCrEffWall(parent);
 }

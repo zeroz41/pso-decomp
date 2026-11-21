@@ -32,6 +32,9 @@ typedef char CreationBodyModelStates_size[sizeof(CreationBodyModelStates) == 0x2
 f32 calc_character_height(CharacterAppearanceFields *appearance);
 
 extern "C" {
+// The appearance may come from a live record or a serialized player save.
+// The original entry point consumes its address as one PPC word.
+s32 character_display_index(u32 appearance_record);
 void TCharaMaking__draw_colored_hair(f32 alpha, s32 model, CharacterAppearanceFields *appearance, s32 specialColor);
 void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
 void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);

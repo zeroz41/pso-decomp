@@ -37,7 +37,6 @@ typedef struct Ent_800FC968 { u8 pad0[4]; char name[0x100]; u16 a; u8 pad106[6];
 extern "C" {
 s32 get_shared_text_buffer(void);
 char *TWindowSubStatusDisp__sub_80071820(char *);
-s32 get_card_status_bits__20TWindowShortListCtrlFv();
 s32 TObjPlayer__sub_801AFD8C(void *);
 VObj_18_7b3651 *get_player_by_client_id(s32);
 void text_builder_append_int(s32);
@@ -61,7 +60,7 @@ int TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
 void TWindowCtrlMain::advance_card_status(s32 arg0) {
     s32 var_r4;
 
-    var_r4 = TWindowShortListCtrl::get_card_status_bits() + 1;
+    var_r4 = TWindowShortListCtrl::get_card_status_bits(arg0) + 1;
     if (var_r4 >= 5) {
         var_r4 = 0;
     }
@@ -74,7 +73,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
     s32 idx;
     s32 lvl;
     VObj_18_7b3651 *p;
-    mode = TWindowShortListCtrl::get_card_status_bits();
+    mode = TWindowShortListCtrl::get_card_status_bits(arg0);
     p = get_player_by_client_id(arg0);
     if (p == NULL) {
         return 0;
@@ -137,7 +136,7 @@ void TUnk_8049CA54::run_task() {
         queue_destruction();
         return;
     }
-    temp_r3_2 = ((s32 (*)(s32))get_card_status_bits__20TWindowShortListCtrlFv)(*(s32 *)&this->player_id);
+    temp_r3_2 = TWindowShortListCtrl::get_card_status_bits(*(s32 *)&this->player_id);
     if ((s32) *(s32 *)&this->unk_60 != temp_r3_2) {
         *(s32 *)&this->unk_60 = temp_r3_2;
         temp_r3_3 = (u32)TWindowSubStatusDisp::build_status_text(*(s32 *)&this->player_id);

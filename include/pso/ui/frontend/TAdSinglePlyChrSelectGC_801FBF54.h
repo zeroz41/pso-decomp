@@ -1,6 +1,7 @@
 #ifndef PSO_UI_FRONTEND_TADSINGLEPLYCHRSELECTGC_801FBF54_H
 #define PSO_UI_FRONTEND_TADSINGLEPLYCHRSELECTGC_801FBF54_H
 
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 
 class TPlyCharData;
@@ -48,7 +49,6 @@ int construct_card_window_array__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 void *copy_char_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *a0, void *a1);
 s32 copy_character_to_slot__23TAdSinglePlyChrSelectGCFUiiUii(u32 arg0, s32 arg1, u32 arg2, s32 arg3);
 void copy_chr_slots_from_request__23TAdSinglePlyChrSelectGCFv(void);
-void copy_request__23TAdSinglePlyChrSelectGCFPvPv(void *arg0, void *arg1);
 s32 copy_save_data__23TAdSinglePlyChrSelectGCFii(s32 arg0, s32 arg1);
 void create_instance__23TAdSinglePlyChrSelectGCFv(void);
 void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0);
@@ -63,7 +63,6 @@ s32 free_data__23TAdSinglePlyChrSelectGCFv(void);
 void game_state_load(void);
 TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 int get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int a0);
-s32 get_character_save_record(u32 arg0);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 get_player_count__23TAdSinglePlyChrSelectGCFv(void);

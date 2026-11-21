@@ -1,5 +1,4 @@
-#ifndef PSO_TADSELECTCURGC_H
-#define PSO_TADSELECTCURGC_H
+#include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/frontend/TAdSelectCurGC_802AED98.h"
@@ -7,13 +6,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-class TAdSelectCurGC : public TObject {
-public:
-    virtual ~TAdSelectCurGC();
-    virtual void run_task();
-    virtual void render();
-};
-#endif
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -24,32 +17,6 @@ public:
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-typedef struct TAdSelectCurGC_802AED98 {
-    u8 pad0[0xA4];
-    s32 fA4;
-    u32 fA8;
-    s32 fAC;
-    s32 fB0;
-    s32 fB4;
-    s32 fB8;
-    u8 padBC[0x6BC - 0xBC];
-    s32 tbl[16];
-    s32 f6FC;
-    s32 f700;
-} TAdSelectCurGC_802AED98;
-
-struct TAdSelectCurGC_802AF0E0 {
-    const char *name;
-    u8 pad4[0x14];
-    void *vt18;
-    u8 pad1C[0x9C - 0x1C];
-    u8 pad9C[0x08];
-    s32 fA4, fA8, fAC, fB0, fB4, fB8;
-    u8 padBC[0x6BC - 0xBC];
-    s32 tbl[16];
-    s32 f6FC, f700;
-};
 
 /* inferred: the two one-texture lists apply_menu_cursor_selection picks from by language
    (f256_ad for Japanese, f256_ad_eng otherwise) and keeps in menu_selection_cursor_texture_list */
@@ -64,23 +31,17 @@ GinjaTextureList *menu_selection_cursor_texture_list;
 extern "C" {
 extern const s32 current_language;
 void play_sound_effect(int, int, int, int);
-void fn_802AEAA4(void *, s32);
-extern u8 controller_input_state[];
-extern u8 controller_physical_port_bank[];
-void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o);
-void __ct__7TObjectFP7TObject(void *);
-extern void *__vt__14TAdSelectCurGC[];
-TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, void *unused, void *a, void *b);
+void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
 
-void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
+void TAdSelectCurGC::run_task() {
     s32 ok;
     u32 i;
-    fn_802AEAA4(o, o->f6FC++);
-    if (o->fB0 == 0 && o->fAC == 0 && (s32)o->fA8 != 0) {
-        if (o->fB8 != 0) {
+    update_texture_rectangles(frame++);
+    if (navigation_locked == 0 && confirmation == 0 && (s32)entry_count != 0) {
+        if (wait_directions_released != 0) {
             u8 t = 0;
-            if (test_previous_buttons_remapped(controller_input_state + 0x20, 0x10) == 0 &&
-                test_previous_buttons_remapped(controller_input_state + 0x20, 0x20) == 0) {
+            if (test_previous_buttons_remapped(&controller_input_state.controllers[0], 0x10) == 0 &&
+                test_previous_buttons_remapped(&controller_input_state.controllers[0], 0x20) == 0) {
                 t = 1;
             }
             ok = t;
@@ -88,80 +49,78 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
             ok = 1;
         }
         if (ok != 0) {
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x10, 6, 1) != 0 ||
-                test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), 0x10, 6, 1) != 0) {
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(&controller_input_state.controllers[0]), 0x10, 6, 1) != 0 ||
+                test_buttons_press_or_repeat((s32)(&controller_input_state.keyboard), 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
-                o->fA4--;
+                selected_index--;
             }
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x20, 6, 1) != 0 ||
-                test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), 0x20, 6, 1) != 0) {
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(&controller_input_state.controllers[0]), 0x20, 6, 1) != 0 ||
+                test_buttons_press_or_repeat((s32)(&controller_input_state.keyboard), 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
-                o->fA4++;
+                selected_index++;
             }
         }
-        if (o->fA4 > (s32)(o->fA8 - 1)) {
-            o->fA4 = 0;
+        if (selected_index > (s32)(entry_count - 1)) {
+            selected_index = 0;
         }
-        if (o->fA4 < 0) {
-            o->fA4 = o->fA8 - 1;
+        if (selected_index < 0) {
+            selected_index = entry_count - 1;
         }
-        if (o->fB4 == 0 &&
-            (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 4) != 0 ||
-             test_controller_flag_4c_color(controller_input_state + 0x160, 4) != 0)) {
+        if (confirmation_disabled == 0 &&
+            (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
+             test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_sound_effect(0x52D01, 0, 0, 0);
-            o->fAC = 1;
+            confirmation = 1;
         }
     }
-    for (i = 0; i < o->fA8; i++) {
-        o->tbl[i] -= 25;
-        if (o->tbl[i] < 0) {
-            o->tbl[i] = 0;
+    for (i = 0; i < entry_count; i++) {
+        entry_alpha[i] -= 25;
+        if (entry_alpha[i] < 0) {
+            entry_alpha[i] = 0;
         }
     }
-    o->tbl[o->fA4] = 0xFF;
-    switch (o->f700) {
+    entry_alpha[selected_index] = 0xFF;
+    switch (pending_command) {
     case 0:
         break;
     case 1:
-        o->fAC = 0;
-        o->f700 = 0;
+        confirmation = 0;
+        pending_command = 0;
         break;
     case 2:
-        o->fAC = 1;
-        o->f700 = 0;
+        confirmation = 1;
+        pending_command = 0;
         break;
     case 3:
-        o->fB0 = 0;
-        o->f700 = 0;
+        navigation_locked = 0;
+        pending_command = 0;
         break;
     case 4:
-        o->fB0 = 1;
-        o->f700 = 0;
+        navigation_locked = 1;
+        pending_command = 0;
         break;
     }
 }
 
 TAdSelectCurGC::~TAdSelectCurGC() {}
-TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, void *unused, void *a, void *b) {
+TAdSelectCurGC::TAdSelectCurGC(TObject *parent, const NJS_POINT2 *position, const NJS_POINT2 *size)
+    : TObject(parent) {
     s32 i;
-    __ct__7TObjectFP7TObject(o);
-    o->vt18 = __vt__14TAdSelectCurGC;
-    o->name = TAdSelectCurGC__name;
-    copy_vec2(((u8 *)o + 0x1C), a);
-    copy_vec2(((u8 *)o + 0x9C), b);
-    o->fA4 = 0;
-    o->fA8 = 0;
-    o->fAC = 0;
-    o->f6FC = -1;
-    o->fB0 = 0;
-    o->fB8 = 0;
-    o->fB4 = 0;
-    o->f700 = 0;
-    TAdSelectCurGC__sub_802AF274(o, 0.5555556f);
+    m_name = TAdSelectCurGC__name;
+    copy_vec2__FPvPv(&entry_positions[0], position);
+    copy_vec2__FPvPv(&cursor_size, size);
+    selected_index = 0;
+    entry_count = 0;
+    confirmation = 0;
+    frame = -1;
+    navigation_locked = 0;
+    wait_directions_released = 0;
+    confirmation_disabled = 0;
+    pending_command = 0;
+    set_draw_depth(0.5555556f);
     for (i = 0; i < 16; i++) {
-        o->tbl[i] = 0;
+        entry_alpha[i] = 0;
     }
-    return o;
 }
 
 void TLobby__sub_802AF198(void) {
@@ -183,7 +142,7 @@ void TLobby::apply_menu_cursor_selection() {
     load_streamed_prs_texture((s32)names[current_language], (s32)list);
 }
 
-void TAdSelectCurGC__sub_802AF274(void* p, f32 v) { *(f32*)((char*)p + 0x704) = v; }
+void TAdSelectCurGC::set_draw_depth(f32 depth) { draw_depth = depth; }
 
 
 }

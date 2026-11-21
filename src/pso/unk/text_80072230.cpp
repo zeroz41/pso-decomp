@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 
@@ -47,7 +48,6 @@ struct Pkt7C_80072230 { u32 hdr; u16 id; u8 pad6[2]; u8 recs[0x100]; };
 extern "C" {
 void TLobby__sub_800728FC(u8 *arg0);
 s32 TLobby__sub_800703D0(void *, void *);
-s32 get_character_save_record(u32 arg0);
 extern s32 local_client_id;
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);
 void TLobby__sub_80072880(u8 *arg0);

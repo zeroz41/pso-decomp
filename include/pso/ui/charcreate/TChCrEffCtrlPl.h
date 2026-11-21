@@ -13,7 +13,7 @@ public:
     virtual void render();
 public:
     static s32 get_clamped_player_index();
-    void *create();
+    static TChCrEffCtrlPl *create(TObject *parent);
 
     s32 sprite_id;
     s32 m_20;
@@ -26,7 +26,7 @@ public:
 typedef char TChCrEffCtrlPl_size[sizeof(TChCrEffCtrlPl) == 0x38 ? 1 : -1];
 
 extern "C" {
-int TChCrEffCtrlPl__sub_80298F6C(void *p);
+int TChCrEffCtrlPl__sub_80298F6C();
 }
 
 #endif

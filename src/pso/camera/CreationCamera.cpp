@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/math/AngleLookup.h"

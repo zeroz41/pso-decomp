@@ -20,6 +20,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -324,7 +325,7 @@ void TAdTimeSetGC::close_and_next_cancel() {
 
 void TAdTimeSetGC::update_load_state() {
     if (is_load_complete() != 0) {
-        if (((TAdPlayerLoadGC *)0)->check_card_result_code() == 0) {
+        if (TAdPlayerLoadGC::check_card_result_code(0) == 0) {
             change_state(0x16);
             return;
         }
@@ -337,8 +338,7 @@ void TAdTimeSetGC::sub_802E2D3C() {
 }
 
 void TAdTimeSetGC::update_load_countdown() {
-    // check_card_result_code() is declared as a member, but takes the card slot.
-    if (((TAdPlayerLoadGC *)0)->check_card_result_code() == 0) {
+    if (TAdPlayerLoadGC::check_card_result_code(0) == 0) {
         change_state(0x16);
         return;
     }

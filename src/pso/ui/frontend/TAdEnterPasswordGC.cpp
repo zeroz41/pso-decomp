@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -113,11 +114,11 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
         self->f38 = 0;
         if (self->serial != 0)
         {
-          ((TAdEnterSerialAccessGC *)(self->serial))->set_active();
+          ((TAdSelectCurGC *)(self->serial))->lock_navigation();
         }
       }
       else
-        if (forward_validate_input((void *)self, 2, (char *)buf) == 0)
+        if (TAdEnterSerialAccessGC::forward_input(self, 2, (const char *)buf) == 0)
       {
         free_menu_object(password_entry_keyboard_control);
         play_sound_effect(0x53F06, 0, 0, 0);
@@ -127,7 +128,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
         self->f38 = 1;
         if (self->serial != 0)
         {
-          ((TAdEnterSerialAccessGC *)(self->serial))->set_state_3();
+          ((TAdSelectCurGC *)(self->serial))->request_navigation_unlock();
         }
       }
     }
@@ -136,7 +137,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
       self->f38 = 0;
       if (self->serial != 0)
       {
-        ((TAdEnterSerialAccessGC *)(self->serial))->set_active();
+        ((TAdSelectCurGC *)(self->serial))->lock_navigation();
       }
     }
   }
@@ -148,18 +149,18 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
     {
       if (self->serial != 0)
       {
-        ((TAdEnterSerialAccessGC *)((void *) self->serial))->reset_input_state();
-        ((TLevelSelect *)(self->serial))->add_item_rect((void *)enter_password_item_rect_table[1]);
+        ((TAdSelectCurGC *)((void *) self->serial))->reset_entries();
+        ((TAdSelectCurGC *)(self->serial))->append_entry((void *)enter_password_item_rect_table[1]);
       }
     }
     else
       if (self->serial != 0)
     {
-      ((TAdEnterSerialAccessGC *)((void *) self->serial))->reset_input_state();
-      ((TLevelSelect *)(self->serial))->add_item_rect((void *)enter_password_item_rect_table[0]);
+      ((TAdSelectCurGC *)((void *) self->serial))->reset_entries();
+      ((TAdSelectCurGC *)(self->serial))->append_entry((void *)enter_password_item_rect_table[0]);
     }
   }
-  if ((((TAdSinglePlyChrSelectGC *)(self->serial))->get_selected_slot() == 1) && (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0))
+  if ((((TAdSelectCurGC *)(self->serial))->confirmation_result() == 1) && (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0))
   {
     strncpy((s32)&TAdEnterPasswordGC__input_buffer.value, buf, 9);
     TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
@@ -174,9 +175,9 @@ void open_keyboard_window__18TAdEnterPasswordGCFPv(s32 arg0) {
     ((TAdEnterSerialAccessGC *)arg0)->m_30 = TAdEnterSerialAccessGC::show_message_window((void *)arg0, (void *)2);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32)((TAdEnterSerialAccessGC *)arg0)->create_default_callback();
     if ((u32) *(u32 *)((s8 *)arg0 + 0x2C) != 0U) {
-        ((TAdEnterSerialAccessGC *)(*(void **)((s8 *)arg0 + 0x2C)))->reset_input_state();
-        ((TLevelSelect *)(*(u32 *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)enter_password_item_rect_table[0]);
-        ((TAdEnterSerialAccessGC *)(*(u32 *)((s8 *)arg0 + 0x2C)))->set_active();
+        ((TAdSelectCurGC *)(*(void **)((s8 *)arg0 + 0x2C)))->reset_entries();
+        ((TAdSelectCurGC *)(*(u32 *)((s8 *)arg0 + 0x2C)))->append_entry((void *)enter_password_item_rect_table[0]);
+        ((TAdSelectCurGC *)(*(u32 *)((s8 *)arg0 + 0x2C)))->lock_navigation();
     }
     (*(u32 *)&password_entry_keyboard_control) = TAdEnterSerialAccessGC::create_keyboard_control(arg0, 2);
     password_entry_dispatch_state = 1;

@@ -343,7 +343,7 @@ s32 clamp_s32(s32 value, s32 min, s32 max) {
     return value;
 }
 
-void get_current_date_stamp(DateStamp *out) {
+void get_current_date_stamp(CardWriteDate *out) {
     DateStamp now;
     getDateStamp(&now);
     out->year = now.year;

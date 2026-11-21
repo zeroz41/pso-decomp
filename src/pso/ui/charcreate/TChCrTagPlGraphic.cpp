@@ -121,7 +121,7 @@ TChCrTagPlGraphic::~TChCrTagPlGraphic() {}
 
 }
 
-TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, void *arg) : TChCrTag(parent, arg) {
+TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, s32 index) : TChCrTag(parent, index) {
     const TChCrTagPlGraphicLayout *e;
     m_name = ch_cr_tag_pl_graphic_class_name;
     m_28 = 0.13333334f;
@@ -136,8 +136,8 @@ TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, void *arg) : TChCrTag(pare
 }
 
 
-void *TChCrTagPlGraphic::create(void *arg0) {
-    return new TChCrTagPlGraphic(tl_03, arg0);
+TChCrTagPlGraphic *TChCrTagPlGraphic::create(s32 index) {
+    return new TChCrTagPlGraphic(tl_03, index);
 }
 
 
@@ -146,7 +146,7 @@ void TChCrTagPlGraphic::create_matching_tags() {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 12; j++) {
             if (TChCrTagPlGraphic__data_804664A4[j].m_40 == tag_player_graphic_match_value_table[i]) {
-                TChCrTagPlGraphic::create((void *)j);
+                TChCrTagPlGraphic::create(j);
             }
         }
     }

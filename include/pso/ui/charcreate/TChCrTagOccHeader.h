@@ -5,7 +5,7 @@
 
 class TChCrTagOccHeader : public TChCrTag {
 public:
-    TChCrTagOccHeader(TObject *parent, void *arg);
+    TChCrTagOccHeader(TObject *parent, s32 index);
     virtual ~TChCrTagOccHeader();
     virtual s32 vt4();
     virtual void run_task();
@@ -19,8 +19,11 @@ typedef char TChCrTagOccHeader_size[sizeof(TChCrTagOccHeader) == 0x40 ? 1 : -1];
 // --- C functions defined in TChCrTagOccHeader.cpp ---
 extern "C" {
 TChCrTagOccHeader *__dt__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag, s16 free);
-void fn_802A2A00(TChCrTag *tag);
+void fn_802A2A00(TChCrTagOccHeader *tag);
 }
 // --- end of C functions
+
+void create_all_ch_cr_tag_headers();
+TChCrTagOccHeader *create_ch_cr_tag_occ_header(s32 index);
 
 #endif

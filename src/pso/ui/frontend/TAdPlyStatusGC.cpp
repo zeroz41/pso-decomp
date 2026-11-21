@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -75,12 +77,10 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-s32 get_character_save_record(u32 arg0);
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
 int sprintf(char *, const char *, ...);
 void *memset(void *, int, u32);
 extern u32 ply_status_index;
@@ -183,7 +183,7 @@ void TAdPlyStatusGC::format_status_strings() {
     u32 mins;
     s32 flags;
     u32 hours;
-    s32 m;
+    TAdChrSelPlyPlateGC *plate;
     Save_8033F6A8 *p;
     u32 t;
     memset(buf, 0, 0x10);
@@ -204,10 +204,10 @@ void TAdPlyStatusGC::format_status_strings() {
         if (p != 0) {
             time = p->fC;
         }
-        m = TAdMultiPlyChrSelectGC::get_card_instance();
-        if (m != 0) {
-            if (TAdSinglePlyChrSelectGC__sub_801FE800(TAdMultiPlyChrSelectGC__sub_802DFFE8(m)) != 0) {
-                c = (u8 *)get_entry__23TAdSinglePlyChrSelectGCFi(TAdMultiPlyChrSelectGC__sub_802DFFE8(m));
+        plate = TAdMultiPlyChrSelectGC::get_card_instance();
+        if (plate != NULL) {
+            if (TAdSinglePlyChrSelectGC__sub_801FE800(plate->get_active_card_slot()) != 0) {
+                c = (u8 *)get_entry__23TAdSinglePlyChrSelectGCFi(plate->get_active_card_slot());
             }
         }
         if (c == 0) {

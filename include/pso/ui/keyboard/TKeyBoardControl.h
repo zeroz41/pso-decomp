@@ -21,6 +21,7 @@ struct TKeyBoardControl : public TObject {
     void hide();
     void show();
     void set_flag62_bit2();
+    s32 get_cursor_position();
     void set_depth(f32 depth);
     void set_position(void *pos);
     void set_soft_position(u8 *pos);

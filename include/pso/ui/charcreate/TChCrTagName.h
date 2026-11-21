@@ -7,7 +7,7 @@
 
 class TChCrTagName : public TChCrTag {
 public:
-    TChCrTagName(TObject *parent, void *arg);
+    TChCrTagName(TObject *parent, s32 index);
     virtual void render_shadows();
     virtual ~TChCrTagName();
     void update_slide_in();
@@ -21,7 +21,7 @@ public:
     s32 m_44;
     vec2f pos;
 public:
-    static void *create(void *arg0);
+    static TChCrTagName *create(s32 index);
     static void create_all();
 };
 
@@ -29,7 +29,6 @@ typedef char TChCrTagName_size[sizeof(TChCrTagName) == 0x50 ? 1 : -1];
 
 extern "C" {
 s32 TChCrTagName__vt4(TChCrTagName *tag);
-void *create__12TChCrTagNameFPv(void *arg0);
 void create_all__12TChCrTagNameFv(void);
 void draw_tag_sprites__12TChCrTagNameFv(TChCrTagName *tag);
 void render__12TChCrTagNameFv(TChCrTagName *tag);

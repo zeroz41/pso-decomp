@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 extern "C" {
 extern void* __vt__12T_OWEHMS_Exp[6];
@@ -756,7 +757,7 @@ s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o) {
 s32 fn_800FE73C(TObjPlayer *player) {
     s32 temp_r3;
     s32 var_r0;
-    if (((TCharaMaking *)((char *)player + 0x85C))->get_display_index() == 0xE) {
+    if (character_display_index(reinterpret_cast<u32>((const u8 *)player + 0x85C)) == 0xE) {
         TObjTailsTailsMove::create(player);
         return 0;
     }

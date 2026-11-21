@@ -14,11 +14,11 @@ void free_bin_model_request(void*, int);
 
 extern u32 TAdMultiPlyChrSelectGC__resource_bundle;
 
-s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 parent, s32 mode, s32 index, s32 slot) {
+TUnk_804E3008 *TAdMultiPlyChrSelectGC::get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot) {
     if (multi_chr_select_player_slot_table[slot] == NULL) {
-        multi_chr_select_player_slot_table[slot] = new TUnk_804E3008((TObject *)parent, mode, index, slot);
+        multi_chr_select_player_slot_table[slot] = new TUnk_804E3008(parent, mode, index, slot);
     }
-    return (s32)multi_chr_select_player_slot_table[slot];
+    return multi_chr_select_player_slot_table[slot];
 }
 
 void TAdChrSelPlayerGC__sub_802E10A0(void) {

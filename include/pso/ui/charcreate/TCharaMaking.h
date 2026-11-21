@@ -32,7 +32,6 @@ struct TCharaMaking : public TObject {
     static void clear_flag_bit0();
     static void enable_making();
     static s32 is_end();
-    s32 get_display_index();
     void update_light_direction();
     virtual void run_task();
     static void *create(void *arg0, void *arg1);

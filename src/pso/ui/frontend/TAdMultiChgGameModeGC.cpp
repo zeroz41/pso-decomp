@@ -1,4 +1,7 @@
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -49,8 +52,6 @@ void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
-void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
-void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiChgGameModeGC[];
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
 }
@@ -86,21 +87,21 @@ void TAdMultiChgGameModeGC::run_task() {
   s32 *new_var;
   s32 temp_r4;
   TAdMultiChgGameModeGC::set_default_camera();
-  arg0->field_20 = TAdSinglePlyChrSelectGC__sub_801334DC((void *)arg0->field_2C);
+  arg0->field_20 = reinterpret_cast<TAdSelectCurGC *>(arg0->field_2C)->selection_index();
   temp_r4 = arg0->field_20;
   new_var = &arg0->field_2C;
   if (((s32) arg0->field_24) != temp_r4)
   {
-    ((TAdMultiPlyChrSelectGC *)((int) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
+    ((TAdGuideTxtGC *)((int) arg0->field_28))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, arg0->field_20)));
   }
   if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))
   {
     TAdMultiChgGameModeGC::request_scene_change();
   }
   else
-    if (1 == ((TAdSinglePlyChrSelectGC *)((int) arg0->field_2C))->get_selected_slot())
+    if (1 == ((TAdSelectCurGC *)((int) arg0->field_2C))->confirmation_result())
   {
-    switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*new_var)))
+    switch (reinterpret_cast<TAdSelectCurGC *>((*new_var))->selection_index())
     {
       case 0:
         TAdMultiChgGameModeGC::set_mode_state_0d();
@@ -160,21 +161,17 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
         {
             Cur_802FFE58 cur = lbl_80474E1C[0];
             Pos_802FFE58 pos = multi_chg_game_mode_position_table;
-            p = TObject::operator new(0x708);
-            if (p != NULL) {
-                p = __ct__14TAdSelectCurGCFv(p, self, &pos, &cur);
-            }
+            p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
+                reinterpret_cast<const NJS_POINT2 *>(&pos),
+                reinterpret_cast<const NJS_POINT2 *>(&cur));
             self->f2C = p;
-            ((TLevelSelect *)(self->f2C))->add_item_rect(&pos.v[0]);
-            ((TLevelSelect *)(self->f2C))->add_item_rect(&pos.v[2]);
-            ((TLevelSelect *)(self->f2C))->add_item_rect(&pos.v[4]);
+            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[0]);
+            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[2]);
+            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[4]);
         }
     }
-    ((TLobby *)(self->f2C))->set_ad_field(self->f20);
-    p = TObject::operator new(0x44);
-    if (p != NULL) {
-        p = __ct__13TAdGuideTxtGCFv(p, self);
-    }
+    ((TAdSelectCurGC *)(self->f2C))->set_selection_index(self->f20);
+    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
     self->f28 = p;
     create_draw_line_ctrl((TObject *)self, 0xF, 0.0f);
     return self;
