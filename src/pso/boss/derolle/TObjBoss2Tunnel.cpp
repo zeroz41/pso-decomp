@@ -240,7 +240,6 @@ s8 func_801A5E54__Fv(void);
 extern uaddr camera_ctrl_instance;
 void set_depth_buffer_settings_1__Fv(void);
 extern s32 lbl_805D63F0;
-s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 s32 get_memcard_free_files(s32);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -1159,7 +1158,7 @@ loop_4:
             return -5;
         }
         if (TObjBoss2Tunnel::load_snapshot() != 0) {
-            if (verify_snapshot_checksum__15TObjBoss2TunnelFv() == 0) {
+            if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
                 TObjBoss2Tunnel__snapshot_saved_flag = 1;
                 return -9;
             }
@@ -1234,20 +1233,20 @@ s32 TObjBoss2Tunnel::load_snapshot() {
     return 0;
 }
 
-bool TObjBoss2Tunnel::verify_snapshot_checksum() {
+BOOL TObjBoss2Tunnel::verify_snapshot_checksum() {
     CardSaveDescriptor ld;
     s32 *p;
     s32 saved;
     s32 sum;
     if ((u32)TAdPlayerLoadGC__sub_801E1538(&ld, TObjBoss2Tunnel__snapshot_buffer) == 0xFFFFFF20) {
-        return false;
+        return FALSE;
     }
     p = (s32 *)ld.data;
     saved = *p;
     *p = 0;
     sum = calc_crc32_bitwise(ld.data, 0x1818C);
     *p = saved;
-    return sum == saved;
+    return sum == saved ? TRUE : FALSE;
 }
 
 // Draws the captured snapshot at pos (default 192,144), 345.6 x 259.2.

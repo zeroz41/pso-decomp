@@ -105,7 +105,7 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 run_confirm_message_loop();
     static void poll_pso_screen_load();
     static void show_message_and_wait(s32 message);
-    static bool verify_snapshot_checksum();
+    static BOOL verify_snapshot_checksum();
     static s32 load_snapshot();
     static s32 save_snapshot_to_card();
     static s32 save_snapshot();
