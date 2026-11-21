@@ -158,7 +158,6 @@ int fn_80077790(void);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-int get_item_field_6__10TObjPlayerFPv(void *p);
 s32 TItemDropSub__sub_80107B74();
 }
 
@@ -476,7 +475,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
         item = 0U;
         switch (arg1) {
         case 0:
-            item = get_item_field_6__10TObjPlayerFPv((void *)player);
+            item = TObjPlayer::get_item_field_6(player);
             break;
         case 1:
             item = ((TItemData *)player)->get_item_field_2();
