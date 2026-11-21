@@ -5744,12 +5744,12 @@ f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
 s32 fn_8002AE08(void *p) {
-    return ((TBoss8Dragon *)p)->test_card_flag_2() ? 0x20000 : 0x10000;
+    return TBoss8Dragon::test_card_flag_2((saddr)p) ? 0x20000 : 0x10000;
 }
 
 }
 
-int TBoss8Dragon::test_card_flag_2() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 2); }
+int TBoss8Dragon::test_card_flag_2(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 2); }
 
 void TBoss8Dragon::set_speed(f32 v) { *(f32 *)((u8 *)this + 0x10) = v; }
 

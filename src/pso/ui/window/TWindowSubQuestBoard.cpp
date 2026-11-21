@@ -238,7 +238,7 @@ saddr TUnk_804D1818::sub_8027C884(s32 option) {
         ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x67)));
         TWindowSubStatusDisp::draw_status(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x71)), 0);
         TWindowSubStatusDisp::draw_status(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x72)), 1);
-        value = ((TBoss8Dragon *)(client_id))->test_card_flag_2();
+        value = TBoss8Dragon::test_card_flag_2(client_id);
         break;
     case 2:
         ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x68)));
