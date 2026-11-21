@@ -1000,8 +1000,7 @@ s32 TLobby__sub_80428358(void) {
     return 0;
 }
 
-s32 TLobby__sub_80428360(void) {
+s16 TLobby__sub_80428360(s32 unused) {
     lobby_pppoe_slot_table.slots[0].state = -1;
     return 0;
 }
-

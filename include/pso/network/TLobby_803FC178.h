@@ -42,6 +42,26 @@ typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal
 typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
 /* A PPP control packet header (RFC 1661): code, identifier and length. */
 struct PppHeader { u8 code; u8 id; s16 len; };
+typedef char PppHeader_size_check[sizeof(PppHeader) == 4 ? 1 : -1];
+
+/* Maps PPP configure option types to the negotiation bitmap. */
+static inline u32 ppp_configure_option_bit(u32 bit) {
+    s32 f;
+    if (bit < 8) {
+        return bit;
+    }
+    f = 0;
+    if (bit >= 0x80 && bit < 0x90) {
+        f = 1;
+    }
+    if (f) {
+        bit -= 0x78;
+    } else {
+        bit = 0;
+    }
+    return bit;
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif

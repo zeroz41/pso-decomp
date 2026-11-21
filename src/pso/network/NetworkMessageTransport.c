@@ -1,3 +1,4 @@
+#include "pso/network/NetworkTimer.h"
 /* The network stack's message transport (a C library, built with GC/1.2.5n): the message thread and its queues
  * between the Ethernet/PPPoE receive path and the stack, the receive filter (local address, multicast addresses,
  * protocol registrations) and the EXI link status. */
@@ -17,8 +18,6 @@
 typedef struct Msg_804264F4 { u32 f0; u32 f4; s32 f8; } Msg_804264F4;
 
 s32 OSInitMessageQueue(void *, void *, int);
-s16 TLobby__sub_803F9B94(void *, void *);
-void NetRegisterTimer(int, int, void (*)(void));
 s32 init_bba_exi_adapter(void *);
 /* The message queues (OSMessageQueue + messages) and, below, the channel table: only this file uses them. */
 static u8 lbl_805CF240[0xA0];
@@ -31,19 +30,15 @@ u32 lbl_805D7BC4;
 u32 lobby_exi_stable_target;
 u32 lobby_exi_stable_count;
 s32 lobby_exi_prev_status;
-s32 lobby_message_thread_handle;
+NetThreadHandle lobby_message_thread_handle;
 s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
 s32 OSSendMessage(void *mq, void *msg, s32 flags);
 void TLobby__sub_80426190(EthernetReceiveFilter *);
 s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 arg1, u16 arg2);
 s32 OSReceiveMessage(void *, void *, int);
-s32 NetUnregisterTimer(void *fn);
-u8 *TLobby__sub_804256B8(s32);
-s32 TLobby__sub_8042558C(void *);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 s32 TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
-s32 TLobby__sub_80425640(s32 len);
 s32 TLobby__sub_80426AAC(u16 key, s32 len);
 
 static struct {
@@ -57,7 +52,7 @@ void reset_message_thread(void) {
         deactivate_entry_by_key((u32)((void *)lobby_message_thread_handle));
         lobby_message_thread_handle = 0;
     }
-    NetUnregisterTimer((void *)update_exi_status);
+    NetUnregisterTimer(update_exi_status);
     network_link_status_cache = -1;
     lobby_exi_prev_status = 0;
     lobby_exi_stable_count = 0;
@@ -88,14 +83,14 @@ void update_exi_status(void) {
 /* Looks up a message entry and posts it on queue with value stored at +4; returns 0 on success, -1 otherwise. */
 s32 post_message(void *queue, s32 address, s32 value, s32 by_address) {
     s32 sent;
-    u8 *p;
+    NetworkPacketBufferDescriptor *p;
     if (by_address != 0) {
         p = find_entry_by_address(address);
     } else {
         p = TLobby__sub_804256B8(address);
     }
     if (p != NULL) {
-        *(s32 *)(p + 4) = value;
+        p->queued_length = value;
         sent = OSSendMessage(queue, p, 0);
     } else {
         sent = 0;
@@ -296,7 +291,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     OSInitMessageQueue(lbl_805CF240, lbl_805CF240 + 0x20, 0x20);
     OSInitMessageQueue(pppoe_message_queue, pppoe_message_queue + 0x20, 0x20);
     OSInitMessageQueue(lbl_805CF380, lbl_805CF380 + 0x20, 0xA);
-    if (TLobby__sub_803F9B94((void *) message_thread_loop, &lobby_message_thread_handle) < 0) {
+    if (TLobby__sub_803F9B94(message_thread_loop, &lobby_message_thread_handle) < 0) {
         return -1;
     }
     NetResumeThread((u32)lobby_message_thread_handle);
@@ -314,18 +309,18 @@ s32 TLobby__sub_80426440(void) {
 }
 
 s16 post_send_message(void *data, u16 len) {
-    s32 buf;
-    u8 *msg;
+    u8 *buf;
+    NetworkPacketBufferDescriptor *msg;
     u8 pad[8];
     s32 src = (s32)data;
-    buf = TLobby__sub_8042558C((void *)len);
-    if (buf == 0) {
+    buf = TLobby__sub_8042558C(len);
+    if (buf == NULL) {
         return -1;
     }
     NetMemcpy((void *)buf, (void *)src, (int) (void *)len);
-    msg = (u8 *)(TLobby__sub_804256B8(buf));
+    msg = TLobby__sub_804256B8((u32)buf);
     if (msg != NULL) {
-        *(s32 *)((s8 *)msg + 4) = (s32) len;
+        msg->queued_length = (s32)len;
         OSSendMessage((void *) (((s32 *)&lbl_805CF240)), msg, 0);
     }
     return 0;
@@ -399,7 +394,7 @@ s32 TLobby__sub_80426660(u8 *out) {
 
 s32 queue_timeout_message(s16 dev, s32 address, s16 timeout) {
     s32 clamped;
-    u8 *msg;
+    NetworkPacketBufferDescriptor *msg;
     u8 pad[8];
     if ((timeout <= 0) || (timeout > 0x5EA)) {
         return -0x113;
@@ -414,7 +409,7 @@ s32 queue_timeout_message(s16 dev, s32 address, s16 timeout) {
     }
     msg = TLobby__sub_804256B8(address);
     if (msg != NULL) {
-        *(s32 *)(msg + 4) = clamped;
+        msg->queued_length = clamped;
         OSSendMessage(lbl_805CF240, msg, 0);
     }
     return 0;
@@ -539,7 +534,7 @@ s32 TLobby__sub_80426AAC(u16 key, s32 len) {
                 ret = TLobby__sub_804089A8(0, 0, (void *)(len - 4), &hdr);
                 break;
             case 2:
-                ret = TLobby__sub_80425640(len);
+                ret = (s32)TLobby__sub_80425640(len);
                 break;
             }
             break;

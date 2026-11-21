@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/unk/text_803F3BF8.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include <dolphin/os/OSAlloc.h>
 

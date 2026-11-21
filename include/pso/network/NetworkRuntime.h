@@ -3,17 +3,15 @@
 
 #include "types.h"
 
-typedef struct Ent_803F9B48 Ent_803F9B48;
-typedef struct Ent_803F9C78 Ent_803F9C78;
+typedef u32 NetThreadHandle;
+typedef struct NetworkThreadSlot NetworkThreadSlot;
+typedef void (*NetThreadEntry)(void);
 typedef struct Blk_803FA2A8 Blk_803FA2A8;
 typedef union U_803FA2A8 U_803FA2A8;
 typedef struct Q_803FA2A8 Q_803FA2A8;
 typedef struct P_803FA2A8 P_803FA2A8;
 typedef struct A_803FADA0 A_803FADA0;
 typedef struct PppFrame PppFrame;
-typedef struct Msg_803FA664 Msg_803FA664;
-struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; };
-struct Ent_803F9C78 { s32 active; u32 key; u8 pad[0x318 - 8]; void (*fn)(struct Ent_803F9C78 *); u8 pad2[0x328 - 0x31C]; };
 struct Blk_803FA2A8 { s32 w[6]; };
 union U_803FA2A8 { s16 h4; Blk_803FA2A8 src; };
 struct Q_803FA2A8 {
@@ -31,12 +29,11 @@ struct P_803FA2A8 { u8 pad[0x30]; Q_803FA2A8 *q; };
 struct PppFrame { u8 *data; u16 len; };
 typedef char PppFrame_size_check[sizeof(struct PppFrame) == 8 ? 1 : -1];
 struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; };
-struct Msg_803FA664 { u8 pad0; u8 b1; s16 h2; };
 /* The network stack's thread (lbl_805C18A0, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
     s32 mutex;
-    s32 thread;                 /* 0x04 */
+    NetThreadHandle thread;                 /* 0x04 */
     s16 poll_ms;                /* 0x08: 40 (TLobby__sub_803F79B0), set by TLobby__sub_804050DC */
     u8 padA[6];
 } NetThreadState;
@@ -45,6 +42,7 @@ typedef char NetThreadState_size_check[sizeof(NetThreadState) == 0x10 ? 1 : -1];
 extern "C" {
 #endif
 extern NetThreadState lbl_805C18A0;
+s16 TLobby__sub_803F8E9C(void);
 /* NetworkRuntime.c: the stack's OS layer (time, mutexes, threads, alarms, message queues) and string helpers. */
 s32 cancel_pending_alarms(void);
 void get_time_seconds(s32* out);
@@ -56,7 +54,9 @@ void signal_alarm_queue(void* alarm);
 void resume_thread(s32 thread);
 void cancel_thread_if_running(void* thread);
 void deactivate_entry_by_key(u32 key);
-s32 run_current_thread_callback(void);
+/* The thread key is the original native address word stored by the pool. */
+s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key);
+void *run_current_thread_callback(void *unused);
 s32 NetSetDefaultThreadPriority(s32 priority);
 s32 check_connection_status(void* connection);
 s32 clear_flag_bit4(s32 unused, u8* flags);

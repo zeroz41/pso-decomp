@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/network/IPv6Send.h"
 #include "pso/network/UdpRuntime.h"
+#include <stddef.h>
 
 /* TLobby_8041112C.c: IPv6 neighbour discovery, routing and packet fragments. */
 typedef struct Ipv6NdPending Ipv6NdPending;
@@ -50,6 +51,10 @@ typedef struct NetBufferPool {
 } NetBufferPool;
 typedef char NetBufferPoolEntry_size_check[sizeof(NetBufferPoolEntry) == 0x3C ? 1 : -1];
 typedef char NetBufferPool_size_check[sizeof(NetBufferPool) == 0x10 ? 1 : -1];
+typedef char NetPoolSegmentSize[(sizeof(NetBufferSegment) == 6) ? 1 : -1];
+typedef char NetPoolSegmentsOffset[(offsetof(NetBufferPoolEntry, segs) == 0xc) ? 1 : -1];
+typedef char NetPoolEntriesOffset[(offsetof(NetBufferPool, ents) == 4) ? 1 : -1];
+typedef char NetPoolDataOffset[(offsetof(NetBufferPool, data) == 8) ? 1 : -1];
 /* A packet queued until its next hop's link-layer address is known (tag "PEN"). */
 struct Ipv6NdPending {
     u8 tag[3];
@@ -164,6 +169,7 @@ typedef char NetFragPool_size_check[sizeof(NetFragPool) == 0x18 ? 1 : -1];
 #ifdef __cplusplus
 extern "C" {
 #endif
+s16 TLobby__sub_80415690(void);
 extern LoopbackState network_loopback_state;
 extern NetBufferPool network_buffer_pool_state;
 extern Ipv6NdState ipv6_neighbor_discovery_state;
@@ -174,7 +180,7 @@ s32 fill_reply_buffer(s16 h, u8 *p);
 s16 get_slot_offset_or_default(s16 arg0);
 s16 *get_valid_entry(s16 arg0);
 s32 reset_net_value(void);
-s32 reset_other_connection_lists(void *obj);
+s32 reset_other_connection_lists(NetFragPacket *self);
 s32 release_packet_fragments(NetPacket *a);
 void tick_entry_timers(void);
 void update_timeout_entries(void);

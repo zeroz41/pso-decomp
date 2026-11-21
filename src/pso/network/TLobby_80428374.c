@@ -685,7 +685,7 @@ void cancel_alarm_b(void) {
     NetReleaseMutex(lobby_buffer_pool_alarm_handle);
 }
 
-s32 init_buffer_pool(void) {
+s16 init_buffer_pool(void) {
     lbl_805D7BEC = (s32)lobby_buffer_pool_base;
     lbl_805D7BF0 = (s32)lobby_buffer_pool_base;
     lbl_805D7BF4 = (s32)lobby_buffer_pool_base;
@@ -716,4 +716,3 @@ void reset_buffer_pool(void) {
     TLobby__buffer_pool_limit = 0;
     lbl_805D7C20 = 0;
 }
-

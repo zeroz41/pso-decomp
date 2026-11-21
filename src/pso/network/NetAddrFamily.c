@@ -124,8 +124,7 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
     }
 }
 
-s16 is_multicast_address(void *self, s16 arg1) {
-    NetworkAddress *addr = (NetworkAddress *)self;
+s16 is_multicast_address(NetworkAddress *addr, s16 arg1) {
     switch (addr->family) {
     case 4:
         return NetIPv4IsBroadcast(addr->ipv4, arg1);

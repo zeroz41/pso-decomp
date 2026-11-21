@@ -1,3 +1,4 @@
+#include "pso/network/NetworkRuntimeSlots.h"
 /* The network stack's configuration: the stack (a C library, built with GC/1.2.5n) calls these at start-up to
  * fill its configuration records with counts, sizes and the static buffers below. */
 #include "types.h"
@@ -22,7 +23,6 @@ typedef struct Big_803F8AD8 {
     EthDriver bba;              /* 0xE7A0 */
 } Big_803F8AD8;
 
-typedef struct Ent_803F8BA4 { u8 pad[0x31C]; s32 size; u8 *buf; u8 pad2[4]; } Ent_803F8BA4;
 
 /* The start-up parameters validate_and_store_net_params stores (one per NetTransportParams field) with their
  * defaults, and the thread priority NetSetDefaultThreadPriority sets. */
@@ -36,7 +36,7 @@ s32 net_param_ring_buffer_size = 0x2000;
 s32 net_default_thread_priority = 0x10;
 
 /* CodeWarrior emits these .sbss globals in reverse order of definition. */
-Ent_803F9B48 *lobby_thread_pool_base;
+NetworkThreadSlot *lobby_thread_pool_base;
 u16 lobby_thread_pool_count;
 LobbyBufferSlot *lobby_buffer_slots;
 u16 lobby_buffer_slot_count;
@@ -283,7 +283,7 @@ void init_net_recv_desc(LoopbackState *cfg) {
 
 u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
     LobbyBufferSlot *e;
-    Ent_803F8BA4 *f;
+    NetworkThreadSlot *f;
     s32 i;
     u16 n = h->room_count;
     lobby_thread_pool_count = 2;
@@ -309,15 +309,15 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
             return NULL;
         }
     }
-    *(u8 **)&lobby_thread_pool_base = p;
-    p += lobby_thread_pool_count * 0x328;
+    lobby_thread_pool_base = (NetworkThreadSlot *)p;
+    p += lobby_thread_pool_count * sizeof(NetworkThreadSlot);
     if (p > end) {
         return NULL;
     }
-    f = *(Ent_803F8BA4 **)&lobby_thread_pool_base;
+    f = lobby_thread_pool_base;
     for (i = 0; i < lobby_thread_pool_count; i++, f++) {
-        f->size = h->f;
-        f->buf = p;
+        f->stack_size = h->f;
+        f->stack = p;
         p += h->f;
         if (p > end) {
             return NULL;

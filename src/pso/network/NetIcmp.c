@@ -16,7 +16,6 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
-u16 calc_ip_checksum(void *self, s16 b);
 
 #include <stddef.h>
 
@@ -50,9 +49,9 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
   u32 mask;
   NetPacket *pkt = (NetPacket *)self;
   rec = &pkt->fragments[1];
-  set_value_and_enable(stream, (s32) hdr);
+  set_value_and_enable((NetBufferRef *)stream, (s32) hdr);
   netbuf_copy_by_ref(stream, &rec->buffer, 8);
-  if (calc_ip_checksum(self, 0) != 0)
+  if (calc_ip_checksum((NetPacket *)self, 0) != 0)
   {
     return -1;
   }
@@ -102,7 +101,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
 
     case 3:
       netbuf_ref_advance(&rec->buffer, 8);
-      set_value_and_enable(stream, (s32) ip);
+      set_value_and_enable((NetBufferRef *)stream, (s32) ip);
       netbuf_copy_by_ref(stream, &rec->buffer, 20);
       netbuf_ref_advance(&rec->buffer, (ip[0] & 0xf) << 2);
       switch (ip[9])
@@ -111,7 +110,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
         break;
 
       case 17:
-        set_value_and_enable(stream, (s32) udp);
+        set_value_and_enable((NetBufferRef *)stream, (s32) udp);
         netbuf_copy_by_ref(stream, &rec->buffer, 8);
         TLobby__sub_80420D38(*((u16 *) udp), hdr[1]);
         break;
@@ -122,7 +121,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
 
     case 5:
       netbuf_ref_advance(&rec->buffer, 8);
-      set_value_and_enable(stream, (s32) ip);
+      set_value_and_enable((NetBufferRef *)stream, (s32) ip);
       netbuf_copy_by_ref(stream, &rec->buffer, 20);
       switch (hdr[1])
     {

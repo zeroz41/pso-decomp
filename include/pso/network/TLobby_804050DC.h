@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TLOBBY_804050DC_H
 
 #include "types.h"
+#include "pso/network/BufferRef.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/IPv6.h"
 #include "pso/network/IPv6Send.h"
@@ -46,6 +47,8 @@ struct Out_8040D95C { s32 type; u32 f4; };
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+u16 calc_ip_checksum(NetPacket *packet, s16 flag);
 s16 run_connect_step(void);
 void flush_flags_step(void);
 s16 init_net_tables(void);
@@ -56,16 +59,13 @@ void release_entry(NetPacket *pkt);
 s32 call_entry_callback(s16 i, s32 arg);
 s16 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 clear_table_entry_locked(s16 arg0);
-void init_msg(void *self, s32 arg1);
 void init_net_block_18A0(void);
-void init_packet_header(void *self, s32 arg1);
 s16 invoke_socket_callback(s16 i, s32 arg);
 s16 is_entry_flag10_set(s16 i);
 s32 is_slot_flag_0x20_set(s16 i);
 s16 is_slot_flag_0x40_set(s16 i);
 void process_expired_timers(void);
 s32 run_net_init_step(void);
-void set_value_and_enable(void *self, s32 arg1);
 s32 shutdown_network_handle(void);
 s16 is_socket_flag_set(s16 i);
 s16 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c);
@@ -97,7 +97,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type);
 s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 s16 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
-s16 is_multicast_address(void *self, s16 arg1);
+s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
 s16 AT_IP4_IsReachable(u32 arg0, u32 arg1);
 s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
