@@ -4,6 +4,7 @@
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_802F1A58.h"
+#include "pso/boss/TUnk_804E4B3C.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -17,7 +18,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_802F190C.h"
 
 // TObjBoss7DustCtrl and TObjBoss7Dust share one TU, built deferred and written from the unit's last
 // function back: Dust's code comes first in .text, yet DustCtrl's class name precedes Dust's in .sdata
@@ -184,6 +184,6 @@ void TObjBoss7Dust::render() { boss7_dust_draw_at(&position, strip_slot); }
 void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss2Tunnel__sub_802F2C84(); fn_802F1454(); }
 
 extern "C" {
-void fn_802F1084(void) { TObjBoss2Tunnel__sub_802F2C50(); fn_802F19C0(); TObjBoss7DustCtrl::create(); }
+void fn_802F1084(void) { TObjBoss2Tunnel__sub_802F2C50(); TUnk_804E4B3C::sub_802F19C0(); TObjBoss7DustCtrl::create(); }
 void fn_802F105C(void) { TObjBoss7DustCtrl__sub_802F1450(); TObjBoss2Tunnel__sub_802F2C4C(); free_boss7_common_resources(); }
 }

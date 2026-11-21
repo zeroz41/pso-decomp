@@ -39,6 +39,10 @@ public:
     s32 is_phase_active();
     static s32 sub_802F22F4();
     static void sub_802F2278();
+    // Twins of TObjBoss2Tunnel's detach_children/release_children/sub_8003B2B0 (text_802F190C.cpp).
+    static void detach_children(TParticleCtrl *particle, const Vec *offset);
+    static void release_children(TParticleCtrl *particle, f32 speed);
+    static void sub_802F19C0();
     // Size 0x94 (TObjBoss2Tunnel__sub_802F2C50's operator new).
     s32 phase;          // index into run_task's phase handlers
     PiecewiseCurve curve; // update_phase_motion's sideways sway

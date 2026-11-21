@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_802F190C.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -327,7 +326,7 @@ void TUnk_804E4B3C::render() {
     TObject *child;
     if (TObjEneDD::query_teammate_state() == 0) {
         for (child = render_nodes->m_down; child != NULL; child = child->m_next) {
-            draw_particle_effect(child);
+            ((TUnk_804E4AD4 *)child)->draw_particle_effect();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
             ((TUnk_804E4B24 *)child)->sub_802F1E54();

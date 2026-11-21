@@ -7,16 +7,15 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/barbaray/TObjBoss7RaftSplash_802F18E8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/boss/TUnk_804E4B3C.h"
 #include "pso/system/task/TObject.h"
 #include <stdlib.h>
 
 #pragma readonly_strings on
 
-// Defined without a shared declaration (TCameraCtrl.cpp, text_802F190C.cpp).
+// Defined without a shared declaration (TCameraCtrl.cpp).
 extern "C" {
 u16 TCameraCtrl__sub_8006A5DC();
-s32 fn_802F190C(void *particle, saddr offset);
-s32 fn_802F1960(void *particle, f32 height);
 }
 
 const char *TObjBoss7RaftSplash__name = "TObjBoss7RaftSplash";
@@ -56,31 +55,31 @@ void TObjFish::spawn_default_particle(s32 position, s32 particle_index) {
 // spawn_default_particle and TObjFish__sub_802F18E8, and the .text runs on without a pool of its own.
 
 void TObjFish::create_splash_particle(saddr position, s32 particle_index, saddr offset) {
-    void *particle;
+    TParticleCtrl *particle;
 
-    particle = TObject::operator new(0x78);
+    particle = (TParticleCtrl *)TObject::operator new(0x78);
     if (particle != NULL) {
         particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
-        ((TObject *)particle)->run_task();
-        fn_802F190C(particle, offset);
+        particle->run_task();
+        TUnk_804E4B3C::detach_children(particle, (const Vec *)offset);
     }
 }
 
 void TObjFish::spawn_particle(saddr position, s32 particle_index, f32 height) {
-    void *particle;
+    TParticleCtrl *particle;
 
-    particle = TObject::operator new(0x78);
+    particle = (TParticleCtrl *)TObject::operator new(0x78);
     if (particle != NULL) {
         particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
-        ((TObject *)particle)->run_task();
-        fn_802F1960(particle, height);
+        particle->run_task();
+        TUnk_804E4B3C::release_children(particle, height);
     }
 }
 
 extern "C" void TObjFish__sub_802F18E8(void *particle) {
-    fn_802F1960(particle, -5.0f);
+    TUnk_804E4B3C::release_children((TParticleCtrl *)particle, -5.0f);
 }
