@@ -12,7 +12,6 @@ struct EnemyMoveParams;
 
 extern "C" {
 void obj_setFlags30(void *object, u32 flags);
-void TObjPlayer__sub_8000FF4C(void *p, s16 v);
 void clear_velocity(u8 *arg0);
 s16 TObjPlayer__sub_800194E8(void *p);
 void TObjPlayer__sub_8001951C(void *p);

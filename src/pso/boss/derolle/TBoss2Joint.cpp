@@ -165,7 +165,7 @@ void TBoss2Joint::vfunc_62() {
         }
     } else {
         TBoss2DeRolLe::spawn_offset_particle(&position, 15.0f, 12.0f);
-        ((TBoss2DeRolLe *)m_up)->apply_hp_damage_with_sound(damage, m_2d4);
+        ((TBoss2DeRolLe *)m_up)->apply_hp_damage_with_sound(damage, attacker_id);
     }
     hp = hpmax;
     clear_attack_receipts();

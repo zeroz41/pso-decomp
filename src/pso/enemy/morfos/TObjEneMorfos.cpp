@@ -1131,7 +1131,7 @@ void TObjEneMorfos::vfunc_62() {
     if (this->mode == 0xA) {
         return;
     }
-    pl = (Pl_8033496C *)get_player_by_client_id(this->m_2d4);
+    pl = (Pl_8033496C *)get_player_by_client_id(this->attacker_id);
     if (pl != 0) {
         VecCopy((Vec *)&v, (const Vec *)&pl->pos);
         subtract_vector(&v, &arg0->pos);

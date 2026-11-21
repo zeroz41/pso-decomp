@@ -13,7 +13,7 @@ extern "C" u16 obj_getArrU16_FC(void *obj, s32 i);
 void TBoss4Type3::get_defeat_params(u16 *a, u16 *b, u16 *out) {
     s32 i;
     *a = m_2d6;
-    *b = m_2d4;
+    *b = attacker_id;
     for (i = 0; i < 4; i++) {
         out[i] = obj_getArrU16_FC(this, i);
     }
@@ -22,7 +22,7 @@ void TBoss4Type3::get_defeat_params(u16 *a, u16 *b, u16 *out) {
 void TUnk_80486924::get_demo2_params(u16 *a, u16 *b, u16 *out) {
     s32 i;
     *a = m_2d6;
-    *b = m_2d4;
+    *b = attacker_id;
     for (i = 0; i < 4; i++) {
         out[i] = obj_getArrU16_FC(this, i);
     }

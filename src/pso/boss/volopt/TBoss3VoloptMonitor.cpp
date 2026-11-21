@@ -470,7 +470,7 @@ void TBoss3VoloptMonitor::sub_80041C78() {
 
 void TBoss3VoloptMonitor::damage_player_if_aligned() {
     if (!(m_388 & 0x40000) && vol_opt_active_hit_zone >= 0 && vol_opt_active_hit_zone / 4 == slot / 4) {
-        TBoss3VoloptCore::link_photon(m_2d4, 0);
+        TBoss3VoloptCore::link_photon(attacker_id, 0);
     }
 }
 

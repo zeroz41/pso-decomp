@@ -363,7 +363,7 @@ void TBoss3VoloptCore::update_grabbed_state() {
         this->requested_action = 3;
         play_sound_effect(0x4003A81F, NULL, 0, 0);
         play_sound_effect(0x4003BC20, NULL, 0, 0);
-        if (local_client_id == m_2d4) {
+        if (local_client_id == attacker_id) {
             start_camera_shake(0x1E, 0.08f);
         }
         hit_cooldown = 0x14;

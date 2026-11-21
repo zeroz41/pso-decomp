@@ -898,7 +898,7 @@ void TObjEneNanoDrago::update_knockback_state() {
         m_378 = 1;
         previousHp = referenceHp;
         if (((s32) (previousHp - hp) > (s32) (previousHp / 4)) && !(actorFlags & 2)) {
-            entity = (uaddr)find_entity_by_id(m_2d4);
+            entity = (uaddr)find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
                 if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), (Vec *)((u8 *)entity + 0x38)) > 400.0f)) {
@@ -907,7 +907,7 @@ void TObjEneNanoDrago::update_knockback_state() {
             }
         }
         if (retaliate == 1) {
-            targetId = (u16) m_2d4;
+            targetId = (u16) attacker_id;
             next_action = 0xA;
         } else if (actorFlags & 0x01000000) {
             this->update_if_active(0xB);

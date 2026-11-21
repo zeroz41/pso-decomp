@@ -922,7 +922,7 @@ void TObjEneSlimeOne::vfunc_63() { if (*(int *)&this->state != 13) { set_state((
 void TObjEneSlimeOne::vfunc_62() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->state != 0xC) {
-        if (((s32) this->m_2d4 < (s32) registered_player_count) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {
+        if (((s32) this->attacker_id < (s32) registered_player_count) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {
             parent_slime->try_spawn_child((u8 *)&this->position);
         }
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);

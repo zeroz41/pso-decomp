@@ -674,7 +674,7 @@ void TObjEneLappy::vfunc_62() {
     if ((s16) this->mode != 4) {
         this->mode = 4;
         this->requested_action = 6;
-        temp_r3 = (saddr)get_player_by_client_id(this->m_2d4);
+        temp_r3 = (saddr)get_player_by_client_id(this->attacker_id);
         if ((temp_r3 != 0) && !(xyz_distance_squared((Vec *)(((u8 *)this) + 0x38), (Vec *)(temp_r3 + 0x38)) < 10000.0f)) {
             this->m_374 = (s16) (this->m_374 | 2);
             ((TObjPlayer *)((u8 *)this))->set_flag_and_notify();

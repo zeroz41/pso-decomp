@@ -728,7 +728,6 @@ void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
 bool vfunc_29__9TObjCharaFv(u8 *arg0);
-void TObjPlayer__sub_8000FF4C(void* p, s16 v);
 void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 void clear_velocity(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
@@ -1517,7 +1516,7 @@ void TObjChara::reset_motion_fields() {
     ground_normal.y = (1.0f);
     this->m_2ac = 0;
     this->m_2b4 = (0.0f);
-    this->m_2d4 = 0xFFFF;
+    this->attacker_id = 0xFFFF;
     this->m_2dc = 0;
     this->phase = self->f32a = 0;
     self->f320 = 0;
@@ -4699,9 +4698,9 @@ s32 TObjPlayer::is_local_player() {
     return 0;
 }
 
-s32 TObjPlayer::get_field_2d4() { return (u16)(this->m_2d4); }
+s32 TObjPlayer::get_attacker_id() { return (u16)(this->attacker_id); }
 
-void TObjPlayer__sub_8000FF4C(void* p, s16 v) { *(s16*)((char*)p + 0x2d4) = v; }
+void TObjPlayer::set_attacker_id(u16 id) { this->attacker_id = id; }
 
 bool TObjChara::vfunc_29() {
     return this->target == 0;

@@ -1145,7 +1145,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
         m_378 = 1;
         ref_hp = referenceHp;
         if (ref_hp - hp > ref_hp / 4 && !(actorFlags & 2)) {
-            entity = (saddr)find_entity_by_id(m_2d4);
+            entity = (saddr)find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
                 if ((actorFlags & 0x01000000) && xz_distance_squared(&position, &((TObjBase *)entity)->position) > 400.0f) {
@@ -1154,7 +1154,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
             }
         }
         if (retaliate == 1) {
-            targetId = m_2d4;
+            targetId = attacker_id;
             next_action = 9;
         } else if (actorFlags & 0x01000000) {
             update_if_active(13);

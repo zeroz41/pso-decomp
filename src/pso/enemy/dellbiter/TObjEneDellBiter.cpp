@@ -633,7 +633,7 @@ s32 TObjEneDellBiter::vfunc_104(f32 distance) {
 }
 
 void TObjEneDellBiter::sub_803055C8() {
-    u16 id = m_2d4;
+    u16 id = attacker_id;
     if (id < 0x1000U) {
         void *player = get_player_by_client_id(id);
         if (player != NULL) {

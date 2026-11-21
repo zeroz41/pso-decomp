@@ -72,7 +72,7 @@ void TBoss7Joint::vfunc_62() {
     s32 damage = hpmax - hp;
     if (is_part_active() != 0U) {
         TBoss7DeRolLeC::spawn_offset_particle(&position, 15.0f, 12.0f);
-        static_cast<TBoss7DeRolLeC *>(m_up)->apply_damage_and_set_effect(damage, m_2d4);
+        static_cast<TBoss7DeRolLeC *>(m_up)->apply_damage_and_set_effect(damage, attacker_id);
     } else {
         shell_hp -= damage;
         if (shell_hp <= 0) {

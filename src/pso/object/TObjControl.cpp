@@ -959,7 +959,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         return;
     }
     val = *(s32 *)(this->m_2b0 + 0x1C);
-    if ((u16)arg1 == this->m_2d4) {
+    if ((u16)arg1 == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);
             draw_player_status(p, p, "\tC1");

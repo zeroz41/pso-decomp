@@ -1805,7 +1805,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
             for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->head; n != NULL; n = n->next) {
                 e = play_sound__14TObjEneBm5WolfFPv(n);
                 if (e != NULL && e->m_3dc == this->m_3dc) {
-                    ((TObjEneBm5Wolf *)e)->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->m_2d4);
+                    ((TObjEneBm5Wolf *)e)->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
                 }
             }
         }

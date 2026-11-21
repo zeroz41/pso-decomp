@@ -364,7 +364,8 @@ struct TObjPlayer : public TObjChara {
     int copy_vec_at_18();
     void clear_flag0_bit1();
     void set_flag_2();
-    s32 get_field_2d4();
+    s32 get_attacker_id();
+    void set_attacker_id(u16 id);
     s32 is_local_player();
     void apply_velocity();
     s16 clamp_tp();

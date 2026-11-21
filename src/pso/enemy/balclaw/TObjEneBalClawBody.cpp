@@ -431,7 +431,7 @@ void TObjEneBalClawBody::sub_8008F910() {
                 }
                 if (body->hp <= (body->hpmax * percent) / 100) {
                     if (!(body->m_388 & 0x02000000)) {
-                        body->targetId = body->m_2d4;
+                        body->targetId = body->attacker_id;
                         body->m_388 |= 0x02000000;
                     }
                     next_mode = 2;
@@ -509,8 +509,8 @@ void TObjEneBalClawBody::sub_8008F1DC() {
             body->reset_enemy_state();
             return;
         }
-        if (body->m_2d4 < 0x1000) {
-            body->targetId = body->m_2d4;
+        if (body->attacker_id < 0x1000) {
+            body->targetId = body->attacker_id;
             body->target = (u8 *)find_active_entity_by_id(body->targetId);
             if (body->target != NULL && (((TObjChara *)body->target)->actorFlags & 0x04000800)) {
                 body->targetId = 0xFFFF;

@@ -294,7 +294,7 @@ void TBoss3VoloptP01::update_state() {
         referenceHp = hp;
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
-            TBoss3VoloptCore::link_photon(m_2d4, 0);
+            TBoss3VoloptCore::link_photon(attacker_id, 0);
             TBoss3VoloptCore::set_grabbed_state(0x12C);
         }
         if (TBoss3Volopt::is_v2_mode() != 0) {
@@ -358,7 +358,7 @@ void TBoss3VoloptP01::update_breakup() {
         TObjPlayer::spawn_effect_f8((saddr)&body_center, *(s16 *)&timer);
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
-            TBoss3VoloptCore::link_photon(m_2d4, 0);
+            TBoss3VoloptCore::link_photon(attacker_id, 0);
             TBoss3VoloptCore::set_grabbed_state(0x12C);
         }
         state = 1;

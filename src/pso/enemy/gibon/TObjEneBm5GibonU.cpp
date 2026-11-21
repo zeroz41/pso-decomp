@@ -1035,7 +1035,7 @@ void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
             for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__node_list)->head; n != NULL; n = n->next) {
                 o = (u8 *)((TObjEneBm5GibonU *)n)->update_photon_mylla();
                 if (o != NULL && ((TObjEneBm5GibonU *)o)->m_46c == self->m_46c) {
-                    ((void (*)(void *, s32, u16))TObjEneBm5GibonU__sub_800D095C)(o, (s32)(k * self->random_ratio()) + 0x14, self->m_2d4);
+                    ((void (*)(void *, s32, u16))TObjEneBm5GibonU__sub_800D095C)(o, (s32)(k * self->random_ratio()) + 0x14, self->attacker_id);
                 }
             }
         }

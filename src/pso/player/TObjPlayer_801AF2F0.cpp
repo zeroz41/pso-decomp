@@ -6056,7 +6056,7 @@ void complete_deferred_player_death(void) {
         }
         ((TObjPlayer *)p)->send_respawn_position();
         aim = ((TLobby *)lobby_rule_settings)->clamp_value_below_200();
-        room = TObjRoomId__sub_801A1DB8(((TObjPlayer *)p)->get_field_2d4());
+        room = TObjRoomId__sub_801A1DB8(((TObjPlayer *)p)->get_attacker_id());
         if (aim != 0 && (room == 0 || room == 0x1000)) {
             ((TObjPlayer *)p)->update_aim_angle(aim);
         }

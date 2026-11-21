@@ -982,7 +982,7 @@ void TObjEneGibbles::vfunc_62() {
             }
         } else {
             Vec v;
-            u32 pl = get_player_by_client_id((void *)this->m_2d4);
+            u32 pl = get_player_by_client_id((void *)this->attacker_id);
             if (pl != 0) {
                 VecCopy(&v, (const Vec *)(pl + 0x2FC));
                 subtract_vector(&v, (u8 *)this + 0x2FC);
