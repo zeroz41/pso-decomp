@@ -902,7 +902,7 @@ void TObjAreaWarp::debug_print_area_num() {
 const char *TObjAreaWarpForest__name = "TObjAreaWarpForest";
 
 TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     s32 var_r0;
     u32 temp_r0;
     u32 temp_r3;
@@ -921,7 +921,7 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3_2 = (int)::operator new(0x88);
+        temp_r3_2 = (saddr)::operator new(0x88);
         var_r0 = temp_r3_2;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3_2, &position, 20.0f);
@@ -1008,7 +1008,7 @@ void TObjAreaWarpForest::debug_print_area_num() {
 const char *TObjAreaWarpQuest__name = "TObjAreaWarpQuest";
 
 TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     u32 temp_r0;
     u32 temp_r4;
@@ -1024,7 +1024,7 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3 = (int)::operator new(0x88);
+        temp_r3 = (saddr)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3, &position, 20.0f);
@@ -1135,7 +1135,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(void *player) {
 const char *TObjAreaWarpEnding__name = "TObjAreaWarpEnding";
 
 TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     u32 temp_r0;
     u32 temp_r4;
@@ -1150,7 +1150,7 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3 = (int)::operator new(0x88);
+        temp_r3 = (saddr)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3, &position, 20.0f);

@@ -456,12 +456,12 @@ void TODoorFourLightBase::clamp_light_index() {
 
 void TLanguage__sub_802A0204(void) {
     s32 area;
-    s32 var_r0;
-    s32 var_r0_2;
+    saddr var_r0;
+    saddr var_r0_2;
     area = get_current_floor_area();
     switch (area) {
     case AREA_SEABED_UPPER:
-        var_r0 = (int)::operator new(0x440);
+        var_r0 = (saddr)::operator new(0x440);
         if (var_r0 != 0) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, &bm_o_door_seabed01_resource_descriptor, 0, 0, 0);
         }
@@ -470,7 +470,7 @@ void TLanguage__sub_802A0204(void) {
         lbl_805D6608 = (uaddr)load_gvm_texture_file((saddr)("fs_obj_doorx4_atui.GVM"));
         return;
     case AREA_SEABED_LOWER:
-        var_r0_2 = (int)::operator new(0x440);
+        var_r0_2 = (saddr)::operator new(0x440);
         if (var_r0_2 != 0) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, &bm_o_door_seabed01_resource_descriptor, 0, 0, 0);
         }
@@ -540,12 +540,12 @@ s32 TODoorFourLightSeabed::vfunc_22() {
 
 void TLanguage__sub_8029FF0C(void) {
     s32 area;
-    s32 var_r0;
-    s32 var_r0_2;
+    saddr var_r0;
+    saddr var_r0_2;
     area = get_current_floor_area();
     switch (area) {
     case AREA_SEABED_UPPER:
-        var_r0 = (int)::operator new(0x440);
+        var_r0 = (saddr)::operator new(0x440);
         if (var_r0 != 0) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
         }
@@ -554,7 +554,7 @@ void TLanguage__sub_8029FF0C(void) {
         TODoorFourLightSeabedU__texture_list = (saddr)load_gvm_texture_file((saddr)("fs_obj_doorx4_u.GVM"));
         return;
     case AREA_SEABED_LOWER:
-        var_r0_2 = (int)::operator new(0x440);
+        var_r0_2 = (saddr)::operator new(0x440);
         if (var_r0_2 != 0) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
         }
@@ -622,7 +622,7 @@ s32 TODoorFourLightSeabedU::vfunc_22() {
 }
 
 void load_labo_door_resources(void) {
-    s32 r = (int)::operator new(0x440);
+    saddr r = (saddr)::operator new(0x440);
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor, 0, 0, 0);
     }
@@ -702,7 +702,7 @@ void TODoorLabo::init_model_by_type() {
 }
 
 void TODoorLabo::load_resources() {
-    s32 r = (int)::operator new(0x440);
+    saddr r = (saddr)::operator new(0x440);
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor_2, 0, 0, 0);
     }

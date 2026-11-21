@@ -168,10 +168,10 @@ f32 air_car_lane_spacing_table[5];
 f32 air_car_lane_speed_scale_table[5];
 void *air_car_buffer_pair_table[6];
 
-s32 get_city_common_model(s32 i) {
+saddr get_city_common_model(s32 i) {
     return (*(O_801819E4 * *)&city_common_model_archive)->entries[i].c;
 }
-s32 get_city_common_motion(s32 i) {
+saddr get_city_common_motion(s32 i) {
     return city_common_model_archive->entries[i].b;
 }
 

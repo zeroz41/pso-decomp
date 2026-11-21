@@ -311,7 +311,7 @@ void TObjDoorKey::free_key() {
 }
 
 void TObjDoorKey::load_resources() {
-    s32 r = (int)::operator new(0x440);
+    saddr r = (saddr)::operator new(0x440);
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &TObjDoorKey__resource_descriptor, 0, 0, 0);
     }

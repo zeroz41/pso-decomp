@@ -90,7 +90,7 @@ struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fB
 
 s32 get_bml_motion(saddr, s32);
 Node_80192A3C *get_bml_model(saddr, s32);
-struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; saddr fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
+struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; saddr fBC; saddr fC0; saddr fC4; saddr fC8[4]; };
 
 
 struct Motion_80192CCC { u8 pad[4]; u32 frames; };

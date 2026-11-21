@@ -476,9 +476,9 @@ s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 extern uaddr lbl_805D68F4;
 
 void fn_802E52AC() {
-    s32 r;
+    saddr r;
     if (lbl_805D68F4 == 0) {
-        r = (int)::operator new(0x440);
+        r = (saddr)::operator new(0x440);
         if (r != 0) {
             r = load_resource_from_descriptor(r, 5, &onlineending_dat_resource_descriptor, 0, 0, 0);
         }

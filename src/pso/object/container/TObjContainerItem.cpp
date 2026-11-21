@@ -317,7 +317,7 @@ s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 }
-s32 get_container_param(s32 index);
+saddr get_container_param(s32 index);
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
 extern "C" {
@@ -397,7 +397,7 @@ void TLobby::free_char_select_resources() {
     }
 }
 
-s32 get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
+saddr get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
 
 void TLobby::load_console_resources() {
     void *p;

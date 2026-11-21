@@ -25,7 +25,7 @@
 
 struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 
-struct Hdr_80197E64 { u8 pad0[0x58]; s32 f58; s32 f5C; u8 pad60[0xC]; };
+struct Hdr_80197E64 { u8 pad0[0x58]; saddr f58; s32 f5C; u8 pad60[0xC]; };
 
 struct Pos_8019806C { f32 w[12]; };
 struct Uv_8019806C { u32 w[4]; };
