@@ -249,7 +249,7 @@ CollisionBody seabed_suiso_brakable_collision_bodies[3] = {
 
 
 BmlResource *TObjSeabedSuisoBrakable::bml_resource;
-u32 TObjSeabedSuisoBrakable::texture_list;
+uaddr TObjSeabedSuisoBrakable::texture_list;
 s32 TObjSeabedSuiso_CH::last_uv_scroll_tick;
 s32 TObjSeabedSuisoBrakable::last_uv_scroll_tick;
 
