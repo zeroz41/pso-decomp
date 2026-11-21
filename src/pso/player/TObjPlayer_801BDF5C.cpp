@@ -580,11 +580,11 @@ s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
 int TObjPlayer::check_flag_0x40000000() { return (this->m_334 >> 30) & 0x1; }
 void TObjPlayer::clear_flag_0x2() { this->m_334 &= 0xfffffffd; }
 
-int TObjPlayer__sub_801BED70(void*);
-u8 TObjPlayer__sub_801BED78(void*);
-u8 TObjPlayer__sub_801BED80(void*);
-u8 TObjPlayer__sub_801BED88(void*);
-u8 TObjPlayer__sub_801BED90(void*);
+int get_byte_4__10TObjPlayerFPv(void*);
+u8 get_byte_3__10TObjPlayerFPv(void*);
+u8 get_byte_2__10TObjPlayerFPv(void*);
+u8 get_byte_1__10TObjPlayerFPv(void*);
+u8 get_byte_0__10TObjPlayerFPv(void*);
 
 int TObjPlayer::is_action_active() { return (this->m_334 >> 1) & 0x1; }
 void set_byte_2e7__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x2e7) = v; }
@@ -594,15 +594,15 @@ u8 TObjPlayer::get_byte_339() { return this->m_339; }
 void set_byte_2af__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x2af) = v; }
 u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
 void set_byte_293__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
-int TObjPlayer__sub_801BE7BC(void* p) { return TObjPlayer__sub_801BED70((char*)p + 0x374); }
+int TObjPlayer__sub_801BE7BC(void* p) { return get_byte_4__10TObjPlayerFPv((char*)p + 0x374); }
 void set_byte_277__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }
-u8 TObjPlayer::get_equip_flags() { return TObjPlayer__sub_801BED78((char*)this + 0x374); }
+u8 TObjPlayer::get_equip_flags() { return get_byte_3__10TObjPlayerFPv((char*)this + 0x374); }
 void set_byte_25b__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x25b) = v; }
-u8 TObjPlayer::get_inventory_state() { return TObjPlayer__sub_801BED80((char*)this + 0x374); }
+u8 TObjPlayer::get_inventory_state() { return get_byte_2__10TObjPlayerFPv((char*)this + 0x374); }
 void set_byte_23f__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x23f) = v; }
-u8 TObjPlayer::get_field_374_state() { return TObjPlayer__sub_801BED88((char*)this + 0x374); }
+u8 TObjPlayer::get_field_374_state() { return get_byte_1__10TObjPlayerFPv((char*)this + 0x374); }
 void set_byte_223__10TObjPlayerFPvUc(void* p, u8 v) { *(u8*)((char*)p + 0x223) = v; }
-u8 TObjPlayer::get_field_374() { return TObjPlayer__sub_801BED90((char*)this + 0x374); }
+u8 TObjPlayer::get_field_374() { return get_byte_0__10TObjPlayerFPv((char*)this + 0x374); }
 
 }
 
@@ -689,11 +689,11 @@ void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
 extern "C" {
 
-int TObjPlayer__sub_801BED98(void*);
-void TObjPlayer__sub_801BEDA0(void*, u8);
-void TObjPlayer__sub_801BEDA8(void*, u8);
-void TObjPlayer__sub_801BEDB0(void*, u8);
-void TObjPlayer__sub_801BEDB8(void*, u8);
+int set_byte_4__10TObjPlayerFPvUc(void*);
+void set_byte_3__10TObjPlayerFPvUc(void*, u8);
+void set_byte_2__10TObjPlayerFPvUc(void*, u8);
+void set_byte_1__10TObjPlayerFPvUc(void*, u8);
+void set_byte_0__10TObjPlayerFPvUc(void*, u8);
 
 s32 get_field_334__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x334); }
 int TObjPlayer::unregister_sub() { return unregister_object_by_id(); }
@@ -703,15 +703,15 @@ u8 get_byte_at_2cb__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x2cb); 
 u8 get_byte_at_2af__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x2af); }
 void TObjPlayer::set_play_time(s32 v) { this->m_3bc = v; }
 void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
-int TObjPlayer__sub_801BEB68(void* p) { return TObjPlayer__sub_801BED98((char*)p + 0x374); }
+int TObjPlayer__sub_801BEB68(void* p) { return set_byte_4__10TObjPlayerFPvUc((char*)p + 0x374); }
 u8 get_byte_at_293__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x293); }
-void TObjPlayer::set_equip_flags(u8 v) { TObjPlayer__sub_801BEDA0((char*)this + 0x374, v); }
+void TObjPlayer::set_equip_flags(u8 v) { set_byte_3__10TObjPlayerFPvUc((char*)this + 0x374, v); }
 u8 get_byte_at_277__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x277); }
-void TObjPlayer::set_inventory_state(u8 v) { TObjPlayer__sub_801BEDA8((char*)this + 0x374, v); }
+void TObjPlayer::set_inventory_state(u8 v) { set_byte_2__10TObjPlayerFPvUc((char*)this + 0x374, v); }
 u8 get_byte_at_25b__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x25b); }
-void TObjPlayer::set_field_374_state(u8 v) { TObjPlayer__sub_801BEDB0((char*)this + 0x374, v); }
+void TObjPlayer::set_field_374_state(u8 v) { set_byte_1__10TObjPlayerFPvUc((char*)this + 0x374, v); }
 u8 get_byte_at_23f__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x23f); }
-void TObjPlayer::set_field_374(u8 v) { TObjPlayer__sub_801BEDB8((char*)this + 0x374, v); }
+void TObjPlayer::set_field_374(u8 v) { set_byte_0__10TObjPlayerFPvUc((char*)this + 0x374, v); }
 u8 TObjPlayer__sub_801BEC3C(void* p) { return *(u8*)((char*)p + 0x223); }
 
 }

@@ -7,11 +7,11 @@ struct T_803374C4 { u8 b[8]; void *p; };
 extern char lbl_804C3E44[];
 extern "C" {
 T_803374C4 *TObjPlayer__sub_803374C4(T_803374C4 *self);
-s32 TObjPlayer__sub_801BED70(s32);
-s32 TObjPlayer__sub_801BED78(s32);
-s32 TObjPlayer__sub_801BED80(s32);
-s32 TObjPlayer__sub_801BED88(s32);
-s32 TObjPlayer__sub_801BED90();
+s32 get_byte_4__10TObjPlayerFPv(s32);
+s32 get_byte_3__10TObjPlayerFPv(s32);
+s32 get_byte_2__10TObjPlayerFPv(s32);
+s32 get_byte_1__10TObjPlayerFPv(s32);
+s32 get_byte_0__10TObjPlayerFPv();
 int fn_803374F0(s32, s32, u8);
 s32 fn_803374F8(s32, s32);
 
@@ -38,11 +38,11 @@ s32 TObjPlayer::can_use_more_materials(s32 arg1) {
 
 s32 get_total_materials_used(s32 arg0) {
     s32 sum;
-    sum = TObjPlayer__sub_801BED90();
-    sum += TObjPlayer__sub_801BED88(arg0);
-    sum += TObjPlayer__sub_801BED80(arg0);
-    sum += TObjPlayer__sub_801BED78(arg0);
-    sum += TObjPlayer__sub_801BED70(arg0);
+    sum = get_byte_0__10TObjPlayerFPv();
+    sum += get_byte_1__10TObjPlayerFPv(arg0);
+    sum += get_byte_2__10TObjPlayerFPv(arg0);
+    sum += get_byte_3__10TObjPlayerFPv(arg0);
+    sum += get_byte_4__10TObjPlayerFPv(arg0);
     return sum;
 }
 
