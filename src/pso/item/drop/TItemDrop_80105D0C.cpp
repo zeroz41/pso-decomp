@@ -24,7 +24,13 @@ struct Names_80105DB0 { char *n[4]; };
 s32 TItemDrop__relocatable_load_buffer;
 s32 TItemDrop__second_relocatable_load_buffer;
 void *TItemDrop__common_probability_table;
-s32 *TItemDrop__rare_item_table_file;
+struct RareItem_80106A90 { u8 b[4]; };
+
+// ItemRT: the rare drop per enemy type (indexed by type) and the rare box
+// drops (count entries, each with its area in types[]).
+struct RareTable_80106A90 { RareItem_80106A90 *enemy_items; s32 count; s8 *types; RareItem_80106A90 *items; };
+
+RareTable_80106A90 *TItemDrop__rare_item_table_file;
 u8 *TItemDrop__unit_star_classes;
 u8 *TItemDrop__unit_star_bucket_counts;
 s32 TItemDrop__drop_table_mode_flags;
@@ -317,9 +323,6 @@ struct Pair_80106F4C { u8 type; u8 level; };
 
 struct Obj_80106F4C { u8 pad[6]; Pair_80106F4C e[3]; };
 
-struct RareItem_80106A90 { u8 b[4]; };
-
-struct RareTable_80106A90 { u8 pad[4]; s32 count; s8 *types; RareItem_80106A90 *items; };
 
 struct Tbl_80106E04 {
     u8 pad[0x34];
@@ -421,7 +424,7 @@ void TItemDrop::load_drop_tables() {
         close_gsl_archive();
         open_gsl_archive("ItemRT.gsl");
         format_drop_table_filename(path, "ItemRT");
-        TItemDrop__rare_item_table_file = (s32 *)load_relocatable_file(path, TItemDrop__second_relocatable_load_buffer);
+        TItemDrop__rare_item_table_file = (RareTable_80106A90 *)load_relocatable_file(path, TItemDrop__second_relocatable_load_buffer);
         close_gsl_archive();
     }
 }
@@ -587,11 +590,11 @@ void TItemDrop::generate_drop_item(s32 idx, u8 *item) {
 s32 TItemDrop::select_rare_box_item(s32 arg0, s32 arg1, u8 *arg2) {
     s32 target;
     s32 i;
-    if ((*(RareTable_80106A90 * *)&TItemDrop__rare_item_table_file) != NULL && TItemDrop::can_drop() == 1) {
+    if (TItemDrop__rare_item_table_file != NULL && TItemDrop::can_drop() == 1) {
         target = arg1 + 1;
-        for (i = 0; i != (*(RareTable_80106A90 * *)&TItemDrop__rare_item_table_file)->count; i++) {
-            if (target == (*(RareTable_80106A90 * *)&TItemDrop__rare_item_table_file)->types[i]) {
-                if (try_generate_rare_item__9TItemDropFiPvPv(arg0, (u8 *)&(*(RareTable_80106A90 * *)&TItemDrop__rare_item_table_file)->items[i], arg2) != 0) {
+        for (i = 0; i != TItemDrop__rare_item_table_file->count; i++) {
+            if (target == TItemDrop__rare_item_table_file->types[i]) {
+                if (try_generate_rare_item__9TItemDropFiPvPv(arg0, (u8 *)&TItemDrop__rare_item_table_file->items[i], arg2) != 0) {
                     return 1;
                 }
             }
@@ -601,8 +604,8 @@ s32 TItemDrop::select_rare_box_item(s32 arg0, s32 arg1, u8 *arg2) {
 }
 
 s32 TItemDrop::drop_item(s32 arg0, s32 arg1, saddr arg2) {
-    if ((TItemDrop::can_drop() == 1) && ((s32 *) TItemDrop__rare_item_table_file != NULL) && (arg1 > 0) && (arg1 < 0x58)) {
-        return try_generate_rare_item__9TItemDropFiPvPv((s32)arg0, (u8 *)(*TItemDrop__rare_item_table_file + (arg1 * 4)), (u8 *)arg2);
+    if ((TItemDrop::can_drop() == 1) && (TItemDrop__rare_item_table_file != NULL) && (arg1 > 0) && (arg1 < 0x58)) {
+        return try_generate_rare_item__9TItemDropFiPvPv((s32)arg0, (u8 *)&TItemDrop__rare_item_table_file->enemy_items[arg1], (u8 *)arg2);
     }
     return 0;
 }

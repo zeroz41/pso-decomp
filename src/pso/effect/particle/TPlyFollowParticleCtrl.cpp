@@ -116,7 +116,7 @@ s32 emit_player_particle(void* p, void* a1, void* a2) { return (saddr)spawn_part
 
 s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
     TParticleCtrl *particle;
-    u32 entity;
+    uaddr entity;
 
     entity = find_entity_by_id(arg1);
     if (entity == 0U) {
@@ -158,7 +158,7 @@ s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 mod
   return emitter;
 }
 
-void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2) {
+void emit_player_sprite_particle(s32 arg0, saddr arg1, s32 arg2) {
     spawn_particle_effect_with_flags((const Vec *)arg1, arg2, 0x2000);
 }
 

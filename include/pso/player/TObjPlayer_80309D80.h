@@ -12,7 +12,7 @@ s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 mod
 extern "C" {
 s32 emit_player_particle(void *p, void *a1, void *a2);
 }
-void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2);
+void emit_player_sprite_particle(s32 arg0, saddr arg1, s32 arg2);
 void emit_sand_step_particles(saddr owner, saddr position);
 void emit_water_step_particles(saddr owner, saddr position);
 
