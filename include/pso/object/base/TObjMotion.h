@@ -8,6 +8,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/NinjaTypes.h"
 struct BmlMotionEntry;
+struct CameraAngles;
 
 class TObjBase : public TObject {
 public:
@@ -30,6 +31,8 @@ public:
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     int set_position_from(void *pos);
+    void save_previous_position();
+    CameraAngles *get_rotation();
     saddr get_texlist();
     s32 is_alive();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
@@ -132,6 +135,7 @@ struct ActorBodyHit {
     TObjCollidable *target;
     s32 body;  // index into target->bodies
 };
+extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {
@@ -269,7 +273,7 @@ void write_node_flags(NJS_OBJECT *object);
 void make_node_flag_table(NJS_OBJECT *object, NodeFlagEntry *table);
 // The model node callback that stores each node's matrix at
 // player_joint_matrix_write_ptr and steps it on.
-void save_joint_matrix_callback();
+void save_joint_matrix_callback(NJS_OBJECT *);
 
 extern NodeFlagEntry *node_flag_cursor;
 // The joint matrices calc_joint_matrices(f32) stores (110 of them).

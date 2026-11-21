@@ -6,7 +6,7 @@
 
 class TAdLoadQuestCellGC : public TObject {
 public:
-    TAdLoadQuestCellGC(TObject *arg1, void *arg2);
+    TAdLoadQuestCellGC(TObject *parent, s32 state);
     virtual ~TAdLoadQuestCellGC();
     virtual void run_task();
     virtual void render();
@@ -20,8 +20,6 @@ LAYOUT_ASSERT(TAdLoadQuestCellGCFrameOffset, offsetof(TAdLoadQuestCellGC, m_fram
 LAYOUT_ASSERT(TAdLoadQuestCellGCSize, sizeof(TAdLoadQuestCellGC) == 0x24);
 LAYOUT_ASSERT(TAdLoadQuestCellGCStateOffset, offsetof(TAdLoadQuestCellGC, m_state) == 0x1C);
 
-extern "C" {
-s32 get_or_create_cell__14TAdLoadQuestGCFii(saddr arg0, saddr arg1);
-}
+extern "C" TAdLoadQuestCellGC *ad_load_quest_cell_table[3];
 
 #endif

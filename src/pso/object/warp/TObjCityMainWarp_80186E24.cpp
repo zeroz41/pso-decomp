@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/object/warp/TObjCityMainWarp_80186E24.h"
@@ -6,6 +7,7 @@
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/unk/text_8024AD30.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
@@ -16,7 +18,6 @@
 extern "C" {
 
 void request_active_window_close(void);
-s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 extern s32 local_client_id;
 
@@ -34,8 +35,8 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *arg0) {
                 if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
                     ((TWindowSubTradeMain *)(*(uaddr *)((s8 *)arg0 + 0xB0)))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)arg0 + 0xB0)))->set_flag_40();
-                    ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0xB0)))->calc_window_size();
-                    align_menu_entry_positions(*(u32 *)((s8 *)arg0 + 0xB0));
+                    ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0xB0)))->calc_window_size();
+                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(*(uaddr *)((s8 *)arg0 + 0xB0)));
                 }
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();

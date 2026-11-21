@@ -13,9 +13,9 @@ public:
     virtual void reserved_53();
     // The two points emit_marker_effects shoots from (launch_shot origins);
     // reserved_53 fills them (draw_status_icons).
-    WeaponVector shot_origins[2];
+    Vec shot_origins[2];
 };
 
-extern "C" u8 *TObjPlayer__sub_8012CE44(saddr item);
+extern "C" TItem *TObjPlayer__sub_8012CE44(u8 *item);
 
 #endif

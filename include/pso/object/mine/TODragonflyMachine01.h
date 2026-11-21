@@ -2,6 +2,8 @@
 #define PSO_OBJECT_MINE_TODRAGONFLYMACHINE01_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/object/TODragonfly.h"
 
 struct BmlResource;

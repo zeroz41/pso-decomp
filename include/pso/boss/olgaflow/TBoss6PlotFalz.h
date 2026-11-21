@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+struct TObjPlayer;
 
 extern "C" {
 s32 TBoss6PlotFalz__sub_802ABADC(void);
@@ -12,6 +13,9 @@ s32 is_normal_difficulty(void);
 s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 }
 
+struct BmlResource;
+class TBoss4Fade;
+
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
     virtual ~TBoss6PlotFalz();
@@ -20,15 +24,15 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void call_state_action();
     void sub_802AAC98();
     void vfunc_63();
-    u8 unk_374[0x4];
+    s32 phase_state;
     s32 m_378;
     u8 m_37c;
     u8 unk_37D[0x3];
-    u8 * m_380;
+    TBoss4Fade *fade;
     u8 unk_384[0x6];
     s16 m_38a;
     u8 unk_38C[0x40];
-    u32 m_3cc;
+    s32 m_3cc;
     u32 m_3d0;
     u32 m_3d4;
     u32 m_3d8;
@@ -37,6 +41,10 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static s32 damage_player_hp(s32 arg0, u32 arg1);
     static s32 sort_active_players();
     static u16 pick_random_active_player();
+    int is_idle();
+    void *get_mag_mine_ptr();
+    static s32 is_active(TObjPlayer *player);
+    static s32 is_state_1f(TObjPlayer *player);
     void set_state_2();
     void reset_state();
     void activate_warp();
@@ -50,8 +58,12 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static f32 get_value();
     static s32 is_boss_active();
     void release_object();
-    static s32 get_target_pos_a(s32 arg0, saddr arg1);
-    static s32 get_target_pos_b(s32 arg0, saddr arg1);
+    static void end_cutscene_camera();
+    void destroy_static_instance();
+    void queue_instance_destruction();
+    s32 get_target_pos_a(Vec *position);
+    s32 get_target_pos_b(Vec *position);
+    static void refresh_players_equipment();
     void spawn_type2();
     void spawn_type1();
     static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
@@ -59,8 +71,8 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void update_camera_target();
     static void apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
     static int get_phase();
-    void scroll_strips_uv(s32 dx, s32 dy);
-    void free_buffer_pairs();
+    s32 get_scene_state();
+    static BmlResource *get_scene_archive();
     static void freeze_all_players();
     void render();
     void run_task();
@@ -79,7 +91,6 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void tick_timeout();
     void advance_intro_timer();
     void advance_if_ready();
-    static void *create(void *arg0, void *arg1);
     s32 is_ending_or_split_screen();
     int is_ready();
     void finish_and_dispatch_next_phase();

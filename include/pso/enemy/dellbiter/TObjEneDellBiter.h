@@ -2,6 +2,8 @@
 #define PSO_ENEMY_DELLBITER_TOBJENEDELLBITER_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80490470.h"
 #include "pso/render/RenderFadeState.h"
@@ -124,7 +126,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     void fn_8030591C();
     void fn_80305684();
     void fn_80305688();
-    static void step_demo_script();
+    static void step_demo_script(NJS_OBJECT *);
     void update_state(s32 arg1);
     s32 check_low_hp_transition();
     s32 fn_803059BC(const Vec *origin);

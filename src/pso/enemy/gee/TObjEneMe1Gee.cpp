@@ -1,4 +1,5 @@
 
+#include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include "pso/npc/NpcModelRegistry.h"
@@ -142,10 +143,8 @@ void TBoss3Volopt__sub_800D8D88(saddr);
 
 s32 push_matrix();
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
-void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
-saddr load_enemy_bml_resource(u8 *arg0);
 s32 TObjPlayer__sub_800F0928(s32);
 extern s32 lbl_8043BCD8[];
 extern s32 lbl_8043BCE4[];
@@ -162,12 +161,12 @@ void TObjEneMe1Gee::load_resources() {
     v->y = 0.0f;
     v->z = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneMe1Gee__resource_bundle = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_gee_low_resource_descriptor);
+        TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_low_resource_descriptor);
     } else {
-        TObjEneMe1Gee__resource_bundle = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_gee_resource_descriptor);
+        TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
     }
     TObjEneMe1Gee::cache_result_805D6660();
-    lbl_805D51B4 = (u8 *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
+    lbl_805D51B4 = (u8 *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
         gee_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(lbl_8043BCD8[i]);
         gee_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043BCE4[i]);
@@ -175,11 +174,11 @@ void TObjEneMe1Gee::load_resources() {
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
-    p = new TUnk_8048FA00(TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     TObjEneMe1Gee__data_805D51C0 = p;
-    p = new TUnk_8048FA00(TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     TObjEneMe1Gee__data_805D51C4 = p;
-    t = ((s32 *)((NJS_OBJECT *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 4))->model)[1];
+    t = ((s32 *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)[1];
     gee_resource_bundle_ptr = t + 4;
     TObjPlayer__sub_800F0928(t);
     {
@@ -207,7 +206,7 @@ void TObjEneMe1Gee::free_globals() {
         TObjEneMe1Gee__data_805D51C0 = NULL;
     }
     if (TObjEneMe1Gee__resource_bundle != NULL) {
-        free_bin_model_request(TObjEneMe1Gee__resource_bundle, 1);
+        delete TObjEneMe1Gee__resource_bundle;
         TObjEneMe1Gee__resource_bundle = NULL;
     }
     TObjEneMe1Gee__sub_802A4D4C();
@@ -392,7 +391,7 @@ void TObjEneMe1Gee::sub_800CC0C4() {
 #pragma pop
 void TObjEneMe1Gee::vfunc_106() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = TObjEneMe1Gee__resource_bundle->models->m_c;
+    this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->m_c;
 }
 #pragma push
 #pragma fp_contract on
@@ -1760,7 +1759,7 @@ void TObjEneMe1Gee::state_orbit(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::advance_camera_ctrl_step() {
+void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
     s32 pos;
     s32 temp_r4_2;
     switch ((s32) TObjEneMe1Gee__render_node_index) {
@@ -1822,8 +1821,8 @@ void TObjEneMe1Gee::render() {
         if (var_r29 != 0) {
             if ((s16) this->mode != 0xB) {
                 TObjEneMe1Gee__render_node_index = 0;
-                gee_camera_ctrl_step_ptr = (saddr)this->m_414;
-                set_chunk_model_node_callback((saddr)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                gee_camera_ctrl_step_ptr = (s32)this->m_414;
+                set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 if (var_r30 == 1) {
                     set_motion_packed_rotation();
                     this->draw();
@@ -1833,14 +1832,14 @@ void TObjEneMe1Gee::render() {
                     this->draw_motion_model();
                     clear_motion_packed_rotation();
                 }
-                set_chunk_model_node_callback((s32)NULL);
+                set_chunk_model_node_callback(NULL);
             } else {
                 rotate_matrix_z(NULL, this->rotation_z);
                 TObjEneMe1Gee__render_node_index = -1;
-                gee_camera_ctrl_step_ptr = (saddr)this->m_414;
-                set_chunk_model_node_callback((saddr)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                gee_camera_ctrl_step_ptr = (s32)this->m_414;
+                set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 this->draw_with_alt_model(this->m_410);
-                set_chunk_model_node_callback((s32)NULL);
+                set_chunk_model_node_callback(NULL);
             }
         }
         temp_r0_2 = this->mode;
@@ -1921,7 +1920,7 @@ void TUnk_8049387C::run_task() {
 
 void TUnk_8049387C::vfunc_106() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = TObjEneMe1Gee__resource_bundle->models->m_c;
+    this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->m_c;
 }
 
 void TUnk_8049387C::vfunc_105() {

@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcKenkyu2.h"
@@ -29,16 +31,14 @@ extern BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor;
 extern const char *bm_npc_kenkyu2_motion_names[1];
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TObjNpcKenkyu2__shared_model_resource;
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
+
+
 extern const char *TObjNpcKenkyu2__name;
-void free_bin_model_request(void*, int);
 
 void TObjNpcKenkyu2::free_static_model() {
     if ((u32) TObjNpcKenkyu2__shared_model_resource != 0U) {
-        free_bin_model_request((void*)TObjNpcKenkyu2__shared_model_resource, 1);
+        delete (BmlResource *)TObjNpcKenkyu2__shared_model_resource;
         TObjNpcKenkyu2__shared_model_resource = 0U;
     }
 }
@@ -46,11 +46,7 @@ void TObjNpcKenkyu2::free_static_model() {
 void TObjNpcKenkyu2::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjNpcKenkyu2__resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &TObjNpcKenkyu2__resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TObjNpcKenkyu2__shared_model_resource) = var_r0;
 }
 
@@ -63,8 +59,8 @@ TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TUnk_804A9F50(pare
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu2__name;
     ((TObjNpcKenkyu2 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
-    ((TObjNpcKenkyu2 *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
+    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
+    ((TObjNpcKenkyu2 *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 

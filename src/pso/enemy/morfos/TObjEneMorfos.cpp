@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -21,7 +23,6 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -648,7 +649,6 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
 };
 
 u16 get_entity_id(void *);
-void free_bin_model_request(void*, int);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
 void enemy_set_target_id(void *, u16);
@@ -946,7 +946,6 @@ struct ResMgr_803350AC {
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
 
-saddr load_enemy_bml_resource(u8 *desc);
 extern f32 lbl_805434D0[3];
 extern const s32 lbl_804774A0[2];
 void TObjEneMorfos__sub_803350AC(void);
@@ -956,9 +955,9 @@ void TObjEneMorfos__sub_803350AC(void) {
     s32 i;
 
     if (is_split_screen() != 0) {
-        mgr = (ResMgr_803350AC *)load_enemy_bml_resource((u8 *)&bm_ene_morfos_low_resource_descriptor);
+        mgr = (ResMgr_803350AC *)load_enemy_bml_resource(&bm_ene_morfos_low_resource_descriptor);
     } else {
-        mgr = (ResMgr_803350AC *)load_enemy_bml_resource((u8 *)&morfos_resource_descriptor);
+        mgr = (ResMgr_803350AC *)load_enemy_bml_resource(&morfos_resource_descriptor);
     }
     TObjEneMorfos__instance = (saddr)mgr;
     lbl_805434D0[0] = 0.0f;
@@ -998,7 +997,7 @@ void *TObjEneMorfos::create() {
 void TObjEneMorfos::unload_static_data() {
     TObjEneMorfosArm__sub_8033542C();
     if ((u32) (*(u32 *)&TObjEneMorfos__instance) != 0U) {
-        free_bin_model_request((void*)(*(uaddr *)&TObjEneMorfos__instance), 1);
+        delete (BmlResource *)(*(uaddr *)&TObjEneMorfos__instance);
         (*(u32 *)&TObjEneMorfos__instance) = 0U;
     }
 }
@@ -1109,8 +1108,8 @@ f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
     }
     if (arg0->f3C0 & 0x10) {
         if (d < 0x4000) {
-            spawn_particle_effect(&m_498, 0x214);
-            spawn_particle_effect(&m_498, 0x21A);
+            spawn_particle_effect((const Vec *)&m_498, 0x214);
+            spawn_particle_effect((const Vec *)&m_498, 0x21A);
         } else {
             arg0->f3C0 &= ~0x10;
             arg0->f3C0 |= 0x20;
@@ -1590,7 +1589,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 arg1) {
             if (owner->approach_value(owner->m_4bc, *(s32 *)((s8 *)(*(u8 * *)&TObjEneMorfos__param_table) + 0x1C)) != 0) {
                 *(s32 *)((s8 *)owner + 0x4B0) = 1;
                 owner->requested_action = 2;
-                spawn_particle_effect((u8 *)owner + 0x498, 0x212);
+                spawn_particle_effect((const Vec *)((u8 *)owner + 0x498), 0x212);
             }
             break;
         case 1:
@@ -1736,7 +1735,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             break;
         }
         case 2:
-            spawn_particle_effect(arg0 + 0x498, 0x212);
+            spawn_particle_effect((const Vec *)(arg0 + 0x498), 0x212);
             if (((TObjMotion *)arg0)->is_passing_frame(1.0f) != 0) {
                 F(0x4B0, s32) = 3;
             }
@@ -1977,7 +1976,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
 
 // inferred name, from its only user (get_camera_ctrl in record_camera_path_point).
 static const Vec morfos_camera_path_origin = {0.0f, 0.0f, 0.0f};
-void TObjEneMorfos::record_camera_path_point() {
+void TObjEneMorfos::record_camera_path_point(NJS_OBJECT *) {
     switch (TObjEneMorfos__phase) {
     case 6:
     case 10: {
@@ -2003,8 +2002,8 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     post_translate_matrix(self->pos);
     rotate_matrix_y(0, this->rotation_y);
     TObjEneMorfos__phase = 0;
-    TObjEneMorfos__camera_path_cursor = (saddr)self->f498;
-    set_chunk_model_node_callback((saddr)((void *)TObjEneMorfos::record_camera_path_point));
+    TObjEneMorfos__camera_path_cursor = (s32)self->f498;
+    set_chunk_model_node_callback(TObjEneMorfos::record_camera_path_point);
     if (self->f3C0 & 2) {
         if (self->body.m8() != 0) {
             self->body.m6();
@@ -2026,7 +2025,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
             ((TObjEnemy *)self)->draw_motion_model();
         }
     }
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     pop_matrix();
     ((TObjEneDD *)self)->update_primary_light();
     TParticleCtrl::end_effect_render();

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -30,7 +32,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D853C.h"
 
@@ -40,9 +43,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-s32 spawn_particle_effect(s32, s32);
-}
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
@@ -261,7 +261,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec *);
 
 f32 horizontal_distance_squared(int, void *);
 
-u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
 s32 get_current_floor();
@@ -461,18 +460,12 @@ TObjEneMoja::~TObjEneMoja() {
 void TObjEneMoja::load_resources() {
     switch (game_difficulty_selection) {
     case 3: {
-        void *memory = ::operator new(0x440);
-        if (memory != NULL) {
-            memory = load_resource_from_descriptor(memory, 1, &lbl_804918B8, 0, 0, 0);
-        }
+        void *memory = new BmlResource(1, &lbl_804918B8, 0, 0, NULL);
         lbl_805D50D8 = (BmlResource *)memory;
         break;
     }
     default: {
-        void *memory = ::operator new(0x440);
-        if (memory != NULL) {
-            memory = load_resource_from_descriptor(memory, 1, &lbl_80491868, 0, 0, 0);
-        }
+        void *memory = new BmlResource(1, &lbl_80491868, 0, 0, NULL);
         lbl_805D50D8 = (BmlResource *)memory;
         break;
     }
@@ -533,7 +526,7 @@ void TObjEneMoja::free_resources() {
         lbl_805D50DC = NULL;
     }
     if (lbl_805D50D8 != NULL) {
-        free_bin_model_request(lbl_805D50D8, 1);
+        delete lbl_805D50D8;
         lbl_805D50D8 = NULL;
     }
 }
@@ -734,7 +727,7 @@ void TObjEneMoja::vfunc_28() {
             }
             targetId = best_id;
         } else {
-            targetId = find_nearest_visible_player(this, 0, ((MojaMovementParameters *)movementParameters)->unknown_00);
+            targetId = find_nearest_visible_player(this, NULL, ((MojaMovementParameters *)movementParameters)->unknown_00);
         }
         tid = targetId;
         if (tid < 0x1000U) {
@@ -923,8 +916,8 @@ void TObjEneMoja::update_appearance_jump() {
                 }
             }
         }
-        ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xCB);
-        ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF0);
+        spawn_particle_effect(&position, 0xCB);
+        spawn_particle_effect(&position, 0xF0);
         play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         break;
@@ -1003,8 +996,8 @@ void TObjEneMoja::update_appearance_drop() {
                 }
             }
         }
-        ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xCB);
-        ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF0);
+        spawn_particle_effect(&position, 0xCB);
+        spawn_particle_effect(&position, 0xF0);
         play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         break;
@@ -1372,8 +1365,8 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                     ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) 0x4002A60B, &pos, 0, 0);
                     break;
                 default:
-                    ((s32 (*)(void *, int))spawn_particle_effect)(&pos, 0xB9);
-                    ((s32 (*)(void *, int))spawn_particle_effect)(&pos, 0xBA);
+                    spawn_particle_effect(&pos, 0xB9);
+                    spawn_particle_effect(&pos, 0xBA);
                     if (ang2 < ((AttackParams *)(self->f318))->get_attack_angle() / 2) {
                         if (normalize_vector_safe(&dir) < 0.00001f) {
                             dir.y = dir.x = 0.0f;
@@ -1486,7 +1479,7 @@ void TObjEneMoja::update_attack_jump() {
             } else {
                 phase = 2;
             }
-            ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF3);
+            spawn_particle_effect(&position, 0xF3);
             play_sound_effect(remap_sound_for_area(0x3A802), &position, 0, 0);
         }
         break;
@@ -1514,8 +1507,8 @@ void TObjEneMoja::update_attack_jump() {
                     }
                 }
             }
-            ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xCB);
-            ((s32 (*)(void *, int))spawn_particle_effect)(&position, 0xF0);
+            spawn_particle_effect(&position, 0xCB);
+            spawn_particle_effect(&position, 0xF0);
             play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x300);
         }
@@ -1620,7 +1613,7 @@ void TObjEneMoja::vfunc_63() {
         this->requested_action = 7;
         temp_r6 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
-        spawn_particle_effect((saddr)(arg0 + 0x2FC), 0xF1);
+        spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0xF1);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
         this->appearance = 0;
@@ -1646,7 +1639,7 @@ void TObjEneMoja::update_death_state() {
         vec3_add_to(&v, (u8 *)&this->position);
         play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD03), &v, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
-        spawn_particle_effect((saddr) &v, 0xF0);
+        spawn_particle_effect(&v, 0xF0);
         spawn_dead_spot_scale15(&v, 0x14);
         ((TObjPlayer *)(&v))->spawn_effect_at_ground(0x32);
     }

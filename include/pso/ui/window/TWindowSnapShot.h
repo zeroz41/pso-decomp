@@ -8,13 +8,6 @@ struct TWindowSnapShot : public TWindowBase {
     TWindowSnapShot(saddr arg1);
     virtual ~TWindowSnapShot();
     virtual void render();
-    u8 _pad1C[0x8];
-    void* m_24;
-    u8 _pad28[0x4];
-    u32 m_2c;
-    u8 unk_30[0x10];
-    u8 unk_40[0x1C];
-    u32 m_5c;
     u8 m_60;
     static void free_shared_instance();
     static int get_height();

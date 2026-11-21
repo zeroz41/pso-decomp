@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/trap/TOMine.h"
@@ -9,7 +11,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -27,10 +28,10 @@ TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
     apply_object_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
-    model = (void *)get_bml_model(lbl_805D5A50, 7);
-    texlist = get_bml_texlist(lbl_805D5A50, 7);
-    light_model = (NJS_OBJECT *)get_bml_model(lbl_805D5A50, 3);
-    light_textures = (GinjaTextureList *)get_bml_texlist(lbl_805D5A50, 3);
+    model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 7);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 7);
+    light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 3);
+    light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 3);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;
@@ -113,5 +114,5 @@ void TOMineIcon04::vfunc_80() {
     }
 }
 
-void TOMineIcon04::vfunc_82() { spawn_particle_effect((char*)this + 0x2fc, 140); }
+void TOMineIcon04::vfunc_82() { spawn_particle_effect((const Vec *)((char*)this + 0x2fc), 140); }
 void TOMineIcon04::vfunc_84() {  }

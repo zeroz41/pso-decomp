@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct CardSaveDescriptor;
+
 // One pending memory-card request per slot (A, B), stepped by TAdPlayerLoadGC__sub_803F2F1C.
 struct CardRequestSlot {
     void *buffer;    // read/write data
@@ -33,14 +35,14 @@ public:
 public:
     static s32 get_instance();
     static void set_state(int a0);
-    static void reset_load_state(void *arg0, void *arg1);
+    static void reset_load_state(s32 channel, u64 *serial_number);
     static void poll_card_load(s32 arg0);
-    s32 check_card_result_code();
+    static s32 check_card_result_code(s32 channel);
     static s32 probe_and_check_card(saddr chan);
-    static void unmount_card_and_clear_flags(s32 n);
+    static void unmount_card_and_clear_flags(s32 channel, s32 result);
     static void load_banner_files();
-    static s32 get_load_result(void * _w0);
-    static s32 build_save_file_image(void *image, void *desc);
+    static s32 get_load_result(s32 channel);
+    static s32 build_save_file_image(void *image, CardSaveDescriptor *file);
     static s32 probe_card_slot(saddr chan);
     static s32 find_card_file(saddr chan, const char *name);
     static s32 check_memcard_status(s32 arg0);

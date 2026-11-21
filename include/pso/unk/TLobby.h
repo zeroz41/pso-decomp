@@ -2,6 +2,8 @@
 #define PSO_UNK_TLOBBY_H
 
 #include "types.h"
+#include "pso/audio/AdxCallbacks.h"
+#include "pso/audio/GcrnaError.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
 
@@ -23,7 +25,8 @@ LAYOUT_ASSERT(TLobbyFloorItemEntrySize, sizeof(TLobbyFloorItemEntry) == 0x24);
 LAYOUT_ASSERT(TLobbyFloorItemEntryDataOffset, offsetof(TLobbyFloorItemEntry, item_data) == 0x10);
 
 struct AdxbDecoder;
-struct Strm_803C5B50;
+struct SjRingBuffer;
+struct GcrnaStream;
 
 struct TObjTombstone;
 struct TObjTombstoneSpot;
@@ -105,14 +108,9 @@ struct TLobby : public TObject {
     static f32 calc_phase_offset();
     static s32 get_internet_beat();
     static s32 get_clock_frames();
-    void free_if_not_owner(void* a1);
-    void load_texture_sub(void *arg1, s32 arg2);
-    void set_flag_and_notify();
     static s32 load_bml_exec(u8 *arg0, u8 *arg1);
     static void free_chr_select_data();
     static void init_download_buffers();
-    s32 load_bin_motion(saddr arg1, s32 arg2);
-    void reset_battle_state();
     static s32 get_game_mode();
     void copy_header(void *arg1);
     static void free_char_select();
@@ -138,7 +136,6 @@ struct TLobby : public TObject {
     static s32 count_set_bits(u32 x);
     static s32 get_party_min_tier(s32 arg0);
     void copy_header_struct(void* q);
-    void set_loss_flag();
     static void set_enemy_mode_flag();
     static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
     static void free_static_windows();
@@ -211,7 +208,7 @@ struct TLobby : public TObject {
     u8 get_mode();
     static char *init_serial_access();
     void set_range(int a1, int a2, int a3);
-    static s32 set_range(void *stream, int a, int b);
+    static s32 set_range(struct AdxStreamFile *file, s32 threshold, s32 chunk_size);
     static void update_floor();
     static void update_floor_a();
     static void update_floor_state();
@@ -383,10 +380,9 @@ struct TLobby : public TObject {
     static saddr get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();
-    void set_field_90(s32 v);
+    void update_window_mode_from_progress(void *arg1);
     static void send_packet(s32 arg0, s32 arg1);
     static void free_shared_objects();
-    int start_load_default();
     static void free_single_player_chr_select();
     static void alloc_download_server();
     static void free_chr_select_singleton();
@@ -442,7 +438,6 @@ struct TLobby : public TObject {
     void prepare_trade_packet();
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
-    void set_ad_field(s32 v);
     static s32 is_online_ready();
     static s32 is_camera_ctrl_active();
     static s32 is_ready();
@@ -476,8 +471,6 @@ struct TLobby : public TObject {
     void set_info_board_text();
     static void reset_info_board();
     static int get_lobby_texlist();
-    void set_timer(f32 v);
-    static saddr open_message_scroll_window(saddr arg0, saddr arg1, saddr arg2);
     static void *create_dialing_message_window(void *arg0, void *arg1);
     static void free_singleton_805D7018();
     void *reset_counters();
@@ -536,7 +529,7 @@ struct TLobby : public TObject {
     static void format_number_pair(s32 arg0, s32 arg1, char *arg2, s32 arg3);
     static void report_adx_error(const char *msg, const char *arg);
     static void notify_error(const char *arg0);
-    static void set_params(saddr arg0, s32 arg1);
+    static void set_params(AdxMessageCallback callback, s32 context);
     static void clear_error_callback();
     static void clear_error_callback_state();
     static void dec_ref_and_shutdown();
@@ -548,16 +541,14 @@ struct TLobby : public TObject {
     static void run_sequence();
     static s32 query_available_size(TLobby *rna);
     static void dispatch_packet(struct GcrnaStream *stream, s32 enabled);
-    static void run_step_5210();
-    static void flush_update();
+    static GcrnaStream *run_step_5210(SjRingBuffer **inputs, s32 channels);
+    static void flush_update(GcrnaErrorCallback callback, void *context);
     static void shutdown_cleanup();
     static void invalidate_cache(void *start, u32 length);
     s32 get_scroll_offset();
     void set_flag_4(s8 arg1);
     void set_client_slot(s8 arg1);
     static void update_scroll_impl();
-    void update_scroll();
-    static void call_callback();
     static void set_callback(uaddr arg0, s32 arg1);
     u32 get_packet_size();
     u32 get_available_size();
@@ -592,7 +583,7 @@ struct TLobby : public TObject {
     static void tmp_buf_release_if_owner(const char *name);
     static s32 tmp_buf_release(const char *name);
     static s32 tmp_buf_is_free();
-    static saddr tmp_buf_use_req(const char *name);
+    static u8 *tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
     static u16 alloc_actor_ids(s32 arg);
     void reduce_owner_matched_items();
@@ -613,13 +604,12 @@ struct TLobby : public TObject {
     static void clear_buffer_340();
     static void worker_thread_loop();
     static void wait_for_lock_release();
-    static void adxm_goto_mwidle_border();
+    static void adxm_goto_mwidle_border(s32 context);
     static void dec_ref_and_clear_buffer();
     static void read_data_sync(s32 arg0, s32 arg1, s32 arg2);
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();
-    u32 alloc_load_buffer(s32 arg1);
     static void reset_leader_selection_static();
     static u8 *get_stage_table_entry(s32 arg0, s32 arg1);
     static s32 get_online_result_value();
@@ -677,32 +667,20 @@ struct TLobby : public TObject {
     static void dec_ref_and_reset_tables();
     static void init_afs_adxf_state();
     static s32 get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *arg4, s32 *arg5);
-    s32 adxf_get_fsize_byte();
-    static s32 adxf_seek(void *adxf, int pos, int type);
-    s32 adxf_stop();
-    static s32 adxf_read_nw32(void *adxf, int nsct, void *buf);
-    static s32 read_checked_align(saddr arg0, s32 arg1, saddr arg2);
-    static void *adxf_open_afs(int partition_id, int index);
     static void release_used_slots();
     static s32 read_afs_toc(s32 arg0);
     s32 demux_stream_chunks();
     void get_entry_pair(s32 i, s32 *a, s32 *b);
-    s32 cv_fs_get_stat();
-    void cvfs_stop_tr();
-    s32 cv_fs_req_rd(s32 arg1, s32 arg2);
-    s32 cv_fs_seek(s32 arg1, s32 arg2);
-    s32 cv_fs_tell();
-    void cv_fs_close();
-    void cvFsSetDefDev();
+
     static void log_printf(const char *fmt, ...);
     static void init_callback_tables();
     s32 run_worker_callbacks_slot5();
     static s32 run_worker_callbacks_slot4();
     static s32 run_callbacks_group2();
-    static void set_callback_params(s32 arg0, s32 arg1);
-    static void SVM_SetCbSvrId(s32 arg0, s32 arg1, saddr fn, s32 arg);
+    static void set_callback_params(AdxMessageCallback callback, s32 context);
+    static void SVM_SetCbSvrId(s32 group, s32 slot, AdxWorkerCallback callback, s32 context);
     static void SVM_DelCbSvr(s32 arg0, s32 arg1);
-    static s32 svm_set_cb_svr(s32 arg0, saddr fn, s32 arg);
+    static s32 svm_set_cb_svr(s32 group, AdxWorkerCallback callback, s32 context);
     static void set_message_and_notify(char *arg0);
     void set_stream_channel_pan(s32 ch, s32 pan);
     static void update_active_streams();
@@ -718,10 +696,8 @@ struct TLobby : public TObject {
     static void send_data(saddr arg0);
     static void update_alloc_size();
     static u8 get_selected_slot();
-    void update_model_load();
     void copy_player_record(u8 *arg1);
     u8 *init_memory_pool(s32 arg1, s32 arg2, s32 arg3);
-    s32 load_bin_model(saddr arg1, s32 arg2);
     static void init_on_main_phase();
     static void copy_state_block();
     static char *get_unit_list();
@@ -885,22 +861,13 @@ struct TLobby : public TObject {
     void build_trade_item_list();
     static char send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2);
     static void send_trade_proposal_result(s8 arg0, s8 arg1);
-    static s32 ar_alloc();
-    static s32 get_state_zero();
-    static s32 process_connection_state();
-    static void forward_notify_error(s32 arg0, saddr arg1);
+    static s32 ar_alloc(s32 context);
+    static s32 get_state_zero(s32 context);
+    static s32 process_connection_state(s32 context);
+    static void forward_notify_error(void *context, const char *message);
     static void clear_net_buffer_1680();
     static void clear_buffer_1680();
     static s32 write_zero_padded_block(void *arg0p);
-    void set_field_10_and_notify(s32 arg1);
-    void set_buffer(void **arg1);
-    s32 get_field_14();
-    void update_stream_read();
-    void set_scroll_position(s32 arg1);
-    void set_coords(s32 arg1, s32 arg2);
-    s32 init_stream_position();
-    s32 get_file_offset_relative();
-    s32 set_scroll_offset(s32 arg1);
     static void si_get_type_async();
     static s32 clear_buffer_a00();
     static void on_set_mode(s32 mode);
@@ -922,7 +889,6 @@ struct TLobby : public TObject {
     static s32 unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2);
     void transfer_trade_item_amount(u32 arg1, s32 arg2);
     void move_trade_item_amount(u32 arg1, s32 arg2);
-    void close_adxf_handle();
     void set_stream_frequency(s32 rate);
     s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
@@ -946,7 +912,6 @@ struct TLobby : public TObject {
     void send_cmd_6B();
     u8 *create_new_floor_windows();
     static AdxbDecoder *alloc_record(s32 arg0, saddr arg1, s32 arg2, s32 arg3);
-    s32 write_adx_header(Strm_803C5B50 *s);
     static void append_float_value(s32 arg0);
     static void append_int_param(s32 arg0);
     static void send_simple_mail(s32 arg0, void *arg1);
@@ -1014,7 +979,6 @@ struct TLobby : public TObject {
     static void *adxstm_open_fname_range(void *, int, int, int, int);
     static void *adxstm_open_fname_range_ex_rt(void *, int, int, int, int);
     static void adxt_trap_entry_update(void *);
-    static s32 alloc_load_data(void *, int, int, int);
     static void alloc_work_buffer();
     static void broadcast_to_players(int, int);
     static void *bsearch_record(void *, int, int);

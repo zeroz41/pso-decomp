@@ -2,6 +2,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/ambient/TObjLight_80235C44.h"
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/TUnk_804CCAA8.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -144,7 +145,7 @@ extern "C" {
 f32 vec_squared_length(void *, f32);
 s32 normalize_vector(void *);
 }
-extern u8 *camera_ctrl_instance;
+extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on
@@ -152,9 +153,9 @@ void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
     Vec stack;
     f32 temp_f1;
     if ((void *) camera_ctrl_instance != NULL) {
-        stack.x = *(f32 *)((s8 *)camera_ctrl_instance + 0x178) - *(f32 *)((s8 *)arg0 + 0);
-        stack.y = *(f32 *)((s8 *)camera_ctrl_instance + 0x17C) - *(f32 *)((s8 *)arg0 + 4);
-        temp_f1 = *(f32 *)((s8 *)camera_ctrl_instance + 0x180);
+        stack.x = camera_ctrl_instance->pos_x - *(f32 *)((s8 *)arg0 + 0);
+        stack.y = camera_ctrl_instance->pos_y - *(f32 *)((s8 *)arg0 + 4);
+        temp_f1 = camera_ctrl_instance->pos_z;
         stack.z = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
         if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
             normalize_vector(&stack.x);

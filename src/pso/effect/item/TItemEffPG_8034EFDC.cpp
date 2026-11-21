@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "types.h"
@@ -32,75 +33,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecSlicer.h"
 
-struct Base_8034EFDC { char pad[0x18]; };
-struct VObj_8034EFDC : Base_8034EFDC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63(s32, void *);
-};
-
-
 
 struct P_8034F020 { u8 pad0[0x1F8]; s32 f1F8; };
 
@@ -111,10 +43,6 @@ typedef struct SlicerLaunchData_8012D9C8 {
     s32 facing, spin; f32 first[3], second[3];
 } SlicerLaunchData_8012D9C8;
 
-struct Elem_8034F204 { u8 x[0x2C]; };
-
-struct Tbl_8034F204 { u8 pad[0x1C]; Elem_8034F204 arr[1]; };
-
 void init_slicer_launch_state(void *arg0);
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
@@ -122,7 +50,6 @@ u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
-s32 spawn_particle_effect(void *, s32);
 void *find_entity_by_id(s32);
 void draw_weapon_at_joint(saddr, s8);
 }
@@ -131,9 +58,9 @@ void draw_weapon_at_joint(saddr, s8);
 // 2.0f literal at 0x805DFDF8 is followed by a 4-byte pad before the next pool.
 // Built with -inline off,deferred like TItemEffPG.cpp: functions are written last to first.
 
-u8 *TObjPlayer::create_rappys_fan(u8 *item) {
+TItem *TObjPlayer::create_rappys_fan(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F0908(tl_05, item);
+        return new TUnk_804F0908(tl_05, item);
     }
     return NULL;
 }
@@ -174,20 +101,18 @@ void TUnk_804F0908::emit_marker_effects() {
 }
 
 void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u8 *temp_r5;
-    void *entity;
-    entity = find_entity_by_id(arg2);
+    TObjCollidable *entity = static_cast<TObjCollidable *>(find_entity_by_id(arg2));
     if (entity != NULL) {
-        temp_r5 = *(u8 **)((s8 *)entity + 0xA4);
-        if ((temp_r5 != NULL) && (arg3 < (s32) *(s32 *)((s8 *)entity + 0xA8))) {
-            spawn_particle_effect(&((Tbl_8034F204 *)temp_r5)->arr[arg3], 0x1BF);
+        CollisionBody *bodies = entity->bodies;
+        if (bodies != NULL && arg3 < entity->body_count) {
+            spawn_particle_effect(&bodies[arg3].center, 0x1BF);
         }
     }
 }
 
-u8 *TObjPlayer__sub_8034F1AC(u8 *item) {
+TItem *TObjPlayer__sub_8034F1AC(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F0810(tl_05, item);
+        return new TUnk_804F0810(tl_05, item);
     }
     return NULL;
 }
@@ -212,8 +137,7 @@ void TUnk_804F0810::vfunc_60() {
 }
 
 void TUnk_804F0810::emit_marker_effects() {
-    u8 sp8[0x18];
-    struct VObj_8034EFDC *o = (struct VObj_8034EFDC *)this->owner;
-    o->m63(0x30, sp8);
-    spawn_particle_effect(sp8, 0x1D0);
+    Vec joint_samples[2];
+    owner->get_anim_node_position(0x30, joint_samples);
+    spawn_particle_effect(&joint_samples[0], 0x1D0);
 }

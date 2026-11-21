@@ -1,5 +1,8 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -208,7 +211,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     this->effect_anchor.x = 0.0f;
     this->effect_anchor.y = 0.0f;
     this->effect_anchor.z = 0.0f;
-    set_chunk_model_node_callback((saddr)((void *)TObjEneEpsilonGuard::advance_camera_ctrl_step));
+    set_chunk_model_node_callback(TObjEneEpsilonGuard::advance_camera_ctrl_step);
     TObjPlayer::toggle_particle_effect();
     if (detail == 1) {
         this->TObjMotion::draw();
@@ -216,7 +219,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
         this->draw_motion_model();
     }
     TParticleCtrl::end_effect_render();
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     pop_matrix();
     this->update_primary_light();
     if (fade->updateFromCamera(&this->m_2fc) != 0) {
@@ -256,7 +259,7 @@ void TObjEneEpsilonGuard::render() {
     }
 }
 
-void TObjEneEpsilonGuard::advance_camera_ctrl_step() {
+void TObjEneEpsilonGuard::advance_camera_ctrl_step(NJS_OBJECT *) {
     if ((s32) epsilon_guard_camera_step == 0) {
         forward_transform_to_view((const Vec *)&lbl_805439E0.value, (Vec *)epsilon_guard_camera_ctrl_ptr);
     }
@@ -838,8 +841,8 @@ TObjEneEpsilonGuard *__dt__19TObjEneEpsilonGuardFv(TObjEneEpsilonGuard *guard, s
 
 void TObjEneEpsilonGuard::init_model_and_state() {
     init_position_vectors();
-    model = (void *)get_bml_model(lbl_805D6FA0, 2);
-    texlist = get_bml_texlist(lbl_805D6FA0, 0);
+    model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 2);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D6FA0, 0);
     init_model(TObjEneEpsilonGuard__model_desc, 1);
     set_field_d8((saddr)lbl_804F2024);
     set_field_dc((saddr)lbl_805D6FA0->motions);
@@ -855,7 +858,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     flags = 0;
     flags |= 0x10;
     vfunc_95();
-    effect_model = (void *)get_bml_model(lbl_805D6FA0, 3);
+    effect_model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 3);
     effect_motion = (NJS_MOTION *)get_bml_motion(lbl_805D6FA0, 3);
     effect_frame = 0.0f;
     effect_timer = 0;

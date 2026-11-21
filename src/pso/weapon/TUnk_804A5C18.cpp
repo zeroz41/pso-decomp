@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A5C18.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer_80109344.h"
 #include "pso/unk/text_8011B620.h"
@@ -37,15 +37,15 @@ void TUnk_804A5C18::vfunc_60() {
 const s32 basic_shot_angle_table[6] = {0, 2184, -2184, 4551, -4551, 0};
 
 void TUnk_804A5C18::emit_marker_effects() {
-    s32 pos[3];
+    Vec pos;
     s32 i;
 
     // signed i but an unsigned != loop test (cmpwi i,0 / cmplwi i,5), as in the tree
     for (i = 0; (u32)i != 5U; i++) {
-        get_joint_position(muzzle_joints[i], pos);
-        launch_shot((u8 *)pos, i, basic_shot_angle_table[i], 1);
+        get_joint_position(muzzle_joints[i], &pos);
+        launch_shot((u8 *)&pos, i, basic_shot_angle_table[i], 1);
         if (i == 0) {
-            spawn_particle_effect(pos, 9);
+            spawn_particle_effect(&pos, 9);
         }
     }
 }
@@ -121,9 +121,9 @@ TUnk_804A5C18::TUnk_804A5C18(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_shot_weapon(u8 *item) {
+TItem *create_shot_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A5C18(tl_05, item);
+        return new TUnk_804A5C18(tl_05, item);
     }
     return NULL;
 }

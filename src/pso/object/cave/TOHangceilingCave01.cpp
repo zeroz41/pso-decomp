@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaTexture.h"
 #include "types.h"
 #include <string.h>
@@ -23,12 +25,10 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 
 struct Q_801681D0 { f32 w[4]; };
@@ -90,7 +90,7 @@ s32 TUnk_804B2578::select_melee_contact_body(void *, f32) {
 
 TUnk_804B2578::TUnk_804B2578(TObject *parent, void *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOHangceilingCave01__model_archive, turiten_singo_key_model_index);
+    model = (void *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, turiten_singo_key_model_index);
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
     init_collision_body_parts(this, &lbl_804B2174, 1);
     refresh_collision_body_centers();
@@ -112,31 +112,25 @@ void load_turiten_singo_resources(void) {
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &turiten_singo_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &turiten_singo_resource_descriptor, 0, 0, NULL);
         TOHangceilingCave01__model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(GinjaTextureList *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
-        turiten_singo_texture_lists[2] = (GinjaTextureList *)get_bml_texlist(TOHangceilingCave01__model_archive, 0);
+        turiten_singo_texture_lists[2] = (GinjaTextureList *)get_bml_texlist((BmlResource *)TOHangceilingCave01__model_archive, 0);
         lbl_805D59D8 = 0;
         TOHangceilingCave01__model_root = NULL;
         turiten_singo_key_model_index = 0;
         hanging_ceiling_motion_index = 0;
         break;
     default:
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, NULL);
         TOHangceilingCave01__model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(GinjaTextureList *));
         turiten_singo_texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_turiten_singo_r.gvm");
-        turiten_singo_texture_lists[2] = (GinjaTextureList *)get_bml_texlist(TOHangceilingCave01__model_archive, 1);
-        TOHangceilingCave01__model_root = (NJS_OBJECT *)get_bml_model(TOHangceilingCave01__model_archive, 2);
+        turiten_singo_texture_lists[2] = (GinjaTextureList *)get_bml_texlist((BmlResource *)TOHangceilingCave01__model_archive, 1);
+        TOHangceilingCave01__model_root = (NJS_OBJECT *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, 2);
         turiten_singo_key_model_index = 1;
         hanging_ceiling_motion_index = 0;
         break;
@@ -153,7 +147,7 @@ void TOHangceilingCave01::destroy_instance() {
         }
     }
     if (TOHangceilingCave01__model_archive != NULL) {
-        free_bin_model_request(TOHangceilingCave01__model_archive, 1);
+        delete TOHangceilingCave01__model_archive;
         TOHangceilingCave01__model_archive = NULL;
     }
 }
@@ -224,23 +218,23 @@ void TUnk_804B2578::render() {
                 lit2 = level <= 3.0f * step;
                 TObjFish::set_global_param((saddr)turiten_singo_texture_lists[1]);
                 if (lit0 == 1) {
-                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
                 }
                 if (lit1 == 1) {
-                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->model);
                 }
                 if (lit2 == 1) {
-                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
                 }
                 TObjFish::set_global_param((saddr)turiten_singo_texture_lists[0]);
                 if (lit0 == 0) {
-                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
                 }
                 if (lit1 == 0) {
-                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->model);
                 }
                 if (lit2 == 0) {
-                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {

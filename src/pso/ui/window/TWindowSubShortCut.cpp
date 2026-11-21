@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
@@ -49,7 +50,6 @@ s32 store_chat_shortcut(s32 arg0, s32 arg1);
 extern "C" {
 void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
-s32 align_menu_entry_positions(s32);
 saddr get_window_layout_position(s32 a0 = 0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
@@ -57,7 +57,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 
 const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
 
-void TWindowSubShortCut::set_flag1e_bit80() { this->m_1e |= 0x80; }
+void TWindowChat::set_flag1e_bit80() { flags |= 0x80; }
 
 TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(object) {
     this->m_name = TWindowSubShortCut__class_name;
@@ -128,7 +128,7 @@ void TWindowSubShortCut::run_task() {
             this->m_30 = open_menu();
         }
         ((TWindowSubComCard *)(this->m_30))->clear_flag_and_release();
-        ((TWindowSubComCard *)(this->m_30))->clear_transition_flag();
+        ((TWindowMenu *)(this->m_30))->clear_transition_flag();
         this->m_1c = 4U;
     case 4:
         if (((TWindowMenu *)(this->m_30))->is_cancelled() != 0) {
@@ -153,9 +153,9 @@ void TWindowSubShortCut::run_task() {
         if ((u32) this->m_38 == 0U) {
             void *chat = new TWindowChat((TObject *)arg0, (u8 *)&this->m_40);
             *(void * *)&this->m_38 = chat;
-            ((TWindowSubShortCut *)(this->m_38))->free_icon();
-            ((TWindowSubShortCut *)(this->m_38))->close_and_clear_flag();
-            ((TWindowSubShortCut *)(this->m_38))->set_flag1e_bit80();
+            reinterpret_cast<TWindowChat *>(this->m_38)->set_keyboard_flag62_bit4();
+            reinterpret_cast<TWindowChat *>(this->m_38)->close_and_clear_flag();
+            reinterpret_cast<TWindowChat *>(m_38)->set_flag1e_bit80();
         }
         this->m_1c = 6U;
     case 6:
@@ -242,9 +242,9 @@ s32 TWindowSubShortCut::open_menu() {
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(205.0f);
-    align_menu_entry_positions(temp_r31);
+    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
+    ((TWindowMenu *)temp_r31)->update_layout_height(205.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
 }
 
@@ -252,7 +252,7 @@ s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
     saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
-    ((TWindowSubShortMail *)r)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
 }
 
@@ -262,7 +262,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
 

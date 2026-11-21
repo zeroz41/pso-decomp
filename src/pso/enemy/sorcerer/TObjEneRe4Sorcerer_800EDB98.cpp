@@ -1,7 +1,9 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -118,7 +120,6 @@ void TObjEneRe4Sorcerer__sub_800EFE30(void);
 extern "C" {
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 
-void *find_entity_by_id(u16 id);
 
 void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 arg1);
 
@@ -151,7 +152,6 @@ f32 horizontal_distance_squared(void *, void *);
 
 void scale_matrix(s32, s32, f32, f32, f32);
 
-void free_bin_model_request(void*, int);
 
 s32 TObjPlayer__sub_800A04F0(void *);
 
@@ -163,9 +163,7 @@ int TObjEneDD__sub_800BA804(u16 arg0);
 
 u32 vfunc_101__9TObjEneDDFPUc();
 
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
-saddr load_enemy_bml_resource(u8 *arg0);
 
 void TObjEneRe4Bit__sub_800EDAB0(void);
 
@@ -495,9 +493,9 @@ void TObjEneRe4Sorcerer::load_resources() {
     lbl_80501070.y = 0.0f;
     lbl_80501070.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_re4_sorcerer_resource_descriptor, (saddr)("bm_ene_re4_sorcerer_a.bml"));
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_re4_sorcerer_resource_descriptor, "bm_ene_re4_sorcerer_a.bml");
     } else {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_re4_sorcerer_resource_descriptor);
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource(&bm_ene_re4_sorcerer_resource_descriptor);
     }
     lbl_805D52D0 = (saddr)TLobby::register_boss(0xA);
     TObjEneRe4Sorcerer__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0xA);
@@ -510,7 +508,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Bit__sub_800EDAB4();
     r = (u32) (saddr)::operator new(0x14);
     if (r != 0) {
-        r = (uaddr) ((TLobby *)r)->alloc_tables(sorcerer_bml_resource->models->model, 2);
+        r = (uaddr) ((TLobby *)r)->alloc_tables((saddr)sorcerer_bml_resource->models->model, 2);
     }
     TObjEneRe4Sorcerer__uv_scroll_buffer = r;
     NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
@@ -529,7 +527,7 @@ void TObjEneRe4Sorcerer::free_bits() {
     }
     TObjEneRe4Bit__sub_800EDAB0();
     if ((uaddr) sorcerer_bml_resource != 0U) {
-        free_bin_model_request((void*)sorcerer_bml_resource, 1);
+        delete (BmlResource *)sorcerer_bml_resource;
         sorcerer_bml_resource = 0U;
     }
 }
@@ -555,7 +553,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     init_position_vectors();
     model = (void *)sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
-    texlist = models->m_c;
+    texlist = (saddr)models->m_c;
     this->init_model((CollisionBody *)re4_sorcerer_collision_body_part_table, 1);
     set_field_d8((saddr)re4_sorcerer_action_params);
     set_field_dc((saddr)sorcerer_bml_resource->motions);
@@ -1576,7 +1574,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
 #pragma push
 #pragma opt_propagation off
 extern "C" {
-void TObjEneRe4Sorcerer::step_effect_sequence() {
+void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
     s32 t;
     switch (TObjEneRe4Sorcerer__render_node_index) {
     case 0:
@@ -1660,8 +1658,8 @@ void TObjEneRe4Sorcerer::render() {
             TObjEneRe4Sorcerer__render_node_index = 0;
             TObjEneRe4Sorcerer__saved_render_flags = 0;
             TObjEneRe4Sorcerer__effect_render_scale = m_3f8;
-            re4_sorcerer_render_node_ptr = (saddr)bit_anchors;
-            set_chunk_model_node_callback((saddr)TObjEneRe4Sorcerer::step_effect_sequence);
+            re4_sorcerer_render_node_ptr = (s32)bit_anchors;
+            set_chunk_model_node_callback(TObjEneRe4Sorcerer::step_effect_sequence);
             model_render_flags |= 0x01000000;
             if (var_r28 == 1) {
                 draw();
@@ -1669,7 +1667,7 @@ void TObjEneRe4Sorcerer::render() {
                 draw_motion_model();
             }
             model_render_flags &= 0xFEFFFFFF;
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             pop_matrix();
         }
         if (m_3c8 & 4) {

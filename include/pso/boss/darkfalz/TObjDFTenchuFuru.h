@@ -1,7 +1,11 @@
 #ifndef PSO_BOSS_DARKFALZ_TOBJDFTENCHUFURU_H
 #define PSO_BOSS_DARKFALZ_TOBJDFTENCHUFURU_H
 
+struct NJS_OBJECT;
+
 #include "pso/system/task/TObject.h"
+
+struct NJS_OBJECT;
 #include "types.h"
 #include <dolphin/mtx.h>
 #include <stddef.h>
@@ -18,8 +22,8 @@ public:
     virtual ~TObjDFTenchuFuru();
     virtual void run_task();
 public:
-    void *create(void *arg1);
-    static void capture_matrix_by_frame();
+    static TObjDFTenchuFuru *create(TObject *parent, const Vec *position);
+    static void capture_matrix_by_frame(NJS_OBJECT *);
     static void register_callback();
     void transform_node_tree();
     void draw_node_tree();
@@ -29,5 +33,11 @@ LAYOUT_ASSERT(TObjDFTenchuFuru_pos_offset, offsetof(TObjDFTenchuFuru, pos) == 0x
 LAYOUT_ASSERT(TObjDFTenchuFuru_timer_offset, offsetof(TObjDFTenchuFuru, timer) == 0x28);
 LAYOUT_ASSERT(TObjDFTenchuFuru_effect_offset, offsetof(TObjDFTenchuFuru, effect) == 0x2C);
 LAYOUT_ASSERT(TObjDFTenchuFuru_size, sizeof(TObjDFTenchuFuru) == 0x30);
+
+// Shared by the first and second combat forms.
+extern "C" {
+void spawn_tenchu_furu(TObject *parent);
+void apply_tenchu_hits(TObject *source);
+}
 
 #endif

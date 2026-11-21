@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
@@ -22,17 +21,13 @@ void *TObjNpcSecretaryBase__create(void *set_data) {
 
 void TObjNpcSecretaryBase::free_static_data() {
     if (TObjNpcSecretaryBase__static_model_resource != NULL) {
-        free_bin_model_request(TObjNpcSecretaryBase__static_model_resource, 1);
+        delete TObjNpcSecretaryBase__static_model_resource;
         TObjNpcSecretaryBase__static_model_resource = NULL;
     }
 }
 
 void TObjNpcSecretaryBase::load_static_data() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &secretary_body_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &secretary_body_resource_descriptor, 0, 0, NULL);
     TObjNpcSecretaryBase__static_model_resource = resource;
 }
 
@@ -43,6 +38,6 @@ TObjNpcSecretaryBase::TObjNpcSecretaryBase(TObject *parent, void *set_data) : TU
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcSecretaryBase__static_model_resource->models->model;
-    this->texlist = TObjNpcSecretaryBase__static_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcSecretaryBase__static_model_resource->models->m_c;
     this->setup_common();
 }

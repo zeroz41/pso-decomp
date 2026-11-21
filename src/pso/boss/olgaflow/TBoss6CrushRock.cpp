@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6CrushRock.h"
 #include "pso/system/BmlResource.h"
@@ -80,7 +81,7 @@ void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
 
 TBoss6CrushRock::TBoss6CrushRock(TObject *parent, const Vec *point, saddr model_index) : TObject(parent) {
     m_name = TBoss6CrushRock__name;
-    model = (void *)get_bml_model(TBoss6Rock__sub_80353A0C(), model_index);
+    model = (void *)get_bml_model((BmlResource *)TBoss6Rock__sub_80353A0C(), model_index);
     texture_list = TBoss6Rock__sub_80353A04();
     VecCopy(&position, point);
     velocity.x = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));

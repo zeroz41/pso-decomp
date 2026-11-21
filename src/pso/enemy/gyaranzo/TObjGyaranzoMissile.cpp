@@ -1,4 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/render/NinjaUtil.h"
@@ -12,7 +15,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
@@ -56,7 +58,6 @@ s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
 extern f32 TObjGyaranzoMissile__speed_scale;
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
-void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
 s32 play_sound_effect(s32, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
@@ -70,8 +71,8 @@ extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
-saddr get_bml_texlist(void *, int);
-saddr get_bml_model(void *, int);
+
+
 s32 draw_chunk_object();
 s32 push_matrix();
 
@@ -106,14 +107,14 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 }
 
 void TObjGyaranzoMissile::render() {
-    TObjFish::set_global_param((s32)get_bml_texlist((void *)gyaranzo_bml_resource, 6));
+    TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)(void *)gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_x(0, (int)this->rotation_x);
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, 0.0f, (f32) (this->wobble_height * sin_table_lookup((int) this->wobble_phase)), 0.0f);
     model_render_flags &= 0xFFFFFBFF;
-    get_bml_model((void *)gyaranzo_bml_resource, 6);
+    (saddr)get_bml_model((BmlResource *)(void *)gyaranzo_bml_resource, 6);
     draw_chunk_object();
     pop_matrix();
 }

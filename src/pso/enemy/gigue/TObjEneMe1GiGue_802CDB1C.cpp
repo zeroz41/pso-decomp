@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/TUnk_804E14E8.h"
@@ -18,7 +19,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
@@ -145,7 +145,7 @@ void TUnk_804E14E8::run_task() {
                 hit.kind = 0x12;
                 tgt->receive_direct_attack(src, hit, 0, -1, -1);
             }
-            spawn_particle_effect(&tgt->m_2fc, 0x8E);
+            spawn_particle_effect((const Vec *)&tgt->m_2fc, 0x8E);
             if (local_client_id == target_id) {
                 src->apply_hit_shake(tgt);
             }

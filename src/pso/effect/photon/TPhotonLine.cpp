@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
@@ -59,7 +60,6 @@ CollisionBody photon_line_collision_body_part[1] = {
 };
 s32 check_path_obstructed(void *, Vec *);
 u16 get_entity_id(void *);
-void *spawn_particle_effect(const void *pos, s32 id);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern "C" {
@@ -101,8 +101,8 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
                     break;
                 }
                 queue_photon_blast_hit(get_entity_id(p), 1, 0, self->f344);
-                spawn_particle_effect(p + 0x38, 0x162);
-                spawn_particle_effect(p + 0x38, 0x163);
+                spawn_particle_effect((const Vec *)(p + 0x38), 0x162);
+                spawn_particle_effect((const Vec *)(p + 0x38), 0x163);
             }
         }
     }

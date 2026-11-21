@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A2A58.h"
 #include "pso/item/TItem.h"
@@ -10,7 +11,6 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80087278.h"
 
 // ---- pso/unk/text_80126740
 
@@ -97,7 +97,7 @@ void TUnk_804A2B98::emit_marker_effects() {
     index = stage;
     index += k;
     this->owner->get_anim_node_position(knuckle_marker_joint_table[index], (Vec *)buf);
-    spawn_particle_effect(buf, 0x1D0);
+    spawn_particle_effect((const Vec *)buf, 0x1D0);
   }
 }
 
@@ -122,9 +122,9 @@ TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(577);
 }
 
-u8 *create_knuckle_weapon(u8 *item) {
+TItem *create_knuckle_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2B98(tl_05, item);
+        return new TUnk_804A2B98(tl_05, item);
     }
     return NULL;
 }

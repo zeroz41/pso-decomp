@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A4D70.h"
@@ -6,7 +7,6 @@
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
@@ -20,8 +20,8 @@ void TUnk_804A4D70::emit_marker_effects() {
             try_spend_actor_meseta((u8 *)owner, 10000);
             show_meseta_label((saddr)owner, (uaddr)&owner->m_2fc, 0, -10000);
             apply_scale_if_active(3.0f);
-            spawn_particle_effect(&owner->m_2fc, 0x66);
-            spawn_particle_effect(&owner->m_2fc, 0x66);
+            spawn_particle_effect((const Vec *)&owner->m_2fc, 0x66);
+            spawn_particle_effect((const Vec *)&owner->m_2fc, 0x66);
         } else {
             ((TItemWeapon *)this)->update_active_game_effect();
         }
@@ -105,9 +105,9 @@ TUnk_804A4D70::TUnk_804A4D70(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_partisan_weapon(u8 *item) {
+TItem *create_partisan_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A4D70(tl_05, item);
+        return new TUnk_804A4D70(tl_05, item);
     }
     return NULL;
 }

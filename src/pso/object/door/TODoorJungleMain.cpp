@@ -1,5 +1,8 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
 
@@ -34,7 +37,6 @@ struct AnimationMotion;
 
 #include "pso/player/TObjPlayer_80011014.h"
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -130,10 +132,6 @@ struct Door_8029B428 : VObj_8029B428 {
 BmlResource *TODoorJungleMain__bml_resource;
 
 GinjaTextureList *door_jungle_main_gvm_texture;
-extern "C" {
-
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-}
 
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
@@ -146,7 +144,6 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 
 extern s32 __vt__16TODoorJungleMain[];
 
-void *get_bml_model(BmlResource *, int);
 
 s32 rotate_matrix_y(int, int);
 int push_matrix();
@@ -178,8 +175,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 matrix_mult_vec(void *, void *, void *);
 
 
-void free_bin_model_request(void*, int);
-
 s32 release_texture_list(void*);
 
 void free_collision_body_parts(void *);
@@ -209,14 +204,17 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
     (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = 100.0f;
     (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = 40.0f;
     (*(s32 *)(copy_storage_8029B924.bytes + 0x30)) = 2;
-    arg0->m_dc = TObjMapCsn::create((saddr)copy_storage_8029B924.bytes);
+    arg0->m_dc = TObjMapCsn::create(copy_storage_8029B924.bytes);
     return (u8 *)arg0;
 }
 
 }
 
 TODoorJungleMain::~TODoorJungleMain() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xDC)))->queue_destruction(); this->m_dc = 0; }
+    if (m_dc != NULL) {
+        m_dc->queue_destruction();
+        m_dc = NULL;
+    }
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
@@ -236,9 +234,9 @@ void TODoorJungleMain::run_task() {
         if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - 70.0f < t &&
             t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
-            if (*(void * *)&this->m_dc != NULL) {
-                ((TObject *)(*(void * *)&this->m_dc))->queue_destruction();
-                *(void * *)&this->m_dc = NULL;
+            if (m_dc != NULL) {
+                m_dc->queue_destruction();
+                m_dc = NULL;
             }
         } else {
             flag = 1;
@@ -310,11 +308,11 @@ void TODoorJungleMain::render() {
         post_translate_matrix(self->xf);
         rotate_matrix_y(0, self->f60);
         if (self->flags & 1) {
-            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
         } else {
-            draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, 3));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3));
             for (i = 0; i < 3 - self->count; i++) {
-                draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, ids.v[i]));
+                draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, ids.v[i]));
             }
         }
         pop_matrix();
@@ -322,13 +320,8 @@ void TODoorJungleMain::render() {
 }
 
 void TODoorJungleMain::load_resources() {
-    saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
     TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
     door_jungle_main_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
 }
@@ -340,7 +333,7 @@ void TODoorJungleMain::free_static_resources() {
         door_jungle_main_gvm_texture = NULL;
     }
     if (TODoorJungleMain__bml_resource != NULL) {
-        free_bin_model_request(TODoorJungleMain__bml_resource, 1);
+        delete (BmlResource *)TODoorJungleMain__bml_resource;
         TODoorJungleMain__bml_resource = NULL;
     }
 }
@@ -400,9 +393,9 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
         if (arg2 == 0) {
             this->animation_end_frame = (f32) (*(u32 *)((s8 *)this->motion + 4) - 1);
             set_indexed_flags(0, 8);
-            if ((u32) this->m_dc != 0U) {
-                ((TObject *)(this->m_dc))->queue_destruction();
-                this->m_dc = 0U;
+            if (m_dc != NULL) {
+                m_dc->queue_destruction();
+                m_dc = NULL;
             }
         }
     }

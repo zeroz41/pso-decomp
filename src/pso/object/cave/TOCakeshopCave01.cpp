@@ -5,7 +5,8 @@
 #include "pso/object/cave/TOCakeshopCave01.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -67,7 +68,7 @@ void TOCakeshopCave01::render() {
         TObjFish::set_global_param(texlist);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         node = node->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 8; i++) {
@@ -75,7 +76,7 @@ void TOCakeshopCave01::render() {
                 push_matrix();
                 post_translate_matrix(node->pos);
                 scale_matrix(NULL, 1.0f - blink_fade[i], 1.0f - blink_fade[i], 0.0f);
-                draw_ginja_model((saddr)node->model);
+                draw_ginja_model((void *)node->model);
                 pop_matrix();
             }
             node = node->sibling;
@@ -91,16 +92,13 @@ void *TOCakeshopCave01::create(void *set_data) {
 
 void TOCakeshopCave01::release_static_resource() {
     if (TOCakeshopCave01__model_resource != NULL) {
-        free_bin_model_request(TOCakeshopCave01__model_resource, 1);
+        delete TOCakeshopCave01__model_resource;
         TOCakeshopCave01__model_resource = NULL;
     }
 }
 
 void TOCakeshopCave01::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_cakeya_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_cakeya_resource_descriptor, 0, 0, NULL);
     TOCakeshopCave01__model_resource = resource;
 }
 
@@ -114,7 +112,7 @@ TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOCakeshopCave01_class_name;
     apply_object_set_data(set_data);
     model = (void *)TOCakeshopCave01__model_resource->models[0].model;
-    texlist = TOCakeshopCave01__model_resource->models[0].m_c;
+    texlist = (saddr)TOCakeshopCave01__model_resource->models[0].m_c;
     view_range = 500.0f;
     model_radius = 60.0f;
     actorFlags |= 0x40000000;

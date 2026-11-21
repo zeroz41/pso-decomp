@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -18,7 +20,6 @@
 #include "pso/enemy/saver/TObjEneSaver.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -63,7 +64,6 @@ struct O_800A7734 { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
 extern "C" {
 s32 update_movement_status__12TObjEneSaverFv(u8 *arg0);
 s32 update_action_hold_status__12TObjEneSaverFv(u8 *arg0);
-void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
 RecoveredGlobal_lbl_80500978 lbl_80500978;
@@ -819,7 +819,7 @@ void TObjEneSaver::sub_800A4D9C() {
         fail:
             F(s16, 0x328) = 2;
         done:
-            spawn_particle_effect((u8 *)&this->position, 0xF3);
+            spawn_particle_effect(&this->position, 0xF3);
         }
         break;
     case 1:
@@ -842,7 +842,7 @@ void TObjEneSaver::sub_800A4D9C() {
             check_enemy_body_collisions(arg0);
             F(s16, 0x328) = 2;
             TObjPlayer__sub_800A5960(arg0);
-            spawn_particle_effect((u8 *)&this->position, 0xF3);
+            spawn_particle_effect(&this->position, 0xF3);
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD04), (u8 *)&this->position, 0, 0);
             F(u32, 0x374) &= ~0x10;
         }
@@ -1404,7 +1404,6 @@ extern s32 model_render_flags;
 
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
 void * create_ene_saver(void *arg0);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 lerp_angle_half__Fll(s32, s32);
 s32 obj_setFlags30(void *, int);
@@ -1751,7 +1750,7 @@ void step_angle_clamped(void *arg0, s32 arg1) {
 
 extern void *tl_04;
 
-void TObjPlayer::step_cutscene_frame() {
+void TObjPlayer::step_cutscene_frame(NJS_OBJECT *) {
     if ((s32) lbl_805D505C == 0x15) {
         rotate_matrix_x(0, (void *)lbl_805D5060);
     }
@@ -1776,7 +1775,7 @@ void TObjEneSaver::render() {
         rotate_matrix_y(0, ((TObjEneSaver *)arg0)->rotation_y);
         lbl_805D505C = 0;
         lbl_805D5060 = *(s32 *)((s8 *)arg0 + 0x39C);
-        set_chunk_model_node_callback((saddr)((void *)TObjPlayer::step_cutscene_frame));
+        set_chunk_model_node_callback(TObjPlayer::step_cutscene_frame);
         TObjPlayer::toggle_particle_effect();
         switch (((TObjEneSaver *)arg0)->mode) {
         case 11:
@@ -1816,7 +1815,7 @@ void TObjEneSaver::render() {
             break;
         }
         TParticleCtrl::end_effect_render();
-        set_chunk_model_node_callback((s32)NULL);
+        set_chunk_model_node_callback(NULL);
         VecCopy((Vec *)((Vec *)(arg0 + 0x390)), (const Vec *)((Vec *)&lbl_80500978));
         pop_matrix();
         restore_scene_lighting();
@@ -1938,7 +1937,7 @@ void TObjPlayer::free_resources() {
         (*(u32 *)&lbl_805D506C) = 0U;
     }
     if ((u32) saver_bml_resource != 0U) {
-        free_bin_model_request((void*)saver_bml_resource, 1);
+        delete (BmlResource *)saver_bml_resource;
         saver_bml_resource = 0U;
     }
 }
@@ -1949,10 +1948,7 @@ void initialize_saver_resources(void) {
     Vec pos;
     Vec dir;
     void *r;
-    r = ::operator new(0x440);
-    if (r != NULL) {
-        r = load_resource_from_descriptor(r, 1, bm_ene_df1_saver_resource_descriptor, 0, 0, 0);
-    }
+    r = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
     saver_bml_resource = (uaddr)r;
     lbl_805D5054 = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)((u8 *)((Res_800A715C *)r)->sub) + 8)) + 0x2C)) + 0x30)) + 4)) + 4);
     lbl_805D5058 = 0;

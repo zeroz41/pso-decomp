@@ -21,6 +21,7 @@ struct TKeyBoardControl : public TObject {
     void hide();
     void show();
     void set_flag62_bit2();
+    s32 get_cursor_position();
     void set_depth(f32 depth);
     void set_position(void *pos);
     void set_soft_position(u8 *pos);
@@ -43,6 +44,8 @@ struct TKeyBoardControl : public TObject {
     static s32 is_key_down(s32 arg0);
     s32 check_input_angle();
     static void alloc_buffer();
+    void clear_keyboard_flag60_bit1();
+    void set_composer_flag62_bit4();
     static void update_main_menu_scene();
     static void update_menu_scene();
     static void flush_input();

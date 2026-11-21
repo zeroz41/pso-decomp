@@ -158,7 +158,6 @@ TItemAttackCol *attack_collider_render_owner;
 
 int attack_collider_active_count;
 
-void* TObjPlayer__sub_802E449C(void* a0);
 
 
 void fn_802E3BA8(TItemAttackCol *col, void *node);
@@ -171,9 +170,6 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-struct Hit_802E4798 { u8 *obj; s32 idx; };
-
-struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 
@@ -227,23 +223,23 @@ TUnk_804E355C::~TUnk_804E355C() {}
 
 void TUnk_804E355C::check_hits() {
     s32 i;
-    void *e;
+    ActorBodyHit *hit;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
     TObjPlayer__sub_801542F4((saddr)&this->bodies);
-    if (*(s32 *)((s8 *)arg0 + 0xC0) != 0) {
+    if (pad_C0 != 0) {
         TObjPlayer__sub_8015431C((u8 *)&this->bodies);
     }
-    if (((TUnk_804E355C *)arg0)->pad_BC != 0) {
+    if (pad_BC != 0) {
         TObjPlayer::apply_status_effect((saddr)(arg0 + 0x1C));
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        e = TObjOnlineEnding::get_attack_entry(i);
-        if (((TUnk_804E355C *)arg0)->try_add_hit_target(e) != 0) {
-            ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)e);
-            ((TUnk_804E355C *)arg0)->hits_left -= 1;
-            if (((TUnk_804E355C *)arg0)->hits_left == 0) {
-                ((TObject *)arg0)->queue_destruction();
+        hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
+        if (try_add_hit_target(hit) != 0) {
+            vfunc_6(hit);
+            hits_left -= 1;
+            if (hits_left == 0) {
+                queue_destruction();
                 reset_global_table();
                 return;
             }
@@ -252,55 +248,59 @@ void TUnk_804E355C::check_hits() {
     reset_global_table();
 }
 
-void TItemAttackCol::copy_pos(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); }
+extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) {
+    volatile ActorBodyHit *output = destination;
+    const volatile ActorBodyHit *input = source;
+    output->target = input->target;
+    output->body = input->body;
+}
 
-s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
-    Hit_802E4798 *arg1 = (Hit_802E4798 *)arg1_arg;
+s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
     s32 ok;
-    Hit_802E4798 *e;
+    ActorBodyHit *previous;
     s32 i;
     s32 flags;
-    u8 *arg0 = (u8 *)this;
-    if (((TUnk_804E355C *)arg0)->hit_count >= 8) {
+    if (hit_count >= 8) {
         return 0;
     }
-    if (((TUnk_804E355C *)arg0)->client_id == get_entity_id((TObjBase *)arg1->obj)) {
+    if (client_id == get_entity_id((TObjBase *)hit->target)) {
         return 0;
     }
     ok = 1;
-    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)arg1->obj)->obj_testFlags30(0x60000000) == 0x20000000
-        && this->room != ((TObjBase *)(arg1->obj))->get_room()) {
+    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->obj_testFlags30(0x60000000) == 0x20000000
+        && this->room != ((TObjBase *)(hit->target))->get_room()) {
         ok = 0;
     }
-    if (((TObjCollidable *)arg1->obj)->obj_testFlags30(0x04000000) != 0
-        || ((flags = (*(Rec_802E4798 **)((s8 *)arg1->obj + 0xA4))[arg1->idx].flags) & 0x02000000)
+    if (((TObjCollidable *)hit->target)->obj_testFlags30(0x04000000) != 0
+        || ((flags = hit->target->bodies[hit->body].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;
     }
     if (ok != 0) {
-        e = (Hit_802E4798 *) (arg0 + 0x60);
-        for (i = 0; i != ((TUnk_804E355C *)arg0)->hit_count; i++) {
-            if (e->obj == arg1->obj && e->idx == arg1->idx) {
+        previous = hits;
+        for (i = 0; i != hit_count; i++) {
+            if (previous->target == hit->target && previous->body == hit->body) {
                 return 0;
             }
-            e++;
+            previous++;
         }
-        if (obj_is_hit_receivable(arg1->obj) != 0) {
-            ((TItemAttackCol *)e)->copy_pos(arg1);
-            ((TUnk_804E355C *)arg0)->hit_count += 1;
+        if (obj_is_hit_receivable((u8 *)hit->target) != 0) {
+            copy_actor_body_hit(previous, hit);
+            hit_count += 1;
             return 1;
         }
     }
     return 0;
 }
 
-void TUnk_804E355C::vfunc_6(s32 *hit) { resolve_attack_col_hit((u8 *)hit); }
+void TUnk_804E355C::vfunc_6(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
 
 s32 TUnk_804E355C::has_game_join_id() {
     return find_equipped_item(item_id) != 0;
 }
 
-s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
+s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
+    u8 *arg1 = (u8 *)hit;
     u8 *arg0 = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
@@ -364,13 +364,32 @@ void TObjPlayer__sub_802E451C(S_802E451C *s_802_e451_c) {
     s_802_e451_c->pad_24 = 0;
 }
 
-void* TObjPlayer__sub_802E449C(void* a0) { TObjPlayer__sub_802E451C((S_802E451C *)(a0)); *(int*)((char*)a0 + 0x40) = 0; *(int*)((char*)a0 + 0x44) = 0; *(int*)((char*)a0 + 0x48) = 0; *(float*)((char*)a0 + 0x4c) = 1.0f; *(int*)((char*)a0 + 0x50) = 0; *(int*)((char*)a0 + 0x54) = 0; *(int*)((char*)a0 + 0x58) = 0; *(float*)((char*)a0 + 0x5c) = 3.0f; *(float*)((char*)a0 + 0x60) = 1.0f; *(float*)((char*)a0 + 0x64) = 1.0f; *(float*)((char*)a0 + 0x68) = 1.0f; *(float*)((char*)a0 + 0x6c) = 1.0f; *(int*)((char*)a0 + 0x70) = 0; *(int*)((char*)a0 + 0x74) = 0; *(int*)((char*)a0 + 0x78) = -1; *(int*)((char*)a0 + 0x7c) = -1; return a0; }
-
-void TItemAttackCol::create(void *arg0, void *arg1) {
-    new TItemAttackCol((TObject *)arg0, (S_802E449C *)arg1);
+Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params) {
+    TObjPlayer__sub_802E451C(params);
+    params->flags = 0;
+    params->model = NULL;
+    params->texlist = 0;
+    params->scale = 1.0f;
+    params->spin[0] = 0;
+    params->spin[1] = 0;
+    params->spin[2] = 0;
+    params->star_width = 3.0f;
+    params->color.a = 1.0f;
+    params->color.r = 1.0f;
+    params->color.g = 1.0f;
+    params->color.b = 1.0f;
+    params->wall_effect = NULL;
+    params->hit_effect = NULL;
+    params->particle = -1;
+    params->trail_particle = -1;
+    return params;
 }
 
-TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E355C(parent, params) {
+void TItemAttackCol::create(TObject *parent, Desc_8011E5C4 *params) {
+    new TItemAttackCol(parent, params);
+}
+
+TItemAttackCol::TItemAttackCol(TObject *parent, Desc_8011E5C4 *params) : TUnk_804E355C(parent, params) {
     m_name = TItemAttackCol__name;
     VecCopy(&start_position, &params->position);
     if (params->flags & 1) {
@@ -392,7 +411,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
     velocity.z *= params->speed;
     rotation_y = rotation[1];
     range_sq = params->range * params->range;
-    model = params->model;
+    model = (uaddr)params->model;
     texlist = params->texlist;
     scale.x = params->scale;
     scale.y = params->scale;
@@ -409,7 +428,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
         const StarLightParameters star = {
             params->star_width,
             7.0f,
-            {{0, 255.0f * params->star_color[0], 255.0f * params->star_color[1], 255.0f * params->star_color[2]}},
+            {{0, 255.0f * params->color.r, 255.0f * params->color.g, 255.0f * params->color.b}},
             0,
             20.0f,
         };
@@ -417,8 +436,8 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
     } else {
         star_light = NULL;
     }
-    hit_wall = params->hit_wall;
-    hit_object = params->hit_object;
+    hit_wall = reinterpret_cast<TItemAttackColHitWall>(params->wall_effect);
+    hit_object = reinterpret_cast<TItemAttackColHitObject>(params->hit_effect);
     flags = params->flags;
     if (params->flags & 0x800) {
         check_object_hits();
@@ -553,11 +572,11 @@ void TItemAttackCol::vfunc_7() {
     move_with_collision(&next);
 }
 
-void TItemAttackCol::vfunc_6(s32 *a) {
+void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
     if (!(flags & 0x80)) {
-        if (resolve_attack_col_hit((u8 *)a) != 0) {
+        if (resolve_attack_col_hit(hit) != 0) {
             if (hit_object != NULL) {
-                hit_object(item_id, a, &velocity);
+                hit_object(item_id, (s32 *)hit, &velocity);
             }
             if (flags & 0x100) {
                 pad_B4 *= 0.75f;
@@ -565,13 +584,13 @@ void TItemAttackCol::vfunc_6(s32 *a) {
         }
     } else {
         if (hit_object != NULL) {
-            hit_object(item_id, a, &velocity);
+            hit_object(item_id, (s32 *)hit, &velocity);
         }
         if (flags & 0x200) {
             VObj_802E3C4C *p = (VObj_802E3C4C *)find_item_by_id(item_id);
             u8 *b = (u8 *)get_player_by_client_id(client_id);
             if (p != NULL) {
-                p->m59(b, a[0], pad_B8, pad_B4, a[1]);
+                p->m59(b, (saddr)hit->target, pad_B8, pad_B4, hit->body);
             }
         }
     }
@@ -595,13 +614,13 @@ void fn_802E3BA8(TItemAttackCol *col, void *node) {
 
 void TItemAttackCol::check_object_hits() {
     s32 i;
-    void *e;
+    ActorBodyHit *hit;
     reset_global_table();
     TObjPlayer__sub_8015431C((u8 *)&this->bodies);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        e = TObjOnlineEnding::get_attack_entry(i);
-        if (try_add_hit_target(e) != 0) {
-            this->vfunc_6((s32 *)e);
+        hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
+        if (try_add_hit_target(hit) != 0) {
+            this->vfunc_6(hit);
             this->hits_left -= 1;
             if (this->hits_left == 0) {
                 queue_destruction();

@@ -1,4 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -44,7 +47,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -72,15 +74,15 @@ struct VObj_8031E650 *boss3_volopt_instance;
 s32 recon_intro_stage;
 u8 *recon_model_matrix_ptr;
 
-saddr get_bml_texlist(BmlResource *resource, s32 index);
+
 s32 push_matrix();
 void TObjEneRecon::render_shadows() {
   saddr bml_model;
   if (TObjEneRecon__recobox_static_instance != NULL)
   {
     s32 temp_r30;
-    bml_model = get_bml_model(TObjEneRecon__recobox_static_instance, 2);
-    temp_r30 = get_bml_texlist(TObjEneRecon__recobox_static_instance, 2);
+    bml_model = (saddr)get_bml_model((BmlResource *)TObjEneRecon__recobox_static_instance, 2);
+    temp_r30 = (saddr)get_bml_texlist((BmlResource *)TObjEneRecon__recobox_static_instance, 2);
     push_matrix();
     translate_matrix(0, *((f32 *) (((s8 *) this) + 0x38)), *((f32 *) (((s8 *) this) + 0x3C)), *((f32 *) (((s8 *) this) + 0x40)));
     rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
@@ -199,7 +201,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                     *(f32 *)((s8 *)ene_recon + 0x40C) = 0.0f;
                     *(f32 *)((s8 *)ene_recon + 0x410) = 0.0f;
                     *(f32 *)((s8 *)ene_recon + 0x414) = 0.0f;
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneRecon::advance_intro_stage));
+                    set_chunk_model_node_callback(TObjEneRecon::advance_intro_stage);
                     TObjPlayer::toggle_particle_effect();
                     model_render_flags |= 0x01000000;
                     if (var_r31 == 1) {
@@ -227,7 +229,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
 
 
 
-void TObjEneRecon::advance_intro_stage() {
+void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
     switch ((s32) recon_intro_stage) {
     case 0:
         push_matrix();
@@ -345,7 +347,6 @@ f32 TObjEneRecon__sub_8031C2D4(void) {
     return *(f32 *)((s8 *)TObjEneRecon__data_805D6AFC + 4);
 }
 
-void *find_entity_by_id(u16 id);
 void TObjEneRecon::handle_message(s32 arg1) {
     uaddr temp;
     switch (arg1) {
@@ -544,8 +545,8 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
         case 2:
             F(s32, 0x444) |= 1;
             F(s32, 0x3C0) = 3;
-            spawn_particle_effect_with_flags(arg0 + 0x38, 0x45, 0x40);
-            spawn_particle_effect_with_flags(arg0 + 0x38, 0x46, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x45, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), arg0 + 0x38, 0, 0);
             TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(F(s32, 0x24)), (saddr)(arg0 + 0x2FC), (s32)(F(s32, 0x60)));
             break;
@@ -1129,7 +1130,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             break;
         case 2:
             if (((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0) {
-                spawn_particle_effect(arg0 + 0x2FC, 0x218);
+                spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x218);
             }
             if (((TObjMotion *)arg0)->is_passing_frame(7.0f) != 0) {
                 F(s32, 0x3C8) = 1;
@@ -1362,7 +1363,6 @@ extern "C" {
 f32 fabs_float(f32);
 void enemy_set_target_id(void *, u16);
 s32 collect_enemy_target_candidates(void *, void *, f32);
-void *find_entity_by_id(u16);
 
 void TObjEneRecon::retarget() {
     Hit_8031D898 hits[5];
@@ -1669,7 +1669,7 @@ typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5
 void TObjEneRecon::load_resources() {
   u8 *temp_r5;
   TObjEneRecon__recobox_static_instance = (BmlResource *)TObjEneRecobox__sub_803201D0();
-  boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   lbl_805D6AF0 = (saddr)TLobby::register_boss(0x42);

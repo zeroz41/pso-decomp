@@ -1,3 +1,4 @@
+#include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803CC294.h"
@@ -11,13 +12,13 @@ struct Ent_800fa388;
 
 s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     struct Ent_800fa388 *var_r31;
-    saddr temp_r3;
+    AdxfHandle *file;
 
     if (arg3 != NULL) {
         *arg3 = NULL;
     }
-    temp_r3 = (saddr)TLobby::adxf_open(arg0, 0);
-    if (temp_r3 == 0) {
+    file = ADXF_Open((const void *)arg0, 0);
+    if (file == 0) {
         return -2;
     }
     var_r31 = (struct Ent_800fa388 *)(u8 *)TLobby::alloc_from_heap(0x68);
@@ -27,9 +28,9 @@ s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
-    *(s32 *)((s8 *)var_r31 + 0x2C) = ((TLobby *)temp_r3)->adxf_get_fsize_byte();
-    *(s32 *)((s8 *)var_r31 + 0x30) = adxf_get_fsize_sct((u8 *)temp_r3);
-    ((TLobby *)temp_r3)->close_adxf_handle();
+    *(s32 *)((s8 *)var_r31 + 0x2C) = ADXF_GetFsizeByte(file);
+    *(s32 *)((s8 *)var_r31 + 0x30) = ADXF_GetFsizeSct(file);
+    ADXF_Close(file);
     *(s32 **)((s8 *)var_r31 + 0x34) = arg2;
     if (arg2 != NULL) {
         *arg2 = 0;

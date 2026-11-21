@@ -1,3 +1,4 @@
+#include "pso/render/GvmTextureArchive.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -14,7 +15,6 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
 #include "pso/item/TItemReverseTechPart1.h"
-#include "pso/ui/frontend/TAdRicoRingCtrl_8001B4A0.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FC3CC.h"
@@ -77,10 +77,9 @@ struct Self_80119DA0 {
     s32 t1;
     s32 t2;
     s32 t3;
-    void *ring;
+    TAdRicoRingCtrl *ring;
 };
 
-void TAdRicoRingCtrl__sub_8001B4A0(void *, f32);
 
 extern s32 __vt__21TItemReverseTechPart1[];
 extern s32 destroy_and_flag__21TItemReverseTechPart2Fv[];
@@ -106,7 +105,7 @@ s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
-void load_gvm_texture_archive(int, void *);
+char *strncpy(char *, const char *, u32);
 void TKeyBoardControl__sub_8000F90C(s32);
 void set_queued_main_phase(s32);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
@@ -250,7 +249,7 @@ void TItemReverseTech::load_textures() {
     if (file != 0) {
         buf = (saddr)mem_alloc(0x200000);
         if (buf != 0 && prs_decompress_alloc(file, buf, 0x200000) > 0) {
-            load_gvm_texture_archive(buf, TItemReverseTech__texture_archive);
+            load_gvm_texture_archive((void *)buf, (GinjaTextureList *)TItemReverseTech__texture_archive);
         }
         mem_free((void *)buf);
     }
@@ -352,20 +351,15 @@ TItemReverseTechPart1::~TItemReverseTechPart1() {}
 
 void TItemReverseTechPart1::run_task() {
     Self_80119DA0 *self = (Self_80119DA0 *)this;
-    void *p;
 
     switch (self->state) {
     case 0:
         break;
     case 1:
         if (self->ring == NULL) {
-            p = TObject::operator new(0x2C);
-            if (p != NULL) {
-                p = TAdRicoRingCtrl__ct((TAdRicoRingCtrl *)((u8 *)p), (saddr)self);
-            }
-            self->ring = p;
+            self->ring = new TAdRicoRingCtrl(this);
             if (self->ring != NULL) {
-                ((TAdRicoRingCtrl *)(self->ring))->start_fade_all(self->t1);
+                self->ring->start_fade_all(self->t1);
             }
         }
         if (self->timer == self->t1) {
@@ -380,7 +374,7 @@ void TItemReverseTechPart1::run_task() {
             self->state = 3;
             self->timer = 0;
             if (self->ring != NULL) {
-                TAdRicoRingCtrl__sub_8001B4A0(self->ring, self->t1);
+                self->ring->sub_8001B4A0(self->t1);
                 self->ring = NULL;
             }
         } else {

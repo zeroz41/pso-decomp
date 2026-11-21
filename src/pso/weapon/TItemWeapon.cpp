@@ -9,6 +9,7 @@
 #include "pso/unk/text_80120150.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/item/ItemCreateFunction.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -67,7 +68,7 @@ s32 TItemWeapon::draw_weapon_model() {
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208((saddr)apply_weapon_node_material);
             } else {
-                set_chunk_model_node_callback((saddr)apply_weapon_node_material);
+                set_chunk_model_node_callback(apply_weapon_node_material);
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
@@ -279,7 +280,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
 // ---- pso/player/TObjPlayer_80120FC4
 
 // weapon_factory_table's entry for weapons without a class of their own.
-TItemWeapon *create_common_weapon(u8 *item) {
+TItem *create_common_weapon(u8 *item) {
     return new TItemWeapon(tl_05, item);
 }
 
@@ -287,14 +288,12 @@ TItemWeapon *create_common_weapon(u8 *item) {
 
 extern "C" {
 
-s32 (*get_weapon_factory_for_item())(s32);
-
-s32 create_weapon_for_item(s32 arg0) {
-    if (arg0 != 0) {
-        s32 (*fp)(s32) = get_weapon_factory_for_item();
-        return fp(arg0);
+TItem *create_weapon_for_item(u8 *item) {
+    if (item != NULL) {
+        ItemCreateFunction factory = get_weapon_factory_for_item(item);
+        return factory(item);
     }
-    return 0;
+    return NULL;
 }
 
 // ---- pso/player/TObjPlayer_8012105C

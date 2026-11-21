@@ -68,9 +68,9 @@ char *get_shared_capture_texture_list(void) {
 TUnk_804E70A8::~TUnk_804E70A8() {}
 
 
-u8 *TObjPlayer__sub_80307800(u8 *item) {
+TItem *TObjPlayer__sub_80307800(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804E70A8(tl_05, item);
+        return new TUnk_804E70A8(tl_05, item);
     }
     return NULL;
 }

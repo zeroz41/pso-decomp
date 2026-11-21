@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -102,7 +103,7 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
 void TEneEffHamon__sub_800A380C(void) {  }
 
     extern BmlResource *player_effect_bml_resource;
-void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = get_bml_model(player_effect_bml_resource, 3); TEneEffHamon__fish_effect_param = get_bml_texlist(player_effect_bml_resource, 3); }
+void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = (saddr)get_bml_model((BmlResource *)player_effect_bml_resource, 3); TEneEffHamon__fish_effect_param = (saddr)get_bml_texlist((BmlResource *)player_effect_bml_resource, 3); }
 
 }
 

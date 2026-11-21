@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/unk/TUnk_80494E10.h"
@@ -67,7 +68,6 @@ extern saddr lbl_805D5254;
 extern D_800DC448 *nano_drago_entry_params_resource;
 u16 get_entity_id(void *);
 s32 is_split_screen();
-s32 spawn_particle_effect(void *, int);
 extern const f32 lbl_805D525C;
 extern s32 lbl_805D526C;
 extern s32 local_client_id;
@@ -138,8 +138,8 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
             ((TObjEneNanoDrago *)attacker)->trigger_hit_camera_shake((uaddr)obj);
         }
     }
-    spawn_particle_effect(obj->pos, 0xFB);
-    spawn_particle_effect(obj->pos, 0xFC);
+    spawn_particle_effect((const Vec *)obj->pos, 0xFB);
+    spawn_particle_effect((const Vec *)obj->pos, 0xFC);
 }
 
 s32 TObjPlayer::snap_to_ground(saddr arg0, saddr arg1) {

@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -21,7 +24,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
@@ -127,7 +129,7 @@ void update_attack_child__17TObjEneDf2BringerFPv(Bringer_800993E8 *obj);
 void run_task__17TObjEneDf2BringerFv(u8 *arg0);
 void * __ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 }
-void bringer_render_node_callback(void);
+void bringer_render_node_callback(NJS_OBJECT *);
 struct RecoveredGlobal_8031B170_lbl_804E8880
 {
   s32 value;
@@ -1024,7 +1026,6 @@ struct VObj_14_fa0828 : VBase_14_fa0828 {
 };
 extern "C" {
 void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-void free_bin_model_request(void*, int);
 void __construct_array(void *, void *, void *, int, int);
 }
 void *destroy_buffer_pair(void *arg0, s16 arg1);
@@ -1068,8 +1069,6 @@ struct Path_80099BD4
   s32 pad;
   s32 n;
 };
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 #pragma push
 #pragma fp_contract on
 #define TObjEneDf2Bringer__data_805D4FB4 (*(u8 **)&TObjEneDf2Bringer__data_805D4FB4)
@@ -1093,11 +1092,11 @@ void TObjEneDf2Bringer::load_resources() {
   bringer_camera_ctrl_target_vec.z = 0.0f;
   if (TObjEneDD::check_v2_mode() != 0)
   {
-    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource_named((saddr)&bm_ene_df2_bringer_resource_descriptor, (saddr)("bm_ene_df2_bringer_a.bml"));
+    TObjEneDf2Bringer__resource_bundle = (uaddr)load_enemy_bml_resource_named(&bm_ene_df2_bringer_resource_descriptor, "bm_ene_df2_bringer_a.bml");
   }
   else
   {
-    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource((u8 *)&bm_ene_df2_bringer_resource_descriptor);
+    TObjEneDf2Bringer__resource_bundle = (uaddr)load_enemy_bml_resource(&bm_ene_df2_bringer_resource_descriptor);
   }
   bringer_boss_stats_handle = (saddr)TLobby::register_boss(0xD);
   bringer_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0xD);
@@ -1177,7 +1176,7 @@ void TObjEneDf2Bringer::free_resources() {
         TObjEneDf2Bringer__trail_buffer = 0U;
     }
     if ((u32) TObjEneDf2Bringer__resource_bundle != 0U) {
-        free_bin_model_request((void*)TObjEneDf2Bringer__resource_bundle, 1);
+        delete (BmlResource *)TObjEneDf2Bringer__resource_bundle;
         TObjEneDf2Bringer__resource_bundle = 0U;
     }
 }
@@ -1425,12 +1424,12 @@ void TObjEneDf2Bringer::spawn_offset_particle() {
     stack.z = 7.0f;
     rotate_xz_pair_by_angle(&stack.x, &stack.z, this->rotation_y, 0.0f, -5.0f);
     vec3_add_to(&stack.x, ((u8 *)this) + 0x38);
-    spawn_particle_effect(&stack.x, 0xF3);
+    spawn_particle_effect((const Vec *)&stack.x, 0xF3);
 }
 
 void TObjEneDf2Bringer::spawn_particle_if_in_band() {
     if ((((TObjMotion *)((u8 *)this))->is_passing_frame(0.0f) != 0) || (((TObjMotion *)((u8 *)this))->is_passing_frame(8.0f) != 0)) {
-        spawn_particle_effect(((u8 *)this) + 0x38, 0xF0);
+        spawn_particle_effect((const Vec *)(((u8 *)this) + 0x38), 0xF0);
     }
 }
 
@@ -2217,7 +2216,7 @@ void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1) {
     }
 }
 
-void bringer_render_node_callback(void) {
+void bringer_render_node_callback(NJS_OBJECT *) {
     s32 pos;
     switch (TObjEneDf2Bringer__render_node_index) {
     case 8:
@@ -2301,7 +2300,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
             push_matrix();
             post_translate_matrix(arg0 + 0x38);
             rotate_matrix_y(0, ((TObjEneDf2Bringer *)arg0)->rotation_y);
-            set_chunk_model_node_callback((saddr)&bringer_render_node_callback);
+            set_chunk_model_node_callback(bringer_render_node_callback);
             set_motion_packed_rotation();
             if (var_r31 == 1) {
                 ((TObjMotion *)arg0)->draw();

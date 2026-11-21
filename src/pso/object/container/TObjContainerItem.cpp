@@ -1,8 +1,10 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/container/ContainerResources.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -29,7 +31,6 @@
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/container/TObjContainerNoItem.h"
 #include "pso/object/container/TObjContainerEnemy.h"
 #include "pso/object/base/TObjChara.h"
@@ -53,7 +54,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -359,24 +359,18 @@ void load_forest_box_resources(void) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
-        bundle = (BmlResource *)::operator new(0x440);
-        if (bundle != NULL) {
-            bundle = load_resource_from_descriptor(bundle, 5, &bm_obj_seabed_con_resource_descriptor, 0, 0, 0);
-        }
+        bundle = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_seabed_con_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
         forest_box_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)seabed_container_texture_filename);
         forest_box_debris_primary = &forest_box_break_params[2];
         forest_box_debris_secondary = &forest_box_break_params[3];
-        node = find_object_node((NJS_OBJECT *)get_bml_model(forest_box_model_archive, 1), 2);
+        node = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, 1), 2);
         if (node != NULL) {
             node->evalflags |= 0x100000;
         }
         break;
     default:
-        bundle = (BmlResource *)::operator new(0x440);
-        if (bundle != NULL) {
-            bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
-        }
+        bundle = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
         forest_box_textures = TLobby::is_online_ready() != 0 ? (GinjaTextureList *)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (GinjaTextureList *)load_gvm_texture_file((saddr)((saddr)forest_box_texture_filename_n));
         forest_box_debris_primary = &forest_box_break_params[0];
@@ -393,12 +387,12 @@ void free_forest_box_resources() {
         forest_box_textures = NULL;
     }
     if ((uaddr) forest_box_model_archive != 0U) {
-        free_bin_model_request(forest_box_model_archive, 1);
+        delete (BmlResource *)forest_box_model_archive;
         forest_box_model_archive = NULL;
     }
 }
 
-NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
+NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, index); }
 
 void load_container_breakup_resources() {
     void *p;
@@ -407,19 +401,13 @@ void load_container_breakup_resources() {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, NULL);
         container_breakup_model_archive = (BmlResource *)p;
         container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, NULL);
         container_breakup_model_archive = (BmlResource *)p;
         container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_abecon.gvm");
         break;
@@ -433,13 +421,13 @@ void free_container_breakup_resources() {
         container_breakup_textures = NULL;
     }
     if ((uaddr) container_breakup_model_archive != 0U) {
-        free_bin_model_request(container_breakup_model_archive, 1);
+        delete container_breakup_model_archive;
         container_breakup_model_archive = NULL;
     }
 }
 
 NJS_OBJECT *get_container_breakup_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model(container_breakup_model_archive, index);
+    return (NJS_OBJECT *)get_bml_model((BmlResource *)container_breakup_model_archive, index);
 }
 
 #pragma push
@@ -662,8 +650,8 @@ void TObjContainerItem::vfunc_79() const {
         b.pad_38[0] = self->y;
         b.model = (saddr)get_forest_box_model(0);
         b.textures = (saddr)forest_box_textures;
-        spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
-        spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
@@ -787,8 +775,8 @@ void TObjContainerEnemy::vfunc_79() const {
         b.pad_38[0] = self->y;
         b.model = (saddr)get_forest_box_model(0);
         b.textures = (saddr)forest_box_textures;
-        spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
-        spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
@@ -896,8 +884,8 @@ void TObjContainerNoItem::vfunc_79() const {
         b.pad_38[0] = self->y;
         b.model = (saddr)get_forest_box_model(0);
         b.textures = (saddr)forest_box_textures;
-        spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
-        spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);

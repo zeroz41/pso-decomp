@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -78,12 +80,12 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 saddr get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-saddr get_character_save_record(u32 arg0);
 saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(saddr);
+int sprintf(char *, const char *, ...);
+void *memset(void *, int, u32);
 extern u32 ply_status_index;
 u32 ply_status_gc_instance;
 saddr ply_status_chcr_load_afs;
@@ -153,7 +155,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
         TWindowSubStatusDisp::get_player();
     }
     ((TAdPlyStatusGC *)items)->format_status_strings();
-    set_text_draw_params((saddr)arg1, 1, 1, 0.8f, 100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
         pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
         pts[i].y = ply_status_window_points_first[i].y + OFF_8033F3D8.y;
@@ -184,7 +186,7 @@ void TAdPlyStatusGC::format_status_strings() {
     u32 mins;
     s32 flags;
     u32 hours;
-    s32 m;
+    TAdChrSelPlyPlateGC *plate;
     Save_8033F6A8 *p;
     u32 t;
     memset(buf, 0, 0x10);
@@ -205,10 +207,10 @@ void TAdPlyStatusGC::format_status_strings() {
         if (p != 0) {
             time = p->fC;
         }
-        m = TAdMultiPlyChrSelectGC::get_card_instance();
-        if (m != 0) {
-            if (TAdSinglePlyChrSelectGC__sub_801FE800(TAdMultiPlyChrSelectGC__sub_802DFFE8(m)) != 0) {
-                c = (u8 *)get_entry__23TAdSinglePlyChrSelectGCFi(TAdMultiPlyChrSelectGC__sub_802DFFE8(m));
+        plate = TAdMultiPlyChrSelectGC::get_card_instance();
+        if (plate != NULL) {
+            if (TAdSinglePlyChrSelectGC__sub_801FE800(plate->get_active_card_slot()) != 0) {
+                c = (u8 *)get_entry__23TAdSinglePlyChrSelectGCFi(plate->get_active_card_slot());
             }
         }
         if (c == 0) {

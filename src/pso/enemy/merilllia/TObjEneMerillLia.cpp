@@ -1,3 +1,5 @@
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -18,7 +20,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -478,7 +479,6 @@ uaddr TObjEneMerillLia__rock_param_table;
 uaddr TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
 void vfunc_59__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
-s16 find_nearest_visible_player(void *, s32, f32);
 s32 obj_setFlags30(void *, s32);
 void vfunc_83__16TObjEneMerillLiaFv(Ene_800D64F0 *arg0);
 void vfunc_60__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
@@ -513,14 +513,12 @@ void vfunc_101__16TObjEneMerillLiaFv(void);
 void vfunc_93__16TObjEneMerillLiaFv(void);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void vfunc_58__16TObjEneMerillLiaFv(void *arg0);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void free_collision_body_parts(void *);
 void *TObjEneMerillLia__ct(void *, void *, void *);
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 is_split_screen(void);
-u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void TObjEneMerillLia__sub_800D6D64(void);
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -797,16 +795,10 @@ void TObjEneMerillLia__sub_800D6D64(void) {
     u8 *res;
 
     if (is_split_screen() != 0) {
-        res = (u8 *)::operator new(0x440);
-        if (res != NULL) {
-            res = load_resource_from_descriptor(res, 1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, 0);
-        }
+        res = (u8 *)new BmlResource(1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, NULL);
         TObjEneMerillLia__entry_params_resource = (uaddr)res;
     } else {
-        res = (u8 *)::operator new(0x440);
-        if (res != NULL) {
-            res = load_resource_from_descriptor(res, 1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, 0);
-        }
+        res = (u8 *)new BmlResource(1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, NULL);
         TObjEneMerillLia__entry_params_resource = (uaddr)res;
     }
     ((CollisionPartRecord *)lbl_804946A4)[0].radius = 7.0f;
@@ -855,7 +847,7 @@ void TObjEneMerillLia::destroy_rocks() {
         TObjEneMerillLia__rock_param_table = 0U;
     }
     if ((u32) TObjEneMerillLia__entry_params_resource != 0U) {
-        free_bin_model_request((void*)TObjEneMerillLia__entry_params_resource, 1);
+        delete (BmlResource *)TObjEneMerillLia__entry_params_resource;
         TObjEneMerillLia__entry_params_resource = 0U;
     }
 }
@@ -1116,7 +1108,7 @@ void TObjEneMerillLia::vfunc_83() {
         }
         break;
     case 2:
-        arg0->target = find_nearest_visible_player(arg0, 0, *arg0->param);
+        arg0->target = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->param);
         arg0->state = 1;
         break;
     }
@@ -1177,7 +1169,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
             break;
         }
         if (arg0->m17(0x1E) != 0) {
-            arg0->f338 = find_nearest_visible_player(arg0, 0, *arg0->f350);
+            arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
         }
         if (arg0->f338 < 0x1000) {
             Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
@@ -1195,7 +1187,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
     case 2:
         ((TObjBase *)arg0)->obj_clearFlags30(0x1000);
         if (arg0->m17(0x1E) != 0) {
-            arg0->f338 = find_nearest_visible_player(arg0, 0, *arg0->f350);
+            arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
         }
         if (arg0->f338 < 0x1000) {
             Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
@@ -1476,7 +1468,7 @@ s32 TObjEneMerillLia::update_emerge_state(void *ov) {
 void TObjEneMerillLia::search_target(void *ov) {
     Pl_800D5614 *p;
     s32 v;
-    arg0->f338 = find_nearest_visible_player(arg0, 0, *arg0->f350);
+    arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
     if (arg0->f338 < 0x1000) {
         p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
         if (p != NULL) {
@@ -1745,11 +1737,11 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
     temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(motion + 0x120), 5));
     if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
-            particle_effect = (saddr)spawn_particle_effect((void *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
+            particle_effect = (saddr)spawn_particle_effect((const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
             if (particle_effect != 0) {
                 attach_particle_model((u8 *)particle_effect, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
             }
-            spawn_particle_effect((void *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
+            spawn_particle_effect((const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
         }
         if ((((TObjMotion *)motion)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)motion)->is_passing_frame(22.0f) != 0)) {
             fn_800D88E4((motion + 0x38));

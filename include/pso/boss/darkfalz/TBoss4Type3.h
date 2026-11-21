@@ -2,9 +2,13 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4TYPE3_H
 
 #include "types.h"
+
+struct BmlResource;
 #include "pso/unk/ModelNodeTables.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
+
+class ModelNodePositionCapture;
 
 struct TObjDFHorming;
 class TObjDFYutai;
@@ -38,7 +42,7 @@ struct TBoss4Type3 : public TObjEnemy {
     s32 m_374;
     ModelNodeTables node_tables;
     uaddr m_38c;
-    saddr m_390;
+    BmlResource *archive;
     TBoss4Type3CollisionState *m_394;
     s32 m_398;
     f32 m_39c;
@@ -69,7 +73,7 @@ struct TBoss4Type3 : public TObjEnemy {
     u32 m_3fc;
     u8 _pad400[4];
     void *effect_parts[13];
-    void *render_lists[3];
+    ModelNodePositionCapture *render_lists[3];
     u8 _pad444[0xC];
     void* m_450;
     u8 _pad454[0x8];
@@ -136,6 +140,8 @@ struct TBoss4Type3 : public TObjEnemy {
     void set_anim_state(s32 arg1);
     void draw();
     static s32 create(saddr arg0);
+    s32 get_action_state();
+    void get_defeat_params(u16 *a, u16 *b, u16 *out);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
     static f32 compute_wave_offset(f32 farg0);
     static s32 pick_random_target_player();
@@ -160,26 +166,26 @@ LAYOUT_ASSERT(Type3StateUpdate, offsetof(TBoss4Type3State,update)==0x20);
 LAYOUT_ASSERT(Type3TimerOffset, offsetof(TBoss4Type3,m_398)==0x398);
 LAYOUT_ASSERT(Type3FractionOffset, offsetof(TBoss4Type3,m_39c)==0x39C);
 
-LAYOUT_ASSERT(Type3Offset_374, offsetof(TBoss4Type3,m_374) == 0x374);
-LAYOUT_ASSERT(Type3Offset_378, offsetof(TBoss4Type3,node_tables) == 0x378);
-LAYOUT_ASSERT(Type3Offset_38c, offsetof(TBoss4Type3,m_38c) == 0x38c);
-LAYOUT_ASSERT(Type3Offset_390, offsetof(TBoss4Type3,m_390) == 0x390);
-LAYOUT_ASSERT(Type3Offset_394, offsetof(TBoss4Type3,m_394) == 0x394);
-LAYOUT_ASSERT(Type3Offset_3a0, offsetof(TBoss4Type3,m_3a0) == 0x3a0);
-LAYOUT_ASSERT(Type3Offset_3b0, offsetof(TBoss4Type3,m_3b0) == 0x3b0);
-LAYOUT_ASSERT(Type3Offset_3b8, offsetof(TBoss4Type3,m_3b8) == 0x3b8);
-LAYOUT_ASSERT(Type3Offset_3ba, offsetof(TBoss4Type3,m_3ba) == 0x3ba);
-LAYOUT_ASSERT(Type3Offset_3c8, offsetof(TBoss4Type3,m_3c8) == 0x3c8);
-LAYOUT_ASSERT(Type3Offset_3cc, offsetof(TBoss4Type3,m_3cc) == 0x3cc);
-LAYOUT_ASSERT(Type3Offset_3d0, offsetof(TBoss4Type3,m_3d0) == 0x3d0);
-LAYOUT_ASSERT(Type3Offset_3d4, offsetof(TBoss4Type3,m_3d4) == 0x3d4);
-LAYOUT_ASSERT(Type3Offset_3dc, offsetof(TBoss4Type3,m_3dc) == 0x3dc);
-LAYOUT_ASSERT(Type3Offset_3e8, offsetof(TBoss4Type3,m_3e8) == 0x3e8);
-LAYOUT_ASSERT(Type3Offset_3ec, offsetof(TBoss4Type3,m_3ec) == 0x3ec);
-LAYOUT_ASSERT(Type3Offset_3f0, offsetof(TBoss4Type3,m_3f0) == 0x3f0);
-LAYOUT_ASSERT(Type3Offset_3f4, offsetof(TBoss4Type3,m_3f4) == 0x3f4);
-LAYOUT_ASSERT(Type3Offset_418, offsetof(TBoss4Type3,effect_parts) + 5 * sizeof(void *) == 0x418);
-LAYOUT_ASSERT(Type3Offset_41c, offsetof(TBoss4Type3,effect_parts) + 6 * sizeof(void *) == 0x41c);
-LAYOUT_ASSERT(Type3Size, sizeof(TBoss4Type3)==0x530);
+LAYOUT_ASSERT(Type3Offset_374, (offsetof(TBoss4Type3,m_374) == 0x374));
+LAYOUT_ASSERT(Type3Offset_378, (offsetof(TBoss4Type3,node_tables) == 0x378));
+LAYOUT_ASSERT(Type3Offset_38c, (offsetof(TBoss4Type3,m_38c) == 0x38c));
+LAYOUT_ASSERT(Type3Offset_390, (offsetof(TBoss4Type3,archive) == 0x390));
+LAYOUT_ASSERT(Type3Offset_394, (offsetof(TBoss4Type3,m_394) == 0x394));
+LAYOUT_ASSERT(Type3Offset_3a0, (offsetof(TBoss4Type3,m_3a0) == 0x3a0));
+LAYOUT_ASSERT(Type3Offset_3b0, (offsetof(TBoss4Type3,m_3b0) == 0x3b0));
+LAYOUT_ASSERT(Type3Offset_3b8, (offsetof(TBoss4Type3,m_3b8) == 0x3b8));
+LAYOUT_ASSERT(Type3Offset_3ba, (offsetof(TBoss4Type3,m_3ba) == 0x3ba));
+LAYOUT_ASSERT(Type3Offset_3c8, (offsetof(TBoss4Type3,m_3c8) == 0x3c8));
+LAYOUT_ASSERT(Type3Offset_3cc, (offsetof(TBoss4Type3,m_3cc) == 0x3cc));
+LAYOUT_ASSERT(Type3Offset_3d0, (offsetof(TBoss4Type3,m_3d0) == 0x3d0));
+LAYOUT_ASSERT(Type3Offset_3d4, (offsetof(TBoss4Type3,m_3d4) == 0x3d4));
+LAYOUT_ASSERT(Type3Offset_3dc, (offsetof(TBoss4Type3,m_3dc) == 0x3dc));
+LAYOUT_ASSERT(Type3Offset_3e8, (offsetof(TBoss4Type3,m_3e8) == 0x3e8));
+LAYOUT_ASSERT(Type3Offset_3ec, (offsetof(TBoss4Type3,m_3ec) == 0x3ec));
+LAYOUT_ASSERT(Type3Offset_3f0, (offsetof(TBoss4Type3,m_3f0) == 0x3f0));
+LAYOUT_ASSERT(Type3Offset_3f4, (offsetof(TBoss4Type3,m_3f4) == 0x3f4));
+LAYOUT_ASSERT(Type3Offset_418, (offsetof(TBoss4Type3,effect_parts) + 5 * sizeof(void *) == 0x418));
+LAYOUT_ASSERT(Type3Offset_41c, (offsetof(TBoss4Type3,effect_parts) + 6 * sizeof(void *) == 0x41c));
+LAYOUT_ASSERT(Type3Size, (sizeof(TBoss4Type3)==0x530));
 
 #endif

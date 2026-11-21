@@ -1,5 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/map/TSetEvtDestroy.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_801C4F80.h"
 #include "pso/unk/text_801C5454.h"
@@ -104,12 +108,11 @@ extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
-void *TWindowDuelResult__ct(void *, int);
+s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C19D0(void *);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-saddr get_character_save_record(u32 arg0);
 int obj_getPtr2B0_20(u8 *p);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
@@ -158,13 +161,11 @@ Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };
 struct O_80311C2C { u8 pad[0x20]; void *w0; void *w1; u8 pad2[0x294 - 0x28]; Ids_80311C2C *ids; };
 extern "C" {
-s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *create_window_menu_default(void *, int);
 void *get_window_layout_position(int);
 void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
-extern void *quest_mission_manager;
 void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players();
 s32 check_flag_100__10TObjPlayerFPv();
@@ -571,9 +572,9 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
             ((O_80311C2C *)this)->w1 = create_window_menu_default(get_window_layout_position(0x54), 2);
             forward_trade_action_default__16TObjCityMainWarpFPviii(((O_80311C2C *)this)->w1, ((O_80311C2C *)this)->ids->b, 6, 1);
             forward_trade_action_default__16TObjCityMainWarpFPviii(((O_80311C2C *)this)->w1, ((O_80311C2C *)this)->ids->d, 6, 3);
-            ((TWindowSubComCard *)(((O_80311C2C *)this)->w1))->calc_window_size();
-            align_menu_entry_positions(((O_80311C2C *)this)->w1);
-            ((TCheckRoomSequence *)(((O_80311C2C *)this)->w1))->set_ready_flag();
+            ((TWindowMenu *)(((O_80311C2C *)this)->w1))->calc_window_size();
+            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(((O_80311C2C *)this)->w1));
+            ((TWindowMenu *)(((O_80311C2C *)this)->w1))->set_ready_flag();
         }
         if (((O_80311C2C *)this)->w1 != NULL) {
             if (((TWindowMenu *)(((O_80311C2C *)this)->w1))->is_decided() != 0) {
@@ -1369,16 +1370,10 @@ void clear_split_screen_battle_window_slots(T_803102A4 *self) {
 }
 
 void TPlayerBattleCtrl4P::create_result_windows() {
-    Ctl_80310230 *o = (Ctl_80310230 *)this;
-    s32 i;
-    void *w;
-    for (i = 0; i < 4; i++) {
+    Ctl_80310230 *control = (Ctl_80310230 *)this;
+    for (s32 i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != 0) {
-            w = TObject::operator new(0x6C);
-            if (w != 0) {
-                w = TWindowDuelResult__ct(w, i);
-            }
-            o->win[i] = w;
+            control->win[i] = new TWindowDuelResult(i);
         }
     }
 }

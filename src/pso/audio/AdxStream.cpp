@@ -1,6 +1,8 @@
 #include <string.h>
 #include <dolphin/os/OSThread.h>
+#include "pso/unk/text_803D2F1C.h"
 #include "pso/audio/AdxStream.h"
+#include "pso/system/CvFsStreamHandle.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -9,86 +11,16 @@
 
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
-
-struct Strm_803C8678;
-struct StrmVt_803C8678 {
-    void *pad[6];
-    void (*read)(Strm_803C8678 *, s32, s32, void *);
-    void (*release)(Strm_803C8678 *, s32, void *);
-    void (*submit)(Strm_803C8678 *, s32, void *);
-    s32 (*avail)(Strm_803C8678 *, s32);
-};
-struct Strm_803C8678 { StrmVt_803C8678 *vt; };
-struct Pair_803C8678 { u32 a, b; };
-struct S_803C8678 {
-    u8 f0;
-    s8 state;
-    s8 busy;
-    s8 retry;
-    Strm_803C8678 *strm;
-    uaddr h;
-    s32 fC;
-    s32 base;
-    s32 size;
-    s32 f18;
-    s32 f1C;
-    s32 nread;
-    s32 buf;
-    s32 f28;
-    s32 f2C;
-    s32 end;
-    s32 total;
-    void (*cb)(s32);
-    s32 cbarg;
-};
-
-struct S_803C8A14 {
-    u8 f0;
-    s8 state;
-    u8 f2;
-    s8 f3;
-    u8 pad4[4];
-    void *fp;
-    s32 pos;
-    s32 base;
-    s32 f14;
-    u8 pad18[0x34 - 0x18];
-    s32 f34;
-};
-
-struct PointerRecords_803C8610_var_r31 { u8 bytes[0x40]; };
+#include "pso/unk/text_803CE568.h"
 
 extern "C" {
-void TLobby__sub_803D3130(void *arg0, s32 arg1, u8 *arg2, u8 *arg3);
 s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
 }
 void update_active_stream_reads(void);
 
-struct AdxStreamFile {
-    s8 used;
-    s8 b1;
-    s8 b2;
-    u8 pad3;
-    s32 arg;
-    uaddr handle;
-    s32 fC;
-    s32 f10;
-    s32 size;
-    u8 pad18[0x14];
-    s32 f2C;
-    s32 sectors;
-    u8 pad34[0xC];
-};
-
 extern "C" {
-void TLobby__sub_803C89C4(u8 *arg0);
-void TLobby__sub_803C8B38(u8 *arg0);
-s32 TLobby__sub_803C8B2C(u8 *arg0);
-s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
-s32 cvFsGetFileSize(void);
-u32 cvFsOpen(const char *, int, int);
 s32 adx_stream_request_count_ex = 0x10;
 s32 adx_stream_request_base_index = 0x10;
 s32 adx_stream_fname_slot_count = 0x18;
@@ -96,259 +28,238 @@ static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't o
 static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
-s32 cvFsGetFileSizeEx(void);
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
-AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
-void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
-s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
-s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
-void cvFsFinish(void);
 
-void TLobby::set_field_10_and_notify(s32 up) {
-    *(s32 *)&this->m_up = up;
-    ((TLobby *)(this->m_prev))->cv_fs_seek((saddr)this->m_up, 0);
-    ((TLobby *)(this->m_prev))->cv_fs_tell();
+void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
+    file->f10 = offset;
+    cvFsSeek(file->handle, file->f10, 0);
+    cvFsTell(file->handle);
 }
 
-void TLobby__sub_803C8514(u8 *arg0, s32 arg1) {
-    *(s32 *)((s8 *)arg0 + 0x14) = (s32) (arg1 << 0xB);
+void TLobby__sub_803C8514(AdxStreamFile *file, s32 sectors) {
+    file->size = sectors << 11;
 }
 
-void TLobby::set_buffer(void **flags) {
-    s32 temp_r3;
-    u8 *temp_r5;
-
-    *(void ** *)&this->m_flags = flags;
-    temp_r5 = (unsigned char *) (*flags);
-    temp_r3 = (*(s32 (**)(void **, s32, void *))((s8 *)temp_r5 + 0x24))(flags, 0, temp_r5);
-    *(s32 *)((s8 *)((u8 *)this) + 0x18) = temp_r3;
-    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = temp_r3;
+void set_buffer__6TLobbyFPPv(AdxStreamFile *file, SjRingBuffer *buffer) {
+    file->buffer = buffer;
+    s32 available = buffer->interface->get_available(buffer, 0);
+    file->read_chunk_size = available;
+    file->read_threshold = available;
 }
 
-s32 TLobby::get_field_14() {
-    return *(s32 *)&this->m_down;
+s32 get_field_14__6TLobbyFv(AdxStreamFile *file) {
+    return file->size;
 }
 
-s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1) {
-    *(s32 *)((s8 *)arg0 + 0x2C) = arg1;
+s32 TLobby__sub_803C8578(AdxStreamFile *file, s32 sectors) {
+    file->max_read_sectors = sectors;
     return 1;
 }
 
-s32 TLobby::set_range(void *stream, int arg1, int arg2) {
-    u8 *arg0 = (u8 *)stream;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x18) = arg2;
+s32 TLobby::set_range(AdxStreamFile *file, s32 threshold, s32 chunk_size) {
+    file->read_threshold = threshold;
+    file->read_chunk_size = chunk_size;
     return 1;
 }
 
-s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2) {
-    *arg1 = *(s32 *)((s8 *)arg0 + 0x1C);
-    *arg2 = *(s32 *)((s8 *)arg0 + 0x18);
+s32 TLobby__sub_803C8594(AdxStreamFile *file, s32 *threshold, s32 *chunk_size) {
+    *threshold = file->read_threshold;
+    *chunk_size = file->read_chunk_size;
     return 1;
 }
 
-s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1) {
-    struct Fields_arg0 { u8 pad_0[8]; u8 * field_8; s32 field_C; s32 field_10; };
-    s32 var_r4;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((Fields_arg0*)arg0)->field_8);
-    if (temp_r3 != NULL) {
-        var_r4 = ((TLobby *)temp_r3)->cv_fs_tell() - ((Fields_arg0*)arg0)->field_10;
+s32 TLobby__sub_803C85AC(const AdxStreamFile *file, s32 *position) {
+    s32 offset;
+    CvFsHandle *handle = file->handle;
+    if (handle != NULL) {
+        offset = cvFsTell(handle) - file->f10;
     } else {
-        var_r4 = 0;
+        offset = 0;
     }
-    *arg1 = var_r4 - ((Fields_arg0*)arg0)->field_C;
+    *position = offset - file->fC;
     return 1;
 }
 
-inline s32 pos_803C8678(S_803C8678 *s) {
-    if (s->h != 0) {
-        return ((TLobby *)(s->h))->cv_fs_tell() - s->base;
+static inline s32 get_stream_position(AdxStreamFile *file) {
+    if (file->handle != NULL) {
+        return cvFsTell(file->handle) - file->f10;
     }
     return 0;
 }
 }
 
 void update_active_stream_reads(void) {
-    s32 *var_r31;
-    s32 var_r30;
-    var_r31 = (s32 *)(((s32 *)&adx_stream_read_requests));
-    var_r30 = 0;
+    AdxStreamFile *requests = adx_stream_read_requests;
+    s32 index = 0;
     do {
-        if (((s32) *(u8 *)((s8 *)((s32 *)&((PointerRecords_803C8610_var_r31 *)var_r31)[var_r30]) + 0) == 1) && ((s32) *(u8 *)((s8 *)((s32 *)&((PointerRecords_803C8610_var_r31 *)var_r31)[var_r30]) + 1) == 2)) {
-            ((TLobby *)((s32 *)&((PointerRecords_803C8610_var_r31 *)var_r31)[var_r30]))->update_stream_read();
+        if ((s32)(u8)requests[index].used == 1 && (s32)(u8)requests[index].b1 == 2) {
+            update_adx_stream_read(&requests[index]);
         }
-        var_r30 += 1;
-    } while (var_r30 < 0x28);
+        index++;
+    } while (index < 40);
 }
 extern "C" {
 
-void TLobby::update_stream_read() {
-    S_803C8678 *s = (S_803C8678 *)this;
-    Pair_803C8678 a;
-    Pair_803C8678 b;
-    Strm_803C8678 *st = s->strm;
+void update_adx_stream_read(AdxStreamFile *file) {
+    SjChunk a;
+    SjChunk b;
+    SjRingBuffer *stream = file->buffer;
     s32 n;
     s32 m;
     s32 r;
 
-    if (s->busy == 1) {
-        r = ((TLobby *)(s->h))->cv_fs_get_stat();
+    if (file->b2 == 1) {
+        r = cvFsGetStat(file->handle);
         if (r == 1) {
-            n = s->nread << 11;
-            TLobby__sub_803D3130(&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
-            st->vt->submit(st, 1, &a);
-            st->vt->release(st, 0, &b);
-            if (s->end == pos_803C8678(s) && s->cb != NULL) {
-                s->cb(s->cbarg);
+            n = file->sectors_read << 11;
+            TLobby__sub_803D3130(&file->pending_read, n, &a, &b);
+            stream->interface->put_chunk(stream, 1, &a);
+            stream->interface->unget_chunk(stream, 0, &b);
+            if (file->sectors == get_stream_position(file) && file->on_completion != NULL) {
+                file->on_completion(file->completion_context);
             }
-            s->total += n;
-            s->busy = 0;
-            if (pos_803C8678(s) >= (s->size + 0x7FF) / 2048) {
-                s->state = 3;
+            file->field34 += n;
+            file->b2 = 0;
+            if (get_stream_position(file) >= (file->size + 0x7FF) / 2048) {
+                file->b1 = 3;
             }
-            s->retry = 0;
+            file->retry = 0;
         } else if (r == 3) {
-            st->vt->release(st, 0, &s->buf);
+            stream->interface->unget_chunk(stream, 0, &file->pending_read);
             if (tlobby_stream_read_retry_limit >= 0) {
-                if (s->retry >= tlobby_stream_read_retry_limit) {
-                    s->state = 4;
+                if (file->retry >= tlobby_stream_read_retry_limit) {
+                    file->b1 = 4;
                 } else {
-                    s->retry++;
+                    file->retry++;
                 }
             }
-            s->busy = 0;
+            file->b2 = 0;
         }
     }
-    if (s->busy == 0) {
-        if (st == NULL || st->vt == NULL) {
+    if (file->b2 == 0) {
+        if (stream == NULL || stream->interface == NULL) {
             lbl_805D7558++;
             return;
         }
-        if (st->vt->avail(st, 1) < s->f1C) {
+        if (stream->interface->get_available(stream, 1) < file->read_threshold) {
             s32 e;
             s32 c;
-            st->vt->read(st, 0, s->f18, &s->buf);
-            e = s->end;
-            n = s->f28 / 2048;
-            m = e - pos_803C8678(s);
+            stream->interface->get_chunk(stream, 0, file->read_chunk_size, &file->pending_read);
+            e = file->sectors;
+            n = file->pending_read.size / 2048;
+            m = e - get_stream_position(file);
             if (n < m) {
                 m = n;
             }
-            c = s->f2C;
+            c = file->max_read_sectors;
             if (m < c) {
                 c = m;
             }
             if (c == 0) {
-                st->vt->release(st, 0, &s->buf);
+                stream->interface->unget_chunk(stream, 0, &file->pending_read);
                 return;
             }
-            s->nread = ((TLobby *)(s->h))->cv_fs_req_rd(c, s->buf);
-            if (s->nread <= 0) {
-                st->vt->release(st, 0, &s->buf);
-                if (((TLobby *)(s->h))->cv_fs_get_stat() == 3 && tlobby_stream_read_retry_limit >= 0) {
-                    if (s->retry >= tlobby_stream_read_retry_limit) {
-                        s->state = 4;
+            file->sectors_read = cvFsReqRd(file->handle, c, file->pending_read.data);
+            if (file->sectors_read <= 0) {
+                stream->interface->unget_chunk(stream, 0, &file->pending_read);
+                if (cvFsGetStat(file->handle) == 3 && tlobby_stream_read_retry_limit >= 0) {
+                    if (file->retry >= tlobby_stream_read_retry_limit) {
+                        file->b1 = 4;
                     } else {
-                        s->retry++;
+                        file->retry++;
                     }
                 }
             } else {
-                s->busy = 1;
+                file->b2 = 1;
             }
         }
     }
 }
 
-void TLobby::set_scroll_position(s32 arg1) {
-    if (arg1 >= 0) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x30) = arg1;
+void set_scroll_position__6TLobbyFl(AdxStreamFile *file, s32 sector) {
+    if (sector >= 0) {
+        file->sectors = sector;
         return;
     }
-    *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) ((s32) (*(s32 *)&this->m_down + 0x7FF) / 2048);
+    file->sectors = (file->size + 0x7FF) / 2048;
 }
 
-void TLobby::set_coords(s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)((u8 *)this) + 0x38) = arg1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x3C) = arg2;
+void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback, void *context) {
+    file->on_completion = callback;
+    file->completion_context = context;
 }
 
-void TLobby__sub_803C89C4(u8 *arg0) {
-    u8 *lobby;
-    *(s8 *)((s8 *)arg0 + 1) = 1;
+void TLobby__sub_803C89C4(AdxStreamFile *file) {
+    file->b1 = 1;
     TLobby::init_once();
-    lobby = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-    if (lobby != NULL) {
-        ((TLobby *)lobby)->cvfs_stop_tr();
-        *(s8 *)((s8 *)arg0 + 2) = 0;
+    CvFsHandle *handle = file->handle;
+    if (handle != NULL) {
+        cvFsStopTr(handle);
+        file->b2 = 0;
     }
     TLobby::release_ref();
 }
 
-static inline s32 get_pos_803C8A14(S_803C8A14 *s) {
-    if (s->fp != NULL) {
-        return ((TLobby *)((saddr)s->fp))->cv_fs_tell() - s->base;
+static inline s32 get_pos_803C8A14(AdxStreamFile *s) {
+    if (s->handle != 0) {
+        return cvFsTell(s->handle) - s->f10;
     }
     return 0;
 }
-s32 TLobby::init_stream_position() {
-    if (((S_803C8A14 *)this)->f14 == 0) {
-        ((S_803C8A14 *)this)->f34 = 0;
-        ((S_803C8A14 *)this)->pos = 0;
-        ((S_803C8A14 *)this)->state = 3;
+s32 init_stream_position__6TLobbyFv(AdxStreamFile *file) {
+    if (file->size == 0) {
+        file->field34 = 0;
+        file->fC = 0;
+        file->b1 = 3;
     } else {
-        ((S_803C8A14 *)this)->state = 2;
-        ((S_803C8A14 *)this)->f34 = 0;
-        ((S_803C8A14 *)this)->pos = get_pos_803C8A14(((S_803C8A14 *)this));
-        ((S_803C8A14 *)this)->f3 = 0;
+        file->b1 = 2;
+        file->field34 = 0;
+        file->fC = get_pos_803C8A14(file);
+        file->retry = 0;
     }
     return 1;
 }
 
-s32 TLobby::get_file_offset_relative() {
-    u8 *prev;
-    prev = (u8 *)this->m_prev;
-    if (prev != NULL) {
-        return ((TLobby *)prev)->cv_fs_tell() - *(s32 *)&this->m_up;
+s32 get_file_offset_relative__6TLobbyFv(AdxStreamFile *file) {
+    CvFsHandle *handle = file->handle;
+    if (handle != NULL) {
+        return cvFsTell(handle) - file->f10;
     }
     return 0;
 }
 
-s32 TLobby::set_scroll_offset(s32 arg1) {
-    ((TLobby *)(*(saddr *)&this->m_prev))->cv_fs_seek((int) (*(s32 *)&this->m_up + arg1), 0);
-    return ((TLobby *)(*(saddr *)&this->m_prev))->cv_fs_tell() - *(s32 *)&this->m_up;
+s32 set_scroll_offset__6TLobbyFl(AdxStreamFile *file, s32 offset) {
+    cvFsSeek(file->handle, file->f10 + offset, 0);
+    return cvFsTell(file->handle) - file->f10;
 }
 
-s32 TLobby__sub_803C8B2C(u8 *arg0) {
-  return ((s8 *)arg0)[1];
+s32 TLobby__sub_803C8B2C(const AdxStreamFile *file) {
+    return file->b1;
 }
 
-void TLobby__sub_803C8B38(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    if (arg0 != NULL) {
-        *(s8 *)((s8 *)arg0 + 1) = 1;
+void TLobby__sub_803C8B38(AdxStreamFile *file) {
+    if (file != NULL) {
+        file->b1 = 1;
         TLobby::init_once();
-        temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-        if (temp_r3 != NULL) {
-            ((TLobby *)temp_r3)->cvfs_stop_tr();
-            *(s8 *)((s8 *)arg0 + 2) = 0;
+        CvFsHandle *handle = file->handle;
+        if (handle != NULL) {
+            cvFsStopTr(handle);
+            file->b2 = 0;
         }
         TLobby::release_ref();
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-        if (temp_r3_2 != NULL) {
-            ((TLobby *)temp_r3_2)->cv_fs_close();
+        handle = file->handle;
+        if (handle != NULL) {
+            cvFsClose(handle);
         }
-        memset(arg0, 0, 0x40);
+        memset(file, 0, sizeof(*file));
     }
 }
 
-inline AdxStreamFile *alloc_803C8BAC(s32 arg, u32 h, s32 size) {
+inline AdxStreamFile *alloc_803C8BAC(s32 arg, CvFsHandle *h, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
-        p = &((AdxStreamFile *)&adx_stream_read_requests)[lbl_805D7550 + i];
+        p = &adx_stream_read_requests[lbl_805D7550 + i];
         if (p->used == 0) {
             break;
         }
@@ -363,16 +274,16 @@ inline AdxStreamFile *alloc_803C8BAC(s32 arg, u32 h, s32 size) {
     p->fC = 0;
     p->f10 = 0;
     p->size = size;
-    p->f2C = 0x200;
+    p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
     p->used = 1;
     return p;
 }
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg) {
     s32 size;
-    u32 h;
+    CvFsHandle *h;
     AdxStreamFile *p;
-    size = cvFsGetFileSize();
+    size = cvFsGetFileSize(name);
     h = cvFsOpen(name, 0, 0);
     if (h == 0) {
         TLobby::report_adx_error(lbl_8047C634, name);
@@ -380,17 +291,17 @@ AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg) {
     }
     p = alloc_803C8BAC(arg, h, size);
     if (p != NULL) {
-        ((TLobby *)(p->handle))->cv_fs_seek(p->f10, 0);
-        ((TLobby *)(p->handle))->cv_fs_tell();
+        cvFsSeek(p->handle, p->f10, 0);
+        cvFsTell(p->handle);
     }
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8CDC(s32 arg, u32 h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8CDC(s32 arg, CvFsHandle *h, s32 f10, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_fname_slot_count; i++) {
-        p = &((AdxStreamFile *)&adx_stream_read_requests)[adx_stream_request_base_index + i];
+        p = &adx_stream_read_requests[adx_stream_request_base_index + i];
         if (p->used == 0) {
             break;
         }
@@ -405,38 +316,38 @@ inline AdxStreamFile *alloc_803C8CDC(s32 arg, u32 h, s32 f10, s32 size) {
     p->fC = 0;
     p->f10 = f10;
     p->size = size;
-    p->f2C = 0x200;
+    p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
     p->used = 1;
     return p;
 }
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg) {
     s32 size;
-    u32 h;
+    CvFsHandle *h;
     AdxStreamFile *p;
     if (mode == 0) {
-        size = cvFsGetFileSize();
+        size = cvFsGetFileSize(name);
     } else {
-        size = cvFsGetFileSizeEx();
+        size = cvFsGetFileSizeEx(name, mode);
     }
-    h = cvFsOpen((const char *)(name), mode, 0);
+    h = cvFsOpen(name, mode, 0);
     if (h == 0) {
         TLobby::report_adx_error(lbl_8047C634, name);
         return NULL;
     }
     p = alloc_803C8CDC(arg, h, 0, size);
     if (p != NULL) {
-        ((TLobby *)(p->handle))->cv_fs_seek(p->f10, 0);
-        ((TLobby *)(p->handle))->cv_fs_tell();
+        cvFsSeek(p->handle, p->f10, 0);
+        cvFsTell(p->handle);
     }
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8E28(s32 arg, u32 h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 f10, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
-        p = &((AdxStreamFile *)&adx_stream_read_requests)[lbl_805D7550 + i];
+        p = &adx_stream_read_requests[lbl_805D7550 + i];
         if (p->used == 0) {
             break;
         }
@@ -451,32 +362,32 @@ inline AdxStreamFile *alloc_803C8E28(s32 arg, u32 h, s32 f10, s32 size) {
     p->fC = 0;
     p->f10 = f10;
     p->size = size;
-    p->f2C = 0x200;
+    p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
     p->used = 1;
     return p;
 }
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
-    u32 h;
+AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg) {
+    CvFsHandle *h;
     AdxStreamFile *p;
-    h = cvFsOpen((const char *)(name), mode, 0);
+    h = cvFsOpen(name, mode, 0);
     if (h == 0) {
         TLobby::report_adx_error(lbl_8047C600, name);
         return NULL;
     }
     p = alloc_803C8E28(arg, h, off, nsect << 11);
     if (p != NULL) {
-        ((TLobby *)(p->handle))->cv_fs_seek(p->f10, 0);
-        ((TLobby *)(p->handle))->cv_fs_tell();
+        cvFsSeek(p->handle, p->f10, 0);
+        cvFsTell(p->handle);
     }
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8F5C(s32 arg, u32 h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8F5C(s32 arg, CvFsHandle *h, s32 f10, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_fname_slot_count; i++) {
-        p = &((AdxStreamFile *)&adx_stream_read_requests)[adx_stream_request_base_index + i];
+        p = &adx_stream_read_requests[adx_stream_request_base_index + i];
         if (p->used == 0) {
             break;
         }
@@ -491,23 +402,23 @@ inline AdxStreamFile *alloc_803C8F5C(s32 arg, u32 h, s32 f10, s32 size) {
     p->fC = 0;
     p->f10 = f10;
     p->size = size;
-    p->f2C = 0x200;
+    p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
     p->used = 1;
     return p;
 }
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
-    u32 h;
+    CvFsHandle *h;
     AdxStreamFile *p;
-    h = cvFsOpen((const char *)(name), mode, 0);
+    h = cvFsOpen(name, mode, 0);
     if (h == 0) {
         TLobby::report_adx_error(lbl_8047C660, name);
         return NULL;
     }
     p = alloc_803C8F5C(arg, h, off, nsect << 11);
     if (p != NULL) {
-        ((TLobby *)(p->handle))->cv_fs_seek(p->f10, 0);
-        ((TLobby *)(p->handle))->cv_fs_tell();
+        cvFsSeek(p->handle, p->f10, 0);
+        cvFsTell(p->handle);
     }
     return p;
 }
@@ -517,10 +428,10 @@ void TLobby::si_get_type_async() {
 }
 
 s32 TLobby::clear_buffer_a00() {
-    memset(&adx_stream_read_requests.value, 0, 0xA00);
+    memset(adx_stream_read_requests, 0, sizeof(adx_stream_read_requests));
     return 1;
 }
 
 }
 
-AdxStreamReadRequests adx_stream_read_requests;
+AdxStreamFile adx_stream_read_requests[40];

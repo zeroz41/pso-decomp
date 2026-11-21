@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -389,7 +391,6 @@ s32 post_translate_matrix(void *);
 extern uaddr TObjEneDolmOlm__data_805D6A14;
 extern uaddr TObjEneDolmOlm__data_805D6A18;
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void *spawn_particle_effect(const void *pos, s32 id);
 void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
 void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1);
@@ -428,7 +429,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
-u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern uaddr dolm_olm_combat_stat_id_pair;
 extern uaddr TObjEneDolmOlm__shared_handler_ids;
 extern uaddr TObjEneDolmOlm__registered_object_ids;
@@ -437,7 +437,6 @@ extern void *lbl_804E6774[4];
 extern s32 TObjEneDolmOlm__param_table[52];
 extern s32 lbl_804E68D0[22];
 void * TObjEneDolmOlm__create(void *arg0);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void mem_free(void*);
@@ -661,16 +660,10 @@ void TObjEneDolmOlm::load_shared_resources() {
     u8 *p;
     s32 i;
     if (is_split_screen() != 0) {
-        p = (u8 *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, lbl_804E67B8, 0, 0, 0);
-        }
+        p = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)lbl_804E67B8, 0, 0, NULL);
         TObjEneDolmOlm__resource_bundle = (uaddr) p;
     } else {
-        p = (u8 *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, lbl_804E6774, 0, 0, 0);
-        }
+        p = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)lbl_804E6774, 0, 0, NULL);
         TObjEneDolmOlm__resource_bundle = (uaddr) p;
     }
     p = (u8 *)new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
@@ -729,7 +722,7 @@ void TObjEneDolmOlm::free_shared_resources() {
         TObjEneDolmOlm__data_805D6A14 = 0U;
     }
     if ((u32) TObjEneDolmOlm__resource_bundle != 0U) {
-        free_bin_model_request((void*)TObjEneDolmOlm__resource_bundle, 1);
+        delete (BmlResource *)TObjEneDolmOlm__resource_bundle;
         TObjEneDolmOlm__resource_bundle = 0U;
     }
 }
@@ -845,7 +838,7 @@ void TObjEneDolmOlm::render() {
         }
         TObjPlayer::toggle_particle_effect();
         TObjEneDolmOlm__effect_render_state = 0;
-        set_chunk_model_node_callback((saddr)((void *)TObjEneDolmOlm::toggle_effect_render));
+        set_chunk_model_node_callback(TObjEneDolmOlm::toggle_effect_render);
         if (arg0->f390 == 1) {
             if (arg0->sub.m8() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -867,7 +860,7 @@ void TObjEneDolmOlm::render() {
         } else {
             ((TObjEnemy *)arg0)->draw_motion_model();
         }
-        set_chunk_model_node_callback((s32)NULL);
+        set_chunk_model_node_callback(NULL);
         TParticleCtrl::end_effect_render();
         switch (arg0->state) {
         case 0:
@@ -914,7 +907,7 @@ s32 TObjEneDolmOlm::render_model_if_visible() {
     }
     return 0;
 }
-void TObjEneDolmOlm::toggle_effect_render() {
+void TObjEneDolmOlm::toggle_effect_render(NJS_OBJECT *) {
     switch (TObjEneDolmOlm__effect_render_state) {
     case 0x15:
     case 0x1d:

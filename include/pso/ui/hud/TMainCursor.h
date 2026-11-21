@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/ui/window/ActionPaletteTag.h"
 #include "pso/unk/TUnk_804A7254.h"
 
 // TMainCursor +0x24.
@@ -19,7 +19,7 @@ public:
 // TMainCursor +0x60; TUnk_8013EF6C holds two.
 class TUnk_8013E780 {
 public:
-    gc_tag unk_0;
+    ActionPaletteTag unk_0;
     s16 unk_4;
     s16 unk_6;
 
@@ -67,8 +67,6 @@ struct TMainCursor : public TObject {
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();
-    u8 get_enabled();
-    u8 get_type();
     saddr get_state();
     void destroy_lock_on(s32 a1);
     void set_target(s32 a1);
@@ -95,8 +93,6 @@ struct TMainCursor : public TObject {
     u8 update_sub_60();
     void set_offset_y(s16 a1);
     void init_field_60(u8 v);
-    void get_action_palette(u8 v);
-    void update_action_palette(u8 v);
     int get_selected_entry();
     u8 get_active();
     int is_cursor_clear();

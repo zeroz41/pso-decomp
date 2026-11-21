@@ -1,3 +1,6 @@
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/system/BmlResourceLoad.h"
@@ -34,7 +37,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -273,7 +275,6 @@ u8 *get_enemy_entity(u16);
 s32 subtract_vector(void *, void *);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern saddr lbl_805D5140;
 extern uaddr TObjGrass__bml_resource;
 extern saddr grass_combat_stats_handle;
@@ -410,8 +411,8 @@ struct Grass_800BF19C : VObj_18_ca64a0 {
 
 void TObjGrass::init_from_table_entry(s32 i) {
     O_800BFB8C *self = (O_800BFB8C *)this;
-    self->f34 = TObjGrass__resource_bundle->models[i].model;
-    self->f24 = TObjGrass__resource_bundle->models[i].m_c;
+    self->f34 = (saddr)TObjGrass__resource_bundle->models[i].model;
+    self->f24 = (saddr)TObjGrass__resource_bundle->models[i].m_c;
 }
 void TObjGrass__sub_800BFB68(O_800BFB68 *self) {
     s32 i;
@@ -482,12 +483,9 @@ TObjGrass::~TObjGrass() {
 void TObjGrass::load_resources() {
     u8 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjGrass__resource_bundle = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_grass_resource_descriptor, (saddr)((void *)"bm_ene_grass_a.bml"));
+        TObjGrass__resource_bundle = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_grass_resource_descriptor, "bm_ene_grass_a.bml");
     } else {
-        p = (u8 *)::operator new(0x440);
-        if (p != NULL) {
-            p = (u8 *)load_resource_from_descriptor(p, 1, &bm_ene_grass_resource_descriptor, 0, 0, 0);
-        }
+        p = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)&bm_ene_grass_resource_descriptor, 0, 0, NULL);
         TObjGrass__resource_bundle = (BmlResource *)p;
     }
     TObjGrass__render_node_index = 0;
@@ -529,7 +527,7 @@ void TObjGrass::destroy_all() {
         lbl_805D5158 = 0U;
     }
     if (TObjGrass__resource_bundle != NULL) {
-        free_bin_model_request(TObjGrass__resource_bundle, 1);
+        delete (BmlResource *)TObjGrass__resource_bundle;
         TObjGrass__resource_bundle = NULL;
     }
 }
@@ -636,7 +634,7 @@ void TObjGrass::render() {
     } else {
         TObjPlayer::toggle_particle_effect();
         TObjGrass__render_node_index = 0;
-        set_chunk_model_node_callback((saddr)((void *)TObjGrass::update_camera_vec_by_stage));
+        set_chunk_model_node_callback(TObjGrass::update_camera_vec_by_stage);
         if (*(s32 *)((s8 *)arg0 + 0x3AC) == 1) {
             if ((&self->sub)->m8() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -662,7 +660,7 @@ void TObjGrass::render() {
         }
         TParticleCtrl::end_effect_render();
     }
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     pop_matrix();
     restore_scene_lighting();
     VecCopy((Vec *)(arg0 + 0x374), (const Vec *)&grass_camera_vec);
@@ -1571,7 +1569,7 @@ void TObjGrass::vfunc_63() {
         *(s16 *)((s8 *)arg0 + 0xB8) = 6;
         temp_r6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xA4));
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
-        spawn_particle_effect((arg0 + 0x2FC), 0xF2);
+        spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0xF2);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
     }
@@ -1636,7 +1634,7 @@ void TObjGrass::update_dying(void *arg0_) {
         ((TObjEnePanarms *)arg0)->m_310 *= (0.5f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(23.0f)) != 0) {
             ((TObjEnePanarms *)arg0)->phase = 2;
-            spawn_particle_effect((arg0 + 0x38), 0xF0);
+            spawn_particle_effect((const Vec *)(arg0 + 0x38), 0xF0);
         }
         break;
     case 2:
@@ -1682,7 +1680,7 @@ void TObjGrass::update_dying(void *arg0_) {
         (*(s32 *)((s8 *)arg0 + 0x3A0))++;
         if (*(s32 *)((s8 *)arg0 + 0x3A0) == 4) {
             *(s32 *)((s8 *)arg0 + 0x3A0) = 0;
-            spawn_particle_effect((arg0 + 0x38C), 0xF2);
+            spawn_particle_effect((const Vec *)(arg0 + 0x38C), 0xF2);
         }
     }
 }

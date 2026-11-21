@@ -137,9 +137,9 @@ extern "C" {
 }
 
 
-u8 *TObjPlayer::create_srank_common_weapon(u8 *item) {
+TItem *TObjPlayer::create_srank_common_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A4948(tl_05, item);
+        return new TUnk_804A4948(tl_05, item);
     }
     return NULL;
 }
@@ -214,7 +214,7 @@ void TUnk_804A4948::vfunc_57() {
 
 void TUnk_804A4948::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
-  s32 sp8;
+  Vec sp8;
   s32 temp_r0;
   s32 attack_flags;
   s32 new_var;

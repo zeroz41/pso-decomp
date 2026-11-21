@@ -2,6 +2,7 @@
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
@@ -18,10 +19,10 @@ static s32 creation_direction_priority_masks[4] = {0x10, 0x20, 0x40, 0x80};
 CreationInputState creation_input_state;
 
 f32 TObjCMProportion::get_ratio() {
-    return (f32) *(u16 *)((s8 *)(get_creation_pad()) + 0x18) / 255.0f;
+    return (f32) get_creation_pad()->trigR / 255.0f;
 }
 f32 TObjCMProportion::get_right_trigger_ratio() {
-    return (f32) *(u16 *)((s8 *)(get_creation_pad()) + 0x1A) / 255.0f;
+    return (f32) get_creation_pad()->trigL / 255.0f;
 }
 
 #pragma push
@@ -31,8 +32,8 @@ void get_creation_pad_stick(s32 *arg0, f32 *arg1) {
     f32 y;
     f32 d;
     s32 ang;
-    x = (f32)*(s16 *)((s8 *)(get_creation_pad()) + 0x1C);
-    y = (f32)*(s16 *)((s8 *)(get_creation_pad()) + 0x1E);
+    x = (f32)get_creation_pad()->stickX;
+    y = (f32)get_creation_pad()->stickY;
     ang = (s32)(10430.38043493439 * atan2_float(x, -y));
     d = newton_sqrtf(x * x + y * y) / creation_stick_range;
     if (d > 1.0f) {
@@ -90,15 +91,15 @@ void TObjCMProportion::poll_pad_buttons() {
     s32 old;
     s32 i;
     old = creation_input_state.held_buttons;
-    creation_input_state.held_buttons = *(s32 *)((s8 *)(get_creation_pad()) + 8);
+    creation_input_state.held_buttons = get_creation_pad()->held;
     if (!(creation_input_state.held_buttons & 0xF0)) {
-        if (*(s16 *)((s8 *)(get_creation_pad()) + 0x1C) < -0x73) {
+        if (get_creation_pad()->stickX < -0x73) {
             creation_input_state.held_buttons |= 0x40;
-        } else if (*(s16 *)((s8 *)(get_creation_pad()) + 0x1C) > 0x73) {
+        } else if (get_creation_pad()->stickX > 0x73) {
             creation_input_state.held_buttons |= 0x80;
-        } else if (*(s16 *)((s8 *)(get_creation_pad()) + 0x1E) < -0x73) {
+        } else if (get_creation_pad()->stickY < -0x73) {
             creation_input_state.held_buttons |= 0x10;
-        } else if (*(s16 *)((s8 *)(get_creation_pad()) + 0x1E) > 0x73) {
+        } else if (get_creation_pad()->stickY > 0x73) {
             creation_input_state.held_buttons |= 0x20;
         } else {
             for (i = 0; i < 4; i++) {

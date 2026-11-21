@@ -8,7 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/MatrixStack.h"
@@ -64,28 +64,28 @@ void TOSensorGeneral01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param((saddr)TOSensorGeneral01__texture_lists[0]);
-        draw_ginja_model((saddr)object->model);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[0]);
+        draw_ginja_model(object->model);
         TParticleCtrl::begin_effect_render();
         object = object->child;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param((saddr)TOSensorGeneral01__texture_lists[lamps_dark < 1]);
-        draw_ginja_model((saddr)object->model);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[lamps_dark < 1]);
+        draw_ginja_model(object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param((saddr)TOSensorGeneral01__texture_lists[lamps_dark < 2]);
-        draw_ginja_model((saddr)object->model);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[lamps_dark < 2]);
+        draw_ginja_model(object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param((saddr)TOSensorGeneral01__texture_lists[lamps_dark < 3]);
-        draw_ginja_model((saddr)object->model);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[lamps_dark < 3]);
+        draw_ginja_model(object->model);
         TParticleCtrl::end_effect_render();
         object = object->sibling;
         push_matrix();
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         rotate_matrix_y(NULL, head_angle);
-        TObjFish::set_global_param((saddr)TOSensorGeneral01__texture_lists[1]);
-        draw_ginja_model((saddr)object->model);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[1]);
+        draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
     }
@@ -104,16 +104,13 @@ void TOSensorGeneral01::free_assets() {
         }
     }
     if (sensor_general_shared_bml_archive != NULL) {
-        free_bin_model_request(sensor_general_shared_bml_archive, 1);
+        delete sensor_general_shared_bml_archive;
         sensor_general_shared_bml_archive = NULL;
     }
 }
 
 void TOSensorGeneral01::load_assets() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &TOSensorGeneral01__resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &TOSensorGeneral01__resource_descriptor, 0, 0, NULL);
     sensor_general_shared_bml_archive = resource;
     TOSensorGeneral01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOSensorGeneral01__texture_lists));
     TOSensorGeneral01__texture_lists[1] = (GinjaTextureList *)sensor_general_shared_bml_archive->models[0].m_c;

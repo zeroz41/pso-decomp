@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
 #include "pso/unk/text_801A3014.h"
@@ -246,13 +247,11 @@ void run_single_view_frame(void);
 void process_pending_resources();
 extern u8 TLobby__data_805011D8[];
 extern s32 TLobby__designated_client_id;
-extern uaddr quest_area_manager;
 void run_offline_area_transfer(void);
 void load_battle_param_entry(void);
 extern u8 fn_801B309C[];
 void clear_quest_floor_designations(void);
 void setup_split_screen(void);
-extern uaddr quest_mission_manager;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern s32 TLobby__data_805D6148;
@@ -380,7 +379,7 @@ void TLobby::rebuild_area_keep_players() {
     TQuestThread::create_by_mode();
     clear_quest_floor_designations();
     {
-        void *t = new TQuestThread((TObject *)quest_mission_manager, 0);
+        void *t = new TQuestThread(quest_mission_manager, 0);
         ((VObj_801A31D8 *)t)->m1();
     }
     TLobby::set_enemy_mode_flag();
@@ -447,8 +446,8 @@ void run_offline_area_transfer(void) {
         }
     }
     TQuestThread::create_for_floor();
-    if (quest_area_manager != 0) {
-        new TQuestThread((TObject *)quest_area_manager, 0);
+    if (quest_area_manager != NULL) {
+        new TQuestThread(quest_area_manager, 0);
     }
     __dt__7TObjectFv(&holder, -1);
 }
@@ -655,8 +654,8 @@ void init_offline_game_scene(void) {
         }
     }
     TObjPlayer__sub_801B1BA4();
-    if (quest_area_manager != 0) {
-        new TQuestThread((TObject *)quest_area_manager, 0);
+    if (quest_area_manager != NULL) {
+        new TQuestThread(quest_area_manager, 0);
     }
     if (TAdSinglePlyChrSelectGC::save_character_to_card() == 0) {
         if (is_quest_active() != 0) {

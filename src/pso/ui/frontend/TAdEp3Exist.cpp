@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -127,8 +128,8 @@ void TAdEp3Exist::run_task() {
         o->state = 1;
         break;
     case 1:
-        if (((TAdSinglePlyChrSelectGC *)(o->sel))->get_selected_slot() == 1) {
-            switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)o->sel)) {
+        if (((TAdSelectCurGC *)(o->sel))->confirmation_result() == 1) {
+            switch (reinterpret_cast<TAdSelectCurGC *>(o->sel)->selection_index()) {
             case 0:
                 o->state = 2;
                 o->next = 3;
@@ -219,14 +220,13 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
         r = (uaddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
     }
     o->win1C = r;
-    r = (uaddr)TObject::operator new(0x708);
-    if (r != 0) {
-        r = __ct__14TAdSelectCurGCFv((void *)r, tl_clipout, (void *)lbl_8047B8A8, (void *)lbl_8047B8B0);
-    }
+    r = reinterpret_cast<uaddr>(new TAdSelectCurGC(tl_clipout,
+        reinterpret_cast<const NJS_POINT2 *>(lbl_8047B8A8),
+        reinterpret_cast<const NJS_POINT2 *>(lbl_8047B8B0)));
     o->cur20 = r;
-    ((TLevelSelect *)(o->cur20))->add_item_rect((void *)lbl_8047B8A8);
+    ((TAdSelectCurGC *)(o->cur20))->append_entry((void *)lbl_8047B8A8);
     fn_80329BAC((void *)o->cur20);
-    ((TLobby *)(o->cur20))->set_ad_field(0);
+    ((TAdSelectCurGC *)(o->cur20))->set_selection_index(0);
     return o;
 }
 

@@ -1,9 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
@@ -72,11 +74,11 @@ void TUnk_804C2298::run_task() {
         break;
     case 4:
         if (this->card == NULL) {
-            this->card = (TObject *)TCheckMemoryCard::create_system_file_check(this, NULL, 0);
+            this->card = TCheckMemoryCard::create_system_file_check(this, NULL, 0);
         }
         this->state = 5;
     case 5:
-        if (this->card != NULL && TAdSinglePlyChrSelectGC__sub_8033B9F8(this->card) == 1) {
+        if (this->card != NULL && this->card->is_card_ready() == 1) {
             this->card->queue_destruction();
             this->card = NULL;
             if (verify_system_file__23TAdSinglePlyChrSelectGCFPv() != 0) {
@@ -92,14 +94,14 @@ void TUnk_804C2298::run_task() {
         } else {
             WindowPos a = {80.0f, 176.0f};
             WindowPos b = {479.0f, 207.0f};
-            this->window = (TObject *)(void *)create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
+            this->window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
             ((TWindowMessage *)(this->window))->append_line(get_message_text(0xC), 1);
             this->state = 7;
         }
         break;
     case 7:
         if (TAdPlayerLoadGC::get_instance() == 0) {
-            ((TWindowBase *)this->window)->close();
+            this->window->close();
             this->window = NULL;
             this->state = 8;
         }
@@ -170,10 +172,8 @@ s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
 }
 
 // Bits 13-15 of the client's character save record word at +0x10.
-s32 TWindowShortListCtrl::get_card_status_bits() {
-    // The caller's client id passes through in r3: the parameter comes back with the callers in
-    // TWindowCtrlMain_800FC91C.cpp.
-    u32 *record = ((u32 *(*)())get_character_save_record)();
+s32 TWindowShortListCtrl::get_card_status_bits(s32 client_id) {
+    u32 *record = (u32 *)get_character_save_record(client_id);
     if (record == NULL) {
         return 0;
     }

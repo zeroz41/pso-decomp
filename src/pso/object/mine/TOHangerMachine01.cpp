@@ -5,7 +5,8 @@
 #include "pso/object/mine/TOHangerMachine01.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -38,18 +39,18 @@ void TOHangerMachine01::render() {
         TObjFish::set_global_param(texlist);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         node = node->child;
         if (0.0f < scale.y) {
             post_translate_matrix(node->pos);
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model((void *)node->model);
         }
         node = node->sibling;
         post_translate_matrix(node->pos);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         node = node->sibling;
         post_translate_matrix(node->pos);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
@@ -57,12 +58,12 @@ void TOHangerMachine01::render() {
         rotate_matrix_x(NULL, node->ang[0]);
         rotate_matrix_y(NULL, node->ang[1] + fan_angle);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling->sibling->sibling;
         post_translate_matrix(node->pos);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
@@ -70,13 +71,13 @@ void TOHangerMachine01::render() {
         rotate_matrix_x(NULL, node->ang[0]);
         rotate_matrix_y(NULL, node->ang[1] + fan_angle);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling->sibling->sibling->sibling;
         if (0.0f < scale.x) {
             post_translate_matrix(node->pos);
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model((void *)node->model);
         }
         pop_matrix();
     }
@@ -88,16 +89,13 @@ void *TOHangerMachine01::create(void *set_data) {
 
 void TOHangerMachine01::free_static_model() {
     if (TOHangerMachine01__bml_resource != NULL) {
-        free_bin_model_request(TOHangerMachine01__bml_resource, 1);
+        delete TOHangerMachine01__bml_resource;
         TOHangerMachine01__bml_resource = NULL;
     }
 }
 
 void TOHangerMachine01::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_hanger_moto_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_hanger_moto_resource_descriptor, 0, 0, NULL);
     TOHangerMachine01__bml_resource = resource;
 }
 
@@ -110,7 +108,7 @@ TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOHangerMachine01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOHangerMachine01__bml_resource->models[0].model;
-    texlist = TOHangerMachine01__bml_resource->models[0].m_c;
+    texlist = (saddr)TOHangerMachine01__bml_resource->models[0].m_c;
     view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;

@@ -1,5 +1,9 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/Language.h"
+#include "pso/ui/window/WordSelectMessage.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -636,11 +640,6 @@ s32 reset_selection__9TWindowDDFv(void *, void *);
 s32 TWindowDD__sub_8034435C(u8 *, u32, s32, s32);
 s32 TWindowDD__sub_80344568(u8 *, u32, s32, s32);
 s32 TWindowDD__sub_80344774(u8 *, u32, s32, s32);
-s32 format_message_text__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
-s32 format_german_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
-s32 TWindowDD__sub_80345608(void *src, void *dst, u16 player);
-s32 format_english_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
-s32 format_entry_text__9TWindowDDFPvPv(void *src, void *dst);
 s32 TWindowDD__sub_80346434(u8 *, u32, s32, s32);
 s32 TWindowDD__sub_80346640(u8 *, u32, s32, s32);
 
@@ -744,20 +743,20 @@ s32 TWindowDD::can_append_chars(s32 arg0, s32 *arg1) {
 
 void TWindowDD::format_message(void *src, void *dst, u16 player) {
     switch ((s32) TWindowDD__window_mode) {
-    case 0:
-        format_entry_text__9TWindowDDFPvPv(src, dst);
+    case LANGUAGE_JAPANESE:
+        format_entry_text__9TWindowDDFPvPv(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst));
         return;
     default:
-        format_english_message__9TWindowDDFPvPvUs(src, dst, player);
+        format_english_message__9TWindowDDFPvPvUs(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
         return;
-    case 4:
-        TWindowDD__sub_80345608(src, dst, player);
+    case LANGUAGE_SPANISH:
+        TWindowDD__sub_80345608(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
         return;
-    case 2:
-        format_german_message__9TWindowDDFPvPvUs(src, dst, player);
+    case LANGUAGE_GERMAN:
+        format_german_message__9TWindowDDFPvPvUs(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
         return;
-    case 3:
-        format_message_text__9TWindowDDFPvPvUs(src, dst, player);
+    case LANGUAGE_FRENCH:
+        format_message_text__9TWindowDDFPvPvUs(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
         return;
     }
 }
@@ -839,20 +838,15 @@ void append_word_select_token(s16 arg0, saddr arg1, void *arg2) {
 
 struct Dst_80348A9C { u8 pad[0xc]; f32 x; f32 y; u8 pad2[4]; };
 
-struct A_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[4]; f32 fC; u8 pad10[0x1C]; f32 f2C; };
-
-struct B_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[0x14]; f32 f1C; u8 pad20[0x10]; };
-
 extern "C" {
 extern f32 lbl_805DFB1C;
-NJS_POINT2 TWindowDD__data_805434E8[7][8];
+WindowTexturePoint TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
 extern s16 *lbl_805D6E34;
 extern const f32 TWindowDD__data_805DFB58;
 extern const f32 lbl_805DFB5C;
 extern const f32 TWindowDD__data_805DFB20;
-void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2);
 typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
@@ -874,16 +868,16 @@ void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 farg0) {
     s32 temp_r31;
 
     temp_r31 = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
-    ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(*(f32 *)&(this->m_54), farg0), -1);
+    ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(draw_depth, farg0), -1);
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
-    TWindowDD__sub_80348A2C((void *)ctx, &sp8);
-    TWindowDD__sub_803489B8((A_803489B8 *)(ctx), (B_803489B8 *)(&sp8), 0);
+    TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
+    TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
     ((TWindowDD *)(&sp8))->draw_transformed_primitive(8, temp_r31, 1);
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2) {
+void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
     s32 i;
     f32 hs;
     f32 half;
@@ -891,22 +885,22 @@ void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2) {
     f32 t0;
     f32 step;
     f32 sc;
-    half = 0.5f * arg0->fC;
-    sc = arg0->f2C;
-    t0 = arg0->f4 + half;
+    half = 0.5f * context->h;
+    sc = context->scale[1];
+    t0 = context->y + half;
     step = TWindowDD__data_805DFB20 * sc;
     hs = half * sc;
     v = t0 - hs;
-    v += step * (f32) arg2;
+    v += step * (f32)row;
     for (i = 0; i < 4; i++) {
-        arg1->f4 = v;
-        arg1->f1C = v + step;
-        arg1++;
+        vertices[0].y = v;
+        vertices[1].y = v + step;
+        vertices += 2;
     }
 }
 #pragma pop
 
-void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
+void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *arg1) {
   f32 temp_f0;
   f32 temp_f0_2;
   f32 temp_f1;
@@ -917,9 +911,9 @@ void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
   f32 temp_f4;
   s8 *new_var;
   f32 var_f0;
-  temp_f2 = 0.5f * (*((f32 *) (((s8 *) arg0) + 8)));
-  temp_f1 = temp_f2 * (*((f32 *) (((s8 *) arg0) + 0x28)));
-  temp_f0 = (*((f32 *) (((s8 *) arg0) + 0))) + temp_f2;
+  temp_f2 = 0.5f * context->w;
+  temp_f1 = temp_f2 * context->scale[0];
+  temp_f0 = context->x + temp_f2;
   temp_f2_2 = (0, temp_f0 - temp_f1);
   temp_f4 = temp_f0 + temp_f1;
   if (temp_f1 < lbl_805DFB1C)
@@ -947,7 +941,7 @@ void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
 void TWindowDD::copy_point_table(s32 idx) {
     Dst_80348A9C *self = (Dst_80348A9C *)this;
     s32 i;
-    NJS_POINT2 *s = TWindowDD__data_805434E8[idx];
+    const WindowTexturePoint *s = TWindowDD__data_805434E8[idx];
     for (i = 0; i < 8; i++) {
         self->x = s->x;
         self->y = s->y;
@@ -972,8 +966,7 @@ extern s32 twindowdd_entry_count;
 
 #pragma push
 #pragma fp_contract on
-void TWindowBase::calc_inner_rect(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
+void TWindowBase::calc_inner_rect(WindowDrawContext *context) {
     f32 y0;
     f32 ky;
     f32 x0;
@@ -981,23 +974,23 @@ void TWindowBase::calc_inner_rect(u8 *arg1) {
     f32 y;
     f32 w;
     f32 h;
-    x = *(f32 *)((s8 *)arg0 + 0x40);
-    y = *(f32 *)((s8 *)arg0 + 0x44);
+    x = frame_position[0];
+    y = frame_position[1];
     ky = lbl_805DFB5C;
     x0 = x + TWindowDD__data_805DFB58;
-    w = *(f32 *)((s8 *)arg0 + 0x48);
-    h = *(f32 *)((s8 *)arg0 + 0x4C);
+    w = frame_size[0];
+    h = frame_size[1];
     y0 = y + ky;
-    *(f32 *)((s8 *)arg1 + 0x10) = x0;
-    *(f32 *)((s8 *)arg1 + 0x14) = y0;
-    *(f32 *)((s8 *)arg1 + 0x18) = w - 2.0f * TWindowDD__data_805DFB58;
-    *(f32 *)((s8 *)arg1 + 0x1C) = h - 2.0f * ky;
-    *(f32 *)((s8 *)arg1 + 0x3C) = x0;
-    *(f32 *)((s8 *)arg1 + 0x40) = y0;
-    *(f32 *)((s8 *)arg1 + 0x44) = (x + w) - TWindowDD__data_805DFB58;
-    *(f32 *)((s8 *)arg1 + 0x48) = (y + h) - ky;
-    *(f32 *)((s8 *)arg1 + 0x20) = 0.5f * w + x;
-    *(f32 *)((s8 *)arg1 + 0x24) = 0.5f * h + y;
+    context->inner_x = x0;
+    context->inner_y = y0;
+    context->inner_w = w - 2.0f * TWindowDD__data_805DFB58;
+    context->inner_h = h - 2.0f * ky;
+    context->clip_x0 = x0;
+    context->clip_y0 = y0;
+    context->clip_x1 = (x + w) - TWindowDD__data_805DFB58;
+    context->clip_y1 = (y + h) - ky;
+    context->pivot[0] = 0.5f * w + x;
+    context->pivot[1] = 0.5f * h + y;
 }
 #pragma pop
 

@@ -17,6 +17,11 @@ struct TCheckMemoryCard : public TObject {
     static TCheckMemoryCard *create_system_file_check(TObject *parent, void *arg2, s32 main_ctrl);
     static TCheckMemoryCard *create(TObject *parent, void *arg2, s32 main_ctrl);
 
+    s32 prompt_was_accepted();
+    void enable_prompt();
+    void select_main_window_controller();
+    s32 is_card_ready();
+
     s32 check_player_data();
     s32 check_card();
     void update_card_display(s32 kind, s32 sel, s32 sub_entry, s32 alt_sub_entry);
@@ -52,5 +57,20 @@ struct TCheckMemoryCard : public TObject {
 };
 
 LAYOUT_ASSERT(TCheckMemoryCard_size, sizeof(TCheckMemoryCard) == 0x250);
+
+#include <stddef.h>
+LAYOUT_ASSERT(TCheckMemoryCard_system_file_only_offset, offsetof(TCheckMemoryCard, system_file_only) == 0x1C);
+LAYOUT_ASSERT(TCheckMemoryCard_state_offset, offsetof(TCheckMemoryCard, state) == 0x20);
+LAYOUT_ASSERT(TCheckMemoryCard_busy_count_offset, offsetof(TCheckMemoryCard, busy_count) == 0x24);
+LAYOUT_ASSERT(TCheckMemoryCard_status_offset, offsetof(TCheckMemoryCard, status) == 0x28);
+LAYOUT_ASSERT(TCheckMemoryCard_status_checked_offset, offsetof(TCheckMemoryCard, status_checked) == 0x2C);
+LAYOUT_ASSERT(TCheckMemoryCard_message_window_offset, offsetof(TCheckMemoryCard, message_window) == 0x30);
+LAYOUT_ASSERT(TCheckMemoryCard_menu_window_offset, offsetof(TCheckMemoryCard, menu_window) == 0x34);
+LAYOUT_ASSERT(TCheckMemoryCard_close_wait_offset, offsetof(TCheckMemoryCard, close_wait) == 0x38);
+LAYOUT_ASSERT(TCheckMemoryCard_card_ready_offset, offsetof(TCheckMemoryCard, card_ready) == 0x3C);
+LAYOUT_ASSERT(TCheckMemoryCard_prompt_offset, offsetof(TCheckMemoryCard, prompt) == 0x40);
+LAYOUT_ASSERT(TCheckMemoryCard_prompt_accepted_offset, offsetof(TCheckMemoryCard, prompt_accepted) == 0x44);
+LAYOUT_ASSERT(TCheckMemoryCard_unk_48_offset, offsetof(TCheckMemoryCard, unk_48) == 0x48);
+LAYOUT_ASSERT(TCheckMemoryCard_use_main_ctrl_offset, offsetof(TCheckMemoryCard, use_main_ctrl) == 0x4C);
 
 #endif

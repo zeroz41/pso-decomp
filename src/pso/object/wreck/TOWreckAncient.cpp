@@ -1,4 +1,7 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -20,7 +23,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
@@ -129,10 +131,8 @@ BmlResource *wreck_ancient_bml_resource;
 BmlResource *wreck_ancient_brakable_bml_resource;
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-saddr get_bml_texlist(void *, s32);
-saddr get_bml_model(void *, s32);
-void free_bin_model_request(void*, int);
+
+
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 void vec3_add_to(Vec *, Vec *);
@@ -145,8 +145,8 @@ u8 is_current_floor_switch_set(s32 id);
 
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = TOWreckAncient__name;
-    model = (void *)get_bml_model(wreck_ancient_bml_resource, model_index);
-    texlist = get_bml_texlist(wreck_ancient_bml_resource, model_index);
+    model = (void *)get_bml_model((BmlResource *)wreck_ancient_bml_resource, model_index);
+    texlist = (saddr)get_bml_texlist((BmlResource *)wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;
 }
@@ -157,31 +157,21 @@ TOWreckAncient::~TOWreckAncient() {
 }
 
 void TOWreckAncient::load_resources() {
-    saddr temp_r3;
-    saddr temp_r3_2;
     saddr var_r0;
     saddr var_r0_2;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, NULL);
     wreck_ancient_bml_resource = (BmlResource *)var_r0;
-    temp_r3_2 = (saddr)::operator new(0x440);
-    var_r0_2 = temp_r3_2;
-    if (var_r0_2 != 0) {
-        var_r0_2 = (saddr) (load_resource_from_descriptor((void *) temp_r3_2, 1, &TOWreckAncient__resource_descriptor, 0, 0, 0));
-    }
+    var_r0_2 = (saddr)new BmlResource(1, &TOWreckAncient__resource_descriptor, 0, 0, NULL);
     wreck_ancient_brakable_bml_resource = (BmlResource *)var_r0_2;
 }
 
 void TOWreckAncient::free_statics() {
     if (wreck_ancient_bml_resource != NULL) {
-        free_bin_model_request(wreck_ancient_bml_resource, 1);
+        delete (BmlResource *)wreck_ancient_bml_resource;
         wreck_ancient_bml_resource = NULL;
     }
     if (wreck_ancient_brakable_bml_resource != NULL) {
-        free_bin_model_request(wreck_ancient_brakable_bml_resource, 1);
+        delete (BmlResource *)wreck_ancient_brakable_bml_resource;
         wreck_ancient_brakable_bml_resource = NULL;
     }
 }
@@ -333,8 +323,8 @@ void TOWreckAncientBrakable::spawn_debris() {
         pop_matrix();
         VecCopy((Vec *)p.pos, &position);
         vec3_add_to((Vec *)p.pos, &tmp);
-        p.model = get_bml_model(wreck_ancient_brakable_bml_resource, i);
-        p.textures = get_bml_texlist(wreck_ancient_brakable_bml_resource, i);
+        p.model = (saddr)get_bml_model((BmlResource *)wreck_ancient_brakable_bml_resource, i);
+        p.textures = (saddr)get_bml_texlist((BmlResource *)wreck_ancient_brakable_bml_resource, i);
         new TObjChip(tl_05, &p);
     }
 }

@@ -20,10 +20,10 @@ extern s32 tl_05;
 void spawn_weapon_impact_effect();
 }
 void TUnk_804A3260::emit_marker_effects() {
-    if (launch_shot((u8 *)muzzle[0], 0, 0, 1) != 0) {
-        launch_shot((u8 *)muzzle[1], 0, 0, 0);
+    if (launch_shot((u8 *)&muzzle[0], 0, 0, 1) != 0) {
+        launch_shot((u8 *)&muzzle[1], 0, 0, 0);
     } else {
-        launch_shot((u8 *)muzzle[1], 0, 0, 1);
+        launch_shot((u8 *)&muzzle[1], 0, 0, 1);
     }
     advance_angle_wrap(&effectAngle, 0x2000);
     effectFrame = 1;
@@ -44,7 +44,7 @@ void TUnk_804A3260::update_weapon() {
 
 void TUnk_804A3260::reserved_53() {
     u8 *arg0 = (u8 *)this;
-    ((TObjPlayer *)arg0)->draw_status_icons((u8 *)this->muzzle[0], (u8 *)this->muzzle[1]);
+    ((TItemWeapon *)arg0)->sample_dual_muzzles(&this->muzzle[0], &this->muzzle[1]);
 }
 
 TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
@@ -69,7 +69,7 @@ TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((
     }
 }
 
-u8 *create_mechgun_weapon(u8 *item) {
+TItem *create_mechgun_weapon(u8 *item) {
     u8 *temp_r3;
     u8 *var_r0;
     if (item != NULL) {
@@ -78,7 +78,7 @@ u8 *create_mechgun_weapon(u8 *item) {
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(__ct__13TUnk_804A3260FlPUc(temp_r3, tl_05, item));
         }
-        return var_r0;
+        return reinterpret_cast<TItem *>(var_r0);
     }
     return NULL;
 }

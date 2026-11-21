@@ -1,8 +1,13 @@
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/EnemyBmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResource.h"
+
+struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -24,7 +29,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
@@ -66,7 +70,6 @@ void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_sound_effect(void *, void *, s32, s32);
-BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *);
 extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
 extern const s32 lbl_8043BF40[];
@@ -75,7 +78,6 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__sub_800D13B8(TObjEneBm5GibonU *self, s16 arg
 void rotate_xz_pair_by_angle(f32 *, f32 *, s32);
 f32 atan2_float(f32 y, f32 x);
 s32 get_entity_id(int);
-void *find_entity_by_id(u16 id);
 void update_shock_clock__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();
 void TObjEneBm5GibonU__sub_800D0738(TObjEneBm5GibonU *self, u32 arg1, s32 arg2);
@@ -719,7 +721,7 @@ void TObjEneBm5GibonU::render() {
             }
             TObjEneBm5GibonU__render_node_index = 0;
             TObjEneBm5GibonU__render_joint_y_rotation = -(m_478 / 2);
-            set_chunk_model_node_callback((saddr)((s32 *)TObjEneBm5GibonU::advance_anim_frame));
+            set_chunk_model_node_callback(TObjEneBm5GibonU::advance_anim_frame);
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
             if (fade != 0) {
@@ -735,7 +737,7 @@ void TObjEneBm5GibonU::render() {
             } else {
                 this->draw_motion_model();
             }
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             if (this->mode == 1 || this->mode == 2) {
                 m_3d8.clear_flag_and_notify();
             } else if (fade != 0) {
@@ -748,7 +750,7 @@ void TObjEneBm5GibonU::render() {
     }
 }
 
-void TObjEneBm5GibonU::advance_anim_frame() {
+void TObjEneBm5GibonU::advance_anim_frame(NJS_OBJECT *) {
     if (((s32) TObjEneBm5GibonU__render_node_index >= 0x30) && ((s32) TObjEneBm5GibonU__render_node_index < 0x32)) {
         rotate_matrix_y(0, TObjEneBm5GibonU__render_joint_y_rotation);
     }
@@ -2512,12 +2514,12 @@ void TObjEneBm5GibonU::sub_800D10A0() {
         m_464 = 1;
         m_468 = 1;
         model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
-        texlist = TObjEneBm5GibonU__model_archive->models[1].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].m_c;
     } else {
         m_464 = 0;
         m_468 = 0;
         model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
-        texlist = TObjEneBm5GibonU__model_archive->models[0].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].m_c;
     }
     m_4a0 = 0.4f + parameters[2];
     m_4a4 = 0.3f + parameters[3];
@@ -2559,7 +2561,6 @@ void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv();
 void vfunc_61__16TObjEneBm5GibonUFv(void);
 void vfunc_28__16TObjEneBm5GibonUFv(void);
-void free_bin_model_request(BmlResource *, int);
 void __dl__FPv(void);
 
 void TObjEneBm5GibonU::vfunc_88() {
@@ -2769,7 +2770,7 @@ void TObjEneBm5GibonU::init_child_node() {
 
 void TObjEneBm5GibonU::release_static_resource() {
     if (TObjEneBm5GibonU__model_archive != NULL) {
-        free_bin_model_request(TObjEneBm5GibonU__model_archive, 1);
+        delete TObjEneBm5GibonU__model_archive;
         TObjEneBm5GibonU__model_archive = NULL;
     }
 }

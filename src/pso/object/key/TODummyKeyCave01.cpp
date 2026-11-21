@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/key/TODummyKeyCave01Sound.h"
@@ -176,7 +177,7 @@ void TODummyKeyCave01::render() {
         rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));
         scale_current_matrix((u8 *)&this->scale);
         node = *(u8 **)(arg0 + 0x34);
-        draw_ginja_model(*(s32 *)(node + 4));
+        draw_ginja_model((void *)(*(s32 *)(node + 4)));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             id = model_render_flags;
             saved_model_render_flags = id;
@@ -191,10 +192,10 @@ void TODummyKeyCave01::render() {
             post_translate_matrix((u8 *)&this->m_ac);
         }
         post_translate_matrix(node + 8);
-        draw_ginja_model(*(s32 *)(node + 4));
+        draw_ginja_model((void *)(*(s32 *)(node + 4)));
         node = *(u8 **)(node + 0x2C);
         post_translate_matrix(node + 8);
-        draw_ginja_model(*(s32 *)(node + 4));
+        draw_ginja_model((void *)(*(s32 *)(node + 4)));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
@@ -229,7 +230,7 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
         this->off_textures = TOKeyCave01__texture_lists[0];
         this->on_textures = TOKeyCave01__texture_lists[1];
         break;
@@ -237,14 +238,14 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
-        self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
+        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
         this->off_textures = TOKeyMachine01__texture_lists[0];
         this->on_textures = TOKeyMachine01__texture_lists[1];
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        self->f34 = (void *)get_bml_model(TOKeyAncient03__model_archive, 0);
+        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyAncient03__model_archive, 0);
         this->off_textures = TOKeyAncient03__texture_variants[0];
         this->on_textures = TOKeyAncient03__texture_variants[1];
         break;
@@ -255,11 +256,11 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         if (self->fBC == 0) {
-            self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+            self->f34 = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
             this->off_textures = TOKeyCave01__texture_lists[0];
             this->on_textures = TOKeyCave01__texture_lists[1];
         } else {
-            self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
+            self->f34 = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
             this->off_textures = TOKeyMachine01__texture_lists[0];
             this->on_textures = TOKeyMachine01__texture_lists[1];
         }
@@ -273,7 +274,7 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
         this->off_textures = TOKeyCave01__texture_lists[0];
         this->on_textures = TOKeyCave01__texture_lists[1];
         self->fD0 = 1;

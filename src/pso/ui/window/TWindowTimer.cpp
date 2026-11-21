@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -46,8 +47,6 @@ struct TimerEntry {
 struct Obj_80287BE8 { u8 pad[0x30]; f32 f30; f32 f34; u8 pad2[8]; f32 f40; f32 f44; };
 
 extern "C" {
-s32 draw_default_entry__9TWindowDDFl();
-s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
 saddr get_window_layout_position(s32);
 void init_timer_window_layout(TWindowTimer *self);
@@ -103,7 +102,7 @@ void TWindowTimer::update_chat_parts() {
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
     saddr array_entry;
 
-    array_entry = get_array_entry(0);
+    array_entry = reinterpret_cast<saddr>(get_array_entry(0));
     text_builder_reset();
     text_builder_append((u8 *)"\tC8");
     append_padded_number(arg1, 3);
@@ -117,7 +116,7 @@ void TWindowTimer::set_time(u32 secs) {
     saddr entry;
     u32 hours;
     u32 mins;
-    entry = get_array_entry(0);
+    entry = reinterpret_cast<saddr>(get_array_entry(0));
     text_builder_reset();
     hours = secs / 3600;
     secs %= 3600;
@@ -153,10 +152,13 @@ s32 TWindowTimer::create_alt() {
 }
 
 void TWindowTimer::render() {
-    s32 temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    saddr temp_r3;
+    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
     TWindowTimer::draw_tab((saddr)this, temp_r3);
-    draw_visible_window_entries((void *)this, (void *)((saddr)this + 0x24), (int)temp_r3);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((void *)((saddr)this + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
 }
 
 void TWindowTimer::run_task() {
@@ -165,7 +167,7 @@ void TWindowTimer::run_task() {
   {
     window_timer->draw((s32)((int) TWindowTimer::get_timer_value(0)), (s32)((int) TWindowTimer::get_timer_value(1)));
   }
- do { ((TWindowDD *)window_timer)->initialize_subwindow(); window_timer->update_chat_parts(); window_timer->ease_window_timer_position(); ((TWindowBase *)window_timer)->update_window_entry_list((u8 *)window_timer + 0x24); } while (0);
+ do { ((TWindowDD *)window_timer)->initialize_subwindow(); window_timer->update_chat_parts(); window_timer->ease_window_timer_position(); ((TWindowBase *)window_timer)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)window_timer + 0x24)); } while (0);
 }
 
 TWindowTimer::~TWindowTimer() {}

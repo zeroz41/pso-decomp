@@ -4,20 +4,24 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct PageIndicator;
+
 struct TWindowDuelResult : public TWindowBase {
+    TWindowDuelResult(s32 client);
     virtual ~TWindowDuelResult();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 _pad28[0x40];
-    u32 m_68;
-    void *init(void *arg1, void *arg2, void *arg3);
-    static int set_default_status(void* p, int a1);
+    virtual void run_task();
+    virtual void render();
     void sub_8024F094();
     void sub_8024EF40();
     void sub_8024F090();
     void sub_8024EF3C();
+    void sub_8024F3CC();
+    void sub_8024F330();
+
+    f32 scale_x;
+    f32 scale_y;
+    PageIndicator *page_indicator;
+    static int set_default_status(void *p, int a1);
 };
 
 LAYOUT_ASSERT(TWindowDuelResult_size, sizeof(TWindowDuelResult) == 0x6C);

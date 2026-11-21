@@ -1,5 +1,6 @@
 #include <string.h>
 #include <dolphin/os/OSThread.h>
+#include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -13,8 +14,6 @@
 struct Pair_803C8678 { u32 a, b; };
 
 extern "C" {
-s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
-s32 TLobby__sub_803C8B2C(u8 *arg0);
 
 }
 
@@ -42,7 +41,8 @@ void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0);
 
 extern s32 lbl_805D7540;
 s32 TLobby__sub_803CC030(int, int);
-void TLobby__sub_803CB194(u8 *arg0);
+s32 dispatch_packet__6TLobbyFv(int, int);
+void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803C0758(u8 *arg0);
 s32 TLobby__sub_803CBF50(void *);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
@@ -70,7 +70,7 @@ struct Strm_803CAB38 {
     u8 f2;
     s8 f3;
     s32 f4;
-    void *f8;
+    AdxStreamFile *f8;
     s32 fc;
     u8 pad10[0x28];
     s32 f38;
@@ -238,8 +238,8 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
                 pages = (x + 0x7FF) / 0x800;
                 self->f50 = self->f50 % 0x800;
                 self->f8c = pages;
-                ((TLobby *)(self->f8))->set_scroll_position(pages);
-                ((TLobby *)(self->f8))->set_coords((saddr)((void *)TLobby__sub_803CB194), (saddr)arg0);
+                set_scroll_position__6TLobbyFl(self->f8, pages);
+                set_adx_stream_completion(self->f8, TLobby__sub_803CB194, arg0);
             }
             s32 e = ((TLobby *)t)->dispatch_field4_event();
             self->f90 = e;
@@ -249,7 +249,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             TLobby__sub_803BFFFC((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
             if (self->f8 != NULL) {
-                ((TLobby *)(self->f8))->set_scroll_position(0x7FFFFFFF);
+                set_scroll_position__6TLobbyFl(self->f8, 0x7FFFFFFF);
             }
             ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
             ((TLobby *)t)->set_field_44(0);
@@ -382,14 +382,14 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
     if (r1 == 0)
     {
       ring->vt->m5(ring, 1, &b);
-      TLobby__sub_803D3130(&a, n, (Pair_803C8678 *)&a, (Pair_803C8678 *)&c);
+      TLobby__sub_803D3130(&a, n, &a, &c);
       ring->vt->m6(ring, 0, &a);
       ring->vt->m5(ring, 1, &c);
     }
     else
     {
       ring->vt->m6(ring, 0, &a);
-      TLobby__sub_803D3130(&b, m, (Pair_803C8678 *)&b, (Pair_803C8678 *)&d);
+      TLobby__sub_803D3130(&b, m, &b, &d);
       ring->vt->m6(ring, 0, &b);
       ring->vt->m5(ring, 1, &d);
     }
@@ -411,17 +411,18 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
 
 }
 
-void TLobby__sub_803CB194(u8 *arg0) {
+void TLobby__sub_803CB194(void *context) {
+    u8 *arg0 = static_cast<u8 *>(context);
     s32 temp_r3;
     u8 *lobby;
     lobby = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
     temp_r3 = ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_with_offset4_alt();
     if ((s8) *(u8 *)((s8 *)arg0 + 0x6C) == 0) {
-        ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->set_field_3c(-1);
-        ((TLobby *)(*(u8 **)((s8 *)arg0 + 8)))->set_scroll_position(0x7FFFFFFF);
+        set_field_3c__6TLobbyFl((int) (*(s32 *)((s8 *)arg0 + 4)), -1);
+        set_scroll_position__6TLobbyFl(*(AdxStreamFile **)(arg0 + 8), 0x7FFFFFFF);
         return;
     }
-    ((TLobby *)lobby)->set_scroll_offset(temp_r3 / 2048);
+    set_scroll_offset__6TLobbyFl((AdxStreamFile *)lobby, temp_r3 / 2048);
 }
 
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {

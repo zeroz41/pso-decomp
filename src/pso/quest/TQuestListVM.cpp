@@ -1,3 +1,4 @@
+#include "pso/system/save/CardSaveFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include <string.h>
@@ -14,29 +15,20 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
-// A file read from a memory card.
-struct CardFileRead {
-    u8 pad_0[0x58];
-    u8 *data;
-    s32 size;
-};
-
 // A window's width and height.
 struct WindowSize {
-    f32 width;
-    f32 height;
+    f32 dimensions[2];
 };
 
 extern "C" {
-s32 poll_memcard_result(saddr card_slot);
-s32 TAdPlayerLoadGC__sub_801E1538(CardFileRead *file, void *buffer);
-void *get_window_layout_position(s32 index);
+s32 poll_memcard_result(s32 card_slot);
 extern s32 evt2_random_enemies_mode;
 }
 
@@ -49,8 +41,8 @@ static const char download_list_title_jp[] = "\x83\x5F\x83\x45\x83\x93\x83\x8D\x
 static const char download_list_title[] = "Down Load";
 static const char tmp_buf_owner_name[] = "quest_vm_load";
 const char *TQuestListVM_class_name = "TQuestListVM";
-static const WindowSize description_window_size = {228.0f, 184.0f};
-static const WindowSize detail_window_size = {332.0f, 210.0f};
+static const WindowSize description_window_size = {{228.0f, 184.0f}};
+static const WindowSize detail_window_size = {{332.0f, 210.0f}};
 static const char quest_file_name_format[] = "%s%02d";
 
 u8 *decrypted_quest_buffer;
@@ -208,7 +200,7 @@ void TQuestListVM::init() {
 
 void TQuestListVM::load_quest_vm() {
     if (TLobby::tmp_buf_is_free() != 0) {
-        tmp_buffer = (u8 *)TLobby::tmp_buf_use_req(tmp_buf_owner_name);
+        tmp_buffer = TLobby::tmp_buf_use_req(tmp_buf_owner_name);
         decrypted_quest_buffer = tmp_buffer;
         decompression_capacity = 0x40000;
         set_field_20(2);
@@ -318,7 +310,7 @@ void TQuestListVM::load_selected_player_slot() {
 }
 
 void TQuestListVM::process_download_entry() {
-    CardFileRead file;
+    CardSaveDescriptor file;
     QuestBinHeader *header;
 
     if (poll_memcard_result(entries[entry_count].card_slot) == 0) {
@@ -452,7 +444,7 @@ void TQuestListVM::update_lobby_selection() {
 
 void TQuestListVM::quest_vm_load() {
     if (TLobby::tmp_buf_is_free() != 0) {
-        tmp_buffer = (u8 *)TLobby::tmp_buf_use_req(tmp_buf_owner_name);
+        tmp_buffer = TLobby::tmp_buf_use_req(tmp_buf_owner_name);
         set_field_20(resume_state);
     }
 }
@@ -475,7 +467,7 @@ void TQuestListVM::load_selected_bin() {
 }
 
 void TQuestListVM::poll_quest_download() {
-    CardFileRead file;
+    CardSaveDescriptor file;
     u32 size;
     if (list_window != NULL) {
         if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {
@@ -520,7 +512,7 @@ void TQuestListVM::poll_quest_download() {
 void TQuestListVM::open_confirm_window() {
     if (detail_window == NULL) {
         WindowSize size = detail_window_size;
-        detail_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), &size.width, 1, get_entity_id(player));
+        detail_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size.dimensions, 1, get_entity_id(player));
         detail_window->append_line((saddr)((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
         detail_window->set_depth(-13000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -605,7 +597,7 @@ void TQuestListVM::load_selected_slot() {
 }
 
 void TQuestListVM::load_downloaded_quest() {
-    CardFileRead file;
+    CardSaveDescriptor file;
     u32 size;
     if (list_window != NULL) {
         if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {

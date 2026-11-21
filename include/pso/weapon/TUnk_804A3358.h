@@ -12,6 +12,6 @@ public:
     TUnk_804A3358(TObject *parent, u8 *item);
 };
 
-extern "C" u8 *TObjPlayer__sub_801277EC(u8 *item);
+extern "C" TItem *TObjPlayer__sub_801277EC(u8 *item);
 
 #endif

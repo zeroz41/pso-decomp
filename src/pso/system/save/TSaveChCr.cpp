@@ -3,6 +3,9 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/save/TSaveChCr.h"
+#include "pso/ui/frontend/TAdBackGC.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -10,6 +13,7 @@
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -25,14 +29,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-
-struct Stack_8033A184 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-union MemberActionStorage_8033A184 { s32 words[3]; void (TSaveChCr::*action)(); };
 
 extern TSaveChCrStateActions lbl_804EF658[];
 
@@ -55,14 +51,14 @@ extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
 s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
-int begin_action_from_char_select__10TObjPlayerFv(void*);
+s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 extern void *tl_03;
 }
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::sub_80339B94() { close_window(); }
 void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((saddr)((void*)4)); } }
-void TSaveChCr::close_and_advance_to_3() { close_and_advance((void*)3); }
+void TSaveChCr::close_and_advance_to_3() { close_and_advance(3); }
 void TSaveChCr::update_save_status() {
     s32 var_r3;
 
@@ -86,16 +82,16 @@ void TSaveChCr::update_save_status() {
         request_main_phase(9);
     }
 }
-void TSaveChCr::close_and_advance_step2() { close_and_advance((void*)2); }
+void TSaveChCr::close_and_advance_step2() { close_and_advance(2); }
 void TSaveChCr::sub_80339CE4() {}
-void TSaveChCr::save_1() { close_and_advance((void*)1); }
+void TSaveChCr::save_1() { close_and_advance(1); }
 void TSaveChCr::update_save_state() {
     s32 temp_r4;
 
     temp_r4 = this->card_status;
     if (!(temp_r4 & 2)) {
         if (temp_r4 & 1) {
-            if ((uaddr) this->owned_window == 0U) {
+            if (owned_window == NULL) {
                 close_and_advance(0);
             }
         } else {
@@ -161,7 +157,10 @@ s32 TSaveChCr::sub_80339F30() {
     return creation_buttons_pressed(4) ? 1 : 0;
 }
 
-void TSaveChCr::close_and_advance(void* a1) { close_window(); set_message_by_index((saddr)a1); }
+void TSaveChCr::close_and_advance(s32 message) {
+    close_window();
+    set_message_by_index(message);
+}
 void TSaveChCr::set_message_by_index(s32 arg1) {
     SaveChCrMessageText texts[4] = {{0x20, 0}, {0xB, 0x62}, {0xB, 0xC}, {0xB, 0xB}};
     SaveChCrMessageText *text = &texts[arg1];
@@ -172,53 +171,38 @@ void TSaveChCr::open_message_window(u32 arg1) {
         *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((uaddr) this->owned_window != 0U) {
             if (arg1 != 0U) {
-                ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);
+                owned_window->append_line(arg1, 3);
             }
-            ((TWindowMessage *)(this->owned_window))->complete_reveal();
+            owned_window->complete_reveal();
         }
     }
 }
 
 void TSaveChCr::close_window() {
-    if ((u32) *(u32 *)((s8 *)this + 0x3C) != 0U) {
-        ((TWindowBase *)this->owned_window)->close();
-        *(u32 *)((s8 *)this + 0x3C) = 0U;
+    if (owned_window != NULL) {
+        owned_window->close();
+        owned_window = NULL;
         this->timer = 7;
     }
 }
 
 void TSaveChCr::create_backgrounds() {
-    void *o;
-    void *o2;
-    o = new TAdBackGC(this);
-    *(void **)((s8 *)this + 0x30) = o;
-    o2 = new TAdBackTxtGC(this);
-    this->m_34 = o2;
+    backdrop = new TAdBackGC(this);
+    backdrop_text = new TAdBackTxtGC(this);
 }
 
 s32 TSaveChCr::sub_8033A138() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
-    begin_action_from_char_select__10TObjPlayerFv(this);
-    return TAdSinglePlyChrSelectGC::load_character_from_card(1);
+    TObjPlayer::begin_action_from_char_select();
+    return load_character_from_card__23TAdSinglePlyChrSelectGCFi(1);
 }
 
-LAYOUT_ASSERT(MemberActionStorage_8033A184_size, sizeof(MemberActionStorage_8033A184) == 12);
-void TSaveChCr::set_state(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    MemberActionStorage_8033A184 member_action;
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8033A184, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8033A184, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8033A184, sp10) == 0x8);
-    Stack_8033A184 stack;
-    u8 *temp_r6;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) != arg1) {
-        *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-        temp_r6 = (u8 *)&lbl_804EF658 + (*(s32 *)((s8 *)arg0 + 0x1C) * 0x18);
-        member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0);
-        member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 4);
-        member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 8);
-        if (member_action.action != 0) {
-            (((TSaveChCr *)(arg0))->*member_action.action)();
+void TSaveChCr::set_state(s32 next_state) {
+    if (state_index != next_state) {
+        state_index = next_state;
+        TSaveChCrStateAction action = lbl_804EF658[state_index].first;
+        if (action != NULL) {
+            (this->*action)();
         }
     }
 }
@@ -265,8 +249,8 @@ TSaveChCr::TSaveChCr(TObject *parent, s32 mode) : TObject(parent) {
     set_state(0);
 }
 
-void *TSaveChCr::create(void *arg0) {
-    return new TSaveChCr((TObject *)tl_03, (saddr)arg0);
+TSaveChCr *TSaveChCr::create(s32 mode) {
+    return new TSaveChCr((TObject *)tl_03, mode);
 }
 
 // Per-state actions of TSaveChCr: the first runs when set_state enters the

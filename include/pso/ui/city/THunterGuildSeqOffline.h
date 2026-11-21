@@ -19,18 +19,18 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void reset_quest_result_callbacks(void* _w0);
     static void *create(void *arg0);
     static s32 check_party_gathered();
-    static void set_state_close();
-    static void set_state_4();
+    static void set_state_close(TShopWindowBase *sequence);
+    static void set_state_4(TShopWindowBase *sequence);
     void handle_click();
     static void set_state_3();
     static void init_quest_list();
     static void notify_close();
-    static void create_quest_list_vm();
-    static void set_state_close2();
+    static void create_quest_list_vm(TShopWindowBase *sequence);
+    static void set_state_close2(TShopWindowBase *sequence);
     static void set_enemy_mode_5();
     static void set_enemy_mode_1();
     static void set_enemy_mode_0();
-    static void request_close();
+    static void request_close(TShopWindowBase *sequence);
     void handle_cancel_choice();
     void open_quest_list();
     void handle_window_input();
@@ -47,4 +47,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
+extern "C" THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
+
 #endif

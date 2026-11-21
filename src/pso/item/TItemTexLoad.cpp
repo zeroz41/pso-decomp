@@ -1,4 +1,6 @@
 #include <string.h>
+#include "pso/render/GvmTextureArchive.h"
+#include "pso/system/Adxf.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -8,10 +10,9 @@
 
 extern "C" {
 void prs_decompress_alloc(void*, s32, s32);
-void load_gvm_texture_archive(s32, void*);
+u32 adxf_open_afs__6TLobbyFii(int, int);
 void *lookup_item_pmt_record(u8 *item);
-s32 adxf_get_stat(s32);
-void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
+char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
 extern const char TItemTexLoad_class_name[] = "TItemTexLoad";
@@ -22,10 +23,10 @@ char* item_texture_filename_buffer;
 
 void TItemTexLoad::load_texture_archive() {
     char t[12] = "ItemTexLoad";
-    s32 r = TLobby::tmp_buf_use_req((const char *)(&t));
+    s32 r = (saddr)TLobby::tmp_buf_use_req((const char *)(&t));
     if (r != 0) {
         prs_decompress_alloc(m_archive_buffer, r, 0x40000);
-        load_gvm_texture_archive(r, &m_texture_list);
+        load_gvm_texture_archive((void *)r, &m_texture_list);
         TLobby::tmp_buf_release((const char *)&t);
         m_state = 2;
     } else {
@@ -35,7 +36,7 @@ void TItemTexLoad::load_texture_archive() {
 
 void TItemTexLoad::unload_texture() {
     if (m_state == 2) free_texture_if_valid((uaddr)&m_texture_list);
-    if (m_state == 1) ((TLobby *)m_archive_handle)->close_adxf_handle();
+    if (m_state == 1) ADXF_Close(m_archive_handle);
     m_state = 0;
     m_texture_index = -1;
 }
@@ -45,19 +46,19 @@ s32 TItemTexLoad::load_texture(s32 index) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;
-        m_archive_handle = (uaddr)TLobby::adxf_open_afs(0xB8, m_texture_index);
-        if (m_archive_handle == 0U) {
+        m_archive_handle = ADXF_OpenAfs(0xB8, m_texture_index);
+        if (m_archive_handle == NULL) {
             unload_texture();
             return 0;
         }
         m_state = 1;
         {
-            s32 r = adxf_get_fsize_sct((u8 *)m_archive_handle);
+            s32 r = ADXF_GetFsizeSct(m_archive_handle);
             if (r < 0) {
                 unload_texture();
                 return 0;
             }
-            TLobby::read_checked_align(m_archive_handle, r, (saddr)m_archive_buffer);
+            ADXF_ReadNw(m_archive_handle, r, m_archive_buffer);
         }
         return 1;
     }
@@ -65,11 +66,11 @@ s32 TItemTexLoad::load_texture(s32 index) {
 }
 
 s32 TItemTexLoad::load_item_icon(TItemData* item) {
-    s32* rec;
+    const ItemPmtHeader *rec;
     s32 id;
     if (item != NULL) {
-        rec = (s32 *)lookup_item_pmt_record((u8 *)item);
-        id = *rec;
+        rec = (const ItemPmtHeader *)lookup_item_pmt_record((u8 *)item);
+        id = rec->id;
         if (rec != NULL) {
             switch (item->data1.data_u8[0]) {
             case 0:
@@ -93,9 +94,9 @@ GinjaTextureList* TItemTexLoad::ready_texture_list() {
 
 void TItemTexLoad::run_task() {
     if (m_state == 1) {
-        switch (adxf_get_stat(m_archive_handle)) {
+        switch (ADXF_GetStat(m_archive_handle)) {
         case 3:
-            ((TLobby *)m_archive_handle)->close_adxf_handle();
+            ADXF_Close(m_archive_handle);
             if (TLobby::tmp_buf_is_free() != 0) load_texture_archive();
             else m_state = 3;
             break;
@@ -120,7 +121,7 @@ TItemTexLoad::~TItemTexLoad() {
 
 TItemTexLoad::TItemTexLoad(TObject* parent) : TObject(parent) {
     m_name = TItemTexLoad_name;
-    TObjPlayer__sub_803DD5E8(&m_texture_list, &m_texture_entry, item_texture_filename_buffer, 1);
+    TObjPlayer__sub_803DD5E8(&m_texture_list, &m_texture_entry, (uaddr)item_texture_filename_buffer, 1);
     m_texture_entry.value04 = 0;
     m_texture_list.count = 1;
     m_texture_index = -1;

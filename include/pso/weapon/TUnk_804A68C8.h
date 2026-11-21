@@ -14,6 +14,6 @@ public:
     s32 attack_spawned; // set once update_attack has spawned its cane effect
 };
 
-u8 *create_cane_weapon(u8 *item);
+TItem *create_cane_weapon(u8 *item);
 
 #endif

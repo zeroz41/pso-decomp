@@ -1438,7 +1438,7 @@ pso/ui/window/TWindowSubStatusDisp_80248968.cpp
 pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp
 pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp
 pso/ui/window/TWindowSubStatusDisp_80249060.cpp
-pso/ui/window/TWindowSubStatusDisp_8024F688.cpp
+pso/ui/window/PageIndicator.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
 pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp
@@ -1618,7 +1618,7 @@ pso/object/door/TObjDoor_801F3754.cpp
 pso/object/TObjEZBoneRotBase.cpp
 pso/object/ambient/TObjEnvSoundGlobal.cpp
 pso/object/collision/TObjEvtCollision.cpp
-pso/object/ambient/TObjFish_800E2FFC.cpp
+pso/system/ModelNodePositionCapture.cpp
 pso/object/collision/TObjFogCollision.cpp
 pso/object/ambient/TObjGrass.cpp
 pso/enemy/gyaranzo/TObjEneGyaranzo.cpp

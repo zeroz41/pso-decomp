@@ -1,4 +1,7 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -16,7 +19,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/enemy/dd/TObjEneDD_800C2614.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_800C3A60.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
@@ -132,7 +134,7 @@ void TObjEneRe2Flower::render() {
         m_3dc[1].y = lbl_805D9FB4;
         m_3dc[1].z = lbl_805D9FAC;
         scale_matrix(0, lbl_805D9FB8, lbl_805D9FB8, lbl_805D9FB8);
-        set_chunk_model_node_callback((saddr)((void *)TObjPlayer::update_effect_sequence));
+        set_chunk_model_node_callback(TObjPlayer::update_effect_sequence);
         if (mode == 8) {
             s32 c = (m_3d8 & 0xFF) << 16;
             re2_flower_node_index = -1;
@@ -176,7 +178,7 @@ void TObjEneRe2Flower::render() {
     m_3dc[1].z = position.z;
 }
 extern "C" {
-void TObjPlayer::update_effect_sequence() {
+void TObjPlayer::update_effect_sequence(NJS_OBJECT *) {
     switch ((s32) re2_flower_node_index) {
     case 1:
         rotate_matrix_y(0, re2_flower_node_yaw);

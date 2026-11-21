@@ -6,14 +6,14 @@
 
 class TChCrTagPlGraphic : public TChCrTag {
 public:
-    TChCrTagPlGraphic(TObject *parent, void *arg);
+    TChCrTagPlGraphic(TObject *parent, s32 index);
     virtual ~TChCrTagPlGraphic();
     void sub_802A3230();
     virtual void render();
     virtual void run_task();
     virtual s32 vt4();
 public:
-    static void *create(void *arg0);
+    static TChCrTagPlGraphic *create(s32 index);
     static void create_matching_tags();
     void draw_class_illustration();
 

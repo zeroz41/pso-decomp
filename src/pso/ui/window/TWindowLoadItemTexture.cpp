@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/ItemTextureConstants.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
@@ -26,9 +27,9 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
 
     window = new TWindowLoadItemTexture((u8 *)layout, table, (saddr)id);
     fn_80262C2C(window);
-    sprite = window->get_array_entry(0);
-    *(f32 *)(sprite + 0x8) = 0.5f * window->m_38 - 32.0f - 4.0f;
-    *(f32 *)(sprite + 0xC) = 0.5f * *(f32 *)window->unk_3C - 32.0f - 1e+01f;
+    sprite = reinterpret_cast<saddr>(window->get_array_entry(0));
+    *(f32 *)(sprite + 0x8) = 0.5f * window->target_size[0] - 32.0f - 4.0f;
+    *(f32 *)(sprite + 0xC) = 0.5f * window->target_size[1] - 32.0f - 1e+01f;
     *(f32 *)(sprite + 0x10) = 64.0f;
     *(f32 *)(sprite + 0x14) = 64.0f;
     set_sprite_uv_bounds((void *)sprite, 0.0f, 0.0f, 1.0f, 1.0f);
@@ -64,7 +65,6 @@ const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
 #pragma pop
 extern saddr tl_07;
 
-s32 draw_visible_window_entries(void *, void *, s32);
 
 extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
@@ -85,14 +85,17 @@ void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
             arg0->m_60 = 1U;
         }
     }
-    temp_r31 = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x64));
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x64)));
     if (arg0->m_61 & 1) {
         ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r31);
     }
-    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r31);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r31));
 }
 
-void TWindowLoadItemTexture::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
+void TWindowLoadItemTexture::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowLoadItemTexture::~TWindowLoadItemTexture() {
     ((TObject *)(*(void **)((s8 *)this + 0x6C)))->queue_destruction();
@@ -114,7 +117,7 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(u8 *arg1, void *arg2, s32 arg3) :
         *(f32 *)((s8 *)window_load_item_texture + 0x68) = *(f32 *)((s8 *)window_load_item_texture + 0x64) = 0.37f;
         break;
     }
-    window_load_item_texture->m_38 = *(f32 *)((s8 *)arg2 + 0);
+    window_load_item_texture->target_size[0] = *(f32 *)((s8 *)arg2 + 0);
     *(f32 *)((s8 *)window_load_item_texture + 0x3C) = *(f32 *)((s8 *)arg2 + 4);
     ((TWindowBase *)window_load_item_texture)->save_position();
     e = (void *)((TWindowBase *)window_load_item_texture)->get_array_entry(0);

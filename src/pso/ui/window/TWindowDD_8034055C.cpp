@@ -16,7 +16,6 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-void TWindowDD__sub_803489B8(void *ctx, E_803403F8 *points, s32 row);
 extern saddr lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
@@ -37,15 +36,15 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     f32 h;
     u32 color;
 
-    ctx = (WindowDrawContext *)TWindowDD::draw_default_entry((saddr)self);
+    ctx = self->draw_default_entry();
     if (ctx->open_tick < 0) {
         return;
     }
-    self->calc_inner_rect((u8 *)ctx);
-    ((TWindowDD *)points)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.0f), -1);
+    self->calc_inner_rect(ctx);
+    ((TWindowDD *)points)->reset_entries(TWindowDD__sub_80348AD4(self->draw_depth, 0.0f), -1);
     ((TWindowDD *)points)->copy_point_table(0);
-    TWindowDD__sub_80348A2C(ctx, points);
-    TWindowDD__sub_803489B8(ctx, points, 0);
+    TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(points));
+    TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(points), 0);
     count = TWindowDD::get_draw_count((void **)lbl_805D63F0);
     if (self->pad_60 == 0) {
         sel = self->pad_68;
@@ -53,7 +52,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
         sel = -1;
     }
     for (i = 0; i < 3; i++) {
-        TWindowDD__sub_803489B8(ctx, points, i);
+        TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(points), i);
         if (i == sel) {
             ((TWindowDD *)points)->copy_point_table(1);
             ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
@@ -62,8 +61,8 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
             ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
         }
     }
-    depth = TWindowDD__sub_80348AD4(self->pad_54, 0.2f);
-    TWindowDD__sub_803489B8(ctx, points, 0);
+    depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.2f);
+    TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(points), 0);
     h = ctx->scale[1];
     step = TWindowDD__data_805DFB20 * h;
     dv = lbl_805DFB4C * lbl_805DFB48;

@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A6AD8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80109344.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
@@ -55,8 +55,8 @@ void TUnk_804A6AD8::emit_marker_effects() {
     } else {
         launch_shot((u8 *)&muzzles[1], 0, 0, 1);
     }
-    spawn_particle_effect(&muzzles[0], 9);
-    spawn_particle_effect(&muzzles[1], 9);
+    spawn_particle_effect((const Vec *)&muzzles[0], 9);
+    spawn_particle_effect((const Vec *)&muzzles[1], 9);
 }
 
 void TUnk_804A6AD8::yasminkov_9000m_eject_casing(WeaponVector *pos, s32 angle_offset) {
@@ -87,9 +87,9 @@ TUnk_804A6AD8::TUnk_804A6AD8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     slide.x = slide.y = slide.z = 0.0f;
 }
 
-u8 *create_yasminkov_9000m(u8 *item) {
+TItem *create_yasminkov_9000m(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A6AD8(tl_05, item);
+        return new TUnk_804A6AD8(tl_05, item);
     }
     return NULL;
 }

@@ -11,6 +11,7 @@
 #include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TChCrTagName.h"
+#include "pso/ui/charcreate/TChCrTagOccHeader.h"
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
 #include "pso/ui/charcreate/TChCrTagPlBack.h"
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"

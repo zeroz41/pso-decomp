@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A6BD0.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80109344.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
@@ -30,7 +30,7 @@ void TUnk_804A6BD0::emit_marker_effects() {
     angle[2] = 0;
     TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&dir, (uaddr)angle);
     get_joint_position(2, &muzzle);
-    spawn_particle_effect(&muzzle, 9);
+    spawn_particle_effect((const Vec *)&muzzle, 9);
 }
 
 void TUnk_804A6BD0::update_weapon() {
@@ -69,9 +69,9 @@ TUnk_804A6BD0::TUnk_804A6BD0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     slide_state = 0;
 }
 
-u8 *create_yasminkov_3000r(u8 *item) {
+TItem *create_yasminkov_3000r(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A6BD0(tl_05, item);
+        return new TUnk_804A6BD0(tl_05, item);
     }
     return NULL;
 }

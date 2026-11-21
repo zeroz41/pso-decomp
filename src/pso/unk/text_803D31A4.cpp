@@ -10,57 +10,49 @@ void TLobby__sub_803D3194(void) {
     lobby_callback_tables_refcount -= 1;
 }
 
-struct P_803D33D4 { saddr a; s32 b; };
-struct P_803D33E4 { saddr a; s32 b; };
-
-struct P_803D346C { void (*fn)(s32); s32 arg; };
-
-struct P_803D3860 { void (*fn)(s32, u8 *); s32 arg; };
-
-struct Cb_803D3678 { saddr fn; s32 arg; };
+struct SvmTransitionSlot { AdxTransitionCallback fn; s32 arg; };
+struct SvmMessageSlot { AdxMessageCallback fn; s32 arg; };
+struct SvmWorkerSlot { AdxWorkerCallback fn; s32 arg; };
 
 extern "C" {
-P_803D33D4 lbl_805D765C;
-P_803D33D4 lbl_805D7664;
-P_803D33E4 lbl_805D766C;
-void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2);
+SvmMessageSlot lbl_805D765C;
+SvmTransitionSlot lbl_805D7664;
+SvmTransitionSlot lbl_805D766C;
 int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
 u32 worker_callback_slots[8];
-u8 svm_callback_message_buffer[0x100];
-P_803D346C svm_callback_single_table[7];
-Cb_803D3678 svm_callback_table[7][4];
+char svm_callback_message_buffer[0x100];
+SvmTransitionSlot svm_callback_single_table[7];
+SvmWorkerSlot svm_callback_table[7][4];
 WorkerCallbackFlagTable worker_callback_flag_table;
 SvmCallbackCounts svm_callback_counts;
 
 void TLobby::init_callback_tables() {
     if ((s32) lobby_callback_tables_refcount == 0) {
-        memset((void *)&worker_callback_flag_table.value, 0, 0x1C);
+        memset(worker_callback_flag_table.values, 0, 0x1C);
         memset((void *)&lbl_805D766C, 0, sizeof(lbl_805D766C));
         memset((void *)&lbl_805D7664, 0, sizeof(lbl_805D7664));
-        *(s32 *)((s8 *)&svm_callback_counts.value + 0) = 0;
-        *(s32 *)((s8 *)&svm_callback_counts.value + 4) = 0;
-        *(s32 *)((s8 *)&svm_callback_counts.value + 8) = 0;
-        *(s32 *)((s8 *)&svm_callback_counts.value + 0xC) = 0;
+        svm_callback_counts.values[0] = 0;
+        svm_callback_counts.values[1] = 0;
+        svm_callback_counts.values[2] = 0;
+        svm_callback_counts.values[3] = 0;
     }
     lobby_callback_tables_refcount += 1;
 }
-struct Cb_803D3224 { s32 (*fn)(s32); s32 arg; };
-
 static inline s32 run_callbacks_803D3224(s32 idx) {
-    Cb_803D3224 *c;
+    SvmWorkerSlot *c;
     s32 i;
     s32 r = 0;
-    c = (Cb_803D3224 *)svm_callback_table[idx];
+    c = svm_callback_table[idx];
 
     for (i = 0; i < 4; i++, c++) {
         if (c->fn != 0) {
-            ((s32 *)&worker_callback_flag_table)[idx] = 1;
+            worker_callback_flag_table.values[idx] = 1;
             r |= c->fn(c->arg);
-            ((s32 *)&worker_callback_flag_table)[idx] = 0;
+            worker_callback_flag_table.values[idx] = 0;
         }
     }
-    ((s32 *)&svm_callback_counts)[idx]++;
+    svm_callback_counts.values[idx]++;
     return r;
 }
 
@@ -73,23 +65,23 @@ s32 TLobby::run_worker_callbacks_slot4() {
 s32 TLobby::run_callbacks_group2() {
     return run_callbacks_803D3224(2);
 }
-void TLobby__sub_803D33D4(saddr arg0, s32 arg1) {
-    lbl_805D7664.a = arg0;
-    lbl_805D7664.b = arg1;
+void TLobby__sub_803D33D4(AdxTransitionCallback arg0, s32 arg1) {
+    lbl_805D7664.fn = arg0;
+    lbl_805D7664.arg = arg1;
 }
 
-void TLobby__sub_803D33E4(saddr arg0, s32 arg1) {
-    lbl_805D766C.a = arg0;
-    lbl_805D766C.b = arg1;
+void TLobby__sub_803D33E4(AdxTransitionCallback arg0, s32 arg1) {
+    lbl_805D766C.fn = arg0;
+    lbl_805D766C.arg = arg1;
 }
-void TLobby::set_callback_params(s32 arg0, s32 arg1) {
-    if ((s32 (*)(s32))lbl_805D766C.a != NULL) {
-        ((s32 (*)(s32))lbl_805D766C.a)(lbl_805D766C.b);
+void TLobby::set_callback_params(AdxMessageCallback arg0, s32 arg1) {
+    if (lbl_805D766C.fn != NULL) {
+        lbl_805D766C.fn(lbl_805D766C.arg);
     }
-    lbl_805D765C.a = arg0;
-    lbl_805D765C.b = arg1;
-    if ((s32 (*)(s32))lbl_805D7664.a != NULL) {
-        ((s32 (*)(s32))lbl_805D7664.a)(lbl_805D7664.b);
+    lbl_805D765C.fn = arg0;
+    lbl_805D765C.arg = arg1;
+    if (lbl_805D7664.fn != NULL) {
+        lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
 void TLobby__sub_803D346C(s32 arg0) {
@@ -98,84 +90,82 @@ void TLobby__sub_803D346C(s32 arg0) {
     }
 }
 
-void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2) {
-    if ((void (*)(s32))lbl_805D766C.a != 0) {
-        ((void (*)(s32))lbl_805D766C.a)(lbl_805D766C.b);
+void TLobby__sub_803D34B0(s32 arg0, AdxTransitionCallback arg1, s32 arg2) {
+    if (lbl_805D766C.fn != 0) {
+        lbl_805D766C.fn(lbl_805D766C.arg);
     }
     svm_callback_single_table[arg0].fn = arg1;
     svm_callback_single_table[arg0].arg = arg2;
-    if ((void (*)(s32))lbl_805D7664.a != 0) {
-        ((void (*)(s32))lbl_805D7664.a)(lbl_805D7664.b);
+    if (lbl_805D7664.fn != 0) {
+        lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
 
 
-#define CB765C (*(P_803D3860 *)&lbl_805D765C)
-void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, saddr fn, s32 arg) {
-    Cb_803D3678 *c;
+void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, AdxWorkerCallback fn, s32 arg) {
+    SvmWorkerSlot *c;
     if (arg1 < 0 || arg1 >= 4) {
-        strncpy((char *)svm_callback_message_buffer, "1071201:SVM_SetCbSvrId:illegal id", 0xFF);
-        if (CB765C.fn != 0) {
-            CB765C.fn(CB765C.arg, svm_callback_message_buffer);
+        strncpy(svm_callback_message_buffer, "1071201:SVM_SetCbSvrId:illegal id", 0xFF);
+        if (lbl_805D765C.fn != 0) {
+            lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
         }
     }
     if (arg0 < 0 || arg1 >= 7) {
-        strncpy((char *)svm_callback_message_buffer, "1071202:SVM_SetCbSvrId:illegal svtype", 0xFF);
-        if (CB765C.fn != 0) {
-            CB765C.fn(CB765C.arg, svm_callback_message_buffer);
+        strncpy(svm_callback_message_buffer, "1071202:SVM_SetCbSvrId:illegal svtype", 0xFF);
+        if (lbl_805D765C.fn != 0) {
+            lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
         }
     }
-    if ((void (*)(s32))lbl_805D766C.a != 0) {
-        ((void (*)(s32))lbl_805D766C.a)(lbl_805D766C.b);
+    if (lbl_805D766C.fn != 0) {
+        lbl_805D766C.fn(lbl_805D766C.arg);
     }
     c = &svm_callback_table[arg0][arg1];
     c->fn = fn;
     c->arg = arg;
-    if ((void (*)(s32))lbl_805D7664.a != 0) {
-        ((void (*)(s32))lbl_805D7664.a)(lbl_805D7664.b);
+    if (lbl_805D7664.fn != 0) {
+        lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
 
 void TLobby::SVM_DelCbSvr(s32 arg0, s32 arg1) {
     if (arg1 < 0 || arg1 >= 4) {
-        strncpy((char *)svm_callback_message_buffer, "1051002:SVM_DelCbSvr:illegal id", 0xFF);
-        if (CB765C.fn != 0) {
-            CB765C.fn(CB765C.arg, svm_callback_message_buffer);
+        strncpy(svm_callback_message_buffer, "1051002:SVM_DelCbSvr:illegal id", 0xFF);
+        if (lbl_805D765C.fn != 0) {
+            lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
         }
     }
-    if ((void (*)(s32))lbl_805D766C.a != 0) {
-        ((void (*)(s32))lbl_805D766C.a)(lbl_805D766C.b);
+    if (lbl_805D766C.fn != 0) {
+        lbl_805D766C.fn(lbl_805D766C.arg);
     }
     svm_callback_table[arg0][arg1].fn = 0;
     svm_callback_table[arg0][arg1].arg = 0;
-    if ((void (*)(s32))lbl_805D7664.a != 0) {
-        ((void (*)(s32))lbl_805D7664.a)(lbl_805D7664.b);
+    if (lbl_805D7664.fn != 0) {
+        lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
 
-#define CB765C (*(P_803D3860 *)&lbl_805D765C)
-s32 TLobby::svm_set_cb_svr(s32 arg0, saddr fn, s32 arg) {
-    Cb_803D3678 *c;
+s32 TLobby::svm_set_cb_svr(s32 arg0, AdxWorkerCallback fn, s32 arg) {
+    SvmWorkerSlot *c;
     s32 i;
-    if ((void (*)(s32))lbl_805D766C.a != 0) {
-        ((void (*)(s32))lbl_805D766C.a)(lbl_805D766C.b);
+    if (lbl_805D766C.fn != 0) {
+        lbl_805D766C.fn(lbl_805D766C.arg);
     }
     c = svm_callback_table[arg0];
     for (i = 0; i < 4; c++, i++) {
-        if ((void *)c->fn == 0) {
+        if (c->fn == NULL) {
             c->fn = fn;
             c->arg = arg;
             break;
         }
     }
     if (i == 4) {
-        strncpy((char *)svm_callback_message_buffer, "1051001:SVM_SetCbSvr:too many server function", 0xFF);
-        if (CB765C.fn != 0) {
-            CB765C.fn(CB765C.arg, svm_callback_message_buffer);
+        strncpy(svm_callback_message_buffer, "1051001:SVM_SetCbSvr:too many server function", 0xFF);
+        if (lbl_805D765C.fn != 0) {
+            lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
         }
     }
-    if ((void (*)(s32))lbl_805D7664.a != 0) {
-        ((void (*)(s32))lbl_805D7664.a)(lbl_805D7664.b);
+    if (lbl_805D7664.fn != 0) {
+        lbl_805D7664.fn(lbl_805D7664.arg);
     }
     if (i == 4) {
         return -1;
@@ -184,32 +174,31 @@ s32 TLobby::svm_set_cb_svr(s32 arg0, saddr fn, s32 arg) {
 }
 
 void TLobby::set_message_and_notify(char *arg0) {
-    strncpy((char *)svm_callback_message_buffer, arg0, 0xFF);
-    if ((*(P_803D3860 *)&lbl_805D765C).fn != 0) {
-        (*(P_803D3860 *)&lbl_805D765C).fn((*(P_803D3860 *)&lbl_805D765C).arg, svm_callback_message_buffer);
+    strncpy(svm_callback_message_buffer, arg0, 0xFF);
+    if (lbl_805D765C.fn != 0) {
+        lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
     }
 }
-#define CB765C (*(P_803D3860 *)&lbl_805D765C)
 void TLobby__sub_803D38B4(const char *fmt, ...) {
     va_list ap;
     memset(svm_callback_message_buffer, 0, 0x100);
     va_start(ap, fmt);
-    vsprintf((char *)svm_callback_message_buffer, fmt, ap);
-    if (CB765C.fn != 0) {
-        CB765C.fn(CB765C.arg, svm_callback_message_buffer);
+    vsprintf(svm_callback_message_buffer, fmt, ap);
+    if (lbl_805D765C.fn != 0) {
+        lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
     }
 }
 
 }
 
 void TLobby__sub_803D3988(void) {
-    if (((s32 (*)(s32)) *(s32 (**)(s32))((s8 *)&lbl_805D7664 + 0)) != NULL) {
-        (*(s32 (**)(s32))((s8 *)&lbl_805D7664 + 0))(*(s32 *)((s8 *)&lbl_805D7664 + 4));
+    if (lbl_805D7664.fn != NULL) {
+        lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
 
 void TLobby__sub_803D39C0(void) {
-    if (((s32 (*)(s32)) *(s32 (**)(s32))((s8 *)&lbl_805D766C + 0)) != NULL) {
-        (*(s32 (**)(s32))((s8 *)&lbl_805D766C + 0))(*(s32 *)((s8 *)&lbl_805D766C + 4));
+    if (lbl_805D766C.fn != NULL) {
+        lbl_805D766C.fn(lbl_805D766C.arg);
     }
 }

@@ -8,7 +8,7 @@ extern "C" {
 void *TLobby__sub_80227A4C(u32 size);
 void TLobby__sub_80227A6C(void);
 int TLobby__sub_80227A70(void *p);
-void TLobby__sub_80227A90(void);
+void TLobby__sub_80227A90(s32, const char *);
 void TLobby__sub_80227AA8(s32 arg0);
 int TLobby__sub_80227AF8(void *p);
 int TLobby__sub_80227D38(void);

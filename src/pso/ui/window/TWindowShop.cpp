@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -16,8 +17,6 @@
 extern "C" {
 
 s32 TShopJudgmentItemWindow__sub_80267F9C(const void *, int);
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
 u8 *get_window_layout_position(s32);
@@ -74,9 +73,12 @@ void TWindowShop::render() {
     saddr context;
     s32 n;
     void *p;
-    context = get_draw_context__11TWindowBaseFPv();
+    context = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)context);
-    draw_visible_window_entries(this, (u8 *)this + 0x24, context);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        reinterpret_cast<WindowDrawContext *>(context));
     if (!(this->state_flags & 0x80)) {
         draw_selected_list_entry(context);
     }
@@ -90,7 +92,7 @@ void TWindowShop::render() {
     }
     p = this->scroll_bar;
     if (p != NULL) {
-        draw_window_scrollbar(p, context, (u8 *)&this->m_68);
+        draw_window_scrollbar(p, context, (u8 *)&this->scroll_offset[0]);
     }
 }
 #pragma pop

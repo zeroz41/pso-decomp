@@ -1,10 +1,11 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
@@ -14,7 +15,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(TObjCollidable *, TObject *);
 
 #include <stddef.h>
 
@@ -22,12 +23,6 @@ extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-
-struct Stack_8036D6D4 {
-    s32 sp8;
-    f32 spC;
-    u8 trailing_storage[0x4];
-};
 
 struct RecoveredGlobal_8036D4E0_lbl_8047ACE8 {
     s32 value;
@@ -65,7 +60,7 @@ struct Player_8036D1B4 : PBase_8036D1B4 {
     virtual void m18();
     virtual void m19();
     virtual void m20();
-    virtual void m21(s32, Hit_8036D1B4 *, s32, s32, s32);
+    virtual void m21(TObject *, Hit_8036D1B4 *, s32, s32, s32);
     u8 pad1C[0x38 - 0x1C];
     Vec pos;
 };
@@ -75,8 +70,7 @@ struct Ent_8036D1B4 { s32 id; f32 range; };
 struct Chase_8036D1B4 {
     u8 pad0[0x38];
     Vec pos;
-    u8 pad44[0xAC - 0x44];
-    s32 xAC;
+    u8 pad44[0xB0 - 0x44];
     s32 xB0;
 };
 
@@ -119,7 +113,7 @@ s32 TBoss6RockChase::damage_players_in_range() {
     }
     for (i = 0; i < n; i++) {
         pl = (Player_8036D1B4 *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)pl)->is_active() != 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             VecCopy((Vec *)&d, (const Vec *)&pl->pos);
             subtract_vector(&d, &self->pos);
             d.y = 0.0f;
@@ -130,14 +124,14 @@ s32 TBoss6RockChase::damage_players_in_range() {
                 h.a = z;
                 h.c = z;
                 h.b = *(s32 *)&h.d;
-                pl->m21(self->xAC, &h, 0, -1, -1);
+                pl->m21(owner, &h, 0, -1, -1);
             }
         }
     }
 }
 #pragma pop
 
-void TBoss6RockChase::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->rotation_y); rotate_matrix_x((void*)0, *(void* *)&this->rotation_x); rotate_matrix_z((void*)0, *(void* *)&this->rotation_z); TObjFish::set_global_param((saddr)(*(void* *)&this->m_c4)); draw_ginja_object(*(void* *)&this->m_c0); pop_matrix(); }
+void TBoss6RockChase::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->rotation_y); rotate_matrix_x((void*)0, *(void* *)&this->rotation_x); rotate_matrix_z((void*)0, *(void* *)&this->rotation_z); TObjFish::set_global_param((saddr)(textures)); draw_ginja_object(model); pop_matrix(); }
 
 #pragma push
 #pragma opt_common_subs off
@@ -161,8 +155,8 @@ void TBoss6RockChase::run_task() {
             *(f32 *)&this->_padB8 = 0.0f;
             damage_players_in_range();
             play_sound_effect(0x4006B51E, (u8 *)&this->position, 0, 0);
-            spawn_particle_effect(((u8 *)&this->position), 0x220);
-            spawn_particle_effect(((u8 *)&this->position), 0x222);
+            spawn_particle_effect(&this->position, 0x220);
+            spawn_particle_effect(&this->position, 0x222);
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
             TBoss6Rock::spawn_crush_rocks(&position, m_b0);
             play_sound_effect(0x4006AB1F, (u8 *)&this->position, 0, 0);
@@ -183,9 +177,8 @@ TBoss6RockChase::~TBoss6RockChase() {
 LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
 TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : TObjCollidable(parent) {
     TBoss6RockChase *boss6_rock_chase = this;
-    s32 arg1 = (saddr)parent;
     boss6_rock_chase->m_name = TBoss6RockChase__name;
-    boss6_rock_chase->m_ac = arg1;
+    boss6_rock_chase->owner = parent;
     boss6_rock_chase->m_b0 = arg3;
     boss6_rock_chase->m_b4 = (s32) (15.0f * (3.0517578e-05f * (f32) rand()));
     ((TBoss6RockChase *)boss6_rock_chase)->rotation_x = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
@@ -194,22 +187,20 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : T
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     *(f32 *)((s8 *)boss6_rock_chase + 0xB8) = 0.0f;
     VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(arg2));
-    boss6_rock_chase->m_c0 = get_bml_model(TBoss6Rock__sub_80353A0C(), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
-    boss6_rock_chase->m_c4 = (uaddr)TBoss6Rock__sub_80353A04();
+    boss6_rock_chase->model = (NJS_OBJECT *)get_bml_model((BmlResource *)(TBoss6Rock__sub_80353A0C()), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
+    boss6_rock_chase->textures = (GinjaTextureList *)TBoss6Rock__sub_80353A04();
 }
 #pragma pop
 
 TBoss6RockChase *TBoss6RockChase::spawn(TObject *parent, const Vec *position) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036D6D4, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036D6D4, spC) == 0x4);
-    Stack_8036D6D4 stack;
+    Vec point;
     s32 var_r31;
-    VecCopy((Vec *)(&stack.sp8), position);
+    VecCopy(&point, position);
     var_r31 = 0;
-    stack.spC = 450.0f;
+    point.y = 450.0f;
     if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
         var_r31 = 1;
     }
-    return new TBoss6RockChase(parent, (const Vec *)&stack.sp8, var_r31);
+    return new TBoss6RockChase(parent, &point, var_r31);
 }
 

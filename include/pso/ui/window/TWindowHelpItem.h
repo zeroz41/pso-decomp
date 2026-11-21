@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct PageIndicator;
+
 struct TWindowHelpItem : public TWindowBase
 {
     virtual ~TWindowHelpItem();
@@ -15,18 +17,9 @@ struct TWindowHelpItem : public TWindowBase
     void sub_80255E24();
     void set_flag60_bit4();
     void update_help_item(s32 mode);
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 unk_28[0x4];
-    s32 m_2c;
-    void* m_30;
-    u8 unk_34[0x28];
-    s32 m_5c;
     u8 m_60;
     u8 _pad61[0x3];
-    u32 m_64;
+    PageIndicator *m_64;
     uaddr m_68;
     u32 m_6c;
     uaddr m_70;

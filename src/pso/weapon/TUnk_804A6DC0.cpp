@@ -1,6 +1,6 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/TUnk_804A6CC8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TUnk_804A6DC0.h"
@@ -58,10 +58,10 @@ void TUnk_804A6DC0::update_weapon() {
 
 void TUnk_804A6DC0::emit_marker_effects() {
     Obj_80131334 *self = (Obj_80131334 *)this;
-    u8 buf[0x18];
+    Vec muzzle;
     this->state = 2;
-    ((TItemWeapon *)self)->get_gun_point(buf);
-    spawn_particle_effect(buf, 9);
+    ((TItemWeapon *)self)->get_gun_point(&muzzle);
+    spawn_particle_effect(&muzzle, 9);
 }
 
 TUnk_804A6DC0::~TUnk_804A6DC0() {
@@ -78,9 +78,9 @@ TUnk_804A6DC0::TUnk_804A6DC0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     m_1fc = 0.0f;
 }
 
-u8 *create_yasminkov_7000v(u8 *item) {
+TItem *create_yasminkov_7000v(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A6DC0(tl_05, item);
+        return new TUnk_804A6DC0(tl_05, item);
     }
     return NULL;
 }

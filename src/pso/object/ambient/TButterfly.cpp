@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/ambient/TButterfly.h"
 #include "pso/unk/text_803D96A8.h"
@@ -50,7 +51,7 @@ void TButterfly::draw_model() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, -0x2000);
-    draw_ginja_model_with_motion((void *)get_bml_model(butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
+    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
     pop_matrix();
 }
 
@@ -69,7 +70,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish::set_global_param((s32)get_bml_texlist(butterfly_bml_resource, 0));
+        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
         draw_model();
     }
 }
@@ -217,12 +218,6 @@ void TButterfly::run_task() {
 TButterfly::~TButterfly() {
 
 }
-extern "C" {
-
-void free_bin_model_request(void*, int);
-
-
-}
 TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
     this->m_name = TButterfly__name;
     VecCopy((Vec *)((char *)this + 56), (const Vec *)((char *)arg2 + 12));
@@ -242,18 +237,14 @@ void *TButterfly__create(void *arg0) {
 
 void TButterfly::destroy_instance() {
     if (butterfly_bml_resource != NULL) {
-        free_bin_model_request(butterfly_bml_resource, 1);
+        delete butterfly_bml_resource;
         butterfly_bml_resource = NULL;
     }
 }
 
-u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 
 void TButterfly::load_resources() {
-    BmlResource *loaded = (BmlResource *)::operator new(0x440);
-    if (loaded != NULL) {
-        loaded = (BmlResource *)load_resource_from_descriptor(loaded, 1, &bm_o_abe_butterfly_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *loaded = (BmlResource *)new BmlResource(1, &bm_o_abe_butterfly_resource_descriptor, 0, 0, NULL);
     butterfly_bml_resource = loaded;
 }
 

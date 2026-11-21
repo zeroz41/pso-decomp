@@ -1,5 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBase.h"
@@ -29,7 +31,6 @@
 #include <string.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/unk/text_803D853C.h"
@@ -43,6 +44,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -115,7 +117,6 @@ extern s32 lbl_805D55C0;
 
 
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 align_menu_entry_positions(u32);
 
 
 }
@@ -141,52 +142,43 @@ void load_boss_warp_resources() {
     BmlResource *resource;
     area = get_current_floor_area();
     if (area >= 8 && area <= 0xA) {
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != 0) {
-            resource = load_resource_from_descriptor(resource, 5, &lbl_804B94D8, 0, 0, 0);
-        }
+        resource = new BmlResource(5, &lbl_804B94D8, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
-        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
+        warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
-        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
+        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != 0) {
-            resource = load_resource_from_descriptor(resource, 5, &lbl_804B94FC, 0, 0, 0);
-        }
+        resource = new BmlResource(5, &lbl_804B94FC, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
-        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
+        warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 0);
-        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 0);
+        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
         return;
     }
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != 0) {
-        resource = load_resource_from_descriptor(resource, 5, &lbl_804B94AC, 0, 0, 0);
-    }
+    resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
-    boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-    boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
-    warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+    boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+    boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
+    warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
-    boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
+    boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
 }
 
 void release_boss_warp_resources(void) {
     if (boss_warp_resource_bundle != 0) {
-        free_bin_model_request(boss_warp_resource_bundle, 1);
+        delete boss_warp_resource_bundle;
         boss_warp_resource_bundle = 0;
     }
 }
@@ -342,7 +334,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       {
         open_yes_no_prompt_with_text((TChCrTagPlBack *)yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
         set_menu_selected_index((TWindowSubComCard *)yes_no_window, 1);
-        ((TWindowSubShortMail *)yes_no_window)->notify_warp_flag70();
+        ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
         begin_player_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
@@ -611,8 +603,8 @@ void TObjWarpBoss::warp_boss_handle_window() {
                 if (menu_window != 0) {
                     ((TWindowSubTradeMain *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
-                    ((TWindowSubComCard *)menu_window)->calc_window_size();
-                    align_menu_entry_positions(menu_window);
+                    ((TWindowMenu *)menu_window)->calc_window_size();
+                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
                 }
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
@@ -792,15 +784,15 @@ void TObjWarpBoss::update_warp_boss_visibility() {
         }
     } else {
         if (yes_no_window != NULL) {
-            ((TQuestVmDownLoadServer *)yes_no_window)->clear_flag4_bit4();
+            ((TObject *)yes_no_window)->clear_update_suspension();
             ((TObject *)yes_no_window)->allow_rendering();
         }
         if (menu_window != 0) {
-            ((TQuestVmDownLoadServer *)menu_window)->clear_flag4_bit4();
+            ((TObject *)menu_window)->clear_update_suspension();
             ((TObject *)menu_window)->allow_rendering();
         }
         if (player_list_window != NULL) {
-            ((TQuestVmDownLoadServer *)player_list_window)->clear_flag4_bit4();
+            ((TObject *)player_list_window)->clear_update_suspension();
             ((TObject *)player_list_window)->allow_rendering();
         }
     }

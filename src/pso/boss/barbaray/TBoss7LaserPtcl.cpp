@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
@@ -6,7 +7,7 @@
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/boss/barbaray/TBoss7PhotonBullet.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 
 #include <stddef.h>
 #include "pso/ui/hud/TNowLoading.h"
@@ -46,7 +47,7 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 
 struct Ptcl_8035AD68 {
     u8 pad0[0x10];
-    void *x10;
+    TBoss7DeRolLeC *boss;
     u8 pad14[0x8];
     u8 x1c[0x24];
     f32 x40;
@@ -75,7 +76,7 @@ void TUnk_804F1C88::run_task() {
     TObjPlayer::apply_status_effect((saddr)o->x1c);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         u8 **e = (u8 **)TObjOnlineEnding::get_attack_entry(i);
-        ((TBoss7PhotonBullet *)(o->x10))->emit_hit_effect(*e + 0x38);
+        o->boss->emit_hit_effect(reinterpret_cast<const Vec *>(*e + 0x38));
     }
     reset_global_table();
     if (6e+01f < o->x40) {
@@ -185,7 +186,7 @@ void TBoss7LaserPtcl::init_laser() {
     normalize_vector_xz((Vec *)(arg0 + 0x2C));
     *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
     this->m_54 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
-    spawn_particle_effect_with_flags((arg0 + 0x20), 0x20A, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x20), 0x20A, 0x40);
     *(s32 *)((s8 *)arg0 + 0x44) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);
     this->state = 1;
 }

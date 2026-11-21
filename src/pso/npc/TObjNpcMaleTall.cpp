@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
@@ -22,17 +21,13 @@ void *TObjNpcMaleTall__create(void *set_data) {
 
 void TObjNpcMaleTall::destroy_instance() {
     if (TObjNpcMaleTall__shared_model_resource != NULL) {
-        free_bin_model_request(TObjNpcMaleTall__shared_model_resource, 1);
+        delete TObjNpcMaleTall__shared_model_resource;
         TObjNpcMaleTall__shared_model_resource = NULL;
     }
 }
 
 void TObjNpcMaleTall::load_resource_instance() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &bm_n_etm_i_body_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_n_etm_i_body_resource_descriptor, 0, 0, NULL);
     TObjNpcMaleTall__shared_model_resource = resource;
 }
 
@@ -43,6 +38,6 @@ TObjNpcMaleTall::TObjNpcMaleTall(TObject *parent, void *set_data) : TUnk_804A9F5
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcMaleTall__shared_model_resource->models->model;
-    this->texlist = TObjNpcMaleTall__shared_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcMaleTall__shared_model_resource->models->m_c;
     this->setup_common();
 }

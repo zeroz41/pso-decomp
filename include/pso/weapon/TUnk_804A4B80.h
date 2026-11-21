@@ -9,6 +9,11 @@ public:
     virtual void activate_effect(s32);
     void heaven_punisher_strike_locks();
     virtual void emit_marker_effects();
+
+    u32 captured_targets[11];
+    Vec captured_muzzle;
 };
+
+LAYOUT_ASSERT(HeavenPunisherMuzzleOffset, offsetof(TUnk_804A4B80, captured_muzzle) == 0x224);
 
 #endif

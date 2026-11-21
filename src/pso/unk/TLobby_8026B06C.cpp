@@ -1,29 +1,29 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/unk/TLobby_8026B06C.h"
-#include "pso/unk/TLobby.h"
-#include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 TLobby__sub_80269DA4(void *, int);
-int append_message_window_line(void *w, int text, int flags, int color);
-void TLobby::set_field_90(s32 v) { *(s32*)((char*)this + 0x90) = v; }
+int append_message_window_line(TWindowMessage *window, s32 text, s32 flags, s32 color);
+void TWindowMessageQuest::set_frame_mode(s32 mode) {
+    frame_mode = mode;
+}
 }
 
-int dispatch_message_window_text(void *w, int text, int flags) {
-    switch (*(s32 *)((u8 *)w + 0x90)) {
+extern "C" int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags) {
+    switch (window->frame_mode) {
     case 0:
-        return append_message_window_line(w, text, flags, 0xFF000000);
+        return append_message_window_line(window, text, flags, 0xFF000000);
     case 1:
     case 2:
-        return ((TWindowMessage *)w)->append_line(text, flags);
+        return window->append_line(text, flags);
     default:
         return 0;
     }
 }
 
-saddr create_quest_message_window_at(s32 arg0, saddr arg1) {
-    TLobby__sub_80269DA4((void *)arg1, 1);
-    return (saddr)new TWindowMessageQuest(arg0);
+extern "C" TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
+    TLobby__sub_80269DA4(extent, 1);
+    return new TWindowMessageQuest(reinterpret_cast<saddr>(position));
 }

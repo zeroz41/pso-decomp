@@ -2,8 +2,12 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4TYPE1_H
 
 #include "types.h"
+
+struct BmlResource;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/ModelNodeTables.h"
+
+class ModelNodePositionCapture;
 
 struct TBoss4DarkFalz;
 
@@ -22,6 +26,42 @@ struct TBoss4Type1 : public TObjEnemy
     virtual void clear_harmful_statuses();
     virtual void vfunc_62();
     virtual void vfunc_63();
+    // First-form phase dispatch and state helpers.
+    void check_state_transition();
+    void calc_target_position();
+    void set_map_position(void *);
+    void pick_target_position(Vec *target);
+    void choose_next_attack();
+    void apply_packed_state(u32 arg1);
+    void send_darkfalz_code(s32 arg1, s32 arg2, s32 arg3);
+    void send_state_to_target(s32 arg1);
+    void calc_scaled_field(s32 arg1, s32 arg2);
+    f32 calc_wave_offset(f32);
+    void set_motion_index(s32 arg1);
+    void calc_scale_slot_indices(s32 *a, s32 *b);
+    void set_state(s32 arg1);
+    void sub_800525AC();
+    void sub_800528B8();
+    void init_timer();
+    void update_tech_charge();
+    void update_scale_state();
+    void init_child_and_set_timer();
+    void update_attack_countdown();
+    void update_state();
+    void set_motion_for_state();
+    void tick_countdown_set_state7();
+    void update_spawn_uro();
+    void start_motion_for_index();
+    void tick_state_398_timer();
+    void sub_80052EE8();
+    void sub_80052EEC();
+    void sub_80052EF8();
+    void update_state_transition();
+    void sub_8005307C();
+    void update_flag800_state();
+    void sub_800530C0();
+    void check_state_if_idle();
+    void sub_800531BC();
     void sub_80053440();
     void sub_80053670();
     void snapshot_position();
@@ -32,10 +72,11 @@ struct TBoss4Type1 : public TObjEnemy
     void sub_80053D4C();
     void update_follow_camera_offsets();
     static s32 create(saddr arg0);
+    s32 get_state();
     s32 state;                    // index into the lbl_80485C48 state table
     ModelNodeTables model_nodes;
     TBoss4DarkFalz *owner;        // params[0], the Dark Falz that spawns it; run_task waits on it
-    s32 unk_390;                  // TBoss4Uro::get_instance_count() at spawn
+    BmlResource *archive;
     s32 unk_394;                  // init_collision_body_parts(lbl_80485E2C, 3)
     u8 pad_398[0x8];
     s32 unk_3a0;
@@ -55,16 +96,12 @@ struct TBoss4Type1 : public TObjEnemy
     f32 unk_3ec;
     u8 pad_3f0[0x8];
     void *parts[13];              // particle effects, released by the dt
-    void *fx[3];                  // TObjFish__sub_800E3124(lbl_804860F0, unk_438[i])
+    ModelNodePositionCapture *fx[3];
     Vec unk_438[3][2];
-    void *unk_480;                // TObjFish__sub_800E3124(lbl_80486120, unk_484)
+    ModelNodePositionCapture *unk_480;
     Vec unk_484[2];
 };
 
 LAYOUT_ASSERT(TBoss4Type1_size, sizeof(TBoss4Type1) == 0x49C);
-
-// TBoss4Type2__tenchu_furu_array: layout known from its uses only.
-struct TBoss4Type2TenchuFuruArray { s32 value; u8 remaining[0x2FC]; };
-extern TBoss4Type2TenchuFuruArray TBoss4Type2__tenchu_furu_array;
 
 #endif

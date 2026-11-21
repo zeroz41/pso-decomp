@@ -1,9 +1,13 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/text_803D853C.h"
+
+struct NJS_OBJECT;
 
 #include "pso/math/FloatRounding.h"
 
@@ -97,7 +101,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/system/vector.h"
 
-#include "pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.h"
+#include "pso/boss/barbaray/TBoss7PhotonPad.h"
 
 #include <stddef.h>
 
@@ -528,7 +532,6 @@ struct Fish_802E7B40 { u8 pad[0x6DC]; void* t[4]; };
 
 struct Fish_802E7B94 { u8 pad[0x6DC]; void* t[4]; };
 extern "C" {
-void queue_boss_effect__10TObjPlayerFPv(void* a0);
 
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 
@@ -539,7 +542,6 @@ void TObjFish__sub_802E7B40(Fish_802E7B40* o);
 void TBoss7Tentacle__sub_802F0B70(void* p);
 
 void TObjFish__sub_802E7B94(Fish_802E7B94* o);
-#define queue_boss_effect__10TObjPlayerFPv ((u32 (*)(int))queue_boss_effect__10TObjPlayerFPv)
 typedef struct RecoveredFields_802E7F30_temp_r3 RecoveredFields_802E7F30_temp_r3;
 
 typedef struct RecoveredFields_802E7F30_temp_r3_2 RecoveredFields_802E7F30_temp_r3_2;
@@ -594,7 +596,6 @@ struct EffectRef_802E7EA0 { u8 pad[4]; EffectNode_802E7EA0 *node; };
 
 struct Saved_802E7EA0 { u8 pad[0x5A8]; s32 a[10]; s32 b[10]; };
 
-#undef queue_boss_effect__10TObjPlayerFPv
 struct Stack_802E8274 {
     f32 sp8;
     f32 spC;
@@ -621,7 +622,7 @@ s32 transform_point_by_current_matrix(void *, void *);
 
 s32 push_matrix();
 
-void TObjPlayer__sub_802E8274(void);
+void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 
 
 void TObjPlayer__sub_802E7FC0(void *arg0);
@@ -642,7 +643,6 @@ extern s32 chunk_polygon_flags_and_mask;
 
 extern s32 model_render_flags;
 
-void TObjPlayer__sub_802E80A0(void);
 
 
 LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8050BEC0_size, sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20);
@@ -1250,7 +1250,6 @@ s32 update_local_colliders_from_world(void *, void *);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 #pragma pop
 #undef VecCopy__FP3VecPC3Vec
-s32 apply_with_callback__10TObjPlayerFlf(int, int);
 
 s32 rotate_matrix_by_node_angles(void *, int);
 
@@ -1269,10 +1268,7 @@ extern const Vec lbl_80473F6C;
 
 void TObjPlayer__sub_802E7EA0(void *arg0);
 
-u8 * free_bin_model_request(void *, s16);
 
-
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 void run_load_callback_table(void *, int);
 
@@ -1288,7 +1284,7 @@ saddr lbl_805D6928;
 saddr lbl_805D692C;
 saddr lbl_805D6930;
 saddr lbl_805D6934;
-u32 boss7_joint_state; // the destructor clears it when it holds this object
+TBoss7DeRolLeC *boss7_joint_state; // the destructor clears it when it holds this object
 u8 *lbl_805D693C;
 s32 *lbl_805D6940;
 saddr lbl_805D6944;
@@ -1307,15 +1303,12 @@ void TBoss7DeRolLeC::apply_paralysis() {  }
 
 void TBoss7DeRolLeC::apply_poison_status() {  }
 
-int TBoss7Joint::get_state() {  return boss7_joint_state; }
+TBoss7DeRolLeC *TBoss7Joint::get_state() { return boss7_joint_state; }
 
 void TObjPlayer__sub_802EE574(void) {
     s32 i;
     u8 *p;
-    p = (u8 *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 1, &bm_boss7_de_rol_le_c_resource_descriptor, 0, 0, 0);
-    }
+    p = (u8 *)new BmlResource(1, &bm_boss7_de_rol_le_c_resource_descriptor, 0, 0, NULL);
     lbl_805D6918 = p;
     boss7_derolle_c_motion_id = 0;
     lbl_805D6920 = 0;
@@ -1324,7 +1317,7 @@ void TObjPlayer__sub_802EE574(void) {
     lbl_805D692C = 0;
     lbl_805D6930 = 0;
     lbl_805D6934 = 0;
-    boss7_joint_state = 0;
+    boss7_joint_state = NULL;
     run_load_callback_table(lbl_804E3C5C, 0x30);
     lbl_805D693C = (u8 *)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D6918 + 0x42C)) + 8), 0x4D);
     lbl_805D6940 = *(s32 **)((s8 *)lbl_805D693C + 0x2C);
@@ -1362,7 +1355,7 @@ void *TBoss7DeRolLeC::create(void *arg0) {
 void TBoss7DeRolLeC::run_exit_callbacks() {
     TLobby::call_funcs_reverse((void*)lbl_804E3C5C, (unsigned int)0x30U);
     if ((void *) lbl_805D6918 != NULL) {
-        free_bin_model_request(lbl_805D6918, 1);
+        delete (BmlResource *)lbl_805D6918;
         lbl_805D6918 = NULL;
     }
 }
@@ -1371,8 +1364,8 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     u32 state[3];
 
     m_name = TBoss7DeRolLeC__class_name;
-    if (boss7_joint_state == 0) {
-        boss7_joint_state = (uaddr)this;
+    if (boss7_joint_state == NULL) {
+        boss7_joint_state = this;
     }
     reset_hp((u8 *)TLobby::register_boss(15), (u8 *)TLobby::dispatch_shared_handler_b(15), (u8 *)TLobby::register_object(15));
     unk_620 = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
@@ -1383,7 +1376,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     init_position_vectors();
     model = (void *)get_bml_model((BmlResource *)lbl_805D6918, 0);
-    texlist = get_bml_texlist((BmlResource *)lbl_805D6918, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D6918, 0);
     TObjPlayer__sub_802E7EA0(this);
     copy_collision_body(&unk_3C0, &lbl_80473C3C);
     set_collision_body(&unk_3C0);
@@ -1505,7 +1498,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     unk_7AC = new TUnk_804F1C58(this, model);
     if (unk_7AC != NULL) {
-        unk_7AC->set_field_38((saddr)TObjPlayer__sub_802E8274);
+        unk_7AC->set_field_38(TObjPlayer__sub_802E8274);
     }
     unk_7B0 = 0;
     unk_7B4 = 0.0f;
@@ -1556,8 +1549,8 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
     }
     mem_free(unk_6D8);
     clear_collision_bodies();
-    if (boss7_joint_state == (uaddr)this) {
-        boss7_joint_state = 0;
+    if (boss7_joint_state == this) {
+        boss7_joint_state = NULL;
     }
     ((TObjFish *)this)->destroy_child();
 }
@@ -1655,8 +1648,7 @@ void TBoss7DeRolLeC::run_task() {
         rotate_matrix_by_node_angles(((u8 *)this) + 0x5C, 1);
         scale_current_matrix(&lbl_804E3BF0);
         this->sub_802E8234();
-        this->get_frame();
-        apply_with_callback__10TObjPlayerFlf((saddr)this->unk_7AC, (saddr)this->current_motion);
+        unk_7AC->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
         fn_802E79B0((Obj_802E79B0 *)this);
@@ -1783,10 +1775,10 @@ void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
     ((TObjEneDD *)arg0)->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(0xF)), (u8 *)(TLobby::dispatch_shared_handler_b(v)), (u8 *)(TLobby::register_object(0xF)));
 }
 
-void TBoss7PhotonBullet::emit_hit_effect(void *arg1) {
+void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
     TBoss7PhotonBullet__sub_802ED5A0(this, 2);
-    TObjEneDD::emit_effect((void*)this, (saddr)arg1, (saddr)&lbl_80472D7C);
-    ((void (*)(void *, void *))TBoss7PhotonBullet__sub_802ED5A0)(this, *(void **)((s8 *)this + 0x62C));
+    TObjEneDD::emit_effect(this, (saddr)position, (saddr)&lbl_80472D7C);
+    TBoss7PhotonBullet__sub_802ED5A0(this, unk_62C);
 }
 
 f32 TBoss7PhotonBullet::get_target_pos_y() {
@@ -1996,7 +1988,6 @@ u32 TObjFish::update_phase_rising() {
 void TObjFish__sub_802ECE90(void *arg0, int idx, int arg) {
     s32 angle;
     Vec dir;
-    void *o;
     angle = 0x3800 - idx * 51;
     dir.x = sin_table_lookup(angle);
     dir.y = 0.0f;
@@ -2004,10 +1995,7 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg) {
     if (((Boss_802ECE90 *)arg0)->mode == 2) {
         dir.x *= -1.0f;
     }
-    o = TObject::operator new(0x38);
-    if (o != NULL) {
-        __ct__15TBoss7PhotonPadFllll((u8 *)o, (saddr)((Boss_802ECE90 *)arg0)->nodes, (saddr)&((Boss_802ECE90 *)arg0)->pads[idx], (saddr)&dir, arg);
-    }
+    new TBoss7PhotonPad((TObject *)((Boss_802ECE90 *)arg0)->nodes, &((Boss_802ECE90 *)arg0)->pads[idx], &dir, arg);
     play_sound_effect((void *)0x39D11, &((Boss_802ECE90 *)arg0)->pads[idx], (void *)0, (void *)1);
 }
 
@@ -2313,7 +2301,7 @@ void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1) {
     stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
     stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
     stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
-    spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)&stack.x, 0x127, 0x40);
 }
 #pragma pop
 void TBoss7DeRolLeC::update_projectile_spawns() {
@@ -4435,7 +4423,7 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
 #undef TObjFish__sub_802E7B94
 #undef release_laser_light__15TBoss7LaserPtclFPv
 #undef set_swim_direction__8TObjFishFPv
-void TObjPlayer__sub_802E8274(void) {
+void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E8274, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E8274, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802E8274, sp10) == 0x8);
@@ -4540,17 +4528,16 @@ void TBoss7DeRolLeC::render() {
 
 void TObjPlayer::draw_effect() { TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)lbl_805D6918, 0)); }
 
-void TObjPlayer__sub_802E80A0(void) { get_bml_texlist((BmlResource *)lbl_805D6918, 0); }
+GinjaTextureList *TBoss7DeRolLeC::get_archive_textures() { return (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D6918, 0); }
 
-void queue_boss_effect__10TObjPlayerFPv(void* a0) { get_bml_model((BmlResource *)lbl_805D6918, (saddr)a0); }
+NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6918, index); }
 
 AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion((BmlResource *)lbl_805D6918, kind); }
-#define queue_boss_effect__10TObjPlayerFPv ((u32 (*)(int))queue_boss_effect__10TObjPlayerFPv)
 void TObjPlayer__sub_802E7FC0(void *arg0) {
-    u32 effect;
+    uaddr effect;
     s32 i;
     EffectRef_802E7EA0 *ref;
-    effect = queue_boss_effect__10TObjPlayerFPv(0);
+    effect = (uaddr)TBoss7DeRolLeC::get_archive_model(0);
     for (i = 0; i != 10; i++) {
         ref = (EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739AC[i]);
         ref->node->value = ((Saved_802E7EA0 *)arg0)->a[i];
@@ -4575,7 +4562,7 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
     {
       var_r4 = (s32 *)lbl_804739AC;
       var_r4 = (s32 *) (*((saddr *) (((s8 *)lbl_804739AC) + var_r31)));
-      model_node = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (saddr) var_r4);
+      model_node = (u8 *) find_model_node((saddr)TBoss7DeRolLeC::get_archive_model(0), (saddr) var_r4);
     }
     if (model_node != 0)
     {
@@ -4586,7 +4573,7 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
     var_r4 = (s32 *)lbl_804739D4;
     var_r4 = (s32 *)lbl_804739D4;
     var_r4 = (s32 *) (*((saddr *) (((s8 *)lbl_804739D4) + var_r31)));
-    temp_r3_2 = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (saddr) var_r4);
+    temp_r3_2 = (u8 *) find_model_node((saddr)TBoss7DeRolLeC::get_archive_model(0), (saddr) var_r4);
     if (temp_r3_2 != 0)
     {
       var_r3 = (u8 *) ((RecoveredFields_802E7F30_temp_r3_2 *) temp_r3_2)->field_4;
@@ -4596,9 +4583,9 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
 }
 
 void TObjPlayer__sub_802E7EA0(void *arg0) {
-    u32 effect;
+    uaddr effect;
     s32 i;
-    effect = queue_boss_effect__10TObjPlayerFPv(0);
+    effect = (uaddr)TBoss7DeRolLeC::get_archive_model(0);
     for (i = 0; i != 10; i++) {
         ((Saved_802E7EA0 *)arg0)->a[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739AC[i]))->node->value;
         ((Saved_802E7EA0 *)arg0)->b[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739D4[i]))->node->value;
@@ -4708,7 +4695,6 @@ void TBoss7DeRolLeC::render_shadows() {
         this->TObjEnemy::render_shadows();
     }
 }
-#undef queue_boss_effect__10TObjPlayerFPv
 void TBoss7DeRolLeC::set_flag_800() { *(u32*)((char*)this + 0x628) |= 0x800; }
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 #define vec3_add_to ((void (*)(void *, void *))vec3_add_to)

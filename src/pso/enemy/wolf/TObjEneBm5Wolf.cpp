@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -23,7 +26,6 @@
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -39,7 +41,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 s32 approach_angle_limited(int, int, int);
-void *find_entity_by_id(u16 id);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void *fn_800B8B00(void *p);
 u16 get_entity_id(TObjBase *object);
@@ -136,7 +137,6 @@ s32 angle_diff_s16(s32, s32);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
-void free_bin_model_request(void*, int);
 }
 
 struct Globals_800B8A40 {
@@ -147,8 +147,6 @@ struct Globals_800B8A40 {
     u8 list1[0x8];
 };
 extern "C" {
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 extern s32 lbl_8043B3A8[];
 extern s32 lbl_8043B3B0[];
 extern s32 lbl_8043B3B8[];
@@ -252,9 +250,9 @@ void TObjEneBm5Wolf::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_bm5_wolf_resource_descriptor, (saddr)"bm_ene_bm5_wolf_a.bml");
+        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource_named(&bm_ene_bm5_wolf_resource_descriptor, "bm_ene_bm5_wolf_a.bml");
     } else {
-        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_bm5_wolf_resource_descriptor);
+        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource(&bm_ene_bm5_wolf_resource_descriptor);
     }
     ((TObjEneBm5Wolf *)TObjEneBm5Wolf__pack_member_list)->reset_fields();
     ((TObjEneBm5Wolf *)TObjEneBm5Wolf__instance_list)->reset_fields();
@@ -290,7 +288,7 @@ void *TObjEneBm5Wolf::create(void *arg0) {
 
 void TObjEneBm5Wolf::release_global_805D5120() {
     if (TObjEneBm5Wolf__bml_resource != 0) {
-        free_bin_model_request(TObjEneBm5Wolf__bml_resource, 1);
+        delete TObjEneBm5Wolf__bml_resource;
         TObjEneBm5Wolf__bml_resource = 0;
     }
 }
@@ -482,12 +480,12 @@ void TObjEneBm5Wolf::select_subtype() {
     if (this->parameters[1] >= 1.0f) {
         this->m_3d8 = 1;
         this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
-        this->texlist = TObjEneBm5Wolf__bml_resource->models[0].m_c;
+        this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].m_c;
         return;
     }
     this->m_3d8 = 0;
     this->model = (void *)TObjEneBm5Wolf__bml_resource->models[0].model;
-    this->texlist = TObjEneBm5Wolf__bml_resource->models[0].m_c;
+    this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].m_c;
 }
 
 void TObjEneBm5Wolf::advance_pose_turn(s32 target) {
@@ -1880,7 +1878,7 @@ void TObjEneBm5Wolf::despawn_state(s32 msg) {
     }
 }
 
-void TObjEneBm5Wolf::advance_spawn_timer() {
+void TObjEneBm5Wolf::advance_spawn_timer(NJS_OBJECT *) {
     if (((s32) TObjEneBm5Wolf__spawn_timer >= 0x16) && ((s32) TObjEneBm5Wolf__spawn_timer < 0x18)) {
         rotate_matrix_y(0, TObjEneBm5Wolf__data_805D5128);
     }
@@ -1928,7 +1926,7 @@ void TObjEneBm5Wolf::render() {
             }
             TObjEneBm5Wolf__spawn_timer = 0;
             TObjEneBm5Wolf__data_805D5128 = -(this->turnOffset / 2);
-            set_chunk_model_node_callback((saddr)((void *)TObjEneBm5Wolf::advance_spawn_timer));
+            set_chunk_model_node_callback(TObjEneBm5Wolf::advance_spawn_timer);
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
             if (var_r31 == 1) {
@@ -1936,7 +1934,7 @@ void TObjEneBm5Wolf::render() {
             } else {
                 this->draw_motion_model();
             }
-            set_chunk_model_node_callback((s32)NULL);
+            set_chunk_model_node_callback(NULL);
             pop_matrix();
             this->update_primary_light();
         }

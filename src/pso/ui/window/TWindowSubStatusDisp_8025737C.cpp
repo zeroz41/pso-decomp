@@ -300,11 +300,11 @@ TUnk_804CF948::~TUnk_804CF948() {}
 u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
     ((s32 (*)(void))init_from__13TUnk_804CF930FPvi)();
     *(s32 * *)&this->m_flags = __vt__13TUnk_804CF948;
-    *(s16 *)((s8 *)((u8 *)this) + 0x28) = (s16) *(f32 *)&this->m_24;
+    *(s16 *)((s8 *)((u8 *)this) + 0x28) = (s16) reinterpret_cast<TUnk_804CF948 *>(this)->target;
     *(s32 *)((s8 *)((u8 *)this) + 0x60) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
     *(s32 *)((s8 *)((u8 *)this) + 0x64) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    this->m_2c = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x18);
-    this->m_2a = 0;
+    reinterpret_cast<TUnk_804CF948 *>(this)->m_2c = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x18);
+    reinterpret_cast<TUnk_804CF948 *>(this)->timer = 0;
     return ((u8 *)this);
 }
 }

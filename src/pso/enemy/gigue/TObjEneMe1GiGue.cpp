@@ -1,4 +1,7 @@
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/enemy/EnemyTargeting.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -20,7 +23,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
@@ -38,7 +40,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -90,11 +93,9 @@ s32 play_sound_effect(s32, void *, s32, s32);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
-void *find_entity_by_id(u16 id);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
 saddr find_active_entity_by_id(int);
@@ -286,7 +287,7 @@ void *lbl_804E135C[83] = {
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)TObjEneMe1GiGue__data_805D6838->models[i].model;
-    texlist = TObjEneMe1GiGue__data_805D6838->models[i].m_c;
+    texlist = (saddr)TObjEneMe1GiGue__data_805D6838->models[i].m_c;
 }
 
 void TObjEneMe1GiGue__sub_802CDAE8(void) {  }
@@ -393,23 +394,17 @@ void TObjEneMe1GiGue::load_resources() {
     void *o;
 
     if (is_split_screen() != 0) {
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &lbl_804E1248, 0, 0, 0);
-        }
+        o = new BmlResource(1, &lbl_804E1248, 0, 0, NULL);
         TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
     } else {
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &lbl_804E1200, 0, 0, 0);
-        }
+        o = new BmlResource(1, &lbl_804E1200, 0, 0, NULL);
         TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
     }
     ene_me1_gigue_boss_id = (saddr)TLobby::register_boss(0x1A);
     lbl_805D682C = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
     lbl_805D6830 = (saddr)TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = new TUnk_8048FA00(TObjEneMe1GiGue__data_805D6838->models->model);
+    o = new TUnk_8048FA00((saddr)TObjEneMe1GiGue__data_805D6838->models->model);
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
     TObjEneMe1GiGue__sub_802CE4EC();
     TObjEneMe1GiGueBarrier::init_global();
@@ -427,7 +422,7 @@ void TObjEneMe1GiGue::delete_barrier() {
         TObjEneMe1GiGue__barrier_obj = NULL;
     }
     if (TObjEneMe1GiGue__data_805D6838 != NULL) {
-        free_bin_model_request(TObjEneMe1GiGue__data_805D6838, 1);
+        delete TObjEneMe1GiGue__data_805D6838;
         TObjEneMe1GiGue__data_805D6838 = NULL;
     }
 }
@@ -779,7 +774,7 @@ void TObjEneMe1GiGue__sub_802CC900(TObjEneMe1GiGue *gigue) {
             play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A81D)), (saddr)gigue, (uaddr)&gigue->position, (s32)(0), (s32)(0));
             if (gigue->frame >= 20.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
-                if ((particle = (TParticleCtrl *)spawn_particle_effect(&gigue->m_39c, 0x203)) != NULL) {
+                if ((particle = spawn_particle_effect(&gigue->m_39c, 0x203)) != NULL) {
                     GiGueShotAngles dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
@@ -1121,7 +1116,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
             action = 5;
         }
         requested_action = action;
-        spawn_particle_effect(&m_2fc, 0xF2);
+        spawn_particle_effect((const Vec *)&m_2fc, 0xF2);
         state = 1;
     case 1:
         advance_animation();
@@ -1214,7 +1209,7 @@ void TObjEneMe1GiGue::sub_802CB6D4() {
     switch (mode) {
     case 0:
         if (is_actor_cadence_frame(30) != 0) {
-            if (find_nearest_visible_player(this, 0, ((EnemyMoveParams *)movementParameters)->max_distance) != 0xFFFF) {
+            if (find_nearest_visible_player(this, NULL, ((EnemyMoveParams *)movementParameters)->max_distance) != 0xFFFF) {
                 find_target_in_range(((EnemyMoveParams *)movementParameters)->max_distance);
                 if (m_388 & 0x40000) {
                     init_move();
@@ -1225,14 +1220,14 @@ void TObjEneMe1GiGue::sub_802CB6D4() {
         }
         break;
     case 1:
-        if (find_nearest_visible_player(this, 0, 50.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             if (random_ratio() <= m_444) {
                 update_if_active(11);
             } else {
                 update_if_active(13);
                 m_378 = 1;
             }
-        } else if (find_nearest_visible_player(this, 0, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance) == 0xFFFF) {
+        } else if (find_nearest_visible_player(this, NULL, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance) == 0xFFFF) {
             update_if_active(0);
         }
         break;

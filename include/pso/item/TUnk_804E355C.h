@@ -26,10 +26,10 @@ public:
     TUnk_804E355C(TObject *parent, S_802E451C *params);
     virtual ~TUnk_804E355C();
     void check_hits();
-    s32 try_add_hit_target(void *);
-    virtual void vfunc_6(s32 *);
+    s32 try_add_hit_target(const ActorBodyHit *hit);
+    virtual void vfunc_6(ActorBodyHit *hit);
     s32 has_game_join_id();
-    s32 resolve_attack_col_hit(u8 *);
+    s32 resolve_attack_col_hit(ActorBodyHit *hit);
     CollisionBody *bodies;  // its one body below
     s32 body_count;
     Vec position;

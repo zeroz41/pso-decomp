@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-u8 *create_s_rank_shot(saddr arg0);
+struct TItem;
+
+TItem *create_s_rank_shot(u8 *item);
 
 #endif

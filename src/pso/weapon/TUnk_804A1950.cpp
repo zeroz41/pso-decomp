@@ -16,9 +16,9 @@ TUnk_804A1950::~TUnk_804A1950() {}
 
 TUnk_804A1950::TUnk_804A1950(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-u8 *TObjPlayer::create_set_vtable_state(u8 *arg0) {
+TItem *TObjPlayer::create_set_vtable_state(u8 *arg0) {
     if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1950(tl_05, arg0);
+        return new TUnk_804A1950(tl_05, arg0);
     }
     return NULL;
 }

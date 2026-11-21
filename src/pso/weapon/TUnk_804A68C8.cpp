@@ -59,9 +59,9 @@ TUnk_804A68C8::TUnk_804A68C8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_cane_weapon(u8 *item) {
+TItem *create_cane_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A68C8(tl_05, item);
+        return new TUnk_804A68C8(tl_05, item);
     }
     return NULL;
 }

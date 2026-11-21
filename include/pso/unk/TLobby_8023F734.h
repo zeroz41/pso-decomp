@@ -1,6 +1,8 @@
 #ifndef PSO_UNK_TLOBBY_8023F734_H
 #define PSO_UNK_TLOBBY_8023F734_H
 
+struct AdxfHandle;
+
 #include "types.h"
 
 struct Ent_8023FCC0 {
@@ -54,7 +56,7 @@ public:
     u8 pad_30C[4];
     Ent_8023FCC0 ents[(0xC14 - 0x310) / 0x24];
     u8 padC10[4];
-    void *bank_file_handles[4];
+    AdxfHandle *bank_file_handles[4];
     s32 bank_file_sizes[4];
     u8 pad_C34[0xC3C - 0xC34];
 };

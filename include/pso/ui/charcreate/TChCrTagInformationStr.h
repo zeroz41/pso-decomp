@@ -10,8 +10,7 @@ public:
     virtual ~TChCrTagInformationStr();
     virtual void render();
     virtual void run_task();
-public:
-    static void *create(void *arg0, void *arg1);
+    static TChCrTagInformationStr *create(TObject *parent, s32 index);
 
     s32 state;
     // Compared with char_creation_tag_info_selected_index; picks the text block.

@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/BmlResource.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -38,14 +38,14 @@ void TOCapsuleAncient01::render() {
         TObjFish::set_global_param(texlist);
         body = (NJS_OBJECT *)model;
         translate_matrix(0, body->pos[0], body->pos[1], body->pos[2]);
-        draw_ginja_model((saddr)body->model);
+        draw_ginja_model((void *)body->model);
         if (active == 1) {
             TParticleCtrl::begin_effect_render();
             lid = body->child;
             push_matrix();
             translate_matrix(0, lid->pos[0], lid->pos[1], lid->pos[2]);
             rotate_matrix_y(NULL, spin_angle);
-            draw_ginja_model((saddr)lid->model);
+            draw_ginja_model((void *)lid->model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
         }
@@ -59,16 +59,13 @@ void *TOCapsuleAncient01::create(void *set_data) {
 
 void TOCapsuleAncient01::unload_resources() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
 
 void TOCapsuleAncient01::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fe_obj_o_capsule01_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fe_obj_o_capsule01_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
 }
 
@@ -82,7 +79,7 @@ TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQues
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->m_c;
     init_collision_body_parts(this, &capsule_ancient01_collision_body, 1);
     set_indexed_flags(0, 0x1288);
     refresh_collision_body_centers();

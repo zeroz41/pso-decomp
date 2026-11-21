@@ -31,13 +31,13 @@ void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
 void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
-    if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
-        set_texlist(*(u32 *)&this->m_5C);
+        set_texlist(*(u32 *)&this->texture_list);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28);
-        draw_ginja_object(this->m_58);
+        draw_ginja_object(this->model);
         pop_matrix();
     }
 }
@@ -160,9 +160,9 @@ TUnk_804A69DC::TUnk_804A69DC(TObject *parent, u8 *item) : TItemWeapon(parent, it
     charge_ready = 1;
 }
 
-u8 *TObjPlayer::create_state_35_alt(saddr arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804A69DC(tl_05, (u8 *)arg0);
+TItem *TObjPlayer::create_state_35_alt(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A69DC(tl_05, item);
     }
     return NULL;
 }

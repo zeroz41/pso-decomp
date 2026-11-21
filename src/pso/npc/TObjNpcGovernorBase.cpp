@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcGovernorBase.h"
@@ -28,8 +29,6 @@ uaddr TObjNpcGovernorBase__shared_resource;
 
 extern void *tl_04;
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void*, int);
 
 void *TObjNpcGovernorBase__create(void *set_data) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
@@ -38,7 +37,7 @@ void *TObjNpcGovernorBase__create(void *set_data) {
 
 void TObjNpcGovernorBase::free_shared_data() {
     if ((u32) TObjNpcGovernorBase__shared_resource != 0U) {
-        free_bin_model_request((void*)TObjNpcGovernorBase__shared_resource, 1);
+        delete (BmlResource *)TObjNpcGovernorBase__shared_resource;
         TObjNpcGovernorBase__shared_resource = 0U;
     }
 }
@@ -46,11 +45,7 @@ void TObjNpcGovernorBase::free_shared_data() {
 void TObjNpcGovernorBase::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TObjNpcGovernorBase__shared_resource) = var_r0;
 }
 

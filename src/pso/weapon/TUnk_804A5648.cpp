@@ -14,7 +14,7 @@ void TUnk_804A5648::emit_marker_effects() {
 }
 
 void TUnk_804A5648::reserved_53() {
-    ((TObjPlayer *)this)->draw_status_icons(&shot_origins[0], &shot_origins[1]);
+    sample_dual_muzzles(&shot_origins[0], &shot_origins[1]);
 }
 
 TUnk_804A5648::~TUnk_804A5648() {}
@@ -26,9 +26,9 @@ TUnk_804A5648::TUnk_804A5648(TObject *parent, u8 *item) : TItemWeapon(parent, it
 }
 
 
-u8 *TObjPlayer__sub_8012CE44(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A5648(tl_05, (u8 *)item);
+TItem *TObjPlayer__sub_8012CE44(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A5648(tl_05, item);
     }
     return NULL;
 }

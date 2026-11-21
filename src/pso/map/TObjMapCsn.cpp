@@ -25,13 +25,11 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-u8 *__ct__10TObjMapCsnFll(TObjMapCsn *arg0, s32 arg1, saddr arg2);
 s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 extern s32 identity_matrix[];
-s32 __nw__7TObjectFUl(s32);
 
 void TObjMapCsn::render() {  }
 
@@ -126,14 +124,8 @@ s32 TObjMapCsn::build_box_triangles() {
     return pop_matrix();
 }
 
-saddr TObjMapCsn::create(saddr arg0) {
-    saddr map_csn;
-
-    map_csn = (saddr)TObject::operator new(0x254);
-    if (map_csn != 0) {
-        map_csn = ((saddr)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (saddr)(TObjMapCsn::get_collision_controller()), (s32)arg0));
-    }
-    return map_csn;
+TObjMapCsn *TObjMapCsn::create(void *set_data) {
+    return new TObjMapCsn(get_collision_controller(), set_data);
 }
 }
 TObjMapCsn::~TObjMapCsn() {
@@ -141,11 +133,11 @@ TObjMapCsn::~TObjMapCsn() {
         fn_80140DFC(TObjMapCsn::get_collision_controller(), this);
     }
 }
-TObjMapCsn::TObjMapCsn(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
+TObjMapCsn::TObjMapCsn(TObject *parent, void *set_data) : TObjCollidable(parent) {
     f32 temp_f0;
     f32 temp_f1;
     m_name = TObjMapCsn__class_name;
-    ((TObjMapCsn *)(this))->apply_object_set_data((void *)arg2);
+    apply_object_set_data(set_data);
     this->actorFlags = (s32) (this->actorFlags | 0x40000000);
     this->update_state();
     this->build_box_triangles();

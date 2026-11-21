@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -185,7 +186,7 @@ s32 pop_matrices(s32 arg0);
 extern "C" {
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
-void *get_bml_model(s32, u32);
+
 s32 attach_particle_model(void *, void *, s32, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);
 void *spawn_continuous_particle_effect_with_flags(void *, u32, u16);
@@ -277,7 +278,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model(self->emitters[i], get_bml_model(technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model(self->emitters[i], (void *)get_bml_model((BmlResource *)technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
       }
     }
   }

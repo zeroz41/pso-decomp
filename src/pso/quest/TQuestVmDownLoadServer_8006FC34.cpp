@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include <string.h>
 #include "pso/system/date.h"
@@ -32,7 +33,6 @@ extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
 char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);
-Card_8006FC7C *get_character_save_record(u32);
 void fn_8026A1C4(char *, char *, s32);
 extern char lbl_8043857C[];
 extern s32 local_client_id;
@@ -59,10 +59,10 @@ void TLobby::update_card_save_info() {
     char *s;
     char *unit;
     s32 id;
-    if (get_character_save_record(0xFFFF) == NULL) {
+    if (((Card_8006FC7C *)get_character_save_record(0xFFFF)) == NULL) {
         return;
     }
-    card = get_character_save_record(0xFFFF);
+    card = reinterpret_cast<Card_8006FC7C *>(get_character_save_record(0xFFFF));
     ply = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
     if (ply == NULL) {
         return;

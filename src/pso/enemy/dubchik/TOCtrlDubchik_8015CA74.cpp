@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/dubchik/TOCtrlDubchik_8015CA74.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -25,7 +27,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 
 
@@ -46,12 +47,10 @@ static CollisionBody TOCtrlDubchik__collision_body = { { 0.0f, 0.0f, 0.0f }, 5.0
 static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TOCtrlDubchik__shared_resource;
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void dubchik_start_dying(u8 *arg0);
-void free_bin_model_request(void*, int);
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
@@ -115,17 +114,13 @@ TOCtrlDubchik::~TOCtrlDubchik() {
 void TOCtrlDubchik::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TOCtrlDubchik__shared_resource) = var_r0;
 }
 
 void TOCtrlDubchik::destroy_instance() {
     if ((u32) TOCtrlDubchik__shared_resource != 0U) {
-        free_bin_model_request((void*)TOCtrlDubchik__shared_resource, 1);
+        delete (BmlResource *)TOCtrlDubchik__shared_resource;
         TOCtrlDubchik__shared_resource = 0U;
     }
 }
@@ -149,28 +144,28 @@ void TOCtrlDubchik::render() {
         TObjFish::set_global_param(texlist);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1] + part_spread, node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         translate_matrix(0, node->pos[0], node->pos[1] - part_spread, node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         post_translate_matrix(node->pos);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         post_translate_matrix(node->pos);
         scale_matrix(NULL, effect_scale, 1.0f, effect_scale);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         pop_matrix();

@@ -5,25 +5,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 
-struct Base_8021277C { char pad[0x18]; };
-struct VObj_8021277C : Base_8021277C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7(int, int);
-};
 
-extern struct VObj_8021277C *THunterGuildSeqOffline__active_instance;
-
-void THunterGuildSeqOffline::set_state_close2() {
+void THunterGuildSeqOffline::set_state_close2(TShopWindowBase *) {
     if (THunterGuildSeqOffline__active_instance != NULL) {
-        THunterGuildSeqOffline__active_instance->m7(0xC, 1);
-        *(s32 *)((s8 *)THunterGuildSeqOffline__active_instance + 0x38) = 0;
-        ((TShopWindowBase *)THunterGuildSeqOffline__active_instance)->set_field_20(5);
+        THunterGuildSeqOffline__active_instance->display_guild_message(0xC, 1);
+        THunterGuildSeqOffline__active_instance->unk_38 = 0;
+        THunterGuildSeqOffline__active_instance->set_field_20(5);
     }
 }
 

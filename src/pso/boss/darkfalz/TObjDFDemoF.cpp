@@ -4,12 +4,12 @@
 
 extern "C" {
 
-void *__ct__11TObjDFDemoFFP7TObject(void *, void *);
+TObjDFDemoF *__ct__11TObjDFDemoFFP7TObject(TObjDFDemoF *demo, TObject *parent);
 
-void *TObjDFDemoF::create(void *arg0) {
-    void *o = TObject::operator new(0xBC);
+TObjDFDemoF *TObjDFDemoF::create(TObject *parent) {
+    TObjDFDemoF *o = (TObjDFDemoF *)TObject::operator new(sizeof(TObjDFDemoF));
     if (o != NULL) {
-        o = __ct__11TObjDFDemoFFP7TObject(o, arg0);
+        o = __ct__11TObjDFDemoFFP7TObject(o, parent);
     }
     return o;
 }

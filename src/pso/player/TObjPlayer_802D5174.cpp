@@ -3,6 +3,7 @@
 // item code, 0x802D5108-0x802D6348. One TU: its vtables and jump table fill
 // .data 0x804E1BB0-0x804E24F0 in text order, which -inline off,deferred only
 // gives with the source written last to first (as below).
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_802D5174.h"
 #include "pso/item/TItemEquipBase.h"
@@ -24,7 +25,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_8032E4C8.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804E1BB0.h"
@@ -73,7 +73,7 @@ TUnk_804E1F04::~TUnk_804E1F04() {}
 
 TUnk_804E1E08::~TUnk_804E1E08() {}
 
-void *TObjPlayer::create_object_by_type(u8 *item) {
+TItem *TObjPlayer::create_object_by_type(u8 *item) {
     if (item != NULL) {
         switch (item[1]) {
         case 0x8C:
@@ -162,13 +162,13 @@ void TUnk_804E23F0::update_weapon() {
 
 void TUnk_804E23F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     NJS_ARGB color;
-    desc->pad_4c = pad_200;
-    desc->pad_58 = 0xC000;
+    desc->scale = pad_200;
+    desc->spin[2] = 0xC000;
     desc->flags |= 2;
     get_weapon_color__11TItemWeaponFPv(&color, this);
-    copy_argb((NJS_ARGB *)desc->color, &color);
-    desc->pad_74 = pad_208;
-    desc->pad_70 = pad_204;
+    copy_argb(&desc->color, &color);
+    desc->hit_effect = pad_208;
+    desc->wall_effect = pad_204;
 }
 
 #pragma push
@@ -201,15 +201,15 @@ void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2) {
 #pragma pop
 
 void TObjPlayer::spawn_item() {
-    s32 spC;
-    s32 sp8;
+    NJS_OBJECT *model;
+    GinjaTextureList *texture;
     TParticleCtrl *particle;
 
-    particle = (TParticleCtrl *)spawn_particle_effect(((Vec *)this), 0x1BF);
+    particle = spawn_particle_effect(((Vec *)this), 0x1BF);
     if (particle != NULL) {
-        TItemLoad::lookup_item_data(0xD, &spC);
-        TItemLoad::get_data_entry(0xD, &sp8);
-        attach_particle_model((u8 *)particle, spC, sp8, 0, 0, 1.0f);
+        TItemLoad::get_item_model(0xD, &model);
+        TItemLoad::get_item_texture_list(0xD, &texture);
+        attach_particle_model((u8 *)particle, (saddr)model, (saddr)texture, 0, 0, 1.0f);
         particle->set_scale(10.0f, 10.0f);
     }
 }
@@ -371,7 +371,7 @@ void TUnk_804E21F8::vfunc_62(Vec *pos) {
 
 void TUnk_804E21F8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     TUnk_804E23F0::init_weapon_effect_descriptor(desc);
-    desc->pad_38 = 5.0f;
+    desc->speed = 5.0f;
 }
 
 TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, item) {
@@ -415,7 +415,7 @@ TUnk_804E20FC::TUnk_804E20FC(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
 
 void TUnk_804E20FC::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     TUnk_804E23F0::init_weapon_effect_descriptor(desc);
-    desc->pad_50 = 0x8000;
+    desc->spin[0] = 0x8000;
 }
 
 TUnk_804E1CA8::TUnk_804E1CA8(TObject *parent, u8 *item) : TUnk_804E23F0(parent, item) {
@@ -429,9 +429,9 @@ void TUnk_804E1CA8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     TUnk_804E23F0::init_weapon_effect_descriptor(desc);
     if (is_mode_two_and_ready() != 0) {
         ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
-        desc->pad_10 = 10;
+        desc->hits = 10;
         desc->model = second_model;
-        desc->pad_4c = 1.0f;
+        desc->scale = 1.0f;
     }
 }
 
@@ -442,7 +442,7 @@ void TObjPlayer::do_action_447_from_packet(void *item, void *hit, void *dir) {
 }
 
 void *TObjPlayer::do_action_447() {
-    return spawn_particle_effect(this, 447);
+    return spawn_particle_effect((const Vec *)this, 447);
 }
 
 TUnk_804E1CA8::~TUnk_804E1CA8() {}
@@ -541,13 +541,13 @@ void *__dt__13TUnk_804E1BB0Fv(void *item, s16 arg1) {
     return item;
 }
 
-u8 *TUnk_804E1BB0::create(u8 *item) {
+TItem *TUnk_804E1BB0::create(u8 *item) {
     if (item != NULL) {
         TUnk_804E1BB0 *weapon = (TUnk_804E1BB0 *)TItem::operator new(0x1F8);
         if (weapon != NULL) {
             weapon = (TUnk_804E1BB0 *)weapon->init_state_513(tl_05, item);
         }
-        return (u8 *)weapon;
+        return weapon;
     }
     return NULL;
 }

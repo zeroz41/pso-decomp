@@ -93,6 +93,6 @@ TChCrEffTag::TChCrEffTag(TObject *parent) : TObject(parent) {
 
     void TChCrEffTag::set_eff_tag(int a0) { TChCrEffTag__selected_heading = a0; }
 
-void *create_TChCrEffTag(void *ch_cr_eff_tag) {
-    return new TChCrEffTag((TObject *)ch_cr_eff_tag);
+TChCrEffTag *create_TChCrEffTag(TObject *parent) {
+    return new TChCrEffTag(parent);
 }

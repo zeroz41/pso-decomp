@@ -17,7 +17,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -75,10 +74,7 @@ TODoorAncient08::~TODoorAncient08() {
 }
 
 void TODoorAncient08::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &door_ancient08_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &door_ancient08_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
     texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     texture_lists[0] = (GinjaTextureList *)bml_resource->models[0].m_c;
@@ -94,7 +90,7 @@ void TODoorAncient08::destroy() {
         }
     }
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
@@ -238,8 +234,8 @@ void TODoorAncient08::draw_switch_lights() {
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
     rotate_matrix_y(NULL, rotation_y);
-    draw_ginja_model((saddr)root->model);
-    draw_ginja_model((saddr)root->child->model);
+    draw_ginja_model(root->model);
+    draw_ginja_model(root->child->model);
     TParticleCtrl::begin_effect_render();
     for (i = 0; i < 4; i++) {
         if (on[i] != 0) {
@@ -250,11 +246,11 @@ void TODoorAncient08::draw_switch_lights() {
         push_matrix();
         pair = pairs[i];
         post_translate_matrix(pair[0]->pos);
-        draw_ginja_model((saddr)pair[0]->model);
+        draw_ginja_model((void *)pair[0]->model);
         pop_matrix();
         push_matrix();
         post_translate_matrix(pair[1]->pos);
-        draw_ginja_model((saddr)pair[1]->model);
+        draw_ginja_model((void *)pair[1]->model);
         pop_matrix();
     }
     TParticleCtrl::end_effect_render();

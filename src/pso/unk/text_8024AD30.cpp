@@ -3,8 +3,8 @@
 #include "pso/ui/window/WindowCtrlCallback.h"
 
 
-extern WindowCtrlMethod window_ctrl_end_keyboard_hold_callback_entry;
+extern PlayerWindowCommand window_ctrl_end_keyboard_hold_callback_entry;
 
 void end_player_keyboard_hold(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi((void *)arg0, window_ctrl_end_keyboard_hold_callback_entry);
+    call_window_method__11TWindowCtrlFPvi(arg0, window_ctrl_end_keyboard_hold_callback_entry);
 }

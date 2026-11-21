@@ -32,10 +32,10 @@ void TChCrTagPlBack::get_position_offset(void *arg1) {
 void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, NJS_POINT2 *arg1);
 void TWindowSubComCard::free_windows() {
     if ((u32) this->m_28 != 0U) {
-        ((TWindowSubComCard *)(this->m_28))->reparent_to_main_ctrl();
+        reinterpret_cast<TWindowBase *>(this->m_28)->reparent_to_main_ctrl();
     }
     if ((u32) this->m_2c != 0U) {
-        ((TWindowSubComCard *)(this->m_2c))->reparent_to_main_ctrl();
+        reinterpret_cast<TWindowBase *>(this->m_2c)->reparent_to_main_ctrl();
     }
 }
 

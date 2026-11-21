@@ -9,26 +9,6 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
-struct AdxStreamFile {
-    s8 used;
-    s8 b1;
-    s8 b2;
-    u8 pad3;
-    s32 arg;
-    u32 handle;
-    s32 fC;
-    s32 f10;
-    s32 size;
-    u8 pad18[0x14];
-    s32 f2C;
-    s32 sectors;
-    u8 pad34[0xC];
-};
-
-
-AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
-
-
 struct VT_803C9FCC { u8 pad[0x14]; void (*update)(void *self); };
 
 struct Part_803C9FCC { VT_803C9FCC *vt; };

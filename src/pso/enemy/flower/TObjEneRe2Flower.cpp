@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -29,7 +30,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -213,8 +215,6 @@ struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
 
 
 extern "C" {
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 
 extern const NpcAnimationBinding lbl_8043BB90;
 extern char lbl_8043BAAC[];
@@ -303,11 +303,11 @@ void load_re2_flower_resources(void) {
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)((s32 *)&TObjEneRe2Flower__resource_descriptor), (saddr)("bm_ene_dkflower.bml"));
+        re2_flower_bml_resource = load_enemy_bml_resource_named(&TObjEneRe2Flower__resource_descriptor, "bm_ene_dkflower.bml");
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)((s32 *)&TObjEneRe2Flower__resource_descriptor), (saddr)("bm_ene_re2_flower_a.bml"));
+        re2_flower_bml_resource = load_enemy_bml_resource_named(&TObjEneRe2Flower__resource_descriptor, "bm_ene_re2_flower_a.bml");
     } else {
-        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
+        re2_flower_bml_resource = load_enemy_bml_resource(&TObjEneRe2Flower__resource_descriptor);
     }
     re2_flower_node_index = 0;
     re2_flower_node_yaw = 0;
@@ -327,7 +327,7 @@ void *TObjEneRe2Flower::create(void *arg0) {
 void TObjEneRe2Flower::destroy_instance() {
     TObjPlayer__sub_800C4D44();
     if (re2_flower_bml_resource != NULL) {
-        free_bin_model_request(re2_flower_bml_resource, 1);
+        delete re2_flower_bml_resource;
         re2_flower_bml_resource = NULL;
     }
 }
@@ -346,7 +346,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     }
     init_position_vectors();
     model = (void *)re2_flower_bml_resource->models->model;
-    texlist = re2_flower_bml_resource->models->m_c;
+    texlist = (saddr)re2_flower_bml_resource->models->m_c;
     if (get_flag_11()) {
         init_model(lbl_804930EC, 2);
     } else {

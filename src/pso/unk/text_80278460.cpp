@@ -4,22 +4,21 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
-
-struct Wn_80278460 { u8 pad0[0x20]; s16 f20; u8 pad22[0x54]; s16 f76; };
+#include "pso/ui/window/TWindowSubEquipKind.h"
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-void mark_unequippable_items(Wn_80278460 *arg0);
-void mark_unequippable_items(Wn_80278460 *arg0) {
+void mark_unequippable_items(TWindowSubEquipKind *window);
+void mark_unequippable_items(TWindowSubEquipKind *window) {
     u8 sp8[8];
     s16 i;
     u8 *item;
     u16 *e;
     uaddr t;
-    item = (u8 *)get_player_by_client_id(arg0->f20);
+    item = (u8 *)get_player_by_client_id(window->client_index);
     if (item != NULL) {
-        for (i = 0; i < arg0->f76; i++) {
-            e = (u16 *)((TWindowBase *)arg0)->get_array_entry(i);
+        for (i = 0; i < window->entry_capacity; i++) {
+            e = static_cast<u16 *>(window->get_array_entry(i));
             if (e != NULL && ((TWindowSubStatusDisp *)e)->is_flag_4_set() != 0 && ((TWindowSubStatusDisp *)e)->is_flag80_set() == 0) {
                 if ((t = (uaddr)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
                     *e |= 0x80;

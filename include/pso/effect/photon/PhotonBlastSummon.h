@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct NJS_OBJECT;
+
 // One target of a photon blast: queue_photon_blast_hit fills it, the
 // deliver_photon_blast_results_* functions apply it.
 struct PhotonBlastHit {
@@ -25,7 +27,7 @@ extern "C" {
 void *__ct__13TUnk_804C3248Fv(void *arg0);
 void *__dt__13TUnk_804C3248Fv(void *arg0, s16 arg1);
 }
-void publish_photon_blast_joint_origins(void);
+void publish_photon_blast_joint_origins(NJS_OBJECT *);
 void queue_deferred_photon_blast_hit(u32 arg0, s32 arg1, s32 arg2);
 void queue_deferred_photon_blast_support(u32 identity, s32 kind, s32 allow_duplicate);
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);

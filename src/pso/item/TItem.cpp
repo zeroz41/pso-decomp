@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
 // TItem, the base of every item object, with the item registry, the item
@@ -46,7 +47,6 @@
 #include "pso/unk/text_801057A8.h"
 #include "pso/unk/text_801D98F8.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
@@ -106,7 +106,7 @@ FlagWord item_render_state;
 #pragma pop
 int item_registry_count;
 TItem **item_registry_sorted_entries;
-void (*model_node_draw_callback)(saddr model);
+void (*model_node_draw_callback)(void *model);
 void (*model_node_visit_callback)(NJS_OBJECT *object);
 TItemIdCounters *item_id_counters;
 u8 *model_node_matrix_output_cursor;
@@ -865,7 +865,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
                 model_node_visit_callback(object);
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
-                model_node_draw_callback((saddr)object->model);
+                model_node_draw_callback(object->model);
             }
             if (!(flags & NJD_EVAL_BREAK)) {
                 draw_model_node_tree(object->child);
@@ -890,7 +890,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
                 model_node_matrix_output_cursor += 0x30;
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
-                model_node_draw_callback((saddr)object->model);
+                model_node_draw_callback(object->model);
             }
             if (!(flags & NJD_EVAL_BREAK)) {
                 draw_model_node_tree(object->child);
@@ -1402,7 +1402,7 @@ void TItem::snap_to_owner() {}
 
 void TItem::apply_switch_attack(s32 effect) {
     if (owner != NULL && owner->is_body_collision_inactive() == 0) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags(&owner->m_2fc, effect, 0x10);
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&owner->m_2fc, effect, 0x10);
         if (particle != NULL) {
             particle->set_owner_id(get_owner_client());
         }
@@ -1476,13 +1476,13 @@ void TItem::render_ground() {
 }
 
 void TItem::render_model() {
-    void *model;
-    s32 texture;
-    TItemLoad::get_model_ids(drop_model, (s32 *)&model, &texture);
+    NJS_OBJECT *model;
+    GinjaTextureList *texture;
+    TItemLoad::get_drop_model(drop_model, &model, &texture);
     if (model != NULL) {
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist(texture);
+        set_texlist((uaddr)texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1498,8 +1498,8 @@ void TItem::render_model() {
 // colours of its wrapping.
 void TItem::render_present_box() {
     NJS_OBJECT *box;
-    s32 texture;
-    TItemLoad::get_model_ids(6, (s32 *)&box, &texture);
+    GinjaTextureList *texture;
+    TItemLoad::get_drop_model(6, &box, &texture);
     if (box != NULL) {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -1508,14 +1508,14 @@ void TItem::render_present_box() {
         model_render_flags |= 0x10;
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist(texture);
+        set_texlist((uaddr)texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         set_constant_material(&item_box_primary_colors[box_color]);
-        draw_ginja_model((saddr)box->model);
+        draw_ginja_model((void *)box->model);
         set_constant_material(&item_box_secondary_colors[box_color]);
-        draw_ginja_model((saddr)box->child->model);
+        draw_ginja_model((void *)box->child->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         set_default_alpha_blend();

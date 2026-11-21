@@ -1,3 +1,5 @@
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include <stddef.h>
@@ -6,7 +8,6 @@
 #include "pso/item/TItem.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
@@ -184,8 +185,6 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 };
 
 
-s32 free_bin_model_request(BmlResource *, s32);
-
 
 
 
@@ -212,9 +211,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     lbl_805010E0[1] = 0.0f;
     lbl_805010E0[2] = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneMe3Stelth__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)me3_stelth_bml_resource_desc);
+        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)me3_stelth_bml_resource_desc);
     } else {
-        TObjEneMe3Stelth__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)stelth_bml_resource_desc);
+        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)stelth_bml_resource_desc);
     }
     src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->m_c;
     n = src->nbTexture;
@@ -245,7 +244,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     lbl_80501114[0] = 0.0f;
     lbl_80501114[1] = 0.0f;
     lbl_80501114[2] = 0.0f;
-    m = TObjEneMe3Stelth__bml_resource->models->model;
+    m = (saddr)TObjEneMe3Stelth__bml_resource->models->model;
     q = (s32 *)((NJS_OBJECT *)find_model_node(m, 9))->model;
     if (q != NULL) {
         TObjEneMe3Stelth__material_color_pointers[0] = (u32 *)(q[1] + 4);
@@ -269,7 +268,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
         p = new TUnk_8048FA00((int)TObjEneMe3Stelth__bml_resource->models->model, (int)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
         TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
     } else {
-        p = new TUnk_8048FA00((long)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        p = new TUnk_8048FA00((long)(saddr)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
         TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
     }
     {
@@ -279,7 +278,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
         AnimationMotion *trail_motion;
         BmlResource *r = TObjEneMe3Stelth__bml_resource;
         s32 idx = TObjEneMe3Stelth__animation_descriptors[6].motion;
-        mdl = r->models->model;
+        mdl = (saddr)r->models->model;
         va.x = 0.0f;
         va.y = 0.0f;
         va.z = 0.0f;
@@ -316,7 +315,7 @@ void TObjEneMe3Stelth::free_shared_resources() {
         TObjEneMe3Stelth__alternate_texture_list.textures = NULL;
     }
     if (TObjEneMe3Stelth__bml_resource != NULL) {
-        free_bin_model_request(TObjEneMe3Stelth__bml_resource, 1);
+        delete TObjEneMe3Stelth__bml_resource;
         TObjEneMe3Stelth__bml_resource = NULL;
     }
 }
@@ -590,7 +589,7 @@ void TObjEneMe3Stelth::sub_800F4758() {
         m_3c8 = 1;
         return;
     }
-    texlist = TObjEneMe3Stelth__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->m_c;
     initialize_enemy_state(0x3E);
     m_3c8 = 0;
 }

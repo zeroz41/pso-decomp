@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
@@ -18,7 +19,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -151,11 +151,11 @@ void TOHealGeneral::find_heal_target() {
             if (player->is_alive_and_ready() != 0) {
                 player->refill_traps();
             }
-            effect = (TParticleCtrl *)spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F6, 0x10);
+            effect = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F6, 0x10);
             if (effect != NULL) {
                 effect->set_owner_id(heal_target);
             }
-            effect = (TParticleCtrl *)spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F7, 0x10);
+            effect = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F7, 0x10);
             if (effect != NULL) {
                 effect->set_owner_id(heal_target);
             }
@@ -198,18 +198,18 @@ void TOHealGeneral::render() {
         TObjFish::set_global_param(texlist);
         base = (NJS_OBJECT *)model;
         post_translate_matrix(base->pos);
-        draw_ginja_model((saddr)base->model);
+        draw_ginja_model((void *)base->model);
         push_matrix();
         rotor = base->child;
         post_translate_matrix(rotor->pos);
         rotate_matrix_y(NULL, rotor_angle);
-        draw_ginja_model((saddr)rotor->model);
+        draw_ginja_model((void *)rotor->model);
         pop_matrix();
         push_matrix();
         ring = rotor->sibling;
         translate_matrix(0, ring->pos[0], ring->pos[1] - ring_drop, ring->pos[2]);
         rotate_matrix_y(NULL, -rotor_angle);
-        draw_ginja_model((saddr)ring->model);
+        draw_ginja_model((void *)ring->model);
         pop_matrix();
         pop_matrix();
     }
@@ -221,7 +221,7 @@ void *TOHealGeneral::create(void *set_data) {
 
 void TOHealGeneral::unload_resources() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
@@ -238,17 +238,11 @@ void TOHealGeneral::load_resources() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &fe_obj_kaifuku_moto_2_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &fe_obj_kaifuku_moto_2_resource_descriptor, 0, 0, NULL);
         model_resource = resource;
         return;
     }
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fe_obj_kaifuku_moto_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(1, &bm_fe_obj_kaifuku_moto_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
 }
 
@@ -268,7 +262,7 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->m_c;
     model_radius = 40.0f;
     init_collision_body_parts(this, &heal_general_collision_body_part, 1);
     refresh_collision_body_centers();

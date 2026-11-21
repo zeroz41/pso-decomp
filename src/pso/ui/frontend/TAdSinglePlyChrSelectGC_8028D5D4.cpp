@@ -1,33 +1,36 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
+#include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8028D714.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/charcreate/TChCrEffCtrlPl.h"
 #include "pso/ui/charcreate/TChCrEffWall.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/system/task/TObject.h"
 
-u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x2C) == 2);
+s32 TChCrLoadAfs::is_load_complete() {
+    return load_state == 2;
 }
 
+u8 *lbl_80518850[4];
+u8 *chr_select_load_buffer_table[8];
+u8 *chr_select_load_buffer_base;
+u8 *chr_select_load_buffer;
 
-u32 lbl_80518850[4];
-u32 chr_select_load_buffer_table[8];
-uaddr chr_select_load_buffer_base;
-uaddr chr_select_load_buffer;
-s32 TAdSinglePlyChrSelectGC::get_result() {
-    if (((s32 (*)())is_selection_done__23TAdSinglePlyChrSelectGCFPv)() != 0) {
-        return this->m_28;
+u8 *TChCrLoadAfs::get_load_buffer() {
+    if (is_load_complete() != 0) {
+        return buffer_address;
     }
     return 0;
 }
-u32 TLobby::alloc_load_buffer(s32 size) {
-    s32 slot = (saddr)this;
-    u32 p;
-    if (chr_select_load_buffer_base == 0U) {
+
+uaddr advance_character_load_buffer(s32 slot, s32 size) {
+    uaddr p;
+    if (chr_select_load_buffer_base == NULL) {
         return 0U;
     }
     TLobby__sub_8028D7D0(slot);
@@ -36,46 +39,45 @@ u32 TLobby::alloc_load_buffer(s32 size) {
     }
     size = (size + 0x1F) & ~0x1F;
     if (slot < 4) {
-        p = lbl_80518850[slot];
+        p = reinterpret_cast<uaddr>(lbl_80518850[slot]);
         p += size;
-        if (p >= chr_select_load_buffer_base + (slot + 1) * 0xA000) {
+        if (p >= reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (slot + 1) * 0xA000) {
             return 0U;
         }
-        lbl_80518850[slot] = p;
+        lbl_80518850[slot] = reinterpret_cast<u8 *>(p);
         return p;
     }
     {
         s32 j = slot - 4;
-        p = chr_select_load_buffer_table[j];
+        p = reinterpret_cast<uaddr>(chr_select_load_buffer_table[j]);
         p += size;
-        if (p >= chr_select_load_buffer + (j + 1) * 0xA000) {
+        if (p >= reinterpret_cast<uaddr>(chr_select_load_buffer) + (j + 1) * 0xA000) {
             return 0U;
         }
-        chr_select_load_buffer_table[j] = p;
+        chr_select_load_buffer_table[j] = reinterpret_cast<u8 *>(p);
     }
     return p;
 }
 
 
-int TLobby::start_load_default() { return alloc_load_buffer(0); }
+void *get_character_load_buffer(s32 slot) { return (void *)advance_character_load_buffer(slot, 0); }
 
-s32 TLobby__sub_8028D738(s32 i) {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r4;
-    if ((u32) chr_select_load_buffer_base == 0U) {
-        return 0;
+uaddr reset_character_load_buffer(s32 slot) {
+    uaddr address;
+    s32 extended_slot;
+    if (chr_select_load_buffer_base == NULL) {
+        return 0U;
     }
-    TLobby__sub_8028D7D0(i);
-    if (i < 4) {
-        temp_r3_2 = chr_select_load_buffer_base + (i * 0xA000);
-        lbl_80518850[i] = temp_r3_2;
-        return temp_r3_2;
+    TLobby__sub_8028D7D0(slot);
+    if (slot < 4) {
+        address = reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (u32)slot * 0xA000U;
+        lbl_80518850[slot] = reinterpret_cast<u8 *>(address);
+        return address;
     }
-    temp_r4 = i - 4;
-    temp_r3 = (*(s32 *)&chr_select_load_buffer) + (temp_r4 * 0xA000);
-    chr_select_load_buffer_table[temp_r4] = temp_r3;
-    return temp_r3;
+    extended_slot = slot - 4;
+    address = reinterpret_cast<uaddr>(chr_select_load_buffer) + (u32)extended_slot * 0xA000U;
+    chr_select_load_buffer_table[extended_slot] = reinterpret_cast<u8 *>(address);
+    return address;
 }
 
 void TLobby__sub_8028D7D0(s32 i) {
@@ -87,54 +89,52 @@ void TLobby__sub_8028D7D0(s32 i) {
 }
 
 void TLobby::free_single_player_chr_select() {
-    if (((u32) chr_select_load_buffer_base != 0U) && ((u32) chr_select_load_buffer != 0U)) {
+    if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer != NULL)) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer)));
-        chr_select_load_buffer = 0U;
+        chr_select_load_buffer = NULL;
     }
 }
 
 void TLobby::alloc_download_server() {
-    if (((u32) chr_select_load_buffer_base != 0U) && ((u32) chr_select_load_buffer == 0U)) {
-        chr_select_load_buffer = (saddr)TQuestVmDownLoadServer::alloc(0x50000);
-        if ((u32) chr_select_load_buffer == 0U) {
+    if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer == NULL)) {
+        chr_select_load_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x50000));
+        if (chr_select_load_buffer == NULL) {
             return;
         }
     }
 }
 
 void TLobby::free_chr_select_singleton() {
-    if ((u32) chr_select_load_buffer_base != 0U) {
+    if (chr_select_load_buffer_base != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer_base)));
-        chr_select_load_buffer_base = 0U;
+        chr_select_load_buffer_base = NULL;
     }
 }
 
 extern "C" {
-s32 TChCrEffCtrlPl__sub_80298F6C(void);
-s32 create__14TChCrEffCtrlPlFv(s32);
 extern saddr tl_03;
 }
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {
-        if ((chr_select_load_buffer_base = (uaddr)TQuestVmDownLoadServer::alloc(0x28000)) == 0) return;
+        if ((chr_select_load_buffer_base = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x28000))) == NULL) return;
     }
 }
 
 void fn_8028D8F4(void) {
-    if ((u32) *(u32 *)((s8 *)(&lbl_8051C070.value) + 0) != 0U) {
-        ((TObject *)((void *)(*(uaddr *)((s8 *)(&lbl_8051C070.value) + 0))))->queue_destruction();
+    if (lbl_8051C070.wall != NULL) {
+        lbl_8051C070.wall->queue_destruction();
     }
-    if ((u32) *(u32 *)((s8 *)(&lbl_8051C070.value) + 4) != 0U) {
-        ((TObject *)((void *)(*(uaddr *)((s8 *)(&lbl_8051C070.value) + 4))))->queue_destruction();
+    if (lbl_8051C070.heading != NULL) {
+        lbl_8051C070.heading->queue_destruction();
     }
 }
 
 void fn_8028D940(void) {
-    *(s32 *)((s8 *)&lbl_8051C070.value + 0) = (saddr)fn_8029AE88((void *)tl_03);
-    *(s32 *)((s8 *)&lbl_8051C070.value + 4) = (saddr)create_TChCrEffTag((void *)tl_03);
-    *(s32 *)((s8 *)&lbl_8051C070.value + 8) = 0;
+    lbl_8051C070.wall = fn_8029AE88((TObject *)tl_03);
+    lbl_8051C070.heading = create_TChCrEffTag((TObject *)tl_03);
+    lbl_8051C070.controller_plate = NULL;
     if (TChCrEffCtrlPl__sub_80298F6C() != 0) {
-        *(s32 *)((s8 *)&lbl_8051C070.value + 8) = create__14TChCrEffCtrlPlFv(tl_03);
+        lbl_8051C070.controller_plate = TChCrEffCtrlPl::create((TObject *)tl_03);
     }
 }

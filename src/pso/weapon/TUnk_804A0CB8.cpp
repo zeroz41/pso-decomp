@@ -97,9 +97,9 @@ TUnk_804A0CB8::TUnk_804A0CB8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_ready = 1;
 }
 
-u8 *create_belra_cannon(u8 *item) {
+TItem *create_belra_cannon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A0CB8(tl_05, item);
+        return new TUnk_804A0CB8(tl_05, item);
     }
     return NULL;
 }

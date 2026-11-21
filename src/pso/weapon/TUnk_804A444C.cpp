@@ -1,7 +1,7 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80128A70.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/TUnk_804A444C.h"
 #include "pso/unk/text_80129AB0.h"
 #include "pso/unk/text_8011B620.h"
@@ -26,7 +26,7 @@ void TUnk_804A444C::emit_marker_effects() {
     WeaponVector pos;
     TObjPlayer__sub_80128A70();
     get_joint_position(7, &pos);
-    spawn_particle_effect(&pos, 9);
+    spawn_particle_effect((const Vec *)&pos, 9);
     launch_shot((u8 *)&pos, 0, s_rank_shot_marker_offsets[0], 1);
     get_joint_position(3, &pos);
     launch_shot((u8 *)&pos, 1, s_rank_shot_marker_offsets[1], 1);
@@ -57,9 +57,9 @@ TUnk_804A444C::TUnk_804A444C(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     shot_speed = 15.0f;
 }
 
-u8 *create_s_rank_shot(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A444C(tl_05, (u8 *)item);
+TItem *create_s_rank_shot(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A444C(tl_05, item);
     }
     return NULL;
 }

@@ -2,7 +2,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/text_80263A20.h"
-#include "pso/ui/window/TWindowLockOn.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -17,6 +17,6 @@ void toggle_help_window_on_button(uaddr arg0, s32 arg1) {
             window_request_show((void *)arg0);
             return;
         }
-        ((TWindowLockOn *)arg0)->request_close();
+        reinterpret_cast<TWindowBase *>(arg0)->request_close();
     }
 }

@@ -75,7 +75,7 @@ void set_default_alpha_blend();
 void set_additive_blend();
 
 s32 clamp_s32(s32 value, s32 min, s32 max);
-void get_current_date_stamp(DateStamp *out);
+void get_current_date_stamp(CardWriteDate *out);
 void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);

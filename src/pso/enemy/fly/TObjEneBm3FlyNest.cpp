@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -16,7 +19,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
@@ -47,15 +49,11 @@ struct Ent_800B23A0 { s32 a; u32 count; };
 
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
-void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
-void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, int, int);
@@ -230,7 +228,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    TObjFish::set_global_param(lbl_805D5108->models[0].m_c);
+    TObjFish::set_global_param((saddr)lbl_805D5108->models[0].m_c);
     push_matrix();
     if (state == 0) {
         post_translate_matrix(origin);
@@ -255,9 +253,9 @@ void TObjEneBm3FlyNest::load_resources() {
     lbl_805D5114 = NULL;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm3_fly_nest_resource_desc, (saddr)("bm_ene_bm3_fly_a.bml"));
+        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, "bm_ene_bm3_fly_a.bml");
     } else {
-        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm3_fly_nest_resource_desc);
+        lbl_805D5108 = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
     }
     lbl_805D50F8 = (u8 *)TLobby::register_boss(1);
     lbl_805D50FC = (u8 *)TLobby::dispatch_shared_handler_b(1);
@@ -280,7 +278,7 @@ void *TObjEneBm3FlyNest::create(void *set_data) {
 void TObjEneBm3FlyNest::free_fly() {
     TObjEneBm3Fly::release_shared_data();
     if (lbl_805D5108 != NULL) {
-        free_bin_model_request(lbl_805D5108, 1);
+        delete lbl_805D5108;
         lbl_805D5108 = NULL;
     }
 }
@@ -296,7 +294,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     invoke_initialization_hook(set_data);
     init_position_vectors();
     model = (void *)lbl_805D5108->models[1].model;
-    texlist = lbl_805D5108->models[0].m_c;
+    texlist = (saddr)lbl_805D5108->models[0].m_c;
     init_model(bm3_flynest_collider_params, 1);
     m_300 = 20.0f + position.y;
     vfunc_88();
@@ -955,7 +953,7 @@ s32 TObjEneBm3FlyNest::has_free_attack_slot(u16 id) {
 void TObjEneBm3FlyNest::remove_child(u8 *child) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(child_ids[i]) == child) {
+        if (find_entity_by_id(child_ids[i]) == reinterpret_cast<TObjCollidable *>(child)) {
             child_count--;
             child_ids[i] = child_ids[child_count];
             child_ids[child_count] = 0xFFFF;
@@ -970,7 +968,7 @@ s32 TObjEneBm3FlyNest::copy_target_state(s32 sound_id) { return remap_sound_for_
 
 void TObjEneBm3FlyNest::init() { init_params(); }
 
-void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
+void TObjEneBm3FlyNest::capture_attachment(NJS_OBJECT *_w0) {
     switch (lbl_805D510C) {
     case 36: case 45:
         forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
@@ -979,7 +977,7 @@ void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     ++lbl_805D510C;
 }
 
-void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
+void TObjEneBm3FlyNest::handle_attachment_sample(NJS_OBJECT *arg0) {
     Vec *pos;
     if (lbl_805D510C == bm3_fly_nest_attachment_sample_table[bm3_fly_nest_attachment_index]) {
         pos = lbl_805D5114;
@@ -987,7 +985,7 @@ void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
         lbl_805D5114 = pos + 1;
         forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
     }
-    TObjEneBm3FlyNest::capture_attachment((void *)arg0);
+    TObjEneBm3FlyNest::capture_attachment(arg0);
 }
 
 void TObjEneBm3FlyNest::render() {
@@ -1048,9 +1046,9 @@ void TObjEneBm3FlyNest::render() {
                 if (mode == 0) {
                     bm3_fly_nest_attachment_index = 0;
                     lbl_805D5114 = unk_3e0;
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneBm3FlyNest::handle_attachment_sample));
+                    set_chunk_model_node_callback(TObjEneBm3FlyNest::handle_attachment_sample);
                 } else {
-                    set_chunk_model_node_callback((saddr)((void *)TObjEneBm3FlyNest::capture_attachment));
+                    set_chunk_model_node_callback(TObjEneBm3FlyNest::capture_attachment);
                 }
                 ((s32 (*)(int, int))rotate_matrix_y)(0, rotation_y);
                 TObjEneDD::clear_global_flag_400();
@@ -1061,7 +1059,7 @@ void TObjEneBm3FlyNest::render() {
                     draw_motion_model();
                 }
                 TParticleCtrl::end_effect_render();
-                set_chunk_model_node_callback((s32)NULL);
+                set_chunk_model_node_callback(NULL);
                 pop_matrix();
             }
             update_primary_light();

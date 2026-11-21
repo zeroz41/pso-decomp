@@ -1,10 +1,10 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/weapon/TUnk_804E24F0.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
@@ -16,7 +16,7 @@ void get_weapon_color__11TItemWeaponFPv(void *, void *);
 
 void TUnk_804E24F0::vfunc_60() {
     if (TObjPlayer::get_player_list() == 1) {
-        translate_matrix(0, 0.0f, pad_1f8, 0.0f);
+        translate_matrix(0, 0.0f, muzzle_offset, 0.0f);
     }
 }
 
@@ -24,41 +24,38 @@ void TUnk_804E24F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     u8 sp8[16];
     desc->flags |= 0x11C;
     get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb((NJS_ARGB *)desc->color, (NJS_ARGB *)sp8);
+    copy_argb(&desc->color, (NJS_ARGB *)sp8);
     desc->model = second_model;
-    desc->pad_10 = 4;
-    desc->pad_4c = 2.0f;
-    desc->pad_70 = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->hits = 4;
+    desc->scale = 2.0f;
+    desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
 }
 
 void TUnk_804E24F0::emit_marker_effects() {
-    s32 sp8;
-    saddr arg0 = (saddr)this;
+    Vec position;
 
-    ((TItemWeapon *)arg0)->get_gun_point(&sp8);
-    spawn_particle_effect(&sp8, 9);
-    ((TItemWeapon *)arg0)->spawn_light_task();
-    ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, 0, 0);
+    get_gun_point(&position);
+    spawn_particle_effect(&position, 9);
+    spawn_light_task();
+    fire_shot_at_target(&position, 0, 0);
 }
 
 void TUnk_804E24F0::update_idle() {
-    saddr arg0 = (saddr)this;
-    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.5f, 4.0f);
+    TItemEffOrgaFlowShot::approach_value(&muzzle_offset, 0.5f, 4.0f);
 }
 
 void TUnk_804E24F0::update_attack() {
-    saddr arg0 = (saddr)this;
-    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), -1.0f, 0.0f);
+    TItemEffOrgaFlowShot::approach_value(&muzzle_offset, -1.0f, 0.0f);
 }
 
 TUnk_804E24F0::TUnk_804E24F0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
-    pad_1f8 = 0.0f;
+    muzzle_offset = 0.0f;
 }
 
-u8 *TUnk_804E24F0::create(u8 *item) {
+TItem *TUnk_804E24F0::create(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804E24F0(tl_05, item);
+        return new TUnk_804E24F0(tl_05, item);
     }
     return NULL;
 }

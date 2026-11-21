@@ -1,4 +1,7 @@
+#include "pso/render/TriangleFan3D.h"
+#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
+#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -167,13 +170,6 @@ struct Lines_801E341C {
     u32 *colors;
 };
 
-struct UV_801E3784 { s16 u, v; };
-
-struct Tris_801E3784 {
-    Vec *positions;
-    u32 *colors;
-    UV_801E3784 *uvs;
-};
 
 extern "C" {
 void GXBegin(s32, s32, u16);
@@ -321,10 +317,9 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
 }
-void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
-    Tris_801E3784 *t = (Tris_801E3784 *)this;
+void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
     Vec *p;
-    UV_801E3784 *uv;
+    NJS_TEX *uv;
     u32 *c;
     s32 i;
     load_camera_view_matrix();
@@ -341,9 +336,9 @@ void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
         setup_opaque_color_draw();
     }
     GXBegin(0xA0, 4, n);
-    c = t->colors;
-    p = t->positions;
-    uv = t->uvs;
+    c = fan->col;
+    p = fan->p;
+    uv = fan->tex;
     for (i = 0; i < n; i++) {
         TObjPlayer__sub_801E3F30(p->x, p->y, p->z);
         TObjPlayer__sub_801E3F24(*c);
@@ -360,9 +355,9 @@ void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
 
 // Reads one Ninja chunk (NJCM, NJTL, NMDM, ...) at file + *offset into dst (or a fresh
 // allocation), stores its type, then applies the POF0 pointer-offset list that follows.
-s32 *TLobby__sub_801E38A0(saddr file, s32 *offset, s32 *type, s32 *dst, s32 *size_out) {
-    u8 *p;
-    s32 *buf;
+void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destination, u32 *size_out) {
+    const u8 *p;
+    void *buf;
     s32 pos;
     s32 tag;
     u32 size;
@@ -419,10 +414,10 @@ s32 *TLobby__sub_801E38A0(saddr file, s32 *offset, s32 *type, s32 *dst, s32 *siz
     default:
         goto bad;
     }
-    if (dst == 0) {
-        buf = (s32 *)TQuestVmDownLoadServer::alloc(size);
+    if (destination == NULL) {
+        buf = (void *)TQuestVmDownLoadServer::alloc(size);
     } else {
-        buf = dst;
+        buf = destination;
     }
     if (buf == 0) {
         return 0;
@@ -507,7 +502,6 @@ s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
-extern s32 (*chunk_model_node_callback)(void *);
 void TKeyBoardControl__sub_8000F7FC(void);
 
 void fn_803DCEC8(void);
@@ -520,8 +514,8 @@ void TObjPlayer::render_tree(void *arg0) {
     do {
         push_matrix();
         compose_motion_node_matrix(var_r31);
-        if (((s32 (*)(void *)) chunk_model_node_callback) != NULL) {
-            chunk_model_node_callback(var_r31);
+        if (chunk_model_node_callback != NULL) {
+            chunk_model_node_callback(static_cast<NJS_OBJECT *>(var_r31));
         }
         if ((u32) *(u32 *)((s8 *)var_r31 + 0x2C) != 0U) {
             TObjPlayer::render_tree((void *)(*(void **)((s8 *)var_r31 + 0x2C)));
@@ -616,7 +610,7 @@ void fn_801E3F44(f32 x, f32 y) {
     *(f32 *)0xCC008000 = y;
 }
 
-void *TObjCMHairMenu__sub_801E3F54(void *p, void *q) {
-    *(u32 *)p = *(u32 *)q;
+u32 *TObjCMHairMenu__sub_801E3F54(u32 *p, const u32 *q) {
+    *p = *q;
     return p;
 }

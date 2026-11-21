@@ -3,40 +3,23 @@
 
 #include "types.h"
 
-extern "C" {
-void TWindowCtrl__sub_8024C6CC(void *p);
-void TWindowCtrl__sub_8024C6DC(void *p);
-void TWindowCtrl__sub_8024C6EC(void *p);
-void TWindowCtrl__sub_8024C6FC(void *p);
-void TWindowCtrl__sub_8024C70C(void *p);
-void TWindowCtrl__sub_8024C71C(void *p);
-void TWindowCtrl__sub_8024C72C(void *p);
-void TWindowCtrl__sub_8024C73C(void *p);
-void TWindowCtrl__sub_8024C74C(void *p);
-void TWindowCtrl__sub_8024C75C(void *p);
-bool TWindowCtrl__sub_8024C7C4(u8 *arg0);
-int TWindowCtrl__sub_8024C7D4(void *p);
-int TWindowCtrl__sub_8024C7E0(void *p);
-int TWindowCtrl__sub_8024C7F8(void *p);
-}
+class TWindowCtrl;
 
-// --- C functions defined in TWindowCtrl_8024C6CC.cpp ---
 extern "C" {
-void TWindowCtrl__sub_8024C6CC(void *p);
-void TWindowCtrl__sub_8024C6DC(void *p);
-void TWindowCtrl__sub_8024C6EC(void *p);
-void TWindowCtrl__sub_8024C6FC(void *p);
-void TWindowCtrl__sub_8024C70C(void *p);
-void TWindowCtrl__sub_8024C71C(void *p);
-void TWindowCtrl__sub_8024C72C(void *p);
-void TWindowCtrl__sub_8024C73C(void *p);
-void TWindowCtrl__sub_8024C74C(void *p);
-void TWindowCtrl__sub_8024C75C(void *p);
-bool TWindowCtrl__sub_8024C7C4(u8 *arg0);
-int TWindowCtrl__sub_8024C7D4(void *p);
-int TWindowCtrl__sub_8024C7E0(void *p);
-int TWindowCtrl__sub_8024C7F8(void *p);
+void TWindowCtrl__sub_8024C6CC(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C6DC(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C6EC(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C6FC(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C70C(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C71C(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C72C(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C73C(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C74C(TWindowCtrl *window);
+void TWindowCtrl__sub_8024C75C(TWindowCtrl *window);
+s32 TWindowCtrl__sub_8024C7C4(const TWindowCtrl *window);
+s32 TWindowCtrl__sub_8024C7D4(const TWindowCtrl *window);
+s32 TWindowCtrl__sub_8024C7E0(const TWindowCtrl *window);
+s32 TWindowCtrl__sub_8024C7F8(const TWindowCtrl *window);
 }
-// --- end of C functions
 
 #endif

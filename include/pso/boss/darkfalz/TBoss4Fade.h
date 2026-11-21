@@ -3,22 +3,34 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <stddef.h>
 
 class TBoss4Fade : public TObject {
 public:
     virtual ~TBoss4Fade();
     virtual void run_task();
     virtual void render();
+
+    struct FadeFrame {
+        s32 active;
+        u32 color;
+        f32 alpha;
+    };
+
+    s32 write_index;
+    FadeFrame frames[2];
 };
 
-extern "C" {
-void *__ct__10TBoss4FadeFv(void *boss4_fade);
-}
+LAYOUT_ASSERT(TBoss4Fade_size, sizeof(TBoss4Fade) == 0x38);
+LAYOUT_ASSERT(TBoss4Fade_write_index_offset, offsetof(TBoss4Fade, write_index) == 0x1C);
+LAYOUT_ASSERT(TBoss4Fade_frames_offset, offsetof(TBoss4Fade, frames) == 0x20);
 
-// --- C functions defined in TBoss4Fade.cpp ---
+struct TBoss4DarkFalz;
+
 extern "C" {
-void *__ct__10TBoss4FadeFv(void *boss4_fade);
+TBoss4Fade *__ct__10TBoss4FadeFv(TBoss4Fade *fade, TObject *parent);
+void fn_803594B4(TBoss4Fade *fade, s32 color, f32 alpha);
+void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 color, f32 alpha);
 }
-// --- end of C functions
 
 #endif

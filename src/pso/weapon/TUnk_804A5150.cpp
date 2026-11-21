@@ -40,9 +40,9 @@ TUnk_804A5150::TUnk_804A5150(TObject *parent, u8 *item) : TItemWeapon(parent, it
 }
 
 
-u8 *TObjPlayer::create_handlers_state(u8 *arg0) {
+TItem *TObjPlayer::create_handlers_state(u8 *arg0) {
     if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A5150(tl_05, arg0);
+        return new TUnk_804A5150(tl_05, arg0);
     }
     return NULL;
 }

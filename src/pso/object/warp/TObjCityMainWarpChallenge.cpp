@@ -82,7 +82,7 @@ TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_
     }
     state_step = 0;
     state_flags = 0;
-    model = city_common_model_archive->models[0].model;
+    model = (saddr)city_common_model_archive->models[0].model;
     motion = city_common_model_archive->motions[5].motion;
     if (field_collider != NULL) {
         ((TObject *)field_collider)->queue_destruction();
@@ -189,7 +189,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             if (this->yes_no_window != 0) {
                 open_yes_no_prompt_with_text((TChCrTagPlBack *)this->yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
                 set_menu_selected_index((TWindowSubComCard *)this->yes_no_window, 1);
-                ((TWindowSubShortMail *)this->yes_no_window)->notify_warp_flag70();
+                ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
@@ -291,7 +291,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         warp_triggered = 0;
         warp_effect_timer = 0;
         state_step = 1;
-        model = city_common_model_archive->models[0].model;
+        model = (saddr)city_common_model_archive->models[0].model;
         motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:

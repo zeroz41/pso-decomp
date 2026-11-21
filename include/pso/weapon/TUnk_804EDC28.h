@@ -12,6 +12,6 @@ public:
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
 };
 
-u8 *create_guardianna(u8 *item);
+TItem *create_guardianna(u8 *item);
 
 #endif

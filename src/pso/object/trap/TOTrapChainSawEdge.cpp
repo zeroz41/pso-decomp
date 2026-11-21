@@ -1,6 +1,8 @@
+#include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
 #include "pso/object/trap/TOTrapAncient02R.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -297,10 +299,7 @@ void TOTrapChainSaw::load_shared_resource() {
     BmlResource *p;
     s32 i;
     NJS_OBJECT *root;
-    p = (BmlResource *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 5, &bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, 0);
-    }
+    p = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, NULL);
     lbl_805D6808 = p;
     for (i = 0; i < 5; i++) {
         seabed_suiso_linked_switch_counts[i] = NULL;
@@ -309,14 +308,14 @@ void TOTrapChainSaw::load_shared_resource() {
         seabed_suiso_switch_counts[i] = NULL;
     }
     if (p != NULL) {
-        root = (NJS_OBJECT *)get_bml_model(p, 3);
+        root = (NJS_OBJECT *)get_bml_model((BmlResource *)p, 3);
         if (root != NULL) {
             seabed_suiso_linked_switch_counts[1] = find_object_node(root, 3);
             seabed_suiso_linked_switch_counts[2] = find_object_node(root, 4);
             seabed_suiso_linked_switch_counts[3] = find_object_node(root, 5);
             seabed_suiso_linked_switch_counts[4] = find_object_node(root, 6);
         }
-        root = (NJS_OBJECT *)get_bml_model(lbl_805D6808, 4);
+        root = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, 4);
         if (root != NULL) {
             seabed_suiso_switch_counts[1] = find_object_node(root, 3);
             seabed_suiso_switch_counts[2] = find_object_node(root, 4);
@@ -329,7 +328,7 @@ void TOTrapChainSaw::load_shared_resource() {
 void TOTrapChainSaw::unload_static_data() {
     s32 i;
     if (lbl_805D6808 != NULL) {
-        free_bin_model_request(lbl_805D6808, 1);
+        delete (BmlResource *)lbl_805D6808;
         lbl_805D6808 = NULL;
     }
     for (i = 0; i < 5; i++) {
@@ -342,7 +341,7 @@ void TOTrapChainSaw::unload_static_data() {
 
 NJS_OBJECT *TOTrapChainSawKey::get_model(s32 arg0) {
     if (lbl_805D6808 != NULL) {
-        return (NJS_OBJECT *)get_bml_model(lbl_805D6808, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, arg0);
     }
     return NULL;
 }
@@ -356,7 +355,7 @@ AnimationMotion *TOTrapChainSawKey::get_motion(s32 arg0) {
 
 GinjaTextureList *fn_802C9924(s32 arg0) {
     if (lbl_805D6808 != NULL) {
-        return (GinjaTextureList *)get_bml_texlist(lbl_805D6808, arg0);
+        return (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D6808, arg0);
     }
     return NULL;
 }

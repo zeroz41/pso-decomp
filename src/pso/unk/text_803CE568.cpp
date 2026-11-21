@@ -1,34 +1,19 @@
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
+#include "pso/system/CvFsStreamHandle.h"
 #include "pso/unk/text_803CE568.h"
 #include "pso/unk/TLobby.h"
 
-typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, const char *, s32);
 
-struct Ent_803CF958 { uaddr a; char name[12]; };
-
-struct CvFsDevVtbl {
-    u8 pad0[8];
-    s32 (*get_file_size)(char *);
-    u8 padC[4];
-    void *(*open)(char *, s32, s32);
-    void (*close)(void *);
-    u8 pad18[0x5C - 0x18];
-    s32 (*get_file_size_ex)(char *, s32);
-    s32 (*query)(s32, s32, s32, s32);
-};
+struct Ent_803CF958 { CvFsDeviceInterface *device; char name[12]; };
 
 struct CvFsHandle {
-    CvFsDevVtbl *vtbl;
+    CvFsDeviceInterface *vtbl;
     void *fd;
 };
 
-struct V_803CEF60 { void (*fn)(); };
-
 extern "C" {
-extern RecoveredCallback_4873a87e26d6 cvfs_completion_callback;
-extern s32 lbl_805D75FC;
 extern s8 fs_default_device_name[];
 extern Ent_803CF958 cvfs_entry_table[];
 s32 lbl_805D7600;
@@ -92,19 +77,19 @@ inline char *cvfs_get_default_device(char *dev) {
     return dev;
 }
 
-inline CvFsDevVtbl *cvfs_lookup_device(char *name) {
+inline CvFsDeviceInterface *cvfs_lookup_device(char *name) {
     u32 i;
     s32 len = strlen(name);
     for (i = 0; i < 32; i++) {
         if (strncmp(name, cvfs_entry_table[i].name, len) == 0) {
-            return (CvFsDevVtbl *)cvfs_entry_table[i].a;
+            return cvfs_entry_table[i].device;
         }
     }
     return NULL;
 }
 
 inline void cvfs_add_device_prefix(char *dev, char *file) {
-    CvFsDevVtbl *vtbl;
+    CvFsDeviceInterface *vtbl;
     s32 need;
     if (dev == NULL) {
         dev = (char *)fs_default_device_name;
@@ -123,8 +108,8 @@ inline void cvfs_add_device_prefix(char *dev, char *file) {
     }
 }
 
-inline CvFsDevVtbl *cvfs_get_device(char *dev, char *file, char *path) {
-    CvFsDevVtbl *vtbl;
+inline CvFsDeviceInterface *cvfs_get_device(char *dev, char *file, char *path) {
+    CvFsDeviceInterface *vtbl;
     if (dev[0] == '\0') {
         dev = cvfs_get_default_device(dev);
         if (dev[0] == '\0') {
@@ -379,10 +364,11 @@ s32 cvFsGetFreeSize(char *dev) {
     return 0;
 }
 
-s32 cvFsGetFileSizeEx(char *path, s32 arg) {
+s32 cvFsGetFileSizeEx(const char *name, s32 arg) {
+    char *path = const_cast<char *>(name);
     char dev[300];
     char file[300];
-    CvFsDevVtbl *vtbl;
+    CvFsDeviceInterface *vtbl;
 
     if (path == NULL) {
         cvfs_error("cvFsGetFileSizeEx #1:illegal file name");
@@ -406,10 +392,11 @@ s32 cvFsGetFileSizeEx(char *path, s32 arg) {
     cvfs_error("cvFsGetFileSizeEx #4:vtbl error");
     return 0;
 }
-s32 cvFsGetFileSize(char *path) {
+s32 cvFsGetFileSize(const char *name) {
+    char *path = const_cast<char *>(name);
     char dev[300];
     char file[300];
-    CvFsDevVtbl *vtbl;
+    CvFsDeviceInterface *vtbl;
 
     if (path == NULL) {
         cvfs_error("cvFsGetFileSize #1:illegal file name");
@@ -434,20 +421,19 @@ s32 cvFsGetFileSize(char *path) {
     return 0;
 }
 
-s32 TLobby::cv_fs_get_stat() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32);
+s32 cvFsGetStat(CvFsHandle *handle) {
+    s32 (*operation)(void *);
     s32 var_r31;
     var_r31 = 3;
-    if (arg0 == NULL) {
+    if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsGetStat #1:handle error", 0);
         }
         return 3;
     }
-    temp_r12 = *(s32 (**)(s32))((s8 *)(*(u8 * *)&this->m_name) + 0x2C);
-    if (temp_r12 != NULL) {
-        var_r31 = temp_r12(*(s32 *)&this->m_flags);
+    operation = handle->vtbl->get_status;
+    if (operation != NULL) {
+        var_r31 = operation(handle->fd);
     } else if (cvfs_completion_callback != NULL) {
         cvfs_completion_callback(lbl_805D75FC, "cvFsGetStat #2:vtbl error", 0);
     }
@@ -459,23 +445,22 @@ void TLobby__sub_803CEF60(void) {
     Ent_803CF958 *p;
     for (i = 0; i < 0x20; i++) {
         p = &cvfs_entry_table[i];
-        if ((V_803CEF60 *)p->a != 0 && ((V_803CEF60 *)p->a)->fn != 0) {
-            ((V_803CEF60 *)p->a)->fn();
+        if (p->device != NULL && p->device->exec_server != 0) {
+            p->device->exec_server();
         }
     }
 }
 
-void TLobby::cvfs_stop_tr() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32);
-    if (arg0 == NULL) {
+void cvFsStopTr(CvFsHandle *handle) {
+    void (*operation)(void *);
+    if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsStopTr #1:handle error", 0);
         }
     } else {
-        temp_r12 = *(s32 (**)(s32))((s8 *)(*(u8 * *)&this->m_name) + 0x28);
-        if (temp_r12 != NULL) {
-            temp_r12(*(s32 *)&this->m_flags);
+        operation = handle->vtbl->stop_transfer;
+        if (operation != NULL) {
+            operation(handle->fd);
             return;
         }
         if (cvfs_completion_callback != NULL) {
@@ -494,19 +479,18 @@ s32 cvFsReqWr(CvFsHandle *fd, s32 nsct, void *buf) {
     return 0;
 }
 
-s32 TLobby::cv_fs_req_rd(s32 error_context, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32, s32, s32);
+s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer) {
+    s32 (*operation)(void *, s32, void *);
     s32 var_r31;
-    if (arg0 == NULL) {
+    if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsReqRd #1:handle error", 0);
         }
         return 0;
     }
-    temp_r12 = *(s32 (**)(s32, s32, s32))((s8 *)(*(u8 * *)&this->m_name) + 0x20);
-    if (temp_r12 != NULL) {
-        var_r31 = temp_r12(*(s32 *)&this->m_flags, error_context, arg2);
+    operation = handle->vtbl->request_read;
+    if (operation != NULL) {
+        var_r31 = operation(handle->fd, sector_count, buffer);
     } else {
         var_r31 = 0;
         if (cvfs_completion_callback != NULL) {
@@ -516,19 +500,18 @@ s32 TLobby::cv_fs_req_rd(s32 error_context, s32 arg2) {
     return var_r31;
 }
 
-s32 TLobby::cv_fs_seek(s32 error_context, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32, s32, s32);
+s32 cvFsSeek(CvFsHandle *handle, s32 sector, s32 origin) {
+    s32 (*operation)(void *, s32, s32);
     s32 var_r31;
-    if (arg0 == NULL) {
+    if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsSeek #1:handle error", 0);
         }
         return 0;
     }
-    temp_r12 = *(s32 (**)(s32, s32, s32))((s8 *)(*(u8 * *)&this->m_name) + 0x18);
-    if (temp_r12 != NULL) {
-        var_r31 = temp_r12(*(s32 *)&this->m_flags, error_context, arg2);
+    operation = handle->vtbl->seek;
+    if (operation != NULL) {
+        var_r31 = operation(handle->fd, sector, origin);
     } else {
         var_r31 = 0;
         if (cvfs_completion_callback != NULL) {
@@ -538,19 +521,18 @@ s32 TLobby::cv_fs_seek(s32 error_context, s32 arg2) {
     return var_r31;
 }
 
-s32 TLobby::cv_fs_tell() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32);
+s32 cvFsTell(CvFsHandle *handle) {
+    s32 (*operation)(void *);
     s32 var_r31;
-    if (arg0 == NULL) {
+    if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsTell #1:handle error", 0);
         }
         return 0;
     }
-    temp_r12 = *(s32 (**)(s32))((s8 *)(*(u8 * *)&this->m_name) + 0x1C);
-    if (temp_r12 != NULL) {
-        var_r31 = temp_r12(*(s32 *)&this->m_flags);
+    operation = handle->vtbl->tell;
+    if (operation != NULL) {
+        var_r31 = operation(handle->fd);
     } else {
         var_r31 = 0;
         if (cvfs_completion_callback != NULL) {
@@ -559,19 +541,18 @@ s32 TLobby::cv_fs_tell() {
     }
     return var_r31;
 }
-void TLobby::cv_fs_close() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32);
-    if (arg0 == NULL) {
+void cvFsClose(CvFsHandle *handle) {
+    void (*operation)(void *);
+    if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsClose #1:handle error", 0);
         }
     } else {
-        temp_r12 = *(s32 (**)(s32))((s8 *)(*(u8 * *)&this->m_name) + 0x14);
-        if (temp_r12 != NULL) {
-            temp_r12(*(s32 *)&this->m_flags);
-            *(s32 *)&this->m_flags = 0;
-            *(u8 * *)&this->m_name = NULL;
+        operation = handle->vtbl->close;
+        if (operation != NULL) {
+            operation(handle->fd);
+            handle->fd = NULL;
+            handle->vtbl = NULL;
             return;
         }
         if (cvfs_completion_callback != NULL) {
@@ -579,10 +560,11 @@ void TLobby::cv_fs_close() {
         }
     }
 }
-CvFsHandle *cvFsOpen(char *path, s32 mode, s32 arg) {
+CvFsHandle *cvFsOpen(const char *name, s32 mode, s32 arg) {
+    char *path = const_cast<char *>(name);
     char dev[300];
     char file[300];
-    CvFsDevVtbl *vtbl;
+    CvFsDeviceInterface *vtbl;
     CvFsHandle *h;
 
     if (path == NULL) {
@@ -625,7 +607,6 @@ CvFsHandle *cvFsOpen(char *path, s32 mode, s32 arg) {
     }
     return h;
 }
-typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, const char *, s32);
 inline s32 find_803CF958(char *s, s32 len) {
     Ent_803CF958 *p;
     s32 i;
@@ -636,8 +617,7 @@ inline s32 find_803CF958(char *s, s32 len) {
     }
     return 0;
 }
-void TLobby::cvFsSetDefDev() {
-    char *arg0 = (char *)this;
+void cvFsSetDefDev(char *arg0) {
     s32 len;
     u32 j;
     u32 n;
@@ -674,23 +654,18 @@ void cvFsDelDev(char *dev) {
     }
 }
 
-struct CvFsDevIf {
-    u8 pad0[4];
-    void (*set_callback)(void (*)(), s32);
-};
-
-inline u32 cvfs_find_device_if(char *s, s32 len) {
+inline CvFsDeviceInterface *cvfs_find_device_if(char *s, s32 len) {
     Ent_803CF958 *p;
     u32 i;
     for (p = cvfs_entry_table, i = 0; i < 32; i++, p++) {
         if (strncmp(s, p->name, len) == 0) {
-            return cvfs_entry_table[i].a;
+            return cvfs_entry_table[i].device;
         }
     }
     return 0;
 }
 
-inline CvFsDevIf *cvfs_add_device(char *name, CvFsDevIf *dev) {
+inline CvFsDeviceInterface *cvfs_add_device(char *name, CvFsDeviceInterface *dev) {
     s32 k;
     if (cvfs_find_device_if(name, strlen(name)) != 0) {
         return dev;
@@ -703,12 +678,12 @@ inline CvFsDevIf *cvfs_add_device(char *name, CvFsDevIf *dev) {
     if (k == 32) {
         return NULL;
     }
-    cvfs_entry_table[k].a = (uaddr)dev;
+    cvfs_entry_table[k].device = dev;
     memcpy(cvfs_entry_table[k].name, name, strlen(name) + 1);
     return dev;
 }
-void cvFsAddDev(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
-    CvFsDevIf *dev;
+void cvFsAddDev(char *name, CvFsDeviceFactory getif, s32 arg) {
+    CvFsDeviceInterface *dev;
     u32 n;
     u32 i;
     lbl_805E0DA0;
@@ -737,8 +712,8 @@ void cvFsAddDev(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
         }
         return;
     }
-    if (dev->set_callback != NULL) {
-        dev->set_callback(TLobby::call_callback, 0);
+    if (dev->set_error_callback != NULL) {
+        dev->set_error_callback(cvfs_forward_error, 0);
     }
 }
 

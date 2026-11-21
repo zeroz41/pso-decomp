@@ -2,6 +2,8 @@
 #define PSO_OBJECT_AMBIENT_TOBJFISH_H
 
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 
@@ -22,6 +24,7 @@ struct TObjFishEntry {
 };
 
 struct TObjFish : public TObjBase {
+    TObjFish(TObject *parent, void *set_data);
     virtual ~TObjFish();
     s32 init_fish_school(void *, s32, s32);
     s32 update_state();
@@ -31,23 +34,16 @@ struct TObjFish : public TObjBase {
     s16 m_92;
     u32 m_94;              // fish count
     u32 m_98;              // frame counter
-    u8 _pad9C[0x4];
+    f32 m_9c;
     TObjFishEntry *m_a0;   // the fish
     void sync_position_vectors();
     static void *alloc(void *arg0);
     static void reset_fish_globals();
-    s32 get_phase();
-    static saddr get_fish_count();
     static void spawn_default_particle(s32 position, s32 particle_index);
     static void create_splash_particle(saddr arg0, s32 arg1, saddr arg2);
     static void spawn_particle(saddr arg0, s32 arg1, f32 farg0);
     static void free_resource();
     static void load_area_resource();
-    static void draw_callback_transform_to_view();
-    void set_draw_callback_list();
-    void clear_render_callback();
-    s32 is_entry_table_valid();
-    static void init_state_1(void *arg0);
     void update_attached_orientation();
     void destroy_child();
     static s32 set_global_param(saddr arg0);

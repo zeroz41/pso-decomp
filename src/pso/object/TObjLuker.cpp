@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
@@ -8,6 +9,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/system/task/TObject.h"
 
@@ -22,7 +25,6 @@
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
@@ -91,10 +93,8 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
-void *create_window_menu(void *p, saddr a, saddr b);
 void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
-void align_menu_entry_positions(void *w);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern const char *TObjLuker__name;
@@ -130,7 +130,7 @@ void TObjLuker::show_part(s32 arg1) {
         if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
             play_sound_effect(0x53703, 0U, 0, 0);
         }
-        ((TQuestVmDownLoadServer *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_flag4_bit4();
+        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_update_suspension();
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
     }
 }
@@ -150,8 +150,8 @@ void TObjLuker::update_floor_name_windows() {
                 *(s32 *)&this->m_a0 = target;
             }
             ((TWindowSubTradeMain *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
-            ((TWindowSubComCard *)(self->wins[i]))->calc_window_size();
-            align_menu_entry_positions(self->wins[i]);
+            ((TWindowMenu *)(self->wins[i]))->calc_window_size();
+            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(self->wins[i]));
         }
     }
 }
@@ -176,7 +176,7 @@ void TObjLuker::open_destination_windows() {
     for (i = 0; i < 4; i++) {
         if (self->wins[i] == 0 && target > 0) {
             if (is_split_screen() != 0) {
-                self->wins[i] = create_window_menu(get_window_layout_position(0x33), 1, i);
+                self->wins[i] = create_window_menu((saddr)get_window_layout_position(0x33), 1, i);
             } else {
                 self->wins[i] = create_window_menu_default(get_window_layout_position(0x33), 1);
             }
@@ -184,8 +184,8 @@ void TObjLuker::open_destination_windows() {
                 this->m_a0 = target;
                 ((TWindowSubTradeMain *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
                 ((TAdChrSelASlotGC *)(self->wins[i]))->set_flag_40();
-                ((TWindowSubComCard *)(self->wins[i]))->calc_window_size();
-                align_menu_entry_positions(self->wins[i]);
+                ((TWindowMenu *)(self->wins[i]))->calc_window_size();
+                align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(self->wins[i]));
                 ((TObject *)(self->wins[i]))->suspend_update();
                 ((TObject *)self->wins[i])->disallow_rendering();
             }
@@ -427,7 +427,7 @@ void TObjLuker::run_task() {
                     if (flag != 0) {
                         this->m_b0 = 1;
                         offset_point_toward_camera((u8 *)&this->position, (u8 *)spC, 10.0f);
-                        spawn_particle_effect(spC, 0xB3);
+                        spawn_particle_effect((const Vec *)spC, 0xB3);
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((int)p, (int)0xA);

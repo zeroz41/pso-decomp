@@ -39,9 +39,9 @@ TUnk_804A0DB0::TUnk_804A0DB0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-u8 *TObjPlayer::create_state_vector_state(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A0DB0(tl_05, (u8 *)item);
+TItem *TObjPlayer::create_state_vector_state(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A0DB0(tl_05, item);
     }
     return NULL;
 }

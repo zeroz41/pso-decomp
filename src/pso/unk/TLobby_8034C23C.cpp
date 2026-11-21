@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include <string.h>
 #include "pso/unk/TLobby_8001D6A0.h"

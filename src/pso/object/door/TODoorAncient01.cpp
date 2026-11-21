@@ -9,7 +9,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -67,10 +66,7 @@ TODoorAncient01::~TODoorAncient01() {
 }
 
 void TODoorAncient01::load_resources() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 1, &bm_fe_obj_o_door01l_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(1, &bm_fe_obj_o_door01l_resource_descriptor, 0, 0, NULL);
     door_ancient01_archive = archive;
     GinjaTextureList **texlists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     door_ancient01_texlists = texlists;
@@ -87,7 +83,7 @@ void TODoorAncient01::free_resources() {
         }
     }
     if (door_ancient01_archive != NULL) {
-        free_bin_model_request(door_ancient01_archive, 1);
+        delete door_ancient01_archive;
         door_ancient01_archive = NULL;
     }
 }
@@ -105,22 +101,22 @@ void TODoorAncient01::render() {
         if (object_state == DOOR_CLOSED) {
             NJS_OBJECT *node = (NJS_OBJECT *)model;
             post_translate_matrix(node->pos);
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model((void *)node->model);
             node = node->child;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model((void *)node->model);
             pop_matrix();
             TParticleCtrl::begin_effect_render();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model((void *)node->model);
             pop_matrix();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((saddr)node->model);
+            draw_ginja_model((void *)node->model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
         } else {

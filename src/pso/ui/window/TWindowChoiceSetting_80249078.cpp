@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -25,18 +26,18 @@ void TWindowChoiceSetting::sub_80249078() {
     uaddr steps;
 
     if (this->m_80 & 1) {
-        steps = this->get_array_entry(this->get_field_74());
+        steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_field_74()));
         target = *(f32 *)(steps + 0xC);
     } else {
         target = 0.0f;
     }
-    steps = *(u32 *)&this->unk_50;
+    steps = *(u32 *)&this->tween_ticks;
     if (steps == 0) {
-        *(f32 *)&this->unk_60[0xC] = target;
+        scroll_offset[1] = target;
         return;
     }
-    target += 0.5f * (this->m_3c - this->m_4c);
-    *(f32 *)&this->unk_60[0xC] += (target - *(f32 *)&this->unk_60[0xC]) / (f32)steps;
+    target += 0.5f * (this->target_size[1] - this->frame_size[1]);
+    scroll_offset[1] += (target - scroll_offset[1]) / (f32)steps;
 }
 #pragma pop
 
@@ -61,9 +62,9 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
     if (!(temp_r4 & 1)) {
         ((TWindowChoiceSetting *)window_choice_setting)->m_80 = (u16) (temp_r4 | 1);
         e = (void *)(((TWindowBase *)window_choice_setting)->get_array_entry((s32)((TWindowChoiceSetting *)window_choice_setting)->get_field_74()));
-        ((TWindowChoiceSetting *)window_choice_setting)->m_3c = 20.0f + *(f32 *)((s8 *)e + 0x14);
-        if (((TWindowChoiceSetting *)window_choice_setting)->m_2c & 0x40) {
-            ((TWindowChoiceSetting *)window_choice_setting)->m_3c += 6.0f;
+        ((TWindowChoiceSetting *)window_choice_setting)->target_size[1] = 20.0f + *(f32 *)((s8 *)e + 0x14);
+        if (((TWindowChoiceSetting *)window_choice_setting)->window_flags & 0x40) {
+            ((TWindowChoiceSetting *)window_choice_setting)->target_size[1] += 6.0f;
         }
         *(s32 *)((s8 *)window_choice_setting + 0x50) = 3;
     }
@@ -78,15 +79,16 @@ s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1
 
 int TWindowSubComCard__sub_80249220(void* p, void * _w1) { return fn_80268C5C(p); }
 
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
 }
 
 void TWindowChoiceSetting::render() {
-    saddr context = get_draw_context__11TWindowBaseFPv();
+    saddr context = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)context);
-    draw_visible_window_entries(this, (u8 *)this + 0x24, context);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        reinterpret_cast<WindowDrawContext *>(context));
     draw_setting(context);
     if (heading != 0) {
         ((TWindowSubStatusDisp *)((saddr)heading))->forward_render((void *)(context));
@@ -128,7 +130,7 @@ void TWindowChoiceSetting::run_task() {
             ((TUnk_804D0658 *)arg0)->request_close();
         }
     }
-    if ((f32) this->m_5c >= 7.5f) {
+    if ((f32) this->open_tick >= 7.5f) {
         if (this->heading != 0) {
             this->heading->update_subwindow();
         }
@@ -142,7 +144,7 @@ void TWindowChoiceSetting::run_task() {
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
 }
 
 TWindowChoiceSetting::~TWindowChoiceSetting() {

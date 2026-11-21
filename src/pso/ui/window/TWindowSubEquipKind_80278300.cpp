@@ -65,7 +65,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
         draw_window_tab(((Win_8027831C *)win), &pos, col, 0.0f);
         pos.x += 80.0f;
         pos.y += 4.0f;
-        set_text_draw_params((saddr)((Win_8027831C *)win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);
+        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);
         msg = (saddr)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
         pos.x -= 0.5f * (f32)calc_text_width();
         draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);

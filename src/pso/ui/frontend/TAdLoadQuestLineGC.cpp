@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdLoadQuestGC.h"
 #include "pso/ui/frontend/TAdLoadQuestLineGC.h"
 
 #include "types.h"
@@ -5,8 +6,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void *__ct__18TAdLoadQuestLineGCFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-extern TAdLoadQuestLineGC *ad_load_quest_line_instances[];
 s32 init_quest_line_draw_colors();
 s32 fn_80349E5C();
 
@@ -43,26 +42,17 @@ TAdLoadQuestLineGC::~TAdLoadQuestLineGC() {
 
 extern "C" { extern char TAdLoadQuestLineGC__class_name_string[]; }
 const char *lbl_805D4300 = TAdLoadQuestLineGC__class_name_string;
-TAdLoadQuestLineGC::TAdLoadQuestLineGC(TObject *object, void *arg2) : TObject(object) {
+TAdLoadQuestLineGC::TAdLoadQuestLineGC(TObject *parent, s32 state) : TObject(parent) {
     this->m_name = lbl_805D4300;
-    *(void **)((s8 *)this + 0x1C) = arg2;
+    m_state = state;
     this->m_frameCount = -1;
 }
 
-s32 get_or_create_line__14TAdLoadQuestGCFii(saddr arg0, saddr arg1) {
-    s32 temp_r30;
-    saddr temp_r3;
-    s32 var_r0;
-    temp_r30 = arg1 * 4;
-    if ((u32) *(s32 *)((s8 *)((s32 *)ad_load_quest_line_instances) + temp_r30) == 0U) {
-        temp_r3 = (saddr)TObject::operator new(0x24);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = ((saddr)__ct__18TAdLoadQuestLineGCFP7TObjectPv((void *)temp_r3, (void *)arg0, (void *)arg1));
-        }
-        *(s32 *)((s8 *)((s32 *)ad_load_quest_line_instances) + temp_r30) = var_r0;
+TAdLoadQuestLineGC *TAdLoadQuestGC::get_or_create_line(int slot) {
+    if (ad_load_quest_line_instances[slot] == NULL) {
+        ad_load_quest_line_instances[slot] = new TAdLoadQuestLineGC(this, slot);
     }
-    return *(s32 *)((s8 *)((s32 *)ad_load_quest_line_instances) + temp_r30);
+    return ad_load_quest_line_instances[slot];
 }
 
 __declspec(section ".data") TAdLoadQuestLineGC *ad_load_quest_line_instances[2] = { NULL, NULL };

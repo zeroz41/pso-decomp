@@ -1,8 +1,14 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/boss/darkfalz/TObjDFHorming.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/system/vector.h"
-#include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
@@ -17,9 +23,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
@@ -127,35 +131,6 @@ public:
     void *model; // its particle emitter
     s32 timer;
 };
-
-struct VBase_18_0c879f { char pad[0x18]; };
-
-struct VObj_18_0c879f : VBase_18_0c879f {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, void *, s32, s32, s32);
-};
-
-struct S_80050808 { s32 a; f32 b; };
 
 struct Ang_80050808 { s32 x, y, z; };
 
@@ -283,15 +258,6 @@ LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFiel
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
-typedef struct Obj_80052090 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x90 - 0x44];
-    s32 state;
-    f32 f94;
-} Obj_80052090;
-
-
 extern u8 *camera_ctrl_instance;
 
 
@@ -301,30 +267,28 @@ extern u8 *camera_ctrl_instance;
 #pragma push
 #pragma opt_common_subs off
 
-void *TObjDFUsoTower::create(void *arg0) {
-    void *o = (void *)new TObjDFUsoTower((saddr)arg0);
-    return o;
+TObjDFUsoTower *TObjDFUsoTower::create(TObject *parent) {
+    return new TObjDFUsoTower(parent);
 }
 
-TObjDFUsoTower::TObjDFUsoTower(saddr _w1) : TObjBase((TObject *)_w1) {
+TObjDFUsoTower::TObjDFUsoTower(TObject *parent) : TObjBase(parent) {
     m_name = TObjDFUsoTower__name;
-    *(s32 *)((s8 *)this + 0x34) = get_bml_model(TOBoss4::model_resource, 5);
-    this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
-    VecCopy((Vec *)(((u8 *)this) + 0x38), &uso_tower_start_position);
-    *(f32 *)((s8 *)this + 0x94) = 0.0f;
-    this->m_90 = 0;
+    model = (void *)(get_bml_model(TOBoss4::model_resource, 5));
+    this->texlist = (saddr)get_bml_texlist(TOBoss4::model_resource, 5);
+    VecCopy(&position, &uso_tower_start_position);
+    fade_alpha = 0.0f;
+    fade_state = 0;
 }
 
 TObjDFUsoTower::~TObjDFUsoTower() {}
 
 void TObjDFUsoTower::run_task() {
-    Obj_80052090 *arg0 = (Obj_80052090 *)this;
     f32 d;
     f32 r;
-    switch (this->m_90) {
+    switch (fade_state) {
     case 0: {
         Vec v = *(Vec *)(camera_ctrl_instance + 0x178);
-        subtract_vector(&v, &arg0->pos);
+        subtract_vector(&v, &position);
         v.y = 0.0f;
         d = vector_length(&v);
         if (d <= 150.0f) {
@@ -334,17 +298,17 @@ void TObjDFUsoTower::run_task() {
         } else {
             r = (d - 150.0f) / 50.0f;
         }
-        arg0->f94 = 0.4f * r;
+        fade_alpha = 0.4f * r;
         break;
     }
     case 1:
-        if ((arg0->f94 += 0.033333335f) > 1.0f) {
-            arg0->f94 = 1.0f;
+        if ((fade_alpha += 0.033333335f) > 1.0f) {
+            fade_alpha = 1.0f;
         }
         break;
     case 2:
-        if ((arg0->f94 += -0.033333335f) < 0.0f) {
-            arg0->f94 = 0.0f;
+        if ((fade_alpha += -0.033333335f) < 0.0f) {
+            fade_alpha = 0.0f;
         }
         break;
     }
@@ -355,7 +319,7 @@ void TObjDFUsoTower::run_task() {
 void TObjDFUsoTower::render() {
     f32 temp_f1;
 
-    temp_f1 = *(f32 *)&this->unk_94;
+    temp_f1 = fade_alpha;
     if (0.0f != temp_f1) {
         if (temp_f1 < 1.0f) {
             TObjPlayer__sub_80052390(temp_f1);
@@ -366,7 +330,7 @@ void TObjDFUsoTower::render() {
         TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
-        if (*(f32 *)&this->unk_94 < 1.0f) {
+        if (fade_alpha < 1.0f) {
             TObjPlayer::sync_player_globals();
         }
     }
@@ -571,7 +535,7 @@ void TObjDFTenchuFuru::transform_node_tree() {
 }
 
 extern "C" {
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((saddr)TObjDFTenchuFuru::capture_matrix_by_frame); }
+void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback(TObjDFTenchuFuru::capture_matrix_by_frame); }
 }
 
 extern "C" {
@@ -579,7 +543,7 @@ void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
 }
 
 extern "C" {
-void TObjDFTenchuFuru::capture_matrix_by_frame() {
+void TObjDFTenchuFuru::capture_matrix_by_frame(NJS_OBJECT *) {
     switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
     case 0x3B:
         get_current_matrix(df_captured_matrix_pair[0]);
@@ -592,8 +556,8 @@ void TObjDFTenchuFuru::capture_matrix_by_frame() {
 }
 }
 
-void *TObjDFTenchuFuru::create(void *arg1) {
-    return new TObjDFTenchuFuru(this, (const Vec *)arg1);
+TObjDFTenchuFuru *TObjDFTenchuFuru::create(TObject *parent, const Vec *position) {
+    return new TObjDFTenchuFuru(parent, position);
 }
 
 TObjDFTenchuFuru::TObjDFTenchuFuru(TObject *parent, const Vec *position) : TObject(parent) {
@@ -832,7 +796,7 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1) {
     uaddr particle_effect;
     VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
     position.y += 2.0f;
-    particle_effect = (uaddr)spawn_particle_effect((&position.x), 0xF3);
+    particle_effect = (uaddr)spawn_particle_effect(&position, 0xF3);
     if (particle_effect != 0U) {
         ((TParticleCtrl *)particle_effect)->set_flags(0x40);
     }
@@ -841,21 +805,21 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1) {
 
 void damage_players_near_point(s32 arg0, Vec *arg1) {
     Vec pos = *arg1;
-    Hit_80050D74 hit;
+    DirectAttackPayload hit;
     s32 i;
     Player_80050D74 *p;
     if (TBoss4DarkFalz::is_state_ready() == 0) {
         return;
     }
-    hit.type = 0x11;
-    hit.value = 0.0f;
+    hit.kind = 0x11;
+    hit.power = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = (Player_80050D74 *)TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->pos) > 20.0f)) {
-            Hit_80050D74 h = hit;
-            p->m21(TBoss4DarkFalz__sub_8004C1B4(), &h, 0, -1, -1);
+            DirectAttackPayload h = hit;
+            reinterpret_cast<TObjChara *>(p)->receive_direct_attack(TBoss4DarkFalz__sub_8004C1B4(), h, NULL, -1, -1);
         }
     }
 }
@@ -920,7 +884,7 @@ extern "C" {
 void run_task__13TObjDFHormingFv(u8 *arg0) {
     Ang_80050808 rot;
     Vec d;
-    S_80050808 s;
+    DirectAttackPayload s;
     u8 *p;
     s32 i;
     if (TObjEneDD::query_teammate_state() != 0) {
@@ -953,11 +917,11 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
         s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
         if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
             if (TObjDFHorming::is_boss_active() != 0) {
-                s.a = 0;
-                s.b = *(s32 *)&((TObjDFHorming *)arg0)->m_360;
+                s.kind = 0;
+                s.power = static_cast<s32>(reinterpret_cast<TObjDFHorming *>(arg0)->m_360);
                 {
-                    S_80050808 t = s;
-                    ((VObj_18_0c879f *)p)->m21((saddr)TBoss4DarkFalz__sub_8004C1AC(), &t, 0, -1, -1);
+                    DirectAttackPayload t = s;
+                    reinterpret_cast<TObjChara *>(p)->receive_direct_attack(TBoss4DarkFalz__sub_8004C1AC(), t, NULL, -1, -1);
                 }
             }
             queue_destruction__13TObjDFHormingFPv(arg0);

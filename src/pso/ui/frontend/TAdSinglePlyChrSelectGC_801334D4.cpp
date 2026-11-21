@@ -1,9 +1,10 @@
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-s32 TAdSinglePlyChrSelectGC::get_selected_slot() { return *(s32*)((char*)this + 0xac); }
-s32 TAdSinglePlyChrSelectGC__sub_801334DC(void* p) { return *(s32*)((char*)p + 0xa4); }
+s32 TAdSelectCurGC::confirmation_result() const { return confirmation; }
+s32 TAdSelectCurGC::selection_index() const { return selected_index; }
 void TAdSinglePlyChrSelectGC__sub_801334E4(void) {  }
 void TAdSinglePlyChrSelectGC::set_position(void* q) { *(f32 *)&this->m_20 = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_24 = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_28 = *(f32*)((char*)q + 0xc); }
 void TAdSinglePlyChrSelectGC::noop_laser() {  }

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -7,7 +8,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
@@ -56,6 +56,7 @@ struct DamageRecipientABI : DamageRecipientTaskHeaderABI {
 extern "C" {
 
 #include "types.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 
 struct Obj_8005BB5C { u8 pad[0x38]; Vec pos; Vec prev; u8 pad50[0x37C - 0x50]; s32 f37c; };
 
@@ -217,6 +218,7 @@ void *__dt__9TBoss4UroFv(void *arg0, s16 arg1);
 s32 create__9TBoss4UroFi(s32 arg0);
 
 struct TBoss4Uro {
+    static saddr get_instance_count();
     u8 pad0[0x38];
     Vec pos;
     u8 pad44[0x5C - 0x44];
@@ -236,7 +238,6 @@ struct TBoss4Uro {
     void vt5();
     void vt6();
     s32 get_phase();
-    static s32 get_instance_count();
 };
 
 typedef void (TBoss4Uro::*Act_8005C49C)();
@@ -275,6 +276,8 @@ static const f32 one_third = 0.33333334f;
 
 struct O_8005D6B0 { u8 pad[0x374]; s32 f374; };
 
+
+f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 
 s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
@@ -346,7 +349,7 @@ s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2) {
     fn_8005D6E4((u8 *)*(saddr *)((s8 *)THIS + 0x378));
     ((TBoss3Volopt *)THIS)->apply_set_data((s32 *)arg2 + 1);
     ((TBoss3Volopt *)THIS)->clear_lobby_object_state();
-    *(s32 *)((s8 *)THIS + 0x380) = TBoss4Uro::get_instance_count();
+    reinterpret_cast<TBoss4Zako *>(THIS)->archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     *(s32 *)((s8 *)THIS + 0x24) = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopy__FP3VecPC3Vec(THIS + 0x44, VecCopy__FP3VecPC3Vec(THIS + 0x50, VecCopy__FP3VecPC3Vec(THIS + 0x74, THIS + 0x38)));
@@ -601,7 +604,7 @@ void TBoss4Zako::update_sink_state() {
     m_38.y += -0.33333334f;
     temp_f1 = m_38.y;
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((&m_38), 0xF3);
+        spawn_particle_effect((const Vec *)&m_38, 0xF3);
     }
     m_5c = (m_5c + 0x111);
     if (m_38.y < -13.0f) {
@@ -719,11 +722,11 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
     if (arg0->f378 == 0) {
         return;
     }
-    u32 falz = TBoss4DarkFalz::get_instance();
-    if (falz == 0) {
+    TBoss4Type1 *falz = TBoss4DarkFalz::get_instance();
+    if (falz == NULL) {
         return;
     }
-    VecCopy__FP3VecPC3Vec(&target, ((TObjPlayer *)falz)->get_position_ptr());
+    VecCopy__FP3VecPC3Vec(&target, reinterpret_cast<TObjPlayer *>(falz)->get_position_ptr());
     VecCopy__FP3VecPC3Vec(&d, &arg0->pos);
     subtract_vector(&d, &target);
     d.y = 0.0f;
@@ -812,7 +815,7 @@ void vt4__9TBoss4UroFv(void *actor) {
 #pragma fp_contract on
 void TBoss4Zako::update_target_position() {
     s32 temp_r31;
-    saddr instance;
+    TBoss4Type1 *instance;
     u8 *actor = (u8 *)this;
     if (!(*(s32 *)((s8 *)actor + 0x3B8) & 0x7F)) {
         if (*(s32 *)((s8 *)actor + 0x388) == 0xFFFF) {
@@ -822,7 +825,7 @@ void TBoss4Zako::update_target_position() {
         *(u32 *)((s8 *)actor + 0x388) = 0xFFFFU;
         if ((u32) *(u32 *)((s8 *)actor + 0x378) != 0U) {
             instance = TBoss4DarkFalz::get_instance();
-            if (instance != 0) {
+            if (instance != NULL) {
                 temp_r31 = (s32) (65536.0f * ((TObjChara *)actor)->random_ratio());
                 VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)instance)->get_position_ptr()));
                 *(f32 *)((s8 *)actor + 0x3C8) = 0.0f;
@@ -879,7 +882,7 @@ void vt5__9TBoss4UroFv(u8 *object) {
     *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
     temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((object + 0x38), 0xF3);
+        spawn_particle_effect((const Vec *)(object + 0x38), 0xF3);
     }
     *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
     if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
@@ -1052,7 +1055,7 @@ void vt2__11TBoss4BishiFv(u8 *object) {
     *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
     temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((object + 0x38), 0xF3);
+        spawn_particle_effect((const Vec *)(object + 0x38), 0xF3);
     }
     *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
     if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {

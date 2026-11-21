@@ -2,6 +2,7 @@
 
 #pragma readonly_strings on
 
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjBagWarnWin4P.h"
 #include <string.h>
 
@@ -57,7 +58,6 @@ saddr get_window_layout_position(s32);
 
 void __ct__7TObjectFP7TObject(void *);
 
-saddr get_character_save_record(u32 arg0);
 
 
 

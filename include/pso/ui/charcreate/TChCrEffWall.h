@@ -13,14 +13,6 @@ public:
     static void draw_default_sprite(s32 sprite_id, const vec2f *position, f32 depth);
 };
 
-extern "C" {
-void *fn_8029AE88(void *arg0);
-}
-
-// --- C functions defined in TChCrEffWall.cpp ---
-extern "C" {
-void *fn_8029AE88(void *arg0);
-}
-// --- end of C functions
+extern "C" TChCrEffWall *fn_8029AE88(TObject *parent);
 
 #endif

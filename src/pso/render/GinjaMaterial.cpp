@@ -2,6 +2,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/GinjaParameterHandler.h"
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/unk/text_803E2008.h"
 #include "pso/render/GinjaModel.h"
@@ -80,7 +81,7 @@ void GXSetVtxAttrFmt(s32, s32, s32, s32, u8);
 void GXSetArray(s32, void *, u8);
 void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
 }
-void apply_ginja_material_params(GinjaDrawRecord *);
+void apply_ginja_material_params(const GinjaDrawRecord *);
 extern "C" {
 s32 GXCallDisplayList(void *, u32);
 extern u32 ginja_draw_flags;
@@ -144,10 +145,10 @@ s32 queue_model_draw_current_matrix(s32 model) {
 }
 #pragma pop
 
-void draw_ginja_model(saddr model) {
+void draw_ginja_model(void *model) {
     load_ginja_model_matrices(0);
     prepare_ginja_model();
-    draw_ginja_model_lists((GinjaModel *)model);
+    draw_ginja_model_lists(model);
     end_ginja_model_draw();
 }
 
@@ -167,7 +168,8 @@ u32 update_ginja_cached_parameter(s32 i, u32 v) {
 }
 #pragma pop
 
-void set_ginja_indexed_vtx_desc(s32 arg0) {
+void set_ginja_indexed_vtx_desc(u32 value, u32) {
+    const s32 arg0 = value;
     GXClearVtxDesc();
     GXSetVtxDesc(9, (void *) (get_ginja_vertex_descriptor_type(arg0, 1)));
     GXSetVtxDesc(0xA, (void *) (get_ginja_vertex_descriptor_type(arg0, 2)));
@@ -192,7 +194,7 @@ void set_ginja_channel_ctrl(s32 channel,s32 flags) {
 #define GC ((GinjaCounts_803DB734 *)&ginja_material_cache)
 #pragma push
 #pragma use_lmw_stmw off
-void set_ginja_channel_counts(s32 flags, s32 arg1) {
+void set_ginja_channel_counts(u32 flags, u32 arg1) {
     s32 sum;
     s32 sum2;
     s32 i;
@@ -266,7 +268,7 @@ void set_ginja_channel_counts(s32 flags, s32 arg1) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void set_ginja_material_color(u32 v) {
+void set_ginja_material_color(u32 v, u32) {
     C_803DB9A0 fallback = {0, 0, 0, 0x7F};
     C_803DB9A0 *mat;
     F_803DB9A0 add;
@@ -299,7 +301,7 @@ void set_ginja_material_color(u32 v) {
 #pragma scheduling off
 #pragma peephole off
 
-void TObjPlayer::set_global_color_rgba(u32 v) {
+void TObjPlayer::set_global_color_rgba(u32 v, u32) {
     (*(S_803DBAF8 *)&ginja_material_cache).c.r = (v & 0xFF000000) >> 24;
     (*(S_803DBAF8 *)&ginja_material_cache).c.g = (v & 0xFF0000) >> 16;
     (*(S_803DBAF8 *)&ginja_material_cache).c.b = (v & 0xFF00) >> 8;
@@ -310,7 +312,7 @@ void TObjPlayer::set_global_color_rgba(u32 v) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TObjPlayer::set_global_color_rgba_alt_b(u32 v) {
+void TObjPlayer::set_global_color_rgba_alt_b(u32 v, u32) {
     (*(S_803DBB38 *)&ginja_material_cache).c.r = (v & 0xFF000000) >> 24;
     (*(S_803DBB38 *)&ginja_material_cache).c.g = (v & 0xFF0000) >> 16;
     (*(S_803DBB38 *)&ginja_material_cache).c.b = (v & 0xFF00) >> 8;
@@ -321,7 +323,7 @@ void TObjPlayer::set_global_color_rgba_alt_b(u32 v) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void set_ginja_blend_param(u32 x) {
+void set_ginja_blend_param(u32 x, u32) {
     if ((u32)model_render_flags & 0x8000) {
         x = ginja_blend_override;
     }
@@ -330,17 +332,17 @@ void set_ginja_blend_param(u32 x) {
 }
 #pragma pop
 
-void ginja_set_vertex_format(u32 arg0) {
+void ginja_set_vertex_format(u32 arg0, u32) {
     GXSetVtxAttrFmt(0, ginja_vertex_attributes[(arg0 & 0xFF0000) >> 16], ginja_vertex_component_counts[(arg0 & 0xF000) >> 12], ginja_vertex_component_types[(arg0 & 0xF00) >> 8], arg0);
 }
 
-void ginja_load_texture_slot(u32 arg0) {
+void ginja_load_texture_slot(u32 arg0, u32) {
     (*(G_803DBC1C *)&ginja_material_cache).f88 = arg0;
     (*(G_803DBC1C *)&ginja_material_cache).f7c |= 2;
     load_list_texture(arg0 & 0x1FFF, (arg0 & 0xC0000) >> 18, (arg0 & 0x30000) >> 16, (arg0 & 0x6000) >> 13);
 }
 
-void set_ginja_tev_order(u32 parameter) {
+void set_ginja_tev_order(u32 parameter, u32) {
     u32 selectedStage = (parameter & 0xF000) >> 12;
     if ((u32)model_render_flags & 0x80000)
         selectedStage += ginja_material_cache.tev_stage_offset;
@@ -355,7 +357,7 @@ void set_ginja_tev_order(u32 parameter) {
     GXSetTevOrder(stage, coordinate, texture, channel);
 }
 
-void set_ginja_texcoord_gen(u32 arg0) {
+void set_ginja_texcoord_gen(u32 arg0, u32) {
     u32 idx;
     s32 coord;
     u32 func;
@@ -386,15 +388,14 @@ void ginja_set_alpha_compare(s32 ref) {
 
 extern GinjaSceneState *current_render_context;
 // Each handler gets the parameter's value and the bits that changed (update_ginja_cached_parameter).
-typedef void (*GinjaParameterHandler)(u32 value, u32 changed);
 extern GinjaParameterHandler ginja_parameter_handlers[11];
 extern s32 material_alpha_compare_reference;
 
 #pragma push
 #pragma use_lmw_stmw off
-void apply_ginja_material_params(GinjaDrawRecord *record) {
+void apply_ginja_material_params(const GinjaDrawRecord *record) {
     GinjaSurfaceState *surface;
-    GinjaParameter *parameter = (GinjaParameter *)record->parameters;
+    const GinjaParameter *parameter = record->parameters;
     s32 count = record->parameter_count;
     for (; count > 0; --count, ++parameter) {
         u32 changed = update_ginja_cached_parameter(parameter->kind, parameter->value);
@@ -647,12 +648,12 @@ s32 load_ginja_model_matrices(int arg0) {
 }
 
 GinjaParameterHandler ginja_parameter_handlers[11] = {
-    (GinjaParameterHandler)ginja_set_vertex_format, (GinjaParameterHandler)set_ginja_indexed_vtx_desc,
-    (GinjaParameterHandler)set_ginja_channel_counts, NULL,
-    (GinjaParameterHandler)set_ginja_blend_param, (GinjaParameterHandler)set_ginja_material_color,
-    (GinjaParameterHandler)TObjPlayer::set_global_color_rgba, (GinjaParameterHandler)TObjPlayer::set_global_color_rgba_alt_b,
-    (GinjaParameterHandler)ginja_load_texture_slot, (GinjaParameterHandler)set_ginja_tev_order,
-    (GinjaParameterHandler)set_ginja_texcoord_gen,
+    ginja_set_vertex_format, set_ginja_indexed_vtx_desc,
+    set_ginja_channel_counts, NULL,
+    set_ginja_blend_param, set_ginja_material_color,
+    TObjPlayer::set_global_color_rgba, TObjPlayer::set_global_color_rgba_alt_b,
+    ginja_load_texture_slot, set_ginja_tev_order,
+    set_ginja_texcoord_gen,
 };
 s32 ginja_vertex_attributes[14] = {
     0x0, 0x9, 0xa, 0xb,

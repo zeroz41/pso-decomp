@@ -14,6 +14,6 @@ public:
     s32 glows;  // item[2] == 5 or item[1] == 0x8F: projection-tex model pass, weapon flag 0x800 (name inferred)
 };
 
-u8 *create_sword_weapon(u8 *item);
+TItem *create_sword_weapon(u8 *item);
 
 #endif

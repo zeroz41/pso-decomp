@@ -1,6 +1,9 @@
+#include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -39,7 +42,6 @@
 
 #include <stdlib.h>
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/render/render_util.h"
 
@@ -263,11 +265,8 @@ s32 check_path_obstructed(void *, Vec *);
 
 f32 atan2_float(f32, f32);
 
-saddr get_bml_texlist(void*, void*);
 
-saddr get_bml_model(void*);
 
-void free_bin_model_request(void*, int);
 
 void * __dt__13TUnk_80490470Fv(void *, s16);
 
@@ -705,7 +704,7 @@ inline f32 fmax_800A28A4(f32 a, f32 b) {
 
 #pragma pop
 extern "C" {
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+
 
 void load_darkgunner_effect_resources();
 
@@ -733,7 +732,10 @@ void TObjPlayer::set_cancel_flag() { *(s32 *)&this->m_340 = 1; }
 
 void TObjPlayer::clear_counter() { this->m_340 = 0; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->model = get_bml_model((void*)((*(int *)&player_effect_bml_resource))); *(int *)&this->texlist = get_bml_texlist((void*)((*(int *)&player_effect_bml_resource)), a1); }
+void TObjEneDarkGunner::set_fields_24_34_from_global(void *a1) {
+    this->model = get_bml_model((BmlResource *)player_effect_bml_resource, (s32)(saddr)a1);
+    this->texlist = (saddr)get_bml_texlist((BmlResource *)player_effect_bml_resource, (s32)(saddr)a1);
+}
 
 int TObjPlayer::is_flag_set_388_bit26() { return (*(u32 *)&this->unk_388 >> 26) & 0x1; }
 
@@ -833,10 +835,7 @@ TObjEneDarkGunner::~TObjEneDarkGunner() {
 
 void load_darkgunner_effect_resources() {
     s32 i;
-    void *res = (void *)::operator new(0x440);
-    if (res != NULL) {
-        res = load_resource_from_descriptor(res, 1, bm_ene_darkgunner_resource_descriptor, 0, 0, 0);
-    }
+    void *res = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_darkgunner_resource_descriptor, 0, 0, NULL);
     player_effect_bml_resource = (uaddr)res;
     TObjPlayer__shadow_chunk_object = ((s32 (*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 0);
     lbl_805D5014 = ((s32 (*)(void *, s32))get_bml_texlist)((void *)player_effect_bml_resource, 0);
@@ -856,7 +855,7 @@ void load_darkgunner_effect_resources() {
 
 void TObjPlayer::cleanup_effects() {
     if ((u32) player_effect_bml_resource != 0U) {
-        free_bin_model_request((void*)player_effect_bml_resource, 1);
+        delete (BmlResource *)player_effect_bml_resource;
         player_effect_bml_resource = 0U;
     }
     if ((u32) TObjPlayer__effect_resource != 0U) {
@@ -1262,7 +1261,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
             ((TObjPlayer *)arg0)->m_310 = (f32) ((((TObjPlayer *)arg0)->m_310 * temp_f1) / temp_f31);
         }
         if (*(s32 *)((s8 *)arg0 + 0x388) & 0x400000) {
-            spawn_particle_effect((arg0 + 0x2FC), 0xD7);
+            spawn_particle_effect((const Vec *)((arg0 + 0x2FC)), 0xD7);
         }
         *(s16 *)((s8 *)arg0 + 0x39E) = 0;
         ((TObjPlayer *)arg0)->m_37c = 1;
@@ -1455,7 +1454,7 @@ int TObjPlayer__sub_800A1808(void* p) { return (*(u32*)((char*)p + 0x30) >> 23) 
 void TObjEneDarkGunner::vfunc_61() {
     u8 *arg0 = (u8 *)this;
     ((TObjBase *)arg0)->obj_clearFlags30((s32)(0x100U));
-    spawn_particle_effect(((u8 *)&this->m_2fc), 0xD7);
+    spawn_particle_effect((const Vec *)&m_2fc, 0xD7);
     play_sound_effect(0x4003B22D, (u8 *)&this->position, 0, 0);
 }
 

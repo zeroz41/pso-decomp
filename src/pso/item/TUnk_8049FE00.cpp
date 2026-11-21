@@ -42,7 +42,7 @@ TUnk_8049FE00::~TUnk_8049FE00() {}
 
 TUnk_8049FE00::TUnk_8049FE00(TObject *parent, u8 *item) : TItemObject(parent, item) {}
 
-TUnk_8049FE00 *TUnk_8049FE00::create(u8 *item) {
+TItem *TUnk_8049FE00::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_8049FE00(tl_05, item);
     }

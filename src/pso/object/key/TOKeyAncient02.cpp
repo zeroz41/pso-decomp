@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -9,7 +10,8 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/MatrixStack.h"
@@ -45,19 +47,19 @@ void TOKeyAncient02::render() {
         object = (NJS_OBJECT *)model;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
         scale_matrix_vec3(NULL, (u8 *)&scale);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         object = object->sibling;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         pop_matrix();
         pop_matrix();
         TObjFish::set_global_param((saddr)TOKeyAncient02__texture_lists[is_on]);
@@ -65,12 +67,12 @@ void TOKeyAncient02::render() {
         object = TOKeyAncient02__glass_model;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
         rotate_matrix_y(NULL, lamp_angle);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -131,22 +133,19 @@ void TOKeyAncient02::free_static() {
         }
     }
     if (TOKeyAncient02__model_archive != NULL) {
-        free_bin_model_request(TOKeyAncient02__model_archive, 1);
+        delete TOKeyAncient02__model_archive;
         TOKeyAncient02__model_archive = NULL;
     }
     TOKeyAncient02__glass_model = NULL;
 }
 
 void TOKeyAncient02::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, NULL);
     TOKeyAncient02__model_archive = resource;
     TOKeyAncient02__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
-    TOKeyAncient02__texture_lists[0] = (GinjaTextureList *)get_bml_texlist(TOKeyAncient02__model_archive, 0);
+    TOKeyAncient02__texture_lists[0] = (GinjaTextureList *)get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 0);
     TOKeyAncient02__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient02.gvm");
-    TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model(TOKeyAncient02__model_archive, 0);
+    TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 0);
 }
 
 TOKeyAncient02::~TOKeyAncient02() {
@@ -158,8 +157,8 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyAncient02__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    model = (void *)get_bml_model(TOKeyAncient02__model_archive, 1);
-    texlist = get_bml_texlist(TOKeyAncient02__model_archive, 1);
+    model = (void *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 1);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 1);
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

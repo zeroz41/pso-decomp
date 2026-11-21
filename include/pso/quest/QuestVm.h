@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+struct TWindowMessage;
+struct TWindowMessageQuest;
+
 enum quest_suspend_reason {
     QST_RUNNING                = 0,
     QST_SUSPEND_SYNC           = 1,  // yield until next frame
@@ -23,7 +26,7 @@ struct QuestVmContext {
     u8 *code;
     s32 *function_table;
     s32 *registers;
-    void *message_window;
+    TWindowMessageQuest *message_window;
     void *list_window;
     u8 result_register;
     s32 unk18;
@@ -69,8 +72,8 @@ extern quest_suspend_reason qst_suspend_reason;
 // register a finished wait writes its result into
 extern u8 qst_result_register;
 
-extern void *qst_message_window;
-extern void *qst_message_window_qb;
+extern TWindowMessageQuest *qst_message_window;
+extern TWindowMessage *qst_message_window_qb;
 extern s32 qst_message_speaker;
 extern void *qst_list_window;
 extern void *qst_item_name_entry;

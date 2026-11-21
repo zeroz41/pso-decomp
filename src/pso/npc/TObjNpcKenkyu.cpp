@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcKenkyu.h"
@@ -24,14 +26,12 @@ uaddr TObjNpcKenkyu__static_model;
 }
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
-void free_bin_model_request(void*, int);
+
+
 
 void TObjNpcKenkyu::free_static_model() {
     if ((u32) TObjNpcKenkyu__static_model != 0U) {
-        free_bin_model_request((void*)TObjNpcKenkyu__static_model, 1);
+        delete (BmlResource *)TObjNpcKenkyu__static_model;
         TObjNpcKenkyu__static_model = 0U;
     }
 }
@@ -39,11 +39,7 @@ void TObjNpcKenkyu::free_static_model() {
 void TObjNpcKenkyu::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_kenkyu_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &bm_npc_kenkyu_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TObjNpcKenkyu__static_model) = var_r0;
 }
 
@@ -57,8 +53,8 @@ TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu__name;
     ((TObjNpcKenkyu *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
-    ((TObjNpcKenkyu *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
+    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
+    ((TObjNpcKenkyu *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 

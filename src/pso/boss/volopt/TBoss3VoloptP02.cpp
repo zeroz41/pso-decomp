@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -38,7 +39,6 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D8F74.h"
@@ -212,7 +212,7 @@ s32 TObjVoloptCage::get_int_param(s32 index) {
 
 void TBoss3VoloptP02::load_params_from_table(s32 index) {
     model = (void *)lbl_805D4CE4->models[index].model;
-    texlist = lbl_805D4CE4->models[index].m_c;
+    texlist = (saddr)lbl_805D4CE4->models[index].m_c;
 }
 
 f32 TBoss3VoloptP02::get_float_param(s32 index) {
@@ -300,9 +300,9 @@ void TBoss3VoloptP02::load_resources() {
     s32 n;
 
     lbl_805D4CE4 = boss3_volopt_resources;
-    model = new TUnk_8048FA00(lbl_805D4CE4->models[19].model);
+    model = new TUnk_8048FA00((saddr)lbl_805D4CE4->models[19].model);
     breakup_model = model;
-    root = lbl_805D4CE4->models[20].model;
+    root = (saddr)lbl_805D4CE4->models[20].model;
     ((NjObject *)find_model_node(root, 0x44))->evalflags |= 8;
     ((NjObject *)find_model_node(root, 0x39))->evalflags |= 8;
     ((NjObject *)find_model_node(root, 0x27))->evalflags |= 8;
@@ -316,7 +316,7 @@ void TBoss3VoloptP02::load_resources() {
         model = new TUnk_8048FA00((saddr)nodes[j]);
         breakup_models[j] = model;
     }
-    root = lbl_805D4CE4->models[19].model;
+    root = (saddr)lbl_805D4CE4->models[19].model;
     for (i = 0; i < 5; i++) {
         parts[i] = (NjObject *)find_model_node(root, part_breakup_node_ids[i]);
     }

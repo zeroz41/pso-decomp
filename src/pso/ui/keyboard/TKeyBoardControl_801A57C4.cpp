@@ -141,12 +141,12 @@ s32 TKeyBoardControl::check_reset_button() {
     return 0;
 }
 
-void TKeyBoardControl__sub_801A58B0(void) {
-    hardware_keyboard_state.sub_801321B4();
+s32 TKeyBoardControl__sub_801A58B0(void) {
+    return hardware_keyboard_state.sub_801321B4();
 }
 
-void TKeyBoardControl__sub_801A58D8(void) {
-    hardware_keyboard_state.sub_80132310();
+s32 TKeyBoardControl__sub_801A58D8(void) {
+    return hardware_keyboard_state.sub_80132310();
 }
 
 s32 TKeyBoardControl::check_and_read(s32 arg0) {

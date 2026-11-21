@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
@@ -10,7 +12,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
@@ -79,7 +80,6 @@ extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
-void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
 s32 play_sound_effect(s32, void *, int, int);
 
@@ -162,7 +162,7 @@ void TUnk_8049442C::sub_800D4200() {
             }
         }
     }
-    spawn_particle_effect(arg0 + 0x38, 0xFB);
+    spawn_particle_effect((const Vec *)(arg0 + 0x38), 0xFB);
     play_sound_effect(remap_area_sound_id(0x4003A80C, 0x19), arg0 + 0x38, 0, 0);
     ((TObject *)arg0)->queue_destruction();
 }
@@ -249,7 +249,6 @@ s32 init_collision_body_parts(void *, void *, int);
 
 extern BmlResource *gyaranzo_bml_resource;
 
-void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
 
 void free_collision_body_parts(void *);
@@ -267,8 +266,8 @@ TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : T
     VecCopy(&unk_E0, &position);
     unk_E0.y += 5.0f;
     m_dc = spin;
-    m_c4 = gyaranzo_bml_resource->models[5].model;
-    unk_C8 = gyaranzo_bml_resource->models[5].m_c;
+    m_c4 = (saddr)gyaranzo_bml_resource->models[5].model;
+    unk_C8 = (saddr)gyaranzo_bml_resource->models[5].m_c;
     room = owner->room;
     owner_id = get_entity_id(owner);
     m_b8 = 0;

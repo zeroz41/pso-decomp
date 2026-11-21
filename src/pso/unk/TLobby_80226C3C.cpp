@@ -26,7 +26,7 @@ void play_cue_stream_file(saddr arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9CB0(s32);
 void *lbl_805D62D8;
-uaddr lbl_805D62DC;
+void *lbl_805D62DC;
 s32 lbl_805D62E0;
 s32 lbl_805D62E4;
 s32 music_fade_slot_index;
@@ -308,7 +308,7 @@ struct SndHooks {
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
 void setup_adx_file_systems(s32 *arg0);
 void TLobby__sub_803CB858(s32 *arg0);
-void TLobby__sub_803C94B8(void (*callback)(void), s32 arg1);
+void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context);
 s32 adx_create_stream_player(s32 n, void *buffer, s32 size);
 u32 ARInit(u32 *stack_index_addr, u32 num_entries);
 void ARQInit(void);
@@ -590,9 +590,9 @@ void TLobby::shutdown_buffers() {
     for (i = 0; i < 3; i++) {
         TLobby__sub_803CA194(lbl_804CB850[i]);
     }
-    if (lbl_805D62DC != 0U) {
-        xfree((void *)lbl_805D62DC);
-        lbl_805D62DC = 0U;
+    if (lbl_805D62DC != NULL) {
+        xfree(lbl_805D62DC);
+        lbl_805D62DC = NULL;
     }
     TLobby::dec_ref_and_shutdown();
     if (lbl_805D62EC != 0U) {
@@ -608,8 +608,8 @@ void init_adx_audio_system(void) {
     lbl_80514C60[0] = xmalloc(0x2D1E4);
     lbl_80514C60[1] = xmalloc(0x2D1E4);
     lbl_805D62D8 = xmalloc(0xA924);
-    lbl_805D62DC = (uaddr)xmalloc(0xA000);
-    TLobby__sub_803CBE20((void *)lbl_805D62DC, 0xA000, 5);
+    lbl_805D62DC = xmalloc(0xA000);
+    TLobby__sub_803CBE20(lbl_805D62DC, 0xA000, 5);
     TLobby::init_and_add_ref();
     setup_adx_file_systems(NULL);
     TLobby__sub_803CB858(NULL);
@@ -658,5 +658,5 @@ extern "C" {
 void *TLobby__sub_80227A4C(u32 size) { return xmalloc(size); }
 void TLobby__sub_80227A6C(void) {  }
 int TLobby__sub_80227A70(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
-void TLobby__sub_80227A90(void) {  }
+void TLobby__sub_80227A90(s32, const char *) {  }
 }

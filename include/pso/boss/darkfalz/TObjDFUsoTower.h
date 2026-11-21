@@ -5,16 +5,18 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjDFUsoTower : public TObjBase {
-    TObjDFUsoTower(saddr _w1);
+    TObjDFUsoTower(TObject *parent);
     virtual ~TObjDFUsoTower();
-    u32 m_90;
-    static void *create(void *arg0);
+    u32 fade_state;
+    static TObjDFUsoTower *create(TObject *parent);
     virtual void render();
     virtual void run_task();
-    u8 unk_94[0x4];
-    void sub_8004D9A0(s32 v);
+    f32 fade_alpha;
+    void sub_8004D9A0(s32 state);
 };
 
+LAYOUT_ASSERT(TObjDFUsoTower_state_offset, offsetof(TObjDFUsoTower, fade_state) == 0x90);
+LAYOUT_ASSERT(TObjDFUsoTower_alpha_offset, offsetof(TObjDFUsoTower, fade_alpha) == 0x94);
 LAYOUT_ASSERT(TObjDFUsoTower_size, sizeof(TObjDFUsoTower) == 0x98);
 
 #endif

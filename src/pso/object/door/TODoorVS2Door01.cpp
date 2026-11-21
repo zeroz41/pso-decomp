@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/SoundEffect.h"
@@ -81,14 +80,14 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::begin_effect_render();
@@ -97,7 +96,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         node = node->sibling;
@@ -105,7 +104,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling;
@@ -113,7 +112,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         node = node->sibling;
@@ -121,7 +120,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -142,16 +141,13 @@ void TODoorVS2Door01::destroy() {
         }
     }
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
 
 void TODoorVS2Door01::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &door_vs2door01_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &door_vs2door01_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
     texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].m_c;

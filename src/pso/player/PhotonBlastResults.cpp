@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/item/mag/TItemMag.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
@@ -13,7 +15,6 @@
 #include "pso/unk/text_801AB370.h"
 #include "pso/unk/text_801ABE14.h"
 #include "pso/unk/text_801AE1F8.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TUnk_804C349C.h"
@@ -409,7 +410,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                     TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
                     if (player != NULL) {
                         player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->m_2fc, 0x1F8, 0x10);
+                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&player->m_2fc, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
                         }
@@ -419,15 +420,15 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                     play_sound_effect(0x4002AB0E, NULL, 0, 0);
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->m_2fc, 0x1F8, 0x10);
+                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&target->m_2fc, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
                 }
-                TParticleCtrl *effect = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->position, 0x16C, 0x10);
+                TParticleCtrl *effect = spawn_particle_effect_with_flags(&target->position, 0x16C, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
-                effect = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->position, 0x16D, 0x10);
+                effect = spawn_particle_effect_with_flags(&target->position, 0x16D, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
@@ -440,7 +441,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                             payload.kind = 8;
                         }
                         player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->m_2fc, 0x1F8, 0x10);
+                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&player->m_2fc, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
                         }
@@ -451,7 +452,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                     payload.kind = 8;
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->m_2fc, 0x1F8, 0x10);
+                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&target->m_2fc, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
                 }
@@ -480,7 +481,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
-                effect = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->position, 0x16F, 0x10);
+                effect = spawn_particle_effect_with_flags(&target->position, 0x16F, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
@@ -507,7 +508,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                     TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
                     if (player != NULL) {
                         player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->m_2fc, 0x1F8, 0x10);
+                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&player->m_2fc, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
                         }
@@ -517,15 +518,15 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                     play_sound_effect(0x4002AB0E, NULL, 0, 0);
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->m_2fc, 0x1F8, 0x10);
+                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&target->m_2fc, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
                 }
-                TParticleCtrl *effect = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->position, 0x16C, 0x10);
+                TParticleCtrl *effect = spawn_particle_effect_with_flags(&target->position, 0x16C, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
-                effect = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->position, 0x16D, 0x10);
+                effect = spawn_particle_effect_with_flags(&target->position, 0x16D, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
@@ -538,7 +539,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                             payload.kind = 8;
                         }
                         player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->m_2fc, 0x1F8, 0x10);
+                        TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&player->m_2fc, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
                         }
@@ -549,7 +550,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                     payload.kind = 8;
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
-                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->m_2fc, 0x1F8, 0x10);
+                TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&target->m_2fc, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
                 }
@@ -578,7 +579,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
-                effect = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->position, 0x16F, 0x10);
+                effect = spawn_particle_effect_with_flags(&target->position, 0x16F, 0x10);
                 if (effect != NULL) {
                     effect->set_owner_id(get_entity_id(target));
                 }
@@ -689,7 +690,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         this->state = 1;
         break;
     case 1:
-        ((TQuestVmDownLoadServer *)this->summon)->clear_flag4_bit4();
+        this->summon->clear_update_suspension();
         this->summon->allow_rendering();
         this->state = 0;
         break;
@@ -926,16 +927,14 @@ void *TObjPlayer::get_photon_blast_entry(int kind) {
 
 u8 *photon_blast_shared_resource;
 extern "C" {
-void free_bin_model_request(uaddr, int);
 extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
 extern u8 *photon_blast_shared_resource;
-u8 *load_resource_from_descriptor(u8 *, int, void *, int, int, int);
 s32 run_load_callback_table(void *, int);
 void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
     TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != NULL) {
-        free_bin_model_request((uaddr)photon_blast_shared_resource, 1);
+        delete (BmlResource *)photon_blast_shared_resource;
         photon_blast_shared_resource = NULL;
     }
     for (i = 0; i < 4; i++) {
@@ -958,10 +957,7 @@ void TObjPlayer::clear_photon_blast_slots() {
 void load_photon_blast_resources(void) {
     u8 *p;
     s32 i;
-    p = (u8 *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 1, &photon_blast_resource_descriptor, 0, 0, 0);
-    }
+    p = (u8 *)new BmlResource(1, &photon_blast_resource_descriptor, 0, 0, NULL);
     photon_blast_shared_resource = p;
     run_load_callback_table(photon_blast_load_callback_table, 0x50);
     for (i = 0; i < 4; i++) {

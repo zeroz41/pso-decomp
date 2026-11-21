@@ -1,3 +1,5 @@
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -20,7 +22,6 @@
 #include "pso/enemy/illgill/TObjEneIllGill.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/TLobby.h"
@@ -90,7 +91,6 @@ extern Vec lbl_8050BF00;
 
 void submit_cursor_candidate(void *, int);
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
-u16 find_nearest_visible_player(void *, int, f32 *, f32);
 s32 check_path_obstructed(void *, void *);
 s32 obj_is_hit_receivable(u8 *arg0);
 extern s32 registered_player_count;
@@ -101,7 +101,6 @@ f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
 extern Vec scratch_vec;
 
-int free_bin_model_request(void*, void*);
 void free_collision_body_parts(void *);
 
 #pragma push
@@ -479,7 +478,7 @@ void TObjEneIllGill::update_shadow_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 extern u8 lbl_804FF5E8[];
-void TObjEneIllGill::capture_effect_positions() {
+void TObjEneIllGill::capture_effect_positions(NJS_OBJECT *) {
     Vec *v;
     switch (illGillModelNodeIndex) {
     case 50:
@@ -576,7 +575,7 @@ void TObjEneIllGill::vfunc_63() {
         temp_r5 = (u8 *)this->bodies;
         bodies->flags = (s32) (bodies->flags & 0xFFFF7FFE);
         this->free_resources();
-        spawn_particle_effect(&m_2fc, 0xF2);
+        spawn_particle_effect((const Vec *)&m_2fc, 0xF2);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
     }
@@ -1246,7 +1245,7 @@ void TObjEneIllGill::vfunc_28() {
             }
             targetId = best;
         } else {
-            targetId = find_nearest_visible_player(this, 0, (f32 *)((IllGillMovementParameters *)movementParameters), ((IllGillMovementParameters *)movementParameters)->range);
+            targetId = find_nearest_visible_player(this, NULL, ((IllGillMovementParameters *)movementParameters)->range);
         }
         t = targetId;
         if (t < 0x1000) {
@@ -1295,7 +1294,7 @@ void TObjEneIllGill::render() {
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, this->scale.x, this->scale.y, this->scale.z);
         illGillModelNodeIndex = 0;
-        set_chunk_model_node_callback((saddr)((void *)TObjEneIllGill::capture_effect_positions));
+        set_chunk_model_node_callback(TObjEneIllGill::capture_effect_positions);
         if (this->fadingIn != 0 && TObjPlayer::check_demo_mode() == 0) {
             if (fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -1313,7 +1312,7 @@ void TObjEneIllGill::render() {
         } else {
             ((TObjEnemy *)arg0)->draw_motion_model();
         }
-        set_chunk_model_node_callback((s32)NULL);
+        set_chunk_model_node_callback(NULL);
         VecCopy(&weaponEffectPosition, (const Vec *)&illGillWeaponEffectPosition);
         VecCopy(&shadowEffectPosition, (const Vec *)&illGillShadowEffectPosition);
         VecCopy(&chargeEffectPosition1, (const Vec *)&illGillChargeEffectPosition1);
@@ -1384,7 +1383,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     ((TObjPlayer *)self)->init_position_vectors();
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     model = (void *)illGillResource->models->model;
-    texlist = illGillResource->models->m_c;
+    texlist = (saddr)illGillResource->models->m_c;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
     this->set_field_d8((saddr)action_table);
@@ -1440,20 +1439,16 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
 }
 
 void TObjEneIllGill::free_effect() {
-    free_bin_model_request(illGillResource, (void *)1);
+    delete illGillResource;
     illGillResource = NULL;
 }
 
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TObjEneIllGill::load_shared_resources() {
     void *p;
     BmlResource *resource;
     Vec *q;
 
-    p = (void *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 1, &illGillResourceDescriptor, 0, 0, 0);
-    }
+    p = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
     illGillResource = (BmlResource *)p;
     TObjEneIllGill__boss_registration_id = (saddr)TLobby::register_boss(0x26);
     ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
@@ -1475,7 +1470,7 @@ void TObjEneIllGill::load_shared_resources() {
         NpcAnimationBinding pos = lbl_8047A318;
         resource = illGillResource;
         pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>((resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(((saddr)resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 

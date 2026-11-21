@@ -1,27 +1,37 @@
 #include "pso/render/ChunkVertexJob.h"
-struct Src_803E4CE8 { u8 pad[0xC]; s32 xc; };
+#include "dolphin/mtx.h"
+#include "pso/unk/text_803D853C.h"
 
-struct Dst_803E4CE8 { u8 pad[0xC]; f32 xc; f32 x10; f32 x14; s32 x18; u8 pad1c[4]; };
+struct ColoredChunkVertex {
+    Vec position;
+    u32 color;
+};
 
-extern "C" {
-void matrix_mult_vec(s32, Src_803E4CE8 *, Dst_803E4CE8 *);
-void cache_chunk_vertex_colors(ChunkVertexJob *job, s32) {
-    s32 n = job->count;
-    Src_803E4CE8 *src = (Src_803E4CE8 *)job->src;
-    Dst_803E4CE8 *dst = (Dst_803E4CE8 *)job->dst;
-    f32 b;
-    f32 a;
-    a = 0.0f;
-    b = 1.0f;
-    while (n-- > 0) {
-        matrix_mult_vec(0, src, dst);
-        dst->x18 = src->xc;
+struct CachedChunkVertex {
+    Vec position;
+    Vec normal;
+    u32 color;
+    u32 padding;
+};
+
+LAYOUT_ASSERT(ColoredChunkVertexSize, sizeof(ColoredChunkVertex) == 0x10);
+LAYOUT_ASSERT(CachedChunkVertexSize, sizeof(CachedChunkVertex) == 0x20);
+
+extern "C" void cache_chunk_vertex_colors(ChunkVertexJob *job, s32) {
+    s32 count = job->count;
+    const ColoredChunkVertex *src = reinterpret_cast<const ColoredChunkVertex *>(job->src);
+    CachedChunkVertex *dst = reinterpret_cast<CachedChunkVertex *>(job->dst);
+    f32 normalY;
+    f32 normalXZ;
+    normalXZ = 0.0f;
+    normalY = 1.0f;
+    while (count-- > 0) {
+        matrix_mult_vec(NULL, &src->position, &dst->position);
+        dst->color = src->color;
         src++;
-        dst->xc = a;
-        dst->x10 = b;
-        dst->x14 = a;
+        dst->normal.x = normalXZ;
+        dst->normal.y = normalY;
+        dst->normal.z = normalXZ;
         dst++;
     }
-}
-
 }

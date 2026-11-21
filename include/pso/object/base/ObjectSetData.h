@@ -23,4 +23,6 @@ struct ObjectSetData {
 LAYOUT_ASSERT(ObjectSetDataSize, sizeof(ObjectSetData) == 0x3C);
 LAYOUT_ASSERT(ObjectSetDataPositionOffset, offsetof(ObjectSetData, position) == 0xC);
 
+extern "C" s32 TLobby__sub_80207F30(ObjectSetData *set);
+
 #endif

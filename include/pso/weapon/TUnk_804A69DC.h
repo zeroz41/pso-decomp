@@ -24,7 +24,7 @@ public:
     s32 spin_speed;         // 0x1FC: angle step per frame (0xCCC..0x3333)
     s32 attack_frames;      // 0x200: frames spent attacking
     s32 charge_ready;       // 0x204: 0 for 30 frames after a charged release
-    WeaponVector gun_point; // 0x208: get_gun_point, where shots start
+    Vec gun_point; // 0x208: get_gun_point, where shots start
 };
 
 #endif

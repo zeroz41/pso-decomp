@@ -32,7 +32,7 @@ void TUnk_804A66D8::emit_marker_effects() {
 }
 
 void TUnk_804A66D8::reserved_53() {
-    ((TObjPlayer *)this)->draw_status_icons(&gun_point, &second_gun_point);
+    sample_dual_muzzles(&gun_point, &second_gun_point);
 }
 
 TUnk_804A66D8::~TUnk_804A66D8() {}
@@ -41,9 +41,9 @@ TUnk_804A66D8::TUnk_804A66D8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(547);
 }
 
-u8 *create_twin_psychogun(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A66D8(tl_05, (u8 *)item);
+TItem *create_twin_psychogun(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A66D8(tl_05, item);
     }
     return NULL;
 }

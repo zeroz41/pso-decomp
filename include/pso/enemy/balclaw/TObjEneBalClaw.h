@@ -39,7 +39,8 @@ struct NJS_OBJECT;
 // A movement row TObjEnemy::movementParameters points at.
 struct BalClawMovement {
     EnemyMoveParams move;
-    saddr m_c;
+    s16 m_c;
+    s16 m_e;
     s32 m_10;
     s32 m_14;
     s32 m_18;

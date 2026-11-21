@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -46,8 +47,6 @@ void run_task__17TObjBoss8DemoRoomFv(saddr arg0) {
 }
 TObjBoss8DemoRoom::~TObjBoss8DemoRoom() {}
 
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void*, int);
 void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__17TObjBoss8DemoRoom[];
@@ -61,19 +60,14 @@ void *__ct__17TObjBoss8DemoRoomFv(void *boss8_demo_room) {
 
 void TObjBoss8DemoRoom::free_static_instance() {
     if (TObjBoss8DemoRoom__shared_resource_object != 0) {
-        free_bin_model_request(TObjBoss8DemoRoom__shared_resource_object, 1);
+        delete (BmlResource *)TObjBoss8DemoRoom__shared_resource_object;
         TObjBoss8DemoRoom__shared_resource_object = 0;
     }
 }
 
 void TObjBoss8DemoRoom::load_resource() {
-    saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjBoss8DemoRoom__resource_desc, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &TObjBoss8DemoRoom__resource_desc, 0, 0, NULL);
     TObjBoss8DemoRoom__shared_resource_object = (void *)var_r0;
 }
 }

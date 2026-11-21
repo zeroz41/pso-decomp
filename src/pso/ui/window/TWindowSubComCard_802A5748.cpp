@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -14,8 +15,8 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
+saddr forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, saddr a1, saddr a2, int a3);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
-saddr create_window_menu(saddr, saddr, saddr);
 
 void TWindowSubComCard::close() { queue_destruction(); }
 void set_menu_selected_index(TWindowSubComCard *window, s16 index) { void *m = *(void **)&window->m_2c; if (m) ((TWindowSubComCardList *)m)->set_selected_index(index); }
@@ -35,15 +36,15 @@ s32 TWindowSubComCard::get_card_data() {
 }
 
 s32 TWindowMessageYesNo::is_child_visible() {
-    if ((u32) this->m_2c == 0U) {
+    if (choice_menu == NULL) {
         return 0;
     }
-    return ((TWindowMenu *)(this->m_2c))->is_decided();
+    return choice_menu->is_decided();
 }
 }
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void initialize_option_dialog(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
-    *(s32 *)((s8 *)arg0 + 0x28) = create_window_menu(arg2, 1, *(s32 *)((s8 *)arg0 + 0x24));
+    *(s32 *)((s8 *)arg0 + 0x28) = (saddr)create_window_menu((saddr)(arg2), 1, *(s32 *)((s8 *)arg0 + 0x24));
     TObjCityMainWarp::forward_trade_action_default((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)arg1, 0x21, 0);
     ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->set_flag_40();
     TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)arg0 + 0x28)));
@@ -53,7 +54,7 @@ void initialize_option_dialog(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
 void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     s32 sp8;
     if (arg1 == 0U) {
-        *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = create_window_menu(arg3, 1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24));
+        *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (saddr)create_window_menu((saddr)(arg3), 1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24));
     } else {
         *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (long) (create_titled_window_menu(arg3, 1, arg1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)));
     }
@@ -62,5 +63,6 @@ void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s
     TQuestThread::set_status_flag_80((void *)((saddr) (*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28))));
     ((TWindowSubComCard *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(farg0);
     ch_cr_tag_pl_back->get_position_offset(&sp8);
-    *(u8 **)((s8 *)ch_cr_tag_pl_back + 0x2C) = create_yes_no_window((saddr)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (uaddr)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C)));
+    reinterpret_cast<TWindowMessageYesNo *>(ch_cr_tag_pl_back)->choice_menu =
+        reinterpret_cast<TWindowMenu *>(create_yes_no_window((saddr)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (uaddr)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C))));
 }

@@ -30,9 +30,9 @@ TUnk_804A5E20::TUnk_804A5E20(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_callback = (WeaponShotCallback)TObjPlayer::create_shoot_model;
 }
 
-u8 *TObjPlayer::create_init_state_2(u8 *item) {
+TItem *TObjPlayer::create_init_state_2(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A5E20(tl_05, item);
+        return new TUnk_804A5E20(tl_05, item);
     }
     return NULL;
 }

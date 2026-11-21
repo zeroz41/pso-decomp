@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -13,7 +14,6 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -46,7 +46,7 @@ GinjaTextureList *goal_warp_ancient_gvm_texture;
 
 
 extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model(ancient_warp_shared_resource, index);
+    return (NJS_OBJECT *)get_bml_model((BmlResource *)ancient_warp_shared_resource, index);
 }
 
 AnimationMotion *TObjGoalWarpAncient::register_warp(s32 index) {
@@ -58,14 +58,11 @@ GinjaTextureList *TObjGoalWarpAncient::get_goal_beam_textures() {
 }
 
 GinjaTextureList *TObjGoalWarpAncient::get_archive_textures(s32 index) {
-    return (GinjaTextureList *)get_bml_texlist(ancient_warp_shared_resource, index);
+    return (GinjaTextureList *)get_bml_texlist((BmlResource *)ancient_warp_shared_resource, index);
 }
 
 void TObjGoalWarpAncient::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_o_warp_ancient_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_o_warp_ancient_resource_descriptor, 0, 0, NULL);
     ancient_warp_shared_resource = resource;
     goal_warp_ancient_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr)"de_obj2_swarp_beam_r.gvm");
 }
@@ -74,7 +71,7 @@ void TObjMapWarpAncient::free_globals() {
     TObjPlayer::free_if_valid((saddr)goal_warp_ancient_gvm_texture);
     goal_warp_ancient_gvm_texture = NULL;
     if (ancient_warp_shared_resource != NULL) {
-        free_bin_model_request(ancient_warp_shared_resource, 1);
+        delete ancient_warp_shared_resource;
         ancient_warp_shared_resource = NULL;
     }
 }

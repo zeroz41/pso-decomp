@@ -1,4 +1,7 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/object/trap/TOExplosiveMachine.h"
 #include "pso/object/trap/TOExplosiveMachine01.h"
 #include "pso/object/trap/TOExplosiveMachine02.h"
@@ -12,19 +15,15 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/render_util.h"
 
 extern "C" {
-void *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-void free_bin_model_request(void *, s32);
 s32 post_translate_matrix(const Vec *);
 s32 push_matrix();
 
-void *get_bml_model(void *, s32);
-saddr get_bml_texlist(void *, s32);
+
 
 __declspec(section ".rodata") const char lbl_80441268[] = "fs_obj_bapipe.gj";
 __declspec(section ".rodata") const char lbl_8044127C[] = "fs_obj_bapipe_a.gj";
@@ -81,16 +80,13 @@ TOExplosiveMachine::~TOExplosiveMachine() {
 }
 
 void TOExplosiveMachine::load_shared_resource() {
-    void *resource = ::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &explosive_machine_resource_desc, 0, 0, 0);
-    }
+    void *resource = new BmlResource(1, &explosive_machine_resource_desc, 0, 0, NULL);
     explosive_machine_model_archive = resource;
 }
 
 void TOExplosiveMachine::destroy_static_lobby() {
     if (explosive_machine_model_archive != NULL) {
-        free_bin_model_request(explosive_machine_model_archive, 1);
+        delete (BmlResource *)explosive_machine_model_archive;
         explosive_machine_model_archive = NULL;
     }
 }
@@ -140,13 +136,13 @@ void TOExplosiveMachine::run_task() {
 TOExplosiveMachine01::TOExplosiveMachine01(void *set_data) {
     m_name = TOExplosiveMachine01__class_name;
     apply_object_set_data(set_data);
-    model = get_bml_model(explosive_machine_model_archive, 0);
-    texlist = get_bml_texlist(explosive_machine_model_archive, 0);
+    model = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 0);
     view_radius = ((ExplosiveMachineModel *)((NJS_OBJECT *)model)->model)->radius;
-    debris_models[0] = get_bml_model(explosive_machine_model_archive, 1);
-    debris_textures[0] = get_bml_texlist(explosive_machine_model_archive, 1);
-    debris_models[1] = get_bml_model(explosive_machine_model_archive, 2);
-    debris_textures[1] = get_bml_texlist(explosive_machine_model_archive, 2);
+    debris_models[0] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 1);
+    debris_textures[0] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 1);
+    debris_models[1] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 2);
+    debris_textures[1] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 2);
 }
 
 TOExplosiveMachine01::~TOExplosiveMachine01() {}
@@ -158,13 +154,13 @@ void *TOExplosiveMachine01__create(void *set_data) {
 TOExplosiveMachine02::TOExplosiveMachine02(void *set_data) {
     m_name = TOExplosiveMachine02__class_name;
     apply_object_set_data(set_data);
-    model = get_bml_model(explosive_machine_model_archive, 3);
-    texlist = get_bml_texlist(explosive_machine_model_archive, 3);
+    model = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 3);
+    texlist = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 3);
     view_radius = ((ExplosiveMachineModel *)((NJS_OBJECT *)model)->model)->radius;
-    debris_models[0] = get_bml_model(explosive_machine_model_archive, 4);
-    debris_textures[0] = get_bml_texlist(explosive_machine_model_archive, 4);
-    debris_models[1] = get_bml_model(explosive_machine_model_archive, 5);
-    debris_textures[1] = get_bml_texlist(explosive_machine_model_archive, 5);
+    debris_models[0] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 4);
+    debris_textures[0] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 4);
+    debris_models[1] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 5);
+    debris_textures[1] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 5);
 }
 
 TOExplosiveMachine02::~TOExplosiveMachine02() {}
@@ -176,13 +172,13 @@ void *TOExplosiveMachine02__create(void *set_data) {
 TOExplosiveMachine03::TOExplosiveMachine03(void *set_data) {
     m_name = TOExplosiveMachine03__class_name;
     apply_object_set_data(set_data);
-    model = get_bml_model(explosive_machine_model_archive, 6);
-    texlist = get_bml_texlist(explosive_machine_model_archive, 6);
+    model = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 6);
+    texlist = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 6);
     view_radius = ((ExplosiveMachineModel *)((NJS_OBJECT *)model)->model)->radius;
-    debris_models[0] = get_bml_model(explosive_machine_model_archive, 7);
-    debris_textures[0] = get_bml_texlist(explosive_machine_model_archive, 7);
-    debris_models[1] = get_bml_model(explosive_machine_model_archive, 8);
-    debris_textures[1] = get_bml_texlist(explosive_machine_model_archive, 8);
+    debris_models[0] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 7);
+    debris_textures[0] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 7);
+    debris_models[1] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 8);
+    debris_textures[1] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 8);
 }
 
 TOExplosiveMachine03::~TOExplosiveMachine03() {}

@@ -1,4 +1,5 @@
 #include "pso/item/MagStats.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubMagPhoton.h"
 #include "pso/item/TItemData.h"
@@ -93,7 +94,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
 struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 void render__19TWindowSubMagPhotonFv(saddr arg0);
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 extern s32 __vt__19TWindowSubMagPhoton[];
@@ -120,7 +120,7 @@ void TWindowSubMagPhoton::update_selection_input() {
     u8 temp_r3;
     u8 temp_r3_2;
     u8 *window_choice_setting;
-    window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
+    window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->client_index)) * 0x50) + 0x20;
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
@@ -154,9 +154,12 @@ s32 TWindowSubMagPhoton::draw_cursor(int arg1) {
 
 void render__19TWindowSubMagPhotonFv(saddr arg0) {
     saddr temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
+    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowSubMagPhoton *)arg0)->draw_cursor(temp_r3);
 }
 
@@ -164,7 +167,7 @@ void TWindowSubMagPhoton::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     u8 *context;
-    temp_r31 = is_player_input_active(((s32) this->m_20));
+    temp_r31 = is_player_input_active(((s32) this->client_index));
     if (((TWindowSubMagPhoton *)arg0)->get_active_flag() == 0) {
         update_selection_input();
         context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
@@ -176,7 +179,7 @@ void TWindowSubMagPhoton::run_task() {
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     this->m_62 = (this->m_62 + 1);
 }
 
@@ -190,7 +193,7 @@ u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, saddr ar
     *(s32 *)((s8 *)window_sub_mag_photon + 0) = (saddr) TWindowSubMagPhoton__class_name;
     copy_vec2(((u8 *)window_sub_mag_photon + 0x30), (void *)arg1);
     ((TWindowBase *)window_sub_mag_photon)->save_position();
-    window_sub_mag_photon->m_20 = arg3;
+    window_sub_mag_photon->client_index = arg3;
     window_sub_mag_photon->m_70 = arg2;
     window_sub_mag_photon->m_60 = 0;
     window_sub_mag_photon->m_61 = 1;

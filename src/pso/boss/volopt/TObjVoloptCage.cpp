@@ -1,6 +1,7 @@
 #pragma readonly_strings on
 #pragma fp_contract on
 
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -15,7 +16,6 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D8F74.h"
@@ -184,7 +184,7 @@ void TObjVoloptCage::destroy() {
 
 void TObjVoloptCage::init_break_model() {
     TBreakUpMdl *model;
-    volopt_cage_model = boss3_volopt_resources->models[0x12].model;
+    volopt_cage_model = (saddr)boss3_volopt_resources->models[0x12].model;
     volopt_cage_breakup_model = (TBreakUpMdlPieces *)new TUnk_8048FA00(volopt_cage_model);
     volopt_cage_combat_stats = TLobby::register_boss(0x26);
     volopt_cage_params = (VoloptCageParams *)TLobby::dispatch_shared_handler_a(0x26);
@@ -282,7 +282,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     actorFlags &= ~0xA00;
     next_action = 7;
     mode = 7;
-    volopt_cage_textures = lbl_805D4CE4->models[0x12].m_c;
+    volopt_cage_textures = (saddr)lbl_805D4CE4->models[0x12].m_c;
     status = 0;
 }
 

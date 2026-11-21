@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -85,7 +86,7 @@ void TOSparkMachine01::render() {
             case 1:
                 push_matrix();
                 post_translate_matrix(n->pos);
-                draw_ginja_model((saddr)n->model);
+                draw_ginja_model(n->model);
                 pop_matrix();
                 break;
             }
@@ -102,16 +103,13 @@ void *TOSparkMachine01::create() {
 
 void TOSparkMachine01::destroy_static_instance() {
     if (TOSparkMachine01__static_resource != NULL) {
-        free_bin_model_request(TOSparkMachine01__static_resource, 1);
+        delete (BmlResource *)TOSparkMachine01__static_resource;
         TOSparkMachine01__static_resource = NULL;
     }
 }
 
 void TOSparkMachine01::load_static_resource() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 1, &bm_fe_obj_tank_hikari_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_fe_obj_tank_hikari_resource_descriptor, 0, 0, NULL);
     TOSparkMachine01__static_resource = archive;
 }
 

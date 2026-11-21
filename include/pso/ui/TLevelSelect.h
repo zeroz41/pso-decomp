@@ -11,7 +11,6 @@ public:
     virtual void render();
 public:
     static s32 get_difficulty_flag_bit(s32 n, s32 flag);
-    void add_item_rect(void *src);
 };
 
 extern "C" {

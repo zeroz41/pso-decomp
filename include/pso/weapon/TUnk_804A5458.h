@@ -10,6 +10,6 @@ public:
     TUnk_804A5458(TObject *parent, u8 *item);
 };
 
-u8 *create_rod_weapon(u8 *item);
+TItem *create_rod_weapon(u8 *item);
 
 #endif

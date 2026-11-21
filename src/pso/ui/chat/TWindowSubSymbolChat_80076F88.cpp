@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/text_80076E84.h"
@@ -50,7 +51,6 @@ s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1);
     extern int selected_symbol_chat_preset;
 extern s32 local_client_id;
 s32 play_sound_effect(s32, u32, s16, s32);
-E_80077480 *get_character_save_record(u32 id);
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
     G_SymbolChat_6x07 packet;
@@ -219,7 +219,7 @@ s32 is_symbol_chat_preset_in_use(u32 *arg0) {
 }
 
 u8 *get_symbol_chat_preset(s32 i) {
-    E_80077480 *e = &get_character_save_record(0xFFFF)[i];
+    E_80077480 *e = &reinterpret_cast<E_80077480 *>(get_character_save_record(0xFFFF))[i];
     return ((X_80077480 *)e)->sub;
 }
 

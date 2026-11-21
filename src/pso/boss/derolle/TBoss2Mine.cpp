@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/derolle/TBoss2Mine.h"
 #include "pso/system/vector.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -19,7 +20,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 
 struct TBoss2MineMovement {

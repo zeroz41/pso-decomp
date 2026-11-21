@@ -15,7 +15,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
@@ -173,7 +174,7 @@ void TOKeyCave01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         if (is_on != 1) {
             flags = model_render_flags;
             saved_model_render_flags = flags;
@@ -192,11 +193,11 @@ void TOKeyCave01::render() {
             break;
         }
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -221,7 +222,7 @@ void TOKeyCave01::free_objects() {
         }
     }
     if (TOKeyCave01__resource_bundle != NULL) {
-        free_bin_model_request(TOKeyCave01__resource_bundle, 1);
+        delete TOKeyCave01__resource_bundle;
         TOKeyCave01__resource_bundle = NULL;
     }
 }
@@ -231,10 +232,7 @@ void TOKeyCave01::load_resources() {
     BmlResource *resource;
 
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &fs_obj_key_jungle_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &fs_obj_key_jungle_resource_descriptor, 0, 0, NULL);
         TOKeyCave01__resource_bundle = resource;
         TOKeyCave01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyCave01__texture_lists));
         TOKeyCave01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_key_jungle_red.gvm");
@@ -242,10 +240,7 @@ void TOKeyCave01::load_resources() {
         key_cave_render_state = 1;
         return;
     }
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_do_doa_panel_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(1, &bm_fs_obj_do_doa_panel_resource_descriptor, 0, 0, NULL);
     TOKeyCave01__resource_bundle = resource;
     TOKeyCave01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyCave01__texture_lists));
     TOKeyCave01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_do_doa_panelr.gvm");

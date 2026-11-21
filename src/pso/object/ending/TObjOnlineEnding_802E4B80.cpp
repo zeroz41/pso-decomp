@@ -1,4 +1,6 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TWindowChallengeResult.h"
@@ -195,29 +197,14 @@ s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
 s32 *TLobby__sub_80070ACC();
-TWindowChallengeResult *TWindowChallengeResult__ct(TWindowChallengeResult *, const void *, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
 
 void TObjOnlineEnding::create_result_window() {
-    s32 temp_r31;
-    s32 temp_r30_2;
-    s32 temp_r30;
-    TWindowChallengeResult *window;
-
     result_window = NULL;
     if (TLobby::is_flag_set() != 0) {
-        temp_r30 = TWindowSubStatusDisp::get_layout_id(-1) - 1;
-        {
-        s32 t = TLobby::get_online_result_value();
-        if (t == temp_r30) {
-            window = static_cast<TWindowChallengeResult *>(TObject::operator new(sizeof(TWindowChallengeResult)));
-            if (window != NULL) {
-                temp_r30_2 = TObjOnlineEnding::get_card_window_value();
-                temp_r31 = TWindowSubStatusDisp__sub_800718D0();
-                window = TWindowChallengeResult__ct(window, TLobby__sub_80070ACC(), temp_r31, temp_r30_2);
-            }
-            result_window = window;
-        }
+        if (TLobby::get_online_result_value() == TWindowSubStatusDisp::get_layout_id(-1) - 1) {
+            result_window = new TWindowChallengeResult((const char *)TLobby__sub_80070ACC(),
+                TWindowSubStatusDisp__sub_800718D0(), get_card_window_value());
         }
     }
 }
@@ -312,8 +299,8 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
     return arg0;
 }
 
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
+
+
 void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
@@ -343,8 +330,8 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         object->queue_destruction();
         return arg0;
     }
-    self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(online_ending_resource, 0));
-    self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(online_ending_resource, 0));
+    self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)online_ending_resource, 0));
+    self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
     self->scene_motion = get_bml_motion(online_ending_resource, 0x18);
     self->player_count = 0;
     for (i = 0; i < 4; i++) {
@@ -391,7 +378,6 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
 
 #pragma pop
 
-void free_bin_model_request(void*, int);
 void *TObjOnlineEnding__ct(void *, void *);
 
 void *TObjOnlineEnding::create(void *arg0) {
@@ -404,20 +390,16 @@ void *TObjOnlineEnding::create(void *arg0) {
 
 void TBoss4DarkFalz::free_global_instance() {
     if (online_ending_resource != NULL) {
-        free_bin_model_request(online_ending_resource, 1);
+        delete (BmlResource *)online_ending_resource;
         online_ending_resource = NULL;
     }
 }
 
-s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 
 void fn_802E52AC() {
     saddr r;
     if (online_ending_resource == NULL) {
-        r = (saddr)::operator new(0x440);
-        if (r != 0) {
-            r = load_resource_from_descriptor(r, 5, &onlineending_dat_resource_descriptor, 0, 0, 0);
-        }
+        r = (saddr)new BmlResource(5, &onlineending_dat_resource_descriptor, 0, 0, NULL);
         online_ending_resource = reinterpret_cast<BmlResource *>(r);
         if (online_ending_resource == NULL) {
             return;

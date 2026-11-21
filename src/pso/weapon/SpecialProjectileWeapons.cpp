@@ -88,7 +88,7 @@ void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1);
 
 void run_task__13TUnk_804A2018Fv(void *arg0);
 void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
-u8 *TObjPlayer__sub_80124708(u8 *arg0);
+TItem *TObjPlayer__sub_80124708(u8 *arg0);
 
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
 typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
@@ -280,7 +280,7 @@ void *TObjPlayer__sub_80124694(TObjPlayer *player) {
     return player;
 }
 
-u8 *TObjPlayer__sub_80124708(u8 *arg0) {
+TItem *TObjPlayer__sub_80124708(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
@@ -289,7 +289,7 @@ u8 *TObjPlayer__sub_80124708(u8 *arg0) {
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((Fn_80124694_3)TObjPlayer__sub_80124694)(temp_r3, tl_05, arg0));
         }
-        return var_r0;
+        return reinterpret_cast<TItem *>(var_r0);
     }
     return NULL;
 }

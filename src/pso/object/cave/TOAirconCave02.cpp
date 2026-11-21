@@ -2,7 +2,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/cave/TOAirconCave02.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -33,17 +34,13 @@ void *TOAirconCave02::create(void *set_data) {
 
 void TOAirconCave02::release_static_resource() {
     if (TOAirconCave02__bml_resource != NULL) {
-        free_bin_model_request(TOAirconCave02__bml_resource, 1);
+        delete TOAirconCave02__bml_resource;
         TOAirconCave02__bml_resource = NULL;
     }
 }
 
 void TOAirconCave02::load_shared_resource() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &TOAirconCave02__shared_resource_desc, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &TOAirconCave02__shared_resource_desc, 0, 0, NULL);
     TOAirconCave02__bml_resource = resource;
 }
 
@@ -53,7 +50,7 @@ TOAirconCave02::TOAirconCave02(TObject *parent, void *set_data) : TObjMapObject(
     m_name = TOAirconCave02_class_name;
     apply_object_set_data(set_data);
     model = (void *)TOAirconCave02__bml_resource->models[0].model;
-    texlist = TOAirconCave02__bml_resource->models[0].m_c;
+    texlist = (saddr)TOAirconCave02__bml_resource->models[0].m_c;
     view_range = 500.0f;
     model_radius = 40.0f;
 }

@@ -35,4 +35,6 @@ struct TOChatSensor : public TObjBase {
 };
 
 LAYOUT_ASSERT(TOChatSensor_size, sizeof(TOChatSensor) == 0xD0);
+extern "C" void *TOChatSensor__create(void *set);
+
 #endif

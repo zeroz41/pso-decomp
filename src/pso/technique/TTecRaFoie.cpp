@@ -1,4 +1,6 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/technique/TTecCtrl.h"
@@ -37,7 +39,7 @@ extern "C" {
 u16 get_entity_id(void *);
 void construct_area_technique_base(void *, void *, void *, void *, int);
 s32 is_split_screen();
-void *get_bml_model(void *, s32);
+
 void attach_particle_model(void *, void *, void *, int, int, f32);
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
@@ -127,7 +129,7 @@ void TTecRaFoie::vfunc_8(void *) {
         } else {
             emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
+                attach_particle_model(emitter, (void *)get_bml_model((BmlResource *)technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
             }
         }
         spawn_particle_effect(&target, 0x3A);
@@ -141,7 +143,7 @@ void TTecRaFoie::vfunc_8(void *) {
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
+                attach_particle_model(emitter, (void *)get_bml_model((BmlResource *)technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
             }
         }
     }
@@ -240,7 +242,7 @@ void TUnk_804CCB28::render() {
     TObjFish::set_global_param((saddr)lbl_805D63B0);
     set_cull_back();
     set_draw_list_mask(3);
-    get_bml_model(technique_effect_bml, 0xB);
+    (void *)get_bml_model((BmlResource *)technique_effect_bml, 0xB);
     draw_ginja_object();
     restore_draw_list_mask();
     set_cull_none();
@@ -264,9 +266,9 @@ void TUnk_804CCB28::run_task() {
     Stack_80238388 stack;
     f32 temp_f1;
     this->m_58 = (this->m_58 + 1);
-    *(s32 *)&this->unk_5C = (s32) (*(s32 *)&this->unk_5C + 1);
-    if ((s32) *(s32 *)&this->unk_5C >= 0x10) {
-        *(s32 *)&this->unk_5C = 0;
+    this->m_5c = (s32) (this->m_5c + 1);
+    if ((s32) this->m_5c >= 0x10) {
+        this->m_5c = 0;
     }
     if ((s32) this->m_58 > 0x6E) {
         queue_destruction();
@@ -308,17 +310,11 @@ struct Stack_802384E0 {
 
 struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
 
-struct Stack_802385EC {
-    s32 sp8;
-    f32 spC;
-    u8 trailing_storage[0x4];
-};
 
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
 extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 farg0);
 void copy_technique_target_list(void *, void *);
 }
 
@@ -351,16 +347,22 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, saddr arg4,
     return arg0;
 }
 
-u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 farg0) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802385EC, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802385EC, spC) == 0x4);
+struct Stack_802385EC {
+    s32 sp8;
+    f32 spC;
+    u8 trailing_storage[0x4];
+};
+
+TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *arg1, s16 arg2, TObject *arg3) {
+    LAYOUT_ASSERT(sp8_offset, (offsetof(Stack_802385EC, sp8) == 0x0));
+    LAYOUT_ASSERT(spC_offset, (offsetof(Stack_802385EC, spC) == 0x4));
     Stack_802385EC stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg3);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
     ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
     *(s16 *)((s8 *)arg0 + 0x22) = 0;
     ((TUnk_804CCB28 *)arg0)->m_60 = 1;
-    VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1));
+    VecCopy((Vec *)(arg0 + 0x28), arg1);
     *(f32 *)((s8 *)arg0 + 0x44) = farg0;
     ((TUnk_804CCB28 *)arg0)->m_58 = 0;
     *(s32 *)((s8 *)arg0 + 0x5C) = 0;
@@ -377,7 +379,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 
     ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
     ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
-    return arg0;
+    return (TUnk_804CCB28 *)arg0;
 }
 
 void TTecRaFoie::vfunc_6(void *target) {

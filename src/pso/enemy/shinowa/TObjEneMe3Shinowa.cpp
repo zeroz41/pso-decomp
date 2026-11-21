@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -41,7 +43,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
@@ -165,7 +166,6 @@ const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, reinterpret_cas
 // inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 
-s32 free_bin_model_request(void *, s32);
 
 // Floor resource callback (inferred: load_shared_resources, the TObjEneMe3SinowZoa::load_resources twin):
 // loads the shared Shinowa BML, a texture-list copy for the mirage, the per-variant parameter tables,
@@ -186,9 +186,9 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaMirage__data_80500FC0.y = 0.0f;
     TObjEneMe3ShinowaMirage__data_80500FC0.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneMe3ShinowaMirage__data_805D5298 = (BmlResource *)load_enemy_bml_resource_named((saddr)&shinowa_mirage_resource_descriptor, (saddr)"bm_ene_me3_shinowa_a.bml");
+        TObjEneMe3ShinowaMirage__data_805D5298 = load_enemy_bml_resource_named(&shinowa_mirage_resource_descriptor, "bm_ene_me3_shinowa_a.bml");
     } else {
-        TObjEneMe3ShinowaMirage__data_805D5298 = (BmlResource *)load_enemy_bml_resource((u8 *)&shinowa_mirage_resource_descriptor);
+        TObjEneMe3ShinowaMirage__data_805D5298 = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
     }
     src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__data_805D5298->models->m_c;
     n = src->nbTexture;
@@ -219,7 +219,7 @@ void load_shinowa_mirage_resources() {
     lbl_80500FF4.x = 0.0f;
     lbl_80500FF4.y = 0.0f;
     lbl_80500FF4.z = 0.0f;
-    root = TObjEneMe3ShinowaMirage__data_805D5298->models->model;
+    root = (saddr)TObjEneMe3ShinowaMirage__data_805D5298->models->model;
     cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 9))->model;
     if (cnk != NULL) {
         lbl_80501000[0] = (s32 *)(cnk->polygon_list + 2);
@@ -307,7 +307,7 @@ void TObjEneMe3ShinowaMirage::free_shared_resources() {
         lbl_80500FEC.textures = 0;
     }
     if (TObjEneMe3ShinowaMirage__data_805D5298 != 0) {
-        free_bin_model_request(TObjEneMe3ShinowaMirage__data_805D5298, 1);
+        delete TObjEneMe3ShinowaMirage__data_805D5298;
         TObjEneMe3ShinowaMirage__data_805D5298 = 0;
     }
 }
@@ -1523,7 +1523,7 @@ void TObjEneMe3Shinowa::vfunc_115(s32) {  }
 
 void TObjEneMe3Shinowa::vfunc_116(s32) {  }
 
-void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step() {
+void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step(NJS_OBJECT *) {
     if ((s32) TObjEneMe3ShinowaMirage__render_node_index == 1) {
         forward_transform_to_view(&TObjEneMe3ShinowaMirage__data_80500FC0, &lbl_80500FF4);
     }
@@ -1570,7 +1570,7 @@ void TObjEneMe3Shinowa::render() {
             translate_matrix(0, 0.0f, m_3cc, 0.0f);
             rotate_matrix_y(0, rotation_y);
             TObjEneMe3ShinowaMirage__render_node_index = 0;
-            set_chunk_model_node_callback((saddr)((void *)(TObjEneMe3ShinowaMirage::advance_camera_ctrl_step)));
+            set_chunk_model_node_callback(TObjEneMe3ShinowaMirage::advance_camera_ctrl_step);
             if (detail == 1) {
                 TObjMotion::draw();
             } else {

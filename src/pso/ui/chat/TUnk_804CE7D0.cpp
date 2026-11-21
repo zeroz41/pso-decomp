@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
@@ -29,7 +30,6 @@ TUnk_804CE7D0::~TUnk_804CE7D0() {
 }
 
 extern "C" {
-s32 align_menu_entry_positions(void *);
 }
 
 TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
@@ -54,6 +54,6 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     } while (i < 0xC);
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
-    align_menu_entry_positions(preset_list);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
     chat_symbol = new TWindowChatSymbol((saddr)&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
 }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/keyboard/KeyboardInputQueries.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TTecCtrl.h"
@@ -14,6 +15,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/PlayerAttackController.h"
@@ -1122,8 +1124,6 @@ s32 get_type__10TObjPlayerFPv(void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 u8 * find_entity_by_id(s32);
-s32 TKeyBoardControl__sub_801A58B0();
-s32 TKeyBoardControl__sub_801A58D8();
 s32 TObjPlayer__sub_801AF290(void *p);
 s16 get_handle_value__10TObjPlayerFv();
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();
@@ -1323,7 +1323,7 @@ short query_child_state2__10TObjPlayerFPv(void *arg0);
 void release_control_lock__10TObjPlayerFPv(void* p);
 void TObjPlayer__sub_801D0F70(void* p);
 int copy_position__10TObjPlayerFPv(void* p);
-int query_field_340__10TObjPlayerFPv(void* p);
+void update_player_action_palette(TObjPlayer *player, u8 slot);
 }
 int is_android_player(void* p);
 extern "C" {
@@ -3033,11 +3033,11 @@ void TObjPlayer::enter_death_state() {
     }
     if ((TObjPlayer::is_locally_controlled((void *) (arg0)) != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (TTecCtrl::is_technique_ready() == 0)) {
         if (TObjPlayer::is_single_screen() != 0) {
-            character_save_record = get_character_save_record(((s32 (*)(void *))get_entity_id)((void *) (arg0)));
+            character_save_record = ((u8 *)get_character_save_record((u16)(((s32 (*)(void *))get_entity_id)((void *) (arg0)))));
             *(s32 *)((s8 *)character_save_record + 0x244) = (s32) (*(s32 *)((s8 *)character_save_record + 0x244) + 1);
             return;
         }
-        temp_r3_3 = get_character_save_record(0xFFFFU);
+        temp_r3_3 = ((u8 *)get_character_save_record((u16)(0xFFFFU)));
         *(s32 *)((s8 *)temp_r3_3 + 0x244) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x244) + 1);
     }
 }
@@ -4188,8 +4188,8 @@ void TObjPlayer::update_cursor(s32 parameter) {
 
     temp_r3 = this->m_424;
     if ((temp_r3 != 0U) && (canSetMenuCursorAction(temp_r3 + 0x520, this, 3, (u8) parameter) != 0)) {
-        ((TWindowActionPalette *)(this->m_424 + 0x520))->set_mode(3);
-        ((TWindowActionPalette *)(this->m_424 + 0x520))->set_slot((u8) parameter);
+        set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), 3);
+        set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), static_cast<u8>(parameter));
         TMainCursor__sub_8013DFC4((u8 *)(this->m_424 + 0x520));
     }
 }
@@ -4605,7 +4605,7 @@ void enter_attack_stage3__10TObjPlayerFPv(u8 *player) {
     *(s32 *)((s8 *)player + 0x33C) = 7;
     ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(player, (int) (((TObjPlayer *)player)->mode), 6);
     ((s32 (*)(void *, void *))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
-    ((s32 (*)(void *, void *))query_field_340__10TObjPlayerFPv)((void *) (player), (void *) (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
+    update_player_action_palette(reinterpret_cast<TObjPlayer *>(player), static_cast<u8>(TObjPlayer__sub_801D2F4C(reinterpret_cast<s16 *>(player + 0x7CC))));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 2, 2);
     ((TObjPlayer *)player)->setup_attack_stage();
     ((TObjPlayer *)player)->set_action_state(7, ((TObjPlayer *)player)->get_model_state());
@@ -4728,7 +4728,7 @@ void enter_attack_stage2__10TObjPlayerFPv(u8 *player) {
     *(s32 *)((s8 *)player + 0x33C) = 6;
     ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(player, (int) (((TObjPlayer *)player)->mode), 6);
     ((s32 (*)(void *, void *))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
-    ((s32 (*)(void *, void *))query_field_340__10TObjPlayerFPv)((void *) (player), (void *) (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
+    update_player_action_palette(reinterpret_cast<TObjPlayer *>(player), static_cast<u8>(TObjPlayer__sub_801D2F4C(reinterpret_cast<s16 *>(player + 0x7CC))));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 1, 1);
     ((TObjPlayer *)player)->setup_attack_stage();
     ((TObjPlayer *)player)->set_action_state(6, ((TObjPlayer *)player)->get_state());
@@ -6158,7 +6158,9 @@ void TObjPlayer::set_float_param(s16 arg1) {
     ((TObjPlayer *)(arg0 + 0x4AC))->set_field_3c((f32) (s32) arg1);
 }
 
-int query_field_340__10TObjPlayerFPv(void* p) { return ((TObjPlayer *)((char*)p + 0x340))->update_action_palette(); }
+void update_player_action_palette(TObjPlayer *player, u8 slot) {
+    set_player_action_palette_slot(reinterpret_cast<PlayerActionPaletteState *>(&player->m_340), slot);
+}
 }
 
 int is_android_player(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }

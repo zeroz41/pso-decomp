@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/system/ModelDrawCallback.h"
@@ -44,7 +45,7 @@ extern saddr current_matrix;
 void draw_ginja_motion_node_tree(u8 *arg0);
 void flush_model_draw_queue(void);
 extern "C" {
-void prepare_ginja_model(void *);
+
 extern RecoveredCallback_2be3cacebb2e ginja_draw_end_callback;
 void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src);
 void GXSetBlendMode(int, int, int, int);
@@ -65,7 +66,7 @@ void set_model_node_callback(saddr arg0) {
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
     bind_motion_context((NJS_MOTION *)motion, frame);
     model_draw_context->draw = draw_ginja_model_lists;
-    prepare_ginja_model(model_draw_context);
+    prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
     draw_ginja_motion_node_tree((u8 *)model);
     flush_model_draw_queue();

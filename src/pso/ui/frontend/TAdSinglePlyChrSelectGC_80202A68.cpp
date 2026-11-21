@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/text_80076BC4.h"
@@ -19,10 +20,6 @@ struct Obj_80202B1C { s32 hdr; Ent_80202B1C e[1]; };
 struct Ent_80202B4C { s32 a; s32 b; s32 c[5]; };
 
 struct Obj_80202B4C { s32 hdr; Ent_80202B4C e[1]; };
-
-struct Obj_80202C08 { s32 a[4]; s32 b[4]; s32 n; };
-
-struct Obj_80202C3C { s32 a[4]; s32 b[4]; s32 n; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -178,25 +175,23 @@ s32 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
 
 void TAdSinglePlyChrSelectGC::set_state(int a0) { chr_select_scene_state = a0; }
 
-void TAdSinglePlyChrSelectGC::clear_slot_lists() {
-    Obj_80202C08 *self = (Obj_80202C08 *)this;
+void CharacterSelectionRequest::clear_slot_lists() {
     s32 i;
-    this->m_20 = 0;
+    count = 0;
     for (i = 0; i < 4; i++) {
-        self->a[i] = -1;
-        self->b[i] = -1;
+        card_slots[i] = -1;
+        player_ids[i] = -1;
     }
 }
 
 void TAdSinglePlyChrSelectGC::set_chr_select_state(int a0) { chr_select_game_mode = a0; }
 
-void TAdSinglePlyChrSelectGC::reset_slot_lists() {
-    Obj_80202C3C *self = (Obj_80202C3C *)this;
+void CharacterSelectionRequest::reset_slot_lists() {
     s32 i;
-    this->m_20 = 0;
+    count = 0;
     for (i = 0; i < 4; i++) {
-        self->a[i] = -1;
-        self->b[i] = -1;
+        card_slots[i] = -1;
+        player_ids[i] = -1;
     }
 }
 

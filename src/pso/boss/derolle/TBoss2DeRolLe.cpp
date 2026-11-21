@@ -1,5 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
+
+struct NJS_OBJECT;
 
 #include "pso/math/FloatRounding.h"
 
@@ -605,7 +610,7 @@ s32 post_translate_matrix(void *);
 
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
-void TObjPlayer__sub_8002F61C(void);
+void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 
 extern u8 controller_input_state[];
 
@@ -843,7 +848,7 @@ extern saddr lbl_805D4BBC;
 
 extern saddr lbl_805D4BC0;
 
-void TObjPlayer__sub_8002F61C(void);
+void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 
 }
 
@@ -2224,9 +2229,7 @@ void TBoss2Mine__sub_80038D88(void);
 
 void TBoss2Tentacle__sub_8003A0AC(void);
 
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
-saddr load_enemy_bml_resource(u8 *arg0);
 
 extern s32 TBoss2DeRolLe__shared_handler_id_table[];
 
@@ -2310,7 +2313,6 @@ void TBoss2Mine__sub_80038D84(void);
 
 void TBoss2Tentacle__sub_8003A0A8(void);
 
-void free_bin_model_request(void*, int);
 
 void TObjPlayer__sub_8002EB88(void);
 
@@ -2921,9 +2923,9 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     Node_80035D24 *m;
     Slot_80035D24 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = (u8 *)load_enemy_bml_resource_named((saddr)&boss2_derolle_bml_descriptor, (saddr)("bm_boss2_de_rol_le_a.bml"));
+        res = (u8 *)load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
     } else {
-        res = (u8 *)load_enemy_bml_resource((u8 *)&boss2_derolle_bml_descriptor);
+        res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
     }
     (*(u8 * *)&lbl_805D4BA4) = res;
     TBoss2DeRolLe__current_attack_id = 0;
@@ -3014,7 +3016,7 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TBoss2Mine__sub_80038D84();
     TBoss2Tentacle__sub_8003A0A8();
     if ((u32) lbl_805D4BA4 != 0U) {
-        free_bin_model_request((void*)lbl_805D4BA4, 1);
+        delete (BmlResource *)lbl_805D4BA4;
         lbl_805D4BA4 = 0U;
     }
 }
@@ -4127,7 +4129,7 @@ void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1
     stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
     stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
     stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
-    spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)&stack.x, 0x127, 0x40);
 }
 
 #pragma pop
@@ -6279,7 +6281,7 @@ namespace joint_transform_view {
 
 extern "C" {
 
-void TObjPlayer__sub_8002F61C(void) {
+void TObjPlayer__sub_8002F61C(NJS_OBJECT *) {
     if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
         forward_transform_to_view((const Vec *)&lbl_804FE31C.value, (Vec *)lbl_805D4BB4);
         TBoss2DeRolLe__sequence_match_index += 1;
@@ -6370,7 +6372,7 @@ void TBoss2DeRolLe::render() {
     }
     fn_8002F5AC(((u8 *)this));
     TObjFish::set_global_param(e->f24);
-    set_chunk_model_node_callback((saddr)((void *)TObjPlayer__sub_8002F61C));
+    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
     {
     Vec4_8002F258 saved;
     col = &TObjLight__scene_light_state.col;
@@ -6385,7 +6387,7 @@ void TBoss2DeRolLe::render() {
     this->draw();
     copy_argb((NJS_ARGB *)col, (NJS_ARGB *)&saved);
     }
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -6473,10 +6475,10 @@ void TBoss2DeRolLe::render_body() {
         }
     }
     fn_8002F5AC((u8 *)self);
-    set_chunk_model_node_callback((saddr)TObjPlayer__sub_8002F61C);
+    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
     TObjFish::set_global_param(this->texlist);
     draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
-    set_chunk_model_node_callback((s32)NULL);
+    set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();
 }

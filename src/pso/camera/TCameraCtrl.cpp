@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl_8006B3D8.h"
 #include "pso/camera/TCameraCtrl_8006C7C4.h"
@@ -129,7 +130,6 @@ struct VObj_18_f8ef8c : VBase_18_f8ef8c {
     virtual s32 m5();
 };
 
-struct Cam_80068958 { u8 pad[0x10]; s32 ids[4]; u8 pad20[0x4]; };
 
 struct G_800695A0 { s32 a; s32 b; u32 flags; };
 
@@ -140,7 +140,6 @@ struct M_80068FCC { f32 m[3][4]; };
 
 struct O_80068FCC { M_80068FCC m; NJS_POINT2 a; NJS_POINT2 b; NJS_POINT2 c; };
 
-struct Cam_800688D0 { u8 pad[0x10]; s32 slots[4]; };
 
 
 struct Cam_80068810 {
@@ -228,7 +227,6 @@ s32 camera_renderer_setup_nop(void *, int);
 s32 fn_803D64F8(void *);
 s32 activate_camera_mode(s32 arg0);
 bool TCameraCtrl__sub_800689F4(void);
-Cam_80068958 *get_character_select_request_buffer(void);
 u16 TCameraCtrl__sub_8006A5DC(void);
 extern s32 TCameraCtrl__saved_projection_angle;
 s32 restore_player_cameras(void);
@@ -239,7 +237,6 @@ f32 TCameraCtrl__sub_80068A04(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 
 
-struct Cam_80068958;
 inline void quad_80068B34(s32 i) {
     TCameraCtrl::set_target_coords((s32)(320.0f * (f32)(i % 2)), (s32)(240.0f * (f32)(i / 2)));
     TCameraCtrl::set_target(0x140, 0xF0);
@@ -326,11 +323,6 @@ struct Master_8006A410
   Vec tgt[4];
 };
 
-struct Views_8006A410
-{
-  u8 pad[0x10];
-  s32 players[4];
-};
 extern "C" {
 
 
@@ -346,7 +338,6 @@ void select_camera_controller(s32 arg0);
 typedef struct Ctrl_8006A410 Ctrl_8006A410;
 typedef struct Master_8006A410 Master_8006A410;
 typedef struct VBase_8006A410 VBase_8006A410;
-typedef struct Views_8006A410 Views_8006A410;
 extern "C" {
 
 typedef struct VBase_18_f8ef8c VBase_18_f8ef8c;
@@ -450,7 +441,6 @@ extern "C" {
 
 
 u8 * copy_view_params__11TCameraCtrlFii(C30_8006AD34 *arg0, const C30_8006AD34 *arg1);
-extern Cam_80068958 chr_select_request_buffer;
 s32 rotate_matrix_y(int, void *);
 s32 rotate_matrix_x(int, void *);
 s32 push_matrix_from(void *);
@@ -522,7 +512,7 @@ int TCameraCtrl::get_camera_id() {  return TCameraCtrl__camera_id; }
 
 int TCameraCtrl::get_instance() {  return camera_split_screen_selector; }
 
-Cam_80068958 *get_character_select_request_buffer(void) {
+const CharacterSelectionRequest *get_character_select_request_buffer(void) {
     return &chr_select_request_buffer;
 }
 #define self ((Cam_8006B0D4 *)arg0)
@@ -979,10 +969,10 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
   }
   else
   {
-    Views_8006A410 *v = (Views_8006A410 *) get_character_select_request_buffer();
+    const CharacterSelectionRequest *request = get_character_select_request_buffer();
     for (i = 0; i < 4; i++)
     {
-      s32 p = v->players[i];
+      s32 p = request->player_ids[i];
       if (p == id)
       {
         view = count;
@@ -1844,15 +1834,15 @@ void TCameraCtrl__sub_800689E8(void) { TCameraCtrl__pose_snap_flags = 0; }
 u16 TCameraCtrl::get_nth_view_player_id(s32 n) {
     s32 count = 0;
     u16 result = 0;
-    Cam_80068958 *cam;
+    const CharacterSelectionRequest *request;
     s32 i;
     s32 v;
     if (is_split_screen() == 0) {
         return local_client_id;
     }
-    cam = get_character_select_request_buffer();
+    request = get_character_select_request_buffer();
     for (i = 0; i < 4; i++) {
-        v = cam->ids[i];
+        v = request->player_ids[i];
         if (v >= 0 && v != 0xFFFF) {
             if (count == n) {
                 result = v;
@@ -1866,17 +1856,17 @@ u16 TCameraCtrl::get_nth_view_player_id(s32 n) {
 s32 TCameraCtrl::get_split_screen_view_index(u16 id) {
     s32 result = 0;
     s32 n = 0;
-    struct Cam_800688D0 *cam;
+    const CharacterSelectionRequest *request;
     s32 i;
     if (is_split_screen() == 0) {
         return 0;
     }
-    cam = (struct Cam_800688D0 *) get_character_select_request_buffer();
+    request = get_character_select_request_buffer();
     for (i = 0; i < 4; i++) {
-        if (cam->slots[i] == id) {
+        if (request->player_ids[i] == id) {
             result = n;
         }
-        if (cam->slots[i] >= 0) {
+        if (request->player_ids[i] >= 0) {
             n++;
         }
     }

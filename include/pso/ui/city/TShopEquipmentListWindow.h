@@ -2,7 +2,10 @@
 #define PSO_UI_CITY_TSHOPEQUIPMENTLISTWINDOW_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/ui/city/TShopWindowBase.h"
+
+struct TWindowMenu;
 
 struct TShopEquipmentListWindow : public TShopWindowBase {
     TShopEquipmentListWindow(saddr parent, s32, s32);
@@ -14,7 +17,7 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     u32 m_20;
     uaddr m_24;
     u32 m_28;
-    uaddr m_2c;
+    TWindowMenu *m_2c;
     uaddr m_30;
     uaddr m_34;
     uaddr m_38;
@@ -44,5 +47,7 @@ int TShopEquipmentListWindow__sub_8021C85C(int a0);
 void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg1);
 }
 // --- end of C functions
+
+LAYOUT_ASSERT(TShopEquipmentListWindow_m_2c_offset, offsetof(TShopEquipmentListWindow, m_2c) == 0x2C);
 
 #endif

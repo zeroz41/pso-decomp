@@ -365,7 +365,7 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
   CharacterTextureList *temp_r6;
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
-  new_var = &class_appearance_table[((TCharaMaking *)appearance)->get_display_index()];
+  new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
   output->loaded = 0;
   definition = new_var;
   temp_r3 = definition->hairTextures;
@@ -412,21 +412,22 @@ s32 TCharaMaking::is_end() {
     return 0;
 }
 
-s32 TCharaMaking::get_display_index() {
-    s8 temp;
+s32 character_display_index(uaddr appearance_record) {
+    const char *appearance = reinterpret_cast<const char *>(appearance_record);
+    u8 model;
 
-    if (!(((CharacterAppearanceFields *)this)->flags & 0xA)) {
-        return ((CharacterAppearanceFields *)this)->classId;
+    if (!(appearance[offsetof(CharacterAppearanceFields, flags)] & 0xA)) {
+        return appearance[offsetof(CharacterAppearanceFields, classId)];
     }
-    if (((s8)((CharacterAppearanceFields *)this)->version <= 0) ||
-        ((temp = *(s8 *)&((CharacterAppearanceFields *)this)->extraModel) < 0) ||
-        (temp >= 7)) {
-        return ((CharacterAppearanceFields *)this)->classId;
+    if ((appearance[offsetof(CharacterAppearanceFields, version)] <= 0) ||
+        ((s8)(model = appearance[offsetof(CharacterAppearanceFields, extraModel)]) < 0) ||
+        ((s8)model >= 7)) {
+        return appearance[offsetof(CharacterAppearanceFields, classId)];
     }
     if (TCharaMaking::is_end() != 0) {
-        return 0x12 - *(s8 *)&((CharacterAppearanceFields *)this)->extraModel;
+        return 0x12 - appearance[offsetof(CharacterAppearanceFields, extraModel)];
     }
-    return ((CharacterAppearanceFields *)this)->classId;
+    return appearance[offsetof(CharacterAppearanceFields, classId)];
 }
 
 }
@@ -532,14 +533,14 @@ s32 TCharaMaking::update_main_menu(saddr arg0) {
         if ((s32) creation_dressing_room_mode_flag == 1) {
             var_r3 = 1;
         }
-        TSaveChCr::create((void *)var_r3);
+        TSaveChCr::create(var_r3);
         end_creation_view();
         ((TObject *)arg0)->queue_destruction();
         return 1;
     }
     if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_4() != 0) {
         ((TObject *)arg0)->queue_destruction();
-        TChCrCharSelect::create((void *)tl_03);
+        TChCrCharSelect::create((TObject *)tl_03);
         return 1;
     }
     return 0;

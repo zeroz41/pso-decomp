@@ -22,7 +22,7 @@ typedef struct Item_8025A354 {
     f32 x;
     f32 y;
     s32 value10;
-    u8 pad14[4];
+    s32 animation;
     char *label;
     s32 cur;
     s32 next;
@@ -88,40 +88,40 @@ void TWindowHelpItem::set_flag_0x10(u16 *arg0, s32 arg1) {
 
 void TWindowHelpItem::set_flag8_and_field20(s32 arg1) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 8);
-    *(s32 *)&this->m_20 = arg1;
+    reinterpret_cast<Item_8025A354 *>(this)->next = arg1;
 }
 
 void TWindowHelpItem::set_compare_color(s32 arg1) {
     s32 temp_r0;
 
-    temp_r0 = *(s32 *)&this->_pad1C;
+    temp_r0 = reinterpret_cast<Item_8025A354 *>(this)->cur;
     if (temp_r0 == arg1) {
-        *(s32 *)((s8 *)this + 0x10) = -1;
+        reinterpret_cast<Item_8025A354 *>(this)->value10 = -1;
         return;
     }
     if (temp_r0 > arg1) {
-        *(s32 *)((s8 *)this + 0x10) = 0xFF77E8FF;
+        reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFF77E8FF;
     } else {
-        *(s32 *)((s8 *)this + 0x10) = 0xFFDD8C41;
+        reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFFDD8C41;
     }
-    *(s32 *)((s8 *)this + 0x14) = 0x1E;
+    reinterpret_cast<Item_8025A354 *>(this)->animation = 0x1E;
     set_flag4_and_field1c(arg1);
 }
 
 void TWindowHelpItem::set_flag4_and_field1c(s32 arg1) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 4);
-    *(s32 *)&this->_pad1C = arg1;
+    reinterpret_cast<Item_8025A354 *>(this)->cur = arg1;
 }
 
 void TWindowHelpItem::set_help_text(uaddr arg1) {
     s32 temp_r3;
 
-    mem_free(*(void **)((s8 *)this + 0x18));
-    *(void **)((s8 *)this + 0x18) = 0;
+    mem_free(reinterpret_cast<Item_8025A354 *>(this)->label);
+    reinterpret_cast<Item_8025A354 *>(this)->label = NULL;
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x18) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x18)), (const char *)arg1, (u32)temp_r3 + 1);
+        reinterpret_cast<Item_8025A354 *>(this)->label = static_cast<char *>(mem_alloc(temp_r3 + 1));
+        strncpy(reinterpret_cast<Item_8025A354 *>(this)->label, reinterpret_cast<const char *>(arg1), (u32)temp_r3 + 1);
     }
 }
 
@@ -136,7 +136,7 @@ void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *
     }
     pos.x = w->x + self->x;
     pos.y = w->y + self->y;
-    set_text_draw_params((saddr)w, 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), 100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(w), 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), 100000.0f);
     draw_window_text((f32 *)&pos, self->label, -1, 1, 100000.0f);
     pos.x += 86.0f;
     draw_window_text((f32 *)&pos, (const char *)((void *)":"), -1, 0, 100000.0f);

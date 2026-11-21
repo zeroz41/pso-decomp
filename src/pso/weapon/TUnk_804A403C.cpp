@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TUnk_804A403C.h"
@@ -10,7 +11,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TObject.h"
@@ -38,7 +38,7 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     ((TObjPlayer *)b)->clear_rico_ring_flag();
     o = find_entity_by_id(c);
     if (o != 0 && o->elems != 0 && d < o->count) {
-        spawn_particle_effect(o->elems[d].f1c, 0x45);
+        spawn_particle_effect((const Vec *)o->elems[d].f1c, 0x45);
     }
 }
 
@@ -47,19 +47,19 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
 void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         ((TObjPlayer *)arg1)->clear_rico_ring_flag();
-        spawn_particle_effect((void *)arg3, 0x45);
+        spawn_particle_effect((const Vec *)arg3, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }
 
 void TUnk_804A4020::render() {
-    if ((is_owner_alive() != 0) && ((uaddr)m_58 != 0U) && ((uaddr)m_5C != 0U)) {
+    if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
-        set_texlist((uaddr)m_5C);
+        set_texlist((uaddr)texture_list);
         post_translate_matrix(&m_pos.x);
         rotate_matrix_y(NULL, m_count);
         rotate_matrix_x(NULL, m_28 - 0x4000);
-        draw_ginja_object(m_58);
+        draw_ginja_object(model);
         pop_matrix();
     }
 }
@@ -68,7 +68,7 @@ void TUnk_804A4020::hook() {  }
 
 TUnk_804A4020::TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    sub_80129118(TObjPlayer__sub_801290D0((u8 *)owner), ((TObjBase *)owner)->get_texlist());
+    set_render_model((NJS_OBJECT *)TObjPlayer__sub_801290D0((u8 *)owner), (GinjaTextureList *)((TObjBase *)owner)->get_texlist());
 }
 
 u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
@@ -164,9 +164,9 @@ TUnk_804A403C::TUnk_804A403C(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     flags.reset();
 }
 
-u8 *TObjPlayer::create_event_callbacks_state(saddr arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804A403C(tl_05, (u8 *)arg0);
+TItem *TObjPlayer::create_event_callbacks_state(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A403C(tl_05, item);
     }
     return NULL;
 }
@@ -191,7 +191,7 @@ s32 TObjPlayer__sub_801290D0(u8 *arg0) {
 }
 
 
-void TItemShootModel::sub_80129118(s32 arg1, s32 arg2) {
-    *(s32 *)&this->m_58 = arg1;
-    *(s32 *)&this->m_5C = arg2;
+void TItemShootModel::set_render_model(NJS_OBJECT *new_model, GinjaTextureList *new_texture_list) {
+    model = new_model;
+    texture_list = new_texture_list;
 }

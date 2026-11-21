@@ -1,4 +1,7 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/math/MatrixTransforms.h"
@@ -6,7 +9,6 @@
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
@@ -100,13 +102,12 @@ s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-saddr get_bml_texlist(void *, int);
-saddr get_bml_model(void *, int);
+
+
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(void *, s32);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
-s32 find_nearest_visible_player(void *, int, f32);
 uaddr recon_bomb_bml_resource;
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
@@ -117,7 +118,7 @@ s32 fn_8031B618(Obj_8031B618 *arg0) {
     s32 var_r30 = 0;
     Ctrl_8031B618 *c;
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos2, &arg0->pos);
-    u16 id = find_nearest_visible_player(arg0, 0, (25.0f));
+    u16 id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, (25.0f));
     if (id != 0xFFFF) {
         c = (Ctrl_8031B618 *)get_player_by_client_id(id);
         if (c != 0) {
@@ -145,8 +146,8 @@ void TObjEneReconBomb::render() {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    bml_model = get_bml_model((void *)recon_bomb_bml_resource, 2);
-    temp_r30 = get_bml_texlist((void *)recon_bomb_bml_resource, 2);
+    bml_model = (saddr)get_bml_model((BmlResource *)(void *)recon_bomb_bml_resource, 2);
+    temp_r30 = (saddr)get_bml_texlist((BmlResource *)(void *)recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
     rotate_matrix_zyx(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));

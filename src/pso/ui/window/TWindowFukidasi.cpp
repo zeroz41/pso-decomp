@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -180,7 +181,6 @@ struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 Ent_802511E4 * find_entity_by_id(u16);
 u32 get_player_by_client_id(u32);
 s32 play_sound_effect(int, int, int, int);
-View_80252764 * get_draw_context__11TWindowBaseFPv(void *);
 s32 sub_80246948__11TWindowBaseFv(void *);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
@@ -201,8 +201,6 @@ void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *, View_80252764 *, u32);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
-void draw_visible_window_entries(void *, void *, View_80252764 *);
-s32 init_window_layout_entries(void *, void *, int);
 s32 reset_float_field__15TWindowHelpItemFv();
 s32 measure_message_text_width(int, f32);
 }
@@ -262,13 +260,13 @@ extern s32 __vt__13TUnk_804CF0B8[];
 saddr get_zero_vec2();
 }
 
-void TUnk_804CF0B8::clear_flag2c_bit100() { this->m_2c &= 0xfffffeff; }
+void TUnk_804CF0B8::clear_flag2c_bit100() { this->window_flags &= 0xfffffeff; }
 
-void TUnk_804CF0B8::set_flag2c_bit200() { this->m_2c |= 0x200; }
+void TUnk_804CF0B8::set_flag2c_bit200() { this->window_flags |= 0x200; }
 
-void TUnk_804CF0B8::clear_flag2c_bit200() { this->m_2c &= 0xfffffdff; }
+void TUnk_804CF0B8::clear_flag2c_bit200() { this->window_flags &= 0xfffffdff; }
 
-void TUnk_804CF0B8::set_flag2c_bit100() { this->m_2c |= 0x100; }
+void TUnk_804CF0B8::set_flag2c_bit100() { this->window_flags |= 0x100; }
 extern "C" {
 u8 *TWindowFukidasi__sub_80252B74(u8 *window_addition, s32 arg1, s32 str, s32 arg3, f32 farg0) {
     __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)window_fukidasi_addition_params, (s16)arg3, (u8 *)get_zero_vec2());
@@ -355,7 +353,7 @@ void TUnk_804CF0B8::run_task() {
   ((TUnk_804CF0B8 *)arg0)->sub_80251790();
   if (((TUnk_804CF0B8 *)arg0)->is_active() != 0)
   {
-    ((TWindowBase *)arg0)->update_window_entry_list(((u8 *) arg0) + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *) arg0) + 0x24));
   }
 }
 
@@ -388,7 +386,7 @@ void TUnk_804CF0B8::render() {
         break;
     }
     ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->follow_anchor();
-    v = get_draw_context__11TWindowBaseFPv(((Fuki_80252764 *)this));
+    v = reinterpret_cast<View_80252764 *>(get_draw_context());
     v->sx /= TCameraCtrl::get_view_scale();
     v->sy /= TCameraCtrl::get_fov();
     off[0] = 3.0f * ((Fuki_80252764 *)this)->tail;
@@ -400,7 +398,10 @@ void TUnk_804CF0B8::render() {
     draw_body((struct DrawCtx_80252558 *)(v), ((Fuki_80252764 *)this)->color, off, 0.01495f + ((Fuki_80252764 *)this)->f54);
     ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->draw_tail(v, ((Fuki_80252764 *)this)->color, off, 0.04485f + ((Fuki_80252764 *)this)->f54);
     if (((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->is_active() != 0) {
-        draw_visible_window_entries(((Fuki_80252764 *)this), ((Fuki_80252764 *)this)->f24, v);
+        draw_visible_window_entries(
+            reinterpret_cast<const void *>(((Fuki_80252764 *)this)),
+            reinterpret_cast<const WindowLayoutEntries *>(((Fuki_80252764 *)this)->f24),
+            reinterpret_cast<WindowDrawContext *>(v));
         draw_name_plate__15TWindowFukidasiFv(this, v, ((Fuki_80252764 *)this)->color);
     }
 }
@@ -606,7 +607,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
       pos[0] = (0.5f * (20.0f - textW)) + pos[0];
     }
     pos[1] += 3.0f;
-    set_text_draw_params((saddr) arg1, 0, 1, -1.0f / (0.07475f + arg1->depth), 100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 1, -1.0f / (0.07475f + arg1->depth), 100000.0f);
     draw_small_font_string_clipped__FPfPCcUlf(pos, self->name, alphaBits, 1000000.0f);
   }
 }
@@ -623,7 +624,7 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
     *(s8 *)&this->unk_72 = 2;
     this->m_73 = -1;
     this->m_76 = arg1;
-    this->m_20 = arg3;
+    this->client_index = arg3;
     if (str != 0) {
         temp_r3 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
         *(s32 *)((s8 *)this + 0x78) = (saddr)mem_alloc(temp_r3 + 1);
@@ -634,7 +635,7 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
     ((s32 (*)(void *, s16))set_color__13TUnk_804CF0B8FUs)(this, arg1);
     *(f32 *)((s8 *)this + 0x80) = 0.0f;
     this->m_7c = farg0;
-    this->m_48 = 0.0f;
+    this->frame_size[0] = 0.0f;
     *(f32 *)((s8 *)this + 0x4C) = 0.0f;
     this->clear_flag();
     this->clear_flag2c_bit100();
@@ -644,7 +645,7 @@ void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1) {
     ((TUnk_804CF0B8 *)arg0)->m_58 = 0.0f;
     ((TWindowBase *)arg0)->set_depth(60000.0f);
     if (((TWindowBase *)arg0)->sub_80246948() != 0) {
-        ((TUnk_804CF0B8 *)arg0)->m_2c = (s32) (((TUnk_804CF0B8 *)arg0)->m_2c | 1);
+        ((TUnk_804CF0B8 *)arg0)->window_flags = (s32) (((TUnk_804CF0B8 *)arg0)->window_flags | 1);
     }
     ((TUnk_804CF0B8 *)arg0)->m_71 = (u8) (((TUnk_804CF0B8 *)arg0)->m_71 & ~0x50);
     if (arg1 & 2) {
@@ -682,8 +683,11 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
   if (((u8) (*((u8 *) (((s8 *) arg0) + 0x72)))) != 0)
   {
     *((u8 *) (((s8 *) arg0) + 0x72)) = 0U;
-    ((TWindowSubStatusDisp *)(arg0 + 0x24))->destroy_all_items();
-    init_window_layout_entries(arg0 + 0x24, &window_fukidasi_layout_entries.value, (int) (*((s16 *) (((s8 *) arg0) + 0x20))));
+    reinterpret_cast<WindowLayoutEntries *>((arg0 + 0x24))->destroy_all_items();
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<const void *>(&window_fukidasi_layout_entries.value),
+        (int) (*((s16 *) (((s8 *) arg0) + 0x20))));
   }
   entry = (u8 *) ((TWindowBase *)arg0)->get_array_entry(0);
   if (arg2 & 1)
@@ -736,7 +740,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2) {
     ((s32 (*)(void *, s32))init_flags__15TWindowFukidasiFPvi)(arg0, arg2);
     if ((u8) *(u8 *)((s8 *)arg0 + 0x72) != 1) {
         *(u8 *)((s8 *)arg0 + 0x72) = 1U;
-        ((TWindowSubStatusDisp *)(arg0 + 0x24))->destroy_all_items();
+        reinterpret_cast<WindowLayoutEntries *>((arg0 + 0x24))->destroy_all_items();
         ((TWindowSubSymbolChat *)(arg0 + 0x24))->init_layout_entries(*(s16 *)((s8 *)arg0 + 0x20));
         if ((u8) *(u8 *)((s8 *)arg0 + 0x70) != 0) {
             var_r31 = 1;
@@ -771,22 +775,22 @@ s32 TUnk_804CF0B8::clamp_position(void *arg1, f32 farg0) {
     s32 var_r31;
 
     var_r31 = 0;
-    temp_f1 = 20.0f + ((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_position_z();
+    temp_f1 = 20.0f + ((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_position_z();
     if (*(f32 *)((s8 *)arg1 + 0) < temp_f1) {
         *(f32 *)((s8 *)arg1 + 0) = temp_f1;
         var_r31 = 1;
     }
-    temp_f1_2 = (((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_ctrl_field14() - 20.0f) - (this->m_48 * farg0);
+    temp_f1_2 = (((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_ctrl_field14() - 20.0f) - (this->frame_size[0] * farg0);
     if (*(f32 *)((s8 *)arg1 + 0) > temp_f1_2) {
         *(f32 *)((s8 *)arg1 + 0) = temp_f1_2;
         var_r31 = 1;
     }
-    temp_f1_3 = 40.0f + ((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_field10();
+    temp_f1_3 = 40.0f + ((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_field10();
     if (*(f32 *)((s8 *)arg1 + 4) < temp_f1_3) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_3;
         var_r31 = 1;
     }
-    temp_f1_4 = (((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_field_18() - 40.0f) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
+    temp_f1_4 = (((TWindowCtrlMain *)(*(s16 *)&this->client_index))->get_field_18() - 40.0f) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
     if (*(f32 *)((s8 *)arg1 + 4) > temp_f1_4) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_4;
         var_r31 = 1;
@@ -1009,7 +1013,7 @@ s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
 // clears the width sub_80251DF0 zeroes when it sets the balloon up. Name inferred
 // from that role.
 void TUnk_804CF0B8::clear_width() {
-    m_48 = 0.0f;
+    frame_size[0] = 0.0f;
 }
 }
 

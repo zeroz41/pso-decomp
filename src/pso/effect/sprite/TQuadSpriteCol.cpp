@@ -151,7 +151,7 @@ TQuadSpriteCol::~TQuadSpriteCol() {
 const char *TQuadSpriteCol__class_name = "TQuadSpriteCol";
 
 #define quad_sprite_col ((u8 *)this)
-TQuadSpriteCol::TQuadSpriteCol(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
+TQuadSpriteCol::TQuadSpriteCol(TObject *parent, ParticleDefinition *sprite_definition) : TUnk_804C57F0(parent, sprite_definition) {
     ((TQuadSpriteCol *)quad_sprite_col)->m_name = TQuadSpriteCol__class_name;
 }
 #undef quad_sprite_col

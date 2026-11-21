@@ -17,7 +17,7 @@ public:
     s32 unk_200;     // 0x1F5 for item index 1, else 0x95; the descriptor's +0x78
 };
 
-u8 *frozen_shooter_create(u8 *item);
+TItem *frozen_shooter_create(u8 *item);
 
 
 #endif

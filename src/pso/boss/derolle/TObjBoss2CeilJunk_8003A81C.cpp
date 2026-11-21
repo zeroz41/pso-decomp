@@ -1,8 +1,8 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
@@ -67,16 +67,13 @@ void TLobby__sub_8003A874(void) {
         lbl_804FE9C8[i] = 0;
     }
     release_texture_list(lbl_805D4BEC);
-    free_bin_model_request(boss2_tunnel_instance, 1);
+    delete (BmlResource *)boss2_tunnel_instance;
     boss2_tunnel_instance = 0;
 }
 }
 
 void load_boss2_common_resource(void) {
-    void *p = (void *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 5, &bm_obj_boss2_common_resource_descriptor, 0, 0, 0);
-    }
+    void *p = new BmlResource(5, &bm_obj_boss2_common_resource_descriptor, 0, 0, NULL);
     boss2_tunnel_instance = p;
     lbl_805D4BEC = *(void **)(*(u8 **)((u8 *)p + 0x42C) + 0x6C);
     if (TObjEneDD::check_v2_mode() != 0) {

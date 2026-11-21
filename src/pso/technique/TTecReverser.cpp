@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/technique/TechniqueParams.h"
@@ -61,7 +62,6 @@ Entry_80239E44 revival_particle_table[3] = {
 Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 get_type__10TObjPlayerFPv(void *p);
-void *spawn_particle_effect(const void *pos, s32 id);
 
 }
 
@@ -203,7 +203,7 @@ void TUnk_804CCC28::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_28 = (this->m_28 + 1);
     if ((s32) this->m_28 == 0xA) {
-        spawn_particle_effect(&this->unk_2C, 0x38);
+        spawn_particle_effect((const Vec *)&this->unk_2C, 0x38);
     }
     if ((s32) this->m_28 > 0xC8) {
         ((TObject *)arg0)->queue_destruction();

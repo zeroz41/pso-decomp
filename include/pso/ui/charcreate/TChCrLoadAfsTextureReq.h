@@ -1,13 +1,23 @@
 #ifndef PSO_UI_CHARCREATE_TCHCRLOADAFSTEXTUREREQ_H
 #define PSO_UI_CHARCREATE_TCHCRLOADAFSTEXTUREREQ_H
 
+struct AdxfHandle;
+
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaMaterialState.h"
 
+struct TChCrLoadAfsTextureReqArgs {
+    GinjaTextureList *textures;
+    s32 completion_mask;
+    s32 *completion_flags;
+    s32 display_index;
+};
+LAYOUT_ASSERT(TChCrLoadAfsTextureReqArgs_size, sizeof(TChCrLoadAfsTextureReqArgs) == 0x10);
+
 struct TChCrLoadAfsTextureReq : public TObject {
     TChCrLoadAfsTextureReq(TObject *parent, GinjaTextureList *textures, s32 *arg3, s32 arg4);
-    TChCrLoadAfsTextureReq(TObject *parent, void *args);
+    TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsTextureReqArgs *args);
     virtual ~TChCrLoadAfsTextureReq();
     virtual void run_task();
     void update_loading();
@@ -16,7 +26,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     void finish_request();
     s32 try_acquire_load_slot();
     void init_texture_table();
-    static void *create(void *parent, void *args);
+    static TChCrLoadAfsTextureReq *create(TObject *parent, TChCrLoadAfsTextureReqArgs *args);
 
     s32 m_1c;
     s32 m_20;
@@ -28,7 +38,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     u32 buffers[8];
     s32 count;
     s32 index;
-    uaddr load_handle;
+    AdxfHandle *load_handle;
     s32 m_64;
     s32 m_68;
     s32 m_6c;

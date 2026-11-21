@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
+#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -40,19 +43,17 @@ void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
-void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
-void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__16TAdStorySelectGC[];
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent);
 void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
     Obj_802C3288 *self = (Obj_802C3288 *)this;
     TAdMultiChgGameModeGC::set_default_camera();
-    if (story_select_cursor != TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C)) {
-        ((TAdMultiPlyChrSelectGC *)(self->f20))->set_entry_value(1, get_localized_text_entry(0x14, TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C) + 1));
+    if (story_select_cursor != reinterpret_cast<TAdSelectCurGC *>(self->f1C)->selection_index()) {
+        ((TAdGuideTxtGC *)(self->f20))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x14, reinterpret_cast<TAdSelectCurGC *>(self->f1C)->selection_index() + 1)));
     }
-    story_select_cursor = TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C);
-    switch (((TAdSinglePlyChrSelectGC *)(self->f1C))->get_selected_slot()) {
+    story_select_cursor = reinterpret_cast<TAdSelectCurGC *>(self->f1C)->selection_index();
+    switch (((TAdSelectCurGC *)(self->f1C))->confirmation_result()) {
     case 1:
         switch (TAdStorySelectGC::get_story_select()) {
         case 0:
@@ -126,22 +127,18 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
         {
         NJS_POINT2 a = {302.0f, 28.0f};
         B_802C3400 b = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
-        p = TObject::operator new(0x708);
-        if (p != NULL) {
-            p = __ct__14TAdSelectCurGCFv(p, self, &b, &a);
-        }
+        p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
+            reinterpret_cast<const NJS_POINT2 *>(&b),
+            &a);
         self->f1C = p;
-        ((TLevelSelect *)(self->f1C))->add_item_rect(&b.e[0]);
-        ((TLevelSelect *)(self->f1C))->add_item_rect(&b.e[1]);
+        ((TAdSelectCurGC *)(self->f1C))->append_entry(&b.e[0]);
+        ((TAdSelectCurGC *)(self->f1C))->append_entry(&b.e[1]);
         }
     }
-    p = TObject::operator new(0x44);
-    if (p != NULL) {
-        p = __ct__13TAdGuideTxtGCFv(p, self);
-    }
+    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
     self->f20 = p;
-    ((TAdMultiPlyChrSelectGC *)((saddr)self->f20))->set_entry_value(0, get_localized_text_entry(0x14, 0));
-    ((TAdMultiPlyChrSelectGC *)((saddr)self->f20))->set_entry_value(1, get_localized_text_entry(0x14, 1));
+    ((TAdGuideTxtGC *)((saddr)self->f20))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x14, 0)));
+    ((TAdGuideTxtGC *)((saddr)self->f20))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x14, 1)));
     create_draw_line_ctrl((TObject *)self, 0xA, 0.0f);
     return self;
 }

@@ -1,5 +1,9 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804CCB28.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -70,7 +74,6 @@ Vec * epsilon_guard_camera_sample_end_ptr;
 void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 check_path_obstructed(void *, void *);
-void create_fire_explosion_effect(void *, f32, Vec *, saddr, s32);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot);
 void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1);
 int TObjEneEpsilonGuard__sub_8035DD68(TObjEneEpsilonGuard *guard);
@@ -136,7 +139,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags = 0;
     flags |= 2;
     set_guard_state();
-    texlist = get_bml_texlist(lbl_805D6FA0, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D6FA0, 0);
     set_field_d8((saddr)lbl_804F2230);
     set_field_dc((saddr)lbl_805D6FA0->motions);
     set_animation(requested_action);
@@ -485,7 +488,7 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
                 s32 i;
                 void *e = TObject::operator new(0x64);
                 if (e != 0) {
-                    create_fire_explosion_effect(e, 40.0f, d, 0, (saddr)tl_07);
+                    create_fire_explosion_effect((u8 *)e, 40.0f, d, 0, (TObject *)tl_07);
                 }
                 play_sound_effect(0x4003A348, &body->position, 0, 0);
                 for (i = 0; i < 4; i++) {
@@ -1046,7 +1049,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     rotate_matrix_y(0, body->rotation_y);
     TObjEneDD::clear_global_flag_400();
     if (body->flags & 2) {
-        set_chunk_model_node_callback((saddr)((void *) TObjEneEpsilonGuard::record_camera_angle_samples));
+        set_chunk_model_node_callback(TObjEneEpsilonGuard::record_camera_angle_samples);
     }
     TObjPlayer::toggle_particle_effect();
     epsilon_guard_camera_sample_read_ptr = body->guard_position;
@@ -1066,7 +1069,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     }
     TParticleCtrl::end_effect_render();
     if (body->flags & 2) {
-        set_chunk_model_node_callback((s32)NULL);
+        set_chunk_model_node_callback(NULL);
     }
     pop_matrix();
     body->update_primary_light();
@@ -1091,14 +1094,14 @@ void TObjEneEpsilonBody::render_body_effect() {
         scale_matrix(0, temp_f1, 1.0f, temp_f1);
         TObjFish::set_global_param(texlist);
         TObjPlayer::toggle_particle_effect();
-        get_bml_model(lbl_805D6FA0, 4);
+        (saddr)get_bml_model((BmlResource *)lbl_805D6FA0, 4);
         draw_chunk_object();
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
 }
 
-void TObjEneEpsilonGuard::record_camera_angle_samples() {
+void TObjEneEpsilonGuard::record_camera_angle_samples(NJS_OBJECT *) {
     switch (epsilon_guard_camera_sample_phase) {
     case 0x1C:
     case 0x26:
@@ -1118,13 +1121,13 @@ void TObjEneEpsilonBody::vfunc_106() {  }
 void TObjEneEpsilonBody::set_guard_state() {
     if (flags & 2) {
         guarded = 1;
-        model = (void *)get_bml_model(lbl_805D6FA0, 0);
+        model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 0);
         requested_action = 0;
         set_indexed_flags(1, 1);
         clear_player_status_flag(0, 1);
     } else {
         guarded = 0;
-        model = (void *)get_bml_model(lbl_805D6FA0, 1);
+        model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 1);
         requested_action = 1;
         set_indexed_flags(0, 1);
         clear_player_status_flag(1, 1);

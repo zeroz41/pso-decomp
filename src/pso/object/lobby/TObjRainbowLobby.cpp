@@ -11,7 +11,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/system/BmlResourceLoad.h"
 
 #pragma readonly_strings on
 
@@ -77,16 +76,13 @@ void *TObjRainbowLobby::create(void *set_data) {
 
 void TObjRainbowLobby::free_resources() {
     if (shared_model_resource != NULL) {
-        free_bin_model_request(shared_model_resource, 1);
+        delete (BmlResource *)shared_model_resource;
         shared_model_resource = NULL;
     }
 }
 
 void TObjRainbowLobby::load_resources() {
-    void *resource = ::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, 0);
-    }
+    void *resource = new BmlResource(1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, NULL);
     shared_model_resource = (BmlResource *)resource;
 }
 
@@ -102,5 +98,5 @@ TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TObjMapObj
     }
     scale = 1.0f;
     model = (void *)shared_model_resource->models->model;
-    texlist = shared_model_resource->models->m_c;
+    texlist = (saddr)shared_model_resource->models->m_c;
 }

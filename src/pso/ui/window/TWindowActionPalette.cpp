@@ -1,4 +1,6 @@
+#include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/item/TItem.h"
@@ -28,8 +30,8 @@
 // in reverse source order (so they are written last to first).
 #pragma defer_codegen on
 
-LAYOUT_ASSERT(palette_children_offset, offsetof(TWindowActionPalette, children) == 0x24);
-LAYOUT_ASSERT(palette_x_offset, offsetof(TWindowActionPalette, x) == 0x40);
+LAYOUT_ASSERT(palette_children_offset, offsetof(TWindowActionPalette, entry_list) == 0x24);
+LAYOUT_ASSERT(palette_x_offset, offsetof(TWindowActionPalette, frame_position[0]) == 0x40);
 LAYOUT_ASSERT(palette_resources_offset, offsetof(TWindowActionPalette, resources) == 0x60);
 LAYOUT_ASSERT(palette_state_offset, offsetof(TWindowActionPalette, state) == 0x6C);
 LAYOUT_ASSERT(palette_scale_offset, offsetof(TWindowActionPalette, scale) == 0x70);
@@ -65,7 +67,6 @@ s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 extern saddr lbl_805D63F0;
-void draw_visible_window_entries(void *, void *, int);
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -138,7 +139,7 @@ WindowDescriptor twindow_action_palette_layout = {
     {150.0f, 107.0f}, 50000.0f, &lbl_804CDE50, 0xB28,
 };
 
-TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
+TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
     u32 i;
 
     this->m_name = TWindowActionPalette__name;
@@ -154,10 +155,10 @@ TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindo
     }
     this->m_58 = -1.0f;
     this->state = 0;
-    this->m_20 = slot;
+    this->client_index = slot;
     for (i = 0; i < 3; i++) {
-        ((TWindowActionPalette *)this->resources)->set_mode(0);
-        ((TWindowActionPalette *)this->resources)->set_slot(0);
+        set_action_palette_tag_mode(this->resources, 0);
+        set_action_palette_tag_slot(this->resources, 0);
     }
 }
 
@@ -171,25 +172,25 @@ void TWindowActionPalette::run_task() {
     u16 target;
     u8 cnt;
     u8 *help;
-    player = get_player_by_client_id(m_20);
+    player = get_player_by_client_id(client_index);
     if (player == NULL || (effect = player->refresh_effect()) == 0) {
         return;
     }
     if (!(*(s32 *)((s8 *)this + 0x2C) & 2)) {
-        m_5c = 0x01000000;
+        open_tick = 0x01000000;
     }
-    slot = is_player_input_active(m_20);
-    if (test_previous_buttons_packed(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08((void *)m_20)) != 0) {
+    slot = is_player_input_active(client_index);
+    if (test_previous_buttons_packed(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08((void *)client_index)) != 0) {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);
-    TWindowHelpItem::set_help_text((saddr)help, m_20);
+    TWindowHelpItem::set_help_text((saddr)help, client_index);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
-        ((TWindowHelpItem *)help)->m_2c = -1;
+        ((TWindowHelpItem *)help)->window_flags = -1;
     } else {
-        ((TWindowHelpItem *)help)->m_2c = 0xFF666666;
+        ((TWindowHelpItem *)help)->window_flags = 0xFF666666;
     }
     v = select_action_palette_and_apply__10TObjPlayerFlll(player, 0, 0, 0);
     if (v == 0) {
@@ -198,7 +199,7 @@ void TWindowActionPalette::run_task() {
     } else {
         update_slot_sprites(0, 7, v);
     }
-    if (TObjPlayer__sub_80354D5C((u16)m_20) != 0 && ((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
+    if (TObjPlayer__sub_80354D5C((u16)client_index) != 0 && ((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
         v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 2);
@@ -207,7 +208,7 @@ void TWindowActionPalette::run_task() {
     v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 3);
     update_slot_sprites(2, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 3), v);
     target = TObjPlayer::get_current_target_id();
-    if (target == 0xFFFF || target == m_20 || player->get_photon_blast_charge() <= 0) {
+    if (target == 0xFFFF || target == client_index || player->get_photon_blast_charge() <= 0) {
         if (((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
             if (is_split_screen() != 0) {
                 set_bank_panel_art(3);
@@ -222,12 +223,15 @@ void TWindowActionPalette::run_task() {
     }
     ((TWindowDD *)this)->initialize_subwindow();
     update_fade();
-    update_window_entry_list(&children);
+    update_window_entry_list(&entry_list);
 }
 
 void TWindowActionPalette::render() {
-    s32 context = setup_window_draw_context((f32 *)&scale);
-    draw_visible_window_entries(this, &children, context);
+    saddr context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
+        reinterpret_cast<WindowDrawContext *>(context));
     draw_frame(context);
 }
 
@@ -242,7 +246,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     f32 scale;
     f32 depth;
     scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
-    depth = (-1.0f) / this->m_54;
+    depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param((saddr)((void *)lbl_805D63F0));
     set_draw_texture_and_color(2, ctx->tex);
@@ -300,7 +304,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     Icon_80243630 *help;
     gc_tag *cursor;
 
-    player = get_player_by_client_id(m_20);
+    player = get_player_by_client_id(client_index);
     if (player != NULL) {
         help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
         if (is_action_channel_available__10TObjPlayerFii((saddr)player, (s32)lbl_805DCA14[idx]) != 0) {
@@ -308,29 +312,29 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
         } else {
             help->color = 0xFF404040;
         }
-        update_palette_item_count_label((TWindowHelpItem *)get_array_entry(lbl_805DCA18[idx]), help, mode, slot, m_20);
+        update_palette_item_count_label((TWindowHelpItem *)get_array_entry(lbl_805DCA18[idx]), help, mode, slot, client_index);
         cursor = &resources[idx];
-        if (mode != ((TMainCursor *)cursor)->get_type() || ((TMainCursor *)cursor)->get_enabled() != slot) {
-            ((TWindowActionPalette *)cursor)->set_mode(mode);
-            ((TWindowActionPalette *)cursor)->set_slot(slot);
+        if (mode != get_action_palette_tag_mode(cursor) || get_action_palette_tag_slot(cursor) != slot) {
+            set_action_palette_tag_mode(cursor, mode);
+            set_action_palette_tag_slot(cursor, slot);
             draw_action_palette_icon(help, mode, slot);
         }
     }
 }
 
 void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
-    if (get_player_by_client_id(m_20) != NULL) {
+    if (get_player_by_client_id(client_index) != NULL) {
         Icon_80243630 *icon = (Icon_80243630 *)get_array_entry(4);
-        if (TObjPlayer__sub_80354C7C((u16)m_20) != 0) {
+        if (TObjPlayer__sub_80354C7C((u16)client_index) != 0) {
             icon->color = -1;
         } else {
             icon->color = 0xFF404040;
         }
         ((TWindowHelpItem *)get_array_entry(5))->set_flag0_bit2();
-        void *cur = &resources[idx];
-        if (mode != ((TMainCursor *)cur)->get_type() || ((TMainCursor *)cur)->get_enabled() != slot) {
-            ((TWindowActionPalette *)cur)->set_mode(mode);
-            ((TWindowActionPalette *)cur)->set_slot(slot);
+        ActionPaletteTag *cur = &resources[idx];
+        if (mode != get_action_palette_tag_mode(cur) || get_action_palette_tag_slot(cur) != slot) {
+            set_action_palette_tag_mode(cur, mode);
+            set_action_palette_tag_slot(cur, slot);
             draw_action_palette_icon(icon, mode, slot);
         }
     }
@@ -345,8 +349,8 @@ void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
 #pragma fp_contract on
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
     NJS_POINT2 pt;
-    saddr kind;
-    Icon_80243630 *e;
+    s16 kind;
+    WindowSpritePart *e;
     f32 s;
     f32 hw;
     f32 s2;
@@ -357,32 +361,32 @@ void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
     switch (slot) {
     case 1:
         kind = 0;
-        e = (Icon_80243630 *)palette->get_array_entry(2);
+        e = static_cast<WindowSpritePart *>(palette->get_array_entry(2));
         break;
     case 2:
         kind = 2;
-        e = (Icon_80243630 *)palette->get_array_entry(4);
+        e = static_cast<WindowSpritePart *>(palette->get_array_entry(4));
         break;
     case 3:
         kind = 1;
-        e = (Icon_80243630 *)palette->get_array_entry(6);
+        e = static_cast<WindowSpritePart *>(palette->get_array_entry(6));
         break;
         return;
     default:
         return;
     }
     if (is_split_screen() != 0) {
-        hw = 0.5f * palette->w;
+        hw = 0.5f * palette->frame_size[0];
         s = palette->scale.x;
-        pt.x = s * ((0.5f * e->w + e->x) - hw) + (hw * s + palette->x);
-        hw2 = 0.5f * palette->h;
+        pt.x = s * ((0.5f * e->w + e->x) - hw) + (hw * s + palette->frame_position[0]);
+        hw2 = 0.5f * palette->frame_size[1];
         s2 = palette->scale.y;
-        pt.y = s2 * ((0.5f * e->h + e->y) - hw2) + (hw2 * s2 + palette->y);
+        pt.y = s2 * ((0.5f * e->h + e->y) - hw2) + (hw2 * s2 + palette->frame_position[1]);
     } else {
-        pt.x = 0.5f * e->w + (palette->x + e->x);
-        pt.y = 0.5f * e->h + (palette->y + e->y);
+        pt.x = 0.5f * e->w + (palette->frame_position[0] + e->x);
+        pt.y = 0.5f * e->h + (palette->frame_position[1] + e->y);
     }
-    TWindowEffectLight::create(&pt, (void *)kind, (void *)(saddr)palette->m_20);
+    TWindowEffectLight::create(&pt, kind, palette->client_index);
 }
 #pragma pop
 

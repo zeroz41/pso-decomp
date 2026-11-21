@@ -55,11 +55,11 @@ void TMessageWindowController::append_quest_title() {
         switch (mode) {
         case 1:
         case 2:
-            text = (const char *)get_selected_quest_text__19TQuestListChallengeFv();
+            text = get_selected_quest_text__19TQuestListChallengeFv();
             break;
         }
     } else {
-        text = (const char *)TQuestListOnline::get_selected_entry();
+        text = TQuestListOnline::get_selected_entry();
     }
     if (text != NULL) {
         append_text(text);

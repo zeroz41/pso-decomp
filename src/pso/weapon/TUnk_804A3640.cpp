@@ -59,9 +59,9 @@ TUnk_804A3640::TUnk_804A3640(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(2);
 }
 
-u8 *TObjPlayer::create_with_id_2(u8 *arg0) {
+TItem *TObjPlayer::create_with_id_2(u8 *arg0) {
     if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A3640(tl_05, arg0);
+        return new TUnk_804A3640(tl_05, arg0);
     }
     return NULL;
 }

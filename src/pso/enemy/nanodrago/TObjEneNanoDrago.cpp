@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -16,7 +19,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "pso/system/vector.h"
-#include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/camera/TCameraCtrl.h"
 
 #include "pso/render/TUnk_80494938.h"
@@ -24,7 +26,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
@@ -71,7 +72,6 @@ LAYOUT_ASSERT(NanoDrago_t_offset, offsetof(TObjEneNanoDrago, wanderDistance) == 
 LAYOUT_ASSERT(NanoDrago_speed_offset, offsetof(TObjEneNanoDrago, speed) == 0x3d8);
 LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam) == 0x3e0);
 
-extern "C" u16 find_nearest_visible_player(void *, s32, f32);
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" f32 atan2_float(f32 y, f32 x);
 extern "C" void check_enemy_body_collisions(void *arg0);
@@ -84,7 +84,7 @@ struct BeamRotation { s32 x, y, z; };
 
 extern "C" void *spawn_directional_particle(void *pos, void *dir, s32 id);
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
-extern "C" void *find_entity_by_id(u16 id);
+extern "C" uaddr __nw__7TObjectFUl(u32);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 extern "C" s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -126,8 +126,6 @@ extern "C" s32 saved_model_render_flags;
 extern "C" s32 model_render_flags;
 
 extern "C" void obj_setFlags30(void *, u32);
-extern "C" void free_bin_model_request(void*, int);
-extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 extern "C" saddr find_active_entity_by_id(int);
 
 
@@ -252,15 +250,10 @@ TObjEneNanoDrago::~TObjEneNanoDrago() {
     free_collision_body_parts(this);
 }
 void TObjEneNanoDrago::load_resources() {
-    u8 *storage;
     BmlModelEntry *modelEntries;
     u8 *resource;
 
-    storage = (u8 *)((saddr)::operator new(0x440));
-    resource = storage;
-    if (resource != NULL) {
-        resource = (u8 *)(load_resource_from_descriptor(storage, 1, (s32 *)&bm_ene_nanodrago_resource_descriptor, 0, 0, 0));
-    }
+    resource = (u8 *)new BmlResource(1, &bm_ene_nanodrago_resource_descriptor, 0, 0, NULL);
     nano_drago_entry_params_resource = (BmlResource *)resource;
     nano_drago_base_params = (saddr)TLobby::register_boss(0x1A);
     nano_drago_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
@@ -272,7 +265,7 @@ void TObjEneNanoDrago::load_resources() {
 }
 void TObjEneNanoDrago::free_resources() {
     if ((uaddr) nano_drago_entry_params_resource != 0U) {
-        free_bin_model_request((void*)nano_drago_entry_params_resource, 1);
+        delete nano_drago_entry_params_resource;
         nano_drago_entry_params_resource = NULL;
     }
 }
@@ -704,7 +697,7 @@ void TObjEneNanoDrago::update_multi_beam_state() {
         if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003AD23, &position, 0, 0);
         }
-        if (find_nearest_visible_player(this, 0, 50.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             this->update_if_active(0xB);
         } else {
             m_384--;
@@ -835,7 +828,7 @@ void TObjEneNanoDrago::update_growth_state() {
             requested_action = 5;
             state = 1;
             scale.y = 0.1f + scale.x;
-            spawn_particle_effect(&m_2fc, 0xFA);
+            spawn_particle_effect((const Vec *)&m_2fc, 0xFA);
             speed = ((NanoDragoMovementParams *)movementParameters)->baseSpeed * scale.x;
             play_sound_effect(0x4003A824, (Vec *)&position, 0, 0);
             m_2c8 += 8;
@@ -875,7 +868,7 @@ void TObjEneNanoDrago::update_knockback_state() {
             animation = 0xA;
         }
         requested_action = animation;
-        spawn_particle_effect((&m_2fc), 0xF2);
+        spawn_particle_effect((const Vec *)&m_2fc, 0xF2);
         play_sound_effect(0x40039E22, &position, 0, 0);
         state = 1;
     case 1:
@@ -1043,7 +1036,7 @@ void TObjEneNanoDrago::update_proximity_state() {
     switch (mode) {
     case 0:
         if (is_actor_cadence_frame(0x1E) != 0) {
-            if (find_nearest_visible_player(this, 0, ((NanoDragoMovementParams *)movementParameters)->detectionRadius) != 0xFFFF) {
+            if (find_nearest_visible_player(this, NULL, ((NanoDragoMovementParams *)movementParameters)->detectionRadius) != 0xFFFF) {
                 select_nearest_target(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
                 if (m_388 & 0x40000) {
                     begin_hidden_flight();
@@ -1056,10 +1049,10 @@ void TObjEneNanoDrago::update_proximity_state() {
     case 11:
         break;
     case 1:
-        if (find_nearest_visible_player(this, 0, 50.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             this->update_if_active(0xB);
             m_378 = 1;
-        } else if (find_nearest_visible_player(this, 0, 50.0f + ((NanoDragoMovementParams *)movementParameters)->detectionRadius) == 0xFFFF) {
+        } else if (find_nearest_visible_player(this, NULL, 50.0f + ((NanoDragoMovementParams *)movementParameters)->detectionRadius) == 0xFFFF) {
             this->update_if_active(0);
         }
         break;

@@ -45,7 +45,7 @@ void *lbl_804CFA28[6] = {
 };
 
 void TWindowHelpItem::reset_float_field() {
-    *(f32 *)&this->_pad1C = (f32) (9e+05f);
+    *(f32 *)&this->sort_depth = (f32) (9e+05f);
 }
 
 extern const u32 lbl_805DCFAC = 0x00000000;
@@ -214,7 +214,7 @@ void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1) {
     if (len > arg0->f1C) {
         len = arg0->f1C;
     }
-    set_text_draw_params((saddr)arg1, (s32)(!(arg0->flags & 0x100)), (s32)(arg0->flags & 0x80), (f32)scale, (f32)alpha);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), (s32)(!(arg0->flags & 0x100)), (s32)(arg0->flags & 0x80), (f32)scale, (f32)alpha);
     if (arg0->flags & 4) {
         r = draw_small_font_string_clipped((f32 *)&pt, (const char *)arg0->text, arg0->i24, (f32)len);
     } else {

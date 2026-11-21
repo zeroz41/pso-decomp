@@ -1,7 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/vector.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -15,56 +20,21 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
-struct Win_8024701C { u8 p0[0x1E]; u16 flags; saddr f20; u8 p24[4]; saddr f28; };
-
-struct Win_802473C8 { u8 pad0[0x1E]; u16 flags; };
-
 #include <stddef.h>
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/TUnk_804CE7D0.h"
-#include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
-#include "pso/ui/window/TWindowCtrl.h"
-#include "pso/system/vector.h"
 
 #pragma push
 #pragma readonly_strings on
 const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
-struct RecoveredFields_8024792C_arg0 {
-    u8 unknown_0[0x1C];
-    u8 field_1C;
-    u8 unknown_1D[0x1];
-    u16 field_1E;
-    u8 * field_20;
-    saddr field_24;
-    saddr field_28;
-    u8 unknown_2C[0x4];
-    s32 field_30;
-    s32 field_34;
-    s32 * field_38;
-};
-
-struct RecoveredFields_8024775C_arg0
-{
-  u8 unknown_0[0x1C];
-  u8 field_1C;
-  u8 unknown_1D[0x1];
-  u16 field_1E;
-  saddr field_20;
-  u8 unknown_24[0x4];
-  saddr field_28;
-};
-
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 arg0);
-bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
-void *get_player_by_client_id(s32 i);
+void *get_player_by_client_id(s32 client);
 extern s32 local_client_id;
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
@@ -74,24 +44,18 @@ s32 __nw__7TObjectFUl(int);
 saddr get_window_layout_position(int);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
-void TWindowChat__sub_80247D2C(void* p);
-s32 TWindowChat__sub_80247D50(u8 *arg0);
+s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
 int TWindowChat__sub_80247DAC(void* p);
-void TWindowChat__sub_80247DFC(u8 *arg0);
-void TWindowChat__sub_80247E50(u8 *arg0);
-void fn_80247ED8(void* p);
     extern int chat_help_color_table[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int a0);
-bool TWindowCtrl__sub_8024701C(Win_8024701C *w) {
-    bool r;
-    if (((TWindowKeyBoardBase *)w->f20)->sub_8025CB10() != 0) {
-        r = true;
-    } else if (!(w->flags & 2)) {
-        r = true;
-    } else {
-        r = TWindowChat__sub_80247D50((u8 *)w->f28) != 0;
+s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
+    if (w->composer->sub_8025CB10() != 0) {
+        return 1;
     }
-    return r;
+    if (!(w->flags & 2)) {
+        return 1;
+    }
+    return TWindowChat__sub_80247D50(w->hardKeyboard) != 0 ? 1 : 0;
 }
 
 s32 TWindowChat::sub_80247080() {
@@ -112,7 +76,7 @@ s32 TWindowChat::sub_80247080() {
     temp_r31 = (s32 *)(*(saddr *)&this->result + 4);
     *temp_r31 = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
     if (this->flags & 0x80) {
-        ((TWindowSubSymbolChat *)TWindowChat::open_symbol_chat((s32 *)temp_r31))->update_selected_symbol();
+        reinterpret_cast<TWindowSubSymbolChat *>(TWindowChat::open_symbol_chat((s32 *)temp_r31))->update_selected_symbol();
     }
     return 1;
 }
@@ -148,7 +112,7 @@ s32 TWindowChat::submit_keyboard_input() {
         return 0;
     }
     if (((TWindowKeyBoardBase *)kb)->is_cancelled() != 0) {
-        ((TWindowKeyBoardBase *)this->composer)->reset_input();
+        composer->reset_input();
         ((TWindowChat *)arg0)->set_input_active();
         return 1;
     }
@@ -156,15 +120,15 @@ s32 TWindowChat::submit_keyboard_input() {
         return 0;
     }
     ((TWindowChat *)arg0)->set_active_flag();
-    if (((TWindowKeyBoardBase *)(this->composer))->get_flag() != 0) {
-        TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)this->result, (s32)(get_chat_shortcut((s32)((int) (s8)(((TWindowChat *)(this->composer))->get_input_mode())))));
+    if (composer->get_flag() != 0) {
+        TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)this->result, (s32)(get_chat_shortcut((s32)((int) (s8)(composer->get_input_mode())))));
         if (((u32) **(u32 * *)&this->result == 3U) && (((TWindowChat *)arg0)->is_mode_bit6() == 0)) {
-            ((TWindowSubSymbolChat *)TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4)))->update_selected_symbol();
+            reinterpret_cast<TWindowSubSymbolChat *>(TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4)))->update_selected_symbol();
         }
     } else {
         ((TWindowKeyBoardBase *)this->composer)->export_text((char *)this->result + 4);
     }
-    ((TWindowKeyBoardBase *)this->composer)->reset_input();
+    composer->reset_input();
     return 1;
 }
 
@@ -172,8 +136,8 @@ void TWindowChat::update() {
     saddr player;
     if (is_open() == 0) {
         this->flags = (u16) (this->flags | 1);
-        TWindowChat__sub_80247E50((u8 *)this);
-        TWindowChat__sub_80247DFC((u8 *)this);
+        TWindowChat__sub_80247E50(this);
+        TWindowChat__sub_80247DFC(this);
         player = (saddr)get_player_by_client_id(local_client_id);
         if ((player != 0) && !(this->flags & 2) && (is_mode_bit6() != 0)) {
             if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
@@ -181,28 +145,27 @@ void TWindowChat::update() {
             }
             end_player_keyboard_hold(local_client_id);
         }
-        ((TWindowKeyBoardBase *)this->composer)->reset_input();
+        composer->reset_input();
         this->close_all_children();
-        ((TWindowKeyBoardHard *)(this->hardKeyboard))->set_flag60_bit200();
+        hardKeyboard->set_flag60_bit200();
     }
 }
 
 void TWindowChat::open_input() {
     void *arg0 = this;
     if (((TWindowChat *)arg0)->is_open() != 0) {
-        TWindowChat__sub_80247E50((u8 *)arg0);
-        TWindowChat__sub_80247DFC((u8 *)arg0);
+        TWindowChat__sub_80247E50(this);
+        TWindowChat__sub_80247DFC(this);
         ((TWindowChat *)arg0)->flags = (u16) (((TWindowChat *)arg0)->flags & 0xFFFE);
         ((TWindowChat *)arg0)->flags = (u16) (((TWindowChat *)arg0)->flags | 2);
-        ((TWindowKeyBoardHard *)(*(saddr *)((s8 *)arg0 + 0x28)))->clear_flag60_bit200();
+        hardKeyboard->clear_flag60_bit200();
         ((TWindowChat*)(arg0))->open_next_input_window();
     }
 }
 
 void TWindowChat::handle_dpad_shortcuts() {
-    Win_802473C8 *arg0 = (Win_802473C8*)this;
     void *pad;
-    if (arg0->flags & 8) {
+    if (flags & 8) {
         return;
     }
     pad = controller_input_state + 0x20;
@@ -245,23 +208,22 @@ void TWindowChat::handle_dpad_shortcuts() {
 }
 
 void TWindowChat::close_all_children() {
-    void *arg0 = this;
-    ((TWindowKeyBoardHard *)(*(saddr *)((s8 *)arg0 + 0x28)))->sub_8025EC04();
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
-        *(u32 *)((s8 *)arg0 + 0x30) = 0U;
+    hardKeyboard->sub_8025EC04();
+    if (symbolChatWindow != NULL) {
+        static_cast<TObject *>(symbolChatWindow)->queue_destruction();
+        symbolChatWindow = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-        ((TObject *)(*(void **)((s8 *)arg0 + 0x34)))->queue_destruction();
-        *(u32 *)((s8 *)arg0 + 0x34) = 0U;
+    if (wordSelectWindow != NULL) {
+        static_cast<TObject *>(wordSelectWindow)->queue_destruction();
+        wordSelectWindow = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x2C) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
-        *(u32 *)((s8 *)arg0 + 0x2C) = 0U;
+    if (auxiliaryWindow != NULL) {
+        static_cast<TWindowBase *>(auxiliaryWindow)->close();
+        auxiliaryWindow = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x24) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x24)))->close();
-        *(u32 *)((s8 *)arg0 + 0x24) = 0U;
+    if (softKeyboard != NULL) {
+        softKeyboard->TWindowBase::close();
+        softKeyboard = NULL;
     }
 }
 
@@ -314,21 +276,20 @@ void TWindowChat::handle_input() {
 }
 
 void TWindowChat::handle_chat_input() {
-    u8 *arg0 = (u8 *)this;
   u8 temp_r3_2;
   u8 *context;
   saddr player;
   player = (saddr)get_player_by_client_id((saddr)local_client_id);
   if (player != 0)
   {
-    if (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 2)
+    if (flags & 2)
     {
       context = (u8 *)&controller_input_state + 0x20;
       if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)(local_client_id)))) == 0))
       {
-        ((RecoveredFields_8024775C_arg0 *) arg0)->field_1E = (u16) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 0xFFFFFFFD);
-        ((TWindowChat*)((void *) arg0))->close_all_children();
-        ((TWindowChat*)((u8 *)((void *)((u8 *)((void *) arg0)))))->open_next_input_window();
+        flags = (u16) (flags & 0xFFFFFFFD);
+        close_all_children();
+        open_next_input_window();
         if (is_mode_bit6() != 0)
         {
           begin_player_keyboard_hold(local_client_id);
@@ -337,15 +298,15 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((((TWindowKeyBoardHard *)((saddr) ((RecoveredFields_8024775C_arg0 *) arg0)->field_28))->is_key_held() == 0) || ((((TWindowChat *)arg0)->sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0)))
+      if ((hardKeyboard->is_key_held() == 0) || ((sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0)))
     {
-      if ((((TWindowChat *)arg0)->sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0))
+      if ((sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0))
       {
-        ((TWindowKeyBoardBase *)((RecoveredFields_8024775C_arg0 *) arg0)->field_20)->reset_input();
+        composer->reset_input();
       }
-      ((TWindowChat*)((void *) arg0))->close_all_children();
-      ((RecoveredFields_8024775C_arg0 *) arg0)->field_1E = (u16) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E | 2);
-      ((TWindowChat*)((u8 *)((void *)((u8 *)((void *) arg0)))))->open_next_input_window();
+      close_all_children();
+      flags = (u16) (flags | 2);
+      open_next_input_window();
       if (is_mode_bit6() != 0)
       {
         ((TObjPlayer *)player)->init_parts();
@@ -353,48 +314,48 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x400) != 0) && (((TWindowKeyBoardBase *)((RecoveredFields_8024775C_arg0 *) arg0)->field_20)->sub_8025CB10() == 0))
+      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x400) != 0) && (composer->sub_8025CB10() == 0))
     {
-      ((TWindowChat*)((void *) arg0))->close_all_children();
-      ((RecoveredFields_8024775C_arg0 *) arg0)->field_1C = (u8) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1C + 1);
-      temp_r3_2 = ((RecoveredFields_8024775C_arg0 *) arg0)->field_1C;
+      close_all_children();
+      inputMode = (u8) (inputMode + 1);
+      temp_r3_2 = inputMode;
       if (((s8) temp_r3_2) >= 3)
       {
-        ((RecoveredFields_8024775C_arg0 *) arg0)->field_1C = (temp_r3_2 - 3);
+        inputMode = (temp_r3_2 - 3);
       }
-      ((TWindowChat*)((u8 *)((void *)((u8 *)((void *) arg0)))))->open_next_input_window();
+      open_next_input_window();
     }
   }
 }
 
 void TWindowChat::open_next_input_window() {
-    u8 *arg0 = (u8*)this;
-    if (((RecoveredFields_8024792C_arg0 *)arg0)->field_1E & 2) {
-        *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
-        copy_vec2((((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30), (void*)(get_window_layout_position(0xB7)));
-        *(s32 *)((s8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20) + 0x50) = 3;
+    if (flags & 2) {
+        *static_cast<s32 *>(result) = 1;
+        copy_vec2(composer->target_position, reinterpret_cast<void *>(get_window_layout_position(0xB7)));
+        composer->tween_ticks = 3;
         return;
     }
-    switch ((s8) (((RecoveredFields_8024792C_arg0 *)arg0)->field_1C)) {
+    switch (static_cast<s8>(inputMode)) {
     case 0:
-        *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_24 = (saddr)new TWindowKeyBoardSoft((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20, local_client_id);
-        fn_80247ED8((void*)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_24)));
-        copy_vec2((((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30), (void*)(get_window_layout_position(0xB8)));
-        *(s32 *)((s8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20) + 0x50) = 3;
-        ((TWindowKeyBoardHard *)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
+        *static_cast<s32 *>(result) = 1;
+        softKeyboard = new TWindowKeyBoardSoft(composer, local_client_id);
+        softKeyboard->set_flag60_bit1();
+        copy_vec2(composer->target_position, reinterpret_cast<void *>(get_window_layout_position(0xB8)));
+        composer->tween_ticks = 3;
+        hardKeyboard->sub_8025EC04();
         return;
-    case 1:
-        ((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20)->reset_input();
-        *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 2;
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = (saddr)new TWindowDD((TObject *)arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
-        ((TWindowKeyBoardHard *)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
+    case 1: {
+        composer->reset_input();
+        *static_cast<s32 *>(result) = 2;
+        wordSelectWindow = new TWindowDD(this, static_cast<s32 *>(result) + 1);
+        hardKeyboard->sub_8025EC04();
         return;
+    }
     case 2:
-        ((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20)->reset_input();
-        *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 3;
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_30 = (saddr)new TUnk_804CE7D0((TObject *)arg0);
-        ((TWindowKeyBoardHard *)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
+        composer->reset_input();
+        *static_cast<s32 *>(result) = 3;
+        symbolChatWindow = new TUnk_804CE7D0(this);
+        hardKeyboard->sub_8025EC04();
         return;
     }
 }
@@ -406,7 +367,7 @@ void TWindowChat::run_task() {
     if ((((int)((TWindowChat *)arg0)->is_open()) == 0) && (((TWindowChat *)arg0)->is_mode_bit4() == 0) && (((TWindowChat *)arg0)->is_visible() == 0)) {
         ((TWindowChat *)arg0)->handle_chat_input();
         ((TWindowChat *)arg0)->handle_input();
-        if (((TWindowKeyBoardBase *)composer)->sub_8025CB10() != 0) {
+        if (composer->sub_8025CB10() != 0) {
             flags = (u16) (flags | 4);
             return;
         }
@@ -451,16 +412,12 @@ TWindowChat::~TWindowChat() {
     }
 }
 TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
-    void *o;
-    void *o2;
     m_name = window_chat_type_name_pointer;
     this->inputMode = 0;
     this->flags = 2;
-    o = new TWindowKeyBoardBase();
-    this->composer = o;
-    ((TWindowKeyBoardBase *)((u8 *)this->composer))->init_keyboard_text_field(200, 2);
-    o2 = new TWindowKeyBoardHard((TWindowKeyBoardBase *)this->composer);
-    this->hardKeyboard = o2;
+    this->composer = new TWindowKeyBoardBase;
+    composer->init_keyboard_text_field(200, 2);
+    this->hardKeyboard = new TWindowKeyBoardHard(composer);
     *(u32 *)((s8 *)this + 0x24) = 0;
     *(u32 *)((s8 *)this + 0x2C) = 0;
     *(u32 *)((s8 *)this + 0x34) = 0;
@@ -469,14 +426,14 @@ TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     this->open_next_input_window();
 }
 
-void TWindowChat__sub_80247D2C(void* p) { *(u16*)((char*)p + 0x62) |= 0x4; }
+void TWindowKeyBoardBase::set_flag62_bit4() { m_62 |= 0x4; }
 
-u8 TWindowChat::get_input_mode() { return *(u8*)((char*)this + 0x65); }
+u8 TWindowKeyBoardBase::get_input_mode() { return m_65; }
 
-int TWindowKeyBoardBase::get_flag() { return (m_60 >> 6) & 0x1; }
+int TWindowKeyBoardBase::get_flag() { return (m_60 >> 6) & 1; }
 
-s32 TWindowChat__sub_80247D50(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x68) > 0;
+s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard) {
+    return static_cast<s32>(keyboard->m_68) > 0;
 }
 
 int TWindowChat::forward_card_at_1c() { return ((TWindowMenu *)(*(void**)((char*)this + 0x1c)))->get_selected_value(); }
@@ -491,22 +448,22 @@ void TWindowChat::set_input_active() { this->flags |= 0x20; }
 
 int TWindowChat::is_mode_bit6() { return (this->flags >> 6) & 0x1; }
 
-void TWindowChat__sub_80247DFC(u8 *window_chat) {
-    if (((TWindowChat *)window_chat)->is_visible() != 0) {
-        ((TWindowChat *)window_chat)->flags = (u16) (((TWindowChat *)window_chat)->flags & 0xFFFFFFDF);
-        ((TWindowChat*)(window_chat))->open_next_input_window();
+void TWindowChat__sub_80247DFC(TWindowChat *window_chat) {
+    if (window_chat->is_visible() != 0) {
+        window_chat->flags = (u16) (window_chat->flags & 0xFFFFFFDF);
+        window_chat->open_next_input_window();
     }
 }
 
 int TWindowChat::is_visible() { return (this->flags >> 5) & 0x1; }
 
-void TWindowChat__sub_80247E50(u8 *window_chat) {
-    if (((TWindowChat *)window_chat)->is_mode_bit4() != 0) {
-        ((TWindowChat *)window_chat)->flags = (u16) (((TWindowChat *)window_chat)->flags & 0xFFFFFFEF);
-        if ((u32) *(u32 *)((s8 *)window_chat + 0x20) != 0U) {
-            ((TWindowKeyBoardBase *)(((TWindowChat *)window_chat)->composer))->flush_if_flagged();
+void TWindowChat__sub_80247E50(TWindowChat *window_chat) {
+    if (window_chat->is_mode_bit4() != 0) {
+        window_chat->flags = (u16) (window_chat->flags & 0xFFFFFFEF);
+        if (window_chat->composer != NULL) {
+            window_chat->composer->flush_if_flagged();
         }
-        ((TWindowChat*)(window_chat))->open_next_input_window();
+        window_chat->open_next_input_window();
     }
 }
 
@@ -518,17 +475,6 @@ s32 TWindowChat::sub_80247EC0() {
     return (u8) ((this->flags & 0x240) != 0);
 }
 
-void fn_80247ED8(void* p) { *(u32*)((char*)p + 0x60) |= 0x2; }
+void TWindowKeyBoardSoft::set_flag60_bit1() { m_60 |= 0x2; }
 
 int TWindowSubSymbolChatHelp__sub_80247EE8(int a0) {  return chat_help_color_table[a0]; }
-
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_1C_offset, offsetof(RecoveredFields_8024792C_arg0, field_1C) == 0x1C);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_1E_offset, offsetof(RecoveredFields_8024792C_arg0, field_1E) == 0x1E);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_20_offset, offsetof(RecoveredFields_8024792C_arg0, field_20) == 0x20);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_24_offset, offsetof(RecoveredFields_8024792C_arg0, field_24) == 0x24);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_28_offset, offsetof(RecoveredFields_8024792C_arg0, field_28) == 0x28);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_30_offset, offsetof(RecoveredFields_8024792C_arg0, field_30) == 0x30);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_34_offset, offsetof(RecoveredFields_8024792C_arg0, field_34) == 0x34);
-LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_38_offset, offsetof(RecoveredFields_8024792C_arg0, field_38) == 0x38);
-
-typedef struct RecoveredFields_8024775C_arg0 RecoveredFields_8024775C_arg0;

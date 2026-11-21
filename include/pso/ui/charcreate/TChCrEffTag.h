@@ -24,6 +24,6 @@ public:
 
 LAYOUT_ASSERT(TChCrEffTag_size, sizeof(TChCrEffTag) == 0x2C);
 
-void *create_TChCrEffTag(void *arg0);
+TChCrEffTag *create_TChCrEffTag(TObject *parent);
 
 #endif

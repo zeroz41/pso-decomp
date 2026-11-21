@@ -1,8 +1,11 @@
 #ifndef PSO_UI_WINDOW_TWINDOWSUBCUSTOMEQUIP_H
 #define PSO_UI_WINDOW_TWINDOWSUBCUSTOMEQUIP_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+
+class TWindowSubStatusDisp;
 
 struct TWindowSubCustomEquip : public TWindowBase {
     TWindowSubCustomEquip(s32 slot);
@@ -11,12 +14,6 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void update_palette_slot(s32, s32, s32);
     void sub_80275F08(void *);
     virtual void render();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 _pad28[0x34];
-    u32 m_5c;
     u8 m_60;
     u8 m_61;
     u8 m_62;
@@ -25,7 +22,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     u8 m_65;
     s16 m_66;
     u32 m_68;
-    uaddr m_6c;
+    TWindowSubStatusDisp *m_6c;
     void set_relative_pos(void *arg1);
     int layout_selection_parts(void *arg1);
     void layout_entry_group(void *arg1);
@@ -35,7 +32,6 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void handle_cancel();
     void handle_decide();
     virtual void run_task();
-    saddr calc_equip_index();
     int is_selected();
     void clear_flag_and_set_entry_state();
     void draw_cursor(u8 *arg1);
@@ -49,8 +45,6 @@ struct TWindowSubCustomEquip : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);
 
-extern "C" {
-void render__21TWindowSubCustomEquipFv(u8 *arg0);
-}
+LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, m_6c) == 0x6C);
 
 #endif

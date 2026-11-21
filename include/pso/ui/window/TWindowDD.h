@@ -145,7 +145,6 @@ struct TWindowDD : public TObject
     void init_item_slots();
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 arg0);
-    static saddr draw_default_entry(saddr arg0);
     void handle_confirm_input();
     void update_selection_state();
 };

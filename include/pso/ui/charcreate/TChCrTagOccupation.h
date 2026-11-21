@@ -6,12 +6,12 @@
 
 class TChCrTagOccupation : public TChCrTag {
 public:
-    TChCrTagOccupation(TObject *parent, void *arg);
+    TChCrTagOccupation(TObject *parent, s32 index);
     virtual ~TChCrTagOccupation();
     virtual void render();
     void sub_802A2DF4();
 public:
-    static void *create(void *arg0);
+    static TChCrTagOccupation *create(s32 index);
     static void create_all();
 
     f32 m_3c;
@@ -19,15 +19,6 @@ public:
 };
 
 LAYOUT_ASSERT(TChCrTagOccupation_size, sizeof(TChCrTagOccupation) == 0x44);
-
-class TChCrTagOccHeader;
-
-extern "C" {
-TChCrTagOccHeader *__dt__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag, s16 free);
-TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 free);
-}
-void create_all_ch_cr_tag_headers(void);
-void *create_ch_cr_tag_occ_header(void *arg0);
 
 // --- C functions defined in TChCrTagOccupation.cpp ---
 extern "C" {

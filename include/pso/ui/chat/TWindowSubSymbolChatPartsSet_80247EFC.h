@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void TWindowSubSymbolChatPartsSet__sub_802482B8(saddr arg0, s32 arg1);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void fn_802483C8(void *arg0, u8 _w1);
 void render__17TWindowChatSymbolFv(u8 *arg0);
@@ -16,7 +15,6 @@ void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
 
 // --- C functions defined in TWindowSubSymbolChatPartsSet_80247EFC.cpp ---
 extern "C" {
-void TWindowSubSymbolChatPartsSet__sub_802482B8(saddr arg0, s32 arg1);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void fn_802483C8(void *arg0, u8 _w1);
 }

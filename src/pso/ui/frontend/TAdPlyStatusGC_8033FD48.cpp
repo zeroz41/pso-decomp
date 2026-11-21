@@ -1,5 +1,9 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/ui/frontend/TAdPlyStatusGC_8033FD48
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/ui/frontend/TAdPlyStatusGC_8033FD48.h"
@@ -8,6 +12,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/TObjMapCsn.h"
 
 
 struct E_8034009C { Vec a; Vec b; s32 f18; };
@@ -149,7 +154,6 @@ extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-saddr create__10TObjMapCsnFl(void *);
 void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
@@ -166,7 +170,7 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     lim = 25.0f;
     for (i = 0; i < n; i++) {
         p = (P_8033FF78 *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)p)->is_active() != 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0) {
             VecCopy((Vec *)&v, (const Vec *)&arg0->pos);
             subtract_vector(&v, &p->pos);
             v.y = y;
@@ -203,7 +207,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
         prm.f1c = e->f18;
         prm.f20 = 0;
         VecCopy((Vec *)&prm.b, (const Vec *)&e->b);
-        boss6_demo15_type2_wait->csn_objects[i] = (TObject *)create__10TObjMapCsnFl(&prm);
+        boss6_demo15_type2_wait->csn_objects[i] = TObjMapCsn::create(&prm);
     }
 }
 
@@ -240,7 +244,7 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
         }
         ((TBoss6Demo15_TYPE2_WAIT *)arg0)->check_any_player_near();
         play_persistent_sound(0x4003A126, (saddr)arg0, (uaddr)(arg0 + 0x40), 0, 0);
-        if (((TObjFish *)(*(u8 * *)&this->unk_1C))->get_phase() != 4) {
+        if (((TBoss6PlotFalz *)(*(u8 * *)&this->unk_1C))->get_scene_state() != 4) {
             ((TObject *)arg0)->queue_destruction();
         }
     }
@@ -271,9 +275,6 @@ struct WaitDemoLayout {
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 extern s32 lbl_804DF614[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
-saddr get_bml_model(s32 bml, s32 index);
-saddr get_bml_texlist(s32 bml, s32 index);
-s32 get_bml_motion(s32 bml, s32 index);
 
 #pragma push
 #pragma opt_common_subs off
@@ -287,15 +288,15 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
     *(s32 **)((u8 *)wait + 0x18) = __vt__23TBoss6Demo15_TYPE2_WAIT;
     wait->m_name = TBoss6Demo15_TYPE2_WAIT__class_name;
     self->fish = fish;
-    bml = TObjFish::get_fish_count();
+    bml = (s32)TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         {
             s32 t = lbl_804DF614[i];
             v = t;
-            self->parts[i].model = get_bml_model(bml, t);
+            self->parts[i].model = (saddr)get_bml_model((BmlResource *)bml, t);
         }
-        self->parts[i].model_aux = get_bml_texlist(bml, v);
-        self->parts[i].motion = get_bml_motion(bml, lbl_804EFB70[i]);
+        self->parts[i].model_aux = (saddr)get_bml_texlist((BmlResource *)bml, v);
+        self->parts[i].motion = (saddr)get_bml_motion((BmlResource *)bml, lbl_804EFB70[i]);
     }
     fn_8034009C(wait);
     TObjFish__sub_8033FF64(wait);

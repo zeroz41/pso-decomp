@@ -76,65 +76,6 @@ struct RecoveredFields_8012ABCC_arg0
   uaddr field_F0;
 };
 
-struct PlB_8012AC68 { char pad[0x18]; };
-
-struct Pl_8012AC68 : PlB_8012AC68 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void m49(void *, s32, s32, s32);
-    u8 pad2[0xF0-0x1C];
-    saddr f0;
-    u8 pad3[0x1F8-0xF4];
-    u8 f1f8[4];
-};
-
 extern "C" {
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 s32 get_captured_target_collider_index(s32);
@@ -154,7 +95,7 @@ void TUnk_804A4B80::activate_effect(s32 arg1) {
       {
         if (arg1 == 0)
         {
-          (this->launch_shot((((u8 *) ((u8 *)this)) + 0x224), (0), (0), (1)));
+          (this->launch_shot((u8 *)&captured_muzzle, (0), (0), (1)));
           return;
         }
         if (arg1 == 1)
@@ -167,29 +108,28 @@ void TUnk_804A4B80::activate_effect(s32 arg1) {
 }
 
 void TUnk_804A4B80::heaven_punisher_strike_locks() {
-    u8 buf[24];
+    Vec muzzle;
     s16 v;
     s32 i;
     saddr e;
-    Pl_8012AC68 *arg0 = (Pl_8012AC68 *)this;
-    if (get_captured_target_count(arg0->f1f8) > 0) {
-        for (i = 0; i != get_captured_target_count(arg0->f1f8); i++) {
-            e = get_captured_target_entry(arg0->f1f8, i);
+    if (get_captured_target_count(captured_targets) > 0) {
+        for (i = 0; i != get_captured_target_count(captured_targets); i++) {
+            e = get_captured_target_entry(captured_targets, i);
             v = get_captured_target_collider_index(e);
-            spawn_heaven_effect((TObject *)tl_05, (TObjPlayer *)arg0->f0, ((TObjPlayer *)e)->get_uid(), v);
+            spawn_heaven_effect((TObject *)tl_05, owner, ((TObjPlayer *)e)->get_uid(), v);
         }
     } else {
-        ((TItemWeapon *)arg0)->get_gun_point(buf);
-        arg0->m49(buf, 0, 0, 1);
+        get_gun_point(&muzzle);
+        launch_shot(reinterpret_cast<u8 *>(&muzzle), 0, 0, 1);
     }
 }
 
 void TUnk_804A4B80::emit_marker_effects() {
-    s32 sp8;
+    Vec sp8;
     s32 var_r31;
     if (is_mode_two_and_ready() != 0) {
-        copy_attack_targets((u32 *)((void *) (((u8 *)this) + 0x1F8)), (u32 *)((saddr) (((TObjPlayer *)(this->owner))->get_extended_state())));
-        this->get_gun_point(((void *) (((u8 *)this) + 0x224)));
+        copy_attack_targets(captured_targets, reinterpret_cast<u32 *>(owner->get_extended_state()));
+        get_gun_point(&captured_muzzle);
         var_r31 = 0;
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
             var_r31 = 1;
@@ -234,16 +174,16 @@ void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
     ((TItemWeapon *)player)->set_weapon_flags(34);
     return player;
 }
-u8 *create_heaven_punisher(s32 item) {
+TItem *create_heaven_punisher(u8 *item) {
     u8 *player;
     u8 *var_r0;
-    if (item != 0) {
-        player = (u8 *)((u8 *)TItem::operator new(0x230));
+    if (item != NULL) {
+        player = (u8 *)TItem::operator new(0x230);
         var_r0 = player;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(heaven_punisher_ct(player, tl_05, item));
+            var_r0 = (u8 *)(heaven_punisher_ct(player, tl_05, (saddr)item));
         }
-        return var_r0;
+        return reinterpret_cast<TItem *>(var_r0);
     }
     return NULL;
 }

@@ -1,6 +1,8 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-
+#include "pso/unk/TUnk_804CCB28.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/vector.h"
@@ -37,14 +39,11 @@ u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-void *spawn_particle_effect(const void *pos, s32 id);
-u32 create_fire_explosion_effect(u32, s32, s32, saddr, f32);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 s32 get_bml_motion(s32, s32);
-saddr get_bml_model(s32, s32);
+
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 
 }
@@ -200,7 +199,7 @@ void handle_exp_steal_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect(&player->m_2fc, 0xA8);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xA8);
     }
 }
 
@@ -210,7 +209,7 @@ void handle_action(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&player->m_2fc, 0xA8);
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect((const Vec *)&player->m_2fc, 0xA8);
         if (particle != NULL) {
             particle->set_scale(0.2f, 0.3f);
         }
@@ -222,7 +221,7 @@ void dispatch_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect(&player->m_2fc, 0x10A);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0x10A);
     }
 }
 
@@ -240,7 +239,7 @@ void handle_symbol_chat_action(TObjPlayer *player, TObjBase *target, Vec *pos, s
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&player->m_2fc, 0x67);
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect((const Vec *)&player->m_2fc, 0x67);
         if (particle != NULL) {
             particle->set_scale(0.2f, 0.3f);
         }
@@ -252,7 +251,7 @@ void handle_action_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 p
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect(&player->m_2fc, 0x67);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0x67);
     }
 }
 
@@ -261,7 +260,7 @@ void handle_stage_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phas
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect(&player->m_2fc, 0x66);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0x66);
     }
 }
 
@@ -286,18 +285,18 @@ void prepare_shock_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos
 
 void weapon_hell_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0xC6);
-        spawn_particle_effect(&player->m_2fc, 0xC9);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC6);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC9);
     }
     if (phase == 1) {
         {
-            TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(pos, 0x1C5);
+            TParticleCtrl *particle = spawn_particle_effect(pos, 0x1C5);
             if (particle != NULL) {
                 particle->set_scale(2.0f, 2.0f);
             }
         }
         {
-            TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(pos, 0x1C8);
+            TParticleCtrl *particle = spawn_particle_effect(pos, 0x1C8);
             if (particle != NULL) {
                 particle->set_scale(2.0f, 2.0f);
             }
@@ -307,8 +306,8 @@ void weapon_hell_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phas
 
 void weapon_dark_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0xC6);
-        spawn_particle_effect(&player->m_2fc, 0xC9);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC6);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC9);
     }
     if (phase == 1) {
         spawn_particle_effect(pos, 0x1C5);
@@ -332,7 +331,7 @@ void weapon_dim_shadow_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s3
 
 void dispatch_attack_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0xA0);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xA0);
     }
     if (phase == 1) {
         spawn_scattered_lightning_strikes((u8 *)pos, 4);
@@ -341,7 +340,7 @@ void dispatch_attack_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 p
 
 void dispatch_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0xA0);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xA0);
     }
     if (phase == 1) {
         spawn_scattered_lightning_strikes((u8 *)pos, 4);
@@ -376,12 +375,12 @@ void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 ph
     saddr temp_a;
 
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0xBD);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xBD);
     }
     if (phase == 1) {
         temp_a = (saddr)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
         if (temp_a != 0) {
-            attach_particle_model((u8 *)temp_a, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model((u8 *)temp_a, (saddr)get_bml_model((BmlResource *)technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }
@@ -390,12 +389,12 @@ void spawn_hit_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
     saddr timed_particle_emitter;
 
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0xBD);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0xBD);
     }
     if (phase == 1) {
         timed_particle_emitter = (saddr)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
         if (timed_particle_emitter != 0) {
-            attach_particle_model((u8 *)timed_particle_emitter, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model((u8 *)timed_particle_emitter, (saddr)get_bml_model((BmlResource *)technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }
@@ -410,27 +409,27 @@ void prepare_freeze_special_effect(TObjPlayer *player, TObjBase *target, Vec *po
 }
 
 void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    uaddr obj;
+    TUnk_804CCB28 *obj;
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0x69);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0x69);
     }
     if (phase == 1) {
-        obj = (uaddr)TObject::operator new(0x64);
-        if (obj != 0U) {
-            obj = ((u32 (*)(f32, u32, Vec *, s32, TObject *))create_fire_explosion_effect)(10.0f, obj, pos, 0, tl_particle);
+        obj = static_cast<TUnk_804CCB28 *>(TObject::operator new(sizeof(TUnk_804CCB28)));
+        if (obj != NULL) {
+            obj = create_fire_explosion_effect((u8 *)obj, 10.0f, pos, 0, tl_particle);
         }
-        if (obj != 0U) {
-            *(f32 *)((s8 *)obj + 0x34) = 0.6f;
-            *(f32 *)((s8 *)obj + 0x38) = 0.6f;
-            *(f32 *)((s8 *)obj + 0x3C) = 0.6f;
-            *(f32 *)((s8 *)obj + 0x40) = 0.8f;
+        if (obj != NULL) {
+            obj->m_34 = 0.6f;
+            obj->m_38 = 0.6f;
+            obj->m_3c = 0.6f;
+            obj->m_40 = 0.8f;
         }
     }
 }
 
 void spawn_mirror_pair(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect(&player->m_2fc, 0x69);
+        spawn_particle_effect((const Vec *)&player->m_2fc, 0x69);
     }
     if (phase == 1) {
         new TUnk_804F166C(tl_05, pos, target->rotation_y);

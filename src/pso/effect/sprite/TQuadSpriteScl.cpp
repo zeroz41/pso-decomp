@@ -152,7 +152,7 @@ TQuadSpriteScl::~TQuadSpriteScl() {
 const char *TQuadSpriteScl__class_name = "TQuadSpriteScl";
 
 #define quad_sprite_scl ((u8 *)this)
-TQuadSpriteScl::TQuadSpriteScl(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
+TQuadSpriteScl::TQuadSpriteScl(TObject *parent, ParticleDefinition *sprite_definition) : TUnk_804C57F0(parent, sprite_definition) {
     ((TQuadSpriteScl *)quad_sprite_scl)->m_name = TQuadSpriteScl__class_name;
 }
 #undef quad_sprite_scl

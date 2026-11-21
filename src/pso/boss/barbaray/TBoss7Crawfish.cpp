@@ -1,11 +1,13 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include <dolphin/mtx.h>
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include <stddef.h>
@@ -178,8 +180,8 @@ void TBoss7Crawfish::spawn_ground_effects() {
     position.x = *(f32 *)((s8 *)arg0 + 0x38);
     position.y = 0.0f;
     position.z = *(f32 *)((s8 *)arg0 + 0x40);
-    spawn_particle_effect((&position.x), 0x20D);
-    spawn_particle_effect((&position.x), 0x20E);
+    spawn_particle_effect(&position, 0x20D);
+    spawn_particle_effect(&position, 0x20E);
 }
 
 #define arg0 ((saddr)arg0_)
@@ -412,12 +414,10 @@ void TBoss7Crawfish::change_state(s32 state) {
     }
 }
 
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 uaddr TBoss7Crawfish__shared_resource;
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
+
+
 int TBoss7Crawfish__sub_80308BEC(void *p);
-void free_bin_model_request(void*, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 
 void TBoss7Crawfish::run_task() {
@@ -466,7 +466,7 @@ TBoss7Crawfish::~TBoss7Crawfish() {
 TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) {
     Vec v;
     *(s32 *)((s8 *)arg0 + 0) = (saddr) TBoss7Crawfish__class_name;
-    ((TBoss7Crawfish *)arg0)->texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
+    ((TBoss7Crawfish *)arg0)->texlist = (saddr)get_bml_texlist((BmlResource *)TBoss7Crawfish__shared_resource, 0);
     copy_collision_body((CollisionBody *)(arg0 + 0x374), &crawfish_collision_body_desc);
     ((TObjCollidable *)arg0)->set_collision_body(arg0 + 0x374);
     ((TObjMotion *)arg0)->set_field_d8((saddr)crawfish_action_table);
@@ -480,12 +480,12 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) 
         ((TObjEnemy *)arg0)->set_param(0x4A);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(8)), (u8 *)(TLobby::dispatch_shared_handler_b(8)), (u8 *)(TLobby::register_object(8)));
         ((TBoss7Crawfish *)arg0)->m_3a0 = (saddr)TLobby::dispatch_shared_handler_a(8);
-        *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 0);
+        *(s32 *)((s8 *)arg0 + 0x34) = (saddr)get_bml_model((BmlResource *)TBoss7Crawfish__shared_resource, 0);
     } else {
         ((TObjEnemy *)arg0)->set_param(0x4B);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(9)), (u8 *)(TLobby::dispatch_shared_handler_b(9)), (u8 *)(TLobby::register_object(9)));
         ((TBoss7Crawfish *)arg0)->m_3a0 = (saddr)TLobby::dispatch_shared_handler_a(9);
-        *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 1);
+        *(s32 *)((s8 *)arg0 + 0x34) = (saddr)get_bml_model((BmlResource *)TBoss7Crawfish__shared_resource, 1);
     }
     ((TObjChara *)arg0)->get_or_assign_entity_id(0);
     ((TObjPlayer *)arg0)->register_object_by_id();
@@ -510,7 +510,7 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) 
 
 void TBoss7Crawfish::destroy_instance() {
     if ((u32) TBoss7Crawfish__shared_resource != 0U) {
-        free_bin_model_request((void*)TBoss7Crawfish__shared_resource, 1);
+        delete (BmlResource *)TBoss7Crawfish__shared_resource;
         TBoss7Crawfish__shared_resource = 0U;
     }
 }
@@ -518,11 +518,7 @@ void TBoss7Crawfish::destroy_instance() {
 void TBoss7Crawfish::load_static_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_boss7_crawfish_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(5, &bm_boss7_crawfish_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TBoss7Crawfish__shared_resource) = var_r0;
 }
 

@@ -1903,7 +1903,7 @@ pso/enemy/panarms/TObjEnePanarms.cpp:
 	.sbss       start:0x805D5288 end:0x805D5298
 	.sdata2     start:0x805DA520 end:0x805DA5A0
 
-pso/object/ambient/TObjFish_800E2FFC.cpp:
+pso/system/ModelNodePositionCapture.cpp:
 	.text       start:0x800E2FFC end:0x800E31C4
 	.bss        start:0x80500FB0 end:0x80500FC0
 
@@ -6959,7 +6959,7 @@ pso/ui/window/TWindowDuelResult.cpp:
 	.sbss       start:0x805D6428 end:0x805D6430
 	.sdata2     start:0x805DCCA8 end:0x805DCCB8
 
-pso/ui/window/TWindowSubStatusDisp_8024F688.cpp:
+pso/ui/window/PageIndicator.cpp:
 	.text       start:0x8024F688 end:0x8024F690
 
 pso/ui/window/TWindowEffectParty.cpp:
@@ -9428,11 +9428,11 @@ pso/enemy/recon/TObjEneRecon_80320350.cpp:
 	.text       start:0x80320350 end:0x80320358
 
 pso/unk/text_80320358.cpp:
-	.text       start:0x80320358 end:0x803204B0
+	.text       start:0x80320358 end:0x803204B8
 	.sbss       start:0x805D6B28 end:0x805D6C10
 
 pso/boss/olgaflow/TBoss6Zanzo.cpp:
-	.text       start:0x803204B0 end:0x80320AE0
+	.text       start:0x803204B8 end:0x80320AE0
 	.rodata     start:0x80476460 end:0x80476480
 	.data       start:0x804EC968 end:0x804EC980
 	.sdata      start:0x805D4140 end:0x805D4148

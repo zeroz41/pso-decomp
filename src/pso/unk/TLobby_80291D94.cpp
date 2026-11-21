@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -231,7 +232,6 @@ void TLobby__sub_80292200(s32 arg0);
 void set_challenge_time_window_timer(int);
 extern "C" {
 saddr TWindowSubStatusDisp__sub_8006F134(s32, s32);
-saddr get_character_save_record(s32);
 s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
 uaddr get_player_by_client_id(s32);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
@@ -568,7 +568,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             __dt__12TPlyCharDataFv(&cd, -1);
             ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&hdr);
             ((TObjBase *)p)->set_position_from(&pos);
-            ((TBoss4DarkFalz *)p)->save_position();
+            ((TObjBase *)p)->save_previous_position();
             p->v6();
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xFF);
             if (tbl->entries != NULL) {
@@ -593,8 +593,6 @@ void TLobby__sub_80293218(s32);
 s32 TLobby__sub_8029299C(void);
 s32 TLobby__sub_80292A34(void);
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
-#define get_character_save_record ((u8 * (*)())get_character_save_record)
-s32 count_card_layout_entries__6TLobbyFv(void);
 s32 TLobby__sub_80292F34(s32 arg0);
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 #define TWindowSubStatusDisp__sub_8006F134 ((s32 * (*)(u8 *, s32))TWindowSubStatusDisp__sub_8006F134)
@@ -655,7 +653,6 @@ loop_3:
     goto loop_3;
 }
 
-#define GCW_80292AB4 ((u8 *(*)(u32))get_character_save_record)
 s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
     s32 lo;
     s32 hi;
@@ -665,13 +662,13 @@ s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
     saddr w;
     lo = TWindowSubStatusDisp::calc_entry_offset(slot);
     hi = TWindowSubStatusDisp::calc_layout_hash(slot);
-    if (GCW_80292AB4((u16)arg1) == NULL) {
+    if (reinterpret_cast<const void *>(get_character_save_record((u16)arg1)) == NULL) {
         return -4;
     }
     if (arg0 < lo || arg0 > hi) {
         return -4;
     }
-    w = ((s32 (*)(u32))get_character_save_record)((u16)arg1) + 0x21C4;
+    w = get_character_save_record((u16)arg1) + 0x21C4;
     flags = TWindowSubStatusDisp__sub_8006F134((u8 *)w, slot);
     e = (Ent_80292AB4 *)((u8 *)lbl_804DB1F0 + 0x254);
     for (i = 2; i >= 0; i--, e--) {
@@ -722,8 +719,8 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     return 1;
 }
 
-s32 count_card_layout_entries__6TLobbyFv(void) {
-    u8 *win = get_character_save_record();
+s32 count_card_layout_entries(s32 client) {
+    u8 *win = (u8 *)get_character_save_record(client);
     s32 layout;
     s32 id;
     s32 *arr;
@@ -759,7 +756,6 @@ struct E_80292DA0 {
 extern "C" {
 #define TWindowSubStatusDisp__sub_8006F134 ((E_80292DA0 * (*)(void *, s32))TWindowSubStatusDisp__sub_8006F134)
 s32 mix_seed__6TLobbyFUs(s32);
-#define get_character_save_record ((u8 * (*)(u32))get_character_save_record)
 #define TLobby__sub_80292AB4 ((s32 (*)(s32, u16, s32))TLobby__sub_80292AB4)
 s32 TLobby__sub_80292BB8(s32, u16, s32);
 #define lbl_804DB1F0 (*(s32 (*)[1])&lbl_804DB1F0)
@@ -774,7 +770,7 @@ s32 TLobby::calc_min_challenge_progress() {
     var_r30 = 0;
     do {
         if (get_player_by_client_id(var_r30) != 0U) {
-            temp_r3 = count_card_layout_entries__6TLobbyFv(var_r30);
+            temp_r3 = count_card_layout_entries(var_r30);
             if (var_r31 > temp_r3) {
                 var_r31 = temp_r3;
             }
@@ -795,7 +791,7 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     TLobby__sub_80292BB8(seed, card, id);
     total = TWindowSubStatusDisp__sub_80071988(card, id);
     if (total != 0) {
-        base = get_character_save_record(card) + 0x21C4;
+        base = (u8 *)get_character_save_record(card) + 0x21C4;
         total -= TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(base, id)[lbl_804DB1F0[0]]);
         total += seed;
         result = TLobby__sub_80292AB4(total, card, id);
@@ -815,7 +811,6 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
 }
 
 #undef TWindowSubStatusDisp__sub_8006F134
-#undef get_character_save_record
 #undef TLobby__sub_80292AB4
 #undef lbl_804DB1F0
 #undef count_card_layout_entries__6TLobbyFv
@@ -978,7 +973,6 @@ struct G_802932EC {
 };
 
 extern "C" {
-#define get_character_save_record ((u8 * (*)(s32))get_character_save_record)
 void TLobby__sub_80293218(s32 arg0);
 void TLobby__sub_800703D0(void *, void *);
 void snapshot_player_card_status__6TLobbyFv(void);
@@ -1038,7 +1032,7 @@ void TLobby__sub_80293218(s32 arg0) {
             spot->layout = (*(G_80293218 *)&lbl_804DB1F0).f0;
             spot->floor = (*(G_80293218 *)&lbl_804DB1F0).f8;
             VecCopy(&spot->position, &p->position);
-            u8 *w = get_character_save_record(arg0) + 0x2274;
+            u8 *w = reinterpret_cast<u8 *>(get_character_save_record(arg0)) + 0x2274;
             copy_tombstone_spot(reinterpret_cast<TObjTombstoneSpot *>(w), spot);
         }
     }
@@ -1130,10 +1124,10 @@ void snapshot_player_card_status__6TLobbyFv(void) {
     s32 i;
     TLobby::clear_card_status_flags();
     for (i = 0; i < 4; i++) {
-        if (get_player_by_client_id(i) != 0 && get_character_save_record(i) != NULL) {
+        if (get_player_by_client_id(i) != 0 && (u8 *)get_character_save_record(i) != NULL) {
             Rec_8029350C *r = &(*(G_8029350C *)&lbl_804DB1F0).r[i];
             r->f0 = 1;
-            TLobby__sub_800703D0((u8 *)r + 4, get_character_save_record(i) + 0x21C4);
+            TLobby__sub_800703D0((u8 *)r + 4, (u8 *)get_character_save_record(i) + 0x21C4);
         }
     }
 }
@@ -1196,6 +1190,5 @@ void TLobby::copy_global_value_block() {
 }
 }
 
-#undef get_character_save_record
 #undef create_challenge4p__6TLobbyFv
 __declspec(section ".ctors") static void *const __sinit_TLobby_80291D94_cpp_ref = (void *)TLobby::copy_global_value_block;

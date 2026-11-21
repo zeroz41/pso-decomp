@@ -6,7 +6,6 @@
 extern "C" {
 void TObjPlayer__sub_803DF768(s32 arg0);
 }
-void draw_untextured_trail_strip(void *arg0, void *arg1);
 void init_distant_light(s32 idx, f32 x, f32 y, f32 z);
 void load_gx_light_slot(s32 arg0);
 void reset_player_transform(void);

@@ -106,7 +106,7 @@ s32 TQuestVmDownLoadServer__sub_803F0BD8(void *handle) {
     return 0;
 }
 
-s32 TQuestVmDownLoadServer__sub_803F0BE0(void *name, void *mode) {
+s32 TQuestVmDownLoadServer__sub_803F0BE0(const char *name, s32 mode) {
     return 1;
 }
 

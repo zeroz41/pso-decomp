@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
@@ -38,7 +39,6 @@ s16 obj_getS16_2BA(u8 *p);
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
-s32 draw_visible_window_entries(void *, void *, int);
 
 
 void *TWindowStatus__ct(void *arg0, saddr layout_pos, void *arg2, const WindowDescriptor *desc);
@@ -158,7 +158,7 @@ void TWindowStatus::draw_background(u8 *arg1) {
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)arg1 + 0x34));
     { f32 r = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
-    s = -1.0f / (0.0598f + this->m_54);
+    s = -1.0f / (0.0598f + this->draw_depth);
     q.x0 = -(69.0f * (w = 1.0f - r)); }
     q.y0 = -(80.0f * w);
     q.x1 = 69.0f + q.x0;
@@ -188,13 +188,16 @@ void TWindowStatus::draw_background(u8 *arg1) {
 
 #pragma fp_contract on
 void TWindowStatus::render() {
-    saddr entry = get_array_entry(0xE);
+    saddr entry = reinterpret_cast<saddr>(get_array_entry(0xE));
     saddr ctx;
     draw_right_aligned_number((void *)entry);
     *(f32 *)((s8 *)entry + 8) = 0.5f * *(f32 *)((s8 *)entry + 0x10) + 68.0f;
-    ctx = TWindowDD::draw_default_entry((saddr)this);
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
     draw_background((u8 *)ctx);
-    draw_visible_window_entries(this, &m_24, ctx);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
+        reinterpret_cast<WindowDrawContext *>(ctx));
 }
 
 void TWindowStatus::run_task() {
@@ -205,7 +208,7 @@ void TWindowStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
 }
 
 extern s32 __vt__13TWindowStatus[];

@@ -1,3 +1,4 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowMessagePage.h"
@@ -19,7 +20,6 @@ const char *TWindowMessagePage__name = "TWindowMessagePage";
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
-s32 TLobby__sub_80269DA4(void *, void *);
 extern const char *TWindowMessagePage__name;
 s32 *get_shared_text_buffer(void);
 
@@ -51,7 +51,7 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
 }
 
 u8 *TWindowMessagePage::create(s32 arg0, saddr arg1, saddr arg2, s32 arg3) {
-    TLobby__sub_80269DA4((void *)arg1, (void *)arg2);
+    TLobby__sub_80269DA4((void *)arg1, (u32)arg2);
     return (u8 *)new TWindowMessagePage(arg0, arg2, arg3);
 }
 
@@ -65,7 +65,7 @@ void TWindowMessagePage::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r5;
     TWindowMessage::run_task();
-    temp_r5 = is_player_input_active((this->m_20)) * 0x50;
+    temp_r5 = is_player_input_active((this->client_index)) * 0x50;
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
         if (((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) {
             update_message();
@@ -83,6 +83,6 @@ TWindowMessagePage::~TWindowMessagePage() {
 TWindowMessagePage::TWindowMessagePage(s32 arg1, s32 arg2, s32 arg3) : TWindowMessage(arg1, arg2, arg3) {
     this->m_name = TWindowMessagePage__name;
     *(s32 *)((s8 *)this + 0x90) = 0;
-    this->m_20 = (s16) arg3;
+    this->client_index = (s16) arg3;
     this->m_94 = 0;
 }

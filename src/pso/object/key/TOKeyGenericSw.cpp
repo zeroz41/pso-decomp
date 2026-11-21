@@ -10,7 +10,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -112,11 +113,11 @@ void TOKeyGenericSw::free_shared_resources() {
         }
     }
     if (TOKeyGenericSw__shared_resource_ptrs[1] != NULL) {
-        free_bin_model_request(TOKeyGenericSw__shared_resource_ptrs[1], 1);
+        delete (BmlResource *)TOKeyGenericSw__shared_resource_ptrs[1];
         TOKeyGenericSw__shared_resource_ptrs[1] = NULL;
     }
     if (TOKeyGenericSw__shared_resource_ptrs[0] != NULL) {
-        free_bin_model_request(TOKeyGenericSw__shared_resource_ptrs[0], 1);
+        delete (BmlResource *)TOKeyGenericSw__shared_resource_ptrs[0];
         TOKeyGenericSw__shared_resource_ptrs[0] = NULL;
     }
 }
@@ -126,30 +127,18 @@ void TOKeyGenericSw::load_resources() {
     BmlResource *resource;
 
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_body1_j_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &fs_obj_hanyousu_body1_j_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[0] = resource;
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
         TOKeyGenericSw__texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
         TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
         TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
         TOKeyGenericSw__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao_j.GVM");
     } else {
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_body1_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &fs_obj_hanyousu_body1_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[0] = resource;
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
         TOKeyGenericSw__texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
         TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;

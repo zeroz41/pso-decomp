@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl_8024B9C0.h"
@@ -146,28 +147,21 @@ void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
 
 extern "C" {
 
-void *TWindowTradeRequest__ct(void *, void *);
-void *__nw__7TObjectFUl(s32);
-s32 TWindowCtrl__sub_8024701C(void *);
+
 
 
 void TWindowCtrl::update_trade_request_window() {
-    void *var_r0;
-
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((uaddr) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(*(void * *)&this->m_38) != 0))) {
-        if ((u32) this->m_40 != 0U) {
-            ((TObject *)(this->m_40))->queue_destruction();
-            this->m_40 = 0U;
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->m_3c != 0U) || (((uaddr) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(*(void * *)&this->m_38)) != 0))) {
+        if (trade_request != NULL) {
+            trade_request->queue_destruction();
+            trade_request = NULL;
         }
-    } else if ((u32) this->m_40 == 0U) {
-        var_r0 = __nw__7TObjectFUl(0x24);
-        if (var_r0 != NULL) {
-            var_r0 = TWindowTradeRequest__ct(var_r0, this);
-        }
-        *(void * *)&this->m_40 = var_r0;
+    } else if (trade_request == NULL) {
+        trade_request = new TWindowTradeRequest(this);
     }
 }
 
+void *__nw__7TObjectFUl(s32);
 u32 TWindowGetComCard__ct(int, void *);
 void TWindowCtrl::update_com_card_window() {
     u8 *arg0 = (u8 *)this;
@@ -180,7 +174,7 @@ void TWindowCtrl::update_com_card_window() {
     if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
         this->m_3c = 0U;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || ((u32) this->m_40 != 0U) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C((void *)temp_r3_2) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>((void *)temp_r3_2)) != 0))) {
         temp_r3_3 = this->m_3c;
         if (temp_r3_3 != 0U) {
             ((TObject *)temp_r3_3)->queue_destruction();
@@ -200,8 +194,6 @@ s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
 }
 s32 chat_accept_submission(saddr arg0);
 extern "C" {
-void TWindowChat__sub_80247DFC(u8 *arg0);
-void TWindowChat__sub_80247E50(u8 *arg0);
 
 
 void TWindowCtrl::update_window_visibility() {
@@ -225,10 +217,10 @@ void TWindowCtrl::update_window_visibility() {
         }
         ((TWindowChat *)(this->m_38))->open_input();
         if ((((TWindowChat *)(this->m_38))->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
-            TWindowChat__sub_80247E50((u8 *)this->m_38);
+            TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(m_38));
         }
         if (((TWindowChat *)(this->m_38))->is_visible() != 0) {
-            TWindowChat__sub_80247DFC((u8 *)this->m_38);
+            TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(m_38));
         }
     }
 }
@@ -307,14 +299,14 @@ void TWindowCtrl::update_open_sequence() {
     if (is_split_screen() != 0) {
         if (o->timer == split_open_times[o->step]) {
             if (o->split[o->step] != NULL) {
-                ((TQuestVmDownLoadServer *)(o->split[o->step]))->clear_flag4_bit4();
+                ((TObject *)(o->split[o->step]))->clear_update_suspension();
             }
             o->step++;
         }
     } else {
         if (o->timer == open_times[o->step]) {
             if (o->slots[o->step] != NULL) {
-                ((TQuestVmDownLoadServer *)(o->slots[o->step]))->clear_flag4_bit4();
+                ((TObject *)(o->slots[o->step]))->clear_update_suspension();
                 ((TWindowCtrl *)o)->update_party_status_rows();
                 o->slots[o->step]->fade = 0;
             }

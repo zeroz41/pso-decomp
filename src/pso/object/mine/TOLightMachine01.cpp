@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -49,11 +51,11 @@ void TOLightMachine01::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(this->texlist);
-        draw_ginja_model((saddr)((NJS_OBJECT *)model)->model);
+        draw_ginja_model(((NJS_OBJECT *)model)->model);
         push_matrix();
         translate_matrix(0, 0.0f, this->m_9c, 0.0f);
         rotate_matrix_y(0, this->m_ac);
-        draw_ginja_model((saddr)((NJS_OBJECT *)model)->child->model);
+        draw_ginja_model(((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param((saddr)light_machine_ginja_param);
         draw_ginja_object(light_machine_ginja_model_handle);
@@ -69,19 +71,16 @@ void *TOLightMachine01::create(void *arg0) {
 
 void TOLightMachine01::destroy_instance() {
     if (TOLightMachine01__shared_bml_archive != NULL) {
-        free_bin_model_request(TOLightMachine01__shared_bml_archive, 1);
+        delete (BmlResource *)TOLightMachine01__shared_bml_archive;
         TOLightMachine01__shared_bml_archive = NULL;
     }
 }
 
 void TOLightMachine01::load_assets() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 1, &light_machine01_resource_desc, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&light_machine01_resource_desc, 0, 0, NULL);
     TOLightMachine01__shared_bml_archive = archive;
-    light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model(archive, 0);
-    light_machine_ginja_param = (GinjaTextureList *)get_bml_texlist(TOLightMachine01__shared_bml_archive, 0);
+    light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model((BmlResource *)archive, 0);
+    light_machine_ginja_param = (GinjaTextureList *)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 0);
 }
 
 }
@@ -95,8 +94,8 @@ TOLightMachine01::~TOLightMachine01() {
 TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
-    light_machine01->model = (void *)get_bml_model(TOLightMachine01__shared_bml_archive, 1);
-    light_machine01->texlist = (s32)get_bml_texlist(TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->model = (void *)get_bml_model((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->texlist = (s32)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
     light_machine01->m_94 = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);

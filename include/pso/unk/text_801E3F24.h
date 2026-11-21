@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void *TObjCMHairMenu__sub_801E3F54(void *p, void *q);
+u32 *TObjCMHairMenu__sub_801E3F54(u32 *p, const u32 *q);
 void TObjPlayer__sub_801E3F24(s32 value);
 void TObjPlayer__sub_801E3F30(f32 x, f32 y, f32 z);
 void fn_801E3F44(f32 x, f32 y);

@@ -130,6 +130,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     void suspend_update();
+    void clear_update_suspension();
 
     void *operator new(size_t size);
     void  operator delete(void *ptr);

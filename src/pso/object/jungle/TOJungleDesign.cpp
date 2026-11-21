@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "types.h"
@@ -89,13 +91,13 @@ extern "C" {
 
 GinjaTextureList *fn_802FF028(s32 arg0) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (GinjaTextureList *)get_bml_texlist(TOJungleDesign__shared_model_resource, arg0);
+        return (GinjaTextureList *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, arg0);
     }
     return NULL;
 }
 NJS_OBJECT *fn_802FF064(s32 arg0) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model(TOJungleDesign__shared_model_resource, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)TOJungleDesign__shared_model_resource, arg0);
     }
     return NULL;
 }
@@ -103,16 +105,13 @@ NJS_OBJECT *fn_802FF064(s32 arg0) {
 
 void TOJungleDesign::free_shared_resource() {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        free_bin_model_request(TOJungleDesign__shared_model_resource, 1);
+        delete (BmlResource *)TOJungleDesign__shared_model_resource;
         TOJungleDesign__shared_model_resource = NULL;
     }
 }
 
 void TOJungleDesign::load_shared_resource() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 1, &bm_obj_jungle_tree_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_jungle_tree_resource_descriptor, 0, 0, NULL);
     TOJungleDesign__shared_model_resource = archive;
 }
 

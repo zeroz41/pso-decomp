@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -16,7 +17,6 @@ struct G_800718D0 { u8 pad[0xC]; s32 fc; u8 rest[0x100]; };
 
 extern "C" {
 saddr TWindowSubStatusDisp__sub_8006F0D8(void *, void *);
-uaddr get_character_save_record(u32);
 extern RecoveredGlobal_80071820_lbl_804FF820 lbl_804FF820;
 extern s32 lbl_805D2858;
 extern G_800718D0 challenge_mode_state;
@@ -25,7 +25,7 @@ s32 TLobby__sub_80071654(u16);
 s32 TWindowSubStatusDisp::get_status_index(u16 arg0) {
     uaddr character_save_record;
 
-    character_save_record = get_character_save_record(arg0);
+    character_save_record = ((u32)get_character_save_record(arg0));
     if (character_save_record == 0U) {
         return -1;
     }
@@ -44,7 +44,7 @@ extern s32 lbl_805D285C;
 s32 *TWindowSubStatusDisp::get_status_window(u16 arg0) {
     u32 character_save_record;
 
-    character_save_record = get_character_save_record(arg0);
+    character_save_record = ((u32)get_character_save_record(arg0));
     if (character_save_record == 0U) {
         return &lbl_805D285C;
     }
@@ -61,7 +61,7 @@ s32 *TWindowSubStatusDisp__sub_80071820(uaddr arg0) {
 }
 
 s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
-    W_80071868 *w = (W_80071868 *)get_character_save_record(id);
+    W_80071868 *w = (W_80071868 *)((u32)get_character_save_record(id));
     s32 idx;
     s32 v;
     if (w == 0) {
@@ -83,7 +83,7 @@ s32 TWindowSubStatusDisp__sub_800718D0(void) {
     s32 i;
     s32 r;
     hash = TWindowSubStatusDisp::calc_layout_hash(-1);
-    if (TLobby::is_flag_set() == 0 || get_character_save_record(0xFFFF) == 0) {
+    if (TLobby::is_flag_set() == 0 || (u32)get_character_save_record(0xFFFF) == 0) {
         return hash;
     }
     sum = 0;
@@ -106,7 +106,7 @@ s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, saddr slot) {
     s32 sum;
     s32 i;
     uaddr w;
-    w = get_character_save_record(arg0);
+    w = ((u32)get_character_save_record(arg0));
     if (w == 0U) {
         return 0;
     }

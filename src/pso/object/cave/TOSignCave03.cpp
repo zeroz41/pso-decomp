@@ -5,7 +5,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/cave/TOSignCave03.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -28,20 +29,20 @@ void TOSignCave03::render() {
         rotate_matrix_y(NULL, rotation_y);
         node = (NJS_OBJECT *)model;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -49,16 +50,16 @@ void TOSignCave03::render() {
         push_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -66,28 +67,28 @@ void TOSignCave03::render() {
         push_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((saddr)node->model);
+        draw_ginja_model((void *)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -102,16 +103,13 @@ void *TOSignCave03::create(void *set_data) {
 
 void TOSignCave03::release_static_resource() {
     if (TOSignCave03__bml_resource != NULL) {
-        free_bin_model_request(TOSignCave03__bml_resource, 1);
+        delete TOSignCave03__bml_resource;
         TOSignCave03__bml_resource = NULL;
     }
 }
 
 void TOSignCave03::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_dokanban03_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_dokanban03_resource_descriptor, 0, 0, NULL);
     TOSignCave03__bml_resource = resource;
 }
 
@@ -121,7 +119,7 @@ TOSignCave03::TOSignCave03(TObject *parent, void *set_data) : TObjMapObject(pare
     m_name = TOSignCave03__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOSignCave03__bml_resource->models[0].model;
-    texlist = TOSignCave03__bml_resource->models[0].m_c;
+    texlist = (saddr)TOSignCave03__bml_resource->models[0].m_c;
     view_range = 500.0f;
     model_radius = 300.0f;
 }

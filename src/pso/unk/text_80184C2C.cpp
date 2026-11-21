@@ -134,7 +134,6 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
 };
 extern s32 TLobby__event_theme_id;
 extern "C" {
-void free_bin_model_request(void *, s32);
 BmlResource *city_season_easter_egg_model_table[6];
 GinjaTextureList *city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
@@ -182,7 +181,7 @@ void TLobby::free_buffers() {
         lbl_805D5B48 = NULL;
     }
     if (lbl_805D5B38 != NULL) {
-        free_bin_model_request(lbl_805D5B38, 1);
+        delete (BmlResource *)lbl_805D5B38;
         lbl_805D5B38 = NULL;
     }
     lbl_805D5B44 = NULL;
@@ -194,14 +193,13 @@ void TLobby::free_buffers() {
     }
     for (i = 5; i >= 0; i--) {
         if (city_season_easter_egg_model_table[i] != NULL) {
-            free_bin_model_request(city_season_easter_egg_model_table[i], 1);
+            delete (BmlResource *)city_season_easter_egg_model_table[i];
         }
         city_season_easter_egg_model_table[i] = NULL;
         city_season_xmas_model_table[i] = NULL;
     }
 }
 
-extern "C" void *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 extern "C" void clear_global_array__6TLobbyFPv();
 
 extern "C" void TLobby__sub_80184DF4(void) {
@@ -237,10 +235,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
                 city_season_xmas_model_table[j] = NULL;
             }
         }
-        tmp = (u8 *)::operator new(0x440);
-        if (tmp != NULL) {
-            tmp = (u8 *)load_resource_from_descriptor(tmp, 1, city_season_resource_descriptors[lbl_805D5B30], 0, 0, 0);
-        }
+        tmp = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)city_season_resource_descriptors[lbl_805D5B30], 0, 0, NULL);
         slot_offset = lbl_805D5B30 * sizeof(city_season_easter_egg_model_table[0]);
         *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
@@ -273,26 +268,17 @@ extern "C" void TLobby__sub_80184DF4(void) {
     }
 
     if (lbl_805D5B30 == 2) {
-        u8 *r = (u8 *)::operator new(0x440);
-        if (r != NULL) {
-            r = (u8 *)load_resource_from_descriptor(r, 1, &bm_obj_city_board_xmas_resource_descriptor, 0, 0, 0);
-        }
+        u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_xmas_resource_descriptor, 0, 0, NULL);
         board = r;
         lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     } else if (lbl_805D5B30 == 4) {
-        u8 *r = (u8 *)::operator new(0x440);
-        if (r != NULL) {
-            r = (u8 *)load_resource_from_descriptor(r, 1, &bm_obj_city_board_2001_resource_descriptor, 0, 0, 0);
-        }
+        u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_2001_resource_descriptor, 0, 0, NULL);
         board = r;
         lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     } else {
-        u8 *r = (u8 *)::operator new(0x440);
-        if (r != NULL) {
-            r = (u8 *)load_resource_from_descriptor(r, 1, &bm_obj_city_board_normal_resource_descriptor, 0, 0, 0);
-        }
+        u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_normal_resource_descriptor, 0, 0, NULL);
         board = r;
         lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);

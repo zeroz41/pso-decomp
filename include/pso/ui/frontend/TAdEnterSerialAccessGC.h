@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
+class TAdSelectCurGC;
+
 struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     virtual ~TAdEnterSerialAccessGC();
     virtual void render();
@@ -15,7 +17,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     u32 m_48;
     u32 m_4c;
     u32 m_50;
-    u32 m_54;
+    TAdSelectCurGC *cursor;
     u32 m_58;
     u32 m_5c;
     u32 m_60;
@@ -29,17 +31,14 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static char *convert_serial_hex_to_decimal(int arg0);
     static char *hex_to_decimal_string(int arg0);
     static s32 open_message_window(void *arg0, void *arg1);
-    s32 get_field20_state();
-    void set_state_3();
     static void init_state();
     static void *create_callback(void *arg0, void *arg1, void *arg2);
-    void set_active();
     void *create_default_callback();
     static s32 show_message_window(void *arg0, void *arg1);
     static void clear_serial_buffer();
     static void store_serial_access_key(saddr arg0, saddr arg1, saddr arg2);
-    static char *serial_to_hex_string(int arg0);
-    void reset_input_state();
+    static char *serial_to_hex_string(const char *serial);
+    static int forward_input(void *screen, s32 field, const char *text);
     static void draw_serial_chars(saddr arg0);
     static u32 create_keyboard_control(saddr arg0, s32 arg1);
 };
@@ -59,7 +58,7 @@ void TAdEnterSerialAccessGC__sub_80321F3C(void *p);
 void TAdEnterSerialAccessGC__sub_80322418(s32 arg0, s32 arg1);
 void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *arg0, s16 arg1);
 void create_draw_callback__22TAdEnterSerialAccessGCFv(void);
-void init__22TAdEnterSerialAccessGCFv(void);
+void initialize_serial_input(const char *serial);
 }
 extern "C" void *create_callback_at_zero_vec2(void *callback);
 
@@ -77,7 +76,7 @@ void TAdEnterSerialAccessGC__sub_80321F3C(void *p);
 void TAdEnterSerialAccessGC__sub_80322418(s32 arg0, s32 arg1);
 void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *arg0, s16 arg1);
 void create_draw_callback__22TAdEnterSerialAccessGCFv(void);
-void init__22TAdEnterSerialAccessGCFv(void);
+void initialize_serial_input(const char *serial);
 }
 // --- end of C functions
 

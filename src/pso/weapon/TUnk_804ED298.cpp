@@ -39,9 +39,9 @@ TUnk_804ED298::TUnk_804ED298(TObject *parent, u8 *item) : TItemWeapon(parent, it
     pad_1fc = 1.0f;
 }
 
-u8 *TObjPlayer::create_mode_floats_state(u8 *item) {
+TItem *TObjPlayer::create_mode_floats_state(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804ED298(tl_05, item);
+        return new TUnk_804ED298(tl_05, item);
     }
     return NULL;
 }

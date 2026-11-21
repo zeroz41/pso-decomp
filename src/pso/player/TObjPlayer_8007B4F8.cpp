@@ -1,10 +1,10 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
-u32 get_character_save_record();
 
 s32 com_card_keyboard_mode;
 
@@ -13,7 +13,7 @@ void TObjPlayer::set_com_card_window(s32 arg0) {
     u32 character_save_record;
 
     com_card_keyboard_mode = 0;
-    character_save_record = get_character_save_record();
+    character_save_record = ((u32)get_character_save_record((u32)arg0));
     if (character_save_record != 0U) {
         temp_r31 = character_save_record + 0x1510;
         if (temp_r31 != 0) {

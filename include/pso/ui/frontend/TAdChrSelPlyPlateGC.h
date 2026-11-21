@@ -2,8 +2,15 @@
 #define PSO_UI_FRONTEND_TADCHRSELPLYPLATEGC_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/math/TMath.h"
+
+// A selection cell or cursor quad carries screen bounds and texture coordinates.
+struct CharacterSelectionQuad {
+    f32 x, y, z, w;
+    f32 u0, v0, u1, v1;
+};
 
 // Multiplayer character-select player plates. The class name is the string its constructor
 // stores in m_name; the vtable it installs (0x804E0B10) holds the dtor, run_task (0x802C6AC8)
@@ -18,10 +25,29 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void update_option_cursor();
     void handle_dpad_input();
     s32 find_active_slot();
+    void find_first_open_cell(u32 *cell);
+    void reset_cursor_state();
+    s32 get_selection();
+    s32 get_card_index(s32);
+    void set_selection(s32 selection);
+    s32 get_cursor();
+    void set_state_ready();
+    void set_cursor_column(s32 column);
+    void restore_selection();
+    void capture_card_index();
+    s32 get_field_0x530();
+    s32 get_active_card_slot();
+    void set_active_card_slot(s32 slot);
+    void set_cursor_fields(s32 field_4f4, s32 field_4f0);
+    void init_slot_position(s32 position, s32 row, s32 column);
+    void clear_slot_entries(s32 column);
 
     s32 unk_1c;
     s32 unk_20;
-    u8 pad_24[0x444 - 0x24];
+    CharacterSelectionQuad quad[8][3]; // Four selection rows, then four confirmation rows.
+    f32 cursor[3][8];
+    vec2f home[4][3];
+    u8 pad_3e4[0x444 - 0x3e4];
     s32 cursor_alpha[4][3];
     s32 cursor_color[4][3];
     vec2f pos;
@@ -38,14 +64,19 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 unk_534;
 };
 
+LAYOUT_ASSERT(CharacterSelectionQuadSize, sizeof(CharacterSelectionQuad) == 0x20);
+LAYOUT_ASSERT(CharacterSelectionQuadsOffset, offsetof(TAdChrSelPlyPlateGC, quad) == 0x24);
+LAYOUT_ASSERT(CharacterSelectionCursorOffset, offsetof(TAdChrSelPlyPlateGC, cursor) == 0x324);
+LAYOUT_ASSERT(CharacterSelectionHomeOffset, offsetof(TAdChrSelPlyPlateGC, home) == 0x384);
+LAYOUT_ASSERT(CharacterSelectionAlphaOffset, offsetof(TAdChrSelPlyPlateGC, cursor_alpha) == 0x444);
 LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 
 extern "C" {
 TAdChrSelPlyPlateGC *fn_802C6F20(TObject *parent, vec2f *pos);
-void TAdMultiPlyChrSelectGC__sub_802C50EC(saddr arg0);
-void TAdMultiPlyChrSelectGC__sub_802C522C(saddr arg0);
+void TAdMultiPlyChrSelectGC__sub_802C50EC(TAdChrSelPlyPlateGC *plate);
+void TAdMultiPlyChrSelectGC__sub_802C522C(TAdChrSelPlyPlateGC *plate);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558(void);
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 void TAdMultiPlyChrSelectGC__sub_802C65C0(s32 arg0);

@@ -1,5 +1,6 @@
 #pragma fp_contract on
 
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/TUnk_80484AFC.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -15,7 +16,6 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include <stdlib.h>
@@ -153,8 +153,8 @@ TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) :
     rotate_matrix_x(0, rotation_x);
     matrix_mult_vec(0, &velocity, &velocity);
     pop_matrix();
-    model = boss3_volopt_resources->models[0x16].model;
-    textures = boss3_volopt_resources->models[0x16].m_c;
+    model = (saddr)boss3_volopt_resources->models[0x16].model;
+    textures = (saddr)boss3_volopt_resources->models[0x16].m_c;
     age = 0;
     trail_rotation[2] = 0;
     trail_rotation[1] = 0;

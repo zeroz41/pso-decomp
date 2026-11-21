@@ -1,4 +1,8 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterial.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
 #include "pso/unk/text_8020BFE4.h"
@@ -28,8 +32,7 @@
 extern "C" {
 s32 TObjPlayer__sub_80084500();
 s32 TObjLiveMonitor__sub_8030C050(void* p);
-void draw_ginja_model(saddr);
-saddr get_bml_model(saddr, s32);
+
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
 saddr live_monitor_shared_resource;
@@ -55,14 +58,11 @@ const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 /* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
-s32 draw_ginja_object(int);
-saddr get_bml_texlist(saddr, s32);
+
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
 }
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-int free_bin_model_request(void*, void*);
 extern void *tl_05;
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
@@ -358,17 +358,12 @@ void TObjLiveCamera::run_task() {  }
 void TObjLiveCamera::render() {  }
 
 void TObjLiveCamera::load_static_resource() {
-    saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_boss8_monitor_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(5, &bm_obj_boss8_monitor_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&live_monitor_shared_resource) = var_r0;
 }
 
-void TObjLiveCamera::free_static_resource() { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
+void TObjLiveCamera::free_static_resource() { delete (BmlResource *)live_monitor_shared_resource; }
 
 void *TObjLiveMonitor::create(void *arg0) {
     void *o = TObject::operator new(0x2C);
@@ -382,8 +377,8 @@ void *__ct__15TObjLiveMonitorFv(void *arg0) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__15TObjLiveMonitor;
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjLiveMonitor__name;
-    *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(live_monitor_shared_resource, 1);
-    *(s32 *)((s8 *)arg0 + 0x20) = get_bml_texlist(live_monitor_shared_resource, 0);
+    *(s32 *)((s8 *)arg0 + 0x1C) = (saddr)get_bml_model((BmlResource *)live_monitor_shared_resource, 1);
+    *(s32 *)((s8 *)arg0 + 0x20) = (saddr)get_bml_texlist((BmlResource *)live_monitor_shared_resource, 0);
     *(s32 *)((s8 *)arg0 + 0x24) = 5;
     ((TObjLiveMonitor *)arg0)->camera_timer = 0;
     return arg0;
@@ -405,7 +400,7 @@ void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
         live_monitor->render_live_monitor_screen();
     }
     push_matrix();
-    draw_ginja_object((int) (*(s32 *)((s8 *)live_monitor + 0x1C)));
+    draw_ginja_object(*(void **)((s8 *)live_monitor + 0x1C));
     pop_matrix();
 }
 
@@ -466,9 +461,9 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     default:
         return *(s32 *)((s8 *)this + 0x24);
     }
-    set_ginja_model_texture_slot((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), static_cast<u16>(var_r4));
+    set_ginja_model_texture_slot((*reinterpret_cast<NJS_OBJECT **>((u8 *)this + 0x1C))->model, static_cast<u16>(var_r4));
     push_matrix();
-    ::draw_ginja_model((*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
+    ::draw_ginja_model((*reinterpret_cast<NJS_OBJECT **>((u8 *)this + 0x1C))->model);
     return pop_matrix();
 }
 
@@ -481,7 +476,7 @@ s32 TObjLiveMonitorSmall::spawn_for_each_fish() {
         live_monitor_small_spawned_flag = 1;
         TObjLiveMonitorSmall__fish_spawned_flag = 1;
     }
-    var_r31 = *(void **)((s8 *)(get_bml_model(live_monitor_shared_resource, 0)) + 0x2C);
+    var_r31 = *(void **)((s8 *)(get_bml_model((BmlResource *)live_monitor_shared_resource, 0)) + 0x2C);
     while (var_r31 != NULL) {
         if (live_monitor_small_spawned_flag != 0) {
             obj = TObject::operator new(0x2C);

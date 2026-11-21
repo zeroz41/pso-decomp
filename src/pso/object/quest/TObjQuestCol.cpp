@@ -2,6 +2,7 @@
 // One TU: the class names in .rodata/.sdata run ColBase..Col2 in this source order, while the text runs Col2..ColBase
 // and the vtables Col2..ColBase (reverse key-function order): built -inline off,deferred (configure.py).
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -30,10 +31,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
 
-struct Obj_80195CF0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195CF0 *next; u8 pad10[4]; Obj_80195CF0 *child; };
-
-struct Obj_80195DE0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195DE0 *next; u8 pad10[4]; Obj_80195DE0 *child; };
-
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
@@ -43,21 +40,11 @@ void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though fn_80141CBC never reads r5 (TObjRoomId passes nothing there).
 void fn_80141CBC(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-extern saddr tl_05;
-extern TObject *quest_mission_manager;
-extern TObject *quest_area_manager;
+extern s32 tl_05;
 extern s8 controller_input_state[];
-s32 check_flag_100__10TObjPlayerFPv();
+int check_flag_100__10TObjPlayerFPv(void *player);
 void enable_action_input__10TObjPlayerFPv(void *p);
 u16 get_entity_id(void *);
-Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0);
-TObjQuestCol *create_quest_col(void *arg, s32 *out_id);
-TObjQuestColA *fn_80196814(void *arg, s32 *out_id);
-TObjQuestColALock *create_quest_col_alock(void *arg, s32 *out_id);
-TObjQuestColApc *fn_801963A8(void *arg, s32 *out_id);
-TObjQuestColApcIN *fn_80196214(void *arg, s32 *out_id);
-void fn_8019608C(void);
-TObjQuestColApcINW *create_quest_col_apc_inw__6TLobbyFPvPv(void *arg, s32 *out_id);
 void *TObjQuestCol__create(void *arg0);
 void *TObjQuestColA__create(void *arg0);
 void *TObjQuestColALock2__create(void *arg0);
@@ -170,7 +157,7 @@ void *TObjQuestCol__create(void *arg0) {
     return new TObjQuestCol(quest_collision_task_root, arg0);
 }
 
-TObjQuestCol *create_quest_col(void *arg, s32 *out_id) {
+TObjQuestCol *create_quest_col(ObjectSetData *arg, s32 *out_id) {
     TObjQuestCol *o = new TObjQuestCol(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -189,28 +176,28 @@ TObjQuestColA::TObjQuestColA(TObject *parent, void *set_data) : TObjQuestColBase
 }
 
 int TObjQuestColA::vfunc_15() {
-    saddr temp_r3;
+    TObjPlayer *player;
     s32 temp_r3_2;
 
-    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
-    if (temp_r3 != 0) {
-        if (check_flag_100__10TObjPlayerFPv() != 0) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+    player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        if (check_flag_100__10TObjPlayerFPv(player) != 0) {
+            enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
-        if (((TObjPlayer *)temp_r3)->is_quest_interaction_blocked() != 0) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+        if (player->is_quest_interaction_blocked() != 0) {
+            enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
         temp_r3_2 = update_trigger_state(radius);
         if (temp_r3_2 == 1) {
-            ((TObjPlayer *)temp_r3)->disable_primary_action_input();
+            player->disable_primary_action_input();
         }
         if (temp_r3_2 == 3) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+            enable_action_input__10TObjPlayerFPv(player);
         }
         if (temp_r3_2 == 0) {
-            ((TObjPlayer *)temp_r3)->disable_primary_action_input();
+            player->disable_primary_action_input();
             if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
                 return 1;
             }
@@ -230,7 +217,7 @@ void *TObjQuestColA__create(void *arg0) {
     return new TObjQuestColA(quest_collision_task_root, arg0);
 }
 
-TObjQuestColA *fn_80196814(void *arg, s32 *out_id) {
+TObjQuestColA *fn_80196814(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColA *o = new TObjQuestColA(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -265,29 +252,29 @@ TObjQuestColALock::~TObjQuestColALock() {
 }
 
 int TObjQuestColALock::vfunc_15() {
-    saddr temp_r3;
+    TObjPlayer *player;
     s32 temp_r3_2;
 
-    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
-    if (temp_r3 != 0) {
-        if (check_flag_100__10TObjPlayerFPv() != 0) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+    player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        if (check_flag_100__10TObjPlayerFPv(player) != 0) {
+            enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
-        if (((TObjPlayer *)temp_r3)->is_quest_interaction_blocked() != 0) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+        if (player->is_quest_interaction_blocked() != 0) {
+            enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
         submit_cursor_candidate(this, -1);
         temp_r3_2 = update_trigger_state(radius);
         if (temp_r3_2 == 1) {
-            ((TObjPlayer *)temp_r3)->disable_primary_action_input();
+            player->disable_primary_action_input();
         }
         if (temp_r3_2 == 3) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+            enable_action_input__10TObjPlayerFPv(player);
         }
         if (temp_r3_2 == 0) {
-            ((TObjPlayer *)temp_r3)->disable_primary_action_input();
+            player->disable_primary_action_input();
             if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
                 return 1;
             }
@@ -310,7 +297,7 @@ void TObjQuestColALock::update_room_id_check() {
     }
 }
 
-TObjQuestColALock *create_quest_col_alock(void *arg, s32 *out_id) {
+TObjQuestColALock *create_quest_col_alock(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColALock *o = new TObjQuestColALock(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -347,7 +334,7 @@ TQuestThread *TObjQuestColApc::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-TObjQuestColApc *fn_801963A8(void *arg, s32 *out_id) {
+TObjQuestColApc *fn_801963A8(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApc *o = new TObjQuestColApc(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -391,7 +378,7 @@ TQuestThread *TObjQuestColApcIN::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-TObjQuestColApcIN *fn_80196214(void *arg, s32 *out_id) {
+TObjQuestColApcIN *fn_80196214(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApcIN *o = new TObjQuestColApcIN(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -450,7 +437,7 @@ void fn_8019608C(void) {
     }
 }
 
-TObjQuestColApcINW *create_quest_col_apc_inw__6TLobbyFPvPv(void *arg, s32 *out_id) {
+TObjQuestColApcINW *create_quest_col_apc_inw__6TLobbyFPvPv(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApcINW *o = new TObjQuestColApcINW(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -491,43 +478,43 @@ void TQuestColCtrl::init() {
 }
 
 void TQuestColCtrl::delete_by_param(s32 arg0) {
-    Obj_80195DE0 *next;
-    Obj_80195DE0 *cur;
+    TObject *next;
+    TObject *cur;
     if (arg0 < 0) {
         return;
     }
-    next = (*(Obj_80195DE0 * *)&quest_collision_task_root)->child;
-    while ((*(Obj_80195DE0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
+    next = quest_collision_task_root->m_down;
+    while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
-        next = cur->next;
+        next = cur->m_next;
         if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && cur->f6 == arg0) {
-            ((TObject *)cur)->queue_destruction();
+            && cur->m_id == arg0) {
+            cur->queue_destruction();
             return;
         }
     }
 }
 
-Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0) {
-    Obj_80195CF0 *next;
-    Obj_80195CF0 *cur;
-    next = (*(Obj_80195CF0 * *)&quest_collision_task_root)->child;
-    while ((*(Obj_80195CF0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
+TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
+    TObject *next;
+    TObject *cur;
+    next = quest_collision_task_root->m_down;
+    while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
-        next = cur->next;
+        next = cur->m_next;
         if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && arg0 == get_entity_id(cur)) {
-            return cur;
+            && arg0 == get_entity_id(static_cast<TObjQuestColBase *>(cur))) {
+            return static_cast<TObjQuestColBase *>(cur);
         }
     }
     return 0;
@@ -571,29 +558,29 @@ TObjQuestColALock2::~TObjQuestColALock2() {
 }
 
 int TObjQuestColALock2::vfunc_15() {
-    saddr temp_r3;
+    TObjPlayer *player;
     s32 temp_r3_2;
 
-    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
-    if (temp_r3 != 0) {
-        if (check_flag_100__10TObjPlayerFPv() != 0) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+    player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        if (check_flag_100__10TObjPlayerFPv(player) != 0) {
+            enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
-        if (((TObjPlayer *)temp_r3)->is_quest_interaction_blocked() != 0) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+        if (player->is_quest_interaction_blocked() != 0) {
+            enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
         submit_cursor_candidate(this, -1);
         temp_r3_2 = update_trigger_state(radius);
         if (temp_r3_2 == 1) {
-            ((TObjPlayer *)temp_r3)->disable_primary_action_input();
+            player->disable_primary_action_input();
         }
         if (temp_r3_2 == 3) {
-            enable_action_input__10TObjPlayerFPv((void *)temp_r3);
+            enable_action_input__10TObjPlayerFPv(player);
         }
         if (temp_r3_2 == 0) {
-            ((TObjPlayer *)temp_r3)->disable_primary_action_input();
+            player->disable_primary_action_input();
             if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
                 return 1;
             }

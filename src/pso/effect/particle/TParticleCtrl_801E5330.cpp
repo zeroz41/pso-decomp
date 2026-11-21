@@ -14,7 +14,7 @@ GinjaTextureList *lbl_805D35A0[2] = { (GinjaTextureList *)&shared_effect_texture
 extern "C" {
 
 
-extern void *tl_particle;
+extern TObject *tl_particle;
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
 extern GinjaTextureList *lbl_805D35A0[2];
 extern f32 lbl_804C6900[1][4];
@@ -34,30 +34,30 @@ void TParticleCtrl::create_quad_sprites() {
     s32 index = 0;
     ParticleDefinition *definitions = lbl_804C5820;
     TUnk_804C57F0 **sprites = TParticleCtrl__data_80511F70;
-    void *sprite;
+    TUnk_804C57F0 *sprite;
 
     do {
         ParticleDefinition *definition = &definitions[index];
 
         switch (definitions[index].sprite_type) {
         case 0:
-            sprite = new TQuadSpriteNormal((TObject *)tl_particle, definition);
+            sprite = new TQuadSpriteNormal(tl_particle, definition);
             break;
         case 1:
-            sprite = new TQuadSpriteScl((TObject *)tl_particle, definition);
+            sprite = new TQuadSpriteScl(tl_particle, definition);
             break;
         case 2:
-            sprite = new TQuadSpriteCol((TObject *)tl_particle, definition);
+            sprite = new TQuadSpriteCol(tl_particle, definition);
             break;
         case 3:
-            sprite = new TQuadSpriteSclCol((TObject *)tl_particle, definition);
+            sprite = new TQuadSpriteSclCol(tl_particle, definition);
             break;
         case 4:
-            sprite = new TQuadSpriteSclColRot((TObject *)tl_particle, definition);
+            sprite = new TQuadSpriteSclColRot(tl_particle, definition);
             break;
         }
 
-        sprites[index] = static_cast<TUnk_804C57F0 *>(sprite);
+        sprites[index] = sprite;
         index++;
     } while (index < 0x6C);
 }

@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMag.h"
@@ -40,7 +41,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 
@@ -1487,7 +1487,7 @@ void TItemMag::set_subs_visible(s32 visible) {
     for (i = 0; i != 2; i++) {
         if (children[i] != NULL) {
             if (visible) {
-                ((TQuestVmDownLoadServer *)children[i])->clear_flag4_bit4();
+                children[i]->clear_update_suspension();
             } else {
                 children[i]->suspend_update();
             }

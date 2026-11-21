@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/TObjTank.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -39,7 +41,7 @@ void TObjTank::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(tank_bml_resource, 0)));
+        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)tank_bml_resource, 0)));
         pop_matrix();
     }
 }
@@ -78,15 +80,12 @@ void TObjTank::free_globals() {
         TObjTank__texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {
-        free_bin_model_request(tank_bml_resource, 1);
+        delete (BmlResource *)tank_bml_resource;
         tank_bml_resource = NULL;
     }
 }
 void TObjTank::load_globals() {
-    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
-    if (storage != NULL) {
-        storage = load_resource_from_descriptor(storage, 5, &fs_obj_tank_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tank_resource_descriptor, 0, 0, NULL);
     tank_bml_resource = storage;
     TObjTank__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"fs_obj_tank.GVM"));
 }

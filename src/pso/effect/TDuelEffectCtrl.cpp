@@ -1,11 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/effect/TDuelEffectString.h"
@@ -57,7 +57,7 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
         new TDuelEffectString(m_effect, (void *)lbl_80438D40, (void *)0);
         break;
     case 0xA0:
-        spawn_particle_effect_with_flags(duel_start_countdown_effect_pos, 0x1F1, 0x48C0);
+        spawn_particle_effect_with_flags((const Vec *)duel_start_countdown_effect_pos, 0x1F1, 0x48C0);
         play_cue_stream_file((saddr)"start.adx");
         break;
     case 0xB4:

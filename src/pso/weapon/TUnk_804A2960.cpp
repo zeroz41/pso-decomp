@@ -106,20 +106,20 @@ void frozen_shooter_freeze_hit(int arg0, u8 *arg1) {
 
 void TUnk_804A2960::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     if (skip_freeze == 0) {
-        desc->pad_74 = (void *)frozen_shooter_freeze_hit;
+        desc->hit_effect = (void *)frozen_shooter_freeze_hit;
     }
-    desc->pad_10 = unk_1f8;
-    desc->pad_50 = 0x4000;
-    desc->pad_4c = 2.0f;
-    desc->pad_78 = unk_200;
+    desc->hits = unk_1f8;
+    desc->spin[0] = 0x4000;
+    desc->scale = 2.0f;
+    desc->particle = unk_200;
 }
 
 void TUnk_804A2960::emit_marker_effects() {
-    u8 buf[16];
+    Vec point;
     u8 *p;
-    get_gun_point(buf);
+    get_gun_point(&point);
     skip_freeze = 0;
-    p = buf;
+    p = reinterpret_cast<u8 *>(&point);
     if (is_mode_two_and_ready() != 0) {
         fire_shot_at_target(p, second_model, 0);
     } else if (get_item_index() == 1) {
@@ -152,9 +152,9 @@ TUnk_804A2960::TUnk_804A2960(TObject *parent, u8 *item) : TItemWeapon(parent, it
     skip_freeze = 0;
 }
 
-u8 *frozen_shooter_create(u8 *item) {
+TItem *frozen_shooter_create(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2960(tl_05, item);
+        return new TUnk_804A2960(tl_05, item);
     }
     return NULL;
 }

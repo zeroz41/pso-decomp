@@ -1,6 +1,7 @@
 // S-rank knuckle weapon (TUnk_804F26E0): its own TU after TObjEneEpsilon's. Evidence: its float pool
 // {1.0f, 1.2f} starts at the 8-aligned 0x805E0258 after a zero pad word that closes TObjEneEpsilon's pool,
 // and its vtable (0x804F26E0) follows TObjEneEpsilon's at the end of that TU's .data.
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804F26E0.h"
 #include "pso/player/TObjPlayer.h"
@@ -26,14 +27,14 @@ void TUnk_804F26E0::vfunc_57() {
 void TUnk_804F26E0::vfunc_62() {
     u8 sp8[0x10];
     owner->get_anim_node_position(knuckle_marker_joint_table[(owner->has_valid_handle() * 3) + get_validated_attack_stage(((u8 *)owner) + 0x7CC)], (Vec *)sp8);
-    spawn_particle_effect(sp8, 0x1D0);
+    spawn_particle_effect((const Vec *)sp8, 0x1D0);
 }
 
 TUnk_804F26E0::TUnk_804F26E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
 
-u8 *create_s_rank_knuckle(u8 *item) {
+TItem *create_s_rank_knuckle(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F26E0(tl_05, item);
+        return new TUnk_804F26E0(tl_05, item);
     }
     return NULL;
 }

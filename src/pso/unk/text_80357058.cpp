@@ -1,3 +1,4 @@
+#include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
@@ -191,7 +192,7 @@ void TItemEffOrgaFlowShot::render() {
     set_depth_buffer_settings_1();
     set_additive_blend();
     TObjPlayer__sub_803DF768(1);
-    draw_untextured_trail_strip((void *)(arg0 + 0xC4), (void *)(0xA));
+    draw_untextured_trail_strip((void *)(arg0 + 0xC4), 10);
     reset_player_transform();
     set_default_alpha_blend();
     restore_saved_depth_alpha_state();
@@ -207,9 +208,9 @@ void TItemEffOrgaFlowShot::run_task() {
         queue_destruction();
         disallow_rendering();
     }
-    approach_value(&pad_190, 50.0f, pad_18C);
+    TItemEffOrgaFlowShot::approach_value(&pad_190, 50.0f, pad_18C);
     if (pad_190 == pad_18C) {
-        approach_value(&pad_194, 0.6f, pad_198);
+        TItemEffOrgaFlowShot::approach_value(&pad_194, 0.6f, pad_198);
     }
     for (i = 0; i != 10; i++) {
         TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)this)->v[i].w), 2);

@@ -209,8 +209,8 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         verts[3].v = 1.0f;
         verts[3].color = color;
 
-        // TBoss4DarkFalz::get_hit_data returns &rotation_x of any TObjBase.
-        rotation = (s32 *)((TBoss4DarkFalz *)player)->get_hit_data();
+        // TObjBase::get_rotation returns &rotation_x of any TObjBase.
+        rotation = (s32 *)((TObjBase *)player)->get_rotation();
         VecCopy(&position, (Vec *)player->get_position_ptr());
         position.y += 5.0f;
         ground = (CsnHit *)csnVecterUnder((saddr)&position, 0x16EF);

@@ -3,10 +3,18 @@
 
 #include "types.h"
 
+struct TBoss4Type1;
+class TUnk_80486924;
+struct TBoss4Type3;
+
+extern TBoss4Type1 *TBoss4DarkFalz__type1_instance;
+extern TUnk_80486924 *TBoss4DarkFalz__type2_instance;
+extern TBoss4Type3 *TBoss4DarkFalz__type3_instance;
+
 // --- C functions defined in TBoss4DarkFalz_8004C93C.cpp ---
 extern "C" {
-void *TBoss4DarkFalz__sub_8004C1AC(void);
-saddr TBoss4DarkFalz__sub_8004C1B4(void);
+TBoss4Type3 *TBoss4DarkFalz__sub_8004C1AC();
+TUnk_80486924 *TBoss4DarkFalz__sub_8004C1B4();
 }
 // --- end of C functions
 

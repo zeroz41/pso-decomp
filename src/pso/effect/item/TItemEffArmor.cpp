@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/TUnk_8049EFB8.h"
 #include "pso/unk/text_80107D4C.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -155,9 +155,9 @@ struct Self_80108020 {
     f32 f64;
     s32 f68;
     u8 *f6C;
-    u8 f70[4];
-    u8 f74[4];
-    u8 f78[4];
+    NJS_OBJECT *model;
+    AnimationMotion *motion;
+    GinjaTextureList *texture_list;
 };
 
 extern "C" {
@@ -209,7 +209,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->vt = __vt__13TItemEffArmor;
     self->f0 = TItemEffArmor__class_name;
     self->f24 = 0.0f;
-    TItemLoad::get_item_params((s32 *)self->f70, (s32 *)self->f78, (s32 *)self->f74);
+    TItemLoad::get_armor_effect_model(&self->model, &self->texture_list, &self->motion);
     self->f28 = a;
     self->f58 = b;
     self->f6C = obj;
@@ -274,8 +274,8 @@ void TItemEffArmor::render() {
     model_render_flags |= 0x10;
     copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
     set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_38)));
-    set_texlist(this->m_78);
-    draw_ginja_model_with_motion((void *)this->m_70, (void *)this->m_74, (f32)this->m_24);
+    set_texlist((uaddr)texture_list);
+    draw_ginja_model_with_motion(model, motion, (f32)m_24);
     copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
     model_render_flags = saved_model_render_flags;
     pop_matrix();
@@ -301,7 +301,7 @@ void TUnk_8049EFB8::run_task() {
             if (is_item_area_enabled(((TObjPlayer *)player)->get_area()) == 1) {
                 get_entity_id((void *)player);
                 if (TObjPlayer__sub_80117E50() != 0) {
-                    spawn_particle_effect((void *)(player + 0x2FC), 0x1BE);
+                    spawn_particle_effect((const Vec *)(player + 0x2FC), 0x1BE);
                 }
             }
         }

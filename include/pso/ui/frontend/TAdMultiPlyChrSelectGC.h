@@ -4,9 +4,16 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TAdChrSelASlotGC;
+class TAdGuideTxtGC;
+struct TAdChrSelPlyPlateGC;
+
+class TUnk_804E3008;
+
 struct TAdMultiPlyChrSelectGC : public TObject {
     TAdMultiPlyChrSelectGC(TObject *, s32);
     virtual ~TAdMultiPlyChrSelectGC();
+    static TUnk_804E3008 *get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot);
     void create_widgets();
     void sub_802DC118(s32);
     virtual void render();
@@ -26,28 +33,18 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     u8 unk_50[0x4];
     s32 m_54;
     u8 unk_58[0x4];
-    saddr m_5c;
+    TAdChrSelPlyPlateGC *player_plate;
     u8 unk_60[0x4];
-    uaddr m_64;
+    TAdGuideTxtGC *guide;
     void set_index_and_close_status(s32 arg1);
     void set_status_value(s32 arg1);
     void handle_event(s32 arg1);
     void initialize_selection_state(s32 arg1);
     static int get_instance();
-    void set_state_ready();
-    s32 get_cursor();
-    void set_state(s32 v);
-    s32 get_card_index();
-    static int get_card_instance();
-    s32 get_selection();
+    static TAdChrSelPlyPlateGC *get_card_instance();
     static void set_select_mode(int a0, int a1);
-    void set_entry_value(s32 arg1, u32 arg2);
-    void reset_cursor_state();
-    void init_slot_position(saddr arg1, s32 arg2, s32 arg3);
-    void clear_slot_entries(s32 arg1);
     static void reset_slot_selection_table();
     static void split_slot_index(s32 arg0, s32 *arg1, s32 *arg2);
-    static void find_first_open_cell(s32 arg0, u32 *arg1);
     static void init();
     static s32 get_status();
     static s32 is_selection_confirmed();
@@ -57,7 +54,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static s32 get_clamped_cursor();
     static void reset_slot_selections();
     s32 get_field_20();
-    static saddr get_state();
+    static TAdMultiPlyChrSelectGC *get_state();
+    static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
     static saddr get_selected_slot();
     static int get_global_6700();
     s32 get_player_index();
@@ -86,10 +84,6 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void reset_to_select();
     void update_button_input();
     virtual void run_task();
-    void set_field_4ec(s32 v);
-    void restore_selection();
-    void update_field_4E8();
-    s32 get_field_0x530();
     void set_field_1c(s32 v);
     s32 get_mode();
     s32 is_state_closing();
@@ -98,7 +92,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static int get_chr_select_state();
     s32 get_ready_state();
     static u32 get_move_effect(saddr arg0);
-    static u8 *get_or_create_slot_window(int parent, int arg);
+    static TAdChrSelASlotGC *get_or_create_slot_window(TObject *parent, s32 mode);
     u8 unk_68[0x4];
     saddr m_6c;
     u8 unk_70[0x4];
@@ -122,6 +116,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void update_state_option();
     void update_card_confirm();
 };
+
+extern "C" TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
 
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA0);
 

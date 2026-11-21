@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/RenderFadeState.h"
 
+class ModelNodePositionCapture;
 // One Pan Arms half (0x470 bytes, TObjEnePanarms::create_bara); 0x380 is the half's
 // index (create_bara's second argument, the constructor's third).
 extern "C" {
@@ -52,7 +53,7 @@ public:
     void init_state();
     void update_linked_effect();
     void draw();
-    int find_nearest_enemy_with_flag_alt_target(saddr arg1, f32 farg0);
+    int find_nearest_enemy_with_flag_alt_target(Vec *arg1, f32 farg0);
     void attack_target_player(s32 arg1);
     // The state table's entries that have no name yet.
     void sub_800E10D0();
@@ -89,9 +90,8 @@ public:
     Vec pad_3c8;
     s32 m_3d4;
     f32 pad_3d8;
-    void* m_3dc;
-    u8 unk_3E0[0x4];
-    u8 unk_3E4[0x8];
+    ModelNodePositionCapture *m_3dc;
+    Vec draw_callback_position;
     RenderFadeState fades[4]; // one per camera (render)
     s32 m_45c;
     f32 pad_460;

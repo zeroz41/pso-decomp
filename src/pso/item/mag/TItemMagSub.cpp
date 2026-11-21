@@ -269,13 +269,13 @@ void TItemMagSub::render() {
         drawn_node = 0;
         selected_node = 0;
         if (animation != NULL) {
-            set_chunk_model_node_callback((saddr)TItemMagSub::update_node_oscillation);
+            set_chunk_model_node_callback(TItemMagSub::update_node_oscillation);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, animation_frame);
             clear_motion_packed_rotation();
             set_chunk_model_node_callback(0);
         } else {
-            draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemMagSub::update_node_oscillation);
+            draw_node_tree_with_callback((NJS_OBJECT *)model, TItemMagSub::update_node_oscillation);
         }
         drawn_node = 0;
         pop_matrix();
@@ -303,7 +303,7 @@ void TItemMagSub::render_shadows() {
         drawn_node = 0;
         selected_node = 0;
         if (animation != NULL) {
-            set_chunk_model_node_callback((saddr)TItemMagSub::update_node_oscillation);
+            set_chunk_model_node_callback(TItemMagSub::update_node_oscillation);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, animation_frame);
             clear_motion_packed_rotation();
@@ -387,7 +387,7 @@ void accumulate_mag_axis_oscillation(f32 *out, s32 *phase, MagAxisOscillationPar
     *out = axis->amplitude * sin_table_lookup(*phase + axis->phase_offset);
 }
 
-void TItemMagSub::update_node_oscillation(void *node) {
+void TItemMagSub::update_node_oscillation(NJS_OBJECT *node) {
     if (drawing != NULL) {
         drawing->apply_node_oscillation(node);
         drawn_node++;

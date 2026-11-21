@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
@@ -22,8 +23,6 @@
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 saddr lbl_805D4B50;
@@ -33,11 +32,11 @@ void load_dragon_ground_assets(void);
 void load_dragon_ground_assets(void) {
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
-        lbl_805D4B50 = load_enemy_bml_resource((u8 *)&dragon_ground_resource_descriptor);
+        lbl_805D4B50 = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)&dragon_ground_resource_descriptor);
         dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = load_enemy_bml_resource_named((saddr)&dragon_ground_resource_descriptor, (saddr)dragon_common_alternate_bml_filename);
+        lbl_805D4B50 = (saddr)load_enemy_bml_resource_named((BmlResourceDescriptor *)&dragon_ground_resource_descriptor, (const char *)dragon_common_alternate_bml_filename);
         dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_alternate_texture_filename);
         break;
     }

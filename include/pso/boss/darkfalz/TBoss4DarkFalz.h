@@ -4,6 +4,10 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
+class TBoss4Fade;
+struct TBoss4Type1;
+struct TObjDFUsoTower;
+
 struct TBoss4DarkFalz : public TObjEnemy {
     virtual ~TBoss4DarkFalz();
     void sub_8004B0F8();
@@ -18,20 +22,18 @@ struct TBoss4DarkFalz : public TObjEnemy {
     u32 m_388;
     u32 m_38c;
     u32 m_390;
-    uaddr m_394;
-    u32 m_398;
+    TObjDFUsoTower *intro_tower;
+    TBoss4Fade *fade;
+    Vec cinematic_position;
+    s32 cinematic_angle;
     virtual void render();
     virtual void run_task();
     static void cleanup_global();
     static void load_resources();
     static s32 create(s32 arg0);
-    static saddr get_instance();
+    static TBoss4Type1 *get_instance();
     int is_field378_zero();
-    s32 get_action_state();
-    s32 get_phase();
-    s32 get_state();
-    void*get_hit_data();
-    void save_position();
+
     void swap_and_send();
     void swap_bytes();
     void set_code_25_4();
@@ -59,7 +61,6 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void check_players_near_center();
     static void clear_uro_link_state();
     static void init_uro_link();
-    static void *create_demo2(void *arg0, void *arg1, void *arg2, void *arg3);
     static s32 count_active_players();
     static int is_ending_or_split_screen();
     void send_code_25_4(s32 arg);
@@ -76,11 +77,9 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static void free_global_instance();
     static int get_instance_count();
     static void push_players_out_of_zone(s32 arg0, s32 arg1);
-    static void *create_demo1(void *arg0, void *arg1, void *arg2);
+
     void begin_defeat_sequence();
     void update_countdown_shrink();
-    void get_demo2_params(u16 *a, u16 *b, u16 *out);
-    void get_defeat_params(u16 *a, u16 *b, u16 *out);
     s32 sub_8004D990();
     static s32 is_state_ready();
     static s32 is_active();
@@ -115,9 +114,20 @@ struct TBoss4DarkFalzState {
     TBoss4DarkFalzHandler update;
 };
 
-extern "C" {
-void set_story_flag_or_send_quest_flag(u16 flag);
-}
+LAYOUT_ASSERT(TBoss4DarkFalzHandler_size, sizeof(TBoss4DarkFalzHandler) == 0xC);
+LAYOUT_ASSERT(TBoss4DarkFalzState_size, sizeof(TBoss4DarkFalzState) == 0x34);
+LAYOUT_ASSERT(TBoss4DarkFalzState_enter_offset, offsetof(TBoss4DarkFalzState, enter) == 4);
+LAYOUT_ASSERT(TBoss4DarkFalzState_leave_offset, offsetof(TBoss4DarkFalzState, leave) == 0x10);
+LAYOUT_ASSERT(TBoss4DarkFalzState_leader_offset, offsetof(TBoss4DarkFalzState, update_leader) == 0x1C);
+LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, update) == 0x28);
 
-LAYOUT_ASSERT(TBoss4DarkFalz_size, sizeof(TBoss4DarkFalz) == 0x39C);
+extern TBoss4DarkFalzState dark_falz_state_table[16];
+extern "C" void set_story_flag_or_send_quest_flag(u16 flag);
+
+LAYOUT_ASSERT(TBoss4DarkFalz_intro_tower_offset, offsetof(TBoss4DarkFalz, intro_tower) == 0x394);
+LAYOUT_ASSERT(TBoss4DarkFalz_fade_offset, offsetof(TBoss4DarkFalz, fade) == 0x398);
+LAYOUT_ASSERT(TBoss4DarkFalz_state_timer_offset, offsetof(TBoss4DarkFalz, state_timer) == 0x380);
+LAYOUT_ASSERT(TBoss4DarkFalz_size, sizeof(TBoss4DarkFalz) == 0x3AC);
+LAYOUT_ASSERT(TBoss4DarkFalz_cinematic_position_offset, offsetof(TBoss4DarkFalz, cinematic_position) == 0x39C);
+LAYOUT_ASSERT(TBoss4DarkFalz_cinematic_angle_offset, offsetof(TBoss4DarkFalz, cinematic_angle) == 0x3A8);
 #endif

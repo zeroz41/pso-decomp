@@ -11,7 +11,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
@@ -130,7 +131,7 @@ void TOKeyAncient03::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         if (is_on != 1) {
             flags = model_render_flags;
             saved_model_render_flags = flags;
@@ -141,12 +142,12 @@ void TOKeyAncient03::render() {
         push_matrix();
         post_translate_matrix(&scale.x);
         post_translate_matrix(object->pos);
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((saddr)object->model);
+        draw_ginja_model((void *)object->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         pop_matrix();
@@ -171,17 +172,14 @@ void TOKeyAncient03::cleanup_refs() {
         }
     }
     if (TOKeyAncient03__model_archive != NULL) {
-        free_bin_model_request(TOKeyAncient03__model_archive, 1);
+        delete TOKeyAncient03__model_archive;
         TOKeyAncient03__model_archive = NULL;
     }
 }
 
 void TOKeyAncient03::load_resources() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, NULL);
     GinjaTextureList **textures;
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, 0);
-    }
     TOKeyAncient03__model_archive = resource;
     textures = (GinjaTextureList **)mem_alloc(2 * sizeof(*textures));
     TOKeyAncient03__texture_variants = textures;

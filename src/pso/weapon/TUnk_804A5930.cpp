@@ -44,9 +44,9 @@ TUnk_804A5930::~TUnk_804A5930() {}
 
 TUnk_804A5930::TUnk_804A5930(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-u8 *sealed_j_sword_create(u8 *item) {
+TItem *sealed_j_sword_create(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A5930(tl_05, item);
+        return new TUnk_804A5930(tl_05, item);
     }
     return NULL;
 }

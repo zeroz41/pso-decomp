@@ -12,6 +12,6 @@ public:
     TUnk_804A5550(TObject *parent, u8 *item);
 };
 
-u8 *create_saber_weapon(u8 *item);
+TItem *create_saber_weapon(u8 *item);
 
 #endif

@@ -66,7 +66,7 @@ TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 fr
 
 #pragma push
 #pragma fp_contract on
-TChCrTagOccupation::TChCrTagOccupation(TObject *parent, void *arg) : TChCrTag(parent, arg) {
+TChCrTagOccupation::TChCrTagOccupation(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = chcr_tag_occupation_class_name;
     m_28 = 0.033333335f;
     m_2c = -0.022222223f;
@@ -78,14 +78,14 @@ TChCrTagOccupation::TChCrTagOccupation(TObject *parent, void *arg) : TChCrTag(pa
 #pragma pop
 
 
-void *TChCrTagOccupation::create(void *arg0) {
-    return new TChCrTagOccupation(tl_03, arg0);
+TChCrTagOccupation *TChCrTagOccupation::create(s32 index) {
+    return new TChCrTagOccupation(tl_03, index);
 }
 
 void TChCrTagOccupation::create_all() {
     saddr i;
     for (i = 0; i < 3; i++) {
-        TChCrTagOccupation::create((void *)i);
+        TChCrTagOccupation::create(i);
     }
 }
 

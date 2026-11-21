@@ -6,7 +6,8 @@
 #include "pso/object/cave/TORevlightCave01.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -38,11 +39,11 @@ void TORevlightCave01::render() {
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
-        draw_ginja_model((saddr)((NJS_OBJECT *)model)->model);
+        draw_ginja_model((void *)((NJS_OBJECT *)model)->model);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((saddr)((NJS_OBJECT *)model)->child->model);
+        draw_ginja_model((void *)((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((saddr)((NJS_OBJECT *)model)->child->child->model);
+        draw_ginja_model((void *)((NJS_OBJECT *)model)->child->child->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -54,16 +55,13 @@ void *TORevlightCave01::create(void *set_data) {
 
 void TORevlightCave01::release_static_instance() {
     if (TORevlightCave01__bml_resource != NULL) {
-        free_bin_model_request(TORevlightCave01__bml_resource, 1);
+        delete TORevlightCave01__bml_resource;
         TORevlightCave01__bml_resource = NULL;
     }
 }
 
 void TORevlightCave01::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_yukakaiten01_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_yukakaiten01_resource_descriptor, 0, 0, NULL);
     TORevlightCave01__bml_resource = resource;
 }
 
@@ -73,7 +71,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     m_name = TORevlightCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TORevlightCave01__bml_resource->models[0].model;
-    texlist = TORevlightCave01__bml_resource->models[0].m_c;
+    texlist = (saddr)TORevlightCave01__bml_resource->models[0].m_c;
     motion = TORevlightCave01__bml_resource->motions[0].motion;
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

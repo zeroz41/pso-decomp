@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
@@ -7,8 +8,6 @@
 
 extern "C" {
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(void *, s32, void *);
 
 u8 *create_equip_kind_window(saddr parent, saddr position, s32 client) {
@@ -21,9 +20,12 @@ u8 *create_equip_kind_window(saddr parent, saddr position, s32 client) {
 void TWindowSubEquipKind::render() {
     saddr context;
 
-    context = get_draw_context__11TWindowBaseFPv();
+    context = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)context);
-    draw_visible_window_entries(this, (u8 *)this + 0x24, context);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        reinterpret_cast<WindowDrawContext *>(context));
     draw_selected_list_entry(context);
     if (m_88 != 4) {
         draw_tab_label((void *)context);
@@ -32,7 +34,7 @@ void TWindowSubEquipKind::render() {
         ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
     }
     if (scroll_bar != NULL) {
-        draw_window_scrollbar(scroll_bar, context, (u8 *)&m_68);
+        draw_window_scrollbar(scroll_bar, context, (u8 *)&scroll_offset[0]);
     }
 }
 

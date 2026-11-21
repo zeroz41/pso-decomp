@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -24,7 +26,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_800FD8A0.h"
@@ -39,7 +40,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -140,7 +140,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
-    texlist = TOTrapAncient02__shared_resource->models->m_c;
+    texlist = (saddr)TOTrapAncient02__shared_resource->models->m_c;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;
@@ -176,12 +176,9 @@ void TOTrapAncient02::load_resources() {
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &records[1].descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[1].descriptor), 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
+        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0), 2)->model;
         lbl_805D5AE4 = 2;
         lbl_805D5ADC = 0;
         break;
@@ -194,20 +191,14 @@ void TOTrapAncient02::load_resources() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &records[2].descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[2].descriptor), 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
+        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0), 2)->model;
         lbl_805D5AE4 = 1;
         lbl_805D5ADC = 0;
         break;
     default:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &records[0].descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[0].descriptor), 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
         lbl_805D5AE0 = ((NJS_OBJECT *)resource->models->model)->child->child->model;
         lbl_805D5AE4 = 1;
@@ -218,7 +209,7 @@ void TOTrapAncient02::load_resources() {
 
 void TOTrapAncient02::destroy_instance() {
     if (TOTrapAncient02__shared_resource != NULL) {
-        free_bin_model_request(TOTrapAncient02__shared_resource, 1);
+        delete TOTrapAncient02__shared_resource;
         TOTrapAncient02__shared_resource = NULL;
     }
 }
@@ -250,22 +241,22 @@ void TOTrapAncient02::draw_effect_chain() {
     rotate_matrix_y(0, rotation_y);
     n = (NJS_OBJECT *)model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     push_matrix();
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     TParticleCtrl::begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     pop_matrix();
     push_matrix();
     n = n->sibling;
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     pop_matrix();
     TParticleCtrl::end_effect_render();
     pop_matrix();
@@ -282,7 +273,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     reset_particle_tev();
     push_matrix();
     n = n->child;
@@ -290,7 +281,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     reset_particle_tev();
     TParticleCtrl::begin_effect_render();
     push_matrix();
@@ -299,7 +290,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(1);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     reset_particle_tev();
     pop_matrix();
     push_matrix();
@@ -309,7 +300,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((saddr)n->model);
+    draw_ginja_model((void *)n->model);
     reset_particle_tev();
     pop_matrix();
     TParticleCtrl::end_effect_render();
@@ -504,7 +495,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
-    texlist = TOTrapAncient02__shared_resource->models->m_c;
+    texlist = (saddr)TOTrapAncient02__shared_resource->models->m_c;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;

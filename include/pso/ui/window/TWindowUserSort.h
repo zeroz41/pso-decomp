@@ -8,9 +8,6 @@ struct TWindowUserSort : public TWindowBase {
     TWindowUserSort(saddr arg1, s32 arg2);
     virtual void render();
     virtual ~TWindowUserSort();
-    u8 _pad1C[0x8];
-    void* entries; // inferred: start of the entry list run_task, render and the constructor pass on
-    u8 _pad28[0x38];
     u32 m_60;
     virtual void run_task();
 };

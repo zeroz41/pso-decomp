@@ -7,8 +7,8 @@
 struct TLoadCtrl : public TObject {
     TLoadCtrl(saddr);
     virtual ~TLoadCtrl();
-    u32 m_1c;
-    u32 m_20;
+    s32 m_1c;
+    s32 m_20;
     virtual void render();
     virtual void run_task();
     static void cleanup_scene();

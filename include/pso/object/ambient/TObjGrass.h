@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include "types.h"
+
+struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/effect/TUnk_80494968.h"

@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -31,7 +34,6 @@
 
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -264,7 +266,6 @@ s32 TBoss3Volopt__sub_800D8D88(void *, s32);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 
-#include <stddef.h>
 
 #include "pso/unk/TLobby.h"
 
@@ -304,7 +305,6 @@ struct Obj_800D30A8 {
 
 extern "C" {
 
-u16 find_nearest_visible_player(void *, int, int, f32);
 
 
 u8 *find_active_entity_by_id(u16);
@@ -387,14 +387,11 @@ s32 is_split_screen();
 
 s32 get_bml_motion(u32, int);
 
-s32 free_bin_model_request(u32, s32);
-
-uaddr load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 
 
 
-uaddr load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+
 
 void __dt__15TObjEnemyCustomFv(void *, int);
 
@@ -797,17 +794,16 @@ Obj_800D3E54 *fn_800D3E54(Obj_800D3E54 *arg0, s16 arg1) {
 }
 
 #define AREA ((Area_800D3C04 *)gyaranzo_bml_resource)
+#pragma push
+#pragma opt_propagation off
 void TLobby::load_gyaranzo_resources() {
     s32 i;
     void *p;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        gyaranzo_bml_resource = load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
+        gyaranzo_bml_resource = (uaddr)load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
     } else {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = (void *)load_resource_from_descriptor(p, 5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, NULL);
         gyaranzo_bml_resource = (uaddr)p;
     }
     for (i = 0; i < 0x16; i++) {
@@ -834,11 +830,12 @@ void TLobby::load_gyaranzo_resources() {
         NpcModelRegistry::register_animated_chunk(0x21, reinterpret_cast<void *>(AREA->res->r48), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
     }
 }
+#pragma pop
 
 #undef AREA
 void TObjEneGyaranzo::free_static_instances() {
     if (gyaranzo_bml_resource != 0U) {
-        free_bin_model_request(gyaranzo_bml_resource, 1);
+        delete (BmlResource *)gyaranzo_bml_resource;
         gyaranzo_bml_resource = 0U;
     }
     if ((*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) != 0) {
@@ -972,7 +969,7 @@ void TObjEneGyaranzo::sub_800D37F4() {
     case 1:
         if (this->is_actor_cadence_frame(0x1E) != 0) {
             f32 *p = *(f32 * *)&this->movementParameters;
-            r = find_nearest_visible_player(this, 0, (saddr)p, 50.0f + *p);
+            r = find_nearest_visible_player(this, NULL, 50.0f + *p);
             if (this->targetId == 0xFFFF) {
                 this->targetId = r;
             }
@@ -1300,7 +1297,7 @@ void TObjEneGyaranzo::spawn_missile() {
     this->get_anim_node_position(0x18, &launch_position);
     temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
     new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
-    spawn_particle_effect((void *)((saddr) &launch_position), 0xF3);
+    spawn_particle_effect(&launch_position, 0xF3);
     play_sound_effect(this->remap_sound_for_area(0x4003B20D), &position, 0, 0);
 }
 #pragma pop
@@ -1314,17 +1311,17 @@ void TObjEneGyaranzo::sub_800D2A68() {
     const TObjChipParams first = {
         {0.5f, 0.04f, 0.28f}, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        ((BmlResource *)gyaranzo_bml_resource)->models[0].model, ((BmlResource *)gyaranzo_bml_resource)->models[0].m_c, 2,
+        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[0].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[0].m_c, 2,
     };
     const TObjChipParams second = {
         {0.5f, 0.04f, 0.2f}, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
         {0x400, 0x100, 0x400}, {4, 50}, {position.y, 1.0f},
-        ((BmlResource *)gyaranzo_bml_resource)->models[1].model, ((BmlResource *)gyaranzo_bml_resource)->models[1].m_c, 2,
+        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[1].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[1].m_c, 2,
     };
     const TObjChipParams third = {
         {0.5f, 0.04f, 0.22f}, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        ((BmlResource *)gyaranzo_bml_resource)->models[2].model, ((BmlResource *)gyaranzo_bml_resource)->models[2].m_c, 2,
+        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[2].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[2].m_c, 2,
     };
 
     new TObjChip((TObject *)tl_05, &first);

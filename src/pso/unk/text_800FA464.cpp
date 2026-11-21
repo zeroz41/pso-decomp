@@ -1,3 +1,5 @@
+#include "pso/render/GvmTextureArchive.h"
+#include "pso/system/Adxf.h"
 #include "types.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/text_800FA464.h"
@@ -17,16 +19,13 @@ struct AsyncFileReadRequest {
 };
 
 extern "C" {
-s32 adxf_get_stat(u32);
-u32 adxf_open__6TLobbyFUii(void *, s32);
-void load_gvm_texture_archive(u32, s32);
 }
 AsyncFileReadRequest *async_file_read_current_request;
 void *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;
 s32 async_file_read_state;
 uaddr async_file_read_sector_buffer;
-u32 lobby_download_state_ptr;
+AdxfHandle *lobby_download_state_ptr;
 s32 lobby_list_next_id;
 s32 game_heap;
 u32 async_file_read_texture_buffer;
@@ -39,22 +38,22 @@ void process_async_file_reads(void) {
             } else {
                 async_file_read_current_request->flags |= 0x100;
                 if (async_file_read_current_request->flags & 2) {
-                    async_file_read_texture_buffer = TLobby::tmp_buf_use_req("FSVR_READPVM");
+                    async_file_read_texture_buffer = (uaddr)TLobby::tmp_buf_use_req("FSVR_READPVM");
                     if (async_file_read_texture_buffer != 0) {
-                        lobby_download_state_ptr = adxf_open__6TLobbyFUii(async_file_read_current_request->name, 0);
-                        TLobby::read_checked_align(lobby_download_state_ptr, async_file_read_current_request->count, async_file_read_texture_buffer);
+                        lobby_download_state_ptr = ADXF_Open(async_file_read_current_request->name, 0);
+                        ADXF_ReadNw(lobby_download_state_ptr, async_file_read_current_request->count, (void *)async_file_read_texture_buffer);
                         async_file_read_state = 3;
                     }
                 } else if (async_file_read_current_request->flags & 4) {
                     async_file_read_state = 4;
                 } else {
-                    u32 h = lobby_download_state_ptr = adxf_open__6TLobbyFUii(async_file_read_current_request->name, 0);
+                    AdxfHandle *h = lobby_download_state_ptr = ADXF_Open(async_file_read_current_request->name, 0);
                     if (h != 0) {
                         if (async_file_read_current_request->count > 1) {
-                            TLobby::read_checked_align(h, async_file_read_current_request->count - 1, (uaddr)async_file_read_current_request->dst);
+                            ADXF_ReadNw(h, async_file_read_current_request->count - 1, async_file_read_current_request->dst);
                             async_file_read_state = 1;
                         } else {
-                            TLobby::read_checked_align(h, 1, async_file_read_sector_buffer);
+                            ADXF_ReadNw(h, 1, (void *)async_file_read_sector_buffer);
                             async_file_read_state = 2;
                         }
                     }
@@ -67,8 +66,8 @@ void process_async_file_reads(void) {
             TLobby::destroy_instance();
             TLobby::pop_and_close();
             async_file_read_state = 0;
-        } else if (adxf_get_stat(lobby_download_state_ptr) == 3) {
-            TLobby::read_checked_align(lobby_download_state_ptr, 1, async_file_read_sector_buffer);
+        } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
+            ADXF_ReadNw(lobby_download_state_ptr, 1, (void *)async_file_read_sector_buffer);
             async_file_read_state = 2;
         }
         break;
@@ -77,7 +76,7 @@ void process_async_file_reads(void) {
             TLobby::destroy_instance();
             TLobby::pop_and_close();
             async_file_read_state = 0;
-        } else if (adxf_get_stat(lobby_download_state_ptr) == 3) {
+        } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
             u8 *dst = async_file_read_current_request->dst + ((async_file_read_current_request->count - 1) << 11);
             s32 n = async_file_read_current_request->size % 2048;
             if (n == 0) {
@@ -103,8 +102,8 @@ void process_async_file_reads(void) {
             TLobby::destroy_instance();
             TLobby::pop_and_close();
             async_file_read_state = 0;
-        } else if (adxf_get_stat(lobby_download_state_ptr) == 3) {
-            load_gvm_texture_archive(async_file_read_texture_buffer, async_file_read_current_request->tex);
+        } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
+            load_gvm_texture_archive((void *)async_file_read_texture_buffer, (GinjaTextureList *)async_file_read_current_request->tex);
             TLobby::tmp_buf_release("FSVR_READPVM");
             TLobby::notify_and_close();
         }

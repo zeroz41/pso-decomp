@@ -90,7 +90,7 @@ struct TItemEquipBase : public TItem {
     s16 model_resource_id;           // TItemLoad resource, -1 while none
     TItemHeapObject *effect_objects; // parent of the objects the equip effects create
     FlagWord effect_flags;
-    void *model_motion;              // drawn with draw_model_motion
+    NJS_MOTION *model_motion;              // drawn with draw_model_motion
     void *model_data[2];
     NJS_OBJECT *second_model;
 };

@@ -1,4 +1,6 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl_803D676C.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -38,7 +40,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/BmlResource.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/ui/hud/TRaderMapCore_801A6CEC.h"
 
@@ -287,8 +289,8 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 }
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-void draw_ginja_model(saddr);
+void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+
 void set_chunk_material_override_pair(s32, s32);
 extern Color_801FAAEC radar_map_backdrop_color;
 extern u8 saved_model_draw_color[];
@@ -434,7 +436,7 @@ extern "C" {
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
 s32 TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
-    return get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
+    return (saddr)get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
 }
 
 void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
@@ -442,11 +444,7 @@ void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m
 void TRaderMapCore::load_frame_texture() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &obj_f_enemy_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
     (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((saddr)"RaderMapFrame.gvm");
 }
@@ -458,7 +456,7 @@ void TRaderMapCore::free_statics() {
         TRaderMapCore__data_805D5F4C = 0U;
     }
     if ((u32) TRaderMapCore__frame_model_resource != 0U) {
-        free_bin_model_request((void*)TRaderMapCore__frame_model_resource, 1);
+        delete (BmlResource *)TRaderMapCore__frame_model_resource;
         TRaderMapCore__frame_model_resource = 0U;
     }
 }
@@ -848,7 +846,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
             push_matrix();
             translate_matrix(0, r->x, r->y, r->z);
             rotate_matrix_zyx(0, r->rx, r->ry, r->rz);
-            draw_ginja_model(r->model->obj);
+            draw_ginja_model((void *)(r->model->obj));
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }

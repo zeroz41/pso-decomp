@@ -1,54 +1,40 @@
+#include "pso/system/vector.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
-#include "pso/ui/TLevelSelect.h"
-#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/system/vector.h"
-struct Obj_802AEBA8 { u8 pad[0xa4]; s32 a4; s32 a8; s32 ac; u8 pad2[0x6bc - 0xb0]; s32 arr[16]; s32 f6fc; s32 f700; };
-
-typedef struct { f32 x, y, x2, y2; f32 pad[4]; } Quad_802AEBE4;
-
-typedef struct {
-    u8 pad0[0x1C];
-    NJS_POINT2 pts[16];
-    f32 w;
-    f32 h;
-    u32 pad_a4;
-    u32 count;
-    u8 padAC[0xBC - 0xAC];
-    Quad_802AEBE4 q0[16];
-    Quad_802AEBE4 q1[16];
-    Quad_802AEBE4 q2[16];
-} Obj_802AEBE4;
 
 
-void TAdEnterSerialAccessGC::reset_input_state() {
-    Obj_802AEBA8 *self = (Obj_802AEBA8 *)this;
+void TAdSelectCurGC::reset_entries() {
     s32 i;
-    self->a4 = 0;
-    self->a8 = 0;
-    self->ac = 0;
-    self->f6fc = -1;
-    self->f700 = 0;
-    for (i = 0; i < 16; i++) self->arr[i] = 0;
+    selected_index = 0;
+    entry_count = 0;
+    confirmation = 0;
+    frame = -1;
+    pending_command = 0;
+    for (i = 0; i < 16; i++) {
+        entry_alpha[i] = 0;
+    }
 }
 
-void TLevelSelect::add_item_rect(void *src) {
-    Obj_802AEBE4 *self = (Obj_802AEBE4 *)this;
-    if (self->count < 16) {
-        copy_vec2((&self->pts[self->count]), src);
-        self->q0[self->count].x = 16.0f + self->pts[self->count].x;
-        self->q0[self->count].y = self->pts[self->count].y;
-        self->q0[self->count].x2 = self->q0[self->count].x + (self->w - 32.0f);
-        self->q0[self->count].y2 = self->q0[self->count].y + self->h;
-        self->q1[self->count].x = self->pts[self->count].x;
-        self->q1[self->count].y = self->pts[self->count].y;
-        self->q1[self->count].x2 = 16.0f + self->q1[self->count].x;
-        self->q1[self->count].y2 = self->q1[self->count].y + self->h;
-        self->q2[self->count].x = self->pts[self->count].x + (self->w - 16.0f);
-        self->q2[self->count].y = self->pts[self->count].y;
-        self->q2[self->count].x2 = 16.0f + self->q2[self->count].x;
-        self->q2[self->count].y2 = self->q2[self->count].y + self->h;
-        self->count++;
+static const f32 cursor_end_cap_width = 16.0f;
+static const f32 cursor_end_caps_width = 32.0f;
+
+void TAdSelectCurGC::append_entry(const void *position) {
+    if (entry_count < 16) {
+        copy_vec2(&entry_positions[entry_count], const_cast<void *>(position));
+        quads[entry_count].x0 = cursor_end_cap_width + entry_positions[entry_count].x;
+        quads[entry_count].y0 = entry_positions[entry_count].y;
+        quads[entry_count].x1 = quads[entry_count].x0 + (cursor_size.x - cursor_end_caps_width);
+        quads[entry_count].y1 = quads[entry_count].y0 + cursor_size.y;
+        (quads + 16)[entry_count].x0 = entry_positions[entry_count].x;
+        (quads + 16)[entry_count].y0 = entry_positions[entry_count].y;
+        (quads + 16)[entry_count].x1 = cursor_end_cap_width + (quads + 16)[entry_count].x0;
+        (quads + 16)[entry_count].y1 = (quads + 16)[entry_count].y0 + cursor_size.y;
+        (quads + 32)[entry_count].x0 = entry_positions[entry_count].x + (cursor_size.x - cursor_end_cap_width);
+        (quads + 32)[entry_count].y0 = entry_positions[entry_count].y;
+        (quads + 32)[entry_count].x1 = cursor_end_cap_width + (quads + 32)[entry_count].x0;
+        (quads + 32)[entry_count].y1 = (quads + 32)[entry_count].y0 + cursor_size.y;
+        entry_count++;
     }
 }

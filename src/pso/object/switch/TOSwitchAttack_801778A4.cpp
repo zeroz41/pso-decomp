@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/object/switch/TOSwitchAttack_801778A4.h"
 #include "types.h"
@@ -10,7 +11,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 
 struct Atk_801778A8 {

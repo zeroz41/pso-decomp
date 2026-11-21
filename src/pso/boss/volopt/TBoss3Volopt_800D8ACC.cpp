@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -8,7 +10,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/unk/TUnk_804949D8.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -26,8 +27,6 @@ s32 player_particle_effect_enabled;
 
 extern "C" {
 s32 TBreakUpMdl__ct(void*, void *, saddr, saddr, s32, saddr, s32);
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void*, int);
 
 void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4) {
     void* obj = TObject::operator new(0x54);
@@ -194,7 +193,7 @@ void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
-void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect(this, (saddr)((void*)251)); spawn_particle_effect(this, (saddr)((void*)252)); spawn_particle_effect(this, (saddr)((void*)227)); }
+void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect((const Vec *)this, 251); spawn_particle_effect((const Vec *)this, 252); spawn_particle_effect((const Vec *)this, 227); }
 
 void TObjPlayer::spawn_ground_effect(s32 arg1) {
     s32 sp8;
@@ -280,17 +279,14 @@ void TObjPlayer::spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 farg0
 
 void TObjPlayer::destroy_static_lobby() {
     if ((u32) (*(u32 *)&player_corpse_mark_resource) != 0U) {
-        free_bin_model_request((void*)(*(uaddr *)&player_corpse_mark_resource), 1);
+        delete (BmlResource *)(*(uaddr *)&player_corpse_mark_resource);
         (*(u32 *)&player_corpse_mark_resource) = 0U;
     }
 }
 }
 
 void load_corpse_mark_resource(void) {
-    u8 *p = (u8 *)::operator new(0x440);
-    if (p != 0) {
-        p = load_resource_from_descriptor(p, 1, &corpse_mark_resource_descriptor, 0, 0, 0);
-    }
+    u8 *p = (u8 *)new BmlResource(1, &corpse_mark_resource_descriptor, 0, 0, NULL);
     (*(u32 *)&player_corpse_mark_resource) = (uaddr)p;
     player_particle_effect_enabled = 1;
 }

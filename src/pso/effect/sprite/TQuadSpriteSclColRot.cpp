@@ -181,7 +181,7 @@ TQuadSpriteSclColRot::~TQuadSpriteSclColRot() {
 const char *TQuadSpriteSclColRot__class_name = "TQuadSpriteSclColRot";
 
 #define quad_sprite_scl_col_rot ((u8 *)this)
-TQuadSpriteSclColRot::TQuadSpriteSclColRot(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
+TQuadSpriteSclColRot::TQuadSpriteSclColRot(TObject *parent, ParticleDefinition *sprite_definition) : TUnk_804C57F0(parent, sprite_definition) {
     ((TQuadSpriteSclColRot *)quad_sprite_scl_col_rot)->m_name = TQuadSpriteSclColRot__class_name;
 }
 #undef quad_sprite_scl_col_rot

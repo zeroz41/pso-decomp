@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_WINDOWLAYOUT_H
 
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/NinjaTypes.h"
 
 // Window placement helpers shared by the menu windows. get_window_layout_position is defined in
@@ -9,7 +10,6 @@
 // units still carry their own (differently typed) prototypes, so this header is only included by new code.
 extern "C" {
 const NJS_POINT2 *get_window_layout_position(s32 idx);
-void align_menu_entry_positions(void *menu);
 }
 
 #endif

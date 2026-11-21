@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
@@ -28,7 +29,6 @@ s32 lbl_805D622C;
 s32 lbl_805D6230;
 extern void *tl_05;
 u16 get_entity_id(TObjPlayer *);
-void align_menu_entry_positions(void *w);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 }
 
@@ -147,33 +147,33 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
     s32 r;
     if (choice_menu == NULL) {
         s32 id = get_entity_id(player);
-        choice_menu = (TWindowMenu *)create_window_menu(((s32 (*)(int))get_window_layout_position)(0x2B), 2, id);
+        choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(6), 6, 1);
-        ((TWindowSubComCard *)choice_menu)->calc_window_size();
+        choice_menu->calc_window_size();
         align_menu_entry_positions(choice_menu);
-        ((TCheckRoomSequence *)choice_menu)->set_ready_flag();
-        ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
+        choice_menu->set_ready_flag();
+        choice_menu->set_position_xy(get_scale(), get_scale());
     }
     if (choice_menu != NULL && choice_menu->is_decided() != 0) {
         r = choice_menu->get_selected_value();
         if (r == 0) {
             set_field_20(3);
-            ((TWindowBase *)choice_menu)->close();
+            choice_menu->close();
             choice_menu = NULL;
             return;
         }
         if (r == 1) {
             set_field_20(4);
-            ((TWindowBase *)choice_menu)->close();
+            choice_menu->close();
             choice_menu = NULL;
             return;
         }
     }
     if (choice_menu != NULL && choice_menu->is_cancelled() != 0) {
-        vfunc_6(0x2C, 1);
+        this->vfunc_6(0x2C, 1);
         set_field_20(9);
-        ((TWindowBase *)choice_menu)->close();
+        choice_menu->close();
         choice_menu = NULL;
     }
 }

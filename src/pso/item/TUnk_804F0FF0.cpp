@@ -23,7 +23,7 @@ TUnk_804F0FF0::TUnk_804F0FF0(TObject *parent, u8 *item) : TItemObject(parent, it
     clear_item_flags(ITEM_FLAG_CONSUMABLE);
 }
 
-TUnk_804F0FF0 *TUnk_804F0FF0::create(u8 *item) {
+TItem *TUnk_804F0FF0::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_804F0FF0(tl_05, item);
     }
