@@ -3,7 +3,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_802F1A58.h"
 #include "pso/boss/TUnk_804E4B3C.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
@@ -156,9 +155,9 @@ void TObjBoss7Dust::run_task() {
 
 void TObjBoss7Dust::render() { boss7_dust_draw_at(&position, strip_slot); }
 
-void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss2Tunnel__sub_802F2C84(); TObjBoss7DustCtrl::sub_802F1454(); }
+void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TUnk_804E4B3C::sub_802F2C84(); TObjBoss7DustCtrl::sub_802F1454(); }
 
 extern "C" {
-void fn_802F1084(void) { TObjBoss2Tunnel__sub_802F2C50(); TUnk_804E4B3C::sub_802F19C0(); TObjBoss7DustCtrl::create(); }
-void fn_802F105C(void) { TObjBoss7DustCtrl::sub_802F1450(); TObjBoss2Tunnel__sub_802F2C4C(); free_boss7_common_resources(); }
+void fn_802F1084(void) { TUnk_804E4B3C::sub_802F2C50(); TUnk_804E4B3C::sub_802F19C0(); TObjBoss7DustCtrl::create(); }
+void fn_802F105C(void) { TObjBoss7DustCtrl::sub_802F1450(); TUnk_804E4B3C::sub_802F2C4C(); free_boss7_common_resources(); }
 }

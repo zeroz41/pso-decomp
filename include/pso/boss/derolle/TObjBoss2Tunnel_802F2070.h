@@ -3,30 +3,12 @@
 
 #include "types.h"
 
+// Defined in TObjBoss2Tunnel_802F1A58.cpp: the Boss7 tunnel's state flags.
 extern "C" {
+// Bit 0x8000 of boss2_tunnel_state_flags: the tunnel has stopped scrolling.
 s32 TObjBoss2Tunnel__sub_802F2070(void);
-void TObjBoss2Tunnel__sub_802F2278(void);
 void TObjBoss2Tunnel__sub_802F22C4(void);
 void TObjBoss2Tunnel__sub_802F22DC(void);
-s32 TObjBoss2Tunnel__sub_802F22F4(void);
-void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent);
-void TObjBoss2Tunnel__sub_802F2C4C(void);
-void TObjBoss2Tunnel__sub_802F2C50(void);
-void TObjBoss2Tunnel__sub_802F2C84(void);
 }
-
-// --- C functions defined in TObjBoss2Tunnel_802F2070.cpp ---
-extern "C" {
-s32 TObjBoss2Tunnel__sub_802F2070(void);
-void TObjBoss2Tunnel__sub_802F2278(void);
-void TObjBoss2Tunnel__sub_802F22C4(void);
-void TObjBoss2Tunnel__sub_802F22DC(void);
-s32 TObjBoss2Tunnel__sub_802F22F4(void);
-void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent);
-void TObjBoss2Tunnel__sub_802F2C4C(void);
-void TObjBoss2Tunnel__sub_802F2C50(void);
-void TObjBoss2Tunnel__sub_802F2C84(void);
-}
-// --- end of C functions
 
 #endif

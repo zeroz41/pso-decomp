@@ -43,7 +43,13 @@ public:
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
     static void sub_802F19C0();
-    // Size 0x94 (TObjBoss2Tunnel__sub_802F2C50's operator new).
+    // Clears boss2_tunnel_state_flags (init_scene_boss2_tunnel).
+    static void sub_802F2C84();
+    // Creates the tunnel under tl_04 (fn_802F1084).
+    static void sub_802F2C50();
+    // Empty (fn_802F105C).
+    static void sub_802F2C4C();
+    // Size 0x94 (sub_802F2C50's operator new).
     s32 phase;          // index into run_task's phase handlers
     PiecewiseCurve curve; // update_phase_motion's sideways sway
     s32 sway_state;     // update_phase_motion's switch (0..3)

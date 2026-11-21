@@ -64,7 +64,7 @@ s32 boss2_tunnel_spawn_timer_table[0x1F] = {
 s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
 // y comes from a float constant of another file, so this file's static
 // initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
-extern "C" const f32 lbl_805DE9F4;
+extern const f32 lbl_805DE9F4;
 Vec lbl_804E4A44[2] = {
     {78.0f, lbl_805DE9F4, 83.0f},
     {-78.0f, lbl_805DE9F4, 83.0f},
@@ -88,13 +88,13 @@ void TUnk_804E4B3C::copy_position(const Vec *position) {
     VecCopy(&unk_78, position);
 }
 
-void TObjBoss2Tunnel__sub_802F2C84(void) { boss2_tunnel_state_flags = 0; }
+void TUnk_804E4B3C::sub_802F2C84() { boss2_tunnel_state_flags = 0; }
 
-void TObjBoss2Tunnel__sub_802F2C50(void) {
+void TUnk_804E4B3C::sub_802F2C50() {
     new TUnk_804E4B3C(tl_04);
 }
 
-void TObjBoss2Tunnel__sub_802F2C4C(void) {  }
+void TUnk_804E4B3C::sub_802F2C4C() {  }
 
 #pragma push
 #pragma opt_common_subs off
