@@ -8,7 +8,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/TUnk_804E4AD4.h"
-#include "pso/boss/TUnk_804E4B3C.h"
+#include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/unk/TUnk_8048E728.h"
 #include "pso/unk/text_802F0E24.h"
 
@@ -16,7 +16,7 @@
 // over to, created by sub_802F19C0.
 TObject *lbl_805D6960;
 
-void TUnk_804E4B3C::detach_children(TParticleCtrl *particle, const Vec *offset) {
+void TObjBoss7Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
     TUnk_8048E728 *child;
     while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
         vec3_add_to(&child->step, offset);
@@ -24,7 +24,7 @@ void TUnk_804E4B3C::detach_children(TParticleCtrl *particle, const Vec *offset) 
     }
 }
 
-void TUnk_804E4B3C::release_children(TParticleCtrl *particle, f32 speed) {
+void TObjBoss7Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
     TUnk_8048E728 *child;
     while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
         child->step.z = child->step.z + speed;
@@ -32,7 +32,7 @@ void TUnk_804E4B3C::release_children(TParticleCtrl *particle, f32 speed) {
     }
 }
 
-void TUnk_804E4B3C::sub_802F19C0() {
+void TObjBoss7Tunnel::sub_802F19C0() {
     lbl_805D6960 = new TObject(tl_07);
 }
 

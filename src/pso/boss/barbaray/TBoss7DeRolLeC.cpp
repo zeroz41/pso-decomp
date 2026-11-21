@@ -54,6 +54,7 @@ struct NJS_OBJECT;
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
 
@@ -683,9 +684,6 @@ void assign_slots_from_list(void *arg0, saddr arg1);
 
 
 
-void TObjBoss2Tunnel__sub_802F22C4(void);
-
-void TObjBoss2Tunnel__sub_802F22DC(void);
 
 
 
@@ -711,7 +709,6 @@ u8 *get_enemy_entity(u16 arg0);
 
 
 
-s32 TObjFish__sub_802F18E8(void *);
 
 extern f32 lbl_804FF5E8[];
 
@@ -1757,11 +1754,11 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
 }
 #pragma pop
 void TBoss7DeRolLeC::sub_802EC52C(TParticleCtrl *ctrl) {
-    TObjFish__sub_802F18E8(ctrl);
+    TObjBoss7Tunnel::sub_802F18E8(ctrl);
 }
 
 void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
-    TObjFish::spawn_default_particle((saddr)pos, 0x201);
+    TObjBoss7Tunnel::create_particle(pos, 0x201);
 }
 #pragma push
 #pragma fp_contract on
@@ -2872,9 +2869,9 @@ void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
                 unk_728 = 6;
                 TCameraCtrl::set_shake_preset(1);
                 if (position_slot == 0) {
-                    TObjBoss2Tunnel__sub_802F22DC();
+                    TObjBoss7Tunnel::start_sway_negative_x();
                 } else {
-                    TObjBoss2Tunnel__sub_802F22C4();
+                    TObjBoss7Tunnel::start_sway_positive_x();
                 }
                 play_sound_at(0x3A107, &unk_50C[0]);
                 new TUnk_804F1C88(this, &unk_4DC[0]);
@@ -3104,7 +3101,7 @@ void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
         unk_750 = -1.0f;
         unk_74C = 0.0f;
         unk_73C = 0x500;
-        TObjBoss2Tunnel::clear_flags_0x3000();
+        TObjBoss7Tunnel::clear_flags_0x3000();
         state_flags &= 0xFFFFFDFF;
         break;
     case 2:
@@ -3508,7 +3505,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         if (crawfish_parent != NULL) {
             crawfish_parent->queue_destruction_for_each_node();
         }
-        TObjBoss2Tunnel::clear_flags_0x3000();
+        TObjBoss7Tunnel::clear_flags_0x3000();
         TWindowCtrl::init_all_slots();
         {
             cam.index = 0;
@@ -3583,7 +3580,7 @@ void TBoss7DeRolLeC::sub_802E8AD4(u32 event) {
         sub_802ECC44();
         state_flags |= 4;
         state_flags &= ~0x100;
-        TObjBoss2Tunnel::set_flag_0x200();
+        TObjBoss7Tunnel::set_flag_0x200();
         return;
     case 0:
         queue_destruction();

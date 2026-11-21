@@ -7,18 +7,16 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TUnk_804DC7C4.h"
+#include "pso/boss/barbaray/TObjBoss7Dust.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
-void fn_802F105C(void);
-s32 fn_802F1084();
 }
 void init_area_lights(void);
 s32 init_scene_delo2(void);
 void stop_cue_stream(void);
-void init_scene_boss2_tunnel(void);
 
-void TLobby::update_subsystems() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); fn_802F105C(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void TLobby::update_subsystems() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); free_boss7_tunnel(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 init_scene_delo2(void) {
     get_current_floor_area();
@@ -29,7 +27,7 @@ s32 init_scene_delo2(void) {
     init_scene_boss2_tunnel();
     init_area_lights();
     TLobby::create_tasks();
-    fn_802F1084();
+    create_boss7_tunnel();
     TLobby__sub_801403B4(0);
     play_area_music("delo2.adx");
     if (is_split_screen() == 0) {

@@ -22,10 +22,9 @@
 #include "pso/boss/TUnk_804E4AD4.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/TUnk_804E4B3C.h"
+#include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include <stddef.h>
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_802F2070.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
@@ -76,30 +75,30 @@ s8 lbl_805D6970;
 // order of definition (and the vtables in .text order).
 #pragma defer_codegen on
 
-f32 TUnk_804E4B3C::sub_802F2CBC() {
+f32 TObjBoss7Tunnel::sub_802F2CBC() {
     return segment_x;
 }
 
-f32 TUnk_804E4B3C::sub_802F2CB4() {
+f32 TObjBoss7Tunnel::sub_802F2CB4() {
     return scroll_speed;
 }
 
-void TUnk_804E4B3C::copy_position(const Vec *position) {
+void TObjBoss7Tunnel::copy_position(const Vec *position) {
     VecCopy(&kind4_position, position);
 }
 
-void TUnk_804E4B3C::sub_802F2C84() { boss2_tunnel_state_flags = 0; }
+void TObjBoss7Tunnel::sub_802F2C84() { boss2_tunnel_state_flags = 0; }
 
-void TUnk_804E4B3C::sub_802F2C50() {
-    new TUnk_804E4B3C(tl_04);
+void TObjBoss7Tunnel::sub_802F2C50() {
+    new TObjBoss7Tunnel(tl_04);
 }
 
-void TUnk_804E4B3C::sub_802F2C4C() {  }
+void TObjBoss7Tunnel::sub_802F2C4C() {  }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
-TUnk_804E4B3C::TUnk_804E4B3C(TObject *parent) : TObject(parent) {
+TObjBoss7Tunnel::TObjBoss7Tunnel(TObject *parent) : TObject(parent) {
     s32 i;
     render_nodes = new TObject(this);
     effect_nodes = new TObject(this);
@@ -146,20 +145,20 @@ TUnk_804E4B3C::TUnk_804E4B3C(TObject *parent) : TObject(parent) {
 }
 #pragma pop
 
-TUnk_804E4B3C::~TUnk_804E4B3C() {
+TObjBoss7Tunnel::~TObjBoss7Tunnel() {
     if (tunnel_col != NULL) {
         tunnel_col->queue_destruction();
     }
 }
 
-void TUnk_804E4B3C::run_task() {
+void TObjBoss7Tunnel::run_task() {
     update_phase_motion();
-    static void (TUnk_804E4B3C::*phase_handlers[])() = {
-        &TUnk_804E4B3C::init_effect,
-        &TUnk_804E4B3C::sub_802F2400,
-        &TUnk_804E4B3C::sub_802F23FC,
+    static void (TObjBoss7Tunnel::*phase_handlers[])() = {
+        &TObjBoss7Tunnel::init_effect,
+        &TObjBoss7Tunnel::sub_802F2400,
+        &TObjBoss7Tunnel::sub_802F23FC,
     };
-    void (TUnk_804E4B3C::*handler)() = phase_handlers[phase];
+    void (TObjBoss7Tunnel::*handler)() = phase_handlers[phase];
     (this->*handler)();
     sub_802F273C();
 }
@@ -170,7 +169,7 @@ f32 lbl_804E4AA4[12] = {
     26.0f, -19.0f, 0.0f,
     -26.0f, -19.0f, 0.0f,
 };
-void TUnk_804E4B3C::update_phase_motion() {
+void TObjBoss7Tunnel::update_phase_motion() {
     f32 distance;
     switch (sway_state) {
     case 0:
@@ -215,9 +214,9 @@ void TUnk_804E4B3C::update_phase_motion() {
     }
 }
 
-void TUnk_804E4B3C::sub_802F273C() {  }
+void TObjBoss7Tunnel::sub_802F273C() {  }
 
-void TUnk_804E4B3C::advance_effect_timer() {
+void TObjBoss7Tunnel::advance_effect_timer() {
     this->scroll_speed += 0.05f;
     if (this->scroll_speed > boss7_tunnel_max_scroll_speed) {
         this->scroll_speed = (f32) boss7_tunnel_max_scroll_speed;
@@ -228,13 +227,13 @@ void TUnk_804E4B3C::advance_effect_timer() {
 // (.sdata2 0x805DECF8, pooled between update_dust_spawn's 600.0f and
 // advance_effect_timer's 0.05f). It sits between the two scroll-speed helpers
 // (update_spawn_timer, advance_effect_timer); body and name inferred from that role.
-void TUnk_804E4B3C::double_scroll_speed() {
+void TObjBoss7Tunnel::double_scroll_speed() {
     scroll_speed *= 2.0f;
 }
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804E4B3C::update_spawn_timer(const s32 *table, s32 count, s32 hold_last) {
+void TObjBoss7Tunnel::update_spawn_timer(const s32 *table, s32 count, s32 hold_last) {
     Vec position;
     scroll_offset += scroll_speed;
     if (scroll_offset >= 800.0f) {
@@ -257,7 +256,7 @@ void TUnk_804E4B3C::update_spawn_timer(const s32 *table, s32 count, s32 hold_las
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804E4B3C::update_dust_spawn() {
+void TObjBoss7Tunnel::update_dust_spawn() {
     Vec v;
     dust_timer--;
     if (dust_timer <= 0) {
@@ -270,7 +269,7 @@ void TUnk_804E4B3C::update_dust_spawn() {
 }
 #pragma pop
 
-void TUnk_804E4B3C::init_effect() {
+void TObjBoss7Tunnel::init_effect() {
     advance_effect_timer();
     update_spawn_timer(boss2_tunnel_spawn_timer_table, 0x1F, 0);
     if (boss2_tunnel_state_flags & 0x200) {
@@ -281,7 +280,7 @@ void TUnk_804E4B3C::init_effect() {
     update_dust_spawn();
 }
 
-void TUnk_804E4B3C::sub_802F2400() {
+void TObjBoss7Tunnel::sub_802F2400() {
     f32 distance;
     TObject *object;
     update_spawn_timer(boss2_tunnel_spawn_timer_table_b, 0xA, 1);
@@ -316,9 +315,9 @@ void TUnk_804E4B3C::sub_802F2400() {
     }
 }
 
-void TUnk_804E4B3C::sub_802F23FC() {  }
+void TObjBoss7Tunnel::sub_802F23FC() {  }
 
-void TUnk_804E4B3C::render() {
+void TObjBoss7Tunnel::render() {
     TObject *child;
     if (TObjEneDD::query_teammate_state() == 0) {
         for (child = render_nodes->m_down; child != NULL; child = child->m_next) {
@@ -336,44 +335,44 @@ void TUnk_804E4B3C::render() {
     }
 }
 
-s32 TUnk_804E4B3C::check_both() {
+s32 TObjBoss7Tunnel::check_both() {
     s32 positive = sub_802F22F4();
     s32 negative = is_phase_active();
     return negative | positive;
 }
 
-s32 TUnk_804E4B3C::is_phase_active() {
+s32 TObjBoss7Tunnel::is_phase_active() {
     return (boss2_tunnel_state_flags >> 12) & 1;
 }
 
-s32 TUnk_804E4B3C::sub_802F22F4() {
+s32 TObjBoss7Tunnel::sub_802F22F4() {
     return (boss2_tunnel_state_flags >> 13) & 1;
 }
 
-void TObjBoss2Tunnel__sub_802F22DC(void) {
+void TObjBoss7Tunnel::start_sway_negative_x() {
     boss2_tunnel_state_flags |= 0x1000;
     boss2_tunnel_state_flags &= ~0x2000;
 }
 
-void TObjBoss2Tunnel__sub_802F22C4(void) {
+void TObjBoss7Tunnel::start_sway_positive_x() {
     boss2_tunnel_state_flags |= 0x2000;
     boss2_tunnel_state_flags &= ~0x1000;
 }
 
-void TObjBoss2Tunnel::clear_flags_0x3000() { boss2_tunnel_state_flags &= ~0x3000; }
+void TObjBoss7Tunnel::clear_flags_0x3000() { boss2_tunnel_state_flags &= ~0x3000; }
 
-void TObjBoss2Tunnel::set_flag_0x200() {
+void TObjBoss7Tunnel::set_flag_0x200() {
     boss2_tunnel_state_flags |= 0x200;
-    TObjBoss2Tunnel::clear_flags_0x3000();
+    clear_flags_0x3000();
 }
 
-void TUnk_804E4B3C::sub_802F2278() { boss2_tunnel_state_flags |= 0x8; }
+void TObjBoss7Tunnel::sub_802F2278() { boss2_tunnel_state_flags |= 0x8; }
 
-void TUnk_804E4B3C::spawn(s32 kind, Vec *position) {
+void TObjBoss7Tunnel::spawn(s32 kind, Vec *position) {
     new TUnk_804E4B24(effect_nodes, kind, position, half_length);
 }
 
-void TUnk_804E4B3C::spawn_segment_row_b() {
+void TObjBoss7Tunnel::spawn_segment_row_b() {
     Vec position;
     position.x=segment_x;
     position.y=0.0f;
@@ -386,7 +385,7 @@ void TUnk_804E4B3C::spawn_segment_row_b() {
     }
 }
 
-void TUnk_804E4B3C::spawn_segment_row_a() {
+void TObjBoss7Tunnel::spawn_segment_row_a() {
     Vec position;
     position.x=segment_x;
     position.y=0.0f;
@@ -399,13 +398,13 @@ void TUnk_804E4B3C::spawn_segment_row_a() {
     }
 }
 
-s32 TObjBoss2Tunnel__sub_802F2070(void) {
+s32 TObjBoss7Tunnel::has_stopped() {
     return (boss2_tunnel_state_flags >> 15) & 1;
 }
 
 TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_length) : TObject(parent) {
     Boss2TunnelEffectEntry *entry;
-    controller = (TUnk_804E4B3C *)parent->m_up;
+    controller = (TObjBoss7Tunnel *)parent->m_up;
     entry = &boss2_tunnel_effect_name_table[kind];
     VecCopy(&position, pos);
     rotation_x = 0;
@@ -417,7 +416,7 @@ TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_lengt
     this->half_length = half_length;
     if (kind == 4) {
         controller->copy_position(&position);
-        TUnk_804E4B3C::sub_802F2278();
+        TObjBoss7Tunnel::sub_802F2278();
     }
     update_collision();
 }

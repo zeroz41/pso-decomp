@@ -17,10 +17,10 @@ public:
 };
 LAYOUT_ASSERT(TObjBoss7Dust_size, sizeof(TObjBoss7Dust) == 0x30);
 
-extern "C" {
-void fn_802F105C(void);
-void fn_802F1084(void);
-}
 void init_scene_boss2_tunnel(void);
+// Twins of TLobby::create_boss2_tunnel and TLobby::init_boss2_stage (which frees the boss2
+// common resource): the Barba Ray tunnel scene's create and free hooks.
+void create_boss7_tunnel(void);
+void free_boss7_tunnel(void);
 
 #endif

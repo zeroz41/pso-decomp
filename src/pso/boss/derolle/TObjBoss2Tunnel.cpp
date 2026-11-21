@@ -396,22 +396,20 @@ s32 count_tree_nodes(NJS_OBJECT *node) {
     return count;
 }
 
-// Counts the nodes of a model tree that are drawn: NJD_EVAL_HIDE (8) skips a node,
-// NJD_EVAL_BREAK (0x10) its children.
-s32 count_active_segments__15TObjBoss2TunnelFPv(void *node) {
+s32 count_visible_nodes(NJS_OBJECT *node) {
     s32 flags;
     s32 count;
 
     count = 0;
     do {
-        flags = ((NJS_OBJECT *)node)->evalflags;
+        flags = node->evalflags;
         if (!(flags & 8)) {
             count += 1;
         }
         if (!(flags & 0x10)) {
-            count += count_active_segments__15TObjBoss2TunnelFPv(((NJS_OBJECT *)node)->child);
+            count += count_visible_nodes(node->child);
         }
-        node = ((NJS_OBJECT *)node)->sibling;
+        node = node->sibling;
     } while (node != NULL);
     return count;
 }

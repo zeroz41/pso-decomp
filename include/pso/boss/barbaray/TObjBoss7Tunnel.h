@@ -1,15 +1,16 @@
-#ifndef PSO_BOSS_TUNK_804E4B3C_H
-#define PSO_BOSS_TUNK_804E4B3C_H
+#ifndef PSO_BOSS_BARBARAY_TOBJBOSS7TUNNEL_H
+#define PSO_BOSS_BARBARAY_TOBJBOSS7TUNNEL_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-// Inferred: Barba Ray's tunnel (it builds TObjBoss7TunnelCol, TObjBoss7RaftSplash and TObjBoss7Dust).
-class TUnk_804E4B3C : public TObject {
+// Barba Ray's tunnel, the twin of TObjBoss2Tunnel: it builds TObjBoss7TunnelCol, two
+// TObjBoss7RaftSplash and TObjBoss7Dust, and runs the same sway state machine.
+class TObjBoss7Tunnel : public TObject {
 public:
-    TUnk_804E4B3C(TObject *parent);
-    virtual ~TUnk_804E4B3C();
+    TObjBoss7Tunnel(TObject *parent);
+    virtual ~TObjBoss7Tunnel();
     virtual void run_task();
     void update_phase_motion();
     void spawn(s32 kind, Vec *position);
@@ -39,12 +40,25 @@ public:
     s32 is_phase_active();
     static s32 sub_802F22F4();
     static void sub_802F2278();
+    // Set 0x1000 (sway to -x) or 0x2000 (sway to +x) and clear the other (TBoss7DeRolLeC picks
+    // by the side its position slot is on); clear_flags_0x3000 ends the sway.
+    static void start_sway_negative_x();
+    static void start_sway_positive_x();
+    // Sets 0x200, which moves init_effect on to phase 1, and clears the sway.
+    static void set_flag_0x200();
+    static void clear_flags_0x3000();
+    // Bit 0x8000: set when the tunnel reaches its end (phase 2, scroll_speed 0).
+    static s32 has_stopped();
     // Twins of TObjBoss2Tunnel's detach_children/release_children/sub_8003B2B0 (text_802F190C.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
     static void sub_802F19C0();
     // Twin of TObjBoss2Tunnel::create_particle_effect (TObjBoss7RaftSplash.cpp).
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
+    // Twins of TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::sub_8003B1D8: the
+    // same with speed -5.
+    static void create_particle(const void *position, s32 particle_index);
+    static void sub_802F18E8(TParticleCtrl *particle);
     // Clears boss2_tunnel_state_flags (init_scene_boss2_tunnel).
     static void sub_802F2C84();
     // Creates the tunnel under tl_04 (fn_802F1084).
@@ -68,6 +82,6 @@ public:
     TObject *effect_nodes; // parent of the segments spawn creates
     TObject *render_nodes; // parent of the three TUnk_804E4AD4; render walks its children
 };
-LAYOUT_ASSERT(TUnk_804E4B3C_size, sizeof(TUnk_804E4B3C) == 0x94);
+LAYOUT_ASSERT(TObjBoss7Tunnel_size, sizeof(TObjBoss7Tunnel) == 0x94);
 
 #endif

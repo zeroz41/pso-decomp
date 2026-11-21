@@ -3813,7 +3813,7 @@ force_active:
   - advance_cut__11TBoss4Type3Fv
   - advance_dark_magic__11TBoss4Type3Fv
   - advance_dead__11TBoss4Type3Fv
-  - advance_effect_timer__13TUnk_804E4B3CFv
+  - advance_effect_timer__15TObjBoss7TunnelFv
   - advance_flee_step__12TObjEneLappyFv
   - advance_go_down__11TBoss4Type3Fv
   - advance_go_up__11TBoss4Type3Fv
@@ -7070,7 +7070,7 @@ force_active:
   - init_draw_params__15TObjEneDelDepthFv
   - init_draw_state__15TObjEneDelDepthFv
   - init_drop_table__9TItemDropFv
-  - init_effect__13TUnk_804E4B3CFv
+  - init_effect__15TObjBoss7TunnelFv
   - init_effect_object__13TUnk_804EDD20Fv
   - init_effect_slot_1__11TBoss6Type1Fv
   - __ct__13TUnk_804A6108FP7TObjectPUc
@@ -15985,7 +15985,7 @@ force_active:
   - sound_effect_range_w_enemy
   - sound_effect_range_w_env
   - sound_effect_range_weapon
-  - spawn__13TUnk_804E4B3CFlP3Vec
+  - spawn__15TObjBoss7TunnelFlP3Vec
   - spawn_afterimages__11TBoss4Type2Fv
   - spawn_ambient_particles__15TBoss3VoloptP02Fv
   - spawn_ancient_trap__12TBoss8DragonFii
@@ -16044,8 +16044,8 @@ force_active:
   - spawn_recoil_dust__14TObjEneBm5WolfFiPv
   - spawn_recovery_effect__10TObjPlayerFv
   - spawn_scattered_lightning_strikes__FPUcl
-  - spawn_segment_row_a__13TUnk_804E4B3CFv
-  - spawn_segment_row_b__13TUnk_804E4B3CFv
+  - spawn_segment_row_a__15TObjBoss7TunnelFv
+  - spawn_segment_row_b__15TObjBoss7TunnelFv
   - spawn_slime_in_slot
   - spawn_slow_effect__10TObjPlayerFii
   - spawn_sub_objects__15TBoss3VoloptP02Fv
@@ -16368,9 +16368,9 @@ force_active:
   - sub_802E1F14__12TAdTimeSetGCFv
   - sub_802F09EC__14TBoss7TentacleFv
   - sub_802F09FC__14TBoss7TentacleFv
-  - sub_802F23FC__13TUnk_804E4B3CFv
-  - sub_802F2400__13TUnk_804E4B3CFv
-  - sub_802F273C__13TUnk_804E4B3CFv
+  - sub_802F23FC__15TObjBoss7TunnelFv
+  - sub_802F2400__15TObjBoss7TunnelFv
+  - sub_802F273C__15TObjBoss7TunnelFv
   - sub_803003A4__21TAdMultiSelGameModeGCFv
   - sub_80300648__21TAdMultiSelGameModeGCFv
   - sub_80300764__21TAdMultiSelGameModeGCFv
@@ -16884,7 +16884,7 @@ force_active:
   - update_duel_end_effect
   - update_duel_result__6TLobbyFPv
   - update_duel_start_countdown__15TDuelEffectCtrlFv
-  - update_dust_spawn__13TUnk_804E4B3CFv
+  - update_dust_spawn__15TObjBoss7TunnelFv
   - update_dying__9TObjGrassFPv
   - update_dying_state__14TObjEneBm5WolfFl
   - update_dying_state__15TObjEnemyCustomFv
@@ -17136,7 +17136,7 @@ force_active:
   - update_phase2_intro__12TBoss3VoloptFv
   - update_phase__11TBoss6Type1Fv
   - update_phase__14TBoss6PlotFalzFv
-  - update_phase_motion__13TUnk_804E4B3CFv
+  - update_phase_motion__15TObjBoss7TunnelFv
   - update_phase_timer__11TBoss4Type2Fv
   - update_phase_timer__11TBoss4Type3Fv
   - update_photon_mylla__16TObjEneBm5GibonUFPv
@@ -17240,7 +17240,7 @@ force_active:
   - update_slot_sprites__20TWindowActionPaletteFiUsUs
   - update_slot_state__16TAdChrSelBSlotGCFPv
   - update_spark_toggle__16TOSparkMachine01Fl
-  - update_spawn_timer__13TUnk_804E4B3CFlll
+  - update_spawn_timer__15TObjBoss7TunnelFlll
   - update_spawning__20TContainerAncient01RFv
   - update_special_pose__11TItemMagSubFv
   - update_spin__13TOCtrlDubchikFv

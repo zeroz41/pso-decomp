@@ -4,10 +4,8 @@
 #include "pso/system/vector.h"
 
 #include "types.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/boss/barbaray/TObjBoss7RaftSplash_802F18E8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/TUnk_804E4B3C.h"
+#include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/system/task/TObject.h"
 #include <stdlib.h>
 
@@ -47,12 +45,12 @@ TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, c
     step = speed;
 }
 
-void TObjFish::spawn_default_particle(s32 position, s32 particle_index) {
-    TUnk_804E4B3C::create_particle_effect((const void *)position, particle_index, -5.0f);
+void TObjBoss7Tunnel::create_particle(const void *position, s32 particle_index) {
+    create_particle_effect(position, particle_index, -5.0f);
 }
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805DEC90) is used by
-// spawn_default_particle and TObjFish__sub_802F18E8, and the .text runs on without a pool of its own.
+// TObjBoss7Tunnel::create_particle and TObjBoss7Tunnel::sub_802F18E8, and the .text runs on without a pool of its own.
 
 void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, const Vec *offset) {
     TParticleCtrl *particle;
@@ -63,11 +61,11 @@ void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, 
     }
     if (particle != NULL) {
         particle->run_task();
-        TUnk_804E4B3C::detach_children(particle, offset);
+        TObjBoss7Tunnel::detach_children(particle, offset);
     }
 }
 
-void TUnk_804E4B3C::create_particle_effect(const void *position, s32 particle_index, f32 speed) {
+void TObjBoss7Tunnel::create_particle_effect(const void *position, s32 particle_index, f32 speed) {
     TParticleCtrl *particle;
 
     particle = (TParticleCtrl *)TObject::operator new(0x78);
@@ -80,6 +78,6 @@ void TUnk_804E4B3C::create_particle_effect(const void *position, s32 particle_in
     }
 }
 
-extern "C" void TObjFish__sub_802F18E8(void *particle) {
-    TUnk_804E4B3C::release_children((TParticleCtrl *)particle, -5.0f);
+void TObjBoss7Tunnel::sub_802F18E8(TParticleCtrl *particle) {
+    release_children(particle, -5.0f);
 }

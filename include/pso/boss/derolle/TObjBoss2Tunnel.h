@@ -112,8 +112,6 @@ struct TObjBoss2Tunnel : public TObject {
     static f32 calc_scaled_value(s32 angle, f32 length);
     static void transform_vec_by_camera(saddr camera, saddr in, saddr out);
     void render(void* a1);
-    static void set_flag_0x200();
-    static void clear_flags_0x3000();
     static void enable_and_trigger();
     static void reset_player_state();
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
@@ -142,5 +140,8 @@ LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);
 struct NJS_OBJECT;
 // The number of nodes in the model tree under `node` (itself, children and siblings).
 s32 count_tree_nodes(NJS_OBJECT *node);
+// The nodes of that tree that are drawn: NJD_EVAL_HIDE (8) skips a node, NJD_EVAL_BREAK
+// (0x10) its children.
+s32 count_visible_nodes(NJS_OBJECT *node);
 
 #endif
