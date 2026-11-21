@@ -274,7 +274,7 @@ EnemyFactoryEntry enemy_factories_floor_11[3] = {
 };
 
 EnemyFactoryEntry enemy_factories_floor_12[3] = {
-    { 0x00C1, create__13TBoss2DeRolLeFPv, 250000.0f, 19 },
+    { 0x00C1, TBoss2DeRolLe::create, 250000.0f, 19 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
