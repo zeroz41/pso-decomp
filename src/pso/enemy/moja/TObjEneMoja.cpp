@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -261,7 +262,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec *);
 
 f32 horizontal_distance_squared(int, void *);
 
-u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
 s32 get_current_floor();
@@ -734,7 +734,7 @@ void TObjEneMoja::vfunc_28() {
             }
             targetId = best_id;
         } else {
-            targetId = find_nearest_visible_player(this, 0, ((MojaMovementParameters *)movementParameters)->unknown_00);
+            targetId = find_nearest_visible_player(this, NULL, ((MojaMovementParameters *)movementParameters)->unknown_00);
         }
         tid = targetId;
         if (tid < 0x1000U) {

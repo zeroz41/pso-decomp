@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
@@ -79,7 +80,6 @@ extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
-void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
 s32 play_sound_effect(s32, void *, int, int);
 
@@ -249,7 +249,6 @@ s32 init_collision_body_parts(void *, void *, int);
 
 extern BmlResource *gyaranzo_bml_resource;
 
-void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
 
 void free_collision_body_parts(void *);

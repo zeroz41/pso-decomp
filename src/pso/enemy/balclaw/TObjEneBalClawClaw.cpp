@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -8,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
+#include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjControl.h"
@@ -47,7 +49,6 @@ TObjChara *find_active_entity_by_id(u16);
 void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 init_collision_body_parts(void *, void *, int);
-void *find_entity_by_id(u16 id);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 s32 minimap_render_dot(void *, int, int, int);
 void free_collision_body_parts(void *);
@@ -61,7 +62,7 @@ TObjMotionAction balclaw_claw_model_node_desc[7] = {
     {1, 0, 0xD, 0.7f, 1},
     {1, 0, 0xE, 0.7f, 1},
 };
-BalClawMovement lbl_8048F100 = {{150.0f, 0.5555555f, 0x400}, 0x1E0000, 0, 1, 0};
+BalClawMovement lbl_8048F100 = {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0};
 CollisionBody TObjEneBalClawClaw__collision_body_template = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern void *tl_04;
@@ -82,8 +83,8 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEn
     }
 }
 
-// Spawned by the body (TObjEneBalClawClaw::create): takes the body's room, group, home and wobble state.
-TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s32 id, s32 index, Vec *pos,
+// Spawned by the body (TObjEneBalClawClaw::create_from_body): takes the body's room, group, home and wobble state.
+TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos,
                                        s32 rot_y, s32)
     : TObjEneBalClaw(parent) {
     entity_id = id;
@@ -143,9 +144,9 @@ void *TObjEneBalClawClaw::create() {
     return new TObjEneBalClawClaw(control, this);
 }
 
-void *TObjEneBalClawClaw::create(void *arg1, void *arg2, void *arg3, void *arg4, void *arg5) {
+TObjEneBalClawClaw *TObjEneBalClawClaw::create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
-    return new TObjEneBalClawClaw(control, this, (saddr)arg1, (saddr)arg2, (Vec *)arg3, (saddr)arg4, (saddr)arg5);
+    return new TObjEneBalClawClaw(control, body, id, index, pos, rot_y, hp);
 }
 
 void TObjEneBalClawClaw::run_task() {
@@ -619,7 +620,7 @@ s32 TObjEneBalClawClaw::check_active() {
     return (u32)__cntlzw(m_388 & 0x10000000) >> 5;
 }
 
-void TObjEneBalClawClaw::enter_hit_state(s16 body_id) {
+void TObjEneBalClawClaw::enter_hit_state(u16 body_id) {
     m_3c6 = body_id;
     targetId = body_id;
     m_388 |= 0x20000000;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "types.h"
@@ -192,7 +193,6 @@ f32 vec3_add_to(void *, void *);
 s32 TObjEnePanarms__sub_800DFB74(void *);
 s32 TObjEnePanarms__sub_800DFB9C(void *);
 s32 TObjEnePanarms__sub_800DFBB0(void *);
-u16 find_nearest_visible_player(void *, f32 *, f32);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
@@ -536,11 +536,11 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
 #pragma pop
 
 u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 arg2) {
-    f32 sp[3];
+    Vec sp;
     s32 t;
     s32 var;
-    if ((t = find_nearest_visible_player(this, sp, 200.0f)) != 0xFFFF) {
-        if (arg2 == 0 || vector_length(sp) < 30.0f) {
+    if ((t = find_nearest_visible_player(this, &sp, 200.0f)) != 0xFFFF) {
+        if (arg2 == 0 || vector_length(&sp) < 30.0f) {
             var = 0;
         } else {
             var = -0x1800;
@@ -548,21 +548,21 @@ u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 arg2) {
                 var *= -1;
             }
         }
-        ((Obj_800DEA88 *)this)->f60 = approach_angle_limited(((Obj_800DEA88 *)this)->f60, var + (s32) (10430.38043493439 * atan2_float(sp[0], sp[2])), arg1);
+        ((Obj_800DEA88 *)this)->f60 = approach_angle_limited(((Obj_800DEA88 *)this)->f60, var + (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), arg1);
     }
     return t;
 }
 
 void TObjEnePanarms::turn_toward_target(s32 arg1) {
-    f32 sp[3];
-    if (this->find_nearest_enemy_with_flag((saddr)sp, (f32)500.0f) == 0xFFFF) {
+    Vec sp;
+    if (this->find_nearest_enemy_with_flag(&sp, (f32)500.0f) == 0xFFFF) {
         if (((Obj_800DE9F0 *)this)->f1C & 1) {
             arg1 *= -1;
         }
         ((Obj_800DE9F0 *)this)->f60 = ((Obj_800DE9F0 *)this)->f60 + arg1;
         return;
     }
-    ((Obj_800DE9F0 *)this)->f60 = approach_angle_limited(((Obj_800DE9F0 *)this)->f60, (s32) (10430.38043493439 * atan2_float(sp[0], sp[2])), arg1);
+    ((Obj_800DE9F0 *)this)->f60 = approach_angle_limited(((Obj_800DE9F0 *)this)->f60, (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), arg1);
 }
 
 #pragma push
@@ -752,13 +752,13 @@ void TObjEnePanarms::enter_wait_hidden() {
 }
 
 void TObjEnePanarms::update_wait_hidden() {
-    f32 sp[3];
+    Vec sp;
     s32 r = 0;
     s32 t;
     if (--this->m_388 < 0) {
         r = 1;
-    } else if ((t = find_nearest_visible_player(this, sp, (f32) this->search_range)) != 0xFFFF) {
-        this->rotation_y = (s32) (10430.38043493439 * atan2_float(sp[0], sp[2]));
+    } else if ((t = find_nearest_visible_player(this, &sp, (f32) this->search_range)) != 0xFFFF) {
+        this->rotation_y = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
         r = 1;
     }
     if (r != 0) {
@@ -900,7 +900,7 @@ void TObjEnePanarms::enter_dead() {
     ((TObjPlayer *)this)->refresh_lobby_state();
     this->send_entity_set_flags();
     st = 5;
-    if (find_nearest_visible_player(this, &v.x, 200.0f) != 0xFFFF) {
+    if (find_nearest_visible_player(this, &v, 200.0f) != 0xFFFF) {
         if (v.x * sin_table_lookup(this->rotation_y) + v.z * cos_table_lookup(this->rotation_y) < 0.0f) {
             st = 4;
         }

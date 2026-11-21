@@ -1,3 +1,4 @@
+#include "pso/object/base/CollisionActorLookup.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -75,7 +76,6 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__sub_800D13B8(TObjEneBm5GibonU *self, s16 arg
 void rotate_xz_pair_by_angle(f32 *, f32 *, s32);
 f32 atan2_float(f32 y, f32 x);
 s32 get_entity_id(int);
-void *find_entity_by_id(u16 id);
 void update_shock_clock__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();
 void TObjEneBm5GibonU__sub_800D0738(TObjEneBm5GibonU *self, u32 arg1, s32 arg2);

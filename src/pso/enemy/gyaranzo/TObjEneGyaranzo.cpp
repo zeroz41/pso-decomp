@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -264,7 +265,6 @@ s32 TBoss3Volopt__sub_800D8D88(void *, s32);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 
-#include <stddef.h>
 
 #include "pso/unk/TLobby.h"
 
@@ -304,7 +304,6 @@ struct Obj_800D30A8 {
 
 extern "C" {
 
-u16 find_nearest_visible_player(void *, int, int, f32);
 
 
 u8 *find_active_entity_by_id(u16);
@@ -972,7 +971,7 @@ void TObjEneGyaranzo::sub_800D37F4() {
     case 1:
         if (this->is_actor_cadence_frame(0x1E) != 0) {
             f32 *p = *(f32 * *)&this->movementParameters;
-            r = find_nearest_visible_player(this, 0, (saddr)p, 50.0f + *p);
+            r = find_nearest_visible_player(this, NULL, 50.0f + *p);
             if (this->targetId == 0xFFFF) {
                 this->targetId = r;
             }

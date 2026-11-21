@@ -50,7 +50,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual void vfunc_113();
     virtual void update_if_ready();
     virtual void render_canadin_model_with_debug_type();
-    virtual int vfunc_116();
+    virtual int vfunc_116(TObjChara *);
     virtual void vfunc_117(uaddr);
     void vfunc_63();
     void vfunc_62();
@@ -114,9 +114,9 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     s32 try_trigger_action();
     void advance_state_4_to_5();
     s32 check_target();
-    static void update_move(void* p);
-    static void advance_state_5_to_4(void *self);
-    static void calc_move_vector(int leader, void *out);
+    void update_move();
+    void advance_state_5_to_4();
+    void calc_move_vector(Vec *out);
     void noop();
     // Adds a point to an EffLight trail (a TObjEneMe1Canadin_EffLight).
     static void push_history_entry(void *trail, f32 width, void *pos, int color);
@@ -132,36 +132,41 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     static void load_resources();
     static void free_resources();
     s32 fade_alpha_step(f32 scale, s32 step);
+    void fn_8009BFF8(s32 arg1);
+    void fn_8009C178(s32 arg1);
+    void fn_8009C2EC(s32 arg1);
+    void fn_8009C510(s32 arg1);
+    void fn_8009C91C(s32 arg1);
+    void fn_8009CC74(s32 arg1);
+    void fn_8009D320(s32 arg1);
+    void fn_8009DE90(s32 arg1);
+    s32 fn_8009E76C();
+    s32 fn_8009E860(f32 *out, f32 squared_range);
+    void fn_8009E930();
+    void fn_8009E948();
+    void fn_8009E258();
+    void fn_8009E27C();
+    s32 fn_8009E31C(s32 mask);
+    void fn_8009E334();
+    void fn_8009E350();
+    int fn_8009E36C();
+    void fn_8009E4AC(s32 sequence);
+    void fn_8009E1D4(Vec *pos);
+    void fn_8009E2DC();
+    TObjChara *fn_8009E300();
+    void fn_8009E378();
+    void set_flag3c8_bit40();
+    void set_flag3c8_bit20();
+    void set_flag3c8_bit8();
+    void set_attack_flag();
+    void set_leader_index(TObjChara *target, s32 index);
+    void update_fade_sequence();
 };
 
 LAYOUT_ASSERT(TObjEneMe1Canadin_size, sizeof(TObjEneMe1Canadin) == 0x4CC);
 
 extern "C" {
-void TObjEneMe1CanadinLeader__sub_8009E258(TObjEneMe1Canadin *self);
-void TObjEneMe1CanadinLeader__sub_8009E27C(TObjEneMe1Canadin *self);
-s32 TObjEneMe1CanadinLeader__sub_8009E31C(TObjEneMe1Canadin *self, s32 mask);
-void TObjEneMe1CanadinLeader__sub_8009E334(TObjEneMe1Canadin *self);
-void TObjEneMe1CanadinLeader__sub_8009E350(TObjEneMe1Canadin *self);
-int TObjEneMe1CanadinLeader__sub_8009E36C(TObjEneMe1Canadin *self);
-void TObjEneMe1CanadinLeader__sub_8009E4AC(TObjEneMe1Canadin *self, s32 sequence);
-void TObjEneMe1Canadin__sub_8009BFF8(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C178(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C2EC(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009CC74(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009D320(TObjEneMe1Canadin *self, s32 arg1);
-void TObjEneMe1Canadin__sub_8009DE90(TObjEneMe1Canadin *self, s32 arg1);
-s32 TObjEneMe1Canadin__sub_8009E76C(TObjEneMe1Canadin *self);
-void TObjEneMe1Canadin__sub_8009E930(TObjEneMe1Canadin *self);
-void TObjEneMe1Canadin__sub_8009E948(TObjEneMe1Canadin *self);
-void TObjEneMe1Canadin__sub_8009EB14(TObjEneMe1Canadin *self, f32 height);
-void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 height);
 void fn_8009BD00(void);
-void fn_8009E1D4(TObjEneMe1Canadin *canadin, Vec *pos);
-void fn_8009E2DC(TObjEneMe1Canadin *self);
-saddr fn_8009E300(TObjEneMe1Canadin *self);
-void fn_8009E378(TObjEneMe1Canadin *self);
 }
 
 #endif

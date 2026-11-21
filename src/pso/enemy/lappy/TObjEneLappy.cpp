@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -24,7 +26,6 @@ extern "C" void test_flag_256__12TObjEneLappyFv();
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -395,7 +396,6 @@ s32 *rappy_visibility_node;
 s32 rappy_alternate_texture_list;
 extern s32 model_render_flags;
 void render__12TObjEneLappyFv(u8 *arg0);
-u16 find_nearest_visible_player(void *, int, f32);
 void TObjPlayer__sub_800BFF54(void * _w0);
 u8 *find_active_entity_by_id(u16);
 s32 minimap_render_dot(void *, int, int, int);
@@ -883,7 +883,7 @@ void TObjEneLappy::update_moving() {
             if (temp_r3 == 1U) {
                 enemy_set_heading_velocity((f32) (3.5f * *(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4)), (TObjEnemy *)(arg0), this->rotation_y);
                 *(s16 *)&this->unk_394 = (s16) (*(s16 *)&this->unk_394 + 1);
-                if (((f32) *(s16 *)&this->unk_394 > 15.0f) && (((u16 (*)(void *, void *, f32))find_nearest_visible_player)(arg0, &probe.x, 300.0f) != 0xFFFFU) && (angle_difference_abs(this->rotation_y, (int) ((s32) (10430.38043493439 * atan2_float(probe.x, probe.z)))) < 0xAAA)) {
+                if (((f32) *(s16 *)&this->unk_394 > 15.0f) && (find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), &probe, 300.0f) != 0xFFFFU) && (angle_difference_abs(this->rotation_y, (int) ((s32) (10430.38043493439 * atan2_float(probe.x, probe.z)))) < 0xAAA)) {
                     if (((TObjChara *)arg0)->random_ratio() >= 0.5f) {
                         var_r4 = -0x4000;
                     } else {
@@ -1063,7 +1063,7 @@ void TObjEneLappy::vfunc_28() {
                 *(u16 *)((s8 *)arg0 + 0x338) = 0xFFFFU;
                 *(f32 *)((s8 *)arg0 + 0x2B4) = 0.0f;
             } else {
-                *(u16 *)((s8 *)arg0 + 0x338) = find_nearest_visible_player(arg0, 0, *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0));
+                *(u16 *)((s8 *)arg0 + 0x338) = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0));
             }
         } else if (((TObjCollidable *)arg0)->obj_testFlags30(0x10) != 0) {
             i = 0;
@@ -1092,7 +1092,7 @@ void TObjEneLappy::vfunc_28() {
             }
             *(u16 *)((s8 *)arg0 + 0x338) = best_id;
         } else {
-            *(u16 *)((s8 *)arg0 + 0x338) = find_nearest_visible_player(arg0, 0, *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0));
+            *(u16 *)((s8 *)arg0 + 0x338) = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0));
         }
     }
     if (*(s16 *)((s8 *)arg0 + 0x384) > 3 && *(s16 *)((s8 *)arg0 + 0x382) == *(u16 *)((s8 *)arg0 + 0x338)) {
@@ -1169,7 +1169,7 @@ void TObjEneLappy::run_task() {
     if ((obj_testFlags30(0x800) != 0) && !(((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_374 & 2)) {
         temp_r5 = ((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_380;
         ((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_380 = (temp_r5 + 1);
-        if ((((VCls18 *)(((u8 *)this)))->vm17(0x1E, temp_r5) != 0) && (((u16)find_nearest_visible_player(((u8 *)this), 0, 120.0f) == 0xFFFFU) || ((s16) ((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_380 >= 0x384))) {
+        if ((((VCls18 *)(((u8 *)this)))->vm17(0x1E, temp_r5) != 0) && (((u16)find_nearest_visible_player(this, NULL, 120.0f) == 0xFFFFU) || ((s16) ((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_380 >= 0x384))) {
             ((TObjEneLappy *)((u8 *)this))->set_boss4_state();
             ((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_B8 = 9;
         }

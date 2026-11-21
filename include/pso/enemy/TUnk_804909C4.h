@@ -7,7 +7,7 @@ class TUnk_804909C4 : public TObjCollidable {
 public:
     TUnk_804909C4(u8 *player, saddr arg2, saddr arg3);
     virtual ~TUnk_804909C4();
-    s32 sub_800A3290(s32);
+    s32 sub_800A3290(u16);
     virtual void run_task();
     u8 unk_AC[0x4];
     f32 m_b0;

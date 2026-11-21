@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/TUnk_804909C4.h"
@@ -64,7 +65,6 @@ struct Sub_800A3290 { u8 pad0[0x18]; u32 flags; };
 struct Obj_800A3290 { u8 pad0[0xA4]; Sub_800A3290 *sub; };
 
 extern "C" {
-Obj_800A3290 *find_entity_by_id(s32);
 void check_enemy_body_collisions(void *arg0);
 s32 obj_is_hit_receivable();
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
@@ -82,12 +82,12 @@ CollisionBody lbl_80490998[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
 
-s32 TUnk_804909C4::sub_800A3290(s32 id) {
+s32 TUnk_804909C4::sub_800A3290(u16 id) {
     Obj_800A3290 *other;
     s32 result = 0;
     s32 i;
     VObj_18_4a35f9 *p;
-    other = find_entity_by_id(id);
+    other = reinterpret_cast<Obj_800A3290 *>(find_entity_by_id(id));
     if (other == NULL) {
         return 0;
     }
@@ -126,7 +126,7 @@ void TUnk_804909C4::run_task() {
             ((TParticleCtrl *)p)->set_position((u8 *)&this->position);
         }
     }
-    if (((TUnk_804909C4 *)arg0)->sub_800A3290((s32)((int) (*(u16 *)((s8 *)arg0 + 0xC8)))) != 0) {
+    if (((TUnk_804909C4 *)arg0)->sub_800A3290(*(u16 *)((s8 *)arg0 + 0xC8)) != 0) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }

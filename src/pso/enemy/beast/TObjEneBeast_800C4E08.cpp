@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -636,7 +637,6 @@ void TUnk_80493450::vfunc_58() {
     }
 }
 
-u16 find_nearest_visible_player(void *, int, f32);
 u32 csnVector(void *, void *, s32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
@@ -662,7 +662,7 @@ void TUnk_80493450::vfunc_28() {
             self->m_374 = 0;
             obj_setFlags30(self, 0x1000);
         } else {
-            self->targetId = find_nearest_visible_player(self, 0, *(f32 *)self->movementParameters);
+            self->targetId = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *(f32 *)self->movementParameters);
         }
     } else if (self->obj_testFlags30(0x10) != 0) {
         if (self->is_actor_cadence_frame(0x1E) != 0) {
@@ -692,7 +692,7 @@ void TUnk_80493450::vfunc_28() {
     } else if (self->m_378 != 0) {
         self->targetId = get_enemy_target_id(self->groupRoot());
     } else if (self->is_actor_cadence_frame(0x1E) != 0) {
-        self->targetId = find_nearest_visible_player(self, 0, *(f32 *)self->movementParameters);
+        self->targetId = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *(f32 *)self->movementParameters);
     }
     if (self->targetId < 0x1000) {
         TObjPlayer *p = get_player_by_client_id(self->targetId);

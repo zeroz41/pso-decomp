@@ -4,8 +4,10 @@
 #include "types.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 
+struct TObjEneBalClawBody;
+
 struct TObjEneBalClawClaw : public TObjEneBalClaw {
-    TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s32 id, s32 index, Vec *pos, s32 rot_y, s32);
+    TObjEneBalClawClaw(TObject *parent, TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32);
     TObjEneBalClawClaw(TObject *parent, void *set_data);
     virtual ~TObjEneBalClawClaw();
     void sub_80091A38();
@@ -19,7 +21,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void sub_800914A4();
     void sub_80090418(s32);
     void update_state();
-    void *create(void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+    static TObjEneBalClawClaw *create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp);
     void *create();
     static void spawn_child_enemy();
     f32 m_3c0;             // xz distance squared to where it is moving (the body while following it)
@@ -29,7 +31,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     u8 unk_3CA[0x5E];
     void set_claw_flags();
     void clear_flag();
-    void enter_hit_state(s16 arg1);
+    void enter_hit_state(u16 body_id);
     s32 check_active();
     void update_chase_state();
     void run_active_state();
