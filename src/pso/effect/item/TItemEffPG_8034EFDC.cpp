@@ -126,7 +126,7 @@ TUnk_804F0810::~TUnk_804F0810() {}
 
 void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)(-4551)), (saddr)((void*)(0))); }
 void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)(1820)), (saddr)((void*)(13653))); }
-void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
 void TUnk_804F0810::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {

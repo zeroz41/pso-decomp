@@ -77,7 +77,7 @@ extern "C" {
 }
 #define komorebi ((u8 *)this)
 TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
-    *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
+    m_name = komorebi_class_name;
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));

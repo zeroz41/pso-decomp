@@ -104,7 +104,7 @@ extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
-s32 prs_decompress_alloc(int, int, int);
+s32 prs_decompress_alloc(int, void *, int);
 void TKeyBoardControl__sub_8000F90C(s32);
 void set_queued_main_phase(s32);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
@@ -231,7 +231,7 @@ void TItemReverseTech::load_textures() {
     s32 i;
     Hdr_8011A270 *hdr;
     int file;
-    int buf;
+    void *buf;
     TItemReverseTech__name_buffer = (saddr)mem_alloc(0x1C);
     strncpy((char *)TItemReverseTech__name_buffer, name, 0x1B);
     e = (Ent_8011A270 *)mem_alloc(0xCC);
@@ -246,11 +246,11 @@ void TItemReverseTech::load_textures() {
     hdr->entries = TItemReverseTech__entry_table;
     file = (saddr)load_disc_file(name);
     if (file != 0) {
-        buf = (saddr)mem_alloc(0x200000);
-        if (buf != 0 && prs_decompress_alloc(file, buf, 0x200000) > 0) {
-            load_gvm_texture_archive((void *)buf, (GinjaTextureList *)TItemReverseTech__texture_archive);
+        buf = mem_alloc(0x200000);
+        if (buf != NULL && prs_decompress_alloc(file, buf, 0x200000) > 0) {
+            load_gvm_texture_archive(buf, (GinjaTextureList *)TItemReverseTech__texture_archive);
         }
-        mem_free((void *)buf);
+        mem_free(buf);
     }
     TAdSinglePlyChrSelectGC::safe_free(file);
 }

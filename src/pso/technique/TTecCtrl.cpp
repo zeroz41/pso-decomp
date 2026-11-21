@@ -46,7 +46,7 @@ void *get_player_by_client_id(s32 i);
 
 typedef struct Owner_8022CDE8 {
     u8 pad0[0x424];
-    u32 f424;
+    TMainCursor *f424;  // TObjPlayer::m_424
     u8 slots[0x10];
 } Owner_8022CDE8;
 
@@ -649,7 +649,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     if (owner == NULL) {
         return;
     }
-    if (owner->f424 == 0) {
+    if (owner->f424 == NULL) {
         return;
     }
     slots = owner->slots;
@@ -657,7 +657,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
         return;
     }
     ((TObjPlayer *)(owner->slots))->reset_slots();
-    c = (Cursor_8022CDE8 *)((TMainCursor *)owner->f424)->find_by_pos(3, kind);
+    c = (Cursor_8022CDE8 *)owner->f424->find_by_pos(3, kind);
     if (c == NULL) {
         return;
     }

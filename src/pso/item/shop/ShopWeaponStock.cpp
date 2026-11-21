@@ -18,7 +18,6 @@ struct SRock_80224544_8022448C;
 #pragma dont_inline off
 struct C14_80225550 { u8 bytes[0x14]; };
 
-struct G_80225550 { s32 value; u8 remaining[0xC]; };
 
 struct E_802255CC { u8 pad[0x10]; s32 f10; };
 
@@ -26,7 +25,6 @@ struct C14_80224B7C { u8 b[0x14]; };
 
 struct Cnt_80224B7C { s32 n; };
 
-struct Lst_80224B7C { C14_80224B7C *p; };
 
 struct Ent_80224F7C { s32 id; s32 n; };
 
@@ -90,7 +88,7 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-extern G_80225550 shop_weapon_stock_buffers;
+extern C14_80225550 *shop_weapon_stock_buffers[4];
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
 extern uaddr lobby_weapon_random_tables_ptr;
 extern Cnt_80224B7C shop_weapon_stock_counts[];
@@ -301,7 +299,6 @@ s32 TLobby::level_to_reward(s32 arg0) {
 
 #pragma push
 #pragma optimization_level 1
-struct G_80225550;
 s32 is_duplicate_shop_weapon(C14_80224B7C *item, s32 tbl) {
     s32 n;
     C14_80224B7C *p;
@@ -310,7 +307,7 @@ s32 is_duplicate_shop_weapon(C14_80224B7C *item, s32 tbl) {
         return 1;
     }
     n = 0;
-    p = ((Lst_80224B7C *)&shop_weapon_stock_buffers)[tbl].p;
+    p = (C14_80224B7C *)shop_weapon_stock_buffers[tbl];
     for (i = 0; i < shop_weapon_stock_counts[tbl].n; i++, p++) {
         if (memcmp(item, p, 0x14) == 0) {
             return 0;
@@ -515,7 +512,7 @@ typedef struct Tier_8022525C Tier_8022525C;
 s32 shop_weapon_stock_target_counts[4];
 Cnt_80224B7C shop_weapon_stock_counts[4];
 ShopWeaponStockGeneratedFlags shop_weapon_stock_generated_flags;
-G_80225550 shop_weapon_stock_buffers;
+C14_80225550 *shop_weapon_stock_buffers[4];  // each stock table's generated items, 16 of 0x14 bytes
 void generate_shop_weapon_stock(s32 tbl) {
   long long new_var;
   Item_8022525C item;
@@ -533,7 +530,7 @@ void generate_shop_weapon_stock(s32 tbl) {
     ((s32 *)&shop_weapon_stock_generated_flags)[tbl] = 1;
     shop_weapon_stock_target_counts[tbl] = 0;
     ((s32 *)shop_weapon_stock_counts)[tbl] = 0;
-    buf = ((u8 **)&shop_weapon_stock_buffers)[tbl];
+    buf = (u8 *)shop_weapon_stock_buffers[tbl];
     shop_weapon_stock_target_counts[tbl] = TLobby::level_to_reward(shop_weapon_stock_level);
     ((TLobby *)(&pool))->reset_counter_64();
     id = TLobby::get_level_tier(shop_weapon_stock_level);
@@ -605,7 +602,7 @@ void generate_shop_weapon_stock(s32 tbl) {
 #pragma optimization_level 1
 
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl) {
-    C14_80225550 *arr = ((C14_80225550 **)&shop_weapon_stock_buffers)[tbl];
+    C14_80225550 *arr = shop_weapon_stock_buffers[tbl];
     *dst = arr[idx];
 }
 #pragma pop
@@ -618,7 +615,7 @@ void clear_shop_weapon_flags(void) {
 #pragma optimization_level 1
 
 void TLobby::clear_slot_field_f10(s32 a, s32 b) {
-    E_802255CC *arr = ((E_802255CC **)&shop_weapon_stock_buffers)[b];
+    E_802255CC *arr = (E_802255CC *)shop_weapon_stock_buffers[b];
     if (a >= 0 && a <= 0xf) {
         if (arr[a].f10 != -1) {
             arr[a].f10 = -1;
@@ -632,9 +629,9 @@ void TLobby::clear_slot_field_f10(s32 a, s32 b) {
 void TLobby::free_lobby_resources() {
     s32 i;
     for (i = 3; i >= 0; i--) {
-        if (((u32 *)&shop_weapon_stock_buffers)[i] != 0) {
-            mem_free((void *)(((u32 *)&shop_weapon_stock_buffers)[i]));
-            ((u32 *)&shop_weapon_stock_buffers)[i] = 0;
+        if (shop_weapon_stock_buffers[i] != NULL) {
+            mem_free(shop_weapon_stock_buffers[i]);
+            shop_weapon_stock_buffers[i] = NULL;
         }
     }
     if (lobby_weapon_random_tables_ptr != 0) {
@@ -668,14 +665,14 @@ void load_weapon_random_tables(void) {
         break;
     }
     for (j = 0; j < 4; j++) {
-        ((s32 *)&shop_weapon_stock_buffers)[j] = 0;
+        shop_weapon_stock_buffers[j] = NULL;
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_weapon_stock_buffers)[i] = (saddr)mem_alloc(0x140);
+            shop_weapon_stock_buffers[i] = (C14_80225550 *)mem_alloc(0x140);
         }
     } else {
-        ((s32 *)&shop_weapon_stock_buffers)[0] = (saddr)mem_alloc(0x140);
+        shop_weapon_stock_buffers[0] = (C14_80225550 *)mem_alloc(0x140);
     }
     shop_weapon_stock_level = 0;
 }
