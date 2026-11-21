@@ -25,7 +25,7 @@ struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
 
 extern "C" {
 s32 TLobby__sub_80407358();
-s32 TLobby__sub_8041509C();
+s32 loopback_shutdown();
 s16 TLobby__sub_80423064(s16 idx, s32 arg1);
 void TLobby__sub_80424CA8(void);
 s32 TLobby__sub_80424CF4(s32 session, s32 ip, s32 timeout);
@@ -67,7 +67,7 @@ extern "C" {
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
-s16 TLobby__sub_804150EC(void);
+s16 init_loopback(void);
 s16 TLobby__sub_8042315C(s16, void *);
 s32 lobby_net_session_id = -1;
 s32 TLobby__sub_801478C4(s32 arg0);
@@ -474,7 +474,7 @@ void TLobby::flush_pending_flags() {
     }
     lobby_net_session_id = -1;
     if (TLobby__connect_pending_flags & 0x20) {
-        TLobby__sub_8041509C();
+        loopback_shutdown();
         TLobby__connect_pending_flags &= 0xFFFFFFDF;
     }
     if (TLobby__connect_pending_flags & 0x40) {
@@ -508,7 +508,7 @@ s32 TLobby::run_connect_sequence() {
         }
         TLobby__connect_pending_flags |= 1;
         set_connect_mode(4);
-        ok = TLobby__sub_804150EC();
+        ok = init_loopback();
         TLobby__connect_pending_flags |= 0x20;
         lobby_connect_active_flag = 0;
         if (ok != 0) {
