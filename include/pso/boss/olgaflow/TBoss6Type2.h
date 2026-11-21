@@ -47,7 +47,7 @@ struct Blk_802BCFD4;
 struct TBoss6Type2 : public TObjEnemy
 {
     void sub_802BBE20();
-    TBoss6Type2(TObject *parent, s32 *params);
+    TBoss6Type2(TObject *parent, saddr *params);
     virtual ~TBoss6Type2();
     virtual void run_task();
     virtual void render();
@@ -294,7 +294,7 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_803371B4();
     static void send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2);
     static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
-    static void *create_flow_soul(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void *create_flow_soul(void *parent, void *pos, s32 player, s32 duration);
     static void capture_player_snapshots();
     s32 get_state();
     void apply_rock_hits_to_players();

@@ -510,7 +510,7 @@ void TBoss6Type2::spawn_death_soul() {
     ((TBoss6Type2 *)arg0)->spawn_particle_slot(6);
     TBoss6Type2__sub_802BB768(arg0);
     if (*(u16 *)((s8 *)arg0 + 0x464) != 0xFFFF) {
-        TBoss6Type2::create_flow_soul((void *)arg0, arg0 + 0x620, (void *)(*(u16 *)((s8 *)arg0 + 0x464)), (void *)(this->state_duration));
+        TBoss6Type2::create_flow_soul((void *)arg0, arg0 + 0x620, *(u16 *)((s8 *)arg0 + 0x464), this->state_duration);
         TBoss6EffHyoui::create(*reinterpret_cast<u16 *>((u8 *)arg0 + 0x464), 0, state_duration);
     }
 }
@@ -553,7 +553,7 @@ void TBoss6Type2::sub_802BEB78() {
     play_sound_effect(0x68A25, &position, 0, 1);
     TBoss6Type2__sub_802BB768(this);
     if (m_464 != 0xFFFF) {
-        create_flow_soul(this, (u8 *)this + 0x620, (void *)m_464, (void *)state_duration);
+        create_flow_soul(this, (u8 *)this + 0x620, m_464, state_duration);
         TBoss6EffHyoui::create(m_464, 0, state_duration);
     }
 }

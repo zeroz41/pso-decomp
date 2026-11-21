@@ -494,7 +494,7 @@ void TBoss6Type1::update_charge() {
     }
 }
 
-void TBoss6Type1::start_action_if_idle() { if (this->action_timer == 0) { send_flow_action_if_idle((TBoss6Type1 *)this, (s8)((void*)25)); } }
+void TBoss6Type1::start_action_if_idle() { if (this->action_timer == 0) { send_flow_action_if_idle((TBoss6Type1 *)this, 25); } }
 
 void TBoss6Type1::set_phase_90() { this->m_40c = 90; this->action_timer = 90; latch_phase_counter(); spawn_effect_slot(0); release_effect_slot(1); }
 

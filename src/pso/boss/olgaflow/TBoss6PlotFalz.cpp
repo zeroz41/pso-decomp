@@ -744,7 +744,7 @@ void TBoss6PlotFalz::ensure_field384() {
 }
 
 f32 TBoss6Mine::next_random_float(s32 *arg0) {
-    *arg0 = TBoss6Type1__sub_802ABDEC((saddr)((void *) (*arg0)));
+    *arg0 = TBoss6Type1__sub_802ABDEC(*arg0);
     return (f32) (*arg0 & 0x7FFF) / 32767.0f;
 }
 
@@ -792,7 +792,7 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 
 }
 
-#define set_chunk_material_override_pair ((s32 (*)(int, int, int, void *, void *, int))set_chunk_material_override_pair)
+#define set_chunk_material_override_pair ((s32 (*)(int, int, int, s32, s32, int))set_chunk_material_override_pair)
 #define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)
 
 struct Stack_802AC040 {
@@ -856,7 +856,7 @@ void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, 
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags = temp_r5 | lbl_805DE0C8;
-        set_chunk_material_override_pair(0, 0x800, (int)temp_r5, (void *)chunk_polygon_flags_or_mask, (void *)chunk_polygon_flags_and_mask, (int)temp_r8);
+        set_chunk_material_override_pair(0, 0x800, (int)temp_r5, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask, (int)temp_r8);
         set_chunk_blend(0x2500);
         stack.sp8 = 1.0f;
         temp_f2 = -((TBoss6PlotFalz__fade_amount * (1.0f - farg1)) - 1.0f);
@@ -939,7 +939,7 @@ void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
     s32 t;
     saddr p;
     s32 j;
-    h = (s32)TBoss6PlotFalz::get_scene_archive();
+    h = (saddr)TBoss6PlotFalz::get_scene_archive();
     if (h == 0 || descs == NULL || n < 1) {
         return;
     }

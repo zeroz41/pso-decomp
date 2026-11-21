@@ -68,7 +68,7 @@ void TBoss6GravBall::destroy_part(s32 index) {
 
 void TBoss6GravBall__sub_80323214(TBoss6GravBall *ball, s32 index) {
     s32 offset = index * sizeof(TParticleCtrl *);
-    u8 *entry_base = (u8 *)((u32)ball + offset);
+    u8 *entry_base = (u8 *)((uaddr)ball + offset);
     if (*(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) == NULL) {
         *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) =
             create_particle_emitter(&ball->ball_position, *(s32 *)((u8 *)TBoss6GravBall__emitter_id_table + offset));

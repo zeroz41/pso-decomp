@@ -1020,7 +1020,7 @@ void TBoss6Mag::change_motion(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3F0) = (s32) *(s32 *)((s8 *)arg0 + 0x3DC);
         *(f32 *)((s8 *)arg0 + 0x3F4) = (f32) *(f32 *)((s8 *)arg0 + 0x3E0);
         *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 0xC);
-        *(s32 *)((s8 *)arg0 + 0x3DC) = (s32)bml_motion;
+        *(saddr *)((s8 *)arg0 + 0x3DC) = (saddr)bml_motion;
         *(f32 *)((s8 *)arg0 + 0x3E0) = 0.0f;
     }
 }
@@ -1277,7 +1277,7 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
         key.c = 0;
         ((TObjEnemy *)arg0)->exchange_object_state(&key, 0);
     }
-    *(s32 *)((s8 *)arg0 + 0x374) = (s32)TBoss6PlotFalz::get_scene_archive();
+    *(saddr *)((s8 *)arg0 + 0x374) = (saddr)TBoss6PlotFalz::get_scene_archive();
     *(s32 *)((s8 *)arg0 + 0x37C) = 0;
     *(s32 *)((s8 *)arg0 + 0x24) = 0;
     *(s32 *)((s8 *)arg0 + 0x34) = 0;

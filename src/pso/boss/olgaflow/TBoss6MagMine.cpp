@@ -429,7 +429,7 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
         key.c = 0;
         ((TObjEnemy *)self)->exchange_object_state(&key, 0);
     }
-    *(s32 *)((s8 *)self + 0x374) = (s32)TBoss6PlotFalz::get_scene_archive();
+    *(saddr *)((s8 *)self + 0x374) = (saddr)TBoss6PlotFalz::get_scene_archive();
     ((TBoss3Volopt *)self)->texlist = 0;
     *(s32 *)((s8 *)self + 0x34) = 0;
     VecCopy__FP3VecPC3Vec((saddr)self + 0x44, VecCopy__FP3VecPC3Vec((saddr)self + 0x50, VecCopy__FP3VecPC3Vec((saddr)self + 0x74, (saddr)self + 0x38)));

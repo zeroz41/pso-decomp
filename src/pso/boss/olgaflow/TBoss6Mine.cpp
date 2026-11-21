@@ -125,9 +125,9 @@ void TBoss6Mine::draw() {
     saddr bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = (saddr)get_bml_texlist((BmlResource *)this->m_374, 2);
-    bml_model = (saddr)get_bml_model((BmlResource *)this->m_374, 2);
-    bml_motion = get_bml_motion((BmlResource *)(this->m_374), 0);
+    temp_r31 = (saddr)get_bml_texlist(scene_archive, 2);
+    bml_model = (saddr)get_bml_model(scene_archive, 2);
+    bml_motion = get_bml_motion(scene_archive, 0);
     TObjFish::set_global_param((saddr)(temp_r31));
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
@@ -407,7 +407,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
         tmp.b = 0;
         ((TObjEnemy *)THIS)->exchange_object_state(&tmp, 0);
     }
-    ((TBoss3Volopt *)THIS)->next_action = (s32)TBoss6PlotFalz::get_scene_archive();
+    scene_archive = TBoss6PlotFalz::get_scene_archive();
     ((TBoss3Volopt *)THIS)->texlist = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopyP(THIS + 0x44, VecCopyP(THIS + 0x50, VecCopyP(THIS + 0x74, THIS + 0x38)));

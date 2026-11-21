@@ -460,7 +460,7 @@ void TBoss6Type2::apply_paralysis() {}
 void TBoss6Type2::apply_poison_status() {}
 
 s32 TBoss6Type2::create(saddr arg2_) {
-    return (saddr)new TBoss6Type2(new TObjControl(tl_04), (s32 *)arg2_);
+    return (saddr)new TBoss6Type2(new TObjControl(tl_04), (saddr *)arg2_);
 }
 
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1) {
@@ -470,7 +470,7 @@ void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss6Type2::TBoss6Type2(TObject *parent, s32 *params) : TObjEnemy(parent) {
+TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     Tmp_802BE0D4 tmp;
     s32 i;
     s32 id;
@@ -482,7 +482,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, s32 *params) : TObjEnemy(parent) {
         tmp.c = 0;
         exchange_object_state(&tmp, 0);
     }
-    m_3fc = (s32)TBoss6PlotFalz::get_scene_archive();
+    m_3fc = (uaddr)TBoss6PlotFalz::get_scene_archive();
     texlist = 0;
     model = 0;
     VecCopy(&position, &TBoss6Type2__initial_position);
@@ -2324,7 +2324,7 @@ s32 TBoss6Type2::check_target() {
     if (*(u16 *)((s8 *)this + 0x55C) != 0xFFFF) {
         restore_target_player_state();
     }
-    if (((int (*)(void*, void*))grab_player__11TBoss6Type2FPvUs)((void*)this, (void*)this->m_464) == 0) {
+    if (grab_player__11TBoss6Type2FPvUs((u8 *)this, this->m_464) == 0) {
         this->m_464 = 0xFFFFU;
         return 0;
     }

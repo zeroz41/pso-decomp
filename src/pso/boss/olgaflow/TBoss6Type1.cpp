@@ -88,7 +88,7 @@ struct Obj_802B4C28 {
 struct Anim_802B82B8 { s32 id; f32 t; s32 f8; f32 blend; f32 f10; s32 prevId; f32 prevT; };
 struct Boss_802B82B8 {
     u8 pad0[0x3FC];
-    s32 f3FC;
+    BmlResource *bml_resource;
     u8 pad400[0x43C - 0x400];
     s32 f43C;
     s32 f440;
@@ -257,7 +257,7 @@ struct Anim_802B81A4 { saddr id; f32 t; s32 f8; f32 blend; f32 f10; s32 prevId; 
 
 struct Boss_802B81A4 {
     u8 pad0[0x3FC];
-    s32 f3FC;
+    BmlResource *bml_resource;
     u8 pad400[0x444 - 0x400];
     Anim_802B81A4 anim[2];
     u8 pad47C[0x650 - 0x47C];
@@ -403,7 +403,7 @@ struct W3_802B7530 { s32 x, y, z; };
 struct Line_802B7530 { Vec p; Vec d; };
 struct Boss_802B7530 {
     u8 pad0[0x3FC];
-    s32 f3FC;
+    BmlResource *bml_resource;
     u8 pad400[0x408 - 0x400];
     u32 f408;
     u8 pad40C[0x460 - 0x40C];
@@ -653,7 +653,7 @@ s32 TBoss6Type1__ct(saddr arg0_, saddr parent, saddr arg2_) {
         tmp.c = 0;
         ((TObjEnemy *)arg0)->exchange_object_state(&tmp, 0);
     }
-    *(s32 *)((s8 *)arg0 + 0x3FC) = (s32)TBoss6PlotFalz::get_scene_archive();
+    *(saddr *)((s8 *)arg0 + 0x3FC) = (saddr)TBoss6PlotFalz::get_scene_archive();
     *(s32 *)((s8 *)arg0 + 0x24) = 0;
     *(s32 *)((s8 *)arg0 + 0x34) = 0;
     VecCopy((Vec *)(arg0 + 0x38), &lbl_80470CD4);
@@ -1056,7 +1056,7 @@ void TBoss6Type1__sub_802B854C(void *p) {
     for (i = 0; i < TBoss6Type1__data_805DE3C4; i++) {
         a = &self->anim[i];
         ((TBoss6Type1 *)a)->copy_transform((void *)lbl_80470F0C);
-        a->id = a->prevId = (saddr)get_bml_motion((BmlResource *)self->f3FC, TBoss6Type1__motion_set_table[2].ids[i]);
+        a->id = a->prevId = (saddr)get_bml_motion(self->bml_resource, TBoss6Type1__motion_set_table[2].ids[i]);
     }
 }
 
@@ -1429,7 +1429,7 @@ void TBoss6Type1::update_beam_attack() {
     s32 n;
     s32 i;
 
-    if (motion != (saddr)get_bml_motion((BmlResource *)self->f3FC, TBoss6Type1__motion_set_table[13].ids[1])) return;
+    if (motion != (saddr)get_bml_motion(self->bml_resource, TBoss6Type1__motion_set_table[13].ids[1])) return;
     if (t < 12.5f || t > 22.0f) return;
     {
     f32 end = 12.5f + self->f468;
