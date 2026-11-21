@@ -147,7 +147,7 @@ void TWindowCtrl__sub_8024ADF0(saddr arg0);
 void TWindowSubComCard__sub_8024AB98(saddr arg0);
 s32 TLobby__sub_802D29E8(u32 arg0);
 void TWindowCtrl__sub_8024ADAC(saddr arg0);
-void TWindowSubTradeMain__sub_802D2870(void);
+void snapshot_trade_inventories(void);
 void fn_8024AB54(saddr arg0);
 void fn_8027B2A8(void *);
 }
@@ -187,8 +187,8 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
     this->m_24 = -1;
     fn_8024AB54(m_28);
     TWindowCtrl__sub_8024ADAC(m_28);
-    TLobby__sub_802D2A0C((uaddr)this);
-    TWindowSubTradeMain__sub_802D2870();
+    claim_trade_main_window((uaddr)this);
+    snapshot_trade_inventories();
     parent_menu->hide_for_subwindow();
     o = new TWindowChat(this, (void *)((char *)this + 84));
     *(void **)((s8 *)this + 0x50) = o;
@@ -684,7 +684,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
 
 extern "C" {
 TWindowMessageYesNo *update_from_lobby__19TWindowSubTradeMainFi(TWindowSubTradeMain *window) {
-    return open_option_dialog__19TWindowSubTradeMainFPvi(window, TLobby__sub_802D268C());
+    return open_option_dialog__19TWindowSubTradeMainFPvi(window, build_trade_partner_status_text());
 }
 
 TWindowMessageYesNo *open_status_window__19TWindowSubTradeMainFi(TWindowSubTradeMain *window) {

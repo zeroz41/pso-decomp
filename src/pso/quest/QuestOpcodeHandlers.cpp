@@ -974,7 +974,7 @@ s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
 s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
-s32 TCheckRoomSequence__sub_80210D44(u8 *item, s32 slot);
+s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
 void try_close__6TLobbyFPv(void *p);
 s32 play_sound_effect(int, int, int, int);
 void play_cue_stream_file(saddr name);
@@ -3814,7 +3814,7 @@ void qst_op_delete_bank_item(u8 arg0, u8 arg1) {
     item.data[3] = qst_registers[(u8)arg0++];
     item.data[4] = qst_registers[(u8)arg0++];
     item.data[5] = qst_registers[(u8)arg0];
-    if (TCheckRoomSequence__sub_80210D44((u8 *)&item, 0) != 0) {
+    if (TCheckRoomSequence__delete_bank_item((u8 *)&item, 0) != 0) {
         qst_registers[arg1] = 1;
     } else {
         qst_registers[arg1] = 0;

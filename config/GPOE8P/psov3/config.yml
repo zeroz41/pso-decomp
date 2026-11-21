@@ -735,20 +735,20 @@ force_active:
   - TLockOnCursor__sub_8013EBBC
   - TLockOnCursor__sub_8013EBE8
   - TLockOnCursor__sub_8013EC14
-  - TLockOnCursor__sub_8013ED68
+  - destroy_target_records
   - TLockOnCursor__sub_8013F000
   - TLogo__sub_8013F7E8
   - TLogo__sub_8013F800
   - TLogo__sub_8013F808
   - TMainCursor__ct
-  - TMainCursor__sub_8013B398
+  - copy_action_entry
   - TMainCursor__sub_8013E17C
   - TMainCursor__sub_8013E184
   - TMainCursor__sub_8013E18C
   - TMainCursor__sub_8013E194
   - TMainCursor__sub_8013E1C0
   - TMainCursor__sub_8013E290
-  - TMainCursor__sub_8013E40C
+  - matches_id
   - TMainCursor__sub_8013E4A0
   - TMainCursor__sub_8013E570
   - TMainCursor__sub_8013E694
@@ -17847,7 +17847,7 @@ force_active:
   - run_task__19TAdSelectGameModeGCFv
   - sub_80285054__25TWindowSubSymbolChatPartsFv
   - sub_80285274__25TWindowSubSymbolChatPartsFPUc
-  - "TLobby__sub_803C8594"
+  - "get_adx_threshold_and_chunk"
   - "TLobby__sub_803C9104"
   - "TLobby__sub_803C9350"
   - "TLobby__sub_803C9358"

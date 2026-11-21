@@ -87,7 +87,7 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
 int fn_8001ED90(void *p);
 void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p);
-int TAdSinglePlyChrSelectGC__sub_802905B8(void);
+int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
 void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * _w0);
 s32 release_texture_list(void *);
 
@@ -445,7 +445,7 @@ void TCMCharacter::reset_model_parts() {
 s32 TAdSinglePlyChrSelectGC::is_active() {
     return (u8)((u8) (char_select_active_flag == 1));
 }
-int TAdSinglePlyChrSelectGC__sub_802905B8(void) {  return char_creation_figure_draw_flag; }
+int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void) {  return char_creation_figure_draw_flag; }
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 }
 void reset_creation_shape_set(saddr arg0) {

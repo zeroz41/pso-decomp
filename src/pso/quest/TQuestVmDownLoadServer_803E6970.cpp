@@ -229,7 +229,7 @@ s32 TQuestVmDownLoadServer__sub_803E6F98(u16 arg0) {
     u8 decoded[2];
     u16 code;
     code = arg0;
-    if (TQuestVmDownLoadServer__sub_803ECC7C(arg0) != 0) {
+    if (TQuestVmDownLoadServer__is_sjis_double_byte(arg0) != 0) {
         code = TQuestVmDownLoadServer__sub_803EC69C(code);
     }
     if (TQuestVmDownLoadServer__sub_803E7098(decoded, code) != 1) {
@@ -242,7 +242,7 @@ s32 TQuestVmDownLoadServer__sub_803E7018(u16 arg0) {
     u8 decoded[2];
     u16 code;
     code = arg0;
-    if (TQuestVmDownLoadServer__sub_803ECC7C(arg0) != 0) {
+    if (TQuestVmDownLoadServer__is_sjis_double_byte(arg0) != 0) {
         code = TQuestVmDownLoadServer__sub_803EC69C(code);
     }
     if (TQuestVmDownLoadServer__sub_803E7098(decoded, code) != 1) {

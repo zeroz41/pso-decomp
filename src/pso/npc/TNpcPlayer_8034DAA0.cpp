@@ -790,7 +790,7 @@ u8 *TNpcPlayer::get_lobby_entry_ptr() {
     return (u8 *)&npc_lobby_entry_positions[TLobby::get_instance()];
 }
 
-s32 TNpcPlayer__sub_8034DE40(void) {
+s32 TNpcPlayer__get_lobby_entry_yaw(void) {
     return npc_lobby_entry_yaws[TLobby::get_instance()];
 }
 

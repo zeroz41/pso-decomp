@@ -6,12 +6,12 @@
 
 // --- C functions defined in AdxStream.cpp ---
 extern "C" {
-void TLobby__sub_803C8514(AdxStreamFile *file, s32 sectors);
-s32 TLobby__sub_803C8578(AdxStreamFile *file, s32 sectors);
-s32 TLobby__sub_803C8594(AdxStreamFile *file, s32 *threshold, s32 *chunk_size);
-s32 TLobby__sub_803C85AC(const AdxStreamFile *file, s32 *position);
-void TLobby__sub_803C89C4(AdxStreamFile *file);
-s32 TLobby__sub_803C8B2C(const AdxStreamFile *file);
+void set_adx_stream_size_sectors(AdxStreamFile *file, s32 sectors);
+s32 set_adx_max_read_sectors(AdxStreamFile *file, s32 sectors);
+s32 get_adx_threshold_and_chunk(AdxStreamFile *file, s32 *threshold, s32 *chunk_size);
+s32 get_adx_stream_position(const AdxStreamFile *file, s32 *position);
+void stop_adx_stream(AdxStreamFile *file);
+s32 get_adx_stream_status(const AdxStreamFile *file);
 void TLobby__sub_803C8B38(AdxStreamFile *file);
 }
 // --- end of C functions

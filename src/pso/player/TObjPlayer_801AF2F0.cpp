@@ -2132,7 +2132,7 @@ u32 TWindowReturnCity__ct(u32, saddr, u16);
 s32 get_battle_ctrl_default__6TLobbyFv();
 s32 get_party_yaw();
 u8 *get_party_position(void);
-s32 TNpcPlayer__sub_8034DE40();
+s32 TNpcPlayer__get_lobby_entry_yaw();
 void TObjPlayer__sub_80354BE4(s32);
 s32 TObjPlayer__sub_80354D5C(s32);
 void TObjPlayer__sub_80354E7C(void);
@@ -6094,7 +6094,7 @@ void TObjPlayer::prepare_hospital_return() {
     set_arrival_override_pos(((u16 (*)(void *))get_entity_id)(this), get_hospital_yaw(), (saddr)((TObjPlayer *)this)->get_hospital_position());
     this->set_state_flags(0x800);
     this->set_battle_flag(0);
-    TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(TNpcPlayer::get_lobby_entry_ptr()), (s32)(TNpcPlayer__sub_8034DE40()));
+    TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(TNpcPlayer::get_lobby_entry_ptr()), (s32)(TNpcPlayer__get_lobby_entry_yaw()));
 }
 
 void handle_6x34(void) {  }

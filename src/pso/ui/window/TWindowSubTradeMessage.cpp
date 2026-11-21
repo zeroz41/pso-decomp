@@ -54,7 +54,7 @@ void TWindowSubTradeMessage::run_task() {
 }
 
 TWindowSubTradeMessage::~TWindowSubTradeMessage() {
-    TLobby__sub_802D29B8((uaddr)this);
+    clear_trade_message_controller_if_owner((uaddr)this);
     if (messageWindow != 0) {
         messageWindow->close();
         messageWindow=0;
@@ -66,6 +66,6 @@ TWindowSubTradeMessage::TWindowSubTradeMessage(TWindowMainMenu *parent, s32 inde
     parentWindow=parent;
     playerIndex=index;
     messageWindow=0;
-    TLobby__sub_802D29DC((saddr)this);
+    set_trade_message_controller((saddr)this);
     state=0;
 }

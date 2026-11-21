@@ -90,7 +90,7 @@ void TLobby::adxt_start_mem_idx(u8 *arg1, s32 arg2) {
 void start_audio_stream_file(Stream_803CA824 *self, const char *name) {
     stop_audio_stream((u8 *)self);
     TLobby::init_once();
-    if ((self->handle = TLobby__sub_803C8BAC(name, self->f10)) == 0) {
+    if ((self->handle = ADXSTM_OpenFnameEx(name, self->f10)) == 0) {
         TLobby::release_ref();
         TLobby::report_adx_error("E8101205 ADXT_StartFname: can't open ", name);
         self->f60 = -1;

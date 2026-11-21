@@ -186,7 +186,7 @@ void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
     } else if (stat == 4) {
         end_803CA8B4(self);
     }
-    if (self->f8 != NULL && TLobby__sub_803C8B2C(self->f8) == 4) {
+    if (self->f8 != NULL && get_adx_stream_status(self->f8) == 4) {
         self->f60 = -1;
         self->stat = 6;
     }

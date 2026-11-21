@@ -6,10 +6,10 @@
 extern "C" {
 u8 *TLobby__sub_802D298C(void);
 u8 *TLobby__sub_802D299C(void);
-s32 TLobby__sub_802D29B8(uaddr arg0);
-int TLobby__sub_802D29DC(saddr a0);
+s32 clear_trade_message_controller_if_owner(uaddr arg0);
+int set_trade_message_controller(saddr a0);
 s32 TLobby__sub_802D29E8(uaddr arg0);
-s32 TLobby__sub_802D2A0C(uaddr arg0);
+s32 claim_trade_main_window(uaddr arg0);
 s32 TLobby__sub_802D2A2C(uaddr arg0);
 s32 TLobby__sub_802D2A50(uaddr arg0);
 s32 *get_trade_window_state(void);
@@ -19,10 +19,10 @@ s32 *get_trade_window_state(void);
 extern "C" {
 u8 *TLobby__sub_802D298C(void);
 u8 *TLobby__sub_802D299C(void);
-s32 TLobby__sub_802D29B8(uaddr arg0);
-int TLobby__sub_802D29DC(saddr a0);
+s32 clear_trade_message_controller_if_owner(uaddr arg0);
+int set_trade_message_controller(saddr a0);
 s32 TLobby__sub_802D29E8(uaddr arg0);
-s32 TLobby__sub_802D2A0C(uaddr arg0);
+s32 claim_trade_main_window(uaddr arg0);
 s32 TLobby__sub_802D2A2C(uaddr arg0);
 s32 TLobby__sub_802D2A50(uaddr arg0);
 s32 *get_trade_window_state(void);

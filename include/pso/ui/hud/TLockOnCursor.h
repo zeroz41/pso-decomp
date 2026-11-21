@@ -50,7 +50,7 @@ public:
 };
 
 // A TargetCursorRecord and a flag word. Built and destroyed by the
-// free functions init_sub__13TLockOnCursorFPv and TLockOnCursor__sub_8013EDC4, so both stay untyped here.
+// free functions init_sub__13TLockOnCursorFPv and destroy_target_record, so both stay untyped here.
 // TargetCursorList.h is not included: its C declarations clash with the cursor units' own.
 struct TUnk_8013F054 {
     u8 unk_0[0x8];
@@ -58,7 +58,7 @@ struct TUnk_8013F054 {
 };
 
 // A count and eleven TUnk_8013F054, built by TLockOnCursor__sub_8013F000 and destroyed
-// by TLockOnCursor__sub_8013ED68 (no real constructor until TUnk_8013F054 has one).
+// by destroy_target_records (no real constructor until TUnk_8013F054 has one).
 struct TUnk_8013F000 {
     s32 unk_0;
     TUnk_8013F054 unk_4[11];

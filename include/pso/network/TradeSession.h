@@ -38,7 +38,7 @@ void send_trade_busy_reply(saddr arg0);
 // --- C functions defined in TradeSession.cpp ---
 extern "C" {
 void reset__6TLobbyFi(saddr arg0);
-saddr TLobby__sub_802D268C(void);
+saddr build_trade_partner_status_text(void);
 u8 *copy_struct_f8__6TLobbyFii(saddr arg0, saddr arg1);
 }
 // --- end of C functions

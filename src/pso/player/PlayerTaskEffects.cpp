@@ -157,7 +157,7 @@ extern void *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
-s32 TMainCursor__sub_8013E03C(void);
+s32 get_client_id(void);
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
@@ -534,7 +534,7 @@ void TUnk_804DDD28::operator delete(void *p) { obj_heap->heap_free(p); }
 
 extern "C" {
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0) {
-    *(u8 **)((s8 *)arg0 + 4) = (u8 *)get_player_by_client_id((u16)TMainCursor__sub_8013E03C());
+    *(u8 **)((s8 *)arg0 + 4) = (u8 *)get_player_by_client_id((u16)get_client_id());
     if (*(u8 **)((s8 *)arg0 + 4) != NULL) {
         return 1;
     }

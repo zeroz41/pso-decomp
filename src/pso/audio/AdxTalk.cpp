@@ -554,7 +554,7 @@ void stop_audio_stream(u8 *arg0) {
     u8 *temp_r4_2;
     u8 *temp_r4_3;
     if (player->f8 != NULL) {
-        TLobby__sub_803C89C4(player->f8);
+        stop_adx_stream(player->f8);
         TLobby__sub_803C8B38(player->f8);
         temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3 != NULL) {
@@ -611,7 +611,7 @@ void TLobby__sub_803C9DB4(u8 *arg0) {
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     s32 i;
     if (arg0->f8 != NULL) {
-        TLobby__sub_803C89C4(arg0->f8);
+        stop_adx_stream(arg0->f8);
         TLobby__sub_803C8B38(arg0->f8);
         if (arg0->f14 != NULL) {
             arg0->f14->vt->f14(arg0->f14);
@@ -711,7 +711,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
     }
     if ((s32)arg0->f0 == 1) {
         if (arg0->f8 != NULL) {
-            TLobby__sub_803C89C4(arg0->f8);
+            stop_adx_stream(arg0->f8);
             TLobby__sub_803C8B38(arg0->f8);
             if (arg0->f14 != NULL) {
                 arg0->f14->vt->f14(arg0->f14);
