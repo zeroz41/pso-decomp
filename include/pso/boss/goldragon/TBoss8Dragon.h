@@ -89,9 +89,7 @@ public:
     f32 m_5d4;
     f32 m_5d8;
     f32 m_5dc;
-    u8 unk_5E0[0x4];
-    f32 m_5e4;
-    u8 unk_5E8[0x4];
+    Vec m_5e0;
     AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
     AccelerationCurve curve1;
     void* m_634;

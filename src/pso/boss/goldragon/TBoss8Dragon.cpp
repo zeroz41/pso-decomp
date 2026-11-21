@@ -784,30 +784,6 @@ extern void *TBoss8Dragon__dive_height_curve[12];
 
 struct Self_802F87EC { u8 pad[0x6DC]; VObj_14_f8ef8c arr[4]; };
 
-struct Dragon_802F951C : VObj_18_444bc5 {
-    u8 pad1C[0x60 - 0x1C];
-    s32 angle;
-    u8 pad64[0xB8 - 0x64];
-    s16 field_B8;
-    u8 padBA[0x394 - 0xBA];
-    u8 f394[0x3A0 - 0x394];
-    Vec dir;
-    f32 f3AC;
-    u8 pad3B0[0x3C0 - 0x3B0];
-    s32 field_3C0;
-    u8 pad3C4[0x5E0 - 0x3C4];
-    Vec v5E0;
-    u8 curve0[0x610 - 0x5EC];
-    u8 curve1[0x654 - 0x610];
-    s32 sign;
-    u8 pad658[0x84C - 0x658];
-    s32 field_84C;
-    u8 pad850[0x85C - 0x850];
-    s32 base;
-    u8 pad860[0x864 - 0x860];
-    f32 field_864;
-};
-
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_collider_contact_low(u8 *arg0);
 void set_collider_contact_high(u8 *arg0);
@@ -1469,9 +1445,9 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_5d4 = 0.0f;
     *(f32 *)((s8 *)this + 0x5D8) = 0.0f;
     this->m_5dc = 0.0f;
-    *(f32 *)((s8 *)this + 0x5E0) = 0.0f;
-    this->m_5e4 = 0.0f;
-    *(f32 *)((s8 *)this + 0x5E8) = 0.0f;
+    this->m_5e0.x = 0.0f;
+    this->m_5e0.y = 0.0f;
+    this->m_5e0.z = 0.0f;
     curve0.reset_coords();
     curve1.reset_coords();
     VecCopy__FP3VecPC3Vec((u8 *)this + 0x634, (u8 *)this + 0x38);
@@ -3190,81 +3166,80 @@ void TBoss8Dragon::sub_802F9850(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss8Dragon::state_turn_and_charge(s32 event) {
-    Dragon_802F951C *d = (Dragon_802F951C *)this;
     s32 diff;
     switch (event) {
     case 4:
-        d->field_B8 = 0x10;
-        d->m94();
-        ((TBoss8Dragon *)d)->set_state();
-        ((TBoss8Dragon *)d)->activate_attack();
-        d->field_3C0 &= ~0x36;
-        ((TObjEneDD_ST *)d)->update_velocity();
-        init_acceleration_curve((AccelerationCurve *)d->curve0, (f32)(0.1f), (f32)(-0.1f), (f32)d->f3AC, (f32)(2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14)));
-        diff = angle_diff_s16(d->angle, (s32)(RADIANS_TO_ANGLE * atan2_float(d->dir.x, d->dir.z)));
+        this->requested_action = 0x10;
+        this->clear_intangible();
+        this->set_state();
+        this->activate_attack();
+        this->m_3c0 &= ~0x36;
+        this->update_velocity();
+        init_acceleration_curve(&this->curve0, (f32)(0.1f), (f32)(-0.1f), (f32)this->destination_distance, (f32)(2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14)));
+        diff = angle_diff_s16(this->rotation_y, (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z)));
         if (diff >= 0) {
-            d->sign = 1;
+            this->m_654 = 1;
         } else {
             diff = -diff;
-            d->sign = -1;
+            this->m_654 = -1;
         }
-        init_acceleration_curve((AccelerationCurve *)d->curve1, (f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14))));
-        d->base = d->angle;
-        d->field_84C = 0;
-        d->field_864 = 0.0f;
+        init_acceleration_curve(&this->curve1, (f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14))));
+        this->m_85c = this->rotation_y;
+        this->m_84c = 0;
+        this->m_864 = 0.0f;
         break;
     case 2:
         send_action_packet(26);
         break;
     case 11:
-        if (d->field_84C == 2) {
+        if (this->m_84c == 2) {
             send_action_packet(15);
         }
         break;
     case 9:
-        if (d->field_84C == 2) {
+        if (this->m_84c == 2) {
             this->pick_next_action();
         }
         break;
     case 7:
-        ((TBoss8Dragon *)d)->sync_target_pos();
+        this->sync_target_pos();
         break;
     case 6:
-        ((void (*)(u8 *, void *))TBoss8Dragon__sub_802FC500)(((u8 *)this), d->f394);
-        ((TBoss8Dragon *)d)->save_position();
+        ((void (*)(u8 *, void *))TBoss8Dragon__sub_802FC500)(((u8 *)this), &this->destination);
+        this->save_position();
         break;
     case 0:
         this->advance_animation();
-        spawn_effect_if_in_band__12TBoss8DragonFi((saddr)d);
-        TBoss8Dragon__sub_802FB09C((saddr)d);
-        switch (d->field_84C) {
+        spawn_effect_if_in_band__12TBoss8DragonFi((saddr)this);
+        TBoss8Dragon__sub_802FB09C((saddr)this);
+        switch (this->m_84c) {
         case 0:
-            d->field_864 += 1.0f;
-            d->angle = (s32)((f32)d->sign * sample_acceleration_curve((AccelerationCurve *)d->curve1, d->field_864) + (f32)d->base);
-            if (((AccelerationCurve *)d->curve1)->check_param_threshold(d->field_864) != 0) {
-                d->field_864 = 0.0f;
-                d->field_84C = 1;
+            this->m_864 += 1.0f;
+            this->rotation_y = (s32)((f32)this->m_654 * sample_acceleration_curve(&this->curve1, this->m_864) + (f32)this->m_85c);
+            if (this->curve1.check_param_threshold(this->m_864) != 0) {
+                this->m_864 = 0.0f;
+                this->m_84c = 1;
             }
             break;
         case 1: {
-            f32 prev = sample_acceleration_curve((AccelerationCurve *)d->curve0, d->field_864);
+            f32 prev = sample_acceleration_curve(&this->curve0, this->m_864);
             f32 dlt;
             Vec v;
-            d->field_864 += 1.0f;
-            dlt = sample_acceleration_curve((AccelerationCurve *)d->curve0, d->field_864) - prev;
-            v.x = d->dir.x * dlt;
+            this->m_864 += 1.0f;
+            dlt = sample_acceleration_curve(&this->curve0, this->m_864) - prev;
+            v.x = this->destination_direction.x * dlt;
             v.y = 0.0f;
-            v.z = d->dir.z * dlt;
+            v.z = this->destination_direction.z * dlt;
             apply_ground_movement(&v);
-            if (((AccelerationCurve *)d->curve0)->check_param_threshold(d->field_864) != 0) {
-                d->field_84C = 2;
+            if (this->curve0.check_param_threshold(this->m_864) != 0) {
+                this->m_84c = 2;
             }
             break;
         }
         }
         break;
     case 5:
-        VecCopy__FP3VecPC3Vec(&d->v5E0, &d->dir);
+        VecCopy__FP3VecPC3Vec(&this->m_5e0, &this->destination_direction);
         break;
     }
 }
