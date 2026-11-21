@@ -1,7 +1,9 @@
 #ifndef PSO_BOSS_DARKFALZ_TBOSS4ZAKO_H
 #define PSO_BOSS_DARKFALZ_TBOSS4ZAKO_H
 #include "types.h"
-struct TBoss4ZakoVec3 { f32 x, y, z; };
+struct BmlResource;
+#include "dolphin/mtx/GeoTypes.h"
+typedef Vec TBoss4ZakoVec3;
 struct TBoss4ZakoCollisionState { u8 _pad0[0x18]; s32 flags; };
 struct TBoss4Zako {
     s32 sub_8005D6B0();
@@ -13,7 +15,7 @@ struct TBoss4Zako {
  u8 _pad80[0x228]; u32 m_2a8; u8 _pad2ac[0x1C]; s16 m_2c8; u8 _pad2ca[0x32];
  u8 m_2fc[0x30]; s16 m_32c; u8 _pad32e[0x10]; u16 m_33e;
  u8 _pad340[0x34]; s32 m_374; void *m_378; u8 _pad37c[4];
- u32 m_380; TBoss4ZakoCollisionState *m_384; s32 m_388;
+ BmlResource *archive; TBoss4ZakoCollisionState *m_384; s32 m_388;
  TBoss4ZakoVec3 m_38c; f32 m_398, m_39c, m_3a0;
  s32 m_3a4, m_3a8, m_3ac; f32 m_3b0; void *m_3b4;
  s32 m_3b8, m_3bc, m_3c0;
@@ -48,7 +50,7 @@ ZAKO_OFFSET(m_32c, 0x32C);
 ZAKO_OFFSET(m_33e, 0x33E);
 ZAKO_OFFSET(m_374, 0x374);
 ZAKO_OFFSET(m_378, 0x378);
-ZAKO_OFFSET(m_380, 0x380);
+ZAKO_OFFSET(archive, 0x380);
 ZAKO_OFFSET(m_384, 0x384);
 ZAKO_OFFSET(m_388, 0x388);
 ZAKO_OFFSET(m_38c, 0x38C);

@@ -2,6 +2,8 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4URO_H
 
 #include "types.h"
+
+struct BmlResource;
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 
 struct TBoss4Uro : public TBoss4Zako {

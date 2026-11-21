@@ -2,6 +2,7 @@
 #define PSO_BOSS_DARKFALZ_TOBJDFDEMO5_H
 
 #include "types.h"
+#include "pso/boss/darkfalz/DarkFalzScenePart.h"
 #include "pso/object/base/TObjMotion.h"
 
 class TParticleCtrl;
@@ -15,13 +16,6 @@ struct TObjFishNodeEntry {
     Vec offset; // inferred: a float triple per node (TBoss6Type2 sets y -5.0 / 1.0)
 };
 
-// One model of the Dark Falz death scene: its model, texture list and motion.
-struct TObjDFDemo5Part {
-    s32 model;
-    s32 texlist;
-    AnimationMotion *motion;
-};
-
 struct TObjDFDemo5 : public TObjBase {
     TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle);
     virtual ~TObjDFDemo5();
@@ -30,10 +24,10 @@ struct TObjDFDemo5 : public TObjBase {
     void update_particle_emitters();
     void release_subobjects();
     void draw_fading_motion();
-    static void *create(void *arg0, void *arg1, void *arg2);
+    static TObjDFDemo5 *create(TObject *parent, const Vec *position, s32 angle);
 
     TParticleCtrl *particle_emitters[5];
-    TObjDFDemo5Part parts[4];
+    DarkFalzScenePart parts[4];
     Vec pos;
     s32 angle;
     s32 timer;

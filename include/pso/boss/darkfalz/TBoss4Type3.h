@@ -2,6 +2,8 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4TYPE3_H
 
 #include "types.h"
+
+struct BmlResource;
 #include "pso/unk/ModelNodeTables.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
@@ -38,7 +40,7 @@ struct TBoss4Type3 : public TObjEnemy {
     s32 m_374;
     ModelNodeTables node_tables;
     u32 m_38c;
-    s32 m_390;
+    BmlResource *archive;
     TBoss4Type3CollisionState *m_394;
     s32 m_398;
     f32 m_39c;
@@ -136,6 +138,8 @@ struct TBoss4Type3 : public TObjEnemy {
     void set_anim_state(s32 arg1);
     void draw();
     static s32 create(s32 arg0);
+    s32 get_action_state();
+    void get_defeat_params(u16 *a, u16 *b, u16 *out);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
     static f32 compute_wave_offset(f32 farg0);
     static s32 pick_random_target_player();
@@ -163,7 +167,7 @@ typedef char Type3FractionOffset[(offsetof(TBoss4Type3,m_39c)==0x39C)?1:-1];
 typedef char Type3Offset_374[(offsetof(TBoss4Type3,m_374) == 0x374)?1:-1];
 typedef char Type3Offset_378[(offsetof(TBoss4Type3,node_tables) == 0x378)?1:-1];
 typedef char Type3Offset_38c[(offsetof(TBoss4Type3,m_38c) == 0x38c)?1:-1];
-typedef char Type3Offset_390[(offsetof(TBoss4Type3,m_390) == 0x390)?1:-1];
+typedef char Type3Offset_390[(offsetof(TBoss4Type3,archive) == 0x390)?1:-1];
 typedef char Type3Offset_394[(offsetof(TBoss4Type3,m_394) == 0x394)?1:-1];
 typedef char Type3Offset_3a0[(offsetof(TBoss4Type3,m_3a0) == 0x3a0)?1:-1];
 typedef char Type3Offset_3b0[(offsetof(TBoss4Type3,m_3b0) == 0x3b0)?1:-1];

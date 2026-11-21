@@ -4,6 +4,10 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct NJS_OBJECT;
+struct GinjaTextureList;
+struct AnimationMotion;
+
 struct TBoss4Thanks : public TObject {
     TBoss4Thanks(TObject *);
     virtual ~TBoss4Thanks();
@@ -14,14 +18,14 @@ struct TBoss4Thanks : public TObject {
     f32 motion_frame;
     f32 fade_amount;
     s32 fade_frame;
-    s32 model;
-    s32 texture_list;
-    s32 motions[2];
+    NJS_OBJECT *model;
+    GinjaTextureList *texture_list;
+    AnimationMotion *motions[2];
     void *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 is_door_0x97_open();
-    static int dispatch_main_phase_153();
-    static int dispatch_main_phase();
+    static void dispatch_main_phase_153();
+    static void dispatch_main_phase();
     void update_particle_emitters();
     void destroy_effects();
     static int is_player_nearby(void *arg0);

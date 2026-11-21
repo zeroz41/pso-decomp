@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -23,6 +25,7 @@
 #include <stddef.h>
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TObjDFTenchuFuru.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -73,8 +76,6 @@ void TBoss4Type2__sub_80057128(void *arg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern s32 boss4_type2_attack_pattern_table[];
 extern s32 game_difficulty_selection;
-s32 TBoss4Type2__sub_80054DA8();
-s32 create_all_tenchu_furu__11TBoss4Type2Fi();
 
 struct Stack_80055918
 {
@@ -108,7 +109,7 @@ struct Obj_8005676C {
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0x390 - 0x64];
-    s32 f390;
+    BmlResource *archive;
     u8 pad394[0x3c8 - 0x394];
     s32 f3c8;
     u8 pad3cc[0x3d0 - 0x3cc];
@@ -149,7 +150,7 @@ struct Row_80057270 {
 
 struct Obj_80057270 {
     u8 pad0[0x390];
-    s32 f390;
+    BmlResource *archive;
     u8 pad394[0x3c0 - 0x394];
     f32 f3c0;
     u8 pad3c4[0x3c8 - 0x3c4];
@@ -173,9 +174,7 @@ struct O_80056C30 {
 struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f32 f3BC; };
 
 u16 get_entity_id(void *);
-s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void TObjPlayer__sub_80052390(f32 x);
@@ -287,7 +286,7 @@ TUnk_80486924::TUnk_80486924(TObject *parent, s32 *params) : TObjEnemy(parent) {
     owner = (TBoss4DarkFalz *)params[0];
     apply_set_data(params + 1);
     clear_lobby_object_state();
-    unk_390 = TBoss4Uro::get_instance_count();
+    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type2_start_position);
@@ -489,22 +488,22 @@ void TUnk_80486924::draw_hanger() {
     s32 i;
     set_motion_packed_rotation();
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)arg0->f390, boss4_zanzo_bml_index_table[i]));
+        TObjFish::set_global_param((s32)((GinjaTextureList *)(get_bml_texlist(arg0->archive, boss4_zanzo_bml_index_table[i]))));
         switch (i) {
         case 1:
             model_render_flags |= 0x20000;
             TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, arg0->f3c0);
             ((TObjFish *)(arg0->f44c))->set_draw_callback_list();
-            draw_model_motion((void *)get_bml_model((BmlResource *)arg0->f390, boss4_zanzo_bml_index_table[i]),
-                (void *)get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
+            draw_model_motion((void *)get_bml_model(arg0->archive, boss4_zanzo_bml_index_table[i]),
+                (void *)get_bml_motion(arg0->archive, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
                 arg0->f3d0);
             ((TObjFish *)arg0->f44c)->clear_render_callback();
             model_render_flags &= ~0x20000;
             break;
         default:
             TBoss6PlotFalz__sub_802AC008(arg0->f3f0, arg0->f3f4);
-            draw_model_motion((void *)get_bml_model((BmlResource *)arg0->f390, boss4_zanzo_bml_index_table[i]),
-                (void *)get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
+            draw_model_motion((void *)get_bml_model(arg0->archive, boss4_zanzo_bml_index_table[i]),
+                (void *)get_bml_motion(arg0->archive, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
                 arg0->f3d0);
             TBoss6PlotFalz::update_camera_target();
             break;
@@ -795,9 +794,9 @@ void TBoss4Type2::spawn_afterimages() {
     z.unk_24 = 0.0f;
     z.lifetime = 10;
     for (i = 0; i < 2; i++) {
-        z.unk_10 = get_bml_texlist((BmlResource *)(((Obj_8005676C *)this)->f390), boss4_zanzo_bml_index_table[i]);
-        z.model = (void *)get_bml_model((BmlResource *)(((Obj_8005676C *)this)->f390), boss4_zanzo_bml_index_table[i]);
-        z.motion = (void *)get_bml_motion(((Obj_8005676C *)this)->f390, ((Row_8005676C *)&TBoss4Type2__attack_pattern_table)[((Obj_8005676C *)this)->f3c8].c[i]);
+        z.unk_10 = get_bml_texlist(((Obj_8005676C *)this)->archive, boss4_zanzo_bml_index_table[i]);
+        z.model = (void *)get_bml_model(((Obj_8005676C *)this)->archive, boss4_zanzo_bml_index_table[i]);
+        z.motion = (void *)get_bml_motion(((Obj_8005676C *)this)->archive, ((Row_8005676C *)&TBoss4Type2__attack_pattern_table)[((Obj_8005676C *)this)->f3c8].c[i]);
         TBoss4Type2::create_zanzo(this, &z);
     }
 }
@@ -1054,7 +1053,7 @@ void TBoss4Type2::tenchu_update() {
     Obj_80055BC0 *o = (Obj_80055BC0 *)this;
     Vec sp14 = o->f450;
     Vec sp8 = o->f45c;
-    u8 *boss4_type2 = (u8 *)o;
+    u8 *boss4_type2 = (u8 *)this;
     f32 temp_f1;
     f32 temp_f1_2;
     s32 temp_r0;
@@ -1079,9 +1078,9 @@ void TBoss4Type2::tenchu_update() {
     u32 temp_r3_9;
     temp_r0 = *(s32 *)((s8 *)boss4_type2 + 0x398);
     if (temp_r0 == 6) {
-        create_all_tenchu_furu__11TBoss4Type2Fi();
+        spawn_tenchu_furu(reinterpret_cast<TObject *>(boss4_type2));
     } else if (temp_r0 == 1) {
-        TBoss4Type2__sub_80054DA8();
+        apply_tenchu_hits(reinterpret_cast<TObject *>(boss4_type2));
     }
     if ((s32) *(s32 *)((s8 *)boss4_type2 + 0x3C8) == 8) {
         temp_f1 = *(f32 *)((s8 *)boss4_type2 + 0x3D0);

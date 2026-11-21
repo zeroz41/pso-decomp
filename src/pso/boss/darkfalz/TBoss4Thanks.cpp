@@ -1,4 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TObjPlayer_80052374.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -53,9 +57,6 @@ struct Thanks_8035C6FC
 };
 
 extern "C" {
-s32 get_bml_motion(void *, s32);
-s32 get_bml_texlist(void *, s32);
-s32 get_bml_model(void *, s32);
 void TBoss4Thanks__sub_8035C480(s32 arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
@@ -66,9 +67,7 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
 f32 xyz_distance(void *, const void *);
-void TObjPlayer__sub_80052390(void);
 void post_translate_matrix(const f32 *);
-int set_story_flag_or_send_quest_flag(void*);
 
 s32 fn_8035C2B4(void) {
     return get_story_flag(0x99) != 0;
@@ -76,8 +75,8 @@ s32 fn_8035C2B4(void) {
 s32 TBoss4Thanks::is_door_0x97_open() {
     return get_story_flag(0x97) != 0;
 }
-int TBoss4Thanks::dispatch_main_phase_153() { return set_story_flag_or_send_quest_flag((void*)(153)); }
-int TBoss4Thanks::dispatch_main_phase() { return set_story_flag_or_send_quest_flag((void*)(151)); }
+void TBoss4Thanks::dispatch_main_phase_153() { set_story_flag_or_send_quest_flag(153); }
+void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151); }
 
 
 void TBoss4Thanks::update_particle_emitters() {
@@ -150,12 +149,12 @@ void TBoss4Thanks::render() {
     return;
   }
   {
-    TObjPlayer__sub_80052390();
+    TObjPlayer__sub_80052390(fade);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);
-    TObjFish::set_global_param(texture_list);
-    draw_model_motion((void *)model, (void *)motions[current_motion], motion_frame);
+    TObjFish::set_global_param((s32)((GinjaTextureList *)(reinterpret_cast<s32>(texture_list))));
+    draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
     TObjPlayer::sync_player_globals();
@@ -225,13 +224,13 @@ TBoss4Thanks::~TBoss4Thanks() {
 }
 
 TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
-    u8 *instance_count;
+    BmlResource *archive;
     *(s32 *)((s8 *)this + 0) = (s32) TBoss4Thanks__class_name;
-    instance_count = (u8 *)(TBoss4Uro::get_instance_count());
-    this->model = get_bml_model(instance_count, 1);
-    this->texture_list = get_bml_texlist(instance_count, 1);
-    *(s32 *)((s8 *)this + 0x3C) = get_bml_motion(instance_count, 0x46);
-    *(s32 *)((s8 *)this + 0x40) = get_bml_motion(instance_count, 0x47);
+    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
+    this->texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(archive, 1));
+    motions[0] = get_bml_motion(archive, 0x46);
+    motions[1] = get_bml_motion(archive, 0x47);
     TBoss4Thanks__sub_8035C480((s32)((s32) ((u8 *)this)));
     this->state = 0;
     this->next_motion = 0;

@@ -1009,10 +1009,10 @@ force_active:
   - TObjDFBeamCursor__name
   - TObjDFDemo0__ct
   - TObjDFDemo0__entry_table
-  - __ct__11TObjDFDemo2FP7TObjectPvPvPv
+  - __ct__11TObjDFDemo2FP7TObjectPC3Vecll
   - TObjDFDemo2__motion_index_table
   - TObjDFDemo2__name
-  - __ct__11TObjDFDemo3FP7TObjectPvPv
+  - __ct__11TObjDFDemo3FP7TObjectPC3Vecl
   - TObjDFDemo3__name
   - TObjDFDemoF__bml_model_id_table
   - TObjDFHorming__ct
@@ -4856,7 +4856,7 @@ force_active:
   - capture_attachment__17TObjEneBm3FlyNestFPv
   - capture_beam_origins__16TObjEneNanoDragoFv
   - capture_effect_positions__14TObjEneIllGillFv
-  - capture_matrix_by_frame__16TObjDFTenchuFuruFv
+  - capture_matrix_by_frame__16TObjDFTenchuFuruFP10NJS_OBJECT
   - card_attach_callback
   - card_detach_callback
   - card_lib_state

@@ -12,6 +12,8 @@ s32 is_normal_difficulty(void);
 s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 }
 
+class TBoss4Fade;
+
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
     virtual ~TBoss6PlotFalz();
@@ -24,7 +26,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     s32 m_378;
     u8 m_37c;
     u8 unk_37D[0x3];
-    u8 * m_380;
+    TBoss4Fade *fade;
     u8 unk_384[0x6];
     s16 m_38a;
     u8 unk_38C[0x40];

@@ -1,10 +1,11 @@
 #ifndef PSO_BOSS_OLGAFLOW_TBOSS6TYPE1_H
 #define PSO_BOSS_OLGAFLOW_TBOSS6TYPE1_H
+#include "pso/boss/olgaflow/TBoss6Zanzo.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 
-struct Boss6EffectPoint { f32 x, y, z; };
+typedef Vec Boss6EffectPoint;
 // One of the two part-motion players at 0x444 (render blends prev_motion_id/prev_frame into
 // motion_id/frame by blend; names inferred from that use).
 struct Boss6PartMotion {
@@ -38,8 +39,8 @@ struct TBoss6Type1 : public TObjEnemy {
     u8 unk_378[0x80];
     s32 m_3f8;
     s32 bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
-    void* trail_point_receiver;
-    void* effect_point_receiver;
+    TBoss6Zanzo *trail_point_receiver;
+    TBoss6Zanzo *effect_point_receiver;
     u8 unk_408[0x4];
     s32 m_40c;
     s32 action_timer;
@@ -200,9 +201,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void render();
     void release_object(void *);
     void spawn_map_csn();
-    static void *create_zanzo(void *arg0, void *arg1, void *arg2);
     static void *create_grav_ball(void *arg0, void *arg1);
-    void set_effect_points(f32 *a, u32 *b);
     void spawn_grav_ball();
     void damage_players_in_range();
     void update_beam_attack();

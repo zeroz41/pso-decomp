@@ -1,7 +1,7 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
@@ -12,6 +12,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
+#include "pso/boss/olgaflow/TBoss6Zanzo.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -384,7 +385,6 @@ void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 
-#include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -607,7 +607,7 @@ const Vec lbl_80470F84 = {0.0f, 0.0f, 0.0f};
 const u32 boss6_type1_trail_point_offsets[7] = {
     0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000,
 };
-const s32 lbl_80470FAC[2] = {-0xC000, -0x40};
+const u32 lbl_80470FAC[2] = {0xFFFF4000, 0xFFFFFFC0};
 const Vec TBoss6Type1__data_80470FB4 = {0.0f, 19.8f, -5.0f};
 const Vec lbl_80470FC0 = {0.0f, 25.43f, 45.42f};
 const Vec lbl_80470FCC = {0.0f, -5.0f, 5.0f};
@@ -699,8 +699,8 @@ s32 TBoss6Type1__ct(s32 arg0_, s32 parent, s32 arg2_) {
     *(s32 *)((s8 *)arg0 + 0x650) = TObjFish__sub_800E3124((u8 *)boss6_type1_model_node_desc_b, (s32)(arg0 + 0x5FC));
     build_tables__14TBoss6PlotFalzFPvPvi(arg0 + 0x658, boss6_type1_build_table, 2);
     build_tables__14TBoss6PlotFalzFPvPvi(arg0 + 0x66C, lbl_80470EA0, 1);
-    *(s32 *)((s8 *)arg0 + 0x400) = (s32)TBoss6Type1::create_zanzo(arg0, (void *)7, (void *)0xF);
-    *(s32 *)((s8 *)arg0 + 0x404) = (s32)TBoss6Type1::create_zanzo(arg0, (void *)2, (void *)0xF);
+    ((TBoss6Type1 *)arg0)->trail_point_receiver = TBoss6Zanzo::create((TBoss6Type1 *)arg0, 7, 0xF);
+    ((TBoss6Type1 *)arg0)->effect_point_receiver = TBoss6Zanzo::create((TBoss6Type1 *)arg0, 2, 0xF);
     *(s32 *)((s8 *)arg0 + 0x414) = 0;
     *(s8 *)((s8 *)arg0 + 0x41C) = 0;
     TBoss6Type1__sub_802B96C0((s32)(arg0 + 0x420), (s32)&lbl_80470EAC);
@@ -2027,7 +2027,7 @@ void TBoss6Type1::update_trail_points() {
     subtract_vector(&points[2],&delta);
     vec3_add_to(&points[4],&delta);
     VecCopy((Vec *)&points[6], (const Vec *)&points[0]);
-    ((TBoss6Type1 *)trail_point_receiver)->set_effect_points((f32 *)points, (u32 *)boss6_type1_trail_point_offsets);
+    trail_point_receiver->set_effect_points(points, boss6_type1_trail_point_offsets);
 }
 
 void TBoss6Type1::update_effect_points() {
@@ -2035,7 +2035,7 @@ void TBoss6Type1::update_effect_points() {
     VecCopy((Vec *)&points[0], (const Vec *)&effect_points[0]);
     VecCopy((Vec *)&points[1], (const Vec *)&effect_points[1]);
     TBoss6Type1::set_part_default_value((int)this, &points[1]);
-    ((TBoss6Type1 *)effect_point_receiver)->set_effect_points((f32 *)points, (u32 *)lbl_80470FAC);
+    effect_point_receiver->set_effect_points(points, lbl_80470FAC);
 }
 
 void TBoss6Type1::set_part_default_value(int a0, void* a1) { *(float*)((char*)a1 + 0x4) = 10.0f; }

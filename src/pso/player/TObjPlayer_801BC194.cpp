@@ -66,7 +66,7 @@ void TObjPlayer::place_on_area_entry() {
             }
         }
     }
-    ((TBoss4DarkFalz *)arg0)->save_position();
+    ((TObjBase *)arg0)->save_previous_position();
     ((TObjChara *)arg0)->calc_attach_pos();
     ((TObjPlayer *)(arg0 + 0x84C))->copy_offset_position(arg0);
     ((TObjPlayer *)arg0)->set_position_history_entry(0, this->position.x, this->position.z);

@@ -12,6 +12,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 void set_constant_material(const NJS_ARGB *color);
+#include "pso/boss/darkfalz/TBoss4Fade.h"
+#include "pso/unk/text_8035966C.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -474,7 +476,6 @@ struct Stack_802AB684 {
 struct Player_802AB3E0 { u8 pad[0x38]; Vec pos; };
 
 extern "C" {
-void fn_803594B4(void *, s32, f32);
 s32 vector_length(void *);
 s32 subtract_vector(void *, const void *);
 void TBoss6PlotFalz__sub_802AB684(s32 arg0);
@@ -547,9 +548,9 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
 
 void TBoss6PlotFalz::apply_fade_alpha(s32 arg1, f32 farg0) {
     f32 var_f1;
-    u8 *temp_r3;
+    TBoss4Fade *temp_r3;
     var_f1 = farg0;
-    temp_r3 = this->m_380;
+    temp_r3 = fade;
     if ((temp_r3 != NULL) && !(var_f1 <= 0.0f)) {
         if (var_f1 > 1.0f) {
             var_f1 = 1.0f;
@@ -1091,8 +1092,8 @@ void place_players_in_warp_circle(void) {
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
             ((TObjMotion *)p)->set_position_from(&pos);
-            ((TBoss4DarkFalz *)p)->save_position();
-            *(s32 *)((u8 *)((TBoss4DarkFalz *)p)->get_hit_data() + 4) = ang + 0x8000;
+            ((TObjBase *)p)->save_previous_position();
+            *(s32 *)((u8 *)((TObjBase *)p)->get_rotation() + 4) = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
             if (TObjPlayer::is_locally_controlled((void *)p) != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -1138,7 +1139,7 @@ void TBoss6PlotFalz__sub_802AC724(u8 *boss4_dark_falz, u32 arg1) {
         return;
     }
     set_position_from__8TObjBaseFPv();
-    ((TBoss4DarkFalz *)boss4_dark_falz)->save_position();
+    ((TObjBase *)boss4_dark_falz)->save_previous_position();
     ((TObjCollidable *)boss4_dark_falz)->set_indexed_flags(0, 0x900000);
     *(u32 *)(boss4_dark_falz + 0x30) &= 0xFFFFFFDF;
 }
@@ -1216,7 +1217,6 @@ struct Msg_802AC86C { u16 h; u16 a; s8 b; s8 c; u8 pad[0x12]; };
 struct Boss_802AC86C { u8 pad[0x1C]; u16 f1C; u8 pad2[0x374 - 0x1E]; s32 f374; };
 void fn_802ACD60(void *);
 }
-s32 create_boss4_fade();
 void build_6xA3_olga_flow_boss_actions(void *);
 
 
@@ -1245,9 +1245,9 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
             play_area_music("HALL.adx");
         }
     }
-    if (m_380 != NULL) {
-        ((TObject *)m_380)->queue_destruction();
-        m_380 = NULL;
+    if (fade != NULL) {
+        fade->queue_destruction();
+        fade = NULL;
     }
     end_cutscene_camera__14TBoss6PlotFalzFPv();
     refresh_players_equipment__14TBoss6PlotFalzFPv();
@@ -1295,7 +1295,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     m_3d0 = 0;
     m_3d4 = 0;
     m_3d8 = 0;
-    m_380 = (u8 *)create_boss4_fade();
+    fade = create_boss4_fade();
     *(s32 *)((s8 *)this + 0x384) = 0;
     ensure_field384();
     (*(s32 *)&TBoss6PlotFalz__type1_instance) = 0;

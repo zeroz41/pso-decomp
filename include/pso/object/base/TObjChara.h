@@ -216,7 +216,7 @@ public:
     s16 m_2d0;
     u8 unk_2D2[0x2];
     u16 m_2d4;
-    u8 unk_2D6[0x2];
+    u16 m_2d6;
     u16 m_2d8;
     u8 unk_2DA[0x2];
     u32 m_2dc;

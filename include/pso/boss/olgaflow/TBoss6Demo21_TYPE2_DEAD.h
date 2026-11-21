@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TBoss6Zanzo;
+
 class TBoss6Demo21_TYPE2_DEAD : public TObject {
 public:
     virtual ~TBoss6Demo21_TYPE2_DEAD();
@@ -20,7 +22,8 @@ public:
     s32 m_70;
     u8 unk_74[0x28];
     s32 m_9c;
-    u8 unk_A0[0x14];
+    u8 unk_A0[0x10];
+    TBoss6Zanzo *trail_effect;
 public:
     void draw_model_13();
     static void draw_fading_model_8(void *p);

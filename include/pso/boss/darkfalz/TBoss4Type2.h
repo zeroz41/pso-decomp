@@ -94,13 +94,6 @@ struct TBoss4Type2
     u32 m_460;
     u32 m_464;
     void* m_468;
-    void check_state_transition();
-    void calc_target_position();
-    void apply_packed_state(u32 arg1);
-    void send_darkfalz_code(s32 arg1, s32 arg2, s32 arg3);
-    void send_state_to_target(s32 arg1);
-    void calc_scaled_field(s32 arg1, s32 arg2);
-    void set_motion_index(s32 arg1);
     static s32 is_active();
     static void *create_zanzo(void *arg0, void *arg1);
     void spawn_bishi_around_players();
@@ -113,8 +106,6 @@ struct TBoss4Type2
     void advance_afterimage();
     static s32 create(s32 arg0);
     static s32 pick_weighted_random(s32 n, f32 *w, s32 *t);
-    void calc_scale_slot_indices(s32 *a, s32 *b);
-    void set_state(s32 arg1);
     void spawn_afterimages();
     void choose_next_action();
     static void *create_jisin(void *arg0, void *arg1);
@@ -147,29 +138,6 @@ struct TBoss4Type2
     void md_recover_enter();
     void md_recover_idle();
     void md_recover_update();
-    // State handlers installed in the TBoss4Type1.cpp state table (lbl_80485C48).
-    void sub_800525AC();
-    void sub_800528B8();
-    void init_timer();
-    void update_tech_charge();
-    void update_scale_state();
-    void init_child_and_set_timer();
-    void update_attack_countdown();
-    void update_state();
-    void set_motion_for_state();
-    void tick_countdown_set_state7();
-    void update_spawn_uro();
-    void start_motion_for_index();
-    void tick_state_398_timer();
-    void sub_80052EE8();
-    void sub_80052EEC();
-    void sub_80052EF8();
-    void update_state_transition();
-    void sub_8005307C();
-    void update_flag800_state();
-    void sub_800530C0();
-    void check_state_if_idle();
-    void sub_800531BC();
 };
 
 typedef char Type2NodeTablesOffset[(offsetof(TBoss4Type2, node_tables) == 0x378) ? 1 : -1];

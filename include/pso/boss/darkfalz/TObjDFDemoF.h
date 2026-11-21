@@ -4,17 +4,25 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct AnimationMotion;
+struct GinjaTextureList;
+struct NJS_OBJECT;
+
 struct TObjDFDemoF : public TObjBase {
     TObjDFDemoF(TObject *parent);
     virtual ~TObjDFDemoF();
     virtual void run_task();
     virtual void render();
     virtual void vfunc_13() = 0;
-    u32 m_90;
-    static void *create(void *arg0);
-    u8 unk_94[0x24];
-    f32 m_b8;
+    static TObjDFDemoF *create(TObject *parent);
+
+    s32 timer;
+    NJS_OBJECT *models[3];
+    GinjaTextureList *textures[3];
+    AnimationMotion *motions[3];
+    f32 frame;
 };
 
 typedef char TObjDFDemoF_size[sizeof(TObjDFDemoF) == 0xBC ? 1 : -1];
+typedef char TObjDFDemoF_models_offset[offsetof(TObjDFDemoF, models) == 0x94 ? 1 : -1];
 #endif

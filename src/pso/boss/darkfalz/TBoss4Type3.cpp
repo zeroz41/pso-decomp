@@ -1,4 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/BmlResource.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
@@ -24,7 +28,6 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
 
@@ -63,7 +66,6 @@ typedef TBoss4Type3Handler Type3Handler;
 struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include <stddef.h>
-#include "pso/boss/darkfalz/TObjBs4CutAtk.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
@@ -131,7 +133,7 @@ struct Self_8005AE60 {
     u8 pad340[0x378 - 0x340];
     ModelNodeTables node_tables;
     s32 f38C;
-    s32 f390;
+    BmlResource *archive;
     s32 f394;
     u8 pad398[0x3A0 - 0x398];
     s32 f3A0;
@@ -352,9 +354,6 @@ struct VObj_8005B218 : VBase_8005B218 {
 
 u16 get_entity_id(void *);
 s32 is_split_screen();
-s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
 void TObjPlayer__sub_80052390(f32 x);
 f32 TBoss4Type3__sub_800524E8(f32);
 void TBoss4Type3__sub_800599F4(void*, int, int);
@@ -765,7 +764,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, s32 *arg2) : TObjEnemy(parent) {
     ((TObjChara *)self)->add_flags_2e4(8);
     self->f38C = arg2[0];
     ((TBoss4Type3 *)self)->apply_set_data(arg2 + 1);
-    self->f390 = TBoss4Uro::get_instance_count();
+    self->archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     self->f24 = 0;
     self->f34 = 0;
     VecCopy__FP3VecPC3Vec(self->v38, boss4_type3_start_position);
@@ -789,14 +788,14 @@ TBoss4Type3::TBoss4Type3(TObject *parent, s32 *arg2) : TObjEnemy(parent) {
         self->a438[i] = TObjFish__sub_800E3124((u8 *)(((void **)boss4_type3_effect_desc_ptr_table)[i]), (s32)&self->a444[i]);
     }
     set_motion_packed_rotation();
-    model = get_bml_model((BmlResource *)self->f390, ((s32 *)lbl_80486FB0)[0]);
+    model = get_bml_model(self->archive, ((s32 *)lbl_80486FB0)[0]);
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x51C) = p;
-    ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
+    ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->archive, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
     *(s32 *)((u8 *)self + 0x524) = (s32)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x520) = p;
-    ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x520)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x58 / 4]), 9, 10);
+    ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x520)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->archive, ((s32 *)&TBoss4Type3__anim_state_table)[0x58 / 4]), 9, 10);
     *(s32 *)((u8 *)self + 0x528) = (s32)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     ((TBoss4Type3 *)self)->create_particle_emitters();
@@ -936,7 +935,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)(get_bml_model((BmlResource *)this->m_390, ((s32 *)lbl_80486FB0)[0])), (NJS_MOTION *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[0])), (const s32 *)boss4_type3_run_task_params, NULL);
+    p->sample((NJS_OBJECT *)(get_bml_model(this->archive, ((s32 *)lbl_80486FB0)[0])), (NJS_MOTION *)(get_bml_motion(this->archive, TBoss4Type3__anim_state_table[this->m_3f0].motions[0])), (const s32 *)boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = (u8 *)((SampledMotionPoints *)p)->lookup(lim);
     push_matrix();
@@ -1058,10 +1057,10 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, this->m_3dc);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)this->m_390, tbl[i]));
+        TObjFish::set_global_param((s32)((GinjaTextureList *)(get_bml_texlist(this->archive, tbl[i]))));
         off = i;
         ((TObjFish *)((s32)this->render_lists[off]))->set_draw_callback_list();
-        draw_model_motion((void *)(get_bml_model((BmlResource *)this->m_390, tbl[i])), (void *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
+        draw_model_motion((void *)(get_bml_model(this->archive, tbl[i])), (void *)(get_bml_motion(this->archive, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
         ((TObjFish *)this->render_lists[off])->clear_render_callback();
     }
     clear_motion_packed_rotation();

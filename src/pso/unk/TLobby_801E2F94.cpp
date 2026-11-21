@@ -1,3 +1,5 @@
+#include "pso/render/TriangleFan3D.h"
+#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
@@ -168,13 +170,6 @@ struct Lines_801E341C {
     u32 *colors;
 };
 
-struct UV_801E3784 { s16 u, v; };
-
-struct Tris_801E3784 {
-    Vec *positions;
-    u32 *colors;
-    UV_801E3784 *uvs;
-};
 
 extern "C" {
 void GXBegin(s32, s32, u16);
@@ -322,10 +317,9 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
 }
-void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
-    Tris_801E3784 *t = (Tris_801E3784 *)this;
+void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
     Vec *p;
-    UV_801E3784 *uv;
+    NJS_TEX *uv;
     u32 *c;
     s32 i;
     load_camera_view_matrix();
@@ -342,9 +336,9 @@ void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
         setup_opaque_color_draw();
     }
     GXBegin(0xA0, 4, n);
-    c = t->colors;
-    p = t->positions;
-    uv = t->uvs;
+    c = fan->col;
+    p = fan->p;
+    uv = fan->tex;
     for (i = 0; i < n; i++) {
         TObjPlayer__sub_801E3F30(p->x, p->y, p->z);
         TObjPlayer__sub_801E3F24(*c);
@@ -508,7 +502,6 @@ s32 TLobby__sub_801E3E9C(s32 arg0, s32 arg1, s32 arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, s32 arg1, s32 arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
-extern s32 (*chunk_model_node_callback)(void *);
 void TKeyBoardControl__sub_8000F7FC(void);
 
 void fn_803DCEC8(void);
@@ -522,7 +515,7 @@ void TObjPlayer::render_tree(void *arg0) {
         push_matrix();
         compose_motion_node_matrix(var_r31);
         if (((s32 (*)(void *)) chunk_model_node_callback) != NULL) {
-            chunk_model_node_callback(var_r31);
+            ((s32 (*)(void *))chunk_model_node_callback)(var_r31);
         }
         if ((u32) *(u32 *)((s8 *)var_r31 + 0x2C) != 0U) {
             TObjPlayer::render_tree((void *)(*(void **)((s8 *)var_r31 + 0x2C)));
