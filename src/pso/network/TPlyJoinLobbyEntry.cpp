@@ -320,7 +320,7 @@ typedef struct { u8 pad0[0xA]; char name[0x12]; } Ent_8013703C;
 void mark_area_change_pending();
 u16 get_entity_id(void *);
 void * get_current_floor();
-void TLobby__sub_800703D0(void *, void *);
+void copy_challenge_info(void *, void *);
 void TLobby__sub_80077798(void *, void *);
 void update_idle_timeout__6TLobbyFPv(u8 *arg0);
 u8 * init_idle_timeout_timer(u8 *arg0, saddr arg1);
@@ -507,7 +507,7 @@ void TLobby::send_game_character() {
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&d, 0, sizeof(d));
-    TLobby__sub_800703D0(d.b, card + 0x21C4);
+    copy_challenge_info(d.b, card + 0x21C4);
     d.h[0] = *(u16 *)(card + 0x21A8);
     d.h[1] = *(u16 *)(card + 0x21AA);
     d.h[2] = *(u16 *)(card + 0x21AC);
@@ -1073,7 +1073,7 @@ s32 open_hard_keyboard__6TLobbyFPv(void *);
 void TLobby__sub_80077798(void *, void *);
 s32 get_flag_bit0__6TLobbyFv(void);
 char *get_card_window_area__6TLobbyFv(void);
-void TLobby__sub_800703D0(void *, void *);
+void copy_challenge_info(void *, void *);
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 extern saddr local_client_id;
 extern void *TLobby__protocol_instance;
@@ -2792,7 +2792,7 @@ void send_selected_character__6TLobbyFv(void) {
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&d, 0, sizeof(d));
-    TLobby__sub_800703D0(d.b, card + 0x21C4);
+    copy_challenge_info(d.b, card + 0x21C4);
     d.h[0] = *(u16 *)(card + 0x21A8);
     d.h[1] = *(u16 *)(card + 0x21AA);
     d.h[2] = *(u16 *)(card + 0x21AC);

@@ -652,10 +652,10 @@ force_active:
   - TLobby__sub_8006F48C
   - TLobby__sub_8006F5B0
   - TLobby__sub_8006FAE4
-  - TLobby__sub_80070170
-  - TLobby__sub_80070254
-  - TLobby__sub_80070358
-  - TLobby__sub_80070774
+  - refresh_challenge_windows
+  - update_challenge_slot_sync
+  - restore_challenge_from_save
+  - destroy_challenge_object
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
   - TLobby__sub_800F8DD8
