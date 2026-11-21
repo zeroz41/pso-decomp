@@ -44,6 +44,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
 const char *bm_boss7_crawfish_motion_names[7] = {
@@ -75,8 +77,6 @@ struct Boss7CrawfishStateRecord {
 
 // Defined without a shared declaration in their owners' headers.
 extern "C" {
-extern s32 game_difficulty_selection;
-void reset_global_table(void);
 void normalize_vector(Vec *v);
 s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
 }

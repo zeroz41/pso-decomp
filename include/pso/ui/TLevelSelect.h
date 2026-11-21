@@ -15,6 +15,7 @@ public:
 
 extern "C" {
 int count_unlocked_difficulties__12TLevelSelectFv(void);
+extern s32 game_difficulty_selection;
 }
 
 #endif

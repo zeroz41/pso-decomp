@@ -22,6 +22,7 @@ TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
 s32 project_actor_to_ground(TObjChara *actor, Vec *pos, s32 flags);
 // The radius of the actor's collision body, or a default without bodies.
 f32 get_collision_body_radius__14TObjCollidableFl(TObjCollidable *actor, s32 body);
+void reset_global_table(void);
 }
 
 // The entity table: players fill its first registered_player_count slots.

@@ -21,6 +21,7 @@
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
@@ -41,7 +42,6 @@ struct Boss7LaserAngles { s32 x, y, z; };
 // Defined without a shared declaration in their owners' headers.
 extern "C" {
 void normalize_vector(Vec *v);
-void reset_global_table(void);
 }
 
 const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
