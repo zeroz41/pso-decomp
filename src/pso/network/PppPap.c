@@ -179,7 +179,7 @@ static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
     }
     lobby_timer_stop(self->timer);
     link[2] &= ~pending_bit;
-    TLobby__sub_80400ACC((O_80400ACC *)link);
+    start_ipcp_after_auth((O_80400ACC *)link);
 }
 void pap_input(Conn_804004DC *self, PppFrame *source) {
     Conn_804004DC *connection;

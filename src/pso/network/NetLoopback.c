@@ -4,15 +4,15 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 
-s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt);
-s32 TLobby__sub_80415320(s32 id, s32 unused, u8 *arr);
-s32 TLobby__sub_80415410(s16 id, u8 *addr);
+s32 send_loopback_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
+s32 forward_loopback_packet(s32 id, s32 unused, u8 *arr);
+s32 release_loopback_slot(s16 id, u8 *addr);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s32 TLobby__sub_8041509C(void) {
+s32 loopback_shutdown(void) {
     u8 unused[8];
     clear_table_entry_locked(network_loopback_state.handler);
     network_loopback_state.handler = -1;
@@ -21,11 +21,11 @@ s32 TLobby__sub_8041509C(void) {
     return 0;
 }
 
-void TLobby__sub_804150EC(void) {
-    TLobby__sub_8041510C();
+void init_loopback(void) {
+    register_loopback_handlers();
 }
 
-s16 TLobby__sub_8041510C(void)
+s16 register_loopback_handlers(void)
 {
     s16 TLobby__sub_80409A3C(Fn_8040881C *, s16); /* declared here with other parameter types; the definition is s16 (u8 *, s16) */
     Fn_8040881C tbl[11];
@@ -45,9 +45,9 @@ s16 TLobby__sub_8041510C(void)
     tbl[5] = (Fn_8040881C)TLobby__sub_804154E4;
     tbl[6] = (Fn_8040881C)TLobby__sub_804154C0;
     tbl[7] = (Fn_8040881C)TLobby__sub_8041549C;
-    tbl[8] = (Fn_8040881C)TLobby__sub_80415410;
-    tbl[9] = (Fn_8040881C)TLobby__sub_80415320;
-    tbl[10] = (Fn_8040881C)TLobby__sub_80415230;
+    tbl[8] = (Fn_8040881C)release_loopback_slot;
+    tbl[9] = (Fn_8040881C)forward_loopback_packet;
+    tbl[10] = (Fn_8040881C)send_loopback_frame;
 
     r = TLobby__sub_80409A3C(tbl, 1);
     if (r < 0) {
@@ -69,7 +69,7 @@ s16 TLobby__sub_8041510C(void)
     return r;
 }
 
-s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt) {
+s32 send_loopback_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     LoopbackState *g = &network_loopback_state;
     u8 *slot;
     s16 len;
@@ -97,7 +97,7 @@ s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt) {
     return -0x110;
 }
 
-s32 TLobby__sub_80415320(id, unused, arr)
+s32 forward_loopback_packet(id, unused, arr)
     s16 id;
     s32 unused;
     u8 *arr;
@@ -133,7 +133,7 @@ s32 TLobby__sub_80415320(id, unused, arr)
     return -0x110;
 }
 
-s32 TLobby__sub_80415410(s16 id, u8 *addr) {
+s32 release_loopback_slot(s16 id, u8 *addr) {
     LoopbackState *p = &network_loopback_state;
     s16 size;
     s16 count;

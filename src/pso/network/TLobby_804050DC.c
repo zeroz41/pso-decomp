@@ -605,7 +605,7 @@ void ppp_input_packet(PppFrame *arg0) {
         if (G[0] != 2 && G[0] != 3) {
             (*(s16 *)((s8 *)G + 0x140))++;
             if (G[0] == 0) {
-                TLobby__sub_8040098C((Conn_804004DC *)(G + 4));
+                setup_auth_after_lcp_negotiation((Conn_804004DC *)(G + 4));
             }
             return;
         }
@@ -616,7 +616,7 @@ void ppp_input_packet(PppFrame *arg0) {
         if (G[0] != 2 && G[0] != 3) {
             (*(s16 *)((s8 *)G + 0x140))++;
             if (G[0] == 0) {
-                TLobby__sub_8040098C((Conn_804004DC *)(G + 4));
+                setup_auth_after_lcp_negotiation((Conn_804004DC *)(G + 4));
             }
             return;
         }
@@ -694,7 +694,7 @@ s32 TLobby__sub_804060B8(u8 *src, u16 len, int id) {
     return 0;
 }
 #pragma pop
-void TLobby__sub_8040059C(u8 *conn);
+void init_lcp_protocol(u8 *conn);
 void pap_init(u8 *arg0);
 void TLobby__sub_803FC318(void* self);
 void TLobby__sub_803FEF4C(u8 *self);
@@ -712,7 +712,7 @@ s32 TLobby__sub_804061FC(void)
   new_var = q;
   NetMemset(q, 0, 0x144);
   p[0] = z;
-  TLobby__sub_8040059C(new_var);
+  init_lcp_protocol(new_var);
   pap_init(new_var);
   TLobby__sub_803FC318(new_var);
   TLobby__sub_803FEF4C(new_var);

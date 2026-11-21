@@ -269,7 +269,7 @@ f32 lbl_805D756C;
 s32 lbl_805D7570;
 RecoveredCallback_2be3cacebb2e lbl_805D7574;
 void TLobby__sub_803CA194(Obj_803CA194 *arg0);
-void *TLobby__sub_803C0848(void *, s32, void *);
+void *alloc_audio_stream_state(void *, s32, void *);
 Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size);
 s32 notify_field_4__6TLobbyFv(int);
 s32 send_packet_by_id__6TLobbyFv(int);
@@ -467,7 +467,7 @@ inline void get_play_position_803C97F4(Adxt_803C97F4 *p, s32 *pos, s32 *rate) {
     if (st == 3 || st == 4) {
         s32 total;
         *rate = ((TLobby *)p->f4)->notify_field_4();
-        total = TLobby__sub_803C0010((u8 *)p->f4);
+        total = audio_stream_get_output_samples((u8 *)p->f4);
         *pos = p->fA4 + (total - (TLobby::query_available_size((TLobby *)p->fC) + (p->f18 != NULL ? p->f18->vt->f24(p->f18, 1) / 2 : 0)));
     } else if (st == 5) {
         *pos = ((TLobby *)p->f4)->send_packet_by_id();
@@ -644,7 +644,7 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     }
     ((TLobby *)(arg0->f4))->set_param_and_notify((saddr)arg1);
     arg0->f14 = arg1;
-    TLobby__sub_803C0758((u8 *)arg0->f4);
+    audio_stream_start((u8 *)arg0->f4);
     arg0->f1 = 1;
     arg0->f2 = 3;
     arg0->f4c = 0;
@@ -669,7 +669,7 @@ void configure_audio_stream_output(Stream_803C9FCC *self) {
     }
     ((TLobby *)(self->f4))->set_param_and_notify(v);
     self->f14 = v;
-    TLobby__sub_803C0758((u8 *)self->f4);
+    audio_stream_start((u8 *)self->f4);
     self->active = 1;
     self->f4c = 0;
     self->f71 = 0;
@@ -690,7 +690,7 @@ void TLobby::start_stream_playback(s32 arg1) {
     }
     ((TLobby *)(((Stream_803CA0C8 *)this)->f4))->set_param_and_notify(arg1);
     ((Stream_803CA0C8 *)this)->f14 = arg1;
-    TLobby__sub_803C0758((u8 *)(((Stream_803CA0C8 *)this)->f4));
+    audio_stream_start((u8 *)(((Stream_803CA0C8 *)this)->f4));
     ((Stream_803CA0C8 *)this)->active = 1;
     ((Stream_803CA0C8 *)this)->f4c = 0;
     ((Stream_803CA0C8 *)this)->f71 = 0;
@@ -811,7 +811,7 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
             return NULL;
         }
     }
-    if ((c->f4 = TLobby__sub_803C0848(c->f10, n, c->f18)) == NULL) {
+    if ((c->f4 = alloc_audio_stream_state(c->f10, n, c->f18)) == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }

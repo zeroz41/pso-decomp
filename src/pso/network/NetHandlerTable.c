@@ -22,7 +22,7 @@ s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
 
 #include <stddef.h>
 
-/* A link-layer driver, registered by TLobby__sub_8040A2BC from 11 functions: loopback (TLobby__sub_8041510C,
+/* A link-layer driver, registered by TLobby__sub_8040A2BC from 11 functions: loopback (register_loopback_handlers,
    always entry 0), PPP (TLobby__sub_803FD10C) and Ethernet (init_net_sockets).  Each function is called by one
    dispatcher (named after the slot); op14..op20 only when flags & 4. */
 struct LobbyHandler {

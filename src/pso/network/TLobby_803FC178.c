@@ -208,7 +208,7 @@ void chap_input(void *self, saddr arg1) {
                     }
                     *(u8 *)((s8 *)temp_r30 + 2) = (u8) (*(u8 *)((s8 *)temp_r30 + 2) & 0xFFFFFFEF);
                     *(u8 *)((s8 *)temp_r30 + 2) = (u8) (*(u8 *)((s8 *)temp_r30 + 2) & 0xFFFFFFDF);
-                    TLobby__sub_80400ACC((O_80400ACC *) (temp_r30));
+                    start_ipcp_after_auth((O_80400ACC *) (temp_r30));
                     return;
                 }
                 temp_r30_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
@@ -219,7 +219,7 @@ void chap_input(void *self, saddr arg1) {
                     *(s8 *)((s8 *)arg0 + 0) = 5;
                 }
                 *(u8 *)((s8 *)temp_r30_2 + 2) = (u8) (*(u8 *)((s8 *)temp_r30_2 + 2) & 0xFFFFFFDF);
-                TLobby__sub_80400ACC((O_80400ACC *) (temp_r30_2));
+                start_ipcp_after_auth((O_80400ACC *) (temp_r30_2));
                 return;
             }
             break;
@@ -234,7 +234,7 @@ void chap_input(void *self, saddr arg1) {
             }
             *(u8 *)((s8 *)temp_r30_3 + 2) = (u8) (*(u8 *)((s8 *)temp_r30_3 + 2) & 0xFFFFFFEF);
             *(u8 *)((s8 *)temp_r30_3 + 2) = (u8) (*(u8 *)((s8 *)temp_r30_3 + 2) & 0xFFFFFFDF);
-            TLobby__sub_80400ACC((O_80400ACC *) (temp_r30_3));
+            start_ipcp_after_auth((O_80400ACC *) (temp_r30_3));
             return;
         case 4:
             lobby_timer_stop((void *) (arg0 + 0x10));

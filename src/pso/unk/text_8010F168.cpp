@@ -7,12 +7,12 @@
 
 extern "C" {
 
-s32 fn_8010F018();
-s32 fn_8010F0C0(void *);
+s32 load_unload_set_unload();
+s32 load_unload_set_load(void *);
 
 void *TItemDrop__sub_8010F168(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        fn_8010F018();
+        load_unload_set_unload();
         mem_free((void *)(*(saddr *)((s8 *)arg0 + 8)));
         if (arg1 > 0) {
             ::operator delete(arg0);
@@ -26,7 +26,7 @@ u8 *TItemDrop__sub_8010F1B8(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 4) = arg1;
     *(s32 *)((s8 *)arg0 + 0) = arg2;
     *(s32 *)((s8 *)arg0 + 8) = (saddr)mem_alloc((arg2));
-    fn_8010F0C0(arg0);
+    load_unload_set_load(arg0);
     return arg0;
 }
 

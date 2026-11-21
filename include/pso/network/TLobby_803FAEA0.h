@@ -71,7 +71,7 @@ typedef struct NetWaitParam {
 
 /* ppp_proto_blocks: the lobby session's PPP protocol control blocks. close_all_connections
    resets the five 0x34-byte records one at a time and hands them to the Conn_804004DC
-   routines (wait_for_connection, TLobby__sub_80400744, TLobby__sub_803FC1CC); the
+   routines (wait_for_connection, apply_lcp_config_to_sides, TLobby__sub_803FC1CC); the
    IPv6CP record is the view NetPppLink takes with PppFsm. TLobby__sub_803FB6A0 reads
    the busy byte, and the tail carries the byte count and the drop counters. */
 typedef struct PppProtoBlocks {

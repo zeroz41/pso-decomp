@@ -26,7 +26,7 @@ void TLobby__sub_803C34F4(AdxbDecoder *h) {
     } else if (s == 4) {
         ((TLobby *)h)->dispatch_by_state();
     } else if (s == 1) {
-        TLobby__sub_803C0B3C((u8 *)h);
+        decode_adxb_pcm_stream((u8 *)h);
     }
 }
 

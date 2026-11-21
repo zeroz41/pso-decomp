@@ -724,8 +724,8 @@ force_active:
   - TLobby__sub_803DDD2C
   - TLobby__sub_803DDD40
   - TLobby__sub_803DDD78
-  - TLobby__sub_80424DCC
-  - TLobby__sub_804251C0
+  - dhcp_begin_discover
+  - dhcp_get_option
   - TLobby__sub_80425D88
   - TLobby__sub_80426110
   - TLobby__sub_80426190
@@ -6378,8 +6378,8 @@ force_active:
   - check_radius_collisions
   - update_trail_position__15TObjEneSlimeOneFv
   - release_child_slot__12TObjEneSlimeFl
-  - fn_8010EF14
-  - fn_8010EFE8
+  - load_unload_set_shuffle_order
+  - load_unload_set_init_order
   - fn_80119204
   - fn_80157CA8
   - fn_801811FC

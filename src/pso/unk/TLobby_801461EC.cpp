@@ -25,10 +25,10 @@ struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
 
 extern "C" {
 s32 TLobby__sub_80407358();
-s32 TLobby__sub_8041509C();
+s32 loopback_shutdown();
 s16 TLobby__sub_80423064(s16 idx, s32 arg1);
-void TLobby__sub_80424CA8(void);
-s32 TLobby__sub_80424CF4(s32 session, s32 ip, s32 timeout);
+void dhcp_stop(void);
+s32 dhcp_release_blocking(s32 session, s32 ip, s32 timeout);
 void TLobby__sub_801469B8(void* p);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
@@ -67,7 +67,7 @@ extern "C" {
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
-s16 TLobby__sub_804150EC(void);
+s16 init_loopback(void);
 s16 TLobby__sub_8042315C(s16, void *);
 s32 lobby_net_session_id = -1;
 s32 TLobby__sub_801478C4(s32 arg0);
@@ -134,8 +134,8 @@ struct Info_80146D7C {
 
 extern "C" {
 void fn_80147A60(int a0);
-s16 TLobby__sub_80424D58(s16, s32, s32, void *, void *, s32 *, void *, s32);
-s16 TLobby__sub_80424E44(s16);
+s16 dhcp_discover_and_request(s16, s32, s32, void *, void *, s32 *, void *, s32);
+s16 dhcp_start(s16);
 int TLobby__sub_80145E40(void);
 int TLobby__sub_80146724(void);
 int TLobby__sub_80146740(void);
@@ -317,7 +317,7 @@ s32 TLobby__sub_80146588(s32 *arg0) {
 s32 TLobby__sub_801465C0(s32 *arg0) {
     s32 sp8;
 
-    if (TLobby__sub_80424E44((s16)lobby_net_session_id) != 0) {
+    if (dhcp_start((s16)lobby_net_session_id) != 0) {
         return 0xC;
     }
     Sub_801465C0 *sub = (Sub_801465C0 *)&lbl_8050CCE8;
@@ -329,7 +329,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
     }
     lobby_local_ip_addr = 0;
     lbl_805D56E8 = 0;
-    if (TLobby__sub_80424D58((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, arg0, &sp8, 3) != 0) {
+    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, arg0, &sp8, 3) != 0) {
         return 0xC;
     }
     if (TLobby__sub_8042489C(lbl_8050C0C4, &lobby_connect_battle_flag) != 0) {
@@ -453,9 +453,9 @@ void TLobby::flush_pending_flags() {
     TLobby::teardown_boss2();
     if (TLobby__sub_80145EE4() != 0) {
         if (TLobby__connect_pending_flags & 0x10) {
-            TLobby__sub_80424CF4((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
+            dhcp_release_blocking((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
             TLobby__connect_pending_flags &= 0xFFFFFFEF;
-            TLobby__sub_80424CA8();
+            dhcp_stop();
         }
     } else if (TLobby::is_state_active() != 0) {
         if ((s32) lobby_net_session_id != -1) {
@@ -474,7 +474,7 @@ void TLobby::flush_pending_flags() {
     }
     lobby_net_session_id = -1;
     if (TLobby__connect_pending_flags & 0x20) {
-        TLobby__sub_8041509C();
+        loopback_shutdown();
         TLobby__connect_pending_flags &= 0xFFFFFFDF;
     }
     if (TLobby__connect_pending_flags & 0x40) {
@@ -508,7 +508,7 @@ s32 TLobby::run_connect_sequence() {
         }
         TLobby__connect_pending_flags |= 1;
         set_connect_mode(4);
-        ok = TLobby__sub_804150EC();
+        ok = init_loopback();
         TLobby__connect_pending_flags |= 0x20;
         lobby_connect_active_flag = 0;
         if (ok != 0) {

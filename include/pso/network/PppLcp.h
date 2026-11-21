@@ -39,7 +39,7 @@ typedef struct LcpOpts {
 } LcpOpts;
 LAYOUT_ASSERT(LcpOpts_size_check, sizeof(LcpOpts) == 0x68);
 
-/* The LCP settings TLobby__sub_80400744 copies into the wanted options of both sides. auth_mode goes to
+/* The LCP settings apply_lcp_config_to_sides copies into the wanted options of both sides. auth_mode goes to
    configure_mode_by_type; f4 == 0 asks for option 8 and fE == 0 for option 7. Callers pass it at the head of a
    larger connect record. */
 typedef struct LcpConfig {
@@ -52,7 +52,7 @@ typedef struct LcpConfig {
 } LcpConfig;
 LAYOUT_ASSERT(LcpConfig_size_check, sizeof(LcpConfig) == 0x10);
 
-/* The LCP protocol header TLobby__sub_8040059C fills in: name, protocol number, timings and callbacks. */
+/* The LCP protocol header init_lcp_protocol fills in: name, protocol number, timings and callbacks. */
 typedef struct LcpProto_8040059C {
     const char *name;
     u16 proto;

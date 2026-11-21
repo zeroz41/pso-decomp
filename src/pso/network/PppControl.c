@@ -197,7 +197,7 @@ s32 lcp_connect(LcpConfig *cfg) {
 
     TLobby__sub_803F808C();
     conn = &ppp_proto_blocks.lcp;
-    if (TLobby__sub_80400744(conn, cfg) != 0) {
+    if (apply_lcp_config_to_sides(conn, cfg) != 0) {
         return -0x11;
     }
     if (wait_for_connection((saddr) conn) != 0) {
