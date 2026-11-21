@@ -676,7 +676,7 @@ force_active:
   - TLobby__sub_8013A578
   - TLobby__sub_8013FF64
   - TLobby__sub_80182E60
-  - TLobby__sub_801A20C8
+  - alloc_enemy_ids
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
   - set_floor_transition_ready
@@ -6387,7 +6387,7 @@ force_active:
   - fn_801908F8
   - fn_8019B480
   - fn_8019F9AC
-  - fn_801A210C
+  - alloc_player_ids
   - __sinit_text_801A3BB8_cpp
   - fn_801C1E98
   - fn_801C1EE8

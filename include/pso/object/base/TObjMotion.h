@@ -61,10 +61,10 @@ public:
 // The entity id pools (TObjBase's TU): ids below 0x1000 are players and
 // the like, 0x1000-0x3FFF enemies, 0x4000 and up objects.
 extern "C" {
-u16 fn_801A210C(s32 n);
-u16 TLobby__sub_801A20C8(s32 arg);
+u16 alloc_player_ids(s32 n);
+u16 alloc_enemy_ids(s32 arg);
 void TLobby__sub_801A2550(void);
-void TLobby__sub_801A2554(void);
+void reset_id_counters(void);
 }
 void advance_enemy_id_counter(s32 arg0);
 void advance_object_id_counter(s32 arg0);
