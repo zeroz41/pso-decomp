@@ -45,7 +45,7 @@ extern "C" {
 extern const f32 lbl_805D8D48;
 s32 TBoss5GryphonLightning__ct(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
-s32 TBoss8Dragon__sub_80063FB8(s32, s32 *, f32);
+s32 spawn_lightning_strike(s32, s32 *, f32);
 
 
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
@@ -56,7 +56,7 @@ void TBoss5GryphonLightningWing::apply_lightning_effect() {
     instance_count = TBoss8Dragon::get_instance_count();
     if (instance_count != 0) {
         ((TBoss5GryphonLightningWing *)arg0)->get_wing_position((Vec *)&sp8);
-        TBoss8Dragon__sub_80063FB8(instance_count, &sp8, 10.0f);
+        spawn_lightning_strike(instance_count, &sp8, 10.0f);
     }
 }
 

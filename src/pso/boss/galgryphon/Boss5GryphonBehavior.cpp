@@ -249,9 +249,9 @@ extern const f32 lbl_805D8DB4;
 void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *arg1);
 f32 random_in_range__12TBoss8DragonFff(f32 farg0, f32 farg1);
 s32 random_in_table_range__12TBoss8DragonFiii(s32 self, saddr arg1, s32 arg2);
-void TBoss8Dragon__sub_80063FB8(s32 arg0, s32 arg1, f32 farg0);
-void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
-void TBoss8Dragon__sub_800640A4(s32 arg0, s32 arg1);
+void spawn_lightning_strike(s32 arg0, s32 arg1, f32 farg0);
+void spawn_snarl_burst(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
+void spawn_tornado_pulse(s32 arg0, s32 arg1);
 
 struct Obj_8005DC0C {
     u8 pad0[0x326];
@@ -441,7 +441,7 @@ void TBoss8Dragon__sub_8005F684(TBoss8Dragon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2);
 void TBoss8Dragon__sub_80063EF4(saddr arg0);
-void TBoss8Dragon__sub_80064114(s32 arg0, s32 arg1);
+void spawn_shockwave_ring(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_800641A8(u8 *arg0);
 void TBoss8Dragon__sub_8006435C(u8 *arg0);
 void TBoss8Dragon__sub_80064828(u8 *arg0);
@@ -2407,7 +2407,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         TBoss8Dragon__sub_800641A8((u8 *)self);
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 2) {
             self->spawn_lightning_effect();
-            TBoss8Dragon__sub_80063FB8((saddr)self, (saddr)&self->position, lbl_805D8DF0);
+            spawn_lightning_strike((saddr)self, (saddr)&self->position, lbl_805D8DF0);
         }
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 4 && self->m_6e4 % 20 == 0) {
             TBoss8Dragon__sub_8005D9BC((u8 *)self, (self->m_6e4 / 20) & 1 ? 0 : 1, lbl_805D8DCC * calc_random_ratio__10TObjPlayerFv(self->rng));
@@ -3566,7 +3566,7 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
         F(s32, 0x6DC) = 0;
         F(s32, 0x6E0) = 0;
         F(f32, 0x6F4) = 0.0f;
-        p = TBoss8Dragon__sub_80065F08();
+        p = get_death_spawn_point__Fv();
         F(s32, 0x60) = (s32)(10430.38043493439 * atan2_float(p->x - F(f32, 0x38), p->z - F(f32, 0x40)));
         F(f32, 0x38) = p->x - lbl_805D8E80 * sin_table_lookup(F(s32, 0x60));
         F(f32, 0x3C) = lbl_805D8DD4;
@@ -4052,7 +4052,7 @@ void TBoss5Gryphon::spawn_ground_splash() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TBoss8Dragon__sub_80063FB8(s32 arg0, s32 arg1, f32 farg0) {
+void spawn_lightning_strike(s32 arg0, s32 arg1, f32 farg0) {
     DragonAttackParams desc = lbl_80437DA4;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0xC);
     desc.field_8 = farg0;
@@ -4060,19 +4060,19 @@ void TBoss8Dragon__sub_80063FB8(s32 arg0, s32 arg1, f32 farg0) {
 }
 
 
-void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1) {
+void spawn_snarl_burst(s32 arg0, s32 arg1, f32 farg0, f32 farg1) {
     DragonAttackParams desc = lbl_80437D90;
     desc.field_4 = *(f32 *)boss5_gryphon_behavior_params[2] * farg1;
     desc.field_8 = farg0;
     TObjEneDD::setup_instance(arg0, arg1, (u8 *)&desc, 0);
 }
-void TBoss8Dragon__sub_800640A4(s32 arg0, s32 arg1) {
+void spawn_tornado_pulse(s32 arg0, s32 arg1) {
     DragonAttackParams desc = lbl_80437D7C;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 8);
     TObjEneDD::setup_instance(arg0, arg1, (u8 *)&desc, 0);
 }
 
-void TBoss8Dragon__sub_80064114(s32 arg0, s32 arg1) {
+void spawn_shockwave_ring(s32 arg0, s32 arg1) {
     DragonAttackParams desc = lbl_80437D68;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 4);
     TBoss8Dragon__sub_80067074(arg1, (saddr)&desc);
@@ -5005,7 +5005,7 @@ struct O_80065FD4 { u16 a; u16 b; u32 c[4]; };
 
 extern "C" {
 
-const Vec *TBoss8Dragon__sub_80065F08(void) {
+const Vec *get_death_spawn_point__Fv(void) {
     return &lbl_80437938;
 }
 

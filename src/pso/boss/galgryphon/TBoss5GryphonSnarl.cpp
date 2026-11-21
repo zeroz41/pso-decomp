@@ -27,7 +27,7 @@ extern s32 *TBoss5GryphonSnarl__effect_table;
 extern const char *TBoss5GryphonSnarl__name;
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
-void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
+void spawn_snarl_burst(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
 
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 
@@ -55,7 +55,7 @@ void TBoss5GryphonSnarl::run_task() {
         instance = TBoss8Dragon::get_instance_count();
         scale = (f32)(30 - frame) / 30.0f;
         scale += 1.0f;
-        TBoss8Dragon__sub_8006402C(instance, (saddr)&position, inner, scale);
+        spawn_snarl_burst(instance, (saddr)&position, inner, scale);
         outer = 10.0f + inner;
         for (i = 0; i < 32; i++) {
             angle = (i << 16) / 32;
