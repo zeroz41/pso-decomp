@@ -58,12 +58,6 @@ struct VObj_14_aa9368 : VBase_14_aa9368 {
 
 struct Sw_80193978 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x58]; u16 fE8; };
 
-struct Node_80193CA4 {
-    u8 pad0[4];
-    u32 f4;
-    u8 pad8[0x30 - 0x8];
-    Node_80193CA4 *next;
-};
 
 extern "C" {
 
@@ -77,9 +71,10 @@ extern s32 game_difficulty_selection;
 extern "C" {
 void *__ct__18CameraDistanceFadeFv(void *self);
 
-__declspec(section ".data") uaddr lazer_fence_sw_ginja_model_table[2];
+__declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
 __declspec(section ".data") uaddr lazer_fence_beam_motions[2];
-__declspec(section ".data") uaddr lazer_fence_beam_node_table[3];
+// The models of the first three children of switch model 0 (the beams).
+__declspec(section ".data") void *lazer_fence_beam_node_table[3];
 }
 
 __declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
@@ -128,7 +123,7 @@ void TLazerFenceSw::draw_laser_beam() {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((lazer_fence_beam_node_table[i])), self->fE8);
+        set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], self->fE8);
     }
     TObjFish::set_global_param((saddr)TLazerFenceSw__texture_list);
     if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {
@@ -142,10 +137,10 @@ void TLazerFenceSw::draw_laser_beam() {
         push_matrix();
         post_translate_matrix(self->pos);
         rotate_matrix_y(0, (void *)self->f60);
-        draw_ginja_object((void *)lazer_fence_sw_ginja_model_table[1]);
+        draw_ginja_object(lazer_fence_sw_ginja_model_table[1]);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -154,10 +149,10 @@ void TLazerFenceSw::draw_laser_beam() {
         push_matrix();
         post_translate_matrix(self->pos);
         rotate_matrix_y(0, (void *)self->f60);
-        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)self->fEC);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)self->fEC);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -265,7 +260,7 @@ void TLazerFenceSw::load_resources() {
     BmlResource *obj;
     s32 j;
     s32 i;
-    Node_80193CA4 *n;
+    NJS_OBJECT *n;
     lazer_fence_switch_bml_resource = NULL;
     area = get_current_floor_area();
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -281,26 +276,26 @@ void TLazerFenceSw::load_resources() {
             TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
         }
     }
-    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_sw_ginja_model_table[0] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_sw_ginja_model_table[1] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
     lazer_fence_beam_motions[0] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 0);
     lazer_fence_beam_motions[1] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
-        lazer_fence_beam_node_table[j] = 0;
+        lazer_fence_beam_node_table[j] = NULL;
     }
     i = 0;
-    n = *(Node_80193CA4 **)(lazer_fence_sw_ginja_model_table[0] + 0x2C);
+    n = lazer_fence_sw_ginja_model_table[0]->child;
     if (n != NULL) {
-        lazer_fence_beam_node_table[i] = n->f4;
+        lazer_fence_beam_node_table[i] = n->model;
         i++;
-        n = n->next;
+        n = n->sibling;
         while (n != NULL && i < 3) {
-            lazer_fence_beam_node_table[i] = n->f4;
+            lazer_fence_beam_node_table[i] = n->model;
             i++;
-            n = n->next;
+            n = n->sibling;
         }
     }
-    lazer_fence_switch_scroll_node = (u8 *)find_object_node((NJS_OBJECT *)lazer_fence_sw_ginja_model_table[1], 3);
+    lazer_fence_switch_scroll_node = (u8 *)find_object_node(lazer_fence_sw_ginja_model_table[1], 3);
 }
 #pragma pop
 

@@ -153,15 +153,6 @@ void TObjDoaEx01::update_closed() {
 
 }
 
-struct NjObj_8018DD0C {
-    u32 evalflags;
-    u32 model;
-    f32 pos[3];
-    s32 ang[3];
-    f32 scl[3];
-    NjObj_8018DD0C *child;
-    NjObj_8018DD0C *sibling;
-};
 
 extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);
@@ -176,7 +167,7 @@ s32 rotate_matrix_y(s32, s32);
 s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
 void TObjDoaEx01::draw_object_tree(saddr arg1) {
-    NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
+    NJS_OBJECT *obj = (NJS_OBJECT *)arg1;
     u32 flags = obj->evalflags;
     push_matrix();
     if (!(flags & 1)) {
@@ -194,12 +185,12 @@ void TObjDoaEx01::draw_object_tree(saddr arg1) {
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)(((u8 *)this + 0xD4)));
-            draw_ginja_model((void *)(obj->model));
+            draw_ginja_model(obj->model);
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
         } else {
-            draw_ginja_model((void *)(obj->model));
+            draw_ginja_model(obj->model);
         }
     }
     if (obj->child != 0) {
