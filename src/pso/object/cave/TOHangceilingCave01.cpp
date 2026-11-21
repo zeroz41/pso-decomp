@@ -294,14 +294,14 @@ void TUnk_804B2578::sub_80168488() {
 
     do {
         player = get_player_by_client_id(i);
-        if (player != NULL && sub_80168244((u32)player) == 0) {
+        if (player != NULL && sub_80168244((uaddr)player) == 0) {
             if (player->get_floor() == get_current_floor() && check_actor_body_contact(player, 100.0f) != 0) {
                 DirectAttackPayload attack;
                 attack.kind = 0;
                 attack.power = vfunc_81(m_338);
                 player->receive_direct_attack(this, attack, NULL, -1, -1);
                 obj_setFlags30(player, 0x400);
-                sub_80168280((u32)player);
+                sub_80168280((uaddr)player);
             }
         }
         i++;
@@ -376,13 +376,13 @@ void TUnk_804B2578::reset_state() {
     hit_player_count = 0;
 }
 
-void TUnk_804B2578::sub_80168280(u32 player) {
+void TUnk_804B2578::sub_80168280(uaddr player) {
     if (hit_player_count < 4) {
         hit_players[hit_player_count++] = player;
     }
 }
 
-s32 TUnk_804B2578::sub_80168244(u32 player) {
+s32 TUnk_804B2578::sub_80168244(uaddr player) {
     s32 i;
 
     for (i = 0; i != hit_player_count; i++) {

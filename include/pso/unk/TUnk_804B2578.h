@@ -20,12 +20,12 @@ public:
     virtual void vfunc_80();
     virtual f32 vfunc_81(f32);
     s32 sub_801688C0();
-    void sub_80168280(u32);
+    void sub_80168280(uaddr);
     void init_geometry();
     void sub_80168488();
     void sub_80168398();
     void sub_801682E4(s32);
-    s32 sub_80168244(u32);
+    s32 sub_80168244(uaddr);
     void advance_wrap_offset();
     void reset_state();
     void set_scale(f32);
