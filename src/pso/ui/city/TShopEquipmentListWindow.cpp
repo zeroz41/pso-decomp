@@ -218,7 +218,6 @@ s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 saddr get_window_layout_position(s32);
 void *create_item_list_window(s32, s32, u16);
-void *create_cost_window(u16);
 s32 advance_item_id_counter(u16);
 void try_buy_item(void *, void *);
 void send_6x25_equip_item(void *, s32, s32);
@@ -368,7 +367,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
         ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((uaddr)W->recs);
     }
     if (W->cost == NULL) {
-        W->cost = create_cost_window(get_entity_id(W->player));
+        W->cost = create_cost_window((u16)get_entity_id(W->player));
         if ((c = W->cost) != NULL && W->recs[0].price > 0) {
             ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }

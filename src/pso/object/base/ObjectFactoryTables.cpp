@@ -1,3 +1,4 @@
+#include "pso/object/switch/TOChatSensor.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/object/fence/TOVS2Wall01.h"
@@ -130,7 +131,6 @@ void* create_particle_obj_ac__13TParticleCtrlFl(void* placement);
 void* create__22TObjFogCollisionPoisonFPv(void* placement);
 void* TObjFogCollisionSwitch__create(void* placement);
 void* TObjFogCollision__create(void* placement);
-void* TOChatSensor__create(void* placement);
 void* TOContainerAncientEnemyCommon__create(void* placement);
 void* create__28TOContainerAncientItemCommonFv(void* placement);
 void* TOExplosiveMachine03__create(void* placement);

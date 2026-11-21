@@ -1,5 +1,8 @@
 #include "types.h"
 #include <string.h>
+#include "pso/quest/QuestDownloadRecords.h"
+#include "pso/quest/QuestDownloadText.h"
+#include "pso/quest/QuestDownloadWorkspace.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -7,52 +10,26 @@
 
 #pragma readonly_strings on
 
-struct Ent_803E5670 {
-    u8 pad[0xC];
-    uaddr c;
-    u8 pad2[0x1C - 0x10];
-};
-
-struct Ent_803E639C { u8 pad[0xC]; s32 c; u8 pad2[0x1C - 0x10]; };
-
-struct Req_803E5D20
-{
-  u8 *buf;
-  s16 len;
-  u8 a;
-  u8 code;
-  u8 b;
-  s32 x;
-};
-
 extern "C" {
 s32 TQuestVmDownLoadServer__sub_803F0890(void);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *arg0);
-u8 * convert_all_entry_text(void);
-void process_entry_text_range(s32 pos, s32 end);
 extern s32 quest_text_end;
 void TQuestVmDownLoadServer__sub_803EBC88(s32 mode);
 void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode);
-saddr get_entry_text(void *, void *);
-extern Ent_803E5670 quest_download_slot_chain_table[];
-extern saddr quest_text_entry_len;
-extern saddr quest_text_cursor_pos;
+extern s32 quest_text_entry_len;
+extern s32 quest_text_cursor_pos;
 s32 TQuestVmDownLoadServer__sub_803EB0D8(s32 arg0, s32 arg1);
 s32 TQuestVmDownLoadServer__sub_803EB208(s32 mode, s32 force);
 extern s32 quest_page_node_count;
 extern s32 quest_page_node_index;
 s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0);
 void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
-s32 TQuestVmDownLoadServer__sub_803EDC20(uaddr);
-s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count);
-extern s16 quest_download_text_buffer[0x200];
-void free_slot_node_chain(s32 slot, s32 mode);
-void TQuestVmDownLoadServer__sub_803EAE84(s32 arg0, s32 arg1, void *arg2);
+s32 TQuestVmDownLoadServer__sub_803EDC20(u32);
+void TQuestVmDownLoadServer__sub_803EAE84(s32 begin, s32 end, s32 mode);
 extern u8 lbl_8058DC48[80];
 extern u8 lbl_8058DC98[80];
 extern u8 lbl_80591AC4[];
-extern u8 lbl_80596258[];
 s32 lbl_805D7820;
 u8 *lbl_805D7824;
 s32 lbl_805D7828;
@@ -77,11 +54,6 @@ extern saddr lbl_805D78F8;
 extern s32 lbl_805D78FC;
 extern s32 lbl_805D7900;
 extern saddr quest_download_file_handle;
-s32 TQuestVmDownLoadServer__sub_803EC69C(u32 arg0);
-u8 TQuestVmDownLoadServer__sub_803EC8D8();
-s32 TQuestVmDownLoadServer__sub_803ECC7C(u32 arg0);
-s32 TQuestVmDownLoadServer__sub_803EF208(Req_803EEF2C *msg);
-s32 TQuestVmDownLoadServer__sub_803EF538(Req_803E5D20 *);
 extern u8 quest_request_text_buffer[];
 
 // Handlers by request id (1..63); unassigned ids return -1.
@@ -187,12 +159,12 @@ s32 quest_download_request_0x25(s32 *arg0) {
         break;
     }
     TQuestVmDownLoadServer__sub_803EBC88(k);
-    if (quest_download_slot_chain_table[quest_text_cursor_pos].c == 0) {
+    if (quest_download_slot_chain_table[quest_text_cursor_pos].chain == NULL) {
         return -1;
     }
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)a, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)b, (const char *)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
+    strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
+    strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     return 0;
 }
 
@@ -212,9 +184,9 @@ s32 quest_download_request_0x24(s32 *arg0) {
     quest_text_cursor_pos += quest_text_entry_len;
     quest_text_entry_len = TQuestVmDownLoadServer__sub_803E9F54(quest_text_cursor_pos);
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)temp_r31, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)temp_r30, (const char *)get_entry_text((void *) (quest_text_cursor_pos + quest_text_entry_len), (void *) ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
-    return ((TQuestVmDownLoadServer *)(quest_download_slot_chain_table[quest_text_cursor_pos].c))->count_chain_nodes();
+    strcpy((char *)temp_r31, (const char *)(get_entry_text(quest_text_cursor_pos, quest_text_entry_len)));
+    strcpy((char *)temp_r30, (const char *)(get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len))));
+    return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
 }
 s32 quest_download_request_0x23(s32 *arg0) {
     saddr a;
@@ -240,9 +212,9 @@ s32 quest_download_request_0x23(s32 *arg0) {
     quest_text_cursor_pos = i;
     quest_text_entry_len = n;
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)a, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)b, (const char *)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
-    return ((TQuestVmDownLoadServer *)(quest_download_slot_chain_table[quest_text_cursor_pos].c))->count_chain_nodes();
+    strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
+    strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
+    return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
 }
 s32 quest_download_request_0x22(s32 *arg0) {
     saddr temp_r31;
@@ -257,13 +229,13 @@ s32 quest_download_request_0x22(s32 *arg0) {
         return 0;
     }
     TQuestVmDownLoadServer::latch_slot_value(quest_text_cursor_pos);
-    TQuestVmDownLoadServer__sub_803EAE84(quest_text_cursor_pos, quest_text_end, (void *)(1));
+    TQuestVmDownLoadServer__sub_803EAE84(quest_text_cursor_pos, quest_text_end, 1);
     quest_text_entry_len -= 1;
     TQuestVmDownLoadServer__sub_803EA9E8(quest_text_cursor_pos, quest_text_end, 1, quest_text_entry_len);
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)temp_r31, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)temp_r30, (const char *)get_entry_text((void *) (quest_text_cursor_pos + quest_text_entry_len), (void *) ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
-    return ((TQuestVmDownLoadServer *)(quest_download_slot_chain_table[quest_text_cursor_pos].c))->count_chain_nodes();
+    strcpy((char *)temp_r31, (const char *)(get_entry_text(quest_text_cursor_pos, quest_text_entry_len)));
+    strcpy((char *)temp_r30, (const char *)(get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len))));
+    return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
 }
 s32 quest_download_request_0x21(s32 *arg0) {
     saddr temp_r31;
@@ -278,13 +250,13 @@ s32 quest_download_request_0x21(s32 *arg0) {
         return 0;
     }
     TQuestVmDownLoadServer::latch_slot_value(quest_text_cursor_pos);
-    TQuestVmDownLoadServer__sub_803EAE84(quest_text_cursor_pos, quest_text_end, (void *)(1));
+    TQuestVmDownLoadServer__sub_803EAE84(quest_text_cursor_pos, quest_text_end, 1);
     quest_text_entry_len += 1;
     TQuestVmDownLoadServer__sub_803EA9E8(quest_text_cursor_pos, quest_text_end, 1, quest_text_entry_len);
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)temp_r31, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)temp_r30, (const char *)get_entry_text((void *) (quest_text_cursor_pos + quest_text_entry_len), (void *) ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
-    return ((TQuestVmDownLoadServer *)(quest_download_slot_chain_table[quest_text_cursor_pos].c))->count_chain_nodes();
+    strcpy((char *)temp_r31, (const char *)(get_entry_text(quest_text_cursor_pos, quest_text_entry_len)));
+    strcpy((char *)temp_r30, (const char *)(get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len))));
+    return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
 }
 
 s32 quest_download_request_0x20(s32 *arg0) {
@@ -295,7 +267,7 @@ s32 quest_download_request_0x20(s32 *arg0) {
     }
     {
         saddr src = *arg0;
-        strcpy((char *)&quest_convert_string.value, (const char *)src);
+        strcpy((char *)(char *)&quest_convert_string.value, (const char *)(const char *)src);
     }
     quest_download_state = 0;
     lbl_805D7830 = 0;
@@ -314,8 +286,8 @@ s32 quest_download_request_0x20(s32 *arg0) {
     lbl_805D78E0 = 0x4000;
     lbl_805D7848 = 0;
     quest_download_match_length_limit = 0x24;
-    strcpy((char *)lbl_805D7894, "  1.");
-    strcpy((char *)lbl_80596258, "  \x8E\x63      "); // "  残      " (remaining)
+    strcpy((char *)lbl_805D7894, (const char *)"  1.");
+    strcpy((char *)lbl_80596258.text, (const char *)"  \x8E\x63      "); // "  残      " (remaining)
     quest_download_server_state = 0;
     lbl_805D7844 = 0;
     lbl_805D7840 = 0;
@@ -325,21 +297,20 @@ s32 quest_download_request_0x20(s32 *arg0) {
     return 0;
 }
 
-typedef struct Req_803E5D20 Req_803E5D20;
 s32 quest_download_request_0x1E(s32 *arg0) {
   s32 kind;
   s32 x;
   s32 code;
   u8 *src;
   int new_var;
-  s32 ch;
+  u16 ch;
   u8 *dst;
   s32 n;
   s32 idx;
   s32 mode;
   u8 r;
   s32 ret;
-  Req_803E5D20 req;
+  QuestDownloadRequest req;
   if ((lbl_805D7848 >= 2) || (quest_download_state >= 2))
   {
     return 4;
@@ -375,8 +346,8 @@ s32 quest_download_request_0x1E(s32 *arg0) {
     {
       return 3;
     }
-    TQuestVmDownLoadServer__sub_803EC69C(ch);
-    r = TQuestVmDownLoadServer__sub_803EC8D8();
+    ch = TQuestVmDownLoadServer__sub_803EC69C(ch);
+    r = TQuestVmDownLoadServer__sub_803EC8D8(ch);
     if (r == 0)
     {
       return 3;
@@ -386,12 +357,12 @@ s32 quest_download_request_0x1E(s32 *arg0) {
     src += 2;
   }
   *dst = 0;
-  req.buf = quest_request_text_buffer;
+  req.name = (char *)quest_request_text_buffer;
   req.len = (s16) n;
-  req.a = 0;
-  req.code = code;
-  req.b = 0;
-  req.x = x;
+  req.pad6 = 0;
+  req.x7 = code;
+  req.x8 = 0;
+  req.text = (u8 *)x;
   if (kind == 30)
   {
     if (TQuestVmDownLoadServer__sub_803EF538(&req) == 3)
@@ -402,7 +373,7 @@ s32 quest_download_request_0x1E(s32 *arg0) {
   else
     if (kind == 31)
   {
-    ret = TQuestVmDownLoadServer__sub_803EF208((Req_803EEF2C *)&req);
+    ret = TQuestVmDownLoadServer__sub_803EF208(&req);
     if (ret == 3)
     {
       return 0;
@@ -455,7 +426,7 @@ s32 quest_download_request_0x19(s32 *arg0) {
     c = (s8 *)arg0[3];
     d = (s16 *)arg0[4];
     quest_page_node_index = n - 1;
-    strcpy((char *)b, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
+    strcpy((char *)b, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
     free_slot_node_chain(quest_text_cursor_pos, 1);
     ret = TQuestVmDownLoadServer::sum_entry_sizes((saddr)((void *)quest_text_cursor_pos), (saddr)((void *)quest_text_entry_len));
     quest_text_cursor_pos += quest_text_entry_len;
@@ -467,9 +438,9 @@ s32 quest_download_request_0x19(s32 *arg0) {
     }
     quest_text_entry_len = TQuestVmDownLoadServer__sub_803E9F54(quest_text_cursor_pos);
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)a, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)c, (const char *)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
-    *d = (s16)((TQuestVmDownLoadServer *)(quest_download_slot_chain_table[quest_text_cursor_pos].c))->count_chain_nodes();
+    strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
+    strcpy((char *)c, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
+    *d = (s16)count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
     return ret;
 }
 s32 quest_download_request_0x18(s32 *arg0) {
@@ -479,7 +450,7 @@ s32 quest_download_request_0x18(s32 *arg0) {
     }
     temp_r31 = *(s32 *)((s8 *)arg0 + 0);
     process_entry_text_range(0, quest_text_end);
-    strcpy((char *)temp_r31, (const char *)convert_all_entry_text());
+    strcpy((char *)(char *)temp_r31, (const char *)(const char *)convert_all_entry_text());
     TQuestVmDownLoadServer::init_buffer_pointers();
     quest_download_state = 1;
     return 0;
@@ -506,8 +477,8 @@ s32 quest_download_request_0x16(s32 *arg0) {
         }
         break;
     }
-    strcpy((char *)a, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)b, (const char *)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
+    strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
+    strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     if (err != 0) {
         return 0;
     }
@@ -546,8 +517,8 @@ s32 TQuestVmDownLoadServer::handle_list_scroll(s32 *args) {
         }
         break;
     }
-    strcpy((char *)a, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)b, (const char *)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
+    strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
+    strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     return quest_page_node_index + 1;
 }
 s32 OSFillFPUContext(s32 *arg0) {
@@ -577,18 +548,21 @@ s32 OSFillFPUContext(s32 *arg0) {
     quest_text_cursor_pos = 0;
     quest_text_entry_len = TQuestVmDownLoadServer__sub_803E9F54(0);
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
-    strcpy((char *)a, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
-    strcpy((char *)b, (const char *)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
+    strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
+    strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     quest_download_state = 3;
-    return ((TQuestVmDownLoadServer *)(((Ent_803E639C *)&quest_download_slot_chain_table)[0].c))->count_chain_nodes();
+    return count_quest_text_entries(quest_download_slot_chain_table[0].chain);
 }
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
 s32 TQuestVmDownLoadServer::convert_jis_to_sjis_string(s32 *args) {
     u16 buf[4];
     s32 cnt;
     u8 *src;
     u8 *dst;
     u16 flag;
-    s16 *p;
+    u16 *p;
     s32 n;
     s32 r;
     u16 *q;
@@ -600,18 +574,19 @@ s32 TQuestVmDownLoadServer::convert_jis_to_sjis_string(s32 *args) {
     } else {
         flag = 0x4000;
     }
-    p = quest_download_text_buffer;
+    new (quest_download_text_buffer, quest_download_scratch_words_or_ids) QuestDownloadScratchWords;
+    p = reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values;
     n = 0;
-    while (*src != 0 && p < quest_download_text_buffer + 0x200) {
+    while (*src != 0 && p < reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values + 0x200) {
         *p++ = *src++ | flag;
         n++;
     }
-    p = quest_download_text_buffer;
+    p = reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values;
     while (n > 0) {
-        r = convert_romaji_to_kana((u16 *)p, (s32)n, (u16 *)buf, (s32 *)&cnt);
+        r = convert_romaji_to_kana(p, n, buf, &cnt);
         if (r <= 0) {
             if (r != -1) {
-                return (p - quest_download_text_buffer) + 1;
+                return (p - reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values) + 1;
             }
             r = 1;
         }
@@ -631,6 +606,7 @@ s32 TQuestVmDownLoadServer::convert_jis_to_sjis_string(s32 *args) {
     *dst = 0;
     return 0;
 }
+#pragma pop
 
 u8 lbl_8058DC48[80];
 u8 lbl_8058DC98[80];

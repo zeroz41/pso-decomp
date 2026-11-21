@@ -3,7 +3,14 @@
 
 #include "types.h"
 
-saddr create_quest_message_window_at(s32 arg0, saddr arg1);
-int dispatch_message_window_text(void *w, int text, int flags);
+struct NJS_POINT2;
+struct TWindowMessageQuest;
+struct TWindowMessageScroll;
+
+extern "C" {
+TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent);
+int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags);
+TWindowMessageScroll *open_message_scroll_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 *completion);
+}
 
 #endif

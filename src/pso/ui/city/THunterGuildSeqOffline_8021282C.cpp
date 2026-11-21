@@ -11,31 +11,12 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/city/TShopSequence.h"
-
-
-struct Base_80212B88 { char pad[0x18]; };
-
-struct Seq_80212B88 : Base_80212B88 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6();
-    virtual s32 m7(s32, s32);
-    virtual s32 m8();
-    u8 pad1c[8];
-    saddr player;
-};
-
-struct List_80212B88 {
-    u8 pad0[0x28];
-    void (*cancelled)(void);
-    void (*accepted)(void);
-    void (*download)(void);
-};
 
 struct Base_802129FC { char pad[0x18]; };
 
@@ -53,34 +34,20 @@ struct Seq_802129FC : Base_802129FC {
 
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern saddr tl_05;
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
 void fn_802233F8(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-extern void *tl_00;
-struct Base_80212858_8021282C { char pad[0x18]; };
-struct VObj_80212858_8021282C : Base_80212858_8021282C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7(int, int);
-};
 
     extern int evt2_random_enemies_mode;
 void THunterGuildSeqOffline::set_enemy_mode_0() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
-extern struct VObj_80212858_8021282C *THunterGuildSeqOffline__active_instance;
 
-void THunterGuildSeqOffline::request_close() {
+void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
     if (THunterGuildSeqOffline__active_instance != NULL) {
-        THunterGuildSeqOffline__active_instance->m7(6, 1);
-        *(s32 *)((s8 *)THunterGuildSeqOffline__active_instance + 0x38) = 2;
-        ((TShopWindowBase *)THunterGuildSeqOffline__active_instance)->set_field_20(5);
+        THunterGuildSeqOffline__active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline__active_instance->unk_38 = 2;
+        THunterGuildSeqOffline__active_instance->set_field_20(5);
     }
 }
 
@@ -182,36 +149,34 @@ void THunterGuildSeqOffline::close_window() {
 }
 
 void THunterGuildSeqOffline::open_quest_list() {
-    Seq_80212B88 *self = (Seq_80212B88 *)this;
-    List_80212B88 *list;
-    if (self->m8() == 0) return;
+    TQuestListChallenge *challenge;
+    TQuestListOffline *offline;
+    if (vfunc_10() == 0) return;
     switch (get_game_play_mode()) {
     case 2:
-        list = (List_80212B88 *)TObject::operator new(0x5C);
-        if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (saddr)self, (s32)self->player);
-        if (list != NULL) {
-            list->accepted = THunterGuildSeqOffline::request_close;
-            list->cancelled = THunterGuildSeqOffline::set_state_close2;
-            ((TShopWindowBase *)self)->set_field_20(10);
+        challenge = new TQuestListChallenge(tl_05, this, (TObjBase *)player);
+        if (challenge != NULL) {
+            challenge->on_accept = THunterGuildSeqOffline::request_close;
+            challenge->on_cancel = THunterGuildSeqOffline::set_state_close2;
+            set_field_20(10);
         }
         break;
     case 1:
-        list = (List_80212B88 *)TObject::operator new(0x5C);
-        if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (saddr)self, (s32)self->player);
-        if (list != NULL) {
-            list->accepted = THunterGuildSeqOffline::set_state_4;
-            list->cancelled = THunterGuildSeqOffline::set_state_close;
-            ((TShopWindowBase *)self)->set_field_20(10);
+        challenge = new TQuestListChallenge(tl_05, this, (TObjBase *)player);
+        if (challenge != NULL) {
+            challenge->on_accept = THunterGuildSeqOffline::set_state_4;
+            challenge->on_cancel = THunterGuildSeqOffline::set_state_close;
+            set_field_20(10);
         }
         break;
     case 0:
     default:
-        list = (List_80212B88 *)new TQuestListOffline((TObject *)tl_05, (TShopWindowBase *)self, (TObjBase *)self->player);
-        if (list != NULL) {
-            list->accepted = THunterGuildSeqOffline::request_close;
-            list->cancelled = THunterGuildSeqOffline::set_state_close2;
-            list->download = THunterGuildSeqOffline::create_quest_list_vm;
-            ((TShopWindowBase *)self)->set_field_20(10);
+        offline = new TQuestListOffline(tl_05, this, (TObjBase *)player);
+        if (offline != NULL) {
+            offline->on_accept = THunterGuildSeqOffline::request_close;
+            offline->on_cancel = THunterGuildSeqOffline::set_state_close2;
+            offline->on_download = THunterGuildSeqOffline::create_quest_list_vm;
+            set_field_20(10);
         }
         break;
     }

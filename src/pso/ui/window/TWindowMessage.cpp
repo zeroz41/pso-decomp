@@ -1,3 +1,4 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
@@ -333,7 +334,6 @@ WindowDescriptor message_window_settings = {
 };
 
 extern "C" {
-s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
@@ -350,7 +350,7 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
 }
 
 u8 *TWindowMessage::create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3) {
-    ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
+    TLobby__sub_80269DA4(size, arg2);
     return (u8 *)new TWindowMessage(arg0, arg2, arg3);
 }
 
@@ -362,11 +362,12 @@ u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
     return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 
-s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
+void TLobby__sub_80269DA4(const void *extent, u32 rows) {
+    const f32 *size = static_cast<const f32 *>(extent);
     NJS_POINT2 *dst = (NJS_POINT2 *)&message_window_settings;
-    dst->x = size.x;
-    dst->y = size.y;
-    message_window_layout_entries.rows = (uaddr)arg1;
+    dst->x = size[0];
+    dst->y = size[1];
+    message_window_layout_entries.rows = rows;
 }
 
 s32 get_draw_context__11TWindowBaseFPv();

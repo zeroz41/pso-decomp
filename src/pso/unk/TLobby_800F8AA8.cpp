@@ -951,7 +951,7 @@ void TLobby::release_menu_font() {
 }
 
 void TLobby::load_font_texture() {
-    void *file = (void *)TLobby::tmp_buf_use_req("FONT");
+    void *file = TLobby::tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
         prs_decompress_buffer((saddr)lobby_font_texture_prs_data, (saddr)file);
@@ -1267,7 +1267,7 @@ saddr load_encrypted_text_archive(char *name, s32 *out_size) {
         return 0;
     }
     if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
-        buf = (u8 *)TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
+        buf = TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
         ret = ((TLobby *)buf)->alloc_download_quest(size, &sp8);
         TLobby::tmp_buf_release(load_file_prc_buffer_tag);

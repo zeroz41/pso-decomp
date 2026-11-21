@@ -1,38 +1,64 @@
 #ifndef PSO_QUEST_TQUESTLISTCHALLENGE_H
 #define PSO_QUEST_TQUESTLISTCHALLENGE_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
 
-struct TQuestListChallenge : public TShopWindowBase {
-    virtual ~TQuestListChallenge();
-    u32 m_38;
-    u32 m_3c;
-    u32 m_40;
-    u32 m_44;
-    u32 m_48;
-    u8 _pad4C[0x4];
-    u32 m_50;
-    u32 m_54;
-    u32 m_58;
-    u8 unk_40[0x1C];
+class TObjBase;
+class TWindowMenuIconLine;
+struct TWindowMenu;
+struct TWindowMessage;
+
+struct QuestListStageEntry {
+    s32 title_text;
+    s32 description_text;
+    s32 confirm_text;
+    const char *filename;
 };
 
+struct TQuestListChallenge : public TShopWindowBase {
+    TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjBase *player);
+    virtual ~TQuestListChallenge();
+    virtual void vfunc_11();
+    void close_windows();
+    void create_quest_list_window();
+    void update_selection();
+    void handle_confirm_select();
+    void invoke_callback_and_destroy();
+    void destroy();
+    void sub_80288BE4();
+
+    u8 pad_1c[4];
+    s32 state;
+    TObjBase *player;
+    void (*on_cancel)(TShopWindowBase *);
+    void (*on_accept)(TShopWindowBase *);
+    TShopWindowBase *sequence;
+    TWindowMenu *confirmation;
+    TWindowMenuIconLine *list_window;
+    TWindowMessage *description_window;
+    TWindowMessage *info_window;
+    u32 unk_44;
+    u32 unk_48;
+    s32 shown_index;
+    s32 text_group;
+    s32 count;
+    const QuestListStageEntry *entries;
+};
+
+LAYOUT_ASSERT(QuestListStageEntry_size, sizeof(QuestListStageEntry) == 0x10);
 LAYOUT_ASSERT(TQuestListChallenge_size, sizeof(TQuestListChallenge) == 0x5C);
+LAYOUT_ASSERT(TQuestListChallenge_state, offsetof(TQuestListChallenge, state) == 0x20);
+LAYOUT_ASSERT(TQuestListChallenge_callbacks, offsetof(TQuestListChallenge, on_cancel) == 0x28);
+LAYOUT_ASSERT(TQuestListChallenge_windows, offsetof(TQuestListChallenge, confirmation) == 0x34);
+LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries) == 0x58);
 
 extern "C" {
 void *TObjNpcKenkyu__create(void *arg0);
-u8 *TQuestListChallenge__ct(u8 *arg0, saddr arg1, s32 arg2, s32 arg3);
-void TQuestListChallenge__vt9(TQuestListChallenge *arg0);
-void *__dt__19TQuestListChallengeFv(void *arg0, s16 arg1);
-void close_windows__19TQuestListChallengeFPv(void *arg0);
-void destroy__19TQuestListChallengeFv(void *arg0);
-saddr get_selected_quest_text__19TQuestListChallengeFv(void);
-void handle_confirm_select__19TQuestListChallengeFv(void *arg0);
-void invoke_callback_and_destroy__19TQuestListChallengeFv(void *arg0);
+const char *get_selected_quest_text__19TQuestListChallengeFv(void);
 void reset_globals2__19TQuestListChallengeFv(void);
 void reset_globals__19TQuestListChallengeFv(void);
-void sub_80288BE4__19TQuestListChallengeFv(void);
 }
 
 #endif

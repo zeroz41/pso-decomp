@@ -3501,8 +3501,6 @@ void TLobby__sub_80137C10();
 void receive_file_chunk__22TQuestVmDownLoadServerFv();
 void begin_file_download__22TQuestVmDownLoadServerFv();
 void handle_quest_download_chunk__6TLobbyFv();
-void begin_file_download__16TQuestListOnlineFv();
-void copy_quest_list_data__16TQuestListOnlineFv();
 void try_close__6TLobbyFPv();
 void forward_8024273C__6TLobbyFPv();
 void handle_trade_received_items();
@@ -3632,7 +3630,7 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC50) = (s32 *)&TLobby__sub_80134DC8;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC58) = (s32 *)&copy_quest_list_data__16TQuestListOnlineFv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC5C) = (s32 *)&TQuestListOnline::receive_quest_info;
-    *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC60) = (s32 *)&begin_file_download__16TQuestListOnlineFv;
+    *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC60) = (s32 *)&TQuestListOnline::begin_file_download;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC64) = (s32 *)&handle_quest_download_chunk__6TLobbyFv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC68) = (s32 *)&open_download_list_window__6TLobbyFiPv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC6C) = (s32 *)&show_card_list_message;

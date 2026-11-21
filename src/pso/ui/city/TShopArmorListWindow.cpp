@@ -195,6 +195,8 @@ struct Win_8021AE18 {
 };
 
 extern "C" {
+s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+s32 align_menu_entry_positions(u32);
 const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
 int obj_getPtr2B0_20(u8 *p);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
@@ -215,9 +217,7 @@ s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-void *create_cost_window(u16);
-saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
-s32 align_menu_entry_positions(u32);
+
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
@@ -360,7 +360,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
         ((TWindowHelpItem *)((saddr)W->help))->set_displayed_item_colored((uaddr)W->recs);
     }
     if (W->cost == NULL) {
-        W->cost = create_cost_window(get_entity_id(W->player));
+        W->cost = create_cost_window((u16)get_entity_id(W->player));
         if ((c = W->cost) != NULL && W->recs[0].price > 0) {
             ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }

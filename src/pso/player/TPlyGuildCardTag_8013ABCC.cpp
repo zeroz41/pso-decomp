@@ -1,12 +1,11 @@
 #include "types.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
-#include "pso/ui/city/TShopWindowBase.h"
+#include "pso/quest/TQuestListOnline.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 
     extern int item_drop_server_seed;
     extern int area_random_seed;
-extern u8 *TQuestListOnline__instance;
 
 void *TPlyGuildCardTag::copy_full(void *arg1) {
     copy(arg1);
@@ -29,7 +28,7 @@ void fn_8013ACE4(int a0) { item_drop_server_seed = a0; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
 
 void TQuestListOnline__sub_8013ACF4(s32 arg0) {
-    if ((void *) TQuestListOnline__instance != NULL) {
-        ((TShopWindowBase *)TQuestListOnline__instance)->set_field_20(arg0);
+    if (TQuestListOnline__instance != NULL) {
+        TQuestListOnline__instance->set_field_20(arg0);
     }
 }

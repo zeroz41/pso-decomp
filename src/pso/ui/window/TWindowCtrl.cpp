@@ -307,14 +307,14 @@ void TWindowCtrl::update_open_sequence() {
     if (is_split_screen() != 0) {
         if (o->timer == split_open_times[o->step]) {
             if (o->split[o->step] != NULL) {
-                ((TQuestVmDownLoadServer *)(o->split[o->step]))->clear_flag4_bit4();
+                ((TObject *)(o->split[o->step]))->clear_update_suspension();
             }
             o->step++;
         }
     } else {
         if (o->timer == open_times[o->step]) {
             if (o->slots[o->step] != NULL) {
-                ((TQuestVmDownLoadServer *)(o->slots[o->step]))->clear_flag4_bit4();
+                ((TObject *)(o->slots[o->step]))->clear_update_suspension();
                 ((TWindowCtrl *)o)->update_party_status_rows();
                 o->slots[o->step]->fade = 0;
             }

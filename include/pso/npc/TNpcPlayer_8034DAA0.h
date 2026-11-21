@@ -17,4 +17,7 @@ s32 get_party_yaw(void);
 }
 // --- end of C functions
 
+void set_partner_dialogue_override(const char *text, s32 kind, u16 player);
+void set_partner_common_remark(s32 kind, const char *text);
+
 #endif

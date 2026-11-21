@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -123,7 +124,6 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 extern "C" {
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
 void clear_enabled_main_warps(void);
-extern uaddr quest_mission_manager;
 int is_quest_active(void);
     extern int challenge_task_created;
 int TKeyBoardControl__sub_8000F95C(void);
@@ -282,7 +282,6 @@ void clear_quest_floor_designations(void);
 extern u8 TLobby__data_805011D8[];
 s32 start_quest_mission(void);
 extern u8 game_variations[];
-extern uaddr quest_area_manager;
 s32 change_floor_reload_area(void);
 void load_battle_param_entry(void);
 extern s32 TLobby__lobby_number;
@@ -465,8 +464,8 @@ void TLobby::free_objects() {
     TTecLuker::apply_all_players();
     TLobby::reset_floor_items();
     TNpcPlayer::enable_all_battle_ctrl();
-    if ((u32) quest_mission_manager != 0U) {
-        ((TObject *)quest_mission_manager)->queue_destruction();
+    if (quest_mission_manager != NULL) {
+        quest_mission_manager->queue_destruction();
     }
     clear_enabled_main_warps();
     reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
@@ -514,8 +513,8 @@ s32 start_quest_mission(void) {
     TLoadCtrl::start_loading(1);
     TQuestThread::create_by_mode();
     clear_quest_floor_designations();
-    if (quest_mission_manager != 0) {
-        q = (VObj_18_801A4268 *)new TQuestThread((TObject *)quest_mission_manager, 0);
+    if (quest_mission_manager != NULL) {
+        q = (VObj_18_801A4268 *)new TQuestThread(quest_mission_manager, 0);
         q->m1();
     }
     TLobby::setup_quest_list();
@@ -603,8 +602,8 @@ s32 change_floor_reload_area(void) {
     if (r != 0) {
         TAdSinglePlyChrSelectGC::load_character_from_card(0);
     }
-    if (quest_area_manager != 0) {
-        new TQuestThread((TObject *)quest_area_manager, 0);
+    if (quest_area_manager != NULL) {
+        new TQuestThread(quest_area_manager, 0);
     }
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();

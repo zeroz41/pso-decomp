@@ -196,14 +196,14 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
     case 18:
         temp_r3 = this->m_30;
         if (temp_r3 != 0U) {
-            ((TQuestVmDownLoadServer *)temp_r3)->clear_flag4_bit4();
+            ((TObject *)temp_r3)->clear_update_suspension();
         }
         break;
     case 38:
         if (is_current_area_item_enabled() != 0) {
             temp_r3_2 = this->m_34;
             if (temp_r3_2 != 0U) {
-                ((TQuestVmDownLoadServer *)temp_r3_2)->clear_flag4_bit4();
+                ((TObject *)temp_r3_2)->clear_update_suspension();
             }
         }
         break;

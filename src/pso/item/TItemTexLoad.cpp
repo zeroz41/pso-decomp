@@ -23,7 +23,7 @@ char* item_texture_filename_buffer;
 
 void TItemTexLoad::load_texture_archive() {
     char t[12] = "ItemTexLoad";
-    s32 r = TLobby::tmp_buf_use_req((const char *)(&t));
+    s32 r = (saddr)TLobby::tmp_buf_use_req((const char *)(&t));
     if (r != 0) {
         prs_decompress_alloc(m_archive_buffer, r, 0x40000);
         load_gvm_texture_archive((void *)r, &m_texture_list);

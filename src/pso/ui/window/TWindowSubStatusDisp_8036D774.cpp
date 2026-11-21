@@ -182,7 +182,7 @@ void TLobby::free_singleton_805D7018() {
 void TBGMulti__ct(void) {
     s32 sp8[4];
     if (TCameraCtrl::get_camera_id() == 3) {
-        sp8[0] = TLobby::tmp_buf_use_req("TBGMulti");
+        sp8[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", sp8, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
         TObjFish::set_global_param((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file((saddr)"bg_multi.gvm"));

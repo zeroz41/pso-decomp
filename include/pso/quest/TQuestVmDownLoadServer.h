@@ -5,14 +5,10 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "types.h"
 
-struct Ent_803E9DE0;
 struct Hdr_803EA384;
 struct Info_803F0138;
-struct N_803E9FA4;
-struct Node_803EA384;
-struct Node_803EB328;
-struct Node_803EB420;
-struct Node_803EB894;
+struct QuestDownloadItemNode;
+struct QuestDownloadTextNode;
 struct Out_803E8C2C;
 struct Req_803EEF2C;
 
@@ -78,7 +74,6 @@ public:
     static void clear_field2A0();
     static void split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3);
     static void *alloc(u32 size);
-    void clear_flag4_bit4();
     static s32 is_ready();
     static s32 get_serial_access();
     static s32 poll_serial_access();
@@ -90,7 +85,7 @@ public:
     static s32 convert_jis_to_sjis_string(s32 *args);
     static void init_buffer_pointers();
     static s32 get_buffer_size();
-    static s32 lookup_value_by_key(u16 arg0);
+    static u8 lookup_value_by_key(u16 arg0);
     static u16 map_key_to_code(u32 arg0);
     static s32 is_valid_item_for_slot(u8 c, u8 k);
     static void invalidate_entries_by_id(s32 id);
@@ -103,13 +98,11 @@ public:
     static void set_active();
     static s32 match_prefix_length(const u8 *a, const u8 *b, s32 n);
     static s32 count_matching_name_prefix(s32 arg0, u8 *arg1);
-    s32 has_name_mismatch(u8 *arg1);
     s32 is_char_allowed(s16 arg1);
     static s32 read_ask_header();
     static void init_page_cache();
     static s32 seek_or_reopen(int arg0);
     static s32 find_file_info_index();
-    void set_file_info_name();
     s32 aram_read_thunk(uaddr arg1, int _w2);
     static void unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
@@ -122,18 +115,16 @@ public:
     static void latch_slot_value(s32 arg0);
     static s32 count_leading_entries(s32 i, s32 end);
     static void init_entries();
-    s32 count_chain_nodes();
-    static void *build_text_node_chain(void *sp, void *a1, s32 a2, void *hp, void *tp);
+    static QuestDownloadTextNode *build_text_node_chain(void *record, const QuestDownloadItemNode *source, s32 length,
+                                                         QuestDownloadTextNode **head, QuestDownloadTextNode **tail);
     static u16 jis_to_sjis(u16 arg0);
     static s32 is_valid_sjis_code(u16 arg0);
     static s32 is_download_command(u16 arg0, s32 arg1);
     static s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr);
     static s32 is_sjis_lead_byte(u8 arg0);
-    void free_node_list();
-    static void push_download_entry(s32 *arg0);
+    static void push_download_entry(void *storage);
     static void init_block_free_list();
     static s32 calc_item_cost_bonus(u8 kind, u8 v, u8 w, s32 base, s32 add);
-    s32 calc_item_entry_cost(u8 k, u8 v, s32 base);
     static s32 calc_pair_cost_bonus(u8 arg0, u8 arg1, s32 arg2);
     static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 arg2, s32 arg3);
     static void reset_slot_chain_timers(s32 arg0);
@@ -147,17 +138,12 @@ public:
 public:
     void encrypt_download_data(s32 size);
     static void unshuffle_and_decrypt(void *data, s32 size);
-    s32 find_name_index();
 public:
     static u8 *get_cached_page(s32 page);
     s32 lookup_name_entry(s16 name_len, Out_803E8C2C *out);
     void append_message_text(s32 size, Req_803EEF2C *msg, u8 attr);
-    const Ent_803E9DE0 *find_longest_match_entry(s32 arg1, s32 *arg2);
-    N_803E9FA4 *insert_sorted_node(N_803E9FA4 *arg1);
-    static Node_803EA384 *build_item_list(s32 arg0, Hdr_803EA384 *arg1);
-    static s32 count_fitting_entries(Node_803EB328 *arg0);
-    Node_803EB420 *advance_nodes(s32 n);
-    Node_803EB894 *detach_node_chain();
+    static QuestDownloadItemNode *build_item_list(s32 arg0, Hdr_803EA384 *arg1);
+    static s32 count_fitting_entries(QuestDownloadTextNode *arg0);
     s32 find_symbol_entry(s16 len, Info_803F0138 *out);
 };
 LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A4);

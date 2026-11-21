@@ -1,3 +1,4 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowMessagePage.h"
@@ -19,7 +20,6 @@ const char *TWindowMessagePage__name = "TWindowMessagePage";
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
-s32 TLobby__sub_80269DA4(void *, void *);
 extern const char *TWindowMessagePage__name;
 s32 *get_shared_text_buffer(void);
 
@@ -51,7 +51,7 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
 }
 
 u8 *TWindowMessagePage::create(s32 arg0, saddr arg1, saddr arg2, s32 arg3) {
-    TLobby__sub_80269DA4((void *)arg1, (void *)arg2);
+    TLobby__sub_80269DA4((void *)arg1, (u32)arg2);
     return (u8 *)new TWindowMessagePage(arg0, arg2, arg3);
 }
 

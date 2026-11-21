@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/quest/TQuestBgmCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/quest/TQuestThread.h"
@@ -8,7 +9,6 @@ s32 TQuestBgmCtrl__area_bgm_index;
 TQuestBgmCtrl* TQuestBgmCtrl__instance;
 extern "C" const char* TQuestBgmCtrl__class_name;
 
-extern saddr quest_mission_manager;
 extern void *quest_bgm_area_filename_table[];
 
 extern "C" __declspec(section ".rodata") const char quest_bgm_epi1_filename[] = "epi1.adx";
@@ -44,7 +44,7 @@ void TQuestBgmCtrl::defer_bgm(int index) {
 }
 
 void TQuestBgmCtrl::run_task() {
-    if (((s32) TQuestBgmCtrl__bgm_issued_flag == 0) && ((TQuestThread::get_register((u8 *)quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
+    if (((s32) TQuestBgmCtrl__bgm_issued_flag == 0) && ((TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
         play_area_music((char *)quest_bgm_area_filename_table[TQuestBgmCtrl__area_bgm_index - 1]);
         TQuestBgmCtrl__bgm_issued_flag = 1;
     }

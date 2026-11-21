@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_801C4F80.h"
@@ -164,7 +165,6 @@ void *create_window_menu_default(void *, int);
 void *get_window_layout_position(int);
 void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
-extern void *quest_mission_manager;
 void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players();
 s32 check_flag_100__10TObjPlayerFPv();

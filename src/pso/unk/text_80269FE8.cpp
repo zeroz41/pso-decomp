@@ -1,10 +1,10 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/unk/TLobby_80269C6C.h"
 #include "pso/unk/text_80269FE8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMessageInfomation.h"
 extern "C" {
-s32 TLobby__sub_80269DA4(void *, int);
 }
 saddr create_message_information_window(saddr arg0, saddr arg1, saddr arg2) {
   u8 *temp_r3;

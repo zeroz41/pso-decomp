@@ -2,6 +2,7 @@
 #define PSO_QUEST_TQUESTLISTVM_H
 
 #include "types.h"
+#include "pso/quest/QuestScriptFormat.h"
 #include "pso/ui/city/TShopWindowBase.h"
 
 class TObjBase;
@@ -20,21 +21,6 @@ struct QuestFileEntry {
     s32 file_index;
     s32 card_slot;
     s32 episode;
-};
-
-// The header at the start of a decompressed quest .bin file.
-struct QuestBinHeader {
-    u32 code_offset;
-    u32 function_table_offset;
-    u32 size;
-    u32 unused;
-    s8 language;
-    s8 unk_11;
-    s8 quest_number;
-    s8 episode;
-    char name[0x20];
-    char short_description[0x80];
-    char long_description[0x120];
 };
 
 // A downloaded quest file once its checksum word is stripped: the big-endian

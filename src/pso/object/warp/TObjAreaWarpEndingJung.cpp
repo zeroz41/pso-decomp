@@ -493,7 +493,7 @@ void TObjMapWarp::process_player_warps() {
                 }
             } else {
                 if (playerPopups[i] != NULL) {
-                    ((TQuestVmDownLoadServer *)(playerPopups[i]))->clear_flag4_bit4();
+                    ((TObject *)playerPopups[i])->clear_update_suspension();
                     ((TObject *)playerPopups[i])->allow_rendering();
                 }
                 t = find_warp_player_in_range(this, i, this->warp_range);
@@ -522,7 +522,7 @@ void TObjMapWarp::process_player_warps() {
         TObjPlayer *t2;
         s32 j2;
         if (this->menu_window != NULL) {
-            ((TQuestVmDownLoadServer *)(this->menu_window))->clear_flag4_bit4();
+            ((TObject *)(this->menu_window))->clear_update_suspension();
             ((TObject *)this->menu_window)->allow_rendering();
         }
         t2 = find_warp_player_in_range(this, local_client_id, this->warp_range);
@@ -677,7 +677,7 @@ void TObjAreaWarp::handle_area_selection() {
         }
     } else {
         if (d->fB0 != NULL) {
-            ((TQuestVmDownLoadServer *)(d->fB0))->clear_flag4_bit4();
+            ((TObject *)(d->fB0))->clear_update_suspension();
             ((TObject *)d->fB0)->allow_rendering();
         }
         if (is_split_screen() != 0) {
@@ -813,7 +813,7 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -912,7 +912,7 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+        TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -1036,7 +1036,7 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+    TObjFish::set_global_param(reinterpret_cast<saddr>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

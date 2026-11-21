@@ -159,7 +159,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
         }
         allocated = 1;
     } else {
-        buf = TLobby::tmp_buf_use_req("LoadTexturePvm");
+        buf = (saddr)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::load_sct_file((const char *)path, (u8 *)buf);
     ret = load_gvm_texture_archive((void *)buf, (GinjaTextureList *)arg1);
@@ -233,7 +233,7 @@ u8 *load_gvm_texture_file(saddr name) {
         big = (uaddr)TQuestVmDownLoadServer::alloc(size);
         buf = big;
     } else {
-        buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
+        buf = (saddr)TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
     TGStream::load_sct_file((const char *)name, (u8 *)buf);
     count = TLanguage::read_file_header(buf, &hdr);

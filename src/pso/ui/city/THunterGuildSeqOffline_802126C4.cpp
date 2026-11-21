@@ -4,7 +4,6 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/quest/TQuestListVM.h"
 
-extern "C" THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 
 void THunterGuildSeqOffline::notify_close() {
     if (THunterGuildSeqOffline__active_instance != NULL) {
@@ -13,7 +12,7 @@ void THunterGuildSeqOffline::notify_close() {
     }
 }
 
-void THunterGuildSeqOffline::create_quest_list_vm() {
+void THunterGuildSeqOffline::create_quest_list_vm(TShopWindowBase *) {
     TQuestListVM *vm = new TQuestListVM(tl_05, THunterGuildSeqOffline__active_instance,
                                         (TObjBase *)THunterGuildSeqOffline__active_instance->player);
     if (vm != NULL) {

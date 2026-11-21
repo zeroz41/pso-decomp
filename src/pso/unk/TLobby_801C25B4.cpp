@@ -1,6 +1,7 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include <stdlib.h>
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804C8678.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -429,7 +430,6 @@ s32 TLobby__sub_801C4FC4(void *p);
 
 void TLobby__sub_801036CC(void);
 void TLobby__sub_8020BC50(void);
-extern uaddr quest_mission_manager;
 void TLobby__sub_801C38E8(void *arg0);
 
 
@@ -1137,8 +1137,8 @@ void TLobby__sub_801C38E8(void *arg0) {
         if (--*(s32 *)((u8 *)arg0 + 0x2C) <= 0) {
             TLobby__sub_8020BC50();
             TLobby__sub_801036CC();
-            if (quest_mission_manager != 0) {
-                TQuestThread::clear_buffer((void *)quest_mission_manager);
+            if (quest_mission_manager != NULL) {
+                TQuestThread::clear_buffer(quest_mission_manager);
             }
             TLobby::stop_audio_streams();
             lbl_805D5DB4 = 0;

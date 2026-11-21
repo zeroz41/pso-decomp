@@ -130,7 +130,7 @@ void TObjLuker::show_part(s32 arg1) {
         if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
             play_sound_effect(0x53703, 0U, 0, 0);
         }
-        ((TQuestVmDownLoadServer *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_flag4_bit4();
+        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_update_suspension();
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
     }
 }

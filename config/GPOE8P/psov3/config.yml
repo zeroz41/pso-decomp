@@ -257,7 +257,7 @@ force_active:
   - handle_state__17TObjEneBm3FlyNestFl
   - init__17TObjEneBm3FlyNestFv
   - insert_item_at
-  - insert_sorted_node__22TQuestVmDownLoadServerFPvPv
+  - insert_quest_download_entry
   - is_download_cmd_allowed__22TQuestVmDownLoadServerFUc
   - reset_slot_index
   - state_dying__17TObjEneBm3FlyNestFl
@@ -1685,7 +1685,7 @@ force_active:
   - TQuestListChallenge__active_instance
   - TQuestListChallenge__name
   - TQuestListChallenge__stage_table
-  - TQuestListChallenge__vt9
+  - vfunc_11__19TQuestListChallengeFv
   - TQuestListVM_class_name
   - TQuestThreadBoard__class_name
   - TQuestThread__class_name
@@ -2118,7 +2118,7 @@ force_active:
   - __ct__17TObjEneDf2BringerFP7TObjectPv
   - __ct__17TObjItemNameEntryFP7TObject
   - __ct__17TObjParticleLobbyFP7TObjectPv
-  - __ct__17TQuestThreadBoardFP7TObjectl
+  - __ct__17TQuestThreadBoardFP13TUnk_804C8678l
   - __ct__18G_BuyShopItem_6x5EFv
   - __ct__18TAdLoadQuestCellGCFP7TObjectPv
   - __ct__18TAdLoadQuestLineGCFP7TObjectPv
@@ -5255,7 +5255,7 @@ force_active:
   - close_windows__14TWindowSubItemFl
   - close_windows__16TAdChrSelASlotGCFv
   - close_windows__16TAdChrSelBSlotGCFPv
-  - close_windows__19TQuestListChallengeFPv
+  - close_windows__19TQuestListChallengeFv
   - close_windows__12TAdTimeSetGCFv
   - close_windows__9TObjLukerFPv
   - close_windows_and_advance__17TAdEnterPPPPassGCFPv
@@ -14578,7 +14578,7 @@ force_active:
   - request_action__8TItemMagFl
   - request_aram_load_state__16TAdWarningBaseGCFPv
   - request_change_game_mode__6TLobbyFv
-  - request_close__22THunterGuildSeqOfflineFv
+  - request_close__22THunterGuildSeqOfflineFP15TShopWindowBase
   - request_death_effect__18TObjEneRe4SorcererFv
   - request_default_follow_camera__11TBoss6Type2Fv
   - request_equipped_model__14TItemProShieldFv

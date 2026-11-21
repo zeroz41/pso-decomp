@@ -245,7 +245,6 @@ void show_partner_chatter_for_key(s16 key);
 extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
-void set_partner_common_remark(s32 kind, const char *text);
 void quest_player_look_at_partner(u16 src);
 void notify_partner_room_cleared(s32 arg0);
 void quest_player_face_actor(u16 src, u16 dst);

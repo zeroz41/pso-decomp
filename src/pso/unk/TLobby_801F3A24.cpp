@@ -320,16 +320,13 @@ void TLobby::setup_quest_list() {
         ((void (*)())open_session__6TLobbyFi)();
         break;
     case 2:
-        TQuestListOnline::get_quest_list_flag();
-        ((void (*)())update_and_reset__6TLobbyFi)();
+        update_and_reset__6TLobbyFi((s32)TQuestListOnline::get_quest_list_flag());
         break;
     case 3:
-        TQuestListVM::get_quest_dat();
-        ((void (*)())update_and_reset__6TLobbyFi)();
+        update_and_reset__6TLobbyFi((s32)TQuestListVM::get_quest_dat());
         break;
     case 4:
-        TQuestListOnline::get_quest_list_flag();
-        ((void (*)())rebuild_all__6TLobbyFi)();
+        rebuild_all__6TLobbyFi((s32)TQuestListOnline::get_quest_list_flag());
         break;
     case 5:
         fn_801F43A8();

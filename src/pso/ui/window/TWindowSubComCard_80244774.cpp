@@ -1013,7 +1013,7 @@ void TWindowCtrlMain::free_window() {
 
 void load_hud_palette_textures(void) {
     s32 sp8[3];
-    sp8[0] = TLobby::tmp_buf_use_req("TWindowBase");
+    sp8[0] = (saddr)TLobby::tmp_buf_use_req("TWindowBase");
     TLanguage::draw_string((void *)lbl_8044E688, (void *)sp8, 0x40);
     TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)sp8, 0x41);
     TLanguage::draw_string((void *)lbl_8044E6B0, (void *)sp8, 0x42);

@@ -3,32 +3,31 @@
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
 
+class TAdLdQuestPrtGC;
+class TAdLoadQuestCellGC;
+class TAdLoadQuestLineGC;
+struct TAdLoadQuestPrtTxtGC;
+
 class TAdLoadQuestGC : public TObject {
 public:
+    TAdLoadQuestGC(TObject *parent);
     virtual ~TAdLoadQuestGC();
     virtual void run_task();
     virtual void render();
-    TObject *quest_display;
+
+    TAdLoadQuestCellGC *get_or_create_cell(int slot);
+    TAdLoadQuestLineGC *get_or_create_line(int slot);
+    TAdLoadQuestPrtTxtGC *get_or_create_prt_txt(int slot);
+    static TAdLoadQuestCellGC *get_cell(int slot);
+    static TAdLoadQuestLineGC *get_line(int slot);
+    static TAdLoadQuestPrtTxtGC *get_text(int slot);
+    static void setup();
+    static void cleanup();
+
+    TAdLdQuestPrtGC *quest_display;
 };
+
 LAYOUT_ASSERT(TAdLoadQuestGCDisplayOffset, offsetof(TAdLoadQuestGC, quest_display) == 0x1C);
-
-extern "C" {
-s32 create_cost_window(s32 arg0);
-}
-
-// --- C functions defined in TAdLoadQuestGC.cpp ---
-extern "C" {
-s32 create_cost_window(s32 arg0);
-}
-// --- end of C functions
-
-extern "C" {
-void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent);
-void TAdLoadQuestGC__sub_8030984C(void);
-void TAdLoadQuestGC__sub_80309850(void);
-saddr TAdLoadQuestGC__sub_80309854(int a0);
-saddr TAdLoadQuestGC__sub_80309868(int a0);
-saddr TAdLoadQuestGC__sub_8030987C(int a0);
-}
+LAYOUT_ASSERT(TAdLoadQuestGCSize, sizeof(TAdLoadQuestGC) == 0x20);
 
 #endif
