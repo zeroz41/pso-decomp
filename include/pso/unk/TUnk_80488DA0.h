@@ -2,6 +2,7 @@
 #define PSO_UNK_TUNK_80488DA0_H
 #include "types.h"
 #include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraCtrl_8006C8E4.h"
 
 class TUnk_80488DA0 : public TUnk_80488A28 {
 public:
@@ -15,7 +16,6 @@ LAYOUT_ASSERT(TUnk_80488DA0_size, sizeof(TUnk_80488DA0) == 0x70);
 
 // --- C functions defined in TUnk_80488DA0.cpp ---
 extern "C" {
-void *TCameraCtrl__vt6(void);
 }
 // --- end of C functions
 
