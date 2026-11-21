@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TAdSEGAlogo;
+
 // Boot logo sequence: video-mode check, modem check, then the SEGA, Sonic Team and ADX logos.
 class TLogo : public TObject {
 public:
@@ -23,7 +25,7 @@ public:
     u32 state;
     uaddr vi_config;    // TAdVIConfigGC
     u32 modem_check;  // TAdTrialModemChkGC
-    uaddr sega_logo;    // TAdSEGAlogo
+    TAdSEGAlogo *sega_logo;
     uaddr sonic_logo;   // TAdSoniclogo
     uaddr adx_logo;     // TAdADXlogo
 };

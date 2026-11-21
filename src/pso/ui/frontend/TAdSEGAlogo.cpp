@@ -41,8 +41,6 @@ __declspec(section ".data") NJS_TEXLIST texture_logo_e_descriptor = { lbl_80480A
 const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 #pragma pop
 
-struct Obj_8001BFCC { u8 pad[0x1c]; s32 f1c; };
-
 int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 void* logo_texture_e_handle;
 int TAdSEGAlogo__state;
@@ -60,12 +58,11 @@ void TAdSEGAlogo::render() {
     render_logo_with_default(logo_texture_e_handle, 8, -1, -150.0f);
 }
 void TAdSEGAlogo::run_task() {
-    Obj_8001BFCC *self = (Obj_8001BFCC *)this;
     switch (TAdSEGAlogo__state) {
     case 0:
         break;
     case 1:
-        if ((f32)++self->f1c > 60.0f) {
+        if ((f32)++m_wait_frames > 60.0f) {
             void *p;
             TAdSEGAlogo__state = 2;
             p = TObject::operator new(0x28);
@@ -81,28 +78,15 @@ void TAdSEGAlogo::run_task() {
 
 TAdSEGAlogo::~TAdSEGAlogo() {}
 
-
-extern "C" {
-
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__11TAdSEGAlogo[];
-extern s32 request_destroy__11TAdSEGAlogoFv[];
-
-void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo) {
+TAdSEGAlogo::TAdSEGAlogo(TObject *parent) : TObject(parent) {
     void *o;
-    __ct__7TObjectFP7TObject(ad_seg_alogo);
-    *(s32 **)((s8 *)ad_seg_alogo + 0x18) = __vt__11TAdSEGAlogo;
-    ((TAdSEGAlogo *)ad_seg_alogo)->m_name = TAdSEGAlogo__class_name;
-    *(u32 *)((s8 *)ad_seg_alogo + 0x1C) = 0;
+    m_name = TAdSEGAlogo__class_name;
+    m_wait_frames = 0;
     TAdSEGAlogo__state = 0;
     sega_logo_done_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(0);
     o = TObject::operator new(0x28);
     if (o != NULL) {
-        ((TLobby *)o)->init_fade(tl_00, request_destroy__11TAdSEGAlogoFv);
+        ((TLobby *)o)->init_fade(tl_00, (void *)request_destroy);
     }
-    return ad_seg_alogo;
-}
-
 }

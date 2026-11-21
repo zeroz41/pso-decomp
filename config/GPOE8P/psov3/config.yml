@@ -7366,7 +7366,7 @@ force_active:
   - is_rock_valid__10TBoss6RockFl
   - is_same_slot_entry__23TAdSinglePlyChrSelectGCFPviPvi
   - is_secondary_sequence__12TBoss1DragonFv
-  - is_sega_logo_done__Fi
+  - is_sega_logo_done__FP11TAdSEGAlogo
   - is_signboard_texture_buffer_missing__Fv
   - is_slot_active__14TShopGeneratorFi
   - is_sound_enabled__12TObjEnvSoundFPvl

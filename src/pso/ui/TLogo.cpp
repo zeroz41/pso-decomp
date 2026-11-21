@@ -12,6 +12,7 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdADXlogo.h"
+#include "pso/ui/frontend/TAdSEGAlogo.h"
 
 #include "pso/system/task/TMainTask.h"
 
@@ -37,7 +38,6 @@ s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
 void request_main_phase(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
-u32 __ct__11TAdSEGAlogoFv(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
 u32 __ct__13TAdVIConfigGCFP7TObject(void *, void *);
 u32 __ct__18TAdTrialModemChkGCFP7TObject(void *, void *);
@@ -62,7 +62,7 @@ void (*logo_load_callback_table[18])(void) = {
 };
 }
 int is_logo_exit_requested(int);
-int is_sega_logo_done(int);
+int is_sega_logo_done(TAdSEGAlogo *logo);
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern int TLogo__exit_requested_flag;
@@ -77,7 +77,7 @@ int TLogo__sub_8013F808(void) {  return logo_clear_flag; }
 
 s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
 
-int is_sega_logo_done(int _w0) {  return sega_logo_done_flag; }
+int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
 int is_logo_exit_requested(int _w0) {  return TLogo__exit_requested_flag; }
 
@@ -152,7 +152,7 @@ TLogo::TLogo(TObject *parent) : TObject(parent) {
     state = 0;
     vi_config = 0;
     modem_check = 0;
-    sega_logo = 0;
+    sega_logo = NULL;
     sonic_logo = 0;
     adx_logo = 0;
 }
@@ -161,11 +161,7 @@ TLogo::~TLogo() {}
 
 void TLogo::run_task() {
     uaddr var_r0;
-    uaddr var_r0_2;
-    uaddr var_r0_3;
-    uaddr var_r0_4;
     uaddr var_r0_5;
-    uaddr var_r0_6;
     uaddr var_r0_7;
     uaddr var_r0_8;
     switch (state) {
@@ -180,28 +176,16 @@ void TLogo::run_task() {
                 state = 1U;
                 return;
             }
-            var_r0_2 = (uaddr)TObject::operator new(0x20);
-            if (var_r0_2 != 0U) {
-                var_r0_2 = __ct__11TAdSEGAlogoFv((void *)var_r0_2, this);
-            }
-            sega_logo = var_r0_2;
+            sega_logo = new TAdSEGAlogo(this);
             state = 4U;
             return;
         }
-        var_r0_3 = (uaddr)TObject::operator new(0x20);
-        if (var_r0_3 != 0U) {
-            var_r0_3 = __ct__11TAdSEGAlogoFv((void *)var_r0_3, this);
-        }
-        sega_logo = var_r0_3;
+        sega_logo = new TAdSEGAlogo(this);
         state = 4U;
         return;
     case 1:
         if (((u32) vi_config != 0U) && (TLogo__sub_8013F800((void *)vi_config) != 0)) {
-            var_r0_4 = (uaddr)TObject::operator new(0x20);
-            if (var_r0_4 != 0U) {
-                var_r0_4 = __ct__11TAdSEGAlogoFv((void *)var_r0_4, this);
-            }
-            sega_logo = var_r0_4;
+            sega_logo = new TAdSEGAlogo(this);
             state = 4U;
             return;
         }
@@ -216,17 +200,13 @@ void TLogo::run_task() {
             state = 3U;
             return;
         }
-        var_r0_6 = (uaddr)TObject::operator new(0x20);
-        if (var_r0_6 != 0U) {
-            var_r0_6 = __ct__11TAdSEGAlogoFv((void *)var_r0_6, this);
-        }
-        sega_logo = var_r0_6;
+        sega_logo = new TAdSEGAlogo(this);
         state = 4U;
         return;
     case 4:
-        if (((s32)is_sega_logo_done((int)(sega_logo))) != 0) {
-            ((TObject *)sega_logo)->queue_destruction();
-            sega_logo = 0U;
+        if (is_sega_logo_done(sega_logo) != 0) {
+            sega_logo->queue_destruction();
+            sega_logo = NULL;
             var_r0_7 = (uaddr)TObject::operator new(0x20);
             if (var_r0_7 != 0U) {
                 var_r0_7 = __ct__12TAdSoniclogoFP7TObject((void *)var_r0_7, this);
