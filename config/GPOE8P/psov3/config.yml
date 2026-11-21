@@ -1962,7 +1962,7 @@ force_active:
   - __ct__12TBGLightningFv
   - __ct__12TBoss3VoloptFPv
   - __ct__12TChCrEffWallFP7TObject
-  - __ct__12TChCrLoadAfsFP7TObjectPvPv
+  - __ct__12TChCrLoadAfsFP7TObjectUlUl
   - __ct__12TChCrLoadReqFP7TObjectPC24CharacterPreviewLoadArgs
   - __ct__12TChCrTagNameFP7TObjectl
   - __ct__12TChatMessageFRC12TChatMessage
@@ -4809,7 +4809,7 @@ force_active:
   - calc_player_rankings__6TLobbyFPv
   - calc_position__13TObjEneMe1GeeFP3Vec
   - calc_preview_last_index__12TChCrLoadReqFll
-  - calc_preview_offset__23TAdSinglePlyChrSelectGCFPvlll
+  - calc_preview_offset__12TChCrLoadReqFlll
   - calc_product__12TBoss8DragonFiiii
   - calc_product_and_ratio__12TBoss8DragonFPvl
   - calc_range__9TTecZaruaFv
@@ -5349,7 +5349,7 @@ force_active:
   - controller_device_id_table
   - conversation_camera_obstructed__FP16FollowControllerl
   - convert_quest_object_rows
-  - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFi
+  - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi
   - copy_4word_struct__6TLobbyFPvPv
   - copy__11TBreakUpMdlFPv
