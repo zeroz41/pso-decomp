@@ -139,6 +139,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void sub_80032E38(u32 reason);
     void sub_8002FE60(u32 reason);
     static void forward_switch_phase_stats(TObjChara *victim);
+    // The parameter block's attack powers and shell hp, for the parts the boss spawns.
+    static f32 get_bullet_power();
+    static f32 get_mine_power();
+    static s32 get_shell_max_hp();
     void switch_phase_stats(TObjChara *victim);
     void emit_effect_and_step(Vec *pos);
     // 6x13/6x14 senders and receivers (the TBoss7DeRolLeC twin's are G_BarbaRayBossActions_6xA9/6xAA members)
@@ -208,14 +212,13 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
-f32 TBoss2DeRolLe__sub_80034CEC(void);
-f32 TBoss2DeRolLe__sub_80034CF8(void);
 void plan_motion_profile(TUnk_80036250 *profile);  // caps max_speed so it fits distance, sets brake_point
-s32 TBoss2Joint_get_shell_max_hp(void);
 void derolle_capture_node_points(NJS_OBJECT *);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 s32 advance_scalar_motion_profile(TUnk_80036250 *profile);
-void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
+// TBoss2DeRolLe::backup_pos(int): the run_task call passes no int, so the call
+// cannot be a member call without a stray li r4.
+void backup_pos__13TBoss2DeRolLeFi(TBoss2DeRolLe *boss);
 void derolle_begin_node_capture(TBoss2DeRolLe *boss);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);

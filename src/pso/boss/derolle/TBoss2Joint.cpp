@@ -16,7 +16,6 @@
 
 extern "C" {
 extern const f32 lbl_805D8258;
-s32 TBoss2Joint_get_shell_max_hp(void);
 }
 
 // The movement parameters init_params installs.
@@ -214,7 +213,7 @@ s32 TBoss2Joint::init_params() {
     mode = 0;
     dispatch_action(mode, 4);
     joint_flags = 0;
-    shell_hp = TBoss2Joint_get_shell_max_hp();
+    shell_hp = TBoss2DeRolLe::get_shell_max_hp();
     color = 0xFFFFFFFF;
     unk_3a4 = 1.0f;
     flash = 0.0f;

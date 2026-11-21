@@ -147,7 +147,7 @@ void TBoss2PhotonBullet::run_task() {
     }
     if (position.x <= lbl_805D8268 && position.x >= lbl_805D826C) {
         DirectAttackPayload attack = boss2_photon_bullet_attack[0];
-        attack.power = TBoss2DeRolLe__sub_80034CF8();
+        attack.power = TBoss2DeRolLe::get_bullet_power();
         if (vfunc_16((void *)boss2_photon_bullet_hit_args, &attack) != 0) {
             queue_destruction();
             return;

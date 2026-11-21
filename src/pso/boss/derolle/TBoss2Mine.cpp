@@ -30,12 +30,12 @@ struct TBoss2MineMovement {
     s32 params[4];
 };
 
-// The mine's attack template: state_explode copies it, sets +0x04 and hands it to
-// TObjEneDD__sub_800BA5A4, whose setup_instance installs +0x08 as the collision radius.
+// The mine's attack template: state_explode copies it, sets the power from the boss and
+// hands it to TObjEneDD__sub_800BA5A4, whose setup_instance installs the collision radius.
 struct TBoss2MineCollisionDesc {
     s32 value;
-    f32 pad_04;
-    f32 pad_08;
+    f32 power;
+    f32 radius;
     f32 pad_0c;
     s32 pad_10;
 };
@@ -348,7 +348,7 @@ void TBoss2Mine::state_explode(s32 reason) {
         step++;
         if (step > 30) {
             *(TBoss2MineCollisionWords *)&hit = *(const TBoss2MineCollisionWords *)&boss2_mine_collision_desc;
-            hit.pad_04 = TBoss2DeRolLe__sub_80034CEC();
+            hit.power = TBoss2DeRolLe::get_mine_power();
             TObjEneDD__sub_800BA5A4(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
             timer = 2;
