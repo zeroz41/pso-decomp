@@ -322,7 +322,6 @@ inline s32 chap_read_byte(PppFrame **src) {
 }
 extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
     s16 total;
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppChap *chap;
     u8 *name;
     u8 *value;

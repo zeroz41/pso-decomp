@@ -309,7 +309,6 @@ inline s32 get_80403308(PppFrame **s) {
     return (s16)pap_read_byte_buffer[0];
 }
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppFsm *fsm = (PppFsm *)self;
     u8 *p1 = 0;
     u8 *p2 = 0;

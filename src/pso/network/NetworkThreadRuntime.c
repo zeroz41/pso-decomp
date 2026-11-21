@@ -531,7 +531,6 @@ s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h)
   s16 state;
   s16 res;
   u8 *new_var;
-  s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
   s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
   new_var = (u8 *)self->opts;

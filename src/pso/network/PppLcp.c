@@ -415,7 +415,6 @@ s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     PppFrame *reply;
     u8 hdr[2];
     s16 missing;
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
 
     status = 2;
     opts = (LcpOpts *)fsm->p30;

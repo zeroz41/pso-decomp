@@ -10,7 +10,6 @@ typedef struct P_803FF48C P_803FF48C;
 /* This file's functions. */
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
-u16 get_field_4(void *self);
 s32 read_2_bytes(void *self, void *src);
 s32 set_flags_and_state(void *self);
 u8 *write_network_u32_be(u8 *p, u32 v);
@@ -447,7 +446,6 @@ extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
     u8 hdr[2];
     s16 k;
     s16 res;
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
     base = (IpcpConfig *)self->opts;
     n = src->len;
