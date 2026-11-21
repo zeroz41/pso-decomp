@@ -9,40 +9,11 @@
 
 #pragma readonly_strings on
 
-struct Base_80329BB8 { char pad[0x18]; };
-struct VObj_80329BB8 : Base_80329BB8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-};
-struct Base_80329C84_80329BB8 { char pad[0x18]; };
-struct VObj_80329C84_80329BB8 : Base_80329C84_80329BB8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-};
-
 extern "C" {
 
 
 void TAdLicAgreementGC::render() {
-    struct VObj_80329BB8 *o = (struct VObj_80329BB8 *)this;
-    o->m10();
+    check_main_task_state();
 }
 
 void TAdLicAgreementGC::vfunc_9() { TAdMultiChgGameModeGC::set_game_mode(); }
@@ -51,8 +22,7 @@ void TAdLicAgreementGC::vfunc_7() { ((TAdMultiChgGameModeGC *)this)->set_mode_1c
 void TAdLicAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 
 void TAdLicAgreementGC::run_task() {
-    struct VObj_80329C84_80329BB8 *o = (struct VObj_80329C84_80329BB8 *)this;
-    o->m9();
+    update_state();
 }
 
 
