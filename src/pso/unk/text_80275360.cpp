@@ -1,3 +1,4 @@
+#include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -14,7 +15,7 @@ void TWindowSubComCardList::sub_80275360() {
     s32 msg;
 
     this->reset_entries();
-    index = ((TWindowSubStatusDisp *)this->m_8c)->get_type();
+    index = m_8c->get_type();
     index *= 7;
     for (n = 0; n < 7; n++, index++) {
         if (index >= (s32)this->m_98) {

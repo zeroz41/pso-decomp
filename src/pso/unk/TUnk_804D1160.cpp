@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
-#include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 #include "pso/ui/window/TWindowSubCustomSelect_80275D84.h"

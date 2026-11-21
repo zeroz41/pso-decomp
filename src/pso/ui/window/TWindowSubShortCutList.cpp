@@ -2,7 +2,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
+#include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/chat/TWindowChat.h"
@@ -18,14 +18,11 @@ static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
 
 extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
 s32 *get_shared_text_buffer(void);
 char *fn_80076BC4(s32 *);
 int get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
-s32 handle_list_page_flip_input(s32);
-s32 draw_list_page_indicator(s32, s32);
 
 }
 
@@ -36,7 +33,7 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 index;
     save_cursor_selection__20TShopArmorListWindowFv();
     reset_list();
-    index = ((TWindowSubStatusDisp *)this->m_88)->get_type();
+    index = m_88->get_type();
     var_r30 = 0;
     index *= 4;
     do {
@@ -85,8 +82,8 @@ void TWindowSubShortCutList::render() {
     if (status_display != NULL) {
         ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
     }
-    if (m_88 != 0U) {
-        draw_list_page_indicator(m_88, context);
+    if (m_88 != NULL) {
+        draw_list_page_indicator(m_88, reinterpret_cast<WindowDrawContext *>(context));
     }
 }
 
@@ -98,23 +95,18 @@ void TWindowSubShortCutList::run_task() {
 }
 
 TWindowSubShortCutList::~TWindowSubShortCutList() {
-    delete_if_allocated((s32)m_88, 1);
+    delete_if_allocated(m_88, 1);
 }
 // index: the shortcut slot; its page (index / 4) picks the list page, its column the cursor.
 TWindowSubShortCutList::TWindowSubShortCutList(u8 *parent, s32 index)
     : TWindowMenuIconLine(parent, 4, local_client_id) {
     s32 row;
     s32 col;
-    void *p;
     m_name = TWindowSubShortCutList__class_name;
     row = index / 4;
     col = index % 4;
     ensure_status_display((s32)(TWindowSubStatusDisp::get_message_10(0x2D)));
-    p = ::operator new(0xC);
-    if (p != NULL) {
-        p = init__21TWindowSubComCardListFiii(p, row, 5, local_client_id);
-    }
-    m_88 = (u32)p;
+    m_88 = new PageIndicator((s8)row, 5, local_client_id);
     set_flag70_bit10();
     refresh_entries();
     set_cursor_index(col);

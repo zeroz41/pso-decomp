@@ -1,9 +1,10 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
-#include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
+#include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -21,15 +22,11 @@
 
 extern "C" {
 extern u8 *text_language_group_table;
-extern void *window_help_item_layout[];
+extern WindowDescriptor window_help_item_layout;
 extern "C" { extern char TWindowHelpItem__class_name_string[]; }
 const char *window_help_item_class_name = TWindowHelpItem__class_name_string;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
-void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
 
-s32 handle_list_page_flip_input(s32);
-s32 draw_list_page_indicator(int, int);
-s32 decay_page_arrow_offset(s32);
 
 void TWindowHelpItem::update_cursor_selection() {
     this->m_60 = (u8) (this->m_60 | 1);
@@ -60,7 +57,7 @@ void TWindowHelpItem::render() {
         reinterpret_cast<WindowDrawContext *>(temp_r3));
     temp_r3_2 = this->m_60;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
-        draw_list_page_indicator((int) (this->m_64), temp_r3);
+        draw_list_page_indicator(m_64, reinterpret_cast<WindowDrawContext *>(temp_r3));
     }
 }
 
@@ -92,17 +89,12 @@ TWindowHelpItem::~TWindowHelpItem() {
 }
 
 }
-TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)window_help_item_layout, (s16)idx, (u8 *)pos) {
-    void *p;
+TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
     copy_vec2(((u8 *)this + 0x30), pos);
     this->save_position();
     this->m_60 = 0;
-    p = ::operator new(0xc);
-    if (p != 0) {
-        p = init__21TWindowSubComCardListFiii(p, 0, 3, this->client_index);
-    }
-    this->m_64 = (u32)p;
+    m_64 = new PageIndicator(0, 3, client_index);
     this->m_68 = 0;
     this->m_6c = 0;
     this->m_70 = 0;

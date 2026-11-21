@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowDuelResult.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -411,7 +412,6 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 
 s32 record_local_battle_placement(void *);
 
-u32 TWindowDuelResult__ct(void *, s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *create_window_menu_default(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
@@ -769,11 +769,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         if (*(void **)((s8 *)arg0 + 0x54) != NULL) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
         }
-        p = (void *)TObject::operator new(0x6C);
-        if (p != NULL) {
-            p = (void *)TWindowDuelResult__ct(p, local_client_id);
-        }
-        *(void **)((s8 *)arg0 + 0x54) = p;
+        *reinterpret_cast<TWindowDuelResult **>(arg0 + 0x54) = new TWindowDuelResult(local_client_id);
         q = (void *)(s32)get_local_player();
         if (q != NULL) {
             if (((TObjPlayer *)q)->check_player_flag1() == 0) {

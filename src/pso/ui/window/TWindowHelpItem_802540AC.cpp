@@ -1,5 +1,7 @@
+#include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowHelpItem_802531A0.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
@@ -189,7 +191,7 @@ struct T_80255440 {
     u8 disp[0x60 - 0x24];
     u8 flags;
     u8 pad61[3];
-    s32 entry;
+    PageIndicator *entry;
     Item_80255440 *item;
     u8 pad6C[0x9C - 0x6C];
     s32 id;
@@ -354,9 +356,8 @@ void *TWindowHelpItem__description_text_layout[9] = {
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0,
 };
-void *window_help_item_layout[5] = {
-    (void *)0x43640000, (void *)0x43380000, (void *)0x4717f400, (void *)0x0,
-    (void *)0x3,
+WindowDescriptor window_help_item_layout = {
+    {228.0f, 184.0f}, 38900.0f, NULL, 3,
 };
 void *lbl_804CF6F4[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&TWindowHelpItem__vt0,
@@ -1010,7 +1011,7 @@ void TWindowHelpItem::dispatch_item_help() {
         self->pmf = 0;
         return;
     }
-    type = ((TWindowSubStatusDisp *)self->entry)->get_type();
+    type = self->entry->get_type();
     self->flags |= 2;
     ((TWindowHelpItem *)self)->sub_80255E24();
     if (self->item == NULL) {

@@ -21,7 +21,7 @@ typedef struct Item_8025A354 {
     f32 x;
     f32 y;
     s32 value10;
-    u8 pad14[4];
+    s32 animation;
     char *label;
     s32 cur;
     s32 next;
@@ -96,15 +96,15 @@ void TWindowHelpItem::set_compare_color(s32 arg1) {
 
     temp_r0 = reinterpret_cast<Item_8025A354 *>(this)->cur;
     if (temp_r0 == arg1) {
-        *(s32 *)((s8 *)this + 0x10) = -1;
+        reinterpret_cast<Item_8025A354 *>(this)->value10 = -1;
         return;
     }
     if (temp_r0 > arg1) {
-        *(s32 *)((s8 *)this + 0x10) = 0xFF77E8FF;
+        reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFF77E8FF;
     } else {
-        *(s32 *)((s8 *)this + 0x10) = 0xFFDD8C41;
+        reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFFDD8C41;
     }
-    *(s32 *)((s8 *)this + 0x14) = 0x1E;
+    reinterpret_cast<Item_8025A354 *>(this)->animation = 0x1E;
     set_flag4_and_field1c(arg1);
 }
 
@@ -116,12 +116,12 @@ void TWindowHelpItem::set_flag4_and_field1c(s32 arg1) {
 void TWindowHelpItem::set_help_text(u32 arg1) {
     s32 temp_r3;
 
-    mem_free(*(void **)((s8 *)this + 0x18));
-    *(void **)((s8 *)this + 0x18) = 0;
+    mem_free(reinterpret_cast<Item_8025A354 *>(this)->label);
+    reinterpret_cast<Item_8025A354 *>(this)->label = NULL;
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x18) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x18), arg1, temp_r3 + 1);
+        reinterpret_cast<Item_8025A354 *>(this)->label = static_cast<char *>(mem_alloc(temp_r3 + 1));
+        strncpy(reinterpret_cast<s32>(reinterpret_cast<Item_8025A354 *>(this)->label), arg1, temp_r3 + 1);
     }
 }
 

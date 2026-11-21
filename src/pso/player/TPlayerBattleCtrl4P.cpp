@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801C25B4.h"
@@ -101,7 +102,6 @@ extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
-void *TWindowDuelResult__ct(void *, int);
 s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
@@ -1384,16 +1384,10 @@ void clear_split_screen_battle_window_slots(T_803102A4 *self) {
 }
 
 void TPlayerBattleCtrl4P::create_result_windows() {
-    Ctl_80310230 *o = (Ctl_80310230 *)this;
-    s32 i;
-    void *w;
-    for (i = 0; i < 4; i++) {
+    Ctl_80310230 *control = (Ctl_80310230 *)this;
+    for (s32 i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != 0) {
-            w = TObject::operator new(0x6C);
-            if (w != 0) {
-                w = TWindowDuelResult__ct(w, i);
-            }
-            o->win[i] = w;
+            control->win[i] = new TWindowDuelResult(i);
         }
     }
 }
