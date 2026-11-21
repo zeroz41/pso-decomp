@@ -9,6 +9,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
@@ -56,9 +57,7 @@ CollisionBody TOJungleDesign__collision_desc_table[3] = {
 };
 
 extern "C" {
-s32 init_collision_body_parts(void *, int, int);
 s32 post_translate_matrix(void *);
-void free_collision_body_parts(void *);
 
 
 void TOJungleDesign::render() {
@@ -81,7 +80,7 @@ TOJungleDesign::TOJungleDesign(saddr arg1, saddr arg2) : TObjCollidable((TObject
     this->m_name = TOJungleDesign__name;
     ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     this->init_design_variant();
-    init_collision_body_parts(((u8 *)this), (int)&TOJungleDesign__collision_desc_table[this->m_b0], 1);
+    init_collision_body_parts(this, &TOJungleDesign__collision_desc_table[this->m_b0], 1);
     ((TObjPlayer *)this)->register_object_by_id();
 }
 extern "C" {

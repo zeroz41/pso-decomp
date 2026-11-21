@@ -857,7 +857,7 @@ s32 check_player_in_range__13TUnk_804B5BA8Flf(void *arg0, s32 _w1, f32 _w2);
 s32 free_collision_body_parts(void *);
 extern s32 city_door_base_vtable[];
 extern void *challenge_task;
-s32 init_collision_body_parts(void *, void *, int, int);
+s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
 void city_door_tick_opening__13TUnk_804B5BA8Fv(void* o);
 void city_door_tick_closing__13TUnk_804B5BA8Fv(void* o);
@@ -1026,7 +1026,7 @@ u8 *init_city_door(u8 *arg0, s32 arg1, saddr arg2, u8 *arg3) {
     count = (u8 *)(*(u8 **)((s8 *)arg0 + 0xB8));
     (*(f32 *)(copy_storage_80182D8C.bytes + 0xC)) = *(f32 *)((s8 *)count + 0xC);
     (*(f32 *)(copy_storage_80182D8C.bytes + 0x10)) = *(f32 *)((s8 *)count + 0x10);
-    init_collision_body_parts((void *) (arg0), (void *) ((copy_storage_80182D8C.bytes)), 1, (int) (count));
+    init_collision_body_parts(arg0, copy_storage_80182D8C.bytes, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }

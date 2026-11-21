@@ -25,6 +25,7 @@
 #include "pso/object/trap/TOTrapChainSaw.h"
 
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #include "pso/map/FloorArea.h"
 
@@ -69,12 +70,6 @@ typedef struct P_802C86D4 {
     s8 b13;
 } P_802C86D4;
 
-struct RecoveredGlobal_802C8910_lbl_804E0CC0 {
-    s32 value;
-    u8 remaining[0xDC];
-};
-
-LAYOUT_ASSERT(RecoveredGlobal_802C8910_lbl_804E0CC0_size, sizeof(RecoveredGlobal_802C8910_lbl_804E0CC0) == 0xE0);
 
 
 struct Pair_802C80F0 { s32 v[2]; };
@@ -84,7 +79,6 @@ struct T_802C8F68 { s32 r[3][3]; };
 
 struct Copy_802C8E24 { u32 a; struct { u32 w[14]; } b; };
 
-struct Ent_802C8E24 { u8 b[0x58]; };
 
 struct Pair_802C8C60 { s32 v[2]; };
 
@@ -140,11 +134,9 @@ s8 get_current_floor(int);
 f32 fabs_float(f32);
 
 
-void free_collision_body_parts(void *);
 
-s32 init_collision_body_parts(void *, int, int);
 
-s32 play_persistent_sound(void *, void *, void *, int, int);
+s32 play_persistent_sound(s32, void *, void *, int, int);
 
 u8 is_current_floor_switch_set(s32 id);
 
@@ -233,32 +225,19 @@ const s32 lbl_80471F70[2] = { 0, 1 };
 
 const s32 lbl_80471F78[2] = { 0, 1 };
 
-void *chain_saw_damage_collision_body_parts[44] = {
-    (void *)0xc0a00000, (void *)0x0, (void *)0x0, (void *)0x40400000,
-    (void *)0x0, (void *)0x0, (void *)0x10403, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc1400000,
-    (void *)0x0, (void *)0x0, (void *)0x40000000, (void *)0x41000000,
-    (void *)0x1, (void *)0x10503, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0xc0a00000, (void *)0x0,
-    (void *)0x0, (void *)0x40400000, (void *)0x0, (void *)0x0,
-    (void *)0x10403, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0xc1a00000, (void *)0x0, (void *)0x0,
-    (void *)0x40000000, (void *)0x41800000, (void *)0x1, (void *)0x10503,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
+// Two collision bodies per variant, picked by the variant word at 0xF8.
+CollisionBody chain_saw_damage_collision_body_parts[2][2] = {
+    { { { -5.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -12.0f, 0.0f, 0.0f }, 2.0f, 8.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
+    { { { -5.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -20.0f, 0.0f, 0.0f }, 2.0f, 16.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
 };
 
-void *chain_saw_collision_body_part_table[44] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x40400000,
-    (void *)0x0, (void *)0x0, (void *)0x10403, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc1200000,
-    (void *)0x0, (void *)0x0, (void *)0x40000000, (void *)0x41000000,
-    (void *)0x1, (void *)0x10503, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x40400000, (void *)0x0, (void *)0x0,
-    (void *)0x10403, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0xc1a00000, (void *)0x0, (void *)0x0,
-    (void *)0x40000000, (void *)0x41900000, (void *)0x1, (void *)0x10503,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody chain_saw_collision_body_part_table[2][2] = {
+    { { { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -10.0f, 0.0f, 0.0f }, 2.0f, 8.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
+    { { { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -20.0f, 0.0f, 0.0f }, 2.0f, 18.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
 };
 
 static const f32 lbl_805DE620 = -1.0f;
@@ -602,7 +581,7 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *arg2) : TOTrap
     *(saddr *)(((u8 *)arg0) + 0) = (saddr) TOTrapChainSawDamage_class_name;
     ((TOTrapChainSawDamage *)arg0)->decode_params();
     ((TOTrapChainSawDamage *)arg0)->vfunc_16();
-    ((s32 (*)(void *, void *, int))init_collision_body_parts)(arg0, &((Ent_802C8E24 *)chain_saw_damage_collision_body_parts)[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);
+    init_collision_body_parts(this, chain_saw_damage_collision_body_parts[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     *(f32 *)(((u8 *)arg0) + 0x3C) += (5.0f);
@@ -708,7 +687,7 @@ void TOTrapChainSawDamage::vfunc_27() {
     if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 0xA) && ((p = *(void **)((s8 *)((u8 *)this) + 0x108)) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    ((s32 (*)(s32, void *, void *, int, int))play_persistent_sound)(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, (void *) (((u8 *)this) + 0x38), 0, 0);
+    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, (u8 *)this + 0x38, 0, 0);
 }
 }
 
@@ -730,7 +709,7 @@ TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapCh
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TOTrapChainSawKey__name;
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
-    init_collision_body_parts(arg0, (int) ((u8 *)(&((RecoveredGlobal_802C8910_lbl_804E0CC0 *)chain_saw_collision_body_part_table)->value) + (*(s32 *)((s8 *)arg0 + 0xF8) * 0x58)), 2);
+    init_collision_body_parts(this, chain_saw_collision_body_part_table[*(s32 *)((s8 *)arg0 + 0xF8)], 2);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
 }
@@ -785,9 +764,9 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
     }
-    play_persistent_sound((void *) (get_area_table_value__17TOTrapChainSawKeyFii(this, 2)), arg0, arg0 + 0x38, 0, 0);
+    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), arg0, arg0 + 0x38, 0, 0);
     if ((s32) *(s32 *)((s8 *)arg0 + 0xF0) == 1) {
-        play_persistent_sound((void *) (get_area_table_value__17TOTrapChainSawKeyFii(this, 1)), arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), arg0, arg0 + 0x38, 0, 0);
     }
 }
 
