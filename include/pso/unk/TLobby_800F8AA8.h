@@ -29,7 +29,7 @@ saddr load_encrypted_text_archive(char *name, s32 *size);
 // Loads name.pr2 and its relocations name.pr3 as one named resource file; returns its root.
 saddr load_text_resource_pair(saddr name);
 // The named resource files: load, relocate and register under resource_load_task_root.
-void load_encrypted_archive_data(const char *name);
+void *load_encrypted_archive_data(const char *name);
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs);
 void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size);
 void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs);

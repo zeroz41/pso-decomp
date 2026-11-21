@@ -49,11 +49,18 @@ const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 
 #include "pso/system/byteswap.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/TLobby_800F8AA8.h"
+
+// ChatSensor.prs: how many trigger texts there are and the texts (a sensor's m_cc picks one, from 1).
+struct ChatSensorTable {
+    s32 count;
+    char **texts;
+};
 
 extern "C" {
 void *TOChatSensorFolder__instance;
 
-s32 *chat_sensor_table;
+ChatSensorTable *chat_sensor_table;
 
 TOChatSensorCapture *TOChatSensorCapture__instance;
 
@@ -83,9 +90,6 @@ extern s32 local_client_id;
 
 }
 
-extern "C" {
-int load_encrypted_archive_data(void*);
-}
 
 void TOChatSensor::init_packet_type() { *(u8 *)&this->m_name = 147; *(u8*)((char*)this + 0x1) = 3; }
 
@@ -93,12 +97,12 @@ void TOChatSensor::swap_state_endian() { ((G_ClientIDHeader *)this)->bswap(); bs
 
 void TOChatSensor::send_state() { swap_state_endian(); send_subcommand((u8 *)this); }
 
-void load_chat_sensor(void) { chat_sensor_table = (s32 *)load_encrypted_archive_data((void *)"ChatSensor.prs"); }
+void load_chat_sensor(void) { chat_sensor_table = (ChatSensorTable *)load_encrypted_archive_data("ChatSensor.prs"); }
 
 void TOChatSensor::destroy_global() {
-    if ((uaddr) chat_sensor_table != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)chat_sensor_table));
-        chat_sensor_table = 0U;
+    if (chat_sensor_table != NULL) {
+        TLobby::free_nodes_with_id((uaddr)chat_sensor_table);
+        chat_sensor_table = NULL;
     }
 }
 
@@ -126,23 +130,21 @@ void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
     }
 }
 
-#define arg0 ((int)this)
 TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
     s32 n;
-    s32 *t;
-    *(const char **)((s8 *)arg0 + 0) = TOChatSensor__name;
-    ((TOChatSensor *)arg0)->apply_object_set_data(arg2);
-    ((TOChatSensor *)arg0)->m_c4 = 0;
-    ((TOChatSensor *)arg0)->m_a0 = 0;
-    ((TOChatSensor *)arg0)->init_params();
-    n = ((TOChatSensor *)arg0)->m_cc;
+    char **t;
+    m_name = TOChatSensor__name;
+    apply_object_set_data(arg2);
+    m_c4 = 0;
+    m_a0 = 0;
+    init_params();
+    n = m_cc;
     if (n > 0) {
-        t = (s32 *) *(saddr *)((s8 *)chat_sensor_table + 4);
+        t = chat_sensor_table->texts;
         t += n;
-        ((TOChatSensor *)arg0)->set_trigger_text((void *)t[-1]);
+        set_trigger_text(t[-1]);
     }
 }
-#undef arg0
 
 TOChatSensor::~TOChatSensor() {
 
@@ -206,7 +208,7 @@ void TOChatSensor::init_params() {
     }
     *(s32 *)&this->m_cc = (s32) *(s32 *)&this->set_params[1];
     temp_r5 = *(s32 *)&this->m_cc;
-    if ((temp_r5 != 0) && ((temp_r5 < 0) || ((s32) *chat_sensor_table <= temp_r5))) {
+    if ((temp_r5 != 0) && ((temp_r5 < 0) || (chat_sensor_table->count <= temp_r5))) {
         *(s32 *)&this->m_cc = 0;
     }
     *(s32 *)&this->m_c8 = 0;

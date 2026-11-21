@@ -1308,10 +1308,10 @@ saddr load_text_resource_pair(saddr name) {
     return root;
 }
 
-void load_encrypted_archive_data(const char *name) {
+void *load_encrypted_archive_data(const char *name) {
     s32 size;
 
-    TLobby__sub_800F9A60(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
+    return TLobby__sub_800F9A60(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
 }
 
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
