@@ -42,7 +42,7 @@ struct TWindowSubMag;
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
-const char *lbl_805D3950 = "TWindowMainMenu";
+const char *TWindowMainMenu__name = "TWindowMainMenu";
 
 extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -122,7 +122,7 @@ void TWindowMainMenu::vfunc_7() {  }
 
 TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) {
     s32 i;
-    m_name = lbl_805D3950;
+    m_name = TWindowMainMenu__name;
     client_index = client;
     m_4c = 0;
     m_50 = 0;

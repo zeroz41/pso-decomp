@@ -68,7 +68,7 @@ void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
-const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
+const char *TWindowSubTrade__name = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 extern s32 local_client_id;
@@ -81,7 +81,7 @@ extern s32 controller_input_state[];
 // Built with deferred code generation (the vtable precedes run_task's jump
 // table in .data), so the functions are written from the last one back.
 TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    this->m_name = lbl_805D3EA8;
+    this->m_name = TWindowSubTrade__name;
     parent_menu = parent;
     m_20 = client;
     this->m_24 = 4;

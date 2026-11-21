@@ -40,11 +40,11 @@ TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 
 }
 
-const char *lbl_805D4310 = "TAdPsoPassSaveGC";
+const char *TAdPsoPassSaveGC__name = "TAdPsoPassSaveGC";
 
 TAdPsoPassSaveGC::TAdPsoPassSaveGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     void *o;
-    m_name = lbl_805D4310;
+    m_name = TAdPsoPassSaveGC__name;
     o = TObject::operator new(0x138);
     if (o != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o, this, 18);

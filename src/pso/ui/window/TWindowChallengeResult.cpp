@@ -17,7 +17,7 @@
 
 extern "C" void measure_message_text_width_default(void *);
 
-const char *lbl_805D3898 = "TWindowChallengeResult";
+const char *TWindowChallengeResult__name = "TWindowChallengeResult";
 #pragma pop
 
 extern "C" {
@@ -70,7 +70,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     ResultEntry *e;
     s32 hours;
 
-    m_name = lbl_805D3898;
+    m_name = TWindowChallengeResult__name;
     for (i = 0; i < 3; i++) {
         e = (ResultEntry *)get_array_entry(i * 2);
         set_text_entry_string((u8 *)e, (uaddr)lbl_804CE2AC[i], 0);

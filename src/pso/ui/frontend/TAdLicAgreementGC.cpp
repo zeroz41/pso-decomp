@@ -62,11 +62,11 @@ TAdLicAgreementGC::~TAdLicAgreementGC() {
 }
 
 
-const char *lbl_805D41C0 = "TAdLicAgreementGC";
+const char *TAdLicAgreementGC__name = "TAdLicAgreementGC";
 
 TAdLicAgreementGC::TAdLicAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
     void *o;
-    m_name = lbl_805D41C0;
+    m_name = TAdLicAgreementGC__name;
     m_34 = 0;
     m_38 = 0;
     o = TObject::operator new(0x54);
