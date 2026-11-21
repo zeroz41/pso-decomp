@@ -121,7 +121,7 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 
 extern "C" {
 f32 PSMTXMultVecArray(s32, s32);
-extern s32 current_matrix;
+extern saddr current_matrix;
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
@@ -259,7 +259,7 @@ void TObjPlayer::invert_matrix_in_place(uaddr arg0) {
     uaddr var_r3;
     var_r3 = arg0;
     if (var_r3 == 0U) {
-        var_r3 = (*(u32 *)&current_matrix);
+        var_r3 = (*(uaddr *)&current_matrix);
     }
     PSMTXInverse((MtxP)var_r3, (MtxP)var_r3);
 }

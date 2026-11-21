@@ -1083,7 +1083,7 @@ struct TLobby : public TObject {
     static void *find_free_trade_slot(void *);
     static void *find_header_by_id(void *, int);
     static void *find_type5_header(void *, int);
-    static u32 *free_and_delete(void *, s16);
+    static uaddr *free_and_delete(void *, s16);
     static void free_team_buffers();
     static saddr get_card_window_area();
     static void *get_entry(int, int);

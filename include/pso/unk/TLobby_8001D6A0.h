@@ -27,7 +27,7 @@ void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1);
 void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1);
 void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
 s32 default_clock_offset_frames(void);
-u32 *free_and_delete__6TLobbyFPvs(u32 *arg0, s16 arg1);
+uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1);
 s32 get_card_window_area__6TLobbyFv(void);
 void *get_entry__6TLobbyFii(int a0, int a1);
 int get_flag_bit0__6TLobbyFv(void);

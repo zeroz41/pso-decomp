@@ -472,15 +472,15 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
 typedef struct Sub_803FA664 { u8 pad0[0x1C]; s16 h1C; } Sub_803FA664;
 typedef struct Obj_803FA664 { u8 pad0; u8 b1; u8 pad2[9]; u8 bB; u8 padC[0x24]; Sub_803FA664 *p30; } Obj_803FA664;
 
-void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask);
+void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask);
 #pragma push
 #pragma opt_lifetimes off
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 first_803FA664(Sub_803FA664 *s) {
-    u32 t;
-    u32 v = 0;
+inline uaddr first_803FA664(Sub_803FA664 *s) {
+    uaddr t;
+    uaddr v = 0;
     t = v;
     t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
@@ -491,14 +491,14 @@ inline u32 first_803FA664(Sub_803FA664 *s) {
     return v;
 }
 
-inline s32 read_803FA664(u32 *p) {
+inline s32 read_803FA664(uaddr *p) {
     if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
     return (s16)ppp_option_byte_buf[0];
 }
 
-s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) {
+s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, uaddr expected) {
     s16 err;
     s16 a;
     s16 b;
@@ -718,7 +718,7 @@ inline s32 optnum_803FACD8(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask)
+void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask)
 {
   s16 new_var;
   s16 i;

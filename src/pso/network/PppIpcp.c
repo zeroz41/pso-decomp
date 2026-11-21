@@ -408,9 +408,9 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 first_803FA664(Sub_803FF858 *s) {
-    u32 t;
-    u32 v = 0;
+inline uaddr first_803FA664(Sub_803FF858 *s) {
+    uaddr t;
+    uaddr v = 0;
     t = v;
     t = ((uaddr)init_net_buffer_entry((u16)(0)));
     if (t == 0) {
@@ -420,13 +420,13 @@ inline u32 first_803FA664(Sub_803FF858 *s) {
     v = t;
     return v;
 }
-inline s32 read_803FA664(u32 *p) {
+inline s32 read_803FA664(uaddr *p) {
     if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa664, u32 arg2) {
+s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa664, uaddr arg2) {
     uaddr cur;
     s16 err;
     s16 a;
@@ -739,7 +739,7 @@ inline s32 optnum_80400270(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_80400270(u32 *self, void *opt, s32 mask) {
+void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask) {
     s16 new_var;
     s16 i;
     s32 m;

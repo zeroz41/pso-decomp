@@ -146,7 +146,7 @@ Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
     return 0;
 }
 
-u32 *free_and_delete__6TLobbyFPvs(u32 *arg0, s16 arg1) {
+uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1) {
     if (arg0 != NULL) {
         if ((u32) *arg0 != 0U) {
             xfree((void *)(*arg0));
