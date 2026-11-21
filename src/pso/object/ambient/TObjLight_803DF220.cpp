@@ -1,6 +1,4 @@
-
-
-
+#include "pso/system/TrailStrip.h"
 #include "types.h"
 #include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
@@ -16,7 +14,6 @@ typedef struct GXColor_803DF268 { u8 r, g, b, a; } GXColor_803DF268;
 
 
 #pragma scheduling off
-typedef struct Vtx_803DF5E4 { f32 x, y, z; u32 color; } Vtx_803DF5E4;
 
 typedef union WGPipe_803DF5E4 {
     u8 u8;
@@ -110,9 +107,9 @@ void load_gx_light_slot(s32 arg0) {
 }
 
 
-void TObjPlayer::draw_trail_strip(void *arg1, s32 arg2) {
-    TObjPlayer__sub_803DF768(arg2);
-    draw_untextured_trail_strip(this, arg1);
+extern "C" void draw_trail_strip(void *vertices, s32 count, s32 mode) {
+    TObjPlayer__sub_803DF768(mode);
+    draw_untextured_trail_strip(vertices, count);
     reset_player_transform();
 }
 
@@ -133,12 +130,12 @@ static inline void GXColor1u32_803DF5E4(u32 c) {
     (*(volatile WGPipe_803DF5E4 *)0xCC008000).u32 = c;
 }
 }
-void draw_untextured_trail_strip(void *arg0, void *arg1) {
+void draw_untextured_trail_strip(void *vertices, int count) {
     s32 n;
-    Vtx_803DF5E4 *v;
+    TrailStripVertex *v;
     u32 c;
-    v = (Vtx_803DF5E4 *)arg0;
-    n = (s32)arg1;
+    v = (TrailStripVertex *)vertices;
+    n = (s32)count;
     GXBegin(0x98, 4, n);
     for (; n != 0; n--) {
         GXPosition3f32_803DF5E4(v->x, v->y, v->z);

@@ -23,34 +23,30 @@ const char *lbl_805D3FE8 = "TObjBoss7RaftSplash";
 
 
 void TObjBoss7RaftSplash::run_task() {
-    u8 *arg0 = (u8 *)this;
-    Stack_802F15D4 stack;
-    f32 temp_f0;
-    f32 temp_f1;
+    Vec splash_position;
     if (TCameraCtrl__sub_8006A5DC() != 5) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C) + **(f32 **)((s8 *)arg0 + 0x24));
-        temp_f0 = *(f32 *)((s8 *)arg0 + 0x1C);
-        temp_f1 = *(f32 *)((s8 *)arg0 + 0x20);
-        if (temp_f0 >= temp_f1) {
-            *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (temp_f0 - temp_f1);
-            VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
-            stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss7_tunnel_max_scroll_speed;
-            TObjFish::create_splash_particle((s32) &stack.sp8, 0x200, (s32)(arg0 + 0x34));
+        elapsed += *step;
+        f32 timer = elapsed;
+        f32 period = interval;
+        if (timer >= period) {
+            elapsed = timer - period;
+            VecCopy(&splash_position, &position);
+            splash_position.y += *step - boss7_tunnel_max_scroll_speed;
+            TObjFish::create_splash_particle((s32)&splash_position, 0x200, (s32)&splash_offset);
         }
     }
 }
 
 TObjBoss7RaftSplash::~TObjBoss7RaftSplash() {}
-#define object ((u8 *)this)
-TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, u8 *arg2, u8 *arg3, s32 arg4) : TObject(parent) {
+TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed)
+    : TObject(parent) {
     m_name = lbl_805D3FE8;
-    *(f32 *)((s8 *)object + 0x20) = (f32) (boss7_tunnel_max_scroll_speed * (3.0f + rand_signed_unit()));
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
-    VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);
-    VecCopy((Vec *)(object + 0x34), (const Vec *)arg3);
-    *(s32 *)((s8 *)object + 0x24) = arg4;
+    interval = boss7_tunnel_max_scroll_speed * (3.0f + rand_signed_unit());
+    elapsed = interval * (3.0517578e-05f * (f32)rand());
+    VecCopy(&this->position, position);
+    VecCopy(&splash_offset, offset);
+    step = speed;
 }
-#undef object
 
 void TObjFish::spawn_default_particle(s32 position, s32 particle_index) {
     spawn_particle(position, particle_index, -5.0f);

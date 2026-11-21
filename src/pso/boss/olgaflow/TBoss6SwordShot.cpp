@@ -72,32 +72,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 }
-struct Pair_803561C4 { s32 a; f32 b; };
-struct VBase_18_ec708a { char pad[0x18]; };
-struct VObj_18_ec708a : VBase_18_ec708a {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, struct Pair_803561C4, int, int, int);
-};
 
 const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";
 const Vec lbl_80479388 = {-10000.0f, 0.0f, 0.0f};
@@ -105,36 +79,32 @@ const char TBoss6SwordShot__class_name_string[] = "TBoss6SwordShot";
 const char *TBoss6SwordWave__name = TBoss6SwordWave__class_name_string;
 const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
 
-void damage_players_in_radius(u8 *arg0) {
-    Vec v;
-    s32 n;
-    s32 i;
-    u8 *pl;
-
-    n = TLobby::get_game_mode();
-    for (i = 0; i < n; i++) {
-        pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)pl)->is_active() != 0) {
-            VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
-            subtract_vector(&v, arg0 + 0x20);
-            v.y = 0.0f;
-            if (!(vector_length(&v) > *(f32 *)((s8 *)arg0 + 0x2C))) {
-                s32 r = TBoss6PlotFalz::rand_vary_count(*(s32 *)((s8 *)arg0 + 0x34), 0.1f);
-                Pair_803561C4 pr;
-                pr.a = 0;
-                pr.b = (f32)r;
-                ((VObj_18_ec708a *)pl)->m21(*(s32 *)((s8 *)arg0 + 0x1C), pr, 0, -1, -1);
+void TBoss6SwordShot::damage_players_in_radius() {
+    Vec offset;
+    s32 count = TLobby::get_game_mode();
+    for (s32 i = 0; i < count; i++) {
+        TObjPlayer *player = TObjPlayer::get_player_data(i);
+        if (player->is_active() != 0) {
+            VecCopy(&offset, &player->position);
+            subtract_vector(&offset, &position);
+            offset.y = 0.0f;
+            if (!(vector_length(&offset) > radius)) {
+                s32 power = TBoss6PlotFalz::rand_vary_count(damage, 0.1f);
+                DirectAttackPayload attack;
+                attack.kind = 0;
+                attack.power = (f32)power;
+                player->receive_direct_attack(owner, attack, NULL, -1, -1);
             }
         }
     }
 }
 
-void run_task__15TBoss6SwordShotFv(u8 *arg0) {
+void TBoss6SwordShot::run_task() {
     if (TObjEneDD::query_teammate_state() == 0) {
-        damage_players_in_radius(arg0);
-        *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x30) > 7) {
-            ((TObject *)arg0)->queue_destruction();
+        damage_players_in_radius();
+        age++;
+        if (age > 7) {
+            queue_destruction();
         }
     }
 }
@@ -149,69 +119,40 @@ void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-struct Shot_80356374 {
-    const char *name;
-    u8 pad4[0x14];
-    void *vt18;
-    s32 owner;
-    struct { f32 x, y, z; } pos;
-    f32 speed;
-    s32 f30;
-    s32 life;
-};
-
-extern "C" {
-u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
-extern const char *TBoss6SwordShot__name;
-u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
-
 #pragma push
 #pragma opt_common_subs off
-#define self ((Shot_80356374 *)arg0)
-u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
+TBoss6SwordShot::TBoss6SwordShot(TObject *owner, const Vec *position, s32 with_particles, f32 radius)
+    : TObject(owner) {
     f32 scale;
     f32 v;
     void *p;
-    __ct__7TObjectFP7TObject(arg0, (void *)arg1);
-    self->vt18 = (s32 *)__vt__15TBoss6SwordShot;
-    self->name = TBoss6SwordShot__name;
-    self->owner = arg1;
-    VecCopy((Vec *)&self->pos, (const Vec *)arg2);
-    self->speed = farg0;
-    self->f30 = 0;
+    m_name = TBoss6SwordShot__name;
+    this->owner = owner;
+    VecCopy(&this->position, position);
+    this->radius = radius;
+    age = 0;
     v = *(f32 *)TLobby::dispatch_shared_handler_a(0x2B);
-    self->life = (s32)v;
+    damage = (s32)v;
     if (0.0f == v) {
-        self->life = 0x14;
+        damage = 0x14;
     }
-    if (arg3 != 0) {
+    if (with_particles != 0) {
         scale = 1.0f;
-        if (self->speed > 15.0f) {
-            scale = self->speed / 15.0f;
+        if (this->radius > 15.0f) {
+            scale = this->radius / 15.0f;
         }
-        if ((p = spawn_particle_effect_with_flags(&self->pos, 0x212, 0x40)) != NULL) {
+        if ((p = spawn_particle_effect_with_flags(&this->position, 0x212, 0x40)) != NULL) {
             ((TParticleCtrl *)p)->set_scale(scale, 1.0f);
         }
-        if ((p = spawn_particle_effect_with_flags(&self->pos, 0x213, 0x40)) != NULL) {
+        if ((p = spawn_particle_effect_with_flags(&this->position, 0x213, 0x40)) != NULL) {
             ((TParticleCtrl *)p)->set_scale(scale, 1.0f);
         }
     }
-    return (u8 *)arg0;
 }
-#undef self
 #pragma pop
 
-u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    temp_r3 = (u8 *)(TObject::operator new(0x38));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TBoss6SwordShot__ct(temp_r3, arg0, arg1, arg2, farg0));
-    }
-    return var_r0;
-}
-
+TBoss6SwordShot *TBoss6SwordShot::create(TObject *owner, const Vec *position, s32 with_particles, f32 radius) {
+    return new TBoss6SwordShot(owner, position, with_particles, radius);
 }
 
 #include "pso/boss/olgaflow/TBoss6SwordWave.h"

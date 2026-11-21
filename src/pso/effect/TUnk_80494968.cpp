@@ -1,3 +1,4 @@
+#include "pso/system/TrailStrip.h"
 #include "types.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer.h"
@@ -28,7 +29,7 @@ void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
     if (((s32)this->defer_render() == 0) && ((s32) this->segment_count > 1)) {
         set_additive_blend();
-        ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(this->segment_count * 2), 1);
+        draw_trail_strip((arg0 + 0x20), (this->segment_count * 2), 1);
     }
 }
 

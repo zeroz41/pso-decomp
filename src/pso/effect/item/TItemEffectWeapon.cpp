@@ -1,3 +1,4 @@
+#include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/item/TItemEquipVariant_8012A82C.h"
@@ -31,7 +32,6 @@ void TItemEffectWeapon__sub_8036340C(void) {  }
 void TItemEffectWeapon__sub_80363410(void) {  }
 }
 void reset_player_transform();
-void draw_untextured_trail_strip(void *arg0, void *arg1);
 
 void TItemEffectWeapon::run_task() {
     s32 offset;
@@ -132,7 +132,7 @@ void TItemEffectWeapon::render_trail() {
             set_additive_blend();
             if (vertex_count > 2) {
                 TObjPlayer__sub_803DF768(1);
-                draw_untextured_trail_strip((void *)vertices, (void *)vertex_count);
+                draw_untextured_trail_strip(vertices, vertex_count);
                 reset_player_transform();
             }
             set_default_alpha_blend();

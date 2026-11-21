@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx.h>
 
 class TObjBoss7DustCtrl : public TObject {
 public:
@@ -17,7 +18,7 @@ extern "C" {
 s32 TObjBoss7DustCtrl__sub_802F125C(void);
 void TObjBoss7DustCtrl__sub_802F1450(void);
 }
-void boss7_dust_draw_at(s32 *arg0, s32 arg1);
+void boss7_dust_draw_at(const Vec *position, s32 slot);
 extern "C" {
 void fn_802F1454(void);
 }

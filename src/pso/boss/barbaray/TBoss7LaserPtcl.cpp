@@ -6,7 +6,7 @@
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/boss/barbaray/TBoss7PhotonBullet.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 
 #include <stddef.h>
 #include "pso/ui/hud/TNowLoading.h"
@@ -46,7 +46,7 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 
 struct Ptcl_8035AD68 {
     u8 pad0[0x10];
-    void *x10;
+    TBoss7DeRolLeC *boss;
     u8 pad14[0x8];
     u8 x1c[0x24];
     f32 x40;
@@ -75,7 +75,7 @@ void TUnk_804F1C88::run_task() {
     TObjPlayer::apply_status_effect((s32)o->x1c);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         u8 **e = (u8 **)TObjOnlineEnding::get_attack_entry(i);
-        ((TBoss7PhotonBullet *)(o->x10))->emit_hit_effect(*e + 0x38);
+        o->boss->emit_hit_effect(reinterpret_cast<const Vec *>(*e + 0x38));
     }
     reset_global_table();
     if (6e+01f < o->x40) {

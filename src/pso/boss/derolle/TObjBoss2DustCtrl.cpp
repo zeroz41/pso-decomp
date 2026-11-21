@@ -1,8 +1,11 @@
 #pragma defer_codegen on
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/boss/derolle/TObjBoss2DustCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
+#include "pso/system/vector.h"
+#include "pso/system/TrailStrip.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/boss/derolle/TObjBoss2DustCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
@@ -10,36 +13,16 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
 extern "C" {
 
-typedef struct Rot_8003AB7C {
-    s32 a;
-    s32 b;
-} Rot_8003AB7C;
-
-typedef struct Out_8003AB7C {
-    u8 b[0x10];
-} Out_8003AB7C;
-
-typedef struct Dust_8003AB7C {
-    Vec pts[6];
-    Rot_8003AB7C rot[10];
-    Out_8003AB7C out[60];
-    s32 ang[10];
-} Dust_8003AB7C;
-
-typedef struct Out_8003AD54 { f32 x, y, z; u32 c; } Out_8003AD54;
-
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec *, Out_8003AB7C *);
-void push_matrix(void);
+void matrix_mult_vec(s32, Vec *, TrailStripVertex *);
 Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
-Out_8003AD54 boss2_dust_output_table[60];
+TrailStripVertex boss2_dust_output_table[60];
 s32 boss2_dust_random_angles[10];
 extern const f32 lbl_805D85B8;
 extern const f32 lbl_805D85BC;
@@ -50,7 +33,7 @@ s32 TObjBoss2DustCtrl_dust_counter;
 
 extern s32 tl_05;
 
-s32 post_translate_matrix(int);
+
 }
 
 struct RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust {
@@ -89,12 +72,12 @@ void fn_8003AD54(void) {
         }
     }
     {
-        Out_8003AD54 *o = boss2_dust_output_table;
+        TrailStripVertex *o = boss2_dust_output_table;
         for (i = 0; i < 60; i++) {
             o->x = lbl_805D85B8;
             o->y = lbl_805D85B8;
             o->z = lbl_805D85B8;
-            o->c = 0xFF709070;
+            o->color = 0xFF709070;
             o++;
         }
     }
@@ -123,13 +106,13 @@ extern "C" {
 void TObjBoss2DustCtrl::run_task() {
     f32 scale;
     s32 *ang;
-    Out_8003AB7C *out;
+    TrailStripVertex *out;
     s32 *rot;
     s32 i;
     s32 j;
 
     rot = boss2_dust_rotation_table;
-    out = (Out_8003AB7C *)boss2_dust_output_table;
+    out = boss2_dust_output_table;
     push_matrix();
     scale = lbl_805D85BC;
     ang = boss2_dust_random_angles;
@@ -154,45 +137,31 @@ void TObjBoss2DustCtrl::run_task() {
 }
 #pragma pop
 
-void TObjBoss2DustCtrl__sub_8003AB5C(void) {
-    s32 temp_r0;
-
-    temp_r0 = TObjBoss2DustCtrl_dust_counter + 1;
-    TObjBoss2DustCtrl_dust_counter = temp_r0;
-    if (temp_r0 >= 0xA) {
+s32 TObjBoss2DustCtrl__sub_8003AB5C(void) {
+    s32 slot = TObjBoss2DustCtrl_dust_counter;
+    TObjBoss2DustCtrl_dust_counter = slot + 1;
+    if (slot + 1 >= 10) {
         TObjBoss2DustCtrl_dust_counter = 0;
     }
+    return slot;
 }
 
-void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
-    s32 *var_r30;
-    s32 *var_r3;
-    s32 var_r31;
-    s32 var_r4;
-    s32 var_r5;
-    var_r30 = arg0;
-    var_r31 = arg1;
+void boss2_dust_draw_at(const Vec *position, s32 slot) {
     TParticleCtrl::end_effect_render();
     push_matrix();
-    var_r3 = var_r30;
-    post_translate_matrix((int)var_r3);
-    var_r5 = var_r31 * 0x60;
-    var_r3 = (s32 *)((s32 *)boss2_dust_output_table);
-    var_r4 = 6;
-    var_r3 = (s32 *)((u8 *)(s32 *)boss2_dust_output_table + var_r5);
-    var_r5 = 0;
-    ((TObjPlayer *)var_r3)->draw_trail_strip((void *)6, 0);
+    post_translate_matrix(&position->x);
+    draw_trail_strip(&boss2_dust_output_table[slot * 6], 6, 0);
     pop_matrix();
 }
 
 u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2) {
-    s32 TObjBoss2DustCtrl__sub_8003AB5C();
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss2Dust.value;
     *(const char **)((s8 *)object + 0) = TObjBoss2Dust__name;
-    VecCopy((Vec *)(object + 0x24), (const Vec *)(arg2));
-    *(s32 *)((s8 *)object + 0x1C) = 0;
-    *(s32 *)((s8 *)object + 0x20) = TObjBoss2DustCtrl__sub_8003AB5C();
+    TObjBoss2Dust *dust = (TObjBoss2Dust *)object;
+    VecCopy(&dust->position, (const Vec *)arg2);
+    dust->ticks = 0;
+    dust->strip_slot = TObjBoss2DustCtrl__sub_8003AB5C();
     return object;
 }
 }
@@ -200,9 +169,9 @@ u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2) {
 TObjBoss2Dust::~TObjBoss2Dust() {}
 
 void TObjBoss2Dust::run_task() {
-    *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - boss2_tunnel_max_scroll_speed);
-    *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + 1);
-    if ((s32) *(s32 *)((s8 *)this + 0x1C) >= 0x5A) {
+    position.z -= boss2_tunnel_max_scroll_speed;
+    ticks++;
+    if (ticks >= 90) {
         queue_destruction();
     }
 }

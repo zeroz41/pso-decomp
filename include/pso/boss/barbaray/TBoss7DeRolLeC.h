@@ -10,6 +10,7 @@
 #include <dolphin/mtx.h>
 
 struct AnimationMotion;
+struct GinjaTextureList;
 struct TBoss7Joint;
 class TBoss7Tentacle;
 class TBoss7LaserLight;
@@ -34,6 +35,9 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void update_or_dispatch();
     void flee_if_disturbed();
     void set_state_and_send(s32);
+    static GinjaTextureList *get_archive_textures();
+    static NJS_OBJECT *get_archive_model(s32 index);
+    void emit_hit_effect(const Vec *position);
     s32 sub_802ECB10();
     void sub_802ECAA4();
     void sub_802EB270(u32 event, s32 mode, s32 next_mode);
@@ -200,7 +204,6 @@ void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1);
 f32 TObjFish__sub_802ED3E4(u8 *arg0);
 void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1);
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
-void TObjPlayer__sub_802E80A0(void);
 void render__14TBoss7DeRolLeCFv(u8 *unused);
 void TObjPlayer__sub_802E8274(void);
 void fn_802EC52C(s32 arg0, s32 arg1);
@@ -212,7 +215,6 @@ void handle_6xA9_barba_ray_boss_actions(void *arg0);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
 extern "C" {
 AnimationMotion *get_boss7_motion(s32 kind);
-void queue_boss_effect__10TObjPlayerFPv(void *a0);
 void release_laser_light__15TBoss7LaserPtclFPv(void *arg0);
 void set_swim_direction__8TObjFishFPv(void *arg0);
 void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);

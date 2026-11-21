@@ -1,16 +1,24 @@
 #ifndef PSO_BOSS_BARBARAY_TOBJBOSS7RAFTSPLASH_H
 #define PSO_BOSS_BARBARAY_TOBJBOSS7RAFTSPLASH_H
 
+#include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 class TObjBoss7RaftSplash : public TObject {
 public:
-    TObjBoss7RaftSplash(TObject *parent, u8 *arg2, u8 *arg3, s32 arg4);
+    TObjBoss7RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed);
     virtual ~TObjBoss7RaftSplash();
     virtual void run_task();
 
-    u8 pad_1C[0x40 - 0x1C];
+    f32 elapsed;
+    f32 interval;
+    const f32 *step;
+    Vec position;
+    Vec splash_offset;
 };
+
+typedef char TObjBoss7RaftSplash_size[sizeof(TObjBoss7RaftSplash) == 0x40 ? 1 : -1];
 
 #endif

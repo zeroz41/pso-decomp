@@ -53,7 +53,7 @@ u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *boss5_pillar_demo, s32 arg1, s3
     return (u8 *)boss5_pillar_demo;
 }
 
-s32 TObjBoss5PillarDemo::create() {
+TObjBoss5PillarDemo *TObjBoss5PillarDemo::create() {
     s32 temp_r31;
     s32 boss5_pillar_demo;
     s32 var_r0;
@@ -63,7 +63,7 @@ s32 TObjBoss5PillarDemo::create() {
     if (var_r0 != 0) {
         var_r0 = ((s32)TObjBoss5PillarDemo__ct((TObjBoss5PillarDemo *)((u8 *)boss5_pillar_demo), (s32)tl_02, temp_r31 + 8));
     }
-    return var_r0;
+    return (TObjBoss5PillarDemo *)var_r0;
 }
 
 void TObjBoss5PillarDemo__sub_8028ACE0(void) {  }

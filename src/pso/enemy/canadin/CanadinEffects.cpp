@@ -1,3 +1,4 @@
+#include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
@@ -107,7 +108,7 @@ void TObjEneMe1Canadin_EffLight::render() {
         }
     }
     set_additive_blend();
-    ((TObjPlayer *)m_28)->draw_trail_strip((void *)(n * 2), 1);
+    draw_trail_strip(m_28, (n * 2), 1);
 }
 #pragma pop
 

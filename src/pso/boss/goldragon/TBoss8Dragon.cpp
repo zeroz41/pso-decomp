@@ -1,5 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/boss/DragonAttackParams.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/BmlResource.h"
 #include "pso/math/FloatRounding.h"
+#include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -16,7 +21,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
-#include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -544,15 +548,6 @@ struct F3_802FB290 { f32 f[3]; };
 
 struct G_802FB290 { F3_802FB290 *value; u8 rest[8]; };
 
-typedef struct Eff_802FB304 { s32 a; s32 b; f32 f; s32 c; s32 d; } Eff_802FB304;
-
-struct Stack_802FB778 {
-    s32 sp8;
-    u8 pad_C[0x4];
-    f32 sp10;
-    u8 trailing_storage[0x8];
-};
-
 struct VBase_18_be4a70
 {
   char pad[0x18];
@@ -578,9 +573,6 @@ struct Cfg_802FCA58 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; };
 struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
 s32 get_current_floor();
-void free_bin_model_request(void*, int);
-void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
-void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 void enemy_set_target_id(void *, u16);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
@@ -640,17 +632,6 @@ extern TObject *tl_04;
 extern "C" {
 struct Obj_802F7B70;
 }
-// Attack/effect parameter record copied to the stack and handed to get_state_flags /
-// emit_effect / setup_instance; same record and values as TBoss1Dragon's DragonAttackParams
-// (type name inferred there).
-struct DragonAttackParams {
-    s32 field_0;
-    f32 field_4;
-    f32 field_8;
-    f32 field_C;
-    s32 field_10;
-};
-typedef char DragonAttackParams_size[(sizeof(DragonAttackParams) == 0x14) ? 1 : -1];
 
 // The tables below mirror TBoss1Dragon's (same values where the Gol Dragon kept them).
 extern const Vec TBoss8Dragon__data_804744A8 = {0.0f, 0.0f, 0.0f};
@@ -2440,13 +2421,11 @@ int TBoss8Dragon::check_condition_default(void* p) { return ((int (*)(void*, int
 int TBoss8Dragon::set_state_1(void* p) { return ((int (*)(void*, int))TBoss8Dragon__sub_802FB828)(p, 1); }
 
 void TBoss8Dragon__sub_802FB778(s32 dragon) {
-    typedef char sp8_offset[(offsetof(Stack_802FB778, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802FB778, sp10) == 0x8) ? 1 : -1];
-    Stack_802FB778 stack;
-    TBoss1Dragon__sub_80027A80((u8 *)((u8 *)&stack.sp8), (u8 *)((const u8 *)&lbl_804744B4));
-    stack.sp10 = *(f32 *)((s8 *)(TBoss8Dragon__data_80541DDC[0]) + 0xC);
+    DragonAttackParams stack;
+    TBoss1Dragon__sub_80027A80(&stack, &lbl_804744B4);
+    stack.field_8 = *(f32 *)((s8 *)(TBoss8Dragon__data_80541DDC[0]) + 0xC);
     TBoss8Dragon__sub_802FBEA4((TBoss8Dragon *)dragon);
-    ((s32 (*)(void *, void *))get_state_flags__12TBoss8DragonFPv)((void *)dragon, &stack.sp8);
+    ((s32 (*)(void *, void *))get_state_flags__12TBoss8DragonFPv)((void *)dragon, &stack);
     ((TBoss8Dragon *)dragon)->reload_boss_stats();
 }
 
@@ -2517,22 +2496,22 @@ void TBoss8Dragon::init_state(s32 arg0) {
 
 void TBoss8Dragon::emit_body_effects() {
     Vec *pts[10];
-    Eff_802FB304 e;
+    DragonAttackParams e;
     Vec v;
     s32 i;
     reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
     fill_value_array(this->attack_history);
-    TBoss1Dragon__sub_80027A80((u8 *)&e, (u8 *)((const u8 *)&TBoss8Dragon__body_effect_parameters));
+    TBoss1Dragon__sub_80027A80(&e, &TBoss8Dragon__body_effect_parameters);
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, ((u8 *)this) + 0x4C4);
-    e.f = 15.0f;
+    e.field_8 = 15.0f;
     emit_effect(&v, &e, this->attack_history);
-    e.f = 12.0f;
+    e.field_8 = 12.0f;
     pts[0] = (Vec *)((u8 *)this + 0x488);
     pts[1] = (Vec *)((u8 *)this + 0x4A0);
     for (i = 0; i < 2; i++) {
         emit_effect(pts[i], &e, this->attack_history);
     }
-    e.f = 11.0f;
+    e.field_8 = 11.0f;
     pts[0] = (Vec *)((u8 *)this + 0x4DC);
     pts[1] = (Vec *)((u8 *)this + 0x4E8);
     pts[2] = (Vec *)((u8 *)this + 0x4F4);

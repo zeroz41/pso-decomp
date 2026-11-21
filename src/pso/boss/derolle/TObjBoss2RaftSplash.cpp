@@ -11,24 +11,16 @@
 
 #pragma readonly_strings on
 
-struct Stack_8003AED4 {
-    s32 sp8;
-    f32 spC;
-};
-
 void TObjBoss2RaftSplash::run_task() {
-    u8 *arg0 = (u8 *)this;
-    Stack_8003AED4 stack;
-    f32 timer;
-    f32 interval;
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C) + **(f32 **)((s8 *)arg0 + 0x24));
-    timer = *(f32 *)((s8 *)arg0 + 0x1C);
-    interval = *(f32 *)((s8 *)arg0 + 0x20);
-    if (timer >= interval) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (timer - interval);
-        VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
-        stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss2_tunnel_max_scroll_speed;
-        TObjBoss2RaftSplash::spawn_splash((s32) &stack.sp8, 0x170, (s32)(arg0 + 0x34));
+    Vec splash_position;
+    elapsed += *step;
+    f32 timer = elapsed;
+    f32 period = interval;
+    if (timer >= period) {
+        elapsed = timer - period;
+        VecCopy(&splash_position, &position);
+        splash_position.y += *step - boss2_tunnel_max_scroll_speed;
+        spawn_splash((s32)&splash_position, 0x170, (s32)&splash_offset);
     }
 }
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
@@ -36,16 +28,15 @@ TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
 extern "C" {
 const char *lbl_805D2700 = "TObjBoss2RaftSplash";
 }
-#define object ((u8 *)this)
-TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed) : TObject(parent) {
-    ((TObjBoss2RaftSplash *)object)->m_name = lbl_805D2700;
-    *(f32 *)((s8 *)object + 0x20) = (f32) (boss2_tunnel_max_scroll_speed * (3.0f + rand_signed_unit()));
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
-    VecCopy((Vec *)(object + 0x28), position);
-    VecCopy((Vec *)(object + 0x34), offset);
-    *(f32 **)((s8 *)object + 0x24) = speed;
+TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed)
+    : TObject(parent) {
+    m_name = lbl_805D2700;
+    interval = boss2_tunnel_max_scroll_speed * (3.0f + rand_signed_unit());
+    elapsed = interval * (3.0517578e-05f * (f32)rand());
+    VecCopy(&this->position, position);
+    VecCopy(&splash_offset, offset);
+    step = speed;
 }
-#undef object
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805D85D8, before the pad that
 // ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel__sub_8003B1D8,

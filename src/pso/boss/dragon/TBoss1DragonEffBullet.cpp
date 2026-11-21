@@ -1,136 +1,108 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "types.h"
-#include "pso/boss/dragon/TBoss1DragonEffBullet.h"
-#include "pso/system/vector.h"
-#include "pso/boss/dragon/TBoss1Dragon.h"
-
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/ui/hud/TNowLoading.h"
-#include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
-
-#pragma readonly_strings on
-
-struct RecoveredFields_8002B9D0_arg0 {
-    u8 unknown_0[0x1C];
-    f32 field_1C;
-    f32 field_20;
-    f32 field_24;
-    f32 field_28;
-    f32 field_2C;
-    f32 field_30;
-    s32 field_34;
-    s32 field_38;
-    f32 field_3C;
-    f32 field_40;
-    u8 * field_44;
-    u8 * field_48;
-};
+#include "pso/boss/dragon/TBoss1DragonEffBullet.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/vector.h"
 
 extern "C" {
-s32 isV2Mode__12TBoss1DragonFv(void);
-// Fireball particle ids (flight, impact, burst): the normal dragon's and the v2 one's.
-extern const s32 lbl_80435410[3] = {548, 550, 553};
-extern const s32 lbl_8043541C[3] = {522, 520, 201};
+s32 isV2Mode__12TBoss1DragonFv();
+extern const s32 lbl_80435410[] = {0x224, 0x226, 0x229};
+extern const s32 lbl_8043541C[] = {0x20A, 0x208, 0xC9};
+extern const char TBoss1DragonEffBullet__class_name_string[] = "TBoss1DragonEffBullet";
+const char *TBoss1DragonEffBullet__name = TBoss1DragonEffBullet__class_name_string;
 const s32 *dragon_fireball_particle_ids;
-f32 subtract_vector(void *, void *);
-const char *TBoss1DragonEffBullet__name = "TBoss1DragonEffBullet";
+}
 
-void TBoss1DragonEffBullet::render() {  }
+void TBoss1DragonEffBullet::render() {}
 
 #pragma push
 #pragma fp_contract on
 void TBoss1DragonEffBullet::run_task() {
-    struct RecoveredFields_8002B9D0_arg0 *arg0 = (struct RecoveredFields_8002B9D0_arg0 *)this;
-    f32 temp_f0;
-    f32 temp_f1;
-    f32 var_f2;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *temp_r3_3;
-    u8 *temp_r3_4;
-    switch (arg0->field_38) {
-    case 0:
-        var_f2 = 25.0f;
-        arg0->field_3C += var_f2;
-        temp_f0 = arg0->field_3C;
-        temp_f1 = arg0->field_40;
-        if (temp_f0 > temp_f1) {
-            arg0->field_34 = 0;
-            var_f2 = temp_f1 - (temp_f0 - var_f2);
-            arg0->field_38 = 1;
+    switch (state) {
+    case 0: {
+        f32 step = 25.0f;
+        traveled_distance += step;
+        f32 distance = traveled_distance;
+        f32 target = target_distance;
+        if (distance > target) {
+            lifetime = 0;
+            step = target - (distance - step);
+            state = 1;
         }
-        arg0->field_1C += arg0->field_28 * var_f2;
-        arg0->field_20 += arg0->field_2C * var_f2;
-        arg0->field_24 += arg0->field_30 * var_f2;
-        if ((u8 *) arg0->field_44 == NULL) {
-            arg0->field_44 = (u8 *)spawn_continuous_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 0), 0x40);
+        position.x += direction.x * step;
+        position.y += direction.y * step;
+        position.z += direction.z * step;
+        if (trail == NULL) {
+            trail = spawn_continuous_particle_effect_with_flags(&position, dragon_fireball_particle_ids[0], 0x40);
         }
-        temp_r3 = arg0->field_44;
-        if (temp_r3 != NULL) {
-            ((TParticleCtrl *)temp_r3)->set_position(&arg0->field_1C);
+        if (trail != NULL) {
+            trail->set_position(&position);
         }
-        temp_r3_2 = arg0->field_48;
-        if (temp_r3_2 != NULL) {
-            ((TParticleCtrl *)temp_r3_2)->set_position(&arg0->field_1C);
+        if (secondary_emitter != NULL) {
+            secondary_emitter->set_position(&position);
         }
         return;
+    }
     case 1:
-        arg0->field_34 += 1;
-        if ((s32) arg0->field_34 == 1) {
-            spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 4), 0x40);
-            temp_r3_3 = arg0->field_48;
-            if (temp_r3_3 != NULL) {
-                ((TObject *)temp_r3_3)->queue_destruction();
-                arg0->field_48 = NULL;
+        lifetime += 1;
+        if (lifetime == 1) {
+            spawn_particle_effect_with_flags(&position, dragon_fireball_particle_ids[1], 0x40);
+            if (secondary_emitter != NULL) {
+                secondary_emitter->queue_destruction();
+                secondary_emitter = NULL;
             }
-            temp_r3_4 = arg0->field_44;
-            if (temp_r3_4 != NULL) {
-                ((TObject *)temp_r3_4)->queue_destruction();
-                arg0->field_44 = NULL;
+            if (trail != NULL) {
+                trail->queue_destruction();
+                trail = NULL;
             }
-            play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
-            ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage((s32)&arg0->field_1C);
+            play_sound_effect(0x4003AD0C, &position, 0, 0);
+            ((TBoss1Dragon *)TBoss1Dragon::get_instance())->apply_fireball_impact_damage((s32)&position);
         }
-        if ((s32) arg0->field_34 <= 2) {
-            spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 8), 0x40);
+        if (lifetime <= 2) {
+            spawn_particle_effect_with_flags(&position, dragon_fireball_particle_ids[2], 0x40);
             return;
         }
-        arg0->field_38 = 2;
+        state = 2;
         return;
     case 2:
-        arg0->field_34 += 1;
-        if ((s32) arg0->field_34 > 0x64) {
-            ((TObject *)arg0)->queue_destruction();
+        lifetime += 1;
+        if (lifetime > 100) {
+            queue_destruction();
         }
         break;
     }
 }
 #pragma pop
 
-}
 TBoss1DragonEffBullet::~TBoss1DragonEffBullet() {
-    if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x48)))->queue_destruction(); this->m_48 = 0; }
-    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->m_44 = 0; }
+    if (secondary_emitter != NULL) {
+        secondary_emitter->queue_destruction();
+        secondary_emitter = NULL;
+    }
+    if (trail != NULL) {
+        trail->queue_destruction();
+        trail = NULL;
+    }
 }
 
-#define self ((u8 *)this)
-TBoss1DragonEffBullet::TBoss1DragonEffBullet(TObject *parent, Vec *start, Vec *dest) : TObject(parent) {
-    *(s32 *)((s8 *)self + 0) = (s32) TBoss1DragonEffBullet__name;
-    VecCopy((Vec *)(self + 0x1C), start);
-    VecCopy((Vec *)(self + 0x28), dest);
-    subtract_vector(self + 0x28, self + 0x1C);
-    m_40 = normalize_vector_safe((Vec *)(self + 0x28));
-    *(f32 *)((s8 *)self + 0x3C) = 0.0f;
-    m_34 = 0;
-    m_38 = 0;
-    m_44 = 0;
-    m_48 = 0;
-    play_sound_effect(0x4003B20B, self + 0x1C, 0, 0);
+TBoss1DragonEffBullet::TBoss1DragonEffBullet(TObject *parent, const Vec *start, const Vec *target)
+    : TObject(parent) {
+    m_name = TBoss1DragonEffBullet__name;
+    VecCopy(&position, start);
+    VecCopy(&direction, target);
+    subtract_vector(&direction, &position);
+    target_distance = normalize_vector_safe(&direction);
+    traveled_distance = 0.0f;
+    lifetime = 0;
+    state = 0;
+    trail = NULL;
+    secondary_emitter = NULL;
+    play_sound_effect(0x4003B20B, &position, 0, 0);
 }
-#undef self
 
 void TBoss1Dragon::select_fireball_particle_table() {
     switch (isV2Mode__12TBoss1DragonFv()) {
@@ -142,4 +114,3 @@ void TBoss1Dragon::select_fireball_particle_table() {
         return;
     }
 }
-

@@ -18,6 +18,11 @@ struct TBoss8DragonEffBreath : public TObject {
     virtual void run_task();
 };
 
+#include <stddef.h>
+typedef char TBoss8DragonEffBreath_position[offsetof(TBoss8DragonEffBreath, m_1c) == 0x1C ? 1 : -1];
+typedef char TBoss8DragonEffBreath_velocity[offsetof(TBoss8DragonEffBreath, m_28) == 0x28 ? 1 : -1];
+typedef char TBoss8DragonEffBreath_entity[offsetof(TBoss8DragonEffBreath, m_38) == 0x38 ? 1 : -1];
+typedef char TBoss8DragonEffBreath_history[offsetof(TBoss8DragonEffBreath, m_3c) == 0x3C ? 1 : -1];
 typedef char TBoss8DragonEffBreath_size[sizeof(TBoss8DragonEffBreath) == 0x40 ? 1 : -1];
 
 #endif

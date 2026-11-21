@@ -4,23 +4,25 @@
 #include "types.h"
 #include "pso/player/TUnk_804928CC.h"
 
+class TParticleCtrl;
+
 struct TBoss7PhotonBullet : public TUnk_804928CC {
-    TBoss7PhotonBullet(TObject *parent, TObjBase *owner, void *pos, void *dir, f32 speed);
+    TBoss7PhotonBullet(TObject *parent, TObjBase *owner, const Vec *origin, const Vec *aim, f32 scale);
     virtual ~TBoss7PhotonBullet();
-    virtual void run_task();
     virtual void render();
-    void* m_cc;
-    u8 _padD0[0x8];
-    void* m_d8;
-    u8 _padDC[0x8];
-    u32 m_e4;
-    u32 m_e8;
-    u8 _padEC[0x4];
-    u32 m_f0;
-    u32 m_f4;
-    u8 unk_DC[0x1C];
+    virtual void run_task();
+
+    f32 speed;
+    Vec aim;
+    Vec travel;
+    Vec shadow_pos;
+    Vec shadow_scale;
+    s32 age;
+    u32 grounded;
+    f32 fall;
+    TParticleCtrl *effects[2];
+
     static f32 get_target_pos_y();
-    void emit_hit_effect(void *arg1);
 };
 
 typedef char TBoss7PhotonBullet_size[sizeof(TBoss7PhotonBullet) == 0xF8 ? 1 : -1];

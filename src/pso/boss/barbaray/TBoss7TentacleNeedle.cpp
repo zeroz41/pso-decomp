@@ -7,7 +7,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/barbaray/TBoss7Tentacle.h"
-#include "pso/boss/barbaray/TBoss7PhotonBullet.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 #include "pso/boss/barbaray/Boss7TentacleData.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
@@ -89,9 +89,7 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-s32 queue_boss_effect__10TObjPlayerFPv(int);
-struct AnimationMotion *get_boss7_motion(s32 kind);
-s32 TObjPlayer__sub_802E80A0();
+void draw_effect__10TObjPlayerFv(void *);
 void rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 void post_translate_matrix(void *);
@@ -125,7 +123,7 @@ void TObjPlayer__sub_802F0D30(void) {
     Node_802EFF24 *dst;
     s32 i;
 
-    src = (Node_802EFF24 *)queue_boss_effect__10TObjPlayerFPv(1);
+    src = (Node_802EFF24 *)TBoss7DeRolLeC::get_archive_model(1);
     get_boss7_motion(0x11);
     dst = lbl_80541528;
     for (i = 0; i < 12; i++) {
@@ -152,7 +150,7 @@ void TObjPlayer__sub_802F0D2C(void) {  }
 
 TBoss7Tentacle::TBoss7Tentacle(TObject *object, s32 arg2, s32 arg3) : TObject(object) {
     m_name = TBoss7Tentacle__name;
-    (*(s32 *)((s8 *)(this) + (0x1C))) = ((s32 (*)(s32))queue_boss_effect__10TObjPlayerFPv)(1);
+    (*(s32 *)((s8 *)(this) + (0x1C))) = (s32)TBoss7DeRolLeC::get_archive_model(1);
     (*(Anim_802F0BE8 * *)((s8 *)(this) + (0x20))) = (Anim_802F0BE8 *)get_boss7_motion(0x11);
     (*(s32 *)((s8 *)(this) + (0x130))) = arg2;
     (*(s32 *)((s8 *)(this) + (0x4C))) = arg3;
@@ -379,9 +377,9 @@ void run_task__14TBoss7TentacleFv(u8 *boss7_tentacle) {
                 *(s32 *)((s8 *)boss7_tentacle + 0x164) = 0;
                 *(s32 *)((s8 *)boss7_tentacle + 0x38) = 2;
                 {
-                    u32 st = TBoss7Joint::get_state();
-                    if (st != 0U) {
-                        ((TBoss7PhotonBullet *)st)->emit_hit_effect(&p);
+                    TBoss7DeRolLeC *boss = TBoss7Joint::get_state();
+                    if (boss != NULL) {
+                        boss->emit_hit_effect(&p);
                     }
                 }
                 play_sound_effect(0x3A809, &p, 0, 0);
@@ -535,7 +533,7 @@ void render__14TBoss7TentacleFv(u8 *arg0) {
 extern "C" {
 
 void TObjPlayer__sub_802EFEC4(void) {
-    lbl_805D6948 = queue_boss_effect__10TObjPlayerFPv(5);
+    lbl_805D6948 = (s32)TBoss7DeRolLeC::get_archive_model(5);
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = (s32)get_boss7_motion(0x13);
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = (s32)get_boss7_motion(0x14);
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = (s32)get_boss7_motion(0x12);
@@ -711,8 +709,8 @@ void TBoss7Tentacle::restart_particle_effect() {
   temp_r3 = particle_effect;
   if (temp_r3 != 0)
   {
-    particle_effect = TObjPlayer__sub_802E80A0();
-    attach_particle_model((int) temp_r3, (int) queue_boss_effect__10TObjPlayerFPv(4), (int) particle_effect, 0, 0, 1.0f);
+    particle_effect = (s32)TBoss7DeRolLeC::get_archive_textures();
+    attach_particle_model((int) temp_r3, (s32)TBoss7DeRolLeC::get_archive_model(4), (int) particle_effect, 0, 0, 1.0f);
   }
   play_sound_effect(0x3A809, (void *) (arg0 + 0x1C), 0, 0);
 }
