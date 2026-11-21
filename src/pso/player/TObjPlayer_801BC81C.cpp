@@ -128,20 +128,20 @@ void TObjPlayer::update_if_active() { if (is_script_controlled() != 0) { sync_cu
 
 s32 TObjPlayer__sub_801B2014(void *);
 s32 TObjPlayer__sub_801BEB68(void *, void *);
-saddr TObjPlayer__sub_801BEB8C(void *);
-u8 TObjPlayer__sub_801BEBB8(void *);
-u8 TObjPlayer__sub_801BEBE4(void *);
-u8 TObjPlayer__sub_801BEC10(void *);
+saddr get_byte_at_293__10TObjPlayerFPv(void *);
+u8 get_byte_at_277__10TObjPlayerFPv(void *);
+u8 get_byte_at_25b__10TObjPlayerFPv(void *);
+u8 get_byte_at_23f__10TObjPlayerFPv(void *);
 u8 TObjPlayer__sub_801BEC3C(void *);
 
 void TObjPlayer::load_char_data(u8 *arg1) {
     sub_801BEE2C((int) (*(s16 *)((s8 *)arg1 + 0x24)));
     sub_801BEE24((int) (*(s16 *)((s8 *)arg1 + 0x26)));
     this->set_field_374(TObjPlayer__sub_801BEC3C(arg1));
-    this->set_field_374_state(TObjPlayer__sub_801BEC10(arg1));
-    this->set_inventory_state(TObjPlayer__sub_801BEBE4(arg1));
-    this->set_equip_flags(TObjPlayer__sub_801BEBB8(arg1));
-    TObjPlayer__sub_801BEB68(this, (void *) (TObjPlayer__sub_801BEB8C(arg1)));
+    this->set_field_374_state(get_byte_at_23f__10TObjPlayerFPv(arg1));
+    this->set_inventory_state(get_byte_at_25b__10TObjPlayerFPv(arg1));
+    this->set_equip_flags(get_byte_at_277__10TObjPlayerFPv(arg1));
+    TObjPlayer__sub_801BEB68(this, (void *) (get_byte_at_293__10TObjPlayerFPv(arg1)));
     this->init_player_data(arg1 + 0x118);
     this->hp = (s16) *(s16 *)((s8 *)arg1 + 0x22);
     TObjPlayer__sub_801B2014(this);
