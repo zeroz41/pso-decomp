@@ -19,7 +19,7 @@ inline void read_803D1D28(LscStream *lsc_stream) {
         TLobby::log_printf("E0007: lsc->fp=NULL");
     } else {
         entry = &lsc_stream->entries[lsc_stream->read_index];
-        status = TLobby__sub_803C8B2C(lsc_stream->file_handle);
+        status = get_adx_stream_stop_flag(lsc_stream->file_handle);
         if (status == 4) {
             lsc_stream->state = 3;
         } else if (status == 2) {

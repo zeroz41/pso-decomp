@@ -186,8 +186,8 @@ inline s32 stop_803CC980(AdxfHandle *adxf) {
         return -1;
     }
     TLobby::init_once();
-    TLobby__sub_803C89C4(adxf->stream);
-    TLobby__sub_803C85AC(adxf->stream, &sp8);
+    request_adx_stream_stop(adxf->stream);
+    get_adx_stream_position(adxf->stream, &sp8);
     adxf->sectors_read = sp8;
     if (adxf->buffer != NULL && adxf->f2 == 0) {
         if (lbl_805D75E4 == 1) {
@@ -239,8 +239,8 @@ void TLobby__sub_803CC884(void) {
     for (i = 0; i < 0x10; i++) {
         p = &adxf_file_handle_pool[i];
         if (p->used == 1 && p->state == 2) {
-            p->state = TLobby__sub_803C8B2C(p->stream);
-            TLobby__sub_803C85AC(p->stream, &sp8);
+            p->state = get_adx_stream_stop_flag(p->stream);
+            get_adx_stream_position(p->stream, &sp8);
             p->sectors_read = sp8;
             if (p->state == 3 || p->state == 4) {
                 p->sector_position += p->sectors_read;
@@ -303,8 +303,8 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     if (lbl_805D75E4 == 1) {
         TLobby::invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
     }
-    if (TLobby__sub_803C8B2C(adxf->stream) != 1) {
-        TLobby__sub_803C89C4(adxf->stream);
+    if (get_adx_stream_stop_flag(adxf->stream) != 1) {
+        request_adx_stream_stop(adxf->stream);
     }
     TLobby::init_once();
     adxf->read_start_sector = adxf->archive_start_sector + adxf->sector_position;
@@ -313,11 +313,11 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     if (adxf->read_sector_count == 0) {
         adxf->state = 3;
     } else {
-        TLobby__sub_803C8514(adxf->stream, adxf->read_sector_count);
+        set_adx_stream_size_sectors(adxf->stream, adxf->read_sector_count);
         set_scroll_position__6TLobbyFl(adxf->stream, -1);
         set_buffer__6TLobbyFPPv(adxf->stream, sj);
         set_field_10_and_notify__6TLobbyFl(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
-        TLobby__sub_803C8578(adxf->stream, adxf->requested_read_sectors);
+        set_adx_max_read_sectors(adxf->stream, adxf->requested_read_sectors);
         adxf->state = 2;
         init_stream_position__6TLobbyFv(adxf->stream);
         rqsct = adxf->read_sector_count;
@@ -356,11 +356,11 @@ s32 adxf_read_sj32(AdxfHandle *adxf, s32 nsct, SjRingBuffer *sj) {
     if (adxf->read_sector_count == 0) {
         adxf->state = 3;
     } else {
-        TLobby__sub_803C8514(adxf->stream, adxf->read_sector_count);
+        set_adx_stream_size_sectors(adxf->stream, adxf->read_sector_count);
         set_scroll_position__6TLobbyFl(adxf->stream, -1);
         set_buffer__6TLobbyFPPv(adxf->stream, sj);
         set_field_10_and_notify__6TLobbyFl(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
-        TLobby__sub_803C8578(adxf->stream, adxf->requested_read_sectors);
+        set_adx_max_read_sectors(adxf->stream, adxf->requested_read_sectors);
         adxf->state = 2;
         init_stream_position__6TLobbyFv(adxf->stream);
         rqsct = adxf->read_sector_count;

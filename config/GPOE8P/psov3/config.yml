@@ -17847,7 +17847,7 @@ force_active:
   - run_task__19TAdSelectGameModeGCFv
   - sub_80285054__25TWindowSubSymbolChatPartsFv
   - sub_80285274__25TWindowSubSymbolChatPartsFPUc
-  - "TLobby__sub_803C8594"
+  - "get_adx_threshold_and_chunk"
   - "TLobby__sub_803C9104"
   - "TLobby__sub_803C9350"
   - "TLobby__sub_803C9358"

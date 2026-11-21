@@ -27,7 +27,7 @@ s32 adx_stream_fname_slot_count = 0x18;
 static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't open ";
 static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
-AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
+AdxStreamFile *open_adx_stream_file(const char *name, s32 arg);
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
 
 void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
@@ -36,7 +36,7 @@ void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
     cvFsTell(file->handle);
 }
 
-void TLobby__sub_803C8514(AdxStreamFile *file, s32 sectors) {
+void set_adx_stream_size_sectors(AdxStreamFile *file, s32 sectors) {
     file->size = sectors << 11;
 }
 
@@ -51,7 +51,7 @@ s32 get_field_14__6TLobbyFv(AdxStreamFile *file) {
     return file->size;
 }
 
-s32 TLobby__sub_803C8578(AdxStreamFile *file, s32 sectors) {
+s32 set_adx_max_read_sectors(AdxStreamFile *file, s32 sectors) {
     file->max_read_sectors = sectors;
     return 1;
 }
@@ -62,13 +62,13 @@ s32 TLobby::set_range(AdxStreamFile *file, s32 threshold, s32 chunk_size) {
     return 1;
 }
 
-s32 TLobby__sub_803C8594(AdxStreamFile *file, s32 *threshold, s32 *chunk_size) {
+s32 get_adx_threshold_and_chunk(AdxStreamFile *file, s32 *threshold, s32 *chunk_size) {
     *threshold = file->read_threshold;
     *chunk_size = file->read_chunk_size;
     return 1;
 }
 
-s32 TLobby__sub_803C85AC(const AdxStreamFile *file, s32 *position) {
+s32 get_adx_stream_position(const AdxStreamFile *file, s32 *position) {
     s32 offset;
     CvFsHandle *handle = file->handle;
     if (handle != NULL) {
@@ -189,7 +189,7 @@ void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback
     file->completion_context = context;
 }
 
-void TLobby__sub_803C89C4(AdxStreamFile *file) {
+void request_adx_stream_stop(AdxStreamFile *file) {
     file->b1 = 1;
     TLobby::init_once();
     CvFsHandle *handle = file->handle;
@@ -233,7 +233,7 @@ s32 set_scroll_offset__6TLobbyFl(AdxStreamFile *file, s32 offset) {
     return cvFsTell(file->handle) - file->f10;
 }
 
-s32 TLobby__sub_803C8B2C(const AdxStreamFile *file) {
+s32 get_adx_stream_stop_flag(const AdxStreamFile *file) {
     return file->b1;
 }
 
@@ -279,7 +279,7 @@ inline AdxStreamFile *alloc_803C8BAC(s32 arg, CvFsHandle *h, s32 size) {
     p->used = 1;
     return p;
 }
-AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg) {
+AdxStreamFile *open_adx_stream_file(const char *name, s32 arg) {
     s32 size;
     CvFsHandle *h;
     AdxStreamFile *p;
