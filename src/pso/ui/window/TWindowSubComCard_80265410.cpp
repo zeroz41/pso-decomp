@@ -611,7 +611,7 @@ s32 TWindowSubTradeMain::add_text_entry(saddr arg1, s32 arg2, s32 arg3, s32 arg4
     if (this->m_70 & 0x100) {
         ((TWindowHelpItem *)window_help_item)->reset_float_field();
     }
-    ((s32 (*)(int))measure_message_text_width_default)((int)window_help_item);
+    measure_message_text_width_default(window_help_item);
     *(s32 *)((s8 *)temp_r30 + 0) = arg2;
     *(s32 *)((s8 *)temp_r30 + 4) = arg3;
     *(s16 *)&this->unk_72 = (s16) (*(s16 *)&this->unk_72 + 1);
@@ -669,7 +669,7 @@ saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3) {
     saddr temp_r3;
     saddr var_r0;
     temp_r31 = reinterpret_cast<saddr>(create_window_menu(arg0, arg1, arg3));
-    temp_r3 = ((int (*)(void *))::operator new)((void *)0x24);
+    temp_r3 = (saddr)::operator new(0x24);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3)->construct_type1_heading(arg2, arg3);

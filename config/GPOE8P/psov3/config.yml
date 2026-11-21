@@ -5833,7 +5833,7 @@ force_active:
   - draw_color_palette__24TWindowSubSymbolChatHelpFPv
   - draw_color_quad_2d__FPvPvi
   - draw_current_pic__10TEndingPicFv
-  - draw_cursor__19TWindowSubMagPhotonFi
+  - draw_cursor__19TWindowSubMagPhotonFPv
   - draw_cursor__22TWindowSubCustomSelectFPUc
   - draw_debug_info__12TObjNpcEnemyFv
   - draw_debug_line__19TObjEneEpsilonGuardFv
@@ -5915,7 +5915,7 @@ force_active:
   - draw_segment__15TEffStarLight2DFP15ColorLineVertexP15ColorLineVertexP15ColorLineVertexP15ColorLineVertexl
   - draw_selected_bar__11TWindowMenuFPUc
   - draw_selected_entry__20TWindowSubSymbolChatFv
-  - draw_selected_part_cursor__28TWindowSubSymbolChatPartsSetFi
+  - draw_selected_part_cursor__28TWindowSubSymbolChatPartsSetFPv
   - draw_serial_chars__22TAdEnterSerialAccessGCFl
   - draw_serial_plates__22TAdEnterSerialAccessGCFv
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
