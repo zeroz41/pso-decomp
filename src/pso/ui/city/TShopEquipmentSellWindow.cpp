@@ -31,41 +31,6 @@
 
 #pragma readonly_strings on
 
-struct Base_8021C870 { char pad[0x18]; };
-
-struct VObj_8021C870 : Base_8021C870 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-};
-
-struct Base_8021C8A8_8021C870 { char pad[0x18]; };
-
-struct VObj_8021C8A8_8021C870 : Base_8021C8A8_8021C870 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-};
-
-struct Base_8021C8E0_8021C870 { char pad[0x18]; };
-
-struct VObj_8021C8E0_8021C870 : Base_8021C8E0_8021C870 {
-    virtual int m0();
-    virtual int m1();
-    virtual int m2();
-    virtual int m3();
-    virtual int m4(int, int);
-    virtual int m5();
-    virtual int m6();
-    virtual int m7();
-    virtual int m8();
-};
-
 struct ItemData_8021CF04 {
     u8 b[0xC];
     s32 id;
@@ -83,15 +48,8 @@ struct Owner_8021CF04 {
     void *inventory;
 };
 
-struct WinBase_8021CF04 { char pad[0x18]; };
-
-struct Win_8021CF04 : WinBase_8021CF04 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(s32, s32);
-    u8 pad1c[0x24 - 0x1C];
+struct Win_8021CF04 {
+    u8 pad00[0x24];
     Owner_8021CF04 *owner;
     Entry_8021CF04 entries[30];
     u8 pad370[4];
@@ -141,20 +99,10 @@ struct Win_8021CC44 {
     void *cost_win;
 };
 
-struct VBase_8021C968 { char pad[0x18]; };
-
-struct VObj_8021C968 : VBase_8021C968 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4(s32, s32);
-};
-
 struct Rec_8021C968 { saddr item; s32 w[4]; s32 price; s32 w18; };
 
-struct Win_8021C968 : VObj_8021C968 {
-    u8 pad1c[0x24 - 0x1C];
+struct Win_8021C968 {
+    u8 pad00[0x24];
     saddr player;
     Rec_8021C968 recs[30];
     u8 pad370[0x37C - 0x370];
@@ -191,7 +139,7 @@ TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void 
     this->m_37c = 1;
     this->m_380 = 0;
     this->m_384 = 0;
-    *(void **)((s8 *)this + 0x388) = arg2;
+    this->sequence = (TShopWindowBase *)arg2;
     this->m_38c = 0;
     this->confirm_menu = 0;
     this->m_394 = 0;
@@ -283,7 +231,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
         return;
     }
-    self->m4(0xC, 1);
+    ((TShopEquipmentSellWindow *)self)->vfunc_6(0xC, 1);
     ((TShopWindowBase *)self)->set_field_20(1);
     if (self->list_win == NULL) {
         self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((saddr)self->owner));
@@ -449,7 +397,7 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
                 ((TShopWindowBase *)w)->set_field_20(0);
                 return;
             }
-            w->m4(0x1C, 1);
+            ((TShopEquipmentSellWindow *)w)->vfunc_6(0x1C, 1);
             ((TWindowBase *)w->card)->close();
             w->card = NULL;
             ((TShopWindowBase *)w)->set_field_20(4);
@@ -470,24 +418,23 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
 }
 
 void TShopEquipmentSellWindow::update() {
-    VObj_8021C8E0_8021C870 *o = (VObj_8021C8E0_8021C870 *)this;
-    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        o->m4(0xc, 1);
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+        vfunc_6(0xc, 1);
         set_field_20(5);
     }
 }
 
 void TShopEquipmentSellWindow::vfunc_6(s32 id, s32 flags) {
-    struct VObj_8021C8A8_8021C870 *o = (struct VObj_8021C8A8_8021C870 *)*(void **)((s8 *)this + 0x388);
-    if (o != NULL) {
-        o->m4();
+    TShopWindowBase *sequence = this->sequence;
+    if (sequence != NULL) {
+        sequence->vfunc_6(id, flags);
     }
 }
 
 void TShopEquipmentSellWindow::display_message(const char *text, s32 flags) {
-    struct VObj_8021C870 *o = (struct VObj_8021C870 *)*(void **)((s8 *)this + 0x388);
-    if (o != NULL) {
-        o->m5();
+    TShopWindowBase *sequence = this->sequence;
+    if (sequence != NULL) {
+        sequence->display_message(text, flags);
     }
 }
 }

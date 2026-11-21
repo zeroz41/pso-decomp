@@ -33,7 +33,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     u32 m_37c;
     u32 m_380;
     u32 m_384;
-    u32 m_388;
+    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     uaddr m_38c;
     TWindowMenu *confirm_menu;
     uaddr m_394;
