@@ -5,6 +5,11 @@
 #include "types.h"
 
 struct SceneMaterialSection;
+struct Vec;
+
+/* A map section's rotation, its node's angles plus the section's (passed to the section render callback). */
+struct SceneSectionAngles { s32 x, y, z; };
+
 class TScene : public TObject
 {
 public:
@@ -34,9 +39,9 @@ public:
     static void set_ready();
     static void reset_counter();
     static int get_status();
-    static void set_instance(int a0);
-    static void set_active_scene(int a0);
-    static void set_id(int a0);
+    static void set_instance(void (*callback)(void));
+    static void set_active_scene(void (*callback)(s32 flags));
+    static void set_id(void (*callback)(Vec *pos, SceneSectionAngles *angles, u32 flags));
     s32 find_section_at_position();
     static s32 get_player_ctrl_field(u16 arg0);
     void render_map_sections();

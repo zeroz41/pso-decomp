@@ -183,13 +183,11 @@ void PPCSync();
 
 
 
-struct Ang_8020533C { s32 x, y, z; };
-
-struct Node_8020533C { u8 pad0[8]; Vec pos; Ang_8020533C ang; };
+struct Node_8020533C { u8 pad0[8]; Vec pos; SceneSectionAngles ang; };
 
 struct Model_8020533C { u8 pad0[4]; TUnk_804DDF04 *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
 
-struct Lobby_8020533C { Vec v; Ang_8020533C a; void *param; Node_8020533C *node; s16 scene; u8 id; };
+struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; Node_8020533C *node; s16 scene; u8 id; };
 
 
 void render_projected_shadow_receiver(void *, void *);
@@ -369,8 +367,8 @@ s32 lobby_online_ready_flag;
 s32 TScene__data_805D5FE0;
 f32 TScene__visibility_radius_margin;
 s32 TScene__data_805D5FE8;
-void (*TScene__map_section_render_callback)(Vec *, Ang_8020533C *, u32);
-void (*TScene__active_scene_callback)(u32);
+void (*TScene__map_section_render_callback)(Vec *, SceneSectionAngles *, u32);
+void (*TScene__active_scene_callback)(s32);
 RecoveredCallback_2be3cacebb2e TScene__render_callback;
 s32 lbl_805D5FF8;
 u32 TScene__map_rel_load_buffer;
@@ -416,11 +414,13 @@ SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *rec
     return record->node;
 }
 
-void TScene::set_instance(int a0) { TScene__render_callback = (RecoveredCallback_2be3cacebb2e)a0; }
+void TScene::set_instance(void (*callback)(void)) { TScene__render_callback = callback; }
 
-void TScene::set_active_scene(int a0) { TScene__active_scene_callback = (void (*)(u32))a0; }
+void TScene::set_active_scene(void (*callback)(s32 flags)) { TScene__active_scene_callback = callback; }
 
-void TScene::set_id(int a0) { TScene__map_section_render_callback = (void (*)(Vec *, Ang_8020533C *, u32))a0; }
+void TScene::set_id(void (*callback)(Vec *pos, SceneSectionAngles *angles, u32 flags)) {
+    TScene__map_section_render_callback = callback;
+}
 
 s32 TContainerAncient01::is_global_state_in_table() {
     struct Tbl_8020335C t = group_selection_area_id_table;
@@ -1559,7 +1559,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             Node_8020533C *sh = (Node_8020533C *)resolve_indirect_node_record(this, e);
             if (sh != NULL) {
                 Vec v;
-                Ang_8020533C a;
+                SceneSectionAngles a;
                 v.x = sh->pos.x;
                 v.y = sh->pos.y;
                 v.z = sh->pos.z;
@@ -1573,7 +1573,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         node = (Node_8020533C *)resolve_indirect_node_record(this, e);
         if (TScene__map_section_render_callback != NULL) {
             Vec v;
-            Ang_8020533C a;
+            SceneSectionAngles a;
             v.x = node->pos.x;
             v.y = node->pos.y;
             v.z = node->pos.z;
@@ -1682,7 +1682,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     if (e->flags & 0x10)
     {
       Vec v;
-      Ang_8020533C a;
+      SceneSectionAngles a;
       v.x = node->pos.x;
       v.y = node->pos.y;
       v.z = node->pos.z;
@@ -1695,7 +1695,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     if (TScene__map_section_render_callback != 0)
     {
       Vec v;
-      Ang_8020533C a;
+      SceneSectionAngles a;
       v.x = node->pos.x;
       v.y = node->pos.y;
       v.z = node->pos.z;

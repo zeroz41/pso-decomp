@@ -337,14 +337,14 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     }
 }
 
-void TObjPlayer::setup_projection_texture(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
     GinjaMatrix sp10;
     f32 spC;
     f32 sp8;
     f32 temp_f31;
     if (((u32) camera_ctrl_instance != 0U) && ((u32) lbl_805D65F0 != 0U)) {
         calc_projection_screen_offset(&spC, &sp8);
-        if (arg2 & 0x80) {
+        if (flags & 0x80) {
             push_matrix();
             temp_f31 = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
             if (TCameraCtrl__sub_800689F4() != 0) {
@@ -497,9 +497,9 @@ void TUnk_804DC7C4::render_shadows() {
 
 void TUnk_804DC7C4::render() {  }
 void TUnk_804DC7C4::run_task() {
-    TScene::set_id((int)((void *)TObjPlayer::setup_projection_texture));
-    TScene::set_active_scene((int)((void *)TObjPlayer::clear_state_if_flag80));
-    TScene::set_instance((int)((void *)TObjPlayer__sub_8029EE2C));
+    TScene::set_id(TObjPlayer::setup_projection_texture);
+    TScene::set_active_scene(TObjPlayer::clear_state_if_flag80);
+    TScene::set_instance(TObjPlayer__sub_8029EE2C);
 }
 }
 
