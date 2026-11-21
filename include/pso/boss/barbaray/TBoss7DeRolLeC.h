@@ -106,7 +106,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802ECE90(s32 joint, s32 shot_level);
     void sub_802E95F8(u32 event, s32 position_index);
     void sub_802E9458(u32 event);
-    void calc_offset_position();   // name from the TBoss2DeRolLe twin: unk_70C = 30 units along the head axis
+    void calc_offset_position();   // name from the TBoss2DeRolLe twin: laser_light_pos = 30 units along the head axis
     void sub_802E8FCC(u32 event);
     void handle_tentacle_attack_state(u32 event, s32 position_index);
     void sub_802E979C(u32 event, s32 position_index);
@@ -124,7 +124,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
     void try_spawn_pattern_crawfish(s32 variant, s32 index);
     void sub_802EBBC8(u32 event);
-    void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (unk_624)
+    void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (debug_pad)
     void sub_802EA4D8(u32 event);
     void sub_802E9DBC(u32 event, s32 position_index);
     // 6xA9/6xAA receivers; names from the TBoss2DeRolLe twin (init_from_param, set_params)
@@ -146,39 +146,39 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     Vec unk_3EC[20];
     Vec unk_4DC[4];
     Vec unk_50C[3];               // effect source passed to TObjFish::set_effect_target_position
-    Vec unk_530[10];              // joint positions, one per TBoss7Joint in unk_5F8
+    Vec joint_positions[10];      // one per TBoss7Joint in joints (field names from the TBoss2DeRolLe twin)
     s16 *joint_polygons[10];      // polygon lists of the lbl_804739AC nodes, saved by the ctor
     s16 *shell_polygons[10];      // polygon lists of the lbl_804739D4 nodes
-    TBoss7Joint *unk_5F8[10];
+    TBoss7Joint *joints[10];
     TBoss7DeRolLeCParams *unk_620; // TLobby::dispatch_shared_handler_a(15)
-    ControllerInputContext *unk_624; // controller_input_state.controllers[1]
-    s32 unk_628;                  // state flags (0x4, 0x8, 0x40, 0x80, 0x8000 tested)
+    ControllerInputContext *debug_pad; // controller_input_state.controllers[1], read by handle_debug_pad_input
+    s32 state_flags;              // 0x4, 0x8, 0x40, 0x80, 0x8000 tested
     s32 unk_62C;                  // the stat phase reload_stats_for_phase restores after a hit
     TUnk_80036250 motion_x;       // drives position.x (sub_802EB270)
     TUnk_80036250 motion_y;       // drives position.y
     TUnk_80036250 motion_z;       // drives position.z
-    TObject unk_690;              // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
+    TObject part_group;           // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
     s32 unk_6AC;
     s32 unk_6B0;
     s32 action_index;             // step in lbl_804E3C2C[difficulty][], advanced by advance_action_sequence
     s32 unk_6B8;
     s32 unk_6BC;
-    s32 unk_6C0;                  // index into lbl_80472D04 (sub_802EB270: from)
-    s32 unk_6C4;                  // index into lbl_80472D04 (sub_802EB270: to)
+    s32 position_slot;            // the lbl_80472D04 point the body is at or leaves (inferred name)
+    s32 next_position_slot;       // the lbl_80472D04 point it moves to (sub_802EB270)
     s32 unk_6C8;
     s32 unk_6CC;
     s32 unk_6D0;
     GC_Mtx *unk_6D4;                 // 12 matrices, mem_alloc'd by the ctor (freed by the destructor)
-    GC_Mtx *unk_6D8;                 // 4 matrices, one per tentacle root (freed by the destructor)
-    TBoss7Tentacle *unk_6DC[4];   // released by the destructor
+    GC_Mtx *tentacle_matrices;    // 4 matrices, one per tentacle root (freed by the destructor)
+    TBoss7Tentacle *tentacles[4]; // released by the destructor
     Vec unk_6EC;
     s32 unk_6F8;
     s32 unk_6FC;
     s32 unk_700;
     s32 unk_704;
-    TBoss7LaserLight *unk_708;
-    Vec unk_70C;                  // the laser light's position
-    AreaAttackHistory *unk_718;
+    TBoss7LaserLight *laser_light;
+    Vec laser_light_pos;          // the position the laser light follows
+    AreaAttackHistory *attack_history;
     TUnk_804E4788 *unk_71C;       // ring trail of the laser's hit point
     TUnk_804E4788 *unk_720;
     s32 unk_724;

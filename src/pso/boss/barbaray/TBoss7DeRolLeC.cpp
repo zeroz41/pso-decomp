@@ -857,7 +857,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
     }
 }
 
-TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), unk_690(NULL) {
+TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     u32 state[3];
 
     m_name = TBoss7DeRolLeC__class_name;
@@ -867,9 +867,9 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     reset_hp((u8 *)TLobby::register_boss(15), (u8 *)TLobby::dispatch_shared_handler_b(15), (u8 *)TLobby::register_object(15));
     unk_620 = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
-    unk_628 = 0;
+    state_flags = 0;
     if (exchange_object_state(state, 1) && (state[0] & 0x12008) == 0x12008) {
-        unk_628 |= 0x8000;
+        state_flags |= 0x8000;
     }
     init_position_vectors();
     model = (void *)get_bml_model((BmlResource *)lbl_805D6918, 0);
@@ -905,20 +905,20 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         unk_4DC[i].y = 0.0f;
         unk_4DC[i].z = 0.0f;
     }
-    unk_6D8 = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
+    tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (s32 i = 0; i < 4; i++) {
-        set_matrix_identity((u8 *)unk_6D8[i]);
-        unk_6DC[i] = new TBoss7Tentacle(&unk_690, (saddr)unk_6D8[i], i);
+        set_matrix_identity((u8 *)tentacle_matrices[i]);
+        tentacles[i] = new TBoss7Tentacle(&part_group, (saddr)tentacle_matrices[i], i);
     }
     Vec v = lbl_80473F6C;
     u16 id = entity_id + 1;
     s32 set = set_index + 1;
     for (s32 i = 0; i < 10; i++) {
-        VecCopy(&unk_530[i], &v);
-        unk_5F8[i] = new TBoss7Joint(this, id++, set++, &unk_530[i], i);
+        VecCopy(&joint_positions[i], &v);
+        joints[i] = new TBoss7Joint(this, id++, set++, &joint_positions[i], i);
     }
-    unk_6C0 = 0;
-    unk_6C4 = 0;
+    position_slot = 0;
+    next_position_slot = 0;
     unk_6C8 = 0;
     unk_6CC = 0;
     unk_6D0 = 0;
@@ -932,12 +932,12 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_700 = unk_620->unk_20;
     hpmax = hp = 20000;
     unk_704 = 0;
-    unk_708 = new TBoss7LaserLight(&unk_690, &unk_70C);
-    unk_70C.x = 0.0f;
-    unk_70C.y = 0.0f;
-    unk_70C.z = 0.0f;
-    unk_718 = new AreaAttackHistory(4);
-    fill_value_array((saddr)unk_718);
+    laser_light = new TBoss7LaserLight(&part_group, &laser_light_pos);
+    laser_light_pos.x = 0.0f;
+    laser_light_pos.y = 0.0f;
+    laser_light_pos.z = 0.0f;
+    attack_history = new AreaAttackHistory(4);
+    fill_value_array((saddr)attack_history);
     unk_71C = NULL;
     unk_720 = NULL;
     for (s32 i = 0; i < 3; i++) {
@@ -978,7 +978,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_778.z = 0.0f;
     unk_784 = NULL;
     unk_6AC = 0;
-    unk_624 = &controller_input_state.controllers[1];
+    debug_pad = &controller_input_state.controllers[1];
     if (TObjEneDD::is_main_phase_15()) {
         if (update_lobby_state()) {
             unk_6B8 = 0;
@@ -989,7 +989,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         unk_6B8 = 0;
     }
     reset_action_sequence();
-    if (!(unk_628 & 0x8000)) {
+    if (!(state_flags & 0x8000)) {
         mode = 1;
         dispatch_action(mode, 4);
     }
@@ -1032,19 +1032,19 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
         unk_720->queue_destruction();
         unk_720 = NULL;
     }
-    if (unk_718 != NULL) {
-        delete unk_718;
-        unk_718 = NULL;
+    if (attack_history != NULL) {
+        delete attack_history;
+        attack_history = NULL;
     }
-    if (unk_708 != NULL) {
-        ((TObject *)unk_708)->queue_destruction();
-        unk_708 = NULL;
+    if (laser_light != NULL) {
+        ((TObject *)laser_light)->queue_destruction();
+        laser_light = NULL;
     }
     for (i = 3; i >= 0; i--) {
-        ((TObject *)unk_6DC[i])->queue_destruction();
-        unk_6DC[i] = NULL;
+        ((TObject *)tentacles[i])->queue_destruction();
+        tentacles[i] = NULL;
     }
-    mem_free(unk_6D8);
+    mem_free(tentacle_matrices);
     clear_collision_bodies();
     if (boss7_joint_state == this) {
         boss7_joint_state = NULL;
@@ -1058,15 +1058,15 @@ void TBoss7DeRolLeC::run_task() {
     s32 temp_r30;
     s32 temp_r3;
     TObjPlayer__sub_802ED984();
-    temp_r3 = this->unk_628;
+    temp_r3 = this->state_flags;
     if (temp_r3 & 0x8000) {
         this->send_entity_set_flags();
         queue_destruction();
         return;
     }
     if (temp_r3 & 0x80) {
-        this->unk_628 = (s32) (temp_r3 & 0xFFFFFF7F);
-        this->unk_628 = (s32) (this->unk_628 | 0x40);
+        this->state_flags = (s32) (temp_r3 & 0xFFFFFF7F);
+        this->state_flags = (s32) (this->state_flags | 0x40);
         {
             void *p = (void *)TObject::operator new(0x3C);
             if (p != NULL) {
@@ -1134,7 +1134,7 @@ void TBoss7DeRolLeC::run_task() {
     this->flee_if_disturbed();
     update_particle_ctrls();
     if (temp_r30 == 0) {
-        this->unk_690.run_tasks();
+        this->part_group.run_tasks();
     }
     if (this->unk_7AC != 0) {
         set_motion_packed_rotation();
@@ -1171,7 +1171,7 @@ void TBoss7DeRolLeC::vfunc_63() {  }
 void TBoss7DeRolLeC::vfunc_62() {
     s32 damage;
     damage = hpmax - hp;
-    if (unk_628 & 8) {
+    if (state_flags & 8) {
         unk_6FC = unk_6FC - damage;
         spawn_offset_particle(&bodies->center, 2.0f, 8.0f);
         play_sound_at(0x3B213, &unk_50C[0]);
@@ -1288,7 +1288,7 @@ void TBoss7DeRolLeC::set_position_index(s32 index) {
 }
 
 void TBoss7DeRolLeC::set_swim_direction(s32) {
-    if (unk_6C0 == 0) {
+    if (position_slot == 0) {
         position.x = -100.0f;
         rotation_z = 0x500;
     } else {
@@ -1480,35 +1480,35 @@ void TBoss7DeRolLeC::sub_802ECE90(s32 joint, s32 shot_level) {
     dir.x = sin_table_lookup(angle);
     dir.y = 0.0f;
     dir.z = cos_table_lookup(angle);
-    if (unk_6C0 == 2) {
+    if (position_slot == 2) {
         dir.x *= -1.0f;
     }
-    new TBoss7PhotonPad(&unk_690, &unk_530[joint], &dir, shot_level);
-    play_sound_effect(0x39D11, &unk_530[joint], 0, 1);
+    new TBoss7PhotonPad(&part_group, &joint_positions[joint], &dir, shot_level);
+    play_sound_effect(0x39D11, &joint_positions[joint], 0, 1);
 }
 
 #pragma push
 #pragma fp_contract on
 
 void TBoss7DeRolLeC::calc_offset_position() {
-    VecCopy(&unk_70C, &unk_4DC[0]);
-    unk_70C.x += 30.0f * unk_4DC[1].x;
-    unk_70C.y += 30.0f * unk_4DC[1].y;
-    unk_70C.z += 30.0f * unk_4DC[1].z;
+    VecCopy(&laser_light_pos, &unk_4DC[0]);
+    laser_light_pos.x += 30.0f * unk_4DC[1].x;
+    laser_light_pos.y += 30.0f * unk_4DC[1].y;
+    laser_light_pos.z += 30.0f * unk_4DC[1].z;
 }
 #pragma pop
 void TBoss7DeRolLeC::turn_on_laser_light() {
-    if (unk_708 != NULL) {
-        unk_708->turn_on();
+    if (laser_light != NULL) {
+        laser_light->turn_on();
     }
-    unk_628 |= 0x10;
+    state_flags |= 0x10;
 }
 
 void TBoss7DeRolLeC::turn_off_laser_light() {
-    if (unk_708 != NULL) {
-        unk_708->turn_off();
+    if (laser_light != NULL) {
+        laser_light->turn_off();
     }
-    unk_628 &= ~0x10;
+    state_flags &= ~0x10;
 }
 void TBoss7DeRolLeC::pick_random_target() {
     s32 n;
@@ -1544,7 +1544,7 @@ void TBoss7DeRolLeC::sub_802ECC44() {
     s32 i;
     vfunc_95();
     for (i = 0; i < 10; i++) {
-        unk_5F8[i]->vfunc_95();
+        joints[i]->vfunc_95();
     }
 }
 
@@ -1552,7 +1552,7 @@ void TBoss7DeRolLeC::sub_802ECBDC() {
     s32 i;
     vfunc_96();
     for (i = 0; i < 10; i++) {
-        unk_5F8[i]->vfunc_96();
+        joints[i]->vfunc_96();
     }
 }
 
@@ -1562,7 +1562,7 @@ void TBoss7DeRolLeC::apply_damage_and_set_effect(s32 damage, u16) {
 }
 
 void TBoss7DeRolLeC::set_hooked_effect_target() {
-    unk_628 |= 0x88;
+    state_flags |= 0x88;
     play_sound_at(0x3A312, &position);
 }
 
@@ -1570,7 +1570,7 @@ s32 TBoss7DeRolLeC::is_ready() {
     s32 var_r4;
 
     var_r4 = 0;
-    if ((this->unk_6FC <= 0) && !(this->unk_628 & 4)) {
+    if ((this->unk_6FC <= 0) && !(this->state_flags & 4)) {
         var_r4 = 1;
     }
     return (u8)var_r4;
@@ -1639,7 +1639,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             }
             break;
         case 0x1F:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 5;
             } else {
                 var_r4 = 9;
@@ -1653,42 +1653,42 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             }
             break;
         case 0x21:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 3;
             } else {
                 var_r4 = 0xB;
             }
             break;
         case 0x23:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 4;
             } else {
                 var_r4 = 0xA;
             }
             break;
         case 0x24:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 0xF;
             } else {
                 var_r4 = 0x10;
             }
             break;
         case 0x25:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 0x11;
             } else {
                 var_r4 = 0x12;
             }
             break;
         case 0x26:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 0x13;
             } else {
                 var_r4 = 0x14;
             }
             break;
         case 0x27:
-            if (this->unk_6C4 == 0) {
+            if (this->next_position_slot == 0) {
                 var_r4 = 0x15;
             } else {
                 var_r4 = 0x16;
@@ -1721,7 +1721,7 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
             p[2] = 0;
             p[1] = 0;
             p[0] = 0;
-            r = create_particle_controller_with_angles(unk_530, p, 0x200, 1, 0x40);
+            r = create_particle_controller_with_angles(joint_positions, p, 0x200, 1, 0x40);
             if (r != 0) {
                 unk_788[i] = (TParticleCtrl *)r;
                 unk_788[i]->set_flags(2);
@@ -1738,7 +1738,7 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
     if (ok != 0) {
         if (unk_7A0 == 0) {
             for (k = 0; k < 3; k++) {
-                Vec *src = &unk_530[particle_pos_index_table[k]];
+                Vec *src = &joint_positions[particle_pos_index_table[k]];
                 r = fabs_float(src->y - -10.0f);
                 w = lbl_804E3E48[k];
                 if (r < 0.9f * w) {
@@ -1755,7 +1755,7 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
                 }
             }
         } else {
-            VecCopy(&v, &unk_530[unk_7A0]);
+            VecCopy(&v, &joint_positions[unk_7A0]);
             v.y = -5.0f;
             v.x += 20.0f;
             unk_788[0]->set_position(&v);
@@ -1801,18 +1801,18 @@ void TBoss7DeRolLeC::update_projectile_spawns() {
     mid->x *= 0.5f;
     mid->y *= 0.5f;
     mid->z *= 0.5f;
-    if ((unk_628 & 0x100) && ((is_passing_frame(3.0f) != 0) || (is_passing_frame(20.0f) != 0))) {
+    if ((state_flags & 0x100) && ((is_passing_frame(3.0f) != 0) || (is_passing_frame(20.0f) != 0))) {
         unk_6BC = 0;
     }
     if (unk_6BC <= 0x10) {
-        if (unk_628 & 0x400) {
+        if (state_flags & 0x400) {
             play_persistent_sound_at(0x39704, &unk_50C[2]);
         } else {
             play_persistent_sound_at(0x3A303, &unk_50C[2]);
         }
         unk_6BC = unk_6BC + 1;
     }
-    if (unk_628 & 0x200) {
+    if (state_flags & 0x200) {
         play_persistent_sound_at(0x39F08, &unk_50C[0]);
     }
 }
@@ -2035,8 +2035,8 @@ void TBoss7DeRolLeC::sub_802EBBC8(u32 event) {
     case 4:
         set_field_b8(0);
         sub_802ECC44();
-        unk_628 &= ~4;
-        unk_628 &= ~0x100;
+        state_flags &= ~4;
+        state_flags &= ~0x100;
         unk_6EC.y = 0.0f;
         unk_728 = 0;
         unk_72C = 0;
@@ -2045,13 +2045,13 @@ void TBoss7DeRolLeC::sub_802EBBC8(u32 event) {
         break;
     case 2:
         if (unk_728 == 1) {
-            unk_6C0 = 0;
+            position_slot = 0;
             set_state_and_send(2);
         }
         break;
     case 9:
         if (unk_728 == 1) {
-            unk_6C0 = 0;
+            position_slot = 0;
             advance_action_sequence();
         }
         break;
@@ -2112,8 +2112,8 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
     case 4:
         set_field_b8(1);
         sub_802ECBDC();
-        unk_628 &= ~4;
-        unk_628 |= 0x100;
+        state_flags &= ~4;
+        state_flags |= 0x100;
         unk_6EC.y = 0.0f;
         rotation_z = 0;
         unk_72C = 1;
@@ -2121,9 +2121,9 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
         unk_728 = 0;
         break;
     case 2:
-        switch (unk_6C0) {
+        switch (position_slot) {
         case 0:
-            b = unk_624->unknown_08;
+            b = debug_pad->unknown_08;
             if (b & 0x10) {
                 set_state_and_send(3);
             } else if (b & 0x40) {
@@ -2140,7 +2140,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
             }
             break;
         case 1:
-            b = unk_624->unknown_08;
+            b = debug_pad->unknown_08;
             if (b & 0x40) {
                 set_state_and_send(6);
             } else if (!(b & 0x20)) {
@@ -2152,7 +2152,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
             }
             break;
         case 2:
-            b = unk_624->unknown_08;
+            b = debug_pad->unknown_08;
             if (b & 0x20) {
                 set_state_and_send(9);
             } else if (b & 0x80) {
@@ -2168,7 +2168,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
             }
             break;
         case 3:
-            b = unk_624->unknown_08;
+            b = debug_pad->unknown_08;
             if (b & 0x80) {
                 set_state_and_send(0xC);
             } else if (b & 0x10) {
@@ -2211,7 +2211,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-// Moves the body from point unk_6C0 of lbl_80472D04 to point unk_6C4 (states 3, 5,
+// Moves the body from point position_slot of lbl_80472D04 to point next_position_slot (states 3, 5,
 // 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TUnk_80036250 profile
 // per axis, unk_74C/unk_758/unk_750 the x/y/z direction signs, unk_744/unk_754/unk_748
 // the start position.
@@ -2227,16 +2227,16 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
     case 4:
         this->set_field_b8(1);
         sub_802ECBDC();
-        unk_628 &= ~4;
-        unk_628 |= 0x100;
-        unk_6C0 = mode;
-        unk_6C4 = next_mode;
-        set_position_index(unk_6C0);
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        position_slot = mode;
+        next_position_slot = next_mode;
+        set_position_index(position_slot);
         unk_728 = 0;
         unk_744 = position.x;
         unk_754 = position.y;
         unk_748 = position.z;
-        d = lbl_80472D04[unk_6C4].x - lbl_80472D04[unk_6C0].x;
+        d = lbl_80472D04[next_position_slot].x - lbl_80472D04[position_slot].x;
         if (0.0f < d) {
             unk_74C = 1.0f;
         } else if (d < 0.0f) {
@@ -2244,7 +2244,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         } else {
             unk_74C = 0.0f;
         }
-        d = lbl_80472D04[unk_6C4].y - lbl_80472D04[unk_6C0].y;
+        d = lbl_80472D04[next_position_slot].y - lbl_80472D04[position_slot].y;
         if (0.0f < d) {
             unk_758 = 1.0f;
         } else if (d < 0.0f) {
@@ -2252,7 +2252,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         } else {
             unk_758 = 0.0f;
         }
-        d = lbl_80472D04[unk_6C4].z - lbl_80472D04[unk_6C0].z;
+        d = lbl_80472D04[next_position_slot].z - lbl_80472D04[position_slot].z;
         if (0.0f < d) {
             unk_750 = 1.0f;
         } else if (d < 0.0f) {
@@ -2260,7 +2260,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         } else {
             unk_750 = 0.0f;
         }
-        if (unk_6C4 < 5) {
+        if (next_position_slot < 5) {
             speed = 3.0f;
             accel = 0.08f;
             if (unk_750 > 0.0f) {
@@ -2281,12 +2281,12 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
                 z_accel = 0.4f;
             }
         }
-        motion_x.init_params(speed, fabs_float(lbl_80472D04[unk_6C4].x - position.x), accel);
-        motion_y.init_params(speed, fabs_float(lbl_80472D04[unk_6C4].y - position.y), accel);
+        motion_x.init_params(speed, fabs_float(lbl_80472D04[next_position_slot].x - position.x), accel);
+        motion_y.init_params(speed, fabs_float(lbl_80472D04[next_position_slot].y - position.y), accel);
         if (unk_750 > 0.0f) {
-            motion_z.init_params(z_speed, fabs_float(lbl_80472D04[unk_6C4].z - position.z), z_accel);
+            motion_z.init_params(z_speed, fabs_float(lbl_80472D04[next_position_slot].z - position.z), z_accel);
         } else {
-            motion_z.set_move_params(z_speed, fabs_float(lbl_80472D04[unk_6C4].z - position.z), z_accel, 0.05f);
+            motion_z.set_move_params(z_speed, fabs_float(lbl_80472D04[next_position_slot].z - position.z), z_accel, 0.05f);
         }
         if (0.0f != unk_750) {
             unk_6C8 = 0;
@@ -2312,14 +2312,14 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
             if (unk_758 > 0.0f) {
                 sub_802E7B40();
                 play_sound_at(0x39902, unk_50C);
-                unk_628 &= ~0x400;
+                state_flags &= ~0x400;
             } else {
                 sub_802E7B94();
                 play_sound_at(0x39E01, unk_50C);
-                unk_628 |= 0x400;
+                state_flags |= 0x400;
             }
         } else {
-            switch (unk_6C0) {
+            switch (position_slot) {
             case 1:
             case 6:
                 unk_72C = 2;
@@ -2329,7 +2329,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
                 unk_72C = 0;
                 break;
             default:
-                switch (unk_6C4) {
+                switch (next_position_slot) {
                 case 1:
                 case 6:
                     unk_72C = 1;
@@ -2352,9 +2352,9 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         break;
     case 9:
         if (unk_728 == 1) {
-            if (unk_628 & 0x800) {
-                unk_628 &= ~0x800;
-                switch (unk_6C4) {
+            if (state_flags & 0x800) {
+                state_flags &= ~0x800;
+                switch (next_position_slot) {
                 case 0:
                     set_state_and_send(0xF);
                     break;
@@ -2412,7 +2412,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         position.z = motion_z.travelled * unk_750 + unk_748;
         break;
     case 5:
-        unk_6C0 = unk_6C4;
+        position_slot = next_position_slot;
         break;
     }
 }
@@ -2420,12 +2420,12 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
     switch (event) {
     case 4:
         sub_802ECBDC();
-        unk_628 |= 4;
-        unk_628 &= ~0x100;
-        unk_6C0 = position_index;
-        unk_6C4 = next_index;
-        set_position_index(unk_6C0);
-        if (unk_6C0 == 0) {
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_slot = position_index;
+        next_position_slot = next_index;
+        set_position_index(position_slot);
+        if (position_slot == 0) {
             set_field_b8(5);
             unk_744 = -1.0f;
         } else {
@@ -2449,9 +2449,9 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
         break;
     case 9:
         if (unk_728 == 2) {
-            if (unk_628 & 0x800) {
-                unk_628 &= ~0x800;
-                switch (unk_6C4) {
+            if (state_flags & 0x800) {
+                state_flags &= ~0x800;
+                switch (next_position_slot) {
                 case 0:
                     set_state_and_send(0xF);
                     break;
@@ -2542,10 +2542,10 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
                         unk_734 = 0;
                         VecCopy(&v, &position);
                         for (i = 0; i < 10; i++) {
-                            if (v.y * unk_530[i].y < 0.0f) {
+                            if (v.y * joint_positions[i].y < 0.0f) {
                                 break;
                             }
-                            VecCopy(&v, &unk_530[i]);
+                            VecCopy(&v, &joint_positions[i]);
                         }
                         v.x = v.x - unk_744 * (20.0f * random_ratio() + 40.0f);
                         v.y = -5.0f;
@@ -2603,7 +2603,7 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
                 }
                 position.z = unk_750 - motion_z.travelled;
                 if (requested_action == 1) {
-                    unk_628 |= 0x100;
+                    state_flags |= 0x100;
                 }
                 break;
             }
@@ -2611,8 +2611,8 @@ void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index)
         }
         break;
     case 5:
-        unk_6C0 = unk_6C4;
-        unk_628 &= ~4;
+        position_slot = next_position_slot;
+        state_flags &= ~4;
         break;
     }
 }
@@ -2626,10 +2626,10 @@ void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
     case 4:
         set_field_b8(1);
         sub_802ECBDC();
-        unk_628 |= 4;
-        unk_628 &= ~0x100;
-        unk_6C0 = 3;
-        set_position_index(unk_6C0);
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_slot = 3;
+        set_position_index(position_slot);
         unk_728 = 0;
         unk_730 = 0;
         unk_72C = 0;
@@ -2778,8 +2778,8 @@ void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
         }
         break;
     case 5:
-        unk_6C0 = 1;
-        unk_628 &= ~4;
+        position_slot = 1;
+        state_flags &= ~4;
         break;
     }
 }
@@ -2789,10 +2789,10 @@ void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
     case 4:
         set_field_b8(1);
         sub_802ECBDC();
-        unk_628 |= 4;
-        unk_628 &= ~0x100;
-        unk_6C0 = position_index;
-        set_position_index(unk_6C0);
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_slot = position_index;
+        set_position_index(position_slot);
         unk_744 = 0.0f;
         unk_750 = 0.0f;
         unk_74C = 0.0f;
@@ -2808,15 +2808,15 @@ void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
         unk_734 = 0;
         break;
     case 2: {
-        u32 f = unk_624->unknown_08;
+        u32 f = debug_pad->unknown_08;
         if (f & 0x400) {
-            if (unk_6C0 == 0) {
+            if (position_slot == 0) {
                 set_state_and_send(0x13);
             } else {
                 set_state_and_send(0x14);
             }
         } else if (f & 4) {
-            if (unk_6C0 == 0) {
+            if (position_slot == 0) {
                 set_state_and_send(0x15);
             } else {
                 set_state_and_send(0x16);
@@ -2837,7 +2837,7 @@ void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
             if (unk_72C > 10) {
                 unk_72C = 0;
                 unk_728 = 1;
-                if (unk_6C0 == 0) {
+                if (position_slot == 0) {
                     set_field_b8(7);
                     unk_744 = -1.0f;
                 } else {
@@ -2887,16 +2887,16 @@ void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
                 s32 i;
                 unk_728 = 6;
                 TCameraCtrl::set_shake_preset(1);
-                if (unk_6C0 == 0) {
+                if (position_slot == 0) {
                     TObjBoss2Tunnel__sub_802F22DC();
                 } else {
                     TObjBoss2Tunnel__sub_802F22C4();
                 }
                 play_sound_at(0x3A107, &unk_50C[0]);
                 new TUnk_804F1C88(this, &unk_4DC[0]);
-                unk_628 |= 0x200;
+                state_flags |= 0x200;
                 for (i = 0; i < 4; i++) {
-                    unk_6DC[i]->sub_802F0B58();
+                    tentacles[i]->sub_802F0B58();
                 }
             }
             break;
@@ -2985,7 +2985,7 @@ void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
         }
         break;
     case 5:
-        unk_628 &= ~4;
+        state_flags &= ~4;
         if (unk_784 != NULL) {
             unk_784->queue_destruction();
             unk_784 = NULL;
@@ -3005,11 +3005,11 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
     switch (event) {
     case 4:
         sub_802ECBDC();
-        unk_628 &= ~4;
-        unk_628 &= ~0x100;
-        unk_6C0 = position_index;
-        set_swim_direction(unk_6C0);
-        if (unk_6C0 == 0) {
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position_slot = position_index;
+        set_swim_direction(position_slot);
+        if (position_slot == 0) {
             set_field_b8(9);
         } else {
             set_field_b8(0xA);
@@ -3022,7 +3022,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
         break;
     case 2:
         if (unk_728 == 3) {
-            if (unk_6C0 == 0) {
+            if (position_slot == 0) {
                 set_state_and_send(0x15);
             } else {
                 set_state_and_send(0x16);
@@ -3059,7 +3059,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
                     v.z = r * cos_table_lookup(ang);
                     TObjBoss2Tunnel::adjust_to_ground((saddr)&v, (void *)&v);
                 }
-                unk_6DC[unk_730]->start_attack_at_position((u8 *)&v, unk_738);
+                tentacles[unk_730]->start_attack_at_position((u8 *)&v, unk_738);
                 unk_730++;
                 if (unk_730 >= 4) {
                     unk_72C = 0;
@@ -3071,7 +3071,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
             ok = 1;
             unk_72C++;
             for (i = 0; i < 4; i++) {
-                if (unk_6DC[i]->sub_802F0904() == 0) {
+                if (tentacles[i]->sub_802F0904() == 0) {
                     ok = 0;
                     break;
                 }
@@ -3087,7 +3087,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
         break;
     case 5:
         for (j = 0; j < 4; j++) {
-            unk_6DC[j]->sub_802F0AF0();
+            tentacles[j]->sub_802F0AF0();
         }
         break;
     }
@@ -3100,14 +3100,14 @@ void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
     switch (event) {
     case 4:
         for (s32 i = 0; i < 4; i++) {
-            unk_6DC[i]->sub_802F0AF0();
+            tentacles[i]->sub_802F0AF0();
         }
         sub_802ECBDC();
-        unk_628 |= 4;
-        unk_628 &= 0xFFFFFEFF;
-        unk_6C0 = position_index;
-        set_swim_direction(unk_6C0);
-        if (unk_6C0 == 0) {
+        state_flags |= 4;
+        state_flags &= 0xFFFFFEFF;
+        position_slot = position_index;
+        set_swim_direction(position_slot);
+        if (position_slot == 0) {
             unk_748 = -1.0f;
             set_field_b8(9);
         } else {
@@ -3121,7 +3121,7 @@ void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
         unk_74C = 0.0f;
         unk_73C = 0x500;
         TObjBoss2Tunnel::clear_flags_0x3000();
-        unk_628 &= 0xFFFFFDFF;
+        state_flags &= 0xFFFFFDFF;
         break;
     case 2:
         if (unk_728 == 2) {
@@ -3154,12 +3154,12 @@ void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
             }
             if (unk_6EC.y < -137.0f) {
                 unk_728 = 1;
-                set_position_index(unk_6C0);
+                set_position_index(position_slot);
                 unk_6EC.y = -137.0f;
                 set_field_b8(1);
                 unk_750 = 0.0f;
-                unk_628 &= ~4;
-                unk_628 |= 0x100;
+                state_flags &= ~4;
+                state_flags |= 0x100;
             }
             break;
         case 1:
@@ -3172,7 +3172,7 @@ void TBoss7DeRolLeC::sub_802E979C(u32 event, s32 position_index) {
         }
         break;
     case 5:
-        unk_628 &= ~4;
+        state_flags &= ~4;
         break;
     case 1: case 3: case 6: case 7: case 8:
         break;
@@ -3187,10 +3187,10 @@ void TBoss7DeRolLeC::sub_802E95F8(u32 event, s32 position_index) {
     case 4:
         set_field_b8(3);
         sub_802ECBDC();
-        unk_628 &= ~4;
-        unk_628 &= ~0x100;
-        unk_6C0 = position_index;
-        set_position_index(unk_6C0);
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position_slot = position_index;
+        set_position_index(position_slot);
         unk_728 = 0;
         unk_72C = 0;
         unk_744 = -1000.0f;
@@ -3223,7 +3223,7 @@ void TBoss7DeRolLeC::sub_802E95F8(u32 event, s32 position_index) {
             break;
         case 1:
             joint = unk_728;
-            if (unk_530[joint].y < unk_530[joint + 1].y) {
+            if (joint_positions[joint].y < joint_positions[joint + 1].y) {
                 unk_728 = joint + 1;
                 if ((f32)unk_728 >= 4.0f) {
                     unk_72C = 2;
@@ -3243,12 +3243,12 @@ void TBoss7DeRolLeC::sub_802E9458(u32 event) {
 
     switch (event) {
     case 4:
-        unk_628 &= ~4;
-        unk_628 |= 0x100;
+        state_flags &= ~4;
+        state_flags |= 0x100;
         sub_802ECBDC();
         set_field_b8(0xC);
-        unk_6C0 = 3;
-        set_position_index(unk_6C0);
+        position_slot = 3;
+        set_position_index(position_slot);
         unk_728 = 0;
         unk_724 = 0;
         return;
@@ -3289,13 +3289,13 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
     Vec *beam_end;
     switch (event) {
     case 4:
-        unk_628 &= ~4;
-        unk_628 |= 0x100;
+        state_flags &= ~4;
+        state_flags |= 0x100;
         sub_802ECBDC();
         set_field_b8(0xF);
-        unk_6C0 = 3;
-        set_position_index(unk_6C0);
-        fill_value_array((saddr)unk_718);
+        position_slot = 3;
+        set_position_index(position_slot);
+        fill_value_array((saddr)attack_history);
         unk_728 = 0;
         unk_72C = 0;
         unk_730 = 0;
@@ -3330,7 +3330,7 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
             if (unk_72C >= 0x14) {
                 unk_72C = 0;
                 unk_728 = 1;
-                fill_value_array((saddr)unk_718);
+                fill_value_array((saddr)attack_history);
                 set_field_b8(0xD);
                 if (enemy_check_target_valid() != 0) {
                     VecCopy(aim, &target->position);
@@ -3392,7 +3392,7 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
             {
                 Boss7AttackParams params = boss7_laser_particle_params;
                 params.field_4 = unk_620->unk_00;
-                TObjEneDD::setup_instance((saddr)this, (saddr)beam_end, (u8 *)&params, (saddr)unk_718);
+                TObjEneDD::setup_instance((saddr)this, (saddr)beam_end, (u8 *)&params, (saddr)attack_history);
             }
             if (unk_7A8 != NULL) {
                 if (unk_7A8->is_state_2() != 0) {
@@ -3441,12 +3441,12 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
 void TBoss7DeRolLeC::sub_802E8EEC(u32 event, s32) {
     switch (event) {
     case 4:
-        unk_628 &= ~4;
-        unk_628 |= 0x100;
+        state_flags &= ~4;
+        state_flags |= 0x100;
         set_field_b8(0xE);
         sub_802ECBDC();
-        unk_6C0 = 3;
-        set_position_index(unk_6C0);
+        position_slot = 3;
+        set_position_index(position_slot);
         break;
     case 2:
         if (requested_action == 1) {
@@ -3473,8 +3473,8 @@ void TBoss7DeRolLeC::sub_802E8EEC(u32 event, s32) {
 void TBoss7DeRolLeC::sub_802E8E34(u32 event) {
     switch (event) {
     case 4:
-        unk_628 |= 4;
-        unk_628 &= ~0x100;
+        state_flags |= 4;
+        state_flags &= ~0x100;
         sub_802ECC44();
         rotation_x = 0;
         unk_6EC.y = 0.0f;
@@ -3506,12 +3506,12 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
     s32 i;
     switch (event) {
     case 4:
-        unk_628 &= ~0x300;
-        unk_628 |= 4;
+        state_flags &= ~0x300;
+        state_flags |= 4;
         sub_802ECC44();
         set_field_b8(0x10);
-        unk_6C0 = 3;
-        set_position_index(unk_6C0);
+        position_slot = 3;
+        set_position_index(position_slot);
         rotation_x = 0;
         unk_6EC.y = 0.0f;
         unk_728 = 0;
@@ -3519,7 +3519,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         unk_73C = 0;
         unk_6FC = 0;
         for (i = 0; i < 4; i++) {
-            unk_6DC[i]->sub_802F0AD0();
+            tentacles[i]->sub_802F0AD0();
         }
         if (crawfish_parent != NULL) {
             crawfish_parent->queue_destruction_for_each_node();
@@ -3537,7 +3537,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         }
         break;
     case 2:
-        if (unk_624->unknown_08 & 0x400) {
+        if (debug_pad->unknown_08 & 0x400) {
             actorFlags &= ~0x800;
             sub_802ECBDC();
             set_state_and_send(2);
@@ -3577,7 +3577,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         position.z = -90.0f;
         update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(this, (saddr)unk_5F8[i]);
+            assign_slots_from_list(this, (saddr)joints[i]);
         }
         refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x4C);
@@ -3597,8 +3597,8 @@ void TBoss7DeRolLeC::sub_802E8AD4(u32 event) {
     case 4:
         set_field_b8(0x10);
         sub_802ECC44();
-        unk_628 |= 4;
-        unk_628 &= ~0x100;
+        state_flags |= 4;
+        state_flags &= ~0x100;
         TObjBoss2Tunnel::set_flag_0x200();
         return;
     case 0:
@@ -3707,11 +3707,11 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
     switch (event) {
     case 4:
         sub_802ECBDC();
-        unk_628 &= ~4;
-        unk_628 &= ~0x100;
-        unk_6C0 = position_index;
-        set_swim_direction(unk_6C0);
-        if (unk_6C0 == 0) {
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position_slot = position_index;
+        set_swim_direction(position_slot);
+        if (position_slot == 0) {
             set_field_b8(9);
         } else {
             set_field_b8(0xA);
@@ -3724,7 +3724,7 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
         return;
     case 2:
         if (unk_728 == 3) {
-            if (unk_6C0 == 0) {
+            if (position_slot == 0) {
                 set_state_and_send(0x15);
             } else {
                 set_state_and_send(0x16);
@@ -3763,7 +3763,7 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
                         TObjBoss2Tunnel::adjust_to_ground((saddr)&v, (void *)&v);
                     }
                     for (j = 0; j != 4; j++) {
-                        unk_6DC[j]->start_attack_at_position((u8 *)&v, unk_738);
+                        tentacles[j]->start_attack_at_position((u8 *)&v, unk_738);
                     }
                     unk_730 = 1;
                     unk_72C = 0;
@@ -3776,7 +3776,7 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
             ok = 1;
             unk_72C++;
             for (i = 0; i < 4; i++) {
-                if (unk_6DC[i]->sub_802F0904() == 0) {
+                if (tentacles[i]->sub_802F0904() == 0) {
                     ok = 0;
                     break;
                 }
@@ -3792,7 +3792,7 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
         return;
     case 5:
         for (k = 0; k < 4; k++) {
-            unk_6DC[k]->sub_802F0AF0();
+            tentacles[k]->sub_802F0AF0();
         }
         return;
     case 1:
@@ -3940,10 +3940,10 @@ void TObjPlayer__sub_802E8274(NJS_OBJECT *) {
 
 void TBoss7DeRolLeC::sub_802E8234() {
     boss7_derolle_c_motion_id = 0;
-    lbl_805D6924 = this->unk_628;
+    lbl_805D6924 = this->state_flags;
     lbl_805D6920 = 0;
     lbl_805D6928 = (long) (((u8 *)this) + 0x3EC);
-    lbl_805D6930 = (saddr)this->unk_6D8;
+    lbl_805D6930 = (saddr)this->tentacle_matrices;
     lbl_805D6934 = (saddr)this->unk_6D4;
     lbl_805D692C = (long) (((u8 *)this) + 0x4DC);
     lbl_805D6944 = (long) (((u8 *)this) + 0x7B4);
@@ -3970,7 +3970,7 @@ void TBoss7DeRolLeC::render() {
         TParticleCtrl::begin_effect_render();
         push_matrix();
         if (this->unk_7AC != 0) {
-            if (this->unk_628 & 0x40) {
+            if (this->state_flags & 0x40) {
                 *(s32 **)((s8 *)lbl_805D693C + 0x2C) = &boss7_derolle_light_pool[0].type;
             } else {
                 *(s32 **)((s8 *)lbl_805D693C + 0x2C) = (s32 *) lbl_805D6940;
@@ -3985,7 +3985,7 @@ void TBoss7DeRolLeC::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
         restore_joint_polygons();
-        this->unk_690.render_nodes();
+        this->part_group.render_nodes();
     }
 }
 
@@ -4116,8 +4116,8 @@ void TBoss7DeRolLeC::try_spawn_pattern_crawfish(s32 variant, s32 index) {
 void TBoss7DeRolLeC::sub_802E7B94() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (unk_6DC[i] != NULL) {
-            unk_6DC[i]->sub_802F0B70();
+        if (tentacles[i] != NULL) {
+            tentacles[i]->sub_802F0B70();
         }
     }
 }
@@ -4125,8 +4125,8 @@ void TBoss7DeRolLeC::sub_802E7B94() {
 void TBoss7DeRolLeC::sub_802E7B40() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (unk_6DC[i] != NULL) {
-            unk_6DC[i]->sub_802F0B80();
+        if (tentacles[i] != NULL) {
+            tentacles[i]->sub_802F0B80();
         }
     }
 }
@@ -4141,7 +4141,7 @@ void TBoss7DeRolLeC::calc_joint_positions() {
     Vec v;
     Vec *out;
     s32 i;
-    out = unk_530;
+    out = joint_positions;
     VecCopy(&v, &unk_3EC[0]);
     vec3_add_to(&v, &unk_3EC[9]);
     v.x *= 0.5f;
