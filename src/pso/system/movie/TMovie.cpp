@@ -24,14 +24,12 @@ struct MovieState;
 
 extern "C" {
 void TMovie__sub_80144324(MovieState *movie, const s8 *name);
-void run_task__6TMovieFv(TMovie *movie);
 }
 int get_opening_movie_selector(void);
 void activate_main_menu_scene(void);
 extern "C" {
 void fn_801449F0(void);
 
-u8 *__nw__7TObjectFUl(s32);
 s32 DVDCheckDisk();
 s32 set_queued_main_phase(s32);
 s8 get_opening_movie_purpose();
@@ -398,11 +396,11 @@ struct VObj_18_a28850 : VBase_18_a28850 {
     virtual s32 m2();
 };
 
-void run_task__6TMovieFv(TMovie *movie) {
+void TMovie::run_task() {
     VObj_18_a28850 *txt;
     u8 *p;
-    if (movie->module == NULL || movie->m_20 == NULL) {
-        movie->queue_destruction();
+    if (this->module == NULL || this->m_20 == NULL) {
+        this->queue_destruction();
         return;
     }
     render_tick();
@@ -412,20 +410,20 @@ void run_task__6TMovieFv(TMovie *movie) {
     if (TAdEndText__sub_8001B41C() != 0) {
         p = (u8 *)TObject::operator new(0x197C);
         if (p != NULL) {
-            p = __ct__10TAdEndTextFv(p, movie);
+            p = __ct__10TAdEndTextFv(p, this);
         }
         txt = (VObj_18_a28850 *)p;
     }
     for (;;) {
-        if (movie->check_skip_input() != 0) {
+        if (this->check_skip_input() != 0) {
             break;
         }
         func_803DCDFC__Fv();
         controller_stuff();
         TKeyBoardControl::update_input_frame();
-        movie->m_20->decode_frame();
-        if (*(s32 *)&movie->m_48 != 0) {
-            movie->m_20->update_stop();
+        this->m_20->decode_frame();
+        if (*(s32 *)&this->m_48 != 0) {
+            this->m_20->update_stop();
             TMovie::run_callback();
         } else {
             Vec eye = movie_camera_eye;
@@ -433,7 +431,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
-            movie->m_20->update_stop();
+            this->m_20->update_stop();
             if (txt != NULL) {
                 txt->m1();
                 txt->m2();
@@ -441,7 +439,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             render_tick();
         }
     }
-    movie->queue_destruction();
+    this->queue_destruction();
 }
 
 TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {
