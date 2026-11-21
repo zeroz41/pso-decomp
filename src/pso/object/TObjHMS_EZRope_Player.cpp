@@ -440,7 +440,7 @@ void *__vt__21TObjHMS_EZRope_Player[6] = {
 #pragma pop
 
 TObjEZRopeBase::~TObjEZRopeBase() {
-    if (m_2c != nullptr) { TAdSinglePlyChrSelectGC::safe_free((uaddr)m_2c); m_2c = nullptr; }
+    if (points != nullptr) { TAdSinglePlyChrSelectGC::safe_free((uaddr)points); points = nullptr; }
 }
 
 extern "C" {
@@ -456,7 +456,7 @@ void *TObjEZRopeBase__ct(void *obj_ez_rope_base) {
     *(u32 *)((s8 *)obj_ez_rope_base + 0x1C) = 0;
     *(u32 *)((s8 *)obj_ez_rope_base + 0x20) = 0;
     *(u32 *)((s8 *)obj_ez_rope_base + 0x24) = 0;
-    ((TObjEZRopeBase *)obj_ez_rope_base)->m_28 = 0;
+    ((TObjEZRopeBase *)obj_ez_rope_base)->colliders = 0;
     *(u32 *)((s8 *)obj_ez_rope_base + 0x2C) = 0;
     return obj_ez_rope_base;
 }

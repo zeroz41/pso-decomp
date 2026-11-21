@@ -2027,7 +2027,6 @@ void *TBoss2DeRolLe__ct(void *, void *, void *);
 
 s32 TBoss2DeRolLe__sub_80034034(void *);
 
-void TBoss2Fin__sub_800367C0(void);
 
 void TBoss2Mine__sub_80038D84(void);
 
@@ -2310,7 +2309,7 @@ void *TBoss2DeRolLe::create(void *set_data) {
 void reset_parts__13TBoss2DeRolLeFv(void) {
     TObjPlayer::clear_target_ref();
     TObjPlayer__sub_8002EB88();
-    TBoss2Fin__sub_800367C0();
+    TBoss2Fin::release_effect_table();
     TBoss2Mine__sub_80038D84();
     TBoss2Tentacle::release_shared_model();
     if ((u32) lbl_805D4BA4 != 0U) {
