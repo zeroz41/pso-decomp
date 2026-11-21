@@ -86,8 +86,8 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
         TWindowMessageYesNo::create(this, reinterpret_cast<void *>(local_client_id), NULL, NULL));
     u8 *position = get_window_layout_position(0xB2);
     open_yes_no_prompt_with_text(
-        reinterpret_cast<TChCrTagPlBack *>(dialog), reinterpret_cast<s32>(get_shared_text_buffer()),
-        reinterpret_cast<s32>(position), 260.0f);
+        reinterpret_cast<TChCrTagPlBack *>(dialog), reinterpret_cast<saddr>(get_shared_text_buffer()),
+        reinterpret_cast<saddr>(position), 260.0f);
     dialog->set_choice_menu_flag70_bit10();
     TObjPlayer *local = get_player_by_client_id(local_client_id);
     if (local != NULL) {
