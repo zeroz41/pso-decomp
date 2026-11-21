@@ -43,8 +43,8 @@ struct TBoss7Joint : public TObjEneDD {
 LAYOUT_ASSERT(TBoss7Joint_size, sizeof(TBoss7Joint) == 0x3C8);
 
 extern "C" {
-void TBoss7Joint__sub_802EE7B8(void *p);
-void TBoss7Joint__sub_802EE800(void *p);
+void TBoss7Joint__init_update_packet_header(void *p);
+void TBoss7Joint__init_broadcast_packet_header(void *p);
 }
 
 #endif

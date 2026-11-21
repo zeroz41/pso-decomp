@@ -1743,7 +1743,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
     PktB_802ED62C pb;
     dispatch_action(arg1, 6);
     if (((arg1 - 0x13) <= 1U) || ((arg1 - 0x40) <= 1U) || (arg1 == 0x44) || (arg1 == 0x18)) {
-        TBoss7Joint__sub_802EE800(&pa);
+        TBoss7Joint__init_broadcast_packet_header(&pa);
         pa.a = this->entity_id;
         pa.b = arg1;
         pa.c = (s16)this->action_index;
@@ -1751,7 +1751,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
         ((TBoss7Joint *)(&pa))->broadcast_state();
         return;
     }
-    TBoss7Joint__sub_802EE7B8(&pb);
+    TBoss7Joint__init_update_packet_header(&pb);
     pb.a = this->entity_id;
     pb.b = arg1;
     pb.c = (s16)this->action_index;
