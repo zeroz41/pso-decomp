@@ -44,7 +44,7 @@ public:
     virtual int run_demo_task();
     virtual void draw_motion_model();
 
-    void sub_802F4098(u8 *);
+    void get_render_position(u8 *);
     s32 hasActiveRenderFade();
 
     u32 m_3c0;
@@ -283,44 +283,44 @@ public:
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
-    void sub_802F4B90(s32 event);
+    void action_43(s32 event);
     void action(s32 event);
-    void sub_802F4DD4(s32 event);
+    void action_30(s32 event);
     void update_wander_state(s32 event);
-    void sub_802F51DC(s32 event);
-    void sub_802F5434(s32 event);
-    void sub_802F5644(s32 event);
-    void sub_802F57E4(s32 event);
+    void action_40(s32 event);
+    void action_39(s32 event);
+    void action_38(s32 event);
+    void action_37(s32 event);
     void handle_walk_state(s32 event);
-    void sub_802F5BA0(s32 event);
-    void sub_802F5CC8(s32 event);
-    void sub_802F5F64(s32 event);
-    void sub_802F610C(s32 event);
-    void sub_802F645C(s32 event);
-    void sub_802F6618(s32 event);
-    void sub_802F6708(s32 event);
-    void sub_802F6838(s32 event);
+    void action_28(s32 event);
+    void action_27(s32 event);
+    void action_26(s32 event);
+    void action_25(s32 event);
+    void action_24(s32 event);
+    void action_23(s32 event);
+    void action_22(s32 event);
+    void action_21(s32 event);
     void handle_leap_state(s32 event);
     void handle_spiral_state(s32 event);
-    void sub_802F75C8(s32 event);
+    void action_18(s32 event);
     void action_17(s32 event);
-    void sub_802F7B4C(s32 event);
-    void sub_802F7B70(s32 event);
+    void action_16(s32 event);
+    void action_15(s32 event);
     void state_roar(s32 event);
-    void sub_802F8150(s32 event);
-    void sub_802F8270(s32 event);
+    void action_13(s32 event);
+    void action_9(s32 event);
     void sub_802F8578(s32 event);
-    void sub_802F87EC(s32 event);
-    void sub_802F89F8(s32 event);
-    void sub_802F8F88(s32 event);
+    void action_42(s32 event);
+    void action_35(s32 event);
+    void action_7(s32 event);
     void state_turn_and_charge(s32 event);
-    void sub_802F9850(s32 event);
-    void sub_802F9A4C(s32 event);
+    void action_5(s32 event);
+    void action_41(s32 event);
     void handle_tail_attack_state(s32 event);
     void state_breath_attack(s32 event);
-    void sub_802FA16C(s32 event);
-    void sub_802FA374(s32 event);
-    void sub_802FA478(s32 event);
+    void action_2(s32 event);
+    void action_1(s32 event);
+    void action_0(s32 event);
 };
 
 #include <stddef.h>
