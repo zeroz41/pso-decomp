@@ -490,10 +490,6 @@ f32 subtract_vector(void *, void *);
 
 }
 
-extern "C" {
-
-
-}
 
 
 
@@ -694,7 +690,6 @@ void assign_slots_from_list(void *arg0, saddr arg1);
 
 
 
-s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 

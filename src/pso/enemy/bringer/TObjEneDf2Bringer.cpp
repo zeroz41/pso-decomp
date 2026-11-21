@@ -895,7 +895,6 @@ s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
 s32 vec3_add_to(f32 *, void *);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
-void enemy_set_target_id(void *, u16);
 f32 horizontal_distance_squared(void *, void *);
 void check_can_act__10TObjPlayerFii(void *, s16);
 s16 get_actor_tp(u8 *p);
@@ -1471,7 +1470,7 @@ s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self) {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(self, id);
+        enemy_set_target_id((TObjEneDD_ST *)self, id);
         return 1;
     }
     ((TObjEneDD_ST *)(self))->enemy_clear_target();

@@ -224,7 +224,6 @@ f32 vec3_dot(void *, void *);
 
 void play_se_at_pos__12TBoss1DragonFii(saddr arg0, s32 arg1);
 void TBoss1Dragon__sub_80028B28(TBoss1Dragon *arg0);
-s32 enemy_set_target_id(void *, u16);
 u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
 extern saddr tl_04;
 extern saddr tl_02;
@@ -4777,10 +4776,10 @@ s32 select_forward_target__12TBoss1DragonFPv(u8 *self) {
         return 0;
     }
     if (n == 1) {
-        enemy_set_target_id(self, selected[0]);
+        enemy_set_target_id((TObjEneDD_ST *)self, selected[0]);
         return 1;
     }
-    enemy_set_target_id(self, selected[(s32)floor_to_float((f32)n * ((TObjChara *)self)->random_ratio())]);
+    enemy_set_target_id((TObjEneDD_ST *)self, selected[(s32)floor_to_float((f32)n * ((TObjChara *)self)->random_ratio())]);
     return 1;
 }
 

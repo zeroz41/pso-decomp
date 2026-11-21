@@ -45,7 +45,6 @@ f32 atan2_float(f32 y, f32 x);
 }
 extern "C" {
 s32 find_active_entity_by_id(u16);
-void enemy_set_target_id(TObjEneDD_ST *self, u16 id);
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 }
 extern const f32 lbl_805D9E80 = -0.1f;

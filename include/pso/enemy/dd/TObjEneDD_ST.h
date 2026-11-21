@@ -39,5 +39,8 @@ public:
     s32 validate_period;
 };
 
+extern "C" {
+void enemy_set_target_id(TObjEneDD_ST *self, u16 id);
+}
 
 #endif

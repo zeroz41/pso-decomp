@@ -69,7 +69,6 @@ s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
-void enemy_set_target_id(TObjEneBm9Mericarol *self, u16 id);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 

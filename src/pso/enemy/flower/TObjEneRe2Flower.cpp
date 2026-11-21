@@ -190,7 +190,6 @@ typedef struct VObj_18_880cfd VObj_18_880cfd;
 extern "C" {
 extern const f32 lbl_805D9FF0;
 f32 atan2_float(f32 y, f32 x);
-s32 enemy_set_target_id(void *, u16);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
@@ -736,7 +735,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
                     idx = enemy_find_nearest_player_in_range(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
                 }
                 if (idx != 0xFFFF) {
-                    enemy_set_target_id(arg0, idx);
+                    enemy_set_target_id((TObjEneDD_ST *)arg0, idx);
                 }
             }
         } else if (((TObjEneEpsilon *)arg0)->update_death_check() == 0) {

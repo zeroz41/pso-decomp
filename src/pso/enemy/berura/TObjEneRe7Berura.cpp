@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -109,7 +110,6 @@ void draw_node_tree__16TObjEneRe7BeruraFPv(NJS_OBJECT *obj);
 s32 TObjPlayer__sub_800A0554(void *);
 
 
-s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 
 s32 clear_attack_receipts();

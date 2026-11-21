@@ -64,7 +64,6 @@
 #pragma defer_codegen on
 extern "C" {
 s32 is_player_entity_id(u16);
-s32 enemy_set_target_id(void *, u16);
 void fn_800E762C(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;

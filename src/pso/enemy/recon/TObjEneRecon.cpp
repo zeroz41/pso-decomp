@@ -1360,7 +1360,6 @@ struct Recon_8031D994 {
 
 extern "C" {
 f32 fabs_float(f32);
-void enemy_set_target_id(void *, u16);
 s32 collect_enemy_target_candidates(void *, void *, f32);
 
 void TObjEneRecon::retarget() {

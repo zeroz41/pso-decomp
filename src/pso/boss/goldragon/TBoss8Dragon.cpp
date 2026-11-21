@@ -575,7 +575,6 @@ struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
 s32 get_current_floor();
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
-void enemy_set_target_id(void *, u16);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
 s32 update_local_colliders_from_world(void *, void *);
@@ -2103,10 +2102,10 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
         return 0;
     }
     if (n == 1) {
-        enemy_set_target_id(ene_dd_st, ids[0]);
+        enemy_set_target_id((TObjEneDD_ST *)ene_dd_st, ids[0]);
         return 1;
     }
-    enemy_set_target_id(ene_dd_st, ids[(s32)floor_to_float((f32)n * ((TObjChara *)ene_dd_st)->random_ratio())]);
+    enemy_set_target_id((TObjEneDD_ST *)ene_dd_st, ids[(s32)floor_to_float((f32)n * ((TObjChara *)ene_dd_st)->random_ratio())]);
     return 1;
 }
 
@@ -2228,7 +2227,7 @@ void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *boss8_dragon, u8 *arg1) {
   s16 temp_r4;
   u16 new_var;
   new_var = (u16) (*((s32 *) (((s8 *) arg1) + 8)));
-  enemy_set_target_id(boss8_dragon, new_var);
+  enemy_set_target_id((TObjEneDD_ST *)boss8_dragon, new_var);
   ((TBoss8Dragon *)boss8_dragon)->m_674 = (s32) (*((s16 *) (((s8 *) arg1) + 6)));
   new_var2 = (s8 *) boss8_dragon;
   *((f32 *)(new_var2 + 0x690)) = (f32) (*((f32 *) (((s8 *) arg1) + 0xC)));

@@ -650,7 +650,6 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
 u16 get_entity_id(void *);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
-void enemy_set_target_id(void *, u16);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
@@ -1259,7 +1258,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(arg0, id);
+        enemy_set_target_id(this, id);
         return 1;
     }
     return 0;
