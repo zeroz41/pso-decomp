@@ -17,15 +17,15 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     f32 m_64;
     u8 unk_68[0x4];
     u32 m_6c;
-    u32 m_70;
-    u32 m_74;
+    uaddr m_70;
+    uaddr m_74;
     void update_manual_scroll();
     virtual void render();
     virtual void run_task();
     void update_visibility();
 };
 
-typedef char TWindowSubAreaMapDisp_size[sizeof(TWindowSubAreaMapDisp) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78);
 
 extern "C" {
 void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1);

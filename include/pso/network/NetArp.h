@@ -94,12 +94,12 @@ typedef struct ArpState {
     u8 *packet;                 /* 0x24: the buffer requests and replies are built in */
 } ArpState;
 
-typedef char ArpHeader_size_check[sizeof(ArpHeader) == 8 ? 1 : -1];
-typedef char ArpHold_size_check[sizeof(ArpHold) == 0x10 ? 1 : -1];
-typedef char ArpEntry_size_check[sizeof(ArpEntry) == 0x18 ? 1 : -1];
-typedef char ArpAlias_size_check[sizeof(ArpAlias) == 0xC ? 1 : -1];
-typedef char ArpIface_size_check[sizeof(ArpIface) == 0x20 ? 1 : -1];
-typedef char ArpState_size_check[sizeof(ArpState) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(ArpHeader_size_check, sizeof(ArpHeader) == 8);
+LAYOUT_ASSERT(ArpHold_size_check, sizeof(ArpHold) == 0x10);
+LAYOUT_ASSERT(ArpEntry_size_check, sizeof(ArpEntry) == 0x18);
+LAYOUT_ASSERT(ArpAlias_size_check, sizeof(ArpAlias) == 0xC);
+LAYOUT_ASSERT(ArpIface_size_check, sizeof(ArpIface) == 0x20);
+LAYOUT_ASSERT(ArpState_size_check, sizeof(ArpState) == 0x28);
 
 extern ArpState lbl_805C1AB0;
 

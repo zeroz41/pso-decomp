@@ -156,10 +156,10 @@ s32 TAdSinglePlyChrSelectGC::load_preview_models() {
     Sel_8028C9B0 *self = (Sel_8028C9B0 *)this;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (u32)TLobby__sub_801E38A0((u8 *)((TAdSinglePlyChrSelectGC *)self->f74[i])->get_result(), &len, &tag, NULL, NULL);
+        p = (uaddr)TLobby__sub_801E38A0((u8 *)((TAdSinglePlyChrSelectGC *)self->f74[i])->get_result(), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
         TAdSinglePlyChrSelectGC::safe_free(p);
-        bufs[i] = (u32)TLobby__sub_801E38A0((u8 *)((TAdSinglePlyChrSelectGC *)self->f74[i])->get_result(), &len, &tag, NULL, NULL);
+        bufs[i] = (uaddr)TLobby__sub_801E38A0((u8 *)((TAdSinglePlyChrSelectGC *)self->f74[i])->get_result(), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
             return;
@@ -314,12 +314,12 @@ s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void) {
 
 }
 
-s32 TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
+saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
     s32 stride=chr_select_preview_stride_table[display_index];
     return stride + region_index * stride - 1 + chr_select_preview_base_offset_table[display_index];
 }
 
-void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3) {
     return (void *)(arg2 + (arg3 * chr_select_preview_stride_table[arg1] + chr_select_preview_base_offset_table[arg1]));
 }
 

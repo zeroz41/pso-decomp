@@ -21,6 +21,6 @@ public:
     s32 active;   // inferred: set while the sync flags select this marker
     s32 m_40;
 };
-typedef char TUnk_804B8DD0_size[sizeof(TUnk_804B8DD0) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804B8DD0_size, sizeof(TUnk_804B8DD0) == 0x44);
 
 #endif

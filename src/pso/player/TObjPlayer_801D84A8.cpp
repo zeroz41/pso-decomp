@@ -31,7 +31,7 @@ s32 weapon_has_extra_attack(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
-s32 TWindowCtrl__sub_8024A228(s32);
+s32 TWindowCtrl__sub_8024A228(saddr);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *, u8, u8);
@@ -316,7 +316,7 @@ void equip_saved_item_if_slot_empty__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 
 int TObjPlayer::bswap_disp_config_field() { return bswap_16__FPUs((char*)this + 0x2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
-void TObjPlayer::set_animation_from_data(s32 arg0, s32 arg1) {
+void TObjPlayer::set_animation_from_data(saddr arg0, s32 arg1) {
     void *temp_r3;
 
     temp_r3 = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(arg1);
@@ -326,7 +326,7 @@ void TObjPlayer::set_animation_from_data(s32 arg0, s32 arg1) {
 
 extern s32 local_client_id;
 
-void TObjPlayer::assign_lobby_slot_if_flagged(s32 arg0, void *arg1) {
+void TObjPlayer::assign_lobby_slot_if_flagged(saddr arg0, void *arg1) {
     if (*(s32 *)((s8 *)arg1 + 4) & 8) {
         *(s32 *)((s8 *)arg1 + 0x14) = advance_item_id_counter((u16) local_client_id);
         equip_saved_item_if_slot_empty__10TObjPlayerFPvPv((u8 *)arg0, (u8 *)arg1);

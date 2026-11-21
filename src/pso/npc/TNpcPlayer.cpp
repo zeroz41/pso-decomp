@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
@@ -23,6 +24,8 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/vector.h"
+#include "pso/network/protocol/protocol.h"
 #include "pso/technique/TTecReverser.h"
 
 extern "C" {
@@ -120,7 +123,7 @@ struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
 struct Obj_80152F28 { u16 a; u16 b; };
 
 struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
-u32 npc_player_char_data_buffer;
+uaddr npc_player_char_data_buffer;
 s32 TNpcPlayer__data_805D5864;
 
 
@@ -132,7 +135,7 @@ f64 atan2_float(int, f32, f32, f32);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
 u8 * csnVector(s32, s32, s32);
-s32 find_active_entity_by_id(void *);
+saddr find_active_entity_by_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(TNpcPlayer *self);
@@ -151,12 +154,12 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
 TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
 TNpcPlayer *construct_partner__10TNpcPlayerFPviisPv(TNpcPlayer *self, s32 a, s32 b, s16 kind, void *parent);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
-void reset_partner_counter(s32 arg0, s32 arg1);
-void increment_partner_counter(s32 arg0, s32 arg1);
+void reset_partner_counter(saddr arg0, s32 arg1);
+void increment_partner_counter(saddr arg0, s32 arg1);
 s32 TNpcPlayer__sub_801528DC(void* p);
 u16 get_npc_type__10TNpcPlayerFPv(void* p);
-int get_partner_counter(s32 arg0, s32 arg1);
-s32 npc_counter_reset_if_reached(s32 arg0, s32 arg1);
+int get_partner_counter(saddr arg0, s32 arg1);
+s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1);
 s32 TNpcPlayer__sub_80152978(void* p);
 void copy_transform_second__10TNpcPlayerFPvPvPv(void* p, void* a1, void* a2);
 void copy_transform__10TNpcPlayerFPvPv(void* p, void* q);
@@ -180,21 +183,19 @@ void * __ct__14TObjCollidableFP7TObject(void *, void *);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
-int bswap_16__FPUs(void*);
-int bswap_32__FPUl(void*);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 }
 s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
-s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, saddr arg3, saddr arg4);
 s32 refresh_npc_view_actor_lost(void *arg0);
 s32 partner_view_update_hp_change(void *arg0);
 s32 partner_view_update_conditions(u8 *arg0);
 s32 partner_view_check_moved(u8 *arg0);
 void partner_observe_surroundings(TNpcPlayer *arg0);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
-s32 clamp_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
+s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
@@ -205,7 +206,6 @@ const char *get_partner_custom_text(s32 kind, u16 player);
 extern "C" {
 void __register_global_object(void *obj, void *dtor, void *link);
 void __construct_array(void *, void *, int, int, int);
-s32 rand(void);
 void matrix_mult_vec(s32, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
@@ -215,11 +215,11 @@ f32 xyz_distance(Vec *, Vec *);
 
 extern int registered_entity_count;
 extern Text_8014E250 npc_partner_dialogue_state[];
-extern u32 npc_player_char_data_buffer;
+extern uaddr npc_player_char_data_buffer;
 extern void *tl_05;
 
 void copy_player_visual_record(void *, void *);
-void bswap__15disp_data_part2Fv(s32 arg0);
+void bswap__15disp_data_part2Fv(saddr arg0);
 extern s32 game_difficulty_selection;
 extern s32 TNpcPlayer__data_805D5864;
 
@@ -1362,9 +1362,9 @@ u8 *load_npc_player_template(s32 index);
 
 void TUnk_804AF7B0::run_task() {
     s32 temp_r0;
-    s32 temp_r31;
+    saddr temp_r31;
 
-    temp_r31 = (s32)m_up;
+    temp_r31 = (saddr)m_up;
     if (((TObjFogCollisionPoison *)temp_r31)->check_switch() != 0) {
         if (((TObjFogCollision *)temp_r31)->check_collision(client) != 0) {
             ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(client);
@@ -1405,7 +1405,7 @@ void set_type__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 
 void set_state__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 
-void TNpcPlayer::byteswap_pos() { bswap_16__FPUs(this); bswap_16__FPUs((void*)((char*)this + 0x2)); }
+void TNpcPlayer::byteswap_pos() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
 
 void TNpcPlayer::set_state(s32 v) { *(s32*)((char*)this + 0x0) = v; }
 
@@ -1415,7 +1415,7 @@ void TNpcPlayer::set_field2(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 
 void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = 0.0f; *(float*)((char*)a0 + 0x4) = 0.0f; *(int*)((char*)a0 + 0xc) = 0; *(unsigned char*)((char*)a0 + 0x0) = 64; *(unsigned char*)((char*)a0 + 0x1) = 4; }
 
-void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32__FPUl((char*)this + 0xc); }
+void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32((u32 *)((char*)this + 0xc)); }
 
 void TNpcPlayer::sync_from_lobby() { swap_endian(); ((TLobby *)this)->update_players(); }
 
@@ -1462,7 +1462,7 @@ void init_6x43_attack_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); ((TLobby *)this)->update_players(); }
 
@@ -1473,7 +1473,7 @@ void init_6x44_attack_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update_players() { bswap_6x44_packet(this); ((TLobby *)this)->update_players(); }
 
@@ -1484,7 +1484,7 @@ void init_6x45_attack_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update() { bswap_6x45_packet(this); ((TLobby *)this)->update_players(); }
 
@@ -1505,7 +1505,7 @@ void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2) {
 
 void TNpcPlayer__sub_80152A30(void) {  }
 
-s32 clamp_partner_counter(s32 arg0, s32 arg1, s16 arg2) {
+s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
         *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
         return 1;
@@ -1525,7 +1525,7 @@ s32 TNpcPlayer::get_condition() { return *(s32*)((char*)this + 0x90); }
 
 s32 TNpcPlayer__sub_80152978(void* p) { return *(s32*)((char*)p + 0x80); }
 
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2) {
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
 }
 
@@ -1533,7 +1533,7 @@ int is_partner_counter_reached(s16 *table, s32 idx, s32 value) {
     return value <= table[idx] ? 1 : 0;
 }
 
-s32 npc_counter_reset_if_reached(s32 arg0, s32 arg1) {
+s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1) {
     if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
         *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = 0;
         return 1;
@@ -1541,7 +1541,7 @@ s32 npc_counter_reset_if_reached(s32 arg0, s32 arg1) {
     return 0;
 }
 
-int get_partner_counter(s32 arg0, s32 arg1) {
+int get_partner_counter(saddr arg0, s32 arg1) {
     return *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0);
 }
 
@@ -1551,13 +1551,13 @@ s32 TNpcPlayer::get_npc_state() { return *(s32*)((char*)this + 0x7c); }
 
 s32 TNpcPlayer__sub_801528DC(void* p) { return *(s32*)((char*)p + 0x84); }
 
-void increment_partner_counter(s32 arg0, s32 arg1) {
-    s32 temp_r5;
+void increment_partner_counter(saddr arg0, s32 arg1) {
+    saddr temp_r5;
     temp_r5 = arg1 * 2;
     *(s16 *)((s8 *)(arg0 + temp_r5) + 0) = *(s16 *)((s8 *)(arg0 + temp_r5) + 0) + 1;
 }
 
-void reset_partner_counter(s32 arg0, s32 arg1) {
+void reset_partner_counter(saddr arg0, s32 arg1) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = 0;
 }
 
@@ -1571,7 +1571,7 @@ void __sinit_TNpcPlayer_cpp() {
 
 void TNpcPlayer::ensure_rock_singleton() {
     if ((u32) npc_player_char_data_buffer == 0U) {
-        npc_player_char_data_buffer = (u32)mem_alloc(0x1400);
+        npc_player_char_data_buffer = (uaddr)mem_alloc(0x1400);
     }
 }
 
@@ -1587,7 +1587,7 @@ u8 *TNpcPlayer::build_npc_player_record(s32 arg0) {
     } else {
         copy_player_visual_record(lbl_8050CF68, (u8 *)npc_player_char_data_buffer + arg0 * 0x50);
     }
-    bswap__15disp_data_part2Fv((s32)lbl_8050CF68);
+    bswap__15disp_data_part2Fv((saddr)lbl_8050CF68);
     mem_free((void *)npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = 0;
@@ -1606,19 +1606,19 @@ u8 *TNpcPlayer::build_npc_player_record(s32 arg0) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF330[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF330[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     case 1:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF430[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF430[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     case 2:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF530[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF530[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     case 3:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF630[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF630[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     default:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF530[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF530[arg0]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     }
     copy_player_visual_record((u8 *)lbl_8050CFC4 + 0x370, lbl_8050CF68);
@@ -1634,7 +1634,7 @@ u8 *load_npc_player_template(s32 index) {
     if (npc_player_char_data_buffer != 0U) {
         return NULL;
     }
-    npc_player_char_data_buffer = (u32)mem_alloc(0x1400);
+    npc_player_char_data_buffer = (uaddr)mem_alloc(0x1400);
     if (TNpcPlayer__data_805D5864 != 0) {
         TNpcPlayer__data_805D5864 = 0;
         copy_player_visual_record(lbl_8050CF68, lbl_8050D3E0);
@@ -1642,7 +1642,7 @@ u8 *load_npc_player_template(s32 index) {
         read_disc_file(lbl_805D2E70, (void *)npc_player_char_data_buffer);
         copy_player_visual_record(lbl_8050CF68, (u8 *)npc_player_char_data_buffer + index * 0x50);
     }
-    bswap__15disp_data_part2Fv((s32)lbl_8050CF68);
+    bswap__15disp_data_part2Fv((saddr)lbl_8050CF68);
     mem_free((void *)npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = 0;
@@ -1661,19 +1661,19 @@ u8 *load_npc_player_template(s32 index) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF330[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF330[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     case 1:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF430[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF430[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     case 2:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF530[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF530[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     case 3:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF630[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF630[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     default:
-        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((int)lbl_804AF330[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
+        TNpcPlayer::send_command((s32)(((u8 *)lbl_8050CF68)[0x31]), (s8)5, (s32)((saddr)lbl_804AF330[index]), (s32)lvl, (s8 *)lbl_8050CFC4);
         break;
     }
     copy_player_visual_record((u8 *)lbl_8050CFC4 + 0x370, lbl_8050CF68);
@@ -1796,7 +1796,7 @@ TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, v
 }
 
 TNpcPlayer::~TNpcPlayer() {
-    u32 player;
+    uaddr player;
     Unk_8014F844 *view;
     Unk_8014F844 *partner;
     view = m_74;
@@ -1806,9 +1806,9 @@ TNpcPlayer::~TNpcPlayer() {
     }
     partner = m_78;
     if (partner != NULL) {
-        player = (u32)get_player_by_client_id(get_npc_type__10TNpcPlayerFPv(partner));
+        player = (uaddr)get_player_by_client_id(get_npc_type__10TNpcPlayerFPv(partner));
         if (player != 0U) {
-            TObjPlayer::send_item_pickup_request((s32)player);
+            TObjPlayer::send_item_pickup_request((saddr)player);
         }
         ((TNpcPlayer *)m_78)->dt(1);
         m_78 = NULL;
@@ -1838,10 +1838,10 @@ void TNpcPlayer::run_task() {
                 } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(m_5c, 3, 0) != 0) {
                     request_chatter(4);
                 }
-                increment_partner_counter((s32)m_5c, 3);
+                increment_partner_counter((saddr)m_5c, 3);
                 change_ai_state(0);
             } else {
-                reset_partner_counter((s32)m_5c, 3);
+                reset_partner_counter((saddr)m_5c, 3);
                 update_condition_flags();
                 ((s32 (*)(void *))partner_observe_surroundings)(this);
                 decide_action();
@@ -2259,13 +2259,13 @@ void TNpcPlayer::deliver_partner_action() {
     switch (m_7c) {
     case 0:
         VecCopy__FP3VecPC3Vec(&m_ac, VecCopy__FP3VecPC3Vec(&m_d0, (int)&m_dc));
-        increment_partner_counter((s32)m_5c, 4);
-        if ((s16)get_partner_counter((s32)m_5c, 4) == 5401) {
+        increment_partner_counter((saddr)m_5c, 4);
+        if ((s16)get_partner_counter((saddr)m_5c, 4) == 5401) {
             m_80 &= ~4;
             m_24 = 25;
-            set_partner_counter((s32)m_5c, 4, 0);
+            set_partner_counter((saddr)m_5c, 4, 0);
         }
-        if (clamp_partner_counter((s32)m_5c, 4, 5400) != 0) {
+        if (clamp_partner_counter((saddr)m_5c, 4, 5400) != 0) {
             request_chatter(11);
         }
         break;
@@ -2300,15 +2300,15 @@ void TNpcPlayer::deliver_partner_action() {
         break;
     }
     if (m_7c != 2) {
-        reset_partner_counter((s32)m_5c, 1);
-        reset_partner_counter((s32)m_5c, 5);
+        reset_partner_counter((saddr)m_5c, 1);
+        reset_partner_counter((saddr)m_5c, 5);
         m_80 &= ~0x8000;
     }
     if (m_7c != 1) {
         m_80 &= ~8;
     }
     if (m_7c != 0) {
-        reset_partner_counter((s32)m_5c, 4);
+        reset_partner_counter((saddr)m_5c, 4);
     }
 }
 #pragma pop
@@ -2385,7 +2385,7 @@ void TNpcPlayer::update_combat_action() {
             request_chatter(3);
         }
         m_80 &= ~0x2000;
-        if (TObjPlayer::try_camera_action((s32)m_78->m_94, (s32)id) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)m_78->m_94, (s32)id) != 0) {
             TNpcPlayer__sub_8014DC3C(this, id);
             return;
         }
@@ -2406,7 +2406,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     } else {
         request_chatter(2);
     }
-    if (TObjPlayer::try_camera_action((s32)actor, (s32)kind) != 0) {
+    if (TObjPlayer::try_camera_action((saddr)actor, (s32)kind) != 0) {
         m.type = get_npc_type__10TNpcPlayerFPv(m_78);
         m.kind = kind;
         m.one = 1;
@@ -2439,8 +2439,8 @@ void TNpcPlayer::init_state() {
 }
 
 void TNpcPlayer::update_condition_flags() {
-    ((s32 (*)(s32))partner_view_check_moved)((s32)m_74);
-    ((s32 (*)(s32))partner_view_update_conditions)((s32)m_74);
+    ((s32 (*)(s32))partner_view_check_moved)((saddr)m_74);
+    ((s32 (*)(s32))partner_view_update_conditions)((saddr)m_74);
     if (((TNpcPlayer *)m_74)->get_condition() & 2) {
         if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 0xA) == 0) {
             request_chatter(9);
@@ -2449,7 +2449,7 @@ void TNpcPlayer::update_condition_flags() {
     } else {
         ((s32 (*)(void *, s32))reset_partner_counter)(m_5c, 0xA);
     }
-    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((s32)m_74, 30.0f) != 0) {
+    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)m_74, 30.0f) != 0) {
         if (((TNpcPlayer *)m_74)->get_condition() & 8) {
             if (((s16 (*)(void *, int))get_partner_counter)(m_5c, 9) == 0) {
                 request_chatter(0xC);
@@ -2475,9 +2475,9 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     if (npc_player->m_84 != 0) {
         ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, (void *)get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
     } else {
-        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((s32)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
+        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
     }
-    ((s32 (*)(s32))partner_view_update_conditions)((s32)npc_player->m_78);
+    ((s32 (*)(s32))partner_view_update_conditions)((saddr)npc_player->m_78);
     temp_f3 = npc_player->m_dc.x;
     temp_r3 = npc_player->m_78->m_94;
     npc_player->m_78->m_98 = (s32)(10430.38043493439 * atan2_float((int)temp_r3, temp_f3 - temp_r3->position.x, npc_player->m_dc.z - temp_r3->position.z, temp_f3));
@@ -2500,7 +2500,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
             npc_player->request_chatter(0x10);
         }
     }
-    if (((s32 (*)(s32))partner_view_check_moved)((s32)npc_player->m_78) == 0) {
+    if (((s32 (*)(s32))partner_view_check_moved)((saddr)npc_player->m_78) == 0) {
         if (npc_player->m_7c == 1U) {
             if (((TNpcPlayer *)npc_player->m_78)->get_action_state() & 0x80) {
                 npc_player->m_8c = 0;
@@ -2750,7 +2750,7 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
             ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
             return 1;
         }
         break;
@@ -2761,7 +2761,7 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
             return 1;
         }
         break;
@@ -2770,7 +2770,7 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
             ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((s32)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
             return 1;
         }
         break;
@@ -2936,7 +2936,7 @@ s32 refresh_npc_view_actor_lost(void *arg0) {
 void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
         if (((Unk_8014F844 *)this)->m_a8 != NULL) {
-            free_collision_body_parts((u32)((Unk_8014F844 *)this)->m_a8);
+            free_collision_body_parts((uaddr)((Unk_8014F844 *)this)->m_a8);
             ((TObject *)((Unk_8014F844 *)this)->m_a8)->queue_destruction();
             ((Unk_8014F844 *)this)->m_a8 = NULL;
         }
@@ -2953,7 +2953,7 @@ bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1) {
     VecCopy__FP3VecPC3Vec(&stack.sp8, (int)(find_active_entity_by_id((void *)arg1) + 0x2FC));
     temp_r3 = ((Unk_8014F844 *)arg0)->m_94;
     stack.spC = temp_r3->m_300;
-    return ((s32)csnVector((s32)&temp_r3->m_2fc, (s32)&stack.sp8, 0x2100)) == 0;
+    return ((saddr)csnVector((saddr)&temp_r3->m_2fc, (saddr)&stack.sp8, 0x2100)) == 0;
 }
 
 s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range) {
@@ -2966,7 +2966,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
     f32 d;
     found = 0;
     ((TObjBase *)(view->m_94))->get_room();
-    VecCopy__FP3VecPC3Vec(origin, (int)pos);
+    VecCopy__FP3VecPC3Vec(origin, (saddr)pos);
     view->m_0 = 0;
     for (j = 0; j < 10; j++) {
         view->m_4[j].m_0 = 0xFFFF;
@@ -2999,7 +2999,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
             }
         }
     }
-    TNpcPlayer::quick_sort((s32)view, (s32)&view->m_4[0], 0, view->m_0 - 1);
+    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->m_4[0], 0, view->m_0 - 1);
     return found;
 }
 
@@ -3036,7 +3036,7 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, s32 
             }
         }
     }
-    TNpcPlayer::quick_sort((s32)view, (s32)&view->m_4[0], 0, view->m_0 - 1);
+    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->m_4[0], 0, view->m_0 - 1);
     return found;
 }
 
@@ -3112,7 +3112,7 @@ s32 partner_probe_obstacles(Unk_8014F844 *view) {
     return 0;
 }
 
-s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, saddr arg3, saddr arg4) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(csnVector(arg1, arg2, 0x2100));
     if (temp_r3 != NULL) {
@@ -3164,7 +3164,7 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
     out->y = from->y;
     out->z = perp.z * s + from->z;
     VecCopy__FP3VecPC3Vec(&tmp, (int)&self->m_74->m_94->m_2fc);
-    if (csnVector((s32)((s32)&tmp), (s32)((s32)&hit), 0x2100) != 0) {
+    if (csnVector((s32)((saddr)&tmp), (s32)((saddr)&hit), 0x2100) != 0) {
         hit.x = 5.0f * perp.x + hit.x;
         hit.z = 5.0f * perp.z + hit.z;
         return 0;
@@ -3196,7 +3196,7 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
     if (0.0f != vector_length(&dir)) {
         normalize_vector(&dir);
     }
-    VecCopy__FP3VecPC3Vec(&save, (int)&dir);
+    VecCopy(&save, &dir);
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, 0x4000);
     matrix_mult_vec(0, &dir, &a);
@@ -3212,9 +3212,9 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
         normalize_vector(&diff);
     }
     if (vec3_dot(&diff, &a) > 0.0f) {
-        VecCopy__FP3VecPC3Vec(&dir, (int)&b);
+        VecCopy(&dir, &b);
     } else {
-        VecCopy__FP3VecPC3Vec(&dir, (int)&a);
+        VecCopy(&dir, &a);
     }
     if (self->m_8c >= 0x14) {
         out->x = -((20.0f * dir.x) - from->x);
@@ -3317,7 +3317,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
             normalize_vector(&dir);
         }
         self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->m_78->m_94->position, &axis, &dist);
-        VecCopy__FP3VecPC3Vec(&esc, (int) &axis);
+        VecCopy(&esc, &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
             esc.z = -esc.z;
@@ -3408,7 +3408,7 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     }
     if (dist2 < dist1) {
         *reach = 10.0f + reach1;
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(axis, &first);
+        VecCopy(axis, &first);
     } else if (dist2 == dist1) {
         *reach = 7.0f;
         axis->x = 0.5f * (first.x + second.x);
@@ -3416,7 +3416,7 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
         axis->z = 0.5f * (first.z + second.z);
     } else {
         *reach = 10.0f + reach2;
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(axis, &second);
+        VecCopy(axis, &second);
     }
 }
 
@@ -3434,7 +3434,7 @@ bool TNpcPlayer::is_small_obstacle(f32 size) {
 s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out) {
     Vec dir;
     u8 *contact;
-    contact = csnVector((s32) from, (s32) to, 0x2100);
+    contact = csnVector((saddr) from, (saddr) to, 0x2100);
     if (contact != NULL) {
         dir.x = to[0] - from[0];
         dir.y = 0.0f;
@@ -3472,7 +3472,7 @@ void TNpcPlayer::request_chatter(u32 arg1) {
   {
     new_var2 = 0x24;
     block_4:
-    reset_partner_counter((s32)(arg0 + 0x5C), 0);
+    reset_partner_counter((saddr)(arg0 + 0x5C), 0);
     if (arg1 != ((u32) (*((u32 *) (((s8 *) arg0) + new_var2)))))
     {
       *new_var = arg1;
@@ -3496,11 +3496,11 @@ void deliver_partner_chatter(TNpcPlayer *self) {
     if (id != 0xFFFF) {
         text = (char *)get_partner_custom_text(self->m_24, id);
         if (text != 0) {
-            TWindowCtrl::open((s32)id, (s32)text, 0x1B);
+            TWindowCtrl::open((s32)id, (saddr)text, 0x1B);
         } else {
             text = npc_partner_dialogue_state[self->m_24].text;
             if (text[0] != 0) {
-                TWindowCtrl::open((s32)id, (s32)text, 0x1B);
+                TWindowCtrl::open((s32)id, (saddr)text, 0x1B);
             }
         }
     }
@@ -3523,7 +3523,7 @@ void TNpcPlayer::handle_action(s32 arg1) {
         player = m_78->m_94->find_inventory_item_id(3, 0);
         if (player != -1) {
             temp_r5 = m_78;
-            try_send_6x27_use_item((s32)temp_r5->m_94, player, temp_r5);
+            try_send_6x27_use_item((saddr)temp_r5->m_94, player, temp_r5);
             m_80 = m_80 | 0x10000;
         }
         break;
@@ -3531,7 +3531,7 @@ void TNpcPlayer::handle_action(s32 arg1) {
         temp_r3_2 = m_78->m_94->find_inventory_item_id(3, 1);
         if (temp_r3_2 != -1) {
             temp_r5_2 = m_78;
-            try_send_6x27_use_item((s32)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
+            try_send_6x27_use_item((saddr)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
             return;
         }
         break;
@@ -3539,7 +3539,7 @@ void TNpcPlayer::handle_action(s32 arg1) {
         temp_r3_3 = m_78->m_94->find_inventory_item_id(3, 6);
         if (temp_r3_3 != -1) {
             temp_r5_3 = m_78;
-            try_send_6x27_use_item((s32)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
+            try_send_6x27_use_item((saddr)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
         }
         break;
     }

@@ -95,8 +95,8 @@ struct TItemEquipBase : public TItem {
     NJS_OBJECT *second_model;
 };
 
-typedef char TItemEquipBaseFlagsOffset[(offsetof(TItemEquipBase, effect_flags) == 0x178) ? 1 : -1];
-typedef char TItemEquipBase_size[sizeof(TItemEquipBase) == 0x18C ? 1 : -1];
+LAYOUT_ASSERT(TItemEquipBaseFlagsOffset, offsetof(TItemEquipBase, effect_flags) == 0x178);
+LAYOUT_ASSERT(TItemEquipBase_size, sizeof(TItemEquipBase) == 0x18C);
 
 // A weapon's hit callback: a small burst at the target hit.
 void play_target_impact_effect(s32 unused0, s32 unused1, u16 actor_id, s16 collider);

@@ -99,7 +99,7 @@ void TItemEffPG::run_task() {
         check_hits();
         return;
     }
-    if ((u32) this->m_down == 0U) {
+    if ((uaddr) this->m_down == 0U) {
         queue_destruction();
         disallow_rendering();
         return;
@@ -195,7 +195,7 @@ void TUnk_804F0BF0::run_task() {
             color.a = opacity - 0.06666667f;
         }
     }
-    play_persistent_sound(0x4001A343, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x4001A343, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TUnk_804F0BF0::render() {
@@ -211,18 +211,18 @@ void TUnk_804F0BF0::render() {
         model_render_flags |= 0x20;
         set_constant_material(&color);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((s32)texture_list);
+        TObjFish::set_global_param((saddr)texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         push_matrix();
         rotate_matrix_y(NULL, rotation_y);
         scale_current_matrix(&scale.x);
-        draw_ginja_model((s32)m_20->model);
+        draw_ginja_model((saddr)m_20->model);
         pop_matrix();
         push_matrix();
         rotate_matrix_y(NULL, m_40);
         scale_current_matrix(&scale.x);
-        draw_ginja_model((s32)m_20->child->model);
+        draw_ginja_model((saddr)m_20->child->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();

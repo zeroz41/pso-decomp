@@ -57,14 +57,14 @@ extern "C" {
 u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u8 *__nw__7TObjectFUl(s32, f32);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
@@ -108,8 +108,8 @@ void TPhotonLeilla::render() {
 
 void TPhotonLeilla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AC574, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AC574, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AC574, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AC574, spC) == 0x4);
     Stack_801AC574 stack;
     f32 temp_f1;
     f32 temp_f1_2;
@@ -128,7 +128,7 @@ void TPhotonLeilla::run_task() {
         stack.spC += 3e+01f;
         photon_magic_square = (u8 *)(__nw__7TObjectFUl(0xD0, temp_f1));
         if (photon_magic_square != NULL) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 4, (s32)&stack.sp8, 0x78);
+            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 4, (saddr)&stack.sp8, 0x78);
         }
     }
     if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->requested_action == 1)) {
@@ -156,7 +156,7 @@ void TPhotonLeilla::run_task() {
         }
     }
     if ((s32) *(s32 *)&this->m_19c != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (u32)(0U), 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, (u32)(0U), 0, 0);
     }
 }
 }
@@ -216,7 +216,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     }
     F_801AC808(self, s32, 0x34) = photon_blast_shared_resource->res->f18;
     F_801AC808(self, s32, 0x24) = photon_blast_shared_resource->res->f1C;
-    ((TObjMotion *)self)->set_field_d8((s32)photon_blast_leilla_params);
+    ((TObjMotion *)self)->set_field_d8((saddr)photon_blast_leilla_params);
     ((TObjMotion *)self)->set_field_dc(photon_blast_shared_resource->f430);
     F_801AC808(self, s16, 0xB8) = 1;
     ((TObjMotion *)self)->set_animation(F_801AC808(self, s16, 0xB8));
@@ -263,13 +263,13 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
         v.y += 3e+01f;
         o = NEW_801AC808(0xD0);
         if (o != NULL) {
-            construct_photon_magic_square_normal((u8 *)o, (s32)self, 4, (s32)&v, 0x78);
+            construct_photon_magic_square_normal((u8 *)o, (saddr)self, 4, (saddr)&v, 0x78);
         }
         ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(4);
-        play_cue_stream_file((s32)"reila2.adx");
+        play_cue_stream_file((saddr)"reila2.adx");
     } else {
         spawn_photon_blast_opening_effects(4, F_801AC808(self, u16, 0x17C));
-        play_cue_stream_file((s32)"reila.adx");
+        play_cue_stream_file((saddr)"reila.adx");
     }
     return self;
 }
@@ -283,9 +283,9 @@ void TObjPlayer::destroy_buffer_pair_instance() {
 }
 
 void create_leilla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0));

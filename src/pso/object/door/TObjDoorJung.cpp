@@ -44,7 +44,7 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__12TObjDoorJung[];
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2);
 u8 is_current_floor_switch_set(s32 id);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
 struct Node_8018F4AC {
@@ -79,15 +79,15 @@ void TObjDoorJung::free_buffers() {
 }
 
 s32 load_resource_from_descriptor(s32 buffer, s32 kind, void *descriptor, s32 a3, s32 a4, s32 a5);
-s32 get_bml_texlist(void *bml, s32 index);
+saddr get_bml_texlist(void *bml, s32 index);
 
 void load_door_jung_resources(void) {
-    s32 handle;
+    saddr handle;
     Node_8018F4AC *model;
     Node_8018F4AC *node;
     void *scene;
 
-    handle = (int)::operator new(0x440);
+    handle = (saddr)::operator new(0x440);
     if (handle != 0) {
         handle = load_resource_from_descriptor(handle, 5, &bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }
@@ -109,7 +109,7 @@ void load_door_jung_resources(void) {
     if (lbl_805D5BEC != -1) {
         scene = (void *)::operator new(0x14);
         if (scene != NULL) {
-            scene = ((TScene *)scene)->init_buffers((s32)model->child->sibling, lbl_805D5BEC);
+            scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, lbl_805D5BEC);
         }
         TObjDoorJung__door_scene_buffer = scene;
     } else {
@@ -160,7 +160,7 @@ void TObjDoorJung::render() {
                 set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[j]), static_cast<u16>(lbl_805D5BE8));
             }
         }
-        TObjFish::set_global_param((s32)(lbl_805D5BD4));
+        TObjFish::set_global_param((saddr)(lbl_805D5BD4));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -212,7 +212,7 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
     ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;

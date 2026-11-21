@@ -54,7 +54,7 @@ struct TObjEneDD : public TObjEnemy {
     static s32 is_main_phase_15();
     static void clear_global_flag_400();
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
-    static void draw_oriented_shadow(const Vec *position, const Vec *normal, s32 angle, const Vec *scale);
+    static void draw_oriented_shadow(const Vec *position, const Vec *normal, saddr angle, const Vec *scale);
     int update_primary_light();
     int update_secondary_light();
     void reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
@@ -72,8 +72,8 @@ struct TObjEneDD : public TObjEnemy {
     static void emit_effect(void* p, int a1, int a2);
     static void emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *arg3);
     static void setup(void* p, int a1, int a2);
-    static void setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
-    s32 is_target_unobstructed(s32 arg1);
+    static void setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
+    s32 is_target_unobstructed(saddr arg1);
     s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
@@ -85,7 +85,7 @@ struct TObjEneDD : public TObjEnemy {
     void move_clamped_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_slide_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_to_shot_position(f32 farg0, f32 farg1, f32 farg2);
-    static void collect_target_candidates(s32 arg0, f32 farg0);
+    static void collect_target_candidates(saddr arg0, f32 farg0);
     static void create_instance();
     static int get_enemy_count();
     void handle_state(s32 arg1);

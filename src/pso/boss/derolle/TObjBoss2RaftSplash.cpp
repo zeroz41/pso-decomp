@@ -28,7 +28,7 @@ void TObjBoss2RaftSplash::run_task() {
         *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (timer - interval);
         VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
         stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss2_tunnel_max_scroll_speed;
-        TObjBoss2RaftSplash::spawn_splash((s32) &stack.sp8, 0x170, (s32)(arg0 + 0x34));
+        TObjBoss2RaftSplash::spawn_splash((saddr) &stack.sp8, 0x170, (saddr)(arg0 + 0x34));
     }
 }
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
@@ -54,7 +54,7 @@ void TObjBoss2CeilJunk::create_particle(const void *position, s32 particle_index
     TObjBoss2Tunnel::create_particle_effect(position, particle_index, -5.0f);
 }
 
-void TObjBoss2RaftSplash::spawn_splash(s32 position, s32 particle_index, s32 offset) {
+void TObjBoss2RaftSplash::spawn_splash(saddr position, s32 particle_index, saddr offset) {
     void *particle;
 
     particle = TObject::operator new(0x78);

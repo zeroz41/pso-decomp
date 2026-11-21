@@ -148,7 +148,7 @@ extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 s32 play_weapon_hit_sound(void *);
 
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
+void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 
 Hit_802E3D8C *csnVector(void *, void *, s32);
 
@@ -173,7 +173,7 @@ f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 
-void TObjPlayer__sub_801542F4(s32 a);
+void TObjPlayer__sub_801542F4(saddr a);
 
 void TObjPlayer__sub_8015431C(u8 *arg0);
 
@@ -226,12 +226,12 @@ void TUnk_804E355C::check_hits() {
     ActorBodyHit *hit;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
-    TObjPlayer__sub_801542F4((s32)&this->bodies);
+    TObjPlayer__sub_801542F4((saddr)&this->bodies);
     if (pad_C0 != 0) {
         TObjPlayer__sub_8015431C((u8 *)&this->bodies);
     }
     if (pad_BC != 0) {
-        TObjPlayer::apply_status_effect((s32)(arg0 + 0x1C));
+        TObjPlayer::apply_status_effect((saddr)(arg0 + 0x1C));
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
@@ -302,22 +302,22 @@ s32 TUnk_804E355C::has_game_join_id() {
 s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
     u8 *arg1 = (u8 *)hit;
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_802E456C, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_802E456C, sp9) == 0x1) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802E456C, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_802E456C, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_802E456C, sp18) == 0x10) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E456C, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802E456C, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802E456C, sp18) == 0x10);
     Stack_802E456C stack;
     s32 temp_r31;
     s32 damage;
     u8 *temp_r30;
     u8 *player;
-    u32 item;
+    uaddr item;
     s32 temp_r0;
     f32 var_f31;
     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
     player = (u8 *)(get_player_by_client_id(this->client_id));
-    item = (u32)find_item_by_id((this->item_id));
+    item = (uaddr)find_item_by_id((this->item_id));
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
     if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(temp_r30))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
@@ -337,7 +337,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
         damage = (s32) var_f31;
         TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
-        apply_camera_shake__10TObjPlayerFiii((s32)player, (s32)temp_r30, (s32)damage);
+        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)temp_r30, (s32)damage);
         ((TObjPlayer *)(&stack.sp8))->reset_status_block();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
@@ -411,7 +411,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, Desc_8011E5C4 *params) : TUnk_80
     velocity.z *= params->speed;
     rotation_y = rotation[1];
     range_sq = params->range * params->range;
-    model = (u32)params->model;
+    model = (uaddr)params->model;
     texlist = params->texlist;
     scale.x = params->scale;
     scale.y = params->scale;
@@ -432,7 +432,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, Desc_8011E5C4 *params) : TUnk_80
             0,
             20.0f,
         };
-        star_light = (TEffStarLight2D *)spawn_star_light_2d((s32)&position, (s32)&star, (s32)this);
+        star_light = (TEffStarLight2D *)spawn_star_light_2d((saddr)&position, (saddr)&star, (saddr)this);
     } else {
         star_light = NULL;
     }
@@ -590,7 +590,7 @@ void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
             VObj_802E3C4C *p = (VObj_802E3C4C *)find_item_by_id(item_id);
             u8 *b = (u8 *)get_player_by_client_id(client_id);
             if (p != NULL) {
-                p->m59(b, (s32)hit->target, pad_B8, pad_B4, hit->body);
+                p->m59(b, (saddr)hit->target, pad_B8, pad_B4, hit->body);
             }
         }
     }

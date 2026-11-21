@@ -32,11 +32,11 @@ public:
 };
 
 #include <stddef.h>
-typedef char TObjLiveCameraCtrl_vector_34_offset[offsetof(TObjLiveCameraCtrl, vector_34) == 0x34 ? 1 : -1];
-typedef char TObjLiveCameraCtrl_vector_40_offset[offsetof(TObjLiveCameraCtrl, vector_40) == 0x40 ? 1 : -1];
-typedef char TObjLiveCameraCtrl_slot_index_offset[offsetof(TObjLiveCameraCtrl, slot_index) == 0x4c ? 1 : -1];
-typedef char TObjLiveCameraCtrl_camera_object_offset[offsetof(TObjLiveCameraCtrl, camera_object) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TObjLiveCameraCtrl_vector_34_offset, offsetof(TObjLiveCameraCtrl, vector_34) == 0x34);
+LAYOUT_ASSERT(TObjLiveCameraCtrl_vector_40_offset, offsetof(TObjLiveCameraCtrl, vector_40) == 0x40);
+LAYOUT_ASSERT(TObjLiveCameraCtrl_slot_index_offset, offsetof(TObjLiveCameraCtrl, slot_index) == 0x4c);
+LAYOUT_ASSERT(TObjLiveCameraCtrl_camera_object_offset, offsetof(TObjLiveCameraCtrl, camera_object) == 0x50);
 // create_boss8_demo_objects allocates 0x13C for it.
-typedef char TObjLiveCameraCtrl_size[sizeof(TObjLiveCameraCtrl) == 0x13C ? 1 : -1];
+LAYOUT_ASSERT(TObjLiveCameraCtrl_size, sizeof(TObjLiveCameraCtrl) == 0x13C);
 
 #endif

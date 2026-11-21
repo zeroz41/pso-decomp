@@ -1,7 +1,5 @@
 
 
-#define ARAlloc Dolphin_ARAlloc
-#define ARStartDMA Dolphin_ARStartDMA
 #define __ARChecksize fn_8037F374
 #define __ARHandler ar___ARHandler
 #define __AR_BlockLength lbl_805D7270

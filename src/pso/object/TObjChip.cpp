@@ -169,7 +169,7 @@ struct Obj_8017FE58 {
     s32 count;
     u8 pad58[0x60 - 0x58];
     f32 scale;
-    s32 model;
+    saddr model;
     u8 pad68[0x6C - 0x68];
     s32 flags;
     Chip_8017FE58 chips[1];
@@ -241,7 +241,7 @@ extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
-    *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
+    *(saddr *)((s8 *)object + 0) = (saddr) obj_chip_class_name_ptr;
     copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
     *(f32 *)((s8 *)object + 0x1C) = (f32) (2e+02f);
     *(f32 *)((s8 *)object + 0x20) = 40.0f;
@@ -255,9 +255,9 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(ByteBlock_C *)((s32) arg0 + 0xC) = *(const ByteBlock_C *)((s32) arg1 + 0xC);
-    *(ByteBlock_C *)((s32) arg0 + 0x18) = *(const ByteBlock_C *)((s32) arg1 + 0x18);
-    *(ByteBlock_C *)((s32) arg0 + 0x24) = *(const ByteBlock_C *)((s32) arg1 + 0x24);
+    *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
+    *(ByteBlock_C *)((saddr) arg0 + 0x18) = *(const ByteBlock_C *)((saddr) arg1 + 0x18);
+    *(ByteBlock_C *)((saddr) arg0 + 0x24) = *(const ByteBlock_C *)((saddr) arg1 + 0x24);
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
     *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);
@@ -269,7 +269,7 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
-    *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
+    *(saddr *)((s8 *)object + 0) = (saddr) obj_chip_class_name_ptr;
     copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
     *(f32 *)((s8 *)object + 0x1C) = (f32) (2e+02f);
     *(f32 *)((s8 *)object + 0x20) = 40.0f;
@@ -280,7 +280,7 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *ar
     return object;
 }
 }
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
+void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 TObjChip::~TObjChip() {}
 
 extern "C" {
@@ -525,7 +525,7 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
-            draw_ginja_object((void *)(*(s32 *)(arg0 + 0x64)));
+            draw_ginja_object((void *)(*(saddr *)(arg0 + 0x64)));
             pop_matrix();
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         }
@@ -538,7 +538,7 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
-            draw_ginja_object((void *)(*(s32 *)(arg0 + 0x64)));
+            draw_ginja_object((void *)(*(saddr *)(arg0 + 0x64)));
             pop_matrix();
         }
     }

@@ -51,7 +51,7 @@ struct S_802D5B78 {
 };
 
 extern "C" {
-void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir);
+void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 void normalize_vector(void *);
@@ -209,7 +209,7 @@ void TObjPlayer::spawn_item() {
     if (particle != NULL) {
         TItemLoad::get_item_model(0xD, &model);
         TItemLoad::get_item_texture_list(0xD, &texture);
-        attach_particle_model((u8 *)particle, (s32)model, (s32)texture, 0, 0, 1.0f);
+        attach_particle_model((u8 *)particle, (saddr)model, (saddr)texture, 0, 0, 1.0f);
         particle->set_scale(10.0f, 10.0f);
     }
 }
@@ -380,20 +380,20 @@ TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
     pad_204 = (void *)TObjPlayer::spawn_hit_particles_at_vec;
 }
 
-void TObjPlayer::spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr arg1, saddr arg2) {
     Vec pos;
     TObjPlayer__sub_802D5B78((void *)arg1, &pos, (void *)arg2);
-    spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);
+    spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)arg2);
 }
 
-void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr arg2) {
     Vec pos;
     VecCopy(&pos, (const Vec *)arg1);
-    spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);
+    spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)arg2);
 }
 
 extern const f64 lbl_804725B8[1] = { 10430.38043493439 };
-void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir) {
+void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir) {
     s32 angles[3];
     create_timed_particle_emitter((void *)pos, 0x1EF, 0, 0xF);
     angles[0] = 0;
@@ -562,10 +562,10 @@ void *TUnk_804E1BB0::init_state_513(TObject *parent, u8 *item) {
 void TUnk_804E1BB0::reserved_53() {
     u32 temp_r0;
     u32 temp_r31;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     draw_weapon_at_joint(arg0, 0x30);
     ((TItemWeapon *)arg0)->update_trail_slot(0);
-    temp_r0 = (u32)((TItemWeapon *)arg0)->second_model;
+    temp_r0 = (uaddr)((TItemWeapon *)arg0)->second_model;
     temp_r31 = *(u32 *)((s8 *)arg0 + 0xF4);
     if (temp_r0 != 0U) {
         *(u32 *)((s8 *)arg0 + 0xF4) = temp_r0;

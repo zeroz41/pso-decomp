@@ -405,8 +405,8 @@ struct G_InterLevelWarp_6x94 {
  u8 unused[2];
 };
 
-typedef char G_InterLevelWarp_6x94_size[sizeof(G_InterLevelWarp_6x94) == 8 ? 1 : -1];
-typedef char G_InterLevelWarp_6x94_floor_offset[offsetof(G_InterLevelWarp_6x94, floor) == 4 ? 1 : -1];
+LAYOUT_ASSERT(G_InterLevelWarp_6x94_size, sizeof(G_InterLevelWarp_6x94) == 8);
+LAYOUT_ASSERT(G_InterLevelWarp_6x94_floor_offset, offsetof(G_InterLevelWarp_6x94, floor) == 4);
 
 struct G_IntraMapWarp_6x55 {
  G_ClientIDHeader header;
@@ -419,9 +419,9 @@ struct G_IntraMapWarp_6x55 {
  void send();
 };
 
-typedef char G_IntraMapWarp_6x55_size[sizeof(G_IntraMapWarp_6x55) == 0x20 ? 1 : -1];
-typedef char G_IntraMapWarp_6x55_position_offset[offsetof(G_IntraMapWarp_6x55, from_pos) == 0x8 ? 1 : -1];
-typedef char G_IntraMapWarp_6x55_destination_offset[offsetof(G_IntraMapWarp_6x55, pos) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(G_IntraMapWarp_6x55_size, sizeof(G_IntraMapWarp_6x55) == 0x20);
+LAYOUT_ASSERT(G_IntraMapWarp_6x55_position_offset, offsetof(G_IntraMapWarp_6x55, from_pos) == 0x8);
+LAYOUT_ASSERT(G_IntraMapWarp_6x55_destination_offset, offsetof(G_IntraMapWarp_6x55, pos) == 0x14);
 
 struct game_command_header;
 extern "C" {
@@ -903,7 +903,7 @@ struct G_TriggerTrap_6x80 {
  void send();
 };
 
-typedef char TriggerTrapPacketSize[sizeof(G_TriggerTrap_6x80) == 8 ? 1 : -1];
+LAYOUT_ASSERT(TriggerTrapPacketSize, sizeof(G_TriggerTrap_6x80) == 8);
 
 struct G_TurnOrMoveLobbyChair_6xAF_6xB0 {
  struct G_ClientIDHeader header;

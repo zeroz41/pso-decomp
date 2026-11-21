@@ -13,7 +13,7 @@ struct TObjNpcFemaleBase : public TUnk_804A8640 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcFemaleBase_size[sizeof(TObjNpcFemaleBase) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcFemaleBase_size, sizeof(TObjNpcFemaleBase) == 0x3B8);
 
 extern "C" {
 void *TObjNpcFemaleBase__create(void *set_data);

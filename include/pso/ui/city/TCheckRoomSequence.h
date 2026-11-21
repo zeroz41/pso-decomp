@@ -19,7 +19,7 @@ struct TCheckRoomSequence : public TShopSequence {
     static void *create(void *arg0);
     static void reset_slot_state();
     static void reset_slots();
-    static s32 get_item_def(u32 arg0);
+    static s32 get_item_def(uaddr arg0);
     // States of the vfunc_11 table, in table order.
     void open_bank();
     void handle_root_choice();
@@ -37,6 +37,7 @@ struct TCheckRoomSequence : public TShopSequence {
     void sub_8020F1DC();
     void set_quest_list_mode_19(void *);
     void open_delete_item_window(void *);
+    static void alloc_item_buffers();
 
     s32 pad_2c;
     u32 pad_30;                     // 0x30: freed with TAdSinglePlyChrSelectGC::safe_free
@@ -48,5 +49,5 @@ struct TCheckRoomSequence : public TShopSequence {
     TObject *counter_camera;        // 0x48: set_service_counter_camera
 };
 
-typedef char TCheckRoomSequence_size[sizeof(TCheckRoomSequence) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TCheckRoomSequence_size, sizeof(TCheckRoomSequence) == 0x4C);
 #endif

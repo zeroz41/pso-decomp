@@ -88,7 +88,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void __dl__7TObjectFPv(void *);
 void __dt__14TObjEZRopeBaseFv(void *, int);
 
 extern void *__vt__21TObjHMS_EZRope_Player[];
@@ -96,12 +95,12 @@ extern void *__vt__21TObjHMS_EZRope_Player[];
 void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__21TObjHMS_EZRope_Player;
-        if (arg0->m_3c != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)arg0->m_3c); *(s32 *)((s8 *)arg0 + 0x3C) = 0; }
-        if (*(void **)((s8 *)arg0 + 0x40) != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)(*(void **)((s8 *)arg0 + 0x40))); *(s32 *)((s8 *)arg0 + 0x40) = 0; }
-        if (arg0->m_44 != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)arg0->m_44); *(s32 *)((s8 *)arg0 + 0x44) = 0; }
+        if (arg0->m_3c != NULL) { TAdSinglePlyChrSelectGC::safe_free((uaddr)arg0->m_3c); *(s32 *)((s8 *)arg0 + 0x3C) = 0; }
+        if (*(void **)((s8 *)arg0 + 0x40) != NULL) { TAdSinglePlyChrSelectGC::safe_free((uaddr)(*(void **)((s8 *)arg0 + 0x40))); *(s32 *)((s8 *)arg0 + 0x40) = 0; }
+        if (arg0->m_44 != NULL) { TAdSinglePlyChrSelectGC::safe_free((uaddr)arg0->m_44); *(s32 *)((s8 *)arg0 + 0x44) = 0; }
         __dt__14TObjEZRopeBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -109,7 +108,7 @@ void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1) {
 
 #define SELF ((Obj_800FF070 *)arg0)
 void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s32 base = (s32)ezrope_chunk_material_color_table;
+    saddr base = (saddr)ezrope_chunk_material_color_table;
     s32 n1;
     s32 n2;
     E2_800FF070 *q;
@@ -158,23 +157,23 @@ void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3) 
         }
         TObjPlayer__sub_800FF1FC((f32 *)e4, (f32 *)(base + 0x20));
     }
-    ((TObjEZRopeBase *)arg0)->sub_800FF8CC((void *)SELF->a, (void *)SELF->b, (s32)SELF->c);
+    ((TObjEZRopeBase *)arg0)->sub_800FF8CC((void *)SELF->a, (void *)SELF->b, (saddr)SELF->c);
     return arg0;
 }
 
 void TObjPlayer__sub_800FF1FC(f32 *arg0, f32 *arg1) {
     *arg0 = *arg1;
-    *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
+    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) arg1 + 4);
 }
 
 void TObjPlayer__sub_800FF220(s32 *arg0, s32 *arg1) {
     *arg0 = *arg1;
-    *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
+    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) arg1 + 4);
 }
 
 void TObjPlayer__sub_800FF244(u8 *arg0, u8 *arg1) {
     *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
-    *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
+    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) arg1 + 4);
     *(s32 *)((s8 *)arg0 + 0x10) = (s32) *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)arg1 + 0x14);
 }
@@ -286,7 +285,7 @@ struct Obj_800FF788 {
     u8 pad0[0x20];
     Seg_800FF788 *segs;
     Src_800FF788 *srcs;
-    u32 flag;
+    uaddr flag;
     Vec *out;
 };
 
@@ -441,7 +440,7 @@ void *__vt__21TObjHMS_EZRope_Player[6] = {
 #pragma pop
 
 TObjEZRopeBase::~TObjEZRopeBase() {
-    if (m_2c != nullptr) { TAdSinglePlyChrSelectGC::safe_free((u32)m_2c); m_2c = nullptr; }
+    if (m_2c != nullptr) { TAdSinglePlyChrSelectGC::safe_free((uaddr)m_2c); m_2c = nullptr; }
 }
 
 extern "C" {

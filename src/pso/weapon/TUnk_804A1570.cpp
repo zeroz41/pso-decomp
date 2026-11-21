@@ -38,13 +38,13 @@ void TUnk_804A1570::update_attack() {
 
 void TUnk_804A1570::reserved_53() {
   s32 temp_r31;
-  s32 new_var;
+  saddr new_var;
   temp_r31 = *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4));
-  new_var = (s32) this;
+  new_var = (saddr) this;
   draw_weapon_at_joint(new_var, 0x2F);
   update_trail_slot(0);
   update_trail_slot(1);
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = (s32)this->second_model;
+  *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = (saddr)this->second_model;
   draw_weapon_at_joint(new_var, 0x22);
   *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = temp_r31;
 }

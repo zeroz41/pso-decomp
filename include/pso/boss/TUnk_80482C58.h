@@ -12,6 +12,6 @@ public:
     void * m_11c;
     u8 unk_120[0x4];
 };
-typedef char TUnk_80482C58_size[sizeof(TUnk_80482C58) == 0x124 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80482C58_size, sizeof(TUnk_80482C58) == 0x124);
 
 #endif

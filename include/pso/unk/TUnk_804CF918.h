@@ -17,7 +17,7 @@ public:
     virtual void calc_bar_width() = 0;
 };
 
-typedef char TUnk_804CF918_size[sizeof(TUnk_804CF918) == 8 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF918_size, sizeof(TUnk_804CF918) == 8);
 
 extern "C" {
 // TUnk_804CF918::TUnk_804CF918(s32), called by the constructors that are still written by hand.

@@ -62,7 +62,7 @@ void TUnk_804A6CC8::update_weapon() {
         angle[0] = 0x4000;
         angle[1] = owner->rotation_y;
         angle[2] = 0;
-        TObjPlayer::launch_weapon_casing((s32)tl_05, (u32)this, 3, (u32)&dir, (u32)angle);
+        TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&dir, (uaddr)angle);
         break;
     }
 }

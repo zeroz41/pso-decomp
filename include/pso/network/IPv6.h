@@ -13,11 +13,9 @@ typedef struct IPv6NeighborSolicitation {
     IPv6Address target;
 } IPv6NeighborSolicitation;
 
-typedef char IPv6Address_size_check[(sizeof(IPv6Address) == 16) ? 1 : -1];
-typedef char IPv6NeighborSolicitation_size_check[
-    (sizeof(IPv6NeighborSolicitation) == 24) ? 1 : -1];
-typedef char IPv6NeighborSolicitation_target_check[
-    (offsetof(IPv6NeighborSolicitation, target) == 8) ? 1 : -1];
+LAYOUT_ASSERT(IPv6Address_size_check, sizeof(IPv6Address) == 16);
+LAYOUT_ASSERT(IPv6NeighborSolicitation_size_check, sizeof(IPv6NeighborSolicitation) == 24);
+LAYOUT_ASSERT(IPv6NeighborSolicitation_target_check, offsetof(IPv6NeighborSolicitation, target) == 8);
 
 /* ipv6_address_routing_state and its tables (TLobby_8041112C.c). */
 typedef struct Ipv6AddrNode Ipv6AddrNode;
@@ -35,7 +33,7 @@ struct Ipv6AddrNode {
     u32 preferred_lifetime;
     Ipv6AddrNode *next;
 };
-typedef char Ipv6AddrNode_size_check[sizeof(Ipv6AddrNode) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(Ipv6AddrNode_size_check, sizeof(Ipv6AddrNode) == 0x2C);
 typedef struct Ipv6Route {
     s16 state;
     s16 type;
@@ -45,7 +43,7 @@ typedef struct Ipv6Route {
     u8 gateway[16];
     s16 prefix_len;
 } Ipv6Route;
-typedef char Ipv6Route_size_check[sizeof(Ipv6Route) == 0x2A ? 1 : -1];
+LAYOUT_ASSERT(Ipv6Route_size_check, sizeof(Ipv6Route) == 0x2A);
 typedef struct Ipv6Iface {
     s16 state;
     s16 handle;
@@ -63,14 +61,14 @@ typedef struct Ipv6Iface {
     void *callback; /* event callback: TLobby__sub_8042325C calls it as (iface, event, data) */
     Ipv6AddrNode *addrs;
 } Ipv6Iface;
-typedef char Ipv6Iface_size_check[sizeof(Ipv6Iface) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6Iface_size_check, sizeof(Ipv6Iface) == 0x30);
 typedef struct Ipv6PmtuEntry {
     s16 state;
     IPv6Address addr;
     s16 mtu;
     s16 timer;
 } Ipv6PmtuEntry;
-typedef char Ipv6PmtuEntry_size_check[sizeof(Ipv6PmtuEntry) == 0x16 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6PmtuEntry_size_check, sizeof(Ipv6PmtuEntry) == 0x16);
 typedef struct Ipv6State {
     s16 route_count;
     s16 count;
@@ -89,7 +87,7 @@ typedef struct Ipv6State {
     Ipv6AddrNode *addr_pool;
     Ipv6PmtuEntry *pmtu;
 } Ipv6State;
-typedef char Ipv6State_size_check[sizeof(Ipv6State) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6State_size_check, sizeof(Ipv6State) == 0x28);
 
 /* A raw IPv6 socket (tag "IP6"): packets with next header `proto` between the two addresses (unspecified =
    any) go to raw_socket_deliver. */
@@ -142,7 +140,7 @@ typedef struct Ipv6Header {
     IPv6Address src;
     IPv6Address dst;
 } Ipv6Header;
-typedef char Ipv6Header_size_check[sizeof(Ipv6Header) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6Header_size_check, sizeof(Ipv6Header) == 0x28);
 /* An IPv6 fragment header (next header 0x2C). */
 typedef struct Ipv6FragmentHeader {
     u8 next_header;
@@ -150,7 +148,7 @@ typedef struct Ipv6FragmentHeader {
     u16 offset_flags; /* offset in bytes (a multiple of 8) | 1 if more fragments follow */
     u32 ident;
 } Ipv6FragmentHeader;
-typedef char Ipv6FragmentHeader_size_check[sizeof(Ipv6FragmentHeader) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6FragmentHeader_size_check, sizeof(Ipv6FragmentHeader) == 8);
 /* ipv6_protocol_state: init_ipv6_interface_config fills it. */
 typedef struct Ipv6ProtocolState {
     s16 nsockets;
@@ -164,8 +162,8 @@ typedef struct Ipv6ProtocolState {
     u8 pad15[3];
     Ipv6Header hdr;          /* 0x18: header of the packet being sent */
 } Ipv6ProtocolState;
-typedef char Ipv6RawSocket_size_check[sizeof(Ipv6RawSocket) == 0x34 ? 1 : -1];
-typedef char Ipv6ProtocolState_size_check[sizeof(Ipv6ProtocolState) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6RawSocket_size_check, sizeof(Ipv6RawSocket) == 0x34);
+LAYOUT_ASSERT(Ipv6ProtocolState_size_check, sizeof(Ipv6ProtocolState) == 0x40);
 #ifdef __cplusplus
 extern "C" {
 #endif

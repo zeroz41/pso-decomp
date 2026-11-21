@@ -24,7 +24,7 @@ void load_light_entry_file(void);
 extern "C" {
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
-void register_actor_light(s32 arg0, s32 arg1);
+void register_actor_light(s32 arg0, saddr arg1);
 void run_task__13TUnk_804A6FA8Fv(void);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);

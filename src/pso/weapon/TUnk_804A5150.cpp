@@ -10,9 +10,9 @@
 #include "pso/system/MatrixOps.h"
 
 
-void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped(&rotation_x, (s32)((void*)-910), (s32)((void*)-7281)); TObjPlayer::add_angle_clamped(&rotation_z, (s32)((void*)-910), (s32)((void*)-9102)); }
+void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped(&rotation_x, (saddr)((void*)-910), (saddr)((void*)-7281)); TObjPlayer::add_angle_clamped(&rotation_z, (saddr)((void*)-910), (saddr)((void*)-9102)); }
 
-void TUnk_804A5150::update_attack() { TObjPlayer::add_angle_clamped(&rotation_x, (s32)((void*)1820), (s32)((void*)0)); TObjPlayer::add_angle_clamped(&rotation_z, (s32)((void*)1820), (s32)((void*)0)); }
+void TUnk_804A5150::update_attack() { TObjPlayer::add_angle_clamped(&rotation_x, (saddr)((void*)1820), (saddr)((void*)0)); TObjPlayer::add_angle_clamped(&rotation_z, (saddr)((void*)1820), (saddr)((void*)0)); }
 
 void TUnk_804A5150::vfunc_60() {
     s32 player_list;

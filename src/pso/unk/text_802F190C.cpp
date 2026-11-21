@@ -52,13 +52,13 @@ void fn_802F19C0(void) {
 extern int boss7_common_texture_list;
 
 void draw_particle_effect(void* a0) {
-    set_draw_list_mask((u32)((void*)3));
+    set_draw_list_mask((uaddr)((void*)3));
 
     TParticleCtrl::begin_effect_render();
     TObjFish::set_global_param(boss7_common_texture_list);
     set_motion_packed_rotation();
 
-    draw_ginja_model_with_motion((void *)(*(int*)((char*)a0 + 0x1c)), (void *)(*(int*)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
+    draw_ginja_model_with_motion((void *)(*(saddr *)((char*)a0 + 0x1c)), (void *)(*(saddr *)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
 
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();

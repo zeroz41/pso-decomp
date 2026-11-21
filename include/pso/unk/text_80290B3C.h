@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-u32 relocate_data_block_pointers(u32 arg0, u32 arg1);
+uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 
 #endif

@@ -13,5 +13,5 @@ struct TObjContainerBase : public TUnk_804B6C24 {
     virtual void vfunc_6(s16 *, s32);
 };
 
-typedef char TObjContainerBase_size[sizeof(TObjContainerBase) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TObjContainerBase_size, sizeof(TObjContainerBase) == 0x368);
 #endif

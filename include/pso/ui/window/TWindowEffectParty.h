@@ -26,7 +26,7 @@ struct TWindowEffectParty : public TObject {
     static void *create(void *owner, s32 from, s32 to, u32 kind);
 };
 
-typedef char TWindowEffectParty_size[sizeof(TWindowEffectParty) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TWindowEffectParty_size, sizeof(TWindowEffectParty) == 0x34);
 
 extern "C" {
 void *TWindowCtrl__sub_8024FB80(s8 i);

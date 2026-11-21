@@ -23,7 +23,7 @@ BmlResourceDescriptor bm_n_soutoku_i_body_resource_descriptor = {
     "bm_n_soutoku_i_body.bml", bm_n_soutoku_i_body_model_names, bm_n_soutoku_i_body_motion_names, 1, 0,
 };
 const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
-u32 TObjNpcGovernorBase__shared_resource;
+uaddr TObjNpcGovernorBase__shared_resource;
 
 
 extern void *tl_04;
@@ -44,9 +44,9 @@ void TObjNpcGovernorBase::free_shared_data() {
 }
 
 void TObjNpcGovernorBase::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, 0));

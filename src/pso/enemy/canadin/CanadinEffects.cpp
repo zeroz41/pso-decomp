@@ -34,7 +34,6 @@ void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 extern s32 __vt__26TObjEneMe1Canadin_EffLight[];
 extern s32 __vt__30TObjEneMe1Canadin_EffDischarge[];
 void __dt__7TObjectFv(void *object, s16 flags);
-void __dl__7TObjectFPv(void *object);
 }
 
 #pragma push
@@ -49,7 +48,7 @@ void TObjEneMe1Canadin_EffLight::render() {
     s32 j;
     s32 k;
     s32 last;
-    s32 n;
+    saddr n;
     last = m_20 - 1;
     if (m_24 == last) {
         return;
@@ -166,7 +165,7 @@ TObjEneMe1Canadin_EffLight *__dt__26TObjEneMe1Canadin_EffLightFv(TObjEneMe1Canad
         self->m_28 = NULL;
         __dt__7TObjectFv(self, 0);
         if (flags > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -236,7 +235,7 @@ TObjEneMe1Canadin_EffDischarge *__dt__30TObjEneMe1Canadin_EffDischargeFv(TObjEne
         *(s32 **)((u8 *)self + 0x18) = __vt__30TObjEneMe1Canadin_EffDischarge;
         __dt__7TObjectFv(self, 0);
         if (flags > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -312,14 +311,14 @@ void render__26TObjEneMe1Canadin_EffLightFv();
 void run_task__30TObjEneMe1Canadin_EffDischargeFv();
 void render__30TObjEneMe1Canadin_EffDischargeFv();
 s32 __vt__26TObjEneMe1Canadin_EffLight[] = {
-    0, 0, (s32)__dt__26TObjEneMe1Canadin_EffLightFv,
-    (s32)run_task__26TObjEneMe1Canadin_EffLightFv,
-    (s32)render__26TObjEneMe1Canadin_EffLightFv, (s32)render_shadows__7TObjectFv
+    0, 0, (saddr)__dt__26TObjEneMe1Canadin_EffLightFv,
+    (saddr)run_task__26TObjEneMe1Canadin_EffLightFv,
+    (saddr)render__26TObjEneMe1Canadin_EffLightFv, (saddr)render_shadows__7TObjectFv
 };
 s32 __vt__30TObjEneMe1Canadin_EffDischarge[] = {
-    0, 0, (s32)__dt__30TObjEneMe1Canadin_EffDischargeFv,
-    (s32)run_task__30TObjEneMe1Canadin_EffDischargeFv,
-    (s32)render__30TObjEneMe1Canadin_EffDischargeFv, (s32)render_shadows__7TObjectFv
+    0, 0, (saddr)__dt__30TObjEneMe1Canadin_EffDischargeFv,
+    (saddr)run_task__30TObjEneMe1Canadin_EffDischargeFv,
+    (saddr)render__30TObjEneMe1Canadin_EffDischargeFv, (saddr)render_shadows__7TObjectFv
 };
 __declspec(section ".sdata2") const CanadinRandomScale canadin_random_scale = {0.000030517578125f, 0};
 }

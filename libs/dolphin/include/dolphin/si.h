@@ -3,6 +3,10 @@
 
 #include <dolphin/os/OSSerial.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PAD_CHAN0_BIT 0x80000000
 #define PAD_CHAN1_BIT 0x40000000
 #define PAD_CHAN2_BIT 0x20000000
@@ -63,5 +67,9 @@ u32 SIDisablePolling(u32 poll);
 u32 SISetXY(u32 x, u32 y);
 void SITransferCommands(void);
 BOOL SIBusy(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

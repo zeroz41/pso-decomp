@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -42,29 +43,26 @@ s32 is_player_input_active(s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 extern u8 controller_input_state[];
-void *__nw__7TObjectFUl(u32);
-s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
+saddr __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
 s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
-TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
+TWindowSubEquip::TWindowSubEquip(saddr arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
     void *p;
     m_name = TWindowSubEquip__class_name;
     this->m_2c = arg1;
     this->m_28 = arg2;
     this->m_34 = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->m_28);
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0);
-    set_depth__11TWindowBaseFf(this->m_34);
+    ((TWindowBase *)this->m_34)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0));
     ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
-    p = __nw__7TObjectFUl(0xBC);
+    p = TObject::operator new(0xBC);
     if (p != 0) {
         p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->m_28);
     }
     *(void **)((s8 *)this + 0x30) = p;
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
-    set_depth__11TWindowBaseFf(this->m_30);
+    ((TWindowBase *)this->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2));
     this->m_38 = 0;
     this->m_20 = -1;
     this->m_24 = -1;
@@ -136,7 +134,7 @@ void TWindowSubEquip::run_task() {
             return;
         }
         void *selected_player;
-        if (((selected_player = get_player_by_client_id(this->m_28)) != 0U) && (TWindowSubItem::is_usable((s32)selected_player) != 0)) {
+        if (((selected_player = get_player_by_client_id(this->m_28)) != 0U) && (TWindowSubItem::is_usable((saddr)selected_player) != 0)) {
             apply_slot_selection();
             this->m_1c = 1U;
         }
@@ -149,11 +147,11 @@ void TWindowSubEquip::run_task() {
 void TWindowSubEquip::render() {  }
 
 s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
-    s32 equip_kind_window;
+    saddr equip_kind_window;
     equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->m_28);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
     set_depth__11TWindowBaseFf(equip_kind_window);
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
+    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (arg1) {
     case 6:

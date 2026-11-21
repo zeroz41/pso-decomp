@@ -41,7 +41,7 @@ struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-void draw_weapon_at_joint(s32, s8);
+void draw_weapon_at_joint(saddr, s8);
 }
 
 // Gi Gue bazooka (TUnk_804F0A00), TUnk_804F0AF8 and the fire-explosion spawners: its own
@@ -63,11 +63,11 @@ TUnk_804F0AF8::TUnk_804F0AF8(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804F0AF8::~TUnk_804F0AF8() {}
 
-void TUnk_804F0AF8::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)((void*)16384)), (s32)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)((void*)3640)), (s32)((void*)((void*)0))); }
+void TUnk_804F0AF8::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)16384)), (saddr)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)3640)), (saddr)((void*)((void*)0))); }
 
-void TUnk_804F0AF8::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)((void*)-8192)), (s32)((void*)((void*)-30947))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)((void*)-1820)), (s32)((void*)((void*)-7281))); }
+void TUnk_804F0AF8::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)-8192)), (saddr)((void*)((void*)-30947))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)-1820)), (saddr)((void*)((void*)-7281))); }
 
-void TUnk_804F0AF8::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804F0AF8::reserved_53() { draw_weapon_at_joint((saddr)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
 
 void TUnk_804F0AF8::vfunc_60() {
     s32 player_list;
@@ -99,9 +99,9 @@ TUnk_804F0A00::TUnk_804F0A00(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804F0A00::~TUnk_804F0A00() {}
 
-void TUnk_804F0A00::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)((void*)-3640)), (s32)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)((void*)2730)), (s32)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x200), (s32)((void*)((void*)-1820)), (s32)((void*)((void*)0))); }
+void TUnk_804F0A00::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)-3640)), (saddr)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)2730)), (saddr)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x200), (saddr)((void*)((void*)-1820)), (saddr)((void*)((void*)0))); }
 
-void TUnk_804F0A00::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)((void*)1820)), (s32)((void*)((void*)7281))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)((void*)-1820)), (s32)((void*)((void*)-5461))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x200), (s32)((void*)((void*)1820)), (s32)((void*)((void*)9102))); }
+void TUnk_804F0A00::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)1820)), (saddr)((void*)((void*)7281))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)-1820)), (saddr)((void*)((void*)-5461))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x200), (saddr)((void*)((void*)1820)), (saddr)((void*)((void*)9102))); }
 
 void TUnk_804F0A00::vfunc_60() {
     s32 player_list;
@@ -129,7 +129,7 @@ void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->flags |= 0x80;
 }
 
-s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
+s32 TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
     Desc_8011E5C4 info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
@@ -143,16 +143,16 @@ s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
     }
 }
 
-void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, s32 arg1) {
+void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, saddr arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
-    u32 p = (u32)find_item_by_id(arg0);
+    uaddr p = (uaddr)find_item_by_id(arg0);
     if (p != 0U) {
-        TObjPlayer::spawn_fire_explosion(p, (s32)((s32)ctx->obj->elems[ctx->idx].f1c));
+        TObjPlayer::spawn_fire_explosion(p, (s32)((saddr)ctx->obj->elems[ctx->idx].f1c));
     }
 }
 
 void TObjPlayer::spawn_fire_explosion_for_item(s32 arg0, s32 arg1) {
-    u32 temp_r3 = (u32)find_item_by_id(arg0);
+    uaddr temp_r3 = (uaddr)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
         TObjPlayer::spawn_fire_explosion(temp_r3, arg1);
     }

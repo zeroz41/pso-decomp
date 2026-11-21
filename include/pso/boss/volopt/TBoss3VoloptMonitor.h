@@ -36,7 +36,7 @@ struct TBoss3VoloptMonitor : public TObjEnemyCustom {
     u8 pad_392[0x2];
 };
 
-typedef char TBoss3VoloptMonitor_size[sizeof(TBoss3VoloptMonitor) == 0x394 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3VoloptMonitor_size, sizeof(TBoss3VoloptMonitor) == 0x394);
 
 extern s8 volopt_target_slot_used[VOLOPT_MONITOR_SLOTS];
 extern Vec volopt_slot_positions[VOLOPT_MONITOR_SLOTS];

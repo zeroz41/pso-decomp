@@ -61,5 +61,5 @@ struct TItemProArmor : public TItemEquipBase {
     u8 evp_range;
 };
 
-typedef char TItemProArmor_size[sizeof(TItemProArmor) == 0x198 ? 1 : -1];
+LAYOUT_ASSERT(TItemProArmor_size, sizeof(TItemProArmor) == 0x198);
 #endif

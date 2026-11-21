@@ -13,7 +13,7 @@ void TUnk_804A6AD8::reserved_53() {
     draw_weapon_model();
     get_joint_position(3, &muzzles[0]);
     get_joint_position(1, &ejectors[0]);
-    draw_weapon_at_joint((s32)this, 35);
+    draw_weapon_at_joint((saddr)this, 35);
     get_joint_position(3, &muzzles[1]);
     get_joint_position(1, &ejectors[1]);
 }
@@ -72,7 +72,7 @@ void TUnk_804A6AD8::yasminkov_9000m_eject_casing(WeaponVector *pos, s32 angle_of
         angle[0] = 0x4000;
         angle[1] = owner->rotation_y;
         angle[2] = 0;
-        TObjPlayer::spawn_weapon_casing((s32)tl_05, (u32)this, (u32)pos, (u32)&dir, (u32)angle);
+        TObjPlayer::spawn_weapon_casing((saddr)tl_05, (uaddr)this, (uaddr)pos, (uaddr)&dir, (uaddr)angle);
     }
 }
 

@@ -13,7 +13,7 @@ struct TObjBoss7TunnelCol : public TObjCollidable {
     s32 is_in_camera_range();
 };
 
-typedef char TObjBoss7TunnelCol_size[sizeof(TObjBoss7TunnelCol) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss7TunnelCol_size, sizeof(TObjBoss7TunnelCol) == 0xD8);
 
 
 #endif

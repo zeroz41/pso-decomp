@@ -5,14 +5,14 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjItemLight : public TObjBase {
-    TObjItemLight(TObject *parent, s32 arg2);
+    TObjItemLight(TObject *parent, saddr arg2);
     virtual ~TObjItemLight();
     void run_task();
     u8 unk_90[0x4];
     s32 m_94;
 };
 
-typedef char TObjItemLight_size[sizeof(TObjItemLight) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjItemLight_size, sizeof(TObjItemLight) == 0x98);
 
 
 #endif

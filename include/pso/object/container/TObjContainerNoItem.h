@@ -15,7 +15,7 @@ struct TObjContainerNoItem : public TUnk_804B6C24 {
     static void *create(void *arg0);
 };
 
-typedef char TObjContainerNoItem_size[sizeof(TObjContainerNoItem) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TObjContainerNoItem_size, sizeof(TObjContainerNoItem) == 0x368);
 
 
 #endif

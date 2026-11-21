@@ -23,7 +23,7 @@ void TObjNpcLappy__sub_8014B828(void) {
 }
 
 extern "C" {
-extern s32 *npc_town_motion_data;
+extern uaddr npc_town_motion_data;
 extern u32 lbl_805D5D78;
 }
 
@@ -32,6 +32,6 @@ void TObjNpcLappy__sub_8014B840(void) { npc_lappy_cached_object = lbl_805D5D78; 
 TUnk_804A9F50::~TUnk_804A9F50() {}
 
 TUnk_804A9F50::TUnk_804A9F50(TObject *parent) : TObjNpcBase(parent) {
-    init_motion((TObjMotionAction *)male_npc_idle_animation_parameters, (BmlMotionEntry *)*npc_town_motion_data, 0);
+    init_motion((TObjMotionAction *)male_npc_idle_animation_parameters, (BmlMotionEntry *)*(uaddr *)npc_town_motion_data, 0);
     set_motion_interpolation_flag();
 }

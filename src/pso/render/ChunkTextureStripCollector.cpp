@@ -112,7 +112,7 @@ void count_plist_strips_by_texture(void *ctx, void *plist, void *arg) {
         }
         c = c & 0xFF;
         if (c < 0x10) {
-            if ((*p++ & 0x1FFF) == (s32) arg) {
+            if ((*p++ & 0x1FFF) == (saddr) arg) {
                 plist_texture_matches_filter = 1;
             } else {
                 plist_texture_matches_filter = 0;

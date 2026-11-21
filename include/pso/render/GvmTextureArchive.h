@@ -8,7 +8,7 @@ struct GinjaTextureList;
 
 extern "C" {
 s32 load_gvm_texture_archive(void *archive, GinjaTextureList *list);
-void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries, u32 names, s32 count);
+void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries, uaddr names, s32 count);
 }
 
 #endif

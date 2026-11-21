@@ -18,8 +18,8 @@ struct TItemMoney : public TItem {
     s32 amount;
 };
 
-typedef char TItemMoneyAmountOffset[(offsetof(TItemMoney, amount) == 0xF8) ? 1 : -1];
-typedef char TItemMoneySize[(sizeof(TItemMoney) == 0xFC) ? 1 : -1];
+LAYOUT_ASSERT(TItemMoneyAmountOffset, offsetof(TItemMoney, amount) == 0xF8);
+LAYOUT_ASSERT(TItemMoneySize, sizeof(TItemMoney) == 0xFC);
 
 // The most meseta one stack holds.
 #define ITEM_MONEY_MAX 999999

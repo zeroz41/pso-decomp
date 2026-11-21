@@ -290,12 +290,12 @@ void AfsPartition::close() {
 }
 
 void AfsPartition::read(s32 buffer) {
-    TLobby::read_checked_align((s32)handle, size_sectors, buffer);
+    TLobby::read_checked_align((saddr)handle, size_sectors, buffer);
 }
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
     s32 decompressed_size;
-    s32 item_buff;
+    saddr item_buff;
 
     buffer = NULL;
     root = NULL;
@@ -303,7 +303,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
         buffer = mem_alloc(size);
         item_buff = create_item_buff(size);
         if ((item_buff != 0) && (buffer != NULL) && (read_disc_file(path, (void *)item_buff) > 0)) {
-            decompressed_size = prs_decompress_alloc(item_buff, (u32)buffer, size);
+            decompressed_size = prs_decompress_alloc(item_buff, (uaddr)buffer, size);
             TUnk_8049C658 file;
             file.data = (u8 *)buffer;
             file.size = decompressed_size;
@@ -329,7 +329,7 @@ void TItemLoad::free_work_buffer() {
 
 s32 TItemLoad::decompress_buffer(void *dst) {
     if ((item_load_compressed_work_buffer != NULL) && (dst != 0)) {
-        return prs_decompress_buffer((s32)item_load_compressed_work_buffer, (u32)dst);
+        return prs_decompress_buffer((saddr)item_load_compressed_work_buffer, (saddr)dst);
     }
     return 0;
 }
@@ -355,7 +355,7 @@ void AfsFileLoader::advance_load_state() {
     }
     if (open(file_index) != NULL) {
         get_size_sectors();
-        read((s32)item_load_compressed_work_buffer);
+        read((saddr)item_load_compressed_work_buffer);
         state = 2;
     }
 }
@@ -559,7 +559,7 @@ TItemModelLoadTask::~TItemModelLoadTask() {
         break;
     }
     if ((resource.texlist != NULL) && (resource.texlist->entries->texture != NULL)) {
-        free_texture_if_valid((u32)resource.texlist);
+        free_texture_if_valid((uaddr)resource.texlist);
     }
 }
 

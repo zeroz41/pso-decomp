@@ -44,7 +44,7 @@ void resolve_chat_balloon_overlaps(void) {
         p = ((Ctrl_8024966C *)get_viewport_window_root(i))->head;
         if (p != NULL) {
             while (p->next != NULL) {
-                q = (Balloon_8024966C *)((TWindowFukidasi *)p)->find_balloon_overlap_for((s32)p->next);
+                q = (Balloon_8024966C *)((TWindowFukidasi *)p)->find_balloon_overlap_for((saddr)p->next);
                 while (q != NULL) {
                     if (((TWindowFukidasi *)p)->get_visible_flag() != 0) {
                         TWindowFukidasi__sub_80249788(q);
@@ -55,7 +55,7 @@ void resolve_chat_balloon_overlaps(void) {
                     } else {
                         TWindowFukidasi__sub_80249788(q);
                     }
-                    q = (Balloon_8024966C *)((TWindowFukidasi *)p)->find_balloon_overlap_for((s32)q->next);
+                    q = (Balloon_8024966C *)((TWindowFukidasi *)p)->find_balloon_overlap_for((saddr)q->next);
                 }
                 p = p->next;
             }

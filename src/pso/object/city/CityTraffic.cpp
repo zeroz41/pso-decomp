@@ -56,7 +56,7 @@ struct Car_80180E70 {
     s32 model;
     s32 fa0;
     s32 fa4;
-    u32 light;
+    uaddr light;
 };
 
 struct Car_80181074 {
@@ -84,7 +84,7 @@ struct RecoveredGlobal_80181278_lbl_804B5908 {
 extern "C" {
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80181278_lbl_804B5908 __vt__18TObjCityAirCar_Car;
-typedef char RecoveredGlobal_80181278_lbl_804B5908_size[sizeof(RecoveredGlobal_80181278_lbl_804B5908) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80181278_lbl_804B5908_size, sizeof(RecoveredGlobal_80181278_lbl_804B5908) == 0x34);
 }
 
 struct Rec_80181310 { s32 timer; s32 count; void *objs[2]; };
@@ -163,7 +163,7 @@ void measure_traffic_path_lengths(void) {
   s32 i;
   s32 j;
   const s32 *new_var;
-  s32 p;
+  saddr p;
   for (i = 0; i < 5; i++)
   {
     m = get_city_common_motion(city_traffic_path_motion_index_table[i]);
@@ -196,7 +196,7 @@ void measure_traffic_path_lengths(void) {
     city_air_car_model_handle = TLobby__sub_80184C2C(2);
     for (j = 0; j < 5; j++)
     {
-      p = (int)::operator new(0x14);
+      p = (saddr)::operator new(0x14);
       new_var = city_traffic_car_chunk_index_table;
       if (p != 0)
       {
@@ -433,11 +433,11 @@ void TObjCityAirCar_Car::run_task() {
     if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= 15.5f && ((Car_80180E70 *)this)->frame <= 35.5f) ||
         (((Car_80180E70 *)this)->path == 2 && ((Car_80180E70 *)this)->frame >= 15.0f && ((Car_80180E70 *)this)->frame <= 35.0f)) {
         if (((Car_80180E70 *)this)->model == 4) {
-            play_persistent_sound(0x4004CB02, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
+            play_persistent_sound(0x4004CB02, (saddr)((Car_80180E70 *)this), (uaddr)&((Car_80180E70 *)this)->pos, 0, 0);
         } else if (((Car_80180E70 *)this)->model == 0) {
-            set_sound_pitch_request(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
+            set_sound_pitch_request(play_persistent_sound(0x4004C101, (saddr)((Car_80180E70 *)this), (uaddr)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
         } else {
-            play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
+            play_persistent_sound(0x4004C101, (saddr)((Car_80180E70 *)this), (uaddr)&((Car_80180E70 *)this)->pos, 0, 0);
         }
     }
     if (city_air_car_model_resource != 0) {
@@ -450,7 +450,7 @@ void TObjCityAirCar_Car::run_task() {
             ((Car_80180E70 *)this)->fa4 = 0;
         }
         if (((Car_80180E70 *)this)->light == 0) {
-            ((Car_80180E70 *)this)->light = (u32)spawn_continuous_particle_effect_with_flags(&((Car_80180E70 *)this)->pos, 0x8A, 0x40);
+            ((Car_80180E70 *)this)->light = (uaddr)spawn_continuous_particle_effect_with_flags(&((Car_80180E70 *)this)->pos, 0x8A, 0x40);
         }
         if (((Car_80180E70 *)this)->light != 0) {
             if (((Car_80180E70 *)this)->model == 0) {
@@ -480,7 +480,7 @@ void TObjCityAirCar_Car::render() {
         if ((s32) this->m_9c != 0) {
             rotate_matrix_z(0, this->rotation_z);
         }
-        TObjFish::set_global_param((s32)city_common_texture_list);
+        TObjFish::set_global_param((saddr)city_common_texture_list);
         draw_chunk_object(get_city_common_model(city_aircar_model_indices[this->m_9c]));
         TParticleCtrl::begin_effect_render();
         draw_ginja_object(get_city_common_model(city_air_car_model_index_table[this->m_9c]));
@@ -490,7 +490,7 @@ void TObjCityAirCar_Car::render() {
             if ((s32) this->m_a4 >= 0x14) {
                 texture_entries[2].global_index = texture_entries[0].global_index;
             }
-            TObjFish::set_global_param((int)city_air_car_model_handle);
+            TObjFish::set_global_param((saddr)city_air_car_model_handle);
             scroll_strip_uvs(air_car_buffer_pair_table[this->m_9c], *(s32 *)((s8 *)this + 0xA0), 0);
             draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[this->m_9c]].model);
             city_air_car_model_handle->entries[2].global_index = texture_index;

@@ -9,7 +9,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
-struct Obj_8036B2E8 { u8 pad0[0x1C]; u32 base; s32 t[4]; };
+struct Obj_8036B2E8 { u8 pad0[0x1C]; uaddr base; s32 t[4]; };
 struct Obj_8036B340 { u8 pad0[0x1C]; u32 base; s32 t[4]; };
 
 struct Ent_8036B424 { u8 b[0x3C]; };
@@ -24,7 +24,7 @@ struct Mgr_8036B424 {
 extern "C" {
 s32 TLobby__sub_8036B1AC(s32);
 extern s32 __vt__13TUnk_804F3640[];
-u32 slot_entity_dispatcher_instance;
+uaddr slot_entity_dispatcher_instance;
 void __ct__7TObjectFP7TObject(void *);
 Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1);
 
@@ -41,20 +41,20 @@ void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {
         ((TLobby *)slot_entity_dispatcher_instance)->start_entry_timer(arg0, src);
     }
 }
-void TLobby::send_slot_entity(u16 arg1, s32 arg2) {
-    u32 temp_r6;
+void TLobby::send_slot_entity(u16 arg1, saddr arg2) {
+    uaddr temp_r6;
     temp_r6 = *(u32 *)((s8 *)this + 0x1C);
     if (temp_r6 != 0U) {
-        copy_symbol_chat_entry__6TLobbyFPvPv((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));
+        TLobby::copy_symbol_chat_entry((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));
         return;
     }
     TLobby__sub_8036B1AC(arg2);
 }
-void TLobby::start_entry_timer(u16 arg1, s32 src) {
+void TLobby::start_entry_timer(u16 arg1, saddr src) {
     Obj_8036B2E8 *arg0 = (Obj_8036B2E8 *)this;
     if (arg0->base != 0) {
         s32 i = arg1;
-        copy_symbol_chat_entry__6TLobbyFPvPv((void *)(arg0->base + i * 0x3C), (void *)src);
+        TLobby::copy_symbol_chat_entry((void *)(arg0->base + i * 0x3C), (void *)src);
         arg0->t[i] = 0x78;
     }
 }
@@ -73,7 +73,7 @@ void TUnk_804F3640::run_task() {
 }
 }
 TUnk_804F3640::~TUnk_804F3640() {
-    mem_free((void *)(*(s32 *)((s8 *)this + 0x1C)));
+    mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     (*(s32 *)&slot_entity_dispatcher_instance) = 0;
 }
 
@@ -85,13 +85,13 @@ Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1) {
     arg0->buf = (Ent_8036B424 *)mem_alloc(0xF0);
     if (arg0->buf != 0) {
         for (i = 0; i != 4; i++) {
-            TLobby__sub_8036B1AC((s32)&arg0->buf[i]);
+            TLobby__sub_8036B1AC((saddr)&arg0->buf[i]);
             arg0->ptrs[i] = 0;
         }
     } else {
         ((TObject *)arg0)->queue_destruction();
     }
-    slot_entity_dispatcher_instance = (u32)arg0;
+    slot_entity_dispatcher_instance = (uaddr)arg0;
     return arg0;
 }
 

@@ -9,7 +9,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
 };
 
 // boss4_zako_draw_buffers: layout known from its uses only.

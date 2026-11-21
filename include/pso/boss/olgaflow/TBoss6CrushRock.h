@@ -10,7 +10,7 @@ struct GinjaTextureList;
 
 class TBoss6CrushRock : public TObject {
 public:
-    TBoss6CrushRock(TObject *parent, const Vec *point, s32 model_index);
+    TBoss6CrushRock(TObject *parent, const Vec *point, saddr model_index);
     virtual ~TBoss6CrushRock();
     virtual void run_task();
     virtual void render();
@@ -25,10 +25,10 @@ public:
     Angles angular_velocity;
 };
 
-typedef char CrushRockSize[sizeof(TBoss6CrushRock) == 0x54 ? 1 : -1];
-typedef char CrushRockPosition[offsetof(TBoss6CrushRock, position) == 0x24 ? 1 : -1];
-typedef char CrushRockVelocity[offsetof(TBoss6CrushRock, velocity) == 0x30 ? 1 : -1];
-typedef char CrushRockAngles[offsetof(TBoss6CrushRock, angles) == 0x3C ? 1 : -1];
-typedef char CrushRockAngularVelocity[offsetof(TBoss6CrushRock, angular_velocity) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(CrushRockSize, sizeof(TBoss6CrushRock) == 0x54);
+LAYOUT_ASSERT(CrushRockPosition, offsetof(TBoss6CrushRock, position) == 0x24);
+LAYOUT_ASSERT(CrushRockVelocity, offsetof(TBoss6CrushRock, velocity) == 0x30);
+LAYOUT_ASSERT(CrushRockAngles, offsetof(TBoss6CrushRock, angles) == 0x3C);
+LAYOUT_ASSERT(CrushRockAngularVelocity, offsetof(TBoss6CrushRock, angular_velocity) == 0x48);
 
 #endif

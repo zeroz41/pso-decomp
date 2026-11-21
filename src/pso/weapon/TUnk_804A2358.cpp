@@ -10,7 +10,7 @@
 
 extern "C" {
 
-void draw_weapon_at_joint(s32 arg0, s8 arg1);
+void draw_weapon_at_joint(saddr arg0, s8 arg1);
 
 void TUnk_804A2358::emit_marker_effects() {
     s32 sp8;
@@ -19,14 +19,14 @@ void TUnk_804A2358::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &sp8) != 0) {
             owner = this->owner;
-            TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)(((TItemWeapon *)this)->get_tp() + 2));
+            TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)(((TItemWeapon *)this)->get_tp() + 2));
             roll_technique();
         }
     } else {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A2358::reserved_53() { draw_weapon_at_joint((s32)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
+void TUnk_804A2358::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
 void TUnk_804A2358::vfunc_57() { this->roll_technique(); this->roll_technique(); }
 
 }
@@ -34,7 +34,7 @@ void TUnk_804A2358::vfunc_57() { this->roll_technique(); this->roll_technique();
 TUnk_804A2358::~TUnk_804A2358() {}
 
 TUnk_804A2358::TUnk_804A2358(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    set_weapon_trail_joints((s32)this, 2, 6, 5);
+    set_weapon_trail_joints((saddr)this, 2, 6, 5);
     set_weapon_flags(35);
     ((TObjPlayer *)this)->set_effect_state(13);
 }

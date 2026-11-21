@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <stdlib.h>
 #include <stddef.h>
 #include <dolphin/mtx.h>
 #include "pso/system/vector.h"
@@ -39,7 +40,6 @@ void normalize_vector(void *);
 void TBoss8Dragon__sub_80063FB8(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);
-s32 rand(void);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
 extern const f32 lbl_805D8D48;
@@ -48,7 +48,6 @@ f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 extern s32 __vt__26TBoss5GryphonLightningHorn[];
 u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 __nw__7TObjectFUl(int);
 
 void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
 
@@ -146,7 +145,7 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     p.y += self->vel.y;
     p.z += self->vel.z;
     p.y = 60.0f;
-    hit = (Hit_80326074 *)csnVecterUnder((s32)&p, 0x16EF);
+    hit = (Hit_80326074 *)csnVecterUnder((saddr)&p, 0x16EF);
     if (hit == NULL || (h = hit->pos[1]) > lbl_805D8D48) {
         ((TBoss5GryphonLightningWing *)self)->get_wing_position(&p);
         self->vel.x *= 0.5f;
@@ -201,14 +200,14 @@ u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
     return arg0;
 }
 
-s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
+s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2) {
     Vec position;
     f32 ground_height;
-    s32 allocation;
+    saddr allocation;
     s32 effect;
     u8* collision;
     VecCopy(&position, (const Vec *)arg1);
-    collision = (u8 *)csnVecterUnder((s32)((s32*)&position), 0x16EF);
+    collision = (u8 *)csnVecterUnder((saddr)((s32*)&position), 0x16EF);
     if (collision == NULL) {
         position.y = lbl_805D8D48;
     } else {
@@ -220,10 +219,10 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
         }
     }
     position.y += 12.0f;
-    allocation = __nw__7TObjectFUl(0xA8);
+    allocation = (saddr)TObject::operator new(0xA8);
     effect = allocation;
     if (effect != 0) {
-        effect = (s32)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (s32)&position, arg2);
+        effect = (saddr)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (saddr)&position, arg2);
     }
     return effect;
 }

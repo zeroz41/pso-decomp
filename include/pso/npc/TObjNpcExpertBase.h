@@ -11,7 +11,7 @@ struct TObjNpcExpertBase : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcExpertBase_size[sizeof(TObjNpcExpertBase) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcExpertBase_size, sizeof(TObjNpcExpertBase) == 0x3B8);
 
 extern "C" {
 void *__dt__17TObjNpcExpertBaseFv(void *arg0, s16 arg1);

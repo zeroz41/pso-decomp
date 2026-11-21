@@ -20,6 +20,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
 
 extern "C" {
@@ -30,7 +31,7 @@ void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
 void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
-    if ((TItemShootModel::is_owner_alive() != 0) && ((u32) this->model != 0U) && ((u32) this->texture_list != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
         set_texlist(*(u32 *)&this->texture_list);
         post_translate_matrix(arg0 + 0x1C);
@@ -56,17 +57,16 @@ void *TUnk_804A69C0::init_shoot_model() {
 
 s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
-s32 __nw__7TObjectFUl(int);
-s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
+s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f32 farg0);
 void TObjPlayer__sub_801307D0(void *arg0);
 
-s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
-    s32 temp_r3;
+s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f32 farg0) {
+    saddr temp_r3;
     s32 var_r0;
     s32 var_r3;
     var_r3 = 0;
     if (arg0 != 0) {
-        temp_r3 = __nw__7TObjectFUl(0x6C);
+        temp_r3 = (saddr)TObject::operator new(0x6C);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init_shoot_model__13TUnk_804A69C0Fv((int)temp_r3, (void *)arg0, (void *)arg1, (void *)arg2, (f32)farg0);
@@ -81,7 +81,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg
 void TUnk_804A69DC::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
-            set_sound_pitch_request(play_sound_effect(0x4001AA05, (int)&owner->position, 0, 0), 0x300, 0);
+            set_sound_pitch_request(play_sound_effect(0x4001AA05, (saddr)&owner->position, 0, 0), 0x300, 0);
             launch_shot((u8 *)&gun_point, 0, 0, 1);
         }
     }

@@ -54,8 +54,8 @@ s16 get_validated_attack_stage(u8 *arg0);
 
 typedef struct RecoveredGlobal_8032DC94_lbl_8050BEC0 RecoveredGlobal_8032DC94_lbl_8050BEC0;
 typedef struct RecoveredGlobal_8032DC94_lbl_8058D4C0 RecoveredGlobal_8032DC94_lbl_8058D4C0;
-typedef char RecoveredGlobal_8032DC94_lbl_8050BEC0_size[((sizeof(RecoveredGlobal_8032DC94_lbl_8050BEC0)) == 0x20) ? (1) : (-1)];
-typedef char RecoveredGlobal_8032DC94_lbl_8058D4C0_size[((sizeof(RecoveredGlobal_8032DC94_lbl_8058D4C0)) == 0x10) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_8032DC94_lbl_8050BEC0_size, (sizeof(RecoveredGlobal_8032DC94_lbl_8050BEC0)) == 0x20);
+LAYOUT_ASSERT(RecoveredGlobal_8032DC94_lbl_8058D4C0_size, (sizeof(RecoveredGlobal_8032DC94_lbl_8058D4C0)) == 0x10);
 
 #pragma push
 #pragma opt_common_subs off
@@ -217,15 +217,15 @@ void TUnk_804EDD44::run_task() {
 #pragma fp_contract on
 void TUnk_804EDD44::start_card_effect_flash() {
     u8 *arg0 = (u8 *)this;
-    u32 p;
+    uaddr p;
     u32 q;
-    *(u32 *)((s8 *)arg0 + 0x1C) = (u32)spawn_particle_effect_with_rotation(((u8 *)&this->unk_64), ((u8 *)&this->unk_54), 0x1B9, 0x104);
+    *(uaddr *)((s8 *)arg0 + 0x1C) = (uaddr)spawn_particle_effect_with_rotation(((u8 *)&this->unk_64), ((u8 *)&this->unk_54), 0x1B9, 0x104);
     p = *(u32 *)((s8 *)arg0 + 0x1C);
     if (p != 0U) {
         ((TParticleCtrl *)p)->set_scale(1.5f, 1.5f);
         q = this->m_50;
         if (q != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_tint_color(q);
+            ((TParticleCtrl *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->set_tint_color(q);
         }
     }
     spawn_particle_effect(((u8 *)&this->unk_64), 0x30);
@@ -235,7 +235,7 @@ void TUnk_804EDD44::start_card_effect_flash() {
 #pragma fp_contract on
 void TUnk_804EDD44::start_card_effect_trail() {
     particles[2] = create_particle_emitter(((u8 *)&this->unk_64), 0x1B6);
-    if ((u32) particles[2] != 0U) {
+    if ((uaddr) particles[2] != 0U) {
         ((TParticleCtrl *)(particles[2]))->set_tint_color(-0x78);
     }
 }
@@ -265,12 +265,12 @@ void TUnk_804EDD44::anchor_card_effect() {
     }
   }
 }
-void TObjPlayer::create_and_init_effect(s32 item_id, u32 *arg1, s32 direction) {
+void TObjPlayer::create_and_init_effect(s32 item_id, u32 *arg1, saddr direction) {
     if ((arg1 != NULL) && ((u32) *arg1 != 0U)) {
         new TUnk_804EDD20(tl_05, (ActorBodyHit *)arg1, (f32 *)direction, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 item_id, s32 arg1, s32 direction) {
+void TObjPlayer::alloc_and_init(s32 item_id, saddr arg1, saddr direction) {
     new TUnk_804EDD20(tl_05, (f32 *)arg1, (f32 *)direction, 0, item_id);
 }
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
@@ -317,7 +317,7 @@ void TUnk_804EDD20::render() {
   if ((!((this->m_80) <= var_f0)) && ((s32)this->all_parents_unqueued_for_destruction() != 0))
   {
     id = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x60)));
-    equipped_item = (s32 *) find_equipped_item((s32)id);
+    equipped_item = (s32 *) find_equipped_item((saddr)id);
     if (equipped_item != 0)
     {
       new_var = (s32 *) (*((s32 **) (((s8 *) equipped_item) + 0x188)));
@@ -376,7 +376,7 @@ void TUnk_804EDC28::emit_marker_effects() {
     s32 sp8;
 
     this->get_joint_position(4, &sp8);
-    if (get_validated_attack_stage((u8 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
+    if (get_validated_attack_stage((u8 *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
         this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
         this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0x1555);
         this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), -0x1555);

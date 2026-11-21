@@ -16,11 +16,11 @@ typedef struct SlicerLaunchData_8012D9C8 {
 } SlicerLaunchData_8012D9C8;
 
 
-extern s32 tl_05;
+extern saddr tl_05;
 extern "C" {
 }
 extern s32 tl_particle;
-s32 spawn_fire_explosion_at(u32 a0, s32 a1) {
+s32 spawn_fire_explosion_at(uaddr a0, saddr a1) {
     Desc_8011E5C4 info;
     void *o;
     TObjPlayer__sub_802E449C(&info);

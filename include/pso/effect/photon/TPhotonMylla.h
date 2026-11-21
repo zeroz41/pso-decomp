@@ -25,5 +25,5 @@ struct TPhotonMylla : public TUnk_804C3248 {
     virtual void run_task();
 };
 
-typedef char TPhotonMylla_size[sizeof(TPhotonMylla) == 0x1A8 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonMylla_size, sizeof(TPhotonMylla) == 0x1A8);
 #endif

@@ -66,7 +66,7 @@ s32 lbl_80485608[2] = {0x1D, 0x1C};
 CameraPlayback lbl_80485610 = {0, 2, 0, 0.0f, 0.5f};
 DFDemo1NodeColor lbl_8048561C[3] = {{0, 2, 5}, {1, 6, 5}, {1, 0x69, 3}};
 void *TBoss4DarkFalz::create_demo1(void *parent, void *pos, void *angle) {
-    return new TObjDFDemo1((TObject *)parent, (const Vec *)pos, (s32)angle);
+    return new TObjDFDemo1((TObject *)parent, (const Vec *)pos, (saddr)angle);
 }
 
 TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {

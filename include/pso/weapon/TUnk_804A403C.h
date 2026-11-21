@@ -17,7 +17,7 @@ public:
 
 extern "C" {
 // The weapon's hit callback (hit_callback).
-void TObjPlayer__sub_80128A74(s32 a, u32 b, s32 c, s32 d);
+void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d);
 }
 
 #endif

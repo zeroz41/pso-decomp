@@ -21,7 +21,7 @@ typedef struct LcpVals {
     u8 f15;
     u8 pad16[2];
 } LcpVals;
-typedef char LcpVals_size_check[sizeof(LcpVals) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(LcpVals_size_check, sizeof(LcpVals) == 0x18);
 
 /* One side of the LCP negotiation: the options wanted and the ones agreed. */
 typedef struct LcpSide {
@@ -30,14 +30,14 @@ typedef struct LcpSide {
     LcpVals want;
     LcpVals got;
 } LcpSide;
-typedef char LcpSide_size_check[sizeof(LcpSide) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(LcpSide_size_check, sizeof(LcpSide) == 0x34);
 
 /* The LCP options object (fsm->p30, lbl_805C0400's opts). */
 typedef struct LcpOpts {
     LcpSide local;
     LcpSide remote;
 } LcpOpts;
-typedef char LcpOpts_size_check[sizeof(LcpOpts) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(LcpOpts_size_check, sizeof(LcpOpts) == 0x68);
 
 /* The LCP settings TLobby__sub_80400744 copies into the wanted options of both sides. auth_mode goes to
    configure_mode_by_type; f4 == 0 asks for option 8 and fE == 0 for option 7. Callers pass it at the head of a
@@ -50,7 +50,7 @@ typedef struct LcpConfig {
     u16 mru;
     s16 fE;
 } LcpConfig;
-typedef char LcpConfig_size_check[sizeof(LcpConfig) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(LcpConfig_size_check, sizeof(LcpConfig) == 0x10);
 
 /* The LCP protocol header TLobby__sub_8040059C fills in: name, protocol number, timings and callbacks. */
 typedef struct LcpProto_8040059C {
@@ -80,7 +80,7 @@ typedef struct LcpState {
     LcpOpts opts;
     u8 padA4[4];
 } LcpState;
-typedef char LcpState_size_check[sizeof(LcpState) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(LcpState_size_check, sizeof(LcpState) == 0xA8);
 extern LcpState lbl_805C0400;
 
 #endif

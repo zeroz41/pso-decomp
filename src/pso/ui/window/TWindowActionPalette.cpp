@@ -28,13 +28,13 @@
 // in reverse source order (so they are written last to first).
 #pragma defer_codegen on
 
-typedef char palette_children_offset[offsetof(TWindowActionPalette, children) == 0x24 ? 1 : -1];
-typedef char palette_x_offset[offsetof(TWindowActionPalette, x) == 0x40 ? 1 : -1];
-typedef char palette_resources_offset[offsetof(TWindowActionPalette, resources) == 0x60 ? 1 : -1];
-typedef char palette_state_offset[offsetof(TWindowActionPalette, state) == 0x6C ? 1 : -1];
-typedef char palette_scale_offset[offsetof(TWindowActionPalette, scale) == 0x70 ? 1 : -1];
-typedef char palette_size[sizeof(TWindowActionPalette) == 0x78 ? 1 : -1];
-typedef char icon_kind_offset[offsetof(Icon_80243630, kind) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(palette_children_offset, offsetof(TWindowActionPalette, children) == 0x24);
+LAYOUT_ASSERT(palette_x_offset, offsetof(TWindowActionPalette, x) == 0x40);
+LAYOUT_ASSERT(palette_resources_offset, offsetof(TWindowActionPalette, resources) == 0x60);
+LAYOUT_ASSERT(palette_state_offset, offsetof(TWindowActionPalette, state) == 0x6C);
+LAYOUT_ASSERT(palette_scale_offset, offsetof(TWindowActionPalette, scale) == 0x70);
+LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
+LAYOUT_ASSERT(icon_kind_offset, offsetof(Icon_80243630, kind) == 0x34);
 
 #pragma push
 #pragma readonly_strings on
@@ -53,18 +53,18 @@ s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 s32 fn_8002AE08(void *p);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
-s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 TObjPlayer__sub_80354D5C(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 void draw_visible_window_entries(void *, void *, int);
 }
 
@@ -183,7 +183,7 @@ void TWindowActionPalette::run_task() {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);
-    TWindowHelpItem::set_help_text((s32)help, m_20);
+    TWindowHelpItem::set_help_text((saddr)help, m_20);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
@@ -244,7 +244,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     depth = (-1.0f) / this->m_54;
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)((void *)lbl_805D63F0));
+    TObjFish::set_global_param((saddr)((void *)lbl_805D63F0));
     set_draw_texture_and_color(2, ctx->tex);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;
@@ -303,7 +303,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     player = get_player_by_client_id(m_20);
     if (player != NULL) {
         help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
-        if (is_action_channel_available__10TObjPlayerFii((s32)player, (s32)lbl_805DCA14[idx]) != 0) {
+        if (is_action_channel_available__10TObjPlayerFii((saddr)player, (s32)lbl_805DCA14[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;
@@ -345,7 +345,7 @@ void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
 #pragma fp_contract on
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
     NJS_POINT2 pt;
-    s32 kind;
+    saddr kind;
     Icon_80243630 *e;
     f32 s;
     f32 hw;
@@ -382,7 +382,7 @@ void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
         pt.x = 0.5f * e->w + (palette->x + e->x);
         pt.y = 0.5f * e->h + (palette->y + e->y);
     }
-    TWindowEffectLight::create(&pt, (void *)kind, (void *)palette->m_20);
+    TWindowEffectLight::create(&pt, (void *)kind, (void *)(saddr)palette->m_20);
 }
 #pragma pop
 
@@ -451,7 +451,7 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, Icon_802
         return;
     }
     if (index >= 0xD) {
-        p = (u32)get_player_by_client_id(client_id);
+        p = (uaddr)get_player_by_client_id(client_id);
         if (p == 0) {
             v = 0;
         } else {
@@ -479,7 +479,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         return -1;
     }
     if (slot >= 13) {
-        if (clamp_char_at__10TObjPlayerFl((u32)player + 0x7C4, slot - 13) > 0) {
+        if ((s8)((TObjPlayer *)((uaddr)player + 0x7C4))->clamp_char_at(slot - 13) > 0) {
             return slot;
         }
         return -1;
@@ -502,7 +502,7 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void TWindowHelpItem::set_help_text(s32 arg0, s32 arg1) {
+void TWindowHelpItem::set_help_text(saddr arg0, saddr arg1) {
     if (((TBoss8Dragon *)arg1)->test_card_flag_2() != 0) {
         set_sprite_uv_from_pixels((u8 *)arg0, 92.0f, 56.0f);
         return;

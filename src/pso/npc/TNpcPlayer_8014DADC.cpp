@@ -21,7 +21,7 @@ extern "C" {
 u32 get_npc_state__10TNpcPlayerFv(s32);
 s32 npc_counter_reset_if_reached(void *, s32, s32);
 }
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 extern "C" {
 s32 TNpcPlayer__sub_80152978(void *p);
 u8 *find_active_entity_by_id(s32);
@@ -36,32 +36,31 @@ void init_6x43_attack_packet(void *);
 void set_field_0__10TNpcPlayerFs(void *, s32);
 int request_technique_cast__10TNpcPlayerFl(void*);
 s32 set_technique_seed_level(s32, s32, u8);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(s32 arg0, u8 arg1, s32 i);
 
 void TNpcPlayer::init_equipment() {
     s32 temp_r31;
     s32 flags;
 
     flags = this->ai_params.technique_flags;
-    temp_r31 = (s32)this->m_78->m_94;
+    temp_r31 = (saddr)this->m_78->m_94;
     if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 0);
-        clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 1);
+        TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 0);
+        TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 1);
         set_technique_seed_level(temp_r31 + 0x428, 0, this->ai_params.attack_technique_level);
         set_technique_seed_level(temp_r31 + 0x428, 1, this->ai_params.attack_technique_level);
     } else if (flags & TECHNIQUE_FLAGS_BARTA_GIBARTA) {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 3);
-        clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 4);
+        TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 3);
+        TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 4);
         set_technique_seed_level(temp_r31 + 0x428, 3, this->ai_params.attack_technique_level);
         set_technique_seed_level(temp_r31 + 0x428, 4, this->ai_params.attack_technique_level);
     } else if (flags & TECHNIQUE_FLAGS_ZONDE_RAZONDE) {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 6);
-        clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 8);
+        TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 6);
+        TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 8);
         set_technique_seed_level(temp_r31 + 0x428, 6, this->ai_params.attack_technique_level);
         set_technique_seed_level(temp_r31 + 0x428, 8, this->ai_params.attack_technique_level);
     }
-    clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.support_technique_level, 0xF);
-    clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.support_technique_level, 0x10);
+    TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.support_technique_level, 0xF);
+    TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.support_technique_level, 0x10);
     set_technique_seed_level(temp_r31 + 0x428, 0xF, this->ai_params.support_technique_level);
     set_technique_seed_level(temp_r31 + 0x428, 0x10, this->ai_params.support_technique_level);
 }
@@ -144,7 +143,7 @@ void TNpcPlayer::partner_request_physical_attack() {
     temp_r31 = TNpcPlayer__sub_80152978((void *)this->m_78);
     temp_r3 = ((TNpcPlayer *)(this->m_78))->get_npc_state();
     if (temp_r3 != temp_r31) {
-        set_partner_counter((s32)&this->m_5c, 1, 0);
+        set_partner_counter((saddr)&this->m_5c, 1, 0);
     }
     npc_counter_reset_if_reached((u8 *)&this->m_5c, 1, 3);
     ((TNpcPlayer *)arg0)->send_partner_attack_stage_request();

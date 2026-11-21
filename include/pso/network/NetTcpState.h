@@ -13,13 +13,13 @@ typedef struct TcpSackSeg {
     s32 edge;
     s32 stamp;
 } TcpSackSeg;
-typedef char TcpSackSeg_size_check[sizeof(TcpSackSeg) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(TcpSackSeg_size_check, sizeof(TcpSackSeg) == 0x10);
 /* TCP sequence numbers wrap at 32 bits. Compare their unsigned difference as a signed distance. */
 typedef struct TcpSeqRange {
     u32 start;
     u32 end;
 } TcpSeqRange;
-typedef char TcpSeqRange_size_check[sizeof(TcpSeqRange) == 8 ? 1 : -1];
+LAYOUT_ASSERT(TcpSeqRange_size_check, sizeof(TcpSeqRange) == 8);
 /* A TCP header. */
 typedef struct TcpHdr {
     u16 sport;
@@ -32,7 +32,7 @@ typedef struct TcpHdr {
     u16 sum;
     u16 urp;
 } TcpHdr;
-typedef char TcpHdr_size_check[sizeof(TcpHdr) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(TcpHdr_size_check, sizeof(TcpHdr) == 0x14);
 /* A user call blocked on (or with a callback for) a TCB operation (text_80421620.c). */
 typedef struct TcpWait {
     u8 flags; /* 1 active, 2 a thread waits, 4 done, 8 callback mode */
@@ -40,7 +40,7 @@ typedef struct TcpWait {
     s16 status;
     s32 thread;
 } TcpWait;
-typedef char TcpWait_size_check[sizeof(TcpWait) == 8 ? 1 : -1];
+LAYOUT_ASSERT(TcpWait_size_check, sizeof(TcpWait) == 8);
 /* A TCP control block (0x544 bytes; tcp_protocol_state.tcbs[]). */
 struct TcpTcb {
     u8 tag[3]; /* "TCB" */
@@ -147,10 +147,10 @@ struct TcpTcb {
     u32 f53C;
     s32 f540;
 };
-typedef char TcpTcb_size_check[sizeof(TcpTcb) == 0x544 ? 1 : -1];
+LAYOUT_ASSERT(TcpTcb_size_check, sizeof(TcpTcb) == 0x544);
 /* Offset of the byte holding f204_b7 and f204_b6 (offsetof cannot take a bit-field). */
 #define TCPTCB_F204_BYTE (offsetof(TcpTcb, recv_done) + sizeof(((TcpTcb *)0)->recv_done))
-typedef char TcpTcb_f204_check[TCPTCB_F204_BYTE == 0x204 ? 1 : -1];
+LAYOUT_ASSERT(TcpTcb_f204_check, TCPTCB_F204_BYTE == 0x204);
 
 /* The TCP layer's state (tcp_protocol_state). */
 typedef struct TcpState {
@@ -181,7 +181,7 @@ typedef struct TcpState {
     u8 fA2;
     u8 padA3[5];
 } TcpState;
-typedef char TcpState_size_check[sizeof(TcpState) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(TcpState_size_check, sizeof(TcpState) == 0xA8);
 #ifdef __cplusplus
 extern "C" {
 #endif

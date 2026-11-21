@@ -73,7 +73,7 @@ struct VObj_18_382324 : VBase_18_382324 {
 struct RecoveredFields_8012ABCC_arg0
 {
   u8 unknown_0[0xF0];
-  u32 field_F0;
+  uaddr field_F0;
 };
 
 extern "C" {
@@ -81,7 +81,7 @@ u32 *copy_attack_targets(u32 *dst, u32 *src);
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(void *, s32);
 s32 get_captured_target_count(void *);
-extern s32 tl_05;
+extern saddr tl_05;
 
 typedef struct RecoveredFields_8012ABCC_arg0 RecoveredFields_8012ABCC_arg0;
 typedef struct VBase_18_382324 VBase_18_382324;
@@ -91,7 +91,7 @@ void TUnk_804A4B80::activate_effect(s32 arg1) {
   {
     if (is_current_area_item_enabled() != 0)
     {
-      if (get_current_floor() == ((TObjPlayer *)((int) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_floor())
+      if (get_current_floor() == ((TObjPlayer *)((saddr) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_floor())
       {
         if (arg1 == 0)
         {
@@ -111,7 +111,7 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
     Vec muzzle;
     s16 v;
     s32 i;
-    s32 e;
+    saddr e;
     if (get_captured_target_count(captured_targets) > 0) {
         for (i = 0; i != get_captured_target_count(captured_targets); i++) {
             e = get_captured_target_entry(captured_targets, i);
@@ -174,18 +174,14 @@ void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
     ((TItemWeapon *)player)->set_weapon_flags(34);
     return player;
 }
-extern "C" {
-
-u8 *__nw__5TItemFUl(s32);
-}
 TItem *create_heaven_punisher(u8 *item) {
     u8 *player;
     u8 *var_r0;
     if (item != NULL) {
-        player = (u8 *)(__nw__5TItemFUl(0x230));
+        player = (u8 *)TItem::operator new(0x230);
         var_r0 = player;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(heaven_punisher_ct(player, tl_05, (s32)item));
+            var_r0 = (u8 *)(heaven_punisher_ct(player, tl_05, (saddr)item));
         }
         return reinterpret_cast<TItem *>(var_r0);
     }

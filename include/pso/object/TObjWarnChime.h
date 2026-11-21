@@ -20,10 +20,10 @@ public:
     static TObjWarnChime* create(TObject* parent);
 };
 #include <stddef.h>
-typedef char WarnChimeBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char WarnChimeSize[(sizeof(TObjWarnChime)==0x38)?1:-1];
-typedef char WarnChimeState[(offsetof(TObjWarnChime,m_state)==0x1C)?1:-1];
-typedef char WarnChimeCountdown[(offsetof(TObjWarnChime,m_countdown)==0x20)?1:-1];
-typedef char WarnChimeInterval[(offsetof(TObjWarnChime,m_chime_interval)==0x24)?1:-1];
-typedef char WarnChimeRatios[(offsetof(TObjWarnChime,m_player_hp_ratios)==0x28)?1:-1];
+LAYOUT_ASSERT(WarnChimeBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(WarnChimeSize, sizeof(TObjWarnChime)==0x38);
+LAYOUT_ASSERT(WarnChimeState, offsetof(TObjWarnChime,m_state)==0x1C);
+LAYOUT_ASSERT(WarnChimeCountdown, offsetof(TObjWarnChime,m_countdown)==0x20);
+LAYOUT_ASSERT(WarnChimeInterval, offsetof(TObjWarnChime,m_chime_interval)==0x24);
+LAYOUT_ASSERT(WarnChimeRatios, offsetof(TObjWarnChime,m_player_hp_ratios)==0x28);
 #endif

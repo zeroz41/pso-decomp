@@ -71,9 +71,9 @@ struct CaveRockArchives {
     CaveRockArchive<7> debris_three;
 };
 
-typedef char CaveRockArchives_size[sizeof(CaveRockArchives) == 0xF0 ? 1 : -1];
-typedef char CaveRockArchive4_descriptor_offset[offsetof(CaveRockArchive<4>, descriptor) == 0x10 ? 1 : -1];
-typedef char CaveRockArchive7_descriptor_offset[offsetof(CaveRockArchive<7>, descriptor) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(CaveRockArchives_size, sizeof(CaveRockArchives) == 0xF0);
+LAYOUT_ASSERT(CaveRockArchive4_descriptor_offset, offsetof(CaveRockArchive<4>, descriptor) == 0x10);
+LAYOUT_ASSERT(CaveRockArchive7_descriptor_offset, offsetof(CaveRockArchive<7>, descriptor) == 0x1C);
 
 static CaveRockArchives rock_cave_resource_table = {
     { { "fe_obj_liwa01.gj", "fe_obj_miwa01.gj", "fe_obj_siwa01.gj", NULL },

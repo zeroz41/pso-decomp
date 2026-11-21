@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubEquip : public TObject {
-    TWindowSubEquip(s32 arg1, s32 arg2);
+    TWindowSubEquip(saddr arg1, s32 arg2);
     virtual ~TWindowSubEquip();
     int build_equipment_list();
     u8 m_1c;
@@ -13,13 +13,13 @@ struct TWindowSubEquip : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
     void update_displayed_item();
     void update();
-    static void open_submenu(s32 arg0, s32 arg1);
+    static void open_submenu(saddr arg0, s32 arg1);
     s32 open_equip_kind_list(u32 arg1);
     virtual void render();
     virtual void run_task();
@@ -27,5 +27,5 @@ struct TWindowSubEquip : public TObject {
     void apply_slot_selection();
 };
 
-typedef char TWindowSubEquip_size[sizeof(TWindowSubEquip) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubEquip_size, sizeof(TWindowSubEquip) == 0x3C);
 #endif

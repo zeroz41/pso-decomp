@@ -12,6 +12,6 @@ public:
     virtual ~TUnk_804A7260();
     TUnk_8013E020 m_target;
 };
-typedef char TUnk_804A7260_size[sizeof(TUnk_804A7260) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A7260_size, sizeof(TUnk_804A7260) == 0x24);
 
 #endif

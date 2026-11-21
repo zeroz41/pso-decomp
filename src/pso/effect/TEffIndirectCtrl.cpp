@@ -26,7 +26,7 @@ typedef void (TEffIndirectCtrl::*IndirectTask)();
 struct P2C_802A8B58 { void *a; s32 b; };
 
 struct Ctrl_802A8B58 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x18 - 4];
     void *vt;
     u8 *f1c;
@@ -56,8 +56,8 @@ extern "C" {
 s32 GXSetNumIndStages(s32);
 s32 GXSetTevDirect(s32);
 void GXSetIndTexMtx(s32, f32 (*)[3], s32);
-void Dolphin_GXSetIndTexCoordScale(s32, s32, s32);
-void Dolphin_GXSetIndTexOrder(s32, s32, s32);
+void GXSetIndTexCoordScale(s32, s32, s32);
+void GXSetIndTexOrder(s32, s32, s32);
 void GXSetTevIndWarp(s32, s32, s32, s32, s32);
 void DCFlushRange(void *, u32);
 void set_texture_name(void *, void *, void *, s32);
@@ -192,7 +192,7 @@ void TEffIndirectCtrl::free_all() {
     } while (var_r28 < 8);
 }
 
-s32 get_indirect_source_id(u8 arg0) {
+saddr get_indirect_source_id(u8 arg0) {
     u8 var_r3;
     var_r3 = arg0;
     if (var_r3 >= 8U) {
@@ -393,7 +393,7 @@ Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent)
     u8 k;
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = ((s32 *)&__vt__16TEffIndirectCtrl);
-    self->f0 = (s32)TEffIndirectCtrl__name;
+    self->f0 = (saddr)TEffIndirectCtrl__name;
     self->f28 = ::operator new(0x24);
     self->f2c = (P2C_802A8B58 *)::operator new(8);
     {
@@ -490,8 +490,8 @@ void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sample
         s32 scales[5] = {0, 1, 2, 3, 4};
         f32 mtx[2][3];
         GXSetNumIndStages(1);
-        Dolphin_GXSetIndTexOrder(0, coords[2], 5);
-        Dolphin_GXSetIndTexCoordScale(0, scales[scale], scales[scale]);
+        GXSetIndTexOrder(0, coords[2], 5);
+        GXSetIndTexCoordScale(0, scales[scale], scales[scale]);
         GXSetTevIndWarp(1, 0, 0, 0, 1);
         mtx[0][0] = 0.5f;
         mtx[0][1] = 0.0f;
@@ -511,8 +511,8 @@ void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale,
     f32 m0[2][3];
     f32 m1[2][3];
     GXSetNumIndStages(1);
-    Dolphin_GXSetIndTexOrder(0, 0, 5);
-    Dolphin_GXSetIndTexCoordScale(0, scales[(u8)scale], scales[(u8)scale]);
+    GXSetIndTexOrder(0, 0, 5);
+    GXSetIndTexCoordScale(0, scales[(u8)scale], scales[(u8)scale]);
     if (second != 0) {
         static s32 shift = -2;
         static s32 unused = 0;

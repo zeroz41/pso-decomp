@@ -41,11 +41,11 @@ struct LobbyHandler {
     s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
     s16 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
 };
-typedef char LobbyHandler_size_check[sizeof(LobbyHandler) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(LobbyHandler_size_check, sizeof(LobbyHandler) == 0x30);
 
 typedef struct LobbyHandlerTable { s16 count; LobbyHandler *list; } LobbyHandlerTable;
 extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the file */
-typedef char LobbyHandlerTable_size_check[sizeof(LobbyHandlerTable) == 8 ? 1 : -1];
+LAYOUT_ASSERT(LobbyHandlerTable_size_check, sizeof(LobbyHandlerTable) == 8);
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
@@ -96,12 +96,12 @@ s16 TLobby__sub_804098B4(void *pkt) {
 inline s32 calc_80409908(void *self, u8 *arr) {
     u8 tmp[0x10];
     u8 *p;
-    s32 acc;
+    saddr acc;
     s16 n;
     s32 sum;
     sum = 0;
     n = (s16)*(s32 *)(arr + 4);
-    acc = (s32)self;
+    acc = (saddr)self;
     p = arr + n * 12;
     while (n > 0) {
         set_value_and_enable((NetBufferRef *)tmp, acc);

@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/vector.h"
@@ -21,11 +22,11 @@ char *lobby_current_slot_entry = "";
 extern "C" {
     extern int lbl_805D62B8;
 void start_audio_stream_file(s32, char *);
-void play_cue_stream_file(s32 arg0);
+void play_cue_stream_file(saddr arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9CB0(s32);
 void *lbl_805D62D8;
-u32 lbl_805D62DC;
+uaddr lbl_805D62DC;
 s32 lbl_805D62E0;
 s32 lbl_805D62E4;
 s32 music_fade_slot_index;
@@ -57,7 +58,7 @@ s32 TLobby__sub_803C5D00(void *);
 s32 TLobby__sub_803C97B8(u8 *arg0);
 }
 void stop_audio_stream(u8 *arg0);
-extern s32 lbl_804CB850[];
+extern saddr lbl_804CB850[];
 void set_dark_falz_music_request(s32 arg0);
 void stop_cue_stream(void);
 void set_music_streams_volume(s32 arg0);
@@ -102,7 +103,7 @@ extern "C" {
 
 void TLobby::release_bgm_resource() {
     if ((s32) lbl_805D6330 != 0) {
-        stop_audio_stream((u8 *)(*(s32 *)((s8 *)lbl_804CB850 + 4)));
+        stop_audio_stream((u8 *)(*(saddr *)((s8 *)lbl_804CB850 + 4)));
         lbl_805D6330 = 0;
         TLobby::init_layout_positions();
     }
@@ -142,7 +143,6 @@ extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
 void TLobby__sub_803C5D24(u8 *arg0);
-char *strncpy(char *dst, const char *src, u32 n);
 }
 extern Program_80226FA0 *music_programs[];
 
@@ -196,7 +196,7 @@ void update_music_sequencer(void) {
         music_sequencer_fade_state = 1;
         music_sequencer_timer = 600;
     }
-    if (lbl_80514CE8[music_fade_slot_index] < lbl_805D62F4 && TLobby__sub_803C5D00((void *)((s32 *)&lbl_804CB850)[0]) != 1) {
+    if (lbl_80514CE8[music_fade_slot_index] < lbl_805D62F4 && TLobby__sub_803C5D00((void *)lbl_804CB850[0]) != 1) {
         return;
     }
     passage = &lbl_805D6304->modes[music_active_mode_index][music_sequencer_passage_index];
@@ -242,10 +242,10 @@ void update_music_sequencer(void) {
     }
     lbl_80514CE0[music_fade_slot_index] = lbl_805D62F0;
     lbl_805D6334 = music_fade_slot_index;
-    append_music_stream_segment((u8 *)((void *)((s32 *)&lbl_804CB850)[0]), 190, lbl_80514CE0[music_fade_slot_index]);
+    append_music_stream_segment((u8 *)((void *)lbl_804CB850[0]), 190, lbl_80514CE0[music_fade_slot_index]);
     music_fade_slot_index = 1 - music_fade_slot_index;
     lbl_80514CE8[music_fade_slot_index] = 0;
-    lbl_80514CF0[music_fade_slot_index] = TLobby__sub_803C97B8((u8 *)((void *)((s32 *)&lbl_804CB850)[music_fade_slot_index]));
+    lbl_80514CF0[music_fade_slot_index] = TLobby__sub_803C97B8((u8 *)((void *)lbl_804CB850[music_fade_slot_index]));
 }
 
 void set_dark_falz_music_request(s32 arg0) {
@@ -266,7 +266,7 @@ void stop_cue_stream(void) {
     }
 }
 
-void play_cue_stream_file(s32 name) {
+void play_cue_stream_file(saddr name) {
     if ((void *)lbl_804CB850[2] != NULL) {
         start_audio_stream_file(lbl_804CB850[2], (char *)name);
     }
@@ -314,13 +314,13 @@ u32 ARInit(u32 *stack_index_addr, u32 num_entries);
 void ARQInit(void);
 void AIInit(u8 *stack);
 s32 VISetPostRetraceCallback(int (*callback)(void *));
-u32 Dolphin_ARAlloc(u32 length);
+u32 ARAlloc(u32 length);
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
 void init_adx_audio_system(void);
 extern u32 lbl_804CB838[6];
-s32 lbl_804CB850[3] = { 0, 0, 0 };
+saddr lbl_804CB850[3] = { 0, 0, 0 };
 
 // inferred: the four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
@@ -608,7 +608,7 @@ void init_adx_audio_system(void) {
     lbl_80514C60[0] = xmalloc(0x2D1E4);
     lbl_80514C60[1] = xmalloc(0x2D1E4);
     lbl_805D62D8 = xmalloc(0xA924);
-    lbl_805D62DC = (u32)xmalloc(0xA000);
+    lbl_805D62DC = (uaddr)xmalloc(0xA000);
     TLobby__sub_803CBE20((void *)lbl_805D62DC, 0xA000, 5);
     TLobby::init_and_add_ref();
     setup_adx_file_systems(NULL);
@@ -620,7 +620,7 @@ void init_adx_audio_system(void) {
     VISetPostRetraceCallback(TLobby__sub_80227A70);
     VISetPreRetraceCallback(TLobby__sub_80227A6C);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);
-    Dolphin_ARAlloc(0xC00000);
+    ARAlloc(0xC00000);
     sndSetHooks(&hooks);
     sndInit(48, 48, 48, 4, 1, 0xC00000);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);

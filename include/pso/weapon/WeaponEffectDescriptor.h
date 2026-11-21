@@ -13,7 +13,7 @@ struct Desc_8011E5C4 : S_802E451C {
     f32 range;
     u32 flags;
     NJS_OBJECT *model;
-    u32 texlist;
+    uaddr texlist;
     f32 scale;
     s32 spin[3];
     f32 star_width;
@@ -24,11 +24,11 @@ struct Desc_8011E5C4 : S_802E451C {
     s32 trail_particle;
 };
 
-typedef char WeaponEffectDescriptorSize[sizeof(Desc_8011E5C4) == 0x80 ? 1 : -1];
-typedef char WeaponEffectDescriptorModelOffset[offsetof(Desc_8011E5C4, model) == 0x44 ? 1 : -1];
-typedef char WeaponEffectDescriptorColorOffset[offsetof(Desc_8011E5C4, color) == 0x60 ? 1 : -1];
-typedef char WeaponEffectDescriptorWallOffset[offsetof(Desc_8011E5C4, wall_effect) == 0x70 ? 1 : -1];
-typedef char WeaponEffectDescriptorHitOffset[offsetof(Desc_8011E5C4, hit_effect) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(WeaponEffectDescriptorSize, sizeof(Desc_8011E5C4) == 0x80);
+LAYOUT_ASSERT(WeaponEffectDescriptorModelOffset, offsetof(Desc_8011E5C4, model) == 0x44);
+LAYOUT_ASSERT(WeaponEffectDescriptorColorOffset, offsetof(Desc_8011E5C4, color) == 0x60);
+LAYOUT_ASSERT(WeaponEffectDescriptorWallOffset, offsetof(Desc_8011E5C4, wall_effect) == 0x70);
+LAYOUT_ASSERT(WeaponEffectDescriptorHitOffset, offsetof(Desc_8011E5C4, hit_effect) == 0x74);
 
 extern "C" Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params);
 

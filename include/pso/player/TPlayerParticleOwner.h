@@ -11,5 +11,5 @@ public:
     u16 player_id;
     TParticleCtrl* particle;
 };
-typedef char TPlayerParticleOwner_size[sizeof(TPlayerParticleOwner) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TPlayerParticleOwner_size, sizeof(TPlayerParticleOwner) == 0x24);
 #endif

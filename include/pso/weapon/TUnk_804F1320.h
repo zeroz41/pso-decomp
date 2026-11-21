@@ -9,12 +9,12 @@ public:
     TUnk_804F1320(TObject *parent, u8 *item);
     virtual ~TUnk_804F1320();
     virtual void activate_effect(s32);
-    void spawn_pg_effect(const Vec *origin, s32 item, f32 radius);
+    void spawn_pg_effect(const Vec *origin, saddr item, f32 radius);
     virtual void emit_marker_effects();
     f32 effect_radius;
 };
 
-typedef char TUnk_804F1320_size[sizeof(TUnk_804F1320) == 0x1FC ? 1 : -1];
-typedef char TUnk_804F1320_radius_offset[offsetof(TUnk_804F1320, effect_radius) == 0x1F8 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F1320_size, sizeof(TUnk_804F1320) == 0x1FC);
+LAYOUT_ASSERT(TUnk_804F1320_radius_offset, offsetof(TUnk_804F1320, effect_radius) == 0x1F8);
 
 #endif

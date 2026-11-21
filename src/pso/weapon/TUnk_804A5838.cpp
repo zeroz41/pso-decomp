@@ -86,7 +86,7 @@ void TUnk_804A5838::emit_marker_effects() {
         ((TObjPlayer *)tl_05)->create_item_eff_cane(this, 2, 0x101);
         if (is_mode_two_and_ready() != 0) {
             if (get_joint_position(2, &pos) != 0) {
-                TTecMegid::create_ex((s32)owner, (s32)&pos, owner->rotation_y, 0);
+                TTecMegid::create_ex((saddr)owner, (saddr)&pos, owner->rotation_y, 0);
                 ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
             }
         } else {

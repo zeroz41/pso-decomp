@@ -14,6 +14,6 @@ public:
     Vec captured_muzzle;
 };
 
-typedef char HeavenPunisherMuzzleOffset[offsetof(TUnk_804A4B80, captured_muzzle) == 0x224 ? 1 : -1];
+LAYOUT_ASSERT(HeavenPunisherMuzzleOffset, offsetof(TUnk_804A4B80, captured_muzzle) == 0x224);
 
 #endif

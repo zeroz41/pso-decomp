@@ -12,7 +12,7 @@ struct TWindowMessageScroll : public TWindowMessageQuest {
     s32 * m_98;
 };
 
-typedef char TWindowMessageScroll_size[sizeof(TWindowMessageScroll) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessageScroll_size, sizeof(TWindowMessageScroll) == 0x9C);
 
 extern "C" {
 void *__dt__20TWindowMessageScrollFv(void *arg0, s16 arg1);

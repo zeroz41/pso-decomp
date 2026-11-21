@@ -260,7 +260,7 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
             case 1:
             case 2:
                 if (arg3 == 2) {
-                    send_srank_stat_extra((u32)arg2, arg4);
+                    send_srank_stat_extra((uaddr)arg2, arg4);
                 } else {
                     TItemWeapon::deliver_hit((s32)f, arg2, arg3, arg4, farg0);
                 }
@@ -274,7 +274,7 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
 }
 
 
-s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
+s32 TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
     Self_8012A508 *self = (Self_8012A508 *)this;
     VObj_8012A508 *obj = (VObj_8012A508 *)arg1;
     u32 f;
@@ -300,13 +300,13 @@ s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
     }
 }
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
-  s32 st;
+  saddr st;
   s32 i;
-  s32 e;
+  saddr e;
   u16 uid;
   s32 r;
   s32 v;
-  st = (s32)((TObjPlayer *)(((Pl_8012A470 *)this)->f0))->get_extended_state();
+  st = (saddr)((TObjPlayer *)(((Pl_8012A470 *)this)->f0))->get_extended_state();
   if (st != 0)
   {
     for (i = 0; i != get_captured_target_count((s32 *)((((((((((((st & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF)); i++)

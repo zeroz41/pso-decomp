@@ -1,5 +1,6 @@
 // ---- pso/unk/text_8020E700
 #include "types.h"
+#include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020E700.h"
 #include "pso/unk/text_8020EEFC.h"
@@ -35,12 +36,11 @@ struct Tbl_8020EACC { u8 *pairs; u8 count; };
 struct Rec_8020E700 { u8 a, b, c, d, e, f; u8 pad[0x14 - 6]; };
 
 extern "C" {
-s32 memset(void *, int, int);
 // Per shop list (four in split screen): the stock array (0x1A4 bytes, allocated by load_armor_random_table),
 // its entry count and whether it was generated.
 s32 shop_armor_stock_generated_flags[4];
 s32 lbl_80513D68[4];
-s32 lbl_80513D78[4];
+saddr lbl_80513D78[4];
 Tbl_8020E934 ** lbl_805D6158;
 s32 lbl_805D615C;
 extern s32 shop_difficulty_tier;
@@ -247,7 +247,7 @@ void clear_shop_armor_flags(void) {
 }
 
 void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[arg2])[arg1];
 }
 
@@ -281,11 +281,11 @@ void mem_free(void *p);
 
 void TLobby::free_rocks() {
     s32 var_r28 = 3;
-    s32 *var_r29 = lbl_80513D78;
-    s32 var_r30 = 0;
+    saddr *var_r29 = lbl_80513D78;
+    saddr var_r30 = 0;
     s32 var_r31 = 3;
     do {
-        u32 v = (u32)var_r29[var_r31];
+        uaddr v = (u32)var_r29[var_r31];
         if (v != 0U) {
             mem_free((void *)v);
             var_r29[var_r31] = var_r30;
@@ -294,7 +294,7 @@ void TLobby::free_rocks() {
         var_r31 -= 1;
     } while (var_r28 >= 0);
     if (lbl_805D6158 != NULL) {
-        TLobby::free_nodes_with_id((u32)lbl_805D6158);
+        TLobby::free_nodes_with_id((uaddr)lbl_805D6158);
         lbl_805D6158 = (Tbl_8020E934 **)var_r30;
     }
 }
@@ -319,7 +319,7 @@ s32 draw_shop_pool_index(s32 count) {
 
 void load_armor_random_table(void) {
     s32 i;
-    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((s32)"ArmorRandom.rel");
+    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((saddr)"ArmorRandom.rel");
     for (i = 0; i < 4; i++) {
         lbl_80513D78[i] = 0;
     }

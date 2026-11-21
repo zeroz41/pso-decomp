@@ -18,15 +18,15 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 s32 TCharaMaking__bind_appearance_texture_lists(void *, void *, void *, void *);
 
-u8 *init_appearance_load_request__10TNpcPlayerFPvPvii(u8 *arg0, u8 *parent, s32 arg2, s32 arg3) {
-    typedef char sp8_offset[(offsetof(Stack_8028B810, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8028B810, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8028B810, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8028B810, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8028B810, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_8028B810, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_8028B810, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_8028B810, sp24) == 0x1C) ? 1 : -1];
+u8 *init_appearance_load_request__10TNpcPlayerFPvPvii(u8 *arg0, u8 *parent, saddr arg2, s32 arg3) {
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8028B810, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8028B810, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8028B810, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8028B810, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8028B810, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_8028B810, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_8028B810, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_8028B810, sp24) == 0x1C);
     Stack_8028B810 stack;
     copy_player_visual_record(arg0 + 4, (void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x4A8) = 0xFF;

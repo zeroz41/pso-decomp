@@ -31,9 +31,9 @@ public:
     s32 m_5c;
     s32 m_60;
 };
-typedef char TUnk_804CCB28_size[sizeof(TUnk_804CCB28) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CCB28_size, sizeof(TUnk_804CCB28) == 0x64);
 
-typedef char FireExplosionPositionOffset[offsetof(TUnk_804CCB28, position) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(FireExplosionPositionOffset, offsetof(TUnk_804CCB28, position) == 0x28);
 
 // Initializes the previously allocated 0x64-byte effect and returns it.
 extern "C" TUnk_804CCB28 *create_fire_explosion_effect(u8 *storage, f32 radius, const Vec *position, s16 kind, TObject *parent);

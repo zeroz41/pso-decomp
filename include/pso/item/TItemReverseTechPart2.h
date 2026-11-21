@@ -11,16 +11,15 @@ public:
     virtual void render();
 public:
     void destroy_and_flag();
-    static void render();
 };
 
 extern "C" {
-u8 *__ct__21TItemReverseTechPart2Fv(u8 *arg0, s32 arg1, s32 arg2);
+u8 *__ct__21TItemReverseTechPart2Fv(u8 *arg0, saddr arg1, s32 arg2);
 }
 
 // --- C functions defined in TItemReverseTechPart2.cpp ---
 extern "C" {
-u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2);
+u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, saddr arg1, s32 arg2);
 }
 // --- end of C functions
 

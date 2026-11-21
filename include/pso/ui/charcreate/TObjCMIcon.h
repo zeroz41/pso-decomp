@@ -24,8 +24,8 @@ extern f32 TObjCMIcon__horizontal_scroll_offset;
 extern CreationIconGroup TObjCMIcon__icon_group_table[7];
 __declspec(section ".data") extern vec2f cm_icon_screen_position;
 
-typedef char CreationIconStateSize[sizeof(CreationIconState) == 12 ? 1 : -1];
-typedef char CreationIconGroupSize[sizeof(CreationIconGroup) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(CreationIconStateSize, sizeof(CreationIconState) == 12);
+LAYOUT_ASSERT(CreationIconGroupSize, sizeof(CreationIconGroup) == 0x14);
 
 class TObjCMIcon : public TObject {
 public:

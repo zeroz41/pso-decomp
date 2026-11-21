@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 
 void TWindowCtrl::init_all_slots() {
-    s32 var_r31;
+    saddr var_r31;
 
     var_r31 = 0;
     do {
@@ -12,7 +12,7 @@ void TWindowCtrl::init_all_slots() {
 }
 
 void TWindowCtrl::init_all_slots2() {
-    s32 var_r31;
+    saddr var_r31;
 
     var_r31 = 0;
     do {

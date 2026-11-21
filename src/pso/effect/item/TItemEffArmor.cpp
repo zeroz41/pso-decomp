@@ -59,10 +59,10 @@ extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
-typedef char RecoveredGlobal_80107DA4_lbl_8049EFB8_size[sizeof(RecoveredGlobal_80107DA4_lbl_8049EFB8) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80107DA4_lbl_8049EFB8_size, sizeof(RecoveredGlobal_80107DA4_lbl_8049EFB8) == 0x18);
 
-typedef char RecoveredGlobal_80107DF0_lbl_8050BEC0_size[sizeof(RecoveredGlobal_80107DF0_lbl_8050BEC0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_80107DF0_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80107DF0_lbl_8058D4C0) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80107DF0_lbl_8050BEC0_size, sizeof(RecoveredGlobal_80107DF0_lbl_8050BEC0) == 0x20);
+LAYOUT_ASSERT(RecoveredGlobal_80107DF0_lbl_8058D4C0_size, sizeof(RecoveredGlobal_80107DF0_lbl_8058D4C0) == 0x10);
 
 }
 
@@ -143,7 +143,7 @@ struct Self_80108020 {
     const char *f0;
     u8 pad4[0x14];
     void *vt;
-    s32 f1C;
+    saddr f1C;
     u8 pad20[4];
     f32 f24;
     f32 f28;
@@ -169,7 +169,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
 extern void *__vt__13TItemEffArmor[];
 extern Parm_80108020 default_scene_light_config;
-extern s32 tl_07;
+extern saddr tl_07;
 
 Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b);
 
@@ -217,7 +217,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->f5C = default_scene_light_config.f20;
     self->f60 = default_scene_light_config.f1C;
     self->f64 = (1.0f - self->f5C) / 14.5f;
-    self->f1C = (s32)create_particle_emitter(self->f6C + 0x38, 0x1BA);
+    self->f1C = (saddr)create_particle_emitter(self->f6C + 0x38, 0x1BA);
     copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
     {
         Vec v = { 0.0f, 1.0f, 0.0f };
@@ -274,7 +274,7 @@ void TItemEffArmor::render() {
     model_render_flags |= 0x10;
     copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
     set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_38)));
-    set_texlist((u32)texture_list);
+    set_texlist((uaddr)texture_list);
     draw_ginja_model_with_motion(model, motion, (f32)m_24);
     copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
     model_render_flags = saved_model_render_flags;
@@ -294,9 +294,9 @@ TUnk_8049EFB8::~TUnk_8049EFB8() {
 }
 
 void TUnk_8049EFB8::run_task() {
-    s32 player;
+    saddr player;
     if (120.0f <= (f32) *(s32 *)&this->unk_1C) {
-        player = (s32)get_player_by_client_id((this->m_20));
+        player = (saddr)get_player_by_client_id((this->m_20));
         if (player != 0) {
             if (is_item_area_enabled(((TObjPlayer *)player)->get_area()) == 1) {
                 get_entity_id((void *)player);

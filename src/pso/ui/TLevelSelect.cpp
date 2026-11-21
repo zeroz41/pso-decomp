@@ -16,7 +16,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
-struct Self_80133068 { u8 pad[0x20]; s32 f20; s32 f24; };
+struct Self_80133068 { u8 pad[0x20]; saddr f20; saddr f24; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -3,7 +3,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 extern "C" {
-s32 Dolphin_GXSetCopyFilter(int, void *, void *, void *, void *);
+s32 GXSetCopyFilter(int, void *, void *, void *, void *);
 }
 
 s32 display_copy_filter_enabled = 1;
@@ -11,7 +11,7 @@ extern u8 *active_gx_render_mode;
 
 void set_display_copy_filter(int sample_pattern) {
     display_copy_filter_enabled = (s32) sample_pattern;
-    Dolphin_GXSetCopyFilter((int) (*(u8 *)((s8 *)active_gx_render_mode + 0x19)), active_gx_render_mode + 0x1A, (void *) ((u8) sample_pattern), active_gx_render_mode + 0x32, active_gx_render_mode);
+    GXSetCopyFilter((int) (*(u8 *)((s8 *)active_gx_render_mode + 0x19)), active_gx_render_mode + 0x1A, (void *) ((u8) sample_pattern), active_gx_render_mode + 0x32, active_gx_render_mode);
 }
 
 s32 get_display_copy_filter(void) {  return display_copy_filter_enabled; }

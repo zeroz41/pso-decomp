@@ -8,7 +8,7 @@ struct _GXColor;
 
 extern "C" {
 void TCameraCtrl__sub_803D65F8(u8 *_w0);
-s32 TObjPlayer__sub_803D6C1C(s32 arg0);
+s32 TObjPlayer__sub_803D6C1C(saddr arg0);
 s32 TObjPlayer__sub_803D7FD0(void);
 s32 TObjPlayer__sub_803D7FD8(void);
 // Float colour (alpha first, 0..255 scale) to a GX byte colour and back,
@@ -25,14 +25,14 @@ void find_motion_key_interval_u16(u8 *keys, u32 stride, u32 count, f32 t, u16 * 
 u32 find_motion_key_partition_u16(u8 *base, u32 stride, u32 hi, u32 key);
 u32 find_motion_key_partition_u32(u8 *base, u32 stride, u32 hi, u32 key);
 void interpolate_motion_key(u8 *keys, s32 count, s32 *out, f32 frame);
-void interpolate_motion_quaternion_keys(u32 keys, u32 count, s32 output, f32 frame);
+void interpolate_motion_quaternion_keys(uaddr keys, u32 count, saddr output, f32 frame);
 void interpolate_motion_vector_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0);
 void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0);
-void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0);
+void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 void sample_motion_angle_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0);
 void sample_motion_angle_keys_s16(u8 *keys, s32 count, u8 *arg2, f32 farg0);
 s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-s32 sample_motion_vector_channel(s32 arg0);
+s32 sample_motion_vector_channel(saddr arg0);
 void select_motion_context(s32 arg0);
 void select_motion_sampler(s32 *arg0, f32 farg0);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);

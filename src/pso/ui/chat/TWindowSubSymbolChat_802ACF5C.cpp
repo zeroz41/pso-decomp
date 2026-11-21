@@ -4,8 +4,8 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
 void *create_callback_at_zero_vec2(void *callback) {
-    s32 zero_vec2;
+    saddr zero_vec2;
 
-    zero_vec2 = (s32)get_zero_vec2();
+    zero_vec2 = (saddr)get_zero_vec2();
     return TAdEnterSerialAccessGC::create_callback((void *)(get_zero_vec2()), (void *)zero_vec2, callback);
 }

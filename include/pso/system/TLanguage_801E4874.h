@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 
 #endif

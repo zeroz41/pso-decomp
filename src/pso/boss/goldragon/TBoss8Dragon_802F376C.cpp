@@ -20,7 +20,7 @@ extern "C" {
 extern TObject *tl_04;
 u16 get_entity_id(void *);
 u8 *get_enemy_entity(u16 arg0);
-extern u32 boss8_dragon_leader_part;
+extern uaddr boss8_dragon_leader_part;
 
 s32 TBoss8Dragon::is_closest_part() {
     Vec v;
@@ -103,11 +103,11 @@ s32 TBoss8Dragon::is_near_other_part() {
     return 0;
 }
 
-s32 TBoss8Dragon::spawn_attack_object(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s32 arg0 = (s32)this;
+s32 TBoss8Dragon::spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4) {
+    s32 arg0 = (saddr)this;
     Stack_802F3A48 stack;
     if (setup_attack_slot__12TBoss8DragonFiUiiiPv(arg0, arg1, arg2, arg4, (u8 *)&stack.sp8) != 0) {
-        return (s32)new TUnk_804F1A78(tl_04, &stack.sp8, arg3);
+        return (saddr)new TUnk_804F1A78(tl_04, &stack.sp8, arg3);
     }
     return 0;
 }

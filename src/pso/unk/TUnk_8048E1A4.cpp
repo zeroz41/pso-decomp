@@ -47,7 +47,7 @@ void TUnk_8048E1A4::update_freeze_shell_timer() {
 }
 
 struct RecoveredGlobal_80081CD0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80081CD0_lbl_8058D490_size[sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80081CD0_lbl_8058D490_size, sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30);
 
 struct VBase_80081EA4 { u8 pad[0x18]; };
 
@@ -64,17 +64,17 @@ struct VObj_80081EA4 : VBase_80081EA4 {
 };
 
 extern "C" {
-u32 find_active_entity_by_id(u16);
+uaddr find_active_entity_by_id(u16);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_texlist(s32, s32);
+saddr get_bml_model(s32, s32);
 void *spawn_particle_effect(const void *pos, s32 id);
-s32 freeze_shell_bml_resource;
+saddr freeze_shell_bml_resource;
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 s32 push_matrix();
@@ -85,7 +85,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 TUnk_8048E1A4::freeze_shell_hold() {
-    s32 p;
+    saddr p;
     p = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
     if (p == 0) {
         return;
@@ -97,11 +97,11 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
         }
     }
     *(s32 *)((s8 *)this + 0x334) = 2;
-    p = (s32)spawn_particle_effect((u8 *)this + 0x35C, 0x153);
+    p = (saddr)spawn_particle_effect((u8 *)this + 0x35C, 0x153);
     if (p != 0) {
         attach_particle_model((u8 *)p, (s32)(get_bml_model(technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
     }
-    p = (s32)spawn_particle_effect((u8 *)this + 0x38, 0x33);
+    p = (saddr)spawn_particle_effect((u8 *)this + 0x38, 0x33);
     if (p != 0) {
         attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
@@ -178,7 +178,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        TObjFish::set_global_param((s32)get_bml_texlist((s32)((void *)freeze_shell_bml_resource), 1));
+        TObjFish::set_global_param((s32)get_bml_texlist((saddr)((void *)freeze_shell_bml_resource), 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -204,16 +204,15 @@ void TUnk_8048E1A4::render() {
 }
 
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
-u32 __nw__7TObjectFUl(s32);
 u16 get_entity_id(void *);
 
-void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
+void create__10TObjPlayerFUiii(uaddr arg0, s32 arg1, s32 arg2) {
     u16 entity_id;
 
     u32 obj;
     if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
         entity_id = get_entity_id((void *)arg0);
-        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = __nw__7TObjectFUl(0x368)) != 0U)) {
+        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = (uaddr)TObject::operator new(0x368)) != 0U)) {
             __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
         }
     }
@@ -269,7 +268,7 @@ struct RecoveredFields_8008213C_temp_r3 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-extern s32 tl_05;
+extern saddr tl_05;
 void free_bin_model_request(void*, int);
 
 void TLobby::destroy_global_singleton() {
@@ -280,9 +279,9 @@ void TLobby::destroy_global_singleton() {
 }
 
 void TLobby::load_freeze_ice_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &enemy_freeze_ice_resource_descriptor, 0, 0, 0));
@@ -298,26 +297,26 @@ TUnk_8048E1A4::~TUnk_8048E1A4() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredFields_8008213C_arg0_18_offset[offsetof(RecoveredFields_8008213C_arg0, field_18) == 0x18 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_34_offset[offsetof(RecoveredFields_8008213C_arg0, field_34) == 0x34 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_60_offset[offsetof(RecoveredFields_8008213C_arg0, field_60) == 0x60 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_68_offset[offsetof(RecoveredFields_8008213C_arg0, field_68) == 0x68 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_6C_offset[offsetof(RecoveredFields_8008213C_arg0, field_6C) == 0x6C ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_70_offset[offsetof(RecoveredFields_8008213C_arg0, field_70) == 0x70 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_334_offset[offsetof(RecoveredFields_8008213C_arg0, field_334) == 0x334 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_338_offset[offsetof(RecoveredFields_8008213C_arg0, field_338) == 0x338 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_33C_offset[offsetof(RecoveredFields_8008213C_arg0, field_33C) == 0x33C ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_340_offset[offsetof(RecoveredFields_8008213C_arg0, field_340) == 0x340 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_344_offset[offsetof(RecoveredFields_8008213C_arg0, field_344) == 0x344 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_348_offset[offsetof(RecoveredFields_8008213C_arg0, field_348) == 0x348 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_34C_offset[offsetof(RecoveredFields_8008213C_arg0, field_34C) == 0x34C ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_350_offset[offsetof(RecoveredFields_8008213C_arg0, field_350) == 0x350 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_354_offset[offsetof(RecoveredFields_8008213C_arg0, field_354) == 0x354 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_358_offset[offsetof(RecoveredFields_8008213C_arg0, field_358) == 0x358 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg2_C_offset[offsetof(RecoveredFields_8008213C_arg2, field_C) == 0xC ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg1_60_offset[offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4 ? 1 : -1];
-typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_18_offset, offsetof(RecoveredFields_8008213C_arg0, field_18) == 0x18);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34_offset, offsetof(RecoveredFields_8008213C_arg0, field_34) == 0x34);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_60_offset, offsetof(RecoveredFields_8008213C_arg0, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_68_offset, offsetof(RecoveredFields_8008213C_arg0, field_68) == 0x68);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_6C_offset, offsetof(RecoveredFields_8008213C_arg0, field_6C) == 0x6C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_70_offset, offsetof(RecoveredFields_8008213C_arg0, field_70) == 0x70);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_334_offset, offsetof(RecoveredFields_8008213C_arg0, field_334) == 0x334);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_338_offset, offsetof(RecoveredFields_8008213C_arg0, field_338) == 0x338);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_33C_offset, offsetof(RecoveredFields_8008213C_arg0, field_33C) == 0x33C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_340_offset, offsetof(RecoveredFields_8008213C_arg0, field_340) == 0x340);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_344_offset, offsetof(RecoveredFields_8008213C_arg0, field_344) == 0x344);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_348_offset, offsetof(RecoveredFields_8008213C_arg0, field_348) == 0x348);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34C_offset, offsetof(RecoveredFields_8008213C_arg0, field_34C) == 0x34C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_350_offset, offsetof(RecoveredFields_8008213C_arg0, field_350) == 0x350);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_354_offset, offsetof(RecoveredFields_8008213C_arg0, field_354) == 0x354);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_358_offset, offsetof(RecoveredFields_8008213C_arg0, field_358) == 0x358);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg2_C_offset, offsetof(RecoveredFields_8008213C_arg2, field_C) == 0xC);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_60_offset, offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4);
+LAYOUT_ASSERT(RecoveredFields_8008213C_temp_r3_10_offset, offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10);
 TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model(freeze_shell_bml_resource, 1);
@@ -350,7 +349,7 @@ TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void 
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_344 = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_348 = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34C = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = (s32)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = (saddr)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_354 = 0;
     } else {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = 0;

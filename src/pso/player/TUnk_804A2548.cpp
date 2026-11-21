@@ -22,7 +22,7 @@
 
 extern "C" {
 }
-void spawn_faust_explosion(u32 a0, const Vec &pos);
+void spawn_faust_explosion(uaddr a0, const Vec &pos);
 
 TItem *create_panzer_faust(u8 *item) {
     if (item != NULL) {
@@ -89,7 +89,7 @@ void TUnk_804A2564::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->trail_particle = 0x1bc;
 }
 
-void spawn_faust_explosion(u32 a0, const Vec &pos) {
+void spawn_faust_explosion(uaddr a0, const Vec &pos) {
     if (((TItem *)a0)->get_item_index() == 1) {
         Desc_8011E5C4 info;
         TObjPlayer__sub_802E449C(&info);
@@ -110,16 +110,16 @@ struct Obj_80125628 { u8 pad[0xa4]; Elem_80125628 *elems; };
 
 struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
 
-void spawn_faust_hit_explosion(s32 arg0, s32 arg1) {
+void spawn_faust_hit_explosion(s32 arg0, saddr arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
-    u32 p = (u32)find_item_by_id(arg0);
+    u32 p = (uaddr)find_item_by_id(arg0);
     if (p != 0U) {
         spawn_faust_explosion(p, *(const Vec *)ctx->obj->elems[ctx->idx].f1c);
     }
 }
 
-void TObjPlayer::spawn_faust_wall_explosion(s32 arg0, s32 arg1) {
-    u32 temp_r3 = (u32)find_item_by_id(arg0);
+void TObjPlayer::spawn_faust_wall_explosion(s32 arg0, saddr arg1) {
+    u32 temp_r3 = (uaddr)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
         spawn_faust_explosion(temp_r3, *(const Vec *)arg1);
     }

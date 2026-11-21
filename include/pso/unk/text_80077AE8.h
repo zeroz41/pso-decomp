@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_80077AE8(s32 src);
+void TAdSinglePlyChrSelectGC__sub_80077AE8(u32 *src);
 }
 
 // --- C functions defined in text_80077AE8.cpp ---
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_80077AE8(s32 src);
+void TAdSinglePlyChrSelectGC__sub_80077AE8(u32 *src);
 }
 // --- end of C functions
 

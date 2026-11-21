@@ -28,10 +28,10 @@ public:
     s32 pad_48;             // yaw
 };
 
-typedef char TUnk_804CC800_size[sizeof(TUnk_804CC800) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC800_size, sizeof(TUnk_804CC800) == 0x4C);
 
 struct TTecGiFoie : public TUnk_804CC148 {
-    TTecGiFoie(s32 source, Vec *origin, s32 level);
+    TTecGiFoie(saddr source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
     virtual void vfunc_6(void *);
     virtual void run_task();
@@ -43,7 +43,7 @@ struct TTecGiFoie : public TUnk_804CC148 {
     virtual void render();
 };
 
-typedef char TTecGiFoie_size[sizeof(TTecGiFoie) == 0x13C ? 1 : -1];
+LAYOUT_ASSERT(TTecGiFoie_size, sizeof(TTecGiFoie) == 0x13C);
 
-extern const char *TTecGiFoie__name;
+extern "C" const char *TTecGiFoie__name;
 #endif

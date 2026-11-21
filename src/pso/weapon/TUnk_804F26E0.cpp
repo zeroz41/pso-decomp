@@ -14,12 +14,12 @@ extern s32 knuckle_marker_joint_table[];
 }
 
 void TUnk_804F26E0::vfunc_58() {
-    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(1.0f);
+    ((PlayerAttackState *)(*(saddr *)&this->owner + 0x7CC))->set_evp(1.0f);
 }
 
 // S-rank knuckle equip hook (was s_rank_knuckle_equip): sets the owner's EVP.
 void TUnk_804F26E0::vfunc_57() {
-    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(1.2f);
+    ((PlayerAttackState *)(*(saddr *)&this->owner + 0x7CC))->set_evp(1.2f);
 }
 
 // S-rank knuckle marker (was s_rank_knuckle_marker): effect at the owner's knuckle joint.

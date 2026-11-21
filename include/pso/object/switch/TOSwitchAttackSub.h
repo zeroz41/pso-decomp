@@ -17,9 +17,9 @@ public:
 };
 
 #include <stddef.h>
-typedef char SwitchAttackStopOffset[(offsetof(TOSwitchAttackSub, stopSwitchId) == 0x1C) ? 1 : -1];
-typedef char SwitchAttackRequiredOffset[(offsetof(TOSwitchAttackSub, requiredSwitchId) == 0x1E) ? 1 : -1];
-typedef char SwitchAttackParticleOffset[(offsetof(TOSwitchAttackSub, particle) == 0x20) ? 1 : -1];
-typedef char SwitchAttackPositionOffset[(offsetof(TOSwitchAttackSub, position) == 0x24) ? 1 : -1];
+LAYOUT_ASSERT(SwitchAttackStopOffset, offsetof(TOSwitchAttackSub, stopSwitchId) == 0x1C);
+LAYOUT_ASSERT(SwitchAttackRequiredOffset, offsetof(TOSwitchAttackSub, requiredSwitchId) == 0x1E);
+LAYOUT_ASSERT(SwitchAttackParticleOffset, offsetof(TOSwitchAttackSub, particle) == 0x20);
+LAYOUT_ASSERT(SwitchAttackPositionOffset, offsetof(TOSwitchAttackSub, position) == 0x24);
 
 #endif

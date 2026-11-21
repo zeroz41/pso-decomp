@@ -2,6 +2,7 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "types.h"
+#include <stdlib.h>
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/player/TObjPlayer.h"
@@ -37,14 +38,12 @@ int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void *spawn_particle_effect(const void *pos, s32 id);
-u32 __nw__7TObjectFUl(s32);
-int rand(void);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 
 }
@@ -57,7 +56,7 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     Strike_80357B2C *s;
     Vec *d;
     s32 i;
-    u32 obj;
+    uaddr obj;
     f32 scale;
     s32 j;
     s32 k;
@@ -82,28 +81,28 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     scale = 0.5f;
     switch (arg1) {
     case 0:
-        obj = __nw__7TObjectFUl(0x260);
+        obj = (uaddr)TObject::operator new(0x260);
         if (obj != 0) {
             ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[0].pos, (u8 *)&strikes[0].dir, 0x14000000, 0x14, strikes[0].len, 0.5f);
         }
         break;
     case 1:
         scale *= 1.2f;
-        obj = __nw__7TObjectFUl(0x260);
+        obj = (uaddr)TObject::operator new(0x260);
         if (obj != 0) {
             ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[0].pos, (u8 *)&strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
         }
         break;
     case 2:
         scale *= 1.4f;
-        obj = __nw__7TObjectFUl(0x260);
+        obj = (uaddr)TObject::operator new(0x260);
         if (obj != 0) {
             ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[0].pos, (u8 *)&strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
         }
         break;
     case 3:
         for (j = 0; j < 3; j++) {
-            obj = __nw__7TObjectFUl(0x260);
+            obj = (uaddr)TObject::operator new(0x260);
             if (obj != 0) {
                 ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[j].pos, (u8 *)&strikes[j].dir, 0x14000000, 0x14, strikes[j].len, 0.5f);
             }
@@ -112,7 +111,7 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     case 4:
         scale *= 1.4f;
         for (k = 0; k < 3; k++) {
-            obj = __nw__7TObjectFUl(0x260);
+            obj = (uaddr)TObject::operator new(0x260);
             if (obj != 0) {
                 ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[k].pos, (u8 *)&strikes[k].dir, 0x14000000, 0x14, strikes[k].len, (f32)scale);
             }
@@ -121,12 +120,12 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     case 5:
         for (m = 0; m < 14; m++) {
             if (m == 0) {
-                obj = __nw__7TObjectFUl(0x260);
+                obj = (uaddr)TObject::operator new(0x260);
                 if (obj != 0) {
                     ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[m].pos, (u8 *)&strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 5.0f);
                 }
             } else {
-                obj = __nw__7TObjectFUl(0x260);
+                obj = (uaddr)TObject::operator new(0x260);
                 if (obj != 0) {
                     ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[m].pos, (u8 *)&strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 0.5f);
                 }
@@ -354,7 +353,7 @@ extern s32 lbl_805D63B0;
 void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     Vec node;
     Vec v;
-    u32 obj;
+    uaddr obj;
     if (phase == 0) {
         player->get_anim_node_position(0x30, &node);
         spawn_particle_effect(&node, 0xBE);
@@ -364,7 +363,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         v.y += 100.0f;
         {
             Vec t = lbl_804793D8;
-            obj = __nw__7TObjectFUl(0x260);
+            obj = (uaddr)TObject::operator new(0x260);
             if (obj != 0U) {
                 ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&v, (u8 *)&t, 0x14000000, 0x14, 100.0f, 1.8f);
             }
@@ -373,13 +372,13 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
 }
 
 void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    s32 temp_a;
+    saddr temp_a;
 
     if (phase == 0) {
         spawn_particle_effect(&player->m_2fc, 0xBD);
     }
     if (phase == 1) {
-        temp_a = (s32)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
+        temp_a = (saddr)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
         if (temp_a != 0) {
             attach_particle_model((u8 *)temp_a, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
@@ -387,13 +386,13 @@ void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 ph
 }
 
 void spawn_hit_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    s32 timed_particle_emitter;
+    saddr timed_particle_emitter;
 
     if (phase == 0) {
         spawn_particle_effect(&player->m_2fc, 0xBD);
     }
     if (phase == 1) {
-        timed_particle_emitter = (s32)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
+        timed_particle_emitter = (saddr)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
         if (timed_particle_emitter != 0) {
             attach_particle_model((u8 *)timed_particle_emitter, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
@@ -415,7 +414,7 @@ void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos
         spawn_particle_effect(&player->m_2fc, 0x69);
     }
     if (phase == 1) {
-        obj = (TUnk_804CCB28 *)__nw__7TObjectFUl(sizeof(TUnk_804CCB28));
+        obj = static_cast<TUnk_804CCB28 *>(TObject::operator new(sizeof(TUnk_804CCB28)));
         if (obj != NULL) {
             obj = create_fire_explosion_effect((u8 *)obj, 10.0f, pos, 0, tl_particle);
         }
@@ -507,7 +506,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)get_item_field_6__10TObjPlayerFPv(player);
+    weapon = (TItemWeapon *)(saddr)get_item_field_6__10TObjPlayerFPv(player);
     if (weapon == NULL) {
         return;
     }

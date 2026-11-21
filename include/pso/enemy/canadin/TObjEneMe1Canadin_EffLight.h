@@ -30,7 +30,7 @@ public:
     s32 m_30;
     f32 m_34;
 };
-typedef char TObjEneMe1Canadin_EffLight_size[sizeof(TObjEneMe1Canadin_EffLight) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Canadin_EffLight_size, sizeof(TObjEneMe1Canadin_EffLight) == 0x38);
 
 extern "C" s32 fade_alpha_step__17TObjEneMe1CanadinFfl(TObjEneMe1Canadin_EffLightPoint *point, f32 scale, s32 step);
 

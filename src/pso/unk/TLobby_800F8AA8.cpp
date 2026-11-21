@@ -63,12 +63,12 @@ s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
 }
 
-void copy_name(s32 name) {
-    strncpy(player_name_copy_buffer, (const char *)name, 0x10);
-    if (strncmp((const char *)name, "..", 0x10) == 0) {
+void copy_name(char *name) {
+    strncpy(player_name_copy_buffer, name, 0x10);
+    if (strncmp(name, "..", 0x10) == 0) {
         fn_800F8A78();
     }
-    fn_803DEE48((const char *)name);
+    fn_803DEE48(name);
 }
 
 void fn_800F8A78(void) {
@@ -833,21 +833,21 @@ void apply_phase_keyboard_mode(void) {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((int)(TLobby::init_chr_select));
+            TLobby::set_keyboard_mode((saddr)(TLobby::init_chr_select));
         } else {
-            TLobby::set_keyboard_mode((int)(TLobby::reset_to_chr_select));
+            TLobby::set_keyboard_mode((saddr)(TLobby::reset_to_chr_select));
         }
         break;
     case 14:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((int)(TLobby::shutdown_keyboard_control));
+            TLobby::set_keyboard_mode((saddr)(TLobby::shutdown_keyboard_control));
         } else {
-            TLobby::set_keyboard_mode((int)(TLobby::reset_keyboard_input));
+            TLobby::set_keyboard_mode((saddr)(TLobby::reset_keyboard_input));
         }
         break;
     case 1:
     case 2:
-        TLobby::set_keyboard_mode((int)TLobby__sub_800F8BD8);
+        TLobby::set_keyboard_mode((saddr)TLobby__sub_800F8BD8);
         break;
     default:
         TLobby::set_keyboard_mode(0);
@@ -912,7 +912,7 @@ void TLobby::clear_player_slot_tables(s32 n) {
 }
 
 void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     lobby_checked_read_ptr_table[arg1] = (s32 *)arg0;
     lbl_80499A10[arg1] = arg2;
     lbl_80499A20[arg1] = arg3;
@@ -935,9 +935,9 @@ void TLobby::draw_fullscreen_texture_quad() {
     v[3] = 432.0f;
     v[5] = v[4] = 0.0f;
     v[7] = v[6] = 1.0f;
-    TObjFish::set_global_param((s32)lbl_8049C61C);
+    TObjFish::set_global_param((saddr)lbl_8049C61C);
     begin_screen_draw(0);
-    set_draw_texture_and_color((s32)this, -1);
+    set_draw_texture_and_color((saddr)this, -1);
     draw_textured_quad_at_depth(v, (0.5f));
     TWindowSubStatusDisp::get_player();
 }
@@ -953,7 +953,7 @@ void TLobby::load_font_texture() {
     void *file = (void *)TLobby::tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
-        prs_decompress_buffer((s32)lobby_font_texture_prs_data, (s32)file);
+        prs_decompress_buffer((saddr)lobby_font_texture_prs_data, (saddr)file);
         r = load_gvm_texture_archive(file, (GinjaTextureList *)lbl_8049C61C);
         TLobby::tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
@@ -1157,40 +1157,40 @@ void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
 TUnk_8049C658::~TUnk_8049C658() {}
 
 extern "C" {
-s32 TItemDrop__sub_800F9448(s32 data, s32 size) {
+saddr TItemDrop__sub_800F9448(saddr data, s32 size) {
     TUnk_8049C658 file;
 
     if (size > 0) {
         file.data = (u8 *)data;
         file.size = size;
-        return (s32)apply_rel_relocations(&file);
+        return (saddr)apply_rel_relocations(&file);
     }
     return 0;
 }
 
-s32 load_relocatable_file(s32 name, s32 buffer) {
+saddr load_relocatable_file(saddr name, saddr buffer) {
     TUnk_8049C658 file;
     s32 size = read_disc_file((const char *)name, (void *)buffer);
 
     if (size > 0) {
         file.size = size;
         file.data = (u8 *)buffer;
-        return (s32)apply_rel_relocations(&file);
+        return (saddr)apply_rel_relocations(&file);
     }
     return 0;
 }
 
-void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((u32)p); }
+void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((uaddr)p); }
 
 void *load_data_file(const char *path) { return load_disc_file(path); }
 }
 
-void TLobby::free_nodes_with_id(u32 root) {
+void TLobby::free_nodes_with_id(uaddr root) {
     TUnk_8049C658 *file = (TUnk_8049C658 *)resource_load_task_root.m_down;
 
     while (file != NULL) {
-        if ((u32)file->root == root) {
-            TAdSinglePlyChrSelectGC::safe_free((u32)file->data);
+        if ((uaddr)file->root == root) {
+            TAdSinglePlyChrSelectGC::safe_free((uaddr)file->data);
             delete file;
         }
         file = (TUnk_8049C658 *)file->m_next;
@@ -1213,7 +1213,7 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     __ct__14SubtractiveRngFv(&rng[0]);
     subtractive_rng_seed(&rng[0], seed);
     ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, size - 8);
-    prs_decompress_buffer((s32)file->data, (s32)dst);
+    prs_decompress_buffer((saddr)file->data, (saddr)dst);
     return decompressed_size;
 }
 
@@ -1228,7 +1228,7 @@ u32 TLobby::write_packet_header(s32 size, s32 dst, u32 capacity) {
     __ct__14SubtractiveRngFv(rng);
     subtractive_rng_seed(rng, v4);
     subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
-    prs_decompress_buffer((s32)&this->m_prev, dst);
+    prs_decompress_buffer((saddr)&this->m_prev, dst);
     return v0;
 }
 
@@ -1238,14 +1238,14 @@ s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     s32 v4 = *(s32 *)&this->m_flags;
     s32 ret;
 
-    ret = (s32)TQuestVmDownLoadServer::alloc(v0);
+    ret = (saddr)TQuestVmDownLoadServer::alloc(v0);
     if (ret == 0) {
         return 0;
     }
     __ct__14SubtractiveRngFv(rng);
     subtractive_rng_seed(rng, v4);
     subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
-    prs_decompress_buffer((s32)&this->m_prev, ret);
+    prs_decompress_buffer((saddr)&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
     }
@@ -1253,7 +1253,7 @@ s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
 }
 
 extern "C" {
-s32 load_encrypted_text_archive(char *name, s32 *out_size) {
+saddr load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 size;
     s32 h;
     u8 *buf;
@@ -1276,14 +1276,14 @@ s32 load_encrypted_text_archive(char *name, s32 *out_size) {
         st.read_sectors_sync(1, buf);
         sp8 = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
-        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
-        ret = (s32)TQuestVmDownLoadServer::alloc(sp8);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        ret = (saddr)TQuestVmDownLoadServer::alloc(sp8);
         buf = load_disc_file(name);
         __ct__14SubtractiveRngFv(rng);
         subtractive_rng_seed(rng, h);
         subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
-        prs_decompress_buffer((s32)(buf + 8), ret);
-        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+        prs_decompress_buffer((saddr)(buf + 8), ret);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
     }
     if (out_size != NULL) {
         *out_size = sp8;
@@ -1291,26 +1291,26 @@ s32 load_encrypted_text_archive(char *name, s32 *out_size) {
     return ret;
 }
 
-s32 load_text_resource_pair(s32 name) {
+saddr load_text_resource_pair(saddr name) {
     s32 size;
     char path[0x40];
-    s32 data;
-    s32 relocs;
+    saddr data;
+    saddr relocs;
     s32 root;
 
     sprintf(path, "%s.pr2", name);
     data = load_encrypted_text_archive(path, &size);
     sprintf(path, "%s.pr3", name);
     relocs = load_encrypted_text_archive(path, &size);
-    root = (s32)alloc_named_object((const char *)name, (u8 *)data, size, (RelFileTrailer *)relocs);
+    root = (saddr)alloc_named_object((const char *)name, (u8 *)data, size, (RelFileTrailer *)relocs);
     TAdSinglePlyChrSelectGC::safe_free((u32)relocs);
     return root;
 }
 
-void load_encrypted_archive_data(s32 name) {
+void load_encrypted_archive_data(const char *name) {
     s32 size;
 
-    TLobby__sub_800F9A60((const char *)name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
+    TLobby__sub_800F9A60(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
 }
 
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
@@ -1336,7 +1336,7 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
 }
 }
 
-s32 create_named_object(s32 name) {
+saddr create_named_object(saddr name) {
     s32 size = get_resource_file_size((const char *)name);
     TUnk_8049C658 *file;
 
@@ -1347,7 +1347,7 @@ s32 create_named_object(s32 name) {
         file->m_name = file->name;
         file->data = load_disc_file((const char *)name);
         file->size = size;
-        return (s32)apply_rel_relocations(file);
+        return (saddr)apply_rel_relocations(file);
     }
     return 0;
 }
@@ -1365,9 +1365,9 @@ void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs) {
 
     for (i = 0; i < n; i++) {
         p += *offsets++;
-        *p += (u32)file->data;
+        *p += (uaddr)file->data;
     }
-    file->root = (void *)(relocs->root_offset + (u32)file->data);
+    file->root = (void *)(relocs->root_offset + (uaddr)file->data);
     return file->root;
 }
 
@@ -1379,15 +1379,15 @@ void *apply_rel_relocations(TUnk_8049C658 *file) {
 
     data = file->data;
     trailer = (RelFileTrailer *)(data + file->size) - 1;
-    offsets = (u16 *)(trailer->reloc_offset + (u32)data);
+    offsets = (u16 *)(trailer->reloc_offset + (uaddr)data);
     cur = data;
     u32 n = trailer->reloc_count;
     u32 i;
     for (i = 0; i < n; i++) {
         cur += *offsets++ * 4;
-        *(u32 *)cur += (u32)file->data;
+        *(u32 *)cur += (uaddr)file->data;
     }
-    file->root = (void *)(trailer->root_offset + (u32)file->data);
+    file->root = (void *)(trailer->root_offset + (uaddr)file->data);
     return file->root;
 }
 }

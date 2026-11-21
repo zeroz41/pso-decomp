@@ -18,6 +18,6 @@ public:
     Vec pos;
     Vec ground_pos;  // csnVecterUnder(pos), else pos
 };
-typedef char TUnk_804CCA0C_size[sizeof(TUnk_804CCA0C) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CCA0C_size, sizeof(TUnk_804CCA0C) == 0x44);
 
 #endif

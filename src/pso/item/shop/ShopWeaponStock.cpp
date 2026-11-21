@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
@@ -89,11 +90,9 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-s32 memset(void *, int, int);
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
-extern u32 lobby_weapon_random_tables_ptr;
-s32 memcmp(const void *, const void *, u32);
+extern uaddr lobby_weapon_random_tables_ptr;
 extern Cnt_80224B7C shop_weapon_stock_counts[];
 s32 is_duplicate_shop_weapon(C14_80224B7C *item, s32 tbl);
 void push_shop_pool_entry(void *, u8);
@@ -108,7 +107,7 @@ void roll_shop_weapon_first_bonus(Obj_80224DF0 *obj);
 void sort_shop_items(s32, s32, s32);
 
 
-u32 lobby_weapon_random_tables_ptr;
+uaddr lobby_weapon_random_tables_ptr;
 int shop_weapon_stock_level;
 
 s32 TLobby::classify_level_bracket_wide(s32 arg0) {
@@ -503,7 +502,7 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
 
 void TLobby__sub_80225238(int a0, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(a0); }
 }
-s32 create_named_object(s32 arg0);
+saddr create_named_object(saddr arg0);
 
 #pragma push
 #pragma optimization_level 1
@@ -597,7 +596,7 @@ void generate_shop_weapon_stock(s32 tbl) {
         ((TItemData *)(buf + ((((s32 *)shop_weapon_stock_counts)[tbl]++) * 0x14)))->copy_from((TItemData *)(&item));
       }
     }
-    sort_shop_items((s32)buf, (s32)(((s32 *)shop_weapon_stock_counts)[tbl]), 2);
+    sort_shop_items((saddr)buf, (s32)(((s32 *)shop_weapon_stock_counts)[tbl]), 2);
   }
 }
 #pragma pop
@@ -639,7 +638,7 @@ void TLobby::free_lobby_resources() {
         }
     }
     if (lobby_weapon_random_tables_ptr != 0) {
-        TLobby::free_nodes_with_id((u32)((void *)lobby_weapon_random_tables_ptr));
+        TLobby::free_nodes_with_id((uaddr)((void *)lobby_weapon_random_tables_ptr));
         lobby_weapon_random_tables_ptr = 0;
     }
 }
@@ -653,19 +652,19 @@ void load_weapon_random_tables(void) {
     s32 j;
     switch (shop_difficulty_tier) {
     case 0:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomNormal.rel");
         break;
     case 1:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomHard.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomHard.rel");
         break;
     case 2:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomVeryHard.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomVeryHard.rel");
         break;
     case 3:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomUltimate.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomUltimate.rel");
         break;
     default:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomNormal.rel");
         break;
     }
     for (j = 0; j < 4; j++) {
@@ -673,10 +672,10 @@ void load_weapon_random_tables(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_weapon_stock_buffers)[i] = (s32)mem_alloc(0x140);
+            ((s32 *)&shop_weapon_stock_buffers)[i] = (saddr)mem_alloc(0x140);
         }
     } else {
-        ((s32 *)&shop_weapon_stock_buffers)[0] = (s32)mem_alloc(0x140);
+        ((s32 *)&shop_weapon_stock_buffers)[0] = (saddr)mem_alloc(0x140);
     }
     shop_weapon_stock_level = 0;
 }

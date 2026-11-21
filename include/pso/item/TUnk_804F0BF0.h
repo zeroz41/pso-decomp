@@ -33,9 +33,9 @@ public:
     Vec position;
 };
 
-typedef char TUnk_804F0BF0_size[sizeof(TUnk_804F0BF0) == 0x68 ? 1 : -1];
-typedef char TUnk_804F0BF0_color_offset[offsetof(TUnk_804F0BF0, color) == 0x28 ? 1 : -1];
-typedef char TUnk_804F0BF0_scale_offset[offsetof(TUnk_804F0BF0, scale) == 0x48 ? 1 : -1];
-typedef char TUnk_804F0BF0_position_offset[offsetof(TUnk_804F0BF0, position) == 0x5C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F0BF0_size, sizeof(TUnk_804F0BF0) == 0x68);
+LAYOUT_ASSERT(TUnk_804F0BF0_color_offset, offsetof(TUnk_804F0BF0, color) == 0x28);
+LAYOUT_ASSERT(TUnk_804F0BF0_scale_offset, offsetof(TUnk_804F0BF0, scale) == 0x48);
+LAYOUT_ASSERT(TUnk_804F0BF0_position_offset, offsetof(TUnk_804F0BF0, position) == 0x5C);
 
 #endif

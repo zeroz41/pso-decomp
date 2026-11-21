@@ -23,6 +23,6 @@ public:
     Item_8033EB4C *entries;  // 16 records, mem_alloc(0x240) by the constructor
     s32 entry_count;
 };
-typedef char TUnk_804EFA88_size[sizeof(TUnk_804EFA88) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EFA88_size, sizeof(TUnk_804EFA88) == 0x24);
 
 #endif

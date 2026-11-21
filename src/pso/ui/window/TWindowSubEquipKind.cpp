@@ -11,7 +11,7 @@ s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(void *, s32, void *);
 
-u8 *create_equip_kind_window(s32 parent, s32 position, s32 client) {
+u8 *create_equip_kind_window(saddr parent, saddr position, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)position, 0x1F);
     return (u8 *)new TWindowSubEquipKind((u8 *)parent, client);
 }
@@ -19,7 +19,7 @@ u8 *create_equip_kind_window(s32 parent, s32 position, s32 client) {
 }
 
 void TWindowSubEquipKind::render() {
-    s32 context;
+    saddr context;
 
     context = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)context);

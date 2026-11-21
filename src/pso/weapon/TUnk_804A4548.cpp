@@ -35,7 +35,7 @@ void TUnk_804A4548::update_weapon() {
             a[0] = 0x4000;
             a[1] = owner->rotation_y;
             a[2] = 0;
-            TObjPlayer::launch_weapon_casing((s32)tl_05, (u32)this, 3, (u32)&v, (u32)a);
+            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)a);
         }
     } else if (recoil_state == 2) {
         TItemEffOrgaFlowShot::approach_value(&barrel_offset, 0.2f, 0.0f);

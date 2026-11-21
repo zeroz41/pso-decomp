@@ -22,11 +22,11 @@
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
+saddr load_enemy_bml_resource(u8 *arg0);
 }
-u8 *load_gvm_texture_file(s32 arg0);
-s32 lbl_805D4B50;
+u8 *load_gvm_texture_file(saddr arg0);
+saddr lbl_805D4B50;
 s32 dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void);
@@ -34,11 +34,11 @@ void load_dragon_ground_assets(void) {
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
         lbl_805D4B50 = load_enemy_bml_resource((u8 *)&dragon_ground_resource_descriptor);
-        dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_texture_filename);
+        dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = load_enemy_bml_resource_named((s32)&dragon_ground_resource_descriptor, (s32)dragon_common_alternate_bml_filename);
-        dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
+        lbl_805D4B50 = load_enemy_bml_resource_named((saddr)&dragon_ground_resource_descriptor, (saddr)dragon_common_alternate_bml_filename);
+        dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_alternate_texture_filename);
         break;
     }
 }
@@ -125,7 +125,7 @@ struct Crater_8002C288 : VBase_8002C288 {
     virtual void m11();
     virtual s32 m12(void *, Arg_8002C288 *, void *);
     u8 pad1c[0xAC - 0x1C];
-    u32 fAC;
+    uaddr fAC;
     u8 padB0[0xB4 - 0xB0];
     void *fB4;
     s32 fB8[4];
@@ -151,7 +151,7 @@ void TObjBoss1Crater::render() {
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
     model_render_flags |= 0x01000000;
-    draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 8)));
+    draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 8)));
     model_render_flags &= 0xFEFFFFFF;
     pop_matrix();
 }
@@ -218,7 +218,7 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
-    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
+    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((saddr)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
     if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
 
@@ -325,14 +325,14 @@ s32 TObjBoss1Crater__sub_8002C7E4(void* p) { return *(s32*)((char*)p + 0x8); }
 }
 void attack_target_list_remove(u8 *arg0, s32 arg1) {
     s32 temp_r5;
-    s32 temp_r5_2;
+    saddr temp_r5_2;
     if (arg1 >= 0) {
         temp_r5 = *(s32 *)((s8 *)arg0 + 8);
         if (arg1 < temp_r5) {
             *(s32 *)((s8 *)arg0 + 8) = (temp_r5 - 1);
             temp_r5_2 = *(s32 *)((s8 *)arg0 + 0);
             *(s32 *)((s8 *)temp_r5_2 + (arg1 * 4)) = *(s32 *)((s8 *)temp_r5_2 + (*(s32 *)((s8 *)arg0 + 8) * 4));
-            *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0)) + (*(s32 *)((s8 *)arg0 + 8) * 4)) = *(s32 *)((s8 *)arg0 + 4);
+            *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0)) + (*(s32 *)((s8 *)arg0 + 8) * 4)) = *(s32 *)((s8 *)arg0 + 4);
         }
     }
 }

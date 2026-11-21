@@ -10,12 +10,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include <string.h>
 #include "pso/player/TObjPlayer.h"
 extern "C" {
-s32 get_player_by_client_id(s32);
+saddr get_player_by_client_id(s32);
 s32 has_window_task_root();
-char* strncpy(char*, const char*, int);
-char* strcat(char*, const char*);
 void* get_window_layout_position(s32);
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
@@ -28,7 +27,7 @@ extern const char dead_list_name_separator[] = "\n";
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];
     s32 i;
-    m_window_handle = (u32)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
+    m_window_handle = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
     if (m_window_handle != 0U) {
         text[0] = 0;
         strcat(text, dead_list_text_prefix);
@@ -40,13 +39,13 @@ void TObjDeadListWin::build_dead_list_window() {
             }
             i += 1;
         } while (i < 4);
-        ((TWindowMessage *)m_window_handle)->append_line((int)text, (int)2);
+        ((TWindowMessage *)m_window_handle)->append_line((saddr)text, (int)2);
     }
 }
 
 void TObjDeadListWin::update_countdown() {
     s32 temp_r0;
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(local_client_id);
     if ((player == 0) || (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
         queue_destruction();

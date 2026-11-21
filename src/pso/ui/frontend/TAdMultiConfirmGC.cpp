@@ -40,14 +40,14 @@ s32 fn_802E0454(void *);
 int multi_confirm_cancel_requested(void *p);
 extern "C" {
 s32 are_all_entries_finished(s32);
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
 extern const char *TAdMultiConfirmGC__name;
@@ -138,7 +138,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     arg.count = ((TAdMultiConfirmGC_802FFA3C *)this)->count;
     arg.mask = 0;
     for (j = 0; j < (n = ((TAdMultiConfirmGC_802FFA3C *)this)->count); j++) {
-        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = (void *)get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((s32)((TAdMultiConfirmGC_802FFA3C *)this), (s32)(n + 1), (s32)j, (s32)(((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]));
+        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = (void *)get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((saddr)((TAdMultiConfirmGC_802FFA3C *)this), (s32)(n + 1), (s32)j, (s32)(((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]));
         new TAdMultiPlayerNoGC(this, ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
         arg.mask |= 1 << ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j];
     }
@@ -153,7 +153,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     }
     ((TAdMultiConfirmGC_802FFA3C *)this)->guide = p;
     ((TAdMultiPlyChrSelectGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_entry_value(0, (u32)(get_localized_text_entry(0x25, 0)));
-    ((TAdMultiPlyChrSelectGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_entry_value(1, (u32)&lbl_805DEF30);
+    ((TAdMultiPlyChrSelectGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_entry_value(1, (uaddr)&lbl_805DEF30);
     fn_802FF7EC(((TAdMultiConfirmGC_802FFA3C *)this));
 }
 

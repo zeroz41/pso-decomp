@@ -32,10 +32,10 @@ struct TItemEffPG : public TUnk_804E355C {
     static void create(TObject *parent, S_8035016C *params, s32 count); // makes a TUnk_804F0C08
 };
 
-typedef char S_8035016C_size[sizeof(S_8035016C) == 0x3C ? 1 : -1];
-typedef char TItemEffPG_charge_offset[offsetof(TItemEffPG, required_charge) == 0xCC ? 1 : -1];
-typedef char TItemEffPG_visual_offset[offsetof(TItemEffPG, m_d0) == 0xD0 ? 1 : -1];
-typedef char TItemEffPG_size[sizeof(TItemEffPG) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(S_8035016C_size, sizeof(S_8035016C) == 0x3C);
+LAYOUT_ASSERT(TItemEffPG_charge_offset, offsetof(TItemEffPG, required_charge) == 0xCC);
+LAYOUT_ASSERT(TItemEffPG_visual_offset, offsetof(TItemEffPG, m_d0) == 0xD0);
+LAYOUT_ASSERT(TItemEffPG_size, sizeof(TItemEffPG) == 0xD4);
 
 extern "C" {
 TItem *TObjPlayer__sub_8034F1AC(u8 *item);

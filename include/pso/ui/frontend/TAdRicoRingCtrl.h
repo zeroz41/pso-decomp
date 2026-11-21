@@ -6,10 +6,10 @@
 
 struct TAdRicoRingCtrl : public TObject {
     virtual ~TAdRicoRingCtrl();
-    void sub_8001B424(s32);
+    void sub_8001B424(saddr);
     virtual void render();
-    u32 m_1c;
-    u32 m_20;
+    uaddr m_1c;
+    uaddr m_20;
     void set_scale4(f32 farg0);
     static void *create(void *arg0);
     static void release_global_805D4A00();
@@ -22,7 +22,7 @@ struct TAdRicoRingCtrl : public TObject {
     f32 m_28;
 };
 
-typedef char TAdRicoRingCtrl_size[sizeof(TAdRicoRingCtrl) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TAdRicoRingCtrl_size, sizeof(TAdRicoRingCtrl) == 0x2C);
 
 extern "C" {
 void TAdRicoRingCtrl__sub_8001BED0(void *p, f32 v);

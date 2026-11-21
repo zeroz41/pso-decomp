@@ -26,7 +26,7 @@ struct DragonModelNode {
     f32 unknown34;
 };
 
-struct DragonEffectResource { s32 particle_ids[8]; };
+struct DragonEffectResource { saddr particle_ids[8]; };
 
 struct DragonControllerInput {
     u8 unk_0[0x8];
@@ -45,7 +45,7 @@ struct DragonAnimationEntry { u32 unknown00; s32 motionIndex; u8 unknown08[8]; }
 
 struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; s32 m_c; u8 unknown10[8]; s32 m_18; };
 struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *model; DragonMotionEntry *motions; };
-typedef char DragonPositionKeySize[sizeof(DragonPositionKey) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 
 extern "C" void copy_model_node(u8 *dst, u8 *src);
 
@@ -234,13 +234,13 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void choose_next_action();
     static void free_resources();
     static u8 *create(s32 arg0);
-    static s32 get_instance();
+    static saddr get_instance();
     static void select_fireball_particle_table();
     void draw();
     void update_burrow_inward_run(u32 arg1, s32 arg2);
     void release_held_player();
     void init_control_mode();
-    void apply_fireball_impact_damage(s32 arg1);
+    void apply_fireball_impact_damage(saddr arg1);
     void deliver_breath_attack(s32 arg1, s32 arg2);
     void sweep_death_body_attack();
     int apply_foot_step_attack(int arg1);
@@ -258,9 +258,9 @@ struct TBoss1Dragon : public TObjEneDD_ST {
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \
-    typedef char DragonOffset_##member[(offsetof(TBoss1Dragon, member) == offset) ? 1 : -1]
-typedef char DragonModelNodeSize[(sizeof(DragonModelNode) == 0x38) ? 1 : -1];
-typedef char DragonModelNodeChild[(offsetof(DragonModelNode, child) == 0x2C) ? 1 : -1];
+    LAYOUT_ASSERT(DragonOffset_##member, offsetof(TBoss1Dragon, member) == offset)
+LAYOUT_ASSERT(DragonModelNodeSize, sizeof(DragonModelNode) == 0x38);
+LAYOUT_ASSERT(DragonModelNodeChild, offsetof(DragonModelNode, child) == 0x2C);
 DRAGON_OFFSET(m_38c, 0x38C);
 DRAGON_OFFSET(m_40c, 0x40C);
 DRAGON_OFFSET(m_424, 0x424);
@@ -304,7 +304,7 @@ DRAGON_OFFSET(hpThreshold, 0x680);
 DRAGON_OFFSET(destinationX, 0x690);
 DRAGON_OFFSET(savedX, 0x698);
 DRAGON_OFFSET(facingAngle, 0x76C);
-typedef char DragonSize[(sizeof(TBoss1Dragon) == 0x8BC) ? 1 : -1];
+LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 #undef DRAGON_OFFSET
 
 #endif

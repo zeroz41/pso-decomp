@@ -55,17 +55,17 @@ void *TODoorLaboNormal__create(void *arg0) {
 }
 
 void *TODoorFourLightRuins__create(void *arg0) {
-    void *o = (void *)new TODoorFourLightRuins((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TODoorFourLightRuins((saddr)tl_05, (saddr)arg0);
     return o;
 }
 
 void *TODoorFourLightSpace__create(void *arg0) {
-    void *o = (void *)new TODoorFourLightSpace((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TODoorFourLightSpace((saddr)tl_05, (saddr)arg0);
     return o;
 }
 
 void *TObjInfoCol__create(void *arg0) {
-    void *o = (void *)new TObjInfoCol((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TObjInfoCol((saddr)tl_05, (saddr)arg0);
     return o;
 }
 

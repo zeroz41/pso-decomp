@@ -14,7 +14,7 @@ struct TObjNpcCloakroomBase : public TUnk_804A8640 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcCloakroomBase_size[sizeof(TObjNpcCloakroomBase) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcCloakroomBase_size, sizeof(TObjNpcCloakroomBase) == 0x3B8);
 
 extern "C" {
 void *TObjNpcConnoisseur__create(void *arg0);

@@ -20,5 +20,5 @@ struct TObjCollision : public TObjCollidable {
     u8 unk_C8[0x10];
 };
 
-typedef char TObjCollision_size[sizeof(TObjCollision) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TObjCollision_size, sizeof(TObjCollision) == 0xD8);
 #endif
