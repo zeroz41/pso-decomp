@@ -22,7 +22,6 @@ extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 char *fn_80076BC4(s32 *);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
-s32 save_cursor_selection__20TShopArmorListWindowFv();
 
 }
 

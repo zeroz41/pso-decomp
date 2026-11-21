@@ -251,7 +251,6 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
 };
 
 extern "C" {
-void *construct_type1_heading__20TWindowSubStatusDispFll(void *storage, s32 text, s32 client);
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(saddr arg1, s32 arg2) : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1) {
     saddr var_r31;

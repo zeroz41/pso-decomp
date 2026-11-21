@@ -73,7 +73,6 @@ struct Ent_80271F04 {
     u32 value;
 };
 extern "C" {
-s32 init_card__17TWindowSubComCardFv();
 }
 s32 *get_selected_guild_card_record(void);
 extern "C" {
@@ -1549,7 +1548,7 @@ s32 TWindowSubComCard__sub_802728CC(void) {
     saddr w;
     w = create_titled_window_menu_default(get_window_layout_position(0x90), 2, msg = (void*)TWindowSubStatusDisp::get_message_10(0xF8));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFA)), 6, 0x3B);
-    if (init_card__17TWindowSubComCardFv() != 0) {
+    if (TWindowSubComCard::init_card() != 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFB)), 6, 0x3F);
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xFB)), 6, 0x3F);

@@ -33,12 +33,10 @@ struct TWindowSoundBalance : public TWindowBase {
 LAYOUT_ASSERT(TWindowSoundBalance_size, sizeof(TWindowSoundBalance) == 0x68);
 
 extern "C" {
-void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 
 // --- C functions defined in TWindowSoundBalance.cpp ---
 extern "C" {
-void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 // --- end of C functions
 

@@ -29,7 +29,6 @@ struct TWindowFukidasi
 
 extern "C" {
 void *sub_80251DF0__13TUnk_804CF0B8Fslsf(void *arg0, s32 arg1, s32 str, s32 arg3, f32 farg0);
-void sub_802504A8__13TUnk_804CF0B8Fv(void *arg0);
 s32 clamp_position__13TUnk_804CF0B8FPvf(void *arg0, void *arg1, f32 farg0);
 }
 void complete_speech_balloon(u8 *arg0);

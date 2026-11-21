@@ -12,7 +12,6 @@ u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(u16 glyph, void *quad, s32 col
 u32 calc_text_width(char *s);
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
 void draw_menu_font_string_white(const char *text, f32 x, f32 y);
-void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code);
 u32 get_font_char_advance(u16 arg0);
 u16 map_char_to_font_code(u16 c);
 char *parse_text_control_codes(char *p, s32 *a, s32 *b);
