@@ -22,6 +22,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/unk/text_803DCDFC.h"
 
 
 extern "C" {
@@ -44,7 +45,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 s32 set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s8 func_801A5E54__Fv();
-void func_803DCDFC__Fv(void);
 
 const char *TLogo__class_name = "TLogo";
 

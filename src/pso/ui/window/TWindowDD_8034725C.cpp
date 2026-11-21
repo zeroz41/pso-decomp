@@ -340,7 +340,6 @@ void TWindowDD::set_item_pos(s32 i) {
 }
 
 extern "C" {
-s16 TWindowDD__sub_8034214C(u8 *arg0);
 
 TWindowDD *TWindowDD__sub_80347980(TWindowDD *self) {
     W_80347C50 *w = (W_80347C50 *)self;

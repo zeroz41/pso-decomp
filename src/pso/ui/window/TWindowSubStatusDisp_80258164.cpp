@@ -22,6 +22,8 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/unk/text_80104FCC.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 extern "C" {
 void mem_free(void *);
@@ -166,7 +168,6 @@ void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
 void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *arg0, s8 arg1, u32 arg2, s32 arg3);
 void select_item_icon__20TWindowSubStatusDispFPviUcUci(void *arg0, s32 arg1, u8 arg2, u8 arg3, s32 arg4);
 void *get_player_by_client_id(s32 i);
-s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 
 void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
     s16 sp8;
@@ -713,9 +714,6 @@ void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_it
 
 extern s32 lbl_805D63F0;
 extern const f32 lbl_805DCF1C;
-void begin_screen_draw(s32 arg0);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
 
 void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
     Quad_8025941C q;

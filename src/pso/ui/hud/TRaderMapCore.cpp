@@ -44,6 +44,8 @@
 #include "pso/system/BmlResource.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/ui/hud/TRaderMapCore_801A6CEC.h"
+#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/unk/TLobby_80131794.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -256,7 +258,6 @@ saddr TRaderMapCore__map_heap;
 void TCameraCtrl__sub_80068EF0(void);
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
 extern saddr camera_ctrl_instance;
@@ -290,7 +291,6 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 
-void set_chunk_material_override_pair(s32, s32);
 extern Color_801FAAEC radar_map_backdrop_color;
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
@@ -302,7 +302,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
 void scale_matrix(s32, f32, f32, f32);
-void draw_ginja_object(void *child);
 int get_entity_id(void*);
 s32 get_current_floor(void);
 s32 TLobby__sub_801C19D0(void *);
@@ -418,7 +417,6 @@ struct Ent_801FB798 { s32 a; char *name; };
 extern "C" {
 
 void copy_name(s32 arg0);
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 }
 saddr get_floor_scene_table(s32 arg0);
 extern "C" {

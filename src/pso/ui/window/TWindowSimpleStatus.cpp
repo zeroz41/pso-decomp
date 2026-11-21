@@ -138,7 +138,6 @@ struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
 struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 
-s16 obj_getS16_2BA(u8 *p);
 s32 get_photon_blast_chain(Slots_80270060 *);
 s32 TLobby__sub_801C19D0(void *);
 s32 TWindowSubComCard__sub_802452DC(s32);

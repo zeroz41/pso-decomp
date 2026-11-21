@@ -16,6 +16,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_80271400.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 
 
 const char *TWindowStatus__name = "TWindowStatus";
@@ -35,7 +36,6 @@ s32 draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 
-s16 obj_getS16_2BA(u8 *p);
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
@@ -45,12 +45,8 @@ void *TWindowStatus__ct(void *arg0, saddr layout_pos, void *arg2, const WindowDe
 void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 saddr get_window_layout_position(s32);
 
-void update_lockon_window(u8 *arg0);
 }
 void update_status_help_item(saddr arg0);
-extern "C" {
-
-}
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
 

@@ -12,6 +12,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/window/TWindowDD_80342428.h"
+#include "pso/ui/window/TWindowDD_803424EC.h"
+#include "pso/ui/window/TWindowDD_80347F34.h"
+#include "pso/unk/text_8020C354.h"
+#include "pso/ui/window/TWindowDD_80340EA8.h"
 
 struct TWindowDD_803431C0 {
     u8 pad0[0x20];
@@ -171,8 +176,6 @@ extern "C" {
 s32 apply_input__9TWindowDDFPvPv(int, int);
 s32 update__9TWindowDDFl(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
-void TWindowDD__sub_80342428(u8 *arg0);
-void handle_input__9TWindowDDFi(saddr arg0);
 void enter_state_16__9TWindowDDFPv(void *arg0);
 void update_state__9TWindowDDFPv(void *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
@@ -184,8 +187,6 @@ s16 TWindowDD__sub_8034214C(u8 *arg0);
 void TWindowDD__sub_80347980(void *);
 void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0);
 void TWindowDD__sub_80347CC8(void *, void *);
-void TWindowDD__sub_80347F48(u8 *arg0);
-void TWindowDD__sub_80347FA0(saddr arg0, s32 arg1);
 extern const s32 TWindowDD__data_805DFB50;
 
 extern const f32 TWindowDD__data_805DFB74;
@@ -216,8 +217,6 @@ s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
 void *get_player_by_client_id(s32);
-s32 is_room_free_of_active_enemies(s32 floor, s16 room);
-void *TWindowDD__sub_80340F70(void);
 saddr TWindowDD__sub_80342384(s32 arg0, s32 arg1);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);

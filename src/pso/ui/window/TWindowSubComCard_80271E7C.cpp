@@ -19,6 +19,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowChoiceSetting.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/unk/text_8024AB54.h"
+#include "pso/unk/text_8024AB98.h"
 
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
@@ -67,7 +73,6 @@ struct Ent_80271F04 {
 };
 extern "C" {
 s32 init_card__17TWindowSubComCardFv();
-s32 *get_shared_text_buffer(void);
 }
 s32 *get_selected_guild_card_record(void);
 extern "C" {
@@ -87,9 +92,6 @@ typedef void *(*GetMsg_80271F04)(void *, void *);
 }
 
 struct Rec_80272290 { s32 f0; u8 f4[0xD0]; };
-extern "C" {
-void text_builder_append(u8 *str);
-}
 void text_builder_reset();
 extern "C" {
 void load_selected_guild_card_record(int, int);
@@ -139,7 +141,6 @@ void open_mode4_window__17TWindowSubComCardFv(void);
 void open_layout_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_80273004(void);
 s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2);
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
 s32 TWindowSubComCard__sub_802728CC(void);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
@@ -158,7 +159,6 @@ struct ComCardList_80272A98 { u8 pad0; u8 count; u8 pad2[2]; ComCardRec_80272A98
 
 typedef void *(*GetMsg_80272CB0)(void *, void *);
 
-saddr get_message_text(s32);
 }
 
 struct VBase_18_204a81 { char pad[0x18]; };
@@ -193,8 +193,6 @@ void window_request_show(void *arg0);
 s32 is_com_card_active();
 extern "C" {
 void TWindowSubComCard__sub_80249144(void *arg0);
-void fn_8024AB54(saddr arg0);
-void TWindowSubComCard__sub_8024AB98(saddr arg0);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 s32 open_menu__17TWindowSubComCardFv(void);
@@ -204,15 +202,12 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
 s32 create_keyboard__19TWindowSubShortMailFv(void);
 extern s32 controller_input_state[];
 extern saddr TLobby__protocol_instance;
-void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 
 void TWindowSubComCard__sub_80077980(void *);
 }
 
 struct SelectedGuildCardRecord { s32 value; u8 remaining[0xB8]; };
 extern SelectedGuildCardRecord selected_guild_card_record;
-extern "C" {
-}
 
 void TWindowSubComCard::set_display_page() {
     s32 arg0 = (saddr)this;
