@@ -65,7 +65,7 @@ struct Out_80069F20 {
 };
 
 #include <stddef.h>
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"

@@ -4911,10 +4911,7 @@ pso/ui/hud/TLoadingCur_801A6DE0.cpp:
 	.text       start:0x801A6DE0 end:0x801A6E20
 
 pso/ui/frontend/TAdSelectCurGC.cpp:
-	.text       start:0x801A6E20 end:0x801A6E60
-
-pso/camera/TCameraCtrl_801A6E60.cpp:
-	.text       start:0x801A6E60 end:0x801A6EA0
+	.text       start:0x801A6E20 end:0x801A6EA0
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_801A6EA0.cpp:
 	.text       start:0x801A6EA0 end:0x801A6F38

@@ -48,7 +48,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/network/client_id.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"

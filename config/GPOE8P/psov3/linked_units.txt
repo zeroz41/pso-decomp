@@ -652,7 +652,6 @@ pso/camera/TCameraCtrl_8006BCD8.cpp
 pso/camera/TCameraCtrl_8006C254.cpp
 pso/camera/TCameraCtrl_8006C7C4.cpp
 pso/camera/TCameraFollow.cpp
-pso/camera/TCameraCtrl_801A6E60.cpp
 pso/camera/TCameraCtrl_803D6538.cpp
 pso/camera/TCameraCtrl_803D66DC.cpp
 pso/camera/TCameraCtrl_803D676C.cpp

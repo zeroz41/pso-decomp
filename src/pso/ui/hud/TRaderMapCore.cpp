@@ -42,7 +42,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/ui/hud/TRaderMapCore_801A6CEC.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_80131794.h"

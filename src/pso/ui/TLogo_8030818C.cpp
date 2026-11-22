@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 
 extern "C" {
 
