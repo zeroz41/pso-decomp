@@ -48,7 +48,6 @@
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/WindowLayout.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -120,6 +119,7 @@ extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
+saddr get_window_layout_position(s32);
 }
 void window_request_show(void *arg0);
 struct Ctl_8024E2A8 {

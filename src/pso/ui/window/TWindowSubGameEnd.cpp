@@ -14,7 +14,6 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
@@ -40,6 +39,7 @@ extern "C" {
 extern saddr tl_00;
 s32 get_main_phase();
 s32 __ct__7TObjectFP7TObject();
+saddr get_window_layout_position(s32);
 extern s32 __vt__17TWindowSubGameEnd[];
 s32 set_queued_main_phase(s32);
 s32 request_main_phase(s32);
