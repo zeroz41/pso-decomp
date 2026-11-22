@@ -497,6 +497,7 @@ extern "C" {
 s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
     f32 d;
     f32 best;
+    s32 first;
     s32 id;
     TObjChara *p;
     s32 n;
@@ -508,9 +509,9 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
         id = 0xFFFF;
         o1 = find_entity_by_id(this->bit_ids[0]);
         o2 = find_entity_by_id(this->bit_ids[1]);
-        p = (TObjChara *)TLobby::get_game_mode();
-        n = (saddr)p + TObjEneDD::get_enemy_count();
-        for (i = (saddr)p; i < n; i++) {
+        first = TLobby::get_game_mode();
+        n = first + TObjEneDD::get_enemy_count();
+        for (i = first; i < n; i++) {
             p = (TObjChara *)TObjPlayer::get_player_data(i);
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared(&this->body_center, &p->position);
