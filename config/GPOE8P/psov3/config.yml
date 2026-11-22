@@ -1261,7 +1261,7 @@ force_active:
   - sub_800CBDBC__13TObjEneMe1GeeFf
   - TObjEneMe1GiGueBarrier__barrier_resource_object
   - __ct__22TObjEneMe1GiGueBarrierFP7TObjectPv
-  - TObjEneMe1GiGueMissile__ct
+  - __ct__22TObjEneMe1GiGueMissileFlP3VecP3Vecff
   - __ct__15TObjEneMe1GiGueFP7TObjectPv
   - TObjEneMe1GiGue__model_filename_table
   - sub_802CB03C__15TObjEneMe1GiGueFv

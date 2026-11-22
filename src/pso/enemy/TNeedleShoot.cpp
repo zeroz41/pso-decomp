@@ -4,11 +4,13 @@
 
 #include <stddef.h>
 #include "pso/enemy/TNeedleShoot.h"
-#include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
@@ -17,92 +19,24 @@
 
 const char *TNeedleShoot__name = "TNeedleShoot";
 
-struct Stack_802A4544 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-};
-
-struct Base_802A4668 { char pad[0x18]; };
-struct VObj_802A4668 : Base_802A4668 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-};
-
-struct TNeedleShoot_802A47C8 {
-    const char *f0;
-    u8 pad04[0x18 - 0x04];
-    void *vt;
-    s32 f1c;
-    f32 f20;
-    f32 f24;
-    u8 pad28[0x34 - 0x28];
-    u16 f34;
-    u8 pad36[0x3c - 0x36];
-    f32 f3c;
-    f32 f40;
-    f32 f44;
-    f32 f48;
-    f32 f4c;
-    s32 f50;
-    s32 f54;
-    u8 pad58[0x68 - 0x58];
-    void *f68;
-    Vec pos;
-    u8 pad78[0x88 - 0x78];
-    f32 f88;
-    f32 f8c;
-    f32 f90;
-    Vec dir;
-    s32 fa0;
-    s32 fa4;
-    s32 fa8;
-    f32 fac;
-    s32 fb0;
-    f32 fb4;
-    s32 fb8;
-};
-
-extern "C" {
-u8 *csnVector(f32 *, f32 *, s32);
-void init_collision_body_parts(void *, void *, int);
-void *__ct__14TObjCollidableFP7TObject(void *, void *);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__12TNeedleShoot[];
-extern void *tl_06;
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to);
-void free_collision_body_parts(void *);
-
 void TNeedleShoot::vfunc_8() {  }
 
 #pragma push
 #pragma opt_common_subs off
 void TNeedleShoot::check_wall_hit() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802A4544, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802A4544, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802A4544, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802A4544, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802A4544, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_802A4544, sp1C) == 0x14);
-    Stack_802A4544 stack;
-    u8 *temp_r3;
-    stack.sp8 = this->prev_pos.x;
-    stack.spC = this->prev_pos.y;
-    stack.sp10 = this->prev_pos.z;
-    stack.sp14 = this->pos.x;
-    stack.sp18 = this->pos.y;
-    stack.sp1C = this->pos.z;
-    temp_r3 = (u8 *)(csnVector(&stack.sp8, &stack.sp14, 0x100));
-    if (temp_r3 != NULL) {
-        VecCopy(&this->pos, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
-        this->vfunc_6();
+    Vec to;
+    Vec from;
+    CsnHit *hit;
+    from.x = prev_pos.x;
+    from.y = prev_pos.y;
+    from.z = prev_pos.z;
+    to.x = pos.x;
+    to.y = pos.y;
+    to.z = pos.z;
+    hit = csnVector(&from, &to, 0x100);
+    if (hit != NULL) {
+        VecCopy(&pos, &hit->contact->point);
+        vfunc_6();
     }
 }
 #pragma pop
@@ -112,99 +46,87 @@ void TNeedleShoot::render() {
     debug_draw_sphere(&this->pos, &color, 10.0f);
 }
 
-void TObjEneMe1GiGueMissile::update_lifetime() {
-    f32 temp_f1;
+void TNeedleShoot::update_lifetime() {
+    f32 travelled;
 
-    temp_f1 = this->m_24;
-    if (temp_f1 > *(f32 *)&this->unk_20) {
+    travelled = distance;
+    if (travelled > range) {
         TObject::queue_destruction();
         return;
     }
-    this->m_24 = (f32) (temp_f1 + *(f32 *)&this->_padAC);
+    distance = travelled + speed;
 }
 
-void TNeedleShoot__sub_802A4668(void *self) {
-    struct VObj_802A4668 *o = (struct VObj_802A4668 *)self;
-    o->m5();
+void TNeedleShoot::sub_802A4668() {
+    queue_destruction();
 }
 
 #pragma push
 #pragma fp_contract on
 void TNeedleShoot::update_position() {
     VecCopy(&this->prev_pos, &this->pos);
-    this->pos.x = (this->dir.x * *(f32 *)&this->_padAC) + this->pos.x;
-    this->pos.y = (this->dir.y * *(f32 *)&this->_padAC) + this->pos.y;
-    this->pos.z = (this->dir.z * *(f32 *)&this->_padAC) + this->pos.z;
+    this->pos.x = (this->dir.x * speed) + this->pos.x;
+    this->pos.y = (this->dir.y * speed) + this->pos.y;
+    this->pos.z = (this->dir.z * speed) + this->pos.z;
     check_wall_hit();
 }
 #pragma pop
 
 void TNeedleShoot::run_task() {
-    if ((s32) this->m_b8 == 1) {
+    if (m_b8 == 1) {
         update_position();
-        ((TObjEneMe1GiGueMissile *)this)->update_lifetime();
+        update_lifetime();
         return;
     }
-    TNeedleShoot__sub_802A4668(this);
-}
-
+    sub_802A4668();
 }
 
 TNeedleShoot::~TNeedleShoot() {
     if (this->m_68 != NULL) { free_collision_body_parts(this->m_68); this->m_68 = 0; }
 }
 
-
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to) {
+TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
     f32 dx;
     f32 dz;
     f32 dy;
-    void *p;
-    __ct__7TObjectFP7TObject(self, tl_06);
-    self->vt = ((s32 *)&__vt__12TNeedleShoot);
-    self->f0 = TNeedleShoot__name;
-    self->f34 = 0xFFFF;
+    m_name = TNeedleShoot__name;
+    m_34 = 0xFFFF;
     dx = to->x - from->x;
     dz = to->z - from->z;
     dy = to->y - from->y;
-    self->pos.x = from->x;
-    self->pos.y = from->y;
-    self->pos.z = from->z;
-    self->fa0 = RADIANS_TO_ANGLE * atan2_float(fabs_float(dy), fabs_float(dz));
-    self->fa4 = RADIANS_TO_ANGLE * atan2_float(dx, dz);
-    self->fa8 = RADIANS_TO_ANGLE * atan2_float(dx, dy);
-    self->fb4 = 4.0f;
-    self->f88 = 1.0f;
-    self->f8c = 1.0f;
-    self->f90 = 1.0f;
-    self->f24 = 0.0f;
-    self->f1c = owner;
-    self->fac = 5.0f;
-    self->f20 = 1000.0f;
-    self->fb0 = 0;
-    self->fb8 = 1;
-    self->dir.x = dx;
-    self->dir.y = dy;
-    self->dir.z = dz;
-    if (0.0f != vector_length(&self->dir)) {
-        normalize_vector(&self->dir);
+    pos.x = from->x;
+    pos.y = from->y;
+    pos.z = from->z;
+    m_a0 = RADIANS_TO_ANGLE * atan2_float(fabs_float(dy), fabs_float(dz));
+    m_a4 = RADIANS_TO_ANGLE * atan2_float(dx, dz);
+    m_a8 = RADIANS_TO_ANGLE * atan2_float(dx, dy);
+    pad_b4 = 4.0f;
+    pad_88.x = 1.0f;
+    pad_88.y = 1.0f;
+    pad_88.z = 1.0f;
+    distance = 0.0f;
+    m_1c = owner;
+    speed = 5.0f;
+    range = 1000.0f;
+    m_b0 = 0;
+    m_b8 = 1;
+    dir.x = dx;
+    dir.y = dy;
+    dir.z = dz;
+    if (0.0f != vector_length(&dir)) {
+        normalize_vector(&dir);
     }
-    self->f3c = 0.0f;
-    self->f40 = 0.0f;
-    self->f44 = 0.0f;
-    self->f48 = 5.0f;
-    self->f4c = 1.0f;
-    self->f50 = 1;
-    self->f54 = 0x40007;
-    p = TObject::operator new(0xAC);
-    if (p != NULL) {
-        p = __ct__14TObjCollidableFP7TObject(p, self);
+    collision_body.offset.x = 0.0f;
+    collision_body.offset.y = 0.0f;
+    collision_body.offset.z = 0.0f;
+    collision_body.radius = 5.0f;
+    collision_body.half_width = 1.0f;
+    collision_body.shape = 1;
+    collision_body.flags = 0x40007;
+    m_68 = new TObjCollidable(this);
+    if (m_68 != NULL) {
+        init_collision_body_parts(m_68, &collision_body, 1);
     }
-    self->f68 = p;
-    if (self->f68 != NULL) {
-        init_collision_body_parts(self->f68, &self->f3c, 1);
-    }
-    return self;
 }
 
 void TNeedleShoot::vfunc_6() { TObject::queue_destruction(); }

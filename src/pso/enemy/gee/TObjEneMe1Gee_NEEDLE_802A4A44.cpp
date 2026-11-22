@@ -24,7 +24,6 @@
 
 extern "C" {
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
-u8 *TNeedleShoot__ct(void *, s32, void *, void *);
 }
 
 void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
@@ -67,13 +66,6 @@ const char *TObjEneMe1Gee_NEEDLE__name = "TObjEneMe1Gee_NEEDLE";
 BmlResource *me1gee_cached_model_handle;
 }
 
-struct RecoveredGlobal_802A4CC4_lbl_804DCFF8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-extern "C" RecoveredGlobal_802A4CC4_lbl_804DCFF8 __vt__20TObjEneMe1Gee_NEEDLE;
-
 void TObjEneMe1Gee_NEEDLE::render() {
     if (me1gee_cached_model_handle == NULL) {
         TObject::queue_destruction();
@@ -96,30 +88,28 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
         TObject::queue_destruction();
         return;
     }
-    if ((s32)m_b8 == 1) {
+    if (m_b8 == 1) {
         update_position();
-        ((TObjEneMe1GiGueMissile *)this)->update_lifetime();
+        update_lifetime();
         TObjPlayer__sub_802A445C(this, 1);
         return;
     }
-    TNeedleShoot__sub_802A4668(this);
+    sub_802A4668();
+}
+
+TObjEneMe1Gee_NEEDLE::TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f32 speed, f32 power)
+    : TNeedleShoot((saddr)owner, from, to) {
+    m_name = TObjEneMe1Gee_NEEDLE__name;
+    m_bc = power;
+    this->speed = speed;
+    m_c0 = 150;
+    m_b0 = 1;
+    if ((void *)m_1c != NULL) {
+        m_34 = get_entity_id((TObjBase *)m_1c);
+    }
 }
 
 extern "C" {
-TObjEneMe1Gee_NEEDLE *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *self, TObject *owner, Vec *from, Vec *to, f32 farg0,
-                                               f32 power) {
-    TNeedleShoot__ct(self, (saddr)owner, from, to);
-    *(s32 **)((u8 *)self + 0x18) = &__vt__20TObjEneMe1Gee_NEEDLE.value;
-    self->m_name = TObjEneMe1Gee_NEEDLE__name;
-    self->m_bc = power;
-    *(f32 *)((u8 *)self + 0xAC) = farg0;
-    self->m_c0 = 150;
-    self->m_b0 = 1;
-    if ((void *)self->m_1c != NULL) {
-        self->m_34 = get_entity_id((TObjBase *)self->m_1c);
-    }
-    return self;
-}
 
 void TObjEneMe1Gee__sub_802A4D4C(void) {
 }

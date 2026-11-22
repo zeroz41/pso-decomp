@@ -1199,14 +1199,10 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
                 {
                     Vec out;
                     Vec in = {0.0f, 0.0f, 0.0f};
-                    void *p;
                     matrix_mult_vec(0, &in, &out);
                     pop_matrix();
                     out.y += this->m_3e8;
-                    p = TObject::operator new(0xC4);
-                    if (p != NULL) {
-                        TObjEneMe1Gee_NEEDLE__ct((TObjEneMe1Gee_NEEDLE *)p, this, &out, dir, this->m_3fc, this->m_42c->m_4);
-                    }
+                    new TObjEneMe1Gee_NEEDLE(this, &out, dir, this->m_3fc, this->m_42c->m_4);
                 }
             }
             break;

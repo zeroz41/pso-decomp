@@ -6,6 +6,7 @@
 
 class TObjEneMe1Gee_NEEDLE : public TNeedleShoot {
 public:
+    TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f32 speed, f32 power);
     virtual ~TObjEneMe1Gee_NEEDLE();
     virtual void vfunc_9(void *);
     virtual void queue_destruction();
@@ -18,8 +19,6 @@ public:
 LAYOUT_ASSERT(TObjEneMe1Gee_NEEDLE_size, sizeof(TObjEneMe1Gee_NEEDLE) == 0xC4);
 
 extern "C" {
-TObjEneMe1Gee_NEEDLE *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *self, TObject *owner, Vec *from, Vec *to, f32 farg0,
-                                               f32 power);
 void TObjEneMe1Gee__sub_802A4D4C(void);
 }
 

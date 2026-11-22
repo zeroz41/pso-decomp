@@ -28,10 +28,7 @@
 extern "C" {
 BmlResource *lbl_805D6858;
 u16 get_entity_id(void *);
-void *TNeedleShoot__ct(void *, s32, Vec *, Vec *);
-extern void *__vt__22TObjEneMe1GiGueMissile[];
 const char *lbl_805D3F20 = "TObjEneMe1GiGueMissile";
-TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power);
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 void TObjEneMe1GiGue__sub_802CE4E8(void);
 void TObjEneMe1GiGue__sub_802CE4EC(void);
@@ -69,10 +66,7 @@ void TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destructi
 void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
 
 void TObjEneMe1GiGueMissile::create(s32 owner, saddr from, saddr to, f32 speed, f32 power) {
-    void *o = TObject::operator new(0xC4);
-    if (o != NULL) {
-        TObjEneMe1GiGueMissile__ct((TObjEneMe1GiGueMissile *)o, owner, (Vec *)from, (Vec *)to, speed, power);
-    }
+    new TObjEneMe1GiGueMissile(owner, (Vec *)from, (Vec *)to, speed, power);
 }
 
 }
@@ -118,23 +112,19 @@ void TObjEneMe1GiGueMissile::run_task() {
 }
 #pragma pop
 
-TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power) {
-    TObjCollidable *target;
-    TNeedleShoot__ct(self, owner, from, to);
-    *(void ***)((s8 *)self + 0x18) = __vt__22TObjEneMe1GiGueMissile;
-    self->m_name = lbl_805D3F20;
-    self->m_c0 = power;
-    *(f32 *)self->_padAC = speed;
-    play_sound_effect(0x4002A600, &self->pos, 0, 0);
-    if ((void *)self->m_1c != NULL) {
-        self->m_34 = get_entity_id((void *)self->m_1c);
+TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f32 speed, f32 power)
+    : TNeedleShoot(owner, from, to) {
+    m_name = lbl_805D3F20;
+    m_c0 = power;
+    this->speed = speed;
+    play_sound_effect(0x4002A600, &pos, 0, 0);
+    if ((void *)m_1c != NULL) {
+        m_34 = get_entity_id((void *)m_1c);
     }
-    target = (TObjCollidable *)self->m_68;
-    if (target != NULL) {
-        target->bodies->radius = 1.0f;
+    if (m_68 != NULL) {
+        m_68->bodies->radius = 1.0f;
     }
-    self->m_b0 = 1;
-    return self;
+    m_b0 = 1;
 }
 
 void TObjEneMe1GiGue__sub_802CE4E8(void) {  }
