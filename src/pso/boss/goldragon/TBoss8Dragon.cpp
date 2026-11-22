@@ -87,7 +87,6 @@ struct Rot_802F9D08 { s32 x, y, z; };
 
 extern "C" {
 extern s32 local_client_id;
-int TBoss8Dragon__sub_802FB984(void);
 s32 fn_802F2E7C(int, void *, int);
 f32 atan2_float(f32 y, f32 x);
 void TBoss8Dragon__sub_802FB300(void);
@@ -126,7 +125,6 @@ s32 get_current_floor();
 int setup_instance__9TObjEneDDFllPUcl(void*);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
-s32 is_closest_part();
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
 void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1);
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
@@ -282,7 +280,6 @@ extern void *boss8_dragon_bezier_points_3[12];
 extern void *TBoss8Dragon__dive_height_curve[12];
 
 
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void build_6xA8_gol_dragon_boss_actions(void *p);
 extern "C" {
 struct Obj_802FAC08;
@@ -777,7 +774,6 @@ void TBoss8Dragon::run_task() {
 }
 
 void TBoss8Dragon::select_next_action() {
-    u8 *self = (u8 *)this;
     s32 temp_r4;
     temp_r4 = this->flags;
     if (temp_r4 & 0x40) {
@@ -790,7 +786,7 @@ void TBoss8Dragon::select_next_action() {
     if (is_health_low() != 0) {
         if (!(this->flags & 0x10)) {
             if (check_damage_reaction() == 0) {
-                if (((s32 (*)(void *))TBoss8Dragon__sub_802FB984)(self) != 0) {
+                if (this->sub_802FB984() != 0) {
                     return;
                 }
                 goto block_14;
@@ -1370,7 +1366,7 @@ s32 TBoss8Dragon::check_damage_reaction() {
     return 0;
 }
 
-int TBoss8Dragon__sub_802FB984(void) { return 0; }
+s32 TBoss8Dragon::sub_802FB984() { return 0; }
 
 #pragma push
 #pragma fp_contract on
@@ -3658,9 +3654,8 @@ void TBoss8Dragon::update_fade_out_state(s32 event) {
 }
 
 void TBoss8Dragon::update_controlled_stand_state(s32 event) {
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r4_3;
+    ControllerInputContext *input;
+    u32 buttons;
     switch (event) {
     case 4:
         this->requested_action = 0;
@@ -3670,12 +3665,12 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
         this->flags = (s32) (this->flags & ~0x36);
         return;
     case 11:
-        temp_r4 = (u8 *)this->controller_input;
-        if (*(f32 *)((s8 *)temp_r4 + 0x24) > 0.1f) {
+        input = this->controller_input;
+        if (input->stick_magnitude > 0.1f) {
             send_action_packet(0x19);
             return;
         }
-        if (this->mask_flags(*(s32 *)(temp_r4 + 8), 4) != 0) {
+        if (this->mask_flags(input->unknown_08, 4) != 0) {
             send_action_packet(3);
             return;
         }
@@ -3692,21 +3687,21 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
         }
         return;
     case 2:
-        temp_r4_2 = (u8 *)this->controller_input;
-        if (*(f32 *)((s8 *)temp_r4_2 + 0x24) > 0.1f) {
+        input = this->controller_input;
+        if (input->stick_magnitude > 0.1f) {
             send_action_packet(0x19);
             return;
         }
-        temp_r4_3 = (u8 *)(*(u8 **)((s8 *)temp_r4_2 + 8));
-        if ((saddr) temp_r4_3 & 4) {
+        buttons = input->unknown_08;
+        if (buttons & 4) {
             send_action_packet(3);
             return;
         }
-        if ((saddr) temp_r4_3 & 2) {
+        if (buttons & 2) {
             send_action_packet(4);
             return;
         }
-        if ((saddr) temp_r4_3 & 0x400) {
+        if (buttons & 0x400) {
             send_action_packet(5);
             return;
         }
@@ -3724,8 +3719,9 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
 }
 
 void TBoss8Dragon::update_controlled_walk_state(s32 event) {
-    s32 *p = (s32 *)((u8 *)this + 0x85C);
-    u8 *q;
+    s32 *p = &this->action_angle;
+    ControllerInputContext *input;
+    u32 buttons;
     f32 s;
     f32 c;
     f32 scale;
@@ -3744,16 +3740,16 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
             send_action_packet(0x18);
             return;
         }
-        q = *(u8 **)((s8 *)((u8 *)this->controller_input) + 8);
-        if ((saddr)q & 4) {
+        buttons = this->controller_input->unknown_08;
+        if (buttons & 4) {
             send_action_packet(3);
             return;
         }
-        if ((saddr)q & 2) {
+        if (buttons & 2) {
             send_action_packet(4);
             return;
         }
-        if ((saddr)q & 0x400) {
+        if (buttons & 0x400) {
             send_action_packet(5);
             return;
         }
@@ -3784,12 +3780,12 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
         (this->stateStep)++;
         if (this->stateStep >= 0x1E) {
             this->stateStep = 0;
-            q = (u8 *)this->controller_input;
-            if (*(f32 *)((s8 *)q + 0x24) <= 0.1f) {
+            input = this->controller_input;
+            if (input->stick_magnitude <= 0.1f) {
                 this->impactAge = 1;
                 return;
             }
-            *p = *(s32 *)((s8 *)q + 0x1C);
+            *p = *(s32 *)input->unknown_1c;
             this->set_speed(*p);
             this->send_6xA8_action();
             return;
@@ -3831,9 +3827,8 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
 }
 
 void TBoss8Dragon::update_controlled_hover_state(s32 event) {
-    u8 *temp_r3;
-    u8 *temp_r4;
-    u8 *temp_r4_2;
+    ControllerInputContext *input;
+    u32 buttons;
     switch (event) {
     case 4:
         this->requested_action = 0x10;
@@ -3847,12 +3842,12 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
             send_action_packet(8);
             return;
         }
-        temp_r3 = (u8 *)this->controller_input;
-        if (*(f32 *)((s8 *)temp_r3 + 0x24) > 0.1f) {
+        input = this->controller_input;
+        if (input->stick_magnitude > 0.1f) {
             send_action_packet(0x1B);
             return;
         }
-        if (this->mask_flags(*(s32 *)(temp_r3 + 8), 4) != 0) {
+        if (this->mask_flags(input->unknown_08, 4) != 0) {
             send_action_packet(7);
             return;
         }
@@ -3861,21 +3856,21 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
         }
         return;
     case 2:
-        temp_r4 = (u8 *)this->controller_input;
-        if (*(f32 *)((s8 *)temp_r4 + 0x24) > 0.1f) {
+        input = this->controller_input;
+        if (input->stick_magnitude > 0.1f) {
             send_action_packet(0x1B);
             return;
         }
-        temp_r4_2 = (u8 *)(*(u8 **)((s8 *)temp_r4 + 8));
-        if ((saddr) temp_r4_2 & 4) {
+        buttons = input->unknown_08;
+        if (buttons & 4) {
             send_action_packet(7);
             return;
         }
-        if ((saddr) temp_r4_2 & 2) {
+        if (buttons & 2) {
             send_action_packet(0xF);
             return;
         }
-        if ((saddr) temp_r4_2 & 0x400) {
+        if (buttons & 0x400) {
             send_action_packet(8);
             return;
         }
@@ -3895,8 +3890,9 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
 }
 
 void TBoss8Dragon::update_controlled_flight_state(s32 event) {
-    s32 *p = (s32 *)((u8 *)this + 0x85C);
-    u8 *q;
+    s32 *p = &this->action_angle;
+    ControllerInputContext *input;
+    u32 buttons;
     f32 s;
     f32 c;
     f32 scale;
@@ -3933,16 +3929,16 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
             send_action_packet(0x1A);
             return;
         }
-        q = *(u8 **)((s8 *)((u8 *)this->controller_input) + 8);
-        if ((saddr)q & 4) {
+        buttons = this->controller_input->unknown_08;
+        if (buttons & 4) {
             send_action_packet(7);
             return;
         }
-        if ((saddr)q & 2) {
+        if (buttons & 2) {
             send_action_packet(0xF);
             return;
         }
-        if ((saddr)q & 0x400) {
+        if (buttons & 0x400) {
             send_action_packet(8);
             return;
         }
@@ -3951,12 +3947,12 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
         (this->stateStep)++;
         if (this->stateStep >= 0x1E) {
             this->stateStep = 0;
-            q = (u8 *)this->controller_input;
-            if (*(f32 *)((s8 *)q + 0x24) <= 0.1f) {
+            input = this->controller_input;
+            if (input->stick_magnitude <= 0.1f) {
                 this->impactAge = 1;
                 return;
             }
-            *p = *(s32 *)((s8 *)q + 0x1C);
+            *p = *(s32 *)input->unknown_1c;
             this->set_speed(*p);
             this->send_6xA8_action();
             return;
@@ -3985,7 +3981,7 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
 }
 
 void TBoss8Dragon::update_controlled_burrow_state(s32 event) {
-    u8 *temp_r3;
+    ControllerInputContext *input;
     switch (event) {
     case 4:
         this->clear_intangible();
@@ -3999,12 +3995,12 @@ void TBoss8Dragon::update_controlled_burrow_state(s32 event) {
         break;
     case 2:
     case 11:
-        temp_r3 = (u8 *)this->controller_input;
-        if (*(f32 *)((s8 *)temp_r3 + 0x24) > 0.1f) {
+        input = this->controller_input;
+        if (input->stick_magnitude > 0.1f) {
             send_action_packet(0x1D);
             break;
         }
-        if (*(s32 *)((s8 *)temp_r3 + 8) & 2) {
+        if (input->unknown_08 & 2) {
             send_action_packet(0x13);
             break;
         }
@@ -4034,7 +4030,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
     f32 temp_f31;
     f32 temp_f31_2;
     u8 *temp_r30;
-    u8 *temp_r4;
+    ControllerInputContext *input;
 
     temp_r30 = ((u8 *)this + 0x878);
     switch (event) {
@@ -4068,12 +4064,12 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         this->stateStep = (this->stateStep + 1);
         if ((s32) this->stateStep >= 0x1E) {
             this->stateStep = 0;
-            temp_r4 = (u8 *)this->controller_input;
-            if (*(f32 *)((s8 *)temp_r4 + 0x24) <= 0.1f) {
+            input = this->controller_input;
+            if (input->stick_magnitude <= 0.1f) {
                 this->impactAge = 1;
                 return;
             }
-            this->rotation_y = (s32) *(s32 *)((s8 *)temp_r4 + 0x1C);
+            this->rotation_y = (s32) *(s32 *)input->unknown_1c;
             this->set_speed(this->rotation_y);
             this->send_6xA8_action();
             return;
@@ -4166,7 +4162,7 @@ void TBoss8Dragon::handle_fall_state(s32 event) {
         this->destination_direction.x = (f32) -this->position.x;
         this->destination_direction.y = 0.0f;
         this->destination_direction.z = (f32) -this->position.z;
-        normalize_vector_xz((Vec *)((u8 *)this + 0x3A0));
+        normalize_vector_xz(&this->destination_direction);
         this->rotation_y = (s32) (RADIANS_TO_ANGLE * atan2_float((f32) (this->destination_direction.x), this->destination_direction.z));
         return;
     case 2:
@@ -4492,7 +4488,7 @@ void TBoss8Dragon::wait_for_players(s32 event) {
 }
 
 void TBoss8Dragon::update_parts_burrow_state(s32 event) {
-    s32 *p = (s32 *)((u8 *)this + 0x85C);
+    s32 *p = &this->action_angle;
 
     switch (event) {
     case 4:

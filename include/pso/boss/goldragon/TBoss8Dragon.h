@@ -68,6 +68,7 @@ public:
     s32 choose_burrow_ring_destination(f32 *out);
     s32 select_air_fire_target(Vec *out);  // as TBoss1Dragon::select_air_fire_target
     s32 sub_802FABB4();
+    s32 sub_802FB984();  // always 0: select_next_action would end its low-health branch when it is set
     s32 is_secondary_sequence();
 
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
