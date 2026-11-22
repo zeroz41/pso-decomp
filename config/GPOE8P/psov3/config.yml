@@ -1173,7 +1173,7 @@ force_active:
   - TObjEneDolmOlm__param_table
   - TObjEneDolmOlm__sub_8030177C
   - TObjEneDolmOlm__sub_80301C3C
-  - TObjEneEpsilonGuard__ct
+  - __ct__19TObjEneEpsilonGuardFP7TObjectP18TObjEneEpsilonBodyllPC3Vecl
   - TObjEneEpsilonGuard__debug_line_list
   - TObjEneEpsilonGuard__model_desc
   - TObjEneEpsilonGuard__resource_descriptor
@@ -1191,8 +1191,8 @@ force_active:
   - sub_803610D0__18TObjEneEpsilonBodyFl
   - sub_803616E4__18TObjEneEpsilonBodyFl
   - sub_80361C70__18TObjEneEpsilonBodyFl
-  - TObjEneEpsilonGuard__receive_direct_attack
-  - TObjEneEpsilonGuard__dispatch_action
+  - receive_direct_attack__19TObjEneEpsilonGuardFPv19DirectAttackPayloadPvll
+  - dispatch_action__19TObjEneEpsilonGuardFUll
   - TObjEneIllGill_class_name
   - TObjEneIllGill_model_file_list
   - TObjEneIllGill_motion_name_table

@@ -24,6 +24,7 @@ struct TObjEneEpsilonGuardParams {
 };
 
 struct TObjEneEpsilonGuard : public TObjEneEpsilon {
+    TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     virtual ~TObjEneEpsilonGuard();
     s32 sub_8035DD68();
     s32 sub_8035DD74();
@@ -38,13 +39,15 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     virtual void update_body_colliders();
     virtual void check_collisions();
     virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
-    void run_death_reaction();
-    void run_hit_reaction();
-    void run_miss_reaction();
-    void refresh_target();
-    void render();
-    void run_task();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_miss_reaction();
+    virtual void refresh_target();
+    virtual void render();
+    virtual void run_task();
+    virtual void dispatch_action(u32 state, s32 msg);
     s32 state_step;        // sub-step of the current state (orbit 0/1/2; 1 once the break is done)
     s32 break_timer;       // frames counted in the break state
     s32 orbit_angle;       // angle around the body handed to set_orbit_destination
