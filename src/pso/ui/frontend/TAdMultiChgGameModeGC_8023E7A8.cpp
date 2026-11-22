@@ -75,12 +75,12 @@
 #include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 #include "pso/ui/TUnk_804F3A20.h"
+#include "pso/ui/frontend/TAdStorySelectGC.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
-void *__ct__16TAdStorySelectGCFv(void *, TObject *);
 void *__ct__21TAdMultiChgGameModeGCFv(void *, TObject *);
 void *__ct__21TAdMultiSelGameModeGCFv(void *, TObject *, s32);
 void TCameraCtrl__ct(void *, void *);
@@ -353,11 +353,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 4:
-        p = TObject::operator new(0x24);
-        if (p != NULL) {
-            p = __ct__16TAdStorySelectGCFv(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdStorySelectGC(tl_01);
         break;
     case 5:
         p = TObject::operator new(0x24);
