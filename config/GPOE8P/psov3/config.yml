@@ -1264,16 +1264,16 @@ force_active:
   - TObjEneMe1GiGueMissile__ct
   - __ct__15TObjEneMe1GiGueFP7TObjectPv
   - TObjEneMe1GiGue__model_filename_table
-  - TObjEneMe1GiGue__sub_802CB03C
-  - TObjEneMe1GiGue__sub_802CB10C
-  - TObjEneMe1GiGue__sub_802CB378
-  - TObjEneMe1GiGue__sub_802CB824
-  - TObjEneMe1GiGue__sub_802CC45C
-  - TObjEneMe1GiGue__sub_802CC614
-  - TObjEneMe1GiGue__sub_802CC900
-  - TObjEneMe1GiGue__sub_802CCBAC
-  - TObjEneMe1GiGue__sub_802CD054
-  - TObjEneMe1GiGue__sub_802CDAE8
+  - sub_802CB03C__15TObjEneMe1GiGueFv
+  - sub_802CB10C__15TObjEneMe1GiGueFv
+  - sub_802CB378__15TObjEneMe1GiGueFv
+  - sub_802CB824__15TObjEneMe1GiGueFl
+  - sub_802CC45C__15TObjEneMe1GiGueFv
+  - sub_802CC614__15TObjEneMe1GiGueFv
+  - sub_802CC900__15TObjEneMe1GiGueFv
+  - sub_802CCBAC__15TObjEneMe1GiGueFv
+  - sub_802CD054__15TObjEneMe1GiGueFv
+  - sub_802CDAE8__15TObjEneMe1GiGueFv
   - lbl_804949A0
   - lbl_804C5238
   - lbl_804FA528
@@ -3759,7 +3759,7 @@ force_active:
   - accumulate_mag_axis_oscillation__FPfPlP28MagAxisOscillationParameters
   - action__13TObjEneBm3FlyFPvi
   - action__14TObjEneBm5WolfFl
-  - action__15TObjEneMe1GiGueFPv
+  - action__15TObjEneMe1GiGueFv
   - action__16TObjEneBm5GibonUFPvi
   - action__16TObjEneMe3StelthFPvi
   - action__17TObjEneDf2BringerFl
@@ -6222,7 +6222,7 @@ force_active:
   - find_motion_key_partition_u16__FPUcUlUlUl
   - find_nearest_enemy__15TObjEnemyCustomFP3Vecf
   - refresh_target__12TObjEneSaverFv
-  - find_open_direction__15TObjEneMe1GiGueFPvPv
+  - find_open_direction__15TObjEneMe1GiGueFP3Vec
   - find_open_direction__16TObjEneNanoDragoFP3Vec
   - find_or_alloc_slot__10TObjPlayerFUl
   - find_pack_leader__14TObjEneBm5WolfFi
@@ -7002,7 +7002,7 @@ force_active:
   - init__13TUnk_804F28E0FlPv
   - init__15PSOV3EncryptionFUl
   - init__15TObjEneDelDepthFv
-  - init__15TObjEneMe1GiGueFPv
+  - init__15TObjEneMe1GiGueFv
   - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimePv
   - init__16TAdChrSelASlotGCFl
   - init__17TWindowSubComCardFi

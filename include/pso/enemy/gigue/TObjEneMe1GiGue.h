@@ -83,6 +83,19 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void update_hit_reaction();
     void update_rush_attack();
     void add_target_in_cone(TObjChara *target);
+    void find_open_direction(Vec *dir);
+    void sub_802CB03C();
+    s32 sub_802CB10C();
+    void init();
+    void sub_802CB378();
+    void sub_802CB824(s32 index);
+    void action();
+    void sub_802CC45C();
+    void sub_802CC614();
+    void sub_802CC900();
+    void sub_802CCBAC();
+    void sub_802CD054();
+    void sub_802CDAE8();
 };
 
 LAYOUT_ASSERT(TObjEneMe1GiGue_size, sizeof(TObjEneMe1GiGue) == 0x458);
