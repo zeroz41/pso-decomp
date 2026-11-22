@@ -873,7 +873,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 set_intangible();
-                TBoss3Volopt::create_breakup_mdl((s32)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);
                 flags |= 1;

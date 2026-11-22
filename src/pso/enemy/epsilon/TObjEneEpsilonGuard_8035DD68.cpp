@@ -299,7 +299,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
         break_timer++;
         if (break_timer >= 0x14) {
             clear_intangible();
-            TBoss3Volopt::create_breakup_mdl((s32)epsilon_guard_breakup_model, (saddr)&epsilon_guard_breakup_params, texlist, (saddr)&position, rotation_y);
+            TBoss3Volopt::create_breakup_mdl((saddr)epsilon_guard_breakup_model, (saddr)&epsilon_guard_breakup_params, texlist, (saddr)&position, rotation_y);
             play_sound_effect(0x4003AD4C, &body_center, 0, 0);
             trigger_dell_biter_events(&body_center);
             state_step = 1;
