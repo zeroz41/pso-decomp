@@ -112,6 +112,12 @@ def quality_table(rows: list[dict], categories: bool = True) -> list[str]:
     return out
 
 
+def changed(row: dict) -> bool:
+    """The pull request removed or added findings of this check, or moved its tree count."""
+    base, head, added, removed = counts(row, "base", "head", "added", "removed")
+    return bool(added or removed or head != base)
+
+
 def render_quality(quality: dict | None, repo: str) -> list[str]:
     """The advisory source quality section, from `source_quality.py --json` (run by master's copy of the
     script over the pull request's merge commit, whose text is untrusted)."""
@@ -133,15 +139,26 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
     owned = [r for r in rows if r.get("group") == "ownership"]
     base, after, added, removed = total
     files = number(quality.get("files_changed")) or 0
-    lines += ["", f"Advisory: never fails a pull request. **Debt {signed(after - base).strip('*')}**: "
-              f"this pull request removes {removed:,} and adds {added:,} across "
-              f"{plural(files, 'changed source file')}; the tree goes from {base:,} to {after:,}."]
-    if debt:
-        lines += [""] + quality_table(debt)
-        lines.append(f"| **Total debt** | **{base:,} → {after:,}** | **{removed:,}** | **{added:,}** |")
-    if owned:
-        lines += ["", "**Members in the wrong class**, read from the class declarations (not in the total):", ""]
-        lines += quality_table(owned, categories=False)
+    total_row = f"| **Total debt** | **{base:,} → {after:,}** | **{removed:,}** | **{added:,}** |"
+    owned_title = "**Members in the wrong class**, read from the class declarations (not in the total):"
+    moved = [r for r in debt if changed(r)]
+    if not moved and not any(changed(r) for r in owned):
+        lines += ["", f"Advisory: never fails a pull request. **No change in any check**; the tree stays at {after:,}."]
+    else:
+        lines += ["", f"Advisory: never fails a pull request. **Debt {signed(after - base).strip('*')}**: "
+                  f"this pull request removes {removed:,} and adds {added:,} across "
+                  f"{plural(files, 'changed source file')}; the tree goes from {base:,} to {after:,}."]
+    if moved:   # what this pull request did, the largest change first
+        lines += [""] + quality_table(sorted(moved, key=lambda r: -sum(counts(r, "added", "removed"))),
+                                      categories=False) + [total_row]
+    if any(changed(r) for r in owned):
+        lines += ["", owned_title, ""] + quality_table([r for r in owned if changed(r)], categories=False)
+    if debt:   # every check with the tree's count, one click away
+        lines += ["", f"<details><summary>All {len(debt) + len(owned)} checks by category</summary>", ""]
+        lines += quality_table(debt) + [total_row]
+        if owned:
+            lines += ["", owned_title, ""] + quality_table(owned, categories=False)
+        lines.append("</details>")
 
     new = listed(quality, "new")
     if new:

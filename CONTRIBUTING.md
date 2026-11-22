@@ -82,8 +82,9 @@ compares your change with the commit it branched from on `master`:
     python tools/source_quality.py --base master --head my-branch
     python tools/source_quality.py --tree                  # whole-tree counts and the worst files
 
-CI runs the same script on every pull request and adds the result to the CI comment: a table of every check
-with what the change removed and added. It never fails a pull request. Aim to remove more than you add and to add
+CI runs the same script on every pull request and adds the result to the CI comment: a table of the checks the
+change moved, with what it removed and added, and every check by category in a collapsed table under it. It never
+fails a pull request. Aim to remove more than you add and to add
 nothing on the lines you write. Every check is an exact pattern, a file name, or a relation read from the
 declarations, so a finding is never a guess. Code that only moves between files or functions counts as neither
 added nor removed.
