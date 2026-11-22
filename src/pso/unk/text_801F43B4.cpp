@@ -7,10 +7,9 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
-
-int is_quest_active(void);
 u8 quest_story_flags_by_difficulty[4][128];
 extern s32 game_difficulty_selection;
 

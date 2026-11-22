@@ -19,7 +19,6 @@ LAYOUT_ASSERT(CharacterSelectionRequestCountOffset, offsetof(CharacterSelectionR
 
 extern "C" {
 extern CharacterSelectionRequest chr_select_request_buffer;
-const CharacterSelectionRequest *get_character_select_request_buffer();
 void copy_selected_characters(const CharacterSelectionRequest *request);
 void copy_character_selection_request(CharacterSelectionRequest *destination, const CharacterSelectionRequest *source);
 }

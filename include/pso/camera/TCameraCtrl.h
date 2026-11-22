@@ -8,6 +8,7 @@
 
 class TCameraController;
 struct CameraViewParams;
+struct CharacterSelectionRequest;
 
 // The request a scripted or event camera hands over (get_params, and the
 // buffer set_active_camera_pose_from_params reads): where to put the eye,
@@ -225,6 +226,9 @@ extern f32 lbl_804FF5E8[10];
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 
 extern "C" {
+// Nonzero when value is an infinity or a NaN.
+int is_float_nonfinite(f32 value);
+const CharacterSelectionRequest *get_character_select_request_buffer();
 int is_quest_active(void);
 f32 TCameraCtrl__sub_80068A04(s32 view);
 // Forces registry controller `index` until restore_player_cameras; 0 if a
