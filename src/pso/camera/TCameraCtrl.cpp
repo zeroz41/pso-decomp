@@ -70,7 +70,7 @@ struct Out_80069F20 {
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/camera/TCameraCtrl_80067654.h"
-#include "pso/camera/TCameraCtrl_8006782C.h"
+#include "pso/camera/TCameraVolOpt.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
@@ -449,7 +449,7 @@ void *lbl_80488A8C[13] = {
     (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0,
     (void *)&TCameraCtrl__vt4, (void *)&TCameraCtrl__vt5, (void *)&TCameraCtrl__vt6, (void *)&TCameraCtrl__vt7,
     (void *)&CreationCamera::create, (void *)&TCameraCtrl__vt9, (void *)&TCameraCtrl__vt10, (void *)&TCameraCtrl__vt11,
-    (void *)&TCameraCtrl__vt12,
+    (void *)&TCameraVolOpt::create,
 };
 }
 void *lbl_80488AC0[6] = {

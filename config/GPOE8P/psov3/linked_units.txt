@@ -856,7 +856,7 @@ pso/unk/TLobby_80299B90.cpp
 pso/unk/TLobby_80299C4C.cpp
 pso/object/seabed/TObjSuisoChip_802A6080.cpp
 pso/unk/TLobby_802A7290.cpp
-pso/unk/TUnk_804887F8.cpp
+pso/camera/TCameraVolOpt.cpp
 pso/unk/TUnk_80488B38.cpp
 pso/unk/TUnk_80488DA0.cpp
 pso/unk/TLobby_802AF5FC.cpp

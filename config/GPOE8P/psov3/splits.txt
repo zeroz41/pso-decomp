@@ -722,7 +722,7 @@ pso/camera/TCameraCtrl_80067654.cpp:
 	.data       start:0x804887C8 end:0x804887F8
 	.sdata2     start:0x805D8F28 end:0x805D8F38
 
-pso/unk/TUnk_804887F8.cpp:
+pso/camera/TCameraVolOpt.cpp:
 	.text       start:0x8006782C end:0x80067CE8
 	.rodata     start:0x80438150 end:0x80438168
 	.data       start:0x804887F8 end:0x80488838
