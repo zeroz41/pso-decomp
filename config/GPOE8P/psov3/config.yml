@@ -1366,8 +1366,8 @@ force_active:
   - TObjEneRecon__ai_parameters
   - set_reflection_scissor__FPvl
   - TObjEneSaver__class_name
-  - TObjEneSaver__ct
-  - TObjEneSaver__vtable
+  - __ct__12TObjEneSaverFP7TObjectPv
+  - __vt__12TObjEneSaver
   - TObjEneShark__action_table
   - TObjEneShark__ct
   - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimePvPC3Vec
@@ -6222,7 +6222,7 @@ force_active:
   - find_material_entry_by_id__6TSceneFPvUs
   - find_motion_key_partition_u16__FPUcUlUlUl
   - find_nearest_enemy__15TObjEnemyCustomFP3Vecf
-  - find_nearest_target__10TObjPlayerFPv
+  - refresh_target__12TObjEneSaverFv
   - find_open_direction__15TObjEneMe1GiGueFPvPv
   - find_open_direction__16TObjEneNanoDragoFP3Vec
   - find_or_alloc_slot__10TObjPlayerFUl

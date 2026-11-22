@@ -5,7 +5,6 @@
 
 struct TObjEneSaver;
 extern "C" {
-u8 *TObjEneSaver__ct(TObjEneSaver *self, void *arg1, void *arg2);
 void TObjPlayer__sub_800A4294(void);
 void TObjPlayer__sub_800A42C0(void);
 void sub_800A4D9C__12TObjEneSaverFv(u8 *arg0);

@@ -3,8 +3,11 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/render/TUnk_80490470.h"
 
 struct TObjPlayer;
+struct TEneParticleCtrl;
+class TUnk_80494968;
 
 struct TObjEneSaver : public TObjEnemy {
     virtual ~TObjEneSaver();
@@ -35,21 +38,26 @@ struct TObjEneSaver : public TObjEnemy {
     virtual void run_move_action();
     virtual void run_attack_action();
     virtual void run_hit_reaction();
-    u32 m_374;
-    u8 _pad378[0x8];
-    u32 m_380;
-    u32 m_384;
-    s16 m_388;
-    u8 _pad38A[0x2];
-    TObjPlayer *m_38c;
-    u8 _pad390[0x14];
-    u32 m_3a4;
-    u32 m_3a8;
-    u32 m_3ac;
-    u8 unk_3B0[0x1C];
+    TObjEneSaver(TObject *parent, void *set_data);
+    virtual void refresh_target();
+    u32 state_flags;
+    s32 parameter_mask;
+    s16 attack_index;
+    s16 step_counter;
+    u32 particle_type;
+    u32 particle_type_b;
+    s16 guard_hp;
+    s16 guard_hp_max;
+    TObjPlayer *last_attacker;
+    Vec particle_position;
+    s32 facing_angle;
+    TEneParticleCtrl *particle_ctrl;
+    TUnk_80490470 body_fade;
+    TUnk_80494968 *attack_traces[3];
 };
 
 LAYOUT_ASSERT(TObjEneSaver_size, sizeof(TObjEneSaver) == 0x3CC);
-LAYOUT_ASSERT(TObjEneSaver_m_374, offsetof(TObjEneSaver, m_374) == 0x374);
-LAYOUT_ASSERT(TObjEneSaver_m_3a4, offsetof(TObjEneSaver, m_3a4) == 0x3A4);
+LAYOUT_ASSERT(TObjEneSaver_state_flags, offsetof(TObjEneSaver, state_flags) == 0x374);
+LAYOUT_ASSERT(TObjEneSaver_body_fade, offsetof(TObjEneSaver, body_fade) == 0x3A4);
+LAYOUT_ASSERT(TObjEneSaver_attack_traces, offsetof(TObjEneSaver, attack_traces) == 0x3C0);
 #endif
