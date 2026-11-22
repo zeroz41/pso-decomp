@@ -84,7 +84,6 @@ struct F3_802FB220 { f32 f[3]; };
 struct G_802FB220 { F3_802FB220 *value; u8 rest[8]; };
 
 extern "C" {
-s32 VecCopy__FP3VecPC3Vec(void *, const void *);
 extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target);
@@ -576,8 +575,8 @@ void TBoss8Dragon::get_camera_offsets(Vec *eye, Vec *target) {
             idx = 2;
             break;
         }
-        VecCopy__FP3VecPC3Vec(eye, (Vec *) lbl_804E4FF0 + idx);
-        VecCopy__FP3VecPC3Vec(target, (Vec *) lbl_804E5014 + idx);
+        VecCopy(eye, (Vec *) lbl_804E4FF0 + idx);
+        VecCopy(target, (Vec *) lbl_804E5014 + idx);
         if (*(u32 *)((s8 *)TBoss8Dragon__data_805D69AC + 0x64C) == 1) {
             target->y += 10.0f;
             target->z += 10.0f;
@@ -590,8 +589,8 @@ void TBoss8Dragon::get_camera_offsets(Vec *eye, Vec *target) {
     case 1:
     default:
         if (TCameraCtrl::get_camera_id() == 2) {
-            VecCopy__FP3VecPC3Vec(eye, lbl_804E4FD8);
-            VecCopy__FP3VecPC3Vec(target, lbl_804E4FE4);
+            VecCopy(eye, (Vec *)lbl_804E4FD8);
+            VecCopy(target, (Vec *)lbl_804E4FE4);
             break;
         }
         eye->y = (*(Cam_802FDC1C *)&TBoss8Dragon__data_80541DDC).p4[0];
@@ -717,13 +716,13 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_3e4 = 0;
     this->flags |= 1;
     for (i = 0; i < 3; i++) {
-        VecCopy__FP3VecPC3Vec(&this->pad_3EC[i], &this->position);
+        VecCopy(&this->pad_3EC[i], &this->position);
     }
-    VecCopy__FP3VecPC3Vec(&this->m_410, &this->position);
-    VecCopy__FP3VecPC3Vec(&this->m_41c, &this->position);
-    VecCopy__FP3VecPC3Vec(&this->m_428, &this->position);
+    VecCopy(&this->m_410, &this->position);
+    VecCopy(&this->m_41c, &this->position);
+    VecCopy(&this->m_428, &this->position);
     for (i = 0; i < 0x22; i++) {
-        VecCopy__FP3VecPC3Vec(&this->node_positions[i], &this->position);
+        VecCopy(&this->node_positions[i], &this->position);
     }
     this->m_5cc = 0.0f;
     this->m_5d0 = 0.0f;
@@ -735,8 +734,8 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_5e0.z = 0.0f;
     curve0.reset_coords();
     curve1.reset_coords();
-    VecCopy__FP3VecPC3Vec((u8 *)this + 0x634, (u8 *)this + 0x38);
-    VecCopy__FP3VecPC3Vec((u8 *)this + 0x640, (u8 *)this + 0x38);
+    VecCopy((Vec *)((u8 *)this + 0x634), &this->position);
+    VecCopy((Vec *)((u8 *)this + 0x640), &this->position);
     this->m_64c = 0;
     this->m_650 = 0;
     this->m_654 = 1;
@@ -936,7 +935,7 @@ void TBoss8Dragon::run_task() {
     ((TBoss8Dragon *)self)->store_position();
     ((TObjEnemy *)self)->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
-    VecCopy__FP3VecPC3Vec((u8 *)&this->m_640, (u8 *)&this->body_center);
+    VecCopy((Vec *)(&this->m_640), &this->body_center);
     if (temp_r30_2 == 0) {
         ((TObject *)(self + 0x3C4))->run_tasks();
     }
@@ -1029,9 +1028,9 @@ s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon) {
 }
 
 void TBoss8Dragon::store_position() {
-    s32 self = (saddr)this;
-    ((s32 (*)(s32, s32))VecCopy__FP3VecPC3Vec)(self + 0x2FC, self + 0x434);
-    ((s32 (*)(s32, s32))VecCopy__FP3VecPC3Vec)(self + 0x74, self + 0x2FC);
+    u8 *self = (u8 *)this;
+    VecCopy((Vec *)(self + 0x2FC), (Vec *)(self + 0x434));
+    VecCopy((Vec *)(self + 0x74), (Vec *)(self + 0x2FC));
 }
 
 void TBoss8Dragon::update_body_colliders() {
@@ -1040,13 +1039,13 @@ void TBoss8Dragon::update_body_colliders() {
     s32 i;
 
     p = pts;
-    VecCopy__FP3VecPC3Vec(p++, (u8 *)this + 0x434);
-    VecCopy__FP3VecPC3Vec(p++, (u8 *)this + 0x470);
-    VecCopy__FP3VecPC3Vec(p++, (u8 *)this + 0x458);
-    VecCopy__FP3VecPC3Vec(p++, (u8 *)this + 0x440);
-    VecCopy__FP3VecPC3Vec(p++, (u8 *)this + 0x5B4);
-    VecCopy__FP3VecPC3Vec(p++, (u8 *)this + 0x4C4);
-    VecCopy__FP3VecPC3Vec(p, (u8 *)this + 0x500);
+    VecCopy(p++, (Vec *)((u8 *)this + 0x434));
+    VecCopy(p++, (Vec *)((u8 *)this + 0x470));
+    VecCopy(p++, (Vec *)((u8 *)this + 0x458));
+    VecCopy(p++, (Vec *)((u8 *)this + 0x440));
+    VecCopy(p++, (Vec *)((u8 *)this + 0x5B4));
+    VecCopy(p++, (Vec *)((u8 *)this + 0x4C4));
+    VecCopy(p, (Vec *)((u8 *)this + 0x500));
     update_local_colliders_from_world(this, pts);
     for (i = 0; i < 7; i++) {
         if (bodies[i].offset.y >= 30.0f) {
@@ -1096,7 +1095,7 @@ s32 TBoss8Dragon::is_near_target() {
     struct { f32 b[2]; Vec c; } s;
     Vec a;
     calc_orbit_xz(s.b, (f32 *)&s.c);
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&a, &o->pos);
+    VecCopy(&a, &o->pos);
     subtract_vector(&a, s.b);
     return normalize_vector_xz((Vec *)&a) <= 35.0f;
 }
@@ -1161,7 +1160,7 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
         return 0;
     }
     if (n == 1) {
-        VecCopy__FP3VecPC3Vec(out, list[0]->pos);
+        VecCopy((Vec *)out, (Vec *)list[0]->pos);
     } else {
         lim = 100.0f;
         best = 0;
@@ -1190,7 +1189,7 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
                 p = list[k];
                 if (bestHp < p->f32C) {
                     bestHp = p->f32C;
-                    VecCopy__FP3VecPC3Vec(out, p->pos);
+                    VecCopy((Vec *)out, (Vec *)p->pos);
                 }
             }
         }
@@ -1227,14 +1226,14 @@ s32 TBoss8Dragon__sub_802FC580(Obj_802FC580 *obj, f32 *out) {
 
 void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon) {
     if (((TBoss8Dragon *)boss8_dragon)->is_health_low() != 0) {
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(boss8_dragon + 0x394, boss8_dragon + 0x38);
+        VecCopy((Vec *)(boss8_dragon + 0x394), (Vec *)(boss8_dragon + 0x38));
         *(f32 *)((s8 *)boss8_dragon + 0x398) = 0.0f;
         normalize_vector_xz((Vec *)(boss8_dragon + 0x394));
         ((TBoss8Dragon *)boss8_dragon)->destination.x *= -100.0f;
         ((TBoss8Dragon *)boss8_dragon)->destination.z *= -100.0f;
         return;
     }
-    ((void (*)(void *, const void *))VecCopy__FP3VecPC3Vec)(boss8_dragon + 0x394, &TBoss8Dragon__data_804744A8);
+    VecCopy((Vec *)(boss8_dragon + 0x394), &TBoss8Dragon__data_804744A8);
 }
 
 s32 TBoss8Dragon::select_target_in_front() {
@@ -1259,7 +1258,7 @@ s32 TBoss8Dragon::select_target_in_front() {
     for (i = 0; i < count; i++) {
         player = (u8 *)TObjPlayer::get_player_data(i);
         if (((TObjMotion *)player)->is_alive() != 0) {
-            ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, player + 0x38);
+            VecCopy(&d, (Vec *)(player + 0x38));
             subtract_vector(&d, &this->position);
             normalize_vector_xz((Vec *)&d);
             if (vec3_dot(&d, &ref) > lim) {
@@ -1613,12 +1612,12 @@ void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
     fill_value_array(((TBoss8Dragon *)ene_dd)->attack_history);
     sn = sin_table_lookup(((TObjEneDD *)ene_dd)->rotation_y);
     cs = cos_table_lookup(((TObjEneDD *)ene_dd)->rotation_y);
-    VecCopy__FP3VecPC3Vec(&v1, ene_dd + 0x38);
+    VecCopy(&v1, (Vec *)(ene_dd + 0x38));
     v1.x += -4.0f * cs;
     v1.y = 0.0f;
     v1.z -= -4.0f * sn;
     d = 0.5f * (b + c);
-    VecCopy__FP3VecPC3Vec(&v2, &v1);
+    VecCopy(&v2, &v1);
     v2.x = sn * d + v2.x;
     v2.z = cs * d + v2.z;
     spawn_particle_effect_with_flags(&v2, *(s32 *)((s8 *)(*(u8 **)((s8 *)ene_dd + 0x760)) + 0x10), 0x40);
@@ -1628,7 +1627,7 @@ void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
     a *= 2.0f;
     b = 0.5f * (0.5f * a);
     while (d > c) {
-        VecCopy__FP3VecPC3Vec(&v2, &v1);
+        VecCopy(&v2, &v1);
         v2.x = sn * d + v2.x;
         v2.z = cs * d + v2.z;
         ((TBoss8Dragon *)ene_dd)->emit_effect(&v2, &fx, ((TBoss8Dragon *)ene_dd)->attack_history);
@@ -1665,7 +1664,7 @@ void TBoss8Dragon::emit_body_effects() {
     reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
     fill_value_array(this->attack_history);
     TBoss1Dragon__sub_80027A80(&e, &TBoss8Dragon__body_effect_parameters);
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, ((u8 *)this) + 0x4C4);
+    VecCopy(&v, (Vec *)(((u8 *)this) + 0x4C4));
     e.field_8 = 15.0f;
     emit_effect(&v, &e, this->attack_history);
     e.field_8 = 12.0f;
@@ -1720,7 +1719,7 @@ void TBoss8Dragon::spawn_ground_effect() {
     Vec pos;
     f32 temp_f1;
     CsnHit *hit;
-    VecCopy__FP3VecPC3Vec(&pos, (u8 *)&this->position);
+    VecCopy(&pos, &this->position);
     hit = csnVecterUnder(&pos, 0x16EF);
     if (hit != NULL) {
         temp_f1 = hit->contact->point.y;
@@ -1797,7 +1796,7 @@ void TBoss8Dragon::freeze_player_at_self() {
             ((TObjPlayer *)player)->start_freeze();
             ((ProtectionTimer *)(player + 0x644))->set_frames(0x14);
             ((TObjPlayer *)player)->actorFlags = (s32) (((TObjPlayer *)player)->actorFlags & 0xFFEFFFDF);
-            VecCopy__FP3VecPC3Vec(player + 0x38, (u8 *)&this->position);
+            VecCopy((Vec *)(player + 0x38), &this->position);
             *(f32 *)((s8 *)player + 0x3C) = (f32) (*(f32 *)((s8 *)player + 0x3C) - 200.0f);
             ((TObjPlayer *)player)->rotation_y = (s32) this->rotation_y;
             return;
@@ -2508,7 +2507,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         }
         break;
     case 5:
-        VecCopy__FP3VecPC3Vec(&this->m_5e0, &this->destination_direction);
+        VecCopy(&this->m_5e0, &this->destination_direction);
         break;
     }
 }
@@ -2556,7 +2555,7 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
             this->stateStep = 1;
             if (this->m_74c != 0) {
                 this->m_85c = (s16)this->rotation_y;
-                VecCopy__FP3VecPC3Vec(d, (u8 *)&position);
+                VecCopy((Vec *)d, &position);
                 d[0] += 125.0f * sin_table_lookup(this->m_85c);
                 d[1] = 0.0f;
                 d[2] += 125.0f * cos_table_lookup(this->m_85c);
@@ -2604,21 +2603,21 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
                 Vec dir;
                 Vec rot;
                 f32 len;
-                VecCopy__FP3VecPC3Vec(&dir, d);
+                VecCopy(&dir, (Vec *)d);
                 subtract_vector(&dir, (u8 *)&position);
                 len = normalize_vector_xz((Vec *)&dir);
                 dir.y = 0.0f;
-                VecCopy__FP3VecPC3Vec(&v, d);
+                VecCopy(&v, (Vec *)d);
                 v.y = TBoss8Dragon__data_804744A8.y;
                 new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, 0x1000);
-                VecCopy__FP3VecPC3Vec(&v, (u8 *)&position);
+                VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
                 new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, -0x1000);
-                VecCopy__FP3VecPC3Vec(&v, (u8 *)&position);
+                VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
@@ -3294,7 +3293,7 @@ void TBoss8Dragon::sub_802F7808(u32 event, s32 action) {
             this->m_8a0 = 0;
         } else if (this->stateStep == 1) {
             Vec v;
-            VecCopy__FP3VecPC3Vec(&v, &this->position);
+            VecCopy(&v, &this->position);
             v.y = 0.0f;
             if (normalize_vector_xz((Vec *)&v) < 50.0f) {
                 this->pick_next_action();
@@ -3365,7 +3364,7 @@ void TBoss8Dragon::sub_802F75C8(s32 event) {
         send_action_packet(0x1C);
         return;
     case 9:
-        VecCopy__FP3VecPC3Vec(&sp8, ((u8 *)this) + 0x38);
+        VecCopy((Vec *)(&sp8), &this->position);
         if (normalize_vector_xz((Vec *)&sp8) > 350.0f) {
             this->pick_next_action();
         }
@@ -3700,7 +3699,7 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
             if (this->is_passing_frame(57.0f) != 0) {
                 DragonAttackParams e = TBoss8Dragon__body_effect_parameters;
                 e.field_8 = 12.0f;
-                VecCopy__FP3VecPC3Vec(&v, &lbl_804744F0);
+                VecCopy(&v, &lbl_804744F0);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, (u8 *)&position);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
@@ -3714,7 +3713,7 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
             if (this->is_passing_frame(88.0f) != 0) {
                 DragonAttackParams e = TBoss8Dragon__body_effect_parameters;
                 e.field_8 = 25.0f;
-                VecCopy__FP3VecPC3Vec(&v, &lbl_804744FC);
+                VecCopy(&v, &lbl_804744FC);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, (u8 *)&position);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
@@ -4222,7 +4221,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         this->flags = (s32) (this->flags & 0xFFFFFFF8);
         this->set_invulnerable();
         this->disable_body_collision();
-        VecCopy__FP3VecPC3Vec(temp_r30, ((u8 *)this) + 0x38);
+        VecCopy((Vec *)temp_r30, &this->position);
         this->stateStep = 0x64;
         this->impactAge = 0;
         *(f32 *)((s8 *)temp_r30 + 4) = TBoss8Dragon__data_804744A8.y;
@@ -4267,7 +4266,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         this->position.x = (f32) ((temp_f31 * speed) + this->position.x);
         this->position.z = (f32) ((temp_f1 * speed) + this->position.z);
         temp_f31_2 = newton_sqrtf(horizontal_distance_squared((u8 *)this + 0x38, temp_r30));
-        VecCopy__FP3VecPC3Vec(temp_r30, ((u8 *)this) + 0x38);
+        VecCopy((Vec *)temp_r30, &this->position);
         this->m_864 = (f32) (this->m_864 + temp_f31_2);
         break;
     }
@@ -4728,7 +4727,7 @@ void TBoss8Dragon::update_movement() {
     } else if (this->is_passing_frame(3.0f) != 0) {
         TBoss8Dragon::set_state_1(this);
     }
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&old, &this->position);
+    VecCopy(&old, &this->position);
     v = this->frame;
     if (v < 4.0f) {
         this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
@@ -4744,7 +4743,7 @@ void TBoss8Dragon::update_movement() {
     d.x = this->position.x - old.x;
     d.y = this->position.y - old.y;
     d.z = this->position.z - old.z;
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&this->position, &old);
+    VecCopy(&this->position, &old);
     this->apply_ground_movement(&d);
 }
 
@@ -4773,14 +4772,14 @@ void TBoss8Dragon::apply_ground_movement(Vec *step) {
     f32 t;
     this->position.y = this->position.y + step->y;
     step->y = 0.0f;
-    VecCopy__FP3VecPC3Vec(&a, &this->position);
-    VecCopy__FP3VecPC3Vec(&c, step);
+    VecCopy(&a, &this->position);
+    VecCopy(&c, step);
     t = normalize_vector_xz((Vec *)&c);
     this->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
     this->try_move_actor_xz_on_ground((u8 *)&b);
     this->position.y = a.y;
     if ((this->push_apart_from_parts() != 0) && (this->is_near_other_part() != 0)) {
-        VecCopy__FP3VecPC3Vec(&this->position, &a);
+        VecCopy(&this->position, &a);
     }
 }
 
@@ -4970,7 +4969,7 @@ void TBoss8Dragon::draw_with_fade(saddr pos, s32 view) {
 }
 
 void TBoss8Dragon::get_render_position(u8 *pos) {
-    VecCopy((Vec *)pos, (const Vec *)(((u8 *)this) + 0x38));
+    VecCopy((Vec *)pos, (const Vec *)(&this->position));
     if (((s32)main_task.get_task_flags() & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
         *(f32 *)((s8 *)pos + 8) += -460.0f;
     }

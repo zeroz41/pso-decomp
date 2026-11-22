@@ -183,7 +183,6 @@ struct Dragon_80060020 {
 
 
 extern "C" {
-int VecCopy__FP3VecPC3Vec(void*, void*);
 s32 get_flag_bit6__13TBoss5GryphonFv();
 extern const f32 lbl_805D8DAC;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
@@ -972,7 +971,7 @@ s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1
             return 0;
         }
     }
-    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(out, &p->pos);
+    VecCopy(out, &p->pos);
     return 1;
 }
 #pragma pop
@@ -1005,7 +1004,7 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
         out.x = r * sin_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x38);
         out.y = *(f32 *)((s8 *)arg0 + 0x3C);
         out.z = r * cos_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x40);
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&tmp, &out);
+        VecCopy(&tmp, &out);
         p = (u8 *)csnVecterUnder(&tmp, 0x16EF);
         if (p == NULL || *(f32 *)((s8 *)(*(u8 **)((s8 *)p + 4)) + 4) > 6.0f) {
             out.x = 100.0f * sin_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x38);
@@ -1154,7 +1153,7 @@ void TBoss5Gryphon::copy_bone_positions() {
     s32 i;
     Vec *d = ((Obj_8005E058 *)this)->dst;
     for (i = 0; i < 10; i++) {
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(d, &((Obj_8005E058 *)this)->src[gryphon_bone_copy_index_table[i]]);
+        VecCopy(d, &((Obj_8005E058 *)this)->src[gryphon_bone_copy_index_table[i]]);
         d++;
     }
 }
@@ -1301,10 +1300,10 @@ void TBoss5Gryphon::update_ground_effects() {
     Vec *q;
     s32 i;
     p = pts;
-    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[0]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[1]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[2]);
-    VecCopy__FP3VecPC3Vec(p, &self->cp[3]);
+    VecCopy(p++, &self->cp[0]);
+    VecCopy(p++, &self->cp[1]);
+    VecCopy(p++, &self->cp[2]);
+    VecCopy(p, &self->cp[3]);
     p[1].x = (2.0f * self->cp[0].x + self->cp[1].x) / lbl_805D8D90;
     p[1].y = (2.0f * self->cp[0].y + self->cp[1].y) / lbl_805D8D90;
     p[1].z = (2.0f * self->cp[0].z + self->cp[1].z) / lbl_805D8D90;
@@ -1318,10 +1317,10 @@ void TBoss5Gryphon::update_ground_effects() {
     p[4].y = 0.5f * (self->cp[2].y + self->cp[3].y);
     p[4].z = 0.5f * (self->cp[2].z + self->cp[3].z);
     p += 5;
-    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[4]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[5]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[6]);
-    VecCopy__FP3VecPC3Vec(p, &self->cp[7]);
+    VecCopy(p++, &self->cp[4]);
+    VecCopy(p++, &self->cp[5]);
+    VecCopy(p++, &self->cp[6]);
+    VecCopy(p, &self->cp[7]);
     p[1].x = (2.0f * self->cp[4].x + self->cp[5].x) / lbl_805D8D90;
     p[1].y = (2.0f * self->cp[4].y + self->cp[5].y) / lbl_805D8D90;
     p[1].z = (2.0f * self->cp[4].z + self->cp[5].z) / lbl_805D8D90;
@@ -3376,15 +3375,15 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
             switch (*(s32 *)((s8 *)this + 0x6E4)) {
             case 0:
                 if (is_passing_frame((f32)lbl_805D8E60) != 0) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *)sp8, (void *)boss5_gryphon_waypoint_vecs);
+                    VecCopy((Vec *)sp8, boss5_gryphon_waypoint_vecs);
                     spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4), 0x40);
                     start_pad_rumble_all(0x1C, 0x3C);
                 } else if (is_passing_frame((f32)lbl_805D8E64) != 0) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *)sp8, (void *)&boss5_gryphon_waypoint_vecs[1]);
+                    VecCopy((Vec *)sp8, &boss5_gryphon_waypoint_vecs[1]);
                     spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4), 0x40);
                     start_pad_rumble_all(0xC0, 0xF);
                 } else if ((is_passing_frame((f32)lbl_805D8E68) != 0) || (is_passing_frame((f32)lbl_805D8E6C) != 0)) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *)sp8, (void *)&boss5_gryphon_waypoint_vecs[1]);
+                    VecCopy((Vec *)sp8, &boss5_gryphon_waypoint_vecs[1]);
                     spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 0), 0x40);
                 }
                 if (is_passing_frame((f32)lbl_805D8E70) != 0) {
@@ -3408,14 +3407,14 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
             }
             break;
         case 1:
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) ((u8 *)this + 0x38), (void *)&lbl_80437DC4);
+            VecCopy(&this->position, &lbl_80437DC4);
             copy_xyz((u8 *)this + 0x5C, (void *)lbl_80437DD0);
             advance_animation();
             return;
         }
         break;
     case ENEMY_STATE_LEAVE:
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) ((u8 *)this + 0x38), (void *)&lbl_80437DC4);
+        VecCopy(&this->position, &lbl_80437DC4);
         copy_xyz((u8 *)this + 0x5C, (void *)lbl_80437DD0);
         *(f32 *)((s8 *)this + 0x484) = 0.0f;
         *(f32 *)((s8 *)this + 0x488) = 0.0f;
@@ -3500,12 +3499,12 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
         break;
     case ENEMY_STATE_LEAVE:
         F(s32, 0x4C0) &= ~0x84;
-        VecCopy__FP3VecPC3Vec(&tmp, arg0 + 0x38);
-        VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *)&lbl_80437DB8);
+        VecCopy(&tmp, (Vec *)(arg0 + 0x38));
+        VecCopy((Vec *)(arg0 + 0x38), &lbl_80437DB8);
         ((TObjEnemy *)arg0)->update_prev_position();
         ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x52);
-        VecCopy__FP3VecPC3Vec(arg0 + 0x38, &tmp);
+        VecCopy((Vec *)(arg0 + 0x38), &tmp);
         ((TObjEnemy *)arg0)->update_prev_position();
         F(s32, 0x30) = 0x12008;
         ((TObjChara *)(arg0))->vfunc_74(0);
@@ -3916,7 +3915,7 @@ void TBoss5Gryphon::spawn_ground_splash() {
     Vec pos;
     f32 temp_f1;
     CsnHit *hit;
-    VecCopy__FP3VecPC3Vec((void*)(&pos), (void*)((void *) (((u8 *)this) + 0x38)));
+    VecCopy(&pos, (Vec *)((void *) (&this->position)));
     hit = csnVecterUnder(&pos, 0x16EF);
     if (hit != NULL) {
         temp_f1 = hit->contact->point.y;
@@ -4193,7 +4192,7 @@ void TBoss5Gryphon::emit_part_attack_effect(int part) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss5Gryphon::copy_spawn_params(void* a1) { *(short*)((char*)a1 + 0x2) = this->entity_id; VecCopy__FP3VecPC3Vec((void*)((char*)a1 + 0x4), &this->position); *(s32 *)((char*)a1 + 0x10) = this->rotation_y; ((TBoss8Dragon *)a1)->send_spawn_params_packet(); }
+void TBoss5Gryphon::copy_spawn_params(void* a1) { *(short*)((char*)a1 + 0x2) = this->entity_id; VecCopy((Vec *)((char*)a1 + 0x4), &this->position); *(s32 *)((char*)a1 + 0x10) = this->rotation_y; ((TBoss8Dragon *)a1)->send_spawn_params_packet(); }
 #pragma pop
 
 #pragma push
@@ -4217,7 +4216,7 @@ void TBoss5Gryphon::fn_80064AB0() {
 #pragma dont_inline off
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon) {
     s16 temp_r4;
-    VecCopy__FP3VecPC3Vec((void*)(ene_dd + 0x484), (void*)(boss8_dragon + 4));
+    VecCopy((Vec *)(ene_dd + 0x484), (Vec *)(boss8_dragon + 4));
     ((f32 (*)(void *, void *))subtract_vector)(ene_dd + 0x484, ene_dd + 0x38);
     ((TObjEneDD *)ene_dd)->rotation_y = (s32) *(s32 *)((s8 *)boss8_dragon + 0x10);
     ((TBoss8Dragon *)(ene_dd + 0x494))->copy_action_state((u8 *)(boss8_dragon + 0x14));
@@ -4477,8 +4476,8 @@ void TBoss5Gryphon::update_body_colliders() {
 
 void TBoss5Gryphon::shift_position_history() {
     saddr arg0 = (saddr)this;
-    VecCopy__FP3VecPC3Vec((void*)(arg0 + 0x2FC), (void*)(arg0 + 0x3C0));
-    VecCopy__FP3VecPC3Vec((void*)(arg0 + 0x74), (void*)(arg0 + 0x2FC));
+    VecCopy((Vec *)(arg0 + 0x2FC), (Vec *)(arg0 + 0x3C0));
+    VecCopy((Vec *)(arg0 + 0x74), (Vec *)(arg0 + 0x2FC));
 }
 #pragma pop
 
@@ -4587,7 +4586,7 @@ void TBoss5Gryphon::run_task() {
     ((TBoss5Gryphon *)self)->shift_position_history();
     ((TObjEnemy *)self)->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
-    VecCopy__FP3VecPC3Vec((u8 *)&this->m_56c, (u8 *)&this->body_center);
+    VecCopy((Vec *)(&this->m_56c), &this->body_center);
     if (temp_r31_2 == 0) {
         ((TObject *)(self + 0x4C4))->run_tasks();
     }
@@ -4696,18 +4695,18 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     self->motion = ((Obj_80065658 *)self)->motions;
     self->flight_mode = 0;
     for (i = 0; i < 15; i++) {
-        VecCopy__FP3VecPC3Vec(&((Obj_80065658 *)self)->f3c0[i], &self->position);
+        VecCopy(&((Obj_80065658 *)self)->f3c0[i], &self->position);
     }
     for (i = 0; i < 10; i++) {
-        VecCopy__FP3VecPC3Vec(&((Obj_80065658 *)self)->f4e8[i], &self->position);
+        VecCopy(&((Obj_80065658 *)self)->f4e8[i], &self->position);
     }
     for (i = 0; i < 16; i++) {
         ((Obj_80065658 *)self)->objs[i] = 0;
     }
     self->m_774 = 0;
     self->m_778 = (uaddr)boss5_gryphon_action_scripts;
-    VecCopy__FP3VecPC3Vec(&self->m_560, &self->position);
-    VecCopy__FP3VecPC3Vec(&self->m_56c, &self->position);
+    VecCopy((Vec *)(&self->m_560), &self->position);
+    VecCopy((Vec *)(&self->m_56c), &self->position);
     *(f32 *)(*(u8 **)((u8 *)self + 0x2B0) + 0x10) = lbl_805D8E10;
     self->attack_history = new AreaAttackHistory(4);
     self->demo = (TBoss5GryphonDemo *)new TBoss5GryphonColli((TObject *)&self->m_4c4);
