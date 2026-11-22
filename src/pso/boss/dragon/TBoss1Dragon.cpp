@@ -64,11 +64,14 @@ struct NJS_OBJECT;
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
-extern "C" {
-s32 scale_matrix(s32, f32, f32, f32);
-s32 post_translate_matrix(void *);
-extern s32 model_render_flags;
-}
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/render/model_render_state.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/unk/TLobby_8007C550.h"
+#include "pso/player/PlayerSlots.h"
 struct ByteBlock_C { u8 bytes[0xc]; };
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
@@ -85,7 +88,7 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
-struct DragonCaptureVectors { DragonModelVector vectors[3]; };
+struct DragonCaptureVectors { Vec vectors[3]; };
 struct DragonModelState { s32 state[2]; f32 params[4]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct ByteBlock_14
@@ -110,24 +113,14 @@ extern const f32 lbl_805D4B40;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-void rotate_vec_xz(void *, void *, s32);
 s32 get_current_floor();
-uaddr get_player_by_client_id(s32);
 extern s32 lbl_805D4B24;
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 set_scripted_camera_pose(void *, void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-s32 vec3_add_to(void *, void *);
 extern u8 *TBoss1Dragon__part_hp_stats[5];
 f32 newton_sqrtf(f32);
 extern saddr TBoss1Dragon__data_804FE17C[3];
 s32 is_split_screen();
 u8 *find_entity_by_id(s32);
-s32 rotate_matrix_z(s32, s32);
-void subtract_vector(void *, void *);
-s32 translate_matrix(saddr, f32, f32, f32);
-s32 rotate_matrix_x(s32, s32);
-void set_material_alpha_compare_reference(s32);
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
@@ -141,7 +134,6 @@ extern Vec *TBoss1Dragon__data_805D4B1C;
 extern s32 TBoss1Dragon__data_805D4B20;
 extern f32 boss1_dragon_visibility_distance;
 extern u8 *camera_ctrl_instance;
-extern s32 saved_model_render_flags;
 struct G_80025C68 { u8 *value; u8 remaining[0x8]; };
 extern "C" {
 extern s32 TBoss1Dragon__data_805D4B38;
@@ -156,10 +148,8 @@ f32 TBoss1Dragon__sub_80027634(void);
 extern u8 controller_input_state[];
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *self);
-extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 s32 free_collision_body_parts(void *);
-s32 __ct__14SubtractiveRngFv(void *arg0);
 extern const Vec TBoss1Dragon__data_80434E80 = {0.0f, 0.0f, 0.0f};
 extern const DragonAttackParams boss1_dragon_attack_sphere_params = {0, 0.0f, 30.0f, 7.0f, 1};
 extern const DragonAttackParams TBoss1Dragon__head_fall_effect_params = {0, 0.0f, 35.0f, 50.0f, 1};
@@ -625,8 +615,8 @@ void TBoss1Dragon::load_resources() {
     DragonPositionKey *nodes;
     s32 *table;
     u8 **out;
-    f32 *capture;
-    f32 *delta;
+    Vec *capture;
+    Vec *delta;
     s32 i;
 
     switch (TBoss1Dragon::isV2Mode()) {
@@ -657,12 +647,12 @@ void TBoss1Dragon::load_resources() {
     lbl_804FE194.vectors[0].x = (0.0f);
     lbl_804FE194.vectors[0].y = (0.0f);
     lbl_804FE194.vectors[0].z = (5.0f);
-    capture = &lbl_804FE194.vectors[0].x;
-    delta = capture + 3;
-    delta[0] = (0.0f);
+    capture = &lbl_804FE194.vectors[0];
+    delta = capture + 1;
+    delta->x = (0.0f);
     lbl_804FE194.vectors[1].y = sin_table_lookup(-0x1555);
     lbl_804FE194.vectors[1].z = cos_table_lookup(-0x1555);
-    vec3_add_to(delta, &lbl_804FE194.vectors[0].x);
+    vec3_add_to(delta, &lbl_804FE194.vectors[0]);
     lbl_804FE194.vectors[2].x = (0.0f);
     lbl_804FE194.vectors[2].y = (-1.0f);
     lbl_804FE194.vectors[2].z = (1.0f);
@@ -1265,7 +1255,7 @@ s32 TBoss1Dragon::select_air_fire_target(Vec *out) {
     range = 6400.0f;
     count = 0;
     for (i = 0; i < 12; i++) {
-        p = (TObjChara *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (((TObjEneDD *)p)->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
             list[count++] = p;
         }
@@ -1352,7 +1342,7 @@ s32 TBoss1Dragon::select_forward_target() {
     f32 cutoff;
     s32 n;
     s32 count;
-    u8 *p;
+    TObjPlayer *p;
     s32 i;
     n = 0;
     count = TLobby::get_game_mode();
@@ -1364,9 +1354,9 @@ s32 TBoss1Dragon::select_forward_target() {
     fwd.y = (0.0f);
     fwd.z = cos_table_lookup(this->rotation_y);
     for (i = 0; i < count; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjBase *)p)->is_alive() != 0) {
-            VecCopy(&delta, &((TObjBase *)p)->position);
+        p = TObjPlayer::get_player_data(i);
+        if (p->is_alive() != 0) {
+            VecCopy(&delta, &p->position);
             subtract_vector(&delta, &this->position);
             normalize_vector_xz((Vec *)&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
@@ -1387,7 +1377,7 @@ s32 TBoss1Dragon::select_forward_target() {
 }
 
 void TBoss1Dragon::play_se_at_pos(s32 id) {
-    play_sound_effect(id, (saddr)&this->m_63c, 0, 0);
+    play_sound_effect(id, &this->m_63c, 0, 0);
 }
 
 void TBoss1Dragon::spawn_trap(s32 id) {
@@ -1841,7 +1831,7 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
         }
         d -= a;
         push_matrix();
-        post_translate_matrix(&pos);
+        post_translate_matrix(&pos.x);
         scale_matrix(0, b, (2.0f), b);
         draw_chunk_object((void *)lbl_805D28BC);
         pop_matrix();
@@ -2025,20 +2015,20 @@ void TBoss1Dragon::sub_800274A4() {
 #pragma push
 #pragma fp_contract on
 u16 TBoss1Dragon::find_player_on_floor(void *arg0) {
-    u8 *p;
+    TObjPlayer *p;
     u16 idx;
     u16 i;
-    p = ((u8 *)get_player_by_client_id(TLobby__designated_client_id));
+    p = get_player_by_client_id(TLobby__designated_client_id);
     if (p != NULL) {
-        if (((TObjPlayer *)p)->get_floor() == get_current_floor()) {
+        if (p->get_floor() == get_current_floor()) {
             return TLobby__designated_client_id;
         }
     }
     for (i = 0; i < 4; i++) {
         idx = (TLobby__designated_client_id + i + 1) % 4;
-        p = ((u8 *)get_player_by_client_id(idx));
+        p = get_player_by_client_id(idx);
         if (p != NULL) {
-            if (((TObjPlayer *)p)->get_floor() == get_current_floor()) {
+            if (p->get_floor() == get_current_floor()) {
                 break;
             }
         }
@@ -2069,9 +2059,9 @@ void TBoss1Dragon::init_control_mode() {
         id = local_client_id;
     }
     {
-        uaddr r = get_player_by_client_id(id);
-        if (r != 0) {
-            ((TObjPlayer *)r)->start_freeze();
+        TObjPlayer *player = get_player_by_client_id(id);
+        if (player != NULL) {
+            player->start_freeze();
         }
     }
     this->target_client_id = id;
@@ -2080,20 +2070,20 @@ void TBoss1Dragon::init_control_mode() {
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::hold_captured_player() {
-    s32 temp_r31;
-    s32 temp_r3b;
-    u8 *temp_r3;
-    temp_r3 = ((u8 *)get_player_by_client_id(this->target_client_id));
-    if (temp_r3 != NULL) {
-        temp_r31 = get_current_floor();
-        temp_r3b = ((TObjPlayer *)temp_r3)->get_floor();
-        if (temp_r3b == temp_r31) {
-            ((TObjPlayer *)temp_r3)->start_freeze();
-            ((ProtectionTimer *)(temp_r3 + 0x644))->set_frames(0x14);
-            ((TObjPlayer *)temp_r3)->actorFlags = (s32) (((TObjPlayer *)temp_r3)->actorFlags & 0xFFEFFFDF);
-            VecCopy(&((TObjPlayer *)temp_r3)->position, &this->position);
-            *(f32 *)((s8 *)temp_r3 + 0x3C) = (f32) (*(f32 *)((s8 *)temp_r3 + 0x3C) - 200.0f);
-            ((TObjPlayer *)temp_r3)->rotation_y = (s32) this->rotation_y;
+    s32 current_floor;
+    s32 player_floor;
+    TObjPlayer *player;
+    player = get_player_by_client_id(this->target_client_id);
+    if (player != NULL) {
+        current_floor = get_current_floor();
+        player_floor = player->get_floor();
+        if (player_floor == current_floor) {
+            player->start_freeze();
+            player->protection.set_frames(0x14);
+            player->actorFlags = player->actorFlags & 0xFFEFFFDF;
+            VecCopy(&player->position, &this->position);
+            player->position.y = player->position.y - 200.0f;
+            player->rotation_y = this->rotation_y;
             return;
         }
     }
@@ -2103,17 +2093,17 @@ void TBoss1Dragon::hold_captured_player() {
 #pragma pop
 void TBoss1Dragon::release_held_player() {
     s32 var_r31;
-    u16 temp_r4;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((u8 *)get_player_by_client_id((s32) this->target_client_id)));
-    if (temp_r3 != NULL) {
-        ((TObjPlayer *)temp_r3)->end_camera_pan();
-        ((TObjPlayer *)temp_r3)->actorFlags = (s32) (((TObjPlayer *)temp_r3)->actorFlags & 0xFDFFFFFF);
-        ((TObjPlayer *)(temp_r3 + 0x644))->reset_lobby_model();
-        *(f32 *)((s8 *)temp_r3 + 0x3C) = (f32) (0.0f);
-        temp_r4 = this->target_client_id;
-        if (((s32) temp_r4 == (s32) local_client_id) && ((s16) this->mode == 0x15)) {
-            send_6x2F_change_player_hp((0xFFFFU), (temp_r4), 0);
+    u16 client_id;
+    TObjPlayer *player;
+    player = get_player_by_client_id((s32) this->target_client_id);
+    if (player != NULL) {
+        player->end_camera_pan();
+        player->actorFlags = player->actorFlags & 0xFDFFFFFF;
+        ((TObjPlayer *)&player->protection)->reset_lobby_model();
+        player->position.y = 0.0f;
+        client_id = this->target_client_id;
+        if (((s32) client_id == (s32) local_client_id) && ((s16) this->mode == 0x15)) {
+            send_6x2F_change_player_hp((0xFFFFU), (client_id), 0);
         }
     }
     this->m_760 = 0;
@@ -2241,7 +2231,7 @@ s32 TBoss1Dragon::filter_input_flags(s32 arg1, s32 arg2, s32 arg3) {
     s32 var_r31;
 
     var_r31 = arg3;
-    if ((get_player_by_client_id(local_client_id) == 0U) || (check_flag_100__10TObjPlayerFPv() != 0)) {
+    if ((get_player_by_client_id(local_client_id) == NULL) || (check_flag_100__10TObjPlayerFPv() != 0)) {
         arg2 &= 0xFFFCF9F9;
     }
     return arg2 & var_r31;
@@ -2963,7 +2953,7 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
             }
             if (this->is_passing_frame(47.0f) != 0) {
                 VecCopy(&d, tgt);
-                subtract_vector(&d, (u8 *)&this->position);
+                subtract_vector(&d, &this->position);
                 dist = normalize_vector_xz((Vec *)&d);
                 d.y = (0.0f);
                 VecCopy(&dest, tgt);
@@ -3094,7 +3084,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                 }
                 found = 0;
                 if ((this->m_86c & 1) == 0) {
-                    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id((u16)((this->m_86c >> 1) % 4));
+                    TObjPlayer *player = get_player_by_client_id((u16)((this->m_86c >> 1) % 4));
                     if (((TObjBase *)player)->is_alive() != 0) {
                         VecCopy(&position, &player->position);
                         position.x += (100.0f) *
@@ -5095,7 +5085,7 @@ void TBoss1Dragon::wait_for_players(s32 arg1) {
     case 1:
         return;
     case ENEMY_STATE_UPDATE:
-        if ((get_player_by_client_id(0) != 0U) || (get_player_by_client_id(1) != 0U) || (get_player_by_client_id(2) != 0U) || (get_player_by_client_id(3) != 0U)) {
+        if ((get_player_by_client_id(0) != NULL) || (get_player_by_client_id(1) != NULL) || (get_player_by_client_id(2) != NULL) || (get_player_by_client_id(3) != NULL)) {
             this->stateStep = (this->stateStep + 1);
         }
         break;
@@ -5138,7 +5128,7 @@ void dragon_capture_node_points(NJS_OBJECT *) {
     if ((s32) TBoss1Dragon__data_805D4B0C == (s32) lbl_805D4B10) {
         push_matrix();
         forward_split_screen_view_matrix();
-        matrix_mult_vec_array(NULL, (const Vec *)lbl_804FE194.vectors, TBoss1Dragon__data_805D4B14, 3);
+        matrix_mult_vec_array(NULL, lbl_804FE194.vectors, TBoss1Dragon__data_805D4B14, 3);
         pop_matrix();
     }
     if ((s32) TBoss1Dragon__data_805D4B0C == (s32) boss1_dragon_capture_node_table[TBoss1Dragon__data_805D4B18]) {
@@ -5166,7 +5156,7 @@ void TBoss1Dragon::draw() {
     *(s32 *)&this->model = (s32) TBoss1Dragon__data_805D4B28;
     set_chunk_model_node_callback(dragon_capture_node_points);
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     translate_matrix(0, (0.0f), this->heightOffset, (0.0f));
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
@@ -5210,7 +5200,7 @@ void TBoss1Dragon::render() {
         if (is_split_screen() != 0 && this->heightOffset - this->defaultHeightOffset >= (-5.0f) &&
             this->mode != 0x16) {
             push_matrix();
-            post_translate_matrix(&this->position);
+            post_translate_matrix(&this->position.x);
             translate_matrix(0, (0.0f), (2.0f), (0.0f));
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, (2.0f), (0.001f), (2.0f));
@@ -5301,7 +5291,7 @@ void TBoss1Dragon::render() {
         }
         if (visible != 0) {
             push_matrix();
-            post_translate_matrix(&this->position);
+            post_translate_matrix(&this->position.x);
             translate_matrix(0, (0.0f), this->heightOffset, (0.0f));
             rotate_matrix_y(0, this->rotation_y);
             rotate_matrix_x(0, this->rotation_x);
@@ -5345,7 +5335,7 @@ void TBoss1Dragon::render_shadows() {
         }
         if ((this->viewFade[var_r31].has_visible_opacity() != 0) && ((this->heightOffset - this->defaultHeightOffset) >= (-5.0f)) && ((s16) this->mode != 0x16)) {
             push_matrix();
-            post_translate_matrix((void *)&this->position);
+            post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, (int) (this->rotation_y));
             scale_matrix(0, (2.0f), (2.0f), (2.0f));
             rotate_matrix_x(0, this->rotation_x);
