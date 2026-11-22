@@ -5,10 +5,14 @@
 
 class TBoss5GryphonLightningHorn : public TBoss5GryphonLightning {
 public:
+    TBoss5GryphonLightningHorn(TObject *parent, Vec *pos, s32 rotation_y);
     virtual ~TBoss5GryphonLightningHorn();
     void rebuild_lightning_segments();
     virtual void run_task();
     virtual void render();
+
+    Vec velocity;  // 5 units along rotation_y
+    s32 rotation_y;
 };
 
 extern const char *TBoss5GryphonLightningHorn__name;

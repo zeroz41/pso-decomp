@@ -136,7 +136,7 @@ public:
     void spawn_switch_attack();
     void spawn_attack_effect();
     void copy_action_state(u8 *arg1);
-    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 rotation_y);
+    static saddr spawn_ground_lightning(saddr parent, saddr pos, s32 rotation_y);
     static void set_default_on_state0();
     static void update_camera_script(NJS_OBJECT *);
     void calc_velocity_from_angle();

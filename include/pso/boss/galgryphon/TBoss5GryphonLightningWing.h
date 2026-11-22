@@ -17,6 +17,9 @@ public:
     void copy_position(void *out);
 public:
     void apply_lightning_effect();
+
+    s32 grow_frames;
+    s32 life_frames;  // run_task removes the wing once age reaches it
 };
 
 class TBoss5GryphonLightningWing;

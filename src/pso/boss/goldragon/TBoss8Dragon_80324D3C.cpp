@@ -15,20 +15,19 @@ void TBoss5GryphonLightningWing::copy_position(void *out) {
 }
 
 void TBoss5GryphonLightningWing::update_wing_segments() {
-    u8 *self = (u8 *)this;
-    eval_bezier_curve__12TBoss8DragonFPviiPvf(self + 0x48, (int) (*(s32 *)((s8 *)self + 0x90)), 0, self + 0x20, (f32) (*(f32 *)((s8 *)self + 0x88)));
-    eval_bezier_curve__12TBoss8DragonFPviiPvf(self + 0x48, (int) (*(s32 *)((s8 *)self + 0x90)), 0, self + 0x2C, (f32) (*(f32 *)((s8 *)self + 0x8C)));
-    if (this->m_38 != 0) {
-        ((TParticleCtrl *)this->m_38)->set_position(self + 0x20);
+    eval_bezier_curve__12TBoss8DragonFPviiPvf(this->segments, this->segment_count, 0, &this->start, this->life_progress);
+    eval_bezier_curve__12TBoss8DragonFPviiPvf(this->segments, this->segment_count, 0, &this->end, this->grow_progress);
+    if (this->effects[0] != 0) {
+        this->effects[0]->set_position(&this->start);
     }
-    if (this->m_3c != 0) {
-        ((TParticleCtrl *)this->m_3c)->set_position(self + 0x20);
+    if (this->effects[1] != 0) {
+        this->effects[1]->set_position(&this->start);
     }
-    if (this->m_40 != 0) {
-        ((TParticleCtrl *)this->m_40)->set_position(self + 0x2C);
+    if (this->effects[2] != 0) {
+        this->effects[2]->set_position(&this->end);
     }
-    if (this->m_44 != 0) {
-        ((TParticleCtrl *)this->m_44)->set_position(self + 0x2C);
+    if (this->effects[3] != 0) {
+        this->effects[3]->set_position(&this->end);
     }
 }
 

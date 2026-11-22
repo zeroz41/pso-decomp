@@ -5,33 +5,15 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/system/vector.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 TBoss5GryphonLightning::~TBoss5GryphonLightning() {
-    if (m_44 != nullptr) { ((TObject *)m_44)->queue_destruction(); m_44 = nullptr; }
-    if (m_40 != nullptr) { ((TObject *)m_40)->queue_destruction(); m_40 = nullptr; }
-    if (m_3c != nullptr) { ((TObject *)m_3c)->queue_destruction(); m_3c = nullptr; }
-    if (m_38 != nullptr) { ((TObject *)m_38)->queue_destruction(); m_38 = nullptr; }
+    if (this->effects[3] != nullptr) { this->effects[3]->queue_destruction(); this->effects[3] = nullptr; }
+    if (this->effects[2] != nullptr) { this->effects[2]->queue_destruction(); this->effects[2] = nullptr; }
+    if (this->effects[1] != nullptr) { this->effects[1]->queue_destruction(); this->effects[1] = nullptr; }
+    if (this->effects[0] != nullptr) { this->effects[0]->queue_destruction(); this->effects[0] = nullptr; }
 }
-
-struct Seg_80324F4C { Vec v; f32 f; };
-
-struct Self_80324F4C {
-    const char *f0;
-    char pad4[0x14];
-    void *vt;
-    f32 scale;
-    Vec v20;
-    Vec v2c;
-    void *eff38;
-    void *eff3c;
-    void *eff40;
-    void *eff44;
-    Seg_80324F4C segs[4];
-    f32 f88;
-    f32 f8c;
-    s32 n90;
-    s32 n94;
-};
 
 #pragma push
 #pragma opt_common_subs off
@@ -39,34 +21,26 @@ struct Self_80324F4C {
 #pragma opt_dead_assignments off
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-int VecCopy__FP3VecPC3Vec(void *, void *);
-extern s32 __vt__22TBoss5GryphonLightning[];
 const char *lbl_805D4180 = "TBoss5GryphonLightning";
-
-Self_80324F4C *TBoss5GryphonLightning__ct(Self_80324F4C *self, void *parent,
-                                          Vec *pos, f32 p_scale) {
-    register s32 dpos, dlen;
-    s32 i;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = __vt__22TBoss5GryphonLightning;
-    self->f0 = lbl_805D4180;
-    VecCopy__FP3VecPC3Vec((void *)&self->v20, (void *)pos);
-    VecCopy__FP3VecPC3Vec((void *)&self->v2c, (void *)&self->v20);
-    self->scale = p_scale;
-    self->n94 = 0;
-    self->eff38 = spawn_continuous_particle_effect_with_flags(&self->v20, 0x20c, 0x40);
-    self->eff3c = spawn_continuous_particle_effect_with_flags(&self->v20, 0x20e, 0x40);
-    self->eff40 = spawn_continuous_particle_effect_with_flags(&self->v2c, 0x20f, 0x40);
-    self->eff44 = spawn_continuous_particle_effect_with_flags(&self->v2c, 0x216, 0x40);
-    for (i = 0; i < 4; i++) {
-        VecCopy__FP3VecPC3Vec((void *)&self->segs[i].v, (void *)&self->v20);
-        self->segs[i].f = 0.0f;
-    }
-    self->f88 = 0.0f;
-    self->f8c = 0.0f;
-    self->n90 = 1;
-    return self;
 }
+
+TBoss5GryphonLightning::TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 scale) : TObject(parent) {
+    s32 i;
+    m_name = lbl_805D4180;
+    VecCopy(&this->start, pos);
+    VecCopy(&this->end, &this->start);
+    this->scale = scale;
+    this->age = 0;
+    this->effects[0] = spawn_continuous_particle_effect_with_flags(&this->start, 0x20c, 0x40);
+    this->effects[1] = spawn_continuous_particle_effect_with_flags(&this->start, 0x20e, 0x40);
+    this->effects[2] = spawn_continuous_particle_effect_with_flags(&this->end, 0x20f, 0x40);
+    this->effects[3] = spawn_continuous_particle_effect_with_flags(&this->end, 0x216, 0x40);
+    for (i = 0; i < 4; i++) {
+        VecCopy(&this->segments[i].pos, &this->start);
+        this->segments[i].w = 0.0f;
+    }
+    this->life_progress = 0.0f;
+    this->grow_progress = 0.0f;
+    this->segment_count = 1;
 }
 #pragma pop

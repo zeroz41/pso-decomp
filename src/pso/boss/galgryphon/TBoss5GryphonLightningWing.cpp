@@ -43,7 +43,7 @@ struct Wing_80351C18 {
 
 extern "C" {
 extern const f32 lbl_805D8D48;
-s32 TBoss5GryphonLightning__ct(f32);
+s32 __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
 s32 apply_lightning_hit(s32, s32 *, f32);
 
@@ -90,7 +90,7 @@ void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_
 TBoss5GryphonLightningWing::~TBoss5GryphonLightningWing() {}
 s32 __ct__26TBoss5GryphonLightningWingFv(saddr allocation, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6) {
     s32 i;
-    TBoss5GryphonLightning__ct(20.0f);
+    __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(20.0f);
     ((Wing_80351C18 *)allocation)->vt = __vt__26TBoss5GryphonLightningWing;
     ((Wing_80351C18 *)allocation)->x0 = ((saddr)TBoss5GryphonLightningWing__name);
     ((Wing_80351C18 *)allocation)->n = 3;
