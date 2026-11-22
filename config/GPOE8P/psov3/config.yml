@@ -430,7 +430,7 @@ force_active:
   - create_mags__11TBoss6Type2Ff
   - TBoss6Type2__sub_802BBE20
   - change_motion__11TBoss6Type2Fl
-  - pick_walk_target__11TBoss6Type2FPUc
+  - pick_walk_target__11TBoss6Type2FP14Boss6GridBytes
   - TBoss6Type2__sub_802BE4E0
   - sub_8032EA10__9TBoss6MagFv
   - sub_8032EAB8__9TBoss6MagFl
@@ -9349,7 +9349,7 @@ force_active:
   - pad_recalibration_counters
   - panarms_atk_zero_vec
   - paralysis_curse_timer_ct__FPUclUslf
-  - parse_action_packet__11TBoss6Type2FPv
+  - parse_action_packet__11TBoss6Type2FP22OlgaFlowType2ActionMsg
   - parse_aix_header__6TLobbyFPviPv
   - parse_color_code__6TLobbyFPc
   - parse_f_index__Fl
@@ -15355,7 +15355,7 @@ force_active:
   - send__26TBoss3VoloptPositionPacketFv
   - send__31G_DropStackedItem_PC_V3_BB_6x5DFv
   - send__9TProtocolFPUcUl
-  - send_action_packet_if_idle__11TBoss6Type2FlPl
+  - send_action_packet_if_idle__11TBoss6Type2FlP14Boss6GridBytes
   - send_and_handle_6x75__FP6TLobby
   - send_attack_code__11TBoss4Type2FlUs
   - send_battle_mode_data__6TLobbyFPv

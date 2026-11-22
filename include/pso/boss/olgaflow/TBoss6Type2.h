@@ -10,6 +10,7 @@ struct TBoss6Zanzo;
 
 class ModelNodePositionCapture;
 struct OlgaFlowType2ActionMsg;
+struct Boss6GridBytes;
 struct CollisionBody;
 struct AnimationMotion;
 struct TBoss6Mag;
@@ -88,7 +89,7 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_802BA078();
     void aim_toward_point(void *);
     void render_body_effects();
-    u32 action_state;  // row of boss6_type2_battle_actions (set_action_state)
+    s32 action_state;  // row of boss6_type2_battle_actions (set_action_state)
     s32 action_history[32];  // set_action_state shifts the last 32 states in
     TBoss6PlotFalz *plot_falz;
     BmlResource *archive;  // TBoss6PlotFalz::get_scene_archive
@@ -97,14 +98,14 @@ struct TBoss6Type2 : public TObjEnemy
     s32 berserk;  // CHG_TO_BSK sets it when its timer runs out, CHG_TO_CMN clears it
     f32 state_progress;  // 1 - state_timer / state_duration
     u32 berserk_wait_count;  // B_WAIT / B_BJ_WAIT entries since CHG_TO_BSK
-    u32 low_hp;  // set once hp_ratio drops below 1/3 (trigger_screen_pos)
+    s32 low_hp;  // set once hp_ratio drops below 1/3 (trigger_screen_pos)
     u32 target_mode;   // OlgaFlowType2ActionMsg::target_mode
-    u32 variant;       // boss6_type2_variant_id_table; set_target_state's second value
+    s32 variant;       // boss6_type2_variant_id_table; set_target_state's second value
     u32 target_state;  // OlgaFlowType2ActionMsg::target_state
     // init_segment_range copies param_block here and points param_block at it.
     ActorParamBlock params_copy;
-    s16 m_454;  // the largest of the set entry's five segment values
-    s16 m_456;  // the smallest
+    s16 segment_max;  // the largest of the set entry's five segment values
+    s16 segment_min;  // the smallest
     TBoss6Zanzo *trail_effect;
     saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
@@ -112,7 +113,7 @@ struct TBoss6Type2 : public TObjEnemy
     u16 target_client;   // pick_target_client; pick_walk_target walks to it
     u16 first_action_client;   // mags[0]'s (OlgaFlowType2ActionMsg)
     u16 second_action_client;  // mags[1]'s
-    u32 last_walk_def;  // 1 after a WALK_DEF* state, 0 after WALK_CMN*: the walks alternate
+    s32 last_walk_def;  // 1 after a WALK_DEF* state, 0 after WALK_CMN*: the walks alternate
     s32 iai_count;      // IAI_* entries since the last BKJUMP (should_back_jump at 3)
     u32 action_flags;  // the action row's flags (update_parts_flags)
     u8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
@@ -239,15 +240,15 @@ struct TBoss6Type2 : public TObjEnemy
     void apply_damage(s32 diff);
     s32 get_rotation_timer();
     s32 count_matching_values(s32 arg1, s32 arg2);
-    void set_target_state(s32 arg1, s32 arg2);
+    void set_target_state(s32 mode, s32 new_variant);
     s32 choose_next_index();
     s32 pick_random_other_index();
     static s32 find_index_in_table(u32 v);
     static int get_table_entry(int a0);
     void update_attack_target();
     void update_action_state();
-    void send_action_packet_if_idle(s32 arg1, s32 *arg2);
-    void parse_action_packet(void *packet);
+    void send_action_packet_if_idle(s32 action, Boss6GridBytes *grid);
+    void parse_action_packet(OlgaFlowType2ActionMsg *packet);
     static TBoss6Type2 *create(saddr arg0);
     void draw();
     void select_action();
@@ -311,7 +312,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_info_stat();
     void act_wait();
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
-    void pick_walk_target(u8 *grid);
+    void pick_walk_target(Boss6GridBytes *grid);
     void change_motion(s32 motion);
     void spawn_sword_wave();
     void create_mags(f32);

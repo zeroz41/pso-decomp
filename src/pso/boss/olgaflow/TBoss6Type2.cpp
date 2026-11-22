@@ -52,6 +52,17 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803D853C.h"
 
 // One row per body motion. update_motion_tracks loops a mode 0 row, holds a
 // mode 2 row on its last frame and goes on to row `next`.
@@ -109,25 +120,7 @@ union TypedVector_802BAA74 {
 };
 
 extern "C" {
-s32 submit_cursor_candidate(void *, int);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void *get_player_by_client_id(s32 i);
-}
-void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
-extern "C" {
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
-
-f64 atan2_float(f32, f32);
-struct Stack_802B9D90
-{
-  s32 sp8;
-  s32 spC;
-};
-
-
-typedef struct Stack_802B9D90 Stack_802B9D90;
 
 struct Ent_802BA7BC { s32 idx; s32 arg; f32 lo; };
 
@@ -142,17 +135,8 @@ struct Type2ActionSendStorage {
 
 
 u16 obj_getArrU16_FC(void *obj, s32 i);
-u16 get_entity_id(void *);
-s32 is_split_screen();
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 f32 TBoss6PlotFalz__sub_802AB684(void *);
 s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1);
-f32 fabs_float(f32);
-f32 vec3_add_to(void *, void *);
-f32 vector_length(Vec *);
-void subtract_vector(Vec *, Vec *);
-
-extern s32 local_client_id;
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 boss6_arena_radius = 400.0f;
@@ -174,8 +158,6 @@ LAYOUT_ASSERT(TypedVector_802BA6DC_size, sizeof(TypedVector_802BA6DC) == 12);
 LAYOUT_ASSERT(TypedVector_802BAA74_size, sizeof(TypedVector_802BAA74) == 12);
 
 
-s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *arg0);
 
 
 struct Blk_802BCFD4;
@@ -332,8 +314,8 @@ TBoss6Type2::~TBoss6Type2() {
 }
 
 void TBoss6Type2::build_state_packet(OlgaFlowType2ActionMsg *message) {
-    u16 spA;
-    u16 sp8;
+    u16 first;
+    u16 second;
     message->header.client_id = entity_id;
     message->random_factor = static_cast<u8>(127.0f * (3.0517578e-05f * static_cast<f32>(rand())));
     message->next_motion = choose_random_motion();
@@ -341,33 +323,33 @@ void TBoss6Type2::build_state_packet(OlgaFlowType2ActionMsg *message) {
     message->target_state = static_cast<s8>(target_state);
     message->first_client = static_cast<s8>(possess_target);
     message->second_client = static_cast<s8>(target_client);
-    pick_action_clients(&spA, &sp8);
-    message->first_action_client = static_cast<s8>(spA);
-    message->second_action_client = static_cast<s8>(sp8);
+    pick_action_clients(&first, &second);
+    message->first_action_client = static_cast<s8>(first);
+    message->second_action_client = static_cast<s8>(second);
 }
 
-void TBoss6Type2::parse_action_packet(void *packet) {
-    this->random_factor = (u8) *(u8 *)((s8 *)packet + 8);
-    this->next_motion = (s32) (s8) *(u8 *)((s8 *)packet + 9);
-    set_target_state((s32)(*(s8 *)((s8 *)packet + 0xA)), (s32)(*(s8 *)((s8 *)packet + 0xB)));
-    this->possess_target = (u16) (s8) *(u8 *)((s8 *)packet + 0xC);
-    this->target_client = (u16) (s8) *(u8 *)((s8 *)packet + 0xD);
-    this->first_action_client = (u16) (s8) *(u8 *)((s8 *)packet + 0xE);
-    this->second_action_client = (u16) (s8) *(u8 *)((s8 *)packet + 0xF);
-    if ((u16) this->possess_target >= 4U) {
-        this->possess_target = 0xFFFFU;
+void TBoss6Type2::parse_action_packet(OlgaFlowType2ActionMsg *packet) {
+    random_factor = packet->random_factor;
+    next_motion = packet->next_motion;
+    set_target_state(packet->target_mode, packet->target_state);
+    possess_target = packet->first_client;
+    target_client = packet->second_client;
+    first_action_client = packet->first_action_client;
+    second_action_client = packet->second_action_client;
+    if (possess_target >= 4) {
+        possess_target = 0xFFFF;
     }
-    if ((u16) this->target_client >= 4U) {
-        this->target_client = 0xFFFFU;
+    if (target_client >= 4) {
+        target_client = 0xFFFF;
     }
-    if ((u16) this->first_action_client >= 4U) {
-        this->first_action_client = 0xFFFFU;
+    if (first_action_client >= 4) {
+        first_action_client = 0xFFFF;
     }
-    if ((u16) this->second_action_client >= 4U) {
-        this->second_action_client = 0xFFFFU;
+    if (second_action_client >= 4) {
+        second_action_client = 0xFFFF;
     }
-    this->mags[0]->set_action_field_0x408(this->first_action_client);
-    this->mags[1]->set_action_field_0x408(this->second_action_client);
+    mags[0]->set_action_field_0x408(first_action_client);
+    mags[1]->set_action_field_0x408(second_action_client);
 }
 
 void TBoss6Type2::send_action_packet(s32 action) {
@@ -380,15 +362,15 @@ void TBoss6Type2::send_action_packet(s32 action) {
     }
 }
 
-void TBoss6Type2::send_action_packet_if_idle(s32 arg1, s32 *arg2) {
+void TBoss6Type2::send_action_packet_if_idle(s32 action, Boss6GridBytes *grid) {
     Type2ActionSendStorage storage;
     const s8 *bytes;
     s32 i;
     if (reinterpret_cast<TBoss6PlotFalz *>(plot_falz)->is_idle() != 0) {
         storage.message.initialize();
         build_state_packet(&storage.message);
-        bytes = reinterpret_cast<const s8 *>(arg2);
-        storage.message.flow.action = arg1;
+        bytes = &grid->grid_x;
+        storage.message.flow.action = action;
         for (i = 1; i < 4; i++) {
             reinterpret_cast<u8 *>(&storage.message)[i + 4] = *bytes++;
         }
@@ -397,32 +379,32 @@ void TBoss6Type2::send_action_packet_if_idle(s32 arg1, s32 *arg2) {
 }
 
 void TBoss6Type2::update_action_state() {
-    s32 sp8;
-    s32 var_r4;
+    Boss6GridBytes grid;
+    s32 action;
 
-    pick_walk_target((u8 *)&sp8);
-    var_r4 = 4;
-    if ((s32) this->last_walk_def == 0) {
-        var_r4 = 5;
+    pick_walk_target(&grid);
+    action = 4;
+    if (last_walk_def == 0) {
+        action = 5;
     }
-    send_action_packet_if_idle(var_r4, &sp8);
+    send_action_packet_if_idle(action, &grid);
 }
 
 void TBoss6Type2::send_state_action_packet() {
-    s32 sp8;
-    s32 var_r31;
-    if ((s32) this->low_hp != 0) {
-        var_r31 = 7;
-        if ((s32) this->last_walk_def == 0) {
-            var_r31 = 0xA;
+    Boss6GridBytes grid;
+    s32 action;
+    if (low_hp != 0) {
+        action = 7;
+        if (last_walk_def == 0) {
+            action = 0xA;
         }
     } else {
-        var_r31 = 8;
-        if ((s32) this->last_walk_def == 0) {
-            var_r31 = 0xB;
+        action = 8;
+        if (last_walk_def == 0) {
+            action = 0xB;
         }
     }
-    switch (this->action_state) {
+    switch (action_state) {
     case 6:
     case 9:
         return;
@@ -430,59 +412,50 @@ void TBoss6Type2::send_state_action_packet() {
     case 8:
     case 10:
     case 11:
-        this->target_client = pick_target_client();
-        var_r31 = this->action_state - 1;
+        target_client = pick_target_client();
+        action = action_state - 1;
     default:
-        pick_walk_target((u8 *)&sp8);
-        this->send_action_packet_if_idle(var_r31, &sp8);
+        pick_walk_target(&grid);
+        send_action_packet_if_idle(action, &grid);
         break;
     }
 }
 
 void TBoss6Type2::update_attack_target() {
-    s32 sp8;
-    s32 temp_r0;
-    s32 var_r31;
-    s32 var_r3;
-    u16 temp_r31;
-    u16 temp_r3;
-    u16 var_r30;
+    Boss6GridBytes grid;
+    s32 action;
+    u16 previous_target;
+    u16 target;
 
-    var_r3 = 0x21;
-    if ((s32) this->low_hp != 0) {
-        var_r3 = 0x1F;
-    }
-    temp_r0 = this->action_state;
-    var_r31 = var_r3;
-    switch (temp_r0) {
+    action = low_hp != 0 ? 0x1F : 0x21;
+    switch (action_state) {
     case 0x1D:
         return;
     case 0x1E:
     case 0x1F:
     case 0x20:
     case 0x21:
-        temp_r31 = this->target_client;
-        temp_r3 = pick_target_client();
-        var_r30 = temp_r3;
-        if ((u16) temp_r3 == 0xFFFF) {
-            if (TBoss6PlotFalz::is_active((TObjPlayer *)get_player_by_client_id(temp_r31)) != 0) {
-                var_r30 = temp_r31;
+        previous_target = target_client;
+        target = pick_target_client();
+        if (target == 0xFFFF) {
+            if (TBoss6PlotFalz::is_active(get_player_by_client_id(previous_target)) != 0) {
+                target = previous_target;
             }
         }
-        this->target_client = var_r30;
-        if ((TBoss6PlotFalz::get_phase() == 0) && (this->action_state & 1)) {
-            this->target_client = 0xFFFFU;
+        target_client = target;
+        if (TBoss6PlotFalz::get_phase() == 0 && (action_state & 1)) {
+            target_client = 0xFFFF;
         }
-        var_r31 = this->action_state - 1;
+        action = action_state - 1;
         break;
     }
-    pick_walk_target((u8 *)&sp8);
-    send_action_packet_if_idle(var_r31, &sp8);
+    pick_walk_target(&grid);
+    send_action_packet_if_idle(action, &grid);
 }
 
 #pragma push
 #pragma opt_common_subs off
-void TBoss6Type2::pick_walk_target(u8 *grid) {
+void TBoss6Type2::pick_walk_target(Boss6GridBytes *grid) {
     s8 grid_x;
     s8 grid_z;
     Vec target;
@@ -491,7 +464,7 @@ void TBoss6Type2::pick_walk_target(u8 *grid) {
     s32 angle;
     s32 angle2;
     TObjPlayer *player;
-    player = (TObjPlayer *)get_player_by_client_id(target_client);
+    player = get_player_by_client_id(target_client);
     if (player != NULL) {
         VecCopy(&target, &player->position);
     } else {
@@ -524,8 +497,8 @@ void TBoss6Type2::pick_walk_target(u8 *grid) {
         vec3_add_to(&target, &position);
     }
     world_to_grid_pos(&target, &grid_x, &grid_z);
-    grid[0] = grid_x;
-    grid[1] = grid_z;
+    grid->grid_x = grid_x;
+    grid->grid_z = grid_z;
 }
 #pragma pop
 
@@ -576,23 +549,23 @@ s32 TBoss6Type2::choose_next_index() {
     return r;
 }
 
-void TBoss6Type2::set_target_state(s32 arg1, s32 arg2) {
-    u32 temp_r31;
-    s32 temp_r30;
+void TBoss6Type2::set_target_state(s32 mode, s32 new_variant) {
+    u32 old_mask;
+    s32 old_variant;
 
-    temp_r31 = this->m_2e4;
-    temp_r30 = this->variant;
-    this->m_2e4 = TBoss6Type2::get_table_entry(arg1);
-    this->variant = arg2;
+    old_mask = m_2e4;
+    old_variant = variant;
+    m_2e4 = get_table_entry(mode);
+    variant = new_variant;
     update_segments();
-    if ((temp_r31 != (u32) this->m_2e4) || (temp_r30 != (s32) this->variant)) {
+    if (old_mask != m_2e4 || old_variant != variant) {
         set_state_0x34();
     }
-    if (this->mags[0] != 0) {
-        this->mags[0]->set_target_nodes(this->m_2e4, this->variant);
+    if (mags[0] != 0) {
+        mags[0]->set_target_nodes(m_2e4, variant);
     }
-    if (this->mags[1] != 0) {
-        this->mags[1]->set_target_nodes(this->m_2e4, this->variant);
+    if (mags[1] != 0) {
+        mags[1]->set_target_nodes(m_2e4, variant);
     }
 }
 
@@ -628,36 +601,37 @@ void TBoss6Type2::run_hit_reaction() {
 void TBoss6Type2::run_death_reaction() { if ((s32)action_state != 35) { set_action_state(35); } }
 
 f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
-    s32 var_r31;
-    s32 var_r30;
-    s32 var_r29;
+    s32 hurt;
+    s32 attributes;
+    s32 i;
 
-    var_r31 = 1;
-    if (((s32) berserk != 0) && (att != 0)) {
-        var_r30 = 0;
-        var_r29 = 0;
+    hurt = 1;
+    if (berserk != 0 && att != 0) {
+        // While berserk only a weapon attribute in m_2e4 gets through.
+        attributes = 0;
+        i = 0;
         do {
-            switch ((s32) (*(u8 *)((TObjPlayer *)att)->get_attribute_entry(var_r29))) {
+            switch (*(u8 *)((TObjPlayer *)att)->get_attribute_entry(i)) {
             case 1:
-                var_r30 |= 1;
+                attributes |= 1;
                 break;
             case 2:
-                var_r30 |= 2;
+                attributes |= 2;
                 break;
             case 3:
-                var_r30 |= 4;
+                attributes |= 4;
                 break;
             case 4:
-                var_r30 |= 8;
+                attributes |= 8;
                 break;
             }
-            var_r29 += 1;
-        } while (var_r29 < 3);
-        if (!(m_2e4 & var_r30)) {
-            var_r31 = 0;
+            i++;
+        } while (i < 3);
+        if (!(m_2e4 & attributes)) {
+            hurt = 0;
         }
     }
-    if (var_r31 != 0) {
+    if (hurt != 0) {
         return TObjChara::receive_physical_attack(att, scale);
     }
     sub_802BA078();
@@ -1029,22 +1003,15 @@ void TBoss6Type2::reset_attack_counter() {
 }
 
 void TBoss6Type2::add_damage(s32 diff) {
-    s32 temp_r0;
-    s32 var_r4;
-
-    var_r4 = diff;
-    temp_r0 = this->action_state;
-    if (temp_r0 < 9) {
-        if (temp_r0 == 5) {
-            goto block_4;
-        }
-        goto block_5;
-    } else if (temp_r0 < 0xC) {
-block_4:
-        var_r4 *= 2;
+    switch (action_state) {
+    case 5:
+    case 9:
+    case 10:
+    case 11:
+        diff *= 2;
+        break;
     }
-block_5:
-    damage_total += var_r4;
+    damage_total += diff;
 }
 
 s32 TBoss6Type2::get_hit_count() {
@@ -1069,37 +1036,35 @@ void TBoss6Type2::set_state_0x34() {
 }
 
 s32 TBoss6Type2::is_active() {
-    s32 var_r4;
+    u8 active;
 
-    var_r4 = 0;
-    if (((switch_pending != 0) && (switch_timer >= 0)) || ((s32)action_state == 1)) {
-        var_r4 = 1;
+    active = 0;
+    if ((switch_pending != 0 && switch_timer >= 0) || action_state == 1) {
+        active = 1;
     }
-    return (u8)((u8) var_r4);
+    return active;
 }
 
 void TBoss6Type2::update_countdown() {
-    s32 temp_r0;
     TObjPlayer *player;
 
     if (is_active() != 0) {
         update_attack_switch();
     }
-    temp_r0 = switch_timer;
-    if (temp_r0 < 0) {
+    if (switch_timer < 0) {
         switch_pending = 0;
         switch_timer--;
         if (switch_timer < -0x12C) {
             switch_timer = -0x12C;
         }
-        if (((s32)berserk != 0) && (switch_timer == -0x12C)) {
-            player = (TObjPlayer *)get_player_by_client_id(possessed_client);
+        if (berserk != 0 && switch_timer == -0x12C) {
+            player = get_player_by_client_id(possessed_client);
             if ((TBoss6PlotFalz::is_active(player) != 0) && (player->mode == 1)) {
                 start_countdown_sound_state();
             }
         }
     } else {
-        if (temp_r0 == 0) {
+        if (switch_timer == 0) {
             play_phase_sound();
         }
         switch_timer--;
@@ -1113,28 +1078,28 @@ void TBoss6Type2::play_sound_if_no_target() {
 }
 
 void TBoss6Type2::play_phase_sound() {
-    s32 var_r3;
+    s32 sound;
 
     if (is_target_valid() == 0) {
-        switch (this->variant) {
+        switch (variant) {
         case 1:
-            var_r3 = 0x6852C;
+            sound = 0x6852C;
             break;
         case 2:
-            var_r3 = 0x6852D;
+            sound = 0x6852D;
             break;
         case 3:
-            var_r3 = 0x6852E;
+            sound = 0x6852E;
             break;
         case 4:
-            var_r3 = 0x6852F;
+            sound = 0x6852F;
             break;
         case 5:
         default:
-            var_r3 = 0x6852B;
+            sound = 0x6852B;
             break;
         }
-        play_sound_effect(var_r3, &position, 0, 1);
+        play_sound_effect(sound, &position, 0, 1);
     }
 }
 
@@ -1186,27 +1151,24 @@ s32 TBoss6Type2::choose_random_motion() {
 }
 
 s32 TBoss6Type2::choose_turn_motion() {
-    f32 temp_f3;
-    f64 temp_f0;
-    s32 var_r31;
-    s32 var_r31_2;
-    void *player;
+    s32 motion;
+    TObjPlayer *player;
+    s32 heading;
 
-    var_r31_2 = 0xF;
-    player = get_player_by_client_id(this->target_client);
-    if (this->random_factor & 1) {
-        var_r31_2 = 0x10;
+    motion = 0xF;
+    player = get_player_by_client_id(target_client);
+    if (random_factor & 1) {
+        motion = 0x10;
     }
     if (player == NULL) {
-        return var_r31_2;
+        return motion;
     }
-    temp_f3 = *(f32 *)((s8 *)player + 0x38);
-    temp_f0 = ((f64 (*)(f32, f32, f32))atan2_float)(temp_f3 - *(f32 *)((s8 *)this + 0x38), *(f32 *)((s8 *)player + 0x40) - *(f32 *)((s8 *)this + 0x40), temp_f3);
-    var_r31 = 0xF;
-    if (angle_diff_s16(this->rotation_y, (s32) (10430.38043493439 * temp_f0)) < 0) {
-        var_r31 = 0x10;
+    heading = (s32)(10430.38043493439 * atan2_float(player->position.x - position.x, player->position.z - position.z));
+    motion = 0xF;
+    if (angle_diff_s16(rotation_y, heading) < 0) {
+        motion = 0x10;
     }
-    return var_r31;
+    return motion;
 }
 
 void TBoss6Type2::sub_802BC124() {
@@ -1227,44 +1189,44 @@ void TBoss6Type2::init_segment_range() {
     if (min > e->values[3]) { min = e->values[3]; } else if (max < e->values[3]) { max = e->values[3]; }
     if (min > e->values[4]) { min = e->values[4]; } else if (max < e->values[4]) { max = e->values[4]; }
     if (min > e->values[5]) { min = e->values[5]; } else if (max < e->values[5]) { max = e->values[5]; }
-    this->m_456 = min;
-    this->m_454 = max;
+    segment_min = min;
+    segment_max = max;
     ((TLobby *)&this->params_copy)->copy_entry(this->param_block);
     this->param_block = &this->params_copy;
     update_segments();
 }
 
 void TBoss6Type2::update_segments() {
-    s16 temp_r0;
+    s16 max;
 
-    temp_r0 = this->m_454;
-    this->params_copy.values[5] = temp_r0;
-    this->params_copy.values[4] = temp_r0;
-    this->params_copy.values[3] = temp_r0;
-    this->params_copy.values[2] = temp_r0;
-    this->params_copy.values[1] = temp_r0;
-    switch ((s32)this->variant) {
+    max = segment_max;
+    params_copy.values[5] = max;
+    params_copy.values[4] = max;
+    params_copy.values[3] = max;
+    params_copy.values[2] = max;
+    params_copy.values[1] = max;
+    switch ((s32)variant) {
     case 1:
-        this->params_copy.values[1] = (s16) this->m_456;
+        params_copy.values[1] = segment_min;
         break;
     case 2:
-        this->params_copy.values[2] = (s16) this->m_456;
+        params_copy.values[2] = segment_min;
         break;
     case 3:
-        this->params_copy.values[3] = (s16) this->m_456;
+        params_copy.values[3] = segment_min;
         break;
     case 4:
-        this->params_copy.values[4] = (s16) this->m_456;
+        params_copy.values[4] = segment_min;
         break;
     case 5:
-        this->params_copy.values[5] = (s16) this->m_456;
+        params_copy.values[5] = segment_min;
         break;
     }
-    this->m_2f2 = (s16) this->params_copy.values[1];
-    this->m_2f4 = (s16) this->params_copy.values[3];
-    this->m_2f6 = (s16) this->params_copy.values[2];
-    this->m_2f8 = (s16) this->params_copy.values[5];
-    this->m_2fa = (s16) this->params_copy.values[4];
+    m_2f2 = params_copy.values[1];
+    m_2f4 = params_copy.values[3];
+    m_2f6 = params_copy.values[2];
+    m_2f8 = params_copy.values[5];
+    m_2fa = params_copy.values[4];
 }
 
 void TBoss6Type2::copy_vec_array() {
@@ -1308,7 +1270,7 @@ void TBoss6Type2::sub_802BBE20() {
             push_matrix();
             set_matrix_identity(0);
             rotate_matrix_y(0, -this->rotation_y);
-            matrix_mult_vec(0, &v, e);
+            matrix_mult_vec(0, &v, &e->offset);
             pop_matrix();
             VecCopy(&e->center, &e->offset);
             vec3_add_to(&e->center, &this->position);
@@ -1405,7 +1367,7 @@ void TBoss6Type2::apply_rock_hits_to_players() {
             if (hit != 0 && r != 0) {
                 for (mask = 1, j = 0; j < 4; j++, mask <<= 1) {
                     if (mask & r) {
-                        p = (TObjChara *)get_player_by_client_id(j);
+                        p = get_player_by_client_id(j);
                         if (TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0) {
                             v = this->rock_damage;
                             if (this->berserk != 0) {
@@ -1592,7 +1554,7 @@ void TBoss6Type2::sub_802BB554() {
 }
 
 void TBoss6Type2::update_target() {
-    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(this->target_client);
+    TObjPlayer *player = get_player_by_client_id(this->target_client);
     if (player != NULL) {
         this->aim_toward_point(&player->position);
         return;
@@ -2123,7 +2085,7 @@ void TBoss6Type2::reset_fish_fields() {
 void TBoss6Type2::sub_802BA078() {
     TObjPlayer *p;
     if (possessed_client != 0xFFFF) {
-        p = (TObjPlayer *)get_player_by_client_id(possessed_client);
+        p = get_player_by_client_id(possessed_client);
         if (TBoss6PlotFalz::is_active(p) != 0) {
             s32 r = TBoss6PlotFalz::rand_vary_count(possessed_damage, 0.1f);
             TBoss6PlotFalz::damage_player_hp(possessed_client, r);
@@ -2190,51 +2152,35 @@ void TBoss6Type2::set_fields_554() { foot_grounded[0] = 1; foot_grounded[1] = 1;
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type2::update_footstep_effects() {
-    u8 *self = (u8 *)this;
-  Stack_802B9D90 stack;
-  s32 temp_r4;
-  s32 var_r30;
-  u8 *temp_r29;
-  s32 var_r28;
-  static f32 foot_lift_height = 7.5f;
-  static f32 footstep_height_threshold = 5.0f;
-  stack.sp8 = (long) (((u8 *) self) + 0x614);
-  var_r28 = 0;
-  var_r30 = 0;
-  stack.spC = (long) (((u8 *) self) + 0x5D8);
-  do
-  {
-    temp_r4 = var_r30 + 0x554;
-    if (((s32) (*((s32 *) (((s8 *) (((u8 *) self) + temp_r4)) + 0)))) != 0)
-    {
-      if ((*((f32 *) (((s8 *) (*((u8 **) (((s8 *) (((u8 *)&stack.sp8) + var_r30)) + 0)))) + 4))) > foot_lift_height)
-      {
-        *((s32 *) (((s8 *) (((u8 *) self) + temp_r4)) + 0)) = 0;
-      }
-    }
-    else
-    {
-      temp_r29 = (u8 *) (*((u8 **) (((s8 *) (((u8 *)&stack.sp8) + var_r30)) + 0)));
-      if ((*((f32 *) (((s8 *) temp_r29) + 4))) < footstep_height_threshold)
-      {
-        *((s32 *) (((s8 *) (((u8 *) self) + temp_r4)) + 0)) = 1;
-        ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4006A300, (uaddr) temp_r29, 0, 0);
-        spawn_particle_effect_with_flags((const Vec *)temp_r29, 0x220, 0x40);
-        if (((s32)this->berserk) == 0)
-        {
-          spawn_particle_effect((const Vec *)temp_r29, 0x222);
+    Vec *feet[2];
+    Vec *foot;
+    s32 i;
+    static f32 foot_lift_height = 7.5f;
+    static f32 footstep_height_threshold = 5.0f;
+    feet[0] = &node_positions[10];
+    i = 0;
+    feet[1] = &node_positions[5];
+    do {
+        if (foot_grounded[i] != 0) {
+            if (feet[i]->y > foot_lift_height) {
+                foot_grounded[i] = 0;
+            }
+        } else {
+            foot = feet[i];
+            if (foot->y < footstep_height_threshold) {
+                foot_grounded[i] = 1;
+                play_sound_effect(0x4006A300, foot, 0, 0);
+                spawn_particle_effect_with_flags(foot, 0x220, 0x40);
+                if ((s32)berserk == 0) {
+                    spawn_particle_effect(foot, 0x222);
+                } else {
+                    spawn_particle_effect_with_flags(foot, 0x229, 0x2000);
+                }
+                TBoss6PlotFalz::apply_radial_effect_to_players(foot, (s16)0xC0, (s16)0xF, 200.0f);
+            }
         }
-        else
-        {
-          spawn_particle_effect_with_flags((const Vec *)temp_r29, 0x229, 0x2000);
-        }
-        TBoss6PlotFalz::apply_radial_effect_to_players((void *)temp_r29, (s16)0xC0, (s16)0xF, 200.0f);
-      }
-    }
-    var_r28 += 1;
-    var_r30 += 4;
-  }
-  while (var_r28 < 2);
+        i++;
+    } while (i < 2);
 }
 #pragma pop
 
@@ -2244,12 +2190,11 @@ void TBoss6Type2::clear_particle_emitters() {
 }
 
 void TBoss6Type2::init_parts() {
-    s32 var_r31;
-    var_r31 = 0;
+    s32 i = 0;
     do {
-        destroy_part(var_r31);
-        var_r31 += 1;
-    } while (var_r31 < 0xE);
+        destroy_part(i);
+        i++;
+    } while (i < 14);
 }
 
 void TBoss6Type2::update_part_positions() {
@@ -2278,20 +2223,12 @@ void TBoss6Type2::spawn_particle_slot(s32 arg1) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-void TBoss6Type2::destroy_part(s32 arg1) {
-    saddr self = (saddr)this;
-    uaddr temp_r3;
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(self + (arg1 * 4));
-    temp_r3 = *(u32 *)((s8 *)temp_r31 + 0x77C);
-    if (temp_r3 != 0U) {
-        TParticleCtrl::release((void *)temp_r3);
-        *(u32 *)((s8 *)temp_r31 + 0x77C) = 0U;
+void TBoss6Type2::destroy_part(s32 slot) {
+    if (particle_emitters[slot] != 0) {
+        TParticleCtrl::release(particle_emitters[slot]);
+        particle_emitters[slot] = 0;
     }
 }
-#pragma pop
 
 void TBoss6Type2::spawn_hit_effects() {
     s32 found = 0;
@@ -2319,7 +2256,7 @@ s32 TBoss6Type2::is_player_in_rock_area(u16 client_id) {
     TObjPlayer *p;
     s32 i;
     f32 k;
-    p = (TObjPlayer *)get_player_by_client_id(client_id);
+    p = get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }
