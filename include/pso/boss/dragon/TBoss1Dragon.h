@@ -71,7 +71,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void apply_paralysis();
     void apply_poison_status();
     void refresh_target();
-    static bool isV2Mode();
+    static s32 isV2Mode();
     static DragonModelNode* cloneModelHierarchy(DragonModelNode* source, DragonModelNode* output, void* model);
     static s32 countModelNodes(DragonModelNode* source);
     void updateFacingPosition();

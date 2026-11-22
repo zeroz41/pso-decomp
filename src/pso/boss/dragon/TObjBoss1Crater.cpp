@@ -23,7 +23,6 @@
 
 
 extern "C" {
-s32 isV2Mode__12TBoss1DragonFv(void);
 }
 u8 *load_gvm_texture_file(saddr name);
 saddr lbl_805D4B50;
@@ -31,7 +30,7 @@ s32 dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void);
 void load_dragon_ground_assets(void) {
-    switch (isV2Mode__12TBoss1DragonFv()) {
+    switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         lbl_805D4B50 = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)&dragon_ground_resource_descriptor);
         dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_texture_filename);
@@ -134,7 +133,6 @@ struct Crater_8002C288 : VBase_8002C288 {
 
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *self);
-s32 isV2Mode__12TBoss1DragonFv();
 f32 TBoss1Dragon__sub_80027634(u32);
 s32 TObjBoss1Crater__sub_8002C7E4(void *);
 }
@@ -239,7 +237,7 @@ TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, void *arg3) :
     if (TObjBoss1Crater__instance_count < 0x14) {
         TObjBoss1Crater__instance_list[TObjBoss1Crater__instance_count++] = self;
     }
-    switch (isV2Mode__12TBoss1DragonFv()) {
+    switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         self->fC8 = 1;
         break;

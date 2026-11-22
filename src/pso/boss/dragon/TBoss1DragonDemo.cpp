@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 
@@ -18,7 +19,6 @@ struct RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo {
 };
 
 extern "C" {
-s32 isV2Mode__12TBoss1DragonFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo __vt__16TBoss1DragonDemo;
 const char *TBoss1DragonDemo__name = "TBoss1DragonDemo";
@@ -44,7 +44,7 @@ u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0) {
     *(f32 *)((s8 *)object + 0x1C) = farg0;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(s32 *)((s8 *)object + 0x24) = demo;
-    switch (isV2Mode__12TBoss1DragonFv()) {
+    switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         playback.bank = 1;
         playback.index = 0;
