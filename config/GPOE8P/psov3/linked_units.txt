@@ -282,7 +282,6 @@ pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp
 pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp
 pso/boss/olgaflow/TBoss6Type2.cpp
 pso/boss/olgaflow/TBoss6Type2_802BE588.cpp
-pso/boss/olgaflow/TBoss6Type2_8032E708.cpp
 pso/boss/olgaflow/TBoss6Type2_803309D8.cpp
 pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp
 pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
