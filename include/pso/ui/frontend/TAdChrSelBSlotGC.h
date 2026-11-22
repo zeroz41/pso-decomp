@@ -61,7 +61,7 @@ struct TAdChrSelBSlotGC : public TObject {
     void sub_8030F3A0();
     void close_windows();
     void reset_windows();
-    static void *create(void *arg0);
+    static TAdChrSelBSlotGC *create(void *arg0);
     int get_global_state();
     static TAdChrSelASlotGC *get_global_slot_data();
     TAdChrSelSlotGC *slot_gc; // 0x28

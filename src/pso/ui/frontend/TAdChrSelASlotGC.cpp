@@ -209,12 +209,12 @@ TWindowMessageYesNo *TAdChrSelASlotGC::sub_8030C978(s32 pos, s32 client_id) {
 }
 #pragma pop
 
-s32 TAdChrSelASlotGC::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
+s32 TAdChrSelASlotGC::open_yes_no_window(s32 pos, s32 client_id) {
     saddr temp_r31;
 
     play_sound_effect(0x53F06, 0, 0, 0);
-    temp_r31 = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg2, 0, 0);
-    ((TWindowMessageYesNo *)temp_r31)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), (s32)arg1, 458.0f);
+    temp_r31 = (saddr)TWindowMessageYesNo::create(this, client_id, 0, 0);
+    ((TWindowMessageYesNo *)temp_r31)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), pos, 458.0f);
     ((TWindowMessageYesNo *)temp_r31)->set_menu_selected_index(1);
     ((TWindowSubComCard *)temp_r31)->free_windows();
     return temp_r31;

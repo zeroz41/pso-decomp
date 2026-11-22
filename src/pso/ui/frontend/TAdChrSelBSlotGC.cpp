@@ -841,7 +841,7 @@ TAdChrSelBSlotGC::TAdChrSelBSlotGC(TObject *parent) : TObject(parent) {
     create_children();
 }
 
-void *TAdChrSelBSlotGC::create(void *parent) {
+TAdChrSelBSlotGC *TAdChrSelBSlotGC::create(void *parent) {
     return new TAdChrSelBSlotGC((TObject *)parent);
 }
 

@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdChrSelASlotGC;
+struct TAdChrSelBSlotGC;
+class TAdSelectCurGC;
 class TAdGuideTxtGC;
 struct TAdChrSelPlyPlateGC;
 struct TAdChrMoveEffectGC;
@@ -109,9 +111,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 get_ready_state();
     static TAdChrMoveEffectGC *get_move_effect(saddr arg0);
     static TAdChrSelASlotGC *get_or_create_slot_window(TObject *parent, s32 mode);
-    u8 unk_68[0x4];
-    saddr m_6c;
-    u8 unk_70[0x4];
+    TAdChrSelASlotGC *a_slot;        // 0x68  get_or_create_slot_window
+    TAdChrSelBSlotGC *b_slot;        // 0x6C  TAdChrSelBSlotGC::create
+    TAdSelectCurGC *select_cursor;   // 0x70
     u32 m_74;
     u8 unk_78[0x4];
     s32 m_7c;
