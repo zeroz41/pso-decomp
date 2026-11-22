@@ -51,7 +51,6 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"

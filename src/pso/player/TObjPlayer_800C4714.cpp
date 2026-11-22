@@ -215,7 +215,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, 
                 is_area_attack_target_eligible((saddr)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((saddr)object, p) == 0) {
+                if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)p) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {

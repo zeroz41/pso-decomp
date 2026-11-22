@@ -105,7 +105,6 @@ __declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 void draw_blob_shadow(s32 arg0);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_z(s32, s32);

@@ -122,6 +122,7 @@ void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(void *p, void *q);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 }

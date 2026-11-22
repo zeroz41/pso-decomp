@@ -5,7 +5,6 @@
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TUnk_804820A8.h"

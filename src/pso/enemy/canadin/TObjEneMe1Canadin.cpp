@@ -22,7 +22,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 
 #include "pso/render/TUnk_80494938.h"

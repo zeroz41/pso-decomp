@@ -225,7 +225,6 @@ extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
 void TObjEneRe2Flower__sub_800C2E64(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 }
 
 extern const f32 lbl_805D9FBC; // 5.0

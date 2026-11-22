@@ -10,7 +10,6 @@
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 
 
 #include "pso/unk/text_803D96A8.h"

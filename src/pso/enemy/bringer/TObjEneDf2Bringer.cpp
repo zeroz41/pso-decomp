@@ -56,6 +56,7 @@ void draw_model_motion(void *model, void *motion, f32 frame);
 
 #include "pso/enemy/TUnk_8048FE08.h"
 #include "pso/enemy/AttackTargetHistory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
@@ -186,7 +187,6 @@ struct Pair_800993E8 { f32 a; u32 flags; };
 extern "C" {
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
 void check_enemy_body_collisions(void *arg0);
-s32 attack_target_history_add(saddr, TObjPlayer *);
 }
 
 
@@ -496,7 +496,7 @@ s32 TObjEneDf2Bringer::sub_80099248() {
             if (player == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)player) != 0 && attack_target_history_add((saddr)attack_history, player) != 0) {
+            if (obj_is_hit_receivable((u8 *)player) != 0 && attack_target_history_add(attack_history, player) != 0) {
                 DirectAttackPayload h;
                 h.kind = 0;
                 h.power = TObjEneDf2Bringer__data_805D4FB4->rush_power;

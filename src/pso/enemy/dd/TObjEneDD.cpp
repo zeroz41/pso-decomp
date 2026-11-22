@@ -28,11 +28,9 @@ extern "C" {
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 void *get_player_by_client_id(s32 i);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 }
 
 #include "pso/enemy/dd/TObjEneDD_800BABA4.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"

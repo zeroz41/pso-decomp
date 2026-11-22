@@ -451,7 +451,6 @@ s32 fn_800D88E4(void *);
 void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 msg);
 void TObjEneBm5GibonU__sub_800CFE30(TObjEneBm5GibonU *self, s32 arg1);
 void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 msg);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 is_split_screen();
 s32 draw_blob_shadow(s32);
 s32 rotate_matrix_z(s32, s32);

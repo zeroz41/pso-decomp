@@ -16,6 +16,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/enemy/AttackTargetHistory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -88,7 +89,6 @@ void obj_setFlags30(void *, s32);
 u32 csnLookAt(void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 TObjPlayer__sub_800A04F0(void *);
-s32 attack_target_history_add(saddr object, saddr target);
 void fn_800D8830(void *owner, void *pos);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -450,7 +450,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0 && attack_target_history_add((saddr)attack_history, (saddr)target) != 0) {
+            if (obj_is_hit_receivable((u8 *)target) != 0 && attack_target_history_add(attack_history, target) != 0) {
                 if (flags & 0x10) {
                     if (game_difficulty_selection == 3) {
                         attack.kind = 5;

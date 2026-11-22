@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -26,7 +27,6 @@ extern "C" {
 s32 obj_is_hit_receivable(u32);
 f32 fabs_float(f32);
 s32 is_area_attack_target_eligible(void *, u32);
-s32 attack_target_history_add(saddr, saddr);
 
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
     s32 hit;
@@ -58,7 +58,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
                 is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
                 !(fabs_float(pos.y - ((TObjChara *)obj)->body_center.y) > 3e+01f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((saddr)object, obj) == 0) {
+                if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)obj) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {

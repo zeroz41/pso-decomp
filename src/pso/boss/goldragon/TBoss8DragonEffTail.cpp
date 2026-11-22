@@ -11,7 +11,6 @@
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"

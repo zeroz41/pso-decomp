@@ -13884,7 +13884,7 @@ force_active:
   - psycho_wand_roll_extra__13TUnk_804A4F60Fv
   - publish_light__15TEndingPicStageFv
   - push_actors_out__12TBoss3VoloptFl
-  - push_attack_target_entry__FPUcl
+  - push_attack_target_entry__FP13PointerBufferPv
   - push_key_to_buffer__16KeyboardKeyStateFUc
   - push_list_node__14TObjEneBm5WolfFPPvPPv
   - push_list_node__16TObjEneBm5GibonUFPPvPPv

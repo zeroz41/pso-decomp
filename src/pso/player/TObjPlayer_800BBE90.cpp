@@ -201,7 +201,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
             }
             if (obj_is_hit_receivable() != 0 && t != ((P_800BC080 *)this)->self_tgt && is_area_attack_target_eligible(((P_800BC080 *)this), t->x30) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((saddr)object, (saddr)t) == 0) {
+                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
@@ -257,7 +257,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
             }
             if (obj_is_hit_receivable() != 0 && t != ((P_800BC250 *)this)->self_tgt && is_area_attack_target_eligible(((P_800BC250 *)this), t->x30) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((saddr)object, (saddr)t) == 0) {
+                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {

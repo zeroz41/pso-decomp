@@ -53,7 +53,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"

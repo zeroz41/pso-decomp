@@ -65,7 +65,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_803255F8.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
