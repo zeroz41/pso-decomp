@@ -78,10 +78,6 @@ TUnk_80488B38::~TUnk_80488B38() {
 
 }
 
-extern void* camera_controller_registry[];
-
-void* camera_controller_registry[];
-
 struct CameraMotionData;
 TUnk_80488B38::TUnk_80488B38() : TUnk_80488A28() {
     *(float *)&this->unk_6C = 10.0f;
