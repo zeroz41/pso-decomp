@@ -40,6 +40,14 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
@@ -49,17 +57,7 @@ struct Ent_800B23A0 { s32 a; u32 count; };
 
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
-void spawn_dead_spot_scale15(s32 point, s32 delay);
-void free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 play_sound_effect(s32, void *, int, int);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-s32 vec3_add_to(void *, void *);
-s32 post_translate_matrix(void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
 
 Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody bm3_flynest_collider_params[1] = {
@@ -228,11 +226,11 @@ void TObjEneBm3FlyNest_CarryFly::render() {
     TObjFish::set_global_param((saddr)lbl_805D5108->models[0].m_c);
     push_matrix();
     if (state == 0) {
-        post_translate_matrix(origin);
+        post_translate_matrix(&origin->x);
     } else {
-        post_translate_matrix(target);
+        post_translate_matrix(&target->x);
     }
-    post_translate_matrix(&offset);
+    post_translate_matrix(&offset.x);
     rotate_matrix_y(0, angle);
     set_motion_packed_rotation();
     draw_model_motion((void *)lbl_805D5108->models[0].model, motion, frame);
@@ -1038,7 +1036,7 @@ void TObjEneBm3FlyNest::render() {
                 push_matrix();
                 lbl_805D510C = 0;
                 TObjEneBm3FlyNest_attachment_point_ptr = &unk_3c8[0];
-                post_translate_matrix(&position);
+                post_translate_matrix(&position.x);
                 ((s32 (*)(int, f32, f32, f32))translate_matrix)(0, 0.0f, unk_4b0, 0.0f);
                 if (mode == 0) {
                     bm3_fly_nest_attachment_index = 0;
