@@ -218,6 +218,8 @@ void reset_cameras_to_actor(void *actor, s32 view_unused);
 
 extern "C" {
 int is_quest_active(void);
+// Nonzero when value is a NaN or an infinity.
+int is_float_nonfinite(f32 value);
 f32 TCameraCtrl__sub_80068A04(s32 view);
 // Forces registry controller `index` until restore_player_cameras; 0 if a
 // mode is already forced.

@@ -239,9 +239,6 @@ extern s32 lbl_805D63F0;
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
-extern "C" {
-int is_float_nonfinite(f32 value);
-}
 
 
 u8 boss2_tunnel_state_flag;

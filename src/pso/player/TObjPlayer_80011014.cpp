@@ -86,7 +86,7 @@
 
 #include "pso/unk/text_8008C4F4.h"
 
-#include "pso/unk/text_801A3014.h"
+#include "pso/system/scene/OfflineGameScene.h"
 
 #include "pso/unk/TLobby_801A3C48.h"
 

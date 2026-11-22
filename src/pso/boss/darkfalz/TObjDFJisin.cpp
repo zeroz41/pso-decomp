@@ -5,6 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
@@ -90,7 +91,6 @@ Mtx34 df_captured_matrix_pair[2];
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
-extern u8 *camera_ctrl_instance;
 
 
 // Written last to first: the unit is generated deferred (see configure.py).
@@ -119,7 +119,7 @@ void TObjDFUsoTower::run_task() {
     f32 r;
     switch (fade_state) {
     case 0: {
-        Vec v = *(Vec *)(camera_ctrl_instance + 0x178);
+        Vec v = camera_ctrl_instance->pos;
         subtract_vector(&v, &position);
         v.y = 0.0f;
         d = vector_length(&v);

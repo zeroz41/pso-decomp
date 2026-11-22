@@ -24,6 +24,7 @@
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -142,7 +143,6 @@ void project_world_to_screen(int, void *, void *);
 s32 post_translate_matrix(void *);
 void rotate_vector_by_current_matrix(void *, void *);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 vector_length(void *);
@@ -426,11 +426,11 @@ void TUnk_8048E778::render() {
         rotate_vector_by_current_matrix(&c, &c);
         pop_matrix();
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
+        rotate_matrix_y(0, camera_ctrl_instance->yaw);
         rotate_vector_by_current_matrix(&a, &a);
         pop_matrix();
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x190));
+        rotate_matrix_y(0, camera_ctrl_instance->pitch);
         rotate_vector_by_current_matrix(&b, &b);
         pop_matrix();
         d1 = vec3_dot(&c, &a);
@@ -482,7 +482,7 @@ void TUnk_8048E778::render() {
         rotate_matrix_x(0, r.x);
         if (p->flags & 0x1000) {
             if (camera_ctrl_instance != NULL) {
-                rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
+                rotate_matrix_y(0, camera_ctrl_instance->yaw);
             }
         } else {
             rotate_matrix_y(0, r.y);
