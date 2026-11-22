@@ -16,6 +16,8 @@ struct TBoss5GryphonShockWave : public TObject {
     virtual ~TBoss5GryphonShockWave();
     virtual void render();
     virtual void run_task();
+    static void release_particle_table();  // TBoss5Gryphon::cleanup's counterpart, empty
+    static void select_particle_table();  // load_boss5_gryphon_resources picks the particle ids
 
     s32 state;  // 0 start, 1 travelling, 2 burst, 3 done
     s32 frame;
@@ -28,15 +30,5 @@ struct TBoss5GryphonShockWave : public TObject {
 };
 
 LAYOUT_ASSERT(TBoss5GryphonShockWave_size, sizeof(TBoss5GryphonShockWave) == 0x70);
-
-extern "C" {
-void TBoss8Dragon__sub_80066A4C(void);
-}
-
-// --- C functions defined in TBoss5GryphonShockWave.cpp ---
-extern "C" {
-void TBoss8Dragon__sub_80066A4C(void);
-}
-// --- end of C functions
 
 #endif

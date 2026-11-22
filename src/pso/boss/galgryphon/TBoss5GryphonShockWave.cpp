@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/system/vector.h"
-#include "pso/unk/text_80355970.h"
+#include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -65,7 +65,7 @@ void TBoss5GryphonShockWave::run_task() {
         spawn_particle_effect_with_flags(&this->position, gryphon_shockwave_particle_ids_ptr[2], 0x40);
         play_sound_effect(0x40033C13, &this->position, 0, 0);
         TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon::get_instance(), &this->position);
-        spawn_gryphon_tornado((saddr)this->m_up, (saddr)this->owner, &this->position, this->target_client_id);
+        TBoss5GryphonTornado::spawn(this->m_up, this->owner, &this->position, this->target_client_id);
         this->state = 3;
         this->queue_destruction();
         break;
@@ -105,8 +105,8 @@ TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *parent, TBoss5Gryphon *o
     this->state = 0;
 }
 
-void TBoss8Dragon__sub_80066A4C(void) {  }
-void TBoss8Dragon::set_default_on_state0() {
+void TBoss5GryphonShockWave::release_particle_table() {  }
+void TBoss5GryphonShockWave::select_particle_table() {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         gryphon_shockwave_particle_ids_ptr = lbl_80437F40;

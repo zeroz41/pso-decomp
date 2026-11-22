@@ -8,6 +8,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
@@ -16,35 +17,27 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
-#include "pso/unk/text_80355970.h"
-#include "pso/unk/text_80355A1C.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/CsnGroundQuery.h"
 
 
-void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
-  unsigned short new_var;
-  u16 temp_r3;
-  u8 *player;
-  *((f32 *) (((s8 *) boss2_tunnel) + 0)) = 0.0f;
-  *((f32 *) (((s8 *) boss2_tunnel) + 4)) = 0.0f;
-  *((f32 *) (((s8 *) boss2_tunnel) + 8)) = 0.0f;
-  temp_r3 = this->target_client_id;
-  new_var = -1U;
-  if (temp_r3 != new_var)
-  {
-    player = (u8 *) get_player_by_client_id(temp_r3);
-    if (player != 0)
-    {
-      *((f32 *) (((s8 *) boss2_tunnel) + 0)) = (f32) ((*((f32 *) (((s8 *) player) + 0x38))) - (this->position.x));
-      *((f32 *) (((s8 *) boss2_tunnel) + 8)) = (f32) ((*((f32 *) (((s8 *) player) + 0x40))) - (this->position.z));
-      normalize_vector_safe((Vec *)boss2_tunnel);
+void TBoss5GryphonTornado::get_target_direction(Vec *dir) {
+    TObjPlayer *player;
+    dir->x = 0.0f;
+    dir->y = 0.0f;
+    dir->z = 0.0f;
+    if (this->target_client_id != 0xFFFF) {
+        player = get_player_by_client_id(this->target_client_id);
+        if (player != NULL) {
+            dir->x = player->position.x - this->position.x;
+            dir->z = player->position.z - this->position.z;
+            normalize_vector_safe(dir);
+        }
     }
-  }
 }
 
 
-// The particle ids run_task spawns (installed by TBoss8Dragon__sub_80355A20 at the end of
+// The particle ids run_task spawns (installed by select_particle_table at the end of
 // the file). Defined first: the table opens the unit's .rodata, before the class name.
 static const s32 gryphon_tornado_particle_ids[3] = {0x203, 0x204, 0x205};
 const char *TBoss5GryphonTornado__class_name = "TBoss5GryphonTornado";
@@ -52,7 +45,6 @@ extern "C" {
 
 void play_persistent_sound(s32, void *, Vec *, s32, s32);
 const s32 *gryphon_tornado_particle_id_table;
-extern const f32 lbl_805D8D48;
 
 void TBoss5GryphonTornado::render() {  }
 
@@ -71,15 +63,15 @@ void TBoss5GryphonTornado::run_task() {
     case 0:
         this->state = 1;
     case 1:
-        this->position.y = lbl_805D8D48;
+        this->position.y = gryphon_max_floor_height;
         r = csnVecterUnder(&this->position, 0x16EF);
         if (r == NULL) {
             queue_destruction();
             return;
         }
         h = r->contact->point.y;
-        if (h > lbl_805D8D48) {
-            this->position.y = lbl_805D8D48;
+        if (h > gryphon_max_floor_height) {
+            this->position.y = gryphon_max_floor_height;
         } else {
             this->position.y = h;
         }
@@ -109,7 +101,7 @@ void TBoss5GryphonTornado::run_task() {
             this->timer = 0;
         }
         TBoss5Gryphon::apply_tornado_hit(TBoss5Gryphon::get_instance(), &this->position);
-        sub_803554F0((u8 *)&v);
+        get_target_direction(&v);
         this->velocity.x = 0.01f * v.x + this->velocity.x;
         this->velocity.z = 0.01f * v.z + this->velocity.z;
         this->velocity.x *= 0.995f;
@@ -162,30 +154,29 @@ TBoss5GryphonTornado::TBoss5GryphonTornado(TObject *parent, TBoss5Gryphon *gryph
     this->state = 0;
 }
 
-extern "C" {
-saddr spawn_gryphon_tornado(saddr parent, saddr gryphon, const Vec *pos_src, u16 kind) {
+TBoss5GryphonTornado *TBoss5GryphonTornado::spawn(TObject *parent, TBoss5Gryphon *gryphon, const Vec *pos_src,
+                                                  u16 target_client_id) {
     Vec pos;
     CsnHit *under;
     f32 y;
     TBoss5GryphonTornado *tornado;
     VecCopy(&pos, pos_src);
-    pos.y = lbl_805D8D48;
+    pos.y = gryphon_max_floor_height;
     under = csnVecterUnder(&pos, 0x16EF);
     if (under == NULL) {
-        return 0;
+        return NULL;
     }
     y = under->contact->point.y;
-    if (y > lbl_805D8D48) {
-        return 0;
+    if (y > gryphon_max_floor_height) {
+        return NULL;
     }
     pos.y = y;
-    tornado = new TBoss5GryphonTornado((TObject *)parent, (TBoss5Gryphon *)gryphon, &pos, kind);
-    return (saddr)tornado;
-}
+    tornado = new TBoss5GryphonTornado(parent, gryphon, &pos, target_client_id);
+    return tornado;
 }
 
-void TBoss8Dragon__sub_80355A1C(void) {  }
-void TBoss8Dragon__sub_80355A20(void) {
+void TBoss5GryphonTornado::release_particle_table() {  }
+void TBoss5GryphonTornado::select_particle_table() {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         gryphon_tornado_particle_id_table = gryphon_tornado_particle_ids;

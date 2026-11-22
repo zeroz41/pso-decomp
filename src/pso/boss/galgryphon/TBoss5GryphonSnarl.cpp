@@ -135,12 +135,12 @@ TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(pa
 }
 #pragma pop
 
-void TBoss5GryphonSnarl__sub_80066E84(void) {  }
+void TBoss5GryphonSnarl::release_effect_table() {  }
 
 extern void *lbl_805D4DD8;
 extern uaddr boss5_common_texture_list;
 
-void TBoss5GryphonSnarl__sub_80066E88(void) {
+void TBoss5GryphonSnarl::select_effect_table() {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         TBoss5GryphonSnarl__effect_table = boss5_gryphon_snarl_effect_id_table;

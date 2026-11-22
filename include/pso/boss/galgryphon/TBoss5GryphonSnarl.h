@@ -9,6 +9,8 @@ public:
     virtual ~TBoss5GryphonSnarl();
     virtual void run_task();
     virtual void render();
+    static void release_effect_table();  // TBoss5Gryphon::cleanup's counterpart, empty
+    static void select_effect_table();  // load_boss5_gryphon_resources picks the effect ids
     s32 state;
     TObject *children_20[32];
     TObject *children_a0[32];
@@ -22,17 +24,7 @@ LAYOUT_ASSERT(TBoss5GryphonSnarlPosition, offsetof(TBoss5GryphonSnarl, position)
 LAYOUT_ASSERT(TBoss5GryphonSnarlSize, sizeof(TBoss5GryphonSnarl) == 0x130);
 
 extern "C" {
-void TBoss5GryphonSnarl__sub_80066E84(void);
-void TBoss5GryphonSnarl__sub_80066E88(void);
 void TLobby__sub_80066EC0(void);
 }
-
-// --- C functions defined in TBoss5GryphonSnarl.cpp ---
-extern "C" {
-void TBoss5GryphonSnarl__sub_80066E84(void);
-void TBoss5GryphonSnarl__sub_80066E88(void);
-void TLobby__sub_80066EC0(void);
-}
-// --- end of C functions
 
 #endif

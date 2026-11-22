@@ -55,7 +55,7 @@
 #include "pso/boss/galgryphon/Boss5GryphonActionScripts.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
-#include "pso/unk/text_80355A1C.h"
+#include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_803255F8.h"
@@ -302,9 +302,7 @@ struct Obj_8005D708 {
     f32 f354;
     f32 f358;
 };
-// Read by TBoss5GryphonLightningHorn, TBoss5GryphonLightningWing, TBoss5GryphonTornado and spawn_gryphon_tornado.
-extern const f32 lbl_805D8D48;
-const f32 lbl_805D8D48 = 6.0f;
+const f32 gryphon_max_floor_height = 6.0f;
 typedef void (TBoss5Gryphon::*StateAction)(int);
 }
 #pragma push
@@ -576,9 +574,9 @@ void load_boss5_gryphon_resources(void) {
         boss5_gryphon_behavior_params[i] = TLobby::dispatch_shared_handler_a(boss5_gryphon_behavior_param_ids[i]);
     }
     TWindowCtrl::init_all_slots();
-    TBoss8Dragon::set_default_on_state0();
-    TBoss8Dragon__sub_80355A20();
-    TBoss5GryphonSnarl__sub_80066E88();
+    TBoss5GryphonShockWave::select_particle_table();
+    TBoss5GryphonTornado::select_particle_table();
+    TBoss5GryphonSnarl::select_effect_table();
     load_f512_inazuma();
 }
 
@@ -589,9 +587,9 @@ void *TBoss5Gryphon::create(void *data) {
 
 void TBoss5Gryphon::cleanup() {
     TLobby::free_char_select_singleton();
-    TBoss5GryphonSnarl__sub_80066E84();
-    TBoss8Dragon__sub_80355A1C();
-    TBoss8Dragon__sub_80066A4C();
+    TBoss5GryphonSnarl::release_effect_table();
+    TBoss5GryphonTornado::release_particle_table();
+    TBoss5GryphonShockWave::release_particle_table();
     if (boss5_gryphon_texture_list != NULL) {
         release_texture_list(boss5_gryphon_texture_list);
         TAdSinglePlyChrSelectGC::safe_free((uaddr)boss5_gryphon_texture_list);

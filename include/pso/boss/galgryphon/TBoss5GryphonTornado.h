@@ -11,7 +11,11 @@ class TParticleCtrl;
 struct TBoss5GryphonTornado : public TObject {
     TBoss5GryphonTornado(TObject *parent, TBoss5Gryphon *gryphon, const Vec *pos, u16 target_client_id);
     virtual ~TBoss5GryphonTornado();
-    void sub_803554F0(u8 *);
+    // Drops a tornado onto the floor under pos; none when the floor there is above gryphon_max_floor_height.
+    static TBoss5GryphonTornado *spawn(TObject *parent, TBoss5Gryphon *gryphon, const Vec *pos, u16 target_client_id);
+    static void release_particle_table();  // TBoss5Gryphon::cleanup's counterpart, empty
+    static void select_particle_table();  // load_boss5_gryphon_resources picks the particle ids
+    void get_target_direction(Vec *dir);  // unit xz direction to the target player, 0 without one
     virtual void render();
     virtual void run_task();
 

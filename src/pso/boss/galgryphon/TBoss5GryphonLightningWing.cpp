@@ -8,6 +8,7 @@
 
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
+#include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 
@@ -23,7 +24,6 @@ const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
 
 #pragma opt_lifetimes off
 
-extern const f32 lbl_805D8D48;
 
 struct Pt_80351C18 { Vec v; f32 w; };
 
@@ -115,9 +115,9 @@ TBoss5GryphonLightningWing *TBoss5GryphonLightningWing::spawn(TObject *parent, V
     VecCopy(&end, target);
     hit = csnVecterUnder(&end, 0x16EF);
     if (hit == NULL) {
-        end.y = lbl_805D8D48;
-    } else if (hit->contact->point.y > lbl_805D8D48) {
-        end.y = lbl_805D8D48;
+        end.y = gryphon_max_floor_height;
+    } else if (hit->contact->point.y > gryphon_max_floor_height) {
+        end.y = gryphon_max_floor_height;
     } else {
         end.y = hit->contact->point.y;
     }

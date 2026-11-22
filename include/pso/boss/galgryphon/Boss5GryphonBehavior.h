@@ -11,14 +11,11 @@ struct TBoss8Dragon;
 extern "C" {
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
-void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
-void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 }
 void handle_6x9F_gal_gryphon_boss_actions(void *boss8_dragon);
 void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *boss8_dragon);
 extern "C" {
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-void run_task__13TBoss5GryphonFv(u8 *arg0);
 }
 
 struct BmlResource;
@@ -26,6 +23,10 @@ struct BmlResource;
 // Gal Gryphon's particle model archive and texture list, loaded with the boss.
 extern BmlResource *boss5_gryphon_bml_resource;
 extern GinjaTextureList *boss5_gryphon_texture_list;
+
+// The highest floor the gryphon's ground effects stand on: the lightning, wing and tornado
+// floor probes clamp to it (and use it when there is no floor); a tornado is not spawned above it.
+extern const f32 gryphon_max_floor_height;
 
 // Gal Gryphon tuning constants (.sdata2 0x805D8D80..0x805D8ECC), defined in Boss5GryphonBehaviorSdata2.cpp.
 extern const f32 gryphon_twelve;

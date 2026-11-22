@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
+#include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include <stdlib.h>
 #include <stddef.h>
 #include <dolphin/mtx.h>
@@ -42,7 +43,6 @@ typedef struct Wing_80326074 {
 extern "C" {
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);
-extern const f32 lbl_805D8D48;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 
@@ -143,7 +143,7 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     p.z += self->vel.z;
     p.y = 60.0f;
     hit = (Hit_80326074 *)csnVecterUnder(&p, 0x16EF);
-    if (hit == NULL || (h = hit->pos[1]) > lbl_805D8D48) {
+    if (hit == NULL || (h = hit->pos[1]) > gryphon_max_floor_height) {
         this->get_end_position(&p);
         self->vel.x *= 0.5f;
         self->vel.y *= 0.5f;
@@ -201,11 +201,11 @@ TBoss5GryphonLightningHorn *TBoss5GryphonLightningHorn::spawn_ground_lightning(T
     VecCopy(&position, pos);
     collision = (u8 *)csnVecterUnder(&position, 0x16EF);
     if (collision == NULL) {
-        position.y = lbl_805D8D48;
+        position.y = gryphon_max_floor_height;
     } else {
         ground_height = *(f32*)((s8 *)(*(u8**)((s8 *)collision + 4)) + 4);
-        if (ground_height > lbl_805D8D48) {
-            position.y = lbl_805D8D48;
+        if (ground_height > gryphon_max_floor_height) {
+            position.y = gryphon_max_floor_height;
         } else {
             position.y = ground_height;
         }
