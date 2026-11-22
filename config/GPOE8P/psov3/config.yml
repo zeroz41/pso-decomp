@@ -1160,8 +1160,8 @@ force_active:
   - TObjEneDimedian__boss_objects
   - __ct__15TObjEneDimedianFP7TObjectPv
   - TObjEneDolmOlm__param_table
-  - sub_8030177C__14TObjEneDolmOlmFv
-  - sub_80301C3C__14TObjEneDolmOlmFv
+  - update_special_attack__14TObjEneDolmOlmFv
+  - update_retreat__14TObjEneDolmOlmFv
   - __ct__19TObjEneEpsilonGuardFP7TObjectP18TObjEneEpsilonBodyllPC3Vecl
   - TObjEneEpsilonGuard__debug_line_list
   - TObjEneEpsilonGuard__model_desc
@@ -7712,7 +7712,7 @@ force_active:
   - lbl_80472C80
   - lbl_80472C90
   - lbl_80472C9C
-  - lbl_80474F08
+  - dolmolm_model_name_abgc01_wola_body_nj
   - dolmolm_model_name_abgc01l_wola_body_nj
   - dolmolm_motion_name_atack_l_abgc01_wola_body_njm
   - dolmolm_motion_name_atack_r_abgc01_wola_body_njm
@@ -7727,7 +7727,7 @@ force_active:
   - dolmolm_model_name_lo_abgc01_wola_body_nj
   - dolmolm_model_name_lo_abgc01l_wola_body_nj
   - bm_ene_abgc01_wola_body_low_bml_filename
-  - lbl_804750C8
+  - dolmolm_radians_to_angle
   - boss6_mag_capture_nodes
   - boss6_mag_initial_target
   - boss6_mag_rock_spread_angles
@@ -8094,10 +8094,10 @@ force_active:
   - lbl_804E3B60
   - boss7_tunnel_particle_pos_table
   - __vt__19TBoss8DragonColli_C
-  - lbl_804E6740
-  - lbl_804E674C
-  - lbl_804E6784
-  - lbl_804E6790
+  - dolmolm_model_names
+  - dolmolm_motion_names
+  - dolmolm_low_model_names
+  - dolmolm_low_motion_names
   - dell_biter_collision_bodies
   - dell_biter_model_names
   - dell_biter_bml_resource
@@ -16349,7 +16349,7 @@ force_active:
   - sub_803003A4__21TAdMultiSelGameModeGCFv
   - sub_80300648__21TAdMultiSelGameModeGCFv
   - sub_80300764__21TAdMultiSelGameModeGCFv
-  - sub_80301148__14TObjEneDolmOlmFv
+  - apply_variant__14TObjEneDolmOlmFv
   - retarget_attacker__16TObjEneDellBiterFv
   - sub_8030B818__18TObjLiveCameraCtrlFi
   - sub_8030CBD0__16TAdChrSelASlotGCFv

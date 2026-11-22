@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -68,64 +69,60 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 
-extern const f64 lbl_804750C8[];
+extern const f64 dolmolm_radians_to_angle[];
 extern int lbl_805D69E8;
 
-extern const u8 lbl_80474F08[0x14];
-__declspec(section ".rodata") const u8 lbl_80474F08[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
-extern const u8 dolmolm_model_name_abgc01l_wola_body_nj[0x15];
-__declspec(section ".rodata") const u8 dolmolm_model_name_abgc01l_wola_body_nj[0x15] ATTRIBUTE_ALIGN(4) = "abgc01l_wola_body.nj";
-extern const u8 dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_l_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_r_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C] ATTRIBUTE_ALIGN(4) = "damage_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "dead_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "odori_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wait_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "wait2_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wake_abgc01_wola_body.njm";
-extern const u8 dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const u8 dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "walk_abgc01_wola_body.njm";
-extern const u8 bm_ene_abgc01_wola_body_bml_filename[0x1C];
-__declspec(section ".rodata") const u8 bm_ene_abgc01_wola_body_bml_filename[0x1C] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body.bml";
-extern const u8 dolmolm_model_name_lo_abgc01_wola_body_nj[0x17];
-__declspec(section ".rodata") const u8 dolmolm_model_name_lo_abgc01_wola_body_nj[0x17] ATTRIBUTE_ALIGN(4) = "lo_abgc01_wola_body.nj";
-extern const u8 dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18];
-__declspec(section ".rodata") const u8 dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
-extern const u8 bm_ene_abgc01_wola_body_low_bml_filename[0x20];
-__declspec(section ".rodata") const u8 bm_ene_abgc01_wola_body_low_bml_filename[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
+extern const char dolmolm_model_name_abgc01_wola_body_nj[0x14];
+__declspec(section ".rodata") const char dolmolm_model_name_abgc01_wola_body_nj[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
+extern const char dolmolm_model_name_abgc01l_wola_body_nj[0x15];
+__declspec(section ".rodata") const char dolmolm_model_name_abgc01l_wola_body_nj[0x15] ATTRIBUTE_ALIGN(4) = "abgc01l_wola_body.nj";
+extern const char dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D];
+__declspec(section ".rodata") const char dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_l_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D];
+__declspec(section ".rodata") const char dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_r_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C];
+__declspec(section ".rodata") const char dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C] ATTRIBUTE_ALIGN(4) = "damage_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A];
+__declspec(section ".rodata") const char dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "dead_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B];
+__declspec(section ".rodata") const char dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "odori_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A];
+__declspec(section ".rodata") const char dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wait_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B];
+__declspec(section ".rodata") const char dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "wait2_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A];
+__declspec(section ".rodata") const char dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wake_abgc01_wola_body.njm";
+extern const char dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A];
+__declspec(section ".rodata") const char dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "walk_abgc01_wola_body.njm";
+extern const char bm_ene_abgc01_wola_body_bml_filename[0x1C];
+__declspec(section ".rodata") const char bm_ene_abgc01_wola_body_bml_filename[0x1C] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body.bml";
+extern const char dolmolm_model_name_lo_abgc01_wola_body_nj[0x17];
+__declspec(section ".rodata") const char dolmolm_model_name_lo_abgc01_wola_body_nj[0x17] ATTRIBUTE_ALIGN(4) = "lo_abgc01_wola_body.nj";
+extern const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18];
+__declspec(section ".rodata") const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
+extern const char bm_ene_abgc01_wola_body_low_bml_filename[0x20];
+__declspec(section ".rodata") const char bm_ene_abgc01_wola_body_low_bml_filename[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
 extern const char TObjEneDolmOlm__class_name_string[0xF];
 __declspec(section ".rodata") const char TObjEneDolmOlm__class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
 
-void *lbl_804E6740[3] = {
-    (void *)&lbl_80474F08, (void *)&dolmolm_model_name_abgc01l_wola_body_nj, (void *)0x0,
+const char *dolmolm_model_names[3] = {
+    dolmolm_model_name_abgc01_wola_body_nj, dolmolm_model_name_abgc01l_wola_body_nj, NULL,
 };
-void *lbl_804E674C[10] = {
-    (void *)&dolmolm_motion_name_atack_l_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_atack_r_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_damage_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_dead_abgc01_wola_body_njm,
-    (void *)&dolmolm_motion_name_odori_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_wait_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_wait2_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_wake_abgc01_wola_body_njm,
-    (void *)&dolmolm_motion_name_walk_abgc01_wola_body_njm, (void *)0x0,
+const char *dolmolm_motion_names[10] = {
+    dolmolm_motion_name_atack_l_abgc01_wola_body_njm, dolmolm_motion_name_atack_r_abgc01_wola_body_njm, dolmolm_motion_name_damage_abgc01_wola_body_njm, dolmolm_motion_name_dead_abgc01_wola_body_njm,
+    dolmolm_motion_name_odori_abgc01_wola_body_njm, dolmolm_motion_name_wait_abgc01_wola_body_njm, dolmolm_motion_name_wait2_abgc01_wola_body_njm, dolmolm_motion_name_wake_abgc01_wola_body_njm,
+    dolmolm_motion_name_walk_abgc01_wola_body_njm, NULL,
 };
-void *lbl_804E6774[4] = {
-    (void *)&bm_ene_abgc01_wola_body_bml_filename, (void *)&lbl_804E6740, (void *)&lbl_804E674C, (void *)0x20009,
+BmlResourceDescriptor dolmolm_resource_descriptor = { bm_ene_abgc01_wola_body_bml_filename, dolmolm_model_names, dolmolm_motion_names, 2, 9 };
+const char *dolmolm_low_model_names[3] = {
+    dolmolm_model_name_lo_abgc01_wola_body_nj, dolmolm_model_name_lo_abgc01l_wola_body_nj, NULL,
 };
-void *lbl_804E6784[3] = {
-    (void *)&dolmolm_model_name_lo_abgc01_wola_body_nj, (void *)&dolmolm_model_name_lo_abgc01l_wola_body_nj, (void *)0x0,
+const char *dolmolm_low_motion_names[10] = {
+    dolmolm_motion_name_atack_l_abgc01_wola_body_njm, dolmolm_motion_name_atack_r_abgc01_wola_body_njm, dolmolm_motion_name_damage_abgc01_wola_body_njm, dolmolm_motion_name_dead_abgc01_wola_body_njm,
+    dolmolm_motion_name_odori_abgc01_wola_body_njm, dolmolm_motion_name_wait_abgc01_wola_body_njm, dolmolm_motion_name_wait2_abgc01_wola_body_njm, dolmolm_motion_name_wake_abgc01_wola_body_njm,
+    dolmolm_motion_name_walk_abgc01_wola_body_njm, NULL,
 };
-void *lbl_804E6790[10] = {
-    (void *)&dolmolm_motion_name_atack_l_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_atack_r_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_damage_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_dead_abgc01_wola_body_njm,
-    (void *)&dolmolm_motion_name_odori_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_wait_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_wait2_abgc01_wola_body_njm, (void *)&dolmolm_motion_name_wake_abgc01_wola_body_njm,
-    (void *)&dolmolm_motion_name_walk_abgc01_wola_body_njm, (void *)0x0,
-};
-void *lbl_804E67B8[4] = {
-    (void *)&bm_ene_abgc01_wola_body_low_bml_filename, (void *)&lbl_804E6784, (void *)&lbl_804E6790, (void *)0x20009,
-};
+BmlResourceDescriptor dolmolm_low_resource_descriptor = { bm_ene_abgc01_wola_body_low_bml_filename, dolmolm_low_model_names, dolmolm_low_motion_names, 2, 9 };
 TObjMotionAction TObjEneDolmOlm__param_table[13] = {
     {1, 0, 5, 0.8f, 1},
     {1, 0, 6, 0.6f, 0x20},
@@ -141,11 +138,11 @@ TObjMotionAction TObjEneDolmOlm__param_table[13] = {
     {1, 0, 5, 0.8f, 0x20},
     {2, 0, 4, 0.8f, 4},
 };
-BeastMovementParams lbl_804E6898[2] = {
+BeastMovementParams dolmolm_movement_params[2] = {
     {225.0f, 0.75f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 1.0f, 0x400, {0, 0x1E0000, 1, 0}},
 };
-CollisionBody lbl_804E68D0[2] = {
+CollisionBody dolmolm_collision_bodies[2] = {
     {{0.0f, 12.5f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 12.5f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
@@ -160,16 +157,16 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     m_name = obj_ene_dolm_olm_class_name;
     apply_set_data(set_data);
     init_position_vectors();
-    sub_80301148();
+    apply_variant();
     action_table = TObjEneDolmOlm__param_table;
     set_field_d8((saddr)action_table);
     motion_list = TObjEneDolmOlm__resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    init_collision_body_parts(this, &lbl_804E68D0[variant], 1);
+    init_collision_body_parts(this, &dolmolm_collision_bodies[variant], 1);
     bind_enemy_combat_stats(dolm_olm_combat_stat_id_pair[variant], TObjEneDolmOlm__shared_handler_ids[variant], TObjEneDolmOlm__registered_object_ids[variant]);
-    movementParameters = &lbl_804E6898[variant];
+    movementParameters = &dolmolm_movement_params[variant];
     referenceHp = hp;
     advance_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
@@ -223,17 +220,17 @@ void TObjEneDolmOlm::load_shared_resources() {
     BmlResource *p;
     s32 i;
     if (is_split_screen() != 0) {
-        p = new BmlResource(1, (BmlResourceDescriptor *)lbl_804E67B8, 0, 0, NULL);
+        p = new BmlResource(1, &dolmolm_low_resource_descriptor, 0, 0, NULL);
         TObjEneDolmOlm__resource_bundle = p;
     } else {
-        p = new BmlResource(1, (BmlResourceDescriptor *)lbl_804E6774, 0, 0, NULL);
+        p = new BmlResource(1, &dolmolm_resource_descriptor, 0, 0, NULL);
         TObjEneDolmOlm__resource_bundle = p;
     }
-    TObjEneDolmOlm__data_805D6A14 = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
-    TObjEneDolmOlm__data_805D6A18 = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
+    TObjEneDolmOlm__left_attack_samples = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
+    TObjEneDolmOlm__right_attack_samples = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
     set_motion_packed_rotation();
-    TObjEneDolmOlm__data_805D6A14->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
-    TObjEneDolmOlm__data_805D6A18->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
+    TObjEneDolmOlm__left_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
+    TObjEneDolmOlm__right_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
     clear_motion_packed_rotation();
     dolm_olm_combat_stat_id_pair = (u8 **)mem_alloc(8);
     TObjEneDolmOlm__shared_handler_ids = (u8 **)mem_alloc(8);
@@ -253,7 +250,7 @@ void TObjEneDolmOlm::load_shared_resources() {
         NpcAnimationBinding d = { TObjEneDolmOlm__resource_bundle->motions, TObjEneDolmOlm__param_table, 0, 2, 12 };
         for (i = 0; i < 2; i++) {
             BmlModelEntry *e = &TObjEneDolmOlm__resource_bundle->models[i];
-            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->m_c, &d, lbl_804E68D0[i].radius, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->m_c, &d, dolmolm_collision_bodies[i].radius, 0.0f);
         }
     }
 }
@@ -274,13 +271,13 @@ void TObjEneDolmOlm::free_shared_resources() {
         mem_free(TObjEneDolmOlm__behavior_params_by_variant);
         TObjEneDolmOlm__behavior_params_by_variant = NULL;
     }
-    if (TObjEneDolmOlm__data_805D6A18 != NULL) {
-        delete TObjEneDolmOlm__data_805D6A18;
-        TObjEneDolmOlm__data_805D6A18 = NULL;
+    if (TObjEneDolmOlm__right_attack_samples != NULL) {
+        delete TObjEneDolmOlm__right_attack_samples;
+        TObjEneDolmOlm__right_attack_samples = NULL;
     }
-    if (TObjEneDolmOlm__data_805D6A14 != NULL) {
-        delete TObjEneDolmOlm__data_805D6A14;
-        TObjEneDolmOlm__data_805D6A14 = NULL;
+    if (TObjEneDolmOlm__left_attack_samples != NULL) {
+        delete TObjEneDolmOlm__left_attack_samples;
+        TObjEneDolmOlm__left_attack_samples = NULL;
     }
     if (TObjEneDolmOlm__resource_bundle != NULL) {
         delete TObjEneDolmOlm__resource_bundle;
@@ -330,11 +327,11 @@ void TObjEneDolmOlm::run_task() {
         beast_retire_corpse();
         break;
     case 10:
-        sub_80301C3C();
+        update_retreat();
         init_body_sub();
         break;
     case 11:
-        sub_8030177C();
+        update_special_attack();
         init_body_sub();
         break;
     }
@@ -499,7 +496,7 @@ void TObjEneDolmOlm::select_post_attack_mode() {
 #pragma opt_common_subs off
 // Mode 10: backs away from the target (heading turned 0x8000) at four times its speed until it has gone 50 units or
 // is out of the target's reach, then goes back to mode 3.
-void TObjEneDolmOlm::sub_80301C3C() {
+void TObjEneDolmOlm::update_retreat() {
     Vec v;
     f32 f;
 
@@ -573,7 +570,7 @@ void TObjEneDolmOlm::sub_80301C3C() {
 #pragma opt_common_subs off
 // Mode 11: turns to the player, plays action 12 (the odori motion) and hits a player in front of it and in range
 // with TObjPlayer::play_effect(kind 2).
-void TObjEneDolmOlm::sub_8030177C() {
+void TObjEneDolmOlm::update_special_attack() {
     if (targetId < 0x1000) {
         TObjPlayer *tgt = get_player_by_client_id(targetId);
         f32 d = horizontal_distance_squared(&tgt->position, &position);
@@ -645,7 +642,7 @@ void TObjEneDolmOlm::sub_8030177C() {
             DolmOlmBehaviorParams *t;
             VecCopy(&v, &((TObjChara *)target)->body_center);
             subtract_vector(&v, &body_center);
-            a = angle_difference_abs(rotation_y, (s32)(lbl_804750C8[0] * atan2_float(v.x, v.z)));
+            a = angle_difference_abs(rotation_y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
             d = horizontal_distance_squared(&((TObjChara *)target)->position, &position);
             t = TObjEneDolmOlm__behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
@@ -834,7 +831,7 @@ s32 TObjEneDolmOlm::check_path_ahead(s32 angle, f32 speed) {
     return check_path_obstructed(this, &stack);
 }
 #pragma pop
-void TObjEneDolmOlm::sub_80301148() {
+void TObjEneDolmOlm::apply_variant() {
     if (variant < 1) {
         subtype = 0;
         variant = 0;
@@ -846,8 +843,8 @@ void TObjEneDolmOlm::sub_80301148() {
     }
     load_params_from_table(variant);
     set_motion_packed_rotation();
-    TObjEneDolmOlm__data_805D6A14->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models[variant].model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
-    TObjEneDolmOlm__data_805D6A18->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models[variant].model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
+    TObjEneDolmOlm__left_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models[variant].model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
+    TObjEneDolmOlm__right_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models[variant].model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
     clear_motion_packed_rotation();
     retreat_chance = 0.3f + parameters[2];
     special_attack_chance = 0.3f + parameters[3];
@@ -863,11 +860,11 @@ void TObjEneDolmOlm::update_attack_trail() {
     }
     switch (this->requested_action) {
     case 3:
-        e = TObjEneDolmOlm__data_805D6A14->lookup(frame);
+        e = TObjEneDolmOlm__left_attack_samples->lookup(frame);
         idx = 0;
         break;
     case 4:
-        e = TObjEneDolmOlm__data_805D6A18->lookup(frame);
+        e = TObjEneDolmOlm__right_attack_samples->lookup(frame);
         idx = 1;
         break;
     default:
@@ -957,7 +954,7 @@ s32 TObjEneDolmOlm__sub_80300CF0(void) {
 }
 void TObjEneDolmOlm::reset_count() { lbl_805D69E8 = 0; }
 
-__declspec(section ".rodata") const f64 lbl_804750C8[] = {10430.38043493439};
+__declspec(section ".rodata") const f64 dolmolm_radians_to_angle[] = {10430.38043493439};
 const char *obj_ene_dolm_olm_class_name = TObjEneDolmOlm__class_name_string;
 
 
@@ -966,6 +963,6 @@ u8 **TObjEneDolmOlm__shared_handler_ids;
 u8 **TObjEneDolmOlm__registered_object_ids;
 DolmOlmBehaviorParams **TObjEneDolmOlm__behavior_params_by_variant;
 BmlResource *TObjEneDolmOlm__resource_bundle;
-SampledMotionPoints *TObjEneDolmOlm__data_805D6A14;
-SampledMotionPoints *TObjEneDolmOlm__data_805D6A18;
+SampledMotionPoints *TObjEneDolmOlm__left_attack_samples;
+SampledMotionPoints *TObjEneDolmOlm__right_attack_samples;
 s32 TObjEneDolmOlm__effect_render_state;
