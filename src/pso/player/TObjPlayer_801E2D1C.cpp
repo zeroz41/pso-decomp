@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801E2D1C.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
@@ -25,7 +25,7 @@ void TObjPlayer::render_model_tree(void *model) {
     node = (NJS_OBJECT *)model;
     do {
         push_matrix();
-        ((TObjPlayer *)node)->apply_motion_node_transform();
+        apply_motion_node_transform(node);
         if (model_node_callback != NULL) {
             model_node_callback(node);
         }

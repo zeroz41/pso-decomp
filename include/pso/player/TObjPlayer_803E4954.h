@@ -20,6 +20,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
 void draw_object_tree_recursive(void *arg);
 // Motions sample packed (16-bit) rotation keys while set.
+extern s32 motion_packed_rotation_mode;
 void set_motion_packed_rotation();
 void clear_motion_packed_rotation();
 void traverse_animated_node_tree(void *arg);

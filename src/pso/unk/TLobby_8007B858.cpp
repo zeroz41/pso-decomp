@@ -47,6 +47,7 @@
 #include "pso/unk/text_801AA3B4.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCineCtrl.h"
 
 void load_particle_entry_resources(void);
 void init_partner_dialogue(void);
@@ -62,7 +63,6 @@ void TFogCtrl__sub_800FBA58(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 void fn_80198E84(void);
-s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
 s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
@@ -145,10 +145,7 @@ void TLobby::create_tasks() {
     new TWindowCtrl((TObject *)tl_00);
     new TUnk_80499970((TObject *)tl_fade);
     TLobby::set_fade_params(0);
-    tmp = (uaddr)TObject::operator new(0x30);
-    if (tmp != 0U) {
-        __ct__9TCineCtrlFv(tmp, tl_00);
-    }
+    new TCineCtrl((TObject *)tl_00);
     TRaderMapCore::create();
     restore_floor_telepipes();
     new TUnk_804F07C8((TObject *)tl_06);

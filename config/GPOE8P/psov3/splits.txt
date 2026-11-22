@@ -722,13 +722,13 @@ pso/camera/TCameraVolOpt.cpp:
 	.data       start:0x804887C8 end:0x804887F8
 	.sdata2     start:0x805D8F28 end:0x805D8F38
 
-pso/unk/TUnk_804887F8.cpp:
+pso/camera/TCameraVolOptFollow.cpp:
 	.text       start:0x8006782C end:0x80067CE8
 	.rodata     start:0x80438150 end:0x80438168
 	.data       start:0x804887F8 end:0x80488838
 	.sdata2     start:0x805D8F38 end:0x805D8F64
 
-pso/unk/TUnk_80488838.cpp:
+pso/camera/TCameraOrbit.cpp:
 	.text       start:0x80067CE8 end:0x8006809C
 	.data       start:0x80488838 end:0x80488868
 	.sdata2     start:0x805D8F68 end:0x805D8F80
@@ -748,24 +748,24 @@ pso/camera/TCameraCtrl.cpp:
 	.sbss       start:0x805D4DE8 end:0x805D4E10
 	.sdata2     start:0x805D8FA8 end:0x805D8FF8
 
-pso/camera/TCameraCtrl_8006B3D8.cpp:
+pso/camera/TCameraConversation.cpp:
 	.text       start:0x8006B3D8 end:0x8006BAE4
 	.rodata     start:0x804381E0 end:0x804383D0
 	.data       start:0x80488AD8 end:0x80488B38
 	.sbss       start:0x805D4E10 end:0x805D4E18
 	.sdata2     start:0x805D8FF8 end:0x805D9008
 
-pso/unk/TUnk_80488B38.cpp:
+pso/camera/TCameraDebugOrbit.cpp:
 	.text       start:0x8006BAE4 end:0x8006BCD8
 	.data       start:0x80488B38 end:0x80488B68
 	.sdata2     start:0x805D9008 end:0x805D9014
 
-pso/camera/TCameraCtrl_8006BCD8.cpp:
+pso/camera/CameraHelpers.cpp:
 	.text       start:0x8006BCD8 end:0x8006C254
 	.rodata     start:0x804383D0 end:0x804383EC
 	.sdata2     start:0x805D9018 end:0x805D9024
 
-pso/camera/TCameraCtrl_8006C254.cpp:
+pso/camera/TCameraScripted.cpp:
 	.text       start:0x8006C254 end:0x8006C7C4
 	.rodata     start:0x804383F0 end:0x804383F8
 	.data       start:0x80488B68 end:0x80488B98
@@ -773,13 +773,13 @@ pso/camera/TCameraCtrl_8006C254.cpp:
 	.sbss       start:0x805D4E18 end:0x805D4E20
 	.sdata2     start:0x805D9028 end:0x805D9034
 
-pso/camera/TCameraCtrl_8006C7C4.cpp:
+pso/camera/TCameraWatchPlayer.cpp:
 	.text       start:0x8006C7C4 end:0x8006C92C
 	.rodata     start:0x804383F8 end:0x804384E8
 	.data       start:0x80488B98 end:0x80488DA0
 	.sdata2     start:0x805D9038 end:0x805D903C
 
-pso/unk/TUnk_80488DA0.cpp:
+pso/camera/TCameraDebugView.cpp:
 	.text       start:0x8006C92C end:0x8006CCEC
 	.rodata     start:0x804384E8 end:0x80438528
 	.data       start:0x80488DA0 end:0x80488DD0
@@ -11893,27 +11893,27 @@ pso/unk/text_803D64F8.cpp:
 	.text       start:0x803D64F8 end:0x803D6538
 	.sdata2     start:0x805E0DF0 end:0x805E0DFC
 
-pso/camera/TCameraCtrl_803D6538.cpp:
+pso/render/GinjaView.cpp:
 	.text       start:0x803D6538 end:0x803D66DC
 	.data       start:0x804FA4F0 end:0x804FA500
 	.sdata2     start:0x805E0E00 end:0x805E0E0C
 
-pso/camera/TCameraCtrl_803D66DC.cpp:
+pso/render/GinjaScreen.cpp:
 	.text       start:0x803D66DC end:0x803D676C
 	.sdata2     start:0x805E0E10 end:0x805E0E18
 
-pso/camera/TCameraCtrl_803D676C.cpp:
+pso/render/GinjaPerspective.cpp:
 	.text       start:0x803D676C end:0x803D6960
 	.bss        start:0x8058CA60 end:0x8058CAB8
 	.sdata2     start:0x805E0E18 end:0x805E0E50
 
-pso/camera/TCameraCtrl_803D6960.cpp:
+pso/animation/MotionSampling.cpp:
 	.text       start:0x803D6960 end:0x803D749C
 	.sdata2     start:0x805E0E50 end:0x805E0E88
 
-pso/camera/TCameraCtrl_803D749C.cpp:
+pso/animation/MotionContext.cpp:
 	.text       start:0x803D749C end:0x803D8030
-	.rodata     start:0x8047E3C8 end:0x8047E3D8
+	.rodata     start:0x8047E3C8 end:0x8047E3D4
 	.data       start:0x804FA500 end:0x804FA540
 	.bss        start:0x8058CAB8 end:0x8058CB48
 	.sdata      start:0x805D4698 end:0x805D469C

@@ -28,6 +28,7 @@
 #include "pso/ui/hud/TMainCursor_8013B690.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
+#include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/hud/TMainCursor_8013F104.h"
@@ -350,8 +351,6 @@ extern "C" {
 u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 }
-
-extern int TCameraCtrl__fixed_npc_camera_active;
 
 // TMainCursor and TLockOnCursor are one translation unit: their vtables and the lock-on tasks' sit
 // together in .data in reverse key-function order. Deferred code generation is switched on and off
@@ -2167,4 +2166,4 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i) {
 
 }
 
-int TCameraCtrl::get_mode() {  return TCameraCtrl__fixed_npc_camera_active; }
+int TCameraCtrl::get_mode() {  return fixed_npc_camera_active; }

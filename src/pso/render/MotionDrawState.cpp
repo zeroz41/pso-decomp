@@ -1,6 +1,7 @@
 #include "types.h"
+#include "pso/animation/MotionContext.h"
 
-// Interim data-only unit: .sbss 0x805D76B8-0x805D76C0 sits between TCameraCtrl_803D749C's .sbss (which ends on its
+// Interim data-only unit: .sbss 0x805D76B8-0x805D76C0 sits between MotionContext.cpp's .sbss (which ends on its
 // 4 B pad) and text_803D853C's, and the .text between those two units is contiguous, so the code that defines these
 // two has not been found yet. Fold this file into that unit once it is.
 
@@ -9,4 +10,4 @@
 void *motion_node_draw_callback;
 
 // The motion sampler state that select_motion_sampler, bind_motion_channel_samplers and the motion row helpers read.
-u8 *current_motion_context;
+MotionContext *current_motion_context;

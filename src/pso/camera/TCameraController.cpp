@@ -1,8 +1,9 @@
 #include "types.h"
 #include "pso/camera/TCameraController.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -29,9 +30,6 @@ extern u8 TCameraCtrl__up_vector[];
 
 // <dolphin/gx/GXTransform.h> pulls in MSL's sqrt statics, which this object does not have.
 extern "C" void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
-
-// Defined in TCameraCtrl_8006BCD8.cpp, which has no header.
-void direction_to_pitch_yaw(u8 *dir, s32 *pitch, s32 *yaw);
 
 static const Vec camera_forward_axis = {0.0f, 0.0f, -1.0f};
 static const Vec actor_forward_axis = {0.0f, 0.0f, -1.0f};
@@ -162,7 +160,7 @@ void TCameraController::post_update_view() {
         camera_ctrl_instance->tgt.z += 0.01f;
         d.z = 1.0f;
     }
-    direction_to_pitch_yaw((u8 *)&d, &camera_ctrl_instance->pitch, &camera_ctrl_instance->yaw);
+    direction_to_pitch_yaw(&d, &camera_ctrl_instance->pitch, &camera_ctrl_instance->yaw);
     t = (Vec *)((TCameraCtrl *)camera_ctrl_instance)->get_target();
     look.x = camera_ctrl_instance->tgt.x + t->x;
     look.y = camera_ctrl_instance->tgt.y + t->y;

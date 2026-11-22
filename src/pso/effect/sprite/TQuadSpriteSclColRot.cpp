@@ -58,7 +58,7 @@ struct SpriteCamera {
 extern "C" {
 
 void transform_point_by_current_matrix(Vec *in, Vec *out);
-extern SpriteCamera lbl_8058D4F8;
+extern SpriteCamera screen_projection;
 
 
 }
@@ -100,10 +100,10 @@ void TQuadSpriteSclColRot::render() {
     } else {
         set_additive_blend();
     }
-    sw = lbl_8058D4F8.sw;
-    cx = lbl_8058D4F8.cx;
-    cy = lbl_8058D4F8.cy;
-    sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
+    sw = screen_projection.sw;
+    cx = screen_projection.cx;
+    cy = screen_projection.cy;
+    sh = sw * (480.0f / (480.0f * screen_projection.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(definition->texlist));

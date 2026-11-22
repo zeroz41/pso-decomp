@@ -135,7 +135,6 @@ struct TCameraCtrl : public TObject {
     // Transforms the vector at arg0 into view space, into arg1 (addresses as the symbol's ints).
     static void transform_to_view(int arg0, int arg1);
     static Vec get_target_position();
-    static void target_player0(int arg0);
     static s32 get_camera_no();
     static void set_mode(int a0);
     static void reset_mode();
@@ -144,7 +143,7 @@ struct TCameraCtrl : public TObject {
     static s8 get_view_state();
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
     static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
-    static s32 translate_view_negated(f32 x, f32 y, f32 z);
+    static void translate_view_negated(f32 x, f32 y, f32 z);
     static void set_clamped_offsets(f32 farg0, f32 farg1);
     void update_projection_params();
     static void concat_matrix(uaddr arg0, uaddr arg1);
@@ -162,7 +161,6 @@ struct TCameraCtrl : public TObject {
     static int get_camera_id();
     static void set_target_coords(int a0, int a1);
     static void reset_battle_camera();
-    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr parent);
     static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
@@ -178,6 +176,8 @@ extern "C" {
 int is_quest_active(void);
 // The first view state word.
 u16 TCameraCtrl__sub_8006A5DC(void);
+// Restores the saved view after a full-screen 2D pass.
+void TCameraCtrl__sub_80068EF0(void);
 }
 
 #endif
