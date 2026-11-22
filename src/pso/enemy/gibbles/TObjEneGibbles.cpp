@@ -131,9 +131,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 extern uaddr gibbles_combat_stat_entries;
 s32 is_target_in_attack_range__14TObjEneGibblesFv(u8 *arg0);
-}
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-extern "C" {
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
 saddr get_enemy_entity();
@@ -151,9 +148,6 @@ void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 f32 subtract_vector(void *, void *);
 s32 check_path_obstructed(void *, void *);
 u16 get_entity_id(void *);
-}
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
 void calc_velocity_toward_destination(void *, Vec_802DA0BC, Vec_802DA0BC, f32);
 f32 newton_sqrtf(f32);
 void TObjEneGibbles__sub_802D7A54(void *arg0);
@@ -783,6 +777,8 @@ void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 
     clear_motion_packed_rotation();
 }
 }
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void gibbles_render_node_callback(NJS_OBJECT *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

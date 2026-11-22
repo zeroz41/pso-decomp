@@ -240,7 +240,7 @@ void TObjEneReconBomb::run_task() {
 TObjEneReconBomb::~TObjEneReconBomb() {
 
 }
-extern "C" {
+
 
 extern const char *TObjEneReconBomb__name;
 
@@ -279,4 +279,3 @@ void *TObjEneReconBomb::create(void *parent, void *recon, void *pos) {
 
 void TObjEneReconBomb::load_resources() { recon_bomb_bml_resource = TObjEneRecobox::get_bml_resource(); }
 
-}

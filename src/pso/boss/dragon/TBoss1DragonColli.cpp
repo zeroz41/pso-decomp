@@ -82,29 +82,6 @@ void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, void*);
 
 
-
-
-void run_task__7TObjectFv();
-
-void render__7TObjectFv();
-
-void render_shadows__7TObjectFv();
-
-void vfunc_6__8TObjBaseFPsl();
-
-void apply_object_set_data__8TObjBaseFPv();
-
-void reset_motion_fields__14TObjCollidableFv();
-
-void get_center__8TObjBaseFv();
-
-void update_object_view_visibility__8TObjBaseFff();
-
-void classify_actor_view_detail__8TObjBaseFfff();
-
-void get_name__8TObjBaseFv();
-
-void interact__14TObjCollidableFl();
 }
 
 CollisionBody TBoss1DragonColli_sphere_chain_desc = {
@@ -155,7 +132,7 @@ TBoss1DragonColli_C::~TBoss1DragonColli_C() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 void TBoss1DragonColli::set_elem_flags() {
     s32 i;
     for (i = 0; i < ((O_8002B42C *)this)->count; i++) {
@@ -176,7 +153,6 @@ void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(); set_matrix_ide
 void TBoss1DragonColli__sub_8002B35C(void* p) { ((TBoss1DragonColli_C *)p)->clear_segment_flags(); }
 
 void TBoss1DragonColli_C::render() {  }
-}
 
 TBoss1DragonColli::TBoss1DragonColli(TObject *parent) : TObject(parent) {
     Vec stack;

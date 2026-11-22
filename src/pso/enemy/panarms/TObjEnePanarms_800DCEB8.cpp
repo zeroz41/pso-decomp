@@ -69,7 +69,6 @@ struct Stack_800DD9A0 {
 struct Obj_800DECC4 { u8 pad[0x38]; Vec pos; u8 pad2[0x248 - 0x44]; u8 f248[0x384 - 0x248]; f32 f384; };
 
 
-
 struct Obj_800DE2D0 { u8 pad0[0x30]; u32 f30; u8 pad1[0x374 - 0x34]; s32 f374; u8 pad2[0x3AC - 0x378]; u8 f3AC[0x18]; u8 f3C4[4]; };
 
 struct Obj_800DE390 { u8 pad0[0x374]; s32 f374; u8 pad1[0x3E4 - 0x378]; s32 f3E4; s32 f3E8; };
@@ -175,7 +174,6 @@ static PanarmsState lbl_8049515C[14] = {
 ModelNodePositionEntry panarms_model_node_desc[6] = {
     { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
 };
-
 
 
 struct Sub_800DD690 { u8 b[0xC]; };

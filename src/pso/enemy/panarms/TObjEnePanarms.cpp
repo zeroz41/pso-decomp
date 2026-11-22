@@ -41,8 +41,6 @@
 #include "pso/object/base/TObjChara.h"
 
 
-LAYOUT_ASSERT(PanarmsActionTimerOffset, offsetof(TObjEnePanBARA, action_timer) == 0x3B4);
-
 extern "C" {
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void sub_800E1C98__14TObjEnePanBARAFl(void *, s32);

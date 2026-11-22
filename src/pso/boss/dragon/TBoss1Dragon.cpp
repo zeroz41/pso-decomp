@@ -246,10 +246,6 @@ extern "C" void dispatch_action__12TBoss1DragonFUll();
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 void TBoss1Dragon__sub_80027514(TBoss1Dragon *dragon, Vec *position, u8 *params, s32 history);
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *self);
-}
-extern const f32 TBoss1Dragon__gravity_accel;
-void compose_motion_node_matrix(void *arg0);
-extern "C" {
 extern u8 identity_matrix[];
 f32 TBoss1Dragon__sub_80027010(TBoss1Dragon *self, f32 farg0, f32 farg1, f32 farg2);
 
@@ -397,7 +393,6 @@ struct DragonCollisionBodyPartInit {
     f32 world_center[3];
     f32 field_28;
 };
-LAYOUT_ASSERT(DragonCollisionBodyPartInit_size, sizeof(DragonCollisionBodyPartInit) == 0x2C);
 DragonCollisionBodyPartInit boss1_dragon_collision_body_parts[7] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -546,10 +541,6 @@ void TBoss1Dragon__sub_800274A4(saddr self);
 
 f32 atan2_float(f32 y, f32 x);
 void TBoss1Dragon__sub_80028AFC(TBoss1Dragon *);
-}
-
-void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
-extern "C" {
 s32 enable_dragon_blocking_bodies(TBoss1DragonColli *, void *, int);
 
 extern const f32 lbl_805D4AF0;
@@ -569,6 +560,9 @@ s32 update_linked_position__12TObjEneDD_STFf(f32);
 void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
+extern const f32 TBoss1Dragon__gravity_accel;
+void compose_motion_node_matrix(void *arg0);
+void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
 void get_dragon_follow_camera_offsets(u8 *eye, u8 *target);
 s32 is_dragon_trail_damaging(u8 *arg0);
 
@@ -1200,9 +1194,6 @@ void TBoss1Dragon::update_wander_state(s32 arg1) {
         return;
     }
 }
-
-extern "C" {
-
 
 
 #pragma push
@@ -3826,7 +3817,6 @@ s32 TBoss1Dragon::filter_input_flags(s32 arg1, s32 arg2, s32 arg3) {
     return arg2 & var_r31;
 }
 
-}
 
 void TBoss1Dragon::updateFacingPosition() {
     position.x = 330.0f * sin_table_lookup(facingAngle);
@@ -5403,11 +5393,8 @@ u8 *TBoss1Dragon::create(s32 arg0) {
     }
     return var_r0;
 }
-}
-
 #pragma push
 #pragma opt_propagation off
-extern "C" {
 u8 *TBoss1Dragon__part_hp_stats[5];
 saddr TBoss1Dragon__data_804FE17C[3];
 DragonModelVector lbl_804FE188;

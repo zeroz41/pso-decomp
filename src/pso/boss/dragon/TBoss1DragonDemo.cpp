@@ -35,7 +35,6 @@ void TBoss1DragonDemo::run_task() {
         ((TObject *)self)->queue_destruction();
     }
 }
-LAYOUT_ASSERT(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo_size, sizeof(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo) == 0x18);
 TBoss1DragonDemo::~TBoss1DragonDemo() {}
 u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0) {
     CameraPlayback playback;

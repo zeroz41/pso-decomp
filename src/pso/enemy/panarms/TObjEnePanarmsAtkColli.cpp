@@ -21,12 +21,10 @@
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
-struct Entry_800E31C4 { s32 id; u8 data[0xC]; };
 
 __declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1, 2};
 Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
-struct Obj_800E31C4 { Entry_800E31C4 *list; Vec *vecs; };
 
 struct Base_800E32C0 { u8 pad[0x18]; };
 

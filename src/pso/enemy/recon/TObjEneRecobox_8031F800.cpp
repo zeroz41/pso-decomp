@@ -11,7 +11,6 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/unk/text_803E2D70.h"
@@ -60,7 +59,6 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 
-
 #include "pso/render/TUnk_80494938.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -96,7 +94,6 @@ struct Fade_8031EA70 : FadeBase_8031EA70 {
 struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
 
 extern "C" {
-
 
 
 s32 post_translate_matrix(void *);
@@ -159,9 +156,6 @@ u16 TObjEneRecon__sub_8031D878();
 void remove_tracked_target__14TObjEneRecoboxFPvPv(Obj_8031EFAC *o, u8 *target);
 
 s32 is_anim_5__12TObjEneReconFv();
-
-
-
 
 
 s32 is_out_of_range__14TObjEneRecoboxFv();
@@ -278,7 +272,6 @@ u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec *, Vec *);
 
 
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
-
 
 
 }
@@ -713,7 +706,6 @@ void *TObjEneRecobox__vtable[107] = {
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
 
 
-
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
 
 struct Inner_80320260 { u8 pad[0x18]; s32 f18; NJS_TEXLIST *texlist; };
@@ -721,10 +713,6 @@ struct Inner_80320260 { u8 pad[0x18]; s32 f18; NJS_TEXLIST *texlist; };
 struct Box_80320260 { u8 pad[0x42C]; Inner_80320260 *f42C; s32 f430; };
 
 struct Sub_80320260 { u8 pad[0xC]; f32 f0C; };
-
-
-
-
 
 
 Vec lbl_80543000;

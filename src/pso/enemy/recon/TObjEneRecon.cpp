@@ -223,7 +223,6 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
 #pragma pop
 
 
-
 void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
     switch ((s32) recon_intro_stage) {
     case 0:
@@ -1491,16 +1490,12 @@ struct VObj_8031DCCC : Base_8031DCCC {
     virtual void m84(); virtual void m85(); virtual void m86();
 };
 
-extern "C" {
-
 
 void TObjEneRecon::check_collisions() {
     struct VObj_8031DCCC *o = (struct VObj_8031DCCC *)this;
     o->m86();
     TObjEneDD::check_collisions();
     this->clamp_min_height();
-}
-
 }
 
 
@@ -1554,7 +1549,6 @@ VV(91)VV(92)VV(93)VV(94)VV(95)VV(96)VV(97)VV(98)VV(99)
 };
 
 extern "C" {
-
 
 
 void TObjEneRecon::update_collide_flag() {

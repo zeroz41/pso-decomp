@@ -4,10 +4,9 @@
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 
-extern "C" {
+
 extern const char TBoss1DragonEffBreath__class_name_string[] = "TBoss1DragonEffBreath";
 const char *TBoss1DragonEffBreath__name = TBoss1DragonEffBreath__class_name_string;
-}
 
 void TBoss1DragonEffBreath::render() {}
 
