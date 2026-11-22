@@ -50,6 +50,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -103,7 +104,6 @@ f32 newton_sqrtf(f32);
 s32 is_split_screen();
 f32 fabs_float(f32);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
-void set_scripted_camera_pose(void *, void *, void *);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
@@ -1565,7 +1565,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
             cam.frame_step = 0.5f;
             activate_camera_mode(5);
             cam.cache_target_and_forward(0x31C7);
-            set_scripted_camera_pose(&self->position, &self->position, &this->rotation_x);
+            set_scripted_camera_pose(&self->position, &self->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         return;
