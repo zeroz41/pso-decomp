@@ -222,8 +222,6 @@ extern const f32 lbl_805D8DA8;
 extern const f32 lbl_805D8DB0;
 extern const f32 lbl_805D8DB4;
 void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry);
-f32 random_in_range__12TBoss8DragonFff(f32 farg0, f32 farg1);
-s32 random_in_table_range__12TBoss8DragonFiii(s32 self, saddr arg1, s32 arg2);
 void apply_lightning_hit(s32 arg0, s32 arg1, f32 farg0);
 void apply_snarl_hit(s32 arg0, s32 arg1, f32 inner, f32 scale);
 
@@ -237,10 +235,6 @@ struct Obj_8005E4D4 { u8 pad[0x734]; void *parts[16]; };
 
 struct Obj_8005E52C { u8 pad[0x734]; void *parts[16]; };
 
-
-struct E_8005E9D8 { s32 a; s32 b; };
-
-struct O_8005E9D8 { u8 pad[8]; E_8005E9D8 e[1]; };
 
 struct P_8005F740 { u8 pad[0x30]; };
 
@@ -336,7 +330,6 @@ struct Obj_8005D880 {
     s32 f60;
 };
 
-struct Ent_8005E868 { s32 a; s32 b; s32 f8[]; };
 
 struct Seg_80063CDC { f32 x, y, z, w; };
 
@@ -345,11 +338,6 @@ f32 newton_sqrtf(f32);
 s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out);
 void render_shadows__13TBoss5GryphonFv(void* p);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
-s32 get_random_sign__12TBoss8DragonFiPvi(s32 arg0, Ent_8005E868 *arg1, s32 arg2);
-s32 calc_product__12TBoss8DragonFiiii(s32 self, s32 arg1, s32 arg2, s32 arg3);
-s32 rand_scaled_offset__12TBoss8DragonFiii(s32 arg0, s32 arg1, s32 arg2);
-s32 TBoss8Dragon__sub_8005E9D8(void *self, O_8005E9D8 *o, s32 i);
-f32 TBoss8Dragon__sub_8005EAD0(void *self, void *arg1, int arg2);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
@@ -1360,10 +1348,10 @@ void TBoss5Gryphon::update_ground_effects() {
 }
 #pragma pop
 
-s32 get_random_sign__12TBoss8DragonFiPvi(s32 arg0, Ent_8005E868 *arg1, s32 arg2) {
+s32 TBoss5Gryphon::get_random_sign(Boss5GryphonActionStep *step, s32 i) {
     s32 v;
 
-    v = arg1[arg2].f8[0];
+    v = step->ints[i].min;
     if (v > 0) {
         return 1;
     }
@@ -1376,43 +1364,39 @@ s32 get_random_sign__12TBoss8DragonFiPvi(s32 arg0, Ent_8005E868 *arg1, s32 arg2)
     return -1;
 }
 
-s32 calc_product__12TBoss8DragonFiiii(s32 self, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_r31;
+s32 TBoss5Gryphon::calc_product(Boss5GryphonActionStep *step, s32 sign_index, s32 range_index) {
+    s32 value;
 
-    temp_r31 = random_in_table_range__12TBoss8DragonFiii(self, arg1, arg3);
-    return temp_r31 * ((s32 (*)(s32, s32, s32))get_random_sign__12TBoss8DragonFiPvi)(self, arg1, arg2);
+    value = random_in_table_range(step, range_index);
+    return value * get_random_sign(step, sign_index);
 }
 
 #pragma push
 #pragma fp_contract on
-s32 rand_scaled_offset__12TBoss8DragonFiii(s32 arg0, s32 arg1, s32 arg2) {
-    return (s32) (((f32) arg2 * (lbl_805D8D98 * (f32) rand())) + (f32) arg1);
+s32 TBoss5Gryphon::rand_scaled_offset(s32 base, s32 spread) {
+    return (s32) (((f32) spread * (lbl_805D8D98 * (f32) rand())) + (f32) base);
 }
 #pragma pop
 
-s32 TBoss8Dragon__sub_8005E9D8(void *self, O_8005E9D8 *o, s32 i) {
-    return o->e[i].a;
+s32 TBoss5Gryphon::fn_8005E9D8(Boss5GryphonActionStep *step, s32 i) {
+    return step->ints[i].min;
 }
 
-s32 random_in_table_range__12TBoss8DragonFiii(s32 self, saddr arg1, s32 arg2) {
-    u8 *temp_r8;
-    temp_r8 = (u8 *)(arg1 + (arg2 * 8));
-    return (s32) ((f32 (*)(s32, f32, f32))random_in_range__12TBoss8DragonFff)(self, (f32) *(s32 *)((s8 *)temp_r8 + 8), (f32) *(s32 *)((s8 *)temp_r8 + 0xC));
+s32 TBoss5Gryphon::random_in_table_range(Boss5GryphonActionStep *step, s32 i) {
+    return (s32) random_in_range((f32) step->ints[i].min, (f32) step->ints[i].range);
 }
 
 #pragma push
 #pragma fp_contract on
-f32 random_in_range__12TBoss8DragonFff(f32 farg0, f32 farg1) {
-    return (farg1 * (lbl_805D8D98 * (f32) rand())) + farg0;
+f32 TBoss5Gryphon::random_in_range(f32 min, f32 range) {
+    return (range * (lbl_805D8D98 * (f32) rand())) + min;
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
-f32 TBoss8Dragon__sub_8005EAD0(void *self, void *arg1, int arg2) {
-  u8 *temp_r4;
-  temp_r4 = (u8 *)arg1 + (arg2 * 8);
-  return ((f32 (*)(int, f32, f32))random_in_range__12TBoss8DragonFff)((saddr)self, (f32) (*((f32 *) (((s8 *) temp_r4) + 0x28))), (f32) (*((f32 *) (((s8 *) temp_r4) + 0x2C))));
+f32 TBoss5Gryphon::fn_8005EAD0(Boss5GryphonActionStep *step, s32 i) {
+    return random_in_range(step->floats[i].min, step->floats[i].range);
 }
 #pragma pop
 
@@ -1420,47 +1404,47 @@ void TBoss5Gryphon::set_random_param(u8 *arg1) {
     *(s32 *)((s8 *)arg1 + 4) = (s32) (lbl_805D8D9C * (lbl_805D8D98 * (f32) rand()));
 }
 
-void TBoss5Gryphon::calc_attack_params(void *arg1, saddr arg2) {
+void TBoss5Gryphon::calc_attack_params(void *arg1, Boss5GryphonActionStep *step) {
     f32 temp_f1;
-    temp_f1 = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 1);
+    temp_f1 = fn_8005EAD0(step, 1);
     *(f32 *)((s8 *)arg1 + 0xC) = (f32) (temp_f1 * temp_f1);
-    *(f32 *)((s8 *)arg1 + 8) = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 0);
-    *(s32 *)((s8 *)arg1 + 4) = ((s32 (*)(void *, void *, int, int))calc_product__12TBoss8DragonFiiii)((void *)this, (void *)arg2, 0, 1);
+    *(f32 *)((s8 *)arg1 + 8) = fn_8005EAD0(step, 0);
+    *(s32 *)((s8 *)arg1 + 4) = calc_product(step, 0, 1);
 }
 
-void TBoss5Gryphon::fn_8005EBDC(u8 *arg1, u8 *arg2) {
+void TBoss5Gryphon::fn_8005EBDC(u8 *arg1, Boss5GryphonActionStep *step) {
     f32 temp_f31;
     s32 temp_r31;
     s32 temp_r3;
-    temp_r3 = ((s32 (*)(void *, void *, int))random_in_table_range__12TBoss8DragonFiii)(this, arg2, 0);
+    temp_r3 = random_in_table_range(step, 0);
     switch (temp_r3) {
     case 0:
-        temp_r31 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)this + 0x38)), (f32) (*(f32 *)((s8 *)this + 0x40))));
-        temp_f31 = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 1);
+        temp_r31 = (s32) (10430.38043493439 * atan2_float(position.x, position.z));
+        temp_f31 = fn_8005EAD0(step, 1);
         *(f32 *)((s8 *)arg1 + 4) = (f32) (temp_f31 * ((f32 (*)(int))sin_table_lookup)(temp_r31));
         *(f32 *)((s8 *)arg1 + 8) = (f32) (temp_f31 * ((f32 (*)(int))cos_table_lookup)(temp_r31));
         break;
     case 1:
-        *(f32 *)((s8 *)arg1 + 4) = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 1);
-        *(f32 *)((s8 *)arg1 + 8) = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 2);
+        *(f32 *)((s8 *)arg1 + 4) = fn_8005EAD0(step, 1);
+        *(f32 *)((s8 *)arg1 + 8) = fn_8005EAD0(step, 2);
         break;
     }
-    *(f32 *)((s8 *)arg1 + 0xC) = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 0);
-    *(s32 *)((s8 *)arg1 + 0x10) = ((s32 (*)(void *, void *, int))random_in_table_range__12TBoss8DragonFiii)(this, arg2, 1);
+    *(f32 *)((s8 *)arg1 + 0xC) = fn_8005EAD0(step, 0);
+    *(s32 *)((s8 *)arg1 + 0x10) = random_in_table_range(step, 1);
 }
 
-void TBoss5Gryphon::calc_params(void *arg1, saddr arg2) {
-    *(s32 *)((s8 *)arg1 + 4) = random_in_table_range__12TBoss8DragonFiii((saddr)this, arg2, 1);
-    *(f32 *)((s8 *)arg1 + 0xC) = ((f32 (*)(void *, void *, int))TBoss8Dragon__sub_8005EAD0)(this, (void *)arg2, 0);
-    *(f32 *)((s8 *)arg1 + 0x10) = ((f32 (*)(void *, void *, int))TBoss8Dragon__sub_8005EAD0)(this, (void *)arg2, 1);
-    *(s32 *)((s8 *)arg1 + 8) = ((s32 (*)(void *, void *, int))get_random_sign__12TBoss8DragonFiPvi)(this, (void *)arg2, 0);
+void TBoss5Gryphon::calc_params(void *arg1, Boss5GryphonActionStep *step) {
+    *(s32 *)((s8 *)arg1 + 4) = random_in_table_range(step, 1);
+    *(f32 *)((s8 *)arg1 + 0xC) = fn_8005EAD0(step, 0);
+    *(f32 *)((s8 *)arg1 + 0x10) = fn_8005EAD0(step, 1);
+    *(s32 *)((s8 *)arg1 + 8) = get_random_sign(step, 0);
 }
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::calc_product_and_ratio(void *arg1, saddr arg2) {
-    *(s32 *)((s8 *)arg1 + 4) = calc_product__12TBoss8DragonFiiii((saddr)this, arg2, 0, 1);
-    *(f32 *)((s8 *)arg1 + 8) = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 0);
+void TBoss5Gryphon::calc_product_and_ratio(void *arg1, Boss5GryphonActionStep *step) {
+    *(s32 *)((s8 *)arg1 + 4) = calc_product(step, 0, 1);
+    *(f32 *)((s8 *)arg1 + 8) = fn_8005EAD0(step, 0);
 }
 #pragma pop
 
@@ -1532,7 +1516,7 @@ void *lbl_804880B8[3] = {
 };
 void TBoss5Gryphon::copy_angle_state(void *arg0, void *dst, void *src) {
     *(s16 *)((s8 *)dst + 0) = (s16) *(s32 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = ((s16 (*)(void *, s16, s16))rand_scaled_offset__12TBoss8DragonFiii)(arg0, *(s16 *)((s8 *)src + 4), *(s16 *)((s8 *)src + 6));
+    *(s16 *)((s8 *)dst + 2) = ((TBoss5Gryphon *)arg0)->rand_scaled_offset(((Boss5GryphonActionStep *)src)->base, ((Boss5GryphonActionStep *)src)->spread);
 }
 
 s32 TBoss5Gryphon::run_action_script_step(s16 *out, u32 *entry) {
@@ -1616,7 +1600,7 @@ void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry) {
         return;
     }
     r = lbl_805D8D98 * (f32)rand();
-    switch (TBoss8Dragon__sub_8005E9D8(arg0, (O_8005E9D8 *)entry, 0)) {
+    switch (((TBoss5Gryphon *)arg0)->fn_8005E9D8((Boss5GryphonActionStep *)entry, 0)) {
     case 0:
         if (r < lbl_805D8DA0) {
             F(s32, 0x774) = TBL(8);

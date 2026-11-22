@@ -9,6 +9,7 @@
 class AreaAttackHistory;
 class TParticleCtrl;
 class TBoss5GryphonDemo;
+struct Boss5GryphonActionStep;
 
 struct Boss5GryphonMotionEntry {
     s16 state;
@@ -146,10 +147,17 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     static void cleanup();
     static void *create(void *arg0);
     void set_random_param(u8 *arg1);
-    void calc_params(void *arg1, saddr arg2);
-    void calc_product_and_ratio(void *arg1, saddr arg2);
-    void calc_attack_params(void *arg1, saddr arg2);
-    void fn_8005EBDC(u8 *arg1, u8 *arg2);
+    void calc_params(void *arg1, Boss5GryphonActionStep *step);
+    void calc_product_and_ratio(void *arg1, Boss5GryphonActionStep *step);
+    void calc_attack_params(void *arg1, Boss5GryphonActionStep *step);
+    void fn_8005EBDC(u8 *arg1, Boss5GryphonActionStep *step);
+    s32 get_random_sign(Boss5GryphonActionStep *step, s32 i);
+    s32 calc_product(Boss5GryphonActionStep *step, s32 sign_index, s32 range_index);
+    s32 rand_scaled_offset(s32 base, s32 spread);
+    s32 fn_8005E9D8(Boss5GryphonActionStep *step, s32 i);
+    s32 random_in_table_range(Boss5GryphonActionStep *step, s32 i);
+    f32 random_in_range(f32 min, f32 range);
+    f32 fn_8005EAD0(Boss5GryphonActionStep *step, s32 i);
     s32 run_action_script_step(s16 *out, u32 *entry);
     static void copy_angle_state(void *arg0, void *dst, void *src);
     void update_target_from_state();

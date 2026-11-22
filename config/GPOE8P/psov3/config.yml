@@ -457,8 +457,8 @@ force_active:
   - TBoss8Dragon__sub_8005E17C
   - fn_8005E1E8__13TBoss5GryphonFP3Vecf
   - fn_8005E39C__13TBoss5GryphonFv
-  - TBoss8Dragon__sub_8005E9D8
-  - TBoss8Dragon__sub_8005EAD0
+  - fn_8005E9D8__13TBoss5GryphonFP22Boss5GryphonActionStepl
+  - fn_8005EAD0__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - TBoss8Dragon__sub_8005F684
   - fn_8005FAE0__13TBoss5GryphonFv
   - fn_8005FB90__13TBoss5GryphonFv
@@ -4757,7 +4757,7 @@ force_active:
   - calc_angle_to_target__19TObjEneEpsilonGuardFv
   - calc_anim_speed__16TObjEneBm5GibonUFPvf
   - calc_area_parameters__10TTecRaFoieFv
-  - calc_attack_params__13TBoss5GryphonFPvl
+  - calc_attack_params__13TBoss5GryphonFPvP22Boss5GryphonActionStep
   - calc_battle_score__19TPlayerBattleCtrl4PFPvPv
   - calc_bone_offsets_recursive__19TObjEZBoneRotPlayerFPvll
   - calc_box_escape_axis__10TNpcPlayerFP3VecP3VecP3VecP3VecP3VecP3VecPf
@@ -4804,14 +4804,14 @@ force_active:
   - calc_orb_positions__18TObjEneRe4SorcererFv
   - calc_parameters__11TTecRaBartaFv
   - calc_params__11TTecGiBartaFv
-  - calc_params__13TBoss5GryphonFPvl
+  - calc_params__13TBoss5GryphonFPvP22Boss5GryphonActionStep
   - calc_photon_blast_power__10TObjPlayerFlf
   - calc_player_rankings__6TLobbyFPv
   - calc_position__13TObjEneMe1GeeFP3Vec
   - calc_preview_last_index__12TChCrLoadReqFll
   - calc_preview_offset__12TChCrLoadReqFlll
-  - calc_product__12TBoss8DragonFiiii
-  - calc_product_and_ratio__13TBoss5GryphonFPvl
+  - calc_product__13TBoss5GryphonFP22Boss5GryphonActionStepll
+  - calc_product_and_ratio__13TBoss5GryphonFPvP22Boss5GryphonActionStep
   - calc_range__9TTecZaruaFv
   - calc_rate_from_field__14TBoss4DarkFalzFv
   - calc_recoil_offsets__13TUnk_80490470Fv
@@ -6338,7 +6338,7 @@ force_active:
   - fn_8004D9A8
   - fn_8005586C
   - fn_8005D6E4
-  - fn_8005EBDC__13TBoss5GryphonFPUcPUc
+  - fn_8005EBDC__13TBoss5GryphonFPUcP22Boss5GryphonActionStep
   - run_action_script_step__13TBoss5GryphonFPsPUl
   - fn_8005FD34__13TBoss5GryphonFl
   - fn_8005FE18__13TBoss5GryphonFl
@@ -6723,7 +6723,7 @@ force_active:
   - get_quest_size__16TQuestListOnlineFv
   - get_quest_thread_id__10TObjPlayerFPv
   - get_random_scaled__11TBoss4Type3FPv
-  - get_random_sign__12TBoss8DragonFiPvi
+  - get_random_sign__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - get_registered_object_count__Fv
   - get_rel_module_image
   - get_render_mode_for_tv_format
@@ -13944,9 +13944,9 @@ force_active:
   - quick_sort_partition__11TMainCursorFiPvii
   - rabarta_band_emitter_table
   - rafoie_burst_table
-  - rand_scaled_offset__12TBoss8DragonFiii
-  - random_in_range__12TBoss8DragonFff
-  - random_in_table_range__12TBoss8DragonFiii
+  - rand_scaled_offset__13TBoss5GryphonFll
+  - random_in_range__13TBoss5GryphonFff
+  - random_in_table_range__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - randomize_motion__10TBoss6RockFv
   - rappy_variant_na_name
   - rappy_variant_speed_table
