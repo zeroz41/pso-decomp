@@ -1201,7 +1201,7 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.sp8 = lbl_805DAC98;
         push_matrix();
         TObjPlayer::copy_matrix(0, (uaddr)get_model_joint_matrix(owner, joint));
-        TCameraCtrl::concat_matrix(0, (saddr)TCameraCtrl::get_view_matrix());
+        premultiply_matrix(0, (saddr)TCameraCtrl::get_view_matrix());
         transform_point_by_current_matrix(&floats.sp8, out);
         pop_matrix();
     } else {

@@ -2809,7 +2809,7 @@ void TObjPlayer::get_anim_node_position(s32 arg1, Vec *arg2) {
     stack.x = TObjPlayer__data_805DC278;
     push_matrix_from(0);
     TObjPlayer::copy_matrix((u32)(0), (uaddr)((void *) (this->get_item_ptr(arg1))));
-    TCameraCtrl::concat_matrix(0, (saddr) (TCameraCtrl::get_view_matrix()));
+    premultiply_matrix(0, (saddr) (TCameraCtrl::get_view_matrix()));
     matrix_mult_vec(0, &stack.x, (void *)arg2);
     pop_matrix();
 }

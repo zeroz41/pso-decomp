@@ -335,7 +335,7 @@ void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
 #pragma fp_contract on
 void transform_vec_by_camera(NJS_CAMERA *camera, const Vec *in, Vec *out) {
     push_matrix();
-    TCameraCtrl::concat_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
+    premultiply_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
     matrix_mult_vec(NULL, in, out);
     pop_matrix();
 }
