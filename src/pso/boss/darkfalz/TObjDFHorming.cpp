@@ -311,14 +311,13 @@ struct Msg_8004B16C { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 pad
 
 struct Msg_8004B1BC { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 padc[4]; };
 
+TBoss4DarkFalzSetEntry dark_falz_set_entry;
+
 extern "C" {
 s32 is_split_screen();
 extern s32 local_client_id;
 
 void release_all_players_control_lock(void);
-
-TBoss4DarkFalzSetEntry dark_falz_set_entry;
-
 }
 void reset_cameras_to_actor(void *, s32);
 
