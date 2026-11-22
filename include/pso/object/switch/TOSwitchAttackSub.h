@@ -9,9 +9,9 @@ public:
     u16 stopSwitchId;
     u16 requiredSwitchId;
     void* particle;
-    f32 position[3];
+    Vec position;
 
-    TOSwitchAttackSub(TObject *parent, s32 arg2, s32 arg3, u32 arg4, f32 farg0);
+    TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 required_switch, u32 type, f32 scale);
     virtual ~TOSwitchAttackSub();
     virtual void run_task();
 };
