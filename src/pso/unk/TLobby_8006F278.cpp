@@ -264,6 +264,8 @@ void TLobby::set_name_string() {
     *(s8 *)((s8 *)&lobby_name_string_buffer.value + 0x1F) = 0;
 }
 
+}
+
 void decode_obfuscated_string(char *dst, const void *src, int length) {
     u8 *out = (u8 *)dst;
     const u8 *in = (const u8 *)src;
@@ -289,6 +291,8 @@ void decode_obfuscated_string(char *dst, const void *src, int length) {
     }
     *out = 0;
 }
+
+extern "C" {
 
 void TLobby::encode_name_xor(u8 *dst, u8 *src, s32 n) {
     u8 c;
