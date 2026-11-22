@@ -25,21 +25,15 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include <dolphin/base/PPCArch.h>
 
 
-extern "C" {
-void *find_entity_by_id(u16 id);
-s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
-void init_collision_body_parts(TObject *obj, void *parts, s32 count);
-void free_collision_body_parts(TObject *obj);
-void PPCSync(void);
-void release_texture_list(GinjaTextureList *list);
-
-
-extern u32 model_render_flags;
-extern s32 actor_frame_tick;
-extern TObject *tl_04;
-}
 
 struct EnemyMovementParams {
     f32 pad_0;
@@ -49,19 +43,6 @@ struct EnemyMovementParams {
     s32 pad_10;
     s32 pad_14;
     s32 pad_18;
-};
-
-struct CollisionBodyPart {
-    Vec offset;
-    f32 radius;
-    u8 pad_10[0x8];
-    s32 flags;
-    u8 pad_1c[0x10];
-};
-
-struct CollisionState {
-    u8 pad_0[0x18];
-    u32 flags;
 };
 
 struct BossStats {
@@ -89,11 +70,11 @@ static EnemyMovementParams volopt_monitor_movement = {
     150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0,
 };
 
-static CollisionBodyPart volopt_monitor_collision[4] = {
-    { { 0.0f, 43.0f, 0.0f }, 20.0f, { 0 }, 0x8005 },
-    { { 0.0f, 15.0f, 0.0f }, 10.0f, { 0 }, 0x8003 },
-    { { 0.0f, 15.0f, 0.0f }, 15.0f, { 0 }, 0x8003 },
-    { { 0.0f, 15.0f, 0.0f }, 10.0f, { 0 }, 0x8003 },
+static CollisionBody volopt_monitor_collision[4] = {
+    { { 0.0f, 43.0f, 0.0f }, 20.0f, 0.0f, 0, 0x8005, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 15.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 15.0f, 0.0f }, 15.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 15.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
 static Vec volopt_monitor_offsets[4] = {
@@ -202,7 +183,7 @@ TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObjBase *parent, u16 id, s32 index, s3
     VecCopy(&volopt_slot_positions[slot], &position);
     volopt_slot_positions[slot].y = (slot & 3) == 0 ? 43.0f : 15.0f;
     init_collision_body_parts(this, &volopt_monitor_collision[variant], 1);
-    ((CollisionState *)bodies)->flags |= 0x500;
+    bodies->flags |= 0x500;
 }
 
 TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {

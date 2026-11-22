@@ -14,14 +14,6 @@ struct TBoss3VoloptCoreMovement {
     s32 params[4];
 };
 
-struct TBoss3VoloptCoreBodyPart {
-    u8 pad_0[0xC];
-    f32 radius;
-    u8 pad_10[0x8];
-    u32 flags;
-    u8 pad_1C[0x10];
-};
-
 class TBoss3VoloptCore : public TObjEnemyCustom {
 public:
     TBoss3VoloptCore(TObject *parent, u16 id, s32 param);

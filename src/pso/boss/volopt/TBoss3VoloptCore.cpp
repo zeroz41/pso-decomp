@@ -24,6 +24,13 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/network/client_id.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/model_render_state.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 // The actors check_target_collision hits, with slot 25 as it is called here:
 // the base declares apply_knockback_from_attacker(u8 *) without the strength.
@@ -48,17 +55,9 @@ struct TBoss3VoloptOrbitSpeeds {
 };
 
 extern "C" {
-extern s32 local_client_id;
-extern u32 model_render_flags;
-void *find_entity_by_id(u16 id);
-void minimap_render_dot(f32 *pos, s32 color, s32, s32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-TObject *create_particle_emitter(Vec *pos, s32 id);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
-void free_collision_body_parts(TObjEnemyCustom *object);
-void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
-s32 obj_is_hit_receivable(u8 *arg0);
 }
 void reset_status_effect_row(u8 *row);
 
@@ -82,8 +81,8 @@ static TObjMotionAction core_motions[5] = {
 static TBoss3VoloptCoreMovement core_movement = {
     150.0f, 0.55555552f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
-static TBoss3VoloptCoreBodyPart core_body_parts[1] = {
-    { { 0 }, 0.001f, { 0 }, 0x8003, { 0 } },
+static CollisionBody core_body_parts[1] = {
+    { { 0.0f, 0.0f, 0.0f }, 0.001f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
 extern saddr player_battle_param_table[];
@@ -349,7 +348,7 @@ void TBoss3VoloptCore::update_charge_state() {
         break;
     }
     advance_animation();
-    minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
 void TBoss3VoloptCore::update_grabbed_state() {
@@ -579,7 +578,7 @@ void TBoss3VoloptCore::update_orbit_state() {
         break;
     }
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
 }
 
@@ -622,7 +621,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
     }
     advance_animation();
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
 }
 
@@ -695,7 +694,7 @@ void TBoss3VoloptCore::update_topple_state() {
     }
     advance_animation();
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
 }
 
