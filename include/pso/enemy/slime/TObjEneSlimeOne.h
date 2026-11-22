@@ -30,7 +30,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     CollisionBody *collision_body_parts;  // init_collision_body_parts / free_collision_body_parts
     s32 state_timer;  // set_random_timer, counted down by the states
     s32 effect_timer;
-    f32 m_398;
+    f32 state_value;  // grow/shrink progress (0 puddle .. 1 full size); the slide distance left in update_slide
     s32 motion_phase;
     f32 alpha;  // render skips the slime at 0 and fades it below 1
     f32 draw_offset_y;  // render adds it to the position's y
@@ -53,6 +53,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     int check_player_field_7cc();
     void copy_position();
+    void clear_parent_slime();
     void set_random_timer_15();
     void set_random_timer(s32 minimum, s32 range);
     void set_display_mode(s32 mode);

@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void TObjEneSlimeOne__sub_800EC470(void *p);
 }
 
 #endif

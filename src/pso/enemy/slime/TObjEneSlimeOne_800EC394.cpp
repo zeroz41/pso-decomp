@@ -57,7 +57,7 @@ int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
     return static_cast<u16>(target_id);
 }
 
-void TObjEneSlimeOne__sub_800EC470(void* p) { *(s32*)((char*)p + 0x3f0) = 0; }
+void TObjEneSlimeOne::clear_parent_slime() { parent_slime = NULL; }
 
 int TObjEneSlimeOne::check_player_field_7cc() { return get_validated_attack_stage((char*)this + 0x7cc); }
 

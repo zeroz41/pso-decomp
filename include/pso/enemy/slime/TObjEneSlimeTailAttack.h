@@ -20,10 +20,12 @@ struct TObjEneSlimeTailAttack : public TObjEnemy {
     virtual ~TObjEneSlimeTailAttack();
     static TObjEneSlimeTailAttack *create(saddr, const Vec *, s32, TObjEneSlimeOne *);
     void draw_blob_shadows();
-    s32 sub_800E85BC();
+    // Hits the players and flagged enemies near body_center during frames 17..30; 1 on a hit.
+    s32 apply_tail_hits();
     // The tail segment from `from` stretched towards `to`, t the segment's progress (0..1).
     void draw_stretched_segment(Vec *from, Vec *to, f32 t);
-    void sub_800E841C();
+    // Draws the tail model; the node callback captures pose for the shadows and body_center.
+    void draw_body();
     virtual void run_task();
     virtual void render();
     int find_nearest_enemy_with_flag(f32);
@@ -42,13 +44,20 @@ LAYOUT_ASSERT(SlimeTailSize, sizeof(TObjEneSlimeTailAttack) == 0x3CC);
 
 struct TObjEneSlimeWaterBomb;
 extern "C" {
-void TObjPlayer__sub_800E80C0(u8 *dst);
-void TObjPlayer__sub_800E8128(NJS_OBJECT *);
-void TObjPlayer__sub_800E81A8(void);
+// The tail model's node callback (set_chunk_model_node_callback): counts the nodes drawn and
+// stores the view-space origins of nodes 4..7 in slime_tail_node_capture's shadows, node 7's also
+// in its attachment.
+void capture_slime_tail_node(NJS_OBJECT *);
+void reset_slime_tail_node_index(void);
+void get_slime_tail_pose(SlimeTailPose *dst);
+SlimeTailPose *copy_slime_tail_pose(SlimeTailPose *dst, SlimeTailPose *src);
 }
 
-// lbl_80501010: layout known from its uses only.
-struct RecoveredGlobal_lbl_80501010 { s32 value; u8 remaining[0x3C]; };
-extern RecoveredGlobal_lbl_80501010 lbl_80501010;
+// The node callback's scratch pose; draw_body copies it into pose (get_slime_tail_pose).
+struct SlimeTailNodeCapture {
+    SlimeTailPose pose;
+    u8 pad_3C[0x4];
+};
+extern SlimeTailNodeCapture slime_tail_node_capture;
 
 #endif

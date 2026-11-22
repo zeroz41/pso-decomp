@@ -45,24 +45,19 @@ struct NJS_OBJECT;
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/system/task/TMainTask.h"
+
 extern "C" {
-s32 project_actor_to_ground(TObjChara *actor, Vec *position, Vec *normal);
-
-
-u32 csnLookAt(void *, void *);
-s32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
-void scale_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 post_translate_matrix(void *);
-CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
 extern void *slime_model_index_by_type[2];
 extern void *lbl_8049639C[28];
-
-struct B_800E80E8 { s32 w[3]; };
-
-struct A_800E80E8 { s32 w[12]; };
-
-struct S_800E80E8 { B_800E80E8 a; A_800E80E8 d; };
 
 struct SlimeSavedState {
     s32 flags;
@@ -71,15 +66,7 @@ struct SlimeSavedState {
     u8 unknown8[4];
 };
 
-S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 s16 check_player_field_7cc__15TObjEneSlimeOneFv();
-void free_collision_body_parts(void *);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_z(int, int);
-void subtract_vector(void *, void *);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 rotate_matrix_x(int, int);
-s32 scale_current_matrix(Vec *);
 
 
 // This TU's .rodata objects in address order (names stay placeholders).
@@ -108,23 +95,18 @@ extern const char TObjEneSlime__class_name_string[] = "TObjEneSlime";
 extern const char slime_type_label_blue[] = "BLUE";
 // Debug label strings; slime_debug_label_table points at them.
 extern const char slime_type_label_red[] = "RED";
-extern const s32 lbl_8043D218[2] = {0, 0};
+extern const SlimeChildSlot slime_empty_child_slot = {0, NULL};
 extern const char TObjEneSlimeOne__class_name_string[] = "TObjEneSlimeOne";
-// draw_scale while a slime rises out of (m_398 = 0, a flat puddle) or sinks back into the
-// ground (m_398 = 1, full size); the grow and shrink states blend between them.
+// draw_scale while a slime rises out of (state_value = 0, a flat puddle) or sinks back into the
+// ground (state_value = 1, full size); the grow and shrink states blend between them.
 extern const Vec slime_puddle_scale = {2.5f, 0.0f, 2.5f};
 extern const Vec slime_full_scale = {1.0f, 1.0f, 1.0f};
 extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
 }
-RecoveredGlobal_lbl_80501010 lbl_80501010;
+SlimeTailNodeCapture slime_tail_node_capture;
 extern "C" {
 void *slime_bml_resource;
-int lbl_805D52B4;
-extern s32 registered_player_count;
-extern saddr tl_04;
-
-
-s32 minimap_render_dot(void *, s32, s32, s32);
+int slime_tail_node_index;  // capture_slime_tail_node's count of the nodes drawn
 
 extern void *slime_model_name_ptr_table[7];
 extern void *bm4_ps_ma_body_motion_names[15];
@@ -212,8 +194,6 @@ const char *TObjEneSlimeOne_class_name = TObjEneSlimeOne__class_name_string;
 const char *TObjEneSlimeWaterBomb__name = TObjEneSlimeWaterBomb__class_name_string;
 const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_string;
 
-
-f32 fabs_float(f32);
 }
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
 
@@ -276,7 +256,7 @@ void TObjPlayer__sub_800EBE48(f32 alpha) {
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
 s32 TObjEneSlime::create(saddr set_data) {
-    return (saddr)new TObjEneSlime(new TObjControl((TObject *)tl_04), (u8 *)set_data);
+    return (saddr)new TObjEneSlime(new TObjControl(tl_04), (u8 *)set_data);
 }
 
 void TObjEneSlime::spawn_pair() {
@@ -346,7 +326,7 @@ void TObjEneSlime::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&position.x);
         TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, model_index));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
@@ -368,12 +348,12 @@ void TObjEneSlime::render() {
     }
 }
 
-void TObjEneSlime__sub_800EB9F0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+void copy_child_slot(SlimeChildSlot *dst, SlimeChildSlot *src) { *dst = *src; }
 
 void TObjEneSlime::init_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TObjEneSlime__sub_800EB9F0(&child_slots[i], (void *)&lbl_8043D218);
+        copy_child_slot(&child_slots[i], (SlimeChildSlot *)&slime_empty_child_slot);
     }
     spawn_slime_in_slot(this, 0, NULL, NULL);
 }
@@ -384,7 +364,7 @@ void TObjEneSlime::release_split_slimes() {
         SlimeChildSlot *s = &child_slots[i];
         if (s->state == 1) {
             if (s->slime != 0) {
-                TObjEneSlimeOne__sub_800EC470(s->slime);
+                s->slime->clear_parent_slime();
                 s->slime = 0;
             }
             s->state = 2;
@@ -411,9 +391,9 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
     }
     t = origin->spawn_template;
     n = index + 1;
-    t.entry.field_00 = origin->spawn_template.entry.field_00 + n;
-    t.entry.field_02 = 0;
-    t.entry.field_06 = origin->spawn_template.entry.field_06 + n;
+    t.entry.set_index = origin->spawn_template.entry.set_index + n;
+    t.entry.child_count = 0;
+    t.entry.entity_id = origin->spawn_template.entry.entity_id + n;
     if (position == NULL) {
         VecCopy(&t.entry.position, &origin->position);
     } else {
@@ -473,14 +453,14 @@ s32 TObjEneSlime::try_spawn_child(void *position) {
 
 #pragma push
 saddr TObjEneSlimeOne::create(saddr owner, saddr set_data) {
-    return (saddr)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), (TObjEneSlime *)owner, (void *)set_data);
+    return (saddr)new TObjEneSlimeOne(new TObjControl(tl_04), (TObjEneSlime *)owner, (void *)set_data);
 }
 #pragma pop
 
 #pragma push
 
 saddr TObjEneSlimeOne::create(saddr owner, saddr set_data, saddr velocity) {
-    return (saddr)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), (TObjEneSlime *)owner, (void *)set_data, (const Vec *)velocity);
+    return (saddr)new TObjEneSlimeOne(new TObjControl(tl_04), (TObjEneSlime *)owner, (void *)set_data, (const Vec *)velocity);
 }
 #pragma pop
 
@@ -604,7 +584,7 @@ void TObjEneSlimeOne::run_task() {
         update_trail_position();
         clear_child_flag();
         if ((s32)this->state != 13) {
-            minimap_render_dot((u8 *)this + 0x2FC, -0x5DB4, 1, 0);
+            minimap_render_dot(&body_center, -0x5DB4, 1, 0);
         }
     }
 }
@@ -621,7 +601,7 @@ void TObjEneSlimeOne::render() {
         {
             Vec v = ene_slime_one->position;
             v.y += ene_slime_one->draw_offset_y;
-            post_translate_matrix(&v);
+            post_translate_matrix(&v.x);
         }
         rotate_matrix_y(0, ene_slime_one->rotation_y);
         scale_matrix_vec3(0, (u8 *)&ene_slime_one->draw_scale);
@@ -730,17 +710,17 @@ void TObjEneSlimeOne::update_wait_search() {
     }
 }
 
-void TObjEneSlimeOne::reset_display() { set_display_mode(0); this->actorFlags = (this->actorFlags & 0xfffbffff); this->m_398 = 0.0f; this->draw_offset_y = -2.5f; }
+void TObjEneSlimeOne::reset_display() { set_display_mode(0); this->actorFlags = (this->actorFlags & 0xfffbffff); this->state_value = 0.0f; this->draw_offset_y = -2.5f; }
 void TObjEneSlimeOne::update_grow() {
     f32 progress;
     f32 wobble;
     f32 wobble_scale;
-    this->draw_offset_y = (f32) (-2.5f * (1.0f - this->m_398));
-    this->draw_scale.x = (f32) ((this->m_398 * (slime_full_scale.x - slime_puddle_scale.x)) + slime_puddle_scale.x);
-    this->draw_scale.y = (f32) ((this->m_398 * (slime_full_scale.y - slime_puddle_scale.y)) + slime_puddle_scale.y);
-    this->draw_scale.z = (f32) ((this->m_398 * (slime_full_scale.z - slime_puddle_scale.z)) + slime_puddle_scale.z);
+    this->draw_offset_y = (f32) (-2.5f * (1.0f - this->state_value));
+    this->draw_scale.x = (f32) ((this->state_value * (slime_full_scale.x - slime_puddle_scale.x)) + slime_puddle_scale.x);
+    this->draw_scale.y = (f32) ((this->state_value * (slime_full_scale.y - slime_puddle_scale.y)) + slime_puddle_scale.y);
+    this->draw_scale.z = (f32) ((this->state_value * (slime_full_scale.z - slime_puddle_scale.z)) + slime_puddle_scale.z);
     wobble_scale = 1.0f;
-    progress = this->m_398;
+    progress = this->state_value;
     if (progress > 0.8f) {
         wobble_scale = (1.0f - progress) / 0.19999999f;
     }
@@ -748,13 +728,13 @@ void TObjEneSlimeOne::update_grow() {
     this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + wobble));
     this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - wobble));
     this->state_timer = (this->state_timer + 1);
-    progress = this->m_398;
+    progress = this->state_value;
     if (progress >= 0.5f) {
         this->alpha = (f32) 1.0f;
     } else {
         this->alpha = (f32) (2.0f * progress);
     }
-    if ((this->m_398 += 0.033333335f) > 1.0f) {
+    if ((this->state_value += 0.033333335f) > 1.0f) {
         if (find_nearest_visible_player(this, 0, 200.0f) != 0xFFFF) {
             this->set_state(3);
         } else {
@@ -763,17 +743,17 @@ void TObjEneSlimeOne::update_grow() {
     }
 }
 
-void TObjEneSlimeOne::init_slime_display() { this->m_398 = 1.0f; this->draw_offset_y = 0.0f; set_display_mode(0); animation->set_state(7); }
+void TObjEneSlimeOne::init_slime_display() { this->state_value = 1.0f; this->draw_offset_y = 0.0f; set_display_mode(0); animation->set_state(7); }
 void TObjEneSlimeOne::update_shrink() {
     f32 progress;
     f32 wobble;
     f32 wobble_scale;
-    this->draw_offset_y = (f32) (-2.5f * (1.0f - this->m_398));
-    this->draw_scale.x = (f32) ((this->m_398 * (slime_full_scale.x - slime_puddle_scale.x)) + slime_puddle_scale.x);
-    this->draw_scale.y = (f32) ((this->m_398 * (slime_full_scale.y - slime_puddle_scale.y)) + slime_puddle_scale.y);
-    this->draw_scale.z = (f32) ((this->m_398 * (slime_full_scale.z - slime_puddle_scale.z)) + slime_puddle_scale.z);
+    this->draw_offset_y = (f32) (-2.5f * (1.0f - this->state_value));
+    this->draw_scale.x = (f32) ((this->state_value * (slime_full_scale.x - slime_puddle_scale.x)) + slime_puddle_scale.x);
+    this->draw_scale.y = (f32) ((this->state_value * (slime_full_scale.y - slime_puddle_scale.y)) + slime_puddle_scale.y);
+    this->draw_scale.z = (f32) ((this->state_value * (slime_full_scale.z - slime_puddle_scale.z)) + slime_puddle_scale.z);
     wobble_scale = 1.0f;
-    progress = this->m_398;
+    progress = this->state_value;
     if (progress > 0.8f) {
         wobble_scale = (1.0f - progress) / 0.19999999f;
     }
@@ -781,13 +761,13 @@ void TObjEneSlimeOne::update_shrink() {
     this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + wobble));
     this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - wobble));
     this->state_timer = (this->state_timer + 1);
-    progress = this->m_398;
+    progress = this->state_value;
     if (progress >= 0.5f) {
         this->alpha = (f32) 1.0f;
     } else {
         this->alpha = (f32) (2.0f * progress);
     }
-    if ((this->m_398 += -0.011111111f) < 0.0f) {
+    if ((this->state_value += -0.011111111f) < 0.0f) {
         this->set_state(0);
     }
 }
@@ -801,12 +781,12 @@ void TObjEneSlimeOne::enter_slide() {
     angle = (s32) (1048575.0f * this->random_ratio());
     this->movement_direction.x = (f32) ((15.0f * sin_table_lookup(angle)) + this->movement_direction.x);
     this->movement_direction.z = (f32) ((15.0f * cos_table_lookup(angle)) + this->movement_direction.z);
-    if (vector_length((u8 *)&this->movement_direction.x) <= 0.01f) {
+    if (vector_length(&movement_direction) <= 0.01f) {
         this->set_state(2);
         return;
     }
     normalize_vector(&this->movement_direction);
-    this->m_398 = ((20.0f * this->random_ratio()) + 50.0f);
+    this->state_value = ((20.0f * this->random_ratio()) + 50.0f);
     this->alpha = (f32) 1.0f;
     this->animation->set_state(8);
     set_display_mode(1);
@@ -819,7 +799,7 @@ void TObjEneSlimeOne::update_slide() {
     s32 i;
     s32 ang;
     rotation_y += 0x100;
-    if (m_398 > 0.0f) {
+    if (state_value > 0.0f) {
         motion_phase += 0xC00;
         accel = 0.25f * (0.5f * (0.5f + sin_table_lookup(motion_phase)));
         if ((move_speed += accel) > 2.5f) {
@@ -830,7 +810,7 @@ void TObjEneSlimeOne::update_slide() {
             move_speed = 0.0f;
         }
     }
-    m_398 -= move_speed;
+    state_value -= move_speed;
     VecCopy(&prev_position, &position);
     for (i = 1; i < 15; i++) {
         position.x += move_speed * movement_direction.x;
@@ -849,7 +829,7 @@ void TObjEneSlimeOne::update_slide() {
         movement_direction.z = s * movement_direction.x + c * movement_direction.z;
         VecCopy(&position, &prev_position);
     }
-    if (m_398 <= 0.0f && 0.0f == move_speed) {
+    if (state_value <= 0.0f && 0.0f == move_speed) {
         if (find_nearest_visible_player(this, &to_player, 50.0f) != 0xFFFF && vector_length(&to_player) > 15.0f) {
             set_state(4);
         } else {
@@ -983,36 +963,36 @@ void TObjEneSlimeOne::update_aim_at_enemy() {
 void TObjEneSlimeOne::enter_approach() { set_random_timer(30, 30); animation->set_state(0); set_display_mode(2); }
 
 void TObjEneSlimeOne::update_approach() {
-    f32 v[3];
+    Vec v;
     s32 t;
-    v[0] = 1.0f;
-    v[1] = 0.0f;
-    v[2] = 0.0f;
+    v.x = 1.0f;
+    v.y = 0.0f;
+    v.z = 0.0f;
     if (target_client_id != 0xFFFF) {
-        TObjPlayer::calc_distance_to_client((saddr)this, (u16)target_client_id, (Vec *)v);
+        TObjPlayer::calc_distance_to_client((saddr)this, (u16)target_client_id, &v);
     }
-    t = (s32) (10430.38043493439 * atan2_float(v[0], v[2]));
+    t = (s32) (10430.38043493439 * atan2_float(v.x, v.z));
     rotation_y = approach_angle_limited(rotation_y, t, 0x200);
     if (angle_difference_abs(rotation_y, t) < 0x200) {
         state_timer = 0;
     }
     VecCopy(&prev_position, &position);
-    if (vector_length(v) <= 0.01f) {
-        v[0] = 1.0f;
-        v[1] = 0.0f;
-        v[2] = 0.0f;
+    if (vector_length(&v) <= 0.01f) {
+        v.x = 1.0f;
+        v.y = 0.0f;
+        v.z = 0.0f;
     } else {
-        normalize_vector((Vec *)v);
+        normalize_vector(&v);
     }
-    v[0] *= 0.2f;
-    v[1] *= 0.2f;
-    v[2] *= 0.2f;
-    vec3_add_to(&position, v);
+    v.x *= 0.2f;
+    v.y *= 0.2f;
+    v.z *= 0.2f;
+    vec3_add_to(&position, &v);
     if (project_actor_to_ground(this, &position, 0) == 0 || csnLookAt(&prev_position, &position) != 0) {
         VecCopy(&position, &prev_position);
     }
     if (--state_timer <= 0) {
-        if (vector_length(v) > 50.0f || random_ratio() < 0.45f) {
+        if (vector_length(&v) > 50.0f || random_ratio() < 0.45f) {
             set_state(9);
         } else {
             set_state(10);
@@ -1276,7 +1256,7 @@ void TObjEneSlimeOne::render_trail() {
     }
     TObjPlayer::push_material_color_override(s, -1.0f, 0.0f, 1.0f);
     push_matrix();
-    post_translate_matrix(&c);
+    post_translate_matrix(&c.x);
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
@@ -1391,7 +1371,7 @@ void TObjEneSlimeWaterBomb::render() {
     width = 0.65f * (1.0f - height / 40.0f) + 0.1f;
     shadow_scale.x = shadow_scale.y = width;
     shadow_scale.z = 1.0f;
-    scale_current_matrix(&shadow_scale);
+    scale_current_matrix(&shadow_scale.x);
     draw_blob_shadow(0);
     pop_matrix();
 }
@@ -1469,7 +1449,7 @@ TObjEneSlimeTailAttack::~TObjEneSlimeTailAttack() {}
 #pragma push
 
 TObjEneSlimeTailAttack *TObjEneSlimeTailAttack::create(saddr, const Vec *position, s32 angle, TObjEneSlimeOne *owner) {
-    return new TObjEneSlimeTailAttack(new TObjControl((TObject *)tl_04), position, angle, owner);
+    return new TObjEneSlimeTailAttack(new TObjControl(tl_04), position, angle, owner);
 }
 #pragma pop
 
@@ -1477,7 +1457,7 @@ TObjEneSlimeTailAttack *TObjEneSlimeTailAttack::create(saddr, const Vec *positio
 #pragma fp_contract on
 void TObjEneSlimeTailAttack::run_task() {
     if (active != 0) {
-        sub_800E85BC();
+        apply_tail_hits();
         advance_animation();
         if (this->motion_flags & 0x10) {
             queue_destruction();
@@ -1502,7 +1482,7 @@ void TObjEneSlimeTailAttack::run_task() {
 
 #pragma push
 
-s32 TObjEneSlimeTailAttack::sub_800E85BC() {
+s32 TObjEneSlimeTailAttack::apply_tail_hits() {
     TObjEneSlimeTailAttack *self = this;
     DirectAttackPayload hit;
     s32 result;
@@ -1558,7 +1538,7 @@ s32 TObjEneSlimeTailAttack::sub_800E85BC() {
 void TObjEneSlimeTailAttack::render() {
   f32 frame;
   f32 segment_frames;
-  sub_800E841C();
+  draw_body();
   if (active != 0)
   {
     frame = this->frame;
@@ -1583,27 +1563,27 @@ void TObjEneSlimeTailAttack::render() {
 
 #pragma push
 #pragma dont_inline off
-void TObjEneSlimeTailAttack::sub_800E841C() {
+void TObjEneSlimeTailAttack::draw_body() {
     u8 *self = (u8 *)this;
     push_matrix();
-    post_translate_matrix((u8 *)&this->position);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, (int) (this->rotation_y));
     TObjFish::set_global_param(texlist);
     if (active != 0) {
-        TObjPlayer__sub_800E81A8();
-        set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
+        reset_slime_tail_node_index();
+        set_chunk_model_node_callback(capture_slime_tail_node);
         ((TObjMotion *)self)->draw();
         set_chunk_model_node_callback(NULL);
-        TObjPlayer__sub_800E80C0((u8 *)&pose);
+        get_slime_tail_pose(&pose);
         VecCopy(&body_center, &pose.attachment);
     } else {
         TObjPlayer__sub_800EBE48((f32) fade);
         scale_matrix_vec3(0, (u8 *)&stretch_scale);
-        TObjPlayer__sub_800E81A8();
-        set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
+        reset_slime_tail_node_index();
+        set_chunk_model_node_callback(capture_slime_tail_node);
         ((TObjMotion *)self)->draw();
         set_chunk_model_node_callback(NULL);
-        TObjPlayer__sub_800E80C0((u8 *)&pose);
+        get_slime_tail_pose(&pose);
         VecCopy(&body_center, &pose.attachment);
         TObjPlayer::init_render_globals();
     }
@@ -1626,7 +1606,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(Vec *from, Vec *to, f32 t) {
         p.x += k * d.x;
         p.y += k * d.y + -0.5f;
         p.z += k * d.z;
-        post_translate_matrix(&p);
+        post_translate_matrix(&p.x);
     }
     rotate_matrix_y(0, (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
     {
@@ -1664,24 +1644,23 @@ void TObjEneSlimeTailAttack::draw_blob_shadows() {
         }
     }
 }
-void TObjPlayer__sub_800E81A8(void) { lbl_805D52B4 = 0; }
-void TObjPlayer__sub_800E8128(NJS_OBJECT *) {
-    if ((s32) (*(s32 *)&lbl_805D52B4) == 7) {
-        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_zero_vec, (saddr)&lbl_80501010.value);
+void reset_slime_tail_node_index(void) { slime_tail_node_index = 0; }
+void capture_slime_tail_node(NJS_OBJECT *) {
+    if (slime_tail_node_index == 7) {
+        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_zero_vec, (saddr)&slime_tail_node_capture.pose.attachment);
     }
-    if (((s32) (*(s32 *)&lbl_805D52B4) >= 4) && ((s32) (*(s32 *)&lbl_805D52B4) < 8)) {
-        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_transform, (saddr)((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
+    if (slime_tail_node_index >= 4 && slime_tail_node_index < 8) {
+        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_transform, (saddr)&slime_tail_node_capture.pose.shadows[slime_tail_node_index - 4]);
     }
-    (*(s32 *)&lbl_805D52B4) += 1;
+    slime_tail_node_index += 1;
 }
-S_800E80E8 *TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src) {
-    dst->a = src->a;
-    dst->d = src->d;
+SlimeTailPose *copy_slime_tail_pose(SlimeTailPose *dst, SlimeTailPose *src) {
+    *dst = *src;
     return dst;
 }
 
-void TObjPlayer__sub_800E80C0(u8 *dst) {
-    TObjPlayer__sub_800E80E8((S_800E80E8 *)(dst), (S_800E80E8 *)(&lbl_80501010.value));
+void get_slime_tail_pose(SlimeTailPose *dst) {
+    copy_slime_tail_pose(dst, &slime_tail_node_capture.pose);
 }
 }
 
