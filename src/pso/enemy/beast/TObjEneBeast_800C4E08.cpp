@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -37,7 +38,7 @@
 #include "pso/math/ScratchVectors.h"
 
 
-extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
+extern const Vec beast_zero_vector = { 0.0f, 0.0f, 0.0f };
 
 #define BEAST_HUNTER_NEAR_EXIT_DISTANCE_SQ 10000.0f
 #define BEAST_HUNTER_NEAR_ENTER_DISTANCE_SQ 2500.0f
@@ -119,7 +120,7 @@ void TUnk_80493450::update_target_near_flag() {
     }
 }
 
-void TUnk_80493450::beast_retire_corpse() { queue_destruction__7TObjectFv(this); }
+void TUnk_80493450::beast_retire_corpse() { TObject::queue_destruction(); }
 void TUnk_80493450::beast_update_dead() {
     advance_animation();
     if (is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
@@ -630,7 +631,7 @@ void TUnk_80493450::refresh_target() {
         if (is_actor_cadence_frame(0x1E) != 0) {
             s32 i = 0;
             best = 0xFFFF;
-            Vec d = lbl_8043BC68;
+            Vec d = beast_zero_vector;
             best_dist = ((BeastMovementParams *)movementParameters)->detectionRadius * ((BeastMovementParams *)movementParameters)->detectionRadius;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 player = TObjPlayer::get_player_data(i);

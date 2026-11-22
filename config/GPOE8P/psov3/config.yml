@@ -8108,8 +8108,8 @@ force_active:
   - lbl_804E7750
   - deldepth_model_names
   - deldepth_low_model_names
-  - lbl_804E8760
-  - lbl_804E8780
+  - deldepth_part_motion_bindings
+  - deldepth_pair_motion_bindings
   - lbl_804E87F0
   - lbl_804E87F8
   - lbl_804E8838

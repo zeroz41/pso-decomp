@@ -18,8 +18,9 @@ struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 
 #pragma defer_codegen on
 
-DelDepthMotionBinding lbl_804E8760[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
-DelDepthPairBinding lbl_804E8780[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
+// set_motion ids 6-9: a motion of model 1 at a speed; ids 10-11: two model/motion pairs (names inferred)
+DelDepthMotionBinding deldepth_part_motion_bindings[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
+DelDepthPairBinding deldepth_pair_motion_bindings[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
 
 DelDepthMotion::DelDepthMotion(TObjMotion *owner) : actor(owner), motion(-1) {}
 
@@ -43,7 +44,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         }
     } else if (id < 0xA) {
         saddr data = (saddr)TObjEneDelDepth::get_data();
-        DelDepthMotionBinding *e = &lbl_804E8760[motion] - 6;
+        DelDepthMotionBinding *e = &deldepth_part_motion_bindings[motion] - 6;
         model = (void *)get_bml_model((BmlResource *)data, 1);
         texture = (saddr)get_bml_texlist((BmlResource *)data, 1);
         animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->motion);
@@ -52,7 +53,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         frame = 0.0f;
     } else {
         saddr data = (saddr)TObjEneDelDepth::get_data();
-        DelDepthPairBinding *e = &lbl_804E8780[motion] - 10;
+        DelDepthPairBinding *e = &deldepth_pair_motion_bindings[motion] - 10;
         DelDepthModelMotion *q;
         model = (void *)get_bml_model((BmlResource *)data, e->first.model);
         texture = (saddr)get_bml_texlist((BmlResource *)data, e->first.model);
