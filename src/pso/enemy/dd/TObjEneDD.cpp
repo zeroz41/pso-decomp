@@ -116,8 +116,6 @@ int matrix_mult_vec(void *, void *, void *);
 extern "C" {
 f32 newton_sqrtf(f32);
 }
-void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
-void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 #include <dolphin/mtx.h>
 
 
@@ -470,16 +468,17 @@ u16 enemy_nearest_visible_enemy(void *self, f32 range) {
     return enemy_nearest_visible_enemy_sq((TObjChara *)self, range * range);
 }
 
-u8 *TObjEneDD::snap_to_ground_at(u8 *arg1) {
-    Vec position;
+u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
+    const Vec *target = (const Vec *)dest;
+    Vec probe;
     CsnHit *hit;
-    position.x = *(f32 *)((s8 *)arg1 + 0);
-    position.y = *(f32 *)((s8 *)arg1 + 4) + *(f32 *)(this->m_2b0 + 0x10);
-    position.z = *(f32 *)((s8 *)arg1 + 8);
-    if (csnVectorUnder(&position, (CsnGroup **)&this->m_120, 0xE0) != NULL) {
+    probe.x = target->x;
+    probe.y = target->y + *(f32 *)(this->m_2b0 + 0x10);
+    probe.z = target->z;
+    if (csnVectorUnder(&probe, (CsnGroup **)&this->m_120, 0xE0) != NULL) {
         return NULL;
     }
-    hit = csnVectorUnder(&position, (CsnGroup **)&m_120, 0x15);
+    hit = csnVectorUnder(&probe, (CsnGroup **)&m_120, 0x15);
     if (hit == NULL) {
         return NULL;
     }
@@ -502,29 +501,27 @@ CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
     return csnVector(&body_center, &ahead, 0x88E0);
 }
 
-void TObjEneDD::calc_shot_position(u8 *shot, f32 dx, f32 dz, f32 farg2) {
-    u8 *self = (u8 *)this;
-    s32 temp_r5;
+void TObjEneDD::calc_shot_position(u8 *shot, f32 dx, f32 dz, f32 dist) {
+    Vec *out = (Vec *)shot;
+    s32 failures;
 
-    f32 reach = farg2 + this->wall_reach;
-    if (((TObjEneDD *)self)->enemy_probe_wall_ahead(dx, dz, reach) == NULL) {
-        *(f32 *)((s8 *)shot + 0) = (f32) ((dx * farg2) + *(f32 *)((s8 *)self + 0x38));
-        *(f32 *)((s8 *)shot + 4) = (f32) *(f32 *)((s8 *)self + 0x3C);
-        *(f32 *)((s8 *)shot + 8) = (f32) ((dz * farg2) + *(f32 *)((s8 *)self + 0x40));
-        this->wall_probe_failures = 0;
+    f32 reach = dist + wall_reach;
+    if (enemy_probe_wall_ahead(dx, dz, reach) == NULL) {
+        out->x = dx * dist + position.x;
+        out->y = position.y;
+        out->z = dz * dist + position.z;
+        wall_probe_failures = 0;
         return;
     }
-    temp_r5 = this->wall_probe_failures;
-    this->wall_probe_failures = (temp_r5 + 1);
-    VecCopy__FP3VecPC3Vec(shot, (u8 *)&this->position, temp_r5);
+    failures = wall_probe_failures;
+    wall_probe_failures = failures + 1;
+    VecCopy__FP3VecPC3Vec(shot, (u8 *)&position, failures);
 }
 
 
 #pragma push
 #pragma fp_contract on
-#define e ((TObjEneDD *)arg0)
-#define out ((Vec *)arg1)
-void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
+void calc_wall_slide_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dist) {
     CsnHit *n;
     Vec v;
     n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
@@ -552,17 +549,15 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
         out->z = dz * dist + e->position.z;
         return;
     }
-    VecCopy((Vec *)out, (const Vec *)&e->position);
+    VecCopy(out, &e->position);
 }
-#undef e
-#undef out
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist) {
+void calc_wall_clamped_destination(void *self, void *dest, f32 dx, f32 dz, f32 dist) {
     TObjEneDD *e = (TObjEneDD *)self;
-    Vec *out = (Vec *)arg1;
+    Vec *out = (Vec *)dest;
     CsnHit *n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
         e->wall_probe_failures = 0;
@@ -585,108 +580,101 @@ void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 d
 #pragma pop
 
 u8 *TObjEneDD::try_move_actor_xz_on_ground(u8 *shot) {
-    f32 temp_f31;
-    u8 *temp_r3;
-    temp_f31 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    temp_r3 = snap_to_ground_at(shot);
-    if (temp_r3 != NULL) {
-        this->prev_position.x = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x38);
-        this->prev_position.y = temp_f31;
-        this->prev_position.z = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x40);
-        *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)shot + 0);
-        *(f32 *)((s8 *)((u8 *)this) + 0x40) = (f32) *(f32 *)((s8 *)shot + 8);
-        VecCopy((Vec *)(((u8 *)this) + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
-        this->ground_probe_failures = 0;
+    const Vec *target = (const Vec *)shot;
+    f32 y;
+    CsnHit *hit;
+    y = position.y;
+    hit = (CsnHit *)snap_to_ground_at(shot);
+    if (hit != NULL) {
+        prev_position.x = position.x;
+        prev_position.y = y;
+        prev_position.z = position.z;
+        position.x = target->x;
+        position.z = target->z;
+        VecCopy(&ground_normal, &hit->contact->normal);
+        ground_probe_failures = 0;
     } else {
-        this->ground_probe_failures = (this->ground_probe_failures + 1);
+        ground_probe_failures = ground_probe_failures + 1;
     }
-    return temp_r3;
+    return (u8 *)hit;
 }
 
-u8 *TObjEneDD::move_xz_on_ground(u8 *arg1) {
-    u8 *self = (u8 *)this;
-    f32 temp_f31;
-    u8 *temp_r3;
-    temp_f31 = *(f32 *)((s8 *)self + 0x3C);
-    temp_r3 = snap_to_ground_at(arg1);
-    if (temp_r3 != NULL) {
-        VecCopy((Vec *)(self + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
+u8 *TObjEneDD::move_xz_on_ground(u8 *dest) {
+    const Vec *target = (const Vec *)dest;
+    f32 y;
+    CsnHit *hit;
+    y = position.y;
+    hit = (CsnHit *)snap_to_ground_at(dest);
+    if (hit != NULL) {
+        VecCopy(&ground_normal, &hit->contact->normal);
     }
-    this->prev_position.x = (f32) *(f32 *)((s8 *)self + 0x38);
-    this->prev_position.y = temp_f31;
-    this->prev_position.z = (f32) *(f32 *)((s8 *)self + 0x40);
-    *(f32 *)((s8 *)self + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)((s8 *)self + 0x40) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    this->ground_probe_failures = 0;
-    return temp_r3;
+    prev_position.x = position.x;
+    prev_position.y = y;
+    prev_position.z = position.z;
+    position.x = target->x;
+    position.z = target->z;
+    ground_probe_failures = 0;
+    return (u8 *)hit;
 }
 
 u8 *TObjEneDD::update_ground_contact() {
-    u8 *self = (u8 *)this;
-    f32 temp_f31;
-    u8 *temp_r3;
-    temp_f31 = *(f32 *)((s8 *)self + 0x3C);
-    temp_r3 = (unsigned char *) (((TObjEneDD *)(self))->update_actor_ground_y());
-    if (temp_r3 != NULL) {
-        VecCopy((Vec *)(self + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
+    f32 y;
+    CsnHit *hit;
+    y = position.y;
+    hit = (CsnHit *)update_actor_ground_y();
+    if (hit != NULL) {
+        VecCopy(&ground_normal, &hit->contact->normal);
     }
-    this->prev_position.x = (f32) *(f32 *)((s8 *)self + 0x38);
-    this->prev_position.y = temp_f31;
-    this->prev_position.z = (f32) *(f32 *)((s8 *)self + 0x40);
-    this->ground_probe_failures = 0;
-    return temp_r3;
+    prev_position.x = position.x;
+    prev_position.y = y;
+    prev_position.z = position.z;
+    ground_probe_failures = 0;
+    return (u8 *)hit;
 }
 
 void TObjEneDD::move_to_shot_position(f32 dx, f32 dz, f32 dist) {
-    u8 *self = (u8 *)this;
     s32 sp8;
-    ((TObjEneDD *)self)->calc_shot_position((u8 *)&sp8, (f32)dx, (f32)dz, (f32)dist);
-    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    calc_shot_position((u8 *)&sp8, dx, dz, dist);
+    try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
-    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_slide_destination(self, &sp8, dx, dz, dist);
-    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    calc_wall_slide_destination(this, (Vec *)&sp8, dx, dz, dist);
+    try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_clamped_on_ground(f32 dx, f32 dz, f32 dist) {
-    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_clamped_destination(self, &sp8, dx, dz, dist);
-    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    calc_wall_clamped_destination(this, &sp8, dx, dz, dist);
+    try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_with_wall_stop(f32 dx, f32 dz, f32 dist) {
-    u8 *self = (u8 *)this;
     s32 sp8;
-    ((TObjEneDD *)self)->calc_shot_position((u8 *)&sp8, (f32)dx, (f32)dz, (f32)dist);
-    this->move_xz_on_ground((u8 *)&sp8);
+    calc_shot_position((u8 *)&sp8, dx, dz, dist);
+    move_xz_on_ground((u8 *)&sp8);
 }
 
 u8 *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
-    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_slide_destination(self, &sp8, dx, dz, dist);
-    return this->move_xz_on_ground((u8 *)&sp8);
+    calc_wall_slide_destination(this, (Vec *)&sp8, dx, dz, dist);
+    return move_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist) {
-    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_clamped_destination(self, &sp8, dx, dz, dist);
-    this->move_xz_on_ground((u8 *)&sp8);
+    calc_wall_clamped_destination(this, &sp8, dx, dz, dist);
+    move_xz_on_ground((u8 *)&sp8);
 }
 
 int TObjEneDD::has_move_failures(s32 limit) {
-    u8 *self = (u8 *)this;
-    u8 var_r5;
-    var_r5 = 0;
-    if ((this->wall_probe_failures >= limit) || (this->ground_probe_failures >= limit)) {
-        var_r5 = 1;
+    u8 failed;
+    failed = 0;
+    if ((wall_probe_failures >= limit) || (ground_probe_failures >= limit)) {
+        failed = 1;
     }
-    return var_r5;
+    return failed;
 }
 
 
@@ -1253,7 +1241,7 @@ void TObjEneDD_ST::fire_attack_b(saddr out, s32 max_step, f32 distance) {
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination((void *)this, (void *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
+    calc_wall_slide_destination(this, (Vec *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
 }
 
 void TObjEneDD_ST::fire_attack_a(saddr out, s32 max_step, f32 distance) {
