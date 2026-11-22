@@ -390,9 +390,9 @@ force_active:
   - TBoss6Demo21_TYPE2_DEAD__name
   - __ct__14TBoss6EffHyouiFP7TObjectUsll
   - __ct__15TBoss6EmptyWarpFP7TObject
-  - TBoss6GravBall__sub_803233AC
-  - TBoss6GravBall__sub_80323544
-  - TBoss6GravBall__sub_803236F8
+  - push_players__14TBoss6GravBallFv
+  - pull_players__14TBoss6GravBallFv
+  - drift_to_center__14TBoss6GravBallFv
   - __ct__13TBoss6KakusanFP7TObjectP3VecP3VecUsf
   - sub_8032263C__13TBoss6KakusanFv
   - __ct__13TBoss6MagMineFP7TObjectP19Boss6MagMineSetData
