@@ -562,16 +562,16 @@ int TPlyItem::run_state_query(int a1) { owned_item_export_cursor = a1; inventory
 
 int TPlyItem::run_and_get_result(int a1) { TObjPlayer__owner_field_write_cursor = (s32 *)a1; inventory_walk_visit_count = 0; this->pad_1C4->collect_owner_fields_recursive(); return inventory_walk_visit_count; }
 
-s32 TObjPlayer__sub_801D47EC(saddr arg0, s32 key, s32 arg2) {
+s32 TObjPlayer__sub_801D47EC(saddr ply_item, s32 key, s32 arg2) {
     TItemList *node_a;
     TItemList *node_b;
     s32 item_a;
     s32 item_b;
-    node_a = (TItemList *)((TPlyItem *)arg0)->start_inventory_update(key);
+    node_a = (TItemList *)((TPlyItem *)ply_item)->start_inventory_update(key);
     if (node_a == NULL) {
         return 0;
     }
-    node_b = (TItemList *)((TPlyItem *)arg0)->start_inventory_update(arg2);
+    node_b = (TItemList *)((TPlyItem *)ply_item)->start_inventory_update(arg2);
     if (node_b == NULL) {
         return 0;
     }
@@ -742,10 +742,10 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *player) {
     return 1;
 }
 
-s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1) {
-    if (((TItem *)arg0)->copy_to_item_data((TItemData *)(arg1 + 8)) != 0) {
-        *(s8 *)((s8 *)arg1 + 0) = ((TItem *)arg0)->get_mode();
-        *(s32 *)((s8 *)arg1 + 4) = ((TItem *)arg0)->get_item_flags();
+s32 export_inventory_entry__10TObjPlayerFiPv(saddr item, u8 *arg1) {
+    if (((TItem *)item)->copy_to_item_data((TItemData *)(arg1 + 8)) != 0) {
+        *(s8 *)((s8 *)arg1 + 0) = ((TItem *)item)->get_mode();
+        *(s32 *)((s8 *)arg1 + 4) = ((TItem *)item)->get_item_flags();
         return 1;
     }
     return 0;

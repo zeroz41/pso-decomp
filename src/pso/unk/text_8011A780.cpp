@@ -259,12 +259,12 @@ void handle_6xA2_specializable_item_drop_request(void *lobby) {
 }
 #pragma pop
 
-void handle_6x60_standard_drop_item_request(void *arg0) {
-    Req_8011AD1C *req = (Req_8011AD1C *)arg0;
+void handle_6x60_standard_drop_item_request(void *command) {
+    Req_8011AD1C *req = (Req_8011AD1C *)command;
     s32 client;
     s32 slot;
     s8 area;
-    bswap_6x60_drop_request_fields(arg0);
+    bswap_6x60_drop_request_fields(command);
     if ((u32)(req->size * 4) == 0x14) {
         client = req->client;
         slot = get_floor_area(client);

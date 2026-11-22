@@ -8,10 +8,10 @@
 extern "C" {
 void clear_floor_event_flags(void);
 
-void destroy_child_recursive__6TLobbyFPvPv(TObject *arg0, TObject *object) {
-    TObject *p = arg0->m_down;
+void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
+    TObject *p = task->m_down;
     TObject *cur;
-    while (arg0->m_down != 0 && p != 0) {
+    while (task->m_down != 0 && p != 0) {
         cur = p;
         p = p->m_next;
         if (cur == object) {

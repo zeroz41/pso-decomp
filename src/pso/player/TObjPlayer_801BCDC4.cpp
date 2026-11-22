@@ -31,12 +31,12 @@ void TObjPlayer::init_from_source(u8 *arg1) {
     this->m_db4 = (s32) (player_shared_buffer_base + (get_entity_id(this) * 0x600));
 }
 
-void TObjPlayer::update_recobox(saddr arg0) {
+void TObjPlayer::update_recobox(saddr player) {
     if (is_current_area_item_enabled() != 0) {
-        ((TObjPlayer *)arg0)->clear_flag_20000();
+        ((TObjPlayer *)player)->clear_flag_20000();
         return;
     }
-    ((TObjPlayer *)arg0)->set_flag_20000();
+    ((TObjPlayer *)player)->set_flag_20000();
 }
 void TObjPlayer::destroy_child() { void* m = this->inventory_objects; if (m) ((TObject *)m)->queue_destruction(); }
 

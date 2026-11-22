@@ -121,12 +121,12 @@ void append_photon_blast_request(saddr arg0, s16 type, s16 kind) {
     }
 }
 
-u8 *TObjPlayer__sub_80312FB0(TObjPlayer *arg0) {
+u8 *TObjPlayer__sub_80312FB0(TObjPlayer *player) {
     s32 var_r31;
     u8 *temp_r3;
     var_r31 = 0;
 loop_1:
-    temp_r3 = (u8 *)(TObjPlayer::get_element(arg0, var_r31));
+    temp_r3 = (u8 *)(TObjPlayer::get_element(player, var_r31));
     if (TObjPlayer__sub_80313218(temp_r3) != 0) {
         return temp_r3;
     }

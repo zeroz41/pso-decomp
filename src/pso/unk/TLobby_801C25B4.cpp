@@ -1209,9 +1209,9 @@ void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt) {
 
 void handle_6x7E(void) {  }
 
-void handle_6x7F_battle_scores(saddr arg0) {
-    bswap_client_id_header((G_ClientIDHeader *)arg0);
-    memcpy(TLobby__duel_result_table, (void *)(arg0 + 4), 0x20);
+void handle_6x7F_battle_scores(saddr command) {
+    bswap_client_id_header((G_ClientIDHeader *)command);
+    memcpy(TLobby__duel_result_table, (void *)(command + 4), 0x20);
     lbl_805D5DAC = 1;
 }
 

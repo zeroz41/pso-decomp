@@ -42,14 +42,14 @@ extern "C" {
 u8 * construct_player_instance__10TObjPlayerFlslPUc(void *, s32, s16, s32, void *);
 extern s32 tl_03;
 
-u8 *TObjPlayer::create_player_instance(s32 arg0, saddr arg1) {
+u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
     p = (u8 *)TObject::operator new(0xDB8);
     if (p != NULL) {
         p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlslPUc)(
-            p, tl_03, arg0, get_field_0_s32((void *)arg1), (saddr)((TObjPlayer *)arg1)->get_char_data());
+            p, tl_03, arg0, get_field_0_s32((void *)player), (saddr)((TObjPlayer *)player)->get_char_data());
     }
-    ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)arg1)->get_sub_obj());
+    ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
     ((Obj_801BDE60 *)p)->v6();
     return p;
 }

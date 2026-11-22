@@ -46,18 +46,18 @@ void apply_clamped_field_27c__6TLobbyFv(f32 value) {
 }
 }
 
-void handle_6xB2_play_sound_from_player(void *arg0) {
+void handle_6xB2_play_sound_from_player(void *command) {
     s32 player;
 
     bswap_6xB2_play_sound();
-    if ((s8) *(u8 *)((s8 *)arg0 + 4) == get_current_floor_area()) {
-        if (*(s16 *)((s8 *)arg0 + 6) == 0xFFFF) {
-            play_sound_effect(*(s32 *)((s8 *)arg0 + 8), 0, 0, 0);
+    if ((s8) *(u8 *)((s8 *)command + 4) == get_current_floor_area()) {
+        if (*(s16 *)((s8 *)command + 6) == 0xFFFF) {
+            play_sound_effect(*(s32 *)((s8 *)command + 8), 0, 0, 0);
             return;
         }
         player = (saddr)get_player_by_client_id(local_client_id);
         if (player != 0) {
-            play_sound_effect(*(s32 *)((s8 *)arg0 + 8), player + 0x38, 0, 0);
+            play_sound_effect(*(s32 *)((s8 *)command + 8), player + 0x38, 0, 0);
         }
     }
 }

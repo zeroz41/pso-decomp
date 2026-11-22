@@ -327,8 +327,8 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
 };
 
-s32 TObjPlayer__sub_801D91B8(saddr arg0) {
-    return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), TObjPlayer::get_max_level());
+s32 TObjPlayer__sub_801D91B8(saddr player) {
+    return TObjPlayer::get_current_state_field(((TObjPlayer *)player)->get_class_index(), TObjPlayer::get_max_level());
 }
 
 s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
