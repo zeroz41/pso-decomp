@@ -380,9 +380,9 @@ TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
     pad_204 = (void *)TObjPlayer::spawn_hit_particles_at_vec;
 }
 
-void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr arg1, saddr dir) {
+void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir) {
     Vec pos;
-    TObjPlayer__sub_802D5B78((void *)arg1, &pos, (void *)dir);
+    TObjPlayer__sub_802D5B78((void *)hit, &pos, (void *)dir);
     spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)dir);
 }
 

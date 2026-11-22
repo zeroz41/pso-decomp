@@ -17,8 +17,8 @@ void TObjPlayerSet::run_task() {  }
 
 extern void *tl_06;
 
-void *TObjPlayerSet::create(void *arg0) {
-    return new TObjPlayerSet((TObject *)tl_06, arg0);
+void *TObjPlayerSet::create(void *set_data) {
+    return new TObjPlayerSet((TObject *)tl_06, set_data);
 }
 
 }

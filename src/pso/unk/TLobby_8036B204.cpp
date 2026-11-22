@@ -41,14 +41,14 @@ void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {
         ((TLobby *)slot_entity_dispatcher_instance)->start_entry_timer(arg0, src);
     }
 }
-void TLobby::send_slot_entity(u16 arg1, saddr arg2) {
+void TLobby::send_slot_entity(u16 arg1, saddr buf) {
     uaddr temp_r6;
     temp_r6 = *(u32 *)((s8 *)this + 0x1C);
     if (temp_r6 != 0U) {
-        TLobby::copy_symbol_chat_entry((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));
+        TLobby::copy_symbol_chat_entry((void *)buf, (void *)(temp_r6 + (arg1 * 0x3C)));
         return;
     }
-    TLobby__sub_8036B1AC(arg2);
+    TLobby__sub_8036B1AC(buf);
 }
 void TLobby::start_entry_timer(u16 arg1, saddr src) {
     Obj_8036B2E8 *arg0 = (Obj_8036B2E8 *)this;

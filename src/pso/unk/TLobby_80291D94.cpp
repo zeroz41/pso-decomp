@@ -336,13 +336,13 @@ s32 split_screen_challenge_created; // inferred: setup_split_screen sets it once
 s32 split_screen_flag;
 s32 challenge_mode_active_flag;
 
-void TLobby::store_challenge_seeds(s32 arg0) {
+void TLobby::store_challenge_seeds(s32 seed) {
     s32 i;
     if (is_challenge_mode_active() != 0) {
         for (i = 0; i < 4; i++) {
             if (get_player_by_client_id(i) != 0) {
-                s32 v = mix_seed_checked__6TLobbyFi(arg0);
-                if (TLobby::is_value_out_of_range(arg0) != 0) {
+                s32 v = mix_seed_checked__6TLobbyFi(seed);
+                if (TLobby::is_value_out_of_range(seed) != 0) {
                     v = mix_seed_checked__6TLobbyFi(0x8C9F);
                 }
                 (((s32 *)&lbl_804DB1F0) + 0x1A0)[i] = v;
@@ -351,10 +351,10 @@ void TLobby::store_challenge_seeds(s32 arg0) {
     }
 }
 
-void TLobby__sub_80292200(s32 arg0) {
-    TLobby::is_value_out_of_range(arg0);
-    fabs_float((f32) (arg0 - *(s32 *)((s8 *)&lbl_804DB1F0 + 0xC)));
-    TLobby::store_challenge_seeds(arg0);
+void TLobby__sub_80292200(s32 seed) {
+    TLobby::is_value_out_of_range(seed);
+    fabs_float((f32) (seed - *(s32 *)((s8 *)&lbl_804DB1F0 + 0xC)));
+    TLobby::store_challenge_seeds(seed);
 }
 
 int TLobby__sub_80292268(void) { return 1; }

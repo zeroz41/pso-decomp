@@ -292,7 +292,7 @@ s32 TObjPlayer__sub_803DAD28(u32 arg0) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2) {
+s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
     struct Inner_803DAD84 *p = arg0->inner;
     if ((p->flags & 0x80000000) != 0 && arg2 != 0) {
         if (TObjPlayer__sub_803DB23C((u8 *)p + 4) != 0) {

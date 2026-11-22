@@ -277,10 +277,10 @@ s32 TLobby::get_max_challenge_time() {
     return best;
 }
 
-void TLobby__sub_80070EE4(saddr arg0) {
-    TLobby::check_challenge_time_range(arg0);
-    fabs_float((f32) (arg0 - *(s32 *)((s8 *)&challenge_mode_state + 0xC)));
-    ((TLobby *)arg0)->send_seed_state();
+void TLobby__sub_80070EE4(saddr clear_time) {
+    TLobby::check_challenge_time_range(clear_time);
+    fabs_float((f32) (clear_time - *(s32 *)((s8 *)&challenge_mode_state + 0xC)));
+    ((TLobby *)clear_time)->send_seed_state();
 }
 
 s32 TLobby__sub_80070F4C(void) {

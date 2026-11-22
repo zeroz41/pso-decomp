@@ -39,7 +39,7 @@ void map_main_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3) {
         fn_801A6A28(arg0, 0x400000, arg3);
     }
 }
-void update_button_hold_counter(void *arg0, void *arg1, int mask, int held) {
+void update_button_hold_counter(void *key_board_control, void *arg1, int mask, int held) {
     s16 value = *(s16 *)arg1;
     if (held & mask) {
         value++;

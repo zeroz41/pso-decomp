@@ -111,13 +111,13 @@ void TObjPlayer::process_all_elements() {
     }
 }
 
-void append_photon_blast_request(saddr arg0, s16 type, s16 arg2) {
+void append_photon_blast_request(saddr arg0, s16 type, s16 kind) {
     saddr temp_r3;
     temp_r3 = ((saddr)TObjPlayer__sub_80312FB0((TObjPlayer *)((u8 *)arg0)));
     if (temp_r3 != 0) {
         ((TObjPlayer *)temp_r3)->check_flag_at_4();
         ((TObjPlayer *)temp_r3)->set_type(type);
-        ((TObjPlayer *)temp_r3)->set_field_2(arg2);
+        ((TObjPlayer *)temp_r3)->set_field_2(kind);
     }
 }
 

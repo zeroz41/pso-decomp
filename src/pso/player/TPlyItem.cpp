@@ -1057,8 +1057,8 @@ s32 TItemList__sub_801D5868(Arr_801D5868 *list, s32 arg1) {
 void* get_ptr_0x44__9TItemListFPv(void* p) { return (char*)p + 0x44; }
 void TUnk_804C4498::sub_801D5884(u8 v) { this->ring = v; }
 
-void TItemList::lookup_entry_by_count(saddr arg1) {
-    TItemList__sub_801D58C8((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)(arg1), (s8)(get_item_count())))));
+void TItemList::lookup_entry_by_count(saddr list) {
+    TItemList__sub_801D58C8((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)(list), (s8)(get_item_count())))));
 }
 
 void TItemList__sub_801D58C8(void* p) { *(s32*)((char*)p + 0x0) = 3; }
@@ -1078,8 +1078,8 @@ void copy_position__9TItemListFPv(void *p, const Vec *v) { VecCopy((Vec *)((char
 s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
     return (saddr)&arg0->e[arg1];
 }
-void TItemList__sub_801D59A0(TItemList *item_list, saddr arg1) {
-    TItemList__sub_801D59DC((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)arg1, (s8)item_list->get_item_count()))));
+void TItemList__sub_801D59A0(TItemList *item_list, saddr list) {
+    TItemList__sub_801D59DC((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)item_list->get_item_count()))));
 }
 
 void TItemList__sub_801D59DC(void* p) { *(s32*)((char*)p + 0x0) = 2; }
@@ -1095,8 +1095,8 @@ void TItemList__sub_801D5A0C(s32 *arg0) {
     }
 }
 
-void clear_placement_search_slot(TItemList *item_list, saddr arg1) {
-    TItemList__sub_801D5A64((void*)(TItemList__sub_801D5868((Arr_801D5868 *)arg1, (s8)item_list->get_item_count())));
+void clear_placement_search_slot(TItemList *item_list, saddr list) {
+    TItemList__sub_801D5A64((void*)(TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)item_list->get_item_count())));
 }
 
 void TItemList__sub_801D5A64(void* p) { *(s32*)((char*)p + 0x0) = 0; }

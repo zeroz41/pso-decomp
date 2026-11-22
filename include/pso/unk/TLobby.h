@@ -822,7 +822,7 @@ struct TLobby : public TObject {
     void swap_item_data(s32 *arg1);
     void tokenize_args(char *s);
     void parse_csv_line(char *s);
-    static void store_challenge_seeds(s32 arg0);
+    static void store_challenge_seeds(s32 seed);
     static void refresh_lobby_state();
     static s32 init_particle_model();
     static void update_field_state();
@@ -902,7 +902,7 @@ struct TLobby : public TObject {
     s32 init_guild_card_tag();
     static void dispatch_command(s32 arg0);
     static void send_slot_entity_or_local(u16 arg0, s32 buf);
-    void send_slot_entity(u16 arg1, saddr arg2);
+    void send_slot_entity(u16 arg1, saddr buf);
     void start_entry_timer(u16 arg1, saddr src);
     void destroy_matching_children();
     static void finish_chr_select_scene_init();

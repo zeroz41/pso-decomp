@@ -549,7 +549,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_camera_ready();
     static s32 is_camera_mode_active();
     static s32 is_single_screen();
-    static s32 is_player_valid_target(s32 arg0);
+    static s32 is_player_valid_target(s32 client_index);
     void update_movement_effects();
     static int get_max_level();
     void update_position(saddr arg1);
@@ -966,7 +966,7 @@ struct TObjPlayer : public TObjChara {
     s32 get_guild_return_yaw();
     s32 get_hospital_yaw();
     u8 *get_hospital_position();
-    long get_anim_table_entry(s32 arg1);
+    long get_anim_table_entry(s32 picture);
     saddr get_table_entry_by_clamped_index();
     s32 get_footstep_floor_index();
     f32 get_photon_blast_complete_threshold();
@@ -987,7 +987,7 @@ struct TObjPlayer : public TObjChara {
     void level_up_all_techniques(s32 add);
     static u8 clamp_to_max(saddr arg0, u8 arg1, u8 arg2);
     static s32 validate_and_clear_slot(void *techs, s16 tech);
-    static s32 is_invalid_slot(u8 arg0);
+    static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_id(s16 arg0);
     static s32 is_valid_technique_slot(u8 arg0);
     void set_tech_level(s16 lim);
@@ -1096,7 +1096,7 @@ struct TObjPlayer : public TObjChara {
     static void create_cleanup_object(void *arg0);
     static void free_static_buffer();
     static void alloc_and_run_object();
-    static void push_id_to_list(s32 arg0);
+    static void push_id_to_list(s32 id);
     static void spawn_cleanup_helper(void *arg0);
     static void warn_if_gauge_low();
     static void set_model_fade_alpha(f32 farg0);
@@ -1364,7 +1364,7 @@ struct TObjPlayer : public TObjChara {
     void request_meseta_drop(s32 arg1);
     void request_item_drop(s32 arg1, s32 count);
     s32 count_items_of_type(s8 arg1, s8 arg2, s8 arg3);
-    void dispatch_action(s32 key, s32 arg2);
+    void dispatch_action(s32 key, s32 amount);
     s32 can_inventory_accept_item(u8 *item);
     s32 update_target_lock();
     void use_current_item();
@@ -1461,7 +1461,7 @@ struct TObjPlayer : public TObjChara {
     void init_action_config();
     s32 can_use_palette_action_for_entry(u32 obj);
     static void set_animation_from_data(saddr arg0, s32 picture);
-    static void assign_lobby_slot_if_flagged(saddr player, void *arg1);
+    static void assign_lobby_slot_if_flagged(saddr player, void *records);
     static void free_shared_lobby_data();
     void*init_inventory();
     f32 select_normal_attack_marker();
@@ -1562,7 +1562,7 @@ struct TObjPlayer : public TObjChara {
     u8 get_mag_level();
     const Vec *get_guild_return_position();
     void spawn_item();
-    static void spawn_hit_particles_at(s32 arg0, saddr arg1, saddr dir);
+    static void spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir);
     static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir);
     s32 get_quest_thread_id();
     u16 get_obj_type();

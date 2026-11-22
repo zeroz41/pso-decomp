@@ -1599,12 +1599,12 @@ void TObjPlayer__sub_801C7874(u8 *player) {
 
 int TObjPlayer::try_change_action(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
 
-void TObjPlayer::sub_801C7A6C(s16 arg1) {
+void TObjPlayer::sub_801C7A6C(s16 phase) {
     saddr arg0 = (saddr)this;
   uaddr new_var2;
   unsigned int new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         TObjPlayer::try_change_action((void *) arg0);
@@ -1866,12 +1866,12 @@ void TObjPlayer__sub_801C8678(void) {  }
 
 int TObjPlayer::try_change_action_wrapper(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
 
-void TObjPlayer::sub_801C869C(s16 arg1) {
+void TObjPlayer::sub_801C869C(s16 phase) {
     saddr arg0 = (saddr)this;
   uaddr new_var2;
   unsigned int new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         TObjPlayer::try_change_action_wrapper((void *) arg0);
@@ -2032,10 +2032,10 @@ void TObjPlayer__sub_801C8A20(void) {  }
 
 void TObjPlayer__sub_801C8A24(void) {  }
 
-void TObjPlayer::sub_801C8A28(s16 arg1) {
+void TObjPlayer::sub_801C8A28(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void))TObjPlayer__sub_801C8A24)();
@@ -2113,10 +2113,10 @@ void TObjPlayer::send_position_update() {
     }
 }
 
-void TObjPlayer::sub_801C8C50(s16 arg1) {
+void TObjPlayer::sub_801C8C50(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void))TObjPlayer__sub_801C912C)();
@@ -2269,12 +2269,12 @@ void TObjPlayer__sub_801C9128(void) {  }
 
 void TObjPlayer__sub_801C912C(void) {  }
 
-void TObjPlayer::run_warp_action_phase(s16 arg1) {
+void TObjPlayer::run_warp_action_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   saddr new_var;
   {
     new_var = arg0;
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void))TObjPlayer__sub_801C912C)();
@@ -2437,10 +2437,10 @@ void TObjPlayer::update_frozen_release() {
   }
 }
 
-void TObjPlayer::sub_801C9648(s16 arg1) {
+void TObjPlayer::sub_801C9648(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->update_frozen_release();
@@ -2568,12 +2568,12 @@ void TObjPlayer::set_motion() {
     }
 }
 
-void TObjPlayer::run_service_hold_state_phase(s16 arg1) {
+void TObjPlayer::run_service_hold_state_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   uaddr new_var2;
   unsigned int new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         set_motion();
@@ -2746,12 +2746,12 @@ void TObjPlayer__sub_801C9F64(void) {  }
 
 void TObjPlayer__sub_801C9F68(void) {  }
 
-void TObjPlayer::run_revival_state_phase(s16 arg1) {
+void TObjPlayer::run_revival_state_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   uaddr new_var2;
   unsigned int new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void *))TObjPlayer__sub_801C9F68)((void *) arg0);
@@ -3081,10 +3081,10 @@ void TObjPlayer::check_reopen_return_city_window() {
 
 void TObjPlayer__sub_801CAA58(void) {  }
 
-void TObjPlayer::run_death_state_phase(s16 arg1) {
+void TObjPlayer::run_death_state_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void))TObjPlayer__sub_801CAA58)();
@@ -3242,11 +3242,11 @@ void TObjPlayer__sub_801CAF6C(void) {  }
 
 void TObjPlayer::check_and_trigger_19_5() { if (check_flag30_bit20() != 0) { run_action_state_phase(19, 5); } }
 
-void TObjPlayer::run_fall_reaction_phase(s16 arg1) {
+void TObjPlayer::run_fall_reaction_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   void *new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->check_and_trigger_19_5();
@@ -3363,10 +3363,10 @@ void TObjPlayer__sub_801CB360(void) {  }
 
 void TObjPlayer::do_action_19_5_if_flag30() { if (check_flag30_bit20() != 0) { run_action_state_phase(19, 5); } }
 
-void TObjPlayer::run_hurt_state_phase(s16 arg1) {
+void TObjPlayer::run_hurt_state_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->do_action_19_5_if_flag30();
@@ -3435,11 +3435,11 @@ void TObjPlayer__sub_801CB55C(void) {  }
 
 int TObjPlayer::try_apply_status_action() { return TObjPlayer::try_apply_status_action(this); }
 
-void TObjPlayer::sub_801CB580(s16 arg1) {
+void TObjPlayer::sub_801CB580(s16 phase) {
     saddr arg0 = (saddr)this;
   void *new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->try_apply_status_action();
@@ -3525,10 +3525,10 @@ void TObjPlayer__sub_801CB7D4(void) {  }
 
 int TObjPlayer__sub_801CB7D8(void* p) { return TObjPlayer::try_apply_status_action((TObjPlayer *)p); }
 
-void TObjPlayer::run_switch_interaction_phase(s16 arg1) {
+void TObjPlayer::run_switch_interaction_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void *))TObjPlayer__sub_801CB7D8)((void *) arg0);
@@ -3655,10 +3655,10 @@ void TObjPlayer::select_hit_action() {
     }
 }
 
-void TObjPlayer::run_guard_reaction_phase(s16 arg1) {
+void TObjPlayer::run_guard_reaction_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         select_hit_action();
@@ -4061,11 +4061,11 @@ void TObjPlayer__sub_801CC9E4(void) {  }
 
 int TObjPlayer::try_apply_status_action_default() { return TObjPlayer::try_apply_status_action(this); }
 
-void TObjPlayer::dispatch_photon_blast_action(s16 arg1) {
+void TObjPlayer::dispatch_photon_blast_action(s16 phase) {
     saddr arg0 = (saddr)this;
   saddr *new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->try_apply_status_action_default();
@@ -4514,10 +4514,10 @@ void TObjPlayer__sub_801CD904(void) {  }
 
 int TObjPlayer::apply_status_action_a() { return TObjPlayer::try_apply_status_action(this); }
 
-void TObjPlayer::dispatch_technique_cast_state(s16 arg1) {
+void TObjPlayer::dispatch_technique_cast_state(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->apply_status_action_a();
@@ -4638,10 +4638,10 @@ void TObjPlayer::check_attack_stage3_input() {  }
 
 int TObjPlayer::try_apply_status_action_1() { return TObjPlayer::try_apply_status_action(this); }
 
-void TObjPlayer::run_attack_stage3_phase(s16 arg1) {
+void TObjPlayer::run_attack_stage3_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->try_apply_status_action_1();
@@ -4776,14 +4776,14 @@ void TObjPlayer__sub_801CE134(s32 arg0) {
 
 int TObjPlayer::apply_status_action() { return TObjPlayer::try_apply_status_action(this); }
 
-void TObjPlayer::run_attack_stage2_phase(s16 arg1) {
+void TObjPlayer::run_attack_stage2_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   uaddr new_var2;
   void *new_var;
-  new_var2 = ((u32) arg1) <= 8U;
+  new_var2 = ((u32) phase) <= 8U;
   {
     new_var = (void *) arg0;
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->apply_status_action();
@@ -5269,10 +5269,10 @@ void TObjPlayer::update_active_item() {
 
 int TObjPlayer__sub_801CF3C0(void* p) { return TObjPlayer::try_apply_status_action((TObjPlayer *)p); }
 
-void TObjPlayer::run_attack_stage1_phase(s16 arg1) {
+void TObjPlayer::run_attack_stage1_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void *))TObjPlayer__sub_801CF3C0)((void *) arg0);
@@ -5453,10 +5453,10 @@ void TObjPlayer::select_run_request() {
 
 int TObjPlayer__sub_801CFAA4(void* p) { return TObjPlayer::try_apply_status_action((TObjPlayer *)p); }
 
-void TObjPlayer::dispatch_run_state(s16 arg1) {
+void TObjPlayer::dispatch_run_state(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void *))TObjPlayer__sub_801CFAA4)((void *) arg0);
@@ -5508,10 +5508,10 @@ int TObjPlayer::apply_status_action_b() { return TObjPlayer::try_apply_status_ac
 
 #pragma push
 #pragma opt_lifetimes off
-void TObjPlayer::sub_801CFB80(s16 arg1) {
+void TObjPlayer::sub_801CFB80(s16 phase) {
     saddr arg0 = (saddr)this;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->apply_status_action_b();
@@ -5744,12 +5744,12 @@ void TObjPlayer::select_walk_request() {
 
 int TObjPlayer__sub_801D03BC(void* p) { return TObjPlayer::try_apply_status_action((TObjPlayer *)p); }
 
-void TObjPlayer::run_walk_state_phase(s16 arg1) {
+void TObjPlayer::run_walk_state_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   int new_var;
-  new_var = ((u32) arg1) <= 8U;
+  new_var = ((u32) phase) <= 8U;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((s32 (*)(void *))TObjPlayer__sub_801D03BC)((void *) arg0);
@@ -5948,11 +5948,11 @@ void TObjPlayer::check_idle_movement_request() {
 
 int TObjPlayer::try_apply_status_action_2() { return TObjPlayer::try_apply_status_action(this); }
 
-void TObjPlayer::run_idle_state_phase(s16 arg1) {
+void TObjPlayer::run_idle_state_phase(s16 phase) {
     saddr arg0 = (saddr)this;
   saddr new_var;
   {
-    switch (arg1)
+    switch (phase)
     {
       case 7:
         ((TObjPlayer *)arg0)->try_apply_status_action_2();

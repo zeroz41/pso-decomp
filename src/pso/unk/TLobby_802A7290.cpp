@@ -2717,14 +2717,14 @@ int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 variant) {
     }
     return 0;
 }
-int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 arg2, s32 arg3) {
+int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 id, s32 flags) {
     s32 temp_r3;
-    if (matches_loaded_motion(this, arg2, arg3) != 0) {
+    if (matches_loaded_motion(this, id, flags) != 0) {
         return 1;
     }
-    TObjPlayer::forward_801C210C(this, arg2);
-    set_motion_variant(this, arg3);
-    temp_r3 = load_action_motion_pairs(arg1, arg2, arg3);
+    TObjPlayer::forward_801C210C(this, id);
+    set_motion_variant(this, flags);
+    temp_r3 = load_action_motion_pairs(arg1, id, flags);
     if (temp_r3 != 0) {
         this->vfunc_14();
     }

@@ -36,14 +36,14 @@ s32 TObjPlayer::is_camera_mode_active() {
 s32 TObjPlayer::is_single_screen() {
     return (u8) (TRaderMapCore::is_not_split_screen() == 1);
 }
-s32 TObjPlayer::is_player_valid_target(s32 arg0) {
+s32 TObjPlayer::is_player_valid_target(s32 client_index) {
     saddr temp_r31;
 
     if (is_local_client() == 0) {
         return 0;
     }
-    temp_r31 = (saddr)get_player_by_client_id((u16) arg0);
-    if ((TObjPlayer__sub_80354C7C(arg0) == 0) || (check_flag_100__10TObjPlayerFPv((void *)temp_r31) != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
+    temp_r31 = (saddr)get_player_by_client_id((u16) client_index);
+    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (check_flag_100__10TObjPlayerFPv((void *)temp_r31) != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
         return 0;
     }
     return 1;

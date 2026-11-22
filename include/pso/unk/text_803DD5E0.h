@@ -5,7 +5,7 @@
 #include "pso/render/ChunkPolygonList.h"
 
 extern "C" {
-void TLobby__sub_803DDD20(s32 arg0);
+void TLobby__sub_803DDD20(s32 buf);
 saddr TLobby__sub_803DDD2C(s32 stride);
 void TLobby__sub_803DDD40(s32 arg0, s32 arg1);
 }
@@ -17,7 +17,7 @@ void set_ginja_draw_flags(s32 arg0);
 
 // --- C functions defined in text_803DD5E0.cpp ---
 extern "C" {
-void TLobby__sub_803DDD20(s32 arg0);
+void TLobby__sub_803DDD20(s32 buf);
 saddr TLobby__sub_803DDD2C(s32 stride);
 void TLobby__sub_803DDD40(s32 arg0, s32 arg1);
 void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out);

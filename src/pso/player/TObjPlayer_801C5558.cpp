@@ -99,13 +99,13 @@ s32 TObjPlayer::clamp_char_at(s32 arg1) {
     return (u8)(arg0[arg1]);
 }
 
-void TObjPlayer__sub_801C5780(saddr arg0, s8 idx, s32 arg2) {
+void TObjPlayer__sub_801C5780(saddr trap_counts, s8 idx, s32 arg2) {
     s8 var_r4;
     var_r4 = idx;
     if ((var_r4 < 0) || (var_r4 > 0x14)) {
         var_r4 = 0x14;
     }
-    *(s8 *)((s8 *)(arg0 + arg2) + 0) = var_r4;
+    *(s8 *)((s8 *)(trap_counts + arg2) + 0) = var_r4;
 }
 
 s32 TObjPlayer::init_partial(saddr arg0) {

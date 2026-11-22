@@ -1681,12 +1681,12 @@ f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 arg1, uaddr arg2) {
   return var_f31;
 }
 
-f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2) {
+f32 calc_xz_distance_sq(saddr actor, uaddr arg1, void *arg2) {
     Vec diff;
     f32 dist;
     if (arg1 != 0U) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, (void *)(arg1 + 0x38));
-        ((void (*)(void *, void *))subtract_vector)(&diff, (void *)(arg0 + 0x38));
+        ((void (*)(void *, void *))subtract_vector)(&diff, (void *)(actor + 0x38));
         diff.y = (0.01f);
         dist = (diff.x * diff.x) + (diff.z * diff.z);
         if (arg2 != NULL) {
@@ -3978,14 +3978,14 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *arg1, f32 range) {
     return result;
 }
 
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr arg0, Vec *arg1, f32 farg0) {
+u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr arg0, Vec *arg1, f32 range) {
     Vec pos;
     f32 best;
     f32 dist;
     u16 result;
     s32 i;
     ObjFlags *p;
-    best = farg0 * farg0;
+    best = range * range;
     result = 0xFFFF;
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = ((ObjFlags * (*)(s32))get_player_data__10TObjPlayerFi)(i);
@@ -4204,10 +4204,10 @@ s32 TObjPlayer::add_meseta(s32 amount) {
   return 1;
 }
 
-s32 try_spend_actor_meseta(u8 *arg0, s32 count) {
+s32 try_spend_actor_meseta(u8 *player, s32 count) {
     s32 temp_r0;
     u8 *temp_r5;
-    temp_r5 = *(u8 **)((s8 *)arg0 + 0x2B0);
+    temp_r5 = *(u8 **)((s8 *)player + 0x2B0);
     temp_r0 = *(s32 *)((s8 *)temp_r5 + 0x20);
     if (temp_r0 < count) {
         return 0;

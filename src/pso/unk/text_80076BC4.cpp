@@ -43,17 +43,17 @@ void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
 }
 s32 chat_accept_submission(saddr arg0);
-void chat_dispatch_accepted_result(s32 *arg0) {
+void chat_dispatch_accepted_result(s32 *submission) {
 
-    switch (*arg0) {
+    switch (*submission) {
     case 1:
-        ((s32 (*)(void *)) submit_chat_text)((s8 *)arg0 + 4);
+        ((s32 (*)(void *)) submit_chat_text)((s8 *)submission + 4);
         return;
     case 2:
-        TWindowDD::send_chat_packet((s8 *)arg0 + 4);
+        TWindowDD::send_chat_packet((s8 *)submission + 4);
         return;
     case 3:
-        TWindowSubSymbolChat::send_selected_symbol_chat((s32 *)((s8 *)arg0 + 4));
+        TWindowSubSymbolChat::send_selected_symbol_chat((s32 *)((s8 *)submission + 4));
     case 0:
         return;
     }
@@ -86,7 +86,7 @@ void clear_chat_shortcut(s32 i) {
 }
 }
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
-s32 store_chat_shortcut(s32 arg0, s32 arg1) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(arg0)), arg1); }
+s32 store_chat_shortcut(s32 index, s32 arg1) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(index)), arg1); }
 
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {
     TAdSinglePlyChrSelectGC__sub_80076DF4((void*)arg0, (void*)arg1);
@@ -96,8 +96,8 @@ saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {
 
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 
-bool is_chat_shortcut_set(s32 arg0) {
-    return *((s32 *)get_chat_shortcut(arg0)) != 0;
+bool is_chat_shortcut_set(s32 index) {
+    return *((s32 *)get_chat_shortcut(index)) != 0;
 }
 typedef struct { u8 b[0x54]; } Rec_80076E2C;
 saddr get_chat_shortcut(s32 index) {

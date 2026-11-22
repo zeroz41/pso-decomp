@@ -2402,11 +2402,11 @@ s32 TObjPlayer::register_player_slot() {
     return register_entity_by_id(this) == (u16)0xFFFF ? 1 : 0;
 }
 
-void TObjPlayer::set_action_state(s16 arg1, s16 arg2) {
+void TObjPlayer::set_action_state(s16 arg1, s16 animation_number) {
     *(s16 *)((s8 *)this + 0x32A) = (s16) *(s16 *)((s8 *)this + 0x326);
     *(s16 *)((s8 *)this + 0x326) = arg1;
-    if (is_action_id_none(arg2) == 0) {
-        *(s16 *)((s8 *)this + 0xB8) = arg2;
+    if (is_action_id_none(animation_number) == 0) {
+        *(s16 *)((s8 *)this + 0xB8) = animation_number;
     }
     *(s32 *)((s8 *)this + 0x320) = (s32) (1 << arg1);
     this->set_state_flags(0x10);
@@ -2634,14 +2634,14 @@ void handle_6x26_unequip_item(void *arg0) {
     }
 }
 
-void unequip_item__10TObjPlayerFiPv(saddr arg0, void *item) {
-    set_equip_slot_entry(arg0 + 0xD04, ((TItem *)item)->get_attach_slot(), 0);
+void unequip_item__10TObjPlayerFiPv(saddr player, void *item) {
+    set_equip_slot_entry(player + 0xD04, ((TItem *)item)->get_attach_slot(), 0);
     ((TItem *)item)->unequip();
     if ((((TItem *)item)->get_item_type() == 1) && (((TItem *)item)->get_item_group() == 1)) {
-        ((TObjPlayer *)arg0)->unequip_all_units();
+        ((TObjPlayer *)player)->unequip_all_units();
     }
-    if (((TObjPlayer *)arg0)->test_action_mask(2) != 0) {
-        ((TObjMotion *)arg0)->set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)((void *)arg0));
+    if (((TObjPlayer *)player)->test_action_mask(2) != 0) {
+        ((TObjMotion *)player)->set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)((void *)player));
     }
 }
 
@@ -2916,10 +2916,10 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
     return ((Player_801B91F0 *)this)->inv->count < 30;
 }
 
-s32 TObjPlayer::can_pickup_item_by_id(TItem *arg1) {
+s32 TObjPlayer::can_pickup_item_by_id(TItem *item) {
     s32 item_data[5];
 
-    arg1->copy_to_item_data((TItemData *)item_data);
+    item->copy_to_item_data((TItemData *)item_data);
     return this->can_pickup_item((TItemData *)item_data);
 }
 
@@ -3043,8 +3043,8 @@ void handle_6x29_delete_inventory_item(void *arg0) {
     }
 }
 
-void TObjPlayer::dispatch_action(s32 key, s32 arg2) {
-    ((TLobby *)*(s32 *)((s8 *)this + 0xD00))->use_item((saddr)this, key, arg2);
+void TObjPlayer::dispatch_action(s32 key, s32 amount) {
+    ((TLobby *)*(s32 *)((s8 *)this + 0xD00))->use_item((saddr)this, key, amount);
 }
 
 void handle_6xAC(void *arg0) {
@@ -6729,13 +6729,13 @@ extern "C" s32 accumulate_damage_stats_at_76c(s32 player, s32 attacker, s32 amou
     return accumulate_damage_stats(player + 0x76C, attacker, amount);
 }
 
-void record_damage_stats__10TOMineTrapFUiUis(u32 mine_trap, u32 arg1, s16 arg2) {
+void record_damage_stats__10TOMineTrapFUiUis(u32 mine_trap, u32 att, s16 arg2) {
   Pkt_801B0300 pkt;
   u32 temp_r3;
   uaddr obj;
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    obj = arg1;
+    obj = att;
     if ((((s32 (*)(u32, s32))check_value_equals__13TUnk_804B6C24CFl)(obj, TOMineTrap__data_805D3080) != 0) && (((TOMineTrap *)obj)->get_trap_type() != 0xFFFF))
     {
       obj = ((u32 (*)(void))find_entity_by_id)();

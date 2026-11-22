@@ -326,10 +326,10 @@ void TObjPlayer::set_animation_from_data(saddr arg0, s32 picture) {
 
 extern s32 local_client_id;
 
-void TObjPlayer::assign_lobby_slot_if_flagged(saddr player, void *arg1) {
-    if (*(s32 *)((s8 *)arg1 + 4) & 8) {
-        *(s32 *)((s8 *)arg1 + 0x14) = advance_item_id_counter((u16) local_client_id);
-        equip_saved_item_if_slot_empty__10TObjPlayerFPvPv((u8 *)player, (u8 *)arg1);
+void TObjPlayer::assign_lobby_slot_if_flagged(saddr player, void *records) {
+    if (*(s32 *)((s8 *)records + 4) & 8) {
+        *(s32 *)((s8 *)records + 0x14) = advance_item_id_counter((u16) local_client_id);
+        equip_saved_item_if_slot_empty__10TObjPlayerFPvPv((u8 *)player, (u8 *)records);
     }
 }
 

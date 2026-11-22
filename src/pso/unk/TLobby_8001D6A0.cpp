@@ -497,20 +497,20 @@ void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
     }
 }
 
-void TLobby::copy_data(void *stats, void *arg1) {
-    *(s16 *)((s8 *)stats + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)stats + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s16 *)((s8 *)stats + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)stats + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)stats + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)stats + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s16 *)((s8 *)stats + 0xC) = (s16) *(s16 *)((s8 *)arg1 + 0xC);
-    *(s16 *)((s8 *)stats + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
-    *(f32 *)((s8 *)stats + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    *(f32 *)((s8 *)stats + 0x14) = (f32) *(f32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)stats + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)stats + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
+void TLobby::copy_data(void *stats, void *src) {
+    *(s16 *)((s8 *)stats + 0) = (s16) *(s16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)stats + 2) = (s16) *(s16 *)((s8 *)src + 2);
+    *(s16 *)((s8 *)stats + 4) = (s16) *(s16 *)((s8 *)src + 4);
+    *(s16 *)((s8 *)stats + 6) = (s16) *(s16 *)((s8 *)src + 6);
+    *(s16 *)((s8 *)stats + 8) = (s16) *(s16 *)((s8 *)src + 8);
+    *(s16 *)((s8 *)stats + 0xA) = (s16) *(s16 *)((s8 *)src + 0xA);
+    *(s16 *)((s8 *)stats + 0xC) = (s16) *(s16 *)((s8 *)src + 0xC);
+    *(s16 *)((s8 *)stats + 0xE) = (s16) *(s16 *)((s8 *)src + 0xE);
+    *(f32 *)((s8 *)stats + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
+    *(f32 *)((s8 *)stats + 0x14) = (f32) *(f32 *)((s8 *)src + 0x14);
+    *(s32 *)((s8 *)stats + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
+    *(s32 *)((s8 *)stats + 0x1C) = (s32) *(s32 *)((s8 *)src + 0x1C);
+    *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
 }
 
 u8 is_valid_player_index__6TLobbyFi(s32 arg0) {

@@ -9,7 +9,7 @@ struct TObjPlayerSet : public TObjBase {
     virtual ~TObjPlayerSet();
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjPlayerSet_size, sizeof(TObjPlayerSet) == 0x90);

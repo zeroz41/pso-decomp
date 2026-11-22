@@ -158,11 +158,11 @@ s32 TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
   return (*((s32 *) new_var)) + temp_r31;
 }
 
-long TObjPlayer::get_anim_table_entry(s32 arg1) {
+long TObjPlayer::get_anim_table_entry(s32 picture) {
     u8 *arg0 = (u8 *)this;
   int new_var;
   new_var = ((TObjPlayer *)arg0)->get_clamped_index() * 4;
-  return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (arg1 * 4);
+  return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (picture * 4);
 }
 
 saddr TObjPlayer::get_table_entry_by_clamped_index() {

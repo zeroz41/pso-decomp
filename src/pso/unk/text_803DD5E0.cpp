@@ -293,9 +293,9 @@ void TLobby::bswap32_in_place(u32 *p) {
 }
 #pragma pop
 
-void TLobby__sub_803DDD20(s32 arg0) {
-    lbl_805D77A4 = arg0;
-    lbl_805D77A0 = arg0;
+void TLobby__sub_803DDD20(s32 buf) {
+    lbl_805D77A4 = buf;
+    lbl_805D77A0 = buf;
 }
 
 saddr TLobby__sub_803DDD2C(s32 stride) {

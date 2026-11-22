@@ -60,8 +60,8 @@ void activate_palettex(s32 arg0) {
         ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_flag1();
     }
 }
-s32 is_local_client(s32 arg0) {
-    void *player = get_player_by_client_id((u16)arg0);
+s32 is_local_client(s32 client_index) {
+    void *player = get_player_by_client_id((u16)client_index);
     if (player == NULL) {
         return 0;
     }
