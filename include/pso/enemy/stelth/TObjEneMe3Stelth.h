@@ -8,15 +8,15 @@
 
 // One variant's row of the parameter table TLobby hands load_shared_resources.
 struct StelthBehaviorParams {
-    f32 m_00;
+    f32 walk_speed;          // state_chase_target's move speed (walk motion)
     u8 unk_04[0x4];
-    f32 m_08;
-    f32 m_0c;
-    f32 m_10;
-    f32 m_14;
+    f32 sword_lunge_speed;   // state_sword moves this far a frame over frames 0..5
+    f32 sword_motion_speed;  // animation descriptor 7 (sword) speed
+    f32 damage_motion_speed; // animation descriptor 4 (damage) speed
+    f32 support_tech_chance; // a technique roll above this casts Barta instead
     s32 support_tech_level;  // Resta, Shifta and Deband
-    s32 m_1c;
-    s32 m_20;
+    s32 cast_duration;       // frames state_cast_technique runs
+    s32 sword_hold_frames;   // frames state_sword holds frame 25
     s32 attack_tech_level;   // Rafoie and Gifoie
 };
 
@@ -65,7 +65,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void run_task();
     // TObjEneDD fields its header does not declare yet (TObjEneBm5Wolf declares the same ones).
     s32 stealthed;
-    s32 m_3c4;
+    s32 fade_in_start;     // parameters[0] 0 or 2: state 0 leads to fade_in (wait motion), else to ambush (t_wait)
     s32 variant_index;
     s32 behavior_flags;
     f32 body_y;
@@ -75,17 +75,17 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     f32 stealth_off_chance;
     f32 warp_chance;
     s32 material_color;
-    s32 m_3ec;
-    s32 m_3f0;
-    s16 m_3f4;
+    s32 attack_count;      // attacks since the last wait or backstep; at 2 select_next_attack_state backsteps
+    s32 texture_variant;   // the set data variant; 1 and up use the alternate texture list
+    s16 saved_evp;         // evp at construction
     u8 unk_3F6[0x2];
-    Vec m_3f8;
+    Vec hand_position;     // the target player's hand joint when its weapon is knocked off; the particle spot
     TUnk_80494938 fade;
-    s32 m_420;
+    s32 projection_scroll; // render adds 0x222 a frame; stelth_projection_texture_handle
     s32 state_step;
     s32 state_timer;
-    s32 m_42c;
-    f32 m_430;
+    s32 backstep_angle;    // state_backstep faces this (towards the target) while it backs away
+    f32 move_speed;        // the current state's move (or fall) speed
     f32 m_434;
     f32 m_438;
     f32 m_43c;

@@ -9,16 +9,16 @@
 // Per-kind parameter block from TLobby::dispatch_shared_handler_a, one for each of
 // the two Sinow Zoa kinds (load_resources).
 struct TObjEneMe3SinowZoaParams {
-    f32 m_0;
+    f32 walk_speed;          // state_chase_target's move speed (walk motion)
     f32 m_4;
-    f32 m_8;
-    f32 m_c;
-    f32 m_10;
-    f32 m_14;
-    s32 m_18; // level of the techniques cast_technique casts
-    s32 m_1c;
-    s32 m_20;
-    s32 m_24; // level of its Gibarta
+    f32 sword_lunge_speed;   // state_sword moves this far a frame over frames 0..5
+    f32 sword_motion_speed;  // animation descriptor 7 (sword) speed
+    f32 damage_motion_speed; // animation descriptor 4 (damage) speed
+    f32 support_tech_chance; // a technique roll above this casts Barta instead
+    s32 support_tech_level; // level of the techniques cast_technique casts
+    s32 cast_duration;       // frames state_cast_technique runs
+    s32 sword_hold_frames;   // frames state_sword holds frame 25
+    s32 attack_tech_level; // level of its Gibarta
 };
 
 // What TObjEnemy::movementParameters points at (TObjEneMe3SinowZoa_init_params).
@@ -65,11 +65,11 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void run_miss_reaction();
     void refresh_target();
     s32 stealthed;
-    s32 m_3c4;
+    s32 fade_in_start;     // parameters[0] 0 or 2: state 0 leads to fade_in (wait motion), else to ambush (t_wait)
     s32 kind_index;
     s32 behavior_flags;
-    s32 m_3d0;
-    Vec m_3d4;
+    s32 floor_flags; // check_floor_contact: the floor's contact flags (0x4000 reflective)
+    Vec floor_point; // the reflective floor's contact point (else position): push_reflection_matrix
     f32 body_y;
     f32 body_offset_y;
     // The debug overlay labels these "TECNIQ ATTACK % (+0.4f)", "STELTH ON % (+0.3f)",
@@ -79,17 +79,17 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     f32 stealth_off_chance;
     f32 warp_chance;
     u32 material_color;
-    s32 m_3fc;
-    s32 m_400;
-    s16 m_404;
+    s32 attack_count;      // attacks since the last wait or backstep; at 2 select_next_attack_state backsteps
+    s32 texture_variant;   // the set data variant; 1 and up use the alternate texture list
+    s16 saved_evp;         // evp at construction
     u8 unk_406[0x2];
-    Vec unk_408; // filled with the target player's hand joint position, then a particle spawn point
+    Vec hand_position; // the target player's hand joint when its weapon is knocked off; the particle spot
     TUnk_80494938 fade;
-    s32 m_430;
+    u8 pad_430[0x4];
     s32 state_step;
     s32 state_timer;
-    s32 m_43c;
-    f32 m_440;
+    s32 backstep_angle;    // state_backstep faces this (towards the target) while it backs away
+    f32 move_speed;        // the current state's move (or fall) speed
     f32 m_444;
     f32 m_448;
     f32 m_44c;

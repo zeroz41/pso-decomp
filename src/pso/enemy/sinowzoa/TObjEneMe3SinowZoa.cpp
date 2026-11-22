@@ -202,8 +202,8 @@ void TObjEneMe3SinowZoa::load_resources() {
         TObjEneMe3SinowZoa__kind_param_tbls[i] = (TObjEneMe3SinowZoaParams *)TLobby::dispatch_shared_handler_a(sinow_zoa_kind_param_ids[i]);
     }
     params = TObjEneMe3SinowZoa__kind_param_tbls[0];
-    set_entry_value_clamped(7, params->m_c);
-    set_entry_value_clamped(4, params->m_10);
+    set_entry_value_clamped(7, params->sword_motion_speed);
+    set_entry_value_clamped(4, params->damage_motion_speed);
     TObjEneMe3SinowZoa__render_node_index = 0;
     lbl_80542FE4.x = 0.0f;
     lbl_80542FE4.y = 0.0f;
@@ -295,18 +295,18 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     this->behavior_flags = 0;
-    this->m_3d0 = 0;
-    VecCopy(&m_3d4, &position);
+    this->floor_flags = 0;
+    VecCopy(&floor_point, &position);
     this->body_y = (this->position.y);
     this->body_offset_y = 0.0f;
     material_color = 0;
-    this->m_3fc = 0;
-    this->m_404 = (s16) this->evp;
+    this->attack_count = 0;
+    this->saved_evp = (s16) this->evp;
     fade.reset_obstruction_fade();
     this->state_step = 0;
     this->state_timer = 0;
-    this->m_43c = 0;
-    this->m_440 = 0.0f;
+    this->backstep_angle = 0;
+    this->move_speed = 0.0f;
     this->m_444 = 0.0f;
     this->m_448 = 0.0f;
     this->m_44c = 0.0f;
@@ -353,7 +353,7 @@ void TObjEneMe3SinowZoa::run_task() {
     if ((this->stealthed == 0) || (fade.has_partial_opacity() != 0)) {
         this->render_minimap_dot();
     }
-    if (this->m_3d0 & 0x4000) {
+    if (this->floor_flags & 0x4000) {
         request_reflection_render();
     }
 }
@@ -426,8 +426,8 @@ void TObjEneMe3SinowZoa::setup_move_bounds() {
     } else {
         this->stealthed = 0;
     }
-    this->m_3c4 = is_outside_visible_range();
-    if (this->m_3c4 == 1) {
+    this->fade_in_start = is_outside_visible_range();
+    if (this->fade_in_start == 1) {
         this->requested_action = 2;
     } else {
         this->requested_action = 0;
@@ -436,7 +436,7 @@ void TObjEneMe3SinowZoa::setup_move_bounds() {
     this->stealth_on_chance = 0.3f + this->parameters[1];
     this->stealth_off_chance = 0.1f + this->parameters[4];
     this->warp_chance = 0.5f + this->parameters[3];
-    this->m_400 = (s32) this->variant;
+    this->texture_variant = (s32) this->variant;
 }
 
 f32 TObjEneMe3SinowZoa::get_node_height() {
@@ -517,8 +517,8 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                         TItem *held;
                         if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(pl)) != 0) {
                             TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
-                            ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&unk_408);
-                            spawn_particle_effect(&unk_408, 0x1D0);
+                            ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&hand_position);
+                            spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {
                         TObjEneDD__sub_800BA438(this, current_target);
@@ -598,7 +598,7 @@ s32 TObjEneMe3SinowZoa::is_outside_visible_range() {
 s32 TObjEneMe3SinowZoa::acquire_target(f32 range) { return select_and_apply_target(range); }
 
 s32 TObjEneMe3SinowZoa::sub_8031A454() {
-    u8 r = this->m_400 >= 1;
+    u8 r = this->texture_variant >= 1;
     return r;
 }
 
@@ -616,14 +616,14 @@ void TObjEneMe3SinowZoa::sub_8031A3D8() {
 
 void TObjEneMe3SinowZoa::cast_technique() {
     saddr lv;
-    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18);
+    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level);
     if (sub_8031A454() != 0) {
         if (game_difficulty_selection == 3) {
-            TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
-            TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
+            TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
+            TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
         } else {
-            TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
-            create__9TTecJelinFllll(this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
+            TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
+            create__9TTecJelinFllll(this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
         }
     } else {
         TTecResta::create(this, &position, lv);
@@ -696,7 +696,7 @@ void TObjEneMe3SinowZoa::dispatch_action(u32 state, s32 mode) {
 void TObjEneMe3SinowZoa::action(s32 mode) {
     switch (mode) {
     case 4:
-        if (this->m_3c4 == 1) {
+        if (this->fade_in_start == 1) {
             this->requested_action = 2;
             set_field_378(1);
         } else {
@@ -715,11 +715,11 @@ void TObjEneMe3SinowZoa::action(s32 mode) {
         VecCopy(&body_center, &home_position);
         this->body_y = this->position.y;
         this->material_color = 0;
-        this->m_3fc = 0;
+        this->attack_count = 0;
         return;
     case 3:
         if (this->state_step > 5) {
-            if (this->m_3c4 == 1) {
+            if (this->fade_in_start == 1) {
                 this->transition_enemy_state(1);
             } else {
                 this->transition_enemy_state(3);
@@ -925,7 +925,7 @@ void TObjEneMe3SinowZoa::state_appear(s32 mode) {
         this->behavior_flags &= 0xFFEFFFF9;
         this->behavior_flags |= 1;
         this->state_step = 0;
-        this->m_440 = 0.0f;
+        this->move_speed = 0.0f;
         if (this->enemy_has_live_target() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
@@ -951,11 +951,11 @@ void TObjEneMe3SinowZoa::state_appear(s32 mode) {
             if (this->frame > 29.0f) {
                 this->frame = 29.0f;
             }
-            this->m_440 -= 0.3f;
-            if (this->m_440 < -5.0f) {
-                this->m_440 = -5.0f;
+            this->move_speed -= 0.3f;
+            if (this->move_speed < -5.0f) {
+                this->move_speed = -5.0f;
             }
-            this->body_y = this->body_y + this->m_440;
+            this->body_y = this->body_y + this->move_speed;
             height = this->get_node_height();
             this->body_y = this->body_y - (height - this->m_444);
             this->m_444 = height;
@@ -999,7 +999,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->destination_distance = (f32) 300.0f;
-        this->m_440 = (f32) TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->m_0;
+        this->move_speed = (f32) TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->walk_speed;
         this->m_444 = 0.0f;
         return;
     case 3:
@@ -1028,7 +1028,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, this->m_440);
+                enemy_turn_and_move_on_ground(this, 0x500, this->move_speed);
             }
             this->check_collisions();
         }
@@ -1045,7 +1045,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         this->behavior_flags &= 0xFFEFFFF8;
         this->behavior_flags |= 0x10000;
         this->state_step = 0;
-        this->m_440 = 0.0f;
+        this->move_speed = 0.0f;
         this->set_active();
         break;
     case 3:
@@ -1232,7 +1232,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
             cur_frame = this->frame;
             if (cur_frame >= 0.0f && cur_frame <= 5.0f) {
                 TObjEneMe3SinowZoaParams *rec = TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index];
-                this->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, rec->m_8);
+                this->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, rec->sword_lunge_speed);
             } else {
                 this->update_ground_contact();
             }
@@ -1242,7 +1242,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
             break;
         case 2:
             this->state_timer += 1;
-            if (this->state_timer >= TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->m_20) {
+            if (this->state_timer >= TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->sword_hold_frames) {
                 if (this->behavior_flags & 0x100000) {
                     this->state_step = 3;
                 } else {
@@ -1277,17 +1277,17 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
         this->clear_intangible();
         zero = 0;
         this->behavior_flags &= 0xFFEFFFF8;
-        this->m_3fc = zero;
+        this->attack_count = zero;
         this->state_step = 3;
         if (this->acquire_target(200.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->m_43c = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
-            if (this->check_body_collision_at(this->m_43c + 0x8000, 80.0f) == 0) {
+            this->backstep_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+            if (this->check_body_collision_at(this->backstep_angle + 0x8000, 80.0f) == 0) {
                 this->destination_direction.x *= -1.0f;
                 this->destination_direction.z *= -1.0f;
                 this->state_step = 0;
-                this->m_440 = (f32) 7.111111f;
+                this->move_speed = (f32) 7.111111f;
             }
         }
         this->set_active();
@@ -1298,7 +1298,7 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
                 this->transition_enemy_state(0x11);
             } else if (this->random_ratio() <= this->technique_chance) {
                 if (this->sub_8031A454() != 0) {
-                    if (this->random_ratio() > TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->m_14) {
+                    if (this->random_ratio() > TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->support_tech_chance) {
                         this->transition_enemy_state(0x10);
                     } else {
                         this->transition_enemy_state(0xB);
@@ -1317,7 +1317,7 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
         this->advance_animation();
         switch (this->state_step) {
         case 0:
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_43c, 0x31C7);
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->backstep_angle, 0x31C7);
             if ((this->frame + this->play_speed) >= 15.0f) {
                 this->state_step = 1;
                 this->set_invulnerable();
@@ -1333,7 +1333,7 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
                 play_sound_effect(0x4003A82A, &this->position, 0, 0);
                 this->check_and_notify();
             }
-            this->move_clamped_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_440);
+            this->move_clamped_on_ground(this->destination_direction.x, this->destination_direction.z, this->move_speed);
             return;
         case 2:
             if (this->get_flag_b4() != 0) {
@@ -1372,7 +1372,7 @@ void TObjEneMe3SinowZoa::state_cast_technique(s32 mode) {
         (this->state_timer) = 0;
         break;
     case 3:
-        if ((this->state_timer) > TObjEneMe3SinowZoa__kind_param_tbls[(this->kind_index)]->m_1c) {
+        if ((this->state_timer) > TObjEneMe3SinowZoa__kind_param_tbls[(this->kind_index)]->cast_duration) {
             this->transition_enemy_state(6);
         }
         break;
@@ -1405,9 +1405,9 @@ void TObjEneMe3SinowZoa::state_cast_technique(s32 mode) {
         case 3:
             (this->state_timer)++;
             if ((this->state_timer) == 5) {
-                TTecSifta::create(this, &this->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(this->kind_index)]->m_18));
+                TTecSifta::create(this, &this->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(this->kind_index)]->support_tech_level));
             } else if ((this->state_timer) == 0xA) {
-                TTecDeband::create(this, &this->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(this->kind_index)]->m_18));
+                TTecDeband::create(this, &this->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(this->kind_index)]->support_tech_level));
                 if ((this->behavior_flags) & 0x100000) {
                     (this->state_step) = 4;
                 } else {
@@ -1436,7 +1436,7 @@ void TObjEneMe3SinowZoa::state_wait(s32 mode) {
         set_field_378(0xD);
         this->behavior_flags &= 0xFFEFFFF8;
         this->set_intangible();
-        this->m_3fc = 0;
+        this->attack_count = 0;
         this->state_step = 0;
         break;
     case 3:
@@ -1617,7 +1617,7 @@ void TObjEneMe3SinowZoa::state_warp(s32 mode) {
             this->set_indexed_flags(0, 0x08000000);
             if (this->random_ratio() <= this->technique_chance) {
                 if (this->sub_8031A454() != 0) {
-                    if (this->random_ratio() > TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->m_14) {
+                    if (this->random_ratio() > TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->support_tech_chance) {
                         this->transition_enemy_state(0x10);
                     } else {
                         this->transition_enemy_state(0xB);
@@ -1719,7 +1719,7 @@ void TObjEneMe3SinowZoa::render() {
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
-        if (!(this->m_3d0 & 0x4000)) {
+        if (!(this->floor_flags & 0x4000)) {
             this->vfunc_108();
             TObjEneDD::clear_global_flag_400();
         }
@@ -1778,7 +1778,7 @@ extern "C" {
 
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
-        if (push_reflection_matrix(&this->m_3d4) != 0) {
+        if (push_reflection_matrix(&this->floor_point) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
@@ -2046,9 +2046,9 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 }
                 if (angle < ((AttackParams *)this->m_318)->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        TTecRaBarta::create((void *)this, (void *)(&out), (void *)(&this->position), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->m_24));
+                        TTecRaBarta::create((void *)this, (void *)(&out), (void *)(&this->position), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->attack_tech_level));
                     } else {
-                        TTecGiBarta::create_ex(this, &out, this->rotation_y, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->m_24));
+                        TTecGiBarta::create_ex(this, &out, this->rotation_y, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->attack_tech_level));
                     }
                 } else if (this->behavior_flags & 0x100000) {
                     this->state_step = 4;
@@ -2143,8 +2143,8 @@ void TObjEneMe3SinowZoaReal::run_death_reaction() { TObjEneMe3SinowZoa::run_deat
 void TObjEneMe3SinowZoaReal::run_hit_reaction() { TObjEneMe3SinowZoa::run_hit_reaction(); }
 
 void TObjEneMe3SinowZoaReal::select_next_attack_state() {
-    this->m_3fc = this->m_3fc + 1;
-    if ((this->m_3fc >= 2) || (this->random_ratio() < 0.5f)) {
+    this->attack_count = this->attack_count + 1;
+    if ((this->attack_count >= 2) || (this->random_ratio() < 0.5f)) {
         transition_enemy_state(9);
         return;
     }
@@ -2183,11 +2183,11 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
     v.y += 15.0f;
     hit = csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x4007);
     if (hit != NULL) {
-        this->m_3d0 = hit->contact->flags;
-        if (this->m_3d0 & 0x4000) {
-            VecCopy(&this->m_3d4, &hit->contact->point);
+        this->floor_flags = hit->contact->flags;
+        if (this->floor_flags & 0x4000) {
+            VecCopy(&this->floor_point, &hit->contact->point);
         } else {
-            VecCopy(&this->m_3d4, &this->position);
+            VecCopy(&this->floor_point, &this->position);
         }
         if (hit->hit_mask & 4) {
             TObjEneGibbles__sub_800D8988(&this->position);
