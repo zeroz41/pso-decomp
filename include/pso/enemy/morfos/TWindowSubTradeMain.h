@@ -54,6 +54,10 @@ struct TWindowSubTradeMain : public TObject {
     static void draw_offer(void *arg0, void *arg1);
     static void draw_request(void *arg0, void *arg1);
     TWindowMessageYesNo *open_confirm_yes_no();
+    TWindowMessageYesNo *open_option_dialog(saddr message);
+    TWindowMessageYesNo *open_option_dialog_thunk(saddr message);
+    TWindowMessageYesNo *open_status_window();
+    TWindowMessageYesNo *update_from_lobby();
     saddr create_trade_menu();
     saddr build_trade_menu();
     virtual void render();

@@ -560,7 +560,7 @@ void TWindowSubTradeMain::run_task() {
         }
         if ((n = TLobby::check_trade_items_and_show_error()) != 0) {
             if (o->card == 0) {
-                o->card = open_option_dialog_thunk__19TWindowSubTradeMainFPvPv(this, n);
+                o->card = open_option_dialog_thunk(n);
             }
             o->state = 0x1C;
         } else {
@@ -578,7 +578,7 @@ void TWindowSubTradeMain::run_task() {
         } else if (o->card->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(o->card))->get_slot_or_neg1() == 0) {
                 ((TWindowSubComCard *)(o->card))->close();
-                o->card = update_from_lobby__19TWindowSubTradeMainFi(this);
+                o->card = update_from_lobby();
                 set_local_trade_final_confirmation();
                 o->state = 0x1C;
             } else {
@@ -608,7 +608,7 @@ void TWindowSubTradeMain::run_task() {
             ((TWindowSubComCard *)(o->card))->close();
             o->card = 0;
         }
-        o->card = open_status_window__19TWindowSubTradeMainFi(this);
+        o->card = open_status_window();
         o->timer = 900;
         o->state = 0x1F;
     case 31:
@@ -678,25 +678,22 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
 
 #pragma fp_contract off
 
-extern "C" {
-TWindowMessageYesNo *update_from_lobby__19TWindowSubTradeMainFi(TWindowSubTradeMain *window) {
-    return open_option_dialog__19TWindowSubTradeMainFPvi(window, build_trade_partner_status_text());
+TWindowMessageYesNo *TWindowSubTradeMain::update_from_lobby() {
+    return open_option_dialog(build_trade_partner_status_text());
 }
 
-TWindowMessageYesNo *open_status_window__19TWindowSubTradeMainFi(TWindowSubTradeMain *window) {
-    return open_option_dialog__19TWindowSubTradeMainFPvi(
-        window, reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xF7)));
+TWindowMessageYesNo *TWindowSubTradeMain::open_status_window() {
+    return open_option_dialog(reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xF7)));
 }
 
-TWindowMessageYesNo *open_option_dialog_thunk__19TWindowSubTradeMainFPvPv(TWindowSubTradeMain *window, saddr message) {
-    return open_option_dialog__19TWindowSubTradeMainFPvi(window, message);
+TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog_thunk(saddr message) {
+    return open_option_dialog(message);
 }
 
-TWindowMessageYesNo *open_option_dialog__19TWindowSubTradeMainFPvi(TWindowSubTradeMain *window, saddr message) {
-    TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(window, window->m_28, NULL, NULL);
+TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog(saddr message) {
+    TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(this, m_28, NULL, NULL);
     initialize_option_dialog(dialog, message, get_window_layout_position(0x5F), 282.0f);
     return dialog;
-}
 }
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {

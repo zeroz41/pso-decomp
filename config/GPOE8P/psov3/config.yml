@@ -9338,8 +9338,8 @@ force_active:
   - open_message_window__22TAdEnterSerialAccessGCFPvPv
   - open_message_window__9TSaveChCrFUl
   - open_mode4_window__17TWindowSubComCardFv
-  - open_option_dialog__19TWindowSubTradeMainFPvi
-  - open_option_dialog_thunk__19TWindowSubTradeMainFPvPv
+  - open_option_dialog__19TWindowSubTradeMainFl
+  - open_option_dialog_thunk__19TWindowSubTradeMainFl
   - open_player_names_window__13TAdVIConfigGCFv
   - open_purpose_window__14TWindowSubItemFl
   - open_result_window__15TObjSoloPlayWinFv
@@ -9348,7 +9348,7 @@ force_active:
   - open_sell_window__26TShopEquipmentGearSequenceFv
   - open_session__6TLobbyFi
   - open_ship_block_select_menu__6TLobbyFiPvPv
-  - open_status_window__19TWindowSubTradeMainFi
+  - open_status_window__19TWindowSubTradeMainFv
   - open_trade_equip_window__19TWindowSubTradeMainFv
   - open_warp_menu__6TLobbyFv
   - open_window__15TObjNewFloorWinFv
@@ -16950,7 +16950,7 @@ force_active:
   - update_forward_movement__14TObjEneIllGillFv
   - update_from_data__12TBoss1DragonFv
   - update_from_float_sum__13TObjEneMe1GeeFv
-  - update_from_lobby__19TWindowSubTradeMainFi
+  - update_from_lobby__19TWindowSubTradeMainFv
   - update_game_list_menu__6TLobbyFv
   - update_giveup__20TObjChallenge4PRetryFv
   - update_go_down__11TBoss4Type3Fv
