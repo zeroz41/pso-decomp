@@ -34,15 +34,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
-extern "C" {
-// Defined in text_803D96A8.cpp; its header does not declare it yet (the
-// callers' private prototypes disagree on the return type).
-// TBoss6PlotFalz.cpp; same declaration as TBoss6Type1/TBoss6Type2 use.
-void TBoss6PlotFalz__sub_802AC724(void *player, void *pos);
-// TBoss6Type2.cpp: the arena radius (its centre is declared in Boss6Type2Data.h).
-extern const f32 lbl_805DE3F0;
-}
-
 const char *boss06_rock_dat_model_names[8] = {
     "b_iwa_p_ori.gj",      "b_iwa_p_p01.gj",      "b_iwa_p_p02.gj",       "b_iwa_p_p03.gj",
     "waste_koware_ori.gj", "waste_koware_p01.gj", "waste_koware1_p02.gj", NULL,
@@ -288,7 +279,7 @@ void TBoss6Rock::sub_803542E8(s32 landed) {
         d.x *= radius;
         d.z *= radius;
         vec3_add_to(&d, &this->m_d4);
-        TBoss6PlotFalz__sub_802AC724(player, &d);
+        TBoss6PlotFalz::move_player_to(player, &d);
         if (landed != 0) {
             DirectAttackPayload h;
             s32 damage = TBoss6PlotFalz::rand_vary_count(lbl_805D6EFC, 0.1f);

@@ -579,28 +579,20 @@ void TBoss6PlotFalz::queue_instance_destruction() {
 }
 
 
-struct Stack_802ABCDC {
-    s16 spC;
-    u8 pad_E[0x4];
-    s16 sp12;
-    u8 pad_14[0x38];
-    u8 sp4C;
-};
-
-struct Stack_802ABC64 {
-    s16 spC;
-    u8 pad_E[0x4];
-    s16 sp12;
-    s16 sp14;
-    u8 pad_16[0x36];
-    u8 sp4C;
+// What spawn_type1 / spawn_type2 hand create: the owner, then a copy of the 0x40-byte set entry
+// at 0x388 renumbered for the body (the constructor's apply_set_data reads it), then m_37c.
+struct Boss6BodySpawnParams {
+    TBoss6PlotFalz *owner;
+    s16 set_index;
+    u8 pad_06[0x4];
+    s16 entity_id;
+    s16 flags;
+    u8 pad_0E[0x36];
+    u8 variant;
 };
 
 extern "C" {
-u32 create__11TBoss6Type1Fl(void *, int);
-u32 create__11TBoss6Type2Fl(void *, int);
 f32 xyz_distance(const void *, const void *);
-u32 create__10TBoss6TubeFPv();
 
 void TBoss6PlotFalz::release_object() { if (*(unsigned int*)((char*)this + 0x384) != 0) { ((TObject *)(*(void**)((char*)this + 0x384)))->queue_destruction(); *(int*)((char*)this + 0x384) = 0; } }
 
@@ -624,40 +616,34 @@ s32 TBoss6PlotFalz::get_target_pos_b(Vec *position) {
 
 void TBoss6PlotFalz::spawn_type2() {
     u8 *self = (u8 *)this;
-    Stack_802ABC64 stack;
-    u8 *sp8;
-    u16 temp_r4;
+    Boss6BodySpawnParams params;
     if ((u32) TBoss6PlotFalz__type2_instance == 0U) {
-        sp8 = self;
-        stack.sp4C = this->m_37c;
-        TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (self + 0x388));
-        stack.sp14 = 1;
-        stack.spC = this->set_index + 0x1FF;
-        temp_r4 = this->entity_id;
-        stack.sp12 = temp_r4 + 0x1FF;
-        TBoss6PlotFalz__type2_instance = create__11TBoss6Type2Fl(&sp8, temp_r4);
+        params.owner = this;
+        params.variant = m_37c;
+        TBoss4DarkFalz__sub_8004B4F0(&params.set_index, self + 0x388);
+        params.flags = 1;
+        params.set_index = set_index + 0x1FF;
+        params.entity_id = entity_id + 0x1FF;
+        TBoss6PlotFalz__type2_instance = TBoss6Type2::create((saddr)&params);
     }
 }
 
 void TBoss6PlotFalz::spawn_type1() {
     u8 *self = (u8 *)this;
-    Stack_802ABCDC stack;
-    u8 *sp8;
-    u16 temp_r4;
+    Boss6BodySpawnParams params;
     if ((u32) TBoss6PlotFalz__type1_instance == 0U) {
-        sp8 = self;
-        stack.sp4C = this->m_37c;
-        TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (self + 0x388));
-        stack.spC = this->set_index + 0x200;
-        temp_r4 = this->entity_id;
-        stack.sp12 = temp_r4 + 0x200;
-        TBoss6PlotFalz__type1_instance = create__11TBoss6Type1Fl(&sp8, temp_r4);
+        params.owner = this;
+        params.variant = m_37c;
+        TBoss4DarkFalz__sub_8004B4F0(&params.set_index, self + 0x388);
+        params.set_index = set_index + 0x200;
+        params.entity_id = entity_id + 0x200;
+        TBoss6PlotFalz__type1_instance = TBoss6Type1::create((saddr)&params);
     }
 }
 
 void TBoss6PlotFalz::ensure_field384() {
     if ((u32) *(u32 *)((s8 *)this + 0x384) == 0U) {
-        *(u32 *)((s8 *)this + 0x384) = create__10TBoss6TubeFPv();
+        *(void **)((s8 *)this + 0x384) = TBoss6Tube::create(this);
     }
 }
 
@@ -947,7 +933,6 @@ extern "C" {
 void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFalz::warp_nearby_players(); }
 
 void release_all_players_control_lock(void);
-void TBoss6PlotFalz__sub_802AC724(u8 *player, void *pos);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
     void *p;
@@ -972,14 +957,14 @@ void TBoss6PlotFalz::freeze_all_players() {
         }
     }
 }
-void TBoss6PlotFalz__sub_802AC724(u8 *player, void *pos) {
+void TBoss6PlotFalz::move_player_to(TObjPlayer *player, Vec *pos) {
     if (player == NULL || pos == NULL) {
         return;
     }
-    ((TObjBase *)player)->set_position_from(pos);
-    ((TObjBase *)player)->save_previous_position();
-    ((TObjCollidable *)player)->set_indexed_flags(0, 0x900000);
-    *(u32 *)(player + 0x30) &= 0xFFFFFFDF;
+    player->set_position_from(pos);
+    player->save_previous_position();
+    player->set_indexed_flags(0, 0x900000);
+    player->actorFlags &= ~0x20;
 }
 }
 

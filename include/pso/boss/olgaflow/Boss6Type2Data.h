@@ -24,6 +24,8 @@ struct TBoss6Type2DefaultParams {
 
 extern const char *TBoss6Type2__name;
 extern const Vec boss6_arena_center;
+// The arena radius; TBoss6Type2.cpp defines it with its .sdata2 constants.
+extern "C" const f32 lbl_805DE3F0;
 extern const Vec TBoss6Type2__initial_position;
 extern const s32 TBoss6Type2__initial_rotation[3];
 extern const TBoss6Type2DefaultParams TBoss6Type2__default_battle_parameters;

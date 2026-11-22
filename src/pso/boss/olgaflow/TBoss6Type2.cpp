@@ -147,7 +147,6 @@ u16 get_entity_id(void *);
 s32 is_split_screen();
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 f32 TBoss6PlotFalz__sub_802AB684(void *);
-void TBoss6PlotFalz__sub_802AC724(void *, void *);
 s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1);
 f32 fabs_float(f32);
 f32 vec3_add_to(void *, void *);
@@ -1460,7 +1459,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
             VecCopy(&pos, (Vec *)target);
             vec3_add_to(&pos, &off);
             if (project_actor_to_ground(this, &pos, 0) != 0) {
-                TBoss6PlotFalz__sub_802AC724(pl, &pos);
+                TBoss6PlotFalz::move_player_to(pl, &pos);
                 break;
             }
         }

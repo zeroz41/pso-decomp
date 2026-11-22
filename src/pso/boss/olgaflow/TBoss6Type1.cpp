@@ -100,7 +100,6 @@ struct Blend_802B81A4 { AnimationMotion *motions[2]; f32 frames[2]; };
 extern "C" {
 
 
-void TBoss6PlotFalz__sub_802AC724(void *, void *);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody lbl_804DF4E0[7] = {
     {{0.0f, 0.0f, 0.0f}, 35.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -1323,7 +1322,7 @@ void TBoss6Type1::sub_802B6C30() {
             m.x *= 95.0f;
             m.z *= 95.0f;
         }
-        TBoss6PlotFalz__sub_802AC724(pl, &m);
+        TBoss6PlotFalz::move_player_to(pl, &m);
     }
 }
 

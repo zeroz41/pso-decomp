@@ -47,6 +47,8 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void *get_mag_mine_ptr();
     static s32 is_active(TObjPlayer *player);
     static s32 is_state_1f(TObjPlayer *player);
+    // Puts the player at pos (position and previous position).
+    static void move_player_to(TObjPlayer *player, Vec *pos);
     void set_state_2();
     void reset_state();
     void activate_warp();

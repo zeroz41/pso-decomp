@@ -129,7 +129,6 @@ void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball);
 s32 project_actor_to_ground(void *, void *, int);
 
 
-void TBoss6PlotFalz__sub_802AC724(void *, void *);
 
 
 void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self);
@@ -186,7 +185,7 @@ void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self) {
         }
         vec3_add_to(&v, &pl->position);
         project_actor_to_ground(self, &v, 0);
-        TBoss6PlotFalz__sub_802AC724(pl, &v);
+        TBoss6PlotFalz::move_player_to(pl, &v);
         if (flag != 0) {
             pl->actorFlags |= 0x20000;
             self->create_emitter(id);
@@ -237,7 +236,7 @@ void TBoss6GravBall__sub_80323544(TBoss6GravBall *self) {
         }
         vec3_add_to(&v, &pl->position);
         project_actor_to_ground(self, &v, 0);
-        TBoss6PlotFalz__sub_802AC724(pl, &v);
+        TBoss6PlotFalz::move_player_to(pl, &v);
         if (flag != 0) {
             pl->actorFlags |= 0x20000;
             self->create_emitter(id);
