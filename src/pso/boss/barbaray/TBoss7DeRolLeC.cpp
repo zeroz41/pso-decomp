@@ -1819,7 +1819,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
                 play_sound_effect(0x39906, NULL, 0, 0);
             }
             update_attached_orientation();
-            if (get_scripted_camera_playback()->flags & 1) {
+            if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
                 restore_player_cameras();
                 advance_action_sequence();
                 state_step = 1;
@@ -3279,7 +3279,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         break;
     case 0:
         advance_animation();
-        if (get_scripted_camera_playback()->flags & 1) {
+        if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             state_step = 1;
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();

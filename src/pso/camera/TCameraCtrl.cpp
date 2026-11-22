@@ -79,8 +79,8 @@ TCameraController *camera_controller_registry[13] = {
 CameraControllerFactory camera_controller_factories[13] = {
     &TCameraFollow::create, &TCameraFollow::create, &TCameraFollow::create, &TCameraFollow::create,
     &TCameraDebugOrbit::create, &TCameraScripted::create, &TCameraDebugView::create, &TCameraOrbit::create,
-    (CameraControllerFactory)&CreationCamera::create, &TCameraFixed::create, &TCameraWatchPlayer::create,
-    (CameraControllerFactory)&TCameraVolOpt::create, &TCameraVolOptFollow::create,
+    &CreationCamera::create, &TCameraFixed::create, &TCameraWatchPlayer::create,
+    &TCameraVolOpt::create, &TCameraVolOptFollow::create,
 };
 
 

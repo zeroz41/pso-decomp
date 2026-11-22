@@ -1960,7 +1960,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             }
             break;
         case 4:
-            if (get_scripted_camera_playback()->flags & 1) {
+            if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
                 restore_player_cameras();
                 state_step = 5;
             }

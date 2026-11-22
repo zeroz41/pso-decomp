@@ -21,7 +21,7 @@ void TBoss1DragonDemo__sub_8002B690(void) {  }
 void TBoss1DragonDemo::render() {  }
 
 void TBoss1DragonDemo::run_task() {
-    if ((get_scripted_camera_playback()->flags & 1) || *this->flag == 0) {
+    if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || *this->flag == 0) {
         restore_player_cameras();
         queue_destruction();
     }

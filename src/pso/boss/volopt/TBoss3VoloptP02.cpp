@@ -1095,7 +1095,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         break;
     case 2:
         timer--;
-        if ((get_scripted_camera_playback()->flags & 1) || timer < 0) {
+        if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || timer < 0) {
             restore_player_cameras();
             TWindowCtrl::init_all_slots2();
             TObjPlayer__sub_801BA42C();

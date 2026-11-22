@@ -987,7 +987,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         }
         break;
     case 2:
-        if (get_scripted_camera_playback()->flags & 1) {
+        if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             TObjEnemyCustom *core = (TObjEnemyCustom *)find_entity_by_id(volopt_core_id);
             if (core != NULL) {
                 core->start_appear();
@@ -1125,7 +1125,7 @@ void TBoss3Volopt::update_phase2_intro() {
         state = 4;
         return;
     case 4:
-        if (get_scripted_camera_playback()->flags & 1) {
+        if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             restore_player_cameras();
             next_action = 4;
             return;

@@ -19,7 +19,7 @@ extern const char *TBoss8DragonDemo__name;
 void TBoss8DragonDemo::render() {  }
 
 void TBoss8DragonDemo::run_task() {
-    if ((get_scripted_camera_playback()->flags & 1) || *this->flag == 0) {
+    if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || *this->flag == 0) {
         restore_player_cameras();
         queue_destruction();
     }
