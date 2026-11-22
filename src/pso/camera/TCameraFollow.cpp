@@ -591,10 +591,8 @@ void TCameraFollow::init_pose() {
     update_camera_state(this->position.x, this->position.y, this->position.z);
 }
 
-TCameraFollow *TCameraFollow::create() {
-    TCameraFollow *o;
-    o = new TCameraFollow();
-    return o;
+TCameraController *TCameraFollow::create() {
+    return new TCameraFollow();
 }
 
 #pragma push

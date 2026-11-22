@@ -11,15 +11,14 @@ struct FollowCameraSlot {
     s32 pad_18;
 };
 
-// The default camera (camera_controller_registry entries 0-3, one per view): it
-// follows the actor from eye_offset behind it, turned by yaw, and looks at
-// target_offset in front of it.
+// Camera modes 0-3, the default camera, one per view: follows the actor from
+// eye_offset behind it, turned by yaw, and looks at target_offset in front of it.
 class TCameraFollow : public TCameraController {
 public:
     TCameraFollow();
     virtual ~TCameraFollow();
     virtual void run_task();
-    static TCameraFollow *create();
+    static TCameraController *create();
     s32 get_target_yaw();
     void clear_follow_flags();
     void set_close_up(s32 on);

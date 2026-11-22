@@ -81,8 +81,7 @@ TCameraController *camera_controller_registry[13] = {
 };
 // One factory per registry slot; the constructor fills the registry from them.
 CameraControllerFactory camera_controller_factories[13] = {
-    (CameraControllerFactory)&TCameraFollow::create, (CameraControllerFactory)&TCameraFollow::create,
-    (CameraControllerFactory)&TCameraFollow::create, (CameraControllerFactory)&TCameraFollow::create,
+    &TCameraFollow::create, &TCameraFollow::create, &TCameraFollow::create, &TCameraFollow::create,
     &TCameraDebugOrbit::create, &TCameraScripted::create, &TCameraDebugView::create, &TCameraOrbit::create,
     (CameraControllerFactory)&CreationCamera::create, &TCameraFixed::create, &TCameraWatchPlayer::create,
     (CameraControllerFactory)&TCameraVolOpt::create, &TCameraVolOptFollow::create,
