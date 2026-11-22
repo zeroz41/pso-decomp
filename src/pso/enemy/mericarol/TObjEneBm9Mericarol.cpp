@@ -208,9 +208,9 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     m_name = TObjEneBm9Mericarol__class_name;
     invoke_initialization_hook(set_data);
     init_size_tier_and_offsets();
-    m_438 = 0;
+    flags = 0;
     if (random_ratio() <= 0.002f) {
-        m_438 |= 0x400;
+        flags |= 0x400;
     }
     init_position_vectors();
     model = (void *)lbl_805D6868->models[0].model;
@@ -223,8 +223,8 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     set_field_b8(requested_action);
     ph = get_phase();
     reset_hp(bm9_mericarol_phase_hp_table[ph], lbl_80540B64[ph], lbl_80540B70[ph]);
-    m_3c0[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
-    m_3c0[1] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    trails[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    trails[1] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);
     movementParameters = &lbl_804E1548;
     switch (get_phase()) {
@@ -241,21 +241,21 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     wall_reach = 5.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
-    m_43c = 0.0f;
+    draw_offset_y = 0.0f;
     m_44c = 0;
-    m_450 = 0;
+    retarget_counter = 0;
     m_454 = 0;
     m_458 = 0;
-    m_46c.reset_obstruction_fade();
-    m_48c = new TObjCollidable(0);
-    init_collision_body_parts(m_48c, &lbl_804E1564[1], 1);
-    m_488 = new AreaAttackHistory(8);
-    m_490 = 0;
-    m_494 = 0;
-    m_498 = 0;
+    appear_fade.reset_obstruction_fade();
+    attack_body = new TObjCollidable(0);
+    init_collision_body_parts(attack_body, &lbl_804E1564[1], 1);
+    attack_history = new AreaAttackHistory(8);
+    state_step = 0;
+    state_timer = 0;
+    rush_delay = 0;
     m_49c = 0;
-    m_4a0 = 0;
-    m_4a4 = 0.0f;
+    target_angle = 0;
+    slide_speed = 0.0f;
     m_4ac = 0;
     sync_center_position();
     update_body_colliders();
@@ -264,26 +264,26 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     dispatch_action(mode, 4);
     sub_8002AE64();
     for (i = 0; i < 4; i++) {
-        m_3c8[i].activate_and_dispatch();
+        camera_fades[i].activate_and_dispatch();
     }
 }
 
 TObjEneBm9Mericarol::~TObjEneBm9Mericarol() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (m_3c0[i] != NULL) {
-            m_3c0[i]->queue_destruction();
-            m_3c0[i] = NULL;
+        if (trails[i] != NULL) {
+            trails[i]->queue_destruction();
+            trails[i] = NULL;
         }
     }
-    if (m_488 != NULL) {
-        delete m_488;
-        m_488 = NULL;
+    if (attack_history != NULL) {
+        delete attack_history;
+        attack_history = NULL;
     }
-    if (m_48c != NULL) {
-        free_collision_body_parts(m_48c);
-        delete m_48c;
-        m_48c = NULL;
+    if (attack_body != NULL) {
+        free_collision_body_parts(attack_body);
+        delete attack_body;
+        attack_body = NULL;
     }
     if (m_4ac != NULL) {
         m_4ac->queue_destruction();
@@ -294,25 +294,25 @@ TObjEneBm9Mericarol::~TObjEneBm9Mericarol() {
 
 void TObjEneBm9Mericarol::run_task() {
     s16 state;
-    s32 flags;
+    s32 current;
     if (TObjPlayer::check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
-    flags = m_438;
-    if (flags & 0x10) {
+    current = flags;
+    if (current & 0x10) {
         if (current_target == 0) {
-            m_438 = flags & ~0x10;
+            flags = current & ~0x10;
         }
     } else if (current_target != 0) {
-        m_438 = flags | 0x10;
+        flags = current | 0x10;
     }
     if (update_status_effects() != 4) {
         update_action_state();
     } else {
         state = mode;
         if (state == 0 || state == 1) {
-            m_46c.reset_color();
+            appear_fade.reset_color();
             transition_enemy_state(2);
         }
     }
@@ -327,37 +327,37 @@ void TObjEneBm9Mericarol::dispatch_action(u32 state, s32 reason) {
         handle_action(reason);
         return;
     case 1:
-        sub_802D05BC(reason);
+        state_fade_in(reason);
         return;
     case 2:
         handle_event(reason);
         return;
     case 3:
-        sub_802D01D8(reason);
+        state_chase_target(reason);
         return;
     case 4:
         handle_shot_state(reason);
         return;
     case 5:
-        sub_802CFB64(reason);
+        state_attack(reason);
         return;
     case 6:
-        sub_802CF7B4(reason);
+        state_rush(reason);
         return;
     case 10:
-        sub_802CF368(reason);
+        state_damaged(reason);
         return;
     case 11:
         state_burrow(reason);
         return;
     case 7:
-        sub_802CF4F8(reason);
+        state_curse(reason);
         return;
     case 8:
         handle_motion_event(reason);
         return;
     case 9:
-        sub_802CEDA0(reason);
+        state_cast_technique(reason);
         return;
     case 12:
         handle_state_message(reason);
@@ -379,7 +379,7 @@ void TObjEneBm9Mericarol::run_death_reaction() {
 
 void TObjEneBm9Mericarol::run_hit_reaction() {
     if ((s16) this->mode != 0xA) {
-        if (this->m_438 & 0x20) {
+        if (this->flags & 0x20) {
             clear_attack_receipts();
             return;
         }
@@ -404,7 +404,7 @@ void TObjEneBm9Mericarol::sub_802D0940() {  }
 void TObjEneBm9Mericarol::sub_802D093C() {  }
 
 s32 TObjEneBm9Mericarol::try_set_mode8_if_flag2() {
-    if (this->m_438 & 2) {
+    if (this->flags & 2) {
         transition_enemy_state(8);
         return 1;
     }
@@ -432,27 +432,27 @@ TObjPlayer *TObjEneBm9Mericarol::find_nearby_target() {
 void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
     f32 roll;
     s32 tier;
-    m_45c = variant;
-    tier = m_45c;
+    phase = variant;
+    tier = phase;
     if (tier < 0 || tier > 2) {
         roll = random_ratio();
         if (roll > 0.9f) {
-            m_45c = 2;
+            phase = 2;
         } else if (roll > 0.8f) {
-            m_45c = 1;
+            phase = 1;
         } else {
-            m_45c = 0;
+            phase = 0;
         }
     }
-    m_440 = 0.5f + parameters[0];
-    m_444 = 3.0f + parameters[1];
-    if (m_444 < 1.0f) {
-        m_444 = 1.0f;
+    rush_chance = 0.5f + parameters[0];
+    rush_speed = 3.0f + parameters[1];
+    if (rush_speed < 1.0f) {
+        rush_speed = 1.0f;
     }
-    m_448 = 0.1f + parameters[2];
+    technique_chance = 0.1f + parameters[2];
 }
 
-s32 TObjEneBm9Mericarol::get_phase() { return m_45c; }
+s32 TObjEneBm9Mericarol::get_phase() { return phase; }
 
 void TObjEneBm9Mericarol::sub_802D073C() {
     play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
@@ -471,21 +471,21 @@ void TObjEneBm9Mericarol::handle_action(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802D05BC(s32 reason) {
+void TObjEneBm9Mericarol::state_fade_in(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 2;
         set_intangible();
         sub_802D093C();
-        m_438 |= 0x28;
-        m_438 &= ~0x10;
+        flags |= 0x28;
+        flags &= ~0x10;
         set_field_378(2);
         this->enemy_clear_target();
-        m_46c.start_fade_in();
+        appear_fade.start_fade_in();
         play_area_sound_effect(&position);
         return;
     case 3:
-        if (m_46c.advance_toward_max() != 0) {
+        if (appear_fade.advance_toward_max() != 0) {
             transition_enemy_state(2);
         }
     case 1:
@@ -496,7 +496,7 @@ void TObjEneBm9Mericarol::sub_802D05BC(s32 reason) {
         update_body_colliders();
         return;
     case 5:
-        m_438 &= ~0x28;
+        flags &= ~0x28;
         break;
     }
 }
@@ -507,7 +507,7 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
         requested_action = 2;
         clear_intangible();
         sub_802D093C();
-        m_438 &= ~0x28;
+        flags &= ~0x28;
         set_field_378(2);
         this->enemy_clear_target();
         return;
@@ -526,7 +526,7 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
+void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
     f32 distance;
     u16 target;
     switch (reason) {
@@ -539,10 +539,10 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
         }
         clear_intangible();
         sub_802D0940();
-        m_438 &= ~0x28;
+        flags &= ~0x28;
         set_field_378(3);
-        m_494 = 0;
-        m_4a0 = 0;
+        state_timer = 0;
+        target_angle = 0;
         break;
     case 3:
         if (try_set_mode8_if_flag2() != 0) {
@@ -554,14 +554,14 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
             break;
         }
         if (distance < 50.0f) {
-            if (angle_difference_abs(rotation_y, m_4a0) < 0x4000) {
-                if (random_ratio() <= m_448) {
+            if (angle_difference_abs(rotation_y, target_angle) < 0x4000) {
+                if (random_ratio() <= technique_chance) {
                     transition_enemy_state(9);
                     break;
                 }
                 transition_enemy_state(5);
             }
-        } else if (m_494 > mericarol_phase_param_table[get_phase()]->m_20) {
+        } else if (state_timer > mericarol_phase_param_table[get_phase()]->shot_delay) {
             transition_enemy_state(4);
         }
         break;
@@ -570,7 +570,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
     case 0:
         advance_animation();
         target = 0xFFFF;
-        if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
+        if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > 30.0f) {
                 if (is_confused() != 0) {
                     target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);
@@ -587,9 +587,9 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
         }
         enemy_copy_target_destination();
         update_velocity();
-        m_494++;
-        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        state_timer++;
+        target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
+        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -604,8 +604,8 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 reason) {
         requested_action = 0;
         clear_intangible();
         sub_802D0940();
-        m_438 &= ~8;
-        m_438 |= 0x20;
+        flags &= ~8;
+        flags |= 0x20;
         set_field_378(3);
         m_4ac = 0;
         break;
@@ -619,16 +619,16 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 reason) {
     case 0:
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
-            sub_802CE68C(&m_460, 0x43);
-            new TObjEneBm9Mericarol_Bomb(this, &m_460, &current_target->position,
-                mericarol_phase_param_table[get_phase()]->m_8, mericarol_phase_param_table[get_phase()]->m_c,
-                random_ratio() <= (f32)mericarol_phase_param_table[get_phase()]->m_2c / 100.0f);
-            play_sound_effect(remap_sound_for_area(0x3A307), &m_460, 0, 0);
+            get_node_position(&shot_origin, 0x43);
+            new TObjEneBm9Mericarol_Bomb(this, &shot_origin, &current_target->position,
+                mericarol_phase_param_table[get_phase()]->m_8, mericarol_phase_param_table[get_phase()]->bomb_speed,
+                random_ratio() <= (f32)mericarol_phase_param_table[get_phase()]->final_blast_percent / 100.0f);
+            play_sound_effect(remap_sound_for_area(0x3A307), &shot_origin, 0, 0);
         }
         enemy_copy_target_destination();
         update_velocity();
-        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
+        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -643,7 +643,7 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 reason) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CFB64(s32 reason) {
+void TObjEneBm9Mericarol::state_attack(s32 reason) {
     Vec trail0[2];
     Vec trail1[2];
     s32 i;
@@ -655,14 +655,14 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 reason) {
         requested_action = 8;
         clear_intangible();
         sub_802D0940();
-        m_438 &= ~8;
-        m_438 |= 0x20;
+        flags &= ~8;
+        flags |= 0x20;
         set_field_378(3);
-        m_490 = 0;
-        m_494 = 0;
+        state_step = 0;
+        state_timer = 0;
         break;
     case 3:
-        if (m_490 == 2) {
+        if (state_step == 2) {
             transition_enemy_state(3);
         }
         break;
@@ -671,22 +671,22 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 reason) {
     case 0:
         advance_animation();
         enemy_validate_retained_target(this);
-        switch (m_490) {
+        switch (state_step) {
         case 2:
             break;
         case 0:
             if (is_passing_frame(frame_count - 1.0f - play_speed) != 0) {
-                m_490 = 1;
-                m_438 &= ~0x20;
+                state_step = 1;
+                flags &= ~0x20;
                 requested_action = 3;
-                m_494 = 0;
+                state_timer = 0;
                 play_speed = 0.0f;
             } else {
                 if (is_passing_frame(8.0f) != 0) {
-                    VecCopy(&m_48c->position, &position);
+                    VecCopy(&attack_body->position, &position);
                     TObjPlayer::init_all_slots();
-                    m_48c->check_object_collisions();
-                    if (m_48c->bodies->flags & 0x80000) {
+                    attack_body->check_object_collisions();
+                    if (attack_body->bodies->flags & 0x80000) {
                         for (i = 0; i < 0x10; i++) {
                             p = (TObjChara *)TObjPlayer::get_battle_param(i);
                             if (p == NULL) {
@@ -710,78 +710,78 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 reason) {
                 matrix_mult_vec_array(NULL, (const Vec *)points0, (Vec *)trail0, 2);
                 matrix_mult_vec_array(NULL, (const Vec *)points1, (Vec *)trail1, 2);
                 pop_matrix();
-                if (m_3c0[0] != NULL) {
-                    m_3c0[0]->vfunc_6(&trail0[0], &trail0[1]);
+                if (trails[0] != NULL) {
+                    trails[0]->vfunc_6(&trail0[0], &trail0[1]);
                 }
-                if (m_3c0[1] != NULL) {
-                    m_3c0[1]->vfunc_6(&trail1[0], &trail1[1]);
+                if (trails[1] != NULL) {
+                    trails[1]->vfunc_6(&trail1[0], &trail1[1]);
                 }
             }
             break;
         case 1:
-            m_494++;
-            if (m_494 >= mericarol_phase_param_table[get_phase()]->m_28) {
-                m_490 = 2;
+            state_timer++;
+            if (state_timer >= mericarol_phase_param_table[get_phase()]->attack_recovery) {
+                state_step = 2;
             }
             break;
         }
         enemy_copy_target_destination();
         update_velocity();
-        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
+        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
         sub_802D073C();
         break;
     case 5:
-        m_438 &= ~2;
+        flags &= ~2;
         break;
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CF7B4(s32 reason) {
+void TObjEneBm9Mericarol::state_rush(s32 reason) {
     s32 hit_wall;
     switch (reason) {
     case 4:
         sync_center_position();
         if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
             requested_action = 3;
-            m_490 = 3;
+            state_step = 3;
             return;
         }
         requested_action = 2;
         set_field_378(3);
-        m_438 &= ~0x28;
-        m_490 = 0;
-        m_494 = 0;
-        m_498 = 0xA;
-        m_4a4 = m_444;
-        m_4a8 = 0.0f;
-        fill_value_array(m_488);
+        flags &= ~0x28;
+        state_step = 0;
+        state_timer = 0;
+        rush_delay = 0xA;
+        slide_speed = rush_speed;
+        rush_distance = 0.0f;
+        fill_value_array(attack_history);
         set_active();
         return;
     case 3:
-        if (m_490 == 3) {
+        if (state_step == 3) {
             transition_enemy_state(3);
         }
         return;
     case 0:
         advance_animation();
-        switch (m_490) {
+        switch (state_step) {
         case 0:
             sync_center_position();
             if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
                 requested_action = 3;
-                m_490 = 3;
+                state_step = 3;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
                 return;
             }
-            m_498 = m_498 - 1;
-            if (m_498 <= 0) {
+            rush_delay = rush_delay - 1;
+            if (rush_delay <= 0) {
                 requested_action = 1;
-                m_490 = 1;
-                m_438 |= 0x20;
+                state_step = 1;
+                flags |= 0x20;
                 bodies->flags |= 0x700;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
             }
@@ -789,18 +789,18 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 reason) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
-            m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-            rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+            target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
+            rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
             check_collisions();
             return;
         case 1:
             sub_802CE510();
             hit_wall = 0;
             sync_center_position();
-            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != NULL) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * rush_speed) != NULL) {
                 hit_wall = 1;
             }
-            move_clamped_on_ground(destination_direction.x, destination_direction.z, m_444);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, rush_speed);
             if (has_move_failures(1) != 0) {
                 hit_wall = 1;
             }
@@ -809,32 +809,32 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 reason) {
                 hit_wall = 1;
             }
             check_attack_hits();
-            m_4a8 = m_4a8 + m_444;
-            if (m_4a8 >= 200.0f) {
+            rush_distance = rush_distance + rush_speed;
+            if (rush_distance >= 200.0f) {
                 hit_wall = 1;
             }
             if (hit_wall != 0) {
-                m_490 = 2;
-                m_494 = 0;
-                m_438 &= ~0x20;
+                state_step = 2;
+                state_timer = 0;
+                flags &= ~0x20;
                 set_field_378(3);
                 return;
             }
             break;
         case 2:
-            m_494 = m_494 + 1;
-            m_4a4 *= 0.9f;
-            if (m_494 >= 0xA) {
+            state_timer = state_timer + 1;
+            slide_speed *= 0.9f;
+            if (state_timer >= 0xA) {
                 requested_action = 3;
-                m_490 = 3;
+                state_step = 3;
             }
             check_collisions();
-            move_clamped_on_ground(destination_direction.x, destination_direction.z, m_4a4);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, slide_speed);
             return;
         }
         break;
     case 5:
-        m_438 &= ~0x20;
+        flags &= ~0x20;
         bodies->flags &= ~0x700;
         clear_field_388();
         break;
@@ -855,10 +855,10 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
             if (p == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) != 0 && attack_target_history_add(m_488, p) != 0) {
+            if (obj_is_hit_receivable((u8 *)p) != 0 && attack_target_history_add(attack_history, p) != 0) {
                 DirectAttackPayload t;
                 t.kind = 0;
-                t.power = mericarol_phase_param_table[get_phase()]->m_0;
+                t.power = mericarol_phase_param_table[get_phase()]->attack_power;
                 DirectAttackPayload payload = t;
                 if (p->receive_direct_attack(this, payload, 0, -1, -1) > 0.0f) {
                     obj_setFlags30(p, 0x600);
@@ -869,7 +869,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
     return ret;
 }
 
-void TObjEneBm9Mericarol::sub_802CF4F8(s32 reason) {
+void TObjEneBm9Mericarol::state_curse(s32 reason) {
     s32 count;
     TObjPlayer *target;
     switch (reason) {
@@ -878,43 +878,43 @@ void TObjEneBm9Mericarol::sub_802CF4F8(s32 reason) {
         clear_intangible();
         set_invulnerable();
         sub_802D093C();
-        m_438 &= ~8;
-        m_438 |= 0x20;
-        m_490 = 0;
-        m_494 = 0;
+        flags &= ~8;
+        flags |= 0x20;
+        state_step = 0;
+        state_timer = 0;
         return;
     case 3:
-        if (m_490 >= 0x1E) {
+        if (state_step >= 0x1E) {
             transition_enemy_state(3);
         }
         return;
     case 0:
         advance_animation();
-        count = m_490;
+        count = state_step;
         if (count == 6) {
             target = find_nearby_target();
             if (target != NULL) {
                 new TObjEneBm9Mericarol_EffCurse3(this, target);
                 current_target = target;
-                m_494 = 1;
+                state_timer = 1;
                 play_sound_effect(remap_sound_for_area(0x3A808), &position, 0, 0);
             }
-        } else if (count == 0x19 && m_494 != 0 && current_target->is_alive() != 0) {
+        } else if (count == 0x19 && state_timer != 0 && current_target->is_alive() != 0) {
             ((TObjPlayer *)current_target)->set_tp(0);
         }
-        m_490++;
+        state_step++;
         update_ground_contact();
         update_body_colliders();
         sub_802D073C();
         return;
     case 5:
         actorFlags &= ~0x4000000;
-        m_438 &= ~2;
+        flags &= ~2;
         break;
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CF368(s32 reason) {
+void TObjEneBm9Mericarol::state_damaged(s32 reason) {
     s16 max;
     s16 cur;
     switch (reason) {
@@ -922,7 +922,7 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 reason) {
         requested_action = 5;
         clear_intangible();
         sub_802D093C();
-        m_438 &= ~0x28;
+        flags &= ~0x28;
         TBoss8Dragon__sub_800BB7D4(this, 0xF2);
         play_sound_effect(remap_sound_for_area(0x3AA0C), &position, 0, 0);
         return;
@@ -930,7 +930,7 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 reason) {
         if (get_flag_b4() != 0) {
             max = hpmax;
             cur = hp;
-            if (cur <= max / 2 && cur >= max / 5 && random_ratio() <= m_440) {
+            if (cur <= max / 2 && cur >= max / 5 && random_ratio() <= rush_chance) {
                 transition_enemy_state(6);
                 return;
             }
@@ -949,7 +949,7 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 reason) {
         return;
     case 5:
         actorFlags &= ~0x200;
-        m_438 &= ~2;
+        flags &= ~2;
         clear_attack_receipts();
         break;
     }
@@ -963,25 +963,25 @@ void TObjEneBm9Mericarol::state_burrow(s32 reason) {
         requested_action = 6;
         clear_intangible();
         sub_802D093C();
-        m_438 &= ~0x28;
+        flags &= ~0x28;
         refresh_and_send_entity_flags();
         TBoss8Dragon__sub_800BB7D4(this, 0xF2);
-        m_490 = 0;
-        m_4a4 = 0.0f;
+        state_step = 0;
+        slide_speed = 0.0f;
         play_sound_effect(remap_sound_for_area(0x3AA0B), &position, 0, 0);
         return;
     case 3:
-        if (m_490 == 2) {
+        if (state_step == 2) {
             transition_enemy_state(0xC);
         }
     case 5:
         return;
     case 0:
-        switch (m_490) {
+        switch (state_step) {
         case 0:
             advance_animation();
             if (get_flag_b4() != 0) {
-                m_490 = 1;
+                state_step = 1;
                 x = 10.0f * sin_table_lookup(rotation_y);
                 pos.y = 0.0f;
                 pos.x = x;
@@ -994,9 +994,9 @@ void TObjEneBm9Mericarol::state_burrow(s32 reason) {
             return;
         case 1:
             position.y -= 0.1f;
-            m_4a4 += 0.1f;
-            if (m_4a4 > 30.0f) {
-                m_490 = 2;
+            slide_speed += 0.1f;
+            if (slide_speed > 30.0f) {
+                state_step = 2;
             }
             break;
         }
@@ -1020,9 +1020,9 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
         requested_action = 7;
         clear_intangible();
         sub_802D093C();
-        m_438 &= ~0x28;
+        flags &= ~0x28;
         set_field_378(3);
-        m_490 = 0;
+        state_step = 0;
         play_sound_effect(remap_sound_for_area(0x3AD0F), &position, 0, 0);
         return;
     case 3:
@@ -1034,29 +1034,29 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        m_490 = m_490 + 1;
+        state_step = state_step + 1;
         sub_802D073C();
         return;
     case 5:
-        m_438 &= ~2;
+        flags &= ~2;
     case 1:
         return;
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CEDA0(s32 reason) {
+void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
     Vec pos;
     switch (reason) {
     case 4:
         requested_action = 2;
         set_field_378(3);
-        m_438 &= ~8;
-        m_438 |= 0x20;
-        m_490 = 0;
-        m_494 = mericarol_phase_param_table[get_phase()]->m_24;
+        flags &= ~8;
+        flags |= 0x20;
+        state_step = 0;
+        state_timer = mericarol_phase_param_table[get_phase()]->technique_delay;
         break;
     case 3:
-        switch (m_490) {
+        switch (state_step) {
         case 3:
             transition_enemy_state(3);
             break;
@@ -1067,16 +1067,16 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 reason) {
         break;
     case 0:
         advance_animation();
-        switch (m_490) {
+        switch (state_step) {
         case 0:
-            m_494--;
-            if (m_494 <= 0) {
-                f32 lim = mericarol_phase_param_table[get_phase()]->m_14;
+            state_timer--;
+            if (state_timer <= 0) {
+                f32 lim = mericarol_phase_param_table[get_phase()]->laugh_chance;
                 if (random_ratio() <= lim) {
-                    m_490 = 2;
+                    state_step = 2;
                 } else {
                     requested_action = 0;
-                    m_490 = 1;
+                    state_step = 1;
                 }
             }
             if (enemy_validate_retained_target(this) != 0) {
@@ -1084,7 +1084,7 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 reason) {
                 update_velocity();
             }
             check_collisions();
-            if (m_494 % 14 == 0) {
+            if (state_timer % 14 == 0) {
                 play_sound_effect(remap_sound_for_area(0x3A809), &position, 0, 0);
             }
             break;
@@ -1093,12 +1093,12 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 reason) {
                 VecCopy(&pos, &position);
                 pos.y += 20.0f;
                 ((void (*)(void *, void *, s32, s32, s32, f32, s32, f32))create__9TTecKafunFllllllff)(this, &pos, 5, 0x20B, 0x20C,
-                    mericarol_phase_param_table[get_phase()]->m_4, get_clamped_level(),
-                    mericarol_phase_param_table[get_phase()]->m_10);
+                    mericarol_phase_param_table[get_phase()]->technique_value, get_clamped_level(),
+                    mericarol_phase_param_table[get_phase()]->technique_radius);
                 play_sound_effect(remap_sound_for_area(0x3A80A), &position, 0, 0);
             }
             if (get_flag_b4() != 0) {
-                m_490 = 3;
+                state_step = 3;
             }
             break;
         }
@@ -1130,7 +1130,7 @@ s32 TObjEneBm9Mericarol::get_clamped_level() {
 }
 
 void TObjEneBm9Mericarol::sub_802CED40() {
-    m_438 |= 2;
+    flags |= 2;
 }
 
 void TObjEneBm9Mericarol::run_demo_task() {  }
@@ -1167,7 +1167,7 @@ void TObjEneBm9Mericarol::render() {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    fade = &m_3c8[cam];
+    fade = &camera_fades[cam];
     fade->update();
     vis = fade->updateFromCamera(&body_center.x);
     if (this->mode == 0xC) {
@@ -1217,22 +1217,22 @@ void TObjEneBm9Mericarol::render() {
     rotate_matrix_y(0, rotation_y);
     set_alpha_ref_override(0);
     TObjEneDD::clear_global_flag_400();
-    translate_matrix(0, 0.0f, m_43c, 0.0f);
+    translate_matrix(0, 0.0f, draw_offset_y, 0.0f);
     lbl_805D686C = 0;
     TObjPlayer::toggle_particle_effect();
-    if (!(m_438 & 0x10)) {
+    if (!(flags & 0x10)) {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
         set_chunk_model_node_callback(TObjEneBm9Mericarol::update_particle_effect);
     }
-    if (m_438 & 8) {
-        if (m_46c.has_visible_opacity() != 0) {
-            m_46c.set_flags_and_apply_damage_color();
+    if (flags & 8) {
+        if (appear_fade.has_visible_opacity() != 0) {
+            appear_fade.set_flags_and_apply_damage_color();
             if (defer_render() == 0) {
                 draw();
             }
-            m_46c.clear_flag_and_notify();
+            appear_fade.clear_flag_and_notify();
         }
     } else if (vis != 0) {
         fade->set_flags_and_apply_damage_color();
@@ -1249,7 +1249,7 @@ void TObjEneBm9Mericarol::render() {
     } else {
         draw_motion_model();
     }
-    if (!(m_438 & 0x10)) {
+    if (!(flags & 0x10)) {
         set_chunk_model_node_callback(NULL);
         ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->model)->polygon_list[5] = saved;
     }
@@ -1309,7 +1309,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
+void TObjEneBm9Mericarol::get_node_position(Vec *out, s32 node) {
     set_motion_packed_rotation();
     push_matrix_from(&identity_matrix);
     post_translate_matrix(&position.x);
