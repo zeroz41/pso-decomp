@@ -12,6 +12,33 @@ void handle_6xA0_gal_gryphon_boss_actions(void *data);
 
 struct BmlResource;
 
+// Block 0x20 of the gryphon's parameters (boss5_gryphon_behavior_params[2]).
+struct Boss5GryphonAttackParams {
+    f32 snarl_power;          // apply_snarl_hit, times its scale
+    f32 shockwave_power;      // apply_shockwave_hit
+    f32 tornado_power;        // apply_tornado_hit
+    f32 lightning_power;      // apply_lightning_hit
+    f32 landing_radius;       // emit_landing_impact
+    f32 pad_14;
+    s32 collider_5_value;     // update_body_colliders gives it to bodies[5].unk_28
+    s32 collider_1_4_value;   // bodies[1..4].unk_28
+    s32 collider_0_value;     // bodies[0].unk_28
+    s32 collider_6_9_value;   // bodies[6..9].unk_28
+    s32 action_level;         // indexes the action probability tables; unlocks scripts and lightning
+    s32 pad_2C;
+};
+
+// One of the gryphon's parameter blocks: TLobby::dispatch_shared_handler_a of
+// boss5_gryphon_behavior_param_ids (0x1E, 0x1F, 0x20). The first two lead with the follow camera's
+// (y, z) offset and target offset pairs per flight mode, one run of twelve floats over both
+// (fill_follow_camera_params).
+union Boss5GryphonParams {
+    f32 camera[6];
+    Boss5GryphonAttackParams attack;
+};
+
+extern Boss5GryphonParams *boss5_gryphon_behavior_params[3];
+
 // Gal Gryphon's particle model archive and texture list, loaded with the boss.
 extern BmlResource *boss5_gryphon_bml_resource;
 extern GinjaTextureList *boss5_gryphon_texture_list;
