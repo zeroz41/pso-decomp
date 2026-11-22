@@ -17,6 +17,8 @@
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/unk/text_803DCDFC.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
@@ -303,10 +305,8 @@ int TTcpSocket::open() {
 // Adapted from pso-gc-reference (mrb0nk500) for GPOE8P (MWCC 2.6)
 
 extern "C" {
-void func_80019A68__Fv();
 s32 get_csn_group_flags(s32);
 s8 func_801A5E54__Fv();
-void func_803DCDFC__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
 s16 dns_open_addr(char *, s16, s32);
 }

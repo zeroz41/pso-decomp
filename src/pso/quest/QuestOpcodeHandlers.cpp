@@ -36,6 +36,16 @@
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/text_800F7DAC.h"
+#include "pso/object/door/TObjDoor_801F3754.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/unk/text_80278460.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
@@ -493,8 +503,6 @@ extern "C" {
 s32 TObjPlayer__sub_801C1AC8();
 }
 extern "C" {
-}
-extern "C" {
 void begin_message_substitution(u8 *a0, char *a1);
 
 void begin_message_substitution(u8 *a0, char *a1) { TLobby__quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
@@ -623,8 +631,6 @@ void qst_op_va_call(s32 label) {
   qst_pc = qst_function_table[(u16)label];
 }
 extern "C" {
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 
 struct ItemData_801E72B4 {
     u8 data1[12];
@@ -856,8 +862,6 @@ struct Obj_801F09EC {
     u32 f30;
 };
 
-void TKeyBoardControl__sub_8000F950(void);
-void mark_area_change_pending();
 void VecCopy__FP3VecPC3Vec(Vec *, const void *);
 s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
@@ -866,8 +870,6 @@ u16 get_entity_id(void *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
 void TLobby__sub_8001DE30(void *);
-void TLobby__sub_8001DEA8(s32 arg0);
-void bswap__12player_statsFv(void *arg0);
 s32 setControlOverride__12TBoss1DragonFs(int, void *);
 int set_camera_capture_overlay_alpha(void*);
 int is_quest_active(void);
@@ -893,8 +895,6 @@ s32 copy_player_visual_record(void *, int);
 s32 fn_80077788(void);
 s32 fn_80077790(void);
 s32 __ct__16TPlyGuildCardTagFv(s32);
-u32 prs_decompress_buffer(s32, s32);
-void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 s32 TLobby__sub_801036CC();
 void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
@@ -961,9 +961,7 @@ int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
 int THunterGuildSeqOffline__sub_801F3748(void*);
-void TObjDoor__sub_801F3754(void);
 void TObjDoor__sub_801F3760(void);
-s32 get_floor_map_terrain(s32 arg0);
 s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
 s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
@@ -975,11 +973,8 @@ void play_cue_stream_file(saddr name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void *);
-u8 is_current_floor_switch_set(s32 id);
 void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
-void TObjPlayer__sub_8024ABDC(saddr arg0);
-void TLobby__sub_8024AC20(saddr arg0);
 s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
 void open_default__11TWindowCtrlFll(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
@@ -1001,7 +996,6 @@ void create_quest_telepipe_for_client(u16 arg0);
 void close_window_if_active(void *p);
 extern "C" {
 saddr get_window_layout_position(s32);
-void fn_80278518(void *arg0, s32 arg1);
 s32 save_and_close__20TShopArmorListWindowFv();
 saddr create_equip_kind_window(saddr, const f32 *, s32);
 s32 update_screen__6TLobbyFv();
@@ -1030,7 +1024,6 @@ void TObjPlayer__sub_80354CCC(s32 arg0);
 void TObjPlayer__sub_80354D14(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
 void activate_palettex(s32 arg0);
-u32 TLobby__sub_803DF1CC(void);
 }
 
 extern E_801EB484 TLobby__duel_result_table[];

@@ -53,6 +53,11 @@
 #include "pso/network/TPlyMeetUserExtension_801DAC6C.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_8013ADD0.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -317,7 +322,6 @@ void init_once__6TLobbyFPv();
 void lobby_debug_printf_stub(const char *fmt, ...);
 u8 * create_player_object(s32, s32, void *);
 void TLobby__sub_8013AA64(void *, void *);
-void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *, void *);
 extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
@@ -326,7 +330,6 @@ extern saddr local_client_id;
 s32 queue_destruction__7TObjectFv(void *);
 extern const char lobby_window_title_information[];
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
-void activate_triggered_floor_events(void);
 void handle_6x6E_sync_game_state(Pkt_8013566C *arg0);
 void mark_area_change_pending();
 u16 get_entity_id(void *);
@@ -338,7 +341,6 @@ void handle_6x6D_sync_game_state(Pkt_8013574C *arg0);
 void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0);
 void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0);
 void fn_8013ACE4(s32);
-void mem_free(void *p);
 void *mem_alloc(u32 size);
 void import_sync_records__6TLobbyFPs(void *, u16);
 void clear_enabled_main_warps();
@@ -434,7 +436,6 @@ extern const char lobby_window_title_taisen_team[];
 void func_80019A68__Fv(void);
 s32 get_link_status__Fv(void);
 s32 poll_memcard_result(saddr);
-s32 get_online_message_text(s32 arg0);
 s32 TKeyBoardControl__sub_8000F828(void);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 void render__6TLobbyFv();
@@ -451,7 +452,6 @@ void handle_trade_received_items();
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *arr, void *dtor, u32 size, u32 count);
-void bswap__12player_statsFv(void *);
 void bswap__15disp_data_part2Fv(void *);
 void TLobby__sub_8013A9C0(void *);
 int __ct__12TPlyCharDataFv(void*);

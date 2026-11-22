@@ -27,6 +27,7 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 // A window's width and height.
@@ -104,7 +105,6 @@ s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, 
 
 
 s32 get_unlocked_tier__16TQuestListOnlineFv(void *);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 }
 
 s32 get_guild_text(s32 arg0);

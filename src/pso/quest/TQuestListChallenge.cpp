@@ -14,12 +14,12 @@
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 extern "C" {
 s32 lbl_805D64A8;
 s32 lbl_805D64AC;
 TQuestListChallenge *TQuestListChallenge__active_instance;
-s32 get_game_play_mode();
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 

@@ -19,6 +19,9 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 // .rodata 0x8044A648: window_size {444,84} (the layout position is the other argument), "TQuestVmDownLoadServer", window_size, "TMCFormatSequence", window_size,
 // "%s%02d". The positions interleave with the class names, so they are function statics (emitted while parsing,
@@ -44,10 +47,6 @@ s32 TQuestVmDownLoadServer__total_download_bytes;
 s32 TQuestVmDownLoadServer__received_file_bytes;
 TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
 
-extern "C" {
-saddr get_message_text(s32 arg0);
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
-}
 extern TObject *tl_00;
 
 struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
@@ -84,9 +83,6 @@ void subtractive_rng_seed(SubtractiveRng *, u32);
 }
 extern char TQuestVmDownLoadServer__data_804C8690[];
 extern u8 TQuestVmDownLoadServer__memcard_key[];
-extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1518(void *, s32, u32);
-}
 QuestDownloadRecord TQuestVmDownLoadServer__download_file_state;
 QuestDownloadRecord quest_download_file_slot;
 QuestDownloadRecord quest_download_file_info;

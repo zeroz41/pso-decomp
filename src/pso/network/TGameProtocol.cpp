@@ -22,6 +22,7 @@
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdio.h>
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 
 struct TBoss3Volopt;
 struct TBoss8Dragon;
@@ -68,8 +69,6 @@ extern "C" void handle_6x0E_clear_negative_status_effects(s32 arg0);
 void handle_6x10_dragon_boss_actions(void *arg0);
 void handle_6x11_dragon_boss_actions(void *arg0);
 void handle_6x12_dragon_boss_actions(TObjPlayer *arg0);
-extern "C" void handle_6x13_de_rol_le_boss_actions(void *arg0);
-extern "C" void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
 extern "C" void handle_6x18_vol_opt2_boss_actions();
 extern "C" void handle_6x19_dark_falz_actions();
 extern "C" void handle_6x1B_enable_pk_mode_for_player(void *arg0);

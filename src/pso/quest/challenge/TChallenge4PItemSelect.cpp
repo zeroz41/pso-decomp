@@ -25,6 +25,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -59,7 +60,6 @@ struct Q_8034B694 { s32 v; };
 struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
 
 extern "C" {
-saddr get_localized_text_entry(s32, s32);
 
 s32 get_map_id__13TRaderMapCoreFv();
 uaddr get_player_by_client_id(int);

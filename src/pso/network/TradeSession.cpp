@@ -29,6 +29,9 @@
 #include "pso/unk/TLobby_802D1EFC.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include <stddef.h>
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_801D40D4.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 struct ByteBlock_F8 { u8 bytes[0xf8]; };
 
 struct Stack_802D23E0
@@ -263,14 +266,8 @@ void TWindowSubTradeMain::draw_request(void *arg0, void *arg1) {
 }
 
 Half_802D38B4 TLobby__trade_window_state[2];
-extern "C" {
-s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-s32 check_player_action_allowed();
-}
 void remove_list_entry_by_id(s32 arg0);
 extern "C" {
-s32 fn_801D4270(s32);
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv();
 
 u8 *TLobby__sub_802D298C(void) {
     return (u8 *)TLobby__trade_window_state[0].lists[1];

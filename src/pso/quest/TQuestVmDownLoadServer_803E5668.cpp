@@ -7,26 +7,21 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include <stddef.h>
+#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 TQuestVmDownLoadServer__sub_803F0890(void);
-void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
-s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *arg0);
 extern s32 quest_text_end;
 void TQuestVmDownLoadServer__sub_803EBC88(s32 mode);
 void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode);
 extern s32 quest_text_entry_len;
 extern s32 quest_text_cursor_pos;
-s32 TQuestVmDownLoadServer__sub_803EB0D8(s32 arg0, s32 arg1);
 s32 TQuestVmDownLoadServer__sub_803EB208(s32 mode, s32 force);
 extern s32 quest_page_node_count;
 extern s32 quest_page_node_index;
-s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0);
 void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
 s32 TQuestVmDownLoadServer__sub_803EDC20(u32);
-void TQuestVmDownLoadServer__sub_803EAE84(s32 begin, s32 end, s32 mode);
 extern u8 lbl_8058DC48[80];
 extern u8 lbl_8058DC98[80];
 extern u8 lbl_80591AC4[];
