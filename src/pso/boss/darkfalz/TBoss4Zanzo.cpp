@@ -80,7 +80,6 @@
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 
-extern u8 TBoss4DarkFalz__data_804FF1E8[];
 
 const char *boss4_type2_class_name = "TBoss4Type2";
 
@@ -630,7 +629,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     s32 i;
     s32 j;
     TObjPlayer *pl;
-    TBoss4DarkFalz__sub_8004B4F0(&b.set_index, TBoss4DarkFalz__data_804FF1E8);
+    TBoss4DarkFalz__sub_8004B4F0(&b.set_index, &dark_falz_set_entry);
     b.owner = owner;
     b.unk_0C = 1;
     for (i = 0; i < registered_player_count; i++) {

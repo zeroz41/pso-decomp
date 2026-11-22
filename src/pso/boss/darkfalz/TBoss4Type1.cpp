@@ -91,7 +91,6 @@ struct TBoss4Type1AttackTables {
 
 struct Cam_800531C8 { u8 pad[0x178]; Vec pos; };
 extern Cam_800531C8 *camera_ctrl_instance;
-extern u8 TBoss4DarkFalz__data_804FF1E8[];
 
 const char *TBoss4Type1__name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
@@ -1074,7 +1073,7 @@ void TBoss4Type1::update_spawn_uro() {
     s = &node_positions[turn][1];
     t = state_timer;
     if (t < 0x106 && (t & 0x1F) == 0 && uro_count < uro_limit) {
-        TBoss4DarkFalz__sub_8004B4F0(&p.set_index, TBoss4DarkFalz__data_804FF1E8);
+        TBoss4DarkFalz__sub_8004B4F0(&p.set_index, &dark_falz_set_entry);
         if (owner->sub_8004AF5C(&p.set_index, &p.entity_id) != 0) {
             p.owner = owner;
             p.unk_0C = 1;

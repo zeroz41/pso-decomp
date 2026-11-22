@@ -353,7 +353,7 @@ force_active:
   - TBoss4Bishi_spawn_offsets
   - TBoss4DarkFalz__ct
   - TBoss4DarkFalz__name
-  - TBoss4DarkFalz__sub_8004B5A0
+  - spawn_defeat_effects__14TBoss4DarkFalzFv
   - TBoss4DarkFalz__sub_801D94C0
   - TBoss4Thanks__sub_8035C480
   - TBoss4Type2__attack_pattern_table

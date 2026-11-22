@@ -30,7 +30,6 @@ struct TBoss4DarkFalz;
 extern "C" {
 TBoss4Fade *__ct__10TBoss4FadeFv(TBoss4Fade *fade, TObject *parent);
 void fn_803594B4(TBoss4Fade *fade, s32 color, f32 alpha);
-void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 color, f32 alpha);
 }
 
 #endif

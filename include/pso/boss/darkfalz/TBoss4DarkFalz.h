@@ -71,6 +71,11 @@ struct TBoss4DarkFalz : public TObjEnemy {
     s32 calc_rate_from_field();
     s32 is_timer_expired();
     void handle_defeat();
+    static void spawn_defeat_effects();
+    s32 sub_8004B07C();
+    void set_fade(s32 color, f32 alpha);
+    void place_players_on_ring();
+    void place_players_for_demo();
     static void refresh_player_equipment(void *self);
     static void end_player_camera_pans(void *self);
     static void freeze_all_players(void *self);
@@ -126,6 +131,17 @@ LAYOUT_ASSERT(TBoss4DarkFalzState_leader_offset, offsetof(TBoss4DarkFalzState, u
 LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, update) == 0x28);
 
 extern TBoss4DarkFalzState dark_falz_state_table[16];
+
+/* The 0x40-byte enemy set entry the constructor was given (kind 0x200), kept with kind
+ * cleared; the minion spawners copy it (TBoss4DarkFalz__sub_8004B4F0) and renumber it with
+ * sub_8004AF5C. */
+struct TBoss4DarkFalzSetEntry {
+    s16 set_index;
+    s16 kind;
+    u8 pad_04[0x3C];
+};
+
+extern TBoss4DarkFalzSetEntry dark_falz_set_entry;
 extern "C" void set_story_flag_or_send_quest_flag(u16 flag);
 
 LAYOUT_ASSERT(TBoss4DarkFalz_intro_tower_offset, offsetof(TBoss4DarkFalz, intro_tower) == 0x394);

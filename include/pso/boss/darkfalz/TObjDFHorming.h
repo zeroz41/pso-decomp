@@ -36,22 +36,7 @@ LAYOUT_ASSERT(TObjDFHorming_effects_offset, offsetof(TObjDFHorming, effects) == 
 LAYOUT_ASSERT(TObjDFHorming_size, sizeof(TObjDFHorming) == 0x380);
 
 struct TBoss4DarkFalz;
-extern "C" {
-int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
-void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
-void TBoss4DarkFalz__sub_8004B5A0(void);
-void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz);
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
-}
-
-// --- C functions defined in TObjDFHorming.cpp ---
-extern "C" {
-int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
-void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
-void TBoss4DarkFalz__sub_8004B5A0(void);
-void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz);
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
-}
-// --- end of C functions
+// Copies one 0x40-byte enemy set entry (see TBoss4DarkFalzSetEntry).
+extern "C" void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
 
 #endif
