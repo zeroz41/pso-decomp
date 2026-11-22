@@ -1154,17 +1154,17 @@ force_active:
   - sub_800A0B18__20TObjEneDarkGunCenterFv
   - TObjEneDellBiter__param_table
   - TObjEneDellBiter__resource_descriptor
-  - sub_80097620__17TObjEneDf2BringerFl
-  - sub_80097714__17TObjEneDf2BringerFl
-  - sub_80097820__17TObjEneDf2BringerFl
-  - sub_80097E9C__17TObjEneDf2BringerFl
-  - sub_8009813C__17TObjEneDf2BringerFl
-  - sub_8009859C__17TObjEneDf2BringerFl
-  - sub_800987E8__17TObjEneDf2BringerFl
-  - sub_80098BAC__17TObjEneDf2BringerFl
-  - sub_80098EB4__17TObjEneDf2BringerFv
-  - sub_80098FF4__17TObjEneDf2BringerFv
-  - sub_80099248__17TObjEneDf2BringerFv
+  - update_death_state__17TObjEneDf2BringerFl
+  - update_damage_state__17TObjEneDf2BringerFl
+  - update_shot_state__17TObjEneDf2BringerFl
+  - update_slash_state__17TObjEneDf2BringerFl
+  - update_rush_state__17TObjEneDf2BringerFl
+  - update_walk_state__17TObjEneDf2BringerFl
+  - update_fade_out_state__17TObjEneDf2BringerFl
+  - update_hidden_state__17TObjEneDf2BringerFl
+  - play_move_sound__17TObjEneDf2BringerFv
+  - target_farthest_visible_player__17TObjEneDf2BringerFv
+  - check_rush_hits__17TObjEneDf2BringerFv
   - TObjEneDimedian__boss_objects
   - __ct__15TObjEneDimedianFP7TObjectPv
   - TObjEneDolmOlm__param_table
@@ -3755,7 +3755,7 @@ force_active:
   - action__15TObjEneMe1GiGueFv
   - action__16TObjEneBm5GibonUFl
   - action__16TObjEneMe3StelthFl
-  - action__17TObjEneDf2BringerFl
+  - update_stagger_state__17TObjEneDf2BringerFl
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
   - action__18TObjEneEpsilonBodyFl
@@ -6101,7 +6101,7 @@ force_active:
   - evolve_second_form__8TItemMagFv
   - evolve_third_form__8TItemMagFv
   - exec__16TObjEneMe3StelthFPvi
-  - exec__17TObjEneDf2BringerFl
+  - update_emerge_state__17TObjEneDf2BringerFl
   - exec_heal__22TMedicalCenterSequenceFv
   - exec_item_command__14TWindowSubItemFll
   - execute_action__13TObjEneBm3FlyFl
@@ -16182,7 +16182,7 @@ force_active:
   - sub_80090798__18TObjEneBalClawClawFv
   - sub_80090D3C__18TObjEneBalClawClawFv
   - update_attack_collision__21TObjEneRe7BeruraPunchFv
-  - sub_80098DEC__17TObjEneDf2BringerFv
+  - retarget_attacker__17TObjEneDf2BringerFv
   - sub_8009A11C__13TUnk_8048FE08Fv
   - sub_8009A598__13TUnk_8048FE7CFv
   - sub_8009A640__13TUnk_8048FE7CFv
