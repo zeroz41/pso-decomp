@@ -6,6 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 #include <stddef.h>
 
+class AreaAttackHistory;
 class TBoss5GryphonDemo;
 
 struct Boss5GryphonMotionEntry {
@@ -91,7 +92,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u8 _pad564[0x8];
     void* m_56c;
     u8 _pad570[0x8];
-    u32 m_578;
+    AreaAttackHistory *attack_history;
     TBoss5GryphonDemo *demo;
     RenderFadeState renderFadeStates[4];
     const s32 *effect_ids;
