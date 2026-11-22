@@ -13,7 +13,7 @@ struct TAdWarningBaseGC : public TObject {
     virtual saddr vfunc_7() = 0;  // the warning text: get_localized_text_entry
     virtual void vfunc_8();
     virtual void vfunc_9();
-    s32 sub_8032D214();
+    saddr sub_8032D214();   // creates the message window holding vfunc_7's text
     s32 state;               // 0x1C: the vfunc_8 switch
     s32 prev_state;          // 0x20: state when vfunc_8 began; a change restarts frames
     s32 next_state;          // 0x24: entered when the closing state's frames run out

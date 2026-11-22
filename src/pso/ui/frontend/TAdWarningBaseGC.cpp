@@ -28,7 +28,7 @@ void TAdWarningBaseGC::vfunc_9() {
     }
 }
 
-s32 TAdWarningBaseGC::sub_8032D214() {
+saddr TAdWarningBaseGC::sub_8032D214() {
     saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477334, (NJS_POINT2 *)lbl_8047733C);
     ((TWindowMessage *)r)->append_line(vfunc_7(), 3);
     return r;
