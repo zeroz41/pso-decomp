@@ -275,21 +275,16 @@ Tbl_802B82B8 TBoss6Type1__motion_set_table[21] = {
     {2, 16, 44, 17}, {0, 16, 44, 18}, {2, 18, 44, 19}, {0, 18, 44, 20}, {2, 2, 44, 21},
     {2, 2, 44, 15},
 };
-extern const s32 lbl_805DE3C8;
 
 void TBoss6Type1__sub_802B5970(saddr self);
-extern const s32 lbl_805DE3A8;
-extern const s32 lbl_805DE3B0;
 void TBoss6Type1__sub_802B7D50(u8 *arg0);
 void TBoss6Type1__sub_802B4CF4(saddr self);
 void TBoss6Type1__sub_802B59A8(void);
 void TBoss6Type1__sub_802B59CC(TBoss6Type1 *self);
 void TBoss6Type1__sub_802B5AB0(void);
-extern const s32 lbl_805DE2D4;
 void TBoss6Type1__sub_802B4D38(Obj_802B4D38 *self);
 Blk_802B8624 *copy_block__11TBoss6Type1FPvPv(Blk_802B8624 *d, const Blk_802B8624 *s);
 void TBoss6Type1__sub_802B5DD4(Obj_802B5DD4 *self);
-extern const s32 TBoss6Type1__data_805DE3C4;
 void TBoss6Type1__sub_802B909C(Boss_802B8EE0 *self, Atk_802B8EE0 *atk);
 void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec *out, f32 _w2);
 TObjPlayer *get_player_by_client_id(u16 client);
@@ -307,8 +302,21 @@ f32 atan2_float(f64, f64);
 void request_follow_camera_offsets(void *, void *, int);
 const s8 lbl_805DE2C8[2] = { 0x12, 0x0A };
 const s8 lbl_805DE2CC[2] = { 0x12, -2 };
-extern const s32 lbl_805DE3AC;
-extern const s32 lbl_805DE3B4;
+static const s32 lbl_805DE2D4 = 24;
+static const s32 lbl_805DE3A8 = 256;
+static const s32 lbl_805DE3AC = 64;
+static const s32 lbl_805DE3B0 = 20;
+static const s32 lbl_805DE3B4 = 20;
+static const s32 TBoss6Type1__data_805DE3C4 = 2;
+static const s32 lbl_805DE3C8 = 1;
+
+inline const s32 &slot_count() { return lbl_805DE2D4; }
+inline const s32 &sway_target_min() { return lbl_805DE3A8; }
+inline const s32 &sway_target_range() { return lbl_805DE3AC; }
+inline const s32 &sway_delay_min() { return lbl_805DE3B0; }
+inline const s32 &sway_delay_range() { return lbl_805DE3B4; }
+inline const s32 &anim_count() { return TBoss6Type1__data_805DE3C4; }
+inline const s32 &main_anim_index() { return lbl_805DE3C8; }
 void TBoss6Type1__sub_802B4A70(TBoss6Type1 *boss);
 void TBoss6Type1__sub_802B4A90(void *p);
 void TBoss6Type1__sub_802B4B14(void* p);
@@ -910,7 +918,7 @@ void TBoss6Type1__sub_802B854C(void *p) {
     s32 i;
     Anim_802B82B8 *a;
     copy_block__11TBoss6Type1FPvPv((Blk_802B8624 *)&self->f43C, &lbl_80470ECC);
-    for (i = 0; i < TBoss6Type1__data_805DE3C4; i++) {
+    for (i = 0; i < anim_count(); i++) {
         a = &self->anim[i];
         ((TBoss6Type1 *)a)->copy_transform((void *)lbl_80470F0C);
         a->id = a->prevId = (saddr)get_bml_motion(self->bml_resource, TBoss6Type1__motion_set_table[2].ids[i]);
@@ -926,8 +934,8 @@ void TBoss6Type1::advance_animations() {
     f32 b;
     f32 lim;
     s32 n;
-    cur = lbl_805DE3C8;
-    n = TBoss6Type1__data_805DE3C4;
+    cur = main_anim_index();
+    n = anim_count();
     for (i = 0; i < n; i++) {
         if (i == cur) continue;
         a = &self->anims[i];
@@ -938,7 +946,7 @@ void TBoss6Type1::advance_animations() {
             if ((a->blend += a->rate) >= 1.0f) a->blend = 0.0f;
         }
     }
-    a = &self->anims[lbl_805DE3C8];
+    a = &self->anims[main_anim_index()];
     len = a->motion->frames;
     a->t += a->speed;
     switch (this->m_440) {
@@ -973,7 +981,7 @@ void TBoss6Type1::set_motion_set(s32 arg1) {
     if (arg1 != -1 && arg1 != self->f43C) {
     self->f43C = arg1;
     z = 0.0f;
-    n = TBoss6Type1__data_805DE3C4;
+    n = anim_count();
     t = &TBoss6Type1__motion_set_table[arg1];
     this->m_440 = t->f0;
     for (i = 0; i < n; i++) {
@@ -1134,8 +1142,8 @@ void TBoss6Type1::update_turn_to_center() {
 void TBoss6Type1__sub_802B7D50(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x4E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x4EC) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4F0) = (s32) lbl_805DE3A8;
-    *(s32 *)((s8 *)arg0 + 0x4F4) = (s32) lbl_805DE3B0;
+    *(s32 *)((s8 *)arg0 + 0x4F0) = sway_target_min();
+    *(s32 *)((s8 *)arg0 + 0x4F4) = sway_delay_min();
 }
 void TBoss6Type1::update_sway() {
     Boss_802B7B44 *self = (Boss_802B7B44 *)this;
@@ -1143,8 +1151,8 @@ void TBoss6Type1::update_sway() {
     f32 target;
     s32 v;
     if (--self->f4F4 < 0) {
-        self->f4F0 = (f32)lbl_805DE3AC * (0.000030517578f * (f32)rand()) + (f32)lbl_805DE3A8;
-        self->f4F4 = (f32)lbl_805DE3B4 * (0.000030517578f * (f32)rand()) + (f32)lbl_805DE3B0;
+        self->f4F0 = (f32)sway_target_range() * (0.000030517578f * (f32)rand()) + (f32)sway_target_min();
+        self->f4F4 = (f32)sway_delay_range() * (0.000030517578f * (f32)rand()) + (f32)sway_delay_min();
     }
     target = 0.0f;
     switch (self->f374) {
@@ -2407,7 +2415,7 @@ void TBoss6Type1::clear_slot_array() {
     Obj_802B4B34 *self = (Obj_802B4B34 *)this;
     s32 i;
     this->m_508 = 0;
-    for (i = 0; i < lbl_805DE2D4; i++) self->arr[i] = 0;
+    for (i = 0; i < slot_count(); i++) self->arr[i] = 0;
 }
 
 void TBoss6Type1__sub_802B4B14(void* p) { TBoss6Type1__sub_802B4A9C(static_cast<TBoss6Type1 *>(p)); }
@@ -2419,7 +2427,7 @@ void TBoss6Type1__sub_802B4B04(TBoss6Type1 *boss) {
 void TBoss6Type1__sub_802B4A9C(TBoss6Type1 *boss) {
     s32 i;
     boss->m_508 = 0;
-    for (i = 0; i < lbl_805DE2D4; i++) {
+    for (i = 0; i < slot_count(); i++) {
         uaddr slot = ((Obj_802B4B34 *)boss)->arr[i];
         if (slot != 0U) {
             TParticleCtrl::release((void *)slot);
@@ -2480,12 +2488,3 @@ void TBoss6Type1::draw_model() {
 }
 
 
-// The counts and ranges the code above reads. They are defined after their users, so the code loads them from
-// .sdata2 (each is placed at its first use) instead of folding them.
-static const s32 lbl_805DE2D4 = 24;
-static const s32 lbl_805DE3A8 = 256;
-static const s32 lbl_805DE3AC = 64;
-static const s32 lbl_805DE3B0 = 20;
-static const s32 lbl_805DE3B4 = 20;
-static const s32 TBoss6Type1__data_805DE3C4 = 2;
-static const s32 lbl_805DE3C8 = 1;
