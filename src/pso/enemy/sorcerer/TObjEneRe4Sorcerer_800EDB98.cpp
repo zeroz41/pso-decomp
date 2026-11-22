@@ -376,7 +376,7 @@ void TObjEneRe4Sorcerer::run_task() {
         return;
     }
     if (update_status_effects() != 4) {
-        if (TObjEneDD__sub_800BA804(target_id) != 0 && find_entity_by_id(target_id) == NULL) {
+        if (is_enemy_entity_id(target_id) != 0 && find_entity_by_id(target_id) == NULL) {
             ((TObjEneDD_ST *)(this))->enemy_clear_target();
         }
         update_action_state();

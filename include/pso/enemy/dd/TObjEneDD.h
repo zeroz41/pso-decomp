@@ -135,7 +135,8 @@ s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
 u16 enemy_nearest_visible_enemy(void *self, f32 range);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 s32 is_player_entity_id(u16 id);
-int TObjEneDD__sub_800BA804(u16 id);
+// 1 for an enemy's entity id (0x1000-0x3FFF).
+int is_enemy_entity_id(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance);
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);

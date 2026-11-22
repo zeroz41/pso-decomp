@@ -177,6 +177,7 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 // Kept here: the owner headers (TObjPlayer_80011014.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
@@ -184,8 +185,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
 void move_with_wall_slide(u8 *actor);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-// TObjEneDD.h declares this without the float the call passes.
-s32 TObjEneDD__sub_800B9B24(f32);
 s32 is_item_light_interaction_blocked();
 s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
