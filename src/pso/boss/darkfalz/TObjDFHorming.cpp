@@ -713,7 +713,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 
 
 extern "C" {
-int TBoss4DarkFalz__sub_8030AD38(void);
 
 void TBoss4DarkFalz::render() {  }
 
@@ -866,7 +865,7 @@ void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd) {
     }
 }
 
-void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); TBoss4DarkFalz__sub_8030AD38(); delete (BmlResource *)darkfalz_dat_resource; darkfalz_dat_resource = 0; }
+void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); release_uro_link(); delete (BmlResource *)darkfalz_dat_resource; darkfalz_dat_resource = 0; }
 
 void TBoss4DarkFalz::load_resources() {
     BmlResource *resource = new BmlResource(5, &darkfalz_dat_resource_descriptor, 0, 0, NULL);

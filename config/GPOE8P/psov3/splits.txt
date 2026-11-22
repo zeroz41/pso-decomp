@@ -9253,16 +9253,13 @@ pso/unk/TLobby_8030A834.cpp:
 	.text       start:0x8030A834 end:0x8030A884
 
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp:
-	.text       start:0x8030A884 end:0x8030AD58
+	.text       start:0x8030A884 end:0x8030ADBC
 	.rodata     start:0x80475648 end:0x80475658
 	.data       start:0x804E7650 end:0x804E7668
 	.bss        start:0x80541E58 end:0x80542D60
 	.sdata      start:0x805D40D0 end:0x805D40D8
 	.sbss       start:0x805D6A68 end:0x805D6A78
 	.sdata2     start:0x805DF138 end:0x805DF150
-
-pso/boss/darkfalz/TBoss4ZakoDraw_8030AD58.cpp:
-	.text       start:0x8030AD58 end:0x8030ADBC
 
 pso/boss/goldragon/TObjBoss8Piller.cpp:
 	.text       start:0x8030ADBC end:0x8030B098

@@ -11,6 +11,7 @@
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDrawBuffer.h"
@@ -21,7 +22,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/player/TObjPlayer_80052374.h"
 
@@ -201,10 +201,15 @@ void TBoss4DarkFalz::clear_uro_link_state() {
 
 Boss4ZakoDrawBuffer boss4_zako_draw_buffers[2];
 
-extern "C" {
+void TBoss4DarkFalz::release_uro_link() { clear_uro_link_state(); }
 
-int clear_uro_link_state__14TBoss4DarkFalzFv(void*);
-
-int TBoss4DarkFalz__sub_8030AD38(void* p) { return clear_uro_link_state__14TBoss4DarkFalzFv(p); }
-
+void TBoss4DarkFalz::init_uro_link() {
+    falz_zako_texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8));
+    NJS_OBJECT *child = ((NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8))->child;
+    child->evalflags &= ~NJD_EVAL_UNIT_ANG;
+    if (child->model != NULL) {
+        falz_zako_chunk_model = child->model;
+        TBoss4ZakoDraw__rotation_phase = 0;
+        TBoss4DarkFalz::clear_uro_link_state();
+    }
 }

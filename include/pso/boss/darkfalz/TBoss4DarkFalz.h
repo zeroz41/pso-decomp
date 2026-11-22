@@ -65,6 +65,9 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void start_demo();
     void check_players_near_center();
     static void clear_uro_link_state();
+    // cleanup_global's counterpart of init_uro_link; only clears the Zako draw buffers again.
+    // Name inferred.
+    static void release_uro_link();
     static void init_uro_link();
     static s32 count_active_players();
     static int is_ending_or_split_screen();

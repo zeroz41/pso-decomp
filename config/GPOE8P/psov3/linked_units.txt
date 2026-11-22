@@ -248,7 +248,6 @@ pso/boss/darkfalz/TBoss4Type3_800524E8.cpp
 pso/boss/darkfalz/TBoss4Type3_800D7A20.cpp
 pso/boss/darkfalz/TBoss4Zako.cpp
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp
-pso/boss/darkfalz/TBoss4ZakoDraw_8030AD58.cpp
 pso/boss/darkfalz/TBoss4Zanzo.cpp
 pso/boss/galgryphon/TBoss5GryphonColli.cpp
 pso/boss/galgryphon/TBoss5GryphonDemo.cpp
