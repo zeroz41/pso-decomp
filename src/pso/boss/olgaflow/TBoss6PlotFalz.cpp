@@ -1031,7 +1031,6 @@ extern "C" {
 void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFalz::warp_nearby_players(); }
 
 void release_all_players_control_lock(void);
-void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self);
 void TBoss6PlotFalz__sub_802AC724(u8 *player, void *pos);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
@@ -1090,7 +1089,6 @@ s32 restore_player_cameras();
 void play_area_music(char *name);
 extern saddr TBoss6PlotFalz__instance;
 u8 *get_enemy_entity(u16 arg0);
-void fn_802ACD40();
 void TItemEffOrgaFlowShot__sub_80357204(void);
 
 void TBoss6PlotFalz::render() {  }

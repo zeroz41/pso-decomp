@@ -40,7 +40,6 @@ void draw_empty_warp_overlay(void) {
 }
 
 extern "C" {
-s32 is_ship_door_ready__12TBoss6ThanksFv();
 
 void TBoss6EmptyWarp::render() { draw_empty_warp_overlay(); }
 

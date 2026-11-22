@@ -169,7 +169,6 @@ void render__25TBoss6Demo20_TYPE2_APPEARFv(void* p) { ((TBoss6Demo20_TYPE2_APPEA
 
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
-s32 __dl__7TObjectFPv(void *);
 extern saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[];
 TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1);
 

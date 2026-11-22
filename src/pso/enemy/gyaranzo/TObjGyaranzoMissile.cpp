@@ -50,7 +50,6 @@ struct Col_800D4990 { u8 pad[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags;
 extern "C" {
 u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern f32 identity_matrix[12];
 extern BmlResource *gyaranzo_bml_resource;
 extern saddr tl_04;

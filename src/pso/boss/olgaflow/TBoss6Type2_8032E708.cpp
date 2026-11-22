@@ -1255,7 +1255,6 @@ struct Key_80330724 { s32 a; s16 b; s16 c; s32 d; s32 e; };
 extern "C" {
 void __ct__9TObjEnemyFP7TObject(void *, s32, void *);
 void init_collision_body_parts(void *, void *, s32);
-f32 *dispatch_shared_handler_a__6TLobbyFl(int);
 void TBoss6Mag__sub_803309C4(void *, void *);
 
 u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {

@@ -62,7 +62,6 @@ struct VObj_80322438 : Base_80322438 {
 };
 
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 const char *TBoss6Kakusan__name = "TBoss6Kakusan";
 }

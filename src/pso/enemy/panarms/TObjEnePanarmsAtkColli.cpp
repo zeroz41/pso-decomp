@@ -17,7 +17,6 @@
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Entry_800E31C4 { s32 id; u8 data[0xC]; };
 
 __declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1, 2};

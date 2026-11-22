@@ -34,8 +34,6 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
 
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -131,7 +129,6 @@ extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
 extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
-extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
 void TObjEneBeast::run_demo_task() {  }
 void TObjEneBeast::play_group_chase_sound() {
     s32 self = (saddr)this;
@@ -368,90 +365,6 @@ void free_collision_body_parts(void *);
 
 extern void *tl_04;
 
-extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void has_no_target__9TObjCharaFv();
-extern "C" void recalc_stats__9TObjCharaFv();
-extern "C" void consume_timer_field__9TObjCharaFl();
-extern "C" void deliver_attack_hits__9TObjCharaFf();
-extern "C" void vfunc_66__9TObjCharaFv();
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-extern "C" void apply_slow_status__9TObjCharaFv();
-extern "C" void update_shock_clock__9TObjCharaFv();
-extern "C" void vfunc_43__9TObjCharaFv();
-extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
-extern "C" void interact__14TObjCollidableFl();
-extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
-extern "C" void vfunc_89__13TUnk_80493450Fv();
-extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
-extern "C" void vfunc_74__9TObjEnemyFl();
-extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
-extern "C" void add_actor_exp__9TObjCharaFl();
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-extern "C" void apply_anti_technique__9TObjCharaFl();
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-extern "C" void apply_confusion_status__9TObjCharaFv();
-extern "C" void apply_knockback_from_attacker__9TObjCharaFPUcf();
-extern "C" void apply_movement_ailment__9TObjCharaFl();
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-extern "C" void apply_paralysis__9TObjCharaFv();
-extern "C" void apply_poison_status__9TObjCharaFv();
-extern "C" void apply_set_data__9TObjEnemyFPv();
-extern "C" void apply_shock_status__9TObjCharaFv();
-extern "C" void apply_switch_attack__9TObjCharaFv();
-extern "C" void run_move_action__13TUnk_80493450Fv();
-extern "C" void beast_idle_update__13TUnk_80493450Fv();
-extern "C" void beast_retire_corpse__13TUnk_80493450Fv();
-extern "C" void refresh_target__13TUnk_80493450Fv();
-extern "C" void run_attack_action__13TUnk_80493450Fv();
-extern "C" void beast_update_approach__13TUnk_80493450Fv();
-extern "C" void beast_update_attack__13TUnk_80493450Fv();
-extern "C" void beast_update_dead__13TUnk_80493450Fv();
-extern "C" void beast_update_group_chase__13TUnk_80493450Fv();
-extern "C" void beast_update_hurt__13TUnk_80493450Fv();
-extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-extern "C" void apply_enemy_state__9TObjEnemyFPl();
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-extern "C" void run_miss_reaction__13TUnk_80493450Fv();
-extern "C" void clear_harmful_statuses__9TObjCharaFv();
-extern "C" void cure_paralysis__9TObjCharaFv();
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-extern "C" void run_hit_reaction__13TUnk_80493450Fv();
-extern "C" void run_death_reaction__13TUnk_80493450Fv();
-extern "C" void vfunc_78__9TObjCharaFl();
-extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
-extern "C" void spend_photon_blast_charge__9TObjCharaFf();
-extern "C" void gain_photon_blast_charge__9TObjCharaFf();
-extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-extern "C" void get_center__9TObjCharaFv();
-extern "C" void get_actor_level_index__9TObjCharaFv();
-extern "C" void get_name__9TObjEnemyFv();
-extern "C" void get_pos__9TObjCharaFl();
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-extern "C" void receive_physical_attack__9TObjCharaFPvf();
-extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-
-extern "C" void request_stand_action__13TUnk_80493450Fv();
-extern "C" void reset_motion_fields__9TObjCharaFv();
-extern "C" void reset_pose__9TObjCharaFv();
-extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
-extern "C" void run_task__13TUnk_80493450Fv();
-extern "C" void select_melee_contact_body__9TObjCharaFPvf();
-extern "C" void update_movement_status__13TUnk_80493450Fv();
-extern "C" void run_idle_action__13TUnk_80493450Fv();
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-extern "C" void try_start_action__9TObjCharaFll();
-extern "C" void update_action_hold_status__13TUnk_80493450Fv();
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
-extern "C" void update_flag30_timer__9TObjCharaFv();
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-extern "C" void update_poison_status__9TObjCharaFv();
 }
 const char *beast_model_name_table[4] = {
     "re8_b_beast_wola_body.nj", "re8_b_rdbeast_wola_body.nj", "re8_b_srdbeast_wola_body.nj", NULL,

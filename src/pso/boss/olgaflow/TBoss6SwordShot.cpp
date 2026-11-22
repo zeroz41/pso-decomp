@@ -62,7 +62,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
 TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *self, TObject *owner, const Vec *position, saddr start_angle, saddr end_angle, f32 radius);
-s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);

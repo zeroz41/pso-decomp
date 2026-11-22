@@ -469,7 +469,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 subtract_vector(void *, void *);
-void update_knockback_state__12TObjEneSaverFv(u8 *arg0);
 
 void TObjEneSaver::update_knockback_state() {
 

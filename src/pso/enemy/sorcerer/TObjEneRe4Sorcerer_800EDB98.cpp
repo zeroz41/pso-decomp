@@ -60,12 +60,6 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 
-extern "C" void test_flag30_512__9TObjCharaFv();
-
-extern "C" void test_flag_1000__9TObjCharaFv();
-
-extern "C" void test_flag_256__9TObjCharaFv();
-
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
@@ -204,19 +198,9 @@ s32 free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 
-void __dl__7TObjectFPv(void *);
-
-void __destroy_arr(void *, void *, u32, u32);
-
-void __construct_array(void *, void *, void *, int, int);
-
 void vec3_add_to(void *, void *);
 
 s32 subtract_vector(void *, void *);
-
-extern s32 __dt__15RenderFadeStateFv[];
-
-extern s32 __ct__15RenderFadeStateFv[];
 
 Vec lbl_80501070;
 
@@ -231,182 +215,6 @@ extern s32 *sorcerer_behavior_params;
 extern BmlResource *sorcerer_bml_resource;
 
 extern void *tl_04;
-
-void vfunc_6__8TObjBaseFPsl();
-
-void snap_to_ground_at__9TObjEneDDFPUc();
-
-void apply_enemy_state__9TObjEneDDFPl();
-
-void update_immobilizing_statuses__9TObjEneDDFv();
-
-void update_action_state__9TObjEneDDFv();
-
-void has_action_state_changed__9TObjEneDDFv();
-
-void check_collisions__9TObjEneDDFv();
-
-void vfunc_90__9TObjEneDDFv();
-
-void set_invulnerable__9TObjEneDDFv();
-
-void clear_invulnerable__9TObjEneDDFv();
-
-void enable_body_collision__9TObjEneDDFv();
-
-void disable_body_collision__9TObjEneDDFv();
-
-void set_intangible__9TObjEneDDFv();
-
-void clear_intangible__9TObjEneDDFv();
-
-void set_colliders_contact_high__9TObjEneDDFv();
-
-void set_colliders_contact_low__9TObjEneDDFv();
-
-void is_confused__9TObjEneDDFv();
-
-void render_minimap_dot__9TObjEneDDFv();
-
-int acquire_target__12TObjEneDD_STFf(void *p);
-
-void update_status_effects__12TObjEneDD_STFv();
-
-void has_no_target__9TObjCharaFv();
-
-void recalc_stats__9TObjCharaFv();
-
-void consume_timer_field__9TObjCharaFl();
-
-void deliver_attack_hits__9TObjCharaFf();
-
-void vfunc_66__9TObjCharaFv();
-
-void get_anim_node_position__9TObjCharaFlP3Vec();
-
-void run_attack_action__9TObjCharaFv();
-
-void run_move_action__9TObjCharaFv();
-
-void run_idle_action__9TObjCharaFv();
-
-void apply_slow_status__9TObjCharaFv();
-
-void update_shock_clock__9TObjCharaFv();
-
-void vfunc_43__9TObjCharaFv();
-
-void update_actor_ground_y_at__9TObjCharaFP3Vec();
-
-void interact__14TObjCollidableFl();
-
-void vfunc_74__9TObjEnemyFl();
-
-void apply_hit_message_flags__9TObjEnemyFPv();
-
-void add_actor_exp__9TObjCharaFl();
-
-void apply_action_hold_status__9TObjCharaFf();
-
-void apply_anti_technique__9TObjCharaFl();
-
-void apply_attack_stat_status__9TObjCharaFPv();
-
-void apply_confusion_status__9TObjCharaFv();
-
-void apply_knockback_from_attacker__9TObjCharaFPUcf();
-
-void apply_movement_ailment__9TObjCharaFl();
-
-void apply_object_set_data__8TObjBaseFPv();
-
-void apply_paralysis__9TObjCharaFv();
-
-void apply_poison_status__9TObjCharaFv();
-
-void apply_set_data__9TObjEnemyFPv();
-
-void apply_shock_status__9TObjCharaFv();
-
-void apply_switch_attack__9TObjCharaFv();
-
-void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-
-void classify_actor_view_detail__8TObjBaseFfff();
-
-void clear_all_status_effects__9TObjCharaFv();
-
-void clear_harmful_statuses__9TObjCharaFv();
-
-void cure_paralysis__9TObjCharaFv();
-
-void cure_poison_ailment__9TObjCharaFv();
-
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-
-void vfunc_78__9TObjCharaFl();
-
-void gain_photon_blast_chain_charge__9TObjCharaFv();
-
-void spend_photon_blast_charge__9TObjCharaFf();
-
-void gain_photon_blast_charge__9TObjCharaFf();
-
-void clear_lobby_object_state__9TObjEnemyFv();
-
-void get_center__9TObjCharaFv();
-
-void get_actor_level_index__9TObjCharaFv();
-
-void get_name__9TObjEnemyFv();
-
-void get_pos__9TObjCharaFl();
-
-void is_actor_cadence_frame__9TObjCharaFl();
-
-void is_target_in_attack_range__9TObjCharaFv();
-
-void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-
-void receive_physical_attack__9TObjCharaFPvf();
-
-void receive_weapon_special_attack__9TObjCharaFPvPv();
-
-void apply_defense_stat_status__9TObjCharaFPv();
-
-void render_shadows__9TObjEnemyFv(u8 *arg0);
-
-void reset_motion_fields__9TObjCharaFv();
-
-void reset_pose__9TObjCharaFv();
-
-void roll_physical_accuracy__9TObjCharaFPvlf();
-
-void select_melee_contact_body__9TObjCharaFPvf();
-
-void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-
-void try_start_action__9TObjCharaFll();
-
-void update_action_hold_status__9TObjCharaFv();
-
-s32 update_slow_status__9TObjCharaFv(u8 *arg0);
-
-void update_actor_ground_y__9TObjCharaFv();
-
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-
-void update_flag30_timer__9TObjCharaFv();
-
-void update_movement_status__9TObjCharaFv();
-
-void update_object_view_visibility__8TObjBaseFff();
-
-void update_poison_status__9TObjCharaFv();
 
 TObjEneRe4InitParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
 
