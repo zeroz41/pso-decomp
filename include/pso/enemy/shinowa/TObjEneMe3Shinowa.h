@@ -61,19 +61,19 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    s32 m_3c0;
-    u32 m_3c4;
-    f32 m_3c8;
-    f32 m_3cc;
-    u32 m_3d0;
+    s32 kind_index;
+    u32 behavior_flags;
+    f32 body_y;
+    f32 body_offset_y;
+    u32 material_color;
     s32 m_3d4;
     s32 m_3d8;
     s16 m_3dc;
     TUnk_80494968 *m_3e0;
     TUnk_80494968 *m_3e4;
-    TUnk_80494938 m_3e8;
-    s32 m_404;
-    s32 m_408;
+    TUnk_80494938 fade;
+    s32 state_step;
+    s32 state_timer;
     s32 m_40c;
     f32 m_410;
     f32 m_414;
@@ -100,7 +100,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void sub_800E7268();
 };
 
-LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, m_3e8) == 0x3E8);
+LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, fade) == 0x3E8);
 LAYOUT_ASSERT(TObjEneMe3Shinowa_size, sizeof(TObjEneMe3Shinowa) == 0x42C);
 
 #endif

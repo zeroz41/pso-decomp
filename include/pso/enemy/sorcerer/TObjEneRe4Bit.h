@@ -61,18 +61,18 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void init();
     static TObjEneRe4Bit *create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
 
-    Vec *m_3c0;
-    s16 m_3c4;
+    Vec *anchor;
+    s16 owner_id;
     u8 unk_3C6[0x2];
-    s32 m_3c8;
-    u32 m_3cc;
+    s32 enabled;
+    u32 behavior_flags;
     s32 m_3d0;
     s32 m_3d4;
     f32 m_3d8;
     TUnk_80490470 fade;
     Vec m_3f8;
     s32 m_404;
-    s32 m_408;
+    s32 state_step;
     s32 m_40c;
     void sub_800ECC14(s32 reason);
     void sub_800ECD28(s32 reason);

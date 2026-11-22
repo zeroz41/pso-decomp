@@ -67,7 +67,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s32 stealthed;
     s32 m_3c4;
     s32 kind_index;
-    s32 m_3cc;
+    s32 behavior_flags;
     s32 m_3d0;
     Vec m_3d4;
     f32 body_y;

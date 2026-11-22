@@ -354,8 +354,8 @@ void TObjEneRe4Sorcerer::init_enemy() {
     dispatch_action(mode, 4);
     m_3c0 = 0;
     m_3c4 = 0.0f;
-    m_3c8 = 0;
-    m_3c8 &= ~2;
+    behavior_flags = 0;
+    behavior_flags &= ~2;
     for (i = 0; i < 2; i++) {
         VecCopy(&bit_anchors[i], &position);
     }
@@ -434,7 +434,7 @@ void TObjEneRe4Sorcerer::run_death_reaction() {
 
 void TObjEneRe4Sorcerer::run_hit_reaction() {
     if (mode != 8) {
-        if (!(m_3c8 & 8)) {
+        if (!(behavior_flags & 8)) {
             transition_enemy_state(8);
             return;
         }
@@ -460,9 +460,9 @@ void TObjEneRe4Sorcerer::sub_800EFE30() {  }
 u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *dest) {
     u8 *ground = TObjEneDD::move_xz_on_ground(dest);
     if (ground == NULL) {
-        this->m_3c8 &= ~0x10;
+        this->behavior_flags &= ~0x10;
     } else {
-        this->m_3c8 |= 0x10;
+        this->behavior_flags |= 0x10;
     }
     return ground;
 }
@@ -470,9 +470,9 @@ u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *dest) {
 u8 *TObjEneRe4Sorcerer::update_ground_contact() {
     u8 *ground = TObjEneDD::update_ground_contact();
     if (ground == NULL) {
-        this->m_3c8 &= ~0x10;
+        this->behavior_flags &= ~0x10;
     } else {
-        this->m_3c8 |= 0x10;
+        this->behavior_flags |= 0x10;
     }
     return ground;
 }
@@ -809,17 +809,17 @@ void TObjEneRe4Sorcerer::dispatch_action(u32 state, s32 reason) {
 void TObjEneRe4Sorcerer::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
-        m_4e4 = 0;
+        state_timer = 0;
         break;
     case 3:
-        if (m_4e4 >= 2) {
+        if (state_timer >= 2) {
             transition_enemy_state(1);
         }
         break;
     case 5:
         break;
     case 0:
-        m_4e4 = m_4e4 + 1;
+        state_timer = state_timer + 1;
         break;
     }
 }
@@ -861,7 +861,7 @@ void TObjEneRe4Sorcerer::sub_800EEDE4(s32 reason) {
     case 4:
         this->requested_action = 7;
         ((TObjEneDD *)this)->set_field_378(3);
-        this->m_3c8 |= 0xE;
+        this->behavior_flags |= 0xE;
         this->clear_intangible();
         sub_800EF844();
         this->fade.reset_obstruction_fade();
@@ -872,12 +872,12 @@ void TObjEneRe4Sorcerer::sub_800EEDE4(s32 reason) {
             }
         }
         this->m_3f8 = 0.0f;
-        this->m_4e4 = 0;
-        this->m_4e8 = 0;
+        this->state_timer = 0;
+        this->state_step = 0;
         play_area_variant_sound(&this->position);
         break;
     case 3:
-        if (this->m_4e4 >= 0x3C) {
+        if (this->state_timer >= 0x3C) {
             this->set_motion_by_state();
         }
         break;
@@ -886,17 +886,17 @@ void TObjEneRe4Sorcerer::sub_800EEDE4(s32 reason) {
             this->advance_animation();
             this->turn_to_target();
         }
-        switch (this->m_4e8) {
+        switch (this->state_step) {
         case 0:
             if (this->fade.advance_toward_max() != 0) {
-                this->m_4e4 = 0;
-                this->m_4e8 = 1;
-                this->m_3c8 &= ~4;
+                this->state_timer = 0;
+                this->state_step = 1;
+                this->behavior_flags &= ~4;
                 sub_800EF7C8();
             }
             break;
         case 1:
-            this->m_4e4 += 1;
+            this->state_timer += 1;
             if (this->m_3f8 < 1.0f) {
                 this->m_3f8 += 0.2f;
             }
@@ -908,7 +908,7 @@ void TObjEneRe4Sorcerer::sub_800EEDE4(s32 reason) {
         break;
     case 5:
         this->m_3f8 = 1.0f;
-        this->m_3c8 &= ~4;
+        this->behavior_flags &= ~4;
         break;
     }
 }
@@ -924,51 +924,51 @@ void TObjEneRe4Sorcerer::sub_800EEC00(s32 reason) {
         ((TObjEneDD *)this)->set_field_378(3);
         this->clear_intangible();
         sub_800EF844();
-        this->m_3c8 |= 2;
-        this->m_3c8 &= 0xFFFFFFF7;
+        this->behavior_flags |= 2;
+        this->behavior_flags &= 0xFFFFFFF7;
         for (i = 0; i < 2; i++) {
             TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(this->bit_ids[i]);
             if (bit != NULL) {
                 bit->set_flag_and_notify();
             }
         }
-        this->m_4e4 = 0;
-        this->m_4e8 = 0;
+        this->state_timer = 0;
+        this->state_step = 0;
         this->fade.reset_color();
         play_area_variant_sound(&this->position);
         break;
     case 3:
-        if (this->m_4e4 >= 0x1E) {
+        if (this->state_timer >= 0x1E) {
             this->request_death_effect();
         }
         break;
     case 0:
         this->advance_animation();
-        switch (this->m_4e8) {
+        switch (this->state_step) {
         case 0:
             temp_f2 = this->m_3f8;
             if (temp_f2 > 0.0f) {
                 this->m_3f8 = temp_f2 - 0.2f;
                 if (this->m_3f8 < 0.0f) {
                     this->m_3f8 = 0.0f;
-                    this->m_3c8 |= 4;
+                    this->behavior_flags |= 4;
                     this->fade.reset_color();
                 }
             } else if (this->fade.decay_value_toward_floor() != 0) {
-                this->m_4e4 = 0;
-                this->m_4e8 = 1;
-                this->m_3c8 &= 0xFFFFFFF9;
+                this->state_timer = 0;
+                this->state_step = 1;
+                this->behavior_flags &= 0xFFFFFFF9;
             }
             sub_800EF214();
             break;
         case 1:
-            this->m_4e4 = this->m_4e4 + 1;
+            this->state_timer = this->state_timer + 1;
             break;
         }
         this->update_ground_contact();
         break;
     case 5:
-        this->m_3c8 &= 0xFFFFFFFB;
+        this->behavior_flags &= 0xFFFFFFFB;
         this->m_3f8 = 1.0f;
         break;
     }
@@ -977,9 +977,9 @@ void TObjEneRe4Sorcerer::sub_800EEC00(s32 reason) {
 void TObjEneRe4Sorcerer::state_wait(s32 arg1) {
     switch (arg1) {
     case 4:
-        m_4e4 = 0;
+        state_timer = 0;
         set_field_378(4);
-        m_3c8 &= 0xFFFFFFFD;
+        behavior_flags &= 0xFFFFFFFD;
         set_intangible();
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
         return;
@@ -993,13 +993,13 @@ void TObjEneRe4Sorcerer::state_wait(s32 arg1) {
             transition_enemy_state(2);
             return;
         }
-        if (m_4e4 > 0x5A) {
+        if (state_timer > 0x5A) {
             transition_enemy_state(1);
         }
     case 5:
         return;
     case 0:
-        m_4e4 = m_4e4 + 1;
+        state_timer = state_timer + 1;
         break;
     }
 }
@@ -1013,12 +1013,12 @@ void TObjEneRe4Sorcerer::sub_800EE7DC(s32 reason) {
     case 4:
         this->requested_action = 0;
         ((TObjEneDD *)this)->set_field_378(3);
-        this->m_3c8 |= 0xA;
-        this->m_4e4 = 0;
-        this->m_4e8 = 0;
+        this->behavior_flags |= 0xA;
+        this->state_timer = 0;
+        this->state_step = 0;
         return;
     case 3:
-        if (this->m_4e8 == 5) {
+        if (this->state_step == 5) {
             this->advance_anim_frame();
             this->m_3ec = this->m_3ec + 1;
             this->transition_enemy_state(3);
@@ -1026,39 +1026,39 @@ void TObjEneRe4Sorcerer::sub_800EE7DC(s32 reason) {
         return;
     case 0:
         this->advance_animation();
-        this->m_4e4 = this->m_4e4 + 1;
-        temp_r0 = this->m_4e8;
+        this->state_timer = this->state_timer + 1;
+        temp_r0 = this->state_step;
         switch (temp_r0) {
         case 0:
             if ((bit != NULL) && (bit->sub_800ED498() != 0)) {
-                this->m_4e4 = 0;
+                this->state_timer = 0;
                 if (this->try_attack(10000.0f, 10000.0f) == 0) {
-                    this->m_4e8 = 4;
+                    this->state_step = 4;
                 } else {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     if (this->destination_distance >= 100.0f) {
-                        this->m_4e8 = 4;
+                        this->state_step = 4;
                     } else {
-                        this->m_4e8 = 1;
+                        this->state_step = 1;
                         this->requested_action = 1;
-                        this->m_3c8 |= 8;
+                        this->behavior_flags |= 8;
                         this->set_photon_state();
                     }
                     this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                 }
-            } else if (this->m_4e4 >= 0xF0) {
-                this->m_4e8 = 5;
+            } else if (this->state_timer >= 0xF0) {
+                this->state_step = 5;
             }
             this->turn_to_target();
             this->create_effect();
             break;
         case 1:
             if ((bit != NULL) && (bit->sub_800ED498() == 0)) {
-                this->m_4e8 = 5;
-            } else if (this->m_4e4 >= 0x5A) {
+                this->state_step = 5;
+            } else if (this->state_timer >= 0x5A) {
                 this->requested_action = 3;
-                this->m_4e8 = 3;
+                this->state_step = 3;
             }
             this->turn_to_target();
             this->create_effect();
@@ -1073,24 +1073,24 @@ void TObjEneRe4Sorcerer::sub_800EE7DC(s32 reason) {
                 }
                 switch (state) {
                 case 2:
-                    this->m_4e8 = 2;
+                    this->state_step = 2;
                     this->cast_technique();
                     break;
                 case 3:
-                    this->m_4e8 = 2;
+                    this->state_step = 2;
                     break;
                 }
             }
             if (this->get_flag_b4() != 0) {
-                this->m_4e8 = 5;
+                this->state_step = 5;
                 if (bit != NULL) {
                     bit->set_attack_flag();
                 }
             }
             break;
         case 4:
-            if (this->m_4e4 >= 0x3C) {
-                this->m_4e8 = 5;
+            if (this->state_timer >= 0x3C) {
+                this->state_step = 5;
             }
             break;
         case 5:
@@ -1104,7 +1104,7 @@ void TObjEneRe4Sorcerer::sub_800EE7DC(s32 reason) {
         if (bit != NULL) {
             bit->set_attack_flag();
         }
-        this->m_3c8 &= 0xFFFFFFF7;
+        this->behavior_flags &= 0xFFFFFFF7;
         break;
     }
 }
@@ -1120,26 +1120,26 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
     case 4:
         set_field_378(6);
         set_intangible();
-        m_3c8 &= ~2;
+        behavior_flags &= ~2;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
         init_float_params();
         if (is_confused() != 0) {
-            m_4e4 = 3;
+            state_timer = 3;
         } else {
-            m_4e4 = 0;
+            state_timer = 0;
         }
-        m_4e8 = 0;
+        state_step = 0;
         *t = 0.0f;
         break;
     case 3:
-        if (m_4e4 == 4) {
+        if (state_timer == 4) {
             transition_enemy_state(2);
         }
         break;
     case 5:
         break;
     case 0:
-        switch (m_4e4) {
+        switch (state_timer) {
         case 3:
             mask = 0;
             n = TLobby::get_game_mode();
@@ -1149,17 +1149,17 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
                 mask |= update_farthest_target((saddr)p, t);
             }
             if (mask != 0) {
-                m_4e4 = 2;
+                state_timer = 2;
             } else {
-                m_4e4 = 0;
+                state_timer = 0;
             }
             break;
         case 0:
             if (check_shield(this) != 0) {
                 current_target = this;
-                m_4e4 = 2;
+                state_timer = 2;
             } else {
-                m_4e4 = 1;
+                state_timer = 1;
             }
             break;
         case 1:
@@ -1179,7 +1179,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
                 }
                 update_farthest_target((saddr)p, t);
             }
-            m_4e4 = 2;
+            state_timer = 2;
             break;
         case 2:
             if (current_target != 0) {
@@ -1188,7 +1188,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
                 VecCopy(&destination, &position);
                 sub_800EF95C(160.0f);
             }
-            m_4e4 = 4;
+            state_timer = 4;
             break;
         }
         break;
@@ -1205,56 +1205,56 @@ void TObjEneRe4Sorcerer::sub_800EE1CC(s32 reason) {
     case 4:
         this->requested_action = 0;
         ((TObjEneDD *)this)->set_field_378(3);
-        this->m_3c8 |= 0xA;
-        this->m_4e4 = 0;
-        this->m_4e8 = 0;
+        this->behavior_flags |= 0xA;
+        this->state_timer = 0;
+        this->state_step = 0;
         return;
     case 3:
-        if (this->m_4e8 == 5) {
+        if (this->state_step == 5) {
             this->advance_anim_frame();
             this->transition_enemy_state(3);
         }
         return;
     case 0:
         this->advance_animation();
-        this->m_4e4 = this->m_4e4 + 1;
-        temp_r0 = this->m_4e8;
+        this->state_timer = this->state_timer + 1;
+        temp_r0 = this->state_step;
         switch (temp_r0) {
         case 0:
             if ((bit != NULL) && (bit->sub_800ED498() != 0)) {
-                this->m_4e4 = 0;
+                this->state_timer = 0;
                 if (this->current_target->is_alive() != 0) {
                     if (this->current_target != this) {
                         this->enemy_copy_target_destination();
                         this->update_velocity();
                         if (this->destination_distance >= 100.0f) {
-                            this->m_4e8 = 4;
+                            this->state_step = 4;
                         } else {
-                            this->m_4e8 = 1;
+                            this->state_step = 1;
                             this->requested_action = 1;
-                            this->m_3c8 |= 8;
+                            this->behavior_flags |= 8;
                             this->apply_mylla_effect();
                         }
                         this->rotation_y = (saddr)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                     } else {
-                        this->m_4e8 = 1;
+                        this->state_step = 1;
                         this->requested_action = 1;
-                        this->m_3c8 |= 8;
+                        this->behavior_flags |= 8;
                         this->apply_mylla_effect();
                     }
                 } else {
-                    this->m_4e8 = 4;
+                    this->state_step = 4;
                 }
-            } else if ((f32)this->m_4e4 >= 240.0f) {
-                this->m_4e8 = 5;
+            } else if ((f32)this->state_timer >= 240.0f) {
+                this->state_step = 5;
             }
             break;
         case 1:
             if ((bit != NULL) && (bit->sub_800ED498() == 0)) {
-                this->m_4e8 = 5;
-            } else if ((f32)this->m_4e4 >= 90.0f) {
+                this->state_step = 5;
+            } else if ((f32)this->state_timer >= 90.0f) {
                 this->requested_action = 4;
-                this->m_4e8 = 3;
+                this->state_step = 3;
             }
             play_persistent_sound(this->remap_sound_for_area(0x4003A814), (saddr)this, (uaddr)&this->position, 0, 0);
             break;
@@ -1268,24 +1268,24 @@ void TObjEneRe4Sorcerer::sub_800EE1CC(s32 reason) {
                 }
                 switch (state) {
                 case 2:
-                    this->m_4e8 = 2;
+                    this->state_step = 2;
                     this->cast_resta();
                     break;
                 case 3:
-                    this->m_4e8 = 2;
+                    this->state_step = 2;
                     break;
                 }
             }
             if (this->get_flag_b4() != 0) {
-                this->m_4e8 = 5;
+                this->state_step = 5;
                 if (bit != NULL) {
                     bit->set_attack_flag();
                 }
             }
             break;
         case 4:
-            if ((f32)this->m_4e4 >= 60.0f) {
-                this->m_4e8 = 5;
+            if ((f32)this->state_timer >= 60.0f) {
+                this->state_step = 5;
             }
             break;
         case 5:
@@ -1299,7 +1299,7 @@ void TObjEneRe4Sorcerer::sub_800EE1CC(s32 reason) {
         if (bit != NULL) {
             bit->set_attack_flag();
         }
-        this->m_3c8 &= 0xFFFFFFF7;
+        this->behavior_flags &= 0xFFFFFFF7;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
         break;
     }
@@ -1337,9 +1337,9 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 6;
-        m_3c8 |= 6;
+        behavior_flags |= 6;
         refresh_and_send_entity_flags();
-        m_4e4 = 0;
+        state_timer = 0;
         fn_800D911C(&body_center);
         TObjPlayer__sub_800A04F0(&fade);
         m_3f8 = 0.0f;
@@ -1405,7 +1405,7 @@ void TObjEneRe4Sorcerer::render() {
     camera_mode = (saddr)&fades[camera_mode];
     ((RenderFadeState *)camera_mode)->update();
     temp_r31 = ((RenderFadeState *)camera_mode)->updateFromCamera(&body_center.x);
-    if (!(m_3c8 & 2)) {
+    if (!(behavior_flags & 2)) {
         var_r28 = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
         var_r28 = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
@@ -1415,7 +1415,7 @@ void TObjEneRe4Sorcerer::render() {
         var_r28 = 0;
     }
     if (var_r28 != 0) {
-        if (m_3c8 & 0x10) {
+        if (behavior_flags & 0x10) {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
@@ -1427,7 +1427,7 @@ void TObjEneRe4Sorcerer::render() {
         TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, m_3c4);
         TObjPlayer::toggle_particle_effect();
         var_r27 = 1;
-        if (m_3c8 & 4) {
+        if (behavior_flags & 4) {
             fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 var_r27 = 0;
@@ -1458,7 +1458,7 @@ void TObjEneRe4Sorcerer::render() {
             set_chunk_model_node_callback(NULL);
             pop_matrix();
         }
-        if (m_3c8 & 4) {
+        if (behavior_flags & 4) {
             fade.clear_flag_and_notify();
         } else if (temp_r31 != 0) {
             ((RenderFadeState *)camera_mode)->clear_flag_and_notify();

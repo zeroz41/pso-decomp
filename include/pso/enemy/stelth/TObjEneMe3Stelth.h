@@ -67,7 +67,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 stealthed;
     s32 m_3c4;
     s32 variant_index;
-    s32 m_3cc;
+    s32 behavior_flags;
     f32 body_y;
     f32 body_offset_y;
     f32 technique_chance;

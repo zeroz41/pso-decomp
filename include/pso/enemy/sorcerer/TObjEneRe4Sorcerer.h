@@ -53,7 +53,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s16 m_3c0;
     u8 unk_3C2[0x2];
     f32 m_3c4;
-    s32 m_3c8;
+    s32 behavior_flags;
     Vec bit_anchors[2];
     u16 bit_ids[2];
     s32 m_3e8;
@@ -64,8 +64,8 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     TUnk_80490470 fade;
     TargetCursorList targets;
     RenderFadeState fades[4];
-    s32 m_4e4;
-    s32 m_4e8;
+    s32 state_timer;
+    s32 state_step;
     f32 m_4ec;
     void set_motion_by_state();
     s32 select_attack_target(f32 farg0, f32 farg1);
