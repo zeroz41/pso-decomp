@@ -878,7 +878,7 @@ void TBoss4Type2::beam_update() {
 
 void TBoss4Type2::tenchu_enter() {
     beam_ratio = 0.0f;
-    TBoss4Type2__sub_80055300();
+    pick_tenchu_furu_spots();
     action_timer = 0x96;
 }
 
