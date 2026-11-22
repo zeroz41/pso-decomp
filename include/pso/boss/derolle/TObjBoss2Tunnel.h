@@ -10,7 +10,7 @@ struct Vec;
 // A velocity/position ramp: accelerate from v0 to peak, cruise, brake to rest over dist.
 // init fills it, speed_at reads the speed and sample the distance at a time; advance samples
 // the distance at t and steps t by one frame.
-// TObjBoss2Tunnel (+0x68) and the tunnel of TObjBoss2Tunnel_802F1A58 (+0x20) hold one as a member.
+// TObjBoss2Tunnel (+0x68) and TObjBoss7Tunnel (+0x20) hold one as a member.
 struct PiecewiseCurve {
     PiecewiseCurve();
     ~PiecewiseCurve();

@@ -8975,7 +8975,7 @@ pso/unk/text_802F190C.cpp:
 	.text       start:0x802F190C end:0x802F1A58
 	.sbss       start:0x805D6960 end:0x805D6968
 
-pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp:
+pso/boss/barbaray/TObjBoss7Tunnel.cpp:
 	.text       start:0x802F1A58 end:0x802F2CDC
 	.ctors      start:0x80433FDC end:0x80433FE0
 	.rodata     start:0x804743B0 end:0x80474460
