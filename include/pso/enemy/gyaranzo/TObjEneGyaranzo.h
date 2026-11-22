@@ -69,6 +69,8 @@ LAYOUT_ASSERT(TObjEneGyaranzo_size, sizeof(TObjEneGyaranzo) == 0x45C);
 LAYOUT_ASSERT(TObjEneGyaranzo_target_ids, offsetof(TObjEneGyaranzo, target_ids) == 0x3BC);
 
 extern BmlResource *gyaranzo_bml_resource;
+// The frame count after which spawn_missile_volley's missiles go off.
+extern s32 gyaranzo_missile_volley_end_time;
 
 // The Gyaranzo parameter table (TLobby::dispatch_shared_handler_a(0x1D)).
 struct GyaranzoParameters {

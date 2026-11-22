@@ -36,4 +36,8 @@ struct TObjGyaranzoMissile : public TObjCollidable {
 };
 
 LAYOUT_ASSERT(TObjGyaranzoMissile_size, sizeof(TObjGyaranzoMissile) == 0xDC);
+
+// Set from the Gyaranzo parameter table (TObjEneGyaranzo::init_params_from_table).
+extern f32 TObjGyaranzoMissile__speed_scale;
+extern f32 TObjGyaranzoMissile__max_range;
 #endif
