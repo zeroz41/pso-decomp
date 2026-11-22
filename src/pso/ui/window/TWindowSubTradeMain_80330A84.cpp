@@ -203,9 +203,9 @@ TWindowSubTradeMain::~TWindowSubTradeMain() {
     if ((tmp_player = (void *)get_player_by_client_id(this->client_id)) != 0U) {
         ((TObjPlayer *)tmp_player)->end_camera_pan();
     }
-    if ((u32) this->chat != 0U) {
+    if (chat != NULL) {
         chat->queue_destruction();
-        this->chat = 0U;
+        chat = NULL;
     }
     if ((u32) this->help_item != 0U) {
         ((TWindowBase *)this->help_item)->close();

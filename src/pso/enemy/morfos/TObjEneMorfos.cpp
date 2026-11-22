@@ -163,9 +163,6 @@ TObjMotionAction morfos_motion_param_table[5] = {
     { 3, 0, 4, 0.7f, 0 },
 };
 const char *morfos_class_name = "TObjEneMorfos";
-extern "C" {
-
-
 
 f32 lbl_805434D0[3];
 saddr morfos_attack_params[3];
@@ -1403,8 +1400,6 @@ void TObjEneMorfos::render_demo() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
-}
-
 }
 
 saddr morfos_base_params[1];
