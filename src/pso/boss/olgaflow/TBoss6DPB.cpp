@@ -94,19 +94,19 @@ void subtract_vector(void *, void *);
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(saddr arg0, saddr arg1, f32 farg0) {
-    return (u8 *)new TBoss6DPB((TObject *)arg0, arg1, farg0);
+u8 *TBoss6Type2::create_dpb(saddr parent, saddr position, f32 farg0) {
+    return (u8 *)new TBoss6DPB((TObject *)parent, position, farg0);
 }
 #pragma pop
 
-TBoss6DPB::TBoss6DPB(TObject *parent, saddr arg2, f32 farg0) : TObject(parent) {
+TBoss6DPB::TBoss6DPB(TObject *parent, saddr position, f32 farg0) : TObject(parent) {
     u8 *object = (u8 *)this;
     saddr arg1 = (saddr)parent;
     f32 temp_f1;
     f32 temp_f2;
     *(const char **)((s8 *)object + 0) = TBoss6DPB__class_name;
     *(s32 *)((s8 *)object + 0x1C) = arg1;
-    VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
+    VecCopy((Vec *)(object + 0x20), (const Vec *)(position));
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x2C) = farg0;
     temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2C)) + 8);
@@ -187,16 +187,16 @@ void TBoss6DPB::sub_8035D8B0() {
 }
 #pragma pop
 
-void* create_TDPBShower(void* arg0, void* arg1) {
-    return new TDPBShower((TObject *)arg0, arg1);
+void* create_TDPBShower(void* parent, void* position) {
+    return new TDPBShower((TObject *)parent, position);
 }
 
-TDPBShower::TDPBShower(TObject *arg1, void *arg2) : TObject(arg1) {
+TDPBShower::TDPBShower(TObject *parent, void *position) : TObject(parent) {
     u8 *dpb_shower = (u8 *)this;
     u8 *particle_emitter;
     *(const char **)((s8 *)dpb_shower + 0) = TDPBShower__class_name;
     ((TDPBShower *)dpb_shower)->m_countdown = 5;
-    VecCopy((Vec *)(dpb_shower + 0x1C), (const Vec *)arg2);
+    VecCopy((Vec *)(dpb_shower + 0x1C), (const Vec *)position);
     *(f32 *)((s8 *)dpb_shower + 0x20) += 300.0f;
     particle_emitter = (u8 *)(create_particle_emitter((dpb_shower + 0x1C), 0x134));
     ((TDPBShower *)dpb_shower)->m_2c = particle_emitter;

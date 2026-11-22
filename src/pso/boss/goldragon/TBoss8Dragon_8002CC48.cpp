@@ -118,7 +118,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__22TObjBoss1MokoHill_Solo[];
 
-void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
+void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *parent, int arg2);
 
 
 extern BmlResource *lbl_805D4B50;
@@ -536,12 +536,12 @@ f32 get_velocity_scale_limit(void) {
 }
 
 #define boss1_moko_hill_solo_m ((u8 *)this)
-TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, u8 *arg2, s32 arg3) : TObject(parent) {
+TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, u8 *position, s32 arg3) : TObject(parent) {
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (saddr) TObjBoss1MokoHill_SoloM__name;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x1C) = 0;
-    (*(u8 * *)&dragon_trail_position_source) = arg2;
+    (*(u8 * *)&dragon_trail_position_source) = position;
     dragon_trail_heading_source = arg3;
-    VecCopy((Vec *)(boss1_moko_hill_solo_m + 0x20), (const Vec *)arg2);
+    VecCopy((Vec *)(boss1_moko_hill_solo_m + 0x20), (const Vec *)position);
     ((TObjBoss1MokoHill_SoloM *)boss1_moko_hill_solo_m)->m_2c = (f32) 0.0f;
     *(f32 *)((s8 *)boss1_moko_hill_solo_m + 0x30) = (f32) -30.0f;
     ((TObjBoss1MokoHill_SoloM *)boss1_moko_hill_solo_m)->m_34 = (f32) -30.0f;
@@ -710,10 +710,10 @@ void TObjBoss1MokoHill_SoloM::render() {
 }
 
 #define arg0 ((Obj_8002CD8C *)arg0_)
-void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2) {
+void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *parent, int arg2) {
     f32 r;
     f32 t;
-    __ct__7TObjectFP7TObject(arg0, arg1);
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vtbl = __vt__22TObjBoss1MokoHill_Solo;
     arg0->name = TObjBoss1MokoHill_Solo__name;
     VecCopy((Vec *)arg0->pos, (const Vec *)(((void *(*)(void *))get_state__12TBoss8DragonFv)(arg0)));

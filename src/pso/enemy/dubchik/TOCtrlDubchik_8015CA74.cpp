@@ -60,9 +60,9 @@ s32 TOCtrlDubchik::roll_physical_accuracy(void *arg1, s32 arg2, f32 farg0) {
     return 0;
 }
 
-s32 TOCtrlDubchik::try_start_action(s32 arg1, s32 arg2) {
+s32 TOCtrlDubchik::try_start_action(s32 arg1, s32 collider) {
     if (this->mode != 0) {
-        return TObjChara::try_start_action(arg1, arg2);
+        return TObjChara::try_start_action(arg1, collider);
     }
     return 0;
 }
@@ -124,8 +124,8 @@ void TOCtrlDubchik::destroy_instance() {
     }
 }
 
-void *TOCtrlDubchik::create(void *arg0) {
-    return new TOCtrlDubchik(tl_05, arg0);
+void *TOCtrlDubchik::create(void *set_data) {
+    return new TOCtrlDubchik(tl_05, set_data);
 }
 
 void TOCtrlDubchik::render() {

@@ -91,10 +91,10 @@ void TObjEneBalClaw__sub_8008D68C(void) {
     }
 }
 
-void TObjEneBalClaw::render_scaled(s32 arg1) {
+void TObjEneBalClaw::render_scaled(s32 shadow) {
     f32 a;
     f32 t;
-    if (!(actorFlags & 0x800) && arg1 != 0) {
+    if (!(actorFlags & 0x800) && shadow != 0) {
         a = m_3ac;
         t = 1.0f - (0.5f * ((m_3b4 + m_3bc) - a)) * (1.0f / (m_3b0 - a));
         Vec v = { 0.0f, 0.0f, 0.0f };

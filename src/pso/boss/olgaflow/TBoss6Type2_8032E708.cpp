@@ -288,14 +288,14 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 extern Ent_8032FFC0 boss6_type2_motion_table[];
 void TBoss6Type2__sub_803300C8(u8 *arg0);
-void update_all_parts__11TBoss6Type2FPv(saddr arg0);
+void update_all_parts__11TBoss6Type2FPv(saddr self);
 extern Ent_8033053C boss6_type2_action_table[];
 void TBoss6Type2__sub_8032EA10(T_8032EA10 *self);
 int copy_vec3__11TBoss6Type2Fii(saddr _w0, saddr _w1);
 extern void *TBoss6Type2__instance_slots[];
 void TBoss6Type2__sub_8032F2F0(void* p, void* q);
 
-void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *arg1, s32 arg2);
+void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *pts, s32 arg2);
 void TBoss6Type2__sub_802BD378(void *, s32, void *, void *);
 s32 TBoss6Type2__sub_8032FB84(O_8032FB84 *arg0);
 
@@ -400,11 +400,11 @@ void TBoss6Mag::sub_8032E8DC() {
     }
 }
 
-void update_all_parts__11TBoss6Type2FPv(saddr arg0) {
+void update_all_parts__11TBoss6Type2FPv(saddr self) {
     s32 var_r31;
     var_r31 = 0;
     do {
-        ((TBoss6Type2 *)arg0)->destroy_part_object(var_r31);
+        ((TBoss6Type2 *)self)->destroy_part_object(var_r31);
         var_r31 += 1;
     } while (var_r31 < 4);
 }
@@ -416,14 +416,14 @@ void TBoss6Type2__sub_8032EA10(T_8032EA10 *self) {
     }
 }
 
-s32 TBoss6Type2::step_angle_toward(s32 arg1, s32 arg2, s32 arg3) {
+s32 TBoss6Type2::step_angle_toward(s32 arg1, s32 arg2, s32 turn) {
     s32 t;
-    TBoss6Type2__sub_8032EAB8(this, arg3);
-    if (angle_difference_abs(arg2, arg1) <= arg3) {
+    TBoss6Type2__sub_8032EAB8(this, turn);
+    if (angle_difference_abs(arg2, arg1) <= turn) {
         return arg2;
     }
-    t = arg1 + TBoss6Type2__sub_8032EAB8(this, arg3);
-    if (angle_difference_abs(arg2, t) <= arg3) {
+    t = arg1 + TBoss6Type2__sub_8032EAB8(this, turn);
+    if (angle_difference_abs(arg2, t) <= turn) {
         return arg2;
     }
     return t;
@@ -679,7 +679,7 @@ void TBoss6Type2::spawn_mag_mines() {
     }
 }
 
-void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *arg1, s32 arg2) {
+void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *pts, s32 arg2) {
     s32 i;
     s32 n = arg2;
     arg0->z = 0;
@@ -687,7 +687,7 @@ void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *arg1, s32 arg2)
         n = 3;
     }
     for (i = 0; i < n; i++) {
-        VecCopy((Vec *)&arg0->v[i], (const Vec *)&arg1[i]);
+        VecCopy((Vec *)&arg0->v[i], (const Vec *)&pts[i]);
     }
     arg0->n = n;
     ((TBoss6Mag *)arg0)->set_action(3);

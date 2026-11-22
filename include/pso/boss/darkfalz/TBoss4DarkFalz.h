@@ -76,7 +76,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void update_roar_sound_timer();
     static void free_global_instance();
     static int get_instance_count();
-    static void push_players_out_of_zone(s32 arg0, s32 arg1);
+    static void push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1);
 
     void begin_defeat_sequence();
     void update_countdown_shrink();

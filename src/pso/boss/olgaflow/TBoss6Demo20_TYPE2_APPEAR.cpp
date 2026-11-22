@@ -171,7 +171,7 @@ extern "C" {
 s32 __dt__7TObjectFv(void *, int);
 s32 __dl__7TObjectFPv(void *);
 extern saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[];
-TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *arg0, s16 arg1);
+TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1);
 
 extern const Ent_8033D6DC boss6_type2_appear_particle_schedule[];
 
@@ -250,28 +250,28 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
     }
 }
 
-TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *arg0, s16 arg1) {
+TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1) {
     s32 i;
-    if (arg0 != 0) {
-        *(void **)((u8 *)arg0 + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
+    if (self != 0) {
+        *(void **)((u8 *)self + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
         for (i = 0; i < 9; i++) {
-            if (arg0->emitters[i] != 0) {
-                TParticleCtrl::release(arg0->emitters[i]);
-                arg0->emitters[i] = 0;
+            if (self->emitters[i] != 0) {
+                TParticleCtrl::release(self->emitters[i]);
+                self->emitters[i] = 0;
             }
         }
         restore_player_cameras();
         TBoss6PlotFalz::refresh_players_equipment();
-        if (arg0->capture != 0) {
-            ModelNodePositionCapture::destroy((ModelNodePositionCapture *)arg0->capture);
-            arg0->capture = 0;
+        if (self->capture != 0) {
+            ModelNodePositionCapture::destroy((ModelNodePositionCapture *)self->capture);
+            self->capture = 0;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(self, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(self);
         }
     }
-    return arg0;
+    return self;
 }
 
 }

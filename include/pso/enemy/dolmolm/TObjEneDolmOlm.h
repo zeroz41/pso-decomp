@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/TUnk_80493450.h"
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
-    TObjEneDolmOlm(saddr arg1, saddr arg2);
+    TObjEneDolmOlm(saddr parent, saddr arg2);
     virtual ~TObjEneDolmOlm();
     virtual void run_task();
     virtual void render();

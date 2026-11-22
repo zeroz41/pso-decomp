@@ -143,7 +143,7 @@ void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
 void TBoss6Rock__sub_80354A44(void);
 void free_collision_body_parts(void *);
 void set_screen_pos__11TBoss6Type2FPv(void *arg0);
-void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1);
+void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
 void TBoss6Type2__sub_802BD938(TBoss6Type2 *self, u8 *arg1);
 
 f64 atan2_float(f32, f32);
@@ -348,7 +348,7 @@ f32 TBoss6PlotFalz__sub_802AB684(void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2);
-void init_parts__11TBoss6Type2FPv(saddr arg0);
+void init_parts__11TBoss6Type2FPv(saddr self);
 void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self);
 s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1);
 s32 TBoss6Type2__sub_802BA944(Boss_802BA944 *o);
@@ -366,8 +366,8 @@ void TBoss6Type2__sub_802BCC54(void *, int);
 void TBoss6Type2__sub_802BD340(void);
 void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3);
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
-void TBoss6Type2__sub_80356E50(s32 arg0, s32 arg1, s32 force);
-s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr arg0, saddr arg1, saddr arg2);
+void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force);
+s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr parent, saddr pos, saddr state_duration);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(Vec *);
 void subtract_vector(Vec *, Vec *);
@@ -463,9 +463,9 @@ s32 TBoss6Type2::create(saddr arg2_) {
     return (saddr)new TBoss6Type2(new TObjControl(tl_04), (saddr *)arg2_);
 }
 
-void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1) {
-    *arg0 = *arg1;
-    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) arg1 + 4);
+void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec) {
+    *arg0 = *boss6_type2_zero_vec;
+    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) boss6_type2_zero_vec + 4);
 }
 
 #pragma push
@@ -597,14 +597,14 @@ void TBoss6Type2::build_state_packet(OlgaFlowType2ActionMsg *message) {
     message->second_action_client = static_cast<s8>(sp8);
 }
 
-void TBoss6Type2::parse_action_packet(void *arg1) {
-    this->m_478 = (u8) *(u8 *)((s8 *)arg1 + 8);
-    this->m_47c = (s32) (s8) *(u8 *)((s8 *)arg1 + 9);
-    set_target_state((s32)(*(s8 *)((s8 *)arg1 + 0xA)), (s32)(*(s8 *)((s8 *)arg1 + 0xB)));
-    this->m_464 = (u16) (s8) *(u8 *)((s8 *)arg1 + 0xC);
-    this->m_466 = (u16) (s8) *(u8 *)((s8 *)arg1 + 0xD);
-    this->m_468 = (u16) (s8) *(u8 *)((s8 *)arg1 + 0xE);
-    this->m_46a = (u16) (s8) *(u8 *)((s8 *)arg1 + 0xF);
+void TBoss6Type2::parse_action_packet(void *packet) {
+    this->m_478 = (u8) *(u8 *)((s8 *)packet + 8);
+    this->m_47c = (s32) (s8) *(u8 *)((s8 *)packet + 9);
+    set_target_state((s32)(*(s8 *)((s8 *)packet + 0xA)), (s32)(*(s8 *)((s8 *)packet + 0xB)));
+    this->m_464 = (u16) (s8) *(u8 *)((s8 *)packet + 0xC);
+    this->m_466 = (u16) (s8) *(u8 *)((s8 *)packet + 0xD);
+    this->m_468 = (u16) (s8) *(u8 *)((s8 *)packet + 0xE);
+    this->m_46a = (u16) (s8) *(u8 *)((s8 *)packet + 0xF);
     if ((u16) this->m_464 >= 4U) {
         this->m_464 = 0xFFFFU;
     }
@@ -917,7 +917,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     return 0.0f;
 }
 
-f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, void *collision, s32 tech, s32 arg5) {
+f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, void *collision, s32 tech, s32 flags) {
     while ((s32)m_418 != 0) {
         if (msg.kind == 0x14) {
             break;
@@ -932,7 +932,7 @@ f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, 
         spawn_hit_effects();
         return 0.0f;
     }
-    return TObjChara::receive_direct_attack(attacker, msg, collision, tech, arg5);
+    return TObjChara::receive_direct_attack(attacker, msg, collision, tech, flags);
 }
 
 void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
@@ -1292,11 +1292,11 @@ void TBoss6Type2::reset_attack_counter() {
     *(s32 *)((s8 *)this + 0x4F4) = 0;
 }
 
-void TBoss6Type2::add_damage(s32 arg1) {
+void TBoss6Type2::add_damage(s32 diff) {
     s32 temp_r0;
     s32 var_r4;
 
-    var_r4 = arg1;
+    var_r4 = diff;
     temp_r0 = this->m_374;
     if (temp_r0 < 9) {
         if (temp_r0 == 5) {
@@ -1969,7 +1969,7 @@ void TBoss6Type2::request_default_follow_camera() {
     request_follow_camera_offsets(&lbl_804DFAC4, &lbl_804DFAD0, 0xFFFFU);
 }
 
-void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
+void TBoss6Type2::drop_random_rocks(s32 arg0, s32 force) {
     s32 avail_tbl[32];
     s32 cnt;
     s32 mult;
@@ -1986,7 +1986,7 @@ void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
         mult = 4;
     }
     cnt = (4 - cnt) + mult;
-    if (arg1 != 0) {
+    if (force != 0) {
         cnt *= 2;
     }
     if (cnt < 1) {
@@ -2023,7 +2023,7 @@ void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
         buf[k] = j;
         avail_tbl[j] = 0;
     }
-    TBoss6Type2__sub_80356E50((saddr)buf, cnt, arg1);
+    TBoss6Type2__sub_80356E50((saddr)buf, cnt, force);
     mem_free(buf);
     ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4006AB1D, ((void *)&boss6_arena_center), 0, 1);
 }
@@ -2516,11 +2516,11 @@ void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self) {
     for (i = 0; i < 14; i++) self->arr[i] = 0;
 }
 
-void init_parts__11TBoss6Type2FPv(saddr arg0) {
+void init_parts__11TBoss6Type2FPv(saddr self) {
     s32 var_r31;
     var_r31 = 0;
     do {
-        ((TBoss6Type2 *)arg0)->destroy_part(var_r31);
+        ((TBoss6Type2 *)self)->destroy_part(var_r31);
         var_r31 += 1;
     } while (var_r31 < 0xE);
 }

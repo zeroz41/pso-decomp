@@ -223,11 +223,11 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     static saddr get_instance();
     static void select_fireball_particle_table();
     void draw();
-    void update_burrow_inward_run(u32 arg1, s32 arg2);
+    void update_burrow_inward_run(u32 arg1, s32 state);
     void release_held_player();
     void init_control_mode();
     void apply_fireball_impact_damage(saddr arg1);
-    void deliver_breath_attack(saddr arg1, s32 arg2);
+    void deliver_breath_attack(saddr arg1, s32 attack_history);
     void sweep_death_body_attack();
     void apply_foot_step_attack(int arg1);
     void next_sequence_action();

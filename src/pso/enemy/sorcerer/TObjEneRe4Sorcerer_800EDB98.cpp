@@ -122,7 +122,7 @@ extern "C" {
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 
 
-void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 reason);
 
 extern s32 TObjEneRe4Sorcerer__render_node_index;
 
@@ -165,15 +165,15 @@ void TObjEneRe4Bit__sub_800EDAB0(void);
 
 void TObjEneRe4Bit__sub_800EDAB4();
 
-void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 reason);
 
-void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 reason);
 
-void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 reason);
 
-void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 reason);
 
-void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 reason);
 
 void TObjEneRe4Sorcerer__sub_800EF7C8(TObjEneRe4Sorcerer *self);
 
@@ -1033,8 +1033,8 @@ void TObjEneRe4Sorcerer::handle_state(s32 arg1) {
     }
 }
 
-void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 reason) {
+    switch (reason) {
     case 4:
         ((TObjEneDD *)self)->set_field_378(1);
         VecCopy(&self->position, &self->home_position);
@@ -1062,11 +1062,11 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 extern "C" {
-void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 reason) {
     s32 i;
     TObjEneRe4Bit *bit;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->requested_action = 7;
         ((TObjEneDD *)self)->set_field_378(3);
@@ -1125,10 +1125,10 @@ void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
 
 #pragma pop
 extern "C" {
-void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 reason) {
     f32 temp_f2;
     s32 i;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         ((TObjEneDD *)self)->set_field_378(3);
         self->clear_intangible();
@@ -1213,12 +1213,12 @@ void TObjEneRe4Sorcerer::state_wait(s32 arg1) {
     }
 }
 
-void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 reason) {
     s32 temp_r0;
     s32 state;
     TObjEneRe4Bit *bit;
     bit = (TObjEneRe4Bit *)find_entity_by_id(self->bit_ids[0]);
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->requested_action = 0;
         ((TObjEneDD *)self)->set_field_378(3);
@@ -1404,13 +1404,13 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
     }
 }
 
-void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 reason) {
     s32 temp_r0;
     s32 state;
     TObjEneRe4Bit *bit;
 
     bit = (TObjEneRe4Bit *)find_entity_by_id(self->bit_ids[1]);
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->requested_action = 0;
         ((TObjEneDD *)self)->set_field_378(3);
@@ -1514,10 +1514,10 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
     }
 }
 
-void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 reason) {
     Vec v;
     f32 c;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->requested_action = 5;
         self->advance_animation();

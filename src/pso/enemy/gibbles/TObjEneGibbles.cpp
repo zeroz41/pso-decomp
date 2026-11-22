@@ -641,9 +641,9 @@ void *lbl_804E29F0[83] = {
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 
-void TObjEneGibbles::set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 farg0) {
+void TObjEneGibbles::set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 fC) {
   f32 var_f1;
-  var_f1 = farg0;
+  var_f1 = fC;
   if (var_f1 < 0.1f)
   {
     var_f1 = 0.1f;

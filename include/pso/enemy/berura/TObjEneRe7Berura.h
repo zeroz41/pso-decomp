@@ -68,7 +68,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     static void load_static_resources();
     static void advance_state(NJS_OBJECT *);
     static void demo_frame_callback(NJS_OBJECT *);
-    void run_flash_warning_state(s32 arg1);
+    void run_flash_warning_state(s32 reason);
     void handle_state(s32 arg1);
     static void *spawn_punch(void *arg0);
     static void state_patrol(void *self, int msg);

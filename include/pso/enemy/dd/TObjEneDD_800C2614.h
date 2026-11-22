@@ -5,13 +5,13 @@
 
 extern "C" {
 void TObjEneDD__sub_800C2618(void *p);
-void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1);
+void TObjEneDD__sub_800C2628(u8 *arg0, s32 reason);
 }
 
 // --- C functions defined in TObjEneDD_800C2614.cpp ---
 extern "C" {
 void TObjEneDD__sub_800C2618(void *p);
-void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1);
+void TObjEneDD__sub_800C2628(u8 *arg0, s32 reason);
 }
 // --- end of C functions
 

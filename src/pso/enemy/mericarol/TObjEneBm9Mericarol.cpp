@@ -187,8 +187,8 @@ extern "C" void TBoss4Type3__sub_802D1130(void) {
     }
 }
 
-void *TObjEneBm9Mericarol::create(void *arg0) {
-    return new TObjEneBm9Mericarol((TObject *)tl_04, arg0);
+void *TObjEneBm9Mericarol::create(void *set_data) {
+    return new TObjEneBm9Mericarol((TObject *)tl_04, set_data);
 }
 
 void TObjEneBm9Mericarol::free_shared_instances() {
@@ -477,8 +477,8 @@ void TObjEneBm9Mericarol::handle_action(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm9Mericarol::sub_802D05BC(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         set_intangible();
@@ -532,10 +532,10 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
     f32 distance;
     u16 target;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         if (mode == 2) {
             requested_action = 4;
@@ -604,8 +604,8 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm9Mericarol::handle_shot_state(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 0;
         clear_intangible();
@@ -649,14 +649,14 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CFB64(s32 reason) {
     Vec trail0[2];
     Vec trail1[2];
     s32 i;
     Vec *points1;
     Vec *points0;
     TObjChara *p;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 8;
         clear_intangible();
@@ -746,9 +746,9 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CF7B4(s32 reason) {
     s32 hit_wall;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         sync_center_position();
         if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
@@ -875,10 +875,10 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
     return ret;
 }
 
-void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CF4F8(s32 reason) {
     s32 count;
     TObjPlayer *target;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         clear_intangible();
@@ -920,10 +920,10 @@ void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CF368(s32 reason) {
     s16 max;
     s16 cur;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 5;
         clear_intangible();
@@ -961,10 +961,10 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
+void TObjEneBm9Mericarol::state_burrow(s32 reason) {
     f32 x;
     Vec pos;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 6;
         clear_intangible();
@@ -1050,9 +1050,9 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CEDA0(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CEDA0(s32 reason) {
     Vec pos;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         set_field_378(3);

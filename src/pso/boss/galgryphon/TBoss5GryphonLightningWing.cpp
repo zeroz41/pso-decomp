@@ -88,25 +88,25 @@ void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_
 #pragma pop
 
 TBoss5GryphonLightningWing::~TBoss5GryphonLightningWing() {}
-s32 __ct__26TBoss5GryphonLightningWingFv(saddr arg0, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6) {
+s32 __ct__26TBoss5GryphonLightningWingFv(saddr allocation, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6) {
     s32 i;
     TBoss5GryphonLightning__ct(20.0f);
-    ((Wing_80351C18 *)arg0)->vt = __vt__26TBoss5GryphonLightningWing;
-    ((Wing_80351C18 *)arg0)->x0 = ((saddr)TBoss5GryphonLightningWing__name);
-    ((Wing_80351C18 *)arg0)->n = 3;
-    ((Wing_80351C18 *)arg0)->x98 = (saddr)arg5;
-    ((Wing_80351C18 *)arg0)->x9C = (saddr)arg5 + (saddr)arg6;
-    VecCopy((Vec *)(&((Wing_80351C18 *)arg0)->pts[0]), (const Vec *)a);
-    VecCopy((Vec *)(&((Wing_80351C18 *)arg0)->pts[((Wing_80351C18 *)arg0)->n - 1]), (const Vec *)b);
-    for (i = 1; i < ((Wing_80351C18 *)arg0)->n - 1; i++) {
-        ((Wing_80351C18 *)arg0)->pts[i].v.x = ((Vec *)mid)->x;
-        ((Wing_80351C18 *)arg0)->pts[i].v.y = ((Vec *)mid)->y;
-        ((Wing_80351C18 *)arg0)->pts[i].v.z = ((Vec *)mid)->z;
+    ((Wing_80351C18 *)allocation)->vt = __vt__26TBoss5GryphonLightningWing;
+    ((Wing_80351C18 *)allocation)->x0 = ((saddr)TBoss5GryphonLightningWing__name);
+    ((Wing_80351C18 *)allocation)->n = 3;
+    ((Wing_80351C18 *)allocation)->x98 = (saddr)arg5;
+    ((Wing_80351C18 *)allocation)->x9C = (saddr)arg5 + (saddr)arg6;
+    VecCopy((Vec *)(&((Wing_80351C18 *)allocation)->pts[0]), (const Vec *)a);
+    VecCopy((Vec *)(&((Wing_80351C18 *)allocation)->pts[((Wing_80351C18 *)allocation)->n - 1]), (const Vec *)b);
+    for (i = 1; i < ((Wing_80351C18 *)allocation)->n - 1; i++) {
+        ((Wing_80351C18 *)allocation)->pts[i].v.x = ((Vec *)mid)->x;
+        ((Wing_80351C18 *)allocation)->pts[i].v.y = ((Vec *)mid)->y;
+        ((Wing_80351C18 *)allocation)->pts[i].v.z = ((Vec *)mid)->z;
     }
-    return arg0;
+    return allocation;
 }
 
-s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr arg1, saddr mid, saddr arg3, saddr arg4, saddr arg5) {
+s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5) {
     Vec position;
     f32 ground_height;
     saddr allocation;
@@ -127,7 +127,7 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr arg1, saddr mi
     allocation = (saddr)TObject::operator new(0xA0);
     effect = allocation;
     if (effect != 0) {
-        effect = __ct__26TBoss5GryphonLightningWingFv(allocation, (void *)((void*)arg0), (void *)((void*)arg1), (void *)((void*)mid), &position, (void *)((void*)arg4), (void *)((void*)arg5));
+        effect = __ct__26TBoss5GryphonLightningWingFv(allocation, (void *)((void*)arg0), (void *)((void*)pos), (void *)((void*)mid), &position, (void *)((void*)arg4), (void *)((void*)arg5));
     }
     return effect;
 }

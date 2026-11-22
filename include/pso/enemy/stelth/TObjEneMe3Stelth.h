@@ -101,14 +101,14 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     static void free_shared_resources();
     void *create_real();
     static void load_shared_resources();
-    void handle_breakup_state(s32 arg1);
-    void update_state_resta_cast(s32 arg1);
+    void handle_breakup_state(s32 reason);
+    void update_state_resta_cast(s32 reason);
     void state_chase_target(s32 arg1);
-    void update_state_drop(s32 arg1);
-    void update_state_fade_in(s32 arg1);
+    void update_state_drop(s32 reason);
+    void update_state_fade_in(s32 reason);
     void state_chase(s32 arg1);
     void create_resta_effect();
-    void run_walk_state(s32 arg1);
+    void run_walk_state(s32 reason);
     void exec(s32 arg1);
     void handle_message(s32 arg1);
 };
@@ -119,8 +119,8 @@ LAYOUT_ASSERT(TObjEneMe3Stelth_size, sizeof(TObjEneMe3Stelth) == 0x44C);
 extern "C" {
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth);
 s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos);
-void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1);
-void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason);
+void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 reason);
 void exec__16TObjEneMe3StelthFl(TObjEneMe3Stelth *stelth, s32 arg1);
 }
 

@@ -96,7 +96,7 @@ s32 mask_flags__12TBoss8DragonFiii(s32 arg1, s32 arg2, s32 arg3);
 void TBoss8Dragon__sub_802FB484(TBoss8Dragon *dragon);
 void TBoss8Dragon__sub_802FB70C(saddr arg0);
 void TBoss8Dragon__sub_802FBA1C(TBoss8Dragon *arg0);
-void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1);
+void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 id);
 void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
 f32 atan2_float(f32 y, f32 x);
 void TBoss8Dragon__sub_802FB300(void);
@@ -204,7 +204,7 @@ struct Cfg_802FCA58 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; };
 struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
 s32 get_current_floor();
-void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
+void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
 s32 update_local_colliders_from_world(void *, void *);
@@ -441,7 +441,7 @@ struct Drg_802F4DD4 {
     u8 pad85C[0x894 - 0x85C];
     void *demo;
 };
-u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, saddr arg1, s32 arg2, f32 farg0);
+u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, saddr parent, s32 flag, f32 farg0);
 struct Obj_802FAC08;
 struct Rot_802F6838 { s32 x, y, z; };
 s32 restore_player_cameras(void);
@@ -462,7 +462,7 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
-void *TBoss8Dragon__sub_802F3C24(void *arg0, void *arg1);
+void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
 void *TBoss8DragonEffTail__ct(void *, void *, void *);
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1);
 }
@@ -1309,8 +1309,8 @@ void TBoss8Dragon::play_effect_sound(s32 sound_id) {
     play_sound_effect(sound_id, (saddr)this + 0x634, 0, 0);
 }
 
-void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1) {
-    play_persistent_sound(arg1, arg0, arg0 + 0x634, 0, 0);
+void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 id) {
+    play_persistent_sound(id, arg0, arg0 + 0x634, 0, 0);
 }
 
 void TBoss8Dragon::try_spawn_trap() {
@@ -4967,7 +4967,7 @@ void TBoss8Dragon::draw() {
     pop_matrix();
 }
 
-void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
+void TBoss8Dragon::draw_with_fade(saddr pos, s32 view) {
     RenderFadeState *fade;
     if (!(this->position.y <= -400.0f)) {
         TObjFish::set_global_param(this->texlist);
@@ -4975,16 +4975,16 @@ void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
         if (TBoss8Dragon__sub_802F3F20(((u8 *)this)) != 0) {
-            this->renderFadeStates[arg2].fadeOut();
+            this->renderFadeStates[view].fadeOut();
         } else {
-            this->renderFadeStates[arg2].restore();
+            this->renderFadeStates[view].restore();
         }
-        fade = &this->renderFadeStates[arg2];
+        fade = &this->renderFadeStates[view];
         if (fade->isFading() != 0) {
             fade->set_flags_and_apply_damage_color();
         }
         push_matrix();
-        post_translate_matrix((void *)arg1);
+        post_translate_matrix((void *)pos);
         rotate_matrix_y(0, this->rotation_y);
         rotate_matrix_x(0, this->rotation_x);
         rotate_matrix_z(0, (int) (this->rotation_z));
@@ -5009,10 +5009,10 @@ void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
     }
 }
 
-void TBoss8Dragon::get_render_position(u8 *arg1) {
-    VecCopy((Vec *)arg1, (const Vec *)(((u8 *)this) + 0x38));
+void TBoss8Dragon::get_render_position(u8 *pos) {
+    VecCopy((Vec *)pos, (const Vec *)(((u8 *)this) + 0x38));
     if (((s32)main_task.get_task_flags() & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
-        *(f32 *)((s8 *)arg1 + 8) += -460.0f;
+        *(f32 *)((s8 *)pos + 8) += -460.0f;
     }
 }
 
@@ -5111,13 +5111,13 @@ void TBoss8Dragon::draw_motion_model() {
     }
 }
 
-f32 TBoss8Dragon::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 arg4) {
+f32 TBoss8Dragon::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 flags) {
     switch (payload.kind) {
     case 0xB:
     case 0xC:
         return 0.0f;
     }
-    return TObjChara::receive_direct_attack(attacker, payload, arg2, arg3, arg4);
+    return TObjChara::receive_direct_attack(attacker, payload, arg2, arg3, flags);
 }
 
 #pragma push

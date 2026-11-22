@@ -73,13 +73,13 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void set_target(saddr arg1, s32 arg2, s32 arg3);
     static void advance_camera_ctrl_step(NJS_OBJECT *);
     void handle_message(s32 arg1);
-    void handle_break_state(s32 arg1);
+    void handle_break_state(s32 msg);
     void state_orbit(s32 arg1);
     void update_center_position();
     s32 calc_angle_to_target();
     void set_orbit_destination(s32 arg1);
     s32 assign_guard_targets();
-    void handle_warp_state(s32 arg1);
+    void handle_warp_state(s32 reason);
     void render_with_fade(s32 detail);
 };
 

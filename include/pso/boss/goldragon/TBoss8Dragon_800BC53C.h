@@ -10,9 +10,9 @@ s32 attack_target_history_add(saddr object, saddr target);
 int attack_target_history_contains(void *object, void *target);
 extern "C" {
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
-s32 fn_800BC758(u8 *arg0);
+s32 fn_800BC758(u8 *object);
 u32 *__dt__13PointerBufferFv(u32 *arg0, s16 arg1);
 }
-s32 push_attack_target_entry(u8 *arg0, s32 arg1);
+s32 push_attack_target_entry(u8 *object, s32 target);
 
 #endif

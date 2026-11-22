@@ -585,7 +585,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     self->f24 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].d;
 }
 int initialize_enemy_photon_effect(void *p);
-TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, saddr arg2) : TUnk_80493450((TObject *)arg1) {
+TObjEneDolmOlm::TObjEneDolmOlm(saddr parent, saddr arg2) : TUnk_80493450((TObject *)parent) {
     u32 col;
     __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
     m_name = obj_ene_dolm_olm_class_name;
@@ -1275,13 +1275,13 @@ void TObjEneDolmOlm::advance_position() {
 void TObjEneDolmOlm::request_stand_action() { this->requested_action = 1; }
 #pragma push
 #pragma fp_contract on
-void TObjEneDolmOlm::check_path_ahead(s32 arg1, f32 farg0) {
+void TObjEneDolmOlm::check_path_ahead(s32 angle, f32 farg0) {
     Vec stack;
     stack.y = 0.0f;
     stack.x = 0.0f;
     stack.z = (2.0f * farg0) + *(f32 *)((s8 *)this->bodies + 0xC);
     push_matrix_from((void *) (&(*(RecoveredGlobal_80301264_lbl_8058D490 *)&identity_matrix).value));
-    rotate_matrix_y(0, arg1);
+    rotate_matrix_y(0, angle);
     rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrices(1);
     vec3_add_to(&stack.x, (void *) (((u8 *)this) + 0x2FC));

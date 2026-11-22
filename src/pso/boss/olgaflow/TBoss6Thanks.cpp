@@ -86,7 +86,7 @@ static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
 
 extern "C" {
 void TBoss6Thanks__sub_8035CB40(void);
-void TBoss6Thanks__sub_8035CCAC(saddr arg0);
+void TBoss6Thanks__sub_8035CCAC(saddr boss6_thanks);
 f32 xyz_distance(const void *, const void *);
 
 s32 fn_8035CAE0(void) {
@@ -130,8 +130,8 @@ void TBoss6Thanks::destroy_effects() {
     }
 }
 
-void TBoss6Thanks__sub_8035CCAC(saddr arg0) {
-    O_8035CCAC *self = (O_8035CCAC *)arg0;
+void TBoss6Thanks__sub_8035CCAC(saddr boss6_thanks) {
+    O_8035CCAC *self = (O_8035CCAC *)boss6_thanks;
     s32 i;
     for (i = 0; i < 4; i++) {
         self->arr[i] = 0;
@@ -250,7 +250,7 @@ TBoss6Thanks::~TBoss6Thanks() {
     ((TBoss6Thanks *)this)->destroy_effects();
 }
 
-TBoss6Thanks::TBoss6Thanks(TObject *arg1) : TObject(arg1) {
+TBoss6Thanks::TBoss6Thanks(TObject *parent) : TObject(parent) {
     TBoss6Thanks *boss6_thanks = this;
     u8 *fish_count;
     ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;

@@ -51,10 +51,10 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();
-void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 arg1);
-void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
+void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 reason);
+void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 reason);
 void draw_line_list(VoloptLineList *, s32, u32);
-void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 arg1);
+void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 reason);
 void TObjEneEpsilonGuard__sub_8035F844(TObjEneEpsilonBody *body, s32 arg1);
 void TObjEneEpsilonGuard__sub_8035DEC0(TObjEneEpsilonGuard *guard);
 void TObjEneEpsilonGuard__sub_8035FA50(TObjEneEpsilonBody *body);
@@ -62,8 +62,8 @@ s32 TObjEneEpsilonGuard__sub_8035FBBC(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035FC20(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035FCEC(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035DD74(TObjEneEpsilonGuard *guard);
-void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
-void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 arg1);
+void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 reason);
+void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 reason);
 extern s32 lbl_805D6FA4;
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 epsilon_guard_camera_sample_phase;
@@ -74,7 +74,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 check_path_obstructed(void *, void *);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot);
-void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1);
+void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 reason);
 int TObjEneEpsilonGuard__sub_8035DD68(TObjEneEpsilonGuard *guard);
 void TObjEneEpsilonGuard__sub_8035FB44(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035FAA8(TObjEneEpsilonBody *body);
@@ -82,7 +82,7 @@ s32 TObjEneEpsilonGuard__sub_8035FAA8(TObjEneEpsilonBody *body);
 extern s32 lbl_805D5870;
 }
 s16 obj_getS16_118(u8 *p);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
 extern TObject *tl_04;
 
 Vec lbl_805439F0;
@@ -326,8 +326,8 @@ void TObjEneEpsilonBody::update_guard_flag() {
 
 void TObjEneEpsilonBody::run_demo_task() {  }
 
-void TObjEneEpsilonBody::sub_80361D4C(s32 arg1) {
-    switch (arg1) {
+void TObjEneEpsilonBody::sub_80361D4C(s32 reason) {
+    switch (reason) {
     case 4:
         set_field_378(0);
         set_intangible();
@@ -350,8 +350,8 @@ void TObjEneEpsilonBody::sub_80361D4C(s32 arg1) {
     }
 }
 
-void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 arg1) {
-    switch (arg1) {
+void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 reason) {
+    switch (reason) {
     case 4:
         body->set_field_378(0);
         body->clear_intangible();
@@ -375,12 +375,12 @@ void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
+void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 reason) {
     Vec *d;
     Vec *tgt;
     d = &body->fire_position;
     tgt = &body->target_position;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         body->set_field_378(2);
         body->clear_intangible();
@@ -526,8 +526,8 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
 }
 #pragma pop
 
-void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1) {
-    switch (arg1) {
+void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 reason) {
+    switch (reason) {
     case 4:
         body->set_field_378(3);
         body->clear_intangible();
@@ -578,9 +578,9 @@ void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *bo
     }
 }
 
-void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1) {
+void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 reason) {
     s32 temp_r3;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         body->set_field_378(4);
         body->clear_intangible();
@@ -627,8 +627,8 @@ void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1) {
     }
 }
 
-void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 arg1) {
-    switch (arg1) {
+void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 reason) {
+    switch (reason) {
     case 4:
         body->set_field_378(4);
         body->clear_intangible();
@@ -710,9 +710,9 @@ void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 arg1) {
     }
 }
 
-void TObjEneEpsilonGuard::handle_warp_state(s32 arg1) {
+void TObjEneEpsilonGuard::handle_warp_state(s32 reason) {
     TObjEneEpsilonBody *body = (TObjEneEpsilonBody *)this;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         set_field_378(4);
         clear_intangible();
@@ -784,8 +784,8 @@ void TObjEneEpsilonGuard::handle_warp_state(s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 arg1) {
-    switch (arg1) {
+void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 reason) {
+    switch (reason) {
     case 4:
         body->set_field_378(4);
         body->clear_intangible();

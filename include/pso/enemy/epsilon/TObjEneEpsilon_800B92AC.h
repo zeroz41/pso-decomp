@@ -6,10 +6,10 @@
 extern "C" {
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
-void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
+void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale);
 int acquire_target__12TObjEneDD_STFf(void *p);
 }
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
 extern "C" {
 void select_nearest_target__12TObjEneDD_STFf(s32 arg0);
 }
@@ -18,7 +18,7 @@ void select_nearest_target__12TObjEneDD_STFf(s32 arg0);
 extern "C" {
 void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0);
 void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0);
-void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
+void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale);
 int acquire_target__12TObjEneDD_STFf(void *p);
 }
 // --- end of C functions

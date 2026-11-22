@@ -119,7 +119,7 @@ s32 vec3_add_to(void *, void *);
 s32 debug_draw_line(void *, void *, int, int);
 typedef void (*State_800B73A8)(u8 *, s32);
 }
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 #include <stddef.h>
 
@@ -159,8 +159,8 @@ __declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref =
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->m_3dc; }
 
-s32 actor_rand_int(saddr actor, s32 arg1) {
-    return (s32) ((f32) arg1 * ((TObjChara *)actor)->random_ratio());
+s32 actor_rand_int(saddr actor, s32 range) {
+    return (s32) ((f32) range * ((TObjChara *)actor)->random_ratio());
 }
 
 void TObjEneBm5Wolf::register_global_objects() {
@@ -277,8 +277,8 @@ static f32 actor_rand_float(saddr actor, s32 range) {
     return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
 
-void *TObjEneBm5Wolf::create(void *arg0) {
-    return new TObjEneBm5Wolf((TObject *)tl_04, arg0);
+void *TObjEneBm5Wolf::create(void *set_data) {
+    return new TObjEneBm5Wolf((TObject *)tl_04, set_data);
 }
 
 void TObjEneBm5Wolf::release_global_805D5120() {
@@ -785,10 +785,10 @@ void TObjEneBm5Wolf::dispatch_action(u32 state, s32 event) {
     }
 }
 
-void TObjEneBm5Wolf::anchor_state(s32 arg1) {
+void TObjEneBm5Wolf::anchor_state(s32 event) {
     TObjEneBm5Wolf *leader;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->roamingTimer = 0;
         this->set_field_378(0);
@@ -817,11 +817,11 @@ void TObjEneBm5Wolf::anchor_state(s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5Wolf::appearing_state(s32 arg1) {
+void TObjEneBm5Wolf::appearing_state(s32 event) {
     Vec *home = &this->m_444;
     f32 t;
 
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x11;
         this->set_field_378(7);
@@ -878,9 +878,9 @@ void TObjEneBm5Wolf::appearing_state(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneBm5Wolf::sleeping_state(s32 arg1) {
+void TObjEneBm5Wolf::sleeping_state(s32 event) {
   TObjEneBm5Wolf *entity;
-  switch (arg1)
+  switch (event)
   {
     case 4:
       this->requested_action = 4;
@@ -920,9 +920,9 @@ void TObjEneBm5Wolf::sleeping_state(s32 arg1) {
   }
 }
 
-void TObjEneBm5Wolf::alerted_state(s32 arg1) {
+void TObjEneBm5Wolf::alerted_state(s32 event) {
   s32 new_var;
-  switch (arg1)
+  switch (event)
   {
     case 4:
       this->requested_action = 4;
@@ -949,8 +949,8 @@ void TObjEneBm5Wolf::alerted_state(s32 arg1) {
   }
 }
 
-void TObjEneBm5Wolf::standing_state(s32 arg1) {
-  switch (arg1)
+void TObjEneBm5Wolf::standing_state(s32 event) {
+  switch (event)
   {
     case 4:
       this->requested_action = 5;
@@ -986,10 +986,10 @@ void TObjEneBm5Wolf::standing_state(s32 arg1) {
   return;
 }
 
-void TObjEneBm5Wolf::howling_state(s32 arg1) {
+void TObjEneBm5Wolf::howling_state(s32 event) {
     TObjEneBm5WolfListNode *p;
     TObjEneBm5Wolf *r;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0x10;
         set_field_378(7);
@@ -1137,10 +1137,10 @@ void TObjEneBm5Wolf::roaming_state(int event) {
     }
 }
 #pragma pop
-void TObjEneBm5Wolf::chasing_state(s32 arg1) {
+void TObjEneBm5Wolf::chasing_state(s32 event) {
     f32 temp_f1;
     f32 temp_f1_2;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 2;
         this->set_field_378(8);
@@ -1193,11 +1193,11 @@ void TObjEneBm5Wolf::chasing_state(s32 arg1) {
     }
 }
 
-void TObjEneBm5Wolf::flanking_state(s32 arg1) {
+void TObjEneBm5Wolf::flanking_state(s32 event) {
     s32 *ang = &this->m_42c;
     Vec *dst = &this->m_444;
     Vec *src = &this->m_450;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 3;
         set_field_378(9);
@@ -1260,14 +1260,14 @@ void TObjEneBm5Wolf::flanking_state(s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5Wolf::circling_state(s32 arg1) {
+void TObjEneBm5Wolf::circling_state(s32 event) {
     Vec *b;
     Vec *a;
     f32 vx;
     f32 vz;
     a = &this->m_444;
     b = &this->m_450;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 1;
         this->set_field_378(10);
@@ -1429,10 +1429,10 @@ void TObjEneBm5Wolf::circling_state(s32 arg1) {
     }
 }
 
-void TObjEneBm5Wolf::update_lunge(s32 arg1) {
+void TObjEneBm5Wolf::update_lunge(s32 event) {
     f32 temp_f2;
     f32 temp_f3;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 0xC;
         this->set_field_378(0xD);
@@ -1536,10 +1536,10 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
     }
 }
 
-void TObjEneBm5Wolf::returning_state(s32 arg1) {
+void TObjEneBm5Wolf::returning_state(s32 event) {
     Vec *home = &this->m_450;
     f32 lim = this->stoppingDistance;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->requested_action = 1;
         this->set_field_378(0xC);
@@ -1598,8 +1598,8 @@ void TObjEneBm5Wolf::returning_state(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm5Wolf::repositioning_state(s32 event) {
+    switch (event) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xD);
@@ -1711,8 +1711,8 @@ void TObjEneBm5Wolf::action(s32 arg1) {
     }
 }
 
-void TObjEneBm5Wolf::hurt_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm5Wolf::hurt_state(s32 event) {
+    switch (event) {
     case 4:
         this->clear_intangible();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
@@ -1771,7 +1771,7 @@ void TObjEneBm5Wolf::hurt_state(s32 arg1) {
     }
 }
 
-void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
+void TObjEneBm5Wolf::update_dying_state(s32 event) {
     s32 *tgt;
     TObjEneBm5WolfListNode *n;
     TObjEneBm5Wolf *e;
@@ -1780,7 +1780,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
     Vec vel;
     f32 c;
     tgt = &this->m_42c;
-    switch (arg1) {
+    switch (event) {
     case 4:
         this->clear_intangible();
         this->refresh_and_send_entity_flags();

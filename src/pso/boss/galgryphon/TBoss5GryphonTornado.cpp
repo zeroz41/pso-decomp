@@ -171,13 +171,13 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
     if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
 }
 
-u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, u16 arg4) {
-    __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
+u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *parent, s32 gryphon, u8 *arg3, u16 kind) {
+    __ct__7TObjectFP7TObject(boss5_gryphon_tornado, parent);
     *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
     *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (saddr) TBoss5GryphonTornado__class_name;
     VecCopy((Vec *)((u8 *)boss5_gryphon_tornado + 0x28), (const Vec *)arg3);
-    boss5_gryphon_tornado->m_24 = arg4;
-    boss5_gryphon_tornado->m_4c = arg2;
+    boss5_gryphon_tornado->m_24 = kind;
+    boss5_gryphon_tornado->m_4c = gryphon;
     *(f32 *)((s8 *)boss5_gryphon_tornado + 0x34) = 0.0f;
     boss5_gryphon_tornado->m_38 = 0.0f;
     *(f32 *)((s8 *)boss5_gryphon_tornado + 0x3C) = 0.0f;

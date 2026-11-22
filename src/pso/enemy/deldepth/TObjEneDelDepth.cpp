@@ -229,8 +229,8 @@ void TObjEneDelDepth::setup_draw_material(f32 farg0, f32 farg1, f32 farg2, f32 f
     set_constant_material(&color);
 }
 
-void TObjEneDelDepth::setup_draw_material_default(f32 farg0) {
-    TObjEneDelDepth::setup_draw_material(farg0, TObjEneDelDepth__data_805DF258, TObjEneDelDepth__data_805DF258, TObjEneDelDepth__data_805DF258);
+void TObjEneDelDepth::setup_draw_material_default(f32 opacity) {
+    TObjEneDelDepth::setup_draw_material(opacity, TObjEneDelDepth__data_805DF258, TObjEneDelDepth__data_805DF258, TObjEneDelDepth__data_805DF258);
 }
 
 void TObjEneDelDepth::reset_globals() {

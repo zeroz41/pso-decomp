@@ -13,7 +13,7 @@ void TBoss6Type2__sub_803300C8(u8 *arg0);
 int copy_vec3__11TBoss6Type2Fii(saddr _w0, saddr _w1);
 void *fn_8033068C(void *arg0, s16 arg1);
 void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0);
-void update_all_parts__11TBoss6Type2FPv(saddr arg0);
+void update_all_parts__11TBoss6Type2FPv(saddr self);
 }
 
 // --- C functions defined in TBoss6Type2_8032E708.cpp ---
@@ -27,7 +27,7 @@ void TBoss6Type2__sub_803300C8(u8 *arg0);
 int copy_vec3__11TBoss6Type2Fii(saddr _w0, saddr _w1);
 void *fn_8033068C(void *arg0, s16 arg1);
 void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0);
-void update_all_parts__11TBoss6Type2FPv(saddr arg0);
+void update_all_parts__11TBoss6Type2FPv(saddr self);
 }
 // --- end of C functions
 

@@ -225,7 +225,7 @@ TBoss4Thanks::~TBoss4Thanks() {
     ((TBoss4Thanks *)this)->destroy_effects();
 }
 
-TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
+TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
     *(s32 *)((s8 *)this + 0) = (saddr) TBoss4Thanks__class_name;
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());

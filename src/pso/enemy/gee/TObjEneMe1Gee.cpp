@@ -789,8 +789,8 @@ void TObjEneMe1Gee::dispatch_action(u32 state, s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::state_attack_loop(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         set_field_378(3);
@@ -853,9 +853,9 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
+void TObjEneMe1Gee::sub_800CAFD8(s32 mode) {
     Vec pos;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(3);
@@ -900,10 +900,10 @@ void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::state_hover(s32 arg1) {
+void TObjEneMe1Gee::state_hover(s32 mode) {
     s32 temp_r3;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         set_field_378(3);
@@ -1106,9 +1106,9 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 #pragma pool_data off
-void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
+void TObjEneMe1Gee::sub_800CA454(s32 mode) {
     Vec *dir = &this->m_454;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->set_field_378(7);
         this->m_3c8 |= 0x10000;
@@ -1250,10 +1250,10 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
+void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
     f32 dist;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(8);
@@ -1423,9 +1423,9 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
+void TObjEneMe1Gee::sub_800C9A94(s32 mode) {
     Vec *dir = &this->m_454;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(9);
@@ -1515,8 +1515,8 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::sub_800C9964(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xA);
@@ -1622,8 +1622,8 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
 }
 #pragma push
 #pragma opt_common_subs off
-void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::sub_800C9580(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xC);
@@ -1649,9 +1649,9 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe1Gee::state_return_home(s32 arg1) {
+void TObjEneMe1Gee::state_return_home(s32 mode) {
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         set_field_378(0xF);
         this->m_3c8 &= 0xFFBFFFFF;

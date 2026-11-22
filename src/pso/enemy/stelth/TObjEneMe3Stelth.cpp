@@ -112,20 +112,20 @@ u32 *TObjEneMe3Stelth__material_color_pointers[4];
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1);
-void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 reason);
+void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason);
 
 
-void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
+void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 reason);
 f32 *TBoss3Volopt__sub_800F059C(void *);
 f32 atan2_float(f32 y, f32 x);
-void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
-void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason);
+void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 reason);
 
 
 f32 fabs_float(f32);
@@ -659,8 +659,8 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         render_minimap_dot();
     }
 }
-void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::vfunc_113(s32 reason) {
+    switch (reason) {
     case 4:
         if (m_3c4 == 1) {
             requested_action = 2;
@@ -703,10 +703,10 @@ void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth::sub_800F42B8(s32 arg1) {
+void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
     Vec v;
     f32 t;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         set_field_378(0);
@@ -798,10 +798,10 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec pos;
     f32 temp_f1;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0;
         stelth->set_field_378(0);
@@ -825,9 +825,9 @@ void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
+void TObjEneMe3Stelth::update_state_fade_in(s32 reason) {
     s32 t;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 0;
         set_field_378(5);
@@ -875,11 +875,11 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth::update_state_drop(s32 arg1) {
+void TObjEneMe3Stelth::update_state_drop(s32 reason) {
     f32 node_world_y;
     f32 temp_f31;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 1;
         set_field_378(0xD);
@@ -997,13 +997,13 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec v;
     Vec points[2];
     f32 t;
     s32 ang;
     Vec *entry;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 6;
         stelth->set_field_378(6);
@@ -1130,10 +1130,10 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 reason) {
     f32 temp_f1;
     s32 var_r4;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 7;
         stelth->set_field_378(0xC);
@@ -1194,8 +1194,8 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::run_walk_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->requested_action = 3;
         this->set_field_378(6);
@@ -1280,8 +1280,8 @@ void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 8;
         set_field_378(0xB);
@@ -1362,9 +1362,9 @@ void TObjEneMe3Stelth::handle_message(s32 arg1) {
 }
 
 
-void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
+void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason) {
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 8;
         stelth->set_field_378(6);
@@ -1400,10 +1400,10 @@ void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec v;
     f32 c;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 4;
         stelth->advance_animation();
@@ -1436,10 +1436,10 @@ void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
+void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
     Vec ofs;
     Vec v;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 5;
         refresh_and_send_entity_flags();
@@ -1499,14 +1499,14 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec v;
     Vec p;
     Vec q;
     s32 arr[3];
     s32 i;
     s32 ang;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0xC;
         stelth->set_field_378(0xC);
@@ -1887,8 +1887,8 @@ void TObjEneMe3Stelth::exec(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 reason) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0xB;
         stelth->set_field_378(6);
@@ -1943,12 +1943,12 @@ void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec d;
     Vec out;
     s32 c[3];
     s32 r;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0xA;
         stelth->set_field_378(6);

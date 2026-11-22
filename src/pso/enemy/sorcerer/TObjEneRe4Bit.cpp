@@ -385,9 +385,9 @@ void TObjEneRe4Bit::handle_event(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 arg1) {
+void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 reason) {
     u32 flags;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         bit->set_field_378(3);
         bit->m_3cc |= 0x1000;
@@ -428,8 +428,8 @@ void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 reason) {
+    switch (reason) {
     case 4:
         bit->set_field_378(3);
         bit->m_3cc &= ~0x1000;
@@ -455,8 +455,8 @@ void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 arg1) {
 }
 #pragma pop
 
-void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 reason) {
+    switch (reason) {
     case 4:
         bit->m_408 = 0;
         return;
@@ -481,9 +481,9 @@ void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 arg1) {
+void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 reason) {
     u32 flags;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         bit->m_408 = 0;
         bit->set_hold_flags();

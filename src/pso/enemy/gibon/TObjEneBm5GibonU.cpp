@@ -448,9 +448,9 @@ __declspec(section ".data") u32 TObjEneBm5GibonU__enemy_list[3];
 extern "C" {
 extern s32 game_difficulty_selection;
 s32 fn_800D88E4(void *);
-void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 arg1);
+void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 msg);
 void TObjEneBm5GibonU__sub_800CFE30(TObjEneBm5GibonU *self, s32 arg1);
-void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1);
+void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 msg);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 is_split_screen();
 s32 draw_blob_shadow(s32);
@@ -464,10 +464,10 @@ s32 is_vec_xz_cross_negative(void *, void *);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 s32 vec3_add_to(void *, void *);
 s32 obj_is_hit_receivable(u8 *arg0);
-void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1);
+void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 msg);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
 void move_with_wall_slide(u8 *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -762,12 +762,12 @@ void TObjEneBm5GibonU::handle_message(s32 msg) {
     }
 }
 
-void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
+void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
     Vec v;
     Vec p;
     s32 ang[3];
     s32 r;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         set_field_378(14);
@@ -897,9 +897,9 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
     ((TObjPlayer *)this)->update_collisions();
 }
 
-void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 msg) {
     s32 offs[3];
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(0xE);
@@ -1008,13 +1008,13 @@ void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 
-void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 msg) {
     Vec sp14;
     Vec sp8;
     f32 k;
     TObjEneBm5GibonUNode *n;
     u8 *o;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->clear_intangible();
         self->refresh_and_send_entity_flags();
@@ -1093,9 +1093,9 @@ void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 
-void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 msg) {
     Vec sp8;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->clear_intangible();
         TBoss8Dragon__sub_800BB7D4(self, 0xF1);
@@ -1152,10 +1152,10 @@ void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 
-void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *self, s32 arg1) {
+void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *self, s32 msg) {
     s32 temp_r0;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->clear_intangible();
         self->set_field_378(8);
@@ -1188,11 +1188,11 @@ void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 
-void TObjEneBm5GibonU__sub_800CE694(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CE694(TObjEneBm5GibonU *self, s32 msg) {
     Vec v;
     f32 dx;
     f32 dz;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 0;
         self->set_field_378(0xE);
@@ -1270,13 +1270,13 @@ void TObjEneBm5GibonU__sub_800CE694(TObjEneBm5GibonU *self, s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU__sub_800CE978(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CE978(TObjEneBm5GibonU *self, s32 msg) {
     Vec dir;
     Vec diff;
     Vec *home = &self->m_54c;
     f32 range = self->m_530;
     u8 *tgt;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 1;
         self->set_field_378(0xD);
@@ -1335,10 +1335,10 @@ void TObjEneBm5GibonU__sub_800CE978(TObjEneBm5GibonU *self, s32 arg1) {
 }
 #pragma pop
 
-void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 msg) {
     f32 temp_f0;
     s32 temp_r4;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 0xA;
         self->set_field_378(0xE);
@@ -1419,13 +1419,13 @@ extern "C" {
 f32 calc_xz_direction_to__16TObjEneBm5GibonUFPvPvPv(TObjEneBm5GibonU *self, Vec *target, Vec *dir);
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU::run_idle_state(s32 arg1) {
+void TObjEneBm5GibonU::run_idle_state(s32 msg) {
   s32 ang;
   Vec *a = &((TObjEneBm5GibonU *)this)->m_540;
   Vec *b = &m_54c;
   f32 fx;
   f32 fz;
-  switch (arg1)
+  switch (msg)
   {
     case 4:
       requested_action = 1;
@@ -1661,12 +1661,12 @@ void TObjEneBm5GibonU::run_idle_state(s32 arg1) {
 }
 #pragma pop
 }
-void TObjEneBm5GibonU__sub_800CF4BC(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CF4BC(TObjEneBm5GibonU *self, s32 msg) {
     s32 *rot = &self->m_528;
     Vec *vel = &self->m_540;
     Vec *dir = &self->m_54c;
     f32 t;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 3;
         self->set_field_378(0xA);
@@ -1744,11 +1744,11 @@ void TObjEneBm5GibonU__sub_800CF4BC(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 
-void TObjEneBm5GibonU__sub_800CF7CC(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CF7CC(TObjEneBm5GibonU *self, s32 msg) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f1_3;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 2;
         self->set_field_378(9);
@@ -1812,14 +1812,14 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 msg) {
     s32 angle;
     f32 radius;
     TObjChara *target;
     f32 dx;
     f32 dz;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 1;
         self->set_field_378(8);
@@ -1913,10 +1913,10 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
 
 void TObjEneBm5GibonU__sub_800CFE30(TObjEneBm5GibonU *self, s32 _w1) {  }
 
-void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 msg) {
     TObjEneBm5GibonUNode *n;
     TObjEneBm5GibonU *o;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 0xE;
         self->set_field_378(8);
@@ -1959,8 +1959,8 @@ void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 
-void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 arg1) {
-  switch (arg1)
+void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 msg) {
+  switch (msg)
   {
     case 4:
       self->requested_action = 5;
@@ -1999,8 +1999,8 @@ void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 arg1) {
   }
 }
 
-void TObjEneBm5GibonU__sub_800D00F0(TObjEneBm5GibonU *self, s32 arg1) {
-  switch (arg1)
+void TObjEneBm5GibonU__sub_800D00F0(TObjEneBm5GibonU *self, s32 msg) {
+  switch (msg)
   {
     case 4:
       *((s16 *) (((s8 *) self) - -0xB8)) = 4;
@@ -2027,9 +2027,9 @@ void TObjEneBm5GibonU__sub_800D00F0(TObjEneBm5GibonU *self, s32 arg1) {
   }
 }
 
-void TObjEneBm5GibonU__sub_800D01DC(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800D01DC(TObjEneBm5GibonU *self, s32 msg) {
   u8 *entity;
-  switch (arg1)
+  switch (msg)
   {
     case 4:
       self->requested_action = 4;
@@ -2069,9 +2069,9 @@ void TObjEneBm5GibonU__sub_800D01DC(TObjEneBm5GibonU *self, s32 arg1) {
   }
 }
 
-void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 msg) {
     Vec *home = &self->m_540;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 0;
         self->set_field_378(8);
@@ -2104,9 +2104,9 @@ void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU__sub_800D0420(TObjEneBm5GibonU *self, s32 arg1) {
+void TObjEneBm5GibonU__sub_800D0420(TObjEneBm5GibonU *self, s32 msg) {
     Vec *home = &self->m_540;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 0xF;
         self->set_field_378(8);
@@ -2772,10 +2772,10 @@ void TObjEneBm5GibonU::release_static_resource() {
 
 extern void *tl_04;
 
-void *TObjEneBm5GibonU::create(void *arg0) {
+void *TObjEneBm5GibonU::create(void *set_data) {
     void *o = TObject::operator new(0x568);
     if (o != NULL) {
-        o = TObjEneBm5GibonU__ct((TObjEneBm5GibonU *)o, (saddr)tl_04, (saddr)arg0);
+        o = TObjEneBm5GibonU__ct((TObjEneBm5GibonU *)o, (saddr)tl_04, (saddr)set_data);
     }
     return o;
 }

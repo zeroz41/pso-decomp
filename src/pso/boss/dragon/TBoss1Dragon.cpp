@@ -160,7 +160,7 @@ uaddr get_player_by_client_id(s32);
 extern s32 lbl_805D4B24;
 extern s32 TLobby__designated_client_id;
 s32 isV2Mode__12TBoss1DragonFv(void);
-u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, saddr arg1, s32 arg2, f32 farg0);
+u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, saddr parent, s32 demo, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_cue_stream_file(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
@@ -182,7 +182,7 @@ f32 horizontal_distance_squared(void *, void *);
 void send_state_sync__12TBoss1DragonFPv(TBoss1Dragon *s);
 void TBoss1Dragon__sub_80028BE0(u8 *arg0);
 s32 is_destination_ahead__12TBoss1DragonFPv(u8 *s);
-void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
+void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale);
 
 extern saddr TBoss1Dragon__data_804FE17C[3];
 
@@ -246,7 +246,7 @@ void TBoss1Dragon__sub_80023A2C(TBoss1Dragon *arg0, u32 arg1);
 void TBoss1Dragon__sub_80026B98(TBoss1Dragon *arg0, u32 arg1);
 extern "C" void dispatch_action__12TBoss1DragonFUll();
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
-void TBoss1Dragon__sub_80027514(TBoss1Dragon *dragon, Vec *position, u8 *params, s32 arg3);
+void TBoss1Dragon__sub_80027514(TBoss1Dragon *dragon, Vec *position, u8 *params, s32 history);
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *arg0);
 }
 extern const f32 TBoss1Dragon__gravity_accel;
@@ -2310,7 +2310,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
+void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 state) {
     f32 factor;
     s32 temp_r30;
     struct { f32 x, y, z; } v;
@@ -2327,7 +2327,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
         this->flags = (s32) (this->flags & 0xFFFFFC7F);
         this->set_invulnerable();
         this->disable_body_collision();
-        if (arg2 == 0x10) {
+        if (state == 0x10) {
             this->m_6dc = 0;
         } else {
             this->m_6dc = (this->m_6dc + 1);
@@ -4071,11 +4071,11 @@ void TBoss1Dragon::update_switch_attack() {
     spawn_particle_effect_with_flags(&this->position, this->effectResource->particle_ids[1], 0x40);
 }
 
-void TBoss1Dragon__sub_80027514(TBoss1Dragon *dragon, Vec *position, u8 *params, s32 arg3) {
+void TBoss1Dragon__sub_80027514(TBoss1Dragon *dragon, Vec *position, u8 *params, s32 history) {
     ((TUnk_804928CC *)dragon->m_774)->set_position_from(position);
     dragon->m_774->bodies->radius = *(f32 *)(params + 8);
     dragon->m_774->bodies->flags = 0x9D03;
-    dragon->m_774->call_vt13_with_default(params + 0xC, params, arg3);
+    dragon->m_774->call_vt13_with_default(params + 0xC, params, history);
 }
 
 void TBoss1Dragon__sub_80027590(TBoss1Dragon *dragon, void *params) {
@@ -4119,7 +4119,7 @@ void TBoss1Dragon::apply_fireball_impact_damage(saddr arg1) {
   }
 }
 
-void TBoss1Dragon::deliver_breath_attack(saddr arg1, s32 arg2) {
+void TBoss1Dragon::deliver_breath_attack(saddr arg1, s32 attack_history) {
     struct CopyStack_80027710 { u8 bytes[0x14]; };
     CopyStack_80027710 copy_storage_80027710;
     *(ByteBlock_14 *)(copy_storage_80027710.bytes) = *(const ByteBlock_14 *)((saddr) ((u8 *)((void *)((u8 *)&dragon_fireball_attack_params + -4))) + 4);
@@ -4127,10 +4127,10 @@ void TBoss1Dragon::deliver_breath_attack(saddr arg1, s32 arg2) {
     (*(s32 *)copy_storage_80027710.bytes) = this->m_770;
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
-        TObjEneDD::setup_instance((saddr) this, arg1, (copy_storage_80027710.bytes), arg2);
+        TObjEneDD::setup_instance((saddr) this, arg1, (copy_storage_80027710.bytes), attack_history);
         return;
     case 1:
-        TBoss1Dragon__sub_80027514(this, (Vec *)arg1, copy_storage_80027710.bytes, arg2);
+        TBoss1Dragon__sub_80027514(this, (Vec *)arg1, copy_storage_80027710.bytes, attack_history);
         return;
     }
 }
@@ -5226,7 +5226,7 @@ Obj_80029C78 *destroy__12TBoss1DragonFPvs(Obj_80029C78 *o, s16 flag) {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *arg2) {
+u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *set_data) {
     u32 sp8[3];
     s32 i;
     s32 j;
@@ -5243,7 +5243,7 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *arg2) {
     if ((u32)TBoss1Dragon__data_805D4B2C == 0U) {
         TBoss1Dragon__data_805D4B2C = (saddr)arg0;
     }
-    ((TObjEneDD *)arg0)->invoke_initialization_hook(arg2);
+    ((TObjEneDD *)arg0)->invoke_initialization_hook(set_data);
     arg0->flags = 0;
     if (((TObjEnemy *)arg0)->exchange_object_state(sp8, 1) != 0 && (sp8[0] & 0x12008) == 0x12008) {
         arg0->flags |= 0x40;

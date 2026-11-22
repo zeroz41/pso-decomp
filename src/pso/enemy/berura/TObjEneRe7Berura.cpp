@@ -77,17 +77,17 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *);
-void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1);
+void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 reason);
 s32 matrix_mult_vec_array(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1);
+void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 reason);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 launch__21TObjEneRe7BeruraPunchFll(TObjEneRe7BeruraPunch *, s32, Vec *, f32 *);
 s32 vec3_add_to(void *, void *);
 extern TObjMotionAction TObjEneRe7Berura__animation_definitions[];
-void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1);
-void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1);
+void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 reason);
+void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 reason);
 s32 TObjEneRe7Berura__sub_80094DB4(TObjEneRe7Berura *);
 }
 
@@ -97,7 +97,7 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(TObjBase *);
 u32 csnLookAt(Vec *, Vec *);
-void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1);
+void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 reason);
 
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
@@ -753,12 +753,12 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
+void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 reason) {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 var_r4;
     s32 var_r4_2;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->requested_action = 0;
         self->set_intangible();
@@ -829,8 +829,8 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 reason) {
+    switch (reason) {
     case 4:
         self->requested_action = 0;
         self->set_intangible();
@@ -908,8 +908,8 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 reason) {
+    switch (reason) {
     case 4:
         self->requested_action = 1;
         self->clear_intangible();
@@ -999,11 +999,11 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
+void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 reason) {
     Vec v;
     TObjEneRe7BeruraPart *t;
     s32 ok;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->clear_intangible();
         self->m_3c0 &= ~3;
@@ -1105,7 +1105,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
+void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 reason) {
     Vec sp2C;
     Vec sp20;
     Vec sp14;
@@ -1113,7 +1113,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
     s32 i;
     s32 entry;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         actor->requested_action = 1;
         actor->clear_intangible();
@@ -1207,10 +1207,10 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
 }
 #pragma push
 #pragma opt_propagation off
-void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
+void TObjEneRe7Berura::run_flash_warning_state(s32 reason) {
     s32 t;
     s32 v;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 5;
         clear_intangible();

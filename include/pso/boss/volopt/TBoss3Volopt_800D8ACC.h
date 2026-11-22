@@ -4,14 +4,14 @@
 #include "types.h"
 
 extern "C" {
-void TBoss3Volopt__sub_800D8D88(saddr arg0);
-void spawn_particles_at__12TBoss3VoloptFi(saddr arg0);
+void TBoss3Volopt__sub_800D8D88(saddr position);
+void spawn_particles_at__12TBoss3VoloptFi(saddr position);
 }
 
 // --- C functions defined in TBoss3Volopt_800D8ACC.cpp ---
 extern "C" {
-void TBoss3Volopt__sub_800D8D88(saddr arg0);
-void spawn_particles_at__12TBoss3VoloptFi(saddr arg0);
+void TBoss3Volopt__sub_800D8D88(saddr position);
+void spawn_particles_at__12TBoss3VoloptFi(saddr position);
 }
 // --- end of C functions
 

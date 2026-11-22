@@ -100,7 +100,7 @@ struct TBoss4Type2
     void apply_resta_heal();
     void set_grid_pos(void *arg1);
     void calc_grid_target_position();
-    void send_attack_code(s32 arg1, s32 arg2);
+    void send_attack_code(s32 arg1, s32 id);
     void set_attack_pattern_by_index(s32 arg1);
     void update_phase_timer();
     void advance_afterimage();
@@ -108,7 +108,7 @@ struct TBoss4Type2
     static s32 pick_weighted_random(s32 n, f32 *w, s32 *t);
     void spawn_afterimages();
     void choose_next_action();
-    static void *create_jisin(void *arg0, void *arg1);
+    static void *create_jisin(void *parent, void *angle);
     void change_action(s32 action);
     void appear_enter();
     void appear_idle();

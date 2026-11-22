@@ -52,7 +52,7 @@ struct TBoss6Type2 : public TObjEnemy
     virtual void run_task();
     virtual void render();
     virtual f32 receive_physical_attack(void *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 arg5);
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();
@@ -159,7 +159,7 @@ struct TBoss6Type2 : public TObjEnemy
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(saddr arg0, saddr arg1, f32 farg0);
+    static u8 *create_dpb(saddr parent, saddr position, f32 farg0);
     s32 get_phase();
     void call_9A24_plus_1(s32 *arg1);
     void unpack_path_entry(s32 *arg1);
@@ -183,7 +183,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 is_phase_complete();
     void trigger_screen_pos();
     void spawn_rocks_around_players();
-    static void drop_random_rocks(s32 arg0, s32 arg1);
+    static void drop_random_rocks(s32 arg0, s32 force);
     static void request_default_follow_camera();
     static void init_range();
     void update_target();
@@ -207,7 +207,7 @@ struct TBoss6Type2 : public TObjEnemy
     void start_countdown_sound_state();
     void reset_indices();
     s32 get_hit_count();
-    void add_damage(s32 arg1);
+    void add_damage(s32 diff);
     void reset_attack_counter();
     void copy_anim_state();
     void load_battle_params();
@@ -230,7 +230,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_attack_target();
     void update_action_state();
     void send_action_packet_if_idle(s32 arg1, s32 *arg2);
-    void parse_action_packet(void *arg1);
+    void parse_action_packet(void *packet);
     static s32 create(saddr arg0);
     void draw();
     void select_action();
@@ -265,7 +265,7 @@ struct TBoss6Type2 : public TObjEnemy
     void set_anim_frame(s32 v);
     void destroy_part_object(s32 arg1);
     void ensure_particle_emitter(s32 arg1);
-    s32 step_angle_toward(s32 arg1, s32 arg2, s32 arg3);
+    s32 step_angle_toward(s32 arg1, s32 arg2, s32 turn);
     f32 apply_direction_sign(f32 farg0);
     void enforce_min_distance();
     void push_out_from_points();

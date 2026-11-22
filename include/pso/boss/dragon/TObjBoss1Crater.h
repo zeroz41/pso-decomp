@@ -14,7 +14,7 @@ struct TObjBoss1Crater : public TUnk_804928CC {
     void * m_b4;
     u8 unk_B8[0x14];
     static s32 is_count_below_limit();
-    void *create(void *arg1);
+    void *create(void *pos);
 };
 
 LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);

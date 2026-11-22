@@ -193,7 +193,7 @@ u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
-void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
+void *create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
 s32 TBoss4Type3__sub_8005254C(u16);
 void TBoss4Type2__sub_80053504(TBoss4Type1 *arg0);
 void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in);
@@ -204,7 +204,7 @@ void * create__9TBoss4UroFi(Params_80052CDC *);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
+void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 void vec3_add_to(Vec *, Vec *);
 void subtract_vector(Vec *, Vec *);
 int post_translate_matrix(void*);
@@ -359,7 +359,7 @@ void TBoss4Type2__sub_80055300(void) { TBoss4Type2__sub_80054FC0(NULL, 0.0f); }
 s32 is_split_screen(void);
 extern s32 local_client_id;
 
-extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
+extern "C" void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist) {
   u8 *out;
   s32 total;
   s32 cnt;
@@ -434,12 +434,12 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     {
       goto next;
     }
-    if (arg0 != 0)
+    if (center != 0)
     {
-      VecCopy__FP3VecPC3Vec(&v, arg0);
+      VecCopy__FP3VecPC3Vec(&v, center);
       subtract_vector((Vec *) (&v), (Vec *) (&w));
       v.y = 0.0f;
-      if (vector_length(&v) <= arg1)
+      if (vector_length(&v) <= min_dist)
       {
         goto next;
       }

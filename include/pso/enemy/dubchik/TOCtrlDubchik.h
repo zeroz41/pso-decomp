@@ -33,7 +33,7 @@ struct TOCtrlDubchik : public TObjEnemy {
     void decay_timer_and_clear_flag();
     void decay_timer_and_finish();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void destroy_instance();
     static void load_shared_resource();
     static saddr create_font(saddr pos, s32 color, s32 life, saddr text);

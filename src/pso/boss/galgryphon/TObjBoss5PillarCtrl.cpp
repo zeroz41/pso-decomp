@@ -36,7 +36,7 @@ extern "C" {
 extern u8 __vt__19TObjBoss5PillarCtrl[];
 void __ct__7TObjectFP7TObject(void *, void *);
 extern Game_8028B23C *lbl_805D4DD8;
-Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *arg1);
+Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *parent);
 int TObjBoss5Pillar__sub_8028B70C(void*);
 int TObjBoss5Pillar__sub_8028B710(void*);
 
@@ -56,11 +56,11 @@ TObjBoss5PillarCtrl::~TObjBoss5PillarCtrl() {
 }
 
 
-Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *arg1) {
+Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *parent) {
     Node_8028B23C *n;
     s32 i;
     List_8028B23C *lst;
-    __ct__7TObjectFP7TObject(arg0, arg1);
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vt = __vt__19TObjBoss5PillarCtrl;
     arg0->f0 = ((saddr)TObjBoss5PillarCtrl__name);
     arg0->count = 0;

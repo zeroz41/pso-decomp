@@ -119,7 +119,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void copy_pos();
     void run_task();
     void setup_enemy();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void load_resources();
     static void free_resources();
     s32 fade_alpha_step(f32 scale, s32 step);

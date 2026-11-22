@@ -317,8 +317,8 @@ void load_re2_flower_resources(void) {
     NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->m_c), &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
-void *TObjEneRe2Flower::create(void *arg0) {
-    return new TObjEneRe2Flower((TObject *)tl_04, arg0);
+void *TObjEneRe2Flower::create(void *setData) {
+    return new TObjEneRe2Flower((TObject *)tl_04, setData);
 }
 
 void TObjEneRe2Flower::destroy_instance() {
@@ -579,9 +579,9 @@ s32 TObjEneRe2Flower::is_rare_variant() {
 int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
 
 extern "C" {
-s32 remap_sound_for_variant(saddr arg0, s32 arg1) {
-    if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
-        switch (arg1) {
+s32 remap_sound_for_variant(saddr owner, s32 sound_id) {
+    if (((TObjEneRe2Flower *)owner)->get_flag_11() != 0) {
+        switch (sound_id) {
         case 0x4003A10E:
             return 0x4003A339;
         case 0x4003A50F:
@@ -602,7 +602,7 @@ s32 remap_sound_for_variant(saddr arg0, s32 arg1) {
             return 0x40039942;
         }
     }
-    return ((TObjEnemy *)((void *)arg0))->remap_sound_for_area(arg1);
+    return ((TObjEnemy *)((void *)owner))->remap_sound_for_area(sound_id);
 }
 
 void TObjEneDD::noop() {  }
@@ -656,8 +656,8 @@ void TObjEneDD::handle_state(s32 arg1) {
 
 }
 
-void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
-    switch (arg1) {
+void handle_flower_state_change(TObjEneDD *ene_dd, s32 reason) {
+    switch (reason) {
     case 4:
         ene_dd->requested_action = 1;
         ene_dd->clear_intangible();
@@ -753,13 +753,13 @@ void TObjEneDD_ST::state_chase_target(s32 arg1) {
 }
 
 extern "C" {
-void fn_800C32DC(u8 *owner, s32 arg1) {
+void fn_800C32DC(u8 *owner, s32 reason) {
     Vec stack;
     uaddr temp_r3;
     uaddr temp_r3_2;
     u32 temp_r3_3;
     uaddr temp_r3_4;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         ((TObjEneRe2Flower *)owner)->requested_action = 0;
         ((TObjEneDD *)(owner))->clear_intangible();
@@ -819,8 +819,8 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     }
 }
 
-void fn_800C3088(u8 *arg0, int arg1) {
-  switch (arg1)
+void fn_800C3088(u8 *arg0, int reason) {
+  switch (reason)
   {
     case 4:
       ((RecoveredFields_800C3088_arg0 *) arg0)->field_B8 = 7;

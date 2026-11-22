@@ -85,7 +85,7 @@ TUnk_8048FA00 * TObjEneMe3SinowZoa__breakup_model;
 
 void print_float_padded(s32 arg0, s32 prec, f32 val);
 void move_with_wall_slide(u8 *arg0);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
 
 extern "C" {
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self);
@@ -98,7 +98,7 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
-void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
+void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode);
 u16 get_entity_id(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
 f32 fabs_float(f32);
@@ -107,17 +107,17 @@ s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 f32 * TBoss3Volopt__sub_800F059C(void *);
 void create__9TTecJelinFllll(void *, void *, void *, int);
-void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1);
+void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 mode);
 void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32);
-void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1);
+void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 mode);
 }
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
@@ -635,7 +635,7 @@ s32 TObjEneMe3SinowZoa::is_outside_visible_range() {
     return r;
 }
 
-s32 TObjEneMe3SinowZoa::acquire_target(f32 arg1) { return select_and_apply_target(arg1); }
+s32 TObjEneMe3SinowZoa::acquire_target(f32 range) { return select_and_apply_target(range); }
 
 s32 TObjEneMe3SinowZoa::sub_8031A454() {
     u8 r = this->m_400 >= 1;
@@ -654,19 +654,19 @@ void TObjEneMe3SinowZoa::sub_8031A3D8() {
     this->m_3c8 = 0;
 }
 
-void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *arg0) {
+void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *self) {
     saddr lv;
-    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18);
-    if (((TObjEneMe3SinowZoa *)arg0)->sub_8031A454() != 0) {
+    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18);
+    if (((TObjEneMe3SinowZoa *)self)->sub_8031A454() != 0) {
         if (game_difficulty_selection == 3) {
-            TTecSifta::create((void *)arg0, arg0 + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18)));
-            TTecDeband::create(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecSifta::create((void *)self, self + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18)));
+            TTecDeband::create(self, &((TObjEneMe3SinowZoa *)self)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
         } else {
-            TTecZarua::create_instance((saddr)arg0, (Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
-            create__9TTecJelinFllll(arg0, arg0 + 0x38, arg0 + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecZarua::create_instance((saddr)self, (Vec *)(self + 0x38), (Vec *)(self + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
+            create__9TTecJelinFllll(self, self + 0x38, self + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
         }
     } else {
-        TTecResta::create(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, (void *)lv);
+        TTecResta::create(self, &((TObjEneMe3SinowZoa *)self)->position, (void *)lv);
     }
 }
 
@@ -783,10 +783,10 @@ void TObjEneMe3SinowZoa::action(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80319E74(s32 arg1) {
+void TObjEneMe3SinowZoa::sub_80319E74(s32 mode) {
     Vec v;
     f32 t;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 2;
         this->set_field_378(0);
@@ -881,10 +881,10 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 mode) {
     Vec v;
     f32 temp_f1;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 0;
         self->set_field_378(0);
@@ -911,10 +911,10 @@ void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1) {
 
 #pragma pop
 
-void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
+void TObjEneMe3SinowZoa::update_state_action(s32 mode) {
     // inferred: clears the green byte of the ARGB colour m_3f8
     static const u32 color_mask = 0xFFFF00FF;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         set_field_378(5);
@@ -961,12 +961,12 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 mode) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 node_height;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 1;
         self->set_field_378(0xD);
@@ -1085,8 +1085,8 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 6;
         self->set_field_378(6);
@@ -1226,11 +1226,11 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
 
 #pragma pop
 
-void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 mode) {
     s32 var_r4;
     f32 temp_f1;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 7;
         self->set_field_378(0xC);
@@ -1316,11 +1316,11 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
 }
 
 
-void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 mode) {
     s32 temp_r5;
     s32 zero;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 3;
         self->set_field_378(6);
@@ -1402,8 +1402,8 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
 }
 
 
-void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         (self->requested_action) = 8;
         self->set_field_378(0xB);
@@ -1479,8 +1479,8 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa::handle_state_substate(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 9;
         set_field_378(0xD);
@@ -1507,8 +1507,8 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 8;
         self->set_field_378(6);
@@ -1546,10 +1546,10 @@ void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
+void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
     Vec v;
     f32 len;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 4;
         this->advance_animation();
@@ -1585,11 +1585,11 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 mode) {
     Vec v;
     Vec p;
     self->m_3c0 = 0;
-    switch (arg1) {
+    switch (mode) {
     case 3:
     case 5:
         break;
@@ -1644,14 +1644,14 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 mode) {
     Vec v;
     Vec pos;
     Vec tmp;
     s32 d[3];
     s32 i;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(0xC);
@@ -1931,8 +1931,8 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(6);
@@ -1965,8 +1965,8 @@ void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 0xB;
         self->set_field_378(6);
@@ -2017,11 +2017,11 @@ inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     return angle;
 }
 
-void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode) {
     s32 angle;
     Vec diff;
     Vec out;
-    switch (arg1) {
+    switch (mode) {
     case 5:
         break;
     case 4:

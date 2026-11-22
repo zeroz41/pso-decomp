@@ -281,8 +281,8 @@ void TObjEneEpsilonGuard::handle_message(s32 arg1) {
 }
 
 
-void TObjEneEpsilonGuard::handle_break_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         set_field_378(4);

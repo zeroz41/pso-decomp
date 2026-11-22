@@ -321,7 +321,7 @@ u16 get_entity_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 TObjEneRecon__sub_8031DA90(u8 *arg0);
 extern s32 lbl_805D5868;
-void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1);
+void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 reason);
 
 u8 TObjEneRecon__sub_8031C250(T_8031C250 *self) {
     return self->state == 8 || self->state == 7;
@@ -474,12 +474,12 @@ struct VObj_18_414afc : VBase_18_414afc {
 
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
-void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1);
+void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason);
 s32 project_actor_to_ground(void *, void *, void *);
-void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1);
+void TObjEneRecon__sub_8031C364(u8 *arg0, s32 reason);
 
-void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
-    switch (arg1) {
+void TObjEneRecon__sub_8031C364(u8 *arg0, s32 reason) {
+    switch (reason) {
     case 4:
         F(s16, 0xB8) = 5;
         ((TObjEneDD *)(arg0))->clear_intangible();
@@ -550,10 +550,10 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
+void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason) {
     s32 n;
     f32 v;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         *(s16 *)((s8 *)arg0 + 0xB8) = 4;
         ((TObjEneDD *)(arg0))->clear_intangible();
@@ -620,14 +620,14 @@ struct WObj_8031c7bc : WBase_8031c7bc {
 
 extern "C" {
 
-void run_task__12TObjEneReconFPvi(u8 *arg0, s32 arg1);
+void run_task__12TObjEneReconFPvi(u8 *arg0, s32 reason);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 remove_tracked_target__14TObjEneRecoboxFPvPv(int, void *);
 
-void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
+void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
     saddr entity;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         ((TObjEneRecon *)target)->requested_action = 1;
         ((VObj_8031c7bc *) target)->m94();
@@ -892,20 +892,20 @@ struct Obj_8031C920 { u8 pad[0x38]; f32 x, y, z; };
 struct Prm_8031C920 { f32 f0; f32 f4; };
 
 extern "C" {
-void TObjEneRecon__sub_8031D380(u8 *arg0, s32 arg1);
+void TObjEneRecon__sub_8031D380(u8 *arg0, s32 reason);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
-void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1);
-void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1);
+void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 reason);
+void TObjEneRecon__sub_8031C920(u8 *arg0, s32 reason);
 typedef struct VBase_18_83f71d VBase_18_83f71d;
 typedef struct VObj_18_83f71d VObj_18_83f71d;
 
-void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
+void TObjEneRecon__sub_8031C920(u8 *arg0, s32 reason) {
     f32 r;
     f32 h;
     f32 k;
     Obj_8031C920 *t;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         F(s16, 0xB8) = 1;
         ((VObj_18_2afebf *)(arg0))->m94();
@@ -989,8 +989,8 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
     }
 }
 
-void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
-    switch (arg1) {
+void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 reason) {
+    switch (reason) {
     case 4:
         ((TObjEneEpsilon *)arg0)->requested_action = 1;
         ((TObjEneDD_ST *)arg0)->clear_intangible();
@@ -1054,11 +1054,11 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
     }
 }
 
-void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
+void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 reason) {
     s32 i;
     u8 *p;
     f32 d;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         F(s16, 0xB8) = 1;
         ((TObjEneDD_ST *)arg0)->clear_intangible();
@@ -1163,9 +1163,9 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
     }
 }
 
-void TObjEneRecon__sub_8031D380(u8 *arg0, s32 arg1) {
+void TObjEneRecon__sub_8031D380(u8 *arg0, s32 reason) {
   s32 temp_r4;
-  switch (arg1)
+  switch (reason)
   {
     case 4:
       *((s16 *) (((s8 *) arg0) + 0xB8)) = 1;
@@ -1201,7 +1201,7 @@ void TObjEneRecon__sub_8031D380(u8 *arg0, s32 arg1) {
   }
   return;
 }
-void TObjEneRecon::sub_8031D4B0(s32 arg1) {
+void TObjEneRecon::sub_8031D4B0(s32 reason) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     f32 temp_f1_2;
@@ -1211,7 +1211,7 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
     f32 temp_f2_3;
     f32 temp_f2_5;
     f32 temp_f31;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         this->requested_action = 1;
         this->set_intangible();
@@ -1299,11 +1299,11 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
     }
 }
 
-s32 TObjEneRecon::acquire_target(f32 farg0) {
+s32 TObjEneRecon::acquire_target(f32 range) {
     if (this->is_confused() != 0) {
-        return ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
+        return ((TObjEneDD_ST *)this)->select_and_apply_target(range);
     }
-    return select_nearest_target(farg0);
+    return select_nearest_target(range);
 }
 
 void TObjEneRecon::spawn_trap_a() {

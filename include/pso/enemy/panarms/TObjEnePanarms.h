@@ -48,7 +48,7 @@ struct TObjEnePanarms : public TObjEnemy {
     f32 pad_470;
     s32 search_range; // range passed to find_nearest_visible_player while waiting hidden
     s32 wait_frames; // state timer start value of the hidden wait
-    int find_nearest_enemy_with_flag(Vec *arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     static void spawn_npc_pair();
     static int do_action_2(void* p);
     static s32 create_bara(void *setData, s32 index);
@@ -86,7 +86,7 @@ struct TObjEnePanarms : public TObjEnemy {
     void enter_rejoin();
     static s32 find_combine_position(void *p);
     void turn_toward_target(s32 arg1);
-    u16 turn_to_nearest_player(s32 arg1, s32 arg2);
+    u16 turn_to_nearest_player(s32 arg1, s32 mode);
     void snap_to_ground();
     void set_state(s32 arg1);
     void draw_shadow();

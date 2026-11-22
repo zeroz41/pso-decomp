@@ -25,7 +25,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     s32 alloc_child_id();
     s32 is_anim_6();
     void handle_death_state(s32 arg1);
-    void handle_action_state(s32 arg1);
+    void handle_action_state(s32 reason);
     void update_state(s32 arg1);
     void handle_state(s32 arg1);
     void update_child_spawn();
@@ -33,7 +33,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     void restore_position();
     void remove_child_entity(u8 *arg1);
     s32 has_child_in_anim_5();
-    s32 is_below_child_limit(u16 arg1);
+    s32 is_below_child_limit(u16 id);
     void spawn_debris_chips();
     u8 pad_3C0[0x4];
     u32 m_3c4;

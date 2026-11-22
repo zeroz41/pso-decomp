@@ -185,7 +185,7 @@ f32 xyz_distance(void *, void *);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
 
-void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
+void TBoss4DarkFalz::push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1) {
     Vec v;
     E_8004AB90 *e;
     Vec *ev;
@@ -622,16 +622,16 @@ void TBoss4DarkFalz::handle_defeat() {
     ((TObject *)arg0)->queue_destruction();
 }
 
-void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 arg1, f32 farg0) {
+void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 color, f32 alpha) {
     f32 var_f1;
     TBoss4Fade *temp_r3;
-    var_f1 = farg0;
+    var_f1 = alpha;
     temp_r3 = controller->fade;
     if ((temp_r3 != NULL) && !(var_f1 <= 0.0f)) {
         if (var_f1 > 1.0f) {
             var_f1 = 1.0f;
         }
-        fn_803594B4(temp_r3, arg1, var_f1);
+        fn_803594B4(temp_r3, color, var_f1);
     }
 }
 void TBoss4DarkFalz::refresh_player_equipment(void *self) {

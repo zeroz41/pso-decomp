@@ -77,7 +77,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(Vec *);
 extern s32 __vt__12TNeedleShoot[];
 extern void *tl_06;
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to);
+TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to);
 void free_collision_body_parts(void *);
 
 void TNeedleShoot::vfunc_8() {  }
@@ -155,7 +155,7 @@ TNeedleShoot::~TNeedleShoot() {
 }
 
 
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to) {
+TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to) {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -178,7 +178,7 @@ TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, V
     self->f8c = 1.0f;
     self->f90 = 1.0f;
     self->f24 = 0.0f;
-    self->f1c = arg1;
+    self->f1c = owner;
     self->fac = 5.0f;
     self->f20 = 1000.0f;
     self->fb0 = 0;

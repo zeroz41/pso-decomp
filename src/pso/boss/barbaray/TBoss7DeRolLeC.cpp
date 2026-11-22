@@ -820,8 +820,8 @@ void TBoss7DeRolLeC::load_resources() {
     TWindowCtrl::init_all_slots();
 }
 
-void *TBoss7DeRolLeC::create(void *arg0) {
-    return new TBoss7DeRolLeC(tl_04, arg0);
+void *TBoss7DeRolLeC::create(void *set_data) {
+    return new TBoss7DeRolLeC(tl_04, set_data);
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {

@@ -86,12 +86,12 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *, s32);
 struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 }
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
 extern "C" {
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1);
-void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 arg1);
-void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 arg1);
+void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 reason);
+void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 reason);
+void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 reason);
 void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *, s32);
 void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *, s32);
 void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *, s32);
@@ -699,10 +699,10 @@ void TObjEneMe3Shinowa::action(s32 arg1) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E6BB8(s32 arg1) {
+void TObjEneMe3Shinowa::sub_800E6BB8(s32 reason) {
     Vec pos;
     f32 y;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 1;
         set_field_378(0);
@@ -724,10 +724,10 @@ void TObjEneMe3Shinowa::sub_800E6BB8(s32 arg1) {
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 reason) {
     s32 temp_r3;
     s32 ene_dd_st;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 0;
         shinowa->set_field_378(3);
@@ -783,12 +783,12 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 arg1)
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 reason) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 node_world_y;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 1;
         shinowa->set_field_378(0xB);
@@ -910,14 +910,14 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 reason) {
     Vec sp20;
     Vec sp14;
     Vec v;
     f32 d;
     s32 angle;
     Vec *entry;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 5;
         shinowa->set_field_378(4);
@@ -1041,10 +1041,10 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
     }
 }
 #pragma pop
-void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 reason) {
     s32 angle;
     TObjEneMe3ShinowaParams *info;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 6;
         shinowa->set_field_378(6);
@@ -1105,8 +1105,8 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
     }
 }
 
-void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 reason) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 2;
         shinowa->set_field_378(7);
@@ -1183,7 +1183,7 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 reason) {
     Vec save_pos;
     Vec save_center;
     Vec dest;
@@ -1191,7 +1191,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     f32 v;
     Vec *home = &shinowa->m_418;
 
-    switch (arg1) {
+    switch (reason) {
     case 4: {
         shinowa->m_3c4 &= ~3;
         shinowa->clear_intangible();
@@ -1309,8 +1309,8 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     }
 }
 
-void TObjEneMe3ShinowaMirage::state_cast_support(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3ShinowaMirage::state_cast_support(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 7;
         set_field_378(0xA);
@@ -1359,8 +1359,8 @@ void TObjEneMe3ShinowaMirage::state_cast_support(s32 arg1) {
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 reason) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 8;
         shinowa->set_field_378(0xB);
@@ -1386,9 +1386,9 @@ void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 arg1)
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 reason) {
     u32 flags;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 7;
         shinowa->set_field_378(4);
@@ -1428,10 +1428,10 @@ void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     }
 }
 
-void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1) {
+void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 reason) {
     Vec dir;
     f32 len;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         shinowa->requested_action = 3;
         shinowa->advance_animation();
@@ -1459,10 +1459,10 @@ void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1)
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
+void TObjEneMe3ShinowaMirage::state_break_apart(s32 reason) {
     Vec effect_pos;
     Vec pos;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 4;
         refresh_and_send_entity_flags();
@@ -1886,8 +1886,8 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
     }
 }
 #pragma pop
-TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaMirage::create(void *arg1, void *arg2) {
-    return new TObjEneMe3ShinowaMirage(tl_04, (TObjEneMe3ShinowaReal *)this, (saddr)arg1, (saddr)arg2);
+TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaMirage::create(void *entity_id, void *set_index) {
+    return new TObjEneMe3ShinowaMirage(tl_04, (TObjEneMe3ShinowaReal *)this, (saddr)entity_id, (saddr)set_index);
 }
 
 TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3ShinowaReal *owner, s32 entity_id, s32 set_index) : TObjEneMe3Shinowa(parent) {

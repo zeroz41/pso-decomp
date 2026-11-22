@@ -22,8 +22,8 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     void run_death_reaction();
     void run_hit_reaction();
     static void advance_camera_ctrl_step(NJS_OBJECT *);
-    void state_break_apart(s32 arg1);
-    void state_cast_support(s32 arg1);
+    void state_break_apart(s32 reason);
+    void state_cast_support(s32 reason);
     void state_chase_target(s32 arg1);
     void update_by_distance();
     void render();
@@ -32,7 +32,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     void init_mirage();
     void activate_mirage(s32 arg1);
     void run_task();
-    TObjEneMe3ShinowaMirage *create(void *arg1, void *arg2);
+    TObjEneMe3ShinowaMirage *create(void *entity_id, void *set_index);
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
     static void free_shared_resources();
     u16 m_42c;

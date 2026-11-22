@@ -199,10 +199,10 @@ void TObjEneDD__sub_800C2618(void* p) { *(u32*)((char*)p + 0x3c4) |= 0x2; }
 
 #define F(T, off) (*(T *)(arg0 + (off)))
 extern "C" {
-void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
+void TObjEneDD__sub_800C2628(u8 *arg0, s32 reason) {
     s32 step;
     Vec v;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         F(s16, 0xB8) = 1;
         ((TObjEneDD *)(arg0))->clear_intangible();

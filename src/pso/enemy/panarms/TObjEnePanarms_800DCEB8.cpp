@@ -204,7 +204,7 @@ s32 subtract_vector(void *, void *);
 s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy);
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
+s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *pos);
 int TObjEnePanarms__sub_800DFBC4(void *p);
 void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
@@ -492,7 +492,7 @@ void TObjEnePanarms::snap_to_ground() {
 
 #pragma push
 #pragma fp_contract on
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
+s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos) {
     s32 ok;
     s32 i;
     s32 ang;
@@ -504,7 +504,7 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
     Vec hit;
     ok = 0;
     if (!(horizontal_distance_squared(player + 0x38, player + 0x50) > 250000.0f)) {
-        VecCopy((Vec *)&d, (const Vec *)arg1);
+        VecCopy((Vec *)&d, (const Vec *)pos);
         subtract_vector(&d, player + 0x38);
         if (0.0f != vector_length(&d)) {
             i = 1;
@@ -538,12 +538,12 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
 }
 #pragma pop
 
-u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 arg2) {
+u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 mode) {
     Vec sp;
     s32 t;
     s32 var;
     if ((t = find_nearest_visible_player(this, &sp, 200.0f)) != 0xFFFF) {
-        if (arg2 == 0 || vector_length(&sp) < 30.0f) {
+        if (mode == 0 || vector_length(&sp) < 30.0f) {
             var = 0;
         } else {
             var = -0x1800;

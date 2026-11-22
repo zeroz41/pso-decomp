@@ -190,9 +190,9 @@ TBoss6Tube::~TBoss6Tube() {
     TBoss6Tube::reset_state();
 }
 
-TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
+TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
     m_name = TBoss6Tube__name;
-    *(u8 **)((s8 *)this + 0x2C) = (u8 *)arg1;
+    *(u8 **)((s8 *)this + 0x2C) = (u8 *)parent;
     m_24 = 0;
     m_28 = 0;
     TBoss6Tube::reset_state();
@@ -205,8 +205,8 @@ extern "C" {
 s32 release_texture_list(void*);
 }
 
-void *TBoss6Tube::create(void *arg0) {
-    return new TBoss6Tube((TObject *)arg0);
+void *TBoss6Tube::create(void *parent) {
+    return new TBoss6Tube((TObject *)parent);
 }
 
 void TBoss6Tube::free_resources() {

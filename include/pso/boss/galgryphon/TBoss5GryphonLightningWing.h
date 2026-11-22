@@ -21,11 +21,11 @@ public:
 
 class TBoss5GryphonLightningWing;
 extern "C" {
-s32 __ct__26TBoss5GryphonLightningWingFv(saddr arg0, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6);
+s32 __ct__26TBoss5GryphonLightningWingFv(saddr allocation, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6);
 void apply_lightning_effect__26TBoss5GryphonLightningWingFv(s32 arg0);
 void fn_80351DA8(s32 arg0, u8 *pos, u8 *out, s32 arg3, s32 arg4);
 void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *arg0);
-s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr arg1, saddr mid, saddr arg3, saddr arg4, saddr arg5);
+s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5);
 }
 
 // --- C functions defined in TBoss5GryphonLightningWing.cpp ---

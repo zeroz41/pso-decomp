@@ -428,10 +428,10 @@ struct D_80333290 { u8 pad0[0x1C]; s32 f1C; u8 pad20[4]; s32 f24; s32 f28; };
 extern "C" {
 f32 atan2_float(f32, f32);
 extern saddr TObjEneMorfos__param_table;
-void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
+void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 ev);
 s32 play_sound_effect(s32, u32, s16, s32);
-void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
-void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1);
+void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 ev);
+void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 ev);
 s32 is_split_screen();
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -647,10 +647,10 @@ s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_80333E48(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_80334030(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_803342B8(u8 *arg0, s32 arg1);
+void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 ev);
+void TObjEneMorfos__sub_80333E48(u8 *arg0, s32 ev);
+void TObjEneMorfos__sub_80334030(u8 *arg0, s32 ev);
+void TObjEneMorfos__sub_803342B8(u8 *arg0, s32 ev);
 int TObjEneMorfos__sub_80334704(void);
 void TObjEneMorfosArm__sub_8033542C(void);
 void subtract_vector(void *, void *);
@@ -1282,9 +1282,9 @@ void TObjEneMorfos::handle_event_transition(s32 ev) {
     }
 }
 
-void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 arg1) {
+void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 ev) {
     s32 temp_r31;
-    switch (arg1) {
+    switch (ev) {
     case 4:
         ((TObjEneDD *)ene_dd)->requested_action = 0;
         ((TObjEneDD *)(ene_dd))->set_intangible();
@@ -1312,9 +1312,9 @@ void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 arg1) {
     }
 }
 
-void TObjEneMorfos::state_appear(s32 arg1) {
+void TObjEneMorfos::state_appear(s32 ev) {
 
-    switch (arg1) {
+    switch (ev) {
     case 4:
         this->requested_action = 0;
         this->set_intangible();
@@ -1358,8 +1358,8 @@ void TObjEneMorfos::state_appear(s32 arg1) {
     }
 }
 
-void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 arg1) {
-    switch (arg1) {
+void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 ev) {
+    switch (ev) {
     case 4:
         ((TObjEneDD *)ene_dd)->requested_action = 0;
         ((TObjEneDD *)(ene_dd))->set_intangible();
@@ -1382,12 +1382,12 @@ void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 arg1) {
     }
 }
 
-void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 arg1) {
+void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 ev) {
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r31;
 
-    switch (arg1) {
+    switch (ev) {
     case 4:
         ((TObjEneDD_ST *)ene_dd_st)->requested_action = 0;
         ((TObjEneDD *)(ene_dd_st))->set_intangible();
@@ -1441,8 +1441,8 @@ void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 arg1) {
     }
 }
 
-void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
-    switch (arg1) {
+void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 ev) {
+    switch (ev) {
     case 4:
         ((TObjEneMorfos *)ene_morfos)->requested_action = 0;
         ((TObjEneDD *)ene_morfos)->clear_intangible();
@@ -1532,8 +1532,8 @@ void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
         break;
     }
 }
-void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 arg1) {
-    switch (arg1) {
+void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 ev) {
+    switch (ev) {
     case 4:
         ((TObjEneDD *)(owner))->clear_intangible();
         *(s32 *)((s8 *)owner + 0x3C0) = (s32) (*(s32 *)((s8 *)owner + 0x3C0) & 0xFFFFFFF8);
@@ -1638,13 +1638,13 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 arg1) {
 #pragma opt_common_subs off
 #define F(o, t) (*(t *)(arg0 + (o)))
 #define D (*(D_80333290 * *)&TObjEneMorfos__param_table)
-void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
+void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
     s32 old;
     s32 n;
     s32 i;
     u8 *pl;
     u8 *arg0 = (u8 *)this;
-    switch (arg1) {
+    switch (ev) {
     case 4:
         ((TObjEneDD *)arg0)->clear_intangible();
         F(0x3C0, s32) &= ~3;
@@ -1753,8 +1753,8 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
 #pragma pop
 
 
-void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
-    switch (arg1) {
+void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 ev) {
+    switch (ev) {
     case 4:
         arg0->requested_action = 0;
         ((TObjEneDD *)arg0)->clear_intangible();
@@ -1822,10 +1822,10 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
     }
 }
 
-void TObjEneMorfos::state_patrol(s32 arg1) {
+void TObjEneMorfos::state_patrol(s32 ev) {
     s32 temp_r4;
 
-    switch (arg1) {
+    switch (ev) {
     case 4:
         this->requested_action = 0;
         this->clear_intangible();
@@ -1855,9 +1855,9 @@ void TObjEneMorfos::state_patrol(s32 arg1) {
 
 }
 
-void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
+void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 ev) {
     s32 temp_r3;
-    switch (arg1) {
+    switch (ev) {
     case 4:
         ((TObjEneMorfos *)ene_morfos)->requested_action = 3;
         ((TObjEneDD *)ene_morfos)->clear_intangible();

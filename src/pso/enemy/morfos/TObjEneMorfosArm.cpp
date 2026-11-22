@@ -88,8 +88,8 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
 void TObjEneMorfosArm__sub_8033542C(void) {  }
 
 
-void *TObjEneMorfosArm::create(void *arg0, void *arg1) {
-    return new TObjEneMorfosArm((TObject *)arg0, arg1);
+void *TObjEneMorfosArm::create(void *parent, void *owner) {
+    return new TObjEneMorfosArm((TObject *)parent, owner);
 }
 
 void TObjEneMorfosArm::init_global() {

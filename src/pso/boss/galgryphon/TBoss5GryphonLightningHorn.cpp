@@ -47,7 +47,7 @@ s32 TBoss5GryphonLightning__ct(f32);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 extern s32 __vt__26TBoss5GryphonLightningHorn[];
-u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 arg3);
 
 void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
 
@@ -185,22 +185,22 @@ void TBoss5GryphonLightningHorn::run_task() {
 TBoss5GryphonLightningHorn::~TBoss5GryphonLightningHorn() {}
 
 
-u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 arg3) {
     f32 temp_f1;
     TBoss5GryphonLightning__ct(10.0f);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TBoss5GryphonLightningHorn;
-    ((TBoss5GryphonLightningHorn *)arg0)->m_name = TBoss5GryphonLightningHorn__name;
-    *(s32 *)((s8 *)arg0 + 0xA4) = arg3;
-    temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)));
-    *(f32 *)((s8 *)arg0 + 0x98) = temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x9C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0xA0) = (f32) (5.0f * cos_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)), temp_f1, 5.0f));
-    *(f32 *)((s8 *)arg0 + 0x8C) = 1.0f;
-    *(s32 *)((s8 *)arg0 + 0x90) = 4;
-    return arg0;
+    *(s32 **)((s8 *)self + 0x18) = __vt__26TBoss5GryphonLightningHorn;
+    ((TBoss5GryphonLightningHorn *)self)->m_name = TBoss5GryphonLightningHorn__name;
+    *(s32 *)((s8 *)self + 0xA4) = arg3;
+    temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)self + 0xA4)));
+    *(f32 *)((s8 *)self + 0x98) = temp_f1;
+    *(f32 *)((s8 *)self + 0x9C) = 0.0f;
+    *(f32 *)((s8 *)self + 0xA0) = (f32) (5.0f * cos_table_lookup((int) (*(s32 *)((s8 *)self + 0xA4)), temp_f1, 5.0f));
+    *(f32 *)((s8 *)self + 0x8C) = 1.0f;
+    *(s32 *)((s8 *)self + 0x90) = 4;
+    return self;
 }
 
-s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2) {
+s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 rotation_y) {
     Vec position;
     f32 ground_height;
     saddr allocation;
@@ -222,7 +222,7 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2) {
     allocation = (saddr)TObject::operator new(0xA8);
     effect = allocation;
     if (effect != 0) {
-        effect = (saddr)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (saddr)&position, arg2);
+        effect = (saddr)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (saddr)&position, rotation_y);
     }
     return effect;
 }

@@ -478,14 +478,14 @@ void TObjPlayer::push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f
     set_constant_material((const NJS_ARGB *)((&stack.sp8)));
 }
 
-void TObjPlayer__sub_800EBE48(f32 farg0) {
-    TObjPlayer::push_material_color_override(farg0, 0.0f, 0.0f, 0.0f);
+void TObjPlayer__sub_800EBE48(f32 alpha) {
+    TObjPlayer::push_material_color_override(alpha, 0.0f, 0.0f, 0.0f);
 }
 
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
-s32 TObjEneSlime::create(saddr arg0) {
-    return (saddr)new TObjEneSlime(new TObjControl((TObject *)tl_04), (u8 *)arg0);
+s32 TObjEneSlime::create(saddr set_data) {
+    return (saddr)new TObjEneSlime(new TObjControl((TObject *)tl_04), (u8 *)set_data);
 }
 
 void TObjEneSlime::spawn_pair() {

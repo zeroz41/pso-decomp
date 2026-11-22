@@ -19,7 +19,7 @@
 
 
 extern "C" {
-void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1);
+void *__dt__15TBoss6SwordShotFv(void *object, s16 arg1);
 void run_task__15TBoss6SwordShotFv(u8 *arg0);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
@@ -61,7 +61,7 @@ void set_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
-TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, saddr arg3, saddr arg4, f32 farg0);
+TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *self, TObject *owner, const Vec *position, saddr start_angle, saddr end_angle, f32 radius);
 s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
@@ -109,15 +109,15 @@ void TBoss6SwordShot::run_task() {
         }
     }
 }
-void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void **)((u8 *)arg0 + 0x18) = __vt__15TBoss6SwordShot;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__15TBoss6SwordShotFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(void **)((u8 *)object + 0x18) = __vt__15TBoss6SwordShot;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 #pragma push
@@ -325,31 +325,31 @@ void TBoss6SwordWave::run_task() {
 #pragma pop
 
 TBoss6SwordWave::~TBoss6SwordWave() {}
-TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, saddr arg3, saddr arg4, f32 farg0) {
+TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *self, TObject *owner, const Vec *position, saddr start_angle, saddr end_angle, f32 radius) {
     f32 temp_f1;
     f32 temp_f2;
-    __ct__7TObjectFP7TObject(arg0, owner);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__15TBoss6SwordWave.value;
-    *(s32 *)((s8 *)arg0 + 0) = (saddr) TBoss6SwordWave__name;
-    ((TBoss6SwordWave *)arg0)->owner = owner;
-    VecCopy((Vec *)(arg0 + 0x20), position);
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x2C) = farg0;
-    ((TBoss6SwordWave *)(arg0 + 0x30))->fill_range((void *)arg3, (void *)arg4);
-    *(f32 *)((s8 *)arg0 + 0x50) = (f32) 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) 0.0f;
+    __ct__7TObjectFP7TObject(self, owner);
+    *(s32 **)((s8 *)self + 0x18) = &__vt__15TBoss6SwordWave.value;
+    *(s32 *)((s8 *)self + 0) = (saddr) TBoss6SwordWave__name;
+    ((TBoss6SwordWave *)self)->owner = owner;
+    VecCopy((Vec *)(self + 0x20), position);
+    *(f32 *)((s8 *)self + 0x24) = (f32) 0.0f;
+    *(f32 *)((s8 *)self + 0x2C) = radius;
+    ((TBoss6SwordWave *)(self + 0x30))->fill_range((void *)start_angle, (void *)end_angle);
+    *(f32 *)((s8 *)self + 0x50) = (f32) 0.0f;
+    *(f32 *)((s8 *)self + 0x54) = (f32) 0.0f;
+    *(f32 *)((s8 *)self + 0x58) = (f32) 0.0f;
     temp_f2 = *(f32 *)TLobby::dispatch_shared_handler_a(0x2C);
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) temp_f2;
+    *(s32 *)((s8 *)self + 0x5C) = (s32) temp_f2;
     if (0.0f == temp_f2) {
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0x14;
+        *(s32 *)((s8 *)self + 0x5C) = 0x14;
     }
     temp_f1 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 8);
-    *(f32 *)((s8 *)arg0 + 0x60) = temp_f1;
+    *(f32 *)((s8 *)self + 0x60) = temp_f1;
     if (0.0f == temp_f1) {
-        *(f32 *)((s8 *)arg0 + 0x60) = (f32) 1.0f;
+        *(f32 *)((s8 *)self + 0x60) = (f32) 1.0f;
     }
-    return (TBoss6SwordWave *)arg0;
+    return (TBoss6SwordWave *)self;
 }
 
 TBoss6SwordWave *TBoss6SwordWave::create(TObject *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius) {

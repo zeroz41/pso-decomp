@@ -79,14 +79,14 @@ void fn_8028ADDC(void *p) {
         set_model_node_callback((saddr)TObjBoss5PillarDemo__sub_8028AD88);
     }
 }
-void fn_8028AE1C(O_8028AE1C *arg0) {
+void fn_8028AE1C(O_8028AE1C *smoke) {
     s32 i;
-    for (i = 0; i < arg0->count; i++) {
-        if (arg0->a[i] != 0) {
-            ((TParticleCtrl *)arg0->a[i])->set_position((void *)&lbl_80450CD0);
+    for (i = 0; i < smoke->count; i++) {
+        if (smoke->a[i] != 0) {
+            ((TParticleCtrl *)smoke->a[i])->set_position((void *)&lbl_80450CD0);
         }
-        if (arg0->b[i] != 0) {
-            ((TParticleCtrl *)arg0->b[i])->set_position((void *)&lbl_80450CD0);
+        if (smoke->b[i] != 0) {
+            ((TParticleCtrl *)smoke->b[i])->set_position((void *)&lbl_80450CD0);
         }
     }
 }
@@ -98,7 +98,7 @@ void TObjBoss5PillarSmoke::run_task() {  }
 extern "C" {
 extern s32 __vt__20TObjBoss5PillarSmoke[];
 void __ct__7TObjectFP7TObject(void *, void *);
-Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *arg1, Node_8028AF6C *arg2);
+Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Node_8028AF6C *arg2);
 }
 TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
     s32 i;
@@ -116,9 +116,9 @@ TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
     mem_free(((Smoke_8028AEA4 *)this)->a);
 }
 
-Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *arg1, Node_8028AF6C *arg2) {
+Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Node_8028AF6C *arg2) {
     s32 i;
-    __ct__7TObjectFP7TObject(arg0, arg1);
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vt = __vt__20TObjBoss5PillarSmoke;
     arg0->f0 = ((saddr)TObjBoss5PillarSmoke__name);
     arg0->count = 0;

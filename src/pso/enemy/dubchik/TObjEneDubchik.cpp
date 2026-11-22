@@ -190,7 +190,7 @@ struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 
 extern "C" {
-void TBoss3Volopt__sub_800D8D88(saddr arg0);
+void TBoss3Volopt__sub_800D8D88(saddr position);
 void TObjPlayer__sub_800A8E04(u8 *arg0);
 void obj_setFlags30(void *, u32);
 void dubchik_start_dying(u8 *arg0);

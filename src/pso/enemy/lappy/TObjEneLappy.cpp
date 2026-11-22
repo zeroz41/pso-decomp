@@ -1558,21 +1558,21 @@ u8 *TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set) {
 
 int TObjEneLappy::test_flag_256() { return 0; }
 
-void TObjEneLappy::set_speed_params(s32 arg1) {
+void TObjEneLappy::set_speed_params(s32 variant) {
     s32 var_r0;
     s32 var_r0_2;
 
     if (TLobby::get_instance() == 0) {
         *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)rappy_bml_resource + 0x42C)) + 8);
     } else {
-        if (arg1 == 0) {
+        if (variant == 0) {
             var_r0 = *(s32 *)((s8 *)(*(void **)((s8 *)rappy_bml_resource + 0x42C)) + 8);
         } else {
             var_r0 = *(s32 *)((s8 *)(*(void **)((s8 *)rappy_bml_resource + 0x42C)) + 0x18);
         }
         *(s32 *)((s8 *)this + 0x34) = var_r0;
     }
-    if (arg1 == 0) {
+    if (variant == 0) {
         var_r0_2 = *(s32 *)((s8 *)(*(void **)((s8 *)rappy_bml_resource + 0x42C)) + 0xC);
     } else {
         var_r0_2 = rappy_alternate_texture_list;

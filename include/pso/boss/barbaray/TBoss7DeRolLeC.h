@@ -211,7 +211,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u16 needle_targets[4];        // client ids of the players handle_tentacle_needle_barrage_state sends a TBoss7TentacleNeedle under
     static void load_resources();
     static void run_exit_callbacks();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);

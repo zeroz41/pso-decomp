@@ -37,14 +37,14 @@ void TBoss1DragonDemo::run_task() {
 }
 LAYOUT_ASSERT(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo_size, sizeof(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo) == 0x18);
 TBoss1DragonDemo::~TBoss1DragonDemo() {}
-u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr arg1, s32 arg2, f32 farg0) {
+u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0) {
     CameraPlayback playback;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)object, (void *)parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss1DragonDemo.value;
     ((TBoss1DragonDemo *)object)->m_name = TBoss1DragonDemo__name;
     *(f32 *)((s8 *)object + 0x1C) = farg0;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
-    *(s32 *)((s8 *)object + 0x24) = arg2;
+    *(s32 *)((s8 *)object + 0x24) = demo;
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
         playback.bank = 1;

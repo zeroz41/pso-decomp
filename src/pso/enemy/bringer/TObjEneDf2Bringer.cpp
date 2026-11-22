@@ -322,9 +322,9 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 index, f32 speed) {
 }
 
 }
-TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *arg1, void *arg2) : TObjEneDD_ST(arg1) {
+TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = TObjEneDf2Bringer__name;
-    invoke_initialization_hook(arg2);
+    invoke_initialization_hook(set_data);
     sub_800994F8();
     this->init_enemy();
 }
@@ -617,11 +617,11 @@ void TObjEneDf2Bringer::sub_80098EB4() {
     play_persistent_sound(remap_sound_for_area(0x4003B708), (saddr)this, (uaddr)&position, 0, 0);
 }
 
-s32 TObjEneDf2Bringer::acquire_target(f32 farg0) {
+s32 TObjEneDf2Bringer::acquire_target(f32 range) {
     if (this->is_confused() != 0) {
-        return ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
+        return ((TObjEneDD_ST *)this)->select_and_apply_target(range);
     }
-    return select_nearest_target(farg0);
+    return select_nearest_target(range);
 }
 
 void TObjEneDf2Bringer::sub_80098DEC() {

@@ -104,11 +104,11 @@ struct TObjEneDelDepth : public TObjEnemy {
     static void free_shared_data();
     static void load_assets();
     static void reset_globals();
-    static void setup_draw_material_default(f32 farg0);
+    static void setup_draw_material_default(f32 opacity);
     static void setup_draw_material(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
     static BmlResource *get_data();
     int get_flag_bit4();
-    int find_nearest_enemy_with_flag(Vec *arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     void start_attack_motion();
     void enter_appear_state();
     void update_scale_pulse();

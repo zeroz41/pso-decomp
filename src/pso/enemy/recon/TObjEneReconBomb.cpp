@@ -246,13 +246,13 @@ extern "C" {
 
 extern const char *TObjEneReconBomb__name;
 
-TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec *arg3) : TObjChara(arg1) {
+TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const Vec *pos) : TObjChara(parent) {
     f32 temp_f1;
     f32 temp_f31;
     u8 *temp_r5;
 
     *(s32 *)((s8 *)this + 0) = (saddr) TObjEneReconBomb__name;
-    m_334 = (uaddr)arg2;
+    m_334 = (uaddr)recon;
     this->m_338 = get_entity_id(this->m_334);
     *(f32 *)((s8 *)this + 0x34C) = TObjEneRecon__sub_8031C2D4(this->m_334);
     this->m_350 = TObjEneRecon__sub_8031C2C8(this->m_334);
@@ -260,7 +260,7 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec 
     this->m_358 = ((TObjEneRecon *)this->m_334)->calc_scaled_value();
     temp_r5 = (unsigned char *) (this->m_up);
     this->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
-    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)arg3, (saddr)temp_r5);
+    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)pos, (saddr)temp_r5);
     temp_f31 = sin_table_lookup(this->rotation_y);
     temp_f1 = cos_table_lookup(this->rotation_y);
     *(f32 *)((s8 *)this + 0x33C) = (f32) (*(f32 *)((s8 *)this + 0x354) * temp_f31);

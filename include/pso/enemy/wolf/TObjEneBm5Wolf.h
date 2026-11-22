@@ -76,17 +76,17 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     s32 nearTarget;
     static void advance_spawn_timer(NJS_OBJECT *);
     void despawn_state(s32 msg);
-    void update_dying_state(s32 arg1);
-    void hurt_state(s32 arg1);
+    void update_dying_state(s32 event);
+    void hurt_state(s32 event);
     void action(s32 arg1);
-    void repositioning_state(s32 arg1);
-    void update_lunge(s32 arg1);
-    void circling_state(s32 arg1);
-    void chasing_state(s32 arg1);
+    void repositioning_state(s32 event);
+    void update_lunge(s32 event);
+    void circling_state(s32 event);
+    void chasing_state(s32 event);
     static void empty_state();
-    void standing_state(s32 arg1);
-    void alerted_state(s32 arg1);
-    void sleeping_state(s32 arg1);
+    void standing_state(s32 event);
+    void alerted_state(s32 event);
+    void sleeping_state(s32 event);
     void apply_mourning_jellen();
     void apply_mourning_zalure();
     void play_proximity_effect();
@@ -96,16 +96,16 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void update_with_default_state();
     void apply_position_to_node_list();
     static void release_global_805D5120();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void load_resources();
     void reset_fields();
     void*reset();
     void push_list_node(void **arg1, void **arg2);
     void unlink_list_node(void ***arg1, void **arg2);
     static void register_global_objects();
-    void flanking_state(s32 arg1);
-    void howling_state(s32 arg1);
-    void anchor_state(s32 arg1);
+    void flanking_state(s32 event);
+    void howling_state(s32 event);
+    void anchor_state(s32 event);
     void update_default();
     void apply_global_to_position();
     void update(void* a1);
@@ -124,8 +124,8 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     int get_flag_bit0();
     s32 calc_lunge_aim();
     void schedule_pack_reaction(s32 delay, u16 value);
-    void appearing_state(s32 arg1);
-    void returning_state(s32 arg1);
+    void appearing_state(s32 event);
+    void returning_state(s32 event);
 };
 
 LAYOUT_ASSERT(WolfOffset_current_target, offsetof(TObjEneBm5Wolf, current_target) == 0x390);
@@ -149,7 +149,7 @@ LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 extern "C" {
 s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
 }
-s32 actor_rand_int(saddr actor, s32 arg1);
+s32 actor_rand_int(saddr actor, s32 range);
 extern "C" {
 void approach_target__14TObjEneBm5WolfFf(TObjEneBm5Wolf *wolf, f32 step);
 s32 calc_lunge_aim__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);

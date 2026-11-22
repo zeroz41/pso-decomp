@@ -29,7 +29,7 @@ struct BringerParameters {
 };
 
 struct TObjEneDf2Bringer : public TObjEneDD_ST {
-    TObjEneDf2Bringer(TObject *arg1, void *arg2);
+    TObjEneDf2Bringer(TObject *parent, void *set_data);
     virtual ~TObjEneDf2Bringer();
     virtual s32 acquire_target(f32);
     virtual void update_body_colliders();

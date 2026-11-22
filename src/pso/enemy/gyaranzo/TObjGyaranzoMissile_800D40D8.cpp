@@ -79,7 +79,7 @@ struct Missile_800D43B4 {
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
+s32 remap_area_sound_id(s32 sound_id, s32 control);
 void check_enemy_body_collisions(void *arg0);
 s32 play_sound_effect(s32, void *, int, int);
 

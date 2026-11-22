@@ -128,7 +128,7 @@ void subtract_vector(Vec *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
 s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);
 int TBoss6PlotFalz__sub_8036964C(void);
-void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
+void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl);
 saddr VecCopy__FP3VecPC3Vec(saddr, saddr);
 s32 init_collision_body_parts(void *, void *, int);
 const char *lbl_805D44B0 = "TBoss6MagMine";
@@ -138,7 +138,7 @@ s32 create__13TBoss6MagMineFi(s32 set_data);
 void vt3__13TBoss6MagMineFv(saddr arg0);
 void vt4__13TBoss6MagMineFv(void* p);
 void copy_pos__13TBoss6MagMineFi(s32 arg0);
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
+void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
@@ -178,7 +178,7 @@ void TUnk_804F322C::update_linked_state() {
 
 void TUnk_804F322C::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
 
-void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
+void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80368AB8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80368AB8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80368AB8, sp10) == 0x8);
@@ -203,13 +203,13 @@ void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
     }
     switch (var_r31) {
     case 2:
-        ((VObj_18_5673ef *)(arg1))->m46(0);
+        ((VObj_18_5673ef *)(pl))->m46(0);
         return;
     case 3:
-        ((VObj_18_5673ef *)(arg1))->m47();
+        ((VObj_18_5673ef *)(pl))->m47();
         return;
     case 18:
-        ((VObj_18_5673ef *)(arg1))->m45();
+        ((VObj_18_5673ef *)(pl))->m45();
         return;
     default:
         temp_r3_2 = TBoss6PlotFalz::rand_vary_count((int) (*(s32 *)((s8 *)arg0 + 0x39C)), (f32) (0.1f));
@@ -217,7 +217,7 @@ void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
         stack.sp10 = 1;
         stack.sp14 = (f32) temp_r3_2;
         *(s32 *)&stack.spC = *(s32 *)&stack.sp14;
-        ((VObj_18_5673ef *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
+        ((VObj_18_5673ef *)(pl))->m21(arg0, &stack.sp8, 0, -1, -1);
         return;
     }
 }

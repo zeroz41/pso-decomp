@@ -213,7 +213,7 @@ void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
-void TBoss3Volopt__sub_800D8D88(saddr arg0);
+void TBoss3Volopt__sub_800D8D88(saddr position);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 matrix_mult_vec(int, Vec *, Vec *);
@@ -327,8 +327,8 @@ void TObjEneMe1Canadin::load_resources() {
     }
 }
 
-void *TObjEneMe1Canadin::create(void *arg0) {
-    return new TObjEneMe1Canadin(tl_04, arg0, 0);
+void *TObjEneMe1Canadin::create(void *set_data) {
+    return new TObjEneMe1Canadin(tl_04, set_data, 0);
 }
 
 TObjEneMe1Canadin *TObjEneMe1CanadinLeader::create_canadin(TObjEneMe1Canadin *leader, Vec *position, s32 id, s32 index) {
@@ -551,16 +551,16 @@ u8 *TObjEneMe1Canadin::move_xz_on_ground(u8 *arg) {
 }
 
 
-extern "C" void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 farg0) {
+extern "C" void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 height) {
     f32 temp_f3;
-    temp_f3 = farg0 - self->m_3F8;
+    temp_f3 = height - self->m_3F8;
     self->m_3C8 &= ~0x80000;
     if (temp_f3 >= 0.5f) {
         self->m_3F8 += 0.5f;
     } else if (temp_f3 <= -0.5f) {
         self->m_3F8 -= 0.5f;
     } else {
-        self->m_3F8 = farg0;
+        self->m_3F8 = height;
         self->m_3C8 |= 0x80000;
     }
 }
@@ -2052,8 +2052,8 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
 }
 #pragma pool_data reset
 
-void *TObjEneMe1CanadinLeader::create(void *arg0) {
-    return new TObjEneMe1CanadinLeader(tl_04, arg0);
+void *TObjEneMe1CanadinLeader::create(void *set_data) {
+    return new TObjEneMe1CanadinLeader(tl_04, set_data);
 }
 
 TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {

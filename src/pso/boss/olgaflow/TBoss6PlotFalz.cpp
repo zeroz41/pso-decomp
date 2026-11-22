@@ -434,7 +434,7 @@ s32 get_nth_view_player_id__11TCameraCtrlFl();
 s32 vec3_add_to(void *, const void *);
 f32 vec3_dot(void *, void *);
 extern u8 *camera_ctrl_instance;
-s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r);
+s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r);
 
 s32 is_local_client_floor_leader();
 
@@ -495,7 +495,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     ((TObject *)arg0)->queue_destruction();
 }
 
-void TBoss6PlotFalz::apply_fade_alpha(s32 arg1, f32 farg0) {
+void TBoss6PlotFalz::apply_fade_alpha(s32 color, f32 farg0) {
     f32 var_f1;
     TBoss4Fade *temp_r3;
     var_f1 = farg0;
@@ -504,7 +504,7 @@ void TBoss6PlotFalz::apply_fade_alpha(s32 arg1, f32 farg0) {
         if (var_f1 > 1.0f) {
             var_f1 = 1.0f;
         }
-        fn_803594B4(temp_r3, arg1, var_f1);
+        fn_803594B4(temp_r3, color, var_f1);
     }
 }
 #pragma push
@@ -531,10 +531,10 @@ __declspec(section ".sdata2") const f32 lbl_805DE0A4[1] = { 1e-05f };
 }
 #define lbl_805DE0A4 (lbl_805DE0A4[0])
 #define VLEN(v) (((f32 (*)(void *))vector_length)(v))
-s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r) {
+s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
     Vec c;
     Vec pl;
-    Vec p = *(Vec *)arg0;
+    Vec p = *(Vec *)pos;
     Vec d1;
     Vec d2;
     Vec d3;
@@ -803,7 +803,7 @@ struct Stack_802AC040 {
 };
 
 
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
+void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 void set_chunk_blend(u32 x);
 extern s32 game_difficulty_selection;
 
@@ -817,10 +817,10 @@ void TBoss6PlotFalz::update_camera_target() {
 }
 #pragma push
 #pragma fp_contract on
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1) {
+void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio) {
     f32 temp_f3;
-    temp_f3 = 0.25f * farg1;
-    TBoss6PlotFalz::apply_fade_material_color(farg0, ((-0.75f) * farg1) + 1.0f, temp_f3, temp_f3);
+    temp_f3 = 0.25f * hp_ratio;
+    TBoss6PlotFalz::apply_fade_material_color(farg0, ((-0.75f) * hp_ratio) + 1.0f, temp_f3, temp_f3);
 }
 #pragma pop
 
@@ -1235,8 +1235,8 @@ void TBoss6PlotFalz::load_resources() {
     }
 }
 
-s32 TBoss6PlotFalz::create(saddr arg0) {
-    return (saddr) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)arg0);
+s32 TBoss6PlotFalz::create(saddr set_data) {
+    return (saddr) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)set_data);
 }
 
 s32 TBoss6PlotFalz::get_scene_state() { return m_378; }

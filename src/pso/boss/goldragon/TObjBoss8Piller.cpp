@@ -83,8 +83,8 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
 
 LAYOUT_ASSERT(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size, sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18);
-u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
-    __ct__7TObjectFP7TObject(object, arg1);
+u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *parent, u8 *arg2, s16 arg3) {
+    __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
     ((TObjBoss8Piller *)object)->m_name = TObjBoss8Piller__class_name;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);

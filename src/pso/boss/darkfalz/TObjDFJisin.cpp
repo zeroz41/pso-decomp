@@ -140,7 +140,7 @@ int queue_destruction__13TObjDFHormingFPv(void* p);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
-void run_task__13TObjDFHormingFv(u8 *arg0);
+void run_task__13TObjDFHormingFv(u8 *self);
 
 typedef struct Hit_80050D74 {
     s32 type;
@@ -207,8 +207,8 @@ f32 newton_sqrtf(f32);
 void damage_players_near_point(s32 arg0, Vec *arg1);
 extern "C" {
 void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
-void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
-void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
+void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
+void * create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2);
 
 extern s32 game_difficulty_selection;
 
@@ -437,7 +437,7 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 farg1) {
+void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 alpha) {
     u8 *p;
     uaddr a;
     u32 b;
@@ -446,7 +446,7 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     u8 *e;
     saddr f;
     u8 *g;
-    if (0.0f == farg1) {
+    if (0.0f == alpha) {
         return;
     }
     if (arg0 == 0xFFFF) {
@@ -463,8 +463,8 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     d = *(u32 *)((s8 *)p + 0x8B4);
     g = p + 0xCF4;
     f = *(s32 *)((s8 *)p + 0x34);
-    if (farg1 < 1.0f) {
-        TObjPlayer__sub_80052390(farg1);
+    if (alpha < 1.0f) {
+        TObjPlayer__sub_80052390(alpha);
     }
     TObjFish::set_global_param((saddr)g);
     TObjDFTenchuFuru::register_callback();
@@ -484,14 +484,14 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
-    if (farg1 < 1.0f) {
+    if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();
     }
     if (b != 0) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
         TObjFish::set_global_param((saddr)c);
-        TCharaMaking__draw_colored_hair(farg1, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        TCharaMaking__draw_colored_hair(alpha, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
@@ -661,8 +661,8 @@ void TObjDFRecover::run_task() {
 #pragma pop
 
 extern "C" {
-void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2) {
-    return new TObjDFRecBall((TObject *)arg0, (const Vec *)arg1, (const Vec *)arg2);
+void * create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2) {
+    return new TObjDFRecBall((TObject *)parent, (const Vec *)position, (const Vec *)arg2);
 }
 }
 
@@ -725,8 +725,8 @@ void TObjDFRecBall::run_task() {
 }
 #pragma pop
 
-void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1) {
-    return new TObjDFBeamCursor((TObject *)arg0, (const Vec *)arg1);
+void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1) {
+    return new TObjDFBeamCursor((TObject *)parent, (const Vec *)arg1);
 }
 
 TObjDFBeamCursor::TObjDFBeamCursor(TObject *parent, const Vec *pos) : TObject(parent) {
@@ -744,8 +744,8 @@ void TObjDFBeamCursor::run_task() {
     }
 }
 
-void *TBoss4Type2::create_jisin(void *arg0, void *arg1) {
-    return new TObjDFJisin((TObject *)arg0, (saddr)arg1);
+void *TBoss4Type2::create_jisin(void *parent, void *angle) {
+    return new TObjDFJisin((TObject *)parent, (saddr)angle);
 }
 
 TObjDFJisin::TObjDFJisin(TObject *parent, s32 angle) : TObject(parent) {
@@ -879,7 +879,7 @@ TObjDFHorming::~TObjDFHorming() {
 }
 
 extern "C" {
-void run_task__13TObjDFHormingFv(u8 *arg0) {
+void run_task__13TObjDFHormingFv(u8 *self) {
     Ang_80050808 rot;
     Vec d;
     DirectAttackPayload s;
@@ -888,59 +888,59 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
-    if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {
-        ((TObject *)arg0)->queue_destruction();
+    if (((TObjDFHorming *)self)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)self)->m_334)) == NULL) {
+        ((TObject *)self)->queue_destruction();
         return;
     }
-    VecCopy((Vec *)(arg0 + 0x36C), (const Vec *)(p + 0x2FC));
-    *(f32 *)((s8 *)arg0 + 0x37C) = xyz_distance((Vec *)(arg0 + 0x2FC), (Vec *)(arg0 + 0x36C));
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x2FC));
-    switch (*(s32 *)&((TObjDFHorming *)arg0)->m_368) {
+    VecCopy((Vec *)(self + 0x36C), (const Vec *)(p + 0x2FC));
+    *(f32 *)((s8 *)self + 0x37C) = xyz_distance((Vec *)(self + 0x2FC), (Vec *)(self + 0x36C));
+    VecCopy((Vec *)(self + 0x44), (const Vec *)(self + 0x2FC));
+    switch (*(s32 *)&((TObjDFHorming *)self)->m_368) {
     case 0:
-        ((TObjDFHorming *)arg0)->sub_8005076C();
+        ((TObjDFHorming *)self)->sub_8005076C();
         break;
     case 1:
-        steer_homing_direction((Obj_8005063C *)arg0);
+        steer_homing_direction((Obj_8005063C *)self);
         break;
     case 2:
-        ((TObjDFHorming *)arg0)->check_attack_trigger();
+        ((TObjDFHorming *)self)->check_attack_trigger();
         break;
     }
-    normalize_vector((Vec *)(arg0 + 0x348));
-    *(f32 *)((s8 *)arg0 + 0x348) *= *(f32 *)((s8 *)arg0 + 0x354);
-    *(f32 *)((s8 *)arg0 + 0x34C) *= *(f32 *)((s8 *)arg0 + 0x354);
-    ((TObjDFHorming *)arg0)->velocity.z *= *(f32 *)((s8 *)arg0 + 0x354);
-    vec3_add_to((Vec *)(arg0 + 0x2FC), &((TObjDFHorming *)arg0)->velocity);
+    normalize_vector((Vec *)(self + 0x348));
+    *(f32 *)((s8 *)self + 0x348) *= *(f32 *)((s8 *)self + 0x354);
+    *(f32 *)((s8 *)self + 0x34C) *= *(f32 *)((s8 *)self + 0x354);
+    ((TObjDFHorming *)self)->velocity.z *= *(f32 *)((s8 *)self + 0x354);
+    vec3_add_to((Vec *)(self + 0x2FC), &((TObjDFHorming *)self)->velocity);
     {
-        s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
+        s32 id = find_nearest_visible_player(self, 0, 7.5f);
         if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
             if (TObjDFHorming::is_boss_active() != 0) {
                 s.kind = 0;
-                s.power = static_cast<s32>(reinterpret_cast<TObjDFHorming *>(arg0)->m_360);
+                s.power = static_cast<s32>(reinterpret_cast<TObjDFHorming *>(self)->m_360);
                 {
                     DirectAttackPayload t = s;
                     reinterpret_cast<TObjChara *>(p)->receive_direct_attack(TBoss4DarkFalz__sub_8004C1AC(), t, NULL, -1, -1);
                 }
             }
-            queue_destruction__13TObjDFHormingFPv(arg0);
+            queue_destruction__13TObjDFHormingFPv(self);
             return;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (*(u32 *)((s8 *)(arg0 + i * 4) + 0x358) != 0) {
+        if (*(u32 *)((s8 *)(self + i * 4) + 0x358) != 0) {
             if (i == 1) {
-                VecCopy((Vec *)&d, (const Vec *)(arg0 + 0x2FC));
-                subtract_vector(&d, (Vec *)(arg0 + 0x44));
+                VecCopy((Vec *)&d, (const Vec *)(self + 0x2FC));
+                subtract_vector(&d, (Vec *)(self + 0x44));
                 direction_to_rotation_xz((u8 *)&d, &rot.x, &rot.z);
                 rot.y = 0;
-                ((TParticleCtrl *)((void *)*(uaddr *)((s8 *)(arg0 + i * 4) + 0x358)))->set_direction(&rot);
+                ((TParticleCtrl *)((void *)*(uaddr *)((s8 *)(self + i * 4) + 0x358)))->set_direction(&rot);
             }
-            ((TParticleCtrl *)(void *)*(uaddr *)((s8 *)(arg0 + i * 4) + 0x358))->set_position(arg0 + 0x2FC);
+            ((TParticleCtrl *)(void *)*(uaddr *)((s8 *)(self + i * 4) + 0x358))->set_position(self + 0x2FC);
         }
     }
-    minimap_render_dot(arg0 + 0x2FC, -0x5DB4, 1, 0);
-    if (--*(s32 *)&((TObjDFHorming *)arg0)->m_338 < 0) {
-        ((TObject *)arg0)->queue_destruction();
+    minimap_render_dot(self + 0x2FC, -0x5DB4, 1, 0);
+    if (--*(s32 *)&((TObjDFHorming *)self)->m_338 < 0) {
+        ((TObject *)self)->queue_destruction();
     }
 }
 }

@@ -27,7 +27,7 @@ s32 * TBoss5GryphonSnarl__effect_table;
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
 extern s32 *TBoss5GryphonSnarl__effect_table;
 extern const char *TBoss5GryphonSnarl__name;
-void apply_snarl_hit(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
+void apply_snarl_hit(s32 arg0, s32 arg1, f32 inner, f32 scale);
 
 
 s32 release_texture_list(void*);

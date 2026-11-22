@@ -174,19 +174,19 @@ TBoss6RockChase::~TBoss6RockChase() {
 #pragma push
 #pragma fp_contract on
 LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
-TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : TObjCollidable(parent) {
+TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_kind) : TObjCollidable(parent) {
     TBoss6RockChase *boss6_rock_chase = this;
     boss6_rock_chase->m_name = TBoss6RockChase__name;
     boss6_rock_chase->owner = parent;
-    boss6_rock_chase->m_b0 = arg3;
+    boss6_rock_chase->m_b0 = size_kind;
     boss6_rock_chase->m_b4 = (s32) (15.0f * (3.0517578e-05f * (f32) rand()));
     ((TBoss6RockChase *)boss6_rock_chase)->rotation_x = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->rotation_y = (s32) (65535.0f * (3.0517578e-05f * (f32) rand()));
     boss6_rock_chase->rotation_z = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     *(f32 *)((s8 *)boss6_rock_chase + 0xB8) = 0.0f;
-    VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(arg2));
-    boss6_rock_chase->model = (NJS_OBJECT *)get_bml_model((BmlResource *)(TBoss6Rock__sub_80353A0C()), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
+    VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(position));
+    boss6_rock_chase->model = (NJS_OBJECT *)get_bml_model((BmlResource *)(TBoss6Rock__sub_80353A0C()), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (size_kind * 8))));
     boss6_rock_chase->textures = (GinjaTextureList *)TBoss6Rock__sub_80353A04();
 }
 #pragma pop

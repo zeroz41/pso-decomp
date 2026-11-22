@@ -41,20 +41,20 @@ s32 TObjEneSlimeOne::is_in_water_bomb_states() {
 
 saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
 
-int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
+int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
 
 int TObjEneSlimeOne::is_timer_active() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *arg1, f32 farg0) {
+int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), arg1, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), direction, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }

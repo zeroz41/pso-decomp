@@ -135,9 +135,9 @@ void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(); set_matrix
 void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
 void TBoss5GryphonColli_C::render() {  }
 
-u8 *TBoss5GryphonColli__ct(u8 *object, saddr arg1) {
+u8 *TBoss5GryphonColli__ct(u8 *object, saddr parent) {
     Vec stack;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)object, (void *)parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__18TBoss5GryphonColli.value;
     *(s32 *)((s8 *)object + 0) = (saddr) ((saddr)TBoss5GryphonColli__name);
     stack.x = 0.0f;

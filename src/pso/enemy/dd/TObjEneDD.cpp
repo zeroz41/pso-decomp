@@ -308,7 +308,7 @@ typedef struct Ent_800BB388 {
 }
 Ent_800BB388;
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
-s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 farg0);
+s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 range);
 }
 
 
@@ -434,10 +434,10 @@ struct VObj_800BBDD4 : Base_800BBDD4 {
 extern int lbl_805D5870;
 }
 
-s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2) {
+s32 tick_period_counter(s32 arg0, s32 *arg1, s32 limit) {
     s32 temp_r3;
     temp_r3 = *arg1;
-    if (temp_r3 >= arg2) {
+    if (temp_r3 >= limit) {
         *arg1 = 0;
         return 1;
     }
@@ -663,7 +663,7 @@ u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
 
 void TBoss8Dragon__sub_800BB650(void* p, void* q) { *(u16*)((char*)p + 0x0) = *(u16*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); }
 
-s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 farg0) {
+s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 range) {
     s32 n;
     s32 cnt;
     Ent_800BB484 tmp;
@@ -675,12 +675,12 @@ s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 farg0) {
     s32 k;
     n = 0;
     cnt = TLobby::get_game_mode();
-    if (farg0 > 0.0f) {
+    if (range > 0.0f) {
         for (s32 i = 0; i < cnt; i++) {
             p = ((u8 *)TObjPlayer::get_player_data(i));
             if (((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared((const Vec *)(arg0 + 0x38), (const Vec *)(p + 0x38));
-                if (d < farg0) {
+                if (d < range) {
                     out[n].id = get_entity_id(p);
                     out[n].dist = d;
                     n++;
@@ -783,15 +783,15 @@ CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
     return csnVector(&body_center, &ahead, 0x88E0);
 }
 
-void TObjEneDD::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2) {
+void TObjEneDD::calc_shot_position(u8 *arg1, f32 dx, f32 dz, f32 farg2) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r5;
 
     f32 reach = farg2 + this->wall_reach;
-    if (((TObjEneDD *)arg0)->enemy_probe_wall_ahead(farg0, farg1, reach) == NULL) {
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((farg0 * farg2) + *(f32 *)((s8 *)arg0 + 0x38));
+    if (((TObjEneDD *)arg0)->enemy_probe_wall_ahead(dx, dz, reach) == NULL) {
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((dx * farg2) + *(f32 *)((s8 *)arg0 + 0x38));
         *(f32 *)((s8 *)arg1 + 4) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
-        *(f32 *)((s8 *)arg1 + 8) = (f32) ((farg1 * farg2) + *(f32 *)((s8 *)arg0 + 0x40));
+        *(f32 *)((s8 *)arg1 + 8) = (f32) ((dz * farg2) + *(f32 *)((s8 *)arg0 + 0x40));
         this->wall_probe_failures = 0;
         return;
     }
@@ -932,10 +932,10 @@ void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
     ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
-void TObjEneDD::move_clamped_on_ground(f32 farg0, f32 farg1, f32 dist) {
+void TObjEneDD::move_clamped_on_ground(f32 dx, f32 dz, f32 dist) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    calc_wall_clamped_destination(arg0, &sp8, farg0, farg1, dist);
+    calc_wall_clamped_destination(arg0, &sp8, dx, dz, dist);
     ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
@@ -953,10 +953,10 @@ u8 *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
     return this->move_xz_on_ground((u8 *)&sp8);
 }
 
-void TObjEneDD::move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 dist) {
+void TObjEneDD::move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    calc_wall_clamped_destination(arg0, &sp8, farg0, farg1, dist);
+    calc_wall_clamped_destination(arg0, &sp8, dx, dz, dist);
     this->move_xz_on_ground((u8 *)&sp8);
 }
 
@@ -1112,32 +1112,32 @@ int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_F
 
 int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
 
-void TObjEneDD::setup_instance(saddr arg0, saddr arg1, u8 *arg2, saddr arg3) {
+void TObjEneDD::setup_instance(saddr arg0, saddr arg1, u8 *bytes, saddr attack_history) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     ((TUnk_804928CC *)obj_ene_dd_instance)->set_position_from((void *)arg1);
-    *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
+    *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)bytes + 8);
     *(s32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0x18) = 0x9D03;
-    if (*(f32 *)((s8 *)arg2 + 8) > 100.0f) {
-        ((EneDDObj_800BA138*)obj_ene_dd_instance)->m13(arg2 + 0xC, (void*)arg2, (void*)arg3);
+    if (*(f32 *)((s8 *)bytes + 8) > 100.0f) {
+        ((EneDDObj_800BA138*)obj_ene_dd_instance)->m13(bytes + 0xC, (void*)bytes, (void*)attack_history);
         return;
     }
-    ((EneDDObj_800BA138*)obj_ene_dd_instance)->m12(arg2 + 0xC, (void*)arg2, (void*)arg3);
+    ((EneDDObj_800BA138*)obj_ene_dd_instance)->m12(bytes + 0xC, (void*)bytes, (void*)attack_history);
 }
 
 void TObjEneDD::setup(void *p, saddr pos, saddr params) { TObjEneDD::setup_instance((saddr)p, pos, (u8 *)params, 0); }
 
 void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
-void TObjEneDD::emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *arg3) {
+void TObjEneDD::emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *attack_history) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     ((TUnk_804928CC *)obj_ene_dd_instance)->set_position_from(arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
     *(s32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0x18) = 0x9D03;
     if (*(f32 *)((s8 *)arg2 + 8) > 100.0f) {
-        ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m16(arg2 + 0xC, arg3);
+        ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m16(arg2 + 0xC, attack_history);
         return;
     }
-    ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m15(arg2 + 0xC, arg3);
+    ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m15(arg2 + 0xC, attack_history);
 }
 
 void TObjEneDD::emit_effect(void *p, saddr pos, saddr params) { TObjEneDD::emit_enemy_effect(p, (void *)pos, (u8 *)params, 0); }
@@ -1552,15 +1552,15 @@ void TObjEneEpsilon::fire_attack_a(saddr out, s32 arg2, f32 farg0) {
     calc_wall_clamped_destination((void *)this, (void *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
 }
 
-void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0) {
+void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale) {
     s32 sp8;
-    ((TObjEneEpsilon *)arg0)->fire_attack_c((saddr) &sp8, arg1, farg0);
+    ((TObjEneEpsilon *)arg0)->fire_attack_c((saddr) &sp8, arg1, scale);
     ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0) {
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed) {
     s32 sp8;
-    ((TObjEneEpsilon *)arg0)->fire_attack_b((saddr) &sp8, arg1, farg0);
+    ((TObjEneEpsilon *)arg0)->fire_attack_b((saddr) &sp8, arg1, currentSpeed);
     ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 

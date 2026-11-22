@@ -77,7 +77,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 
-void TBoss4Type2__sub_80057128(void *arg0);
+void TBoss4Type2__sub_80057128(void *boss4_type2);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern s32 boss4_type2_attack_pattern_table[];
 extern s32 game_difficulty_selection;
@@ -520,8 +520,8 @@ saddr TBoss4Type2::sub_80057224() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss4Type2__sub_80057128(void *arg0) {
-    Obj_80057128 *self = (Obj_80057128 *)arg0;
+void TBoss4Type2__sub_80057128(void *boss4_type2) {
+    Obj_80057128 *self = (Obj_80057128 *)boss4_type2;
     f32 radius;
     f32 height;
 
@@ -575,10 +575,10 @@ void TBoss4Type2::sub_80056F90(s32 arg1, s32 arg2) {
     }
 }
 
-void TBoss4Type2::send_attack_code(s32 arg1, s32 arg2) {
+void TBoss4Type2::send_attack_code(s32 arg1, s32 id) {
     Obj_80056F38 *self = (Obj_80056F38 *)this;
     if (self->target != 0) {
-        ((TBoss4DarkFalz *)(self->target))->send_code_25_4((arg1 & 0xF) | (((self->f3a0 >> 12) & 0xF) << 4) | (((self->f3a0 >> 12) & 0xF) << 8) | ((self->f3ac & 0xF) << 12) | ((self->f3b0 & 0xF) << 16) | ((arg2 & 0xF) << 20));
+        ((TBoss4DarkFalz *)(self->target))->send_code_25_4((arg1 & 0xF) | (((self->f3a0 >> 12) & 0xF) << 4) | (((self->f3a0 >> 12) & 0xF) << 8) | ((self->f3ac & 0xF) << 12) | ((self->f3b0 & 0xF) << 16) | ((id & 0xF) << 20));
     }
 }
 

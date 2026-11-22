@@ -28,10 +28,10 @@ s32 player_particle_effect_enabled;
 extern "C" {
 s32 TBreakUpMdl__ct(void*, void *, saddr, saddr, s32, saddr, s32);
 
-void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4) {
+void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 texlist, saddr arg3, s32 rotation_y) {
     void* obj = TObject::operator new(0x54);
     if (obj != 0) {
-        TBreakUpMdl__ct(obj, tl_05, arg0, arg1, arg2, arg3, arg4);
+        TBreakUpMdl__ct(obj, tl_05, arg0, arg1, texlist, arg3, rotation_y);
     }
 }
 
@@ -109,30 +109,30 @@ void play_area_se_with_particle(Vec *position) {
 }
 extern "C" {
 
-void TBoss3Volopt__sub_800D8D88(saddr arg0) {
+void TBoss3Volopt__sub_800D8D88(saddr position) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
+        play_sound_effect(0x3AB3C, (void *)position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003AB31, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003AB31, (void *)position, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003B22A, (void *)position, 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4003A359, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003A359, (void *)position, 0, 0);
         break;
     default:
-        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), (void *)arg0, 0, 0);
+        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), (void *)position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi(arg0);
+    spawn_particles_at__12TBoss3VoloptFi(position);
 }
 
 }
@@ -163,22 +163,22 @@ void play_area_sound_effect(Vec *position) {
 }
 extern "C" {
 
-void spawn_particles_at__12TBoss3VoloptFi(saddr arg0) {
+void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
     Vec pos;
-    VecCopy(&pos, (const Vec *)arg0);
-    create_timed_particle_emitter((void *)arg0, 0xEA, 0xA, 0x1E);
+    VecCopy(&pos, (const Vec *)position);
+    create_timed_particle_emitter((void *)position, 0xEA, 0xA, 0x1E);
     pos.y += 30.0f;
     spawn_particle_effect(&pos, 0xE9);
 }
 
 #define create_dead_spot__10TObjPlayerFiiif ((s32 (*)(s32, s32, s32))create_dead_spot__10TObjPlayerFiiif)
 
-void TObjPlayer::create_dead_spot(saddr arg0, s32 arg1, f32 farg0) {
-    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), farg0);
+void TObjPlayer::create_dead_spot(saddr arg0, s32 arg1, f32 radius) {
+    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), radius);
 }
 
-void TObjPlayer::spawn_effect_f8(saddr arg1, s32 arg2) {
-    create_timed_particle_emitter((void *)arg1, 0xF8, 0, (arg2));
+void TObjPlayer::spawn_effect_f8(saddr arg1, s32 timer) {
+    create_timed_particle_emitter((void *)arg1, 0xF8, 0, (timer));
 }
 
 void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
@@ -188,8 +188,8 @@ void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
 #undef create_dead_spot__10TObjPlayerFiiif
 
 
-void create_dead_spot__10TObjPlayerFiiif(saddr arg0, s32 arg1, s32 arg2, f32 farg0) {
-    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), farg0);
+void create_dead_spot__10TObjPlayerFiiif(saddr arg0, s32 arg1, s32 arg2, f32 radius) {
+    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), radius);
 }
 
 void fn_800D911C(Vec *position) {
@@ -276,12 +276,12 @@ void TObjPlayer__sub_800D93C4(s32 point, s32 delay) {
 
 
 
-void TObjPlayer__sub_800D93F0(saddr point, s32 selector, s32 delay, f32 farg0) {
-    new TUnk_80494A10((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
+void TObjPlayer__sub_800D93F0(saddr point, s32 selector, s32 delay, f32 maxScale) {
+    new TUnk_80494A10((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, maxScale);
 }
 
-void TObjPlayer::spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 farg0) {
-    new TDeadSpot((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
+void TObjPlayer::spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 maxScale) {
+    new TDeadSpot((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, maxScale);
 }
 
 

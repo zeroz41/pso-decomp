@@ -15,7 +15,7 @@ public:
 };
 
 extern "C" {
-void run_task__17TObjBoss8DemoRoomFv(saddr arg0);
+void run_task__17TObjBoss8DemoRoomFv(saddr self);
 }
 
 #endif

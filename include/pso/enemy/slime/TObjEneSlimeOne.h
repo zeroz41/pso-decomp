@@ -50,7 +50,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     s32 is_in_water_bomb_states();
     static saddr get_instance();
     int is_timer_active();
-    int find_nearest_enemy_with_flag(Vec *arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     int check_player_field_7cc();
     void copy_position();
     void set_random_timer_15();

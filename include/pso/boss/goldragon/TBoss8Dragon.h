@@ -23,7 +23,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 arg4);
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 flags);
     virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();
@@ -145,7 +145,7 @@ public:
     void attack_default();
     void query_default();
     void copy_action_state(u8 *arg1);
-    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);
+    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 rotation_y);
     static void set_default_on_state0();
     static void update_camera_script(NJS_OBJECT *);
     void calc_velocity_from_angle();
@@ -209,7 +209,7 @@ public:
     void byteswap_record();
     void send_boss_actions();
     void bswap_boss_actions();
-    s32 is_within_xz_distance(u8 *arg1, f32 farg0);
+    s32 is_within_xz_distance(u8 *arg1, f32 off);
     f32 calc_sq_offset(f32 farg0);
     void noop();
     static u16 get_global_part_count(s32 arg0);
@@ -218,7 +218,7 @@ public:
     static s32 is_any_part_alive();
     static void update_all_parts();
     static bool has_enough_enemies();
-    s32 spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 spawn_attack_object(saddr arg1, s32 arg2, s32 hp, s32 arg4);
     u16 get_part_count_plus(s32 arg1);
     void set_mode_params(s8 arg1);
     void update_pos_from_data();
@@ -236,7 +236,7 @@ public:
     s32 is_closest_part();
     s32 push_apart_from_parts();
     s32 is_near_other_part();
-    void draw_with_fade(saddr arg1, s32 arg2);
+    void draw_with_fade(saddr pos, s32 view);
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).

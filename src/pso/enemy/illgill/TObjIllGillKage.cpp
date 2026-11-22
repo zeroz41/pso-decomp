@@ -64,11 +64,11 @@ void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
     return base;
 }
 }
-TObjIllGillKage::TObjIllGillKage(saddr arg1, uaddr arg2) : TObjBase((TObject *)arg1) {
+TObjIllGillKage::TObjIllGillKage(saddr parent, uaddr target) : TObjBase((TObject *)parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjIllGillKage__class_name;
-    if (arg2 != 0U) {
-        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x38));
-        this->m_98 = get_entity_id((void *)arg2);
+    if (target != 0U) {
+        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(target + 0x38));
+        this->m_98 = get_entity_id((void *)target);
         this->m_94 = 0xB4;
         this->m_90 = 0;
     } else {

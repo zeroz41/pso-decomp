@@ -121,14 +121,14 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void destroy_parts();
     void enable_particles();
     void update_ground_effects();
-    void update_heading(s32 arg1);
+    void update_heading(s32 ang);
     void advance_motion_entry();
     void advance_motion_timer();
     void apply_velocity();
     void spawn_lightning_effect();
     void spawn_ground_splash();
     void update_collider_from_table();
-    void set_target_from_action(void *arg1);
+    void set_target_from_action(void *boss8_dragon);
     void reload_stats_for_phase(void *);
     void reload_stats_for_type();
     void set_flight_height();
@@ -155,7 +155,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void update_target_from_state();
     void play_animation_index(s32 arg1);
     void flush_pending_effect();
-    void scale_size(f32 farg0, f32 farg1, f32 farg2);
+    void scale_size(f32 scale, f32 farg1, f32 farg2);
     void copy_spawn_params(void* a1);
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
 };

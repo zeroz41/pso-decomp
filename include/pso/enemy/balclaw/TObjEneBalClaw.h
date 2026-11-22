@@ -22,7 +22,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     f32 m_3b0;
     f32 m_3b4;
     s32 m_3b8;
-    void render_scaled(s32 arg1);
+    void render_scaled(s32 shadow);
     void update_wobble();
     void update_claw_angle();
     static void release_global_805D4F20();

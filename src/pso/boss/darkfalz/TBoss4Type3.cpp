@@ -363,7 +363,7 @@ void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1);
 
 void TBoss4Type3__sub_8005A150(TBoss4Type3 *self);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
-void * __ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3);
+void * __ct__13TObjBs4CutAtkFv(void *self, s32 arg1, s32 arg2, s32 arg3);
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void free_collision_body_parts(void *);
@@ -371,7 +371,7 @@ void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
 s32 create__9TTecMegidFllll(void *, Vec *, u8 *, s32);
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
+void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
 f32 xyz_distance(Vec *, Vec *);
@@ -690,21 +690,21 @@ void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2) {
     return o;
 }
 
-void *__ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void *__ct__13TObjBs4CutAtkFv(void *self, s32 arg1, s32 arg2, s32 arg3) {
     ((s32 (*)(void))__ct__7TObjectFP7TObject)();
-    *(void **)((s8 *)arg0 + 0x18) = __vt__13TObjBs4CutAtk;
-    *(s32 *)((s8 *)arg0 + 0) = (saddr) TObjBs4CutAtk_name;
+    *(void **)((s8 *)self + 0x18) = __vt__13TObjBs4CutAtk;
+    *(s32 *)((s8 *)self + 0) = (saddr) TObjBs4CutAtk_name;
     if (arg3 == 0) {
-        ((TObjBs4CutAtk *)arg0)->angle = -0x1554;
-        ((TObjBs4CutAtk *)arg0)->angle = (s32) (((TObjBs4CutAtk *)arg0)->angle + (arg2 << 0xC));
-        ((TObjBs4CutAtk *)arg0)->angle_step = 0x71C;
+        ((TObjBs4CutAtk *)self)->angle = -0x1554;
+        ((TObjBs4CutAtk *)self)->angle = (s32) (((TObjBs4CutAtk *)self)->angle + (arg2 << 0xC));
+        ((TObjBs4CutAtk *)self)->angle_step = 0x71C;
     } else {
-        ((TObjBs4CutAtk *)arg0)->angle = 0xE38;
-        ((TObjBs4CutAtk *)arg0)->angle = (s32) (((TObjBs4CutAtk *)arg0)->angle + (arg2 << 0xC));
-        ((TObjBs4CutAtk *)arg0)->angle_step = -0x71C;
+        ((TObjBs4CutAtk *)self)->angle = 0xE38;
+        ((TObjBs4CutAtk *)self)->angle = (s32) (((TObjBs4CutAtk *)self)->angle + (arg2 << 0xC));
+        ((TObjBs4CutAtk *)self)->angle_step = -0x71C;
     }
-    ((TObjBs4CutAtk *)arg0)->age = 0;
-    return arg0;
+    ((TObjBs4CutAtk *)self)->age = 0;
+    return self;
 }
 
 TObjBs4CutAtk::~TObjBs4CutAtk() {}
@@ -1095,10 +1095,10 @@ void TBoss4Type3::sub_8005A438() {
     this->draw_model_set((const s32 *)b.p, b.f);
 }
 
-void TBoss4Type3::set_action_from_table(s32 arg1) {
+void TBoss4Type3::set_action_from_table(s32 action) {
     Type3Handler m;
     TBoss4Type3__sub_8005A150(this);
-    this->m_374 = arg1;
+    this->m_374 = action;
     set_anim_state(boss4_type3_states[this->m_374].animation);
     m = boss4_type3_states[this->m_374].enter;
     if (m != 0) {
@@ -1337,11 +1337,11 @@ s32 TBoss4Type3::get_random_scaled(void * _w0) {
     return (s32) (15.84f * ((TObjChara *)_w0)->random_ratio());
 }
 
-void TBoss4Type3::turn_toward_player(s32 arg1) {
+void TBoss4Type3::turn_toward_player(s32 id) {
     TBoss4Type3 *self = this;
     Ply_80059ABC *p;
-    if ((u16)arg1 != 0xFFFF) {
-        p = (Ply_80059ABC *)get_player_by_client_id((u16)((u16)arg1));
+    if ((u16)id != 0xFFFF) {
+        p = (Ply_80059ABC *)get_player_by_client_id((u16)((u16)id));
         if (p != NULL) {
             self->rotation_y = approach_angle_limited(self->rotation_y, (s32)(10430.38043493439 * atan2_float(p->f38 - 10000.0f, p->f40)), 0x888);
             calc_grid_index();

@@ -205,7 +205,7 @@ extern "C" {
 
 struct Obj_8031FACC;
 
-s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0);
+s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *ene_dd);
 
 }
 
@@ -962,15 +962,15 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     ((TObjEneDD *)ene_recobox)->set_part_local_pos(ene_recobox + 0x2FC, 0);
 }
 
-s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0) {
+s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *ene_dd) {
     u8 r;
     s32 t;
-    if (((TObjEneRecobox *)arg0)->has_child_in_anim_5() == 1) {
+    if (((TObjEneRecobox *)ene_dd)->has_child_in_anim_5() == 1) {
         return 0;
     }
-    t = (s32)TWindowSubComCard::trunc_float(arg0->f3F8 / 2.0f);
+    t = (s32)TWindowSubComCard::trunc_float(ene_dd->f3F8 / 2.0f);
     r = 0;
-    if (arg0->f410 <= t && arg0->f414 < arg0->f3F4) {
+    if (ene_dd->f410 <= t && ene_dd->f414 < ene_dd->f3F4) {
         r = 1;
     }
     return r;
@@ -1084,10 +1084,10 @@ void TObjEneRecobox::handle_state(s32 arg1) {
     }
 }
 
-void TObjEneRecobox::sub_8031F6C0(s32 arg1) {
+void TObjEneRecobox::sub_8031F6C0(s32 reason) {
     s32 temp_r4;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         temp_r4 = *(s32 *)((s8 *)this + 0x40C) | 1;
         *(s32 *)((s8 *)this + 0x40C) = temp_r4;
@@ -1149,9 +1149,9 @@ void TObjEneRecobox::update_state(s32 arg1) {
     }
 }
 
-void TObjEneRecobox::handle_action_state(s32 arg1) {
+void TObjEneRecobox::handle_action_state(s32 reason) {
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         *(s32 *)&this->status_flags = (*(s32 *)&this->status_flags & 0xFFFFFFFE);
         this->requested_action = 2;
@@ -1240,12 +1240,12 @@ void TObjEneRecobox::spawn_debris_chips() {
 }
 #pragma pop
 
-s32 TObjEneRecobox::is_below_child_limit(u16 arg1) {
+s32 TObjEneRecobox::is_below_child_limit(u16 id) {
     Obj_8031F0F0 *arg0 = (Obj_8031F0F0 *)this;
     s32 n = 0;
     s32 i;
     for (i = 0; i < arg0->count; i++) {
-        if (find_entity_by_id(arg0->ids[i]) != NULL && arg1 == TObjEneRecon__sub_8031D878()) {
+        if (find_entity_by_id(arg0->ids[i]) != NULL && id == TObjEneRecon__sub_8031D878()) {
             n++;
         }
     }
