@@ -470,8 +470,8 @@ void begin_conversation_camera(void) {
     u8 *temp_r3;
     if (((u8) (*(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value == 0) && (temp_r29 = *(u8 **)((s8 *)((u8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)) + 0), ((TCameraCtrl *)temp_r29)->set_field_100(1), temp_r3 = *(u8 **)((s8 *)temp_r29 + 0x1C), ((temp_r3 == NULL) == 0))) {
         temp_r30 = *(s32 *)((s8 *)temp_r3 + 0x60);
-        temp_r31 = angle_difference_abs((((TCameraCtrl *)temp_r29)->m_30), (temp_r30 + 0x6000));
-        if (temp_r31 > angle_difference_abs((((TCameraCtrl *)temp_r29)->m_30), (temp_r30 - 0x6000))) {
+        temp_r31 = angle_difference_abs((((TUnk_80488A28 *)temp_r29)->yaw), (temp_r30 + 0x6000));
+        if (temp_r31 > angle_difference_abs((((TUnk_80488A28 *)temp_r29)->yaw), (temp_r30 - 0x6000))) {
             var_r31 = temp_r30 - 0x6000;
             heading = temp_r30 + 0x6000;
         } else {
@@ -480,10 +480,10 @@ void begin_conversation_camera(void) {
         }
         if (conversation_camera_obstructed((FollowController *)(temp_r29), var_r31) != 0) {
             if (conversation_camera_obstructed((FollowController *)(temp_r29), heading) == 0) {
-                ((TCameraCtrl *)temp_r29)->m_30 = heading;
+                ((TUnk_80488A28 *)temp_r29)->yaw = heading;
             }
         } else {
-            ((TCameraCtrl *)temp_r29)->m_30 = var_r31;
+            ((TUnk_80488A28 *)temp_r29)->yaw = var_r31;
         }
     }
 }
@@ -936,7 +936,7 @@ TUnk_80488E00::TUnk_80488E00() {
     }
 }
 
-void TCameraCtrl::set_field_100(s32 v) { *(s32 *)&this->unk_100 = v; }
+void TCameraCtrl::set_field_100(s32 v) { *(s32 *)&this->split_pos[3].z = v; }
 s32 TUnk_80488E00::sub_8006E7FC() { return this->m_10c; }
 
 void TCameraCtrl__sub_8006E804(void* a0) { *(int*)((char*)a0 + 0x18) = 0; *(float*)((char*)a0 + 0x0) = (0.0f); *(float*)((char*)a0 + 0x4) = (0.0f); *(float*)((char*)a0 + 0x8) = (0.0f); *(float*)((char*)a0 + 0xc) = (0.0f); *(float*)((char*)a0 + 0x10) = (0.0f); *(float*)((char*)a0 + 0x14) = (0.0f); }

@@ -105,9 +105,9 @@ void TEF_LensFlare::render() {
         }
         TParticleCtrl::begin_effect_render();
         Vec dir;
-        dir.x = position.x - camera_ctrl_instance->pos_x;
-        dir.y = position.y - camera_ctrl_instance->pos_y;
-        dir.z = position.z - camera_ctrl_instance->pos_z;
+        dir.x = position.x - camera_ctrl_instance->pos.x;
+        dir.y = position.y - camera_ctrl_instance->pos.y;
+        dir.z = position.z - camera_ctrl_instance->pos.z;
         if (0.0f != vec_squared_length(&dir)) {
             normalize_vector(&dir);
         }

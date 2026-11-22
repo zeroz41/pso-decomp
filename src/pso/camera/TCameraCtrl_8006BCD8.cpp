@@ -137,14 +137,14 @@ void TUnk_80488B68::post_update_view() {
     dir.y = target.y - position.y;
     dir.z = target.z - position.z;
     direction_to_pitch_yaw((u8 *)&dir, (s32 *)&camera_ctrl_instance->pitch, (s32 *)&camera_ctrl_instance->yaw);
-    at.x = camera_ctrl_instance->tgt_x;
-    at.y = camera_ctrl_instance->tgt_y;
-    at.z = camera_ctrl_instance->tgt_z;
+    at.x = camera_ctrl_instance->tgt.x;
+    at.y = camera_ctrl_instance->tgt.y;
+    at.z = camera_ctrl_instance->tgt.z;
     Vec up = {0.0f, 1.0f, 0.0f};
-    set_camera_look_at((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&at, (u8 *)&up);
-    *(f32 *)((s8 *)&lbl_804FF5E8 + 0) = camera_ctrl_instance->pos_x;
-    *(f32 *)((s8 *)&lbl_804FF5E8 + 4) = camera_ctrl_instance->pos_y;
-    *(f32 *)((s8 *)&lbl_804FF5E8 + 8) = camera_ctrl_instance->pos_z;
+    set_camera_look_at((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&at, (u8 *)&up);
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 0) = camera_ctrl_instance->pos.x;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 4) = camera_ctrl_instance->pos.y;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 8) = camera_ctrl_instance->pos.z;
 }
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {

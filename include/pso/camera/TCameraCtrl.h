@@ -4,95 +4,107 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-struct Vec;
+#include <dolphin/mtx/GeoTypes.h>
 
-struct TCameraCtrl : public TObject {
+// The request a scripted or event camera hands over (get_params, and the
+// buffer set_active_camera_pose_from_params reads): where to put the eye,
+// what to look at and the field of view.
+struct CameraParams {
+    s32 controller_variant; // update_target_from_state selects controller 9 + this
+    s32 pad_04;
+    s32 pad_08;
+    f32 pad_0C;
+    f32 pad_10;
+    s32 projection_angle;
+    f32 pad_18;
+    Vec position;
+    Vec target;
+    f32 pad_34;
+    f32 pad_38;
+    f32 pad_3C;
+    u8 pad_40[0x4];
+    s16 pad_44;
+    u8 pad_46[0x2];
+};
+
+// Which registered controller drives the view and the requests pending on it.
+struct CameraViewState {
+    u8 controller;          // registry index of the active controller
+    u8 previous_controller; // put back when a forced camera mode ends
+    u16 spectate_client;    // client cycle_spectate_target last switched to
+    s32 controller_count;   // registry slots the constructor filled
+    s32 flags;
+};
+
+class TCameraCtrl : public TObject {
+public:
+    TCameraCtrl(TObject *parent);
     virtual ~TCameraCtrl();
-    void setup_default_view(void *);
+    virtual void run_task();
+    virtual void render();
+    void setup_default_view(void *offset);
     void calc_rotated_axes();
     void update_target_from_state();
     void update_active_controller();
     void update_shake();
-    virtual void render();
-    virtual void run_task();
-    u8 m_1c;
-    u8 _pad1D[0x3];
-    u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u8 unk_2C[0x4];
-    s32 m_30;
-    u32 m_34;
-    u8 unk_38[0x4];
-    f32 m_3c;
-    u8 unk_40[0x4];
-    f32 m_44;
-    u8 unk_48[0x4];
-    f32 m_4c;
-    u8 unk_50[0x4];
-    s32 m_54;
-    u8 unk_58[0xC];
-    u16 m_64;
-    u8 unk_66[0xA];
-    f32 m_70;
-    u8 unk_74[0x18];
-    u32 m_8c;
-    u32 m_90;
-    u8 unk_94[0x48];
-    f32 m_dc;
-    u8 unk_E0[0x4];
-    f32 m_e4;
-    u8 unk_E8[0x4];
-    f32 m_ec;
-    u8 unk_F0[0x4];
-    s32 m_f4;
-    u8 unk_F8[0x4];
-    s32 m_fc;
-    u8 unk_100[0x4];
-    s32 m_104;
-    u8 unk_108[0x8];
-    int m_110;
-    u8 unk_114[0x60];
-    u32 m_174;
+    // Set by run_task once the view is computed; render falls back to the
+    // default view on frames where it is still clear.
+    u8 view_updated;
+    u8 pad_1D[0x3];
+    CameraParams params;
+    Vec shake_offset;
+    f32 pad_74;
+    f32 pad_78;
+    f32 pad_7C;
+    f32 pad_80;
+    u8 pad_84[0x8];
+    s32 pad_8C;
+    void *focus_actor; // the actor the controllers follow (reset_cameras_to_actor)
+    // Per split-screen view: the yaw and position saved by sync_split_view_slots,
+    // and each view's own eye, target and look point.
+    s32 view_yaw[4];
+    Vec view_pos[4];
+    Vec split_pos[4];
+    Vec split_tgt[4];
+    Vec split_look[4];
+    s32 split_obstructed[4];
+    // Set by resolve_anchor_obstruction when the line from look to eye hits
+    // the map; gates clamp_to_target_obstruction.
+    s32 obstructed;
     // Camera position and the point it looks at; each frame they approach
-    // eye_* and at_* (approach_camera_vector), or snap to them.
-    f32 pos_x;
-    f32 pos_y;
-    f32 pos_z;
-    f32 tgt_x;
-    f32 tgt_y;
-    f32 tgt_z;
+    // eye and at (approach_camera_vector), or snap to them.
+    Vec pos;
+    Vec tgt;
     // View angles fed to rotate_matrix_x/y/z, and the field of view given to
     // set_perspective_projection_from_fov (0x3555 = 75 degrees at reset).
-    u32 pitch;
-    u32 yaw;
-    u32 roll;
-    u32 fov;
-    f32 eye_x;
-    f32 eye_y;
-    f32 eye_z;
-    f32 at_x;
-    f32 at_y;
-    f32 at_z;
-    f32 eye_rate;  // rate pos_* approaches eye_* with (approach_camera_vector)
-    // Rate tgt_* approaches at_* with.
-    f32 at_rate;
-    // Frames of screen shake left (set_shake_preset, update_shake).
-    u32 shake_timer;
+    s32 pitch;
+    s32 yaw;
+    s32 roll;
+    s32 fov;
+    Vec eye;
+    Vec at;
+    f32 eye_rate; // rate pos approaches eye with (approach_camera_vector)
+    f32 at_rate;  // rate tgt approaches at with
+    // Frames of screen shake left and its strength (set_shake_preset, update_shake).
+    s32 shake_timer;
+    f32 shake_amplitude;
+    // Copy of pos taken whenever the position snaps.
+    Vec look;
+
     static s32 get_camera_mode();
     void*get_target_ptr();
-    static void copy_vec_to_default(u8 *arg0);
-    static void sync_split_view_slots(s32 arg0, s32 arg1);
+    static void copy_vec_to_default(u8 *up);
+    static void sync_split_view_slots(s32 view, s32 all_views);
     static s32 get_split_screen_view_index(u16 id);
     static u16 get_nth_view_player_id(s32 n);
-    static f32 get_split_offset(s32 arg0);
+    static f32 get_split_offset(s32 view);
     static void set_fullscreen_viewport();
-    static void set_split_viewport(s32 arg0, s32 arg1);
+    static void set_split_viewport(s32 views, s32 view);
     static f32 get_fov();
     static f32 get_view_scale();
     void copy_view_state(saddr src);
     static void restore_full_screen_view();
-    static u16 get_camera_target_id(s32 arg0);
+    static u16 get_camera_target_id(s32 view);
     static void apply_split_screen_view_matrix();
     static s32 *get_view_matrix();
     static void create();
@@ -109,57 +121,52 @@ struct TCameraCtrl : public TObject {
     static s32 release_photon_blast_camera();
     void reset_view_flags();
     void*get_params();
-    static void set_shake_preset(s32 arg0);
+    static void set_shake_preset(s32 preset);
     void cycle_spectate_target();
     static void update_active_player();
     static void update_battle_camera();
     static void create(saddr goal, s32 frames, s32 arg2);
     void *destroy(s16 arg1);
     static void reset_to_local_player();
-    static void set_override_position_and_angle(u8 *arg0, s16 arg1);
-    static void set_fixed_position_and_target(u8 *arg0, u8 *arg1);
+    static void set_override_position_and_angle(u8 *position, s16 angle);
+    static void set_fixed_position_and_target(u8 *position, u8 *target);
     static void set_active_camera_flag();
     void set_field_100(s32 v);
     static s32 get_screen_width();
     static s32 get_screen_height();
     static s32 should_update();
-    void copy_position_vectors(void *arg1, void *arg2);
+    void copy_position_vectors(void *first, void *second);
     void update_single_screen();
     static int get_mode();
     // The mode word at 0x1C of `p` (the main task).
     static s32 get_mode(void *p);
-    // Transforms the vector at arg0 into view space, into arg1 (addresses as the symbol's ints).
-    static void transform_to_view(int arg0, int arg1);
+    // Transforms the vector at src into view space, into dst.
+    static void transform_to_view(int src, int dst);
     static Vec get_target_position();
-    static void target_player0(int arg0);
+    static void target_player0(int controller);
     static s32 get_camera_no();
-    static void set_mode(int a0);
-    static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
-    static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
+    static void set_mode(int mode);
+    static void update_camera_state(f32 x, f32 y, f32 z);
+    static void look_at_position(f32 x, f32 y, f32 z);
     static s32 translate_view_negated(f32 x, f32 y, f32 z);
-    static void set_clamped_offsets(f32 farg0, f32 farg1);
+    static void set_clamped_offsets(f32 near_clip, f32 far_clip);
     void update_projection_params();
-    static void concat_matrix(uaddr arg0, uaddr arg1);
-    u8 unk_1C4[0x4];
-    // Copy of pos_* taken whenever the position snaps.
-    f32 look_x;
-    f32 look_y;
-    f32 look_z;
+    static void concat_matrix(uaddr target, uaddr matrix);
     static void update();
     static void reset_view_state();
     static void reset();
-    static void select_active_controller(s8 arg0);
-    static void calc_axes_from_angles(saddr arg0, saddr arg1, saddr arg2);
+    static void select_active_controller(s8 index);
+    static void calc_axes_from_angles(saddr unused_angle, saddr pitch, saddr yaw);
     static int get_instance();
     static int get_camera_id();
-    static void set_target_coords(int a0, int a1);
+    static void set_target_coords(int x, int y);
     static void reset_battle_camera();
     u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr parent);
     static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
     static void init_projection_state();
-    static void set_target(int a0, int a1);
+    static void set_target(int width, int height);
 };
 
 LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);

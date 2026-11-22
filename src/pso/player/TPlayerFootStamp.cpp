@@ -304,7 +304,7 @@ void TPlayerFootStamp::run_task() {
 
 // Draws the footprint while it is within 150 units of the camera.
 void TPlayerFootStamp::render() {
-    if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos_x) < 22500.0f) {
+    if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 22500.0f) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(player_footstamp_texture_gvm_handle));

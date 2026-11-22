@@ -81,7 +81,7 @@ void TObjLight::render() {  }
 void TObjLight::run_task() {
     Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
-    if (xyz_distance_squared(&self->pos, &camera_ctrl_instance->pos_x) > 160000.0f) {
+    if (xyz_distance_squared(&self->pos, &camera_ctrl_instance->pos.x) > 160000.0f) {
         ((TObject *)self)->queue_destruction();
         return;
     }

@@ -743,7 +743,7 @@ Ctl_8006AA90 *TCameraCtrl__sub_8006AA90(Ctl_8006AA90 *self, s16 arg1) {
 void TCameraCtrl::update_target_from_state() {
     if ((!(*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 4) && !(*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 8)) || (*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x20) || (*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x80) || (*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x800)) {
         if (*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 2) {
-            select_camera_controller(this->m_20 + 9);
+            select_camera_controller(this->params.controller_variant + 9);
             return;
         }
         if ((*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x20) || (*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x80)) {
@@ -1288,35 +1288,35 @@ void TCameraCtrl::update_pose_smoothing() {
     temp_r30 = (u8 *) (arg0 + (TCameraCtrl::get_camera_no() * 0xC));
     new_var = (temp_r30 + 0xD4);
     temp_r31 = new_var;
-    approach_camera_vector((void *) temp_r31, (u8 *)&this->eye_x, this->eye_rate);
+    approach_camera_vector((void *) temp_r31, (u8 *)&this->eye.x, this->eye_rate);
     VecCopy((Vec *)(arg0 + 0x178), (const Vec *)temp_r31);
     current = (temp_r30 + 0x104);
-    approach_camera_vector((void *) current, (u8 *)&this->at_x, this->at_rate);
+    approach_camera_vector((void *) current, (u8 *)&this->at.x, this->at_rate);
     VecCopy((Vec *)(arg0 + 0x184), (const Vec *)current);
     return;
   }
-  approach_camera_vector((u8 *)&this->pos_x, (u8 *)&this->eye_x, this->eye_rate);
-  approach_camera_vector((u8 *)&this->tgt_x, (u8 *)&this->at_x, this->at_rate);
+  approach_camera_vector((u8 *)&this->pos.x, (u8 *)&this->eye.x, this->eye_rate);
+  approach_camera_vector((u8 *)&this->tgt.x, (u8 *)&this->at.x, this->at_rate);
 }
 
 void TCameraCtrl::update_position() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    this->pos_x = (f32) this->eye_x;
-    this->pos_y = (f32) this->eye_y;
-    this->pos_z = (f32) this->eye_z;
-    this->tgt_x = (f32) this->at_x;
-    this->tgt_y = (f32) this->at_y;
-    this->tgt_z = (f32) this->at_z;
-    this->look_x = (f32) this->pos_x;
-    this->look_y = (f32) this->pos_y;
-    this->look_z = (f32) this->pos_z;
+    this->pos.x = (f32) this->eye.x;
+    this->pos.y = (f32) this->eye.y;
+    this->pos.z = (f32) this->eye.z;
+    this->tgt.x = (f32) this->at.x;
+    this->tgt.y = (f32) this->at.y;
+    this->tgt.z = (f32) this->at.z;
+    this->look.x = (f32) this->pos.x;
+    this->look.y = (f32) this->pos.y;
+    this->look.z = (f32) this->pos.z;
     if (is_split_screen() != 0) {
         temp_r3 = arg0 + (TCameraCtrl::get_camera_no() * 0xC);
-        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->pos_x;
-        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->pos_y;
-        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->pos_z;
+        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->pos.x;
+        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->pos.y;
+        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->pos.z;
     }
 }
 
@@ -1324,23 +1324,23 @@ void TCameraCtrl::update_target_smoothing() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
     u8 *temp_r3_2;
-    this->pos_x = (f32) this->eye_x;
-    this->pos_y = (f32) this->eye_y;
-    this->pos_z = (f32) this->eye_z;
-    this->look_x = (f32) this->pos_x;
-    this->look_y = (f32) this->pos_y;
-    this->look_z = (f32) this->pos_z;
+    this->pos.x = (f32) this->eye.x;
+    this->pos.y = (f32) this->eye.y;
+    this->pos.z = (f32) this->eye.z;
+    this->look.x = (f32) this->pos.x;
+    this->look.y = (f32) this->pos.y;
+    this->look.z = (f32) this->pos.z;
     if (is_split_screen() != 0) {
         temp_r3 = arg0 + (TCameraCtrl::get_camera_no() * 0xC);
-        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->pos_x;
-        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->pos_y;
-        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->pos_z;
+        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->pos.x;
+        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->pos.y;
+        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->pos.z;
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)((u8 *)&camera_controller_registry + (TCameraCtrl__view_state[0] * 4)) + 0));
     if ((temp_r3_2 != NULL) && !(*(s32 *)((s8 *)temp_r3_2 + 0x38) & 0x10)) {
-        this->tgt_y = (f32) this->at_y;
+        this->tgt.y = (f32) this->at.y;
     }
-    approach_camera_vector((u8 *)&this->tgt_x, (u8 *)&this->at_x, this->at_rate);
+    approach_camera_vector((u8 *)&this->tgt.x, (u8 *)&this->at.x, this->at_rate);
 }
 
 void TCameraCtrl::clamp_to_target_obstruction() {

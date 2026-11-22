@@ -764,9 +764,9 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
     if (camera_ctrl_instance != NULL) {
         Vec listener;
         Vec source;
-        listener.x = camera_ctrl_instance->pos_x;
+        listener.x = camera_ctrl_instance->pos.x;
         listener.y = 0.0f;
-        listener.z = camera_ctrl_instance->pos_z;
+        listener.z = camera_ctrl_instance->pos.z;
         if (v->position != NULL) {
             f32 dist;
             f32 range = 300.0f;
@@ -799,9 +799,9 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                 }
             } else {
                 if (TLobby::is_camera_state_active()) {
-                    listener.x = camera_ctrl_instance->pos_x;
+                    listener.x = camera_ctrl_instance->pos.x;
                     listener.y = 0.0f;
-                    listener.z = camera_ctrl_instance->pos_z;
+                    listener.z = camera_ctrl_instance->pos.z;
                 } else {
                     TObjPlayer *player = get_player_by_client_id(local_client_id);
                     if (player != NULL) {
@@ -816,8 +816,8 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                 pan = 0;
             } else if (dist > 0.0f) {
                 // inferred: direction to the source, 0x10000 units per turn
-                f64 direction = 10430.38043493439 * atan2_float(((const Vec *)v->position)->z - camera_ctrl_instance->pos_z,
-                                                                ((const Vec *)v->position)->x - camera_ctrl_instance->pos_x);
+                f64 direction = 10430.38043493439 * atan2_float(((const Vec *)v->position)->z - camera_ctrl_instance->pos.z,
+                                                                ((const Vec *)v->position)->x - camera_ctrl_instance->pos.x);
                 pan = (s8)(127.0f * -sin_table_lookup((s32)direction + camera_ctrl_instance->yaw + 0x4000));
             }
             if (is_split_screen() || (v->flags & 8)) {

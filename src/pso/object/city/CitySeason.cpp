@@ -468,7 +468,7 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
         spawn_delay--;
         if (spawn_delay < 0) {
             VecCopy(&to_camera, &position);
-            subtract_vector(&to_camera, (Vec *)&camera_ctrl_instance->pos_x);
+            subtract_vector(&to_camera, (Vec *)&camera_ctrl_instance->pos.x);
             if (normalize_vector_safe(&to_camera) < 450.0f && vec3_dot(&to_camera, (Vec *)&lbl_804FF5E8[3]) > 0.0f) {
                 dx = scale.x * rand_signed_unit();
                 dz = scale.z * rand_signed_unit();
