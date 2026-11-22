@@ -50,8 +50,6 @@ struct VObj_18_1de278 : VBase_18_1de278 {
     virtual s32 m7();
 };
 
-struct Pad_80279FFC { u8 pad0[0x20]; u8 f20[0x30]; };
-
 extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
@@ -81,7 +79,6 @@ void play_sound_effect(s32, s32, s32, s32);
 s32 __nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 u32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
-extern Pad_80279FFC controller_input_state[];
 s32 send_6x25_equip_item(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
@@ -98,7 +95,7 @@ extern s32 __vt__14TWindowSubItem[];
 
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define LIST F(saddr, 0x30)
-#define BACK_PRESSED(idx) (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].f20, 2) != 0 || test_controller_flag_4c_color(controller_input_state[4].f20, 2) != 0)
+#define BACK_PRESSED(idx) (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 || test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)
 const char *TWindowSubItem__class_name = "TWindowSubItem";
 
 // Item list window position (x, y).

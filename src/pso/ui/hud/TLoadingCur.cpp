@@ -91,18 +91,6 @@ struct Stack_8001D0A0 {
     s32 sp10;
 };
 
-struct Pad_8001CD90 {
-    char pad0[0x20];
-    u32 f20;
-    char pad24[0x10];
-    s16 s34;
-    s16 s36;
-    s16 s38;
-    s16 s3A;
-    char pad3C[0x124];
-    u8 f160[0x20];
-};
-
 struct Self_8001CD90 {
     char pad0[0x20];
     f32 f20;
@@ -123,7 +111,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 
 
 s32 play_persistent_sound(int, void *, void *, int, int);
-extern Pad_8001CD90 controller_input_state;
 
 s32 project_world_to_screen(int, void *, void *);
 
@@ -184,15 +171,15 @@ void TLoadingCur::run_task() {
     f32 x;
     f32 y;
     u32 flags;
-    void *p;
+    ControllerInputContext *p;
     f32 z;
     x = 0.0f;
     y = x;
-    x += 0.0078125f * (f32)controller_input_state.s34;
-    y -= 0.0078125f * (f32)controller_input_state.s36;
-    x += 0.0078125f * (f32)controller_input_state.s38;
-    y -= 0.0078125f * (f32)controller_input_state.s3A;
-    flags = controller_input_state.f20;
+    x += 0.0078125f * (f32)controller_input_state.controllers[0].stick_x;
+    y -= 0.0078125f * (f32)controller_input_state.controllers[0].stick_y;
+    x += 0.0078125f * (f32)controller_input_state.controllers[0].cstick_x;
+    y -= 0.0078125f * (f32)controller_input_state.controllers[0].cstick_y;
+    flags = controller_input_state.controllers[0].buttons;
     if (flags & 0x10) {
         y += 1.0f;
     }
@@ -205,7 +192,7 @@ void TLoadingCur::run_task() {
     if (flags & 0x40) {
         x -= 1.0f;
     }
-    p = controller_input_state.f160;
+    p = &controller_input_state.keyboard;
     if (test_previous_buttons_color(p, 0x10) != 0) {
         y += 1.0f;
     }

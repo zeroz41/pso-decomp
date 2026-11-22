@@ -590,7 +590,7 @@ void TCameraCtrl::cycle_spectate_target() {
     }
     pad = &controller_input_state.controllers[1];
     if (test_previous_buttons_packed(pad, 0x20000) == 0 ||
-        TWindowShortListCtrl__check_controller_button(pad, 0x10) == 0 ||
+        test_pressed_buttons_packed(pad, 0x10) == 0 ||
         test_previous_buttons_packed(pad, 0x10000) == 0 ||
         (local = get_player_by_client_id(local_client_id)) == 0 ||
         (tries = 0, TCameraCtrl::view_state.controller != 0) ||

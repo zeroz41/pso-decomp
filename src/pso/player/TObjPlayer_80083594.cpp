@@ -116,7 +116,6 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 extern "C" {
 extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
-extern u8 controller_physical_port_bank[];
 }
 
 #include "pso/system/task/TMainTask.h"
@@ -912,7 +911,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
-        cam = controller_physical_port_bank + 0x110;
+        cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
         a.y = 144.0f;
         b.x = 256.0f;
@@ -937,7 +936,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
-        cam = controller_physical_port_bank + 0x110;
+        cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
         a.y = 144.0f;
         b.x = 256.0f;

@@ -73,8 +73,6 @@ struct Luker_801A1768 {
 
 struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; u8 pos[0xc]; };
 
-struct Pad_801A0F34 { u8 pad[0x20]; u8 btn[0x30]; };
-
 struct Ctrl_801A0E38;
 struct Obj_801A0DB4;
 struct Obj_801A0E38;
@@ -190,7 +188,6 @@ void TObjLuker::open_destination_windows() {
     }
 }
 }
-extern Pad_801A0F34 controller_input_state[];
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 local_client_id;
@@ -234,7 +231,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         for (j = 0; j < TCameraCtrl::get_view_count(); j++) {
             p = (Plr_801A0F34 *)((Ctrl_801A0E38 *(*)(s32))get_player_by_client_id)(TCameraCtrl::get_nth_view_player_id(j));
             if (p != NULL &&
-                TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)p)->get_map_id()].btn, 4) != 0) {
+                test_pressed_buttons_packed(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 4) != 0) {
                 found = 1;
                 if (arg1 != NULL) {
                     *arg1 = j;
@@ -417,7 +414,7 @@ void TObjLuker::run_task() {
                     } else {
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 &&
-                            TWindowShortListCtrl__check_controller_button(controller_input_state[sp8].btn, 4) != 0) {
+                            test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
                             flag = 1;
                         }
                     }

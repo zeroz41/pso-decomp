@@ -79,7 +79,6 @@ extern const f32 lbl_805DFC28 = 50037.0f;
 extern const f32 lbl_805DFC2C = 50040.0f;
 
 extern "C" {
-s32 test_buttons_press_or_repeat(void *, void *, int, int);
 
 void TWindowDD::reset_entries(f32 v, s32) {
     E_803403F8 *p = (E_803403F8 *)this;
@@ -143,11 +142,11 @@ void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
 #pragma push
 #pragma opt_dead_assignments off
 s32 TWindowDD::apply_both_choices(s32 arg0, saddr buttons) {
-  return test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x20), (void *) buttons, 6, 1) | test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), (void *) buttons, 6, 1);
+  return test_buttons_press_or_repeat(&controller_input_state.controllers[0], buttons, 6, 1) | test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 }
 #pragma pop
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask) {
-  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), mask) | test_controller_flag_4c_color(&controller_input_state.keyboard, mask);
+  return test_pressed_buttons_packed(&controller_input_state.controllers[0], mask) | test_controller_flag_4c_color(&controller_input_state.keyboard, mask);
 }

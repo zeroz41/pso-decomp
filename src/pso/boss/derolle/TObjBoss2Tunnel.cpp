@@ -866,7 +866,7 @@ s32 take_snapshot(void) {
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
     }
-    pad = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
+    pad = get_pad_slot(0x12);
     if (test_previous_buttons_packed(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
         if (boss2_tunnel_state_flag == 0) {
             move_snapshot_frame();
@@ -1364,11 +1364,11 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         win->render();
         TParticleCtrl::end_effect_render();
         if (frames >= 6.0) {
-            if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0 || frames >= 0x78) {
+            if (test_pressed_buttons_packed(pad, 2) != 0 || frames >= 0x78) {
                 result = 0;
                 break;
             }
-            if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0) {
+            if (test_pressed_buttons_packed(pad, 4) != 0) {
                 result = 1;
                 break;
             }

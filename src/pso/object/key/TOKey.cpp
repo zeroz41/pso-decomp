@@ -326,7 +326,7 @@ s32 TOKey::is_confirm_pressed() {
         return 0;
     }
     if (is_local_player_in_range() != 0 &&
-        TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+        test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
         return 1;
     }
     return 0;

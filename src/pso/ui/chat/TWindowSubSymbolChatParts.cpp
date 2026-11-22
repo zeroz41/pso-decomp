@@ -271,14 +271,14 @@ void TWindowSubSymbolChatParts::sub_80285054() {
     u8 temp_r3_3;
     u8 temp_r4;
     u8 temp_r5;
-    u8 *input;
-    input = (u8 *)&controller_input_state + 0x20;
-    if ((test_buttons_press_or_repeat((saddr)input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0xF0, 6, 1) != 0)) {
+    ControllerInputContext *input;
+    input = &controller_input_state.controllers[0];
+    if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x54100, 0U, 0, 0);
-        if ((test_buttons_press_or_repeat((saddr)input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x80, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
             *(u8 *)((s8 *)((u8 *)this) + 0x72) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x72) + 1);
         }
-        if ((test_buttons_press_or_repeat((saddr)input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x40, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
             *(u8 *)((s8 *)((u8 *)this) + 0x72) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x72) - 1);
         }
         temp_r3 = *(u8 *)((s8 *)((u8 *)this) + 0x72);
@@ -289,10 +289,10 @@ void TWindowSubSymbolChatParts::sub_80285054() {
         if ((s8) temp_r3_2 >= 4) {
             *(u8 *)((s8 *)((u8 *)this) + 0x72) = (temp_r3_2 - 4);
         }
-        if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             *(u8 *)((s8 *)((u8 *)this) + 0x73) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x73) - 1);
         }
-        if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             *(u8 *)((s8 *)((u8 *)this) + 0x73) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x73) + 1);
         }
         temp_r3_3 = *(u8 *)((s8 *)((u8 *)this) + 0x73);
@@ -551,13 +551,13 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
     if (((TWindowSubSymbolChatParts *)(arg0))->sub_80283974() == 0) {
         ((TWindowSubSymbolChatParts *)arg0)->sub_80285054();
         pad = ((u8 *)&controller_input_state) + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 4) != 0) {
+        if (test_pressed_buttons_packed(pad, 4) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 4) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_add();
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x400) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x400) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->add_part();
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 2) != 0) {
+        if (test_pressed_buttons_packed(pad, 2) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 2) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_cancel();
         }
     }

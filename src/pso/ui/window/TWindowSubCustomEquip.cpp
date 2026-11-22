@@ -276,7 +276,6 @@ f32 TWindowSubCustomEquip__ring_scale;
 u8 TWindowSubCustomEquip__bank_ring_init_done;
 f32 lbl_805D6478;
 u8 lbl_805D647C;
-s32 test_buttons_press_or_repeat(void *, int, int, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 
@@ -440,7 +439,7 @@ void TWindowSubCustomEquip::handle_cursor_input() {
     u8 temp_r3_3;
     u8 temp_r4;
     u8 *temp_r31;
-    u8 *window_choice_setting;
+    ControllerInputContext *window_choice_setting;
     u8 *array_entry;
     temp_r29 = is_player_input_active((this->client_index));
     temp_r31 = (u8 *)(((u8 *)get_array_entry(0x10)));
@@ -454,23 +453,23 @@ void TWindowSubCustomEquip::handle_cursor_input() {
         *(s32 *)((s8 *)temp_r31 + 0x2C) = 0xFF666666;
         *(s32 *)((s8 *)array_entry + 0x2C) = 0xFF666666;
     }
-    window_choice_setting = (u8 *)&controller_input_state + (temp_r29 * 0x50) + 0x20;
-    if ((test_buttons_press_or_repeat((void *)window_choice_setting, 0xF0, 6, 1) != 0) || (TWindowShortListCtrl__check_controller_button(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
+    window_choice_setting = &controller_input_state.controllers[temp_r29];
+    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
-        if (TWindowShortListCtrl__check_controller_button(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
+        if (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
             this->m_62 = (u8) (1 - this->m_62);
             this->m_63 = 3U;
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x80, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x40, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
         temp_r3_2 = this->m_61;
@@ -495,15 +494,15 @@ void TWindowSubCustomEquip::render() {
 void TWindowSubCustomEquip::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
-    u8 *context;
+    ControllerInputContext *context;
     temp_r30 = is_player_input_active(((s32) this->client_index));
     if (((TWindowSubCustomEquip *)arg0)->is_selected() == 0) {
         ((TWindowSubCustomEquip *)arg0)->handle_cursor_input();
-        context = (u8 *)&controller_input_state + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        context = &controller_input_state.controllers[temp_r30];
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             handle_cancel();
         }
     }

@@ -53,10 +53,10 @@ s32 PADReset(u32);
 #pragma scheduling off
 
 void TKeyBoardControl::init_pad_slots_and_read() {
-    *(s32 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0x30) = TKeyBoardControl__pad_status_buffer;
-    *(u8 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0x64) = (unsigned char *) ((void *) ((u8 *)TKeyBoardControl__pad_status_buffer + 0x78));
-    *(u8 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0x98) = (unsigned char *) ((void *) ((u8 *)TKeyBoardControl__pad_status_buffer + 0xF0));
-    *(u8 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0xCC) = (unsigned char *) ((void *) ((u8 *)TKeyBoardControl__pad_status_buffer + 0x168));
+    keyboard_control_pad_slots[0].conn = TKeyBoardControl__pad_status_buffer;
+    keyboard_control_pad_slots[1].conn = &TKeyBoardControl__pad_status_buffer[0x1E];
+    keyboard_control_pad_slots[2].conn = &TKeyBoardControl__pad_status_buffer[0x3C];
+    keyboard_control_pad_slots[3].conn = &TKeyBoardControl__pad_status_buffer[0x5A];
     PADRead(keyboard_pad_status_buffer, TKeyBoardControl__pad_status_buffer);
 }
 
@@ -79,7 +79,7 @@ void TKeyBoardControl::read_pads() {
   {
     pad = &((Pad_803DEA18 *) keyboard_pad_status_buffer)[i];
     old = &TKeyBoardControl_prev_pad_state[i];
-    out = &((PadSlot *) (&keyboard_control_pad_slots))[i];
+    out = &keyboard_control_pad_slots[i];
     if (pad->err == 0)
     {
       ((TKeyBoardControl *)pad)->clamp_axes();
@@ -107,10 +107,10 @@ void TKeyBoardControl::read_pads() {
 }
 #pragma pop
 
-u8 *TKeyBoardControl__sub_803DEB74(u32 arg0) {
-    s32 var_r5;
-    var_r5 = 0;
-    switch (arg0) {
+PadSlot *get_pad_slot(u32 device) {
+    s32 slot;
+    slot = 0;
+    switch (device) {
     case 1:
     case 2:
     case 3:
@@ -128,19 +128,19 @@ u8 *TKeyBoardControl__sub_803DEB74(u32 arg0) {
     case 17:
         break;
     case 0:
-        var_r5 = 0;
+        slot = 0;
         break;
     case 6:
-        var_r5 = 1;
+        slot = 1;
         break;
     case 12:
-        var_r5 = 2;
+        slot = 2;
         break;
     case 18:
-        var_r5 = 3;
+        slot = 3;
         break;
     }
-    return (u8 *)&keyboard_control_pad_slots.value + (var_r5 * 0x34);
+    return &keyboard_control_pad_slots[slot];
 }
 }
 #pragma pop
@@ -238,7 +238,7 @@ void set_constant_material(const NJS_ARGB *color) {
 
 s32 keyboard_pad_status_buffer[12];
 Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
-KeyboardControlPadSlots keyboard_control_pad_slots;
+PadSlot keyboard_control_pad_slots[4];
 s32 TKeyBoardControl__pad_status_buffer[0x78];
 
 Ent_803DEBC8 pad_button_map_table[12] = {
