@@ -27,7 +27,7 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     void sub_8008FAD0();
     void run_death_sequence();
     void update_move_to_target();
-    int reset_enemy_state();
+    void reset_enemy_state();
     void set_form(s32 form);
     void calc_slot_offset_position(s32 slot, Vec *out, s32 *angle_out);
     void sub_8008FC0C();

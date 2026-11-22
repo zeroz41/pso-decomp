@@ -31,8 +31,6 @@
 
 
 extern "C" {
-int update_if_active__15TObjEnemyCustomFl(void *, int);
-void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec, void *, f32, f32);
 void select_enemy_destination(void *, Vec *, s32);
 void enemy_turn_half_toward_dest(void *);
 u8 *get_enemy_entity(u16 arg0);
@@ -156,7 +154,7 @@ void TObjEneBalClawClaw::run_task() {
     u32 flags;
     CollisionBody *body;
     TObjBase *parent;
-    TObjEneBalClaw__sub_8008D68C();
+    sub_8008D68C();
     if (TObjPlayer::check_demo_mode() == 1) {
         sub_80090824();
         sub_800914A4();
@@ -605,13 +603,13 @@ void TObjEneBalClawClaw::update_follow_parent(void *p) {
     }
 }
 
-void TObjEneBalClawClaw__sub_80090A10(TObjEneBalClawClaw *claw, Vec *pos, s32 rot_y, s16 hp) {
-    VecCopy(&claw->position, pos);
-    claw->rotation_y = rot_y;
-    claw->referenceHp = hp;
-    claw->hp = hp;
-    claw->sub_80090798();
-    claw->clear_all_status_effects();
+void TObjEneBalClawClaw::sub_80090A10(Vec *pos, s32 rot_y, s16 hp) {
+    VecCopy(&position, pos);
+    rotation_y = rot_y;
+    referenceHp = hp;
+    this->hp = hp;
+    sub_80090798();
+    clear_all_status_effects();
 }
 
 s32 TObjEneBalClawClaw::check_active() {
@@ -659,8 +657,8 @@ void TObjEneBalClawClaw::update_move_to_target(void *p) {
     }
 }
 
-int TObjEneBalClawClaw::reset_active_state(void *claw) {
-    return update_if_active__15TObjEnemyCustomFl(claw, 0);
+void TObjEneBalClawClaw::reset_active_state(void *claw) {
+    ((TObjEneBalClawClaw *)claw)->update_if_active(0);
 }
 
 void TObjEneBalClawClaw::run_idle_action() {
@@ -739,8 +737,7 @@ void TObjEneBalClawClaw::update_chase_state() {
             break;
         }
         y_speed = 0.0f;
-        move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(this, ((TObjChara *)target)->body_center, bodies,
-                                                                   -0.6f, bodies->radius);
+        move_along_ground_avoiding_walls(((TObjChara *)target)->body_center, -0.6f, bodies->radius);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, (Vec *)&x_speed);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);

@@ -53,6 +53,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     TObjPlayer *find_nearby_target();
     s32 try_set_mode8_if_flag2();
     void sync_center_position();
+    static void load_resources();
     static void free_shared_instances();
     static void *create(void *set_data);
     static void update_particle_effect(NJS_OBJECT *);

@@ -1,6 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/enemy/balclaw/TObjEneBalClaw.h"
+#include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/unk/TLobby.h"
@@ -80,7 +80,7 @@ extern u8 *lbl_805D4F30[];
 extern u8 *lbl_805D4F34[];
 
 
-void TObjEneBalClaw__sub_8008D68C(void) {
+void TObjEneBalClaw::sub_8008D68C() {
     s32 i;
     if (balclaw_last_shared_update_frame != actor_frame_tick) {
         balclaw_last_shared_update_frame = actor_frame_tick;
@@ -152,7 +152,7 @@ void TObjEneBalClaw::release_global_805D4F20() {
     }
 }
 
-void TObjEneBalClaw__sub_8008D924(void) {
+void TObjEneBalClaw::load_resources() {
     BalClawPartEntry *e;
     NJS_OBJECT *part;
     u32 model;
@@ -224,5 +224,5 @@ void TObjEneBalClaw::clear_attack_flag() {
     m_388 &= ~0x10000;
 }
 
-void TObjEneBalClawClaw__sub_8008DC14(void) {
+void TObjEneBalClawClaw::sub_8008DC14() {
 }

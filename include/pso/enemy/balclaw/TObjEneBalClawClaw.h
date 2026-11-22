@@ -16,6 +16,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void update_attack_distance_state();
     void sub_80090D3C();
     void sub_80090798();
+    void sub_80090A10(Vec *pos, s32 rot_y, s16 hp);
     virtual void run_idle_action();
     void sub_80090824();
     void sub_800914A4();
@@ -24,6 +25,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     static TObjEneBalClawClaw *create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp);
     void *create();
     static void spawn_child_enemy();
+    static void sub_8008DC14();
     f32 m_3c0;             // xz distance squared to where it is moving (the body while following it)
     u8 unk_3C4[0x2];
     u16 m_3c6;             // entity id of the body it follows
@@ -39,14 +41,13 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     static void action(void *claw);
     static void update_follow_parent(void *claw);
     static void update_move_to_target(void *claw);
-    static int reset_active_state(void *claw);
+    static void reset_active_state(void *claw);
     static void update_drop(void *claw);
 };
 
 LAYOUT_ASSERT(TObjEneBalClawClaw_size, sizeof(TObjEneBalClawClaw) == 0x428);
 
 extern "C" {
-void TObjEneBalClawClaw__sub_80090A10(TObjEneBalClawClaw *claw, Vec *pos, s32 rot_y, s16 hp);
 void spawn_lobby_npc_enemy(void);
 }
 

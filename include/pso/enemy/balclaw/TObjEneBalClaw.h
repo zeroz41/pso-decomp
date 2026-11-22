@@ -26,6 +26,8 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     void update_wobble();
     void update_claw_angle();
     static void release_global_805D4F20();
+    static void load_resources();
+    static void sub_8008D68C();
     void clear_flag_in_state7();
     f32 m_3bc;
 };
@@ -56,20 +58,14 @@ struct BalClawSpawnParams {
     u16 unknown_0E;
 };
 
-// The Bal Claw BML archive, loaded by TObjEneBalClaw__sub_8008D924.
+// The Bal Claw BML archive, loaded by TObjEneBalClaw::load_resources.
 extern BmlResource *lbl_805D4F20;
 // Per claw slot, the visible model nodes of that claw (NULL-terminated).
 extern NJS_OBJECT *balclaw_arm_part_models[4][11];
-// The body's combat-stat tables from TLobby, filled by TObjEneBalClaw__sub_8008D924.
+// The body's combat-stat tables from TLobby, filled by TObjEneBalClaw::load_resources.
 extern u8 *lbl_805007A8[];
 extern u8 *lbl_805007B0[];
 extern u8 *lbl_805007B8[];
 extern u8 *lbl_805007C0[];
-
-extern "C" {
-void TObjEneBalClawClaw__sub_8008DC14(void);
-void TObjEneBalClaw__sub_8008D68C(void);
-void TObjEneBalClaw__sub_8008D924(void);
-}
 
 #endif

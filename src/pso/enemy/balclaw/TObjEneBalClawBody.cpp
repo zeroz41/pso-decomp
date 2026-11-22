@@ -85,7 +85,6 @@ void queue_destruction__7TObjectFv(void *arg0);
 s32 select_enemy_destination(void *, Vec, s32);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
-int update_if_active__15TObjEnemyCustomFl(void*, int);
 }
 
 // Picks this part's model and texture list (index into the Bal Claw BML models).
@@ -169,7 +168,7 @@ void TObjEneBalClawBody::run_task() {
     f32 center_y;
     CollisionBody *body;
 
-    TObjEneBalClaw__sub_8008D68C();
+    sub_8008D68C();
     if (TObjPlayer::check_demo_mode() == 1) {
         sub_8008DC90();
         sub_8008FC0C();
@@ -805,7 +804,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
                 ent = get_enemy_entity(this->child_ids[k]);
                 if (ent != NULL) {
                     this->calc_slot_offset_position(k, &b, &angB);
-                    TObjEneBalClawClaw__sub_80090A10((TObjEneBalClawClaw *)ent, &b, angB, this->hp);
+                    ((TObjEneBalClawClaw *)ent)->sub_80090A10(&b, angB, this->hp);
                     n++;
                 }
             }
@@ -1154,8 +1153,8 @@ void TObjEneBalClawBody::sub_8008DD14() {
     }
 }
 
-int TObjEneBalClawBody::reset_enemy_state() {
-    return update_if_active__15TObjEnemyCustomFl(this, 0);
+void TObjEneBalClawBody::reset_enemy_state() {
+    update_if_active(0);
 }
 
 void TObjEneBalClawBody::run_idle_action() {

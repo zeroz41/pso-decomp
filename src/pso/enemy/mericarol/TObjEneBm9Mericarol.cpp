@@ -147,7 +147,7 @@ u32 lbl_805D6878;
 #pragma push
 #pragma opt_common_subs off
 #pragma pop
-extern "C" void TBoss4Type3__sub_802D1130(void) {
+void TObjEneBm9Mericarol::load_resources() {
     s32 i;
 
     if (is_split_screen() != 0) {
