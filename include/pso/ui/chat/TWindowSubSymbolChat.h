@@ -11,7 +11,7 @@ struct TWindowSubSymbolChat : public TObject {
     void sub_80281C60();
     u8 m_1c;
     u8 _pad1D[0x1];
-    s16 m_1e;
+    s16 symbol_index;
     uaddr m_20;
     u32 m_24;
     uaddr m_28;
@@ -19,12 +19,12 @@ struct TWindowSubSymbolChat : public TObject {
     uaddr m_30;
     uaddr m_34;
     uaddr m_38;
-    uaddr m_3c;
-    uaddr m_40;
+    uaddr main_menu;
+    uaddr confirm_window;
     uaddr m_44;
-    uaddr m_48;
-    uaddr m_4c;
-    uaddr m_50;
+    uaddr face_type_window;
+    uaddr parts;
+    uaddr parts_set;
     uaddr m_54;
     uaddr m_58;
     uaddr m_5c;
