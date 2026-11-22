@@ -9,15 +9,71 @@
 class AreaAttackHistory;
 class TParticleCtrl;
 class TBoss5GryphonDemo;
+class TBoss5GryphonLightningHorn;
 struct Boss5GryphonActionStep;
+
+// The arguments an action script step leaves for its state; each handler reads its own view.
+struct Boss5GryphonFlightArgs {  // fn_80062660, update_low_flight_circle
+    s32 turn;       // added to turn_velocity; its sign picks the circling side
+    f32 speed;
+    f32 radius_sq;  // update_low_flight_circle widens its turn beyond it
+    f32 pad_C;
+};
+
+struct Boss5GryphonCircleArgs {  // circle_arena
+    s32 turn_rate;
+    s32 direction;  // > 0 circles one way, else the other
+    f32 speed;
+    f32 radius;
+};
+
+struct Boss5GryphonMoveArgs {  // move_to_motion_destination
+    f32 x;
+    f32 z;
+    f32 speed;
+    s32 turn_rate;
+};
 
 struct Boss5GryphonMotionEntry {
     s16 state;
     s16 timer;
-    s32 m_4;
-    f32 m_8;
-    f32 m_c;
-    f32 m_10;
+    union {
+        s32 seed;  // the rng seed of update_ground_lightning_attack and fn_80060020
+        Boss5GryphonFlightArgs flight;
+        Boss5GryphonCircleArgs circle;
+        Boss5GryphonMoveArgs move;
+    };
+};
+
+// Per-state work area at 0x6DC (TBoss5Gryphon::work / dive / lightning share it).
+struct Boss5GryphonStepWork {
+    s32 step;          // the handler's step switch; wait_for_players counts frames in it
+    s32 timer;         // frames in the step
+    s32 substep;       // update_demo_state's frame-cue switch
+    s32 demo_flag;     // update_demo_state hands its address to the TBoss5GryphonDemo
+    s32 target_angle;  // move_to_motion_destination's heading
+    u32 pad_14;
+    f32 fall_speed;
+    f32 pad_1C[10];
+};
+
+struct Boss5GryphonDiveWork {
+    s32 step;
+    s32 frame_limit;  // frames left in the motion entry when step 0 ends
+    u32 pad_8;
+    s32 frame;        // frames in step 0
+    u32 pad_10[2];
+    f32 fall_speed;   // position.y drops by it each frame
+};
+
+struct Boss5GryphonTakeoffWork {
+    u32 pad_0;
+    s32 step;  // update_ground_takeoff's step switch
+};
+
+struct Boss5GryphonLightningWork {
+    TBoss5GryphonLightningHorn *horns[2];  // left, right: spawn_ground_lightning's two horns
+    s32 frame;
 };
 
 struct TBoss5Gryphon : public TObjEneDD_ST {
@@ -96,13 +152,13 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     RenderFadeState renderFadeStates[4];
     const s32 *effect_ids;
     u8 rng[0xE8];
-    saddr m_6dc;
-    saddr m_6e0;
-    s32 m_6e4;
-    u32 m_6e8;
-    u32 m_6ec;
-    u32 m_6f0;
-    f32 pad_6F4[11];
+    // The state handlers reset the words they use on ENTER and read them their own way.
+    union {
+        Boss5GryphonStepWork work;            // the step machine most handlers run
+        Boss5GryphonDiveWork dive;            // fn_80060020
+        Boss5GryphonTakeoffWork takeoff;      // update_ground_takeoff
+        Boss5GryphonLightningWork lightning;  // update_ground_lightning_attack
+    };
     u32 pad_720;
     TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
     s32 run_mode_changed;  // run_task sets it when run_mode drops back to 0
@@ -203,5 +259,6 @@ LAYOUT_ASSERT(TBoss5Gryphon_turn_velocity, offsetof(TBoss5Gryphon, turn_velocity
 LAYOUT_ASSERT(TBoss5Gryphon_sound_origin, offsetof(TBoss5Gryphon, sound_origin) == 0x560);
 LAYOUT_ASSERT(TBoss5Gryphon_action_scripts, offsetof(TBoss5Gryphon, action_scripts) == 0x778);
 LAYOUT_ASSERT(TBoss5Gryphon_fade, offsetof(TBoss5Gryphon, renderFadeStates) == 0x580);
-LAYOUT_ASSERT(TBoss5Gryphon_m_6dc, offsetof(TBoss5Gryphon, m_6dc) == 0x6DC);
+LAYOUT_ASSERT(TBoss5Gryphon_work, offsetof(TBoss5Gryphon, work) == 0x6DC);
+LAYOUT_ASSERT(TBoss5Gryphon_particles, offsetof(TBoss5Gryphon, particles) == 0x724);
 #endif

@@ -46,7 +46,7 @@ extern const f32 lbl_805D8D48;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 
-void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
+void TBoss5GryphonLightningHorn::queue_destruction() { TObject::queue_destruction(); }
 
 #pragma push
 #pragma fp_contract on
@@ -194,11 +194,11 @@ TBoss5GryphonLightningHorn::TBoss5GryphonLightningHorn(TObject *parent, Vec *pos
     this->segment_count = 4;
 }
 
-saddr TBoss8Dragon::spawn_ground_lightning(saddr parent, saddr pos, s32 rotation_y) {
+TBoss5GryphonLightningHorn *TBoss5GryphonLightningHorn::spawn_ground_lightning(TObject *parent, Vec *pos, s32 rotation_y) {
     Vec position;
     f32 ground_height;
     u8* collision;
-    VecCopy(&position, (const Vec *)pos);
+    VecCopy(&position, pos);
     collision = (u8 *)csnVecterUnder(&position, 0x16EF);
     if (collision == NULL) {
         position.y = lbl_805D8D48;
@@ -211,5 +211,5 @@ saddr TBoss8Dragon::spawn_ground_lightning(saddr parent, saddr pos, s32 rotation
         }
     }
     position.y += 12.0f;
-    return (saddr)new TBoss5GryphonLightningHorn((TObject *)parent, &position, rotation_y);
+    return new TBoss5GryphonLightningHorn(parent, &position, rotation_y);
 }

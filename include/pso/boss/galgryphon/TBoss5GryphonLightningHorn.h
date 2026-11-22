@@ -10,6 +10,8 @@ public:
     void rebuild_lightning_segments();
     virtual void run_task();
     virtual void render();
+    void queue_destruction();
+    static TBoss5GryphonLightningHorn *spawn_ground_lightning(TObject *parent, Vec *pos, s32 rotation_y);
 
     Vec velocity;  // 5 units along rotation_y
     s32 rotation_y;
