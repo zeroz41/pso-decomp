@@ -7,6 +7,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma readonly_strings on
 
@@ -14,29 +16,8 @@
 const char *TObjBoss5PillarCtrl__name = "TObjBoss5PillarCtrl";
 
 
-struct Pc_8028B198 { u8 pad0[0x18]; void *vt; s32 count; void **a; };
-
-struct Node_8028B23C { u8 pad[0x8]; u8 data[0x28]; Node_8028B23C *next; };
-
-struct List_8028B23C { u8 pad[0x2C]; Node_8028B23C *head; };
-
-struct Owner_8028B23C { u8 pad[0x28]; List_8028B23C *list; };
-
-struct Game_8028B23C { u8 pad[0x42C]; Owner_8028B23C *owner; };
-
-struct Ctrl_8028B23C {
-    s32 f0;
-    u8 pad[0x14];
-    void *vt;
-    s32 count;
-    void **pillars;
-};
-
 extern "C" {
-extern u8 __vt__19TObjBoss5PillarCtrl[];
-void __ct__7TObjectFP7TObject(void *, void *);
-extern Game_8028B23C *lbl_805D4DD8;
-Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *parent);
+extern BmlResource *lbl_805D4DD8;
 int TObjBoss5Pillar__sub_8028B70C(void*);
 int TObjBoss5Pillar__sub_8028B710(void*);
 
@@ -46,56 +27,48 @@ void TObjBoss5PillarCtrl::run_task() {  }
 }
 TObjBoss5PillarCtrl::~TObjBoss5PillarCtrl() {
     s32 i;
-    for (i = ((Pc_8028B198 *)this)->count - 1; i >= 0; i--) {
-        if (((Pc_8028B198 *)this)->a[i] != NULL) {
-            ((TObject *)(((Pc_8028B198 *)this)->a[i]))->queue_destruction();
-            ((Pc_8028B198 *)this)->a[i] = NULL;
+    for (i = this->count - 1; i >= 0; i--) {
+        if (this->pillars[i] != NULL) {
+            this->pillars[i]->queue_destruction();
+            this->pillars[i] = NULL;
         }
     }
-    mem_free(((Pc_8028B198 *)this)->a);
+    mem_free(this->pillars);
 }
 
 
-Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *parent) {
-    Node_8028B23C *n;
+TObjBoss5PillarCtrl::TObjBoss5PillarCtrl(TObject *parent) : TObject(parent) {
+    NJS_OBJECT *node;
     s32 i;
-    List_8028B23C *lst;
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->vt = __vt__19TObjBoss5PillarCtrl;
-    arg0->f0 = ((saddr)TObjBoss5PillarCtrl__name);
-    arg0->count = 0;
-    arg0->pillars = NULL;
-    for (n = lbl_805D4DD8->owner->list->head; n != NULL; n = n->next) {
-        arg0->count++;
+    NJS_OBJECT *root;
+    m_name = TObjBoss5PillarCtrl__name;
+    this->count = 0;
+    this->pillars = NULL;
+    for (node = lbl_805D4DD8->models[2].model->child; node != NULL; node = node->sibling) {
+        this->count++;
     }
-    if (arg0->count <= 0) {
-        ((TObject *)arg0)->queue_destruction();
-        return arg0;
+    if (this->count <= 0) {
+        queue_destruction();
+        return;
     }
-    lst = lbl_805D4DD8->owner->list;
-    arg0->pillars = (void **)mem_alloc(arg0->count * 4);
-    for (i = 0, n = lst->head; i < arg0->count; i++) {
-        arg0->pillars[i] = TObjBoss5Pillar::create(n->data);
-        n = n->next;
+    root = lbl_805D4DD8->models[2].model;
+    this->pillars = (TObjBoss5Pillar **)mem_alloc(this->count * 4);
+    for (i = 0, node = root->child; i < this->count; i++) {
+        this->pillars[i] = TObjBoss5Pillar::create((Vec *)node->pos);
+        node = node->sibling;
     }
-    return arg0;
 }
 
-void *TObjBoss5PillarCtrl::create() {
-    void *o;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        o = TObjBoss5PillarCtrl__ct((Ctrl_8028B23C *)(o), this);
-    }
-    return o;
+TObjBoss5PillarCtrl *TObjBoss5PillarCtrl::create(TObject *parent) {
+    return new TObjBoss5PillarCtrl(parent);
 }
 
 int TObjBoss5PillarCtrl::update_pillar() { return TObjBoss5Pillar__sub_8028B70C(this); }
 int TObjBoss5PillarCtrl::forward_pillar_2B710() { return TObjBoss5Pillar__sub_8028B710(this); }
-void TObjBoss5PillarCtrl::play_sound_once() {
-    if ((s32) this->m_1c == 0) {
+void TObjBoss5Pillar::play_sound_once() {
+    if (this->state == 0) {
         play_sound_effect(0x4003A819, 0, 0, 0);
-        this->m_1c = 1;
+        this->state = 1;
     }
 }
 

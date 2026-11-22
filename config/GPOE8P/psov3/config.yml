@@ -939,8 +939,8 @@ force_active:
   - TObjBoss2Tunnel__sub_802F2278
   - TObjBoss2Tunnel__sub_802F22F4
   - TObjBoss2Tunnel__sub_802F2A2C
-  - TObjBoss5PillarCtrl__ct
-  - TObjBoss5PillarDemo__ct
+  - __ct__19TObjBoss5PillarCtrlFP7TObject
+  - __ct__19TObjBoss5PillarDemoFP7TObjectP3Vec
   - TObjBoss5PillarDemo__sub_8028ACE8
   - __ct__17TObjBoss7DustCtrlFP7TObject
   - TObjBoss7DustCtrl__helix_points

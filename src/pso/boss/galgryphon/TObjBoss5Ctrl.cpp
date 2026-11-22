@@ -62,7 +62,7 @@ TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
                 floor_stone = (TObject *)TObjBoss5FloorStone::create();
             }
             if (pillar_controller == NULL) {
-                pillar_controller = (TObject *)((TObjBoss5PillarCtrl *)this)->create();
+                pillar_controller = TObjBoss5PillarCtrl::create(this);
             }
         }
         if (pillar_demo == NULL) {
