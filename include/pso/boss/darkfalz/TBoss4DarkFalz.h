@@ -13,6 +13,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void sub_8004B0F8();
     void sub_8004B084();
     void sub_8004AFB8();
+    s32 sub_8004AF5C(s16 *set_index_out, s16 *entity_id_out);
     virtual void run_death_reaction();
     u32 m_374;
     u32 m_378;

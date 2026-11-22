@@ -8,7 +8,6 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/enemy/TUnk_80486924.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
 #include "pso/boss/darkfalz/TObjDFDemo2.h"
@@ -75,7 +74,7 @@ extern RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1
 TBoss4Type3 *TBoss4DarkFalz__sub_8004C1AC() {  return TBoss4DarkFalz__type3_instance; }
 
 
-TUnk_80486924 *TBoss4DarkFalz__sub_8004C1B4() {
+TBoss4Type2 *TBoss4DarkFalz__sub_8004C1B4() {
     return TBoss4DarkFalz__type2_instance;
 }
 
@@ -86,7 +85,7 @@ TBoss4Type1 *TBoss4DarkFalz::get_instance() {
 
 int TBoss4DarkFalz::is_field378_zero() { return this->m_378 == 0; }
 s32 TBoss4Type3::get_action_state() { return state; }
-s32 TUnk_80486924::get_phase() { return action; }
+s32 TBoss4Type2::get_phase() { return action; }
 s32 TBoss4Type1::get_state() { return state; }
 CameraAngles *TObjBase::get_rotation() { return reinterpret_cast<CameraAngles *>(&rotation_x); }
 void TObjBase::save_previous_position() {
@@ -357,7 +356,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         a.d.a8 = 1;
         a.d.a0 = o->f2c + 0x1FF;
         a.d.a6 = this->entity_id + 0x1FF;
-        TBoss4DarkFalz__type2_instance = reinterpret_cast<TUnk_80486924 *>(TBoss4Type2::create(reinterpret_cast<saddr>(&a)));
+        TBoss4DarkFalz__type2_instance = TBoss4Type2::create(reinterpret_cast<saddr>(&a));
         set_story_flag_or_send_quest_flag(0x34);
         ((TBoss4DarkFalz *)o)->change_state(8);
     }

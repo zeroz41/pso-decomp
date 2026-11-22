@@ -104,4 +104,8 @@ struct TBoss4Type1 : public TObjEnemy
 
 LAYOUT_ASSERT(TBoss4Type1_size, sizeof(TBoss4Type1) == 0x49C);
 
+extern "C" {
+void TBoss4Type2__sub_80055300(void);
+}
+
 #endif

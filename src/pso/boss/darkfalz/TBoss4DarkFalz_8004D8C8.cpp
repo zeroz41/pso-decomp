@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/enemy/TUnk_80486924.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 
@@ -19,7 +19,7 @@ void TBoss4Type3::get_defeat_params(u16 *a, u16 *b, u16 *out) {
     }
 }
 
-void TUnk_80486924::get_demo2_params(u16 *a, u16 *b, u16 *out) {
+void TBoss4Type2::get_demo2_params(u16 *a, u16 *b, u16 *out) {
     s32 i;
     *a = m_2d6;
     *b = attacker_id;

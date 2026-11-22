@@ -183,7 +183,6 @@ struct Stack_80053670 {
 void VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
-s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void *create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
 s32 TBoss4Type3__sub_8005254C(u16);
@@ -191,7 +190,6 @@ void TBoss4Type2__sub_80053504(TBoss4Type1 *boss4_type2);
 void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in);
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
-void TBoss4Type2__sub_80055300(void);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -1272,7 +1270,7 @@ void TBoss4Type1::update_spawn_uro() {
     t = self->timer;
     if (t < 0x106 && (t & 0x1F) == 0 && self->count < self->max) {
         TBoss4DarkFalz__sub_8004B4F0(&p.set_index, TBoss4DarkFalz__data_804FF1E8);
-        if (TBoss4DarkFalz__sub_8004AF5C(self->owner, &p.set_index, &p.entity_id) != 0) {
+        if (((TBoss4DarkFalz *)self->owner)->sub_8004AF5C(&p.set_index, &p.entity_id) != 0) {
             p.owner = (TBoss4DarkFalz *)self->owner;
             p.unk_0C = 1;
             VecCopy__FP3VecPC3Vec(&p.position, s);

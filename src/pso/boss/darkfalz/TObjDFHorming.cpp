@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/enemy/TUnk_80486924.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
@@ -337,7 +336,6 @@ V(60)V(61)V(62)V(63)V(64)V(65)V(66)V(67)V(68)V(69)V(70)V(71)V(72)V(73)V(74)V(75)
 extern "C" {
 s32 is_split_screen();
 extern s32 local_client_id;
-s32 TBoss4DarkFalz__sub_8004AF5C(u8 *self, s16 *arg1, s16 *arg2);
 
 void release_all_players_control_lock(void);
 
@@ -355,18 +353,17 @@ int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
 s32 is_local_client_floor_leader();
 s32 get_main_phase();
 
-s32 TBoss4DarkFalz__sub_8004AF5C(u8 *self, s16 *arg1, s16 *arg2) {
-    s32 temp_r6;
-    temp_r6 = *(s32 *)((s8 *)self + 0x384);
-    if ((temp_r6 < 1) || (temp_r6 > 0x1FE)) {
+s32 TBoss4DarkFalz::sub_8004AF5C(s16 *set_index_out, s16 *entity_id_out) {
+    s32 n = m_384;
+    if ((n < 1) || (n > 0x1FE)) {
         return 0;
     }
-    if (temp_r6 > 0x1FD) {
+    if (n > 0x1FD) {
         return 0;
     }
-    *arg1 = *(s16 *)((s8 *)self + 0x2C) + temp_r6;
-    *arg2 = *(u16 *)((s8 *)self + 0x1C) + *(s32 *)((s8 *)self + 0x384);
-    *(s32 *)((s8 *)self + 0x384) = (s32) (*(s32 *)((s8 *)self + 0x384) + 1);
+    *set_index_out = set_index + n;
+    *entity_id_out = entity_id + m_384;
+    m_384 = m_384 + 1;
     return 1;
 }
 
@@ -503,7 +500,7 @@ void TBoss4DarkFalz::spawn_zako_rings() {
         ang = 0;
         step = 0x10000 / n;
         for (i = 0; i < n; i++) {
-            if (TBoss4DarkFalz__sub_8004AF5C(((u8 *)this), &p.set_index, &p.entity_id) == 0) {
+            if (sub_8004AF5C(&p.set_index, &p.entity_id) == 0) {
                 return;
             }
             VecCopy(&p.position, &dark_falz_zako_ring_origin_vec);
@@ -766,7 +763,6 @@ typedef struct Msg_8004BFA4 {
 } Msg_8004BFA4;
 
 extern "C" {
-void TBoss4Type2__sub_80056EA8(void *, s32);
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0);
 extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -797,7 +793,7 @@ void TBoss4DarkFalz::run_death_reaction() {  }
 void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;
 TBoss4Type1 *TBoss4DarkFalz__type1_instance;
-TUnk_80486924 *TBoss4DarkFalz__type2_instance;
+TBoss4Type2 *TBoss4DarkFalz__type2_instance;
 TBoss4Type3 *TBoss4DarkFalz__type3_instance;
 s32 dark_falz_form_index;
 s32 lbl_805D4D6C;
@@ -929,7 +925,7 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
     case 8:
     case 9:
         if (TBoss4DarkFalz__type2_instance != NULL) {
-            TBoss4Type2__sub_80056EA8(TBoss4DarkFalz__type2_instance, arg);
+            TBoss4DarkFalz__type2_instance->sub_80056EA8(arg);
         }
         break;
     case 12:

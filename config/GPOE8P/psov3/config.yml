@@ -357,9 +357,9 @@ force_active:
   - TBoss4DarkFalz__sub_801D94C0
   - TBoss4Thanks__sub_8035C480
   - TBoss4Type2__attack_pattern_table
-  - __ct__13TUnk_80486924FP7TObjectPl
-  - TBoss4Type2__sub_80056B3C
-  - TBoss4Type2__sub_80057128
+  - __ct__11TBoss4Type2FP7TObjectPl
+  - sub_80056B3C__11TBoss4Type2Fll
+  - sub_80057128__11TBoss4Type2Fv
   - TBoss4Type3__anim_state_table
   - __ct__11TBoss4Type3FP7TObjectPl
   - sub_800599F4__11TBoss4Type3Fll
@@ -1948,7 +1948,7 @@ force_active:
   - __ct__10TButterflyFP7TObjectPv
   - __ct__10TItemMoneyFP7TObjectP9TItemData
   - __ct__10TObjCameraFP7TObjectPv
-  - __ct__11TBoss4ZanzoFP7TObjectP14Zanzo_8005676C
+  - __ct__11TBoss4ZanzoFP7TObjectP17TBoss4ZanzoParams
   - __ct__11TMessageBoxFRC11TMessageBox
   - __ct__11TOBiwaMushiFPv
   - __ct__11TOBoss4BirdFPv
@@ -5550,7 +5550,7 @@ force_active:
   - create_window__13TObjResultWinFv
   - create_window__16TObjBagWarnWin4PFv
   - create_window__19TWindowSubShortMailFv
-  - create_zanzo__11TBoss4Type2FPvPv
+  - create_zanzo__11TBoss4Type2FP7TObjectP17TBoss4ZanzoParams
   - creation_icon_states
   - creation_ruler_line_colors
   - creation_ruler_line_vertices
@@ -5856,7 +5856,7 @@ force_active:
   - draw_frame__20TWindowActionPaletteFl
   - draw_fullscreen_texture_quad__6TLobbyFv
   - draw_ginja_motion_node_tree__FP10NJS_OBJECT
-  - draw_hanger__13TUnk_80486924Fv
+  - draw_hanger__11TBoss4Type2Fv
   - draw_help_entries__24TWindowSubSymbolChatHelpFPv
   - draw_help_entry__24TWindowSubSymbolChatHelpFPvll
   - draw_help_icon__24TWindowSubSymbolChatHelpFiPvii
@@ -6237,7 +6237,7 @@ force_active:
   - find_table_entry_id
   - find_target_player__16TOTrapAncient02RFv
   - find_target_player__6TOMineFv
-  - find_target_pos__11TBoss4Type2FPvPv
+  - find_target_pos__11TBoss4Type2FP3Vec
   - find_uv_animation__6TSceneFPvPv
   - find_vertex_list__18TObjTailsTailsMoveFv
   - finish_and_dispatch_next_phase__14TBoss6PlotFalzFv
@@ -7091,7 +7091,7 @@ force_active:
   - init_geometry__13TUnk_804B2578Fv
   - init_gx_lighting_defaults__Fv
   - init_hall_boss_scene__14TBoss6PlotFalzFv
-  - init_hanger__13TUnk_80486924Fv
+  - init_hanger__11TBoss4Type2Fv
   - init_header__6TLobbyFv
   - init_header__9TWindowDDFv
   - init_help_texts__15TWindowHelpItemFv
@@ -15519,7 +15519,7 @@ force_active:
   - set_flight_height__13TBoss5GryphonFv
   - set_gauge_param__20TWindowSubStatusDispFl
   - set_global_flag_100__15TObjBoss2TunnelFv
-  - set_grid_pos__11TBoss4Type2FPv
+  - set_grid_pos__11TBoss4Type2FP3Vec
   - set_ground_height__13TBoss5GryphonFv
   - set_growth_flag__11TItemMagSubFv
   - set_guard_part_colors__18TObjEneEpsilonBodyFP8NJS_ARGB

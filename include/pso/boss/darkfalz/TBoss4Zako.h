@@ -12,7 +12,7 @@ struct TBoss4DarkFalz;
 // What create hands the constructor: the Dark Falz that spawned the minion, then the
 // enemy set entry (from set_index on) passed to apply_set_data. The spawners fill it
 // from a template with TBoss4DarkFalz__sub_8004B4F0 and number it with
-// TBoss4DarkFalz__sub_8004AF5C; the entry has TBoss6MineSetData's layout.
+// TBoss4DarkFalz::sub_8004AF5C; the entry has TBoss6MineSetData's layout.
 struct TBoss4ZakoSetData {
     TBoss4DarkFalz *owner;
     s16 set_index;

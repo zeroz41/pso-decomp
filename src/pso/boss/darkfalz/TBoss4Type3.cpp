@@ -22,7 +22,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/TUnk_80486924.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -1457,16 +1456,16 @@ void TBoss4Type3::update_libera() {
     }
 }
 
-void TUnk_80486924::clear_harmful_statuses() {  }
+void TBoss4Type2::clear_harmful_statuses() {  }
 
-void TUnk_80486924::apply_shock_status() {  }
+void TBoss4Type2::apply_shock_status() {  }
 
-void TUnk_80486924::apply_movement_ailment(s32) {  }
+void TBoss4Type2::apply_movement_ailment(s32) {  }
 
-void TUnk_80486924::apply_confusion_status() {  }
+void TBoss4Type2::apply_confusion_status() {  }
 
-void TUnk_80486924::apply_slow_status() {  }
+void TBoss4Type2::apply_slow_status() {  }
 
-void TUnk_80486924::apply_paralysis() {  }
+void TBoss4Type2::apply_paralysis() {  }
 
-void TUnk_80486924::apply_poison_status() {  }
+void TBoss4Type2::apply_poison_status() {  }

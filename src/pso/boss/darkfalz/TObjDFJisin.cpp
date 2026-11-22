@@ -743,8 +743,8 @@ void TObjDFBeamCursor::run_task() {
     }
 }
 
-void *TBoss4Type2::create_jisin(void *parent, void *angle) {
-    return new TObjDFJisin((TObject *)parent, (saddr)angle);
+TObjDFJisin *TBoss4Type2::create_jisin(TObject *parent, s32 angle) {
+    return new TObjDFJisin(parent, angle);
 }
 
 TObjDFJisin::TObjDFJisin(TObject *parent, s32 angle) : TObject(parent) {

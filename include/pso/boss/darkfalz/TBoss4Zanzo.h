@@ -7,36 +7,33 @@
 
 // The block TBoss4Type2::spawn_afterimages fills for each afterimage it spawns; TBoss4Zanzo
 // keeps a copy (fn_8005586C) and draws model/motion at pos until lifetime frames have passed.
-struct Zanzo_8005676C {
+struct TBoss4ZanzoParams {
     Vec pos;
     s32 rotation_y;
-    s32 unk_10;    // get_bml_texlist(bml, index); render passes it to TObjFish::set_global_param
-    void *model;   // get_bml_model
-    void *motion;  // get_bml_motion
-    f32 unk_1c;    // draw_model_motion's frame argument
-    f32 unk_20;    // render's value at age 0, moving to unk_24 at lifetime; drawn while above 0.01
-    f32 unk_24;
-    s32 lifetime;  // frames until run_task queues its destruction
+    saddr texlist;   // get_bml_texlist(bml, index); render passes it to TObjFish::set_global_param
+    void *model;     // get_bml_model
+    void *motion;    // get_bml_motion
+    f32 frame;       // draw_model_motion's frame argument
+    f32 fade_start;  // render's value at age 0, moving to fade_end at lifetime; drawn while above 0.01
+    f32 fade_end;
+    s32 lifetime;    // frames until run_task queues its destruction
 };
 
 class TBoss4Zanzo : public TObject {
 public:
-    TBoss4Zanzo(TObject *parent, Zanzo_8005676C *params);
+    TBoss4Zanzo(TObject *parent, TBoss4ZanzoParams *params);
     virtual ~TBoss4Zanzo();
     virtual void render();
     virtual void run_task();
 
-    Zanzo_8005676C params;
+    TBoss4ZanzoParams params;
     s32 age;  // frames since the ctor
 };
 
 LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);
 
 extern "C" {
-void sub_80056998__11TBoss4Type2Fv(u8 *arg0);
-void TBoss4Type2__sub_80056B3C(void *actor, s32 lo, s32 hi);
-f32 compute_wave_offset__11TBoss4Type2Ff(f32 farg0);
-void fn_8005586C(Zanzo_8005676C *dst, Zanzo_8005676C *src);
+void fn_8005586C(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src);
 }
 
 #endif
