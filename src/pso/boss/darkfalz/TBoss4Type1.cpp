@@ -1127,7 +1127,7 @@ void TBoss4Type1::update_attack_countdown() {
 }
 
 void TBoss4Type1::init_child_and_set_timer() {
-    create__16TObjDFBeamCursorFPvPv(this, &grid_target);
+    TObjDFBeamCursor::create(this, &grid_target);
     state_timer = 75;
 }
 

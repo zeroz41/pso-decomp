@@ -2,11 +2,36 @@
 #define PSO_BOSS_DARKFALZ_TOBJDFJISIN_H
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
+#include <dolphin/mtx.h>
+
+class TObjDFBeamCursor : public TObject {
+public:
+    TObjDFBeamCursor(TObject *parent, const Vec *position);
+    static TObjDFBeamCursor *create(TObject *parent, const Vec *position);
+    virtual ~TObjDFBeamCursor();
+    virtual void run_task();
+
+    s32 timer;    // spawns its particle effect at position when it runs out
+    Vec position;
+};
+class TObjDFRecBall : public TObject {
+public:
+    TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target);
+    virtual ~TObjDFRecBall();
+    virtual void run_task();
+
+    Vec pos;
+    Vec target;
+    Vec vel;
+    f32 speed;
+    void *model; // its particle emitter
+    s32 timer;
+};
 
 extern "C" {
 void TObjDFTenchuFuru__sub_80051A7C(void);
 void *create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2);
-void *create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
 void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
 int queue_destruction__13TObjDFHormingFPv(void *p);
 void run_task__13TObjDFHormingFv(u8 *self);

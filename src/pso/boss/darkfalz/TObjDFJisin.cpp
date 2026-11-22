@@ -108,28 +108,6 @@ public:
     Vec center;
     f32 radius;
 };
-class TObjDFBeamCursor : public TObject {
-public:
-    TObjDFBeamCursor(TObject *parent, const Vec *position);
-    virtual ~TObjDFBeamCursor();
-    virtual void run_task();
-
-    s32 timer;    // spawns its particle effect at position when it runs out
-    Vec position;
-};
-class TObjDFRecBall : public TObject {
-public:
-    TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target);
-    virtual ~TObjDFRecBall();
-    virtual void run_task();
-
-    Vec pos;
-    Vec target;
-    Vec vel;
-    f32 speed;
-    void *model; // its particle emitter
-    s32 timer;
-};
 
 struct Ang_80050808 { s32 x, y, z; };
 
@@ -207,8 +185,6 @@ f32 newton_sqrtf(f32);
 void damage_players_near_point(s32 arg0, Vec *arg1);
 extern "C" {
 void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
-void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
-void * create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2);
 
 
 
@@ -724,8 +700,8 @@ void TObjDFRecBall::run_task() {
 }
 #pragma pop
 
-void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1) {
-    return new TObjDFBeamCursor((TObject *)parent, (const Vec *)arg1);
+TObjDFBeamCursor *TObjDFBeamCursor::create(TObject *parent, const Vec *position) {
+    return new TObjDFBeamCursor(parent, position);
 }
 
 TObjDFBeamCursor::TObjDFBeamCursor(TObject *parent, const Vec *pos) : TObject(parent) {
