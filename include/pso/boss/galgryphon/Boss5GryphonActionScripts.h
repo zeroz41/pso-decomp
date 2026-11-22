@@ -16,7 +16,7 @@ struct Boss5GryphonFloatRange {
 };
 
 struct Boss5GryphonActionStep {
-    s32 command;
+    u32 command;  // the state the step runs (0x21 picks the next script); indexes the step actions
     s16 base;    // rand_scaled_offset(base, spread)
     s16 spread;
     Boss5GryphonIntRange ints[4];      // random_in_table_range(step, i)

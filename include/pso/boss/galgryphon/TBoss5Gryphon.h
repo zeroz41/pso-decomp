@@ -180,11 +180,11 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void shift_position_history();
     static void cleanup();
     static void *create(void *data);
-    void set_random_param(u8 *params);
-    void calc_params(void *params, Boss5GryphonActionStep *step);
-    void calc_product_and_ratio(void *params, Boss5GryphonActionStep *step);
-    void calc_attack_params(void *params, Boss5GryphonActionStep *step);
-    void calc_move_params(u8 *params, Boss5GryphonActionStep *step);  // fills a Boss5GryphonMoveArgs
+    void set_random_param(Boss5GryphonMotionEntry *motion);  // the seed of the next lightning or dive
+    void calc_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the circle view
+    void calc_product_and_ratio(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the flight turn and speed
+    void calc_attack_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the flight view
+    void calc_move_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the move view
     s32 get_random_sign(Boss5GryphonActionStep *step, s32 i);
     s32 calc_product(Boss5GryphonActionStep *step, s32 sign_index, s32 range_index);
     s32 rand_scaled_offset(s32 base, s32 spread);
@@ -192,12 +192,12 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     s32 random_in_table_range(Boss5GryphonActionStep *step, s32 i);
     f32 random_in_range(f32 min, f32 range);
     f32 random_float_in_table_range(Boss5GryphonActionStep *step, s32 i);
-    s32 run_action_script_step(s16 *out, u32 *entry);
+    s32 run_action_script_step(Boss5GryphonMotionEntry *out, Boss5GryphonActionStep *step);
     void init_packet_motion(G_GalGryphonBossActions_6xA0 *packet);
     void fill_action_steps(G_GalGryphonBossActions_6xA0 *packet);  // runs the action script into the packet's motion entry
-    static void copy_angle_state(void *gryphon, void *dst, void *src);
+    void copy_angle_state(Boss5GryphonMotionEntry *dst, Boss5GryphonActionStep *src);
     void update_target_from_state();
-    void choose_next_action(u32 *entry);
+    void choose_next_action(Boss5GryphonActionStep *step);
     s32 get_player_pos_in_arc(s32 left, s32 client_id, Vec *org, Vec *out);
     void fire_horn_lightning(s32 left, s32 client_id);
     void play_animation_index(s32 index);

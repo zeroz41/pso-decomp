@@ -365,7 +365,7 @@ void *gryphon_left_horn_lightning_offset[3] = {
 void *gryphon_right_horn_lightning_offset[3] = {
     (void *)0x41980000, (void *)0x0, (void *)0x428a0000,
 };
-typedef void (TBoss5Gryphon::*ScriptAction)(void *, void *);
+typedef void (TBoss5Gryphon::*ScriptAction)(Boss5GryphonMotionEntry *, Boss5GryphonActionStep *);
 }
 #pragma push
 #pragma inline on
@@ -3200,12 +3200,12 @@ void TBoss5Gryphon::fill_action_steps(G_GalGryphonBossActions_6xA0 *packet) {
     }
     out = &packet->motion;
     for (i = 0; i < 1;) {
-        u32 *entry = (u32 *)script_entry;
-        if (*entry == 0x21) {
-            choose_next_action(entry);
+        Boss5GryphonActionStep *step = script_entry;
+        if (step->command == 0x21) {
+            choose_next_action(step);
             continue;
         }
-        if (run_action_script_step((s16 *)out, entry) != 0) {
+        if (run_action_script_step(out, step) != 0) {
             break;
         }
         i++;
@@ -3267,14 +3267,14 @@ void TBoss5Gryphon::update_target_from_state() {
     }
 }
 
-void TBoss5Gryphon::choose_next_action(u32 *entry) {
+void TBoss5Gryphon::choose_next_action(Boss5GryphonActionStep *step) {
     f32 r;
-    if (*entry != 0x21) {
+    if (step->command != 0x21) {
         update_target_from_state();
         return;
     }
     r = gryphon_random_unit_scale * (f32)rand();
-    switch (get_table_min((Boss5GryphonActionStep *)entry, 0)) {
+    switch (get_table_min(step, 0)) {
     case 0:
         if (r < gryphon_point_six) {
             script_entry = action_scripts[2];
@@ -3360,16 +3360,16 @@ void TBoss5Gryphon::choose_next_action(u32 *entry) {
     }
 }
 
-s32 TBoss5Gryphon::run_action_script_step(s16 *out, u32 *entry) {
+s32 TBoss5Gryphon::run_action_script_step(Boss5GryphonMotionEntry *out, Boss5GryphonActionStep *step) {
     TBoss5Gryphon *self = this;
     ScriptAction *actions = script_step_actions();
     ScriptAction *action;
-    u32 index = *entry;
+    u32 index = step->command;
 
-    TBoss5Gryphon::copy_angle_state(self, out, entry);
+    self->copy_angle_state(out, step);
     action = actions + index;
     if (*action != NULL) {
-        (self->**action)(out, entry);
+        (self->**action)(out, step);
     }
     if (index == 0x22) {
         return 1;
@@ -3377,57 +3377,54 @@ s32 TBoss5Gryphon::run_action_script_step(s16 *out, u32 *entry) {
     return 0;
 }
 
-void TBoss5Gryphon::copy_angle_state(void *gryphon, void *dst, void *src) {
-    *(s16 *)((s8 *)dst + 0) = (s16) *(s32 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = ((TBoss5Gryphon *)gryphon)->rand_scaled_offset(((Boss5GryphonActionStep *)src)->base, ((Boss5GryphonActionStep *)src)->spread);
+void TBoss5Gryphon::copy_angle_state(Boss5GryphonMotionEntry *dst, Boss5GryphonActionStep *src) {
+    dst->state = src->command;
+    dst->timer = rand_scaled_offset(src->base, src->spread);
 }
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::calc_product_and_ratio(void *params, Boss5GryphonActionStep *step) {
-    *(s32 *)((s8 *)params + 4) = calc_product(step, 0, 1);
-    *(f32 *)((s8 *)params + 8) = random_float_in_table_range(step, 0);
+void TBoss5Gryphon::calc_product_and_ratio(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step) {
+    motion->args.flight.turn = calc_product(step, 0, 1);
+    motion->args.flight.speed = random_float_in_table_range(step, 0);
 }
 
 #pragma pop
-void TBoss5Gryphon::calc_params(void *params, Boss5GryphonActionStep *step) {
-    *(s32 *)((s8 *)params + 4) = random_in_table_range(step, 1);
-    *(f32 *)((s8 *)params + 0xC) = random_float_in_table_range(step, 0);
-    *(f32 *)((s8 *)params + 0x10) = random_float_in_table_range(step, 1);
-    *(s32 *)((s8 *)params + 8) = get_random_sign(step, 0);
+void TBoss5Gryphon::calc_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step) {
+    motion->args.circle.turn_rate = random_in_table_range(step, 1);
+    motion->args.circle.speed = random_float_in_table_range(step, 0);
+    motion->args.circle.radius = random_float_in_table_range(step, 1);
+    motion->args.circle.direction = get_random_sign(step, 0);
 }
 
-void TBoss5Gryphon::calc_move_params(u8 *params, Boss5GryphonActionStep *step) {
-    f32 temp_f31;
-    s32 temp_r31;
-    s32 temp_r3;
-    temp_r3 = random_in_table_range(step, 0);
-    switch (temp_r3) {
+void TBoss5Gryphon::calc_move_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step) {
+    f32 distance;
+    s32 angle;
+    switch (random_in_table_range(step, 0)) {
     case 0:
-        temp_r31 = (s32) (10430.38043493439 * atan2_float(position.x, position.z));
-        temp_f31 = random_float_in_table_range(step, 1);
-        *(f32 *)((s8 *)params + 4) = (f32) (temp_f31 * ((f32 (*)(int))sin_table_lookup)(temp_r31));
-        *(f32 *)((s8 *)params + 8) = (f32) (temp_f31 * ((f32 (*)(int))cos_table_lookup)(temp_r31));
+        angle = (s32)(10430.38043493439 * atan2_float(position.x, position.z));
+        distance = random_float_in_table_range(step, 1);
+        motion->args.move.x = distance * sin_table_lookup(angle);
+        motion->args.move.z = distance * cos_table_lookup(angle);
         break;
     case 1:
-        *(f32 *)((s8 *)params + 4) = random_float_in_table_range(step, 1);
-        *(f32 *)((s8 *)params + 8) = random_float_in_table_range(step, 2);
+        motion->args.move.x = random_float_in_table_range(step, 1);
+        motion->args.move.z = random_float_in_table_range(step, 2);
         break;
     }
-    *(f32 *)((s8 *)params + 0xC) = random_float_in_table_range(step, 0);
-    *(s32 *)((s8 *)params + 0x10) = random_in_table_range(step, 1);
+    motion->args.move.speed = random_float_in_table_range(step, 0);
+    motion->args.move.turn_rate = random_in_table_range(step, 1);
 }
 
-void TBoss5Gryphon::calc_attack_params(void *params, Boss5GryphonActionStep *step) {
-    f32 temp_f1;
-    temp_f1 = random_float_in_table_range(step, 1);
-    *(f32 *)((s8 *)params + 0xC) = (f32) (temp_f1 * temp_f1);
-    *(f32 *)((s8 *)params + 8) = random_float_in_table_range(step, 0);
-    *(s32 *)((s8 *)params + 4) = calc_product(step, 0, 1);
+void TBoss5Gryphon::calc_attack_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step) {
+    f32 radius = random_float_in_table_range(step, 1);
+    motion->args.flight.radius_sq = radius * radius;
+    motion->args.flight.speed = random_float_in_table_range(step, 0);
+    motion->args.flight.turn = calc_product(step, 0, 1);
 }
 
-void TBoss5Gryphon::set_random_param(u8 *params) {
-    *(s32 *)((s8 *)params + 4) = (s32) (gryphon_u32_range * (gryphon_random_unit_scale * (f32) rand()));
+void TBoss5Gryphon::set_random_param(Boss5GryphonMotionEntry *motion) {
+    motion->args.seed = (s32)(gryphon_u32_range * (gryphon_random_unit_scale * (f32)rand()));
 }
 
 #pragma push
