@@ -28,10 +28,10 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     void init_mirage();
     void activate_mirage(s32 index);
     void run_task();
-    TObjEneMe3ShinowaMirage *create(void *entity_id, void *set_index);
+    static TObjEneMe3ShinowaMirage *create(TObjEneMe3ShinowaReal *owner, s32 entity_id, s32 set_index);
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
     static void free_shared_resources();
-    u16 m_42c;
+    u16 owner_id;
     NJS_ARGB m_430;
 };
 

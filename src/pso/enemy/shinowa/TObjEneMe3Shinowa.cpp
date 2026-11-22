@@ -64,7 +64,6 @@
 #pragma defer_codegen on
 extern "C" {
 extern s32 model_render_flags;
-TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
 s32 post_translate_matrix(void *);
 BmlResource * TObjEneMe3ShinowaMirage__data_805D5298;
 s32 TObjEneMe3ShinowaMirage__render_node_index;
@@ -1663,7 +1662,7 @@ TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, void *set_data) : 
     m_3d4 = 0;
     behavior_flags &= ~0x1000;
     for (i = 0; i < 4; i++) {
-        m_42c[i] = 0xFFFF;
+        mirage_ids[i] = 0xFFFF;
     }
     mode = 0;
     dispatch_action(mode, 4);
@@ -1692,15 +1691,13 @@ u16 TObjEneMe3ShinowaReal::get_target_id() { return this->target_id; }
 
 TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) {
     TObjEneMe3ShinowaMirage *mirage;
-    if (m_42c[index] == 0xFFFF) {
-        u16 id = entity_id;
-        s32 n = index + 1;
-        mirage = create__23TObjEneMe3ShinowaMirageFPvPv(this, (u16)(id + n), set_index + n, id);
+    if (mirage_ids[index] == 0xFFFF) {
+        mirage = TObjEneMe3ShinowaMirage::create(this, (u16)(entity_id + index + 1), set_index + index + 1);
         if (mirage != NULL) {
-            m_42c[index] = get_entity_id(mirage);
+            mirage_ids[index] = get_entity_id(mirage);
         }
     } else {
-        mirage = (TObjEneMe3ShinowaMirage *)find_entity_by_id(m_42c[index]);
+        mirage = (TObjEneMe3ShinowaMirage *)find_entity_by_id(mirage_ids[index]);
     }
     return mirage;
 }
@@ -1870,15 +1867,15 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
     }
 }
 #pragma pop
-TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaMirage::create(void *entity_id, void *set_index) {
-    return new TObjEneMe3ShinowaMirage(tl_04, (TObjEneMe3ShinowaReal *)this, (saddr)entity_id, (saddr)set_index);
+TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaMirage::create(TObjEneMe3ShinowaReal *owner, s32 entity_id, s32 set_index) {
+    return new TObjEneMe3ShinowaMirage(tl_04, owner, entity_id, set_index);
 }
 
 TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3ShinowaReal *owner, s32 entity_id, s32 set_index) : TObjEneMe3Shinowa(parent) {
     CollisionBody *body;
 
     m_name = TObjEneMe3ShinowaMirage__class_name;
-    m_42c = get_entity_id(owner);
+    owner_id = get_entity_id(owner);
     init_common_from((u8 *)owner);
     parameters[1] = owner->parameters[1];
     fn_800E762C();
@@ -1909,7 +1906,7 @@ TObjEneMe3ShinowaMirage::~TObjEneMe3ShinowaMirage() {}
 void TObjEneMe3ShinowaMirage::run_task() {
     TObjCollidable *owner;
 
-    if ((owner = find_entity_by_id(m_42c)) == NULL || owner->all_parents_unqueued_for_destruction() == 0) {
+    if ((owner = find_entity_by_id(owner_id)) == NULL || owner->all_parents_unqueued_for_destruction() == 0) {
         queue_destruction();
         return;
     }
@@ -1942,7 +1939,7 @@ void TObjEneMe3ShinowaMirage::update_player_state_default() {  }
 void TObjEneMe3ShinowaMirage::activate_mirage(s32 index) {
     TObjEneMe3ShinowaReal *owner;
 
-    owner = (TObjEneMe3ShinowaReal *)find_entity_by_id(m_42c);
+    owner = (TObjEneMe3ShinowaReal *)find_entity_by_id(owner_id);
     if (owner != NULL) {
         VecCopy(&position, &owner->position);
         VecCopy(&prev_position, &position);
