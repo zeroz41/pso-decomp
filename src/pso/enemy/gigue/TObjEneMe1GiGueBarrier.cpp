@@ -18,7 +18,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TObjEneMe1GiGueBarrier__name = "TObjEneMe1GiGueBarrier";
 BmlResource *TObjEneMe1GiGueBarrier__barrier_resource_object;
 TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
@@ -51,19 +50,19 @@ void TObjEneMe1GiGueBarrier::render() {
 }
 
 void TObjEneMe1GiGueBarrier::run_task() {
-    TObjEneMe1GiGue *owner = m_fc;
-    if (owner == NULL) {
+    TObjEneMe1GiGue *gigue = owner;
+    if (gigue == NULL) {
         queue_destruction();
         return;
     }
-    VecCopy(&position, owner->update_and_get_pos());
-    rotation_y = m_fc->sub_802CAC48();
+    VecCopy(&position, gigue->update_and_get_pos());
+    rotation_y = owner->get_rotation_y();
     advance_animation();
-    m_108 = m_108 - 1;
-    switch (m_104) {
+    timer = timer - 1;
+    switch (phase) {
     case 0:
         if (motion_flags & 0x10) {
-            m_104 = 1;
+            phase = 1;
             requested_action = 1;
             if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A316, (u8 *)&position, 0, 0);
@@ -79,31 +78,30 @@ void TObjEneMe1GiGueBarrier::run_task() {
         break;
     default:
     case 1:
-        if (m_108 <= 0 || m_fc->is_active_state() != 0) {
-            m_104 = 2;
+        if (timer <= 0 || owner->is_active_state() != 0) {
+            phase = 2;
             requested_action = 2;
         }
         break;
     }
 }
 
-}
 TObjEneMe1GiGueBarrier::~TObjEneMe1GiGueBarrier() {
-    if (m_fc != NULL) {
-        m_fc->clear_flag388_bit80000();
+    if (owner != NULL) {
+        owner->clear_barrier_active();
     }
 }
 
-TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner) : TObjMotion(parent) {
+TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj) : TObjMotion(parent) {
     BmlModelEntry *models;
     m_name = TObjEneMe1GiGueBarrier__name;
-    m_fc = (TObjEneMe1GiGue *)owner;
-    m_100 = get_entity_id(m_fc);
-    VecCopy(&position, m_fc->update_and_get_pos());
-    rotation_y = m_fc->sub_802CAC48();
-    m_108 = m_fc->get_field_44c();
-    m_fc->sub_802CABF4();
-    m_104 = 0;
+    owner = (TObjEneMe1GiGue *)owner_obj;
+    owner_id = get_entity_id(owner);
+    VecCopy(&position, owner->update_and_get_pos());
+    rotation_y = owner->get_rotation_y();
+    timer = owner->get_barrier_duration();
+    owner->set_barrier_active();
+    phase = 0;
     model = (void *)TObjEneMe1GiGueBarrier__barrier_resource_object->models[2].model;
     models = TObjEneMe1GiGueBarrier__barrier_resource_object->models;
     texlist = (saddr)models[2].m_c;
@@ -114,12 +112,12 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner) : T
     set_field_b8(requested_action);
 }
 
-void TObjEneMe1GiGueBarrier::sub_80325CC0() {}
+void TObjEneMe1GiGueBarrier::free_global() {}
 
 void *TObjEneMe1GiGueBarrier::create(void *parent, void *owner) {
     return new TObjEneMe1GiGueBarrier((TObject *)parent, owner);
 }
 
 void TObjEneMe1GiGueBarrier::init_global() {
-    TObjEneMe1GiGueBarrier__barrier_resource_object = TObjEneMe1GiGue::sub_802CAC80();
+    TObjEneMe1GiGueBarrier__barrier_resource_object = TObjEneMe1GiGue::get_resource();
 }

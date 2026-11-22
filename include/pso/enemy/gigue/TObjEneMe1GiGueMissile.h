@@ -13,10 +13,10 @@ struct TObjEneMe1GiGueMissile : public TNeedleShoot {
     static void create(s32 owner, saddr from, saddr to, f32 farg0, f32 power);
     virtual void render();
     virtual void run_task();
-    static void sub_802CE4E8();
-    static void sub_802CE4EC();
-    f32 m_bc;
-    f32 m_c0;
+    static void free_global();
+    static void init_global();
+    f32 motion_frame;
+    f32 power;
 };
 
 LAYOUT_ASSERT(TObjEneMe1GiGueMissile_size, sizeof(TObjEneMe1GiGueMissile) == 0xC4);

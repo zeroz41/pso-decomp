@@ -1257,22 +1257,22 @@ force_active:
   - __ct__22TObjEneMe1GiGueMissileFlP3VecP3Vecff
   - __ct__15TObjEneMe1GiGueFP7TObjectPv
   - TObjEneMe1GiGue__model_filename_table
-  - sub_802CB03C__15TObjEneMe1GiGueFv
-  - sub_802CB10C__15TObjEneMe1GiGueFv
-  - sub_802CB378__15TObjEneMe1GiGueFv
-  - sub_802CB824__15TObjEneMe1GiGueFl
-  - sub_802CC45C__15TObjEneMe1GiGueFv
-  - sub_802CC614__15TObjEneMe1GiGueFv
-  - sub_802CC900__15TObjEneMe1GiGueFv
-  - sub_802CCBAC__15TObjEneMe1GiGueFv
-  - sub_802CD054__15TObjEneMe1GiGueFv
+  - capture_shot_origins__15TObjEneMe1GiGueFv
+  - collect_shot_targets__15TObjEneMe1GiGueFv
+  - update_landing_state__15TObjEneMe1GiGueFv
+  - spawn_targeted_shot__15TObjEneMe1GiGueFl
+  - update_technique_state__15TObjEneMe1GiGueFv
+  - update_multi_shot_state__15TObjEneMe1GiGueFv
+  - update_missile_state__15TObjEneMe1GiGueFv
+  - update_circling_state__15TObjEneMe1GiGueFv
+  - run_demo_task__15TObjEneMe1GiGueFv
   - sub_802CDAE8__15TObjEneMe1GiGueFv
   - lbl_804949A0
   - lbl_804C5238
   - lbl_804FA528
   - lbl_8050BEB8
   - lbl_8058D520
-  - lbl_805D6858
+  - gigue_missile_resource
   - __ct__20TObjEneMe3StelthRealFP7TObjectPv
   - __ct__21TObjEneMe3ShinowaRealFP7TObjectPv
   - __ct__22TObjEneMe3SinowZoaRealFP7TObjectPv
@@ -8092,7 +8092,7 @@ force_active:
   - lbl_804E0B4C
   - lbl_804E0B54
   - lbl_804E0B60
-  - lbl_804E1210
+  - gigue_low_model_names
   - __vt__15TObjEneMe1GiGue
   - lbl_804E1548
   - lbl_804E15BC
@@ -16343,8 +16343,8 @@ force_active:
   - sub_802C2A10__13TUnk_804E0988Fv
   - sub_802C2C48__13TUnk_804E0988Fv
   - sub_802CACD8__15TObjEneMe1GiGueFv
-  - sub_802CB6D4__15TObjEneMe1GiGueFv
-  - sub_802CCF2C__15TObjEneMe1GiGueFv
+  - update_proximity_state__15TObjEneMe1GiGueFv
+  - update_idle_state__15TObjEneMe1GiGueFv
   - sub_802D4E08__23TAdSinglePlyChrSelectGCFv
   - sub_802D577C__13TUnk_804E21F8Fv
   - sub_802D7444__12TObjNpcEnemyFv

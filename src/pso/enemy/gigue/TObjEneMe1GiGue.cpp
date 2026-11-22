@@ -7,6 +7,7 @@
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/technique/TTecZarua.h"
+#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -60,22 +61,17 @@
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
 saddr ene_me1_gigue_boss_id;
-saddr lbl_805D682C;
-saddr lbl_805D6830;
+saddr gigue_attack_params;
+saddr gigue_resistance_params;
 GiGueParameters *TObjEneMe1GiGue__param_table;
-BmlResource *TObjEneMe1GiGue__data_805D6838;
-TUnk_8048FA00 *TObjEneMe1GiGue__barrier_obj;
-f32 lbl_805D6840;
-f32 lbl_805D6844;
-f32 lbl_805D6848;
-f32 lbl_805D684C;
-s32 lbl_805D6850;
-s32 lbl_805D6854;
-void move_with_wall_slide(u8 *arg0);
-int initialize_enemy_photon_effect(void *p);
-
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+BmlResource *gigue_resource;
+TUnk_8048FA00 *gigue_breakup_model;
+f32 gigue_missile_speed;
+f32 gigue_shot_speed;
+f32 gigue_shot_homing;
+f32 gigue_shot_homing_step;
+s32 gigue_missile_power;
+s32 gigue_shot_power;
 extern "C" {
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 s32 check_path_obstructed(void *, Vec *);
@@ -101,11 +97,11 @@ const char *me1_gi_gue_motion_filename_table[10] = {
     "redu_redu_barrier.njm", NULL,
 };
 
-BmlResourceDescriptor lbl_804E1200 = {
+BmlResourceDescriptor gigue_bml_descriptor = {
     "bm_ene_gi_gue.bml", TObjEneMe1GiGue__model_filename_table, me1_gi_gue_motion_filename_table, 3, 9,
 };
 
-const char *lbl_804E1210[4] = {
+const char *gigue_low_model_names[4] = {
     "lo_gi_gue_all.nj", "gi_gue_missile.nj", "gi_gue_barrier.nj", NULL,
 };
 
@@ -115,8 +111,8 @@ const char *gi_gue_njm_name_table[10] = {
     "redu_redu_barrier.njm", NULL,
 };
 
-BmlResourceDescriptor lbl_804E1248 = {
-    "bm_ene_gi_gue_low.bml", lbl_804E1210, gi_gue_njm_name_table, 3, 9,
+BmlResourceDescriptor gigue_low_bml_descriptor = {
+    "bm_ene_gi_gue_low.bml", gigue_low_model_names, gi_gue_njm_name_table, 3, 9,
 };
 
 TObjMotionAction gigue_enemy_param_table[9] = {
@@ -131,11 +127,11 @@ TObjMotionAction gigue_enemy_param_table[9] = {
     {2, 0, 3, 0.7f, 1},
 };
 
-GiGueMoveParams lbl_804E12E8 = {
+GiGueMoveParams gigue_move_params = {
     {150.0f, 0.46296296f, 0x300}, 0x1E0000, 0, 1, 0,
 };
 
-CollisionBody lbl_804E1304[2] = {
+CollisionBody gigue_collision_bodies[2] = {
     {{0.0f, 15.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 15.0f, 0.0f}, 12.0f, 0.0f, 0, 0xA000002, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
@@ -143,8 +139,8 @@ CollisionBody lbl_804E1304[2] = {
 const char *TObjEneMe1GiGue__name = "TObjEneMe1GiGue";
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
-    model = (void *)TObjEneMe1GiGue__data_805D6838->models[i].model;
-    texlist = (saddr)TObjEneMe1GiGue__data_805D6838->models[i].m_c;
+    model = (void *)gigue_resource->models[i].model;
+    texlist = (saddr)gigue_resource->models[i].m_c;
 }
 
 void TObjEneMe1GiGue::sub_802CDAE8() {  }
@@ -157,7 +153,6 @@ s32 get_gigue_int_parameter(TObjEneMe1GiGue *self, s32 i) {
     return TObjEneMe1GiGue__param_table->ints[i];
 }
 
-extern "C" {
 
 void TObjEneMe1GiGue::run_miss_reaction() {  }
 
@@ -171,17 +166,17 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     m_name = TObjEneMe1GiGue__name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
-    motion_list = TObjEneMe1GiGue__data_805D6838->motions;
+    motion_list = gigue_resource->motions;
     variant = 0;
     add_flags_2e4(0x11);
     state36C = *(s16 *)((s8 *)set_data + 0x3E);
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
     set_field_d8((saddr)action_table);
-    init_collision_body_parts(this, lbl_804E1304, 2);
+    init_collision_body_parts(this, gigue_collision_bodies, 2);
     bodies[1].flags &= ~1;
-    movementParameters = &lbl_804E12E8;
-    bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)lbl_805D682C, (u8 *)lbl_805D6830);
+    movementParameters = &gigue_move_params;
+    bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)gigue_attack_params, (u8 *)gigue_resistance_params);
     update_direction();
     load_params();
     requested_action = 0;
@@ -194,14 +189,14 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     initialize_enemy_photon_effect(this);
     m_38c = 0;
     scale.x = 1.0f;
-    m_3e4 = ((EnemyMoveParams *)movementParameters)->min_distance * scale.x;
+    moveSpeed = ((EnemyMoveParams *)movementParameters)->min_distance * scale.x;
     VecCopy(&home_position, &position);
-    VecCopy(&m_390, &position);
-    m_440 = 0.5f + parameters[3];
-    m_444 = 0.5f + parameters[4];
-    m_43c = 150.0f + parameters[2];
-    if (m_43c < 0.0f) {
-        m_43c = 0.0f;
+    VecCopy(&moveDestination, &position);
+    barrierChance = 0.5f + parameters[3];
+    techniqueChance = 0.5f + parameters[4];
+    entryHeight = 150.0f + parameters[2];
+    if (entryHeight < 0.0f) {
+        entryHeight = 0.0f;
     }
     if ((s32)parameters[0] >= 1) {
         m_388 |= 0x40000;
@@ -210,19 +205,19 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
         }
         set_flags_30();
     }
-    m_3f4 = 0;
-    m_3f8 = 0;
+    cameraShakeCooldown = 0;
+    approachCount = 0;
     set_param(0x37);
-    m_3e8 = 0.0f;
-    m_448 = 0;
+    sinkingOffset = 0.0f;
+    volleyCount = 0;
     if (m_388 & 0x40000) {
         init_move();
     } else {
         sub_800C7860();
     }
     project_actor_to_ground(this, &position, 0);
-    m_3ec = 0.0f;
-    m_418.activate_and_dispatch();
+    flightHeight = 0.0f;
+    cameraFade.activate_and_dispatch();
     obj_setFlags30(this, 0x01000000);
     VecCopy(&prev_position, &position);
     clear_lobby_object_state();
@@ -236,36 +231,36 @@ void TObjEneMe1GiGue::load_resources() {
     void *o;
 
     if (is_split_screen() != 0) {
-        o = new BmlResource(1, &lbl_804E1248, 0, 0, NULL);
-        TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
+        o = new BmlResource(1, &gigue_low_bml_descriptor, 0, 0, NULL);
+        gigue_resource = (BmlResource *)o;
     } else {
-        o = new BmlResource(1, &lbl_804E1200, 0, 0, NULL);
-        TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
+        o = new BmlResource(1, &gigue_bml_descriptor, 0, 0, NULL);
+        gigue_resource = (BmlResource *)o;
     }
     ene_me1_gigue_boss_id = (saddr)TLobby::register_boss(0x1A);
-    lbl_805D682C = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
-    lbl_805D6830 = (saddr)TLobby::register_object(0x1A);
+    gigue_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
+    gigue_resistance_params = (saddr)TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = new TUnk_8048FA00((saddr)TObjEneMe1GiGue__data_805D6838->models->model);
-    TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
-    TObjEneMe1GiGueMissile::sub_802CE4EC();
+    o = new TUnk_8048FA00((saddr)gigue_resource->models->model);
+    gigue_breakup_model = (TUnk_8048FA00 *)o;
+    TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();
     {
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(TObjEneMe1GiGue__data_805D6838->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
-    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(TObjEneMe1GiGue__data_805D6838->models->model), reinterpret_cast<void *>(TObjEneMe1GiGue__data_805D6838->models->m_c), &binding, lbl_804E1304[0].radius, 15.0f);
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(gigue_resource->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
+    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(gigue_resource->models->model), reinterpret_cast<void *>(gigue_resource->models->m_c), &binding, gigue_collision_bodies[0].radius, 15.0f);
     }
 }
 
 void TObjEneMe1GiGue::delete_barrier() {
-    TObjEneMe1GiGueBarrier::sub_80325CC0();
-    TObjEneMe1GiGueMissile::sub_802CE4E8();
-    if (TObjEneMe1GiGue__barrier_obj != NULL) {
-        delete TObjEneMe1GiGue__barrier_obj;
-        TObjEneMe1GiGue__barrier_obj = NULL;
+    TObjEneMe1GiGueBarrier::free_global();
+    TObjEneMe1GiGueMissile::free_global();
+    if (gigue_breakup_model != NULL) {
+        delete gigue_breakup_model;
+        gigue_breakup_model = NULL;
     }
-    if (TObjEneMe1GiGue__data_805D6838 != NULL) {
-        delete TObjEneMe1GiGue__data_805D6838;
-        TObjEneMe1GiGue__data_805D6838 = NULL;
+    if (gigue_resource != NULL) {
+        delete gigue_resource;
+        gigue_resource = NULL;
     }
 }
 
@@ -277,12 +272,12 @@ void *TObjEneMe1GiGue::create(void *set_data) {
 void TObjEneMe1GiGue::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();
-        sub_802CD054();
+        run_demo_task();
         return;
     }
     target = (u8 *)find_active_entity_by_id(targetId);
     release_destroyed_target();
-    sub_802CB6D4();
+    update_proximity_state();
     if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
@@ -299,22 +294,22 @@ void TObjEneMe1GiGue::run_task() {
         state = 0;
     }
     VecCopy(&body_center, &position);
-    body_center.y += 15.0f + m_3ec;
-    bodies[0].offset.y = 25.0f + m_3ec;
+    body_center.y += 15.0f + flightHeight;
+    bodies[0].offset.y = 25.0f + flightHeight;
     if (!(m_388 & 0x40000)) {
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
-    if (m_3f4 > 0) {
-        m_3f4--;
+    if (cameraShakeCooldown > 0) {
+        cameraShakeCooldown--;
     }
     bodies[0].flags &= ~6;
-    if (m_3ec > 5.0f) {
+    if (flightHeight > 5.0f) {
         bodies[0].flags |= 4;
     } else {
         bodies[0].flags |= 2;
     }
-    m_418.update();
+    cameraFade.update();
     if (xz_distance_squared(&position, &prev_position) > 2500.0f) {
         VecCopy(&position, &prev_position);
     }
@@ -324,10 +319,10 @@ void TObjEneMe1GiGue::run_task() {
 void TObjEneMe1GiGue::dispatch_state() {
     switch (mode) {
     case 0:
-        sub_802CCF2C();
+        update_idle_state();
         return;
     case 1:
-        sub_802CCBAC();
+        update_circling_state();
         return;
     case 2:
         sub_802CDAE8();
@@ -342,13 +337,13 @@ void TObjEneMe1GiGue::dispatch_state() {
         break_apart();
         return;
     case 9:
-        sub_802CC614();
+        update_multi_shot_state();
         return;
     case 10:
-        sub_802CC900();
+        update_missile_state();
         return;
     case 11:
-        sub_802CC45C();
+        update_technique_state();
         return;
     case 12:
         action();
@@ -360,7 +355,7 @@ void TObjEneMe1GiGue::dispatch_state() {
         init();
         return;
     case 14:
-        sub_802CB378();
+        update_landing_state();
         break;
     }
 }
@@ -384,8 +379,8 @@ void TObjEneMe1GiGue::render() {
         return;
     }
     saved_model_render_flags = model_render_flags;
-    if (m_418.updateFromCamera(&body_center.x) != 0) {
-        ((MaterialColorFade *)&m_418)->set_flags_and_apply_damage_color();
+    if (cameraFade.updateFromCamera(&body_center.x) != 0) {
+        ((MaterialColorFade *)&cameraFade)->set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             model_render_flags = saved_model_render_flags;
             return;
@@ -396,14 +391,14 @@ void TObjEneMe1GiGue::render() {
     TObjPlayer::toggle_particle_effect();
     ok = 1;
     push_matrix();
-    translate_matrix(0, position.x, m_3ec + (position.y + m_3e8), position.z);
+    translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
     rotate_matrix_y(NULL, rotation_y);
     model_render_flags &= ~0x400;
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else if (m_388 & 4) {
-        if (((MaterialColorFade *)&m_3fc)->has_visible_opacity() != 0) {
-            ((MaterialColorFade *)&m_3fc)->set_flags_and_apply_damage_color();
+        if (((MaterialColorFade *)&appearFade)->has_visible_opacity() != 0) {
+            ((MaterialColorFade *)&appearFade)->set_flags_and_apply_damage_color();
             if (vis == 1) {
                 set_motion_packed_rotation();
                 draw();
@@ -413,7 +408,7 @@ void TObjEneMe1GiGue::render() {
                 draw_motion_model();
                 clear_motion_packed_rotation();
             }
-            ((MaterialColorFade *)&m_3fc)->clear_flag_and_notify();
+            ((MaterialColorFade *)&appearFade)->clear_flag_and_notify();
         } else {
             ok = 0;
         }
@@ -433,16 +428,16 @@ void TObjEneMe1GiGue::render() {
     TParticleCtrl::end_effect_render();
     if (!(actorFlags & 0x800) && ok != 0) {
         Vec v;
-        v.x = v.y = v.z = (1.0f - 0.01f * m_3ec) * (5.0f * scale.x);
+        v.x = v.y = v.z = (1.0f - 0.01f * flightHeight) * (5.0f * scale.x);
         draw_ground_shadow(&v, 0);
     }
-    ((MaterialColorFade *)&m_418)->clear_flag_and_notify();
+    ((MaterialColorFade *)&cameraFade)->clear_flag_and_notify();
     model_render_flags = saved_model_render_flags;
 }
 
-void TObjEneMe1GiGue::sub_802CD054() {  }
+void TObjEneMe1GiGue::run_demo_task() {  }
 
-void TObjEneMe1GiGue::sub_802CCF2C() {
+void TObjEneMe1GiGue::update_idle_state() {
     if (m_388 & 0x40000) {
         return;
     }
@@ -503,14 +498,14 @@ void TObjEneMe1GiGue::run_death_reaction() {
     m_388 |= 1;
 }
 
-void TObjEneMe1GiGue::sub_802CCBAC() {
+void TObjEneMe1GiGue::update_circling_state() {
     actorFlags &= ~0x01000000;
     switch (state) {
     case 0:
         m_388 &= ~0x00040000;
         sub_8004292C();
         requested_action = 1;
-        m_3dc = 0;
+        circlingAngle = 0;
         if (target != NULL) {
             VecCopy(&move_destination, &((TObjChara *)target)->body_center);
         }
@@ -521,15 +516,15 @@ void TObjEneMe1GiGue::sub_802CCBAC() {
         if (target != NULL) {
             Vec d = ((TObjBase *)target)->position;
             subtract_vector(&d, &position);
-            if (d.x * d.x + d.z * d.z <= m_438 * m_438 &&
-                angle_difference_abs(-(s32)(10430.38043493439 * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < m_434 / 2) {
+            if (d.x * d.x + d.z * d.z <= attackRange * attackRange &&
+                angle_difference_abs(-(s32)(10430.38043493439 * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < attackAngle / 2) {
                 s32 next;
-                m_3f8++;
-                if (m_3f8 > 2) {
-                    m_3f8 = 0;
+                approachCount++;
+                if (approachCount > 2) {
+                    approachCount = 0;
                     next = 13;
                 } else {
-                    m_448 = 0;
+                    volleyCount = 0;
                     next = 9;
                 }
                 update_if_active(next);
@@ -537,24 +532,24 @@ void TObjEneMe1GiGue::sub_802CCBAC() {
             }
         }
         rotation_y += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
-        enemy_set_heading_velocity(m_3e4, this, rotation_y);
+        enemy_set_heading_velocity(moveSpeed, this, rotation_y);
         move_with_wall_slide((u8 *)this);
-        m_3dc += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
-        if (m_3dc > 0x10000) {
-            m_3e0 = 0.0f;
+        circlingAngle += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
+        if (circlingAngle > 0x10000) {
+            wanderDistance = 0.0f;
             state = 2;
         }
         break;
     case -1:
         break;
     case 2:
-        enemy_wander_home(m_3e4, 100.0f, 50.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_wander_home(moveSpeed, 100.0f, 50.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
-        m_3e0 += m_3e4;
-        if (m_3e0 > 100.0f) {
+        wanderDistance += moveSpeed;
+        if (wanderDistance > 100.0f) {
             if (find_target_in_range(((EnemyMoveParams *)movementParameters)->max_distance) != 0) {
-                m_3dc = 0;
+                circlingAngle = 0;
                 state = 1;
             } else {
                 update_if_active(0);
@@ -567,13 +562,13 @@ void TObjEneMe1GiGue::sub_802CCBAC() {
     }
 }
 
-void TObjEneMe1GiGue::sub_802CC900() {
+void TObjEneMe1GiGue::update_missile_state() {
     TParticleCtrl *particle;
 
     switch (state) {
     case 0:
         sub_8004292C();
-        m_384 = m_450;
+        m_384 = attackDuration;
         if (m_384 <= 40) {
             m_384 = 40;
         }
@@ -599,19 +594,19 @@ void TObjEneMe1GiGue::sub_802CC900() {
         switch (state) {
         case 1:
             if (frame >= 5.0f) {
-                sub_802CB03C();
+                capture_shot_origins();
                 state = 2;
             }
             break;
         case 2:
             play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A81D)), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
             if (frame >= 20.0f) {
-                sub_802CB03C();
-                if ((particle = spawn_particle_effect(&m_39c, 0x203)) != NULL) {
+                capture_shot_origins();
+                if ((particle = spawn_particle_effect(&missileOrigin, 0x203)) != NULL) {
                     GiGueShotAngles dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
-                TObjEneMe1GiGueMissile::create((saddr)this, (saddr)&m_39c, (saddr)&((TObjChara *)target)->body_center, lbl_805D6840, (f32)lbl_805D6850);
+                TObjEneMe1GiGueMissile::create((saddr)this, (saddr)&missileOrigin, (saddr)&((TObjChara *)target)->body_center, gigue_missile_speed, (f32)gigue_missile_power);
                 play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A31E), &position, 0, 0);
                 state = 3;
             }
@@ -632,7 +627,7 @@ void TObjEneMe1GiGue::sub_802CC900() {
         if (actorFlags & 0x01000000) {
             m_378 = 0;
             update_if_active(13);
-        } else if (!(m_388 & 0x80000) && random_ratio() <= m_440) {
+        } else if (!(m_388 & 0x80000) && random_ratio() <= barrierChance) {
             update_if_active(12);
         } else {
             update_if_active(0);
@@ -643,7 +638,7 @@ void TObjEneMe1GiGue::sub_802CC900() {
     }
 }
 
-void TObjEneMe1GiGue::sub_802CC614() {
+void TObjEneMe1GiGue::update_multi_shot_state() {
     s32 n;
     s32 count;
 
@@ -654,18 +649,18 @@ void TObjEneMe1GiGue::sub_802CC614() {
         sub_8004292C();
         count = 0;
         if (!(actorFlags & 0x01000000)) {
-            count = sub_802CB10C();
+            count = collect_shot_targets();
         }
         if (count > 0) {
             requested_action = 3;
-            m_384 = m_450;
+            m_384 = attackDuration;
             if (m_384 <= 20) {
                 m_384 = 20;
             }
             state = 1;
         } else if (actorFlags & 0x01000000) {
             update_if_active(13);
-        } else if (!(m_388 & 0x80000) && random_ratio() <= m_440) {
+        } else if (!(m_388 & 0x80000) && random_ratio() <= barrierChance) {
             update_if_active(12);
         } else {
             update_if_active(0);
@@ -678,16 +673,16 @@ void TObjEneMe1GiGue::sub_802CC614() {
         switch (state) {
         case 1:
             if (frame >= 5.0f) {
-                sub_802CB03C();
+                capture_shot_origins();
                 state = 2;
             }
             break;
         case 2:
             play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A820)), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
             if (frame >= 10.0f) {
-                sub_802CB03C();
-                n = m_3c0;
-                sub_802CB824((s32)((f32)n * random_ratio()) % n);
+                capture_shot_origins();
+                n = targetCount;
+                spawn_targeted_shot((s32)((f32)n * random_ratio()) % n);
                 state = 3;
             }
             break;
@@ -697,8 +692,8 @@ void TObjEneMe1GiGue::sub_802CC614() {
         ((TObjPlayer *)this)->update_collisions();
         m_384--;
         if (m_384 <= 0) {
-            m_448++;
-            if (m_448 >= 3) {
+            volleyCount++;
+            if (volleyCount >= 3) {
                 m_384 = 45;
                 requested_action = 1;
                 state = 4;
@@ -709,13 +704,13 @@ void TObjEneMe1GiGue::sub_802CC614() {
         }
         break;
     case 4:
-        enemy_wander_home(m_3e4, 100.0f, 100.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_wander_home(moveSpeed, 100.0f, 100.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
         m_384--;
         if (m_384 <= 0) {
-            if (!(m_388 & 0x80000) && random_ratio() <= m_440) {
+            if (!(m_388 & 0x80000) && random_ratio() <= barrierChance) {
                 update_if_active(12);
             } else {
                 update_if_active(0);
@@ -725,7 +720,7 @@ void TObjEneMe1GiGue::sub_802CC614() {
     }
 }
 
-void TObjEneMe1GiGue::sub_802CC45C() {
+void TObjEneMe1GiGue::update_technique_state() {
     s32 count;
     switch (state) {
     case -1:
@@ -734,7 +729,7 @@ void TObjEneMe1GiGue::sub_802CC45C() {
         sub_8004292C();
         count = 0;
         if (!(actorFlags & 0x01000000)) {
-            count = sub_802CB10C();
+            count = collect_shot_targets();
         }
         if (count > 0) {
             state = 1;
@@ -752,15 +747,15 @@ void TObjEneMe1GiGue::sub_802CC45C() {
         switch (state) {
         case 1:
             if (frame >= 5.0f) {
-                sub_802CB03C();
-                spawn_particle_effect(&m_3a8, 0x204);
+                capture_shot_origins();
+                spawn_particle_effect(&shotOrigin, 0x204);
                 state = 2;
             }
             break;
         case 2:
             play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A344), &position, 0, 0);
             if (frame >= 10.0f) {
-                sub_802CB03C();
+                capture_shot_origins();
                 state = 3;
                 TTecZarua::create_instance((saddr)this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
                 create__9TTecJelinFllll(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
@@ -794,7 +789,7 @@ void TObjEneMe1GiGue::action() {
         ((TObjPlayer *)this)->update_collisions();
         return;
     case 2:
-        enemy_wander_home(m_3e4, 100.0f, 100.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_wander_home(moveSpeed, 100.0f, 100.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
@@ -813,17 +808,17 @@ void TObjEneMe1GiGue::update_rush_attack() {
         this->actorFlags |= 0x800000;
         this->actorFlags &= ~0x1000000;
         this->requested_action = this->state = 1;
-        this->m_3ec = 0.0f;
-        this->m_454 = 60;
+        this->flightHeight = 0.0f;
+        this->rushDelay = 60;
         this->sub_8004292C();
         break;
     case 1:
         this->actorFlags &= ~0x1000000;
-        this->enemy_wander_home(this->m_3e4, 100.0f, 50.0f, ((EnemyMoveParams *)this->movementParameters)->turn_speed);
+        this->enemy_wander_home(this->moveSpeed, 100.0f, 50.0f, ((EnemyMoveParams *)this->movementParameters)->turn_speed);
         this->advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
-        this->m_454--;
-        if (this->m_454 <= 0) {
+        this->rushDelay--;
+        if (this->rushDelay <= 0) {
             this->state = 2;
             play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A818), &this->position, 0, 0);
             this->actorFlags |= 0x1000000;
@@ -834,10 +829,10 @@ void TObjEneMe1GiGue::update_rush_attack() {
                 VecCopy(&d, &this->position);
                 subtract_vector(&d, &((TObjBase *)this->target)->position);
                 find_open_direction(&d);
-                calc_velocity_toward_destination(this, this->position, this->m_390, this->m_3e4);
+                calc_velocity_toward_destination(this, this->position, this->moveDestination, this->moveSpeed);
             } else {
-                VecCopy(&this->m_390, &this->home_position);
-                calc_velocity_toward_destination(this, this->position, this->m_390, this->m_3e4);
+                VecCopy(&this->moveDestination, &this->home_position);
+                calc_velocity_toward_destination(this, this->position, this->moveDestination, this->moveSpeed);
             }
         }
         this->check_object_collisions();
@@ -848,19 +843,19 @@ void TObjEneMe1GiGue::update_rush_attack() {
         s32 rising;
         this->actorFlags &= ~0x800000;
         this->advance_animation();
-        calc_velocity_toward_destination(this, this->position, this->m_390, get_gigue_float_parameter(this, 0));
+        calc_velocity_toward_destination(this, this->position, this->moveDestination, get_gigue_float_parameter(this, 0));
         rising = 1;
         if (this->requested_action == 6 && this->frame < 22.0f) {
             rising = 0;
         }
         if (rising) {
-            this->m_3ec += 2.2f;
+            this->flightHeight += 2.2f;
         }
         ((TObjPlayer *)this)->update_collisions();
         if (TObjPlayer__sub_800DC478((u8 *)this, 1, 22.0f) != 0 && this->check_vector_bit(&this->position) != 0) {
             spawn_particle_effect(&this->position, 0xF0);
         }
-        if (this->m_3ec >= 50.0f) {
+        if (this->flightHeight >= 50.0f) {
             this->state = 3;
         }
         play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (saddr)this, (uaddr)&this->position, (s32)(0), (s32)(0));
@@ -868,7 +863,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
     }
     case 3:
         this->advance_animation();
-        calc_velocity_toward_destination(this, this->position, this->m_390, get_gigue_float_parameter(this, 0));
+        calc_velocity_toward_destination(this, this->position, this->moveDestination, get_gigue_float_parameter(this, 0));
         this->velocity.y = 0.0f;
         VecCopy(&this->prev_position, &this->position);
         vec3_add_to(&this->position, &this->velocity);
@@ -877,7 +872,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             this->state = 4;
             this->velocity.x = this->velocity.z = 0.0f;
         } else {
-            if (xz_distance_squared(&this->position, &this->m_390) <= (10.0f + this->m_3e4) * (10.0f + this->m_3e4)) {
+            if (xz_distance_squared(&this->position, &this->moveDestination) <= (10.0f + this->moveSpeed) * (10.0f + this->moveSpeed)) {
                 this->state = 4;
                 this->velocity.x = this->velocity.z = 0.0f;
             }
@@ -886,7 +881,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             spawn_particle_effect(&this->position, 0xF0);
         }
         this->refresh_collision_body_centers();
-        if (this->m_3ec > 15.0f) {
+        if (this->flightHeight > 15.0f) {
             this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed * 2, &this->velocity);
         }
         play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (saddr)this, (uaddr)&this->position, (s32)(0), (s32)(0));
@@ -896,21 +891,21 @@ void TObjEneMe1GiGue::update_rush_attack() {
         this->actorFlags &= ~0x800000;
         this->bodies[1].flags |= 1;
         this->advance_animation();
-        this->m_3ec += -2.3f;
-        if (this->m_3ec <= 0.0f) {
-            this->m_3ec = 0.0f;
+        this->flightHeight += -2.3f;
+        if (this->flightHeight <= 0.0f) {
+            this->flightHeight = 0.0f;
             this->actorFlags |= 0x800000;
             this->actorFlags &= ~0x1000000;
             this->velocity.y = 0.0f;
             if (this->requested_action != 8) {
-                if (!(this->m_388 & 0x80000) && this->random_ratio() <= this->m_440) {
+                if (!(this->m_388 & 0x80000) && this->random_ratio() <= this->barrierChance) {
                     this->update_if_active(12);
                 } else {
                     this->update_if_active(0);
                 }
             }
         } else if (this->requested_action == 7) {
-            if (this->m_3ec <= 2.3f * (40.0f + 1.0f / this->blend_speed)) {
+            if (this->flightHeight <= 2.3f * (40.0f + 1.0f / this->blend_speed)) {
                 this->requested_action = 8;
             }
         } else {
@@ -927,11 +922,11 @@ void TObjEneMe1GiGue::update_rush_attack() {
         break;
     case -1:
         if (this->next_action != 4 && this->next_action != 5) {
-            this->m_3ec = 0.0f;
+            this->flightHeight = 0.0f;
         }
         this->bodies[1].flags &= ~1;
         this->m_388 &= ~0x40000;
-        this->m_3f8 = 0;
+        this->approachCount = 0;
         break;
     }
 }
@@ -1003,8 +998,8 @@ void TObjEneMe1GiGue::update_hit_reaction() {
 void TObjEneMe1GiGue::break_apart() {
     Vec pos;
     VecCopy(&pos, &position);
-    pos.y += 40.0f + m_3ec;
-    TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1GiGue__barrier_obj, 0, texlist, (saddr)&pos, rotation_y);
+    pos.y += 40.0f + flightHeight;
+    TBoss3Volopt::create_breakup_mdl((saddr)gigue_breakup_model, 0, texlist, (saddr)&pos, rotation_y);
     ((TObjPlayer *)this)->refresh_lobby_state();
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);
@@ -1014,31 +1009,31 @@ void TObjEneMe1GiGue::break_apart() {
 }
 
 void TObjEneMe1GiGue::move_around_center(void *center, f32 radius) {
-    if (xz_distance_squared(&this->position, &this->m_390) < 400.0f) {
+    if (xz_distance_squared(&this->position, &this->moveDestination) < 400.0f) {
         s32 angle = (s32)(182.04445f * (360.0f * this->random_ratio()));
         f32 d = 0.4f * (radius * (1.0f + this->random_ratio()));
-        this->m_390.x = d * cos_table_lookup(angle) + ((Vec *)center)->x;
-        this->m_390.z = d * sin_table_lookup(angle) + ((Vec *)center)->z;
+        this->moveDestination.x = d * cos_table_lookup(angle) + ((Vec *)center)->x;
+        this->moveDestination.z = d * sin_table_lookup(angle) + ((Vec *)center)->z;
     }
-    VecCopy(&this->move_destination, &this->m_390);
+    VecCopy(&this->move_destination, &this->moveDestination);
     enemy_turn_toward_dest(((EnemyMoveParams *)this->movementParameters)->turn_speed);
-    enemy_set_heading_velocity(this->m_3e4, this, this->rotation_y);
+    enemy_set_heading_velocity(this->moveSpeed, this, this->rotation_y);
     move_with_wall_slide((u8 *)this);
 }
 
-void TObjEneMe1GiGue::sub_802CB824(s32 index) {
-    if (find_entity_by_id(m_3c4[index]) != 0) {
+void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
+    if (find_entity_by_id(targetIds[index]) != 0) {
         GiGueShotAngles angles;
         angles.x = 0;
         angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;
-        new TUnk_804E14E8(&m_3a8, m_3c4[index], &angles, index * 3,
+        new TUnk_804E14E8(&shotOrigin, targetIds[index], &angles, index * 3,
                           random_ratio() <= get_gigue_float_parameter(this, 5),
                           entity_id);
     }
 }
 
-void TObjEneMe1GiGue::sub_802CB6D4() {
+void TObjEneMe1GiGue::update_proximity_state() {
     switch (mode) {
     case 0:
         if (is_actor_cadence_frame(30) != 0) {
@@ -1054,7 +1049,7 @@ void TObjEneMe1GiGue::sub_802CB6D4() {
         break;
     case 1:
         if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
-            if (random_ratio() <= m_444) {
+            if (random_ratio() <= techniqueChance) {
                 update_if_active(11);
             } else {
                 update_if_active(13);
@@ -1078,8 +1073,8 @@ void TObjEneMe1GiGue::init_move() {
 }
 
 void TObjEneMe1GiGue::apply_hit_shake(TObjChara *player) {
-    if (player == get_player_by_client_id(0) && m_3f4 <= 0) {
-        m_3f4 = 30;
+    if (player == get_player_by_client_id(0) && cameraShakeCooldown <= 0) {
+        cameraShakeCooldown = 30;
         TCameraCtrl::set_shake_preset(1);
     }
 }
@@ -1091,27 +1086,26 @@ s32 TObjEneMe1GiGue::remap_sound_id(void *obj, s32 id) {
     return ((TObjEnemy *)obj)->remap_sound_for_area(id);
 }
 
-}
 
-void TObjEneMe1GiGue::sub_802CB378() {
+void TObjEneMe1GiGue::update_landing_state() {
     f32 height;
     s32 whole_frame;
     switch (state) {
     case 0:
-        VecCopy(&m_390, &home_position);
-        calc_velocity_toward_destination(this, position, m_390, m_3e4);
+        VecCopy(&moveDestination, &home_position);
+        calc_velocity_toward_destination(this, position, moveDestination, moveSpeed);
         m_388 &= ~0x40000;
         sub_8004292C();
-        m_3ec = m_43c;
+        flightHeight = entryHeight;
         requested_action = 7;
         state = 1;
     case 1:
         advance_animation();
         bodies[1].flags |= 1;
-        m_3ec += -2.3f;
-        height = m_3ec;
+        flightHeight += -2.3f;
+        height = flightHeight;
         if (height <= 0.0f) {
-            m_3ec = 0.0f;
+            flightHeight = 0.0f;
             actorFlags |= 0x800000;
             actorFlags &= ~0x1000000;
             velocity.y = 0.0f;
@@ -1149,11 +1143,11 @@ void TObjEneMe1GiGue::init() {
         actorFlags = flags;
         requested_action = 0;
         play_area_sound_effect(&body_center);
-        m_3fc.start_fade_in();
+        appearFade.start_fade_in();
         state = 1;
     case 1:
         advance_animation();
-        if (((TUnk_80494938 *)&m_3fc)->advance_toward_max() == 1) {
+        if (((TUnk_80494938 *)&appearFade)->advance_toward_max() == 1) {
             state = -1;
             play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A345), &position, 0, 0);
         }
@@ -1168,59 +1162,58 @@ void TObjEneMe1GiGue::init() {
     }
 }
 
-extern "C" {
 
 void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
     int angle;
-    if (this->m_3c0 < 12 && target != NULL && (void *)target != (void *)this && !(target->actorFlags & 0x06000800)) {
+    if (this->targetCount < 12 && target != NULL && (void *)target != (void *)this && !(target->actorFlags & 0x06000800)) {
         Vec v = target->position;
         subtract_vector(&v, &this->position);
-        if (!(v.x * v.x + v.z * v.z > this->m_438 * this->m_438)) {
+        if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {
             angle = -(s32)(10430.38043493439 * atan2_float(v.z, v.x)) + 0x4000;
-            if (angle_difference_abs(angle, this->rotation_y) <= this->m_434 / 2) {
-                this->m_3c4[this->m_3c0++] = get_entity_id(target);
+            if (angle_difference_abs(angle, this->rotation_y) <= this->attackAngle / 2) {
+                this->targetIds[this->targetCount++] = get_entity_id(target);
             }
         }
     }
 }
 
-s32 TObjEneMe1GiGue::sub_802CB10C() {
+s32 TObjEneMe1GiGue::collect_shot_targets() {
     s32 i;
-    m_3c0 = 0;
+    targetCount = 0;
     for (i = 0; i < registered_player_count; i++) {
         TObjChara *player = (TObjChara *)TObjPlayer::get_player_data(i);
         add_target_in_cone(player);
     }
-    return m_3c0;
+    return targetCount;
 }
 
-void TObjEneMe1GiGue::sub_802CB03C() {
+void TObjEneMe1GiGue::capture_shot_origins() {
     push_matrix_from(&identity_matrix);
-    translate_matrix(0, position.x, m_3ec + (position.y + m_3e8), position.z);
+    translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
     rotate_matrix_y(0, rotation_y);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);
     clear_motion_packed_rotation();
     pop_matrix();
-    get_anim_node_position(0, &m_3b4);
-    get_anim_node_position(0x2A, &m_39c);
-    get_anim_node_position(0x16, &m_3a8);
+    get_anim_node_position(0, &rootPosition);
+    get_anim_node_position(0x2A, &missileOrigin);
+    get_anim_node_position(0x16, &shotOrigin);
 }
 
 void TObjEneMe1GiGue::update_direction() {
-    m_438 = ((AttackParams *)m_318)->get_attack_range();
-    m_434 = ((AttackParams *)m_318)->get_attack_angle();
+    attackRange = ((AttackParams *)m_318)->get_attack_range();
+    attackAngle = ((AttackParams *)m_318)->get_attack_angle();
 }
 
 void TObjEneMe1GiGue::load_params() {
-    lbl_805D6840 = get_gigue_float_parameter(this, 1);
-    lbl_805D6844 = get_gigue_float_parameter(this, 2);
-    lbl_805D6848 = get_gigue_float_parameter(this, 3);
-    lbl_805D684C = get_gigue_float_parameter(this, 4);
-    lbl_805D6850 = get_gigue_int_parameter(this, 0);
-    lbl_805D6854 = get_gigue_int_parameter(this, 1);
-    m_44c = (s32)(30.0f * (f32)get_gigue_int_parameter(this, 3));
-    m_450 = get_gigue_int_parameter(this, 4);
+    gigue_missile_speed = get_gigue_float_parameter(this, 1);
+    gigue_shot_speed = get_gigue_float_parameter(this, 2);
+    gigue_shot_homing = get_gigue_float_parameter(this, 3);
+    gigue_shot_homing_step = get_gigue_float_parameter(this, 4);
+    gigue_missile_power = get_gigue_int_parameter(this, 0);
+    gigue_shot_power = get_gigue_int_parameter(this, 1);
+    barrierDuration = (s32)(30.0f * (f32)get_gigue_int_parameter(this, 3));
+    attackDuration = get_gigue_int_parameter(this, 4);
 }
 
 #pragma pool_data off
@@ -1238,9 +1231,9 @@ void TObjEneMe1GiGue::find_open_direction(Vec *dir) {
     Vec v = {200.0f, 0.0f, 0.0f};
     rotate_matrix_y(0, ang);
     for (i = 0; i < 3; i++) {
-        matrix_mult_vec(0, &v, &m_390);
-        vec3_add_to(&m_390, &body_center);
-        hit = csnVector(&body_center, &m_390, -1);
+        matrix_mult_vec(0, &v, &moveDestination);
+        vec3_add_to(&moveDestination, &body_center);
+        hit = csnVector(&body_center, &moveDestination, -1);
         if (hit == NULL) {
             pop_matrix();
             return;
@@ -1258,8 +1251,8 @@ void TObjEneMe1GiGue::find_open_direction(Vec *dir) {
     Vec w = {0.0f, 0.0f, 0.0f};
     w.x = best;
     rotate_matrix_y(0, best_ang);
-    matrix_mult_vec(0, &w, &m_390);
-    vec3_add_to(&m_390, &body_center);
+    matrix_mult_vec(0, &w, &moveDestination);
+    vec3_add_to(&moveDestination, &body_center);
     pop_matrix();
 }
 #pragma pool_data reset
@@ -1294,18 +1287,17 @@ s32 TObjEneMe1GiGue::check_vector_bit(Vec *pos) {
     return (u32)__cntlzw(hit->hit_mask & 4) >> 5;
 }
 
-BmlResource *TObjEneMe1GiGue::sub_802CAC80() { return TObjEneMe1GiGue__data_805D6838; }
+BmlResource *TObjEneMe1GiGue::get_resource() { return gigue_resource; }
 
-}
 
 Vec *TObjEneMe1GiGue::update_and_get_pos() {
-    sub_802CB03C();
-    return &m_3b4;
+    capture_shot_origins();
+    return &rootPosition;
 }
 
-s32 TObjEneMe1GiGue::sub_802CAC48() { return rotation_y; }
+s32 TObjEneMe1GiGue::get_rotation_y() { return rotation_y; }
 
-s32 TObjEneMe1GiGue::get_field_44c() { return m_44c; }
+s32 TObjEneMe1GiGue::get_barrier_duration() { return barrierDuration; }
 
 s32 TObjEneMe1GiGue::is_active_state() {
     s32 r = 0;
@@ -1321,11 +1313,10 @@ done:
     return (u8)r;
 }
 
-void TObjEneMe1GiGue::sub_802CABF4() { m_388 |= 0x80000; }
+void TObjEneMe1GiGue::set_barrier_active() { m_388 |= 0x80000; }
 
-void TObjEneMe1GiGue::clear_flag388_bit80000() { m_388 &= ~0x80000; }
+void TObjEneMe1GiGue::clear_barrier_active() { m_388 &= ~0x80000; }
 
-extern "C" {
 
 f32 TObjEneMe1GiGue::receive_physical_attack(void *attacker, f32 power) {
     f32 damage = 0.0f;
@@ -1360,4 +1351,3 @@ f32 TObjEneMe1GiGue::receive_weapon_special_attack(void *attacker, void *weapon)
     return damage;
 }
 
-}
