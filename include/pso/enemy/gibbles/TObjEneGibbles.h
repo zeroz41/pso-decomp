@@ -36,7 +36,7 @@ struct TObjEneGibbles : public TObjEnemy {
     s32 m_374;
     u32 target_class_mask;  // the player classes it prefers (1 << m_39c), tested in refresh_target
     s16 m_37c;
-    u8 unk_37E[0x2];
+    s16 combo_count;  // (name inferred) finished mode-5 attacks; two clear the 0x108 flags
     s32 m_380;
     u8 unk_384[0x4];
     s16 m_388;
@@ -74,19 +74,23 @@ struct TObjEneGibbles : public TObjEnemy {
     static void load_resources();
     void turn_toward_target();
     void slam_damage_players(s32 arg1);
+    // shakes the camera when the local player is in Gibbles' room (landing)
+    void sub_802D7A54();
+    void sub_802D7E3C();
+    void sub_802D8034();
+    void render_and_get_joint_pos(Vec *out, s32 node);
+    void sub_802D8E8C();
+    void sub_802D9110();
+    s32 sub_802D9A04();
 };
 LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
-extern "C" {
-void TObjEneGibbles__sub_802D7A54(void *arg0);
-void TObjEneGibbles__sub_802D7E3C(void);
-void TObjEneGibbles__sub_802D8034(void);
-void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
-s32 TObjEneGibbles__sub_802D9A04(void *target);
-}
 void gibbles_render_node_callback(NJS_OBJECT *);
+// hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
+// arg 1 grows m_388 by the damage dealt
 extern "C" {
-void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 arg2);
+s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale);
+s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale);
 }
 
 #endif
