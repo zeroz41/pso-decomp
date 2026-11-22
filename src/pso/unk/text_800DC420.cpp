@@ -85,7 +85,7 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2, s32 arg3, void *arg4);
+TUnk_80494E10 *construct_beam_effect__10TObjPlayerFPvPvPviPv(TUnk_80494E10 *beam, Vec *pos, Vec *target, s32 trail, void *owner);
 
 s32 TObjPlayer__sub_800DC420(void *self, s32 i) {
     return (*(D_800DC420 * *)&lbl_805D5254)->arr[i];
@@ -142,52 +142,50 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
     spawn_particle_effect((const Vec *)obj->pos, 0xFC);
 }
 
-s32 TObjPlayer::snap_to_ground(saddr arg0, saddr origin) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(csnVecterUnder((Vec *)origin, 0x16EF));
-    if (temp_r3 == NULL) {
+s32 TUnk_80494E10::snap_to_ground(Vec *origin) {
+    CsnHit *hit = csnVecterUnder(origin, 0x16EF);
+    if (hit == NULL) {
         return 0;
     }
-    VecCopy((Vec *)(origin), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
+    VecCopy(origin, &hit->contact->point);
     return 1;
 }
 
 void TUnk_80494E10::run_task() {
-    Me_800DC648 *arg0 = (Me_800DC648 *)this;
     void *att;
     s32 i;
     void *pl;
-    Vec old = arg0->pos;
-    vec3_add_to(&arg0->pos, &arg0->vel);
-    if (arg0->link0 != NULL) {
-        ((TParticleCtrl *)arg0->link0)->set_position(&arg0->pos);
+    Vec old = this->pos;
+    vec3_add_to(&this->pos, &this->vel);
+    if (this->link0 != NULL) {
+        this->link0->set_position(&this->pos);
     }
-    arg0->timer += lbl_805D525C;
-    if (arg0->trail != 0) {
-        VecCopy((Vec *)&arg0->prev, (const Vec *)&arg0->pos);
-        arg0->cnt++;
-        if (arg0->cnt > 4) {
-            arg0->cnt = 0;
-            TObjPlayer::snap_to_ground((saddr)arg0, (saddr)&arg0->prev);
+    this->timer += lbl_805D525C;
+    if (this->trail != 0) {
+        VecCopy(&this->prev, &this->pos);
+        this->cnt++;
+        if (this->cnt > 4) {
+            this->cnt = 0;
+            this->snap_to_ground(&this->prev);
         }
-        if (arg0->link1 != NULL) {
-            ((TParticleCtrl *)arg0->link1)->set_position(&arg0->prev);
+        if (this->link1 != NULL) {
+            this->link1->set_position(&this->prev);
         }
     }
-    if (arg0->timer >= 500.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    if (this->timer >= 500.0f) {
+        this->queue_destruction();
         return;
     }
-    if (csnVector(&old, &arg0->pos, -1) != 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (csnVector(&old, &this->pos, -1) != 0) {
+        this->queue_destruction();
         return;
     }
-    att = find_entity_by_id(arg0->owner);
+    att = find_entity_by_id(this->owner);
     if (att != NULL) {
         for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
             pl = (void *)TObjPlayer::get_player_data(i);
             if (pl != NULL && TObjPlayer::is_valid_and_active((uaddr)pl) != 0) {
-                TObjPlayer::hit_object_in_radius((Src_800DC4B4 *)arg0, (Obj_800DC4B4 *)pl, att);
+                TObjPlayer::hit_object_in_radius((Src_800DC4B4 *)this, (Obj_800DC4B4 *)pl, att);
             }
         }
     }
@@ -195,36 +193,42 @@ void TUnk_80494E10::run_task() {
 
 }
 TUnk_80494E10::~TUnk_80494E10() {
-    if (*(void **)((s8 *)this + 0xE0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xE0) = 0; }
-    if (*(void **)((s8 *)this + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE4)))->queue_destruction(); this->m_e4 = 0; }
+    if (this->link0 != NULL) {
+        this->link0->queue_destruction();
+        this->link0 = NULL;
+    }
+    if (this->link1 != NULL) {
+        this->link1->queue_destruction();
+        this->link1 = NULL;
+    }
 }
 
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *pos, Vec *arg2, s32 arg3, void *arg4) {
+TUnk_80494E10 *construct_beam_effect__10TObjPlayerFPvPvPviPv(TUnk_80494E10 *beam, Vec *pos, Vec *target, s32 trail, void *owner) {
     Ang_800DC83C ang;
     f32 s;
-    __ct__14TObjCollidableFP7TObject(arg0, tl_06);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80494E10;
-    ((TUnk_80494E10 *)arg0)->m_f4 = arg3;
-    VecCopy((Vec *)(arg0 + 0xAC), (const Vec *)pos);
-    ((TUnk_80494E10 *)arg0)->m_dc = 0.0f;
-    VecCopy((Vec *)(arg0 + 0xB8), (const Vec *)arg2);
-    subtract_vector(arg0 + 0xB8, pos);
-    s = lbl_805D525C / vector_length(arg0 + 0xB8);
-    ((TUnk_80494E10 *)arg0)->m_b8*= s;
-    *(f32 *)((s8 *)arg0 + 0xBC) *= s;
-    ((TUnk_80494E10 *)arg0)->m_c0*= s;
-    ((TUnk_80494E10 *)arg0)->m_fc = get_entity_id(arg4);
+    __ct__14TObjCollidableFP7TObject(beam, tl_06);
+    *(s32 **)((s8 *)beam + 0x18) = __vt__13TUnk_80494E10;
+    beam->trail = trail;
+    VecCopy(&beam->pos, pos);
+    beam->timer = 0.0f;
+    VecCopy(&beam->vel, target);
+    subtract_vector(&beam->vel, pos);
+    s = lbl_805D525C / vector_length(&beam->vel);
+    beam->vel.x *= s;
+    beam->vel.y *= s;
+    beam->vel.z *= s;
+    beam->owner = get_entity_id(owner);
     ang.x = 0;
-    ang.y = (s32)(10430.38043493439 * atan2_float(arg2->x - pos->x, arg2->z - pos->z)) + 0x4000;
-    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(arg2->y - pos->y, vec_xz_distance((Vec *)arg2, (Vec *)pos)));
-    *(s32 *)((s8 *)arg0 + 0xE0) = (saddr)spawn_particle_effect_with_rotation(pos, &ang, 0xF5, 2);
-    if (((TUnk_80494E10 *)arg0)->m_f4 != 0) {
-        VecCopy((Vec *)(arg0 + 0xE8), (const Vec *)(arg0 + 0xAC));
-        TObjPlayer::snap_to_ground((saddr)arg0, (saddr)(arg0 + 0xE8));
-        ((TUnk_80494E10 *)arg0)->m_e4 = (saddr)spawn_continuous_particle_effect_with_flags(arg0 + 0xE8, 0xF9, 2);
-        *(s32 *)((s8 *)arg0 + 0xF8) = 0;
+    ang.y = (s32)(10430.38043493439 * atan2_float(target->x - pos->x, target->z - pos->z)) + 0x4000;
+    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(target->y - pos->y, vec_xz_distance(target, pos)));
+    beam->link0 = (TParticleCtrl *)spawn_particle_effect_with_rotation(pos, &ang, 0xF5, 2);
+    if (beam->trail != 0) {
+        VecCopy(&beam->prev, &beam->pos);
+        beam->snap_to_ground(&beam->prev);
+        beam->link1 = spawn_continuous_particle_effect_with_flags(&beam->prev, 0xF9, 2);
+        beam->cnt = 0;
     } else {
-        ((TUnk_80494E10 *)arg0)->m_e4 = 0;
+        beam->link1 = NULL;
     }
-    return arg0;
+    return beam;
 }
