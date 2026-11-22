@@ -28,6 +28,7 @@
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/camera/TCameraCtrl.h"
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -404,7 +405,6 @@ s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
 
 extern "C" {
 s32 TLobby__sub_801E3E9C(s32, const void *, void *, s32);
-int is_quest_active(void);
 
 s32 TCharaMaking::is_end() {
     if ((get_main_phase() == 0xF) || (is_quest_active() != 0)) {

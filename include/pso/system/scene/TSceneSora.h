@@ -28,4 +28,6 @@ struct TSceneSora : public TObjBase {
 LAYOUT_ASSERT(TSceneSora_motion_offset, offsetof(TSceneSora, sky_motion) == 0x94);
 LAYOUT_ASSERT(TSceneSora_frame_offset, offsetof(TSceneSora, m_a0) == 0xA0);
 LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
+void prepare_adventure_maps(void);
+extern "C" void TLobby__sub_802075F4(void);
 #endif

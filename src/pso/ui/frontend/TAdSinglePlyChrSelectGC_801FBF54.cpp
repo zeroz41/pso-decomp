@@ -606,13 +606,6 @@ void load_tables(int a0) { TAdSinglePlyChrSelectGC__selection_index = a0; memcpy
 
 namespace P801FCBA0 {
 
-struct VBase_18_4a87b2 { char pad[0x18]; };
-
-struct VObj_18_4a87b2 : VBase_18_4a87b2 {
-    virtual void m0();
-    virtual s32 m1();
-};
-
 struct RecoveredGlobal_801FDA4C_lbl_804C88C0 {
     s32 value;
     u8 remaining[0x50];
@@ -665,7 +658,6 @@ s32 forward_to_global_instance__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 s32 __ct__12TPlyCharDataFv(s32);
 s32 memset(int, int, int);
 void alloc_char_records__23TAdSinglePlyChrSelectGCFi(saddr arg0);
-extern u8 *camera_ctrl_instance;
 void render_frame__23TAdSinglePlyChrSelectGCFv(void);
 extern RecoveredGlobal_801FDA4C_lbl_804C88C0 pso_character_card_filename;
 extern int lbl_805D49B4;
@@ -821,13 +813,13 @@ s32 *TAdSinglePlyChrSelectGC__sub_801FCD3C(Obj_801FCD3C *self) {
 }
 
 void render_frame__23TAdSinglePlyChrSelectGCFv(void) {
-    if ((void *) camera_ctrl_instance != NULL) {
+    if (camera_ctrl_instance != NULL) {
         main_task.begin_frame();
         if (is_split_screen() != 0) {
             TCameraCtrl::set_mode(0);
             forward_clear_split_screen_fog();
-            if ((void *) camera_ctrl_instance != NULL) {
-                ((VObj_18_4a87b2 *)(camera_ctrl_instance))->m1();
+            if (camera_ctrl_instance != NULL) {
+                camera_ctrl_instance->run_task();
             }
             TCameraCtrl::set_split_viewport(1, 0);
             main_task.render();

@@ -826,7 +826,6 @@ bool is_area_transfer_pending(void) {
 
 void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); TKeyBoardControl::reset(); }
 
-int is_quest_active(void);
 #define main_phase_deferred_callback (*(s32 (**)())&main_phase_deferred_callback)
 
 void apply_phase_keyboard_mode(void) {

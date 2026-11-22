@@ -7,8 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 
 
-int is_quest_active(void);
-
 extern s32 game_difficulty_selection;
 
 s32 TLobby::is_online_ready() {

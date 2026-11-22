@@ -20,6 +20,7 @@ struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
 #include "pso/ui/city/THunterGuildWarning.h"
 
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #pragma readonly_strings on
 struct Stack_802130AC {
@@ -52,13 +53,12 @@ saddr set_service_counter_camera(void *, int);
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
-int is_quest_active(void);
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
 void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(void);
 extern void *tl_00;
-void THunterGuildSeqOffline__sub_80213410(void* p);
+void THunterGuildSeqOffline__sub_80213410(void);
 s32 THunterGuildSeqOffline__sub_80213458(void);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 int fn_80223480(void*);
@@ -141,12 +141,12 @@ s32 THunterGuildSeqOffline__sub_80213458(void) {
     return -1;
 }
 
-void THunterGuildSeqOffline::reset_quest_result_callbacks(void* _w0) {
+void THunterGuildSeqOffline::reset_quest_result_callbacks() {
     s32 i;
     for (i = 0; i < 4; i++) THunterGuildSeqOffline__quest_result_callbacks[i] = -1;
 }
 
-void THunterGuildSeqOffline__sub_80213410(void* p) { THunterGuildSeqOffline::reset_quest_result_callbacks(p); }
+void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
 
 void THunterGuildSeqOffline::notify_quest_thread() {
     s32 v = THunterGuildSeqOffline__quest_result_callbacks[3];

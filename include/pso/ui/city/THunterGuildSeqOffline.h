@@ -16,7 +16,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     void open_greeting();
     static void clear_instance_table();
     static void notify_quest_thread();
-    static void reset_quest_result_callbacks(void* _w0);
+    static void reset_quest_result_callbacks();
     static void *create(void *arg0);
     static s32 check_party_gathered();
     static void set_state_close(TShopWindowBase *sequence);
@@ -49,4 +49,5 @@ struct THunterGuildSeqOffline : public TShopSequence {
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
 extern "C" THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 
+extern "C" void THunterGuildSeqOffline__sub_80213410(void);
 #endif

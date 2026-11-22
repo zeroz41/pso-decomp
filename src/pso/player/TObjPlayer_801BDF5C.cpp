@@ -28,6 +28,7 @@
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer_801BEB0C.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 struct VBase_801BDE60 { u8 pad[0x18]; };
@@ -148,7 +149,6 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_801BDF5C_cpp_
 
 extern "C" {
 
-int is_quest_active(void);
 int subtract_photon_blast_charge(void*, f32);
 int add_photon_blast_chain_charge(void*);
 

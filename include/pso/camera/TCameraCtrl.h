@@ -9,6 +9,7 @@
 class TCameraController;
 struct NJS_CAMERA;
 struct CameraViewParams;
+struct CharacterSelectionRequest;
 
 // The request a scripted or event camera hands over (get_params, and the
 // buffer set_active_camera_pose_from_params reads): where to put the eye,
@@ -232,6 +233,7 @@ void select_camera_controller(s32 index);
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 
 extern "C" {
+const CharacterSelectionRequest *get_character_select_request_buffer();
 int is_quest_active(void);
 // Nonzero when value is a NaN or an infinity.
 int is_float_nonfinite(f32 value);

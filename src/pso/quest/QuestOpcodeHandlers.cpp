@@ -873,8 +873,6 @@ f64 atan2_float(void *, f32, f32);
 void TLobby__sub_8001DE30(void *);
 s32 setControlOverride__12TBoss1DragonFs(int, void *);
 int set_camera_capture_overlay_alpha(void*);
-int is_quest_active(void);
-s32 reset_battle_camera__11TCameraCtrlFv();
 saddr TLobby__sub_80070ACC();
 s32 set_challenge_mode_split_flag();
 s32 TLobby__sub_80070B34(int);
@@ -975,7 +973,6 @@ s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
 void open_default__11TWindowCtrlFll(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 }
-void reset_cameras_to_actor(void *actor, s32 arg1);
 void init_6x40_walk_packet(void *a0);
 s32 get_field_d4(void *);
 void build_6x77_sync_quest_register(void* p);
@@ -3816,7 +3813,7 @@ void qst_op_set_returnhunter() {
 
 void qst_op_default_camera_pos1() {
     uaddr temp_r3;
-    reset_battle_camera__11TCameraCtrlFv();
+    TCameraCtrl::reset_battle_camera();
     temp_r3 = ((s32 (*)(s32))get_player_by_client_id)(local_client_id);
     if (temp_r3 != 0U) {
         reset_cameras_to_actor((void *)temp_r3, 0);

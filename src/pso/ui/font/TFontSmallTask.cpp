@@ -274,19 +274,19 @@ struct VObj_800FD614 : VBase_800FD614 {
     virtual void m12(); virtual void m13(); virtual s32 m14();
 };
 
-// a: the leader's level (TObjChara::get_actor_level_index), b: its section id.
-struct Out_800FD614 { s32 a; s32 b; };
+// The leader's level (TObjChara::get_actor_level_index) and its section id.
+struct LeaderSelection { s32 level; s32 section_id; };
 
 void reset_leader_selection(void* p);
 // The leader selection find_leader_section_id fills (TLobby_801A3C48, text_801A3014) and set_world_section_id /
 // TFontSmallTask::get_task_id store and read the section id of; the .ctors entry below resets it.
-Out_800FD614 TLobby__data_805011D8;
+LeaderSelection TLobby__data_805011D8;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
 u16 get_entity_id();
-void find_leader_section_id(struct Out_800FD614 *out, s32 arg1);
+void find_leader_section_id(struct LeaderSelection *out, s32 client_id);
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 u32 calc_small_font_text_width(const char *s);
@@ -325,16 +325,16 @@ void set_world_section_id(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 s32 TFontSmallTask::get_task_id() { return *(s32 *)&this->m_flags; }
 void reset_leader_selection(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
 
-void find_leader_section_id(struct Out_800FD614 *out, s32 arg1) {
+void find_leader_section_id(struct LeaderSelection *out, s32 client_id) {
     s32 n;
     s32 i;
     VObj_800FD614 *p;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = (VObj_800FD614 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && arg1 == get_entity_id()) {
-            out->a = p->m14();
-            out->b = (s32)((TPlyPhotonChair *)(p))->get_actor_section_id();
+        if (p != NULL && client_id == get_entity_id()) {
+            out->level = p->m14();
+            out->section_id = (s32)((TPlyPhotonChair *)(p))->get_actor_section_id();
         }
     }
 }
