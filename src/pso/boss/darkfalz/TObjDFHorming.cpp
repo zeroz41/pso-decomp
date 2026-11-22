@@ -312,16 +312,6 @@ struct Msg_8004B1BC { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 pad
 
 struct P_8004B5A0 { u8 pad0[0x38]; Vec pos; };
 
-typedef struct Params_8004B3BC {
-    s32 owner;
-    s16 a[3];
-    s16 b;
-    s16 c;
-    u8 pad[0x14 - 0xE];
-    Vec pos;
-    u8 pad20[0x48 - 0x20];
-} Params_8004B3BC;
-
 typedef struct Hit_8004B7DC {
     s32 f0;
     s32 f4;
@@ -353,7 +343,6 @@ void release_all_players_control_lock(void);
 
 void TBoss4DarkFalz__sub_8004B5A0(void);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
-void create__10TBoss4ZakoFl(void *);
 Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
 
 }
@@ -492,7 +481,7 @@ s32 TBoss4DarkFalz::is_timer_expired() {
 
 #pragma fp_contract on
 void TBoss4DarkFalz::spawn_zako_rings() {
-    Params_8004B3BC p;
+    TBoss4ZakoSetData p;
     f32 r;
     f32 dr;
     s32 j;
@@ -500,11 +489,11 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     s32 ang;
     s32 step;
     s32 i;
-    p.owner = (saddr)this;
+    p.owner = this;
     r = 28.571428f;
     dr = 57.142857f;
-    TBoss4DarkFalz__sub_8004B4F0(p.a, &TBoss4DarkFalz__data_804FF1E8);
-    p.c = 1;
+    TBoss4DarkFalz__sub_8004B4F0(&p.set_index, &TBoss4DarkFalz__data_804FF1E8);
+    p.unk_0C = 1;
     if (game_difficulty_selection == 3) {
         r *= 1.25f;
         dr *= 1.25f;
@@ -514,13 +503,13 @@ void TBoss4DarkFalz::spawn_zako_rings() {
         ang = 0;
         step = 0x10000 / n;
         for (i = 0; i < n; i++) {
-            if (TBoss4DarkFalz__sub_8004AF5C(((u8 *)this), p.a, &p.b) == 0) {
+            if (TBoss4DarkFalz__sub_8004AF5C(((u8 *)this), &p.set_index, &p.entity_id) == 0) {
                 return;
             }
-            VecCopy((Vec *)&p.pos, &dark_falz_zako_ring_origin_vec);
-            p.pos.x += r * sin_table_lookup(ang);
-            p.pos.z += r * cos_table_lookup(ang);
-            create__10TBoss4ZakoFl(&p);
+            VecCopy(&p.position, &dark_falz_zako_ring_origin_vec);
+            p.position.x += r * sin_table_lookup(ang);
+            p.position.z += r * cos_table_lookup(ang);
+            TBoss4Zako::create(&p);
             ang += step;
         }
         r += dr;
@@ -923,14 +912,14 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
         return;
     }
     if (arg0->action != -1 && arg0->action >= 0 && arg0->action < 16 &&
-        arg0->action != ((TBoss4Uro *)ent)->get_phase()) {
+        arg0->action != ((TBoss4DarkFalz *)ent)->get_phase()) {
         ((TBoss4DarkFalz *)ent)->change_state(arg0->action);
     }
     arg = arg0->arg;
     if (arg == -1) {
         return;
     }
-    switch (((TBoss4Uro *)ent)->get_phase()) {
+    switch (((TBoss4DarkFalz *)ent)->get_phase()) {
     case 5:
     case 6:
         if (TBoss4DarkFalz__type1_instance != NULL) {
@@ -982,6 +971,6 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
     return var_r31;
 }
 
-s32 TBoss4Uro::get_phase() { return *(s32 *)&this->_pad37c; }
+s32 TBoss4DarkFalz::get_phase() { return m_37c; }
 
 saddr TBoss4Uro::get_instance_count() { return reinterpret_cast<saddr>(darkfalz_dat_resource); }

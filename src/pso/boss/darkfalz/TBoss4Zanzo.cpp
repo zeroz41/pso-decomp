@@ -37,6 +37,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
+#include "pso/boss/darkfalz/TBoss4Bishi.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/darkfalz/TObjDFRecover.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -123,18 +124,6 @@ struct Obj_8005676C {
     f32 f3d0;
 };
 
-struct Bishi_8005683C {
-    s32 f0;
-    s16 id;
-    s16 f6;
-    s16 f8;
-    s16 id2;
-    s16 f0c;
-    u8 pad0e[6];
-    Vec pos;
-    u8 pad2c[0x20];
-};
-
 struct Ofs_8005683C { f32 x, z; };
 
 struct Obj_8005683C {
@@ -185,7 +174,6 @@ s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void TBoss4Type2__sub_80055300(void);
 void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out);
-s32 create__11TBoss4BishiFi(void *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 f32 post_translate_matrix(void *);
@@ -762,22 +750,22 @@ void TBoss4Type2::apply_resta_heal() {
 
 void TBoss4Type2::spawn_bishi_around_players() {
     Obj_8005683C *self = (Obj_8005683C *)this;
-    Bishi_8005683C b;
+    TBoss4ZakoSetData b;
     s32 i;
     s32 j;
     u8 *pl;
-    TBoss4DarkFalz__sub_8004B4F0(&b.id, TBoss4DarkFalz__data_804FF1E8);
-    b.f0 = self->f38c;
-    b.f0c = 1;
+    TBoss4DarkFalz__sub_8004B4F0(&b.set_index, TBoss4DarkFalz__data_804FF1E8);
+    b.owner = (TBoss4DarkFalz *)self->f38c;
+    b.unk_0C = 1;
     for (i = 0; i < registered_player_count; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
         if (pl != 0 && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
             for (j = 0; j < 3; j++) {
-                if (TBoss4DarkFalz__sub_8004AF5C(self->f38c, &b.id, &b.id2) != 0) {
-                    VecCopy((Vec *)&b.pos, (const Vec *)(pl + 0x38));
-                    b.pos.x += bishi_spawn_offset_table[j].x;
-                    b.pos.z += bishi_spawn_offset_table[j].z;
-                    create__11TBoss4BishiFi(&b);
+                if (TBoss4DarkFalz__sub_8004AF5C(self->f38c, &b.set_index, &b.entity_id) != 0) {
+                    VecCopy(&b.position, (const Vec *)(pl + 0x38));
+                    b.position.x += bishi_spawn_offset_table[j].x;
+                    b.position.z += bishi_spawn_offset_table[j].z;
+                    TBoss4Bishi::create(&b);
                 }
             }
         }

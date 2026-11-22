@@ -349,7 +349,7 @@ force_active:
   - request_sway__14TBoss2TentacleFv
   - TBoss3VoloptP02_name
   - TBoss3Volopt__sub_8004DA7C
-  - TBoss4Bishi__ct
+  - __ct__11TBoss4BishiFP7TObjectP17TBoss4ZakoSetData
   - TBoss4Bishi_spawn_offsets
   - TBoss4DarkFalz__ct
   - TBoss4DarkFalz__name
@@ -369,11 +369,11 @@ force_active:
   - TBoss4Type3__sub_8005A86C
   - TBoss4Type3_name
   - TBoss4Type3_type_name
-  - TBoss4Uro__ct
-  - TBoss4Uro__sub_8005D6D4
-  - TBoss4Uro__vt61
-  - TBoss4Zako__ct
-  - TBoss4Zako__sub_8005BC4C
+  - __ct__9TBoss4UroFP7TObjectP17TBoss4ZakoSetData
+  - sub_8005D6D4__14TBoss4DarkFalzFv
+  - run_death_reaction__9TBoss4UroFv
+  - __ct__10TBoss4ZakoFP7TObjectP17TBoss4ZakoSetData
+  - run_task__11TBoss4BishiFv
   - TBoss4Zako_collision_body_parts
   - TBoss4Zako_movement_speed_step
   - TBoss4Zako_one_third
@@ -2974,7 +2974,7 @@ force_active:
   - __dt__9TTecRestaFv
   - __dt__9TTecSiftaFv
   - __dt__9TTecZaruaFv
-  - __dt_deleting__11TBoss4BishiFPvs
+  - __dt__11TBoss4BishiFv
   - __equals_dec
   - __fill_mem
   - __fini_cpp_exceptions
@@ -5107,7 +5107,7 @@ force_active:
   - clamp_hp_value__10TObjPlayerFPs
   - clamp_item_list_scroll__19TWindowMenuIconLineFv
   - clamp_menu_choice_scroll__11TWindowMenuFv
-  - clamp_min_player_distance__9TBoss4UroFPv
+  - clamp_min_player_distance__9TBoss4UroFv
   - clamp_params_and_init__14TOTrapSeabed01Fv
   - clamp_partner_counter__Flls
   - clamp_state__12TObjDoorJungFv
@@ -6086,7 +6086,7 @@ force_active:
   - enter_serial_formatted_buffer
   - enter_slime_state__15TObjEneSlimeOneFv
   - enter_state8__15TObjEneDelDepthFv
-  - enter_state_3__11TBoss4BishiFPv
+  - enter_state_3__11TBoss4BishiFv
   - enter_state_513__13TUnk_804A1570Fv
   - __ct__13TUnk_804A5648FP7TObjectPUc
   - enter_state_804F27E0__13TUnk_804F27E0FlPv
@@ -6337,7 +6337,7 @@ force_active:
   - fn_80049A0C
   - fn_8004D9A8
   - fn_8005586C
-  - fn_8005D6E4
+  - sub_8005D6E4__14TBoss4DarkFalzFv
   - fn_8005EBDC__13TBoss5GryphonFPUcP22Boss5GryphonActionStep
   - run_action_script_step__13TBoss5GryphonFPsPUl
   - fn_8005FD34__13TBoss5GryphonFl
@@ -14500,7 +14500,7 @@ force_active:
   - render__9TAdBackGCFv
   - render__9TAdFadeGCFv
   - render__9TBoss2FinFv
-  - render__9TBoss4UroFv
+  - render__10TBoss4ZakoFv
   - render__9TBoss6DPBFv
   - render__9TBoss6MagFv
   - render__9TKomorebiFv
@@ -16615,7 +16615,7 @@ force_active:
   - try_capture_target__13TUnk_80484A94Fv
   - try_enter_appear__15TObjEneDelDepthFv
   - try_enter_low_hp_state__13TObjEneMorfosFv
-  - try_enter_state_3__11TBoss4BishiFPv
+  - run_death_reaction__11TBoss4BishiFv
   - try_generate_rare_item__9TItemDropFiPvPv
   - try_hit_target__13TUnk_80491460FP10TObjPlayer
   - try_open__11TObjDoaEx01Fv
@@ -17103,7 +17103,7 @@ force_active:
   - update_or_dispatch__14TBoss7DeRolLeCFv
   - update_orbit_position__16TBoss3VoloptCoreFv
   - update_orbit_state__16TBoss3VoloptCoreFv
-  - update_orbit_velocity__10TBoss4ZakoFv
+  - update_orbit_velocity__9TBoss4UroFv
   - update_owned__12TItemProUnitFv
   - update_owned__14TItemProShieldFv
   - update_owned__8TItemMagFv
@@ -17247,7 +17247,7 @@ force_active:
   - update_stat_line__20TWindowSubStatusDispFPvi
   - update_stat_line_if_positive__20TWindowSubStatusDispFPvi
   - update_stat_messages__17TWindowSetLevelUpFv
-  - update_state3__10TBoss4ZakoFPv
+  - run_death_reaction__10TBoss4ZakoFv
   - update_state_3__13TBoss5GryphonFv
   - update_state__10TObjMapCsnFv
   - update_state__11TBoss6Type1Fv
@@ -17329,7 +17329,7 @@ force_active:
   - update_target_from_state__11TCameraCtrlFv
   - update_target_from_state__13TBoss5GryphonFv
   - update_target_info_window__11TWindowCtrlFv
-  - update_target_position__10TBoss4ZakoFv
+  - update_target_position__9TBoss4UroFv
   - update_target_smoothing__11TCameraCtrlFv
   - update_target_y__11TWindowMenuFv
   - update_technique_by_phase__11TTecGiBartaFv
@@ -17757,17 +17757,17 @@ force_active:
   - volopt_cage_combat_stats
   - volopt_p02_params
   - vsUpdateBuffer
-  - vt0__11TBoss4BishiFv
+  - update_rise_state__11TBoss4BishiFv
   - vt0__13TBoss6MagMineFv
   - vt1__11TBoss4BishiFv
   - vt1__13TBoss6MagMineFv
-  - vt2__11TBoss4BishiFv
+  - update_sink_state__11TBoss4BishiFv
   - vt2__13TBoss6MagMineFv
   - vt3__13TBoss6MagMineFv
   - vt4__13TBoss6MagMineFv
   - vt4__17TChCrTagPlGraphicFv
   - vt4__9TBoss4UroFv
-  - vt5__9TBoss4UroFv
+  - update_sink_state__9TBoss4UroFv
   - vt6__9TBoss4UroFv
   - wait_aram_request__16TAdWarningBaseGCFv
   - wait_for_message__12TQuestListVMFv

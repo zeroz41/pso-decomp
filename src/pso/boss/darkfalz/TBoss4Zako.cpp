@@ -1,557 +1,270 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/ParticleFactory.h"
+#include "types.h"
 #include "pso/boss/darkfalz/TBoss4Zako.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/TLobby.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/boss/darkfalz/TBoss4Uro.h"
+#include "pso/boss/darkfalz/TBoss4Bishi.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-
-
-#include "pso/system/task/TObject.h"
-#include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803D96A8.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/effect/particle/ParticleFactory.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/object/TObjControl.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma defer_codegen on
-#pragma push
-#pragma dont_inline off
-#pragma auto_inline off
-#pragma inline_depth(2)
-struct DamageRecipientTaskHeaderABI { u8 pad[0x18]; };
 
-struct DamageRecipientABI : DamageRecipientTaskHeaderABI {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload,
-        void *collider, s32 technique, s32 flags);
+CollisionBody TBoss4Zako_collision_body_parts[1] = {
+    { { 0.0f, 7.5f, 0.0f }, 5.0f, 0.0f, 0, 0x807A, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-
-#pragma pop
-extern "C" {
-
-#include "types.h"
-#include "pso/boss/darkfalz/TBoss4Type1.h"
-
-struct Obj_8005BB5C { u8 pad[0x38]; Vec pos; Vec prev; u8 pad50[0x37C - 0x50]; s32 f37c; };
-
-struct V2_8005BF68 { f32 x, z; };
-
-struct Ctl_8005BF68 { u8 pad[0x18]; u32 flags; };
-
-struct Obj_8005BF68 {
-    s32 f0;
-    u8 pad4[0x14];
-    void *vt;
-    u16 pad1c;
-    u16 f1c_unused;
-    u8 pad20[0x18];
-    Vec pos;
-    u8 pad44[0x374 - 0x44];
-    s32 f374;
-    u8 pad378[4];
-    s32 f37c;
-    u8 pad380[4];
-    Ctl_8005BF68 *ctl;
-    u8 pad388[4];
-    Vec vel;
-    f32 f398;
-    u8 pad39c[4];
-    f32 f3a0;
-};
-
-struct Obj_8005C218 {
-    u8 pad0[0x1C];
-    u16 f1c;
-    u8 pad1e[0x1A];
-    Vec pos;
-    u8 pad44[0x388 - 0x44];
-    s32 f388;
-    Vec vel;
-    f32 f398;
-    u8 pad39c[4];
-    f32 f3a0;
-    u8 pad3a4[0x3C4 - 0x3A4];
-    Vec home;
-};
-
-struct TBoss4Bishi {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 f5C;
-    s32 f60;
-    u8 pad64[0x2FC - 0x64];
-    u8 f2FC[0x374 - 0x2FC];
-    s32 f374;
-    void *f378;
-    u8 pad37C[0x3B4 - 0x37C];
-    void *f3B4;
-    s32 f3B8;
-    s32 f3BC;
-    s32 f3C0;
-
-    void vt0();
-    void vt1();
-    void vt2();
-};
-
-typedef void (TBoss4Bishi::*Act_8005BC4C)();
-
-void vec3_add_to(void *, void *);
-void vt6__9TBoss4UroFv(u8 *self);
-void vt2__11TBoss4BishiFv(u8 *object);
-void vt5__9TBoss4UroFv(u8 *object);
-
-
-void enter_state_3__11TBoss4BishiFPv(void* p);
-f32 vector_length(void *);
-void vt1__11TBoss4BishiFv(Obj_8005BB5C *self);
-
-s32 TBoss4Zako__ct(saddr, saddr, saddr);
-
-extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
-extern saddr __vt__11TBoss4Bishi[];
-extern const char *TBoss4Bishi__name;
-s32 TBoss4Bishi__ct(saddr arg0, s32 parent, s32 arg2);
-
-struct Obj_8005C6E4;
-void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
-
-
-void minimap_render_dot(void *, s32, s32, s32);
-struct VOff_8005C450_arg0_8005BABC { char pad_0[0x38]; char f_38[1]; };
-void vt0__11TBoss4BishiFv(u8 *self);
-void vt4__9TBoss4UroFv(void *actor);
-void *__dt_deleting__11TBoss4BishiFPvs(void *arg0, s16 arg1);
-s32 create__11TBoss4BishiFi(s32 arg0);
-void try_enter_state_3__11TBoss4BishiFPv(void* p);
-
-s32 __ct__11TObjControlFP7TObject(s32, s32);
-
-
-u32 TBoss4Zako_collision_body_parts[11] = {
- 0, 0x40f00000, 0, 0x40a00000, 0, 0, 0x807a, 0, 0, 0, 0,
-};
-
-struct StateHandlerPmfWords { s32 delta; s32 delta2; void *fn; };
-union StateHandlerPmfOverlay { StateHandlerPmfWords w; void (TBoss4Zako::*pmf)(); };
-
-void update_rise_state__10TBoss4ZakoFv(void *);
-void update_move_to_target_state__10TBoss4ZakoFv(void *);
-void update_surround_player_state__10TBoss4ZakoFv(void *);
-void update_sink_state__10TBoss4ZakoFv(void *);
-
-static StateHandlerPmfOverlay TBoss4Zako_rise_state_handler_pmf = { {0, -1, (void *)update_rise_state__10TBoss4ZakoFv} };
-static StateHandlerPmfOverlay TBoss4Zako_move_to_target_state_handler_pmf = { {0, -1, (void *)update_move_to_target_state__10TBoss4ZakoFv} };
-static StateHandlerPmfOverlay TBoss4Zako_surround_player_state_handler_pmf = { {0, -1, (void *)update_surround_player_state__10TBoss4ZakoFv} };
-static StateHandlerPmfOverlay TBoss4Zako_sink_state_handler_pmf = { {0, -1, (void *)update_sink_state__10TBoss4ZakoFv} };
-static StateHandlerPmfOverlay TBoss4Zako_state_handlers[5] = {
-    {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}},
-};
-static s8 TBoss4Zako_state_handlers_initialized;
-
-extern saddr tl_04;
-
-struct Obj_8005C6E4 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x378 - 0x44];
-    void *f378;
-};
-
-struct Ctl_8005C858 {
-    u8 pad0[0x18];
-    s32 flags;
-};
-
-struct Obj_8005C858 {
-    s32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    u8 pad1c[0x38 - 0x1c];
-    Vec pos;
-    u8 pad44[0x374 - 0x44];
-    s32 f374;
-    u8 pad378[0x384 - 0x378];
-    Ctl_8005C858 *f384;
-    s32 f388;
-    Vec dir;
-    f32 f398;
-    u8 pad39c[0x3c4 - 0x39c];
-    f32 f3c4;
-    f32 f3c8;
-    f32 f3cc;
-};
-
-extern saddr __vt__9TBoss4Uro[];
-extern const char *TBoss4Uro__name;
-s32 TBoss4Uro__ct(saddr a0, s32 a1, s32 a2);
-void TBoss4Uro__vt61(void* p);
-void *__dt__9TBoss4UroFv(void *arg0, s16 arg1);
-s32 create__9TBoss4UroFi(s32 arg0);
-
-struct TBoss4Uro {
-    static saddr get_instance_count();
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 f5C;
-    s32 f60;
-    u8 pad64[0x2FC - 0x64];
-    u8 f2FC[0x374 - 0x2FC];
-    s32 f374;
-    void *f378;
-    u8 pad37C[0x3B4 - 0x37C];
-    void *f3B4;
-    s32 f3B8;
-    s32 f3BC;
-    s32 f3C0;
-
-    void vt4();
-    void vt5();
-    void vt6();
-    s32 get_phase();
-};
-
-typedef void (TBoss4Uro::*Act_8005C49C)();
-
-void run_task__9TBoss4UroFv(TBoss4Uro *self);
-void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self);
-
-struct Pl_8005CBA4 { u8 pad0[0x38]; Vec pos; };
-
-
-void render__9TBoss4UroFv(void);
-
-#include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/ui/hud/TNowLoading.h"
-
-#include "pso/effect/particle/TParticleCtrl.h"
 
 #pragma readonly_strings on
 
-extern "C" {
 static const char TBoss4Zako__class_name_string[] = "TBoss4Zako";
 static const char TBoss4Uro__class_name_string[] = "TBoss4Uro";
 static const char TBoss4Bishi__class_name_string[] = "TBoss4Bishi";
 const char *TBoss4Zako__name = TBoss4Zako__class_name_string;
 const char *TBoss4Uro__name = TBoss4Uro__class_name_string;
 const char *TBoss4Bishi__name = TBoss4Bishi__class_name_string;
-}
-
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 static const f32 movement_speed_step = 0.033333335f;
 static const f32 one_third = 0.33333334f;
 
-struct O_8005D6B0 { u8 pad[0x374]; s32 f374; };
-
-
-f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
-
-s32 init_collision_body_parts(void *, void *, int);
-extern u32 TBoss4Zako_collision_body_parts[];
-extern saddr __vt__10TBoss4Zako[];
-extern const char *TBoss4Zako__name;
-s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2);
-
-s32 free_collision_body_parts(void *);
-
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-
-#define THIS self
-
-
-u8 *VecCopy__FP3VecPC3Vec(void *, void *);
-void TBoss4Uro__sub_8005D6D4(void *arg0);
-void fn_8005D6E4(void *arg0);
-void *__dt__10TBoss4ZakoFv(void *, s16);
-void subtract_vector(void *, void *);
-u16 find_nearest_visible_player(void *, s32, f32);
-#pragma push
-void fn_8005D6E4(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x388) = (s32) (*(s32 *)((s8 *)arg0 + 0x388) + 1);
+// Counts a spawned minion (sub_8004D990 returns m_388 - m_38c, the minions alive).
+void TBoss4DarkFalz::sub_8005D6E4() {
+    m_388 = m_388 + 1;
 }
-#pragma pop
-#pragma push
-void TBoss4Uro__sub_8005D6D4(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x38C) = (s32) (*(s32 *)((s8 *)arg0 + 0x38C) + 1);
+
+// Counts a minion that died or sank.
+void TBoss4DarkFalz::sub_8005D6D4() {
+    m_38c = m_38c + 1;
 }
-#pragma pop
-#pragma push
+
 s32 TBoss4Zako::sub_8005D6B0() {
-    O_8005D6B0 *self = (O_8005D6B0 *)this;
-    return self->f374 == 1 || self->f374 == 2;
+    return state == 1 || state == 2;
 }
-#pragma pop
-#pragma push
-s32 TBoss4Zako::sub_8005D698() {
-    return (u8) (*(s32 *)((s8 *)this + 0x374) != 3);
-}
-#pragma pop
-#pragma push
-s32 TBoss4Zako::create(saddr arg0) {
-    s32 var_r31;
-    s32 parent;
 
-    var_r31 = (saddr)TObject::operator new(0x3C4);
-    if (var_r31 != 0) {
-        parent = (saddr)TObject::operator new(0x20);
-        if (parent != 0) {
-            parent = __ct__11TObjControlFP7TObject(parent, tl_04);
-        }
-        var_r31 = TBoss4Zako__ct(var_r31, parent, arg0);
-    }
-    return var_r31;
+s32 TBoss4Zako::sub_8005D698() {
+    return (u8)(state != 3);
 }
-#pragma pop
+
+TBoss4Zako *TBoss4Zako::create(TBoss4ZakoSetData *set_data) {
+    return new TBoss4Zako(new TObjControl(tl_04), set_data);
+}
+
 #pragma push
 #pragma fp_contract on
-s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2) {
-    u8 *self;
-    self = (u8 *)arg0;
-    __ct__9TObjEnemyFP7TObject((TObjEnemy *)arg0, (void*)parent);
-    *(saddr **)((s8 *)THIS + 0x18) = __vt__10TBoss4Zako;
-    *(s32 *)((s8 *)THIS + 0) = ((saddr)TBoss4Zako__name);
-    ((TObjChara *)THIS)->add_flags_2e4(8);
-    *(s32 *)((s8 *)THIS + 0x378) = ((s32 *)arg2)[0];
-    fn_8005D6E4((u8 *)*(saddr *)((s8 *)THIS + 0x378));
-    ((TBoss3Volopt *)THIS)->apply_set_data((s32 *)arg2 + 1);
-    ((TBoss3Volopt *)THIS)->clear_lobby_object_state();
-    reinterpret_cast<TBoss4Zako *>(THIS)->archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
-    *(s32 *)((s8 *)THIS + 0x24) = 0;
-    *(s32 *)((s8 *)THIS + 0x34) = 0;
-    VecCopy__FP3VecPC3Vec(THIS + 0x44, VecCopy__FP3VecPC3Vec(THIS + 0x50, VecCopy__FP3VecPC3Vec(THIS + 0x74, THIS + 0x38)));
-    *(s32 *)((s8 *)THIS + 0x384) = init_collision_body_parts(THIS, TBoss4Zako_collision_body_parts, 1);
-    VecCopy__FP3VecPC3Vec(THIS + 0x2FC, THIS + 0x38);
-    *(f32 *)((s8 *)THIS + 0x310) = 0.0f;
-    *(f32 *)((s8 *)THIS + 0x30C) = 0.0f;
-    *(f32 *)((s8 *)THIS + 0x308) = 0.0f;
-    *(s32 *)((s8 *)THIS + 0x2A8) = 0;
-    ((TObjEnemy *)THIS)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x35)), (u8 *)(TLobby::dispatch_shared_handler_b(0x35)), (u8 *)(TLobby::register_object(0x35)));
-    *(s16 *)((s8 *)THIS + 0x33E) = *(s16 *)((s8 *)THIS + 0x32C);
-    ((TBoss3Volopt *)THIS)->reset_photon_effect();
-    ((TObjEnemy *)THIS)->set_param(0);
-    *(s32 *)((s8 *)THIS + 0x388) = 0;
-    if ((*(u32 *)((s8 *)THIS + 0x3B4) = (uaddr)create_particle_emitter(THIS + 0x38, 0x103)) != 0) {
-        ((TParticleCtrl *)(*(uaddr *)((s8 *)THIS + 0x3B4)))->set_flags(0x40);
+TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy(parent) {
+    m_name = TBoss4Zako__name;
+    add_flags_2e4(8);
+    owner = set_data->owner;
+    owner->sub_8005D6E4();
+    apply_set_data(&set_data->set_index);
+    clear_lobby_object_state();
+    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    texlist = 0;
+    model = 0;
+    VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
+    collision = init_collision_body_parts(this, TBoss4Zako_collision_body_parts, 1);
+    VecCopy(&body_center, &position);
+    m_310 = 0.0f;
+    y_speed = 0.0f;
+    x_speed = 0.0f;
+    target = 0;
+    bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x35), (u8 *)TLobby::dispatch_shared_handler_b(0x35), (u8 *)TLobby::register_object(0x35));
+    referenceHp = hp;
+    ((TBoss3Volopt *)this)->reset_photon_effect();
+    set_param(0);
+    target_id = 0;
+    if ((emitter = create_particle_emitter(&position, 0x103)) != 0) {
+        emitter->set_flags(0x40);
     }
-    *(f32 *)((s8 *)THIS + 0x398) = 0.0f;
-    *(f32 *)((s8 *)THIS + 0x394) = 0.0f;
-    *(f32 *)((s8 *)THIS + 0x390) = 0.0f;
-    *(f32 *)((s8 *)THIS + 0x38C) = 0.0f;
-    *(s32 *)((s8 *)THIS + 0x3A4) = 10.0f * (*(u16 *)((s8 *)THIS + 0x1C) & 3);
-    *(s32 *)((s8 *)THIS + 0x5C) = 0;
-    *(s32 *)((s8 *)THIS + 0x60) = *(u16 *)((s8 *)THIS + 0x1C) << 14;
-    *(s32 *)((s8 *)THIS + 0x3B8) = 0;
-    *(s32 *)((s8 *)THIS + 0x3A8) = 0;
-    *(s32 *)((s8 *)THIS + 0x3AC) = (*(u16 *)((s8 *)THIS + 0x1C) % 6 + 1) * 450;
-    *(f32 *)((s8 *)THIS + 0x3B0) = 0.0f;
-    *(s32 *)((s8 *)THIS + 0x3BC) = 65536.0f * ((TObjChara *)THIS)->random_ratio();
-    *(s32 *)((s8 *)THIS + 0x3C0) = 2184.0f * ((TObjChara *)THIS)->random_ratio() + 1092.0f;
-    *(f32 *)((s8 *)THIS + 0x39C) = *(f32 *)TLobby::dispatch_shared_handler_a(0x35);
-    if (*(f32 *)((s8 *)THIS + 0x39C) <= one_third || *(f32 *)((s8 *)THIS + 0x39C) > 5.833333f) {
-        *(f32 *)((s8 *)THIS + 0x39C) = 0.5833333f;
+    speed = 0.0f;
+    velocity.z = 0.0f;
+    velocity.y = 0.0f;
+    velocity.x = 0.0f;
+    state_timer = 10.0f * (entity_id & 3);
+    rotation_x = 0;
+    rotation_y = entity_id << 14;
+    frame_count = 0;
+    surfaced = 0;
+    surface_timer = (entity_id % 6 + 1) * 450;
+    spin_ratio = 0.0f;
+    bob_angle = 65536.0f * random_ratio();
+    bob_angle_step = 2184.0f * random_ratio() + 1092.0f;
+    max_speed = *(f32 *)TLobby::dispatch_shared_handler_a(0x35);
+    if (max_speed <= one_third || max_speed > 5.833333f) {
+        max_speed = 0.5833333f;
     }
-    *(f32 *)((s8 *)THIS + 0x3A0) = *(f32 *)TLobby::dispatch_shared_handler_a(0x39);
-    if (*(f32 *)((s8 *)THIS + 0x3A0) <= one_third || *(f32 *)((s8 *)THIS + 0x3A0) > 10.208332f) {
-        *(f32 *)((s8 *)THIS + 0x3A0) = 1.0208333f;
+    max_speed_alt = *(f32 *)TLobby::dispatch_shared_handler_a(0x39);
+    if (max_speed_alt <= one_third || max_speed_alt > 10.208332f) {
+        max_speed_alt = 1.0208333f;
     }
-    *(s32 *)((s8 *)THIS + 0x374) = 0;
-    return arg0;
+    state = 0;
 }
 #pragma pop
-#pragma push
-void *__dt__10TBoss4ZakoFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(saddr **)((s8 *)arg0 + 0x18) = __vt__10TBoss4Zako;
-        free_collision_body_parts(arg0);
-        *(s32 *)((s8 *)arg0 + 0x384) = 0;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x3B4) != 0U) {
-            TParticleCtrl::release(*(void **)((s8 *)arg0 + 0x3B4));
-            *(u32 *)((s8 *)arg0 + 0x3B4) = 0U;
-        }
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
+
+TBoss4Zako::~TBoss4Zako() {
+    free_collision_body_parts(this);
+    collision = 0;
+    if (emitter != 0) {
+        TParticleCtrl::release(emitter);
+        emitter = 0;
     }
-    return arg0;
 }
-#pragma pop
-#pragma push
-void TBoss4Zako::update_state3(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TBoss4Zako *)p)->set_state3(); } }
-#pragma pop
+
+void TBoss4Zako::run_death_reaction() {
+    if (state != 3) {
+        set_state3();
+    }
 }
 
 #pragma push
 #pragma fp_contract on
 void TBoss4Zako::run_task() {
-    TBoss4Zako *self = this;
     void (TBoss4Zako::*fn)();
 
-    if (((TBoss4Zako *)self)->sub_8005D698() != 0 && ((TBoss4Uro *)self->m_378)->get_phase() != 4) {
-        ((TBoss4Zako *)self)->set_state3();
+    if (sub_8005D698() != 0 && owner->get_phase() != 4) {
+        set_state3();
     }
-    if (((TBoss4Zako *)self)->sub_8005D6B0() != 0) {
-        self->m_3ac--;
-        if (self->m_3ac < 0) {
-            self->m_3a8 = 0;
-            self->m_3ac = 2700;
-        } else if (self->m_3ac < 450) {
-            self->m_3a8 = 1;
+    if (sub_8005D6B0() != 0) {
+        surface_timer--;
+        if (surface_timer < 0) {
+            surfaced = 0;
+            surface_timer = 2700;
+        } else if (surface_timer < 450) {
+            surfaced = 1;
         }
     }
-    if (!TBoss4Zako_state_handlers_initialized) {
-        TBoss4Zako_state_handlers[0].pmf = TBoss4Zako_rise_state_handler_pmf.pmf;
-        TBoss4Zako_state_handlers[1].pmf = TBoss4Zako_move_to_target_state_handler_pmf.pmf;
-        TBoss4Zako_state_handlers[2].pmf = TBoss4Zako_surround_player_state_handler_pmf.pmf;
-        TBoss4Zako_state_handlers[3].pmf = TBoss4Zako_sink_state_handler_pmf.pmf;
-        TBoss4Zako_state_handlers_initialized = 1;
-    }
-    fn = TBoss4Zako_state_handlers[self->m_374].pmf;
+    static void (TBoss4Zako::*state_handlers[5])() = {
+        &TBoss4Zako::update_rise_state,
+        &TBoss4Zako::update_move_to_target_state,
+        &TBoss4Zako::update_surround_player_state,
+        &TBoss4Zako::update_sink_state,
+    };
+    fn = state_handlers[state];
     if (fn) {
-        (self->*fn)();
-        if (self->m_374 == 1 || self->m_374 == 2) {
-            self->m_38.y = 0.099999994f * sin_table_lookup(self->m_3bc) + self->m_38.y;
-            self->m_3bc += self->m_3c0;
+        (this->*fn)();
+        if (state == 1 || state == 2) {
+            position.y = 0.099999994f * sin_table_lookup(bob_angle) + position.y;
+            bob_angle += bob_angle_step;
         }
-        if (self->m_3b4 != NULL) {
-            TBoss4ZakoVec3 p = self->m_38;
-            if (self->m_3a8 != 0) {
+        if (emitter != NULL) {
+            Vec p = position;
+            if (surfaced != 0) {
                 p.y += 10.0f;
             } else {
                 p.y += -250.0f;
             }
-            ((TParticleCtrl *)self->m_3b4)->set_position(&p);
+            emitter->set_position(&p);
         }
-        self->m_3b0 = 0.0f;
-        if (self->m_3a8 != 0) {
-            if (self->m_3ac < 30) {
-                self->m_3b0 = (f32)self->m_3ac / 30.0f;
+        spin_ratio = 0.0f;
+        if (surfaced != 0) {
+            if (surface_timer < 30) {
+                spin_ratio = (f32)surface_timer / 30.0f;
             } else {
-                self->m_3b0 = 1.0f;
+                spin_ratio = 1.0f;
             }
-        } else if (self->m_3ac < 480) {
-            self->m_3b0 = (f32)(480 - self->m_3ac) / 30.0f;
+        } else if (surface_timer < 480) {
+            spin_ratio = (f32)(480 - surface_timer) / 30.0f;
         }
-        if (((TBoss4Zako *)self)->sub_8005D6B0() != 0 && self->m_3b0 > 0.0f) {
-            self->m_60 = 4369.0f * self->m_3b0 + self->m_60;
+        if (sub_8005D6B0() != 0 && spin_ratio > 0.0f) {
+            rotation_y = 4369.0f * spin_ratio + rotation_y;
         }
-        ((TBoss4Zako *)self)->apply_contact_damage();
-        ((TObjEnemy *)self)->update_prev_position();
-        TBoss4Zako::queue_entry(&self->m_38, self->m_5c, self->m_60);
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
-            if (self->m_3a8 != 0) {
-                self->m_384->flags |= 1;
-                ((TObjPlayer *)self)->update_collisions();
-                submit_cursor_candidate(self, -1);
-                minimap_render_dot(self->m_2fc, -0x5DB4, 1, 0);
+        apply_contact_damage();
+        update_prev_position();
+        queue_entry(&position, rotation_x, rotation_y);
+        if (sub_8005D698() != 0) {
+            if (surfaced != 0) {
+                collision->flags |= 1;
+                ((TObjPlayer *)this)->update_collisions();
+                submit_cursor_candidate(this, -1);
+                minimap_render_dot(&body_center, -0x5DB4, 1, 0);
             } else {
-                self->m_384->flags &= ~1;
-                add_radar_scaled_marker((Vec *)self->m_2fc, 0xFF7F5126, 1, 1, 1.0f);
+                collision->flags &= ~1;
+                add_radar_scaled_marker(&body_center, 0xFF7F5126, 1, 1, 1.0f);
             }
         }
-        self->m_3b8++;
+        frame_count++;
     }
 }
 #pragma pop
 
+void TBoss4Zako::render() {}
 
-#pragma push
-void render__9TBoss4UroFv(void) {  }
-#pragma pop
-
-#pragma push
 void TBoss4Zako::update_rise_state() {
-    VecCopy__FP3VecPC3Vec(&m_44, &m_38);
-    if (m_38.y < 6.0f) {
-        if ((m_38.y += one_third) > 6.0f) {
-            m_38.y = 6.0f;
-            m_374 = 1;
+    VecCopy(&prev_position, &position);
+    if (position.y < 6.0f) {
+        if ((position.y += one_third) > 6.0f) {
+            position.y = 6.0f;
+            state = 1;
         }
     }
 }
-#pragma pop
 
 #pragma push
 #pragma opt_common_subs off
 void TBoss4Zako::update_move_to_target_state() {
-    TBoss4Zako *o = this;
-    TBoss4ZakoVec3 d;
-    f32 max_speed;
+    Vec d;
+    f32 limit;
     f32 dist;
     s32 id;
-    f32 t;
-    VecCopy__FP3VecPC3Vec(&d, &o->m_50);
-    subtract_vector(&d, &o->m_38);
+    VecCopy(&d, &home_position);
+    subtract_vector(&d, &position);
     d.y = 0.0f;
     dist = vector_length(&d);
-    if (dist < 1.0f && o->m_398 < 1.0f) {
-        o->m_38.x = o->m_50.x;
-        o->m_38.z = o->m_50.z;
-        o->m_398 = 0.0f;
-        o->m_38c.z = 0.0f;
-        o->m_38c.x = 0.0f;
-        if (--o->m_3a4 < 0) {
-            id = find_nearest_visible_player(o, 0, 150.0f);
-            o->m_388 = id;
+    if (dist < 1.0f && speed < 1.0f) {
+        position.x = home_position.x;
+        position.z = home_position.z;
+        speed = 0.0f;
+        velocity.z = 0.0f;
+        velocity.x = 0.0f;
+        if (--state_timer < 0) {
+            id = find_nearest_visible_player(this, 0, 150.0f);
+            target_id = id;
             if (id == 0xFFFF) {
-                o->m_3a4 = 0x3C;
+                state_timer = 0x3C;
                 return;
             }
-            o->m_3a4 = 0xB4;
-            o->m_374 = 2;
+            state_timer = 0xB4;
+            state = 2;
         }
         return;
     }
     if (dist < 25.0f) {
-        if ((o->m_398 -= movement_speed_step) < one_third) {
-            o->m_398 = one_third;
+        if ((speed -= movement_speed_step) < one_third) {
+            speed = one_third;
         }
     } else {
-        if ((o->m_398 += movement_speed_step) > (max_speed = o->m_39c)) {
-            o->m_398 = max_speed;
+        if ((speed += movement_speed_step) > (limit = max_speed)) {
+            speed = limit;
         }
     }
-    VecCopy__FP3VecPC3Vec(&o->m_38c, &d);
+    VecCopy(&velocity, &d);
     if (0.0f != dist) {
-        normalize_vector(&o->m_38c);
+        normalize_vector(&velocity);
     }
-    o->m_38c.x *= o->m_398;
-    o->m_38c.z *= o->m_398;
-    vec3_add_to(&o->m_38, &o->m_38c);
+    velocity.x *= speed;
+    velocity.z *= speed;
+    vec3_add_to(&position, &velocity);
 }
 #pragma pop
 
@@ -559,175 +272,147 @@ void TBoss4Zako::update_move_to_target_state() {
 #pragma fp_contract on
 #pragma opt_common_subs off
 void TBoss4Zako::update_surround_player_state() {
-#define o this
-    Pl_8005CBA4 *pl;
+    TObjPlayer *pl;
     s32 ang;
-    pl = (Pl_8005CBA4 *)get_player_by_client_id(o->m_388);
+    pl = get_player_by_client_id(target_id);
     if (pl == NULL) {
-        o->m_3a4 = 0x3C;
-        o->m_374 = 1;
+        state_timer = 0x3C;
+        state = 1;
         return;
     }
-    TBoss4ZakoVec3 t = *(TBoss4ZakoVec3 *)&pl->pos;
-    ang = o->m_1c << 0xD;
+    Vec t = pl->position;
+    ang = entity_id << 0xD;
     t.x = 8.0f * sin_table_lookup(ang) + t.x;
     t.z = 8.0f * cos_table_lookup(ang) + t.z;
-    if (o->m_38.x < t.x) {
-        o->m_38c.x += 0.029166667f;
+    if (position.x < t.x) {
+        velocity.x += 0.029166667f;
     } else {
-        o->m_38c.x -= 0.029166667f;
+        velocity.x -= 0.029166667f;
     }
-    if (o->m_38.z < t.z) {
-        o->m_38c.z += 0.029166667f;
+    if (position.z < t.z) {
+        velocity.z += 0.029166667f;
     } else {
-        o->m_38c.z -= 0.029166667f;
+        velocity.z -= 0.029166667f;
     }
-    o->m_398 = vector_length(&o->m_38c);
-    if (o->m_398 > o->m_39c) {
-        normalize_vector(&o->m_38c);
-        o->m_38c.x *= o->m_39c;
-        o->m_38c.z *= o->m_39c;
-        o->m_398 = o->m_39c;
+    speed = vector_length(&velocity);
+    if (speed > max_speed) {
+        normalize_vector(&velocity);
+        velocity.x *= max_speed;
+        velocity.z *= max_speed;
+        speed = max_speed;
     }
-    vec3_add_to(&o->m_38, &o->m_38c);
-    if (--o->m_3a4 < 0) {
-        o->m_3a4 = 0x3C;
-        o->m_374 = 1;
+    vec3_add_to(&position, &velocity);
+    if (--state_timer < 0) {
+        state_timer = 0x3C;
+        state = 1;
     }
-#undef o
 }
 #pragma pop
 
-#pragma push
 void TBoss4Zako::update_sink_state() {
-    f32 temp_f1;
-    m_38.y += -0.33333334f;
-    temp_f1 = m_38.y;
-    if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((const Vec *)&m_38, 0xF3);
+    f32 y;
+    position.y += -0.33333334f;
+    y = position.y;
+    if ((y < 0.0f) && (y >= -0.33333334f)) {
+        spawn_particle_effect(&position, 0xF3);
     }
-    m_5c = (m_5c + 0x111);
-    if (m_38.y < -13.0f) {
-        ((TObject *)this)->queue_destruction();
+    rotation_x = (rotation_x + 0x111);
+    if (position.y < -13.0f) {
+        queue_destruction();
     }
 }
-#pragma pop
 
-
-#pragma push
 void TBoss4Zako::set_state3() {
-    TBoss4Uro__sub_8005D6D4(this->m_378);
-    *(s32 *)((s8 *)this + 0x3A8) = 0;
-    this->m_374 = 3;
+    owner->sub_8005D6D4();
+    surfaced = 0;
+    state = 3;
 }
-#pragma pop
 
 #pragma push
 #pragma dont_inline off
 #pragma auto_inline off
 #pragma inline_depth(2)
 void TBoss4Zako::apply_contact_damage() {
-    TBoss4Zako *arg0 = this;
     DirectAttackPayload hit;
     s32 lim;
     s32 n;
     s32 id;
-    DamageRecipientABI *p;
+    TObjPlayer *p;
 
-    if (arg0->m_398 <= 0.5f) {
+    if (speed <= 0.5f) {
         lim = 16;
     } else {
-        lim = (s32)(8.0f / arg0->m_398);
+        lim = (s32)(8.0f / speed);
     }
     for (n = 1; n < lim; n *= 2) {
     }
-    if (((n - 1) & arg0->m_3b8) != 0 || ((TBoss4Zako *)arg0)->sub_8005D6B0() == 0) {
+    if (((n - 1) & frame_count) != 0 || sub_8005D6B0() == 0) {
         return;
     }
-    id = find_nearest_visible_player(arg0, 0, 8.0f);
-    if (id == 0xFFFF || (p = (DamageRecipientABI *)get_player_by_client_id(id)) == 0) {
+    id = find_nearest_visible_player(this, 0, 8.0f);
+    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == 0) {
         return;
     }
     hit.kind = 0;
-    hit.power = arg0->m_2c8;
-    p->receive_direct_attack(arg0, hit, 0, -1, -1);
+    hit.power = m_2c8;
+    p->receive_direct_attack(this, hit, 0, -1, -1);
 }
 #pragma pop
 
-extern "C" {
-#pragma push
-s32 create__9TBoss4UroFi(s32 arg0) {
-    s32 var_r31;
-    s32 var_r4;
+TBoss4Uro *TBoss4Uro::create(TBoss4ZakoSetData *set_data) {
+    return new TBoss4Uro(new TObjControl(tl_04), set_data);
+}
 
-    var_r31 = (saddr)TObject::operator new(0x3D0);
-    if (var_r31 != 0) {
-        var_r4 = (saddr)TObject::operator new(0x20);
-        if (var_r4 != 0) {
-            var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
-        }
-        var_r31 = TBoss4Uro__ct(var_r31, var_r4, arg0);
-    }
-    return var_r31;
-}
-#pragma pop
 #pragma push
 #pragma fp_contract on
-s32 TBoss4Uro__ct(saddr a0, s32 a1, s32 a2) {
-    Obj_8005C858 *o = (Obj_8005C858 *)a0;
-    TBoss4Zako__ct(a0, a1, a2);
-    o->vt = __vt__9TBoss4Uro;
-    o->f0 = ((saddr)TBoss4Uro__name);
-    o->dir.x = -o->pos.x;
-    o->dir.y = 0.0f;
-    o->dir.z = -o->pos.z;
-    if (vector_length(&o->dir) < 0.01f) {
-        o->dir.x = 1.0f;
-        o->dir.z = 0.0f;
+TBoss4Uro::TBoss4Uro(TObject *parent, TBoss4ZakoSetData *set_data) : TBoss4Zako(parent, set_data) {
+    m_name = TBoss4Uro__name;
+    velocity.x = -position.x;
+    velocity.y = 0.0f;
+    velocity.z = -position.z;
+    if (vector_length(&velocity) < 0.01f) {
+        velocity.x = 1.0f;
+        velocity.z = 0.0f;
     }
-    normalize_vector(&o->dir);
-    o->f398 = 0.41666666f * ((TObjChara *)o)->random_ratio() + 1.6666666f;
-    o->dir.x = o->dir.x * o->f398;
-    o->dir.z = o->dir.z * o->f398;
-    o->f388 = 0xFFFF;
-    o->f3c4 = 0.0f;
-    o->f3c8 = 0.0f;
-    o->f3cc = 0.0f;
-    o->f374 = 4;
-    o->f384->flags |= 1;
-    return a0;
+    normalize_vector(&velocity);
+    speed = 0.41666666f * random_ratio() + 1.6666666f;
+    velocity.x = velocity.x * speed;
+    velocity.z = velocity.z * speed;
+    target_id = 0xFFFF;
+    orbit_center.x = 0.0f;
+    orbit_center.y = 0.0f;
+    orbit_center.z = 0.0f;
+    state = 4;
+    collision->flags |= 1;
 }
 #pragma pop
-#pragma push
-void *__dt__9TBoss4UroFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(saddr **)((s8 *)arg0 + 0x18) = __vt__9TBoss4Uro;
-        __dt__10TBoss4ZakoFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
+
+TBoss4Uro::~TBoss4Uro() {}
+
+void TBoss4Uro::run_death_reaction() {
+    if (state != 3) {
+        distribute_experience();
+        owner->sub_8005D6D4();
+        state = 3;
     }
-    return arg0;
 }
-#pragma pop
-#pragma push
-void TBoss4Uro__vt61(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TObjEnemy *)p)->distribute_experience(); TBoss4Uro__sub_8005D6D4(*(void**)((char*)p + 0x378)); *(int*)((char*)p + 0x374) = 3; } }
-#pragma pop
+
 #pragma push
 #pragma fp_contract on
-void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
+// Keeps it at least 100 units from Dark Falz on the xz plane.
+void TBoss4Uro::clamp_min_player_distance() {
     Vec target;
     Vec d;
     f32 len;
-    if (arg0->f378 == 0) {
+    if (owner == 0) {
         return;
     }
     TBoss4Type1 *falz = TBoss4DarkFalz::get_instance();
     if (falz == NULL) {
         return;
     }
-    VecCopy__FP3VecPC3Vec(&target, reinterpret_cast<TObjPlayer *>(falz)->get_position_ptr());
-    VecCopy__FP3VecPC3Vec(&d, &arg0->pos);
+    VecCopy(&target, (Vec *)reinterpret_cast<TObjPlayer *>(falz)->get_position_ptr());
+    VecCopy(&d, &position);
     subtract_vector(&d, &target);
     d.y = 0.0f;
     len = vector_length(&d);
@@ -740,680 +425,295 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
         d.x = 1.0f;
         d.z = 0.0f;
     }
-    arg0->pos.x = 100.0f * d.x + target.x;
-    arg0->pos.z = 100.0f * d.z + target.z;
+    position.x = 100.0f * d.x + target.x;
+    position.z = 100.0f * d.z + target.z;
 }
 #pragma pop
-union UroStateHandlerPmf { StateHandlerPmfWords w; void (TBoss4Uro::*pmf)(); };
-
-static UroStateHandlerPmf TBoss4Uro_state2_handler_pmf = { {0, -1, (void *)vt4__9TBoss4UroFv} };
-static UroStateHandlerPmf TBoss4Uro_state3_handler_pmf = { {0, -1, (void *)vt5__9TBoss4UroFv} };
-static UroStateHandlerPmf TBoss4Uro_state4_handler_pmf = { {0, -1, (void *)vt6__9TBoss4UroFv} };
-static UroStateHandlerPmf TBoss4Uro_state_handlers[5] = {
-    {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}},
-};
-static s8 lbl_805D4D89;
 
 #pragma push
 #pragma fp_contract on
-void run_task__9TBoss4UroFv(TBoss4Uro *self) {
-    if (self->f374 != 3 && ((TBoss4Uro *)self->f378)->get_phase() != 6) {
-        TBoss4Uro__sub_8005D6D4(self->f378);
-        self->f374 = 3;
+void TBoss4Uro::run_task() {
+    if (state != 3 && owner->get_phase() != 6) {
+        owner->sub_8005D6D4();
+        state = 3;
         return;
     }
-    if (!lbl_805D4D89) {
-        TBoss4Uro_state_handlers[0].pmf = 0;
-        TBoss4Uro_state_handlers[1].pmf = 0;
-        TBoss4Uro_state_handlers[2].pmf = TBoss4Uro_state2_handler_pmf.pmf;
-        TBoss4Uro_state_handlers[3].pmf = TBoss4Uro_state3_handler_pmf.pmf;
-        TBoss4Uro_state_handlers[4].pmf = TBoss4Uro_state4_handler_pmf.pmf;
-        lbl_805D4D89 = 1;
-    }
-    Act_8005C49C a = TBoss4Uro_state_handlers[self->f374].pmf;
-    if (a) {
-        (self->*a)();
-        if (self->f374 == 2) {
-            self->pos.y = 0.099999994f * sin_table_lookup(self->f3BC) + self->pos.y;
-            self->f3BC += self->f3C0;
+    static void (TBoss4Uro::*state_handlers[5])() = {
+        0,
+        0,
+        &TBoss4Uro::vt4,
+        &TBoss4Uro::update_sink_state,
+        &TBoss4Uro::vt6,
+    };
+    void (TBoss4Uro::*fn)() = state_handlers[state];
+    if (fn) {
+        (this->*fn)();
+        if (state == 2) {
+            position.y = 0.099999994f * sin_table_lookup(bob_angle) + position.y;
+            bob_angle += bob_angle_step;
         }
-        Vec v = self->pos;
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
+        Vec v = position;
+        if (sub_8005D698() != 0) {
             v.y += 10.0f;
         } else {
             v.y += -250.0f;
         }
-        ((TParticleCtrl *)self->f3B4)->set_position(&v);
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
-            self->f60 += 0x1111;
+        emitter->set_position(&v);
+        if (sub_8005D698() != 0) {
+            rotation_y += 0x1111;
         }
-        TBoss4Zako::queue_entry(&self->pos, self->f5C, self->f60);
-        ((TBoss4Zako *)self)->apply_contact_damage();
-        ((TObjEnemy *)self)->update_prev_position();
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
-            ((TObjPlayer *)self)->update_collisions();
-            submit_cursor_candidate(self, -1);
-            minimap_render_dot(self->f2FC, -0x5DB4, 1, 0);
+        queue_entry(&position, rotation_x, rotation_y);
+        apply_contact_damage();
+        update_prev_position();
+        if (sub_8005D698() != 0) {
+            ((TObjPlayer *)this)->update_collisions();
+            submit_cursor_candidate(this, -1);
+            minimap_render_dot(&body_center, -0x5DB4, 1, 0);
         }
-        self->f3B8++;
+        frame_count++;
     }
 }
 #pragma pop
-V2_8005BF68 TBoss4Bishi_spawn_offsets[4] = {
+
+struct TBoss4BishiSpawnOffset {
+    f32 x;
+    f32 z;
+};
+
+// Where around its target player each TBoss4Bishi aims (entity_id & 3).
+TBoss4BishiSpawnOffset TBoss4Bishi_spawn_offsets[4] = {
     { -4.0f, -4.0f }, { 4.0f, -4.0f }, { -4.0f, 4.0f }, { 4.0f, 4.0f },
 };
-#pragma push
-void vt4__9TBoss4UroFv(void *actor) {
-    struct VOff_8005C450_arg0_8005BABC *self = (struct VOff_8005C450_arg0_8005BABC *)actor;
-    ((TBoss4Zako *)actor)->update_target_position();
-    ((TBoss4Zako *)actor)->update_orbit_velocity();
-    VecCopy__FP3VecPC3Vec((void *)((void *)((char *)actor + 68)), self->f_38);
-    vec3_add_to(self->f_38, (void *)((char *)actor + 908));
+
+void TBoss4Uro::vt4() {
+    update_target_position();
+    update_orbit_velocity();
+    VecCopy(&prev_position, &position);
+    vec3_add_to(&position, &velocity);
 }
-#pragma pop
+
 #pragma push
 #pragma fp_contract on
-void TBoss4Zako::update_target_position() {
-    s32 temp_r31;
+void TBoss4Uro::update_target_position() {
+    s32 angle;
     TBoss4Type1 *instance;
-    u8 *actor = (u8 *)this;
-    if (!(*(s32 *)((s8 *)actor + 0x3B8) & 0x7F)) {
-        if (*(s32 *)((s8 *)actor + 0x388) == 0xFFFF) {
-            *(u32 *)((s8 *)actor + 0x388) = (u32) find_nearest_visible_player(actor, 0, 287.5f);
+    if (!(frame_count & 0x7F)) {
+        if (target_id == 0xFFFF) {
+            target_id = find_nearest_visible_player(this, 0, 287.5f);
             return;
         }
-        *(u32 *)((s8 *)actor + 0x388) = 0xFFFFU;
-        if ((u32) *(u32 *)((s8 *)actor + 0x378) != 0U) {
+        target_id = 0xFFFF;
+        if (owner != 0) {
             instance = TBoss4DarkFalz::get_instance();
             if (instance != NULL) {
-                temp_r31 = (s32) (65536.0f * ((TObjChara *)actor)->random_ratio());
-                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)instance)->get_position_ptr()));
-                *(f32 *)((s8 *)actor + 0x3C8) = 0.0f;
-                *(f32 *)((s8 *)actor + 0x3C4) = (f32) ((110.0f * sin_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3C4));
-                *(f32 *)((s8 *)actor + 0x3CC) = (f32) ((110.0f * cos_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3CC));
+                angle = 65536.0f * random_ratio();
+                VecCopy(&orbit_center, (Vec *)reinterpret_cast<TObjPlayer *>(instance)->get_position_ptr());
+                orbit_center.y = 0.0f;
+                orbit_center.x = 110.0f * sin_table_lookup(angle) + orbit_center.x;
+                orbit_center.z = 110.0f * cos_table_lookup(angle) + orbit_center.z;
             }
         }
     }
 }
 #pragma pop
+
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TBoss4Zako::update_orbit_velocity() {
-#define o ((Obj_8005C218 *)this)
+void TBoss4Uro::update_orbit_velocity() {
     f32 tx;
     f32 tz;
     s32 ang;
-    saddr pl;
-    if (o->f388 != 0xFFFF) {
-        pl = (saddr)get_player_by_client_id(o->f388);
+    TObjPlayer *pl;
+    if (target_id != 0xFFFF) {
+        pl = get_player_by_client_id(target_id);
         if (pl != 0) {
-            VecCopy__FP3VecPC3Vec(&o->home, (void *)(pl + 0x38));
+            VecCopy(&orbit_center, &pl->position);
         }
     }
-    ang = o->f1c << 0xD;
-    tx = 16.0f * sin_table_lookup(ang) + o->home.x;
-    tz = 16.0f * cos_table_lookup(ang) + o->home.z;
-    o->vel.y = 0.0f;
-    if (o->pos.x < tx) {
-        o->vel.x += 0.051041663f;
+    ang = entity_id << 0xD;
+    tx = 16.0f * sin_table_lookup(ang) + orbit_center.x;
+    tz = 16.0f * cos_table_lookup(ang) + orbit_center.z;
+    velocity.y = 0.0f;
+    if (position.x < tx) {
+        velocity.x += 0.051041663f;
     } else {
-        o->vel.x -= 0.051041663f;
+        velocity.x -= 0.051041663f;
     }
-    if (o->pos.z < tz) {
-        o->vel.z += 0.051041663f;
+    if (position.z < tz) {
+        velocity.z += 0.051041663f;
     } else {
-        o->vel.z -= 0.051041663f;
+        velocity.z -= 0.051041663f;
     }
-    clamp_min_player_distance__9TBoss4UroFPv((Obj_8005C6E4 *)o);
-    o->f398 = vector_length(&o->vel);
-    if (o->f398 > o->f3a0) {
-        o->f398 += -0.051041663f;
-        normalize_vector(&o->vel);
-        o->vel.x *= o->f398;
-        o->vel.z *= o->f398;
-    }
-#undef o
-}
-#pragma pop
-#pragma push
-void vt5__9TBoss4UroFv(u8 *object) {
-    f32 temp_f1;
-    *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
-    temp_f1 = *(f32 *)((s8 *)object + 0x3C);
-    if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((const Vec *)(object + 0x38), 0xF3);
-    }
-    *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
-    if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
-        ((TObject *)object)->queue_destruction();
+    clamp_min_player_distance();
+    speed = vector_length(&velocity);
+    if (speed > max_speed_alt) {
+        speed += -0.051041663f;
+        normalize_vector(&velocity);
+        velocity.x *= speed;
+        velocity.z *= speed;
     }
 }
 #pragma pop
-#pragma push
-void vt6__9TBoss4UroFv(u8 *self) {
-    *(f32 *)((s8 *)self + 0x390) += -0.015000001f;
-    VecCopy__FP3VecPC3Vec(self + 0x44, self + 0x38);
-    vec3_add_to(self + 0x38, self + 0x38C);
-    if (*(f32 *)((s8 *)self + 0x3C) < 6.0f) {
-        *(f32 *)((s8 *)self + 0x390) = 0.0f;
-        *(f32 *)((s8 *)self + 0x3C) = 6.0f;
-        *(s32 *)((s8 *)self + 0x374) = 2;
-    }
-}
-#pragma pop
-#pragma push
-s32 create__11TBoss4BishiFi(s32 arg0) {
-    s32 var_r31;
-    s32 parent;
 
-    var_r31 = (saddr)TObject::operator new(0x3C4);
-    if (var_r31 != 0) {
-        parent = (saddr)TObject::operator new(0x20);
-        if (parent != 0) {
-            parent = __ct__11TObjControlFP7TObject(parent, tl_04);
-        }
-        var_r31 = TBoss4Bishi__ct(var_r31, parent, arg0);
+void TBoss4Uro::update_sink_state() {
+    f32 y;
+    position.y += -0.33333334f;
+    y = position.y;
+    if ((y < 0.0f) && (y >= -0.33333334f)) {
+        spawn_particle_effect(&position, 0xF3);
     }
-    return var_r31;
+    rotation_x = (rotation_x + 0x111);
+    if (position.y < -13.0f) {
+        queue_destruction();
+    }
 }
-#pragma pop
+
+void TBoss4Uro::vt6() {
+    velocity.y += -0.015000001f;
+    VecCopy(&prev_position, &position);
+    vec3_add_to(&position, &velocity);
+    if (position.y < 6.0f) {
+        velocity.y = 0.0f;
+        position.y = 6.0f;
+        state = 2;
+    }
+}
+
+TBoss4Bishi *TBoss4Bishi::create(TBoss4ZakoSetData *set_data) {
+    return new TBoss4Bishi(new TObjControl(tl_04), set_data);
+}
+
 #pragma push
 #pragma opt_common_subs off
-s32 TBoss4Bishi__ct(saddr arg0, s32 parent, s32 arg2) {
-#define o ((Obj_8005BF68 *)arg0)
+TBoss4Bishi::TBoss4Bishi(TObject *parent, TBoss4ZakoSetData *set_data) : TBoss4Zako(parent, set_data) {
     s32 id;
-    saddr pl;
-    TBoss4Zako__ct(arg0, parent, arg2);
-    o->vt = __vt__11TBoss4Bishi;
-    o->f0 = ((saddr)TBoss4Bishi__name);
-    if ((id = find_nearest_visible_player(o, 0, 100.0f)) == 0xFFFF ||
-        (pl = (saddr)get_player_by_client_id(id)) == 0) {
-        o->vel.x = o->vel.z = 0.0f;
+    TObjPlayer *pl;
+    m_name = TBoss4Bishi__name;
+    if ((id = find_nearest_visible_player(this, 0, 100.0f)) == 0xFFFF ||
+        (pl = get_player_by_client_id(id)) == 0) {
+        velocity.x = velocity.z = 0.0f;
     } else {
-        VecCopy__FP3VecPC3Vec(&o->vel, (void *)(pl + 0x38));
-        id = o->pad1c & 3;
-        o->vel.x += TBoss4Bishi_spawn_offsets[id].x;
-        o->vel.z += TBoss4Bishi_spawn_offsets[id].z;
+        VecCopy(&velocity, &pl->position);
+        id = entity_id & 3;
+        velocity.x += TBoss4Bishi_spawn_offsets[id].x;
+        velocity.z += TBoss4Bishi_spawn_offsets[id].z;
     }
-    subtract_vector(&o->vel, &o->pos);
-    o->vel.y = 0.0f;
-    if (0.0f == vector_length(&o->vel)) {
-        o->vel.x = 1.0f;
-        o->vel.z = 0.0f;
+    subtract_vector(&velocity, &position);
+    velocity.y = 0.0f;
+    if (0.0f == vector_length(&velocity)) {
+        velocity.x = 1.0f;
+        velocity.z = 0.0f;
     } else {
-        normalize_vector(&o->vel);
+        normalize_vector(&velocity);
     }
-    o->f398 = o->f3a0;
-    o->vel.x *= o->f398;
-    o->vel.z *= o->f398;
-    o->pos.y = -13.0f;
-    o->f37c = 0x96;
-    o->f374 = 0;
-    o->ctl->flags |= 1;
-    return arg0;
-#undef o
+    speed = max_speed_alt;
+    velocity.x *= speed;
+    velocity.z *= speed;
+    position.y = -13.0f;
+    charge_timer = 0x96;
+    state = 0;
+    collision->flags |= 1;
 }
 #pragma pop
-#pragma push
-void *__dt_deleting__11TBoss4BishiFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(saddr **)((s8 *)arg0 + 0x18) = __vt__11TBoss4Bishi;
-        __dt__10TBoss4ZakoFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
+
+TBoss4Bishi::~TBoss4Bishi() {}
+
+void TBoss4Bishi::run_death_reaction() {
+    if (state != 3) {
+        distribute_experience();
+        enter_state_3();
     }
-    return arg0;
 }
-#pragma pop
-#pragma push
-void try_enter_state_3__11TBoss4BishiFPv(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TObjEnemy *)p)->distribute_experience(); enter_state_3__11TBoss4BishiFPv(p); } }
-#pragma pop
-#pragma push
-void enter_state_3__11TBoss4BishiFPv(void* p) { if (*(int*)((char*)p + 0x374) != 3) { TBoss4Uro__sub_8005D6D4(*(void**)((char*)p + 0x378)); *(int*)((char*)p + 0x374) = 3; } }
-#pragma pop
-#pragma push
-union BishiStateHandlerPmf { StateHandlerPmfWords w; void (TBoss4Bishi::*pmf)(); };
 
-static BishiStateHandlerPmf TBoss4Bishi_state0_handler_pmf = { {0, -1, (void *)vt0__11TBoss4BishiFv} };
-static BishiStateHandlerPmf TBoss4Bishi_state2_handler_pmf = { {0, -1, (void *)vt1__11TBoss4BishiFv} };
-static BishiStateHandlerPmf TBoss4Bishi_state3_handler_pmf = { {0, -1, (void *)vt2__11TBoss4BishiFv} };
-static BishiStateHandlerPmf TBoss4Bishi_state_handlers[5] = {
-    {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}},
-};
-static s8 lbl_805D4D8A;
+void TBoss4Bishi::enter_state_3() {
+    if (state != 3) {
+        owner->sub_8005D6D4();
+        state = 3;
+    }
+}
 
+#pragma push
 #pragma fp_contract on
-void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self) {
-    if (self->f374 != 3 && ((TBoss4Uro *)self->f378)->get_phase() != 8) {
-        enter_state_3__11TBoss4BishiFPv(self);
+void TBoss4Bishi::run_task() {
+    if (state != 3 && owner->get_phase() != 8) {
+        enter_state_3();
         return;
     }
-    if (!lbl_805D4D8A) {
-        TBoss4Bishi_state_handlers[0].pmf = TBoss4Bishi_state0_handler_pmf.pmf;
-        TBoss4Bishi_state_handlers[1].pmf = 0;
-        TBoss4Bishi_state_handlers[2].pmf = TBoss4Bishi_state2_handler_pmf.pmf;
-        TBoss4Bishi_state_handlers[3].pmf = TBoss4Bishi_state3_handler_pmf.pmf;
-        TBoss4Bishi_state_handlers[4].pmf = 0;
-        lbl_805D4D8A = 1;
-    }
-    Act_8005BC4C a = TBoss4Bishi_state_handlers[self->f374].pmf;
-    if (a) {
-        (self->*a)();
-        if (self->f374 == 2) {
-            self->pos.y = 0.099999994f * sin_table_lookup(self->f3BC) + self->pos.y;
-            self->f3BC += self->f3C0;
+    static void (TBoss4Bishi::*state_handlers[5])() = {
+        &TBoss4Bishi::update_rise_state,
+        0,
+        &TBoss4Bishi::vt1,
+        &TBoss4Bishi::update_sink_state,
+        0,
+    };
+    void (TBoss4Bishi::*fn)() = state_handlers[state];
+    if (fn) {
+        (this->*fn)();
+        if (state == 2) {
+            position.y = 0.099999994f * sin_table_lookup(bob_angle) + position.y;
+            bob_angle += bob_angle_step;
         }
-        Vec v = self->pos;
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
+        Vec v = position;
+        if (sub_8005D698() != 0) {
             v.y += 10.0f;
         } else {
             v.y += -250.0f;
         }
-        ((TParticleCtrl *)self->f3B4)->set_position(&v);
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
-            self->f60 += 0x1111;
+        emitter->set_position(&v);
+        if (sub_8005D698() != 0) {
+            rotation_y += 0x1111;
         }
-        TBoss4Zako::queue_entry(&self->pos, self->f5C, self->f60);
-        ((TBoss4Zako *)self)->apply_contact_damage();
-        ((TObjEnemy *)self)->update_prev_position();
-        if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
-            ((TObjPlayer *)self)->update_collisions();
-            submit_cursor_candidate(self, -1);
-            minimap_render_dot(self->f2FC, -0x5DB4, 1, 0);
+        queue_entry(&position, rotation_x, rotation_y);
+        apply_contact_damage();
+        update_prev_position();
+        if (sub_8005D698() != 0) {
+            ((TObjPlayer *)this)->update_collisions();
+            submit_cursor_candidate(this, -1);
+            minimap_render_dot(&body_center, -0x5DB4, 1, 0);
         }
-        self->f3B8++;
+        frame_count++;
     }
 }
 #pragma pop
-#pragma push
-void vt0__11TBoss4BishiFv(u8 *self) {
-    VecCopy__FP3VecPC3Vec(self + 0x44, self + 0x38);
-    if (*(f32 *)((s8 *)self + 0x3C) < 6.0f) {
-        if ((*(f32 *)((s8 *)self + 0x3C) += 1.1111112f) > 6.0f) {
-            *(f32 *)((s8 *)self + 0x3C) = 6.0f;
-            *(s32 *)((s8 *)self + 0x374) = 2;
+
+void TBoss4Bishi::update_rise_state() {
+    VecCopy(&prev_position, &position);
+    if (position.y < 6.0f) {
+        if ((position.y += 1.1111112f) > 6.0f) {
+            position.y = 6.0f;
+            state = 2;
         }
     }
 }
-#pragma pop
-#pragma push
-void vt1__11TBoss4BishiFv(Obj_8005BB5C *self) {
-    VecCopy__FP3VecPC3Vec(&self->prev, &self->pos);
-    vec3_add_to(&self->pos, (u8 *)self + 0x38C);
-    Vec v = self->pos;
+
+void TBoss4Bishi::vt1() {
+    VecCopy(&prev_position, &position);
+    vec3_add_to(&position, &velocity);
+    Vec v = position;
     v.y = 0.0f;
-    if (--self->f37c < 0 || vector_length(&v) > 260.0f) {
-        enter_state_3__11TBoss4BishiFPv(self);
+    if (--charge_timer < 0 || vector_length(&v) > 260.0f) {
+        enter_state_3();
     }
 }
-#pragma pop
-#pragma push
-void vt2__11TBoss4BishiFv(u8 *object) {
-    f32 temp_f1;
-    *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
-    temp_f1 = *(f32 *)((s8 *)object + 0x3C);
-    if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((const Vec *)(object + 0x38), 0xF3);
+
+void TBoss4Bishi::update_sink_state() {
+    f32 y;
+    position.y += -0.33333334f;
+    y = position.y;
+    if ((y < 0.0f) && (y >= -0.33333334f)) {
+        spawn_particle_effect(&position, 0xF3);
     }
-    *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
-    if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
-        ((TObject *)object)->queue_destruction();
+    rotation_x = (rotation_x + 0x111);
+    if (position.y < -13.0f) {
+        queue_destruction();
     }
 }
-#pragma pop
-#pragma push
-void TBoss4Type3::clear_harmful_statuses() {  }
-#pragma pop
-#pragma push
-void TBoss4Type3::apply_shock_status() {  }
-#pragma pop
-#pragma push
-void TBoss4Type3::apply_movement_ailment(s32) {  }
-#pragma pop
-#pragma push
-void TBoss4Type3::apply_confusion_status() {  }
-#pragma pop
-#pragma push
-void TBoss4Type3::apply_slow_status() {  }
-#pragma pop
-#pragma push
-void TBoss4Type3::apply_paralysis() {  }
-#pragma pop
-#pragma push
-void TBoss4Type3::apply_poison_status() {  }
-#pragma pop
-#pragma dont_inline off
-#pragma auto_inline off
-#pragma inline_depth(2)
-void has_no_target__9TObjCharaFv();
-void apply_anti_technique__9TObjCharaFl();
-void recalc_stats__9TObjCharaFv();
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-void apply_switch_attack__9TObjCharaFv();
-void vfunc_78__9TObjCharaFl();
-void gain_photon_blast_chain_charge__9TObjCharaFv();
-void spend_photon_blast_charge__9TObjCharaFf();
-void gain_photon_blast_charge__9TObjCharaFf();
-void refresh_target__9TObjCharaFv();
-void get_actor_level_index__9TObjCharaFv();
-void consume_timer_field__9TObjCharaFl();
-void add_actor_exp__9TObjCharaFl();
-void is_actor_cadence_frame__9TObjCharaFl();
-void receive_weapon_special_attack__9TObjCharaFPvPv();
-void apply_defense_stat_status__9TObjCharaFPv();
-void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-void apply_knockback_from_attacker__9TObjCharaFPUcf();
-void receive_physical_attack__9TObjCharaFPvf();
-void deliver_attack_hits__9TObjCharaFf();
-void vfunc_66__9TObjCharaFv();
-void get_anim_node_position__9TObjCharaFlP3Vec();
-void reset_pose__9TObjCharaFv();
-void run_hit_reaction__9TObjCharaFv();
-void run_miss_reaction__9TObjCharaFv();
-void run_attack_action__9TObjCharaFv();
-void run_move_action__9TObjCharaFv();
-void run_idle_action__9TObjCharaFv();
-void apply_action_hold_status__9TObjCharaFf();
-void clear_all_status_effects__9TObjCharaFv();
-void cure_paralysis__9TObjCharaFv();
-void cure_poison_ailment__9TObjCharaFv();
-void apply_attack_stat_status__9TObjCharaFPv();
-void clear_harmful_statuses__9TObjCharaFv();
-void apply_shock_status__9TObjCharaFv();
-void apply_movement_ailment__9TObjCharaFl();
-void apply_confusion_status__9TObjCharaFv();
-void apply_slow_status__9TObjCharaFv();
-void apply_paralysis__9TObjCharaFv();
-void apply_poison_status__9TObjCharaFv();
-void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-void roll_physical_accuracy__9TObjCharaFPvlf();
-void try_start_action__9TObjCharaFll();
-void select_melee_contact_body__9TObjCharaFPvf();
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-void update_shock_clock__9TObjCharaFv();
-void update_movement_status__9TObjCharaFv();
-void update_flag30_timer__9TObjCharaFv();
-s32 update_slow_status__9TObjCharaFv(u8 *arg0);
-void update_action_hold_status__9TObjCharaFv();
-void update_poison_status__9TObjCharaFv();
-void vfunc_43__9TObjCharaFv();
-void is_target_in_attack_range__9TObjCharaFv();
-void update_actor_ground_y_at__9TObjCharaFP3Vec();
-void update_actor_ground_y__9TObjCharaFv();
-void get_center__9TObjCharaFv();
-void reset_motion_fields__9TObjCharaFv();
-void get_pos__9TObjCharaFl();
-void interact__14TObjCollidableFl();
-void run_task__10TBoss4ZakoFv();
-void clear_lobby_object_state__9TObjEnemyFv();
-void render_shadows__9TObjEnemyFv(u8 *arg0);
-void get_name__9TObjEnemyFv();
-void vfunc_74__9TObjEnemyFl();
-void apply_hit_message_flags__9TObjEnemyFPv();
-void apply_enemy_state__9TObjEnemyFPl();
-void apply_set_data__9TObjEnemyFPv();
-void apply_object_set_data__8TObjBaseFPv();
-void vfunc_6__8TObjBaseFPsl();
-void classify_actor_view_detail__8TObjBaseFfff();
-void update_object_view_visibility__8TObjBaseFff();
-saddr __vt__11TBoss4Bishi[83] = {
-    0,
-    0,
-    (saddr)__dt_deleting__11TBoss4BishiFPvs,
-    (saddr)TBoss4Zako__sub_8005BC4C,
-    (saddr)render__9TBoss4UroFv,
-    (saddr)render_shadows__9TObjEnemyFv,
-    (saddr)vfunc_6__8TObjBaseFPsl,
-    (saddr)apply_object_set_data__8TObjBaseFPv,
-    (saddr)reset_motion_fields__9TObjCharaFv,
-    (saddr)get_center__9TObjCharaFv,
-    (saddr)update_object_view_visibility__8TObjBaseFff,
-    (saddr)classify_actor_view_detail__8TObjBaseFfff,
-    (saddr)get_name__9TObjEnemyFv,
-    (saddr)interact__14TObjCollidableFl,
-    (saddr)add_actor_exp__9TObjCharaFl,
-    (saddr)consume_timer_field__9TObjCharaFl,
-    (saddr)get_actor_level_index__9TObjCharaFv,
-    (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
-    (saddr)is_actor_cadence_frame__9TObjCharaFl,
-    (saddr)select_melee_contact_body__9TObjCharaFPvf,
-    (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
-    (saddr)receive_physical_attack__9TObjCharaFPvf,
-    (saddr)receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (saddr)receive_weapon_special_attack__9TObjCharaFPvPv,
-    (saddr)apply_knockback_from_attacker__9TObjCharaFPUcf,
-    (saddr)try_start_action__9TObjCharaFll,
-    (saddr)roll_physical_accuracy__9TObjCharaFPvlf,
-    (saddr)refresh_target__9TObjCharaFv,
-    (saddr)has_no_target__9TObjCharaFv,
-    (saddr)is_target_in_attack_range__9TObjCharaFv,
-    (saddr)&test_flag_256__9TObjCharaFv,
-    (saddr)&test_flag30_512__9TObjCharaFv,
-    (saddr)&has_flag_0x800__9TObjCharaFv,
-    (saddr)&test_flag_1000__9TObjCharaFv,
-    (saddr)update_poison_status__9TObjCharaFv,
-    (saddr)update_action_hold_status__9TObjCharaFv,
-    (saddr)update_slow_status__9TObjCharaFv,
-    (saddr)update_flag30_timer__9TObjCharaFv,
-    (saddr)update_movement_status__9TObjCharaFv,
-    (saddr)update_shock_clock__9TObjCharaFv,
-    (saddr)update_attack_stat_status__9TObjCharaFv,
-    (saddr)update_defense_stat_status__9TObjCharaFv,
-    (saddr)vfunc_43__9TObjCharaFv,
-    (saddr)apply_poison_status__9TObjCharaFv,
-    (saddr)apply_paralysis__9TObjCharaFv,
-    (saddr)apply_slow_status__9TObjCharaFv,
-    (saddr)apply_confusion_status__9TObjCharaFv,
-    (saddr)apply_movement_ailment__9TObjCharaFl,
-    (saddr)apply_shock_status__9TObjCharaFv,
-    (saddr)clear_harmful_statuses__9TObjCharaFv,
-    (saddr)apply_attack_stat_status__9TObjCharaFPv,
-    (saddr)apply_defense_stat_status__9TObjCharaFPv,
-    (saddr)cure_poison_ailment__9TObjCharaFv,
-    (saddr)cure_paralysis__9TObjCharaFv,
-    (saddr)clear_all_status_effects__9TObjCharaFv,
-    (saddr)apply_action_hold_status__9TObjCharaFf,
-    (saddr)apply_anti_technique__9TObjCharaFl,
-    (saddr)run_idle_action__9TObjCharaFv,
-    (saddr)run_move_action__9TObjCharaFv,
-    (saddr)run_attack_action__9TObjCharaFv,
-    (saddr)run_miss_reaction__9TObjCharaFv,
-    (saddr)run_hit_reaction__9TObjCharaFv,
-    (saddr)try_enter_state_3__11TBoss4BishiFPv,
-    (saddr)reset_pose__9TObjCharaFv,
-    (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
-    (saddr)vfunc_66__9TObjCharaFv,
-    (saddr)deliver_attack_hits__9TObjCharaFf,
-    (saddr)get_pos__9TObjCharaFl,
-    (saddr)apply_switch_attack__9TObjCharaFv,
-    (saddr)enemy_spawn_jellen_effect__9TObjCharaFv,
-    (saddr)trigger_switch_attack__9TObjCharaFv,
-    (saddr)enemy_spawn_zalure_effect__9TObjCharaFv,
-    (saddr)recalc_stats__9TObjCharaFv,
-    (saddr)vfunc_74__9TObjEnemyFl,
-    (saddr)gain_photon_blast_charge__9TObjCharaFf,
-    (saddr)spend_photon_blast_charge__9TObjCharaFf,
-    (saddr)gain_photon_blast_chain_charge__9TObjCharaFv,
-    (saddr)vfunc_78__9TObjCharaFl,
-    (saddr)apply_enemy_state__9TObjEnemyFPl,
-    (saddr)apply_hit_message_flags__9TObjEnemyFPv,
-    (saddr)apply_set_data__9TObjEnemyFPv,
-    (saddr)clear_lobby_object_state__9TObjEnemyFv,
-};
-saddr __vt__9TBoss4Uro[83] = {
-    0,
-    0,
-    (saddr)__dt__9TBoss4UroFv,
-    (saddr)run_task__9TBoss4UroFv,
-    (saddr)render__9TBoss4UroFv,
-    (saddr)render_shadows__9TObjEnemyFv,
-    (saddr)vfunc_6__8TObjBaseFPsl,
-    (saddr)apply_object_set_data__8TObjBaseFPv,
-    (saddr)reset_motion_fields__9TObjCharaFv,
-    (saddr)get_center__9TObjCharaFv,
-    (saddr)update_object_view_visibility__8TObjBaseFff,
-    (saddr)classify_actor_view_detail__8TObjBaseFfff,
-    (saddr)get_name__9TObjEnemyFv,
-    (saddr)interact__14TObjCollidableFl,
-    (saddr)add_actor_exp__9TObjCharaFl,
-    (saddr)consume_timer_field__9TObjCharaFl,
-    (saddr)get_actor_level_index__9TObjCharaFv,
-    (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
-    (saddr)is_actor_cadence_frame__9TObjCharaFl,
-    (saddr)select_melee_contact_body__9TObjCharaFPvf,
-    (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
-    (saddr)receive_physical_attack__9TObjCharaFPvf,
-    (saddr)receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (saddr)receive_weapon_special_attack__9TObjCharaFPvPv,
-    (saddr)apply_knockback_from_attacker__9TObjCharaFPUcf,
-    (saddr)try_start_action__9TObjCharaFll,
-    (saddr)roll_physical_accuracy__9TObjCharaFPvlf,
-    (saddr)refresh_target__9TObjCharaFv,
-    (saddr)has_no_target__9TObjCharaFv,
-    (saddr)is_target_in_attack_range__9TObjCharaFv,
-    (saddr)&test_flag_256__9TObjCharaFv,
-    (saddr)&test_flag30_512__9TObjCharaFv,
-    (saddr)&has_flag_0x800__9TObjCharaFv,
-    (saddr)&test_flag_1000__9TObjCharaFv,
-    (saddr)update_poison_status__9TObjCharaFv,
-    (saddr)update_action_hold_status__9TObjCharaFv,
-    (saddr)update_slow_status__9TObjCharaFv,
-    (saddr)update_flag30_timer__9TObjCharaFv,
-    (saddr)update_movement_status__9TObjCharaFv,
-    (saddr)update_shock_clock__9TObjCharaFv,
-    (saddr)update_attack_stat_status__9TObjCharaFv,
-    (saddr)update_defense_stat_status__9TObjCharaFv,
-    (saddr)vfunc_43__9TObjCharaFv,
-    (saddr)apply_poison_status__9TObjCharaFv,
-    (saddr)apply_paralysis__9TObjCharaFv,
-    (saddr)apply_slow_status__9TObjCharaFv,
-    (saddr)apply_confusion_status__9TObjCharaFv,
-    (saddr)apply_movement_ailment__9TObjCharaFl,
-    (saddr)apply_shock_status__9TObjCharaFv,
-    (saddr)clear_harmful_statuses__9TObjCharaFv,
-    (saddr)apply_attack_stat_status__9TObjCharaFPv,
-    (saddr)apply_defense_stat_status__9TObjCharaFPv,
-    (saddr)cure_poison_ailment__9TObjCharaFv,
-    (saddr)cure_paralysis__9TObjCharaFv,
-    (saddr)clear_all_status_effects__9TObjCharaFv,
-    (saddr)apply_action_hold_status__9TObjCharaFf,
-    (saddr)apply_anti_technique__9TObjCharaFl,
-    (saddr)run_idle_action__9TObjCharaFv,
-    (saddr)run_move_action__9TObjCharaFv,
-    (saddr)run_attack_action__9TObjCharaFv,
-    (saddr)run_miss_reaction__9TObjCharaFv,
-    (saddr)run_hit_reaction__9TObjCharaFv,
-    (saddr)TBoss4Uro__vt61,
-    (saddr)reset_pose__9TObjCharaFv,
-    (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
-    (saddr)vfunc_66__9TObjCharaFv,
-    (saddr)deliver_attack_hits__9TObjCharaFf,
-    (saddr)get_pos__9TObjCharaFl,
-    (saddr)apply_switch_attack__9TObjCharaFv,
-    (saddr)enemy_spawn_jellen_effect__9TObjCharaFv,
-    (saddr)trigger_switch_attack__9TObjCharaFv,
-    (saddr)enemy_spawn_zalure_effect__9TObjCharaFv,
-    (saddr)recalc_stats__9TObjCharaFv,
-    (saddr)vfunc_74__9TObjEnemyFl,
-    (saddr)gain_photon_blast_charge__9TObjCharaFf,
-    (saddr)spend_photon_blast_charge__9TObjCharaFf,
-    (saddr)gain_photon_blast_chain_charge__9TObjCharaFv,
-    (saddr)vfunc_78__9TObjCharaFl,
-    (saddr)apply_enemy_state__9TObjEnemyFPl,
-    (saddr)apply_hit_message_flags__9TObjEnemyFPv,
-    (saddr)apply_set_data__9TObjEnemyFPv,
-    (saddr)clear_lobby_object_state__9TObjEnemyFv,
-};
-saddr __vt__10TBoss4Zako[83] = {
-    0,
-    0,
-    (saddr)__dt__10TBoss4ZakoFv,
-    (saddr)run_task__10TBoss4ZakoFv,
-    (saddr)render__9TBoss4UroFv,
-    (saddr)render_shadows__9TObjEnemyFv,
-    (saddr)vfunc_6__8TObjBaseFPsl,
-    (saddr)apply_object_set_data__8TObjBaseFPv,
-    (saddr)reset_motion_fields__9TObjCharaFv,
-    (saddr)get_center__9TObjCharaFv,
-    (saddr)update_object_view_visibility__8TObjBaseFff,
-    (saddr)classify_actor_view_detail__8TObjBaseFfff,
-    (saddr)get_name__9TObjEnemyFv,
-    (saddr)interact__14TObjCollidableFl,
-    (saddr)add_actor_exp__9TObjCharaFl,
-    (saddr)consume_timer_field__9TObjCharaFl,
-    (saddr)get_actor_level_index__9TObjCharaFv,
-    (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
-    (saddr)is_actor_cadence_frame__9TObjCharaFl,
-    (saddr)select_melee_contact_body__9TObjCharaFPvf,
-    (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
-    (saddr)receive_physical_attack__9TObjCharaFPvf,
-    (saddr)receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (saddr)receive_weapon_special_attack__9TObjCharaFPvPv,
-    (saddr)apply_knockback_from_attacker__9TObjCharaFPUcf,
-    (saddr)try_start_action__9TObjCharaFll,
-    (saddr)roll_physical_accuracy__9TObjCharaFPvlf,
-    (saddr)refresh_target__9TObjCharaFv,
-    (saddr)has_no_target__9TObjCharaFv,
-    (saddr)is_target_in_attack_range__9TObjCharaFv,
-    (saddr)&test_flag_256__9TObjCharaFv,
-    (saddr)&test_flag30_512__9TObjCharaFv,
-    (saddr)&has_flag_0x800__9TObjCharaFv,
-    (saddr)&test_flag_1000__9TObjCharaFv,
-    (saddr)update_poison_status__9TObjCharaFv,
-    (saddr)update_action_hold_status__9TObjCharaFv,
-    (saddr)update_slow_status__9TObjCharaFv,
-    (saddr)update_flag30_timer__9TObjCharaFv,
-    (saddr)update_movement_status__9TObjCharaFv,
-    (saddr)update_shock_clock__9TObjCharaFv,
-    (saddr)update_attack_stat_status__9TObjCharaFv,
-    (saddr)update_defense_stat_status__9TObjCharaFv,
-    (saddr)vfunc_43__9TObjCharaFv,
-    (saddr)apply_poison_status__9TObjCharaFv,
-    (saddr)apply_paralysis__9TObjCharaFv,
-    (saddr)apply_slow_status__9TObjCharaFv,
-    (saddr)apply_confusion_status__9TObjCharaFv,
-    (saddr)apply_movement_ailment__9TObjCharaFl,
-    (saddr)apply_shock_status__9TObjCharaFv,
-    (saddr)clear_harmful_statuses__9TObjCharaFv,
-    (saddr)apply_attack_stat_status__9TObjCharaFPv,
-    (saddr)apply_defense_stat_status__9TObjCharaFPv,
-    (saddr)cure_poison_ailment__9TObjCharaFv,
-    (saddr)cure_paralysis__9TObjCharaFv,
-    (saddr)clear_all_status_effects__9TObjCharaFv,
-    (saddr)apply_action_hold_status__9TObjCharaFf,
-    (saddr)apply_anti_technique__9TObjCharaFl,
-    (saddr)run_idle_action__9TObjCharaFv,
-    (saddr)run_move_action__9TObjCharaFv,
-    (saddr)run_attack_action__9TObjCharaFv,
-    (saddr)run_miss_reaction__9TObjCharaFv,
-    (saddr)run_hit_reaction__9TObjCharaFv,
-    (saddr)TBoss4Zako::update_state3,
-    (saddr)reset_pose__9TObjCharaFv,
-    (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
-    (saddr)vfunc_66__9TObjCharaFv,
-    (saddr)deliver_attack_hits__9TObjCharaFf,
-    (saddr)get_pos__9TObjCharaFl,
-    (saddr)apply_switch_attack__9TObjCharaFv,
-    (saddr)enemy_spawn_jellen_effect__9TObjCharaFv,
-    (saddr)trigger_switch_attack__9TObjCharaFv,
-    (saddr)enemy_spawn_zalure_effect__9TObjCharaFv,
-    (saddr)recalc_stats__9TObjCharaFv,
-    (saddr)vfunc_74__9TObjEnemyFl,
-    (saddr)gain_photon_blast_charge__9TObjCharaFf,
-    (saddr)spend_photon_blast_charge__9TObjCharaFf,
-    (saddr)gain_photon_blast_chain_charge__9TObjCharaFv,
-    (saddr)vfunc_78__9TObjCharaFl,
-    (saddr)apply_enemy_state__9TObjEnemyFPl,
-    (saddr)apply_hit_message_flags__9TObjEnemyFPv,
-    (saddr)apply_set_data__9TObjEnemyFPv,
-    (saddr)clear_lobby_object_state__9TObjEnemyFv,
-};
-}
+
+void TBoss4Type3::clear_harmful_statuses() {}
+void TBoss4Type3::apply_shock_status() {}
+void TBoss4Type3::apply_movement_ailment(s32) {}
+void TBoss4Type3::apply_confusion_status() {}
+void TBoss4Type3::apply_slow_status() {}
+void TBoss4Type3::apply_paralysis() {}
+void TBoss4Type3::apply_poison_status() {}

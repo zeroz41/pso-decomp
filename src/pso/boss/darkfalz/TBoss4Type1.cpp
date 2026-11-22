@@ -58,16 +58,6 @@ void translate_matrix_vec3(int, void *);
 void set_matrix_identity(int);
 int rotate_matrix_y(void *, void *);
 
-typedef struct Params_80052CDC {
-    s32 owner;
-    s16 a[3];
-    s16 b;
-    s16 c;
-    u8 pad[0x14 - 0xE];
-    Vec pos;
-    u8 pad20[0x48 - 0x20];
-} Params_80052CDC;
-
 typedef struct Spot_80052CDC {
     Vec pos;
     u8 padc[0x18 - 0xC];
@@ -202,7 +192,6 @@ void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, 
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
-void * create__9TBoss4UroFi(Params_80052CDC *);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -1275,19 +1264,19 @@ void TBoss4Type1::start_motion_for_index() {
 }
 
 void TBoss4Type1::update_spawn_uro() {
-    Params_80052CDC p;
+    TBoss4ZakoSetData p;
     Spot_80052CDC *s;
     s32 t;
     Obj_80052CDC *self = (Obj_80052CDC *)this;
     s = &self->spots[self->idx];
     t = self->timer;
     if (t < 0x106 && (t & 0x1F) == 0 && self->count < self->max) {
-        TBoss4DarkFalz__sub_8004B4F0(p.a, TBoss4DarkFalz__data_804FF1E8);
-        if (TBoss4DarkFalz__sub_8004AF5C(self->owner, p.a, &p.b) != 0) {
-            p.owner = self->owner;
-            p.c = 1;
-            VecCopy__FP3VecPC3Vec(&p.pos, s);
-            if (create__9TBoss4UroFi(&p) != NULL) {
+        TBoss4DarkFalz__sub_8004B4F0(&p.set_index, TBoss4DarkFalz__data_804FF1E8);
+        if (TBoss4DarkFalz__sub_8004AF5C(self->owner, &p.set_index, &p.entity_id) != 0) {
+            p.owner = (TBoss4DarkFalz *)self->owner;
+            p.unk_0C = 1;
+            VecCopy__FP3VecPC3Vec(&p.position, s);
+            if (TBoss4Uro::create(&p) != NULL) {
                 spawn_particle_effect((const Vec *)s, 0x7D);
                 play_sound_effect(0x4003A810, s, 0, 1);
                 self->count++;

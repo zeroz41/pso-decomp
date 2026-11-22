@@ -81,6 +81,9 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void begin_defeat_sequence();
     void update_countdown_shrink();
     s32 sub_8004D990();
+    s32 get_phase();
+    void sub_8005D6E4();
+    void sub_8005D6D4();
     static s32 is_state_ready();
     static s32 is_active();
     void spawn_zako_rings();
