@@ -28,7 +28,7 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, u8 *ip6_opts,
+s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, void *ip6_opts,
                             u8 proto) {
     switch (src->family) {
     case 4:

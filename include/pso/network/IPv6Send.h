@@ -37,6 +37,16 @@ typedef struct NetIPv6SendParameters {
     u8 next_header;
 } NetIPv6SendParameters;
 
+/* Per-socket IPv6 send options; NULL selects all zeroes. */
+typedef struct NetIPv6SendOptions {
+    u8 traffic_class_bits;
+    u8 pad1[3];
+    u32 flow_label;
+    u8 hop_limit;
+    u8 pad9[3];
+} NetIPv6SendOptions;
+LAYOUT_ASSERT(NetIPv6SendOptions_size_check, sizeof(NetIPv6SendOptions) == 0xC);
+
 typedef struct NetLinkLayerAddressBuffer {
     u8 bytes[32];
 } NetLinkLayerAddressBuffer;

@@ -529,8 +529,8 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, u8 *opts, u8 proto) {
-    u8 defaults[12];
+s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto) {
+    NetIPv6SendOptions defaults;
     NetIPv6SendParameters params;
     Ipv6Route *route;
     u8 *next_hop;
@@ -545,12 +545,12 @@ s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, u8 *opts, u8 proto) {
         next_hop = route->gateway;
     }
     if (opts == NULL) {
-        NetMemset(defaults, 0, sizeof(defaults));
-        opts = defaults;
+        NetMemset(&defaults, 0, sizeof(defaults));
+        opts = &defaults;
     }
-    params.flow_label = *(u32 *)(opts + 4);
-    params.traffic_class_bits = opts[0];
-    params.hop_limit = opts[8];
+    params.flow_label = opts->flow_label;
+    params.traffic_class_bits = opts->traffic_class_bits;
+    params.hop_limit = opts->hop_limit;
     params.next_header = proto;
     NetMemcpy(&params.source, src, sizeof(params.source));
     NetMemcpy(&params.destination, dst, sizeof(params.destination));
