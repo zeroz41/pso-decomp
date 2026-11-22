@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
+#include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -27,41 +28,8 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 
-struct Motion_80097100 { u8 pad0[4]; u32 count; };
-
-struct MotRef_80097100 { u8 pad0[4]; Motion_80097100 *mot; };
-
-struct Anim_80097100 { u8 pad0[4]; s32 idx; u8 pad8[8]; };
-
-struct Bringer_80097100 : VObj_18_26a62c {
-    u8 pad1C[0x24 - 0x1C];
-    void *texlist;
-    u8 pad28[0x34 - 0x28];
-    saddr f34;
-    u8 pos[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0xD8 - 0x64];
-    Anim_80097100 *anims;
-    MotRef_80097100 *mots;
-    u8 padE0[0x354 - 0xE0];
-    f32 animIdx;
-    f32 frame;
-};
 
 extern "C" {
 s32 post_translate_matrix(void *);
@@ -2331,37 +2299,35 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
 void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { sub_800994F8(); } }
 
 void TObjEneDf2Bringer::render_demo() {
-    Bringer_80097100 *self = (Bringer_80097100 *)this;
     f32 frame;
     s32 i;
-    Motion_80097100 *mot;
-    ((TObjEneDD *)self)->get_target_info();
-    if (self->m8(400.0f, 15.0f) != 0) {
+    AnimationMotion *mot;
+    get_target_info();
+    if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
-        ((TObjEneDD *)(self))->draw_ground_shadow(&v, 0);
+        draw_ground_shadow(&v, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param((saddr)self->texlist);
+        TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(self->pos);
-        rotate_matrix_y(0, self->f60);
-        i = (s32)self->animIdx;
+        post_translate_matrix(&position);
+        rotate_matrix_y(0, rotation_y);
+        i = (s32)parameters[0];
         if (i < 0) {
             i = 0;
         } else if (i >= 11) {
             i = 10;
         }
-        mot = self->mots[self->anims[i].idx].mot;
-        frame = self->frame;
+        mot = motion_list[action_table[i].motion].motion;
+        frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (mot->count - 1)) {
-            frame = (mot->count - 1);
+        } else if (frame > (mot->frameCount - 1)) {
+            frame = (mot->frameCount - 1);
         }
         set_motion_packed_rotation();
-        draw_model_motion((void *)self->f34, mot, frame);
+        draw_model_motion(model, mot, frame);
         clear_motion_packed_rotation();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
 }
-
