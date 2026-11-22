@@ -41,7 +41,7 @@ void TUnk_804EF130::hit_target_in_range(TObjChara *target, TObjCollidable *owner
 
 s32 TObjEneMorfos::snap_to_ground(s32 arg0, saddr arg1) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(csnVecterUnder(arg1, 0x16EF));
+    temp_r3 = (u8 *)(csnVecterUnder((Vec *)arg1, 0x16EF));
     if (temp_r3 == NULL) {
         return 0;
     }

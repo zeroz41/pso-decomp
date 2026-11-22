@@ -25,6 +25,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/map/CsnGroundQuery.h"
 
 struct E_800D7FD4 { u8 pad[0x14]; u32 col; };
 
@@ -39,10 +40,6 @@ struct E_800D8228 { Vec v; u8 pad[8]; u32 col; };
 struct Obj_800D8228 { u8 pad0[0x18]; void *vt; E_800D8228 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; f32 t; f32 c8; };
 
 struct Vtx_800D8314 { Vec pos; f32 u; f32 v; s32 color; };
-
-struct Plane_800D8314 { Vec point; Vec normal; };
-
-struct Ground_800D8314 { u32 unk; Plane_800D8314 *plane; };
 
 struct Mark_800D8314 {
     s32 name;
@@ -61,7 +58,6 @@ f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
 void run_task__9TDeadSpotFv(Obj_800D8228 *arg0);
-Ground_800D8314 *csnVecterUnder(void *, s32);
 s32 fn_803D8DE0(int, void *, void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
@@ -89,7 +85,7 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
     Vec tmp;
     s32 yaw;
     s32 pitch;
-    Ground_800D8314 *ground;
+    CsnHit *ground;
     f32 n1x, n1y, n1z;
     f32 scale;
     f32 first;
@@ -121,7 +117,7 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
         ((TObject *)self)->queue_destruction();
         return;
     }
-    VecCopy((Vec *)&self->center, (const Vec *)&ground->plane->point);
+    VecCopy((Vec *)&self->center, (const Vec *)&ground->contact->point);
     self->center.y += 0.5f * (3.0517578125e-05f * (f32)rand()) + 0.213456f;
     basis[0].x = 0.0f;
     basis[0].y = 0.0f;
@@ -129,7 +125,7 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
     basis[1].x = 0.0f;
     basis[1].y = 1.0f;
     basis[1].z = 0.0f;
-    direction_to_rotation_yx((u8 *)&ground->plane->normal, &yaw, &pitch);
+    direction_to_rotation_yx((u8 *)&ground->contact->normal, &yaw, &pitch);
     if (pitch < 0x3000 || pitch > 0x5000) {
         ((TObject *)self)->queue_destruction();
         return;
@@ -181,7 +177,7 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
             bad = 0;
             ground = csnVecterUnder(&tmp, 0x16EF);
             if (ground != NULL) {
-                if (ground->plane->point.y - tmp.y < -3.0f) {
+                if (ground->contact->point.y - tmp.y < -3.0f) {
                     bad = 1;
                 }
             } else {

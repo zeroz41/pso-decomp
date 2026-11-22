@@ -19,6 +19,7 @@
 #include "pso/unk/text_80355970.h"
 #include "pso/unk/text_80355A1C.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/map/CsnGroundQuery.h"
 
 
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
@@ -44,10 +45,6 @@ void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
 }
 
 
-struct Inner_80355570 { u8 pad[4]; f32 f4; };
-
-struct Res_80355570 { u8 pad[4]; Inner_80355570 *inner; };
-
 struct Tornado_80355570 {
     u8 pad0[0x1C];
     s32 state;
@@ -72,7 +69,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
 
-Res_80355570 *csnVecterUnder(Vec *, s32);
 void play_persistent_sound(s32, void *, Vec *, s32, s32);
 const s32 *gryphon_tornado_particle_id_table;
 extern const f32 lbl_805D8D48;
@@ -85,7 +81,7 @@ void TBoss5GryphonTornado::render() {  }
 void TBoss5GryphonTornado::run_task() {
     Tornado_80355570 *o = (Tornado_80355570 *)this;
     Vec v;
-    Res_80355570 *r;
+    CsnHit *r;
     f32 h;
     if (((TBoss5Gryphon *)(o->f4C))->get_flag_bit6() != 0) {
         ((TObject *)o)->queue_destruction();
@@ -101,7 +97,7 @@ void TBoss5GryphonTornado::run_task() {
             ((TObject *)o)->queue_destruction();
             return;
         }
-        h = r->inner->f4;
+        h = r->contact->point.y;
         if (h > lbl_805D8D48) {
             o->pos.y = lbl_805D8D48;
         } else {
@@ -192,7 +188,7 @@ u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *pa
 extern "C" {
 saddr spawn_gryphon_tornado(saddr parent, saddr gryphon, const Vec *pos_src, u16 kind) {
     Vec pos;
-    Res_80355570 *under;
+    CsnHit *under;
     f32 y;
     TBoss5GryphonTornado *tornado;
     VecCopy(&pos, pos_src);
@@ -201,7 +197,7 @@ saddr spawn_gryphon_tornado(saddr parent, saddr gryphon, const Vec *pos_src, u16
     if (under == NULL) {
         return 0;
     }
-    y = under->inner->f4;
+    y = under->contact->point.y;
     if (y > lbl_805D8D48) {
         return 0;
     }

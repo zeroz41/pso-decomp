@@ -779,19 +779,19 @@ done:
     TObjPlayer__sub_80079118("csnVectorUnder(Use Buffer)");
     return hit;
 }
-s32 *csnVecterUnder(saddr origin, s32 mask) {
-    s32 *var_r31;
+CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
+    CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    TObjPlayer__sub_80079120(origin);
-    var_r31 = (s32 *)&lbl_80500140;
-    if (((uaddr)select_ground_query_groups((const Vec *)origin, mask)) == 0U) {
-        var_r31 = 0;
-    } else if (evaluate_ground_triangles((Vec *)origin, mask, csn_query_groups) == 0) {
-        var_r31 = 0;
+    TObjPlayer__sub_80079120((saddr)origin);
+    hit = &lbl_80500140;
+    if (select_ground_query_groups(origin, mask) == NULL) {
+        hit = NULL;
+    } else if (evaluate_ground_triangles(origin, mask, csn_query_groups) == 0) {
+        hit = NULL;
     }
     TObjPlayer__sub_80079118("csnVecterUnder()");
-    return var_r31;
+    return hit;
 }
 
 

@@ -52,44 +52,36 @@ extern s32 local_client_id;
 void reflect_matrix_in_plane(s32 mode, void *plane);
 }
 
-struct Stack_8029E7BC
-{
-  s32 sp8;
-  f32 spC;
-  u8 trailing_storage[0x4];
-};
-
-typedef struct Stack_8029E7BC Stack_8029E7BC;
 s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
-  Stack_8029E7BC stack;
+  Vec probe;
   s32 area;
-  s32 var_r31;
-  u8 *temp_r3;
-  u8 *temp_r4;
+  s32 mask;
+  CsnHit *hit;
+  CsnContact *contact;
   area = get_current_floor_area();
-  var_r31 = 0x56EF;
+  mask = 0x56EF;
   if (area == AREA_BARBA_RAY)
   {
-    var_r31 = 0x4000;
+    mask = 0x4000;
   }
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)arg0);
-  stack.spC += 35.0f;
-  temp_r3 = (u8 *) csnVecterUnder((saddr)&stack.sp8, var_r31);
-  if (temp_r3 != 0)
+  VecCopy(&probe, (const Vec *)arg0);
+  probe.y += 35.0f;
+  hit = csnVecterUnder(&probe, mask);
+  if (hit != 0)
   {
-    temp_r4 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 4)));
-    if (!((*((s32 *) (((s8 *) temp_r4) + 0x18))) & 0x4000))
+    contact = hit->contact;
+    if (!(contact->flags & 0x4000))
     {
       return 0;
     }
     if (arg1 != 0)
     {
-      *((f32 *) (((s8 *) arg1) + 0)) = (f32) (*((f32 *) (((s8 *) temp_r4) + 0)));
-      *((f32 *) (((s8 *) arg1) + 4)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 4)));
-      *((f32 *) (((s8 *) arg1) + 8)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 8)));
-      *((f32 *) (((s8 *) arg1) + 0xC)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 0xC)));
-      *((f32 *) (((s8 *) arg1) + 0x10)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 0x10)));
-      *((f32 *) (((s8 *) arg1) + 0x14)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 0x14)));
+      *((f32 *) (arg1 + 0)) = contact->point.x;
+      *((f32 *) (arg1 + 4)) = hit->contact->point.y;
+      *((f32 *) (arg1 + 8)) = hit->contact->point.z;
+      *((f32 *) (arg1 + 0xC)) = hit->contact->normal.x;
+      *((f32 *) (arg1 + 0x10)) = hit->contact->normal.y;
+      *((f32 *) (arg1 + 0x14)) = hit->contact->normal.z;
     }
     return 1;
   }
@@ -267,7 +259,7 @@ s32 fn_8029EC3C(Vec *pos, s32 arg1) {
         return 1;
     }
     if (0.0f == sora_reflection_ray_direction.x && 0.0f == sora_reflection_ray_direction.z) {
-        r = (CsnHit *)csnVecterUnder((saddr)&a, arg1);
+        r = csnVecterUnder(&a, arg1);
     } else {
         r = csnVector(&a, &b, arg1);
     }

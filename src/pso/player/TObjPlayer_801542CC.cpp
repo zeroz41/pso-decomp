@@ -100,6 +100,7 @@ struct Obj_801547E0;
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/map/CsnGroundQuery.h"
 union ObjectSavedState_801548A8 {
     u32 word;
     struct { s16 flags; s16 source; } halves;
@@ -157,7 +158,6 @@ void check_enemy_body_collisions(void *arg0);
 extern unsigned char lbl_8050DAD0[];
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
-s32 *csnVecterUnder(saddr origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
 }
@@ -1205,7 +1205,7 @@ s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
     if (coll != 0) {
         hit = (Hit_80156844 *)csnVectorUnder(&v, (CsnGroup **)coll, flags);
     } else {
-        hit = (Hit_80156844 *)csnVecterUnder((saddr)&v, flags);
+        hit = (Hit_80156844 *)csnVecterUnder(&v, flags);
     }
     if (hit == NULL) {
         return 0;

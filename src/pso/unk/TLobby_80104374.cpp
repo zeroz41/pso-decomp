@@ -146,6 +146,7 @@
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TPlyPhotonChair.h"
+#include "pso/map/CsnGroundQuery.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -930,7 +931,6 @@ ItemCreateFunction item_create_fn_table[5] = {
 };
 extern Entry_8010567C *quest_object_entries;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
-s32 *csnVecterUnder(saddr origin, s32 mask);
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);
@@ -1244,7 +1244,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         v.x = pkt.x;
                         v.y = 100.0f;
                         v.z = pkt.z;
-                        if (csnVecterUnder((saddr)&v, 1) != 0) {
+                        if (csnVecterUnder(&v, 1) != 0) {
                             ((TLobby *)(&pkt))->dispatch_packet_wrapper();
                         }
                     }

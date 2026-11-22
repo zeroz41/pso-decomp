@@ -204,7 +204,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 
     VecCopy(&origin, &this->m_dc);
     origin.y = 20.0f;
-    hit = (CsnHit *)csnVecterUnder((saddr)&origin, 0x16EF);
+    hit = csnVecterUnder(&origin, 0x16EF);
     if (hit != 0) {
         VecCopy(&this->position, &hit->contact->point);
         VecCopy(&this->ground_normal, &hit->contact->normal);

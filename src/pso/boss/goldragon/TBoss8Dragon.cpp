@@ -174,10 +174,6 @@ DragonForwardReferenceVec dragon_forward_reference_vec;
 extern "C" {
 
 
-struct Stack_802FB0DC {
-    s32 sp8;
-    f32 spC;
-};
 
 struct Obj_802FAC08 { u8 pad0[0x38]; f32 x; u8 pad1[4]; f32 z; };
 
@@ -1746,16 +1742,16 @@ int get_state_flags__12TBoss8DragonFPv(void* p) { return emit_effect_at_position
 int TBoss8Dragon::setup_instance(int _w1, void * _w2, AreaAttackHistory *history) { return setup_instance__9TObjEneDDFllPUcl(this); }
 
 void TBoss8Dragon::spawn_ground_effect() {
-    Stack_802FB0DC stack;
+    Vec pos;
     f32 temp_f1;
-    u8 *temp_r3;
-    VecCopy__FP3VecPC3Vec(&stack.sp8, (u8 *)&this->position);
-    temp_r3 = (u8 *)csnVecterUnder((saddr)&stack.sp8, 0x16EF);
-    if (temp_r3 != NULL) {
-        temp_f1 = *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
+    CsnHit *hit;
+    VecCopy__FP3VecPC3Vec(&pos, (u8 *)&this->position);
+    hit = csnVecterUnder(&pos, 0x16EF);
+    if (hit != NULL) {
+        temp_f1 = hit->contact->point.y;
         if (!(temp_f1 > 30.0f)) {
-            stack.spC = temp_f1;
-            spawn_particle_effect_with_flags((const Vec *)&stack.sp8, this->m_760[1], 0x40);
+            pos.y = temp_f1;
+            spawn_particle_effect_with_flags(&pos, this->m_760[1], 0x40);
         }
     }
 }
@@ -2841,7 +2837,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
 }
 
 void TBoss8Dragon::sub_802F87EC(s32 event) {
-    struct { f32 x, y, z; } v;
+    Vec v;
     s32 ang;
     f32 c;
     s32 i;
@@ -2869,7 +2865,7 @@ void TBoss8Dragon::sub_802F87EC(s32 event) {
         v.x = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[2] + 0xC) * c + *(f32 *)((s8 *)this + 0x394);
         v.y = 30.0f;
         v.z = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[2] + 0xC) * cos_table_lookup(ang) + *(f32 *)((s8 *)this + 0x39C);
-        hit = (u8 *)csnVecterUnder((saddr)&v, 0x16EF);
+        hit = (u8 *)csnVecterUnder(&v, 0x16EF);
         if ((hit != NULL) && (*(f32 *)((s8 *)(*(u8 **)((s8 *)hit + 4)) + 4) <= 30.0f)) {
             *(f32 *)((s8 *)this + 0x394) = v.x;
             *(f32 *)((s8 *)this + 0x39C) = v.z;

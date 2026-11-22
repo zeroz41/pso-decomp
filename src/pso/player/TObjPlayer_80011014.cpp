@@ -103,6 +103,7 @@ extern "C" void apply_anti_technique__9TObjCharaFl();
 
 #include "pso/item/TItemReverseTech.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/map/CsnGroundQuery.h"
 
 struct VBase_800172CC { u8 pad[0x18]; };
 
@@ -815,7 +816,6 @@ f32 fabs_float(f32 x);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32 x);
 u32 csnLookAt(void *, void *);
-u32 csnVecterUnder(void *, int);
 uaddr csnVector(void *, void *, s32);
 u32 subtractive_rng_next();
 void create__10TObjPlayerFUiii(uaddr, s32, s32);

@@ -45,7 +45,6 @@ void TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(saddr _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
-s32 *csnVecterUnder(saddr origin, s32 mask);
 s32 get_csn_group_flags(u8 arg0);
 s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv);
 s32 select_deepest_wall_ray(WallRayQuery *query, WallRayResult *result);

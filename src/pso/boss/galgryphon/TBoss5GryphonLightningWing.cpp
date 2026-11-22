@@ -113,7 +113,7 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr self, saddr pos, saddr mid
     s32 effect;
     u8* collision;
     VecCopy(&position, (const Vec *)arg3);
-    collision = (u8 *)csnVecterUnder((saddr)((s32*)&position), 0x16EF);
+    collision = (u8 *)csnVecterUnder(&position, 0x16EF);
     if (collision == NULL) {
         position.y = lbl_805D8D48;
     } else {

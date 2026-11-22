@@ -634,11 +634,11 @@ void handle_6x5E_buy_shop_item(G_BuyShopItem_6x5E *cmd) {
 
 // Drops the item onto the floor below it.
 void TItem::snap_to_ground() {
-    f32 probe[3];
-    probe[0] = position.x;
-    probe[1] = 300.0f + position.y;
-    probe[2] = position.z;
-    CsnHit *hit = (CsnHit *)csnVecterUnder((saddr)probe, 0x41);
+    Vec probe;
+    probe.x = position.x;
+    probe.y = 300.0f + position.y;
+    probe.z = position.z;
+    CsnHit *hit = csnVecterUnder(&probe, 0x41);
     if (hit != NULL) {
         position.y = 6.0f + hit->contact->point.y;
     }

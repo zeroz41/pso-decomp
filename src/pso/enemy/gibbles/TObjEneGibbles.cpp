@@ -1597,7 +1597,7 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
         return;
     }
     v.y += 20.0f;
-    if (csnVecterUnder((saddr)&v, 0x16EF) != 0) {
+    if (csnVecterUnder(&v, 0x16EF) != 0) {
         if (((TObjEneGibbles *)target)->spawn_ground_impact_effects(&v, 2.0f) == 0) {
             v.y += 5.0f;
             spawn_particle_effect(&v, 0x64);

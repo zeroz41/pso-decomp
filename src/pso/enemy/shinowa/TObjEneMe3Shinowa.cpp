@@ -59,6 +59,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/map/CsnGroundQuery.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -66,7 +67,6 @@ void fn_800E762C(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;
 TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
-s32 *csnVecterUnder(saddr origin, s32 mask);
 s32 post_translate_matrix(void *);
 BmlResource * TObjEneMe3ShinowaMirage__data_805D5298;
 s32 TObjEneMe3ShinowaMirage__render_node_index;
@@ -977,7 +977,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 reaso
                     v.x += shinowa->destination_direction.x * d;
                     v.y += 20.0f;
                     v.z += shinowa->destination_direction.z * d;
-                    if (csnVecterUnder((saddr)&v, 0x15) != 0U) {
+                    if (csnVecterUnder(&v, 0x15) != 0U) {
                         shinowa->m_404 = 3;
                         shinowa->m_414 = (shinowa->destination_distance - 20.0f) / 12.857143f;
                         shinowa->set_invulnerable();

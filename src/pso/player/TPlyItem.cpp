@@ -898,7 +898,7 @@ s32 TUnk_804C4498::step_placement_search() {
     this->candidate.x = this->radius * sin_table_lookup(this->angle) + this->origin.x;
     this->candidate.y = this->origin.y;
     this->candidate.z = this->radius * cos_table_lookup(this->angle) + this->origin.z;
-    g = (Ground_801D3C38 *)csnVecterUnder((saddr)&this->candidate, 0x41);
+    g = (Ground_801D3C38 *)csnVecterUnder(&this->candidate, 0x41);
     if (g == NULL) {
         this->angle += this->step;
         this->sample++;

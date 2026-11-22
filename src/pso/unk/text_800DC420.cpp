@@ -13,6 +13,7 @@
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/CsnGroundQuery.h"
 
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
@@ -63,7 +64,6 @@ struct Me_800DC648 {
 struct Ang_800DC83C { s32 x, y, z; };
 
 extern "C" {
-s32 *csnVecterUnder(saddr origin, s32 mask);
 extern saddr lbl_805D5254;
 extern D_800DC448 *nano_drago_entry_params_resource;
 u16 get_entity_id(void *);
@@ -144,7 +144,7 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
 
 s32 TObjPlayer::snap_to_ground(saddr arg0, saddr origin) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(csnVecterUnder(origin, 0x16EF));
+    temp_r3 = (u8 *)(csnVecterUnder((Vec *)origin, 0x16EF));
     if (temp_r3 == NULL) {
         return 0;
     }

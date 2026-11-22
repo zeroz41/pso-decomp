@@ -1063,7 +1063,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason) {
                     v.x += stelth->destination_direction.x * t;
                     v.y += 20.0f;
                     v.z += stelth->destination_direction.z * t;
-                    if (csnVecterUnder((saddr)&v, 0x15) != 0) {
+                    if (csnVecterUnder(&v, 0x15) != 0) {
                         if (stelth->room == ((TScene *)(&v))->find_section_at_position()) {
                             stelth->m_424 = 3;
                             stelth->m_434 = (stelth->destination_distance - 20.0f) / 12.857143f;

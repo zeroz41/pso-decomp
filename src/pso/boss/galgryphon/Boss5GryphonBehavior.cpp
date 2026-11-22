@@ -72,6 +72,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/map/CsnGroundQuery.h"
 
 
 #pragma inline_depth(1)
@@ -206,7 +207,6 @@ extern const f32 lbl_805D8D80;
 extern const f32 lbl_805D8E5C;
 extern const f32 lbl_805D8E9C;
 extern const f32 lbl_805D8EA0;
-u8 * csnVecterUnder(s32 *, s32);
 extern const f32 lbl_805D8D90;
 extern const f32 lbl_805D8D94;
 f64 atan2_float(f32, f32);
@@ -348,12 +348,6 @@ struct Obj_80060F4C {
 };
 
 struct ByteBlock_10 { u8 bytes[0x10]; };
-
-struct Stack_80063F34 {
-    s32 sp8;
-    f32 spC;
-};
-
 
 
 struct O_80064AB0 { u8 pad[0x1c]; u16 id; u8 pad2[0x38c - 0x1e]; u16 kind; u8 pad3[6]; f32 x; u8 pad4[4]; f32 z; };
@@ -1104,7 +1098,7 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
         out.y = *(f32 *)((s8 *)arg0 + 0x3C);
         out.z = r * cos_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x40);
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&tmp, &out);
-        p = ((u8 * (*)(void *, s32))csnVecterUnder)(&tmp, 0x16EF);
+        p = (u8 *)csnVecterUnder(&tmp, 0x16EF);
         if (p == NULL || *(f32 *)((s8 *)(*(u8 **)((s8 *)p + 4)) + 4) > 6.0f) {
             out.x = 100.0f * sin_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x38);
             out.y = *(f32 *)((s8 *)arg0 + 0x3C);
@@ -1436,7 +1430,7 @@ void TBoss5Gryphon::update_ground_effects() {
     p[4].z = 0.5f * (self->cp[6].z + self->cp[7].z);
     q = pts;
     for (i = 0; i < 16; i++, q++) {
-        Hit_8005E594 *hit = (Hit_8005E594 *)csnVecterUnder((s32 *)q, 0x16EF);
+        Hit_8005E594 *hit = (Hit_8005E594 *)csnVecterUnder(q, 0x16EF);
         if (hit == NULL) {
             q->y = lbl_805D8D94;
         } else {
@@ -2199,7 +2193,7 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
                         v.x = r * sin_table_lookup(ang) + ((Vec *)(pl + 0x38))->x;
                         v.y = lbl_805D8DD0 + ((Vec *)(pl + 0x38))->y;
                         v.z = r * cos_table_lookup(ang) + ((Vec *)(pl + 0x38))->z;
-                        hit = (Hit_80060020 *)csnVecterUnder((s32 *)&v, 0x16EF);
+                        hit = (Hit_80060020 *)csnVecterUnder(&v, 0x16EF);
                         ang += 0x2000;
                     } while (hit == NULL || hit->p->y > 6.0f);
                     found = 1;
@@ -2212,7 +2206,7 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
                     v.x = r * sin_table_lookup(ang);
                     v.y = 0.0f;
                     v.z = r * cos_table_lookup(ang);
-                    hit = (Hit_80060020 *)csnVecterUnder((s32 *)&v, 0x16EF);
+                    hit = (Hit_80060020 *)csnVecterUnder(&v, 0x16EF);
                     r -= lbl_805D8DCC;
                 } while (hit == NULL || hit->p->y > 6.0f);
             }
@@ -4024,16 +4018,16 @@ void TBoss8Dragon__sub_80063EF4(saddr arg0) {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::spawn_ground_splash() {
-    Stack_80063F34 stack;
+    Vec pos;
     f32 temp_f1;
-    u8 *temp_r3;
-    VecCopy__FP3VecPC3Vec((void*)(&stack.sp8), (void*)((void *) (((u8 *)this) + 0x38)));
-    temp_r3 = csnVecterUnder(&stack.sp8, 0x16EF);
-    if (temp_r3 != NULL) {
-        temp_f1 = *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
+    CsnHit *hit;
+    VecCopy__FP3VecPC3Vec((void*)(&pos), (void*)((void *) (((u8 *)this) + 0x38)));
+    hit = csnVecterUnder(&pos, 0x16EF);
+    if (hit != NULL) {
+        temp_f1 = hit->contact->point.y;
         if (!(temp_f1 > 6.0f)) {
-            stack.spC = temp_f1;
-            spawn_particle_effect_with_flags((const Vec *)&stack.sp8, **(saddr **)((u8 *)this + 0x5F0), 0x40);
+            pos.y = temp_f1;
+            spawn_particle_effect_with_flags(&pos, **(saddr **)((u8 *)this + 0x5F0), 0x40);
             play_se(0x40032D01);
         }
     }

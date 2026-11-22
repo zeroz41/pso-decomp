@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/map/CsnGroundQuery.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -139,7 +140,6 @@ struct Obj_800C4754 : VBase_800C4754 {
 
 extern "C" {
 
-s32 *csnVecterUnder(saddr origin, s32 mask);
 u32 csnVector(void *, void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void TObjEneDD__sub_800C2618(void *p);
@@ -262,7 +262,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         o->start.x += o->velA.x;
         o->start.y += o->fF0;
         o->start.z += o->velA.z;
-        hit = (Hit_800C4754 *)csnVecterUnder((saddr)&o->start, 0x16EF);
+        hit = (Hit_800C4754 *)csnVecterUnder(&o->start, 0x16EF);
         if (hit != NULL) {
             o->pos.y = *(f32 *)(hit->tri + 4);
             VecCopy((Vec *)&o->accel, (const Vec *)(hit->tri + 0xC));

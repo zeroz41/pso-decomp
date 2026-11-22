@@ -26,6 +26,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/map/CsnGroundQuery.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -44,12 +45,6 @@ struct Player_80233E78 { u8 pad[0x838]; Vec pipe_pos; s32 pipe_heading; u8 arriv
 struct Rec_8023402C { u16 owner; s16 floor; s32 section; Vec pos; s32 heading; };
 
 struct Pkt_802341B0 { u8 hdr[4]; Rec_8023402C rec; };
-
-struct Hit_8023453C
-{
-  u8 pad[4];
-  void *pos;
-};
 
 struct P_802346F8 { s32 t; f32 v; };
 
@@ -139,7 +134,6 @@ s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 extern saddr camera_ctrl_instance;
-Hit_8023453C *csnVecterUnder(void *, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
@@ -434,7 +428,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   Vec v;
   Vec v2;
   long long off;
-  Hit_8023453C *hit;
+  CsnHit *hit;
   void *p;
   const s32 *row;
   s32 i;
@@ -444,7 +438,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   VecCopy(&ground_pos, &pos);
   if (hit != 0)
   {
-    VecCopy(&ground_pos, (const Vec *)hit->pos);
+    VecCopy(&ground_pos, &hit->contact->point);
   }
   row = telepipe_visual_template_table[id];
   off = id * 4;
