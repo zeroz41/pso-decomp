@@ -7,6 +7,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_802A0F3C.h"
 
 
 struct E_802C4698 { u8 pad[0x1c]; };
@@ -57,7 +58,6 @@ u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
 saddr reset(s32);
 s32 export_inventory_entry__10TObjPlayerFiPv(Item_802C3F74 *, s32);
-s32 TObjPlayer__sub_802A1018();
 int init_character_stats_for_level(s32, s8 *, s32);
 int copy_item_entry_array(s8, s32, s32);
 

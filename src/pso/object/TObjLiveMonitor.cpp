@@ -28,6 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 #include "pso/unk/TLobby_8007C550.h"
+#include "pso/unk/text_800832EC.h"
 
 #pragma defer_codegen on
 
@@ -91,7 +92,6 @@ struct Cam_8030BED4 {
 extern "C" {
 s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
-u8 *fn_800832EC(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0);
 extern s32 tl_particlemodel;
 }
 

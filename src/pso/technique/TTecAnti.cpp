@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -24,10 +25,6 @@ const char *TTecAnti_name_ref = "TTecAnti";
 
 
 struct Obj_8022ACB4 { u8 pad[0xA6]; s16 state; };
-extern "C" {
-s32 play_sound_effect(int, void *, int, int);
-
-}
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -20,6 +20,7 @@ struct GinjaTextureList;
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
@@ -62,7 +63,6 @@ struct Node_8018F4AC {
 void PPCSync();
 s32 rotate_matrix_y(int, int);
 s32 post_translate_matrix(void *);
-extern s32 actor_frame_tick;
 
 s32 free_collision_body_parts(void *);
 s32 minimap_render_gate(void *, s32, u16, s32, s32);

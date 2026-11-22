@@ -19,6 +19,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
@@ -228,7 +229,6 @@ f32 atan2_float(f32, f32);
 void TNpcPlayer__ct(void *, u16, u16, s16, s32, void *);
 s32 load_npc_player_template(s16);
 Obj_8034E814 *create_player_object(u16, s32, s32);
-extern s32 local_client_id;
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 
 }

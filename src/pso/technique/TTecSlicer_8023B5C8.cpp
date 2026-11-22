@@ -169,6 +169,7 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 
 struct RecoveredFields_8023B770_var_r29
@@ -314,7 +315,6 @@ struct Slicer_8023BBB4 {
 
 extern "C" {
 s32 subtract_vector(s32, s32);
-s32 test_flags_any(s32 *flags, s32 mask);
 void *get_player_by_client_id(s32 i);
 
 void destroy_if_set__10TTecSlicerFv(u32);

@@ -28,6 +28,8 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -51,11 +53,8 @@ extern "C" {
 
 void *TObjFogCollision__create(void *set);
 
-extern s32 local_client_id;
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
-
-extern s32 game_difficulty_selection;
 
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);

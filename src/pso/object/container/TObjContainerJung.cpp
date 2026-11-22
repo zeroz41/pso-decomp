@@ -40,6 +40,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -109,7 +110,6 @@ extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
-extern s32 local_client_id;
 }
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };

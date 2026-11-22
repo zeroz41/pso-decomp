@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -25,7 +26,6 @@ const char *TObjRaderCol__name = "TObjRaderCol";
 const char *TObjRaderHideCol__name = "TObjRaderHideCol";
 const char *TObjRaderIcon__name = "TObjRaderIcon";
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
-extern s32 local_client_id;
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
 

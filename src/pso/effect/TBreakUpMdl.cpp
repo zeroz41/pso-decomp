@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/render/model_render_state.h"
 
 struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
@@ -111,8 +112,6 @@ s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, NJS_OBJECT *model);
-extern u32 saved_model_render_flags;
-extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
 void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);

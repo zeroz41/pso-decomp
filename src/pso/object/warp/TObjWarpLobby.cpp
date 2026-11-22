@@ -27,6 +27,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -74,8 +75,6 @@ void TObjWarpLobby::debug_print_area_num() {
 extern "C" {
 void request_active_window_close(void);
 s32 create_window_menu_default(f32 *, s32, f32);
-
-extern s32 local_client_id;
 
 void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0);
 s32 post_translate_matrix(void *);

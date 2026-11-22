@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 struct Stack_801ABBAC {
     s32 sp8;
@@ -112,7 +113,6 @@ extern u8 *photon_blast_shared_resource;
 extern "C" {
 void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);

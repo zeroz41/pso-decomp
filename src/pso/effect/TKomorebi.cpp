@@ -17,6 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct AnimationMotion;
 
@@ -42,7 +43,6 @@ s32 scale_matrix(s32, f32, f32, f32);
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
-extern s32 actor_frame_tick;
 
 void TKomorebi::render() {
     f32 temp_f1;

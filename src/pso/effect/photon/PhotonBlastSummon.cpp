@@ -31,6 +31,7 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -197,7 +198,6 @@ struct Obj_801A7428 {
 };
 
 extern "C" {
-void set_active_camera_pose_from_params(u8 *arg0);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
@@ -433,11 +433,9 @@ void TUnk_804C3248::update_state() {
 #pragma pop
 
 #pragma push
-s32 restore_player_cameras(void);
 
 void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_photon_blast_camera(); }
 
-s32 activate_camera_mode(s32 arg0);
 void *get_player_by_client_id(s32 i);
 
 extern s32 local_client_id;

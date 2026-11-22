@@ -31,6 +31,7 @@
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include <string.h>
 #include "pso/technique/TTecCtrl.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -145,7 +146,6 @@ struct VObj_802E3C4C : VBase_802E3C4C {
 struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
 
-s32 test_flags_any(s32 *flags, s32 mask);
 s32 play_weapon_hit_sound(void *);
 
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);

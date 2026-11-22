@@ -11,6 +11,7 @@
 #include "pso/unk/TLobby_80191218.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -47,7 +48,6 @@ void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;
-extern s32 local_client_id;
 void TLobby__sub_80190FD0(int a0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);

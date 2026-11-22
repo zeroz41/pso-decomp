@@ -26,6 +26,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -64,7 +65,6 @@ extern const PhotonLaserParams photon_pilla_laser_packet = {
 };
 extern void *photon_pilla_laser_offset_table[];
 
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
 void *find_entity_by_id(u16 id);
 u32 get_entity_id();

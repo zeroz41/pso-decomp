@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -22,7 +23,6 @@ uaddr TObjNpcAHM01__shared_object;
 uaddr TObjNpcAHM01__texture_handle;
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 void release_texture_list(void*);
 
 void TObjNpcAHM01::free_resources() {

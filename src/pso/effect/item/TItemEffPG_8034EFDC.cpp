@@ -32,6 +32,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecSlicer.h"
+#include "pso/unk/text_80120908.h"
 
 
 struct P_8034F020 { u8 pad0[0x1F8]; s32 f1F8; };
@@ -51,7 +52,6 @@ s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 void *find_entity_by_id(s32);
-void draw_weapon_at_joint(saddr, s8);
 }
 
 // Rappy's fan (TUnk_804F0908) and the TUnk_804F0810 weapon: its own TU, since its

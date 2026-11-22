@@ -41,6 +41,9 @@ struct game_command_header;
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/network/client_id.h"
+#include "pso/network/TProtocol.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -95,9 +98,7 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
-void text_builder_append(u8 *str);
 s32 is_split_screen();
-extern s32 local_client_id;
 }
 void text_builder_reset(void);
 struct Obj_8016F64C { u8 pad0[0x2FC]; u8 sub[0x58]; s32 state; };
@@ -111,7 +112,6 @@ void handle_6x80_trigger_trap(game_command_header *command);
 s32 get_current_floor(void);
 extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
-extern s32 enable_v2_features;
 }
 
 struct VBase_18_33b813

@@ -17,6 +17,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/ui/TLevelSelect.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -49,9 +51,7 @@ u8 fn_801D7168(void *);
 u8 fn_801D719C(void *);
 u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
-extern s32 lobby_rule_settings[];
 void apply_drop_restrictions(void *arg0, Item_80105EA4 *it);
-extern s32 game_difficulty_selection;
 void format_drop_table_filename(char *out, const char *prefix);
 s32 get_item_star_count(s32 id);
 }

@@ -12,6 +12,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -71,7 +72,6 @@ struct Sifta_8023AF94 {
 extern "C" {
 saddr get_entity_id(int);
 int TTecSifta__sub_8023AC88(void* p);
-s32 play_sound_effect(int, void *, int, int);
 s32 is_split_screen();
 void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);

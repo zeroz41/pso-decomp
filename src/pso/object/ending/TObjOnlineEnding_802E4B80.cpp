@@ -30,6 +30,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/system/TLoadCtrl_80227390.h"
 
 #pragma readonly_strings on
 
@@ -299,7 +300,6 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
 
 
 void __ct__8TObjBaseFP7TObject(void *, void *);
-void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
 void fn_802E6260();
 #pragma push

@@ -45,6 +45,7 @@ struct NJS_OBJECT;
 #include "pso/item/TItemHeapObject.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_8012121C.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -67,9 +68,7 @@ WeaponArgb get_weapon_color__11TItemWeaponFPv(TItemWeapon *weapon);
 void * get_captured_target_entry(void *, s32);
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
-s16 get_captured_target_collider_index(void *);
 u16 get_uid__10TObjPlayerFv(void *);
-s32 get_captured_target_count(s32 *arg0);
 u8 *find_entity_by_id(s32);
 s32 rotate_matrix_y(int, void *);
 s32 subtract_vector(void *, void *);

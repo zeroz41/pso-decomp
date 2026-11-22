@@ -28,6 +28,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct Ent_8012C384 { u8 pad[0x1c]; u8 f1c[0x10]; };
 
@@ -111,7 +112,6 @@ uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
 struct Obj_8012C714 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1f8 - 0x18c]; u8 f1f8[4]; };
 
 extern "C" {
-s32 test_flags_any(s32 *flags, s32 mask);
 
 void TUnk_804A535C::emit_marker_effects() {
     saddr temp_r31;

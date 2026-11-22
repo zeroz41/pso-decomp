@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/item/drop/TItemDrop_800F93F0.h"
 
 
 #pragma push
@@ -161,11 +162,6 @@ TUnk_80488B68::~TUnk_80488B68() {
 
 }
 
-extern "C" {
-
-saddr load_relocatable_file(saddr arg0, saddr arg1);
-
-}
 TUnk_80488B68::TUnk_80488B68() : TUnk_80488A28() {
     this->m_38 = 0;
     scripted_camera_projection_angle = 0;

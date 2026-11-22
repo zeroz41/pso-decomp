@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -49,7 +50,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-s32 play_sound_effect(int, void *, int, int);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 }

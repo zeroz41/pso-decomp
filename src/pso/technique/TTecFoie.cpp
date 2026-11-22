@@ -15,11 +15,11 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 
 struct Tec_8022FB70 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xC6 - 0x2C]; s16 band; };
 
 extern "C" {
-s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 void TTecFoie::play_foie_cast_sound() {
     Tec_8022FB70 *self = (Tec_8022FB70 *)this;
     s32 h;

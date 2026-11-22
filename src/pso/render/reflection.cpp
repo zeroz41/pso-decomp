@@ -36,6 +36,7 @@
 #include "pso/system/scene/TScene_8029F5B0.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
+#include "pso/network/client_id.h"
 
 s32 lbl_805D65F0;
 void *scene_sora_instance;
@@ -48,7 +49,6 @@ uaddr scene_sora_recon_object;
 Vec sora_reflection_ray_direction = {0.0f, 1.0f, 0.0f};
 
 extern "C" {
-extern s32 local_client_id;
 void reflect_matrix_in_plane(s32 mode, void *plane);
 }
 
