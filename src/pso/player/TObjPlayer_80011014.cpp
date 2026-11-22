@@ -2265,7 +2265,7 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
     return 0;
 }
 
-s32 TObjChara::try_start_action(s32 arg1, s32 collider) {
+s32 TObjChara::try_start_action(s32 attacker, s32 collider) {
     if (((VObj_800163F8 *)this)->m25() != 0) {
         return 1;
     }

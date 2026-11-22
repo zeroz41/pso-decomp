@@ -1252,9 +1252,9 @@ void TBoss3VoloptP02::trigger_breakup() {
 }
 
 // Not called anywhere in the game, so the linker drops it. It is the per-part
-// form of TObjEneDubchik::sub_800A8A7C (same m_388 broken-part bits, same
-// hide_model_nodes/show_model_nodes pair), and its use of three .bss statics is
-// what makes this file's .bss pool before load_resources does.
+// form of TObjEneDubchik::apply_broken_part_visibility (same m_388 broken-part
+// bits, same hide_model_nodes/show_model_nodes pair), and its use of three .bss
+// statics is what makes this file's .bss pool before load_resources does.
 void TBoss3VoloptP02::apply_broken_part_visibility() {
     if (m_388 & 0x10000) {
         hide_model_nodes((NJS_OBJECT **)breakup_flags_a);

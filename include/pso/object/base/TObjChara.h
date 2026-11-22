@@ -66,7 +66,7 @@ public:
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(s32 attacker, s32 collider);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual void refresh_target();
     virtual int has_no_target();
