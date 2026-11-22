@@ -8,6 +8,9 @@ struct Vec;
 
 extern s16 TCameraCtrl__viewport_x;
 extern s16 TCameraCtrl__viewport_y;
+extern s8 camera_ctrl_view_state_byte;
+extern int TCameraCtrl__camera_id;
+extern s16 TCameraCtrl__camera_mode;
 
 struct TCameraCtrl : public TObject {
     virtual ~TCameraCtrl();
@@ -135,6 +138,10 @@ struct TCameraCtrl : public TObject {
     static void target_player0(int arg0);
     static s32 get_camera_no();
     static void set_mode(int a0);
+    static void reset_mode();
+    static void set_camera_id(int id);
+    // The one view split-screen frames run and draw, or -1 for every view.
+    static s8 get_view_state();
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
     static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
     static s32 translate_view_negated(f32 x, f32 y, f32 z);

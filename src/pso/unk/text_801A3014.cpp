@@ -218,7 +218,6 @@ void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
 s32 func_803DCDFC__Fv();
 s32 TLobby__sub_8006EF90();
-s8 TLobby__sub_801A3C40();
 s32 TWindowCtrlMain__sub_8024CB7C();
 s32 TWindowCtrlMain__sub_8024CB8C();
 s32 TKeyBoardControl__sub_8000F90C(s32);
@@ -541,7 +540,7 @@ void run_split_screen_frame(void) {
     s32 i;
     s8 id;
     main_task.begin_frame();
-    id = TLobby__sub_801A3C40();
+    id = TCameraCtrl::get_view_state();
     if (id >= 0) {
         TCameraCtrl::set_mode(id);
         main_task.run_task();

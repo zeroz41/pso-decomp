@@ -4852,10 +4852,7 @@ pso/object/door/TObjDoor.cpp:
 	.text       start:0x801A3C0C end:0x801A3C18
 
 pso/unk/TLobby_801A3C18.cpp:
-	.text       start:0x801A3C18 end:0x801A3C24
-
-pso/camera/TCameraCtrl_801A3C24.cpp:
-	.text       start:0x801A3C24 end:0x801A3C48
+	.text       start:0x801A3C18 end:0x801A3C48
 
 pso/unk/TLobby_801A3C48.cpp:
 	.text       start:0x801A3C48 end:0x801A4C90
