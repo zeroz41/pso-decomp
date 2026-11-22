@@ -233,7 +233,6 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 
 }
 void quest_remove_npc_player(u16 arg0);
-void show_partner_chatter_for_key(s16 key);
 extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);

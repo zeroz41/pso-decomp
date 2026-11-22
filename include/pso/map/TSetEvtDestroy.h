@@ -15,6 +15,21 @@ struct SetDestroyEventRecord {
 };
 struct WaveEventContext { u8* stream; s32 cursor; };
 
+// One floor's ".evt" file from gsl_set_event.gsl: a header, then count event records. TSetEvtDestroy runs
+// the action stream that starts action_stream_offset bytes into the file (name inferred).
+struct FloorEventSet {
+    s32 action_stream_offset;
+    s32 pad_4;
+    s32 count;
+    s32 pad_C;
+    SetDestroyEventRecord records[1];
+};
+
+// Each floor's loaded event set, NULL when the floor has none.
+extern FloorEventSet *floor_event_sets[18];
+
+FloorEventSet *get_area_event_data(s32 floor);
+
 class TEnemyTaskList;
 
 class TSetEvtDestroy : public TObject {
@@ -44,6 +59,8 @@ LAYOUT_ASSERT(TSetEvtDestroyContextOffset, offsetof(TSetEvtDestroy, m_event_cont
 LAYOUT_ASSERT(TSetEvtDestroyCountdownOffset, offsetof(TSetEvtDestroy, m_countdown) == 0x28);
 LAYOUT_ASSERT(TSetEvtDestroyPhaseOffset, offsetof(TSetEvtDestroy, m_phase) == 0x2C);
 LAYOUT_ASSERT(TSetEvtDestroyTaskListOffset, offsetof(TSetEvtDestroy, m_enemy_tasks) == 0x30);
+LAYOUT_ASSERT(FloorEventSetCountOffset, offsetof(FloorEventSet, count) == 8);
+LAYOUT_ASSERT(FloorEventSetRecordsOffset, offsetof(FloorEventSet, records) == 0x10);
 LAYOUT_ASSERT(WaveEventContextSize, sizeof(WaveEventContext) == 8);
 LAYOUT_ASSERT(WaveEventStreamOffset, offsetof(WaveEventContext, stream) == 0);
 LAYOUT_ASSERT(WaveEventCursorOffset, offsetof(WaveEventContext, cursor) == 4);

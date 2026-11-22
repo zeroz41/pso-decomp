@@ -55,8 +55,4 @@ int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }
 void swap_object_row_endian(void *arg0);
 
-// lobby_slot_ptr_table: layout known from its uses only.
-struct LobbySlotPtrTable { s32 value; u8 remaining[0x44]; };
-extern LobbySlotPtrTable lobby_slot_ptr_table;
-
 #endif
