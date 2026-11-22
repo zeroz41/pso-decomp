@@ -78,12 +78,12 @@ void TLobby__sub_803D33E4(AdxTransitionCallback arg0, s32 arg1) {
     lbl_805D766C.fn = arg0;
     lbl_805D766C.arg = arg1;
 }
-void TLobby::set_callback_params(AdxMessageCallback arg0, s32 arg1) {
+void TLobby::set_callback_params(AdxMessageCallback arg0, s32 context) {
     if (lbl_805D766C.fn != NULL) {
         lbl_805D766C.fn(lbl_805D766C.arg);
     }
     lbl_805D765C.fn = arg0;
-    lbl_805D765C.arg = arg1;
+    lbl_805D765C.arg = context;
     if (lbl_805D7664.fn != NULL) {
         lbl_805D7664.fn(lbl_805D7664.arg);
     }
@@ -177,8 +177,8 @@ s32 TLobby::svm_set_cb_svr(s32 arg0, AdxWorkerCallback fn, s32 arg) {
     return i;
 }
 
-void TLobby::set_message_and_notify(char *arg0) {
-    strncpy(svm_callback_message_buffer, arg0, 0xFF);
+void TLobby::set_message_and_notify(char *src) {
+    strncpy(svm_callback_message_buffer, src, 0xFF);
     if (lbl_805D765C.fn != 0) {
         lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
     }

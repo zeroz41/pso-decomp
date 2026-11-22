@@ -70,8 +70,8 @@ void TUnk_804EE470::run_task() {  }
 TUnk_804EE470::~TUnk_804EE470() {
 
 }
-TUnk_804EE470::TUnk_804EE470(TObject *arg1) : TObject(arg1) {
-    *(void * *)&this->unk_1C = arg1;
+TUnk_804EE470::TUnk_804EE470(TObject *parent) : TObject(parent) {
+    *(void * *)&this->unk_1C = parent;
 }
 
 void TLobby__sub_80335FE0(void) {  }

@@ -538,17 +538,17 @@ s32 TLobby::count_set_bits(u32 x) {
     }
     return n;
 }
-s32 TLobby::get_party_min_tier(s32 arg0) {
+s32 TLobby::get_party_min_tier(s32 slot) {
     s32 best;
     s32 i;
     s32 t;
-    best = TWindowSubStatusDisp::get_layout_id(arg0);
+    best = TWindowSubStatusDisp::get_layout_id(slot);
     for (i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != 0U) {
             if (((G_80071698 *)challenge_mode_state)->e[i].f0 == 0) {
                 return -1;
             }
-            t = TLobby__sub_80071B30(i, arg0);
+            t = TLobby__sub_80071B30(i, slot);
             if (best > t) {
                 best = t;
             }

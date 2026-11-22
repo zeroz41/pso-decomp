@@ -224,19 +224,19 @@ f32 TObjPlayer::select_normal_attack_marker() {
 
 #pragma pop
 
-f32 lookup_attack_marker(s32 arg0, s16 arg1, s16 arg2, s32 arg3) {
+f32 lookup_attack_marker(s32 arg0, s16 falz_phase, s16 arg2, s32 class_flags) {
     switch (arg0) {
     case 3:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_dagger + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_dagger + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
     case 14:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_double_saber + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_double_saber + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
     case 15:
-        if (arg3 & CLASS_FLAG_MALE) {
-            return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_male_marker_table + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        if (class_flags & CLASS_FLAG_MALE) {
+            return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_male_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
         }
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_female_marker_table + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_female_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
     default:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table + (arg0 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table + (arg0 * 0xC))) + (falz_phase * 4)) + 0);
     }
 }
 
@@ -338,12 +338,12 @@ s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
 s32 TObjPlayer::get_class_state_field(s32 arg1) {
     saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
-s32 get_ply_level_table_row(s8 cls, s32 arg1) {
+s32 get_ply_level_table_row(s8 cls, s32 lvl) {
   saddr temp_r30;
   s32 temp_r31;
   temp_r30 = *(*(s32 * *)&ply_level_table);
   ;
-  return (*((s32 *) (((s8 *) temp_r30) + (TObjPlayer__sub_801AFDBC(cls) * 4)))) + (TObjPlayer::clamp_index_to_max(arg1) * 0xC);
+  return (*((s32 *) (((s8 *) temp_r30) + (TObjPlayer__sub_801AFDBC(cls) * 4)))) + (TObjPlayer::clamp_index_to_max(lvl) * 0xC);
 }
 
 void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table); }

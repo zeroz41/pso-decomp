@@ -421,7 +421,7 @@ s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg) {
     return 1;
 }
 
-s32 TLobby__sub_802924B4(s32 arg0, u16 arg1) {
+s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   s32 new_var2;
   s32 character_save_record;
   u8 *temp_r30;
@@ -430,7 +430,7 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 arg1) {
   {
     return 0;
   }
-  character_save_record = get_character_save_record((s32) arg1);
+  character_save_record = get_character_save_record((s32) slot_index);
   new_var = 0;
   if (character_save_record == new_var)
   {
@@ -651,7 +651,7 @@ loop_3:
     goto loop_3;
 }
 
-s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
+s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot) {
     s32 lo;
     s32 hi;
     s32 *flags;
@@ -660,17 +660,17 @@ s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
     saddr w;
     lo = TWindowSubStatusDisp::calc_entry_offset(slot);
     hi = TWindowSubStatusDisp::calc_layout_hash(slot);
-    if (reinterpret_cast<const void *>(get_character_save_record((u16)arg1)) == NULL) {
+    if (reinterpret_cast<const void *>(get_character_save_record((u16)card)) == NULL) {
         return -4;
     }
-    if (arg0 < lo || arg0 > hi) {
+    if (total < lo || total > hi) {
         return -4;
     }
-    w = get_character_save_record((u16)arg1) + 0x21C4;
+    w = get_character_save_record((u16)card) + 0x21C4;
     flags = TWindowSubStatusDisp__sub_8006F134((u8 *)w, slot);
     e = (Ent_80292AB4 *)((u8 *)lbl_804DB1F0 + 0x254);
     for (i = 2; i >= 0; i--, e--) {
-        if (e->id != 0 && e->id >= arg0) {
+        if (e->id != 0 && e->id >= total) {
             if (e->id < lo || e->id > hi) {
                 return -4;
             }
@@ -835,14 +835,14 @@ struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 extern "C" {
 int TLobby__sub_80292F5C(void* p);
 
-s32 TLobby::is_value_out_of_range(s32 arg0) {
-    if ((arg0 < TLobby::get_clamped_time_limit()) || (arg0 > 0x8C9F)) {
+s32 TLobby::is_value_out_of_range(s32 seed) {
+    if ((seed < TLobby::get_clamped_time_limit()) || (seed > 0x8C9F)) {
         return 1;
     }
     return 0;
 }
-s32 TLobby__sub_80292F34(s32 arg0) {
-    if ((arg0 < 0x3C) || (arg0 > 0x8C9F)) {
+s32 TLobby__sub_80292F34(s32 limit) {
+    if ((limit < 0x3C) || (limit > 0x8C9F)) {
         return 1;
     }
     return 0;

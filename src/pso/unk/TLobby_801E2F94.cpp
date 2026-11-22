@@ -507,10 +507,10 @@ void TKeyBoardControl__sub_8000F7FC(void);
 void fn_803DCEC8(void);
 void fn_803DCF0C(void);
 
-void TObjPlayer::render_tree(void *arg0) {
+void TObjPlayer::render_tree(void *model) {
     void *var_r31;
 
-    var_r31 = arg0;
+    var_r31 = model;
     do {
         push_matrix();
         compose_motion_node_matrix(var_r31);

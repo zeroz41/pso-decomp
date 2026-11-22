@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjPlayerSet : public TObjBase {
-    TObjPlayerSet(TObject *parent, void *arg2);
+    TObjPlayerSet(TObject *parent, void *set_data);
     virtual ~TObjPlayerSet();
     virtual void render();
     virtual void run_task();

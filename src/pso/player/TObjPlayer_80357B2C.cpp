@@ -183,9 +183,9 @@ TUnk_804F166C::TUnk_804F166C(TObject *parent, Vec *pos, s32 start_angle) : TObje
 }
 #pragma pop
 
-void TObjPlayer::update_battle_control_on_unlock(void *arg0, void *arg1, void *arg2, s32 arg3) {
-    if (arg3 == 0) {
-        ((TObjPlayer *)arg0)->update_battle_control_if_unlocked();
+void TObjPlayer::update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase) {
+    if (phase == 0) {
+        ((TObjPlayer *)player)->update_battle_control_if_unlocked();
     }
 }
 

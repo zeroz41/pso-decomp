@@ -174,7 +174,7 @@ void TUnk_804E23F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 #pragma push
 #pragma fp_contract on
 
-void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2) {
+void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2) {
     s32 *wsrc;
     s32 a;
     s32 b;
@@ -189,8 +189,8 @@ void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2) {
     w.b = b;
     w.c = c;
     normalize_vector((Vec *)&w);
-    S_802D5B78 *tab = *(S_802D5B78 **)((s8 *)*(void **)arg0 + 0xA4);
-    S_802D5B78 *e = (S_802D5B78 *)((s8 *)tab + *(s32 *)((s8 *)arg0 + 4) * 0x2C);
+    S_802D5B78 *tab = *(S_802D5B78 **)((s8 *)*(void **)hit + 0xA4);
+    S_802D5B78 *e = (S_802D5B78 *)((s8 *)tab + *(s32 *)((s8 *)hit + 4) * 0x2C);
     f32 s = e->scale;
     f32 *out = (f32 *)arg1;
     out[0] = e->f1C - (*(f32 *)&w.a) * s;
@@ -380,16 +380,16 @@ TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
     pad_204 = (void *)TObjPlayer::spawn_hit_particles_at_vec;
 }
 
-void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr arg1, saddr arg2) {
+void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr arg1, saddr dir) {
     Vec pos;
-    TObjPlayer__sub_802D5B78((void *)arg1, &pos, (void *)arg2);
-    spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)arg2);
+    TObjPlayer__sub_802D5B78((void *)arg1, &pos, (void *)dir);
+    spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)dir);
 }
 
-void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr arg2) {
+void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir) {
     Vec pos;
     VecCopy(&pos, (const Vec *)arg1);
-    spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)arg2);
+    spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)dir);
 }
 
 extern const f64 lbl_804725B8[1] = { 10430.38043493439 };

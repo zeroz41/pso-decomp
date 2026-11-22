@@ -608,12 +608,12 @@ s32 adxf_load_partition(s32 broken) {
     return -1;
 }
 
-s32 TLobby::read_afs_toc(s32 arg0) {
+s32 TLobby::read_afs_toc(s32 id) {
     s16 *arr;
     Ent_803CD5C4 *e;
     s32 st;
     s32 i;
-    if (arg0 != lobby_adxf_current_file_id) {
+    if (id != lobby_adxf_current_file_id) {
         TLobby::notify_error("E0041303:illigal parameter 'ptid'.(ADXF_GetPtStat)");
         return -3;
     }
@@ -621,7 +621,7 @@ s32 TLobby::read_afs_toc(s32 arg0) {
     if (st != 3) {
         return st;
     }
-    e = ((Ent_803CD5C4 * *)&afs_archive_toc_table)[arg0];
+    e = ((Ent_803CD5C4 * *)&afs_archive_toc_table)[id];
     arr = e->arr;
     if (e->f8 == 0) {
         s32 n;
@@ -675,7 +675,7 @@ void TLobby__sub_803CD804(void) {
 u8 adxf_open_file_buffer[0x2080];
 
 // ADXF_LoadPartitionNw (named by its messages)
-s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC294 *e) {
+s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC294 *e) {
     s32 r;
     u8 *buf;
     r = adxf_chk_prm_pt(id, e);
@@ -686,7 +686,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
         TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
         return -1;
     }
-    lobby_adxf_open_file_handle = ADXF_Open(name, arg2);
+    lobby_adxf_open_file_handle = ADXF_Open(name, mode);
     if (lobby_adxf_open_file_handle == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
         return -1;
@@ -697,7 +697,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
     afs_archive_toc_table[id] = e;
     e->next = NULL;
     strncpy(e->name, name, 0x100);
-    e->f110 = arg2;
+    e->f110 = mode;
     e->fe = 0;
     buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;

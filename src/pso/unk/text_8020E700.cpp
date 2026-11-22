@@ -246,9 +246,9 @@ void clear_shop_armor_flags(void) {
     memset(shop_armor_stock_generated_flags, 0, 0x10);
 }
 
-void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
+void TLobby::copy_armor_shop_entry(s32 arg1, s32 base) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[arg2])[arg1];
+    *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[base])[arg1];
 }
 
 // ---- pso/unk/TLobby_8020ED20

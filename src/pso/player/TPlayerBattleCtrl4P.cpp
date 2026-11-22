@@ -1322,17 +1322,17 @@ void TPlayerBattleCtrl4P::update_player_alive_flags() {
 }
 
 
-s32 calc_battle_score__19TPlayerBattleCtrl4PFPvPv(void *self, u8 *arg1) {
+s32 calc_battle_score__19TPlayerBattleCtrl4PFPvPv(void *self, u8 *player) {
     f32 score;
     s32 mode;
 
-    score = (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x78C));
-    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x77C));
-    score += (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x75C));
-    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x76C));
-    score += (f32)obj_getPtr2B0_20(arg1) * fn_801C19A4(arg1 + 0x79C);
+    score = (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x78C));
+    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x77C));
+    score += (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x75C));
+    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x76C));
+    score += (f32)obj_getPtr2B0_20(player) * fn_801C19A4(player + 0x79C);
     mode = (s32)score;
-    ((TPlayerBattleCtrl4P *)(arg1 + 0x7AC))->set_battle_mode(mode);
+    ((TPlayerBattleCtrl4P *)(player + 0x7AC))->set_battle_mode(mode);
     return mode;
 }
 s32 are_split_screen_battle_players_tied(void) {

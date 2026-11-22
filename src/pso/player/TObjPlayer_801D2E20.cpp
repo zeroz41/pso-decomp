@@ -198,7 +198,7 @@ s32 TObjPlayer__sub_801D2F8C(s16 arg0) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 arg2, s16 arg3) {
+void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 arg3) {
     s16 t;
     if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) == 0 ||
         ((TObjPlayer *)self)->is_flag32_clear() == 0) {
@@ -211,10 +211,10 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
         if (get_validated_attack_stage((u8 *)self) > arg3) {
             ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
         }
-        t = ((TObjPlayer *)obj)->get_action_palette_entry(arg2);
+        t = ((TObjPlayer *)obj)->get_action_palette_entry(kind);
         ((TObjPlayer *)obj)->set_action_palette_state_mode(2);
         ((TObjPlayer *)self)->set_attack_target((s16)(t));
-        TWindowCtrl::dispatch_to_child((u16)((s32 (*)(void *))get_entity_id)(obj), arg2);
+        TWindowCtrl::dispatch_to_child((u16)((s32 (*)(void *))get_entity_id)(obj), kind);
     }
 }
 #pragma pop

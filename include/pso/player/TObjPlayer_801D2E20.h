@@ -37,7 +37,7 @@ s32 TObjPlayer__sub_801D2EE8(s16 arg0);
 s16 TObjPlayer__sub_801D2F0C(void *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s32 TObjPlayer__sub_801D2F8C(s16 arg0);
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 arg2, s16 arg3);
+void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 arg3);
 void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1);
 s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out);
 void * capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player);

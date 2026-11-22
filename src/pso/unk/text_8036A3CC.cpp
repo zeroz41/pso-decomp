@@ -144,26 +144,26 @@ const FlagLink_8036A514 music_flag_link_table[] = {
 const s32 music_sequencer_flag_ids[9] = {11, 14, 17, 21, 22, 42, 45, 36, 39};
 
 
-u32 *get_flag_word_mask(s32 arg0, u32 *mask) {
+u32 *get_flag_word_mask(s32 flag, u32 *mask) {
     s32 word;
-    if (arg0 < 0) {
+    if (flag < 0) {
         return 0;
     }
-    if (arg0 >= 0x31) {
+    if (flag >= 0x31) {
         return 0;
     }
-    word = arg0 / 32;
+    word = flag / 32;
     if (word >= 2) {
         return 0;
     }
-    *mask = 1 << (arg0 & 0x1F);
+    *mask = 1 << (flag & 0x1F);
     return &((Inst_8036A3CC *)TAdSinglePlyChrSelectGC::get_instance())->flags[word];
 }
 
-void unlock_sequencer_flag(s32 arg0) {
+void unlock_sequencer_flag(s32 program) {
     s32 flag;
-    if ((arg0 >= 0) && (arg0 < 9)) {
-        flag = music_sequencer_flag_ids[arg0];
+    if ((program >= 0) && (program < 9)) {
+        flag = music_sequencer_flag_ids[program];
         if (check_flag_index_set(flag) != 1) {
             unlock_music_flag(flag);
         }
@@ -239,12 +239,12 @@ char *get_bgm_filename(s32 arg0) {
 }
 
 
-s32 get_option_table_entry(s32 arg0) {
-    if (arg0 < 0) {
+s32 get_option_table_entry(s32 idx) {
+    if (idx < 0) {
         return 0;
     }
-    if (arg0 >= 0x31) {
+    if (idx >= 0x31) {
         return 0;
     }
-    return (saddr)option_name_table[arg0];
+    return (saddr)option_name_table[idx];
 }

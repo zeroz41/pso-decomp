@@ -28,12 +28,12 @@ uaddr slot_entity_dispatcher_instance;
 void __ct__7TObjectFP7TObject(void *);
 Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1);
 
-void TLobby::send_slot_entity_or_local(u16 arg0, s32 arg1) {
+void TLobby::send_slot_entity_or_local(u16 arg0, s32 buf) {
     if (((u32) slot_entity_dispatcher_instance != 0U) && (arg0 < 4U)) {
-        ((TLobby *)slot_entity_dispatcher_instance)->send_slot_entity(arg0, arg1);
+        ((TLobby *)slot_entity_dispatcher_instance)->send_slot_entity(arg0, buf);
         return;
     }
-    TLobby__sub_8036B1AC(arg1);
+    TLobby__sub_8036B1AC(buf);
 }
 
 void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {

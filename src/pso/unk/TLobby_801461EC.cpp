@@ -197,10 +197,10 @@ void TLobby::flush_pending_flag2() {
     }
 }
 
-void TLobby::set_battle_flag(s32 arg0) {
-    TLobby__battle_flag = arg0;
+void TLobby::set_battle_flag(s32 gateway) {
+    TLobby__battle_flag = gateway;
     TLobby__connect_pending_flags |= 2;
-    net_add_ipv4_route(0, 0, arg0);
+    net_add_ipv4_route(0, 0, gateway);
 }
 
 void get_link_state(s16 *state, s16 *reason);
@@ -547,13 +547,13 @@ char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
 
-void TLobby::set_ppp_password(saddr arg0) {
+void TLobby::set_ppp_password(saddr src) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();
     temp_r31 = (u8 *)&lbl_8050CCE8 + 0xFC;
     memset(temp_r31, 0, 0x20);
-    strncpy((char *)temp_r31, (const char *)arg0, 0x1F);
+    strncpy((char *)temp_r31, (const char *)src, 0x1F);
 }
 
 extern "C" {

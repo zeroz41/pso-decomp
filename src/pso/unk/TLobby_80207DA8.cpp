@@ -302,14 +302,14 @@ void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
-saddr get_floor_scene_table(s32 arg0) {
-    if (arg0 > 0x23) {
+saddr get_floor_scene_table(s32 area) {
+    if (area > 0x23) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        return (saddr)floor_scene_table[arg0].names;
+        return (saddr)floor_scene_table[area].names;
     }
-    return (saddr)lbl_804C8FC0[arg0].names;
+    return (saddr)lbl_804C8FC0[area].names;
 }
 extern "C" {
 

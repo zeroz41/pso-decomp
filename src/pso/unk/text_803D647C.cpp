@@ -5,11 +5,11 @@
 
 #pragma push
 #pragma scheduling off
-f32 TWindowSubStatusDisp::round_away_from_zero(f32 farg0) {
-    if (farg0 < 0.0f) {
-        return -(f32) ceil(-farg0);
+f32 TWindowSubStatusDisp::round_away_from_zero(f32 value) {
+    if (value < 0.0f) {
+        return -(f32) ceil(-value);
     }
-    return (f32) ceil((f64) farg0);
+    return (f32) ceil((f64) value);
 }
 #pragma pop
 

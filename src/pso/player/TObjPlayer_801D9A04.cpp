@@ -20,14 +20,14 @@ s32 TObjPlayer::is_valid_technique_slot(u8 arg0) {
     return (u8)((u8) (arg0 <= 0xFU));
 }
 
-s32 TObjPlayer::check_technique_level(saddr arg0, s32 arg1, u8 arg2) {
-    if (TObjPlayer::is_invalid_slot(arg2) != 0) {
+s32 TObjPlayer::check_technique_level(saddr arg0, s32 idx, u8 level) {
+    if (TObjPlayer::is_invalid_slot(level) != 0) {
         return 1;
     }
-    if (arg2 > TObjPlayer__sub_801C010C(arg0, arg1)) {
+    if (level > TObjPlayer__sub_801C010C(arg0, idx)) {
         return 0;
     }
-    return arg2 <= get_effective_technique_level__10TObjPlayerFPvs(arg0, arg1) ? 1 : 0;
+    return level <= get_effective_technique_level__10TObjPlayerFPvs(arg0, idx) ? 1 : 0;
 }
 
 }

@@ -9,7 +9,7 @@ u32 advance_item_id_counter(u16 client);
 // The floor item records ("ItemCondition"): one per item lying on a floor.
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item);
 void remove_item_condition_at(s16 floor, s32 item_id);
-u32 build_item_id(u16 arg0);
+u32 build_item_id(u16 drop_id_base);
 extern s32 build_item_id_mode;
 extern s32 lbl_805D54E0;
 // Advances the owning client's item id counter past an item id seen from the network.

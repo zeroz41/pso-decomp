@@ -534,28 +534,28 @@ void TPlayerBattleCtrl::run_task() {
     }
 }
 
-void update_player_battle_ctrl_state(void *arg0) {
-    switch (((TPlayerBattleCtrl *)arg0)->state_1c) {
+void update_player_battle_ctrl_state(void *player_battle_ctrl) {
+    switch (((TPlayerBattleCtrl *)player_battle_ctrl)->state_1c) {
     case 0:
-        fn_801C4CE0((TPlayerBattleCtrl *)arg0);
+        fn_801C4CE0((TPlayerBattleCtrl *)player_battle_ctrl);
         return;
     case 1:
-        ((TLobby *)arg0)->update_battle_intro();
+        ((TLobby *)player_battle_ctrl)->update_battle_intro();
         return;
     case 2:
-        ((TLobby *)arg0)->update_timed_wait();
+        ((TLobby *)player_battle_ctrl)->update_timed_wait();
         return;
     case 3:
-        TLobby::update_duel_result((u8 *)arg0);
+        TLobby::update_duel_result((u8 *)player_battle_ctrl);
         return;
     case 4:
-        ((TLobby *)arg0)->end_battle_mode_cleanup();
+        ((TLobby *)player_battle_ctrl)->end_battle_mode_cleanup();
         return;
     case 5:
-        TLobby__sub_801C3AF4((Lobby_801C3AF4 *)arg0);
+        TLobby__sub_801C3AF4((Lobby_801C3AF4 *)player_battle_ctrl);
         return;
     case 6:
-        TLobby__sub_801C38E8((arg0));
+        TLobby__sub_801C38E8((player_battle_ctrl));
     default:
         return;
     }
@@ -1104,7 +1104,7 @@ void TLobby__sub_801C3A40(void) {
     }
 }
 
-void TLobby::init_battle_ctrl(s32 arg0, saddr arg1) {
+void TLobby::init_battle_ctrl(s32 arg0, saddr src) {
     uaddr player_battle_ctrl;
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) == 0U) {
         player_battle_ctrl = (uaddr)TObject::operator new(0x278);
@@ -1114,7 +1114,7 @@ void TLobby::init_battle_ctrl(s32 arg0, saddr arg1) {
         (*(u32 *)&TLobby__battle_mode_data_ptr) = player_battle_ctrl;
     }
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) != 0U) {
-        strncpy((char *)((*(uaddr *)&TLobby__battle_mode_data_ptr) + 0x68), (const char *)arg1, 0x200);
+        strncpy((char *)((*(uaddr *)&TLobby__battle_mode_data_ptr) + 0x68), (const char *)src, 0x200);
         TLobby__battle_config_ptr = arg0;
     }
 }

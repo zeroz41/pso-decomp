@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_802A0A30(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, saddr arg4);
+void fn_802A0A30(s32 arg0, u8 *arg1, s32 arg2, s32 color, saddr arg4);
 }
 
 #endif

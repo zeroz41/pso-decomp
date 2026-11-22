@@ -232,27 +232,27 @@ void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
 void TObjPlayer__sub_802E7470(void) {  }
 void TObjPlayer__sub_802E746C(void) {  }
 
-Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, s32 arg3) {
+Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *piece, s32 arg1, Vec *arg2, s32 index) {
     s32 n;
     Piece_802E72DC *p;
     Vec *q;
     s32 i;
-    ((TObjPlayer *)arg0)->init_zeroed_object();
-    arg0->vt = __vt__13TUnk_804E3BC0;
-    if (arg3 >= 0 && (u32)arg3 < 6) {
-        n = lbl_80472C68[arg3];
+    ((TObjPlayer *)piece)->init_zeroed_object();
+    piece->vt = __vt__13TUnk_804E3BC0;
+    if (index >= 0 && (u32)index < 6) {
+        n = lbl_80472C68[index];
     } else {
         n = -1;
     }
     if (n > 0) {
-        ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
-        ((TUnk_804E3BC0 *)arg0)->sub_802E7640();
-        p = arg0->pieces;
-        for (i = 0; i < arg0->count; i++, p++) {
+        ((TUnk_804E3BD8 *)piece)->alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
+        ((TUnk_804E3BC0 *)piece)->sub_802E7640();
+        p = piece->pieces;
+        for (i = 0; i < piece->count; i++, p++) {
             VecCopy((Vec *)&p->pos, (const Vec *)arg2);
-            vec3_add_to(&p->pos, &arg0->tbl->items[i].a);
+            vec3_add_to(&p->pos, &piece->tbl->items[i].a);
             q = &p->rot;
-            VecCopy((Vec *)q, (const Vec *)&arg0->tbl->items[i].b);
+            VecCopy((Vec *)q, (const Vec *)&piece->tbl->items[i].b);
             q->y = lerp__9TDeadSpotFff(lbl_805DE9D4, lbl_805DE9D8);
             q->z -= lerp__9TDeadSpotFff(lbl_805DE9C8, lbl_805DE9DC);
             p->x18 = TObjPlayer::calc_random_scaled();
@@ -262,9 +262,9 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, 
             p->x24 = lbl_805DE9C8;
         }
     } else {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)piece)->queue_destruction();
     }
-    return arg0;
+    return piece;
 }
 
 TUnk_804E3BC0::~TUnk_804E3BC0() {

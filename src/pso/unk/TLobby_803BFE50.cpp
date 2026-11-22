@@ -232,8 +232,8 @@ void TLobby::set_count(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x34) = arg1;
 }
-s32 audio_stream_get_output_samples(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x2C);
+s32 audio_stream_get_output_samples(u8 *lobby) {
+    return *(s32 *)((s8 *)lobby + 0x2C);
 }
 
 struct Obj_803C0628;
@@ -417,17 +417,17 @@ void TLobby::reset_flag() {
     TLobby__sub_803C39CC((u8 *)(*(saddr *)((s8 *)arg0 + 4)));
     *(s8 *)((s8 *)arg0 + 1) = 0;
 }
-void audio_stream_start(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x98) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0;
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    *(s32 *)((s8 *)arg0 + 0x38) = 0x7FFFFFFF;
-    *(s32 *)((s8 *)arg0 + 0x3C) = -1;
-    *(s32 *)((s8 *)arg0 + 0x40) = 0;
-    *(s32 *)((s8 *)arg0 + 0x44) = 0;
-    *(s8 *)((s8 *)arg0 + 3) = 0;
-    *(s8 *)((s8 *)arg0 + 1) = 1;
+void audio_stream_start(u8 *lobby) {
+    *(s32 *)((s8 *)lobby + 0x98) = 0;
+    *(s32 *)((s8 *)lobby + 0x2C) = 0;
+    *(s32 *)((s8 *)lobby + 0x30) = 0;
+    *(s32 *)((s8 *)lobby + 0x34) = 0;
+    *(s32 *)((s8 *)lobby + 0x38) = 0x7FFFFFFF;
+    *(s32 *)((s8 *)lobby + 0x3C) = -1;
+    *(s32 *)((s8 *)lobby + 0x40) = 0;
+    *(s32 *)((s8 *)lobby + 0x44) = 0;
+    *(s8 *)((s8 *)lobby + 3) = 0;
+    *(s8 *)((s8 *)lobby + 1) = 1;
 }
 void TLobby::set_network_result(s32 result) {
     u8 *arg0 = (u8 *)this;

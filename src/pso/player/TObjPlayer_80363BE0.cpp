@@ -86,12 +86,12 @@ void reset_id_array__10TObjPlayerFPv(void *arg0) {
     *(s32 *)((u8 *)arg0 + 0xB0) = 0;
 }
 
-void TObjPlayer::push_to_list(s32 arg1) {
+void TObjPlayer::push_to_list(s32 id) {
     s32 temp_r0;
 
     temp_r0 = this->motion_flags;
     if (temp_r0 < 0x20) {
-        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[temp_r0].f0 = arg1;
+        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[temp_r0].f0 = id;
         this->motion_flags = (this->motion_flags + 1);
     }
 }

@@ -617,29 +617,29 @@ inline s32 find_803CF958(char *s, s32 len) {
     }
     return 0;
 }
-void cvFsSetDefDev(char *arg0) {
+void cvFsSetDefDev(char *src) {
     s32 len;
     u32 j;
     u32 n;
-    if (arg0 == NULL) {
+    if (src == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(lbl_805D75FC, "cvFsSetDefDev #1:illegal device name", 0);
         }
         return;
     }
-    len = strlen(arg0);
+    len = strlen(src);
     if (len == 0) {
         fs_default_device_name[0] = 0;
         return;
     }
-    n = strlen(arg0) + 1;
+    n = strlen(src) + 1;
     for (j = 0; j < n; j++) {
-        if (arg0[j] >= 'a' && arg0[j] <= 'z') {
-            arg0[j] -= 0x20;
+        if (src[j] >= 'a' && src[j] <= 'z') {
+            src[j] -= 0x20;
         }
     }
-    if (find_803CF958(arg0, len) == 1) {
-        memcpy(fs_default_device_name, arg0, len + 1);
+    if (find_803CF958(src, len) == 1) {
+        memcpy(fs_default_device_name, src, len + 1);
         return;
     }
     if (cvfs_completion_callback != NULL) {

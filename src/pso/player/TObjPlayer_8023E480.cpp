@@ -100,8 +100,8 @@ s32 bind_gvm_texture_list(const char *name, GinjaTextureList *texlist) {
     return 1;
 }
 
-s32 free_texture_if_valid(u32 arg0) {
-    if (arg0 == 0U) {
+s32 free_texture_if_valid(u32 texlist) {
+    if (texlist == 0U) {
         return 0;
     }
     release_texture_list();

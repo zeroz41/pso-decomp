@@ -43,10 +43,10 @@ void load_selected_guild_card_record(Src_8024220C *arg0);
 void TLobby::set_field0(void *owner) { ((SoundRequestVoice *)this)->owner = (SoundRequestOwner *)owner; }
 
 
-void TLobby::clamp_field9c(f32 farg0) {
+void TLobby::clamp_field9c(f32 scale) {
     f32 var_f1;
 
-    var_f1 = farg0;
+    var_f1 = scale;
     if (var_f1 < 0.0f) {
         *(f32 *)((s8 *)this + 0x9C) = -1.0f;
         return;
@@ -971,10 +971,10 @@ SoundRequestVoice::SoundRequestVoice() {
 s32 TLobby::get_field_308() { return *(s32*)((char*)this + 0x308); }
 void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
 
-void TLobby::send_find_user_self_tag(s32 arg0) {
+void TLobby::send_find_user_self_tag(s32 gc_num) {
     if ((u32) TLobby__protocol_instance != 0U) {
         Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)TLobby__protocol_instance + 0x1900);
-        ((TProtocol *)TLobby__protocol_instance)->send_find_user(*(TPlyGuildCardTag *)&tag, arg0);
+        ((TProtocol *)TLobby__protocol_instance)->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }
 

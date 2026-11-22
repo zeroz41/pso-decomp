@@ -25,7 +25,7 @@ extern "C" {
 }
 void init_capture_texture(s32 wide);
 extern "C" {
-s32 is_in_shadow_range(u8 *arg0, f32 farg0);
+s32 is_in_shadow_range(u8 *radius, f32 farg0);
 }
 
 void begin_shadow_map_pass();

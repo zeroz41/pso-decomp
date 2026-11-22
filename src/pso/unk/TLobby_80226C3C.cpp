@@ -88,9 +88,9 @@ void set_cue_stream_gain(s32 arg0) {
     }
 }
 
-void set_music_streams_volume(s32 arg0) {
+void set_music_streams_volume(s32 total) {
     s32 var_r31;
-    var_r31 = arg0;
+    var_r31 = total;
     if (var_r31 <= -0x140) {
         var_r31 = -0x3E7;
     }

@@ -261,14 +261,14 @@ s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
     return 0;
 }
 
-void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2) {
+void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 owner_client_id) {
     u8 *plr;
     u8 *ent;
     s32 i;
     Hit_801A86E0 tmp1;
     Hit_801A86E0 tmp2;
 
-    ent = (u8 *)find_entity_by_id(arg2);
+    ent = (u8 *)find_entity_by_id(owner_client_id);
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
         plr = (u8 *)TObjPlayer::get_player_data(i);
         if (plr != NULL && !(*(s32 *)((s8 *)plr + 0x30) & 0x40000000)) {

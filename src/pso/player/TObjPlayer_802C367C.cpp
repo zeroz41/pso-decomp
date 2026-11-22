@@ -104,7 +104,7 @@ void init_character_stats_for_level(s32 cls, Char_802C38B4 *c, s32 level) {
     ((TObjPlayer *)c)->set_field_157(0);
 }
 
-void init_new_character_stats(void *arg0) {
-    init_character_stats_for_level(*(u8 *)((s8 *)arg0 + 0x3A1), (Char_802C38B4 *)(arg0), 0);
+void init_new_character_stats(void *player) {
+    init_character_stats_for_level(*(u8 *)((s8 *)player + 0x3A1), (Char_802C38B4 *)(player), 0);
 }
 }

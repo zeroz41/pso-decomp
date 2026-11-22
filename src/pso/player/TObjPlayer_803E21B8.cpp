@@ -140,10 +140,10 @@ void TObjPlayer::setup_vtx_desc() {
 #pragma push
 #pragma scheduling off
 
-void TObjPlayer::setup_color_channels(int arg0) {
-    GXSetNumChans(arg0);
+void TObjPlayer::setup_color_channels(int total) {
+    GXSetNumChans(total);
     GXSetChanCtrl(4, 0, 0, 1, 0, 0, 2);
-    if (arg0 == 2) {
+    if (total == 2) {
         GXSetChanCtrl(5, 0, 0, 1, 0, 0, 2);
     }
 }

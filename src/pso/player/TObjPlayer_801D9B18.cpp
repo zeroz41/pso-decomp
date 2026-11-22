@@ -4,10 +4,10 @@
 #include "pso/player/TObjPlayer.h"
 
 
-void TObjPlayer::set_tech_level(s16 arg1) {
+void TObjPlayer::set_tech_level(s16 lim) {
     s16 var_r4;
 
-    var_r4 = arg1;
+    var_r4 = lim;
     if ((var_r4 < 0) || (var_r4 > 0xA)) {
         var_r4 = 0;
     }
@@ -25,11 +25,11 @@ u8 TObjPlayer__sub_801C010C(void *self, s16 i);
 u8 clamp_to_max__10TObjPlayerFlUcUc(s32 arg0, u8 arg1, u8 arg2);
 void set_technique_level_entry(void *, s16, void *);
 
-void TObjPlayer::set_all_technique_levels(void *arg1) {
+void TObjPlayer::set_all_technique_levels(void *level) {
     s32 i;
     s32 n = TObjPlayer__sub_801D9E08();
     for (i = 0; i < n; i++) {
-        set_technique_level_entry(this, i, arg1);
+        set_technique_level_entry(this, i, level);
     }
 }
 

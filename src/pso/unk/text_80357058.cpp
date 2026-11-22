@@ -68,12 +68,12 @@ void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
     }
 }
 
-void TBoss6Type2__sub_803570C8(s8 *arg0) {
+void TBoss6Type2__sub_803570C8(s8 *buf) {
     s32 var_ctr;
 
     for (var_ctr = 0x40; var_ctr != 0; var_ctr -= 1) {
-        *arg0 = -1;
-        arg0 += 1;
+        *buf = -1;
+        buf += 1;
     }
 }
 
@@ -266,6 +266,6 @@ TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, S_80357734 *params) 
     update_position_from_velocity();
 }
 
-void TItemEffOrgaFlowShot::create(void *arg0, void *arg1) {
-    new TItemEffOrgaFlowShot((TObject *)arg0, (S_80357734 *)arg1);
+void TItemEffOrgaFlowShot::create(void *parent, void *arg1) {
+    new TItemEffOrgaFlowShot((TObject *)parent, (S_80357734 *)arg1);
 }

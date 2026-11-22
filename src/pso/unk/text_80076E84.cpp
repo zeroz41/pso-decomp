@@ -15,8 +15,8 @@ u8 symbol_chat_receive_buffer[0x58];
 extern s8 pending_symbol_chat_count;
 extern s32 local_client_id;
 void handle_6x07_symbol_chat(Pkt_80076E98 *arg0);
-s32 get_technique_name(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (arg0 * 4));
+s32 get_technique_name(s32 id) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (id * 4));
 }
 void handle_6x07_symbol_chat(Pkt_80076E98 *arg0) {
     u32 *p;

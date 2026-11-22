@@ -641,10 +641,10 @@ u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask) {
 }
 
 void* TObjPlayer__sub_801BE918(void* a0, int a1, void* a2, void* a3) { *(float*)((char*)a2 + 0x0) = *(float*)((char*)a0 + a1 * 8 + 0x6b0); *(float*)((char*)a3 + 0x0) = *(float*)((char*)a0 + a1 * 8 + 0x6b4); return (char*)a0 + a1 * 8; }
-s32 TObjPlayer::clamp_index_to_max(s32 arg0) {
+s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
-    max_level = arg0;
+    max_level = level;
     if (max_level < 0) {
         max_level = 0;
     } else if (max_level > TObjPlayer::get_max_level()) {
@@ -680,8 +680,8 @@ void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
 
 
 void TObjPlayer::set_action_flag_2() { this->m_334 |= 0x2; }
-void set_flag_400000(TObjPlayer *arg0) {
-    arg0->set_state_flags(0x400000);
+void set_flag_400000(TObjPlayer *player) {
+    player->set_state_flags(0x400000);
 }
 int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }

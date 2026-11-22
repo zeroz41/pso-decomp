@@ -126,10 +126,10 @@ void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1) {
     }
 }
 
-s32 send_login_9e_extended__6TLobbyFPvPvi(u8 *arg0, u8 *arg1, s32 arg2) {
+s32 send_login_9e_extended__6TLobbyFPvPvi(u8 *arg0, u8 *src, s32 arg2) {
     Pkt_801DA8C4 pkt;
     memset(arg0 + 0x3F7A, 0, 0x10);
-    strncpy((char *)(arg0 + 0x3F7A), (const char *)arg1, 0x10);
+    strncpy((char *)(arg0 + 0x3F7A), (const char *)src, 0x10);
     *(s32 *)(arg0 + 0x1930) = arg2;
     ((TPlySmth *)(&pkt))->construct();
     memset(&pkt, 0, 0x150);

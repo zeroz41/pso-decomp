@@ -44,8 +44,8 @@ void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     }
 }
 
-void *TLobby::create_object(void *arg0) {
-    return new TWindowMenuTeamStatus((saddr)arg0);
+void *TLobby::create_object(void *tbl) {
+    return new TWindowMenuTeamStatus((saddr)tbl);
 }
 
 TWindowMenuTeamStatus::~TWindowMenuTeamStatus() {}

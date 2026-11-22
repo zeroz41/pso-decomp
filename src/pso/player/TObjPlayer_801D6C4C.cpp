@@ -33,11 +33,11 @@ s8 TObjPlayer__sub_801D6D28(void *arg0) {
     return temp_r3;
 }
 
-void TObjPlayer::set_level(s32 arg1) {
+void TObjPlayer::set_level(s32 lvl) {
     u8 *arg0 = (u8 *)this;
     s32 var_r4;
 
-    var_r4 = arg1;
+    var_r4 = lvl;
     if ((var_r4 < 0) || (var_r4 > 0x63)) {
         var_r4 = 0;
     }

@@ -46,10 +46,10 @@ void TLobby::dispatch_by_index(s32 arg0) {
     }
 }
 
-void TLobby::open_scroll_text_window(saddr arg0) {
+void TLobby::open_scroll_text_window(saddr src) {
     void *obj;
     if (lobby_scroll_text_window == 0) {
-        strncpy((char *)lobby_scroll_text_buffer, (const char *)arg0, 0x1000);
+        strncpy((char *)lobby_scroll_text_buffer, (const char *)src, 0x1000);
         lobby_scroll_text_buffer[0xFFF] = 0;
         obj = TObject::operator new(0x54);
         if (obj != 0) {
@@ -77,19 +77,19 @@ void TLobby::copy_player_records(s32 arg1) {
 }
 
 struct ByteBlock_100 { u8 bytes[0x100]; };
-void TLobby::copy_player_record(u8 *arg1) {
-    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(ByteBlock_100 *)((saddr) ((u8 *)this) + 4) = *(const ByteBlock_100 *)((saddr) arg1 + 4);
-    *(u16 *)((s8 *)((u8 *)this) + 0x104) = (u16) *(u16 *)((s8 *)arg1 + 0x104);
-    *(u16 *)((s8 *)((u8 *)this) + 0x106) = (u16) *(u16 *)((s8 *)arg1 + 0x106);
-    *(u16 *)((s8 *)((u8 *)this) + 0x108) = (u16) *(u16 *)((s8 *)arg1 + 0x108);
-    *(u16 *)((s8 *)((u8 *)this) + 0x10A) = (u16) *(u16 *)((s8 *)arg1 + 0x10A);
-    *(u16 *)((s8 *)((u8 *)this) + 0x10C) = (u16) *(u16 *)((s8 *)arg1 + 0x10C);
-    *(u16 *)((s8 *)((u8 *)this) + 0x10E) = (u16) *(u16 *)((s8 *)arg1 + 0x10E);
-    *(u16 *)((s8 *)((u8 *)this) + 0x110) = (u16) *(u16 *)((s8 *)arg1 + 0x110);
-    *(u16 *)((s8 *)((u8 *)this) + 0x112) = (u16) *(u16 *)((s8 *)arg1 + 0x112);
-    *(s32 *)((s8 *)((u8 *)this) + 0x114) = (s32) *(s32 *)((s8 *)arg1 + 0x114);
-    *(s32 *)((s8 *)((u8 *)this) + 0x118) = (s32) *(s32 *)((s8 *)arg1 + 0x118);
+void TLobby::copy_player_record(u8 *challenge) {
+    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)challenge + 0);
+    *(ByteBlock_100 *)((saddr) ((u8 *)this) + 4) = *(const ByteBlock_100 *)((saddr) challenge + 4);
+    *(u16 *)((s8 *)((u8 *)this) + 0x104) = (u16) *(u16 *)((s8 *)challenge + 0x104);
+    *(u16 *)((s8 *)((u8 *)this) + 0x106) = (u16) *(u16 *)((s8 *)challenge + 0x106);
+    *(u16 *)((s8 *)((u8 *)this) + 0x108) = (u16) *(u16 *)((s8 *)challenge + 0x108);
+    *(u16 *)((s8 *)((u8 *)this) + 0x10A) = (u16) *(u16 *)((s8 *)challenge + 0x10A);
+    *(u16 *)((s8 *)((u8 *)this) + 0x10C) = (u16) *(u16 *)((s8 *)challenge + 0x10C);
+    *(u16 *)((s8 *)((u8 *)this) + 0x10E) = (u16) *(u16 *)((s8 *)challenge + 0x10E);
+    *(u16 *)((s8 *)((u8 *)this) + 0x110) = (u16) *(u16 *)((s8 *)challenge + 0x110);
+    *(u16 *)((s8 *)((u8 *)this) + 0x112) = (u16) *(u16 *)((s8 *)challenge + 0x112);
+    *(s32 *)((s8 *)((u8 *)this) + 0x114) = (s32) *(s32 *)((s8 *)challenge + 0x114);
+    *(s32 *)((s8 *)((u8 *)this) + 0x118) = (s32) *(s32 *)((s8 *)challenge + 0x118);
 }
 
 struct Ent_80134C44 { u8 pad[4]; u32 key; u32 val; };

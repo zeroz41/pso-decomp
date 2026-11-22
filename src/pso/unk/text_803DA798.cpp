@@ -68,8 +68,8 @@ extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2);
 s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
-s32 TObjFish::set_global_param(saddr arg0) {
-    *(s32 *)((s8 *)current_render_context + 0x20) = arg0;
+s32 TObjFish::set_global_param(saddr texlist) {
+    *(s32 *)((s8 *)current_render_context + 0x20) = texlist;
     return 1;
 }
 }
@@ -135,8 +135,8 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 #pragma push
 #pragma peephole off
-s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1) {
-    TObjPlayer__sub_803DA808((void *)*(saddr *)((s8 *)arg0 + 0x1C), arg1, *(u32 *)((s8 *)arg0 + 0x14));
+s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 src) {
+    TObjPlayer__sub_803DA808((void *)*(saddr *)((s8 *)arg0 + 0x1C), src, *(u32 *)((s8 *)arg0 + 0x14));
     return 0;
 }
 #pragma pop
@@ -221,8 +221,8 @@ void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1) {
-    u8 *p = (*(Ent_803DAB9C * *)&record_array_ptr)[arg0].d;
+s32 TObjPlayer__sub_803DAB9C(s32 handle, s32 arg1) {
+    u8 *p = (*(Ent_803DAB9C * *)&record_array_ptr)[handle].d;
     if (p == 0) {
         ((s32 *)&lbl_8058D470)[2] = 1;
         return -1;
@@ -236,15 +236,15 @@ s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer__sub_803DAC1C(s32 arg0) {
-    TObjPlayer__sub_803DAE98(&((GinjaTextureState *)record_array_ptr)[arg0]);
+void TObjPlayer__sub_803DAC1C(s32 handle) {
+    TObjPlayer__sub_803DAE98(&((GinjaTextureState *)record_array_ptr)[handle]);
 }
 #pragma pop
 
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
+s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *list, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
     switch (TObjPlayer__sub_803DA8E4(arg2, arg3, *arg4, arg5)) {
     case -1:
         return -1;
@@ -253,10 +253,10 @@ s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 i, u32 arg2, u32 arg3, s32 
         if (*arg5 < 0) {
             return -1;
         }
-        TObjPlayer__sub_803DAB7C(arg0, i, *arg5);
+        TObjPlayer__sub_803DAB7C(list, i, *arg5);
         return 0;
     case 1:
-        TObjPlayer__sub_803DAB7C(arg0, i, *arg5);
+        TObjPlayer__sub_803DAB7C(list, i, *arg5);
         return 1;
     }
     return 0;
@@ -311,9 +311,9 @@ s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2) {
 }
 
 struct Obj_803DAD84;
-s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2) {
+s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 size, u32 arg2) {
     TObjPlayer__sub_803DA7E0();
-    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(current_render_context + 0x20))[arg0].c, arg1, arg2);
+    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(current_render_context + 0x20))[arg0].c, size, arg2);
     if (r < 0) {
         lbl_8058D470.a = arg0;
     }

@@ -296,8 +296,8 @@ f32 TObjPlayer::get_end_text_value(f32 x) {
 
 void TObjPlayer__sub_800847FC(void) {  }
 
-void TObjPlayer::set_tex_coord_gen(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    GXSetTexCoordGen2(arg0, arg1, arg2, arg3, 0, 0x7D);
+void TObjPlayer::set_tex_coord_gen(s32 dst, s32 func, s32 src, s32 mtx) {
+    GXSetTexCoordGen2(dst, func, src, mtx, 0, 0x7D);
 }
 
 unsigned char get_camera_capture_flags(void) {  return camera_capture_flags; }
@@ -386,7 +386,7 @@ void TObjPlayer__sub_80084500(void) {
     load_list_texture(0, 0, 0, 0);
 }
 
-void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 arg3) {
+void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *size, s32 arg3) {
     u32 temp_r31;
     void *temp_r4;
     void *temp_r4_2;
@@ -419,13 +419,13 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
     temp_r31 = (arg0 << 8) | (arg0 >> 24);
     GXColor1u32_80083594(temp_r31);
     GXTexCoord2f32_80083594(0.0f, 0.0f);
-    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), arg1[1] * z, z);
+    GXPosition3f32_80083594(z * (arg1[0] + size[0]), arg1[1] * z, z);
     GXColor1u32_80083594(temp_r31);
     GXTexCoord2f32_80083594(1.0f, 0.0f);
-    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), z * (arg1[1] + arg2[1]), z);
+    GXPosition3f32_80083594(z * (arg1[0] + size[0]), z * (arg1[1] + size[1]), z);
     GXColor1u32_80083594(temp_r31);
     GXTexCoord2f32_80083594(1.0f, 1.0f);
-    GXPosition3f32_80083594(arg1[0] * z, z * (arg1[1] + arg2[1]), z);
+    GXPosition3f32_80083594(arg1[0] * z, z * (arg1[1] + size[1]), z);
     GXColor1u32_80083594(temp_r31);
     GXTexCoord2f32_80083594(0.0f, 1.0f);
     TObjPlayer__sub_800847FC();
@@ -591,8 +591,8 @@ void begin_shadow_map_pass(void) {
 }
 
 #undef VIEW
-s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
-    if (((uaddr) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, &shadow_light_position)) <= 8537.761f)) {
+s32 is_in_shadow_range(u8 *radius, f32 farg0) {
+    if (((uaddr) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)radius, &shadow_light_position)) <= 8537.761f)) {
         return 1;
     }
     return 0;
@@ -717,7 +717,7 @@ void load_projection_tex_matrix(saddr rotation_y) {
     }
 }
 
-void load_projected_texture_matrix(f32 farg0) {
+void load_projected_texture_matrix(f32 aspect) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800836E8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_800836E8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800836E8, sp10) == 0x8);
@@ -728,9 +728,9 @@ void load_projected_texture_matrix(f32 farg0) {
         push_matrix();
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
         if (TCameraCtrl__sub_800689F4() != 0) {
-            C_MTXLightPerspective(stack.sp10, temp_f31, farg0, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
+            C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
         } else {
-            C_MTXLightPerspective(stack.sp10, temp_f31, farg0, 0.5f, -0.5f, 0.5f, 0.5f);
+            C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, 0.5f, 0.5f);
         }
         PSMTXConcat(stack.sp10, *current_matrix, *current_matrix);
         load_current_tex_matrix(0);
@@ -836,8 +836,8 @@ void TObjPlayer::free_singleton() {
     }
 }
 
-u8 *fn_800832EC(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
+u8 *fn_800832EC(u8 *arg0, saddr parent, s32 arg2, saddr arg3, saddr arg4, f32 farg0) {
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
     ((TUnk_8048E5DC *)arg0)->m_38 = farg0;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg3));

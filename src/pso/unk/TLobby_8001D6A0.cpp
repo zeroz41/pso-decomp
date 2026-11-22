@@ -440,18 +440,18 @@ void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
     }
 }
 
-void TLobby::copy_entry(void *arg1) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)&this->m_prev = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)this + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
+void TLobby::copy_entry(void *ent) {
+    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)ent + 0);
+    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)ent + 2);
+    this->m_flags = (s16) *(s16 *)((s8 *)ent + 4);
+    this->m_id = (s16) *(s16 *)((s8 *)ent + 6);
+    *(s16 *)&this->m_prev = (s16) *(s16 *)((s8 *)ent + 8);
+    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)ent + 0xA);
+    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)ent + 0xC);
+    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)ent + 0x10);
+    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)ent + 0x14);
+    *(s32 *)((s8 *)this + 0x18) = (s32) *(s32 *)((s8 *)ent + 0x18);
+    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)ent + 0x1C);
 }
 
 void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
@@ -485,32 +485,32 @@ void TLobby::copy_from(void *arg1) {
     *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
 }
 
-void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1) {
+void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)src);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
 }
 
-void TLobby::copy_data(void *arg0, void *arg1) {
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s16 *)((s8 *)arg0 + 0xC) = (s16) *(s16 *)((s8 *)arg1 + 0xC);
-    *(s16 *)((s8 *)arg0 + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    *(f32 *)((s8 *)arg0 + 0x14) = (f32) *(f32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
+void TLobby::copy_data(void *stats, void *arg1) {
+    *(s16 *)((s8 *)stats + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
+    *(s16 *)((s8 *)stats + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
+    *(s16 *)((s8 *)stats + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
+    *(s16 *)((s8 *)stats + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
+    *(s16 *)((s8 *)stats + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
+    *(s16 *)((s8 *)stats + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
+    *(s16 *)((s8 *)stats + 0xC) = (s16) *(s16 *)((s8 *)arg1 + 0xC);
+    *(s16 *)((s8 *)stats + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
+    *(f32 *)((s8 *)stats + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
+    *(f32 *)((s8 *)stats + 0x14) = (f32) *(f32 *)((s8 *)arg1 + 0x14);
+    *(s32 *)((s8 *)stats + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
+    *(s32 *)((s8 *)stats + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
+    *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
 }
 
 u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
@@ -678,8 +678,8 @@ s32 TLobby__sub_8001E75C(void *arg0) {
 
 s32 __cvt_fp2unsigned(f32);
 
-s32 TLobby::calc_alpha_shifted(f32 farg0) {
-    return __cvt_fp2unsigned(255.0f * farg0) << 0x18;
+s32 TLobby::calc_alpha_shifted(f32 alpha) {
+    return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
 }
 
 extern s32 TLobby__data_8050AAAC[];

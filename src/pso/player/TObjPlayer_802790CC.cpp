@@ -9,16 +9,16 @@ extern "C" {
 s32 init_status_entry__20TWindowSubStatusDispFPvcUii(void *, u8, s32, s32);
 
 
-void TObjPlayer::add_status_line(u8 arg1, uaddr arg2, s32 arg3) {
+void TObjPlayer::add_status_line(u8 arg1, uaddr item, s32 arg3) {
     void *temp_r31;
 
     temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));
-    if (arg2 == 0U) {
+    if (item == 0U) {
         init_status_entry__20TWindowSubStatusDispFPvcUii(temp_r31, arg1, 0, arg3);
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;
         reinterpret_cast<ItemListRow *>(temp_r31)->category_style = 0xFFAAAAAA;
     } else {
-        ((TWindowSubStatusDisp *)temp_r31)->init_item_row((void *)arg2, (s32)arg3);
+        ((TWindowSubStatusDisp *)temp_r31)->init_item_row((void *)item, (s32)arg3);
     }
     if (arg1 == 4) {
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;

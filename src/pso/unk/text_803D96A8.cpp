@@ -244,7 +244,7 @@ s32 TObjPlayer::is_gvm_load_ok() {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
+s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
     saddr sp8;
     u32 j;
     s32 *temp_r4;
@@ -256,11 +256,11 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
     u8 *temp_r29;
     u8 *temp_r31;
     temp_r6 = *(s32 *)((s8 *)arg0 + 0);
-    temp_r31 = (u8 *)(temp_r6 + (arg1 * 0xC));
+    temp_r31 = (u8 *)(temp_r6 + (idx * 0xC));
     temp_r3 = *(s32 *)((s8 *)temp_r31 + 4);
-    if (((u32) (temp_r3 & 0x10000) != 0) && (arg1 != 0)) {
+    if (((u32) (temp_r3 & 0x10000) != 0) && (idx != 0)) {
         *(u32 *)((s8 *)arg3 + 0) = (u32) (*(s32 *)((s8 *)temp_r31 + 8) & 0xFC000000) >> 0x1AU;
-        j = arg1 - 1;
+        j = idx - 1;
         temp_r29 = ((Tbl_803D9E38 *)temp_r6)->arr[j].p;
         *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)temp_r29 + 0xC)) + 0);
         record_index = TObjPlayer::find_record_index((int) (*(s32 *)((s8 *)arg2 + 0)), (int) (*(u32 *)((s8 *)arg3 + 0)));

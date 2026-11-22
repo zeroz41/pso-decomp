@@ -142,13 +142,13 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
     spawn_particle_effect((const Vec *)obj->pos, 0xFC);
 }
 
-s32 TObjPlayer::snap_to_ground(saddr arg0, saddr arg1) {
+s32 TObjPlayer::snap_to_ground(saddr arg0, saddr origin) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(csnVecterUnder(arg1, 0x16EF));
+    temp_r3 = (u8 *)(csnVecterUnder(origin, 0x16EF));
     if (temp_r3 == NULL) {
         return 0;
     }
-    VecCopy((Vec *)(arg1), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
+    VecCopy((Vec *)(origin), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
     return 1;
 }
 
@@ -199,25 +199,25 @@ TUnk_80494E10::~TUnk_80494E10() {
     if (*(void **)((s8 *)this + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE4)))->queue_destruction(); this->m_e4 = 0; }
 }
 
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2, s32 arg3, void *arg4) {
+u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *pos, Vec *arg2, s32 arg3, void *arg4) {
     Ang_800DC83C ang;
     f32 s;
     __ct__14TObjCollidableFP7TObject(arg0, tl_06);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80494E10;
     ((TUnk_80494E10 *)arg0)->m_f4 = arg3;
-    VecCopy((Vec *)(arg0 + 0xAC), (const Vec *)arg1);
+    VecCopy((Vec *)(arg0 + 0xAC), (const Vec *)pos);
     ((TUnk_80494E10 *)arg0)->m_dc = 0.0f;
     VecCopy((Vec *)(arg0 + 0xB8), (const Vec *)arg2);
-    subtract_vector(arg0 + 0xB8, arg1);
+    subtract_vector(arg0 + 0xB8, pos);
     s = lbl_805D525C / vector_length(arg0 + 0xB8);
     ((TUnk_80494E10 *)arg0)->m_b8*= s;
     *(f32 *)((s8 *)arg0 + 0xBC) *= s;
     ((TUnk_80494E10 *)arg0)->m_c0*= s;
     ((TUnk_80494E10 *)arg0)->m_fc = get_entity_id(arg4);
     ang.x = 0;
-    ang.y = (s32)(10430.38043493439 * atan2_float(arg2->x - arg1->x, arg2->z - arg1->z)) + 0x4000;
-    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(arg2->y - arg1->y, vec_xz_distance((Vec *)arg2, (Vec *)arg1)));
-    *(s32 *)((s8 *)arg0 + 0xE0) = (saddr)spawn_particle_effect_with_rotation(arg1, &ang, 0xF5, 2);
+    ang.y = (s32)(10430.38043493439 * atan2_float(arg2->x - pos->x, arg2->z - pos->z)) + 0x4000;
+    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(arg2->y - pos->y, vec_xz_distance((Vec *)arg2, (Vec *)pos)));
+    *(s32 *)((s8 *)arg0 + 0xE0) = (saddr)spawn_particle_effect_with_rotation(pos, &ang, 0xF5, 2);
     if (((TUnk_80494E10 *)arg0)->m_f4 != 0) {
         VecCopy((Vec *)(arg0 + 0xE8), (const Vec *)(arg0 + 0xAC));
         TObjPlayer::snap_to_ground((saddr)arg0, (saddr)(arg0 + 0xE8));

@@ -10,7 +10,7 @@ struct Provider_800F5BC0 { s32 unk0; s32 count; StripRef_800F5BC0 *refs; };
 extern "C" {
 void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2);
 
-void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2) {
+void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 scroll_u, s16 scroll_v) {
     s32 i;
     s16 *strip;
     s16 *uv;
@@ -18,8 +18,8 @@ void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2) {
     u32 j;
     s32 len;
     s32 k;
-    arg1 %= 256;
-    arg2 %= 256;
+    scroll_u %= 256;
+    scroll_v %= 256;
     for (i = 0; i < arg0->count; i++) {
         strip = arg0->refs[i].strip;
         uv = arg0->refs[i].uv;
@@ -30,8 +30,8 @@ void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2) {
                 len = -len;
             }
             for (k = 0; k < len; k++) {
-                strip[1] = uv[0] + arg1;
-                strip[2] = uv[1] + arg2;
+                strip[1] = uv[0] + scroll_u;
+                strip[2] = uv[1] + scroll_v;
                 uv += 2;
                 strip += 3;
             }

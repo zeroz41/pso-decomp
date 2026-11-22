@@ -69,8 +69,8 @@ s32 TLobby::is_camera_state_active() {
     return 0;
 }
 
-void TLobby::set_mode(s32 arg0) {
-    switch (arg0) {
+void TLobby::set_mode(s32 mode) {
+    switch (mode) {
     case 0:
         TLobby::on_set_mode(1);
         break;
@@ -81,7 +81,7 @@ void TLobby::set_mode(s32 arg0) {
         TLobby::on_set_mode(0);
         break;
     }
-    sound_control_state.set_output_mode(arg0);
+    sound_control_state.set_output_mode(mode);
 }
 extern "C" {
 
@@ -99,7 +99,7 @@ extern "C" {
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
 }
 
-s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 arg4) {
+s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg4) {
     s32 r;
     s32 m;
     s32 flags;
@@ -113,26 +113,26 @@ s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 a
         flags |= 0xC;
     }
     if (arg4 & 2) {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
         if (arg3 >= 0) {
             arg3 = 0;
         }
         v += arg3;
     } else {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
     }
     if (v < -0x7F) {
         r = -0x7F;
     } else {
         r = v < 0 ? v : 0;
     }
-    if (!((arg0 >> 0xFU) & 1)) {
+    if (!((id >> 0xFU) & 1)) {
         flags |= 8;
     }
-    if (!(arg0 & 0x40000000)) {
+    if (!(id & 0x40000000)) {
         flags |= 0x10;
     }
-    m = arg0 & 0xBFFF00FF;
+    m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
         h = alloc_looping_sound_slot(m, actor, (const void *)position, r, flags);
         if (is_special_sound_id(m) != 0) {
@@ -143,7 +143,7 @@ s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 a
     return -1;
 }
 
-s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
+s32 play_packed_sound_once(u32 id, saddr position, s32 arg2, s32 arg3) {
     s32 r;
     s32 m;
     s32 flags;
@@ -157,26 +157,26 @@ s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
         flags |= 0xC;
     }
     if (arg3 & 2) {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
         if (arg2 >= 0) {
             arg2 = 0;
         }
         v += arg2;
     } else {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
     }
     if (v < -0x7F) {
         r = -0x7F;
     } else {
         r = v < 0 ? v : 0;
     }
-    if (!((arg0 >> 0xFU) & 1)) {
+    if (!((id >> 0xFU) & 1)) {
         flags |= 8;
     }
-    if (!(arg0 & 0x40000000)) {
+    if (!(id & 0x40000000)) {
         flags |= 0x10;
     }
-    m = arg0 & 0xBFFF00FF;
+    m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
         h = alloc_one_shot_sound_slot(m, (const void *)position, r, flags);
         if (is_special_sound_id(m) != 0) {

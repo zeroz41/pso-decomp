@@ -11,10 +11,10 @@ struct Big_8034C1D0 { u32 a; Body_8034C1D0 b; };
 
 s32 info_board_state_flags;
 uaddr information_board_response_buffer;
-void TLobby::init_once(s32 arg0) {
+void TLobby::init_once(s32 src) {
     if (!(info_board_state_flags & 2) && (information_board_response_buffer != 0U)) {
         info_board_state_flags |= 2;
-        TLobby__sub_8034C1D0(information_board_response_buffer, arg0);
+        TLobby__sub_8034C1D0(information_board_response_buffer, src);
     }
 }
 

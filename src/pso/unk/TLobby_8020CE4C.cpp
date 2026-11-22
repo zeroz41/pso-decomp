@@ -86,7 +86,7 @@ struct CE4C_VObj_8020ce4c : CE4C_VBase_8020ce4c {
 
 extern s32 TLobby__data_805D6144;
 
-void TLobby::assign_display_objects(u8 *arg0, s32 arg1) {
+void TLobby::assign_display_objects(u8 *arg0, s32 enemy_count) {
     s16 temp_r3;
     s16 temp_r0;
     u8 *ptr;
@@ -94,7 +94,7 @@ void TLobby::assign_display_objects(u8 *arg0, s32 arg1) {
     u8 *temp_r3_2;
 
     ptr = arg0;
-    for (i = 0; i < arg1; i++, ptr += 0x48) {
+    for (i = 0; i < enemy_count; i++, ptr += 0x48) {
         temp_r3 = *(s16 *)((s8 *)ptr + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((temp_r3 & 1) || (*(s16 *)((s8 *)ptr + 0xE) == 0))) {
             temp_r3_2 = (u8 *)construct_enemy_from_set_row(ptr);

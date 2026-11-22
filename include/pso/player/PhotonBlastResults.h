@@ -23,7 +23,7 @@ struct PhotonBlastChainCopy {
     u32 participants[4];
 };
 
-void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2);
+void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 owner_client_id);
 
 extern "C" {
 // Copies player's chain into output while it is pending or running; returns its state.

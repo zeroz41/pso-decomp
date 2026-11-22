@@ -9,9 +9,9 @@ void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
 void audio_stream_get_format(u8 *arg0);
 void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
-s32 audio_stream_get_output_samples(u8 *arg0);
+s32 audio_stream_get_output_samples(u8 *lobby);
 void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void audio_stream_start(u8 *arg0);
+void audio_stream_start(u8 *lobby);
 void decode_adxb_pcm_stream(u8 *lobby);
 }
 
@@ -22,9 +22,9 @@ void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
 void audio_stream_get_format(u8 *arg0);
 void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
-s32 audio_stream_get_output_samples(u8 *arg0);
+s32 audio_stream_get_output_samples(u8 *lobby);
 void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void audio_stream_start(u8 *arg0);
+void audio_stream_start(u8 *lobby);
 void decode_adxb_pcm_stream(u8 *lobby);
 }
 // --- end of C functions

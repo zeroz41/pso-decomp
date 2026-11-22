@@ -125,9 +125,9 @@ void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 remap_sound_for_variant(void *, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
-void TObjEneDD::state_damaged(s32 arg1) {
+void TObjEneDD::state_damaged(s32 reason) {
     u8 *arg0 = (u8 *)this;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         F(s16, 0xB8) = 4;
         this->clear_intangible();

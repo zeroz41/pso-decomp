@@ -115,7 +115,7 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 arg2, s32 closed, Vec *out, f32 scale) {
+s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 count, s32 closed, Vec *out, f32 scale) {
     Vec a;
     Vec b;
     Vec d;
@@ -138,7 +138,7 @@ s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 arg2, s32 closed, Vec *out, f32 scal
     if (0.0f == sum) {
         return 0;
     }
-    pos = scale * arg2;
+    pos = scale * count;
     if (closed == 0) {
         total = (s32)(sum - e[n - 1].weight);
     } else {

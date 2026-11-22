@@ -247,12 +247,12 @@ int TUnk_804ED7D0::vfunc_9(s32 a, s32 b, s32 c) {
     return town_player_motion_clip_index_tables[a][b][c];
 }
 
-const s32 *TUnk_804ED7D0::vfunc_8(s32 arg1, s32 arg2) {
+const s32 *TUnk_804ED7D0::vfunc_8(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return NULL;
     }
-    if (((s32)is_valid_player_motion_variant(arg2)) != 0) {
-        return town_player_motion_clip_index_tables[arg1][arg2];
+    if (((s32)is_valid_player_motion_variant(variant)) != 0) {
+        return town_player_motion_clip_index_tables[arg1][variant];
     }
     return NULL;
 }

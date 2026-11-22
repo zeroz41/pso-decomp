@@ -560,10 +560,10 @@ void SoundControlState::set_output_mode(s32 mode) {
 }
 
 
-void TLobby::set_clamped_field27c(f32 farg0) {
+void TLobby::set_clamped_field27c(f32 value) {
     f32 var_f1;
 
-    var_f1 = farg0;
+    var_f1 = value;
     if (var_f1 < 0.0f) {
         var_f1 = 0.0f;
     }

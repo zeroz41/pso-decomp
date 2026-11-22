@@ -176,10 +176,10 @@ void fn_800C2A88(void *self, s32 msg) {
     }
 }
 
-void fn_800C2AC4(u8 *arg0, int arg1) {
+void fn_800C2AC4(u8 *arg0, int reason) {
   Vec stack;
   f32 temp_f1;
-  switch (arg1)
+  switch (reason)
   {
     return;
     case 4:

@@ -42,7 +42,7 @@ void send_neg50__6TLobbyFPv(void *p, void *a1);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
 void update_duel_result__6TLobbyFPv(u8 *arg0);
-void update_player_battle_ctrl_state(void *arg0);
+void update_player_battle_ctrl_state(void *player_battle_ctrl);
 }
 
 // --- C functions defined in TLobby_801C25B4.cpp ---
@@ -81,7 +81,7 @@ void send_neg50__6TLobbyFPv(void *p, void *a1);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
 void update_duel_result__6TLobbyFPv(u8 *arg0);
-void update_player_battle_ctrl_state(void *arg0);
+void update_player_battle_ctrl_state(void *player_battle_ctrl);
 }
 // --- end of C functions
 

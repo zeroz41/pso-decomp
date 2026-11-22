@@ -224,18 +224,18 @@ extern "C" void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset
     return load_nj_chunk_model_resource(file, offset, tag);
 }
 
-void BmlResource::load_texture_sub(void *arg1, s32 arg2) {
+void BmlResource::load_texture_sub(void *name, s32 index) {
     char buf[0x20];
     s32 size;
-    TLobby::change_file_extension((char *)buf, (char *)arg1, (char *)"gvm");
+    TLobby::change_file_extension((char *)buf, (char *)name, (char *)"gvm");
     size = TGStream::load_sct_file(buf, lobby_download_buffer);
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
-        load_gvm_texture_archive(lobby_download_buffer, models[arg2].m_c);
-        models[arg2].m_0 |= 1;
+        load_gvm_texture_archive(lobby_download_buffer, models[index].m_c);
+        models[index].m_0 |= 1;
     } else {
-        models[arg2].m_0 |= 2;
+        models[index].m_0 |= 2;
         if (!(flags & 4)) {
             TLobby::debug_print("LoadTextureSub: %s load failed.", buf);
         }
@@ -253,7 +253,7 @@ void BmlResource::set_flag_and_notify() {
 }
 
 #define self ((Ctx_8001F128 *) arg0)
-s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
+s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
     s32 n;
     switch (self->state) {
     case 0:
@@ -264,9 +264,9 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
         }
         bml_load_entry_index = 0;
         lobby_bml_read_buffer = TLobby::tmp_buf_use_req("LoadBmlExec");
-        lobby_bml_file_handle = ADXF_Open(arg1, 0);
+        lobby_bml_file_handle = ADXF_Open(name, 0);
         if (lobby_bml_file_handle == 0) {
-            TLobby::debug_print("LoadBmlExec: %s cannot open.", arg1);
+            TLobby::debug_print("LoadBmlExec: %s cannot open.", name);
             self->state = 0xB;
             return -1;
         }
@@ -569,21 +569,21 @@ s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes) {
     return 1;
 }
 
-s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, saddr arg3) {
+s32 bind_bml_model(Lobby_8001FBEC *resource, u32 size, s32 index, saddr arg3) {
     s32 data;
     u32 offset;
     s32 tag;
-    arg0->entries[arg2].motion = 0;
-    arg0->entries[arg2].texture = 0;
+    resource->entries[index].motion = 0;
+    resource->entries[index].texture = 0;
     offset = 0;
-    while (offset < arg1) {
-        data = (saddr)allocate_bml_chunk((BmlResource *)arg0, (u8 *)arg3, &offset, (u32 *)&tag);
+    while (offset < size) {
+        data = (saddr)allocate_bml_chunk((BmlResource *)resource, (u8 *)arg3, &offset, (u32 *)&tag);
         switch (tag) {
         case 0x4E4A434D:
-            arg0->entries[arg2].motion = data;
+            resource->entries[index].motion = data;
             break;
         case 0x4E4A544C:
-            arg0->entries[arg2].texture = data;
+            resource->entries[index].texture = data;
             break;
         default:
             TLobby::debug_print("LoadBinModelSub: Illegal format %08x", tag);

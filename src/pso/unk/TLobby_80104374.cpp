@@ -457,10 +457,10 @@ void normalize_drop_area(s32 *p) {
     }
 }
 
-void TLobby::forward_to_player(int arg0, void *item) {
+void TLobby::forward_to_player(int id, void *item) {
     TObjPlayer *player;
     if (item != NULL) {
-        player = get_player_by_client_id((u16)arg0);
+        player = get_player_by_client_id((u16)id);
         if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
             player->request_inventory_item((TItemData*)item);
             send_6x25_equip_item((void *)player, *(s32 *)((s8 *)item + 0xC), 0);
@@ -554,39 +554,39 @@ s32 is_local_player_off_current_floor() {
 }
 
 
-u8 TObjPlayer::find_adjacent_matching_slot(u8 arg0) {
+u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
     s16 spC;
     s16 spA;
     s16 sp8;
     int prev;
 
-    prev = (u8) arg0 - 1;
+    prev = (u8) slot - 1;
     get_weapon_special_type_amount((u8) prev, &spC, &sp8);
-    get_weapon_special_type_amount(arg0, &spA, &sp8);
+    get_weapon_special_type_amount(slot, &spA, &sp8);
     if ((spC != -1) && (spA != -1)) {
         if (spC == spA) {
             return (u8) prev;
         }
-        return arg0;
+        return slot;
     }
-    return arg0;
+    return slot;
 }
 
-u8 TObjPlayer::get_next_matching_special_index(u8 arg0) {
+u8 TObjPlayer::get_next_matching_special_index(u8 slot) {
     s16 spC;
     s16 spA;
     s16 sp8;
     int next;
-    get_weapon_special_type_amount(arg0, &spC, &sp8);
-    next = (u8)arg0 + 1;
+    get_weapon_special_type_amount(slot, &spC, &sp8);
+    next = (u8)slot + 1;
     get_weapon_special_type_amount((u8)next, &spA, &sp8);
     if ((spC != -1) && (spA != -1)) {
         if (spC == spA) {
             return (u8)next;
         }
-        return arg0;
+        return slot;
     }
-    return arg0;
+    return slot;
 }
 
 s32 item_identity_matches(u8 *arg0, u8 *arg1) {

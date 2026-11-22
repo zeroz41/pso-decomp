@@ -58,12 +58,12 @@ void chat_dispatch_accepted_result(s32 *arg0) {
         return;
     }
 }
-s32 chat_accept_submission(saddr arg0) {
+s32 chat_accept_submission(saddr submission) {
     if (is_submit_cooldown_clear__11TWindowCtrlFv() == 0) {
         return 0;
     }
     TWindowCtrl::set_field22();
-    chat_dispatch_accepted_result((s32 *)arg0);
+    chat_dispatch_accepted_result((s32 *)submission);
     return 1;
 }
 
@@ -100,7 +100,7 @@ bool is_chat_shortcut_set(s32 arg0) {
     return *((s32 *)get_chat_shortcut(arg0)) != 0;
 }
 typedef struct { u8 b[0x54]; } Rec_80076E2C;
-saddr get_chat_shortcut(s32 arg0) {
-    u8 *p = (u8 *)((Rec_80076E2C *)get_character_save_record(0xFFFF) + arg0);
+saddr get_chat_shortcut(s32 index) {
+    u8 *p = (u8 *)((Rec_80076E2C *)get_character_save_record(0xFFFF) + index);
     return (saddr)(p + 0x19C0);
 }

@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/text_803D9FF0.h"
 extern u8 __upper_map[];
-void convert_string_chars_via_table(u8 *arg0) {
-    u8 *p = arg0;
+void convert_string_chars_via_table(u8 *buf) {
+    u8 *p = buf;
     u8 t;
     s32 v;
     while ((s8)(t = *p) != 0) {

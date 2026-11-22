@@ -29,12 +29,12 @@ void *TAdLoadQuestPrtTxtGC::create_particle(void *position, s32 arg1, s32 use_se
     }
     return NULL;
 }
-void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4) {
+void *create_particle_controller_with_angles(void *joint_positions, void *ang, s32 arg2, s32 use_self, u16 flags) {
     void *o;
     if (particle_pool_limit > arg2) {
         o = TObject::operator new(0x78);
         if (o != NULL) {
-            o = __ct__13TParticleCtrlFv(o, arg0, arg1, &particle_global_entry_table[arg2], 0, 0, 0, arg3, arg4);
+            o = __ct__13TParticleCtrlFv(o, joint_positions, ang, &particle_global_entry_table[arg2], 0, 0, 0, use_self, flags);
         }
         return o;
     }
@@ -42,7 +42,7 @@ void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s
         s32 idx = arg2 - 0x200;
         o = TObject::operator new(0x78);
         if (o != NULL) {
-            o = __ct__13TParticleCtrlFv(o, arg0, arg1, &particle_area_entry_table[idx], 0, 0, 0, arg3, arg4);
+            o = __ct__13TParticleCtrlFv(o, joint_positions, ang, &particle_area_entry_table[idx], 0, 0, 0, use_self, flags);
         }
         return o;
     }

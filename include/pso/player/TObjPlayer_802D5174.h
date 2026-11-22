@@ -5,7 +5,7 @@
 
 // --- C functions defined in TObjPlayer_802D5174.cpp ---
 extern "C" {
-void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2);
+void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2);
 }
 // --- end of C functions
 

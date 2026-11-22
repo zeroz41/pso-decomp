@@ -64,8 +64,8 @@ void TLobby::create_named_lobby_object() {
 }
 #pragma push
 #pragma scheduling off
-s32 TShopGenerator__sub_80222DAC(s32 arg0) {
-    return ((is_split_screen() - 1) == 0) ? arg0 : 0;
+s32 TShopGenerator__sub_80222DAC(s32 client) {
+    return ((is_split_screen() - 1) == 0) ? client : 0;
 }
 #pragma pop
 

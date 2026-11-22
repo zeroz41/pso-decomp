@@ -15,12 +15,12 @@ int clear_player_data_block(void*);
 
 void TObjPlayer::init_select_txt() { *(int*)(this) = 0; TAdSelectTxtGC__sub_802A16A8((char*)this + 0x4); ((FlagWord *)((char*)this + 0x428))->reset(); ((TObjPlayer *)((char*)this + 0xc))->initialize_player_data(); }
 
-void TObjPlayer::copy_lobby_header(saddr arg1) {
+void TObjPlayer::copy_lobby_header(saddr player) {
     s32 *arg0 = (s32 *)this;
     ((FlagWord *)((s8 *)arg0 + 0x428))->set(1);
-    *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)arg1);
-    ((TLobby *)((s8 *)arg0 + 4))->copy_header_struct((void *) ((s8 *)arg1 + 0xDAC));
-    export_character_data__10TObjPlayerFPvPv((u8 *)arg1, (u8 *)((s8 *)arg0 + 0xC));
+    *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)player);
+    ((TLobby *)((s8 *)arg0 + 4))->copy_header_struct((void *) ((s8 *)player + 0xDAC));
+    export_character_data__10TObjPlayerFPvPv((u8 *)player, (u8 *)((s8 *)arg0 + 0xC));
 }
 
 void TObjPlayer::initialize_player_data() { *(unsigned char*)((char*)this + 0x3) = 0; *(unsigned char*)((char*)this + 0x2) = 0; *(unsigned char*)((char*)this + 0x1) = 0; *(unsigned char*)(this) = 0; ((TPlyCharData *)this)->init_inventory_items(); ((TAdSelectTxtGC *)((char*)this + 0x34c))->reset_state(); clear_player_data_block((char*)this + 0x370); TObjPlayer__sub_802A1588((void*)((char*)this + 0x3c0)); init_item_counts_max(); }

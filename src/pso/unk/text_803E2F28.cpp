@@ -519,7 +519,7 @@ void set_chunk_blend(u32 x) {
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-void apply_chunk_texture_command(s32 arg0, s32 arg1) {
+void apply_chunk_texture_command(s32 header, s32 arg1) {
     s32 var_r31;
     s32 idx;
     s32 var_r4;
@@ -527,14 +527,14 @@ void apply_chunk_texture_command(s32 arg0, s32 arg1) {
     s32 var_r6;
     var_r5 = 1;
     var_r6 = 1;
-    if ((u32) (arg0 & 0x2000) != 0) {
+    if ((u32) (header & 0x2000) != 0) {
         var_r6 = 0;
-    } else if ((u32) (arg0 & 0x8000) != 0) {
+    } else if ((u32) (header & 0x8000) != 0) {
         var_r6 = 2;
     }
-    if ((u32) (arg0 & 0x1000) != 0) {
+    if ((u32) (header & 0x1000) != 0) {
         var_r5 = 0;
-    } else if ((u32) (arg0 & 0x4000) != 0) {
+    } else if ((u32) (header & 0x4000) != 0) {
         var_r5 = 2;
     }
     var_r31 = arg1 & 0x1FFF;
@@ -593,7 +593,7 @@ void set_chunk_alpha_compare_ref(int ref) {
 }
 #pragma pop
 
-void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
+void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     // Inferred names: the two reasons the blended pass may keep depth writes,
     // loaded from .sdata2 like the original's static constants.
     static const u32 texture_alpha_reason = 1;
@@ -606,7 +606,7 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
     u32 id;
     u8 *temp_r3;
     u32 var_r6;
-    if ((u32) (arg0 & 8) != 0) {
+    if ((u32) (header & 8) != 0) {
         var_r31 = 1;
     } else {
         var_r31 = 0;
@@ -920,9 +920,9 @@ s32 TObjPlayer::draw_chunk_vertices_cached(void* arg) {
     }
 }
 
-void draw_chunk_model(void *arg0) {
-    TObjPlayer::setup_model_draw_state(arg0);
-    TObjPlayer::draw_chunk_vertices_cached(arg0);
+void draw_chunk_model(void *model) {
+    TObjPlayer::setup_model_draw_state(model);
+    TObjPlayer::draw_chunk_vertices_cached(model);
     TObjPlayer::end_chunk_draw();
 }
 

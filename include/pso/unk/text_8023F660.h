@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8023F660(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+void fn_8023F660(void *arg0, s32 tracks, s32 vol, s32 pan, s32 arg4, s32 fxvol);
 }
 
 // --- C functions defined in text_8023F660.cpp ---
 extern "C" {
-void fn_8023F660(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+void fn_8023F660(void *arg0, s32 tracks, s32 vol, s32 pan, s32 arg4, s32 fxvol);
 }
 // --- end of C functions
 

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void refresh_battle_stat_list(void *arg0);
+void refresh_battle_stat_list(void *window_base);
 
 #endif

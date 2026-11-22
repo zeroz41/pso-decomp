@@ -21,12 +21,12 @@ extern "C" {
 
 extern s32 current_matrix;
 
-void TObjPlayer::render_model_tree(void *arg0) {
+void TObjPlayer::render_model_tree(void *model) {
     s32 sp38[12];
     s32 sp8[12];
     void *var_r31;
 
-    var_r31 = arg0;
+    var_r31 = model;
     do {
         push_matrix();
         ((TObjPlayer *)var_r31)->apply_motion_node_transform();
@@ -60,12 +60,12 @@ void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     end_ginja_model_draw();
 }
 
-void TObjPlayer::render_matrix_chain(void *arg0) {
+void TObjPlayer::render_matrix_chain(void *model) {
     s32 sp38[12];
     s32 sp8[12];
     void *var_r31;
 
-    var_r31 = arg0;
+    var_r31 = model;
     do {
         push_matrix();
         compose_motion_node_matrix(var_r31);

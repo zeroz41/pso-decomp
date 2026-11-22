@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void convert_string_chars_via_table(u8 *arg0);
+void convert_string_chars_via_table(u8 *buf);
 
 #endif

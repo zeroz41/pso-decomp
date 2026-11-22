@@ -23,7 +23,7 @@ void alloc_battle_param_tables(void);
 extern "C" {
 void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1);
 void bswap__12player_statsFv(void *arg0);
-void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1);
+void copy_all_data__6TLobbyFii(s32 arg0, saddr src);
 void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1);
 s32 default_clock_offset_frames(void);
 uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1);

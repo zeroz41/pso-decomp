@@ -153,7 +153,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     this->init_data_table_ptr();
 }
 
-TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
+TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 832))->init_subobject();
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
     ((TObjPlayer *)((char *)this + 864))->init_state();

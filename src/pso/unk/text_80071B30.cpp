@@ -44,7 +44,7 @@ Plr_80071BC0 *create_player_object(s32, s32, TPlyCharData *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(Plr_80071BC0 *, u8, s16);
 void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, TPlyCharData *);
 extern s32 local_client_id;
-s32 TLobby__sub_80071B30(s32 arg0, s32 arg1) {
+s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
     s32 *list;
     s32 n;
     s32 i;
@@ -53,7 +53,7 @@ s32 TLobby__sub_80071B30(s32 arg0, s32 arg1) {
         return 0;
     }
     list = TWindowSubStatusDisp__sub_8006F0D8(q + 1);
-    n = TWindowSubStatusDisp::get_layout_id(arg1);
+    n = TWindowSubStatusDisp::get_layout_id(slot);
     for (i = 0; i < n; i++) {
         if (list[i] == 0) {
             break;

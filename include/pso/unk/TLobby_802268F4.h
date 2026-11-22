@@ -15,7 +15,7 @@ void play_cue_stream_file(saddr name);
 void set_cue_stream_gain(s32 arg0);
 void init_music_sequencer(s32 program);
 void set_dark_falz_music_request(s32 arg0);
-void set_music_streams_volume(s32 arg0);
+void set_music_streams_volume(s32 total);
 void stop_cue_stream(void);
 void update_music_sequencer(void);
 void update_sound_request_slots(void);

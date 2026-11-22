@@ -20,9 +20,9 @@ extern "C" {
 s8 sound_mode_value = 1;
 s32 last_sound_effect_slot = -1;
 
-void TObjPlayer::play_effect_if_v2(s32 arg0) {
+void TObjPlayer::play_effect_if_v2(s32 pitch) {
     if (TObjEneDD::check_v2_mode() != 0) {
-        set_sound_pitch_request(last_sound_effect_slot, arg0, 0);
+        set_sound_pitch_request(last_sound_effect_slot, pitch, 0);
     }
 }
 
@@ -103,12 +103,12 @@ void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 
 int TLobby::get_lobby_data() {  return lbl_805D6280; }
 
-void TLobby__sub_8022614C(s32 arg0) {
+void TLobby__sub_8022614C(s32 gain) {
     set_menu_index_main__6TLobbyFPUc();
-    lbl_805D6294 = arg0;
+    lbl_805D6294 = gain;
     lbl_805D629C = lbl_805D6290 + lbl_805D6294 + lobby_layout_offset_c;
     lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;
-    lbl_805D62A8 = (s32)(2.3622048f * (f32)arg0);
+    lbl_805D62A8 = (s32)(2.3622048f * (f32)gain);
     lbl_805D62AC = lobby_layout_start_position + lbl_805D62A8;
     set_cue_stream_gain(lbl_805D62AC);
 }
@@ -232,13 +232,13 @@ f32 lbl_80514C50[4];
 extern "C" {
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
-s32 TOTrapAncient01::check_trigger_flag(saddr arg0, s32 arg1) {
+s32 TOTrapAncient01::check_trigger_flag(saddr src, s32 flags) {
     s32 var_r3;
 
-    if (arg1 & 0x2000) {
+    if (flags & 0x2000) {
         var_r3 = 0;
     } else {
-        var_r3 = check_sound_admission_range((const Vec *)arg0);
+        var_r3 = check_sound_admission_range((const Vec *)src);
     }
     if (var_r3 == -0x100) {
         return 0;
