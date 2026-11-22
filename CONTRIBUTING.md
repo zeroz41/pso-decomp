@@ -72,6 +72,56 @@ would keep the unit from linking anyway.
 When your change makes a whole unit match, run `python tools/link_units.py scan --write` to link it, then
 `python configure.py` and `ninja` again, and commit the updated `linked_units.txt` and `config.yml`.
 
+## Source quality
+
+A byte match proves the code compiles to the original. It says nothing about whether the source reads as the
+program's own C++. `tools/source_quality.py` counts what is still decompiler output in `src/` and `include/` and
+compares your change with the commit it branched from on `master`:
+
+    python tools/source_quality.py                         # working tree against master
+    python tools/source_quality.py --base master --head my-branch
+    python tools/source_quality.py --tree                  # whole-tree counts and the worst files
+
+CI runs the same script on every pull request and adds the result to the CI comment. It never fails a pull
+request. Aim to remove more than you add and to add nothing on the lines you write. Every check is an exact
+pattern or a class relation read from the declarations, so a finding is never a guess. Code that only moves
+between files or functions counts as neither added nor removed.
+
+**Debt**, the total:
+
+| Check | Finds | Write instead |
+|---|---|---|
+| `extern_c` | `extern "C"` in a source file declaring what another file defines | include the owner's header |
+| `mangled_member`, `mangled_free` | hand-mangled names in source: `get_state__11TMainCursorFv(p)` | the member: `p->get_state()` |
+| `flat_name` | members spelled as C names: `TMainCursor__set_end_task(void *, ...)`, `TLoadCtrl__instance` | a member or static member of the class |
+| `raw_offset`, `punned_deref` | `(u8 *)p + 0x30`, `*(f32 *)(p + 0x18)`, `*(s32 *)&x` | a field of the right type |
+| `offset_member` | fields named after their offset: `unk_30`, `m_30c`, `field_96` | a name from evidence, or `pad_<offset>` for bytes nothing uses |
+| `fp_cast` | calls through function-pointer casts | a declared function or a typed pointer |
+| `decomp_temp`, `stack_local`, `arg_name`, `ghidra_temp`, `ghidra_type`, `m2c_macro` | `temp_r3`, `sp1C`, `arg0`, `iVar1`, `undefined4`, `M2C_FIELD` | names for what they hold, real types |
+| `data_label`, `function_placeholder`, `address_in_name`, `address_type` | names built from addresses: `lbl_8045A010`, `fn_8013E17C`, `TMainCursor__sub_8013E17C`, `TUnk_804806E8` | a name from evidence; without evidence, keep the placeholder |
+| `vtable_symbol`, `hand_vtable`, `filler_virtual`, `slot_name`, `local_virtual` | vtables written by hand, `vfunc_67`, virtual stand-in classes in a source file | virtual functions declared in the class's header |
+| `retype_macro`, `inline_asm` | `#define` re-typings of globals, assembly in source | real declarations; see the assembly rule below |
+
+**Members in the wrong class** are reported next to the total, not in it:
+
+- `this_cast`: `this` cast to a declared class that is not its own class, a base or a derived class, such as
+  `((TObjPlayer *)this)->init_position_vectors()` inside a `TObjNpcNFW00` member, or a stand-in such as
+  `(Self_80238EC8 *)this`. Either the function belongs to that other class, or the cast hides a base or a field
+  the class should declare.
+- `subobject_call`: a function named for the calling class but called on part of it,
+  `TMainCursor__set_end_task((char *)this + 0x3C, task)`. It is a member of whatever object lives at that offset:
+  declare the field with its class and call `unk_3c.set_end_task(task)`.
+
+**Symbols.** Renamed or new names in `symbols.txt` are flagged when they are flat C names or still built from an
+address. A member's symbol is its CodeWarrior name, `set_end_task__13TUnk_8013F08CFP7TObject`, which the compiler
+produces once the function is a real member. New or renamed symbols that leave a `force_active` entry in
+`config.yml` naming nothing are listed too: rename both together.
+
+For example, renaming `TMainCursor__sub_8013E1C0` to `TMainCursor__set_end_task` scores one `function_placeholder`
+removed and one `flat_name` added. It is still a C function on a `void *`, and its symbol must change again when it
+becomes a member. Writing `void TUnk_8013F08C::set_end_task(TObject *task)` on the class that owns the field
+removes both.
+
 ## Rules
 
 - Nothing that matches or links today may stop matching or linking: `tools/check_pr.py` must pass.
@@ -82,6 +132,7 @@ When your change makes a whole unit match, run `python tools/link_units.py scan 
 - No data copied out of the game: no byte dumps of textures, models, sounds or other assets.
 - Write source, not decompiler output: use class members and real types instead of raw pointer offsets,
   `void *` parameters, hand-mangled names, decompiler helper macros or hand-written vtables.
+  [Source quality](#source-quality) lists what counts and how to check a change.
 - No commented-out code, address comments, or notes about how a match was found. Comment only what the code
   can't say itself.
 - Names come from evidence in the executable: strings, class-name tables, vtables, call patterns. Keep the
