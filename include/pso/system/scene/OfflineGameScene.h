@@ -19,7 +19,8 @@ void recreate_split_screen_players(void);
 // The number of views the screen is split into (1 = full screen).
 void set_view_count(int count);
 void reset_view_count(void);
-extern int camera_split_screen_selector;
+// Splits the screen into count views, one camera per player.
+void set_split_screen_views(int count);
 
 // Load and release hooks of the offline game scene (see OfflineGameScene.cpp).
 extern FloorResourceCallbacks offline_game_scene_callbacks[48];

@@ -177,7 +177,7 @@ void TLobby::reset_quest_state() {
 
 void TAdSelectGameModeGC::enable_camera() { set_view_count(1); TCameraCtrl::set_camera_id(1); TCameraCtrl::reset_mode(); }
 
-void TAdSelectGameModeGC::free_sub_ctrls() { set_view_count((saddr)this); TCameraCtrl::set_camera_id((saddr)this); }
+void set_split_screen_views(int count) { set_view_count(count); TCameraCtrl::set_camera_id(count); }
 
 s32 TCameraCtrl::get_camera_no() {
     if (is_split_screen() != 0) {
