@@ -130,13 +130,9 @@ public:
     TParticleCtrl *m_898;
     TParticleCtrl *m_89c;
     s32 m_8a0;
-    static void init_state_zero(void *gryphon);
-    static void set_flag_4e4(void *p);
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
-    void fire_at_angle(s32 ang);
-    void update_facing(f32 farg0);
     void spawn_switch_attack();
     void spawn_attack_effect();
     void run_default_state();

@@ -159,6 +159,13 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void scale_size(f32 scale, f32 farg1, f32 farg2);
     void copy_spawn_params(void* a1);
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
+    void set_animation_by_state();
+    void init_state_zero();
+    void set_flag_4e4();
+    void fire_at_angle(s32 ang);
+    void turn_toward_angle_limited(s32 ang, s32 target);
+    void update_facing(f32 speed);
+    void move_along_angle(f32 speed, s32 ang);
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);

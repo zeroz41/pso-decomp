@@ -6245,7 +6245,7 @@ force_active:
   - finish_download__22TQuestVmDownLoadServerFv
   - finish_request__22TChCrLoadAfsTextureReqFv
   - finish_room_check__18TCheckRoomSequenceFPv
-  - fire_at_angle__12TBoss8DragonFl
+  - fire_at_angle__13TBoss5GryphonFl
   - fire_attack_a__12TObjEneDD_STFllf
   - fire_attack_b__12TObjEneDD_STFllf
   - fire_attack_c__12TObjEneDD_STFllf
@@ -7209,7 +7209,7 @@ force_active:
   - __ct__13TUnk_804A4A88FP7TObjectPUc
   - __ct__13TUnk_804A0DB0FP7TObjectPUc
   - init_state_vectors__19TContainerAncient01Fv
-  - init_state_zero__12TBoss8DragonFPv
+  - init_state_zero__13TBoss5GryphonFv
   - init_sub__13TLockOnCursorFPv
   - init_sub_object_vectors__10TObjPlayerFl
   - init_target_offsets__16TObjEneDellBiterFv
@@ -9085,7 +9085,7 @@ force_active:
   - __ct__13TUnk_804ED1A0FP7TObjectPUc
   - motorcycle_resource_descriptor
   - move__17TObjEneMe1CanadinFl
-  - move_along_angle__13TBoss5GryphonFPvif
+  - move_along_angle__13TBoss5GryphonFfl
   - move_around_center__15TObjEneMe1GiGueFPvPvf
   - move_cursor_prev__11TWindowMenuFv
   - move_enter__11TBoss4Type2Fv
@@ -15438,7 +15438,7 @@ force_active:
   - set_anim_state__11TBoss4Type3Fl
   - set_anim_state__14TObjEneBm5WolfFv
   - set_anim_state__15TAdPlyPltAnimGCFl
-  - set_animation_by_state__12TBoss8DragonFPv
+  - set_animation_by_state__13TBoss5GryphonFv
   - set_attack_flag__14TObjEneBm5WolfFv
   - set_attack_flag__17TObjEneMe1CanadinFv
   - set_attack_pattern_by_index__11TBoss4Type2Fl
@@ -15507,7 +15507,7 @@ force_active:
   - set_flag62_bit8__19TWindowKeyBoardBaseFv
   - set_flag_10__17TWindowSubComCardFv
   - set_flag_270__6TLobbyFPv
-  - set_flag_4e4__12TBoss8DragonFPv
+  - set_flag_4e4__13TBoss5GryphonFv
   - set_flag__16TObjEneBm5GibonUFv
   - set_flag__9TItemDropFPvPv
   - set_flag_and_clear_download__6TLobbyFv
@@ -16636,7 +16636,7 @@ force_active:
   - turn_pose_to_target__14TObjEneBm5WolfFv
   - turn_to_target__18TObjEneRe4SorcererFv
   - turn_toward_angle__16TObjEneBm5GibonUFPvi
-  - turn_toward_angle_limited__13TBoss5GryphonFPvii
+  - turn_toward_angle_limited__13TBoss5GryphonFll
   - turn_toward_player__11TBoss4Type3Fl
   - turn_toward_target__12TObjEneSaverFv
   - tv_render_mode_obj
@@ -16911,7 +16911,7 @@ force_active:
   - update_extend_amount__14TBoss7TentacleFv
   - update_extension__14TOTrapChainSawFv
   - update_extension__18TOTrapChainSawEdgeFv
-  - update_facing__12TBoss8DragonFf
+  - update_facing__13TBoss5GryphonFf
   - update_facing_angles__10TBoss6MineFv
   - update_fade__12TChCrEffFadeFv
   - update_fade__13TObjLobbyMainFv
