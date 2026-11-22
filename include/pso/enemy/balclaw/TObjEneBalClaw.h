@@ -22,6 +22,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     f32 hover_height_max;     // and rises to this while m_388 bit 0x10000 is set (40)
     f32 hover_height;         // height of the model and collision body above the floor
     s32 wobble_angle;         // advanced 0x200 a frame while m_388 bit 0x20000 is set
+    void set_model(s32 index);  // models[index] of the Bal Claw BML: 0 bal_body, 1 bcbody, 2 claw_body
     void render_scaled(s32 shadow);
     void update_wobble();
     void update_claw_angle();
@@ -67,7 +68,7 @@ extern u8 *balclaw_body_base_params[];
 extern u8 *balclaw_body_attack_params[];
 extern u8 *balclaw_body_resistance_params[];
 extern u8 *balclaw_body_behavior_params[];
-// The same for the claws (TObjEneBalClawClaw::sub_80091A38 binds them).
+// The same for the claws (TObjEneBalClawClaw::init binds them).
 extern u8 *balclaw_claw_base_params[];
 extern u8 *balclaw_claw_attack_params[];
 extern u8 *balclaw_claw_resistance_params[];

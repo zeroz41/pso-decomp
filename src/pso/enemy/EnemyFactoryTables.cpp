@@ -93,7 +93,6 @@
 
 extern "C" {
 void* create__14TBoss4DarkFalzFl(void* placement);
-void* create__18TObjEneBalClawClawFv(void* placement);
 void* create__16TObjEneRe7BeruraFv(void* placement);
 void* create__17TObjEneDf2BringerFv(void* placement);
 void* create__14TObjEnePanarmsFl(void* placement);
@@ -236,7 +235,7 @@ EnemyFactoryEntry enemy_factories_floor_08[8] = {
     { 0x00A5, create__16TObjEneRe7BeruraFv, 250000.0f, 0 },
     { 0x00A6, TObjEneDimedian::create, 250000.0f, 0 },
     { 0x00A7, TObjEneBalClawBody::create, 250000.0f, 4 },
-    { 0x00A8, create__18TObjEneBalClawClawFv, 250000.0f, 0 },
+    { 0x00A8, TObjEneBalClawClaw::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -248,7 +247,7 @@ EnemyFactoryEntry enemy_factories_floor_09[10] = {
     { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
     { 0x00A6, TObjEneDimedian::create, 250000.0f, 0 },
     { 0x00A7, TObjEneBalClawBody::create, 250000.0f, 4 },
-    { 0x00A8, create__18TObjEneBalClawClawFv, 250000.0f, 0 },
+    { 0x00A8, TObjEneBalClawClaw::create, 250000.0f, 0 },
     { 0x00A9, TObjNpcBringer::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -262,7 +261,7 @@ EnemyFactoryEntry enemy_factories_floor_10[11] = {
     { 0x00A5, create__16TObjEneRe7BeruraFv, 250000.0f, 0 },
     { 0x00A6, TObjEneDimedian::create, 250000.0f, 0 },
     { 0x00A7, TObjEneBalClawBody::create, 250000.0f, 4 },
-    { 0x00A8, create__18TObjEneBalClawClawFv, 250000.0f, 0 },
+    { 0x00A8, TObjEneBalClawClaw::create, 250000.0f, 0 },
     { 0x00A9, TObjNpcBringer::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },

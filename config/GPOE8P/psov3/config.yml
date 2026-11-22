@@ -1042,11 +1042,11 @@ force_active:
   - TObjEZRopeBase__name
   - TObjEneBalClawClaw__collision_body_template
   - TObjEneBalClawClaw__ct
-  - sub_80090824__18TObjEneBalClawClawFv
-  - sub_80090ECC__18TObjEneBalClawClawFv
-  - sub_80091134__18TObjEneBalClawClawFv
-  - sub_80091200__18TObjEneBalClawClawFv
-  - sub_800914A4__18TObjEneBalClawClawFv
+  - load_params__18TObjEneBalClawClawFv
+  - update_attack__18TObjEneBalClawClawFv
+  - run_death_sequence__18TObjEneBalClawClawFv
+  - update_damage__18TObjEneBalClawClawFv
+  - run_demo_task__18TObjEneBalClawClawFv
   - __ct__18TObjEneBalClawClawFP7TObjectP18TObjEneBalClawBodyUslPC3Vecll
   - __ct__18TObjEneBalClawClawFP7TObjectPv
   - TObjEneBeast__boss4_rock_handler_ids
@@ -1505,7 +1505,7 @@ force_active:
   - TObjPlayer__sub_80082C30
   - TObjPlayer__sub_80083F9C
   - TObjPlayer__sub_80083FA4
-  - sub_8008E098__18TObjEneBalClawBodyFv
+  - summon_claws__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
   - sub_800A100C__17TObjEneDarkGunnerFv
   - sub_800A16C4__17TObjEneDarkGunnerFv
@@ -3749,7 +3749,7 @@ force_active:
   - state_vanish__16TObjEneMe3StelthFl
   - update_stagger_state__17TObjEneDf2BringerFl
   - state_hover__17TObjEneMe1CanadinFl
-  - action__18TObjEneBalClawClawFPv
+  - update_appear__18TObjEneBalClawClawFv
   - action__18TObjEneEpsilonBodyFl
   - action_destroy__19TObjEneEpsilonGuardFl
   - activate_effect__13TUnk_804A4B80Fl
@@ -14588,7 +14588,7 @@ force_active:
   - reset__6TLobbyFi
   - reset__8TGStreamFv
   - start_kafun_attack__16TObjEneMerillLiaFv
-  - reset_active_state__18TObjEneBalClawClawFPv
+  - reset_active_state__18TObjEneBalClawClawFv
   - reset_all_tech_slots__10TObjPlayerFv
   - reset_and_invoke__6TLobbyFv
   - reset_and_recreate__14TBoss6PlotFalzFv
@@ -16170,8 +16170,8 @@ force_active:
   - sub_8007313C__18TObjChallengeRetryFv
   - sub_8007FF28__17TDuelEffectNumberFl
   - sub_8007FFF4__17TDuelEffectNumberFl
-  - sub_80090798__18TObjEneBalClawClawFv
-  - sub_80090D3C__18TObjEneBalClawClawFv
+  - detach__18TObjEneBalClawClawFv
+  - update_wait__18TObjEneBalClawClawFv
   - update_attack_collision__21TObjEneRe7BeruraPunchFv
   - retarget_attacker__17TObjEneDf2BringerFv
   - sub_8009A11C__13TUnk_8048FE08Fv
@@ -16747,8 +16747,8 @@ force_active:
   - update_charge_attack__14TObjEneIllGillFv
   - update_charge_effects__14TBoss6GravBallFv
   - update_charge_state__16TBoss3VoloptCoreFv
-  - update_chase__18TObjEneBalClawClawFPv
-  - update_chase_state__18TObjEneBalClawClawFv
+  - update_chase__18TObjEneBalClawClawFv
+  - update_retreat__18TObjEneBalClawClawFv
   - update_chase_target__14TObjEneIllGillFv
   - update_chase_target__9TObjGrassFPv
   - update_chat_parts__12TWindowTimerFv
@@ -16854,7 +16854,7 @@ force_active:
   - update_door_switch_state__16TODoorJungleMainFv
   - update_door_switch_state__20TODoorFourLightRuinsFv
   - update_door_switch_state__20TODoorFourLightSpaceFv
-  - update_drop__18TObjEneBalClawClawFPv
+  - update_drop__18TObjEneBalClawClawFv
   - update_drop__20TBoss3VoloptHiraisinFv
   - update_duel_end_effect
   - update_duel_result__6TLobbyFPv
@@ -16917,7 +16917,7 @@ force_active:
   - update_floor_switch_state__12TObjWarpBossFv
   - update_follow__11TItemMagSubFv
   - update_follow_motion_state__11TCameraCtrlFv
-  - update_follow_parent__18TObjEneBalClawClawFPv
+  - update_follow_parent__18TObjEneBalClawClawFv
   - update_follow_target__10TNpcPlayerFv
   - update_footstep_effects__11TBoss6Type2Fv
   - update_for_target__13TWindowLockOnFii
@@ -17039,7 +17039,7 @@ force_active:
   - update_move__17TObjEneMe1CanadinFv
   - update_move_flag__10TBoss2MineFv
   - update_move_to_destination__17TObjEneDarkGunnerFv
-  - update_move_to_target__18TObjEneBalClawClawFPv
+  - update_return_home__18TObjEneBalClawClawFv
   - update_move_to_target_state__10TBoss4ZakoFv
   - update_move_toward_target__12TObjEneSaverFv
   - update_movement__15TObjEneDelDepthFv
