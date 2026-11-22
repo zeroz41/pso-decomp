@@ -342,8 +342,11 @@ void TObjBoss2Tunnel::transform_vec_by_camera(saddr camera, saddr in, saddr out)
     pop_matrix();
 }
 
-bool is_vec_xz_cross_negative(u8 *a, u8 *b) {
-    return ((((Vec *)a)->z * ((Vec *)b)->x - ((Vec *)a)->x * ((Vec *)b)->z) >= 0.0f) == 0;
+s32 is_vec_xz_cross_negative(const Vec *a, const Vec *b) {
+    if (a->z * b->x - a->x * b->z >= 0.0f) {
+        return 0;
+    }
+    return 1;
 }
 
 void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle) {

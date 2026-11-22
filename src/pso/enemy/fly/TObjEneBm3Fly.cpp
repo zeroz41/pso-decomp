@@ -36,6 +36,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #pragma defer_codegen on
 
@@ -48,7 +49,6 @@ Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
 TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
 extern const f32 lbl_805D9E80;
-s32 is_vec_xz_cross_negative(void *, void *);
 extern void *tl_04;
 
 const TBoss3VoloptBreakupParams bm3_fly_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };

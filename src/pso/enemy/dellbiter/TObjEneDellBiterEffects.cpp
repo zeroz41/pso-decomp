@@ -10,11 +10,10 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 void *create_particle_controller_with_angles(void *, void *, s32, s32, u16);
 extern "C" {
-s32 is_vec_xz_cross_negative(void *, void *);
-s32 rotate_xz_pair_by_angle(void *, void *, s32);
 }
 
 // The first argument of TUnk_804928CC::call_vt13_with_default (contents {3.0f, 3}; fields unknown).

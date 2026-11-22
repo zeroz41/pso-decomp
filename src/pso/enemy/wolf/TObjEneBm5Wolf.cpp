@@ -106,8 +106,6 @@ __declspec(section ".data") u8 *TObjEneBm5Wolf__stat_params[2];
 __declspec(section ".data") u8 *wolf_stat_handle_a_table[2];
 __declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
-s32 is_vec_xz_cross_negative(void *, void *);
-void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle);
 s32 TObjEneBm5Wolf__spawn_timer;
 s32 TObjEneBm5Wolf__data_805D5128;
 extern const f32 lbl_805D9E84;
@@ -115,6 +113,7 @@ extern const f32 lbl_805D9E88;
 }
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #pragma defer_codegen on
 #pragma push

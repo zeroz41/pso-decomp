@@ -57,6 +57,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_80086D50.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
@@ -71,7 +72,6 @@ extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
 extern const s32 lbl_8043BF40[];
 extern const s32 lbl_8043BF48[];
-void rotate_xz_pair_by_angle(f32 *, f32 *, s32);
 f32 atan2_float(f32 y, f32 x);
 s32 get_entity_id(int);
 BmlResource * TObjEneBm5GibonU__model_archive;
@@ -150,7 +150,6 @@ s32 TObjEneBm5GibonU__render_node_index;
 s32 TObjEneBm5GibonU__render_joint_y_rotation;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-s32 is_vec_xz_cross_negative(void *, void *);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 s32 vec3_add_to(void *, void *);
 s32 obj_is_hit_receivable(u8 *arg0);

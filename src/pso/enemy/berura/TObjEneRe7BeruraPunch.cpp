@@ -24,7 +24,7 @@
 
 extern "C" u16 get_entity_id(void *);
 
-int TObjEneDD::is_motion_blending() { return (motion_flags >> 2) & 0x1; }
+int TObjMotion::is_motion_blending() { return (motion_flags >> 2) & 1; }
 
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     TObjChara *entity;

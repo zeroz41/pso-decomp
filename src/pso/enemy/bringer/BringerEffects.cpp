@@ -21,13 +21,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 // Written last-to-first: the unit is built with -inline off,deferred, which emits the functions
 // (and pools their constants) in reverse order.
 
 extern "C" {
-s32 is_vec_xz_cross_negative(void *, void *);
-s32 rotate_xz_pair_by_angle(void *, void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }

@@ -6648,7 +6648,7 @@ f32 get_action_rate_entry(Obj_801D2640 *p) {
 void TObjPlayer::set_field_d4_and_flag_200(f32 value) {
     u8 *p = (u8 *)this;
     *(f32 *)(p + 0xD4) = value;
-    set_flags_B0(0x200U);
+    set_motion_flags(MOTION_OVERRIDE_BLEND_SPEED);
 }
 
 int TObjPlayer__sub_801D2680(void *p) {

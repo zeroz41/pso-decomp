@@ -191,9 +191,11 @@ public:
     void set_field_b8(s16);
     void sub_8002AE64();
     void sub_800A7798(f32);
-    void set_flags_B0(u32);
+    void set_motion_flags(u32 flags);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);
+    // Whether MOTION_BLENDING is set (a blend from previous_action is running).
+    int is_motion_blending();
     void clear_motion_flags(s32 flags);
     // The motion an action plays.
     NJS_MOTION *get_action_motion(s16 action);

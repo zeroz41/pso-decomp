@@ -63,10 +63,10 @@ int TObjPlayer__sub_800A7774(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 
 
 void TObjMotion::sub_800A7798(f32 farg0) {
     this->override_speed = farg0;
-    this->set_flags_B0((u32)(0x100U));
+    set_motion_flags(MOTION_OVERRIDE_SPEED);
 }
 
-void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
+void TObjMotion::set_motion_flags(u32 flags) { motion_flags |= flags; }
 void TObjEneDimedian::run_demo_task() {  }
 
 void TObjEneDimedian::play_group_chase_sound() {

@@ -48,7 +48,7 @@ extern Ctx_803E1D90 *current_render_context;
 
 #pragma push
 #pragma scheduling off
-f32 xyz_distance(Vec *a, Vec *b) {
+f32 xyz_distance(const Vec *a, const Vec *b) {
     f32 x = (a->z - b->z) * (a->z - b->z) + ((a->x - b->x) * (a->x - b->x) + (a->y - b->y) * (a->y - b->y));
     f32 r;
     if (x < 0.025f) {
