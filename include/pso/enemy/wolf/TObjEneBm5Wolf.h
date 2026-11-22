@@ -53,8 +53,8 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void refresh_target();
     void roaming_state(int event);
     void choose_roaming_destination();
-    TObjEneBm5WolfNode m_3c0;
-    TObjEneBm5WolfNode m_3cc;
+    TObjEneBm5WolfNode pack_node;      // linked into TObjEneBm5Wolf__pack_member_list
+    TObjEneBm5WolfNode instance_node;  // linked into TObjEneBm5Wolf__instance_list
     s32 is_leader;
     s32 group_id;
     u16 leader_id;
@@ -65,10 +65,10 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     f32 desired_speed;
     f32 current_speed;
     u32 status_flags;
-    f32 m_40c;
+    f32 jump_height;  // lunge hop above position (body centre, render translation)
     TObjCollidable *attack_collider;
     s32 reaction_delay;
-    u16 m_418;
+    u16 reaction_attacker_id;  // attacker of a fallen pack member (schedule_pack_reaction)
     u8 unk_41A[0x2];
     s32 substate;
     s32 state_timer;
@@ -90,7 +90,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void despawn_state(s32 msg);
     void update_dying_state(s32 event);
     void hurt_state(s32 event);
-    void action(s32 arg1);
+    void action(s32 event);
     void repositioning_state(s32 event);
     void update_lunge(s32 event);
     void circling_state(s32 event);
@@ -128,7 +128,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     f32 calc_death_slide_speed(f32 speed);
     int get_flag_bit0();
     s32 calc_lunge_aim();
-    void schedule_pack_reaction(s32 delay, u16 value);
+    void schedule_pack_reaction(s32 delay, u16 attacker_id);
     void appearing_state(s32 event);
     void returning_state(s32 event);
     void calc_rotated_vector(s32 angle, Vec *out, s32 *heading);
@@ -140,7 +140,7 @@ LAYOUT_ASSERT(WolfOffset_current_target, offsetof(TObjEneBm5Wolf, current_target
 LAYOUT_ASSERT(WolfOffset_destination, offsetof(TObjEneBm5Wolf, destination) == 0x394);
 LAYOUT_ASSERT(WolfOffset_destination_direction, offsetof(TObjEneBm5Wolf, destination_direction) == 0x3A0);
 LAYOUT_ASSERT(WolfOffset_destination_distance, offsetof(TObjEneBm5Wolf, destination_distance) == 0x3AC);
-LAYOUT_ASSERT(WolfOffset_m_3c0, offsetof(TObjEneBm5Wolf, m_3c0) == 0x3C0);
+LAYOUT_ASSERT(WolfOffset_pack_node, offsetof(TObjEneBm5Wolf, pack_node) == 0x3C0);
 LAYOUT_ASSERT(WolfOffset_m_3d8, offsetof(TObjEneBm5Wolf, is_leader) == 0x3D8);
 LAYOUT_ASSERT(WolfOffset_turnOffset, offsetof(TObjEneBm5Wolf, turn_offset) == 0x3E4);
 LAYOUT_ASSERT(WolfOffset_groupAnchor, offsetof(TObjEneBm5Wolf, group_anchor) == 0x3F4);

@@ -1124,7 +1124,7 @@ force_active:
   - TObjEneBm5Wolf__bml_resource
   - TObjEneBm5Wolf__collider_params
   - __ct__14TObjEneBm5WolfFP7TObjectPv
-  - TObjEneBm5Wolf__data_805D5128
+  - TObjEneBm5Wolf__render_joint_y_rotation
   - TObjEneBm5Wolf__data_805D9D74
   - TObjEneBm5Wolf__data_805D9D78
   - TObjEneBm5Wolf__data_805D9D7C
@@ -1146,7 +1146,7 @@ force_active:
   - TObjEneBm5Wolf__data_805D9DF4
   - TObjEneBm5Wolf__instance_list
   - TObjEneBm5Wolf__pack_member_list
-  - TObjEneBm5Wolf__spawn_timer
+  - TObjEneBm5Wolf__render_node_index
   - TObjEneBm5Wolf__stat_params
   - __ct__18TObjEneBm5WolfNodeFv
   - __ct__19TObjEneBm9MericarolFP7TObjectPv
@@ -8182,7 +8182,7 @@ force_active:
   - lbl_80500978
   - lbl_80500B24
   - lbl_80500B2C
-  - lbl_80500B58
+  - wolf_param_table
   - lbl_80500B60
   - lbl_80500B6C
   - lbl_80500C30
