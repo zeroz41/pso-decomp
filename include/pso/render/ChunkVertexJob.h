@@ -2,6 +2,7 @@
 #define PSO_RENDER_CHUNKVERTEXJOB_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 // The chunk dispatcher selects the record format from the vertex-list header.
 struct ChunkVertexJob {
@@ -13,7 +14,7 @@ struct ChunkVertexJob {
 extern "C" {
 // The dispatcher passes the matrix in r4; this format uses the current matrix
 // through matrix_mult_vec(NULL, ...), so the second argument is unused.
-void cache_chunk_vertex_colors(ChunkVertexJob *job, s32 matrix);
+void cache_chunk_vertex_colors(ChunkVertexJob *job, GC_Mtx *matrix);
 }
 
 #endif

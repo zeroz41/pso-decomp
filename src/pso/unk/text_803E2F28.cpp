@@ -13,6 +13,7 @@
 #include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 #pragma scheduling off
 
@@ -81,7 +82,6 @@ extern saddr chunk_vertex_cache_buffer;
 extern s32 lbl_805D77FC;
 extern s32 chunk_render_flags;
 void transform_chunk_object_tree(void *, void (*)(void *));
-extern saddr current_matrix;
 s32 __cvt_fp2unsigned(f32);
 void rotate_matrix_by_node_angles(void *, int);
 void scale_current_matrix(void *);
@@ -802,7 +802,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
 
 extern "C" {
 void push_reordered_matrix_ps(void);
-void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, s32 matrix);
+void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, GC_Mtx *matrix);
 }
 
 s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {

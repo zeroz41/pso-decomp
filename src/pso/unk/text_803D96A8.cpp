@@ -6,6 +6,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/render/RenderSbssGlobals.h"
+#include <dolphin/mtx.h>
 
 struct Q_803D98E4 { f32 x, y, z, w; };
 
@@ -23,16 +25,10 @@ struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
 
 struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
-extern u32 matrix_stack_base;
-extern uaddr current_matrix;
 extern "C" {
-f32 PSMTXConcat(int, int, int);
-extern u32 matrix_stack_limit;
-void PSMTXQuat(void *, void *);
 s32 fn_803DA12C(u8 *, s32, s32, s32);
 extern G_803D9DA8 lbl_8058D470;
 s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *arg0, B_803D9DA8 *arg1);
-void PSMTXRotRad(Matrix34*, char, f32);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 s32 find_free_slot__10TObjPlayerFPvPv(void *, int);
 s32 TObjPlayer__sub_803DAD24(int, int);
@@ -44,23 +40,23 @@ void rotate_matrix_x(Matrix34* matrix, s32 angle) {
     if (angle != 0) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
-        PSMTXRotRad(&rotation, 'x', (f32)((9.587378008291125e-05) * (f64)angle));
-        PSMTXConcat((saddr)selected, (saddr)&rotation, (saddr)selected);
+        PSMTXRotRad(rotation.elements, 'x', (f32)((9.587378008291125e-05) * (f64)angle));
+        PSMTXConcat(selected->elements, rotation.elements, selected->elements);
     }
 }
 
 #pragma push
 #pragma scheduling off
 void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
-    uaddr elements;
-    uaddr var_r4;
-    elements = arg0;
-    var_r4 = arg1;
-    if (elements == 0U) {
-        elements = current_matrix;
+    MtxP elements;
+    MtxP var_r4;
+    elements = (MtxP)arg0;
+    var_r4 = (MtxP)arg1;
+    if (elements == NULL) {
+        elements = *current_matrix;
     }
-    if (var_r4 == 0U) {
-        var_r4 = current_matrix;
+    if (var_r4 == NULL) {
+        var_r4 = *current_matrix;
     }
     PSMTXConcat(elements, var_r4, elements);
 }
@@ -70,16 +66,16 @@ void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
 #pragma peephole off
 #pragma fp_contract on
 void TCameraCtrl::concat_matrix(uaddr arg0, uaddr arg1) {
-    u32 var_r4;
-    u32 elements;
-    var_r4 = arg1;
+    MtxP var_r4;
+    MtxP elements;
+    var_r4 = (MtxP)arg1;
     if (arg0 == 0U) {
-        elements = current_matrix;
+        elements = *current_matrix;
     } else {
-        elements = arg0;
+        elements = (MtxP)arg0;
     }
-    if (var_r4 == 0U) {
-        var_r4 = current_matrix;
+    if (var_r4 == NULL) {
+        var_r4 = *current_matrix;
     }
     PSMTXConcat(var_r4, elements, elements);
 }
@@ -92,11 +88,11 @@ asm f32 normalize_vector(Vec *v) {
 #pragma push
 #pragma scheduling off
 s32 push_matrix_from(void *src) {
-    uaddr next = current_matrix + 0x30;
+    GC_Mtx *next = current_matrix + 1;
     if (next > matrix_stack_limit) {
         return 0;
     }
-    move_data((void *)next, (const void *)((src == 0) ? (void *)current_matrix : (void *)src), 0x30);
+    move_data(next, (src == NULL) ? (void *)current_matrix : src, 0x30);
     current_matrix = next;
     return 1;
 }
@@ -106,9 +102,9 @@ s32 push_matrix_from(void *src) {
 #pragma push
 #pragma scheduling off
 s32 pop_matrices(s32 arg0) {
-    u32 temp_r3;
-    temp_r3 = current_matrix - (arg0 * 0x30);
-    if (temp_r3 < (u32) matrix_stack_base) {
+    GC_Mtx *temp_r3;
+    temp_r3 = current_matrix - arg0;
+    if (temp_r3 < matrix_stack_base) {
         return 0;
     }
     current_matrix = temp_r3;
@@ -123,26 +119,26 @@ asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
 
 void TObjPlayer::concat_quaternion_rotation() {
     f32 *arg0 = (f32 *)this;
-    u8 sp18[0x30];
+    Mtx34 sp18;
     Q_803D98E4 q;
     q.w = arg0[0];
     q.x = arg0[1];
     q.y = arg0[2];
     q.z = arg0[3];
-    PSMTXQuat(sp18, &q);
-    PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
+    PSMTXQuat(sp18, (const PSQuaternion *)&q);
+    PSMTXConcat(*current_matrix, sp18, *current_matrix);
 }
 }
 
 void apply_quat_rotation(f32 farg0, f32 *arg0) {
-    u8 sp18[0x30];
+    Mtx34 sp18;
     Q_803D993C q;
     q.w = farg0;
     q.x = arg0[0];
     q.y = arg0[1];
     q.z = arg0[2];
-    PSMTXQuat(sp18, &q);
-    PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
+    PSMTXQuat(sp18, (const PSQuaternion *)&q);
+    PSMTXConcat(*current_matrix, sp18, *current_matrix);
 }
 
 extern "C" {
@@ -166,9 +162,9 @@ asm s32 push_matrix(void) {
 #pragma push
 #pragma scheduling off
 s32 pop_matrix(void) {
-    u32 temp_r3;
-    temp_r3 = current_matrix - 0x30;
-    if (temp_r3 < (u32) matrix_stack_base) {
+    GC_Mtx *temp_r3;
+    temp_r3 = current_matrix - 1;
+    if (temp_r3 < matrix_stack_base) {
         return 0;
     }
     current_matrix = temp_r3;
