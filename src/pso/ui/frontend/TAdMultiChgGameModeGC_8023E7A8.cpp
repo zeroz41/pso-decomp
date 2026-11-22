@@ -86,7 +86,6 @@ void *__ct__12TLevelSelectFv(void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
-void set_copy_clear_color_argb(s32, s32, s32);
 }
 void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);

@@ -99,7 +99,6 @@ struct TItemReverseTechSceneHook {
 
 extern "C" {
 s32 prs_decompress_alloc(int, void *, int);
-void set_copy_clear_color_argb(s32, s32, s32);
 void TItemReverseTech__sub_8011A54C(void* a0);
 void activate_fast_rotation_code(void);
 void activate_reverse_rotation_code(void);

@@ -161,7 +161,6 @@ s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
 u32 TAdDialingGC__sub_801A4C9C();
-s32 set_copy_clear_color_argb(int, int, int);
 s32 TGameProtocol__ct(void *, void *);
 s32 TLobby__sub_801F3774();
 s32 TLobby__sub_8020A6B0(int);

@@ -30,6 +30,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
     s32 value;
@@ -89,7 +90,6 @@ s32 func_803DCDFC__Fv();
 s32 TKeyBoardControl__sub_8000F90C(int);
 s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
-s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
 

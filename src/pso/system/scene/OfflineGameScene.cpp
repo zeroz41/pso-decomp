@@ -103,7 +103,6 @@
 #include "pso/object/door/TODoorBase.h"
 
 extern "C" {
-s32 set_copy_clear_color_argb(s32, s32, s32);
 u8 *create_player_object(s32 slot, s32 role, u8 *record);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
