@@ -43,7 +43,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TPlyInventory.h"

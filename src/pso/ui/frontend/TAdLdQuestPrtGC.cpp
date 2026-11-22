@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/text_80086E28.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 extern "C" {
 int ansi_fp_abs(int x);

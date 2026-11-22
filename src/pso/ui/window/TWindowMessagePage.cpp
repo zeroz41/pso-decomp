@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby_8001D6A0.h"

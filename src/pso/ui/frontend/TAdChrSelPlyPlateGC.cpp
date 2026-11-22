@@ -11,7 +11,7 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
 typedef struct G_802C6A10 { s32 value; u8 remaining[0xC]; } G_802C6A10;

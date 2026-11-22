@@ -13,7 +13,7 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 #include "pso/system/NinjaTypes.h"
 

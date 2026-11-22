@@ -15,7 +15,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdEndText.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80320358.h"
 #include "pso/ui/frontend/TAdEndText_80307A34.h"

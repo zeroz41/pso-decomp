@@ -17,7 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include <string.h>
 

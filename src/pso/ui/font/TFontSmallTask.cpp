@@ -82,7 +82,6 @@ void draw_textured_quad_at_depth(Quad_800FCD40 *, f32);
 u8 get_small_font_glyph_width(u8);
 }
 extern u8 identity_matrix[];
-extern u8 *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on
@@ -109,14 +108,14 @@ void TFontSmallTask::render() {
         }
     }
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
-    rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
-    rotate_matrix_z(0, *(s32 *)(camera_ctrl_instance + 0x198));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
+    rotate_matrix_x(0, camera_ctrl_instance->pitch);
+    rotate_matrix_z(0, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &forward, &forward);
     pop_matrix();
-    diff.x = position[0] - *(f32 *)(camera_ctrl_instance + 0x178);
-    diff.y = position[1] - *(f32 *)(camera_ctrl_instance + 0x17C);
-    diff.z = position[2] - *(f32 *)(camera_ctrl_instance + 0x180);
+    diff.x = position[0] - camera_ctrl_instance->pos.x;
+    diff.y = position[1] - camera_ctrl_instance->pos.y;
+    diff.z = position[2] - camera_ctrl_instance->pos.z;
     if (is_boss_area() == 0) {
         f32 xx = diff.x * diff.x;
         f32 yy = diff.y * diff.y;
@@ -132,9 +131,9 @@ void TFontSmallTask::render() {
     project_world_to_screen(0, position, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen[0] -= (f32)TCameraCtrl::get_screen_height();
+        screen[0] -= (f32)TCameraCtrl::get_viewport_x();
         screen[0] /= TCameraCtrl::get_view_scale();
-        screen[1] -= (f32)TCameraCtrl::get_screen_width();
+        screen[1] -= (f32)TCameraCtrl::get_viewport_y();
         screen[1] /= TCameraCtrl::get_fov();
     }
     x = screen[0] += offset_x;

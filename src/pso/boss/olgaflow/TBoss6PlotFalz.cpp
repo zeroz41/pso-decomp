@@ -57,7 +57,6 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/unk/text_80357058.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
@@ -327,7 +326,6 @@ void TBoss6PlotFalz::set_state(s32 state) {
 }
 
 extern "C" {
-extern u8 *camera_ctrl_instance;
 s32 is_local_client_floor_leader();
 
 void TBoss6PlotFalz::set_visible_flag() {
@@ -438,7 +436,7 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
         return 0;
     }
     VecCopy(&pl, &player->position);
-    VecCopy((Vec *)&c, (const Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy((Vec *)&c, &camera_ctrl_instance->pos);
     VecCopy(&d1, &p);
     subtract_vector(&d1, &pl);
     d1.y = 0.0f;

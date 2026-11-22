@@ -29,7 +29,7 @@
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"

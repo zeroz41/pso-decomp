@@ -16,7 +16,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
     s32 value;

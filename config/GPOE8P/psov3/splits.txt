@@ -4865,44 +4865,14 @@ pso/system/TLanguage.cpp:
 pso/unk/text_801A5778.cpp:
 	.text       start:0x801A5778 end:0x801A57C4
 
-pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp:
-	.text       start:0x801A57C4 end:0x801A6A28
+pso/system/ControllerInput.cpp:
+	.text       start:0x801A57C4 end:0x801A70C8
 	.rodata     start:0x804469A0 end:0x80446A08
 	.data       start:0x804C2308 end:0x804C2438
 	.bss        start:0x8050E208 end:0x8050E578
 	.sdata      start:0x805D34C8 end:0x805D34D0
 	.sbss       start:0x805D5D08 end:0x805D5D10
-	.sdata2     start:0x805DC0B0 end:0x805DC0C0
-
-pso/ui/keyboard/TKeyBoardControlSdata2.cpp:
-	.sdata2     start:0x805DC0C0 end:0x805DC0D0
-
-pso/unk/text_801A6A28.cpp:
-	.text       start:0x801A6A28 end:0x801A6CEC
-
-pso/ui/hud/TRaderMapCore_801A6CEC.cpp:
-	.text       start:0x801A6CEC end:0x801A6D60
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.cpp:
-	.text       start:0x801A6D60 end:0x801A6DE0
-
-pso/ui/hud/TLoadingCur_801A6DE0.cpp:
-	.text       start:0x801A6DE0 end:0x801A6E20
-
-pso/ui/frontend/TAdSelectCurGC.cpp:
-	.text       start:0x801A6E20 end:0x801A6EA0
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_801A6EA0.cpp:
-	.text       start:0x801A6EA0 end:0x801A6F38
-
-pso/ui/window/TWindowChoiceSetting_801A6F38.cpp:
-	.text       start:0x801A6F38 end:0x801A6F84
-
-pso/unk/text_801A6F84.cpp:
-	.text       start:0x801A6F84 end:0x801A7080
-
-pso/player/TObjPlayer_801A7080.cpp:
-	.text       start:0x801A7080 end:0x801A70C8
+	.sdata2     start:0x805DC0B0 end:0x805DC0D0
 
 pso/effect/photon/PhotonBlastSummon.cpp:
 	.text       start:0x801A70C8 end:0x801A7E40

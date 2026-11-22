@@ -11,7 +11,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/TLobby.h"

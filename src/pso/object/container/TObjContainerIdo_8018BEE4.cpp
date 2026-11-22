@@ -51,15 +51,13 @@ CollisionBody container_ido_collision_parts[] = { { { 0.0f, 0.0f, 0.0f }, 20.0f,
 const char *obj_container_ido_class_name = "TObjContainerIdo";
 }
 
-extern u8 *camera_ctrl_instance;
-
 #pragma push
 #pragma fp_contract on
 s32 TObjContainerIdo::update_object_view_visibility(f32 far_depth, f32 radius) {
     Vec p;
     f32 out[2];
     matrix_mult_vec(0, &home_position, &p);
-    if (xyz_distance_squared(&position, (Vec *)(camera_ctrl_instance + 0x178)) < radius * radius) {
+    if (xyz_distance_squared(&position, &camera_ctrl_instance->pos) < radius * radius) {
         return 1;
     }
     if (p.z + radius / 2.0f > 0.0f) {

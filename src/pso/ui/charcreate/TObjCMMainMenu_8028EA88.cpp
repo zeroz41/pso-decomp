@@ -30,10 +30,9 @@ CharacterCreationEffects lbl_8051C070;
 char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
 extern "C" {
-u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 }
 extern u8 default_scene_light_config[];
-extern saddr tl_camera;
+extern TObject *tl_camera;
 extern saddr tl_03;
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
@@ -44,10 +43,7 @@ void init_creation_menu_scene(void) {
     init_menu_scene_lights(default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
-    p = TObject::operator new(0x1D4);
-    if (p != NULL) {
-        TCameraCtrl__ct((u8 *)p, (void *)tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     TCameraCtrl::select_active_controller(8);
     begin_creation_view();
     register_texture_f256_ad_pic_2();

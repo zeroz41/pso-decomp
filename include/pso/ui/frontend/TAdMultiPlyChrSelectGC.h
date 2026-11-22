@@ -125,7 +125,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     uaddr m_94;
     u8 unk_98[0x4];
     s32 m_9c;
-    static s32 dispatch_draw_command(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 dispatch_draw_command(saddr input, s32 buttons, s32 delay, s32 period);
     void open_windows();
     void init_windows();
     void open_char_select();

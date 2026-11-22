@@ -30,7 +30,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubItem.h"

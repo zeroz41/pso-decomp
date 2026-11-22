@@ -146,8 +146,6 @@ struct VOff_8013B524_arg0_8013B524 { char pad_0[0x4C]; char f_4C[1]; };
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_y(s32, s32);
 
-extern u8 *camera_ctrl_instance;
-
 s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
 void *find_entity_by_id(u16 id);
 u8 get_cast_technique_level(void *, s32);
@@ -550,7 +548,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
                 push_matrix();
                 offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)temp_f31);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
-                rotate_matrix_y(0, (int) (*(s32 *)((s8 *)camera_ctrl_instance + 0x194)));
+                rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 TParticleCtrl::begin_effect_render();
                 push_matrix();
                 translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
@@ -1498,7 +1496,7 @@ void render__11TMainCursorFPv(TMainCursor *main_cursor) {
     push_matrix();
     offset_point_toward_camera((u8 *)main_cursor + 0x40, (u8 *)&sp8, main_cursor->m_2c);
     translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
-    rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
     push_matrix();
     rotate_matrix_z(0, 0x2AAA);
     translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);

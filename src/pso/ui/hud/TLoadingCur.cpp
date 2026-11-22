@@ -11,7 +11,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
+#include "pso/system/ControllerInput.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;

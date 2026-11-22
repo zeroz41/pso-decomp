@@ -3,6 +3,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraViewParams.h"
 #include "pso/render/GinjaView.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,19 +15,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/camera/CameraView.h"
-
-// TCameraCtrl__data_804FF634 as these functions read it.
-struct CameraViewport {
-    u8 pad_0[8];
-    f32 x;
-    f32 y;
-    u8 pad_10[0x30 - 0x10];
-    u8 scissor[4];
-};
-
-extern CameraViewport TCameraCtrl__data_804FF634;
-extern u8 TCameraCtrl__up_vector[];
 
 // <dolphin/gx/GXTransform.h> pulls in MSL's sqrt statics, which this object does not have.
 extern "C" void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
@@ -109,7 +97,7 @@ s32 TCameraController::predict_obstruction() {
     }
     if (is_split_screen() != 0) {
         s32 mode = TCameraCtrl::get_camera_mode();
-        CameraView *view = camera_ctrl_instance;
+        TCameraCtrl *view = camera_ctrl_instance;
         eye = &view->split_pos[mode];
         look = &view->split_tgt[mode];
         probe.y = view->split_tgt[mode].y;
@@ -161,25 +149,25 @@ void TCameraController::post_update_view() {
         d.z = 1.0f;
     }
     direction_to_pitch_yaw(&d, &camera_ctrl_instance->pitch, &camera_ctrl_instance->yaw);
-    t = (Vec *)((TCameraCtrl *)camera_ctrl_instance)->get_target();
+    t = camera_ctrl_instance->get_target();
     look.x = camera_ctrl_instance->tgt.x + t->x;
     look.y = camera_ctrl_instance->tgt.y + t->y;
     look.z = camera_ctrl_instance->tgt.z + t->z;
-    set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, TCameraCtrl__up_vector);
-    lbl_804FF5E8.x = camera_ctrl_instance->pos.x;
-    lbl_804FF5E8.y = camera_ctrl_instance->pos.y;
-    lbl_804FF5E8.z = camera_ctrl_instance->pos.z;
-    if (TCameraCtrl__view_state.flags & 0x200) {
-        GXSetScissorBoxOffset((s32)-(TCameraCtrl__data_804FF634.x - 320.0f), (s32)-(TCameraCtrl__data_804FF634.y - 240.0f));
-        TCameraCtrl__sub_801E32D8(TCameraCtrl__data_804FF634.x, TCameraCtrl__data_804FF634.y);
-        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl__data_804FF634.scissor);
+    set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, (u8 *)&TCameraCtrl::up_vector);
+    lbl_804FF5E8[0] = camera_ctrl_instance->pos.x;
+    lbl_804FF5E8[1] = camera_ctrl_instance->pos.y;
+    lbl_804FF5E8[2] = camera_ctrl_instance->pos.z;
+    if (TCameraCtrl::view_state.flags & 0x200) {
+        GXSetScissorBoxOffset((s32)-(TCameraCtrl::view_params.center_x - 320.0f), (s32)-(TCameraCtrl::view_params.center_y - 240.0f));
+        TCameraCtrl__sub_801E32D8(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
+        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl::view_params.pad_30);
     }
 }
 
 // Copies the controller's pose into the view; with view flag 4 or 8 the view snaps to it.
 void apply_camera_controller_pose(TCameraController *controller) {
     s32 no;
-    if ((TCameraCtrl__view_state.flags & 4) || (TCameraCtrl__view_state.flags & 8)) {
+    if ((TCameraCtrl::view_state.flags & 4) || (TCameraCtrl::view_state.flags & 8)) {
         camera_ctrl_instance->eye.x = controller->position.x;
         camera_ctrl_instance->eye.y = controller->position.y;
         camera_ctrl_instance->eye.z = controller->position.z;
@@ -206,7 +194,7 @@ void apply_camera_controller_pose(TCameraController *controller) {
     camera_ctrl_instance->eye_rate = controller->eye_rate;
     camera_ctrl_instance->at_rate = controller->at_rate;
     if (camera_ctrl_instance->fov != controller->projection_angle) {
-        TCameraCtrl__view_state.flags |= 0x40;
+        TCameraCtrl::view_state.flags |= 0x40;
         camera_ctrl_instance->fov = controller->projection_angle;
     }
 }

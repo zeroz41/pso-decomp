@@ -2,7 +2,7 @@
 #include "pso/system/ControllerInputState.h"
 
 #include "types.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 

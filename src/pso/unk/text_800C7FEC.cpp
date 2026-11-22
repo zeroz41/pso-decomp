@@ -1,6 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjMotion.h"

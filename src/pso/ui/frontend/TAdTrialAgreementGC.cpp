@@ -30,7 +30,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #pragma readonly_strings on
 

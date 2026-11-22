@@ -31,7 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_8001D6A0.h"

@@ -1,10 +1,14 @@
 #include "types.h"
+#include "pso/system/ControllerInput.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
-#include "pso/ui/keyboard/TKeyBoardControl_801A57C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/window/TWindowChoiceSetting.h"
 
 const u32 input_button_mask_table[14] = {
     0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
@@ -50,13 +54,6 @@ struct Set_801A5F1C {
     Pad_801A5F1C pads[4];
 };
 
-// Per-port pad sources, status and processed pads, then the keyboard state block at +0x160.
-struct ControllerInputState {
-    Src_801A5F1C *src[4];
-    s32 status[4];
-    Pad_801A5F1C pads[4];
-    u8 pad_160[0x50];
-};
 
 struct Obj_801A5F1C { u8 pad0[0x94]; s32 base[4]; };
 
@@ -66,8 +63,6 @@ s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
 s32 is_split_screen();
-s32 update_button_hold_counters(int);
-extern ControllerInputState controller_input_state;
 s32 DVDCheckDisk();
 extern s32 lbl_805D49B4;
 s32 func_801A5E54__Fv(void);
@@ -77,14 +72,9 @@ void update_pad_recalibration(void);
 f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
 void bind_controller_devices(void);
-void map_c_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3);
-void map_main_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3);
 }
 void reset_system();
 extern u8 *camera_ctrl_instance;
-extern const f32 lbl_805DC0C0;
-extern const f32 lbl_805DC0C4;
-extern const f32 lbl_805DC0C8;
 
 struct Kb_801A6910 {
     u32 f0;
@@ -104,7 +94,7 @@ s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
 extern "C" {
 s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
-u8 controller_physical_port_bank[0x1B0];
+ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
 s32 OSGetResetButtonState();
 
@@ -114,7 +104,7 @@ void TKeyBoardControl::reset() { lbl_805D5D09 = 0; }
 s32 TKeyBoardControl::any_pad_input_active() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        Src_801A5F1C *p = controller_input_state.src[i];
+        Src_801A5F1C *p = (Src_801A5F1C *)controller_input_state.sources[i];
         if (p->b2 != 0 || p->trig_l >= 10 || p->trig_r >= 10 || p->sx >= 10 || p->sx <= -10 || p->sy >= 10 || p->sy <= -10) {
             return 1;
         }
@@ -337,14 +327,13 @@ s32 func_801A5E54__Fv(void) {
 s32 TKeyBoardControl::read_key_checked(u8 arg0) {
     return TKeyBoardControl::check_and_read((s32)(arg0));
 }
-LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 void TKeyBoardControl::update_input_frame() {
     u8 *key_board_control;
     hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
-        key_board_control = controller_input_state.pad_160;
+        key_board_control = (u8 *)&controller_input_state.keyboard;
         ((TKeyBoardControl *)key_board_control)->poll_key_state();
-        update_button_hold_counters((saddr)key_board_control);
+        update_button_hold_counters((ControllerInputContext *)key_board_control);
     }
 }
 #pragma push
@@ -373,9 +362,9 @@ void controller_stuff(void) {
                 pp = (Src_801A5F1C **)&controller_input_state;
                 set = (Set_801A5F1C *)&controller_input_state;
             } else {
-                pad = ((Set_801A5F1C *)controller_physical_port_bank)->pads;
-                pp = (Src_801A5F1C **)controller_physical_port_bank;
-                set = (Set_801A5F1C *)controller_physical_port_bank;
+                pad = ((Set_801A5F1C *)&controller_physical_port_bank)->pads;
+                pp = (Src_801A5F1C **)&controller_physical_port_bank;
+                set = (Set_801A5F1C *)&controller_physical_port_bank;
             }
             for (i = 0; i < 4; pad++, i++) {
                 src = *pp++;
@@ -396,35 +385,35 @@ void controller_stuff(void) {
                     gy = -src->cy;
                     pad->cy = gy;
                     if ((-31.0f) < fx && fx <= 31.0f) {
-                        fx = lbl_805DC0C0;
+                        fx = 0.0f;
                         pad->sx = 0;
                     }
                     if ((-31.0f) < fy && fy <= 31.0f) {
-                        fy = lbl_805DC0C0;
+                        fy = 0.0f;
                         pad->sy = 0;
                     }
                     if ((-31.0f) < gx && gx <= 31.0f) {
-                        gx = lbl_805DC0C0;
+                        gx = 0.0f;
                         pad->cx = 0;
                     }
                     if ((-31.0f) < gy && gy <= 31.0f) {
-                        gy = lbl_805DC0C0;
+                        gy = 0.0f;
                         pad->cy = 0;
                     }
                     m = newton_sqrtf(fx * fx + fy * fy);
-                    if (lbl_805DC0C0 != m) {
-                        m *= lbl_805DC0C4;
+                    if (0.0f != m) {
+                        m *= 0.0078125f;
                     }
-                    if (m > lbl_805DC0C8) {
-                        m = lbl_805DC0C8;
+                    if (m > 1.0f) {
+                        m = 1.0f;
                     }
                     pad->mag0 = m;
                     m = newton_sqrtf(gx * gx + gy * gy);
-                    if (lbl_805DC0C0 != m) {
-                        m *= lbl_805DC0C4;
+                    if (0.0f != m) {
+                        m *= 0.0078125f;
                     }
-                    if (m > lbl_805DC0C8) {
-                        m = lbl_805DC0C8;
+                    if (m > 1.0f) {
+                        m = 1.0f;
                     }
                     pad->mag1 = m;
                     pad->hold &= ~0x30000;
@@ -456,8 +445,8 @@ void controller_stuff(void) {
                     old = pad->prev_hold;
                     pad->prev_hold = pad->hold &= 0xC30FFFFF;
                     pad->prev_press = pad->press &= 0xC30FFFFF;
-                    map_main_stick_to_buttons((u8 *)pad, pad->sx, pad->sy, old);
-                    map_c_stick_to_buttons((u8 *)pad, pad->cx, pad->cy, old);
+                    map_main_stick_to_buttons((ControllerInputContext *)pad, pad->sx, pad->sy, old);
+                    map_c_stick_to_buttons((ControllerInputContext *)pad, pad->cx, pad->cy, old);
                     if (camera_ctrl_instance != NULL) {
                         if (is_split_screen() != 0) {
                             a = ((Obj_801A5F1C *)camera_ctrl_instance)->base[i] + (s32)(10430.38043493439 * atan2_float(fx, fy));
@@ -472,7 +461,7 @@ void controller_stuff(void) {
                     }
                     pad->ang0 = (u16)a;
                     pad->ang1 = (u16)b;
-                    update_button_hold_counters((saddr)pad);
+                    update_button_hold_counters((ControllerInputContext *)pad);
                 } else {
                     pad->hold = (*(Src_801A5F1C *)&controller_default_pad_state).b0;
                     pad->rel = (*(Src_801A5F1C *)&controller_default_pad_state).b1;
@@ -485,7 +474,7 @@ void controller_stuff(void) {
                     pad->cx = (*(Src_801A5F1C *)&controller_default_pad_state).cx;
                     pad->cy = (*(Src_801A5F1C *)&controller_default_pad_state).cy;
                     pad->ang0 = 0;
-                    pad->mag0 = lbl_805DC0C0;
+                    pad->mag0 = 0.0f;
                     for (j = 0; j < 14; j++) {
                         pad->rep[j] = 0;
                     }
@@ -502,7 +491,7 @@ void controller_stuff(void) {
 
 #pragma push
 #define controller_input_state ((s32 *)&controller_input_state)
-#define controller_physical_port_bank ((s32 *)controller_physical_port_bank)
+#define controller_physical_port_bank ((s32 *)&controller_physical_port_bank)
 
 struct Sub_801A67A4
 {
@@ -646,7 +635,7 @@ void reset_controller_input_state(void) {
         p->f18 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f20;
         p->f1A = ((Src_801A66B8 *)&controller_default_pad_state)[0].f22;
         p->f1C = 0;
-        p->f24 = lbl_805DC0C0;
+        p->f24 = 0.0f;
         for (j = 0; j < 14; j++) {
             p->f2C[j] = 0;
         }
@@ -741,3 +730,171 @@ void accumulate_key_bits(s32 arg0, s32 *arg1) {
         }
     }
 }
+
+extern "C" {
+
+void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous) {
+    pad->previous_buttons |= mask;
+    if (previous & mask) {
+        pad->flags_4c &= ~mask;
+        return;
+    }
+    pad->flags_4c |= mask;
+}
+
+void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
+    if (y > 0x30) {
+        fn_801A6A28(pad, 0x08000000, previous);
+    } else if (y < -0x30) {
+        fn_801A6A28(pad, 0x04000000, previous);
+    }
+    if (x > 0x30) {
+        fn_801A6A28(pad, 0x20000000, previous);
+        return;
+    }
+    if (x < -0x30) {
+        fn_801A6A28(pad, 0x10000000, previous);
+    }
+}
+
+void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
+    if (y > 0x30) {
+        fn_801A6A28(pad, 0x200000, previous);
+    } else if (y < -0x30) {
+        fn_801A6A28(pad, 0x100000, previous);
+    }
+    if (x > 0x30) {
+        fn_801A6A28(pad, 0x800000, previous);
+        return;
+    }
+    if (x < -0x30) {
+        fn_801A6A28(pad, 0x400000, previous);
+    }
+}
+
+}
+
+void update_button_hold_counter(void *pad, void *counter, int mask, int held) {
+    s16 frames = *(s16 *)counter;
+    if (held & mask) {
+        frames++;
+    } else {
+        frames = 0;
+    }
+    *(s16 *)counter = frames;
+}
+
+extern "C" {
+
+void update_button_hold_counters(ControllerInputContext *pad) {
+    update_button_hold_counter(pad, &pad->hold_frames[0], 0x10, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[1], 0x20, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[2], 0x40, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[3], 0x80, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[4], 0x100000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[5], 0x200000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[6], 0x400000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[7], 0x800000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[8], 0x04000000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[9], 0x08000000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[10], 0x10000000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[11], 0x20000000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[12], 0x20000, pad->previous_buttons);
+    update_button_hold_counter(pad, &pad->hold_frames[13], 0x10000, pad->previous_buttons);
+}
+
+}
+
+s32 TRaderMapCore::pack_color_bits(s32 input, s32 mask) {
+    s32 bits = mask | ((mask << 0x10) & 0xF00000);
+    return bits | ((bits << 0x16) & 0x3C000000);
+}
+
+extern "C" {
+
+s32 TRaderMapCore__sub_801A6D00(void *pad, s32 mask) {
+    return (mask & 0xFFFFFF0F) | ((mask << 0x16) & 0x3C000000);
+}
+
+s32 pack_flags__13TRaderMapCoreFii(s32 pad, s32 mask) {
+    return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
+}
+
+s32 test_flags_04_packed(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->flags_04 & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+}
+
+s32 test_controller_flag_4c_color(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->flags_4c & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+}
+
+s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->flags_4c & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+}
+
+s32 test_previous_buttons_color(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->previous_buttons & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+}
+
+s32 test_previous_buttons_remapped(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->previous_buttons & TRaderMapCore__sub_801A6D00(pad, mask)) != 0;
+}
+
+s32 test_previous_buttons_packed(void *pad, s32 mask) {
+    return (((ControllerInputContext *)pad)->previous_buttons & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+}
+
+}
+
+s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(saddr input, s32 buttons, s32 delay, s32 period) {
+    u32 mask = TRaderMapCore::pack_color_bits(input, buttons);
+    return input_press_or_repeat((ControllerInputContext *)input, mask, delay, period);
+}
+
+s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period) {
+    u32 mask = pack_flags__13TRaderMapCoreFii(input, buttons);
+    return check_packed_flag_match((ControllerInputContext *)input, mask, delay, period);
+}
+
+extern "C" {
+
+s32 test_buttons_press_or_repeat(saddr input, s32 buttons, s32 delay, s32 period) {
+    u32 mask = pack_flags__13TRaderMapCoreFii(input, buttons);
+    return input_press_or_repeat((ControllerInputContext *)input, mask, delay, period);
+}
+
+s32 check_packed_flag_match(ControllerInputContext *pad, u32 mask, s32 delay, s32 period) {
+    s32 result;
+    s32 i;
+    s32 elapsed;
+    if (mask == 0) {
+        return 0;
+    }
+    result = 0;
+    for (i = 0; i < 14; i++) {
+        if (mask & input_button_mask_table[i]) {
+            elapsed = pad->hold_frames[i] - (delay + 1);
+            if (elapsed >= 0 && elapsed % period == 0) {
+                result |= 1;
+            }
+        }
+    }
+    return result;
+}
+
+s32 input_press_or_repeat(ControllerInputContext *pad, u32 mask, s32 delay, s32 period) {
+    if (!mask) return 0;
+    if (pad->flags_4c & mask) return 1;
+    s32 result = 0;
+    for (int i = 0; i < 14; ++i) {
+        if (mask & input_button_mask_table[i]) {
+            const s32 elapsed = pad->hold_frames[i] - (delay + 1);
+            if (elapsed >= 0 && elapsed % period == 0) result |= 1;
+        }
+    }
+    return result;
+}
+
+}
+
+void TObjPlayer::reset_state_block() { *(int*)((char*)this + 0x0) = 0; *(int*)((char*)this + 0x4) = -1; *(int*)((char*)this + 0x8) = 0; *(int*)((char*)this + 0xc) = 0; *(short*)((char*)this + 0x10) = 0; *(short*)((char*)this + 0x12) = 0; *(short*)((char*)this + 0x14) = 0; *(short*)((char*)this + 0x16) = 0; *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x1a) = 0; *(int*)((char*)this + 0x1c) = 0; *(int *)&this->m_20 = 0; *(float *)&this->texlist = 0.0f; *(float *)&this->room = 0.0f; }

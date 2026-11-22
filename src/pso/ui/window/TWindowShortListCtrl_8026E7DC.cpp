@@ -27,7 +27,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"

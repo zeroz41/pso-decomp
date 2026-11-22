@@ -13,7 +13,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer_80011014.h"

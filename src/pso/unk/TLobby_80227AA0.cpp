@@ -62,7 +62,7 @@ void handle_6xB2_play_sound_from_player(void *command) {
 }
 
 s32 TLobby::is_camera_state_active() {
-    if ((TCameraCtrl__sub_8006A5DC() == 5) || (TCameraCtrl__sub_8006A5DC() == 9)) {
+    if ((TCameraCtrl::get_active_controller() == 5) || (TCameraCtrl::get_active_controller() == 9)) {
         return 1;
     }
     return 0;

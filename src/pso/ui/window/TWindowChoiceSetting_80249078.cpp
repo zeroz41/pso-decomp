@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 // One TU (.text 0x80249078-0x802495FC): the class-name string 0x8044EAF0 comes before
 // sub_80249078's u32->f32 double (0x8044EB08) and run_task's s32->f32 double (0x8044EB10)

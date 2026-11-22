@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/keyboard/KeyboardInputQueries.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/KeyboardCharacterMaps.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

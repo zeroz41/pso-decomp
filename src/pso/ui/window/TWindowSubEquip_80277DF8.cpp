@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"

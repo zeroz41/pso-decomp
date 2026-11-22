@@ -721,10 +721,10 @@ pso/ui/city/THunterGuildWarning.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/window/TWindowKeyBoardSoft.cpp
+pso/system/ControllerInput.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
 pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp
-pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp
 pso/unk/TLobby_80243370.cpp
 pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
@@ -742,7 +742,6 @@ pso/unk/TLobby_80227AA0.cpp
 pso/unk/TLobby_80228154.cpp
 pso/unk/TLobby_80228818.cpp
 pso/ui/hud/TLoadingCur.cpp
-pso/ui/hud/TLoadingCur_801A6DE0.cpp
 pso/unk/TLobby.cpp
 pso/unk/TLobbyEventTheme.cpp
 pso/unk/TLobbyBattleParamData.cpp
@@ -1112,7 +1111,6 @@ pso/quest/TQuestVmDownLoadServer_803E5668.cpp
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp
 pso/quest/TQuestVmDownLoadServer_803E8918.cpp
 pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp
-pso/ui/hud/TRaderMapCore_801A6CEC.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
 pso/ui/hud/TRaderMapCore.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
@@ -1203,7 +1201,6 @@ pso/ui/chat/TUnk_804CE7D0.cpp
 pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/window/TWindowCheckBox.cpp
 pso/ui/window/TWindowChoiceSetting.cpp
-pso/ui/window/TWindowChoiceSetting_801A6F38.cpp
 pso/ui/window/TWindowChoiceSetting_80249610.cpp
 pso/ui/window/TWindowComCard.cpp
 pso/ui/window/TWindowCost.cpp
@@ -1704,7 +1701,6 @@ pso/player/TObjPlayer_8011CEC0.cpp
 pso/player/TObjPlayer_8011E214.cpp
 pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_80178150.cpp
-pso/player/TObjPlayer_801A7080.cpp
 pso/player/TObjPlayer_801AA508.cpp
 pso/player/TObjPlayer_801AA5C0.cpp
 pso/player/TObjPlayer_801AD47C.cpp
@@ -1888,7 +1884,6 @@ pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGCTables.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_801A6EA0.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802B1850.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.cpp
@@ -1912,7 +1907,6 @@ pso/ui/frontend/TAdPsoPassSaveGC.cpp
 pso/ui/frontend/TAdRayGC.cpp
 pso/ui/frontend/TAdRicoRingCtrl.cpp
 pso/ui/frontend/TAdSEGAlogo.cpp
-pso/ui/frontend/TAdSelectCurGC.cpp
 pso/ui/frontend/TAdSelectCurGC_802AEA38.cpp
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp
 pso/ui/frontend/TAdSelectGameModeGC.cpp
@@ -1922,7 +1916,6 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8007B7E4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801E4CF0.cpp
@@ -2043,8 +2036,6 @@ pso/unk/text_801A2B38.cpp
 pso/unk/TUnk_804C2298.cpp
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/unk/text_801A5778.cpp
-pso/unk/text_801A6A28.cpp
-pso/unk/text_801A6F84.cpp
 pso/player/TObjPlayer_801BC688.cpp
 pso/unk/text_801C53D4.cpp
 pso/unk/text_801C543C.cpp
@@ -2352,7 +2343,6 @@ pso/unk/text_803F3BF8.cpp
 pso/audio/AdxBsc.cpp
 pso/render/GinjaMaterial.cpp
 pso/system/movie/TMovie_80143988.cpp
-pso/ui/keyboard/TKeyBoardControlSdata2.cpp
 pso/effect/photon/PhotonBlastSummon.cpp
 pso/npc/TObjNpcKenkyuW.cpp
 pso/effect/TEF_LensFlare.cpp

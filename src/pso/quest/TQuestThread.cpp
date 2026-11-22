@@ -47,7 +47,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
 

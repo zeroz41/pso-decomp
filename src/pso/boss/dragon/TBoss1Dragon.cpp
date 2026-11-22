@@ -86,7 +86,6 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_800870BC.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
@@ -125,7 +124,6 @@ s32 is_split_screen();
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
-extern u8 *camera_ctrl_instance;
 extern "C" {
 u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
@@ -302,7 +300,6 @@ DragonModelState boss1_dragon_capture_chunk_model;
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern s32 registered_player_count;
-extern s16 TCameraCtrl__camera_mode;
 extern "C" {
 f64 floor(f64);
 }
@@ -406,7 +403,7 @@ f32 floor_to_float(f32 value) {
 int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 
 s32 TCameraCtrl::get_camera_mode() {
-    return TCameraCtrl__camera_mode;
+    return TCameraCtrl::camera_mode;
 }
 
 s32 TLobby::get_game_mode() {
@@ -5151,7 +5148,7 @@ void TBoss1Dragon::render() {
                     Vec delta;
                     Vec *points[4];
                     Vec probe;
-                    VecCopy(&origin, (Vec *)(camera_ctrl_instance + 0x178));
+                    VecCopy(&origin, &camera_ctrl_instance->pos);
                     origin.y = (0.0f);
                     VecCopy(&delta, &ent->position);
                     subtract_vector(&delta, &origin);

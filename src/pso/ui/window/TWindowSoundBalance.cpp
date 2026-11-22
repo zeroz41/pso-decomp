@@ -17,8 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
+#include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
 

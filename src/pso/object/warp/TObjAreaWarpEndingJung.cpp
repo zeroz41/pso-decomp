@@ -76,7 +76,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_80132ED0.h"

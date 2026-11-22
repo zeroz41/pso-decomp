@@ -96,8 +96,6 @@ void run_game_frame(void) {
 }
 
 extern "C" {
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
-u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void run_load_callback_table(void *, int);
 void set_copy_clear_color_argb(int, int, int);
 }
@@ -110,19 +108,15 @@ void TEnding::set_flag_and_advance() {
 }
 
 void TEnding::start_ending_scene() {
-    void *p;
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     init_map_lights(default_scene_light_config);
-    p = TObject::operator new(0x1D4);
-    if (p != 0) {
-        TCameraCtrl__ct((u8 *)p, tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
-    set_active_camera_pose((u8 *)&a, (u8 *)&b);
+    set_active_camera_pose(&a, &b);
     clear_resource_load_tasks();
     run_load_callback_table(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     TKeyBoardControl__sub_8000F90C(2);

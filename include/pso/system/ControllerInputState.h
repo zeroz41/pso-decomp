@@ -20,7 +20,7 @@ struct ControllerInputContext {
     s32 cstick_angle;
     f32 stick_magnitude;  // inferred: TObjWarpBoss::sub_8019E418 cancels the warp prompt above 0.25
     f32 cstick_magnitude;
-    u8 unknown_2c[0x1C];
+    s16 hold_frames[14];  // frames each input_button_mask_table button has been held
     u32 previous_buttons;
     u32 flags_4c;
 };

@@ -16,7 +16,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include <string.h>
 #include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 

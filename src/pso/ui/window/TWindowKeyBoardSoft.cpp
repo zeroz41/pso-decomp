@@ -17,7 +17,7 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 
 struct UV_80262038 {

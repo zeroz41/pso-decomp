@@ -5,7 +5,6 @@
 #include "pso/camera/TCameraPan.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
@@ -18,8 +17,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
-
-extern TCameraCtrl *camera_ctrl_instance;
 
 const NpcCameraDestination fixed_npc_camera_destination_table[20] = {
     {-158.0f, 15.0f, 269.0f, -165.0f, 19.0f, 287.0f},
@@ -104,27 +101,27 @@ TCameraController *TCameraFixed::create() {
 TCameraPan::TCameraPan(Vec *goal, s32 frames, s32 hold, TObject *parent) : TObject(parent) {
     Vec d;
     f32 dist;
-    dist = xyz_distance((Vec *)&camera_ctrl_instance->pos_x, (Vec *)&camera_ctrl_instance->tgt_x);
+    dist = xyz_distance(&camera_ctrl_instance->pos, &camera_ctrl_instance->tgt);
     VecCopy(&look_goal, goal);
-    VecCopy(&look_at, (Vec *)&camera_ctrl_instance->tgt_x);
+    VecCopy(&look_at, &camera_ctrl_instance->tgt);
     if (frames == 0) {
         pan_frames = 1;
     } else {
         pan_frames = frames;
     }
     hold_frames = hold;
-    d.x = look_goal.x - camera_ctrl_instance->pos_x;
-    d.y = look_goal.y - camera_ctrl_instance->pos_y;
-    d.z = look_goal.z - camera_ctrl_instance->pos_z;
+    d.x = look_goal.x - camera_ctrl_instance->pos.x;
+    d.y = look_goal.y - camera_ctrl_instance->pos.y;
+    d.z = look_goal.z - camera_ctrl_instance->pos.z;
     if (0.0f != vector_length(&d)) {
         normalize_vector(&d);
     }
-    look_goal.x = d.x * dist + camera_ctrl_instance->pos_x;
-    look_goal.y = d.y * dist + camera_ctrl_instance->pos_y;
-    look_goal.z = d.z * dist + camera_ctrl_instance->pos_z;
-    step = xyz_distance(&look_goal, (Vec *)&camera_ctrl_instance->tgt_x) / (f32)pan_frames;
+    look_goal.x = d.x * dist + camera_ctrl_instance->pos.x;
+    look_goal.y = d.y * dist + camera_ctrl_instance->pos.y;
+    look_goal.z = d.z * dist + camera_ctrl_instance->pos.z;
+    step = xyz_distance(&look_goal, &camera_ctrl_instance->tgt) / (f32)pan_frames;
     frame = 0;
-    TCameraCtrl::set_fixed_position_and_target((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&camera_ctrl_instance->tgt_x);
+    TCameraCtrl::set_fixed_position_and_target((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&camera_ctrl_instance->tgt.x);
 }
 #pragma pop
 
@@ -135,7 +132,7 @@ TCameraPan::~TCameraPan() {
 void TCameraPan::run_task() {
     approach_vector_fixed_distance(&look_at, &look_goal, &look_at, step);
     if (get_camera_override_flags() == 1) {
-        TCameraCtrl::set_fixed_position_and_target((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&look_at);
+        TCameraCtrl::set_fixed_position_and_target((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&look_at);
     }
     frame++;
     if (frame == pan_frames + hold_frames || get_camera_override_flags() == 0) {
@@ -155,10 +152,10 @@ TCameraConversation::TCameraConversation(s32 view, s32 destination, TObject *par
         VecCopy(&position, split_position);
         VecCopy(&target, TCameraCtrl__sub_8006BAB4((O_8006BAB4 *)camera_ctrl_instance, view));
     } else {
-        VecCopy(&position, (Vec *)&camera_ctrl_instance->pos_x);
-        VecCopy(&target, (Vec *)&camera_ctrl_instance->tgt_x);
+        VecCopy(&position, &camera_ctrl_instance->pos);
+        VecCopy(&target, &camera_ctrl_instance->tgt);
     }
-    set_active_camera_pose((u8 *)&position, (u8 *)&target);
+    set_active_camera_pose(&position, &target);
     fixed_npc_camera_active = 0;
 }
 
@@ -171,7 +168,7 @@ void TCameraConversation::run_task() {
     approach_camera_vector(&position, (Vec *)&fixed_npc_camera_destination_table[destination].position, 0.725f);
     approach_camera_vector(&target, (Vec *)&fixed_npc_camera_destination_table[destination].target, 0.725f);
     fixed_npc_camera_active = 1;
-    set_active_camera_pose((u8 *)&position, (u8 *)&target);
+    set_active_camera_pose(&position, &target);
 }
 
 TCameraConversation *create_conversation_camera(s32 destination) {

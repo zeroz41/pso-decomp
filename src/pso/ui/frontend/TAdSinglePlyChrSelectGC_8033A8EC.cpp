@@ -79,8 +79,6 @@ void check_ready__23TAdSinglePlyChrSelectGCFv(void);
 
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_main_phase(int);
-s32 set_active_camera_pose(void *, void *);
-s32 activate_camera_mode(int);
 s8 func_801A5E54__Fv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 }
@@ -89,7 +87,6 @@ void update_sound_request_slots(void);
 extern "C" {
 s32 func_803DCDFC__Fv();
 s32 TKeyBoardControl__sub_8000F90C(int);
-s32 TCameraCtrl__ct(u32, TObject *);
 s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
@@ -443,10 +440,7 @@ void init_single_player_char_select_scene(void) {
     reset_controller_input_state();
     run_load_callback_table(&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks), 0x30);
     init_menu_scene_lights(default_scene_light_config, 4);
-    p = (uaddr)TObject::operator new(0x1D4);
-    if (p != 0) {
-        TCameraCtrl__ct(p, tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     Vec a = lbl_80477D60;
     Vec b = lbl_80477D6C;
     TCameraCtrl::select_active_controller(9);

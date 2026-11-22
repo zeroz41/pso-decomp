@@ -21,7 +21,7 @@ const char *TObjBoss7RaftSplash__name = "TObjBoss7RaftSplash";
 
 void TObjBoss7RaftSplash::run_task() {
     Vec splash_position;
-    if (TCameraCtrl__sub_8006A5DC() != 5) {
+    if (TCameraCtrl::get_active_controller() != 5) {
         elapsed += *step;
         f32 timer = elapsed;
         f32 period = interval;

@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"

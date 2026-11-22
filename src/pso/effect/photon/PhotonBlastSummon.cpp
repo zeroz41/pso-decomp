@@ -31,21 +31,14 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 
-struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 s32 set_scripted_camera_pose(int, int, void *);
-extern RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 TCameraCtrl__view_state;
 extern u32 lbl_805D5D20;
 }
 s32 photon_blast_joint_index;
@@ -137,7 +130,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     playback.flags = 0;
     playback.frame = 0.0f;
     playback.frame_step = 1.0f;
-    if ((*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 4) || (*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 8)) {
+    if ((TCameraCtrl::view_state.flags & 4) || (TCameraCtrl::view_state.flags & 8)) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.cache_target_and_forward(0x4222);
@@ -213,7 +206,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     VecCopy((Vec *)&parameters.position, (const Vec *)&self->position);
     VecCopy((Vec *)&parameters.target, (const Vec *)&self->target);
     parameters.projection = 0x4222;
-    set_active_camera_pose_from_params((u8 *)&parameters);
+    set_active_camera_pose_from_params((CameraParams *)&parameters);
 }
 }
 extern Group_801A7428 photon_blast_attachment_table[];
@@ -424,7 +417,7 @@ void TUnk_804C3248::update_state() {
         ((s32 (*)(f32))update_photon_blast_camera_pose)(1.0f);
         return;
     case 1:
-        if ((get_scripted_camera_playback()->flags & 1) || (TCameraCtrl__sub_8006A5DC() != 5)) {
+        if ((get_scripted_camera_playback()->flags & 1) || (TCameraCtrl::get_active_controller() != 5)) {
             queue_destruction();
         }
         return;

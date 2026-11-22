@@ -34,7 +34,6 @@
 struct Q_801681D0 { f32 w[4]; };
 
 extern s32 game_difficulty_selection;
-extern TCameraCtrl *camera_ctrl_instance;
 
 BmlResource *TOHangceilingCave01__model_archive;
 GinjaTextureList **turiten_singo_texture_lists;
@@ -169,7 +168,7 @@ void *TOHangceilingCave01__create(void *set_data) {
 s32 TUnk_804B2578::sub_801688C0() {
     Vec view;
 
-    if (xz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos_x) < 2500.0f) {
+    if (xz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 2500.0f) {
         visibility = 1;
         return 1;
     }

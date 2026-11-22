@@ -89,9 +89,6 @@ struct TBoss4Type1AttackTables {
     s32 attacks[2];
 };
 
-struct Cam_800531C8 { u8 pad[0x178]; Vec pos; };
-extern Cam_800531C8 *camera_ctrl_instance;
-
 const char *TBoss4Type1__name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
 s32 boss4_type1_tenchu_hit_effect_ids[2] = { 0xFB, 0xFC };

@@ -1,7 +1,7 @@
 #include "pso/ui/window/TWindowCtrl_8024C6CC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/keyboard/KeyboardInputQueries.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -43,9 +43,7 @@
 #include "pso/unk/text_80271400.h"
 
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";

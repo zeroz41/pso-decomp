@@ -6,7 +6,7 @@
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/scene/EndingSceneTables.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -83,7 +83,7 @@ void TEndingPicStage::set_camera() {
     VecCopy(&camera.v28, &direction);
     camera.f14 = 0x1693;
 
-    set_active_camera_pose_from_params((u8 *)&camera);
+    set_active_camera_pose_from_params((CameraParams *)&camera);
 }
 
 void TEndingPicStage::set_picture(s32 picture) {

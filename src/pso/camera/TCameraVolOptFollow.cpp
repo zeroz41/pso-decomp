@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/camera/TCameraVolOptFollow.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -9,8 +9,6 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
-
-extern TCameraCtrl *camera_ctrl_instance;
 
 // Eye offsets from the followed player; the first is the Vol Opt camera's.
 const Vec camera_ctrl_default_offset_vecs[2] = {
@@ -84,9 +82,9 @@ void TCameraVolOptFollow::update_follow_flags() {
     Vec to_target;
     flags = 0x15;
     eye_rate = 1.65f;
-    to_target.x = camera_ctrl_instance->tgt_x - target.x;
-    to_target.y = camera_ctrl_instance->tgt_y - target.y;
-    to_target.z = camera_ctrl_instance->tgt_z - target.z;
+    to_target.x = camera_ctrl_instance->tgt.x - target.x;
+    to_target.y = camera_ctrl_instance->tgt.y - target.y;
+    to_target.z = camera_ctrl_instance->tgt.z - target.z;
     at_rate = (0.7f * vector_length(&to_target)) / 100.0f;
     if (predict_obstruction() != 0) {
         follow_flags = follow_flags | 1;

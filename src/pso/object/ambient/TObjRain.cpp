@@ -29,7 +29,6 @@ NJS_POINT3COL TObjRain__streak_line_list = {TObjRain__streak_points, TObjRain__s
 extern "C" {
 f32 xz_distance_squared(void *, void *);
 void draw_line_list(NJS_POINT3COL *, s32, s32);
-extern TCameraCtrl *camera_ctrl_instance;
 }
 
 void TObjRain::draw_streaks() {
@@ -42,7 +41,7 @@ void TObjRain::draw_streaks() {
             set_line_width(5);
             VecCopy((Vec *)TObjRain__streak_line_list.p, &drop->position);
             Vec pos = drop->position;
-            if (xz_distance_squared(&camera_ctrl_instance->pos_x, &pos) < 90000.0f) {
+            if (xz_distance_squared(&camera_ctrl_instance->pos.x, &pos) < 90000.0f) {
                 Vec dir = drop->velocity;
                 normalize_vector(&dir);
                 dir.x *= 12.0f;
@@ -93,9 +92,9 @@ void TObjRain::init_drops() {
         angle -= (s32)camera_ctrl_instance->yaw;
         x = radius * cos_table_lookup(angle);
         z = radius * sin_table_lookup(angle);
-        d->position.x = camera_ctrl_instance->pos_x + x;
-        d->position.y = 120.0f + camera_ctrl_instance->pos_y;
-        d->position.z = camera_ctrl_instance->pos_z + z;
+        d->position.x = camera_ctrl_instance->pos.x + x;
+        d->position.y = 120.0f + camera_ctrl_instance->pos.y;
+        d->position.z = camera_ctrl_instance->pos.z + z;
         d->velocity.x = 1.2f * (0.000030517578f * (f32)rand());
         d->velocity.y = -(5.5f * (0.000030517578f * (f32)rand()) + 9.0f);
         d->velocity.z = 1.2f * (0.000030517578f * (f32)rand());

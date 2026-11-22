@@ -37,7 +37,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };

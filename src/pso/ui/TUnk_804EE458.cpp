@@ -31,7 +31,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 
 void TUnk_804EE458::draw_record_with_camera(s32 record, s32 camera) {

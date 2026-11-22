@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"

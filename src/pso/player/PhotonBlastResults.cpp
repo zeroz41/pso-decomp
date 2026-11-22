@@ -20,7 +20,6 @@
 #include "pso/unk/TUnk_804C349C.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/player/TObjPlayer_803130BC.h"
 #include "pso/player/TObjPlayer_80011014.h"

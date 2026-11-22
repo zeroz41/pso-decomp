@@ -19,7 +19,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
 static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};

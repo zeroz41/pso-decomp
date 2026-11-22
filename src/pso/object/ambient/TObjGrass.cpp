@@ -354,7 +354,6 @@ void TObjGrassWeb__sub_800BC798(Web_800BC798 *o);
 Vec grass_camera_vec;
 Vec grass_render_vec;
 Vec grass_origin_vec;
-extern u8 lbl_804FF5E8[];
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 struct VBase_14_d701ad { char pad[0x14]; };
 struct VObj_14_d701ad : VBase_14_d701ad {

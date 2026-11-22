@@ -22,7 +22,7 @@
 #include "pso/system/vector.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 
 const char *TOKey__class_name = "TOKey";
