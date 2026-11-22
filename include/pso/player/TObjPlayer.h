@@ -277,13 +277,9 @@ struct TObjPlayer : public TObjChara {
     void step_along_ground();
     void update_move_to_destination();
     void update_hide_sequence();
-    void trigger_action_if_not_flagged();
     void spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0);
     void render_shadow();
-    void set_hidden_flag();
-    void apply_fall_damage_flag();
     static void cleanup_effects();
-    int is_flag_set_388_bit26();
     void clear_counter();
     void set_cancel_flag();
     static void reset_effect_count();

@@ -148,7 +148,7 @@ TUnk_804909C4::TUnk_804909C4(u8 *player, saddr arg2, saddr arg3) : TObjCollidabl
     init_collision_body_parts(this, lbl_80490998, 1);
     *(f32 *)((s8 *)(this->bodies) + 0xC) = 0.75f * player_scale_factor;
     *(s16 *)((s8 *)this + 0xC8) = get_entity_id(player, 0.75f);
-    if (((TObjPlayer *)player)->is_flag_set_388_bit26() != 0) {
+    if (((TObjEneDarkGunner *)player)->is_flag_set_388_bit26() != 0) {
         var_r0 = 0xDA;
     } else {
         var_r0 = 0xD5;

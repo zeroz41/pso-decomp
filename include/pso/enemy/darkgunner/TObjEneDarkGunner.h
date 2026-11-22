@@ -16,6 +16,10 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void set_fields_24_34_from_global(void*);
     void sub_800A159C();
     void sub_800A1520();
+    int is_flag_set_388_bit26();
+    void apply_fall_damage_flag();
+    void set_hidden_flag();
+    void trigger_action_if_not_flagged();
     virtual s32 update_movement_status();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();

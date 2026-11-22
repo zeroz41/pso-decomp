@@ -572,7 +572,7 @@ void TObjEneDarkGunner::set_fields_24_34_from_global(void *a1) {
     this->texlist = (saddr)get_bml_texlist((BmlResource *)player_effect_bml_resource, (s32)(saddr)a1);
 }
 
-int TObjPlayer::is_flag_set_388_bit26() { return (*(u32 *)&this->unk_388 >> 26) & 0x1; }
+int TObjEneDarkGunner::is_flag_set_388_bit26() { return (m_388 >> 26) & 0x1; }
 
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2) {
     return (*(G_800A3210 * *)&lbl_805D5004)->arr[i];
@@ -750,7 +750,7 @@ void TObjEneDarkGunner::run_task() {
     }
     if ((((VObj_18_800A28A4 *)this)->flags & 0x200000) && ((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x22) == 0) {
         if (((VObj_18_800A28A4 *)this)->trail_emitter == NULL) {
-            if (((TObjPlayer *)((VObj_18_800A28A4 *)this))->is_flag_set_388_bit26() != 0) {
+            if (is_flag_set_388_bit26() != 0) {
                 ((VObj_18_800A28A4 *)this)->trail_emitter = create_particle_emitter(&((VObj_18_800A28A4 *)this)->shadow_pos, 0xD9);
             } else {
                 ((VObj_18_800A28A4 *)this)->trail_emitter = create_particle_emitter(&((VObj_18_800A28A4 *)this)->shadow_pos, 0xD4);
@@ -794,14 +794,14 @@ void TObjEneDarkGunner::run_task() {
     }
 }
 
-void TObjPlayer::apply_fall_damage_flag() {
+void TObjEneDarkGunner::apply_fall_damage_flag() {
     s32 var_r4;
     if (xz_distance_squared(&position, &home_position) > 100.0f) {
         var_r4 = 8;
     } else {
         var_r4 = 0;
     }
-    ((TObjEnemyCustom *)this)->update_if_active(var_r4);
+    update_if_active(var_r4);
 }
 }
 
@@ -828,10 +828,10 @@ void TObjEneDarkGunner::sub_800A27CC() {
     }
 }
 
-void TObjPlayer::set_hidden_flag() {
-    if (!(this->actorFlags & 0x800)) {
-        ((TObjEnemyCustom *)this)->update_if_active(1);
-        *(s32 *)&this->unk_388 = (s32) (*(s32 *)&this->unk_388 | 0x20000);
+void TObjEneDarkGunner::set_hidden_flag() {
+    if (!(actorFlags & 0x800)) {
+        update_if_active(1);
+        m_388 |= 0x20000;
     }
 }
 }
@@ -1003,7 +1003,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
             }
         }
         self->state = 3;
-        if (((TObjPlayer *)self)->is_flag_set_388_bit26() != 0) {
+        if (((TObjEneDarkGunner *)self)->is_flag_set_388_bit26() != 0) {
             spawn_particle_effect(&self->f3B4, 0xD8);
         } else {
             spawn_particle_effect(&self->f3B4, 0xD2);
@@ -1070,7 +1070,7 @@ void TObjEneDarkGunner::run_hit_reaction() {
     TObjEneDarkGunCenter *center;
     temp_r0 = this->mode;
     if (temp_r0 != 4) {
-        if ((temp_r0 == 2) && (((TObjPlayer *)this)->is_flag_set_388_bit26() != 0) &&
+        if ((temp_r0 == 2) && (is_flag_set_388_bit26() != 0) &&
             (center = (TObjEneDarkGunCenter *)get_enemy_entity(center_id)) != NULL) {
             center->trigger_targets_action();
             return;
@@ -1122,7 +1122,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
             ((TObjBase *)arg0)->obj_clearFlags30(0x40300);
             *(s32 *)((s8 *)arg0 + 0x388) = (s32) ((*(s32 *)((s8 *)arg0 + 0x388)) & 0xFF7FFFFE);
             ((TObjPlayer *)arg0)->m_33e = (s16) ((TObjPlayer *)arg0)->hp;
-            ((TObjPlayer *)arg0)->set_hidden_flag();
+            ((TObjEneDarkGunner *)arg0)->set_hidden_flag();
         }
         break;
     case -1:
@@ -1249,7 +1249,7 @@ void TObjPlayer__sub_800A1974(void *) {  }
 void TObjPlayer::render_shadow() {
     s32 self = (saddr)this;
     if (this->obj_testFlags30(0x800) == 0) {
-        if (is_flag_set_388_bit26() == 0) {
+        if (((TObjEneDarkGunner *)this)->is_flag_set_388_bit26() == 0) {
             TObjFish::set_global_param(lbl_805D5014);
         } else {
             TObjFish::set_global_param(lbl_805D5018);
@@ -1317,7 +1317,7 @@ void TObjPlayer__sub_800A16C4(u8 *player) {
         if (temp_r4 < 0) {
             ((TObjPlayer *)player)->m_33e = (s16) ((TObjPlayer *)player)->hp;
             *(s32 *)((s8 *)player + 0x388) = (s32) (*(s32 *)((s8 *)player + 0x388) & 0xFFFFFFFE);
-            ((TObjPlayer *)player)->set_hidden_flag();
+            ((TObjEneDarkGunner *)player)->set_hidden_flag();
         }
         break;
     case -1:
@@ -1383,9 +1383,9 @@ void TObjEneDarkGunner::sub_800A1520() {
   }
 }
 
-void TObjPlayer::trigger_action_if_not_flagged() {
-    if (!(*(s32 *)&this->actorFlags & 0x800) && !(*(s32 *)&this->unk_388 & 0x800000)) {
-        ((TObjEnemyCustom *)this)->update_if_active(6);
+void TObjEneDarkGunner::trigger_action_if_not_flagged() {
+    if (!(actorFlags & 0x800) && !(m_388 & 0x800000)) {
+        update_if_active(6);
     }
 }
 
@@ -1414,7 +1414,7 @@ void TObjPlayer::update_hide_sequence() {
         temp_r3 = this->m_39c - 1;
         this->m_39c = (s16) temp_r3;
         if ((s16) temp_r3 <= 0) {
-            set_hidden_flag();
+            ((TObjEneDarkGunner *)this)->set_hidden_flag();
         }
         break;
     case -1:
@@ -1444,7 +1444,7 @@ void TObjPlayer::update_move_to_destination() {
         move_with_wall_slide((u8 *)o);
         if (xz_distance_squared((Vec *)&o->pos, (Vec *)&o->dest) <= 100.0f) {
             o->flags388 &= ~0x80000;
-            apply_fall_damage_flag();
+            ((TObjEneDarkGunner *)this)->apply_fall_damage_flag();
         }
         break;
     }

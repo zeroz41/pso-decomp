@@ -28,7 +28,7 @@ void TObjEneDarkGunCenter::sub_800A0654() {
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            ((TObjPlayer *)gunner)->apply_fall_damage_flag();
+            ((TObjEneDarkGunner *)gunner)->apply_fall_damage_flag();
         }
     }
 }
@@ -53,7 +53,7 @@ void TObjEneDarkGunCenter::trigger_targets_action() {
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            ((TObjPlayer *)gunner)->trigger_action_if_not_flagged();
+            ((TObjEneDarkGunner *)gunner)->trigger_action_if_not_flagged();
         }
     }
 }
@@ -75,7 +75,7 @@ void TObjEneDarkGunCenter::hide_linked_enemies() {
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            ((TObjPlayer *)gunner)->set_hidden_flag();
+            ((TObjEneDarkGunner *)gunner)->set_hidden_flag();
         }
     }
     state_timer = 0x78;
