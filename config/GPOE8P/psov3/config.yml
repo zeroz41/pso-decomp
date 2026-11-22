@@ -1519,11 +1519,11 @@ force_active:
   - __dt__17TObjEneDarkGunnerFv
   - __ct__17TObjEneDarkGunnerFP7TObjectPv
   - sub_800A3200__17TObjEneDarkGunnerFl
-  - sub_800A42C0__12TObjEneSaverFv
-  - sub_800A49B4__12TObjEneSaverFv
-  - sub_800A5154__12TObjEneSaverFv
-  - sub_800A54B4__12TObjEneSaverFv
-  - sub_800A5960__12TObjEneSaverFv
+  - run_demo_task__12TObjEneSaverFv
+  - state_defence__12TObjEneSaverFv
+  - state_nail__12TObjEneSaverFv
+  - state_attack__12TObjEneSaverFv
+  - damage_targets_in_reach__12TObjEneSaverFv
   - __dt__15TObjEneDimedianFv
   - sub_800BFF54__12TObjEneLappyFv
   - TObjPlayer__sub_800D93F0
@@ -8170,7 +8170,7 @@ force_active:
   - lbl_8050093C
   - lbl_80500948
   - lbl_80500954
-  - lbl_80500978
+  - saver_particle_node_position
   - fly_nest_vertex_indices
   - fly_nest_vertex_list
   - wolf_param_table
@@ -8350,11 +8350,11 @@ force_active:
   - TObjEneDarkGunner__attack_params_by_variant
   - TObjEneDarkGunner__resistance_params_by_variant
   - TObjEneDarkGunner__behavior_params
-  - lbl_805D504C
-  - lbl_805D5054
-  - lbl_805D5058
-  - lbl_805D505C
-  - lbl_805D5060
+  - saver_ai_params
+  - saver_scroll_polygons
+  - saver_scroll_tick
+  - saver_render_node_index
+  - saver_render_rotation_x
   - saver_attack_trail_points
   - saver_jump_trail_points
   - saver_nail_trail_points
@@ -16180,10 +16180,10 @@ force_active:
   - sub_800A1520__17TObjEneDarkGunnerFv
   - sub_800A159C__17TObjEneDarkGunnerFv
   - sub_800A3290__13TUnk_804909C4FUs
-  - sub_800A435C__12TObjEneSaverFv
-  - sub_800A4D9C__12TObjEneSaverFv
-  - sub_800A5FA8__12TObjEneSaverFv
-  - sub_800A62D4__12TObjEneSaverFv
+  - update_particle_effect__12TObjEneSaverFv
+  - state_jump_attack__12TObjEneSaverFv
+  - state_appear__12TObjEneSaverFv
+  - state_disappear__12TObjEneSaverFv
   - select_model_record__12TObjEneSaverFl
   - sub_800A7B54__15TObjEneDimedianFv
   - sub_800AC9DC__12TObjEneSharkFl

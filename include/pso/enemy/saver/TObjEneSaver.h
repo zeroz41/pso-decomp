@@ -9,30 +9,38 @@ struct TObjPlayer;
 struct TEneParticleCtrl;
 class TUnk_80494968;
 
+// What TObjEnemy::movementParameters points at for a Saver (saver_move_params): the GibblesMoveParams layout.
+struct SaverMoveParams {
+    f32 radius;      // refresh_target only picks targets within it
+    f32 speed;       // dash speed of the attack, and the reach added to the body radius on the walk in
+    s32 turn_speed;  // largest heading change per frame
+    s32 pad_0C[4];
+};
+
 struct TObjEneSaver : public TObjEnemy {
     virtual ~TObjEneSaver();
     static void free_resources();
     void turn_toward_target();
     void step_angle_clamped(s32 angle);
-    void sub_800A5FA8();
-    void sub_800A4D9C();
-    void sub_800A42C0();
-    void sub_800A49B4();
-    void sub_800A5154();
-    void sub_800A54B4();
-    void sub_800A5960();
+    void state_appear();
+    void state_jump_attack();
+    void run_demo_task();
+    void state_defence();
+    void state_nail();
+    void state_attack();
+    void damage_targets_in_reach();
     void update_collapse_and_destroy();
     virtual void run_task();
     virtual void render();
     void select_model_record(s32 i);
     void init_render_flags();
-    void sub_800A62D4();
+    void state_disappear();
     void advance_motion_state();
     void update_move_toward_target();
     void update_knockback_state();
     void update_entry_motion();
     void calc_move_state();
-    void sub_800A435C();
+    void update_particle_effect();
     void apply_lookup_entry_effect();
     virtual s32 update_action_hold_status();
     virtual s32 update_movement_status();
