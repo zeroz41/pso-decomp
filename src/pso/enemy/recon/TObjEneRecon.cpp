@@ -13,6 +13,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -254,9 +256,6 @@ s32 TObjEneRecon::is_anim_5() {
 
 
 extern "C" {
-s16 get_attack_params_atp_min(void *p);
-u16 get_entity_id(void *);
-f32 horizontal_distance_squared(void *, void *);
 extern s32 lbl_805D5868;
 
 s32 TObjEneRecon::sub_8031C250() {
@@ -476,8 +475,6 @@ void TObjEneRecon::sub_8031C7BC(s32 reason) {
 
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
-s32 approach_angle_limited(s32, s32, s32);
 
 void TObjEneRecon::sub_8031C920(s32 reason) {
     f32 r;
@@ -635,7 +632,7 @@ void TObjEneRecon::sub_8031CCFC(s32 reason) {
 
 void TObjEneRecon::sub_8031CF30(s32 reason) {
     s32 i;
-    u8 *p;
+    TObjPlayer *p;
     f32 d;
     switch (reason) {
     case 4:
@@ -711,15 +708,15 @@ void TObjEneRecon::sub_8031CF30(s32 reason) {
             }
             if (hit_window == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
-                    p = (u8 *)TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((TObjChara *)p)->has_flag_0x800() == 0) {
-                        d = horizontal_distance_squared(p + 0x2FC, &root_node_position);
+                    p = TObjPlayer::get_player_data(i);
+                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && p->has_flag_0x800() == 0) {
+                        d = horizontal_distance_squared(&p->body_center, &root_node_position);
                         if (d <= ((AttackParams *)m_318)->get_damage_radius() * ((AttackParams *)m_318)->get_damage_radius()) {
                             DirectAttackPayload attack;
                             attack.kind = 0;
                             attack.power = (f32)get_attack_params_atp_min((AttackParams *)m_318);
-                            ((TObjChara *)p)->receive_direct_attack(this, attack, NULL, -1, -1);
-                            ((TObjChara *)p)->apply_knockback_from_attacker((u8 *)this, 7.0f);
+                            p->receive_direct_attack(this, attack, NULL, -1, -1);
+                            p->apply_knockback_from_attacker((u8 *)this, 7.0f);
                         }
                     }
                 }
@@ -886,7 +883,6 @@ u16 TObjEneRecon::sub_8031D878() {
 }
 
 extern "C" {
-f32 fabs_float(f32);
 
 void TObjEneRecon::retarget() {
     TargetCandidate hits[5];
@@ -1172,10 +1168,7 @@ TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 i
 
 extern "C" {
 
-void obj_setFlags30(void *, u32);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon);
 
 
 #pragma push
