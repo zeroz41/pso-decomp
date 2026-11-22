@@ -136,7 +136,7 @@ extern Vec *boss8_dragon_breath_points_out;
 extern s32 boss8_dragon_capture_cursor;
 extern Vec *boss8_dragon_capture_points_out;
 extern s32 boss8_dragon_capture_flags;
-extern void *boss8_dragon_capture_model;
+extern NJS_OBJECT *boss8_dragon_capture_model;
 extern TBoss8Dragon *boss8_dragon_main_instance;
 extern s32 TLobby__designated_client_id;
 extern s32 boss8_dragon_breath_node;
@@ -295,17 +295,7 @@ void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
 }
 void handle_6xA8_gol_dragon_boss_actions(void *boss8_dragon);
 
-// --- folded from the fragments ---
-struct Node_802FDDD4 {
-    u8 pad0[4];
-    s32 v;
-    u8 pad1[0x24];
-    Node_802FDDD4 *c0;
-    Node_802FDDD4 *c1;
-    u8 pad2[4];
-};
 extern "C" {
-Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_802FDDD4 *dst, s32 v);
 extern const f32 lbl_805D9E80;
 f32 lbl_805D6980 = 5.0f * lbl_805D9E80;
 f32 lbl_805D6984 = 7.0f * lbl_805D9E80;
@@ -318,7 +308,7 @@ s32 boss8_dragon_capture_cursor;
 Vec *boss8_dragon_capture_points_out;
 s32 boss8_dragon_capture_flags;
 s32 boss8_dragon_model_node_count;
-void *boss8_dragon_capture_model;
+NJS_OBJECT *boss8_dragon_capture_model;
 TBoss8Dragon *boss8_dragon_main_instance;
 f32 boss8_dragon_visibility_distance;
 s32 boss8_dragon_hold_mode;
@@ -369,18 +359,20 @@ void TBoss8Dragon::apply_paralysis() {  }
 void TBoss8Dragon::apply_poison_status() {  }
 
 extern "C" {
-Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_802FDDD4 *dst, s32 v) {
-    Node_802FDDD4 *cur = dst;
+// Copies the node tree under src into the node array at dst, every copy drawing model; returns the
+// next free node.
+NJS_OBJECT *TBoss8Dragon::clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model) {
+    NJS_OBJECT *cur = dst;
     dst = dst + 1;
     copy_model_node((u8 *)cur, (u8 *)src);
-    cur->v = v;
-    if (src->c0 != NULL) {
-        cur->c0 = dst;
-        dst = (Node_802FDDD4 *)TBoss8Dragon::clone_node_tree(src->c0, dst, v);
+    cur->model = model;
+    if (src->child != NULL) {
+        cur->child = dst;
+        dst = clone_node_tree(src->child, dst, model);
     }
-    if (src->c1 != NULL) {
-        cur->c1 = dst;
-        dst = (Node_802FDDD4 *)TBoss8Dragon::clone_node_tree(src->c1, dst, v);
+    if (src->sibling != NULL) {
+        cur->sibling = dst;
+        dst = clone_node_tree(src->sibling, dst, model);
     }
     return dst;
 }
@@ -446,7 +438,7 @@ void TBoss8Dragon::load_resources() {
 
     boss8_dragon_resource = load_enemy_bml_resource(&boss8_dragon_bml_descriptor);
     boss8_dragon_model_node_count = count_tree_nodes(boss8_dragon_resource->models->model);
-    boss8_dragon_capture_model = TQuestVmDownLoadServer::alloc(boss8_dragon_model_node_count * 0x50);
+    boss8_dragon_capture_model = (NJS_OBJECT *)TQuestVmDownLoadServer::alloc(boss8_dragon_model_node_count * 0x50);
     boss8_dragon_capture_chunk_model.vertex_list = NULL;
     boss8_dragon_capture_chunk_model.polygon_list = NULL;
     boss8_dragon_capture_chunk_model.center[0] = 0.0f;
@@ -454,7 +446,7 @@ void TBoss8Dragon::load_resources() {
     boss8_dragon_capture_chunk_model.center[2] = 0.0f;
     boss8_dragon_capture_chunk_model.r = 0.0f;
     TBoss8Dragon::clone_node_tree(boss8_dragon_resource->models->model, boss8_dragon_capture_model,
-                                  (saddr)&boss8_dragon_capture_chunk_model);
+                                  &boss8_dragon_capture_chunk_model);
     boss8_dragon_capture_node = 0;
     boss8_dragon_breath_node = 60;
     boss8_dragon_node_origin.x = 0.0f;

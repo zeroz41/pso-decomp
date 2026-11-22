@@ -215,7 +215,7 @@ public:
     static void load_resources();
     // Hands the dragon back from the debug player control (boss8_dragon_player_control).
     static void clear_player_control();
-    static void *clone_node_tree(void *src, void *dst, int state);
+    static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
     static void *create(void *set_data);
     void update_colli_parts();
     void init_color();
