@@ -67,17 +67,17 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 far_depth, f32 radius) {
         return 0;
     }
     if (p.x < 0.0f) {
-        p.x = camera_right[0] * radius + position.x;
-        p.y = camera_right[1] * radius + position.y;
-        p.z = camera_right[2] * radius + position.z;
+        p.x = camera_right.x * radius + position.x;
+        p.y = camera_right.y * radius + position.y;
+        p.z = camera_right.z * radius + position.z;
         project_world_to_screen(0, &p, out);
         if (out[0] < 0.0f) {
             return 0;
         }
     } else {
-        p.x = position.x - camera_right[0] * radius;
-        p.y = position.y - camera_right[1] * radius;
-        p.z = position.z - camera_right[2] * radius;
+        p.x = position.x - camera_right.x * radius;
+        p.y = position.y - camera_right.y * radius;
+        p.z = position.z - camera_right.z * radius;
         project_world_to_screen(0, &p, out);
         if (out[0] > 6.4e+02f) {
             return 0;

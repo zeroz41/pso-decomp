@@ -18,7 +18,7 @@ void TShopWindowBase::vfunc_11() {  }
 
 
 f32 TShopWindowBase::get_scale() {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (TCameraCtrl::get_instance() > 2)) {
+    if ((TRaderMapCore::is_not_split_screen() == 1) && (TCameraCtrl::get_view_count() > 2)) {
         return 0.75f;
     }
     return 1.0f;

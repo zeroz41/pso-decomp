@@ -13,7 +13,6 @@ struct TagTextOrigin {
 };
 
 extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
 const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
 s32 char_creation_tag_info_selected_index = -1;
 
@@ -59,7 +58,7 @@ void TChCrTagInformationStr::render() {
             pos.y += 20.0f;
         }
         restore_saved_depth_alpha_state();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
     }
 }
 

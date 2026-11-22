@@ -63,7 +63,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     s32 i;
     u16 id;
 
-    if (TCameraCtrl::get_instance() > 2) {
+    if (TCameraCtrl::get_view_count() > 2) {
         scale[0] = 0.9f;
         scale[1] = 0.9f;
     }

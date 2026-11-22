@@ -203,18 +203,18 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
         return 0;
     }
     if (view.x < lbl_805DBE2C) {
-        view.x = (camera_right[0] * radius) + position.x;
-        view.y = (camera_right[1] * radius) + position.y;
-        view.z = (camera_right[2] * radius) + position.z;
+        view.x = (camera_right.x * radius) + position.x;
+        view.y = (camera_right.y * radius) + position.y;
+        view.z = (camera_right.z * radius) + position.z;
         project_world_to_screen(NULL, &view, screen);
         if (screen[0] < lbl_805DBE2C) {
             visibility = 0;
             return 0;
         }
     } else {
-        view.x = -((camera_right[0] * radius) - position.x);
-        view.y = -((camera_right[1] * radius) - position.y);
-        view.z = -((camera_right[2] * radius) - position.z);
+        view.x = -((camera_right.x * radius) - position.x);
+        view.y = -((camera_right.y * radius) - position.y);
+        view.z = -((camera_right.z * radius) - position.z);
         project_world_to_screen(NULL, &view, screen);
         if (screen[0] > lbl_805DBE30) {
             visibility = 0;

@@ -18,6 +18,7 @@ public:
 };
 
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
 void draw_ginja_object(void *child);
@@ -185,7 +186,6 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 post_translate_matrix(void *);
 void project_world_to_screen(int, Vec *, NJS_POINT2 *, Vec *);
-extern Vec camera_right;
 s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1);
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
 s32 init_chips__8TObjChipFv(u8 *arg0);

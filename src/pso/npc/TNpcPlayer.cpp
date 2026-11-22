@@ -2658,7 +2658,7 @@ s32 partner_view_check_moved(u8 *arg0) {
     f32 temp_f1;
     f32 *temp_r31;
     f32 *temp_r3;
-    temp_r31 = (f32 *)((TCameraCtrl *)view->m_94)->get_target_ptr();
+    temp_r31 = (f32 *)view->m_94->get_prev_position_ptr();
     temp_r3 = (f32 *)view->m_94->get_position_ptr();
     if ((temp_r31 == NULL) || (temp_r3 == NULL)) {
         return 0;

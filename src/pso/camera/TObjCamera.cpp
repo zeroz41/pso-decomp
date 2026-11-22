@@ -105,17 +105,17 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
         return 0;
     }
     if (v.x < 0.0f) {
-        v.x = position.x - camera_right[0] * depth;
-        v.y = camera_right[1] * depth + position.y;
-        v.z = camera_right[2] * depth + position.z;
+        v.x = position.x - camera_right.x * depth;
+        v.y = camera_right.y * depth + position.y;
+        v.z = camera_right.z * depth + position.z;
         project_world_to_screen(0, &v, screen);
         if (screen[0] < 0.0f) {
             return 0;
         }
     } else {
-        v.x = camera_right[0] * depth + position.x;
-        v.y = position.y - camera_right[1] * depth;
-        v.z = position.z - camera_right[2] * depth;
+        v.x = camera_right.x * depth + position.x;
+        v.y = position.y - camera_right.y * depth;
+        v.z = position.z - camera_right.z * depth;
         project_world_to_screen(0, &v, screen);
         if (screen[0] > 640.0f) {
             return 0;

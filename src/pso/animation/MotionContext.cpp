@@ -14,7 +14,7 @@ f32 motion_blend_factor;
 // The motion select_motion_sampler samples when given none: no frames, no keys.
 const NJS_MOTION empty_motion = { 0 };
 MotionContext motion_contexts[2];
-// The context model_draw_context points to (name inferred from it).
+// The context model_draw_context points to.
 ModelDrawContext default_model_draw_context;
 // Const for its users, but placed in .sdata (not .sdata2) in the DOL.
 __declspec(section ".sdata") ModelDrawContext *const model_draw_context = &default_model_draw_context;

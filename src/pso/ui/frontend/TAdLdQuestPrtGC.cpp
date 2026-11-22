@@ -5,18 +5,13 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/text_80086E28.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 int ansi_fp_abs(int x);
 }
 
-struct QuestParticleCameraRay {
-    Vec position;
-    Vec direction;
-    u8 remaining[0x10];
-};
-
-extern QuestParticleCameraRay lbl_804FF5E8;
 // ARGB tints the button cycles through.
 const u32 lbl_80476610[6] = {
     0xFF77FF3F, 0xFF333377, 0xFFB31A77, 0xFFB31A1A, 0xFFFF4D1A, 0xFFB34D00,
@@ -92,9 +87,9 @@ TAdLdQuestPrtGC::TAdLdQuestPrtGC(TObject *parent) : TObject(parent) {
         tints[i].r = (u8)(lbl_80476610[0] >> 16);
         tints[i].g = (u8)(lbl_80476610[0] >> 8);
         tints[i].b = (u8)lbl_80476610[0];
-        particle_pos[i].x = lbl_804FF5E8.position.x + 100.0f * lbl_804FF5E8.direction.x - 11.0f;
-        particle_pos[i].y = lbl_804FF5E8.position.y + 100.0f * lbl_804FF5E8.direction.y;
-        particle_pos[i].z = lbl_804FF5E8.position.z + 100.0f * lbl_804FF5E8.direction.z;
+        particle_pos[i].x = ninja_camera.px + 100.0f * ninja_camera.vx - 11.0f;
+        particle_pos[i].y = ninja_camera.py + 100.0f * ninja_camera.vy;
+        particle_pos[i].z = ninja_camera.pz + 100.0f * ninja_camera.vz;
         particle_angles[i].x = i * 0xAAA;
         particle_angles[i].y = 0;
         particle_angles[i].z = i * 0xAAA;
