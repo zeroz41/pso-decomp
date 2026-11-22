@@ -14,6 +14,7 @@ class TParticleCtrl;
 
 class TBoss6Demo21_TYPE2_DEAD : public TObject {
 public:
+    TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec *target);
     virtual ~TBoss6Demo21_TYPE2_DEAD();
     static TBoss6Demo21_TYPE2_DEAD *create(TBoss6PlotFalz *plot, const Vec *target);
     virtual void render();

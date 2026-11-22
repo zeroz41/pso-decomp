@@ -386,7 +386,7 @@ force_active:
   - TBoss6Demo10_TYPE1_APPEAR__name
   - __ct__25TBoss6Demo20_TYPE2_APPEARFP14TBoss6PlotFalz
   - TBoss6Demo20_TYPE2_APPEAR__name
-  - TBoss6Demo21_TYPE2_DEAD__ct
+  - __ct__23TBoss6Demo21_TYPE2_DEADFP14TBoss6PlotFalzPC3Vec
   - TBoss6Demo21_TYPE2_DEAD__name
   - __ct__14TBoss6EffHyouiFP7TObjectUsll
   - __ct__15TBoss6EmptyWarpFP7TObject
@@ -16391,7 +16391,7 @@ force_active:
   - sub_8033ACF4__23TAdSinglePlyChrSelectGCFv
   - sub_8033AFC8__23TAdSinglePlyChrSelectGCFv
   - sub_8033B0AC__23TAdSinglePlyChrSelectGCFv
-  - sub_8033C7C8__25TBoss6Demo10_TYPE1_APPEARFv
+  - draw_parts__25TBoss6Demo10_TYPE1_APPEARFv
   - sub_80348E34__18TAdChrMoveEffectGCFv
   - sub_8034B8B0__18TChallenge4PResultFv
   - sub_8034B8BC__18TChallenge4PResultFv

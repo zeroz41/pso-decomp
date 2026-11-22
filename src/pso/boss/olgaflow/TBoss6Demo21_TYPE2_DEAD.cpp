@@ -8,7 +8,6 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
-#include "pso/boss/olgaflow/Boss6Type2Death.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -32,26 +31,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
 
 struct EmitterSchedule { s32 start; s32 end; s32 id; };
 
-struct Pl_8033E0F0 {
-    u8 pad0[0x30];
-    u32 f30;
-    u8 pad34[0x38 - 0x34];
-    Vec pos;
-};
-
-extern "C" {
-extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
-void __ct__7TObjectFP7TObject(void *, TObject *);
-void vec3_add_to(void *, void *);
-void subtract_vector(void *, void *);
-#define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *self);
-
-}
 extern "C" const char TBoss6Demo21_TYPE2_DEAD__class_name_string[] = "TBoss6Demo21_TYPE2_DEAD";
 extern "C" const Vec lbl_804780A0 = {-10000.0f, 0.0f, 0.0f};
 extern "C" const Vec lbl_804780AC = {0.0f, 0.0f, -142.0f};
@@ -65,7 +49,6 @@ extern "C" const EmitterSchedule boss6_type2_death_emitter_ranges[4] = {{0, 0x8E
 extern "C" const u32 lbl_8047817C[3] = {0xffff4000, 0xffffff60, 0xffff4000};
 extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
 #pragma pool_data off
-extern "C" {
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
     if (timer >= 0x1AC) {
         push_matrix();
@@ -175,16 +158,21 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
     }
 }
 
-void render__23TBoss6Demo21_TYPE2_DEADFv(void* p) { ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_4(); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_5(); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_8(); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_model_13(); }
+void TBoss6Demo21_TYPE2_DEAD::render() {
+    draw_fading_model_4();
+    draw_fading_model_5();
+    draw_fading_model_8();
+    draw_model_13();
+}
 
 #pragma push
 #pragma pool_data off
-void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *self) {
+void TBoss6Demo21_TYPE2_DEAD::run_task() {
     Vec points[3];
-    if ((self->frame += 0.7f) > 499.0f) {
-        self->frame = 499.0f;
+    if ((frame += 0.7f) > 499.0f) {
+        frame = 499.0f;
     }
-    switch (self->timer) {
+    switch (timer) {
     case 0x0:
         play_sound_effect(0x4003232C, 0, 0, 0);
         break;
@@ -196,88 +184,88 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *self) {
         play_sound_effect(0x40032830, 0, 0, 0);
         break;
     }
-    if (self->timer >= 0x12C && self->timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, (saddr)self, 0, 0, 0);
+    if (timer >= 0x12C && timer <= 0x1AC) {
+        play_persistent_sound(0x4003352E, (saddr)this, 0, 0, 0);
     }
-    if (self->timer >= 0x1D7 && self->timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, (saddr)self, 0, 0, 0);
+    if (timer >= 0x1D7 && timer <= 0x23A) {
+        play_persistent_sound(0x32D2F, (saddr)this, 0, 0, 0);
     }
-    switch (self->timer) {
+    switch (timer) {
     case 0xAE:
     case 0xCF: {
-        Vec p = self->camera_position;
-        vec3_add_to(&p, (void *)&lbl_804780AC);
+        Vec p = camera_position;
+        vec3_add_to(&p, &lbl_804780AC);
         spawn_particle_effect_with_flags(&p, 0x221, 0x40);
         spawn_particle_effect_with_flags(&p, 0x22F, 0x40);
         break;
     }
     case 0x1AC:
-        spawn_particle_effect_with_flags(&self->effect_position_8, 0x223, 0x40);
+        spawn_particle_effect_with_flags(&effect_position_8, 0x223, 0x40);
         break;
     case 0x23A: {
-        Vec p = self->camera_position;
-        vec3_add_to(&p, (void *)&lbl_804780B8);
+        Vec p = camera_position;
+        vec3_add_to(&p, &lbl_804780B8);
         spawn_particle_effect_with_flags(&p, 0xA4, 0x40);
         spawn_particle_effect_with_flags(&p, 0xE3, 0x40);
         break;
     }
     }
-    if (self->timer >= 0x12C && self->timer < 0x1BA) {
-        spawn_particle_effect_with_flags(&self->effect_position_8, 0x22E, 0x40);
+    if (timer >= 0x12C && timer < 0x1BA) {
+        spawn_particle_effect_with_flags(&effect_position_8, 0x22E, 0x40);
     }
     {
         Vec *ptrs[4];
         s32 i;
-        ptrs[0] = &self->camera_position;
-        ptrs[1] = &self->effect_position_5;
-        ptrs[2] = &self->effect_position_8;
-        ptrs[3] = &self->effect_position_5;
+        ptrs[0] = &camera_position;
+        ptrs[1] = &effect_position_5;
+        ptrs[2] = &effect_position_8;
+        ptrs[3] = &effect_position_5;
         for (i = 0; i < 4; i++) {
-            if (self->timer >= boss6_type2_death_emitter_ranges[i].start && self->timer < boss6_type2_death_emitter_ranges[i].end) {
-                if (self->emitters[i] == 0) {
-                    self->emitters[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
-                    if (self->emitters[i] != 0) {
-                        self->emitters[i]->set_flags(0x40);
+            if (timer >= boss6_type2_death_emitter_ranges[i].start && timer < boss6_type2_death_emitter_ranges[i].end) {
+                if (emitters[i] == 0) {
+                    emitters[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
+                    if (emitters[i] != 0) {
+                        emitters[i]->set_flags(0x40);
                     }
                 } else {
-                    self->emitters[i]->set_position(ptrs[i]);
+                    emitters[i]->set_position(ptrs[i]);
                 }
-            } else if (self->emitters[i] != 0) {
-                TParticleCtrl::release(self->emitters[i]);
-                self->emitters[i] = 0;
+            } else if (emitters[i] != 0) {
+                TParticleCtrl::release(emitters[i]);
+                emitters[i] = 0;
             }
         }
     }
-    if (self->timer >= 0x1AE) {
-        VecCopy(&points[0], &self->trail_positions[0]);
-        VecCopy(&points[2], &self->trail_positions[1]);
+    if (timer >= 0x1AE) {
+        VecCopy(&points[0], &trail_positions[0]);
+        VecCopy(&points[2], &trail_positions[1]);
         VecCopy(&points[1], &points[0]);
         vec3_add_to(&points[1], &points[2]);
         points[1].x *= 0.5f;
         points[1].y *= 0.5f;
         points[1].z *= 0.5f;
-        self->trail_effect->set_effect_points(points, lbl_8047817C);
+        trail_effect->set_effect_points(points, lbl_8047817C);
     }
-    if (self->timer == 0x23A) {
+    if (timer == 0x23A) {
         s32 n = TLobby::get_game_mode();
         Vec c;
         s32 i;
-        VecCopy((Vec *)&c, (const Vec *)&self->camera_position);
-        vec3_add_to(&c, (void *)&lbl_804780B8);
+        VecCopy(&c, &camera_position);
+        vec3_add_to(&c, &lbl_804780B8);
         for (i = 0; i < n; i++) {
-            Pl_8033E0F0 *p = (Pl_8033E0F0 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_locally_controlled(p) != 0 && TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0) {
+            TObjPlayer *p = TObjPlayer::get_player_data(i);
+            if (TObjPlayer::is_locally_controlled(p) != 0 && TBoss6PlotFalz::is_state_1f(p) != 0) {
                 Vec d;
-                VecCopy((Vec *)&d, (const Vec *)&p->pos);
+                VecCopy(&d, &p->position);
                 subtract_vector(&d, &c);
                 d.y = (0.0f);
                 if (!(vector_length(&d) > (0.25f))) {
-                    p->f30 |= 0x600;
+                    p->actorFlags |= 0x600;
                 }
             }
         }
     }
-    switch (self->timer) {
+    switch (timer) {
     case 0x5F:
     case 0x82:
     case 0xB1:
@@ -288,14 +276,12 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *self) {
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
-    self->timer++;
-    if (self->timer >= 0x2CA || self->plot->get_scene_state() != 7) {
-        self->queue_destruction();
+    timer++;
+    if (timer >= 0x2CA || plot->get_scene_state() != 7) {
+        queue_destruction();
     }
 }
 #pragma pop
-
-}
 TBoss6Demo21_TYPE2_DEAD::~TBoss6Demo21_TYPE2_DEAD() {
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -307,75 +293,64 @@ TBoss6Demo21_TYPE2_DEAD::~TBoss6Demo21_TYPE2_DEAD() {
     restore_player_cameras();
     TBoss6PlotFalz::refresh_players_equipment();
     if (capture_5 != NULL) {
-        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture_5);
+        ModelNodePositionCapture::destroy(capture_5);
         capture_5 = NULL;
     }
     if (capture_8 != NULL) {
-        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture_8);
+        ModelNodePositionCapture::destroy(capture_8);
         capture_8 = NULL;
     }
     if (capture_13 != NULL) {
-        ModelNodePositionCapture::destroy((ModelNodePositionCapture *)capture_13);
+        ModelNodePositionCapture::destroy(capture_13);
         capture_13 = NULL;
     }
 }
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
-TBoss6Demo21_TYPE2_DEAD *TBoss6Demo21_TYPE2_DEAD__ct(TBoss6Demo21_TYPE2_DEAD *demo, TBoss6PlotFalz *plot, const Vec *target) {
+TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec *target) : TObject(plot) {
     Vec delta;
     s32 i;
-    __ct__7TObjectFP7TObject(demo, plot);
-    *(void **)((u8 *)demo + 0x18) = __vt__23TBoss6Demo21_TYPE2_DEAD;
-    demo->m_name = TBoss6Demo21_TYPE2_DEAD__name;
-    demo->plot = plot;
-    VecCopy(&demo->camera_position, &lbl_804780A0);
+    m_name = TBoss6Demo21_TYPE2_DEAD__name;
+    this->plot = plot;
+    VecCopy(&camera_position, &lbl_804780A0);
     VecCopy(&delta, target);
-    subtract_vector(&delta, (void *)&lbl_804780A0);
+    subtract_vector(&delta, &lbl_804780A0);
     delta.y = 0.0f;
     if (vector_length(&delta) > 60.0f) {
         normalize_vector(&delta);
         delta.x *= 60.0f;
         delta.z *= 60.0f;
     }
-    vec3_add_to(&demo->camera_position, &delta);
+    vec3_add_to(&camera_position, &delta);
     BmlResource *archive = TBoss6PlotFalz::get_scene_archive();
-    demo->models[0].model = (NJS_OBJECT *)get_bml_model(archive, 4);
-    demo->models[0].texture = (GinjaTextureList *)get_bml_texlist(archive, 4);
-    demo->models[0].motion = get_bml_motion(archive, 7);
-    demo->models[1].model = (NJS_OBJECT *)get_bml_model(archive, 5);
-    demo->models[1].texture = (GinjaTextureList *)get_bml_texlist(archive, 5);
-    demo->models[1].motion = get_bml_motion(archive, 7);
-    demo->models[2].model = (NJS_OBJECT *)get_bml_model(archive, 8);
-    demo->models[2].texture = (GinjaTextureList *)get_bml_texlist(archive, 8);
-    demo->models[2].motion = get_bml_motion(archive, 8);
-    demo->models[3].model = (NJS_OBJECT *)get_bml_model(archive, 0xD);
-    demo->models[3].texture = (GinjaTextureList *)get_bml_texlist(archive, 0xD);
-    demo->models[3].motion = get_bml_motion(archive, 0x3D);
-    demo->capture_5 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_a, (Vec *)&demo->effect_position_5);
-    demo->capture_8 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_b, (Vec *)&demo->effect_position_8);
-    demo->capture_13 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_c, (Vec *)demo->trail_positions);
+    models[0].model = (NJS_OBJECT *)get_bml_model(archive, 4);
+    models[0].texture = (GinjaTextureList *)get_bml_texlist(archive, 4);
+    models[0].motion = get_bml_motion(archive, 7);
+    models[1].model = (NJS_OBJECT *)get_bml_model(archive, 5);
+    models[1].texture = (GinjaTextureList *)get_bml_texlist(archive, 5);
+    models[1].motion = get_bml_motion(archive, 7);
+    models[2].model = (NJS_OBJECT *)get_bml_model(archive, 8);
+    models[2].texture = (GinjaTextureList *)get_bml_texlist(archive, 8);
+    models[2].motion = get_bml_motion(archive, 8);
+    models[3].model = (NJS_OBJECT *)get_bml_model(archive, 0xD);
+    models[3].texture = (GinjaTextureList *)get_bml_texlist(archive, 0xD);
+    models[3].motion = get_bml_motion(archive, 0x3D);
+    capture_5 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_a, &effect_position_5);
+    capture_8 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_b, &effect_position_8);
+    capture_13 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_c, trail_positions);
     activate_camera_mode(5);
-    const Vec *camera_position = &demo->camera_position;
-    set_scripted_camera_pose(camera_position, camera_position, &lbl_80478134);
+    set_scripted_camera_pose(&camera_position, &camera_position, &lbl_80478134);
     lbl_80478140.cache_target_and_forward(0x416C);
     for (i = 0; i < 4; i++) {
-        demo->emitters[i] = NULL;
+        emitters[i] = NULL;
     }
-    demo->trail_effect = TBoss6Zanzo::create(demo, 3, 0xF);
-    demo->frame = 0.0f;
-    demo->timer = 0;
-    return demo;
-}
+    trail_effect = TBoss6Zanzo::create(this, 3, 0xF);
+    frame = 0.0f;
+    timer = 0;
 }
 #pragma pop
 
 TBoss6Demo21_TYPE2_DEAD *TBoss6Demo21_TYPE2_DEAD::create(TBoss6PlotFalz *plot, const Vec *target) {
-    TBoss6Demo21_TYPE2_DEAD *demo = (TBoss6Demo21_TYPE2_DEAD *)TObject::operator new(sizeof(TBoss6Demo21_TYPE2_DEAD));
-    if (demo != NULL) {
-        demo = TBoss6Demo21_TYPE2_DEAD__ct(demo, plot, target);
-    }
-    return demo;
+    return new TBoss6Demo21_TYPE2_DEAD(plot, target);
 }
 
-#undef __vt__23TBoss6Demo21_TYPE2_DEAD
