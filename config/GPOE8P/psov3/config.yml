@@ -16953,7 +16953,7 @@ force_active:
   - update_go_up__11TBoss4Type3Fv
   - update_goal_checks__13TUnk_804B8E18FUs
   - update_ground_check__15TObjEneDelDepthFv
-  - update_ground_effect__10TObjPlayerFv
+  - update_ground_effect__11TObjEneMojaFv
   - update_ground_effects__13TBoss5GryphonFv
   - update_ground_fall__13TUnk_8049442CFPlf
   - update_ground_lightning_attack__13TBoss5GryphonFl
@@ -17003,7 +17003,7 @@ force_active:
   - update_input_number__18TShopGetItemWindowFv
   - update_intro_cutscene__12TBoss3VoloptFv
   - update_intro_phase__19TPlayerBattleCtrl4PFv
-  - update_invincibility__10TObjPlayerFv
+  - update_invincibility__11TObjEneMojaFv
   - update_invincibility_action__8TItemMagFv
   - update_invuln_timer__12TObjEneLappyFv
   - update_inward_orbit_point__13TUnk_804F166CFv
@@ -17160,7 +17160,7 @@ force_active:
   - update_proximity_state__16TObjEneNanoDragoFv
   - update_pulse_state__10TBoss2MineFv
   - update_pulse_value__17TOSensorAncient01Fv
-  - update_punch_attack__11TObjEneMojaFPv
+  - update_punch_attack__11TObjEneMojaFv
   - update_radar_markers__11TBoss4Type3Fv
   - update_ramp_timer__9TBoss6MagFv
   - update_random_shake__14TBoss6PlotFalzFPv
@@ -17333,7 +17333,7 @@ force_active:
   - update_target_y__11TWindowMenuFv
   - update_technique_by_phase__11TTecGiBartaFv
   - update_technique_by_state__9TTecBartaFv
-  - update_technique_state__11TObjEneMojaFPv
+  - update_technique_state__11TObjEneMojaFv
   - update_text_color_transition
   - update_tick__15TObjEneSlimeOneFv
   - update_tilt__8TOKurageFv

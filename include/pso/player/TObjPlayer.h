@@ -438,7 +438,6 @@ struct TObjPlayer : public TObjChara {
     static void free_effect_resources();
     void clear_flag_04000000();
     void set_invuln_flags();
-    void update_invincibility();
     static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
     static void create_dead_spot(saddr arg0, s32 arg1, f32 farg0);
@@ -1219,7 +1218,6 @@ struct TObjPlayer : public TObjChara {
     static void load_jungle_ebi_resources();
     static void load_seabed_dolphin();
     static void new_child_object(s32 arg0);
-    void update_ground_effect();
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
     void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);
