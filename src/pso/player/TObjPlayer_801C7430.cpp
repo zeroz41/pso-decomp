@@ -2513,9 +2513,9 @@ void handle_6x52_set_animation_state(saddr arg0) {
     if (validate_6x52_set_animation_state((void *) (&pkt)) != 0) {
         player = get_player_by_client_id(pkt.client);
         if ((player != NULL) && (((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0) && (player->test_action_mask(0x8000) == 0) && ((is_lobby_floor_15__15TFontSmallLobbyFv() == 0) || (player->obj_isState2_324() == 0) || (player->check_flag(0x04000000) == 0))) {
-            set_anim_state__10TObjPlayerFs(&player->m_5f0, (int) (pkt.c));
-            ((TObjPlayer *)&player->m_5f0)->set_anim_state((s32)pkt.g);
-            ((TObjPlayer *)&player->m_5f0)->set_state((int) (pkt.e));
+            set_anim_state__10TObjPlayerFs(&player->pad_5f0, (int) (pkt.c));
+            ((TObjPlayer *)&player->pad_5f0)->set_anim_state((s32)pkt.g);
+            ((TObjPlayer *)&player->pad_5f0)->set_state((int) (pkt.e));
             player->run_action_state_phase(0x10, 0);
         }
     }
@@ -2527,9 +2527,9 @@ void TObjPlayer::send_6x52_animation_state() {
     if (arg0 == NULL || ((TObjChara *)arg0)->obj_isState2_324() == 0) {
         ((TObjPlayer *)(&pkt))->init_6x52_packet();
         pkt.id = get_entity_id(arg0);
-        pkt.a = TObjPlayer__sub_801D2824((u8 *)&this->m_5f0);
+        pkt.a = TObjPlayer__sub_801D2824((u8 *)&this->pad_5f0);
         pkt.c = ((TObjPlayer *)(arg0 + 0x5F0))->get_field_4();
-        pkt.b = TObjPlayer__sub_801D282C((u8 *)&this->m_5f0);
+        pkt.b = TObjPlayer__sub_801D282C((u8 *)&this->pad_5f0);
         ((TObjPlayer *)(&pkt))->update_display();
     }
 }
@@ -2803,9 +2803,9 @@ void init_subobject(TObjPlayer *player) {
     if (player != NULL) {
         player->run_action_state_phase(0xF, 0);
         player->update_action_render();
-        zero_vec3(&player->m_5fc);
-        calc_death_pose_height_offset(&player->m_5fc, player);
-        ((TObjPlayer *)&player->m_5fc)->set_pos_z(1.0f);
+        zero_vec3(&player->pad_5fc);
+        calc_death_pose_height_offset(&player->pad_5fc, player);
+        ((TObjPlayer *)&player->pad_5fc)->set_pos_z(1.0f);
     }
 }
 
@@ -2931,7 +2931,7 @@ void TObjPlayer::update_death_pose() {
         ((TObjPlayer *)arg0)->restart_death_pose();
     }
     ((s32 (*)(void *, f32))add_death_sink_progress)(arg0 + 0x5FC, 0.002f);
-    calc_death_sink_offset((u8 *)&this->m_5fc);
+    calc_death_sink_offset((u8 *)&this->pad_5fc);
     if (((TObjPlayer *)arg0)->resolve_move_collision() == 0U) {
         ((TObjPlayer *)arg0)->apply_velocity();
     }

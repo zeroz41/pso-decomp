@@ -105,7 +105,7 @@ public:
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual int vfunc_66();
     virtual int deliver_attack_hits(f32 damage_scale);
-    virtual void get_pos(s32);
+    virtual void get_pos(saddr out);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();

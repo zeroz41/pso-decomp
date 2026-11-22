@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-// One attachment effect of a photon blast summon, m_100 of them at m_148
+// One attachment effect of a photon blast summon; the summon holds a counted array of them.
 // (name inferred from update_photon_blast_attachments).
 struct PhotonBlastAttachment {
     void *obj;

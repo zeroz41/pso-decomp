@@ -42,7 +42,7 @@ s32 GXSetTevOp(int, int);
 s32 GXSetTevColorIn(int, int, int, int, int);
 s32 GXSetTevColorOp(int, int, int, int, int, int);
 s32 GXSetTevOrder(int, int, int, int);
-s32 GXSetNumTevStages(void *);
+void GXSetNumTevStages(u8 nStages);
 s32 apply_cached_blend_mode(s32 arg0);
 s32 GXSetNumTexGens(s32 arg0);
 s32 GXSetTexCoordGen2(int, int, int, int, int, int);
@@ -159,7 +159,7 @@ s32 TObjPlayer::apply_blend_mode_1() { return apply_cached_blend_mode(0x1); }
 #pragma push
 #pragma scheduling off
 void TObjPlayer::set_tev_passclr() {
-    GXSetNumTevStages((void *)(1));
+    GXSetNumTevStages(1);
     GXSetTevOrder(0, 0xFF, 0xFF, 4);
     GXSetTevOp(0, 4);
 }
@@ -170,7 +170,7 @@ void TObjPlayer::set_tev_passclr() {
 #pragma scheduling off
 void set_tev_stage_mode(s32 arg0) {
     s32 temp_r31 = arg0;
-    GXSetNumTevStages((void *) ((u8) temp_r31));
+    GXSetNumTevStages(temp_r31);
     switch (temp_r31) {
     case 1:
         GXSetTevOrder(0, 0, 0, 4);

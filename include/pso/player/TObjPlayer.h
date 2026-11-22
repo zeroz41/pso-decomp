@@ -16,6 +16,7 @@ struct SceneSectionAngles;
 struct player_stats;
 
 struct TItem;
+class TPlyItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
 
@@ -72,7 +73,7 @@ struct TObjPlayer : public TObjChara {
     virtual void reset_pose();
     s8 get_class_index();
     s32 can_use_more_materials_for_class();
-    virtual void get_pos(s32);
+    virtual void get_pos(saddr out);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
@@ -205,9 +206,9 @@ struct TObjPlayer : public TObjChara {
     PlayerScaleState scale_state;
     void* m_5e0;
     u8 _pad5E4[0xC];
-    void* m_5f0;
+    void* pad_5f0;
     u8 _pad5F4[0x8];
-    void* m_5fc;
+    void* pad_5fc;
     u8 _pad600[0x8];
     RenderMaterialState render_material_state;
     u8 unk_628[0xC];
@@ -264,7 +265,7 @@ struct TObjPlayer : public TObjChara {
     u32 m_8b4;
     u8 unk_8B8[0x444];
     s32 m_cfc;
-    void* inventory_objects;
+    TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item
     u8 unk_D38[0x10];
     f32 m_d48;

@@ -1427,9 +1427,8 @@ Vec *VecCopy(Vec* dst, const Vec* src) {
 }
 
 #pragma pop
-void TObjChara::get_pos(s32 arg1) {
-    saddr arg0 = (saddr)this;
-    ((s32 (*)(s32, s32, s32))VecCopy__FP3VecPC3Vec)(arg1, arg0 + 0x2FC, arg0);
+void TObjChara::get_pos(saddr out) {
+    VecCopy((Vec *)out, &this->body_center);
 }
 
 #pragma push

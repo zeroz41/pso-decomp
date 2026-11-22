@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"
+#include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -45,7 +46,6 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 
 extern "C" {
 s32 TCameraCtrl__sub_800689F4();
-s32 PSMTXConcat(void *, void *, void *);
 s32 C_MTXLightPerspective(void *, f32, f32, f32, f32, f32, f32);
 s32 GXSetTevOp(int, int);
 s32 GXSetTevOrder(int, int, int, int);
@@ -62,18 +62,16 @@ void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
 extern u32 camera_ctrl_instance;
-extern s32 current_matrix;
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 char *get_shared_capture_texture_list(void);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
 void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param((saddr)get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
 
-    extern int model_render_flags;
 void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); TObjPlayer::set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
 
 void setup_projection_tex_matrix__10TObjPlayerFv(void) {
-    u8 sp10[0x30];
+    GinjaMatrix sp10;
     f32 spC;
     f32 sp8;
     f32 temp_f31;
@@ -82,18 +80,18 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         calc_projection_screen_offset(&spC, &sp8);
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
         if (TCameraCtrl__sub_800689F4() != 0) {
-            C_MTXLightPerspective(&sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {
-            C_MTXLightPerspective(&sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
         }
-        PSMTXConcat(&sp10, (void *)current_matrix, (void *)current_matrix);
+        PSMTXConcat(sp10, *current_matrix, *current_matrix);
         load_current_tex_matrix(2);
         pop_matrix();
         load_current_pos_matrix(2);
         GXSetTevOrder(1, 1, 2, 4);
         GXSetTevOp(1, 1);
         set_tex_coord_gen2(1, 0, 0, 0x24);
-        (*(s32 *)&model_render_flags) |= 0x80000;
+        model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
         set_ginja_post_texgen_count(1);
         TObjPlayer::set_global_effect_state((saddr)((1)));

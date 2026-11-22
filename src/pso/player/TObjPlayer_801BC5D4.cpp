@@ -29,5 +29,5 @@ void TObjPlayer::reset_state() {
     this->m_310 = (f32) TObjPlayer__data_805DC278;
     this->y_speed = (f32) TObjPlayer__data_805DC278;
     *(f32 *)&this->unk_308 = (f32) TObjPlayer__data_805DC278;
-    zero_vec3(&this->m_5fc);
+    zero_vec3(&this->pad_5fc);
 }

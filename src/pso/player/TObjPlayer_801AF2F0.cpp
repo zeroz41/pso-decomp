@@ -3024,8 +3024,8 @@ s32 TObjPlayer::start_freeze() {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((TObjPlayer *)(&this->m_5f0))->set_action_id(0x10);
-    ((TObjPlayer *)((u8 *)&this->m_5f0))->set_anim_state(((TObjPlayer *)arg0)->get_idle_animation());
+    ((TObjPlayer *)(&this->pad_5f0))->set_action_id(0x10);
+    ((TObjPlayer *)((u8 *)&this->pad_5f0))->set_anim_state(((TObjPlayer *)arg0)->get_idle_animation());
     ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
     ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
     return 1;
@@ -3037,8 +3037,8 @@ s32 TObjPlayer::init_photon_blast(s16 arg1) {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((TObjPlayer *)(&this->m_5f0))->set_action_id(0x10);
-    ((TObjPlayer *)((u8 *)&this->m_5f0))->set_anim_state(arg1);
+    ((TObjPlayer *)(&this->pad_5f0))->set_action_id(0x10);
+    ((TObjPlayer *)((u8 *)&this->pad_5f0))->set_anim_state(arg1);
     ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
     ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
     return 1;
@@ -3098,12 +3098,12 @@ s32 TObjPlayer::try_apply_status_action(TObjPlayer *player) {
         return 1;
     }
     if (player->is_status_locked() != 0) {
-        if (((TObjPlayer *)&player->m_5f0)->get_action_id() == 0x10) {
+        if (((TObjPlayer *)&player->pad_5f0)->get_action_id() == 0x10) {
             player->run_action_state_phase(0x10, 5);
         } else {
             player->obj_clearFlags30((u32)0x10000);
-            player->run_action_state_phase(((TObjPlayer *)&player->m_5f0)->get_action_id(), 5);
-            ((TObjPlayer *)&player->m_5f0)->set_action_id(0);
+            player->run_action_state_phase(((TObjPlayer *)&player->pad_5f0)->get_action_id(), 5);
+            ((TObjPlayer *)&player->pad_5f0)->set_action_id(0);
         }
         return 1;
     }
@@ -3542,7 +3542,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
         if ((u8) *(u8 *)item_data == 4) {
             return obj_getPtr2B0_20((u8 *)this) < 0xF423F;
         }
-        void *node_3615 = ((TPlyItem *)(*(void **)((s8 *)this + 0xD00)))->set_mode_and_refresh_object((void *)item_data);
+        void *node_3615 = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
         if (node_3615 != 0U) {
             held = ((void *)((TItemList *)node_3615)->get_owner_if_alive());
             if (held == NULL) {
@@ -3588,14 +3588,14 @@ u32 TObjPlayer::pickup_item(TItem *arg1) {
     case 0:
     case 1:
     case 2:
-        list = new TItemList(((TPlyItem *)this->inventory_objects)->pad_1C4);
+        list = new TItemList(this->inventory_objects->pad_1C4);
         break;
     case 3:
         if (TObjPlayer__sub_801C1AC8((u8 *)arg1) != 0) {
             arg1->copy_to_item_data((TItemData *)&sp8);
-            id = (saddr)((TPlyItem *)(this->inventory_objects))->set_mode_and_refresh_object(&sp8);
+            id = (saddr)this->inventory_objects->set_mode_and_refresh_object(&sp8);
             if (id == 0) {
-                list = new TItemList(((TPlyItem *)this->inventory_objects)->pad_1C4);
+                list = new TItemList(this->inventory_objects->pad_1C4);
                 break;
             }
             n = arg1->get_amount();
@@ -3609,7 +3609,7 @@ u32 TObjPlayer::pickup_item(TItem *arg1) {
             arg1->destroy();
             return 0;
         }
-        list = new TItemList(((TPlyItem *)this->inventory_objects)->pad_1C4);
+        list = new TItemList(this->inventory_objects->pad_1C4);
         break;
     }
     if (list != NULL) {
@@ -3676,14 +3676,14 @@ void dispatch_input__10TObjPlayerFPvii(void *player, saddr keys, s32 count) {
 
 s32 TObjPlayer::count_items_of_type(s8 arg1, s8 arg2, s8 arg3) {
     TItemData item_data;
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0xD00) == 0U) {
+    if (this->inventory_objects == NULL) {
         return 0;
     }
     item_data.init();
     item_data.data1.data_u8[0] = arg1;
     item_data.data1.data_u8[1] = arg2;
     item_data.data1.data_u8[2] = arg3;
-    return ((TPlyItem *)(*(u32 *)((s8 *)((u8 *)this) + 0xD00)))->count_items_by_id((saddr)&item_data.data1.data_u8[0]);
+    return this->inventory_objects->count_items_by_id((saddr)&item_data.data1.data_u8[0]);
 }
 
 void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
@@ -3696,7 +3696,7 @@ void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
         ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53F06, 0, 0, 0);
         return;
     }
-    void *node_3768 = ((TPlyItem *)(*(s32 *)(((u8 *)this) + 0xD00)))->start_inventory_update(arg1);
+    void *node_3768 = this->inventory_objects->start_inventory_update(arg1);
     if (node_3768 == 0) {
         return;
     }
@@ -3926,7 +3926,7 @@ void TObjPlayer::create_inventory() {
     if ((void *) this->inventory_objects == NULL) {
         this->inventory_objects = new TPlyItem(this);
     }
-    ((TPlyItem *)this->inventory_objects)->pad_1C4 = new TItemList((TObject *)this->inventory_objects);
+    this->inventory_objects->pad_1C4 = new TItemList((TObject *)this->inventory_objects);
     object = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x1C));
     var_r0_3 = object;
     if (var_r0_3 != NULL) {
@@ -4373,8 +4373,8 @@ void TObjPlayer::get_hand_joint_position(saddr arg1) {
 void TObjPlayer::init_effect_5f0() {
     u8 *arg0 = (u8 *)this;
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((TObjPlayer *)(&this->m_5f0))->set_action_id(0x10);
-    ((TObjPlayer *)((u8 *)&this->m_5f0))->set_anim_state(((TObjPlayer *)arg0)->get_idle_animation());
+    ((TObjPlayer *)(&this->pad_5f0))->set_action_id(0x10);
+    ((TObjPlayer *)((u8 *)&this->pad_5f0))->set_anim_state(((TObjPlayer *)arg0)->get_idle_animation());
     ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
     ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
 }
@@ -5381,7 +5381,7 @@ void TObjPlayer::apply_material_color_override() {
 }
 
 void TObjPlayer::clear_action_flag() {
-    if ((is_field_0_positive((s32 *)(*(s32 *)((s8 *)this + 0xD00) + 0x20)) == 0) && (((TObjPlayer *)this)->is_action_active() != 0U)) {
+    if ((is_field_0_positive(&this->inventory_objects->list.count) == 0) && (((TObjPlayer *)this)->is_action_active() != 0U)) {
         this->clear_flag_0x2();
         TObjPlayer::send_code_45_1((saddr)this);
     }
@@ -5929,7 +5929,7 @@ s32 TObjPlayer::check_can_add_item(s8 arg1, s8 arg2) {
     ((TItemData *)sp8)->init();
     sp8[0] = arg1;
     sp8[1] = arg2;
-    void *node_5996 = ((TPlyItem *)(*(s32 *)((s8 *)this + 0xD00)))->set_mode_and_refresh_object(sp8);
+    void *node_5996 = this->inventory_objects->set_mode_and_refresh_object(sp8);
     if (node_5996 == 0U) {
         return 0;
     }
@@ -5940,7 +5940,7 @@ s32 TObjPlayer::check_can_add_item(s8 arg1, s8 arg2) {
     if (try_send_6x27_use_item(this, owner->get_item_id()) == 0) {
         return 0;
     }
-    void *node_6006 = ((TPlyItem *)(*(s32 *)((s8 *)this + 0xD00)))->set_mode_and_refresh_object(sp8);
+    void *node_6006 = this->inventory_objects->set_mode_and_refresh_object(sp8);
     if (node_6006 == 0U) {
         return 0;
     }
@@ -5957,7 +5957,7 @@ int TObjPlayer::try_use_item_by_type(int arg1, int arg2, int arg3) {
     sp8[0] = arg1;
     sp8[1] = arg2;
     sp8[2] = arg3;
-    void *node_6022 = ((TPlyItem *)(*(s32 *)((s8 *)this + 0xD00)))->set_mode_and_refresh_object(sp8);
+    void *node_6022 = this->inventory_objects->set_mode_and_refresh_object(sp8);
     if (node_6022 == 0U) {
         return 0;
     }
@@ -5968,7 +5968,7 @@ int TObjPlayer::try_use_item_by_type(int arg1, int arg2, int arg3) {
     if (try_send_6x27_use_item(this, owner->get_item_id()) == 0) {
         return 0;
     }
-    void *node_6032 = ((TPlyItem *)(*(s32 *)((s8 *)this + 0xD00)))->set_mode_and_refresh_object(sp8);
+    void *node_6032 = this->inventory_objects->set_mode_and_refresh_object(sp8);
     if (node_6032 == 0U) {
         return 0;
     }
@@ -6851,12 +6851,12 @@ u32 TObjPlayer::find_revival_item() {
     item.data1.data_u8[0] = 1;
     item.data1.data_u8[1] = 2;
     item.data1.data_u8[2] = 0x52;
-    u32 found = (uaddr)((TPlyItem *)inventory_objects)->set_mode_and_refresh_object(&item);
+    u32 found = (uaddr)inventory_objects->set_mode_and_refresh_object(&item);
     if (found == 0U) {
         item.init();
         item.data1.data_u8[0] = 3;
         item.data1.data_u8[1] = 9;
-        found = (uaddr)((TPlyItem *)inventory_objects)->set_mode_and_refresh_object(&item);
+        found = (uaddr)inventory_objects->set_mode_and_refresh_object(&item);
     }
     return found;
 }

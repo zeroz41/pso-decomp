@@ -163,8 +163,8 @@ s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     return arg0;
 }
 
-void TObjPlayer::get_pos(s32 arg1) {
-    this->get_anim_node_position(0x3A, (Vec *)arg1);
+void TObjPlayer::get_pos(saddr out) {
+    this->get_anim_node_position(0x3A, (Vec *)out);
 }
 
 void TObjPlayer::spend_photon_blast_charge(f32 charge) { subtract_photon_blast_charge((char*)this + 0x4ac, charge); }
