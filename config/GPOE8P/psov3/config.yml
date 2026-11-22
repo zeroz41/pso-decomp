@@ -6369,7 +6369,7 @@ force_active:
   - get_warp_string_screen_position
   - fn_8019F9AC
   - alloc_player_ids
-  - __sinit_text_801A3BB8_cpp
+  - __sinit_OfflineGameScene_cpp
   - fn_801C1E98
   - fn_801C1EE8
   - fn_801C1F40

@@ -793,10 +793,7 @@ pso/unk/TLobby_80156B18.cpp
 pso/unk/TLobby_80160804.cpp
 pso/unk/TLobby_801461EC.cpp
 pso/unk/TLobby_80191F80.cpp
-pso/unk/TLobby_801A2D90.cpp
-pso/unk/TLobby_801A3B84.cpp
-pso/unk/TLobby_801A3BF4.cpp
-pso/unk/TLobby_801A3C18.cpp
+pso/system/scene/OfflineGameScene.cpp
 pso/unk/TLobby_801A3C48.cpp
 pso/unk/TLobby_801C25B4.cpp
 pso/unk/TLobby_801C4F80.cpp
@@ -1583,7 +1580,6 @@ pso/boss/darkfalz/TObjDFDemoF.cpp
 pso/boss/darkfalz/TObjDFHorming.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/object/TObjDoaEx01.cpp
-pso/object/door/TObjDoor.cpp
 pso/object/door/TObjDoorJung.cpp
 pso/object/door/TObjDoorJung_8023DBEC.cpp
 pso/object/door/TObjDoorKey.cpp
@@ -1914,7 +1910,6 @@ pso/ui/frontend/TAdSEGAlogo.cpp
 pso/ui/frontend/TAdSelectCurGC_802AEA38.cpp
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp
 pso/ui/frontend/TAdSelectGameModeGC.cpp
-pso/ui/frontend/TAdSelectGameModeGC_801A2F7C.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
@@ -2038,8 +2033,6 @@ pso/unk/text_8017866C.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
-pso/unk/text_801A3014.cpp
-pso/unk/text_801A3BB8.cpp
 pso/unk/TUnk_804C2298.cpp
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/unk/text_801A5778.cpp
