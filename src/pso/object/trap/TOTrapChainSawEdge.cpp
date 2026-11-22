@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/trap/TOTrapChainSawEdge.h"
+#include "pso/render/ModelDrawContext.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -148,9 +149,6 @@ void rotate_matrix_y(int, void *);
 
 void post_translate_matrix(void *);
 
-void set_model_node_callback(saddr arg0);
-
-void draw_ginja_model_with_motion(void *, void *, f32);
 
 NJS_OBJECT *seabed_suiso_linked_switch_counts[5];
 NJS_OBJECT *seabed_suiso_switch_counts[5];
@@ -721,7 +719,7 @@ void TOTrapChainSawKey::vfunc_25() {
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    set_model_node_callback((saddr)((s32 *)TParticleCtrl__sub_802C8464));
+    set_model_node_callback(TParticleCtrl__sub_802C8464);
     draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
     set_model_node_callback(0);
     if (*(s32 *)((s8 *)this + 0xF0) == 1) {

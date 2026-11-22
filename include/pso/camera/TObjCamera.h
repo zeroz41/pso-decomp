@@ -32,7 +32,7 @@ struct TObjCamera : public TObjMapObject {
     static void *create(void *set_data);
     static void free_resources();
     static void load_resources();
-    static void update_camera_slots();
+    static void update_camera_slots(NJS_OBJECT *node);
 
     static BmlResource *model_resource;
     static s32 camera_slot_scan_index;

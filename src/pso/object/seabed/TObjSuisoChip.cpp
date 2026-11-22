@@ -373,7 +373,7 @@ void TObjSeabedSuiso_CH::scroll_kind2_uvs() {
         }
         last_uv_scroll_tick = actor_frame_tick;
     }
-    set_model_node_callback((saddr)TObjSeabedSuisoBrakable::notify_break);
+    set_model_node_callback(TObjSeabedSuisoBrakable::notify_break);
 }
 
 void TObjSeabedSuiso_CH::update_switch_lock() {

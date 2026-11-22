@@ -64,7 +64,7 @@ void TObjBoss5PillarDemo__sub_8028ACE8(Pd_8028ACE8 *arg0, void* _w1) {
     }
 }
 
-void TObjBoss5PillarDemo__sub_8028AD88(void* a0) { TObjBoss5PillarDemo__sub_8028ACE8((Pd_8028ACE8 *)(boss5_pillar_demo_ptr), a0); }
+void TObjBoss5PillarDemo__sub_8028AD88(NJS_OBJECT *node) { TObjBoss5PillarDemo__sub_8028ACE8((Pd_8028ACE8 *)(boss5_pillar_demo_ptr), node); }
 
 void TObjBoss5PillarDemo__sub_8028ADB0(u32 arg0) {
     if (arg0 != 0U) {
@@ -76,7 +76,7 @@ void fn_8028ADDC(void *p) {
     if (p) {
         boss5_pillar_demo_index = 0;
         boss5_pillar_demo_ptr = p;
-        set_model_node_callback((saddr)TObjBoss5PillarDemo__sub_8028AD88);
+        set_model_node_callback(TObjBoss5PillarDemo__sub_8028AD88);
     }
 }
 void fn_8028AE1C(O_8028AE1C *smoke) {

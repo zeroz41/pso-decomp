@@ -111,7 +111,7 @@ struct NJS_OBJECT {
     f32 scl[3];
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
-    u8 pad_34[0x4];
+    f32 quat_w; // with evalflags 0x400 the rotation is a quaternion: ang holds x, y, z as floats, this w (name inferred)
 };
 
 LAYOUT_ASSERT(NJS_OBJECT_size, sizeof(NJS_OBJECT) == 0x38);

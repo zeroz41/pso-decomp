@@ -1592,7 +1592,7 @@ void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason) {
     }
 }
 #pragma pop
-void TObjEneMe3Stelth::add_instance() {
+void TObjEneMe3Stelth::add_instance(NJS_OBJECT *node) {
     load_projection_tex_matrix(stelth_projection_texture_handle);
     TObjEneMe3Stelth__render_node_index = TObjEneMe3Stelth__render_node_index + 1;
 }
@@ -1709,7 +1709,7 @@ void TObjEneMe3Stelth::render() {
             TObjEneMe3Stelth__render_node_index = 0;
             m_420 += 0x222;
             stelth_projection_texture_handle = m_420;
-            set_model_node_callback((saddr)((void *)TObjEneMe3Stelth::add_instance));
+            set_model_node_callback(TObjEneMe3Stelth::add_instance);
             if (m_3c0 != 0) {
                 set_ginja_draw_list_mask(3);
             }

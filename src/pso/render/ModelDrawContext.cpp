@@ -9,7 +9,6 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
 
-typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 struct Mtx_803DC994 { f32 m[3][4]; };
@@ -20,22 +19,8 @@ typedef void (*RecoveredCallback_1268626c296b)(void *);
 
 struct Tbl_803DCC34 { u32 v[12]; };
 
-struct N_803DC9E4 {
-    u32 flags;
-    s32 m4;
-    u8 m8[0xC];
-    u8 m14[0xC];
-    u8 m20[0xC];
-    struct N_803DC9E4 *child;
-    struct N_803DC9E4 *next;
-    f32 f34;
-};
-
 extern GinjaSceneState render_contexts[6];
-extern "C" {
-void select_render_context(s32 arg0);
-}
-s32 model_node_callback;
+ModelNodeCallback model_node_callback;
 void flush_model_draw_queue(void);
 extern "C" {
 
@@ -43,7 +28,6 @@ extern RecoveredCallback_2be3cacebb2e ginja_draw_end_callback;
 void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src);
 void GXSetBlendMode(int, int, int, int);
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];
-void apply_cached_blend_mode(s32 arg0);
 void init_render_context(C_803DCBF0 *arg0);
 extern RecoveredCallback_1268626c296b motion_node_draw_callback;
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table;
@@ -51,9 +35,8 @@ s32 rotate_matrix_by_node_angles(void *, void *);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 node_saved_matrix[];
-void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32));
-void set_model_node_callback(saddr arg0) {
-    model_node_callback = arg0;
+void set_model_node_callback(ModelNodeCallback callback) {
+    model_node_callback = callback;
 }
 
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
@@ -78,8 +61,8 @@ void draw_ginja_motion_node_tree(NJS_OBJECT *node) {
     do {
         push_matrix();
         compose_motion_node_matrix(node);
-        if (((s32 (*)(void *)) (*(RecoveredCallback_92513335c3ed *)&model_node_callback)) != NULL) {
-            (*(RecoveredCallback_92513335c3ed *)&model_node_callback)(node);
+        if (model_node_callback != NULL) {
+            model_node_callback(node);
         }
         model = node->model;
         if (model != NULL && (node->evalflags & 8) == 0) {
@@ -109,46 +92,46 @@ void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src) {
 }
 
 struct Mtx_803DC994;
-void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32)) {
+void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
     do {
-        uaddr f = p->flags;
+        uaddr f = node->evalflags;
         if (f & 0x800) {
             get_current_matrix((node_saved_matrix));
         }
         if ((f & 7) == 7) {
             if (!(f & 8)) {
-                cb(p->m4);
+                draw(node->model);
             }
             if (!(f & 0x10)) {
-                traverse_model_node_tree(p->child, cb);
+                traverse_model_node_tree(node->child, draw);
             }
         } else {
             push_matrix();
             if (!(f & 1)) {
-                post_translate_matrix(p->m8);
+                post_translate_matrix(node->pos);
             }
             if (!(f & 2)) {
                 if (f & 0x1000) {
                     copy_rotation_to_current_matrix((struct Mtx_803DC994 *) (node_saved_matrix));
                 } else if (f & 0x400) {
-                    apply_quat_rotation(p->f34, (f32 *)p->m14);
+                    apply_quat_rotation(node->quat_w, (f32 *)node->ang);
                 } else {
-                    rotate_matrix_by_node_angles(p->m14, (void *) (f & 0x20));
+                    rotate_matrix_by_node_angles(node->ang, (void *) (f & 0x20));
                 }
             }
             if (!(f & 4)) {
-                scale_current_matrix(p->m20);
+                scale_current_matrix(node->scl);
             }
             if (!(f & 8)) {
-                cb(p->m4);
+                draw(node->model);
             }
             if (!(f & 0x10)) {
-                traverse_model_node_tree(p->child, cb);
+                traverse_model_node_tree(node->child, draw);
             }
             pop_matrix();
         }
-        p = p->next;
-    } while (p != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 
 void draw_motion_node_tree_with_context(NJS_OBJECT *arg0) {

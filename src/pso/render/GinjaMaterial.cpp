@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/GinjaParameterHandler.h"
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/unk/text_803E2008.h"
@@ -32,7 +33,6 @@ typedef void (*GinjaPostCallback)(u8 first);
 extern "C" {
 extern u32 ginja_draw_flags;
 extern u32 gx_chan_ctrl_light_mask;
-void traverse_model_node_tree(void *, void *);
 void set_ginja_vertex_arrays(GinjaVertexArray *array);
 extern GinjaMaterialCache ginja_material_cache;
 extern GXTexCoordID ginja_texcoord_ids[];
@@ -61,7 +61,7 @@ GinjaMaterialCache ginja_material_cache;
 void draw_ginja_object(void *child) {
     prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
-    traverse_model_node_tree(child, (void *) queue_model_draw_current_matrix);
+    traverse_model_node_tree((NJS_OBJECT *)child, queue_model_draw_current_matrix);
     flush_model_draw_queue();
     if (ginja_draw_end_callback != NULL) {
         ginja_draw_end_callback();

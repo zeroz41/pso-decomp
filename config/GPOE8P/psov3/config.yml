@@ -3780,7 +3780,7 @@ force_active:
   - add_gogo_ball_one_point_score__Fl
   - add_gogo_ball_three_point_score__Fl
   - add_id_to_slots__10TObjPlayerFiUs
-  - add_instance__16TObjEneMe3StelthFv
+  - add_instance__16TObjEneMe3StelthFP10NJS_OBJECT
   - add_iq__8MagStatsFl
   - add_item_purpose_actions__FP14TWindowSubItemll
   - add_lobby_members__6TLobbyFP18TPlyJoinLobbyEntryiii
@@ -16599,7 +16599,7 @@ force_active:
   - trigger_activate_sound__14TOKeyMachine01Fv
   - trigger_activate_sound__8TOKeyColFv
   - trigger_breakup__15TBoss3VoloptP02Fv
-  - trigger_by_id__14TOTrapSeabed01FUl
+  - trigger_by_id__14TOTrapSeabed01FP10NJS_OBJECT
   - trigger_deactivate_sound__11TOKeyCave01Fv
   - trigger_deactivate_sound__11TObjDoorKeyFv
   - trigger_deactivate_sound__13TLazerFenceSwFv
@@ -16751,7 +16751,7 @@ force_active:
   - update_by_state__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
-  - update_camera_slots__10TObjCameraFv
+  - update_camera_slots__10TObjCameraFP10NJS_OBJECT
   - update_camera_vec_by_stage__9TObjGrassFP10NJS_OBJECT
   - update_capture__11TBoss4Type3Fv
   - update_capture__14TObjVoloptCageFv

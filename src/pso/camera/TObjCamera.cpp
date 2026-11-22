@@ -84,7 +84,7 @@ void TObjCamera::init_sound_events() {
     }
 }
 
-void TObjCamera::update_camera_slots() {
+void TObjCamera::update_camera_slots(NJS_OBJECT *node) {
     s32 i;
     for (i = 0; i < 8; i++) {
         if (camera_slot_scan_index == camera_slot_id_table[i]) {
@@ -133,7 +133,7 @@ void TObjCamera::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         camera_slot_scan_index = 0;
-        set_model_node_callback((saddr)TObjCamera::update_camera_slots);
+        set_model_node_callback(TObjCamera::update_camera_slots);
         draw_ginja_model_with_motion((void *)get_bml_model(model_resource, 0),
                                      get_bml_motion(model_resource, 0), animation_frame);
         set_model_node_callback(0);

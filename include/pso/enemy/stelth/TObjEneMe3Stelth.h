@@ -95,7 +95,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 try_spawn_ground_effect(const Vec *origin);
     void play_hit_effect();
     void spawn_ground_effect_on_frame_23();
-    static void add_instance();
+    static void add_instance(NJS_OBJECT *node);
     void update_distance_state();
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
     static void free_shared_resources();
