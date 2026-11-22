@@ -754,7 +754,7 @@ void TObjEneMe1Gee::dispatch_action(u32 state, s32 mode) {
         sub_800C9580(mode);
         break;
     case 13:
-        sub_800C96B4(mode);
+        hurt_state(mode);
         break;
     case 14:
         state_dead(mode);
@@ -804,9 +804,9 @@ void TObjEneMe1Gee::state_attack_loop(s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::state_move(s32 arg1) {
+void TObjEneMe1Gee::state_move(s32 msg) {
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         set_field_378(3);
@@ -925,10 +925,10 @@ void TObjEneMe1Gee::state_hover(s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::vfunc_110(s32 arg1) {
+void TObjEneMe1Gee::vfunc_110(s32 msg) {
     s32 temp_r3;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(4);
@@ -995,8 +995,8 @@ void TObjEneMe1Gee::vfunc_110(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::vfunc_111(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::vfunc_111(s32 msg) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         set_field_378(5);
@@ -1022,10 +1022,10 @@ void TObjEneMe1Gee::vfunc_111(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::state_attack(s32 arg1) {
+void TObjEneMe1Gee::state_attack(s32 msg) {
     s32 temp_r3;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         set_field_378(6);
@@ -1524,7 +1524,7 @@ void TObjEneMe1Gee::sub_800C9964(s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
+void TObjEneMe1Gee::hurt_state(s32 mode) {
     Vec v;
     f32 len;
     switch (mode) {
@@ -1670,9 +1670,9 @@ void TObjEneMe1Gee::state_return_home(s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::state_dead(s32 arg1) {
+void TObjEneMe1Gee::state_dead(s32 msg) {
     Vec pos;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         if ((s32) this->kind == 1) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
@@ -1694,8 +1694,8 @@ void TObjEneMe1Gee::state_dead(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::handle_event(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::handle_event(s32 msg) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->stage = 0;
@@ -1717,8 +1717,8 @@ void TObjEneMe1Gee::handle_event(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::state_orbit(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::state_orbit(s32 msg) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->hover_y = this->position.y + this->hover_height;
@@ -2084,13 +2084,13 @@ void TUnk_8049387C::sub_800C84C8() {
     }
 }
 
-void TUnk_8049387C::vfunc_110(s32 arg1) {
+void TUnk_8049387C::vfunc_110(s32 msg) {
     s32 k;
     s32 i;
     s32 j;
     s32 m;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(4);
@@ -2148,8 +2148,8 @@ void TUnk_8049387C::vfunc_110(s32 arg1) {
     }
 }
 
-void TUnk_8049387C::vfunc_111(s32 arg1) {
-    switch (arg1) {
+void TUnk_8049387C::vfunc_111(s32 msg) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(5);
@@ -2172,8 +2172,8 @@ void TUnk_8049387C::vfunc_111(s32 arg1) {
     }
 }
 
-void TUnk_8049387C::state_dead(s32 arg1) {
-    switch (arg1) {
+void TUnk_8049387C::state_dead(s32 msg) {
+    switch (msg) {
     case 4:
         TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C0, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
         this->status_flags |= 0x400000;

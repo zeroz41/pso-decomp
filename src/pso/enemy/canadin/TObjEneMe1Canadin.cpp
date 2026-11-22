@@ -756,7 +756,7 @@ void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
         fn_8009C178(arg);
         break;
     case 12:
-        fn_8009C510(arg);
+        hurt_state(arg);
         break;
     case 13:
         state_dead(arg);
@@ -773,8 +773,8 @@ void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
     }
 }
 
-void TObjEneMe1Canadin::handle_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::handle_state(s32 msg) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         set_field_378(2);
@@ -804,8 +804,8 @@ void TObjEneMe1Canadin::handle_state(s32 arg1) {
 }
 
 
-void TObjEneMe1Canadin::fn_8009DE90(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::fn_8009DE90(s32 msg) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(2);
@@ -835,10 +835,10 @@ void TObjEneMe1Canadin::fn_8009DE90(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::action(s32 arg1) {
+void TObjEneMe1Canadin::action(s32 msg) {
     s32 temp_r3;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         set_field_378(2);
@@ -877,11 +877,11 @@ void TObjEneMe1Canadin::action(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::vfunc_110(s32 arg1) {
+void TObjEneMe1Canadin::vfunc_110(s32 msg) {
     s32 temp_r3;
     f32 temp_f1;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         advance_state_5_to_4();
         set_field_378(3);
@@ -951,8 +951,8 @@ void TObjEneMe1Canadin::vfunc_110(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::vfunc_111(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::vfunc_111(s32 msg) {
+    switch (msg) {
     case 4:
         advance_state_5_to_4();
         set_field_378(4);
@@ -979,10 +979,10 @@ void TObjEneMe1Canadin::vfunc_111(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::move(s32 arg1) {
+void TObjEneMe1Canadin::move(s32 msg) {
     s32 temp_r3;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         advance_state_5_to_4();
         set_field_378(5);
@@ -1047,10 +1047,10 @@ void TObjEneMe1Canadin::move(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Canadin::fn_8009D320(s32 arg1) {
+void TObjEneMe1Canadin::fn_8009D320(s32 msg) {
     Vec *pos;
     pos = &this->m_490;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->set_field_378(6);
         this->status_flags |= 0x10000;
@@ -1186,8 +1186,8 @@ void TObjEneMe1Canadin::fn_8009D320(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma optimization_level 3
-void TObjEneMe1Canadin::fn_8009CC74(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::fn_8009CC74(s32 msg) {
+    switch (msg) {
     case 4:
         this->advance_state_4_to_5();
         this->set_field_378(7);
@@ -1361,9 +1361,9 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Canadin::fn_8009C91C(s32 arg1) {
+void TObjEneMe1Canadin::fn_8009C91C(s32 msg) {
     Vec *dir = &this->m_490;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->advance_state_4_to_5();
         this->set_field_378(8);
@@ -1454,8 +1454,8 @@ void TObjEneMe1Canadin::fn_8009C91C(s32 arg1) {
 }
 #pragma pop
 
-void TObjEneMe1Canadin::run_task(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::run_task(s32 msg) {
+    switch (msg) {
     case 4:
         advance_state_5_to_4();
         set_field_378(9);
@@ -1488,11 +1488,11 @@ void TObjEneMe1Canadin::run_task(s32 arg1) {
 }
 
 
-void TObjEneMe1Canadin::fn_8009C510(s32 arg1) {
+void TObjEneMe1Canadin::hurt_state(s32 msg) {
     f32 t;
     Vec v;
     f32 f;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->requested_action = this->move_action;
         this->advance_animation();
@@ -1566,8 +1566,8 @@ void TObjEneMe1Canadin::fn_8009C510(s32 arg1) {
         break;
     }
 }
-void TObjEneMe1Canadin::fn_8009C2EC(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::fn_8009C2EC(s32 msg) {
+    switch (msg) {
     case 4:
         this->advance_state_4_to_5();
         this->set_field_378(0xA);
@@ -1618,8 +1618,8 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 arg1) {
         break;
     }
 }
-void TObjEneMe1Canadin::fn_8009C178(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::fn_8009C178(s32 msg) {
+    switch (msg) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xB);
@@ -1647,9 +1647,9 @@ void TObjEneMe1Canadin::fn_8009C178(s32 arg1) {
         return;
     }
 }
-void TObjEneMe1Canadin::fn_8009BFF8(s32 arg1) {
+void TObjEneMe1Canadin::fn_8009BFF8(s32 msg) {
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         this->set_field_378(0xE);
         this->status_flags &= ~0x400000;
@@ -1692,9 +1692,9 @@ void TObjEneMe1Canadin::fn_8009BFF8(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::state_dead(s32 arg1) {
+void TObjEneMe1Canadin::state_dead(s32 msg) {
     Vec pos;
-    switch (arg1) {
+    switch (msg) {
     case 4:
         if (kind == 1) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
@@ -1716,8 +1716,8 @@ void TObjEneMe1Canadin::state_dead(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Canadin::update_walk_animation(s32 msg) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         stage = 0;
@@ -1739,9 +1739,9 @@ void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
     }
 }
 
-void TObjEneMe1Canadin::update_by_state(s32 arg1) {
+void TObjEneMe1Canadin::update_by_state(s32 msg) {
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         hover_y = (f32) (position.y + hover_height);

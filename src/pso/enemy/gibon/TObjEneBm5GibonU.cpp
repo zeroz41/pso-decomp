@@ -1824,9 +1824,9 @@ void TObjEneBm5GibonU::appearing_state(s32 msg) {
 }
 #pragma pop
 
-void TObjEneBm5GibonU::handle_state(s32 arg1) {
+void TObjEneBm5GibonU::handle_state(s32 msg) {
   TObjEneBm5GibonU *other;
-  switch (arg1)
+  switch (msg)
   {
     case 4:
       state_timer = 0;

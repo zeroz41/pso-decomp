@@ -1221,7 +1221,7 @@ force_active:
   - fn_8009BFF8__17TObjEneMe1CanadinFl
   - fn_8009C178__17TObjEneMe1CanadinFl
   - fn_8009C2EC__17TObjEneMe1CanadinFl
-  - fn_8009C510__17TObjEneMe1CanadinFl
+  - hurt_state__17TObjEneMe1CanadinFl
   - fn_8009C91C__17TObjEneMe1CanadinFl
   - fn_8009CC74__17TObjEneMe1CanadinFl
   - fn_8009D320__17TObjEneMe1CanadinFl
@@ -1237,7 +1237,7 @@ force_active:
   - TObjEneMe1Gee__fade_command_streams
   - run_task__13TUnk_8049387CFv
   - sub_800C9580__13TObjEneMe1GeeFl
-  - sub_800C96B4__13TObjEneMe1GeeFl
+  - hurt_state__13TObjEneMe1GeeFl
   - sub_800C9A94__13TObjEneMe1GeeFl
   - sub_800C9DF8__13TObjEneMe1GeeFl
   - sub_800CA454__13TObjEneMe1GeeFl

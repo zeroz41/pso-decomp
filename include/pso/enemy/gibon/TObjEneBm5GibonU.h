@@ -115,7 +115,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void handle_message(s32 msg);
     void state_cast_technique(s32 msg);
     void run_idle_state(s32 msg);
-    void handle_state(s32 arg1);
+    void handle_state(s32 msg);
     void damage_linked_entity();
     void damage_linked_entity_type10();
     s32 play_sound_variant();

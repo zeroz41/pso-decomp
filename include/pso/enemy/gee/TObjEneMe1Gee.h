@@ -129,12 +129,12 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     static void cache_result_805D6660();
     static void queue_debug_text(s32 arg0, char *arg1);
     static void advance_camera_ctrl_step(NJS_OBJECT *);
-    void state_orbit(s32 arg1);
-    void handle_event(s32 arg1);
+    void state_orbit(s32 msg);
+    void handle_event(s32 msg);
     void state_return_home(s32 mode);
-    void state_attack(s32 arg1);
+    void state_attack(s32 msg);
     void state_hover(s32 mode);
-    void state_move(s32 arg1);
+    void state_move(s32 msg);
     void set_flag3c8_bit40();
     void set_flag3c8_bit8();
     void update_photon_target();
@@ -151,7 +151,8 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void set_state_flag(TObjChara *target, s32 arg2);
     void update();
     void sub_800C9580(s32 mode);
-    void sub_800C96B4(s32 mode);
+    // Entered by run_hit_reaction; back to next_mode once the damage motion ends.
+    void hurt_state(s32 mode);
     void sub_800C9964(s32 mode);
     void sub_800C9A94(s32 mode);
     void sub_800C9DF8(s32 mode);
