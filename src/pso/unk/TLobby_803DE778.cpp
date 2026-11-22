@@ -4,7 +4,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-void move_data(void *dst, const void *src, u32 n) {
+void move_data(void *dst, const void *src, s32 n) {
     memmove(dst, src, n);
 }
 

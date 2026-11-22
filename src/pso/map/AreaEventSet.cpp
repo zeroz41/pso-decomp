@@ -244,10 +244,6 @@ u8 *TLobby::alloc_heap_slot(s32 floor, s32 size) {
 
 #pragma fp_contract on
 
-extern "C" {
-u8 *heap_alloc__5THeapFUl(THeap *heap, s32 size);
-}
-
 s32 TLobby::add_player(s32 floor, saddr data, s32 size) {
     u8 *set;
 
@@ -257,7 +253,7 @@ s32 TLobby::add_player(s32 floor, saddr data, s32 size) {
     if (floor_event_sets[floor] != NULL) {
         return 0;
     }
-    set = heap_alloc__5THeapFUl(area_event_set_heap, size);
+    set = (u8 *)area_event_set_heap->heap_alloc(size);
     if (set != NULL) {
         move_data(set, (const void *)data, size);
         floor_event_sets[floor] = (FloorEventSet *)set;
