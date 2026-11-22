@@ -52,7 +52,7 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    void handle_event(s32 arg1);
+    void handle_event(s32 mode);
     void handle_state_message(s32 msg);
     void reset_transform();
     void update_homing_velocity();

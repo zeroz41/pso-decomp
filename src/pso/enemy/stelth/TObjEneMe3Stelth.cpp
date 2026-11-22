@@ -743,9 +743,9 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::state_chase(s32 arg1) {
+void TObjEneMe3Stelth::state_chase(s32 mode) {
     s32 temp_r0;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         requested_action = 9;
         set_field_378(0xD);
@@ -948,8 +948,8 @@ void TObjEneMe3Stelth::update_state_drop(s32 reason) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::state_chase_target(s32 mode) {
+    switch (mode) {
     case 4:
         requested_action = 0xA;
         set_field_378(6);
@@ -1330,8 +1330,8 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
 #pragma pop
 }
 
-void TObjEneMe3Stelth::handle_message(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::handle_message(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 9;
         this->set_field_378(0xD);
@@ -1831,8 +1831,8 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
         TParticleCtrl::end_effect_render();
     }
 }
-void TObjEneMe3Stelth::exec(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::exec(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0xC;
         this->set_field_378(6);

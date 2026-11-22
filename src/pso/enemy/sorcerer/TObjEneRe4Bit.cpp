@@ -353,10 +353,10 @@ void TObjEneRe4Bit::handle_state_message(s32 msg) {
     }
 }
 
-void TObjEneRe4Bit::handle_event(s32 arg1) {
+void TObjEneRe4Bit::handle_event(s32 mode) {
     u32 flags;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         set_field_378(1);
         behavior_flags &= ~0x1000;

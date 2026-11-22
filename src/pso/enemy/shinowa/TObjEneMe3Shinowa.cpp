@@ -645,8 +645,8 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::action(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Shinowa::action(s32 mode) {
+    switch (mode) {
     case 4:
         requested_action = 1;
         set_field_378(1);
@@ -849,8 +849,8 @@ void TObjEneMe3Shinowa::sub_800E66FC(s32 reason) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Shinowa::state_chase_target(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
+    switch (mode) {
     case 4:
         requested_action = 9;
         set_field_378(4);
@@ -1725,11 +1725,11 @@ void TObjEneMe3ShinowaReal::spawn_mirages() {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
+void TObjEneMe3ShinowaReal::vfunc_114(s32 mode) {
     s32 i;
     s32 n;
     Vec pos;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         requested_action = 7;
         set_field_378(0xE);
@@ -1794,11 +1794,11 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
     }
 }
 
-void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
+void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
     Vec pos;
     u32 flags;
     TParticleCtrl *emitter;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         requested_action = 7;
         set_field_378(0x10);
@@ -1994,8 +1994,8 @@ void TObjEneMe3ShinowaMirage::render() {
     }
 }
 
-void TObjEneMe3ShinowaMirage::vfunc_115(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3ShinowaMirage::vfunc_115(s32 mode) {
+    switch (mode) {
     case 4:
         behavior_flags &= ~3;
         behavior_flags |= 0x200;

@@ -26,10 +26,10 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void render();
     void run_task();
     static void step_effect_sequence(NJS_OBJECT *);
-    void handle_death_state(s32 arg1);
+    void handle_death_state(s32 mode);
     void update_state_machine(s32 reason);
-    void state_wait(s32 arg1);
-    void handle_state(s32 arg1);
+    void state_wait(s32 mode);
+    void handle_state(s32 mode);
     void create_effect();
     s32 cast_resta();
     s32 cast_technique();

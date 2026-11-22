@@ -103,14 +103,14 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     static void load_shared_resources();
     void handle_breakup_state(s32 reason);
     void update_state_resta_cast(s32 reason);
-    void state_chase_target(s32 arg1);
+    void state_chase_target(s32 mode);
     void update_state_drop(s32 reason);
     void update_state_fade_in(s32 reason);
-    void state_chase(s32 arg1);
+    void state_chase(s32 mode);
     void create_resta_effect();
     void run_walk_state(s32 reason);
-    void exec(s32 arg1);
-    void handle_message(s32 arg1);
+    void exec(s32 mode);
+    void handle_message(s32 mode);
     void sub_800F0C90();
     s32 sub_800F0F84(Vec *pos);
     void sub_800F1098(s32 reason);

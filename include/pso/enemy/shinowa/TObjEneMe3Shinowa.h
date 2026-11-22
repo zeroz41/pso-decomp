@@ -85,7 +85,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 check_in_range(f32);
     void state_break_apart(s32 reason);
     void state_cast_support(s32 reason);
-    void state_chase_target(s32 arg1);
+    void state_chase_target(s32 mode);
     void update_by_distance();
     void sub_800E4FE8(s32 reason);
     void sub_800E50D8(s32 reason);

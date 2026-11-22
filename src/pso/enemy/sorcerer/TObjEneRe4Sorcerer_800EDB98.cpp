@@ -806,8 +806,8 @@ void TObjEneRe4Sorcerer::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneRe4Sorcerer::handle_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneRe4Sorcerer::handle_state(s32 mode) {
+    switch (mode) {
     case 4:
         state_timer = 0;
         break;
@@ -974,8 +974,8 @@ void TObjEneRe4Sorcerer::sub_800EEC00(s32 reason) {
     }
 }
 
-void TObjEneRe4Sorcerer::state_wait(s32 arg1) {
-    switch (arg1) {
+void TObjEneRe4Sorcerer::state_wait(s32 mode) {
+    switch (mode) {
     case 4:
         state_timer = 0;
         set_field_378(4);
@@ -1333,8 +1333,8 @@ void TObjEneRe4Sorcerer::sub_800EE0F8(s32 reason) {
     }
 }
 
-void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
+    switch (mode) {
     case 4:
         requested_action = 6;
         behavior_flags |= 6;

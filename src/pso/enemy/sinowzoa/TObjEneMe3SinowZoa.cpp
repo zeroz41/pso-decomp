@@ -720,11 +720,11 @@ void TObjEneMe3SinowZoa::dispatch_action(u32 state, s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::action(s32 arg1) {
+void TObjEneMe3SinowZoa::action(s32 mode) {
     s32 temp_r3;
     s32 temp_r4;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         if (this->m_3c4 == 1) {
             this->requested_action = 2;
@@ -815,11 +815,11 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 mode) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
+void TObjEneMe3SinowZoa::state_chase(s32 mode) {
     s32 temp_r0;
     s32 temp_r4;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 9;
         this->set_field_378(0xD);
@@ -1027,8 +1027,8 @@ void TObjEneMe3SinowZoa::sub_80319748(s32 mode) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0xA;
         this->set_field_378(6);
