@@ -13,8 +13,14 @@ struct TObjEneSaver : public TObjEnemy {
     virtual ~TObjEneSaver();
     static void free_resources();
     void turn_toward_target();
+    void step_angle_clamped(s32 angle);
     void sub_800A5FA8();
     void sub_800A4D9C();
+    void sub_800A42C0();
+    void sub_800A49B4();
+    void sub_800A5154();
+    void sub_800A54B4();
+    void sub_800A5960();
     void update_collapse_and_destroy();
     virtual void run_task();
     virtual void render();

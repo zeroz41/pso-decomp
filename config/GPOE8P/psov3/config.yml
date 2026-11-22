@@ -1527,11 +1527,11 @@ force_active:
   - __dt__17TObjEneDarkGunnerFv
   - __ct__17TObjEneDarkGunnerFP7TObjectPv
   - TObjPlayer__sub_800A3200
-  - TObjPlayer__sub_800A42C0
-  - TObjPlayer__sub_800A49B4
-  - TObjPlayer__sub_800A5154
-  - TObjPlayer__sub_800A54B4
-  - TObjPlayer__sub_800A5960
+  - sub_800A42C0__12TObjEneSaverFv
+  - sub_800A49B4__12TObjEneSaverFv
+  - sub_800A5154__12TObjEneSaverFv
+  - sub_800A54B4__12TObjEneSaverFv
+  - sub_800A5960__12TObjEneSaverFv
   - __dt__15TObjEneDimedianFv
   - TObjPlayer__sub_800BFF54
   - TObjPlayer__sub_800D93F0
@@ -16117,7 +16117,7 @@ force_active:
   - stelth_bml_resource_desc
   - stelth_projection_texture_handle
   - step_along_ground__17TObjEneDarkGunnerFv
-  - step_angle_clamped
+  - step_angle_clamped__12TObjEneSaverFl
   - step_angle_toward__9TBoss6MagFlll
   - step_camera_scalar__FPCfPCfPff
   - step_cutscene_frame__10TObjPlayerFP10NJS_OBJECT
