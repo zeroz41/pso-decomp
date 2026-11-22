@@ -74,7 +74,6 @@ const char *TObjEnvSoundEx__class_name = "TObjEnvSoundEx";
 const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
 const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     lbl_804456F0, lbl_80445708, lbl_80445708, lbl_80445738,
@@ -93,8 +92,6 @@ f32 xz_distance_squared(void *, void *);
 extern TCameraCtrl *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-
-
 
 
 #define F(o) (*(f32 *)(self + (o)))
@@ -136,7 +133,6 @@ struct Obj_80190AA0 {
     s32 attenuation;
     Row_80190AA0 sound;
 };
-
 
 
 extern "C" {

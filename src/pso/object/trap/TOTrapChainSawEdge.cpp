@@ -36,10 +36,6 @@
 #include "pso/unk/text_803D96A8.h"
 
 
-
-
-
-
 #include "pso/object/base/TObjMapObject.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -59,7 +55,6 @@ extern "C" {
 GinjaTextureList *fn_802C9924(s32 arg0);
 
 
-
 typedef struct P_802C86D4 {
     u8 pad0[2];
     u16 sA;
@@ -69,7 +64,6 @@ typedef struct P_802C86D4 {
     s8 b12;
     s8 b13;
 } P_802C86D4;
-
 
 
 struct Pair_802C80F0 { s32 v[2]; };
@@ -134,39 +128,18 @@ s8 get_current_floor(int);
 f32 fabs_float(f32);
 
 
-
-
 s32 play_persistent_sound(s32, void *, void *, int, int);
 
 u8 is_current_floor_switch_set(s32 id);
 
 
-
-
 void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
-
-
-
-
-void update_state__17TOTrapChainSawKeyFv(u8 *arg0);
-
-
-
-
-
-
-void update_state__20TOTrapChainSawDamageFv(void *arg0);
 
 
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
 
 void vfunc_14__14TOTrapChainSawFv(void);
 
-void update_state__14TOTrapChainSawFv(u8 *arg0);
-
-void * __dt__14TOTrapChainSawFv(void *arg0, s16 arg1);
-
-u8 * __ct__14TOTrapChainSawFP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2);
 
 void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 

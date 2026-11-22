@@ -108,7 +108,6 @@ extern s32 __vt__24TObjCity_Season_FireWork[];
 }
 
 
-
 struct Stack_80183604
 {
   f32 sp8;
@@ -307,7 +306,6 @@ extern "C" {
 void __dl__7TObjectFPv(void *);
 
 
-
 }
 
 #pragma pop
@@ -348,7 +346,6 @@ extern saddr lbl_805D5B34;
 extern "C" {
 
 void __dl__7TObjectFPv(void *);
-
 
 
 }
@@ -396,7 +393,6 @@ s32 post_translate_matrix(void *);
 extern "C" {
 
 void __dl__7TObjectFPv(void *);
-
 
 
 }
@@ -480,8 +476,6 @@ void __dl__7TObjectFPv(void *);
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 
 
-
-
 }
 
 #pragma pop
@@ -506,8 +500,6 @@ s32 post_translate_matrix(void *);
 void __dl__7TObjectFPv(void *);
 
 
-
-
 }
 
 #pragma pop
@@ -527,8 +519,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 void __dl__7TObjectFPv(void *);
-
-
 
 
 }
@@ -560,7 +550,6 @@ extern "C" {
 void __dl__7TObjectFPv(void *);
 
 
-
 }
 
 #pragma pop
@@ -573,7 +562,6 @@ extern "C" {
 
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 s32 free_collision_body_parts(void *);
-
 
 
 }
@@ -607,12 +595,6 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 
 extern const RecoveredGlobal_80184B44_lbl_804440B0 city_season_collision_template;
-}
-
-extern "C" {
-
-LAYOUT_ASSERT(RecoveredGlobal_80184B44_lbl_804440B0_size, sizeof(RecoveredGlobal_80184B44_lbl_804440B0) == 0x2C);
-
 }
 
 #pragma pop

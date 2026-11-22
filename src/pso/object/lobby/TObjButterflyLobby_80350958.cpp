@@ -291,10 +291,6 @@ void TObjButterflyLobby::run_task() {
 TObjButterflyLobby::~TObjButterflyLobby() {
 
 }
-extern "C" {
-
-
-}
 TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = TObjButterflyLobby__name;
     VecCopy(&position, &set_data->position);

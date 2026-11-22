@@ -381,7 +381,6 @@ block_6:
 }
 
 u8 * __ct__5THeapFUli(void *, s32, s32);
-u8 *__nw__5THeapFUl(s32);
 #define area_event_set_heap (*(int *)&area_event_set_heap)
 void close_gsl_archive();
 void open_gsl_archive(char *name);

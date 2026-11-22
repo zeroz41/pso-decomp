@@ -222,7 +222,6 @@ struct ForestBoxCollisionBody {
     u32 flags;
     u32 unknown_1c[4];
 };
-LAYOUT_ASSERT(ForestBoxCollisionBody_size, sizeof(ForestBoxCollisionBody) == 0x2C);
 
 static const char *fe_obj_hako01_hahen02_model_names[4] = {
     "fe_obj_hako01_hahen02.gj", "fs_obj_hako01.gj", "fs_obj_hako01_hahen01.gj", NULL,

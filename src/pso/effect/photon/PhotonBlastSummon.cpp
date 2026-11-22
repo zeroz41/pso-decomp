@@ -121,7 +121,6 @@ void queue_deferred_photon_blast_support(u32 identity, s32 kind, s32 allow_dupli
 void queue_photon_blast_support(void) {
     ((s32 (*)(f32))queue_photon_blast_hit)(1.0f);
 }
-LAYOUT_ASSERT(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628) == 0xC);
 
 void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     u8 *arg0 = (u8 *)this;

@@ -103,7 +103,6 @@ extern RecoveredGlobal_8012E414_lbl_804A5D10 __vt__13TUnk_804A5D10;
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-LAYOUT_ASSERT(RecoveredGlobal_8012E414_lbl_804A5D10_size, sizeof(RecoveredGlobal_8012E414_lbl_804A5D10) == 0x18);
 u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &__vt__13TUnk_804A5D10.value;

@@ -57,7 +57,6 @@ extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);
 s32 get_entity_id(int);
 s32 copy_technique_target_list(void *, void *);
-s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern s32 tec_grants_class_name;
 
 void TTecGrants::render() {  }

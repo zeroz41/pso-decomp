@@ -34,13 +34,6 @@ static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 
 #include "pso/player/TObjPlayer.h"
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-
-extern "C" void test_flag30_512__9TObjCharaFv();
-
-extern "C" void test_flag_1000__9TObjCharaFv();
-
-extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/system/vector.h"
 
@@ -190,7 +183,6 @@ struct Obj_8018B030 : VBase_8018B030 {
     s16 state;
 };
 extern "C" {
-void __ct__9TObjCharaFP7TObject(void *, void *, void *);
 
 
 void init_collision_body_parts(void *, void *, int);
@@ -231,131 +223,12 @@ void draw_ginja_object(void *child);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 
-
 void *TContainerAncient01R__create(void *arg0);
 
 void TContainerAncient01R__sub_8018AF74(void);
 
 s32 free_collision_body_parts(void *);
 
-
-extern "C" void has_no_target__9TObjCharaFv();
-
-extern "C" void vfunc_74__9TObjCharaFl();
-
-extern "C" void recalc_stats__9TObjCharaFv();
-
-extern "C" void refresh_target__9TObjCharaFv();
-
-extern "C" void consume_timer_field__9TObjCharaFl();
-
-extern "C" void deliver_attack_hits__9TObjCharaFf();
-
-extern "C" void vfunc_66__9TObjCharaFv();
-
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-
-extern "C" void run_death_reaction__9TObjCharaFv();
-
-extern "C" void run_hit_reaction__9TObjCharaFv();
-
-extern "C" void run_miss_reaction__9TObjCharaFv();
-
-extern "C" void run_attack_action__9TObjCharaFv();
-
-extern "C" void run_move_action__9TObjCharaFv();
-
-extern "C" void run_idle_action__9TObjCharaFv();
-
-extern "C" void apply_slow_status__9TObjCharaFv();
-
-extern "C" void update_shock_clock__9TObjCharaFv();
-
-extern "C" void vfunc_43__9TObjCharaFv();
-
-extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
-
-extern "C" void interact__14TObjCollidableFl();
-
-extern "C" void get_name__8TObjBaseFv();
-
-extern "C" void add_actor_exp__9TObjCharaFl();
-
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-
-extern "C" void apply_anti_technique__9TObjCharaFl();
-
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-
-extern "C" void apply_confusion_status__9TObjCharaFv();
-
-extern "C" void apply_movement_ailment__9TObjCharaFl();
-
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-
-extern "C" void apply_paralysis__9TObjCharaFv();
-
-extern "C" void apply_poison_status__9TObjCharaFv();
-
-extern "C" void apply_shock_status__9TObjCharaFv();
-
-extern "C" void apply_switch_attack__9TObjCharaFv();
-
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-
-extern "C" void clear_harmful_statuses__9TObjCharaFv();
-
-extern "C" void cure_paralysis__9TObjCharaFv();
-
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-
-extern "C" void vfunc_78__9TObjCharaFl();
-
-extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
-
-extern "C" void spend_photon_blast_charge__9TObjCharaFf();
-
-extern "C" void gain_photon_blast_charge__9TObjCharaFf();
-
-extern "C" void get_center__9TObjCharaFv();
-
-extern "C" void get_actor_level_index__9TObjCharaFv();
-
-extern "C" void get_pos__9TObjCharaFl();
-
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-
-extern "C" void render_shadows__7TObjectFv();
-
-extern "C" void reset_motion_fields__9TObjCharaFv();
-
-extern "C" void reset_pose__9TObjCharaFv();
-
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-
-extern "C" void update_action_hold_status__9TObjCharaFv();
-
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_flag30_timer__9TObjCharaFv();
-
-extern "C" void update_movement_status__9TObjCharaFv();
-
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-
-extern "C" void update_poison_status__9TObjCharaFv();
 
 const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h_s_konte2.gj", NULL };
 

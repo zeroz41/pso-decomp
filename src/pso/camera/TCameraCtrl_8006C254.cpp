@@ -26,8 +26,6 @@
 #pragma pop
 
 
-extern void* camera_controller_registry[];
-
 struct CameraMotionData;
 extern "C" {
 

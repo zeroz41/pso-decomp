@@ -71,10 +71,6 @@ void TKomorebi::run_task() {  }
 TKomorebi::~TKomorebi() {
 
 }
-extern "C" {
-
-
-}
 #define komorebi ((u8 *)this)
 TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
     m_name = komorebi_class_name;

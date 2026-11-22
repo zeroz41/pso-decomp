@@ -398,7 +398,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 #pragma pop
 
 
-
 const char *lbl_805D3D58 = TObjFish__class_name_string;
 
 extern "C" {
@@ -462,15 +461,6 @@ void TObjFish::free_resource() {
         TObjFish__area_bml_resource = NULL;
     }
 }
-void vfunc_6__8TObjBaseFPsl();
-void get_name__8TObjBaseFv();
-void get_center__8TObjBaseFv();
-void apply_object_set_data__8TObjBaseFPv();
-void classify_actor_view_detail__8TObjBaseFfff();
-void render_shadows__7TObjectFv();
-void reset_motion_fields__8TObjBaseFv();
-void run_task__8TObjFishFv();
-void update_object_view_visibility__8TObjBaseFff();
 struct TObjFishAreaResource {
     const char *models[4];
     const char *motions[4];

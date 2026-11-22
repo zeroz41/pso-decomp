@@ -120,8 +120,6 @@ TOSwitchTimer::~TOSwitchTimer() {
         clear_floor_switch_flag(this->m_a8, (s16) this->m_b4);
     }
 }
-extern "C" {
-}
 TOSwitchTimer::TOSwitchTimer(saddr arg1, saddr arg2) : TObjBase((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TOSwitchTimer__name);
     ((TOSwitchTimer *)(((u8 *)this)))->apply_object_set_data((void *)arg2);

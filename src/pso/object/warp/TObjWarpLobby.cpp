@@ -111,7 +111,6 @@ void TObjWarpLobby::render() {
     }
 }
 
-extern s32 __vt__13TObjWarpLobby[];
 
 void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0) {
     s32 selected_menu_value;

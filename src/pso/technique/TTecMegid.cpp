@@ -78,20 +78,6 @@ struct VObj_80235490 : VBase_80235490 {
     virtual void m21(void *, HitInfo_80235490 *, void *, s32, s32);
 };
 
-struct Obj_80235490 {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0xC8 - 0x20];
-    u16 fc8;
-    u8 padCA[0xCC - 0xCA];
-    f32 power;
-    u8 padD0[0xF8 - 0xD0];
-    void *contact;
-    u8 padFC[0x134 - 0xFC];
-    u16 ids[32];
-    s32 cursor;
-};
-
 
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
@@ -173,7 +159,6 @@ static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 void mem_free(void *p);
-void __dl__7TObjectFPv(void *);
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
@@ -190,7 +175,6 @@ void run_task__9TTecMegidFv(Obj_80235740 *self);
 void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);
 void *spawn_continuous_particle_effect_with_flags(void *, u32, u16);
 void **mem_alloc(u32, s32);
-u32 __nw__7TObjectFUl(s32 a0 = 0);
 
 void TTecMegid::update_by_state() {
     u8 *arg0 = (u8 *)this;

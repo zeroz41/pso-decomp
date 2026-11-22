@@ -179,8 +179,6 @@ void TFogCtrl__sub_800FBA54(void);
 void TFogCtrl__sub_800FBA58(void);
 void TFogCtrl__sub_800FBAAC(void);
 void create_area_fog_ctrl(void);
-void __dl__7TObjectFPv(s32);
-u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 

@@ -31,7 +31,6 @@ const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void * TObjNpcEnemy__create(void *arg0);
 s32 rotate_matrix_y(int, int);
@@ -312,7 +311,6 @@ void TObjNpcEnemy::render() {
 }
 
 TObjNpcEnemy::~TObjNpcEnemy() {}
-
 
 
 TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {

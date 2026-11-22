@@ -39,9 +39,7 @@ struct Obj_80237DAC {
 extern "C" {
 
 u16 get_entity_id(void *);
-void construct_area_technique_base(void *, void *, void *, void *, int);
 s32 is_split_screen();
-
 
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {

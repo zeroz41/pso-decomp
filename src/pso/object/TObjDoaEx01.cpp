@@ -34,7 +34,6 @@ saddr TObjDoaEx01__resource_bundle;
 u8 *TObjDoaEx01__alpha_model_node;
 u8 *TObjDoaEx01__alpha_model_sibling;
 
-struct O_8018DB94 { u8 pad[0xac]; s32 state; f32 pos; f32 max; f32 speed; };
 
 struct Obj_8018DA54 {
     u8 pad[0x38];
@@ -262,7 +261,6 @@ TObjDoaEx01::~TObjDoaEx01() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-
 
 
 TObjDoaEx01::TObjDoaEx01(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {

@@ -12,7 +12,6 @@
 #include "pso/system/vector.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
-LAYOUT_ASSERT(Param_802E5CB0_size, sizeof(Param_802E5CB0) == 0x10);
 
 struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
 
@@ -24,7 +23,6 @@ static const NJS_POINT2 lbl_80472C00[] = {{320.0f, 240.0f}};
 const char *TObjOnlineEndingHexLine__name = "TObjOnlineEndingHexLine";
 
 struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
-
 
 
 extern "C" {

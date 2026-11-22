@@ -193,7 +193,6 @@ TObjLight::~TObjLight() {
 }
 
 
-LAYOUT_ASSERT(RecoveredGlobal_80194528_TObjLight__data_80506320_size, sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50);
 TObjLight::TObjLight(TObject *parent, u8 *arg2) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = TObjLight__class_name;

@@ -319,7 +319,6 @@ s32 subtract_vector(s32, s32);
 s32 test_flags_any(s32 *flags, s32 mask);
 void *get_player_by_client_id(s32 i);
 
-void __dl__7TObjectFPv(void *);
 void destroy_if_set__10TTecSlicerFv(u32);
 
 f32 *get_weapon_range_record(s32, s32);

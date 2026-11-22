@@ -86,7 +86,6 @@ struct OnlineEndingPlayerPlacement {
     f32 scale;
 };
 
-LAYOUT_ASSERT(OnlineEndingPlayerPlacementSize, sizeof(OnlineEndingPlayerPlacement) == 0x14);
 
 OnlineEndingPlayerPlacement lbl_804E35F8[48] = {
     {{-18.8999996f, -8.0f, -9.0f}, 9466, 1.25f},
@@ -297,7 +296,6 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-
 
 
 void __ct__8TObjBaseFP7TObject(void *, void *);

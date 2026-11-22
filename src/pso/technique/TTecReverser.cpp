@@ -49,7 +49,6 @@ void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
 s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
-s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 const char *lbl_805D3818 = "TTecReverser";
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 void *create_timed_particle_emitter(void *owner, s32 idx, s32 b, s32 c);

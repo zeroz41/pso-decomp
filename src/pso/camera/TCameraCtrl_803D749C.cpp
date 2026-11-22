@@ -128,7 +128,6 @@ s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *r
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-LAYOUT_ASSERT(RecoveredGlobal_803D77C0_lbl_8047E3C8_size, sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10);
 
 #pragma push
 #pragma scheduling off

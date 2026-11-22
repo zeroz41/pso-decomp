@@ -106,7 +106,6 @@ void begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
 s32 subtract_vector(Vec *, Vec *);
 extern s32 local_client_id;
-s32 has_interactor__14TObjCollidableFv();
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;

@@ -36,13 +36,9 @@
 #include "pso/system/task/TMainTask.h"
 
 
-
-extern "C" {
-}
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 extern u32 actor_frame_tick;
-
 
 
 }

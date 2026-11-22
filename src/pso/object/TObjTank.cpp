@@ -18,7 +18,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 __declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
 const char *fs_obj_tank_motion_names[1] = { NULL };
@@ -54,7 +53,6 @@ TObjTank::~TObjTank() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-
 
 
 #define arg0 ((u8 *)this)

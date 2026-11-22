@@ -187,8 +187,6 @@ f32 vector_length(void *);
 extern const f64 lbl_8044DC00;
 
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TEffectFv(void *, int);
 
 TUnk_804CCC68::~TUnk_804CCC68() {
     if (proxy != NULL) { free_collision_body_parts(proxy); proxy = 0; }

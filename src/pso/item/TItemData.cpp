@@ -144,7 +144,6 @@ struct Bonus_8010BA9C { u8 kind; u8 pad; s16 val; };
 
 struct Stats_8010BA9C { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 x6; u8 pad8[4]; s16 xC; };
 
-extern s32 lbl_8043E348;
 struct Tbl_8010C8B4 { s32 w[19]; };
 
 static const Tbl_8010C8B4 item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};

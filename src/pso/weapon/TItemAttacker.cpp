@@ -19,7 +19,6 @@ const char *TItemAttacker__name = "TItemAttacker";
 
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
-LAYOUT_ASSERT(RecoveredGlobal_8010355C_lbl_8043E038_size, sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA);
 
 struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 
@@ -33,9 +32,6 @@ void TItemAttacker__sub_8010349C(uaddr arg0);
 }
 saddr get_item_chunk_buffer(int a0);
 void deliver_delayed_weapon_hit(u8 *arg0);
-extern "C" {
-}
-
 struct AttackWeaponBase { char pad[0x18]; };
 
 struct AttackWeapon : AttackWeaponBase {

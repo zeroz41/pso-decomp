@@ -67,7 +67,6 @@ BmlResource *TObjTuitate__bml_resource;
 BmlResource *TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject();
 __declspec(section ".data") const char *fe_obj_tutate_model_names[2] = { "fe_obj_tutate.gj", NULL };
 const char *fe_obj_tutate_motion_names[1] = { NULL };
 BmlResourceDescriptor fe_obj_tutate_resource_descriptor = {
@@ -121,8 +120,6 @@ struct Obj_8019ADA0 : ObjBase_8019ADA0 {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-
 
 
 void load_tuitate_bml_resource(void) {

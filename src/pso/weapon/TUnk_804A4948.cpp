@@ -133,10 +133,6 @@ typedef struct VBase_18_24931d VBase_18_24931d;
 typedef struct VObj_18_24931d VObj_18_24931d;
 
 
-extern "C" {
-}
-
-
 TItem *TObjPlayer::create_srank_common_weapon(u8 *item) {
     if (item != NULL) {
         return new TUnk_804A4948(tl_05, item);

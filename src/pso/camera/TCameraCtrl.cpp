@@ -144,7 +144,6 @@ struct M_80068FCC { f32 m[3][4]; };
 struct O_80068FCC { M_80068FCC m; NJS_POINT2 a; NJS_POINT2 b; NJS_POINT2 c; };
 
 
-
 struct Cam_80068810 {
     u8 pad0[0x94];
     void *view_yaw[4];
@@ -369,7 +368,6 @@ extern "C" {
 
 
 void __dt__7TObjectFv(void *, s32);
-void __dl__7TObjectFPv(void *);
 Ctl_8006AA90 *TCameraCtrl__sub_8006AA90(Ctl_8006AA90 *self, s16 arg1);
 }
 
@@ -474,8 +472,6 @@ void *lbl_80488AC0[6] = {
 extern "C" {
 
     extern int camera_split_screen_selector;
-
-
 
 
     extern int quest_active_flag;

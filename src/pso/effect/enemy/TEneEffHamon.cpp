@@ -108,7 +108,6 @@ void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = (saddr)get_b
 
 TEneEffHamon::~TEneEffHamon() {}
 
-LAYOUT_ASSERT(RecoveredGlobal_800A38A4___vt__12TEneEffHamon_size, sizeof(RecoveredGlobal_800A38A4___vt__12TEneEffHamon) == 0x18);
 u8 *__ct__12TEneEffHamonFv(u8 *object, saddr arg1, s32 arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject((void *)object, tl_06);
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TEneEffHamon.value;

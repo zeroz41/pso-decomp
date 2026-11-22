@@ -112,7 +112,6 @@ extern const char lbl_8044BC24[7] = "ad.dat";
 extern const char lbl_8044BC2C[6] = "d.dat";
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room);
 extern "C" {
-void* __nw__7TObjectFUl(u32);
 void mem_free(void*);
 
 

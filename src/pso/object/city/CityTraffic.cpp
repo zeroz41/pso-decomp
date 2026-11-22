@@ -36,7 +36,6 @@
 #include "pso/unk/TLobby_80226070.h"
 
 
-
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_z(int, int);
@@ -83,7 +82,6 @@ struct RecoveredGlobal_80181278_lbl_804B5908 {
 extern "C" {
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80181278_lbl_804B5908 __vt__18TObjCityAirCar_Car;
-LAYOUT_ASSERT(RecoveredGlobal_80181278_lbl_804B5908_size, sizeof(RecoveredGlobal_80181278_lbl_804B5908) == 0x34);
 }
 
 struct Rec_80181310 { s32 timer; s32 count; void *objs[2]; };
@@ -110,7 +108,6 @@ typedef struct
   f32 z;
   f32 w;
 } Quat_801817AC;
-
 
 
 typedef struct

@@ -122,10 +122,6 @@ struct Node_8018FCD8 { s32 pad0; void *f4; };
 
 struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x60]; s32 fF0; };
 
-extern "C" {
-void debug_draw_key_id__5TOKeyFv();
-
-}
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void PPCSync();

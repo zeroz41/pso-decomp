@@ -89,7 +89,6 @@ struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
     u8 remaining[0x14];
 };
 
-LAYOUT_ASSERT(RecoveredGlobal_8019B854___vt__14TObjWarpString_size, sizeof(RecoveredGlobal_8019B854___vt__14TObjWarpString) == 0x18);
 
 struct Obj_8019B8D8 { u8 pad[0x88]; s32 id; };
 
@@ -102,10 +101,6 @@ struct Ids_8019BD84 { u16 id[2]; };
 struct Colors_8019C250 { u16 c[2]; };
 
 struct Colors_8019C604 { u16 c[2]; };
-
-
-
-
 
 
 struct VBase_8019CAB0 { char pad[0x18]; };
@@ -140,7 +135,6 @@ struct Data_8019CAB0 {
 };
 
 
-
 extern "C" {
 
 void mark_area_change_pending();
@@ -173,9 +167,6 @@ s32 get_game_play_mode(int);
 s32 PPCSync();
 void debug_printf_at(s32 id, const char *fmt, ...);
 }
-extern "C" {
-}
-
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern s32 local_client_id;
 

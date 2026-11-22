@@ -74,9 +74,6 @@ const Row_8017E550 lbl_80443780[12] = {
     {{12.82f, 0.0f, -204.0f}, 26.0f, 2},
 };
 
-extern "C" {
-}
-
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
 extern "C" {
