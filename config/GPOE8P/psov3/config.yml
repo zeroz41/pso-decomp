@@ -732,9 +732,9 @@ force_active:
   - TLobby__sub_804262CC
   - TLobby__sub_80426AAC
   - TLobby_warp_menu_window
-  - TLockOnCursor__sub_8013EBBC
-  - TLockOnCursor__sub_8013EBE8
-  - TLockOnCursor__sub_8013EC14
+  - get_list_clear_task__13TUnk_8013F08CFv
+  - get_end_task__13TUnk_8013F08CFv
+  - get_start_task__13TUnk_8013F08CFv
   - destroy_target_records
   - TLockOnCursor__sub_8013F000
   - TLogo__sub_8013F7E8
@@ -742,12 +742,12 @@ force_active:
   - TLogo__sub_8013F808
   - TMainCursor__ct
   - copy_action_entry
-  - TMainCursor__set_published_target_dist
-  - TMainCursor__get_candidate_target_dist
-  - TMainCursor__set_published_target_id
-  - TMainCursor__get_candidate_target_id
-  - TMainCursor__set_end_task
-  - TMainCursor__sub_8013E290
+  - set_published_target_dist__13TUnk_8013EF0CFf
+  - get_candidate_target_dist__13TUnk_8013EF0CFv
+  - set_published_target_id__13TUnk_8013EF0CFUs
+  - get_candidate_target_id__13TUnk_8013EF0CFv
+  - set_end_task__13TUnk_8013F08CFP7TObject
+  - set_start_task__13TUnk_8013F08CFP7TObject
   - matches_id
   - TMainCursor__sub_8013E4A0
   - TMainCursor__sub_8013E570
