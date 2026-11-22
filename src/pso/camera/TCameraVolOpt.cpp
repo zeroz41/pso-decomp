@@ -14,7 +14,7 @@ void TCameraController::reset_to_actor_offset(TObjPlayer *, Vec *) {  }
 void TCameraController::reset_to_actor(TObjPlayer *) {  }
 void TCameraController::init_pose() {  }
 
-TCameraVolOpt *TCameraVolOpt::create() {
+TCameraController *TCameraVolOpt::create() {
     return new TCameraVolOpt();
 }
 

@@ -43,9 +43,9 @@ void TCameraScripted::run_task() {
             if (length) {
                 normalize_vector(&forward);
             }
-            position.x = -(4e+01f * forward.x - sample.position.x);
+            position.x = -(40.0f * forward.x - sample.position.x);
             position.y = sample.position.y;
-            position.z = -(4e+01f * forward.z - sample.position.z);
+            position.z = -(40.0f * forward.z - sample.position.z);
             target.x = sample.direction.x + sample.position.x;
             target.y = sample.direction.y + sample.position.y;
             target.z = sample.direction.z + sample.position.z;
@@ -80,7 +80,7 @@ void TCameraScripted::run_task() {
         target.z = direction.z + position.z;
     }
     playback.frame += playback.frame_step;
-    if (playback.frame > (motion->nbFrame - 1) || playback.frame >= 5e+03f) {
+    if (playback.frame > (motion->nbFrame - 1) || playback.frame >= 5000.0f) {
         if (bank_file->flags & 0x20) {
             playback.frame = 0.0f;
             return;

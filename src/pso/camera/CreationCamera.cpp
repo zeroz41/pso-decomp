@@ -31,12 +31,12 @@ CreationCamera::CreationCamera() {
     distance = 30.0f;
     yaw = 0;
     pitch = 0;
-    shot = 2;
+    shot = CREATION_SHOT_FULL_BODY;
     shot_timer = 0;
     distance_speed = 0.0f;
     height_speed = 0.0f;
     creation_camera_mode = CREATION_CAMERA_AUTO;
-    projection_angle = 17294;
+    projection_angle = 0x438E;
 }
 
 CreationCamera::~CreationCamera() {
@@ -76,14 +76,14 @@ static CameraViewParams creation_view_parameters[2] = {
     {{1.0f, 1.0f}, 640.0f * 0.72f, 240.0f, {1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f, {0.0f, 0.0f, 20.0f, 15.0f, 1.0f, 1.0f}},
 };
 
-CreationCamera *CreationCamera::create() {
+TCameraController *CreationCamera::create() {
     return new CreationCamera;
 }
 
 void CreationCamera::advance_manual() {
     s32 stick_angle;
     f32 stick;
-    f32 still;
+    f32 idle_stick;
     s32 min_pitch;
 
     if (creation_buttons_held(0x10)) {
@@ -125,8 +125,8 @@ void CreationCamera::advance_manual() {
         distance = 20.0f;
     }
 
-    get_creation_pad_stick(NULL, &still);
-    if (still > 0.0f || creation_buttons_held(0x300F0)) {
+    get_creation_pad_stick(NULL, &idle_stick);
+    if (idle_stick > 0.0f || creation_buttons_held(0x300F0)) {
         timer = 0;
         return;
     }
@@ -146,14 +146,14 @@ void CreationCamera::frame_menu_selection() {
     case 1:
     case 2:
     case 4:
-        wanted = 0;
+        wanted = CREATION_SHOT_FACE;
         break;
     case 6:
     case 8:
-        wanted = 1;
+        wanted = CREATION_SHOT_MEDIUM;
         break;
     default:
-        wanted = 2;
+        wanted = CREATION_SHOT_FULL_BODY;
         break;
     }
     if (shot == wanted) {
@@ -166,13 +166,13 @@ void CreationCamera::frame_menu_selection() {
     if (creation_player_character != NULL) {
         f32 height = calc_character_height(creation_player_character);
         switch (shot) {
-        case 0:
+        case CREATION_SHOT_FACE:
             approach_target(0, 0, 0.5f * height, 0.91f * height);
             break;
-        case 1:
+        case CREATION_SHOT_MEDIUM:
             approach_target(0, 0, 25.0f, 11.0f);
             break;
-        case 2:
+        case CREATION_SHOT_FULL_BODY:
             approach_target(0, 0, 1.25f * height, 0.55f * height);
             break;
         }

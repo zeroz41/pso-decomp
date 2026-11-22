@@ -6,7 +6,8 @@
 
 // Cinema letterbox: two bars over the top and bottom of the screen that grow
 // in and fade up, or shrink and fade out, for quest cutscenes.
-struct TCineCtrl : public TObject {
+class TCineCtrl : public TObject {
+public:
     // Called once a show or hide has finished.
     typedef void (*Callback)(TCineCtrl *cine);
 

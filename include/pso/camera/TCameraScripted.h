@@ -17,7 +17,8 @@ struct CameraMotionDirectory {
 // A camera bank file of a floor (CommonCam.rel, Bo01OpCam.rel...). The flags apply to
 // every motion in it: 4 the motion is in world space (else relative to the
 // scripted camera's origin and yaw), 0x80 look along the motion from 40 units
-// behind it, 0x20 loop.
+// behind it, 0x20 loop. The banks set 0x8 or 0x40 as well, which nothing reads,
+// and none sets 0x80 or 0x20.
 struct CameraBankFile {
     const char *filename;
     u32 flags;
