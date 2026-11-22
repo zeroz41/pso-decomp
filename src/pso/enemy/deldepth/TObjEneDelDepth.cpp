@@ -46,24 +46,24 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 extern "C" {
-f64 atan2_float(f32, f32);
-
 s32 project_actor_to_ground(void *, void *, void *);
-f32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
+s32 free_collision_body_parts(void *);
+saddr init_collision_body_parts(void *, void *, int);
+
 extern const f64 TObjEneDelDepth__data_80475DD0;
 extern const f32 TObjEneDelDepth__data_805DF280;
 extern const f32 lbl_805DF288;
 extern const f32 lbl_805DF28C;
 extern const f32 lbl_805DF290;
-void minimap_render_dot(void *, s32, s32, s32);
-f32 fabs_float(f32);
 
-s32 obj_is_hit_receivable(void *);
-u16 get_entity_id(void *);
 
 extern CollisionBody TObjEneDelDepth_collision_body_parts[];
 extern s32 actor_frame_tick;
@@ -78,14 +78,6 @@ extern const f32 lbl_805DF29C;
 extern const f32 lbl_805DF294;
 
 
-void draw_blob_shadow(s32 arg0);
-s32 free_collision_body_parts(void *);
-saddr init_collision_body_parts(void *, void *, int);
-void scale_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(void *, s32);
-s32 scale_current_matrix(void *, f32, f32, f32);
-s32 post_translate_matrix(void *);
 
 extern const f32 TObjEneDelDepth__data_805DF26C;
 extern const float TObjEneDelDepth__data_805DF278;
@@ -96,7 +88,6 @@ extern Vec lbl_80475DA4[];
 extern Vec lbl_80475DB0;
 extern TObjMotionAction lbl_804E8194[];
 
-extern s32 identity_matrix[];
 extern const char *TObjEneDelDepth__name;
 extern const char *TObjEneDelDepthBomb__name;
 extern s32 game_difficulty_selection;
@@ -119,7 +110,6 @@ extern const f32 lbl_805DF2D8;
 extern const f32 lbl_805DF2DC;
 
 extern "C" {
-s32 is_split_screen(void);
 
 
 extern "C" const char lbl_80475BD8[];
@@ -201,7 +191,6 @@ TObjEneDelDepth::ActionPair deldepth_actions[] = {
     { &TObjEneDelDepth::enter_fall_to_ground, &TObjEneDelDepth::update_fall_to_ground },
 };
 }
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -285,7 +274,7 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
     apply_set_data(setData);
     update_target_depth();
     init();
-    project_actor_to_ground(this, &position, NULL);
+    project_actor_to_ground(this, &position, 0);
     set_action_state(0);
 }
 
@@ -379,7 +368,7 @@ void TObjEneDelDepth::render() {
     push_matrix();
     Vec v = o->position;
     v.y += o->drawOffsetY;
-    post_translate_matrix(&v);
+    post_translate_matrix(&v.x);
     rotate_matrix_y(0, o->rotation_y);
     scale_matrix_vec3(0, (u8 *)&o->drawScale);
     o->motionController->draw_model_part();
@@ -401,7 +390,7 @@ s32 TObjEneDelDepth::draw_if_visible() {
             push_matrix();
             Vec v = o->position;
             v.y += o->drawOffsetY;
-            post_translate_matrix(&v);
+            post_translate_matrix(&v.x);
             rotate_matrix_y(0, o->rotation_y);
             scale_matrix_vec3(0, (u8 *)&o->drawScale);
             o->motionController->draw_model_part();
@@ -435,7 +424,7 @@ s32 TObjEneDelDepth::adjust_height_to_ground() {
     v.x = TObjEneDelDepth__data_805DF270 * cos_table_lookup(self->rotation_y) + v.x;
     v.y = v.y + TObjEneDelDepth__data_805DF268;
     v.x = TObjEneDelDepth__data_805DF270 * sin_table_lookup(self->rotation_y) + v.x;
-    if (project_actor_to_ground(self, &v, NULL) != 0) {
+    if (project_actor_to_ground(self, &v, 0) != 0) {
         self->position.y += TObjEneDelDepth__data_805DF298 * (v.y - self->position.y);
         return 1;
     }
@@ -637,7 +626,7 @@ void TObjEneDelDepth::start_move_toward_player() {
     temp_r31 = (s32) (lbl_805DF2B0 * random_ratio());
     this->direction.x += TObjEneDelDepth__data_805DF270 * sin_table_lookup(temp_r31);
     this->direction.z += TObjEneDelDepth__data_805DF270 * cos_table_lookup(temp_r31);
-    if (vector_length((u8 *)&this->direction.x) <= lbl_805DF288) {
+    if (vector_length(&this->direction) <= lbl_805DF288) {
         this->set_action_state(2);
         return;
     }
@@ -668,7 +657,7 @@ void TObjEneDelDepth::update_movement() {
             if (pl == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(get_entity_id(pl)) != 0) {
+            if (obj_is_hit_receivable((u8 *)pl) != 0 && is_player_entity_id(get_entity_id(pl)) != 0) {
                 pl->select_melee_contact_body(self, TObjEneDelDepth__data_805DF260);
                 pl->receive_physical_attack(self, TObjEneDelDepth__data_805DF260);
                 pl->apply_knockback_from_attacker((u8 *)self, TObjEneDelDepth__data_805DF268);
@@ -913,8 +902,8 @@ void TObjEneDelDepth::move_toward_target() {
     v.x *= lbl_805DF28C;
     v.y *= lbl_805DF28C;
     v.z *= lbl_805DF28C;
-    vec3_add_to((u8 *)&this->position, &v);
-    if (project_actor_to_ground(self, (u8 *)&this->position, (void *)0) == 0 || csnLookAt(&prev_position, &position) != 0) {
+    vec3_add_to(&this->position, &v);
+    if (project_actor_to_ground(this, &this->position, 0) == 0 || csnLookAt(&prev_position, &position) != 0) {
         VecCopy(&this->position, &this->prev_position);
     }
     if (--this->timer <= 0) {
@@ -938,7 +927,7 @@ void TObjEneDelDepth::update_bomb_drop() {
     if ((temp_r0 <= 0) && (temp_r0 == 0)) {
         set_motion_packed_rotation();
         push_matrix_from(identity_matrix);
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         ((TObjEnemy *)self)->calc_joint_matrices(lbl_805DF284);
         pop_matrix();
@@ -1142,7 +1131,7 @@ void TObjEneDelDepth::update_fall_to_ground() {
     o->fallVelocity.y += lbl_805DF274;
     do {
         VecCopy((Vec *)&a, (const Vec *)&o->position);
-        vec3_add_to(&a, &o->fallVelocity.x);
+        vec3_add_to(&a, &o->fallVelocity);
         VecCopy((Vec *)&b, (const Vec *)&a);
         b.y += k + fabs_float(o->fallVelocity.y);
         if (project_actor_to_ground(o, &b, 0) != 0) {
@@ -1270,7 +1259,7 @@ void TObjEneDelDepthBomb::render() {
     saddr model = (saddr)get_bml_model((BmlResource *)data, 2);
     s32 texture = (saddr)get_bml_texlist((BmlResource *)data, 2);
     push_matrix();
-    post_translate_matrix(&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
     TObjFish::set_global_param(texture);
     draw_chunk_object((void *)model);
@@ -1289,7 +1278,7 @@ void TObjEneDelDepthBomb::render() {
     f32 fade;
     shadowScale.x = shadowScale.y = lbl_805DF25C * (fade = TObjEneDelDepth__data_805DF260 - height / lbl_805DF254) + lbl_805DF250;
     shadowScale.z = TObjEneDelDepth__data_805DF260;
-    scale_current_matrix(&shadowScale, fade, TObjEneDelDepth__data_805DF260, lbl_805DF25C);
+    scale_current_matrix(&shadowScale.x);
     draw_blob_shadow(0);
     pop_matrix();
 }
