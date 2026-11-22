@@ -66,20 +66,18 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     f32 body_y;
     f32 body_offset_y;
     u32 material_color;
-    s32 m_3d4;
-    s32 m_3d8;
+    s32 mirage_index;  // formation slot 0..4; the real one picks one, the mirages take the rest
+    s32 attack_count;  // attacks since the mirages left; the second spawns them again
     s16 m_3dc;
-    TUnk_80494968 *m_3e0;
-    TUnk_80494968 *m_3e4;
+    TUnk_80494968 *attack_traces[2];  // fed from the two motion sample tables in apply_effect_pair
     TUnk_80494938 fade;
     s32 state_step;
     s32 state_timer;
-    s32 m_40c;
-    f32 m_410;
+    s32 target_angle;
+    f32 move_speed;
     f32 m_414;
-    Vec m_418;
-    TParticleCtrl *m_424;
-    TParticleCtrl *m_428;
+    Vec start_position;  // position on entering sub_800E54E8
+    TParticleCtrl *particle_emitters[2];  // particles 0x115 / 0x116 of sub_800E54E8
     void copy_position_vector();
     void fn_800E762C();
     s32 check_in_range(f32);

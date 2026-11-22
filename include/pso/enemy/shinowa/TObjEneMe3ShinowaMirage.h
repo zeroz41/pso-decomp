@@ -32,7 +32,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
     static void free_shared_resources();
     u16 owner_id;
-    NJS_ARGB m_430;
+    NJS_ARGB fade_color;
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaMirage_size, sizeof(TObjEneMe3ShinowaMirage) == 0x440);

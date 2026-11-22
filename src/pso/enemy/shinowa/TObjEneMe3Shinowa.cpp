@@ -68,12 +68,12 @@
 
 #pragma defer_codegen on
 extern "C" {
-BmlResource * TObjEneMe3ShinowaMirage__data_805D5298;
+BmlResource * TObjEneMe3ShinowaMirage__bml_resource;
 s32 TObjEneMe3ShinowaMirage__render_node_index;
-TUnk_8048FA00 * TObjEneMe3ShinowaMirage__data_805D52A0;
-SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A4;
-SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A8;
-SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52AC;
+TUnk_8048FA00 * TObjEneMe3ShinowaMirage__breakup_model;
+SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_a;
+SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_b;
+SampledMotionPoints * TObjEneMe3ShinowaMirage__attack_trail;
 struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 }
 void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
@@ -81,16 +81,16 @@ extern "C" {
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).
-Vec TObjEneMe3ShinowaMirage__data_80500FC0;
-__declspec(section ".data") s32 lbl_80500FCC[2];
-__declspec(section ".data") s32 lbl_80500FD4[2];
-__declspec(section ".data") s32 lbl_80500FDC[2];
+Vec TObjEneMe3ShinowaMirage__node_origin;
+__declspec(section ".data") s32 TObjEneMe3ShinowaMirage__base_params_by_variant[2];
+__declspec(section ".data") s32 TObjEneMe3ShinowaMirage__attack_params_by_variant[2];
+__declspec(section ".data") s32 TObjEneMe3ShinowaMirage__resistance_params_by_variant[2];
 __declspec(section ".data") TObjEneMe3ShinowaParams *TObjEneMe3ShinowaMirage__mirage_info_table[2];
 
 // Copy of the model's texture list (the mirage swaps the first three texture addresses).
-__declspec(section ".data") NJS_TEXLIST lbl_80500FEC;
-Vec lbl_80500FF4;
-s32 *lbl_80501000[4];
+__declspec(section ".data") NJS_TEXLIST TObjEneMe3ShinowaMirage__alternate_texture_list;
+Vec TObjEneMe3ShinowaMirage__body_node_position;
+s32 *TObjEneMe3ShinowaMirage__material_color_pointers[4];
 
 TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage__init_params = {
     225.0f, 0.0f, 0x600,
@@ -153,32 +153,32 @@ void load_shinowa_mirage_resources() {
     f32 step;
     NJS_MOTION *trail;
 
-    TObjEneMe3ShinowaMirage__data_80500FC0.x = 0.0f;
-    TObjEneMe3ShinowaMirage__data_80500FC0.y = 0.0f;
-    TObjEneMe3ShinowaMirage__data_80500FC0.z = 0.0f;
+    TObjEneMe3ShinowaMirage__node_origin.x = 0.0f;
+    TObjEneMe3ShinowaMirage__node_origin.y = 0.0f;
+    TObjEneMe3ShinowaMirage__node_origin.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneMe3ShinowaMirage__data_805D5298 = load_enemy_bml_resource_named(&shinowa_mirage_resource_descriptor, "bm_ene_me3_shinowa_a.bml");
+        TObjEneMe3ShinowaMirage__bml_resource = load_enemy_bml_resource_named(&shinowa_mirage_resource_descriptor, "bm_ene_me3_shinowa_a.bml");
     } else {
-        TObjEneMe3ShinowaMirage__data_805D5298 = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
+        TObjEneMe3ShinowaMirage__bml_resource = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__data_805D5298->models->m_c;
+    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->m_c;
     n = src->nbTexture;
-    lbl_80500FEC.nbTexture = n;
-    lbl_80500FEC.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
+    TObjEneMe3ShinowaMirage__alternate_texture_list.nbTexture = n;
+    TObjEneMe3ShinowaMirage__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
     for (i = 0; i < n; i++) {
-        ((TObjPlayer *)&lbl_80500FEC.textures[i])->copy_vec3(&src->textures[i]);
+        ((TObjPlayer *)&TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i])->copy_vec3(&src->textures[i]);
     }
     for (i = 0; i < 3; i++) {
-        lbl_80500FEC.textures[i + 3].texaddr = lbl_80500FEC.textures[i].texaddr;
+        TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i + 3].texaddr = TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i].texaddr;
     }
     for (s32 j = 0; j < 2; j++) {
-        lbl_80500FCC[j] = (saddr)TLobby::register_boss(shinowa_mirage_base_param_ids[j]);
+        TObjEneMe3ShinowaMirage__base_params_by_variant[j] = (saddr)TLobby::register_boss(shinowa_mirage_base_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        lbl_80500FD4[j] = (saddr)TLobby::dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
+        TObjEneMe3ShinowaMirage__attack_params_by_variant[j] = (saddr)TLobby::dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        lbl_80500FDC[j] = (saddr)TLobby::register_object(shinowa_mirage_resistance_param_ids[j]);
+        TObjEneMe3ShinowaMirage__resistance_params_by_variant[j] = (saddr)TLobby::register_object(shinowa_mirage_resistance_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
         TObjEneMe3ShinowaMirage__mirage_info_table[j] = (TObjEneMe3ShinowaParams *)TLobby::dispatch_shared_handler_a(shinowa_mirage_behavior_param_ids[j]);
@@ -187,35 +187,35 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(6, info->m_c);
     TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(3, info->m_10);
     TObjEneMe3ShinowaMirage__render_node_index = 0;
-    lbl_80500FF4.x = 0.0f;
-    lbl_80500FF4.y = 0.0f;
-    lbl_80500FF4.z = 0.0f;
-    root = (saddr)TObjEneMe3ShinowaMirage__data_805D5298->models->model;
+    TObjEneMe3ShinowaMirage__body_node_position.x = 0.0f;
+    TObjEneMe3ShinowaMirage__body_node_position.y = 0.0f;
+    TObjEneMe3ShinowaMirage__body_node_position.z = 0.0f;
+    root = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->model;
     cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 9))->model;
     if (cnk != NULL) {
-        lbl_80501000[0] = (s32 *)(cnk->polygon_list + 2);
+        TObjEneMe3ShinowaMirage__material_color_pointers[0] = (s32 *)(cnk->polygon_list + 2);
     } else {
-        lbl_80501000[0] = NULL;
+        TObjEneMe3ShinowaMirage__material_color_pointers[0] = NULL;
     }
     cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 13))->model;
     if (cnk != NULL) {
-        lbl_80501000[1] = (s32 *)(cnk->polygon_list + 2);
+        TObjEneMe3ShinowaMirage__material_color_pointers[1] = (s32 *)(cnk->polygon_list + 2);
     } else {
-        lbl_80501000[1] = NULL;
+        TObjEneMe3ShinowaMirage__material_color_pointers[1] = NULL;
     }
     cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 38))->model;
     if (cnk != NULL) {
-        lbl_80501000[2] = (s32 *)(cnk->polygon_list + 2);
+        TObjEneMe3ShinowaMirage__material_color_pointers[2] = (s32 *)(cnk->polygon_list + 2);
     } else {
-        lbl_80501000[2] = NULL;
+        TObjEneMe3ShinowaMirage__material_color_pointers[2] = NULL;
     }
-    motion = TObjEneMe3ShinowaMirage__data_805D5298->motions[shinowa_mirage_motion_param_table[4].motion].motion;
-    TUnk_8048FA00 *breakup = new TUnk_8048FA00(TObjEneMe3ShinowaMirage__data_805D5298->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
-    TObjEneMe3ShinowaMirage__data_805D52A0 = breakup;
+    motion = TObjEneMe3ShinowaMirage__bml_resource->motions[shinowa_mirage_motion_param_table[4].motion].motion;
+    TUnk_8048FA00 *breakup = new TUnk_8048FA00(TObjEneMe3ShinowaMirage__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    TObjEneMe3ShinowaMirage__breakup_model = breakup;
     {
         Vec first;
         Vec second;
-        BmlResource *res = TObjEneMe3ShinowaMirage__data_805D5298;
+        BmlResource *res = TObjEneMe3ShinowaMirage__bml_resource;
         s32 idx = shinowa_mirage_motion_param_table[5].motion;
         model = (NJS_OBJECT *)res->models->model;
         first.x = 0.0f;
@@ -225,12 +225,12 @@ void load_shinowa_mirage_resources() {
         second.y = 0.0f;
         second.z = 0.0f;
         trail = (NJS_MOTION *)res->motions[idx].motion;
-        TObjEneMe3ShinowaMirage__data_805D52AC = new SampledMotionPoints(2, 16.0f, 26.0f, 0.7f);
-        TObjEneMe3ShinowaMirage__data_805D52AC->sample_node_offsets(model, trail, 0x22, &first, &second);
+        TObjEneMe3ShinowaMirage__attack_trail = new SampledMotionPoints(2, 16.0f, 26.0f, 0.7f);
+        TObjEneMe3ShinowaMirage__attack_trail->sample_node_offsets(model, trail, 0x22, &first, &second);
         first.x = 0.0f;
         first.y = 0.0f;
         first.z = 0.0f;
-        trail = (NJS_MOTION *)TObjEneMe3ShinowaMirage__data_805D5298->motions[shinowa_mirage_motion_param_table[6].motion].motion;
+        trail = (NJS_MOTION *)TObjEneMe3ShinowaMirage__bml_resource->motions[shinowa_mirage_motion_param_table[6].motion].motion;
         step = TObjEneMe3ShinowaMirage__mirage_info_table[0]->m_c;
         if (step < 0.1f) {
             step = 0.1f;
@@ -238,48 +238,48 @@ void load_shinowa_mirage_resources() {
         second.x = -10.0f;
         second.y = 0.0f;
         second.z = 0.0f;
-        TObjEneMe3ShinowaMirage__data_805D52A4 = new SampledMotionPoints(2, 6.0f, 14.0f, step);
-        TObjEneMe3ShinowaMirage__data_805D52A4->sample_node_offsets(model, trail, 0x22, &first, &second);
+        TObjEneMe3ShinowaMirage__sword_trail_a = new SampledMotionPoints(2, 6.0f, 14.0f, step);
+        TObjEneMe3ShinowaMirage__sword_trail_a->sample_node_offsets(model, trail, 0x22, &first, &second);
         second.x = 10.0f;
         second.y = 0.0f;
         second.z = 0.0f;
-        TObjEneMe3ShinowaMirage__data_805D52A8 = new SampledMotionPoints(2, 17.0f, 23.0f, step);
-        TObjEneMe3ShinowaMirage__data_805D52A8->sample_node_offsets(model, trail, 0x15, &first, &second);
+        TObjEneMe3ShinowaMirage__sword_trail_b = new SampledMotionPoints(2, 17.0f, 23.0f, step);
+        TObjEneMe3ShinowaMirage__sword_trail_b->sample_node_offsets(model, trail, 0x15, &first, &second);
     }
     {
         NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
-        binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__data_805D5298->motions);
-        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->m_c), &binding, 8.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->model), reinterpret_cast<void *>(&lbl_80500FEC), &binding, 8.0f, 0.0f);
+        binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__bml_resource->motions);
+        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->m_c), &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3ShinowaMirage__alternate_texture_list), &binding, 8.0f, 0.0f);
     }
 }
 
 void *TObjEneMe3ShinowaMirage__sub_800E7B74(void *p) { return ((TObjEneMe3ShinowaReal *)p)->create(); }
 
 void TObjEneMe3ShinowaMirage::free_shared_resources() {
-    if (TObjEneMe3ShinowaMirage__data_805D52A8 != 0) {
-        delete TObjEneMe3ShinowaMirage__data_805D52A8;
-        TObjEneMe3ShinowaMirage__data_805D52A8 = 0;
+    if (TObjEneMe3ShinowaMirage__sword_trail_b != 0) {
+        delete TObjEneMe3ShinowaMirage__sword_trail_b;
+        TObjEneMe3ShinowaMirage__sword_trail_b = 0;
     }
-    if (TObjEneMe3ShinowaMirage__data_805D52A4 != 0) {
-        delete TObjEneMe3ShinowaMirage__data_805D52A4;
-        TObjEneMe3ShinowaMirage__data_805D52A4 = 0;
+    if (TObjEneMe3ShinowaMirage__sword_trail_a != 0) {
+        delete TObjEneMe3ShinowaMirage__sword_trail_a;
+        TObjEneMe3ShinowaMirage__sword_trail_a = 0;
     }
-    if (TObjEneMe3ShinowaMirage__data_805D52AC != 0) {
-        delete TObjEneMe3ShinowaMirage__data_805D52AC;
-        TObjEneMe3ShinowaMirage__data_805D52AC = 0;
+    if (TObjEneMe3ShinowaMirage__attack_trail != 0) {
+        delete TObjEneMe3ShinowaMirage__attack_trail;
+        TObjEneMe3ShinowaMirage__attack_trail = 0;
     }
-    if (TObjEneMe3ShinowaMirage__data_805D52A0 != 0) {
-        delete TObjEneMe3ShinowaMirage__data_805D52A0;
-        TObjEneMe3ShinowaMirage__data_805D52A0 = 0;
+    if (TObjEneMe3ShinowaMirage__breakup_model != 0) {
+        delete TObjEneMe3ShinowaMirage__breakup_model;
+        TObjEneMe3ShinowaMirage__breakup_model = 0;
     }
-    if (lbl_80500FEC.textures != 0) {
-        mem_free(lbl_80500FEC.textures);
-        lbl_80500FEC.textures = 0;
+    if (TObjEneMe3ShinowaMirage__alternate_texture_list.textures != 0) {
+        mem_free(TObjEneMe3ShinowaMirage__alternate_texture_list.textures);
+        TObjEneMe3ShinowaMirage__alternate_texture_list.textures = 0;
     }
-    if (TObjEneMe3ShinowaMirage__data_805D5298 != 0) {
-        delete TObjEneMe3ShinowaMirage__data_805D5298;
-        TObjEneMe3ShinowaMirage__data_805D5298 = 0;
+    if (TObjEneMe3ShinowaMirage__bml_resource != 0) {
+        delete TObjEneMe3ShinowaMirage__bml_resource;
+        TObjEneMe3ShinowaMirage__bml_resource = 0;
     }
 }
 
@@ -296,14 +296,14 @@ TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
 #pragma push
 #pragma opt_propagation off
 void TObjEneMe3Shinowa::init_enemy() {
-    Tbl_800E7884 *tbl = &(*(Tbl_800E7884 *)&TObjEneMe3ShinowaMirage__data_80500FC0);
+    Tbl_800E7884 *tbl = &(*(Tbl_800E7884 *)&TObjEneMe3ShinowaMirage__node_origin);
     init_position_vectors();
     select_gold_or_normal_variant();
-    model = (void *)TObjEneMe3ShinowaMirage__data_805D5298->models->model;
+    model = (void *)TObjEneMe3ShinowaMirage__bml_resource->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
     set_field_d8((saddr)shinowa_mirage_motion_param_table);
-    set_field_dc((saddr)TObjEneMe3ShinowaMirage__data_805D5298->motions);
+    set_field_dc((saddr)TObjEneMe3ShinowaMirage__bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -323,31 +323,31 @@ void TObjEneMe3Shinowa::init_enemy() {
     body_y = position.y;
     body_offset_y = 0.0f;
     material_color = 0;
-    m_3d8 = 0;
-    m_3d4 = 0;
+    attack_count = 0;
+    mirage_index = 0;
     m_3dc = m_2cc;
-    m_3e0 = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
-    m_3e4 = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
+    attack_traces[0] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
+    attack_traces[1] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
     fade.reset_obstruction_fade();
     state_step = 0;
     state_timer = 0;
-    m_40c = 0;
-    m_410 = 0.0f;
+    target_angle = 0;
+    move_speed = 0.0f;
     m_414 = 0.0f;
-    m_418.x = 0.0f;
-    m_418.y = 0.0f;
-    m_418.z = 0.0f;
-    m_424 = NULL;
-    m_428 = NULL;
+    start_position.x = 0.0f;
+    start_position.y = 0.0f;
+    start_position.z = 0.0f;
+    particle_emitters[0] = NULL;
+    particle_emitters[1] = NULL;
 }
 #pragma pop
 TObjEneMe3Shinowa::~TObjEneMe3Shinowa() {
-    m_3e4->queue_destruction();
-    m_3e4 = NULL;
-    m_3e0->queue_destruction();
-    m_3e0 = NULL;
-    if (m_424 != NULL) { m_424->queue_destruction(); m_424 = NULL; }
-    if (m_428 != NULL) { m_428->queue_destruction(); m_428 = NULL; }
+    attack_traces[1]->queue_destruction();
+    attack_traces[1] = NULL;
+    attack_traces[0]->queue_destruction();
+    attack_traces[0] = NULL;
+    if (particle_emitters[0] != NULL) { particle_emitters[0]->queue_destruction(); particle_emitters[0] = NULL; }
+    if (particle_emitters[1] != NULL) { particle_emitters[1]->queue_destruction(); particle_emitters[1] = NULL; }
     free_collision_body_parts(this);
 }
 
@@ -528,15 +528,15 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    entry = TObjEneMe3ShinowaMirage__data_805D52A4->lookup(frame);
+    entry = TObjEneMe3ShinowaMirage__sword_trail_a->lookup(frame);
     if (entry != NULL) {
         matrix_mult_vec_array(NULL, entry, edge, 2);
-        m_3e0->add_segment(&edge[0], &edge[1]);
+        attack_traces[0]->add_segment(&edge[0], &edge[1]);
     }
-    src = TObjEneMe3ShinowaMirage__data_805D52A8->lookup(frame);
+    src = TObjEneMe3ShinowaMirage__sword_trail_b->lookup(frame);
     if (src != NULL) {
         matrix_mult_vec_array(NULL, src, edge, 2);
-        m_3e4->add_segment(&edge[0], &edge[1]);
+        attack_traces[1]->add_segment(&edge[0], &edge[1]);
     }
     pop_matrix();
 }
@@ -568,12 +568,12 @@ s32 TObjEneMe3Shinowa::is_gold_enabled() {
 
 void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
     if (is_gold_enabled() != 0) {
-        texlist = (saddr)&lbl_80500FEC;
+        texlist = (saddr)&TObjEneMe3ShinowaMirage__alternate_texture_list;
         initialize_enemy_state(0x1b);
         kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3ShinowaMirage__data_805D5298->models->m_c;
+    texlist = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->m_c;
     initialize_enemy_state(0x1a);
     kind_index = 0;
 }
@@ -659,7 +659,7 @@ void TObjEneMe3Shinowa::action(s32 mode) {
         if (!(behavior_flags & 0x1000)) {
             material_color = 0;
         }
-        m_3d8 = 0;
+        attack_count = 0;
         return;
     case 3:
         if (state_step > 5) {
@@ -775,14 +775,14 @@ void TObjEneMe3Shinowa::sub_800E66FC(s32 reason) {
         this->behavior_flags &= 0xFFFFFFFD;
         this->behavior_flags |= 1;
         this->state_step = 0;
-        this->m_410 = 0.0f;
+        this->move_speed = 0.0f;
         if (this->enemy_has_live_target() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->m_40c = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+            this->target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
             return;
         }
-        this->m_40c = (s32) this->rotation_y;
+        this->target_angle = (s32) this->rotation_y;
         return;
     case 3:
         if (this->state_step == 3) {
@@ -805,12 +805,12 @@ void TObjEneMe3Shinowa::sub_800E66FC(s32 reason) {
             if (this->frame > 29.0f) {
                 this->frame = 29.0f;
             }
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_40c, 0x800);
-            this->m_410 = (f32) (this->m_410 - 0.3f);
-            if (this->m_410 < -5.0f) {
-                this->m_410 = -5.0f;
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_angle, 0x800);
+            this->move_speed = (f32) (this->move_speed - 0.3f);
+            if (this->move_speed < -5.0f) {
+                this->move_speed = -5.0f;
             }
-            this->body_y = this->body_y + this->m_410;
+            this->body_y = this->body_y + this->move_speed;
             temp_f1 = this->get_node_world_y();
             this->body_y = this->body_y - (temp_f1 - this->m_414);
             this->m_414 = temp_f1;
@@ -853,9 +853,9 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
         behavior_flags &= 0xFFFFFFFC;
         destination_distance = 300.0f;
         if (behavior_flags & 0x10) {
-            m_410 = (f32) TObjEneMe3ShinowaMirage__mirage_info_table[kind_index]->m_4;
+            move_speed = (f32) TObjEneMe3ShinowaMirage__mirage_info_table[kind_index]->m_4;
         } else {
-            m_410 = (f32) TObjEneMe3ShinowaMirage__mirage_info_table[kind_index]->m_0;
+            move_speed = (f32) TObjEneMe3ShinowaMirage__mirage_info_table[kind_index]->m_0;
         }
         m_414 = 0.0f;
         return;
@@ -881,7 +881,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, m_410);
+                enemy_turn_and_move_on_ground(this, 0x500, move_speed);
             }
             check_collisions();
         }
@@ -904,8 +904,8 @@ void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
         this->behavior_flags &= ~3;
         this->behavior_flags |= 0x10000;
         this->state_step = 0;
-        this->m_410 = 0.0f;
-        this->m_3e0->clear_segments();
+        this->move_speed = 0.0f;
+        this->attack_traces[0]->clear_segments();
         this->set_active();
         break;
     case 3:
@@ -999,7 +999,7 @@ void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
             break;
         }
         if (this->state_step != 0) {
-            entry = TObjEneMe3ShinowaMirage__data_805D52AC->lookup(this->frame);
+            entry = TObjEneMe3ShinowaMirage__attack_trail->lookup(this->frame);
             if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -1007,7 +1007,7 @@ void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
                 rotate_matrix_y(0, this->rotation_y);
                 matrix_mult_vec_array(NULL, entry, (Vec *)&sp14, 2);
                 pop_matrix();
-                this->m_3e0->add_segment(&sp14, &sp20);
+                this->attack_traces[0]->add_segment(&sp14, &sp20);
             }
         }
         break;
@@ -1032,8 +1032,8 @@ void TObjEneMe3Shinowa::sub_800E5CE4(s32 reason) {
         this->behavior_flags |= 0x10000;
         this->state_step = 0;
         this->state_timer = 0;
-        this->m_3e0->clear_segments();
-        this->m_3e4->clear_segments();
+        this->attack_traces[0]->clear_segments();
+        this->attack_traces[1]->clear_segments();
         break;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -1091,17 +1091,17 @@ void TObjEneMe3Shinowa::sub_800E5950(s32 reason) {
         this->set_field_378(7);
         this->clear_intangible();
         this->behavior_flags &= ~3;
-        this->m_3d8 = 0;
+        this->attack_count = 0;
         this->state_step = 3;
         if (this->acquire_target(200.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->m_40c = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
-            if (this->check_body_collision_at(this->m_40c + 0x8000, 80.0f) == 0) {
+            this->target_angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
+            if (this->check_body_collision_at(this->target_angle + 0x8000, 80.0f) == 0) {
                 this->destination_direction.x *= -1.0f;
                 this->destination_direction.z *= -1.0f;
                 this->state_step = 0;
-                this->m_410 = 7.111111f;
+                this->move_speed = 7.111111f;
             }
         }
         this->set_active();
@@ -1127,7 +1127,7 @@ void TObjEneMe3Shinowa::sub_800E5950(s32 reason) {
         this->advance_animation();
         switch (this->state_step) {
         case 0:
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_40c, 0x31C7);
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_angle, 0x31C7);
             if (this->frame + this->play_speed >= 15.0f) {
                 this->state_step = 1;
                 this->set_invulnerable();
@@ -1143,7 +1143,7 @@ void TObjEneMe3Shinowa::sub_800E5950(s32 reason) {
                 play_sound_effect(this->remap_sound_for_area(0x4003AD12), &this->position, 0, 0);
                 spawn_particle_effect(&this->position, 0xF3);
             }
-            this->move_clamped_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_410);
+            this->move_clamped_on_ground(this->destination_direction.x, this->destination_direction.z, this->move_speed);
             this->update_body_colliders();
             return;
         case 2:
@@ -1168,7 +1168,7 @@ void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
     Vec dest;
     s32 rot[3];
     f32 v;
-    Vec *home = &this->m_418;
+    Vec *home = &this->start_position;
 
     switch (reason) {
     case 4: {
@@ -1177,12 +1177,12 @@ void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
         this->disable_body_collision();
         this->state_step = 0;
         this->state_timer = 0;
-        this->m_410 = 1.0f;
+        this->move_speed = 1.0f;
         this->wall_reach = 30.0f;
-        this->m_40c = ((this->m_3d4 - (s32)floor_to_float(2.5f)) * 0x3333) / 40;
+        this->target_angle = ((this->mirage_index - (s32)floor_to_float(2.5f)) * 0x3333) / 40;
         VecCopy(home, &this->position);
-        this->m_424 = NULL;
-        this->m_428 = NULL;
+        this->particle_emitters[0] = NULL;
+        this->particle_emitters[1] = NULL;
         this->set_active();
         break;
     }
@@ -1208,7 +1208,7 @@ void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
             }
         }
         this->update_velocity();
-        rotate_xz_pair_by_angle(&this->destination_direction.x, &this->destination_direction.z, this->m_40c);
+        rotate_xz_pair_by_angle(&this->destination_direction.x, &this->destination_direction.z, this->target_angle);
         v = this->destination_distance;
         if (v > 80.0f) {
             v -= 3.0f;
@@ -1226,14 +1226,14 @@ void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
         VecCopy(&this->position, &this->destination);
         VecCopy(&this->body_center, &this->position);
         this->body_center.y += 20.0f;
-        v *= this->m_410;
+        v *= this->move_speed;
         calc_wall_clamped_destination(this, &dest, -this->destination_direction.x, -this->destination_direction.z, v);
         if (this->update_actor_ground_y_at(&dest) == 0) {
-            this->m_410 *= 0.8f;
+            this->move_speed *= 0.8f;
             VecCopy(&this->position, &save_pos);
             VecCopy(&this->body_center, &save_center);
         } else {
-            this->m_410 = 1.0f;
+            this->move_speed = 1.0f;
             VecCopy(&this->position, &save_pos);
             VecCopy(&this->body_center, &save_center);
             subtract_vector(&dest, &this->position);
@@ -1241,33 +1241,33 @@ void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
             this->move_clamped_on_ground(dest.x, dest.z, len);
         }
         this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
-        if (this->m_40c != 0) {
+        if (this->target_angle != 0) {
             rot[0] = 0;
-            if (this->m_40c > 0) {
+            if (this->target_angle > 0) {
                 rot[1] = this->rotation_y;
             } else {
                 rot[1] = this->rotation_y - 0x8000;
             }
             rot[2] = -0x4000;
-            if (this->m_424 == NULL) {
-                this->m_424 = (TParticleCtrl *)create_particle_emitter(&this->position, 0x115);
-                if (this->m_424 != NULL) {
-                    this->m_424->enable();
-                    this->m_424->set_flags(2);
+            if (this->particle_emitters[0] == NULL) {
+                this->particle_emitters[0] = (TParticleCtrl *)create_particle_emitter(&this->position, 0x115);
+                if (this->particle_emitters[0] != NULL) {
+                    this->particle_emitters[0]->enable();
+                    this->particle_emitters[0]->set_flags(2);
                 }
             } else {
-                this->m_424->set_direction(rot);
-                this->m_424->set_position(&this->position);
+                this->particle_emitters[0]->set_direction(rot);
+                this->particle_emitters[0]->set_position(&this->position);
             }
-            if (this->m_428 == NULL) {
-                this->m_428 = (TParticleCtrl *)create_particle_emitter(&this->position, 0x116);
-                if (this->m_428 != NULL) {
-                    this->m_428->enable();
-                    this->m_428->set_flags(2);
+            if (this->particle_emitters[1] == NULL) {
+                this->particle_emitters[1] = (TParticleCtrl *)create_particle_emitter(&this->position, 0x116);
+                if (this->particle_emitters[1] != NULL) {
+                    this->particle_emitters[1]->enable();
+                    this->particle_emitters[1]->set_flags(2);
                 }
             } else {
-                this->m_428->set_direction(rot);
-                this->m_428->set_position(&this->position);
+                this->particle_emitters[1]->set_direction(rot);
+                this->particle_emitters[1]->set_position(&this->position);
             }
         }
         this->update_body_colliders();
@@ -1275,13 +1275,13 @@ void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
     case 5:
         this->enable_body_collision();
         this->wall_reach = 10.0f;
-        if (this->m_424 != NULL) {
-            this->m_424->queue_destruction();
-            this->m_424 = NULL;
+        if (this->particle_emitters[0] != NULL) {
+            this->particle_emitters[0]->queue_destruction();
+            this->particle_emitters[0] = NULL;
         }
-        if (this->m_428 != NULL) {
-            this->m_428->queue_destruction();
-            this->m_428 = NULL;
+        if (this->particle_emitters[1] != NULL) {
+            this->particle_emitters[1]->queue_destruction();
+            this->particle_emitters[1] = NULL;
         }
         this->clear_field_388();
         break;
@@ -1345,7 +1345,7 @@ void TObjEneMe3Shinowa::sub_800E5220(s32 reason) {
         this->set_field_378(0xB);
         this->behavior_flags &= ~3;
         this->set_intangible();
-        this->m_3d8 = 0;
+        this->attack_count = 0;
         this->state_step = 0;
         return;
     case 3:
@@ -1474,7 +1474,7 @@ void TObjEneMe3Shinowa::state_break_apart(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3ShinowaMirage__data_805D52A0, (saddr)&shinowa_mirage_breakup_params, texlist, (saddr)&position, rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3ShinowaMirage__breakup_model, (saddr)&shinowa_mirage_breakup_params, texlist, (saddr)&position, rotation_y);
                 VecCopy(&pos, &position);
                 pos.x += 20.0f * sin_table_lookup(rotation_y);
                 pos.z += 20.0f * cos_table_lookup(rotation_y);
@@ -1499,7 +1499,7 @@ void TObjEneMe3Shinowa::vfunc_116(s32) {  }
 
 void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step(NJS_OBJECT *) {
     if ((s32) TObjEneMe3ShinowaMirage__render_node_index == 1) {
-        forward_transform_to_view(&TObjEneMe3ShinowaMirage__data_80500FC0, &lbl_80500FF4);
+        forward_transform_to_view(&TObjEneMe3ShinowaMirage__node_origin, &TObjEneMe3ShinowaMirage__body_node_position);
     }
     TObjEneMe3ShinowaMirage__render_node_index += 1;
 }
@@ -1530,8 +1530,8 @@ void TObjEneMe3Shinowa::render() {
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         for (i = 0; i < 3; i++) {
-            if (lbl_80501000[i] != NULL) {
-                *lbl_80501000[i] = material_color;
+            if (TObjEneMe3ShinowaMirage__material_color_pointers[i] != NULL) {
+                *TObjEneMe3ShinowaMirage__material_color_pointers[i] = material_color;
             }
         }
         draw = 1;
@@ -1556,7 +1556,7 @@ void TObjEneMe3Shinowa::render() {
         dispatch_if_active();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        VecCopy(&body_center, &lbl_80500FF4);
+        VecCopy(&body_center, &TObjEneMe3ShinowaMirage__body_node_position);
     } else if ((get_main_phase() == 0xF) || (is_split_screen() == 0)) {
         VecCopy(&body_center, &position);
     }
@@ -1604,8 +1604,8 @@ void TObjEneMe3Shinowa::render_demo() {
         scale_matrix(0, 1.0f, 1.0f,
                      1.0f);
         for (i = 0; i < 3; i++) {
-            if (lbl_80501000[i] != NULL) {
-                *lbl_80501000[i] = 0xB000FFB0;
+            if (TObjEneMe3ShinowaMirage__material_color_pointers[i] != NULL) {
+                *TObjEneMe3ShinowaMirage__material_color_pointers[i] = 0xB000FFB0;
             }
         }
         if (mode == 0) {
@@ -1655,7 +1655,7 @@ TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, void *set_data) : 
     invoke_initialization_hook(set_data);
     fn_800E762C();
     init_enemy();
-    m_3d4 = 0;
+    mirage_index = 0;
     behavior_flags &= ~0x1000;
     for (i = 0; i < 4; i++) {
         mirage_ids[i] = 0xFFFF;
@@ -1699,8 +1699,8 @@ TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) 
 }
 
 void TObjEneMe3ShinowaReal::select_next_attack_state() {
-    m_3d8++;
-    if (m_3d8 >= 2) {
+    attack_count++;
+    if (attack_count >= 2) {
         try_spawn_mirages();
         transition_enemy_state(7);
         return;
@@ -1728,7 +1728,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 mode) {
         set_field_378(0xE);
         clear_intangible();
         behavior_flags &= ~3;
-        m_424 = NULL;
+        particle_emitters[0] = NULL;
         break;
     case 3:
         if (get_flag_b4() != 0) {
@@ -1743,11 +1743,11 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 mode) {
             }
             if (i == 1) {
                 enemy_copy_target_destination();
-                m_3d4 = (s32)(5.0f * random_ratio());
+                mirage_index = (s32)(5.0f * random_ratio());
                 i = 0;
                 n = 0;
                 for (; i < 5; i++) {
-                    if (m_3d4 != i) {
+                    if (mirage_index != i) {
                         get_or_create_mirage(n++)->activate_mirage(i);
                     }
                 }
@@ -1762,26 +1762,26 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 mode) {
     case 0:
         advance_animation();
         if (frame >= 12.0f) {
-            if (m_424 == NULL) {
-                m_424 = create_particle_emitter(&position, 0x114);
-                if (m_424 != NULL) {
-                    m_424->enable();
+            if (particle_emitters[0] == NULL) {
+                particle_emitters[0] = create_particle_emitter(&position, 0x114);
+                if (particle_emitters[0] != NULL) {
+                    particle_emitters[0]->enable();
                 }
             } else {
                 VecCopy(&pos, &position);
                 pos.x = 15.0f * sin_table_lookup(rotation_y) + pos.x;
                 pos.y += 17.0f;
                 pos.z = 15.0f * cos_table_lookup(rotation_y) + pos.z;
-                m_424->set_position(&pos);
+                particle_emitters[0]->set_position(&pos);
             }
         }
         update_ground_contact();
         check_collisions();
         break;
     case 5:
-        if (m_424 != NULL) {
-            m_424->queue_destruction();
-            m_424 = NULL;
+        if (particle_emitters[0] != NULL) {
+            particle_emitters[0]->queue_destruction();
+            particle_emitters[0] = NULL;
         }
         break;
     }
@@ -1799,7 +1799,7 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
         behavior_flags &= ~2;
         behavior_flags |= 1;
         state_step = 0;
-        m_424 = NULL;
+        particle_emitters[0] = NULL;
         return;
     case 3:
         if (state_step == 3) {
@@ -1823,9 +1823,9 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
                 }
             }
             if (frame >= 12.0f) {
-                if (m_424 == NULL) {
-                    m_424 = create_particle_emitter(&position, 0x114);
-                    emitter = m_424;
+                if (particle_emitters[0] == NULL) {
+                    particle_emitters[0] = create_particle_emitter(&position, 0x114);
+                    emitter = particle_emitters[0];
                     if (emitter != NULL) {
                         emitter->enable();
                     }
@@ -1834,7 +1834,7 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
                     pos.x += 15.0f * sin_table_lookup(rotation_y);
                     pos.y += 17.0f;
                     pos.z += 15.0f * cos_table_lookup(rotation_y);
-                    m_424->set_position(&pos);
+                    particle_emitters[0]->set_position(&pos);
                 }
             }
             break;
@@ -1854,10 +1854,10 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
         check_collisions();
         return;
     case 5:
-        emitter = m_424;
+        emitter = particle_emitters[0];
         if (emitter != NULL) {
             emitter->queue_destruction();
-            m_424 = NULL;
+            particle_emitters[0] = NULL;
         }
         break;
     }
@@ -1878,7 +1878,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     this->entity_id = entity_id;
     this->set_index = set_index;
     init_enemy();
-    m_3d4 = 0;
+    mirage_index = 0;
     behavior_flags |= 0x1000;
     set_flag_0x100();
     material_color = 0xB000FFB0;
@@ -1887,10 +1887,10 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     body = bodies;
     body->center.y = -500.0f;
     actorFlags |= 0x800;
-    m_430.a = 0.0f;
-    m_430.r = 0.0f;
-    m_430.g = 0.0f;
-    m_430.b = 0.0f;
+    fade_color.a = 0.0f;
+    fade_color.r = 0.0f;
+    fade_color.g = 0.0f;
+    fade_color.b = 0.0f;
     fade.set_rate_from_divisor(0);
     fade.reset_color();
     mode = 8;
@@ -1944,9 +1944,9 @@ void TObjEneMe3ShinowaMirage::activate_mirage(s32 index) {
         actorFlags &= ~0x800;
         actorFlags = 0x20000000;
         hp = hpmax;
-        m_3d4 = index;
+        mirage_index = index;
         enemy_set_target_id(this, owner->get_target_id());
-        m_430.a = 0.0f;
+        fade_color.a = 0.0f;
         behavior_flags &= ~0x200;
         requested_action = 10;
         advance_animation();
@@ -1970,7 +1970,7 @@ void TObjEneMe3ShinowaMirage::clear_mirage() {
 
 s32 TObjEneMe3ShinowaMirage::update_effect() {
     model_render_flags |= 0x820;
-    set_constant_material(&m_430);
+    set_constant_material(&fade_color);
     set_chunk_material_override_pair(0xFF00, 0x800);
     return 0;
 }
@@ -1993,10 +1993,10 @@ void TObjEneMe3ShinowaMirage::vfunc_115(s32 mode) {
         behavior_flags &= ~3;
         behavior_flags |= 0x200;
         disable_body_collision();
-        m_430.a = 0.0f;
+        fade_color.a = 0.0f;
         return;
     case 3:
-        if (m_430.a <= -1.0f) {
+        if (fade_color.a <= -1.0f) {
             behavior_flags &= ~0x200;
             set_flag_0x100();
             position.y = -500.0f;
@@ -2007,7 +2007,7 @@ void TObjEneMe3ShinowaMirage::vfunc_115(s32 mode) {
     case 5:
         return;
     case 0:
-        m_430.a -= 0.1f;
+        fade_color.a -= 0.1f;
         update_ground_contact();
         break;
     }
