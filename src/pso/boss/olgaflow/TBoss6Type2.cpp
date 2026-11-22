@@ -155,13 +155,13 @@ void subtract_vector(Vec *, Vec *);
 extern s32 local_client_id;
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
-extern const f32 lbl_805DE3F0 = 400.0f;
-extern const f32 lbl_805DE3F4 = 0.2f;
-extern const f32 lbl_805DE3F8 = 0.35f;
-extern const f32 lbl_805DE3FC = 0.42f;
-extern const f32 lbl_805DE400 = 0.5f;
-extern const f32 lbl_805DE404 = 0.6f;
-extern const f32 lbl_805DE408 = 0.6f;
+extern const f32 boss6_arena_radius = 400.0f;
+extern const f32 boss6_type2_search_speed = 0.2f;
+extern const f32 boss6_type2_bkjump_speed = 0.35f;
+extern const f32 boss6_type2_iai_speed = 0.42f;
+extern const f32 boss6_type2_bsk_speed = 0.5f;
+extern const f32 boss6_type2_chg_to_cmn_speed = 0.6f;
+extern const f32 boss6_type2_b_wait_speed = 0.6f;
 
 extern const s32 boss6_type2_hit_check_value_table[] = { 1, 13, 24, 26 };
 extern const Ent_802BA7BC boss6_type2_motion_param_table[] = {
@@ -1697,7 +1697,7 @@ void TBoss6Type2::request_default_follow_camera() {
     request_follow_camera_offsets(&lbl_804DFAC4, &lbl_804DFAD0, 0xFFFFU);
 }
 
-void TBoss6Type2::drop_random_rocks(s32 arg0, s32 force) {
+void TBoss6Type2::drop_random_rocks(s32 force) {
     s32 avail_tbl[32];
     s32 cnt;
     s32 mult;

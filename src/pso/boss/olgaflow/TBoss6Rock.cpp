@@ -292,10 +292,10 @@ void TBoss6Rock::sub_803542E8(s32 landed) {
 
 void TBoss6Rock__sub_80354188(void) {
     static RockRing rings[4] = {
-        {5.0f * lbl_805DE3F0 / 7.0f, 8},
-        {4.0f * lbl_805DE3F0 / 7.0f, 8},
-        {3.0f * lbl_805DE3F0 / 7.0f, 8},
-        {2.0f * lbl_805DE3F0 / 7.0f, 8},
+        {5.0f * boss6_arena_radius / 7.0f, 8},
+        {4.0f * boss6_arena_radius / 7.0f, 8},
+        {3.0f * boss6_arena_radius / 7.0f, 8},
+        {2.0f * boss6_arena_radius / 7.0f, 8},
     };
     s32 n = 0;
     for (s32 i = 0; i < 4; i++) {

@@ -8,8 +8,8 @@ TBoss6EffFlowSoul *TBoss6Type2::spawn_flow_soul(TObject *parent, Vec *pos, s32 d
     return new TBoss6EffFlowSoul(parent, pos, 0xFFFF, duration);
 }
 
-void *TBoss6Type2::create_flow_soul(void *parent, void *pos, s32 player, s32 duration) {
-    return new TBoss6EffFlowSoul((TObject *)parent, (Vec *)pos, player, duration);
+TBoss6EffFlowSoul *TBoss6Type2::create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration) {
+    return new TBoss6EffFlowSoul(parent, pos, player, duration);
 }
 
 }

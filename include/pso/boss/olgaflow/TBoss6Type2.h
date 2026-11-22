@@ -201,7 +201,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 is_phase_complete();
     void trigger_screen_pos();
     void spawn_rocks_around_players();
-    static void drop_random_rocks(s32 arg0, s32 force);
+    void drop_random_rocks(s32 force);
     static void request_default_follow_camera();
     void init_range();
     void update_target();
@@ -282,7 +282,7 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_802BD378(s32 index, Vec *pos, s32 *rotation);
     static void send_6xAD_grid_positions(s32 index, saddr points, s32 count);
     static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
-    static void *create_flow_soul(void *parent, void *pos, s32 player, s32 duration);
+    static TBoss6EffFlowSoul *create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration);
     static void capture_player_snapshots();
     s32 get_state();
     s32 get_variant();
@@ -299,17 +299,17 @@ struct TBoss6Type2 : public TObjEnemy
     // Battle action handlers (enter / idle / update; table rows: enter / idle / update)
     void update_attack_timer();
     void update_death_sequence();
-    void sub_802BE648();
-    void sub_802BE6A0();
-    void sub_802BE738();
-    void sub_802BEB78();
-    void sub_802BEC28();
-    void sub_802BEE38();
-    void sub_802BF3F4();
-    void sub_802BF834();
-    void sub_802BF904();
-    void sub_802BFA1C();
-    void sub_802BFBE4();
+    void idle_b_walk();
+    void act_b_walk();
+    void act_b_bj_wait();
+    void act_bsk_again();
+    void update_chg_to_bsk();
+    void update_iai();
+    void idle_bkjump();
+    void update_niramu();
+    void act_niramu();
+    void update_info_stat();
+    void act_wait();
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
     void pick_walk_target(u8 *grid);
     void change_motion(s32 motion);
