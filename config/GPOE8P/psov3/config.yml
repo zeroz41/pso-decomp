@@ -16240,9 +16240,9 @@ force_active:
   - sub_80156A68__14TObjCollidableFv
   - sub_80158604__13TObjMapObjectFv
   - sub_8015860C__6TOBindFv
-  - sub_8015CA74__13TOCtrlDubchikFv
-  - sub_8015CCF4__13TOCtrlDubchikFv
-  - sub_8015CE80__13TOCtrlDubchikFv
+  - kill_room_dubchiks__13TOCtrlDubchikFv
+  - update_effect_grow__13TOCtrlDubchikFv
+  - update_waiting__13TOCtrlDubchikFv
   - sub_80168244__13TUnk_804B2578FUl
   - sub_80168280__13TUnk_804B2578FUl
   - sub_801682E4__13TUnk_804B2578Fl
