@@ -466,110 +466,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
 void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 farg0);
-struct VBase_18_802FD47C { char pad[0x18]; };
-struct VObj_18_802FD47C : VBase_18_802FD47C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-};
-struct E1C_802FD47C { u8 b[0x1C]; };
-struct D_802FD47C {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x3EC - 0x44];
-    Vec v3EC[3];
-    Vec v410;
-    Vec v41C;
-    Vec v428;
-    Vec v434[0x22];
-    u8 pad5CC[0x6A0 - 0x5CC];
-    f32 a6A0[12];
-    u8 pad6D0[0x6DC - 0x6D0];
-    E1C_802FD47C e6DC[4];
-};
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
@@ -816,7 +712,6 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     void *p;
     u8 *q;
     u8 *cfg;
-    D_802FD47C *d = (D_802FD47C *)this;
 
     __ct__14SubtractiveRngFv(&m_764);
     this->m_name = boss8_dragon_class_name;
@@ -851,13 +746,13 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_3e4 = 0;
     this->m_3c0 |= 1;
     for (i = 0; i < 3; i++) {
-        VecCopy__FP3VecPC3Vec(&d->v3EC[i], &d->pos);
+        VecCopy__FP3VecPC3Vec(&this->pad_3EC[i], &this->position);
     }
-    VecCopy__FP3VecPC3Vec(&d->v410, &d->pos);
-    VecCopy__FP3VecPC3Vec(&d->v41C, &d->pos);
-    VecCopy__FP3VecPC3Vec(&d->v428, &d->pos);
+    VecCopy__FP3VecPC3Vec(&this->m_410, &this->position);
+    VecCopy__FP3VecPC3Vec(&this->m_41c, &this->position);
+    VecCopy__FP3VecPC3Vec(&this->m_428, &this->position);
     for (i = 0; i < 0x22; i++) {
-        VecCopy__FP3VecPC3Vec(&d->v434[i], &d->pos);
+        VecCopy__FP3VecPC3Vec(&this->node_positions[i], &this->position);
     }
     this->m_5cc = 0.0f;
     *(f32 *)((s8 *)this + 0x5D0) = 0.0f;
@@ -886,7 +781,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     TBoss8Dragon__sub_802FC850((TBoss8Dragon *)(u8 *)this);
     p = TObject::operator new(0xCC);
     if (p != NULL) {
-        p = TBoss8DragonEffTail__ct(p, (u8 *)this, (u8 *)this + 0x4E8);
+        p = TBoss8DragonEffTail__ct(p, this, &this->node_positions[15]);
     }
     this->tail = (TBoss8DragonEffTail *)p;
     p = ::operator new(0x10);
@@ -902,11 +797,11 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_698 = 0;
     this->m_69c = 0;
     for (i = 0; i < 0xC; i++) {
-        d->a6A0[i] = 0.0f;
+        this->pad_6A0[i] = 0.0f;
     }
     this->m_6d0 = 0;
     for (j = 0; j < 4; j++) {
-        ((RenderFadeState *)(&d->e6DC[j]))->activate_and_dispatch();
+        this->renderFadeStates[j].activate_and_dispatch();
     }
     this->m_74c = 0;
     this->m_750 = 0xFFFF;
@@ -952,7 +847,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
         TBoss8Dragon__sub_802F3C24((u8 *)this, set_data);
     }
     if (!(this->m_3c0 & 8)) {
-        ((VObj_18_802FD47C *)this)->m85(this->mode, 4);
+        this->dispatch_action(this->mode, 4);
     }
     this->m_8a0 = 0;
 }
