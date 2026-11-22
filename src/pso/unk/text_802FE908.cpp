@@ -13,8 +13,8 @@ s32 __ct__18TObjLiveCameraCtrlFP7TObject(void *, s32);
 extern void *tl_05;
 void create_boss8_demo_objects(void);
 
-void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 boss8_piller_ctrl) {
-    new TObjBoss8PillerCtrl((TObject *)tl_05, boss8_piller_ctrl, (const Vec *)arg0, arg1);
+void create_boss8_piller_ctrl(const Vec *position, s32 id, f32 ignored) {
+    new TObjBoss8PillerCtrl((TObject *)tl_05, ignored, position, id);
 }
 void create_boss8_demo_objects(void) {
     void *obj;

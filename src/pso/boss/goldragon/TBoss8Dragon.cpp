@@ -26,6 +26,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
+#include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
@@ -279,7 +280,6 @@ void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
-void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 boss8_piller_ctrl);
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
 void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
@@ -2723,7 +2723,7 @@ void TBoss8Dragon::update_fall_state(s32 event) {
             }
             if (this->is_passing_frame(50.0f) != 0) {
                 fill_value_array(this->attack_history);
-                create_boss8_piller_ctrl((saddr)&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
                 spawn_particle_effect_with_flags(&position, this->particle_ids[2], 0x40);
                 if (this->particle_ids[3] != -1) {
                     spawn_particle_effect_with_flags(&position, this->particle_ids[3], 0x40);
@@ -3024,7 +3024,7 @@ void TBoss8Dragon::update_dive_state(s32 event) {
             if (this->position.y <= 0.0f && this->ground_impact_done == 0) {
                 this->apply_ground_impact_attack();
                 fill_value_array(this->attack_history);
-                create_boss8_piller_ctrl((saddr)&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
                 this->ground_impact_done = 1;
                 this->set_invulnerable();
                 this->disable_body_collision();
@@ -3356,7 +3356,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
                 this->set_state();
                 this->apply_ground_impact_attack();
                 fill_value_array(attack_history);
-                create_boss8_piller_ctrl((saddr)((u8 *)&position), (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
                 this->play_effect_sound(0x4003AD0F);
             }
             break;
@@ -4382,7 +4382,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
                     v.y = 0.0f;
                     v.z = 0.5f * (this->node_positions[3].z + this->node_positions[5].z);
                     fill_value_array(this->attack_history);
-                    create_boss8_piller_ctrl((saddr)&v, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                    create_boss8_piller_ctrl(&v, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
                     spawn_particle_effect_with_flags(&this->position, this->particle_ids[2], 0x40);
                     if (this->particle_ids[3] != -1) {
                         spawn_particle_effect_with_flags(&this->position, this->particle_ids[3], 0x40);
