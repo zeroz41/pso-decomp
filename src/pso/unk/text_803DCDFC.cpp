@@ -252,7 +252,7 @@ extern Cam_803DD300 screen_projection;
 extern s32 motion_node_draw_callback;
 extern f32 lbl_805D777C;
 extern s32 model_render_flags;
-
+}
 
 void TKeyBoardControl::update_camera() {
     init_projection_state();
@@ -281,7 +281,6 @@ void init_projection_state() {
         init_render_context(&render_contexts[i]);
     }
     select_render_context(0);
-}
 }
 
 
