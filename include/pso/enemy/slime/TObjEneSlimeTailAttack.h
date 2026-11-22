@@ -44,12 +44,6 @@ extern "C" {
 void TObjPlayer__sub_800E80C0(u8 *dst);
 void TObjPlayer__sub_800E8128(NJS_OBJECT *);
 void TObjPlayer__sub_800E81A8(void);
-void sub_800E841C__22TObjEneSlimeTailAttackFv(u8 *arg0);
-void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
-void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
-void *__dt__15TObjEneSlimeOneFv(void *arg0, s16 arg1);
-void *__dt__21TObjEneSlimeWaterBombFv(void *arg0, s16 arg1);
-void initialize_slime_instance_state__15TObjEneSlimeOneFv(u8 *actor);
 }
 
 // lbl_80501010: layout known from its uses only.

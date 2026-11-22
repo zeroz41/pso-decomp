@@ -46,7 +46,6 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
 LAYOUT_ASSERT(TObjEneBalClawClaw_size, sizeof(TObjEneBalClawClaw) == 0x428);
 
 extern "C" {
-void sub_80091A38__18TObjEneBalClawClawFv(TObjEneBalClawClaw *claw);
 void TObjEneBalClawClaw__sub_80090A10(TObjEneBalClawClaw *claw, Vec *pos, s32 rot_y, s16 hp);
 void spawn_lobby_npc_enemy(void);
 }
