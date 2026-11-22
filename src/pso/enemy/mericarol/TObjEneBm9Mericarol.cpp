@@ -56,10 +56,9 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
+#include "pso/player/TPlyDispData.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #pragma defer_codegen on
-
-struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 
 
@@ -605,7 +604,7 @@ void TObjEneBm9Mericarol::state_shoot(s32 reason) {
         if (is_passing_frame(10.0f) != 0) {
             get_node_position(&shot_origin, 0x43);
             new TObjEneBm9Mericarol_Bomb(this, &shot_origin, &current_target->position,
-                mericarol_phase_param_table[get_phase()]->m_8, mericarol_phase_param_table[get_phase()]->bomb_speed,
+                mericarol_phase_param_table[get_phase()]->bomb_power, mericarol_phase_param_table[get_phase()]->bomb_speed,
                 random_ratio() <= (f32)mericarol_phase_param_table[get_phase()]->final_blast_percent / 100.0f);
             play_sound_effect(remap_sound_for_area(0x3A307), &shot_origin, 0, 0);
         }
@@ -1093,7 +1092,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
 }
 
 s32 TObjEneBm9Mericarol::get_clamped_level() {
-    Sub_800ACA10 *p = (Sub_800ACA10 *)m_2b0;
+    player_stats *p = (player_stats *)m_2b0;
     s32 v = 0;
     if (p != 0) {
         v = p->level;

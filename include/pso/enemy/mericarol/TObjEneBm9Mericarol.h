@@ -24,7 +24,7 @@ class TParticleCtrl;
 struct TObjEneBm9MericarolParams {
     f32 attack_power;         // the swipe's DirectAttackPayload power
     f32 technique_value;      // TTecKafun::create's value
-    f32 m_8;                  // the bomb's m_f4
+    f32 bomb_power;           // the bomb's DirectAttackPayload power
     f32 bomb_speed;
     f32 technique_radius;     // TTecKafun::create's radius
     f32 laugh_chance;         // chance to laugh (state 8) instead of casting

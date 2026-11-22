@@ -119,11 +119,11 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
             bodies->flags |= 2;
         }
         bodies->offset.y = d;
-        if (this->vfunc_16(&this->attack_power, &this->attack_type) != 0) {
+        if (this->vfunc_16(&this->recoil, &this->attack_type) != 0) {
             ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->notify_bomb_hit();
             if (attack_type == 0 && this->final_blast != 0) {
                 attack_type = 0x12;
-                this->vfunc_16(&this->attack_power, &this->attack_type);
+                this->vfunc_16(&this->recoil, &this->attack_type);
             }
             queue_destruction();
             return;
@@ -168,7 +168,7 @@ TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
 }
 
 
-TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 farg0, f32 speed, s32 final_blast)
+TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast)
     : TUnk_804928CC(owner, owner) {
     Vec d;
     f32 k;
@@ -190,7 +190,7 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
             break;
         }
     }
-    m_f4 = farg0;
+    this->power = power;
     switch (owner->get_phase()) {
     case 1:
         phase_effect_id = 0x20A;
@@ -223,8 +223,8 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     look_ahead.x = d.x * k;
     look_ahead.y = d.y * k;
     look_ahead.z = d.z * k;
-    attack_power = 0.0f;
-    attack_flags = 1;
+    recoil = 0.0f;
+    contact_flags = 1;
     fall_speed = 0.0f;
     age = 0;
     state = 0;
