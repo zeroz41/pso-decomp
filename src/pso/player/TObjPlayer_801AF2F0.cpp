@@ -1197,7 +1197,6 @@ void TObjPlayer__sub_801B18C0(saddr arg0, u32 arg1);
 void unequip_by_field326__10TObjPlayerFPv(void *arg0);
 s32 reset_volopt_state__10TObjPlayerFv(TObjPlayer *player);
 void foreach_player__10TObjPlayerFv(s32 (*arg0)(u32));
-void for_each_player_slot__10TObjPlayerFv(void (*arg0)(void *));
 s32 handle_set_visible__10TObjPlayerFi(s32 arg0);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
@@ -1219,7 +1218,7 @@ s32 calc_scaled_value__10TObjPlayerFii(s32 arg0, s32 arg1);
 void apply_speed_scale__10TObjPlayerFif(saddr arg0, f32 farg0);
 s32 build_player_class_stat_template(saddr arg0, saddr arg1);
 s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirementStats *arg1);
-int fn_801B309C(void* p);
+void recover_player_full(void *player);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
 void handle_6x34(void);
 void complete_deferred_player_death(void);
@@ -5474,7 +5473,7 @@ void prepare_guild_return__10TObjPlayerFPv(void *player) {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-int fn_801B309C(void* p) { return ((int (*)(void*))recover_full__10TObjPlayerFPv)(p); }
+void recover_player_full(void *player) { recover_full__10TObjPlayerFPv(player); }
 #pragma pop
 
 #pragma push
@@ -6051,13 +6050,13 @@ int TObjPlayer::check_flag_40000() {
     return check_flag(0x40000);
 }
 
-void for_each_player_slot__10TObjPlayerFv(void (*arg0)(void *)) {
+void TObjPlayer::for_each_player_slot(void (*callback)(void *)) {
     s32 i;
     void **p;
     p = (void **)((s32 *)&player_slot_table);
     for (i = 0; i < 12; i++, p++) {
         if (*p != NULL) {
-            arg0(*p);
+            callback(*p);
         }
     }
 }

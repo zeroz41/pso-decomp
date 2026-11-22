@@ -305,7 +305,7 @@ void TLobby::reload_offline_area() {
             p->set_parent(tl_03);
             p->reset_motion_fields();
             rebuild_player_inventory(p);
-            ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
+            TObjPlayer::for_each_player_slot(recover_player_full);
         }
     }
     load_battle_param_entry();
@@ -378,7 +378,7 @@ void TLobby::rebuild_area_keep_players() {
             p->set_parent(tl_03);
             p->reset_motion_fields();
             rebuild_player_inventory(p);
-            ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
+            TObjPlayer::for_each_player_slot(recover_player_full);
         }
     }
     TQuestThread::create_for_floor();

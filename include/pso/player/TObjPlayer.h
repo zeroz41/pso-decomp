@@ -1553,7 +1553,8 @@ struct TObjPlayer : public TObjChara {
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();
     static void begin_action_state(void *);
-    s32 for_each_player_slot();
+    // Calls callback with each occupied entry of the player table.
+    static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
     static void hit_object_in_radius(void *, void *, void *);
     static void draw_strip_pos_normal(void *, void *, unsigned int);
