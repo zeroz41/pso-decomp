@@ -852,11 +852,11 @@ void TPlayerReadyCallback::run_task() {
     }
 }
 
-void *TPlyOnCreated::create(void *arg0, void *arg1) {
+void *TPlyOnCreated::create(s32 client, void *callback) {
     void *o;
     o = TObject::operator new(0x24);
     if (o != NULL) {
-        o = __ct__13TPlyOnCreatedFv((u8 *)o, (saddr)arg0, (saddr)arg1);
+        o = __ct__13TPlyOnCreatedFv((u8 *)o, client, (saddr)callback);
     }
     return o;
 }
