@@ -61,6 +61,7 @@ public:
     void sub_802FC060(s32 arg1);
     s32 sub_802FBFA4();
     s32 sub_802FC580(f32 *out);
+    s32 sub_802FC674(f32 *out);
     s32 sub_802FABB4();
     s32 sub_802FC88C();
 

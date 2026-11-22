@@ -69,15 +69,12 @@
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 struct Rot_802F9D08 { s32 x, y, z; };
-
-struct Obj_802FC674 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0x32C - 0x44];
-    s16 f32C;
-};
 
 struct F3_802FB220 { f32 f[3]; };
 
@@ -89,22 +86,17 @@ extern s32 TBoss8Dragon__data_805D69B8;
 extern u8 *TBoss8Dragon__data_80541DDC[];
 int TBoss8Dragon__sub_802FB984(void);
 extern s32 lbl_805D69B4;
-void play_cue_stream_file(saddr name);
 s32 fn_802F2E7C(int, void *, int);
 f32 atan2_float(f32 y, f32 x);
 void TBoss8Dragon__sub_802FB300(void);
-s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 }
 extern u16 TBoss8Dragon__data_805D69BC;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-s32 angle_diff_s16(s32, s32);
 void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon);
 u16 get_entity_id(u8 *);
 f32 newton_sqrtf(f32);
-f32 horizontal_distance_squared(void *, void *);
-s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out);
 void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
 
@@ -185,7 +177,6 @@ s32 get_current_floor();
 int setup_instance__9TObjEneDDFllPUcl(void*);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 is_closest_part();
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
@@ -409,10 +400,8 @@ struct Rot_802F6838 { s32 x, y, z; };
 s32 restore_player_cameras(void);
 void activate_camera_mode(s32, f32);
 void set_scripted_camera_pose(void *, void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 void vec3_add_to(void *, void *);
 struct Pair_802F8578 { f32 a; f32 b; };
-void rotate_vec_xz(void *, void *, s32);
 extern f32 lbl_805D69C0;
 void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
@@ -1107,16 +1096,16 @@ void TBoss8Dragon::sub_802FC850() {
     this->hpThreshold = value;
 }
 
-s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
-    Obj_802FC674 *list[12];
-    Obj_802FC674 *p;
+s32 TBoss8Dragon::sub_802FC674(f32 *out) {
+    TObjPlayer *list[12];
+    TObjPlayer *p;
     s32 bestHp;
     s32 n;
     s32 i;
     s32 best;
-    f32 *apos;
-    Obj_802FC674 *a;
-    Obj_802FC674 *b;
+    Vec *apos;
+    TObjPlayer *a;
+    TObjPlayer *b;
     s32 found;
     s32 i2;
     s32 j;
@@ -1125,9 +1114,9 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
     lim = 6400.0f;
     n = 0;
     for (i = 0; i < 12; i++) {
-        p = (Obj_802FC674 *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (((TObjEneDD *)p)->is_valid_target() != 0 &&
-            horizontal_distance_squared(p->pos, self->pos) >= lim) {
+            horizontal_distance_squared(&p->position, &this->position) >= lim) {
             list[n] = p;
             n++;
         }
@@ -1136,25 +1125,25 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
         return 0;
     }
     if (n == 1) {
-        VecCopy((Vec *)out, (Vec *)list[0]->pos);
+        VecCopy((Vec *)out, &list[0]->position);
     } else {
         lim = 100.0f;
         best = 0;
         found = 0;
         for (i2 = 0; i2 < n; i2++) {
             a = list[i2];
-            apos = a->pos;
+            apos = &a->position;
             for (j = i2 + 1; j < n; j++) {
                 b = list[j];
-                if (newton_sqrtf(horizontal_distance_squared(b->pos, apos)) < lim) {
+                if (newton_sqrtf(horizontal_distance_squared(&b->position, apos)) < lim) {
                     s32 sum;
                     found = 1;
-                    sum = a->f32C + b->f32C;
+                    sum = a->hp + b->hp;
                     if (sum > best) {
                         best = sum;
-                        out[0] = 0.5f * (apos[0] + b->pos[0]);
-                        out[1] = 0.5f * (apos[1] + b->pos[1]);
-                        out[2] = 0.5f * (apos[2] + b->pos[2]);
+                        out[0] = 0.5f * (apos->x + b->position.x);
+                        out[1] = 0.5f * (apos->y + b->position.y);
+                        out[2] = 0.5f * (apos->z + b->position.z);
                     }
                 }
             }
@@ -1163,9 +1152,9 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
             bestHp = 0;
             for (k = 0; k < n; k++) {
                 p = list[k];
-                if (bestHp < p->f32C) {
-                    bestHp = p->f32C;
-                    VecCopy((Vec *)out, (Vec *)p->pos);
+                if (bestHp < p->hp) {
+                    bestHp = p->hp;
+                    VecCopy((Vec *)out, &p->position);
                 }
             }
         }
@@ -2519,7 +2508,7 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         this->advance_animation();
         switch (this->stateStep) {
         case 0:
-            if (TBoss8Dragon__sub_802FC674((Obj_802FC674 *)(this), d) != 0) {
+            if (this->sub_802FC674(d) != 0) {
                 this->m_85c = (s32)(RADIANS_TO_ANGLE * atan2_float(d[0] - this->position.x, d[2] - this->position.z));
             } else {
                 this->m_85c = get_random_scaled();
@@ -4241,7 +4230,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         f32 speed = 4.0f;
         this->position.x = (f32) ((temp_f31 * speed) + this->position.x);
         this->position.z = (f32) ((temp_f1 * speed) + this->position.z);
-        temp_f31_2 = newton_sqrtf(horizontal_distance_squared((u8 *)this + 0x38, temp_r30));
+        temp_f31_2 = newton_sqrtf(horizontal_distance_squared(&this->position, (Vec *)temp_r30));
         VecCopy((Vec *)temp_r30, &this->position);
         this->m_864 = (f32) (this->m_864 + temp_f31_2);
         break;
