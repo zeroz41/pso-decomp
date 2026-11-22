@@ -23,4 +23,8 @@ extern "C" {
 void TSetManager__sub_8020D7D4(void);
 }
 
+void init_item_drop_tables(void);
+extern s32 TLobby__data_805D6148;
+extern s32 TLobby__data_805D614C;
+
 #endif

@@ -18,6 +18,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -88,12 +89,8 @@ void *lbl_804854D8[6] = {
     (void *)0x50, (void *)0x4e, (void *)0x19, (void *)0x19,
     (void *)0x19, (void *)0x18,
 };
-void *lbl_804854F0[3] = {
-    (void *)0x0, (void *)0x0, (void *)0xc2f00000,
-};
-void *lbl_804854FC[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+Vec lbl_804854F0 = {0.0f, 0.0f, -120.0f};
+CameraAngles lbl_804854FC = {0, 0, 0};
 CameraPlayback lbl_80485508 = {0, 1, 0, 0.0f, 0.5f};
 void *lbl_80485514[15] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41f00000,
@@ -101,7 +98,6 @@ void *lbl_80485514[15] = {
     (void *)0x0, (void *)0xc1f00000, (void *)0x0, (void *)0x42700000,
     (void *)0x0, (void *)0x42f00000, (void *)0x0,
 };
-#define V90 (*(Vec *)lbl_804854F0)
 void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     s32 i;
     Self_8004DA7C *S = (Self_8004DA7C *)self;
@@ -126,7 +122,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
                 u8 *p = (u8 *)((Self_8004DA7C *)self)->p[i];
                 if (p != NULL) {
                     Vec a = *(Vec *)(p + 0x60);
-                    Vec b = V90;
+                    Vec b = lbl_804854F0;
                     subtract_vector(&b, &a);
                     b.y = (0.0f);
                     normalize_vector(&b);
@@ -144,7 +140,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
         s32 t = *(s32 *)((s8 *)self + 0x90);
         if (t >= 0x8C && t < 0x91) {
             void *p;
-            Vec c = V90;
+            Vec c = lbl_804854F0;
             vec3_add_to(&c, &((Vec *)lbl_80485514)[t - 0x8C]);
             p = spawn_particle_effect(&c, 0x14A);
             if (p != NULL) {
@@ -171,29 +167,29 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
     switch (*(s32 *)((s8 *)self + 0x90)) {
     case 0:
-        play_sound_effect(0x4003BC07, lbl_804854F0, 0, 1);
-        play_sound_effect(0x3C604, lbl_804854F0, 0, 1);
+        play_sound_effect(0x4003BC07, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x3C604, &lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x50:
         play_sound_effect(0x3A805, 0, 0, 0);
     case 0x64:
     case 0x78:
-        play_sound_effect(0x4003D006, lbl_804854F0, 0, 1);
+        play_sound_effect(0x4003D006, &lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x8C:
-        play_sound_effect(0x36408, lbl_804854F0, 0, 1);
+        play_sound_effect(0x36408, &lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x92:
-        play_sound_effect(0x3DA03, lbl_804854F0, 0, 1);
+        play_sound_effect(0x3DA03, &lbl_804854F0, 0, 1);
         break;
     case 0xAA:
-        play_sound_effect(0x40039E09, lbl_804854F0, 0, 1);
+        play_sound_effect(0x40039E09, &lbl_804854F0, 0, 1);
         break;
     case 0xC8:
-        play_sound_effect(0x40039E21, lbl_804854F0, 0, 1);
+        play_sound_effect(0x40039E21, &lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
@@ -203,7 +199,6 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
 }
 
-#undef V90
 void *lbl_80485550[3] = {
     (void *)0x0, (void *)0x0, (void *)0xc2f00000,
 };
@@ -264,7 +259,6 @@ typedef struct Data_8004DEE0 {
     u8 vt[4];
 } Data_8004DEE0;
 
-void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 boss4_type1_model_ids[];
 
@@ -313,10 +307,10 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     }
     self->node_tables.init(TObjDFDemo0__model_node_entries, 7);
     activate_camera_mode(5);
-    set_scripted_camera_pose(lbl_804854F0, lbl_804854F0, lbl_804854FC);
+    set_scripted_camera_pose(&lbl_804854F0, &lbl_804854F0, &lbl_804854FC);
     lbl_80485508.cache_target_and_forward(0x416C);
     self->f10c = (0.0f);
-    play_sound_effect(0x40039E21, lbl_804854F0, 0, 1);
+    play_sound_effect(0x40039E21, &lbl_804854F0, 0, 1);
     self->f90 = 0;
     return self;
 }

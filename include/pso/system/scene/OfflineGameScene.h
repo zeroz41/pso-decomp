@@ -2,17 +2,32 @@
 #define PSO_SYSTEM_SCENE_OFFLINEGAMESCENE_H
 
 #include "types.h"
+#include "pso/map/FloorResourceCallbacks.h"
 
 void init_offline_game_scene(void);
 void dispatch_offline_main_frame(void);
+void run_offline_game_frame(void);
+void run_offline_transfer_frame(void);
+void run_offline_area_transfer(void);
+void run_single_view_frame(void);
+void run_split_screen_frame(void);
+
+// In split-screen play (game play modes 1 and 2) deletes the four players and creates them
+// again from the character select.
+void recreate_split_screen_players(void);
+
+// The number of views the screen is split into (1 = full screen).
+void set_view_count(int count);
+void reset_view_count(void);
+extern int camera_split_screen_selector;
+
+// Load and release hooks of the offline game scene (see OfflineGameScene.cpp).
+extern FloorResourceCallbacks offline_game_scene_callbacks[48];
 
 extern "C" {
 void TLobby__sub_801A2DF4(void);
 void TLobby__sub_801A2DF8(void);
 void TLobby__sub_801A2DFC(void);
-void TLobby__sub_801A2E00(void);
-void TLobby__sub_801A3B90(int a0);
-void TLobby__sub_801A3B98(void);
 }
 
 #endif

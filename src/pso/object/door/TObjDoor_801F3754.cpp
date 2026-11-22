@@ -2,8 +2,6 @@
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/object/door/TObjDoor.h"
 
-extern s32 TObjDoor__data_805D5BC8;
-
 void TObjDoor__sub_801F3754(void) {
     TObjDoor__data_805D5BC8 = 1;
 }

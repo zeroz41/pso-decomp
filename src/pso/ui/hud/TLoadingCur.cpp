@@ -12,6 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;
@@ -43,9 +44,7 @@ s32 rotate_matrix_x(int, int);
 const char *TLoadingCur__class_name = "TLoadingCur";
 #pragma pop
 extern const RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC = {0};
-extern f32 lbl_804FF5E8[];
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
-extern u32 camera_ctrl_instance;
 
 LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_804349FC_size, sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC);
 LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_8058D490_size, sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30);
@@ -76,7 +75,7 @@ void TLoadingCur::update_camera_facing_offset() {
 #pragma push
 #pragma fp_contract on
 Vec calc_loading_cursor_pos(Obj_8001CBC4 *o) {
-    if (camera_ctrl_instance != 0) {
+    if (camera_ctrl_instance != NULL) {
         o->pos.x = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.x + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.x;
         o->pos.y = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.y + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.y;
         o->pos.z = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.z + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.z;

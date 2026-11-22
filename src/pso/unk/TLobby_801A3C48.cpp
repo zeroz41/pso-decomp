@@ -67,6 +67,7 @@
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -122,9 +123,8 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 };
 
 extern "C" {
-s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
+s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
 void clear_enabled_main_warps(void);
-int is_quest_active(void);
     extern int challenge_task_created;
 int TKeyBoardControl__sub_8000F95C(void);
 s32 is_keyboard_active();
@@ -458,7 +458,7 @@ void TLobby::free_objects() {
         quest_mission_manager->queue_destruction();
     }
     clear_enabled_main_warps();
-    reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
+    reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
     TLobby::clear_counter();
     TLobby::reset_door_state();
     TObjDoor::reset_instance();

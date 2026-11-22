@@ -28,9 +28,9 @@
 #include "pso/unk/TUnk_804DC7C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
-s32 is_quest_active();
 s32 load_floor_sound_bank();
 s32 TLobby__sub_801403B4(s32);
 }

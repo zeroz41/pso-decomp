@@ -25,4 +25,5 @@ struct TObjDoor : public TObjCollidable {
     static void set_main_warp_id(int a0);
 };
 LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
+extern "C" s32 TObjDoor__data_805D5BC8;
 #endif

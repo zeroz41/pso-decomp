@@ -9,4 +9,6 @@ u8 *get_symbol_chat_preset(s32 i);
 s32 is_symbol_chat_preset_in_use(u32 *arg0);
 }
 
+void clear_received_symbol_chat(void);
+
 #endif
