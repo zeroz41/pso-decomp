@@ -89,8 +89,6 @@ extern "C" const char* TParticleCtrl__class_name_descriptor;
 
 extern "C" {
 void TObjPlayer__sub_801C6FCC(void*, f32);
-void TObjPlayer__sub_801C6FDC(void);
-void TObjPlayer__sub_801C6FE0(void*, f32, f32, f32);
 f32 apply_stat_multipliers__10TObjPlayerFiif(saddr, saddr, f32);
 void apply_stat_multipliers_default__10TObjPlayerFv(void);
 void set_stat_scale__10TObjPlayerFPvf(void*, f32);
@@ -163,8 +161,6 @@ extern "C" {
 
 int TObjPlayer__sub_801C6F90(void* p);
 void TObjPlayer__sub_801C6FCC(void* p, f32 v);
-void TObjPlayer__sub_801C6FDC(void);
-void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
 void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -267,16 +263,6 @@ void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 
 extern "C" {
 void TObjPlayer__sub_801C6FCC(void* p, f32 v);
-}
-
-
-extern "C" {
-void TObjPlayer__sub_801C6FDC(void);
-}
-
-
-extern "C" {
-void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
 }
 
 
@@ -420,13 +406,13 @@ u16 TObjPlayer::get_obj_type() { return *(u16*)((char*)this + 0x0); }
 
 
 extern "C" {
-void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c) { *(f32*)((char*)p + 0x0) = a; *(f32*)((char*)p + 0x4) = b; *(f32*)((char*)p + 0x8) = c; }
+void TObjPlayer__sub_801C6FE0(Vec *v, f32 x, f32 y, f32 z) { v->x = x; v->y = y; v->z = z; }
 
 }
 
 
 extern "C" {
-void TObjPlayer__sub_801C6FDC(void) {  }
+Vec *TObjPlayer__sub_801C6FDC(Vec *v) { return v; }
 
 }
 
@@ -659,9 +645,9 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
 
 extern "C" {
 void update_player_scale_camera(PlayerScaleState *state) {
-  TObjPlayer__sub_801C6FE0(state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
-  TObjPlayer__sub_801C6FE0(state->camera_target, 0.0f, 19.8f * state->get_scalar(), -5.0f);
-  request_follow_camera_offsets(((Vec *(*)(f32 *))TObjPlayer__sub_801C6FDC)(state->camera_target), ((Vec *(*)(f32 *))TObjPlayer__sub_801C6FDC)(state->camera_position), 0xFFFF);
+  TObjPlayer__sub_801C6FE0(&state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
+  TObjPlayer__sub_801C6FE0(&state->camera_target, 0.0f, 19.8f * state->get_scalar(), -5.0f);
+  request_follow_camera_offsets(TObjPlayer__sub_801C6FDC(&state->camera_target), TObjPlayer__sub_801C6FDC(&state->camera_position), 0xFFFF);
 }
 
 }

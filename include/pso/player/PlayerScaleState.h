@@ -2,6 +2,7 @@
 #define PSO_PLAYER_PLAYERSCALESTATE_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct PlayerScaleState {
     // Bit 0: the player is drawn at scalar times its size.
@@ -13,8 +14,8 @@ struct PlayerScaleState {
     s32 flags;
     f32 scalar;
     f32 model[3];
-    f32 camera_position[3];
-    f32 camera_target[3];
+    Vec camera_position;
+    Vec camera_target;
 };
 
 struct PlayerShrinkPacket {
