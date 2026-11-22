@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
+#include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/system/task/TObject.h"
@@ -984,7 +985,6 @@ s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
-void *create_ch_time_win(void *arg0);
 void setup_split_screen(void);
 
 #define lbl_804DB1F0 (*(s32 (*)[422])lbl_804DB1F0)
@@ -1076,7 +1076,7 @@ void TLobby::spawn_player_tombstones2() {
 
 void TLobby::create_time_window2(void * _w0) {
     TLobby::spawn_player_tombstones2();
-    create_ch_time_win((void *)tl_07);
+    create_ch_time_win((TObject *)tl_07);
     ((TLobby *)tl_07)->create_new_floor_windows();
     if ((s32) *(s32 *)((s8 *)lbl_804DB1F0 + 0x30) == 0) {
         TObjSoloPlayWin::create((TObject*)tl_07);
@@ -1094,7 +1094,7 @@ void TLobby__sub_802933FC(void *arg0) {
         if (old != -1) {
             create_obj_tag_challenge((void *)tl_07);
             if (lbl_804DB1F0[8] == 0) {
-                create_ch_time_win((void *)tl_07);
+                create_ch_time_win((TObject *)tl_07);
             }
         }
         break;

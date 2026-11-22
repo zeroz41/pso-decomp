@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/text_80072230.h"
@@ -88,7 +89,6 @@ void TLobby__sub_800738F4(void *, s32);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
-void *create_ch_time_win(void *arg0);
 extern "C" {
 Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);
 void *get_player_by_client_id(s32 i);
@@ -363,7 +363,7 @@ void *challenge_mode_state[420] = {
 
 void TLobby::create_time_window(void * _w0) {
     TLobby::spawn_player_tombstones();
-    create_ch_time_win((void *)tl_07);
+    create_ch_time_win((TObject *)tl_07);
     ((TLobby *)tl_07)->create_new_floor_windows();
     if ((s32) *(s32 *)((s8 *)challenge_mode_state + 0x30) == 0) {
         TObjSoloPlayWin::create((TObject*)tl_07);
@@ -448,7 +448,7 @@ void TLobby__sub_80070170(void *arg0) {
         if (old != -1) {
             create_obj_tag_challenge((void *)tl_07);
             if (challenge_mode_state[8] == 0) {
-                create_ch_time_win((void *)tl_07);
+                create_ch_time_win((TObject *)tl_07);
             }
         }
         break;

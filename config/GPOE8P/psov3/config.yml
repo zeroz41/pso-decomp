@@ -1997,7 +1997,7 @@ force_active:
   - __ct__13TORockCaveS02FPv
   - __ct__13TORockCaveS03FPv
   - __ct__13TObjBs4CutAtkFv
-  - __ct__13TObjCHTimeWinFv
+  - __ct__13TObjCHTimeWinFP7TObject
   - __ct__13TObjDFRecoverFP7TObjectUsPCf
   - __ct__13TObjHashiBaseFP7TObjectPv
   - __ct__13TObjLobbyMainFP7TObjectPv
