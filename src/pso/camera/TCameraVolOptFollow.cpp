@@ -80,7 +80,7 @@ void TCameraVolOptFollow::update_target_follow() {
 
 void TCameraVolOptFollow::update_follow_flags() {
     Vec to_target;
-    flags = 0x15;
+    flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE | FLAG_SMOOTH_TARGET_HEIGHT;
     eye_rate = 1.65f;
     to_target.x = camera_ctrl_instance->tgt.x - target.x;
     to_target.y = camera_ctrl_instance->tgt.y - target.y;
@@ -102,19 +102,19 @@ TCameraController *TCameraVolOptFollow::create() {
 }
 
 void TCameraVolOptFollow::run_task() {
-    flags = 0x15;
+    flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE | FLAG_SMOOTH_TARGET_HEIGHT;
     if (test_previous_buttons_packed(&controller_input_state.controllers[0], 0x10000) != 0) {
         TCameraFollow::run_task();
     } else {
         update_target_follow();
     }
-    flags = flags | 0x10;
+    flags = flags | FLAG_SMOOTH_TARGET_HEIGHT;
 }
 
 TCameraVolOptFollow::~TCameraVolOptFollow() {}
 
 TCameraVolOptFollow::TCameraVolOptFollow() {
-    flags = 21;
+    flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE | FLAG_SMOOTH_TARGET_HEIGHT;
     eye_rate = 0.65f;
     follow_state = 0;
     pad_110 = 0;

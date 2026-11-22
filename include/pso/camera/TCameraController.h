@@ -11,6 +11,14 @@ class TObjPlayer;
 // view with apply_camera_controller_pose.
 class TCameraController : public TObject {
 public:
+    // flags: how TCameraCtrl::update_active_controller moves the view to the pose.
+    enum Flag {
+        FLAG_CHECK_OBSTRUCTION = 1,      // keep the eye and target clear of walls
+        FLAG_SMOOTH_POSE = 4,            // ease the eye and the target
+        FLAG_SMOOTH_TARGET = 8,          // snap the eye, ease the target
+        FLAG_SMOOTH_TARGET_HEIGHT = 0x10 // with FLAG_SMOOTH_TARGET, ease the target height too
+    };
+
     TCameraController();
     virtual ~TCameraController();
     void set_target(TObjPlayer *actor);
@@ -33,10 +41,8 @@ public:
     s32 pad_28;
     s32 pitch;
     s32 yaw;
-    s32 roll;  // third of the angle triple the ctor clears with pitch and yaw
-    // 1: obstruction checks, 4: smooth the pose, 8: smooth the target,
-    // 0x10: keep the target height (read by TCameraCtrl).
-    s32 flags;
+    s32 roll;  // cleared with pitch and yaw; no camera reads it
+    s32 flags; // FLAG_*
     Vec position;
     Vec target;
     s32 fov;  // copied to TCameraCtrl::fov

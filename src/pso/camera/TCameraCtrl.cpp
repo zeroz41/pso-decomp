@@ -405,18 +405,18 @@ void TCameraCtrl::update_active_controller() {
         if (snap != 0) {
             update_position();
         } else {
-            if (controller->flags & 1) {
+            if (controller->flags & TCameraController::FLAG_CHECK_OBSTRUCTION) {
                 resolve_anchor_obstruction(controller);
             }
             flags = controller->flags;
-            if (flags & 4) {
+            if (flags & TCameraController::FLAG_SMOOTH_POSE) {
                 update_pose_smoothing();
-            } else if (flags & 8) {
+            } else if (flags & TCameraController::FLAG_SMOOTH_TARGET) {
                 update_target_smoothing();
             } else {
                 update_position();
             }
-            if (controller->flags & 1) {
+            if (controller->flags & TCameraController::FLAG_CHECK_OBSTRUCTION) {
                 clamp_to_target_obstruction(controller);
             }
             update_shake();
@@ -865,7 +865,7 @@ void TCameraCtrl::update_target_smoothing() {
         split_look[view].z = pos.z;
     }
     controller = camera_controller_registry[TCameraCtrl::view_state.controller];
-    if (controller != NULL && !(controller->flags & 0x10)) {
+    if (controller != NULL && !(controller->flags & TCameraController::FLAG_SMOOTH_TARGET_HEIGHT)) {
         tgt.y = at.y;
     }
     approach_camera_vector(&tgt, &at, at_rate);

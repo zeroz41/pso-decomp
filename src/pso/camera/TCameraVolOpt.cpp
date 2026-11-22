@@ -47,6 +47,6 @@ TCameraVolOpt::~TCameraVolOpt() {
 }
 
 TCameraVolOpt::TCameraVolOpt() : TCameraController() {
-    this->flags = 5;
+    this->flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE;
     this->set_target(get_player_by_client_id(0));
 }

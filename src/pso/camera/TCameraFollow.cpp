@@ -461,7 +461,7 @@ void TCameraFollow::select_follow_camera_offsets() {
 
 void TCameraFollow::update_follow_flags() {
     Vec *src;
-    this->flags = 5;
+    this->flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE;
     if (TCameraCtrl::get_camera_id() == 2) {
         this->eye_rate = 0.56f;
     } else {
@@ -749,7 +749,7 @@ TCameraFollow::TCameraFollow() {
     target_offset.x = 0.0f;
     target_offset.y = 0.0f;
     target_offset.z = 0.0f;
-    flags = 5;
+    flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE;
     set_target(get_player_by_client_id(local_client_id));
     init_pose();
     close_up = 0;

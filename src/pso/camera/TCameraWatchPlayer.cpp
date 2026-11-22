@@ -54,7 +54,7 @@ void TCameraWatchPlayer::apply_camera_params(s32) {
 TCameraWatchPlayer::~TCameraWatchPlayer() {}
 
 TCameraWatchPlayer::TCameraWatchPlayer() {
-    flags = 4;
+    flags = FLAG_SMOOTH_POSE;
 }
 
 void TCameraWatchPlayer::run_task() {}

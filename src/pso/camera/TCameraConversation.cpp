@@ -54,7 +54,7 @@ Vec *TCameraCtrl::get_split_tgt(s32 view) {
 }
 
 TCameraFixed::TCameraFixed() : TCameraController() {
-    flags = 4;
+    flags = FLAG_SMOOTH_POSE;
     fixed_npc_camera_active = 0;
 }
 
