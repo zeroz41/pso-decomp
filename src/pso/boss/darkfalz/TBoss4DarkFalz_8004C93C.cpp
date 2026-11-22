@@ -60,7 +60,7 @@ extern const char dark_falz_state_name_ol_ending[] = "OL ENDING";
 extern "C" {
 saddr VecCopy__FP3VecPC3Vec(void*, void* a1);
 s32 obj_setArrS16_FC(void *, s32, u16);
-extern Vec lbl_80485454;
+extern Vec dark_falz_demo5_position;
     extern int dark_falz_form_index;
 
 TBoss4Type3 *TBoss4DarkFalz::get_type3_instance() { return TBoss4DarkFalz__type3_instance; }
@@ -145,7 +145,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
         TObjChara *form = TBoss4DarkFalz__type3_instance;
         TObjDFDemo5::create(this, &form->position, form->rotation_y);
     } else {
-        TObjDFDemo5::create(this, &lbl_80485454, 0);
+        TObjDFDemo5::create(this, &dark_falz_demo5_position, 0);
     }
     if (TBoss4DarkFalz__type3_instance != NULL) {
         TBoss4DarkFalz__type3_instance->get_defeat_params(&m_2d6, &attacker_id, sp8);
@@ -257,7 +257,7 @@ void TBoss4DarkFalz::update_timer() {
 }
 
 extern "C" {
-extern Vec lbl_80485448;
+extern Vec dark_falz_demo1_position;
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }
 
@@ -331,7 +331,7 @@ void TBoss4DarkFalz::start_demo1() {
         TObjChara *form = TBoss4DarkFalz__type1_instance;
         TObjDFDemo1::create(this, &form->position, form->rotation_y);
     } else {
-        TObjDFDemo1::create(this, &lbl_80485448, 0);
+        TObjDFDemo1::create(this, &dark_falz_demo1_position, 0);
     }
     set_story_flag_or_send_quest_flag(0x33U);
     if (TBoss4DarkFalz__type1_instance != NULL) {
@@ -514,8 +514,8 @@ TBoss4DarkFalzState dark_falz_state_table[16] = {
 // Zero positions passed to create_demo1 (start_demo1) and TObjDFDemo5::create (begin_defeat_sequence);
 // they follow the state table in .data.
 extern "C" {
-Vec lbl_80485448 = {0.0f, 0.0f, 0.0f};
-Vec lbl_80485454 = {0.0f, 0.0f, 0.0f};
+Vec dark_falz_demo1_position = {0.0f, 0.0f, 0.0f};
+Vec dark_falz_demo5_position = {0.0f, 0.0f, 0.0f};
 }
 
 

@@ -52,20 +52,20 @@ extern s32 boss4_type1_model_ids[6];
 extern s32 boss4_zanzo_bml_index_table[];
 #include "pso/render/model_render_state.h"
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
-extern const ModelNodeSpec lbl_80437328[6];
+extern const ModelNodeSpec df_demo1_strip_specs[6];
 
 const char *TObjDFDemo1__name = "TObjDFDemo1";
-DFDemo1Emitter lbl_80485590[4] = {
+DFDemo1Emitter df_demo1_emitters[4] = {
     {0x144, 0x2C, 0x7C, {130.0f, 10.0f, 0.0f}},
     {0x144, 0x2C, 0x7C, {0.0f, 10.0f, 130.0f}},
     {0x144, 0x2C, 0x7C, {-130.0f, 10.0f, 0.0f}},
     {0x14F, 0x90, 0xAA, {0.0f, 40.0f, 0.0f}},
 };
 // The motions of the body models and of the zanzo models.
-s32 lbl_804855F0[6] = {0x50, 0x4E, 0x1B, 0x1B, 0x1B, 0x1A};
-s32 lbl_80485608[2] = {0x1D, 0x1C};
-CameraPlayback lbl_80485610 = {0, 2, 0, 0.0f, 0.5f};
-DFDemo1NodeColor lbl_8048561C[3] = {{0, 2, 5}, {1, 6, 5}, {1, 0x69, 3}};
+s32 df_demo1_body_motion_ids[6] = {0x50, 0x4E, 0x1B, 0x1B, 0x1B, 0x1A};
+s32 df_demo1_zanzo_motion_ids[2] = {0x1D, 0x1C};
+CameraPlayback df_demo1_camera_playback = {0, 2, 0, 0.0f, 0.5f};
+DFDemo1NodeColor df_demo1_node_colors[3] = {{0, 2, 5}, {1, 6, 5}, {1, 0x69, 3}};
 TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, s32 angle) {
     return new TObjDFDemo1(parent, pos, angle);
 }
@@ -81,13 +81,13 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         int id = boss4_type1_model_ids[i];
         body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
-        body_parts[i].motion = get_bml_motion(res, lbl_804855F0[i]);
+        body_parts[i].motion = get_bml_motion(res, df_demo1_body_motion_ids[i]);
     }
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         zanzo_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
-        zanzo_parts[i].motion = get_bml_motion(res, lbl_80485608[i]);
+        zanzo_parts[i].motion = get_bml_motion(res, df_demo1_zanzo_motion_ids[i]);
     }
     frame = -0.5f;
     for (s32 j = 0; j < 4; j++) {
@@ -98,15 +98,15 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         CameraAngles angles = {0, this->angle, 0};
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
     }
-    lbl_80485610.cache_target_and_forward(0x4000);
+    df_demo1_camera_playback.cache_target_and_forward(0x4000);
     play_sound_effect(0x4003A324, &position, 0, 1);
     scroll = 0.0f;
-    strips.init(lbl_80437328, 6);
+    strips.init(df_demo1_strip_specs, 6);
     timer = 0;
 }
 
 // The nodes ModelNodeTables::init builds the strips on.
-const ModelNodeSpec lbl_80437328[6] = {
+const ModelNodeSpec df_demo1_strip_specs[6] = {
     {0xB, 3, 0}, {0xA, 5, 0}, {0xA, 0x60, 0}, {0xA, 0x63, 0}, {0xA, 0x65, 0}, {0xA, 0x68, 0},
 };
 
@@ -128,7 +128,7 @@ void TObjDFDemo1::run_task() {
     DFDemo1Emitter *e;
     s32 i;
     for (i = 0; i < 4; i++) {
-        e = &lbl_80485590[i];
+        e = &df_demo1_emitters[i];
         if (timer >= e->end) {
             if (particle_emitters[i] != NULL) {
                 TParticleCtrl::release(particle_emitters[i]);
@@ -143,7 +143,7 @@ void TObjDFDemo1::run_task() {
                 p.z = -s * e->offset.x + c * e->offset.z;
                 p.y = e->offset.y;
                 vec3_add_to(&p, &pos);
-                particle_emitters[i] = create_particle_emitter(&p, lbl_80485590[i].effect);
+                particle_emitters[i] = create_particle_emitter(&p, df_demo1_emitters[i].effect);
                 if (particle_emitters[i] != NULL) {
                     particle_emitters[i]->set_flags(0x40);
                 }
@@ -249,7 +249,7 @@ void TObjDFDemo1::sub_8004E068() {
         f = (timer - 0xF0) / 20.0f;
     }
     for (i = 0; i < 3; i++) {
-        e = &lbl_8048561C[i];
+        e = &df_demo1_node_colors[i];
         col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((uaddr)zanzo_parts[e->part].model, e->node))->model)->polygon_list;
         s32 old = col[e->slot];
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);

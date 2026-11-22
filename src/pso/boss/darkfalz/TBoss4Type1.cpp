@@ -94,7 +94,7 @@ extern Cam_800531C8 *camera_ctrl_instance;
 
 const char *TBoss4Type1__name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
-s32 lbl_80485B08[2] = { 0xFB, 0xFC };
+s32 boss4_type1_tenchu_hit_effect_ids[2] = { 0xFB, 0xFC };
 TBoss4Type1State boss4_type1_states[11] = {
     { "APPEAR", 0, &TBoss4Type1::init_appear_state, &TBoss4Type1::check_state_if_idle, &TBoss4Type1::update_appear },
     { "WAITNEXT", 0, 0, &TBoss4Type1::update_flag800_state, 0 },
@@ -135,17 +135,17 @@ f32 player_collider_radius_table[6] = { 75.0f, 60.0f, 60.0f, 60.0f, 40.0f, 30.0f
 TBoss4Type1XZ boss4_type1_xz_offset_table[6] = {
     { 0.0f, 0.0f }, { 50.0f, 0.0f }, { 0.0f, 50.0f }, { -50.0f, 0.0f }, { 0.0f, -80.0f }, { 0.0f, 0.0f },
 };
-ModelNodePositionEntry lbl_804860F0[3] = {
+ModelNodePositionEntry boss4_type1_node_capture_entries[3] = {
     {0x1A, {-15.0f, 0.0f, 0.0f}},
     {0x1A, {0.0f, 7.5f, 0.0f}},
     {-1, {0.0f, 0.0f, 0.0f}},
 };
-ModelNodePositionEntry lbl_80486120[3] = {
+ModelNodePositionEntry boss4_type1_core_capture_entries[3] = {
     {0xE, {0.0f, 0.0f, 0.0f}},
     {0x54, {0.0f, 0.0f, 0.0f}},
     {-1, {0.0f, 0.0f, 0.0f}},
 };
-Vec lbl_80486150 = { 0.0f, 0.0f, -120.0f };
+Vec boss4_type1_start_position = { 0.0f, 0.0f, -120.0f };
 TBoss4Type1AttackTables boss4_type1_attack_tables = {
     { 0x0, 0xc000, 0x8000, 0x4000 },
     { 0.25f, 0.25f, 0.5f }, { 8, 9, 10 },
@@ -157,8 +157,8 @@ Vec boss4_type1_vec_table[4] = {
 Vec boss4_type2_motion_vec_table[4] = {
     { 0.0f, 0.0f, -175.0f }, { 175.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 175.0f }, { -175.0f, 0.0f, 0.0f },
 };
-s32 lbl_804861F4[3] = { 2, 5, 8 };
-TBoss4Type1XZ lbl_80486200[3] = { { 130.0f, 0.0f }, { 0.0f, 130.0f }, { -130.0f, 0.0f } };
+s32 boss4_type1_turn_motion_ids[3] = { 2, 5, 8 };
+TBoss4Type1XZ boss4_type1_turn_xz_offsets[3] = { { 130.0f, 0.0f }, { 0.0f, 130.0f }, { -130.0f, 0.0f } };
 s32 boss4_type2_state_motion_index_table[3] = { 4, 7, 10 };
 }
 
@@ -308,7 +308,7 @@ void apply_tenchu_hits(TObject *source) {
     power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
     spot = TBoss4Type2__tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
-        TParticleCtrl *effect = spawn_particle_effect(spot, lbl_80485B08[i & 1]);
+        TParticleCtrl *effect = spawn_particle_effect(spot, boss4_type1_tenchu_hit_effect_ids[i & 1]);
         if (effect != NULL) {
             effect->set_flags(0x40);
         }
@@ -363,7 +363,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     texlist = 0;
     model = 0;
-    VecCopy(&position, &lbl_80486150);
+    VecCopy(&position, &boss4_type1_start_position);
     rotation_y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, boss4_type1_collision_body_desc, 3);
@@ -376,9 +376,9 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     set_param(0x2F);
     anim_speed = 0.4f;
     for (i = 0; i < 3; i++) {
-        node_captures[i] = ModelNodePositionCapture::create(lbl_804860F0, node_positions[i]);
+        node_captures[i] = ModelNodePositionCapture::create(boss4_type1_node_capture_entries, node_positions[i]);
     }
-    core_capture = ModelNodePositionCapture::create(lbl_80486120, core_positions);
+    core_capture = ModelNodePositionCapture::create(boss4_type1_core_capture_entries, core_positions);
     for (j = 0; j < 8; j++) {
         parts[j] = create_particle_emitter(&position, boss4_type1_emitter_id_table[j]);
     }
@@ -1055,9 +1055,9 @@ void copy_vec2(void *dst, void *src) {
 }
 
 void TBoss4Type1::start_motion_for_index() {
-    set_motion_index(lbl_804861F4[turn]);
+    set_motion_index(boss4_type1_turn_motion_ids[turn]);
     uro_count = 0;
-    copy_vec2(&boss4_type1_xz_offset_table[5], &lbl_80486200[turn]);
+    copy_vec2(&boss4_type1_xz_offset_table[5], &boss4_type1_turn_xz_offsets[turn]);
     collider_count = 6;
     if (state == 5) {
         state_timer = 0x12C;
