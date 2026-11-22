@@ -1365,7 +1365,7 @@ force_active:
   - __ct__21TObjEneSlimeWaterBombFP15TObjEneSlimeOneP15TObjEneSlimeOne
   - TObjEneSlime__attack_target_param_table
   - __ct__12TObjEneSlimeFP7TObjectPUc
-  - TObjEneSlime__sub_800EB9F0
+  - copy_child_slot__FP14SlimeChildSlotP14SlimeChildSlot
   - __ct__14TObjEnvSoundExFP7TObjectl
   - __ct__12TObjEnvSoundFP7TObjectPv
   - TObjEvtCollision__ct
@@ -1527,10 +1527,10 @@ force_active:
   - __dt__15TObjEneDimedianFv
   - sub_800BFF54__12TObjEneLappyFv
   - TObjPlayer__sub_800D93F0
-  - TObjPlayer__sub_800E80C0
-  - TObjPlayer__sub_800E80E8
-  - TObjPlayer__sub_800E8128
-  - TObjPlayer__sub_800E81A8
+  - get_slime_tail_pose
+  - copy_slime_tail_pose
+  - capture_slime_tail_node
+  - reset_slime_tail_node_index
   - TObjPlayer__sub_800E85BC
   - TObjPlayer__sub_800EBE48
   - TObjPlayer__sub_800F083C
@@ -7511,7 +7511,7 @@ force_active:
   - bm4_ps_ma_body_bml_filename
   - TObjEneSlime__class_name_string
   - slime_type_label_blue
-  - lbl_8043D218
+  - slime_empty_child_slot
   - TObjEneSlimeOne__class_name_string
   - slime_puddle_scale
   - slime_full_scale
@@ -7809,7 +7809,7 @@ force_active:
   - merill_lia_action_table
   - __vt__16TObjEneMerillLia
   - slime_model_index_by_type
-  - lbl_804966FC
+  - slime_tail_attack_param_ids
   - lbl_80496C68
   - lbl_80496C90
   - lbl_80496CB8
@@ -8182,7 +8182,7 @@ force_active:
   - gibon_param_table
   - lbl_80500E98
   - lbl_80500EA4
-  - lbl_80501010
+  - slime_tail_node_capture
   - TObjEneRe4Bit_attack_handles
   - TObjEneRe4Bit_resistance_handles
   - TObjEneRe4Bit_behavior_params
@@ -8370,7 +8370,7 @@ force_active:
   - lbl_805D514C
   - lbl_805D5158
   - lbl_805D515C
-  - lbl_805D52B4
+  - slime_tail_node_index
   - lbl_805D58C4
   - lbl_805D59D8
   - lbl_805D5A90
@@ -16209,7 +16209,7 @@ force_active:
   - update_fade_in__16TObjEneMerillLiaFv
   - sub_800D741C__13TUnk_80494938Fv
   - hit_enemy__22TObjEnePanarmsAtkColliFP9TObjChara
-  - sub_800E841C__22TObjEneSlimeTailAttackFv
+  - draw_body__22TObjEneSlimeTailAttackFv
   - render_trail__15TObjEneSlimeOneFv
   - update_launched__15TObjEneSlimeOneFv
   - enter_launched__15TObjEneSlimeOneFv
