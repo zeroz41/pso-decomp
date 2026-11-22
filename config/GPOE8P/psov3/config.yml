@@ -965,21 +965,21 @@ force_active:
   - TObjChallengeRetry__ct
   - __ct__16TObjCityAreaWarpFP7TObjectPv
   - TObjCityDoor_Guild__class_name
-  - TObjCityDoor_Guild__ct
+  - __ct__18TObjCityDoor_GuildFP7TObjectPv
   - TObjCityDoor_Guild__name
   - TObjCityDoor_Guild__params
   - TObjCityDoor_Lobby__class_name
-  - TObjCityDoor_Lobby__ct
+  - __ct__18TObjCityDoor_LobbyFP7TObjectPv
   - TObjCityDoor_Lobby__name
   - TObjCityDoor_Med__class_name
-  - TObjCityDoor_Med__ct
+  - __ct__16TObjCityDoor_MedFP7TObjectPv
   - TObjCityDoor_Med__name
   - TObjCityDoor_Shop__class_name
-  - TObjCityDoor_Shop__ct
+  - __ct__17TObjCityDoor_ShopFP7TObjectPv
   - TObjCityDoor_Shop__name
   - TObjCityDoor_Shop__params
   - TObjCityDoor_Warp__class_name
-  - TObjCityDoor_Warp__ct
+  - __ct__17TObjCityDoor_WarpFP7TObjectPv
   - TObjCityDoor_Warp__name
   - __ct__16TObjCityMainWarpFP7TObjectPv
   - __ct__15TObjCityMapWarpFP7TObjectPv
@@ -1568,7 +1568,7 @@ force_active:
   - TObjPlayer__sub_80154E28
   - TObjPlayer__sub_80155028
   - TObjPlayer__sub_801550B8
-  - TObjPlayer__sub_80182D24
+  - __dt__13TUnk_804B5BA8Fv
   - TObjPlayer__sub_801994DC
   - TObjPlayer__sub_801AA61C
   - TObjPlayer__sub_801AA6E4
@@ -2799,7 +2799,7 @@ force_active:
   - __dt__18TObjButterflyLobbyFv
   - __dt__18TObjChallengeRetryFv
   - __dt__18TObjCityAirCar_CarFv
-  - __dt__18TObjCityDoor_LobbyFPvs
+  - __dt__18TObjCityDoor_LobbyFv
   - __dt__18TObjEneEpsilonBodyFv
   - __dt__18TObjEneRe4SorcererFv
   - __dt__18TObjEnvSoundGlobalFv
@@ -5040,7 +5040,7 @@ force_active:
   - check_player_contact__18TOTrapChainSawEdgeFv
   - check_player_distance__8TOKurageFv
   - check_player_hits__15TBoss6SwordWaveFv
-  - check_player_in_range__13TUnk_804B5BA8Flf
+  - check_player_in_range__13TUnk_804B5BA8Ff
   - check_player_load_result__21TAdMultiChgGameModeGCFv
   - check_player_proximity__12TOChatSensorFv
   - check_players_ready__21TAdMultiChgGameModeGCFPv
@@ -5082,7 +5082,7 @@ force_active:
   - circling_state__14TObjEneBm5WolfFl
   - city_common_model_archive_filename
   - city_common_texture_filename
-  - city_door_base_vtable
+  - __vt__13TUnk_804B5BA8
   - city_door_init_params
   - city_door_lobby_collision_vertices
   - city_door_lobby_quad_triangle_indices
@@ -5961,10 +5961,10 @@ force_active:
   - __dt__11TObjNpcMojaFv
   - __dt__12TObjNpcLappyFv
   - dt__13TLockOnCursorFls
-  - dt__16TObjCityDoor_MedFPvs
-  - dt__17TObjCityDoor_ShopFPvs
-  - dt__17TObjCityDoor_WarpFPvs
-  - dt__18TObjCityDoor_GuildFPvs
+  - __dt__16TObjCityDoor_MedFv
+  - __dt__17TObjCityDoor_ShopFv
+  - __dt__17TObjCityDoor_WarpFv
+  - __dt__18TObjCityDoor_GuildFv
   - __dt__20TContainerAncient01RFv
   - __dt__22TObjEneSlimeTailAttackFv
   - dt__22TWindowDD_WS_ScrollBarFs
@@ -7049,7 +7049,7 @@ force_active:
   - init_child_from_list__16TObjEneBm5GibonUFv
   - init_child_node__16TObjEneBm5GibonUFv
   - init_child_params__13TObjEneBm3FlyFv
-  - init_city_door__FPUcllPUc
+  - __ct__13TUnk_804B5BA8FP7TObjectPvPC14CityDoorParams
   - init_city_season_object
   - init_collected_entries__11TBoss6Type2Fv
   - init_collision_params__17TOSymbolchatColliFv
@@ -7359,7 +7359,7 @@ force_active:
   - is_player_nearby__13TObjTombstoneFv
   - is_primary_sequence__12TBoss1DragonFv
   - is_printable_key__19TWindowKeyBoardHardFUc
-  - is_rader_map_active__Fv
+  - is_rader_map_active__17TObjCityDoor_WarpFv
   - is_rand_below_threshold__10TObjPlayerFv
   - is_remote__16G_ClientIDHeaderFv
   - is_render_deferred__7TObjectFv

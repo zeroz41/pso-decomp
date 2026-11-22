@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCityDoor_Lobby : public TObjBase {
+    TObjCityDoor_Lobby(TObject *parent, void *set);
     virtual ~TObjCityDoor_Lobby();
     virtual void dispatch_lobby_action();
     void build_door_collision_triangles();
@@ -18,7 +19,7 @@ struct TObjCityDoor_Lobby : public TObjBase {
     CsnFace collision_faces[8];
     Vec collision_vertices[10];
 
-    s32 m_250;
+    s32 collision_registered;  // collision_group is in the map's collision controller
 };
 
 LAYOUT_ASSERT(TObjCityDoorLobbyGroupOffset, offsetof(TObjCityDoor_Lobby, collision_group) == 0x90);

@@ -852,6 +852,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -pool off: vfunc_13 reaches each of its debug strings by symbol (lis/addi per string).
     # -str readonly: those strings sit in .rodata between the int-to-float double and the
     # later double literal.
+    # vtables come out Lobby, Med, Warp, Guild, Shop, then their base: written last to first, deferred.
+    "pso/object/city/CityDoors.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/city/CitySeason.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-str reuse,readonly")},
     # TShopJudgmentItemWindow: its class name and four string literals sit in .rodata.
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
