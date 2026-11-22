@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/player/TUnk_80491478.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
+#include "pso/system/BmlResource.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -37,7 +38,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     m_ae = 0;
     node = part_model_nodes[index];
     m_d8 = texlist;
-    m_c8 = find_model_node(dubchik_resource->mdl[1].f8, node);
+    m_c8 = find_model_node((uaddr)dubchik_resource->models[1].model, node);
     target = &parent->part_offsets[index];
     VecCopy(&pos, VecCopy(&origin, offset));
     m_e8 = 3.0f + parent->position.y;

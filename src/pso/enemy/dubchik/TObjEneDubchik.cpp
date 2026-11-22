@@ -2,6 +2,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
+#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -52,57 +54,29 @@
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+
 extern "C" {
-// Mode 8 (walks back to home_position). It keeps its u8 * parameter: with TObjEneDubchik * the compiler
-// keeps actor + 0x290 in r30 (TObjChara's 0x290 and 0x29C vectors are not typed as Vecs yet).
-void TObjPlayer__sub_800A8C4C(u8 *actor);
-}
-
-
-struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
-
-
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
-s32 check_path_obstructed(void *, void *);
-}
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-extern "C" {
-
-Res_800AA82C *dubchik_resource;
+BmlResource *dubchik_resource;
 NJS_TEXLIST *dubchik_texlist;
 NJS_TEXLIST *dubchik_variant_texlist;
-
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 }
-u8 *load_gvm_texture_file(saddr name);
-Node_800AA82C *lbl_805D509C;
-Node_800AA82C *lbl_805D50A0;
+NJS_OBJECT *lbl_805D509C;
+NJS_OBJECT *lbl_805D50A0;
 void *breakup_model_ptr;
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_800A8C4C { s32 x, y, z; };
-
-
 
 extern "C" {
-void obj_setFlags30(void *, u32);
-s32 minimap_render_dot(void *, s32, s32, s32);
-extern void *tl_04;
-f32 fabs_float(f32);
-}
-void move_with_wall_slide(u8 *arg0);
-extern "C" {
-s32 calc_velocity_toward_destination(void *, Vec_800A8C4C, Vec_800A8C4C, f32);
-s32 post_translate_matrix(void *);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-s32 update_enemy_wander_move(void *, Vec *, s32, f32);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
-struct Ids_800AA82C { s16 v[2]; };
 // What TLobby::register_boss / dispatch_shared_handler_b / register_object / dispatch_shared_handler_a
 // (0x1B + variant) return; the behavior table spans 0x50 bytes in the original, only [0] and [1] are read.
 __declspec(section ".data") u8 *dubchik_base_params_by_variant[2];
@@ -220,16 +194,9 @@ void TObjEneDubchik::clear_flag_04000000() {
 
 void AttackParams::set_attack_range(f32 range) { attack_range = range; }
 
-void TObjEneDubchik::init_level_stats(s32 arg1) {
-    s32 var_r0;
-
-    *(s32 *)&this->model = dubchik_resource->mdl->f8;
-    if (arg1 == 0) {
-        var_r0 = dubchik_resource->mdl->fC;
-    } else {
-        var_r0 = (saddr)dubchik_variant_texlist;
-    }
-    this->texlist = var_r0;
+void TObjEneDubchik::init_level_stats(s32 variant) {
+    model = dubchik_resource->models[0].model;
+    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].m_c : (saddr)dubchik_variant_texlist;
 }
 
 s32 TObjEneDubchik::get_int_parameter(s32 i) {
@@ -313,67 +280,67 @@ inline const char *dubchik_gvm_filename();
 #pragma opt_propagation off
 void TObjEneDubchik::load_resources() {
     SampledMotionPoints **t;
-    Node_800AA82C *nodes[3];
+    NJS_OBJECT *nodes[3];
     void *p;
     s32 m;
     s32 i;
-    u32 mdl;
-    Node_800AA82C *n;
+    uaddr mdl;
+    NJS_OBJECT *n;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dubchik_resource = (Res_800AA82C *)load_enemy_bml_resource_named(&bm_ene_dubchik_resource_descriptor, (const char *)dubchik_bml_filename());
+        dubchik_resource = load_enemy_bml_resource_named(&bm_ene_dubchik_resource_descriptor, (const char *)dubchik_bml_filename());
     } else {
         p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
-        dubchik_resource = (Res_800AA82C *)p;
+        dubchik_resource = (BmlResource *)p;
     }
-    dubchik_texlist = *(NJS_TEXLIST **)((u8 *)dubchik_resource->mdl + 0x1C);
+    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].m_c;
     if (TObjEneDD::check_v2_mode() != 0) {
         dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((saddr)dubchik_v2_gvm_filename());
     } else {
         dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((saddr)dubchik_gvm_filename());
     }
-    n = (Node_800AA82C *)find_model_node(*(s32 *)((u8 *)dubchik_resource->mdl + 0x18), 0x17);
-    n->f30 = 0;
+    n = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x17);
+    n->sibling = NULL;
     TObjPlayer__sub_800A4294();
-    lbl_805D509C = (Node_800AA82C *)find_model_node(dubchik_resource->mdl->f8, 0x15);
-    lbl_805D50A0 = (Node_800AA82C *)find_model_node(dubchik_resource->mdl->f8, 0x2A);
-    ((NJS_OBJECT *)find_model_node(*(s32 *)((u8 *)dubchik_resource->mdl + 0x18), 0x15))->evalflags |= 8;
-    p = new TUnk_8048FA00(dubchik_resource->mdl->f8);
+    lbl_805D509C = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x15);
+    lbl_805D50A0 = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x2A);
+    ((NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x15))->evalflags |= NJD_EVAL_HIDE;
+    p = new TUnk_8048FA00((saddr)dubchik_resource->models[0].model);
     breakup_model_ptr = p;
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
-    dubchik_scratch_trail0_points[0]->sample_two_nodes((NJS_OBJECT *)get_bml_model((BmlResource *)dubchik_resource, 0), (NJS_MOTION *)get_bml_motion((BmlResource *)dubchik_resource, 6), 0x1C, 0x24);
+    dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
     p = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
     dubchik_scratch_trail1_points[0] = (SampledMotionPoints *)p;
-    dubchik_scratch_trail1_points[0]->sample_two_nodes((NJS_OBJECT *)get_bml_model((BmlResource *)dubchik_resource, 0), (NJS_MOTION *)get_bml_motion((BmlResource *)dubchik_resource, 6), 0x2E, 0x32);
+    dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
     p = new SampledMotionPoints(2, 30.0f, 38.0f, 1.0f);
     t = dubchik_scratch_trail0_points;
     t[1] = (SampledMotionPoints *)p;
-    t[1]->sample_two_nodes((NJS_OBJECT *)get_bml_model((BmlResource *)dubchik_resource, 0), (NJS_MOTION *)get_bml_motion((BmlResource *)dubchik_resource, 7), 0x1C, 0x24);
+    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
     p = new SampledMotionPoints(2, 50.0f, 58.0f, 1.0f);
     t = dubchik_scratch_trail1_points;
     t[1] = (SampledMotionPoints *)p;
-    t[1]->sample_two_nodes((NJS_OBJECT *)get_bml_model((BmlResource *)dubchik_resource, 0), (NJS_MOTION *)get_bml_motion((BmlResource *)dubchik_resource, 7), 0x2E, 0x32);
+    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
         dubchik_base_params_by_variant[i] = (u8 *)TLobby::register_boss(i + 0x1B);
         dubchik_attack_params_by_variant[i] = (u8 *)TLobby::dispatch_shared_handler_b(i + 0x1B);
         dubchik_resistance_params_by_variant[i] = (u8 *)TLobby::register_object(i + 0x1B);
         dubchik_behavior_params_by_variant[i] = (TObjEneDubchikBehaviorParams *)TLobby::dispatch_shared_handler_a(i + 0x1B);
     }
-    mdl = dubchik_resource->mdl->f8;
+    mdl = (uaddr)dubchik_resource->models[0].model;
     for (i = 0; i < 3; i++) {
-        nodes[i] = (Node_800AA82C *)find_model_node(mdl, dubchik_part_root_node_ids[i]);
+        nodes[i] = (NJS_OBJECT *)find_model_node(mdl, dubchik_part_root_node_ids[i]);
     }
-    collect_visible_nodes((NJS_OBJECT *)nodes[0], dubchik_part0_nodes);
-    collect_visible_nodes((NJS_OBJECT *)nodes[1], dubchik_part1_nodes);
-    collect_visible_nodes((NJS_OBJECT *)nodes[2], dubchik_part2_nodes);
+    collect_visible_nodes(nodes[0], dubchik_part0_nodes);
+    collect_visible_nodes(nodes[1], dubchik_part1_nodes);
+    collect_visible_nodes(nodes[2], dubchik_part2_nodes);
     {
-        Ids_800AA82C ids = {{0x1E, 0x1F}};
+        s16 ids[2] = {0x1E, 0x1F};
         NpcAnimationBinding d = { NULL, dubchik_action_table, 0, 1, 20 };
         s32 j;
         d.motions = dubchik_resource->motions;
         for (j = 0; j < 2; j++) {
-            Mdl_800AA82C *e = &dubchik_resource->mdl[j];
-            NpcModelRegistry::register_animated_chunk(ids.v[j], reinterpret_cast<void *>(e->f8), reinterpret_cast<void *>(e->fC), &d, 5.0f, 0.0f);
+            BmlModelEntry *e = &dubchik_resource->models[j];
+            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->m_c, &d, 5.0f, 0.0f);
         }
     }
 }
@@ -385,7 +352,7 @@ void TObjEneDubchik::free_resources() {
         breakup_model_ptr = NULL;
     }
     if (dubchik_resource != NULL) {
-        delete (BmlResource *)dubchik_resource;
+        delete dubchik_resource;
         dubchik_resource = NULL;
     }
     dubchik_texlist = NULL;
@@ -415,7 +382,7 @@ void TObjEneDubchik::free_resources() {
 void *TObjEneDubchik::create(void *set_data) {
     void *o;
     void *o2;
-    o = new TObjControl((TObject *)tl_04);
+    o = new TObjControl(tl_04);
     o2 = new TObjEneDubchik((TObject *)o, set_data);
     return o2;
 }
@@ -444,7 +411,7 @@ void TObjEneDubchik::run_task() {
     if (obj_testFlags30(0x04000000) == 0) {
         submit_cursor_candidate(this, -1);
     }
-    minimap_render_dot((u8 *)&position, -0x5DB4, 1, 0);
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
 void TObjEneDubchik::run_synced_state_handler() {
@@ -456,7 +423,7 @@ void TObjEneDubchik::run_synced_state_handler() {
     case 4: update_knockback(); return;
     case 5: update_fall_apart(); return;
     case 7: update_appear(); return;
-    case 8: TObjPlayer__sub_800A8C4C((u8 *)this); break;
+    case 8: update_return_home(); break;
     }
 }
 
@@ -480,7 +447,7 @@ void TObjEneDubchik::render() {
             push_matrix();
             saved_model_render_flags = model_render_flags;
             apply_broken_part_visibility();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, 1.3f, 1.3f, 1.3f);
             model_render_flags &= 0xFFFFFBFF;
@@ -629,10 +596,7 @@ void TObjEneDubchik::update_chase() {
             } else {
                 speed = dubchik_walk_speed_by_variant[variant];
             }
-            {
-                Vec v = ((TObjChara *)target)->body_center;
-                update_enemy_wander_move(this, &v, 1, speed);
-            }
+            update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, speed);
             chase_distance += speed;
             turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         } else {
@@ -888,7 +852,7 @@ void TObjEneDubchik::update_scratch() {
         h1 = dubchik_scratch_trail1_points[collapsed]->lookup((f32)frame);
         push_matrix();
         set_matrix_identity(0);
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         if (h0 != 0) {
             matrix_mult_vec_array(NULL, h0, &a1, 2);
@@ -1090,45 +1054,45 @@ void TObjEneDubchik::update_appear() {
     }
 }
 
-extern "C" void TObjPlayer__sub_800A8C4C(u8 *actor) {
-    f32 var_f31;
-    s32 var_r0;
-    switch (*(s32 *)((s8 *)actor + 0x37C)) {
+void TObjEneDubchik::update_return_home() {
+    f32 speed;
+    s32 action;
+    switch ((s32)state) {
     case -1:
         break;
     case 0:
         if (TObjEneDD::check_v2_mode() == 0) {
-            if (*(s16 *)((s8 *)actor + 0x392) != 0) {
-                var_r0 = 7;
+            if (collapsed != 0) {
+                action = 7;
             } else {
-                var_r0 = *(s32 *)((s8 *)((u8 *)dubchik_walk_action_by_variant + (*(s32 *)((s8 *)actor + 0x368) * 4)) + 0);
+                action = dubchik_walk_action_by_variant[variant];
             }
-            *(s16 *)((s8 *)actor + 0xB8) = (s16) var_r0;
+            requested_action = action;
         } else {
-            *(s16 *)((s8 *)actor + 0xB8) = 0;
+            requested_action = 0;
         }
-        VecCopy((Vec *)((u8 *)actor + 0x29C), (const Vec *)((u8 *)actor + 0x50));
-        *(s32 *)((s8 *)actor + 0x37C) = 1;
+        VecCopy(&move_destination, &home_position);
+        state = 1;
         return;
     case 1:
-        ((TObjMotion *)actor)->advance_animation();
-        apply_actor_gravity((TObjEnemy *)((u8 *)((void *)actor)), (s32 *)(0), 0.0f);
-        ((TObjCollidable *)actor)->check_object_collisions();
-        check_enemy_body_collisions((TObjCollidable *)actor);
-        if (*(s16 *)((s8 *)actor + 0x392) != 0) {
-            var_f31 = ((TObjEneDubchik *)actor)->get_float_parameter(2);
+        advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        check_object_collisions();
+        check_enemy_body_collisions(this);
+        if (collapsed != 0) {
+            speed = get_float_parameter(2);
         } else {
-            var_f31 = *(f32 *)((s8 *)((u8 *)dubchik_walk_speed_by_variant + (*(s32 *)((s8 *)actor + 0x368) * 4)) + 0);
+            speed = dubchik_walk_speed_by_variant[variant];
         }
-        VecCopy((Vec *)((u8 *)actor + 0x290), (const Vec *)((u8 *)actor + 0x2FC));
-        calc_velocity_toward_destination((void *)actor, *(Vec_800A8C4C *)(actor + 0x290), *(Vec_800A8C4C *)(actor + 0x29C), var_f31);
-        ((TObjEnemy *)actor)->turn_toward_direction(*(s32 *)((u8 *)((TObjEnemy *)actor)->movementParameters + 8), (Vec *)((u8 *)actor + 0x308));
-        move_with_wall_slide((actor));
-        if (xz_distance_squared((Vec *)((u8 *)actor + 0x38), (Vec *)((u8 *)actor + 0x50)) < 100.0f) {
-            *(s16 *)((s8 *)actor + 0xB8) = 5;
-            ((TObjMotion *)actor)->advance_animation();
-            *(s32 *)((s8 *)actor + 0x388) = (s32) (*(s32 *)((s8 *)actor + 0x388) & 0xFE7FFFFF);
-            ((TObjEnemyCustom *)actor)->update_if_active(0);
+        VecCopy(&move_origin, &body_center);
+        calc_velocity_toward_destination(this, move_origin, move_destination, speed);
+        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        move_with_wall_slide((u8 *)this);
+        if (xz_distance_squared(&position, &home_position) < 100.0f) {
+            requested_action = 5;
+            advance_animation();
+            m_388 &= 0xFE7FFFFF;
+            update_if_active(0);
         }
         return;
     }

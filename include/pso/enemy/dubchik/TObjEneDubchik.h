@@ -8,13 +8,12 @@ class TParticleCtrl;
 class TUnk_80494968;
 
 class TUnk_80491478;
-struct BmlMotionEntry;
 
-// The dubchik's loaded BML resource and its model table (TObjEneDubchik's TU loads it).
-struct Mdl_800AA82C { u8 pad[8]; s32 f8; s32 fC; };
-struct Res_800AA82C { u8 pad[0x42C]; Mdl_800AA82C *mdl; BmlMotionEntry *motions; };
+struct BmlResource;
+
+// The dubchik's loaded BML resource (TObjEneDubchik::load_resources loads it).
 extern "C" {
-extern Res_800AA82C *dubchik_resource;
+extern BmlResource *dubchik_resource;
 extern NJS_TEXLIST *dubchik_texlist;
 }
 
@@ -44,6 +43,7 @@ public:
     void update_chase();        // mode 1: walk toward the target
     void update_scratch();      // mode 2: scratch01/scratch02 swing at the target
     void update_knockback();    // mode 4: damage motion, pushed back
+    void update_return_home();  // mode 8: walks back to home_position
     void update_fall_apart();  // state 5 (TObjEnemyCustom::run_death_reaction): falls apart into parts, reassembles
     void update_appear();       // mode 7: starting motion while it fades in
     void update_shoot();        // mode 9: kamae then shoot01/shoot02 volleys
