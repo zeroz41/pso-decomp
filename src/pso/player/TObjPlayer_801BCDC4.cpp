@@ -6,11 +6,11 @@
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
 
-u16 get_entity_id(void *);
 extern s32 player_shared_buffer_base;
 
 void TObjPlayer::init_data_table_ptr() {

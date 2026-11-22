@@ -55,6 +55,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 extern "C" {
@@ -204,7 +205,6 @@ struct CanadinLeaderCall : CanadinLeaderCallBase {
     virtual s32 m114(TObjChara *player);
 };
 
-u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
@@ -434,7 +434,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     mode = 0;
     dispatch_action(mode, 4);
     if (m_3C0 != NULL) {
-        m_4C8 = ((u16 (*)(void *))get_entity_id)(m_3C0);
+        m_4C8 = get_entity_id(m_3C0);
     } else {
         m_4C8 = 0xFFFF;
     }

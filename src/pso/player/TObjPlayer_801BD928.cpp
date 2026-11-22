@@ -7,6 +7,7 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/unk/TLobby_80227A2C.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
@@ -29,7 +30,6 @@ s32 init_follow_particle_state(void *);
 s32 TObjPlayer__sub_803374C4(void *);
 s32 TObjPlayer__sub_80351974(void *);
 s32 __ct__14TPlyDispConfigFv(void *);
-u16 get_entity_id(void *);
 s32 update_body_parts__10TObjPlayerFv(void *, void *);
 
 extern s32 __vt__10TObjPlayer[];

@@ -19,6 +19,7 @@
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -30,7 +31,6 @@ typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
 
 extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8);
-u16 get_entity_id(void *);
 extern s32 game_difficulty_selection;
 s32 get_class_starting_inventory(s8 arg0);
 u8 *get_class_defense_template(TObjPlayer *arg0);

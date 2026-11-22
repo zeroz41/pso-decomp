@@ -127,7 +127,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 
 
-u16 get_entity_id(TObjBase *object);
 
 s32 *csnLookAt(s32 from, s32 to);
 

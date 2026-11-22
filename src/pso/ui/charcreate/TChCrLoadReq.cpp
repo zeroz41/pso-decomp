@@ -9,6 +9,7 @@
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are
 // written in reverse address order; the data (the node range statics, then the load slot count,
@@ -20,7 +21,6 @@ const char *TChCrLoadReq__name = "TChCrLoadReq";
 #pragma pop
 
 extern "C" {
-u16 get_entity_id(void *);
 }
 
 // A node tree is valid when no node, child, sibling or model pointer lies in the low 2 MB.

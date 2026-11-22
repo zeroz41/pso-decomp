@@ -21,11 +21,11 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
-u16 get_entity_id(TObject *object);
 extern GC_Mtx identity_matrix;
 }
 
