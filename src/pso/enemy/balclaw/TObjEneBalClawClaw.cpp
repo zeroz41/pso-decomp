@@ -35,12 +35,11 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TMainTask.h"
 
 
-extern "C" {
-s32 submit_cursor_candidate(void *, int, int, f32, f32);
-
-TObjMotionAction balclaw_claw_model_node_desc[7] = {
+TObjMotionAction balclaw_claw_actions[7] = {
     {1, 0, 0xF, 1.0f, 0},
     {1, 0, 0xF, 1.0f, 1},
     {2, 0, 0xA, 0.8f, 4},
@@ -49,11 +48,8 @@ TObjMotionAction balclaw_claw_model_node_desc[7] = {
     {1, 0, 0xD, 0.7f, 1},
     {1, 0, 0xE, 0.7f, 1},
 };
-BalClawMovement lbl_8048F100 = {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0};
+BalClawMovement balclaw_claw_movement = {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0};
 CollisionBody TObjEneBalClawClaw__collision_body_template = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
-
-extern void *tl_04;
-}
 
 u8 *balclaw_claw_base_params[1];
 u8 *balclaw_claw_attack_params[1];
@@ -94,11 +90,11 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClawBody *body
 void TObjEneBalClawClaw::init() {
     this->m_name = balclaw_claw_class_name;
     this->motion_list = balclaw_bml_resource->motions;
-    this->action_table = balclaw_claw_model_node_desc;
+    this->action_table = balclaw_claw_actions;
     this->set_field_d8((saddr)this->action_table);
     init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
     this->variant = 0;
-    this->movementParameters = &lbl_8048F100;
+    this->movementParameters = &balclaw_claw_movement;
     this->bind_enemy_combat_stats(balclaw_claw_base_params[0], balclaw_claw_attack_params[0], balclaw_claw_resistance_params[0]);
     this->load_params();
     this->requested_action = 0;
@@ -127,20 +123,17 @@ TObjEneBalClawClaw::~TObjEneBalClawClaw() {
 }
 
 void *TObjEneBalClawClaw::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneBalClawClaw(control, set_data);
 }
 
 TObjEneBalClawClaw *TObjEneBalClawClaw::create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneBalClawClaw(control, body, id, index, pos, rot_y, hp);
 }
 
 void TObjEneBalClawClaw::run_task() {
-    f32 lift;
-    f32 center_y;
     u32 flags;
-    CollisionBody *body;
     TObjBase *parent;
     scroll_part_uvs();
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -176,12 +169,9 @@ void TObjEneBalClawClaw::run_task() {
         }
         update_claw_angle();
         VecCopy(&body_center, &position);
-        center_y = body_center.y;
-        body_center.y = center_y + (hover_height + wobble_offset);
-        lift = hover_height;
-        body = bodies;
-        body->offset.y = lift + wobble_offset;
-        submit_cursor_candidate(this, -1, (saddr)body, lift, center_y);
+        body_center.y += hover_height + wobble_offset;
+        bodies->offset.y = hover_height + wobble_offset;
+        submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
         return;
     }
@@ -724,7 +714,7 @@ void TObjEneBalClawClaw::update_retreat() {
 
 // Registers the claw model (claw_body) and action table with the NPC model registry.
 void TObjEneBalClawClaw::load_resources() {
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_model_node_desc), 0, 1, 7 };
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_actions), 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
     NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding,

@@ -30,6 +30,7 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     void update_retreat();
     void reset_enemy_state();
     void set_form(s32 form);
+    void show_claw_arms(s32 count);
     void calc_slot_offset_position(s32 slot, Vec *out, s32 *angle_out);
     void run_demo_task();
     void update_attack_distance_state();

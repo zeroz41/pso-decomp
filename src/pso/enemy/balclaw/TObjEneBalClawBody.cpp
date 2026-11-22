@@ -39,6 +39,8 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject_80019A50.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -59,7 +61,7 @@ TObjMotionAction balclaw_body_actions[12] = {
 };
 
 // Movement rows; TObjPlayer__sub_8008E934 points TObjEnemy::movementParameters at one.
-BalClawMovement player_attack_param_table[2] = {
+BalClawMovement balclaw_body_movement[2] = {
     {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
     {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
 };
@@ -73,12 +75,6 @@ u8 *balclaw_body_resistance_params[2];
 BalClawBehaviorParams *balclaw_body_behavior_params[2];
 const char *balclaw_body_class_name = balclaw_body_class_name_text;
 
-
-extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
-void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
-s32 submit_cursor_candidate(void *, int, int, f32, f32);
-}
 
 // int_params[0] is the hp percent at which the body turns on its target (update_damage).
 s32 TObjEneBalClawBody::get_int_parameter(s32 i) {
@@ -166,10 +162,6 @@ void *TObjEneBalClawBody::create(void *set_data) {
 }
 
 void TObjEneBalClawBody::run_task() {
-    f32 lift;
-    f32 center_y;
-    CollisionBody *body;
-
     scroll_part_uvs();
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();
@@ -193,12 +185,9 @@ void TObjEneBalClawBody::run_task() {
     update_wobble();
     update_claw_angle();
     VecCopy(&body_center, &position);
-    center_y = body_center.y;
-    body_center.y = center_y + (hover_height + wobble_offset);
-    lift = hover_height;
-    body = bodies;
-    body->offset.y = lift + wobble_offset;
-    submit_cursor_candidate(this, -1, (saddr)body, lift, center_y);
+    body_center.y += hover_height + wobble_offset;
+    bodies->offset.y = hover_height + wobble_offset;
+    submit_cursor_candidate(this, -1);
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
@@ -693,11 +682,12 @@ void TObjEneBalClawBody::update_combined_attack() {
     body->update_collisions();
 }
 
-void TObjPlayer::set_visibility_flags_by_count(void *arg0, s32 arg1) {
+// Shows the arm models of the first count claw slots and hides the rest.
+void TObjEneBalClawBody::show_claw_arms(s32 count) {
     s32 i;
     s32 j;
     NJS_OBJECT *e;
-    for (i = 0; i < arg1; i++) {
+    for (i = 0; i < count; i++) {
         for (j = 0; (e = balclaw_arm_part_models[i][j]) != NULL; j++) {
             e->evalflags &= ~NJD_EVAL_HIDE;
         }
@@ -821,7 +811,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
         this->child_count = 0;
     }
     this->set_field_b8(this->requested_action);
-    this->movementParameters = &player_attack_param_table[form];
+    this->movementParameters = &balclaw_body_movement[form];
     this->load_params();
     this->variant = form;
     this->form_timer = 0;
@@ -844,13 +834,13 @@ void TObjEneBalClawBody::render() {
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
             if (TObjPlayer::check_demo_mode() == 1) {
-                TObjPlayer::set_visibility_flags_by_count(this, 4);
+                show_claw_arms(4);
                 post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
                 draw_chunk_object(model);
             } else {
-                TObjPlayer::set_visibility_flags_by_count(this, child_count);
+                show_claw_arms(child_count);
                 translate_matrix(0, 0.0f, hover_height + wobble_offset, 0.0f);
                 post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
