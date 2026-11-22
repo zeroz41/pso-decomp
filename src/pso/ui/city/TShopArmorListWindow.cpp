@@ -363,11 +363,11 @@ void TShopArmorListWindow::advance_to_preparation_phase() { set_field_20(8); }
 
 void TShopArmorListWindow::open_menu_window() {
     f32 scale;
-    u16 temp_r31;
+    u16 entity_id;
 
     if (this->choice_menu == NULL) {
-        temp_r31 = get_entity_id(this->m_24);
-        this->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, temp_r31);
+        entity_id = get_entity_id(this->m_24);
+        this->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->choice_menu, (int)(get_shop_text(4)), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->choice_menu, (int)(get_shop_text(5)), 6, 1);
         choice_menu->calc_window_size();

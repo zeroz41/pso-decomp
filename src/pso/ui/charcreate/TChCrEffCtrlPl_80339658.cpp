@@ -18,13 +18,13 @@ const vec2f lbl_80477C78 = {542.0f, 82.0f};
 #pragma push
 #pragma opt_common_subs off
 void TChCrEffCtrlPl::render() {
-    f32 var_f2;
+    f32 alpha;
     set_depth_buffer_settings_1();
-    var_f2 = (2.5f) * fade;
-    if (var_f2 > (1.0f)) {
-        var_f2 = (1.0f);
+    alpha = (2.5f) * fade;
+    if (alpha > (1.0f)) {
+        alpha = (1.0f);
     }
-    draw_ui_sprite(sprite_id, &pos, -1.8125f, var_f2);
+    draw_ui_sprite(sprite_id, &pos, -1.8125f, alpha);
     draw_ui_sprite(m_20, &pos, -1.8125f, m_30);
     restore_saved_depth_alpha_state();
 }

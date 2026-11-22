@@ -415,10 +415,10 @@ u8 *TUnk_804EEF64::construct_title_scene() {
 }
 
 void TLobby::destroy_global_object() {
-    u32 temp_r4;
-    temp_r4 = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
+    u32 value;
+    value = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if ((void *) lobby_title_texture_list != NULL) {
-        release_texture_list(lobby_title_texture_list, (s32) temp_r4);
+        release_texture_list(lobby_title_texture_list, (s32) value);
         lobby_title_texture_list = NULL;
     }
 }

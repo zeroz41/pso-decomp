@@ -362,11 +362,11 @@ void TShopEquipmentListWindow::get_list_item8() { set_field_20(8); }
 
 void TShopEquipmentListWindow::open_menu_window() {
     f32 scale;
-    u16 temp_r31;
+    u16 entity_id;
 
     if (this->m_2c == NULL) {
-        temp_r31 = get_entity_id(this->m_24);
-        this->m_2c = create_window_menu((saddr)get_window_layout_position(0x2B), 2, temp_r31);
+        entity_id = get_entity_id(this->m_24);
+        this->m_2c = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->m_2c, (int)(get_shop_text(4)), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->m_2c, (int)(get_shop_text(5)), 6, 1);
         m_2c->calc_window_size();

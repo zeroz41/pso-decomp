@@ -362,7 +362,7 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
   CharacterClassAppearance *definition;
   CharacterTextureList **temp_r3;
   CharacterTextureList **temp_r3_2;
-  CharacterTextureList *temp_r6;
+  CharacterTextureList *source;
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
   new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
@@ -371,10 +371,10 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
   temp_r3 = definition->hairTextures;
   if (temp_r3 != 0)
   {
-    temp_r6 = temp_r3[appearance->hair];
-    if (temp_r6 != 0)
+    source = temp_r3[appearance->hair];
+    if (source != 0)
     {
-      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, temp_r6);
+      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, source);
       output->loaded = 1;
     }
   }

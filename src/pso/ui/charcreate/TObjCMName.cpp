@@ -657,15 +657,15 @@ void TObjCMMainMenu::update_slide_offset() {
 
 void TObjCMMainMenu::update_random_proportion_action(void * _w0) {
     f32 right_trigger_ratio;
-    f32 temp_f31_2;
+    f32 ratio;
     if (TAdSinglePlyChrSelectGC::is_active() != 0) {
         switch (TObjCMMainMenu__data_805D659C) {
         case 0:
         case 1:
             right_trigger_ratio = TObjCMProportion::get_right_trigger_ratio();
-            temp_f31_2 = TObjCMProportion::get_ratio() - right_trigger_ratio;
-            if (fabs_float(temp_f31_2) > 0.05f) {
-                TObjCMMainMenu__sub_80298DA0((s32) (1092.0f * temp_f31_2));
+            ratio = TObjCMProportion::get_ratio() - right_trigger_ratio;
+            if (fabs_float(ratio) > 0.05f) {
+                TObjCMMainMenu__sub_80298DA0((s32) (1092.0f * ratio));
             }
             break;
         }
@@ -1058,20 +1058,20 @@ void TObjCMMainMenu::confirm_selection() {
 
 s32 TObjCMMainMenu::try_pay_fee() {
     s32 temp_r4;
-    void *temp_r3;
+    void *char_index;
 
     if ((void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) == NULL) {
         play_sound_effect(0x40018519, 0, 0, 0);
         return 0;
     }
-    temp_r3 = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
-    temp_r4 = *(s32 *)((s8 *)temp_r3 + 0x36C);
+    char_index = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
+    temp_r4 = *(s32 *)((s8 *)char_index + 0x36C);
     if (temp_r4 < 0x2710) {
-        *(s32 *)((s8 *)temp_r3 + 0x36C) = 0;
+        *(s32 *)((s8 *)char_index + 0x36C) = 0;
         play_sound_effect(0xB20C, 0, 0, 0);
         return 0;
     }
-    *(s32 *)((s8 *)temp_r3 + 0x36C) = (temp_r4 - 0x2710);
+    *(s32 *)((s8 *)char_index + 0x36C) = (temp_r4 - 0x2710);
     play_sound_effect(0x44E03, 0, 0, 0);
     return 1;
 }
@@ -2013,25 +2013,25 @@ void TObjCMProportion::run_task() {
     f32 sp8;
     f32 temp_f0;
     f32 temp_f1_4;
-    f32 var_f1;
+    f32 proportion;
     f32 var_f30;
     f32 var_f29;
     CharacterAppearanceFields *temp_r3_3;
     CharacterAppearanceFields *temp_r3_4;
 
-    var_f1 = TObjCMMainMenu::get_proportion();
+    proportion = TObjCMMainMenu::get_proportion();
     if ((s32) arg0->active != 0) {
         if (1.0f == arg0->fade) {
-            var_f1 += -0.033333335f;
-            if (var_f1 < 0.0f) {
-                var_f1 = 0.0f;
+            proportion += -0.033333335f;
+            if (proportion < 0.0f) {
+                proportion = 0.0f;
             }
         }
     } else {
         temp_f0 = 1.0f - arg0->fade;
-        var_f1 = (var_f1 > temp_f0) ? var_f1 : temp_f0;
+        proportion = (proportion > temp_f0) ? proportion : temp_f0;
     }
-    set_creation_projection_center(var_f1);
+    set_creation_projection_center(proportion);
     if ((s32) arg0->initialized == 0) {
         arg0->initialized = 1;
         return;

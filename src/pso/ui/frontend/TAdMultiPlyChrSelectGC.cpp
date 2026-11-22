@@ -1345,7 +1345,7 @@ void TAdMultiPlyChrSelectGC__sub_802DDBA8(u8 *arg0) {
 
 void TAdMultiPlyChrSelectGC::update_select() {
     s32 temp_r30;
-    s32 temp_r5;
+    s32 instance;
     u32 var_r0;
 
     if ((u32) *(u32 *)&this->unk_90 != 0U) {
@@ -1360,8 +1360,8 @@ void TAdMultiPlyChrSelectGC::update_select() {
         ((TObject *)(*(void * *)&this->m_74))->queue_destruction();
         this->m_74 = 0U;
     }
-    temp_r5 = player_plate->get_instance();
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[temp_r5], 2) != 0) {
+    instance = player_plate->get_instance();
+    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[instance], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)&this->unk_68 != 0U) {
             ((TObject *)(*(void * *)&this->unk_68))->queue_destruction();
@@ -1425,8 +1425,8 @@ void TAdMultiPlyChrSelectGC::update_select() {
 }
 
 void TAdMultiPlyChrSelectGC::update_state_wait_card() {
-    s32 temp_r31;
-    s32 temp_r3_2;
+    s32 active_card_slot;
+    s32 card_index;
 
     if (((TAdMultiPlyChrSelectGC *)(this->m_6c))->get_mode() <= 1) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -1461,13 +1461,13 @@ void TAdMultiPlyChrSelectGC::update_state_wait_card() {
             *(s32 *)&this->m_20 = 0xC;
             return;
         case 0:
-            temp_r31 = player_plate->get_active_card_slot();
-            temp_r3_2 = player_plate->get_card_index(1);
-            if (try_move_char__23TAdSinglePlyChrSelectGCFii(temp_r3_2 + 4, temp_r31) != 0) {
+            active_card_slot = player_plate->get_active_card_slot();
+            card_index = player_plate->get_card_index(1);
+            if (try_move_char__23TAdSinglePlyChrSelectGCFii(card_index + 4, active_card_slot) != 0) {
                 {
                     TAdChrMoveEffectGC *effect = TAdMultiPlyChrSelectGC::get_global_state();
                     if (effect != NULL) {
-                        effect->setup_move_effect_params(temp_r31 + 3, temp_r3_2);
+                        effect->setup_move_effect_params(active_card_slot + 3, card_index);
                     }
                 }
                 *(s32 *)&this->unk_80 = TAdMultiPlyChrSelectGC__sub_802DBEC4(this, lbl_80472868);
@@ -1631,7 +1631,7 @@ void TAdMultiPlyChrSelectGC__sub_802DD2B0(void *arg0) {
 void TAdMultiPlyChrSelectGC::update_state_move() {
     u32 iter;
     TAdChrMoveEffectGC *effect;
-    s32 temp_r5;
+    s32 instance;
     s32 ret;
     s32 temp_r3;
 
@@ -1639,8 +1639,8 @@ void TAdMultiPlyChrSelectGC::update_state_move() {
         *(s32 *)&this->m_20 = 0xC;
         return;
     }
-    temp_r5 = player_plate->get_instance();
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[temp_r5], 2) != 0) {
+    instance = player_plate->get_instance();
+    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[instance], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)&this->unk_68 != 0U) {
             ((TObject *)(*(void * *)&this->unk_68))->queue_destruction();
@@ -2153,22 +2153,22 @@ void TAdMultiPlyChrSelectGC::sub_802DC118(s32 arg1) {
 
 s32 TAdMultiPlyChrSelectGC::get_state_result() {
     s32 temp_r0;
-    s32 var_r4;
+    s32 instance;
 
-    var_r4 = -1;
+    instance = -1;
     temp_r0 = this->m_20;
     switch (temp_r0) {
     case 0:
-        var_r4 = 0;
+        instance = 0;
         break;
     case 12:
-        var_r4 = player_plate->get_instance();
+        instance = player_plate->get_instance();
         break;
     case 29:
-        var_r4 = 0;
+        instance = 0;
         break;
     }
-    return var_r4;
+    return instance;
 }
 
 void TAdMultiPlyChrSelectGC::collect_player_slots() {
@@ -2201,23 +2201,23 @@ s32 TAdMultiPlyChrSelectGC::create_choice_menu() {
 }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *desc) {
-  saddr temp_r31;
-  temp_r31 = create_window_menu_default((void *)desc, 1);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 6)), 0x21, 0);
-  ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-  TQuestThread::set_status_flag_80((void *)temp_r31);
-  ((TWindowSubComCard *)temp_r31)->calc_layout_height(190.0f);
-  return temp_r31;
+  saddr window_menu_default;
+  window_menu_default = create_window_menu_default((void *)desc, 1);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)((int) get_localized_text_entry(0x1F, 6)), 0x21, 0);
+  ((TAdChrSelASlotGC *)window_menu_default)->set_flag_40();
+  TQuestThread::set_status_flag_80((void *)window_menu_default);
+  ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
+  return window_menu_default;
 }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc) {
-  saddr temp_r31;
-  temp_r31 = create_window_menu_default((void *)desc, 1);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 7)), 0x21, 0);
-  ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-  TQuestThread::set_status_flag_80((void *)temp_r31);
-  ((TWindowSubComCard *)temp_r31)->calc_layout_height(190.0f);
-  return temp_r31;
+  saddr window_menu_default;
+  window_menu_default = create_window_menu_default((void *)desc, 1);
+  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)((int) get_localized_text_entry(0x1F, 7)), 0x21, 0);
+  ((TAdChrSelASlotGC *)window_menu_default)->set_flag_40();
+  TQuestThread::set_status_flag_80((void *)window_menu_default);
+  ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
+  return window_menu_default;
 }
 
 void *TAdMultiPlyChrSelectGC::create_confirm_window(s32 slot) {

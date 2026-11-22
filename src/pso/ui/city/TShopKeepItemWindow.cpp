@@ -230,17 +230,17 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
 }
 
 void TShopKeepItemWindow::update_number_input() {
-    f32 temp_f31;
-    u16 temp_r31;
+    f32 scale;
+    u16 entity_id;
     TWindowInputNumber *w;
     w = this->number_window;
     if ((w != NULL) && (w->is_confirmed() != 0)) {
         if (this->confirm_window == NULL) {
-            temp_r31 = get_entity_id(this->m_24);
-            this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), temp_r31, 0, 0);
+            entity_id = get_entity_id(this->m_24);
+            this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), entity_id, 0, 0);
             ((TWindowMenu *)(this->confirm_window))->set_ready_flag();
-            temp_f31 = get_scale();
-            ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), temp_f31);
+            scale = get_scale();
+            ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), scale);
         }
         this->deposit_count = ((TShopEquipmentSellWindow *)(this->number_window))->get_result();
         ((TWindowBase *)this->number_window)->close();

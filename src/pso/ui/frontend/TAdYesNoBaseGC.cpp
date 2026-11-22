@@ -26,10 +26,10 @@ void copy_vec2__FPvPv(void *);
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
-    saddr temp_r31;
-    temp_r31 = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
-    ((TWindowMessage *)temp_r31)->append_line(vfunc_10(), 1);
-    return temp_r31;
+    saddr message_window;
+    message_window = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
+    ((TWindowMessage *)message_window)->append_line(vfunc_10(), 1);
+    return message_window;
 }
 
 s32 TAdYesNoBaseGC::create_menu_window() {

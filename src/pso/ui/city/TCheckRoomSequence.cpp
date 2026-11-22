@@ -309,16 +309,16 @@ void open_get_item_window__18TCheckRoomSequenceFPv(Seq_8020F2D8 *self) {
 #pragma push
 #pragma optimization_level 1
 void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
-    s32 temp_r31;
-    s32 temp_r3;
+    s32 amount;
+    s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
-        temp_r31 = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
-        temp_r3 = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
-        bank_debit_meseta(temp_r31, temp_r3);
-        ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->add_meseta(temp_r31);
-        copy_bank_to_card_window(temp_r3);
+        amount = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
+        slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
+        bank_debit_meseta(amount, slot);
+        ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->add_meseta(amount);
+        copy_bank_to_card_window(slot);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(temp_r3)));
+            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(slot)));
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         ((TShopWindowBase *)arg0)->set_field_20(2);
@@ -379,15 +379,15 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
 #pragma optimization_level 1
 void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 temp_r31;
-    s32 temp_r3;
+    s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         temp_r31 = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
-        temp_r3 = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
-        bank_credit_meseta(temp_r31, temp_r3);
+        slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
+        bank_credit_meseta(temp_r31, slot);
         try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (temp_r31));
-        copy_bank_to_card_window(temp_r3);
+        copy_bank_to_card_window(slot);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(temp_r3)));
+            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(slot)));
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         ((TShopWindowBase *)arg0)->set_field_20(2);
@@ -572,7 +572,7 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
     f32 temp_f31;
     f32 temp_f31_2;
     s32 selected_menu_value;
-    s32 temp_r3_2;
+    s32 selected_value;
     if (check_room_ready__18TCheckRoomSequenceFv() != 0) {
         switch (*(s32 *)((s8 *)arg0 + 0x2C)) {
         case 0:
@@ -627,13 +627,13 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
             return;
         case 1:
             if ((sequence->choice_menu != NULL) && (sequence->choice_menu->is_decided() != 0)) {
-                temp_r3_2 = sequence->choice_menu->get_selected_value();
-                if (temp_r3_2 == 0) {
+                selected_value = sequence->choice_menu->get_selected_value();
+                if (selected_value == 0) {
                     sequence->set_field_20(0xA);
                     sequence->choice_menu->close();
                     sequence->choice_menu = NULL;
                 }
-                if (temp_r3_2 == 1) {
+                if (selected_value == 1) {
                     sequence->set_field_20(0x12);
                     sequence->choice_menu->close();
                     sequence->choice_menu = NULL;
