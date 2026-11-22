@@ -1143,7 +1143,7 @@ force_active:
   - __ct__18TObjEneBm5WolfNodeFv
   - __ct__19TObjEneBm9MericarolFP7TObjectPv
   - __vt__19TObjEneBm9Mericarol
-  - sub_800A0B18__20TObjEneDarkGunCenterFv
+  - run_demo_task__20TObjEneDarkGunCenterFv
   - TObjEneDellBiter__param_table
   - TObjEneDellBiter__resource_descriptor
   - update_death_state__17TObjEneDf2BringerFl
@@ -1507,18 +1507,18 @@ force_active:
   - TObjPlayer__sub_80083FA4
   - summon_claws__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
-  - sub_800A100C__17TObjEneDarkGunnerFv
-  - sub_800A16C4__17TObjEneDarkGunnerFv
-  - sub_800A1974__17TObjEneDarkGunnerFv
+  - clear_state7_flag__17TObjEneDarkGunnerFv
+  - update_state_machine__17TObjEneDarkGunnerFv
+  - run_demo_task__17TObjEneDarkGunnerFv
   - render__17TObjEneDarkGunnerFv
   - update_dying__17TObjEneDarkGunnerFv
   - update_damage__17TObjEneDarkGunnerFv
   - update_move__17TObjEneDarkGunnerFv
-  - sub_800A27CC__17TObjEneDarkGunnerFv
+  - update_wait__17TObjEneDarkGunnerFv
   - run_task__17TObjEneDarkGunnerFv
   - __dt__17TObjEneDarkGunnerFv
   - __ct__17TObjEneDarkGunnerFP7TObjectPv
-  - sub_800A3200__17TObjEneDarkGunnerFl
+  - get_float_parameter__17TObjEneDarkGunnerFl
   - run_demo_task__12TObjEneSaverFv
   - state_defence__12TObjEneSaverFv
   - state_nail__12TObjEneSaverFv
@@ -7160,7 +7160,7 @@ force_active:
   - init_reset_fields__15TFontSmallLobbyFv
   - init_result_state__18TChallenge4PResultFv
   - init_s_rank_knuckle__FPvlPv
-  - init_scale_global__17TObjEneDarkGunnerFv
+  - load_params__17TObjEneDarkGunnerFv
   - init_segment_angle_range__9TBoss6MagFv
   - init_segment_range__11TBoss6Type2Fv
   - init_segments__14TBoss7TentacleFv
@@ -16177,8 +16177,8 @@ force_active:
   - sub_8009A11C__13TUnk_8048FE08Fv
   - sub_8009A598__13TUnk_8048FE7CFv
   - sub_8009A640__13TUnk_8048FE7CFv
-  - sub_800A1520__17TObjEneDarkGunnerFv
-  - sub_800A159C__17TObjEneDarkGunnerFv
+  - update_state__17TObjEneDarkGunnerFv
+  - update_hover__17TObjEneDarkGunnerFv
   - sub_800A3290__13TUnk_804909C4FUs
   - update_particle_effect__12TObjEneSaverFv
   - state_jump_attack__12TObjEneSaverFv
@@ -17038,7 +17038,7 @@ force_active:
   - update_motion_tracks__11TBoss6Type2Fv
   - update_move__17TObjEneMe1CanadinFv
   - update_move_flag__10TBoss2MineFv
-  - update_move_to_destination__17TObjEneDarkGunnerFv
+  - update_return_home__17TObjEneDarkGunnerFv
   - update_return_home__18TObjEneBalClawClawFv
   - update_move_to_target_state__10TBoss4ZakoFv
   - update_move_toward_target__12TObjEneSaverFv

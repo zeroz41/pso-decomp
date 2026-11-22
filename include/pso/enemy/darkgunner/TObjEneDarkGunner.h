@@ -10,30 +10,30 @@ class TeneFakeTecThunderEff;
 
 // The record TLobby::dispatch_shared_handler_a(30) returns (TObjEneDarkGunner__behavior_params).
 struct TObjEneDarkGunnerBehaviorParams {
-    f32 float_params[6]; // sub_800A3200: 0 move speed, 1 move distance, 2 damage limit, 3 player_scale_factor
-    s32 int_params[4];   // sub_800A3210: 0 attack timer, 1 hide timer, 2 bodies->unk_28 while m_388 bit 22, 3 TUnk_804909C4 t.b
+    f32 float_params[6]; // get_float_parameter: 0 move speed, 1 move distance, 2 damage limit, 3 player_scale_factor
+    s32 int_params[4];   // get_int_parameter: 0 attack timer, 1 hide timer, 2 bodies->unk_28 while m_388 bit 22, 3 TUnk_804909C4 t.b
 };
 
 struct TObjEneDarkGunner : public TObjEnemyCustom {
     TObjEneDarkGunner(TObject *parent, void *set_data);
     virtual ~TObjEneDarkGunner();
     static void *create(void *set_data);
-    void sub_800A27CC();
+    void update_wait();     // mode 0: wait motion (upside down on the ceiling with m_388 bit 16)
     void update_move();     // mode 1: drop, spin and glide (drop/move motions)
     void update_attack();   // mode 2: attack/await/pullback, fires the thunder shots
-    void sub_800A16C4();    // mode 3
+    void update_state_machine(); // mode 3: wait motion until timer runs out, then start_move
     void update_damage();   // mode 4: damage/duckdame motions
     void update_dying();    // mode 5: die motion, then the death fade
     virtual void run_task();
     virtual void render();
     void set_fields_24_34_from_global(void*);
-    void sub_800A159C();
-    void sub_800A1520();
-    int is_flag_set_388_bit26();
-    void apply_fall_damage_flag();
-    void set_hidden_flag();
-    void trigger_action_if_not_flagged();
-    void update_hide_sequence();
+    void update_hover();    // hover_height bob; shadow_pos and child_offsets from it
+    void update_state();    // run_task's mode switch
+    int is_death_gunner();  // m_388 bit 26, set by become_death_gunner
+    void return_home_or_wait(); // mode 8 when over 10 units from home_position, else mode 0
+    void start_move();      // mode 1 unless the gunner is down (actorFlags 0x800)
+    void start_hide();      // mode 6 unless down or already hiding (m_388 bit 23)
+    void update_hide_sequence(); // mode 6: duck motion for hide_timer frames, then start_move
     virtual s32 update_movement_status();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();
@@ -42,18 +42,18 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     virtual s32 update_action_hold_status();
     virtual void refresh_target();
     void step_along_ground();
-    void update_move_to_destination();
-    int sub_800A1808();
+    void update_return_home(); // mode 8: walks back to home_position, then return_home_or_wait
+    int is_on_ground();     // actorFlags 0x800000
     void spawn_hamon_effects(s32 type, s32 variant, f32 scale);
     void render_shadow();
     static void cleanup_effects();
-    static f32 sub_800A3200(s32 index); // f32 entries of the gunner's behavior params
-    static s32 sub_800A3210(s32 index); // its s32 entries, from +0x18
-    void init_scale_global();
-    void sub_800A1974();
-    void sub_800A100C();
-    void sub_800A0FDC();               // the gun center's selected gunner: m_388 bit 26, param 0x23
-    void clear_lappy_flag_set_param(); // every other gunner: clears bit 26, param 0x22
+    static f32 get_float_parameter(s32 index); // f32 entries of the gunner's behavior params
+    static s32 get_int_parameter(s32 index); // its s32 entries, from +0x18
+    void load_params();     // player_scale_factor from float param 3
+    void run_demo_task();
+    void clear_state7_flag(); // empty here; the hook TObjEneDubchik::clear_state7_flag fills
+    void become_death_gunner(); // the gun center's selected gunner: m_388 bit 26, param 0x23
+    void become_dark_gunner();  // every other gunner: clears bit 26, param 0x22
     f32 render_y_offset;
     f32 hover_height;  // integrated from hover_speed, clamped to 0..9
     f32 hover_speed;

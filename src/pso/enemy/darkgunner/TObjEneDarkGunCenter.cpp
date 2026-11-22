@@ -16,27 +16,26 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
 
-extern void *tl_04;
-
-void TObjEneDarkGunCenter::sub_800A0654() {
+void TObjEneDarkGunCenter::send_gunners_home() {
     s32 i;
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            ((TObjEneDarkGunner *)gunner)->apply_fall_damage_flag();
+            gunner->return_home_or_wait();
         }
     }
 }
 
-s32 TObjEneDarkGunCenter::sub_800A06B4() {
+s32 TObjEneDarkGunCenter::all_gunners_landed() {
     s32 i;
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            if (gunner->sub_800A1808() == 0) {
+            if (gunner->is_on_ground() == 0) {
                 return 0;
             }
         }
@@ -44,19 +43,19 @@ s32 TObjEneDarkGunCenter::sub_800A06B4() {
     return 1;
 }
 
-void TObjEneDarkGunCenter::trigger_targets_action() {
+void TObjEneDarkGunCenter::hide_gunners() {
     s32 i;
     state_timer = 0x78;
     state = 6;
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            ((TObjEneDarkGunner *)gunner)->trigger_action_if_not_flagged();
+            gunner->start_hide();
         }
     }
 }
 
-void TObjEneDarkGunCenter::sub_800A0798() {
+void TObjEneDarkGunCenter::start_gunners_attack() {
     s32 i;
     state_timer = 0x1a4;
     state = 5;
@@ -68,19 +67,19 @@ void TObjEneDarkGunCenter::sub_800A0798() {
     }
 }
 
-void TObjEneDarkGunCenter::hide_linked_enemies() {
+void TObjEneDarkGunCenter::move_gunners() {
     s32 i;
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            ((TObjEneDarkGunner *)gunner)->set_hidden_flag();
+            gunner->start_move();
         }
     }
     state_timer = 0x78;
     state = 4;
 }
 
-s32 TObjEneDarkGunCenter::sub_800A0884() {
+s32 TObjEneDarkGunCenter::select_death_gunner() {
     TObjEneDarkGunner *gunners[16];
     s32 n;
     s32 i;
@@ -104,16 +103,16 @@ s32 TObjEneDarkGunCenter::sub_800A0884() {
     for (j = 0; j < gunner_count; j++) {
         if (gunners[j] != NULL) {
             if (j == selected_gunner) {
-                gunners[j]->sub_800A0FDC();
+                gunners[j]->become_death_gunner();
             } else {
-                gunners[j]->clear_lappy_flag_set_param();
+                gunners[j]->become_dark_gunner();
             }
         }
     }
     return 1;
 }
 
-void TObjEneDarkGunCenter::sub_800A0994() {
+void TObjEneDarkGunCenter::gather_gunners() {
     s32 k;
     TObjEneDarkGunner *a;
     TObjEneDarkGunner *gunner;
@@ -149,7 +148,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
     }
 }
 
-void TObjEneDarkGunCenter::sub_800A0B18() {  }
+void TObjEneDarkGunCenter::run_demo_task() {  }
 void TObjEneDarkGunCenter::render() {  }
 
 #pragma defer_codegen on
@@ -173,12 +172,12 @@ TObjEneDarkGunCenter::TObjEneDarkGunCenter(TObject *parent, void *set_data) : TO
 
 TObjEneDarkGunCenter::~TObjEneDarkGunCenter() {}
 
-void TObjEneDarkGunCenter::sub_800A0E80() {  }
+void TObjEneDarkGunCenter::load_resources() {  }
 
-void TObjEneDarkGunCenter::sub_800A0E7C() {  }
+void TObjEneDarkGunCenter::free_resources() {  }
 
 void *TObjEneDarkGunCenter::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDarkGunCenter(control, set_data);
 }
 
@@ -189,10 +188,10 @@ void TObjEneDarkGunCenter::run_task() {
     s32 id;
     TObjEneDarkGunner *gunner;
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_800A0B18();
+        run_demo_task();
         return;
     }
-    sub_800A0994();
+    gather_gunners();
     switch (state) {
     case 0:
         if (is_actor_cadence_frame(0x1e) != 0) {
@@ -211,28 +210,28 @@ void TObjEneDarkGunCenter::run_task() {
                 state_timer = 0x5a;
                 state = 1;
             } else {
-                sub_800A0654();
+                send_gunners_home();
             }
         }
         break;
     case 1:
         state_timer--;
         if (state_timer <= 0) {
-            hide_linked_enemies();
+            move_gunners();
             state_timer = 0xd2;
             state = 2;
         }
         break;
     case 2:
         state_timer--;
-        if (sub_800A06B4() != 0 || state_timer <= 0) {
+        if (all_gunners_landed() != 0 || state_timer <= 0) {
             state = 3;
         }
         break;
     case 3:
         if (find_nearest_visible_player(this, NULL, 1000.0f) != 0xFFFF) {
-            hide_linked_enemies();
-            sub_800A0884();
+            move_gunners();
+            select_death_gunner();
         } else {
             state = 0;
         }
@@ -240,7 +239,7 @@ void TObjEneDarkGunCenter::run_task() {
     case 4:
         state_timer--;
         if (state_timer <= 0) {
-            sub_800A0798();
+            start_gunners_attack();
         }
         break;
     case 5:
