@@ -190,7 +190,7 @@ f32 xyz_distance(void *, void *);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
 
-void TBoss4DarkFalz::push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1) {
+void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     Vec v;
     E_8004AB90 *e;
     Vec *ev;
@@ -202,10 +202,10 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1) {
     f32 r;
     f32 sc;
     f32 orad;
-    e = &dark_falz_push_zone_table[arg1];
-    r = dark_falz_push_zone_table[arg1].r;
-    sc = dark_falz_push_zone_table[arg1].s;
-    ev = &dark_falz_push_zone_table[arg1].v;
+    e = &dark_falz_push_zone_table[zone];
+    r = dark_falz_push_zone_table[zone].r;
+    sc = dark_falz_push_zone_table[zone].s;
+    ev = &dark_falz_push_zone_table[zone].v;
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p == NULL) continue;
@@ -215,7 +215,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1) {
         for (j = 0; j < 3; j++) {
             o = &dark_falz_push_zone_table[j];
             orad = dark_falz_push_zone_table[j].r;
-            if (j != arg1 && !(xyz_distance(p + 0x38, o) > orad)) {
+            if (j != zone && !(xyz_distance(p + 0x38, o) > orad)) {
                 VecCopy((Vec *)&v, (const Vec *)(p + 0x38));
                 subtract_vector(&v, o);
                 v.y = 0.0f;
@@ -590,7 +590,7 @@ void TBoss4DarkFalz::set_fade(s32 color, f32 alpha) {
         fn_803594B4(fade, color, alpha);
     }
 }
-void TBoss4DarkFalz::refresh_player_equipment(void *self) {
+void TBoss4DarkFalz::refresh_player_equipment() {
     s32 i;
     void *p;
     for (i = 0; i < registered_player_count; i++) {
@@ -657,7 +657,7 @@ void TBoss4DarkFalz::place_players_for_demo() {
     }
 }
 
-void TBoss4DarkFalz::end_player_camera_pans(void *self) {
+void TBoss4DarkFalz::end_player_camera_pans() {
     s32 i;
     void *p;
     TWindowCtrl::init_all_slots2();
@@ -669,7 +669,7 @@ void TBoss4DarkFalz::end_player_camera_pans(void *self) {
     }
     release_all_players_control_lock();
 }
-void TBoss4DarkFalz::freeze_all_players(void *self) {
+void TBoss4DarkFalz::freeze_all_players() {
     s32 i;
     void *p;
     TWindowCtrl::init_all_slots();
@@ -771,7 +771,7 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
         this->send_entity_set_flags();
         break;
     }
-    TBoss4DarkFalz::end_player_camera_pans(this);
+    end_player_camera_pans();
     restore_player_cameras();
     if (TBoss4DarkFalz::is_ending_or_split_screen() == 0) {
         TLobby::stop_audio_streams();
@@ -840,7 +840,7 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     if (lbl_805D4D70 < 0 || lbl_805D4D70 > 0xE) {
         lbl_805D4D70 = 0;
     }
-    TBoss4DarkFalz::push_players_out_of_zone((saddr)this, 0);
+    push_players_out_of_zone(0);
     m_37c = -1;
     change_state(1);
 }

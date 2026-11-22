@@ -78,13 +78,13 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void set_fade(s32 color, f32 alpha);
     void place_players_on_ring();
     void place_players_for_demo();
-    static void refresh_player_equipment(void *self);
-    static void end_player_camera_pans(void *self);
-    static void freeze_all_players(void *self);
+    void refresh_player_equipment();
+    void end_player_camera_pans();
+    void freeze_all_players();
     void update_roar_sound_timer();
     static void free_global_instance();
     static int get_instance_count();
-    static void push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1);
+    void push_players_out_of_zone(s32 zone);
 
     void begin_defeat_sequence();
     void update_countdown_shrink();
