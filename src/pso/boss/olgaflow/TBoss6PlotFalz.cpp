@@ -20,7 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D96A8.h"
-void set_constant_material(const NJS_ARGB *color);
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
@@ -157,12 +157,9 @@ const Vec lbl_804705B4 = { 0.0f, 0.0f, 0.0f };
 const Vec lbl_804705C0 = { 0.0f, 0.0f, 0.0f };
 const Vec lbl_804705CC = { -10000.0f, 0.0f, 0.0f };
 
-struct Color_802ABF44 { f32 a, b, c, d; };
-
 extern "C" {
 s16 get_entity_id(void *);
 extern s32 plot_falz_phase;
-void set_chunk_material_override_pair(int, int, s32, s32);
 }
 
 
@@ -657,20 +654,21 @@ __declspec(section ".sdata2") const s32 lbl_805DE0B8[1] = { 0x8829 };
 }
 #define lbl_805DE0B8 (lbl_805DE0B8[0])
 void TBoss6PlotFalz::set_fade_material_color(f32 f) {
-    Color_802ABF44 c;
-    s32 old = model_render_flags;
+    NJS_ARGB c;
+    u32 old = model_render_flags;
     model_render_flags = old & ~0x10;
     saved_model_render_flags = old;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= lbl_805DE0B8;
-    set_chunk_material_override_pair(0xFF00, 0x800, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask);
+    set_chunk_material_override_pair(0xFF00, 0x800);
     c.a = -1.0f + f;
-    c.b = c.c = c.d = 0.0f;
-    set_constant_material((const NJS_ARGB *)&c);
+    c.r = c.g = c.b = 0.0f;
+    set_constant_material(&c);
 }
 
 }
+
 
 #define set_chunk_material_override_pair ((s32 (*)(int, int, int, s32, s32, int))set_chunk_material_override_pair)
 #define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)
@@ -755,6 +753,7 @@ s32 is_normal_difficulty(void) {
     }
     return 0;
 }
+
 
 #undef set_chunk_material_override_pair
 #undef set_constant_material
