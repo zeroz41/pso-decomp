@@ -157,21 +157,11 @@ public:
     TParticleCtrl *m_898;
     TParticleCtrl *m_89c;
     s32 m_8a0;
-    void set_random_param(u8 *arg1);
-    void calc_params(void *arg1, saddr arg2);
-    void calc_product_and_ratio(void *arg1, saddr arg2);
-    void calc_attack_params(void *arg1, saddr arg2);
-    void fn_8005EBDC(u8 *arg1, u8 *arg2);
-    s32 run_action_script_step(s16 *out, u32 *entry);
-    static void copy_angle_state(void *arg0, void *dst, void *src);
-    void update_target_from_state();
     static void init_state_zero(void *arg0);
     static void set_flag_4e4(void *p);
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
-    void flush_pending_effect();
-    void scale_size(f32 farg0, f32 farg1, f32 farg2);
     void fire_at_angle(s32 arg1);
     void update_facing(f32 farg0);
     void spawn_switch_attack();
@@ -181,7 +171,6 @@ public:
     void set_state_2();
     void attack_default();
     void query_default();
-    void copy_spawn_params(void* a1);
     void copy_action_state(u8 *arg1);
     static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);
     static void set_default_on_state0();
@@ -240,7 +229,6 @@ public:
     void set_field_1c();
     void spawn_child_object();
     static void free_resources();
-    void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     static int get_instance_count();
     void init_color();
     void send_spawn_params_packet();
@@ -268,7 +256,6 @@ public:
     void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
-    void play_animation_index(s32 arg1);
     void render_body_model();
     void select_freeze_target();
     void emit_body_effects();

@@ -74,12 +74,12 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    u8 pad_3C0[0xC0];
+    Vec pad_3C0[15];
+    Vec pad_474;  // scaled by scale_size; apply_velocity moves along its x and z
     s32 m_480;
-    u8 _pad484[0xC];
+    Vec pad_484;
     s32 targetRefreshCounter;
-    void* m_494;
-    u8 _pad498[0x24];
+    Boss5GryphonMotionEntry motions[2];
     Boss5GryphonMotionEntry *motion;
     u32 m_4c0;
     void* m_4c4;
@@ -145,6 +145,19 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void shift_position_history();
     static void cleanup();
     static void *create(void *arg0);
+    void set_random_param(u8 *arg1);
+    void calc_params(void *arg1, saddr arg2);
+    void calc_product_and_ratio(void *arg1, saddr arg2);
+    void calc_attack_params(void *arg1, saddr arg2);
+    void fn_8005EBDC(u8 *arg1, u8 *arg2);
+    s32 run_action_script_step(s16 *out, u32 *entry);
+    static void copy_angle_state(void *arg0, void *dst, void *src);
+    void update_target_from_state();
+    void play_animation_index(s32 arg1);
+    void flush_pending_effect();
+    void scale_size(f32 farg0, f32 farg1, f32 farg2);
+    void copy_spawn_params(void* a1);
+    void fill_follow_camera_params(u8 *arg1, u8 *arg2);
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);

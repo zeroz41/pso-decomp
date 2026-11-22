@@ -4757,7 +4757,7 @@ force_active:
   - calc_angle_to_target__19TObjEneEpsilonGuardFv
   - calc_anim_speed__16TObjEneBm5GibonUFPvf
   - calc_area_parameters__10TTecRaFoieFv
-  - calc_attack_params__12TBoss8DragonFPvl
+  - calc_attack_params__13TBoss5GryphonFPvl
   - calc_battle_score__19TPlayerBattleCtrl4PFPvPv
   - calc_bone_offsets_recursive__19TObjEZBoneRotPlayerFPvll
   - calc_box_escape_axis__10TNpcPlayerFP3VecP3VecP3VecP3VecP3VecP3VecPf
@@ -4804,14 +4804,14 @@ force_active:
   - calc_orb_positions__18TObjEneRe4SorcererFv
   - calc_parameters__11TTecRaBartaFv
   - calc_params__11TTecGiBartaFv
-  - calc_params__12TBoss8DragonFPvl
+  - calc_params__13TBoss5GryphonFPvl
   - calc_photon_blast_power__10TObjPlayerFlf
   - calc_player_rankings__6TLobbyFPv
   - calc_position__13TObjEneMe1GeeFP3Vec
   - calc_preview_last_index__12TChCrLoadReqFll
   - calc_preview_offset__12TChCrLoadReqFlll
   - calc_product__12TBoss8DragonFiiii
-  - calc_product_and_ratio__12TBoss8DragonFPvl
+  - calc_product_and_ratio__13TBoss5GryphonFPvl
   - calc_range__9TTecZaruaFv
   - calc_rate_from_field__14TBoss4DarkFalzFv
   - calc_recoil_offsets__13TUnk_80490470Fv
@@ -5362,7 +5362,7 @@ force_active:
   - copy_all_data__6TLobbyFii
   - copy_all_entries__6TLobbyFii
   - copy_and_flush_texture__16TEffIndirectCtrlFPUc
-  - copy_angle_state__12TBoss8DragonFPvPvPv
+  - copy_angle_state__13TBoss5GryphonFPvPvPv
   - copy_bank_from_card_window__Fl
   - copy_block__11TBoss6Type2FPvPv
   - copy_bone_positions__13TBoss5GryphonFv
@@ -5411,7 +5411,7 @@ force_active:
   - copy_ring_buffer_window__15TObjBoss2TunnelFv
   - copy_rotation_to_current_matrix
   - copy_save_data__23TAdSinglePlyChrSelectGCFii
-  - copy_spawn_params__12TBoss8DragonFPv
+  - copy_spawn_params__13TBoss5GryphonFPv
   - copy_stat_block__17TWindowSetLevelUpFl
   - copy_state__11TBoss6Type2FPv
   - copy_state__12TWindowTimerFPUc
@@ -6321,7 +6321,7 @@ force_active:
   - floor_resource_callbacks_selectors_28_29
   - floor_scene_table
   - flush_pending__6TLobbyFv
-  - flush_pending_effect__12TBoss8DragonFv
+  - flush_pending_effect__13TBoss5GryphonFv
   - fly_nest_vertex_table
   - fn_80010F4C
   - fn_8003F468
@@ -6338,8 +6338,8 @@ force_active:
   - fn_8004D9A8
   - fn_8005586C
   - fn_8005D6E4
-  - fn_8005EBDC__12TBoss8DragonFPUcPUc
-  - run_action_script_step__12TBoss8DragonFPsPUl
+  - fn_8005EBDC__13TBoss5GryphonFPUcPUc
+  - run_action_script_step__13TBoss5GryphonFPsPUl
   - fn_8005FD34__13TBoss5GryphonFl
   - fn_8005FE18__13TBoss5GryphonFl
   - fn_80060020__13TBoss5GryphonFUl
@@ -9410,7 +9410,7 @@ force_active:
   - place_players_in_warp_circle__Fv
   - play_all_players_effect__6TLobbyFPv
   - play_ambient_loop_sound__17TOBarrierEnergy01Fv
-  - play_animation_index__12TBoss8DragonFl
+  - play_animation_index__13TBoss5GryphonFl
   - play_anti_cast_sound__8TTecAntiFv
   - play_default_effect__6TLobbyFPv
   - play_effect_all_players__6TLobbyFPv
@@ -15291,7 +15291,7 @@ force_active:
   - scale_by_const__10TBoss6TubeFf
   - scale_by_level__14TOTrapChainSawFf
   - scale_owner_height__11TItemMagSubFf
-  - scale_size__12TBoss8DragonFfff
+  - scale_size__13TBoss5GryphonFfff
   - scan_memcard_quest_files__12TQuestListVMFv
   - scan_nearby_enemies__10TNpcPlayerFPvPvf
   - scene_file_buffer_size
@@ -15595,7 +15595,7 @@ force_active:
   - set_quest_label__15TOQuestTalkBaseFl
   - set_quest_list_mode_19__18TCheckRoomSequenceFPv
   - set_random_enemies_mode__Fv
-  - set_random_param__12TBoss8DragonFPUc
+  - set_random_param__13TBoss5GryphonFPUc
   - set_random_timer_15__15TObjEneSlimeOneFv
   - set_random_timer__15TObjEneSlimeOneFll
   - set_rate_from_divisor__13TUnk_80490470Fl
@@ -17330,7 +17330,7 @@ force_active:
   - update_target_effect_timer__11TBoss4Type3Fv
   - update_target_follow__11TCameraCtrlFv
   - update_target_from_state__11TCameraCtrlFv
-  - update_target_from_state__12TBoss8DragonFv
+  - update_target_from_state__13TBoss5GryphonFv
   - update_target_info_window__11TWindowCtrlFv
   - update_target_position__10TBoss4ZakoFv
   - update_target_smoothing__11TCameraCtrlFv
