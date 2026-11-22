@@ -1163,15 +1163,15 @@ force_active:
   - TObjEneDellBiter__resource_descriptor
   - sub_80097620__17TObjEneDf2BringerFl
   - sub_80097714__17TObjEneDf2BringerFl
-  - TObjEneDf2Bringer__sub_80097820
-  - TObjEneDf2Bringer__sub_80097E9C
-  - TObjEneDf2Bringer__sub_8009813C
-  - TObjEneDf2Bringer__sub_8009859C
+  - sub_80097820__17TObjEneDf2BringerFl
+  - sub_80097E9C__17TObjEneDf2BringerFl
+  - sub_8009813C__17TObjEneDf2BringerFl
+  - sub_8009859C__17TObjEneDf2BringerFl
   - sub_800987E8__17TObjEneDf2BringerFl
   - sub_80098BAC__17TObjEneDf2BringerFl
-  - TObjEneDf2Bringer__sub_80098EB4
-  - TObjEneDf2Bringer__sub_80098FF4
-  - TObjEneDf2Bringer__sub_80099248
+  - sub_80098EB4__17TObjEneDf2BringerFv
+  - sub_80098FF4__17TObjEneDf2BringerFv
+  - sub_80099248__17TObjEneDf2BringerFv
   - TObjEneDimedian__boss_objects
   - __ct__15TObjEneDimedianFP7TObjectPv
   - TObjEneDolmOlm__param_table
@@ -3762,7 +3762,7 @@ force_active:
   - action__15TObjEneMe1GiGueFPv
   - action__16TObjEneBm5GibonUFPvi
   - action__16TObjEneMe3StelthFPvi
-  - action__17TObjEneDf2BringerFPvi
+  - action__17TObjEneDf2BringerFl
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
   - action__19TObjEneEpsilonGuardFPvi
@@ -4157,7 +4157,7 @@ force_active:
   - attack_default__12TBoss8DragonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FPvPv
-  - attack_visible_players__17TObjEneDf2BringerFPv
+  - attack_visible_players__17TObjEneDf2BringerFv
   - award_enemy_experience__9TObjEnemyFl
   - b256_menutext01_e_gvp
   - b256_menutext01_j_gvp
@@ -16028,11 +16028,11 @@ force_active:
   - spawn_lightning_effect__13TBoss5GryphonFv
   - spawn_line__13TPhotonEstllaFv
   - spawn_mirages__21TObjEneMe3ShinowaRealFv
-  - spawn_offset_particle__17TObjEneDf2BringerFPv
+  - spawn_offset_particle__17TObjEneDf2BringerFv
   - spawn_paralysis_feedback_effect__Fll
   - spawn_particle_at_entity_slot__10TObjPlayerFllll
   - spawn_particle_emitters__9TTecMegidFv
-  - spawn_particle_if_in_band__17TObjEneDf2BringerFPv
+  - spawn_particle_if_in_band__17TObjEneDf2BringerFv
   - spawn_particles_at__12TBoss3VoloptFi
   - spawn_parts__12TBoss3VoloptFv
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
@@ -16712,7 +16712,7 @@ force_active:
   - update_attack__13TUnk_804A68C8Fv
   - update_attack__15TBoss3VoloptP01Fv
   - update_attack_cast__15TObjEneDelDepthFv
-  - update_attack_child__17TObjEneDf2BringerFPv
+  - update_attack_child__17TObjEneDf2BringerFv
   - update_attack_countdown__11TBoss6Type1Fv
   - update_attack_countdown_reset__11TBoss6Type1Fv
   - update_attack_distance_state__18TObjEneBalClawClawFv
@@ -16933,7 +16933,7 @@ force_active:
   - update_fall_to_ground__15TObjEneDelDepthFv
   - update_farthest_target__18TObjEneRe4SorcererFlPf
   - update_field_40__15TFontSmallLobbyFv
-  - update_flag_0x3C0__17TObjEneDf2BringerFPv
+  - update_flag_0x3C0__17TObjEneDf2BringerFv
   - update_flags
   - update_flight__21TObjEneRe7BeruraPunchFv
   - update_flight_state__12TBoss1DragonFUl

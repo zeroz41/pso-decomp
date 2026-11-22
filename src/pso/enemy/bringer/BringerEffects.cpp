@@ -49,7 +49,7 @@ u32 bringer_effect_color_table[12];
 
 #pragma fp_contract on
 
-// TObjEneDf2Bringer__sub_80099248 calls this on TObject::operator new(0x34)'s result; written as
+// TObjEneDf2Bringer::sub_80099248 calls this on TObject::operator new(0x34)'s result; written as
 // `new TObjEneDf2Bringer_Eff_Rush(...)` that caller allocates its registers differently, so the
 // constructor stays a free function for now (parent, source, recipient, speed as in
 // TObjEneDellBiter_Eff_Rush's ctor).
