@@ -12,8 +12,8 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 
-s32 saved_projection_angle;
-s32 scripted_camera_projection_angle;
+s32 scripted_camera_saved_fov;
+s32 scripted_camera_fov;
 
 TCameraController *TCameraScripted::create() {
     return new TCameraScripted();
@@ -31,11 +31,11 @@ void TCameraScripted::run_task() {
     sample.channels.roll = &sample.roll;
     sample.channels.angle = &sample.angle;
     sample_camera_motion(&sample.defaults, motion, &sample.channels, playback.frame);
-    projection_angle = scripted_camera_projection_angle;
+    fov = scripted_camera_fov;
     set_camera_capture_overlay_alpha(0x8F);
     if (bank_file->flags & 4) {
         if (bank_file->flags & 0x80) {
-            projection_angle = 0x36C1;
+            fov = 0x36C1;
             forward.x = sample.direction.x;
             forward.y = 0.0f;
             forward.z = sample.direction.z;
@@ -95,8 +95,8 @@ TCameraScripted::~TCameraScripted() {}
 
 TCameraScripted::TCameraScripted() {
     flags = 0;
-    scripted_camera_projection_angle = 0;
-    saved_projection_angle = 0;
+    scripted_camera_fov = 0;
+    scripted_camera_saved_fov = 0;
     playback.index = 0;
     playback.bank = 0;
     playback.flags = 0;

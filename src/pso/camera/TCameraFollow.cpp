@@ -156,15 +156,15 @@ void TCameraFollow::update_manual_camera() {
     this->eye_offset.y -= 0.1f * y;
     this->eye_offset.z -= 0.1f * r;
     if (pad->held & 0x10) {
-        this->projection_angle += 0xB6;
+        this->fov += 0xB6;
     } else if (pad->held & 0x20) {
-        this->projection_angle -= 0xB6;
+        this->fov -= 0xB6;
     }
-    if (this->projection_angle >= 0x71C7) {
-        this->projection_angle = 0x71C7;
+    if (this->fov >= 0x71C7) {
+        this->fov = 0x71C7;
     }
-    if (this->projection_angle <= 0xE38) {
-        this->projection_angle = 0xE38;
+    if (this->fov <= 0xE38) {
+        this->fov = 0xE38;
     }
 }
 
@@ -570,24 +570,24 @@ void TCameraFollow::init_pose() {
         case AREA_PIONEER2_EP1:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][0].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][0].target);
-            this->projection_angle = follow_camera_init_pose_table[0][0].projection_angle;
+            this->fov = follow_camera_init_pose_table[0][0].fov;
             set_clamped_offsets(follow_camera_init_pose_table[0][0].near_clip, follow_camera_init_pose_table[0][0].far_clip);
             break;
         case AREA_LOBBY:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][1].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][1].target);
-            this->projection_angle = follow_camera_init_pose_table[0][1].projection_angle;
+            this->fov = follow_camera_init_pose_table[0][1].fov;
             set_clamped_offsets(follow_camera_init_pose_table[0][1].near_clip, follow_camera_init_pose_table[0][1].far_clip);
             break;
         case AREA_PIONEER2_EP2:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][2].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][2].target);
-            this->projection_angle = follow_camera_init_pose_table[0][2].projection_angle;
+            this->fov = follow_camera_init_pose_table[0][2].fov;
             set_clamped_offsets(follow_camera_init_pose_table[0][2].near_clip, follow_camera_init_pose_table[0][2].far_clip);
             break;
         }
     }
-    camera_renderer_setup_nop(&ninja_camera, this->projection_angle);
+    camera_renderer_setup_nop(&ninja_camera, this->fov);
     update_camera_state(this->position.x, this->position.y, this->position.z);
 }
 
@@ -677,13 +677,13 @@ void TCameraFollow::run_task() {
     }
     if (close_up != 0) {
         idle_frames = 0;
-        projection_angle = approach_angle_limited(projection_angle, 0x22D8, 0xB6);
+        fov = approach_angle_limited(fov, 0x22D8, 0xB6);
     } else if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
         if (is_split_screen() == 0 && test_previous_buttons_packed(&controller_input_state.controllers[3], 0x20000) == 0) {
-            projection_angle = approach_angle_limited(projection_angle, 0x36C1, 0xB6);
+            fov = approach_angle_limited(fov, 0x36C1, 0xB6);
         }
     } else {
-        projection_angle = approach_angle_limited(projection_angle, 0x36C1, 0xB6);
+        fov = approach_angle_limited(fov, 0x36C1, 0xB6);
     }
     if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
         eye_offset.y = 20.43f;

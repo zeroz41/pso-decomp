@@ -18,7 +18,7 @@ void fn_802FF7EC(void) {
     Vec a = {0.0f, 0.0f, -100.0f};
     VecCopy(&cam.position, &b);
     VecCopy(&cam.target, &a);
-    cam.projection_angle = 0x1999;
+    cam.fov = 0x1999;
     activate_camera_mode(9);
     set_active_camera_pose_from_params(&cam);
 }
@@ -28,7 +28,7 @@ void fn_802FF760(void) {
     Vec a = {0.0f, 0.0f, -100.0f};
     VecCopy(&cam.position, &b);
     VecCopy(&cam.target, &a);
-    cam.projection_angle = 0x36C1;
+    cam.fov = 0x36C1;
     activate_camera_mode(9);
     set_active_camera_pose_from_params(&cam);
 }

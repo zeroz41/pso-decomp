@@ -20,7 +20,9 @@ struct CameraParams {
     s32 pad_08;
     f32 pad_0C;
     f32 eye_rate; // the event camera's eye_rate (TCameraFixed, TCameraWatchPlayer)
-    s32 projection_angle; // in degrees
+    // Field of view: in degrees for the event cameras' apply_camera_params, a turn = 0x10000
+    // for set_active_camera_pose_from_params.
+    s32 fov;
     f32 pad_18;
     Vec position;
     Vec target;

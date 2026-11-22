@@ -98,8 +98,8 @@ void TCameraScripted::post_update_view() {
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {
     if (camera_ctrl_instance != NULL) {
-        saved_projection_angle = camera_ctrl_instance->fov;
-        scripted_camera_projection_angle = angle;
+        scripted_camera_saved_fov = camera_ctrl_instance->fov;
+        scripted_camera_fov = angle;
     }
     configure_scripted_camera_playback((CameraPlayback *)this, angle);
 }

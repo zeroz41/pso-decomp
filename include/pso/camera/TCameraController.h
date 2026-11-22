@@ -39,7 +39,7 @@ public:
     s32 flags;
     Vec position;
     Vec target;
-    s32 projection_angle;
+    s32 fov;  // copied to TCameraCtrl::fov
     f32 eye_rate;  // copied to TCameraCtrl::eye_rate
     f32 at_rate;   // copied to TCameraCtrl::at_rate
     Vec obstruction_point;  // predict_obstruction: where the line to the actor is blocked

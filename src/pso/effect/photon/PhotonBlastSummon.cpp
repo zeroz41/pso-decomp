@@ -194,7 +194,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     approach_vector_fixed_distance(&self->target, &self->destination_target, &self->target, 0.55f);
     VecCopy(&parameters.position, &self->position);
     VecCopy(&parameters.target, &self->target);
-    parameters.projection_angle = 0x4222;
+    parameters.fov = 0x4222;
     set_active_camera_pose_from_params(&parameters);
 }
 }

@@ -36,7 +36,7 @@ CreationCamera::CreationCamera() {
     distance_speed = 0.0f;
     height_speed = 0.0f;
     creation_camera_mode = CREATION_CAMERA_AUTO;
-    projection_angle = 17294;
+    fov = 17294;
 }
 
 CreationCamera::~CreationCamera() {

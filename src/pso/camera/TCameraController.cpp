@@ -194,9 +194,9 @@ void apply_camera_controller_pose(TCameraController *controller) {
     }
     camera_ctrl_instance->eye_rate = controller->eye_rate;
     camera_ctrl_instance->at_rate = controller->at_rate;
-    if (camera_ctrl_instance->fov != controller->projection_angle) {
+    if (camera_ctrl_instance->fov != controller->fov) {
         TCameraCtrl::view_state.flags |= 0x40;
-        camera_ctrl_instance->fov = controller->projection_angle;
+        camera_ctrl_instance->fov = controller->fov;
     }
 }
 
@@ -222,7 +222,7 @@ TCameraController::TCameraController() : TObject(0) {
     this->flags = 0;
     this->eye_rate = 0.0f;
     this->at_rate = 0.289f;
-    this->projection_angle = 0x36C1;
+    this->fov = 0x36C1;
     this->actor_id = 0xFFFF;
 }
 

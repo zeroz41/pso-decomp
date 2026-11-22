@@ -173,7 +173,7 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
     params.pad_08 = 0;
     params.pad_0C = 0.0f;
     params.eye_rate = 0.0f;
-    params.projection_angle = 0;
+    params.fov = 0;
     params.pad_44 = 0;
     params.pad_18 = 0.0f;
     params.position.x = 0.0f;
@@ -709,7 +709,7 @@ void TCameraCtrl::reset_view_flags() {
     camera_ctrl_instance->params.pad_08 = 0;
     camera_ctrl_instance->params.pad_0C = zero;
     camera_ctrl_instance->params.eye_rate = zero;
-    camera_ctrl_instance->params.projection_angle = 0;
+    camera_ctrl_instance->params.fov = 0;
     camera_ctrl_instance->params.pad_44 = 0;
     camera_ctrl_instance->params.pad_18 = zero;
     camera_ctrl_instance->params.position.x = zero;
@@ -749,8 +749,8 @@ s32 restore_player_cameras(void) {
     TObjPlayer *player;
     if (TCameraCtrl::view_state.flags & 4) {
         TCameraCtrl::view_state.flags &= ~4;
-        if (TCameraCtrl::get_active_controller() == 5 && camera_controller_registry[5] != NULL && saved_projection_angle != 0) {
-            camera_controller_registry[5]->projection_angle = saved_projection_angle;
+        if (TCameraCtrl::get_active_controller() == 5 && camera_controller_registry[5] != NULL && scripted_camera_saved_fov != 0) {
+            camera_controller_registry[5]->fov = scripted_camera_saved_fov;
         }
         TCameraCtrl::view_state.flags |= 0x20;
     }
@@ -793,7 +793,7 @@ void set_active_camera_pose_from_params(CameraParams *params) {
             controller->target.x = params->target.x;
             controller->target.y = params->target.y;
             controller->target.z = params->target.z;
-            controller->projection_angle = params->projection_angle;
+            controller->fov = params->fov;
         }
     }
 }

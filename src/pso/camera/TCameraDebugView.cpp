@@ -27,12 +27,12 @@ void TCameraDebugView::run_task() {
     s16 stick_y = controller_input_state.controllers[2].stick_y;
     f32 radius;
     if (test_previous_buttons_packed(pad, 0x100) != 0) {
-        debug_printf_at(0xC0014, "PERS = %d", (s32)(0.0054931640625 * projection_angle + 1.0));
+        debug_printf_at(0xC0014, "PERS = %d", (s32)(0.0054931640625 * fov + 1.0));
         if (TWindowShortListCtrl__check_controller_button(pad, 0x20000) != 0) {
-            projection_angle += 0xB6;
+            fov += 0xB6;
         }
         if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
-            projection_angle -= 0xB6;
+            fov -= 0xB6;
         }
     }
     VecCopy(&focus, &(const Vec &)get_target_position());

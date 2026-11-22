@@ -75,7 +75,7 @@ void TCameraFixed::apply_camera_params(s32) {
         position.x = params->position.x;
         position.y = params->position.y;
         position.z = params->position.z;
-        projection_angle = (s32)(182.04445f * (f32)params->projection_angle);
+        fov = (s32)(182.04445f * (f32)params->fov);
         eye_rate = params->eye_rate;
     }
 }

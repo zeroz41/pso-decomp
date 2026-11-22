@@ -44,10 +44,10 @@ extern CameraBank camera_banks[8];
 void load_camera_banks();
 void free_camera_banks();
 
-// The camera's projection angle when a scripted camera playback started, and the
-// angle the playback asked for.
-extern s32 saved_projection_angle;
-extern s32 scripted_camera_projection_angle;
+// The camera's field of view when a scripted camera playback started, and the
+// one the playback asked for.
+extern s32 scripted_camera_saved_fov;
+extern s32 scripted_camera_fov;
 
 // What sample_camera_motion fills: a pointer per channel, then the channels.
 struct CameraMotionSample {
