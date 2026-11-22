@@ -50,7 +50,6 @@ s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 net_add_ipv4_route(saddr arg0, saddr arg1, saddr arg2);
-s32 TLobby__sub_8041E780();
 s32 mark_connection_closed(s32);
 s16 TLobby__sub_8041DE1C(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
 void TLobby__sub_8041E590(s16);
@@ -859,8 +858,8 @@ s32 tcp_bind(s32 a, void *addr, u16 port) {
     return r;
 }
 
-s32 tcp_create(void) {
-    s32 handle;
+s16 tcp_create(void) {
+    s16 handle;
     lock_mutex(network_dispatch_state.lock_handle);
     handle = TLobby__sub_8041E780();
     unlock_mutex(network_dispatch_state.lock_handle);

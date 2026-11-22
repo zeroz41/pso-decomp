@@ -15,6 +15,10 @@ typedef struct TcpSackSeg {
 } TcpSackSeg;
 LAYOUT_ASSERT(TcpSackSeg_size_check, sizeof(TcpSackSeg) == 0x10);
 /* TCP sequence numbers wrap at 32 bits. Compare their unsigned difference as a signed distance. */
+#define SEQ_LT(a, b) ((s32)((a) - (b)) < 0)
+#define SEQ_LEQ(a, b) ((s32)((a) - (b)) <= 0)
+#define SEQ_GT(a, b) ((s32)((a) - (b)) > 0)
+#define SEQ_GEQ(a, b) ((s32)((a) - (b)) >= 0)
 typedef struct TcpSeqRange {
     u32 start;
     u32 end;
@@ -188,6 +192,8 @@ extern "C" {
 extern TcpState tcp_protocol_state;
 
 s16 TLobby__sub_8041A9AC(TcpTcb *tcb);
+/* NetTcp.c: claim a free TCB, else the state-10 one with the smallest timers[3]; returns its index or -0x103. */
+s16 TLobby__sub_8041E780(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
 void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */

@@ -23,7 +23,7 @@ s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 s32 tcp_delete(s32 a);
 s32 tcp_abort(s32 a);
 s32 tcp_bind(s32 a, void *addr, u16 port);
-s32 tcp_create(void);
+s16 tcp_create(void);
 #ifdef __cplusplus
 }
 #endif
