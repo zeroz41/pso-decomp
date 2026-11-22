@@ -7,6 +7,7 @@
 #include "pso/system/vector.h"
 
 class TParticleCtrl;
+struct NJS_OBJECT;
 
 // Four per-slot or per-colour values, and the 20 rows of per-guard attack flags.
 struct EpsilonGuardSlotValues { s32 v[4]; };
@@ -57,6 +58,31 @@ public:
     void tick_timer_set_flag();
     void update_fade(s32 reason);
     void action_destroy(s32 reason);
+    // dispatch_action's handlers, one per state.
+    void sub_80361C70(s32 reason);
+    void sub_803616E4(s32 reason);
+    void handle_guard_action_state(s32 reason);
+    void action(s32 reason);
+    void sub_803610D0(s32 reason);
+    void handle_warp_state(s32 reason);
+    void sub_80360BF8(s32 reason);
+    void draw_with_fade(s32 detail);
+    void draw_debug_line();
+    static void record_camera_angle_samples(NJS_OBJECT *);
+    void update_attack_pattern();
+    u32 sub_8035FD50(s32 slot);
+    s32 sub_8035FCEC();
+    s32 all_children_gone();
+    s32 sub_8035FC20();
+    s32 sub_8035FBBC();
+    void sub_8035FB44();
+    s32 sub_8035FAA8();
+    void sub_8035FA50();
+    s32 assign_guard_targets();
+    static s32 sub_8035F968();
+    s32 sub_8035F95C();
+    s32 sub_8035F950();
+    void sub_8035F844(s32 slot);
     TParticleCtrl *warp_emitter;  // particle emitter 0x220, created and moved by handle_warp_state
     TParticleCtrl *emitter;       // particle emitter 0x225 (TParticleCtrl enable/set_position)
     s32 flags;              // state bits; set_guard_state picks the model from flags & 0x2, update_guard_flag sets 0x80

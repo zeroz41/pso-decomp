@@ -10,6 +10,7 @@ struct NJS_OBJECT;
 #include <dolphin/mtx/GeoTypes.h>
 
 class TParticleCtrl;
+class TObjEneEpsilonBody;
 
 // The guard's tuning values (TObjEneEpsilonGuard__movement_params, from the
 // shared handler table, entry 0x24).
@@ -24,6 +25,11 @@ struct TObjEneEpsilonGuardParams {
 
 struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     virtual ~TObjEneEpsilonGuard();
+    s32 sub_8035DD68();
+    s32 sub_8035DD74();
+    void sub_8035DEC0();
+    void sub_8035E578(s32 msg);
+    void sub_8035E8C0(s32 msg);
     void sub_803626A8(saddr, s32);
     void update_guard_state();
     void sub_8035EA90();
@@ -56,12 +62,8 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     u16 body_id;               // entity id of the TObjEneEpsilonBody that spawned it
     u8 pad_472[0x4A];
     TUnk_80494938 fade;
-    TObjEneEpsilonGuard *create(s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
+    static TObjEneEpsilonGuard *create(TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     void init_model_and_state();
-    s32 all_children_gone();
-    static void update_attack_pattern(void *arg0);
-    static void record_camera_angle_samples(NJS_OBJECT *);
-    void draw_debug_line();
     static s32 create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void free_shared_resources();
     static void load_assets();
@@ -78,8 +80,6 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void update_center_position();
     s32 calc_angle_to_target();
     void set_orbit_destination(s32 angle);
-    s32 assign_guard_targets();
-    void handle_warp_state(s32 reason);
     void render_with_fade(s32 detail);
 };
 

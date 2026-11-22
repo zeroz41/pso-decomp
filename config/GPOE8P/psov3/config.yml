@@ -1181,20 +1181,20 @@ force_active:
   - TObjEneEpsilonGuard__debug_line_list
   - TObjEneEpsilonGuard__model_desc
   - TObjEneEpsilonGuard__resource_descriptor
-  - TObjEneEpsilonGuard__sub_8035E578
-  - TObjEneEpsilonGuard__sub_8035E8C0
-  - TObjEneEpsilonGuard__sub_8035F844
-  - TObjEneEpsilonGuard__sub_8035FA50
-  - TObjEneEpsilonGuard__sub_8035FAA8
-  - TObjEneEpsilonGuard__sub_8035FB44
-  - TObjEneEpsilonGuard__sub_8035FBBC
-  - TObjEneEpsilonGuard__sub_8035FC20
-  - TObjEneEpsilonGuard__sub_8035FCEC
-  - TObjEneEpsilonGuard__sub_8035FD50
-  - TObjEneEpsilonGuard__sub_80360BF8
-  - TObjEneEpsilonGuard__sub_803610D0
-  - TObjEneEpsilonGuard__sub_803616E4
-  - TObjEneEpsilonGuard__sub_80361C70
+  - sub_8035E578__19TObjEneEpsilonGuardFl
+  - sub_8035E8C0__19TObjEneEpsilonGuardFl
+  - sub_8035F844__18TObjEneEpsilonBodyFl
+  - sub_8035FA50__18TObjEneEpsilonBodyFv
+  - sub_8035FAA8__18TObjEneEpsilonBodyFv
+  - sub_8035FB44__18TObjEneEpsilonBodyFv
+  - sub_8035FBBC__18TObjEneEpsilonBodyFv
+  - sub_8035FC20__18TObjEneEpsilonBodyFv
+  - sub_8035FCEC__18TObjEneEpsilonBodyFv
+  - sub_8035FD50__18TObjEneEpsilonBodyFl
+  - sub_80360BF8__18TObjEneEpsilonBodyFl
+  - sub_803610D0__18TObjEneEpsilonBodyFl
+  - sub_803616E4__18TObjEneEpsilonBodyFl
+  - sub_80361C70__18TObjEneEpsilonBodyFl
   - TObjEneEpsilonGuard__vt21
   - TObjEneEpsilonGuard__vt85
   - TObjEneIllGill_class_name
@@ -3765,7 +3765,7 @@ force_active:
   - action__17TObjEneDf2BringerFl
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
-  - action__19TObjEneEpsilonGuardFPvi
+  - action__18TObjEneEpsilonBodyFl
   - action_destroy__19TObjEneEpsilonGuardFl
   - activate_effect__13TUnk_804A4B80Fl
   - activate_effect__13TUnk_804F1320Fl
@@ -3864,7 +3864,7 @@ force_active:
   - adxf_open_file_buffer
   - aim_toward_point__11TBoss6Type2FPv
   - alerted_state__14TObjEneBm5WolfFl
-  - all_children_gone__19TObjEneEpsilonGuardFv
+  - all_children_gone__18TObjEneEpsilonBodyFv
   - alloc_boss4rock_buffer__6TLobbyFv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TUnk_804E3BD8Fl
@@ -4148,7 +4148,7 @@ force_active:
   - area_music_filename_table
   - assert_light_id__9TObjLightFl
   - assign_char_data__23TAdSinglePlyChrSelectGCFPvPv
-  - assign_guard_targets__19TObjEneEpsilonGuardFv
+  - assign_guard_targets__18TObjEneEpsilonBodyFv
   - assign_item_id__5TItemFv
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
@@ -5835,7 +5835,7 @@ force_active:
   - draw_cursor__19TWindowSubMagPhotonFPv
   - draw_cursor__22TWindowSubCustomSelectFPUc
   - draw_debug_info__12TObjNpcEnemyFv
-  - draw_debug_line__19TObjEneEpsilonGuardFv
+  - draw_debug_line__18TObjEneEpsilonBodyFv
   - draw_dialing_status__12TAdDialingGCFv
   - draw_effect_chain__15TOTrapAncient02Fv
   - draw_empty_warp_overlay__Fv
@@ -5946,7 +5946,7 @@ force_active:
   - draw_window_frame_strips__11TWindowBaseFPvPv
   - draw_window_scanlines__FPUcPUc
   - draw_window_uv_sprite_part
-  - draw_with_fade__19TObjEneEpsilonGuardFPvi
+  - draw_with_fade__18TObjEneEpsilonBodyFl
   - draw_wrapped_text__19TWindowKeyBoardBaseFPvPv
   - drawing__11TItemMagSub
   - drawn_node__11TItemMagSub
@@ -6855,7 +6855,7 @@ force_active:
   - handle_fall_state__12TBoss1DragonFUl
   - handle_game_list_select__6TLobbyFv
   - handle_grid_navigation__22TWindowSubCustomSelectFv
-  - handle_guard_action_state__19TObjEneEpsilonGuardFPvi
+  - handle_guard_action_state__18TObjEneEpsilonBodyFl
   - handle_input__11TWindowChatFv
   - handle_input__23TShopJudgmentItemWindowFv
   - handle_input__28TWindowSubSymbolChatFaceTypeFv
@@ -6930,7 +6930,7 @@ force_active:
   - handle_type3__9TItemDropFPvPv
   - handle_verify_result__6TLobbyFUi
   - handle_warp_menu_input__6TLobbyFv
-  - handle_warp_state__19TObjEneEpsilonGuardFl
+  - handle_warp_state__18TObjEneEpsilonBodyFl
   - handle_window_input__22TMedicalCenterSequenceFv
   - handle_window_result__22TMedicalCenterSequenceFv
   - handle_withdraw_choice__18TCheckRoomSequenceFv
@@ -14005,7 +14005,7 @@ force_active:
   - receive_weapon_special_attack__20TContainerAncient01RFPvPv
   - recobox_boss_register_id
   - recobox_motion_name_table
-  - record_camera_angle_samples__19TObjEneEpsilonGuardFP10NJS_OBJECT
+  - record_camera_angle_samples__18TObjEneEpsilonBodyFP10NJS_OBJECT
   - record_camera_path_point__13TObjEneMorfosFP10NJS_OBJECT
   - record_hit__22TObjFogCollisionPoisonFll
   - record_local_battle_placement
@@ -16715,7 +16715,7 @@ force_active:
   - update_attack_effect__16TObjEneDellBiterFv
   - update_attack_jump__11TObjEneMojaFv
   - update_attack_parameters__16TObjEneNanoDragoFv
-  - update_attack_pattern__19TObjEneEpsilonGuardFPv
+  - update_attack_pattern__18TObjEneEpsilonBodyFv
   - update_attack_state__11TBoss6Type1Fv
   - update_attack_state__9TBoss6MagFv
   - update_attack_switch__11TBoss6Type2Fv

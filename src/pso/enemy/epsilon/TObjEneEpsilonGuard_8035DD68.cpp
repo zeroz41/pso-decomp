@@ -38,6 +38,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 u8 *epsilon_guard_boss_stat_handle;
 u8 *epsilon_guard_shared_handler_b;
@@ -55,8 +56,6 @@ extern s32 lbl_805D6FA8;
 
 extern CollisionBody TObjEneEpsilonGuard__model_desc[];
 
-int TObjEneEpsilonGuard__sub_8035F95C(TObjEneEpsilonBody *body);
-int TObjEneEpsilonGuard__sub_8035F968(void);
 
 f32 TObjEneEpsilonGuard::receive_weapon_special_attack(void *, void *) {
     try_apply_damage(&body_center, 0);
@@ -74,13 +73,13 @@ f32 TObjEneEpsilonGuard__vt21(TObjEneEpsilonGuard *guard, void *attacker, Direct
     return 0.0f;
 }
 
-int TObjEneEpsilonGuard__sub_8035DD68(TObjEneEpsilonGuard *guard) { return ((u32)guard->flags >> 7) & 0x1; }
+s32 TObjEneEpsilonGuard::sub_8035DD68() { return ((u32)flags >> 7) & 0x1; }
 
-s32 TObjEneEpsilonGuard__sub_8035DD74(TObjEneEpsilonGuard *guard) {
-    if (guard->actorFlags & 0xA00) {
+s32 TObjEneEpsilonGuard::sub_8035DD74() {
+    if (actorFlags & 0xA00) {
         return 0;
     }
-    return ((u32)guard->flags >> 4) & 1;
+    return ((u32)flags >> 4) & 1;
 }
 
 s32 TObjEneEpsilonGuard::is_guard_active() {
@@ -130,9 +129,9 @@ void TObjEneEpsilonGuard::set_flag_8_and_notify() {
     clear_all_status_effects();
 }
 
-void TObjEneEpsilonGuard__sub_8035DEC0(TObjEneEpsilonGuard *guard) {
-    guard->flags |= 2;
-    guard->clear_all_status_effects();
+void TObjEneEpsilonGuard::sub_8035DEC0() {
+    flags |= 2;
+    clear_all_status_effects();
 }
 
 void TObjEneEpsilonGuard::set_target(saddr pos, s32 angle, s32 arg3) {
@@ -315,28 +314,28 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
     }
 }
 
-void TObjEneEpsilonGuard__sub_8035E578(TObjEneEpsilonGuard *guard, s32 msg) {
+void TObjEneEpsilonGuard::sub_8035E578(s32 msg) {
     switch (msg) {
     case 4:
-        guard->requested_action = 0;
-        guard->set_field_378(3);
-        guard->fade.set_rate_from_divisor(0x14);
-        guard->fade.reset_color();
-        guard->flags &= ~0x14;
-        guard->clear_intangible();
+        requested_action = 0;
+        set_field_378(3);
+        fade.set_rate_from_divisor(0x14);
+        fade.reset_color();
+        flags &= ~0x14;
+        clear_intangible();
         break;
     case 3:
-        if (guard->fade.decay_value_toward_floor() != 0) {
-            guard->transition_enemy_state(0);
-            guard->flags |= 0x10;
-            guard->set_intangible();
+        if (fade.decay_value_toward_floor() != 0) {
+            transition_enemy_state(0);
+            flags |= 0x10;
+            set_intangible();
             break;
         }
     case 5:
         break;
     case 0:
-        guard->advance_animation();
-        guard->check_collisions();
+        advance_animation();
+        check_collisions();
         break;
     }
 }
@@ -375,10 +374,10 @@ void TObjEneEpsilonGuard::state_orbit(s32 msg) {
         case 1:
             body = (TObjEneEpsilonBody *)find_entity_by_id(body_id);
             if (body != NULL) {
-                if (TObjEneEpsilonGuard__sub_8035F968() == 1) {
+                if (TObjEneEpsilonBody::sub_8035F968() == 1) {
                     flags &= ~4;
                     state_step = 2;
-                } else if (TObjEneEpsilonGuard__sub_8035F95C(body) != 1) {
+                } else if (body->sub_8035F95C() != 1) {
                     goto orbit;
                 }
             } else {
@@ -390,7 +389,7 @@ orbit:
             }
             break;
         case 2:
-            if ((find_entity_by_id(body_id) != 0U) && (TObjEneEpsilonGuard__sub_8035F968() == 0)) {
+            if ((find_entity_by_id(body_id) != 0U) && (TObjEneEpsilonBody::sub_8035F968() == 0)) {
                 flags |= 4;
                 state_step = 1;
             }
@@ -402,34 +401,34 @@ orbit:
     }
 }
 
-void TObjEneEpsilonGuard__sub_8035E8C0(TObjEneEpsilonGuard *guard, s32 msg) {
+void TObjEneEpsilonGuard::sub_8035E8C0(s32 msg) {
     switch (msg) {
     case 4:
-        guard->requested_action = 0;
-        guard->set_field_378(1);
-        guard->flags &= ~0x216;
-        guard->clear_intangible();
+        requested_action = 0;
+        set_field_378(1);
+        flags &= ~0x216;
+        clear_intangible();
         return;
     case 3:
-        if (guard->flags & 2) {
-            guard->transition_enemy_state(2);
+        if (flags & 2) {
+            transition_enemy_state(2);
         }
     case 5:
         return;
     case 0:
-        guard->advance_animation();
-        guard->enemy_copy_target_destination();
-        guard->update_velocity();
-        if (!(guard->flags & 0x200)) {
+        advance_animation();
+        enemy_copy_target_destination();
+        update_velocity();
+        if (!(flags & 0x200)) {
             TObjEneEpsilonGuardParams *d = TObjEneEpsilonGuard__movement_params;
-            if (guard->destination_distance > d->orbit_radius + d->m_4) {
-                guard->flags |= 0x200;
+            if (destination_distance > d->orbit_radius + d->m_4) {
+                flags |= 0x200;
             } else {
-                ((TObjEneDD *)guard)->move_with_wall_slide_commit(-guard->destination_direction.x, -guard->destination_direction.z, d->m_4);
+                move_with_wall_slide_commit(-destination_direction.x, -destination_direction.z, d->m_4);
             }
         }
-        guard->rotation_y = guard->calc_angle_to_target();
-        guard->check_collisions();
+        rotation_y = calc_angle_to_target();
+        check_collisions();
         break;
     }
 }
@@ -546,8 +545,6 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
 
 void update_body_colliders__19TObjEneEpsilonGuardFv(void *);
 void check_collisions__19TObjEneEpsilonGuardFv(void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-int TObjEneEpsilonGuard__sub_8035F950(TObjEneEpsilonBody *body);
 
 void TObjEneEpsilonGuard::update_guard_state() {
     s16 state;
@@ -555,7 +552,7 @@ void TObjEneEpsilonGuard::update_guard_state() {
 
     if (!(flags & 0x40)) {
         body = find_entity_by_id(body_id);
-        if ((body == NULL) || (TObjEneEpsilonGuard__sub_8035F950((TObjEneEpsilonBody *)body) == 1)) {
+        if ((body == NULL) || (((TObjEneEpsilonBody *)body)->sub_8035F950() == 1)) {
             if (flags & 0x10) {
                 transition_enemy_state(5);
             } else {
@@ -764,13 +761,13 @@ void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *guard, s32 state, s32 msg) {
         guard->handle_event(msg);
         return;
     case 1:
-        TObjEneEpsilonGuard__sub_8035E8C0(guard, msg);
+        guard->sub_8035E8C0(msg);
         return;
     case 2:
         guard->state_orbit(msg);
         return;
     case 3:
-        TObjEneEpsilonGuard__sub_8035E578(guard, msg);
+        guard->sub_8035E578(msg);
         return;
     case 4:
         guard->handle_break_state(msg);
@@ -803,11 +800,11 @@ void TObjEneEpsilonGuard::run_task() {
     }
 }
 
-TObjEneEpsilonGuard *TObjEneEpsilonGuard::create(s32 entity_id, s32 set_index, const Vec *pos, s32 angle) {
+TObjEneEpsilonGuard *TObjEneEpsilonGuard::create(TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle) {
     TObjEneEpsilonGuard *o;
     o = (TObjEneEpsilonGuard *)TObject::operator new(sizeof(TObjEneEpsilonGuard));
     if (o != NULL) {
-        o = (TObjEneEpsilonGuard *)TObjEneEpsilonGuard__ct(o, tl_04, (TObjEneEpsilonBody *)this, entity_id, set_index, pos, angle);
+        o = (TObjEneEpsilonGuard *)TObjEneEpsilonGuard__ct(o, tl_04, body, entity_id, set_index, pos, angle);
     }
     return o;
 }
