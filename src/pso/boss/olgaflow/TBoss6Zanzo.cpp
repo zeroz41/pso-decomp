@@ -1,4 +1,5 @@
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
+#include "pso/render/ColorCopy.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -26,7 +27,7 @@ void TBoss6Zanzo::set_effect_points(const Vec *points, const u32 *colors) {
     end = p + point_count;
     for (; p < end; ++p, ++a2, ++b2) {
         VecCopy(&p->position, a2);
-        ((TAdChrMoveEffectGC *)&p->color)->copy4((void *)b2);
+        copy4(&p->color, (void *)b2);
     }
 }
 
@@ -90,25 +91,25 @@ void TBoss6Zanzo::sub_803205C4() {
             for (i = 0; i < point_count - 1; i++) {
                 {
                     Boss6TrailPoint *p = &prev->points[i];
-                    ((TAdChrMoveEffectGC *)&colors[0])->copy4((void *)&p->color);
+                    copy4(&colors[0], (void *)&p->color);
                     ((u8 *)colors)[3] = prev_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[0], &p->position);
                 }
                 {
                     Boss6TrailPoint *p = prev->points + i + 1;
-                    ((TAdChrMoveEffectGC *)&colors[1])->copy4((void *)&p->color);
+                    copy4(&colors[1], (void *)&p->color);
                     ((u8 *)colors)[7] = prev_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[1], &p->position);
                 }
                 {
                     Boss6TrailPoint *p = frame->points + i + 1;
-                    ((TAdChrMoveEffectGC *)&colors[2])->copy4((void *)&p->color);
+                    copy4(&colors[2], (void *)&p->color);
                     ((u8 *)colors)[11] = next_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[2], &p->position);
                 }
                 {
                     Boss6TrailPoint *p = &frame->points[i];
-                    ((TAdChrMoveEffectGC *)&colors[3])->copy4((void *)&p->color);
+                    copy4(&colors[3], (void *)&p->color);
                     ((u8 *)colors)[15] = next_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[3], &p->position);
                 }

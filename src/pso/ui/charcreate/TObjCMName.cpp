@@ -2,6 +2,8 @@
 #pragma readonly_strings on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/Draw2D.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/ui/MenuText.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "types.h"
@@ -217,18 +219,11 @@ struct Menu_80296928 {
 };
 
 struct Quad_80297DB8 {
-    vec2f p[4];
+    ColorLineVertex p[4];
 };
 
 struct Cols_80297DB8 {
     u32 c[4];
-};
-
-struct Prim_80297DB8 {
-    vec2f *pts;
-    u32 *colors;
-    s32 start;
-    s32 count;
 };
 
 struct Menu_80297DB8 {
@@ -332,11 +327,11 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
 
 void reset_character_creation_figure_rotation(void);
 void draw_creation_ruler_lines(f32 farg0);
-extern NJS_POINT2COL lbl_804DBD08;
-extern NJS_POINT2COL lbl_804DBD18;
-NJS_COLOR lbl_80540988[4];
-NJS_POINT2 lbl_80540998[4];
-NJS_COLOR lbl_805409B8[4];
+extern ColorLineList lbl_804DBD08;
+extern ColorLineList lbl_804DBD18;
+u32 lbl_80540988[4];
+ColorLineVertex lbl_80540998[4];
+u32 lbl_805409B8[4];
 
 // RGBA colour of the hair colour bars (inferred: the alpha byte is set from the fade).
 union HairBarColor {
@@ -769,7 +764,7 @@ Quad_80297DB8 footer_divider_vertices[2] = {
 
 void TObjCMMainMenu::draw_footer_divider() {
     Menu_80297DB8 *self = (Menu_80297DB8 *)this;
-    Prim_80297DB8 prim;
+    ColorLineList prim;
     u32 cols[4];
     f32 s = TObjCMMainMenu::get_scale();
     f32 top = 416.0f * s;
@@ -778,7 +773,7 @@ void TObjCMMainMenu::draw_footer_divider() {
     Quad_80297DB8 *q;
     s32 i;
     s32 j;
-    prim.start = 0;
+    prim.unk_8 = 0;
     prim.count = 4;
     for (i = 0; i < 2; i++) {
         q = &footer_divider_vertices[i];
@@ -792,8 +787,8 @@ void TObjCMMainMenu::draw_footer_divider() {
             cols[j] = (c & 0x00FFFFFF) | (__cvt_fp2unsigned((f32)(c >> 24) * self->alpha) << 24);
         }
         prim.colors = cols;
-        prim.pts = q->p;
-        ((TWindowCtrlMain *)(&prim))->draw_strip_swap_color(4, 6, -1.8125f);
+        prim.verts = q->p;
+        prim.draw_strip_swap_color(4, 6, -1.8125f);
     }
 }
 #pragma push
@@ -1801,7 +1796,7 @@ void TObjCMHairMenu::render() {
         TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
             TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &color.rgba))));
         for (s32 i = 0; i < 3; i++) {
-            draw_polygon_2d((NJS_POINT2COL *)&list, 4, 6, -2.75f);
+            draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&list), 4, 6, -2.75f);
             pts[0].y += step;
             pts[1].y += step;
             pts[2].y += step;
@@ -1821,7 +1816,7 @@ void TObjCMHairMenu::render() {
                 bar_color.c[3] = 255.0f * t;
                 TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
                     TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &bar_color.rgba))));
-                draw_polygon_2d((NJS_POINT2COL *)&list, 4, 6, -2.4375f);
+                draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&list), 4, 6, -2.4375f);
             }
         }
         TCameraCtrl__sub_80068EF0();
@@ -2083,9 +2078,9 @@ void TObjCMProportion::run_task() {
     }
 }
 
-NJS_POINT2 lbl_804DBCE8[4] = {{245.0f, 165.0f}, {395.0f, 165.0f}, {395.0f, 315.0f}, {245.0f, 315.0f}};
-NJS_POINT2COL lbl_804DBD08 = {lbl_804DBCE8, lbl_80540988, NULL, 4};
-NJS_POINT2COL lbl_804DBD18 = {lbl_80540998, lbl_805409B8, NULL, 4};
+ColorLineVertex lbl_804DBCE8[4] = {{245.0f, 165.0f}, {395.0f, 165.0f}, {395.0f, 315.0f}, {245.0f, 315.0f}};
+ColorLineList lbl_804DBD08 = {lbl_804DBCE8, lbl_80540988, 0, 4};
+ColorLineList lbl_804DBD18 = {lbl_80540998, lbl_805409B8, 0, 4};
 
 void TObjCMProportion::render() {
     f32 alpha;
@@ -2095,16 +2090,16 @@ void TObjCMProportion::render() {
 
     alpha = fade * fade;
     color = ((s32)(32.0f * alpha) << 24) | 0xFF0000 | 0xFFFF;
-    lbl_80540988[3].color = color;
-    lbl_80540988[2].color = color;
-    lbl_80540988[1].color = color;
-    lbl_80540988[0].color = color;
-    ((TWindowCtrlMain *)&lbl_804DBD08)->draw_strip_swap_color(4, 5, -2.0f);
+    lbl_80540988[3] = color;
+    lbl_80540988[2] = color;
+    lbl_80540988[1] = color;
+    lbl_80540988[0] = color;
+    lbl_804DBD08.draw_strip_swap_color(4, 5, -2.0f);
     color = ((s32)(64.0f * alpha) << 24) | 0xFF0000 | 0xFFFF;
-    lbl_805409B8[3].color = color;
-    lbl_805409B8[2].color = color;
-    lbl_805409B8[1].color = color;
-    lbl_805409B8[0].color = color;
+    lbl_805409B8[3] = color;
+    lbl_805409B8[2] = color;
+    lbl_805409B8[1] = color;
+    lbl_805409B8[0] = color;
     x = 75.0f * (2.0f * (appearance->width - 0.5f)) + 320.0f;
     y = 75.0f * (2.0f * (appearance->height - 0.5f)) + 240.0f;
     lbl_80540998[1].y = 150.0f;
@@ -2115,7 +2110,7 @@ void TObjCMProportion::render() {
     lbl_80540998[1].x = 2.0f + x;
     lbl_80540998[2].x = 2.0f + x;
     lbl_80540998[3].x = x - 2.0f;
-    ((TWindowCtrlMain *)&lbl_804DBD18)->draw_strip_swap_color(4, 6, -2.0f);
+    lbl_804DBD18.draw_strip_swap_color(4, 6, -2.0f);
     lbl_80540998[0].y = y - 2.0f;
     lbl_80540998[1].x = 230.0f;
     lbl_80540998[1].y = 2.0f + y;
@@ -2124,7 +2119,7 @@ void TObjCMProportion::render() {
     lbl_80540998[3].y = y - 2.0f;
     lbl_80540998[3].x = 410.0f;
     lbl_80540998[2].x = 410.0f;
-    ((TWindowCtrlMain *)&lbl_804DBD18)->draw_strip_swap_color(4, 6, -2.0f);
+    lbl_804DBD18.draw_strip_swap_color(4, 6, -2.0f);
     draw_creation_ruler_lines(fade);
 }
 

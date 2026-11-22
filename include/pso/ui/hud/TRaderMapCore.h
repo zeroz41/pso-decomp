@@ -31,6 +31,9 @@ struct RadarPlayerMarker {
     NJS_ARGB color;
 };
 
+struct RadarMapViewState;
+struct Rect_801F9228;
+
 struct TRaderMapCore : public TObjBase {
     TRaderMapCore(TObject *parent);
     virtual ~TRaderMapCore();
@@ -51,9 +54,9 @@ struct TRaderMapCore : public TObjBase {
     s32 m_16c;
     f32 m_170;
     s32 m_174;
-    void* m_178;
-    void* m_17c;
-    void* m_180;
+    NJS_OBJECT *m_178;
+    NJS_OBJECT *m_17c;
+    NJS_OBJECT *m_180;
     void* m_184;
     f32 m_188;
     f32 m_18c;
@@ -85,9 +88,10 @@ struct TRaderMapCore : public TObjBase {
     void set_marker_shown(s32 slot, s32 shown);
     void set_target_flag();
     void draw_player_markers();
-    void copy_transform(void* q);
+    void setup_overhead_projection(RadarMapViewState *view);
+    void begin_map_view(int mode);
     void setup_view(s32 arg1);
-    void render_region_records(void * _w1);
+    void render_region_records(s32 mode);
     void set_default_view_size();
     virtual void render();
     s32 is_render_admitted(void *arg1);
@@ -99,7 +103,7 @@ struct TRaderMapCore : public TObjBase {
     static void create();
     static void unload_floor_map();
     static void load_map_resources();
-    static s32 apply_compass_param(s32 *counter);
+    static s32 apply_compass_param(const s32 *counter);
     void draw_compass(s32 mode);
     static void free_statics();
     static void load_frame_texture();

@@ -6,10 +6,8 @@
 extern "C" {
 
 
-void *TAdEnterSerialAccessGC::create_callback(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = new TWindowCallBack((saddr)arg0, (u8 *)arg1, (saddr)arg2);
-    return o;
+void *TAdEnterSerialAccessGC::create_callback(void *position, void *scale, WindowCallback callback) {
+    return new TWindowCallBack((u8 *)position, (u8 *)scale, callback);
 }
 
 }

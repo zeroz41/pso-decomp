@@ -12,7 +12,7 @@ s32 TWindowSubComCard::init_card() {
 
 void TWindowSubComCard::remove_entry(s32 arg0) {
     s32 tmp = TWindowSubComCard::get_card_slot(0);
-    TWindowGetComCard::remove_entry(arg0, tmp, 0x1C);
+    TWindowGetComCard::remove_entry(arg0, reinterpret_cast<GuildCardEntry *>(tmp), 0x1C);
 }
 
 }

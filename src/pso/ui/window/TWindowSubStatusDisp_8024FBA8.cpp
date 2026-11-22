@@ -2,6 +2,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 
@@ -30,7 +31,7 @@ void set_glyph_quad_extents(s32, void *);
 s32 get_font_char_advance(s32);
 s32 map_char_to_font_code(s32);
 void calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
-void TWindowSubStatusDisp::set_input_mode(u8 v) { *(u8*)((char*)this + 0x64) = v; }
+void TWindowKeyBoardBase::set_input_mode(s32 mode) { m_input_mode = mode; }
 }
 s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width) {
     s32 ok;

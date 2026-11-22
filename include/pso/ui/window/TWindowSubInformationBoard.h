@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TKeyBoardControl;
 
 struct TWindowSubInformationBoard : public TObject {
     TWindowSubInformationBoard(TObject *object, void *arg2);
@@ -19,14 +20,14 @@ struct TWindowSubInformationBoard : public TObject {
     uaddr page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
     uaddr message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
     uaddr m_38;
-    uaddr keyboard;       // open_keyboard
+    TKeyBoardControl *keyboard;
     void* m_40;
     virtual void render();
     virtual void run_task();
     static void clear_if_current(u32 arg0);
     void set_page(s32 arg1);
-    void set_message_index(s32 index);
-    static s32 open_keyboard(saddr parent);
+    void set_message_index(s32 arg1);
+    static TKeyBoardControl *open_keyboard(saddr arg0);
     u32 show_card_a7();
     u32 create_info_board_menu();
     u32 sub_8034CDE0();

@@ -1,4 +1,5 @@
 #include "pso/system/save/CardSaveFile.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include <string.h>
@@ -524,7 +525,7 @@ void TQuestListVM::open_confirm_window() {
             set_field_20(resume_state);
             return;
         }
-        confirm_window = (TWindowMenu *)create_yes_no_window((saddr)get_window_layout_position(0x2B), get_entity_id(player), 0, 0);
+        confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id(player), NULL, NULL);
         confirm_window->set_position_xy(get_scale(), get_scale());
         display_guild_message(5, 1);
         set_field_20(resume_state);

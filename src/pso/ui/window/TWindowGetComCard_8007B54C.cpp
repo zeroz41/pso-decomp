@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowGetComCard_8007B54C.h"
@@ -6,55 +7,43 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
-TWindowGetComCardReceivedGuildCardTags TWindowGetComCard__received_guild_card_tags;
+GuildCardEntry TWindowGetComCard__received_guild_card_tags[4];
 
 extern "C" {
-s32 TWindowSubComCard__sub_8007B26C(s32);
+void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
 void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
 
 void TWindowGetComCard__sub_8007B54C(void) {
-    TWindowGetComCard::remove_entry(0, (saddr) &TWindowGetComCard__received_guild_card_tags.value, 4);
-    if (((TWindowSubComCard *)(&TWindowGetComCard__received_guild_card_tags.value))->is_active() == 0) {
+    TWindowGetComCard::remove_entry(0, TWindowGetComCard__received_guild_card_tags, 4);
+    if (TWindowGetComCard__received_guild_card_tags[0].is_active() == 0) {
         TWindowCtrl__sub_8024A08C();
     }
 }
 
-s32 *TWindowGetComCard__sub_8007B594(void) {
-    return &TWindowGetComCard__received_guild_card_tags.value;
+GuildCardEntry *TWindowGetComCard__sub_8007B594(void) {
+    return TWindowGetComCard__received_guild_card_tags;
 }
 
-void TWindowGetComCard::remove_entry(s32 arg0, s32 arg1, s32 arg2) {
-    saddr temp_r3;
-
-    if (arg0 < (arg2 - 1)) {
-        temp_r3 = arg1 + (arg0 * 0x90);
-        ((TLobby *)temp_r3)->move_words((u32 *)(temp_r3 + 0x90), (s32)((u32) (((arg2 - arg0) - 1) * 0x90) >> 2U));
+void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 count) {
+    if (index < count - 1) {
+        GuildCardEntry *entry = &entries[index];
+        move_words(entry, entry + 1, (u32)((count - index - 1) * sizeof(GuildCardEntry)) >> 2);
     }
-    arg1 += (arg2 - 1) * 0x90;
-    TWindowSubComCard__sub_8007B26C(arg1);
+    entries += count - 1;
+    TWindowSubComCard__sub_8007B26C(entries);
 }
 
 void TWindowGetComCard__sub_8007B60C(s32 _w0) {
-  int new_var;
-  s32 var_r29;
-  s32 var_r31;
-  TWindowCtrl__sub_8024A08C();
-  var_r29 = 0;
-  var_r31 = 0;
-  do
-  {
-    new_var = 0xFFFFFFFFFFFFFFFF;
-    TWindowSubComCard__sub_8007B26C((saddr)((void *) (((u8 *) (&TWindowGetComCard__received_guild_card_tags.value)) + (var_r31 & new_var))));
-    var_r29 += 1;
-    var_r31 += 0x90;
-  }
-  while (var_r29 < 4);
+    TWindowCtrl__sub_8024A08C();
+    for (s32 i = 0; i < 4; i++) {
+        TWindowSubComCard__sub_8007B26C(&TWindowGetComCard__received_guild_card_tags[i]);
+    }
 }
 
 void TWindowGetComCard__sub_8007B65C(void* p) { TWindowGetComCard__sub_8007B60C((saddr)p); }
 void TWindowGetComCard__sub_8007B67C(void* p) { TWindowGetComCard__sub_8007B60C((saddr)p); }
 void TWindowGetComCard::construct_card_tags() {
-    __construct_array(((u8 *)&TWindowGetComCard__received_guild_card_tags), (void *)init_guild_card_tag__17TWindowSubComCardFi, 0, 0x90, 4);
+    __construct_array(TWindowGetComCard__received_guild_card_tags, (void *)init_guild_card_tag__17TWindowSubComCardFi, 0, sizeof(GuildCardEntry), 4);
 }
 
 }

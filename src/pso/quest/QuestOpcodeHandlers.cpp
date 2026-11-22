@@ -974,7 +974,7 @@ Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void
 void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
 s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
-void open_default__11TWindowCtrlFll(u16, s32);
+void open_default__11TWindowCtrlFUsl(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
@@ -1130,7 +1130,7 @@ void qst_op_chat_bubble(void) {
     s32 win;
     s32 v;
     if (id < 100) {
-        open_default__11TWindowCtrlFll(id, arg);
+        open_default__11TWindowCtrlFUsl(id, arg);
         TWindowCtrl::set_field28(id);
         return;
     }
@@ -1146,7 +1146,7 @@ void qst_op_chat_bubble(void) {
                 v = get_field_d4(player);
             }
             if (v == id) {
-                open_default__11TWindowCtrlFll(win, arg);
+                open_default__11TWindowCtrlFUsl(win, arg);
                 TWindowCtrl::set_field28(win);
                 return;
             }
@@ -5139,7 +5139,7 @@ void qst_op_message(void) {
     TWindowCtrl::set_close_flag();
     qst_message_speaker = speaker;
     if (speaker < 100) {
-        TWindowCtrl::open(speaker & 0xFFFF, text, 0x2D);
+        TWindowCtrl::open(static_cast<u16>(speaker), text, 0x2D);
         TWindowCtrl::set_field28((u16)speaker);
         qst_suspend_reason = QST_WAIT_MESSAGE;
     } else {
@@ -5156,7 +5156,7 @@ void qst_op_message(void) {
                     entity = get_field_d4(actor);
                 }
                 if (entity == speaker) {
-                    TWindowCtrl::open(identity, text, 0x2D);
+                    TWindowCtrl::open(static_cast<u16>(identity), text, 0x2D);
                     TWindowCtrl::set_field28(identity);
                     qst_suspend_reason = QST_WAIT_MESSAGE;
                     break;

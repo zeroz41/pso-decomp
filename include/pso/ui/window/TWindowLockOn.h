@@ -23,7 +23,7 @@ struct TWindowLockOn : public TWindowBase {
     void validate_target();
     void refresh_ground_item();
     void update_photon_blast_marker();
-    static void *create_for_target(s32 player, u16 id);
+    static TWindowLockOn *create_for_target(s32 player, u16 id);
     virtual void run_task();
     void update_for_player_index(s32 id);
     void refresh_enemy_statuses();

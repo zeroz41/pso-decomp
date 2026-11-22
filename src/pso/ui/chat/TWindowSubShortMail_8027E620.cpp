@@ -1,3 +1,4 @@
+#include "pso/player/GuildCardEntry.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -46,12 +47,10 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *, saddr);
 s32 create_list_item__19TWindowSubShortMailFv(void *);
 s32 open_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_delete_confirm_dialog__19TWindowSubShortMailFv(void *);
-int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
 saddr get_card_window_area__6TLobbyFv();
 s32 fn_8007B83C(s32);
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
-void TWindowSubShortMail__sub_8027E620(void* p);
 s32 *get_shared_text_buffer(void);
 s32 __nw__7TObjectFUl(s32);
 int get_flag_bit0__6TLobbyFv(void);
@@ -192,7 +191,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w40 == NULL) {
             o->w40 = ((void * (*)(void *)) TWindowSubShortMail::create_menu)(o);
         }
-        ((TWindowSubComCard *)(o->w40))->clear_flag_and_release();
+        ((TWindowMenu *)(o->w40))->clear_flag_and_release();
         o->state = 2;
     case 2:
         if (((TWindowMenu *)((saddr)o->w40))->is_cancelled() != 0) {
@@ -211,7 +210,7 @@ void TWindowSubShortMail::run_task() {
             o->f28 = ((TWindowMenu *)o->w54)->get_selected_value();
             o->w58 = TWindowSubComCard::send_command(o->f28);
         }
-        ((TWindowSubComCard *)(o->w54))->clear_flag_and_release();
+        ((TWindowMenu *)(o->w54))->clear_flag_and_release();
         o->state = 4;
     case 4:
         update_display_value__17TWindowSubComCardFUiUiPv((uaddr)o->w54, (uaddr)o->w58, (s32 *)&o->f28);
@@ -220,9 +219,9 @@ void TWindowSubShortMail::run_task() {
         } else if (((TWindowMenu *)(o->w54))->is_decided() != 0) {
             void *p;
             o->f30 = -1;
-            p = ((void * (*)(s32)) get_card_entry__17TWindowSubComCardFi)(((TWindowMenu *)o->w54)->get_selected_value());
+            p = get_card_entry__17TWindowSubComCardFi(((TWindowMenu *)o->w54)->get_selected_value());
             if (p != NULL) {
-                o->f2c = ((TWindowSubComCard *)p)->get_card_id();
+                o->f2c = reinterpret_cast<GuildCardEntry *>(p)->get_card_id();
             }
             o->state = 0xB;
         }
@@ -256,7 +255,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w44 == NULL) {
             o->w44 = ((void * (*)(void *)) TWindowSubShortMail::build_menu)(o);
         }
-        ((TWindowSubComCard *)(o->w44))->clear_flag_and_release();
+        ((TWindowMenu *)(o->w44))->clear_flag_and_release();
         ((TWindowMenu *)(o->w44))->clear_transition_flag();
         o->state = 0xA;
     case 10:
@@ -352,7 +351,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w48 == NULL) {
             o->w48 = ((void * (*)(void *)) TWindowSubShortMail::create_window)(o);
         }
-        ((TWindowSubComCard *)(o->w44))->clear_flag_and_release();
+        ((TWindowMenu *)(o->w44))->clear_flag_and_release();
         o->state = 0x15;
     case 21:
         if (((TWindowMenu *)((saddr)o->w44))->is_cancelled() != 0) {
@@ -452,9 +451,9 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     n = TLobby::get_short_mail_ctrl();
     i = n - 1;
     while (i >= 0) {
-        e = (saddr)TLobby__sub_8022598C(i);
-        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) TWindowSubShortMail::get_field_cc)(e), fn_8007B83C(e), (u32)((TLobby *)e)->get_lobby_id());
-        if (id == (u32)((TLobby *)e)->get_lobby_id()) {
+        e = (saddr)get_short_mail_entry(i);
+        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) TWindowSubShortMail::get_field_cc)(e), fn_8007B83C(e), (u32)reinterpret_cast<ShortMailEntry *>(e)->get_id());
+        if (id == (u32)reinterpret_cast<ShortMailEntry *>(e)->get_id()) {
             sel = (n - 1) - i;
         }
         i--;
@@ -523,15 +522,13 @@ s32 TWindowSubShortMail::build_menu(void) {
 }
 
 #pragma pop
-s32 TWindowSubShortMail::create_keyboard(void) {
-    saddr keyboard_control;
-
-    keyboard_control = (saddr)new TKeyBoardControl((TObject *)tl_00, 0xC6, 5, 4, local_client_id);
-    reinterpret_cast<TKeyBoardControl *>(keyboard_control)->set_composer_flag62_bit4();
-    ((TKeyBoardControl *)keyboard_control)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TKeyBoardControl *)keyboard_control)->set_flag62_bit2();
-    ((TWindowSubComCard *)keyboard_control)->destroy_keyboard();
-    return keyboard_control;
+TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
+    TKeyBoardControl *keyboard = new TKeyBoardControl(reinterpret_cast<TObject *>(tl_00), 0xC6, 5, 4, local_client_id);
+    keyboard->set_composer_flag62_bit4();
+    keyboard->set_sub_position(reinterpret_cast<u8 *>(get_window_layout_position(0xBB)));
+    keyboard->set_flag62_bit2();
+    keyboard->set_soft_flag60_bit1();
+    return keyboard;
 }
 
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, saddr arg1) {
@@ -634,12 +631,17 @@ void TWindowSubShortMail::close() {
     mem_free((void *)src);
     short_mail_ctrl = TLobby::get_short_mail_ctrl();
     for (i = 0; i < short_mail_ctrl; i += 1) {
-        temp_r30 = (saddr)TLobby__sub_8022598C(i);
-        if ((u32) this->m_30 == ((TLobby *)temp_r30)->get_lobby_id()) {
+        temp_r30 = (saddr)get_short_mail_entry(i);
+        if ((u32) this->m_30 == reinterpret_cast<ShortMailEntry *>(temp_r30)->get_id()) {
             ((s32 (*)(s32)) TWindowSubShortMail__sub_8027FAD0)(temp_r30);
             return;
         }
     }
 }
 
-void TWindowSubShortMail__sub_8027E620(void* p) { ((TWindowMenuIconLine *)(*(void**)((char*)p + 0x38)))->get_cursor_value(); get_card_entry__17TWindowSubComCardFi(); TLobby::send_find_user_self_tag((saddr)(*(void**)((char*)p + 0x2c))); }
+void TWindowSubShortMail__sub_8027E620(void *p) {
+    u8 *storage = static_cast<u8 *>(p);
+    TWindowMenuIconLine *mail_list = *reinterpret_cast<TWindowMenuIconLine **>(storage + 0x38);
+    get_card_entry__17TWindowSubComCardFi(mail_list->get_cursor_value());
+    TLobby::send_find_user_self_tag(*reinterpret_cast<saddr *>(storage + 0x2C));
+}

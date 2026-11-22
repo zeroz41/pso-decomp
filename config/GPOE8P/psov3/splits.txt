@@ -9958,9 +9958,12 @@ pso/ui/window/TWindowDD_80341A08.cpp:
 	.text       start:0x80341500 end:0x80342428
 	.ctors      start:0x8043400C end:0x80434010
 	.rodata     start:0x804785F8 end:0x80478618
-	.data       start:0x804EFC50 end:0x804EFD50
+	.data       start:0x804EFC50 end:0x804EFCA8
 	.sdata      start:0x805D42E0 end:0x805D42E8
 	.sdata2     start:0x805DFCA0 end:0x805DFCB0
+
+pso/ui/window/TWindowDDEntryTable.cpp:
+	.data       start:0x804EFCA8 end:0x804EFD50
 
 pso/ui/window/TWindowDD_80342428.cpp:
 	.text       start:0x80342428 end:0x803424EC

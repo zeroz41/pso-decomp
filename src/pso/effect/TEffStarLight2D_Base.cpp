@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/render_util.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/TEffStarLight2D_Base.h"
 #include "pso/effect/TEffStarLight2D.h"
@@ -275,7 +276,7 @@ void TEffStarLight2D::draw_segment(ColorLineVertex *a, ColorLineVertex *b,
     polygon.verts[3].x = d->x;
     polygon.verts[3].y = d->y;
     polygon.colors[3] = end_color.packed;
-    ((TWindowCtrlMain *)&polygon)->draw_strip_swap_color(4, 7, -15.0f);
+    reinterpret_cast<ColorLineList *>(&polygon)->draw_strip_swap_color(4, 7, -15.0f);
 }
 #pragma pop
 

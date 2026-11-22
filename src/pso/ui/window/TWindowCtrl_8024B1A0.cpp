@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TUnk_804CF0B8.h"
 #include "pso/system/NinjaTypes.h"
 struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 
@@ -14,7 +13,7 @@ extern const f32 lbl_805DCBE0;
 extern const f32 lbl_805DCBE4;
 #pragma push
 #pragma fp_contract on
-s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
+s8 TWindowFukidasi::alloc_nearest_free_slot() {
     s32 i;
     s32 mask;
     s8 best;
@@ -84,9 +83,6 @@ struct Ctrl_8024B3B4 { u8 pad[0x84]; void *win[4]; };
 
 struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 
-extern "C" {
-s32 acquire_balloon_slot__11TWindowCtrlFPviiPv(TWindowCtrl *, u16, s32, s32);
-}
 
 void TWindowCtrl::close_windows_by_flags(u16 arg0) {
     u32 i;
@@ -94,7 +90,7 @@ void TWindowCtrl::close_windows_by_flags(u16 arg0) {
     if (TWindowCtrl__active_window != NULL) {
         for (i = 0; i < 4; i++) {
             w = ((Ctrl_8024B328 *)TWindowCtrl__active_window)->win[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && arg0 == ((TWindowCtrl *)w)->get_flags()) {
+            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && arg0 == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 ((TWindowBase *)w)->close();
             }
         }
@@ -107,7 +103,7 @@ void complete_actor_speech_balloons(u16 id) {
     if (TWindowCtrl__active_window != NULL) {
         for (i = 0; i < 4; i++) {
             w = ((Ctrl_8024B3B4 *)TWindowCtrl__active_window)->win[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == ((TWindowCtrl *)w)->get_flags()) {
+            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 complete_speech_balloon((u8 *)w);
             }
         }
@@ -122,7 +118,7 @@ s32 is_actor_speech_balloon_done(u16 id) {
     }
     for (i = 0; i < 4; i++) {
         w = ((Ctrl_8024B440 *)TWindowCtrl__active_window)->win[i];
-        if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == ((TWindowCtrl *)w)->get_flags() && is_speech_balloon_ready((u8 *)w) == 0) {
+        if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id() && is_speech_balloon_ready((u8 *)w) == 0) {
             return 0;
         }
     }
@@ -134,7 +130,7 @@ s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3) {
     if (TWindowCtrl__active_window == 0U) {
         return 0;
     }
-    temp_r3 = acquire_balloon_slot__11TWindowCtrlFPviiPv(TWindowCtrl__active_window, player, flags, arg3);
+    temp_r3 = reinterpret_cast<saddr>(TWindowCtrl__active_window->acquire_balloon_slot(player, flags, arg3));
     if (temp_r3 == 0) {
         return 0;
     }

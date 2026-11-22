@@ -69,7 +69,6 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0);
 extern RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC __vt__14TAdPlyStatusGC;
 extern u32 ply_status_gc_instance;
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0);
-s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(const void *, const void *, void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
@@ -244,7 +243,9 @@ void TAdPlyStatusGC::format_status_strings() {
 }
 
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
-    saddr r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, &ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
+    saddr r = (saddr)TAdEnterSerialAccessGC::create_callback((void *)ad_enter_serial_access_gc,
+                                              (void *)&ply_status_window_position,
+                                              draw_status_window__14TAdPlyStatusGCFPvPv);
     ((TWindowBase *)r)->set_depth(60000.0f);
     return r;
 }

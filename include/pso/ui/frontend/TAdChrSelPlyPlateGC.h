@@ -71,6 +71,8 @@ LAYOUT_ASSERT(CharacterSelectionQuadsOffset, offsetof(TAdChrSelPlyPlateGC, quad)
 LAYOUT_ASSERT(CharacterSelectionCursorOffset, offsetof(TAdChrSelPlyPlateGC, cursor) == 0x324);
 LAYOUT_ASSERT(CharacterSelectionHomeOffset, offsetof(TAdChrSelPlyPlateGC, home) == 0x384);
 LAYOUT_ASSERT(CharacterSelectionAlphaOffset, offsetof(TAdChrSelPlyPlateGC, cursor_alpha) == 0x444);
+LAYOUT_ASSERT(CharacterSelectionPositionOffset, offsetof(TAdChrSelPlyPlateGC, pos) == 0x4A4);
+LAYOUT_ASSERT(CharacterSelectionPositionSize, sizeof(vec2f) == 8);
 LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;

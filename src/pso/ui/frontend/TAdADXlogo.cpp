@@ -1,6 +1,7 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdADXlogo.h"
 #include "pso/system/task/TMainTask.h"
@@ -9,7 +10,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 
-saddr get_logo_texture_e_handle();
 
 const char *TAdADXlogo_name = "TAdADXlogo";
 
@@ -69,7 +69,7 @@ void free_adx_logo_texture() {
 }
 
 void load_adx_logo_texture() {
-    TAdADXlogo__texture = (void *)get_logo_texture_e_handle();
+    TAdADXlogo__texture = get_logo_texture_e_handle();
 }
 
 void TObject::queue_destruction() { m_flags |= QUEUE_DESTRUCTION; }

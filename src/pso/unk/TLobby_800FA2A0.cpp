@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
@@ -31,7 +32,7 @@ s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *sr
     *(s32 *)((s8 *)var_r31 + 0x34) = 0;
     *(u32 *)((s8 *)var_r31 + 0x40) = arg2;
     if (arg2 != 0U) {
-        ((TLobby *)(var_r31 + 0x44))->move_words((u32 *)src, 8);
+        move_words(reinterpret_cast<void *>(var_r31 + 0x44), reinterpret_cast<const void *>(src), 8);
     }
     if (arg4 != NULL) {
         *arg4 = var_r31;

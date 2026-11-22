@@ -1,3 +1,4 @@
+#include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -76,7 +77,7 @@ s32 TWindowChat::sub_80247080() {
     temp_r31 = (s32 *)(*(saddr *)&this->result + 4);
     *temp_r31 = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
     if (this->flags & 0x80) {
-        reinterpret_cast<TWindowSubSymbolChat *>(TWindowChat::open_symbol_chat((s32 *)temp_r31))->update_selected_symbol();
+        TWindowChat::open_symbol_chat((s32 *)temp_r31)->update_selected_symbol();
     }
     return 1;
 }
@@ -123,7 +124,7 @@ s32 TWindowChat::submit_keyboard_input() {
     if (composer->get_flag() != 0) {
         TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)this->result, (s32)(get_chat_shortcut((s32)((int) (s8)(composer->get_input_mode())))));
         if (((u32) **(u32 * *)&this->result == 3U) && (((TWindowChat *)arg0)->is_mode_bit6() == 0)) {
-            reinterpret_cast<TWindowSubSymbolChat *>(TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4)))->update_selected_symbol();
+            TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4))->update_selected_symbol();
         }
     } else {
         ((TWindowKeyBoardBase *)this->composer)->export_text((char *)this->result + 4);

@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -13,18 +14,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayout.h"
-
-struct Quantity_8026D000 {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void **vt;
-    u8 pad1C[0x38 - 0x1C];
-    f32 f38;
-    u8 pad3C[0x60 - 0x3C];
-    f32 f60;
-    f32 f64;
-    f32 f68;
-};
 
 // inferred: quantity_window_layout_entries, the layout table quantity_window_layout points at.
 struct QuantityWindowLayout {
@@ -47,50 +36,48 @@ WindowDescriptor quantity_window_layout = {
 extern "C" {
 u32 calc_text_width(void);
 const char *TWindowQuantity__name = "TWindowQuantity";
-s32 draw_window_tab(s32, s32, s32, f32);
-
-void TWindowQuantity::set_position(s32 arg1) {
-    draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
+void TWindowQuantity::set_position(WindowDrawContext *context) {
+    draw_window_tab(context, &context->inner_x, 3, m_60);
 }
 
 void TWindowQuantity::render() {
-    saddr ctx;
-    ctx = reinterpret_cast<saddr>(setup_window_draw_context(&this->scale));
-    set_position(ctx);
-    draw_visible_window_entries(this, &this->entry_list, reinterpret_cast<WindowDrawContext *>(ctx));
+    WindowDrawContext *context = setup_window_draw_context(scale);
+    set_position(context);
+    draw_visible_window_entries(this, &entry_list, context);
 }
 
-void TWindowQuantity::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowQuantity::run_task() {
+    ((TWindowDD *)this)->initialize_subwindow();
+    update_window_entry_list(&entry_list);
+}
 
 TWindowQuantity::~TWindowQuantity() {}
 
-TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_window_layout, (s16)client, (u8 *)(get_window_layout_position(0x2A))) {
-#define self ((Quantity_8026D000 *)this)
+TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x2A))) {
     u8 *e1;
     u8 *e0;
     s32 id;
     f32 n;
-    self->f0 = (saddr)TWindowQuantity__name;
+    m_name = TWindowQuantity__name;
     id = get_message_text(1);
     n = (f32)calc_text_width();
-    self->f60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
+    m_60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
     e0 = (u8 *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);
     *(f32 *)(e1 + 8) = 24.0f + (12.0f + (8.0f + n));
-    self->f38 = TWindowSubStatusDisp::get_base_y(self->f60);
+    target_size[0] = TWindowSubStatusDisp::get_base_y(m_60);
     this->save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
-        self->f64 = 0.75f;
-        self->f68 = 0.75f;
+        scale[0] = 0.75f;
+        scale[1] = 0.75f;
     } else {
-        self->f64 = 1.0f;
-        self->f68 = 1.0f;
+        scale[0] = 1.0f;
+        scale[1] = 1.0f;
     }
-#undef self
 }
 
-void *create_window_quantity(void *client) {
+TWindowQuantity *create_window_quantity(s32 client) {
     return new TWindowQuantity((saddr)client);
 }
 

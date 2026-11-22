@@ -10,7 +10,6 @@ struct TAdChrMoveEffectGC : public TObject {
     void sub_80348E34();
     u32 m_1c;
     u32 m_20;
-    void copy4(void* q);
     virtual void render();
     void reset_effect_entries();
     void clear_entries();

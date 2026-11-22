@@ -1,3 +1,4 @@
+#include "pso/camera/RadarMapViewState.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -13,11 +14,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-typedef struct Cam_8001D3A8 {
-    Vec eye;
-    Vec dir;
-    u8 pad18[0x10];
-} Cam_8001D3A8;
 
 typedef struct TNowLoading_8001D3A8 {
     const char *unk0; // TObject::m_name
@@ -30,7 +26,6 @@ typedef struct TNowLoading_8001D3A8 {
 volatile s32 aram_dma_pending;
 
 extern "C" {
-extern f32 lbl_804FF5E8[];
 extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, uaddr, u32, u32, uaddr, uaddr, u32, void *);
@@ -54,9 +49,9 @@ void TNowLoading::run_task() {
     uaddr temp_r3_7;
     uaddr temp_r3_8;
     if ((u32) camera_ctrl_instance == 0U) {
-        *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
-        *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
-        this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
+        *(f32 *)&this->m_2c = (f32) ((65.0f * lbl_804FF5E8.direction.x) + lbl_804FF5E8.position.x);
+        *(f32 *)&this->unk_30 = (f32) ((65.0f * lbl_804FF5E8.direction.y) + lbl_804FF5E8.position.y);
+        this->m_34 = (f32) ((65.0f * lbl_804FF5E8.direction.z) + lbl_804FF5E8.position.z);
         temp_r3 = this->m_1c;
         if (temp_r3 != 0U) {
             ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
@@ -74,9 +69,9 @@ void TNowLoading::run_task() {
             ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
         }
     } else {
-        stack.x = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
-        stack.y = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
-        stack.z = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
+        stack.x = (65.0f * lbl_804FF5E8.direction.x) + lbl_804FF5E8.position.x;
+        stack.y = (65.0f * lbl_804FF5E8.direction.y) + lbl_804FF5E8.position.y;
+        stack.z = (65.0f * lbl_804FF5E8.direction.z) + lbl_804FF5E8.position.z;
         temp_r3_5 = this->m_1c;
         if (temp_r3_5 != 0U) {
             ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.x);
@@ -112,20 +107,18 @@ TNowLoading::~TNowLoading() {
 TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
     Vec dir;
     s32 out[3];
-    Cam_8001D3A8 *cam;
     self->unk0 = TNowLoading__class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
-    cam = (Cam_8001D3A8 *) &lbl_804FF5E8;
     out[0] = 0;
     out[1] = 0;
     out[2] = 0;
-    dir.x = -cam->dir.x;
-    dir.y = -cam->dir.y;
-    dir.z = -cam->dir.z;
+    dir.x = -lbl_804FF5E8.direction.x;
+    dir.y = -lbl_804FF5E8.direction.y;
+    dir.z = -lbl_804FF5E8.direction.z;
     direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    self->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
-    self->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
-    self->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
+    self->pos.x = 65.0f * lbl_804FF5E8.direction.x + lbl_804FF5E8.position.x;
+    self->pos.y = 65.0f * lbl_804FF5E8.direction.y + lbl_804FF5E8.position.y;
+    self->pos.z = 65.0f * lbl_804FF5E8.direction.z + lbl_804FF5E8.position.z;
     self->children[0] = NULL;
     self->children[1] = NULL;
     self->children[2] = NULL;

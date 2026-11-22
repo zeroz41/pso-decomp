@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804C8678.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/item/shop/TShopGenerator.h"
@@ -92,7 +93,7 @@ saddr get_window_layout_position(s32);
 int is_quest_active(void);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 saddr set_service_counter_camera(void *, s32);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
+
 saddr get_window_layout_position(s32);
 
 
@@ -279,7 +280,7 @@ void THunterGuildSeqOnline_Server::update() {
 
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
-        choice_menu = (TWindowMenu *)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(player), 0, 0);
+        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id(player), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);

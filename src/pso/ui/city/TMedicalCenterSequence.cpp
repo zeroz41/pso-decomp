@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/city/TMedicalCenterMes.h"
+#include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/unk/text_8026934C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -36,10 +38,9 @@ s32 TMedicalCenterMes__slot_flags[4];
 }
 
 extern "C" {
-saddr create_meseta_window(unsigned short);
 TObject *set_service_counter_camera(void *, int);
 extern const char *TMedicalCenterSequence__class_name;
-u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
+
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(TObjPlayer *player, s32 amount);
 int obj_getPtr2B0_20(TObjPlayer *player);
@@ -154,7 +155,7 @@ void TMedicalCenterSequence::open_greeting_window() {
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     display_shop_message(0x1F, 1);
-    m_2c = (TWindowBase *)create_meseta_window(get_child_field1c());
+    m_2c = (TWindowBase *)create_meseta_window((u16)get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 0);
 }
@@ -226,7 +227,7 @@ void TMedicalCenterSequence::show_fee_prompt() {
     u16 id;
     display_shop_message(0x20, 1);
     id = get_entity_id(player);
-    m_30 = (TWindowMenu *)create_yes_no_window(((s32 (*)(int))get_window_layout_position)(0x2B), id, 0, 0);
+    m_30 = create_yes_no_window((const NJS_POINT2 *)(((s32 (*)(int))get_window_layout_position)(0x2B)), id, NULL, NULL);
     ((TWindowAddition *)m_30)->set_position_xy(get_scale(), get_scale());
     set_field_20(3);
 }

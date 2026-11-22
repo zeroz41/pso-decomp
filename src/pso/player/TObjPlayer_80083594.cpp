@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #pragma defer_codegen on
 
 #pragma readonly_strings on
@@ -167,8 +168,6 @@ extern s32 model_render_flags;
 
 void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
-struct Rect_80083F38 { u8 data[0x20]; };
-struct Rect_800846C8 { u8 data[0x20]; };
 
 struct View_80083D54 {
     u8 pad0[0x178];
@@ -231,7 +230,6 @@ void **TObjPlayer__sub_80083F04(void);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 saddr get_capture_texture_pixels(void);
 void TObjPlayer__sub_80084500(void);
-void set_texture_name(void *, void *, int, int);
 s32 load_texture_list(void *);
 void TObjPlayer__sub_80083F38(void);
 void **release_shared_capture_texture(void);
@@ -324,7 +322,7 @@ void set_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(
 void clear_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xfffffffb); }
 
 void init_capture_texture(s32 wide) {
-    Rect_800846C8 r;
+    GinjaTextureInput r;
     s32 mode;
     u16 w;
     u16 h;
@@ -337,7 +335,7 @@ void init_capture_texture(s32 wide) {
         w = 640;
         h = 480;
     }
-    ((TObjPlayer *)(&r))->set_render_rect(0, mode, w, h);
+    r.set_render_rect(NULL, mode, w, h);
     set_texture_name(shared_capture_texture_list.entries, &r, 0x2EE0, 0x08800000);
     load_texture_list(&shared_capture_texture_list);
 }
@@ -521,8 +519,8 @@ void TObjPlayer__sub_80083FA4(void) { lbl_805D4EE0 = 1; }
 int TObjPlayer__sub_80083F9C(void) {  return lbl_805D4EE0; }
 
 void TObjPlayer__sub_80083F38(void) {
-    Rect_80083F38 r;
-    ((TObjPlayer *)(&r))->set_render_rect(0, 2, 0x100, 0x100);
+    GinjaTextureInput r;
+    r.set_render_rect(NULL, 2, 0x100, 0x100);
     set_texture_name(shadow_map_texture_list.entries, &r, 0x2EE1, 0x08800000);
     load_texture_list(&shadow_map_texture_list);
     lbl_805D4EE0 = 0;

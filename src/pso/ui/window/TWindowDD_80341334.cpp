@@ -110,17 +110,14 @@ WindowDescriptor TWindowDD__data_804EFC24 = {
 TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
 extern "C" {
-extern s32 __vt__19TWindowDD_WS_String[];
-
-TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style) {
+TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style)
+    : TWindowBase((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos) {
     u8 *entry;
-    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos);
-    *(s32 **)((s8 *)self + 0x18) = __vt__19TWindowDD_WS_String;
-    self->m_name = lbl_805D42D8;
-    copy_vec2(self->pad_64, pos);
-    copy_vec2(self->pad_6C, size);
-    self->pad_60 = style;
-    entry = (u8 *)self->get_array_entry(0);
+    m_name = lbl_805D42D8;
+    copy_vec2(pad_64, pos);
+    copy_vec2(pad_6C, size);
+    pad_60 = style;
+    entry = (u8 *)get_array_entry(0);
     if (entry != NULL) {
         set_text_entry_string(entry, str, 0x80);
         *(f32 *)((s8 *)entry + 0x8) = 0.0f;
@@ -128,22 +125,16 @@ TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos
         measure_message_text_width_default(entry);
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
-    if ((self->pad_60 == 1) || (self->pad_60 == 3)) {
+    if ((pad_60 == 1) || (pad_60 == 3)) {
         *(s32 *)((s8 *)entry + 0x24) = lbl_805DFC18;
     }
-    self->open_tick = 0x01000000;
-    return self;
+    open_tick = 0x01000000;
 }
 
 TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width) {
-    TWindowDD_WS_String *window;
     TWindowDD__data_804EFC24.pad_00[0] = width;
     TWindowDD__data_804EFC24.pad_00[1] = TWindowDD__data_805DFB20;
-    window = (TWindowDD_WS_String *)TObject::operator new(sizeof(TWindowDD_WS_String));
-    if (window != NULL) {
-        window = TWindowDD__sub_8034138C(window, pos, size, str, style);
-    }
-    return window;
+    return new TWindowDD_WS_String(pos, size, str, style);
 }
 
 }

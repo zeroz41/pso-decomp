@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include <stddef.h>
 
 struct PageIndicator;
 
@@ -64,4 +65,8 @@ struct TWindowHelpItem : public TWindowBase
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);
+LAYOUT_ASSERT(HelpItem_name_offset, offsetof(TWindowHelpItem, m_name) == 0);
+LAYOUT_ASSERT(HelpItem_page_offset, offsetof(TWindowHelpItem, m_64) == 0x64);
+LAYOUT_ASSERT(HelpItem_callback_offset, offsetof(TWindowHelpItem, m_callback) == 0xB0);
+LAYOUT_ASSERT(HelpItem_callback_size, sizeof(TWindowHelpItem::CallbackWords) == 12);
 #endif

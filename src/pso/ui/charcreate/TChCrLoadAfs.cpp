@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #include "pso/system/Adxf.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
@@ -71,7 +72,6 @@ extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
-void set_texture_name(GinjaTextureEntry *, void *, s32, s32);
 s32 load_texture_list(GinjaTextureList *);
 }
 
@@ -230,8 +230,8 @@ void TChCrLoadAfsTextureReq::update_loading() {
         return;
     }
     for (i = 0; i < count; i++) {
-        ((TObjPlayer *)m_74[i])->set_render_rect(buffers[i], 0, 0, 0);
-        set_texture_name(&textures->entries[i], m_74[i], 0, 0x40000000);
+        reinterpret_cast<GinjaTextureInput *>(m_74[i])->set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
+        set_texture_name(&textures->entries[i], reinterpret_cast<GinjaTextureInput *>(m_74[i]), 0, 0x40000000);
     }
     if (load_texture_list(textures) != -1) {
         m_1c = 1;

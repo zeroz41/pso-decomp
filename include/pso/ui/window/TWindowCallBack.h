@@ -3,18 +3,18 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowCallback.h"
 
 struct TWindowCallBack : public TWindowBase {
-    TWindowCallBack(saddr arg1, u8 *arg2, s32 arg3);
+    TWindowCallBack(u8 *position, u8 *scale, WindowCallback callback_function);
     virtual ~TWindowCallBack();
     void render();
     void run_task();
-    void (*callback)(TWindowCallBack *, s32);
+    void set_field_60(WindowCallback callback_function);
+    WindowCallback callback;
 };
 
 LAYOUT_ASSERT(TWindowCallBack_size, sizeof(TWindowCallBack) == 0x64);
-extern "C" {
-void set_field_60__15TWindowCallBackFPvi(void *p, s32 v);
-}
+LAYOUT_ASSERT(TWindowCallBack_callback_offset, offsetof(TWindowCallBack, callback) == 0x60);
 
 #endif

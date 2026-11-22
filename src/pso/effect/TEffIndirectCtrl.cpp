@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
@@ -60,7 +61,6 @@ void GXSetIndTexCoordScale(s32, s32, s32);
 void GXSetIndTexOrder(s32, s32, s32);
 void GXSetTevIndWarp(s32, s32, s32, s32, s32);
 void DCFlushRange(void *, u32);
-void set_texture_name(void *, void *, void *, s32);
 void load_texture_list(void *);
 void release_texture_list(void *);
 Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent);
@@ -420,8 +420,9 @@ Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent)
     tex = (u8 *)get_indirect_source_id(self->f24) + k * 1000;
     self->f2c->a = self->f30;
     self->f2c->b = 1;
-    ((TObjPlayer *)(self->f28))->set_render_rect(0, 1, 0x40, 0x40);
-    set_texture_name(self->f30, self->f28, tex, 0x8800000);
+    reinterpret_cast<GinjaTextureInput *>(self->f28)->set_render_rect(NULL, 1, 0x40, 0x40);
+    set_texture_name(reinterpret_cast<GinjaTextureEntry *>(self->f30),
+        reinterpret_cast<GinjaTextureInput *>(self->f28), reinterpret_cast<u32>(tex), 0x8800000);
     load_texture_list(self->f2c);
     self->f1c = *(u8 **)(*(u8 **)(*(u8 **)((u8 *)self->f2c->a + 8) + 0xC) + 0x20);
     ((TEffIndirectCtrl *)self)->copy_and_flush_texture(get_indirect_source_pixels(self->f24));

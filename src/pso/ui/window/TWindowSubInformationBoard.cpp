@@ -55,8 +55,8 @@ TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *object, void *ar
 }
 
 TWindowSubInformationBoard::~TWindowSubInformationBoard() {
-    if (this->keyboard != 0U) {
-        ((TObject *)this->keyboard)->queue_destruction();
+    if (this->keyboard != NULL) {
+        this->keyboard->queue_destruction();
         this->keyboard = 0;
     }
     if (this->m_38 != 0U) {
@@ -93,7 +93,7 @@ void TWindowSubInformationBoard::run_task() {
         if ((u32) this->message_window == 0U) {
             this->message_window = open_card_info_window();
         }
-        ((TWindowSubComCard *)(this->menu_window))->clear_flag_and_release();
+        ((TWindowMenu *)(this->menu_window))->clear_flag_and_release();
         this->m_1c = 2U;
     case 2:
         set_message_index(((TWindowShortListCtrl *)this->menu_window)->get_cursor_pos());
@@ -152,17 +152,17 @@ void TWindowSubInformationBoard::run_task() {
             ((TWindowBase *)this->menu_window)->close();
             this->menu_window = 0U;
         }
-        if ((u32) this->keyboard == 0U) {
+        if (this->keyboard == NULL) {
             this->keyboard = TWindowSubInformationBoard::open_keyboard((saddr)((void *)arg0));
         }
         this->m_1c = 0xAU;
     case 10:
-        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
+        if (this->keyboard->is_cancelled() != 0) {
             this->m_1c = 0xBU;
             break;
         }
-        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
-            temp_r30 = (saddr)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
+        if (this->keyboard->is_confirmed() != 0) {
+            temp_r30 = (saddr)this->keyboard->realloc_buffer();
             set_info_board_text__6TLobbyFv();
             TLobby::flush_pending_send();
             mem_free((void *)temp_r30);
@@ -171,9 +171,9 @@ void TWindowSubInformationBoard::run_task() {
         }
         break;
     case 11:
-        if ((u32) this->keyboard != 0U) {
-            ((TObject *)(this->keyboard))->queue_destruction();
-            this->keyboard = 0U;
+        if (this->keyboard != NULL) {
+            this->keyboard->queue_destruction();
+            this->keyboard = NULL;
         }
         this->m_1c = 1U;
         break;
@@ -245,14 +245,12 @@ u32 TWindowSubInformationBoard::show_card_a7() {
     return (uaddr)window;
 }
 
-s32 TWindowSubInformationBoard::open_keyboard(saddr parent) {
-    saddr keyboard;
-
-    keyboard = (saddr)new TKeyBoardControl((TObject *)parent, 0xC6, 5, 4, local_client_id);
-    ((TKeyBoardControl *)keyboard)->set_text((char *)TLobby::get_card_window_field());
-    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
-    ((TWindowSubComCard *)keyboard)->destroy_keyboard();
+TKeyBoardControl *TWindowSubInformationBoard::open_keyboard(saddr arg0) {
+    TKeyBoardControl *keyboard = new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
+    keyboard->set_text((char *)TLobby::get_card_window_field());
+    keyboard->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
+    keyboard->set_flag62_bit2();
+    keyboard->set_soft_flag60_bit1();
     return keyboard;
 }
 

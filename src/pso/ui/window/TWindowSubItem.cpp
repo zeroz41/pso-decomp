@@ -1,3 +1,4 @@
+#include "pso/unk/TWindowLayoutEntry.h"
 #pragma defer_codegen on
 
 #include "types.h"
@@ -72,7 +73,6 @@ struct Wn_8027AA80 { u8 pad0[0x76]; s16 f76; };
 struct En_8027AB10 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
 struct Wn_8027AB10 { u8 pad0[0x76]; s16 f76; };
 struct Quest_8027ABFC { u8 pad[0x20]; s32 count; };
-struct Player_8027ABFC { u8 pad[0xD00]; saddr inv; };
 struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 pad2[0x8C - 0x74]; u32 n; };
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
 void populate_sub_item_list(Win_8027ABFC *arg0);
@@ -106,14 +106,14 @@ extern const f32 lbl_8044F998[2] = {308.0f, 184.0f};
 
 void populate_sub_item_list(Win_8027ABFC *arg0) {
     s32 ids[30];
-    Player_8027ABFC *pl;
+    TObjPlayer *pl;
     Quest_8027ABFC *q;
     u32 i;
     void *it;
 
-    pl = (Player_8027ABFC *)get_player_by_client_id(arg0->id);
+    pl = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(arg0->id));
     if (pl != NULL) {
-        arg0->n = ((TPlyItem *)(pl->inv))->run_and_get_result((saddr)ids);
+        arg0->n = pl->inventory_objects->run_and_get_result((saddr)ids);
         for (i = 0; i < arg0->n; i++) {
             it = find_item_by_id(ids[i]);
             if (it != NULL) {
@@ -123,7 +123,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
         for (i = 0; i < 5; i++) {
             add_battle_stat_entry(arg0, i, TWindowSubItem__sub_8027AA78(i), 0);
         }
-        q = (Quest_8027ABFC *)((TObjPlayer *)pl)->get_stats();
+        q = (Quest_8027ABFC *)pl->get_stats();
         if (q != NULL && q->count > 0) {
             push_status_disp_entry(arg0, q->count, -0xFF);
         }
@@ -142,7 +142,7 @@ void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
 
     for (i = 0; i < arg0->f76; i++) {
         e = (En_8027AB10 *)((TWindowBase *)arg0)->get_array_entry(i);
-        if (((TWindowSubStatusDisp *)e)->is_flag_4_set() != 0 && (((TWindowSubItem *)e)->get_cursor_pos() & -0x10) == -0x10) {
+        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (((TWindowSubItem *)e)->get_cursor_pos() & -0x10) == -0x10) {
             e->c2c = 0xFFAAAAAA;
             e->c30 = 0xFF909090;
             e->c34 = 0xFF909090;
@@ -157,7 +157,7 @@ void TWindowSubItem::gray_out_unusable_entries() {
 
     for (i = 0; i < ((Wn_8027AA80 *)this)->f76; i++) {
         e = (En_8027AA80 *)((TWindowBase *)this)->get_array_entry(i);
-        if (((TWindowSubStatusDisp *)e)->is_flag_4_set() != 0 && ((TWindowSubItem *)e)->get_cursor_pos() == -0xFF) {
+        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && ((TWindowSubItem *)e)->get_cursor_pos() == -0xFF) {
             e->c2c = 0xFFAAAAAA;
             e->c34 = 0xFF909090;
             e->flags |= 0x80;
@@ -282,7 +282,7 @@ void TWindowSubItem::run_task() {
             if (F(u32, 0x34) == 0) {
                 F(u32, 0x34) = ((TWindowSubItem *)arg0)->open_purpose_window(((TWindowMenuIconLine *)LIST)->get_cursor_value());
             }
-            ((TWindowSubComCard *)(F(uaddr, 0x34)))->clear_flag_and_release();
+            ((TWindowMenu *)(F(uaddr, 0x34)))->clear_flag_and_release();
             ((TWindowMenu *)(F(uaddr, 0x34)))->clear_transition_flag();
             F(u8, 0x1C) = 4;
         case 4:

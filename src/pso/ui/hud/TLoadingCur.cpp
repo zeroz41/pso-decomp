@@ -1,3 +1,5 @@
+#include "pso/camera/RadarMapViewState.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
@@ -19,17 +21,10 @@ struct Stack_8001CAD4 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8001CAD4_lbl_804349FC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct RecoveredGlobal_8001CAD4_lbl_8058D490 {
     s32 value;
     u8 remaining[0x2C];
 };
-
-struct Tbl_8001CBC4 { Vec base; Vec dir; };
 
 struct Obj_8001CBC4 { u8 pad[0x44]; Vec pos; };
 
@@ -42,12 +37,11 @@ s32 rotate_matrix_x(int, int);
 #pragma readonly_strings on
 const char *TLoadingCur__class_name = "TLoadingCur";
 #pragma pop
-extern const RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC = {0};
-extern f32 lbl_804FF5E8[];
+extern const Stack_8001CAD4 lbl_804349FC = {0, 0, 0};
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
 extern u32 camera_ctrl_instance;
 
-LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_804349FC_size, sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC);
+LAYOUT_ASSERT(LoadingCursorRotationSize, sizeof(Stack_8001CAD4) == 0xC);
 LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_8058D490_size, sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30);
 void TLoadingCur::update_camera_facing_offset() {
     u8 *arg0 = (u8 *)this;
@@ -57,12 +51,12 @@ void TLoadingCur::update_camera_facing_offset() {
     Stack_8001CAD4 stack;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
         VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg0 + 0x20));
-        stack.sp8 = *(s32 *)((s8 *)&lbl_804349FC.value + 0);
-        stack.spC = *(s32 *)((s8 *)&lbl_804349FC.value + 4);
-        stack.sp10 = *(s32 *)((s8 *)&lbl_804349FC.value + 8);
-        *(f32 *)((s8 *)arg0 + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC);
-        this->m_54 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10);
-        *(f32 *)&this->unk_58 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14);
+        stack.sp8 = lbl_804349FC.sp8;
+        stack.spC = lbl_804349FC.spC;
+        stack.sp10 = lbl_804349FC.sp10;
+        *(f32 *)((s8 *)arg0 + 0x50) = (f32) -lbl_804FF5E8.direction.x;
+        this->m_54 = (f32) -lbl_804FF5E8.direction.y;
+        *(f32 *)&this->unk_58 = (f32) -lbl_804FF5E8.direction.z;
         direction_to_rotation_xy((arg0 + 0x50), (&stack.sp8), (&stack.spC));
         push_matrix_from((void *)&identity_matrix.value);
         rotate_matrix_y(0, stack.spC);
@@ -77,9 +71,9 @@ void TLoadingCur::update_camera_facing_offset() {
 #pragma fp_contract on
 Vec calc_loading_cursor_pos(Obj_8001CBC4 *o) {
     if (camera_ctrl_instance != 0) {
-        o->pos.x = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.x + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.x;
-        o->pos.y = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.y + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.y;
-        o->pos.z = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.z + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.z;
+        o->pos.x = 1e+02f * lbl_804FF5E8.direction.x + lbl_804FF5E8.position.x;
+        o->pos.y = 1e+02f * lbl_804FF5E8.direction.y + lbl_804FF5E8.position.y;
+        o->pos.z = 1e+02f * lbl_804FF5E8.direction.z + lbl_804FF5E8.position.z;
     }
     return o->pos;
 }
@@ -124,7 +118,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 
 
-s32 play_persistent_sound(int, void *, void *, int, int);
 extern Pad_8001CD90 controller_input_state;
 
 s32 project_world_to_screen(int, void *, void *);
@@ -233,9 +226,9 @@ void TLoadingCur::run_task() {
     update_camera_facing_offset();
     if (0.0f != x || 0.0f != y) {
         if (is_split_screen() != 0) {
-            play_persistent_sound(0x53C10, this, (u8 *)this + 0x2C, 0, 1);
+            play_persistent_sound(0x53C10, reinterpret_cast<saddr>(this), reinterpret_cast<uaddr>((u8 *)this + 0x2C), 0, 1);
         } else {
-            play_persistent_sound(0x53C10, this, (u8 *)this + 0x2C, 0, 0);
+            play_persistent_sound(0x53C10, reinterpret_cast<saddr>(this), reinterpret_cast<uaddr>((u8 *)this + 0x2C), 0, 0);
         }
     }
 }
@@ -261,12 +254,12 @@ TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
     *(f32 *)((s8 *)object + 0x38) = 0.0f;
     *(f32 *)((s8 *)object + 0x3C) = 0.0f;
     *(f32 *)((s8 *)object + 0x40) = 0.0f;
-    *(f32 *)((s8 *)object + 0x44) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
-    *(f32 *)((s8 *)object + 0x48) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
-    *(f32 *)((s8 *)object + 0x4C) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
-    *(f32 *)((s8 *)object + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC);
-    *(f32 *)((s8 *)object + 0x54) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10);
-    *(f32 *)((s8 *)object + 0x58) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14);
+    *(f32 *)((s8 *)object + 0x44) = (f32) ((1e+02f * lbl_804FF5E8.direction.x) + lbl_804FF5E8.position.x);
+    *(f32 *)((s8 *)object + 0x48) = (f32) ((1e+02f * lbl_804FF5E8.direction.y) + lbl_804FF5E8.position.y);
+    *(f32 *)((s8 *)object + 0x4C) = (f32) ((1e+02f * lbl_804FF5E8.direction.z) + lbl_804FF5E8.position.z);
+    *(f32 *)((s8 *)object + 0x50) = (f32) -lbl_804FF5E8.direction.x;
+    *(f32 *)((s8 *)object + 0x54) = (f32) -lbl_804FF5E8.direction.y;
+    *(f32 *)((s8 *)object + 0x58) = (f32) -lbl_804FF5E8.direction.z;
     stack.sp8 = 0;
     stack.spC = 0;
     stack.sp10 = 0;

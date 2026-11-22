@@ -1,9 +1,9 @@
+#include "pso/ui/window/TWindowDD_80341A08.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD_80342428.h"
 #include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
-s16 TWindowDD__sub_80342158(int);
 s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
@@ -21,7 +21,7 @@ void TWindowDD__sub_80342428(u8 *window_dd) {
     {
       new_var = window_dd;
       new_var = new_var + ((*((s32 *) (((s8 *) window_dd) + 0x20))) * 4);
-      if (TWindowDD__sub_80342158((int) (*((s32 *) (((s8 *) new_var) + 0x24)))) == 0x685)
+      if (static_cast<s16>(TWindowDD__sub_80342158(*reinterpret_cast<TWindowDD_WS_Word **>(new_var + 0x24))) == 0x685)
       {
         *((s32 *) (((s8 *) window_dd) + 0xB4)) = 0x14;
         ((TWindowDD *)window_dd)->m_8c = -0x3C;

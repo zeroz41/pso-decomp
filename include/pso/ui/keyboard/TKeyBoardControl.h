@@ -21,6 +21,7 @@ struct TKeyBoardControl : public TObject {
     void hide();
     void show();
     void set_flag62_bit2();
+    void set_soft_flag60_bit1();
     s32 get_cursor_position();
     void set_depth(f32 depth);
     void set_position(void *pos);
@@ -40,9 +41,8 @@ struct TKeyBoardControl : public TObject {
     static s32 any_pad_input_active();
     static s32 check_reset_button();
     static s32 check_and_read(s32 arg0);
-    static s32 read_input(s32 arg0);
+    static s32 read_input(u8 key);
     static s32 is_key_down(s32 arg0);
-    s32 check_input_angle();
     static void alloc_buffer();
     void clear_keyboard_flag60_bit1();
     void set_composer_flag62_bit4();
@@ -67,7 +67,6 @@ struct TKeyBoardControl : public TObject {
     static s32 read_key_checked(u8 arg0);
     static void update_input_frame();
     static void init_pad_state();
-    s32 poll_key_state();
     static s32 start_get_type_async(s32 chan, s32 arg1, s32 arg2, s32 arg3);
     static void enable_keyboard_polling(s32 chan);
     static void update_camera();

@@ -1,3 +1,6 @@
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/player/GuildCardEntry.h"
+#include "pso/system/memory.h"
 #include "types.h"
 #include <string.h>
 #include "pso/network/TProtocol.h"
@@ -1091,8 +1094,6 @@ void TLobby__sub_8024259C(saddr arg0) {
     }
 }
 #pragma pop
-u32 find_card_by_id__17TWindowSubComCardFUl();
-saddr get_com_card_list__6TLobbyFv();
 
 
 void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
@@ -1105,25 +1106,25 @@ void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 4) = temp_r5;
     ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(arg0 + 0x4C, arg1 + 0x10, temp_r5);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(arg0 + 0x58, arg1 + 0x60);
-    ((TLobby *)arg0)->get_id();
-    if (find_card_by_id__17TWindowSubComCardFUl() == 0U) {
-        strncpy((char *)(arg0 + 8), (char *) (((TWindowSubStatusDisp *)arg0)->get_sub_disp_ptr()), 0x10);
+    GuildCardSlot *card = TWindowSubComCard::find_card_by_id(reinterpret_cast<GuildCardRecord *>(arg0)->get_id());
+    if (card == NULL) {
+        strncpy((char *)(arg0 + 8), (char *) (reinterpret_cast<GuildCardRecord *>(arg0)->get_sub_disp_ptr()), 0x10);
     } else {
-        strncpy((char *)(arg0 + 8), (char *) (get_com_card_list__6TLobbyFv()), 0x10);
+        strncpy((char *)arg0 + 8, card->entry.get_name(), 0x10);
     }
     *(s8 *)((s8 *)arg0 + 0x18) = 0;
     p = ((TLobby *)(arg1 + 0x1C))->build_text_from_comma_list();
-    p = TLobby::parse_csv_token(p, arg0 + 0x19);
-    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
-    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
-    TLobby::parse_csv_token(p, arg0 + 0x3B);
+    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x19);
+    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x2A);
+    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x2A);
+    ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x3B);
 }
 
 void TLobby::remove_com_card_entry(s32 arg0) {
     u8 *lobby;
     if (arg0 < 7) {
         lobby = (u8 *)&com_card_entries[arg0];
-        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (saddr)((u32) ((7 - arg0) * 0xBC) >> 2U));
+        move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - arg0) * 0xBC) >> 2);
     }
     (*(s32 *)&com_card_entry_count) -= 1;
 }
@@ -1143,7 +1144,7 @@ s32 TLobby::remove_com_card_by_id(u32 arg0) {
     s32 n;
     n = TLobby::get_com_card_data();
     for (i = 0; i < n; i++) {
-        if (arg0 == ((u32)((TLobby *)(TLobby::get_com_card_entry(i)))->get_id())) {
+        if (arg0 == ((u32)reinterpret_cast<GuildCardRecord *>(TLobby::get_com_card_entry(i))->get_id())) {
             TLobby::remove_com_card_entry(i);
             n -= 1;
         }
@@ -1179,9 +1180,9 @@ s32 GuildCardRecord::get_serial() const { return serial; }
 
 int TLobby::get_com_card_data() { return com_card_entry_count; }
 
-void *TWindowSubStatusDisp::get_sub_disp_ptr() { return (char *)this + 0x9c; }
+char *GuildCardRecord::get_sub_disp_ptr() { return reinterpret_cast<char *>(&ext[0x44]); }
 
-s32 TLobby::get_id() { return *(s32 *)&this->m_name; }
+s32 GuildCardRecord::get_id() { return id; }
 
 
 extern u16 lbl_805D63FC;

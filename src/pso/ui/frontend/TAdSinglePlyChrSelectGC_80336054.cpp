@@ -3,13 +3,15 @@
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
+#include "pso/ui/frontend/TitleSceneTables.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/unk/TLobby_803360CC.h"
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/ui/TUnk_804EE458.h"
-#include "pso/unk/TUnk_804EEF64.h"
+#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
+#include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_802A1144.h"
@@ -17,6 +19,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -41,16 +44,16 @@ int TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
 extern s32 queue_destruction_and_cleanup__6TLobbyFv[];
 extern saddr tl_fade;
 
-s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
+s32 TTitleScene::start_offline_seq() {
     s32 *temp_r3;
-    if (!(this->m_3c & 2)) {
+    if (!(transition_flags & 2)) {
         temp_r3 = (s32 *) TObject::operator new(0x28);
         if (temp_r3 != NULL) {
             ((THunterGuildSeqOffline *)temp_r3)->init((void *)tl_fade, (void *)queue_destruction_and_cleanup__6TLobbyFv);
         }
-        this->m_3c = (s32) (this->m_3c | 2);
+        transition_flags |= 2;
     }
-    return this->m_3c & 4;
+    return transition_flags & 4;
 }
 
 }
@@ -58,31 +61,31 @@ s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
 struct TCameraCtrl;
 
 
-NJS_TEXNAME title_texture_entries[21] = {
-    {(void *)"f256_ad", 0, 0},
-    {(void *)"f256_psotitle", 0, 0},
-    {(void *)"f256_psotitle02", 0, 0},
-    {(void *)"f256_titlealpha01", 0, 0},
-    {(void *)"f256_titlealpha02", 0, 0},
-    {(void *)"f256_titlealpha03", 0, 0},
-    {(void *)"f256_titlealpha04", 0, 0},
-    {(void *)"f256_titlealpha05", 0, 0},
-    {(void *)"f256_titlealpha06", 0, 0},
-    {(void *)"f256_titlealpha07", 0, 0},
-    {(void *)"f256_titlealpha08", 0, 0},
-    {(void *)"f512_mahoujin", 0, 0},
-    {(void *)"f512_mahoujin_b", 0, 0},
-    {(void *)"s256_1st_title01", 0, 0},
-    {(void *)"s256_1st_title02", 0, 0},
-    {(void *)"s256_1st_title03", 0, 0},
-    {(void *)"s256_1st_title04", 0, 0},
-    {(void *)"s256_1st_title05", 0, 0},
-    {(void *)"s256_1st_title06", 0, 0},
-    {(void *)"s256_1st_title07", 0, 0},
-    {(void *)"s256_1st_title08", 0, 0},
+GinjaTextureEntry title_texture_entries[21] = {
+    {(char *)"f256_ad", 0, 0},
+    {(char *)"f256_psotitle", 0, 0},
+    {(char *)"f256_psotitle02", 0, 0},
+    {(char *)"f256_titlealpha01", 0, 0},
+    {(char *)"f256_titlealpha02", 0, 0},
+    {(char *)"f256_titlealpha03", 0, 0},
+    {(char *)"f256_titlealpha04", 0, 0},
+    {(char *)"f256_titlealpha05", 0, 0},
+    {(char *)"f256_titlealpha06", 0, 0},
+    {(char *)"f256_titlealpha07", 0, 0},
+    {(char *)"f256_titlealpha08", 0, 0},
+    {(char *)"f512_mahoujin", 0, 0},
+    {(char *)"f512_mahoujin_b", 0, 0},
+    {(char *)"s256_1st_title01", 0, 0},
+    {(char *)"s256_1st_title02", 0, 0},
+    {(char *)"s256_1st_title03", 0, 0},
+    {(char *)"s256_1st_title04", 0, 0},
+    {(char *)"s256_1st_title05", 0, 0},
+    {(char *)"s256_1st_title06", 0, 0},
+    {(char *)"s256_1st_title07", 0, 0},
+    {(char *)"s256_1st_title08", 0, 0},
 };
 
-__declspec(section ".data") NJS_TEXLIST title_texture_list = {title_texture_entries, 21};
+__declspec(section ".data") GinjaTextureList title_texture_list = {title_texture_entries, 21};
 
 // One scene resource: load runs front to back (run_load_callback_table),
 // release back to front (call_funcs_reverse); field names inferred from those.
@@ -98,19 +101,19 @@ LobbyLoadCallback lobby_load_callback_table[4] = {
     {TLobby__sub_80336E68, TLobby__sub_80336E64},
 };
 
-typedef void (TLobby::*TLobbyStateHandler)();
+typedef void (TTitleScene::*TitleStateHandler)();
 
 // Indexed by lobby_game_mode_state (each handler stores its own index).
-TLobbyStateHandler TLobby__state_handler_pmf_table[4] = {
-    &TLobby::enter_chg_game_mode,
-    &TLobby::enter_game_mode_change,
-    &TLobby::request_change_game_mode,
-    &TLobby::open_keyboard,
+TitleStateHandler TLobby__state_handler_pmf_table[4] = {
+    &TTitleScene::enter_chg_game_mode,
+    &TTitleScene::enter_game_mode_change,
+    &TTitleScene::request_change_game_mode,
+    &TTitleScene::open_keyboard,
 };
 
 // Sprite cells of the title textures (size, centre, uv rectangle, texture id),
 // shared by every lobby_record_table sprite.
-NJS_TEXANIM title_sprite_frames[46] = {
+SpriteFrame title_sprite_frames[46] = {
     {256, 256, 0, 0, 0, 0, 256, 256, 0, 0},
     {256, 256, 0, 0, 0, 0, 256, 256, 1, 0},
     {256, 256, 0, 0, 0, 0, 256, 256, 2, 0},
@@ -160,61 +163,57 @@ NJS_TEXANIM title_sprite_frames[46] = {
 };
 
 // Title screen sprites; TLobby::get_record hands one to draw_with_camera.
-NJS_SPRITE lobby_record_table[46] = {
-    {{0.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{0.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{256.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{256.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{512.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{512.0f, 112.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{512.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{512.0f, 368.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{96.0f, 172.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{352.0f, 172.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{193.0f, 338.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{193.0f, 300.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{193.0f, 332.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{193.0f, 364.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{193.0f, 396.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 308.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 340.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 372.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 404.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 308.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 340.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 372.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 404.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{259.0f, 415.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{224.0f, 418.0f, 0.0f}, 12.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{416.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{192.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{208.0f, 418.0f, 0.0f}, 12.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
-    {{432.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+SpriteDescriptor lobby_record_table[46] = {
+    {0.0f, -16.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {0.0f, 240.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {256.0f, -16.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {256.0f, 240.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {512.0f, -16.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {512.0f, 112.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {512.0f, 240.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {512.0f, 368.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {96.0f, 172.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {352.0f, 172.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {193.0f, 338.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {193.0f, 300.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {193.0f, 332.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {193.0f, 364.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {193.0f, 396.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 308.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 340.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 372.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 404.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 308.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 340.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 372.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 404.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 308.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 340.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 372.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 404.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 308.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 340.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 372.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 404.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 308.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 340.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 372.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 404.0f, 0.0f, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 308.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 340.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 372.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 404.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {259.0f, 415.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 418.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {224.0f, 418.0f, 0.0f, 12.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {416.0f, 418.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {192.0f, 418.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {208.0f, 418.0f, 0.0f, 12.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {432.0f, 418.0f, 0.0f, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
 };
 
 // Texture archive per language (Japanese, then English for the others);
 // initialize_lobby_title_scene copies the whole table before indexing it.
-struct TitleTextureFilenameTable {
-    const char *archive[5];
-};
-
 const TitleTextureFilenameTable title_texture_filename_table = {
     {"Title", "Title_eng", "Title_eng", "Title_eng", "Title_eng"},
 };
@@ -227,21 +226,16 @@ typedef struct {
     f32 f28, f2C, f30, f34, f38, f3C, f40, f44;
 } Cam_80336520;
 
-struct O_8033612C { u8 pad[0x1C]; void *f1c; void *f20; void *f24; u8 pad2[0x3C - 0x28]; u32 flags; void *h[3]; };
-
-struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
-
-
 extern "C" {
 void request_main_phase(s32 arg0);
-extern s32 __vt__13TUnk_804EEF64[];
-uaddr title_scene_instance;
+extern s32 __vt__11TTitleScene[];
+TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
-NJS_TEXLIST *lobby_title_texture_list;
+GinjaTextureList *lobby_title_texture_list;
     extern int lbl_805D68C8;
 s32 release_texture_list(void *, s32);
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-void hide_title_layers_and_release(O_8033612C *arg0);
+void hide_title_layers_and_release(TTitleScene *scene);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
 void __ct__7TObjectFP7TObject(void *);
@@ -250,141 +244,142 @@ extern saddr tl_clipout;
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 s32 run_load_callback_table(void *, int);
 extern const s32 current_language;
-s32 TAdTrialAgreementGC__sub_80335958(int);
 
 void TLobby::queue_destruction_and_cleanup() {
     queue_destruction();
-    if ((u32) title_scene_instance != 0U) {
-        hide_title_layers_and_release((O_8033612C *)((void*)((void*)title_scene_instance)));
+    if (title_scene_instance != NULL) {
+        hide_title_layers_and_release(title_scene_instance);
     }
 }
 
-void TLobby::destroy_download_server(void* object) {
-    ((TObject *)object)->queue_destruction();
-    if ((u32) title_scene_instance != 0U) {
-        ((TLobby *)title_scene_instance)->set_flag_and_clear_download();
+void TLobby::destroy_download_server(void *object) {
+    static_cast<TObject *>(object)->queue_destruction();
+    if (title_scene_instance != NULL) {
+        title_scene_instance->set_flag_and_clear_download();
     }
 }
 
-void hide_title_layers_and_release(O_8033612C *arg0) {
-    s32 i;
-    arg0->flags |= 4;
-    if (arg0->f1c != 0) {
-        ((TObject *)arg0->f1c)->disallow_rendering();
+void hide_title_layers_and_release(TTitleScene *scene) {
+    scene->transition_flags |= 4;
+    if (scene->title_layer != NULL) {
+        scene->title_layer->disallow_rendering();
     }
-    if (arg0->f24 != 0) {
-        ((TObject *)arg0->f24)->disallow_rendering();
+    if (scene->transition_controller != NULL) {
+        scene->transition_controller->disallow_rendering();
     }
-    if (arg0->f20 != 0) {
-        ((TObject *)arg0->f20)->disallow_rendering();
+    if (scene->overlay_layer != NULL) {
+        scene->overlay_layer->disallow_rendering();
     }
-    for (i = 0; i != 3; i++) {
-        if (arg0->h[i] != 0) {
-            ((TObject *)arg0->h[i])->queue_destruction();
-            arg0->h[i] = 0;
+    for (s32 i = 0; i != 3; i++) {
+        if (scene->transition_children[i] != NULL) {
+            scene->transition_children[i]->queue_destruction();
+            scene->transition_children[i] = NULL;
         }
     }
 }
 
-void TLobby::set_flag_and_clear_download() {
-    *(s32 *)((s8 *)this + 0x3C) = (s32) (*(s32 *)((s8 *)this + 0x3C) | 1);
-    if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x24)))->clear_update_suspension();
+void TTitleScene::set_flag_and_clear_download() {
+    transition_flags |= 1;
+    if (transition_controller != NULL) {
+        // This shared out-of-line helper clears the common TObject update flag.
+        transition_controller->clear_update_suspension();
     }
 }
 
 void TLobby__sub_803361FC(void) {  }
-void TLobby::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((saddr)((void*)19)); }
-void TLobby::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
-void TLobby::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
-void TLobby::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
-void TLobby__sub_803362A4(void *arg0_) {
-    u8 *arg0 = (u8 *)arg0_;
-    if (TAdTrialAgreementGC__sub_80335958(*(s32 *)(arg0 + 0x24)) != 0) {
+void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((s32)((void*)19)); }
+void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
+void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
+void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
+void TLobby__sub_803362A4(TTitleScene *scene) {
+    if (TAdTrialAgreementGC__sub_80335958(scene->transition_controller) != 0) {
         TKeyBoardControl__sub_8000F90C(2);
-        if (((TAdSinglePlyChrSelectGC *)arg0)->start_offline_seq() != 0) {
-            ((void (*)(void *))TLobby__sub_803361FC)(arg0);
-            TLobbyStateHandler m = TLobby__state_handler_pmf_table[TLobby__sub_80336030(arg0)];
-            (((TLobby *)arg0)->*m)();
+        if (scene->start_offline_seq() != 0) {
+            ((void (*)(void *))TLobby__sub_803361FC)(scene);
+            TitleStateHandler handler = TLobby__state_handler_pmf_table[TLobby__sub_80336030(scene)];
+            (scene->*handler)();
         }
     }
 }
-void TUnk_804EEF64::render() {  }
+void TTitleScene::render() {  }
 
-void TUnk_804EEF64::run_task() {
-    s32 i;
+void TTitleScene::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
-        for (i = 0; i != 3; i++) {
-            if (((Obj_80336340 *)this)->objs[i] != NULL) {
-                ((TObject *)(((Obj_80336340 *)this)->objs[i]))->queue_destruction();
-                ((Obj_80336340 *)this)->objs[i] = NULL;
+        for (s32 i = 0; i != 3; i++) {
+            if (transition_children[i] != NULL) {
+                transition_children[i]->queue_destruction();
+                transition_children[i] = NULL;
             }
         }
         TAdMultiChgGameModeGC::request_scene_change();
         return;
     }
-    if ((s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) < (s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38) {
+    if (attract_tick < m_38) {
         if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (TKeyBoardControl::any_pad_input_active() != 0)) {
-            *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) = 0;
+            attract_tick = 0;
         }
-        TLobby__sub_803362A4(((Obj_80336340 *)this));
+        TLobby__sub_803362A4(this);
     }
-    if ((s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38 == (s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34)) {
-        ((TObject *)(*(void **)((s8 *)((Obj_80336340 *)this) + 0x24)))->suspend_update();
+    if (m_38 == attract_tick) {
+        transition_controller->suspend_update();
         TWindowOptionCtrl__sub_802273B4(0x1E);
     }
-    if (((s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38 < (s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34)) && (((TAdSinglePlyChrSelectGC *)((Obj_80336340 *)this))->start_offline_seq() != 0)) {
+    if (m_38 < attract_tick && start_offline_seq() != 0) {
         TKeyBoardControl__sub_8000F90C(2);
         set_opening_movie_purpose(0);
         request_main_phase(3);
     }
-    *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) = (s32) (*(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) + 1);
+    attract_tick++;
 }
 
-void TUnk_804EEF64::sub_8033645C() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TObject *)((void*)(*(void**)((char*)this + 0x2c))))->queue_destruction(); *(int*)((char*)this + 0x2c) = 0; } }
-TUnk_804EEF64::~TUnk_804EEF64() {
-    (*(s32 *)&title_scene_instance) = 0;
-    if ((uaddr) this->m_20 != 0U) {
-        ((TObject *)this->m_20)->queue_destruction();
+void TTitleScene::close_auxiliary_window() {
+    if (auxiliary_window != NULL) {
+        auxiliary_window->queue_destruction();
+        auxiliary_window = NULL;
     }
-    sub_8033645C();
+}
+
+TTitleScene::~TTitleScene() {
+    title_scene_instance = NULL;
+    if (overlay_layer != NULL) {
+        overlay_layer->queue_destruction();
+    }
+    close_auxiliary_window();
     end_view_override();
     TLobby::stop_audio_streams();
 }
-u8 *TUnk_804EEF64::construct_title_scene() {
-    u8 *arg0 = (u8 *)this;
+
+TTitleScene *TTitleScene::construct_title_scene() {
     void *p;
 
-    __ct__7TObjectFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804EEF64;
-    title_scene_instance = (uaddr)arg0;
-    this->m_30 = 0;
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3C) = 0;
+    __ct__7TObjectFP7TObject(this);
+    *(s32 **)((s8 *)this + 0x18) = __vt__11TTitleScene;
+    title_scene_instance = this;
+    m_30 = 0;
+    attract_tick = 0;
+    auxiliary_window = NULL;
+    transition_flags = 0;
     TKeyBoardControl__sub_8000F90C(1);
     TAdMultiPlyChrSelectGC::reset_slot_selections();
     TObjEneDolmOlm::reset_count();
     TAdMultiPlyChrSelectGC__sub_803367E8();
     lobby_game_mode_state = 0;
     if (TKeyBoardControl__sub_8000F828() == 0) {
-        this->m_38 = 0x4B0;
+        m_38 = 0x4B0;
     } else {
-        this->m_38 = 0x320;
+        m_38 = 0x320;
     }
-    p = TObject::operator new(0x24);
-    if (p != 0) {
-        p = ((TUnk_804EEF80 *)p)->construct(arg0);
+    p = TObject::operator new(sizeof(TUnk_804EEF80));
+    if (p != NULL) {
+        p = static_cast<TUnk_804EEF80 *>(p)->construct(this);
     }
-    *(void **)((s8 *)arg0 + 0x1C) = p;
-    p = (void *)new TUnk_804EE458((TObject *)arg0);
-    *(void **)((s8 *)arg0 + 0x24) = p;
-    p = (void *)new TUnk_804EE470((TObject *)(void *)tl_clipout);
-    this->m_20 = p;
-    this->m_28 = 0;
-    if (*(void **)((s8 *)arg0 + 0x24) != 0) {
-        ((TObject *)(*(void **)((s8 *)arg0 + 0x24)))->suspend_update();
+    title_layer = static_cast<TUnk_804EEF80 *>(p);
+    transition_controller = new TUnk_804EE458(this);
+    overlay_layer = new TUnk_804EE470(reinterpret_cast<TObject *>(tl_clipout));
+    m_28 = 0;
+    if (transition_controller != NULL) {
+        transition_controller->suspend_update();
     }
     TAdMultiChgGameModeGC::apply_bgm_col_ctrl((saddr)"title.adx");
     {
@@ -402,22 +397,22 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     }
     {
         NJS_POINT3 v = {0.0f, 0.0f, -47.0f};
-        this->m_40 = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1);
-        *(s32 *)((s8 *)arg0 + 0x44) = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1);
-        this->m_48 = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1);
+        transition_children[0] = static_cast<TObject *>(TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1));
+        transition_children[1] = static_cast<TObject *>(TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1));
+        transition_children[2] = static_cast<TObject *>(TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1));
     }
     p = TObject::operator new(0x28);
     if (p != 0) {
         ((TLobby *)p)->init_fade((void *)tl_fade, (void *)TLobby::destroy_download_server);
     }
-    TItemReverseTechCtrl::create((TObject *)arg0);
-    return arg0;
+    TItemReverseTechCtrl::create(this);
+    return this;
 }
 
 void TLobby::destroy_global_object() {
     u32 value;
     value = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
-    if ((void *) lobby_title_texture_list != NULL) {
+    if (lobby_title_texture_list != NULL) {
         release_texture_list(lobby_title_texture_list, (s32) value);
         lobby_title_texture_list = NULL;
     }
@@ -425,7 +420,7 @@ void TLobby::destroy_global_object() {
 }
 
 void initialize_lobby_title_scene(void) {
-    title_scene_instance = 0;
+    title_scene_instance = NULL;
     TLobby::update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;

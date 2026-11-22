@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrl_8024C6CC.h"
+#include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/KeyboardInputQueries.h"
@@ -85,7 +86,6 @@ struct Poly_8024CE68 {
     s32 count;
 };
 struct Quad_8024CE68 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
-void draw_color_lines(void *, int, int, f32);
 extern void *lbl_805D63F0;
 void TWindowCtrlMain__sub_8024CB7C();
 void TWindowCtrlMain__sub_8024CB8C();
@@ -181,14 +181,14 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
     uaddr temp_r3_2;
     switch (*(s16 *)&this->m_1e) {
     case 18:
-        temp_r3 = this->m_30;
+        temp_r3 = reinterpret_cast<uaddr>(this->m_30);
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->clear_update_suspension();
         }
         break;
     case 38:
         if (is_current_area_item_enabled() != 0) {
-            temp_r3_2 = this->m_34;
+            temp_r3_2 = reinterpret_cast<uaddr>(this->m_34);
             if (temp_r3_2 != 0U) {
                 ((TObject *)temp_r3_2)->clear_update_suspension();
             }
@@ -577,8 +577,8 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     Quad_8024CE68 q;
     Poly_8024CE68 poly;
     u32 colors[4];
-    Poly_8024CE68 line;
-    NJS_POINT2 lverts[2];
+    ColorLineList line;
+    ColorLineVertex lverts[2];
     u32 lcolors[2];
     WindowControlState *s;
     f32 alpha;
@@ -607,7 +607,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f;
     verts[3].x = 0.0f;
     verts[3].y = 480.0f;
-    ((TWindowCtrlMain *)(&poly))->draw_strip_swap_color(4, 22, -10.0f);
+    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     verts[0].x = 0.5f * s->field0C;
     verts[0].y = 480.0f - 0.5f * (480.0f - s->field18);
@@ -617,7 +617,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f;
     verts[3].x = 0.5f * s->field0C;
     verts[3].y = 480.0f;
-    ((TWindowCtrlMain *)(&poly))->draw_strip_swap_color(4, 22, -10.0f);
+    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     colors[2] = 0;
     colors[3] = 0;
@@ -629,7 +629,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f - 0.5f * (480.0f - s->field18);
     verts[3].x = s->field0C;
     verts[3].y = 0.0f;
-    ((TWindowCtrlMain *)(&poly))->draw_strip_swap_color(4, 22, -10.0f);
+    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     verts[0].x = 0.5f * s->field0C;
     verts[0].y = 480.0f - 0.5f * (480.0f - s->field18);
@@ -639,7 +639,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = s->field18;
     verts[3].x = 0.5f * s->field0C;
     verts[3].y = s->field18;
-    ((TWindowCtrlMain *)(&poly))->draw_strip_swap_color(4, 22, -10.0f);
+    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
@@ -681,7 +681,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
 
     line.verts = lverts;
     line.colors = lcolors;
-    line.flags = 0;
+    line.unk_8 = 0;
     line.count = 2;
     lcolors[1] = lcolors[0] = a | 0xEDFF;
     lverts[0].x = s->field0C;

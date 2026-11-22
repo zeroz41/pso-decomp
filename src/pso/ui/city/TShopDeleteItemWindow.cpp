@@ -4,6 +4,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/TShopDeleteItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -32,7 +33,7 @@ s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
 u16 get_entity_id(TObjPlayer *);
-TWindowMenu *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
+
 void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s16 get_child_field1c__13TShopSequenceFv(void *);
@@ -219,7 +220,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 self->set_field_20(2);
             } else {
                 id = get_entity_id(self->m_24);
-                self->m_34 = create_yes_no_window((saddr)(get_window_layout_position(0x2B)), id, 0, 0);
+                self->m_34 = create_yes_no_window((const NJS_POINT2 *)((get_window_layout_position(0x2B))), id, NULL, NULL);
                 ((TWindowMenu *)self->m_34)->set_ready_flag();
                 ((TWindowSubComCardList *)self->m_34)->set_selected_index(1);
                 ((TWindowAddition *)self->m_34)->set_position_xy(self->get_scale(), self->get_scale());
@@ -238,7 +239,7 @@ void TShopDeleteItemWindow::handle_number_input() {
     if (m_38 != NULL && m_38->is_confirmed() != 0) {
         if (m_34 == NULL) {
             u32 id = get_entity_id(m_24);
-            m_34 = create_yes_no_window((saddr)(get_window_layout_position(0x2B)), id, 0, 0);
+            m_34 = create_yes_no_window((const NJS_POINT2 *)((get_window_layout_position(0x2B))), id, NULL, NULL);
             ((TWindowMenu *)m_34)->set_ready_flag();
             ((TWindowSubComCardList *)m_34)->set_selected_index(1);
             ((TWindowAddition *)m_34)->set_position_xy(get_scale(), get_scale());

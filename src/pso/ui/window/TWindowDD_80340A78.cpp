@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -5,7 +6,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
-#include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowDD_80340EA8.h"
@@ -13,7 +14,6 @@
 
 #pragma readonly_strings on
 
-struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 
 // Screen positions and scales of the word-select quad sets (TWindowDD__data_805434E8), set up by
 // TWindowDD__sub_80344114. inferred: names from that use.
@@ -51,6 +51,24 @@ extern const f32 lbl_805DFB28;
 extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFBCC;
 
+__declspec(section ".data") void *lbl_804EFBC8[2] = {
+    (void *)0x0, (void *)0x0,
+};
+void *lbl_804EFBD0[5] = {
+    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)0x3,
+};
+extern const f32 TWindowDD__data_805DFB18;
+extern const f32 lbl_805DFB34;
+extern const f32 lbl_805DFB3C;
+extern const f32 lbl_805DFB2C;
+extern const f32 lbl_805DFB30;
+extern const f32 lbl_805DFBC4;
+extern const f32 lbl_805DFBBC;
+extern const f32 lbl_805DFBC8;
+extern const f32 lbl_805DFBC0;
+extern const f32 lbl_805DFC24;
+
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -59,14 +77,15 @@ extern const f32 lbl_805DFBCC;
 // an inline helper, whose return value schedules differently from a plain `c - t`.
 static inline f32 span_start(f32 center, f32 half_extent) { return center - half_extent; }
 static inline f32 span_end(f32 center, f32 half_extent) { return center + half_extent; }
-void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
+void TWindowDD_WS_ScrollBar::render() {
+    TWindowDD_WS_ScrollBar *self = this;
     WindowDrawContext *rect = self->draw_default_entry();
-    E_803403F8 verts[8];
+    WindowVertex verts[8];
     f32 quad[8];
     s32 tex;
     s32 i;
-    NJS_POINT2 *uv;
-    E_803403F8 *v;
+    WindowTexturePoint *uv;
+    WindowVertex *v;
     f32 z;
     f32 s;
     f32 half;
@@ -89,8 +108,8 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     s = rect->scale[1];
     v = verts;
     for (i = 0; i < 8; i++) {
-        v->d = uv->x;
-        v->e = uv->y;
+        v->u = uv->x;
+        v->v = uv->y;
         uv++;
         v++;
     }
@@ -105,10 +124,10 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     } else {
         d = 16.0f;
     }
-    verts[0].b = verts[1].b = lo;
-    verts[2].b = verts[3].b = lo + d;
-    verts[4].b = verts[5].b = hi - d;
-    verts[6].b = verts[7].b = hi;
+    verts[0].y = verts[1].y = lo;
+    verts[2].y = verts[3].y = lo + d;
+    verts[4].y = verts[5].y = hi - d;
+    verts[6].y = verts[7].y = hi;
 
     half = 0.5f * self->frame_size[0];
     c = self->frame_position[0] + half;
@@ -117,8 +136,8 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     x0 = span_start(c, t);
     v = verts;
     for (i = 0; i < 4; i++) {
-        v[0].a = x0;
-        v[1].a = x0 + step;
+        v[0].x = x0;
+        v[1].x = x0 + step;
         v += 2;
     }
     half = 0.5f * lbl_805DFB38 * rect->scale[0];
@@ -180,82 +199,8 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
 }
 #pragma pop
 
-}
-
-void TWindowDD::init() { initialize_subwindow(); ((TWindowBase *)this)->update_fade(); }
-
-void TWindowDD::set_value_f32(s32 arg1) {
-    *(f32 *)&this->m_64[2] = (f32) arg1;
-}
-
-void TWindowDD::set_scale(s32 arg1, s32 arg2) {
-    *(f32 *)&this->m_64[0] = (f32) arg1;
-    *(f32 *)&this->m_64[1] = (f32) arg2;
-    *(f32 *)&this->m_44[7] = (f32) (1.0f / *(f32 *)&this->m_64[0]);
-}
-
-extern "C" {
-
-void *dt__22TWindowDD_WS_ScrollBarFs(void *arg0, s16 arg1);
-
-extern "C" void init__9TWindowDDFv();
-extern "C" void render_shadows__7TObjectFv();
-struct W_80340F00 { const char *name; u8 pad4[0x14]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; u8 pad60[4]; f32 f64; f32 f68; f32 f6c; };
-__declspec(section ".data") void *lbl_804EFBC8[2] = {
-    (void *)0x0, (void *)0x0,
-};
-void *lbl_804EFBD0[5] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x3,
-};
-void *lbl_804EFBE4[7] = {
-    (void *)0x0, (void *)0x0, (void *)&dt__22TWindowDD_WS_ScrollBarFs, (void *)&init__9TWindowDDFv,
-    (void *)&TWindowDD__sub_80340A78, (void *)&render_shadows__7TObjectFv, (void *)0x0,
-};
-
-#define lbl_804EFBE4 ((s32 *)lbl_804EFBE4)
-W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0);
-
-void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804EFBE4;
-        __dt__11TWindowBaseFv(this, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(this);
-        }
-    }
-    return this;
-}
-
-W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0) {
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)lbl_804EFBD0, (s16)4, (u8 *)lbl_804EFBC8);
-    arg0->p18 = lbl_804EFBE4;
-    arg0->name = TWindowDD_WS_ScrollBar__class_name;
-    arg0->f64 = 6.0f;
-    arg0->f68 = 6.0f;
-    arg0->f6c = 0.0f;
-    arg0->f5c = 0x01000000;
-    return arg0;
-}
-
-void *TWindowDD__sub_80340F70(void) {
-    void *o = TObject::operator new(0x70);
-    if (o != NULL) {
-        o = (void *)construct_variant_b__9TWindowDDFPv((W_80340F00 *)o);
-    }
-    return o;
-}
-
-extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFB34;
-extern const f32 lbl_805DFB3C;
-extern const f32 lbl_805DFB2C;
-extern const f32 lbl_805DFB30;
-extern const f32 lbl_805DFBC4;
-extern const f32 lbl_805DFBBC;
-extern const f32 lbl_805DFBC8;
-extern const f32 lbl_805DFBC0;
-extern const f32 lbl_805DFC24;
+// Defer the remaining functions to preserve the original vtable and constructor layout.
+#pragma defer_codegen on
 
 void __sinit_TWindowDD_80340A78_cpp(void) {
     lbl_805D6DC0 = 17.0f + lbl_805DFBCC;
@@ -281,6 +226,35 @@ void __sinit_TWindowDD_80340A78_cpp(void) {
     ((f32 *)lbl_804EFBD0)[1] = lbl_805DFBC0;
     ((f32 *)lbl_804EFBD0)[2] = lbl_805DFC24;
 }
+
 __declspec(section ".ctors") static void *const __sinit_TWindowDD_80340A78_cpp_ref = (void *)__sinit_TWindowDD_80340A78_cpp;
+
+void *TWindowDD__sub_80340F70(void) { return new TWindowDD_WS_ScrollBar; }
+
+TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
+    : TWindowBase((u8 *)lbl_804EFBD0, 4, (u8 *)lbl_804EFBC8) {
+    m_name = TWindowDD_WS_ScrollBar__class_name;
+    pad_64 = 6.0f;
+    pad_68 = 6.0f;
+    pad_6C = 0.0f;
+    open_tick = 0x01000000;
+}
+
+TWindowDD_WS_ScrollBar::~TWindowDD_WS_ScrollBar() {}
+
+void TWindowDD::set_scale(s32 arg1, s32 arg2) {
+    *(f32 *)&this->m_64[0] = (f32) arg1;
+    *(f32 *)&this->m_64[1] = (f32) arg2;
+    *(f32 *)&this->m_44[7] = (f32) (1.0f / *(f32 *)&this->m_64[0]);
+}
+
+void TWindowDD::set_value_f32(s32 arg1) {
+    *(f32 *)&this->m_64[2] = (f32) arg1;
+}
+
+void TWindowDD_WS_ScrollBar::run_task() {
+    ((TWindowDD *)this)->initialize_subwindow();
+    update_fade();
+}
 
 }

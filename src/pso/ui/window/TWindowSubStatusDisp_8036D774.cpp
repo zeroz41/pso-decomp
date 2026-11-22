@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/render_util.h"
@@ -41,7 +42,7 @@ void TWindowSubStatusDisp::draw_split_screen_dividers() {
     d.pos[6] = (1.6e+02f);
     d.pos[7] = (4.8e+02f);
     d.col[3] = 0xFF000000;
-    ((TWindowCtrlMain *)(&d))->draw_strip_swap_color(4, 0x16, (-2.0f));
+    reinterpret_cast<ColorLineList *>(&d)->draw_strip_swap_color(4, 0x16, (-2.0f));
     d.pos[0] = (0.0f);
     d.pos[1] = (0.0f);
     d.pos[2] = (6.4e+02f);
@@ -50,7 +51,7 @@ void TWindowSubStatusDisp::draw_split_screen_dividers() {
     d.pos[5] = (2.4e+02f);
     d.pos[6] = (0.0f);
     d.pos[7] = (2.4e+02f);
-    ((TWindowCtrlMain *)(&d))->draw_strip_swap_color(4, 0x16, (-2.0f));
+    reinterpret_cast<ColorLineList *>(&d)->draw_strip_swap_color(4, 0x16, (-2.0f));
 }
 
 void TWindowSubStatusDisp::draw_tiled_background() {

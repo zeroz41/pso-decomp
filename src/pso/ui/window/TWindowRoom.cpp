@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
@@ -36,7 +37,6 @@ WindowDescriptor room_window_base_parameters = {
 
 extern "C" {
 const char *TWindowRoom__class_name = "TWindowRoom";
-s32 draw_window_tab(s32, s32, s32, f32);
 
 }
 
@@ -48,20 +48,14 @@ void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
     set_text_entry_string((u8 *)(get_array_entry(0)), str, 0x60);
 }
 
-void TWindowRoom::draw_tab(void *context) {
-    draw_window_tab((saddr)context, (saddr)((u8 *)context + 0x10), 3, tabParameter);
+void TWindowRoom::draw_tab(WindowDrawContext *context) {
+    draw_window_tab(context, &context->inner_x, 3, tabParameter);
 }
 
 void TWindowRoom::render() {
-    saddr context;
-    saddr arg0 = (saddr)this;
-
-    context = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowRoom *)arg0)->draw_tab((void *)context);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(context));
+    WindowDrawContext *context = draw_default_entry();
+    draw_tab(context);
+    draw_visible_window_entries(this, &entry_list, context);
 }
 void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 

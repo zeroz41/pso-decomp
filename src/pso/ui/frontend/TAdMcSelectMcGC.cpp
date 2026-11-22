@@ -47,7 +47,7 @@ block_5:
 #pragma fp_contract on
 void TAdMcSelectMcGC::run_task() {
     s32 i;
-    void *slot_cursor;
+    TAdMcCheckGC *slot_cursor;
     TAdMcSelectCursorGC *cursor;
     for (i = 0; i < 8; i++) {
         quads[i].x0 = 286.0f * (f32)pad_12c + 51.0f;
@@ -59,7 +59,7 @@ void TAdMcSelectMcGC::run_task() {
     if (cursor != NULL && pad_12c == cursor->sub_8032AAC4()) {
         pad_120 >>= 1;
     }
-    slot_cursor = (void *)TAdMcSelectCursorGC::get_cursor_type(pad_12c);
+    slot_cursor = TAdMcSelectCursorGC::get_cursor_type(pad_12c);
     if (slot_cursor != NULL && TAdMcSelectCursorGC__sub_8032A6D8(slot_cursor) == 0) {
         pad_124 = 0;
     }
@@ -116,7 +116,7 @@ void TAdMcSelectMcGC::release_selected_entry() {
 
 void TAdMcSelectMcGC::init_memorycard() {
     TAdMcSelectMcGC__texture_list_ptr = &mc_select_memorycard_texture_list;
-    load_streamed_prs_texture((saddr)"f256_memorycard", (saddr)&mc_select_memorycard_texture_list);
+    load_streamed_prs_texture((s32)"f256_memorycard", (s32)&mc_select_memorycard_texture_list);
 }
 
 s32 TAdMcSelectCursorGC::sub_8032AAC4() { return m_20; }

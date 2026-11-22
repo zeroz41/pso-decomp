@@ -8,7 +8,7 @@ s32 post_chat_log_message();
 
 extern s32 local_client_id;
 
-saddr TWindowCtrl::open(s32 id, saddr text, s32 flags) {
+saddr TWindowCtrl::open(u16 id, saddr text, s32 flags) {
     saddr temp_r3;
 
     if (TWindowCtrl__active_window == NULL) {
@@ -17,7 +17,7 @@ saddr TWindowCtrl::open(s32 id, saddr text, s32 flags) {
     if (flags & 0x40) {
         post_chat_log_message();
     }
-    temp_r3 = (saddr)TWindowCtrl__active_window->show_chat_balloon(id, flags, (void *)text, (void *)(saddr)local_client_id);
+    temp_r3 = (saddr)TWindowCtrl__active_window->show_chat_balloon(id, flags, (void *)text, static_cast<s32>(local_client_id));
     if (temp_r3 == 0) {
         return 0;
     }

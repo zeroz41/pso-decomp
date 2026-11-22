@@ -15,6 +15,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/SpriteDescriptor.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
@@ -29,32 +30,6 @@ extern "C" {
 s32 get_floor_map_terrain(s32);
 
 
-// One frame of a sprite sheet: its size, the offset of its origin, its
-// texture coordinates in 1/256 units and its texture.
-struct SpriteFrame_80228154 {
-    s16 width;
-    s16 height;
-    s16 origin_x;
-    s16 origin_y;
-    s16 u0;
-    s16 v0;
-    s16 u1;
-    s16 v1;
-    s16 texture;
-    u8 pad_12[0x14 - 0x12];
-};
-
-struct Sprite_80228154 {
-    f32 x;
-    f32 y;
-    u8 pad_8[0xC - 0x8];
-    f32 scale_x;
-    f32 scale_y;
-    s32 angle;
-    u32 texture_list;
-    SpriteFrame_80228154 *frames;
-};
-
 // The screen quad draw_textured_quad_at_depth reads.
 struct ScreenQuad_80228154 {
     f32 x0, y0, x1, y1;
@@ -68,19 +43,19 @@ union SpriteColor_80228154 {
 
 // Draws one frame of a sprite on the screen; flags 1 rotates the quad by the
 // sprite's angle, 2 tints it with the model material colour, 0x20 blends.
-void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f32 depth) {
+void TLobby__sub_80228154(SpriteDescriptor *sprite, s32 frame_index, s32 flags, f32 depth) {
     ScreenQuad_80228154 quad;
     union SpriteColor_80228154 color;
     if (sprite == NULL) {
         return;
     }
-    if (sprite->texture_list == 0) {
+    if (sprite->textures == NULL) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(sprite->texture_list));
-    SpriteFrame_80228154 *frame = &sprite->frames[frame_index];
-    f32 left = -frame->origin_x;
-    f32 top = -frame->origin_y;
+    TObjFish::set_global_param(sprite->textures);
+    SpriteFrame *frame = &sprite->frames[frame_index];
+    f32 left = -frame->center_x;
+    f32 top = -frame->center_y;
     f32 right = left + frame->width;
     f32 bottom = top + frame->height;
     left *= sprite->scale_x;
@@ -116,7 +91,7 @@ void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f
         offset.y = quad.y0 - cy;
         offset.z = 0.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_z(NULL, sprite->angle);
+        rotate_matrix_z(NULL, sprite->rotation);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         quad.x0 = cx + offset.x;
@@ -140,7 +115,7 @@ void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f
     }
     depth = -1.0f / depth;
     begin_screen_draw(0x20 == (flags & 0x20));
-    set_draw_texture_and_color(frame->texture, color.packed);
+    set_draw_texture_and_color(frame->unknown10, color.packed);
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
 }

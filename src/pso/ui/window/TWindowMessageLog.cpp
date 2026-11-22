@@ -1,4 +1,5 @@
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/ui/window/Scroll_8026D790.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -162,7 +163,7 @@ void chat_log_remove_line(saddr arg0) {
         ((THeap *)TAdScrollWinGC__chat_log_heap)->heap_free((void *)temp_r4);
         *temp_r31 = 0U;
         if (arg0 < 0x1D) {
-            ((TLobby *)temp_r31)->move_words((u32 *)((u8 *)&chat_log_lines.value + ((arg0 + 1) * 4)), (saddr)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
+            move_words(reinterpret_cast<void *>(temp_r31), reinterpret_cast<u8 *>(&chat_log_lines.value) + (arg0 + 1) * 4, (saddr)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
         }
         *(s32 *)((s8 *)&chat_log_lines.value + 0x74) = 0;
     }

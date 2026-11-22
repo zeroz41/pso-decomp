@@ -1,5 +1,8 @@
 #include "types.h"
 #include "pso/system/main_loop.h"
+#include "pso/system/ControllerInputState.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/unk/text_801A6A5C.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl_801A57C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -11,52 +14,7 @@ const u32 input_button_mask_table[14] = {
     0x4000000, 0x8000000, 0x10000000, 0x20000000, 0x20000, 0x10000,
 };
 
-struct Pad_801A5C4C {
-    u8 pad0[0x20];
-    u32 hold;
-    u8 pad24[0x50 - 0x24];
-};
-
 struct Masks_801A5C4C { u32 m[4]; };
-
-struct Src_801A5F1C {
-    u8 pad0[8];
-    u32 b0, b1, b2, b3;
-    u16 trig_l;
-    u16 trig_r;
-    s16 sx, sy, cx, cy;
-};
-
-struct Pad_801A5F1C {
-    u32 hold;
-    u32 rel;
-    u32 press;
-    u32 up;
-    u16 trig_l;
-    u16 trig_r;
-    s16 sx, sy, cx, cy;
-    s32 ang0;
-    s32 ang1;
-    f32 mag0;
-    f32 mag1;
-    s16 rep[14];
-    u32 prev_hold;
-    u32 prev_press;
-};
-
-struct Set_801A5F1C {
-    Src_801A5F1C *src[4];
-    s32 status[4];
-    Pad_801A5F1C pads[4];
-};
-
-// Per-port pad sources, status and processed pads, then the keyboard state block at +0x160.
-struct ControllerInputState {
-    Src_801A5F1C *src[4];
-    s32 status[4];
-    Pad_801A5F1C pads[4];
-    u8 pad_160[0x50];
-};
 
 struct Obj_801A5F1C { u8 pad0[0x94]; s32 base[4]; };
 
@@ -66,8 +24,6 @@ s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
 s32 is_split_screen();
-s32 update_button_hold_counters(int);
-extern ControllerInputState controller_input_state;
 s32 DVDCheckDisk();
 extern s32 lbl_805D49B4;
 s32 func_801A5E54__Fv(void);
@@ -77,8 +33,6 @@ void update_pad_recalibration(void);
 f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
 void bind_controller_devices(void);
-void map_c_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3);
-void map_main_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3);
 }
 void reset_system();
 extern u8 *camera_ctrl_instance;
@@ -86,17 +40,8 @@ extern const f32 lbl_805DC0C0;
 extern const f32 lbl_805DC0C4;
 extern const f32 lbl_805DC0C8;
 
-struct Kb_801A6910 {
-    u32 f0;
-    u8 pad4[4];
-    u32 f8;
-    u8 padC[0x48 - 0xC];
-    u32 f48;
-    u32 f4C;
-};
-struct Def_804C2308 { u32 w[13]; };
-void accumulate_key_bits(s32 arg0, s32 *arg1);
-Def_804C2308 controller_default_pad_state = { 0, 0, 0, 0xFFFFFFFF, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+void accumulate_key_bits(s32 key, u32 *buttons);
+PadSlot controller_default_pad_state = {0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, {0}, NULL};
 u32 TKeyBoardControl_key_bit_table[6] = { 16, 32, 64, 128, 4, 2 };
 u32 keyboard_poll_key_codes[6] = { 94, 93, 92, 95, 97, 76 };
 s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
@@ -104,7 +49,7 @@ s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
 extern "C" {
 s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
-u8 controller_physical_port_bank[0x1B0];
+ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
 s32 OSGetResetButtonState();
 
@@ -114,8 +59,9 @@ void TKeyBoardControl::reset() { lbl_805D5D09 = 0; }
 s32 TKeyBoardControl::any_pad_input_active() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        Src_801A5F1C *p = controller_input_state.src[i];
-        if (p->b2 != 0 || p->trig_l >= 10 || p->trig_r >= 10 || p->sx >= 10 || p->sx <= -10 || p->sy >= 10 || p->sy <= -10) {
+        PadSlot *p = controller_input_state.sources[i];
+        if ((u32)p->pressed != 0 || p->trigR >= 10 || p->trigL >= 10 ||
+            p->stickX >= 10 || p->stickX <= -10 || p->stickY >= 10 || p->stickY <= -10) {
             return 1;
         }
     }
@@ -151,9 +97,9 @@ s32 TKeyBoardControl::check_and_read(s32 arg0) {
     return 0;
 }
 
-s32 TKeyBoardControl::read_input(s32 arg0) {
+s32 TKeyBoardControl::read_input(u8 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return ((s32 (*)(s32))update_state_from_input__16TKeyBoardControlFPv)(arg0);
+        return update_state_from_input__16TKeyBoardControlFPv(key);
     }
     return 0;
 }
@@ -170,32 +116,27 @@ s32 TKeyBoardControl::is_key_down(s32 arg0) {
     return 0;
 }
 
-void update_state_from_input__16TKeyBoardControlFPv(u8 key) {
-    hardware_keyboard_state.sub_801323C8(key);
+s32 update_state_from_input__16TKeyBoardControlFPv(u8 key) {
+    return hardware_keyboard_state.sub_801323C8(key);
 }
 
 extern s32 actor_frame_tick;
 
-s32 TKeyBoardControl::check_input_angle() {
-    s32 temp_r4_2;
-    void *temp_r4;
-    s32 temp_r5;
-    u16 temp_r0;
-
-    temp_r4 = *(void * *)&this->m_prev;
-    if (temp_r4 == NULL) {
+s32 StickEscapeDetector::check_input_angle() {
+    const ControllerInputContext *current = input;
+    if (current == NULL) {
         return 0;
     }
-    if (*(f32 *)((s8 *)temp_r4 + 0x24) < 0.5f) {
+    if (current->stick_magnitude < 0.5f) {
         return 0;
     }
-    temp_r5 = *(s32 *)&this->m_name;
-    *(s32 *)&this->m_name = *(s32 *)((s8 *)temp_r4 + 0x1C);
-    temp_r0 = temp_r5 - *(s32 *)&this->m_name;
-    if (((s32) temp_r0 > 0x5000) && ((s32) temp_r0 < 0xB000)) {
-        temp_r4_2 = *(s32 *)&this->m_flags;
-        *(s32 *)&this->m_flags = (s32) actor_frame_tick;
-        if ((s32) (*(s32 *)&this->m_flags - temp_r4_2) < 8) {
+    const s32 previous_angle = last_stick_angle;
+    last_stick_angle = current->stick_angle;
+    const u16 turn = previous_angle - last_stick_angle;
+    if ((s32)turn > 0x5000 && (s32)turn < 0xB000) {
+        const s32 previous_frame = last_turn_frame;
+        last_turn_frame = actor_frame_tick;
+        if (last_turn_frame - previous_frame < 8) {
             return 1;
         }
     }
@@ -203,15 +144,19 @@ s32 TKeyBoardControl::check_input_angle() {
 }
 }
 
-void init_stick_escape_detector(void *arg0, void *arg1) {
-    if (arg1 != NULL) {
-        *(void **)((s8 *)arg0 + 8) = arg1;
-        *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 8)) + 0x1C);
-        *(s32 *)((s8 *)arg0 + 4) = (s32) actor_frame_tick;
+void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input) {
+    if (input != NULL) {
+        detector->input = input;
+        detector->last_stick_angle = detector->input->stick_angle;
+        detector->last_turn_frame = actor_frame_tick;
     }
 }
 
-void TObjPlayer::reset_fields() { *(s32*)((char*)this + 0x0) = 0; *(s32*)((char*)this + 0x4) = 0; *(s32*)((char*)this + 0x8) = 0; }
+void StickEscapeDetector::reset_fields() {
+    last_stick_angle = 0;
+    last_turn_frame = 0;
+    input = NULL;
+}
 
 s32 TKeyBoardControl::get_ascii_key() {
   short new_var;
@@ -294,7 +239,7 @@ void update_pad_recalibration(void) {
     s32 j;
     Masks_801A5C4C masks = { 0x80000000, 0x40000000, 0x20000000, 0x10000000 };
     for (i = 0; i < 4; i++) {
-        if ((((Pad_801A5C4C *)&controller_input_state)[i].hold & 0x40A) == 0x40A) {
+        if ((controller_input_state.controllers[i].buttons & 0x40A) == 0x40A) {
             pad_recalibration_hold_frames[i]++;
             if (15.0 == (f64)pad_recalibration_hold_frames[i]) {
                 lbl_805D5D09 = 1;
@@ -309,7 +254,7 @@ void update_pad_recalibration(void) {
         }
     }
     for (i = 0; i < 4; i++) {
-        if ((((Pad_801A5C4C *)&controller_input_state)[i].hold & 0x608) == 0x608) {
+        if ((controller_input_state.controllers[i].buttons & 0x608) == 0x608) {
             pad_recalibration_counters[i]++;
             if ((f32)pad_recalibration_counters[i] >= 9.0e1f) {
                 pad_recalibration_counters[i] = 0;
@@ -337,27 +282,26 @@ s32 func_801A5E54__Fv(void) {
 s32 TKeyBoardControl::read_key_checked(u8 arg0) {
     return TKeyBoardControl::check_and_read((s32)(arg0));
 }
-LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 void TKeyBoardControl::update_input_frame() {
-    u8 *key_board_control;
+    ControllerInputContext *key_board_control;
     hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
-        key_board_control = controller_input_state.pad_160;
-        ((TKeyBoardControl *)key_board_control)->poll_key_state();
-        update_button_hold_counters((saddr)key_board_control);
+        key_board_control = &controller_input_state.keyboard;
+        key_board_control->poll_key_state();
+        update_button_hold_counters(key_board_control);
     }
 }
 #pragma push
 #pragma fp_contract on
 void controller_stuff(void) {
     s32 i;
-    Src_801A5F1C **pp;
-    Set_801A5F1C *set;
-    Pad_801A5F1C *pad;
+    PadSlot **pp;
+    ControllerInputState *set;
+    ControllerInputContext *pad;
     u32 old;
     s32 k;
     s32 j;
-    Src_801A5F1C *src;
+    PadSlot *src;
     s32 a;
     s32 b;
     f32 fx;
@@ -369,47 +313,48 @@ void controller_stuff(void) {
         bind_controller_devices();
         for (k = 0; k < 2; k++) {
             if (k == 0) {
-                pad = ((Set_801A5F1C *)&controller_input_state)->pads;
-                pp = (Src_801A5F1C **)&controller_input_state;
-                set = (Set_801A5F1C *)&controller_input_state;
+                pad = controller_input_state.controllers;
+                pp = controller_input_state.sources;
+                set = &controller_input_state;
             } else {
-                pad = ((Set_801A5F1C *)controller_physical_port_bank)->pads;
-                pp = (Src_801A5F1C **)controller_physical_port_bank;
-                set = (Set_801A5F1C *)controller_physical_port_bank;
+                pad = controller_physical_port_bank.controllers;
+                pp = controller_physical_port_bank.sources;
+                set = &controller_physical_port_bank;
             }
             for (i = 0; i < 4; pad++, i++) {
                 src = *pp++;
-                if (set->status[i] == 1) {
-                    old = pad->hold;
-                    pad->hold = src->b0;
-                    pad->rel = src->b1;
-                    pad->press = src->b2;
-                    pad->up = src->b3;
-                    pad->trig_r = src->trig_r;
-                    pad->trig_l = src->trig_l;
-                    fx = src->sx;
-                    pad->sx = fx;
-                    fy = src->sy;
-                    pad->sy = fy;
-                    gx = src->cx;
-                    pad->cx = gx;
-                    gy = -src->cy;
-                    pad->cy = gy;
+                if (set->source_status[i] == 1) {
+                    old = pad->buttons;
+                    pad->buttons = src->held;
+                    pad->flags_04 = src->notHeld;
+                    pad->pressed_buttons = src->pressed;
+                    pad->released = src->released;
+                    // The processed record reads the two raw trigger fields in reverse order.
+                    pad->trigger_right = src->trigL;
+                    pad->trigger_left = src->trigR;
+                    fx = src->stickX;
+                    pad->stick_x = fx;
+                    fy = src->stickY;
+                    pad->stick_y = fy;
+                    gx = src->substickX;
+                    pad->cstick_x = gx;
+                    gy = -src->substickY;
+                    pad->cstick_y = gy;
                     if ((-31.0f) < fx && fx <= 31.0f) {
                         fx = lbl_805DC0C0;
-                        pad->sx = 0;
+                        pad->stick_x = 0;
                     }
                     if ((-31.0f) < fy && fy <= 31.0f) {
                         fy = lbl_805DC0C0;
-                        pad->sy = 0;
+                        pad->stick_y = 0;
                     }
                     if ((-31.0f) < gx && gx <= 31.0f) {
                         gx = lbl_805DC0C0;
-                        pad->cx = 0;
+                        pad->cstick_x = 0;
                     }
                     if ((-31.0f) < gy && gy <= 31.0f) {
                         gy = lbl_805DC0C0;
-                        pad->cy = 0;
+                        pad->cstick_y = 0;
                     }
                     m = newton_sqrtf(fx * fx + fy * fy);
                     if (lbl_805DC0C0 != m) {
@@ -418,7 +363,7 @@ void controller_stuff(void) {
                     if (m > lbl_805DC0C8) {
                         m = lbl_805DC0C8;
                     }
-                    pad->mag0 = m;
+                    pad->stick_magnitude = m;
                     m = newton_sqrtf(gx * gx + gy * gy);
                     if (lbl_805DC0C0 != m) {
                         m *= lbl_805DC0C4;
@@ -426,38 +371,38 @@ void controller_stuff(void) {
                     if (m > lbl_805DC0C8) {
                         m = lbl_805DC0C8;
                     }
-                    pad->mag1 = m;
-                    pad->hold &= ~0x30000;
-                    pad->rel &= ~0x30000;
-                    pad->press &= ~0x30000;
-                    pad->up &= ~0x30000;
-                    if (pad->trig_l > 0x70) {
-                        pad->hold |= 0x10000;
+                    pad->cstick_magnitude = m;
+                    pad->buttons &= ~0x30000;
+                    pad->flags_04 &= ~0x30000;
+                    pad->pressed_buttons &= ~0x30000;
+                    pad->released &= ~0x30000;
+                    if (pad->trigger_left > 0x70) {
+                        pad->buttons |= 0x10000;
                         if (!(old & 0x10000)) {
-                            pad->press |= 0x10000;
+                            pad->pressed_buttons |= 0x10000;
                         }
                     } else {
-                        pad->rel |= 0x10000;
+                        pad->flags_04 |= 0x10000;
                         if (old & 0x10000) {
-                            pad->up |= 0x10000;
+                            pad->released |= 0x10000;
                         }
                     }
-                    if (pad->trig_r > 0x70) {
-                        pad->hold |= 0x20000;
+                    if (pad->trigger_right > 0x70) {
+                        pad->buttons |= 0x20000;
                         if (!(old & 0x20000)) {
-                            pad->press |= 0x20000;
+                            pad->pressed_buttons |= 0x20000;
                         }
                     } else {
-                        pad->rel |= 0x20000;
+                        pad->flags_04 |= 0x20000;
                         if (old & 0x20000) {
-                            pad->up |= 0x20000;
+                            pad->released |= 0x20000;
                         }
                     }
-                    old = pad->prev_hold;
-                    pad->prev_hold = pad->hold &= 0xC30FFFFF;
-                    pad->prev_press = pad->press &= 0xC30FFFFF;
-                    map_main_stick_to_buttons((u8 *)pad, pad->sx, pad->sy, old);
-                    map_c_stick_to_buttons((u8 *)pad, pad->cx, pad->cy, old);
+                    old = pad->previous_buttons;
+                    pad->previous_buttons = pad->buttons &= 0xC30FFFFF;
+                    pad->flags_4c = pad->pressed_buttons &= 0xC30FFFFF;
+                    map_main_stick_to_buttons(reinterpret_cast<u8 *>(pad), pad->stick_x, pad->stick_y, old);
+                    map_c_stick_to_buttons(reinterpret_cast<u8 *>(pad), pad->cstick_x, pad->cstick_y, old);
                     if (camera_ctrl_instance != NULL) {
                         if (is_split_screen() != 0) {
                             a = ((Obj_801A5F1C *)camera_ctrl_instance)->base[i] + (s32)(10430.38043493439 * atan2_float(fx, fy));
@@ -470,27 +415,27 @@ void controller_stuff(void) {
                         a = (s32)(10430.38043493439 * atan2_float(fx, fy));
                         b = (s32)(10430.38043493439 * atan2_float(gx, gy));
                     }
-                    pad->ang0 = (u16)a;
-                    pad->ang1 = (u16)b;
-                    update_button_hold_counters((saddr)pad);
+                    pad->stick_angle = (u16)a;
+                    pad->cstick_angle = (u16)b;
+                    update_button_hold_counters(pad);
                 } else {
-                    pad->hold = (*(Src_801A5F1C *)&controller_default_pad_state).b0;
-                    pad->rel = (*(Src_801A5F1C *)&controller_default_pad_state).b1;
-                    pad->press = (*(Src_801A5F1C *)&controller_default_pad_state).b2;
-                    pad->up = (*(Src_801A5F1C *)&controller_default_pad_state).b3;
-                    pad->trig_r = (*(Src_801A5F1C *)&controller_default_pad_state).trig_r;
-                    pad->trig_l = (*(Src_801A5F1C *)&controller_default_pad_state).trig_l;
-                    pad->sx = (*(Src_801A5F1C *)&controller_default_pad_state).sx;
-                    pad->sy = (*(Src_801A5F1C *)&controller_default_pad_state).sy;
-                    pad->cx = (*(Src_801A5F1C *)&controller_default_pad_state).cx;
-                    pad->cy = (*(Src_801A5F1C *)&controller_default_pad_state).cy;
-                    pad->ang0 = 0;
-                    pad->mag0 = lbl_805DC0C0;
+                    pad->buttons = controller_default_pad_state.held;
+                    pad->flags_04 = controller_default_pad_state.notHeld;
+                    pad->pressed_buttons = controller_default_pad_state.pressed;
+                    pad->released = controller_default_pad_state.released;
+                    pad->trigger_right = controller_default_pad_state.trigL;
+                    pad->trigger_left = controller_default_pad_state.trigR;
+                    pad->stick_x = controller_default_pad_state.stickX;
+                    pad->stick_y = controller_default_pad_state.stickY;
+                    pad->cstick_x = controller_default_pad_state.substickX;
+                    pad->cstick_y = controller_default_pad_state.substickY;
+                    pad->stick_angle = 0;
+                    pad->stick_magnitude = lbl_805DC0C0;
                     for (j = 0; j < 14; j++) {
-                        pad->rep[j] = 0;
+                        pad->hold_counters.frames[j] = 0;
                     }
-                    pad->prev_hold = 0;
-                    pad->prev_press = 0;
+                    pad->previous_buttons = 0;
+                    pad->flags_4c = 0;
                 }
             }
         }
@@ -501,120 +446,51 @@ void controller_stuff(void) {
 #pragma pop
 
 #pragma push
-#define controller_input_state ((s32 *)&controller_input_state)
-#define controller_physical_port_bank ((s32 *)controller_physical_port_bank)
-
-struct Sub_801A67A4
-{
-  u32 w[7];
-};
-
-struct Rec_801A67A4
-{
-  s32 f0;
-  s32 f4;
-  s32 f8;
-  s32 fC;
-  u16 f10;
-  u16 f12;
-  s16 f14;
-  s16 f16;
-  s16 f18;
-  s16 f1A;
-  s32 f1C;
-  s32 f20;
-  f32 f24;
-  f32 f28;
-  Sub_801A67A4 f2C;
-  s32 f48;
-  s32 f4C;
-};
-
-struct Src_801A66B8 {
-    u8 pad0[8];
-    s32 f8;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    u16 f18;
-    u16 f1A;
-    s16 f1C;
-    s16 f1E;
-    s16 f20;
-    s16 f22;
-};
-
-struct Pad_801A66B8 {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fC;
-    u16 f10;
-    u16 f12;
-    s16 f14;
-    s16 f16;
-    s16 f18;
-    s16 f1A;
-    s32 f1C;
-    u8 pad20[4];
-    f32 f24;
-    u8 pad28[4];
-    s16 f2C[14];
-    s32 f48;
-    s32 f4C;
-};
-
-struct Ctl_801A6510 {
-    u8 pad0[0x30];
-    u32 *f30;
-};
-
 extern "C" {
-saddr TKeyBoardControl__sub_803DEB74(int);
-void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1);
 s32 is_split_screen(void);
 
 void bind_controller_devices(void) {
-    Ctl_801A6510 *p;
-    void **pb;
+    PadSlot *p;
+    PadSlot **pb;
     s32 *fb;
-    void **pa;
+    PadSlot **pa;
     s32 i;
     s32 *ids;
     s32 *fa;
     s32 n;
-    pb = (void **)controller_input_state;
-    pa = (void **)controller_physical_port_bank;
-    fb = &controller_input_state[4];
+    pb = controller_input_state.sources;
+    pa = controller_physical_port_bank.sources;
+    fb = controller_input_state.source_status;
     ids = controller_device_id_table;
-    fa = &controller_physical_port_bank[4];
+    fa = controller_physical_port_bank.source_status;
     for (i = 0; i < 4; i++) {
-        p = (Ctl_801A6510 *)TKeyBoardControl__sub_803DEB74(*ids++);
-        if (*p->f30 & 1) {
+        p = (PadSlot *)TKeyBoardControl__sub_803DEB74(*ids++);
+        if (*p->conn & 1) {
             *pa++ = p;
             *fa++ = 1;
         } else {
-            *pa++ = (void *)&controller_default_pad_state;
+            *pa++ = &controller_default_pad_state;
             *fa++ = 0;
         }
     }
     ids = controller_device_id_table;
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i++) {
-            p = (Ctl_801A6510 *)TKeyBoardControl__sub_803DEB74(*ids++);
-            if (*p->f30 & 1) {
+            p = (PadSlot *)TKeyBoardControl__sub_803DEB74(*ids++);
+            if (*p->conn & 1) {
                 *pb++ = p;
                 *fb++ = 1;
             } else {
-                *pb++ = (void *)&controller_default_pad_state;
+                *pb++ = &controller_default_pad_state;
                 *fb++ = 0;
             }
         }
     } else {
         n = 0;
         for (i = 0; i < 4; i++) {
-            p = (Ctl_801A6510 *)TKeyBoardControl__sub_803DEB74(*ids++);
-            if (p != NULL && (*p->f30 & 1)) {
+            p = (PadSlot *)TKeyBoardControl__sub_803DEB74(*ids++);
+            if (p != NULL && (*p->conn & 1)) {
                 *pb = p;
                 n++;
                 pb++;
@@ -622,7 +498,7 @@ void bind_controller_devices(void) {
             }
         }
         for (; n < 4; n++) {
-            *pb++ = (void *)&controller_default_pad_state;
+            *pb++ = &controller_default_pad_state;
             *fb++ = 0;
         }
     }
@@ -631,63 +507,61 @@ void bind_controller_devices(void) {
 void reset_controller_input_state(void) {
     s32 i;
     s32 j;
-    Pad_801A66B8 *p;
+    ControllerInputContext *p;
 
-    p = (Pad_801A66B8 *)((u8 *)controller_input_state + 0x20);
+    p = controller_input_state.controllers;
     for (i = 0; i < 4; i++) {
-        p->f0 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f8;
-        p->f4 = ((Src_801A66B8 *)&controller_default_pad_state)[0].fC;
-        p->f8 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f10;
-        p->fC = ((Src_801A66B8 *)&controller_default_pad_state)[0].f14;
-        p->f12 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f1A;
-        p->f10 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f18;
-        p->f14 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f1C;
-        p->f16 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f1E;
-        p->f18 = ((Src_801A66B8 *)&controller_default_pad_state)[0].f20;
-        p->f1A = ((Src_801A66B8 *)&controller_default_pad_state)[0].f22;
-        p->f1C = 0;
-        p->f24 = lbl_805DC0C0;
+        p->buttons = controller_default_pad_state.held;
+        p->flags_04 = controller_default_pad_state.notHeld;
+        p->pressed_buttons = controller_default_pad_state.pressed;
+        p->released = controller_default_pad_state.released;
+        p->trigger_right = controller_default_pad_state.trigL;
+        p->trigger_left = controller_default_pad_state.trigR;
+        p->stick_x = controller_default_pad_state.stickX;
+        p->stick_y = controller_default_pad_state.stickY;
+        p->cstick_x = controller_default_pad_state.substickX;
+        p->cstick_y = controller_default_pad_state.substickY;
+        p->stick_angle = 0;
+        p->stick_magnitude = lbl_805DC0C0;
         for (j = 0; j < 14; j++) {
-            p->f2C[j] = 0;
+            p->hold_counters.frames[j] = 0;
         }
-        p->f48 = 0;
-        p->f4C = 0;
+        p->previous_buttons = 0;
+        p->flags_4c = 0;
         p++;
     }
-    copy_state__16TKeyBoardControlFPvPv((Rec_801A67A4 *)&controller_input_state[0x58], (Rec_801A67A4 *)((u8 *)controller_input_state + 0x20));
+    copy_state__16TKeyBoardControlFPvPv(&controller_input_state.keyboard, controller_input_state.controllers);
     TKeyBoardControl::reset();
 }
 
-typedef struct Rec_801A67A4 Rec_801A67A4;
-typedef struct Sub_801A67A4 Sub_801A67A4;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1) {
-  Rec_801A67A4 *new_var;
-  Rec_801A67A4 *new_var2;
-  Sub_801A67A4 *s;
-  Sub_801A67A4 *d;
-  arg0->f0 = arg1->f0;
-  arg0->f4 = arg1->f4;
-  arg0->f8 = arg1->f8;
-  arg0->fC = arg1->fC;
-  arg0->f10 = arg1->f10;
-  arg0->f12 = arg1->f12;
-  arg0->f14 = arg1->f14;
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1) {
+  ControllerInputContext *new_var;
+  ControllerInputContext *new_var2;
+  ControllerButtonHoldCounters *s;
+  ControllerButtonHoldCounters *d;
+  arg0->buttons = arg1->buttons;
+  arg0->flags_04 = arg1->flags_04;
+  arg0->pressed_buttons = arg1->pressed_buttons;
+  arg0->released = arg1->released;
+  arg0->trigger_left = arg1->trigger_left;
+  arg0->trigger_right = arg1->trigger_right;
+  arg0->stick_x = arg1->stick_x;
   new_var = (new_var2 = arg0);
-  new_var2->f16 = arg1->f16;
-  arg0->f18 = arg1->f18;
-  new_var2->f1A = arg1->f1A;
-  new_var->f1C = arg1->f1C;
-  new_var2->f20 = arg1->f20;
-  arg0->f24 = arg1->f24;
-  arg0->f28 = arg1->f28;
-  s = &arg1->f2C;
-  d = &(new_var = new_var2)->f2C;
+  new_var2->stick_y = arg1->stick_y;
+  arg0->cstick_x = arg1->cstick_x;
+  new_var2->cstick_y = arg1->cstick_y;
+  new_var->stick_angle = arg1->stick_angle;
+  new_var2->cstick_angle = arg1->cstick_angle;
+  arg0->stick_magnitude = arg1->stick_magnitude;
+  arg0->cstick_magnitude = arg1->cstick_magnitude;
+  s = &arg1->hold_counters;
+  d = &(new_var = new_var2)->hold_counters;
   *d = *s;
-  arg0->f48 = arg1->f48;
-  new_var->f4C = arg1->f4C;
+  arg0->previous_buttons = arg1->previous_buttons;
+  new_var->flags_4c = arg1->flags_4c;
 }
 
 void TKeyBoardControl::init_pad_state() {
@@ -695,10 +569,10 @@ void TKeyBoardControl::init_pad_state() {
     for (i = 0; i < 4; i++) {
         pad_recalibration_counters[i] = 0;
     }
-    controller_input_state[0] = TKeyBoardControl__sub_803DEB74(0);
-    controller_input_state[1] = TKeyBoardControl__sub_803DEB74(6);
-    controller_input_state[2] = TKeyBoardControl__sub_803DEB74(0xC);
-    controller_input_state[3] = TKeyBoardControl__sub_803DEB74(0x12);
+    controller_input_state.sources[0] = (PadSlot *)TKeyBoardControl__sub_803DEB74(0);
+    controller_input_state.sources[1] = (PadSlot *)TKeyBoardControl__sub_803DEB74(6);
+    controller_input_state.sources[2] = (PadSlot *)TKeyBoardControl__sub_803DEB74(0xC);
+    controller_input_state.sources[3] = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
     lbl_805D5D08 = 0;
     (*(s8 *)&lbl_805D5D09) = 0;
     keyboard_reset_button_pressed = 0;
@@ -707,37 +581,34 @@ void TKeyBoardControl::init_pad_state() {
     }
     lbl_805D34C8 = 1;
 }
-s32 TKeyBoardControl::poll_key_state() {
-    Kb_801A6910 *self = (Kb_801A6910 *)this;
+s32 ControllerInputContext::poll_key_state() {
     s32 i;
     u8 n;
     s32 j;
-    self->f0 = 0;
-    self->f8 = 0;
+    buttons = 0;
+    pressed_buttons = 0;
     for (i = 0; i < 6; i++) {
         if (TKeyBoardControl::read_input((u8)keyboard_poll_key_codes[i]) != 0) {
-            self->f0 |= TKeyBoardControl_key_bit_table[i];
+            buttons |= TKeyBoardControl_key_bit_table[i];
         }
     }
     n = hardware_keyboard_state.get_pending_count();
     for (j = 0; j < n; j++) {
-        ((void (*)(u8, u32 *))accumulate_key_bits)((s32)hardware_keyboard_state.sub_8013239C(j), &self->f8);
+        accumulate_key_bits(hardware_keyboard_state.sub_8013239C(j), &pressed_buttons);
     }
-    self->f48 = self->f0;
-    self->f4C = self->f8;
+    previous_buttons = buttons;
+    flags_4c = pressed_buttons;
     return 0;
 }
 }
 
-#undef controller_input_state
-#undef controller_physical_port_bank
 #pragma pop
 
-void accumulate_key_bits(s32 arg0, s32 *arg1) {
+void accumulate_key_bits(s32 key, u32 *buttons) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (arg0 == ((s32 *)keyboard_poll_key_codes)[i]) {
-            *arg1 |= ((s32 *)TKeyBoardControl_key_bit_table)[i];
+        if (key == (s32)keyboard_poll_key_codes[i]) {
+            *buttons |= TKeyBoardControl_key_bit_table[i];
         }
     }
 }

@@ -14,7 +14,7 @@ struct TWindowTimer : public TWindowBase {
     void update_chat_parts();
     void draw(s32 arg1, s32 arg2);
     void set_time(u32 secs);
-    static void draw_tab(s32 arg0, saddr arg1);
+    void draw_tab(WindowDrawContext *context);
     static TWindowTimer *create();
     static TWindowTimer *create_alt();
     void copy_state(u8 *arg1);

@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801E4CF0.h"
 #include "pso/system/memory.h"
@@ -11,7 +12,6 @@
 extern "C" {
 
 s32 release_texture_list(s32);
-s32 set_texture_name(void *, void *, int, int);
 
 void TUnk_804C57E0::advance_wrapped_cursor() {
     s32 temp_r0;
@@ -46,8 +46,9 @@ void TUnk_804C57E0::init_image_buffer(u8 *arg1, s32 arg2) {
     this->m_44 = (saddr)TQuestVmDownLoadServer::alloc((this->m_0 * (this->m_4 * 2)) + 0x20);
     *(void **)((s8 *)(*(void * *)&this->m_3c) + 0) = ((u8 *)&this->m_c);
     *(s32 *)((s8 *)(*(void * *)&this->m_3c) + 4) = 1;
-    ((TObjPlayer *)(arg0 + 0x18))->set_render_rect(this->m_44 + 0x20, 5, (int) this->m_4, (int) this->m_0);
-    set_texture_name((u8 *)&this->m_c, arg0 + 0x18, (int) this->m_8, 0x40800000);
+    reinterpret_cast<GinjaTextureInput *>(arg0 + 0x18)->set_render_rect(reinterpret_cast<void *>(this->m_44 + 0x20), 5, (int) this->m_4, (int) this->m_0);
+    set_texture_name(reinterpret_cast<GinjaTextureEntry *>(&this->m_c),
+        reinterpret_cast<GinjaTextureInput *>(arg0 + 0x18), this->m_8, 0x40800000);
     pso_load_texture(*(NJS_TEXLIST **)&this->m_3c);
 }
 

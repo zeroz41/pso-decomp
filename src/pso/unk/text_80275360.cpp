@@ -1,3 +1,4 @@
+#include "pso/player/GuildCardEntry.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
@@ -10,7 +11,7 @@
 
 
 void TWindowSubComCardList::sub_80275360() {
-    TWindowSubComCard *card;
+    GuildCardEntry *card;
     s32 n;
     s32 index;
     saddr msg;
@@ -23,16 +24,16 @@ void TWindowSubComCardList::sub_80275360() {
             break;
         }
         if (this->m_90 != 0) {
-            card = (TWindowSubComCard *)(this->m_90 + index * 0x90);
+            card = (GuildCardEntry *)(this->m_90 + index * 0x90);
         } else if (this->m_94 != 0) {
-            card = (TWindowSubComCard *)(this->m_94 + index * 0x100);
+            card = (GuildCardEntry *)(this->m_94 + index * 0x100);
         } else {
             return;
         }
         if (card->is_active() == 0) {
             break;
         }
-        TObjCityMainWarp::forward_trade_action_default(this, (saddr)((TLobby *)card)->get_com_card_list(), 7, index);
+        TObjCityMainWarp::forward_trade_action_default(this, (saddr)card->get_name(), 7, index);
     }
     if (this->get_field_72() <= 0) {
         switch ((s8)this->m_9c) {

@@ -1,5 +1,8 @@
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"
+#include "pso/player/GuildCardEntry.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/item/TItemData.h"
@@ -14,10 +17,6 @@ struct O_80225B90 { u8 pad[0x20]; char name[1]; };
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-struct L_80225AD8 { u8 pad[0xcc]; s8 flags; u8 pad2[3]; };
-
-struct L_80225B40 { u8 pad[0xcc]; s8 flags; u8 pad2[3]; };
 
 struct Tag_80225828 { u8 b[0x228]; };
 
@@ -63,7 +62,7 @@ typedef struct Hdr_8022525C
 extern "C" {
 extern u8 *TLobby__protocol_instance;
 
-unsigned char lbl_80513F70[0x680];
+ShortMailEntry lbl_80513F70[8];
 s32 lbl_805D6270;
 int lobby_short_mail_entry_count;
 
@@ -76,7 +75,7 @@ void TLobby::send_simple_mail(s32 arg0, void *src) {
     if (TLobby__protocol_instance != 0) {
         mode = TWindowSubComCard::get_keyboard_mode();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], TLobby__protocol_instance + 0x1900);
-        strncpy((char *)&t.b[0xC], (char *)(((void *)((TLobby *)mode)->get_com_card_list())), 0x17);
+        strncpy((char *)&t.b[0xC], reinterpret_cast<GuildCardEntry *>(mode)->get_name(), 0x17);
         *(s32 *)&t.b[0x1C] = arg0;
         t.b[0x23] = 0;
         strncpy((char *)&t.b[0x20], (char *)src, 0xAB);
@@ -87,54 +86,55 @@ void TLobby::send_simple_mail(s32 arg0, void *src) {
 
 void TLobby__sub_802258C8(void) {
   s32 var_r31;
-  s32 *var_r30;
+  ShortMailEntry *entry;
   var_r31 = 0;
-  var_r30 = (s32 *)&lbl_80513F70;
+  entry = lbl_80513F70;
   do
   {
-    if (((s32)TLobby::is_flag_set(var_r30)) != 0)
+    if (entry->is_active() != 0)
     {
-      TLobby__sub_80225C8C((void*)((saddr) var_r30));
+      entry->clear_unread();
     }
     var_r31 += 1;
-    var_r30 = (s32 *) (((u8 *) var_r30) + 0xD0);
+    entry++;
   }
   while (var_r31 < 8);
 }
 
-void *TLobby::find_short_mail_by_id(u32 id) {
+ShortMailEntry *TLobby::find_short_mail_by_id(u32 id) {
     s32 count = ((s32)TLobby::get_short_mail_ctrl());
     s32 i;
     for (i = 0; i < count; i++) {
-        void *o = TLobby__sub_8022598C(i);
-        if (id == ((TLobby *)o)->get_lobby_id()) {
-            return o;
+        ShortMailEntry *entry = get_short_mail_entry(i);
+        if (id == entry->get_id()) {
+            return entry;
         }
     }
     return 0;
 }
 
-void *TLobby__sub_8022598C(int a0) {
-  unsigned char *new_var;
-  new_var = lbl_80513F70;
-  if ((!new_var) && (!new_var))
-  {
-  }
-  return ((char *) new_var) + (a0 * 0xd0);
+}
+
+ShortMailEntry *get_short_mail_entry(int index) {
+    char *storage = reinterpret_cast<char *>(&lbl_80513F70);
+    // Retain retail register allocation for the backing array address.
+    if ((!storage) && (!storage)) {
+    }
+    return reinterpret_cast<ShortMailEntry *>(storage + index * sizeof(ShortMailEntry));
 }
 
 s32 TLobby::find_free_slot() {
   s32 var_r31;
-  s32 *var_r30;
+  ShortMailEntry *entry;
   var_r31 = 0;
-  var_r30 = (s32 *)&lbl_80513F70;
+  entry = lbl_80513F70;
   loop_1:
-  if (TLobby::is_flag_set(var_r30) == 0)
+  if (entry->is_active() == 0)
   {
     return var_r31;
   }
   var_r31 += 1;
-  var_r30 = (s32 *) ((u8 *) ((s32 *) (((u8 *) var_r30) + 0xD0)));
+  entry++;
   if (var_r31 >= 8)
   {
     TLobby::remove_entry_at(0);
@@ -142,15 +142,13 @@ s32 TLobby::find_free_slot() {
   }
   goto loop_1;
 }
-}
 
-extern "C" s32 play_sound_effect(int, void *, int, int);
 
 void TLobby__sub_80225A08(void *p) {
     s32 slot = TLobby::find_free_slot();
-    u8 *entry = lbl_80513F70;
-    entry += slot * 0xd0;
-    ((TLobby *)entry)->fill_list_entry((u8 *)p);
+    char *storage = reinterpret_cast<char *>(&lbl_80513F70);
+    storage += slot * sizeof(ShortMailEntry);
+    reinterpret_cast<ShortMailEntry *>(storage)->fill_from_packet(static_cast<u8 *>(p));
     lobby_short_mail_entry_count++;
     TLobby__sub_80225CB8();
     play_sound_effect(0x52D17, 0, 0, 0);
@@ -160,7 +158,7 @@ void remove_short_mail_by_id(u32 id) {
     s32 count = TLobby::get_short_mail_ctrl();
     s32 i;
     for (i = 0; i < count; i++) {
-        if (id == (u32)((TLobby *)(TLobby__sub_8022598C(i)))->get_lobby_id()) {
+        if (id == get_short_mail_entry(i)->get_id()) {
             TLobby::remove_entry_at(i);
             return;
         }
@@ -169,23 +167,23 @@ void remove_short_mail_by_id(u32 id) {
 
 void TLobby::remove_entry_at(s32 idx) {
     if (idx < 7) {
-        L_80225AD8 *p = &((L_80225AD8 *)&lbl_80513F70)[idx];
-        ((TLobby *)p)->move_words((u32 *)(p + 1), (saddr)((void *)(((7 - idx) * sizeof(L_80225AD8)) >> 2)));
+        ShortMailEntry *entry = &lbl_80513F70[idx];
+        move_words(entry, entry + 1, (7 - idx) * sizeof(ShortMailEntry) / sizeof(u32));
     }
-    ((L_80225AD8 *)&lbl_80513F70)[7].flags &= ~1;
-    (*(s32 *)&lobby_short_mail_entry_count) = (*(s32 *)&lobby_short_mail_entry_count) - 1;
+    lbl_80513F70[7].flags &= ~1;
+    lobby_short_mail_entry_count--;
 }
 
 void TLobby::clear_all_entries(void* _w0) {
     s32 i;
-    L_80225B40 *p;
+    ShortMailEntry *entry;
     lbl_805D6270 = 0;
-    (*(s32 *)&lobby_short_mail_entry_count) = 0;
+    lobby_short_mail_entry_count = 0;
     TLobby::clear_lobby_flag();
-    p = ((L_80225B40 *)&lbl_80513F70);
+    entry = lbl_80513F70;
     for (i = 0; i < 8; i++) {
-        p->flags &= ~1;
-        p++;
+        entry->flags &= ~1;
+        entry++;
     }
 }
 
@@ -201,25 +199,24 @@ s32 TLobby::is_name_too_long() {
     return 0;
 }
 
-void TLobby::fill_list_entry(u8 *arg1) {
-    s32 temp_r7;
-    *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) *(s32 *)((s8 *)arg1 + 8);
-    temp_r7 = lbl_805D6270;
-    lbl_805D6270 = temp_r7 + 1;
-    *(s32 *)((s8 *)((u8 *)this) + 4) = temp_r7;
-    *(s8 *)((s8 *)((u8 *)this) + 0xCC) = 0xB;
-    strncpy((char *)(((u8 *)this) + 8), (char *)(arg1 + 0xC), 0x17);
-    *(s8 *)((s8 *)((u8 *)this) + 0x1F) = 0;
-    strncpy((char *)(((u8 *)this) + 0x20), (char *)(arg1 + 0x20), 0xAB);
-    *(s8 *)((s8 *)((u8 *)this) + 0xCB) = 0;
+void ShortMailEntry::fill_from_packet(u8 *packet) {
+    sender_card_id = *reinterpret_cast<s32 *>(packet + 8);
+    u32 id = lbl_805D6270;
+    lbl_805D6270 = id + 1;
+    sequence_id = id;
+    flags = 0xB;
+    strncpy(sender_name, (const char *)packet + 0xC, 0x17);
+    sender_name[0x17] = 0;
+    strncpy(body, (const char *)packet + 0x20, 0xAB);
+    body[0xAB] = 0;
 }
 
 void TLobby__sub_80225C44(void* p) { TLobby::clear_all_entries(p); }
 void TLobby__sub_80225C64(void* p) { TLobby::clear_all_entries(p); }
-void*TLobby::get_com_card_list() { return (char*)this + 0x8; }
-void TLobby__sub_80225C8C(void* p) { *(u8*)((char*)p + 0xcc) &= 0xfffffffd; }
-int TLobby::is_flag_set(void* p) { return *(u8*)((char*)p + 0xcc) & 0x1; }
-s32 TLobby::get_lobby_id() { return *(s32*)((char*)this + 0x4); }
+char *GuildCardEntry::get_name() { return name; }
+void ShortMailEntry::clear_unread() { flags &= ~2; }
+int ShortMailEntry::is_active() { return flags & 1; }
+u32 ShortMailEntry::get_id() { return sequence_id; }
 
 int TLobby::get_short_mail_ctrl() {  return lobby_short_mail_entry_count; }
 

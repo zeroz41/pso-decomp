@@ -1,3 +1,4 @@
+#include "pso/player/TPlyDispData.h"
 #include "pso/unk/TUnk_804CFA28.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
@@ -289,7 +290,6 @@ struct VObj_18_eecf68 : VBase_18_eecf68 {
 
 struct En_80280F14 { u8 pad[0x20]; s32 v; };
 
-struct Q_80280F14 { u8 pad[0x1C]; s32 a; s32 b; };
 
 struct Wn_80280F14 { u8 pad[0x20]; s16 f20; };
 
@@ -483,20 +483,20 @@ void TWindowSubStatusDisp::vt0() {
 
 void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     VObj_18_eecf68 *p;
-    Q_80280F14 *q;
+    player_stats *q;
     En_80280F14 *e;
     p = ((VObj_18_eecf68 *)get_player_by_client_id(arg0->f20));
     if (p != NULL) {
-        q = (Q_80280F14 *)((TObjPlayer *)p)->get_stats();
+        q = reinterpret_cast<player_stats *>(((TObjPlayer *)p)->get_stats());
         if (q != NULL) {
             e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(2));
             e->v = p->m14() + 1;
             e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(0x10));
-            e->v = q->b;
+            e->v = q->meseta;
             e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(8));
-            e->v = q->a;
+            e->v = q->exp;
             e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(0xC));
-            e->v = ((TObjPlayer *)p)->get_next_level_exp() - q->a;
+            e->v = ((TObjPlayer *)p)->get_next_level_exp() - q->exp;
         }
     }
 }

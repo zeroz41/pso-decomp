@@ -1,3 +1,5 @@
+#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "types.h"
 #include "pso/ui/window/Scroll_8026D790.h"
 #include "pso/ui/ItemListRow.h"
@@ -97,7 +99,7 @@ void TShopArmorListWindow::clamp_selection_to_valid_entry() {
             return;
         }
         e = (void *)((TWindowBase *)w)->get_array_entry(w->f78);
-        while (((TWindowSubStatusDisp *)e)->is_flag_4_set() == 0) {
+        while (((TWindowLayoutEntry *)e)->is_flag_4_set() == 0) {
             w->f78 = w->f78 - 1;
             e = (void *)((TWindowBase *)w)->get_array_entry(w->f78);
         }
@@ -151,7 +153,6 @@ extern "C" {
 u32 calc_text_width();
 u8 get_font_char_advance();
 u16 map_char_to_font_code(u16 c);
-void draw_window_tab(void *, void *, s32, f32);
 void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3);
 s32 lbl_804D05F8[3] = {1, 0, 8};
 WindowDescriptor lbl_804D0604 = {
@@ -172,7 +173,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern "C" {
 s32 draw_window_scrollbar(s32, s32, void *);
 
-void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x);
+void TShopJudgmentItemWindow__sub_80267F9C(const NJS_POINT2 *size, s32 count);
 
 saddr TWindowMenuIconLine::get_cursor_value() {
     get_array_entry(this->cursor);
@@ -434,7 +435,7 @@ void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3)
   {
     pt.x = (166.0f + arg1->x) - 8.0f;
     pt.y = arg1->y - 13.0f;
-    draw_window_tab(arg1, &pt, 0, -60.0f);
+    draw_window_tab((WindowDrawContext *)arg1, &pt.x, 0, -60.0f);
     pt.x += 50.0f;
     pt.y += 4.0f;
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 0, (f32)(-1.0f / (0.1794f + arg1->f38)), (f32)100000.0f);
@@ -461,7 +462,7 @@ void TWindowMenuIconLine::set_flag4() {
 void TWindowMenuIconLine::handle_open() {
     saddr entry;
     entry = reinterpret_cast<saddr>(get_array_entry(this->cursor));
-    if ((((TWindowSubStatusDisp *)entry)->is_flag_4_set() == 0) || (((TWindowSubStatusDisp *)entry)->is_flag80_set() != 0)) {
+    if ((((TWindowLayoutEntry *)entry)->is_flag_4_set() == 0) || (((TWindowSubStatusDisp *)entry)->is_flag80_set() != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -684,10 +685,10 @@ TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 
     return new TWindowMenuIconLine((u8 *)parent, count, client);
 }
 
-void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x) {
-    lbl_804D0604.pad_00[0] = v.x;
-    lbl_804D0604.pad_00[1] = v.y;
-    lbl_804D05F8[1] = x;
+void TShopJudgmentItemWindow__sub_80267F9C(const NJS_POINT2 *size, s32 count) {
+    lbl_804D0604.pad_00[0] = size->x;
+    lbl_804D0604.pad_00[1] = size->y;
+    lbl_804D05F8[1] = count;
 }
 
 void TWindowMenuIconLine::render() {

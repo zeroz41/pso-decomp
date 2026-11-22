@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -16,7 +17,6 @@
 
 extern "C" {
 
-s32 TShopJudgmentItemWindow__sub_80267F9C(const void *, int);
 s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
 u8 *get_window_layout_position(s32);

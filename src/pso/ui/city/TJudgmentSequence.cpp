@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8026934C.h"
+#include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/city/TShopSequence.h"
 
 #include "pso/ui/city/TShopWindowBase.h"

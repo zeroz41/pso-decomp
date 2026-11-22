@@ -1,3 +1,4 @@
+#include "pso/system/ControllerInputState.h"
 #include "types.h"
 #include "pso/unk/text_801A6A28.h"
 #include "pso/unk/text_801A6A5C.h"
@@ -49,19 +50,19 @@ void update_button_hold_counter(void *key_board_control, void *arg1, int mask, i
     *(s16 *)arg1 = value;
 }
 
-void update_button_hold_counters(u8 *key_board_control) {
-    update_button_hold_counter(key_board_control, key_board_control + 0x2C, 0x10, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x2E, 0x20, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x30, 0x40, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x32, 0x80, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x34, 0x100000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x36, 0x200000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x38, 0x400000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x3A, 0x800000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x3C, 0x04000000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x3E, 0x08000000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x40, 0x10000000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x42, 0x20000000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x44, 0x20000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
-    update_button_hold_counter(key_board_control, key_board_control + 0x46, 0x10000, (int) (*(s32 *)((s8 *)key_board_control + 0x48)));
+void update_button_hold_counters(ControllerInputContext *arg0) {
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[0], 0x10, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[1], 0x20, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[2], 0x40, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[3], 0x80, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[4], 0x100000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[5], 0x200000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[6], 0x400000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[7], 0x800000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[8], 0x04000000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[9], 0x08000000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[10], 0x10000000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[11], 0x20000000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[12], 0x20000, arg0->previous_buttons);
+    update_button_hold_counter(arg0, &arg0->hold_counters.frames[13], 0x10000, arg0->previous_buttons);
 }

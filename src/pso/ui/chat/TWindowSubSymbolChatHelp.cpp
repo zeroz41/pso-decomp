@@ -16,7 +16,6 @@ struct Quad_8028429C { f32 x, y, x2, y2, u0, v0, u1, v1; };
 
 struct Win_8028429C { u8 pad[0x10]; f32 x; f32 y; u8 pad2[0x38 - 0x18]; f32 scale; };
 
-struct Self_8028429C { u8 pad[0x60]; u8 flags; u8 pad61[3]; s8 *sel; };
 
 struct UV_802844C8 { f32 u, v; };
 
@@ -24,7 +23,6 @@ struct Quad_802844C8 { f32 x, y, x2, y2, u0, v0, u1, v1; };
 
 struct Win_802844C8 { u8 pad[0x10]; f32 x; f32 y; u8 pad2[0x38 - 0x18]; f32 scale; };
 
-struct Self_802844C8 { u8 pad[0x68]; s32 *mode; };
 
 struct UV_802845EC { f32 u, v; };
 
@@ -66,7 +64,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
     q.u1 = (0.9921875f);
     q.v1 = (0.20703125f);
     for (i = 0; i < 8; i++) {
-        if (((Self_8028429C *)this)->flags & 2) {
+        if (m_60 & 2) {
             t = TWindowSubSymbolChatPartsSet::get_parts_entry(i);
         } else {
             t = TWindowSubSymbolChatHelp__sub_80247EE8(i);
@@ -79,12 +77,12 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
         ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
-    if (((Self_8028429C *)this)->flags & 2) {
+    if (m_60 & 2) {
         set_constant_material_color(-1);
     } else {
         set_constant_material_color(0xFF808080);
     }
-    q.x = 12.0f * (f32)*((Self_8028429C *)this)->sel + (112.0f + ((Win_8028429C *)arg1)->x);
+    q.x = 12.0f * (f32)*m_64 + (112.0f + ((Win_8028429C *)arg1)->x);
     q.y = 50.0f + ((Win_8028429C *)arg1)->y;
     q.x2 = 14.0f + q.x;
     q.y2 = 14.0f + q.y;
@@ -105,7 +103,7 @@ void TWindowSubSymbolChatHelp::draw_help_entry(void *arg1, s32 arg2, s32 arg3) {
     f32 scale;
     s32 idx;
     idx = arg2;
-    if (arg2 == 2 && *((Self_802844C8 *)this)->mode == 1) {
+    if (arg2 == 2 && *m_68 == 1) {
         idx = 6;
     }
     uv = &symbol_chat_help_entry_uv_table[idx];
@@ -206,7 +204,7 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
     if (this->m_60 & 4) {
         context = controller_input_state + 0x20;
         if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) {
-            temp_r3 = *(s32 * *)&this->m_6c;
+            temp_r3 = m_6c;
             if ((s32) *temp_r3 != 0) {
                 *temp_r3 = 0;
             } else {
@@ -214,7 +212,7 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
             }
         }
         if (TWindowShortListCtrl__check_controller_button(context, 0x20000) != 0) {
-            temp_r3_2 = *(s32 * *)&this->m_70;
+            temp_r3_2 = m_70;
             if ((s32) *temp_r3_2 != 0) {
                 *temp_r3_2 = 0;
                 return;
@@ -225,21 +223,13 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
 }
 
 void TWindowSubSymbolChatHelp::handle_page_input() {
-    u8 *arg0 = (u8 *)this;
-  u8 *temp_r4_2;
-  int new_var;
-  u8 temp_r3;
-  new_var = 0x200;
-  if (((this->m_60) & 2) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), new_var) != 0))
-  {
-    *((u8 *) (*((u8 **) (((s8 *) arg0) + 0x64)))) += 1;
-    temp_r4_2 = (u8 *) (*((u8 **) (((s8 *) arg0) + 0x64)));
-    ;
-    if (((s8) (*temp_r4_2)) >= 8)
-    {
-      *temp_r4_2 = (*temp_r4_2) - 8;
+    if ((m_60 & 2) && TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 0x200) != 0) {
+        ++*m_64;
+        s8 *selection = m_64;
+        if (*selection >= 8) {
+            *selection -= 8;
+        }
     }
-  }
 }
 
 void TWindowSubSymbolChatHelp::render() {
@@ -253,13 +243,14 @@ void TWindowSubSymbolChatHelp::render() {
 void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); ((TWindowDD *)this)->initialize_subwindow(); }
 
 TWindowSubSymbolChatHelp::~TWindowSubSymbolChatHelp() {}
-TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s32 arg1, s32 arg2) : TWindowBase((u8 *)&symbol_chat_help_window_layout, (s16)(4), (u8 *)(get_window_layout_position(0x7E))) {
+TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s8 *selection, s32 *mode)
+    : TWindowBase((u8 *)&symbol_chat_help_window_layout, 4, reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(get_window_layout_position(0x7E)))) {
     m_name = TWindowSubSymbolChatHelp__name;
-    this->m_60 = 0;
-    this->m_64 = arg1;
-    this->m_68 = arg2;
-    this->m_6c = 0;
-    this->m_70 = 0;
+    m_60 = 0;
+    m_64 = selection;
+    m_68 = mode;
+    m_6c = NULL;
+    m_70 = NULL;
 }
 
 }

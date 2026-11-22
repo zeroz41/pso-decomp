@@ -2,10 +2,10 @@
 #define PSO_UNK_TUNK_804CF998_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804CF918.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 
 // A window part with a position and size (case 0 of init_window_layout_entries).
-class TUnk_804CF998 : public TUnk_804CF918 {
+class TUnk_804CF998 : public TWindowLayoutEntry {
 public:
     f32 x;
     f32 y;

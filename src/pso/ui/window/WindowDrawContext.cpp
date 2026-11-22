@@ -23,7 +23,6 @@ extern const NJS_POINT2 window_viewport_offset_table_4p[4] = {
 };
 
 extern "C" {
-s32 __cvt_fp2unsigned(f32);
 f32 TCameraCtrl__sub_80068A04(s32);
 NJS_POINT2 *get_zero_vec2();
 }
@@ -65,18 +64,19 @@ void WindowDrawContext::apply_closing_stretch(int ticks) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-
-void WindowDrawContext::set_open_tick(s32 arg1) {
-    s32 temp_r0;
-    this->open_tick = arg1;
-    temp_r0 = this->open_tick;
-    if (temp_r0 < 0) {
-        this->color = (s32) ((__cvt_fp2unsigned(255.0f * ((7.5f + (f32) temp_r0) / 7.5f)) << 0x18) | 0xFF0000 | 0xFFFF);
+void WindowDrawContext::set_open_tick(s32 tick) {
+    open_tick = tick;
+    if (open_tick < 0) {
+        f32 fade = (7.5f + open_tick) / 7.5f;
+#ifndef __MWERKS__
+        // The GameCube unsigned conversion returns zero for negative alpha.
+        if (fade < 0.0f) {
+            fade = 0.0f;
+        }
+#endif
+        color = (static_cast<u32>(255.0f * fade) << 24) | 0x00FFFFFF;
     }
 }
-#pragma pop
 
 void WindowDrawContext::set_bounds(f32 a, f32 b, f32 c, f32 d) { clip_x0 = a; clip_y0 = b; clip_x1 = c; clip_y1 = d; }
 

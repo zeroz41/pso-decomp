@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_80335E7C.h"
 #include "pso/unk/TUnk_804EE470.h"
+#include "pso/unk/TTitleScene.h"
 
 #include "pso/ui/TUnk_804EE458.h"
 #include "pso/unk/TLobby_80335E08.h"
@@ -16,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
+#include "pso/ui/frontend/TitleSceneTables.h"
 
 struct Stack_80335E7C
 {
@@ -33,8 +35,6 @@ extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 
 
-struct TitleTextureList { s32 value; u8 remaining[0x24]; };
-extern TitleTextureList title_texture_list;
 
     
     
@@ -77,14 +77,16 @@ TUnk_804EE470::TUnk_804EE470(TObject *parent) : TObject(parent) {
 void TLobby__sub_80335FE0(void) {  }
 void TLobby__sub_80335FE4(void) {  }
 
-void *get_title_texture_list(void) {
-    return ((char *)&title_texture_list);
+GinjaTextureList *get_title_texture_list(void) {
+    return &title_texture_list;
 }
 
-void *TLobby::get_record(int a0) { return &lobby_record_table[a0]; }
+SpriteDescriptor *TLobby::get_record(int index) { return &lobby_record_table[index]; }
 
 void bind_title_texture_list(void) {
-    set_texlist((uaddr)&title_texture_list.value);
+    set_texlist((uaddr)&title_texture_list);
 }
 
-int TLobby__sub_80336030(void* p) { return ((TUnk_804EE458 *)(*(void**)((char*)p + 0x24)))->sub_8033596C(); }
+int TLobby__sub_80336030(TTitleScene *scene) {
+    return scene->transition_controller->sub_8033596C();
+}

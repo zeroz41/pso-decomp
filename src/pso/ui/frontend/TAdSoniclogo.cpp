@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/TLogo_8001C134.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 
 #include "types.h"
@@ -23,7 +24,6 @@ void TAdSoniclogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSonic
 
 }
 
-saddr get_logo_texture_e_handle(void);
 
 void TAdSoniclogo::render() {
     render_logo_with_default(sonic_logo_object, 16, -1, -150.0f);
@@ -64,5 +64,5 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
 
 void TLogo__sub_8001C360(void) {  }
 
-void TLogo__sub_8001C364(void) { sonic_logo_object = (void *)get_logo_texture_e_handle(); }
+void TLogo__sub_8001C364(void) { sonic_logo_object = get_logo_texture_e_handle(); }
 

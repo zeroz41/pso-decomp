@@ -1,12 +1,12 @@
 #include "types.h"
-#include "pso/unk/TUnk_804CF918.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowHelpItem_8025A12C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TUnk_804CF930.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
@@ -176,7 +176,7 @@ void *TWindowHelpItem::destroy(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = lbl_804CF9F8;
         mem_free((void *)(*(saddr *)((s8 *)arg0 + 0x18)));
-        __dt__13TUnk_804CF918Fv(arg0, 0);
+        __dt__18TWindowLayoutEntryFv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }
@@ -185,7 +185,7 @@ void *TWindowHelpItem::destroy(void *arg0, s16 arg1) {
 }
 
 u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, saddr rec, s32 client) {
-    __ct__13TUnk_804CF918Fl(arg0, client);
+    __ct__18TWindowLayoutEntryFl(arg0, client);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
     copy_vec2((arg0 + 8), (void *)(rec + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;

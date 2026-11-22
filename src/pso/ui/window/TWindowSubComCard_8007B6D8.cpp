@@ -1,5 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
+#include "pso/player/GuildCardEntry.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubComCard_8007B6D8.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -11,8 +12,8 @@ extern "C" {
 s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self);
 int bswap__16TPlyGuildCardTagFv(void*);
 
-s32 TWindowSubComCard::get_card_id() { return *(s32 *)&this->m_flags; }
-int TWindowSubComCard::is_active() { return *(u8*)((char*)this + 0x8c) & 0x1; }
+s32 GuildCardEntry::get_card_id() const { return id; }
+int GuildCardEntry::is_active() const { return flags & 1; }
 u8 TWindowSubComCard__sub_8007B6EC(void* p) { return *(u8*)((char*)p + 0x8f); }
 
 s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self) {

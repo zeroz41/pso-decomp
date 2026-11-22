@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_8033573C.h"
+#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -35,7 +36,7 @@
 #include "pso/math/AngleLookup.h"
 
 void TUnk_804EE458::draw_record_with_camera(s32 record, s32 camera) {
-    TLobby::draw_with_camera((saddr)((void *) (TLobby::get_record(record))), camera, 0x20, (-1e+01f));
+    TLobby::draw_with_camera(TLobby::get_record(record), camera, 0x20, (-1e+01f));
 }
 
 extern "C" {
@@ -46,8 +47,8 @@ s32 play_sound_effect(int, int, int, int);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
-u8 TAdTrialAgreementGC__sub_80335958(u8 *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x24) == 2);
+s32 TAdTrialAgreementGC__sub_80335958(TUnk_804EE458 *controller) {
+    return controller->state == 2;
 }
 
 s32 TUnk_804EE458::sub_8033596C() { return cursor; }
@@ -102,7 +103,7 @@ void TUnk_804EE458::render() {
             model_render_flags |= 0x10;
             set_constant_material(&color);
             bind_title_texture_list();
-            TLobby::draw_with_camera((saddr) (TLobby::get_record(0xA)), 0xA, 0x22, (-1e+01f));
+            TLobby::draw_with_camera(TLobby::get_record(0xA), 0xA, 0x22, (-1e+01f));
         }
         temp_r0 = state;
         if ((temp_r0 == 1) || (temp_r0 == 2)) {

@@ -1,6 +1,7 @@
 #ifndef PSO_UI_FRONTEND_TADMULTIPLYCHRSELECTGC_H
 #define PSO_UI_FRONTEND_TADMULTIPLYCHRSELECTGC_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
@@ -11,12 +12,12 @@ class TAdGuideTxtGC;
 struct TAdChrSelPlyPlateGC;
 struct TAdChrMoveEffectGC;
 
-class TUnk_804E3008;
+class TAdChrSelPlayerGC;
 
 struct TAdMultiPlyChrSelectGC : public TObject {
     TAdMultiPlyChrSelectGC(TObject *, s32);
     virtual ~TAdMultiPlyChrSelectGC();
-    static TUnk_804E3008 *get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot);
+    static TAdChrSelPlayerGC *get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot);
     void create_widgets();
     void sub_802DC118(s32);
     virtual void render();
@@ -37,10 +38,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 m_54;
     s32 swap_search;    // 0x58  first extra slot (0..2) the swap search starts from
     TAdChrSelPlyPlateGC *player_plate;
-    u8 unk_60[0x4];
+    TAdChrSelPlayerGC *unk_60;
     TAdGuideTxtGC *guide;
-    void set_index_and_close_status(s32 arg1);
-    void set_status_value(s32 arg1);
     void handle_event(s32 arg1);
     void initialize_selection_state(s32 arg1);
     static TAdChrSelPlyPlateGC *get_card_instance();
@@ -59,7 +58,6 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
     static saddr get_selected_slot();
     static int get_global_6700();
-    void set_field_100(s32 v);
     static void render(void *self);
     void *create_confirm_window(s32 slot);
     s32 create_choice_menu();
@@ -138,6 +136,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
 extern "C" TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
 
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA0);
+LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_60_offset, offsetof(TAdMultiPlyChrSelectGC, unk_60) == 0x60);
+LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_68_offset, offsetof(TAdMultiPlyChrSelectGC, a_slot) == 0x68);
+LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_m_6c_offset, offsetof(TAdMultiPlyChrSelectGC, b_slot) == 0x6C);
 
 // TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
 struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };

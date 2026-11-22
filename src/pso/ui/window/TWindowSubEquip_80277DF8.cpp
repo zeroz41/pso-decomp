@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubEquipKind.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -30,7 +31,6 @@ s32 set_depth__11TWindowBaseFf(int);
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *get_window_layout_position(int);
 s32 mark_unequippable_items(int);
-s32 create_equip_kind_window(void *, const NJS_POINT2 *, int);
 void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 fn_80255A38(s32);
@@ -138,7 +138,8 @@ void TWindowSubEquip::render() {  }
 
 s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     saddr equip_kind_window;
-    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->client_id);
+    equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window(
+        reinterpret_cast<saddr>(get_window_layout_position(1)), &equip_kind_window_size, this->client_id));
     TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 1);
     set_depth__11TWindowBaseFf(equip_kind_window);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));

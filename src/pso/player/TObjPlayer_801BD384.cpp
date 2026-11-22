@@ -127,7 +127,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
     ((TObjPlayer *)((char *)this + 1596))->reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
-    ((TObjPlayer *)((char *)this + 1612))->reset_fields();
+    stick_escape_detector.reset_fields();
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
@@ -172,7 +172,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
     ((TObjPlayer *)((char *)this + 1596))->reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
-    ((TObjPlayer *)((char *)this + 1612))->reset_fields();
+    stick_escape_detector.reset_fields();
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();

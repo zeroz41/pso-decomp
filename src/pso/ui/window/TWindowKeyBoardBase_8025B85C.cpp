@@ -10,25 +10,6 @@
 
 #pragma readonly_strings on
 
-struct Field_8025C974 { u16 *buffer; s32 cursor; u32 width; u32 linePixels; s32 scroll; u32 capacity; };
-
-struct Base_8025C974 { u8 pad[0x6c]; Field_8025C974 field; u8 pad2[0x30]; s32 fb4; };
-
-struct Field_8025C804 { u16 *buffer; s32 cursor; };
-
-struct Kbd_8025C804 {
-    u8 pad0[0x60];
-    u16 flags;
-    u8 pad62[0x6C - 0x62];
-    Field_8025C804 field;
-    u8 pad74[0x84 - 0x74];
-    u16 *buf;
-    u8 pad88[0x94 - 0x88];
-    u32 len;
-    u32 max;
-    s8 *src;
-};
-
 extern "C" {
 s32 is_chat_shortcut_set(int);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
@@ -56,7 +37,7 @@ int TWindowKeyBoardBase::is_alnum(u16 code) {
     return 0;
 }
 
-s32 TWindowKeyBoardBase::get_state() { return *(s32*)((char*)this + 0x70); }
+s32 TWindowKeyBoardBase::get_state() { return m_text.cursor; }
 
 void TWindowKeyBoardBase::vt2() {
     u8 *self = (u8 *)this;
@@ -578,7 +559,7 @@ void TWindowKeyBoardBase::init() {
 #pragma push
 #pragma opt_propagation off
 void TWindowKeyBoardBase::commit_composition_text() {
-    Kbd_8025C804 *arg0 = (Kbd_8025C804 *)this;
+    TWindowKeyBoardBase *arg0 = this;
     s32 n;
     s32 nx;
     s8 *src;
@@ -588,15 +569,15 @@ void TWindowKeyBoardBase::commit_composition_text() {
     u32 i;
     u16 *s;
     u16 *d;
-    if (arg0->flags & 4) {
-        ((TWindowKeyBoardBase *)arg0)->sub_8025DBDC(1);
-        src = arg0->src;
+    if (arg0->m_60 & 4) {
+        arg0->sub_8025DBDC(1);
+        src = reinterpret_cast<s8 *>(arg0->m_9c);
         i = 0;
-        dst = arg0->buf;
+        dst = arg0->m_text2.buffer;
         while (*src != 0) {
             cnt = src[1];
             src += 3;
-            while (cnt-- != 0 && i < arg0->max) {
+            while (cnt-- != 0 && i < arg0->m_text2.capacity) {
                 c = *src++;
                 if ((c & 0xE0) == 0x80 || (c & 0xE0) == 0xE0) {
                     c = (u8)c << 8;
@@ -609,37 +590,37 @@ void TWindowKeyBoardBase::commit_composition_text() {
             }
         }
         *dst = 0;
-        arg0->len = i;
-        arg0->flags &= ~4;
+        arg0->m_text2.length = i;
+        arg0->m_60 &= ~4;
     }
-    ((KeyboardTextBuffer *)(&arg0->field))->check_text_overflow(arg0->buf);
-    s = arg0->buf;
+    arg0->m_text.check_text_overflow(arg0->m_text2.buffer);
+    s = arg0->m_text2.buffer;
     n = 0;
     while ((s32)*s != 0) {
         s++;
         n++;
     }
     if (n > 0) {
-        ((KeyboardTextBuffer *)(&arg0->field))->make_room_in_buffer(arg0->field.cursor, n);
-        s = arg0->buf;
-        d = arg0->field.buffer + arg0->field.cursor;
+        arg0->m_text.make_room_in_buffer(arg0->m_text.cursor, n);
+        s = arg0->m_text2.buffer;
+        d = arg0->m_text.buffer + arg0->m_text.cursor;
         while ((s32)*s != 0) {
             *d++ = *s++;
         }
-        arg0->field.cursor += n;
+        arg0->m_text.cursor += n;
     }
-    ((TWindowKeyBoardBase *)arg0)->init();
+    arg0->init();
 }
 #pragma pop
 
 void TWindowKeyBoardBase::export_text(char *out) {
-    Base_8025C974 * base = (Base_8025C974 *)this;
+    TWindowKeyBoardBase *base = this;
     u32 a = 0;
     u32 b = 0;
     u32 c = 0;
     u16 code;
-    u16 *in = base->field.buffer;
-    if (!(base->fb4 & 0x10) && (s32)*in != 0) {
+    u16 *in = base->m_text.buffer;
+    if (!(base->m_b4 & 0x10) && (s32)*in != 0) {
         out[0] = 9;
         if (current_language == LANGUAGE_JAPANESE) {
             out[1] = 'J';
@@ -652,7 +633,7 @@ void TWindowKeyBoardBase::export_text(char *out) {
     while ((s32)*in != 0) {
         code = *in++;
         get_font_char_advance(map_char_to_font_code(code));
-        if (((KeyboardTextBuffer *)(&base->field))->measure_char_overflow(code, &a, &b, &c)) {
+        if (base->m_text.measure_char_overflow(code, &a, &b, &c)) {
             *out = 0;
             return;
         }
@@ -665,25 +646,25 @@ void TWindowKeyBoardBase::export_text(char *out) {
 }
 
 s32 TWindowKeyBoardBase::measure_text_overflow() {
-    Base_8025C974 *arg0 = (Base_8025C974 *)this;
+    TWindowKeyBoardBase *arg0 = this;
     u32 a = 0;
     u32 b = 0;
     u32 c = 0;
     u16 ch;
-    u16 *p = arg0->field.buffer;
+    u16 *p = arg0->m_text.buffer;
     while ((s32)*p != 0) {
         ch = *p++;
-        if (((KeyboardTextBuffer *)(&arg0->field))->measure_char_overflow(ch, &a, &b, &c) != 0) {
+        if (arg0->m_text.measure_char_overflow(ch, &a, &b, &c) != 0) {
             break;
         }
     }
     c += 1;
-    if (!(arg0->fb4 & 0x10)) {
+    if (!(arg0->m_b4 & 0x10)) {
         c += 2;
     }
     return c;
 }
 
-int TWindowKeyBoardBase::is_key_state_2() { return (*(u16*)((char*)this + 0x60) >> 2) & 0x1; }
+int TWindowKeyBoardBase::is_key_state_2() { return (m_60 >> 2) & 1; }
 
 }

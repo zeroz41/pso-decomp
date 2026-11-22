@@ -243,7 +243,7 @@ void TWindowSubTechnique::run_task() {
         ((TAdChrSelASlotGC *)(self->sel))->set_flag_40();
         TQuestThread::set_status_flag_80(self->sel);
         TWindowSubTechnique::get_current_selection((s16 *)self->f20, (s32 *)self->f24, self->player);
-        ((TWindowSubComCard *)(self->list))->clear_flag_and_release();
+        ((TWindowMenu *)(self->list))->clear_flag_and_release();
         self->state = 2;
     case 2: {
         s32 r = ((TWindowSubTechnique *)self)->sub_80286AA8();
@@ -268,7 +268,7 @@ void TWindowSubTechnique::run_task() {
         call_if_split_screen((uaddr)self->help, self->player);
         ((TWindowSubTradeMain *)(self->sel))->clear_trade_flag();
         ((TWindowSubTechnique *)(self->sel))->clear_flag70_bit80();
-        ((TWindowSubComCard *)(self->sel))->clear_flag_and_release();
+        ((TWindowMenu *)(self->sel))->clear_flag_and_release();
         ((TWindowOptionCtrl *)(self->sel))->clear_flag70_bit4();
         self->state = 4;
     case 4:

@@ -1,10 +1,17 @@
 #ifndef PSO_UI_FRONTEND_TADTITLETEXGC_H
 #define PSO_UI_FRONTEND_TADTITLETEXGC_H
 
+#include <stddef.h>
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "types.h"
+
+struct TitleTexQuad {
+    f32 x, y, x2, y2;
+    f32 u0, v0, u1, v1;
+};
 
 class TAdTitleTexGC : public TObject {
 public:
