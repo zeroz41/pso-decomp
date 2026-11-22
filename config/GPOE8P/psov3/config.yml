@@ -7496,7 +7496,7 @@ force_active:
   - lbl_8043BC24
   - TObjEneRe2Flower_EffCurse3__class_name_string
   - lbl_8043C920
-  - lbl_8043D008
+  - slime_tail_model_name_bm4_ps_ma_body_nj
   - slime_tail_model_name_bm4_ps_ma_tail_nj
   - slime_tail_model_name_bm4_ps_mar_body_nj
   - slime_tail_model_name_bm4_ps_mar_tail_nj
@@ -7509,20 +7509,20 @@ force_active:
   - slime_tail_motion_name_kie_bm4_ps_ma_body_njm
   - slime_tail_motion_name_kie_bm4_ps_mb_body_njm
   - slime_tail_motion_name_move_bm4_ps_mb_body_njm
-  - lbl_8043D138
+  - slime_tail_motion_name_move_bm4_ps_mb_body_njs
   - slime_tail_motion_name_nodam_bm4_ps_ma_body_njm
   - slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm
   - slime_tail_motion_name_wait_bm4_ps_ma_body_njm
   - slime_tail_motion_name_wait_bm4_ps_mb_body_njm
-  - lbl_8043D1B8
+  - slime_tail_motion_name_wait_bm4_ps_mb_body_njs
   - slime_tail_motion_name_wait2_bm4_ps_ma_body_njm
   - bm4_ps_ma_body_bml_filename
   - TObjEneSlime__class_name_string
-  - lbl_8043D210
+  - slime_type_label_blue
   - lbl_8043D218
   - TObjEneSlimeOne__class_name_string
-  - lbl_8043D230
-  - lbl_8043D23C
+  - slime_puddle_scale
+  - slime_full_scale
   - TObjEneSlimeWaterBomb__class_name_string
   - TObjEneSlimeTailAttack__class_name_string
   - lbl_8043ED80
@@ -7817,7 +7817,7 @@ force_active:
   - lbl_8049452C
   - lbl_80494570
   - __vt__16TObjEneMerillLia
-  - lbl_80496368
+  - slime_model_index_by_type
   - lbl_804966FC
   - lbl_80496C68
   - lbl_80496C90
@@ -8707,7 +8707,7 @@ force_active:
   - lbl_805DA254
   - lbl_805DA5A8
   - lbl_805DA5AC
-  - lbl_805DA668
+  - slime_type_label_red
   - lbl_805DA788
   - lbl_805DA79C
   - lbl_805DA7A0

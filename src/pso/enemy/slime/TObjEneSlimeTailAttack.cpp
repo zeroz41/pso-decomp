@@ -55,7 +55,7 @@ f32 vector_length(void *);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 post_translate_matrix(void *);
 CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
-extern void *lbl_80496368[2];
+extern void *slime_model_index_by_type[2];
 extern void *lbl_8049639C[28];
 
 struct B_800E80E8 { s32 w[3]; };
@@ -63,20 +63,6 @@ struct B_800E80E8 { s32 w[3]; };
 struct A_800E80E8 { s32 w[12]; };
 
 struct S_800E80E8 { B_800E80E8 a; A_800E80E8 d; };
-
-struct RecoveredGlobal_800EA678_lbl_8043D230 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800EA678_lbl_8043D23C {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-LAYOUT_ASSERT(RecoveredGlobal_800EA678_lbl_8043D230_size, sizeof(RecoveredGlobal_800EA678_lbl_8043D230) == 0xC);
-
-LAYOUT_ASSERT(RecoveredGlobal_800EA678_lbl_8043D23C_size, sizeof(RecoveredGlobal_800EA678_lbl_8043D23C) == 0xC);
 
 struct SlimeSavedState {
     s32 flags;
@@ -97,7 +83,7 @@ s32 scale_current_matrix(Vec *);
 
 
 // This TU's .rodata objects in address order (names stay placeholders).
-extern const char lbl_8043D008[] = "bm4_ps_ma_body.nj";
+extern const char slime_tail_model_name_bm4_ps_ma_body_nj[] = "bm4_ps_ma_body.nj";
 extern const char slime_tail_model_name_bm4_ps_ma_tail_nj[] = "bm4_ps_ma_tail.nj";
 extern const char slime_tail_model_name_bm4_ps_mar_body_nj[] = "bm4_ps_mar_body.nj";
 extern const char slime_tail_model_name_bm4_ps_mar_tail_nj[] = "bm4_ps_mar_tail.nj";
@@ -110,22 +96,24 @@ extern const char slime_tail_motion_name_damage_bm4_ps_ma_body_njm[] = "damage_b
 extern const char slime_tail_motion_name_kie_bm4_ps_ma_body_njm[] = "kie_bm4_ps_ma_body.njm";
 extern const char slime_tail_motion_name_kie_bm4_ps_mb_body_njm[] = "kie_bm4_ps_mb_body.njm";
 extern const char slime_tail_motion_name_move_bm4_ps_mb_body_njm[] = "move_bm4_ps_mb_body.njm";
-extern const char lbl_8043D138[] = "move_bm4_ps_mb_body.njs";
+extern const char slime_tail_motion_name_move_bm4_ps_mb_body_njs[] = "move_bm4_ps_mb_body.njs";
 extern const char slime_tail_motion_name_nodam_bm4_ps_ma_body_njm[] = "nodam_bm4_ps_ma_body.njm";
 extern const char slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm[] = "tlatk_bm4_ps_ma_tail.njm";
 extern const char slime_tail_motion_name_wait_bm4_ps_ma_body_njm[] = "wait_bm4_ps_ma_body.njm";
 extern const char slime_tail_motion_name_wait_bm4_ps_mb_body_njm[] = "wait_bm4_ps_mb_body.njm";
-extern const char lbl_8043D1B8[] = "wait_bm4_ps_mb_body.njs";
+extern const char slime_tail_motion_name_wait_bm4_ps_mb_body_njs[] = "wait_bm4_ps_mb_body.njs";
 extern const char slime_tail_motion_name_wait2_bm4_ps_ma_body_njm[] = "wait2_bm4_ps_ma_body.njm";
 extern const char bm4_ps_ma_body_bml_filename[] = "bm4_ps_ma_body.bml";
 extern const char TObjEneSlime__class_name_string[] = "TObjEneSlime";
-extern const char lbl_8043D210[] = "BLUE";
+extern const char slime_type_label_blue[] = "BLUE";
 // Debug label strings; slime_debug_label_table points at them.
-extern const char lbl_805DA668[] = "RED";
+extern const char slime_type_label_red[] = "RED";
 extern const s32 lbl_8043D218[2] = {0, 0};
 extern const char TObjEneSlimeOne__class_name_string[] = "TObjEneSlimeOne";
-extern const RecoveredGlobal_800EA678_lbl_8043D230 lbl_8043D230 = {0x40200000, {0x00, 0x00, 0x00, 0x00, 0x40, 0x20, 0x00, 0x00}};
-extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C = {0x3F800000, {0x3F, 0x80, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00}};
+// draw_scale while a slime rises out of (m_398 = 0, a flat puddle) or sinks back into the
+// ground (m_398 = 1, full size); the grow and shrink states blend between them.
+extern const Vec slime_puddle_scale = {2.5f, 0.0f, 2.5f};
+extern const Vec slime_full_scale = {1.0f, 1.0f, 1.0f};
 extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
 }
 RecoveredGlobal_lbl_80501010 lbl_80501010;
@@ -142,22 +130,22 @@ extern void *slime_model_name_ptr_table[7];
 extern void *bm4_ps_ma_body_motion_names[15];
 
 void *slime_model_name_ptr_table[7] = {
-    (void *)&lbl_8043D008, (void *)&slime_tail_model_name_bm4_ps_ma_tail_nj, (void *)&slime_tail_model_name_bm4_ps_mar_body_nj, (void *)&slime_tail_model_name_bm4_ps_mar_tail_nj,
+    (void *)&slime_tail_model_name_bm4_ps_ma_body_nj, (void *)&slime_tail_model_name_bm4_ps_ma_tail_nj, (void *)&slime_tail_model_name_bm4_ps_mar_body_nj, (void *)&slime_tail_model_name_bm4_ps_mar_tail_nj,
     (void *)&slime_tail_model_name_bm4_ps_mb_body_nj, (void *)&slime_tail_model_name_bm4_ps_mbr_body_nj, (void *)0x0,
 };
 void *bm4_ps_ma_body_motion_names[15] = {
     (void *)&slime_tail_motion_name_apear_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_apper_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_atack_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_damage_bm4_ps_ma_body_njm,
-    (void *)&slime_tail_motion_name_kie_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_kie_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_move_bm4_ps_mb_body_njm, (void *)&lbl_8043D138,
+    (void *)&slime_tail_motion_name_kie_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_kie_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_move_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_move_bm4_ps_mb_body_njs,
     (void *)&slime_tail_motion_name_nodam_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm, (void *)&slime_tail_motion_name_wait_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_wait_bm4_ps_mb_body_njm,
-    (void *)&lbl_8043D1B8, (void *)&slime_tail_motion_name_wait2_bm4_ps_ma_body_njm, (void *)0x0,
+    (void *)&slime_tail_motion_name_wait_bm4_ps_mb_body_njs, (void *)&slime_tail_motion_name_wait2_bm4_ps_ma_body_njm, (void *)0x0,
 };
 void *slime_pair_resource_descriptor[4] = {
     (void *)&bm4_ps_ma_body_bml_filename, (void *)&slime_model_name_ptr_table, (void *)&bm4_ps_ma_body_motion_names, (void *)0x6000e,
 };
 __declspec(section ".data") void *slime_debug_label_table[2] = {
-    (void *)&lbl_8043D210, (void *)lbl_805DA668,
+    (void *)&slime_type_label_blue, (void *)slime_type_label_red,
 };
-__declspec(section ".data") void *lbl_80496368[2] = {
+__declspec(section ".data") void *slime_model_index_by_type[2] = {
     (void *)0x4, (void *)0x5,
 };
 CollisionBody lbl_80496370[1] = {
@@ -314,16 +302,15 @@ s32 TObjEneSlime::create(saddr set_data) {
 }
 
 void TObjEneSlime::spawn_pair() {
-    void *temp_r4;
-    void *temp_r5;
-    void *temp_r5_2;
+    void *resource;
+    void *models;
 
-    temp_r4 = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
-    slime_bml_resource = temp_r4;
-    temp_r5 = *(void **)((s8 *)temp_r4 + 0x42C);
-    TObjEneSlime::spawn_child(0x28, *(s32 *)((s8 *)temp_r5 + 0x48), *(s32 *)((s8 *)temp_r5 + 0x4C), 10.0f, 0.0f);
-    temp_r5_2 = *(void **)((s8 *)slime_bml_resource + 0x42C);
-    TObjEneSlime::spawn_child(0x29, *(s32 *)((s8 *)temp_r5_2 + 0x58), *(s32 *)((s8 *)temp_r5_2 + 0x5C), 10.0f, 0.0f);
+    resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
+    slime_bml_resource = resource;
+    models = *(void **)((s8 *)resource + 0x42C);
+    TObjEneSlime::spawn_child(0x28, *(s32 *)((s8 *)models + 0x48), *(s32 *)((s8 *)models + 0x4C), 10.0f, 0.0f);
+    models = *(void **)((s8 *)slime_bml_resource + 0x42C);
+    TObjEneSlime::spawn_child(0x29, *(s32 *)((s8 *)models + 0x58), *(s32 *)((s8 *)models + 0x5C), 10.0f, 0.0f);
 }
 
 void TObjEneSlime::free_instance() {
@@ -371,31 +358,30 @@ void TObjEneSlime::run_task() {
 }
 
 void TObjEneSlime::render() {
-    u8 *self = (u8 *)this;
-    s32 temp_r30;
-    s32 temp_r30_2;
-    s32 temp_r31;
-    temp_r31 = this->defer_render();
+    s32 type_offset;
+    s32 model_index;
+    s32 deferred;
+    deferred = this->defer_render();
     if (TObjPlayer::check_demo_mode() != 0) {
-        temp_r30 = (this->state36C * 4) & 4;
-        debug_printf_at(0x130020, "TYPE [0/1] : %s", (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + temp_r30) + 0)));
+        type_offset = (this->state36C * 4) & 4;
+        debug_printf_at(0x130020, "TYPE [0/1] : %s", (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + type_offset) + 0)));
         TObjPlayer::toggle_particle_effect();
         push_matrix();
-        temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
-        post_translate_matrix((void *) ((u8 *)self + 0x38));
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
-        if (temp_r31 != 0) {
+        model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
+        post_translate_matrix(&this->position);
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, model_index));
+        if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
             set_cull_none();
             clear_chunk_render_flags();
         }
@@ -768,28 +754,27 @@ void TObjEneSlimeOne::update_wait_search() {
 
 void TObjEneSlimeOne::reset_display() { set_display_mode(0); this->actorFlags = (this->actorFlags & 0xfffbffff); this->m_398 = 0.0f; this->draw_offset_y = -2.5f; }
 void TObjEneSlimeOne::sub_800EA820() {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    f32 var_f31;
+    f32 progress;
+    f32 wobble;
+    f32 wobble_scale;
     this->draw_offset_y = (f32) (-2.5f * (1.0f - this->m_398));
-    this->draw_scale.x = (f32) ((this->m_398 * (*(f32 *)((s8 *)&lbl_8043D23C.value + 0) - *(f32 *)((s8 *)&lbl_8043D230.value + 0))) + *(f32 *)((s8 *)&lbl_8043D230.value + 0));
-    this->draw_scale.y = (f32) ((this->m_398 * (*(f32 *)((s8 *)&lbl_8043D23C.value + 4) - *(f32 *)((s8 *)&lbl_8043D230.value + 4))) + *(f32 *)((s8 *)&lbl_8043D230.value + 4));
-    this->draw_scale.z = (f32) ((this->m_398 * (*(f32 *)((s8 *)&lbl_8043D23C.value + 8) - *(f32 *)((s8 *)&lbl_8043D230.value + 8))) + *(f32 *)((s8 *)&lbl_8043D230.value + 8));
-    var_f31 = 1.0f;
-    temp_f1 = this->m_398;
-    if (temp_f1 > 0.8f) {
-        var_f31 = (1.0f - temp_f1) / 0.19999999f;
+    this->draw_scale.x = (f32) ((this->m_398 * (slime_full_scale.x - slime_puddle_scale.x)) + slime_puddle_scale.x);
+    this->draw_scale.y = (f32) ((this->m_398 * (slime_full_scale.y - slime_puddle_scale.y)) + slime_puddle_scale.y);
+    this->draw_scale.z = (f32) ((this->m_398 * (slime_full_scale.z - slime_puddle_scale.z)) + slime_puddle_scale.z);
+    wobble_scale = 1.0f;
+    progress = this->m_398;
+    if (progress > 0.8f) {
+        wobble_scale = (1.0f - progress) / 0.19999999f;
     }
-    temp_f1_2 = var_f31 * (0.1f * sin_table_lookup(this->state_timer << 0xC));
-    this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + temp_f1_2));
-    this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - temp_f1_2));
+    wobble = wobble_scale * (0.1f * sin_table_lookup(this->state_timer << 0xC));
+    this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + wobble));
+    this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - wobble));
     this->state_timer = (this->state_timer + 1);
-    temp_f1_3 = this->m_398;
-    if (temp_f1_3 >= 0.5f) {
+    progress = this->m_398;
+    if (progress >= 0.5f) {
         this->alpha = (f32) 1.0f;
     } else {
-        this->alpha = (f32) (2.0f * temp_f1_3);
+        this->alpha = (f32) (2.0f * progress);
     }
     if ((this->m_398 += 0.033333335f) > 1.0f) {
         if (find_nearest_visible_player(this, 0, 200.0f) != 0xFFFF) {
@@ -802,52 +787,50 @@ void TObjEneSlimeOne::sub_800EA820() {
 
 void TObjEneSlimeOne::init_slime_display() { this->m_398 = 1.0f; this->draw_offset_y = 0.0f; set_display_mode(0); animation->set_state(7); }
 void TObjEneSlimeOne::sub_800EA678() {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    f32 var_f31;
+    f32 progress;
+    f32 wobble;
+    f32 wobble_scale;
     this->draw_offset_y = (f32) (-2.5f * (1.0f - this->m_398));
-    this->draw_scale.x = (f32) ((this->m_398 * (*(f32 *)((s8 *)&lbl_8043D23C.value + 0) - *(f32 *)((s8 *)&lbl_8043D230.value + 0))) + *(f32 *)((s8 *)&lbl_8043D230.value + 0));
-    this->draw_scale.y = (f32) ((this->m_398 * (*(f32 *)((s8 *)&lbl_8043D23C.value + 4) - *(f32 *)((s8 *)&lbl_8043D230.value + 4))) + *(f32 *)((s8 *)&lbl_8043D230.value + 4));
-    this->draw_scale.z = (f32) ((this->m_398 * (*(f32 *)((s8 *)&lbl_8043D23C.value + 8) - *(f32 *)((s8 *)&lbl_8043D230.value + 8))) + *(f32 *)((s8 *)&lbl_8043D230.value + 8));
-    var_f31 = 1.0f;
-    temp_f1 = this->m_398;
-    if (temp_f1 > 0.8f) {
-        var_f31 = (1.0f - temp_f1) / 0.19999999f;
+    this->draw_scale.x = (f32) ((this->m_398 * (slime_full_scale.x - slime_puddle_scale.x)) + slime_puddle_scale.x);
+    this->draw_scale.y = (f32) ((this->m_398 * (slime_full_scale.y - slime_puddle_scale.y)) + slime_puddle_scale.y);
+    this->draw_scale.z = (f32) ((this->m_398 * (slime_full_scale.z - slime_puddle_scale.z)) + slime_puddle_scale.z);
+    wobble_scale = 1.0f;
+    progress = this->m_398;
+    if (progress > 0.8f) {
+        wobble_scale = (1.0f - progress) / 0.19999999f;
     }
-    temp_f1_2 = var_f31 * (0.15f * sin_table_lookup(this->state_timer << 0xA));
-    this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + temp_f1_2));
-    this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - temp_f1_2));
+    wobble = wobble_scale * (0.15f * sin_table_lookup(this->state_timer << 0xA));
+    this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + wobble));
+    this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - wobble));
     this->state_timer = (this->state_timer + 1);
-    temp_f1_3 = this->m_398;
-    if (temp_f1_3 >= 0.5f) {
+    progress = this->m_398;
+    if (progress >= 0.5f) {
         this->alpha = (f32) 1.0f;
     } else {
-        this->alpha = (f32) (2.0f * temp_f1_3);
+        this->alpha = (f32) (2.0f * progress);
     }
     if ((this->m_398 += -0.011111111f) < 0.0f) {
         this->set_state(0);
     }
 }
 void TObjEneSlimeOne::sub_800EA56C() {
-    s32 temp_r31;
-    u8 *actor = (u8 *)this;
+    s32 angle;
     this->move_speed = (f32) 0.0f;
     if (find_nearest_visible_player(static_cast<TObjChara *>(this), &movement_direction, 200.0f) == 0xFFFF) {
-        ((TObjEneSlimeOne *)actor)->set_state(2);
+        this->set_state(2);
         return;
     }
-    temp_r31 = (s32) (1048575.0f * ((TObjChara *)actor)->random_ratio());
-    this->movement_direction.x = (f32) ((15.0f * sin_table_lookup(temp_r31)) + this->movement_direction.x);
-    this->movement_direction.z = (f32) ((15.0f * cos_table_lookup(temp_r31)) + this->movement_direction.z);
+    angle = (s32) (1048575.0f * this->random_ratio());
+    this->movement_direction.x = (f32) ((15.0f * sin_table_lookup(angle)) + this->movement_direction.x);
+    this->movement_direction.z = (f32) ((15.0f * cos_table_lookup(angle)) + this->movement_direction.z);
     if (vector_length((u8 *)&this->movement_direction.x) <= 0.01f) {
-        ((TObjEneSlimeOne *)actor)->set_state(2);
+        this->set_state(2);
         return;
     }
     normalize_vector(&this->movement_direction);
-    this->m_398 = ((20.0f * ((TObjChara *)actor)->random_ratio()) + 50.0f);
+    this->m_398 = ((20.0f * this->random_ratio()) + 50.0f);
     this->alpha = (f32) 1.0f;
-    ((TObjEneSlimeOne *)actor)->animation->set_state(8);
+    this->animation->set_state(8);
     set_display_mode(1);
 }
 void TObjEneSlimeOne::sub_800EA364() {
@@ -1062,13 +1045,13 @@ void TObjEneSlimeOne::sub_800E9BCC() {
 void TObjEneSlimeOne::begin_appear() { this->state_timer = 90; effect_timer = 19; animation->set_state(3); set_display_mode(2); }
 
 void TObjEneSlimeOne::update_water_bomb_timer() {
-    s32 temp_r0;
+    s32 timer;
 
     effect_timer = (s32) (effect_timer - 1);
-    temp_r0 = effect_timer;
-    if (temp_r0 > 0) {
+    timer = effect_timer;
+    if (timer > 0) {
         spawn_particle_effect(&body_center, 0xFF);
-    } else if (temp_r0 == 0) {
+    } else if (timer == 0) {
         play_sound_effect(0x4003A017, &position, 0, 0);
         spawn_particle_effect(&body_center, 0xE2);
         TObjEneSlimeWaterBomb::create(this, this);
@@ -1141,11 +1124,11 @@ void TObjEneSlimeOne::tick_timer() {
 void TObjEneSlimeOne::reset_display_state() { this->draw_scale.z = 1.0f; this->draw_scale.y = 1.0f; this->draw_scale.x = 1.0f; effect_timer = 0; animation->set_state(4); set_display_mode(2); }
 
 void TObjEneSlimeOne::update_tick() {
-    s32 temp_r3;
+    s32 timer;
 
-    temp_r3 = effect_timer + 1;
-    effect_timer = temp_r3;
-    if (!(temp_r3 & 3)) {
+    timer = effect_timer + 1;
+    effect_timer = timer;
+    if (!(timer & 3)) {
         spawn_particle_effect(&body_center, 0xE0);
     }
     if (this->motion_flags & 0x10) {
@@ -1595,25 +1578,25 @@ s32 TObjEneSlimeTailAttack::sub_800E85BC() {
 #pragma push
 #pragma dont_inline off
 void TObjEneSlimeTailAttack::render() {
-  f32 temp_f1;
-  f32 temp_f3;
+  f32 frame;
+  f32 segment_frames;
   sub_800E841C();
   if (active != 0)
   {
-    temp_f3 = this->frame;
-    temp_f1 = 7.0f;
-    if (temp_f3 < temp_f1)
+    frame = this->frame;
+    segment_frames = 7.0f;
+    if (frame < segment_frames)
     {
-      draw_stretched_segment(&owner->position, &position, (f32) (temp_f3 / temp_f1));
+      draw_stretched_segment(&owner->position, &position, (f32) (frame / segment_frames));
     }
     else
-      if ((temp_f3 >= 41.0f) && (temp_f3 < 48.0f))
+      if ((frame >= 41.0f) && (frame < 48.0f))
     {
-      draw_stretched_segment(&position, &owner->position, (f32) ((temp_f3 - 41.0f) / temp_f1));
+      draw_stretched_segment(&position, &owner->position, (f32) ((frame - 41.0f) / segment_frames));
     }
   }
-  temp_f1 = this->frame;
-  if ((temp_f1 >= 12.0f) && (temp_f1 < 35.0f))
+  frame = this->frame;
+  if ((frame >= 12.0f) && (frame < 35.0f))
   {
     draw_blob_shadows();
   }
