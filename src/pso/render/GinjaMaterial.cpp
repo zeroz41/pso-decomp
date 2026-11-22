@@ -7,6 +7,7 @@
 #include "pso/render/GinjaMaterialCache.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/GinjaParameterHandler.h"
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/unk/text_803E2008.h"
@@ -322,10 +323,8 @@ void ginja_set_alpha_compare(u8 ref) {
 #pragma pop
 
 
-extern GinjaSceneState *current_render_context;
 // Each handler gets the parameter's value and the bits that changed (update_ginja_cached_parameter).
 extern GinjaParameterHandler ginja_parameter_handlers[11];
-extern s32 material_alpha_compare_reference;
 
 #pragma push
 #pragma use_lmw_stmw off

@@ -20,8 +20,6 @@ typedef void (*RecoveredCallback_1268626c296b)(void *);
 
 struct Tbl_803DCC34 { u32 v[12]; };
 
-struct Reg_803DCC34 { u8 pad[0xC]; u32 mode; };
-
 struct N_803DC9E4 {
     u32 flags;
     s32 m4;
@@ -33,9 +31,7 @@ struct N_803DC9E4 {
     f32 f34;
 };
 
-struct RenderContexts { s32 value; u8 remaining[0xEC]; };
-extern RenderContexts render_contexts;
-extern u8 *current_render_context;
+extern GinjaSceneState render_contexts[6];
 extern "C" {
 void select_render_context(s32 arg0);
 }
@@ -176,7 +172,7 @@ void draw_motion_node_tree_with_context(NJS_OBJECT *arg0) {
 }
 
 void select_render_context(s32 arg0) {
-    current_render_context = (u8 *)&render_contexts.value + (arg0 * 0x28);
+    current_render_context = &render_contexts[arg0];
 }
 
 void init_render_context(C_803DCBF0 *arg0) {
@@ -190,22 +186,21 @@ void init_render_context(C_803DCBF0 *arg0) {
     arg0->i = 0;
 }
 
-#define REG_803DCC34 ((Reg_803DCC34 *) current_render_context)
 void set_color_blending_mode(s32 target, s32 mode) {
     Tbl_803DCC34 tbl = gx_blend_mode_table;
     if (mode == 0) {
-        REG_803DCC34->mode = (REG_803DCC34->mode & 0x03FFFFFF) | 0xB0000000;
+        current_render_context->blend_mode = (current_render_context->blend_mode & 0x03FFFFFF) | 0xB0000000;
     } else if (mode == 0) {
-        REG_803DCC34->mode = (REG_803DCC34->mode & 0x03FFFFFF) | 0x94000000;
+        current_render_context->blend_mode = (current_render_context->blend_mode & 0x03FFFFFF) | 0x94000000;
     } else if (target == 0) {
-        REG_803DCC34->mode = (REG_803DCC34->mode & 0x1FFFFFFF) | (tbl.v[mode] << 29);
+        current_render_context->blend_mode = (current_render_context->blend_mode & 0x1FFFFFFF) | (tbl.v[mode] << 29);
     } else {
-        REG_803DCC34->mode = (REG_803DCC34->mode & 0xE3FFFFFF) | (tbl.v[mode] << 26);
+        current_render_context->blend_mode = (current_render_context->blend_mode & 0xE3FFFFFF) | (tbl.v[mode] << 26);
     }
 }
 
 void apply_cached_blend_mode(s32 arg0) {
-    u32 v = *(u32 *)((s8 *)current_render_context + 0xC);
+    u32 v = current_render_context->blend_mode;
     int src = cached_blend_factor_table[(v & 0xE0000000) >> 29];
     int dst = cached_blend_factor_table[(v & 0x1C000000) >> 26];
     if (arg0 != 0) {

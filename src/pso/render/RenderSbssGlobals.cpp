@@ -6,7 +6,7 @@
 // many referencing units keep these extern.
 
 u32 sin_cos_table;
-u32 current_render_context;
+GinjaSceneState *current_render_context;
 u32 display_heap_size;
 u32 locked_cache_heap_handle;
 u32 player_ref_entry_active_count;

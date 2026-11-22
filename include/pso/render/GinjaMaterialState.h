@@ -34,8 +34,12 @@ typedef struct GinjaTextureList {
   GinjaTextureEntry *entries;
   u32 count;
 } GinjaTextureList;
+// A render context: render_contexts holds six, select_render_context makes one current.
 typedef struct GinjaSceneState {
-  u8 reserved0[0x20];
+  u8 reserved0[0xC];
+  u32 blend_mode; /* +0x0C: GX blend factors, source in bits 29-31, destination in bits 26-28 (name inferred) */
+  u8 reserved10[0x10];
   GinjaTextureList *textures;
+  u32 reserved24;
 } GinjaSceneState;
 #endif
