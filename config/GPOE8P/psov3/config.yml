@@ -6727,7 +6727,7 @@ force_active:
   - get_split_screen_battle_timer_limit__FPUc
   - get_split_screen_character_save_record
   - get_state__17TOSymbolchatColliFv
-  - get_state__19TBoss8DragonEffTailFv
+  - clear_attack_history__19TBoss8DragonEffTailFv
   - get_stats_atp_max__9TObjCharaFv
   - get_subcard_field1c__11TWindowChatFv
   - get_surface_contact_point__FPv

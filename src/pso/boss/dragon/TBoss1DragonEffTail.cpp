@@ -18,8 +18,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D853C.h"
 
-struct TailAttackParams { f32 power; s32 kind; };
-
 #pragma readonly_strings on
 
 extern "C" {
@@ -69,10 +67,10 @@ void TBoss1DragonEffTail::run_task() {
     this->dragon->reload_difficulty_stats();
 }
 
-// Pushes the hit object along this tail's sweep vector (+0x308 of the target, the field the base
+// Pushes the hit object along this tail's sweep vector (its velocity, which the base
 // TUnk_804928CC::area_attack_apply_recoil also moves).
 void TBoss1DragonEffTail::area_attack_apply_recoil(void *target, f32) {
-    vec3_add_to((Vec *)((u8 *)target + 0x308), &sweep_vector);
+    vec3_add_to(&((TObjChara *)target)->velocity, &sweep_vector);
 }
 
 void TBoss1DragonEffTail::apply_hit_if_active(void *target, f32 *) {

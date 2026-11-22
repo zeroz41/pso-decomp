@@ -20,20 +20,19 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D853C.h"
-
-struct P8_802FE494 { f32 a; s32 b; };
+#include "pso/boss/dragon/TBoss1DragonEffTail.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 const char *TBoss8DragonEffTail__name = "TBoss8DragonEffTail";
-extern const P8_802FE494 lbl_80474BBC = { 3.0f, 1 };
+// As TBoss1DragonEffTail's: what run_task hands its attack history.
+extern const TailAttackParams boss8_dragon_tail_attack_params = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
 CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 } };
 BmlResource *boss8_eff_tail_bml_resource;
-uaddr dragon_tail_gvm_texture_handle;
+GinjaTextureList *dragon_tail_gvm_texture_handle;
 
-extern "C" {
-s32 release_texture_list(void*);
-
-void fn_802FE48C(void) {  }
+void TBoss8DragonEffTail::load_resources() {  }
 void TBoss8DragonEffTail::render() {  }
 
 void TBoss8DragonEffTail::run_task() {
@@ -58,34 +57,34 @@ void TBoss8DragonEffTail::run_task() {
         update_collider_contact_by_height((u8 *)body, 30.0f);
     }
     pop_matrix();
-    if (this->m_bc == 1) {
-        this->m_c0.x = 5.0f * cos_table_lookup(this->rotation_y);
-        this->m_c0.y = 0.0f;
-        this->m_c0.z = 5.0f * -sin_table_lookup(this->rotation_y);
+    if (this->sweep_side == 1) {
+        this->sweep_vector.x = 5.0f * cos_table_lookup(this->rotation_y);
+        this->sweep_vector.y = 0.0f;
+        this->sweep_vector.z = 5.0f * -sin_table_lookup(this->rotation_y);
     } else {
-        this->m_c0.x = 5.0f * -cos_table_lookup(this->rotation_y);
-        this->m_c0.y = 0.0f;
-        this->m_c0.z = 5.0f * sin_table_lookup(this->rotation_y);
+        this->sweep_vector.x = 5.0f * -cos_table_lookup(this->rotation_y);
+        this->sweep_vector.y = 0.0f;
+        this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation_y);
     }
     {
-        P8_802FE494 sp = lbl_80474BBC;
+        TailAttackParams params = boss8_dragon_tail_attack_params;
         this->dragon->reset_tail_hp();
-        call_vt16_with_default(&sp, this->attack_history);
+        call_vt16_with_default(&params, this->attack_history);
     }
     this->dragon->reload_boss_stats();
 }
 
 void TBoss8DragonEffTail::area_attack_apply_recoil(void *target, f32) {
-    vec3_add_to((Vec *)((u8 *)target + 0x308), &m_c0);
+    vec3_add_to(&((TObjChara *)target)->velocity, &sweep_vector);
 }
 
 void TBoss8DragonEffTail::apply_hit_if_active(void *target, f32 *) {
     ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
 }
 
-void TBoss8DragonEffTail::enable() { this->m_bc = 1; get_state(); }
-void TBoss8DragonEffTail::disable() { this->m_bc = 0; get_state(); }
-void TBoss8DragonEffTail::get_state() { fill_value_array(attack_history); }
+void TBoss8DragonEffTail::enable() { this->sweep_side = 1; clear_attack_history(); }
+void TBoss8DragonEffTail::disable() { this->sweep_side = 0; clear_attack_history(); }
+void TBoss8DragonEffTail::clear_attack_history() { fill_value_array(attack_history); }
 
 TBoss8DragonEffTail::~TBoss8DragonEffTail() {
     delete attack_history;
@@ -104,26 +103,23 @@ TBoss8DragonEffTail::TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes)
     this->dragon = dragon;
     this->nodes = nodes;
     attack_history = new AreaAttackHistory(4);
-    m_bc = 0;
-    m_c0.x = 0.0f;
-    m_c0.y = 0.0f;
-    m_c0.z = 0.0f;
-}
+    sweep_side = 0;
+    sweep_vector.x = 0.0f;
+    sweep_vector.y = 0.0f;
+    sweep_vector.z = 0.0f;
 }
 
 void TBoss8DragonEffTail::free_statics() {
-    if ((u32) dragon_tail_gvm_texture_handle != 0U) {
-        release_texture_list((void*)dragon_tail_gvm_texture_handle);
-        TAdSinglePlyChrSelectGC::safe_free(dragon_tail_gvm_texture_handle);
-        dragon_tail_gvm_texture_handle = 0U;
+    if (dragon_tail_gvm_texture_handle != NULL) {
+        release_texture_list(dragon_tail_gvm_texture_handle);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)dragon_tail_gvm_texture_handle);
+        dragon_tail_gvm_texture_handle = NULL;
     }
     delete boss8_eff_tail_bml_resource;
     boss8_eff_tail_bml_resource = 0;
 }
 
-u8 *load_gvm_texture_file(saddr name);
-
 void TBoss8DragonEffTail::load_statics() {
     boss8_eff_tail_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
-    dragon_tail_gvm_texture_handle = (saddr)load_gvm_texture_file((saddr)obj_boss1_common_j_texture_filename);
+    dragon_tail_gvm_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)obj_boss1_common_j_texture_filename);
 }

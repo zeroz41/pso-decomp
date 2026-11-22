@@ -26,7 +26,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 flags);
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
     virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();
@@ -60,7 +60,8 @@ public:
     void reload_impact_stats();
     void remap_sequence_after_recovery();
     void sweep_head_fall_spheres_late();
-    void sub_802F48DC(Vec *target);
+    // Walks to target's xz on the ground (wall checked), keeping its height; undone near another part.
+    void move_to_on_ground(Vec *target);
     void update_flap_effect();
     void apply_landing_attack();
     void apply_head_fall_attack();
@@ -70,10 +71,10 @@ public:
     s32 advance_air_turn();
     s32 choose_burrow_ring_destination(f32 *out);
     s32 select_air_fire_target(Vec *out);  // as TBoss1Dragon::select_air_fire_target
-    s32 sub_802FABB4();
-    // Empty; the fall, flight and burrow runs call it right after moving the dragon.
-    void sub_802FB300();
-    s32 sub_802FB984();  // always 0: select_next_action would end its low-health branch when it is set
+    s32 check_attack_ready();  // as TBoss1Dragon::check_attack_ready: controlled 150 frames and button 0x400 pressed
+    // As TBoss1Dragon::apply_trail_attack, which the fall, flight and burrow runs call right after moving; empty here.
+    void apply_trail_attack();
+    s32 check_phase_advance();  // as TBoss1Dragon::check_phase_advance; the Gol Dragon's always returns 0
     s32 is_secondary_sequence();
     // As TBoss1Dragon::prepare_flight_destination: away from the arena centre when the health is low, else to it.
     void prepare_flight_destination(Vec *dest);
@@ -159,7 +160,7 @@ public:
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
     void freeze_player_at_self();
-    static u16 find_player_on_floor(void *arg0);
+    u16 find_player_on_floor();
     void spawn_ground_effect();
     void setup_instance(Vec *pos, DragonAttackParams *params, AreaAttackHistory *history);
     void apply_pillar_attack(Vec *pos, f32 radius);  // pillar area attack at pos (boss8_dragon_pillar_attack_params); TObjBoss8Piller::run_task
@@ -177,7 +178,7 @@ public:
     void spawn_trap(s32 id);
     void spawn_effect_if_in_band();
     s32 mask_flags(s32 input_flags, s32 mask);
-    s32 check_attack_ready();
+    s32 check_can_attack();
     s32 select_target_in_front();
     s32 update_linked_position();
     void update_movement();
@@ -185,7 +186,7 @@ public:
     f32 calc_step_value();
     s32 check_damage_reaction();
     void pick_next_action();
-    void set_speed(s32 arg1);
+    void setDestinationX(s32 x);
     void save_position();
     void send_6xA8_action();
     void send_action_packet(int action);
@@ -195,10 +196,10 @@ public:
     void restore_target_pos();
     void sync_target_pos();
     void release_grabbed_player();
-    s32 is_health_low();
+    s32 is_primary_sequence();
     void reset_tail_hp();
     void reload_boss_stats();
-    void check_hit_result(s32 arg1, s32 arg2);
+    void set_air_turn_direction(s32 angle, s32 target_angle);
     void reset_action();
     void activate_attack();
     void set_active_flag();
@@ -207,10 +208,10 @@ public:
     void reset_timer();
     void play_sound_if_in_band();
     void try_spawn_trap();
-    void set_damage_phase_value(s32 arg1);
-    static void init_default(void *boss8_dragon);
+    void select_sequence(s32 secondary);
+    void restart_primary_sequence();
     s32 is_near_target();
-    void calc_orbit_xz(f32 *arg1, f32 *arg2);
+    void calc_forward_point(f32 *x, f32 *z);
     void update_position_history();  // as TBoss1Dragon::update_position_history
     void set_state_22();
     // Nonzero once the dragon has left mode 30 (update_appearance_state).
