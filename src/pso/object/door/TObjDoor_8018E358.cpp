@@ -96,7 +96,6 @@ void draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 }
 s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {
-extern s32 TObjDoor__data_805D5BC8;
 s32 init_collision_body_parts(void *, void *, s32);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 void *TObjDoor__ct(void *arg0, void *arg1, void *arg2);
