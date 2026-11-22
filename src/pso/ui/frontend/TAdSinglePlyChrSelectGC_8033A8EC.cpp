@@ -494,9 +494,8 @@ extern char pso_system_card_filename[];
 extern "C" void TWindowCtrlMain__sub_8024D838();
 extern "C" void register_texture_f256_ad_pic_2();
 extern "C" void register_texture_f256_backtext();
-extern "C" void reset__11TCameraCtrlFv();
 void *character_select_scene_resource_callbacks[12] = {
-    (void *)&TCameraCtrl::reset_view_state, (void *)&reset__11TCameraCtrlFv, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
+    (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
     (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
     (void *)&TWindowCtrlMain__sub_8024D838, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
 };

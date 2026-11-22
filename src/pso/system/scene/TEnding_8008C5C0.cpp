@@ -34,14 +34,13 @@ extern const char TEnding__class_name_string[] = "TEnding";
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 void func_803DCDFC__Fv(void);
-void reset__11TCameraCtrlFv(void);
 }
 void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table
 // calls the first of each pair, call_funcs_reverse the second, last pair first.
 void (*ending_scene_callbacks[26])(void) = {
-    TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv,
+    TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
     TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
     TLobby::set_ending_callback, TLobby::free_ending_callback,

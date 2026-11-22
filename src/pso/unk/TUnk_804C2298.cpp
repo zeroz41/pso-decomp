@@ -20,18 +20,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby.h"
-
-typedef struct CameraVec {
-    f32 x, y, z;
-} CameraVec;
+#include "pso/camera/TCameraCtrl.h"
 
 typedef struct WindowPos {
     f32 a, b;
 } WindowPos;
 
 extern "C" {
-void set_active_camera_pose(void *, void *);
-s32 activate_camera_mode(s32 arg0);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
 s32 pso_system_load_gc(void);
 void *TWindowOptionCtrl__ct(void *, void *);
@@ -41,8 +36,8 @@ void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 extern void *tl_00;
 
 void TUnk_804C2298::run_task() {
-    CameraVec pos = {0.0f, 0.0f, 0.0f};
-    CameraVec target = {0.0f, 0.0f, -100.0f};
+    Vec pos = {0.0f, 0.0f, 0.0f};
+    Vec target = {0.0f, 0.0f, -100.0f};
     activate_camera_mode(9);
     set_active_camera_pose(&pos, &target);
     switch (this->state) {
