@@ -337,7 +337,6 @@ pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp
 pso/npc/TNpcPlayer_8028B810.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
-pso/boss/barbaray/TObjBoss7DustSdata2.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
 pso/boss/goldragon/TObjBoss8DemoRoom.cpp
 pso/boss/goldragon/TObjBoss8Piller.cpp

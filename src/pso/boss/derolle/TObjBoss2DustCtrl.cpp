@@ -30,7 +30,7 @@ const char *TObjBoss2DustCtrl__name = "TObjBoss2DustCtrl";
 const char *TObjBoss2Dust__name = "TObjBoss2Dust";
 #pragma pop
 
-void TObjBoss2DustCtrl::sub_8003AD54() {
+void TObjBoss2DustCtrl::init_strips() {
     s32 i;
     s32 j;
 
@@ -63,7 +63,7 @@ void TObjBoss2DustCtrl::sub_8003AD54() {
     TObjBoss2DustCtrl_dust_counter = 0;
 }
 
-void TObjBoss2DustCtrl::sub_8003AD50() {}
+void TObjBoss2DustCtrl::free_strips() {}
 
 void TObjBoss2DustCtrl::create() {
     new TObjBoss2DustCtrl(tl_05);
@@ -109,7 +109,7 @@ void TObjBoss2DustCtrl::run_task() {
 }
 #pragma pop
 
-s32 TObjBoss2DustCtrl::sub_8003AB5C() {
+s32 TObjBoss2DustCtrl::next_strip_slot() {
     s32 slot = TObjBoss2DustCtrl_dust_counter;
     TObjBoss2DustCtrl_dust_counter = slot + 1;
     if (slot + 1 >= 10) {
@@ -130,7 +130,7 @@ TObjBoss2Dust::TObjBoss2Dust(TObject *parent, const Vec *position) : TObject(par
     m_name = TObjBoss2Dust__name;
     VecCopy(&this->position, position);
     ticks = 0;
-    strip_slot = TObjBoss2DustCtrl::sub_8003AB5C();
+    strip_slot = TObjBoss2DustCtrl::next_strip_slot();
 }
 
 TObjBoss2Dust::~TObjBoss2Dust() {}

@@ -27,26 +27,22 @@ Vec TObjBoss7DustCtrl__helix_points[6];
 s32 TObjBoss7DustCtrl__rotation_pairs[20];
 TrailStripVertex TObjBoss7DustCtrl__transformed_vertices[60];
 s32 TObjBoss7DustCtrl__vertical_phase_angles[10];
-extern const f32 lbl_805DEC70;
-extern const f32 lbl_805DEC74;
-extern const f32 lbl_805DEC78;
-extern const f32 lbl_805DEC7C;
-extern const f32 lbl_805DEC80;
 
 const char *TObjBoss7DustCtrl__name = "TObjBoss7DustCtrl";
 const char *TObjBoss7Dust__name = "TObjBoss7Dust";
 
-s32 lbl_805D6958;
+s32 TObjBoss7DustCtrl_dust_counter;
 
-void TObjBoss7DustCtrl::sub_802F1454() {
+void TObjBoss7DustCtrl::init_strips() {
     s32 i;
     s32 j;
 
     for (i = 0; i < 6; i++) {
-        int a = (int)(lbl_805DEC78 * (f32)i);
-        TObjBoss7DustCtrl__helix_points[i].x = lbl_805DEC7C * sin_table_lookup(a);
-        TObjBoss7DustCtrl__helix_points[i].y = lbl_805DEC80 * (f32)i;
-        TObjBoss7DustCtrl__helix_points[i].z = lbl_805DEC7C * cos_table_lookup(a);
+        int a = (int)(10922.667f * (f32)i);
+        f32 sine = sin_table_lookup(a);
+        TObjBoss7DustCtrl__helix_points[i].x = 0.7f * sine;
+        TObjBoss7DustCtrl__helix_points[i].y = 0.083333336f * (f32)i;
+        TObjBoss7DustCtrl__helix_points[i].z = 0.7f * cos_table_lookup(a);
     }
     {
         s32 *p = TObjBoss7DustCtrl__rotation_pairs;
@@ -57,9 +53,9 @@ void TObjBoss7DustCtrl::sub_802F1454() {
     {
         TrailStripVertex *o = TObjBoss7DustCtrl__transformed_vertices;
         for (i = 0; i < 60; i++) {
-            o->x = lbl_805DEC70;
-            o->y = lbl_805DEC70;
-            o->z = lbl_805DEC70;
+            o->x = 0.0f;
+            o->y = 0.0f;
+            o->z = 0.0f;
             o->color = 0xFF709070;
             o++;
         }
@@ -67,10 +63,10 @@ void TObjBoss7DustCtrl::sub_802F1454() {
     for (j = 0; j < 10; j++) {
         TObjBoss7DustCtrl__vertical_phase_angles[j] = TObjPlayer::calc_random_scaled();
     }
-    lbl_805D6958 = 0;
+    TObjBoss7DustCtrl_dust_counter = 0;
 }
 
-void TObjBoss7DustCtrl::sub_802F1450() {}
+void TObjBoss7DustCtrl::free_strips() {}
 
 void TObjBoss7DustCtrl::create() {
     new TObjBoss7DustCtrl(tl_05);
@@ -85,7 +81,6 @@ TObjBoss7DustCtrl::~TObjBoss7DustCtrl() {}
 #pragma push
 #pragma opt_propagation off
 void TObjBoss7DustCtrl::run_task() {
-    f32 scale;
     s32 *ang;
     TrailStripVertex *out;
     s32 *rot;
@@ -95,11 +90,10 @@ void TObjBoss7DustCtrl::run_task() {
     rot = TObjBoss7DustCtrl__rotation_pairs;
     out = TObjBoss7DustCtrl__transformed_vertices;
     push_matrix();
-    scale = lbl_805DEC74;
     ang = TObjBoss7DustCtrl__vertical_phase_angles;
     for (i = 0; i < 10; i++) {
         set_matrix_identity(0);
-        translate_matrix(0, lbl_805DEC70, scale * sin_table_lookup(ang[i]), lbl_805DEC70);
+        translate_matrix(0, 0.0f, 6.0f * sin_table_lookup(ang[i]), 0.0f);
         {
             s32 a = ang[i];
             s32 r;
@@ -118,12 +112,12 @@ void TObjBoss7DustCtrl::run_task() {
 }
 #pragma pop
 
-s32 TObjBoss7DustCtrl::sub_802F125C() {
-    s32 index = lbl_805D6958;
+s32 TObjBoss7DustCtrl::next_strip_slot() {
+    s32 index = TObjBoss7DustCtrl_dust_counter;
 
-    lbl_805D6958 = index + 1;
+    TObjBoss7DustCtrl_dust_counter = index + 1;
     if (index + 1 >= 0xA) {
-        lbl_805D6958 = 0;
+        TObjBoss7DustCtrl_dust_counter = 0;
     }
     return index;
 }
@@ -140,7 +134,7 @@ TObjBoss7Dust::TObjBoss7Dust(TObject *parent, const Vec *position) : TObject(par
     m_name = TObjBoss7Dust__name;
     VecCopy(&this->position, position);
     ticks = 0;
-    strip_slot = TObjBoss7DustCtrl::sub_802F125C();
+    strip_slot = TObjBoss7DustCtrl::next_strip_slot();
 }
 
 TObjBoss7Dust::~TObjBoss7Dust() {}
@@ -155,7 +149,7 @@ void TObjBoss7Dust::run_task() {
 
 void TObjBoss7Dust::render() { boss7_dust_draw_at(&position, strip_slot); }
 
-void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss7Tunnel::clear_state_flags(); TObjBoss7DustCtrl::sub_802F1454(); }
+void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss7Tunnel::clear_state_flags(); TObjBoss7DustCtrl::init_strips(); }
 
 void create_boss7_tunnel(void) { TObjBoss7Tunnel::create(); TObjBoss7Tunnel::create_parent_object(); TObjBoss7DustCtrl::create(); }
-void free_boss7_tunnel(void) { TObjBoss7DustCtrl::sub_802F1450(); TObjBoss7Tunnel::sub_802F2C4C(); free_boss7_common_resources(); }
+void free_boss7_tunnel(void) { TObjBoss7DustCtrl::free_strips(); TObjBoss7Tunnel::sub_802F2C4C(); free_boss7_common_resources(); }

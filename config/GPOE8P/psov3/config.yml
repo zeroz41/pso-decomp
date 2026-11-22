@@ -8409,7 +8409,7 @@ force_active:
   - lbl_805D6880
   - lbl_805D6910
   - lbl_805D6948
-  - lbl_805D6958
+  - TObjBoss7DustCtrl_dust_counter
   - lbl_805D696C
   - lbl_805D6970
   - lbl_805D6980
