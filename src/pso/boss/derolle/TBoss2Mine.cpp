@@ -450,7 +450,7 @@ void TBoss2Mine::set_launch_position_velocity(const Vec *start, const Vec *targe
 #pragma push
 #pragma fp_contract on
 void TUnk_80482EC0::state_launch(s32 reason) {
-    f32 temp_f1;
+    f32 fall_time;
     f32 y;
     s32 angle;
     switch (reason) {
@@ -464,8 +464,8 @@ void TUnk_80482EC0::state_launch(s32 reason) {
         rotation_y = angle;
         rotation_x = 0x4000;
         y = body_center.y;
-        temp_f1 = newton_sqrtf(angle, (2.0f * (y - target_pos.y)) / 0.2f, y, 2.0f);
-        drop_distance = 10.0f * temp_f1;
+        fall_time = newton_sqrtf(angle, (2.0f * (y - target_pos.y)) / 0.2f, y, 2.0f);
+        drop_distance = 10.0f * fall_time;
         throw_speed = 10.0f;
         fall_speed = 0.0f;
         tilt = 0;
