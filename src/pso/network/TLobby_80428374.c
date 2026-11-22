@@ -152,7 +152,6 @@ static inline s16 modem_wait_connect(void) {
 
 /* Runs a modem script line by line (DIAL, SEND, WAIT, DELAY, TERMINAL). */
 s16 modem_run_script(u8 *script, NetSession *sess) {
-    s16 wait_timeout_loop(void *); /* declared s16 here; the definition returns s32 */
     u8 *p;
     s16 nstr;
     s16 nint;
@@ -221,13 +220,13 @@ s16 modem_run_script(u8 *script, NetSession *sess) {
     modem_flush_input();
     return 0;
 }
-s32 wait_timeout_loop(void *params) {
+s16 wait_timeout_loop(void *params) {
     u8 *params_u8 = (u8 *)params;
     s32 start;
     s32 now;
     s16 *p;
     u32 limit;
-    s32 ret;
+    s16 ret;
     ret = 0;
     get_time_ms(&start);
     p = **(s16 ***)((s8 *)&lobby_net_session_state + 0x10);
@@ -441,7 +440,6 @@ char* NetCopyString(char* destination, const char* source);
 #pragma dont_inline off
 #pragma dont_inline off
 void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint) {
-    void NetCopyString(void *, u8 *);
     s32 n;
     u8 *dst;
     s16 i;
@@ -451,7 +449,7 @@ void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint
     if (modem_command_layouts[type].kind[index] == 0) {
         n = *nstr;
         dst = (u8 *)lobby_net_session_state.strbuf + n * lobby_net_session_state.strstride;
-        NetCopyString(dst, src);
+        NetCopyString((char *)dst, (const char *)src);
         lobby_net_session_state.fields[index] = dst;
         *nstr = n + 1;
     }
