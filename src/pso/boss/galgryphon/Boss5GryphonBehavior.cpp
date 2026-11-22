@@ -458,7 +458,6 @@ s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
 s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
 void start_camera_shake(s32 id, f32 v);
-void TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);

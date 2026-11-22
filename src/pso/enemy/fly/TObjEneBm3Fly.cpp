@@ -58,7 +58,6 @@ f32 fabs_float(f32);
 s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
 u16 get_entity_id(void *);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
-u32 TObjEneEpsilon__sub_800B92F8(void *, s32, f32);
 void free_collision_body_parts(void *);
 extern void *tl_04;
 
@@ -335,7 +334,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, lbl_805D50EC->unknown_00) != 0U) {
+    if (TObjEneEpsilon__sub_800B92F8((u8 *)this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, lbl_805D50EC->unknown_00) != 0) {
         this->m_428 |= 2;
         return;
     }

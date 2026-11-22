@@ -203,7 +203,6 @@ struct Cfg_802FCA58 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; };
 struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
 s32 get_current_floor();
-void TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
 s32 update_local_colliders_from_world(void *, void *);

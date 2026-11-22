@@ -115,7 +115,6 @@ f32 atan2_float(f32 y, f32 x);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
-void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
@@ -140,7 +139,6 @@ s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 
 void TBoss3Volopt__sub_800D8D88(saddr);
 
-void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0);
 extern void *tl_04;
 s32 is_split_screen();
 s32 TObjPlayer__sub_800F0928(s32);

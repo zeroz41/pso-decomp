@@ -70,7 +70,6 @@ extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 f32 subtract_vector(void *, void *);
-void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0);
 u32 __cvt_fp2unsigned(f32);
 
 
@@ -208,7 +207,6 @@ struct Entry_8009E860 { u16 id; u8 pad2[2]; f32 dist; };
 u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);

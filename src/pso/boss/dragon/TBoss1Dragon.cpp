@@ -182,7 +182,6 @@ f32 horizontal_distance_squared(void *, void *);
 void send_state_sync__12TBoss1DragonFPv(TBoss1Dragon *s);
 void TBoss1Dragon__sub_80028BE0(u8 *self);
 s32 is_destination_ahead__12TBoss1DragonFPv(u8 *s);
-void TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale);
 
 extern saddr TBoss1Dragon__data_804FE17C[3];
 

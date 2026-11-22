@@ -1550,29 +1550,29 @@ void TObjEneEpsilon::fire_attack_a(saddr out, s32 arg2, f32 farg0) {
     calc_wall_clamped_destination((void *)this, (void *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
 }
 
-void TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale) {
+u8 *TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale) {
     s32 sp8;
     ((TObjEneEpsilon *)self)->fire_attack_c((saddr) &sp8, iscale, scale);
-    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    return ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
-void enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed) {
+u8 *enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed) {
     s32 sp8;
     ((TObjEneEpsilon *)self)->fire_attack_b((saddr) &sp8, arg1, currentSpeed);
-    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    return ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 
-void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0) {
+u8 *TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0) {
     s32 sp8;
     ((TObjEneEpsilon *)ene_epsilon)->fire_attack_b((saddr) &sp8, arg1, farg0);
-    ((TObjEneEpsilon *)(ene_epsilon))->move_xz_on_ground((u8 *)&sp8);
+    return ((TObjEneEpsilon *)(ene_epsilon))->move_xz_on_ground((u8 *)&sp8);
 }
 
-void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0) {
+u8 *TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0) {
     s32 sp8;
     ((TObjEneEpsilon *)ene_epsilon)->fire_attack_a((saddr) &sp8, arg1, farg0);
-    ((TObjEneEpsilon *)(ene_epsilon))->move_xz_on_ground((u8 *)&sp8);
+    return ((TObjEneEpsilon *)(ene_epsilon))->move_xz_on_ground((u8 *)&sp8);
 }
 
 s32 TObjEneDD_ST::update_status_effects() {
