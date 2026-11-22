@@ -3797,7 +3797,7 @@ void TObjPlayer::update_status_effects() {
     if (this->check_flag_02000000() == 0)
     {
       get_current_floor_area();
-      *((s16 *) (((s8 *) arg0) + 0x28)) = TScene::get_player_ctrl_field(((u16 (*)(void *))get_entity_id)(arg0));
+      *((s16 *) (((s8 *) arg0) + 0x28)) = TScene::find_player_section(((u16 (*)(void *))get_entity_id)(arg0));
     }
   }
   this->clear_flag_2000000();
