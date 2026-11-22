@@ -21,10 +21,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#define CAT2(a, b) a##b
-#define CAT(a, b) CAT2(a, b)
-#define PADV virtual void CAT(pv, __LINE__)();
-#define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/object/base/TObjChara.h"
@@ -42,132 +38,6 @@
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
-struct VBase_18_880cfd
-{
-  char pad[0x18];
-};
-
-struct VObj_18_880cfd : VBase_18_880cfd {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual s32 m18(void *, f32);
-    virtual void m19();
-    virtual s32 m20(void *, f32);
-    virtual void m21();
-    virtual void m22();
-    virtual s32 m23(void *, f32);
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual s32 m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual s32 m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual s32 m100();
-};
-
-struct RecoveredFields_800C3088_arg0
-{
-  u8 unknown_0[0xB8];
-  s16 field_B8;
-  u8 unknown_BA[0xA];
-  f32 field_C4;
-  f32 field_C8;
-  u8 unknown_CC[0x2C4];
-  u8 *field_390;
-  u8 unknown_394[0x30];
-  int field_3C4;
-  u8 unknown_3C8[0x48];
-  int field_410;
-  int field_414;
-  int field_418;
-};
-
 extern "C" {
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(s32, void *, int, int);
@@ -177,12 +47,6 @@ extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC0;
 extern const f32 lbl_805D9FC4;
 extern const f32 lbl_805D9FD4;
-typedef struct RecoveredFields_800C3088_arg0 RecoveredFields_800C3088_arg0;
-
-typedef struct VBase_18_880cfd VBase_18_880cfd;
-
-typedef struct VObj_18_880cfd VObj_18_880cfd;
-
 }
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -201,13 +65,6 @@ extern const f32 lbl_805D9FE0;
 extern const f32 lbl_805D9FE4;
 extern const f32 lbl_805D9FE8;
 extern const f32 lbl_805D9FEC;
-struct Base_Sub_800c38d0 { char pad[0x14]; };
-
-struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
-    PADV4
-    PADV
-    virtual s32 m5();
-};
 
 
 
@@ -449,10 +306,10 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
         state_chase_target(reason);
         return;
     case 4:
-        fn_800C32DC((u8 *)this, reason);
+        fn_800C32DC(reason);
         return;
     case 5:
-        fn_800C3088((u8 *)this, reason);
+        fn_800C3088(reason);
         return;
     case 9:
         state_damaged(reason);
@@ -637,7 +494,7 @@ void TObjEneDD::handle_state(s32 arg1) {
         play_area_sound_effect((Vec *)(self + 0x38));
         return;
     case 3:
-        if (((V_Sub_800c38d0 *) (self + 0x3F4))->m5() != 0) {
+        if (((TObjEneRe2Flower *)self)->m_3f4.advance_toward_max() != 0) {
             ((TObjEneDD *)self)->transition_enemy_state(2);
         }
     case 1:
@@ -751,136 +608,115 @@ void TObjEneDD_ST::state_chase_target(s32 arg1) {
     }
 }
 
-extern "C" {
-void fn_800C32DC(u8 *owner, s32 reason) {
-    Vec stack;
-    uaddr temp_r3;
-    uaddr temp_r3_2;
-    u32 temp_r3_3;
-    uaddr temp_r3_4;
+void TObjEneRe2Flower::fn_800C32DC(s32 reason) {
+    Vec pos;
     switch (reason) {
     case 4:
-        ((TObjEneRe2Flower *)owner)->requested_action = 0;
-        ((TObjEneDD *)(owner))->clear_intangible();
-        ((TObjEneRe2Flower *)owner)->set_child_flags();
-        *(s32 *)((s8 *)owner + 0x3C4) = (s32) (*(s32 *)((s8 *)owner + 0x3C4) & 0xFFFFFFF7);
-        ((TObjEneDD *)owner)->set_field_378(3);
-        *(u32 *)((s8 *)owner + 0x428) = 0U;
+        requested_action = 0;
+        clear_intangible();
+        set_child_flags();
+        m_3c4 &= ~8;
+        set_field_378(3);
+        m_428 = NULL;
         break;
     case 3:
-        if ((((TObjEneRe2Flower *)owner)->check_hit_flag() == 0) && (((TObjEneDD *)owner)->get_flag_b4() != 0)) {
-            ((TObjEneDD *)owner)->transition_enemy_state(3);
+        if (check_hit_flag() == 0 && get_flag_b4() != 0) {
+            transition_enemy_state(3);
             break;
         }
     case 1:
         break;
     case 0:
-        ((TObjMotion *)owner)->advance_animation();
-        if ((u32) *(u32 *)((s8 *)owner + 0x428) == 0U) {
-            *(u32 *)((s8 *)owner + 0x428) = (uaddr)create_particle_emitter((owner + 0x3E8), 0xD1);
-            temp_r3 = *(u32 *)((s8 *)owner + 0x428);
-            if (temp_r3 != 0U) {
-                ((TParticleCtrl *)temp_r3)->enable();
+        advance_animation();
+        if (m_428 == NULL) {
+            m_428 = create_particle_emitter(&m_3dc[1], 0xD1);
+            if (m_428 != NULL) {
+                m_428->enable();
             }
         }
-        temp_r3_2 = *(u32 *)((s8 *)owner + 0x428);
-        if (temp_r3_2 != 0U) {
-            if (((TObjEneRe2Flower *)owner)->frame < lbl_805D9FD8) {
-                ((TParticleCtrl *)temp_r3_2)->set_position(owner + 0x3E8);
+        if (m_428 != NULL) {
+            if (frame < lbl_805D9FD8) {
+                m_428->set_position(&m_3dc[1]);
             } else {
-                ((TParticleCtrl *)temp_r3_2)->enable();
+                m_428->enable();
             }
         }
-        if (((TObjMotion *)owner)->is_passing_frame(lbl_805D9FDC) != 0) {
-            VecCopy((Vec *)(&stack.x), (const Vec *)(owner + 0x3DC));
-            stack.y = lbl_805D9FDC + *(f32 *)((s8 *)owner + 0x3C);
-            if ((((TObjEneRe2Flower *)owner)->get_flag_11() != 0) || (TObjEneDD::check_v2_mode() != 0)) {
-                TTecMegid::create_ex((saddr)owner, (saddr)((void *)&stack.x), (s32)((int) (((TObjEneRe2Flower *)owner)->rotation_y)), (s32)((int) (TObjEneDD::clamp_frame_index((int) (*(s32 *)((s8 *)re2_flower_movement_params + 0x18))))));
+        if (is_passing_frame(lbl_805D9FDC) != 0) {
+            VecCopy(&pos, &m_3dc[0]);
+            pos.y = lbl_805D9FDC + position.y;
+            if (get_flag_11() != 0 || TObjEneDD::check_v2_mode() != 0) {
+                TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
-                temp_r3_3 = (uaddr)TObject::operator new(0x104);
-                if (temp_r3_3 != 0U) {
-                    TObjPlayer__sub_800C4A5C(temp_r3_3, owner, &stack.x, (int) (((TObjEneRe2Flower *)owner)->rotation_y));
+                u32 bomb = (uaddr)TObject::operator new(0x104);
+                if (bomb != 0U) {
+                    TObjPlayer__sub_800C4A5C(bomb, this, &pos, rotation_y);
                 }
             }
-            play_sound_effect((remap_sound_for_variant((saddr)owner, 0x4003A10E)), owner + 0x3DC, 0, 0);
+            play_sound_effect(remap_sound_for_variant((saddr)this, 0x4003A10E), &m_3dc[0], 0, 0);
         }
-        ((TObjEneDD *)(owner))->update_ground_contact();
-        ((TObjEneDD *)(owner))->update_body_colliders();
-        ((TObjEneDD *)owner)->noop();
+        update_ground_contact();
+        update_body_colliders();
+        noop();
         break;
     case 5:
-        temp_r3_4 = *(u32 *)((s8 *)owner + 0x428);
-        if (temp_r3_4 != 0U) {
-            ((TObject *)temp_r3_4)->queue_destruction();
-            *(u32 *)((s8 *)owner + 0x428) = 0U;
+        if (m_428 != NULL) {
+            m_428->queue_destruction();
+            m_428 = NULL;
         }
         break;
     }
 }
 
-void fn_800C3088(u8 *owner, int reason) {
-  switch (reason)
-  {
+void TObjEneRe2Flower::fn_800C3088(s32 reason) {
+    switch (reason) {
     case 4:
-      ((RecoveredFields_800C3088_arg0 *) owner)->field_B8 = 7;
-      (((TObjEneDD *)(owner))->clear_intangible());
-      ((TObjEneRe2Flower *)owner)->set_child_flags();
-      ((RecoveredFields_800C3088_arg0 *) owner)->field_3C4 = (int) (((RecoveredFields_800C3088_arg0 *) owner)->field_3C4 & 0xFFFFFFF7);
-      ((TObjEneDD *)owner)->set_field_378(3);
-      ((RecoveredFields_800C3088_arg0 *) owner)->field_410 = 0;
-      ((RecoveredFields_800C3088_arg0 *) owner)->field_414 = 0;
-      ((RecoveredFields_800C3088_arg0 *) owner)->field_418 = 0;
-      return;
+        requested_action = 7;
+        clear_intangible();
+        set_child_flags();
+        m_3c4 &= ~8;
+        set_field_378(3);
+        m_410 = 0;
+        m_414 = 0;
+        m_418 = 0;
+        return;
     case 3:
-      if (((int) ((RecoveredFields_800C3088_arg0 *) owner)->field_410) >= 0x14)
-    {
-      ((TObjEneDD *)owner)->transition_enemy_state(3);
-    }
+        if (m_410 >= 0x14) {
+            transition_enemy_state(3);
+        }
     case 1:
-      return;
-    return;
+        return;
     case 0:
-      ((TObjMotion *)owner)->advance_animation();
-      enemy_validate_retained_target((TObjEneDD_ST *)owner);
-      switch (((RecoveredFields_800C3088_arg0 *) owner)->field_414)
-    {
-      case 0:
-        if (((TObjMotion *)owner)->is_passing_frame((f32) ((((RecoveredFields_800C3088_arg0 *) owner)->field_C4 - lbl_805D9FC0) - ((RecoveredFields_800C3088_arg0 *) owner)->field_C8)) != 0)
-      {
-        ((RecoveredFields_800C3088_arg0 *) owner)->field_418 = (int) (((RecoveredFields_800C3088_arg0 *) owner)->field_418 + 1);
-        if (((f32) ((RecoveredFields_800C3088_arg0 *) owner)->field_418) >= lbl_805D9FD4)
-        {
-          ((RecoveredFields_800C3088_arg0 *) owner)->field_414 = 1;
-          ((RecoveredFields_800C3088_arg0 *) owner)->field_C8 = (f32) lbl_805D9FAC;
+        advance_animation();
+        enemy_validate_retained_target(this);
+        switch (m_414) {
+        case 0:
+            if (is_passing_frame((frame_count - lbl_805D9FC0) - play_speed) != 0) {
+                m_418++;
+                if ((f32)m_418 >= lbl_805D9FD4) {
+                    m_414 = 1;
+                    play_speed = lbl_805D9FAC;
+                }
+            } else if (is_passing_frame(lbl_805D9FC4) != 0) {
+                if (enemy_check_target_valid() != 0) {
+                    if (current_target->select_melee_contact_body(this, lbl_805D9FC0) != 0) {
+                        current_target->receive_physical_attack(this, lbl_805D9FC0);
+                        current_target->apply_knockback_from_attacker((u8 *)this, lbl_805D9FD4);
+                    }
+                }
+                play_sound_effect(remap_sound_for_variant((saddr)this, 0x4003A814), &position, 0, 0);
+                TObjPlayer::play_effect_if_v2(-0x200);
+            }
+            break;
+        case 1:
+            m_410++;
+            break;
         }
-      }
-      else
-        if (((TObjMotion *)owner)->is_passing_frame((f32)((f32) lbl_805D9FC4)) != 0)
-      {
-        if (((TObjEneDD_ST *)owner)->enemy_check_target_valid() != 0)
-        {
-          if ((((VObj_18_880cfd *)((u8 *) ((RecoveredFields_800C3088_arg0 *) owner)->field_390))->m18((owner), (lbl_805D9FC0))) != 0)
-          {
-            (((VObj_18_880cfd *)((u8 *) ((RecoveredFields_800C3088_arg0 *) owner)->field_390))->m20((owner), (lbl_805D9FC0)));
-            (((VObj_18_880cfd *)((u8 *) ((RecoveredFields_800C3088_arg0 *) owner)->field_390))->m23((owner), (lbl_805D9FD4)));
-          }
-        }
-        play_sound_effect(remap_sound_for_variant((saddr)owner, 0x4003A814), owner + 0x38, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
-      }
-        break;
-      case 1:
-        ((RecoveredFields_800C3088_arg0 *) owner)->field_410 = (int) (((RecoveredFields_800C3088_arg0 *) owner)->field_410 + 1);
+        update_ground_contact();
+        update_body_colliders();
+        noop();
+        return;
+    case 5:
+        m_3c4 &= ~2;
         break;
     }
-      (((TObjEneDD *)(owner))->update_ground_contact());
-      (((TObjEneDD *)(owner))->update_body_colliders());
-      ((TObjEneDD *)owner)->noop();
-      return;
-    case 5:
-      ((RecoveredFields_800C3088_arg0 *) owner)->field_3C4 = (int) (((RecoveredFields_800C3088_arg0 *) owner)->field_3C4 & 0xFFFFFFFD);
-      break;
-  }
-}
-
 }

@@ -5,6 +5,8 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 
+class TParticleCtrl;
+
 struct TObjEneRe2Flower : public TObjEneDD_ST {
     TObjEneRe2Flower(TObject *parent, void *setData);
     virtual ~TObjEneRe2Flower();
@@ -27,6 +29,8 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     s32 check_hit_flag();
     void clear_child_flags();
     void set_child_flags();
+    void fn_800C32DC(s32 reason);
+    void fn_800C3088(s32 reason);
     u8 *find_target_in_range();
     static void destroy_instance();
     static void *create(void *setData);
@@ -47,7 +51,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     s32 m_41c;
     s32 m_420;
     f32 m_424;
-    TObject *m_428;
+    TParticleCtrl *m_428;
 };
 
 // The archive loader the enemy factory table pairs with destroy_instance.
