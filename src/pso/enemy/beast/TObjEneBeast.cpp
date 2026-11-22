@@ -58,10 +58,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
-extern "C" {
 extern SampledMotionPoints *beast_claw_trail_instance;
 extern SampledMotionPoints *boss4_type3_instance;
-}
 void TObjEneBeast::run_demo_task() {  }
 void TObjEneBeast::play_group_chase_sound() {
     play_sound_effect(0x4003E431, &position, 0, 0);
@@ -386,11 +384,9 @@ void TObjEneBeast::load_resources() {
 }
 
 #pragma pop
-extern "C" {
 // Archive loaded instead of beast_resource_descriptor's when TObjEneDD::check_v2_mode() is set. Defined after
 // load_resources (it follows that function's initialisers and is not pooled there); the declaration above it would
 // otherwise send it to .data.
-}
 __declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
 
 #pragma defer_codegen on
