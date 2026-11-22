@@ -51,9 +51,7 @@ s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 net_add_ipv4_route(saddr arg0, saddr arg1, saddr arg2);
 s32 TLobby__sub_8041E780();
-s32 tcp_create(void);
 s32 mark_connection_closed(s32);
-s32 tcp_delete(s32 a);
 s16 TLobby__sub_8041DE1C(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
 void TLobby__sub_8041E590(s16);
 s32 get_tcp_stat(int, void *, void *, void *, void *);
@@ -61,7 +59,6 @@ s16 validate_tcp_handle(int);
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
 s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
-s32 tcp_abort(s32 a);
 s32 raw_socket_deliver(NetPacket *pkt, void *src, void *dst, void *cb, s32 index);
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags);
 void OSReport(const char *, ...);
@@ -95,7 +92,6 @@ void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st
 s32 tcp_connect_start(int, void *, u16);
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
-s32 tcp_bind(s32 a, void *addr, u16 port);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
 s16 TLobby__sub_80412058(s16, void *, int, void *);
 s16 TLobby__sub_80422F70(s16 arg0, s32 arg1, s32 arg2, saddr arg3);

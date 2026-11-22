@@ -56,12 +56,7 @@ char func_801A5E54();
 void render_tick();
 void func_803DCDFC();
 extern "C" {
-s32 tcp_abort(s32 a);
-s32 tcp_bind(s32 a, void *addr, u16 port);
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
-s32 tcp_create(void);
-s32 tcp_delete(s32 a);
-s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 }
@@ -308,7 +303,6 @@ extern "C" {
 s32 get_csn_group_flags(s32);
 s8 func_801A5E54__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
-s16 dns_open_addr(char *, s16, s32);
 }
 
 int TSocket::is_empty() {
