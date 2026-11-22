@@ -47,6 +47,14 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_803E18C0.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
 
 
 
@@ -87,19 +95,12 @@ struct Tbl_802B79DC { s32 kind; s32 idx; };
 
 
 
-struct Line_802B6C30 { Vec p; Vec d; };
 struct Blend_802B81A4 { AnimationMotion *motions[2]; f32 frames[2]; };
 
 extern "C" {
 
 
-f32 fabs_float(f32);
-s32 get_entity_id(void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
-void vec3_cross(void *, void *, void *);
-f32 project_point_onto_line(void *, void *, void *);
-f32 xyz_distance(void *, void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody lbl_804DF4E0[7] = {
     {{0.0f, 0.0f, 0.0f}, 35.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -119,14 +120,6 @@ Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
     {2, 2, 44, 15},
 };
 
-TObjPlayer *get_player_by_client_id(u16 client);
-s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *arg0);
-void post_translate_matrix(Vec *pos);
-
-extern s32 game_difficulty_selection;
-f32 atan2_float(f64, f64);
-void request_follow_camera_offsets(void *, void *, int);
 const s8 lbl_805DE2C8[2] = { 0x12, 0x0A };
 const s8 lbl_805DE2CC[2] = { 0x12, -2 };
 static const s32 lbl_805DE2D4 = 24;
@@ -149,8 +142,6 @@ inline const s32 &main_anim_index() { return lbl_805DE3C8; }
 
 }
 
-void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
-
 
 
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
@@ -161,17 +152,6 @@ struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/TObjControl.h"
 
-extern "C" {
-
-
-struct W3_802B7530 { s32 x, y, z; };
-struct Line_802B7530 { Vec p; Vec d; };
-
-f32 vec3_dot(void *, void *);
-
-
-s32 submit_cursor_candidate(void *, int);
-}
 
 struct Tmp_802B93C4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
 
@@ -877,7 +857,7 @@ void TBoss6Type1::update_turn_to_center() {
   stack.z = temp_f1;
   if (!(vector_length(&stack) <= 0.00001f))
   {
-    var_r4 = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
+    var_r4 = (s32) (10430.38043493439 * atan2_float(stack.x, stack.z));
     if ((this->attack_mode) != 0)
     {
       var_r4 += 0x8000;
@@ -1016,7 +996,7 @@ void TBoss6Type1::enable_parts() {
     }
 }
 void TBoss6Type1::update_beam_attack() {
-    Line_802B7530 line;
+    Line_803E18C0 line;
     Vec v;
     Vec w;
     Vec out;
@@ -1045,17 +1025,17 @@ void TBoss6Type1::update_beam_attack() {
             v.y = 0.0f;
             VecCopy(&w, &node_points[9]);
             subtract_vector(&w, a);
-            line.p.x = a->x;
-            line.p.y = 0.0f;
-            line.p.z = a->z;
+            line.o.x = a->x;
+            line.o.y = 0.0f;
+            line.o.z = a->z;
             line.d.x = w.x;
             line.d.y = 0.0f;
             line.d.z = w.z;
             if (!(project_point_onto_line(&v, &line, &out) > 15.0f)) {
-                A.x = line.p.x;
-                A.y = line.p.z;
-                B.x = line.p.x + line.d.x;
-                B.z = line.p.z + line.d.z;
+                A.x = line.o.x;
+                A.y = line.o.z;
+                B.x = line.o.x + line.d.x;
+                B.z = line.o.z + line.d.z;
                 subtract_vector(&A, &out);
                 subtract_vector(&B, &out);
                 A.y = 0.0f;
@@ -1071,34 +1051,31 @@ void TBoss6Type1::update_beam_attack() {
         }
     }
     if (frame_counter & 1) return;
-    W3_802B7530 c = *(W3_802B7530 *)&node_points[9];
-    W3_802B7530 e;
-    Vec dlt;
+    Vec c = node_points[9];
     f32 dist;
-    *(f32 *)&c.y = 0.0f;
+    c.y = 0.0f;
     dist = xyz_distance(&c, &last_beam_point);
     if (!(dist < 50.0f)) {
         f32 r = dist / 50.0f;
+        Vec e = c;
+        Vec dlt;
         s32 cnt;
         f32 s;
         s32 j;
-        e.x = c.x;
-        e.y = c.y;
-        e.z = c.z;
         cnt = (s32)(1.0f + r);
         if (cnt > 4) cnt = 4;
         s = 1.0f / (f32)cnt;
-        VecCopy((Vec *)&dlt, (const Vec *)&last_beam_point);
-        subtract_vector(&dlt, (const Vec *)&c);
+        VecCopy(&dlt, &last_beam_point);
+        subtract_vector(&dlt, &c);
         dlt.x *= s;
         dlt.y *= s;
         dlt.z *= s;
         for (j = 0; j < cnt; j++) {
-            spawn_particle_effect_with_flags((const Vec *)&e, 0x212, 0x40);
-            spawn_particle_effect_with_flags((const Vec *)&e, 0x213, 0x40);
-            vec3_add_to((Vec *)&e, &dlt);
+            spawn_particle_effect_with_flags(&e, 0x212, 0x40);
+            spawn_particle_effect_with_flags(&e, 0x213, 0x40);
+            vec3_add_to(&e, &dlt);
         }
-        VecCopy((Vec *)&last_beam_point, (const Vec *)&c);
+        VecCopy(&last_beam_point, &c);
     }
     {
         play_sound_effect(0x4003B00A, &c, 0, 0);
@@ -1225,7 +1202,7 @@ void TBoss6Type1::sub_802B6C30() {
     f32 prev;
     f32 t;
     Vec pts[5];
-    Line_802B6C30 line;
+    Line_803E18C0 line;
     Vec A;
     Vec B;
     Vec mid;
@@ -1305,9 +1282,9 @@ void TBoss6Type1::sub_802B6C30() {
         d0.y = 0.0f;
         VecCopy(&d3, &pl->position);
         d3.y = 0.0f;
-        line.p.x = 0.5f * (A.x + B.x);
-        line.p.y = 0.0f;
-        line.p.z = 0.5f * (A.z + B.z);
+        line.o.x = 0.5f * (A.x + B.x);
+        line.o.y = 0.0f;
+        line.o.z = 0.5f * (A.z + B.z);
         line.d.x = -sin_table_lookup(rotation_y);
         line.d.y = 0.0f;
         line.d.z = -cos_table_lookup(rotation_y);
@@ -1559,7 +1536,7 @@ void TBoss6Type1::sub_802B626C() {
             height = 1.0f;
         }
         TObjPlayer *player = get_player_by_client_id(
-            TCameraCtrl::get_split_screen_view_index(TCameraCtrl::get_camera_mode()));
+            (u16)TCameraCtrl::get_split_screen_view_index(TCameraCtrl::get_camera_mode()));
         if (player != NULL) {
             Vec from;
             Vec to;
@@ -1575,7 +1552,7 @@ void TBoss6Type1::sub_802B626C() {
             }
         }
         push_matrix();
-        post_translate_matrix(&pos);
+        post_translate_matrix(&pos.x);
         rotate_matrix_y(0, yaw);
         rotate_matrix_x(0, pitch);
         rotate_matrix_z(0, 0);
@@ -1744,7 +1721,7 @@ void TBoss6Type1::sub_802B5CB4() {
         }
         break;
     default:
-        TBoss6Type1::request_jittered_camera((void *)((void *)((saddr) this)), NULL, NULL, 0xFFFF);
+        request_jittered_camera(NULL, NULL, 0xFFFF);
         break;
     }
 }
@@ -1802,7 +1779,7 @@ void TBoss6Type1::fire_at_all_players(f32 dy) {
                 }
             }
         }
-        TBoss6Type1::request_jittered_camera(this, &ofs, &out, get_entity_id(p));
+        request_jittered_camera(&ofs, &out, get_entity_id(p));
     }
 }
 
@@ -1821,30 +1798,29 @@ void TBoss6Type1::sub_802B59CC() {
         target.y += t * lbl_80470FD8.y;
         target.z += t * lbl_80470FD8.z;
     }
-    TBoss6Type1::request_jittered_camera(this, &eye, &target, 0xFFFF);
+    request_jittered_camera(&eye, &target, 0xFFFF);
 }
 
 void TBoss6Type1::sub_802B59A8() {
     fire_at_all_players(0.0f);
 }
 void TBoss6Type1::sub_802B5970() {
-    TBoss6Type1::request_jittered_camera((void *)this, (void *)&lbl_80470FE4, (void *)&lbl_80470FF0, 0xFFFF);
+    request_jittered_camera(&lbl_80470FE4, &lbl_80470FF0, 0xFFFF);
 }
 
 void TBoss6Type1::request_default_jittered_camera() {
-    saddr self = (saddr)this;
-    TBoss6Type1::request_jittered_camera((void *)self, (void *)&lbl_80470FFC, (void *)&lbl_80471008, 0xFFFF);
+    request_jittered_camera(&lbl_80470FFC, &lbl_80471008, 0xFFFF);
 }
-void TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3) {
+void TBoss6Type1::request_jittered_camera(const Vec *eye, const Vec *target, u16 client_id) {
     f32 dist;
     Vec off;
-    if (arg1 == NULL) {
-        arg1 = (void *)&TBoss6Type1__data_80470FB4;
+    if (eye == NULL) {
+        eye = &TBoss6Type1__data_80470FB4;
     }
-    if (arg2 == NULL) {
-        arg2 = (void *)&lbl_80470FC0;
+    if (target == NULL) {
+        target = &lbl_80470FC0;
     }
-    dist = 0.1f * xyz_distance(arg1, arg2);
+    dist = 0.1f * xyz_distance((Vec *)eye, (Vec *)target);
     if (dist < 4.0f) {
         dist = 4.0f;
     }
@@ -1852,9 +1828,9 @@ void TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, in
     off.y = dist * (0.000030517578f * (f32)rand() - 0.5f);
     off.z = dist * (0.000030517578f * (f32)rand() - 0.5f);
     {
-        Vec p = *(Vec *)arg1;
+        Vec p = *eye;
         vec3_add_to(&p, &off);
-        request_follow_camera_offsets(&p, arg2, arg3);
+        request_follow_camera_offsets(&p, (Vec *)target, client_id);
     }
 }
 
@@ -2195,7 +2171,7 @@ void TBoss6Type1::draw_model() {
     push_matrix();
     Vec pos = *&position;
     pos.y = pos.y + sway_offset;
-    post_translate_matrix(&pos);
+    post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, rotation_x);
     TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
