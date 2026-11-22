@@ -17,6 +17,9 @@ double pow(double x, double y);
 double sin(double x);
 double tan(double x);
 
+// MSL defines fabs inline, on the compiler's __fabs.
+inline double fabs(double x) { return __fabs(x); }
+
 float cosf(float x);
 float powf(float x, float y);
 float sinf(float x);
