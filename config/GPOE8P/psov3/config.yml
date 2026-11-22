@@ -1300,15 +1300,15 @@ force_active:
   - beast_idle_update__16TObjEneMerillLiaFv
   - TObjEneMorfosArm__name
   - __ct__13TObjEneMorfosFP7TObjectPv
-  - sub_80332DBC__13TObjEneMorfosFl
-  - sub_80332FD4__13TObjEneMorfosFl
-  - sub_80333690__13TObjEneMorfosFl
-  - sub_80333AD0__13TObjEneMorfosFl
-  - sub_80333E48__13TObjEneMorfosFl
-  - sub_80334030__13TObjEneMorfosFl
-  - sub_803342B8__13TObjEneMorfosFl
-  - sub_803344F0__13TObjEneMorfosFv
-  - sub_80334704__13TObjEneMorfosFv
+  - state_damage__13TObjEneMorfosFl
+  - state_attack__13TObjEneMorfosFl
+  - state_beam__13TObjEneMorfosFl
+  - state_walk__13TObjEneMorfosFl
+  - state_fade_out__13TObjEneMorfosFl
+  - state_hidden__13TObjEneMorfosFl
+  - state_fade_in__13TObjEneMorfosFl
+  - check_confused__13TObjEneMorfosFv
+  - load_params__13TObjEneMorfosFv
   - receive_physical_attack__13TObjEneMorfosFPvf
   - dispatch_action__13TObjEneMorfosFUll
   - __ct__22TObjEnePanarmsAtkColliFP7TObjectP3VecP3Vecl
@@ -8222,7 +8222,7 @@ force_active:
   - lbl_805430E8
   - lbl_805432A8
   - lbl_805434D0
-  - lbl_805434DC
+  - morfos_attack_params
   - lbl_80543978
   - lbl_805439E0
   - lbl_80543A18

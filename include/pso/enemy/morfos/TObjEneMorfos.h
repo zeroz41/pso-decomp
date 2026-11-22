@@ -57,31 +57,35 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     static BmlResource *get_instance();
     void draw_body();
     static void record_camera_path_point(NJS_OBJECT *);
-    void state_death(s32 arg1);
+    static void load_static_data();  // the floor table's loader, paired with unload_static_data
+    void state_death(s32 ev);
     void state_patrol(s32 ev);
     void state_appear(s32 ev);
     void handle_event_transition(s32 ev);
     void play_sound_in_band();
     void init_target_offsets();
     void set_hover_target_position();
-    s32 approach_value(s32 arg1, s32 arg2);
+    s32 approach_value(s32 goal, s32 max_step);
     s32 try_enter_low_hp_state();
     s32 check_low_hp_trigger();
     void init_instance();
     static void unload_static_data();
     void *create();
     static s32 snap_to_ground(s32 arg0, saddr arg1);
-    void sub_80332DBC(s32 ev);
-    void sub_80332FD4(s32 ev);
-    void sub_80333690(s32 ev);
-    void sub_80333AD0(s32 ev);
-    void sub_80333E48(s32 ev);
-    void sub_80334030(s32 ev);
-    void sub_803342B8(s32 ev);
-    s32 sub_803344F0();
-    void sub_80334704();
+    // The state handlers dispatch_action picks (names from the motions they request).
+    void state_damage(s32 ev);    // 10: damage_kabe_body
+    void state_attack(s32 ev);    // 5: attack_kabe_body, spawns the arm
+    void state_beam(s32 ev);      // 6: beam_kabe_body, fires TUnk_804EF130 shots
+    void state_walk(s32 ev);      // 4: turns toward the target and walks
+    void state_fade_out(s32 ev);  // 7: no target for 60 frames, fades out
+    void state_hidden(s32 ev);    // 2: hidden at home until a target comes in range
+    void state_fade_in(s32 ev);   // 1: fades the body and wall in
+    s32 check_confused();         // is_confused() as 0/1: holds the state transitions
+    void load_params();           // copies the param table's projectile speeds
+    Vec *get_arm_point();         // node_points[1]: where TObjEneMorfosArm sits
+    s32 get_rotation_y();
     void update_ground_probe();
-    static u8 check_value_in_range(void *arg0, u16 arg1, u16 arg2, u16 arg3);
+    static u8 check_value_in_range(void *, u16 start, u16 end, u16 value);
     s32 step;                 // state work variables
     s32 counter;
     s32 step_timer;
@@ -100,5 +104,19 @@ LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, body_fade) == 0x3EC);
 
 extern MorfosParams *TObjEneMorfos__param_table;
+
+// What TObjEneMorfos::load_static_data fetches from TLobby; reset_hp reads one entry of each.
+extern saddr morfos_base_params[1];        // register_boss(0x40)
+extern saddr morfos_attack_params[3];      // dispatch_shared_handler_b(morfos_attack_param_ids[i])
+extern saddr morfos_resistance_params[1];  // register_object(0x40)
+extern const s32 morfos_attack_param_ids[2];
+extern const s32 morfos_base_params_index[2];  // the entries reset_hp passes
+extern const s32 morfos_attack_params_index[2];
+extern const s32 morfos_resistance_params_index[2];
+// The body and wall polygon lists run_task scrolls by texture_scroll, once per actor_frame_tick.
+extern s16 *morfos_body_scroll_polygons;
+extern s16 *morfos_wall_scroll_polygons;
+extern s32 morfos_body_scroll_tick;
+extern s32 morfos_wall_scroll_tick;
 
 #endif

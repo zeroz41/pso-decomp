@@ -198,7 +198,6 @@ void load_boss5_gryphon_resources();
 void load_darkgunner_effect_resources();
 
 void load_shinowa_mirage_resources();
-void TObjEneMorfos__sub_803350AC();
 
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
     { load_ply_motion_npc_town, TObjNpcBase::free_static },
@@ -576,7 +575,7 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_28_29[14] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjEneDolmOlm::load_shared_resources, TObjEneDolmOlm::free_shared_resources },
-    { TObjEneMorfos__sub_803350AC, TObjEneMorfos::unload_static_data },
+    { TObjEneMorfos::load_static_data, TObjEneMorfos::unload_static_data },
     { TObjEneRecobox::load_resources, TObjEneRecobox::release_static_instance },
     { TObjEneMe3SinowZoa::load_resources, TObjEneMe3SinowZoa::free_resources },
     { TObjEneDelDepth::load_assets, TObjEneDelDepth::free_shared_data },
