@@ -80,7 +80,7 @@ void *init_char_data__23TAdSinglePlyChrSelectGCFPv(void *p);
 u8 *init_char_record__23TAdSinglePlyChrSelectGCFv(u8 *arg0);
 void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void);
 s32 init_char_slots__23TAdSinglePlyChrSelectGCFi(s32 arg0);
-s32 init_fresh_character_card(void);
+void init_fresh_character_card(void);
 void init_fresh_character_slot(s32 arg0);
 void init_timestamped_data(void);
 s32 init_windows__23TAdSinglePlyChrSelectGCFi(s32 arg0);
