@@ -4,6 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -170,20 +171,20 @@ TObjGyaranzoMissile::~TObjGyaranzoMissile() {
 #pragma push
 #pragma fp_contract on
 #define gyaranzo_missile ((u8 *)this)
-TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCollidable((TObject *)tl_04) {
+TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissileLaunch *launch, u16 target) : TObjCollidable((TObject *)tl_04) {
     u8 *temp_r4;
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (saddr) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
-    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, *(const Vec **)arg2);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x = (s32) *(s32 *)((s8 *)arg2 + 4);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y = (s32) *(s32 *)((s8 *)arg2 + 8);
+    VecCopy(&position, launch->position);
+    target_id = target;
+    rotation_x = launch->rotation_x;
+    rotation_y = launch->rotation_y;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_phase = (s32) (182.04445f * (3.6e+02f * (3.0517578e-05f * (f32) rand())));
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_speed = (s32) (*(f32 *)((s8 *)arg2 + 0xC) * (0.5f * ((3.0517578e-05f * (f32) rand()) + 1.0f)));
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_height = (f32) *(f32 *)((s8 *)arg2 + 0x10);
-    *(s16 *)((s8 *)gyaranzo_missile + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->owner_id = get_entity_id(arg1);
+    wobble_speed = (s32) (launch->wobble_speed * (0.5f * ((3.0517578e-05f * (f32) rand()) + 1.0f)));
+    wobble_height = launch->wobble_height;
+    room = owner->room;
+    owner_id = get_entity_id(owner);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.x = 0.0f;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.y = 0.0f;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.z = (f32) TObjGyaranzoMissile__speed_scale;

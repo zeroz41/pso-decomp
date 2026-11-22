@@ -5,8 +5,20 @@
 #include <dolphin/mtx.h>
 #include "pso/object/base/TObjMotion.h"
 
+struct TObjEneGyaranzo;
+
+// How TObjEneGyaranzo::spawn_missile_volley launches one missile.
+struct GyaranzoMissileLaunch {
+    Vec *position;
+    s32 rotation_x;
+    s32 rotation_y;
+    f32 wobble_speed;   // scaled by 0.5-1.0 at random
+    f32 wobble_height;
+    f32 pad_14;
+};
+
 struct TObjGyaranzoMissile : public TObjCollidable {
-    TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3);
+    TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissileLaunch *launch, u16 target);
     virtual ~TObjGyaranzoMissile();
     virtual void run_task();
     virtual void render();

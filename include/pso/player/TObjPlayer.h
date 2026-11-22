@@ -279,8 +279,6 @@ struct TObjPlayer : public TObjChara {
     static void step_cutscene_frame(NJS_OBJECT *);
     void enter_state_8();
     void tick_freeze_state();
-    void update_death_breakup();
-    void dispatch_state_update();
     static void create_render_texture();
     // The photon blast gauge's charge, 0-100.
     s32 get_photon_blast_charge();
@@ -1171,7 +1169,6 @@ struct TObjPlayer : public TObjChara {
     static void advance_render_counters();
     static void draw_effect();
     void draw_trail_pair();
-    void update_aim_and_fire();
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
