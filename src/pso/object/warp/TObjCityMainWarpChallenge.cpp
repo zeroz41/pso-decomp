@@ -40,6 +40,8 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/NinjaUtil.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -47,13 +49,11 @@ static const char lbl_80444A58[] = "<- KEY ID : %d";
 void initialize_option_dialog(void *dialog, saddr message, s32 position, f32 width);
 
 extern "C" {
-f32 xz_distance_squared(void *, void *);
 s32 is_local_client_floor_leader(s32);
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 extern s32 city_main_warp_destination_id;
 s32 post_translate_matrix(void *);
-extern saddr camera_ctrl_instance;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = lbl_805D32B8;
@@ -120,7 +120,7 @@ void TObjCityMainWarpChallenge::run_task() {
 
 void TObjCityMainWarpChallenge::render() {
     if (dest_floor == 0xE) {
-        if (xz_distance_squared((void *)(camera_ctrl_instance + 0x178), (u8 *)&this->position) > 160000.0f) {
+        if (xz_distance_squared(&camera_ctrl_instance->pos, &this->position) > 160000.0f) {
             return;
         }
         goto block_4;

@@ -22,6 +22,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern const char *fe_obj_baiku_model_names[3];
 extern BmlResourceDescriptor motorcycle_resource_descriptor;
@@ -46,11 +47,10 @@ __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL }
 const char *motorcycle_class_name = "TMotorcycle";
 
 
-extern saddr camera_ctrl_instance;
 
 // The override of TObjBase::update_object_view_visibility (vtable slot +0x28): visible inside `radius` of the camera.
 s32 TMotorcycle::update_object_view_visibility(f32 depth, f32 radius) {
-    if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), &position) < (radius * radius)) {
+    if (xz_distance_squared(&camera_ctrl_instance->pos, &position) < (radius * radius)) {
         return 1;
     }
     return TObjBase::update_object_view_visibility(depth, radius);
