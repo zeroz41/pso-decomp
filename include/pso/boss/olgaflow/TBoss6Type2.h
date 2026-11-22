@@ -93,9 +93,9 @@ struct TBoss6Type2 : public TObjEnemy
     BmlResource *archive;  // TBoss6PlotFalz::get_scene_archive
     TBoss6Type2Model body_models[2];
     TBoss6Mag *mags[2];
-    s32 possessing;  // set when the possession (TBoss6EffHyoui) state ends; name inferred
+    s32 berserk;  // CHG_TO_BSK sets it when its timer runs out, CHG_TO_CMN clears it
     f32 state_progress;  // 1 - state_timer / state_duration
-    u32 m_420;
+    u32 berserk_wait_count;  // B_WAIT / B_BJ_WAIT entries since CHG_TO_BSK
     u32 low_hp;  // set once hp_ratio drops below 1/3 (trigger_screen_pos)
     u32 target_mode;   // OlgaFlowType2ActionMsg::target_mode
     u32 variant;       // boss6_type2_variant_id_table; set_target_state's second value
@@ -107,12 +107,12 @@ struct TBoss6Type2 : public TObjEnemy
     TBoss6Zanzo *trail_effect;
     saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
-    u16 possess_target;  // client the flow soul and TBoss6EffHyoui go to; grab_player's id
+    u16 possess_target;  // CHG_TO_BSK's flow soul and TBoss6EffHyoui go to it; grab_player's id
     u16 target_client;   // pick_target_client; pick_walk_target walks to it
     u16 first_action_client;   // mags[0]'s (OlgaFlowType2ActionMsg)
     u16 second_action_client;  // mags[1]'s
-    u32 m_46c;
-    s32 m_470;
+    u32 last_walk_def;  // 1 after a WALK_DEF* state, 0 after WALK_CMN*: the walks alternate
+    s32 iai_count;      // IAI_* entries since the last BKJUMP (should_back_jump at 3)
     u32 action_flags;  // the action row's flags (update_parts_flags)
     u8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
     u8 unk_479[0x3];
@@ -124,18 +124,18 @@ struct TBoss6Type2 : public TObjEnemy
     s32 rock_damage;            // base damage of a rock pushed into a player, name inferred
     s32 possessed_damage;       // what a hit on the boss does to the possessed player, name inferred
     s32 dpb_damage_threshold;   // should_use_dpb: damage_total at which the DPB state is used
-    s32 m_4c0;
-    s32 release_damage;         // is_phase_complete: damage since latched_hp that ends the possession
-    s32 m_4c8;
-    s32 m_4cc;
-    s32 m_4d0;
-    s32 m_4d4;
+    s32 berserk_damage;         // damage since latched_hp that sends the boss berserk
+    s32 release_damage;         // is_phase_complete: damage since latched_hp that ends berserk
+    s32 kamae_duration;         // KAMAE's state_timer
+    s32 iai_x2_percent;         // choose_random_motion's chance of the x2 IAI rows
+    s32 iai_x3_percent;         // and of the x3 rows
+    s32 bj_wait_duration;       // B_BJ_WAIT's state_timer
     f32 base_walk_speed;        // set_screen_pos's walk and turn motion speeds
     f32 base_turn_speed;
     f32 low_hp_walk_speed;
     f32 low_hp_turn_speed;
-    f32 possessing_damage_scale;  // scales rock_damage while possessing
-    s32 m_4ec;
+    f32 berserk_damage_scale;  // scales rock_damage while berserk
+    s32 info_stat_duration;     // INFO_STAT's state_timer
     s32 latched_hp;    // copy_anim_state stores hp; calc_field4f0_delta returns the damage since
     s32 damage_total;  // add_damage sums it (doubled in some states)
     u32 prev_hp;       // last update's hp
@@ -150,7 +150,7 @@ struct TBoss6Type2 : public TObjEnemy
     Vec lower_contact_delta;
     Vec previous_lower_contact;
     TBoss6Type2Joint aim_joints[2];  // one per body model
-    s32 m_554[2];
+    s32 foot_grounded[2];  // update_footstep_effects: set when a foot comes down (footstep sound), cleared when it lifts
     u16 possessed_client;  // grab_player's player; 0xFFFF when none
     u8 unk_55E[0x2];
     s32 m_560;
@@ -288,7 +288,7 @@ struct TBoss6Type2 : public TObjEnemy
     void apply_rock_hits_to_players();
     void get_phase_values(u16 *a, u16 *b, u16 *out);
     void send_state_action_packet();
-    void send_action_packet(s8 arg1);
+    void send_action_packet(s32 action);  // callers pass full words (choose_random_motion, next_motion)
     void build_state_packet(OlgaFlowType2ActionMsg *message);
     void update_charge_timer();
     void init_attack_timers();

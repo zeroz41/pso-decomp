@@ -276,22 +276,22 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     for (i = 0; i < 32; i++) {
         action_history[i] = 0;
     }
-    possessing = 0;
+    berserk = 0;
     state_progress = 0.0f;
-    m_420 = 0;
+    berserk_wait_count = 0;
     low_hp = 0;
     possess_target = 0xFFFF;
     target_client = pick_target_client();
     first_action_client = 0xFFFF;
     second_action_client = 0xFFFF;
-    m_46c = -1;
-    m_470 = 0;
+    last_walk_def = -1;
+    iai_count = 0;
     load_battle_params();
     set_screen_pos();
     copy_anim_state();
     reset_attack_counter();
     reset_indices();
-    *(f32 *)((s8 *)this + 0x4FC) = 0.0f;
+    hit_flash = 0.0f;
     hp_ratio = 1.0f;
     turn_sound_played = 0;
     create_mags(0.0f);
@@ -372,12 +372,12 @@ void TBoss6Type2::parse_action_packet(void *packet) {
     this->mags[1]->set_action_field_0x408(this->second_action_client);
 }
 
-void TBoss6Type2::send_action_packet(s8 arg1) {
+void TBoss6Type2::send_action_packet(s32 action) {
     OlgaFlowType2ActionMsg message;
-    if (reinterpret_cast<TBoss6PlotFalz *>(plot_falz)->is_idle() != 0) {
+    if (plot_falz->is_idle() != 0) {
         message.initialize();
         build_state_packet(&message);
-        message.flow.action = arg1;
+        message.flow.action = action;
         message.send();
     }
 }
@@ -404,7 +404,7 @@ void TBoss6Type2::update_action_state() {
 
     pick_walk_target((u8 *)&sp8);
     var_r4 = 4;
-    if ((s32) this->m_46c == 0) {
+    if ((s32) this->last_walk_def == 0) {
         var_r4 = 5;
     }
     send_action_packet_if_idle(var_r4, &sp8);
@@ -415,12 +415,12 @@ void TBoss6Type2::send_state_action_packet() {
     s32 var_r31;
     if ((s32) this->low_hp != 0) {
         var_r31 = 7;
-        if ((s32) this->m_46c == 0) {
+        if ((s32) this->last_walk_def == 0) {
             var_r31 = 0xA;
         }
     } else {
         var_r31 = 8;
-        if ((s32) this->m_46c == 0) {
+        if ((s32) this->last_walk_def == 0) {
             var_r31 = 0xB;
         }
     }
@@ -615,14 +615,14 @@ s32 TBoss6Type2::count_matching_values(s32 arg1, s32 arg2) {
 
 void TBoss6Type2::run_hit_reaction() {
     actorFlags = (s32) (actorFlags & 0xFFFFFDFF);
-    *(f32 *)((s8 *)this + 0x4FC) = 1.0f;
+    hit_flash = 1.0f;
     {
         int diff = prev_hp - hp;
         if (diff > 0) {
             add_damage(diff);
         }
     }
-    if ((s32) possessing != 0) {
+    if ((s32) berserk != 0) {
         ((s32 (*)(int, void *, int, int))play_sound_effect)(0x68A24, &position, 0, 1);
     }
 }
@@ -635,7 +635,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     s32 var_r29;
 
     var_r31 = 1;
-    if (((s32) possessing != 0) && (att != 0)) {
+    if (((s32) berserk != 0) && (att != 0)) {
         var_r30 = 0;
         var_r29 = 0;
         do {
@@ -668,7 +668,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
 }
 
 f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, void *collision, s32 tech, s32 flags) {
-    while ((s32)possessing != 0) {
+    while ((s32)berserk != 0) {
         if (msg.kind == 0x14) {
             break;
         }
@@ -694,7 +694,7 @@ void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
     }
 }
 
-s32 TBoss6Type2::get_rotation_timer() { return this->possessing; }
+s32 TBoss6Type2::get_rotation_timer() { return this->berserk; }
 
 void TBoss6Type2::sub_802BD378(s32 index, Vec *pos, s32 *rotation) {
     VecCopy(pos, &node_positions[index + 0xE]);
@@ -702,7 +702,7 @@ void TBoss6Type2::sub_802BD378(s32 index, Vec *pos, s32 *rotation) {
 }
 
 void TBoss6Type2::apply_damage(s32 diff) {
-    if ((diff > 0) && ((s32) this->possessing == 0)) {
+    if ((diff > 0) && ((s32) this->berserk == 0)) {
         add_damage(diff);
     }
 }
@@ -725,7 +725,6 @@ void TBoss6Type2::copy_pos_620(saddr arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type2::run_task() {
-    u8 *self = (u8 *)this;
     TBoss6Type2BattleHandler handler;
     update_lower_contact_delta();
     handler = boss6_type2_battle_actions[action_state].update;
@@ -742,21 +741,21 @@ void TBoss6Type2::run_task() {
     advance_position();
     this->sub_802BBE20();
     update_parts_flags();
-    ((TObjPlayer *)self)->update_collisions();
-    submit_cursor_candidate(self, -1);
+    ((TObjPlayer *)this)->update_collisions();
+    submit_cursor_candidate(this, -1);
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 4.0f);
-    ((TBoss6Type2 *)self)->apply_rock_hits_to_players();
-    ((TBoss6Type2 *)self)->sub_802BB498();
-    ((TBoss6Type2 *)self)->sub_802BC124();
-    ((TBoss6Type2 *)self)->scroll_strips.scroll_strips_uv(8, 0);
+    apply_rock_hits_to_players();
+    sub_802BB498();
+    sub_802BC124();
+    scroll_strips.scroll_strips_uv(8, 0);
     TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(u8 **)((s8 *)(find_model_node((uaddr)get_bml_model(archive, 1), 1)) + 4)) + 4)), 8, 0, 0);
-    ((TBoss6Type2 *)self)->sub_802BB554();
+    sub_802BB554();
     copy_vec_array();
-    if ((s32) this->possessing != 0) {
-        play_persistent_sound(0x4006B00C, (saddr)self, (uaddr)(self + 0x38), 0, 0);
+    if ((s32) this->berserk != 0) {
+        play_persistent_sound(0x4006B00C, (saddr)this, (uaddr)&position, 0, 0);
     }
     update_countdown();
-    ((TBoss6Type2 *)self)->update_possess_target();
+    update_possess_target();
     update_footstep_effects();
     sub_802BA7BC();
     update_part_positions();
@@ -948,32 +947,32 @@ void TBoss6Type2::load_battle_params() {
     if ((f32)possessed_damage <= 0.0f) {
         possessed_damage = TBoss6Type2__default_battle_parameters.int_params[1];
     }
-    m_4d4 = (s32)rec->floats[5];
-    if ((f32)m_4d4 <= 0.0f) {
-        m_4d4 = TBoss6Type2__default_battle_parameters.int_params[8];
+    bj_wait_duration = (s32)rec->floats[5];
+    if ((f32)bj_wait_duration <= 0.0f) {
+        bj_wait_duration = TBoss6Type2__default_battle_parameters.int_params[8];
     }
     dpb_damage_threshold = rec->ints[0];
     if (dpb_damage_threshold <= 0) {
         dpb_damage_threshold = TBoss6Type2__default_battle_parameters.int_params[2];
     }
-    m_4c0 = rec->ints[1];
-    if (m_4c0 <= 0) {
-        m_4c0 = TBoss6Type2__default_battle_parameters.int_params[3];
+    berserk_damage = rec->ints[1];
+    if (berserk_damage <= 0) {
+        berserk_damage = TBoss6Type2__default_battle_parameters.int_params[3];
     }
     release_damage = rec->ints[2];
     if (release_damage <= 0) {
         release_damage = TBoss6Type2__default_battle_parameters.int_params[4];
     }
-    m_4c8 = rec->ints[3];
-    if (m_4c8 <= 0) {
-        m_4c8 = TBoss6Type2__default_battle_parameters.int_params[5];
+    kamae_duration = rec->ints[3];
+    if (kamae_duration <= 0) {
+        kamae_duration = TBoss6Type2__default_battle_parameters.int_params[5];
     }
-    m_4cc = rec->ints[4];
-    m_4d0 = rec->ints[5];
-    first = m_4cc;
-    if ((first < 0) || (first > 100) || ((second = m_4d0) < 0) || (second > 100) || (first + second > 100)) {
-        m_4cc = TBoss6Type2__default_battle_parameters.int_params[6];
-        m_4d0 = TBoss6Type2__default_battle_parameters.int_params[7];
+    iai_x2_percent = rec->ints[4];
+    iai_x3_percent = rec->ints[5];
+    first = iai_x2_percent;
+    if ((first < 0) || (first > 100) || ((second = iai_x3_percent) < 0) || (second > 100) || (first + second > 100)) {
+        iai_x2_percent = TBoss6Type2__default_battle_parameters.int_params[6];
+        iai_x3_percent = TBoss6Type2__default_battle_parameters.int_params[7];
     }
     rec = (const TBoss6Type2ParamRecord *)TLobby::dispatch_shared_handler_a(0x2F);
     base_walk_speed = rec->floats[0];
@@ -984,13 +983,13 @@ void TBoss6Type2::load_battle_params() {
     if (base_turn_speed <= 0.0f) {
         base_turn_speed = TBoss6Type2__default_battle_parameters.float_params[1];
     }
-    possessing_damage_scale = rec->floats[2];
-    if (possessing_damage_scale <= 0.0f) {
-        possessing_damage_scale = TBoss6Type2__default_battle_parameters.float_params[4];
+    berserk_damage_scale = rec->floats[2];
+    if (berserk_damage_scale <= 0.0f) {
+        berserk_damage_scale = TBoss6Type2__default_battle_parameters.float_params[4];
     }
-    m_4ec = (s32)rec->floats[3];
-    if ((f32)m_4ec <= 0.0f) {
-        m_4ec = TBoss6Type2__default_battle_parameters.last_param;
+    info_stat_duration = (s32)rec->floats[3];
+    if ((f32)info_stat_duration <= 0.0f) {
+        info_stat_duration = TBoss6Type2__default_battle_parameters.last_param;
     }
     rec = (const TBoss6Type2ParamRecord *)TLobby::dispatch_shared_handler_a(0x2E);
     low_hp_walk_speed = rec->floats[2];
@@ -1095,7 +1094,7 @@ void TBoss6Type2::update_countdown() {
         if (switch_timer < -0x12C) {
             switch_timer = -0x12C;
         }
-        if (((s32)possessing != 0) && (switch_timer == -0x12C)) {
+        if (((s32)berserk != 0) && (switch_timer == -0x12C)) {
             player = (TObjPlayer *)get_player_by_client_id(possessed_client);
             if ((TBoss6PlotFalz::is_active(player) != 0) && (player->mode == 1)) {
                 start_countdown_sound_state();
@@ -1148,7 +1147,7 @@ void TBoss6Type2::update_attack_switch() {
 }
 
 s32 TBoss6Type2::is_target_valid() {
-    if ((s32) this->possessing == 0) {
+    if ((s32) this->berserk == 0) {
         return 0;
     }
     if (possessed_client == 0xFFFF) {
@@ -1168,7 +1167,7 @@ s32 TBoss6Type2::choose_random_motion() {
 
     m = choose_turn_motion();
     r = (1.0f / 32768.0f) * (f32)rand();
-    if (possessing == 0) {
+    if (berserk == 0) {
         if (r < 0.2f) {
             return 0x11;
         }
@@ -1178,8 +1177,8 @@ s32 TBoss6Type2::choose_random_motion() {
         m = 0x11;
     }
     r = (1.0f / 32768.0f) * (f32)rand();
-    a = (f32)m_4d0 / 100.0f;
-    b = (f32)m_4cc / 100.0f + a;
+    a = (f32)iai_x3_percent / 100.0f;
+    b = (f32)iai_x2_percent / 100.0f + a;
     if (r <= a) {
         m += 6;
     } else if (r <= b) {
@@ -1271,15 +1270,14 @@ void TBoss6Type2::update_segments() {
 }
 
 void TBoss6Type2::copy_vec_array() {
-    u8 *self = (u8 *)this;
     Vec *src;
     Vec *end;
     Vec *dst;
-    src = (Vec *)(self + 0x59C);
-    dst = (Vec *)(self + 0x680);
-    end = (Vec *)((u8 *)src + 0xE4);
+    src = node_positions;
+    dst = prev_node_positions;
+    end = src + 19;
     for (; src < end; src++, dst++) {
-        VecCopy((Vec *)dst, (const Vec *)src);
+        VecCopy(dst, src);
     }
 }
 
@@ -1412,8 +1410,8 @@ void TBoss6Type2::apply_rock_hits_to_players() {
                         p = (TObjChara *)get_player_by_client_id(j);
                         if (TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0) {
                             v = this->rock_damage;
-                            if (this->possessing != 0) {
-                                v = (s32)((f32)v * this->possessing_damage_scale);
+                            if (this->berserk != 0) {
+                                v = (s32)((f32)v * this->berserk_damage_scale);
                             }
                             s32 rr = TBoss6PlotFalz::rand_vary_count(v, 0.1f);
                             a.kind = 0;
@@ -1525,7 +1523,7 @@ u16 TBoss6Type2::pick_target_client() {
     if (count < 1) {
         return id;
     }
-    if ((s32)possessing == 0) {
+    if ((s32)berserk == 0) {
         for (i = 0; i < count; i++) {
             id = TBoss6PlotFalz__sub_802AAE48(i);
             if (TBoss6Type2::is_player_in_rock_area(id) == 0) {
@@ -1557,7 +1555,7 @@ void TBoss6Type2::pick_action_clients(u16 *first, u16 *second) {
     if (count < 1) {
         return;
     }
-    if ((s32)possessing == 0) {
+    if ((s32)berserk == 0) {
         u16 id0 = TBoss6PlotFalz__sub_802AAE48(0);
         u16 id1 = TBoss6PlotFalz__sub_802AAE48(1);
         if (random_factor & 1) {
@@ -1849,7 +1847,7 @@ s32 TBoss6Type2::turn_toward_target_position() {
     }
     if (temp_f1 > 25.0f) {
         var_r31 = 0x1B4;
-        if ((s32) possessing != 0) {
+        if ((s32) berserk != 0) {
             var_r31 = 0x369;
         }
         temp_r30 = (s32)rotation_y;
@@ -1874,7 +1872,7 @@ void TBoss6Type2::trigger_screen_pos() {
 }
 
 s32 TBoss6Type2::should_back_jump() {
-    if (m_470 >= 3) {
+    if (iai_count >= 3) {
         return 1;
     }
     return TBoss6PlotFalz__sub_802AB684(&position) >= 350.0f;
@@ -1896,13 +1894,13 @@ s32 TBoss6Type2::should_use_dpb() {
 }
 
 s32 TBoss6Type2::is_phase_complete() {
-    if ((s32) this->possessing == 0) {
+    if ((s32) this->berserk == 0) {
         return 0;
     }
     if (calc_field4f0_delta() >= release_damage) {
         return 1;
     }
-    if ((TBoss6PlotFalz::get_phase() == 0) && ((s32) this->m_420 >= 8)) {
+    if ((TBoss6PlotFalz::get_phase() == 0) && ((s32) this->berserk_wait_count >= 8)) {
         return 1;
     }
     return 0;
@@ -1910,14 +1908,14 @@ s32 TBoss6Type2::is_phase_complete() {
 
 s32 TBoss6Type2::is_ready_to_attack() {
     s32 temp;
-    if ((s32) this->possessing != 0) {
+    if ((s32) this->berserk != 0) {
         return 0;
     }
     if (is_normal_difficulty() != 0) {
         return 0;
     }
     temp = calc_field4f0_delta();
-    return *(s32 *)((s8 *)this + 0x4C0) <= temp ? 1 : 0;
+    return berserk_damage <= temp ? 1 : 0;
 }
 
 void TBoss6Type2::sub_802BA7BC() {
@@ -1999,7 +1997,7 @@ void TBoss6Type2::cache_fish_params() {
 }
 
 void TBoss6Type2::reset_counters() {
-    if ((u16) *(u16 *)((s8 *)this + 0x55C) != 0xFFFF) {
+    if ((u16) possessed_client != 0xFFFF) {
         restore_target_player_state();
     }
     reset_fish_fields();
@@ -2014,7 +2012,7 @@ void TBoss6Type2::update_possess_target() {
     u8 *pl;
     s32 done;
     u16 id;
-    id = *(u16 *)((s8 *)((u8 *)this) + 0x55C);
+    id = possessed_client;
     if (id != 0xFFFF) {
         done = 0;
         pl = (u8 *)get_player_by_client_id(id);
@@ -2024,7 +2022,7 @@ void TBoss6Type2::update_possess_target() {
             VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
             v.y += 10.0f;
             spawn_flow_soul(this, &v, 0x1E);
-            TBoss6EffHyoui::create(*reinterpret_cast<u16 *>((u8 *)this + 0x55C), 1, 0x1E);
+            TBoss6EffHyoui::create(possessed_client, 1, 0x1E);
             if (this->is_target_valid() == 0) {
                 play_sound_effect(0x40069E13, ((u8 *)this) + 0x38, 0, 1);
             }
@@ -2052,7 +2050,7 @@ s32 TBoss6Type2::check_target() {
     if (this->possess_target == 0xFFFF) {
         return 0;
     }
-    if (*(u16 *)((s8 *)this + 0x55C) != 0xFFFF) {
+    if (possessed_client != 0xFFFF) {
         restore_target_player_state();
     }
     if (grab_player__11TBoss6Type2FPvUs((u8 *)this, this->possess_target) == 0) {
@@ -2096,7 +2094,7 @@ void TBoss6Type2::copy_vec2(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((cha
 
 void TBoss6Type2::restore_target_player_state() {
     u8 *player;
-    u32 id = *(u16 *)((s8 *)((u8 *)this) + 0x55C);
+    u32 id = possessed_client;
     if (id != 0xFFFF) {
         player = (u8 *)get_player_by_client_id(id);
         if (player == NULL) {
@@ -2189,7 +2187,7 @@ void TBoss6Type2::restore_effect_values() {
     }
 }
 
-void TBoss6Type2::set_fields_554() { *(s32*)((char*)this + 0x554) = 1; *(s32*)((char*)this + 0x558) = 1; }
+void TBoss6Type2::set_fields_554() { foot_grounded[0] = 1; foot_grounded[1] = 1; }
 
 #pragma push
 #pragma opt_common_subs off
@@ -2224,7 +2222,7 @@ void TBoss6Type2::update_footstep_effects() {
         *((s32 *) (((s8 *) (((u8 *) self) + temp_r4)) + 0)) = 1;
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4006A300, (uaddr) temp_r29, 0, 0);
         spawn_particle_effect_with_flags((const Vec *)temp_r29, 0x220, 0x40);
-        if (((s32)this->possessing) == 0)
+        if (((s32)this->berserk) == 0)
         {
           spawn_particle_effect((const Vec *)temp_r29, 0x222);
         }
