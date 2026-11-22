@@ -429,7 +429,7 @@ void TObjEneDubchik::run_task() {
     target = (u8 *)find_active_entity_by_id(targetId);
     release_destroyed_target();
     sub_800AA10C();
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             run_synced_state_handler();

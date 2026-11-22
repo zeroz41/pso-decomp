@@ -247,7 +247,7 @@ void TBoss3VoloptMonitor::run_task() {
     } else if (test_flag30_512() != 0) {
         run_hit_reaction();
     }
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             dispatch_state();

@@ -17,7 +17,7 @@ void TObjEneNanoDrago::sub_800D9BBC() {
         project_actor_to_ground(self, (u8 *)&this->position, 0);
         return;
     }
-    if ((s32) this->next_action == 7) {
+    if (this->next_action == 7) {
         this->m_388 = (s32) (temp_r4 & 0xFFFFFFFE);
         ((TObjEnemyCustom *)self)->update_if_active(0);
     }

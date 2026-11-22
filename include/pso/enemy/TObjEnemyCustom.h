@@ -42,7 +42,7 @@ struct TObjEnemyCustom : public TObjEnemy {
     virtual void refresh_target();
     virtual void render();
     virtual void run_task();
-    u32 next_action;
+    s32 next_action;
     u32 m_378;
     u32 state;
     u32 m_380;

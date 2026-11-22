@@ -65,7 +65,7 @@ void TObjEnemyCustom::run_task() {
         run_demo_task();
         return;
     }
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             dispatch_state();

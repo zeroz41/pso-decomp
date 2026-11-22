@@ -376,7 +376,7 @@ void TBoss3VoloptP02::run_task() {
                 obj_clearFlags30(0x4000);
             }
         } else {
-            if (mode != (s32)next_action) {
+            if (mode != next_action) {
                 previous = state;
                 if (previous != -1) {
                     saved_state = previous;

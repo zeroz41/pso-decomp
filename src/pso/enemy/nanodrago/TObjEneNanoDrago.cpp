@@ -268,7 +268,7 @@ void TObjEneNanoDrago::run_task() {
     target = (u8 *)find_active_entity_by_id(targetId);
     release_destroyed_target();
     update_proximity_state();
-    if ((s16) mode != (s32) next_action) {
+    if ((s16) mode != next_action) {
         if ((s32) state != -1) {
             state = -1;
             dispatch_action_state();
@@ -790,7 +790,7 @@ void TObjEneNanoDrago::update_flight_state() {
         apply_actor_gravity(this, 0, 0.0f);
         break;
     case -1:
-        if ((s32)next_action != 4 && (s32)next_action != 5) {
+        if (next_action != 4 && next_action != 5) {
             flightHeight = 0.0f;
         }
         bodies[1].flags &= ~1;

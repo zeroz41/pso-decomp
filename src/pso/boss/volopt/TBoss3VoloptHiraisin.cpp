@@ -290,7 +290,7 @@ void TBoss3VoloptHiraisin::run_task() {
                 run_hit_reaction();
             }
         }
-        if (mode != (s32)next_action) {
+        if (mode != next_action) {
             if ((s32)state != -1) {
                 state = -1;
                 dispatch_state();

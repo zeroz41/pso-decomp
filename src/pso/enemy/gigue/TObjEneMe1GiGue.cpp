@@ -283,7 +283,7 @@ void TObjEneMe1GiGue::run_task() {
     target = (u8 *)find_active_entity_by_id(targetId);
     release_destroyed_target();
     sub_802CB6D4();
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             dispatch_state();
@@ -926,7 +926,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         apply_actor_gravity(this, 0, 0.0f);
         break;
     case -1:
-        if ((s32)this->next_action != 4 && (s32)this->next_action != 5) {
+        if (this->next_action != 4 && this->next_action != 5) {
             this->m_3ec = 0.0f;
         }
         this->bodies[1].flags &= ~1;
@@ -1280,7 +1280,7 @@ void TObjEneMe1GiGue::sub_802CACD8() {
         project_actor_to_ground(this, &position, 0);
         return;
     }
-    if ((s32)next_action == 7) {
+    if (next_action == 7) {
         m_388 = flags & ~1;
         update_if_active(0);
     }

@@ -176,7 +176,7 @@ void TObjEneBalClawBody::run_task() {
     } else {
         sub_8008FC10();
     }
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             sub_8008FF50();

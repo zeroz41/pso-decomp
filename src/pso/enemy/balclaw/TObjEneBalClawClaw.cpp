@@ -160,7 +160,7 @@ void TObjEneBalClawClaw::run_task() {
     } else {
         update_attack_distance_state();
     }
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             update_state();

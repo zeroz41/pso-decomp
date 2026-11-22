@@ -214,7 +214,7 @@ void TBoss3VoloptP01::run_task() {
             obj_clearFlags30(0x4000);
         }
     } else {
-        if (mode != (s32)next_action) {
+        if (mode != next_action) {
             if ((s32)state != -1) {
                 state = -1;
                 dispatch_state();

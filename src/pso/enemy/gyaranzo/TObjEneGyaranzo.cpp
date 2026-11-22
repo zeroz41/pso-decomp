@@ -626,7 +626,7 @@ void TObjEneGyaranzo::run_task() {
     if (temp_r3 >= 0) {
         this->m_3b8 = (temp_r3 - 1);
     }
-    if ((s16) this->mode != (s32) this->next_action) {
+    if ((s16) this->mode != this->next_action) {
         if ((s32) this->state != -1) {
             this->state = -1;
             ((TObjPlayer *)((u8 *)this))->dispatch_state_update();
@@ -1353,7 +1353,7 @@ s32 TObjEneGyaranzo::update_movement_status() {
 }
 
 void TObjEneGyaranzo::clear_flag_and_update() {
-    if ((s32)next_action == 7) {
+    if (next_action == 7) {
         m_388 &= ~1;
         update_if_active(0);
     }
