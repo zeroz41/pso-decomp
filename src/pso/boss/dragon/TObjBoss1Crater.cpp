@@ -14,6 +14,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -26,18 +27,18 @@
 extern "C" {
 }
 u8 *load_gvm_texture_file(saddr name);
-saddr lbl_805D4B50;
+BmlResource *dragon_ground_resource;
 s32 dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void);
 void load_dragon_ground_assets(void) {
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        lbl_805D4B50 = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)&dragon_ground_resource_descriptor);
+        dragon_ground_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&dragon_ground_resource_descriptor);
         dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = (saddr)load_enemy_bml_resource_named((BmlResourceDescriptor *)&dragon_ground_resource_descriptor, (const char *)dragon_common_alternate_bml_filename);
+        dragon_ground_resource = load_enemy_bml_resource_named((BmlResourceDescriptor *)&dragon_ground_resource_descriptor, (const char *)dragon_common_alternate_bml_filename);
         dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_alternate_texture_filename);
         break;
     }
@@ -131,7 +132,7 @@ void TObjBoss1Crater::render() {
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
     model_render_flags |= 0x01000000;
-    draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 8)));
+    draw_chunk_object(dragon_ground_resource->models[0].model);
     model_render_flags &= 0xFEFFFFFF;
     pop_matrix();
 }

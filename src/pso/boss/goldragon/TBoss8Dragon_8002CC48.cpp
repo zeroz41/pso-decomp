@@ -55,6 +55,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
+#include "pso/boss/dragon/ObjBoss1CommonResource.h"
 
 // A texture coordinate of the trail model as load_resources saved it, one per strip index.
 struct TrailUV {
@@ -70,7 +71,6 @@ struct TrailRaisedVertex {
     s32 state; // 0 sinking, 1 rising, else frames left to wait
 };
 
-extern BmlResource *lbl_805D4B50;
 extern s32 dragon_common_texture_list;
 
 Unk_8002DB7C *dragon_trail_grid;
@@ -271,8 +271,8 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     s32 entry_index;
     Unk_8002DB7C *grid;
     s32 width = 11;
-    resource = lbl_805D4B50;
-    material = ((NJS_CNK_MODEL *)((NJS_OBJECT *)resource->models[4].model)->model)->polygon_list;
+    resource = dragon_ground_resource;
+    material = ((NJS_CNK_MODEL *)resource->models[4].model->model)->polygon_list;
     grid = new Unk_8002DB7C(width, 10, 8, material);
     dragon_trail_grid = grid;
     verts = grid->get_vertices();
@@ -345,7 +345,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     dragon_trail_strip = grid;
     {
         s16 *start;
-        trail = (NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model;
+        trail = (NJS_CNK_MODEL *)dragon_ground_resource->models[3].model->model;
         vtx = (f32 *)trail->vertex_list;
         poly = trail->polygon_list;
         poly[6] = 0x408;
@@ -377,7 +377,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
             }
         }
     }
-    vertex_count = ((u32 *)((NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model)->vertex_list)[1] >> 16;
+    vertex_count = ((u32 *)((NJS_CNK_MODEL *)dragon_ground_resource->models[3].model->model)->vertex_list)[1] >> 16;
     dragon_trail_raised_count = 0;
     vstart = vtx;
     for (count_index = 0; count_index < vertex_count; count_index++, vtx += 6) {
@@ -584,12 +584,12 @@ void TObjBoss1MokoHill_SoloM::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             model_render_flags |= 0x800;
             set_chunk_material_override_pair(0xFF00, 0x100);
-            draw_chunk_object((void *)lbl_805D4B50->models[3].model);
+            draw_chunk_object(dragon_ground_resource->models[3].model);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
         } else {
-            draw_chunk_object((void *)lbl_805D4B50->models[3].model);
+            draw_chunk_object(dragon_ground_resource->models[3].model);
         }
         pop_matrix();
         for (p = dragon_trail_raised_vertices, i = 0; i < dragon_trail_raised_count; i++, p++) {

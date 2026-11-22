@@ -13,12 +13,9 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_8002E174.h"
+#include "pso/boss/dragon/ObjBoss1CommonResource.h"
+#include "pso/system/BmlResource.h"
 
-struct Ent_8002DF7C { u8 pad0[8]; void *object; u8 padc[4]; };
-
-struct Res_8002DF7C { u8 pad0[0x42C]; Ent_8002DF7C *ents; };
-
-extern Res_8002DF7C *lbl_805D4B50;
 extern s32 dragon_common_texture_list;
 
 const char *TObjBoss1Rock__name = "TObjBoss1Rock";
@@ -34,7 +31,7 @@ void TObjBoss1Rock::render() {
         post_translate_matrix(&m_position.x);
         rotate_matrix_y(NULL, m_rotation_y);
         rotate_matrix_x(NULL, m_rotation_x);
-        draw_chunk_object(lbl_805D4B50->ents[m_model_index].object);
+        draw_chunk_object(dragon_ground_resource->models[m_model_index].model);
         pop_matrix();
         set_chunk_material_override_pair(0xFF00, 0);
         model_render_flags = saved_model_render_flags;
@@ -44,7 +41,7 @@ void TObjBoss1Rock::render() {
         post_translate_matrix(&m_position.x);
         rotate_matrix_y(NULL, m_rotation_y);
         rotate_matrix_x(NULL, m_rotation_x);
-        draw_chunk_object(lbl_805D4B50->ents[m_model_index].object);
+        draw_chunk_object(dragon_ground_resource->models[m_model_index].model);
         pop_matrix();
     }
 }
