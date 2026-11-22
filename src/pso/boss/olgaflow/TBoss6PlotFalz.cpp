@@ -306,7 +306,7 @@ void TBoss6PlotFalz::call_state_action() {
 void TBoss6PlotFalz::set_state_2() { shake_timer = 0; shake_preset = 2; }
 void TBoss6PlotFalz::reset_state() { shake_timer = 0; shake_preset = 0; }
 void TBoss6PlotFalz::activate_warp() { if (tube) tube->activate_warp(); }
-void TBoss6PlotFalz::free_child() { if (tube) tube->sub_802B1004(); }
+void TBoss6PlotFalz::free_child() { if (tube) tube->start_wobble(); }
 void TBoss6PlotFalz::set_state(s32 state) {
     if (state < 0 || state >= 9) {
         return;

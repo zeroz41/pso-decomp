@@ -4,19 +4,22 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TBoss6PlotFalz;
+
 struct TBoss6Tube : public TObject {
     TBoss6Tube(TObject *parent);
     virtual ~TBoss6Tube();
-    void sub_802B1218();
-    u32 m_1c;
-    u32 m_20;
+    // Turns the scroll_phase change since the last call into TBoss6Tube__scroll_delta.
+    void update_scroll_delta();
+    u32 state;  // run_task: 0 update_timer, 1 spawn_trap, 2 update_wobble
+    u32 timer;  // update_timer's frame count; at 270 it switches to state 1
     s32 scroll_speed;  // added to scroll_phase each frame
     s32 scroll_phase;  // copied into TBoss6Tube__previous_scroll_phase
-    u32 m_2c;
+    TBoss6PlotFalz *plot_falz;  // the parent; render reads its scene state
     virtual void run_task();
     virtual void render();
-    static f32 scale_by_const(f32 farg0);
-    static f32 calc_tube_progress(s32 arg0);
+    static f32 scale_by_const(f32 value);
+    static f32 calc_tube_progress(s32 phase);
     static void reset_state();
     void update_wobble();
     void accelerate_scroll();
@@ -24,7 +27,8 @@ struct TBoss6Tube : public TObject {
     void update_timer();
     static TBoss6Tube *create(void *parent);
     void activate_warp();
-    void sub_802B1004();
+    // Puts run_task in state 2 (update_wobble); TBoss6PlotFalz::free_child calls it.
+    void start_wobble();
     static s32 sub_802B1018();
     static void free_resources();
     static void load_resources();

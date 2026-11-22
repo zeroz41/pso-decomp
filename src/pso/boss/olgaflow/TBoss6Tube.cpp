@@ -17,6 +17,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
@@ -24,37 +28,28 @@ BmlResourceDescriptor boss06_tube_dat_resource_descriptor = { "boss06_tube_dat.b
 const char *TBoss6Tube__name = "TBoss6Tube";
 // The model drawn on each of render's three passes (name inferred).
 const s32 boss6_tube_model_order[3] = { 2, 0, 1 };
-uaddr boss6_tube_bml_resource;
+BmlResource *boss6_tube_bml_resource;
 uaddr boss6_tube_texture_list;
-
-typedef struct TBoss6Tube_802B1020 {
-    u8 pad[0x28];
-    s32 f28;
-    saddr f2c;
-} TBoss6Tube_802B1020;
 
 extern "C" {
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
-void draw_ginja_object(void);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+}
 
-// run_task's state 1: spawn the trap and run sub_802B1218.
+// run_task's state 1: spawn the trap and run update_scroll_delta.
 void TBoss6Tube::activate_warp() {
-    m_1c = 1;
+    state = 1;
     play_sound_effect(0x4003351F, 0, 0, 0);
 }
 
-// run_task's state 2: update_wobble.
-void TBoss6Tube::sub_802B1004() {
-    m_20 = 0;
-    m_1c = 2;
+void TBoss6Tube::start_wobble() {
+    timer = 0;
+    state = 2;
 }
 
 s32 TBoss6Tube::sub_802B1018() { return 0; }
 
 void TBoss6Tube::render() {
-    TBoss6Tube_802B1020 *o = (TBoss6Tube_802B1020 *)this;
     f32 lo = (-1.6e+03f);
     f32 hi = (2.4e+03f);
     s32 mode;
@@ -65,7 +60,7 @@ void TBoss6Tube::render() {
         return;
     }
     mode = 0;
-    switch (((TBoss6PlotFalz *)(o->f2c))->get_scene_state()) {
+    switch (plot_falz->get_scene_state()) {
     case 2: {
         f32 v = TBoss6PlotFalz::get_value();
         if (v < (-1e+01f)) {
@@ -96,30 +91,29 @@ void TBoss6Tube::render() {
         hi = (5.6e+03f);
         break;
     }
-    start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(o->f28));
+    start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(scroll_phase));
     TObjFish::set_global_param((saddr)(boss6_tube_texture_list));
     set_draw_list_mask(3);
     for (i = 0; i < 3; i++) {
         for (y = start; y < hi; y += (8e+02f)) {
             push_matrix();
             translate_matrix(0, 0.0f, y, 0.0f);
-            get_bml_model((BmlResource *)boss6_tube_bml_resource, boss6_tube_model_order[i]);
-            draw_ginja_object();
+            draw_ginja_object(get_bml_model(boss6_tube_bml_resource, boss6_tube_model_order[i]));
             pop_matrix();
         }
     }
     restore_draw_list_mask();
 }
 
-f32 TBoss6Tube::scale_by_const(f32 farg0) {
-    return (8e+02f) * farg0;
+f32 TBoss6Tube::scale_by_const(f32 value) {
+    return (8e+02f) * value;
 }
 
-f32 TBoss6Tube::calc_tube_progress(s32 arg0) {
-    return (1.0f) - ((f32) (arg0 & 0x7FFFF) / (524288.0f));
+f32 TBoss6Tube::calc_tube_progress(s32 phase) {
+    return (1.0f) - ((f32) (phase & 0x7FFFF) / (524288.0f));
 }
 
-void TBoss6Tube::sub_802B1218() {
+void TBoss6Tube::update_scroll_delta() {
     if (((0.0f) == TBoss6Tube__scroll_delta) && ((s32) TBoss6Tube__previous_scroll_phase == 0)) {
         TBoss6Tube__previous_scroll_phase = this->scroll_phase;
         return;
@@ -159,16 +153,15 @@ void TBoss6Tube::update_wobble() {
 #pragma pop
 
 void TBoss6Tube::spawn_trap() {
-    saddr self = (saddr)this;
     accelerate_scroll();
-    play_persistent_sound(0x40033520, self, 0, 0, 0);
+    play_persistent_sound(0x40033520, (saddr)this, 0, 0, 0);
 }
 
 void TBoss6Tube::update_timer() {
-    this->m_20 = (this->m_20 + 1);
-    if ((s32) this->m_20 >= 0x10E) {
-        this->m_20 = 0;
-        this->m_1c = 1;
+    timer = timer + 1;
+    if ((s32) timer >= 0x10E) {
+        timer = 0;
+        state = 1;
         play_sound_effect(0x4003351F, 0, 0, 0);
         TCameraCtrl::set_shake_preset(2);
     }
@@ -178,13 +171,13 @@ void TBoss6Tube::update_timer() {
 void TBoss6Tube::run_task() {
 
     if ((sub_802B1018() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
-        switch (this->m_1c) {
+        switch (state) {
         case 0:
             update_timer();
             return;
         case 1:
             spawn_trap();
-            sub_802B1218();
+            update_scroll_delta();
             return;
         case 2:
             update_wobble();
@@ -193,25 +186,18 @@ void TBoss6Tube::run_task() {
     }
 }
 
-}
-
 TBoss6Tube::~TBoss6Tube() {
     TBoss6Tube::reset_state();
 }
 
 TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
     m_name = TBoss6Tube__name;
-    *(u8 **)((s8 *)this + 0x2C) = (u8 *)parent;
+    plot_falz = static_cast<TBoss6PlotFalz *>(parent);
     scroll_speed = 0;
     scroll_phase = 0;
     TBoss6Tube::reset_state();
-    m_20 = 0;
-    m_1c = 0;
-}
-
-u8 *load_gvm_texture_file(saddr name);
-extern "C" {
-s32 release_texture_list(void*);
+    timer = 0;
+    state = 0;
 }
 
 TBoss6Tube *TBoss6Tube::create(void *parent) {
@@ -219,24 +205,22 @@ TBoss6Tube *TBoss6Tube::create(void *parent) {
 }
 
 void TBoss6Tube::free_resources() {
-    if ((u32) boss6_tube_bml_resource != 0U) {
-        delete (BmlResource *)boss6_tube_bml_resource;
-        boss6_tube_bml_resource = 0U;
+    if (boss6_tube_bml_resource != NULL) {
+        delete boss6_tube_bml_resource;
+        boss6_tube_bml_resource = NULL;
     }
     if ((u32) boss6_tube_texture_list != 0U) {
-        release_texture_list((void*)boss6_tube_texture_list);
+        release_texture_list((GinjaTextureList *)boss6_tube_texture_list);
         TAdSinglePlyChrSelectGC::safe_free(boss6_tube_texture_list);
         boss6_tube_texture_list = 0U;
     }
     TBoss6Tube::reset_state();
 }
 void TBoss6Tube::load_resources() {
-    s32 r;
     TBoss6Tube::reset_state();
-    r = (saddr)new BmlResource(5, &boss06_tube_dat_resource_descriptor, 0, 0, NULL);
-    boss6_tube_bml_resource = r;
+    boss6_tube_bml_resource = new BmlResource(5, &boss06_tube_dat_resource_descriptor, 0, 0, NULL);
     boss6_tube_texture_list = (uaddr)load_gvm_texture_file((saddr)"boss06_tube_dat.gvm");
-    if (boss6_tube_bml_resource != 0 && boss6_tube_texture_list != 0) {
+    if (boss6_tube_bml_resource != NULL && boss6_tube_texture_list != 0) {
         return;
     }
 }
