@@ -25,10 +25,10 @@ struct Char_802C38B4 {
 };
 
 extern "C" {
-void apply_class_level_growth(void *, s32, Stats_802C38B4 *);
-s32 get_current_state_field__10TObjPlayerFScl(void *, s32);
-void *get_class_base_stats(void *);
-void init_character_stats_for_level(void *cls, Char_802C38B4 *c, s32 level);
+void apply_class_level_growth(s32, s32, Stats_802C38B4 *);
+s32 get_current_state_field__10TObjPlayerFScl(s32, s32);
+void *get_class_base_stats(s32);
+void init_character_stats_for_level(s32 cls, Char_802C38B4 *c, s32 level);
 int TObjPlayer__sub_802C456C(void*, s32, void*);
 }
 int init_character_action_config(void*);
@@ -76,7 +76,7 @@ void TObjPlayer::setup_effect_slots(s32 arg0, saddr arg1) {
     TObjPlayer__sub_802C46E0(arg1, 0, 3, 3, 0);
 }
 
-void init_character_stats_for_level(void *cls, Char_802C38B4 *c, s32 level) {
+void init_character_stats_for_level(s32 cls, Char_802C38B4 *c, s32 level) {
     Stats_802C38B4 st;
     level = TObjPlayer::clamp_index_to_max(level);
     ((TObjPlayer *)(&st))->copy_stats(get_class_base_stats(cls));
@@ -105,6 +105,6 @@ void init_character_stats_for_level(void *cls, Char_802C38B4 *c, s32 level) {
 }
 
 void init_new_character_stats(void *arg0) {
-    init_character_stats_for_level((void *)(*(u8 *)((s8 *)arg0 + 0x3A1)), (Char_802C38B4 *)(arg0), 0);
+    init_character_stats_for_level(*(u8 *)((s8 *)arg0 + 0x3A1), (Char_802C38B4 *)(arg0), 0);
 }
 }

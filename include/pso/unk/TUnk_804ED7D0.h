@@ -8,7 +8,7 @@ public:
     TUnk_804ED7D0();
     virtual s32 get_cell_address(s32, s32);
     virtual ~TUnk_804ED7D0();
-    virtual int vfunc_8(s32, s32);
+    virtual const s32 *vfunc_8(s32, s32);
     virtual int vfunc_9(s32, s32, s32);
     virtual int vfunc_12();
     virtual int vfunc_13();

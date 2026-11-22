@@ -270,8 +270,8 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
     return hit;
 }
 
-s32 TUnk_804928CC::call_vt13_with_default(void *recoil, void *attack, s32 history) {
-    return area_attack_deliver_direct(recoil, reinterpret_cast<s32>(attack), reinterpret_cast<void *>(history), 100.0f);
+s32 TUnk_804928CC::call_vt13_with_default(void *recoil, void *attack, saddr history) {
+    return area_attack_deliver_direct(recoil, reinterpret_cast<saddr>(attack), reinterpret_cast<void *>(history), 100.0f);
 }
 
 }

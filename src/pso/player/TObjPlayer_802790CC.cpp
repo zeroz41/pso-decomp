@@ -46,7 +46,7 @@ void build_equipment_list__15TWindowSubEquipFv(void* self) {
     s32 a;
     u8* p;
 
-    p = get_player_by_client_id(*(s16 *)((u8 *)self + 0x20));
+    p = (u8 *)get_player_by_client_id(*(s16 *)((u8 *)self + 0x20));
     if (p != NULL) {
         a = get_class_weapon_icon_index__FPvPUc(self, p);
         q = (void *)get_slot_value__10TObjPlayerFPvi((s32 *)(p + 0xd04), (s32)(6));

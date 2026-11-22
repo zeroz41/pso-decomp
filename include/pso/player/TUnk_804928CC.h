@@ -9,7 +9,7 @@ public:
     TUnk_804928CC(TObject *, TObjBase *, const CollisionBody *, s32);
     virtual ~TUnk_804928CC();
     void update_body_contact_flag(f32);
-    virtual s32 call_vt13_with_default(void *, void *, s32);
+    virtual s32 call_vt13_with_default(void *, void *, saddr);
     virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
     virtual s32 vfunc_16(void *, void *);
     virtual void call_vt16_with_default(void *, void *);

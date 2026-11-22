@@ -84,7 +84,7 @@ s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
 s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 arg2, s32 arg3) {
     Pair_802A7994 sp8;
-    s32 *slots;
+    const s32 *slots;
     s32 i;
     s32 f4;
     s32 pkt;
@@ -93,7 +93,7 @@ s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 arg2, s32 arg3) {
     if (this->vfunc_4() == 0U) {
         return 0;
     }
-    slots = (s32 *)this->vfunc_8(arg2, arg3);
+    slots = this->vfunc_8(arg2, arg3);
     if (slots == NULL) {
         return 0;
     }
@@ -121,7 +121,7 @@ TUnk_804DDD28::TUnk_804DDD28() {}
 
 s32 TUnk_804DDD28::get_cell_address(s32, s32) { return 0; }
 int TUnk_804DDD28::vfunc_4() { return 0; }
-int TUnk_804DDD28::vfunc_8(s32, s32) { return 0; }
+const s32 *TUnk_804DDD28::vfunc_8(s32, s32) { return NULL; }
 int TUnk_804DDD28::vfunc_9(s32, s32, s32) { return 0; }
 void TUnk_804DDD28::vfunc_14() {  }
 int TUnk_804DDD28::vfunc_75() { return 0; }

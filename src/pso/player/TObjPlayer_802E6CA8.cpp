@@ -26,7 +26,7 @@ struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E6CB0 { u8 pad0[0x18]; s32 f18; u8 pad1c[4]; s32 f20; f32 f24; s32 type; };
 
-struct Node_802E6CB0 { u8 pad0[4]; s32 model; u8 pad8[0x28]; Node_802E6CB0 *next; };
+struct Node_802E6CB0 { u8 pad0[4]; void *model; u8 pad8[0x28]; Node_802E6CB0 *next; };
 
 struct Bone_802E6F10 { u8 pad0[4]; Vec pos; Vec rot; };
 
@@ -46,7 +46,7 @@ struct Col_802E708C { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E708C { u8 pad0[0x18]; u8 rot[0xC]; f32 f24; s32 type; };
 
-struct Node_802E708C { u8 pad0[4]; s32 model; u8 pad8[0x24]; Node_802E708C *child; Node_802E708C *next; };
+struct Node_802E708C { u8 pad0[4]; void *model; u8 pad8[0x24]; Node_802E708C *child; Node_802E708C *next; };
 
 typedef struct Src_802E72DC { u8 pad0[4]; Vec a; Vec b; } Src_802E72DC;
 
@@ -303,7 +303,7 @@ void TUnk_804E3BC0::render() {
         switch (part->type) {
         case 0:
         case 1:
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             break;
         case 2:
             saved_model_render_flags = model_render_flags;
@@ -312,7 +312,7 @@ void TUnk_804E3BC0::render() {
             set_constant_material((const NJS_ARGB *)((&c)));
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             set_chunk_material_override_pair(0xFF00, 0);
             model_render_flags = saved_model_render_flags;
             break;
@@ -393,7 +393,7 @@ void TUnk_804E3BA8::render() {
         switch (part->type) {
         case 0:
         case 1:
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             break;
         case 2:
             saved_model_render_flags = model_render_flags;
@@ -402,7 +402,7 @@ void TUnk_804E3BA8::render() {
             set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             set_chunk_material_override_pair(0xFF00, 0);
             model_render_flags = saved_model_render_flags;
             break;
