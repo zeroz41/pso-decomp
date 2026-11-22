@@ -116,6 +116,20 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void copy_position_vector(void* q);
     void set_field_10(f32 v);
     void init_death_params();
+    void sub_80316840();
+    void sub_80316C3C(s32 mode);
+    void sub_803170F0(s32 mode);
+    void sub_80317254(s32 mode);
+    void sub_80317B50(s32 mode);
+    void sub_80317F90(s32 mode);
+    void sub_803182F8(s32 mode);
+    void sub_80318564(s32 mode);
+    void sub_8031884C(s32 mode);
+    void sub_80318C0C(s32 mode);
+    void sub_80318F7C(s32 mode);
+    void sub_80319748(s32 mode);
+    void sub_80319B8C(s32 mode);
+    s32 sub_8031A820(f32);
 };
 
 LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, m_3c0) == 0x3C0);

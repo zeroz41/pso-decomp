@@ -111,17 +111,20 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void run_walk_state(s32 reason);
     void exec(s32 arg1);
     void handle_message(s32 arg1);
+    void sub_800F0C90();
+    s32 sub_800F0F84(Vec *pos);
+    void sub_800F1098(s32 reason);
+    void sub_800F1440(s32 reason);
+    void sub_800F2270(s32 reason);
+    void sub_800F290C(s32 reason);
+    void sub_800F3214(s32 reason);
+    void sub_800F348C(s32 reason);
+    void sub_800F3FE4(s32 reason);
+    s32 sub_800F4C10(f32);
 };
 
 LAYOUT_ASSERT(TObjEneMe3StelthFadeOffset, offsetof(TObjEneMe3Stelth, m_404) == 0x404);
 LAYOUT_ASSERT(TObjEneMe3Stelth_size, sizeof(TObjEneMe3Stelth) == 0x44C);
 
-extern "C" {
-void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth);
-s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos);
-void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason);
-void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 reason);
-void exec__16TObjEneMe3StelthFl(TObjEneMe3Stelth *stelth, s32 arg1);
-}
 
 #endif

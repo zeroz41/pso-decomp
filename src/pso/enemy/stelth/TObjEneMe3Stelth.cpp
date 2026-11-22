@@ -112,8 +112,6 @@ u32 *TObjEneMe3Stelth__material_color_pointers[4];
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 reason);
-void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason);
 
 
 void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason);
@@ -121,11 +119,8 @@ void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 reason);
 f32 *TBoss3Volopt__sub_800F059C(void *);
 f32 atan2_float(f32 y, f32 x);
-void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason);
-void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 reason);
 
 
 f32 fabs_float(f32);
@@ -487,16 +482,19 @@ s32 TObjEneMe3Stelth::test_body_collision(s32 angle, f32 distance) {
 }
 #pragma push
 #pragma fp_contract on
-bool TObjEneMe3Stelth__sub_800F4C10(TObjEneMe3Stelth *stelth, f32) {
-    f32 temp_f31;
-    if (fabs_float(stelth->current_target->position.y - stelth->position.y) >= 20.0f) {
+s32 TObjEneMe3Stelth::sub_800F4C10(f32) {
+    f32 facing;
+    if (fabs_float(current_target->position.y - position.y) >= 20.0f) {
         return 0;
     }
-    if (stelth->destination_distance > 25.0f) {
+    if (destination_distance > 25.0f) {
         return 0;
     }
-    temp_f31 = (stelth->destination_direction.x * sin_table_lookup(stelth->rotation_y)) + (stelth->destination_direction.z * cos_table_lookup(stelth->rotation_y));
-    return (temp_f31 < cos_table_lookup(0x1E00)) == 0;
+    facing = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
+    if (facing < cos_table_lookup(0x1E00)) {
+        return 0;
+    }
+    return 1;
 }
 #pragma pop
 void TObjEneMe3Stelth::attack_and_unequip() {
@@ -604,7 +602,7 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         sub_800F42B8(reason);
         break;
     case 3:
-        TObjEneMe3Stelth__sub_800F3FE4(this, reason);
+        sub_800F3FE4(reason);
         break;
     case 2:
         state_chase(reason);
@@ -619,10 +617,10 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         state_chase_target(reason);
         break;
     case 7:
-        TObjEneMe3Stelth__sub_800F348C(this, reason);
+        sub_800F348C(reason);
         break;
     case 8:
-        TObjEneMe3Stelth__sub_800F3214(this, reason);
+        sub_800F3214(reason);
         break;
     case 9:
         run_walk_state(reason);
@@ -637,22 +635,22 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         update_state_resta_cast(reason);
         break;
     case 14:
-        TObjEneMe3Stelth__sub_800F290C(this, reason);
+        sub_800F290C(reason);
         break;
     case 15:
         handle_breakup_state(reason);
         break;
     case 12:
-        TObjEneMe3Stelth__sub_800F2270(this, reason);
+        sub_800F2270(reason);
         break;
     case 16:
-        TObjEneMe3Stelth__sub_800F1098(this, reason);
+        sub_800F1098(reason);
         break;
     case 17:
         exec(reason);
         break;
     case 18:
-        TObjEneMe3Stelth__sub_800F1440(this, reason);
+        sub_800F1440(reason);
         break;
     }
     if (m_3c0 != 1 || ((s32)state != 1 && (s32)state != 2)) {
@@ -798,30 +796,30 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F3FE4(s32 reason) {
     Vec pos;
     f32 temp_f1;
     switch (reason) {
     case 4:
-        stelth->requested_action = 0;
-        stelth->set_field_378(0);
-        stelth->set_intangible();
-        stelth->m_3cc |= 7;
-        stelth->m_404.start_fade_in();
-        VecCopy(&pos, &stelth->position);
-        temp_f1 = stelth->m_3d0;
+        this->requested_action = 0;
+        this->set_field_378(0);
+        this->set_intangible();
+        this->m_3cc |= 7;
+        this->m_404.start_fade_in();
+        VecCopy(&pos, &this->position);
+        temp_f1 = this->m_3d0;
         pos.y = temp_f1 - 10.0f;
         TBoss3Volopt__sub_800D8D88(&pos, temp_f1);
         break;
     case 3:
-        if (stelth->m_404.advance_toward_max() != 0) {
-            stelth->transition_enemy_state(4);
+        if (this->m_404.advance_toward_max() != 0) {
+            this->transition_enemy_state(4);
             break;
         }
     case 0:
         break;
     case 5:
-        stelth->m_3cc &= ~4;
+        this->m_3cc &= ~4;
         break;
     }
 }
@@ -967,7 +965,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
             transition_enemy_state(0xD);
             return;
         }
-        if (((s32 (*)(TObjEneMe3Stelth *, f32))TObjEneMe3Stelth__sub_800F4C10)(this, m_434) != 0) {
+        if (sub_800F4C10(m_434) != 0) {
             transition_enemy_state(8);
             return;
         }
@@ -981,7 +979,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
         if (update_linked_position(200.0f) != 0) {
             enemy_copy_target_destination();
             update_velocity();
-            TObjEneMe3Stelth__sub_800F0C90(this);
+            sub_800F0C90();
             m_434 = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
             if (m_434 < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
@@ -997,7 +995,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
     Vec v;
     Vec points[2];
     f32 t;
@@ -1005,189 +1003,189 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec *entry;
     switch (reason) {
     case 4:
-        stelth->requested_action = 6;
-        stelth->set_field_378(6);
-        stelth->clear_intangible();
-        stelth->m_3cc &= ~7;
-        stelth->m_3cc |= 0x10000;
-        stelth->m_424 = 0;
-        stelth->m_430 = 0.0f;
-        stelth->set_active();
+        this->requested_action = 6;
+        this->set_field_378(6);
+        this->clear_intangible();
+        this->m_3cc &= ~7;
+        this->m_3cc |= 0x10000;
+        this->m_424 = 0;
+        this->m_430 = 0.0f;
+        this->set_active();
         break;
     case 3:
-        if (stelth->m_424 == 5 || stelth->get_flag_b4() != 0) {
-            if (stelth->update_ground_contact() == 0) {
-                stelth->transition_enemy_state(0xA);
+        if (this->m_424 == 5 || this->get_flag_b4() != 0) {
+            if (this->update_ground_contact() == 0) {
+                this->transition_enemy_state(0xA);
             } else {
-                stelth->transition_enemy_state(6);
+                this->transition_enemy_state(6);
             }
         }
         break;
     case 0:
-        switch (stelth->m_424) {
+        switch (this->m_424) {
         case 0:
-            stelth->advance_animation();
-            if (stelth->motion_flags & 8) {
-                stelth->m_424 = 1;
+            this->advance_animation();
+            if (this->motion_flags & 8) {
+                this->m_424 = 1;
             }
-            stelth->update_ground_contact();
-            stelth->check_collisions();
+            this->update_ground_contact();
+            this->check_collisions();
             break;
         case 1:
-            stelth->advance_animation();
-            if (((TObjEneEpsilon *)stelth)->update_death_check() != 0) {
-                stelth->enemy_copy_target_destination();
-                stelth->update_velocity();
-                ang = (s32)(10430.38043493439 * atan2_float(stelth->destination_direction.x, stelth->destination_direction.z));
+            this->advance_animation();
+            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                this->enemy_copy_target_destination();
+                this->update_velocity();
+                ang = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
             } else {
-                ang = stelth->rotation_y;
+                ang = this->rotation_y;
             }
-            stelth->rotation_y = approach_angle_limited(stelth->rotation_y, ang, 0x1000);
-            if (stelth->is_passing_frame(10.0f) != 0) {
-                stelth->m_424 = 2;
+            this->rotation_y = approach_angle_limited(this->rotation_y, ang, 0x1000);
+            if (this->is_passing_frame(10.0f) != 0) {
+                this->m_424 = 2;
             }
-            stelth->update_ground_contact();
-            stelth->check_collisions();
+            this->update_ground_contact();
+            this->check_collisions();
             break;
         case 2:
-            stelth->advance_animation();
-            if (((TObjEneEpsilon *)stelth)->update_death_check() != 0) {
-                stelth->enemy_copy_target_destination();
-                stelth->update_velocity();
+            this->advance_animation();
+            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                this->enemy_copy_target_destination();
+                this->update_velocity();
             }
-            if (stelth->frame + stelth->play_speed >= 14.0f) {
-                if (stelth->test_body_collision(stelth->rotation_y, stelth->destination_distance - 20.0f) != 0) {
-                    stelth->m_424 = 5;
+            if (this->frame + this->play_speed >= 14.0f) {
+                if (this->test_body_collision(this->rotation_y, this->destination_distance - 20.0f) != 0) {
+                    this->m_424 = 5;
                 } else {
-                    t = stelth->destination_distance - 20.0f;
-                    VecCopy(&v, &stelth->position);
-                    v.x += stelth->destination_direction.x * t;
+                    t = this->destination_distance - 20.0f;
+                    VecCopy(&v, &this->position);
+                    v.x += this->destination_direction.x * t;
                     v.y += 20.0f;
-                    v.z += stelth->destination_direction.z * t;
+                    v.z += this->destination_direction.z * t;
                     if (csnVecterUnder(&v, 0x15) != 0) {
-                        if (stelth->room == ((TScene *)(&v))->find_section_at_position()) {
-                            stelth->m_424 = 3;
-                            stelth->m_434 = (stelth->destination_distance - 20.0f) / 12.857143f;
-                            stelth->set_invulnerable();
-                            play_sound_effect(0x3A835, (u8 *)&stelth->position, 0, 0);
+                        if (this->room == ((TScene *)(&v))->find_section_at_position()) {
+                            this->m_424 = 3;
+                            this->m_434 = (this->destination_distance - 20.0f) / 12.857143f;
+                            this->set_invulnerable();
+                            play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
                         } else {
-                            stelth->m_424 = 5;
+                            this->m_424 = 5;
                         }
                     } else {
-                        stelth->m_424 = 5;
+                        this->m_424 = 5;
                     }
                 }
             }
-            stelth->update_ground_contact();
-            stelth->check_collisions();
+            this->update_ground_contact();
+            this->check_collisions();
             break;
         case 3:
-            stelth->advance_animation();
-            if (stelth->frame + stelth->play_speed >= 23.0f) {
-                stelth->m_424 = 4;
-                stelth->clear_invulnerable();
-                stelth->play_hit_effect();
+            this->advance_animation();
+            if (this->frame + this->play_speed >= 23.0f) {
+                this->m_424 = 4;
+                this->clear_invulnerable();
+                this->play_hit_effect();
             }
-            stelth->move_with_wall_slide_commit(stelth->destination_direction.x, stelth->destination_direction.z, stelth->m_434);
-            stelth->check_collisions();
+            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->m_434);
+            this->check_collisions();
             break;
         case 4:
-            stelth->advance_animation();
-            if (stelth->is_passing_frame(25.0f) != 0) {
-                if (stelth->enemy_check_target_valid() != 0) {
-                    if (stelth->current_target->select_melee_contact_body(stelth, 1.0f) != 0) {
-                        stelth->current_target->receive_physical_attack(stelth, 1.0f);
-                        stelth->current_target->apply_knockback_from_attacker((u8 *)stelth, 3.0f);
+            this->advance_animation();
+            if (this->is_passing_frame(25.0f) != 0) {
+                if (this->enemy_check_target_valid() != 0) {
+                    if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
+                        this->current_target->receive_physical_attack(this, 1.0f);
+                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     }
                 }
-                play_sound_effect(0x3A838, (u8 *)&stelth->position, 0, 0);
+                play_sound_effect(0x3A838, (u8 *)&this->position, 0, 0);
             }
-            stelth->m_434 *= 0.85f;
-            stelth->move_with_wall_slide_on_ground(stelth->destination_direction.x, stelth->destination_direction.z, stelth->m_434);
-            stelth->check_collisions();
+            this->m_434 *= 0.85f;
+            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_434);
+            this->check_collisions();
             break;
         }
-        if (stelth->m_424 != 0) {
-            entry = TObjEneMe3Stelth__trail_buffer->lookup(stelth->frame);
+        if (this->m_424 != 0) {
+            entry = TObjEneMe3Stelth__trail_buffer->lookup(this->frame);
             if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
-                post_translate_matrix((f32 *)&stelth->position);
-                rotate_matrix_y(0, stelth->rotation_y);
+                post_translate_matrix((f32 *)&this->position);
+                rotate_matrix_y(0, this->rotation_y);
                 matrix_mult_vec_array(NULL, entry, (Vec *)points, 2);
                 pop_matrix();
             }
         }
         break;
     case 5:
-        stelth->m_3d0 = stelth->position.y;
-        stelth->m_3d4 = 0.0f;
-        stelth->clear_invulnerable();
-        stelth->clear_field_388();
+        this->m_3d0 = this->position.y;
+        this->m_3d4 = 0.0f;
+        this->clear_invulnerable();
+        this->clear_field_388();
         break;
     }
 }
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F3214(s32 reason) {
     f32 temp_f1;
     s32 var_r4;
     switch (reason) {
     case 4:
-        stelth->requested_action = 7;
-        stelth->set_field_378(0xC);
-        stelth->clear_intangible();
-        stelth->m_3cc &= ~7;
-        stelth->m_3cc |= 0x10000;
-        stelth->m_424 = 0;
-        stelth->m_428 = 0;
+        this->requested_action = 7;
+        this->set_field_378(0xC);
+        this->clear_intangible();
+        this->m_3cc &= ~7;
+        this->m_3cc |= 0x10000;
+        this->m_424 = 0;
+        this->m_428 = 0;
         return;
     case 3:
-        if (stelth->get_flag_b4() != 0) {
-            stelth->select_next_attack_state();
+        if (this->get_flag_b4() != 0) {
+            this->select_next_attack_state();
         }
     case 5:
         return;
     case 0:
-        stelth->advance_animation();
-        switch (stelth->m_424) {
+        this->advance_animation();
+        switch (this->m_424) {
         case 0:
-            stelth->attack_and_unequip();
-            if (stelth->frame < 20.0f) {
-                if (((TObjEneEpsilon *)stelth)->update_death_check() != 0) {
-                    stelth->enemy_copy_target_destination();
-                    stelth->update_velocity();
-                    var_r4 = (s32) (10430.38043493439 * atan2_float(stelth->destination_direction.x, stelth->destination_direction.z));
+            this->attack_and_unequip();
+            if (this->frame < 20.0f) {
+                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                    this->enemy_copy_target_destination();
+                    this->update_velocity();
+                    var_r4 = (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
                 } else {
-                    var_r4 = stelth->rotation_y;
+                    var_r4 = this->rotation_y;
                 }
-                stelth->rotation_y = approach_angle_limited(stelth->rotation_y, var_r4, 0x300);
-                stelth->destination_direction.x = sin_table_lookup(stelth->rotation_y);
-                stelth->destination_direction.z = cos_table_lookup(stelth->rotation_y);
+                this->rotation_y = approach_angle_limited(this->rotation_y, var_r4, 0x300);
+                this->destination_direction.x = sin_table_lookup(this->rotation_y);
+                this->destination_direction.z = cos_table_lookup(this->rotation_y);
             }
-            stelth->vfunc_112();
-            TObjEneMe3Stelth__sub_800F0C90(stelth);
-            temp_f1 = stelth->frame;
+            this->vfunc_112();
+            sub_800F0C90();
+            temp_f1 = this->frame;
             if ((temp_f1 >= 0.0f) && (temp_f1 <= 5.0f)) {
-                ((TObjEneDD *)stelth)->move_to_shot_position(stelth->destination_direction.x, stelth->destination_direction.z, TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_08);
+                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_08);
             } else {
-                stelth->update_ground_contact();
+                this->update_ground_contact();
             }
-            if (stelth->frame >= 25.0f) {
-                stelth->frame = 25.0f;
-                stelth->m_424 = 1;
+            if (this->frame >= 25.0f) {
+                this->frame = 25.0f;
+                this->m_424 = 1;
             }
             break;
         case 1:
-            stelth->m_428++;
-            if (stelth->m_428 <= TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_20) {
-                stelth->frame = 25.0f;
+            this->m_428++;
+            if (this->m_428 <= TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_20) {
+                this->frame = 25.0f;
             }
-            stelth->update_ground_contact();
+            this->update_ground_contact();
             break;
         }
-        stelth->check_collisions();
+        this->check_collisions();
         break;
     }
 }
@@ -1400,37 +1398,37 @@ void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F290C(s32 reason) {
     Vec v;
     f32 c;
     switch (reason) {
     case 4:
-        stelth->requested_action = 4;
-        stelth->advance_animation();
-        stelth->set_active();
-        play_sound_effect(0x3A839, (u8 *)&stelth->position, 0, 0);
+        this->requested_action = 4;
+        this->advance_animation();
+        this->set_active();
+        play_sound_effect(0x3A839, (u8 *)&this->position, 0, 0);
         break;
     case 3:
-        if (stelth->get_flag_b4() != 0) {
-            if (stelth->m_3c0 == 1 && stelth->random_ratio() <= stelth->m_3e0) {
-                stelth->transition_enemy_state(0x12);
+        if (this->get_flag_b4() != 0) {
+            if (this->m_3c0 == 1 && this->random_ratio() <= this->m_3e0) {
+                this->transition_enemy_state(0x12);
             } else {
-                stelth->transition_enemy_state(stelth->next_mode);
+                this->transition_enemy_state(this->next_mode);
             }
         }
         break;
     case 0:
-        stelth->advance_animation();
-        VecCopy(&v, (Vec *)&stelth->x_speed);
+        this->advance_animation();
+        VecCopy(&v, (Vec *)&this->x_speed);
         c = normalize_vector_xz(&v);
-        stelth->move_clamped_on_ground(v.x, v.z, c);
-        stelth->x_speed *= 0.8f;
-        stelth->m_310 *= 0.8f;
-        stelth->check_collisions();
+        this->move_clamped_on_ground(v.x, v.z, c);
+        this->x_speed *= 0.8f;
+        this->m_310 *= 0.8f;
+        this->check_collisions();
         break;
     case 5:
-        stelth->clear_attack_receipts();
-        stelth->clear_field_388();
+        this->clear_attack_receipts();
+        this->clear_field_388();
         break;
     }
 }
@@ -1499,7 +1497,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F2270(s32 reason) {
     Vec v;
     Vec p;
     Vec q;
@@ -1508,87 +1506,87 @@ void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason) {
     s32 ang;
     switch (reason) {
     case 4:
-        stelth->requested_action = 0xC;
-        stelth->set_field_378(0xC);
-        stelth->set_intangible();
-        stelth->m_3cc &= ~6;
-        stelth->m_3cc |= 1;
-        stelth->m_424 = 0;
+        this->requested_action = 0xC;
+        this->set_field_378(0xC);
+        this->set_intangible();
+        this->m_3cc &= ~6;
+        this->m_3cc |= 1;
+        this->m_424 = 0;
         break;
     case 3:
-        if (stelth->m_424 == 2) {
-            stelth->m_3c0 = 1;
-            stelth->m_3cc |= 0x40000;
-            stelth->set_indexed_flags(0, 0x8000000);
-            if (stelth->random_ratio() <= stelth->m_3d8) {
-                if (stelth->sub_800F47D4() != 0) {
-                    if (stelth->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_14) {
-                        stelth->transition_enemy_state(0x10);
+        if (this->m_424 == 2) {
+            this->m_3c0 = 1;
+            this->m_3cc |= 0x40000;
+            this->set_indexed_flags(0, 0x8000000);
+            if (this->random_ratio() <= this->m_3d8) {
+                if (this->sub_800F47D4() != 0) {
+                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_14) {
+                        this->transition_enemy_state(0x10);
                     } else {
-                        stelth->transition_enemy_state(0xB);
+                        this->transition_enemy_state(0xB);
                     }
                 } else {
-                    stelth->transition_enemy_state(0x10);
+                    this->transition_enemy_state(0x10);
                 }
             } else {
-                stelth->transition_enemy_state(1);
+                this->transition_enemy_state(1);
             }
         }
         break;
     case 0:
-        switch (stelth->m_424) {
+        switch (this->m_424) {
         case 0:
-            stelth->advance_animation();
-            if (stelth->get_flag_b4() != 0) {
-                stelth->m_3cc |= 4;
-                stelth->m_404.reset_color();
-                VecCopy(&v, &stelth->position);
-                v.y = stelth->m_3d0 - 20.0f;
-                stelth->m_424 = 1;
-                play_sound_effect(0x3B23B, &stelth->position, 0, 0);
+            this->advance_animation();
+            if (this->get_flag_b4() != 0) {
+                this->m_3cc |= 4;
+                this->m_404.reset_color();
+                VecCopy(&v, &this->position);
+                v.y = this->m_3d0 - 20.0f;
+                this->m_424 = 1;
+                play_sound_effect(0x3B23B, &this->position, 0, 0);
             }
-            stelth->update_ground_contact();
-            stelth->check_collisions();
+            this->update_ground_contact();
+            this->check_collisions();
             break;
         case 1:
-            if (stelth->m_404.decay_value_toward_floor() != 0) {
-                stelth->m_3cc |= 2;
-                if (stelth->update_linked_position(200.0f) != 0) {
-                    if (stelth->current_target == NULL) {
+            if (this->m_404.decay_value_toward_floor() != 0) {
+                this->m_3cc |= 2;
+                if (this->update_linked_position(200.0f) != 0) {
+                    if (this->current_target == NULL) {
                         break;
                     }
-                    arr[0] = (s32)(3.0f * stelth->random_ratio()) - 1;
-                    arr[1] = (s32)(2.0f * stelth->random_ratio()) - 1;
+                    arr[0] = (s32)(3.0f * this->random_ratio()) - 1;
+                    arr[1] = (s32)(2.0f * this->random_ratio()) - 1;
                     if (arr[1] <= arr[0]) {
                         arr[1]++;
                     }
                     arr[2] = -(arr[0] + arr[1]);
                     for (i = 0; i < 3; i++) {
-                        VecCopy(&p, &stelth->current_target->position);
-                        ang = stelth->current_target->rotation_y + ((arr[i] + 1) << 14);
+                        VecCopy(&p, &this->current_target->position);
+                        ang = this->current_target->rotation_y + ((arr[i] + 1) << 14);
                         p.x = 20.0f * cos_table_lookup(ang) + p.x;
                         p.z = p.z - 20.0f * sin_table_lookup(ang);
                         p.y += 5.0f;
                         VecCopy(&q, &p);
-                        q.x += p.x - stelth->current_target->position.x;
-                        q.z += p.z - stelth->current_target->position.z;
-                        if (TObjEneMe3Stelth__sub_800F0F84(stelth, &q) == 0 &&
-                            csnVector(&stelth->current_target->position, &q, 0x88E0) == 0 &&
-                            csnVectorUnder(&p, (CsnGroup **)&stelth->m_120, 0x15) != 0 &&
-                            ((TScene *)(&p))->find_section_at_position() == stelth->room) {
-                            VecCopy(&stelth->position, &p);
-                            stelth->rotation_y = ang + 0xC000;
+                        q.x += p.x - this->current_target->position.x;
+                        q.z += p.z - this->current_target->position.z;
+                        if (sub_800F0F84(&q) == 0 &&
+                            csnVector(&this->current_target->position, &q, 0x88E0) == 0 &&
+                            csnVectorUnder(&p, (CsnGroup **)&this->m_120, 0x15) != 0 &&
+                            ((TScene *)(&p))->find_section_at_position() == this->room) {
+                            VecCopy(&this->position, &p);
+                            this->rotation_y = ang + 0xC000;
                             break;
                         }
                     }
                 }
-                stelth->m_424 = 2;
+                this->m_424 = 2;
             }
             break;
         }
         break;
     case 5:
-        stelth->m_3cc &= ~4;
+        this->m_3cc &= ~4;
         break;
     }
 }
@@ -1887,126 +1885,126 @@ void TObjEneMe3Stelth::exec(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
     switch (reason) {
     case 4:
-        stelth->requested_action = 0xB;
-        stelth->set_field_378(6);
-        stelth->clear_intangible();
-        stelth->m_3cc &= 0xFFFFFFF1;
-        stelth->m_3cc |= 1;
-        stelth->m_3cc |= 0x40000;
-        stelth->clear_player_status_flag(0, 0x08000000);
-        stelth->m_424 = 0;
-        play_sound_effect(0x3B23B, &stelth->position, 0, 0);
+        this->requested_action = 0xB;
+        this->set_field_378(6);
+        this->clear_intangible();
+        this->m_3cc &= 0xFFFFFFF1;
+        this->m_3cc |= 1;
+        this->m_3cc |= 0x40000;
+        this->clear_player_status_flag(0, 0x08000000);
+        this->m_424 = 0;
+        play_sound_effect(0x3B23B, &this->position, 0, 0);
         break;
     case 3:
-        if (stelth->m_424 == 3) {
-            stelth->transition_enemy_state(6);
-            stelth->m_3cc &= ~1;
+        if (this->m_424 == 3) {
+            this->transition_enemy_state(6);
+            this->m_3cc &= ~1;
         }
         break;
     case 0:
-        stelth->advance_animation();
-        if (stelth->get_flag_b4() != 0) {
-            stelth->m_424 = 3;
+        this->advance_animation();
+        if (this->get_flag_b4() != 0) {
+            this->m_424 = 3;
         } else if (is_split_screen() != 0) {
-            switch (stelth->m_424) {
+            switch (this->m_424) {
             case 0:
-                if (stelth->is_passing_frame(4.0f) != 0) {
-                    stelth->m_3cc |= 8;
+                if (this->is_passing_frame(4.0f) != 0) {
+                    this->m_3cc |= 8;
                     NJS_ARGB q = me3_stelth_offset_vec;
-                    ((TObjEneMe3SinowZoa *)&stelth->m_404)->copy_position_vector(&q);
-                    stelth->m_424 = 1;
+                    ((TObjEneMe3SinowZoa *)&this->m_404)->copy_position_vector(&q);
+                    this->m_424 = 1;
                 }
                 break;
             case 1:
-                if (stelth->m_404.decay_value_toward_floor() != 0) {
-                    stelth->m_3cc &= ~8;
-                    stelth->m_3c0 = 0;
-                    stelth->m_424 = 2;
+                if (this->m_404.decay_value_toward_floor() != 0) {
+                    this->m_3cc &= ~8;
+                    this->m_3c0 = 0;
+                    this->m_424 = 2;
                 }
                 break;
             }
-        } else if (stelth->is_passing_frame(4.0f) != 0) {
-            stelth->m_3cc |= 8;
-        } else if (stelth->is_passing_frame(6.0f) != 0) {
-            stelth->m_3cc &= ~8;
-            stelth->m_3c0 = 0;
+        } else if (this->is_passing_frame(4.0f) != 0) {
+            this->m_3cc |= 8;
+        } else if (this->is_passing_frame(6.0f) != 0) {
+            this->m_3cc &= ~8;
+            this->m_3c0 = 0;
         }
-        stelth->update_ground_contact();
-        stelth->check_collisions();
+        this->update_ground_contact();
+        this->check_collisions();
         break;
     case 5:
-        stelth->m_3cc &= ~8;
-        stelth->m_3c0 = 0;
+        this->m_3cc &= ~8;
+        this->m_3c0 = 0;
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
     Vec d;
     Vec out;
     s32 c[3];
     s32 r;
     switch (reason) {
     case 4:
-        stelth->requested_action = 0xA;
-        stelth->set_field_378(6);
-        stelth->clear_intangible();
-        stelth->m_3cc &= 0xFFFFFFF8;
-        stelth->m_3cc |= 0x10000;
-        stelth->enemy_copy_target_destination();
-        stelth->m_424 = 0;
+        this->requested_action = 0xA;
+        this->set_field_378(6);
+        this->clear_intangible();
+        this->m_3cc &= 0xFFFFFFF8;
+        this->m_3cc |= 0x10000;
+        this->enemy_copy_target_destination();
+        this->m_424 = 0;
         break;
     case 3:
-        if (stelth->m_424 == 3) {
-            stelth->transition_enemy_state(6);
+        if (this->m_424 == 3) {
+            this->transition_enemy_state(6);
         }
         break;
     case 0:
-        stelth->update_prev_position();
-        switch (stelth->m_424) {
+        this->update_prev_position();
+        switch (this->m_424) {
         case 0:
         default:
-            if (stelth->current_target == NULL) {
-                stelth->transition_enemy_state(6);
+            if (this->current_target == NULL) {
+                this->transition_enemy_state(6);
                 break;
             }
             {
-                Vec dest = stelth->destination;
-                if (select_enemy_destination(stelth, &dest, 1) != 0) {
-                    Vec pos = stelth->body_center;
-                    copy_position_if_valid__10TObjPlayerFii((saddr)stelth, (saddr)&pos);
-                    stelth->body_center.y += 5.0f;
-                    r = ((TObjEnemy *)stelth)->enemy_turn_toward_dest(((StelthMovementParams *)stelth->movementParameters)->turn);
-                    enemy_set_heading_velocity(((StelthMovementParams *)stelth->movementParameters)->speed, stelth, stelth->rotation_y);
-                    move_with_wall_slide((u8 *)stelth);
+                Vec dest = this->destination;
+                if (select_enemy_destination(this, &dest, 1) != 0) {
+                    Vec pos = this->body_center;
+                    copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&pos);
+                    this->body_center.y += 5.0f;
+                    r = ((TObjEnemy *)this)->enemy_turn_toward_dest(((StelthMovementParams *)this->movementParameters)->turn);
+                    enemy_set_heading_velocity(((StelthMovementParams *)this->movementParameters)->speed, this, this->rotation_y);
+                    move_with_wall_slide((u8 *)this);
                 } else {
-                    VecCopy(&d, &stelth->destination);
-                    subtract_vector(&d, &stelth->body_center);
-                    r = stelth->turn_toward_direction(((StelthMovementParams *)stelth->movementParameters)->turn, &d);
+                    VecCopy(&d, &this->destination);
+                    subtract_vector(&d, &this->body_center);
+                    r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
                 }
             }
             if (r < 0x100) {
-                stelth->m_424 = 1;
-                stelth->requested_action = 8;
+                this->m_424 = 1;
+                this->requested_action = 8;
             } else {
-                stelth->requested_action = 0xA;
+                this->requested_action = 0xA;
             }
             break;
         case 1:
-            stelth->advance_animation();
-            if (stelth->get_flag_b4() != 0) {
-                stelth->m_428 = 0;
-                stelth->m_424 = 2;
+            this->advance_animation();
+            if (this->get_flag_b4() != 0) {
+                this->m_428 = 0;
+                this->m_424 = 2;
             }
-            if (stelth->is_passing_frame(10.0f) != 0) {
-                stelth->advance_animation();
+            if (this->is_passing_frame(10.0f) != 0) {
+                this->advance_animation();
                 push_matrix_from(identity_matrix);
-                post_translate_matrix((f32 *)&stelth->position);
-                rotate_matrix_y(0, stelth->rotation_y);
+                post_translate_matrix((f32 *)&this->position);
+                rotate_matrix_y(0, this->rotation_y);
                 set_motion_packed_rotation();
-                stelth->calc_joint_matrices(10.0f);
+                this->calc_joint_matrices(10.0f);
                 clear_motion_packed_rotation();
                 pop_matrix();
                 push_matrix_from(anim_model_matrix_array[3]);
@@ -2015,27 +2013,27 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason) {
                 c[2] = lbl_8043D680[2];
                 matrix_mult_vec(0, (Vec *)c, &out);
                 pop_matrix();
-                if (stelth->current_target != NULL) {
-                    VecCopy(&d, &stelth->destination);
-                    subtract_vector(&d, &stelth->body_center);
-                    r = stelth->turn_toward_direction(((StelthMovementParams *)stelth->movementParameters)->turn, &d);
+                if (this->current_target != NULL) {
+                    VecCopy(&d, &this->destination);
+                    subtract_vector(&d, &this->body_center);
+                    r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
                 } else {
-                    r = ((s32 *)stelth->m_318)[3];
+                    r = ((s32 *)this->m_318)[3];
                 }
-                if (r < ((s32 *)stelth->m_318)[3] / 2 && stelth->current_target != NULL) {
+                if (r < ((s32 *)this->m_318)[3] / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        ((TTecRaFoie *)stelth)->create(&out, (u8 *)&stelth->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
+                        ((TTecRaFoie *)this)->create(&out, (u8 *)&this->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->attack_tech_level));
                     } else {
-                        TTecGiFoie::create(stelth, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
+                        TTecGiFoie::create(this, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->attack_tech_level));
                     }
                 } else {
-                    stelth->m_424 = 3;
+                    this->m_424 = 3;
                 }
             }
             break;
         case 2:
-            if (++stelth->m_428 >= 0x3C) {
-                stelth->m_424 = 3;
+            if (++this->m_428 >= 0x3C) {
+                this->m_424 = 3;
             }
             break;
         }
@@ -2043,33 +2041,33 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason) {
     case 5:
         break;
     }
-    ((TObjPlayer *)stelth)->update_collisions();
+    ((TObjPlayer *)this)->update_collisions();
 }
-s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos) {
+s32 TObjEneMe3Stelth::sub_800F0F84(Vec *pos) {
     CollisionBody *body;
     s32 result;
     u32 saved;
     Vec sp;
     u8 unused[12];
-    body = stelth->bodies;
+    body = this->bodies;
     saved = body->flags;
     body->flags = 0x9D01;
-    VecCopy(&sp, &stelth->position);
-    VecCopy(&stelth->position, pos);
+    VecCopy(&sp, &this->position);
+    VecCopy(&this->position, pos);
     TObjPlayer::init_all_slots();
-    stelth->check_collisions();
-    if ((body->flags & 0x80000) && get_valid_target_player(get_entity_id(stelth->current_target)) == 0) {
-        VecCopy(&stelth->position, &sp);
+    this->check_collisions();
+    if ((body->flags & 0x80000) && get_valid_target_player(get_entity_id(this->current_target)) == 0) {
+        VecCopy(&this->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
     }
-    if ((body->flags & 0x100000) && get_valid_target_player(stelth->entity_id) == 0) {
-        VecCopy(&stelth->position, &sp);
+    if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
+        VecCopy(&this->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
     }
     result = (body->flags & 0x200000) != 0;
-    VecCopy(&stelth->position, &sp);
+    VecCopy(&this->position, &sp);
     TObjPlayer::init_all_slots();
     copy_collision_body(body, &TObjEneMe3Stelth__collision_body_template);
     body->flags = saved;
@@ -2107,9 +2105,9 @@ void TObjEneMe3StelthReal::select_next_attack_state() {
 }
 void TObjEneMe3StelthReal::on_target_lost() {  }
 
-void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
-    if (stelth->is_passing_frame(12.0f) != 0 || stelth->is_passing_frame(28.0f) != 0) {
-        stelth->try_spawn_ground_effect(&stelth->position);
+void TObjEneMe3Stelth::sub_800F0C90() {
+    if (this->is_passing_frame(12.0f) != 0 || this->is_passing_frame(28.0f) != 0) {
+        this->try_spawn_ground_effect(&this->position);
     }
 }
 
