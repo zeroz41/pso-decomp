@@ -1035,7 +1035,7 @@ void TObjEnePanarms::enter_arm_attack_0() {
     direction.y = 0.0f;
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
-    ((TObjEnePanarmsAtkColli *)this)->create(&draw_positions[2], &direction, (void *)0);
+    TObjEnePanarmsAtkColli::create(this, &draw_positions[2], &direction, 0);
     set_field_b8(7);
     this->m_388 = 0x5A;
 }
@@ -1097,7 +1097,7 @@ void TObjEnePanarms::enter_arm_attack_1() {
     direction.y = 0.0f;
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
-    ((TObjEnePanarmsAtkColli *)this)->create(&draw_positions[4], &direction, (void *)1);
+    TObjEnePanarmsAtkColli::create(this, &draw_positions[4], &direction, 1);
     set_field_b8(9);
     this->m_388 = 0x5A;
 }
