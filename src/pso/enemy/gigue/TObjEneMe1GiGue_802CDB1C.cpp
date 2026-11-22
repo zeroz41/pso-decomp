@@ -26,16 +26,9 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/text_800870BC.h"
+#include "pso/network/client_id.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
-extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-extern f32 lbl_805D6844;
-extern f32 lbl_805D6848;
-TObjChara *find_active_entity_by_id(u16);
-extern s32 local_client_id;
-extern const f32 lbl_805D684C;
-extern s32 lbl_805D6854;
-}
 
 TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
     : TObjCollidable(tl_04) {
@@ -90,7 +83,7 @@ void TUnk_804E14E8::run_task() {
         queue_destruction();
         return;
     }
-    tgt = find_active_entity_by_id(target_id);
+    tgt = (TObjChara *)find_active_entity_by_id(target_id);
     switch (state) {
     case 0:
         timer--;

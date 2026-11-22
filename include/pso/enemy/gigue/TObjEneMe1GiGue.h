@@ -99,4 +99,10 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
 };
 
 LAYOUT_ASSERT(TObjEneMe1GiGue_size, sizeof(TObjEneMe1GiGue) == 0x458);
+
+// Shot parameters load_params copies from the GiGue parameter table for TUnk_804E14E8.
+extern f32 lbl_805D6844;
+extern f32 lbl_805D6848;
+extern f32 lbl_805D684C;
+extern s32 lbl_805D6854;
 #endif
