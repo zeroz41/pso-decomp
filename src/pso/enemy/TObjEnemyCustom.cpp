@@ -616,9 +616,9 @@ void TObjEnemyCustom::pick_open_direction(f32 *dir, f32 reach, f32 radius) {
         Vec probe = {reach + radius, 0.0f, 0.0f};
         rotate_matrix_y(0, angle);
         for (i = 0; i < 3; i++) {
-            matrix_mult_vec(0, &probe, destination());
-            vec3_add_to(destination(), &eye);
-            hit = csnVector(&eye, destination(), -1);
+            matrix_mult_vec(0, &probe, &move_destination);
+            vec3_add_to(&move_destination, &eye);
+            hit = csnVector(&eye, &move_destination, -1);
             if (hit == NULL) {
                 pop_matrix();
                 return;
@@ -637,9 +637,9 @@ void TObjEnemyCustom::pick_open_direction(f32 *dir, f32 reach, f32 radius) {
     {
         Vec offset = {best, 0.0f, 0.0f};
         rotate_matrix_y(0, best_angle);
-        matrix_mult_vec(0, &offset, destination());
+        matrix_mult_vec(0, &offset, &move_destination);
     }
-    vec3_add_to(destination(), &eye);
+    vec3_add_to(&move_destination, &eye);
     pop_matrix();
 }
 

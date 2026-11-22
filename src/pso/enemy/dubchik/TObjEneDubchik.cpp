@@ -248,7 +248,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     s32 i;
     m_name = TObjEneDubchik__class_name;
     apply_set_data(set_data);
-    VecCopy((Vec *)&m_290, VecCopy((Vec *)&m_29c, VecCopy(&prev_position, &position)));
+    VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;
     variant = *(s16 *)((u8 *)set_data + 0x3C) ? 1 : 0;
     state36C = *(s16 *)((u8 *)set_data + 0x3E);

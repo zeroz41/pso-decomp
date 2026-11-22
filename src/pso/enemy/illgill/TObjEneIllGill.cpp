@@ -224,8 +224,8 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
         actorFlags |= 0x2000;
         target = 0;
         targetId = 0xFFFF;
-        VecCopy((Vec *)&m_290, &body_center);
-        VecCopy((Vec *)&m_29c, &body_center);
+        VecCopy(&move_origin, &body_center);
+        VecCopy(&move_destination, &body_center);
         chargeDistance = 0.0f;
     }
 }
@@ -471,8 +471,8 @@ void TObjEneIllGill::clear_charge_hits() {
 void TObjEneIllGill::move_toward_dest_with_detour() {
     TObjEneIllGill *o = this;
     s32 ang;
-    VecCopy((Vec *)(Vec *)&o->m_29c, (const Vec *)&o->home_position);
-    VecCopy((Vec *)&(o->m_290), (const Vec *)&o->body_center);
+    VecCopy(&o->move_destination, (const Vec *)&o->home_position);
+    VecCopy(&o->move_origin, (const Vec *)&o->body_center);
     VecCopy((Vec *)&o->prev_position, (const Vec *)&o->position);
     VecCopy((Vec *)&scratch_vec, (const Vec *)&o->home_position);
     subtract_vector(&scratch_vec, &o->position);
@@ -637,7 +637,7 @@ void TObjEneIllGill::update_chase_target() {
                 Vec tgt = *(Vec *)((u8 *)&((TObjChara *)target)->body_center);
                 enemy_pursue_point(self, id, &tgt, r, 40.0f, t);
             }
-            d = horizontal_distance_squared((Vec *)&m_29c, &body_center);
+            d = horizontal_distance_squared(&move_destination, &body_center);
             t = r + this->bodies->radius;
             if (d < t * t) {
                 if (this->targetId == 0xFFFF) {
@@ -1003,8 +1003,8 @@ void TObjEneIllGill::update_damage_recovery() {
             this->actorFlags |= 0x2000;
             this->target = 0;
             this->targetId = 0xFFFF;
-            VecCopy((Vec *)(((u8 *)&this->m_290)), (const Vec *)(&body_center));
-            VecCopy((Vec *)(&m_29c), (const Vec *)(&body_center));
+            VecCopy(&this->move_origin, (const Vec *)(&body_center));
+            VecCopy(&move_destination, (const Vec *)(&body_center));
             this->chargeDistance = 0.0f;
         }
         this->referenceHp = this->hp;
@@ -1381,7 +1381,7 @@ void TObjEneIllGill::update_charge_attack() {
             ((TObjEnemy *)o)->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->rotation_y);
             move_with_wall_slide((u8 *)o);
-            d2 = horizontal_distance_squared((Vec *)&o->m_29c, &o->body_center);
+            d2 = horizontal_distance_squared(&o->move_destination, &o->body_center);
             t = spd + o->bodies->radius;
             if (d2 < t * t || ((IllGillMovementParameters *)o->movementParameters)->range * ((IllGillMovementParameters *)o->movementParameters)->range < d2 || 120.0f < (f32)(c = o->chargeFrames)) {
                 if (o->targetId == 0xFFFF) {

@@ -515,7 +515,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
 
     m_name = TObjEneGyaranzo__class_name;
     apply_set_data(set_data);
-    VecCopy((Vec *)&m_290, VecCopy((Vec *)&m_29c, &position));
+    VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = ((BmlResource *)gyaranzo_bml_resource)->motions;
     action_table = gyaranzo_action_table;
     set_field_d8((saddr)action_table);

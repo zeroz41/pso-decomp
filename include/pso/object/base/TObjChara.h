@@ -192,12 +192,8 @@ public:
     void* m_280;
     u8 unk_284[0x8];
     u32 m_28c;
-    void* m_290;
-    u32 m_294;
-    u8 unk_298[0x4];
-    u16 m_29c;
-    s16 m_29e;
-    u8 unk_2A0[0x8];
+    Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
+    Vec move_destination;  // where the current move goes
     u8 *target;
     u32 m_2ac;
     u8 * m_2b0;
@@ -255,9 +251,7 @@ public:
     u16 tp;
     u8 unk_330[0x4];
 
-    // Typed views of the vectors the fields above split up: the movement
-    // destination at 0x29C and the velocity at 0x308.
-    Vec *destination() { return (Vec *)&m_29c; }
+    // Typed view of the velocity the fields at 0x308 split up.
     Vec *velocity() { return (Vec *)unk_308; }
 };
 

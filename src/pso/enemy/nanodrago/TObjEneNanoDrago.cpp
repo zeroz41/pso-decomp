@@ -63,7 +63,7 @@ LAYOUT_ASSERT(NanoDrago_flags30_offset, offsetof(TObjEneNanoDrago, actorFlags) =
 LAYOUT_ASSERT(NanoDrago_pos_offset, offsetof(TObjEneNanoDrago, position) == 0x38);
 LAYOUT_ASSERT(NanoDrago_angle_offset, offsetof(TObjEneNanoDrago, rotation_y) == 0x60);
 LAYOUT_ASSERT(NanoDrago_fb8_offset, offsetof(TObjEneNanoDrago, requested_action) == 0xb8);
-LAYOUT_ASSERT(NanoDrago_home_offset, offsetof(TObjEneNanoDrago, m_29c) == 0x29c);
+LAYOUT_ASSERT(NanoDrago_home_offset, offsetof(TObjEneNanoDrago, move_destination) == 0x29c);
 LAYOUT_ASSERT(NanoDrago_target_offset, offsetof(TObjEneNanoDrago, target) == 0x2a8);
 LAYOUT_ASSERT(NanoDrago_hpmax_offset, offsetof(TObjEneNanoDrago, hpmax) == 0x2b8);
 LAYOUT_ASSERT(NanoDrago_hp_offset, offsetof(TObjEneNanoDrago, hp) == 0x32c);
@@ -179,7 +179,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     s32 i;
     m_name = nano_drago_name;
     apply_set_data(arg2);
-    VecCopy((Vec *)(&m_290), (const Vec *)(VecCopy((Vec *)(&m_29c), (const Vec *)(&position))));
+    VecCopy(&move_origin, (const Vec *)(VecCopy(&move_destination, (const Vec *)(&position))));
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
@@ -483,7 +483,7 @@ void TObjEneNanoDrago::update_circling_state() {
         requested_action = 1;
         circlingAngle = 0;
         if (target != NULL) {
-            VecCopy((Vec *)((Vec *)&m_29c), (const Vec *)(target + 0x2FC));
+            VecCopy(&move_destination, (const Vec *)(target + 0x2FC));
         }
         state = 1;
     case 1:
@@ -593,7 +593,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             }
             break;
         }
-        VecCopy((Vec *)(&m_29c), (const Vec *)(target + 0x2FC));
+        VecCopy(&move_destination, (const Vec *)(target + 0x2FC));
         enemy_turn_half_toward_dest(this);
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
@@ -974,7 +974,7 @@ void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
         actor->moveDestination.x = r * cos_table_lookup(ang) + center->x;
         actor->moveDestination.z = r * sin_table_lookup(ang) + center->z;
     }
-    VecCopy((Vec *)&actor->m_29c, (const Vec *)&actor->moveDestination);
+    VecCopy(&actor->move_destination, (const Vec *)&actor->moveDestination);
     ((TObjEnemy *)actor)->enemy_turn_toward_dest(((NanoDragoMovementParams *)actor->movementParameters)->turnSpeed);
     enemy_set_heading_velocity(actor->speed, actor, actor->rotation_y);
     move_with_wall_slide((u8 *)actor);

@@ -615,15 +615,15 @@ void TObjEneMoja::update_appearance_jump() {
         if (is_passing_frame(8.0f) == 0) {
             return;
         }
-        VecCopy((Vec *)&m_29c, &home_position);
-        VecCopy((Vec *)&m_290, &position);
-        VecCopy((Vec *)&delta, (const Vec *)&m_29c);
+        VecCopy(&move_destination, &home_position);
+        VecCopy(&move_origin, &position);
+        VecCopy((Vec *)&delta, &move_destination);
         subtract_vector(&delta, &position);
         rotation_y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
         jumpSpeed = newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
-        calc_velocity_toward_destination(this, *(Vec *)&m_290, *(Vec *)&m_29c, jumpSpeed);
+        calc_velocity_toward_destination(this, move_origin, move_destination, jumpSpeed);
         y_speed = delta.y / ticks;
         phase = 1;
         break;
@@ -698,12 +698,12 @@ void TObjEneMoja::update_appearance_drop() {
         if (is_passing_frame(8.0f) == 0) {
             return;
         }
-        VecCopy((Vec *)&m_29c, &home_position);
-        VecCopy((Vec *)&m_290, &position);
+        VecCopy(&move_destination, &home_position);
+        VecCopy(&move_origin, &position);
         jumpSpeed = newton_sqrtf(scratch_vec.x * scratch_vec.x + scratch_vec.z * scratch_vec.z);
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
-        calc_velocity_toward_destination(this, *(Vec *)&m_290, *(Vec *)&m_29c, jumpSpeed);
+        calc_velocity_toward_destination(this, move_origin, move_destination, jumpSpeed);
         y_speed = scratch_vec.y / ticks;
         phase = 1;
         break;
@@ -809,7 +809,7 @@ void TObjEneMoja::update_approach_state() {
             if (((MojaMovementParameters *)movementParameters)->unknown_00 * ((MojaMovementParameters *)movementParameters)->unknown_00 < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->unknown_08, &v3, params, *(f32 *)((s8 *)params + 8), 30.0f)) {
                 target = NULL;
             }
-            if (horizontal_distance_squared((Vec *)&m_29c, &position) < (((MojaMovementParameters *)movementParameters)->unknown_04 + bodies->radius) * (((MojaMovementParameters *)movementParameters)->unknown_04 + bodies->radius)
+            if (horizontal_distance_squared(&move_destination, &position) < (((MojaMovementParameters *)movementParameters)->unknown_04 + bodies->radius) * (((MojaMovementParameters *)movementParameters)->unknown_04 + bodies->radius)
                 || --timer < 0) {
                 attackSequence = 0;
             }
@@ -1199,7 +1199,7 @@ void TObjEneMoja::update_attack_jump() {
                 if (select_enemy_destination(this, &dest, 1) != 0) {
                     Vec pos = body_center;
                     copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&pos);
-                    VecCopy(&delta, (Vec *)&m_29c);
+                    VecCopy(&delta, &move_destination);
                     subtract_vector(&delta, &body_center);
                     jumpSpeed = -20.0f + newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
                     jumpSpeed = jumpSpeed / (12.0f / play_speed);
@@ -1215,7 +1215,7 @@ void TObjEneMoja::update_attack_jump() {
         }
         break;
     case 1:
-        calc_velocity_toward_destination(this, *(Vec *)&m_290, *(Vec *)&m_29c, jumpSpeed);
+        calc_velocity_toward_destination(this, move_origin, move_destination, jumpSpeed);
         move_with_wall_slide((u8 *)this);
         if (is_passing_frame(20.0f) != 0) {
             phase = 2;

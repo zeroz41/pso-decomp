@@ -170,7 +170,7 @@ void TObjEneMe1GiGue::run_idle_action() {  }
 TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     m_name = TObjEneMe1GiGue__name;
     apply_set_data(set_data);
-    VecCopy((Vec *)&m_290, VecCopy((Vec *)&m_29c, &position));
+    VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = TObjEneMe1GiGue__data_805D6838->motions;
     variant = 0;
     add_flags_2e4(0x11);
@@ -512,7 +512,7 @@ void TObjEneMe1GiGue::sub_802CCBAC() {
         requested_action = 1;
         m_3dc = 0;
         if (target != NULL) {
-            VecCopy((Vec *)&m_29c, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
         }
         state = 1;
     case 1:
@@ -617,7 +617,7 @@ void TObjEneMe1GiGue::sub_802CC900() {
             }
             break;
         }
-        VecCopy((Vec *)&m_29c, &((TObjChara *)target)->body_center);
+        VecCopy(&move_destination, &((TObjChara *)target)->body_center);
         enemy_turn_half_toward_dest(this);
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
@@ -1020,7 +1020,7 @@ void TObjEneMe1GiGue::move_around_center(void *center, f32 radius) {
         this->m_390.x = d * cos_table_lookup(angle) + ((Vec *)center)->x;
         this->m_390.z = d * sin_table_lookup(angle) + ((Vec *)center)->z;
     }
-    VecCopy((Vec *)&this->m_29c, &this->m_390);
+    VecCopy(&this->move_destination, &this->m_390);
     enemy_turn_toward_dest(((EnemyMoveParams *)this->movementParameters)->turn_speed);
     enemy_set_heading_velocity(this->m_3e4, this, this->rotation_y);
     move_with_wall_slide((u8 *)this);

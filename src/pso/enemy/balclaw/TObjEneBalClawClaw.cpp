@@ -122,7 +122,7 @@ void TObjEneBalClawClaw::sub_80091A38() {
     this->m_3b0 = 40.0f;
     this->m_3b4 = this->m_3ac;
     this->clear_attack_flag();
-    VecCopy((Vec *)&this->m_290, (const Vec *)VecCopy((Vec *)&this->m_29c, &this->position));
+    VecCopy(&this->move_origin, (const Vec *)VecCopy(&this->move_destination, &this->position));
     this->clear_lobby_object_state();
 }
 
@@ -322,7 +322,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
         }
         claw->target = (u8 *)find_active_entity_by_id(claw->targetId);
         if (claw->target != NULL) {
-            VecCopy((Vec *)&claw->m_29c, &((TObjChara *)claw->target)->body_center);
+            VecCopy(&claw->move_destination, &((TObjChara *)claw->target)->body_center);
         }
         break;
     case 1: {
@@ -634,12 +634,12 @@ void TObjEneBalClawClaw::update_move_to_target(void *p) {
     case 0:
         claw->actorFlags &= ~0x100;
         claw->requested_action = 1;
-        VecCopy((Vec *)&claw->m_29c, &claw->home_position);
+        VecCopy(&claw->move_destination, &claw->home_position);
         claw->state = 1;
     case 1:
         claw->y_speed = 0.0f;
-        VecCopy((Vec *)&claw->m_290, &claw->body_center);
-        calc_velocity_toward_destination(claw, *(Vec *)&claw->m_290, *(Vec *)&claw->m_29c,
+        VecCopy(&claw->move_origin, &claw->body_center);
+        calc_velocity_toward_destination(claw, claw->move_origin, claw->move_destination,
                                          ((EnemyMoveParams *)claw->movementParameters)->min_distance);
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
         move_with_wall_slide((u8 *)claw);

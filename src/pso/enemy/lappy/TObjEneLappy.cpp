@@ -1409,8 +1409,8 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     timer = resetTimer;
     VecCopy(&prev_position, &position);
     VecCopy(&home_position, &position);
-    VecCopy((Vec *)&m_290, &position);
-    VecCopy((Vec *)&m_29c, &position);
+    VecCopy(&move_origin, &position);
+    VecCopy(&move_destination, &position);
     m_374 = 0;
     m_396 = 0;
     m_382 = -1;

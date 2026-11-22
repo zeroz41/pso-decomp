@@ -397,7 +397,7 @@ void TUnk_80493450::beast_update_approach() {
                 enemy_move_toward(self, ((BeastMovementParams *)movementParameters)->turnSpeed, &sp8, 0, this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
-                if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = this->unk_394 + this->bodies->radius) * r ||
+                if (horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->position) < (r = this->unk_394 + this->bodies->radius) * r ||
                     BEAST_DESTINATION_TIMEOUT_FRAMES < (f32) (*(s32 *)&this->m_2ac)++) {
                     this->target = NULL;
                     this->m_2ac = 0;
@@ -532,8 +532,8 @@ void TUnk_80493450::beast_idle_update() {
     dist = horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position);
     range = *(f32 *)((s8 *)self + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC));
     if (range * range < dist) {
-        VecCopy((Vec *)&this->m_29c, &this->home_position);
-        VecCopy((Vec *)&this->m_290, &this->body_center);
+        VecCopy(&this->move_destination, &this->home_position);
+        VecCopy(&this->move_origin, &this->body_center);
         VecCopy(&this->prev_position, &this->position);
         VecCopy(&scratch_vec, &this->home_position);
         subtract_vector(&scratch_vec, (u8 *)&this->position);

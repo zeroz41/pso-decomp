@@ -1657,11 +1657,11 @@ s32 check_path_obstructed(u8 *body, Vec *arg1) {
     return 0;
 }
 
-s32 select_enemy_destination(Obj_800182A0 *self, Vec *destination, int flags) {
+s32 select_enemy_destination(Obj_800182A0 *self, Vec *move_destination, int flags) {
     Vec d;
     s32 a;
-    if (project_actor_to_ground((saddr)self, (saddr)destination, 0) != 0) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, destination);
+    if (project_actor_to_ground((saddr)self, (saddr)move_destination, 0) != 0) {
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, move_destination);
         if (!(flags & 1)) {
             d.y = self->pos.y;
         } else {
@@ -1685,7 +1685,7 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec *destination, int flags) {
         if (!(flags & 4) && csnVector(&self->pos, &d, -1) != 0) {
             return 0;
         }
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->f29C, destination);
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->f29C, move_destination);
     return 1;
     }
     return 0;
@@ -1820,7 +1820,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
     f32 var_f31;
     s32 ang;
     u8 *arg0 = (u8 *)this;
-    var_f31 = horizontal_distance_squared((u8 *)&this->body_center, (u8 *)&this->m_29c);
+    var_f31 = horizontal_distance_squared((u8 *)&this->body_center, (u8 *)&this->move_destination);
     if ((var_f31 < (farg0 * farg0)) || (((TObjEnemy *)(arg0))->is_actor_cadence_frame(0x96) != 0)) {
         v.x = v.y = (0.0f);
         v.z = (1.0f);
@@ -1842,7 +1842,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
         ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
         enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
         move_with_wall_slide(arg0);
-        var_f31 = horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->body_center);
+        var_f31 = horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->body_center);
         ((TObjEnemy *)arg0)->m_2ac = ((TObjEnemy *)arg0)->m_2ac + 1;
     }
     return var_f31;

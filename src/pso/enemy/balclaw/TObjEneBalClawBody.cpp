@@ -94,7 +94,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     s32 i;
     m_name = balclaw_body_class_name;
     apply_set_data(set_data);
-    VecCopy((Vec *)(&m_290), (const Vec *)(VecCopy((Vec *)(&m_29c), (const Vec *)(&position))));
+    VecCopy(&move_origin, (const Vec *)(VecCopy(&move_destination, (const Vec *)(&position))));
     motion_list = lbl_805D4F20->motions;
     action_table = balclaw_body_actions;
     set_field_d8((saddr)action_table);
@@ -359,7 +359,7 @@ void TObjEneBalClawBody::sub_8008FAD0() {
         body->requested_action = v;
         body->state = 1;
         if (body->target != NULL) {
-            VecCopy((Vec *)&body->m_29c, &((TObjChara *)body->target)->body_center);
+            VecCopy(&body->move_destination, &((TObjChara *)body->target)->body_center);
         }
         break;
     case 1:
@@ -1096,8 +1096,8 @@ void TObjEneBalClawBody::update_move_to_target() {
             subtract_vector(&d2, &((TObjChara *)self->target)->body_center);
             self->pick_open_direction((f32 *)&d2, 60.0f, 30.0f);
         }
-        VecCopy((Vec *)&self->m_290, &self->body_center);
-        calc_velocity_toward_destination(self, *(Vec *)&self->m_290, *(Vec *)&self->m_29c, ((EnemyMoveParams *)self->movementParameters)->min_distance);
+        VecCopy(&self->move_origin, &self->body_center);
+        calc_velocity_toward_destination(self, self->move_origin, self->move_destination, ((EnemyMoveParams *)self->movementParameters)->min_distance);
         self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, (Vec *)&self->x_speed);
         Vec v = self->body_center;
         v.x += self->x_speed;
@@ -1125,12 +1125,12 @@ void TObjEneBalClawBody::sub_8008DD14() {
         }
         self->requested_action = mode;
         self->state = 1;
-        VecCopy((Vec *)&self->m_29c, (const Vec *)&self->home_position);
+        VecCopy(&self->move_destination, (const Vec *)&self->home_position);
         break;
     case 1: {
         self->y_speed = 0.0f;
-        VecCopy((Vec *)&self->m_290, &self->body_center);
-        calc_velocity_toward_destination(self, *(Vec *)&self->m_290, *(Vec *)&self->m_29c, ((EnemyMoveParams *)self->movementParameters)->min_distance);
+        VecCopy(&self->move_origin, &self->body_center);
+        calc_velocity_toward_destination(self, self->move_origin, self->move_destination, ((EnemyMoveParams *)self->movementParameters)->min_distance);
         self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, (Vec *)&self->x_speed);
         Vec v = self->body_center;
         v.x += self->x_speed;
