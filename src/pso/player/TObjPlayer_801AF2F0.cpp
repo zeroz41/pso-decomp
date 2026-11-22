@@ -4120,31 +4120,31 @@ void TObjPlayer::recalc_stats() {
 }
 
 s16 TObjPlayer::add_stat(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)this->m_2b0, (s16)(*((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0)), (s16)(*((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))));
 }
 
 s16 TObjPlayer::add_dfp(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(this->m_2b0 + 8), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 8)));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 8), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 8)));
 }
 
 s16 TObjPlayer::add_hp(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(this->m_2b0 + 6), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 6)));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 6), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 6)));
 }
 
 s16 TObjPlayer::add_mst(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(this->m_2b0 + 2), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 2)));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 2), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 2)));
 }
 
 s16 TObjPlayer::add_ata(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(this->m_2b0 + 0xA), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 0xA)));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 0xA), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 0xA)));
 }
 
 s16 TObjPlayer::add_evp(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(this->m_2b0 + 4), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 4)));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 4), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 4)));
 }
 
 s16 TObjPlayer::add_lck(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(this->m_2b0 + 0xC), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 0xC)));
+    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 0xC), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 0xC)));
 }
 
 s16 TObjPlayer::add_stat_clamped(s32 amount, s16 *arg1, s16 arg2) {

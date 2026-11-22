@@ -1026,7 +1026,7 @@ struct Obj_801D5854 { u8 pad[0xA8]; Ent_801D5854 arr[1]; };
 extern "C" {
 s32 *TItemList__sub_801D5868(Arr_801D5868 *, s32);
 Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i);
-Ent_801D598C *TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
+void *TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
 int copy_from__9TItemDataFP9TItemData(void*);
 }
 
@@ -1074,7 +1074,7 @@ void TUnk_804C4468::sub_801D591C() {
 
 void copy_position__9TItemListFPv(void *p, const Vec *v) { VecCopy((Vec *)((char *)p + 0x4), v); }
 
-Ent_801D598C *TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
+void *TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
     return &arg0->e[arg1];
 }
 void TItemList__sub_801D59A0(TItemList *item_list, saddr list) {
