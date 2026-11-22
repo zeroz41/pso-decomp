@@ -25,9 +25,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
 
 #include "pso/system/vector.h"
 
@@ -49,8 +46,26 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/model_render_state.h"
 
-
+extern "C" {
+s16 TObjPlayer__sub_800A776C(void *p);
+void TObjPlayer__sub_800A7774(void *p, Vec *v);
+void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
+s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags);
+f32 enemy_move_toward(TObjEnemy *enemy, s32 turn_speed, Vec dest, s32 flags, f32 *params, f32 speed);
+s32 copy_position_if_valid(TObjChara *chara, Vec pos);
+}
 
 extern "C" {
 extern void *bm_ene_df1_saver_model_names[2];
@@ -72,9 +87,7 @@ saddr lbl_805D5060;
 SampledMotionPoints *saver_attack_trail_points;
 SampledMotionPoints *saver_jump_trail_points;
 SampledMotionPoints *saver_nail_trail_points;
-void initialize_saver_resources(void);
 }
-int initialize_enemy_photon_effect(void *p);
 
 struct C_800A4294 { s32 x0; };
 
@@ -87,18 +100,6 @@ struct G_800A4294 { A_800A4294 *p; s32 n; u8 pad[0x8]; };
 extern A_800A4294 lbl_804CC8C8;
 extern G_800A4294 player_effect_task_list;
 extern int TObjPlayer__effect_count;
-extern "C" {
-void TObjPlayer__sub_800A4294(void);
-s32 TObjPlayer__sub_800A7774(void *, void *);
-}
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-void move_with_wall_slide(u8 *arg0);
-extern "C" {
-
-s32 post_translate_matrix(void *);
-s32 submit_cursor_candidate(void *, int);
-s32 matrix_mult_vec_array(int, int, void *, int);
-s32 minimap_render_dot(void *, int, int, int);
 
 extern "C" {
 __declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
@@ -152,15 +153,15 @@ void TObjEneSaver::sub_800A42C0() {}
 
 void TObjEneSaver::apply_lookup_entry_effect() {
     Vec edge[2];
-    s32 entry;
+    Vec *entry;
 
-    entry = (saddr)saver_attack_trail_points->lookup((f32)this->frame);
+    entry = saver_attack_trail_points->lookup((f32)this->frame);
     if (entry != 0) {
         push_matrix();
         set_matrix_identity(0);
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        matrix_mult_vec_array(0, entry, edge, 2);
+        matrix_mult_vec_array(NULL, entry, edge, 2);
         pop_matrix();
         if (attack_traces[0] != NULL) {
             attack_traces[0]->add_segment(&edge[0], &edge[1]);
@@ -284,15 +285,6 @@ void TObjEneSaver::update_entry_motion() {
     submit_cursor_candidate(this, -1);
     actorFlags &= ~0x200000;
 }
-}
-
-
-
-
-extern "C" {
-f32 atan2_float(f32 y, f32 x);
-void *get_player_by_client_id(s32 i);
-s32 subtract_vector(void *, void *);
 
 void TObjEneSaver::update_knockback_state() {
 
@@ -356,35 +348,6 @@ void TObjEneSaver::run_hit_reaction() {
     bodies->flags |= 1;
     actorFlags &= ~0x06240000;
 }
-
-}
-
-
-
-
-
-
-
-
-extern "C" {
-
-f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
-
-s32 enemy_move_toward(void *, s32, Vec *, int, f32 *, f32);
-s32 select_enemy_destination(void *, Vec *, int);
-s32 copy_position_if_valid(s32 arg0, s32 arg1);
-
-}
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
-s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
-s32 get_current_floor();
-f32 newton_sqrtf(f32);
-
-s32 check_path_obstructed(void *, void *);
-u16 get_entity_id(void *);
-
-s16 TObjPlayer__sub_800A776C(void *p);
 
 #pragma push
 #pragma fp_contract on
@@ -491,7 +454,7 @@ void TObjEneSaver::sub_800A4D9C() {
     Vec edge[2];
     Vec d;
     u8 *p;
-    s32 e;
+    Vec *e;
     u16 id;
     id = targetId;
     if (id < 0x1000) {
@@ -521,17 +484,11 @@ void TObjEneSaver::sub_800A4D9C() {
             if (t == NULL) {
                 goto fail;
             }
-            {
-                Vec dest = ((TObjChara *)t)->body_center;
-                if (select_enemy_destination(this, &dest, 1) == 0) {
-                    goto fail;
-                }
+            if (select_enemy_destination(this, ((TObjChara *)t)->body_center, 1) == 0) {
+                goto fail;
             }
             phase = 1;
-            {
-                Vec pos = body_center;
-                copy_position_if_valid((saddr)this, (saddr)&pos);
-            }
+            copy_position_if_valid(this, body_center);
             VecCopy(&d, &move_destination);
             subtract_vector(&d, &body_center);
             {
@@ -550,12 +507,12 @@ void TObjEneSaver::sub_800A4D9C() {
     case 1:
         move_with_wall_slide((u8 *)this);
         if (11.0f <= frame && frame <= 27.0f) {
-            if ((e = (saddr)saver_jump_trail_points->lookup(frame)) != 0) {
+            if ((e = saver_jump_trail_points->lookup(frame)) != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
-                post_translate_matrix(&position);
+                post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
-                matrix_mult_vec_array(0, e, edge, 2);
+                matrix_mult_vec_array(NULL, e, edge, 2);
                 pop_matrix();
                 if (attack_traces[1] != NULL) {
                     attack_traces[1]->add_segment(&edge[0], &edge[1]);
@@ -633,13 +590,13 @@ void TObjEneSaver::sub_800A5154() {
             }
         }
         if (0.0f <= frame && frame <= 7.0f) {
-            s32 entry = (saddr)saver_nail_trail_points->lookup(frame);
-            if (entry != 0) {
+            Vec *entry = saver_nail_trail_points->lookup(frame);
+            if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
-                post_translate_matrix(&position);
+                post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
-                matrix_mult_vec_array(0, entry, &v, 2);
+                matrix_mult_vec_array(NULL, entry, &v, 2);
                 pop_matrix();
                 if (attack_traces[2] != NULL) {
                     attack_traces[2]->add_segment(&v, &w);
@@ -666,44 +623,11 @@ void TObjEneSaver::sub_800A5154() {
     submit_cursor_candidate(this, -1);
 }
 
-
-typedef struct Self_800A5960 Self_800A5960;
-}
-
-
-
-
-
-
-
-extern "C" {
-s32 rotate_matrix_x(int, void *);
 extern f32 lbl_804FF5E8[];
-extern s32 actor_frame_tick;
-
-s32 matrix_mult_vec(int, Vec *, void *);
-extern u8 identity_matrix[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
-void * create_ene_saver(void *arg0);
-s32 obj_setFlags30(void *, int);
-
-
-
-extern void *tl_04;
-
-
-}
 
 #pragma defer_codegen on
-
-extern "C" {
 
 void TObjEneSaver::select_model_record(s32 i) {
     model = saver_bml_resource->models[i].model;
@@ -835,7 +759,7 @@ void TObjEneSaver::free_resources() {
 }
 
 void *create_ene_saver(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneSaver(control, set_data);
 }
 
@@ -961,7 +885,7 @@ void TObjEneSaver::render() {
         }
     } else {
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         set_motion_packed_rotation();
         calc_joint_matrices(frame);
@@ -970,7 +894,7 @@ void TObjEneSaver::render() {
         push_matrix_from(anim_model_matrix_array[26]);
         {
             Vec t = lbl_8043A8A4;
-            matrix_mult_vec(0, &t, &particle_position);
+            matrix_mult_vec(NULL, &t, &particle_position);
         }
         pop_matrix();
     }
@@ -978,7 +902,7 @@ void TObjEneSaver::render() {
 
 void TObjPlayer::step_cutscene_frame(NJS_OBJECT *) {
     if (lbl_805D505C == 0x15) {
-        rotate_matrix_x(0, (void *)lbl_805D5060);
+        rotate_matrix_x(NULL, lbl_805D5060);
     }
     if (lbl_805D505C == 0x1A) {
         lbl_80500978.pos.x = 0.0f;
@@ -1020,7 +944,7 @@ void TObjEneSaver::refresh_target() {
     if (obj_testFlags30(0x10) != 0) {
         s32 best_id;
         s32 i;
-        u8 *p;
+        TObjPlayer *p;
         s32 id;
         f32 best;
         f32 d;
@@ -1030,14 +954,14 @@ void TObjEneSaver::refresh_target() {
         Vec v = lbl_8043A8B0;
         best = *(f32 *)movementParameters * *(f32 *)movementParameters;
         for (; i < registered_player_count + registered_enemy_count; i++) {
-            p = (u8 *)TObjPlayer::get_player_data(i);
-            if (p != NULL && p != (u8 *)this) {
+            p = TObjPlayer::get_player_data(i);
+            if (p != NULL && p != (TObjChara *)this) {
                 id = get_entity_id(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(((TObjMotion *)p)->actorFlags & 0x02000800)) {
-                    VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
+                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x02000800)) {
+                    VecCopy(&v, &p->body_center);
                     subtract_vector(&v, &body_center);
                     d = v.x * v.x + v.z * v.z;
-                    if (d < best && check_path_obstructed(this, p + 0x2FC) != 1) {
+                    if (d < best && check_path_obstructed(this, &p->body_center) != 1) {
                         best_id = id;
                         best = d;
                     }
@@ -1047,10 +971,10 @@ void TObjEneSaver::refresh_target() {
         targetId = best_id;
         tid = targetId;
         if (tid < 0x1000U) {
-            u8 *q = (u8 *)get_player_by_client_id(tid);
+            TObjPlayer *q = get_player_by_client_id(tid);
             if (q != NULL) {
-                if (((TObjPlayer *)q)->get_floor() == get_current_floor()) {
-                    target = q;
+                if (q->get_floor() == get_current_floor()) {
+                    target = (u8 *)q;
                     return;
                 }
             }
@@ -1065,9 +989,9 @@ void TObjEneSaver::refresh_target() {
     {
         s32 best_id2;
         s32 best_id;
-        u8 *p;
-        u8 *best_p2;
-        u8 *best_p;
+        TObjPlayer *p;
+        TObjPlayer *best_p2;
+        TObjPlayer *best_p;
         s32 i;
         f32 best2;
         f32 best;
@@ -1081,21 +1005,21 @@ void TObjEneSaver::refresh_target() {
         best = *(f32 *)movementParameters * *(f32 *)movementParameters;
         best2 = best;
         for (; i < registered_player_count; i++) {
-            p = (u8 *)TObjPlayer::get_player_data(i);
+            p = TObjPlayer::get_player_data(i);
             if (p == NULL) continue;
             if ((u16)get_entity_id(p) >= 0x1000) continue;
-            if (((TObjPlayer *)p)->get_floor() != get_current_floor()) continue;
-            if (((TObjMotion *)p)->actorFlags & 0x02000800) continue;
-            VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
+            if (p->get_floor() != get_current_floor()) continue;
+            if (p->actorFlags & 0x02000800) continue;
+            VecCopy(&v, &p->body_center);
             subtract_vector(&v, &body_center);
             d = v.x * v.x + v.z * v.z;
-            if ((((TObjPlayer *)p)->class_flags & parameter_mask) && d < best &&
-                check_path_obstructed(this, p + 0x2FC) != 1) {
+            if ((p->class_flags & parameter_mask) && d < best &&
+                check_path_obstructed(this, &p->body_center) != 1) {
                 best_id = get_entity_id(p);
                 best = d;
                 best_p = p;
             }
-            if (d < best2 && check_path_obstructed(this, p + 0x2FC) != 1) {
+            if (d < best2 && check_path_obstructed(this, &p->body_center) != 1) {
                 best_id2 = get_entity_id(p);
                 best2 = d;
                 best_p2 = p;
@@ -1103,17 +1027,17 @@ void TObjEneSaver::refresh_target() {
         }
         if (best2 < 900.0f && best_p2 != NULL) {
             targetId = best_id2;
-            target = best_p2;
+            target = (u8 *)best_p2;
             return;
         }
         if (best_p != NULL) {
             targetId = best_id;
-            target = best_p;
+            target = (u8 *)best_p;
             return;
         }
         if (best_p2 != NULL) {
             targetId = best_id2;
-            target = best_p2;
+            target = (u8 *)best_p2;
             return;
         }
         targetId = 0xFFFF;
@@ -1294,8 +1218,6 @@ void TObjEneSaver::run_move_action() {
     }
 }
 
-}
-
 #undef get_entity_id
 
 void TObjEneSaver::advance_motion_state() {
@@ -1356,21 +1278,16 @@ void TObjEneSaver::update_move_toward_target() {
     if (t != NULL) {
         switch (phase) {
         case 0: {
-            Vec v = ((TObjChara *)t)->body_center;
-            if (select_enemy_destination(this, &v, 1) != 0) {
+            if (select_enemy_destination(this, ((TObjChara *)t)->body_center, 1) != 0) {
                 sub_800A7798(lbl_805D504C[3]);
                 phase = 1;
-                {
-                Vec v2 = body_center;
-                copy_position_if_valid((saddr)this, (saddr)&v2);
-                }
+                copy_position_if_valid(this, body_center);
                 apply_actor_gravity(this, NULL, 0.0f);
             }
             break;
         }
         case 1: {
-            Vec v3 = ((TObjChara *)t)->body_center;
-            enemy_move_toward(this, *(s32 *)((s8 *)movementParameters + 8), &v3, 0, lbl_805D504C, lbl_805D504C[2]);
+            enemy_move_toward(this, *(s32 *)((s8 *)movementParameters + 8), ((TObjChara *)t)->body_center, 0, lbl_805D504C, lbl_805D504C[2]);
             dist = horizontal_distance_squared(&move_destination, &position);
             if (dist < 22500.0f) {
                 state_flags &= ~0x10;
@@ -1409,7 +1326,7 @@ s32 TObjEneSaver::is_target_in_attack_range() {
     if (mode >= 3) {
         tgt = target;
         if (tgt != NULL && m_318 != 0U && !(((TObjChara *)tgt)->actorFlags & 0x02000800)) {
-            dist = calc_xz_distance_sq((saddr)this, (uaddr)tgt, &v);
+            dist = calc_xz_distance_sq(this, (TObjBase *)tgt, &v);
             ang = angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             body = ((TObjChara *)target)->bodies;
             if (body != NULL) {
