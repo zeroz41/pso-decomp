@@ -13,12 +13,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
-
-typedef struct Cam_8001D3A8 {
-    Vec eye;
-    Vec dir;
-    u8 pad18[0x10];
-} Cam_8001D3A8;
+#include "pso/system/NinjaTypes.h"
 
 typedef struct TNowLoading_8001D3A8 {
     const char *unk0; // TObject::m_name
@@ -53,9 +48,9 @@ void TNowLoading::run_task() {
     uaddr temp_r3_7;
     uaddr temp_r3_8;
     if (camera_ctrl_instance == NULL) {
-        *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
-        *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
-        this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
+        *(f32 *)&this->m_2c = (f32) ((65.0f * ninja_camera.vx) + ninja_camera.px);
+        *(f32 *)&this->unk_30 = (f32) ((65.0f * ninja_camera.vy) + ninja_camera.py);
+        this->m_34 = (f32) ((65.0f * ninja_camera.vz) + ninja_camera.pz);
         temp_r3 = this->m_1c;
         if (temp_r3 != 0U) {
             ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
@@ -73,9 +68,9 @@ void TNowLoading::run_task() {
             ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
         }
     } else {
-        stack.x = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
-        stack.y = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
-        stack.z = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
+        stack.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
+        stack.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
+        stack.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
         temp_r3_5 = this->m_1c;
         if (temp_r3_5 != 0U) {
             ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.x);
@@ -111,20 +106,18 @@ TNowLoading::~TNowLoading() {
 TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
     Vec dir;
     s32 out[3];
-    Cam_8001D3A8 *cam;
     self->unk0 = TNowLoading__class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
-    cam = (Cam_8001D3A8 *) &lbl_804FF5E8;
     out[0] = 0;
     out[1] = 0;
     out[2] = 0;
-    dir.x = -cam->dir.x;
-    dir.y = -cam->dir.y;
-    dir.z = -cam->dir.z;
+    dir.x = -ninja_camera.vx;
+    dir.y = -ninja_camera.vy;
+    dir.z = -ninja_camera.vz;
     direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    self->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
-    self->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
-    self->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
+    self->pos.x = 65.0f * ninja_camera.vx + ninja_camera.px;
+    self->pos.y = 65.0f * ninja_camera.vy + ninja_camera.py;
+    self->pos.z = 65.0f * ninja_camera.vz + ninja_camera.pz;
     self->children[0] = NULL;
     self->children[1] = NULL;
     self->children[2] = NULL;

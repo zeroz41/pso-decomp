@@ -34,7 +34,6 @@ struct B_80338608 { u8 pad[0xC]; u32 col; };
 
 extern "C" {
 s32 lobby_request_flags;
-void TCameraCtrl__sub_80068EF0(void);
 void draw_projected_textured_strip(void *, s32);
 extern s32 lbl_805D63F0;
 int info_icon_texture;
@@ -135,7 +134,7 @@ void TLobby__sub_803382E4(void) {
         set_additive_blend();
         ((TObjPlayer *)lbl_804EF3E0)->draw_compass_sprite(2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
     }
@@ -217,7 +216,7 @@ void TLobby__sub_80338534(void) {
         TLobby::reset_player_state();
     }
     set_default_alpha_blend();
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();
 }
 #pragma pop

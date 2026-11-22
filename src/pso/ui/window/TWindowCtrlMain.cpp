@@ -65,9 +65,6 @@ extern TObject *tl_01;
 extern TObject *tl_window;
 extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
-extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
-}
 struct VObj_8024C820 {
     char pad[0x18];
     virtual void m0(int);
@@ -535,7 +532,7 @@ void TWindowCtrlMain::render() {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     TWindowCtrlMain__sub_8024CE24()->render_nodes();
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();
 }
 
@@ -811,7 +808,7 @@ void TWindowCtrlScreen::render() {
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
         get_viewport_window_root(viewport_index)->render_nodes();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }
 }
@@ -844,7 +841,7 @@ void TWindowCtrlClipOut::render() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         TWindowCtrlMain__sub_8024CE34()->render_nodes();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }
 }

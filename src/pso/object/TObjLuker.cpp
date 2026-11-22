@@ -231,7 +231,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     if (ret != 0 && flag == 0) {
         s32 found = 0;
         s32 j;
-        for (j = 0; j < TCameraCtrl::get_instance(); j++) {
+        for (j = 0; j < TCameraCtrl::get_view_count(); j++) {
             p = (Plr_801A0F34 *)((Ctrl_801A0E38 *(*)(s32))get_player_by_client_id)(TCameraCtrl::get_nth_view_player_id(j));
             if (p != NULL &&
                 TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)p)->get_map_id()].btn, 4) != 0) {

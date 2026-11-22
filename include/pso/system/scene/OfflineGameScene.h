@@ -24,6 +24,9 @@ extern int camera_split_screen_selector;
 // Load and release hooks of the offline game scene (see OfflineGameScene.cpp).
 extern FloorResourceCallbacks offline_game_scene_callbacks[48];
 
+// Views on screen: 1, or 2 to 4 in a split-screen game (TCameraCtrl::get_view_count).
+extern int camera_split_screen_selector;
+
 extern "C" {
 void TLobby__sub_801A2DF4(void);
 void TLobby__sub_801A2DF8(void);

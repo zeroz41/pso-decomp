@@ -107,7 +107,6 @@ struct Auto_802952E0
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
-void TCameraCtrl__sub_80068EF0(void);
 saddr get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
@@ -726,7 +725,7 @@ void TObjCMMainMenu::sub_80297EF4() {
     }
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(263.0f, 172.0f * scale, lbl_804DBC0C[char_class], color);
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 
     u32 name_color = character->nameColor;
     if (!(name_color & 0xFF000000)) {
@@ -737,7 +736,7 @@ void TObjCMMainMenu::sub_80297EF4() {
     name_color &= rgb_mask;
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(263.0f, 209.0f * scale, character->name, name_color | (color & 0xFF000000));
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 
     if (progress <= 0.8f) {
         return;
@@ -755,7 +754,7 @@ void TObjCMMainMenu::sub_80297EF4() {
     }
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(263.0f, 247.0f * scale, section_name, ((u32)(255.0f * section_alpha) << 24) | 0xFFFFFF);
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 }
 Cols_80297DB8 footer_divider_colors[2] = {
     {{0x00C7C7C7, 0x80C7C7C7, 0x80C7C7C7, 0x00C7C7C7}},
@@ -815,7 +814,7 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
             f32 x = 604.0f - (f32)calc_text_width((char *)str);
             TCameraCtrl::restore_full_screen_view();
             draw_menu_text(x, y, str, color);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             y += step;
         }
     }
@@ -889,7 +888,7 @@ void TObjCMMainMenu::draw_character_name() {
     u32 color = ((u32)(255.0f * unknown44) << 24) | name_color;
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(x, 396.0f * get_scale(), name, color);
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 }
 
 const s32 char_creation_root_menu_tab_table[15] = {
@@ -1824,7 +1823,7 @@ void TObjCMHairMenu::render() {
                 draw_polygon_2d((NJS_POINT2COL *)&list, 4, 6, -2.4375f);
             }
         }
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
     }
 }
 

@@ -7,6 +7,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 class TCameraController;
+struct NJS_CAMERA;
 struct CameraViewParams;
 struct CharacterSelectionRequest;
 
@@ -120,6 +121,8 @@ public:
     static s16 camera_mode;
     // Set when the restored view's center is off the screen center.
     static s16 view_offset_active;
+    // The one view split-screen frames run and draw, or -1 for every view.
+    static s8 active_view;
 
     static void reset_up_vector();
     static void clear_pose_snap_flags();
@@ -130,17 +133,21 @@ public:
     static u16 get_active_controller();
 
     static s32 get_camera_mode();
-    void*get_target_ptr();
     static void copy_vec_to_default(const Vec *up);
     static void sync_split_view_slots(s32 view, s32 all_views);
     static s32 get_split_screen_view_index(u16 id);
     static u16 get_nth_view_player_id(s32 n);
     static f32 get_split_offset(s32 view);
+    // The horizontal counterpart of get_split_offset: split views are never
+    // shifted sideways.
+    static f32 get_split_offset_x(s32 view);
     static void set_fullscreen_viewport();
     static void set_split_viewport(s32 views, s32 view);
     static f32 get_fov();
     static f32 get_view_scale();
     static void restore_full_screen_view();
+    // Puts back the view restore_full_screen_view saved, after a full-screen 2D pass.
+    static void restore_saved_view();
     static u16 get_camera_target_id(s32 view);
     static void apply_split_screen_view_matrix();
     static s32 *get_view_matrix();
@@ -148,7 +155,6 @@ public:
     static void reset_default_view();
     static void init_default_view();
     static void reset_viewport_scissor();
-    static void set_viewport_scissor(int mode, void *rect);
     Vec *get_target();
     // The controller driving the view is passed along but not read.
     void resolve_anchor_obstruction(TCameraController *controller);
@@ -164,7 +170,6 @@ public:
     Vec *get_split_tgt(s32 view);
     static void set_shake_preset(s32 preset);
     void cycle_spectate_target();
-    void *destroy(s16 arg1);
     // The viewport origin, which projected points are made view-relative by.
     static s32 get_viewport_y();
     static s32 get_viewport_x();
@@ -181,10 +186,6 @@ public:
     static void set_camera_id(int id);
     // The one view split-screen frames run and draw, or -1 for every view.
     static s8 get_view_state();
-    static void update_camera_state(f32 x, f32 y, f32 z);
-    static void look_at_position(f32 x, f32 y, f32 z);
-    static void translate_view_negated(f32 x, f32 y, f32 z);
-    static void set_clamped_offsets(f32 near_clip, f32 far_clip);
     void update_projection_params();
     static void concat_matrix(uaddr target, uaddr matrix);
     static void update();
@@ -193,27 +194,31 @@ public:
     static void select_active_controller(s8 index);
     static CameraMatrix *copy_view_params(CameraMatrix *dst, const CameraMatrix *src);
     static void calc_axes_from_angles(saddr unused_angle, saddr pitch, saddr yaw);
-    static int get_instance();
+    // Views on screen: 1, or 2 to 4 in a split-screen game.
+    static int get_view_count();
     static int get_camera_id();
     static void set_target_coords(int x, int y);
     static void reset_battle_camera();
-    static void init_projection_state();
     static void set_target(int width, int height);
 };
 
 LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
-extern f32 camera_right[3];
+extern Vec camera_right;
+// The camera's up axis after the pitch rotation (calc_rotated_axes).
+extern Vec camera_pitch_rotated_up_vector;
 // The camera task; NULL until TCameraCtrl::create makes it.
 extern TCameraCtrl *camera_ctrl_instance;
-// The one view split-screen frames run and draw, or -1 for every view.
-extern s8 camera_ctrl_view_state_byte;
 // One controller per registry slot, made by the constructor.
 extern TCameraController *camera_controller_registry[13];
-// The Ninja camera the views are set up from: eye position, view direction,
-// roll, view angle and clip planes, in the order fn_803D64F8 resets them.
-extern f32 lbl_804FF5E8[10];
+// The Ninja camera the view matrix is built from each frame: the camera
+// position and the direction to its target.
+extern NJS_CAMERA ninja_camera;
 
+// Makes registry controller `index` the active one.
+void select_camera_controller(s32 index);
+// Fixes the view at position, looking at target (quest leti_fixed_camera).
+void set_fixed_camera(const Vec *position, const Vec *target);
 // Points every controller of the actor's view at the actor.
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 
@@ -222,7 +227,6 @@ const CharacterSelectionRequest *get_character_select_request_buffer();
 int is_quest_active(void);
 // Nonzero when value is a NaN or an infinity.
 int is_float_nonfinite(f32 value);
-f32 TCameraCtrl__sub_80068A04(s32 view);
 // Forces registry controller `index` until restore_player_cameras; 0 if a
 // mode is already forced.
 s32 activate_camera_mode(s32 index);
@@ -231,8 +235,6 @@ s32 restore_player_cameras(void);
 void set_active_camera_pose(Vec *position, Vec *target);
 void set_active_camera_pose_from_params(CameraParams *params);
 void start_camera_shake(s32 frames, f32 amplitude);
-// Restores the saved view after a full-screen 2D pass.
-void TCameraCtrl__sub_80068EF0(void);
 }
 void calc_projection_screen_offset(f32 *x, f32 *y);
 

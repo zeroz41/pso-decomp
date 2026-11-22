@@ -39,7 +39,6 @@ void TUnk_804EE458::draw_record_with_camera(s32 record, s32 camera) {
 }
 
 extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
 
 s32 play_sound_effect(int, int, int, int);
 
@@ -128,7 +127,7 @@ void TUnk_804EE458::render() {
         }
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }
 }

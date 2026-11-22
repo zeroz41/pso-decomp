@@ -253,7 +253,6 @@ uaddr TRaderMapCore__frame_model_resource;
 uaddr TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore__map_heap;
 
-void TCameraCtrl__sub_80068EF0(void);
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
 s32 GXSetScissorBoxOffset(int, int);
@@ -397,14 +396,7 @@ Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 s16 *TRaderMapCore__floor_discovery_table[18];
 
-struct GRec_801FB490 { u8 pad0[4]; f32 f4; u8 pad8[8]; f32 f10; f32 f14; s32 f18; u8 pad1c[0x28 - 0x1C]; };
-
 struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]; };
-extern "C" {
-
-
-s32 fn_803D64F8(void *);
-}
 
 
 struct Ent_801FB798 { s32 a; char *name; };
@@ -521,7 +513,7 @@ extern "C" {
 #pragma push
 #pragma opt_common_subs off
 TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
-    GRec_801FB490 *g;
+    NJS_CAMERA *g;
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
@@ -529,12 +521,12 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     m_17c = init_map_ptr(&m_90, 0);
     m_180 = init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
-        g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
-        fn_803D64F8(g);
-        g->f4 = lbl_805D35F0;
-        g->f10 = -1.0f;
-        g->f14 = 0.0f;
-        g->f18 = 0x8000;
+        g = (NJS_CAMERA *)&TRaderMapCore__map_view_state + i;
+        init_ninja_camera(g);
+        g->py = lbl_805D35F0;
+        g->vy = -1.0f;
+        g->vz = 0.0f;
+        g->roll = 0x8000;
     }
     m_150 = 500.0f;
     viewport_width = 640.0f;
@@ -782,7 +774,7 @@ void TRaderMapCore::render() {
         case 1:
             TCameraCtrl::restore_full_screen_view();
             TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             begin_map_view__13TRaderMapCoreFii((saddr)arg0, (s32)TRaderMapCore__view_mode);
             render_region_records((void *)TRaderMapCore__view_mode);
             ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
@@ -791,7 +783,7 @@ void TRaderMapCore::render() {
             TCameraCtrl::restore_full_screen_view();
             this->m_174 = 0;
             draw_compass(TRaderMapCore__view_mode);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             break;
         case 2:
             TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
@@ -873,7 +865,7 @@ void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1) {
 void TRaderMapCore::setup_view(s32 arg1) {
     saddr arg0 = (saddr)this;
     GXSetScissorBoxOffset(0, 0);
-    TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
+    set_screen_center(320.0f, 240.0f);
     camera_ctrl_instance->setup_default_view(0);
     TRaderMapCore::set_view_scissor((void *)arg0, 0, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
     TObjLight::apply_distant_light();
@@ -1551,7 +1543,7 @@ void TRaderMapCore::configure_viewport(const RadarViewportParameters* view) {
     GXSetScissorBoxOffset(0, 0);
     offset_x = -(view->center_x - 320.0f);
     offset_y = -(view->center_y - 240.0f);
-    TCameraCtrl__sub_801E32D8(view->center_x, view->center_y);
+    set_screen_center(view->center_x, view->center_y);
     GXSetScissorBoxOffset(offset_x, offset_y);
 }
 #pragma fp_contract reset

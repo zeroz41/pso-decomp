@@ -1513,9 +1513,9 @@ void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
 void TBoss7DeRolLeC::spawn_offset_particle(const Vec *pos, f32 lift, f32 back) {
     Vec v;
     VecCopy(&v, pos);
-    v.x -= lbl_804FF5E8[3] * back;
-    v.y -= lbl_804FF5E8[4] * back - lift;
-    v.z -= lbl_804FF5E8[5] * back;
+    v.x -= ninja_camera.vx * back;
+    v.y -= ninja_camera.vy * back - lift;
+    v.z -= ninja_camera.vz * back;
     spawn_particle_effect_with_flags(&v, 0x127, 0x40);
 }
 #pragma pop

@@ -200,7 +200,7 @@ void WindowDrawContext::adjust_pos_for_split_screen(NJS_POINT2 *pos, s32 i) {
         return;
     }
     p = get_viewport_offset(i);
-    pos->x = pos->x + (p->x + TCameraCtrl__sub_80068A04(i));
+    pos->x = pos->x + (p->x + TCameraCtrl::get_split_offset_x(i));
     pos->y = pos->y + (p->y + TCameraCtrl::get_split_offset(i));
     pos->x = pos->x / TCameraCtrl::get_view_scale();
     pos->y = pos->y / TCameraCtrl::get_fov();

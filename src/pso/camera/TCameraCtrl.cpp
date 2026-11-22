@@ -32,11 +32,17 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/render/Draw2D.h"
+#include "pso/render/GinjaView.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/scene/OfflineGameScene.h"
+#include "pso/quest/QuestOpcodeTables.h"
 
 // The Ninja camera the view matrix is built from each frame: position,
 // direction, roll, angle and clip planes.
-f32 lbl_804FF5E8[10];
-f32 camera_right[3];
+NJS_CAMERA ninja_camera;
+Vec camera_right;
 Vec camera_pitch_rotated_up_vector;
 CameraViewState TCameraCtrl::view_state;
 CameraViewParams TCameraCtrl::view_params;
@@ -46,11 +52,14 @@ CameraMatrix TCameraCtrl::view_matrix;
 CameraMatrix TCameraCtrl::view_matrices[4];
 
 extern "C" {
-s32 is_split_screen();
-s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
-s32 GXSetScissor(int, int, int, int);
-s32 GXSetScissorBoxOffset(int, int);
+// The SDK's GX headers come with <dolphin/types.h>, whose math inlines add
+// sqrt constants this unit does not have.
+void GXSetViewport(f32 left, f32 top, f32 wd, f32 ht, f32 nearz, f32 farz);
+void GXSetScissor(u32 left, u32 top, u32 wd, u32 ht);
+void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
+void rotate_vector_by_current_matrix(const Vec *src, Vec *dst);
 }
+
 s16 TCameraCtrl::viewport_width = 640;
 s16 TCameraCtrl::viewport_height = 480;
 const char *camera_ctrl_class_name = "TCameraCtrl";
@@ -58,29 +67,13 @@ f32 camera_default_view_value;
 f32 camera_default_view_value_b;
 TCameraCtrl *camera_ctrl_instance;
 s32 camera_view_state_flag;
-s8 camera_ctrl_view_state_byte;
+s8 TCameraCtrl::active_view;
 s16 TCameraCtrl::viewport_x;
 s16 TCameraCtrl::viewport_y;
 s32 TCameraCtrl::pose_snap_flags;
 int TCameraCtrl::camera_id;
 s16 TCameraCtrl::camera_mode;
 s16 TCameraCtrl::view_offset_active;
-void set_perspective_projection_from_fov(s32 fov, f32 aspect, f32 near_clip, f32 far_clip);
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern "C" {
-u16 get_entity_id(void *);
-void TCameraCtrl__sub_801E32D8(f32, f32);
-struct SceneProjectionState { u8 pad_0[0x4C]; f32 pad_4C; f32 pad_50; u8 pad_54[0x4]; };
-extern SceneProjectionState scene_projection_state;
-s32 camera_renderer_setup_nop(void *, int);
-s32 fn_803D64F8(void *);
-f32 rotate_vector_by_current_matrix(void *, void *);
-extern int camera_split_screen_selector;
-extern int quest_active_flag;
-}
-
-void select_camera_controller(s32 index);
-
 typedef TCameraController *(*CameraControllerFactory)(void);
 
 TCameraController *camera_controller_registry[13] = {
@@ -100,7 +93,7 @@ CameraControllerFactory camera_controller_factories[13] = {
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" void TCameraCtrl__sub_8006B3B8(const Vec *position, const Vec *target) {
+void set_fixed_camera(const Vec *position, const Vec *target) {
     set_fixed_camera_override(position, target);
 }
 
@@ -113,12 +106,12 @@ extern "C" int is_float_nonfinite(f32 value) {
 extern "C" int is_quest_active(void) { return quest_active_flag; }
 s32 TMainTask::get_task_flags() { return task_flags; }
 
-extern "C" u16 TCameraCtrl__sub_8006B358(TCameraController *controller) { return controller->actor_id; }
+u16 TCameraController::get_actor_id() { return actor_id; }
 void TCameraCtrl::set_target_coords(int x, int y) { TCameraCtrl::viewport_x = x; TCameraCtrl::viewport_y = y; }
 void TCameraCtrl::set_target(int width, int height) { TCameraCtrl::viewport_width = width; TCameraCtrl::viewport_height = height; }
 int TCameraCtrl::get_camera_id() { return TCameraCtrl::camera_id; }
 
-int TCameraCtrl::get_instance() { return camera_split_screen_selector; }
+int TCameraCtrl::get_view_count() { return camera_split_screen_selector; }
 
 const CharacterSelectionRequest *get_character_select_request_buffer(void) {
     return &chr_select_request_buffer;
@@ -208,12 +201,12 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
         split_tgt[j].y = 0.0f;
         split_tgt[j].z = 0.0f;
     }
-    lbl_804FF5E8[0] = 0.0f;
-    lbl_804FF5E8[1] = 0.0f;
-    lbl_804FF5E8[2] = 0.0f;
-    lbl_804FF5E8[3] = 0.0f;
-    lbl_804FF5E8[4] = 0.0f;
-    lbl_804FF5E8[5] = -1.0f;
+    ninja_camera.px = 0.0f;
+    ninja_camera.py = 0.0f;
+    ninja_camera.pz = 0.0f;
+    ninja_camera.vx = 0.0f;
+    ninja_camera.vy = 0.0f;
+    ninja_camera.vz = -1.0f;
 }
 #pragma pop
 
@@ -223,17 +216,17 @@ void TCameraCtrl::setup_default_view(void *offset_arg) {
     Vec at_pos;
     Vec d;
     Vec *pat;
-    eye_pos.x = lbl_804FF5E8[0];
-    eye_pos.y = lbl_804FF5E8[1];
-    eye_pos.z = lbl_804FF5E8[2];
+    eye_pos.x = ninja_camera.px;
+    eye_pos.y = ninja_camera.py;
+    eye_pos.z = ninja_camera.pz;
     if (offset != 0) {
         eye_pos.x += offset->x;
         eye_pos.y += offset->y;
         eye_pos.z += offset->z;
     }
-    at_pos.x = lbl_804FF5E8[3] + eye_pos.x;
-    at_pos.y = lbl_804FF5E8[4] + eye_pos.y;
-    at_pos.z = lbl_804FF5E8[5] + eye_pos.z;
+    at_pos.x = ninja_camera.vx + eye_pos.x;
+    at_pos.y = ninja_camera.vy + eye_pos.y;
+    at_pos.z = ninja_camera.vz + eye_pos.z;
     d.x = eye_pos.x - at_pos.x;
     d.y = eye_pos.y - at_pos.y;
     d.z = eye_pos.z - at_pos.z;
@@ -280,28 +273,28 @@ void TCameraCtrl::run_task() {
         dir.x = (shake->x + camera_ctrl_instance->tgt.x) - camera_ctrl_instance->pos.x;
         dir.y = (shake->y + camera_ctrl_instance->tgt.y) - camera_ctrl_instance->pos.y;
         dir.z = (shake->z + camera_ctrl_instance->tgt.z) - camera_ctrl_instance->pos.z;
-        lbl_804FF5E8[0] = pos.x;
-        lbl_804FF5E8[1] = pos.y;
-        lbl_804FF5E8[2] = pos.z;
+        ninja_camera.px = pos.x;
+        ninja_camera.py = pos.y;
+        ninja_camera.pz = pos.z;
         if (0.0f != vec_squared_length(&dir)) {
             normalize_vector(&dir);
         }
-        lbl_804FF5E8[3] = dir.x;
-        lbl_804FF5E8[4] = dir.y;
-        lbl_804FF5E8[5] = dir.z;
+        ninja_camera.vx = dir.x;
+        ninja_camera.vy = dir.y;
+        ninja_camera.vz = dir.z;
         vector_length(&dir);
     }
     if (is_split_screen() != 0) {
         if (TCameraCtrl::view_state.controller == 5) {
-            ((TObjBoss2Tunnel *)lbl_804FF5E8)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+            ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
             for (i = 1; i < 4; i++) {
                 copy_view_params(&TCameraCtrl::view_matrices[i], &TCameraCtrl::view_matrices[0]);
             }
         } else {
-            ((TObjBoss2Tunnel *)lbl_804FF5E8)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+            ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
         }
     } else {
-        ((TObjBoss2Tunnel *)lbl_804FF5E8)->render(&TCameraCtrl::view_matrix);
+        ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrix);
     }
     calc_rotated_axes();
 }
@@ -312,7 +305,7 @@ void TCameraCtrl::calc_rotated_axes() {
     Vec up = {0.0f, 1.0f, 0.0f};
     push_matrix_from(identity_matrix);
     rotate_matrix_y(NULL, yaw);
-    rotate_vector_by_current_matrix(&right, camera_right);
+    rotate_vector_by_current_matrix(&right, &camera_right);
     pop_matrix();
     push_matrix_from(identity_matrix);
     rotate_matrix_x(NULL, pitch);
@@ -328,7 +321,7 @@ void TCameraCtrl::calc_axes_from_angles(saddr unused_angle, saddr pitch, saddr y
     Vec up = {0.0f, 1.0f, 0.0f};
     push_matrix_from(identity_matrix);
     rotate_matrix_y(NULL, yaw);
-    rotate_vector_by_current_matrix(&right, camera_right);
+    rotate_vector_by_current_matrix(&right, &camera_right);
     pop_matrix();
     push_matrix_from(identity_matrix);
     rotate_matrix_x(NULL, pitch);
@@ -503,7 +496,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     if (actor == 0) {
         return;
     }
-    entity_id = (u16)get_entity_id(actor);
+    entity_id = (u16)get_entity_id((TObjBase *)actor);
     id = entity_id;
     if (is_split_screen() == 0) {
         view = 0;
@@ -577,7 +570,7 @@ void TCameraCtrl::reset_view_state() {
     up->y = 1.0f;
     up->z = 0.0f;
     camera_view_state_flag = 0;
-    camera_ctrl_view_state_byte = -1;
+    TCameraCtrl::active_view = -1;
     TCameraCtrl::view_offset_active = 0;
 }
 
@@ -975,12 +968,12 @@ void CameraViewParams::apply() {
     TCameraCtrl::view_params.height = height;
     TCameraCtrl::view_params.center_x = center_x;
     TCameraCtrl::view_params.center_y = center_y;
-    TCameraCtrl::view_params.pad_10[2] = scene_projection_state.pad_50;
-    TCameraCtrl::view_params.pad_10[3] = scene_projection_state.pad_4C;
+    TCameraCtrl::view_params.pad_10[2] = scene_projection_state.screen_scale;
+    TCameraCtrl::view_params.pad_10[3] = scene_projection_state.aspect;
     TCameraCtrl::view_params.pad_10[4] = 1.0f;
-    TCameraCtrl::view_params.pad_10[5] = TCameraCtrl::view_params.pad_10[4] / scene_projection_state.pad_4C;
-    TCameraCtrl::view_params.pad_0[0] = scene_projection_state.pad_4C * scene_projection_state.pad_50;
-    TCameraCtrl::view_params.pad_0[1] = -(TCameraCtrl::view_params.pad_10[4] * scene_projection_state.pad_50);
+    TCameraCtrl::view_params.pad_10[5] = TCameraCtrl::view_params.pad_10[4] / scene_projection_state.aspect;
+    TCameraCtrl::view_params.pad_0[0] = scene_projection_state.aspect * scene_projection_state.screen_scale;
+    TCameraCtrl::view_params.pad_0[1] = -(TCameraCtrl::view_params.pad_10[4] * scene_projection_state.screen_scale);
     TCameraCtrl::view_params.pad_30[0] = pad_30[0];
     TCameraCtrl::view_params.pad_30[1] = pad_30[1];
     TCameraCtrl::view_params.pad_30[2] = pad_30[2];
@@ -1012,7 +1005,7 @@ void TCameraCtrl::reset_viewport_scissor() {
     if (TCameraCtrl::view_state.flags & 0x200) {
         TCameraCtrl::view_state.flags = TCameraCtrl::view_state.flags & ~0x200;
     }
-    TCameraCtrl::set_viewport_scissor(0, rect);
+    set_viewport_scissor(0, rect);
 }
 #pragma pop
 #pragma push
@@ -1066,10 +1059,10 @@ void TCameraCtrl::reset_default_view() {
     TCameraCtrl::set_target(0x280, 0x1E0);
     TCameraCtrl::set_fullscreen_viewport();
     TCameraCtrl::reset_viewport_scissor();
-    fn_803D64F8(lbl_804FF5E8);
-    camera_renderer_setup_nop(lbl_804FF5E8, 0x3555);
-    TCameraCtrl::update_camera_state(0.0f, 0.0f, 0.0f);
-    TCameraCtrl::look_at_position(0.0f, 0.0f, -1.0f);
+    init_ninja_camera(&ninja_camera);
+    camera_renderer_setup_nop(&ninja_camera, 0x3555);
+    update_camera_state(0.0f, 0.0f, 0.0f);
+    look_at_position(0.0f, 0.0f, -1.0f);
     view.center_x = 320.0f;
     view.center_y = 240.0f;
     view.width = 640.0f;
@@ -1093,7 +1086,7 @@ void TCameraCtrl::create() {
 s32 *TCameraCtrl::get_view_matrix() {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_instance() - 1];
+            return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1];
         }
         return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()];
     }
@@ -1103,7 +1096,7 @@ s32 *TCameraCtrl::get_view_matrix() {
 void TCameraCtrl::apply_split_screen_view_matrix() {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            TCameraCtrl::concat_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_instance() - 1]);
+            TCameraCtrl::concat_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1]);
             return;
         }
         TCameraCtrl::concat_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
@@ -1139,14 +1132,14 @@ u16 TCameraCtrl::get_camera_target_id(s32 view) {
         }
         controller = camera_controller_registry[index];
         if (controller != NULL) {
-            id = TCameraCtrl__sub_8006B358(controller);
+            id = controller->get_actor_id();
         }
         return id;
     }
     if (camera_ctrl_instance != NULL) {
         actor = camera_ctrl_instance->focus_actor;
         if (actor != NULL) {
-            return get_entity_id(actor);
+            return get_entity_id((TObjBase *)actor);
         }
     }
     return 0xFFFF;
@@ -1155,7 +1148,7 @@ u16 TCameraCtrl::get_camera_target_id(s32 view) {
 void TCameraCtrl::restore_full_screen_view() {
     if (is_split_screen() == 0) {
         TCameraCtrl::saved_view_params.copy_view_state(&TCameraCtrl::view_params);
-        TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
+        set_screen_center(320.0f, 240.0f);
         GXSetScissorBoxOffset(0, 0);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         TCameraCtrl::view_offset_active = 0;
@@ -1175,7 +1168,7 @@ void CameraViewParams::copy_view_state(const CameraViewParams *src) {
     *(CameraViewParamsBlock *)this = *(const CameraViewParamsBlock *)src;
 }
 
-extern "C" void TCameraCtrl__sub_80068EF0(void) {
+void TCameraCtrl::restore_saved_view() {
     f32 offset_x;
     f32 offset_y;
     if (is_split_screen() == 0) {
@@ -1188,7 +1181,7 @@ extern "C" void TCameraCtrl__sub_80068EF0(void) {
             TCameraCtrl::view_offset_active = 1;
         }
         GXSetScissorBoxOffset((s32)offset_x, (s32)offset_y);
-        TCameraCtrl__sub_801E32D8(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
+        set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
         if (camera_ctrl_instance != NULL) {
             set_perspective_projection_from_fov(camera_ctrl_instance->fov, 1.1333334f, 1.0f, 21000.0f);
         }
@@ -1197,7 +1190,7 @@ extern "C" void TCameraCtrl__sub_80068EF0(void) {
 
 // Dead-stripped from the DOL: no code of it survives, only its literals
 // (250, 20, 15, 0.85 at 0x805D8FCC-0x805D8FDB, pooled between get_view_scale's
-// and TCameraCtrl__sub_80068EF0's). It fills the full-screen defaults that
+// and restore_saved_view's). It fills the full-screen defaults that
 // init_default_view, reset_default_view and end_view_override store field by
 // field.
 void CameraViewParams::set_fullscreen_defaults() {
@@ -1291,7 +1284,7 @@ f32 TCameraCtrl::get_split_offset(s32 view) {
     return 0.0f;
 }
 
-extern "C" f32 TCameraCtrl__sub_80068A04(s32 view) {
+f32 TCameraCtrl::get_split_offset_x(s32 view) {
     return 0.0f;
 }
 
@@ -1369,6 +1362,6 @@ void TCameraCtrl::reset_up_vector() {
     TCameraCtrl::up_vector.y = 1.0f;
     TCameraCtrl::up_vector.z = 0.0f;
 }
-void *TCameraCtrl::get_target_ptr() { return (char *)this + 0x44; }
+Vec *TObjPlayer::get_prev_position_ptr() { return &this->prev_position; }
 
 void TCameraController::run_task() {}

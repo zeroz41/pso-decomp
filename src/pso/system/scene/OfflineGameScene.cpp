@@ -700,4 +700,4 @@ inline void TCameraCtrl::set_camera_id(int id) { camera_id = id; }
 
 inline void TCameraCtrl::set_mode(int mode) { camera_mode = mode; }
 
-inline s8 TCameraCtrl::get_view_state() { return camera_ctrl_view_state_byte; }
+inline s8 TCameraCtrl::get_view_state() { return active_view; }

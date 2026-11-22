@@ -8,6 +8,7 @@
 #include "pso/effect/enemy/TEneParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -622,8 +623,6 @@ void TObjEneSaver::state_nail() {
     submit_cursor_candidate(this, -1);
 }
 
-extern f32 lbl_804FF5E8[];
-
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
 
 #pragma defer_codegen on
@@ -907,7 +906,7 @@ void TObjPlayer::step_cutscene_frame(NJS_OBJECT *) {
         saver_particle_node_position.pos.x = 0.0f;
         saver_particle_node_position.pos.y = 0.0f;
         saver_particle_node_position.pos.z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&lbl_804FF5E8, (saddr)&saver_particle_node_position.pos, (saddr)&saver_particle_node_position.pos);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)&saver_particle_node_position.pos, (saddr)&saver_particle_node_position.pos);
     }
     saver_render_node_index += 1;
 }
