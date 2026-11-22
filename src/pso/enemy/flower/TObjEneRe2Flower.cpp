@@ -40,61 +40,53 @@
 
 extern "C" {
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
+}
+// Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp, text_800C2CE0.cpp define them).
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC0;
 extern const f32 lbl_805D9FC4;
 extern const f32 lbl_805D9FD4;
-}
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
-extern "C" {
-extern const f32 lbl_805D9FF0;
-}
+extern const f32 re2_flower_acquire_range;
 
-extern "C" {
-s32 angle_difference_abs(s32 a, s32 b);
-s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
-}
-
-extern const f32 lbl_805D9FE0;
-extern const f32 lbl_805D9FE4;
-extern const f32 lbl_805D9FE8;
-extern const f32 lbl_805D9FEC;
+extern const f32 re2_flower_lose_target_distance;
+extern const f32 re2_flower_attack_distance;
+extern const f32 re2_flower_track_timeout;
+extern const f32 re2_flower_retarget_margin;
 
 
 
-extern "C" {
-
-extern const NpcAnimationBinding lbl_8043BB90;
-extern char lbl_8043BAAC[];
-extern char lbl_8043BAC4[];
-extern char lbl_8043BADC[];
-extern char lbl_8043BAF4[];
-extern char lbl_8043BB08[];
-extern char lbl_8043BB20[];
-extern char lbl_8043BB38[];
-extern char lbl_8043BB50[];
-extern char lbl_8043BB64[];
-}
+// FlowerRe2Data.cpp
+extern const NpcAnimationBinding re2_flower_animation_binding;
+extern const char re2_flower_model_name_re2_b_flower_root_nj[];
+extern const char re2_flower_motion_name_attack_re2_b_root_njm[];
+extern const char re2_flower_motion_name_damege_re2_b_root_njm[];
+extern const char re2_flower_motion_name_die_re2_b_root_njm[];
+extern const char re2_flower_motion_name_laugh_re2_b_root_njm[];
+extern const char re2_flower_motion_name_waitc_re2_b_root_njm[];
+extern const char re2_flower_motion_name_waito_re2_b_root_njm[];
+extern const char re2_flower_motion_name_wake_re2_b_root_njm[];
+extern const char re2_flower_bml_name_bm_ene_re2_flower_bml[];
 
 extern const f32 lbl_805D9FBC; // 5.0
-extern const f32 lbl_805D9FF4;
-extern const f32 lbl_805D9FF8;
-extern const f32 lbl_805D9FFC; // 0.002
-// Stat block ids by variant (0 normal, 1 rare, 2 the tower's): base stats,
-// resistances, attack stats, and the movement block.
-extern const s32 lbl_8043BA7C[3];
+extern const f32 re2_flower_player_range_sq;
+extern const f32 re2_flower_body_center_height;
+extern const f32 re2_flower_rare_chance; // 0.002
+// Stat block ids by variant (0 normal, 1 rare, 2 the tower's): reset_hp's base, attack and
+// resistance blocks, and the param block.
+extern const s32 re2_flower_base_stat_ids[3];
 
-extern const s32 lbl_8043BA88[3];
-extern const s32 lbl_8043BA94[3];
-extern const s32 lbl_8043BAA0[3];
-extern "C" { extern char TObjEneRe2Flower__class_name_string[]; }
-const char *lbl_805D2A48 = TObjEneRe2Flower__class_name_string;
-// The variant's movement block (TLobby::dispatch_shared_handler_a of lbl_8043BAA0), set by the constructor.
+extern const s32 re2_flower_attack_stat_ids[3];
+extern const s32 re2_flower_resist_stat_ids[3];
+extern const s32 re2_flower_param_ids[3];
+extern const char TObjEneRe2Flower__class_name_string[];
+const char *re2_flower_class_name = TObjEneRe2Flower__class_name_string;
+// The variant's movement block (TLobby::dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
 void *re2_flower_movement_params;
 BmlResource *re2_flower_bml_resource;
 // State of the chunk node callback TObjPlayer::update_effect_sequence: the node counter, the head yaw
@@ -114,26 +106,26 @@ LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 FlowerSetupData TObjEneRe2Flower__setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common
 // kinds, then the one is_tower_variant() selects.
-CollisionBody lbl_80493094[2] = {
+CollisionBody re2_flower_collision_bodies[2] = {
     { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f }
 };
 
-CollisionBody lbl_804930EC[2] = {
+CollisionBody re2_flower_tower_collision_bodies[2] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 20.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f }
 };
 
 __declspec(section ".data") const char *bm_ene_re2_flower_model_names[2] = {
-    lbl_8043BAAC, NULL
+    re2_flower_model_name_re2_b_flower_root_nj, NULL
 };
 const char *bm_ene_re2_flower_motion_names[8] = {
-    lbl_8043BAC4, lbl_8043BADC, lbl_8043BAF4, lbl_8043BB08,
-    lbl_8043BB20, lbl_8043BB38, lbl_8043BB50, NULL
+    re2_flower_motion_name_attack_re2_b_root_njm, re2_flower_motion_name_damege_re2_b_root_njm, re2_flower_motion_name_die_re2_b_root_njm, re2_flower_motion_name_laugh_re2_b_root_njm,
+    re2_flower_motion_name_waitc_re2_b_root_njm, re2_flower_motion_name_waito_re2_b_root_njm, re2_flower_motion_name_wake_re2_b_root_njm, NULL
 };
 
 BmlResourceDescriptor TObjEneRe2Flower__resource_descriptor = {
-    lbl_8043BB64, bm_ene_re2_flower_model_names,
+    re2_flower_bml_name_bm_ene_re2_flower_bml, bm_ene_re2_flower_model_names,
     bm_ene_re2_flower_motion_names, 1, 7
 };
 
@@ -163,7 +155,7 @@ void load_re2_flower_resources(void) {
     re2_flower_node_points = 0;
     TObjPlayer::create_render_texture();
     TObjPlayer__sub_800F0928();
-    __memcpy(&binding, &lbl_8043BB90, sizeof(binding));
+    __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
     NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->m_c), &binding, lbl_805D9FBC, lbl_805D9FAC);
@@ -184,22 +176,22 @@ void TObjEneRe2Flower::destroy_instance() {
 TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_ST(parent) {
     s32 variant;
 
-    m_name = lbl_805D2A48;
+    m_name = re2_flower_class_name;
     invoke_initialization_hook(setData);
     sub_800C3BA8();
     flags = 0;
     if (get_current_floor_area() == AREA_TOWER) {
         flags |= 0x800;
-    } else if (random_ratio() <= lbl_805D9FFC) {
+    } else if (random_ratio() <= re2_flower_rare_chance) {
         flags |= 0x400;
     }
     init_position_vectors();
     model = (void *)re2_flower_bml_resource->models->model;
     texlist = (saddr)re2_flower_bml_resource->models->m_c;
     if (is_tower_variant()) {
-        init_model(lbl_804930EC, 2);
+        init_model(re2_flower_tower_collision_bodies, 2);
     } else {
-        init_model(lbl_80493094, 2);
+        init_model(re2_flower_collision_bodies, 2);
     }
     set_field_d8((saddr)TObjEneRe2Flower__animation_descriptors);
     set_field_dc((saddr)re2_flower_bml_resource->motions);
@@ -214,10 +206,10 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         variant = 0;
     }
-    reset_hp((u8 *)TLobby::register_boss(lbl_8043BA7C[variant]),
-             (u8 *)TLobby::dispatch_shared_handler_b(lbl_8043BA88[variant]),
-             (u8 *)TLobby::register_object(lbl_8043BA94[variant]));
-    re2_flower_movement_params = TLobby::dispatch_shared_handler_a(lbl_8043BAA0[variant]);
+    reset_hp((u8 *)TLobby::register_boss(re2_flower_base_stat_ids[variant]),
+             (u8 *)TLobby::dispatch_shared_handler_b(re2_flower_attack_stat_ids[variant]),
+             (u8 *)TLobby::register_object(re2_flower_resist_stat_ids[variant]));
+    re2_flower_movement_params = TLobby::dispatch_shared_handler_a(re2_flower_param_ids[variant]);
     if (is_tower_variant()) {
         set_state_8();
     } else {
@@ -358,7 +350,7 @@ void TObjEneRe2Flower::run_miss_reaction() {  }
 
 void TObjEneRe2Flower::sync_center_offset() {
     VecCopy(&this->body_center, &this->position);
-    this->body_center.y = this->body_center.y + lbl_805D9FF8;
+    this->body_center.y = this->body_center.y + re2_flower_body_center_height;
     VecCopy(&this->center, &this->body_center);
 }
 
@@ -412,7 +404,7 @@ TObjPlayer *TObjEneRe2Flower::find_target_in_range() {
             break;
         }
     }
-    if (((TObjEneDD *)result)->is_valid_target() != 0 && horizontal_distance_squared(&position, &result->position) < lbl_805D9FF4) {
+    if (((TObjEneDD *)result)->is_valid_target() != 0 && horizontal_distance_squared(&position, &result->position) < re2_flower_player_range_sq) {
         return result;
     }
     return NULL;
@@ -515,7 +507,7 @@ void TObjEneRe2Flower::state_wait(s32 reason) {
         enemy_clear_target();
         return;
     case 3:
-        if (check_hit_flag() == 0 && update_linked_position(lbl_805D9FF0) != 0) {
+        if (check_hit_flag() == 0 && update_linked_position(re2_flower_acquire_range) != 0) {
             transition_enemy_state(3);
         }
     case 5:
@@ -556,14 +548,14 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
     case 3:
         if (check_hit_flag() == 0) {
             d = destination_distance;
-            if (d > lbl_805D9FE0 || current_target == NULL) {
+            if (d > re2_flower_lose_target_distance || current_target == NULL) {
                 transition_enemy_state(2);
-            } else if (d < lbl_805D9FE4) {
+            } else if (d < re2_flower_attack_distance) {
                 t = angle_difference_abs(rotation_y, target_angle);
                 if (t < attack_params->get_attack_angle()) {
                     transition_enemy_state(5);
                 }
-            } else if ((f32)state_timer > lbl_805D9FE8) {
+            } else if ((f32)state_timer > re2_flower_track_timeout) {
                 transition_enemy_state(4);
             }
         }
@@ -572,12 +564,12 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         advance_animation();
         idx = 0xFFFF;
         if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
-            if (destination_distance > lbl_805D9FEC) {
+            if (destination_distance > re2_flower_retarget_margin) {
                 if (is_confused() != 0) {
-                    idx = enemy_nearest_visible_enemy(this, destination_distance - lbl_805D9FEC);
+                    idx = enemy_nearest_visible_enemy(this, destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx == 0xFFFF) {
-                    idx = enemy_find_nearest_player_in_range((u8 *)this, destination_distance - lbl_805D9FEC);
+                    idx = enemy_find_nearest_player_in_range((u8 *)this, destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx != 0xFFFF) {
                     enemy_set_target_id(this, idx);

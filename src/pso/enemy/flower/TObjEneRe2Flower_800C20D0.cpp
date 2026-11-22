@@ -20,6 +20,7 @@ struct NJS_OBJECT;
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/boss/DragonAttackParams.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -28,24 +29,22 @@ struct NJS_OBJECT;
 // The Re2 flower's draw functions open the flower's translation unit: their
 // literal pool (400.0, 25.0, 600.0) repeats values the Lappy
 // pool before it already holds, so they are not part of the Lappy file.
-extern Vec lbl_8043BBC0[];
-extern Vec lbl_8043BBB4[];
+extern Vec re2_flower_demo_shadow_scale[];
+extern Vec re2_flower_shadow_scale[];
 extern s32 re2_flower_node_index;
 extern s32 re2_flower_node_yaw;
 extern f32 *re2_flower_node_points;
 extern const f32 lbl_805D9FAC;
-extern const f32 lbl_805D9FB0;
-extern const f32 lbl_805D9FB4;
-extern const f32 lbl_805D9FB8;
+extern const f32 re2_flower_node_point0_y;
+extern const f32 re2_flower_node_point1_y;
+extern const f32 re2_flower_draw_scale;
 
-struct Prm_800C2628 { f32 a, b, c, d, e; };
-extern "C" {
-extern Prm_800C2628 enemy_dd_attack_param_block;
-extern Prm_800C2628 lbl_8043BBA0;
+// FlowerRe2Data.cpp
+extern DragonAttackParams enemy_dd_attack_param_block;
+extern DragonAttackParams re2_flower_tower_attack_params;
 extern f32 *const re2_flower_movement_params;
 extern const f32 lbl_805D9FBC;
 extern const f32 lbl_805D9FC0;
-}
 
 void TObjEneRe2Flower::render_demo() {
     s32 save8;
@@ -53,7 +52,7 @@ void TObjEneRe2Flower::render_demo() {
     if (update_object_view_visibility(400.0f, 25.0f) == 0) {
         return;
     }
-    Vec v = lbl_8043BBC0[0];
+    Vec v = re2_flower_demo_shadow_scale[0];
     draw_ground_shadow(&v, 0);
     if (is_tower_variant() == 0 && is_rare_variant() != 0) {
         save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
@@ -102,7 +101,7 @@ void TObjEneRe2Flower::render() {
     }
     if (visible != 0) {
         if (mode != 10) {
-            Vec v = lbl_8043BBB4[0];
+            Vec v = re2_flower_shadow_scale[0];
             draw_ground_shadow(&v, 0);
         }
         update_secondary_light();
@@ -123,12 +122,12 @@ void TObjEneRe2Flower::render() {
         re2_flower_node_yaw = rotation_y - base_yaw;
         re2_flower_node_points = &node_points[0].x;
         node_points[0].x = lbl_805D9FAC;
-        node_points[0].y = lbl_805D9FB0;
+        node_points[0].y = re2_flower_node_point0_y;
         node_points[0].z = lbl_805D9FAC;
         node_points[1].x = lbl_805D9FAC;
-        node_points[1].y = lbl_805D9FB4;
+        node_points[1].y = re2_flower_node_point1_y;
         node_points[1].z = lbl_805D9FAC;
-        scale_matrix(0, lbl_805D9FB8, lbl_805D9FB8, lbl_805D9FB8);
+        scale_matrix(0, re2_flower_draw_scale, re2_flower_draw_scale, re2_flower_draw_scale);
         set_chunk_model_node_callback(TObjPlayer::update_effect_sequence);
         if (mode == 8) {
             s32 c = (blink_level & 0xFF) << 16;
@@ -166,10 +165,10 @@ void TObjEneRe2Flower::render() {
         return;
     }
     node_points[0].x = position.x;
-    node_points[0].y = lbl_805D9FB0 + position.y;
+    node_points[0].y = re2_flower_node_point0_y + position.y;
     node_points[0].z = position.z;
     node_points[1].x = position.x;
-    node_points[1].y = lbl_805D9FB4 + position.y;
+    node_points[1].y = re2_flower_node_point1_y + position.y;
     node_points[1].z = position.z;
 }
 extern "C" {
@@ -224,8 +223,8 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
             v.y += lbl_805D9FBC;
             spawn_particle_effect_with_flags(&v, 0xD3, 0x40);
             {
-                Prm_800C2628 prm = lbl_8043BBA0;
-                prm.d = prm.b = *re2_flower_movement_params;
+                DragonAttackParams prm = re2_flower_tower_attack_params;
+                prm.recoil = prm.power = *re2_flower_movement_params;
                 if (is_tower_variant() != 0) {
                     TObjEneDD__sub_800BA5A4(this, &prm);
                 } else {
@@ -319,9 +318,9 @@ void TObjEneRe2Flower::state_laugh(s32 reason) {
 // Literals of the flower file that the units split from it (text_800C2A88, text_800C2CE0, TObjEneRe2Flower.cpp)
 // share; they follow this unit's own literals in .sdata2.
 __declspec(section ".sdata2") extern const f32 lbl_805D9FAC = 0.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FB0 = 2.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FB4 = 7.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FB8 = 1.3f;
+__declspec(section ".sdata2") extern const f32 re2_flower_node_point0_y = 2.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_node_point1_y = 7.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_draw_scale = 1.3f;
 __declspec(section ".sdata2") extern const f32 lbl_805D9FBC = 5.0f;
 __declspec(section ".sdata2") extern const f32 lbl_805D9FC0 = 1.0f;
 __declspec(section ".sdata2") extern const f32 lbl_805D9FC4 = 10.0f;
