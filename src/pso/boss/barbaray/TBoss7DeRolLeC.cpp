@@ -928,7 +928,7 @@ void TBoss7DeRolLeC::run_task() {
         if (temp_r0_3 != 1) {
             if (temp_r0_3 == 2) {
                 if (is_ready() != 0) {
-                    this->sub_802ECAA4();
+                    this->start_death_sequence();
                 } else {
                     dispatch_action(this->mode, 2);
                 }
@@ -976,7 +976,7 @@ void TObjPlayer__sub_802ED984(void) {  }
 
 void TBoss7DeRolLeC::update_or_dispatch() {
     if (is_ready() != 0) {
-        sub_802ECAA4();
+        start_death_sequence();
         return;
     }
     dispatch_action(this->mode, 9);
@@ -1119,7 +1119,7 @@ void TBoss7DeRolLeC::set_swim_direction(s32) {
     body_offset.y = 4.0f;
 }
 
-f32 TBoss7DeRolLeC::sub_802ED3E4() {
+f32 TBoss7DeRolLeC::calc_node_height() {
     Vec v;
     v.x = 0.0f;
     v.y = 0.0f;
@@ -1360,7 +1360,7 @@ void TBoss7DeRolLeC::pick_random_target() {
     }
 }
 
-void TBoss7DeRolLeC::sub_802ECC44() {
+void TBoss7DeRolLeC::set_all_intangible() {
     s32 i;
     set_intangible();
     for (i = 0; i < 10; i++) {
@@ -1368,7 +1368,7 @@ void TBoss7DeRolLeC::sub_802ECC44() {
     }
 }
 
-void TBoss7DeRolLeC::sub_802ECBDC() {
+void TBoss7DeRolLeC::clear_all_intangible() {
     s32 i;
     clear_intangible();
     for (i = 0; i < 10; i++) {
@@ -1396,7 +1396,7 @@ s32 TBoss7DeRolLeC::is_ready() {
     return (u8)var_r4;
 }
 
-void TBoss7DeRolLeC::sub_802ECAA4() {
+void TBoss7DeRolLeC::start_death_sequence() {
     if (mode == 0x1C || mode == 0x1D) {
     } else if (mode == 0x13 || mode == 0x14) {
         advance_action_sequence();
@@ -1721,10 +1721,10 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         handle_laser_attack_state(reason);
         return;
     case 0x19:
-        sub_802E8EEC(reason, 0);
+        handle_surface_state(reason, 0);
         return;
     case 0x1A:
-        sub_802E8EEC(reason, 1);
+        handle_surface_state(reason, 1);
         return;
     case 0x1B:
         handle_deep_sink_state(reason);
@@ -1854,7 +1854,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(0);
-        sub_802ECC44();
+        set_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
         body_offset.y = 0.0f;
@@ -1931,7 +1931,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(1);
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags |= 0x100;
         body_offset.y = 0.0f;
@@ -2046,7 +2046,7 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
     switch (event) {
     case 4:
         this->set_field_b8(1);
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags |= 0x100;
         position_slot = mode;
@@ -2239,7 +2239,7 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
 void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 next_index) {
     switch (event) {
     case 4:
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_slot = position_index;
@@ -2316,7 +2316,7 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
             case 2:
                 if (frame >= 28.0f) {
                     state_ints[1] = 3;
-                    state_floats[1] = (sub_802ED3E4() - state_floats[1]) / 2.5f;
+                    state_floats[1] = (calc_node_height() - state_floats[1]) / 2.5f;
                     state_floats[2] = (2.0f * state_floats[1]) / 56.666664f;
                     state_floats[4] = -6.5294123f * state_floats[0];
                     state_ints[2] = 0;
@@ -2395,7 +2395,7 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
                 position.x = position.x + state_floats[4];
                 state_floats[3] = state_floats[3] + state_floats[5];
                 position.z = position.z + state_floats[3];
-                state_floats[1] = sub_802ED3E4();
+                state_floats[1] = calc_node_height();
                 break;
             case 3:
                 position.x = position.x + state_floats[4];
@@ -2445,7 +2445,7 @@ void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(1);
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_slot = 3;
@@ -2567,7 +2567,7 @@ void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
             case 1:
                 state_floats[2] += state_floats[3];
                 position.z += state_floats[2];
-                state_floats[0] = sub_802ED3E4();
+                state_floats[0] = calc_node_height();
                 break;
             case 2:
                 position.z += state_floats[2];
@@ -2608,7 +2608,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
     switch (event) {
     case 4:
         set_field_b8(1);
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_slot = position_index;
@@ -2824,7 +2824,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
     s32 j;
     switch (event) {
     case 4:
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
         position_slot = position_index;
@@ -2922,7 +2922,7 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
         for (s32 i = 0; i < 4; i++) {
             tentacles[i]->sub_802F0AF0();
         }
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= 0xFFFFFEFF;
         position_slot = position_index;
@@ -3006,7 +3006,7 @@ void TBoss7DeRolLeC::handle_photon_pad_spawn_state(u32 event, s32 position_index
     switch (event) {
     case 4:
         set_field_b8(3);
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
         position_slot = position_index;
@@ -3065,7 +3065,7 @@ void TBoss7DeRolLeC::handle_ceiling_attack_state(u32 event) {
     case 4:
         state_flags &= ~4;
         state_flags |= 0x100;
-        sub_802ECBDC();
+        clear_all_intangible();
         set_field_b8(0xC);
         position_slot = 3;
         set_position_index(position_slot);
@@ -3111,7 +3111,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
     case 4:
         state_flags &= ~4;
         state_flags |= 0x100;
-        sub_802ECBDC();
+        clear_all_intangible();
         set_field_b8(0xF);
         position_slot = 3;
         set_position_index(position_slot);
@@ -3258,13 +3258,13 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
     }
 }
 
-void TBoss7DeRolLeC::sub_802E8EEC(u32 event, s32) {
+void TBoss7DeRolLeC::handle_surface_state(u32 event, s32) {
     switch (event) {
     case 4:
         state_flags &= ~4;
         state_flags |= 0x100;
         set_field_b8(0xE);
-        sub_802ECBDC();
+        clear_all_intangible();
         position_slot = 3;
         set_position_index(position_slot);
         break;
@@ -3295,7 +3295,7 @@ void TBoss7DeRolLeC::handle_deep_sink_state(u32 event) {
     case 4:
         state_flags |= 4;
         state_flags &= ~0x100;
-        sub_802ECC44();
+        set_all_intangible();
         rotation_x = 0;
         body_offset.y = 0.0f;
         return;
@@ -3328,7 +3328,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
     case 4:
         state_flags &= ~0x300;
         state_flags |= 4;
-        sub_802ECC44();
+        set_all_intangible();
         set_field_b8(0x10);
         position_slot = 3;
         set_position_index(position_slot);
@@ -3359,7 +3359,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
     case 2:
         if (debug_pad->unknown_08 & 0x400) {
             actorFlags &= ~0x800;
-            sub_802ECBDC();
+            clear_all_intangible();
             set_state_and_send(2);
         }
         break;
@@ -3416,7 +3416,7 @@ void TBoss7DeRolLeC::handle_despawn_state(u32 event) {
     switch (event) {
     case 4:
         set_field_b8(0x10);
-        sub_802ECC44();
+        set_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         TObjBoss7Tunnel::set_flag_0x200();
@@ -3526,7 +3526,7 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
     s32 k;
     switch (event) {
     case 4:
-        sub_802ECBDC();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
         position_slot = position_index;

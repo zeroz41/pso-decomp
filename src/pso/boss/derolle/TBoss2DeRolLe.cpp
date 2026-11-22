@@ -885,7 +885,7 @@ void TBoss2DeRolLe::run_task() {
       {
         if (is_ready() != 0)
         {
-          sub_80034034();
+          start_death_sequence();
         }
         else
         {
@@ -894,7 +894,7 @@ void TBoss2DeRolLe::run_task() {
       }
       else
       {
-        sub_8003508C();
+        update_or_dispatch();
       }
       if (test_flag30_512() != 0)
       {
@@ -928,9 +928,9 @@ void TBoss2DeRolLe::run_task() {
 
 }
 
-void TBoss2DeRolLe::sub_8003508C() {
+void TBoss2DeRolLe::update_or_dispatch() {
     if (is_ready() != 0) {
-        sub_80034034();
+        start_death_sequence();
         return;
     }
     dispatch_action(mode, 9);
@@ -1183,7 +1183,7 @@ void TBoss2DeRolLe::init_movement() {
     motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
 }
 
-s32 TBoss2DeRolLe::sub_80034800() {
+s32 TBoss2DeRolLe::update_phase_settling() {
     motion_x.advance();
     switch (travel_step_xz) {
     case 0:
@@ -1244,7 +1244,7 @@ void TBoss2DeRolLe::init_wave_params() {
     motion_z.init_params(5.0f, fabs_float(25.0f - position.z), 0.08f);
 }
 
-s32 TBoss2DeRolLe::sub_80034574() {
+s32 TBoss2DeRolLe::update_phase_rising() {
     f32 speed;
     motion_x.advance();
     switch (travel_step_xz) {
@@ -1345,7 +1345,7 @@ void TBoss2DeRolLe::pick_random_target() {
     }
 }
 
-void TBoss2DeRolLe::sub_80034258() {
+void TBoss2DeRolLe::set_all_intangible() {
     s32 i;
     set_intangible();
     for (i = 0; i < 10; i++) {
@@ -1353,7 +1353,7 @@ void TBoss2DeRolLe::sub_80034258() {
     }
 }
 
-void TBoss2DeRolLe::sub_800341F0() {
+void TBoss2DeRolLe::clear_all_intangible() {
     s32 i;
     clear_intangible();
     for (i = 0; i < 10; i++) {
@@ -1398,7 +1398,7 @@ s32 TBoss2DeRolLe::is_ready() {
     return (u8)ready;
 }
 
-void TBoss2DeRolLe::sub_80034034() {
+void TBoss2DeRolLe::start_death_sequence() {
     s16 st = mode;
     if (st != 0x1f && st != 0x20) {
         if (st == 0x14 || st == 0x15) {
@@ -1818,10 +1818,10 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         handle_laser_attack_state(reason);
         return;
     case 28:
-        sub_8002FD9C(reason, 0);
+        handle_surface_state(reason, 0);
         return;
     case 29:
-        sub_8002FD9C(reason, 1);
+        handle_surface_state(reason, 1);
         return;
     case 30:
         handle_deep_sink_state(reason);
@@ -1867,7 +1867,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0;
-        sub_80034258();
+        set_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
         position.x = 70.0f;
@@ -2017,7 +2017,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        sub_800341F0();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags |= 0x100;
         height_offset = 0.0f;
@@ -2133,7 +2133,7 @@ void TBoss2DeRolLe::handle_position_travel_state(u32 reason, s32 from, s32 to) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        sub_800341F0();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags |= 0x100;
         position_index = from;
@@ -2231,14 +2231,14 @@ void TBoss2DeRolLe::handle_position_travel_state(u32 reason, s32 from, s32 to) {
         r = 0;
         switch (state_ints[0]) {
         case 0:
-            r = sub_80034574();
+            r = update_phase_rising();
             break;
         case 1:
             r = update_phase_is_done();
             position.z = state_floats[1] + motion_z.travelled;
             break;
         case 2:
-            r = sub_80034800();
+            r = update_phase_settling();
             position.z = state_floats[1] - motion_z.travelled;
             break;
         case 3:
@@ -2261,7 +2261,7 @@ void TBoss2DeRolLe::handle_position_travel_state(u32 reason, s32 from, s32 to) {
 void TBoss2DeRolLe::handle_side_jump_state(u32 reason, s32 from, s32 to) {
     switch (reason) {
     case 4:
-        sub_800341F0();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_index = from;
@@ -2450,7 +2450,7 @@ void TBoss2DeRolLe::handle_forward_jump_state(u32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        sub_800341F0();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_index = 3;
@@ -2610,7 +2610,7 @@ void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        sub_800341F0();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_index = side;
@@ -2825,7 +2825,7 @@ void TBoss2DeRolLe::handle_tentacle_volley_state(u32 reason, s32 side) {
     s32 i;
     switch (reason) {
     case 4:
-        sub_800341F0();
+        clear_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
         position_index = side;
@@ -2928,7 +2928,7 @@ void TBoss2DeRolLe::handle_tentacle_volley_state(u32 reason, s32 side) {
 void TBoss2DeRolLe::handle_roll_dive_state(u32 reason, s32 side) {
     switch (reason) {
     case 4:
-        sub_800341F0();
+        clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
         position_index = side;
@@ -3014,7 +3014,7 @@ void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        sub_800341F0();
+        clear_all_intangible();
         state_flags = state_flags | 4;
         state_flags = state_flags & ~0x100;
         set_position_index(3);
@@ -3129,7 +3129,7 @@ void TBoss2DeRolLe::state_photon_pads(u32 reason, s32 position) {
     switch (reason) {
     case 4:
         requested_action = 3;
-        sub_800341F0();
+        clear_all_intangible();
         state_flags = state_flags & ~4;
         state_flags = state_flags & ~0x100;
         position_index = position;
@@ -3238,7 +3238,7 @@ void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
     case 4:
         state_flags = state_flags & ~4;
         state_flags = state_flags | 0x100;
-        sub_800341F0();
+        clear_all_intangible();
         requested_action = 0xC;
         position_index = 3;
         set_position_index(position_index);
@@ -3285,7 +3285,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
     case 4:
         state_flags &= ~4;
         state_flags |= 0x100;
-        sub_800341F0();
+        clear_all_intangible();
         requested_action = 0xF;
         position_index = 3;
         set_position_index(position_index);
@@ -3498,13 +3498,13 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
 
 #pragma pop
 
-void TBoss2DeRolLe::sub_8002FD9C(u32 reason, s32 arg2) {
+void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 arg2) {
     switch (reason) {
     case 4:
         state_flags &= ~4;
         state_flags |= 0x100;
         requested_action = 0xE;
-        sub_800341F0();
+        clear_all_intangible();
         position_index = 3;
         set_position_index(position_index);
         if (arg2 != 0) {
@@ -3532,7 +3532,7 @@ void TBoss2DeRolLe::handle_deep_sink_state(u32 reason) {
     case 4:
         state_flags = state_flags | 4;
         state_flags = state_flags & 0xFFFFFEFF;
-        sub_80034258();
+        set_all_intangible();
         rotation_x = 0;
         height_offset = 0.0f;
         return;
@@ -3579,7 +3579,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
     case 4:
         state_flags &= ~0x100;
         state_flags |= 4;
-        sub_80034258();
+        set_all_intangible();
         requested_action = 0x10;
         position_index = 3;
         set_position_index(position_index);
@@ -3605,7 +3605,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
     case 2:
         if (debug_pad->unknown_08 & 0x400) {
             actorFlags &= ~0x800;
-            sub_800341F0();
+            clear_all_intangible();
             set_state_and_send(2);
         }
         break;
@@ -3709,7 +3709,7 @@ void TBoss2DeRolLe::handle_despawn_state(u32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0x10;
-        sub_80034258();
+        set_all_intangible();
         state_flags = state_flags | 4;
         state_flags = state_flags & 0xFFFFFEFF;
         TObjBoss2Tunnel::set_global_flag_200();

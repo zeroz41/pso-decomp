@@ -89,11 +89,11 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void clear_play_flags();
     s32 update_phase_is_done();
     void init_movement();
-    s32 sub_80034800();
+    s32 update_phase_settling();
     void init_move_params();
     s32 update_state();
     void init_wave_params();
-    s32 sub_80034574();
+    s32 update_phase_rising();
     void spawn_photon_pad(s32 joint, s32 level);
     void calc_offset_position();
     void activate_laser_light();
@@ -103,15 +103,15 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     static void spawn_offset_particle(Vec *position, f32 height, f32 distance);
     void set_state_and_send(s32 state);
     s32 is_ready();
-    void sub_80034034();
+    void start_death_sequence();  // once is_ready: the death or deep-sink state, unless one runs (inferred name)
     void advance_action_sequence();
-    void sub_8003508C();
+    void update_or_dispatch();
     void set_position_index(s32 index);
     void pick_random_target();
-    void sub_80034258();
-    void sub_800341F0();
+    void set_all_intangible();  // the body and its ten joints (inferred name)
+    void clear_all_intangible();  // the body and its ten joints (inferred name)
     void handle_opening_state(u32 reason);
-    void sub_8002FD9C(u32 reason, s32 arg2);
+    void handle_surface_state(u32 reason, s32 arg2);  // undoes handle_deep_sink_state (inferred name)
     void handle_deep_sink_state(u32 reason);
     void handle_despawn_state(u32 reason);
     void reload_stats_for_phase(s32 kind);

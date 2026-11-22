@@ -51,7 +51,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static NJS_OBJECT *get_archive_model(s32 index);
     void emit_hit_effect(const Vec *position);
     s32 is_ready();                // name from the TBoss2DeRolLe twin
-    void sub_802ECAA4();
+    void start_death_sequence();  // once is_ready: the death or deep-sink state, unless one runs (inferred name)
     void handle_position_travel_state(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
     // Resets the node-walk state that record_node_transforms advances during a draw.
@@ -83,8 +83,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void turn_on_laser_light();
     void turn_off_laser_light();
     void pick_random_target();
-    void sub_802ECC44();
-    void sub_802ECBDC();
+    void set_all_intangible();  // the body and its ten joints (inferred name)
+    void clear_all_intangible();  // the body and its ten joints (inferred name)
     void apply_damage_and_set_effect(s32 damage, u16);
     void set_hooked_effect_target();
     void play_sound_at(s32 id, Vec *pos);
@@ -92,7 +92,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void spawn_particle_201(Vec *pos);
     void set_position_index(s32 index);
     void set_swim_direction(s32);
-    f32 sub_802ED3E4();
+    f32 calc_node_height();
     void destroy_child();
     void update_attached_orientation();
     void handle_death_state(u32 event);
@@ -103,7 +103,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void handle_tentacle_needle_barrage_state(u32 event);
     void retract_all_tentacles();
     void extend_all_tentacles();
-    void sub_802E8EEC(u32 event, s32);
+    void handle_surface_state(u32 event, s32);  // undoes handle_deep_sink_state (inferred name)
     void handle_deep_sink_state(u32 event);
     void handle_crawfish_spawn_state(u32 event, s32 variant);
     void handle_crawfish_drain_state(u32 event);
