@@ -226,13 +226,11 @@ public:
     f32 calc_sq_offset(f32 farg0);
     void noop();
     static u16 get_global_part_count(s32 arg0);
-    void place_parts_in_ring(s32 arg1, s32 arg2);
+    static void place_parts_in_ring(s32 n, s32 arg1, s32 arg2);
     static s32 find_target_enemy();
     static s32 is_any_part_alive();
     static void update_all_parts();
     static s32 has_enough_enemies();
-    s32 spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 arg4);
-    u16 get_part_count_plus(s32 arg1);
     void set_mode_params(s8 arg1);
     void update_pos_from_data();
     void render_nodes_flagged();

@@ -4607,7 +4607,7 @@ void TBoss8Dragon::sub_802F4B90(s32 event) {
         break;
     }
     case 5:
-        ((TBoss8Dragon *)(*(saddr *)(TBoss8Dragon__data_80541DDC[0] + 0x28)))->place_parts_in_ring(*(s32 *)(TBoss8Dragon__data_80541DDC[0] + 0x24), *p);
+        TBoss8Dragon::place_parts_in_ring(*(s32 *)(TBoss8Dragon__data_80541DDC[0] + 0x28), *(s32 *)(TBoss8Dragon__data_80541DDC[0] + 0x24), *p);
         this->clear_invulnerable();
         this->enable_body_collision();
         break;

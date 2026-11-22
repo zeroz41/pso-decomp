@@ -15,11 +15,6 @@ struct Ent_802F33C8 { u8 pad0[0x38]; f32 x, y, z; u8 pad44[0x60 - 0x44]; s32 rot
 
 struct Ent_802F376C { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
-struct Stack_802F3A48 {
-    s32 sp8;
-    u8 trailing_storage[0x3C];
-};
-
 extern "C" {
 extern TObject *tl_04;
 // TObjPlayer_80011014.h declares these, but its calc_random_ratio prototype takes no rng.
@@ -36,7 +31,7 @@ s32 TBoss8Dragon__sub_802F3348(s32 arg0) {
     if (boss8_dragon_leader_part == NULL) {
         return 0;
     }
-    return (saddr)get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(arg0));
+    return (saddr)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(arg0));
 }
 }
 
@@ -44,11 +39,10 @@ u16 TBoss8Dragon::get_global_part_count(s32 arg0) {
     if (boss8_dragon_leader_part == NULL) {
         return 0xFFFFU;
     }
-    return ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(arg0);
+    return boss8_dragon_leader_part->get_part_entity_id(arg0);
 }
 
-void TBoss8Dragon::place_parts_in_ring(s32 arg1, s32 arg2) {
-    s32 n = (saddr)this;
+void TBoss8Dragon::place_parts_in_ring(s32 n, s32 arg1, s32 arg2) {
     Vec v;
     u8 buf[0xEC];
     s32 ang;
@@ -60,7 +54,7 @@ void TBoss8Dragon::place_parts_in_ring(s32 arg1, s32 arg2) {
         subtractive_rng_seed(buf, arg2);
         ang = (s32)(65535.0f * calc_random_ratio__10TObjPlayerFv(buf));
         step = 0x10000 / (n + 1);
-        e = (Ent_802F33C8 *)get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(0));
+        e = (Ent_802F33C8 *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(0));
         e->x = 320.0f * sin_table_lookup(ang);
         e->z = 320.0f * cos_table_lookup(ang);
         e->rot = (u16)(ang + 0x8000);
@@ -69,7 +63,7 @@ void TBoss8Dragon::place_parts_in_ring(s32 arg1, s32 arg2) {
             v.x = 320.0f * sin_table_lookup(ang);
             v.y = e->y;
             v.z = 320.0f * cos_table_lookup(ang);
-            ((TBoss8Dragon *)boss8_dragon_leader_part)->spawn_attack_object(&v, (ang + 0x8000) & 0xFFFF, arg1, i + 1);
+            boss8_dragon_leader_part->spawn_attack_object(&v, (ang + 0x8000) & 0xFFFF, arg1, i + 1);
         }
     }
 }
@@ -82,7 +76,7 @@ s32 TBoss8Dragon::find_target_enemy() {
     }
     var_r31 = 1;
 loop_3:
-    if (get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(var_r31)) != NULL) {
+    if (get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(var_r31)) != NULL) {
         return 1;
     }
     var_r31 += 1;
@@ -100,7 +94,7 @@ s32 TBoss8Dragon::is_any_part_alive() {
     }
     var_r31 = 1;
 loop_3:
-    if (get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(var_r31)) != NULL) {
+    if (get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(var_r31)) != NULL) {
         return 0;
     }
     var_r31 += 1;
@@ -117,7 +111,7 @@ void TBoss8Dragon::update_all_parts() {
         var_r31 = 1;
         do {
             TBoss8Dragon *enemy;
-            if ((enemy = (TBoss8Dragon *)get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(var_r31))) != NULL) {
+            if ((enemy = (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(var_r31))) != NULL) {
                 enemy->set_state_22();
             }
             var_r31 += 1;
@@ -138,7 +132,7 @@ s32 TBoss8Dragon__sub_802F3638() {
     }
     alive = 0;
     for (i = 0; i < 6; i++) {
-        if (get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(i)) != NULL) {
+        if (get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(i)) != NULL) {
             alive++;
         }
     }
@@ -162,7 +156,7 @@ s32 TBoss8Dragon::has_enough_enemies() {
     count = 0;
     i = 0;
     do {
-        if (get_enemy_entity(((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(i)) != NULL) {
+        if (get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(i)) != NULL) {
             count += 1;
         }
         i += 1;
@@ -182,7 +176,7 @@ s32 TBoss8Dragon::is_closest_part() {
     v.z = this->position.z - this->position.z;
     len = normalize_vector_xz(&v);
     for (i = 1; i < 6; i++) {
-        u16 id = ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(i);
+        u16 id = boss8_dragon_leader_part->get_part_entity_id(i);
         if (id != get_entity_id(this)) {
             Ent_802F376C *e = (Ent_802F376C *)get_enemy_entity(id);
             if (e != NULL) {
@@ -208,7 +202,7 @@ s32 TBoss8Dragon::push_apart_from_parts() {
         return 0;
     }
     for (i = 0; i < 6; i++) {
-        u16 id = ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(i);
+        u16 id = boss8_dragon_leader_part->get_part_entity_id(i);
         if (id != get_entity_id(this)) {
             Ent_802F376C *e = (Ent_802F376C *)get_enemy_entity(id);
             if (e != NULL) {
@@ -235,7 +229,7 @@ s32 TBoss8Dragon::is_near_other_part() {
         return 0;
     }
     for (i = 0; i < 6; i++) {
-        u16 id = ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(i);
+        u16 id = boss8_dragon_leader_part->get_part_entity_id(i);
         if (id != get_entity_id(this)) {
             Ent_802F376C *e = (Ent_802F376C *)get_enemy_entity(id);
             if (e != NULL) {
@@ -251,30 +245,27 @@ s32 TBoss8Dragon::is_near_other_part() {
     return 0;
 }
 
-s32 TBoss8Dragon::spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 index) {
-    s32 self = (saddr)this;
-    Stack_802F3A48 stack;
-    if (setup_attack_slot__12TBoss8DragonFiUiiiPv(self, (uaddr)pos, angle, index, (u8 *)&stack.sp8) != 0) {
-        return (saddr)new TUnk_804F1A78(tl_04, &stack.sp8, hp);
+s32 TUnk_804E4BF0::spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 index) {
+    TUnk_804E4BF0SetEntry entry;
+    if (this->setup_attack_slot(pos, angle, index, &entry) != 0) {
+        return (saddr)new TUnk_804F1A78(tl_04, &entry, hp);
     }
     return 0;
 }
 
-extern "C" {
-s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(saddr self, uaddr arg1, s32 arg2, s32 arg3, u8 *dst) {
-    if ((arg3 < 0) || (arg3 > 5)) {
+s32 TUnk_804E4BF0::setup_attack_slot(Vec *pos, s32 angle, s32 index, TUnk_804E4BF0SetEntry *dst) {
+    if ((index < 0) || (index > 5)) {
         return 0;
     }
-    TBoss4DarkFalz__sub_8004B4F0(dst, (void *)(self + 0x1C));
-    *(s16 *)((s8 *)dst + 0) = TBoss8Dragon__sub_802F3C94((void *)self, (s32)arg3);
-    *(s16 *)((s8 *)dst + 2) = 0;
-    *(s16 *)((s8 *)dst + 6) = ((TBoss8Dragon *)self)->get_part_count_plus(arg3);
-    if (arg1 != 0U) {
-        VecCopy((Vec *)(dst + 0x10), (const Vec *)(arg1));
+    TBoss4DarkFalz__sub_8004B4F0(dst, &this->set_entry);
+    dst->set_index = this->get_part_set_index(index);
+    dst->kind = 0;
+    dst->entity_id = this->get_part_entity_id(index);
+    if (pos != NULL) {
+        VecCopy(&dst->position, pos);
     }
-    *(s32 *)((s8 *)dst + 0x20) = arg2;
+    dst->angle = angle;
     return 1;
-}
 }
 
 void TUnk_804E4BF0::render() {  }
@@ -291,7 +282,7 @@ TUnk_804E4BF0::TUnk_804E4BF0(TObject *object, void *arg1p) : TObject(object) {
     if (boss8_dragon_leader_part == NULL) {
         boss8_dragon_leader_part = this;
     }
-    TBoss4DarkFalz__sub_8004B4F0((void *)((char *)this + 28), arg1p);
+    TBoss4DarkFalz__sub_8004B4F0(&this->set_entry, arg1p);
 }
 
 extern "C" {
@@ -306,12 +297,10 @@ void TBoss8Dragon__sub_802F3C74(void) {  }
 
 void clear_boss8_dragon_leader_part(void) { boss8_dragon_leader_part = 0; }
 
-u16 TBoss8Dragon::get_part_count_plus(s32 arg1) {
-    return (u16) (*(u16 *)((u8 *)this + 0x22) + arg1);
+u16 TUnk_804E4BF0::get_part_entity_id(s32 index) {
+    return this->set_entry.entity_id + index;
 }
 
-extern "C" {
-s32 TBoss8Dragon__sub_802F3C94(void *self, s32 arg1) {
-    return *(s16 *)((s8 *)self + 0x1C) + arg1;
-}
+s32 TUnk_804E4BF0::get_part_set_index(s32 index) {
+    return this->set_entry.set_index + index;
 }
