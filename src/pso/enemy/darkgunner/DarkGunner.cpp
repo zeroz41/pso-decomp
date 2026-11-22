@@ -1374,7 +1374,7 @@ void TObjEneDarkGunner::sub_800A1520() {
         TObjPlayer__sub_800A1C84((TObjPlayer *)this);
         return;
       case 6:
-        ((TObjPlayer *)((u8 *)this))->update_hide_sequence();
+        update_hide_sequence();
         return;
       case 8:
         ((TObjPlayer *)((u8 *)this))->update_move_to_destination();
@@ -1389,40 +1389,39 @@ void TObjEneDarkGunner::trigger_action_if_not_flagged() {
     }
 }
 
-void TObjPlayer::update_hide_sequence() {
-    u8 *self = (u8 *)this;
+void TObjEneDarkGunner::update_hide_sequence() {
     s32 temp_r3;
     s32 temp_r4;
     s32 temp_r5;
 
-    switch (this->m_37c) {
+    switch ((s32)state) {
     case 0:
-        ((TObjBase *)self)->obj_clearFlags30(0x240300);
-        *(s32 *)&this->unk_388 = (s32) (*(s32 *)&this->unk_388 | 0x800000);
-        temp_r5 = *(s32 *)&this->unk_388;
+        obj_clearFlags30(0x240300);
+        m_388 |= 0x800000;
+        temp_r5 = m_388;
         temp_r4 = temp_r5 & 0xFFB7FFFF;
-        *(s32 *)&this->unk_388 = temp_r4;
+        m_388 = temp_r4;
         this->requested_action = 8;
-        this->m_39c = TObjPlayer__sub_800A3210(1, temp_r4, temp_r5);
-        this->m_37c = 1;
+        hide_timer = TObjPlayer__sub_800A3210(1, temp_r4, temp_r5);
+        state = 1;
     case 1:
-        ((TObjMotion *)self)->advance_animation();
+        advance_animation();
         if (!(this->actorFlags & 0x800000)) {
-            apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
+            apply_actor_gravity(this, (s32 *)(0), 0.0f);
         }
-        ((TObjPlayer *)self)->update_collisions();
-        temp_r3 = this->m_39c - 1;
-        this->m_39c = (s16) temp_r3;
+        ((TObjPlayer *)this)->update_collisions();
+        temp_r3 = hide_timer - 1;
+        hide_timer = (s16) temp_r3;
         if ((s16) temp_r3 <= 0) {
-            ((TObjEneDarkGunner *)this)->set_hidden_flag();
+            set_hidden_flag();
         }
         break;
     case -1:
-        *(s32 *)&this->unk_388 = (s32) (*(s32 *)&this->unk_388 & 0xFF7FFFFF);
+        m_388 &= 0xFF7FFFFF;
         break;
     }
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    submit_cursor_candidate(self, -1);
+    submit_cursor_candidate(this, -1);
 }
 
 void TObjPlayer::update_move_to_destination() {

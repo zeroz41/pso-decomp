@@ -20,6 +20,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void apply_fall_damage_flag();
     void set_hidden_flag();
     void trigger_action_if_not_flagged();
+    void update_hide_sequence();
     virtual s32 update_movement_status();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();
@@ -30,7 +31,9 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     f32 render_y_offset;
     u8 unk_390[0x4];
     f32 m_394;
-    u8 unk_398[0x58];
+    u8 pad_398[0x4];
+    s16 hide_timer;
+    u8 pad_39e[0x52];
     void* children[4];
     void* child400;
     void* child404;
