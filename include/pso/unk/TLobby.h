@@ -744,7 +744,8 @@ struct TLobby : public TObject {
     static void release_menu_font();
     static void load_font_texture();
     static void reset_state_byte();
-    static void reset_state(void *p);
+    // Empties the com card list on floor load and unload.
+    static void reset_state();
     static s32 create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr src, void **arg4);
     static s32 request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
@@ -948,7 +949,8 @@ struct TLobby : public TObject {
     char *build_text_from_comma_list();
     static void remove_com_card_entry(s32 arg0);
     static s32 remove_com_card_by_id(u32 arg0);
-    static void reset_state_805D63DC(void*);
+    // Empties the com card list and clears its flag.
+    static void reset_com_card_list();
     void set_split_screen_name();
     static void create_singleton(void *arg0);
     static s32 check_all_battle_flags(void *);
