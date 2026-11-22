@@ -994,7 +994,7 @@ void TObjControl::run_task() {
             switch (mode) {
             case 0:
                 input = enemy->controller_input;
-                if (input->unknown_08 & 4) {
+                if (input->pressed_buttons & 4) {
                     enemy->run_attack_action();
                     return;
                 }

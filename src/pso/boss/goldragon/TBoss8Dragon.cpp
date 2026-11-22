@@ -1730,7 +1730,7 @@ s32 TBoss8Dragon::sub_802FABB4() {
     u8 ready;
 
     ready = 0;
-    if (((s32) this->controlTimer >= 0x96) && (this->mask_flags(this->controller_input->unknown_08, 0x400) != 0)) {
+    if (((s32) this->controlTimer >= 0x96) && (this->mask_flags(this->controller_input->pressed_buttons, 0x400) != 0)) {
         ready = 1;
     }
     return (u8) ready;
@@ -1740,7 +1740,7 @@ s32 TBoss8Dragon::check_attack_ready() {
     u8 ready;
 
     ready = 0;
-    if ((this->mask_flags(this->controller_input->unknown_08, 0x400) != 0) && (is_secondary_sequence() != 0)) {
+    if ((this->mask_flags(this->controller_input->pressed_buttons, 0x400) != 0) && (is_secondary_sequence() != 0)) {
         ready = 1;
     }
     return ready;
@@ -1861,9 +1861,9 @@ void TBoss8Dragon::update_stand_state(s32 event) {
         break;
     case 2:
     case 11:
-        if (this->mask_flags(this->controller_input->unknown_08, 4) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, 4) != 0) {
             send_action_packet(3);
-        } else if (this->mask_flags(this->controller_input->unknown_08, 0x400) != 0) {
+        } else if (this->mask_flags(this->controller_input->pressed_buttons, 0x400) != 0) {
             send_action_packet(5);
         } else if (this->controller_input->stick_magnitude > 0.1f) {
             send_action_packet(0x19);
@@ -2770,7 +2770,7 @@ void TBoss8Dragon::update_head_down_attack_state(s32 event) {
         this->play_effect_sound(0x4003AD06);
         return;
     case 11:
-        if (((s32) this->stateStep >= 0x96) && (this->mask_flags(this->controller_input->unknown_08, 2) != 0)) {
+        if (((s32) this->stateStep >= 0x96) && (this->mask_flags(this->controller_input->pressed_buttons, 2) != 0)) {
             this->stateStep = 0x1C2;
         }
         if (((s32) this->impactAge == 2) && (this->get_flag_b4() != 0)) {
@@ -3651,11 +3651,11 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
             send_action_packet(0x19);
             return;
         }
-        if (this->mask_flags(input->unknown_08, 4) != 0) {
+        if (this->mask_flags(input->pressed_buttons, 4) != 0) {
             send_action_packet(3);
             return;
         }
-        if (this->mask_flags(this->controller_input->unknown_08, 2) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, 2) != 0) {
             send_action_packet(4);
             return;
         }
@@ -3663,7 +3663,7 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (this->mask_flags(this->controller_input->unknown_08, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
             send_action_packet(9);
         }
         return;
@@ -3673,7 +3673,7 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
             send_action_packet(0x19);
             return;
         }
-        buttons = input->unknown_08;
+        buttons = input->pressed_buttons;
         if (buttons & 4) {
             send_action_packet(3);
             return;
@@ -3721,7 +3721,7 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
             send_action_packet(0x18);
             return;
         }
-        buttons = this->controller_input->unknown_08;
+        buttons = this->controller_input->pressed_buttons;
         if (buttons & 4) {
             send_action_packet(3);
             return;
@@ -3740,11 +3740,11 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
             send_action_packet(0x18);
             return;
         }
-        if (this->mask_flags(this->controller_input->unknown_08, 4) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, 4) != 0) {
             send_action_packet(3);
             return;
         }
-        if (this->mask_flags(this->controller_input->unknown_08, 2) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, 2) != 0) {
             send_action_packet(4);
             return;
         }
@@ -3752,7 +3752,7 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (this->mask_flags(this->controller_input->unknown_08, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
             send_action_packet(9);
             return;
         }
@@ -3766,7 +3766,7 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
                 this->impactAge = 1;
                 return;
             }
-            *p = *(s32 *)input->unknown_1c;
+            *p = input->stick_angle;
             this->set_speed(*p);
             this->send_6xA8_action();
             return;
@@ -3819,7 +3819,7 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
         this->flags = (s32) (this->flags & ~0x36);
         return;
     case 11:
-        if ((this->controlTimer > 0x1C2) || (this->mask_flags(this->controller_input->unknown_08, 2) != 0)) {
+        if ((this->controlTimer > 0x1C2) || (this->mask_flags(this->controller_input->pressed_buttons, 2) != 0)) {
             send_action_packet(8);
             return;
         }
@@ -3828,7 +3828,7 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
             send_action_packet(0x1B);
             return;
         }
-        if (this->mask_flags(input->unknown_08, 4) != 0) {
+        if (this->mask_flags(input->pressed_buttons, 4) != 0) {
             send_action_packet(7);
             return;
         }
@@ -3842,7 +3842,7 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
             send_action_packet(0x1B);
             return;
         }
-        buttons = input->unknown_08;
+        buttons = input->pressed_buttons;
         if (buttons & 4) {
             send_action_packet(7);
             return;
@@ -3889,7 +3889,7 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
         this->impactAge = 0;
         return;
     case 11:
-        if (this->controlTimer > 0x1C2 || this->mask_flags(this->controller_input->unknown_08, 2) != 0) {
+        if (this->controlTimer > 0x1C2 || this->mask_flags(this->controller_input->pressed_buttons, 2) != 0) {
             send_action_packet(8);
             return;
         }
@@ -3897,7 +3897,7 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
             send_action_packet(0x1A);
             return;
         }
-        if (this->mask_flags(this->controller_input->unknown_08, 4) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, 4) != 0) {
             send_action_packet(7);
             return;
         }
@@ -3910,7 +3910,7 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
             send_action_packet(0x1A);
             return;
         }
-        buttons = this->controller_input->unknown_08;
+        buttons = this->controller_input->pressed_buttons;
         if (buttons & 4) {
             send_action_packet(7);
             return;
@@ -3933,7 +3933,7 @@ void TBoss8Dragon::update_controlled_flight_state(s32 event) {
                 this->impactAge = 1;
                 return;
             }
-            *p = *(s32 *)input->unknown_1c;
+            *p = input->stick_angle;
             this->set_speed(*p);
             this->send_6xA8_action();
             return;
@@ -3981,7 +3981,7 @@ void TBoss8Dragon::update_controlled_burrow_state(s32 event) {
             send_action_packet(0x1D);
             break;
         }
-        if (input->unknown_08 & 2) {
+        if (input->pressed_buttons & 2) {
             send_action_packet(0x13);
             break;
         }
@@ -4037,7 +4037,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
             send_action_packet(0x1C);
             return;
         }
-        if (this->controller_input->unknown_08 & 2) {
+        if (this->controller_input->pressed_buttons & 2) {
             send_action_packet(0x13);
         }
         return;
@@ -4050,7 +4050,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
                 this->impactAge = 1;
                 return;
             }
-            this->rotation_y = (s32) *(s32 *)input->unknown_1c;
+            this->rotation_y = (s32) input->stick_angle;
             this->set_speed(this->rotation_y);
             this->send_6xA8_action();
             return;
@@ -4092,7 +4092,7 @@ void TBoss8Dragon::state_circle_flight(s32 event) {
         return;
     case 2:
     case 11:
-        if (((s32) this->stateStep >= 0x1C2) || (this->mask_flags(this->controller_input->unknown_08, 0x400) != 0)) {
+        if (((s32) this->stateStep >= 0x1C2) || (this->mask_flags(this->controller_input->pressed_buttons, 0x400) != 0)) {
             send_action_packet(0x26);
         }
         return;

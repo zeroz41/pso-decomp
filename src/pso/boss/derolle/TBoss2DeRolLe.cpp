@@ -832,7 +832,7 @@ void TBoss2DeRolLe::run_task() {
       run_mode = 1;
     }
   }
-  if ((debug_pad_active != 0) && (debug_pad->unknown_08 & 0x10000))
+  if ((debug_pad_active != 0) && (debug_pad->pressed_buttons & 0x10000))
   {
     switch (run_mode)
     {
@@ -2011,7 +2011,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     case 2:
         switch (position_index) {
         case 0:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x10) {
                 set_state_and_send(3);
             } else if (b & 0x40) {
@@ -2028,7 +2028,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
             }
             break;
         case 1:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x40) {
                 set_state_and_send(6);
             } else if (b & 0x20) {
@@ -2043,7 +2043,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
             }
             break;
         case 2:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x20) {
                 set_state_and_send(9);
             } else if (b & 0x80) {
@@ -2059,7 +2059,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
             }
             break;
         case 3:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x80) {
                 set_state_and_send(0xC);
             } else if (b & 0x10) {
@@ -2612,7 +2612,7 @@ void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
         state_ints[2] = 0;
         break;
     case 2: {
-        u32 buttons = debug_pad->unknown_08;
+        u32 buttons = debug_pad->pressed_buttons;
         if (buttons & 0x400) {
             if (position_index == 0) {
                 set_state_and_send(0x14);
@@ -3585,7 +3585,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
         break;
     case 2:
-        if (debug_pad->unknown_08 & 0x400) {
+        if (debug_pad->pressed_buttons & 0x400) {
             actorFlags &= ~0x800;
             clear_all_intangible();
             set_state_and_send(2);

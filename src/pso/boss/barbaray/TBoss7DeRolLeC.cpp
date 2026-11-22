@@ -828,7 +828,7 @@ void TBoss7DeRolLeC::run_task() {
             this->run_mode = 1;
         }
     }
-    if ((this->debug_pad_active != 0) && (debug_pad->unknown_08 & 0x10000)) {
+    if ((this->debug_pad_active != 0) && (debug_pad->pressed_buttons & 0x10000)) {
         switch (this->run_mode) {
         case 1:
             this->run_mode = 0;
@@ -1869,7 +1869,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
     case 2:
         switch (position_slot) {
         case 0:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x10) {
                 set_state_and_send(3);
             } else if (b & 0x40) {
@@ -1886,7 +1886,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
             }
             break;
         case 1:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x40) {
                 set_state_and_send(6);
             } else if (!(b & 0x20)) {
@@ -1898,7 +1898,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
             }
             break;
         case 2:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x20) {
                 set_state_and_send(9);
             } else if (b & 0x80) {
@@ -1914,7 +1914,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
             }
             break;
         case 3:
-            b = debug_pad->unknown_08;
+            b = debug_pad->pressed_buttons;
             if (b & 0x80) {
                 set_state_and_send(0xC);
             } else if (b & 0x10) {
@@ -2554,7 +2554,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
         state_ints[2] = 0;
         break;
     case 2: {
-        u32 f = debug_pad->unknown_08;
+        u32 f = debug_pad->pressed_buttons;
         if (f & 0x400) {
             if (position_slot == 0) {
                 set_state_and_send(0x13);
@@ -3283,7 +3283,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         }
         break;
     case 2:
-        if (debug_pad->unknown_08 & 0x400) {
+        if (debug_pad->pressed_buttons & 0x400) {
             actorFlags &= ~0x800;
             clear_all_intangible();
             set_state_and_send(2);
