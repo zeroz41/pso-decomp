@@ -185,13 +185,13 @@ void TAdSinglePlyChrSelectGC::handle_card_select() {
             return;
         case 1:
             ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-            ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 5;
             return;
         }
     } else if (((TWindowSubComCard *)(*(saddr *)&this->unk_50))->get_card_data() != 0) {
         ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-        ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
 }
@@ -210,13 +210,13 @@ void TAdSinglePlyChrSelectGC::handle_card_select2() {
             return;
         case 1:
             ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-            ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 5;
             return;
         }
     } else if (((TWindowSubComCard *)(this->m_4c))->get_card_data() != 0) {
         ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-        ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
 }
@@ -234,12 +234,12 @@ void TAdSinglePlyChrSelectGC::update_card_input() {
             this->m_20 = 0xC;
             return;
         case 1:
-            ((TAdMultiSelGameModeGC *)(this->m_2c))->set_selection_state(1);
+            ((TAdSelectCurGC *)(this->m_2c))->set_selection_state(1);
             this->m_20 = 5;
             return;
         }
     } else if (((TWindowSubComCard *)(this->m_44))->get_card_data() != 0) {
-        ((TAdMultiSelGameModeGC *)(this->m_2c))->set_selection_state(1);
+        ((TAdSelectCurGC *)(this->m_2c))->set_selection_state(1);
         this->m_20 = 5;
     }
 }
@@ -257,16 +257,16 @@ void TAdSinglePlyChrSelectGC::update() {
             clear_entry__23TAdSinglePlyChrSelectGCFi();
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_28))->get_player_index();
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_28))->set_cursor_index(0xF);
-            ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 0;
             return;
         case 1:
-            ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 5;
             return;
         }
     } else if (((TWindowSubComCard *)(*(saddr *)&this->unk_48))->get_card_data() != 0) {
-        ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
 }
@@ -289,7 +289,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             *(s32 *)&this->m_20 = 9;
             return;
         case 2:
-            ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
             *(s32 *)&this->m_20 = 5;
             return;
         case 3:
@@ -299,7 +299,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         }
     } else if (((TWindowMenu *)(*(saddr *)&this->unk_38))->is_cancelled() != 0) {
-        ((TAdMultiSelGameModeGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
+        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
 }

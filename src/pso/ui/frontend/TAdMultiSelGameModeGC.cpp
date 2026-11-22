@@ -172,18 +172,18 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
     switch (reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index()) {
     case 0:
         if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
+            ((TAdSelectCurGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
             game_difficulty_selection = ((TWindowMenu *)self->f2C)->get_selected_value();
             ((TAdSelectTxtGC *)self->f30)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[4], game_difficulty_selection);
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
+            ((TAdSelectCurGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
         break;
     case 1:
         if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
+            ((TAdSelectCurGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
             switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
@@ -207,13 +207,13 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 game_difficulty_selection = 0;
                 ((TAdSelectTxtGC *)self->f30)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[4], 0);
             }
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
+            ((TAdSelectCurGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
         break;
     case 2:
         if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
+            ((TAdSelectCurGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
             switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
@@ -227,7 +227,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 break;
             }
             ((TAdSelectTxtGC *)self->f38)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
+            ((TAdSelectCurGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
         break;

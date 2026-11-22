@@ -17,7 +17,6 @@ public:
     void sub_803003A4();
     void sub_80300648();
     void sub_80300764();
-    void set_selection_state(s32 v);
 };
 
 s32 get_max_difficulty_for_party_level(void);

@@ -28,6 +28,7 @@ public:
     void draw_quads();
     void update_texture_rectangles(s32 frame);
     void set_draw_depth(f32 depth);
+    void set_selection_state(s32 v);  // stores pending_command; callers pass 1
 
     NJS_POINT2 entry_positions[16];
     NJS_POINT2 cursor_size;
