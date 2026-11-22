@@ -13,6 +13,7 @@
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -51,7 +52,6 @@ s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
 const char *lbl_805D3818 = "TTecReverser";
 void __ct__7TObjectFP7TObject(void *self, void *parent);
-void *create_timed_particle_emitter(void *owner, s32 idx, s32 b, s32 c);
 extern s32 __vt__13TUnk_804CCC28[];
 Entry_80239E44 revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},

@@ -48,6 +48,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #pragma readonly_strings on
 
@@ -621,7 +622,6 @@ struct WObj_8031c7bc : WBase_8031c7bc {
 extern "C" {
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 reason);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 remove_tracked_target__14TObjEneRecoboxFPvPv(int, void *);
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {

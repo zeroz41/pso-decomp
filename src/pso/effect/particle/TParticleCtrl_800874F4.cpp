@@ -581,11 +581,11 @@ TParticleCtrl *initialize_flagged_particle(void *storage, const void *position, 
     return static_cast<TParticleCtrl *>(storage);
 }
 
-void *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
+TParticleCtrl *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
     INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
                         field38, use_self, 0, CLEAR_PARTICLE_DIRECTION,
                         position);
-    return ((ParticleCtrlData *)this);
+    return this;
 }
 
 }

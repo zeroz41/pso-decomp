@@ -51,23 +51,23 @@ TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 d
 #pragma push
 #pragma opt_propagation off
 
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c) {
-    void *p;
+TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration) {
+    TParticleCtrl *particle;
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize((const void *)owner, &particle_global_entry_table[idx], 0, (s32)b, (s32)c, 0);
+        particle = static_cast<TParticleCtrl *>(TObject::operator new(0x78));
+        if (particle != 0) {
+            particle = particle->initialize(pos, &particle_global_entry_table[idx], 0, delay, duration, 0);
         }
-        return p;
+        return particle;
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize((const void *)owner, &particle_area_entry_table[idx], 0, (s32)b, (s32)c, 0);
+        particle = static_cast<TParticleCtrl *>(TObject::operator new(0x78));
+        if (particle != 0) {
+            particle = particle->initialize(pos, &particle_area_entry_table[idx], 0, delay, duration, 0);
         }
-        return p;
+        return particle;
     }
     return 0;
 }

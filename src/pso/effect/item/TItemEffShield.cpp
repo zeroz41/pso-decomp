@@ -17,6 +17,7 @@
 #include "pso/effect/item/TItemEffShield.h"
 #include "pso/system/vector.h"
 #include "pso/item/armor/TItemProShield.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -49,7 +50,6 @@ int get_item_system_generation(void);
 const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
 

@@ -40,7 +40,6 @@ u16 get_entity_id(void *);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 f32 vector_length(void *);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 get_bml_motion(s32, s32);
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);

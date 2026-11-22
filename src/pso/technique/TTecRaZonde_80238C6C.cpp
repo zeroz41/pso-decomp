@@ -27,6 +27,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -167,7 +168,6 @@ struct RBurst_80238F84 { s32 entry; s32 flags; f32 scale; };
 struct RProfile_80238F84 { RBurst_80238F84 *entries; u32 count; };
 
 extern "C" {
-void create_timed_particle_emitter(void *, s32, s32, s32, void *);
 void TTecRaZonde::create(void *source, void *origin, s32 level) {
     new TTecRaZonde((saddr)source, (Vec *)origin, level);
 }
@@ -209,7 +209,7 @@ void TTecRaZonde::run_task() {
     for (i = 0; i < TTecRaZonde__band_profile_table[this->band].count; i++) {
         if (this->m_b4 < 12) {
             if (i == 1) {
-                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60, (void *)this->source);
+                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60);
             } else {
                 spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), TTecRaZonde__band_profile_table[this->band].entries[i].entry);
             }

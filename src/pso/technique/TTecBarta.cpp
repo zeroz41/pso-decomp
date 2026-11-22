@@ -15,6 +15,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -82,7 +83,6 @@ extern "C" {
 void mem_free(void *p);
 u16 get_entity_id(void *);
 
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
 }
 

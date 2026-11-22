@@ -53,6 +53,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 
 extern "C" {
@@ -206,7 +207,6 @@ struct Entry_8009E860 { u16 id; u8 pad2[2]; f32 dist; };
 
 u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);

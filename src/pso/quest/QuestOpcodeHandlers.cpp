@@ -90,6 +90,7 @@ int qst_label_address(int label);
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -892,7 +893,6 @@ s32 copy_player_visual_record(void *, int);
 s32 fn_80077788(void);
 s32 fn_80077790(void);
 s32 __ct__16TPlyGuildCardTagFv(s32);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 u32 prs_decompress_buffer(s32, s32);
 void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 s32 TLobby__sub_801036CC();
