@@ -42,6 +42,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 
 #pragma readonly_strings on
 
@@ -237,9 +239,6 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     }
 }
 
-s16 get_entity_id(void *);
-s32 is_player_in_boss_area(s16);
-
 
 s32 TObjDFHorming::is_boss_active() {
     int active;
@@ -286,10 +285,10 @@ u16 TBoss4Type3::pick_random_target_player() {
     u16 buf[4];
     s32 n;
     s32 i;
-    u8 *p;
+    TObjPlayer *p;
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
+        p = TObjPlayer::get_player_data(i);
         if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0) {
             buf[n++] = get_entity_id(p);
             if (n >= 4) {
@@ -308,7 +307,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
 extern "C" {
-s32 is_split_screen();
 extern s32 local_client_id;
 
 void release_all_players_control_lock(void);
