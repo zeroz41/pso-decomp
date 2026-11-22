@@ -122,7 +122,7 @@ void *__vt__13TBoss6MagMine[11] = {
 };
 void vec3_add_to(void *, void *);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
-void vt1__13TBoss6MagMineFv(u8 *arg0);
+void vt1__13TBoss6MagMineFv(u8 *self);
 f32 vector_length(Vec *);
 void subtract_vector(Vec *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
@@ -135,9 +135,9 @@ const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 create__13TBoss6MagMineFi(s32 set_data);
-void vt3__13TBoss6MagMineFv(saddr arg0);
+void vt3__13TBoss6MagMineFv(saddr self);
 void vt4__13TBoss6MagMineFv(void* p);
-void copy_pos__13TBoss6MagMineFi(s32 arg0);
+void copy_pos__13TBoss6MagMineFi(s32 self);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
@@ -156,8 +156,8 @@ void TUnk_804F322C::run_hit_reaction() {
     *(f32 *)((s8 *)self + 0x3A8) = (f32) 1.0f;
 }
 
-void copy_pos__13TBoss6MagMineFi(s32 arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
+void copy_pos__13TBoss6MagMineFi(s32 self) {
+    VecCopy__FP3VecPC3Vec(self + 0x2FC, self + 0x38);
 }
 
 void TUnk_804F322C::update_linked_state() {
@@ -262,12 +262,12 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
 
 void vt4__13TBoss6MagMineFv(void* p) { spawn_particle_effect_with_flags((const Vec *)((char*)p + 0x38), 252, 64); ((TObject *)p)->queue_destruction(); }
 
-void vt3__13TBoss6MagMineFv(saddr arg0) {
-    explode__13TBoss6MagMineFPv((Mine_80368C14 *)(arg0));
-    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0xFB, 0x40);
-    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0xFC, 0x40);
-    TBoss6PlotFalz::apply_radial_effect_to_players((void *)(arg0 + 0x38), (s16)0xC0, (s16)0xF, (f32)100.0f);
-    ((TObject *)arg0)->queue_destruction();
+void vt3__13TBoss6MagMineFv(saddr self) {
+    explode__13TBoss6MagMineFPv((Mine_80368C14 *)(self));
+    spawn_particle_effect_with_flags((const Vec *)(self + 0x38), 0xFB, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)(self + 0x38), 0xFC, 0x40);
+    TBoss6PlotFalz::apply_radial_effect_to_players((void *)(self + 0x38), (s16)0xC0, (s16)0xF, (f32)100.0f);
+    ((TObject *)self)->queue_destruction();
 }
 
 #pragma push
@@ -292,14 +292,14 @@ void vt2__13TBoss6MagMineFv(u8 *arg0_) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void vt1__13TBoss6MagMineFv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg0 + 0x384);
-    *(f32 *)((s8 *)arg0 + 0x40) = (f32) *(f32 *)((s8 *)arg0 + 0x38C);
-    *(f32 *)((s8 *)arg0 + 0x3C) += 1.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x3C) >= 10.0f) {
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) 10.0f;
-        *(s32 *)((s8 *)arg0 + 0x394) = 0;
-        *(s32 *)((s8 *)arg0 + 0x390) = 2;
+void vt1__13TBoss6MagMineFv(u8 *self) {
+    *(f32 *)((s8 *)self + 0x38) = (f32) *(f32 *)((s8 *)self + 0x384);
+    *(f32 *)((s8 *)self + 0x40) = (f32) *(f32 *)((s8 *)self + 0x38C);
+    *(f32 *)((s8 *)self + 0x3C) += 1.0f;
+    if (*(f32 *)((s8 *)self + 0x3C) >= 10.0f) {
+        *(f32 *)((s8 *)self + 0x3C) = (f32) 10.0f;
+        *(s32 *)((s8 *)self + 0x394) = 0;
+        *(s32 *)((s8 *)self + 0x390) = 2;
     }
 }
 #pragma pop
@@ -473,8 +473,8 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
 #undef arg0
 #pragma pop
 
-s32 create__13TBoss6MagMineFi(s32 arg0) {
-    return (saddr)new TUnk_804F322C(new TObjControl((TObject *)tl_04), arg0);
+s32 create__13TBoss6MagMineFi(s32 set_data) {
+    return (saddr)new TUnk_804F322C(new TObjControl((TObject *)tl_04), set_data);
 }
 
 void spawn_mag_mine_at__13TBoss6MagMineFPvPv(const Vec *origin, const Vec *destination) {

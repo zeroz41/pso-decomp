@@ -36,7 +36,7 @@ typedef struct TBoss6Tube_802B1020 {
 } TBoss6Tube_802B1020;
 
 extern "C" {
-void TBoss6Tube__sub_802B129C(u8 *arg0);
+void TBoss6Tube__sub_802B129C(u8 *self);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void draw_ginja_object(void);
@@ -123,16 +123,16 @@ void TBoss6Tube::reset_state() {
 }
 
 #pragma fp_contract on
-void TBoss6Tube__sub_802B129C(u8 *arg0) {
+void TBoss6Tube__sub_802B129C(u8 *self) {
   f32 temp_f31;
-  *((s32 *) (((s8 *) arg0) + 0x24)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x24))) + 0x3A);
-  if (((s32) (*((s32 *) (((s8 *) arg0) + 0x24)))) > 0x3333)
+  *((s32 *) (((s8 *) self) + 0x24)) = (s32) ((*((s32 *) (((s8 *) self) + 0x24))) + 0x3A);
+  if (((s32) (*((s32 *) (((s8 *) self) + 0x24)))) > 0x3333)
   {
-    *((s32 *) (((s8 *) arg0) + 0x24)) = 0x3333;
+    *((s32 *) (((s8 *) self) + 0x24)) = 0x3333;
   }
   ;
-  *((s32 *) (((s8 *) arg0) + 0x24)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x24))) + ((s32) (((0.075f) * ((2.0f) * (((3.0517578e-05f) * ((f32) rand())) - (0.5f)))) * fabs_float((f32) (*((s32 *) (((s8 *) arg0) + 0x24)))))));
-  *((s32 *) (((s8 *) arg0) + 0x28)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x28))) + (*((s32 *) (((s8 *) arg0) + 0x24))));
+  *((s32 *) (((s8 *) self) + 0x24)) = (s32) ((*((s32 *) (((s8 *) self) + 0x24))) + ((s32) (((0.075f) * ((2.0f) * (((3.0517578e-05f) * ((f32) rand())) - (0.5f)))) * fabs_float((f32) (*((s32 *) (((s8 *) self) + 0x24)))))));
+  *((s32 *) (((s8 *) self) + 0x28)) = (s32) ((*((s32 *) (((s8 *) self) + 0x28))) + (*((s32 *) (((s8 *) self) + 0x24))));
 }
 
 #pragma push

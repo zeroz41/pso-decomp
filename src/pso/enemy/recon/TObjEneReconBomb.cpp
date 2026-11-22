@@ -94,7 +94,7 @@ struct Obj_8031B808 {
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
-s32 fn_8031B618(Obj_8031B618 *arg0);
+s32 fn_8031B618(Obj_8031B618 *self);
 u32 csnVector(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
@@ -111,15 +111,15 @@ f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
 
 
-s32 fn_8031B618(Obj_8031B618 *arg0) {
+s32 fn_8031B618(Obj_8031B618 *self) {
     s32 var_r30 = 0;
     Ctrl_8031B618 *c;
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos2, &arg0->pos);
-    u16 id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, (25.0f));
+    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->pos2, &self->pos);
+    u16 id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, (25.0f));
     if (id != 0xFFFF) {
         c = (Ctrl_8031B618 *)get_player_by_client_id(id);
         if (c != 0) {
-            if (!(horizontal_distance_squared((const Vec *)&arg0->pos2, (const Vec *)&c->pos) > ((1.0f) + c->sub->radius) * ((1.0f) + c->sub->radius))) {
+            if (!(horizontal_distance_squared((const Vec *)&self->pos2, (const Vec *)&c->pos) > ((1.0f) + c->sub->radius) * ((1.0f) + c->sub->radius))) {
                 var_r30 = 1;
             }
         }

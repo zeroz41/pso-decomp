@@ -456,7 +456,7 @@ void play_group_chase_sound__16TObjEneMerillLiaFv(s32 arg0);
 void play_death_sound__16TObjEneMerillLiaFv(s32 arg0);
 void play_hurt_sound__16TObjEneMerillLiaFv(s32 arg0);
 void play_attack_sound__16TObjEneMerillLiaFv(s32 arg0);
-void TObjEneMerillLia__sub_800D501C(saddr arg0);
+void TObjEneMerillLia__sub_800D501C(saddr self);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -1695,8 +1695,8 @@ void TObjEneMerillLia::spawn_death_effect() {
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 
-void TObjEneMerillLia__sub_800D501C(saddr arg0) {
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B206)), (void *)(arg0 + 0x38), 0, 0);
+void TObjEneMerillLia__sub_800D501C(saddr self) {
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3B206)), (void *)(self + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::play_attack_sound() {

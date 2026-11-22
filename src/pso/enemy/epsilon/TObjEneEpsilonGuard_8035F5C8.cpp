@@ -82,7 +82,7 @@ s32 TObjEneEpsilonGuard__sub_8035FAA8(TObjEneEpsilonBody *body);
 extern s32 lbl_805D5870;
 }
 s16 obj_getS16_118(u8 *p);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
+void enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed);
 extern TObject *tl_04;
 
 Vec lbl_805439F0;

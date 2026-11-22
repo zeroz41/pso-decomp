@@ -502,9 +502,9 @@ void *beast_collision_body_table[33] = {
     (void *)0x0,
 };
 
-void *TObjEneBeast::create(void *arg0) {
+void *TObjEneBeast::create(void *set_data) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
-    return new TObjEneBeast(control, arg0);
+    return new TObjEneBeast(control, set_data);
 }
 
 uaddr ene_beast_boss_id_buffer;

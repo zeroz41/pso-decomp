@@ -59,7 +59,7 @@ struct TObjEneMoja : public TObjEnemy {
     f32 jumpChance;
     TUnk_80494968 *unknown_398;
     RenderFadeState unknown_39C[4];
-    static void *create(void *arg0);
+    static void *create(void *setData);
     static void free_resources();
     s32 calc_technique_level();
     void select_rare_variant();

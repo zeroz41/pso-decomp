@@ -192,7 +192,7 @@ void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed);
 void TBoss3Volopt__sub_800F059C(void);
 }
 
-void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
+void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
 
 
 void *destroy_buffer_pair(void *arg0, s16 arg1);

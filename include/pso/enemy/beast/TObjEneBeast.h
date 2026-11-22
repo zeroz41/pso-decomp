@@ -23,7 +23,7 @@ struct TObjEneBeast : public TUnk_80493450 {
     TObject *m_3a8[2];
     RenderFadeState m_3b0[4];
     void select_subtype();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void load_resources();
     void select_model_record(s32 i);
 };

@@ -467,7 +467,7 @@ s32 obj_is_hit_receivable(u8 *arg0);
 void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 msg);
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
+void enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed);
 void move_with_wall_slide(u8 *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {

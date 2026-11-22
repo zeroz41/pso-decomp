@@ -126,7 +126,7 @@ struct TBoss4Bishi {
 typedef void (TBoss4Bishi::*Act_8005BC4C)();
 
 void vec3_add_to(void *, void *);
-void vt6__9TBoss4UroFv(u8 *arg0);
+void vt6__9TBoss4UroFv(u8 *self);
 void vt2__11TBoss4BishiFv(u8 *object);
 void vt5__9TBoss4UroFv(u8 *object);
 
@@ -148,7 +148,7 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
 
 void minimap_render_dot(void *, s32, s32, s32);
 struct VOff_8005C450_arg0_8005BABC { char pad_0[0x38]; char f_38[1]; };
-void vt0__11TBoss4BishiFv(u8 *arg0);
+void vt0__11TBoss4BishiFv(u8 *self);
 void vt4__9TBoss4UroFv(void *actor);
 void *__dt_deleting__11TBoss4BishiFPvs(void *arg0, s16 arg1);
 s32 create__11TBoss4BishiFi(s32 arg0);
@@ -891,14 +891,14 @@ void vt5__9TBoss4UroFv(u8 *object) {
 }
 #pragma pop
 #pragma push
-void vt6__9TBoss4UroFv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x390) += -0.015000001f;
-    VecCopy__FP3VecPC3Vec(arg0 + 0x44, arg0 + 0x38);
-    vec3_add_to(arg0 + 0x38, arg0 + 0x38C);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < 6.0f) {
-        *(f32 *)((s8 *)arg0 + 0x390) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x3C) = 6.0f;
-        *(s32 *)((s8 *)arg0 + 0x374) = 2;
+void vt6__9TBoss4UroFv(u8 *self) {
+    *(f32 *)((s8 *)self + 0x390) += -0.015000001f;
+    VecCopy__FP3VecPC3Vec(self + 0x44, self + 0x38);
+    vec3_add_to(self + 0x38, self + 0x38C);
+    if (*(f32 *)((s8 *)self + 0x3C) < 6.0f) {
+        *(f32 *)((s8 *)self + 0x390) = 0.0f;
+        *(f32 *)((s8 *)self + 0x3C) = 6.0f;
+        *(s32 *)((s8 *)self + 0x374) = 2;
     }
 }
 #pragma pop
@@ -1028,12 +1028,12 @@ void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self) {
 }
 #pragma pop
 #pragma push
-void vt0__11TBoss4BishiFv(u8 *arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x44, arg0 + 0x38);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < 6.0f) {
-        if ((*(f32 *)((s8 *)arg0 + 0x3C) += 1.1111112f) > 6.0f) {
-            *(f32 *)((s8 *)arg0 + 0x3C) = 6.0f;
-            *(s32 *)((s8 *)arg0 + 0x374) = 2;
+void vt0__11TBoss4BishiFv(u8 *self) {
+    VecCopy__FP3VecPC3Vec(self + 0x44, self + 0x38);
+    if (*(f32 *)((s8 *)self + 0x3C) < 6.0f) {
+        if ((*(f32 *)((s8 *)self + 0x3C) += 1.1111112f) > 6.0f) {
+            *(f32 *)((s8 *)self + 0x3C) = 6.0f;
+            *(s32 *)((s8 *)self + 0x374) = 2;
         }
     }
 }

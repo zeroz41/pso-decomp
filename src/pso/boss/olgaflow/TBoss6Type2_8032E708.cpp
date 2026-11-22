@@ -299,9 +299,9 @@ void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *pts, s32 arg2);
 void TBoss6Type2__sub_802BD378(void *, s32, void *, void *);
 s32 TBoss6Type2__sub_8032FB84(O_8032FB84 *arg0);
 
-s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 turn);
+s32 TBoss6Type2__sub_8032EAB8(void *self, s32 turn);
 
-s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec *arg3);
+s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *self, s32 *arg1, s32 *arg2, Vec *arg3);
 void *get_player_by_client_id(s32 i);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
@@ -429,8 +429,8 @@ s32 TBoss6Type2::step_angle_toward(s32 arg1, s32 arg2, s32 turn) {
     return t;
 }
 
-s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 turn) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x384) == 0) {
+s32 TBoss6Type2__sub_8032EAB8(void *self, s32 turn) {
+    if ((s32) *(s32 *)((s8 *)self + 0x384) == 0) {
         return turn;
     }
     return -turn;
@@ -567,7 +567,7 @@ void TBoss6Type2::compute_random_dir_vec(s32 arg0, u8 *arg1, saddr arg2, saddr a
 
 typedef struct RecoveredFields_8032F174_arg0 RecoveredFields_8032F174_arg0;
 
-s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec *arg3) {
+s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *self, s32 *arg1, s32 *arg2, Vec *arg3) {
     Vec v;
     VecCopy((Vec *)&v, (const Vec *)arg3);
     if (vector_length(&v) <= (1e-05f)) {

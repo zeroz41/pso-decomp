@@ -135,7 +135,7 @@ public:
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
-    void fire_at_angle(s32 arg1);
+    void fire_at_angle(s32 ang);
     void update_facing(f32 farg0);
     void spawn_switch_attack();
     void spawn_attack_effect();
@@ -156,7 +156,7 @@ public:
     int setup_instance(int _w1, void * _w2, AreaAttackHistory *history);
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
     void emit_effect(void *pos, void *params, AreaAttackHistory *history);
-    static void init_state(saddr arg0);
+    static void init_state(saddr dragon);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);
     void spawn_effect();
@@ -196,7 +196,7 @@ public:
     void select_next_action();
     static void free_static();
     static void *clone_node_tree(void *src, void *dst, int state);
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     void update_colli_parts();
     void set_field_3c();
     void set_field_1c();

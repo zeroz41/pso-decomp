@@ -343,7 +343,7 @@ V(60)V(61)V(62)V(63)V(64)V(65)V(66)V(67)V(68)V(69)V(70)V(71)V(72)V(73)V(74)V(75)
 extern "C" {
 s32 is_split_screen();
 extern s32 local_client_id;
-s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2);
+s32 TBoss4DarkFalz__sub_8004AF5C(u8 *self, s16 *arg1, s16 *arg2);
 
 void release_all_players_control_lock(void);
 
@@ -363,18 +363,18 @@ int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
 s32 is_local_client_floor_leader();
 s32 get_main_phase();
 
-s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2) {
+s32 TBoss4DarkFalz__sub_8004AF5C(u8 *self, s16 *arg1, s16 *arg2) {
     s32 temp_r6;
-    temp_r6 = *(s32 *)((s8 *)arg0 + 0x384);
+    temp_r6 = *(s32 *)((s8 *)self + 0x384);
     if ((temp_r6 < 1) || (temp_r6 > 0x1FE)) {
         return 0;
     }
     if (temp_r6 > 0x1FD) {
         return 0;
     }
-    *arg1 = *(s16 *)((s8 *)arg0 + 0x2C) + temp_r6;
-    *arg2 = *(u16 *)((s8 *)arg0 + 0x1C) + *(s32 *)((s8 *)arg0 + 0x384);
-    *(s32 *)((s8 *)arg0 + 0x384) = (s32) (*(s32 *)((s8 *)arg0 + 0x384) + 1);
+    *arg1 = *(s16 *)((s8 *)self + 0x2C) + temp_r6;
+    *arg2 = *(u16 *)((s8 *)self + 0x1C) + *(s32 *)((s8 *)self + 0x384);
+    *(s32 *)((s8 *)self + 0x384) = (s32) (*(s32 *)((s8 *)self + 0x384) + 1);
     return 1;
 }
 

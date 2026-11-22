@@ -50,7 +50,7 @@ struct TObjEneLappy : public TObjEnemy {
     void update_attacking();
     void update_moving();
     static void update_idle_state(void *ov);
-    static void *create(void *arg0);
+    static void *create(void *set);
     static void load_resources();
     u8 unk_398[0x4];
     f32 m_39c;

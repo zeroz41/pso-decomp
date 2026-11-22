@@ -865,8 +865,8 @@ void TObjPlayer::cleanup_effects() {
     TEneEffHamon__sub_800A380C();
 }
 
-void *TObjEneDarkGunner::create(void *arg0) {
-    return new TObjEneDarkGunner((TObject *)tl_04, arg0);
+void *TObjEneDarkGunner::create(void *set_data) {
+    return new TObjEneDarkGunner((TObject *)tl_04, set_data);
 }
 }
 

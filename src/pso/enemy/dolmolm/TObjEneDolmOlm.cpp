@@ -391,7 +391,7 @@ extern uaddr TObjEneDolmOlm__data_805D6A14;
 extern uaddr TObjEneDolmOlm__data_805D6A18;
 void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
-void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1);
+void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *self, Vec *arg1);
 s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
 f32 fabs_float(f32);
@@ -1376,17 +1376,17 @@ void TObjEneDolmOlm::play_death_sound() {
 void TObjEneDolmOlm::init_body_sub() {
     spawn_ground_effects__14TObjEneDolmOlmFPvPv((u8 *)this, (Vec *)((s8 *)this + 0x38));
 }
-void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
+void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *self, Vec *arg1) {
     Vec v;
     CsnHit *hit;
     saddr e;
     VecCopy((Vec *)&v, (const Vec *)arg1);
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, (CsnGroup **)(arg0 + 0x120), 0x4007);
+    hit = csnVectorUnder(&v, (CsnGroup **)(self + 0x120), 0x4007);
     if (hit != NULL) {
         if (hit->hit_mask & 4) {
             if (actor_frame_tick % 5 == 0) {
-                fn_800D88E4(arg0 + 0x38);
+                fn_800D88E4(self + 0x38);
             }
             e = (saddr)spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != 0) {
@@ -1395,7 +1395,7 @@ void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
         } else if (hit->hit_mask & 2) {
             if (actor_frame_tick % 10 == 0) {
-                fn_800D88E4(arg0 + 0x38);
+                fn_800D88E4(self + 0x38);
             }
             e = (saddr)spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != 0) {
@@ -1403,11 +1403,11 @@ void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
             }
             spawn_particle_effect(&hit->contact[3].point, 0xA4);
         }
-        *(s32 *)(arg0 + 0x3E4) = hit->contact->flags;
-        if (*(s32 *)(arg0 + 0x3E4) & 0x4000) {
-            VecCopy((Vec *)(arg0 + 0x3D8), &hit->contact->point);
+        *(s32 *)(self + 0x3E4) = hit->contact->flags;
+        if (*(s32 *)(self + 0x3E4) & 0x4000) {
+            VecCopy((Vec *)(self + 0x3D8), &hit->contact->point);
         } else {
-            VecCopy((Vec *)(arg0 + 0x3D8), (const Vec *)(arg0 + 0x38));
+            VecCopy((Vec *)(self + 0x3D8), (const Vec *)(self + 0x38));
         }
     }
 }

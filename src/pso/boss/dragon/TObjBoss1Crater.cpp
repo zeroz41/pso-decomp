@@ -132,7 +132,7 @@ struct Crater_8002C288 : VBase_8002C288 {
 };
 
 extern "C" {
-void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
+void TBoss1Dragon__sub_8002AB6C(u8 *self);
 s32 isV2Mode__12TBoss1DragonFv();
 f32 TBoss1Dragon__sub_80027634(u32);
 s32 TObjBoss1Crater__sub_8002C7E4(void *);

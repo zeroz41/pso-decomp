@@ -85,8 +85,8 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *, s32);
 void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *, s32);
 struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 }
-void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
+void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
+void enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed);
 extern "C" {
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 reason);

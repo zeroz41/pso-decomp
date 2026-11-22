@@ -142,7 +142,7 @@ void TBoss6Type2__sub_802BBC74(TBoss6Type2 *self);
 void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
 void TBoss6Rock__sub_80354A44(void);
 void free_collision_body_parts(void *);
-void set_screen_pos__11TBoss6Type2FPv(void *arg0);
+void set_screen_pos__11TBoss6Type2FPv(void *self);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
 void TBoss6Type2__sub_802BD938(TBoss6Type2 *self, u8 *arg1);
 
@@ -350,18 +350,18 @@ void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2);
 void init_parts__11TBoss6Type2FPv(saddr self);
 void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self);
-s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1);
+s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1);
 s32 TBoss6Type2__sub_802BA944(Boss_802BA944 *o);
-s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *arg0);
+s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *self);
 s32 snap_to_ground__11TBoss6Type2FPv(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BAD04(saddr parent);
 void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *, f32, f32);
 f32 fabs_float(f32);
 void TBoss6Type2__sub_802BB4DC(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB5B4(TBoss6Type2 *self, u16 *first, u16 *second);
-void TBoss6Type2__sub_802BB768(T2_802BB768 *arg0);
-void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *arg0);
-s32 calc_field4f0_delta__11TBoss6Type2FPv(void *arg0);
+void TBoss6Type2__sub_802BB768(T2_802BB768 *self);
+void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *self);
+s32 calc_field4f0_delta__11TBoss6Type2FPv(void *self);
 void TBoss6Type2__sub_802BCC54(void *, int);
 void TBoss6Type2__sub_802BD340(void);
 void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3);
@@ -1264,16 +1264,16 @@ void TBoss6Type2::load_battle_params() {
     }
 }
 
-void set_screen_pos__11TBoss6Type2FPv(void *arg0) {
+void set_screen_pos__11TBoss6Type2FPv(void *self) {
     f32 var_f0;
     f32 var_f1;
 
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x424) != 0) {
-        var_f1 = 0.28f * *(f32 *)((s8 *)arg0 + 0x4E0);
-        var_f0 = 0.28f * *(f32 *)((s8 *)arg0 + 0x4E4);
+    if ((s32) *(s32 *)((s8 *)self + 0x424) != 0) {
+        var_f1 = 0.28f * *(f32 *)((s8 *)self + 0x4E0);
+        var_f0 = 0.28f * *(f32 *)((s8 *)self + 0x4E4);
     } else {
-        var_f1 = 0.28f * *(f32 *)((s8 *)arg0 + 0x4D8);
-        var_f0 = 0.28f * *(f32 *)((s8 *)arg0 + 0x4DC);
+        var_f1 = 0.28f * *(f32 *)((s8 *)self + 0x4D8);
+        var_f0 = 0.28f * *(f32 *)((s8 *)self + 0x4DC);
     }
     TBoss6Type2__motion_table[2].speed = var_f1;
     TBoss6Type2__motion_table[3].speed = var_f1;
@@ -1284,8 +1284,8 @@ void TBoss6Type2::copy_anim_state() {
     *(s32 *)((s8 *)this + 0x4F0) = (s32) this->hp;
 }
 
-s32 calc_field4f0_delta__11TBoss6Type2FPv(void *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x4F0) - *(s16 *)((s8 *)arg0 + 0x32C);
+s32 calc_field4f0_delta__11TBoss6Type2FPv(void *self) {
+    return *(s32 *)((s8 *)self + 0x4F0) - *(s16 *)((s8 *)self + 0x32C);
 }
 
 void TBoss6Type2::reset_attack_counter() {
@@ -1768,20 +1768,20 @@ void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32) {
     ((Mags_802BB818 *)self)->mags[1]->set_anim_frame((saddr)((Mags_802BB818 *)self)->mags[0]);
 }
 
-void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *arg0) {
-    if (arg0->f410 == 0 || arg0->f414 == 0) {
+void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *self) {
+    if (self->f410 == 0 || self->f414 == 0) {
         return;
     }
-    TBoss6Type2__sub_8032E708((void *)arg0->f410, 0);
-    TBoss6Type2__sub_8032E708((void *)arg0->f414, 0);
+    TBoss6Type2__sub_8032E708((void *)self->f410, 0);
+    TBoss6Type2__sub_8032E708((void *)self->f414, 0);
 }
 
-void TBoss6Type2__sub_802BB768(T2_802BB768 *arg0) {
-    if (arg0->f410 == 0 || arg0->f414 == 0) {
+void TBoss6Type2__sub_802BB768(T2_802BB768 *self) {
+    if (self->f410 == 0 || self->f414 == 0) {
         return;
     }
-    TBoss6Type2__sub_8032E708((void *)arg0->f410, 1);
-    TBoss6Type2__sub_8032E708((void *)arg0->f414, 1);
+    TBoss6Type2__sub_8032E708((void *)self->f410, 1);
+    TBoss6Type2__sub_8032E708((void *)self->f414, 1);
 }
 
 #pragma push
@@ -2145,11 +2145,11 @@ void TBoss6Type2::trigger_screen_pos() {
     }
 }
 
-s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *arg0) {
-    if (arg0->f470 >= 3) {
+s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *self) {
+    if (self->f470 >= 3) {
         return 1;
     }
-    return TBoss6PlotFalz__sub_802AB684(arg0->f38) >= 350.0f;
+    return TBoss6PlotFalz__sub_802AB684(self->f38) >= 350.0f;
 }
 
 s32 TBoss6Type2__sub_802BA944(Boss_802BA944 *o) {
@@ -2331,9 +2331,9 @@ s32 TBoss6Type2::check_target() {
     return 1;
 }
 
-s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1) {
+s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1) {
     u8 *player;
-    if ((arg1 == 0xFFFF) || (*(u16 *)((s8 *)arg0 + 0x55C) != 0xFFFF)) {
+    if ((arg1 == 0xFFFF) || (*(u16 *)((s8 *)self + 0x55C) != 0xFFFF)) {
         return 0;
     }
     player = (u8 *)(get_player_by_client_id(arg1));
@@ -2343,21 +2343,21 @@ s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1) {
     if (*(s32 *)((s8 *)player + 0x30) & 0x800) {
         return 0;
     }
-    *(u16 *)((s8 *)arg0 + 0x55C) = arg1;
-    *(u8 **)((s8 *)arg0 + 0x570) = (unsigned char *) (player + 0x85C);
-    ((TBoss6Type2 *)(arg0 + 0x574))->copy_vec2(player + 0xCF4);
-    ((TBoss6Type2 *)(arg0 + 0x57C))->copy_vec2(player + 0xA1C);
-    ((TBoss6Type2 *)(arg0 + 0x584))->copy_vec2(player + 0xB88);
-    *(s32 *)((s8 *)arg0 + 0x58C) = (s32) *(s32 *)((s8 *)player + 0x34);
-    *(s32 *)((s8 *)arg0 + 0x590) = (s32) *(s32 *)((s8 *)player + 0x8B0);
-    *(s32 *)((s8 *)arg0 + 0x594) = (s32) *(s32 *)((s8 *)player + 0x8AC);
-    *(s32 *)((s8 *)arg0 + 0x598) = (s32) *(s32 *)((s8 *)player + 0x8B4);
-    ((TBoss6Type2 *)(player + 0xCF4))->copy_vec2((void*)(*(u8 **)((s8 *)arg0 + 0x560)));
-    ((TBoss6Type2 *)(player + 0xB88))->copy_vec2((void*)(*(u8 **)((s8 *)arg0 + 0x564)));
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x568);
+    *(u16 *)((s8 *)self + 0x55C) = arg1;
+    *(u8 **)((s8 *)self + 0x570) = (unsigned char *) (player + 0x85C);
+    ((TBoss6Type2 *)(self + 0x574))->copy_vec2(player + 0xCF4);
+    ((TBoss6Type2 *)(self + 0x57C))->copy_vec2(player + 0xA1C);
+    ((TBoss6Type2 *)(self + 0x584))->copy_vec2(player + 0xB88);
+    *(s32 *)((s8 *)self + 0x58C) = (s32) *(s32 *)((s8 *)player + 0x34);
+    *(s32 *)((s8 *)self + 0x590) = (s32) *(s32 *)((s8 *)player + 0x8B0);
+    *(s32 *)((s8 *)self + 0x594) = (s32) *(s32 *)((s8 *)player + 0x8AC);
+    *(s32 *)((s8 *)self + 0x598) = (s32) *(s32 *)((s8 *)player + 0x8B4);
+    ((TBoss6Type2 *)(player + 0xCF4))->copy_vec2((void*)(*(u8 **)((s8 *)self + 0x560)));
+    ((TBoss6Type2 *)(player + 0xB88))->copy_vec2((void*)(*(u8 **)((s8 *)self + 0x564)));
+    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)self + 0x568);
     *(s32 *)((s8 *)player + 0x8B0) = 0;
     *(s32 *)((s8 *)player + 0x8AC) = 0;
-    *(s32 *)((s8 *)player + 0x8B4) = (s32) *(s32 *)((s8 *)arg0 + 0x56C);
+    *(s32 *)((s8 *)player + 0x8B4) = (s32) *(s32 *)((s8 *)self + 0x56C);
     return 1;
 }
 

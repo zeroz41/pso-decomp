@@ -66,7 +66,7 @@ void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
         to->z = dir->z * dist + from->z; \
         return 1; \
     }
-s32 TObjPlayer__sub_80325D58(void *arg0, Vec *from, Vec *dir, Vec *to, f32 dist) {
+s32 TObjPlayer__sub_80325D58(void *self, Vec *from, Vec *dir, Vec *to, f32 dist) {
     Vec d;
     Vec n;
     f32 t;
@@ -91,7 +91,7 @@ s32 TObjPlayer__sub_80325D58(void *arg0, Vec *from, Vec *dir, Vec *to, f32 dist)
 #undef STEP_80325D58
 #pragma pop
 
-void fn_80325F7C(void *arg0) {
+void fn_80325F7C(void *self) {
     Ray_80325F7C ray;
     Vec pos;
     Vec wing;
@@ -106,8 +106,8 @@ void fn_80325F7C(void *arg0) {
         do {
             c = get_player_by_client_id(i);
             if (c != 0) {
-                ((TBoss5GryphonLightningWing *)arg0)->copy_position(&pos);
-                ((TBoss5GryphonLightningWing *)arg0)->get_wing_position(&wing);
+                ((TBoss5GryphonLightningWing *)self)->copy_position(&pos);
+                ((TBoss5GryphonLightningWing *)self)->get_wing_position(&wing);
                 ray.o.x = pos.x;
                 ray.o.y = c->pos.y;
                 ray.o.z = pos.z;
@@ -118,7 +118,7 @@ void fn_80325F7C(void *arg0) {
                 dir.x = ray.d.x;
                 dir.y = ray.d.y;
                 dir.z = ray.d.z;
-                TObjPlayer__sub_80325D58(arg0, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
+                TObjPlayer__sub_80325D58(self, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
                                          normalize_vector_safe(&dir));
                 apply_lightning_hit(inst, &hit, 6.0f);
             }

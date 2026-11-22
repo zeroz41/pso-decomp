@@ -298,8 +298,8 @@ f32 vector_length(void *, f32);
 f32 subtract_vector(void *, const void *);
 f32 fabs_float(f32);
 s32 get_entity_id(void *);
-s32 TBoss6Type1__sub_802B5FDC(u8 *arg0);
-s32 TBoss6Type1__sub_802B5FF4(u8 *arg0);
+s32 TBoss6Type1__sub_802B5FDC(u8 *self);
+s32 TBoss6Type1__sub_802B5FF4(u8 *self);
 s32 TBoss6Type1__sub_802B600C(T1_802B600C *arg0, f32 _w1);
 void randomize_attack__11TBoss6Type1FPvPv(Boss_802B8EE0 *self, Atk_802B8EE0 *atk);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
@@ -329,11 +329,11 @@ Tbl_802B82B8 TBoss6Type1__motion_set_table[21] = {
 };
 extern const s32 lbl_805DE3C8;
 
-void TBoss6Type1__sub_802B5970(saddr arg0);
+void TBoss6Type1__sub_802B5970(saddr self);
 extern const s32 lbl_805DE3A8;
 extern const s32 lbl_805DE3B0;
 void TBoss6Type1__sub_802B7D50(u8 *arg0);
-void TBoss6Type1__sub_802B4CF4(saddr arg0);
+void TBoss6Type1__sub_802B4CF4(saddr self);
 void TBoss6Type1__sub_802B59A8(void);
 void TBoss6Type1__sub_802B59CC(TBoss6Type1 *self);
 void TBoss6Type1__sub_802B5AB0(void);
@@ -2030,12 +2030,12 @@ s32 TBoss6Type1__sub_802B600C(T1_802B600C *arg0, f32 _w1) {
     return vector_length(&v, _w1) < 230.0f;
 }
 
-s32 TBoss6Type1__sub_802B5FF4(u8 *arg0) {
-    return *(f32 *)((s8 *)arg0 + 0x3C) > 140.0f;
+s32 TBoss6Type1__sub_802B5FF4(u8 *self) {
+    return *(f32 *)((s8 *)self + 0x3C) > 140.0f;
 }
 
-s32 TBoss6Type1__sub_802B5FDC(u8 *arg0) {
-    return *(f32 *)((s8 *)arg0 + 0x3C) < 40.0f;
+s32 TBoss6Type1__sub_802B5FDC(u8 *self) {
+    return *(f32 *)((s8 *)self + 0x3C) < 40.0f;
 }
 
 void TBoss6Type1::set_flag_on_threshold() {
@@ -2229,8 +2229,8 @@ void TBoss6Type1__sub_802B59CC(TBoss6Type1 *self) {
 void TBoss6Type1__sub_802B59A8(void) {
     ((s32 (*)(f32))fire_at_all_players__11TBoss6Type1FPvf)(0.0f);
 }
-void TBoss6Type1__sub_802B5970(saddr arg0) {
-    TBoss6Type1::request_jittered_camera((void *)arg0, (void *)&lbl_80470FE4, (void *)&lbl_80470FF0, 0xFFFF);
+void TBoss6Type1__sub_802B5970(saddr self) {
+    TBoss6Type1::request_jittered_camera((void *)self, (void *)&lbl_80470FE4, (void *)&lbl_80470FF0, 0xFFFF);
 }
 
 void TBoss6Type1::request_default_jittered_camera() {
@@ -2483,11 +2483,11 @@ void TBoss6Type1__sub_802B4D38(Obj_802B4D38 *self) {
     for (i = 0; i < 4; i++) self->arr[i] = 0;
 }
 
-void TBoss6Type1__sub_802B4CF4(saddr arg0) {
+void TBoss6Type1__sub_802B4CF4(saddr self) {
     s32 var_r31;
     var_r31 = 0;
     do {
-        ((TBoss6Type1 *)arg0)->release_effect_slot(var_r31);
+        ((TBoss6Type1 *)self)->release_effect_slot(var_r31);
         var_r31 += 1;
     } while (var_r31 < 4);
 }

@@ -422,17 +422,17 @@ struct Seg_80063CDC { f32 x, y, z, w; };
 f32 newton_sqrtf(f32);
 
 s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out);
-s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0);
+s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *self);
 void render_shadows__13TBoss5GryphonFv(void* p);
-void TBoss8Dragon__sub_8005E040(void *arg0);
+void TBoss8Dragon__sub_8005E040(void *self);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 s32 TBoss8Dragon__sub_8005E1E8(f32 farg0);
 void TBoss8Dragon__sub_8005E39C(Obj_8005E39C *self);
 s32 get_random_sign__12TBoss8DragonFiPvi(s32 arg0, Ent_8005E868 *arg1, s32 arg2);
-s32 calc_product__12TBoss8DragonFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+s32 calc_product__12TBoss8DragonFiiii(s32 self, s32 arg1, s32 arg2, s32 arg3);
 s32 rand_scaled_offset__12TBoss8DragonFiii(s32 arg0, s32 arg1, s32 arg2);
 s32 TBoss8Dragon__sub_8005E9D8(void *self, O_8005E9D8 *o, s32 i);
-f32 TBoss8Dragon__sub_8005EAD0(void *arg0, void *arg1, int arg2);
+f32 TBoss8Dragon__sub_8005EAD0(void *self, void *arg1, int arg2);
 void set_animation_by_state__12TBoss8DragonFPv(TBoss5Gryphon *gryphon);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
@@ -459,7 +459,7 @@ s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
 s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
 void start_camera_shake(s32 id, f32 v);
-void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale);
+void TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
@@ -472,7 +472,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void __dt__7TObjectFv(void *, int);
 void TBoss5GryphonLightningEff__sub_80325064(void *p);
 void * __ct__25TBoss5GryphonLightningEffFv(void *, void *, void *, s32, f32, f32, f32);
-s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5);
+s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr self, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5);
 void __destroy_arr(void *, void *, int, int);
 f32 vec3_dot(void *, void *);
 void subtract_vector(void *, void *);
@@ -1132,7 +1132,7 @@ void TBoss5Gryphon::render_nodes_with_flag() {
     model_render_flags = saved_model_render_flags;
 }
 
-s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
+s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *self) {
     Vec cam;
     Vec dir;
     f32 len;
@@ -1141,13 +1141,13 @@ s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
     if (camera_ctrl_instance == 0) {
         return 0;
     }
-    if (arg0->f326 == 4) {
+    if (self->f326 == 4) {
         return 0;
     }
-    if (((TBoss5Gryphon *)arg0)->get_flag_bit6() != 0) {
+    if (((TBoss5Gryphon *)self)->get_flag_bit6() != 0) {
         return 0;
     }
-    if (arg0->f4e4 != 0) {
+    if (self->f4e4 != 0) {
         return 0;
     }
     TCameraCtrl::get_camera_target_id(-1);
@@ -1165,7 +1165,7 @@ s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(boss5_gryphon_direction_vec, &dir);
     lbl_805D4DC0 = len;
     for (i = 0; i < 4; i++) {
-        if (((s32 (*)(void *, void *, f32))TBoss8Dragon__sub_8005E1E8)(arg0, &arg0->pts[boss5_gryphon_point_index_table[i]], lbl_805D8D80) != 0) {
+        if (((s32 (*)(void *, void *, f32))TBoss8Dragon__sub_8005E1E8)(self, &self->pts[boss5_gryphon_point_index_table[i]], lbl_805D8D80) != 0) {
             return 1;
         }
     }
@@ -1245,9 +1245,9 @@ void TBoss5Gryphon::render() {
     }
 }
 
-void TBoss8Dragon__sub_8005E040(void *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x4E4) == 0) {
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)&lbl_805D8D84);
+void TBoss8Dragon__sub_8005E040(void *self) {
+    if ((s32) *(s32 *)((s8 *)self + 0x4E4) == 0) {
+        *(f32 *)((s8 *)self + 0x3C) = (f32) (*(f32 *)&lbl_805D8D84);
     }
 }
 
@@ -1475,11 +1475,11 @@ s32 get_random_sign__12TBoss8DragonFiPvi(s32 arg0, Ent_8005E868 *arg1, s32 arg2)
     return -1;
 }
 
-s32 calc_product__12TBoss8DragonFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 calc_product__12TBoss8DragonFiiii(s32 self, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_r31;
 
-    temp_r31 = random_in_table_range__12TBoss8DragonFiii(arg0, arg1, arg3);
-    return temp_r31 * ((s32 (*)(s32, s32, s32))get_random_sign__12TBoss8DragonFiPvi)(arg0, arg1, arg2);
+    temp_r31 = random_in_table_range__12TBoss8DragonFiii(self, arg1, arg3);
+    return temp_r31 * ((s32 (*)(s32, s32, s32))get_random_sign__12TBoss8DragonFiPvi)(self, arg1, arg2);
 }
 
 #pragma push
@@ -1508,10 +1508,10 @@ f32 random_in_range__12TBoss8DragonFff(f32 farg0, f32 farg1) {
 
 #pragma push
 #pragma scheduling off
-f32 TBoss8Dragon__sub_8005EAD0(void *arg0, void *arg1, int arg2) {
+f32 TBoss8Dragon__sub_8005EAD0(void *self, void *arg1, int arg2) {
   u8 *temp_r4;
   temp_r4 = (u8 *)arg1 + (arg2 * 8);
-  return ((f32 (*)(int, f32, f32))random_in_range__12TBoss8DragonFff)((saddr)arg0, (f32) (*((f32 *) (((s8 *) temp_r4) + 0x28))), (f32) (*((f32 *) (((s8 *) temp_r4) + 0x2C))));
+  return ((f32 (*)(int, f32, f32))random_in_range__12TBoss8DragonFff)((saddr)self, (f32) (*((f32 *) (((s8 *) temp_r4) + 0x28))), (f32) (*((f32 *) (((s8 *) temp_r4) + 0x2C))));
 }
 #pragma pop
 
@@ -1917,8 +1917,8 @@ void TBoss5Gryphon::scale_size(f32 scale, f32 farg1, f32 farg2) {
     this->m_480 = (s32)((f32)this->m_480 * farg2);
 }
 
-void TBoss8Dragon::fire_at_angle(s32 arg1) {
-    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(-this->position.x, -this->position.z)));
+void TBoss8Dragon::fire_at_angle(s32 ang) {
+    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, ang, (s32) (10430.38043493439 * atan2_float(-this->position.x, -this->position.z)));
 }
 
 void TBoss5Gryphon::update_heading(s32 ang) {

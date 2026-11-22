@@ -69,10 +69,10 @@ struct TObjEneDD : public TObjEnemy {
     static void inflict_poison(TObjChara *attacker, TObjChara *target);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void *p, saddr pos, saddr params);
-    static void emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *attack_history);
+    static void emit_enemy_effect(void *ene_dd, void *pos, u8 *arg2, void *attack_history);
     static void setup(void *p, saddr pos, saddr params);
-    static void setup_instance(saddr arg0, saddr arg1, u8 *bytes, saddr attack_history);
-    s32 is_target_unobstructed(saddr arg1);
+    static void setup_instance(saddr owner, saddr arg1, u8 *bytes, saddr attack_history);
+    s32 is_target_unobstructed(saddr from);
     s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
@@ -130,6 +130,6 @@ void set_collider_contact_high(u8 *arg0);
 void set_collider_contact_low(u8 *arg0);
 void update_collider_contact_by_height(u8 *arg0, f32 farg0);
 u16 enemy_nearest_visible_player_sq(u8 *arg0, f32 farg0);
-s32 tick_period_counter(s32 arg0, s32 *arg1, s32 limit);
+s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
 
 #endif

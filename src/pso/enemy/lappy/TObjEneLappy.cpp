@@ -1186,7 +1186,7 @@ u8 * TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set);
 
 extern void *tl_04;
 
-void *TObjEneLappy::create(void *arg0) {
+void *TObjEneLappy::create(void *set) {
     void *o;
     void *o2;
     o = TObject::operator new(0x20);
@@ -1195,7 +1195,7 @@ void *TObjEneLappy::create(void *arg0) {
     }
     o2 = TObject::operator new(0x3A4);
     if (o2 != NULL) {
-        o2 = TObjEneLappy__ct(o2, o, arg0);
+        o2 = TObjEneLappy__ct(o2, o, set);
     }
     return o2;
 }

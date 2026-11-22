@@ -123,8 +123,8 @@ void TObjEneMe1GiGueMissile::update_lifetime() {
     this->m_24 = (f32) (temp_f1 + *(f32 *)&this->_padAC);
 }
 
-void TNeedleShoot__sub_802A4668(void *arg0) {
-    struct VObj_802A4668 *o = (struct VObj_802A4668 *)arg0;
+void TNeedleShoot__sub_802A4668(void *self) {
+    struct VObj_802A4668 *o = (struct VObj_802A4668 *)self;
     o->m5();
 }
 

@@ -46,6 +46,6 @@ struct TNeedleShoot : public TObject {
 LAYOUT_ASSERT(TNeedleShoot_size, sizeof(TNeedleShoot) == 0xBC);
 
 extern "C" {
-void TNeedleShoot__sub_802A4668(void *arg0);
+void TNeedleShoot__sub_802A4668(void *self);
 }
 #endif

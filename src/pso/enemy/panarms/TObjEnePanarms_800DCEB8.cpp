@@ -201,7 +201,7 @@ f32 vector_length(void *);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
-s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy);
+s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, Vec *arg2, f32 step, f32 dy);
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos);
@@ -615,7 +615,7 @@ s32 TObjEnePanarms::find_combine_position(void *p) {
 #undef arg0
 #pragma pop
 
-s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy) {
+s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, Vec *arg2, f32 step, f32 dy) {
     Vec p = *arg1;
     Vec d = *arg2;
     f32 len;
@@ -631,7 +631,7 @@ s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Ve
     d.z *= step;
     for (t = 0.0f; t < len; ) {
         p.y += dy;
-        if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&p, 0) == 0) {
+        if (project_actor_to_ground((TObjChara *)actor, (Vec *)&p, 0) == 0) {
             return 0;
         }
         t += step;
@@ -689,11 +689,11 @@ s32 TObjEnePanarms__sub_800DE494(void *self) {
 }
 #pragma pop
 
-void TObjEnePanarms__sub_800DE430(saddr arg0, s32 arg1, s32 arg2) {
+void TObjEnePanarms__sub_800DE430(saddr self, s32 arg1, s32 arg2) {
     Vec position;
-    VecCopy((Vec *)(&position.x), (const Vec *)(arg0 + 0x2FC));
+    VecCopy((Vec *)(&position.x), (const Vec *)(self + 0x2FC));
     position.y += 10.0f;
-    create_particle_controller_with_rotation(&position, (ParticleAngles *)(arg0 + 0x5C), 0x106, arg1, arg2);
+    create_particle_controller_with_rotation(&position, (ParticleAngles *)(self + 0x5C), 0x106, arg1, arg2);
 }
 
 s32 TObjEnePanarms::sub_800DE390() {

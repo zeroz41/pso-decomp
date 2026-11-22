@@ -529,13 +529,13 @@ void TObjEneMoja::free_resources() {
     }
 }
 
-void *TObjEneMoja::create(void *arg0) {
+void *TObjEneMoja::create(void *setData) {
     void *o;
     o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    return new TObjEneMoja((TObject *)o, arg0);
+    return new TObjEneMoja((TObject *)o, setData);
 }
 
 void TObjEneMoja::run_task() {

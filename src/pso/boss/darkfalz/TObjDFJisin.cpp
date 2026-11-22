@@ -90,7 +90,7 @@ typedef struct Obj_8005063C {
 extern "C" {
 f32 fabs_float(f32);
 void queue_destruction__7TObjectFv(void *);
-void steer_homing_direction(Obj_8005063C *arg0);
+void steer_homing_direction(Obj_8005063C *self);
 
 
 
@@ -965,27 +965,27 @@ void TObjDFHorming::sub_8005076C() {
 }
 
 extern "C" {
-void steer_homing_direction(Obj_8005063C *arg0) {
+void steer_homing_direction(Obj_8005063C *self) {
     Vec d;
     f32 k;
     f32 inv;
-    VecCopy((Vec *)&d, (const Vec *)&arg0->f36c);
-    subtract_vector(&d, &arg0->f2fc);
+    VecCopy((Vec *)&d, (const Vec *)&self->f36c);
+    subtract_vector(&d, &self->f2fc);
     if (vector_length(&d) <= 0.01f ||
-        vector_length(&arg0->dir) <= 0.01f) {
-        ((TObject *)arg0)->queue_destruction();
+        vector_length(&self->dir) <= 0.01f) {
+        ((TObject *)self)->queue_destruction();
         return;
     }
     normalize_vector(&d);
-    normalize_vector(&arg0->dir);
-    k = -0.3f * arg0->f364 + 0.8f;
-    Vec prev = arg0->dir;
+    normalize_vector(&self->dir);
+    k = -0.3f * self->f364 + 0.8f;
+    Vec prev = self->dir;
     inv = 1.0f - k;
-    arg0->dir.x = k * arg0->dir.x + inv * d.x;
-    arg0->dir.y = k * arg0->dir.y + inv * d.y;
-    arg0->dir.z = k * arg0->dir.z + inv * d.z;
-    if (arg0->f37c <= arg0->f378 && xyz_distance(&arg0->dir, &prev) <= 0.001f) {
-        arg0->state = 2;
+    self->dir.x = k * self->dir.x + inv * d.x;
+    self->dir.y = k * self->dir.y + inv * d.y;
+    self->dir.z = k * self->dir.z + inv * d.z;
+    if (self->f37c <= self->f378 && xyz_distance(&self->dir, &prev) <= 0.001f) {
+        self->state = 2;
     }
 }
 }

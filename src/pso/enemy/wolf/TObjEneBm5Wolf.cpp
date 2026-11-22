@@ -119,7 +119,7 @@ s32 vec3_add_to(void *, void *);
 s32 debug_draw_line(void *, void *, int, int);
 typedef void (*State_800B73A8)(u8 *, s32);
 }
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
+void enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #include <stddef.h>
 
