@@ -2012,15 +2012,15 @@ s32 TNpcPlayer::calc_follow_goal() {
     f32 temp_f0;
     f32 temp_f1;
     f32 temp_f2;
-    TObjPlayer *temp_r4;
+    TObjPlayer *obj_player;
     if (m_84 != 0) {
         if (ai_params.technique_flags & 0x80) {
             temp_f0 = ai_params.unknown_24;
             if (m_88 <= (temp_f0 * temp_f0)) {
-                temp_r4 = m_78->m_94;
-                dir.x = m_dc.x - temp_r4->position.x;
+                obj_player = m_78->m_94;
+                dir.x = m_dc.x - obj_player->position.x;
                 temp_f2 = m_dc.z;
-                temp_f1 = temp_f2 - temp_r4->position.z;
+                temp_f1 = temp_f2 - obj_player->position.z;
                 dir.y = 0.0f;
                 dir.z = temp_f1;
                 if (0.0f != vector_length(&dir)) {
@@ -2400,11 +2400,11 @@ void TNpcPlayer::update_condition_flags() {
 void partner_observe_surroundings(TNpcPlayer *npc_player) {
     f32 temp_f3;
     s32 temp_r3_2;
-    TObjPlayer *temp_r5;
+    TObjPlayer *obj_player;
     TObjPlayer *temp_r3;
     Unk_8014F844 *temp_r3_3;
-    temp_r5 = npc_player->m_74->m_94;
-    npc_player->m_58 = horizontal_distance_squared(&temp_r5->position, &npc_player->m_78->m_94->position);
+    obj_player = npc_player->m_74->m_94;
+    npc_player->m_58 = horizontal_distance_squared(&obj_player->position, &npc_player->m_78->m_94->position);
     if (npc_player->m_84 != 0) {
         ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, (void *)get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
     } else {
@@ -2722,10 +2722,10 @@ s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0) {
 
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
-    TObjPlayer *temp_r6;
+    TObjPlayer *obj_player;
 
-    temp_r6 = view->m_94;
-    if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &temp_r6->position, arg1, temp_r6) != 0) {
+    obj_player = view->m_94;
+    if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &obj_player->position, arg1, obj_player) != 0) {
         view->m_8c = view->m_8c | 2;
         return 1;
     }
@@ -2882,11 +2882,11 @@ void *TNpcPlayer::dt(s16 arg1) {
 
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1) {
     Vec target;
-    TObjPlayer *temp_r3;
+    TObjPlayer *obj_player;
     VecCopy(&target, &((TObjChara *)find_active_entity_by_id((void *)arg1))->body_center);
-    temp_r3 = ((Unk_8014F844 *)arg0)->m_94;
-    target.y = temp_r3->body_center.y;
-    return csnVector(&temp_r3->body_center, &target, 0x2100) == NULL;
+    obj_player = ((Unk_8014F844 *)arg0)->m_94;
+    target.y = obj_player->body_center.y;
+    return csnVector(&obj_player->body_center, &target, 0x2100) == NULL;
 }
 
 s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range) {

@@ -126,15 +126,15 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
 
 void TUnk_804A4B80::emit_marker_effects() {
     Vec sp8;
-    s32 var_r31;
+    s32 effect;
     if (is_mode_two_and_ready() != 0) {
         copy_attack_targets(captured_targets, reinterpret_cast<u32 *>(owner->get_extended_state()));
         get_gun_point(&captured_muzzle);
-        var_r31 = 0;
+        effect = 0;
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
-            var_r31 = 1;
+            effect = 1;
         }
-        send_activate_effect(var_r31);
+        send_activate_effect(effect);
         return;
     }
     this->get_gun_point(&sp8);

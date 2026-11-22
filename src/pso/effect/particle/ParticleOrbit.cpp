@@ -395,7 +395,7 @@ void TUnk_8048E790::render() {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f3;
-    s32 temp_r4;
+    s32 render_flags;
     u16 temp_r3;
     if ((s32)this->all_parents_unqueued_for_destruction() != 0) {
         temp_f3 = *(f32 *)((s8 *)this->param + 0x70) * cos_table_lookup(this->m_dc);
@@ -429,10 +429,10 @@ void TUnk_8048E790::render() {
                 if (this->flags & 0x400) {
                     setup_particle_tev(0);
                 } else {
-                    temp_r4 = model_render_flags;
-                    saved_model_render_flags = temp_r4;
-                    model_render_flags = temp_r4 | 0x8021;
-                    if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
+                    render_flags = model_render_flags;
+                    saved_model_render_flags = render_flags;
+                    model_render_flags = render_flags | 0x8021;
+                    if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(render_flags) != 0) {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                     } else {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);

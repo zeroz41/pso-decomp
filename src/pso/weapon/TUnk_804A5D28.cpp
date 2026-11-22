@@ -154,13 +154,13 @@ void TUnk_804A5D10::render() {
 
 void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 joint, uaddr arg3, uaddr angle) {
     u8 sp8[0x18];
-    void *var_r0;
+    void *object;
     if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (angle != 0U) && (((TItemWeapon *)arg1)->get_joint_position(joint, sp8) != 0)) {
-        var_r0 = TObject::operator new(0x44);
-        if (var_r0 != NULL) {
-            var_r0 = ((TObjPlayer *)var_r0)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)sp8, (u8 *)arg3, (u8 *)angle);
+        object = TObject::operator new(0x44);
+        if (object != NULL) {
+            object = ((TObjPlayer *)object)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)sp8, (u8 *)arg3, (u8 *)angle);
         }
-        TItemAttacker::spawn_item_timer((TObject *)var_r0, (ItemTimerCallback)expire_weapon_casing, 0xF);
+        TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
 

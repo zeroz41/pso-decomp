@@ -174,10 +174,10 @@ s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
-    s32 var_r29;
+    s32 index;
     u8 *var_r28;
     var_r28 = model;
-    var_r29 = arg2;
+    index = arg2;
     do {
         push_matrix();
         post_translate_matrix(var_r28 + 8);
@@ -185,51 +185,51 @@ s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
         scale_current_matrix(var_r28 + 0x20);
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
+            temp_r31 = (u8 *)m_records + index * 0x1C;
             temp_r4 = (long) (temp_r31 + 4);
             matrix_mult_vec(0, temp_r4, temp_r4);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
             normalize_vector_xz((Vec *)(temp_r31 + 0x10));
-            var_r29 += 1;
+            index += 1;
             *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
         }
         if (!(temp_r30 & 0x10)) {
-            var_r29 = build_node_records(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
+            index = build_node_records(*(u8 **)((s8 *)var_r28 + 0x2C), index);
         }
         pop_matrix();
         var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
     } while (var_r28 != NULL);
-    return var_r29;
+    return index;
 }
 
 s32 TUnk_8048FA00::collect_node_positions(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
-    s32 var_r29;
+    s32 index;
     u8 *var_r28;
     var_r28 = model;
-    var_r29 = arg2;
+    index = arg2;
     do {
         push_matrix();
         compose_motion_node_matrix((var_r28));
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
+            temp_r31 = (u8 *)m_records + index * 0x1C;
             temp_r4 = (long) (temp_r31 + 4);
             matrix_mult_vec(0, temp_r4, temp_r4);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
             normalize_vector_xz((Vec *)(temp_r31 + 0x10));
-            var_r29 += 1;
+            index += 1;
             *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
         }
         if (!(temp_r30 & 0x10)) {
-            var_r29 = collect_node_positions(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
+            index = collect_node_positions(*(u8 **)((s8 *)var_r28 + 0x2C), index);
         }
         pop_matrix();
         var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
     } while (var_r28 != NULL);
-    return var_r29;
+    return index;
 }
 
 u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *parent, Model_80096AD8 *arg2, void *arg3, s32 texlist, void *arg5, s32 arg6) {

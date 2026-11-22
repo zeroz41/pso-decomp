@@ -335,10 +335,10 @@ void TUnk_8048E7A8::render() {
             if (this->flags & 0x400) {
                 setup_particle_tev(0);
             } else {
-                s32 temp_r4 = model_render_flags;
-                saved_model_render_flags = temp_r4;
-                model_render_flags = temp_r4 | 0x8021;
-                if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
+                s32 render_flags = model_render_flags;
+                saved_model_render_flags = render_flags;
+                model_render_flags = render_flags | 0x8021;
+                if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(render_flags) != 0) {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                 } else {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);

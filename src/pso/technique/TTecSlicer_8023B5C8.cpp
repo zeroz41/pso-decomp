@@ -415,17 +415,17 @@ void TTecSlicer::update() {
 }
 
 saddr TTecSlicer::create(u16 *launch) {
-    saddr var_r31;
+    saddr object;
     u8 *player;
-    var_r31 = 0;
+    object = 0;
     if (launch != NULL) {
         player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)launch + 0))));
         if (player != NULL) {
-            var_r31 = (saddr)new TTecSlicer(launch, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
-            TItemAttacker::spawn_item_timer((TObject *)var_r31, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
+            object = (saddr)new TTecSlicer(launch, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
+            TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
         }
     }
-    return var_r31;
+    return object;
 }
 
 void TTecSlicer::render() {

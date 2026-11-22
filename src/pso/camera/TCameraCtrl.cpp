@@ -772,7 +772,7 @@ void TCameraCtrl::update_active_controller() {
   s32 var_r27;
   s32 camera_no;
   s32 *new_var;
-  u8 *temp_r30;
+  u8 *controller;
   if (((u8) (*((u8 *) ((s8 *)&TCameraCtrl__view_state + 0)))) != 0)
   {
     camera_no = 0;
@@ -786,23 +786,23 @@ void TCameraCtrl::update_active_controller() {
   {
     camera_no = 0;
   }
-  temp_r30 = (u8 *) (*((void **) (((s8 *) ((u8 *)&camera_controller_registry + (((*((u8 *) ((s8 *)&TCameraCtrl__view_state + 0))) + camera_no) * 4))) + 0)));
-  if (temp_r30 != 0)
+  controller = (u8 *) (*((void **) (((s8 *) ((u8 *)&camera_controller_registry + (((*((u8 *) ((s8 *)&TCameraCtrl__view_state + 0))) + camera_no) * 4))) + 0)));
+  if (controller != 0)
   {
     if (!((*((s32 *) ((s8 *)&TCameraCtrl__view_state + 8))) & 0x800))
     {
-      PSO_VCALL_VObj_18_9639c7_m1(temp_r30);
+      PSO_VCALL_VObj_18_9639c7_m1(controller);
     }
     if ((*((s32 *) ((s8 *)&TCameraCtrl__view_state + 8))) & 2)
     {
-      PSO_VCALL_VObj_18_9639c7_m4(temp_r30, 0);
+      PSO_VCALL_VObj_18_9639c7_m4(controller, 0);
     }
     else
       if ((*((s32 *) ((s8 *)&TCameraCtrl__view_state + 8))) & 0x80)
     {
-      PSO_VCALL_VObj_18_9639c7_m4(temp_r30, 1);
+      PSO_VCALL_VObj_18_9639c7_m4(controller, 1);
     }
-    apply_camera_controller_pose((saddr) temp_r30);
+    apply_camera_controller_pose((saddr) controller);
     new_var = (s32 *) ((s8 *)&TCameraCtrl__view_state + 8);
     var_r27 = 0;
     if (is_split_screen() != 0)
@@ -824,11 +824,11 @@ void TCameraCtrl::update_active_controller() {
     }
     else
     {
-      if ((*((s32 *) (((s8 *) temp_r30) + 0x38))) & 1)
+      if ((*((s32 *) (((s8 *) controller) + 0x38))) & 1)
       {
-        resolve_anchor_obstruction__11TCameraCtrlFv(this, (saddr) temp_r30);
+        resolve_anchor_obstruction__11TCameraCtrlFv(this, (saddr) controller);
       }
-      temp_r3 = *((s32 *) (((s8 *) temp_r30) + 0x38));
+      temp_r3 = *((s32 *) (((s8 *) controller) + 0x38));
       if (temp_r3 & 4)
       {
         update_pose_smoothing();
@@ -842,14 +842,14 @@ void TCameraCtrl::update_active_controller() {
       {
         update_position();
       }
-      if ((*((s32 *) (((s8 *) temp_r30) + 0x38))) & 1)
+      if ((*((s32 *) (((s8 *) controller) + 0x38))) & 1)
       {
-        clamp_to_target_obstruction__11TCameraCtrlFv(this, (saddr) temp_r30);
+        clamp_to_target_obstruction__11TCameraCtrlFv(this, (saddr) controller);
       }
       update_shake();
     }
     set_perspective_projection_from_fov(this->fov, 1.1333334f, 1.0f, 21000.0f);
-    PSO_VCALL_VObj_18_9639c7_m9(temp_r30);
+    PSO_VCALL_VObj_18_9639c7_m9(controller);
     if (is_split_screen() == 0)
     {
       *((s32 *) (((s8 *) ((u8 *)this)) + 0x94)) = this->yaw;

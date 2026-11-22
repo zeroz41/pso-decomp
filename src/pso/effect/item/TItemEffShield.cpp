@@ -122,20 +122,20 @@ void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self) {
 
 void TItemEffShield::spawn_recipe_particles() {
     u8 *arg0 = (u8 *)this;
-  s32 temp_r5;
+  s32 id;
   s32 var_r31;
   s32 var_r30;
   var_r30 = 0;
   var_r31 = 0;
-  if (temp_r5)
+  if (id)
   {
   }
   do
   {
-    temp_r5 = *((s32 *) (((s8 *) (*((Recipe_8010A4C0 **) (((s8 *) arg0) + 0x34)))) + var_r31));
-    if (temp_r5 != (-1))
+    id = *((s32 *) (((s8 *) (*((Recipe_8010A4C0 **) (((s8 *) arg0) + 0x34)))) + var_r31));
+    if (id != (-1))
     {
-      create_oneshot_particle_emitter((arg0 + 0x1C), (arg0 + 0x28), temp_r5, 4);
+      create_oneshot_particle_emitter((arg0 + 0x1C), (arg0 + 0x28), id, 4);
     }
     var_r30 += 1;
     var_r31 += 4;
@@ -160,7 +160,7 @@ TUnk_8049F148::~TUnk_8049F148() {
 void TUnk_8049F148::run_task() {
     s32 sp8[6];
     s32 temp_r3_2;
-    TItem *temp_r3_3;
+    TItem *item;
     TObjPlayer *player;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
@@ -179,10 +179,10 @@ void TUnk_8049F148::run_task() {
                 this->particle = NULL;
             }
         }
-        temp_r3_3 = TObjPlayer::get_item_field_6(player);
+        item = TObjPlayer::get_item_field_6(player);
         if (this->particle != NULL) {
             s32 var_r30 = 0;
-            if ((temp_r3_3 != NULL) && (temp_r3_3->get_item_group() == 0x1A)) {
+            if ((item != NULL) && (item->get_item_group() == 0x1A)) {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {

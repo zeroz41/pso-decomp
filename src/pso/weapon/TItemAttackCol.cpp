@@ -304,39 +304,39 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
     Stack_802E456C stack;
     s32 temp_r31;
     s32 damage;
-    u8 *temp_r30;
+    u8 *target;
     u8 *player;
     uaddr item;
     s32 temp_r0;
     f32 var_f31;
-    temp_r30 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
+    target = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
     player = (u8 *)(get_player_by_client_id(this->client_id));
     item = (uaddr)find_item_by_id((this->item_id));
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
-    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(temp_r30))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
+    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(target))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
         var_f31 = 0.0f;
         switch (temp_r0) {
         case 0:
-            var_f31 = ((VObj_18_f2ea1e *)(temp_r30))->m20(player, this->pad_B4);
+            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
             break;
         case 1:
-            var_f31 = ((VObj_18_f2ea1e *)(temp_r30))->m20(player, this->pad_B4);
-            ((VObj_18_f2ea1e *)(temp_r30))->m23(player, 0.1f * var_f31);
+            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
+            ((VObj_18_f2ea1e *)(target))->m23(player, 0.1f * var_f31);
             break;
         case 2:
-            ((VObj_18_f2ea1e *)(temp_r30))->m22(player, temp_r31);
+            ((VObj_18_f2ea1e *)(target))->m22(player, temp_r31);
             break;
         }
         damage = (s32) var_f31;
         TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
-        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)temp_r30, (s32)damage);
+        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
         ((TObjPlayer *)(&stack.sp8))->reset_status_block();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
         stack.spC = player;
-        stack.sp14 = temp_r30;
+        stack.sp14 = target;
         stack.sp18 = *(s32 *)((s8 *)arg1 + 4);
         play_weapon_hit_sound(&stack.sp8);
         return 1;

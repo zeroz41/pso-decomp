@@ -125,7 +125,7 @@ void queue_photon_blast_support(void) {
 void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     u8 *arg0 = (u8 *)this;
     CameraPlayback playback;
-    s32 temp_r3;
+    s32 position;
     playback.index = arg1;
     playback.bank = (s8)(get_current_floor_area() == AREA_DARK_FALZ);
     playback.flags = 0;
@@ -135,8 +135,8 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.cache_target_and_forward(0x4222);
-    temp_r3 = (long) (arg0 + 0x38);
-    set_scripted_camera_pose(temp_r3, temp_r3, (u8 *)&this->rotation_x);
+    position = (long) (arg0 + 0x38);
+    set_scripted_camera_pose(position, position, (u8 *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;
 }
 

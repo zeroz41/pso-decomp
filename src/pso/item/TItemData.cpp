@@ -1195,7 +1195,7 @@ void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst) {
 
 f32 TItemData::get_shield_set_multiplier(u8 *player) {
     u8 *arg0 = (u8 *)this;
-  TItem *temp_r31;
+  TItem *item;
   f32 var_f31;
   saddr temp_r30;
   TItem *temp_r30_2;
@@ -1216,9 +1216,9 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
     }
       break;
     case 38:
-      temp_r31 = TObjPlayer::get_item_field_6(player);
+      item = TObjPlayer::get_item_field_6(player);
       temp_r30 = ((TItemData *)player)->get_item_field_2();
-      if (((((temp_r31 != NULL) && (((u32) temp_r30) != 0U)) && (temp_r31->get_item_group() == 1)) && (temp_r31->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
+      if (((((item != NULL) && (((u32) temp_r30) != 0U)) && (item->get_item_group() == 1)) && (item->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
     {
       var_f31 = 1.5f;
     }

@@ -23,26 +23,26 @@ void TUnk_804A2B98::on_unequipped() {
 
 
 void TUnk_804A2B98::on_equipped() {
-    f32 var_f31;
+    f32 scale;
     u8 temp_r3;
 
-    var_f31 = 1.0f;
+    scale = 1.0f;
     temp_r3 = get_item_index();
     switch ((s32) temp_r3) {
     case 0:
-        var_f31 = 1.05f;
+        scale = 1.05f;
         break;
     case 1:
-        var_f31 = 1.1f;
+        scale = 1.1f;
         break;
     case 2:
-        var_f31 = 1.15f;
+        scale = 1.15f;
         break;
     case 3:
-        var_f31 = 1.2f;
+        scale = 1.2f;
         break;
     }
-    ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(var_f31);
+    ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(scale);
 }
 
 

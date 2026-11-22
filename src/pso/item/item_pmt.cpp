@@ -228,13 +228,13 @@ void roll_item_channel_below(u32 count, s32 arg1) {
 
 void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr item) {
     s32 sp8;
-    s32 temp_r5;
+    s32 idx;
     sp8 = arg1;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
-        temp_r5 = sp8 - 1;
-        sp8 = temp_r5;
-        select_enemy_drop__9TItemDropFPviiPv((*(u32 *)&item_mgr), area, temp_r5, item);
+        idx = sp8 - 1;
+        sp8 = idx;
+        select_enemy_drop__9TItemDropFPviiPv((*(u32 *)&item_mgr), area, idx, item);
     }
 }
 void TObjPlayer::drop_item(s32 slot, saddr item) {
@@ -250,13 +250,13 @@ void TObjPlayer::drop_item(s32 slot, saddr item) {
 }
 void TObjPlayer::drop_meseta_from_slot(s32 arg0, saddr item) {
     s32 sp8;
-    s32 temp_r4;
+    s32 idx;
     sp8 = arg0;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
-        temp_r4 = sp8 - 1;
-        sp8 = temp_r4;
-        ((TItemDrop *)item_mgr)->generate_drop_item((s32)temp_r4, (u8 *)item);
+        idx = sp8 - 1;
+        sp8 = idx;
+        ((TItemDrop *)item_mgr)->generate_drop_item((s32)idx, (u8 *)item);
     }
 }
 

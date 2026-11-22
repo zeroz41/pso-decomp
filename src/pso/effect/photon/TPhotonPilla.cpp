@@ -72,18 +72,18 @@ u32 get_entity_id();
 void TPhotonPilla::sub_801ADC7C() { this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float*)((char*)this + 0x18c) = 0.0f; }
 
 void TPhotonPilla::apply_photon_blast_effects() {
-    s32 var_r31;
+    s32 index;
 
     TObjPlayer::init_all_slots();
     mark_enemy_body_contacts();
     if (*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18) & 0x100000) {
-        var_r31 = 0;
+        index = 0;
         do {
-            if (TObjPlayer::get_battle_param(var_r31) != 0U) {
+            if (TObjPlayer::get_battle_param(index) != 0U) {
                 queue_photon_blast_hit((u16) get_entity_id(), 2, 0, *(f32 *)((s8 *)this + 0x150));
             }
-            var_r31 += 1;
-        } while (var_r31 < 0x10);
+            index += 1;
+        } while (index < 0x10);
     }
 }
 

@@ -452,21 +452,21 @@ void TObjNpcBase::render() {
 }
 
 void TObjNpcBase::run_task() {
-    s32 temp_r4;
+    s32 index;
     s32 temp_r4_2;
-    TUnk_804C8678 *var_r31;
+    TUnk_804C8678 *root;
     if (m_3a0 <= 0 && m_3a4 <= 0) {
         m_390 = 1;
         set_indexed_flags(0, 1);
     } else {
         if (m_38c == 0) {
-            var_r31 = quest_mission_manager;
+            root = quest_mission_manager;
         } else {
-            var_r31 = quest_area_manager;
+            root = quest_area_manager;
         }
-        temp_r4 = m_3a0;
-        if (temp_r4 > 0) {
-            if (TQuestThread::get_register(var_r31, temp_r4) != 0) {
+        index = m_3a0;
+        if (index > 0) {
+            if (TQuestThread::get_register(root, index) != 0) {
                 m_390 = 1;
                 set_indexed_flags(0, 1);
             } else {
@@ -475,7 +475,7 @@ void TObjNpcBase::run_task() {
             }
         }
         temp_r4_2 = m_3a4;
-        if ((temp_r4_2 > 0) && (TQuestThread::get_register(var_r31, temp_r4_2) != 0)) {
+        if ((temp_r4_2 > 0) && (TQuestThread::get_register(root, temp_r4_2) != 0)) {
             m_390 = 0;
             clear_player_status_flag(0, 1U);
         }

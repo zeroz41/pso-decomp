@@ -322,7 +322,7 @@ void TODoorFourLightBase::render_lights() {
 
 void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
     saddr temp_r31;
-    u8 *temp_r4;
+    u8 *node;
     u8 *var_r30;
     var_r30 = arg1;
     do {
@@ -351,9 +351,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
             draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
         }
         if (!(temp_r31 & 0x10)) {
-            temp_r4 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
-            if (temp_r4 != NULL) {
-                draw_node_tree(temp_r4);
+            node = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
+            if (node != NULL) {
+                draw_node_tree(node);
             }
         }
         pop_matrix();
