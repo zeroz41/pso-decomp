@@ -29,7 +29,7 @@
 
 
 BmlResource *dragon_ground_resource;
-s32 dragon_common_texture_list;
+saddr dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void) {
     switch (TBoss1Dragon::isV2Mode()) {
