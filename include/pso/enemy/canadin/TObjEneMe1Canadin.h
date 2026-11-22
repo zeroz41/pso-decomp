@@ -7,6 +7,9 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.h"
 #include "pso/system/NinjaTypes.h"
 
+class TObjEneMe1Canadin_EffLine;
+class TParticleCtrl;
+
 struct TObjEneMe1CanadinMovement {
     f32 m_0;
     f32 m_4;
@@ -57,42 +60,42 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void run_miss_reaction();
     void refresh_target();
     void render();
-    TObjEneMe1Canadin *m_3C0;
-    s32 m_3C4;
-    u32 m_3C8;
+    TObjEneMe1Canadin *leader;
+    s32 kind;
+    u32 status_flags;
     TUnk_80494938 fade;
-    f32 m_3E8;
-    f32 m_3EC;
-    f32 m_3F0;
-    f32 m_3F4;
-    f32 m_3F8;
-    s32 m_3FC;
-    s32 m_400;
-    s32 m_404;
+    f32 upper_hover_height;
+    f32 hover_height;
+    f32 random_hover_height;
+    f32 hover_offset;
+    f32 hover_y;
+    s32 move_action;
+    s32 attack_delay;
+    s32 attack_count;
     TObjEneMe1Canadin_EffLight *eff_light;  // created in setup_enemy, queued in the dtor
     s32 m_40C;
-    s32 m_410;
-    Vec m_414[7];
-    TObjEneMe1CanadinParams *m_468;
-    s32 m_46C;
-    s32 m_470;
-    s32 m_474;
-    s32 m_478;
+    s32 alt_model_color;
+    Vec node_points[7];
+    TObjEneMe1CanadinParams *kind_params;
+    s32 attack_pattern;
+    s32 stage;
+    s32 stage_timer;
+    s32 stage_counter;
     s32 m_47C;
-    s32 m_480;
+    s32 orbit_angle_step;
     f32 m_484;
     f32 m_488;
     f32 m_48C;
     Vec m_490;
-    TObject *m_49C;
-    TObject *unk_4A0;  // queued for destruction in the dtor
-    NJS_ARGB m_4A4;
-    s32 m_4B4;
-    s32 m_4B8;
-    s32 m_4BC;
-    s32 m_4C0;
-    s32 m_4C4;
-    u16 m_4C8;
+    TObjEneMe1Canadin_EffLine *eff_line;
+    TParticleCtrl *particle_emitter;  // queued for destruction in the dtor
+    NJS_ARGB core_color;
+    s32 core_color_packed;
+    s32 fade_mode;
+    s32 fade_sequence;
+    s32 fade_step_timer;
+    s32 fade_cursor;
+    u16 leader_id;
     u8 unk_4CA[0x2];
     void update_by_state(s32 arg1);
     void update_walk_animation(s32 arg1);

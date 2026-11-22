@@ -20,10 +20,10 @@ public:
     virtual void state_dead(s32);
     void sub_800CB764(s32);
     void sub_800C84C8();
-    s32 m_490;
-    s32 m_494;
-    TObjEneMe1Gee *m_498[8];
-    u32 m_4b8;
+    s32 member_total;
+    s32 member_count;
+    TObjEneMe1Gee *members[8];
+    u32 formation_state;
 };
 
 #endif
