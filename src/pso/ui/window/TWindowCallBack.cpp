@@ -21,7 +21,6 @@ WindowDescriptor window_callback_base_params = {
 extern "C" {
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
 const char *TWindowCallBack__name = "TWindowCallBack";
-void run_task__15TWindowCallBackFv(void* p);
 
 s32 TBoss6Type2::get_state() { return this->m_374; }
 s32 TBoss6Type1::get_gravity_attack_state() { return m_374; }
@@ -47,7 +46,7 @@ void TWindowCallBack::render() {
     }
 }
 
-void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
+void TWindowCallBack::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); }
 
 TWindowCallBack::~TWindowCallBack() {}
 #define self ((u8 *)this)
