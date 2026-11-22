@@ -195,12 +195,18 @@ struct G_CreateLobbyChair_6xAB {
  u16 flags;
 };
 
+// Sent by TBoss4DarkFalz::send_action_packet / send_code_25_4, read by
+// handle_6x19_dark_falz_actions. The header holds the boss's entity id; its byte swap is
+// G_ClientIDHeader's.
 struct G_DarkFalzActions_6x19 {
- struct G_EntityIDHeader header;
- u16 unknown_a2;
+ struct G_ClientIDHeader header;
+ s16 state;       // dark_falz_state_table index to change to, -1 for none
  u16 unknown_a3;
- u32 unknown_a4;
+ s32 form_action; // handed to the active form (Type1/2/3), -1 for none
  u32 unused;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_DeRolLeBossActionsWithTarget_6x14 {

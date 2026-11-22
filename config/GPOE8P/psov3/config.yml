@@ -357,11 +357,11 @@ force_active:
   - TBoss4DarkFalz__sub_801D94C0
   - TBoss4Thanks__sub_8035C480
   - TBoss4Type2__attack_pattern_table
-  - __ct__11TBoss4Type2FP7TObjectPl
+  - __ct__11TBoss4Type2FP7TObjectP17TBoss4FormSetData
   - sub_80056B3C__11TBoss4Type2Fll
   - sub_80057128__11TBoss4Type2Fv
   - TBoss4Type3__anim_state_table
-  - __ct__11TBoss4Type3FP7TObjectPl
+  - __ct__11TBoss4Type3FP7TObjectP17TBoss4FormSetData
   - sub_800599F4__11TBoss4Type3Fll
   - sub_80059EA8__11TBoss4Type3FlUs
   - sub_80059F64__11TBoss4Type3Fl

@@ -7,6 +7,7 @@
 #include <stddef.h>
 
 struct BmlResource;
+struct TBoss4FormSetData;
 struct CollisionBody;
 class ModelNodePositionCapture;
 class TParticleCtrl;
@@ -33,7 +34,7 @@ struct TBoss4Type2Params
 // one. Field names inferred from their uses in TBoss4Zanzo.cpp.
 class TBoss4Type2 : public TObjEnemy {
 public:
-    TBoss4Type2(TObject *parent, saddr *params);
+    TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data);
     virtual ~TBoss4Type2();
     virtual void run_task();
     virtual void render();
@@ -46,7 +47,7 @@ public:
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    static TBoss4Type2 *create(saddr params);
+    static TBoss4Type2 *create(TBoss4FormSetData *set_data);
     static s32 is_active();
     static TBoss4Zanzo *create_zanzo(TObject *parent, TBoss4ZanzoParams *params);
     static TObjDFJisin *create_jisin(TObject *parent, s32 angle);

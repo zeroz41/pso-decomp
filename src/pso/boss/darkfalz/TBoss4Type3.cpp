@@ -221,18 +221,18 @@ void TObjBs4CutAtk::run_task() {
 
 void TObjBs4CutAtk::render() {  }
 
-s32 TBoss4Type3::create(saddr arg0) {
-    return (saddr)new TBoss4Type3(new TObjControl(tl_04), (saddr *)arg0);
+TBoss4Type3 *TBoss4Type3::create(TBoss4FormSetData *set_data) {
+    return new TBoss4Type3(new TObjControl(tl_04), set_data);
 }
 
-TBoss4Type3::TBoss4Type3(TObject *parent, saddr *arg2) : TObjEnemy(parent) {
+TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEnemy(parent) {
     s32 i;
     NJS_OBJECT *body;
 
     m_name = TBoss4Type3_name;
     add_flags_2e4(8);
-    owner = (TBoss4DarkFalz *)arg2[0];
-    apply_set_data(arg2 + 1);
+    owner = set_data->owner;
+    apply_set_data(&set_data->entry);
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     texlist = 0;
     model = 0;

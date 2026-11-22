@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct BmlResource;
+struct TBoss4FormSetData;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/ModelNodeTables.h"
 #include <stddef.h>
@@ -16,7 +17,7 @@ struct TBoss4DarkFalz;
 
 struct TBoss4Type1 : public TObjEnemy
 {
-    TBoss4Type1(TObject *parent, saddr *params);
+    TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data);
     virtual ~TBoss4Type1();
     virtual void run_task();
     virtual void render();
@@ -77,7 +78,7 @@ struct TBoss4Type1 : public TObjEnemy
     void push_players_out_of_colliders();
     void sub_80053D4C();
     void update_follow_camera_offsets();
-    static TBoss4Type1 *create(saddr params);
+    static TBoss4Type1 *create(TBoss4FormSetData *set_data);
     s32 get_state();
 
     // Field names inferred from their uses in TBoss4Type1.cpp; the twin TBoss4Type2 corroborates

@@ -345,20 +345,20 @@ void apply_tenchu_hits(TObject *source) {
     start_pad_rumble_all(0xC0, 0xF);
 }
 
-TBoss4Type1 *TBoss4Type1::create(saddr params) {
-    return new TBoss4Type1(new TObjControl(tl_04), (saddr *)params);
+TBoss4Type1 *TBoss4Type1::create(TBoss4FormSetData *set_data) {
+    return new TBoss4Type1(new TObjControl(tl_04), set_data);
 }
 
 }
 
-TBoss4Type1::TBoss4Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
+TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEnemy(parent) {
     s32 i;
     s32 j;
 
     m_name = TBoss4Type1__name;
     add_flags_2e4(8);
-    owner = (TBoss4DarkFalz *)params[0];
-    apply_set_data(params + 1);
+    owner = set_data->owner;
+    apply_set_data(&set_data->entry);
     clear_lobby_object_state();
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     texlist = 0;

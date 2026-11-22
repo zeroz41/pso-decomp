@@ -38,6 +38,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/unk/TLobby_8030A834.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/CameraHelpers.h"
@@ -241,31 +242,31 @@ s32 TBoss4Type3__sub_8005254C(s16);
 
 
 s32 TObjDFHorming::is_boss_active() {
-    int var_r31;
+    int active;
 
-    var_r31 = 0;
-    if (TBoss4DarkFalz__sub_8004C1AC() != NULL) {
-        if (TBoss4DarkFalz__sub_8004C1AC()->get_action_state() != 3) {
-            if (TBoss4DarkFalz__sub_8004C1AC()->get_action_state() != 2) {
-                var_r31 = 1;
+    active = 0;
+    if (TBoss4DarkFalz::get_type3_instance() != NULL) {
+        if (TBoss4DarkFalz::get_type3_instance()->get_action_state() != 3) {
+            if (TBoss4DarkFalz::get_type3_instance()->get_action_state() != 2) {
+                active = 1;
             }
         }
     }
-    return (u8)((u8) var_r31);
+    return (u8)active;
 }
 
 s32 TBoss4DarkFalz::is_state_ready() {
-    int var_r31;
+    int ready;
 
-    var_r31 = 0;
-    if (TBoss4DarkFalz__sub_8004C1B4() != NULL) {
-        if (TBoss4DarkFalz__sub_8004C1B4()->get_phase() != 3) {
-            if (TBoss4DarkFalz__sub_8004C1B4()->get_phase() != 2) {
-                var_r31 = 1;
+    ready = 0;
+    if (get_type2_instance() != NULL) {
+        if (get_type2_instance()->get_phase() != 3) {
+            if (get_type2_instance()->get_phase() != 2) {
+                ready = 1;
             }
         }
     }
-    return (u8)((u8) var_r31);
+    return (u8)ready;
 }
 
 s32 TBoss4DarkFalz::is_active() {
@@ -303,10 +304,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 }
 
 }
-
-struct Msg_8004B16C { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 padc[4]; };
-
-struct Msg_8004B1BC { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 padc[4]; };
 
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
@@ -378,23 +375,21 @@ void TBoss4DarkFalz::run_state_leader_update() {
 }
 
 void TBoss4DarkFalz::send_code_25_4(s32 arg) {
-    TBoss4DarkFalz *self = this;
-    Msg_8004B16C msg;
-    ((TBoss4DarkFalz *)(&msg))->set_code_25_4();
-    msg.id = self->entity_id;
-    msg.a = -1;
-    msg.b = arg;
-    ((TBoss4DarkFalz *)(&msg))->swap_and_send();
+    G_DarkFalzActions_6x19 cmd;
+    cmd.init();
+    cmd.header.client_id = entity_id;
+    cmd.state = -1;
+    cmd.form_action = arg;
+    cmd.send();
 }
 
 void TBoss4DarkFalz::send_action_packet(s32 arg) {
-    TBoss4DarkFalz *self = this;
-    Msg_8004B1BC msg;
-    ((TBoss4DarkFalz *)(&msg))->set_code_25_4();
-    msg.id = self->entity_id;
-    msg.a = arg;
-    msg.b = -1;
-    ((TBoss4DarkFalz *)(&msg))->swap_and_send();
+    G_DarkFalzActions_6x19 cmd;
+    cmd.init();
+    cmd.header.client_id = entity_id;
+    cmd.state = arg;
+    cmd.form_action = -1;
+    cmd.send();
 }
 
 void TBoss4DarkFalz::change_state(s32 arg1) {
@@ -715,17 +710,7 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 #pragma fp_contract off
 
 
-typedef struct Msg_8004BFA4 {
-    u8 code;
-    u8 size;
-    u16 id;
-    s16 action;
-    u8 pad6[2];
-    s32 arg;
-} Msg_8004BFA4;
-
 extern "C" {
-void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0);
 int TBoss4DarkFalz__sub_8030AD38(void);
 
 void TBoss4DarkFalz::render() {  }
@@ -839,23 +824,23 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     change_state(1);
 }
 
-void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
-    void *ent;
+void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd) {
+    TBoss4DarkFalz *boss;
     s32 arg;
-    ((TBoss4DarkFalz *)arg0)->swap_bytes();
-    ent = get_enemy_entity(arg0->id);
-    if (ent == NULL) {
+    cmd->bswap();
+    boss = (TBoss4DarkFalz *)get_enemy_entity(cmd->header.client_id);
+    if (boss == NULL) {
         return;
     }
-    if (arg0->action != -1 && arg0->action >= 0 && arg0->action < 16 &&
-        arg0->action != ((TBoss4DarkFalz *)ent)->get_phase()) {
-        ((TBoss4DarkFalz *)ent)->change_state(arg0->action);
+    if (cmd->state != -1 && cmd->state >= 0 && cmd->state < 16 &&
+        cmd->state != boss->get_phase()) {
+        boss->change_state(cmd->state);
     }
-    arg = arg0->arg;
+    arg = cmd->form_action;
     if (arg == -1) {
         return;
     }
-    switch (((TBoss4DarkFalz *)ent)->get_phase()) {
+    switch (boss->get_phase()) {
     case 5:
     case 6:
         if (TBoss4DarkFalz__type1_instance != NULL) {

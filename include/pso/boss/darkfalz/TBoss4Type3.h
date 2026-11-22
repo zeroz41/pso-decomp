@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct BmlResource;
+struct TBoss4FormSetData;
 #include "pso/unk/ModelNodeTables.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
@@ -21,7 +22,7 @@ struct TBoss4DarkFalz;
 
 // Dark Falz's third form. Field names are inferred from their uses in TBoss4Type3.cpp.
 struct TBoss4Type3 : public TObjEnemy {
-    TBoss4Type3(TObject *parent, saddr *arg2);
+    TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data);
     virtual ~TBoss4Type3();
     virtual void render();
     virtual void run_hit_reaction();
@@ -138,7 +139,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void copy_pair(void* q);
     void set_anim_state(s32 arg1);
     void draw();
-    static s32 create(saddr arg0);
+    static TBoss4Type3 *create(TBoss4FormSetData *set_data);
     s32 get_action_state();
     void get_defeat_params(u16 *a, u16 *b, u16 *out);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);

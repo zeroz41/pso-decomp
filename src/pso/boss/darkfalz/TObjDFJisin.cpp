@@ -655,7 +655,7 @@ void TObjDFJisin::damage_players_near_point(Vec *point) {
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;
-            p->receive_direct_attack(TBoss4DarkFalz__sub_8004C1B4(), h, NULL, -1, -1);
+            p->receive_direct_attack(TBoss4DarkFalz::get_type2_instance(), h, NULL, -1, -1);
         }
     }
 }
@@ -756,7 +756,7 @@ void TObjDFHorming::run_task() {
                 s.power = damage;
                 {
                     DirectAttackPayload t = s;
-                    p->receive_direct_attack(TBoss4DarkFalz__sub_8004C1AC(), t, NULL, -1, -1);
+                    p->receive_direct_attack(TBoss4DarkFalz::get_type3_instance(), t, NULL, -1, -1);
                 }
             }
             queue_destruction(this);

@@ -6,6 +6,9 @@
 
 class TBoss4Fade;
 struct TBoss4Type1;
+class TBoss4Type2;
+struct G_DarkFalzActions_6x19;
+struct TBoss4Type3;
 struct TObjDFUsoTower;
 struct TBoss4DarkFalzSetEntry;
 
@@ -35,11 +38,10 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static void load_resources();
     static TBoss4DarkFalz *create(saddr set_data);
     static TBoss4Type1 *get_instance();
+    static TBoss4Type3 *get_type3_instance();
+    static TBoss4Type2 *get_type2_instance();
     int is_floor_leader();
 
-    void swap_and_send();
-    void swap_bytes();
-    void set_code_25_4();
     void set_state();
     void update_fade_countdown();
     void request_action_e();
@@ -135,16 +137,35 @@ LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, u
 extern TBoss4DarkFalzState dark_falz_state_table[16];
 
 /* The 0x40-byte enemy set entry the constructor was given (kind 0x200), kept with kind
- * cleared; the minion spawners copy it (TBoss4DarkFalz__sub_8004B4F0) and renumber it with
- * alloc_child_ids. */
+ * cleared; the spawners copy it (TBoss4DarkFalz__sub_8004B4F0) and renumber it with
+ * alloc_child_ids. TObjEnemy::apply_set_data reads set_index, entity_id, room, wave and
+ * position (field names from there). */
 struct TBoss4DarkFalzSetEntry {
     s16 set_index;
     s16 kind;
-    u8 pad_04[0x3C];
+    u8 pad_04[0x2];
+    u16 entity_id;
+    s16 room;
+    s16 wave;
+    u8 pad_0C[0x4];
+    Vec position;
+    u8 pad_1C[0x24];
+};
+
+LAYOUT_ASSERT(TBoss4DarkFalzSetEntry_size, sizeof(TBoss4DarkFalzSetEntry) == 0x40);
+
+/* What TBoss4Type1/2/3::create hand their constructors: the Dark Falz that spawns the
+ * form, then a copy of its set entry renumbered past its own ids (0x1FE..0x200) with the
+ * form's room (1 for the first two forms, 2 for the third). */
+struct TBoss4FormSetData {
+    TBoss4DarkFalz *owner;
+    TBoss4DarkFalzSetEntry entry;
 };
 
 extern TBoss4DarkFalzSetEntry dark_falz_set_entry;
 extern "C" void set_story_flag_or_send_quest_flag(u16 flag);
+// Handler of subcommand 6x19 (TGameProtocol's table).
+extern "C" void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd);
 
 LAYOUT_ASSERT(TBoss4DarkFalz_intro_tower_offset, offsetof(TBoss4DarkFalz, intro_tower) == 0x394);
 LAYOUT_ASSERT(TBoss4DarkFalz_fade_offset, offsetof(TBoss4DarkFalz, fade) == 0x398);
