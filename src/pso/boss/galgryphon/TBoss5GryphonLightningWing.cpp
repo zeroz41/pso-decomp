@@ -21,10 +21,8 @@ const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
 
 
 #pragma opt_lifetimes off
-struct Stack_80351A80 {
-    s32 sp8;
-    u8 trailing_storage[0x8];
-};
+
+extern const f32 lbl_805D8D48;
 
 struct Pt_80351C18 { Vec v; f32 w; };
 
@@ -42,21 +40,19 @@ struct Wing_80351C18 {
 };
 
 extern "C" {
-extern const f32 lbl_805D8D48;
 s32 __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
-s32 apply_lightning_hit(s32, s32 *, f32);
-
+void apply_lightning_hit(s32 owner, Vec *pos, f32 inner);
+}
 
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
-    s32 sp8;
-    s32 instance_count;
-    saddr self = (saddr)this;
+    Vec pos;
+    s32 owner;
 
-    instance_count = TBoss8Dragon::get_instance_count();
-    if (instance_count != 0) {
-        ((TBoss5GryphonLightningWing *)self)->get_end_position((Vec *)&sp8);
-        apply_lightning_hit(instance_count, &sp8, 10.0f);
+    owner = TBoss8Dragon::get_instance_count();
+    if (owner != 0) {
+        this->get_end_position(&pos);
+        apply_lightning_hit(owner, &pos, 10.0f);
     }
 }
 
@@ -64,80 +60,80 @@ void TBoss5GryphonLightningWing::render() {  }
 
 #pragma push
 #pragma opt_common_subs off
-void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_gryphon_lightning_wing) {
-    Stack_80351A80 stack;
-    *(f32 *)((s8 *)boss5_gryphon_lightning_wing + 0x88) = (f32) ((f32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) / (f32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x9C));
-    if (*(f32 *)((s8 *)boss5_gryphon_lightning_wing + 0x88) > 1.0f) {
-        *(f32 *)((s8 *)boss5_gryphon_lightning_wing + 0x88) = 1.0f;
+void TBoss5GryphonLightningWing::run_task() {
+    Vec pos;
+    this->life_progress = (f32)this->age / (f32)this->life_frames;
+    if (this->life_progress > 1.0f) {
+        this->life_progress = 1.0f;
     }
-    *(f32 *)((s8 *)boss5_gryphon_lightning_wing + 0x8C) = (f32) ((f32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) / (f32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x98));
-    if (*(f32 *)((s8 *)boss5_gryphon_lightning_wing + 0x8C) > 1.0f) {
-        *(f32 *)((s8 *)boss5_gryphon_lightning_wing + 0x8C) = 1.0f;
+    this->grow_progress = (f32)this->age / (f32)this->grow_frames;
+    if (this->grow_progress > 1.0f) {
+        this->grow_progress = 1.0f;
     }
-    boss5_gryphon_lightning_wing->update_endpoints();
-    boss5_gryphon_lightning_wing->apply_lightning_effect();
-    if ((s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) == (s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x98)) {
-        boss5_gryphon_lightning_wing->get_end_position((Vec *)&stack.sp8);
-        play_sound_effect(0x40032516, &stack.sp8, 0, 0);
+    this->update_endpoints();
+    this->apply_lightning_effect();
+    if (this->age == this->grow_frames) {
+        this->get_end_position(&pos);
+        play_sound_effect(0x40032516, &pos, 0, 0);
     }
-    ((TBoss5GryphonLightning *)boss5_gryphon_lightning_wing)->spawn_gryphon_lightning();
-    if ((s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) >= (s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x9C)) {
-        boss5_gryphon_lightning_wing->queue_destruction();
+    this->spawn_gryphon_lightning();
+    if (this->age >= this->life_frames) {
+        this->queue_destruction();
     }
 }
 #pragma pop
 
 TBoss5GryphonLightningWing::~TBoss5GryphonLightningWing() {}
-s32 __ct__26TBoss5GryphonLightningWingFv(saddr allocation, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6) {
+
+// Written out by hand: the C++ constructor addresses the segment loop as this + (i * 16 + 0x48) with stfsx, the
+// original as (this + i * 16) + 0x48.
+saddr __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(saddr allocation, TObject *parent, Vec *start,
+                                                                    Vec *mid, Vec *end, s32 grow_frames,
+                                                                    s32 hold_frames) {
     s32 i;
     __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(20.0f);
     ((Wing_80351C18 *)allocation)->vt = __vt__26TBoss5GryphonLightningWing;
     ((Wing_80351C18 *)allocation)->x0 = ((saddr)TBoss5GryphonLightningWing__name);
     ((Wing_80351C18 *)allocation)->n = 3;
-    ((Wing_80351C18 *)allocation)->x98 = (saddr)arg5;
-    ((Wing_80351C18 *)allocation)->x9C = (saddr)arg5 + (saddr)arg6;
-    VecCopy((Vec *)(&((Wing_80351C18 *)allocation)->pts[0]), (const Vec *)a);
-    VecCopy((Vec *)(&((Wing_80351C18 *)allocation)->pts[((Wing_80351C18 *)allocation)->n - 1]), (const Vec *)b);
+    ((Wing_80351C18 *)allocation)->x98 = grow_frames;
+    ((Wing_80351C18 *)allocation)->x9C = grow_frames + hold_frames;
+    VecCopy(&((Wing_80351C18 *)allocation)->pts[0].v, start);
+    VecCopy(&((Wing_80351C18 *)allocation)->pts[((Wing_80351C18 *)allocation)->n - 1].v, end);
     for (i = 1; i < ((Wing_80351C18 *)allocation)->n - 1; i++) {
-        ((Wing_80351C18 *)allocation)->pts[i].v.x = ((Vec *)mid)->x;
-        ((Wing_80351C18 *)allocation)->pts[i].v.y = ((Vec *)mid)->y;
-        ((Wing_80351C18 *)allocation)->pts[i].v.z = ((Vec *)mid)->z;
+        ((Wing_80351C18 *)allocation)->pts[i].v.x = mid->x;
+        ((Wing_80351C18 *)allocation)->pts[i].v.y = mid->y;
+        ((Wing_80351C18 *)allocation)->pts[i].v.z = mid->z;
     }
     return allocation;
 }
 
-s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr self, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5) {
-    Vec position;
-    f32 ground_height;
-    saddr allocation;
-    s32 effect;
-    u8* collision;
-    VecCopy(&position, (const Vec *)arg3);
-    collision = (u8 *)csnVecterUnder(&position, 0x16EF);
-    if (collision == NULL) {
-        position.y = lbl_805D8D48;
+TBoss5GryphonLightningWing *TBoss5GryphonLightningWing::spawn(TObject *parent, Vec *start, Vec *mid, Vec *target,
+                                                              s32 grow_frames, s32 hold_frames) {
+    Vec end;
+    CsnHit *hit;
+    saddr wing;
+    VecCopy(&end, target);
+    hit = csnVecterUnder(&end, 0x16EF);
+    if (hit == NULL) {
+        end.y = lbl_805D8D48;
+    } else if (hit->contact->point.y > lbl_805D8D48) {
+        end.y = lbl_805D8D48;
     } else {
-        ground_height = *(f32*)((s8 *)(*(u8**)((s8 *)collision + 4)) + 4);
-        if (ground_height > lbl_805D8D48) {
-            position.y = lbl_805D8D48;
-        } else {
-            position.y = ground_height;
-        }
+        end.y = hit->contact->point.y;
     }
-    allocation = (saddr)TObject::operator new(0xA0);
-    effect = allocation;
-    if (effect != 0) {
-        effect = __ct__26TBoss5GryphonLightningWingFv(allocation, (void *)((void*)self), (void *)((void*)pos), (void *)((void*)mid), &position, (void *)((void*)arg4), (void *)((void*)arg5));
+    wing = (saddr)operator new(sizeof(TBoss5GryphonLightningWing));
+    if (wing != 0) {
+        wing = __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(wing, parent, start, mid, &end, grow_frames,
+                                                                             hold_frames);
     }
-    return effect;
+    return (TBoss5GryphonLightningWing *)wing;
 }
 
-void fn_80351DA8(s32 self, u8 *pos, u8 *out, s32 arg3, s32 arg4) {
-    Vec stack;
-    stack.x = *(f32 *)((s8 *)out + 0);
-    stack.y = *(f32 *)((s8 *)pos + 4);
-    stack.z = *(f32 *)((s8 *)out + 8);
-    spawn_lightning_wing__12TBoss8DragonFiiiiii(self, (saddr)((saddr) pos), (saddr)((saddr) &stack.x), (saddr)((saddr) out), arg3, arg4);
-}
-
+TBoss5GryphonLightningWing *TBoss5GryphonLightningWing::spawn_corner(TObject *parent, Vec *start, Vec *target,
+                                                                     s32 grow_frames, s32 hold_frames) {
+    Vec corner;
+    corner.x = target->x;
+    corner.y = start->y;
+    corner.z = target->z;
+    return spawn(parent, start, &corner, target, grow_frames, hold_frames);
 }

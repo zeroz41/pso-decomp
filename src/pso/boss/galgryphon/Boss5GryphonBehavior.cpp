@@ -79,6 +79,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -93,7 +94,6 @@ void set_scripted_camera_pose(void *, void *, void *);
 void play_cue_stream_file(saddr name);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
-s32 fn_80351DA8(void *, void *, void *, int, int);
 void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
 void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale);
 struct P_8005F740 { u8 pad[0x30]; };
@@ -115,7 +115,6 @@ s32 draw__10TObjMotionFv(void *);
 u8 * find_entity_by_id();
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr self, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5);
 f32 vec3_dot(void *, void *);
 void subtract_vector(void *, void *);
 s32 post_translate_matrix(void *);
@@ -2897,7 +2896,7 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
                 w.z = gryphon_fifty * cos_table_lookup(a2) + self->position.z;
             }
             if (self->dive.frame % 5 == 0) {
-                fn_80351DA8(self, &w, &v, 0x28, 0x11);
+                TBoss5GryphonLightningWing::spawn_corner(self, &w, &v, 0x28, 0x11);
             }
             if (self->dive.frame == 0x14) {
                 self->play_se(0x40033C12);
@@ -3883,7 +3882,7 @@ void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     mid.x = 0.5f * (pos.x + out.x);
     mid.y = 250.0f + pos.y;
     mid.z = 0.5f * (pos.z + out.z);
-    spawn_lightning_wing__12TBoss8DragonFiiiiii((saddr)this, (saddr)&pos, (saddr)&mid, (saddr)&out, 0x14, 0x11);
+    TBoss5GryphonLightningWing::spawn(this, &pos, &mid, &out, 0x14, 0x11);
 }
 }
 s32 TBoss5Gryphon::get_player_pos_in_arc(s32 left, s32 client_id, Vec *org, Vec *out) {
