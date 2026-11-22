@@ -26,7 +26,6 @@ TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
     { MOTION_MODE_LOOP, 0, 7, 1.0f, 0x0 },
     { MOTION_MODE_ONCE, 0, 8, 1.0f, 0x1 },
 };
-void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
 
 void TObjEneMe1GiGueBarrier::render() {
     if (TObjEneMe1GiGueBarrier__barrier_resource_object == NULL) {
@@ -115,7 +114,7 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner) : T
     set_field_b8(requested_action);
 }
 
-void TObjEneMe1GiGueBarrier__sub_80325CC0(void) {  }
+void TObjEneMe1GiGueBarrier::sub_80325CC0() {}
 
 void *TObjEneMe1GiGueBarrier::create(void *parent, void *owner) {
     return new TObjEneMe1GiGueBarrier((TObject *)parent, owner);

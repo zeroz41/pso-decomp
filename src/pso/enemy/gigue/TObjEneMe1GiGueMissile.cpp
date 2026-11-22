@@ -30,8 +30,6 @@ BmlResource *lbl_805D6858;
 u16 get_entity_id(void *);
 const char *lbl_805D3F20 = "TObjEneMe1GiGueMissile";
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
-void TObjEneMe1GiGue__sub_802CE4E8(void);
-void TObjEneMe1GiGue__sub_802CE4EC(void);
 void obj_setFlags30(void *, int);
 extern void *tl_07;
 
@@ -127,6 +125,6 @@ TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f3
     m_b0 = 1;
 }
 
-void TObjEneMe1GiGue__sub_802CE4E8(void) {  }
+void TObjEneMe1GiGueMissile::sub_802CE4E8() {}
 
-void TObjEneMe1GiGue__sub_802CE4EC(void) { lbl_805D6858 = TObjEneMe1GiGue::sub_802CAC80(); }
+void TObjEneMe1GiGueMissile::sub_802CE4EC() { lbl_805D6858 = TObjEneMe1GiGue::sub_802CAC80(); }

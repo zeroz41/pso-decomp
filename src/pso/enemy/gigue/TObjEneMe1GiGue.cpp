@@ -51,6 +51,11 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/model_render_state.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -69,30 +74,12 @@ s32 lbl_805D6854;
 void move_with_wall_slide(u8 *arg0);
 int initialize_enemy_photon_effect(void *p);
 
-extern "C" {
-f32 atan2_float(f32 y, f32 x);
-s16 get_entity_id(void *);
-}
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-extern "C" {
-s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 s32 check_path_obstructed(void *, Vec *);
 s32 enemy_turn_half_toward_dest(void *);
-s32 is_split_screen();
-saddr find_active_entity_by_id(int);
-s32 minimap_render_dot(void *, int, int, int);
-void TObjEneMe1GiGue__sub_802CE4E8(void);
-void TObjEneMe1GiGue__sub_802CE4EC();
-void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-s32 obj_setFlags30(void *, int);
-
 }
 
 // What movementParameters points at: EnemyMoveParams and four more words.
@@ -261,7 +248,7 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
     o = new TUnk_8048FA00((saddr)TObjEneMe1GiGue__data_805D6838->models->model);
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
-    TObjEneMe1GiGue__sub_802CE4EC();
+    TObjEneMe1GiGueMissile::sub_802CE4EC();
     TObjEneMe1GiGueBarrier::init_global();
     {
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(TObjEneMe1GiGue__data_805D6838->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
@@ -270,8 +257,8 @@ void TObjEneMe1GiGue::load_resources() {
 }
 
 void TObjEneMe1GiGue::delete_barrier() {
-    TObjEneMe1GiGueBarrier__sub_80325CC0();
-    TObjEneMe1GiGue__sub_802CE4E8();
+    TObjEneMe1GiGueBarrier::sub_80325CC0();
+    TObjEneMe1GiGueMissile::sub_802CE4E8();
     if (TObjEneMe1GiGue__barrier_obj != NULL) {
         delete TObjEneMe1GiGue__barrier_obj;
         TObjEneMe1GiGue__barrier_obj = NULL;

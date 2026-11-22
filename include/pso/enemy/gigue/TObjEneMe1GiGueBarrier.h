@@ -18,6 +18,7 @@ struct TObjEneMe1GiGueBarrier : public TObjMotion {
     virtual void run_task();
     static void *create(void *parent, void *owner);
     static void init_global();
+    static void sub_80325CC0();
 };
 
 LAYOUT_ASSERT(TObjEneMe1GiGueBarrier_size, sizeof(TObjEneMe1GiGueBarrier) == 0x10C);
