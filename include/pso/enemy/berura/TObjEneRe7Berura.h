@@ -104,7 +104,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     static void load_static_resources();
     static void advance_state(NJS_OBJECT *);
     static void demo_frame_callback(NJS_OBJECT *);
-    static void *spawn_punch(void *owner);
+    TObjEneRe7BeruraPunch *spawn_punch();
 
     u32 status_flags;            // BERURA_*
     u32 node2_color;             // material colour of model node 2 (alpha rises while emerging)

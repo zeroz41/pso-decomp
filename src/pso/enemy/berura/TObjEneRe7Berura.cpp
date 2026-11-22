@@ -78,7 +78,6 @@ s32 matrix_mult_vec_array(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-s32 launch__21TObjEneRe7BeruraPunchFll(TObjEneRe7BeruraPunch *, s32, Vec *, f32 *);
 s32 vec3_add_to(void *, void *);
 extern TObjMotionAction TObjEneRe7Berura__animation_definitions[];
 }
@@ -341,7 +340,7 @@ void TObjEneRe7Berura::init_enemy() {
     dizzy_level = 1;
     body_fade.reset_color();
     current_arm = 1;
-    punch = (TObjEneRe7BeruraPunch *)spawn_punch(this);
+    punch = spawn_punch();
     arm_fade.reset_color();
     if (TObjEneDD::check_v2_mode() != 0) {
         arm_fade.set_rate_from_divisor(0xA);
@@ -1052,7 +1051,7 @@ void TObjEneRe7Berura::update_punch_state(s32 reason) {
                 VecCopy(&v, &TObjEneRe7Berura__detached_part_states[current_arm].launch_offset);
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
-                launch__21TObjEneRe7BeruraPunchFll(punch, current_arm, &v, &destination.x);
+                punch->launch(current_arm, &v, &destination);
                 step = 1;
                 destroy_parts();
                 play_sound_effect(remap_sound_for_area(0x4003A321), &position, 0, 0);

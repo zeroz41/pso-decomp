@@ -16181,7 +16181,7 @@ force_active:
   - sub_8007FFF4__17TDuelEffectNumberFl
   - sub_80090798__18TObjEneBalClawClawFv
   - sub_80090D3C__18TObjEneBalClawClawFv
-  - sub_80096150__21TObjEneRe7BeruraPunchFv
+  - update_attack_collision__21TObjEneRe7BeruraPunchFv
   - sub_80098DEC__17TObjEneDf2BringerFv
   - sub_8009A11C__13TUnk_8048FE08Fv
   - sub_8009A598__13TUnk_8048FE7CFv
