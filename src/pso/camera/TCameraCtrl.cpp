@@ -1355,6 +1355,3 @@ void TCameraCtrl::reset_up_vector() {
     TCameraCtrl::up_vector.y = 1.0f;
     TCameraCtrl::up_vector.z = 0.0f;
 }
-Vec *TObjPlayer::get_prev_position_ptr() { return &this->prev_position; }
-
-void TCameraController::run_task() {}

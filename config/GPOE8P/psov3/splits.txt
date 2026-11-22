@@ -734,13 +734,13 @@ pso/camera/TCameraOrbit.cpp:
 	.sdata2     start:0x805D8F68 end:0x805D8F80
 
 pso/camera/TCameraController.cpp:
-	.text       start:0x8006809C end:0x800687BC
+	.text       start:0x8006809C end:0x800687C8
 	.rodata     start:0x80438168 end:0x80438180
 	.data       start:0x80488868 end:0x80488A58
 	.sdata2     start:0x805D8F80 end:0x805D8FA4
 
 pso/camera/TCameraCtrl.cpp:
-	.text       start:0x800687BC end:0x8006B3D8
+	.text       start:0x800687C8 end:0x8006B3D8
 	.rodata     start:0x80438180 end:0x804381E0
 	.data       start:0x80488A58 end:0x80488AD8
 	.bss        start:0x804FF5E8 end:0x804FF7C0

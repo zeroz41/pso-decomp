@@ -225,3 +225,7 @@ TCameraController::TCameraController() : TObject(0) {
     this->projection_angle = 0x36C1;
     this->actor_id = 0xFFFF;
 }
+
+void TCameraController::run_task() {}
+
+Vec *TObjPlayer::get_prev_position_ptr() { return &this->prev_position; }
