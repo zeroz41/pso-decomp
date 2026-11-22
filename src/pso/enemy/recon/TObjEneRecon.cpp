@@ -1,6 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -300,7 +301,6 @@ void TObjEneRecon::handle_message(s32 message) {
 
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
-s32 project_actor_to_ground(void *, void *, void *);
 
 void TObjEneRecon::state_death(s32 reason) {
     switch (reason) {
@@ -1151,8 +1151,6 @@ TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 i
 }
 
 extern "C" {
-
-void free_collision_body_parts(void *);
 
 
 #pragma push
