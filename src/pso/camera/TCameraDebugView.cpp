@@ -9,9 +9,6 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D853C.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 static const Vec default_target_position = {0.0f, 0.0f, 0.0f};
 
 TCameraController *TCameraDebugView::create() {
@@ -35,7 +32,7 @@ void TCameraDebugView::run_task() {
             projection_angle -= 0xB6;
         }
     }
-    VecCopy(&focus, &(const Vec &)get_target_position());
+    VecCopy(&focus, &(const Vec &)get_demo_camera_position());
     set_target_pos(&focus);
     if (test_previous_buttons_packed(pad, 0x200) != 0) {
         if (test_previous_buttons_packed(pad, 0x10) != 0) {
@@ -75,9 +72,9 @@ TCameraDebugView::TCameraDebugView() {
     flags = 0;
 }
 
-Vec TCameraDebugView::get_target_position() {
+Vec TCameraDebugView::get_demo_camera_position() {
     Vec def = default_target_position;
-    CameraParams *camera = demo_camera_controller_table[demo_camera_controller_index];
+    CameraParams *camera = demo_camera_params_table[demo_camera_index];
     if (camera != 0) {
         return camera->position;
     }

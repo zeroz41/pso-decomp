@@ -1588,6 +1588,6 @@ void set_flag_400000(TObjPlayer *player);
 extern s16 item_equip_attach_equip_flag_table[];
 
 // The demo camera check_demo_mode tests; TCameraDebugView looks at its entry of
-// demo_camera_controller_table.
-extern s16 demo_camera_controller_index;
+// demo_camera_params_table.
+extern s16 demo_camera_index;
 #endif

@@ -4821,8 +4821,8 @@ force_active:
   - get_boss_target__18TObjLiveCameraCtrlFv
   - call_state_action__14TBoss6PlotFalzFv
   - motion_contexts
-  - camera_slot_positions
-  - camera_slot_scan_index__10TObjCamera
+  - camera_lamp_positions
+  - node_scan_index__10TObjCamera
   - can_action__15TBoss3VoloptP02Fv
   - can_action_wait__15TBoss3VoloptP02Fv
   - can_attack_target__13TObjEneBm3FlyFv
@@ -6735,7 +6735,7 @@ force_active:
   - get_table_entry__19TContainerAncient01Fi
   - get_table_entry_by_clamped_index__10TObjPlayerFv
   - get_table_value__19TAdPlyPltAnimCtrlGCFi
-  - get_target_position__16TCameraDebugViewFv
+  - get_demo_camera_position__16TCameraDebugViewFv
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__Fl
   - get_type__15TFontSmallLobbyFPv
@@ -16728,7 +16728,7 @@ force_active:
   - state_move_forward__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
-  - update_camera_slots__10TObjCameraFP10NJS_OBJECT
+  - record_lamp_positions__10TObjCameraFP10NJS_OBJECT
   - update_camera_vec_by_stage__9TObjGrassFP10NJS_OBJECT
   - update_capture__11TBoss4Type3Fv
   - update_capture__14TObjVoloptCageFv
