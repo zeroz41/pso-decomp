@@ -160,7 +160,7 @@ void lsc_stop(LscStream *lsc_stream) {
                 stop_adx_stream(lsc_stream->file_handle);
                 lsc_stream->read_started = 0U;
             }
-            TLobby__sub_803C8B38(lsc_stream->file_handle);
+            adxstm_close(lsc_stream->file_handle);
             lsc_stream->file_handle = 0;
         }
         lsc_stream->file_sector_count = 0;
@@ -195,7 +195,7 @@ void lsc_start(LscStream *o) {
                     stop_adx_stream(o->file_handle);
                     o->read_started = 0;
                 }
-                TLobby__sub_803C8B38(o->file_handle);
+                adxstm_close(o->file_handle);
                 o->file_handle = 0;
             }
             o->file_sector_count = 0;
@@ -264,7 +264,7 @@ s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
         return -1;
     }
     sectors = (get_field_14__6TLobbyFv(file) + 0x7FF) / 0x800;
-    TLobby__sub_803C8B38(file);
+    adxstm_close(file);
     return lsc_enqueue_range(lsc_stream, filename, 0, 0, sectors);
 }
 
@@ -295,7 +295,7 @@ void lsc_destroy(LscStream *lsc_stream) {
                     stop_adx_stream(lsc_stream->file_handle);
                     lsc_stream->read_started = 0U;
                 }
-                TLobby__sub_803C8B38(lsc_stream->file_handle);
+                adxstm_close(lsc_stream->file_handle);
                 lsc_stream->file_handle = 0;
             }
             lsc_stream->file_sector_count = 0;

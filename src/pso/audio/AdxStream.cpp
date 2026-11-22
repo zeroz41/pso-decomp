@@ -28,7 +28,7 @@ static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't o
 static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
-AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
+AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 
 void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
     file->f10 = offset;
@@ -237,7 +237,7 @@ s32 get_adx_stream_status(const AdxStreamFile *file) {
     return file->b1;
 }
 
-void TLobby__sub_803C8B38(AdxStreamFile *file) {
+void adxstm_close(AdxStreamFile *file) {
     if (file != NULL) {
         file->b1 = 1;
         TLobby::init_once();
@@ -321,7 +321,7 @@ inline AdxStreamFile *alloc_803C8CDC(s32 arg, CvFsHandle *h, s32 f10, s32 size) 
     p->used = 1;
     return p;
 }
-AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg) {
+AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
     s32 size;
     CvFsHandle *h;
     AdxStreamFile *p;

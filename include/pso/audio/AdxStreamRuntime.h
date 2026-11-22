@@ -38,7 +38,7 @@ LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(Ent_803C9608, f8) == 8);
 
 extern "C" {
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
-AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
+AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
 void TLobby__sub_803C5D00(u8 *arg0);
