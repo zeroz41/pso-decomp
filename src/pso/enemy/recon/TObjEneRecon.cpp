@@ -55,7 +55,7 @@
 extern "C" {
 extern TObjMotionAction TObjEneRecon__animation_entries[6];
 
-// Breakup-model parameters TObjEneRecon__sub_8031C364 hands to TBoss3Volopt::create_breakup_mdl.
+// Breakup-model parameters TObjEneRecon::sub_8031C364 hands to TBoss3Volopt::create_breakup_mdl.
 extern const TBoss3VoloptBreakupParams recon_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneRecon_name_ref = "TObjEneRecon";
 extern const NpcAnimationBinding recon_anim_binding = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRecon__animation_entries), 1, 1, 6 };
@@ -292,14 +292,14 @@ f32 TObjEneRecon__sub_8031C2D4(void) {
     return *(f32 *)((s8 *)TObjEneRecon__data_805D6AFC + 4);
 }
 
-void TObjEneRecon::handle_message(s32 arg1) {
-    uaddr temp;
-    switch (arg1) {
+void TObjEneRecon::handle_message(s32 message) {
+    TObjEneRecobox *box;
+    switch (message) {
     case 4:
-        *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) | 1);
-        *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) & 0xFFFFFFFD);
-        if ((temp = (uaddr)find_entity_by_id(*(u16 *)((s8 *)this + 0x434))) != 0U) {
-            ((TObjEneRecobox *)temp)->remove_child_entity((u8 *)this);
+        recon_flags |= 1;
+        recon_flags &= ~2;
+        if ((box = (TObjEneRecobox *)find_entity_by_id(owner_id)) != NULL) {
+            box->remove_child_entity((u8 *)this);
         }
         break;
     case 5:
@@ -318,73 +318,71 @@ void TObjEneRecon::handle_message(s32 arg1) {
 
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
-void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason);
 s32 project_actor_to_ground(void *, void *, void *);
-void TObjEneRecon__sub_8031C364(u8 *arg0, s32 reason);
 
-void TObjEneRecon__sub_8031C364(u8 *arg0, s32 reason) {
+void TObjEneRecon::sub_8031C364(s32 reason) {
     switch (reason) {
     case 4:
-        F(s16, 0xB8) = 5;
-        ((TObjEneDD *)(arg0))->clear_intangible();
-        F(s32, 0x444) &= ~3;
-        F(s32, 0x80) = 0;
-        ((TObjPlayer *)arg0)->refresh_lobby_state();
-        TBoss8Dragon__sub_800BB7DC(arg0);
-        TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, 1.0f);
-        F(s32, 0x3C0) = 0;
-        F(f32, 0x3E0) = 0.0f;
-        F(f32, 0x44C) = F(f32, 0x308);
-        F(f32, 0x454) = F(f32, 0x310);
-        F(f32, 0x3E4) = ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(arg0 + 0x44C);
-        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80C), arg0 + 0x38, 0, 0);
+        requested_action = 5;
+        clear_intangible();
+        recon_flags &= ~3;
+        set_entry = 0;
+        ((TObjPlayer *)this)->refresh_lobby_state();
+        TBoss8Dragon__sub_800BB7DC(this);
+        TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
+        state_step = 0;
+        rise_speed = 0.0f;
+        velocity.x = x_speed;
+        velocity.z = m_310;
+        move_speed = normalize_vector_xz(&velocity);
+        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80C), &position, 0, 0);
         break;
     case 3:
-        if (F(s32, 0x3C0) == 3) {
-            ((TObjEneDD *)arg0)->transition_enemy_state(8);
+        if (state_step == 3) {
+            transition_enemy_state(8);
         }
         break;
     case 5:
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (F(s32, 0x3C0)) {
+        advance_animation();
+        switch (state_step) {
         case 0:
         case 1:
-            ((TObjEneRecon *)arg0)->set_flag2(F(f32, 0x44C), F(f32, 0x454), F(f32, 0x3E4));
+            set_flag2(velocity.x, velocity.z, move_speed);
             {
-                Vec v = F(Vec, 0x38);
-                v.y += F(f32, 0x448);
-                if (project_actor_to_ground(arg0, &v, arg0 + 0x248) != 0) {
-                    F(f32, 0x3C) = v.y;
+                Vec v = position;
+                v.y += hover_height;
+                if (project_actor_to_ground(this, &v, &ground_normal) != 0) {
+                    position.y = v.y;
                 }
             }
-            F(f32, 0x3E0) -= 0.1f;
-            F(f32, 0x448) += F(f32, 0x3E0);
-            if (F(f32, 0x448) < 5.0f + F(f32, 0x3C)) {
-                F(f32, 0x448) = 5.0f + F(f32, 0x3C);
-                if (F(s32, 0x3C0) == 0) {
-                    F(s32, 0x3C0) = 1;
-                    F(f32, 0x3E0) = 1.0f;
-                    F(f32, 0x3E4) *= 0.98f;
-                    if (F(f32, 0x44C) * F(f32, 0x44C) + F(f32, 0x454) * F(f32, 0x454) <= 0.3f) {
-                        F(f32, 0x44C) = 0.5f * sin_table_lookup(F(s32, 0x60));
-                        F(f32, 0x454) = 0.5f * cos_table_lookup(F(s32, 0x60));
+            rise_speed -= 0.1f;
+            hover_height += rise_speed;
+            if (hover_height < 5.0f + position.y) {
+                hover_height = 5.0f + position.y;
+                if (state_step == 0) {
+                    state_step = 1;
+                    rise_speed = 1.0f;
+                    move_speed *= 0.98f;
+                    if (velocity.x * velocity.x + velocity.z * velocity.z <= 0.3f) {
+                        velocity.x = 0.5f * sin_table_lookup(rotation_y);
+                        velocity.z = 0.5f * cos_table_lookup(rotation_y);
                     }
                 } else {
-                    F(s32, 0x3C0) = 2;
+                    state_step = 2;
                 }
             }
-            F(f32, 0x3E4) *= 0.98f;
-            ((TObjEneRecon *)arg0)->clamp_min_height();
+            move_speed *= 0.98f;
+            clamp_min_height();
             break;
         case 2:
-            F(s32, 0x444) |= 1;
-            F(s32, 0x3C0) = 3;
-            spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x45, 0x40);
-            spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x46, 0x40);
-            play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), arg0 + 0x38, 0, 0);
-            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(F(s32, 0x24)), (saddr)(arg0 + 0x2FC), (s32)(F(s32, 0x60)));
+            recon_flags |= 1;
+            state_step = 3;
+            spawn_particle_effect_with_flags(&position, 0x45, 0x40);
+            spawn_particle_effect_with_flags(&position, 0x46, 0x40);
+            play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
+            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
             break;
         }
         break;
@@ -394,48 +392,48 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 reason) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason) {
+void TObjEneRecon::sub_8031C624(s32 reason) {
     s32 n;
     f32 v;
     switch (reason) {
     case 4:
-        *(s16 *)((s8 *)arg0 + 0xB8) = 4;
-        ((TObjEneDD *)(arg0))->clear_intangible();
-        *(s32 *)((s8 *)arg0 + 0x444) &= ~1;
-        *(s32 *)((s8 *)arg0 + 0x444) |= 2;
-        ((TObjEneDD *)arg0)->set_field_378(*(s16 *)((s8 *)arg0 + 0x326));
-        ((TBoss8Dragon *)arg0)->noop();
-        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003E425), arg0 + 0x38, 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x3C0) = 0;
+        requested_action = 4;
+        clear_intangible();
+        recon_flags &= ~1;
+        recon_flags |= 2;
+        set_field_378(mode);
+        ((TBoss8Dragon *)this)->noop();
+        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003E425), &position, 0, 0);
+        state_step = 0;
         break;
     case 3:
-        if (*(s32 *)((s8 *)arg0 + 0xB0) & 0x10) {
-            if (((TObjEneRecon *)(arg0))->is_confused() != 0) {
-                ((TObjEneRecon *)(arg0))->acquire_target(200.0f);
+        if (motion_flags & 0x10) {
+            if (is_confused() != 0) {
+                acquire_target(200.0f);
             }
-            n = *(s32 *)((s8 *)arg0 + 0x378);
+            n = next_mode;
             if (n == 2) {
-                ((TObjEneRecon *)arg0)->select_next_target();
+                select_next_target();
             } else {
-                ((TObjEneDD *)arg0)->transition_enemy_state(n);
+                transition_enemy_state(n);
             }
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        n = *(s32 *)((s8 *)arg0 + 0x3C0);
-        *(s32 *)((s8 *)arg0 + 0x3C0) = n + 1;
-        *(f32 *)((s8 *)arg0 + 0x44C) = *(f32 *)((s8 *)arg0 + 0x308);
-        *(f32 *)((s8 *)arg0 + 0x454) = *(f32 *)((s8 *)arg0 + 0x310);
-        v = normalize_vector_xz__FP3Vec(arg0 + 0x44C, n);
-        ((TObjEneRecon *)arg0)->set_flag2(*(f32 *)((s8 *)arg0 + 0x44C), *(f32 *)((s8 *)arg0 + 0x454), v);
-        ((TObjEneRecon *)arg0)->clamp_min_height();
-        *(f32 *)((s8 *)arg0 + 0x308) *= 0.5f;
-        *(f32 *)((s8 *)arg0 + 0x310) *= 0.5f;
-        ((TObjEneDD *)(arg0))->check_collisions();
+        advance_animation();
+        n = state_step;
+        state_step = n + 1;
+        velocity.x = x_speed;
+        velocity.z = m_310;
+        v = normalize_vector_xz__FP3Vec(&velocity, n);
+        set_flag2(velocity.x, velocity.z, v);
+        clamp_min_height();
+        x_speed *= 0.5f;
+        m_310 *= 0.5f;
+        check_collisions();
         break;
     case 5:
-        ((TObjEneDD *)arg0)->clear_attack_receipts();
+        clear_attack_receipts();
         break;
     }
 }
@@ -445,45 +443,44 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason) {
 
 extern "C" {
 
-void run_task__12TObjEneReconFPvi(u8 *target, s32 reason);
 
-void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
-    saddr entity;
+void TObjEneRecon::sub_8031C7BC(s32 reason) {
+    TObjEneRecobox *box;
 
     switch (reason) {
     case 4:
-        ((TObjEneRecon *)target)->requested_action = 1;
-        ((TObjEneRecon *)target)->clear_intangible();
-        *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) & 0xFFFFFFFE);
-        *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 2);
-        ((TObjEneRecon *)target)->actorFlags = (s32) (((TObjEneRecon *)target)->actorFlags | 0x01000000);
-        ((TObjEneRecon *)target)->fade.reset_color();
-        create_timed_particle_emitter((target + 0x38), 0x79, 0, 0xF);
+        requested_action = 1;
+        clear_intangible();
+        recon_flags &= ~1;
+        recon_flags |= 2;
+        actorFlags |= 0x01000000;
+        fade.reset_color();
+        create_timed_particle_emitter(&position, 0x79, 0, 0xF);
         return;
     case 3:
-        entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)target + 0x434)));
-        if (entity == 0) {
-            ((TObject *)target)->queue_destruction();
+        box = (TObjEneRecobox *)find_entity_by_id(owner_id);
+        if (box == NULL) {
+            queue_destruction();
             return;
         }
-        if (((TObjEneRecobox *)entity)->is_anim_6() == 1) {
-            ((TObjEneDD *)target)->transition_enemy_state(7);
+        if (box->is_anim_6() == 1) {
+            transition_enemy_state(7);
             return;
         }
-        if (((TObjEneRecon *)target)->fade.decay_value_toward_floor() != 0) {
-            *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 1);
-            ((TObjEneRecobox *)entity)->remove_tracked_target((TObjEneRecon *)target);
-            ((TObject *)target)->queue_destruction();
+        if (fade.decay_value_toward_floor() != 0) {
+            recon_flags |= 1;
+            box->remove_tracked_target(this);
+            queue_destruction();
         }
     case 5:
         return;
     case 0:
-        ((TObjMotion *)target)->advance_animation();
-        ((TObjEneDD_ST *)target)->update_velocity();
-        ((TObjEneRecon *)target)->update_body_colliders();
-        ((TObjEneRecon *)target)->clamp_min_height();
-        ((TObjEneDD *)target)->transform_part_positions();
-        ((TObjEneRecon *)target)->spawn_trap_b();
+        advance_animation();
+        update_velocity();
+        update_body_colliders();
+        clamp_min_height();
+        transform_part_positions();
+        spawn_trap_b();
         break;
     }
 }
@@ -1290,8 +1287,8 @@ void TObjEneRecon::init_state() {
     *(f32 *)((s8 *)self + 0x464) = (f32) ((2.0f * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 15.0f);
     *(f32 *)((s8 *)self + 0x468) = (f32) ((5.0f * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 50.0f);
     *(s32 *)((s8 *)self + 0x474) = 0;
-    *(s32 *)((s8 *)self + 0x478) = 0;
-    *(s32 *)((s8 *)self + 0x47C) = 0;
+    emitter = NULL;
+    emitter_side = 0;
     *(s32 *)((s8 *)self + 0x418) = 0;
     VecCopy((Vec *)(self + 0x41C), (const Vec *)(self + 0x38));
     ((TObjEneRecon *)self)->fade.reset_color();
@@ -1326,80 +1323,76 @@ void TObjEneRecon::init_state() {
 TObjEneRecon::~TObjEneRecon() {
     this->send_entity_set_flags();
     free_collision_body_parts(this);
-    if (m_478 != NULL) {
-        m_478->queue_destruction();
-        m_478 = NULL;
+    if (emitter != NULL) {
+        emitter->queue_destruction();
+        emitter = NULL;
     }
 }
 
 
-void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
-    f32 temp_f2;
-    f32 temp_f31;
-    f32 var_f30;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    saddr entity;
-    u8 *temp_r3_2;
-    u8 *temp_r3_3;
-    u8 *temp_r3_4;
+void TObjEneRecon::run_task() {
+    f32 dz;
+    f32 dx;
+    f32 side;
+    s16 m;
+    TObjEneRecobox *owner;
+    TParticleCtrl *e;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneRecon *)(ene_recon))->run_demo_task();
+        run_demo_task();
         return;
     }
-    entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));
-    if ((entity == 0) || (((TObject *)entity)->all_parents_unqueued_for_destruction() == 0)) {
-        ene_recon->queue_destruction();
+    owner = (TObjEneRecobox *)find_entity_by_id(owner_id);
+    if (owner == NULL || owner->all_parents_unqueued_for_destruction() == 0) {
+        queue_destruction();
         return;
     }
-    temp_r0 = ene_recon->mode;
-    if ((temp_r0 != 8) && (temp_r0 != 7) && (((TObjEneRecobox *)entity)->is_anim_6() == 1)) {
-        ene_recon->m_2dc = (s32) (ene_recon->m_2dc | 4);
-        ((TObjPlayer *)ene_recon)->set_hp_clamped(0);
-        obj_setFlags30(ene_recon, 0xA00U);
-        ((TObjEneRecon *)(ene_recon))->vfunc_74(0);
+    m = mode;
+    if (m != 8 && m != 7 && owner->is_anim_6() == 1) {
+        m_2dc = (s32)(m_2dc | 4);
+        ((TObjPlayer *)this)->set_hp_clamped(0);
+        obj_setFlags30(this, 0xA00U);
+        vfunc_74(0);
     }
-    if (((TObjEneRecon *)(ene_recon))->update_status_effects() != 4) {
-        ((TObjEneRecon *)(ene_recon))->update_action_state();
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)ene_recon + 0x478));
-        if (temp_r3_2 == NULL) {
-            *(u8 **)((s8 *)ene_recon + 0x478) = (u8 *)create_particle_emitter((u8 *)ene_recon + 0x2FC, 0x217);
-            temp_r3_3 = (u8 *)(*(u8 **)((s8 *)ene_recon + 0x478));
-            if (temp_r3_3 != NULL) {
-                ((TParticleCtrl *)temp_r3_3)->enable();
+    if (update_status_effects() != 4) {
+        update_action_state();
+        e = emitter;
+        if (e == NULL) {
+            emitter = create_particle_emitter(&body_center, 0x217);
+            if (emitter != NULL) {
+                emitter->enable();
             }
         } else {
-            temp_r0_2 = ene_recon->mode;
-            if ((temp_r0_2 == 8) || (temp_r0_2 == 7)) {
-                ((TParticleCtrl *)temp_r3_2)->enable();
+            m = mode;
+            if (m == 8 || m == 7) {
+                e->enable();
             } else {
-                if ((s32) *(s32 *)((s8 *)ene_recon + 0x47C) == 0) {
-                    var_f30 = 3.0f;
-                    *(s32 *)((s8 *)ene_recon + 0x47C) = 1;
+                if (emitter_side == 0) {
+                    side = 3.0f;
+                    emitter_side = 1;
                 } else {
-                    var_f30 = -3.0f;
-                    *(s32 *)((s8 *)ene_recon + 0x47C) = 0;
+                    side = -3.0f;
+                    emitter_side = 0;
                 }
                 if (TObjEneDD::check_v2_mode() != 0) {
-                    var_f30 *= 3.0f;
+                    side *= 3.0f;
                 }
-                temp_f31 = var_f30 * cos_table_lookup(ene_recon->rotation_y);
-                temp_f2 = var_f30 * -sin_table_lookup(ene_recon->rotation_y);
-                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x60) = (f32) (ene_recon->body_center.x + temp_f31);
-                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x64) = (f32) (-1.5f + ene_recon->body_center.y);
-                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x68) = (f32) (ene_recon->body_center.z + temp_f2);
+                dx = side * cos_table_lookup(rotation_y);
+                dz = side * -sin_table_lookup(rotation_y);
+                emitter->position.x = body_center.x + dx;
+                emitter->position.y = -1.5f + body_center.y;
+                emitter->position.z = body_center.z + dz;
             }
         }
     } else {
-        temp_r3_4 = (u8 *)(*(u8 **)((s8 *)ene_recon + 0x478));
-        if (temp_r3_4 != NULL) {
-            ((TParticleCtrl *)temp_r3_4)->enable();
+        e = emitter;
+        if (e != NULL) {
+            e->enable();
         }
     }
-    ene_recon->update_position_from_offsets();
-    ((TObjEnemy *)ene_recon)->submit_default_cursor_candidate();
-    ((TObjEneRecon *)(ene_recon))->render_minimap_dot();
-    ene_recon->update_ground_probe();
+    update_position_from_offsets();
+    submit_default_cursor_candidate();
+    render_minimap_dot();
+    update_ground_probe();
 }
 
 void TObjEneRecon::dispatch_action(u32 state, s32 reason) {
@@ -1420,13 +1413,13 @@ void TObjEneRecon::dispatch_action(u32 state, s32 reason) {
         TObjEneRecon__sub_8031C920((u8 *)this, reason);
         return;
     case 6:
-        TObjEneRecon__sub_8031C624((u8 *)this, reason);
+        sub_8031C624(reason);
         return;
     case 7:
-        TObjEneRecon__sub_8031C364((u8 *)this, reason);
+        sub_8031C364(reason);
         return;
     case 5:
-        run_task__12TObjEneReconFPvi((u8 *)this, reason);
+        sub_8031C7BC(reason);
         return;
     case 8:
         handle_message(reason);

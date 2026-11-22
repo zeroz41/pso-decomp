@@ -5,6 +5,7 @@
 
 struct NJS_OBJECT;
 struct TObjEneRecobox;
+class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 
@@ -20,6 +21,9 @@ struct TObjEneRecon : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void update_flag_0x444();
     void sub_8031D4B0(s32);
+    void sub_8031C364(s32 reason);
+    void sub_8031C624(s32 reason);
+    void sub_8031C7BC(s32 reason);
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
@@ -44,7 +48,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static void load_resources();
     void*get_field_38_ptr();
     s32 calc_scaled_value();
-    void handle_message(s32 arg1);
+    void handle_message(s32 message);
     void retarget();
     void select_next_target();
     void update_collide_flag();
@@ -53,21 +57,27 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void advance_field398();
     void sync_height();
 
-    u8 pad_3C0[0x58];
+    s32 state_step;               // step inside the current action state
+    u8 pad_3C4[0x1C];
+    f32 rise_speed;               // vertical speed added to hover_height while knocked back (gravity 0.1)
+    f32 move_speed;               // horizontal speed: length of velocity, decays by 0.98
+    u8 pad_3E8[0x30];
     s32 floor_flags;              // flags of the floor under it (update_ground_probe); 0x4000 = reflective
     Vec floor_point;              // that floor point
     Vec spawn_direction;          // the box's launch direction (ctor)
     u16 owner_id;                 // entity id of the TObjEneRecobox that spawned it
     u8 pad_436[0x2];
     Vec owner_position;           // where that box stood at the spawn
-    u32 m_444;
-    u8 pad_448[0x18];
+    u32 recon_flags;              // bit 1: done for (exploded, faded out or let go by its box)
+    f32 hover_height;
+    Vec velocity;                 // xz drift of the knockback (normalize_vector_xz)
+    u8 pad_458[0x8];
     f32 offset_max;               // orbit height over the box: 45 + 2x + the box's recon_offset_max
     f32 pad_464;
     f32 rotate_rad;               // orbit radius: 50 + 5x + the box's recon_rotate_rad
     u8 pad_46C[0xC];
-    TObject *m_478;
-    u8 pad_47C[0x4];
+    TParticleCtrl *emitter;       // particle emitter 0x217 trailing the body
+    s32 emitter_side;             // flips each frame: the emitter swings 3 units to either side
     TUnk_80494938 fade;
     u8 pad_49C[0x34];
     f32 m_4d0;
