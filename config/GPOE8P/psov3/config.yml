@@ -1072,7 +1072,7 @@ force_active:
   - run_demo_task__13TObjEneBm3FlyFv
   - render_demo__13TObjEneBm3FlyFv
   - dispatch_action__13TObjEneBm3FlyFUll
-  - TObjEneBm5GibonU__ct
+  - __ct__16TObjEneBm5GibonUFP7TObjectPv
   - TObjEneBm5GibonU__data_80500E78
   - TObjEneBm5GibonU__data_805DA158
   - TObjEneBm5GibonU__data_805DA160
@@ -1117,8 +1117,8 @@ force_active:
   - sub_800D095C__16TObjEneBm5GibonUFlUs
   - sub_800D0968__16TObjEneBm5GibonUFi
   - sub_800D0AE8__16TObjEneBm5GibonUFP3Vec
-  - TObjEneBm5GibonU__sub_800D13B8
-  - TObjEneBm5GibonU__sub_800D1CF8
+  - __dt__16TObjEneBm5GibonUFv
+  - __ct__20TObjEneBm5GibonUNodeFv
   - sub_800D1D70__16TObjEneBm5GibonUFv
   - sub_800D1D78__16TObjEneBm5GibonUFv
   - TObjEneBm5Wolf__bml_resource
@@ -2689,7 +2689,7 @@ force_active:
   - __dt__16TObjCurtainLobbyFv
   - __dt__16TObjDFBeamCursorFv
   - __dt__16TObjDFTenchuFuruFv
-  - __dt__16TObjEneBm5GibonUFis
+  - __dt__20TObjEneBm5GibonUListFv
   - __dt__16TObjEneDellBiterFv
   - __dt__16TObjEneMerillLiaFv
   - __dt__16TObjEneMorfosArmFv
@@ -5644,7 +5644,7 @@ force_active:
   - __dt__22TObjEneBm5WolfListNodeFv
   - __dt__15TORockJungleL01Fv
   - destroy__15TWindowHelpItemFPvs
-  - destroy__16TObjEneBm5GibonUFls
+  - __dt__20TObjEneBm5GibonUNodeFv
   - destroy__16TObjOnlineEndingFPvs
   - __dt__19TBoss8DragonColli_CFv
   - destroy__17TWindowDD_WS_WordFs
@@ -6471,7 +6471,7 @@ force_active:
   - format_trade_out_of_range_message__Fl
   - forward_card_at_1c__11TWindowChatFv
   - forward_chg_game_mode__17TAdEnterPPPPassGCFPv
-  - forward_hit__16TObjEneBm5GibonUFPv
+  - remove__20TObjEneBm5GibonUListFP20TObjEneBm5GibonUNode
   - forward_hit_to_enemy_list__16TObjEneBm5GibonUFv
   - forward_hit_to_node_list__16TObjEneBm5GibonUFv
   - forward_return_arg__17TWindowSubComCardFi
@@ -7035,7 +7035,7 @@ force_active:
   - init_charge_attack__11TBoss6Type1Fv
   - init_check__18TCheckRoomSequenceFUi
   - init_check_params__18TCheckRoomSequenceFUi
-  - init_child__16TObjEneBm5GibonUFPv
+  - append__20TObjEneBm5GibonUListFP20TObjEneBm5GibonUNode
   - init_child_from_list__16TObjEneBm5GibonUFv
   - init_child_node__16TObjEneBm5GibonUFv
   - init_child_params__13TObjEneBm3FlyFv
@@ -7810,7 +7810,7 @@ force_active:
   - lbl_80493DA0
   - lbl_80493DB0
   - lbl_80493DE4
-  - lbl_80493F04
+  - __vt__16TObjEneBm5GibonU
   - lbl_804944D0
   - lbl_804944DC
   - lbl_80494520
@@ -13872,7 +13872,7 @@ force_active:
   - push_attack_target_entry__FP13PointerBufferPv
   - push_key_to_buffer__16KeyboardKeyStateFUc
   - push__22TObjEneBm5WolfListNodeFPP22TObjEneBm5WolfListNodePP22TObjEneBm5WolfListNode
-  - push_list_node__16TObjEneBm5GibonUFPPvPPv
+  - append_to__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
   - push_material_color_override__10TObjPlayerFffff
   - push_model_fade_color__10TObjPlayerFv
   - push_nearby_players__15TBoss3VoloptP01Fv
@@ -14592,7 +14592,7 @@ force_active:
   - reset__14TBoss2TentacleFv
   - reset__14TItemEquipBaseFv
   - reset__18TObjEneBm5WolfListFv
-  - reset__16TObjEneBm5GibonUFv
+  - reset__20TObjEneBm5GibonUListFv
   - reset__21TObjEneRe7BeruraPunchFv
   - reset__6TLobbyFi
   - reset__8TGStreamFv
@@ -14621,7 +14621,7 @@ force_active:
   - reset_fields_8c__10TNpcPlayerFv
   - reset_fields__10TItemTimerFv
   - clear__18TObjEneBm5WolfListFv
-  - reset_fields__16TObjEneBm5GibonUFv
+  - clear__20TObjEneBm5GibonUListFv
   - reset_fish_fields__11TBoss6Type2Fv
   - reset_global__6TLobbyFv
   - reset_globals__15TObjEneDelDepthFv
@@ -15470,7 +15470,7 @@ force_active:
   - set_field48_clear_global__13TAdVIConfigGCFv
   - set_field4__6TSceneFv
   - set_entity__22TObjEneBm5WolfListNodeFP8TObjBase
-  - set_field8_from_obj__16TObjEneBm5GibonUFl
+  - set_owner__20TObjEneBm5GibonUNodeFP16TObjEneBm5GibonU
   - set_field90__15TPlyPhotonChairFl
   - set_field_100__11TCameraCtrlFl
   - set_field_4__6TLobbyFl
@@ -16630,7 +16630,7 @@ force_active:
   - ultimate_area_gsl_filename_table
   - unicode_to_UTF8
   - unlink__22TObjEneBm5WolfListNodeFPP22TObjEneBm5WolfListNodePP22TObjEneBm5WolfListNode
-  - unlink_list_node__16TObjEneBm5GibonUFPPPvPPv
+  - unlink_from__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
   - unload_floor_resources__Fl
   - unload_texture__12TItemTexLoadFv
   - unmount_card_and_clear_flags__15TAdPlayerLoadGCFll

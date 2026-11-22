@@ -10,6 +10,7 @@ struct NJS_OBJECT;
 #include "pso/render/TUnk_80494938.h"
 
 struct TObjPlayer;
+struct TObjEneBm5GibonU;
 
 struct TObjEneBm5GibonUMovementParameters {
     f32 range;
@@ -20,30 +21,44 @@ struct TObjEneBm5GibonUMovementParameters {
 
 // A link in one of the Gibbon lists, tagged with its owner's entity id.
 struct TObjEneBm5GibonUNode {
+    TObjEneBm5GibonUNode();
+    ~TObjEneBm5GibonUNode();
+    TObjEneBm5GibonU *get_owner();
+    void set_owner(TObjEneBm5GibonU *owner);
+    void append_to(TObjEneBm5GibonUNode **head, TObjEneBm5GibonUNode **tail);
+    void unlink_from(TObjEneBm5GibonUNode **head, TObjEneBm5GibonUNode **tail);
+
     TObjEneBm5GibonUNode *prev;
     TObjEneBm5GibonUNode *next;
     u16 entity_id;
 };
 
 struct TObjEneBm5GibonUList {
+    TObjEneBm5GibonUList *reset();
+    ~TObjEneBm5GibonUList();
+    void clear();
+    void append(TObjEneBm5GibonUNode *node);
+    void remove(TObjEneBm5GibonUNode *node);
+
     TObjEneBm5GibonUNode *head;
     TObjEneBm5GibonUNode *tail;
 };
 
 struct TObjEneBm5GibonU : public TObjEneDD_ST {
+    TObjEneBm5GibonU(TObject *parent, void *set_data);
     virtual ~TObjEneBm5GibonU();
-    void sub_800D10A0();
     virtual void run_task();
     virtual void render();
+    virtual void refresh_target();
+    virtual void run_miss_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
     virtual void run_demo_task();
     virtual void render_debug();
+    void sub_800D10A0();
     void update_center_position();
-    void run_death_reaction();
-    void run_hit_reaction();
-    void run_miss_reaction();
-    void refresh_target();
     TObjEneBm5GibonUNode m_3c0;
     TObjEneBm5GibonUNode m_3cc;
     TUnk_80494938 m_3d8;
@@ -93,14 +108,6 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     static void release_static_resource();
     static void *create(void *set_data);
     static void load_resources();
-    void forward_hit(void* a1);
-    void init_child(void* a1);
-    void reset_fields();
-    void*reset();
-    void set_field8_from_obj(s32 arg1);
-    void push_list_node(void **head, void **tail);
-    void unlink_list_node(void ***head, void **tail);
-    static s32 destroy(s32 arg0, s16 arg1);
     static void register_global_objects();
     s32 get_clamped_level();
     s32 check_hit_sphere(int angle, f32 scale);
@@ -127,7 +134,6 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void pick_wander_destination();
     void turn_toward_angle(s32 angle);
     static TObjEneBm5GibonU *find_enemy_by_id(s32 id);
-    void *update_photon_mylla();
     void sub_800CCD8C();
     void sub_800CCDE4();
     void sub_800CCE28();
@@ -163,11 +169,5 @@ LAYOUT_ASSERT(TObjEneBm5GibonU_m_3d8, offsetof(TObjEneBm5GibonU, m_3d8) == 0x3D8
 LAYOUT_ASSERT(TObjEneBm5GibonU_m_464, offsetof(TObjEneBm5GibonU, m_464) == 0x464);
 LAYOUT_ASSERT(TObjEneBm5GibonU_m_564, offsetof(TObjEneBm5GibonU, m_564) == 0x564);
 
-extern "C" {
-TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, saddr set_data);
-void render__16TObjEneBm5GibonUFv(u8 *arg0);
-void run_task__16TObjEneBm5GibonUFv(u8 *arg0);
-s32 __dt__16TObjEneBm5GibonUFis(s32 arg0, s16 arg1);
-}
 
 #endif
