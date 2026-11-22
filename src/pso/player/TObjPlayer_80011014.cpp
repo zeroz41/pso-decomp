@@ -4177,7 +4177,7 @@ void TObjChara::spend_photon_blast_charge(f32) {  }
 
 void TObjChara::gain_photon_blast_chain_charge() {  }
 
-void TObjChara::vfunc_78(s32) {  }
+void TObjChara::vfunc_78(saddr) {  }
 
 #pragma push
 #pragma opt_pointer_analysis on

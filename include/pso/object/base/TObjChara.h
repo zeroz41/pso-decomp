@@ -119,7 +119,7 @@ public:
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
     virtual void spend_photon_blast_charge(f32 charge);
     virtual void gain_photon_blast_chain_charge();
-    virtual void vfunc_78(s32);
+    virtual void vfunc_78(saddr);
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();

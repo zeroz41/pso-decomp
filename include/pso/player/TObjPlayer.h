@@ -84,7 +84,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
-    virtual void vfunc_78(s32);
+    virtual void vfunc_78(saddr);
     virtual s32 vfunc_79();
     void set_floor(s32);
     void set_input_mode(s32);
@@ -129,7 +129,7 @@ struct TObjPlayer : public TObjChara {
         u8 bindings[2][4][4];
     };
 
-    u32 find_revival_item();
+    void *find_revival_item();
     void request_inventory_item(TItemData* item);
     ActionPalette* select_action_palette(int secondary);
     s32 add_meseta(s32 amount);
@@ -1311,7 +1311,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_outside_movement_hold(f32 *pos);
     static s32 draw_small_font(saddr arg0, void * _w1);
     static void send_code_45_1(saddr player);
-    static void play_effect_default(int player, int effect);
+    static void play_effect_default(saddr player, int effect);
     static void play_effect(saddr arg0, s32 arg1, s32 arg2);
     s32 get_clamped_index();
     void apply_input_mode();
@@ -1327,7 +1327,7 @@ struct TObjPlayer : public TObjChara {
     static void refresh_party_cursors(saddr arg0);
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 arg4, s32 arg5);
     void select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
-    s32 refresh_effect();
+    saddr refresh_effect();
     void update_ground_contact();
     s32 check_actor_blocking_move();
     saddr resolve_move_collision();
@@ -1444,7 +1444,7 @@ struct TObjPlayer : public TObjChara {
     void build_6xAE_set_animation_state_packet();
     void bswap_pkt_u32x5();
     void init_cmd_6x20();
-    void send_player_floor_packet(void* a1);
+    void send_player_floor_packet(u32 client);
     void send_player_floor_packet_u32x5();
     void bswap_set_floor_packet();
     void*handle_6x1F_set_floor(void* a1);

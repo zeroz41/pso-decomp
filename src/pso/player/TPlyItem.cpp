@@ -124,7 +124,7 @@ typedef struct Node_801D56D0 {
     struct Node_801D56D0 *child;
 } Node_801D56D0;
 extern "C" {
-s32 __construct_new_array(void *, void *, int, int, int);
+void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
 int is_quest_active(void);
@@ -456,7 +456,7 @@ int TPlyItem::apply_shop_judgment(void *owners) { player_owner_collect_cursor = 
 
 int TPlyItem::count_matching_items(void *owners) { player_owner_collect_cursor = (s32 *)owners; inventory_walk_visit_count = 0; this->pad_1C4->collect_item_owners_recursive(); return inventory_walk_visit_count; }
 
-int TLobby::set_globals_and_notify(int a1, int a2) { player_item_collect_cursor = (u8 *)a2; inventory_walk_visit_count = 0; TObjPlayer__sub_801D52A8((TObject *)(*(saddr *)((char*)this + 0x1c4))); return inventory_walk_visit_count; }
+int TLobby::set_globals_and_notify(TObjPlayer *player, void *records) { player_item_collect_cursor = (u8 *)records; inventory_walk_visit_count = 0; TObjPlayer__sub_801D52A8((TObject *)(*(saddr *)((char*)this + 0x1c4))); return inventory_walk_visit_count; }
 
 void TLobby::set_globals_and_update(int a1, int a2) { item_reduce_target_player = a1; item_reduce_owner_match_field_ec = a2; ((TLobby *)(*(saddr *)((char*)this + 0x1c4)))->reduce_child_item_amounts(); }
 
@@ -559,7 +559,7 @@ s32 TPlyItem::update_inventory_item(saddr player, s32 arg2, saddr pos, s32 arg4,
 
 int TPlyItem::run_state_query(int a1) { owned_item_export_cursor = a1; inventory_walk_visit_count = 0; this->pad_1C4->count_owned_items(); return inventory_walk_visit_count; }
 
-int TPlyItem::run_and_get_result(int a1) { TObjPlayer__owner_field_write_cursor = (s32 *)a1; inventory_walk_visit_count = 0; this->pad_1C4->collect_owner_fields_recursive(); return inventory_walk_visit_count; }
+int TPlyItem::run_and_get_result(saddr ids) { TObjPlayer__owner_field_write_cursor = (s32 *)ids; inventory_walk_visit_count = 0; this->pad_1C4->collect_owner_fields_recursive(); return inventory_walk_visit_count; }
 
 s32 TObjPlayer__sub_801D47EC(saddr ply_item, s32 key, s32 arg2) {
     TItemList *node_a;
@@ -617,7 +617,7 @@ u8 *TObjPlayer__sub_801D46D4(u8 *arg0, s32 arg1) {
     s32 n;
     *(s32 *)arg0 = arg1;
     n = *(s32 *)arg0;
-    *(s32 *)(arg0 + 4) = __construct_new_array(mem_alloc((n * 8 + 0x10)), TObjPlayer__sub_801D4730, 0, 8, n);
+    *(void **)(arg0 + 4) = __construct_new_array(mem_alloc((n * 8 + 0x10)), TObjPlayer__sub_801D4730, 0, 8, n);
     return arg0;
 }
 
@@ -1024,9 +1024,9 @@ struct Ent_801D5854 { u8 d[0x1C]; };
 struct Obj_801D5854 { u8 pad[0xA8]; Ent_801D5854 arr[1]; };
 
 extern "C" {
-s32 TItemList__sub_801D5868(Arr_801D5868 *, s32);
+s32 *TItemList__sub_801D5868(Arr_801D5868 *, s32);
 Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i);
-s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
+Ent_801D598C *TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
 int copy_from__9TItemDataFP9TItemData(void*);
 }
 
@@ -1049,15 +1049,15 @@ Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i) {
     return &p->arr[i];
 }
 
-s32 TItemList__sub_801D5868(Arr_801D5868 *list, s32 arg1) {
-    return (saddr)&list->e[arg1];
+s32 *TItemList__sub_801D5868(Arr_801D5868 *list, s32 arg1) {
+    return &list->e[arg1];
 }
 
 void* get_ptr_0x44__9TItemListFPv(void* p) { return (char*)p + 0x44; }
 void TUnk_804C4498::sub_801D5884(u8 v) { this->ring = v; }
 
 void TItemList::lookup_entry_by_count(saddr list) {
-    TItemList__sub_801D58C8((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)(list), (s8)(get_item_count())))));
+    TItemList__sub_801D58C8(TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)get_item_count()));
 }
 
 void TItemList__sub_801D58C8(void* p) { *(s32*)((char*)p + 0x0) = 3; }
@@ -1069,16 +1069,16 @@ void *TItemList::run_item_count_update() {
 }
 
 void TUnk_804C4468::sub_801D591C() {
-    copy_position__9TItemListFPv((void *)TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
+    copy_position__9TItemListFPv(TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
 }
 
 void copy_position__9TItemListFPv(void *p, const Vec *v) { VecCopy((Vec *)((char *)p + 0x4), v); }
 
-s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
-    return (saddr)&arg0->e[arg1];
+Ent_801D598C *TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
+    return &arg0->e[arg1];
 }
 void TItemList__sub_801D59A0(TItemList *item_list, saddr list) {
-    TItemList__sub_801D59DC((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)item_list->get_item_count()))));
+    TItemList__sub_801D59DC(TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)item_list->get_item_count()));
 }
 
 void TItemList__sub_801D59DC(void* p) { *(s32*)((char*)p + 0x0) = 2; }
@@ -1095,13 +1095,13 @@ void TItemList__sub_801D5A0C(s32 *arg0) {
 }
 
 void clear_placement_search_slot(TItemList *item_list, saddr list) {
-    TItemList__sub_801D5A64((void*)(TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)item_list->get_item_count())));
+    TItemList__sub_801D5A64(TItemList__sub_801D5868((Arr_801D5868 *)list, (s8)item_list->get_item_count()));
 }
 
 void TItemList__sub_801D5A64(void* p) { *(s32*)((char*)p + 0x0) = 0; }
 
 void TUnk_804C4480::sub_801D5A70() {
-    copy_position__9TItemListFPv((void *)TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
+    copy_position__9TItemListFPv(TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
 }
 
 s32 TItemList::is_item_valid(saddr arg0) {

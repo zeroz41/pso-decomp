@@ -8,6 +8,7 @@
 #include "pso/item/TItemData.h"
 
 struct NJS_TEXLIST;
+class TObjPlayer;
 s32 pso_load_texture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
@@ -281,7 +282,7 @@ struct TLobby : public TObject {
     void reduce_item_amount(s32 arg1, saddr node, s32 arg3);
     s32 use_item(saddr player, s32 arg2, s32 amount);
     void set_globals_and_update(int a1, int a2);
-    int set_globals_and_notify(int a1, int a2);
+    int set_globals_and_notify(TObjPlayer *player, void *records);
     void update_all_children();
     void set_volume(u8 vol);
     void set_validated_field_0x11(u8 arg1);
