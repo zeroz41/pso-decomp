@@ -1334,7 +1334,7 @@ __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 
 s32 release_texture_list(void*);
 }
-u8 *load_gvm_texture_file(saddr arg0);
+u8 *load_gvm_texture_file(saddr name);
 extern s32 game_difficulty_selection;
 extern s32 TLobby__event_theme_id;
 

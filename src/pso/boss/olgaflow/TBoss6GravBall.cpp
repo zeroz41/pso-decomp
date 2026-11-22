@@ -123,7 +123,7 @@ f32 vector_length(void *);
 void subtract_vector(void *, void *);
 
 
-void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0);
+void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball);
 s32 project_actor_to_ground(void *, void *, int);
 
 

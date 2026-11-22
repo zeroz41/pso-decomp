@@ -195,7 +195,7 @@ s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void *create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
 s32 TBoss4Type3__sub_8005254C(u16);
-void TBoss4Type2__sub_80053504(TBoss4Type1 *arg0);
+void TBoss4Type2__sub_80053504(TBoss4Type1 *boss4_type2);
 void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in);
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
@@ -209,7 +209,7 @@ void vec3_add_to(Vec *, Vec *);
 void subtract_vector(Vec *, Vec *);
 int post_translate_matrix(void*);
 f32 xyz_distance(Vec *, Vec *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 Vec TBoss4Type2__tenchu_furu_array[64];

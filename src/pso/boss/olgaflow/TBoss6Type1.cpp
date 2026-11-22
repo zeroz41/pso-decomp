@@ -308,7 +308,7 @@ void vec3_cross(void *, void *, void *);
 f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody lbl_804DF4E0[7] = {
     {{0.0f, 0.0f, 0.0f}, 35.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -371,7 +371,7 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *, f32);
 
 }
 
-void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 
 
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };

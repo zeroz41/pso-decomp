@@ -122,7 +122,7 @@ extern "C" {
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 
 
-void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 reason);
+void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 reason);
 
 extern s32 TObjEneRe4Sorcerer__render_node_index;
 
@@ -141,7 +141,7 @@ extern const f32 lbl_805D9E88;
 
 u16 get_entity_id(TObjBase *object);
 
-s32 *csnLookAt(s32 arg0, s32 arg1);
+s32 *csnLookAt(s32 from, s32 to);
 
 
 

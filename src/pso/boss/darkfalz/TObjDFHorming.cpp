@@ -357,8 +357,8 @@ extern s32 game_difficulty_selection;
 void reset_cameras_to_actor(void *, s32);
 
 extern "C" {
-void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *arg0);
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
+void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz);
+void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
 int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
 s32 is_local_client_floor_leader();
 s32 get_main_phase();
@@ -782,7 +782,7 @@ s32 restore_player_cameras();
 extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
-void *fn_8030A83C(void *arg0);
+void *fn_8030A83C(void *parent);
 s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 s32 __ct__11TObjControlFP7TObject(s32, s32);

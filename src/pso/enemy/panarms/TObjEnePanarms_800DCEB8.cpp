@@ -204,14 +204,14 @@ s32 subtract_vector(void *, void *);
 s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy);
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *pos);
+s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos);
 int TObjEnePanarms__sub_800DFBC4(void *p);
 void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
 
 

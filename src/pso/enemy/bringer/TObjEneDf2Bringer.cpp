@@ -33,7 +33,7 @@
 
 extern "C" {
 s32 post_translate_matrix(void *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 
 }

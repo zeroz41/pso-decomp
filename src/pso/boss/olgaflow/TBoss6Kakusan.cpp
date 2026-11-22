@@ -66,7 +66,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 const char *TBoss6Kakusan__name = "TBoss6Kakusan";
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);

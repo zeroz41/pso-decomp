@@ -150,7 +150,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void set_state_flag(TObjChara *target, s32 arg2);
     void update();
     void sub_800C9580(s32 mode);
-    void sub_800C96B4(s32 arg1);
+    void sub_800C96B4(s32 mode);
     void sub_800C9964(s32 mode);
     void sub_800C9A94(s32 mode);
     void sub_800C9DF8(s32 mode);

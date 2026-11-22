@@ -1032,7 +1032,7 @@ void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFa
 
 void release_all_players_control_lock(void);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self);
-void TBoss6PlotFalz__sub_802AC724(u8 *arg0, void *arg1);
+void TBoss6PlotFalz__sub_802AC724(u8 *player, void *pos);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
     void *p;

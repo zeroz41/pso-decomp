@@ -102,7 +102,7 @@ struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec pos; u8 
 extern "C" {
 __declspec(section ".rodata") Pair_800E3374 lbl_8043CDF0[] = { 0 };
 __declspec(section ".rodata") Pair_800E32C0 lbl_8043CDF8[] = { 0 };
-void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
+void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
 void check_radius_collisions(Obj_800E35C8 *target);

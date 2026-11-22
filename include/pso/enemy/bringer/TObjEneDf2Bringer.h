@@ -64,7 +64,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     s32 sub_80099248();
     void update_attack_child();
     void init_enemy();
-    static void set_entry_value_clamped(s32 arg0, f32 farg0);
+    static void set_entry_value_clamped(s32 index, f32 farg0);
     static void free_resources();
     void *create();
     static void load_resources();

@@ -70,7 +70,7 @@ u8 *get_scripted_camera_playback(s16);
 void TObjPlayer__sub_801BA42C(void);
 u8 *get_player_by_client_id(s32);
 extern u8 identity_matrix[];
-void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
+void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *arg4);
 }
 
 void reset_status_effect_row(u8 *row);

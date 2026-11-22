@@ -141,7 +141,7 @@ void copy_pos__13TBoss6MagMineFi(s32 arg0);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 int rotate_matrix_y(void*, void*);
 
 void TUnk_804F322C::run_death_reaction() {

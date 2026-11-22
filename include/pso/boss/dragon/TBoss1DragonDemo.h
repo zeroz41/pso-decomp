@@ -15,7 +15,7 @@ public:
 extern "C" {
 void TBoss1DragonDemo__sub_8002B68C(void);
 void TBoss1DragonDemo__sub_8002B690(void);
-u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, saddr parent, s32 demo, f32 farg0);
+u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0);
 }
 
 // --- C functions defined in TBoss1DragonDemo.cpp ---

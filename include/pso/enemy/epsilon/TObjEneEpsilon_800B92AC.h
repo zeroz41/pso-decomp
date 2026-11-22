@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
-void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
+void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0);
+void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 scale);
 int acquire_target__12TObjEneDD_STFf(void *p);
 }

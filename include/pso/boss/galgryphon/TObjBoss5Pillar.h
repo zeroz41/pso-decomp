@@ -26,7 +26,7 @@ struct TObjBoss5Pillar : public TObject {
 LAYOUT_ASSERT(TObjBoss5Pillar_size, sizeof(TObjBoss5Pillar) == 0x4C);
 
 extern "C" {
-u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *arg0, u8 *parent, u8 *arg2);
+u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *boss5_pillar, u8 *parent, u8 *arg2);
 void *__dt__15TObjBoss5PillarFv(void *arg0, s16 arg1);
 }
 

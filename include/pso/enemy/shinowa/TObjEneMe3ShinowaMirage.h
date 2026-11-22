@@ -30,7 +30,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     void clear_mirage();
     void set_flag_0x100();
     void init_mirage();
-    void activate_mirage(s32 arg1);
+    void activate_mirage(s32 index);
     void run_task();
     TObjEneMe3ShinowaMirage *create(void *entity_id, void *set_index);
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);

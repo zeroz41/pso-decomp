@@ -13,7 +13,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u16 get_entity_id(void *);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
-void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
+void *__dt__15TObjIllGillKageFv(void *base, s16 arg1);
 
 void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 

@@ -200,7 +200,7 @@ TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
     m_1c = 0;
 }
 
-u8 *load_gvm_texture_file(saddr arg0);
+u8 *load_gvm_texture_file(saddr name);
 extern "C" {
 s32 release_texture_list(void*);
 }

@@ -6,7 +6,7 @@
 
 extern "C" {
 
-void * TObjNpcAHM01__create(void *arg0);
+void * TObjNpcAHM01__create(void *set_data);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 }

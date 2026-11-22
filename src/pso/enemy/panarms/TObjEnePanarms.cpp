@@ -220,8 +220,8 @@ s32 is_split_screen();
 f64 atan2_float(f32, f32, f32);
 u32 csnLookAt(void *, void *);
 s32 update__15RenderFadeStateFv(int, int);
-s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1);
-void calc_default_part_position__14TObjEnePanarmsFPv(u8 *arg0);
+s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *player, Vec_800E18B0 *arg1);
+void calc_default_part_position__14TObjEnePanarmsFPv(u8 *ene_pan_bara);
 void calc_part_position__14TObjEnePanBARAFPUcPl(u8 *arg0, u8 *arg1, s32 *arg2);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 int TObjEnePanarms__sub_800E1D94(void* p);
@@ -234,7 +234,7 @@ s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self);
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
 void submit_cursor_candidate(void *, s32);

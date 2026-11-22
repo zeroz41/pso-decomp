@@ -81,13 +81,13 @@ LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, m_3ec) == 0x3EC);
 
 extern "C" {
-void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 ev);
+void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 ev);
 void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 ev);
-void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 ev);
-void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 ev);
-void TObjEneMorfos__sub_80333E48(u8 *arg0, s32 ev);
-void TObjEneMorfos__sub_80334030(u8 *arg0, s32 ev);
-void TObjEneMorfos__sub_803342B8(u8 *arg0, s32 ev);
+void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 ev);
+void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 ev);
+void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 ev);
+void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 ev);
+void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 ev);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
 int TObjEneMorfos__sub_80334704(void);
 void state_rotating_projectile_burst__13TObjEneMorfosFl(u8 *arg0, s32 arg1);

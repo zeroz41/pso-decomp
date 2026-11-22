@@ -56,7 +56,7 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void render__16TObjEneMerillLiaFv(u8 *arg0);
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0);
+void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
 }
 
 #endif

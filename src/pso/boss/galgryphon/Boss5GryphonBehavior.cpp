@@ -439,15 +439,15 @@ void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 ang, s32 arg2);
 void TBoss8Dragon__sub_80063EF4(saddr arg0);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
-void TBoss8Dragon__sub_800641A8(u8 *arg0);
-void TBoss8Dragon__sub_8006435C(u8 *arg0);
-void TBoss8Dragon__sub_80064828(u8 *arg0);
-void TBoss8Dragon__sub_800648C8(u8 *arg0);
-void emit_part_attack_effect__13TBoss5GryphonFPvi(void *arg0, int arg1);
+void TBoss8Dragon__sub_800641A8(u8 *ene_dd);
+void TBoss8Dragon__sub_8006435C(u8 *ene_dd);
+void TBoss8Dragon__sub_80064828(u8 *boss8_dragon);
+void TBoss8Dragon__sub_800648C8(u8 *boss8_dragon);
+void emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1);
 void TBoss8Dragon__sub_80064AB0(O_80064AB0 *self);
-void apply_remote_action__13TBoss5GryphonFPvPv(u8 *arg0, u8 *boss8_dragon);
-void TBoss8Dragon__sub_80064DB8(u8 *arg0);
-void TBoss8Dragon__sub_80064E3C(u8 *arg0);
+void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
+void TBoss8Dragon__sub_80064DB8(u8 *boss5_gryphon);
+void TBoss8Dragon__sub_80064E3C(u8 *boss5_gryphon);
 void spawn_ancient_trap__12TBoss8DragonFii(s32 arg0, s32 id);
 void run_miss_reaction__13TBoss5GryphonFv(void);
 void run_hit_reaction__13TBoss5GryphonFv(void);
@@ -4356,8 +4356,8 @@ void TBoss8Dragon::copy_action_state(u8 *arg1) {
     *(ByteBlock_10 *)((saddr) (u8 *)&this->m_flags) = *(const ByteBlock_10 *)((saddr) arg1 + 4);
 }
 }
-void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *arg0);
-void handle_6x9F_gal_gryphon_boss_actions(void *arg0);
+void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *boss8_dragon);
+void handle_6x9F_gal_gryphon_boss_actions(void *boss8_dragon);
 #pragma pop
 
 #pragma push

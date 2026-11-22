@@ -176,7 +176,7 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 minimap_render_dot(void *, s32, s32, s32);
 
-void TObjPlayer__sub_800A16C4(u8 *arg0);
+void TObjPlayer__sub_800A16C4(u8 *player);
 
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 
@@ -274,9 +274,9 @@ s32 trigger_targets_action__10TObjPlayerFv();
 
 u8 * TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, saddr arg2);
 
-void clear_lappy_flag_set_param(TObjEneLappy *arg0);
+void clear_lappy_flag_set_param(TObjEneLappy *ene_lappy);
 
-void fn_800A0FDC(TObjEneLappy *arg0);
+void fn_800A0FDC(TObjEneLappy *ene_lappy);
 
 void TObjPlayer__sub_800A100C(s32 _w0);
 
@@ -288,7 +288,7 @@ int TObjPlayer__sub_800A1808(void* p);
 
 void TObjPlayer__sub_800A1974(void *);
 
-void TObjPlayer__sub_800A1C84(TObjPlayer *arg0);
+void TObjPlayer__sub_800A1C84(TObjPlayer *enemy);
 
 void TObjPlayer__sub_800A1D70(u8 *arg0);
 
@@ -298,7 +298,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0);
 
 void TEneEffHamon__sub_800A380C(void);
 
-u8 * __ct__12TEneEffHamonFv(u8 *arg0, saddr arg1, s32 arg2, s32 arg3, f32 farg0);
+u8 * __ct__12TEneEffHamonFv(u8 *object, saddr arg1, s32 arg2, s32 arg3, f32 farg0);
 
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 

@@ -129,7 +129,7 @@ s32 angle_difference_abs(s32, s32);
 extern uaddr gibbles_combat_stat_entries;
 s32 is_target_in_attack_range__14TObjEneGibblesFv(u8 *arg0);
 }
-void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
@@ -157,7 +157,7 @@ extern "C" {
 void calc_velocity_toward_destination(void *, Vec_802DA0BC, Vec_802DA0BC, f32);
 f32 newton_sqrtf(f32);
 void TObjEneGibbles__sub_802D7A54(void *arg0);
-s32 TObjEneGibbles__sub_802D9A04(void *arg0);
+s32 TObjEneGibbles__sub_802D9A04(void *target);
 extern saddr gibbles_boss_stat_handle;
 extern saddr gibbles_combat_stats_handle;
 extern uaddr TObjEneGibbles__resource_bundle;
@@ -166,7 +166,7 @@ void *__ct__14TObjCollidableFP7TObject(void *, int);
 void __construct_array(void *, void *, void *, int, int);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __ct__15RenderFadeStateFv(void);
-u8 *TObjEneGibbles__ct(u8 *arg0, void *arg1, saddr arg2);
+u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, saddr arg2);
 s32 update_movement_status__14TObjEneGibblesFv(u8 *arg0);
 s32 update_action_hold_status__14TObjEneGibblesFv(u8 *arg0);
 
@@ -280,7 +280,7 @@ void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 angle_diff_s16(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 void TObjEneGibbles__sub_802D7E3C(void);
-void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, saddr arg1, s32 arg2);
+void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
 void run_death_reaction__14TObjEneGibblesFv(void *arg0);
 void run_miss_reaction__14TObjEneGibblesFv(void *arg0);

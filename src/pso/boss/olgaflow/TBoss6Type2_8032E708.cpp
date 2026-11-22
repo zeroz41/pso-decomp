@@ -166,7 +166,7 @@ void *fn_8033068C(void *arg0, s16 arg1);
 void run_task__9TBoss6MagFv(u8 *arg0);
 void render__9TBoss6MagFv(void* p);
 f32 receive_physical_attack__9TBoss6MagFPvf(void *arg0);
-f32 fn_80330240(O_80330240 *arg0, void *arg1, P_80330240 arg2, void *arg3, void *arg4, void *arg5);
+f32 fn_80330240(O_80330240 *arg0, void *att, P_80330240 arg2, void *coll, void *tech, void *arg5);
 void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0);
 void run_death_reaction__9TBoss6MagFv(u8 *arg0);
 void vfunc_6__8TObjBaseFPsl();
@@ -280,11 +280,11 @@ void *lbl_804EDDEC[83] = {
 f32 vec3_add_to(void *, int);
 f32 vector_length(void *);
 f32 subtract_vector(void *, int);
-void TBoss6Type2__sub_8032F5C4(void *arg0);
+void TBoss6Type2__sub_8032F5C4(void *boss6_mag);
 }
-void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 extern "C" {
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern Ent_8032FFC0 boss6_type2_motion_table[];
 void TBoss6Type2__sub_803300C8(u8 *arg0);

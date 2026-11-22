@@ -86,7 +86,7 @@ s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
 u32 csnLookAt(void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 attack_target_history_add(saddr object, saddr target);
 void fn_800D8830(void *owner, void *pos);

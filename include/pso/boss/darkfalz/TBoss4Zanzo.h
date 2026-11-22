@@ -34,7 +34,7 @@ LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);
 
 extern "C" {
 void sub_80056998__11TBoss4Type2Fv(u8 *arg0);
-void TBoss4Type2__sub_80056B3C(void *arg0, s32 lo, s32 hi);
+void TBoss4Type2__sub_80056B3C(void *actor, s32 lo, s32 hi);
 f32 compute_wave_offset__11TBoss4Type2Ff(f32 farg0);
 void fn_8005586C(Zanzo_8005676C *dst, Zanzo_8005676C *src);
 }

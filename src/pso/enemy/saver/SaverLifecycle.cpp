@@ -120,7 +120,7 @@ extern "C" {
 void TObjPlayer__sub_800A4294(void);
 s32 TObjPlayer__sub_800A7774(void *, void *);
 }
-void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);

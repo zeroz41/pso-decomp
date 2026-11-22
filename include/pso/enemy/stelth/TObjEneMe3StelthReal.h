@@ -12,7 +12,7 @@ struct TObjEneMe3StelthReal : public TObjEneMe3Stelth {
     void init_common();
     void run_death_reaction();
     void run_hit_reaction();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjEneMe3StelthReal_size, sizeof(TObjEneMe3StelthReal) == 0x44C);

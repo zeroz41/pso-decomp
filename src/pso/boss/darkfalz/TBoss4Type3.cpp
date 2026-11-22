@@ -375,7 +375,7 @@ void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
 f32 xyz_distance(Vec *, Vec *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern void* __vt__13TObjBs4CutAtk[];
 

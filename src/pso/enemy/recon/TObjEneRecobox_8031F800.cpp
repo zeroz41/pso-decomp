@@ -414,11 +414,11 @@ void __ct__15RenderFadeStateFv();
 void free_collision_body_parts(void *);
 
 
-void TObjEneRecon__sub_8031F408(void *arg0, s32 arg1);
+void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1);
 
-void TObjEneRecon__sub_8031F600(void *arg0, s32 arg1);
+void TObjEneRecon__sub_8031F600(void *ene_dd, s32 arg1);
 
-void dispatch_state__14TObjEneRecoboxFiUii(saddr arg0, u32 arg1, s32 arg2);
+void dispatch_state__14TObjEneRecoboxFiUii(saddr ene_dd, u32 arg1, s32 reason);
 
 void run_task__14TObjEneRecoboxFv(u8 *arg0);
 
@@ -482,7 +482,7 @@ extern "C" void draw_with_debug_info__14TObjEneRecoboxFv();
 
 extern "C" void render__14TObjEneRecoboxFv(u8 *arg0);
 
-extern "C" void TObjEneRecon__sub_8031FB6C(u8 *arg0);
+extern "C" void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox);
 
 extern "C" void run_miss_reaction__14TObjEneRecoboxFv();
 
@@ -768,7 +768,7 @@ void TObjEneRecobox::load_resources() {
     }
 }
 
-u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
+u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data);
 
 void *TObjEneRecobox::create(void *set_data) {
     void *o = TObject::operator new(0x4F4);

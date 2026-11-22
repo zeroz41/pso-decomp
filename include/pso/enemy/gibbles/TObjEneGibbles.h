@@ -82,7 +82,7 @@ void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 }
 void gibbles_render_node_callback(NJS_OBJECT *);
 extern "C" {
-void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, saddr arg1, s32 arg2);
+void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 arg2);
 void run_task__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 void slam_damage_players__14TObjEneGibblesFl(s32 target, s32 arg1);
 }

@@ -127,8 +127,8 @@ typedef void (TBoss4Bishi::*Act_8005BC4C)();
 
 void vec3_add_to(void *, void *);
 void vt6__9TBoss4UroFv(u8 *arg0);
-void vt2__11TBoss4BishiFv(u8 *arg0);
-void vt5__9TBoss4UroFv(u8 *arg0);
+void vt2__11TBoss4BishiFv(u8 *object);
+void vt5__9TBoss4UroFv(u8 *object);
 
 
 void enter_state_3__11TBoss4BishiFPv(void* p);
@@ -140,7 +140,7 @@ s32 TBoss4Zako__ct(saddr, saddr, saddr);
 extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
 extern saddr __vt__11TBoss4Bishi[];
 extern const char *TBoss4Bishi__name;
-s32 TBoss4Bishi__ct(saddr arg0, s32 arg1, s32 arg2);
+s32 TBoss4Bishi__ct(saddr arg0, s32 parent, s32 arg2);
 
 struct Obj_8005C6E4;
 void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
@@ -149,7 +149,7 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
 void minimap_render_dot(void *, s32, s32, s32);
 struct VOff_8005C450_arg0_8005BABC { char pad_0[0x38]; char f_38[1]; };
 void vt0__11TBoss4BishiFv(u8 *arg0);
-void vt4__9TBoss4UroFv(void *arg0);
+void vt4__9TBoss4UroFv(void *actor);
 void *__dt_deleting__11TBoss4BishiFPvs(void *arg0, s16 arg1);
 s32 create__11TBoss4BishiFi(s32 arg0);
 void try_enter_state_3__11TBoss4BishiFPv(void* p);
@@ -284,7 +284,7 @@ s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
 extern saddr __vt__10TBoss4Zako[];
 extern const char *TBoss4Zako__name;
-s32 TBoss4Zako__ct(saddr arg0, saddr arg1, saddr arg2);
+s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2);
 
 s32 free_collision_body_parts(void *);
 

@@ -483,7 +483,7 @@ void TBoss4DarkFalz::update_demo_warp1() {
 extern "C" {
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
+void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
 }
 void set_dark_falz_music_request(s32 arg0);
 extern "C" {

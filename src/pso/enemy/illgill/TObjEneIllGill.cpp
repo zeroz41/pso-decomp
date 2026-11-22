@@ -108,7 +108,7 @@ void free_collision_body_parts(void *);
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
 void get_center__8TObjBaseFv();
-void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
+void *__dt__15TObjIllGillKageFv(void *base, s16 arg1);
 void apply_object_set_data__8TObjBaseFPv();
 void classify_actor_view_detail__8TObjBaseFfff();
 void render_shadows__7TObjectFv();

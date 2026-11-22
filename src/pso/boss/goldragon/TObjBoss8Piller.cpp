@@ -30,7 +30,7 @@ u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 
 void TObjBoss8Piller::render() {

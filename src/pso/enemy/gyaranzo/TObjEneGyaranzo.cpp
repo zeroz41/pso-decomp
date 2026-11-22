@@ -115,7 +115,7 @@ extern "C" {
 
 
 
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2);
 }
 
 
@@ -302,7 +302,7 @@ extern s32 actor_frame_tick;
 void TObjPlayer__sub_800D3314(u8 *arg0);
 
 #define spawn_missile_volley__19TObjGyaranzoMissileFPv ((s32 (*)())spawn_missile_volley__19TObjGyaranzoMissileFPv)
-void TObjPlayer__sub_800D30A8(Obj_800D30A8 *arg0);
+void TObjPlayer__sub_800D30A8(Obj_800D30A8 *enemy);
 
 typedef struct Ene_800D2E8C {
     u8 pad0[0x38C];

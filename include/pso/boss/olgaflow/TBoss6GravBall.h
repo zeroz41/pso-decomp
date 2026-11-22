@@ -27,8 +27,8 @@ struct TBoss6GravBall : public TObjCollidable {
     void update_state();
     void update_charge_effects();
     void update_lifetime();
-    void destroy_part(s32 arg1);
-    void create_emitter(s32 arg1);
+    void destroy_part(s32 index);
+    void create_emitter(s32 index);
     void init_parts();
     virtual void render();
 };

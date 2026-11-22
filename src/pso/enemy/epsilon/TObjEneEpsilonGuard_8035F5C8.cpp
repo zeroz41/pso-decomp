@@ -55,7 +55,7 @@ void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 reason);
 void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 reason);
 void draw_line_list(VoloptLineList *, s32, u32);
 void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 reason);
-void TObjEneEpsilonGuard__sub_8035F844(TObjEneEpsilonBody *body, s32 arg1);
+void TObjEneEpsilonGuard__sub_8035F844(TObjEneEpsilonBody *body, s32 slot);
 void TObjEneEpsilonGuard__sub_8035DEC0(TObjEneEpsilonGuard *guard);
 void TObjEneEpsilonGuard__sub_8035FA50(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035FBBC(TObjEneEpsilonBody *body);

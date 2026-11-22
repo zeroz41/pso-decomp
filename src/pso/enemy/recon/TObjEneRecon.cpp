@@ -620,7 +620,7 @@ struct WObj_8031c7bc : WBase_8031c7bc {
 
 extern "C" {
 
-void run_task__12TObjEneReconFPvi(u8 *arg0, s32 reason);
+void run_task__12TObjEneReconFPvi(u8 *target, s32 reason);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 remove_tracked_target__14TObjEneRecoboxFPvPv(int, void *);
 
@@ -1738,7 +1738,7 @@ struct VObj_14_2f517b : VBase_14_2f517b {
 void obj_setFlags30(void *, u32);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void run_task__12TObjEneReconFv(TObjEneRecon *arg0);
+void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon);
 
 
 #pragma push

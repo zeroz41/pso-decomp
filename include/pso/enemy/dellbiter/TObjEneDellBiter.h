@@ -118,7 +118,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     void fn_80305684();
     void fn_80305688();
     static void step_demo_script(NJS_OBJECT *);
-    void update_state(s32 arg1);
+    void update_state(s32 reason);
     s32 check_low_hp_transition();
     s32 fn_803059BC(const Vec *origin);
     void spawn_front_particle();
@@ -127,7 +127,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     void update_particle_emitters();
     void set_effect_pos_above_self();
     void init_params();
-    static void set_min_clamped_entry_value(s32 arg0, f32 farg0);
+    static void set_min_clamped_entry_value(s32 index, f32 farg0);
     static void destroy_static_instance();
     static void load_resources();
 };

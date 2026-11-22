@@ -101,7 +101,7 @@ struct SlimeSavedState {
 };
 
 void transform_to_view__11TCameraCtrlFii(saddr, saddr);
-void TObjPlayer__sub_800E80C0(u8 *arg0);
+void TObjPlayer__sub_800E80C0(u8 *dst);
 S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(NJS_OBJECT *);
 void TObjPlayer__sub_800E81A8(void);

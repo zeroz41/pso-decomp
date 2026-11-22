@@ -40,7 +40,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 s32 approach_angle_limited(int, int, int);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 void *fn_800B8B00(void *p);
 u16 get_entity_id(TObjBase *object);
 extern u32 TObjEneBm5Wolf__instance_list[];
@@ -120,7 +120,7 @@ s32 debug_draw_line(void *, void *, int, int);
 typedef void (*State_800B73A8)(u8 *, s32);
 }
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 currentSpeed);
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #include <stddef.h>
 
 #pragma defer_codegen on

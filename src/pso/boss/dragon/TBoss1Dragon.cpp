@@ -160,7 +160,7 @@ uaddr get_player_by_client_id(s32);
 extern s32 lbl_805D4B24;
 extern s32 TLobby__designated_client_id;
 s32 isV2Mode__12TBoss1DragonFv(void);
-u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, saddr parent, s32 demo, f32 farg0);
+u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_cue_stream_file(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
@@ -172,7 +172,7 @@ void TBoss1Dragon__sub_800275BC(TBoss1Dragon *dragon, Vec *position, u8 *params,
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32);
 s32 set_scripted_camera_pose(void *, void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 vec3_add_to(void *, void *);
 extern u8 *TBoss1Dragon__part_hp_stats[5];
 
@@ -199,7 +199,7 @@ void set_material_alpha_compare_reference(s32);
 void set_chunk_material_override_pair(s32, s32);
 void render__12TBoss1DragonFv(u8 *arg0);
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
 extern Vec lbl_804FE1D0;
 extern Vec lbl_804FE1DC;

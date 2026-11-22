@@ -24,7 +24,7 @@
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
 }
-u8 *load_gvm_texture_file(saddr arg0);
+u8 *load_gvm_texture_file(saddr name);
 saddr lbl_805D4B50;
 s32 dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;

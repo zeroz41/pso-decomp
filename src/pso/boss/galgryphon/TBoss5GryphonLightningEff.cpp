@@ -171,7 +171,7 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
 #pragma pop
 
 #pragma readonly_strings on
-    u8 *load_gvm_texture_file(s32 arg0);
+    u8 *load_gvm_texture_file(s32 name);
 extern "C" {
 s32 release_texture_list(void*);
 }

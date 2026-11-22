@@ -52,7 +52,7 @@ struct TObjEnePanarms : public TObjEnemy {
     static void spawn_npc_pair();
     static int do_action_2(void* p);
     static s32 create_bara(void *setData, s32 index);
-    static s32 create(saddr arg0);
+    static s32 create(saddr setData);
     void init(s16 action);
     int get_state_flag();
     void update_spin();
@@ -88,7 +88,7 @@ struct TObjEnePanarms : public TObjEnemy {
     void turn_toward_target(s32 arg1);
     u16 turn_to_nearest_player(s32 arg1, s32 mode);
     void snap_to_ground();
-    void set_state(s32 arg1);
+    void set_state(s32 next);
     void draw_shadow();
     void destroy_handles();
     static void free_data();

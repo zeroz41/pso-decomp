@@ -711,7 +711,7 @@ extern f32 lbl_804FF5E8[];
 
 }
 
-void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1);
+void calc_laser_ray_hit_point(u8 *laser, u8 *arg1);
 
 
 

@@ -95,7 +95,7 @@ struct TBoss4Type2
     u32 m_464;
     void* m_468;
     static s32 is_active();
-    static void *create_zanzo(void *arg0, void *arg1);
+    static void *create_zanzo(void *parent, void *arg1);
     void spawn_bishi_around_players();
     void apply_resta_heal();
     void set_grid_pos(void *arg1);

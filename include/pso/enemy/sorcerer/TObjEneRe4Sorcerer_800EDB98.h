@@ -9,7 +9,7 @@ extern "C" {
 void TBoss3Volopt__sub_800F059C(void);
 void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 reason);
 void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 reason);
-void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 reason);
+void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 reason);
 void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 reason);
 void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 reason);
 void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 reason);

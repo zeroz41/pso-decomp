@@ -77,7 +77,7 @@ SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A8;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52AC;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *, s32);
 struct EnemyTargetCandidate { u16 id; u8 unk_2[6]; };
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 collect_target_candidates__9TObjEneDDFlf(void *, f32);
 s32 subtract_vector(void *, void *);
 extern EnemyTargetCandidate enemy_target_candidate_table[];

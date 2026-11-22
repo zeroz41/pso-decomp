@@ -137,7 +137,7 @@ extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 int queue_destruction__13TObjDFHormingFPv(void* p);
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
 void run_task__13TObjDFHormingFv(u8 *self);

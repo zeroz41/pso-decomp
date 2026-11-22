@@ -41,8 +41,8 @@ s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2);
 int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 void TBoss4DarkFalz__sub_8004B5A0(void);
-void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *arg0);
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
+void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz);
+void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
 }
 
 // --- C functions defined in TObjDFHorming.cpp ---

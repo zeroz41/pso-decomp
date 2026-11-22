@@ -22,9 +22,9 @@ struct O_800EC39C { u8 pad[0x384]; s32 state; };
 extern "C" {
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 }
-void draw_chunk_model_with_shape_motion(void *child, void *arg1, NJS_MOTION *arg2, f32 farg0);
+void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 extern "C" {

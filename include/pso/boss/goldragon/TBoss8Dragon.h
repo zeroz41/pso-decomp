@@ -130,7 +130,7 @@ public:
     TParticleCtrl *m_898;
     TParticleCtrl *m_89c;
     s32 m_8a0;
-    static void init_state_zero(void *arg0);
+    static void init_state_zero(void *gryphon);
     static void set_flag_4e4(void *p);
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
@@ -187,7 +187,7 @@ public:
     void play_sound_if_in_band();
     void try_spawn_trap();
     void set_damage_phase_value(s32 arg1);
-    static void init_default(void *arg0);
+    static void init_default(void *boss8_dragon);
     s32 is_near_target();
     void calc_orbit_xz(f32 *arg1, f32 *arg2);
     void store_position();

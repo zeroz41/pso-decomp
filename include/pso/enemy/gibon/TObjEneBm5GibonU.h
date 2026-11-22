@@ -97,8 +97,8 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void reset_fields();
     void*reset();
     void set_field8_from_obj(s32 arg1);
-    void push_list_node(void **arg1, void **arg2);
-    void unlink_list_node(void ***arg1, void **arg2);
+    void push_list_node(void **head, void **tail);
+    void unlink_list_node(void ***head, void **tail);
     static s32 destroy(s32 arg0, s16 arg1);
     static void register_global_objects();
     void clear_flag_and_update();
@@ -119,7 +119,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void set_flag();
     void set_anim_by_state();
     void select_attack_by_range();
-    void approach_target(f32 farg0);
+    void approach_target(f32 step);
     void face_target();
     void forward_hit_to_enemy_list();
     void init_child_from_list();
@@ -139,7 +139,7 @@ LAYOUT_ASSERT(TObjEneBm5GibonU_m_464, offsetof(TObjEneBm5GibonU, m_464) == 0x464
 LAYOUT_ASSERT(TObjEneBm5GibonU_m_564, offsetof(TObjEneBm5GibonU, m_564) == 0x564);
 
 extern "C" {
-TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, saddr arg2);
+TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, saddr set_data);
 void TObjEneBm5GibonU__sub_800CCD8C(TObjEneBm5GibonU *self);
 void TObjEneBm5GibonU__sub_800CCDE4(TObjEneBm5GibonU *self);
 void TObjEneBm5GibonU__sub_800CCE28(TObjEneBm5GibonU *self);
@@ -164,7 +164,7 @@ void run_task__16TObjEneBm5GibonUFv(u8 *arg0);
 s32 TObjEneBm5GibonU__sub_800D1D70(TObjEneBm5GibonU *self);
 Vec *TObjEneBm5GibonU__sub_800D1D78(TObjEneBm5GibonU *self);
 s32 __dt__16TObjEneBm5GibonUFis(s32 arg0, s16 arg1);
-void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *arg0, s32 msg);
+void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *self, s32 msg);
 void calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv(TObjEneBm5GibonU *self, s32 angle, Vec *out, s32 *rotation);
 int is_active__16TObjEneBm5GibonUFv(TObjEneBm5GibonU *self);
 void *update_photon_mylla__16TObjEneBm5GibonUFv(TObjEneBm5GibonUNode *node);

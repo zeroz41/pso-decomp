@@ -129,9 +129,9 @@ void *get_player_by_client_id(s32 i);
 f32 xyz_distance(void *, void *);
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
 }
-void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 extern "C" {
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 init_collision_body_parts(void *, void *, int);

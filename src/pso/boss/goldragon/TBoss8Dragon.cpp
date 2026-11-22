@@ -95,7 +95,7 @@ s32 fn_802F2E7C(int, void *, int);
 s32 mask_flags__12TBoss8DragonFiii(s32 arg1, s32 arg2, s32 arg3);
 void TBoss8Dragon__sub_802FB484(TBoss8Dragon *dragon);
 void TBoss8Dragon__sub_802FB70C(saddr arg0);
-void TBoss8Dragon__sub_802FBA1C(TBoss8Dragon *arg0);
+void TBoss8Dragon__sub_802FBA1C(TBoss8Dragon *boss8_dragon);
 void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 id);
 void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
 f32 atan2_float(f32 y, f32 x);
@@ -109,7 +109,7 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
 s32 angle_diff_s16(s32, s32);
-void TBoss8Dragon__sub_802FC500(u8 *arg0);
+void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon);
 u16 get_entity_id(u8 *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0);
@@ -219,15 +219,15 @@ s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0);
 void update_movement__12TBoss8DragonFPv(u8 *arg0);
 u8 check_attack_ready__12TBoss8DragonFPv(void *arg0);
 int get_state_flags__12TBoss8DragonFPv(void* p);
-void TBoss8Dragon__sub_802FB778(saddr arg0);
-void TBoss8Dragon__sub_802FB828(u8 *arg0, s32 arg1);
-void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *arg0, u8 *arg1);
+void TBoss8Dragon__sub_802FB778(saddr dragon);
+void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1);
+void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *boss8_dragon, u8 *arg1);
 void TBoss8Dragon__sub_802FBE3C(TBoss8Dragon *dragon);
 void TBoss8Dragon__sub_802FBEA4(TBoss8Dragon *dragon);
-s32 select_target_in_front__12TBoss8DragonFPv(u8 *arg0);
+s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st);
 s32 TBoss8Dragon__sub_802FC580(Obj_802FC580 *obj, f32 *out);
 u8 TBoss8Dragon__sub_802FC88C(void *arg0);
-s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *arg0);
+s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 void TBoss8Dragon__sub_802FD9D0(void);
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
 s32 matrix_mult_vec_array(int, void *, int, int);
@@ -409,7 +409,7 @@ extern void *TBoss8Dragon__dive_height_curve[12];
 #define TBoss8Dragon__data_804E4C28 ((s32 *)TBoss8Dragon__data_804E4C28)
 
 
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void build_6xA8_gol_dragon_boss_actions(void *p);
 extern "C" {
 struct Info_802F4DD4 { u8 pad[8]; s32 a; s32 b; };
@@ -441,13 +441,13 @@ struct Drg_802F4DD4 {
     u8 pad85C[0x894 - 0x85C];
     void *demo;
 };
-u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, saddr parent, s32 flag, f32 farg0);
+u8 *__ct__16TBoss8DragonDemoFv(u8 *object, saddr parent, s32 flag, f32 farg0);
 struct Obj_802FAC08;
 struct Rot_802F6838 { s32 x, y, z; };
 s32 restore_player_cameras(void);
 void activate_camera_mode(s32, f32);
 void set_scripted_camera_pose(void *, void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 void vec3_add_to(void *, void *);
 struct Obj_802FC580;
 void TBoss8Dragon__sub_802FC060(void *, s32);
@@ -459,7 +459,7 @@ void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
-void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 farg0);
+void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 boss8_piller_ctrl);
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
 void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
@@ -506,7 +506,7 @@ typedef struct Anim_802F3D6C { u8 pad0[4]; u32 nframes; } Anim_802F3D6C;
 typedef struct B_802F3D6C { u8 pad0[4]; Anim_802F3D6C *anim; } B_802F3D6C;
 extern "C" {
 void TObjLight__sub_801337F8(s32);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 extern saddr current_scene_light;
 extern s32 model_render_flags;
 // (from _802F3CA0)
@@ -530,7 +530,7 @@ s32 draw__10TObjMotionFv(void *, int);
 // (from _802F4324)
 extern "C" {
 BOOL is_split_screen(void); // TObjPlayer_80011014.h, whose other prototypes clash here
-s32 TBoss8Dragon__sub_802F3F20(u8 *arg0); // defined further down
+s32 TBoss8Dragon__sub_802F3F20(u8 *owner); // defined further down
 }
 void set_tev_swap_channels(u8 r, u8 g, u8 b, u8 a);
 void init_tev_swap();
