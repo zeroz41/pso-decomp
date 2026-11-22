@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/WindowLayout.h"
 #pragma push
 #pragma readonly_strings on
 
@@ -29,7 +30,6 @@ struct ResultEntry {
     s32 value;
 };
 
-saddr get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
 struct ChallengeResultLayout {

@@ -15,6 +15,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -288,7 +289,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
     TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x64)), (s16)1);
 }
 
-u8 * get_window_layout_position(s32);
 u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push

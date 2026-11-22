@@ -24,6 +24,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -550,7 +551,6 @@ struct SS_80270668 { const char *m_name; u8 pad4[0x14]; void *vt; s16 f1c; s16 f
 extern "C" {
 extern u8 __vt__19TWindowSimpleStatus[];
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
-saddr get_window_layout_position(s32);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void render__19TWindowSimpleStatusFv(saddr arg0) {

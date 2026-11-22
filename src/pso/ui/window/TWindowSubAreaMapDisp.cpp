@@ -21,6 +21,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
@@ -68,7 +69,6 @@ u8 *get_floor_destination_name(s32);
 }
 void text_builder_reset(void);
 extern "C" {
-saddr get_window_layout_position(int);
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 extern s32 lbl_805D63F0;

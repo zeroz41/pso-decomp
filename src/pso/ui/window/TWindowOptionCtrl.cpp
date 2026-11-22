@@ -40,6 +40,7 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/WindowLayout.h"
 
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
@@ -50,7 +51,6 @@ const vec2f lbl_8044F49C = {470.0f, 80.0f};
 const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
 extern "C" {
-u8 *get_window_layout_position(s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 create_window_menu_default(s32, s32);
 }

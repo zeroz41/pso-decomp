@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include <stdio.h>
 #include <string.h>
+#include "pso/ui/window/WindowLayout.h"
 #pragma defer_codegen off
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -21,7 +22,6 @@ struct ControllerInputStateResultWin { s32 value; u8 remaining[0x1AC]; };
 extern "C" {
 char* get_message_text(s32);
 s32 has_window_task_root();
-saddr get_window_layout_position(s32);
 extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;
 extern TObject* tl_07;

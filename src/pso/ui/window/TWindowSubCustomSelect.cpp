@@ -13,6 +13,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
@@ -62,7 +63,6 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 test_buttons_press_or_repeat(void *, int, int, int);
 void *get_player_by_client_id(s32 i);
-saddr get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);

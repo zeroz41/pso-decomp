@@ -17,6 +17,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/WindowLayout.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
@@ -194,7 +195,6 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 
 extern "C" {
 void fn_80268C5C(NJS_POINT2 v, s32 x);
-saddr get_window_layout_position(s32);
 }
 s32 create_information_counter_window(s32 rows) {
     TUnk_804D0658 *window;

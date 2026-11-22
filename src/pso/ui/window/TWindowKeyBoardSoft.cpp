@@ -30,6 +30,7 @@ struct UV_80262038 {
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
+#include "pso/ui/window/WindowLayout.h"
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
@@ -914,7 +915,6 @@ void TWindowKeyBoardSoft::run_task() {
 #pragma pop
 
 extern "C" {
-saddr get_window_layout_position(int);
 }
 
 TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}

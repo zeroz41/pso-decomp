@@ -6,10 +6,10 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/WindowLayout.h"
 struct TradeMessageInput { u8 base[0x20]; u8 buttons[0x30]; };
 extern "C" {
 void play_sound_effect(s32,s32,s32,s32);
-u8* get_window_layout_position(s32);
 extern TradeMessageInput controller_input_state[];
 __declspec(section ".rodata") extern const char trade_message_class_name[23] = "TWindowSubTradeMessage";
 __declspec(section ".rodata") extern const f32 trade_message_window_dimensions[2] = {282.0f,120.0f};

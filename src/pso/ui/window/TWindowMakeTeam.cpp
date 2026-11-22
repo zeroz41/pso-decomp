@@ -20,6 +20,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/WindowLayout.h"
 
 const char *TWindowMakeTeam__name = "TWindowMakeTeam";
 const char *lbl_805D395C = "";
@@ -50,7 +51,6 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
 extern s32 local_client_id;
-void *get_window_layout_position(s32);
 char *get_shared_text_buffer(void);
 extern s32 __vt__15TWindowMakeTeam[];
 s32 __ct__7TObjectFP7TObject();

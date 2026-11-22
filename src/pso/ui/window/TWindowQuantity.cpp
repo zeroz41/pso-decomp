@@ -12,6 +12,7 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct Quantity_8026D000 {
     s32 f0;
@@ -45,7 +46,6 @@ WindowDescriptor quantity_window_layout = {
 
 extern "C" {
 u32 calc_text_width(void);
-saddr get_window_layout_position(s32);
 const char *TWindowQuantity__name = "TWindowQuantity";
 s32 draw_window_tab(s32, s32, s32, f32);
 

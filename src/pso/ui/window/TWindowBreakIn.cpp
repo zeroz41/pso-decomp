@@ -7,6 +7,7 @@
 
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -42,7 +43,6 @@ WindowDescriptor window_break_in_layout = {
 };
 
 extern "C" {
-u8 * get_window_layout_position(s32);
 
 void TWindowBreakIn::render() {
     s32 arg0 = (saddr)this;

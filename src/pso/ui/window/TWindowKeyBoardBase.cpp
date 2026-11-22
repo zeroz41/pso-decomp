@@ -18,6 +18,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma push
@@ -1014,7 +1015,6 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 }
 #pragma pop
 
-u8 * get_window_layout_position(s32);
 }
 extern "C" {
 s32 ARAlloc(s32);

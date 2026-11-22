@@ -659,10 +659,10 @@ void TWindowKeyBoardHard::render() {
 
 
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 extern "C" {
-saddr get_window_layout_position(int);
 
 
 void TWindowKeyBoardHard::run_task() {

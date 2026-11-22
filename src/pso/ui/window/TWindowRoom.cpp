@@ -9,6 +9,7 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct RoomTitleEntry {
     u8 unknown00[8];
@@ -34,7 +35,6 @@ WindowDescriptor room_window_base_parameters = {
 };
 
 extern "C" {
-saddr get_window_layout_position(int);
 const char *TWindowRoom__class_name = "TWindowRoom";
 s32 draw_window_tab(s32, s32, s32, f32);
 

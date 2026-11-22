@@ -11,6 +11,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -23,7 +24,6 @@ typedef struct Entry_8024F094 {
 
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
-saddr get_window_layout_position(int);
 
 extern const char *window_duel_result_class_name;
 void *get_player_by_client_id(s32 i);

@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayout.h"
 
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
 struct DepositWindowLayout {
@@ -32,7 +33,6 @@ WindowDescriptor window_deposit_layout = {
 };
 
 extern "C" {
-saddr get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
 #pragma push
 #pragma readonly_strings on

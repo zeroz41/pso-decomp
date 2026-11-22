@@ -26,6 +26,7 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/ui/window/WindowLayout.h"
 
 // Built with deferred code generation: data come first, functions come out
 // in reverse source order (so they are written last to first).
@@ -59,7 +60,6 @@ s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 is_palettex_activated(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];
-saddr get_window_layout_position(s32);
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);

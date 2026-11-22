@@ -14,6 +14,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8030C340.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -39,7 +40,6 @@ s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 extern s32 lbl_805D63F0;
-saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 extern s32 local_client_id;

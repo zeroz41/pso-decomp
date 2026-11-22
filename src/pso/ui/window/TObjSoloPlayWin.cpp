@@ -11,11 +11,11 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
 u32 get_player_by_client_id(s32);
 s32 has_window_task_root();
-void* get_window_layout_position(s32);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
