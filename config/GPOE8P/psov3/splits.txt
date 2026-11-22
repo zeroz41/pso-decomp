@@ -649,7 +649,10 @@ pso/boss/galgryphon/Boss5GryphonBehavior.cpp:
 	.bss        start:0x804FF5A0 end:0x804FF5E8
 	.sdata      start:0x805D27F8 end:0x805D2808
 	.sbss       start:0x805D4D90 end:0x805D4DC8
-	.sdata2     start:0x805D8D48 end:0x805D8ED0
+	.sdata2     start:0x805D8D48 end:0x805D8D80
+
+pso/boss/galgryphon/Boss5GryphonBehaviorSdata2.cpp:
+	.sdata2     start:0x805D8D80 end:0x805D8ED0
 
 pso/boss/galgryphon/TBoss5GryphonColli.cpp:
 	.text       start:0x80066128 end:0x80066540

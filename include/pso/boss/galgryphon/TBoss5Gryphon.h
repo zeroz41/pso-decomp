@@ -21,6 +21,7 @@ struct Boss5GryphonMotionEntry {
 };
 
 struct TBoss5Gryphon : public TObjEneDD_ST {
+    TBoss5Gryphon(TObject *parent, void *data);
     virtual ~TBoss5Gryphon();
     int get_flag_bit6();
     virtual void render();
@@ -103,11 +104,11 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 m_6e8;
     u32 m_6ec;
     u32 m_6f0;
-    u8 _pad6F4[0x2C];
+    f32 pad_6F4[11];
     u32 m_720;
     TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
     u32 m_730;
-    u8 _pad734[0x40];
+    TObject *parts[16];
     u8 *m_774;  // the action script entry being run; steps 0x48 bytes
     u32 m_778;
     void render_nodes_with_flag();

@@ -201,6 +201,7 @@ pso/audio/GcrnaError.cpp
 pso/audio/GcrnaStream.cpp
 pso/boss/galgryphon/Boss5GryphonActionScripts.cpp
 pso/boss/galgryphon/Boss5GryphonBehavior.cpp
+pso/boss/galgryphon/Boss5GryphonBehaviorSdata2.cpp
 pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.cpp
 pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.cpp
 pso/boss/olgaflow/Boss6Type2Data.cpp
