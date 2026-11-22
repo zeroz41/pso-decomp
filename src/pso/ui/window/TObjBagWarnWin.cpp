@@ -16,6 +16,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80211C3C.h"
@@ -256,6 +257,18 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
     } while (var_r30 < 4);
     return i;
 }
+}
+
+// The map is hidden only in single-screen solo play while the lobby state
+// reports it closed.
+s32 TWindowCtrl::is_map_visible() {
+    if (TRaderMapCore::is_not_split_screen() != 1) {
+        return 1;
+    }
+    if (get_game_play_mode() != 1) {
+        return 1;
+    }
+    return TLobby__sub_8030A770() != 0 ? 1 : 0;
 }
 
 __declspec(section ".data") f32 TObjBagWarnWin__message_window_size[2] = {350.0f, 120.0f};

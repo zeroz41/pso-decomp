@@ -660,7 +660,7 @@ void TCameraFollow::run_task() {
                 }
                 return;
             }
-            if (actor_id != local_client_id && this->actor != NULL && ((TWindowCtrl *)this->actor)->is_player_flag_4000_set() != 0) {
+            if (actor_id != local_client_id && this->actor != NULL && this->actor->is_flag_4000_set() != 0) {
                 reset_cameras_to_actor(get_player_by_client_id(local_client_id), 0);
                 for (i = 0; i < 4; i++) {
                     local = get_player_by_client_id(i);
@@ -775,6 +775,15 @@ void FollowCameraSlot::clear() {
 s32 get_camera_reset_button(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x10000 : 0x20000;
 }
+
+s32 TWindowCtrl::get_flag_bit3() {
+    if (TWindowCtrl__active_window == NULL) {
+        return 0;
+    }
+    return ((u16)TWindowCtrl__active_window->flags >> 3U) & 1;
+}
+
+s32 TObjPlayer::is_flag_4000_set() { return check_flag(16384); }
 
 Vec camera_override_position = { 0.0f, 0.0f, 0.0f };
 Vec camera_fixed_target_position = { 0.0f, 0.0f, 0.0f };

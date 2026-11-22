@@ -786,18 +786,15 @@ pso/camera/TCameraDebugView.cpp:
 	.sdata2     start:0x805D9040 end:0x805D904C
 
 pso/camera/TCameraFollow.cpp:
-	.text       start:0x8006CCEC end:0x8006E85C
+	.text       start:0x8006CCEC end:0x8006E8A0
 	.rodata     start:0x80438528 end:0x80438548
 	.data       start:0x80488DD0 end:0x80488E40
 	.sdata      start:0x805D2840 end:0x805D2848
 	.sbss       start:0x805D4E20 end:0x805D4E28
 	.sdata2     start:0x805D9050 end:0x805D90B8
 
-pso/ui/window/TWindowCtrl_8006E85C.cpp:
-	.text       start:0x8006E85C end:0x8006E8F0
-
 pso/ui/window/TObjBagWarnWin.cpp:
-	.text       start:0x8006E8F0 end:0x8006EF80
+	.text       start:0x8006E8A0 end:0x8006EF80
 	.rodata     start:0x80438548 end:0x80438570
 	.data       start:0x80488E40 end:0x80488E80
 	.sdata      start:0x805D2848 end:0x805D2850
