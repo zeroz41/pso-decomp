@@ -798,7 +798,7 @@ void TBoss6Type1::init_attack_timers() {
     if ((s32) this->target_mode == 0) {
         this->action_duration = 0x5A;
         this->action_timer = 0x5A;
-    } else if ((s32) this->m_4ac != 0) {
+    } else if ((s32) this->low_hp_flag != 0) {
         temp_r0 = *(s32 *)((s8 *)this + 0x4A8);
         this->action_duration = temp_r0;
         this->action_timer = temp_r0;

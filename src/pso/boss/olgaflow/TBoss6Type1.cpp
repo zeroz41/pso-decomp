@@ -299,8 +299,8 @@ TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
         action_history[i] = 0;
     }
     load_params_from_table();
-    m_4ac = 0;
-    m_4b4 = 1.0f;
+    low_hp_flag = 0;
+    damage_step_scale = 1.0f;
     latch_phase_counter();
     chal_ud_count = 0;
     center_trip_count = 0;
@@ -1618,8 +1618,8 @@ s32 TBoss6Type1::sub_802B5FDC() {
 }
 
 void TBoss6Type1::set_flag_on_threshold() {
-    if (((s32) this->m_4ac == 0) && (this->hp_ratio < 0.33333334f)) {
-        this->m_4ac = 1;
+    if (((s32) this->low_hp_flag == 0) && (this->hp_ratio < 0.33333334f)) {
+        this->low_hp_flag = 1;
     }
 }
 
@@ -1632,9 +1632,9 @@ int TBoss6Type1::is_time_up() {
 
 s32 TBoss6Type1::check_field4b0_threshold() {
     s32 temp_r31;
-    temp_r31 = (s32) (this->m_4b4 * (f32) this->m_494);
+    temp_r31 = (s32) (this->damage_step_scale * (f32) this->m_494);
     if (calc_field4b0_delta() >= temp_r31) {
-        this->m_4b4 *= 1.5f;
+        this->damage_step_scale *= 1.5f;
         return 1;
     }
     return 0;

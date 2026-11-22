@@ -90,9 +90,9 @@ struct TBoss6Type1 : public TObjEnemy {
     s32 laser_fire_time;
     s32 m_4a4;
     s32 pad_4a8;
-    s32 m_4ac;
+    s32 low_hp_flag;  // set_flag_on_threshold sets it once hp_ratio drops below a third
     s32 latched_hp;  // latch_phase_counter stores hp; calc_field4b0_delta returns the damage since
-    f32 m_4b4;
+    f32 damage_step_scale;  // check_field4b0_threshold: damage since the latch vs this * m_494, then * 1.5
     // set_action_state counts these actions (boss6_type1_action_table's names).
     s32 chal_ud_count;       // CHAL_UD
     s32 center_trip_count;   // GOTO_CENTOP and GOTO_CENBTM
