@@ -12,6 +12,7 @@ class AreaAttackHistory;
 struct TBoss8DragonEffTail;
 class TParticleCtrl;
 struct ControllerInputContext;
+struct G_GolDragonBossActions_6xA8;
 
 // The gold dragon (Episode 2's Gol Dragon) boss.
 class TBoss8Dragon : public TObjEneDD_ST
@@ -73,20 +74,18 @@ public:
 
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
-    s32 m_3e0;
+    s32 lobby_state;  // as TBoss1Dragon::lobby_state: 0 runs the action sequence, 1 only animates, 2 re-sends reason 2
     s32 phase;
-    s32 m_3e8;
+    s32 effect_mode;  // set_mode_params: 0-2 picks attack_kind and particle_ids (TBoss1Dragon picks them by isV2Mode)
     Vec breath_node_points[3];  // as TBoss1Dragon::breath_node_points
     Vec breath_origin;  // the TBoss8DragonEffBreath and the fire bullets start here
     Vec breath_direction;  // breath_node_points[1] - [0], the breath's direction
     Vec breath_effect_position;
     Vec node_positions[0x22];  // the model's node positions; update_body_colliders reads seven
-    f32 m_5cc;
-    f32 m_5d0;
-    f32 m_5d4;
-    f32 m_5d8;
+    Vec target_vector;  // as TBoss1Dragon::target_vector: calc_target_vector's normalized xz direction
+    f32 target_distance;  // its length before normalizing
     f32 m_5dc;
-    Vec m_5e0;
+    Vec last_flight_direction;  // as TBoss1Dragon::last_flight_direction: destination_direction when the flight state is left
     AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
     AccelerationCurve curve1;
     Vec sound_origin;  // project_sound_origin_from_camera's result; the dragon's sounds play from it
@@ -113,10 +112,10 @@ public:
     f32 savedZ;
     s32 sector_count;  // how many of sector_radii choose_burrow_ring_destination has filled
 
-    u32 m_69c;
+    u32 crater_count;  // as TBoss1Dragon::crater_count; the Gol Dragon only clears it
     f32 sector_radii[12];  // one random radius per 30-degree sector, picked by choose_burrow_ring_destination
     s32 burrow_run_count;  // 0 on the first update_burrow_inward_run, +1 on each after it; calc_step_value speeds up with it
-    s32 m_6d4;
+    s32 lobby_state_locked;  // as TBoss1Dragon::lobby_state_locked: while set, run_task stops refreshing lobby_state
     ControllerInputContext *controller_input;  // points into controller_input_state.controllers
     RenderFadeState renderFadeStates[4];
     s32 player_controlled;  // 1 while a player steers the dragon (select_freeze_target, boss8_dragon_player_control)
@@ -124,7 +123,7 @@ public:
     u8 _pad752[0x2];
     s32 controlTimer;  // as TBoss1Dragon::controlTimer: frames of player control
     u32 facingAngle;  // as TBoss1Dragon::facingAngle: the angle state_circle_flight circles on
-    s32 m_75c;
+    s32 attack_kind;  // as TBoss1Dragon::attack_kind: the breath and fire bullets' attack kind (set_mode_params)
     const s32 *particle_ids;  // TBoss1Dragon reads the same ids through effectResource->particle_ids
     u32 randomState[58];  // a SubtractiveRng, as TBoss1Dragon::randomState
     s32 stateStep;  // step and frame counter of the current action, as in TBoss1Dragon
@@ -132,19 +131,19 @@ public:
     s32 action_frames;
     s32 demo_flag;  // 1 while the opening TBoss8DragonDemo runs (update_appearance_state); the demo ends when it reads 0
     s32 action_angle;
-    s32 m_860;
+    s32 action_spin;  // as TBoss1Dragon::action_spin: a heading to turn to, the dive's roll speed
     f32 fallVelocity;
     f32 rootHeight;
-    f32 m_86c;
-    f32 m_870;
-    f32 m_874;
+    f32 action_speed;  // as TBoss1Dragon::action_speed: the dive's fall acceleration, the spiral's radius
+    f32 vertical_speed;  // as TBoss1Dragon::vertical_speed
+    f32 root_height_speed;  // as TBoss1Dragon::root_height_speed
     Vec action_point;  // the current action's point or step, as TBoss1Dragon::action_point
     f32 m_884;
     f32 m_888;
     f32 m_88c;
-    s32 m_890;
+    s32 ground_impact_done;  // as TBoss1Dragon::ground_impact_done: the dive has hit the ground
     TParticleCtrl *breath_particles[3];  // as TBoss1Dragon::breath_particles
-    s32 m_8a0;
+    s32 lobby_state_changed;  // as TBoss1Dragon::lobby_state_changed: lobby_state became 0
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
@@ -165,8 +164,10 @@ public:
     void emit_effect(void *pos, void *params, AreaAttackHistory *history);
     void get_state_flags(void *params);
     static void init_state(saddr dragon);
-    static int set_state_1(void* p);
-    static int check_condition_default(void* p);
+    // As TBoss1Dragon::apply_foot_step_attack: the step attack at foot nodes 5/6 (side 0) or 3/4 (side 1).
+    void apply_foot_step_attack(int side);
+    void apply_foot_attack_pair_1();
+    void apply_foot_attack_pair_0();
     void spawn_effect();
     void play_effect_sound(s32 sound_id);
     void spawn_trap(s32 id);
@@ -176,7 +177,7 @@ public:
     s32 select_target_in_front();
     s32 update_linked_position();
     void update_movement();
-    void apply_6xA8_action(u8 *packet);
+    void apply_6xA8_action(G_GolDragonBossActions_6xA8 *cmd);
     f32 calc_step_value();
     s32 check_damage_reaction();
     void pick_next_action();
@@ -233,12 +234,10 @@ public:
     static s32 is_any_part_alive();
     static void update_all_parts();
     static s32 has_enough_enemies();
-    void set_mode_params(s8 arg1);
+    void set_mode_params(s8 mode);
     void update_pos_from_data();
     void render_nodes_flagged();
     void copy_vectors();
-    void send_swapped_packet();
-    void bswap_packet();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     static s32 eval_bezier_curve(void *points, int count, int closed, void *out, f32 t);

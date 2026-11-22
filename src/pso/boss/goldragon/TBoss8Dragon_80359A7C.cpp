@@ -30,15 +30,15 @@ void TUnk_804F1A78::run_task() {
     if (this->player_controlled != 0) {
         this->freeze_player_at_self();
         this->controlTimer = this->controlTimer + 1;
-    } else if ((TObjEneDD::is_main_phase_15() != 0) && (this->m_6d4 == 0)) {
-        old_state = this->m_3e0;
+    } else if ((TObjEneDD::is_main_phase_15() != 0) && (this->lobby_state_locked == 0)) {
+        old_state = this->lobby_state;
         if (this->update_lobby_state() != 0) {
-            this->m_3e0 = 0;
-            if (this->m_3e0 != old_state) {
-                this->m_8a0 = 1;
+            this->lobby_state = 0;
+            if (this->lobby_state != old_state) {
+                this->lobby_state_changed = 1;
             }
         } else {
-            this->m_3e0 = 1;
+            this->lobby_state = 1;
         }
     }
     teammate_state = TObjEneDD::query_teammate_state();
@@ -67,7 +67,7 @@ void TUnk_804F1A78::run_task() {
                 this->dispatch_action(this->mode, 0);
             }
         } else {
-            state = this->m_3e0;
+            state = this->lobby_state;
             if (state != 1) {
                 if (state == 2) {
                     this->dispatch_action(this->mode, 2);

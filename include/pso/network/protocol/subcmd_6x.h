@@ -367,6 +367,21 @@ struct G_GogoBall_6x79 {
  u8 unused[3];
 };
 
+// The Gol Dragon's next action (TBoss8Dragon::send_action_packet / send_6xA8_action, applied by
+// TBoss8Dragon::apply_6xA8_action); header.client_id holds the dragon's entity id.
+struct G_GolDragonBossActions_6xA8 {
+ struct G_ClientIDHeader header;
+ s16 what;          // the boss state (transition_enemy_state)
+ s16 action_index;  // TBoss8Dragon::sequenceCursor
+ u32 target_id;
+ f32 x;             // TBoss8Dragon::destinationX / destinationZ
+ f32 z;
+ s8 effect_mode;    // TBoss8Dragon::set_mode_params
+ void bswap();
+ void send();
+ void init();
+};
+
 struct G_HitByEnemy_6x4B_6x4C {
  struct G_ClientIDHeader header;
  u16 angle;
