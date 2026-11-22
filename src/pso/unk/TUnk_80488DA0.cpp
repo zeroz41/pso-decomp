@@ -101,7 +101,7 @@ TUnk_80488DA0::~TUnk_80488DA0() {
 }
 
 
-TUnk_80488DA0::TUnk_80488DA0() : TUnk_80488A28() {
+TUnk_80488DA0::TUnk_80488DA0() : TCameraController() {
     *(float*)((char*)this + 0x6c) = (2e+01f);
     this->m_38 = 0;
 }

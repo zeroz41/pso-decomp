@@ -6,7 +6,7 @@
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/system/PadRumble.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
@@ -958,7 +958,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
     {
       *((void **) (((s8 *) camera_ctrl_instance) + 0x90)) = actor;
     }
-    ((TUnk_80488A28 *)c)->set_target((uaddr)actor);
+    ((TCameraController *)c)->set_target((uaddr)actor);
     c->m6(actor);
     if (is_split_screen() != 0)
     {
@@ -980,7 +980,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
   c = ((Ctrl_8006A410 **) (&camera_controller_registry))[view];
   if (c != 0)
   {
-    ((TUnk_80488A28 *)c)->set_target((uaddr)actor);
+    ((TCameraController *)c)->set_target((uaddr)actor);
     c->m6(actor);
   }
   if (camera_ctrl_instance != 0)
@@ -1870,6 +1870,6 @@ void TCameraCtrl__sub_800687C8(void) {
 }
 void*TCameraCtrl::get_target_ptr() { return (char*)this + 0x44; }
 
-void TUnk_80488A28::run_task() {  }
+void TCameraController::run_task() {  }
 }
 

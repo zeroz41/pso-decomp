@@ -2,7 +2,7 @@
 #define PSO_CAMERA_CREATION_CAMERA_H
 
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include <stddef.h>
 
 // What the character creation camera is doing (creation_camera_mode).
@@ -20,7 +20,7 @@ enum CreationCameraMode {
 
 // The camera controller of the character creation screens: it circles the
 // character at `distance`, looking at `target` from `pitch` and `yaw`.
-class CreationCamera : public TUnk_80488A28 {
+class CreationCamera : public TCameraController {
 public:
     f32 distance;
     s32 pitch;

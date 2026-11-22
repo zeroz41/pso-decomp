@@ -79,7 +79,7 @@ TUnk_80488B38::~TUnk_80488B38() {
 }
 
 struct CameraMotionData;
-TUnk_80488B38::TUnk_80488B38() : TUnk_80488A28() {
+TUnk_80488B38::TUnk_80488B38() : TCameraController() {
     *(float *)&this->unk_6C = 10.0f;
     this->m_38 = 0;
 }

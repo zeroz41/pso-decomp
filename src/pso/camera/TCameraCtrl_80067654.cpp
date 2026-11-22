@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_804887C8.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/TCameraCtrl_80067654.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/system/vector.h"
@@ -13,11 +13,11 @@
 extern "C" {
 void *get_player_by_client_id(s32 i);
 
-void TUnk_80488A28::vfunc_6() {  }
-void TUnk_80488A28::reset_state() {  }
-void TUnk_80488A28::vfunc_9(u8 *, u8 *) {  }
-void TUnk_80488A28::vfunc_8(void *) {  }
-void TUnk_80488A28::vfunc_10() {  }
+void TCameraController::vfunc_6() {  }
+void TCameraController::reset_state() {  }
+void TCameraController::vfunc_9(u8 *, u8 *) {  }
+void TCameraController::vfunc_8(void *) {  }
+void TCameraController::vfunc_10() {  }
 
 void * TCameraCtrl__vt11(void) {
     void *o;
@@ -61,8 +61,8 @@ TUnk_804887C8::~TUnk_804887C8() {
 
 }
 
-TUnk_804887C8::TUnk_804887C8() : TUnk_80488A28() {
+TUnk_804887C8::TUnk_804887C8() : TCameraController() {
     this->m_38 = 5;
-    ((TUnk_80488A28 *)this)->set_target((uaddr)get_player_by_client_id(0U));
+    ((TCameraController *)this)->set_target((uaddr)get_player_by_client_id(0U));
 }
 

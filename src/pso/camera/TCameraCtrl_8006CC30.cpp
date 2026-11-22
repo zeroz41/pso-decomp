@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"

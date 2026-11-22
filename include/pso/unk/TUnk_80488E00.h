@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_80488E00_H
 #define PSO_UNK_TUNK_80488E00_H
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 
 // One per split-screen view; the constructor clears all four with TCameraCtrl__sub_8006E804.
 struct FollowCameraSlot {
@@ -9,7 +9,7 @@ struct FollowCameraSlot {
     s32 m_18;
 };
 
-class TUnk_80488E00 : public TUnk_80488A28 {
+class TUnk_80488E00 : public TCameraController {
 public:
     TUnk_80488E00();
     virtual ~TUnk_80488E00();

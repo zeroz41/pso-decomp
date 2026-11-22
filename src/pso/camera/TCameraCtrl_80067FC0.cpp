@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
@@ -186,7 +186,7 @@ s32 TUnk_80488E00::predict_obstruction() {
 void TCameraCtrl__sub_80068354(void) {  }
 void TCameraCtrl__sub_80068358(void) {  }
 
-void TUnk_80488A28::post_update_view() {
+void TCameraController::post_update_view() {
     Vec e;
     Vec d;
     Vec *t;
@@ -254,10 +254,10 @@ void apply_camera_controller_pose(Cam_80068530 *arg0) {
     }
 }
 
-TUnk_80488A28::~TUnk_80488A28() {
+TCameraController::~TCameraController() {
 
 }
-TUnk_80488A28::TUnk_80488A28() : TObject(0) {
+TCameraController::TCameraController() : TObject(0) {
     this->position.x = 0.0f;
     this->position.y = 0.0f;
     this->position.z = 0.0f;

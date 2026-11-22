@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804887F8.h"
 #include "pso/unk/TUnk_80488E00.h"
@@ -20,7 +20,7 @@ f32 vector_length(void *);
 extern u8 *camera_ctrl_instance;
 s16 get_entity_id(u32);
 
-void TUnk_80488A28::set_target(uaddr arg1) {
+void TCameraController::set_target(uaddr arg1) {
     *(u32 *)((s8 *)this + 0x1C) = arg1;
     if (arg1 != 0U) {
         this->m_20 = get_entity_id(arg1);

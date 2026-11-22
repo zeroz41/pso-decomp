@@ -162,7 +162,7 @@ TUnk_80488B68::~TUnk_80488B68() {
 
 }
 
-TUnk_80488B68::TUnk_80488B68() : TUnk_80488A28() {
+TUnk_80488B68::TUnk_80488B68() : TCameraController() {
     this->m_38 = 0;
     scripted_camera_projection_angle = 0;
     TCameraCtrl__saved_projection_angle = 0;

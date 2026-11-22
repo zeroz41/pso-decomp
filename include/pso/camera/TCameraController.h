@@ -1,13 +1,13 @@
-#ifndef PSO_UNK_TUNK_80488A28_H
-#define PSO_UNK_TUNK_80488A28_H
+#ifndef PSO_CAMERA_TCAMERACONTROLLER_H
+#define PSO_CAMERA_TCAMERACONTROLLER_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
-class TUnk_80488A28 : public TObject {
+class TCameraController : public TObject {
 public:
-    TUnk_80488A28();
-    virtual ~TUnk_80488A28();
+    TCameraController();
+    virtual ~TCameraController();
     void set_target(uaddr);
     virtual void vfunc_6();
     virtual void reset_state();

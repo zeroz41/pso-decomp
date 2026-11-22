@@ -95,7 +95,7 @@ Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
 
 }
 
-TUnk_80488B08::TUnk_80488B08() : TUnk_80488A28() {
+TUnk_80488B08::TUnk_80488B08() : TCameraController() {
     m_38 = 4;
     TCameraCtrl__fixed_npc_camera_active = 0;
 }

@@ -122,7 +122,7 @@ void TUnk_80488838::run_task() { TCameraCtrl::target_player0((saddr)this); this-
 
 TUnk_80488838::~TUnk_80488838() {}
 
-TUnk_80488838::TUnk_80488838() : TUnk_80488A28() {
+TUnk_80488838::TUnk_80488838() : TCameraController() {
     m_38 = 0;
     controller = &controller_input_state.controllers[0];
     reset_state();

@@ -1,9 +1,9 @@
 #ifndef PSO_UNK_TUNK_80488D70_H
 #define PSO_UNK_TUNK_80488D70_H
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 
-class TUnk_80488D70 : public TUnk_80488A28 {
+class TUnk_80488D70 : public TCameraController {
 public:
     virtual ~TUnk_80488D70();
     virtual void run_task();
