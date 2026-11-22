@@ -1183,7 +1183,6 @@ struct TObjPlayer : public TObjChara {
     static void draw_effect();
     void draw_trail_pair();
     void update_aim_and_fire();
-    void set_flag_and_notify();
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
