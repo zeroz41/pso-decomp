@@ -1067,7 +1067,7 @@ block_5:
     return 1;
 }
 
-s32 fn_8042E8B8(void) {
-    return 0x80003100;
+LaunchDolContext *fn_8042E8B8(void) {
+    return (LaunchDolContext *)0x80003100;
 }
 }

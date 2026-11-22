@@ -6,7 +6,6 @@
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 
-
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
@@ -30,7 +29,6 @@ void TChCrTagPlGraphic::draw_class_illustration() {
 }
 #pragma pop
 
-
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 struct TChCrTagPlGraphicLayout {
@@ -41,7 +39,6 @@ struct TChCrTagPlGraphicLayout {
 };
 
 extern "C" {
-void restore_saved_depth_alpha_state(void);
 
 void TChCrTagPlGraphic::render() {
     set_depth_buffer_settings_1();
@@ -135,11 +132,9 @@ TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, s32 index) : TChCrTag(pare
     copy_vec2(&pos, (void *)&e->pos);
 }
 
-
 TChCrTagPlGraphic *TChCrTagPlGraphic::create(s32 index) {
     return new TChCrTagPlGraphic(tl_03, index);
 }
-
 
 void TChCrTagPlGraphic::create_matching_tags() {
     s32 i, j;

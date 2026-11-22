@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 char * text_builder_write_cursor;
 char text_builder_buffer[0x100];
@@ -100,12 +101,10 @@ char *format_int_decimal(s32 v, char *out) {
 
 // ---- pso/ui/window/TWindowSubStatusDisp_80228F5C
 
-
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 
 extern "C" {
-char *parse_text_control_codes(char *p, s32 *a, s32 *b);
 void text_builder_append_int(s32 arg0) {
     text_builder_write_cursor = format_int_decimal(arg0, text_builder_write_cursor);
 }

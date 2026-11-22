@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdio.h>
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 
 struct TBoss3Volopt;
 struct TBoss8Dragon;
@@ -53,10 +54,6 @@ struct Head_801E4260 {
     u8 pad[0x14];
     Node_801E4260 *first;
 };
-
-extern "C" {
-void TLobby__sub_8007EB20(const char *, ...);
-}
 
 void handle_6x05_write_switch_flag(void *arg0);
 void handle_6x06_send_guild_card(s32 arg0);

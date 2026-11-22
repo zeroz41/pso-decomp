@@ -3,10 +3,9 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/PlayerClassFlags.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 extern "C" {
-
-saddr get_message_text(s32);
 
 saddr TLobby::get_class_type_name(s32 class_flags) {
     if (class_flags & CLASS_FLAG_HUNTER) {

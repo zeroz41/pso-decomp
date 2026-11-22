@@ -4,9 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_80207DA8.h"
 
 extern "C" {
-void clear_floor_event_flags(void);
 
 void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
     TObject *p = task->m_down;

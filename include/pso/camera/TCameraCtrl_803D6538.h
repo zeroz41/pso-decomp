@@ -8,7 +8,6 @@ struct _GXColor;
 
 extern "C" {
 void TCameraCtrl__sub_803D65F8(u8 *_w0);
-s32 TObjPlayer__sub_803D6C1C(saddr arg0);
 s32 TObjPlayer__sub_803D7FD0(void);
 s32 TObjPlayer__sub_803D7FD8(void);
 // Float colour (alpha first, 0..255 scale) to a GX byte colour and back,

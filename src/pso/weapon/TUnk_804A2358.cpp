@@ -7,10 +7,9 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_80120908.h"
 
 extern "C" {
-
-void draw_weapon_at_joint(saddr arg0, s8 arg1);
 
 void TUnk_804A2358::emit_marker_effects() {
     s32 sp8;

@@ -7,7 +7,6 @@
 extern "C" {
 extern const char TBoss1DragonEffBreath__class_name_string[] = "TBoss1DragonEffBreath";
 const char *TBoss1DragonEffBreath__name = TBoss1DragonEffBreath__class_name_string;
-void vec3_add_to(Vec *position, const Vec *velocity);
 }
 
 void TBoss1DragonEffBreath::render() {}

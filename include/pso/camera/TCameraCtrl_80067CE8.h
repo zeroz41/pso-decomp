@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void *TCameraCtrl__vt7(void);
 void target_player0__11TCameraCtrlFi(saddr arg0);
 }
 

@@ -14,12 +14,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/render/ModelDrawContext.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-}
 
 __declspec(section ".data") const char *bm_obj_lobby_bell_model_names[3] = { "lobby_obj_bell_D8_yane.gj", "lobby_obj_bell_VN_null1.gj", NULL };
 __declspec(section ".data") const char *bm_obj_lobby_bell_motion_names[2] = { "lobby_obj_bell_VN_null1.njm", NULL };

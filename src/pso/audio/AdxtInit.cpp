@@ -4,6 +4,8 @@
 #include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
+#include "pso/audio/AdxFsServer.h"
+#include "pso/audio/AdxLock.h"
 #include "pso/unk/TLobby_803C4698.h"
 #include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/AdxStreamRuntime.h"
@@ -75,7 +77,6 @@ void TLobby::init_and_add_ref() {
     }
     TLobby_init_ref_count += 1;
 }
-
 
 s32 TLobby::ar_alloc(s32) {
     ADXT_ExecFsSvr();

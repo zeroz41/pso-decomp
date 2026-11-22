@@ -19,8 +19,6 @@ struct B_803E4BDC { u8 pad[0x28]; s32 f28; };
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
 extern void *motion_angle_sampler_table[];
 extern B_803E4BDC *current_motion_context;
-
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void draw_chunk_model_with_shape_motion(void *arg0, void *arg1, NJS_MOTION *arg2, f32 farg0);
 void compose_motion_node_matrix(void *arg0);
 void select_motion_context(s32 arg0);

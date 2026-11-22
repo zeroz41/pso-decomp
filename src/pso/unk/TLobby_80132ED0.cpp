@@ -3,10 +3,10 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 extern saddr text_language_group_table;
 extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
 void TLobby::update_menu_cursor() {
     void *global_state;
 
