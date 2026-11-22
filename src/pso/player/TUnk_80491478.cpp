@@ -29,7 +29,7 @@ static const s32 part_model_nodes[3] = {0x14, 0x2B, 0x17};
 TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset) : TObjCollidable(tl_06) {
     Vec v;
     Vec out;
-    TObject *effect;
+    TeneFakeTecThunderEff *effect;
     CsnHit *hit;
     s32 node;
     part_index = index;
@@ -55,20 +55,20 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     }
     pop_matrix();
     velocity.y = 0.0f;
-    effect = (TObject *)TObject::operator new(0x348);
+    effect = (TeneFakeTecThunderEff *)TObject::operator new(0x348);
     if (effect != NULL) {
-        effect = (TObject *)TObjPlayer__sub_800A4204((u8 *)effect, (u8 *)this, (saddr)target, (saddr)&pos, 0x10);
+        effect = (TeneFakeTecThunderEff *)TObjPlayer__sub_800A4204((u8 *)effect, (u8 *)this, (saddr)target, (saddr)&pos, 0x10);
     }
-    m_d0 = effect;
-    if (m_d0 != NULL) {
-        ((TeneFakeTecThunderEff *)m_d0)->clear_counter();
+    thunder_effect = effect;
+    if (thunder_effect != NULL) {
+        thunder_effect->clear_counter();
     }
 }
 
 TUnk_80491478::~TUnk_80491478() {
-    if (m_d0 != NULL) {
-        m_d0->queue_destruction();
-        m_d0 = NULL;
+    if (thunder_effect != NULL) {
+        thunder_effect->queue_destruction();
+        thunder_effect = NULL;
     }
 }
 
@@ -156,8 +156,8 @@ s32 TUnk_80491478::get_action_priority() {
 
 void TUnk_80491478::cancel_action() {
     if (get_action_priority() != 1) {
-        if (m_d0 != NULL) {
-            ((TeneFakeTecThunderEff *)m_d0)->set_cancel_flag();
+        if (thunder_effect != NULL) {
+            thunder_effect->set_cancel_flag();
         }
         m_ae = 2;
     }
