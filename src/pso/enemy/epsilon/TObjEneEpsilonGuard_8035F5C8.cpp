@@ -38,9 +38,9 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma inline_depth(1)
-// Joint index per guard slot and the joint-local point the guard angle is measured from (sub_803606A0).
+// Joint index per guard slot and the joint-local point the guard angle is measured from (update_guard_anchor).
 // 20 rows of per-guard attack flags (update_attack_pattern).
-// Guard slot visiting order {2, 0, 1, 3} (sub_8035FD50).
+// Guard slot visiting order {2, 0, 1, 3} (select_slot_target).
 // Per-colour value {1, 2, 3, 5} (get_table_value_by_index).
 // Per-colour value {9, 7, 10, 11} (sub_8035F8A8).
 
@@ -211,13 +211,13 @@ void TObjEneEpsilonBody::run_task() {
 void TObjEneEpsilonBody::dispatch_action(u32 state, s32 reason) {
     switch (state) {
     case 0:
-        sub_80361D4C(reason);
+        handle_wait_state(reason);
         return;
     case 1:
-        sub_80361C70(reason);
+        handle_fade_in_state(reason);
         return;
     case 2:
-        sub_803616E4(reason);
+        handle_fire_state(reason);
         return;
     case 3:
         handle_guard_action_state(reason);
@@ -226,13 +226,13 @@ void TObjEneEpsilonBody::dispatch_action(u32 state, s32 reason) {
         action(reason);
         return;
     case 5:
-        sub_803610D0(reason);
+        handle_pre_warp_state(reason);
         return;
     case 6:
         handle_warp_state(reason);
         return;
     case 7:
-        sub_80360BF8(reason);
+        handle_return_home_state(reason);
         return;
     case 8:
         update_fade(reason);
@@ -304,7 +304,7 @@ void TObjEneEpsilonBody::update_guard_flag() {
 
 void TObjEneEpsilonBody::run_demo_task() {  }
 
-void TObjEneEpsilonBody::sub_80361D4C(s32 reason) {
+void TObjEneEpsilonBody::handle_wait_state(s32 reason) {
     switch (reason) {
     case 4:
         set_field_378(0);
@@ -328,7 +328,7 @@ void TObjEneEpsilonBody::sub_80361D4C(s32 reason) {
     }
 }
 
-void TObjEneEpsilonBody::sub_80361C70(s32 reason) {
+void TObjEneEpsilonBody::handle_fade_in_state(s32 reason) {
     switch (reason) {
     case 4:
         set_field_378(0);
@@ -353,7 +353,7 @@ void TObjEneEpsilonBody::sub_80361C70(s32 reason) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneEpsilonBody::sub_803616E4(s32 reason) {
+void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
     Vec *d;
     Vec *tgt;
     d = &fire_position;
@@ -420,7 +420,7 @@ void TObjEneEpsilonBody::sub_803616E4(s32 reason) {
                 action_step = 1;
             } else {
                 m_4f4++;
-                target_player = sub_8035FD50(m_4f4);
+                target_player = select_slot_target(m_4f4);
                 if (target_player != 0xFFFF) {
                     if (TObjPlayer::is_valid_and_active((uaddr)TObjPlayer::get_player_data(target_player)) != 0) {
                         VecCopy(d, &position);
@@ -518,7 +518,7 @@ void TObjEneEpsilonBody::handle_guard_action_state(s32 reason) {
         break;
     case 3:
         if (action_step == 3) {
-            sub_8035FA50();
+            set_guards_flag_2();
             flags &= ~0x10;
             transition_enemy_state(4);
         } else if (action_step == 2) {
@@ -544,7 +544,7 @@ void TObjEneEpsilonBody::handle_guard_action_state(s32 reason) {
             if (action_timer == 0xF) {
                 play_sound_effect(0x4003A345, &position, 0, 0);
             }
-            if (sub_8035FBBC() != 0 || action_timer <= 0) {
+            if (all_guards_active() != 0 || action_timer <= 0) {
                 action_step = 3;
             }
             break;
@@ -580,11 +580,11 @@ void TObjEneEpsilonBody::action(s32 reason) {
         switch (action_step) {
         case 0:
             temp_r3 = flags;
-            if (((temp_r3 & 4) || (temp_r3 & 0x80)) && (sub_8035FCEC() != 0)) {
+            if (((temp_r3 & 4) || (temp_r3 & 0x80)) && (all_guards_ready() != 0)) {
                 action_step = 2;
                 guard_phase_timer = guard_phase_frames;
             } else {
-                sub_8035FB44();
+                update_flag_20();
                 update_attack_pattern();
                 if (flags & 0x10) {
                     action_step = 1;
@@ -605,7 +605,7 @@ void TObjEneEpsilonBody::action(s32 reason) {
     }
 }
 
-void TObjEneEpsilonBody::sub_803610D0(s32 reason) {
+void TObjEneEpsilonBody::handle_pre_warp_state(s32 reason) {
     switch (reason) {
     case 4:
         set_field_378(4);
@@ -632,7 +632,7 @@ void TObjEneEpsilonBody::sub_803610D0(s32 reason) {
         switch (action_step) {
         case 0:
             action_timer--;
-            if (sub_8035FAA8() == 1) {
+            if (notify_guards_if_ready() == 1) {
                 set_field_378(5);
                 flags |= 0x40;
                 action_step = 1;
@@ -646,7 +646,7 @@ void TObjEneEpsilonBody::sub_803610D0(s32 reason) {
             break;
         case 1:
             action_timer--;
-            if (sub_8035FCEC() != 0 || action_timer <= 0) {
+            if (all_guards_ready() != 0 || action_timer <= 0) {
                 action_step = 2;
                 action_timer = 8;
             }
@@ -761,7 +761,7 @@ void TObjEneEpsilonBody::handle_warp_state(s32 reason) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneEpsilonBody::sub_80360BF8(s32 reason) {
+void TObjEneEpsilonBody::handle_return_home_state(s32 reason) {
     switch (reason) {
     case 4:
         set_field_378(4);
@@ -926,7 +926,7 @@ void TObjEneEpsilonBody::render() {
         } else {
             i = 0;
             do {
-                sub_803606A0(i);
+                update_guard_anchor(i);
                 i += 1;
             } while (i < 4);
         }
@@ -940,7 +940,7 @@ void TObjEneEpsilonBody::render() {
 #pragma pop
 
 #pragma pool_data off
-void TObjEneEpsilonBody::sub_803606A0(s32 i) {
+void TObjEneEpsilonBody::update_guard_anchor(s32 i) {
     // Joint index per guard slot.
     EpsilonGuardSlotValues t = {{28, 38, 48, 58}};
 
@@ -1140,12 +1140,12 @@ void TObjEneEpsilonBody::update_attack_pattern() {
             row = t.v[(s32)(20.0f * random_ratio()) % 20];
             for (i = 0; i < 4; i++) {
                 if (row[i] == 1) {
-                    sub_8035F844(i);
+                    clear_guard_state_flag(i);
                 }
             }
             flags &= ~0x400;
         }
-    } else if (sub_8035FC20() != 0) {
+    } else if (all_guard_state_flags_set() != 0) {
         flags |= 0x400;
         attack_pattern_timer = lbl_805D6F8C->m_20;
     }
@@ -1153,7 +1153,7 @@ void TObjEneEpsilonBody::update_attack_pattern() {
 
 // Picks the player for guard slot `slot`: the up to four nearest players in
 // range with a clear path, sorted by distance and repeated to fill four slots.
-u32 TObjEneEpsilonBody::sub_8035FD50(s32 slot) {
+u32 TObjEneEpsilonBody::select_slot_target(s32 slot) {
     EpsilonGuardSlotValues order = {{2, 0, 1, 3}};
     EnemyTargetCandidate list[4];
     Vec d;
@@ -1210,7 +1210,7 @@ u32 TObjEneEpsilonBody::sub_8035FD50(s32 slot) {
     return list[order.v[slot % 4]].id;
 }
 
-s32 TObjEneEpsilonBody::sub_8035FCEC() {
+s32 TObjEneEpsilonBody::all_guards_ready() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (((TObjEneEpsilonGuard *)find_entity_by_id(guard_ids[i]))->is_guard_ready() == 0) {
@@ -1230,7 +1230,7 @@ s32 TObjEneEpsilonBody::all_children_gone() {
     return 1;
 }
 
-s32 TObjEneEpsilonBody::sub_8035FC20() {
+s32 TObjEneEpsilonBody::all_guard_state_flags_set() {
     s32 i;
     TObjEneEpsilonGuard *guard;
     for (i = 0; i < 4; i++) {
@@ -1241,7 +1241,7 @@ s32 TObjEneEpsilonBody::sub_8035FC20() {
     return 1;
 }
 
-s32 TObjEneEpsilonBody::sub_8035FBBC() {
+s32 TObjEneEpsilonBody::all_guards_active() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (((TObjEneEpsilonGuard *)find_entity_by_id(guard_ids[i]))->is_guard_active() == 0) {
@@ -1251,17 +1251,17 @@ s32 TObjEneEpsilonBody::sub_8035FBBC() {
     return 1;
 }
 
-void TObjEneEpsilonBody::sub_8035FB44() {
+void TObjEneEpsilonBody::update_flag_20() {
     s32 i;
     TObjCollidable *guard;
     flags &= ~0x20;
     for (i = 0; i < 4; i++) {
-        if ((guard = find_entity_by_id(guard_ids[i])) != 0 && ((TObjEneEpsilonGuard *)guard)->sub_8035DD68() == 1) {
+        if ((guard = find_entity_by_id(guard_ids[i])) != 0 && ((TObjEneEpsilonGuard *)guard)->test_flag_80() == 1) {
             flags |= 0x20;
         }
     }
 }
-s32 TObjEneEpsilonBody::sub_8035FAA8() {
+s32 TObjEneEpsilonBody::notify_guards_if_ready() {
     s32 i;
     TObjEneEpsilonGuard *guard;
     for (i = 0; i < 4; i++) {
@@ -1277,12 +1277,12 @@ s32 TObjEneEpsilonBody::sub_8035FAA8() {
     return 1;
 }
 
-void TObjEneEpsilonBody::sub_8035FA50() {
+void TObjEneEpsilonBody::set_guards_flag_2() {
     s32 i;
     TObjCollidable *guard;
     for (i = 0; i < 4; i++) {
         if ((guard = find_entity_by_id(guard_ids[i])) != 0) {
-            ((TObjEneEpsilonGuard *)guard)->sub_8035DEC0();
+            ((TObjEneEpsilonGuard *)guard)->set_flag_2_and_clear_status();
         }
     }
 }
@@ -1293,7 +1293,7 @@ s32 TObjEneEpsilonBody::assign_guard_targets() {
     TObjEneEpsilonGuard *guard;
     for (i = 0; i < 4; i++) {
         guard = (TObjEneEpsilonGuard *)find_entity_by_id(guard_ids[i]);
-        if (guard != 0 && guard->sub_8035DD74() == 0) {
+        if (guard != 0 && guard->is_following_body() == 0) {
             return 0;
         }
     }
@@ -1307,9 +1307,9 @@ s32 TObjEneEpsilonBody::assign_guard_targets() {
     return 1;
 }
 s32 TObjEneEpsilonBody::sub_8035F968() { return 0; }
-s32 TObjEneEpsilonBody::sub_8035F95C() { return ((u32)flags >> 5) & 1; }
+s32 TObjEneEpsilonBody::test_flag_20() { return ((u32)flags >> 5) & 1; }
 
-s32 TObjEneEpsilonBody::sub_8035F950() { return ((u32)flags >> 11) & 1; }
+s32 TObjEneEpsilonBody::test_flag_800() { return ((u32)flags >> 11) & 1; }
 
 s16 TObjEneEpsilonBody::get_table_value_by_index() {
     s16 i = this->color_index;
@@ -1329,7 +1329,7 @@ s16 TObjEneEpsilonBody::sub_8035F8A8() {
     return t.v[i];
 }
 
-void TObjEneEpsilonBody::sub_8035F844(s32 slot) {
+void TObjEneEpsilonBody::clear_guard_state_flag(s32 slot) {
     TObjEneEpsilonGuard *guard;
     if (slot < 0 || slot >= 4) {
         return;

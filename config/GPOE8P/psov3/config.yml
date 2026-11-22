@@ -1168,18 +1168,18 @@ force_active:
   - TObjEneEpsilonGuard__resource_descriptor
   - sub_8035E578__19TObjEneEpsilonGuardFl
   - sub_8035E8C0__19TObjEneEpsilonGuardFl
-  - sub_8035F844__18TObjEneEpsilonBodyFl
-  - sub_8035FA50__18TObjEneEpsilonBodyFv
-  - sub_8035FAA8__18TObjEneEpsilonBodyFv
-  - sub_8035FB44__18TObjEneEpsilonBodyFv
-  - sub_8035FBBC__18TObjEneEpsilonBodyFv
-  - sub_8035FC20__18TObjEneEpsilonBodyFv
-  - sub_8035FCEC__18TObjEneEpsilonBodyFv
-  - sub_8035FD50__18TObjEneEpsilonBodyFl
-  - sub_80360BF8__18TObjEneEpsilonBodyFl
-  - sub_803610D0__18TObjEneEpsilonBodyFl
-  - sub_803616E4__18TObjEneEpsilonBodyFl
-  - sub_80361C70__18TObjEneEpsilonBodyFl
+  - clear_guard_state_flag__18TObjEneEpsilonBodyFl
+  - set_guards_flag_2__18TObjEneEpsilonBodyFv
+  - notify_guards_if_ready__18TObjEneEpsilonBodyFv
+  - update_flag_20__18TObjEneEpsilonBodyFv
+  - all_guards_active__18TObjEneEpsilonBodyFv
+  - all_guard_state_flags_set__18TObjEneEpsilonBodyFv
+  - all_guards_ready__18TObjEneEpsilonBodyFv
+  - select_slot_target__18TObjEneEpsilonBodyFl
+  - handle_return_home_state__18TObjEneEpsilonBodyFl
+  - handle_pre_warp_state__18TObjEneEpsilonBodyFl
+  - handle_fire_state__18TObjEneEpsilonBodyFl
+  - handle_fade_in_state__18TObjEneEpsilonBodyFl
   - receive_direct_attack__19TObjEneEpsilonGuardFPv19DirectAttackPayloadPvll
   - dispatch_action__19TObjEneEpsilonGuardFUll
   - TObjEneIllGill_class_name
@@ -16395,8 +16395,8 @@ force_active:
   - sub_8035D8B0__9TBoss6DPBFv
   - sub_8035EA90__19TObjEneEpsilonGuardFv
   - sub_8035F8A8__18TObjEneEpsilonBodyFv
-  - sub_803606A0__18TObjEneEpsilonBodyFl
-  - sub_80361D4C__18TObjEneEpsilonBodyFl
+  - update_guard_anchor__18TObjEneEpsilonBodyFl
+  - handle_wait_state__18TObjEneEpsilonBodyFl
   - sub_803669B0__14TObjEneIllGillFv
   - sub_80369D68__15TObjSuisouLobbyFv
   - sub_8036DEDC__21TAdMultiChgGameModeGCFv

@@ -69,9 +69,9 @@ f32 TObjEneEpsilonGuard::receive_direct_attack(void *attacker, DirectAttackPaylo
     return 0.0f;
 }
 
-s32 TObjEneEpsilonGuard::sub_8035DD68() { return ((u32)flags >> 7) & 0x1; }
+s32 TObjEneEpsilonGuard::test_flag_80() { return ((u32)flags >> 7) & 0x1; }
 
-s32 TObjEneEpsilonGuard::sub_8035DD74() {
+s32 TObjEneEpsilonGuard::is_following_body() {
     if (actorFlags & 0xA00) {
         return 0;
     }
@@ -125,7 +125,7 @@ void TObjEneEpsilonGuard::set_flag_8_and_notify() {
     clear_all_status_effects();
 }
 
-void TObjEneEpsilonGuard::sub_8035DEC0() {
+void TObjEneEpsilonGuard::set_flag_2_and_clear_status() {
     flags |= 2;
     clear_all_status_effects();
 }
@@ -373,7 +373,7 @@ void TObjEneEpsilonGuard::state_orbit(s32 msg) {
                 if (TObjEneEpsilonBody::sub_8035F968() == 1) {
                     flags &= ~4;
                     state_step = 2;
-                } else if (body->sub_8035F95C() != 1) {
+                } else if (body->test_flag_20() != 1) {
                     goto orbit;
                 }
             } else {
@@ -545,7 +545,7 @@ void TObjEneEpsilonGuard::update_guard_state() {
 
     if (!(flags & 0x40)) {
         body = find_entity_by_id(body_id);
-        if ((body == NULL) || (((TObjEneEpsilonBody *)body)->sub_8035F950() == 1)) {
+        if ((body == NULL) || (((TObjEneEpsilonBody *)body)->test_flag_800() == 1)) {
             if (flags & 0x10) {
                 transition_enemy_state(5);
             } else {

@@ -26,9 +26,9 @@ struct TObjEneEpsilonGuardParams {
 struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     virtual ~TObjEneEpsilonGuard();
-    s32 sub_8035DD68();
-    s32 sub_8035DD74();
-    void sub_8035DEC0();
+    s32 test_flag_80();
+    s32 is_following_body();
+    void set_flag_2_and_clear_status();
     void sub_8035E578(s32 msg);
     void sub_8035E8C0(s32 msg);
     void sub_803626A8(saddr, s32);
