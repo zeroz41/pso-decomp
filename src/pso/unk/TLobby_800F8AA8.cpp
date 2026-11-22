@@ -1000,7 +1000,6 @@ typedef struct {
 } Desc_800F8FB8;
 
 s32 DVDGetDriveStatus(void);
-void TCameraCtrl__sub_80068EF0(void);
 
 s8 func_801A5E54__Fv(void);
 s32 DVDCheckDisk(void);
@@ -1118,7 +1117,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     }
     restore_saved_depth_alpha_state();
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     if (status == 4 || status == 5 || status == 6 || status == -1 || status == 11) {
         return 0;
     }

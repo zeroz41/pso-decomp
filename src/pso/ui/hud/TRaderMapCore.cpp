@@ -253,7 +253,6 @@ uaddr TRaderMapCore__frame_model_resource;
 uaddr TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore__map_heap;
 
-void TCameraCtrl__sub_80068EF0(void);
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
 s32 GXSetScissorBoxOffset(int, int);
@@ -782,7 +781,7 @@ void TRaderMapCore::render() {
         case 1:
             TCameraCtrl::restore_full_screen_view();
             TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             begin_map_view__13TRaderMapCoreFii((saddr)arg0, (s32)TRaderMapCore__view_mode);
             render_region_records((void *)TRaderMapCore__view_mode);
             ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
@@ -791,7 +790,7 @@ void TRaderMapCore::render() {
             TCameraCtrl::restore_full_screen_view();
             this->m_174 = 0;
             draw_compass(TRaderMapCore__view_mode);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             break;
         case 2:
             TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
@@ -873,7 +872,7 @@ void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1) {
 void TRaderMapCore::setup_view(s32 arg1) {
     saddr arg0 = (saddr)this;
     GXSetScissorBoxOffset(0, 0);
-    TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
+    set_screen_center(320.0f, 240.0f);
     camera_ctrl_instance->setup_default_view(0);
     TRaderMapCore::set_view_scissor((void *)arg0, 0, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
     TObjLight::apply_distant_light();
@@ -1551,7 +1550,7 @@ void TRaderMapCore::configure_viewport(const RadarViewportParameters* view) {
     GXSetScissorBoxOffset(0, 0);
     offset_x = -(view->center_x - 320.0f);
     offset_y = -(view->center_y - 240.0f);
-    TCameraCtrl__sub_801E32D8(view->center_x, view->center_y);
+    set_screen_center(view->center_x, view->center_y);
     GXSetScissorBoxOffset(offset_x, offset_y);
 }
 #pragma fp_contract reset

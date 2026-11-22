@@ -600,7 +600,7 @@ void end_shadow_map_pass() {
         submit_light0(0, 1);
         load_gx_light_slot(0);
         set_ginja_draw_flags(0);
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
     }
 }
 
@@ -775,7 +775,7 @@ void TUnk_8048E5F4::render() {
                 TParticleCtrl::begin_effect_render();
                 TObjPlayer::draw_screen_quad(camera_capture_overlay_alpha << 0x18, 0, 0.0f);
                 TParticleCtrl::end_effect_render();
-                TCameraCtrl__sub_80068EF0();
+                TCameraCtrl::restore_saved_view();
                 disable_camera_capture_overlay();
             }
         } else {
@@ -858,7 +858,7 @@ void TUnk_8048E5DC::render_shadows() {
         }
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         camera_ctrl_instance->calc_rotated_axes();
         camera_ctrl_instance->setup_default_view(0);
     }

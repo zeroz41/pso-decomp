@@ -24,7 +24,6 @@ struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-void TCameraCtrl__sub_80068EF0(void);
 extern s32 lbl_805D63F0;
 const char *TWindowEffectLight__name = "TWindowEffectLight";
 extern saddr tl_window;
@@ -93,7 +92,7 @@ void TWindowEffectLight::render() {
     }
     TWindowSubStatusDisp::get_player();
     set_default_alpha_blend();
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();
   }
 }

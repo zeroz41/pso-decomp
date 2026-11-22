@@ -114,7 +114,6 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
 
 extern "C" {
 
-void TCameraCtrl__sub_80068EF0(void);
 
 void TChCrEffFade::render() {
     f32 temp_f0;
@@ -130,7 +129,7 @@ void TChCrEffFade::render() {
         draw_fade_strip(temp_f0 * temp_f0);
         break;
     }
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 }
 
 

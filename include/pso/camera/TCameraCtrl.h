@@ -135,11 +135,16 @@ public:
     static s32 get_split_screen_view_index(u16 id);
     static u16 get_nth_view_player_id(s32 n);
     static f32 get_split_offset(s32 view);
+    // The horizontal counterpart of get_split_offset: split views are never
+    // shifted sideways.
+    static f32 get_split_offset_x(s32 view);
     static void set_fullscreen_viewport();
     static void set_split_viewport(s32 views, s32 view);
     static f32 get_fov();
     static f32 get_view_scale();
     static void restore_full_screen_view();
+    // Puts back the view restore_full_screen_view saved, after a full-screen 2D pass.
+    static void restore_saved_view();
     static u16 get_camera_target_id(s32 view);
     static void apply_split_screen_view_matrix();
     static s32 *get_view_matrix();
@@ -147,7 +152,6 @@ public:
     static void reset_default_view();
     static void init_default_view();
     static void reset_viewport_scissor();
-    static void set_viewport_scissor(int mode, void *rect);
     Vec *get_target();
     // The controller driving the view is passed along but not read.
     void resolve_anchor_obstruction(TCameraController *controller);
@@ -167,6 +171,8 @@ public:
     static void reset_to_local_player();
     static void set_override_position_and_angle(u8 *position, s16 angle);
     static void set_fixed_position_and_target(u8 *position, u8 *target);
+    // Fixes the view at position, looking at target (quest leti_fixed_camera).
+    static void set_fixed_camera(Vec *position, Vec *target);
     static void set_active_camera_flag();
     // The viewport origin, which projected points are made view-relative by.
     static s32 get_viewport_y();
@@ -226,7 +232,6 @@ void reset_cameras_to_actor(void *actor, s32 view_unused);
 
 extern "C" {
 int is_quest_active(void);
-f32 TCameraCtrl__sub_80068A04(s32 view);
 // Forces registry controller `index` until restore_player_cameras; 0 if a
 // mode is already forced.
 s32 activate_camera_mode(s32 index);
@@ -235,8 +240,6 @@ s32 restore_player_cameras(void);
 void set_active_camera_pose(Vec *position, Vec *target);
 void set_active_camera_pose_from_params(CameraParams *params);
 void start_camera_shake(s32 frames, f32 amplitude);
-// Restores the saved view after a full-screen 2D pass.
-void TCameraCtrl__sub_80068EF0(void);
 }
 void calc_projection_screen_offset(f32 *x, f32 *y);
 

@@ -159,8 +159,8 @@ void TCameraController::post_update_view() {
     lbl_804FF5E8[2] = camera_ctrl_instance->pos.z;
     if (TCameraCtrl::view_state.flags & 0x200) {
         GXSetScissorBoxOffset((s32)-(TCameraCtrl::view_params.center_x - 320.0f), (s32)-(TCameraCtrl::view_params.center_y - 240.0f));
-        TCameraCtrl__sub_801E32D8(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
-        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl::view_params.pad_30);
+        set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
+        set_viewport_scissor(2, TCameraCtrl::view_params.pad_30);
     }
 }
 

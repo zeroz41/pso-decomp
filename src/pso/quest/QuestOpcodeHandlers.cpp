@@ -875,7 +875,6 @@ s32 setControlOverride__12TBoss1DragonFs(int, void *);
 int set_camera_capture_overlay_alpha(void*);
 int is_quest_active(void);
 s32 reset_battle_camera__11TCameraCtrlFv();
-void TCameraCtrl__sub_8006B3B8(Vec *, Vec *);
 void set_override_position_and_angle__11TCameraCtrlFPUcs(Vec *, int, Vec *, s32 *);
 saddr TLobby__sub_80070ACC();
 s32 set_challenge_mode_split_flag();
@@ -3835,7 +3834,7 @@ void qst_op_leti_fixed_camera(u8 regs) {
     at.x = qst_registers[(u8)regs++];
     at.y = qst_registers[(u8)regs++];
     at.z = qst_registers[(u8)regs];
-    TCameraCtrl__sub_8006B3B8(&eye, &at);
+    TCameraCtrl::set_fixed_camera(&eye, &at);
 }
 
 void qst_op_sync_register(void) {

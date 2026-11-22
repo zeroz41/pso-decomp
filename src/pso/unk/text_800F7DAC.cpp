@@ -53,7 +53,6 @@ struct Fade_800F88D8 {
 extern "C" {
 
 void __ct__13TUnk_804999E8FP7TObject(void *, void *);
-void TCameraCtrl__sub_80068EF0(void);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 void __ct__7TObjectFP7TObject(void *);
@@ -100,7 +99,7 @@ void TUnk_804999E8::render() {
     if ((0.0f) != (f32)self->u.c[3]) {
         draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
     }
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 }
 
 void *THunterGuildSeqOffline::init(void *arg1, void *arg2) {
@@ -366,7 +365,7 @@ void TUnk_80499970::render() {
     if ((0.0f) != (f32)((Fade_800F7E28 *)this)->u.c[3]) {
         draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
     }
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 }
 
 #pragma push

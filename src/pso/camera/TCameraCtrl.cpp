@@ -32,6 +32,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/render/Draw2D.h"
 
 // The Ninja camera the view matrix is built from each frame: position,
 // direction, roll, angle and clip planes.
@@ -69,7 +70,6 @@ void set_perspective_projection_from_fov(s32 fov, f32 aspect, f32 near_clip, f32
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern "C" {
 u16 get_entity_id(void *);
-void TCameraCtrl__sub_801E32D8(f32, f32);
 struct SceneProjectionState { u8 pad_0[0x4C]; f32 pad_4C; f32 pad_50; u8 pad_54[0x4]; };
 extern SceneProjectionState scene_projection_state;
 s32 camera_renderer_setup_nop(void *, int);
@@ -100,8 +100,8 @@ CameraControllerFactory camera_controller_factories[13] = {
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" void TCameraCtrl__sub_8006B3B8(u8 *position, u8 *target) {
-    TCameraCtrl::set_fixed_position_and_target(position, target);
+void TCameraCtrl::set_fixed_camera(Vec *position, Vec *target) {
+    TCameraCtrl::set_fixed_position_and_target((u8 *)position, (u8 *)target);
 }
 
 void TCameraCtrl::reset_battle_camera() { TCameraCtrl::reset_to_local_player(); }
@@ -1012,7 +1012,7 @@ void TCameraCtrl::reset_viewport_scissor() {
     if (TCameraCtrl::view_state.flags & 0x200) {
         TCameraCtrl::view_state.flags = TCameraCtrl::view_state.flags & ~0x200;
     }
-    TCameraCtrl::set_viewport_scissor(0, rect);
+    set_viewport_scissor(0, rect);
 }
 #pragma pop
 #pragma push
@@ -1155,7 +1155,7 @@ u16 TCameraCtrl::get_camera_target_id(s32 view) {
 void TCameraCtrl::restore_full_screen_view() {
     if (is_split_screen() == 0) {
         TCameraCtrl::saved_view_params.copy_view_state(&TCameraCtrl::view_params);
-        TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
+        set_screen_center(320.0f, 240.0f);
         GXSetScissorBoxOffset(0, 0);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         TCameraCtrl::view_offset_active = 0;
@@ -1175,7 +1175,7 @@ void CameraViewParams::copy_view_state(const CameraViewParams *src) {
     *(CameraViewParamsBlock *)this = *(const CameraViewParamsBlock *)src;
 }
 
-extern "C" void TCameraCtrl__sub_80068EF0(void) {
+void TCameraCtrl::restore_saved_view() {
     f32 offset_x;
     f32 offset_y;
     if (is_split_screen() == 0) {
@@ -1188,7 +1188,7 @@ extern "C" void TCameraCtrl__sub_80068EF0(void) {
             TCameraCtrl::view_offset_active = 1;
         }
         GXSetScissorBoxOffset((s32)offset_x, (s32)offset_y);
-        TCameraCtrl__sub_801E32D8(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
+        set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
         if (camera_ctrl_instance != NULL) {
             set_perspective_projection_from_fov(camera_ctrl_instance->fov, 1.1333334f, 1.0f, 21000.0f);
         }
@@ -1197,7 +1197,7 @@ extern "C" void TCameraCtrl__sub_80068EF0(void) {
 
 // Dead-stripped from the DOL: no code of it survives, only its literals
 // (250, 20, 15, 0.85 at 0x805D8FCC-0x805D8FDB, pooled between get_view_scale's
-// and TCameraCtrl__sub_80068EF0's). It fills the full-screen defaults that
+// and restore_saved_view's). It fills the full-screen defaults that
 // init_default_view, reset_default_view and end_view_override store field by
 // field.
 void CameraViewParams::set_fullscreen_defaults() {
@@ -1291,7 +1291,7 @@ f32 TCameraCtrl::get_split_offset(s32 view) {
     return 0.0f;
 }
 
-extern "C" f32 TCameraCtrl__sub_80068A04(s32 view) {
+f32 TCameraCtrl::get_split_offset_x(s32 view) {
     return 0.0f;
 }
 

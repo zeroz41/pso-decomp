@@ -52,7 +52,7 @@ void TCineCtrl::render() {
         poly.p[3].y = 480.0f;
         poly.col[3].color = color;
         draw_polygon_2d(&poly, 4, 0x16, -10.0f);
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
     }
 }
 
