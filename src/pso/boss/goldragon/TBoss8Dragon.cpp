@@ -90,7 +90,6 @@ struct Rot_802F9D08 { s32 x, y, z; };
 
 extern "C" {
 extern s32 local_client_id;
-s32 fn_802F2E7C(int, void *, int);
 f32 atan2_float(f32 y, f32 x);
 void TBoss8Dragon__sub_802FB300(void);
 }
@@ -2801,7 +2800,7 @@ void TBoss8Dragon::update_head_down_attack_state(s32 event) {
                 sweep_head_fall_spheres_late();
             }
             if ((s16) this->requested_action != 8) {
-                fn_802F2E7C((int) (*(s32 *)((s8 *)this + 0x684)), ((u8 *)this) + 0x38, (int) (this->rotation_y));
+                this->collider->enable_blocking_bodies(&this->position, this->rotation_y);
                 this->impactAge = 1;
                 return;
             }
@@ -2812,7 +2811,7 @@ void TBoss8Dragon::update_head_down_attack_state(s32 event) {
             if ((s32) this->stateStep >= 0x1C2) {
                 this->requested_action = 0xA;
                 this->impactAge = 2;
-                ((TBoss8Dragon *)(*(saddr *)((s8 *)this + 0x684)))->update_colli_parts();
+                this->collider->disable_blocking_bodies();
                 return;
             }
             break;
@@ -2833,7 +2832,7 @@ void TBoss8Dragon::update_head_down_attack_state(s32 event) {
         break;
     case 5:
         update_damage_threshold();
-        ((TBoss8Dragon *)(*(saddr *)((s8 *)this + 0x684)))->update_colli_parts();
+        this->collider->disable_blocking_bodies();
         break;
     }
 }

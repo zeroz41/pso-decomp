@@ -15407,7 +15407,7 @@ force_active:
   - set_active_flag__11TWindowChatFv
   - set_active_flag__11TWindowMenuFv
   - set_all_entry_flags__17TBoss5GryphonDemoFv
-  - set_all_flags__17TBoss8DragonColliFPv
+  - set_segment_flags__19TBoss8DragonColli_CFv
   - set_alt_model_flag__10TObjPlayerFv
   - set_amount__11TItemObjectFl
   - set_anim_by_state__16TObjEneBm5GibonUFv

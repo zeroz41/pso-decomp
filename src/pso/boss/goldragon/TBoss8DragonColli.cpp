@@ -10,17 +10,13 @@
 #include "pso/unk/TLobby.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma defer_codegen on
-
-extern "C" {
-void *mem_alloc(u32 size);
-u16 register_entity_by_id(void *ov);
-int matrix_mult_vec(void*, void*, void*);
-int post_translate_matrix(void*);
-void free_collision_body_parts(void *);
-int set_matrix_identity(void*);
-int rotate_matrix_y(void*, void*);
 
 const char *TBoss8DragonColli_C__name = "TBoss8DragonColli_C";
 const char *TBoss8DragonColli__name = "TBoss8DragonColli";
@@ -36,10 +32,10 @@ TBoss8DragonColli_C::TBoss8DragonColli_C(TObject *parent, s32 count, Vec *offset
     f32 step;
     f32 z;
     m_name = TBoss8DragonColli_C__name;
-    VecCopy(&unk_AC, offset);
+    VecCopy(&local_position, offset);
     entity_id = TLobby::alloc_actor_ids(0);
     body_count = count;
-    bodies = (CollisionBody *)mem_alloc(body_count * 0x2C);
+    bodies = (CollisionBody *)mem_alloc(body_count * sizeof(CollisionBody));
     step = 2.0f * scale;
     e = bodies;
     zero = 0.0f;
@@ -64,9 +60,9 @@ TBoss8DragonColli_C::~TBoss8DragonColli_C() {
     free_collision_body_parts(this);
 }
 
-void set_all_flags__17TBoss8DragonColliFPv(TBoss8DragonColli_C *self) {
+void TBoss8DragonColli_C::set_segment_flags() {
     s32 i;
-    for (i = 0; i < self->body_count; i++) self->bodies[i].flags |= 1;
+    for (i = 0; i < body_count; i++) bodies[i].flags |= 1;
 }
 
 void TBoss8DragonColli_C::clear_segment_flags() {
@@ -74,19 +70,20 @@ void TBoss8DragonColli_C::clear_segment_flags() {
     for (i = 0; i < body_count; i++) bodies[i].flags &= ~1;
 }
 
-void init__17TBoss8DragonColliFPvPvPv(void *p, void *pos, void *angle) {
+// Places the chain at local_position from pos turned by angle and enables its bodies.
+void TBoss8DragonColli_C::enable_at(Vec *pos, s32 angle) {
     push_matrix();
-    set_matrix_identity((void *)0);
-    post_translate_matrix(pos);
-    rotate_matrix_y((void *)0, angle);
-    matrix_mult_vec((void *)0, &((TBoss8DragonColli_C *)p)->unk_AC, &((TBoss8DragonColli_C *)p)->position);
+    set_matrix_identity(NULL);
+    post_translate_matrix(&pos->x);
+    rotate_matrix_y(NULL, angle);
+    matrix_mult_vec(NULL, &local_position, &position);
     pop_matrix();
-    ((TBoss8DragonColli_C *)p)->rotation_y = (saddr)angle;
-    ((TBoss8DragonColli_C *)p)->refresh_collision_body_centers();
-    set_all_flags__17TBoss8DragonColliFPv((TBoss8DragonColli_C *)p);
+    rotation_y = angle;
+    refresh_collision_body_centers();
+    set_segment_flags();
 }
 
-void TBoss8DragonColli__sub_802F3074(void* p) { ((TBoss8DragonColli_C *)p)->clear_segment_flags(); }
+void TBoss8DragonColli_C::disable() { clear_segment_flags(); }
 
 void TBoss8DragonColli_C::render() {  }
 
@@ -105,7 +102,6 @@ TBoss8DragonColli::TBoss8DragonColli(TObject *parent) : TObject(parent) {
     offset.y = 0.0f;
     offset.z = -100.0f;
     objects[2] = new TBoss8DragonColli_C(this, 5, &offset, 10.0f);
-}
 }
 
 TBoss8DragonColli::~TBoss8DragonColli() {

@@ -14,6 +14,7 @@ struct TBoss8DragonEffTail;
 class TParticleCtrl;
 struct ControllerInputContext;
 struct G_GolDragonBossActions_6xA8;
+class TBoss8DragonColli;
 
 // The gold dragon (Episode 2's Gol Dragon) boss.
 class TBoss8Dragon : public TObjEneDD_ST
@@ -108,7 +109,7 @@ public:
     s16 finalHpThreshold;  // hp is clamped to it, as in TBoss1Dragon
     TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
     AreaAttackHistory *attack_history;
-    TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks
+    TBoss8DragonColli *collider;  // the constructor hangs it under sub_tasks
     f32 destinationX;
     f32 destinationZ;
     f32 savedX;
@@ -220,7 +221,6 @@ public:
     static void clear_player_control();
     static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
     static void *create(void *set_data);
-    void update_colli_parts();
     void init_color();
     void send_spawn_params_packet();
     void byteswap_action_packet();

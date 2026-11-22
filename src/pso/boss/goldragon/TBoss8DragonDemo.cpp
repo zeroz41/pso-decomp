@@ -14,8 +14,6 @@
 
 #pragma readonly_strings on
 
-struct Obj_8002B118 { u8 pad[0x1c]; void *colli[3]; };
-
 extern "C" {
 extern const char *TBoss8DragonDemo__name;
 
@@ -42,11 +40,10 @@ TBoss8DragonDemo::TBoss8DragonDemo(TObject *parent, s32 *flag, f32 frame_step) :
     activate_camera_mode(5);
     playback.cache_target_and_forward(0x3333);
 }
-void TBoss8Dragon::update_colli_parts() {
-    Obj_8002B118 *self = (Obj_8002B118 *)this;
+void TBoss8DragonColli::disable_blocking_bodies() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        TBoss8DragonColli__sub_802F3074(self->colli[i]);
+        objects[i]->disable();
     }
 }
 
