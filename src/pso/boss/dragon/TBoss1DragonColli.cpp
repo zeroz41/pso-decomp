@@ -146,3 +146,21 @@ TBoss1DragonColli::~TBoss1DragonColli() {
         }
     }
 }
+
+void TBoss1DragonColli::enable_blocking_bodies(Vec *pos, s32 angle) {
+    s32 i;
+    for (i = 0; i < 3; i++) {
+        this->objects[i]->enable_at(pos, angle);
+    }
+}
+
+void TBoss1DragonColli::disable_blocking_bodies() {
+    s32 i;
+    for (i = 0; i < 3; i++) {
+        this->objects[i]->disable();
+    }
+}
+
+TBoss1DragonColli_C *TBoss1DragonColli::get_object(s32 index) {
+    return this->objects[index];
+}

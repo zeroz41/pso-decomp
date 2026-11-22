@@ -214,7 +214,6 @@ pso/boss/dragon/TBoss1DragonDemo.cpp
 pso/boss/dragon/TBoss1DragonEffBreath.cpp
 pso/boss/dragon/TBoss1DragonEffBullet.cpp
 pso/boss/dragon/TBoss1DragonEffTail.cpp
-pso/boss/dragon/TBoss1Dragon_8002B108.cpp
 pso/boss/dragon/TBoss1Dragon_800BC3C4.cpp
 pso/boss/derolle/TBoss2DeRolLe.cpp
 pso/boss/derolle/TBoss2Fin.cpp
@@ -1986,7 +1985,6 @@ pso/unk/TUnk_804CC870.cpp
 pso/unk/text_8000F740.cpp
 pso/ui/frontend/DrawLine.cpp
 pso/unk/text_8001C388.cpp
-pso/unk/text_8002B164.cpp
 pso/unk/text_8004AA04.cpp
 pso/unk/text_8004D9A8.cpp
 pso/unk/text_80052420.cpp

@@ -182,14 +182,8 @@ pso/boss/dragon/TBoss1Dragon.cpp:
 	.sbss       start:0x805D4AF0 end:0x805D4B44
 	.sdata2     start:0x805D7F18 end:0x805D8104
 
-pso/boss/dragon/TBoss1Dragon_8002B108.cpp:
-	.text       start:0x8002B108 end:0x8002B164
-
-pso/unk/text_8002B164.cpp:
-	.text       start:0x8002B164 end:0x8002B1C0
-
 pso/boss/dragon/TBoss1DragonColli.cpp:
-	.text       start:0x8002B1C0 end:0x8002B68C
+	.text       start:0x8002B108 end:0x8002B68C
 	.rodata     start:0x804353B0 end:0x804353E0
 	.data       start:0x80481B90 end:0x80481C10
 	.sdata      start:0x805D2658 end:0x805D2660
