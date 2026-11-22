@@ -1451,7 +1451,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_rappys_fan(u8 *item);
     static void spawn_fire_explosion_for_item(s32 arg0, s32 arg1);
     static void spawn_fire_explosion_at_item(s32 arg0, saddr arg1);
-    static s32 spawn_fire_explosion(uaddr a0, saddr a1);
+    static void spawn_fire_explosion(uaddr a0, saddr a1);
     static TItem *create_gi_gue_bazooka(u8 *item);
     void finish_quest_thread();
     static void destroy_static_array();

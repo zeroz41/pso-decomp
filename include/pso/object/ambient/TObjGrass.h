@@ -46,7 +46,7 @@ struct TObjGrass : public TObjEnemy {
     static void update_dying(void *arg0_);
     static void update_camera_vec_by_stage(NJS_OBJECT *);
     void update();
-    s32 update_web_attack();
+    void update_web_attack();
     static void update_chase_target(void *arg0_);
     static void update_ai(void *arg0);
     virtual void render();

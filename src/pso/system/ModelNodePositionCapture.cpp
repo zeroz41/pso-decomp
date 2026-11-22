@@ -19,7 +19,7 @@ void ModelNodePositionCapture::capture_node(NJS_OBJECT *) {
     s32 index;
     while ((index = entry->node_index) != -1) {
         if (index == model_node_position_capture_state.node_index) {
-            transform_to_view__11TCameraCtrlFii((s32)&entry->offset, (s32)position);
+            transform_to_view__11TCameraCtrlFii((saddr)&entry->offset, (saddr)position);
         }
         entry++;
         position++;
