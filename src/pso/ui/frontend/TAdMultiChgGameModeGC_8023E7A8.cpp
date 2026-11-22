@@ -67,17 +67,17 @@
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdExNetConfirmGC.h"
+#include "pso/ui/frontend/TAdLicAgreementGC.h"
+#include "pso/ui/frontend/TAdTrialAgreementGC.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
+#include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
+#include "pso/ui/frontend/TAdPsoPassSaveGC.h"
+#include "pso/ui/TUnk_804F3A20.h"
 
 extern "C" {
-void *__ct__17TAdExNetConfirmGCFP7TObject(void *, TObject *);
-void *__ct__17TAdLicAgreementGCFP7TObject(void *, TObject *);
-void *__ct__13TUnk_804F3A20FP7TObject(void *, TObject *);
-void *__ct__16TAdPsoPassSaveGCFP7TObject(void *, TObject *);
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void *__ct__20TAdSnAkPassConfirmGCFP7TObject(void *, TObject *);
-void *__ct__19TAdTrialAgreementGCFP7TObject(void *, TObject *);
-void *__ct__18TAdTrialModemChkGCFP7TObject(void *, TObject *);
-void *__ct__13TAdVIConfigGCFP7TObject(void *, TObject *);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
 void *__ct__16TAdStorySelectGCFv(void *, TObject *);
@@ -416,50 +416,26 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdEnterPasswordGC(tl_02);
         break;
     case 17:
-        p = TObject::operator new(0x3C);
-        if (p != NULL) {
-            p = __ct__17TAdLicAgreementGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdLicAgreementGC(tl_01);
         break;
     case 18:
-        p = TObject::operator new(0x4C);
-        if (p != NULL) {
-            p = __ct__13TAdVIConfigGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdVIConfigGC(tl_01);
         break;
     case 19:
         p = new TLogo(tl_01);
         game_mode_scene_instance = (TObject *)p;
         break;
     case 20:
-        p = TObject::operator new(0x4C);
-        if (p != NULL) {
-            p = __ct__20TAdSnAkPassConfirmGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdSnAkPassConfirmGC(tl_01);
         break;
     case 21:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__17TAdExNetConfirmGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdExNetConfirmGC(tl_01);
         break;
     case 22:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__18TAdTrialModemChkGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdTrialModemChkGC(tl_01);
         break;
     case 23:
-        p = TObject::operator new(0x3C);
-        if (p != NULL) {
-            p = __ct__19TAdTrialAgreementGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdTrialAgreementGC(tl_01);
         break;
     case 24:
         game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 2);
@@ -468,18 +444,10 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdEnterPPPPassGC(tl_01);
         break;
     case 26:
-        p = TObject::operator new(0x48);
-        if (p != NULL) {
-            p = __ct__16TAdPsoPassSaveGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdPsoPassSaveGC(tl_01);
         break;
     case 27:
-        p = TObject::operator new(0x38);
-        if (p != NULL) {
-            p = __ct__13TUnk_804F3A20FP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TUnk_804F3A20(tl_01);
         break;
     case 28:
         game_mode_scene_instance = new TAdEp3Exist(tl_01);
