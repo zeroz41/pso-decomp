@@ -1091,7 +1091,7 @@ void TObjEneBm3Fly::render() {
         return;
     }
     if (TObjEneDD::is_main_phase_15() != 0) {
-        kind = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, (15.0f));
+        kind = this->classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, (15.0f));
     } else if (this->update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         kind = 1;
     } else {

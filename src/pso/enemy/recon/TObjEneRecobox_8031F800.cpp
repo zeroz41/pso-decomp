@@ -91,8 +91,6 @@
 extern NJS_OBJECT *debug_chunk_object;
 
 // TObjEneDD.cpp's view-detail distances.
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 
 saddr recobox_boss_register_id;
 saddr lbl_805D6B14;
@@ -751,7 +749,7 @@ void TObjEneRecobox::render() {
     }
     if (!(status_flags & 1)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            var_r28 = this->classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
+            var_r28 = this->classify_actor_view_detail(25.0f + view_detail_near_depth, 50.0f + view_detail_far_depth, 120.0f);
         } else if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
             var_r28 = 1;
         } else {

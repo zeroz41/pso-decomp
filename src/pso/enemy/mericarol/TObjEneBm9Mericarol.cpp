@@ -58,8 +58,6 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #pragma defer_codegen on
 
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 // TTecKafun::create's level comes before its value in the tree's declaration, but this
@@ -1167,7 +1165,7 @@ void TObjEneBm9Mericarol::render() {
         if (get_current_floor_area() == AREA_TOWER) {
             detail = classify_actor_view_detail(600.0f, 600.0f, 20.0f);
         } else {
-            detail = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 20.0f);
+            detail = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 20.0f);
         }
     } else if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         detail = 1;

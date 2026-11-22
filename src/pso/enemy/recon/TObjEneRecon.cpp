@@ -136,8 +136,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 #pragma push
 #pragma opt_common_subs off
 void TObjEneRecon::render() {
@@ -149,7 +147,7 @@ void TObjEneRecon::render() {
     }
     if (!(recon_flags & 1)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            var_r31 = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+            var_r31 = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
         } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
             var_r31 = 1;
         } else {

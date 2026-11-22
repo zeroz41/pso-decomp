@@ -989,7 +989,7 @@ void TObjEneBm3FlyNest::render() {
     drawn = 0;
     if (mode != 9) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            res = classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
+            res = classify_actor_view_detail(25.0f + view_detail_near_depth, 50.0f + view_detail_far_depth, 120.0f);
         } else if (update_object_view_visibility(500.0f, 120.0f) != 0) {
             res = 1;
         } else {

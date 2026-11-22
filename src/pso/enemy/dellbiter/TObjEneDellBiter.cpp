@@ -94,10 +94,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 
 extern Vec dellbiter_demo_camera_vec;
 
-extern "C" {
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
-}
 
 extern const char *lbl_804E6C3C[2];
 extern const char *TObjEneDellBiter__resource_descriptor[11];
@@ -1465,7 +1461,7 @@ void TObjEneDellBiter::render() {
         if (get_current_floor_area() == AREA_TOWER) {
             vis = classify_actor_view_detail(600.0f, 600.0f, 15.0f);
         } else {
-            vis = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+            vis = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
         }
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         vis = 1;

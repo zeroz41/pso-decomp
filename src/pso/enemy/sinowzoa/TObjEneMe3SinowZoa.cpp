@@ -468,7 +468,7 @@ s32 TObjEneMe3SinowZoa::check_body_collision_at(s32 angle, f32 distance) {
     body->shape = 1;
     body->flags = 0x9D01;
     rotation_y = angle;
-    ((void (*)(void *, s32, f32, f32))check_enemy_body_collisions)(this, angle, 0.0f, distance);
+    check_enemy_body_collisions(this);
     res = (body->flags & 0x380000) != 0;
     copy_collision_body(body, &sinow_zoa_collision_parts);
     body->flags = flags;
@@ -1703,7 +1703,7 @@ void TObjEneMe3SinowZoa::render() {
     if (this->behavior_flags & 2) {
         mode = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        mode = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+        mode = this->classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         mode = 1;
     } else {

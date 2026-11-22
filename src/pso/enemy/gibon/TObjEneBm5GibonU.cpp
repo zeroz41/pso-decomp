@@ -350,7 +350,7 @@ void TObjEneBm5GibonU::render() {
             fade = m_3f4[cam].updateFromCamera(&body_center.x);
         }
         if (TObjEneDD::is_main_phase_15() != 0) {
-            vis = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 20.0f);
+            vis = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 20.0f);
         } else if (update_object_view_visibility(400.0f, 20.0f) != 0) {
             vis = 1;
         } else {

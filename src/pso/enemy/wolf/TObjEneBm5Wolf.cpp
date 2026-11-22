@@ -1852,7 +1852,7 @@ void TObjEneBm5Wolf::render() {
     }
     if (!(this->status_flags & 2) && ((s16) this->mode != 0x11)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            detail = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 20.0f);
+            detail = this->classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 20.0f);
         } else if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
             detail = 1;
         } else {

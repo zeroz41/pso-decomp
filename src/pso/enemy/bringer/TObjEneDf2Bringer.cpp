@@ -150,8 +150,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 s32 scroll_strip_uvs(int, int, int);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
@@ -1339,7 +1337,7 @@ void TObjEneDf2Bringer::render() {
     if (status_flags & 1) {
         detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        detail = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+        detail = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         detail = 1;
     } else {

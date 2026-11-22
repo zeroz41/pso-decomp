@@ -94,8 +94,6 @@ s32 play_sound_effect(s32, u32, s16, s32);
 s32 is_split_screen();
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 
 
@@ -1273,7 +1271,7 @@ void TObjEneMorfos::render() {
     if (morfos_flags & 1) {
         vis = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        vis = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+        vis = this->classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         vis = 1;
     } else {

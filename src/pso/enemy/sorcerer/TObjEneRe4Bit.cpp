@@ -521,7 +521,7 @@ void TObjEneRe4Bit::render() {
         return;
     }
     if (TObjEneDD::is_main_phase_15() != 0) {
-        range = lbl_805D9E84;
+        range = view_detail_far_depth;
     } else {
         range = 400.0f;
     }

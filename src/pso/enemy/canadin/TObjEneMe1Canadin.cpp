@@ -1803,7 +1803,7 @@ void TObjEneMe1Canadin::render() {
     if (status_flags & 0x400000) {
         var_r30 = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        var_r30 = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+        var_r30 = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         var_r30 = 1;
     } else {

@@ -154,8 +154,8 @@ void update_collider_contact_by_height(u8 *body, f32 height);
 u16 enemy_nearest_visible_player_sq(u8 *self, f32 range);
 s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
 
-// The 310 and 155 ranges the enemies' render() hands classify_actor_view_detail.
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
+// The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
+extern const f32 view_detail_far_depth;
+extern const f32 view_detail_near_depth;
 
 #endif

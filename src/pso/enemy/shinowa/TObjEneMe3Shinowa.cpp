@@ -422,7 +422,7 @@ s32 TObjEneMe3Shinowa::check_body_collision_at(s32 angle, f32 length) {
     body->shape = 1;
     body->flags = 0x9D01;
     rotation_y = angle;
-    ((void (*)(void *, s32, f32, f32))check_enemy_body_collisions)(this, angle, 0.0f, length);
+    check_enemy_body_collisions(this);
     res = (body->flags & 0x380000) != 0;
     copy_collision_body(body, shinowa_mirage_model_init_data);
     body->flags = b;
@@ -1515,7 +1515,7 @@ void TObjEneMe3Shinowa::render() {
     if (behavior_flags & 2) {
         detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        detail = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+        detail = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         detail = 1;
     } else {

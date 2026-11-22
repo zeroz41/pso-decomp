@@ -35,8 +35,6 @@ extern Vec lbl_8043BBB4[];
 extern s32 re2_flower_node_index;
 extern s32 re2_flower_node_yaw;
 extern f32 *re2_flower_node_points;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FB0;
 extern const f32 lbl_805D9FB4;
@@ -97,7 +95,7 @@ void TObjEneRe2Flower::render() {
         if (get_flag_11() != 0) {
             visible = classify_actor_view_detail(600.0f, 600.0f, 25.0f);
         } else {
-            visible = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 25.0f);
+            visible = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 25.0f);
         }
     } else if (update_object_view_visibility(400.0f, 25.0f) != 0) {
         visible = 1;
