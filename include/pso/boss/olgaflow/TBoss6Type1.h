@@ -10,16 +10,19 @@
 struct OlgaFlowActionMsg;
 
 class ModelNodePositionCapture;
+class TBoss6PlotFalz;
+struct AnimationMotion;
+class TParticleCtrl;
 typedef Vec Boss6EffectPoint;
-// One of the two part-motion players at 0x444 (render blends prev_motion_id/prev_frame into
-// motion_id/frame by blend; names inferred from that use).
+// One of the two part-motion players at 0x444 (render blends prev_motion/prev_frame into
+// motion/frame by blend; the TBoss6Type2MotionTrack twin).
 struct Boss6PartMotion {
-    s32 motion_id;
+    AnimationMotion *motion;
     f32 frame;
-    f32 frame_step;
+    f32 speed;  // frames per update
     f32 blend;
-    u8 pad_10[0x4];
-    s32 prev_motion_id;
+    f32 blend_step;
+    AnimationMotion *prev_motion;
     f32 prev_frame;
 };
 struct TBoss6GravBall;
@@ -46,51 +49,59 @@ struct TBoss6Type1 : public TObjEnemy {
     void run_task();
     void update_effect_points();
     void update_trail_points();
-    u32 m_374;
-    u8 unk_378[0x80];
-    saddr m_3f8;
-    saddr bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
+    u32 action_state;  // row of boss6_type1_action_table (set_action_state)
+    s32 action_history[32];  // set_action_state shifts the last 32 states in
+    TBoss6PlotFalz *plot_falz;  // the spawn parameters' first word
+    BmlResource *bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
     TBoss6Zanzo *trail_point_receiver;
     TBoss6Zanzo *effect_point_receiver;
-    saddr unk_408;
-    s32 m_40c;
+    u32 frame_counter;  // run_task adds one every update
+    s32 action_duration;  // what action_timer runs to (interpolate_pos_to_target's total)
     s32 action_timer;
-    s32 m_414;
-    u8 unk_418[0x4];
-    s8 m_41c;
+    s32 target_mode;   // OlgaFlowActionMsg::target_mode
+    s32 active_parts;  // the action row's param: 1 turns the first two bodies on, 2 the other five
+    s8 random_factor;  // OlgaFlowActionMsg::random_factor
     u8 unk_41D[0x3];
-    Boss6Point m_420;
+    Boss6Point target_position;  // OlgaFlowActionMsg's decoded target
     Boss6Point m_42C;
-    s32 m_438;
-    u8 unk_43C[0x4];
-    s32 m_440;
+    s32 attack_mode;   // OlgaFlowActionMsg::attack_mode
+    s32 motion_set;    // row of TBoss6Type1__motion_set_table
+    s32 motion_mode;   // that row's mode: 0 loops, 2 holds the last frame and goes on to the row's next set
     Boss6PartMotion part_motions[2];
-    s32 m_47c;
+    s32 beam_damage;   // base damage of update_beam_attack's hit, name inferred
     s32 sweep_damage; // base damage of the swept-arm hit test (TBoss6Type1__sub_802B715C), name inferred
     s32 m_484;
-    u8 unk_488[0x4];
+    s32 center_damage;  // base damage of damage_players_in_range, name inferred
     s32 m_48c;
-    u8 unk_490[0x4];
+    s32 pad_490;
     s32 m_494;
-    u8 unk_498[0x4];
+    s32 delta_threshold;  // is_field4b0_delta_reached compares calc_field4b0_delta() with it
     s32 m_49c;
     s32 laser_fire_time;
     s32 m_4a4;
-    u8 unk_4A8[0x4];
+    s32 pad_4a8;
     s32 m_4ac;
-    u8 unk_4B0[0x4];
+    s32 latched_hp;  // latch_phase_counter stores hp; calc_field4b0_delta returns the damage since
     f32 m_4b4;
-    u8 unk_4B8[0x10];
+    // set_action_state counts these actions (boss6_type1_action_table's names).
+    s32 chal_ud_count;       // CHAL_UD
+    s32 center_trip_count;   // GOTO_CENTOP and GOTO_CENBTM
+    s32 centop_count;        // GOTO_CENTOP
+    s32 cenbtm_count;        // GOTO_CENBTM
     Vec prev_effect_point; // effect_points[1] of the previous frame, name inferred
-    f32 m_4d4;
-    f32 m_4d8;
+    f32 hit_flash;  // run_hit_reaction sets 1, run_task fades it out over 15 updates
+    f32 hp_ratio;   // hp / referenceHp, run_task
     f32 m_4dc;
-    s32 m_4e0;
-    u8 unk_4E4[0x4];
-    f32 m_4e8;
-    u8 unk_4EC[0x1C];
+    s32 timer_limit;    // is_timer_expired: 0 or less never runs
+    s32 timer_elapsed;  // counts up to timer_limit
+    f32 sway_offset;    // update_sway eases it toward its target
+    s32 sway_phase;
+    s32 sway_speed;
+    s32 sway_delay;
+    TParticleCtrl *effect_slots[4];  // TBoss6Type1__effect_slot_table's emitters
     s32 m_508;
-    u8 unk_50C[0x6C];
+    TParticleCtrl *slot_particles[24];
+    Vec last_beam_point;  // update_beam_attack measures from it every other update, name inferred
     // The capture lists end after 11 body positions and 7 arm positions.
     Vec node_points[11];
     Vec arm_node_positions[7];
@@ -217,6 +228,25 @@ struct TBoss6Type1 : public TObjEnemy {
     void tick_trap_countdown();
     void init_work();
 };
+// A row of TBoss6Type1__motion_set_table: how the main part motion ends and the two motions.
+struct Boss6Type1MotionSet {
+    s32 mode;      // TBoss6Type1::motion_mode
+    s32 next_set;  // the set mode 2 goes on to
+    s32 ids[2];    // BML motion indices of the two part motions
+};
+
+// A row of boss6_type1_action_table: set_action_state runs act, run_task update every
+// update and idle while the Plot Falz is idle.
+struct TBoss6Type1Action {
+    const char *name;
+    s32 anim;   // the motion set (set_motion_set)
+    s32 param;  // TBoss6Type1::active_parts
+    void (TBoss6Type1::*act)();
+    void (TBoss6Type1::*idle)();
+    void (TBoss6Type1::*update)();
+};
+extern TBoss6Type1Action boss6_type1_action_table[41];
+
 extern "C" {
 void sub_802B626C__11TBoss6Type1Fv(TBoss6Type1 *boss);
 // Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
@@ -235,7 +265,7 @@ LAYOUT_ASSERT(TBoss6Type1_receiver_offset, (offsetof(TBoss6Type1,effect_point_re
 LAYOUT_ASSERT(TBoss6Type1_points_offset, (offsetof(TBoss6Type1,arm_node_positions) + 5 * sizeof(Vec) == 0x638));
 LAYOUT_ASSERT(TBoss6Type1_trail_receiver_offset, (offsetof(TBoss6Type1,trail_point_receiver)==0x400));
 LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680));
-LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, m_420) == 0x420);
+LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, target_position) == 0x420);
 LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
 LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
 #endif
