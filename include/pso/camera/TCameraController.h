@@ -50,9 +50,8 @@ LAYOUT_ASSERT(TCameraController_size, sizeof(TCameraController) == 0x6C);
 // Copies the controller's pose into TCameraCtrl's view.
 void apply_camera_controller_pose(TCameraController *controller);
 
-extern "C" {
-void TCameraCtrl__sub_80068354(void);
-void TCameraCtrl__sub_80068358(void *, void *, f32, f32);
-}
+// Empty hooks: TCameraCtrl::reset and TCameraCtrl::reset_view_state call them.
+void on_camera_reset();
+void on_view_state_reset();
 
 #endif

@@ -130,8 +130,8 @@ s32 TCameraController::predict_obstruction() {
 }
 #pragma pop
 
-void TCameraCtrl__sub_80068354() {  }
-void TCameraCtrl__sub_80068358(void *, void *, f32, f32) {  }
+void on_camera_reset() {}
+void on_view_state_reset() {}
 
 void TCameraController::post_update_view() {
     Vec look;

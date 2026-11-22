@@ -568,7 +568,7 @@ void TCameraCtrl::reset_view_state() {
     view->scissor.y1 = 0.0f;
     view->pad_40[0] = 1.0f;
     view->pad_40[1] = 0.85f;
-    TCameraCtrl__sub_80068358(view, state, 1.0f, 0.0f);
+    on_view_state_reset();
     TCameraCtrl::up_vector.x = 0.0f;
     up = &TCameraCtrl::up_vector;
     up->y = 1.0f;
@@ -580,7 +580,7 @@ void TCameraCtrl::reset_view_state() {
 
 void TCameraCtrl::reset() {
     TCameraCtrl::view_offset_active = 0;
-    TCameraCtrl__sub_80068354();
+    on_camera_reset();
     TCameraCtrl::view_state.controller = 0;
     TCameraCtrl::view_state.spectate_client = 0;
     TCameraCtrl::view_state.controller_count = 0;
