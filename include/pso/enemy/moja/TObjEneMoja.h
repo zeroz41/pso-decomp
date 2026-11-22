@@ -13,9 +13,9 @@ struct MojaBattleStat {
 // One per variant (TObjEnemy::variant); TObjEnemy::movementParameters points
 // at the Moja's.
 struct MojaMovementParameters {
-    f32 unknown_00;
-    f32 unknown_04;
-    s32 unknown_08;
+    f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
+    f32 move_speed;    // wander and chase speed
+    s32 turn_speed;    // turn_toward_direction's max step
     u32 unknown_0C[4];
 };
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as

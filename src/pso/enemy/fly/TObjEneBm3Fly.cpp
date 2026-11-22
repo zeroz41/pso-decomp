@@ -40,7 +40,7 @@
 
 #pragma defer_codegen on
 
-extern BmlResource *lbl_805D50D8;
+extern BmlResource *moja_bml_resource;
 extern "C" {
 u8 * bm3_fly_boss_stat_handle;
 AttackParams * TObjEneBm3Fly__attack_params;
@@ -1138,8 +1138,8 @@ void TObjEneBm3Fly::render_demo() {
 }
 
 void TObjEneMoja::bindModel(int index) {
-    model = (void *)lbl_805D50D8->models[index].model;
-    texlist = (saddr)lbl_805D50D8->models[index].m_c;
+    model = (void *)moja_bml_resource->models[index].model;
+    texlist = (saddr)moja_bml_resource->models[index].m_c;
 }
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }

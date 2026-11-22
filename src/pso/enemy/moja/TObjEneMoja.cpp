@@ -73,13 +73,13 @@ s32 minimap_render_dot(void *, int, int, int, f32);
 
 // The Moja's models and motions, and the archive that holds them; the second
 // set is the one Ultimate loads.
-const char *lbl_80491828[] = {
+const char *moja_model_names[] = {
     "bm2c_s_moj_body.nj",
     "bm2f_s_moj_body.nj",
     "bm2w_s_moj_body.nj",
     NULL
 };
-const char *lbl_80491838[] = {
+const char *moja_motion_names[] = {
     "cstand_bm2c_s_moj_body.njm",
     "cwalk_bm2c_s_moj_body.njm",
     "damage_bm2f_s_moj_body.njm",
@@ -93,14 +93,14 @@ const char *lbl_80491838[] = {
     "walk_bm2f_s_moj_body.njm",
     NULL
 };
-BmlResourceDescriptor lbl_80491868 = { "bm_ene_bm2_moja.bml", lbl_80491828, lbl_80491838, 3, 11 };
-const char *lbl_80491878[] = {
+BmlResourceDescriptor moja_bml_descriptor = { "bm_ene_bm2_moja.bml", moja_model_names, moja_motion_names, 3, 11 };
+const char *moja_ultimate_model_names[] = {
     "bm2c_s_moj_body.nj",
     "bm2f_s_moj_body.nj",
     "bm2w_s_moj_body.nj",
     NULL
 };
-const char *lbl_80491888[] = {
+const char *moja_ultimate_motion_names[] = {
     "cstand_bm2c_s_moj_body.njm",
     "cwalk_bm2c_s_moj_body.njm",
     "damage_bm2f_s_moj_body.njm",
@@ -114,10 +114,10 @@ const char *lbl_80491888[] = {
     "walk_bm2f_s_moj_body.njm",
     NULL
 };
-BmlResourceDescriptor lbl_804918B8 = { "bm_ene_bm2_moja_a.bml", lbl_80491878, lbl_80491888, 3, 11 };
+BmlResourceDescriptor moja_ultimate_bml_descriptor = { "bm_ene_bm2_moja_a.bml", moja_ultimate_model_names, moja_ultimate_motion_names, 3, 11 };
 
 // The Moja's actions (TObjMotion::action_table).
-TObjMotionAction lbl_804918C8[9] = {
+TObjMotionAction moja_motion_actions[9] = {
     { 1, 0, 9, 0.5f, 0x1 },
     { 2, 2, 6, 0.7f, 0x20 },
     { 1, 0, 10, 0.6f, 0x1 },
@@ -128,25 +128,25 @@ TObjMotionAction lbl_804918C8[9] = {
     { 3, 7, 4, 0.7f, 0x10 },
     { 3, 7, 3, 0.7f, 0x10 }
 };
-MojaMovementParameters lbl_80491958[2] = {
+MojaMovementParameters moja_movement_params[2] = {
     { 250.0f, 0.75f, 0x400, { 0x1E0000, 0, 0, 0 } },
     { 250.0f, 0.75f, 0x400, { 0, 0x1E0000, 0, 0 } }
 };
-CollisionBody lbl_80491990 = { { 0.0f, 20.0f, 0.0f }, 12.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
+CollisionBody moja_collision_body = { { 0.0f, 20.0f, 0.0f }, 12.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
 const char *TObjEneMoja__name = "TObjEneMoja";
 
 // What load_resources sets up and free_resources releases: the combat stat
 // blocks of the two variants, the archive and the punch's sampled trail.
-void **lbl_805D50C8;
-void **lbl_805D50CC;
-void **lbl_805D50D0;
-void **lbl_805D50D4;
-BmlResource *lbl_805D50D8;
-SampledMotionPoints *lbl_805D50DC;
+void **moja_boss_stats_handles;
+void **moja_attack_params;
+void **moja_object_handles;
+void **moja_behavior_params;
+BmlResource *moja_bml_resource;
+SampledMotionPoints *moja_punch_points;
 
 // The collision flags the Moja gets back when it can be hit again.
-static const s32 lbl_805D9BFC = 0x8001;
+static const s32 moja_hittable_body_flags = 0x8001;
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
@@ -171,17 +171,17 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     clamp_stat_354();
     select_rare_variant();
     subtype = 1;
-    action_table = lbl_804918C8;
+    action_table = moja_motion_actions;
     set_field_d8((saddr)action_table);
-    motion_list = lbl_805D50D8->motions;
+    motion_list = moja_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    init_collision_body_parts(this, &lbl_80491990, 1);
+    init_collision_body_parts(this, &moja_collision_body, 1);
     attack = 0;
-    bind_enemy_combat_stats((u8 *)lbl_805D50C8[variant], (u8 *)lbl_805D50CC[attack + variant * 3],
-        (u8 *)lbl_805D50D0[variant]);
-    movementParameters = &lbl_80491958[variant];
+    bind_enemy_combat_stats((u8 *)moja_boss_stats_handles[variant], (u8 *)moja_attack_params[attack + variant * 3],
+        (u8 *)moja_object_handles[variant]);
+    movementParameters = &moja_movement_params[variant];
     referenceHp = hp;
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
@@ -212,74 +212,74 @@ TObjEneMoja::~TObjEneMoja() {
 void TObjEneMoja::load_resources() {
     switch (game_difficulty_selection) {
     case 3: {
-        void *memory = new BmlResource(1, &lbl_804918B8, 0, 0, NULL);
-        lbl_805D50D8 = (BmlResource *)memory;
+        void *memory = new BmlResource(1, &moja_ultimate_bml_descriptor, 0, 0, NULL);
+        moja_bml_resource = (BmlResource *)memory;
         break;
     }
     default: {
-        void *memory = new BmlResource(1, &lbl_80491868, 0, 0, NULL);
-        lbl_805D50D8 = (BmlResource *)memory;
+        void *memory = new BmlResource(1, &moja_bml_descriptor, 0, 0, NULL);
+        moja_bml_resource = (BmlResource *)memory;
         break;
     }
     }
     SampledMotionPoints *points = new SampledMotionPoints(2, 9.0f, 16.0f, 0.7f);
-    lbl_805D50DC = points;
+    moja_punch_points = points;
     Vec first;
     Vec second;
     first.x = first.y = first.z = 0.0f;
     second.x = -20.0f;
     second.y = 0.0f;
     second.z = 0.0f;
-    points->sample_node_offsets((NJS_OBJECT *)lbl_805D50D8->models[1].model,
-        (NJS_MOTION *)lbl_805D50D8->motions[lbl_804918C8[3].motion].motion, 38, &first, &second);
-    lbl_805D50C8 = (void **)mem_alloc(8);
-    lbl_805D50CC = (void **)mem_alloc(0x18);
-    lbl_805D50D0 = (void **)mem_alloc(8);
-    lbl_805D50D4 = (void **)mem_alloc(8);
-    lbl_805D50C8[0] = TLobby::register_boss(0x49);
-    lbl_805D50C8[1] = TLobby::register_boss(0x4A);
-    lbl_805D50CC[0] = TLobby::dispatch_shared_handler_b(0x48);
-    lbl_805D50CC[1] = TLobby::dispatch_shared_handler_b(0x49);
-    lbl_805D50CC[2] = TLobby::dispatch_shared_handler_b(0x4A);
-    lbl_805D50CC[3] = TLobby::dispatch_shared_handler_b(0x4B);
-    lbl_805D50CC[4] = TLobby::dispatch_shared_handler_b(0x4C);
-    lbl_805D50CC[5] = TLobby::dispatch_shared_handler_b(0x4D);
-    lbl_805D50D0[0] = TLobby::register_object(0x48);
-    lbl_805D50D0[1] = TLobby::register_object(0x49);
-    lbl_805D50D4[0] = TLobby::dispatch_shared_handler_a(0x48);
-    lbl_805D50D4[1] = TLobby::dispatch_shared_handler_a(0x49);
+    points->sample_node_offsets((NJS_OBJECT *)moja_bml_resource->models[1].model,
+        (NJS_MOTION *)moja_bml_resource->motions[moja_motion_actions[3].motion].motion, 38, &first, &second);
+    moja_boss_stats_handles = (void **)mem_alloc(8);
+    moja_attack_params = (void **)mem_alloc(0x18);
+    moja_object_handles = (void **)mem_alloc(8);
+    moja_behavior_params = (void **)mem_alloc(8);
+    moja_boss_stats_handles[0] = TLobby::register_boss(0x49);
+    moja_boss_stats_handles[1] = TLobby::register_boss(0x4A);
+    moja_attack_params[0] = TLobby::dispatch_shared_handler_b(0x48);
+    moja_attack_params[1] = TLobby::dispatch_shared_handler_b(0x49);
+    moja_attack_params[2] = TLobby::dispatch_shared_handler_b(0x4A);
+    moja_attack_params[3] = TLobby::dispatch_shared_handler_b(0x4B);
+    moja_attack_params[4] = TLobby::dispatch_shared_handler_b(0x4C);
+    moja_attack_params[5] = TLobby::dispatch_shared_handler_b(0x4D);
+    moja_object_handles[0] = TLobby::register_object(0x48);
+    moja_object_handles[1] = TLobby::register_object(0x49);
+    moja_behavior_params[0] = TLobby::dispatch_shared_handler_a(0x48);
+    moja_behavior_params[1] = TLobby::dispatch_shared_handler_a(0x49);
     s16 ids[3] = { 0x32, 0x33, 0x34 };
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(lbl_805D50D8->motions), reinterpret_cast<TObjMotionAction *>(lbl_804918C8), 0, 2, 9 };
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(moja_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(moja_motion_actions), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(lbl_805D50D8->models[i].model), reinterpret_cast<void *>(lbl_805D50D8->models[i].m_c),
-            &binding, lbl_80491990.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), reinterpret_cast<void *>(moja_bml_resource->models[i].m_c),
+            &binding, moja_collision_body.radius, 0.0f);
     }
 }
 
 void TObjEneMoja::free_resources() {
-    if (lbl_805D50C8 != NULL) {
-        mem_free(lbl_805D50C8);
-        lbl_805D50C8 = NULL;
+    if (moja_boss_stats_handles != NULL) {
+        mem_free(moja_boss_stats_handles);
+        moja_boss_stats_handles = NULL;
     }
-    if (lbl_805D50CC != NULL) {
-        mem_free(lbl_805D50CC);
-        lbl_805D50CC = NULL;
+    if (moja_attack_params != NULL) {
+        mem_free(moja_attack_params);
+        moja_attack_params = NULL;
     }
-    if (lbl_805D50D0 != NULL) {
-        mem_free(lbl_805D50D0);
-        lbl_805D50D0 = NULL;
+    if (moja_object_handles != NULL) {
+        mem_free(moja_object_handles);
+        moja_object_handles = NULL;
     }
-    if (lbl_805D50D4 != NULL) {
-        mem_free(lbl_805D50D4);
-        lbl_805D50D4 = NULL;
+    if (moja_behavior_params != NULL) {
+        mem_free(moja_behavior_params);
+        moja_behavior_params = NULL;
     }
-    if (lbl_805D50DC != NULL) {
-        delete lbl_805D50DC;
-        lbl_805D50DC = NULL;
+    if (moja_punch_points != NULL) {
+        delete moja_punch_points;
+        moja_punch_points = NULL;
     }
-    if (lbl_805D50D8 != NULL) {
-        delete lbl_805D50D8;
-        lbl_805D50D8 = NULL;
+    if (moja_bml_resource != NULL) {
+        delete moja_bml_resource;
+        moja_bml_resource = NULL;
     }
 }
 
@@ -289,26 +289,26 @@ void *TObjEneMoja::create(void *setData) {
 }
 
 void TObjEneMoja::run_task() {
-    u16 temp_r3;
-    u8 *temp_r3_2;
-    u8 *temp_r4;
+    u16 id;
+    u8 *player;
+    u8 *t;
     if (TObjPlayer::check_demo_mode() == 1) {
         TObjPlayer__sub_800ACA0C(this);
         return;
     }
-    temp_r3 = this->targetId;
-    if (temp_r3 < 0x1000U) {
-        temp_r3_2 = (u8 *)(get_player_by_client_id(temp_r3));
-        if (temp_r3_2 != NULL) {
-            if (((TObjPlayer *)temp_r3_2)->get_floor() == get_current_floor()) {
-                this->target = temp_r3_2;
+    id = this->targetId;
+    if (id < 0x1000U) {
+        player = (u8 *)(get_player_by_client_id(id));
+        if (player != NULL) {
+            if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
+                this->target = player;
                 goto done;
             }
         }
         this->target = NULL;
     done:;
-    } else if (temp_r3 < 0x4000U) {
-        this->target = get_enemy_entity(temp_r3);
+    } else if (id < 0x4000U) {
+        this->target = get_enemy_entity(id);
     } else {
         this->targetId = 0xFFFFU;
         this->target = NULL;
@@ -350,8 +350,8 @@ void TObjEneMoja::run_task() {
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
     submit_cursor_candidate(this, -1);
-    temp_r4 = this->target;
-    if ((temp_r4 != NULL) && (((TObjChara *)temp_r4)->actorFlags & 0x02000800)) {
+    t = this->target;
+    if ((t != NULL) && (((TObjChara *)t)->actorFlags & 0x02000800)) {
         this->attackSequence = -1;
         (this->timer) = 0;
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
@@ -451,7 +451,7 @@ void TObjEneMoja::refresh_target() {
             i = 0;
             best_id = 0xFFFF;
             Vec v = { 0.0f, 0.0f, 0.0f };
-            best = ((MojaMovementParameters *)movementParameters)->unknown_00 * ((MojaMovementParameters *)movementParameters)->unknown_00;
+            best = ((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
@@ -474,7 +474,7 @@ void TObjEneMoja::refresh_target() {
             }
             targetId = best_id;
         } else {
-            targetId = find_nearest_visible_player(this, NULL, ((MojaMovementParameters *)movementParameters)->unknown_00);
+            targetId = find_nearest_visible_player(this, NULL, ((MojaMovementParameters *)movementParameters)->target_range);
         }
         tid = targetId;
         if (tid < 0x1000U) {
@@ -540,10 +540,10 @@ s32 TObjEneMoja::update_movement_status() {
 }
 
 void TObjEneMoja::run_idle_action() {
-    s32 temp_r0;
+    s32 m;
 
-    temp_r0 = mode;
-    if ((temp_r0 >= 3) || (temp_r0 < 0)) {
+    m = mode;
+    if ((m >= 3) || (m < 0)) {
         phase = 0;
         roar = 1;
         (this->actorFlags) = (s32) ((this->actorFlags) | 0x40000);
@@ -582,8 +582,8 @@ void TObjEneMoja::update_idle_state() {
     }
     case 1:
         advance_animation();
-        enemy_wander_home(((MojaMovementParameters *)movementParameters)->unknown_04, 100.0f, 100.0f,
-            ((MojaMovementParameters *)movementParameters)->unknown_08);
+        enemy_wander_home(((MojaMovementParameters *)movementParameters)->move_speed, 100.0f, 100.0f,
+            ((MojaMovementParameters *)movementParameters)->turn_speed);
         break;
     }
     refresh_collision_body_centers();
@@ -692,8 +692,8 @@ void TObjEneMoja::update_appearance_drop() {
         subtract_vector(&scratch_vec, &position);
         rotation_y = approach_angle_limited(rotation_y,
             (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)),
-            ((MojaMovementParameters *)movementParameters)->unknown_08);
-        if (rotation_y >= ((MojaMovementParameters *)movementParameters)->unknown_08) {
+            ((MojaMovementParameters *)movementParameters)->turn_speed);
+        if (rotation_y >= ((MojaMovementParameters *)movementParameters)->turn_speed) {
             return;
         }
         requested_action = 5;
@@ -788,7 +788,7 @@ void TObjEneMoja::update_approach_state() {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
-            sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[variant] + 0xC));
+            sub_800A7798(*(f32 *)((s8 *)moja_behavior_params[variant] + 0xC));
             requested_action = 2;
             {
             Vec v = ((TObjChara *)target)->body_center;
@@ -807,11 +807,11 @@ void TObjEneMoja::update_approach_state() {
         t = target;
         if (t != NULL) {
             Vec v3 = ((TObjChara *)t)->body_center;
-            params = (u8 *)lbl_805D50D4[variant];
-            if (((MojaMovementParameters *)movementParameters)->unknown_00 * ((MojaMovementParameters *)movementParameters)->unknown_00 < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->unknown_08, &v3, params, *(f32 *)((s8 *)params + 8), 30.0f)) {
+            params = (u8 *)moja_behavior_params[variant];
+            if (((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->turn_speed, &v3, params, *(f32 *)((s8 *)params + 8), 30.0f)) {
                 target = NULL;
             }
-            if (horizontal_distance_squared(&move_destination, &position) < (((MojaMovementParameters *)movementParameters)->unknown_04 + bodies->radius) * (((MojaMovementParameters *)movementParameters)->unknown_04 + bodies->radius)
+            if (horizontal_distance_squared(&move_destination, &position) < (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius) * (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius)
                 || --timer < 0) {
                 attackSequence = 0;
             }
@@ -848,7 +848,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
             radius = 10.0f;
         }
         for (i = 0; i < 3; i++) {
-            this->m_318 = (uaddr)lbl_805D50CC[i + (this->variant) * 3];
+            this->m_318 = (uaddr)moja_attack_params[i + (this->variant) * 3];
             sq = (radius + ((AttackParams *)(this->m_318))->get_attack_range()) *
                  (radius + ((AttackParams *)(this->m_318))->get_attack_range());
             lim = ((AttackParams *)(this->m_318))->get_attack_angle();
@@ -932,7 +932,7 @@ void TObjEneMoja::update_punch_attack() {
     Vec *e;
     switch (phase) {
     case 0:
-        sub_800A7798(*(f32 *)lbl_805D50D4[variant]);
+        sub_800A7798(*(f32 *)moja_behavior_params[variant]);
         phase = 1;
     case 1:
         advance_animation();
@@ -961,7 +961,7 @@ void TObjEneMoja::update_punch_attack() {
             }
         }
         if ((9.0f <= frame) && (frame <= 16.0f)) {
-            e = lbl_805D50DC->lookup(frame);
+            e = moja_punch_points->lookup(frame);
             if (e != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -985,7 +985,7 @@ void TObjEneMoja::update_punch_attack() {
                 break;
             default:
                 requested_action = 0;
-                timer = (s16)((f32 *)lbl_805D50D4[variant])[1];
+                timer = (s16)((f32 *)moja_behavior_params[variant])[1];
                 break;
             }
         }
@@ -1055,13 +1055,13 @@ void TObjEneMoja::update_technique_state() {
             if (select_enemy_destination(this, &dest, 1) != 0) {
                 Vec cur = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&cur);
-                a = enemy_turn_toward_dest(((MojaMovementParameters *)movementParameters)->unknown_08);
-                enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->unknown_04, this, rotation_y);
+                a = enemy_turn_toward_dest(((MojaMovementParameters *)movementParameters)->turn_speed);
+                enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
                 move_with_wall_slide((u8 *)this);
             } else {
                 VecCopy((Vec *)&dir, (const Vec *)&((TObjChara *)target)->body_center);
                 subtract_vector(&dir, &body_center);
-                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->unknown_08, (Vec *)&dir);
+                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
             }
             if (a < 0x100) {
                 phase = 1;
@@ -1084,7 +1084,7 @@ void TObjEneMoja::update_technique_state() {
             if (target != NULL) {
                 VecCopy((Vec *)&dir, (const Vec *)&((TObjChara *)target)->body_center);
                 subtract_vector(&dir, &body_center);
-                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->unknown_08, (Vec *)&dir);
+                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
             } else {
                 ang2 = ((AttackParams *)(m_318))->get_attack_angle();
             }
@@ -1263,7 +1263,7 @@ void TObjEneMoja::run_miss_reaction() {
     switch (mode) {
     case 4:
         (this->actorFlags) &= 0xFFFFFEFF;
-        ((this->bodies))->flags |= lbl_805D9BFC;
+        ((this->bodies))->flags |= moja_hittable_body_flags;
         referenceHp = (s16) hp;
         roar = 0;
         break;
@@ -1290,7 +1290,7 @@ void TObjEneMoja::update_invincibility() {
     timer = t - 1;
     if (t < 0) {
         actorFlags &= 0xFFFFFEFF;
-        bodies->flags |= lbl_805D9BFC;
+        bodies->flags |= moja_hittable_body_flags;
         timer = resetTimer;
         referenceHp = hp;
     }
