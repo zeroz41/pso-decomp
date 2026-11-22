@@ -132,15 +132,7 @@ s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 
 extern "C" {
 TargetCandidate enemy_target_candidate_table[4];
-typedef struct Ent_800BB388 {
-    u8 pad0[0x30];
-    s32 flags30;
-    u8 pad34[0x38 - 0x34];
-    u8 pos[0x2FC - 0x38];
-    u8 f2FC[0xC];
-}
-Ent_800BB388;
-u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
+u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
 }
 
 
@@ -158,12 +150,6 @@ int submit_cursor_candidate(void*, int);
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct Obj_800BB88C {
-    u8 pad0[0x28]; s16 f28; s16 f2a; u8 pad2c[0xc];
-    f32 f38; f32 f3c; f32 f40; u8 pad44[0x18];
-    s32 f5c; s32 f60; s32 f64; u8 pad68[0x354 - 0x68];
-    f32 f354[5]; s32 f368; s32 f36c;
-};
 extern "C" {
 s32 subtractive_rng_seed(void *, int);
 int fn_800FD8A0(void*);
@@ -310,19 +296,19 @@ void TObjEneDD::invoke_initialization_hook(void *set_data) {
 
 void TObjEneDD::reset_state_fields() {
     s32 i;
-    ((Obj_800BB88C *)this)->f38 = 0.0f;
-    ((Obj_800BB88C *)this)->f3c = 0.0f;
-    ((Obj_800BB88C *)this)->f40 = 0.0f;
-    ((Obj_800BB88C *)this)->f5c = 0;
-    ((Obj_800BB88C *)this)->f60 = 0;
-    ((Obj_800BB88C *)this)->f64 = 0;
+    position.x = 0.0f;
+    position.y = 0.0f;
+    position.z = 0.0f;
+    rotation_x = 0;
+    rotation_y = 0;
+    rotation_z = 0;
     for (i = 0; i < 5; i++) {
-        ((Obj_800BB88C *)this)->f354[i] = 0.0f;
+        parameters[i] = 0.0f;
     }
-    ((Obj_800BB88C *)this)->f368 = 0;
-    ((Obj_800BB88C *)this)->f36c = 0;
-    ((Obj_800BB88C *)this)->f28 = -1;
-    ((Obj_800BB88C *)this)->f2a = -1;
+    variant = 0;
+    state36C = 0;
+    room = -1;
+    set_group = -1;
 }
 
 s32 pack_debug_text_position(s32 arg0, s32 arg1) {
@@ -456,10 +442,10 @@ s32 TObjEneDD::collect_target_candidates(TObjEneDD *actor, f32 range) {
     return collect_enemy_target_candidates(actor, enemy_target_candidate_table, range);
 }
 
-u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
+u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
     s32 count;
     s32 base;
-    Ent_800BB388 *p;
+    TObjChara *p;
     u16 best;
     s32 i;
     f32 d;
@@ -468,10 +454,10 @@ u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
     base = TLobby::get_game_mode();
     count = TObjEneDD::get_enemy_count();
     for (i = 0; i < count; i++) {
-        p = (Ent_800BB388 *)TObjPlayer::get_player_data(base + i);
-        if (p != self && !(p->flags30 & 0x01000000) && ((TObjBase *)p)->is_alive() != 0) {
-            d = horizontal_distance_squared((const Vec *)self->f2FC, (const Vec *)p->pos);
-            if (d < range && csnLookAt(self->f2FC, p->f2FC) == 0) {
+        p = (TObjChara *)TObjPlayer::get_player_data(base + i);
+        if (p != self && !(p->actorFlags & 0x01000000) && p->is_alive() != 0) {
+            d = horizontal_distance_squared(&self->body_center, &p->position);
+            if (d < range && csnLookAt(&self->body_center, &p->body_center) == 0) {
                 best = get_entity_id(p);
                 range = d;
             }
@@ -481,7 +467,7 @@ u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
 }
 
 u16 enemy_nearest_visible_enemy(void *self, f32 range) {
-    return enemy_nearest_visible_enemy_sq((Ent_800BB388 *)self, range * range);
+    return enemy_nearest_visible_enemy_sq((TObjChara *)self, range * range);
 }
 
 u8 *TObjEneDD::snap_to_ground_at(u8 *arg1) {
