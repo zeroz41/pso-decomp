@@ -18,7 +18,6 @@ const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
 
 extern "C" {
 
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 find_entity_by_id(s32, f32);
 
 void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
@@ -26,6 +25,7 @@ void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render()
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" {
 

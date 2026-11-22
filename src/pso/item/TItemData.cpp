@@ -13,6 +13,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby_80291D94.h"
+#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/unk/text_80076E84.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -91,14 +95,12 @@ struct Parm_8010C320
 extern "C" {
 s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
-int is_quest_active(void);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, int);
 void *calc_technique_parameters(u8, u8, s32);
-s32 is_challenge_mode_active();
 extern s32 local_client_id;
 f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0);
 void * lookup_item_pmt_record(u8 *item);
@@ -148,12 +150,7 @@ static const Tbl_8010C8B4 item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
 void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst);
-void TItemData__sub_8010EDD8(void *arg0, s32 arg1);
-void TItemData__sub_8010EDC8(void *arg0, s32 arg1);
-void TItemData__sub_8010EDA8(void *arg0, s32 arg1);
 extern const u8 lbl_805DAB68 = 0x40;
-void TItemData__sub_8010EE1C(void *arg0, s16 arg1);
-void TItemData__sub_8010EE30(s16 *arg0, s32 arg1);
 }
 saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
 extern "C" {
@@ -813,15 +810,12 @@ struct Item_8010E59C {
 extern "C" {
 void *get_armor_pmt_record(int type, int id);
 s32 get_item_star_count(s32);
-saddr get_item_description_text(s32);
 }
 saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
 s32 TObjPlayer__sub_80117E50(u16);
-s32 get_technique_name(s32 arg0);
-saddr get_text_collection(s32 arg0);
 void TItemData__clear_unidentified_flag(void *arg0);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 

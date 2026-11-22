@@ -27,6 +27,9 @@
 
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/unk/TLobby_80070A00.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 
 #pragma readonly_strings on
 
@@ -186,7 +189,6 @@ const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 f32 online_ending_scene_scale = 0.88f;
 f32 online_ending_quad_y_offset = -24.0f;
 f32 online_ending_scene_z_offset;
@@ -194,8 +196,6 @@ BmlResource *online_ending_resource;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
-s32 *TLobby__sub_80070ACC();
-s32 TWindowSubStatusDisp__sub_800718D0();
 
 void TObjOnlineEnding::create_result_window() {
     result_window = NULL;

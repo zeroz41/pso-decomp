@@ -21,6 +21,9 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" {
 u16 get_entity_id(void *);
@@ -52,7 +55,6 @@ extern RecoveredGlobal_80107DA4_lbl_8049EFB8 __vt__13TUnk_8049EFB8;
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern RecoveredGlobal_80107DF0_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
 extern s32 saved_model_render_flags;
@@ -161,9 +163,6 @@ struct Self_80108020 {
 
 extern "C" {
 void play_sound_effect(u32, void *, s32, s32);
-f32 xyz_distance(Vec *, Vec *);
-
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
 extern void *__vt__13TItemEffArmor[];

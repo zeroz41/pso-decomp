@@ -143,8 +143,6 @@ void project_world_to_screen(int, void *, void *);
 s32 post_translate_matrix(void *);
 void rotate_vector_by_current_matrix(void *, void *);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-void draw_ginja_object(void *child);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -217,6 +215,8 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
 
 u8 *create_ballistic_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
     return (u8 *)new TUnk_8048E778(arg0, pos, dir, parent, flags, target_id);

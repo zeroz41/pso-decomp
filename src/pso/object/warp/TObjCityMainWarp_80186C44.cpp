@@ -7,6 +7,9 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/unk/text_8024AD30.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
@@ -24,10 +27,6 @@ struct Obj_80186DA0 {
 };
 
 extern "C" {
-u8 is_current_floor_switch_set(s32 id);
-void end_player_keyboard_hold(saddr arg0);
-void obj_clear_flag30_20000(TObjBase *actor);
-void obj_set_flag_20000(TObjBase *actor);
 
 extern s32 local_client_id;
 

@@ -28,6 +28,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -118,7 +119,6 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 play_sound_effect(s32, void *, s32, s32);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 

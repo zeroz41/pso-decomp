@@ -10,13 +10,13 @@
 #include "pso/object/switch/TOSwitchAttack.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/switch/TSwitch.h"
 
 const char *TOSwitchAttack__name = "TOSwitchAttack";
 const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
 
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
-u8 is_current_floor_switch_set(s32 id);
 extern u8* camera_ctrl_instance;
 extern void* local_client_id;
 

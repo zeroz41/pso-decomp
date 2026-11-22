@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/switch/TSwitch.h"
 
 struct Atk_801778A8 {
     s32 a;
@@ -56,7 +57,6 @@ struct Sw_801778A8 {
 extern "C" {
 extern const char *TOSwitchAttack__name;
 f32 horizontal_distance_squared(void *, void *);
-u8 is_current_floor_switch_set(s32 id);
 
 void TOSwitchAttack::render() {  }
 

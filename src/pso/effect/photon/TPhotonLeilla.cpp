@@ -25,6 +25,7 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/player/TObjPlayer_801ACA6C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 void TObjPlayer__sub_801AC43C(void) {  }
@@ -64,7 +65,6 @@ u8 *__nw__7TObjectFUl(s32, f32);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;

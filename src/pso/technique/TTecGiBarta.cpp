@@ -21,6 +21,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct RecoveredFields_802308A0_arg0
 {
@@ -97,13 +98,11 @@ struct Shot_802304A0 {
 
 extern "C" {
 
-void *mem_alloc(u32 size);
 void matrix_mult_vec(s32, void *, void *);
 void rotate_matrix_y(s32, s32);
 extern u8 identity_matrix[];
 
 u16 get_entity_id(void *);
-void mem_free(void *p);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *find_entity_by_id(u16 id);
 

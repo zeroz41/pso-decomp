@@ -6,6 +6,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_801D2E20.h"
 
 
 void TUnk_804A64E8::vfunc_60() {
@@ -58,10 +59,6 @@ s16 get_entity_id(void *);
 }
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
-extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-}
 
 
 void TUnk_804A64E8::emit_marker_effects() {

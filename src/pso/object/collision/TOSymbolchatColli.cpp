@@ -14,6 +14,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_800F7DAC.h"
+#include "pso/object/switch/TSwitch.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -62,7 +65,6 @@ struct Ent_8017873C
 };
 
 extern "C" {
-f32 newton_sqrtf(f32 x);
 void init_collision_body_parts(void *, void *, int);
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -73,10 +75,8 @@ Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg
 void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
-u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 u32 symbolchat_colli_param_table[4];
 saddr symbol_chat_colli_entries;
-u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
 
 s32 TOSymbolchatColli::get_state() {

@@ -10,6 +10,7 @@
 #include "pso/render/render_util.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/system/vector.h"
+#include "pso/ui/frontend/TAdGameStartGC.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
 
@@ -60,10 +61,7 @@ extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 __vt__23TObjOnlineEndingHexMove[];
 
-void bswap_6x92__14TAdGameStartGCFPv(void *p);
 s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
-void send_6x92__14TAdGameStartGCFPv(void *p);
-void TAdGameStartGC__sub_802E6368(void *p);
 
 s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *, EndingHexPoint *);
 void update_line_params__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexMove *);

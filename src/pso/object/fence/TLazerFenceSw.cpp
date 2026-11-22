@@ -32,6 +32,7 @@ struct GinjaTextureList;
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/ModelDrawContext.h"
 
 
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); }
@@ -112,7 +113,6 @@ struct Sw_801936E0 {
 void PPCSync(void);
 void post_translate_matrix(void *);
 
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u32 actor_frame_tick;
 
 void TLazerFenceSw::draw_laser_beam() {

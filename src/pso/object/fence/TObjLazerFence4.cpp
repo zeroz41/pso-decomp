@@ -25,6 +25,8 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/object/switch/TSwitch.h"
 
 
 #pragma readonly_strings on
@@ -61,8 +63,6 @@ struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *f
 
 extern "C" {
 void post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-u8 is_current_floor_switch_set(s32 id);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 

@@ -22,6 +22,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_8011085C.h"
 
 extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
@@ -64,9 +65,7 @@ struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
 
 extern "C" {
 u32 get_player_by_client_id(u16);
-void fn_8011085C(u8 *arg0, s32 arg1);
 TItemLockCountCtrl * item_timer_event_instance;
-void fn_801108C8(u8 *arg0, s32 arg1);
 s32 is_item_area_enabled(s32 area);
 
 void TObjPlayer::clear_state_flags(s32 arg1) {

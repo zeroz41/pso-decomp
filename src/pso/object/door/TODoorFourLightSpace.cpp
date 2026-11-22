@@ -21,6 +21,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/render/ModelDrawContext.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -62,7 +63,6 @@ u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
 void fn_802898E8(void);
 void fn_802898EC(void);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void free_collision_body_parts(void *);
 
 }

@@ -36,6 +36,8 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/text_8024ACEC.h"
+#include "pso/render/ModelDrawContext.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -48,10 +50,8 @@ extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
-void begin_player_keyboard_hold(saddr arg0);
 extern s32 city_main_warp_destination_id;
 s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 extern saddr camera_ctrl_instance;
 

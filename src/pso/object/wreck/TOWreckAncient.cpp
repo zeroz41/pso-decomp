@@ -28,6 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/switch/TSwitch.h"
 
 // The wreck family is one TU built with -inline off,deferred: its code runs Brakable05, Brakable, 07, 06, 05,
 // 04, 01, TOWreckAncient while its strings, name pointers and vtables run the other way, so the source is
@@ -137,7 +138,6 @@ s32 post_translate_matrix(void *);
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 extern u8 identity_matrix[];
-u8 is_current_floor_switch_set(s32 id);
 }
 
 // --- TOWreckAncient ---

@@ -9,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_800870BC.h"
 
 
 #pragma readonly_strings on
@@ -22,7 +23,6 @@ s32 is_item_light_interaction_blocked();
 f32 xz_distance_squared(void *, void *);
 Ply_80191F90 *get_player_by_client_id(s32);
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 
 
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {

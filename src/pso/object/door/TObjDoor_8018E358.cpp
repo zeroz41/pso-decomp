@@ -21,6 +21,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/switch/TSwitch.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -98,7 +99,6 @@ s32 activate_camera_mode(s32);
 s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-u8 is_current_floor_switch_set(s32 id);
 extern s32 TObjDoor__data_805D5BC8;
 s32 init_collision_body_parts(void *, void *, s32);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);

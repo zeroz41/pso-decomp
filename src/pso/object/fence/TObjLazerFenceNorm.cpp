@@ -18,6 +18,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/object/switch/TSwitch.h"
 
 struct AnimationMotion;
 
@@ -70,7 +72,6 @@ struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x
 extern "C" {
 
 void post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 struct Motion_801926D0 { u8 pad[4]; u32 frames; };
 struct TObjLazerFenceExtra_801926D0 {
@@ -82,8 +83,6 @@ struct TObjLazerFenceExtra_801926D0 {
     u8 padbc[8];
     Motion_801926D0 *motion;
 };
-
-u8 is_current_floor_switch_set(s32 id);
 
 static const f32 lbl_805DBE58[1] = {0.0f};
 

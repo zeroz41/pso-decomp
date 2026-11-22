@@ -50,6 +50,7 @@ const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 #include "pso/system/byteswap.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/object/switch/TSwitch.h"
 
 // ChatSensor.prs: how many trigger texts there are and the texts (a sensor's m_cc picks one, from 1).
 struct ChatSensorTable {
@@ -79,7 +80,6 @@ struct Packet_8015AD54 {
     u8 c;
 };
 extern "C" {
-u8 is_current_floor_switch_set(s32 id);
 
 
 extern s32 local_client_id;

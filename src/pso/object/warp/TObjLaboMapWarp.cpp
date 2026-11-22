@@ -71,6 +71,9 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 s32 get_story_flag(s32);
 
@@ -89,10 +92,6 @@ struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 extern "C" {
 
 
-int is_quest_active(void);
-
-saddr get_localized_text_entry(s32, s32);
-
 void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp);
 
 
@@ -103,8 +102,6 @@ void clear_enabled_main_warps(void);
 
 s32 get_window_layout_position(s32);
 
-
-s32 get_game_play_mode();
 
 s32 rotate_matrix_y(s32, s32);
 

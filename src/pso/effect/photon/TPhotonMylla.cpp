@@ -22,6 +22,8 @@ struct TPhotonYoulla;
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/render/MaterialAlphaCompare.h"
 struct Stack_801AD5D8 {
     s32 sp8;
     f32 spC;
@@ -112,8 +114,6 @@ void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 rotate_matrix_y(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-void set_material_alpha_compare_reference(s32 reference);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern NJS_ARGB saved_model_draw_color;

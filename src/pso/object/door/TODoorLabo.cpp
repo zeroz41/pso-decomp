@@ -24,6 +24,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/render/ModelDrawContext.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -174,8 +176,6 @@ f32 post_translate_matrix(void *);
 void __ct__10TODoorBaseFP7TObject(void *, void *);
 extern s32 __vt__19TODoorFourLightBase[];
 Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2);
-u8 is_current_floor_switch_set(int);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void render__19TODoorFourLightBaseFv(TODoorFourLightBase *arg0);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void init_collision_body_parts(void *, void *, s32);

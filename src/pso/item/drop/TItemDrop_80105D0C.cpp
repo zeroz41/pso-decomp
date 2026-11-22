@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_8010F168.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -37,7 +38,6 @@ s32 TItemDrop__drop_table_mode_flags;
 s32 TItemDrop__section_id;
 extern "C" {
 
-s32 get_game_play_mode();
 s32 get_drop_table_mode_flags(void);
 extern u8 TLobby__data_805011D8[];
 s32 item_drop_cached_offset = -1;
