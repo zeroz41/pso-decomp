@@ -3952,7 +3952,7 @@ int TObjPlayer::get_hp_material_points() {
   return 0xFAU;
 }
 
-s32 check_can_act__10TObjPlayerFii(saddr player, s32 dmg) {
+s32 TObjPlayer::check_can_act(int player, int dmg) {
     if (((TObjChara *)player)->obj_isState2_324() != 0) {
         return 0;
     }

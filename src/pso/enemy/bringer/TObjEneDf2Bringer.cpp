@@ -576,7 +576,7 @@ s32 TObjEneDf2Bringer::attack_visible_players() {
             horizontal_distance_squared(&body_center, &player->position);
             if (csnLookAt(&body_center, &player->body_center) == NULL) {
                 dmg = floor_to_float(0.25f * (f32)get_actor_tp(player));
-                check_can_act__10TObjPlayerFii((saddr)player, (s16)dmg);
+                TObjPlayer::check_can_act((saddr)player, (s16)dmg);
                 total += dmg;
                 new TUnk_8048FE64(this, &player->body_center, &node_points[3]);
             }
