@@ -1,17 +1,18 @@
 #include "types.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 extern "C" {
-extern u8 *current_matrix;
 void GXGetProjectionv(f32 *p);
 void GXGetViewportv(f32 *vp);
-void GXProject(f32 x, f32 y, f32 z, u8 *mtx, f32 *pm, f32 *vp, f32 *sx, f32 *sy, f32 *sz);
+void GXProject(f32 x, f32 y, f32 z, f32 mtx[3][4], f32 *pm, f32 *vp, f32 *sx, f32 *sy, f32 *sz);
 void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out);
-s32 scale_matrix(f32, f32, f32);
-s32 translate_matrix(f32, f32, f32);
 
 void scale_matrix_vec3(u8 *arg0, u8 *arg1) {
-    scale_matrix((f32) (*(f32 *)((s8 *)arg1 + 0)), (f32) (*(f32 *)((s8 *)arg1 + 4)), (f32) (*(f32 *)((s8 *)arg1 + 8)));
+    const Vec *scale = (const Vec *)arg1;
+    scale_matrix((MtxP)arg0, scale->x, scale->y, scale->z);
 }
 
 asm f32 vector_length(const Vec *v) {
@@ -21,22 +22,23 @@ asm f32 vector_length(const Vec *v) {
 #pragma push
 #pragma scheduling off
 void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2) {
-    u8 sp8[0x30];
-    u8 *m;
+    GC_Mtx rotation;
+    MtxP m;
     if (arg0 == 0) {
-        m = current_matrix;
+        m = *current_matrix;
     } else {
-        m = arg0;
+        m = (MtxP)arg0;
     }
     if (arg2 != 0) {
-        PSMTXRotAxisRad((MtxP)sp8, (Vec *)arg1, 9.587378008291125e-05 * arg2);
-        PSMTXConcat((MtxP)m, (MtxP)sp8, (MtxP)m);
+        PSMTXRotAxisRad(rotation, (Vec *)arg1, 9.587378008291125e-05 * arg2);
+        PSMTXConcat(m, rotation, m);
     }
 }
 #pragma pop
 
 void translate_matrix_vec3(u8 *arg0, u8 *arg1) {
-    translate_matrix((f32) (*(f32 *)((s8 *)arg1 + 0)), (f32) (*(f32 *)((s8 *)arg1 + 4)), (f32) (*(f32 *)((s8 *)arg1 + 8)));
+    const Vec *offset = (const Vec *)arg1;
+    translate_matrix((uaddr)arg0, offset->x, offset->y, offset->z);
 }
 
 // {0.0f, 1.0f}: matrix_identity reads its 1.0f (the Dolphin SDK keeps the same table as Unit01 in mtx.c).
@@ -49,12 +51,11 @@ asm void matrix_identity(MtxP m) {
 #pragma push
 #pragma scheduling off
 void set_matrix_identity(u8 *arg0) {
-    u8 *var_r3;
-    var_r3 = arg0;
-    if (var_r3 == NULL) {
-        var_r3 = current_matrix;
+    MtxP m = (MtxP)arg0;
+    if (m == NULL) {
+        m = *current_matrix;
     }
-    matrix_identity((MtxP)var_r3);
+    matrix_identity(m);
 }
 #pragma pop
 
@@ -78,13 +79,13 @@ void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
     f32 sz;
     f32 sy;
     f32 sx;
-    u8 *m;
+    MtxP m;
     GXGetProjectionv(proj);
     GXGetViewportv(vp);
     if (mtx == 0) {
-        m = current_matrix;
+        m = *current_matrix;
     } else {
-        m = mtx;
+        m = (MtxP)mtx;
     }
     GXProject(pos->x, pos->y, pos->z, m, proj, vp, &sx, &sy, &sz);
     out[0] = sx;
@@ -95,12 +96,11 @@ void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
 #pragma push
 #pragma scheduling off
 void rotate_vector_by_matrix(uaddr arg0, const Vec *src, Vec *dst) {
-    uaddr var_r3;
-    var_r3 = arg0;
-    if (var_r3 == 0U) {
-        var_r3 = (*(uaddr *)&current_matrix);
+    MtxP m = (MtxP)arg0;
+    if (m == NULL) {
+        m = *current_matrix;
     }
-    PSMTXMultVecSR((MtxP)var_r3, src, dst);
+    PSMTXMultVecSR(m, src, dst);
 }
 #pragma pop
 
