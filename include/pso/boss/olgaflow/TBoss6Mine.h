@@ -16,7 +16,7 @@ struct TBoss6MineSetData {
     s16 set_index; // TBoss6PlotFalz::get_next_point writes its set_index + counter here
     u8 pad_02[0x4];
     s16 entity_id; // ...and its entity_id + counter here
-    s16 unk_08;
+    s16 room;  // TBoss6PlotFalzSetEntry::room (copy_set_entry); spawn_mines clears it
     u8 pad_0A[0x6];
     Vec position;
     u8 pad_1C[0x24];

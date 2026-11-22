@@ -894,10 +894,10 @@ void TBoss6Type2::draw_body_models() {
 }
 
 void TBoss6Type2::load_battle_params() {
-    const TBoss6Type2ParamRecord *rec;
+    const Boss6ParamRecord *rec;
     s32 first;
     s32 second;
-    rec = (const TBoss6Type2ParamRecord *)TLobby::dispatch_shared_handler_a(0x2C);
+    rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2C);
     rock_damage = (s32)rec->floats[1];
     if ((f32)rock_damage <= 0.0f) {
         rock_damage = TBoss6Type2__default_battle_parameters.int_params[0];
@@ -933,7 +933,7 @@ void TBoss6Type2::load_battle_params() {
         iai_x2_percent = TBoss6Type2__default_battle_parameters.int_params[6];
         iai_x3_percent = TBoss6Type2__default_battle_parameters.int_params[7];
     }
-    rec = (const TBoss6Type2ParamRecord *)TLobby::dispatch_shared_handler_a(0x2F);
+    rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2F);
     base_walk_speed = rec->floats[0];
     if (base_walk_speed <= 0.0f) {
         base_walk_speed = TBoss6Type2__default_battle_parameters.float_params[0];
@@ -950,7 +950,7 @@ void TBoss6Type2::load_battle_params() {
     if ((f32)info_stat_duration <= 0.0f) {
         info_stat_duration = TBoss6Type2__default_battle_parameters.last_param;
     }
-    rec = (const TBoss6Type2ParamRecord *)TLobby::dispatch_shared_handler_a(0x2E);
+    rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2E);
     low_hp_walk_speed = rec->floats[2];
     if (low_hp_walk_speed <= 0.0f) {
         low_hp_walk_speed = TBoss6Type2__default_battle_parameters.float_params[2];

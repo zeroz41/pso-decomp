@@ -108,7 +108,7 @@ void TBoss6Type1::update_countdown_state() {
 
 void TBoss6Type1::update_if_ready() {
     if (((s32)action_timer == 0) || (is_timer_expired() != 0)) {
-        sub_802B8E1C();
+        send_ret_rnd();
     }
 }
 
@@ -131,14 +131,14 @@ void TBoss6Type1::update_countdown() {
 void TBoss6Type1::update_state() {
     if ((s32)action_timer == 0) {
         if (is_normal_difficulty() != 0) {
-            sub_802B8E1C();
+            send_ret_rnd();
             return;
         }
         if (is_field3F8_over_0x20() != 0) {
             send_flow_action_if_idle(this, 0x25);
             return;
         }
-        sub_802B8E1C();
+        send_ret_rnd();
     }
 }
 
@@ -235,7 +235,7 @@ void TBoss6Type1::update_tkof_centop() {
 
 void TBoss6Type1::update_if_idle() {
     if (action_timer == 0) {
-        sub_802B8E1C();
+        send_ret_rnd();
     }
 }
 
@@ -339,7 +339,7 @@ void TBoss6Type1::update_phase() {
 
 void TBoss6Type1::trigger_falz_phase() {
     if (((s32)action_timer == 0) && (is_normal_difficulty() != 0)) {
-        sub_802B8E1C();
+        send_ret_rnd();
     }
 }
 
@@ -396,7 +396,7 @@ void TBoss6Type1::idle_chal_float() {
         return;
     }
     if ((s32)action_timer == 0) {
-        if (sub_802B6060() != 0) {
+        if (is_raised() != 0) {
             send_flow_action_if_idle(this, 0x1A);
             return;
         }
@@ -473,7 +473,7 @@ void TBoss6Type1::update_fllsr_mv() {
     rotate_around_center(action_timer, action_duration);
     if ((action_timer <= laser_fire_time) && (action_timer >= 0x1E)) {
         increase_field_clamped_max();
-        sub_802B6C30();
+        check_laser_hits();
     } else {
         decrease_field_clamped_min();
     }
@@ -485,7 +485,7 @@ void TBoss6Type1::update_fllsr_mv() {
         play_persistent_sound(sound, (saddr)this, (uaddr)&node_points[7], 0, 1);
     }
     if (laser_scale > 0.0f) {
-        sub_802B4B04();
+        count_laser_frame();
     } else {
         release_slot_particles();
     }
@@ -521,7 +521,7 @@ void TBoss6Type1::init_dice_state() {
 void TBoss6Type1::update_sword_ud() {
     s32 state;
 
-    sub_802B73AC();
+    spawn_sword_shots();
     interpolate_pos_to_target(action_timer, action_duration);
     if (--action_timer < 0) {
         state = action_state;
@@ -575,7 +575,7 @@ void TBoss6Type1::init_attack_timer() {
         action_duration = action_duration + 0x1E;
     }
     action_timer = action_duration;
-    sub_802B5598(&target_position.v);
+    pick_sword_move_target(&target_position.v);
     play_sound_effect(0x4003BF07, &node_points[9], 0, 0);
     release_effect_slot(0);
     spawn_effect_slot(1);
@@ -687,17 +687,17 @@ void TBoss6Type1::choose_next_action() {
                 return;
             }
             if (((count_matches(3, 0xA) + count_matches(5, 0xA)) == 0) || (((1.0f / 32768.0f) * (f32)rand()) < 0.4f)) {
-                sub_802B8BB4();
+                choose_attack();
                 return;
             }
             do_attack();
             return;
         }
         if (is_time_up() != 0) {
-            sub_802B8A70();
+            send_chal_ud();
             return;
         }
-        sub_802B8BB4();
+        choose_attack();
     }
 }
 
@@ -716,7 +716,7 @@ void TBoss6Type1::init_attack_timers() {
 
 void TBoss6Type1::update_appear() {
     if ((s32)action_timer < 0x1E) {
-        sub_802B5140(action_timer, 0x1E);
+        update_appear_position(action_timer, 0x1E);
     }
     if (--action_timer < 0) {
         set_action_state(1);

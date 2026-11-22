@@ -56,13 +56,6 @@ struct Boss6Type2MoveTarget {
     Vec position;
 };
 
-// A boss parameter record (TLobby::dispatch_shared_handler_a); load_battle_params
-// reads three of them, each with six floats then six ints.
-struct TBoss6Type2ParamRecord {
-    f32 floats[6];
-    s32 ints[6];
-};
-
 struct TBoss6Type2 : public TObjEnemy
 {
     void sub_802BBE20();
