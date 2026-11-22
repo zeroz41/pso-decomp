@@ -9,6 +9,14 @@ class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 
+// What TObjEnemy::movementParameters points at for a Recon (TObjEneRecon__ai_parameters).
+struct ReconMoveParams {
+    f32 pad_00;
+    f32 move_speed;  // distance moved per frame (move_with_wall_slide_commit)
+    s32 turn_speed;  // largest heading change per frame
+    s32 pad_0C[4];
+};
+
 struct TObjEneRecon : public TObjEneDD_ST {
     TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir);
     virtual ~TObjEneRecon();
@@ -24,6 +32,11 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void sub_8031C364(s32 reason);
     void sub_8031C624(s32 reason);
     void sub_8031C7BC(s32 reason);
+    void sub_8031C920(s32 reason);
+    void sub_8031CCFC(s32 reason);
+    void sub_8031CF30(s32 reason);
+    void sub_8031D380(s32 reason);
+    s32 sub_8031DA90();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
@@ -58,11 +71,19 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void sync_height();
 
     s32 state_step;               // step inside the current action state
-    u8 pad_3C4[0x1C];
+    s32 state_timer;              // frames spent in the current step (bomb wind-up, strike wait)
+    s32 hit_window;               // 1 between strike frames 7 and 31: players near root_node_position are hit
+    s32 pad_3CC;
+    s32 orbit_angle;              // angle around the target that the orbit destination is placed at
+    s32 orbit_step;               // orbit_angle change per frame: +-speed / circumference, in angle units
+    s32 bob_phase;                // phase of the 10-unit height bob while orbiting
+    s32 pad_3DC;
     f32 rise_speed;               // vertical speed added to hover_height while knocked back (gravity 0.1)
     f32 move_speed;               // horizontal speed: length of velocity, decays by 0.98
-    u8 pad_3E8[0x30];
-    s32 floor_flags;              // flags of the floor under it (update_ground_probe); 0x4000 = reflective
+    f32 pad_3E8[9];
+    Vec root_node_position;       // world position of the model's first node, refreshed by render; bombs and
+                                  // the strike start here
+    s32 floor_flags;             // flags of the floor under it (update_ground_probe); 0x4000 = reflective
     Vec floor_point;              // that floor point
     Vec spawn_direction;          // the box's launch direction (ctor)
     u16 owner_id;                 // entity id of the TObjEneRecobox that spawned it
@@ -71,11 +92,14 @@ struct TObjEneRecon : public TObjEneDD_ST {
     u32 recon_flags;              // bit 1: done for (exploded, faded out or let go by its box)
     f32 hover_height;
     Vec velocity;                 // xz drift of the knockback (normalize_vector_xz)
-    u8 pad_458[0x8];
+    f32 pad_458;
+    s32 pad_45C;
     f32 offset_max;               // orbit height over the box: 45 + 2x + the box's recon_offset_max
-    f32 pad_464;
+    f32 strike_height;            // height over the target it closes in at before a strike: 15 + 2x
     f32 rotate_rad;               // orbit radius: 50 + 5x + the box's recon_rotate_rad
-    u8 pad_46C[0xC];
+    s32 orbit_since_strike;       // angle orbited since the last strike; past half a turn it strikes
+    s32 orbit_since_bomb;         // angle orbited since the last bomb; past 0x5000 it drops one
+    s32 attacking;                // set while a strike or bomb state runs; sub_8031D878 reports the target then
     TParticleCtrl *emitter;       // particle emitter 0x217 trailing the body
     s32 emitter_side;             // flips each frame: the emitter swings 3 units to either side
     TUnk_80494938 fade;
