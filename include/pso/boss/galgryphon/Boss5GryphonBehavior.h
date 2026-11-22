@@ -4,11 +4,15 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+struct Vec;
 struct GinjaTextureList;
 
 struct TBoss5Gryphon;
 void handle_6x9F_gal_gryphon_boss_actions(void *data);
 void handle_6xA0_gal_gryphon_boss_actions(void *data);
+// The follow camera offsets for the Gal Gryphon arena: the running gryphon's flight mode ones,
+// or the default pair before it exists.
+void get_gryphon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
 
 struct BmlResource;
 
@@ -30,7 +34,7 @@ struct Boss5GryphonAttackParams {
 
 // One of the gryphon's parameter blocks: TLobby::dispatch_shared_handler_a of
 // boss5_gryphon_behavior_param_ids (0x1E, 0x1F, 0x20). The first two lead with the follow camera's
-// (y, z) offset and target offset pairs per flight mode, one run of twelve floats over both
+// (y, z) target offset and eye offset pairs per flight mode, one run of twelve floats over both
 // (fill_follow_camera_params).
 union Boss5GryphonParams {
     f32 camera[6];

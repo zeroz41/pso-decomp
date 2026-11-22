@@ -259,12 +259,8 @@ void *boss5_gryphon_action_table[108] = {
     (void *)0x30000, (void *)0x7, (void *)0x3f800000, (void *)0x80000000,
     (void *)0x30000, (void *)0x10, (void *)0x3f000000, (void *)0x0,
 };
-void *boss8_dragon_follow_camera_offsets[3] = {
-    (void *)0x0, (void *)0x419e6666, (void *)0xc0a00000,
-};
-void *gryphon_follow_camera_target_offset[3] = {
-    (void *)0x0, (void *)0x41cb70a4, (void *)0x4235ae14,
-};
+Vec boss5_gryphon_follow_camera_target_offset = {0.0f, 19.8f, -5.0f};
+Vec boss5_gryphon_follow_camera_eye_offset = {0.0f, 25.43f, 45.42f};
 extern void *boss5_gryphon_landing_bezier_points[16];
 extern void *boss5_gryphon_descend_bezier_points[16];
 extern Vec gryphon_left_horn_lightning_offset;
@@ -470,38 +466,38 @@ const Vec *get_arena_center(void) {
 }
 
 }
-void TBoss8Dragon::get_follow_camera_offsets(u8 *target_offset) {
+void get_gryphon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
     if (boss5_gryphon_instance == NULL) {
-        VecCopy((Vec *)this, (const Vec *)boss8_dragon_follow_camera_offsets);
-        VecCopy((Vec *)target_offset, (const Vec *)gryphon_follow_camera_target_offset);
+        VecCopy(target_offset, &boss5_gryphon_follow_camera_target_offset);
+        VecCopy(eye_offset, &boss5_gryphon_follow_camera_eye_offset);
         return;
     }
-    boss5_gryphon_instance->fill_follow_camera_params((Vec *)this, (Vec *)target_offset);
+    boss5_gryphon_instance->fill_follow_camera_params(target_offset, eye_offset);
 }
 
-void TBoss5Gryphon::fill_follow_camera_params(Vec *offset, Vec *target_offset) {
-    offset->x = 0.0f;
+void TBoss5Gryphon::fill_follow_camera_params(Vec *target_offset, Vec *eye_offset) {
     target_offset->x = 0.0f;
+    eye_offset->x = 0.0f;
     switch (this->flight_mode) {
     default:
     case 2:
     case 0:
-        offset->y = boss5_gryphon_behavior_params[0]->camera[0];
-        offset->z = boss5_gryphon_behavior_params[0]->camera[1];
-        target_offset->y = boss5_gryphon_behavior_params[0]->camera[2];
-        target_offset->z = boss5_gryphon_behavior_params[0]->camera[3];
+        target_offset->y = boss5_gryphon_behavior_params[0]->camera[0];
+        target_offset->z = boss5_gryphon_behavior_params[0]->camera[1];
+        eye_offset->y = boss5_gryphon_behavior_params[0]->camera[2];
+        eye_offset->z = boss5_gryphon_behavior_params[0]->camera[3];
         return;
     case 1:
-        offset->y = boss5_gryphon_behavior_params[0]->camera[4];
-        offset->z = boss5_gryphon_behavior_params[0]->camera[5];
-        target_offset->y = boss5_gryphon_behavior_params[1]->camera[0];
-        target_offset->z = boss5_gryphon_behavior_params[1]->camera[1];
+        target_offset->y = boss5_gryphon_behavior_params[0]->camera[4];
+        target_offset->z = boss5_gryphon_behavior_params[0]->camera[5];
+        eye_offset->y = boss5_gryphon_behavior_params[1]->camera[0];
+        eye_offset->z = boss5_gryphon_behavior_params[1]->camera[1];
         return;
     case 3:
-        offset->y = boss5_gryphon_behavior_params[1]->camera[2];
-        offset->z = boss5_gryphon_behavior_params[1]->camera[3];
-        target_offset->y = boss5_gryphon_behavior_params[1]->camera[4];
-        target_offset->z = boss5_gryphon_behavior_params[1]->camera[5];
+        target_offset->y = boss5_gryphon_behavior_params[1]->camera[2];
+        target_offset->z = boss5_gryphon_behavior_params[1]->camera[3];
+        eye_offset->y = boss5_gryphon_behavior_params[1]->camera[4];
+        eye_offset->z = boss5_gryphon_behavior_params[1]->camera[5];
         return;
     }
 }

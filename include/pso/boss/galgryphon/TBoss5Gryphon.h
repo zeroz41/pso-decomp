@@ -204,7 +204,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void flush_pending_effect();
     void scale_size(f32 scale, f32 scale_y, f32 turn_scale);
     void copy_spawn_params(G_GalGryphonBossActions_6xA0 *packet);  // adds entity_id, position and rotation_y, then sends it
-    void fill_follow_camera_params(Vec *offset, Vec *target_offset);  // the follow camera offsets of the flight mode
+    void fill_follow_camera_params(Vec *target_offset, Vec *eye_offset);  // the follow camera offsets of the flight mode
     void set_animation_by_state();
     void init_state_zero();
     void enter_flight_mode();

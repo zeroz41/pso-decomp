@@ -5,6 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -418,24 +419,28 @@ void TCameraFollow::calc_follow_position() {
 void TCameraFollow::select_follow_camera_offsets() {
     s32 area = get_current_floor_area();
     if (area == AREA_DRAGON) {
-        Vec b0;
-        Vec a0;
-        Vec b1;
-        Vec a1;
-        get_dragon_follow_camera_offsets(&a0, &b0);
-        request_follow_camera_offsets(&a0, &b0, 0xFFFF);
-        get_dragon_follow_camera_offsets(&a1, &b1);
-        request_follow_camera_offsets(&a1, &b1, 0xFFFF);
+        {
+            Vec eye_offset;
+            Vec target_offset;
+            get_dragon_follow_camera_offsets(&target_offset, &eye_offset);
+            request_follow_camera_offsets(&target_offset, &eye_offset, 0xFFFF);
+        }
+        {
+            Vec eye_offset;
+            Vec target_offset;
+            get_dragon_follow_camera_offsets(&target_offset, &eye_offset);
+            request_follow_camera_offsets(&target_offset, &eye_offset, 0xFFFF);
+        }
     } else if (area == AREA_GAL_GRYPHON) {
-        Vec b;
-        Vec a;
-        ((TBoss8Dragon *)(&a))->get_follow_camera_offsets((u8 *)&b);
-        request_follow_camera_offsets(&a, &b, 0xFFFF);
+        Vec eye_offset;
+        Vec target_offset;
+        get_gryphon_follow_camera_offsets(&target_offset, &eye_offset);
+        request_follow_camera_offsets(&target_offset, &eye_offset, 0xFFFF);
     } else if (area == AREA_GOL_DRAGON) {
-        Vec b;
-        Vec a;
-        TBoss8Dragon::get_camera_offsets(&a, &b);
-        request_follow_camera_offsets(&a, &b, 0xFFFF);
+        Vec eye_offset;
+        Vec target_offset;
+        TBoss8Dragon::get_camera_offsets(&target_offset, &eye_offset);
+        request_follow_camera_offsets(&target_offset, &eye_offset, 0xFFFF);
     } else {
         if (!(this->follow_flags & 8)) {
             this->set_target_yaw(this->actor->rotation_y + 0x8000);
