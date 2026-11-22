@@ -404,7 +404,6 @@ pso/enemy/bringer/TObjEneDf2Bringer.cpp
 pso/enemy/dimedian/TObjEneDimedian.cpp
 pso/enemy/dolmolm/TObjEneDolmOlm.cpp
 pso/enemy/dubchik/TObjEneDubchik.cpp
-pso/enemy/epsilon/TObjEneEpsilon.cpp
 pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp
 pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp
 pso/enemy/gibbles/TObjEneGibbles.cpp
