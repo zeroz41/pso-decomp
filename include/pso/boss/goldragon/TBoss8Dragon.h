@@ -129,7 +129,7 @@ public:
     s32 stateStep;  // step and frame counter of the current action, as in TBoss1Dragon
     s32 impactAge;
     s32 action_frames;
-    u32 m_858;
+    s32 demo_flag;  // 1 while the opening TBoss8DragonDemo runs (update_appearance_state); the demo ends when it reads 0
     s32 action_angle;
     s32 m_860;
     f32 fallVelocity;

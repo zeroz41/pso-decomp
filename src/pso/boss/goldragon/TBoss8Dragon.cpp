@@ -285,35 +285,6 @@ extern void *TBoss8Dragon__dive_height_curve[12];
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void build_6xA8_gol_dragon_boss_actions(void *p);
 extern "C" {
-struct Info_802F4DD4 { u8 pad[8]; s32 a; s32 b; };
-struct Drg_802F4DD4 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0xB8 - 0x44];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x41C - 0xC4];
-    u8 dir41C[0x458 - 0x41C];
-    f32 f458;
-    u8 pad45C[4];
-    f32 f460;
-    u8 pad464[0x470 - 0x464];
-    f32 f470;
-    u8 pad474[4];
-    f32 f478;
-    u8 pad47C[0x680 - 0x47C];
-    AreaAttackHistory *attack_history;
-    u8 pad684[0x760 - 0x684];
-    Info_802F4DD4 *info;
-    u8 pad764[0x84C - 0x764];
-    s32 phase;
-    s32 f850;
-    s32 step;
-    s32 f858;
-    u8 pad85C[0x894 - 0x85C];
-    void *demo;
-};
 struct Obj_802FAC08;
 struct Rot_802F6838 { s32 x, y, z; };
 struct Pair_802F8578 { f32 a; f32 b; };
@@ -636,7 +607,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->stateStep = 0;
     this->impactAge = 0;
     this->action_frames = 0;
-    this->m_858 = 0;
+    this->demo_flag = 0;
     this->action_angle = 0;
     this->m_860 = 0;
     this->fallVelocity = 0.0f;
@@ -4387,118 +4358,116 @@ void TBoss8Dragon::update_wander_state(s32 event) {
 
 #pragma push
 #pragma opt_common_subs off
-#define o ((Drg_802F4DD4 *)this)
 void TBoss8Dragon::update_appearance_state(s32 event) {
-    s32 *flag = &o->f858;
+    s32 *flag = &this->demo_flag;
 
     switch (event) {
     case 4: {
-        o->fB8 = 0;
-        ((TBoss8Dragon *)o)->reset_timer();
-        ((TObjMotion *)o)->advance_animation();
-        o->demo = 0;
-        o->phase = 0;
-        o->step = 0;
-        o->f850 = 0;
+        this->requested_action = 0;
+        this->reset_timer();
+        this->advance_animation();
+        this->breath_particles[0] = 0;
+        this->stateStep = 0;
+        this->action_frames = 0;
+        this->impactAge = 0;
         *flag = 1;
         new TBoss8DragonDemo(tl_01, flag, 0.5f);
-        o->fB8 = 0x1A;
+        this->requested_action = 0x1A;
         TWindowCtrl::init_all_slots();
-        ((TObjEneDD *)o)->get_target_state_b();
-        ((TMainCursor *)o)->update_pair();
+        this->get_target_state_b();
+        ((TMainCursor *)this)->update_pair();
         break;
     }
     case 2:
     case 9:
-        if (o->phase == 1) {
-            ((TBoss8Dragon *)o)->send_action_packet(0);
+        if (this->stateStep == 1) {
+            this->send_action_packet(0);
         }
         break;
     case 0:
-        switch (o->phase) {
+        switch (this->stateStep) {
         case 0: {
             s32 step;
-            ((TObjMotion *)o)->advance_animation();
-            if (((TObjEneDD *)o)->get_flag_b4() != 0) {
-                o->phase = 1;
+            this->advance_animation();
+            if (this->get_flag_b4() != 0) {
+                this->stateStep = 1;
                 TWindowCtrl::init_all_slots2();
-                o->fB8 = 0;
+                this->requested_action = 0;
             }
-            switch (step = o->step) {
+            switch (step = this->action_frames) {
             case 0:
-                if (((TObjMotion *)o)->is_passing_frame(2.0f) != 0) {
+                if (this->is_passing_frame(2.0f) != 0) {
                     play_sound_effect(0x4003A804, 0, 0, 0);
-                    o->step++;
+                    this->action_frames++;
                 }
                 break;
             case 1:
-                if (((TObjMotion *)o)->is_passing_frame(60.0f) != 0) {
+                if (this->is_passing_frame(60.0f) != 0) {
                     play_sound_effect(0x4003AD0E, 0, 0, 0);
                 }
-                if (((TObjMotion *)o)->is_passing_frame(63.0f) != 0) {
+                if (this->is_passing_frame(63.0f) != 0) {
                     Vec v;
-                    v.x = 0.5f * (o->f458 + o->f470);
+                    v.x = 0.5f * (this->node_positions[3].x + this->node_positions[5].x);
                     v.y = 0.0f;
-                    v.z = 0.5f * (o->f460 + o->f478);
-                    fill_value_array(o->attack_history);
-                    create_boss8_piller_ctrl((saddr)&v, (s32)(((s32 (*)(void *))get_entity_id)(o)), 100.0f);
-                    spawn_particle_effect_with_flags(&o->pos, o->info->a, 0x40);
-                    if (o->info->b != -1) {
-                        spawn_particle_effect_with_flags(&o->pos, o->info->b, 0x40);
+                    v.z = 0.5f * (this->node_positions[3].z + this->node_positions[5].z);
+                    fill_value_array(this->attack_history);
+                    create_boss8_piller_ctrl((saddr)&v, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                    spawn_particle_effect_with_flags(&this->position, this->particle_ids[2], 0x40);
+                    if (this->particle_ids[3] != -1) {
+                        spawn_particle_effect_with_flags(&this->position, this->particle_ids[3], 0x40);
                     }
-                    o->step++;
+                    this->action_frames++;
                 }
                 break;
             case 2:
-                if (((TObjMotion *)o)->is_passing_frame(75.0f) != 0) {
+                if (this->is_passing_frame(75.0f) != 0) {
                     play_sound_effect(0x4003AD06, 0, 0, 0);
-                    o->step++;
-                    o->f850 = 0;
+                    this->action_frames++;
+                    this->impactAge = 0;
                 }
                 break;
             case 3:
-                if (o->fC0 > 80.0f) {
-                    o->step = step + 1;
+                if (this->frame > 80.0f) {
+                    this->action_frames = step + 1;
                 }
                 break;
             case 4:
-                if (((TObjMotion *)o)->is_passing_frame(105.0f) != 0) {
+                if (this->is_passing_frame(105.0f) != 0) {
                     play_cue_stream_file((saddr)"dradeath.adx");
-                    o->step++;
-                    o->f850 = 0;
+                    this->action_frames++;
+                    this->impactAge = 0;
                 }
                 break;
             case 5:
-                if (o->fC0 < 150.0f) {
+                if (this->frame < 150.0f) {
                     s32 rot[3];
-                    direction_to_rotation_xz(o->dir41C, &rot[0], &rot[2]);
+                    direction_to_rotation_xz((u8 *)&this->breath_direction, &rot[0], &rot[2]);
                 } else {
-                    o->step = step + 1;
+                    this->action_frames = step + 1;
                 }
                 break;
             }
             break;
         }
         case 1:
-            ((TObjMotion *)o)->advance_animation();
+            this->advance_animation();
             break;
         }
         break;
     case 5:
-        if (o->demo != 0) {
-            ((TObject *)o->demo)->queue_destruction();
-            o->demo = 0;
+        if (this->breath_particles[0] != 0) {
+            this->breath_particles[0]->queue_destruction();
+            this->breath_particles[0] = 0;
         }
-        ((TMainCursor *)o)->update_cursor_pair();
+        ((TMainCursor *)this)->update_cursor_pair();
         *flag = 0;
         TWindowCtrl::init_all_slots2();
-        ((TObjEneDD *)o)->get_target_state_a();
+        this->get_target_state_a();
         break;
     }
 }
 
 #pragma pop
-#undef o
 void TBoss8Dragon::wait_for_players(s32 event) {
     switch (event) {
     case 4:
