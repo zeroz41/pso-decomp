@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -72,8 +73,6 @@ SampledMotionPoints *saver_attack_trail_points;
 SampledMotionPoints *saver_jump_trail_points;
 SampledMotionPoints *saver_nail_trail_points;
 void initialize_saver_resources(void);
-s32 free_collision_body_parts(void *);
-void init_collision_body_parts(void *, void *, s32);
 }
 int initialize_enemy_photon_effect(void *p);
 
@@ -97,7 +96,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 
 s32 post_translate_matrix(void *);
-void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 s32 matrix_mult_vec_array(int, int, void *, int);
 s32 minimap_render_dot(void *, int, int, int);

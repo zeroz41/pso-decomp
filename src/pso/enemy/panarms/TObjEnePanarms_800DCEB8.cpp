@@ -516,7 +516,7 @@ void TObjEnePanarms::set_state(s32 next) {
 void TObjEnePanarms::snap_to_ground() {
     Vec v = position;
     v.y += 10.0f;
-    if (project_actor_to_ground(this, &v, (saddr)((Obj_800DECC4 *)this)->f248) != 0) {
+    if (project_actor_to_ground(this, &v, &ground_normal) != 0) {
         ground_y = v.y;
     }
 }
