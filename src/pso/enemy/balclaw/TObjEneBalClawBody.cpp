@@ -74,7 +74,6 @@ const char *balclaw_body_class_name = balclaw_body_class_name_text;
 
 
 extern "C" {
-extern s32 lbl_805D5870;
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 check_path_obstructed(void *, void *);
@@ -1056,7 +1055,7 @@ s32 TObjEneBalClawBody::sub_8008E098() {
     TObjEneBalClawClaw *p;
     s32 j;
     self->m_3d8 = 0;
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
             self->room == p->room && p->check_active() != 0) {

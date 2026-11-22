@@ -66,8 +66,6 @@ extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
 s32 check_path_obstructed(void *, void *);
-extern s32 lbl_805D5870;
-extern s32 lbl_805D5868;
 s32 minimap_render_dot(void *, int, int, int, f32);
 }
 
@@ -452,7 +450,7 @@ void TObjEneMoja::refresh_target() {
             best_id = 0xFFFF;
             Vec v = { 0.0f, 0.0f, 0.0f };
             best = ((MojaMovementParameters *)movementParameters)->unknown_00 * ((MojaMovementParameters *)movementParameters)->unknown_00;
-            for (; i < registered_player_count + lbl_805D5870; i++) {
+            for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;
@@ -944,7 +942,7 @@ void TObjEneMoja::update_punch_attack() {
             t = obj_testFlags30(0x10);
             n = registered_player_count;
             if (t != 0) {
-                n += lbl_805D5870;
+                n += registered_enemy_count;
             }
             for (i = 0; i < n; i++) {
                 p = TObjPlayer::get_player_data(i);

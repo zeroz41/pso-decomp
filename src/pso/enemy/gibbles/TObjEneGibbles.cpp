@@ -44,6 +44,7 @@ struct NJS_OBJECT;
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/base/CollisionActorLookup.h"
 struct Obj_800A6B14;
 struct Vec_802DA0BC { s32 x, y, z; };
 struct Sub_802D8984 { u8 pad[0x18]; u32 f18; };
@@ -115,7 +116,6 @@ s32 rotate_matrix_x(s32, s32);
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_802D7ED4_lbl_8058D490 identity_matrix;
 extern s32 local_client_id;
-extern s32 lbl_805D5868;
 struct Gib_802D8984 {
     u8 pad0[0x30];
     u32 f30;
@@ -221,7 +221,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 extern s32 registered_player_count;
-extern s32 lbl_805D5870;
 void move_with_wall_slide(u8 *arg0);
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
@@ -599,7 +598,7 @@ void TObjEneGibbles::refresh_target() {
         best_id = 0xFFFF;
         Vec v = lbl_80472768;
         best = *(f32 *)movementParameters * *(f32 *)movementParameters;
-        for (; i < registered_player_count + lbl_805D5870; i++) {
+        for (; i < registered_player_count + registered_enemy_count; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != (u8 *)this) {
                 id = ((s32 (*)(void *))get_entity_id)(p);

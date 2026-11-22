@@ -108,8 +108,6 @@ struct Obj_8016F64C { u8 pad0[0x2FC]; u8 sub[0x58]; s32 state; };
 extern "C" {
 s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 u16 TOMineTrap__sub_80171358(TOMineTrap *p);
-extern s32 lbl_805D5868;
-extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(game_command_header *command);
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 s32 get_current_floor(void);
@@ -423,7 +421,7 @@ void TOMine::sub_80170BEC() {
     switch (this->phase) {
     case 0:
         this->phase = 1;
-        for (i = lbl_805D5870; i < lbl_805D5868; i++) {
+        for (i = registered_enemy_count; i < lbl_805D5868; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
             if (p != NULL && p != ((u8 *)this) &&
                 (((TUnk_804B6C24 *)p)->check_value_equals(TOMineIcon01__name) != 0 ||
@@ -825,7 +823,7 @@ saddr create_placed_trap__10TOMineTrapFUiss(uaddr owner, s16 kind, s16 slot) {
 void TOMineTrap::destroy_matching_traps() {
     void *p;
     s32 i;
-    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
         if (p != 0 && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TOMineTrap__data_805D3080) != 0) {
             ((TObject *)p)->queue_destruction();
@@ -947,7 +945,7 @@ s32 TOMineTrap::find_target_in_range() {
         set_params[0]--;
         return 0;
     }
-    for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL || actor == this || actor->obj_testFlags30(0x800) != 0) {
             continue;
@@ -1045,7 +1043,7 @@ void handle_6x80_trigger_trap(game_command_header *command) {
         return;
     }
     packet->bswap();
-    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         p = (TOMineTrap *)TObjPlayer::get_player_data(i);
         if (p == NULL) {
             continue;

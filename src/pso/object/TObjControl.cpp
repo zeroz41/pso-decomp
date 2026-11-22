@@ -50,7 +50,6 @@ struct Ply_800F7118 {
 extern "C" {
 u16 get_entity_id(void *);
 
-extern s32 lbl_805D5870;
 
 extern uaddr TObjPlayer__data_8050D460[];
 
@@ -415,7 +414,7 @@ void TUnk_80493450::link_into_group_chain() {
     if (*(s32 *)&this->state36C > 0 && *(Ply_800F7118 * *)&this->group == NULL && *(Ply_800F7118 * *)&this->previous == NULL) {
         head = NULL;
         tail = NULL;
-        for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+        for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
             p = (Ply_800F7118 *)TObjPlayer::get_player_data(i);
             if (p == NULL || p == self) {
                 continue;
@@ -721,7 +720,7 @@ u8 *get_enemy_entity(u16 arg0) {
     s32 mid;
     s32 high;
     if (arg0 >= 0x1000 && arg0 < 0x4000) {
-        high = (registered_player_count + lbl_805D5870) - 1;
+        high = (registered_player_count + registered_enemy_count) - 1;
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;

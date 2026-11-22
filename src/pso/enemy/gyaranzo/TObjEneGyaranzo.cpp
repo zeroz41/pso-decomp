@@ -237,7 +237,6 @@ s32 subtract_vector(void *, void *);
 
 
 
-extern s32 lbl_805D5870;
 
 
 
@@ -1219,7 +1218,7 @@ void TObjEneGyaranzo::select_targets() {
     k = ((TObjCollidable *)self)->obj_testFlags30(0x10);
     count = registered_player_count;
     if (k != 0) {
-        count += lbl_805D5870;
+        count += registered_enemy_count;
     }
     for (i = 0; i < count; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);

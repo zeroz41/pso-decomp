@@ -78,8 +78,6 @@ u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
 extern s32 door_vo_ship_class_name;
 extern s32 local_client_id;
-extern s32 lbl_805D5868;
-extern s32 lbl_805D5870;
 }
 void reset_status_effect_row(u8 *row);
 void reset_cameras_to_actor(void *actor, s32 flags);
@@ -1321,7 +1319,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
     TObjPlayer *actor;
 
     center_z = (f32)((phase2 != 0) ? -5000 : 0);
-    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;

@@ -811,8 +811,6 @@ struct Obj_802AC3E8 { u8 pad[0x38]; Vec pos; u8 pad2[0xA4 - 0x44]; Sub_802AC3E8 
 void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void scroll_strip_uvs(u32, s16, s16);
-extern s32 lbl_805D5868;
-extern s32 lbl_805D5870;
 s32 get_main_phase();
 
 void TBoss6PlotFalz::update_active_flag() {
@@ -885,7 +883,7 @@ void TBoss6PlotFalz::warp_nearby_players() {
     Vec v;
     s32 i;
     Obj_802AC3E8 *p;
-    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         p = (Obj_802AC3E8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && p->sub != NULL && (p->sub->flags & 0x20000)
             && !(xyz_distance(&lbl_804705B4, &p->pos) > 150.0f)

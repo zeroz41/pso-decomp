@@ -186,8 +186,6 @@ E_8004AB90 dark_falz_push_zone_table[3] = {
 extern "C" {
 s32 subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
-extern s32 lbl_805D5868;
-extern s32 lbl_805D5870;
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     Vec v;
@@ -205,7 +203,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     r = dark_falz_push_zone_table[zone].r;
     sc = dark_falz_push_zone_table[zone].s;
     ev = &dark_falz_push_zone_table[zone].v;
-    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p == NULL) continue;
         q = *(u8 * *)&((TObjCollidable *)p)->bodies;

@@ -46,6 +46,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/object/TObjControl.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct Obj_800A6B14;
 
@@ -518,7 +519,6 @@ f32 newton_sqrtf(f32);
 void TObjPlayer__sub_800A54B4(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
 u16 get_entity_id(void *);
-extern s32 lbl_805D5870;
 void TObjPlayer__sub_800A5960(void *arg0);
 
 s16 TObjPlayer__sub_800A776C(void *p);
@@ -1267,7 +1267,7 @@ void TObjEneSaver::refresh_target() {
         best_id = 0xFFFF;
         Vec v = lbl_8043A8B0;
         best = *(f32 *)movementParameters * *(f32 *)movementParameters;
-        for (; i < registered_player_count + lbl_805D5870; i++) {
+        for (; i < registered_player_count + registered_enemy_count; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
             if (p != NULL && p != (u8 *)this) {
                 id = get_entity_id(p);
@@ -1749,7 +1749,7 @@ void TObjPlayer__sub_800A5960(void *arg0) {
     uaddr self = (uaddr)arg0;
     if (((TObjCollidable *)self)->obj_testFlags30(0x10) != 0) {
         limit = 0x4000;
-        n = registered_player_count + lbl_805D5870;
+        n = registered_player_count + registered_enemy_count;
     } else {
         n = registered_player_count;
         limit = 0x1000;

@@ -80,7 +80,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 
 struct BeamRotation { s32 x, y, z; };
 
-extern s32 lbl_805D5870;
 
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
@@ -1114,7 +1113,7 @@ s32 TObjEneNanoDrago::collect_beam_targets() {
     s32 i;
     TObjPlayer *candidate;
     beamTargetCount = 0;
-    for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
         candidate = TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((uaddr)candidate) != 0) {
             add_target_in_front_arc(candidate);

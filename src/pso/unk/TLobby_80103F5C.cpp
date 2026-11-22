@@ -35,6 +35,7 @@
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TUnk_80493450.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 struct Ent_80103F68 { u8 pad[0x24]; };
@@ -105,7 +106,6 @@ FlagWord lbl_805D5430;
 s32 __construct_new_array(s32, s32 *, s32, s32, s32);
 saddr mem_alloc(s32);
 extern s32 __ct__9FloorItemFv[];
-    extern int lbl_805D5868;
 void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);
 }

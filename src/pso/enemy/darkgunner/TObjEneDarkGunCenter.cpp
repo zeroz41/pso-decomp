@@ -20,7 +20,6 @@
 
 const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
 
-extern s32 lbl_805D5870;
 extern void *tl_04;
 
 void TObjEneDarkGunCenter::sub_800A0654() {
@@ -124,7 +123,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
     s32 i;
     s32 j;
     gunner_count = 0;
-    for (k = registered_player_count; k < registered_player_count + lbl_805D5870; k++) {
+    for (k = registered_player_count; k < registered_player_count + registered_enemy_count; k++) {
         gunner = (TObjEneDarkGunner *)TObjPlayer::get_player_data(k);
         if (gunner != NULL && ((TUnk_804B6C24 *)gunner)->check_value_equals((saddr)TObjEneDarkGunner__class_name) != 0 &&
             parameters[0] == gunner->parameters[0] && room == gunner->room) {

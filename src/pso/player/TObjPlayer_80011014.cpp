@@ -378,7 +378,7 @@ void create_hit_effect__10TObjPlayerFPv(void *);
 s32 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
-extern s32 lbl_805D5870;
+extern s32 registered_enemy_count;
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
@@ -3880,7 +3880,7 @@ u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr arg0, Vec *arg1, f32 ra
     ObjFlags *p;
     best = range * range;
     result = 0xFFFF;
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = ((ObjFlags * (*)(s32))get_player_data__10TObjPlayerFi)(i);
         if (p == NULL) {
             break;

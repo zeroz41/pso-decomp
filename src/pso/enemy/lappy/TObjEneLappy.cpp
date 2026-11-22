@@ -396,7 +396,6 @@ s32 minimap_render_dot(void *, int, int, int);
 void run_task__12TObjEneLappyFv(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
-extern s32 lbl_805D5870;
 void refresh_target__12TObjEneLappyFv(u8 *arg0);
 }
 extern f32 identity_matrix[3][4];
@@ -1055,7 +1054,7 @@ void TObjEneLappy::refresh_target() {
             best_id = 0xFFFF;
             Vec v = lappy_target_zero_vec;
             best = *(f32 *)movementParameters * *(f32 *)movementParameters;
-            for (; i < registered_player_count + lbl_805D5870; i++) {
+            for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;

@@ -54,6 +54,7 @@
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/base/CollisionActorLookup.h"
 struct IllGillEffectRotation { s32 x, y, z; };
 extern "C" {
 }
@@ -71,7 +72,6 @@ s32 illGillModelNodeIndex;
 extern "C" {
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
 s32 check_path_obstructed(void *, void *);
-extern s32 lbl_805D5870;
 f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
 s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
 s32 approach_angle_limited(s32, s32, s32);
@@ -348,7 +348,7 @@ void TObjEneIllGill::refresh_target() {
             best = 0xFFFF;
             Vec v = lbl_8047A328;
             bestDist = ((IllGillMovementParameters *)movementParameters)->range * ((IllGillMovementParameters *)movementParameters)->range;
-            for (; i < registered_player_count + lbl_805D5870; i++) {
+            for (; i < registered_player_count + registered_enemy_count; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
                 if (obj_is_hit_receivable(pl) == 0) continue;

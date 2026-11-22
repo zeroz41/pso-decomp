@@ -34,7 +34,6 @@ extern "C" {
 // TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
 TObjBase *find_active_entity_by_id(u16 id);
 extern Mtx34 identity_matrix;
-extern s32 lbl_805D5870;
 }
 
 // The whole unit is built with deferred inlining, so the compiler emits the
@@ -476,7 +475,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
     u16 id;
     best_distance = radius * radius;
     best = 0xFFFF;
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         entity = (TObjChara *)TObjPlayer::get_player_data(i);
         if (entity == NULL) {
             break;
@@ -513,7 +512,7 @@ void TObjEneDubchik::target_nearest_player(f32 radius) {
     best_distance = radius * radius;
     best = 0xFFFF;
     if (obj_testFlags30(0x10) != 0) {
-        count = registered_player_count + lbl_805D5870;
+        count = registered_player_count + registered_enemy_count;
     } else {
         count = registered_player_count;
     }
@@ -541,7 +540,7 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     radius_sq = radius * radius;
     found = 0;
     if (obj_testFlags30(0x10) != 0) {
-        count = registered_player_count + lbl_805D5870;
+        count = registered_player_count + registered_enemy_count;
     } else {
         count = registered_player_count;
     }

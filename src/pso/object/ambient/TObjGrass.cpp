@@ -46,6 +46,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/ScratchVectors.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 saddr lbl_805D5140;
@@ -275,7 +276,6 @@ s32 get_entity_id(void *);
 s32 get_current_floor();
 s32 subtract_vector(void *, void *);
 extern s32 registered_player_count;
-extern s32 lbl_805D5870;
 void TObjGrass__sub_800BCA2C(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
@@ -687,7 +687,7 @@ void TObjGrass::refresh_target() {
             best_id = 0xFFFF;
             Vec v = lbl_8043B790;
             best = *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0) * *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0);
-            for (; i < registered_player_count + lbl_805D5870; i++) {
+            for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = (u8 *)TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;

@@ -25,6 +25,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
@@ -637,7 +638,6 @@ void TUnk_80493450::run_idle_action() {
 }
 
 extern s32 registered_player_count;
-extern s32 lbl_805D5870;
 }
 u16 get_enemy_target_id(void *p);
 
@@ -667,7 +667,7 @@ void TUnk_80493450::refresh_target() {
             best = 0xFFFF;
             Vec d = lbl_8043BC68;
             best_dist = *(f32 *)self->movementParameters * *(f32 *)self->movementParameters;
-            for (; i < registered_player_count + lbl_805D5870; i++) {
+            for (; i < registered_player_count + registered_enemy_count; i++) {
                 player = TObjPlayer::get_player_data(i);
                 if (player == NULL) {
                     break;

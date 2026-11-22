@@ -48,7 +48,6 @@ static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 
 extern "C" {
 extern uaddr TOCtrlDubchik__shared_resource;
-extern s32 lbl_805D5870;
 void dubchik_start_dying(u8 *arg0);
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
@@ -233,7 +232,7 @@ void TOCtrlDubchik::sub_8015CE80() {
     bob_phase += 2184.0f;
     hover_height = 60.0f + sin_table_lookup(bob_phase);
     apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != ((u8 *)this) && ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 &&
             ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
@@ -317,7 +316,7 @@ void TOCtrlDubchik::sub_8015CA74() {
     if (area >= 0x17 || area < 0x13) {
         play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
     }
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != self && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(self + 0x28) == *(s16 *)(p + 0x28)) {

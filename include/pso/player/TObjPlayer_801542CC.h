@@ -25,7 +25,4 @@ f32 get_collision_body_radius__14TObjCollidableFl(TObjCollidable *actor, s32 bod
 void reset_global_table(void);
 }
 
-// The entity table: players fill its first registered_player_count slots.
-extern s32 registered_player_count;
-
 #endif

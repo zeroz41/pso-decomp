@@ -28,13 +28,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 project_actor_to_ground(void *, void *, void *);
-extern s32 lbl_805D5868;
 BmlResource *recon_bomb_bml_resource;
 
 // 1 once the nearest visible player within 25 stands (xz) within 1 + its first body's radius of the bomb.

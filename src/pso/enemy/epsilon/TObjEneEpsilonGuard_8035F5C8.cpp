@@ -61,7 +61,6 @@ Vec * epsilon_guard_camera_sample_read_ptr;
 Vec * epsilon_guard_camera_sample_end_ptr;
 s32 check_path_obstructed(void *, void *);
 
-extern s32 lbl_805D5870;
 }
 s16 obj_getS16_118(u8 *p);
 extern TObject *tl_04;
@@ -1176,7 +1175,7 @@ u32 TObjEneEpsilonBody::sub_8035FD50(s32 slot) {
     extra = is_confused();
     count = registered_player_count;
     if (extra != 0) {
-        count += lbl_805D5870;
+        count += registered_enemy_count;
     }
     for (id = 0; id < count; id++) {
         player = TObjPlayer::get_player_data(id);

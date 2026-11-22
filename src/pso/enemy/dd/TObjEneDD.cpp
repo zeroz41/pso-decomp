@@ -152,7 +152,6 @@ extern "C" {
 s32 subtractive_rng_seed(void *, int);
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
-extern int lbl_805D5870;
 }
 
 s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
@@ -167,7 +166,7 @@ s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
 }
 
 
-int TObjEneDD::get_enemy_count() {  return lbl_805D5870; }
+int TObjEneDD::get_enemy_count() {  return registered_enemy_count; }
 
 void TObjEneDD::create_instance() {
     obj_ene_dd_instance = new TUnk_804928CC(NULL, NULL);

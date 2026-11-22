@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
@@ -59,10 +60,8 @@ extern s32 lbl_805D526C;
 extern s32 local_client_id;
 void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 *obj, void *attacker);
 u32 csnVector(void *, void *, int);
-void *find_entity_by_id(u16);
 s32 vec3_add_to(void *, void *);
 extern s32 registered_player_count;
-extern s32 lbl_805D5870;
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
@@ -168,7 +167,7 @@ void TUnk_80494E10::run_task() {
     }
     att = find_entity_by_id(this->owner);
     if (att != NULL) {
-        for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
+        for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
             pl = (void *)TObjPlayer::get_player_data(i);
             if (pl != NULL && TObjPlayer::is_valid_and_active((uaddr)pl) != 0) {
                 TObjPlayer::hit_object_in_radius((Src_800DC4B4 *)this, (Obj_800DC4B4 *)pl, att);

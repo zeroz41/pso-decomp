@@ -51,6 +51,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
 
@@ -256,7 +257,6 @@ s32 TObjEneRecon::is_anim_5() {
 
 
 extern "C" {
-extern s32 lbl_805D5868;
 
 s32 TObjEneRecon::sub_8031C250() {
     return mode == 8 || mode == 7;
