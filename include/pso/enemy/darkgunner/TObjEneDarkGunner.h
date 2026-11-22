@@ -41,6 +41,12 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void spawn_hamon_effects(s32 type, s32 variant, f32 scale);
     void render_shadow();
     static void cleanup_effects();
+    static f32 sub_800A3200(s32 index); // f32 entries of the gunner's behavior params
+    void init_scale_global();
+    void sub_800A1974();
+    void sub_800A100C();
+    void sub_800A0FDC();               // the gun center's selected gunner: m_388 bit 26, param 0x23
+    void clear_lappy_flag_set_param(); // every other gunner: clears bit 26, param 0x22
     f32 render_y_offset;
     f32 hover_height;  // integrated from hover_speed, clamped to 0..9
     f32 hover_speed;

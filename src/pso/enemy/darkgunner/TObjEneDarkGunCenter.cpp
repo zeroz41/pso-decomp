@@ -105,9 +105,9 @@ s32 TObjEneDarkGunCenter::sub_800A0884() {
     for (j = 0; j < gunner_count; j++) {
         if (gunners[j] != NULL) {
             if (j == selected_gunner) {
-                fn_800A0FDC(gunners[j]);
+                gunners[j]->sub_800A0FDC();
             } else {
-                clear_lappy_flag_set_param(gunners[j]);
+                gunners[j]->clear_lappy_flag_set_param();
             }
         }
     }

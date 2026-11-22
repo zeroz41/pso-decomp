@@ -1515,9 +1515,9 @@ force_active:
   - TObjPlayer__sub_80083FA4
   - sub_8008E098__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
-  - TObjPlayer__sub_800A100C
+  - sub_800A100C__17TObjEneDarkGunnerFv
   - sub_800A16C4__17TObjEneDarkGunnerFv
-  - TObjPlayer__sub_800A1974
+  - sub_800A1974__17TObjEneDarkGunnerFv
   - render__17TObjEneDarkGunnerFv
   - update_dying__17TObjEneDarkGunnerFv
   - update_damage__17TObjEneDarkGunnerFv
@@ -1526,7 +1526,7 @@ force_active:
   - run_task__17TObjEneDarkGunnerFv
   - __dt__17TObjEneDarkGunnerFv
   - __ct__17TObjEneDarkGunnerFP7TObjectPv
-  - TObjPlayer__sub_800A3200
+  - sub_800A3200__17TObjEneDarkGunnerFl
   - sub_800A42C0__12TObjEneSaverFv
   - sub_800A49B4__12TObjEneSaverFv
   - sub_800A5154__12TObjEneSaverFv
@@ -7168,7 +7168,7 @@ force_active:
   - init_reset_fields__15TFontSmallLobbyFv
   - init_result_state__18TChallenge4PResultFv
   - init_s_rank_knuckle__FPvlPv
-  - init_scale_global__10TObjPlayerFv
+  - init_scale_global__17TObjEneDarkGunnerFv
   - init_segment_angle_range__9TBoss6MagFv
   - init_segment_range__11TBoss6Type2Fv
   - init_segments__14TBoss7TentacleFv
@@ -8355,10 +8355,10 @@ force_active:
   - lbl_805D4BE4
   - lbl_805D4DC0
   - lbl_805D4EE0
-  - lbl_805D4FF8
-  - lbl_805D4FFC
-  - lbl_805D5000
-  - lbl_805D5004
+  - TObjEneDarkGunner__base_params_by_variant
+  - TObjEneDarkGunner__attack_params_by_variant
+  - TObjEneDarkGunner__resistance_params_by_variant
+  - TObjEneDarkGunner__behavior_params
   - lbl_805D504C
   - lbl_805D5054
   - lbl_805D5058
