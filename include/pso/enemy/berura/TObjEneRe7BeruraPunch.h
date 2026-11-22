@@ -18,7 +18,7 @@ struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
     void reset();
     virtual void run_task();
     void init();
-    int is_patrol_active();
+    void deactivate();
     virtual void render();
     void update_velocity_and_snap();
     void launch(s32 arg1, saddr arg2);

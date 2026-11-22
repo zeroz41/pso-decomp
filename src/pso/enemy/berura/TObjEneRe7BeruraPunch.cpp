@@ -20,11 +20,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+extern "C" u16 get_entity_id(void *);
 
-u16 get_entity_id(void *);
-
-int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
+int TObjEneDD::is_motion_blending() { return (motion_flags >> 2) & 0x1; }
 
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     TObjChara *entity;
@@ -40,15 +38,9 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     }
 }
 
-}
-
 struct Pair_80096150 { f32 a; s32 b; };
 
 extern "C" {
-
-s32 TObjEneRe7Berura__sub_80094D98();
-
-void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 s32 post_translate_matrix(void *);
 
 extern s32 saved_model_render_flags;
@@ -75,7 +67,7 @@ void TObjEneRe7BeruraPunch::render() {
         rotate_matrix_y(0, this->rotation_y);
         temp_f1 = this->m_f4;
         scale_matrix(0, temp_f1, temp_f1, 1.0f);
-        TObjEneRe7Berura::init_part(this->m_b8);
+        TObjEneRe7Berura::draw_arm(this->m_b8);
         pop_matrix();
         if (this->m_b4 == 2) {
             this->m_f8.clear_flag_and_notify();
@@ -107,6 +99,7 @@ void TObjEneRe7BeruraPunch::update_flight() {
     Vec target;
     s32 blocked;
     CsnHit *hit;
+    TObjEneRe7Berura *owner;
 
     this->m_f4 += 0.15f;
     if (this->m_f4 > 2.0f) {
@@ -129,8 +122,9 @@ void TObjEneRe7BeruraPunch::update_flight() {
     this->snap_to_ground();
     if ((blocked != 0) || (sub_80096150() != 0) || (this->m_114 > this->m_c8)) {
         this->m_b4 = 2;
-        if (find_entity_by_id(this->owner_id) != NULL) {
-            TObjEneRe7Berura__sub_80094D98();
+        owner = (TObjEneRe7Berura *)find_entity_by_id(this->owner_id);
+        if (owner != NULL) {
+            owner->clear_arm_flying();
         }
     }
 }
@@ -160,7 +154,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     }
     this->call_vt16_with_default(&p, this->attack_history);
     if (owner != 0) {
-        TObjEneRe7Berura__sub_80094C68(owner);
+        owner->reload_base_stats();
     }
     return 0;
 }
@@ -192,9 +186,7 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
 };
 extern const char *TObjEneRe7BeruraPunch__name;
 
-void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
-
-void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
+void TObjEneRe7BeruraPunch::deactivate() { this->m_b4 = 0; }
 
 void TObjEneRe7BeruraPunch::snap_to_ground() {
     Vec origin;

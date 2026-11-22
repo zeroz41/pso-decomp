@@ -5266,7 +5266,7 @@ force_active:
   - collect_body_contacts__13TUnk_804CC148FP14TObjCollidableP13CollisionBodyPv
   - collect_candidate_players__12TBoss3VoloptFv
   - collect_hit_targets__12TPhotonGollaFPv
-  - collect_node_matrices__16TObjEneRe7BeruraFPvi
+  - collect_node_matrices__16TObjEneRe7BeruraFP10NJS_OBJECTl
   - collect_node_positions__11TBreakUpMdlFPUcl
   - collect_owner_events__8TItemMagFv
   - collect_plist_strips_by_texture__FPvPsl
@@ -5888,7 +5888,7 @@ force_active:
   - draw_motion_node_list__10TObjPlayerFv
   - draw_motion_tree__FP10NJS_OBJECTP10NJS_MOTIONfPFPv_l
   - draw_name_labels__13TObjTombstoneFv
-  - draw_node_tree__16TObjEneRe7BeruraFPv
+  - draw_node_tree__16TObjEneRe7BeruraFP10NJS_OBJECT
   - draw_node_tree__18TObjLaboDesignBaseFP10NJS_OBJECT
   - draw_node_tree__19TODoorFourLightBaseFPUc
   - draw_number_value__15TWindowHelpItemFPvPflll

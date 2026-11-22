@@ -43,6 +43,7 @@ struct TObjEneDD : public TObjEnemy {
     // The table ends at slot 103 (the word after it is padding): dispatch_action's state handlers
     // start at slot 104 and each subclass declares its own (TObjEneDD_ST f32, TBoss2Mine s32, FlyNest init).
     int get_flag_b4();
+    int is_motion_blending();
     f32 calc_elapsed_scaled();
     static void init_lights();
     static s32 clamp_frame_index(s32 frame);

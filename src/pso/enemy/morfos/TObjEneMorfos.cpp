@@ -1099,7 +1099,7 @@ void TObjEneMorfos::state_patrol(s32 ev) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneRe7BeruraPunch *)this)->is_patrol_active() == 0) {
+        if (is_motion_blending() == 0) {
             this->play_speed = 1.6f;
         }
         this->rotation_y += 0x280;
