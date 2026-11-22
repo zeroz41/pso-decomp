@@ -11,7 +11,7 @@ struct TBoss6Thanks : public TObject {
     f32 frame0;
     f32 frame1;
     f32 opacity;
-    u32 m_34;
+    s32 fade_frame;  // update_fade_out counts it to 120
     void *model0;
     void *model1;
     s32 texture0;

@@ -76,11 +76,11 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void reset_state();
     void activate_warp();
     void free_child();
-    void set_state(s32 arg1);
+    void set_state(s32 state);
     static void spawn_player_hit_effects();
     void award_exp_and_destroy();
-    void apply_fade_alpha(s32 color, f32 farg0);
-    static s32 rand_vary_count(s32 arg0, f32 farg0);
+    void apply_fade_alpha(s32 color, f32 alpha);
+    static s32 rand_vary_count(s32 base, f32 spread);
     static f32 cosine_ease(f32 t);
     static f32 get_value();
     static s32 is_boss_active();
@@ -96,7 +96,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
     static void set_fade_material_color(f32 f);
     static void update_camera_target();
-    static void apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+    static void apply_fade_material_color(f32 fade, f32 r, f32 g, f32 b);
     static int get_phase();
     s32 get_scene_state();
     static BmlResource *get_scene_archive();
@@ -126,7 +126,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void advance_phase_if_ready();
     void update_cutscene_fade();
     static s32 is_flag_set();
-    s32 get_next_point(s16 *arg1, s16 *arg2);
+    s32 get_next_point(s16 *set_index_out, s16 *entity_id_out);
     void run_phase_action();
     void update_random_shake();
     // Horizontal distance of pos from the arena centre.
@@ -153,7 +153,7 @@ extern TBoss6Type1 *TBoss6PlotFalz__type1_instance;
 extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
 
 extern "C" {
-void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);
+void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio);
 u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
 }
 

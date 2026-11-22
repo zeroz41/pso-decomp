@@ -80,7 +80,7 @@ extern const u8 listed_equipment_table[10][3] = {
     {0, 0x44, 0}, {0, 0x4C, 0}, {1, 2, 0x27}, {1, 2, 0x31}, {1, 2, 0x32},
 };
 
-// Particle effect id and the m_34 range in which update_particle_emitters keeps each emitter.
+// Particle effect id and the fade_frame range in which update_particle_emitters keeps each emitter.
 static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
@@ -104,7 +104,7 @@ void TBoss6Thanks::update_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
         const Ent_8035CB88 *e = &boss6_thanks_particle_emitter_table[i];
-        if (*(s32 *)&this->m_34 >= e->lo && *(s32 *)&this->m_34 <= e->hi) {
+        if (this->fade_frame >= e->lo && this->fade_frame <= e->hi) {
             if (o->p[i] == NULL) {
                 o->p[i] = create_particle_emitter(&boss6_thanks_position, e->id);
                 if (o->p[i] != NULL) {
@@ -183,21 +183,18 @@ void TBoss6Thanks::render() {
 
 
 void TBoss6Thanks::update_fade_out() {
-    s32 temp_r3;
-
     if ((s32) this->current_motion != 1) {
-        if ((s32) *(s32 *)&this->m_34 == 0) {
+        if (this->fade_frame == 0) {
             play_sound_effect(0x40033231, 0, 0, 0);
         }
         update_particle_emitters();
-        this->opacity = (f32) (0.99f * (1.0f - ((f32) *(s32 *)&this->m_34 / 120.0f)));
-        temp_r3 = *(s32 *)&this->m_34;
-        if (temp_r3 == 0x78) {
+        this->opacity = (f32) (0.99f * (1.0f - ((f32) this->fade_frame / 120.0f)));
+        if (this->fade_frame == 120) {
             play_sound_effect(0x40033232, 0, 0, 0);
             queue_destruction();
             return;
         }
-        *(s32 *)&this->m_34 = (temp_r3 + 1);
+        this->fade_frame = this->fade_frame + 1;
     }
 }
 
@@ -270,7 +267,7 @@ TBoss6Thanks::TBoss6Thanks(TObject *parent) : TObject(parent) {
     boss6_thanks->frame0 = 0.0f;
     boss6_thanks->frame1 = 0.0f;
     boss6_thanks->opacity = 0.99f;
-    boss6_thanks->m_34 = 0;
+    boss6_thanks->fade_frame = 0;
 }
 
 extern "C" {

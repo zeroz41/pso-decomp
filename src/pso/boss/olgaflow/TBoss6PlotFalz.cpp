@@ -309,8 +309,8 @@ void TBoss6PlotFalz::set_state_2() { shake_timer = 0; shake_preset = 2; }
 void TBoss6PlotFalz::reset_state() { shake_timer = 0; shake_preset = 0; }
 void TBoss6PlotFalz::activate_warp() { if (tube) tube->activate_warp(); }
 void TBoss6PlotFalz::free_child() { if (tube) tube->sub_802B1004(); }
-void TBoss6PlotFalz::set_state(s32 arg1) {
-    if (arg1 < 0 || arg1 >= 9) {
+void TBoss6PlotFalz::set_state(s32 state) {
+    if (state < 0 || state >= 9) {
         return;
     }
     if (this->state_index != -1) {
@@ -319,7 +319,7 @@ void TBoss6PlotFalz::set_state(s32 arg1) {
             (this->*action)();
         }
     }
-    this->state_index = arg1;
+    this->state_index = state;
     TBoss6PlotFalzAction action = boss6_plot_falz_script_states[this->state_index].enter;
     if (action != 0) {
         (this->*action)();
@@ -393,22 +393,18 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     ((TObject *)self)->queue_destruction();
 }
 
-void TBoss6PlotFalz::apply_fade_alpha(s32 color, f32 farg0) {
-    f32 var_f1;
-    TBoss4Fade *temp_r3;
-    var_f1 = farg0;
-    temp_r3 = fade;
-    if ((temp_r3 != NULL) && !(var_f1 <= 0.0f)) {
-        if (var_f1 > 1.0f) {
-            var_f1 = 1.0f;
+void TBoss6PlotFalz::apply_fade_alpha(s32 color, f32 alpha) {
+    if ((fade != NULL) && !(alpha <= 0.0f)) {
+        if (alpha > 1.0f) {
+            alpha = 1.0f;
         }
-        fn_803594B4(temp_r3, color, var_f1);
+        fn_803594B4(fade, color, alpha);
     }
 }
 #pragma push
 #pragma fp_contract on
-s32 TBoss6PlotFalz::rand_vary_count(s32 arg0, f32 farg0) {
-    s32 v = (s32)((f32)arg0 * (farg0 * sin_table_lookup((s32)(65535.0f * (3.0517578125e-05f * (f32)rand())))) + (f32)arg0);
+s32 TBoss6PlotFalz::rand_vary_count(s32 base, f32 spread) {
+    s32 v = (s32)((f32)base * (spread * sin_table_lookup((s32)(65535.0f * (3.0517578125e-05f * (f32)rand())))) + (f32)base);
     if (v < 1) {
         v = 1;
     }
@@ -422,10 +418,7 @@ f32 TBoss6PlotFalz::arena_center_distance(const Vec *pos) {
     d.y = 0.0f;
     return vector_length(&d);
 }
-extern "C" {
-__declspec(section ".sdata2") const f32 lbl_805DE0A4[1] = { 1e-05f };
-}
-#define lbl_805DE0A4 (lbl_805DE0A4[0])
+__declspec(section ".sdata2") const f32 plot_falz_length_epsilon[1] = { 1e-05f };
 s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
     Vec c;
     Vec pl;
@@ -471,7 +464,7 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
     subtract_vector(&d3, &c);
     d3.y = 0.0f;
     l3 = vector_length(&d3);
-    if (l3 <= lbl_805DE0A4 || l3 > 250.0f) {
+    if (l3 <= plot_falz_length_epsilon[0] || l3 > 250.0f) {
         return 0;
     }
     if (l3 < l2 - r) {
@@ -619,9 +612,9 @@ void TBoss6PlotFalz::ensure_field384() {
     }
 }
 
-f32 TBoss6Mine::next_random_float(s32 *arg0) {
-    *arg0 = TBoss6Type1__sub_802ABDEC(*arg0);
-    return (f32) (*arg0 & 0x7FFF) / 32767.0f;
+f32 TBoss6Mine::next_random_float(s32 *seed) {
+    *seed = TBoss6Type1__sub_802ABDEC(*seed);
+    return (f32) (*seed & 0x7FFF) / 32767.0f;
 }
 
 s32 TBoss6Type1__sub_802ABDEC(s32 seed) {
@@ -648,10 +641,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
         }
     }
 }
-extern "C" {
-__declspec(section ".sdata2") const s32 lbl_805DE0B8[1] = { 0x8829 };
-}
-#define lbl_805DE0B8 (lbl_805DE0B8[0])
+__declspec(section ".sdata2") const s32 plot_falz_fade_render_flags[1] = { 0x8829 };
 void TBoss6PlotFalz::set_fade_material_color(f32 f) {
     NJS_ARGB c;
     u32 old = model_render_flags;
@@ -659,7 +649,7 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
     saved_model_render_flags = old;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    model_render_flags |= lbl_805DE0B8;
+    model_render_flags |= plot_falz_fade_render_flags[0];
     set_chunk_material_override_pair(0xFF00, 0x800);
     c.a = -1.0f + f;
     c.r = c.g = c.b = 0.0f;
@@ -669,18 +659,6 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 }
 
 
-#define set_chunk_material_override_pair ((s32 (*)(int, int, int, s32, s32, int))set_chunk_material_override_pair)
-#define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)
-
-struct Stack_802AC040 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-};
-
-
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 void set_chunk_blend(u32 x);
 extern s32 game_difficulty_selection;
 
@@ -694,54 +672,35 @@ void TBoss6PlotFalz::update_camera_target() {
 }
 #pragma push
 #pragma fp_contract on
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio) {
-    f32 temp_f3;
-    temp_f3 = 0.25f * hp_ratio;
-    TBoss6PlotFalz::apply_fade_material_color(farg0, ((-0.75f) * hp_ratio) + 1.0f, temp_f3, temp_f3);
+void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio) {
+    f32 tint = 0.25f * hp_ratio;
+    TBoss6PlotFalz::apply_fade_material_color(fade, ((-0.75f) * hp_ratio) + 1.0f, tint, tint);
 }
 #pragma pop
 
-extern "C" {
-__declspec(section ".sdata2") const s32 lbl_805DE0C8[1] = { 0x8810 };
-}
-#define lbl_805DE0C8 (lbl_805DE0C8[0])
+__declspec(section ".sdata2") const s32 plot_falz_tint_render_flags[1] = { 0x8810 };
 #pragma push
-#pragma opt_common_subs off
-#pragma opt_dead_assignments off
 #pragma fp_contract on
-void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802AC040, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802AC040, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802AC040, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802AC040, sp14) == 0xC);
-    Stack_802AC040 stack;
-    f32 temp_f1;
-    f32 temp_f2;
-    f32 var_f1;
-    s32 temp_r5;
-    s32 temp_r8;
-    var_f1 = farg0;
-    if (((-1.0f) != TBoss6PlotFalz__fade_amount) || (var_f1 < 0.0f) || (var_f1 > 1.0f) || (farg1 < 0.0f) || (farg1 > 1.0f) || (farg2 < 0.0f) || (farg2 > 1.0f) || (farg3 < 0.0f) || (farg3 > 1.0f)) {
-        var_f1 = 0.0f;
+// Tints the material toward (r, g, b) by fade; the render state is saved for reset_fish_globals.
+void TBoss6PlotFalz::apply_fade_material_color(f32 fade, f32 r, f32 g, f32 b) {
+    NJS_ARGB color;
+    if (((-1.0f) != TBoss6PlotFalz__fade_amount) || (fade < 0.0f) || (fade > 1.0f) || (r < 0.0f) || (r > 1.0f) || (g < 0.0f) || (g > 1.0f) || (b < 0.0f) || (b > 1.0f)) {
+        fade = 0.0f;
     }
-    TBoss6PlotFalz__fade_amount = var_f1;
-    if (0.0f != var_f1) {
-        temp_r8 = model_render_flags;
-        temp_r5 = temp_r8 & 0xFFFFFFDF;
-        model_render_flags = temp_r5;
-        saved_model_render_flags = temp_r8;
+    TBoss6PlotFalz__fade_amount = fade;
+    if (0.0f != fade) {
+        saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        model_render_flags = temp_r5 | lbl_805DE0C8;
-        set_chunk_material_override_pair(0, 0x800, (int)temp_r5, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask, (int)temp_r8);
+        model_render_flags &= ~0x20;
+        model_render_flags |= plot_falz_tint_render_flags[0];
+        set_chunk_material_override_pair(0, 0x800);
         set_chunk_blend(0x2500);
-        stack.sp8 = 1.0f;
-        temp_f2 = -((TBoss6PlotFalz__fade_amount * (1.0f - farg1)) - 1.0f);
-        temp_f1 = -((TBoss6PlotFalz__fade_amount * (1.0f - farg2)) - 1.0f);
-        stack.spC = temp_f2;
-        stack.sp10 = temp_f1;
-        stack.sp14 = -((TBoss6PlotFalz__fade_amount * (1.0f - farg3)) - 1.0f);
-        set_constant_material(&stack.sp8, temp_f1, temp_f2, 1.0f, TBoss6PlotFalz__fade_amount);
+        color.a = 1.0f;
+        color.r = 1.0f - TBoss6PlotFalz__fade_amount * (1.0f - r);
+        color.g = 1.0f - TBoss6PlotFalz__fade_amount * (1.0f - g);
+        color.b = 1.0f - TBoss6PlotFalz__fade_amount * (1.0f - b);
+        set_constant_material(&color);
     }
 }
 #pragma pop
@@ -752,10 +711,6 @@ s32 is_normal_difficulty(void) {
     }
     return 0;
 }
-
-
-#undef set_chunk_material_override_pair
-#undef set_constant_material
 
 int TBoss6PlotFalz::get_phase() {  return plot_falz_phase; }
 

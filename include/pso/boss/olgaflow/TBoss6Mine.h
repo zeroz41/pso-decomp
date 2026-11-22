@@ -59,7 +59,7 @@ struct TBoss6Mine : public TObjEnemy {
     void update_facing_angles();
     s32 is_far_from_origin();
     static TBoss6Mine *create(TBoss6MineSetData *set_data);
-    static f32 next_random_float(s32 *arg0);
+    static f32 next_random_float(s32 *seed);
     void explode_damage_players();
     void state_0();
     void state_1();

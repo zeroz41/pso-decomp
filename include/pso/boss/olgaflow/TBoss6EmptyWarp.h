@@ -11,7 +11,7 @@ struct TBoss6EmptyWarp : public TObject {
     void run_task();
     static void *create();
     static void init_warp();
-    u8 unk_1C[0x4];
+    s32 warp_delay;  // run_task calls init_warp once it passes 3
 };
 
 LAYOUT_ASSERT(TBoss6EmptyWarp_size, sizeof(TBoss6EmptyWarp) == 0x20);

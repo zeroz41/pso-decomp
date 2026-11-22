@@ -581,7 +581,7 @@ void TBoss6Type2::run_hit_reaction() {
         }
     }
     if ((s32) berserk != 0) {
-        ((s32 (*)(int, void *, int, int))play_sound_effect)(0x68A24, &position, 0, 1);
+        play_sound_effect(0x68A24, &position, 0, 1);
     }
 }
 
@@ -1702,7 +1702,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
     }
     TBoss6Type2__sub_80356E50((saddr)buf, cnt, force);
     mem_free(buf);
-    ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4006AB1D, ((void *)&boss6_arena_center), 0, 1);
+    play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
 }
 
 void TBoss6Type2::spawn_rocks_around_players() {
@@ -2084,7 +2084,7 @@ void TBoss6Type2::sub_802BA078() {
                 spawn_particle_effect_with_flags(&v, 0x223, 0x40);
             }
             if (this->is_target_valid() == 0) {
-                ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4000AD13, 0, 0, 0);
+                play_sound_effect(0x4000AD13, 0, 0, 0);
             }
         }
     }

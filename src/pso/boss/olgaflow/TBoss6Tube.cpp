@@ -34,7 +34,6 @@ typedef struct TBoss6Tube_802B1020 {
 } TBoss6Tube_802B1020;
 
 extern "C" {
-void TBoss6Tube__sub_802B129C(u8 *self);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void draw_ginja_object(void);
@@ -122,11 +121,11 @@ f32 TBoss6Tube::calc_tube_progress(s32 arg0) {
 
 void TBoss6Tube::sub_802B1218() {
     if (((0.0f) == TBoss6Tube__scroll_delta) && ((s32) TBoss6Tube__previous_scroll_phase == 0)) {
-        TBoss6Tube__previous_scroll_phase = this->m_28;
+        TBoss6Tube__previous_scroll_phase = this->scroll_phase;
         return;
     }
-    TBoss6Tube__scroll_delta = TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(TBoss6Tube__previous_scroll_phase - this->m_28));
-    TBoss6Tube__previous_scroll_phase = this->m_28;
+    TBoss6Tube__scroll_delta = TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(TBoss6Tube__previous_scroll_phase - this->scroll_phase));
+    TBoss6Tube__previous_scroll_phase = this->scroll_phase;
 }
 
 void TBoss6Tube::reset_state() {
@@ -135,35 +134,33 @@ void TBoss6Tube::reset_state() {
 }
 
 #pragma fp_contract on
-void TBoss6Tube__sub_802B129C(u8 *self) {
-  f32 temp_f31;
-  *((s32 *) (((s8 *) self) + 0x24)) = (s32) ((*((s32 *) (((s8 *) self) + 0x24))) + 0x3A);
-  if (((s32) (*((s32 *) (((s8 *) self) + 0x24)))) > 0x3333)
-  {
-    *((s32 *) (((s8 *) self) + 0x24)) = 0x3333;
-  }
-  ;
-  *((s32 *) (((s8 *) self) + 0x24)) = (s32) ((*((s32 *) (((s8 *) self) + 0x24))) + ((s32) (((0.075f) * ((2.0f) * (((3.0517578e-05f) * ((f32) rand())) - (0.5f)))) * fabs_float((f32) (*((s32 *) (((s8 *) self) + 0x24)))))));
-  *((s32 *) (((s8 *) self) + 0x28)) = (s32) ((*((s32 *) (((s8 *) self) + 0x28))) + (*((s32 *) (((s8 *) self) + 0x24))));
+// Speeds the scroll up by 0x3A per frame (capped at 0x3333) with a +-7.5% jitter.
+void TBoss6Tube::accelerate_scroll() {
+    scroll_speed = scroll_speed + 0x3A;
+    if (scroll_speed > 0x3333) {
+        scroll_speed = 0x3333;
+    }
+    scroll_speed = scroll_speed + (s32)((0.075f * (2.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f))) * fabs_float((f32)scroll_speed));
+    scroll_phase = scroll_phase + scroll_speed;
 }
 
 #pragma push
 #pragma fp_contract on
 void TBoss6Tube::update_wobble() {
-    *(s32 *)&this->m_24 = (s32) (*(s32 *)&this->m_24 + (s32) (((-464.0f) * ((3.0517578e-05f) * (f32) rand())) + (-116.0f)));
-    if ((f32) *(s32 *)&this->m_24 <= (0.0f)) {
-        *(s32 *)&this->m_24 = 0;
-        *(s32 *)&this->m_28 = (s32) ((f32) *(s32 *)&this->m_28 + (((13107.0f) * ((3.0517578e-05f) * (f32) rand())) - (6553.0f)));
+    scroll_speed = (s32)(scroll_speed + (s32)(((-464.0f) * ((3.0517578e-05f) * (f32)rand())) + (-116.0f)));
+    if ((f32)scroll_speed <= (0.0f)) {
+        scroll_speed = 0;
+        scroll_phase = (s32)((f32)scroll_phase + (((13107.0f) * ((3.0517578e-05f) * (f32)rand())) - (6553.0f)));
     }
-    *(s32 *)&this->m_28 = (s32) (*(s32 *)&this->m_28 + *(s32 *)&this->m_24);
+    scroll_phase = scroll_phase + scroll_speed;
     TBoss6Tube__scroll_delta = (0.0f);
-    TBoss6Tube__previous_scroll_phase = *(s32 *)&this->m_28;
+    TBoss6Tube__previous_scroll_phase = scroll_phase;
 }
 #pragma pop
 
 void TBoss6Tube::spawn_trap() {
     saddr self = (saddr)this;
-    TBoss6Tube__sub_802B129C((u8 *)self);
+    accelerate_scroll();
     play_persistent_sound(0x40033520, self, 0, 0, 0);
 }
 
@@ -205,8 +202,8 @@ TBoss6Tube::~TBoss6Tube() {
 TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
     m_name = TBoss6Tube__name;
     *(u8 **)((s8 *)this + 0x2C) = (u8 *)parent;
-    m_24 = 0;
-    m_28 = 0;
+    scroll_speed = 0;
+    scroll_phase = 0;
     TBoss6Tube::reset_state();
     m_20 = 0;
     m_1c = 0;
