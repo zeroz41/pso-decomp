@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include <string.h>
+#include <dolphin/os/OSCache.h>
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
@@ -18,6 +19,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
@@ -232,14 +234,11 @@ struct G_PlaySound_6xB2 {
     u32 sound_id;
 };
 extern "C" {
-s32 DCFlushRange(int, int);
-s32 poll_memcard_result(saddr chan);
 extern s32 lbl_805D49B4;
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
 extern uaddr camera_ctrl_instance;
 extern s32 lbl_805D63F0;
-s32 get_memcard_free_files(s32);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -1220,12 +1219,12 @@ s32 save_screen_snapshot(void) {
 
 s32 TObjBoss2Tunnel::load_snapshot() {
     CardSaveDescriptor file;
-    saddr buf;
+    void *buf;
     if (poll_memcard_result(1) == 0) {
         if (((s32) TObjBoss2Tunnel__snapshot_state != 0) && ((s32) TObjBoss2Tunnel__snapshot_state >= 0) && ((s32) TObjBoss2Tunnel__snapshot_state < 3)) {
-            buf = get_capture_texture_pixels();
+            buf = (void *)get_capture_texture_pixels();
             if (TAdPlayerLoadGC__sub_801E1538(&file, TObjBoss2Tunnel__snapshot_buffer) == 0) {
-                memcpy((void *)buf, file.data + 8, 0x1818C);
+                memcpy(buf, file.data + 8, 0x1818C);
                 DCFlushRange(buf, 0x1818C);
             }
             lbl_805D49B4 = 0;
